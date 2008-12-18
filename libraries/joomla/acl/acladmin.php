@@ -43,6 +43,9 @@ class JAclAdmin
 			throw new JException(JText::_('Error Acl Missing API'));
 		}
 
+		// Load the section if it already exists
+		$table->loadByValue($value);
+
 		// Bind the data.
 		$data = array('name' => $name, 'value' => $value, 'order_value' => 0, 'hidden' => 0);
 		if (!$table->bind($data)) {
@@ -65,6 +68,8 @@ class JAclAdmin
 
 	public static function removeSection($type, $value)
 	{
+		// Load the table object based on section and value, then nuke it
+
 		throw new JException('TODO');
 	}
 
@@ -179,6 +184,8 @@ class JAclAdmin
 
 	public static function removeGroup($type, $value)
 	{
+		// Load the table object based on section and value, then nuke it
+
 		throw new JException('TODO');
 	}
 
@@ -214,9 +221,12 @@ class JAclAdmin
 	}
 
 	/**
-	 * Creates a new action (ACO)
+	 * Creates or updates an action (ACO) record
 	 *
-	 * JAclAdmin::createAction('com_fireboard', 'Create a forum', 'forum.create')
+	 * If the action does not exist it is created.
+	 * If an action matching the value is found, then the object is updated.
+	 *
+	 * $actionId = JAclAdmin::createAction('com_fireboard', 'Create a forum', 'forum.create');
 	 *
 	 * Permission types:
 	 *
@@ -236,7 +246,7 @@ class JAclAdmin
 	 * @param	string $note	An optional note to describe the purpose of the action
 	 * @param	string $ording	An optional order value
 	 *
-	 * @return	int				The ID of the Action
+	 * @return	int				The ID of the Action record
 	 */
 	public static function registerAction($type, $section, $name, $value, $note = '', $order = 0)
 	{
@@ -247,6 +257,9 @@ class JAclAdmin
 		if (!is_a($table, 'JTableAco')) {
 			throw new JException(JText::_('Error Acl Missing API'));
 		}
+
+		// Load the object if it already exists
+		$table->loadByValue($value, $section);
 
 		// Bind the data.
 		$data = array(
@@ -278,16 +291,23 @@ class JAclAdmin
 
 	public static function removeAction($section, $value)
 	{
+		// Load the table object based on section and value, then nuke it
+
 		throw new JException('TODO');
 	}
 
 	/**
-	 * Creates a user (ARO) record (note this does not create a Joomla user)
+	 * Creates or updates a user (ARO) record (note this does not create a Joomla user)
+	 *
+	 * If the user does not exist it is created.
+	 * If a user matching the value is found, then the object is updated.
+	 *
+	 * $aroId = JAclAdmin::registerUser('My Administrator', 62);
 	 *
 	 * @param	string $name	The name of the user
 	 * @param	int $value		The Joomla ID of the user
 	 *
-	 * @return	int				The ID of the section
+	 * @return	int				The ID of the User record (but this is not the Joomla User ID, that is the value)
 	 */
 	public function registerUser($name, $value)
 	{
@@ -298,6 +318,9 @@ class JAclAdmin
 		if (!is_a($table, 'JTableAro')) {
 			return new JException(JText::_('Error Acl Missing API'));
 		}
+
+		// Load the object if it already exists
+		$table->loadByValue($value, $section);
 
 		// Bind the data.
 		$data = array(
@@ -325,9 +348,14 @@ class JAclAdmin
 	}
 
 	/**
-	 * Creates a asset (AXO)
+	 * Creates or updates an asset (AXO)
 	 *
-	 * @param	string $seciton	The section for the asset
+	 * If the asset does not exist it is created.
+	 * If an asset matching the section and value is found, then the object is updated.
+	 *
+	 * $assetId = JAclAdmin::registerAsset('com_fireboard', 'Top level category', 1);
+	 *
+	 * @param	string $section	The section for the asset
 	 * @param	string $name	The name of the asset
 	 * @param	int $value		The Id value of the asset
 	 * @param	int $order		An optional order value
@@ -343,6 +371,9 @@ class JAclAdmin
 		if (!is_a($table, 'JTableAxo')) {
 			throw new JException(JText::_('Error Acl Missing API'));
 		}
+
+		// Load the object if it already exists
+		$table->loadByValue($value, $section);
 
 		// Bind the data.
 		$data = array(
@@ -371,6 +402,8 @@ class JAclAdmin
 
 	public static function removeAsset($section, $value)
 	{
+		// Load the table object based on section and value, then nuke it
+
 		throw new JException('TODO');
 	}
 
@@ -383,18 +416,24 @@ class JAclAdmin
 	 *
 	 * @param	string $type		The type for the rule: 1, 2 or 3 (4 not supported)
 	 * @param	string $section		The rule section
+	 * @param	string $name		The name of the rule
 	 * @param	string $note		The title for the rule
 	 * @param	array $userGroups	An array of User Group Values or Id's
 	 * @param	array $actions		A nested an named array (by section) of ACO Values or Id's
 	 * @param	array $assets		Optional: nested an named array (by section) of Asset Id's
 	 * @param	array $assetGroups	Optional: An array of Asset Group Values or Id's
 	 * @param	int $mode			The input mode; 0: By values (default, requiring translation to Id's); 1: By Id's
+	 * @param	string $returnValue	An optional return value for a successful check of the rule
 	 */
-	public function registerRule($type, $section, $note, $userGroups, $actions, $assets = null, $assetGroups = null, $mode = 0)
+	public function registerRule($type, $section, $name, $note, $userGroups, $actions, $assets = null, $assetGroups = null, $mode = 0, $returnValue = null)
 	{
 		static $cache = null;
 
 		// Input validation checks
+		if ((int) $type < 1 || (int) $type > 3) {
+			return new JException(JText::_('Error Acl Rule Type invalid'));
+		}
+
 		if (empty($section)) {
 			return new JException(JText::_('Error Acl Rule Section Empty'));
 		}
@@ -407,7 +446,8 @@ class JAclAdmin
 			throw new JException(JText::_('Error Acl No actions'));
 		}
 
-		if (!empty($assets) && !empty($assetGroups)) {
+		// Need to use count because sometimes the variable could be 0
+		if (count($assets) > 0 && count($assetGroups) > 0) {
 			throw new JException(JText::_('Error Acl Type 4 Rules not supported'));
 		}
 
@@ -496,7 +536,7 @@ class JAclAdmin
 			}
 
 			// AXO Groups reverse lookup
-			if (!empty($assetGroups))
+			if (count($assetGroups))
 			{
 				if (!isset($cache['axo_groups'])) {
 					$db->setQuery(
@@ -513,7 +553,7 @@ class JAclAdmin
 					if (!isset($cache['axo_groups'][$value])) {
 						throw new JException(JText::_sprinf('Error Acl Asset group with value %s not found', $value));
 					}
-					$userGroups[$k] = $cache['axo_groups'][$value]['id'];
+					$assetGroups[$k] = $cache['axo_groups'][$value]['id'];
 				}
 			}
 		}
@@ -525,24 +565,29 @@ class JAclAdmin
 			$references->addAco($section, $values);
 		}
 
-		if (!empty($assets)) {
+		if (count($assets)) {
 			foreach ($assets As $section => $values) {
 				$references->addAxo($section, $values);
 			}
 		}
 
-		if (!empty($assetGroups)) {
-			$references->addAroGroup($assetGroups);
+		if (count($assetGroups)) {
+			$references->addAxoGroup($assetGroups);
 		}
 
 		$table = &JTable::getInstance('Acl');
 
+		// Load the rule if it already exists
+		$table->loadByName($name);
+
 		$input = array(
+			'acl_type'		=> (int) $type,
 			'section_value'	=> $section,
 			'note'			=> $note,
+			'name'			=> $name,
 			'enabled'		=> 1,
 			'allow'			=> 1,
-			'return_value'	=> '',
+			'return_value'	=> $returnValue
 		);
 
 		if (!$table->bind($input)) {
@@ -568,11 +613,6 @@ class JAclAdmin
 		return $table->id;
 	}
 
-	public static function updateRule($id, $userGroups, $actions, $assets = null, $assetGroups = null)
-	{
-		throw new JException('TODO');
-	}
-
 	public static function deleteRule($id)
 	{
 		throw new JException('TODO');
@@ -582,6 +622,14 @@ class JAclAdmin
 	// Mapping Operations
 	//
 
+	/**
+	 * Stores the mapping of users to a user group
+	 *
+	 * @param int $mapId				The (Aro) id of the user being mapped (not the Joomla User Id)
+	 * @param unknown_type $groupIds	A single group id or an array of ids to map the user to
+	 *
+	 * @return mixed					True if successful, a JException object otherwise
+	 */
 	function registerUserInGroups($mapId, $groupIds)
 	{
 		// Get a group row instance.
@@ -599,6 +647,14 @@ class JAclAdmin
 		return true;
 	}
 
+	/**
+	 * Stores the mapping of assets to an asset group
+	 *
+	 * @param int $mapId				The id of the asset being mapped
+	 * @param unknown_type $groupIds	A single group id or an array of ids to map the asset to
+	 *
+	 * @return mixed					True if successful, a JException object otherwise
+	 */
 	function registerAssetInGroups($mapId, $groupIds)
 	{
 		// Get a group row instance.
@@ -618,8 +674,21 @@ class JAclAdmin
 
 	//
 	// ACL Querying
+	// @todo Should this should be a different helper class?
 	//
 
+	/**
+	 * Gets the group object based on the inputs
+	 *
+	 * Either the $value of the group, or the $name of the group can be searched for.
+	 * Note, if both are provided only $value is used.
+	 *
+	 * @param	string $type	The group type: Aro | Axo
+	 * @param	string $value	The value of the group to search for
+	 * @param	string $name	The name of the group to search for
+	 *
+	 * @return	mixed			Either a JTable object, or a JException if an error occurred
+	 */
 	function getGroup($type, $value = null, $name = null)
 	{
 		$type = ucfirst(strtolower($type));
@@ -641,20 +710,54 @@ class JAclAdmin
 		return null;
 	}
 
+	/**
+	 * Gets the user group object based on the inputs
+	 *
+	 * Either the $value of the group, or the $name of the group can be searched for.
+	 * Note, if both are provided only $value is used.
+	 *
+	 * @param	string $value	The value of the group to search for
+	 * @param	string $name	The name of the group to search for
+	 *
+	 * @return	mixed			Either a JTable object, or a JException if an error occurred
+	 */
 	function getGroupForUsers($value = null, $name = null)
 	{
 		return JAclAdmin::getGroup('Aro', $value, $name);
 	}
 
+	/**
+	 * Gets the asset group object based on the inputs
+	 *
+	 * Either the $value of the group, or the $name of the group can be searched for.
+	 * Note, if both are provided only $value is used.
+	 *
+	 * @param	string $value	The value of the group to search for
+	 * @param	string $name	The name of the group to search for
+	 *
+	 * @return	mixed			Either a JTable object, or a JException if an error occurred
+	 */
 	function getGroupForAssets($value = null, $name = null)
 	{
-		return JAclAdmin::getGroup('Aro', $value, $name);
+		return JAclAdmin::getGroup('Axo', $value, $name);
 	}
 
+	/**
+	 * Gets an object of the required type based on the inputs
+	 *
+	 * Either the $value of the group, or the $name of the group can be searched for.
+	 * Note, if both are provided only $value is used.
+	 *
+	 * @param	string $type	The object type: Aco | Aro | Axo
+	 * @param	string $value	The value of the object to search for
+	 * @param	string $name	The name of the object to search for
+	 *
+	 * @return	mixed			Either a JTable object, a JException if an error occurred, or null if not found
+	 */
 	function getObject($type, $value = null, $name = null)
 	{
 		$type = ucfirst(strtolower($type));
-		if (!in_array($type, array('Acl', 'Aco', 'Aro', 'Axo'))) {
+		if (!in_array($type, array('Aco', 'Aro', 'Axo'))) {
 			return new JException(JText::_('Error Acl Invalid Object Type'));
 		}
 		$table = &JTable::getInstance($type);
@@ -671,18 +774,68 @@ class JAclAdmin
 		return null;
 	}
 
+	/**
+	 * Gets an action object of the required type based on the inputs
+	 *
+	 * Either the $value of the group, or the $name of the group can be searched for.
+	 * Note, if both are provided only $value is used.
+	 *
+	 * @param	string $value	The value of the object to search for
+	 * @param	string $name	The name of the object to search for
+	 *
+	 * @return	mixed			Either a JTable object, a JException if an error occurred, or null if not found
+	 */
 	function getAction($value = null, $name = null)
 	{
 		return JAclAdmin::getObject('Aco', $value, $name);
 	}
 
+	/**
+	 * Gets a user object of the required type based on the inputs
+	 *
+	 * Either the $value of the group, or the $name of the group can be searched for.
+	 * Note, if both are provided only $value is used.
+	 *
+	 * @param	string $value	The value of the object to search for
+	 * @param	string $name	The name of the object to search for
+	 *
+	 * @return	mixed			Either a JTable object, a JException if an error occurred, or null if not found
+	 */
 	function getUser($value = null, $name = null)
 	{
 		return JAclAdmin::getObject('Aro', $value, $name);
 	}
 
+	/**
+	 * Gets an asset object of the required type based on the inputs
+	 *
+	 * Either the $value of the group, or the $name of the group can be searched for.
+	 * Note, if both are provided only $value is used.
+	 *
+	 * @param	string $value	The value of the object to search for
+	 * @param	string $name	The name of the object to search for
+	 *
+	 * @return	mixed			Either a JTable object, a JException if an error occurred, or null if not found
+	 */
 	function getAsset($value = null, $name = null)
 	{
-		return JAclAdmin::getGroup('Axo', $value, $name);
+		return JxAclAdmin::getObject('Axo', $value, $name);
+	}
+
+	/**
+	 * Gets a rule object of the required type based on the inputs
+	 *
+	 * @param	string $name	The name of the rule to search for
+	 * @param	string $section	An optional section to avoid duplicate names in different sections
+	 *
+	 * @return	mixed			Either a JTable object, a JException if an error occurred, or null if not found
+	 */
+	function getRule($name, $section = null)
+	{
+		$table = &JTable::getInstance('Acl', 'JxTable');
+		if ($table->loadByName($name)) {
+			return $table;
+		}
+		return null;
 	}
 }

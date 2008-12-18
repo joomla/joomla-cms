@@ -75,6 +75,29 @@ abstract class JTable_AclSection extends JTable
  	}
 
 	/**
+	 * Loads row data by the name field
+	 *
+	 * @param	string
+	 *
+	 * @return	boolean
+	 */
+	function loadByValue($value)
+	{
+		if (empty($value)) {
+			$this->setError('Error Acl Section Table Invalid value');
+			return false;
+		}
+
+		$this->_db->setQuery(
+			'SELECT id FROM '.$this->_db->nameQuote($this->_tbl).' WHERE `value` = '.$this->_db->quote($value)
+		);
+		if ($id = $this->_db->loadResult()) {
+			return $this->load($id);
+		}
+		return false;
+ 	}
+
+	/**
 	 * Validate the internal data
 	 *
 	 * @return	boolean

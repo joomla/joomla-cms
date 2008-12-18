@@ -29,6 +29,9 @@ abstract class JTable_AclGroup extends JTable
 	public $lft = null;
 	/** @var int */
 	public $rgt = null;
+	/** @var int */
+	public $section_id = null;
+
 	/**
 	 * @var	string The section type
 	 * @protected
@@ -228,7 +231,7 @@ abstract class JTable_AclGroup extends JTable
 		}
 		if ($this->_db->getErrorNum()) {
 			$this->setError($this->_db->getErrorMsg());
-			return $false;
+			return false;
 		}
 
 		// If we survived all that, delete the actual object

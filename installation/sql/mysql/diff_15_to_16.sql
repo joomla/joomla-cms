@@ -27,13 +27,15 @@ CREATE TABLE IF NOT EXISTS `jos_core_acl_acl` (
   `enabled` int(1) unsigned NOT NULL default '0',
   `return_value` varchar(250) default NULL,
   `note` varchar(250) default NULL,
-  `updated_date` int(10) unsigned NOT NULL default '1',
-  `acl_type` int(1) unsigned NOT NULL default '0' COMMENT 'Defines to what level AXOs apply to the rule',
+  `updated_date` int(10) unsigned NOT NULL default '0',
+  `acl_type` int(1) unsigned NOT NULL default '1' COMMENT 'Defines to what level AXOs apply to the rule',
+  `name` varchar(100) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `core_acl_enabled_acl` (`enabled`),
   KEY `core_acl_section_value_acl` (`section_value`),
   KEY `core_acl_updated_date_acl` (`updated_date`),
-  KEY `core_acl_type` USING BTREE (`acl_type`)
+  KEY `core_acl_type` USING BTREE (`acl_type`),
+  KEY `core_acl_name` USING BTREE (`name`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 -- --------------------------------------------------------
@@ -50,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `jos_core_acl_acl_sections` (
   `name` varchar(230) NOT NULL default '',
   `hidden` int(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `jos_core_acl_value_acl_sections` (`value`),
+  UNIQUE KEY `core_acl_value_acl_sections` (`value`),
   KEY `core_acl_hidden_acl_sections` (`hidden`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
@@ -74,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `jos_core_acl_aco` (
   `acl_type` int(1) unsigned NOT NULL default '1' COMMENT 'Defines to what level AXOs apply',
   `note` mediumtext,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `jos_core_acl_section_value_aco` (`section_value`,`value`),
+  UNIQUE KEY `core_acl_section_value_aco` (`section_value`,`value`),
   KEY `core_acl_hidden_aco` (`hidden`),
   KEY `core_acl_type_section` USING BTREE (`acl_type`,`section_value`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
@@ -137,13 +139,13 @@ CREATE TABLE IF NOT EXISTS  `jos_core_acl_aro_groups_map` (
 CREATE TABLE IF NOT EXISTS `jos_core_acl_axo` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `section_value` varchar(100) NOT NULL default '0',
-  `value` varchar(100) NOT NULL default '',
+  `value` int(10) NOT NULL,
   `order_value` int(11) NOT NULL default '0',
   `name` varchar(255) NOT NULL default '',
   `hidden` int(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `jos_core_acl_section_value_value_axo` (`section_value`,`value`),
-  KEY `core_acl_hidden_axo` (`hidden`)
+  KEY `core_acl_hidden_axo` USING BTREE (`hidden`),
+  KEY `core_acl_section_value_value_axo` USING BTREE (`section_value`,`value`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 -- --------------------------------------------------------
@@ -158,17 +160,19 @@ CREATE TABLE IF NOT EXISTS `jos_core_acl_axo_groups` (
   `lft` int(10) unsigned NOT NULL default '0',
   `rgt` int(10) unsigned NOT NULL default '0',
   `name` varchar(255) NOT NULL default '',
-  `value` int(10) NOT NULL default '0',
+  `value` int(10) NOT NULL,
+  `section_id` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`,`value`),
-  INDEX `jos_core_acl_value_axo_groups` (`value`),
-  KEY `core_acl_parent_id_axo_groups` (`parent_id`),
-  KEY `core_acl_lft_rgt_axo_groups` (`lft`,`rgt`)
+  KEY `core_acl_parent_id_axo_groups` USING BTREE (`parent_id`),
+  KEY `core_acl_lft_rgt_axo_groups` USING BTREE (`lft`,`rgt`),
+  KEY `core_acl_section_value` USING BTREE (`section_id`),
+  KEY `core_acl_value_axo_groups` USING BTREE (`value`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-INSERT IGNORE INTO `jos_core_acl_axo_groups` VALUES (1, 0, 1, 8, 'ROOT', -1);
-INSERT IGNORE INTO `jos_core_acl_axo_groups` VALUES (2, 1, 2, 3, 'Public', '0');
-INSERT IGNORE INTO `jos_core_acl_axo_groups` VALUES (3, 1, 4, 5, 'Registered', '1');
-INSERT IGNORE INTO `jos_core_acl_axo_groups` VALUES (4, 1, 6, 7, 'Special', '2');
+INSERT IGNORE INTO `jos_core_acl_axo_groups` VALUES (1, 0, 1, 8, 'ROOT', -1, 0);
+INSERT IGNORE INTO `jos_core_acl_axo_groups` VALUES (2, 1, 2, 3, 'Public', '0', 0);
+INSERT IGNORE INTO `jos_core_acl_axo_groups` VALUES (3, 1, 4, 5, 'Registered', '1', 0);
+INSERT IGNORE INTO `jos_core_acl_axo_groups` VALUES (4, 1, 6, 7, 'Special', '2', 0);
 
 -- --------------------------------------------------------
 
@@ -208,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `jos_core_acl_axo_sections` (
   `name` varchar(230) NOT NULL default '',
   `hidden` int(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `jos_core_acl_value_axo_sections` (`value`),
+  UNIQUE KEY `core_acl_value_axo_sections` (`value`),
   KEY `core_acl_hidden_axo_sections` (`hidden`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
@@ -411,8 +415,4 @@ CREATE TABLE  `jos_tasksets` (
   PRIMARY KEY  (`tasksetid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Task Sets';
 
--- 2008-11-25
-
-ALTER TABLE `jos_core_acl_axo`
- MODIFY COLUMN `value` INTEGER(10) NOT NULL;
 

@@ -44,6 +44,14 @@ class JTable_GroupMap extends JTable
 		parent::__construct('#__core_acl_groups_'.$this->_type.'_map', '', $db);
 	}
 
+	/**
+	 * Stores the mapping of an object to one or more groups
+	 *
+	 * @param	mixed $groupIds	A single Group Id or an array of Ids
+	 * @param	int $mapId		The id of the object mapping to the groups
+	 *
+	 * @return	boolean
+	 */
 	function store($groupIds, $mapId = null)
 	{
 		if (empty($mapId)) {

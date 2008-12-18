@@ -35,12 +35,11 @@ class JAclHelper
 	 *
 	 * @param	string $actionSection	The section value for the action
 	 * @param	mixed $action			A single action value, or an array of action values, to be tested
-	 * @param	string $assetSection	An optional section value for the asset (not used)
 	 * @param	integer	$userId			An optional user Id.  The current use it used if not supplied
 	 *
 	 * @return	string					An comma separated list of Asset Groups that the user is authorised to perform the action on
 	 */
-	static function getAllowedAssetGroups($actionSection, $action, $assetSection = null, $userId = null)
+	static function getAllowedAssetGroups($actionSection, $action, $userId = null)
 	{
 		// @todo This result is ideal for caching in the session as it need only be calculated once for the user for each context
 

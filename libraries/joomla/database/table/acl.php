@@ -46,7 +46,10 @@ class JTableACL extends JTable
 	 */
 	protected $acl_type = null;
 
-	protected $_quiet = false;
+	/** @var int */
+	protected $name = null;
+
+	protected $_quiet = true;
 
 	protected $_references = false;
 
@@ -67,8 +70,8 @@ class JTableACL extends JTable
 	function check()
 	{
 		// Sanitize and validate group name.
-		if (empty($this->note)) {
-			$this->setError(JText::_('Error Acl Table Invalid Note'));
+		if (empty($this->name)) {
+			$this->setError(JText::_('Error Acl Table Invalid Name'));
 			return false;
 		}
 
@@ -79,6 +82,18 @@ class JTableACL extends JTable
 		$id = $this->_db->loadResult();
 		if (empty($id)) {
 			$this->setError(JText::_('Error Acl Table Invalid Section'));
+			return false;
+		}
+
+		// Check for dupliate name-section pair
+		$this->_db->setQuery(
+			'SELECT id FROM #__core_acl_acl'
+			.' WHERE name = '.$this->_db->quote($this->name)
+			.'  AND section_value = '.$this->_db->quote($this->section_value)
+		);
+		$id = $this->_db->loadResult();
+		if (!empty($id) && $id != $this->id) {
+			$this->setError(JText::_('Error Acl Table Invalid name already used'));
 			return false;
 		}
 
@@ -137,14 +152,42 @@ class JTableACL extends JTable
 	}
 
 	/**
+	 * Load an object by mathcing the `name` field
+	 *
+	 * @param	string $name
+	 * @param	string $section	Optional section to match
+	 *
+	 * @return	boolean			True if successful, false if not found
+	 */
+	function loadByName($name, $section = null)
+	{
+		if (empty($name)) {
+			$this->setError('Error Acl Invalid object name');
+			return false;
+		}
+
+		$this->_db->setQuery(
+			'SELECT id FROM '.$this->_db->nameQuote($this->_tbl)
+			.' WHERE `name` = '.$this->_db->quote($name)
+			.($section ? ' AND `section_value` = '.$this->_db->quote($section) : '')
+		);
+		if ($id = $this->_db->loadResult()) {
+			return $this->load($id);
+		}
+		return false;
+ 	}
+
+	/**
 	 * Find the references to this object
 	 *
 	 * This method can only operate on a previously loaded object.
 	 *
+	 * @param	boolean $named	Return return values as names, otherwise values are returned
+	 *
 	 * @return	JAclReferences
 	 * @access	public
 	 */
-	function &findReferences()
+	function &findReferences($named = false)
 	{
 		$false = false;
 
@@ -161,7 +204,7 @@ class JTableACL extends JTable
 
 			// Find the references to mapped ACO's
 			$this->_db->setQuery(
-				'SELECT aco.id AS aco_id, a.section_value'.
+				'SELECT aco.id AS aco_id, a.section_value, aco.name'.
 				' FROM #__core_acl_aco_map AS m'.
 				' LEFT JOIN #__core_acl_acl AS a ON a.id = m.acl_id'.
 				' LEFT JOIN #__core_acl_aco AS aco ON aco.value = m.value AND aco.section_value = m.section_value'.
@@ -174,13 +217,13 @@ class JTableACL extends JTable
 			}
 			if (!empty($result)) {
 				foreach ($result as $acl) {
-					$this->_references->addAco($acl->section_value, $acl->aco_id);
+					$this->_references->addAco($named ? $acl->name : $acl->section_value, $acl->aco_id);
 				}
 			}
 
 			// Find the references to mapped ARO's
 			$this->_db->setQuery(
-				'SELECT aro.id AS aro_id, a.section_value'.
+				'SELECT aro.id AS aro_id, a.section_value, aro.name'.
 				' FROM #__core_acl_aro_map AS m'.
 				' LEFT JOIN #__core_acl_acl AS a ON a.id = m.acl_id'.
 				' LEFT JOIN #__core_acl_aro AS aro ON aro.value = m.value AND aro.section_value = m.section_value'.
@@ -193,13 +236,13 @@ class JTableACL extends JTable
 			}
 			if (!empty($result)) {
 				foreach ($result as $acl) {
-					$this->_references->addAro($acl->section_value, $acl->aro_id);
+					$this->_references->addAro($named ? $acl->name : $acl->section_value, $acl->aro_id);
 				}
 			}
 
 			// Find the references to mapped AXO's
 			$this->_db->setQuery(
-				'SELECT a.id AS axo_id, a.section_value'.
+				'SELECT a.id AS axo_id, a.section_value, a.name'.
 				' FROM #__core_acl_axo_map AS m'.
 				' LEFT JOIN #__core_acl_axo AS a ON a.value = m.value'.
 				' WHERE acl_id = '.(int) $this->id
@@ -211,16 +254,26 @@ class JTableACL extends JTable
 			}
 			if (!empty($result)) {
 				foreach ($result as $acl) {
-					$this->_references->addAxo($acl->section_value, $acl->axo_id);
+					$this->_references->addAxo($named ? $acl->name : $acl->section_value, $acl->axo_id);
 				}
 			}
 
 			// Find the references to mapped ARO's
-			$this->_db->setQuery(
-				'SELECT m.group_id'.
-				' FROM #__core_acl_aro_groups_map AS m'.
-				' WHERE acl_id = '.(int) $this->id
-			);
+			if ($named) {
+				$this->_db->setQuery(
+					'SELECT g.name'.
+					' FROM #__core_acl_aro_groups_map AS m'.
+					' INNER JOIN #__core_acl_aro_groups AS g ON g.id = m.group_id'.
+					' WHERE acl_id = '.(int) $this->id
+				);
+			}
+			else {
+				$this->_db->setQuery(
+					'SELECT m.group_id'.
+					' FROM #__core_acl_aro_groups_map AS m'.
+					' WHERE acl_id = '.(int) $this->id
+				);
+			}
 			$result = $this->_db->loadResultArray();
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
@@ -231,11 +284,21 @@ class JTableACL extends JTable
 			}
 
 			// Find the references to mapped AXO's
-			$this->_db->setQuery(
-				'SELECT m.group_id'.
-				' FROM #__core_acl_axo_groups_map AS m'.
-				' WHERE acl_id = '.(int) $this->id
-			);
+			if ($named) {
+				$this->_db->setQuery(
+					'SELECT g.name'.
+					' FROM #__core_acl_axo_groups_map AS m'.
+					' INNER JOIN #__core_acl_axo_groups AS g ON g.id = m.group_id'.
+					' WHERE acl_id = '.(int) $this->id
+				);
+			}
+			else {
+				$this->_db->setQuery(
+					'SELECT m.group_id'.
+					' FROM #__core_acl_axo_groups_map AS m'.
+					' WHERE acl_id = '.(int) $this->id
+				);
+			}
 			$result = $this->_db->loadResultArray();
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());

@@ -869,11 +869,13 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_acl` (
   `note` varchar(250) default NULL,
   `updated_date` int(10) unsigned NOT NULL default '0',
   `acl_type` int(1) unsigned NOT NULL default '1' COMMENT 'Defines to what level AXOs apply to the rule',
+  `name` varchar(100) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `core_acl_enabled_acl` (`enabled`),
   KEY `core_acl_section_value_acl` (`section_value`),
   KEY `core_acl_updated_date_acl` (`updated_date`),
-  KEY `core_acl_type` USING BTREE (`acl_type`)
+  KEY `core_acl_type` USING BTREE (`acl_type`),
+  KEY `core_acl_name` USING BTREE (`name`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 -- --------------------------------------------------------
@@ -998,17 +1000,19 @@ CREATE TABLE IF NOT EXISTS `#__core_acl_axo_groups` (
   `lft` int(10) unsigned NOT NULL default '0',
   `rgt` int(10) unsigned NOT NULL default '0',
   `name` varchar(255) NOT NULL default '',
-  `value` int(10) NOT NULL default '0',
+  `value` int(10) NOT NULL,
+  `section_id` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`,`value`),
-  INDEX `core_acl_value_axo_groups` (`value`),
-  KEY `core_acl_parent_id_axo_groups` (`parent_id`),
-  KEY `core_acl_lft_rgt_axo_groups` (`lft`,`rgt`)
+  KEY `core_acl_parent_id_axo_groups` USING BTREE (`parent_id`),
+  KEY `core_acl_lft_rgt_axo_groups` USING BTREE (`lft`,`rgt`),
+  KEY `core_acl_section_value` USING BTREE (`section_id`),
+  KEY `core_acl_value_axo_groups` USING BTREE (`value`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-INSERT IGNORE INTO `#__core_acl_axo_groups` VALUES (1, 0, 1, 8, 'ROOT', -1);
-INSERT IGNORE INTO `#__core_acl_axo_groups` VALUES (2, 1, 2, 3, 'Public', '0');
-INSERT IGNORE INTO `#__core_acl_axo_groups` VALUES (3, 1, 4, 5, 'Registered', '1');
-INSERT IGNORE INTO `#__core_acl_axo_groups` VALUES (4, 1, 6, 7, 'Special', '2');
+INSERT IGNORE INTO `#__core_acl_axo_groups` VALUES (1, 0, 1, 8, 'ROOT', -1, 0);
+INSERT IGNORE INTO `#__core_acl_axo_groups` VALUES (2, 1, 2, 3, 'Public', '0', 0);
+INSERT IGNORE INTO `#__core_acl_axo_groups` VALUES (3, 1, 4, 5, 'Registered', '1', 0);
+INSERT IGNORE INTO `#__core_acl_axo_groups` VALUES (4, 1, 6, 7, 'Special', '2', 0);
 
 -- --------------------------------------------------------
 

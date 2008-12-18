@@ -105,6 +105,21 @@ abstract class JTable_AclObject extends JTable
  	}
 
 	/**
+	 * Clears the properties
+	 *
+	 * @return	void
+	 */
+ 	function clear()
+ 	{
+		foreach ($this->getProperties() as $name => $value)
+		{
+			$this->$name = null;
+		}
+ 		$this->_references = null;
+ 		$this->_errors = array();
+ 	}
+
+	/**
 	 * Validate the internal data
 	 *
 	 * @return	boolean
@@ -140,7 +155,9 @@ abstract class JTable_AclObject extends JTable
 
 		// Check for duplicate Object value
 		$this->_db->setQuery(
-			'SELECT id FROM '.$this->_db->nameQuote($this->_tbl).' WHERE value = '.$this->_db->quote($this->value)
+			'SELECT id FROM '.$this->_db->nameQuote($this->_tbl)
+			.' WHERE value = '.$this->_db->quote($this->value)
+			.'  AND section_value = '.$this->_db->quote($this->section_value)
 		);
 		$id = $this->_db->loadResult();
 		if (!empty($id) && $id != $this->id) {
@@ -168,7 +185,7 @@ abstract class JTable_AclObject extends JTable
 		{
 			// Load the existing section_value and value to check for a change
 			$this->_db->setQuery(
-				'SELECT CONCAT_WS('/', section_value, value)'.
+				'SELECT CONCAT_WS("/", section_value, value)'.
 				' FROM '.$this->_db->nameQuote($this->_tbl).
 				' WHERE id = '.(int) $this->id
 			);
