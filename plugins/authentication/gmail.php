@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @version		$Id$
  * @package		Joomla
@@ -13,9 +14,9 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.plugin.plugin' );
+jimport('joomla.plugin.plugin');
 
 /**
  * GMail Authentication Plugin
@@ -24,8 +25,7 @@ jimport( 'joomla.plugin.plugin' );
  * @subpackage	JFramework
  * @since 1.5
  */
-class plgAuthenticationGMail extends JPlugin
-{
+class plgAuthenticationGMail extends JPlugin {
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
@@ -36,67 +36,76 @@ class plgAuthenticationGMail extends JPlugin
 	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate( $credentials, $options, &$response )
-	{
+	function onAuthenticate($credentials, $options, & $response) {
 		$message = '';
 		$success = 0;
-		if(function_exists('curl_init'))
-		{
-			if(strlen($credentials['username']) && strlen($credentials['password']))
-			{
-				$suffix = $this->params->get('suffix', '');
-				$applysuffix = $this->params->get('applysuffix',0);
-				if($suffix && $applysuffix) {
-					$offset = strpos($credentials['username'], '@');
-					if($offset && $applysuffix == 2) {
-						// if we already have an @, get rid of it and replace it
-						$credentials['username'] = substr($credentials['username'], 0, $offset);
+		// check if we have curl or not
+		if (function_exists('curl_init')) {
+			// check if we have a username and password
+			if (strlen($credentials['username']) && strlen($credentials['password'])) {
+				$blacklist = explode(',', $this->params->get('user_blacklist', ''));
+				// check if the username isn't blacklisted
+				if (!in_array($credentials['username'], $blacklist)) {
+					$suffix = $this->params->get('suffix', '');
+					$applysuffix = $this->params->get('applysuffix', 0);
+					// check if we want to do suffix stuff, typically for Google Apps for Your Domain
+					if ($suffix && $applysuffix) {
+						$offset = strpos($credentials['username'], '@');
+						if ($offset && $applysuffix == 2) {
+							// if we already have an @, get rid of it and replace it
+							$credentials['username'] = substr($credentials['username'], 0, $offset);
+						}
+						// apply the suffix
+						$credentials['username'] .= '@' . $suffix;
 					}
-					// apply the suffix
-					$credentials['username'] .= '@'.$suffix;
-				}
-				$curl = curl_init('https://mail.google.com/mail/feed/atom');
-				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-				//curl_setopt($curl, CURLOPT_HEADER, 1);
-				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->params->get('vertifypeer', 1));
-				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-				curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'].':'.$credentials['password']);
-				$result = curl_exec($curl);
-				$code = curl_getinfo ($curl, CURLINFO_HTTP_CODE);
+					$curl = curl_init('https://mail.google.com/mail/feed/atom');
+					curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+					//curl_setopt($curl, CURLOPT_HEADER, 1);
+					curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->params->get('verifypeer', 1));
+					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+					curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'] . ':' . $credentials['password']);
+					$result = curl_exec($curl);
+					$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-				switch($code)
-				{
-					case 200:
-				 		$message = 'Access Granted';
-				 		$success = 1;
-					break;
-					case 401:
-						$message = 'Access Denied';
-					break;
-					default:
-						$message = 'Result unknown, access denied.';
-						break;
+					switch ($code) {
+						case 200 :
+							$message = 'Access Granted';
+							$success = 1;
+							break;
+						case 401 :
+							$message = 'Access Denied';
+							break;
+						default :
+							$message = 'Result unknown, access denied.';
+							break;
+					}
+				} else {
+					// the username is black listed
+					$message = 'User is blacklisted';
 				}
-			}
-			else  {
+			} else {
 				$message = 'Username or password blank';
 			}
-		}
-		else {
+		} else {
 			$message = 'curl isn\'t insalled';
 		}
 
-		if ($success)
-		{
-			$response->status 		 = JAUTHENTICATE_STATUS_SUCCESS;
+		if ($success) {
+			$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 			$response->error_message = '';
-			$response->email 	= $credentials['username'];
+			if (strpos($credentials['username'], '@') === FALSE) {
+				if ($suffix) { // if there is a suffix then we want to apply it
+					$response->email = $credentials['username'] . '@' . $suffix;
+				} else { // if there isn't a suffix just use the default gmail one
+					$response->email = $credentials['username'] . '@gmail.com';
+				}
+			} else { // the username looks like an email address (probably is) so use that
+				$response->email = $credentials['username'];
+			}
 			$response->fullname = $credentials['username'];
-		}
-		else
-		{
-			$response->status 		= JAUTHENTICATE_STATUS_FAILURE;
-			$response->error_message	= 'Failed to authenticate: ' . $message;
+		} else {
+			$response->status = JAUTHENTICATE_STATUS_FAILURE;
+			$response->error_message = 'Failed to authenticate: ' . $message;
 		}
 	}
 }

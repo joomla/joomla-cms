@@ -43,6 +43,10 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+19-Dec-2008 Sam Moffatt
+ + Added username blacklist option to GMail plugin to prevent users from authenticating with those usernames
+ ^ Changed GMail XML file to look like 1.6 style 
+
 16-Dec-2008 Sam Moffatt
  + Added is_file check for JLoader::import to prevent it from trying to load non-existent files
 
