@@ -32,7 +32,7 @@ class JButtonStandard extends JButton
 	 */
 	protected $_name = 'Standard';
 
-	public function fetchButton( $type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
+	public function fetchButton($type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
 		$i18n_text	= JText::_($text);
 		$class	= $this->fetchIconClass($name);
@@ -54,7 +54,7 @@ class JButtonStandard extends JButton
 	 * @return	string	Button CSS Id
 	 * @since	1.5
 	 */
-	public function fetchId( $type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
+	public function fetchId($type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
 		return $this->_parent->getName().'-'.$name;
 	}
@@ -72,8 +72,8 @@ class JButtonStandard extends JButton
 	 */
 	protected function _getCommand($name, $task, $list, $hide)
 	{
-		$todo		= JString::strtolower(JText::_( $name ));
-		$message	= JText::sprintf( 'Please make a selection from the list to', $todo );
+		$todo		= JString::strtolower(JText::_($name));
+		$message	= JText::sprintf('Please make a selection from the list to', $todo);
 		$message	= addslashes($message);
 		$hidecode	= $hide ? 'hideMainMenu();' : '';
 

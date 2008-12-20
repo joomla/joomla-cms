@@ -64,15 +64,15 @@ abstract class JHtmlBehavior
 	}
 
 	public static function formvalidation() {
-		JHtml::script('validate.js' );
+		JHtml::script('validate.js');
 	}
 
 	public static function switcher() {
-		JHtml::script('switcher.js' );
+		JHtml::script('switcher.js');
 	}
 
 	public static function combobox() {
-		JHtml::script('combobox.js' );
+		JHtml::script('combobox.js');
 	}
 
 	public static function tooltip($selector='.hasTip', $params = array())
@@ -221,8 +221,8 @@ abstract class JHtmlBehavior
 
 	public static function uploader($id='file-upload', $params = array())
 	{
-		JHtml::script('swf.js' );
-		JHtml::script('uploader.js' );
+		JHtml::script('swf.js');
+		JHtml::script('uploader.js');
 
 		static $uploaders;
 
@@ -330,9 +330,9 @@ abstract class JHtmlBehavior
 	public static function calendar()
 	{
 		$document =& JFactory::getDocument();
-		JHtml::stylesheet('calendar-jos.css', 'media/system/css/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
-		JHtml::script( 'calendar.js', 'media/system/js/' );
-		JHtml::script( 'calendar-setup.js', 'media/system/js/' );
+		JHtml::stylesheet('calendar-jos.css', 'media/system/css/', array(' title' => JText::_('green') ,' media' => 'all'));
+		JHtml::script('calendar.js', 'media/system/js/');
+		JHtml::script('calendar-setup.js', 'media/system/js/');
 
 		$translation = JHtmlBehavior::_calendartranslation();
 		if($translation) {
@@ -349,17 +349,17 @@ abstract class JHtmlBehavior
 		JHtmlBehavior::mootools();
 
 		$config 	 =& JFactory::getConfig();
-		$lifetime 	 = ( $config->getValue('lifetime') * 60000 );
-		$refreshTime =  ( $lifetime <= 60000 ) ? 30000 : $lifetime - 60000;
+		$lifetime 	 = ($config->getValue('lifetime') * 60000);
+		$refreshTime =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
 
 		$document =& JFactory::getDocument();
 		$script  = '';
-		$script .= 'function keepAlive( ) {';
-		$script .=  '	var myAjax = new Ajax( "index.php", { method: "get" } ).request();';
+		$script .= 'function keepAlive() {';
+		$script .=  '	var myAjax = new Ajax("index.php", { method: "get" }).request();';
 		$script .=  '}';
 		$script .= 	' window.addEvent("domready", function()';
-		$script .= 	'{ keepAlive.periodical('.$refreshTime.' ); }';
+		$script .= 	'{ keepAlive.periodical('.$refreshTime.'); }';
 		$script .=  ');';
 
 		$document->addScriptDeclaration($script);

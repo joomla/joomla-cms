@@ -32,7 +32,7 @@ class JButtonLink extends JButton
 	 */
 	protected $_name = 'Link';
 
-	public function fetchButton( $type='Link', $name = 'back', $text = '', $url = null )
+	public function fetchButton($type='Link', $name = 'back', $text = '', $url = null)
 	{
 		$text	= JText::_($text);
 		$class	= $this->fetchIconClass($name);

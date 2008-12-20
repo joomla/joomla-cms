@@ -13,7 +13,7 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Renders a calendar element
@@ -35,7 +35,7 @@ class JElementCalendar extends JElement
 	{
 		JHtml::_('behavior.calendar'); //load the calendar behavior
 
-		$format	= ( $node->attributes('format') ? $node->attributes('format') : '%Y-%m-%d' );
+		$format	= ($node->attributes('format') ? $node->attributes('format') : '%Y-%m-%d');
 		$class	= $node->attributes('class') ? $node->attributes('class') : 'inputbox';
 
 		$id   = $control_name.$name;

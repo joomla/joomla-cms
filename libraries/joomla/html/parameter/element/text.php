@@ -35,8 +35,8 @@ class JElementText extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$size = ( $node->attributes('size') ? 'size="'.$node->attributes('size').'"' : '' );
-		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"' );
+		$size = ($node->attributes('size') ? 'size="'.$node->attributes('size').'"' : '');
+		$class = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"');
 		/*
 		 * Required to avoid a cycle of encoding &
 		 * html_entity_decode was used in place of htmlspecialchars_decode because

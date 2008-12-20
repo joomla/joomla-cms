@@ -13,7 +13,7 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Utility class working with images
@@ -39,7 +39,7 @@ abstract class JHtmlImage
 	* @param	array	An associative array of attributes to add
 	* @param	boolean	True (default) to display full tag, false to return just the path
 	*/
-	public static function site( $file, $folder='/images/M_images/', $altFile=NULL, $altFolder='/images/M_images/', $alt=NULL, $attribs = null, $asTag = 1)
+	public static function site($file, $folder='/images/M_images/', $altFile=NULL, $altFolder='/images/M_images/', $alt=NULL, $attribs = null, $asTag = 1)
 	{
 		static $paths;
 		$appl = JFactory::getApplication();
@@ -48,26 +48,26 @@ abstract class JHtmlImage
 			$paths = array();
 		}
 
-		if (is_array( $attribs )) {
-			$attribs = JArrayHelper::toString( $attribs );
+		if (is_array($attribs)) {
+			$attribs = JArrayHelper::toString($attribs);
 		}
 
 		$cur_template = $appl->getTemplate();
 
-		if ( $altFile )
+		if ($altFile)
 		{
 			// $param allows for an alternative file to be used
 			$src = $altFolder . $altFile;
 		}
-		else if ( $altFile == -1 )
+		else if ($altFile == -1)
 		{
 			// Comes from an image list param field with 'Do not use' selected
 			return '';
 		} else {
 			$path = JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file;
-			if (!isset( $paths[$path] ))
+			if (!isset($paths[$path]))
 			{
-				if ( file_exists( JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file ) ) {
+				if (file_exists(JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file)) {
 					$paths[$path] = 'templates/'. $cur_template .'/images/'. $file;
 				} else {
 					// outputs only path to image
@@ -77,7 +77,7 @@ abstract class JHtmlImage
 			$src = $paths[$path];
 		}
 
-		if (substr($src, 0, 1 ) == "/") {
+		if (substr($src, 0, 1) == "/") {
 			$src = substr_replace($src, '', 0, 1);
 		}
 
@@ -86,7 +86,7 @@ abstract class JHtmlImage
 
 		// outputs actual html <img> tag
 		if ($asTag) {
-			return '<img src="'. $src .'" alt="'. html_entity_decode( $alt ) .'" '.$attribs.' />';
+			return '<img src="'. $src .'" alt="'. html_entity_decode($alt) .'" '.$attribs.' />';
 		}
 
 		return $src;
@@ -106,29 +106,29 @@ abstract class JHtmlImage
 	* @param	array	An associative array of attributes to add
 	* @param	boolean	True (default) to display full tag, false to return just the path
 	*/
-	public static function administrator( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt = NULL, $attribs = null, $type = 1 )
+	public static function administrator($file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt = NULL, $attribs = null, $type = 1)
 	{
 		$appl = JFactory::getApplication();
 
-		if (is_array( $attribs )) {
-			$attribs = JArrayHelper::toString( $attribs );
+		if (is_array($attribs)) {
+			$attribs = JArrayHelper::toString($attribs);
 		}
 
 		$cur_template = $appl->getTemplate();
 
 		// strip html
-		$alt	= html_entity_decode( $alt );
+		$alt	= html_entity_decode($alt);
 
-		if ( $param ) {
+		if ($param) {
 			$image = $param_directory . $param;
-		} else if ( $param == -1 ) {
+		} else if ($param == -1) {
 			$image = '';
 		} else {
-			if ( file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file ) ) {
+			if (file_exists(JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file)) {
 				$image = 'templates/'. $cur_template .'/images/'. $file;
 			} else {
 				// compability with previous versions
-				if ( substr($directory, 0, 14 )== "/administrator" ) {
+				if (substr($directory, 0, 14)== "/administrator") {
 					$image = substr($directory,15) . $file;
 				} else {
 					$image = $directory . $file;
@@ -136,7 +136,7 @@ abstract class JHtmlImage
 			}
 		}
 
-		if (substr($image, 0, 1 ) == "/") {
+		if (substr($image, 0, 1) == "/") {
 			$image = substr_replace($image, '', 0, 1);
 		}
 
@@ -144,7 +144,7 @@ abstract class JHtmlImage
 		$image = JURI::base(true).'/'.$image;
 
 		// outputs actual html <img> tag
-		if ( $type ) {
+		if ($type) {
 			$image = '<img src="'. $image .'" alt="'. $alt .'" '.$attribs.' />';
 		}
 

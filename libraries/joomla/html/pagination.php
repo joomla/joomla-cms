@@ -93,17 +93,17 @@ class JPagination extends JObject
 		// Set the total pages and current page values
 		if($this->limit > 0)
 		{
-			$this->set( 'pages_total', ceil($this->total / $this->limit));
-			$this->set( 'pages_current', ceil(($this->limitstart + 1) / $this->limit));
+			$this->set('pages_total', ceil($this->total / $this->limit));
+			$this->set('pages_current', ceil(($this->limitstart + 1) / $this->limit));
 		}
 
 		// Set the pagination iteration loop values
 		$displayedPages	= 10;
-		$this->set( 'pages_start', (floor(($this->get('pages_current') -1) / $displayedPages)) * $displayedPages +1);
+		$this->set('pages_start', (floor(($this->get('pages_current') -1) / $displayedPages)) * $displayedPages +1);
 		if ($this->get('pages_start') + $displayedPages -1 < $this->get('pages_total')) {
-			$this->set( 'pages_stop', $this->get('pages_start') + $displayedPages -1);
+			$this->set('pages_stop', $this->get('pages_start') + $displayedPages -1);
 		} else {
-			$this->set( 'pages_stop', $this->get('pages_total'));
+			$this->set('pages_stop', $this->get('pages_total'));
 		}
 
 		// If we are viewing all records set the view all flag to true
@@ -301,11 +301,11 @@ class JPagination extends JObject
 		$list['pageslinks']		= $this->getPagesLinks();
 
 		$chromePath		= JPATH_THEMES.DS.$appl->getTemplate().DS.'html'.DS.'pagination.php';
-		if (file_exists( $chromePath ))
+		if (file_exists($chromePath))
 		{
 			require_once $chromePath;
-			if (function_exists( 'pagination_list_footer' )) {
-				return pagination_list_footer( $list );
+			if (function_exists('pagination_list_footer')) {
+				return pagination_list_footer($list);
 			}
 		}
 		return $this->_list_footer($list);
@@ -430,7 +430,7 @@ class JPagination extends JObject
 		$html .= $list['start']['data'];
 		$html .= ' &lt; ';
 		$html .= $list['previous']['data'];
-		foreach( $list['pages'] as $page ) {
+		foreach($list['pages'] as $page) {
 			$html .= ' '.$page['data'];
 		}
 		$html .= ' '. $list['next']['data'];

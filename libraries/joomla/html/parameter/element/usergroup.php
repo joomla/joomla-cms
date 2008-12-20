@@ -36,7 +36,7 @@ class JElementUserGroup extends JElement
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$acl	=& JFactory::getACL();
-		$gtree	= $acl->get_group_children_tree( null, 'USERS', false );
+		$gtree	= $acl->get_group_children_tree(null, 'USERS', false);
 		$ctrl	= $control_name .'['. $name .']';
 
 		$attribs	= ' ';
@@ -52,10 +52,10 @@ class JElementUserGroup extends JElement
 		{
 			$attribs	.= 'multiple="multiple"';
 			$ctrl		.= '[]';
-			//$value		= implode( '|', )
+			//$value		= implode('|',)
 		}
-		//array_unshift( $editors, JHtml::_('select.option',  '', '- '. JText::_( 'Select Editor' ) .' -' ) );
+		//array_unshift($editors, JHtml::_('select.option',  '', '- '. JText::_('Select Editor') .' -'));
 
-		return JHtml::_('select.genericlist',   $gtree, $ctrl, $attribs, 'value', 'text', $value, $control_name.$name );
+		return JHtml::_('select.genericlist',   $gtree, $ctrl, $attribs, 'value', 'text', $value, $control_name.$name);
 	}
 }

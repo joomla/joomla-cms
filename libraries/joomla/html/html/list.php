@@ -13,7 +13,7 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Utility class for creating different select lists
@@ -28,7 +28,7 @@ abstract class JHtmlList
 	/**
 	* Build the select list for access level
 	*/
-	public static function accesslevel( &$row )
+	public static function accesslevel(&$row)
 	{
 		$db =& JFactory::getDBO();
 
@@ -37,7 +37,7 @@ abstract class JHtmlList
 		. ' WHERE value >= 0'
 		. ' ORDER BY value'
 		;
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		try {
 			$groups = $db->loadObjectList();
 		} catch(JException $e) {
@@ -60,21 +60,21 @@ abstract class JHtmlList
 	/**
 	* Build the select list to choose an image
 	*/
-	public static function images( $name, $active = NULL, $javascript = NULL, $directory = NULL, $extensions =  "bmp|gif|jpg|png" )
+	public static function images($name, $active = NULL, $javascript = NULL, $directory = NULL, $extensions =  "bmp|gif|jpg|png")
 	{
-		if ( !$directory ) {
+		if (!$directory) {
 			$directory = '/images/stories/';
 		}
 
-		if ( !$javascript ) {
+		if (!$javascript) {
 			$javascript = "onchange=\"javascript:if (document.forms.adminForm." . $name . ".options[selectedIndex].value!='') {document.imagelib.src='..$directory' + document.forms.adminForm." . $name . ".options[selectedIndex].value} else {document.imagelib.src='../images/blank.png'}\"";
 		}
 
-		jimport( 'joomla.filesystem.folder' );
-		$imageFiles = JFolder::files( JPATH_SITE.DS.$directory );
-		$images = array(  JHtml::_('select.option',  '', '- '. JText::_( 'Select Image' ) .' -' ) );
-		foreach ( $imageFiles as $file ) {
-			if ( eregi( $extensions, $file ) ) {
+		jimport('joomla.filesystem.folder');
+		$imageFiles = JFolder::files(JPATH_SITE.DS.$directory);
+		$images = array( JHtml::_('select.option',  '', '- '. JText::_('Select Image') .' -'));
+		foreach ($imageFiles as $file) {
+			if (eregi($extensions, $file)) {
 				$images[] = JHtml::_('select.option', $file);
 			}
 		}
@@ -97,11 +97,11 @@ abstract class JHtmlList
  	 * @param integer The length of the truncated headline
  	 * @since 1.5
  	 */
-	public static function genericordering( $sql, $chop = '30' )
+	public static function genericordering($sql, $chop = '30')
 	{
 		$db =& JFactory::getDBO();
 		$order = array();
-		$db->setQuery( $sql );
+		$db->setQuery($sql);
 		try {
 			$order = $db->loadObjectList();
 		} catch(JException $e) {
@@ -109,12 +109,12 @@ abstract class JHtmlList
 		}
 
 		if(empty($orders)) {
-			$order[] = JHtml::_('select.option',  1, JText::_( 'first' ) );
+			$order[] = JHtml::_('select.option',  1, JText::_('first'));
 			return $order;
 		}
 
-		$order[] = JHtml::_('select.option',  0, '0 '. JText::_( 'first' ) );
-		for ($i=0, $n=count( $orders ); $i < $n; $i++) {
+		$order[] = JHtml::_('select.option',  0, '0 '. JText::_('first'));
+		for ($i=0, $n=count($orders); $i < $n; $i++) {
 
 			if (JString::strlen($orders[$i]->text) > $chop) {
 				$text = JString::substr($orders[$i]->text,0,$chop)."...";
@@ -122,9 +122,9 @@ abstract class JHtmlList
 				$text = $orders[$i]->text;
 			}
 
-			$order[] = JHtml::_('select.option',  $orders[$i]->value, $orders[$i]->value.' ('.$text.')' );
+			$order[] = JHtml::_('select.option',  $orders[$i]->value, $orders[$i]->value.' ('.$text.')');
 		}
-		$order[] = JHtml::_('select.option',  $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_( 'last' ) );
+		$order[] = JHtml::_('select.option',  $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_('last'));
 
 		return $order;
 	}
@@ -156,12 +156,12 @@ abstract class JHtmlList
 	/**
 	* Select list of active users
 	*/
-	public static function users( $name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1 )
+	public static function users($name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1)
 	{
 		$db =& JFactory::getDBO();
 
 		$and = '';
-		if ( $reg ) {
+		if ($reg) {
 		// does not include registered users in the list
 			$and = ' AND gid > 18';
 		}
@@ -172,11 +172,11 @@ abstract class JHtmlList
 		. $and
 		. ' ORDER BY '. $order
 		;
-		$db->setQuery( $query );
-		if ( $nouser ) {
-			$users[] = JHtml::_('select.option',  '0', '- '. JText::_( 'No User' ) .' -' );
+		$db->setQuery($query);
+		if ($nouser) {
+			$users[] = JHtml::_('select.option',  '0', '- '. JText::_('No User') .' -');
 			try {
-				$users = array_merge( $users, $db->loadObjectList() );
+				$users = array_merge($users, $db->loadObjectList());
 			} catch(JException $e) {
 				//ignore the error here
 			}
@@ -207,7 +207,7 @@ abstract class JHtmlList
 		$id = false
 	) {
 		$pos = array();
-		if ($none ) {
+		if ($none) {
 			$pos[''] = JText::_('None');
 		}
 		if ($center) {
@@ -238,7 +238,7 @@ abstract class JHtmlList
 	/**
 	* Select list of active categories for components
 	*/
-	public static function category( $name, $section, $active = NULL, $javascript = NULL, $order = 'ordering', $size = 1, $sel_cat = 1 )
+	public static function category($name, $section, $active = NULL, $javascript = NULL, $order = 'ordering', $size = 1, $sel_cat = 1)
 	{
 		$db =& JFactory::getDBO();
 
@@ -248,11 +248,11 @@ abstract class JHtmlList
 		. ' AND published = 1'
 		. ' ORDER BY '. $order
 		;
-		$db->setQuery( $query );
-		if ( $sel_cat ) {
-			$categories[] = JHtml::_('select.option',  '0', '- '. JText::_( 'Select a Category' ) .' -' );
+		$db->setQuery($query);
+		if ($sel_cat) {
+			$categories[] = JHtml::_('select.option',  '0', '- '. JText::_('Select a Category') .' -');
 			try {
-				$categories = array_merge( $categories, $db->loadObjectList() );
+				$categories = array_merge($categories, $db->loadObjectList());
 			} catch (JException $e) {
 				//Ignore error
 			}
@@ -279,14 +279,14 @@ abstract class JHtmlList
 	/**
 	* Select list of active sections
 	*/
-	public static function section( $name, $active = NULL, $javascript = NULL, $order = 'ordering', $uncategorized = true )
+	public static function section($name, $active = NULL, $javascript = NULL, $order = 'ordering', $uncategorized = true)
 	{
 		$db =& JFactory::getDBO();
 
-		$categories[] = JHtml::_('select.option',  '-1', '- '. JText::_( 'Select Section' ) .' -' );
+		$categories[] = JHtml::_('select.option',  '-1', '- '. JText::_('Select Section') .' -');
 
 		if ($uncategorized) {
-			$categories[] = JHtml::_('select.option',  '0', JText::_( 'Uncategorized' ) );
+			$categories[] = JHtml::_('select.option',  '0', JText::_('Uncategorized'));
 		}
 
 		$query = 'SELECT id AS value, title AS text'
@@ -294,9 +294,9 @@ abstract class JHtmlList
 		. ' WHERE published = 1'
 		. ' ORDER BY ' . $order
 		;
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		try {
-			$sections = array_merge( $categories, $db->loadObjectList() );
+			$sections = array_merge($categories, $db->loadObjectList());
 		} catch(JException $e) {
 			//ignore error
 		}

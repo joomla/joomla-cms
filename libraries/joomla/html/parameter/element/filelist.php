@@ -35,8 +35,8 @@ class JElementFilelist extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		jimport( 'joomla.filesystem.folder' );
-		jimport( 'joomla.filesystem.file' );
+		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.file');
 
 		// path to images directory
 		$path		= JPATH_ROOT.DS.$node->attributes('directory');
@@ -57,20 +57,20 @@ class JElementFilelist extends JElement
 			$options[] = JHtml::_('select.option', '', '- '.JText::_('Use default').' -');
 		}
 
-		if ( is_array($files) )
+		if (is_array($files))
 		{
 			foreach ($files as $file)
 			{
 				if ($exclude)
 				{
-					if (preg_match( chr( 1 ) . $exclude . chr( 1 ), $file ))
+					if (preg_match(chr(1) . $exclude . chr(1), $file))
 					{
 						continue;
 					}
 				}
 				if ($stripExt)
 				{
-					$file = JFile::stripExt( $file );
+					$file = JFile::stripExt($file);
 				}
 				$options[] = JHtml::_('select.option', $file, $file);
 			}

@@ -15,7 +15,7 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.html.form' );
+jimport('joomla.html.form');
 
 //Register the element class with the loader
 JLoader::register('JElement', dirname(__FILE__).DS.'parameter'.DS.'element.php');

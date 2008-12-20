@@ -35,7 +35,7 @@ class JElementFolderlist extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		jimport( 'joomla.filesystem.folder' );
+		jimport('joomla.filesystem.folder');
 
 		// path to images directory
 		$path		= JPATH_ROOT.DS.$node->attributes('directory');
@@ -48,7 +48,7 @@ class JElementFolderlist extends JElement
 		{
 			if ($exclude)
 			{
-				if (preg_match( chr( 1 ) . $exclude . chr( 1 ), $folder )) {
+				if (preg_match(chr(1) . $exclude . chr(1), $folder)) {
 					continue;
 				}
 			}

@@ -80,7 +80,7 @@ class JToolBar extends JObject
 	 * doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $toolbar = & JToolBar::getInstance( $name );</pre>
+	 * 		<pre>  $toolbar = & JToolBar::getInstance($name);</pre>
 	 *
 	 * @access	public
 	 * @param	string		$name  The name of the toolbar.
@@ -191,7 +191,7 @@ class JToolBar extends JObject
 	 * @param	string	The control name
 	 * @return	array	Any array of the label, the form element and the tooltip
 	 */
-	public function renderButton( &$node )
+	public function renderButton(&$node)
 	{
 		// Get the button type
 		$type = $node[0];
@@ -226,7 +226,7 @@ class JToolBar extends JObject
 
 		if (!class_exists('JButton'))
 		{
-			JError::raiseWarning( 'SOME_ERROR_CODE', 'Could not load button base class.' );
+			JError::raiseWarning('SOME_ERROR_CODE', 'Could not load button base class.');
 			return $false;
 		}
 
@@ -252,7 +252,7 @@ class JToolBar extends JObject
 
 		if (!class_exists($buttonClass))
 		{
-			//return	JError::raiseError( 'SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass." );
+			//return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 			return $false;
 		}
 		$this->_buttons[$signature] = new $buttonClass($this);

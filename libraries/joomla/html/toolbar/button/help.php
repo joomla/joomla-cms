@@ -32,7 +32,7 @@ class JButtonHelp extends JButton
 	 */
 	protected $_name = 'Help';
 
-	public function fetchButton( $type='Help', $ref = '', $com = false )
+	public function fetchButton($type='Help', $ref = '', $com = false)
 	{
 		$text	= JText::_('Help');
 		$class	= $this->fetchIconClass('help');

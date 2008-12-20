@@ -13,7 +13,7 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Utility class working with menu select lists
@@ -28,10 +28,10 @@ abstract class JHtmlMenu
 	/**
 	* Build the select list for Menu Ordering
 	*/
-	public static function ordering( &$row, $id )
+	public static function ordering(&$row, $id)
 	{
 		$db = JFactory::getDBO();
-		if ( $id )
+		if ($id)
 		{
 			$query = 'SELECT ordering AS value, name AS text'
 			. ' FROM #__menu'
@@ -39,7 +39,7 @@ abstract class JHtmlMenu
 			. ' AND parent = '.(int) $row->parent
 			. ' AND published != -2'
 			. ' ORDER BY ordering';
-			$order = JHtml::_('list.genericordering',  $query );
+			$order = JHtml::_('list.genericordering',  $query);
 			$ordering = JHtml::_(
 				'select.genericlist',
 				$order,
@@ -49,7 +49,7 @@ abstract class JHtmlMenu
 		}
 		else
 		{
-			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSLAST' );
+			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_('DESCNEWITEMSLAST');
 		}
 		return $ordering;
 	}
@@ -57,7 +57,7 @@ abstract class JHtmlMenu
 	/**
 	* Build the multiple select list for Menu Links/Pages
 	*/
-	public static function linkoptions( $all=false, $unassigned=false )
+	public static function linkoptions($all=false, $unassigned=false)
 	{
 		$db =& JFactory::getDBO();
 
@@ -67,7 +67,7 @@ abstract class JHtmlMenu
 		. ' WHERE m.published = 1'
 		. ' ORDER BY m.menutype, m.parent, m.ordering'
 		;
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		try {
 			$mitems = $db->loadObjectList();
 		} catch(JException $e) {
@@ -78,32 +78,32 @@ abstract class JHtmlMenu
 		// establish the hierarchy of the menu
 		$children = array();
 		// first pass - collect children
-		foreach ( $mitems as $v )
+		foreach ($mitems as $v)
 		{
 			$id = $v->id;
 			$pt = $v->parent;
 			$list = @$children[$pt] ? $children[$pt] : array();
-			array_push( $list, $v );
+			array_push($list, $v);
 			$children[$pt] = $list;
 		}
 		// second pass - get an indent list of the items
-		$list = JHtmlMenu::TreeRecurse( intval( $mitems[0]->parent ), '', array(), $children, 9999, 0, 0 );
+		$list = JHtmlMenu::TreeRecurse(intval($mitems[0]->parent), '', array(), $children, 9999, 0, 0);
 
 		// Code that adds menu name to Display of Page(s)
 		$mitems_spacer 	= $mitems_temp[0]->menutype;
 
 		$mitems = array();
 		if ($all | $unassigned) {
-			$mitems[] = JHtml::_('select.option',  '<OPTGROUP>', JText::_( 'Menus' ) );
+			$mitems[] = JHtml::_('select.option',  '<OPTGROUP>', JText::_('Menus'));
 
-			if ( $all ) {
-				$mitems[] = JHtml::_('select.option',  0, JText::_( 'All' ) );
+			if ($all) {
+				$mitems[] = JHtml::_('select.option',  0, JText::_('All'));
 			}
-			if ( $unassigned ) {
-				$mitems[] = JHtml::_('select.option',  -1, JText::_( 'Unassigned' ) );
+			if ($unassigned) {
+				$mitems[] = JHtml::_('select.option',  -1, JText::_('Unassigned'));
 			}
 
-			$mitems[] = JHtml::_('select.option',  '</OPTGROUP>' );
+			$mitems[] = JHtml::_('select.option',  '</OPTGROUP>');
 		}
 
 		$lastMenuType	= null;
@@ -113,23 +113,23 @@ abstract class JHtmlMenu
 			if ($list_a->menutype != $lastMenuType)
 			{
 				if ($tmpMenuType) {
-					$mitems[] = JHtml::_('select.option',  '</OPTGROUP>' );
+					$mitems[] = JHtml::_('select.option',  '</OPTGROUP>');
 				}
-				$mitems[] = JHtml::_('select.option',  '<OPTGROUP>', $list_a->menutype );
+				$mitems[] = JHtml::_('select.option',  '<OPTGROUP>', $list_a->menutype);
 				$lastMenuType = $list_a->menutype;
 				$tmpMenuType  = $list_a->menutype;
 			}
 
-			$mitems[] = JHtml::_('select.option',  $list_a->id, $list_a->treename );
+			$mitems[] = JHtml::_('select.option',  $list_a->id, $list_a->treename);
 		}
 		if ($lastMenuType !== null) {
-			$mitems[] = JHtml::_('select.option',  '</OPTGROUP>' );
+			$mitems[] = JHtml::_('select.option',  '</OPTGROUP>');
 		}
 
 		return $mitems;
 	}
 
-	public static function treerecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 )
+	public static function treerecurse($id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1)
 	{
 		if (@$children[$id] && $level <= $maxlevel)
 		{
@@ -137,7 +137,7 @@ abstract class JHtmlMenu
 			{
 				$id = $v->id;
 
-				if ( $type ) {
+				if ($type) {
 					$pre 	= '<sup>|_</sup>&nbsp;';
 					$spacer = '.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				} else {
@@ -145,7 +145,7 @@ abstract class JHtmlMenu
 					$spacer = '&nbsp;&nbsp;';
 				}
 
-				if ( $v->parent == 0 ) {
+				if ($v->parent == 0) {
 					$txt 	= $v->name;
 				} else {
 					$txt 	= $pre . $v->name;
@@ -153,8 +153,8 @@ abstract class JHtmlMenu
 				$pt = $v->parent;
 				$list[$id] = $v;
 				$list[$id]->treename = "$indent$txt";
-				$list[$id]->children = count( @$children[$id] );
-				$list = JHtmlMenu::TreeRecurse( $id, $indent . $spacer, $list, $children, $maxlevel, $level+1, $type );
+				$list[$id]->children = count(@$children[$id]);
+				$list = JHtmlMenu::TreeRecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level+1, $type);
 			}
 		}
 		return $list;

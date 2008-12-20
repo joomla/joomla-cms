@@ -53,7 +53,7 @@ class JElementCategory extends JElement
 
 		if ($section == 'content') {
 			// This might get a conflict with the dynamic translation - TODO: search for better solution
-			$query = 'SELECT c.id, CONCAT_WS( "/",s.title, c.title ) AS title' .
+			$query = 'SELECT c.id, CONCAT_WS("/",s.title, c.title) AS title' .
 				' FROM #__categories AS c' .
 				' LEFT JOIN #__sections AS s ON s.id=c.section' .
 				' WHERE c.published = 1' .
@@ -74,6 +74,6 @@ class JElementCategory extends JElement
 		}
 		array_unshift($options, JHtml::_('select.option', '0', '- '.JText::_('Select Category').' -', 'id', 'title'));
 
-		return JHtml::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name );
+		return JHtml::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name);
 	}
 }

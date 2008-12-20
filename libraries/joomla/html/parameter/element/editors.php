@@ -39,7 +39,7 @@ class JElementEditors extends JElement
 		$user	= & JFactory::getUser();
 
 		//TODO: change to acl_check method
-		if(!($user->get('gid') >= 19) ) {
+		if(!($user->get('gid') >= 19)) {
 			return JText::_('No Access');
 		}
 
@@ -51,15 +51,15 @@ class JElementEditors extends JElement
 		. ' AND enabled = 1'
 		. ' ORDER BY ordering, name'
 		;
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		try {
 			$editors = $db->loadObjectList();
 		} catch(JException $e) {
 			$editors = array();
 		}
 
-		array_unshift( $editors, JHtml::_('select.option',  '', '- '. JText::_( 'Select Editor' ) .' -' ) );
+		array_unshift($editors, JHtml::_('select.option',  '', '- '. JText::_('Select Editor') .' -'));
 
-		return JHtml::_('select.genericlist',   $editors, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name );
+		return JHtml::_('select.genericlist',   $editors, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
 	}
 }

@@ -35,7 +35,7 @@ class JElementList extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="inputbox"' );
+		$class = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="inputbox"');
 
 		$options = array ();
 		foreach ($node->children() as $option)

@@ -49,7 +49,7 @@ class JElementMenuItem extends JElement
 		$query = 'SELECT menutype, title' .
 				' FROM #__menu_types' .
 				' ORDER BY title';
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		try {
 			$menuTypes = $db->loadObjectList();
 		} catch(JException $e) {
@@ -86,16 +86,16 @@ class JElementMenuItem extends JElement
 			{
 				$pt 	= $v->parent;
 				$list 	= @$children[$pt] ? $children[$pt] : array();
-				array_push( $list, $v );
+				array_push($list, $v);
 				$children[$pt] = $list;
 			}
 		}
 
 		// second pass - get an indent list of the items
-		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, 9999, 0, 0 );
+		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, 9999, 0, 0);
 
 		// assemble into menutype groups
-		$n = count( $list );
+		$n = count($list);
 		$groupedList = array();
 		foreach ($list as $k => $v) {
 			$groupedList[$v->menutype][] = &$list[$k];
@@ -110,16 +110,16 @@ class JElementMenuItem extends JElement
 			if ($menuType == '')
 			{
 				$options[]	= JHtml::_('select.option',  '0', '&nbsp;', 'value', 'text', true);
-				$options[]	= JHtml::_('select.option',  $type->menutype, $type->title . ' - ' . JText::_( 'Top' ), 'value', 'text', true );
+				$options[]	= JHtml::_('select.option',  $type->menutype, $type->title . ' - ' . JText::_('Top'), 'value', 'text', true);
 			}
-			if (isset( $groupedList[$type->menutype] ))
+			if (isset($groupedList[$type->menutype]))
 			{
-				$n = count( $groupedList[$type->menutype] );
+				$n = count($groupedList[$type->menutype]);
 				for ($i = 0; $i < $n; $i++)
 				{
 					$item = &$groupedList[$type->menutype][$i];
 					$disable = strpos($node->attributes('disable'), $item->type) !== false ? true : false;
-					$options[] = JHtml::_('select.option',  $item->id, '&nbsp;&nbsp;&nbsp;' .$item->treename, 'value', 'text', $disable );
+					$options[] = JHtml::_('select.option',  $item->id, '&nbsp;&nbsp;&nbsp;' .$item->treename, 'value', 'text', $disable);
 
 				}
 			}

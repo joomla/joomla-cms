@@ -66,7 +66,7 @@ abstract class JButton extends JObject
 		return $this->_name;
 	}
 
-	public function render( &$definition )
+	public function render(&$definition)
 	{
 		/*
 		 * Initialize some variables

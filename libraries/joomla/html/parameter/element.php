@@ -90,7 +90,7 @@ abstract class JElement extends JObject
 		} else {
 			$output .= '>';
 		}
-		$output .= JText::_( $label ).'</label>';
+		$output .= JText::_($label).'</label>';
 
 		return $output;
 	}

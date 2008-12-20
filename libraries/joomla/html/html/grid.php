@@ -29,16 +29,16 @@ abstract class JHtmlGrid
 	 * @param	string	The selected ordering
 	 * @param	string	An optional task override
 	 */
-	public static function sort( $title, $order, $direction = 'asc', $selected = 0, $task=NULL )
+	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task=NULL)
 	{
-		$direction	= strtolower( $direction );
-		$images		= array( 'sort_asc.png', 'sort_desc.png' );
-		$index		= intval( $direction == 'desc' );
+		$direction	= strtolower($direction);
+		$images		= array('sort_asc.png', 'sort_desc.png');
+		$index		= intval($direction == 'desc');
 		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
 
-		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
-		$html .= JText::_( $title );
-		if ($order == $selected ) {
+		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_('Click to sort this column').'">';
+		$html .= JText::_($title);
+		if ($order == $selected) {
 			$html .= JHtml::_('image.administrator',  $images[$index], '/images/', NULL, NULL);
 		}
 		$html .= '</a>';
@@ -53,21 +53,21 @@ abstract class JHtmlGrid
 	*
 	* @return string
 	*/
-	public static function id( $rowNum, $recId, $checkedOut=false, $name='cid' )
+	public static function id($rowNum, $recId, $checkedOut=false, $name='cid')
 	{
-		if ( $checkedOut ) {
+		if ($checkedOut) {
 			return '';
 		} else {
 			return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" />';
 		}
 	}
 
-	public static function access( &$row, $i, $archived = NULL )
+	public static function access(&$row, $i, $archived = NULL)
 	{
-		if ( !$row->access )  {
+		if (!$row->access)  {
 			$color_access = 'style="color: green;"';
 			$task_access = 'accessregistered';
-		} else if ( $row->access == 1 ) {
+		} else if ($row->access == 1) {
 			$color_access = 'style="color: red;"';
 			$task_access = 'accessspecial';
 		} else {
@@ -77,20 +77,20 @@ abstract class JHtmlGrid
 
 		if ($archived == -1)
 		{
-			$href = JText::_( $row->groupname );
+			$href = JText::_($row->groupname);
 		}
 		else
 		{
 			$href = '
 			<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task_access .'\')" '. $color_access .'>
-			'. JText::_( $row->groupname ) .'</a>'
+			'. JText::_($row->groupname) .'</a>'
 			;
 		}
 
 		return $href;
 	}
 
-	public static function checkedOut( &$row, $i, $identifier = 'id' )
+	public static function checkedOut(&$row, $i, $identifier = 'id')
 	{
 		$user   =& JFactory::getUser();
 		$userid = $user->get('id');
@@ -103,24 +103,24 @@ abstract class JHtmlGrid
 		}
 
 		$checked = '';
-		if ( $result ) {
-			$checked = JHtmlGrid::_checkedOut( $row );
+		if ($result) {
+			$checked = JHtmlGrid::_checkedOut($row);
 		} else {
 			if ($identifier == 'id')
-				$checked = JHtml::_('grid.id', $i, $row->$identifier );
+				$checked = JHtml::_('grid.id', $i, $row->$identifier);
 			else
-				$checked = JHtml::_('grid.id', $i, $row->$identifier, $result, $identifier );
+				$checked = JHtml::_('grid.id', $i, $row->$identifier, $result, $identifier);
 		}
 
 		return $checked;
 	}
 
-	public static function published( &$row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='' )
+	public static function published(&$row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='')
 	{
 		$img 	= $row->published ? $imgY : $imgX;
 		$task 	= $row->published ? 'unpublish' : 'publish';
-		$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-		$action = $row->published ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
+		$alt 	= $row->published ? JText::_('Published') : JText::_('Unpublished');
+		$action = $row->published ? JText::_('Unpublish Item') : JText::_('Publish item');
 
 		$href = '
 		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
@@ -165,23 +165,23 @@ abstract class JHtmlGrid
 
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
-		$image = JHtml::_('image.administrator',  $image, '/images/', NULL, NULL, JText::_( 'Save Order' ) );
-		$href = '<a href="javascript:saveorder('.(count( $rows )-1).', \''.$task.'\')" title="'.JText::_( 'Save Order' ).'">'.$image.'</a>';
+		$image = JHtml::_('image.administrator',  $image, '/images/', NULL, NULL, JText::_('Save Order'));
+		$href = '<a href="javascript:saveorder('.(count($rows)-1).', \''.$task.'\')" title="'.JText::_('Save Order').'">'.$image.'</a>';
 		return $href;
 	}
 
 
-	protected static function _checkedOut( &$row, $overlib = 1 )
+	protected static function _checkedOut(&$row, $overlib = 1)
 	{
 		$hover = '';
-		if ( $overlib )
+		if ($overlib)
 		{
 			$text = addslashes(htmlspecialchars($row->editor));
 
-			$date 	= JHtml::_('date',  $row->checked_out_time, '%A, %d %B %Y' );
-			$time	= JHtml::_('date',  $row->checked_out_time, '%H:%M' );
+			$date 	= JHtml::_('date',  $row->checked_out_time, '%A, %d %B %Y');
+			$time	= JHtml::_('date',  $row->checked_out_time, '%H:%M');
 
-			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
+			$hover = '<span class="editlinktip hasTip" title="'. JText::_('Checked Out') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
 		}
 		$checked = $hover .'<img src="images/checked_out.png"/></span>';
 

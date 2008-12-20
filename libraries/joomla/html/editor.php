@@ -127,8 +127,8 @@ class JEditor extends JObservable
 
 		// Backwards compatibility. Width and height should be passed without a semicolon from now on.
 		// If editor plugins need a unit like "px" for CSS styling, they need to take care of that
-		$width	= str_replace( ';', '', $width );
-		$height	= str_replace( ';', '', $height );
+		$width	= str_replace(';', '', $width);
+		$height	= str_replace(';', '', $height);
 
 		// Initialize variables
 		$return = null;
@@ -158,7 +158,7 @@ class JEditor extends JObservable
 	 *
 	 * @param	string	The name of the editor control
 	 */
-	public function save( $editor )
+	public function save($editor)
 	{
 		$this->_loadEditor();
 
@@ -185,7 +185,7 @@ class JEditor extends JObservable
 	 *
 	 * @param	string	The name of the editor control
 	 */
-	public function getContent( $editor )
+	public function getContent($editor)
 	{
 		$this->_loadEditor();
 
@@ -208,7 +208,7 @@ class JEditor extends JObservable
 	 * @param	string	The name of the editor control
 	 * @param	string	The contents of the text area
 	 */
-	public function setContent( $editor, $html )
+	public function setContent($editor, $html)
 	{
 		$this->_loadEditor();
 
@@ -284,10 +284,10 @@ class JEditor extends JObservable
 		$name = JFilterInput::clean($this->_name, 'cmd');
 		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$name.'.php';
 
-		if ( ! JFile::exists($path) )
+		if (! JFile::exists($path))
 		{
 			$message = JText::_('Cannot load the editor');
-			JError::raiseWarning( 500, $message );
+			JError::raiseWarning(500, $message);
 			return false;
 		}
 

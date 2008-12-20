@@ -39,7 +39,7 @@ abstract class JHtml
         'format.depth' => 0,
         'format.eol' => "\n",
         'format.indent' => "\t"
-    );
+   );
 
 	private static $includePaths = array();
 
@@ -67,15 +67,15 @@ abstract class JHtml
 		{
 			case 3 :
 			{
-				$prefix = preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
-				$file = preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
-				$func = preg_replace( '#[^A-Z0-9_]#i', '', $parts[2] );
+				$prefix = preg_replace('#[^A-Z0-9_]#i', '', $parts[0]);
+				$file = preg_replace('#[^A-Z0-9_]#i', '', $parts[1]);
+				$func = preg_replace('#[^A-Z0-9_]#i', '', $parts[2]);
 			} break;
 
 			case 2 :
 			{
-				$file = preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
-				$func = preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
+				$file = preg_replace('#[^A-Z0-9_]#i', '', $parts[0]);
+				$func = preg_replace('#[^A-Z0-9_]#i', '', $parts[1]);
 			} break;
 		}
 
@@ -194,13 +194,13 @@ abstract class JHtml
 		$document->addScript($path . $filename);
 		return;
 	}
-    
+
     /**
      * Set format related options.
-     * 
+     *
      * Updates the formatOptions array with all valid values in the passed
      * array. See {@see JHtml::$formatOptions} for details.
-     * 
+     *
      * @param array Option key/value pairs.
      */
     public static function setFormatOptions($options) {
@@ -218,7 +218,7 @@ abstract class JHtml
 	 * @param	string 	The relative URL to use for the href attribute
 	 * @since	1.5
 	 */
-	public static function stylesheet( $filename, $path = 'media/system/css/', $attribs = array() ) 
+	public static function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
 	{
 		if (strpos($path, 'http') !== 0) {
 			$path = JURI::root(true).'/'.$path;
@@ -278,7 +278,7 @@ abstract class JHtml
 		if (!$text) {
 			$image = JURI::root(true).'/includes/js/ThemeOffice/'. $image;
 			$text = '<img src="' . $image . '" border="0" alt="'
-				. JText::_( 'Tooltip' ) . '"/>';
+				. JText::_('Tooltip') . '"/>';
 		} else {
 			$text = JText::_($text, true);
 		}

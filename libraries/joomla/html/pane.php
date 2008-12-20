@@ -33,7 +33,7 @@ abstract class JPane extends JObject
 	*
  	* @param	array	$params		Associative array of values
 	*/
-	protected function __construct( $params = array() )
+	protected function __construct($params = array())
 	{
 	}
 
@@ -45,7 +45,7 @@ abstract class JPane extends JObject
 	 * @param	array 	$params		Associative array of values
 	 * @return	object
 	 */
-	public static function &getInstance( $behavior = 'Tabs', $params = array())
+	public static function &getInstance($behavior = 'Tabs', $params = array())
 	{
 		$classname = 'JPane'.$behavior;
 		$instance = new $classname($params);
@@ -59,7 +59,7 @@ abstract class JPane extends JObject
 	 * @abstract
 	 * @param	string	The pane identifier
 	 */
-	abstract public function startPane( $id );
+	abstract public function startPane($id);
 
 	/**
 	 * Ends the pane
@@ -75,7 +75,7 @@ abstract class JPane extends JObject
 	 * @param	string	$text The panel name and/or title
 	 * @param	string	$id The panel identifer
 	 */
-	abstract public function startPanel( $text, $id );
+	abstract public function startPanel($text, $id);
 
 	/**
 	 * Ends a panel
@@ -106,7 +106,7 @@ class JPaneTabs extends JPane
 	 *
 	 * @param	array 	$params		Associative array of values
 	 */
-	protected function __construct( $params = array() )
+	protected function __construct($params = array())
 	{
 		static $loaded = false;
 
@@ -123,7 +123,7 @@ class JPaneTabs extends JPane
 	 *
 	 * @param string The pane identifier
 	 */
-	public function startPane( $id )
+	public function startPane($id)
 	{
 		return '<dl class="tabs" id="'.$id.'">';
 	}
@@ -142,7 +142,7 @@ class JPaneTabs extends JPane
 	 * @param	string	$text	The name of the tab
 	 * @param	string	$id		The tab identifier
 	 */
-	public function startPanel( $text, $id )
+	public function startPanel($text, $id)
 	{
 		return '<dt id="'.$id.'"><span>'.$text.'</span></dt><dd>';
 	}
@@ -184,8 +184,8 @@ class JPaneTabs extends JPane
 
 		$js = '		window.addEvent(\'domready\', function(){ $$(\'dl.tabs\').each(function(tabs){ new JTabs(tabs, '.$options.'); }); });';
 
-		$document->addScriptDeclaration( $js );
-		$document->addScript( JURI::root(true). '/media/system/js/tabs.js' );
+		$document->addScriptDeclaration($js);
+		$document->addScript(JURI::root(true). '/media/system/js/tabs.js');
 	}
 }
 
@@ -203,7 +203,7 @@ class JPaneSliders extends JPane
 	 *
 	 * @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
 	 */
-	protected function __construct( $params = array() )
+	protected function __construct($params = array())
 	{
 		static $loaded = false;
 
@@ -220,7 +220,7 @@ class JPaneSliders extends JPane
 	 *
 	 * @param string The pane identifier
 	 */
-	public function startPane( $id )
+	public function startPane($id)
 	{
 		return '<div id="'.$id.'" class="pane-sliders">';
 	}
@@ -238,7 +238,7 @@ class JPaneSliders extends JPane
 	 * @param	string	$text - The name of the tab
 	 * @param	string	$id - The tab identifier
 	 */
-	public function startPanel( $text, $id )
+	public function startPanel($text, $id)
 	{
 		return '<div class="panel">'
 			.'<h3 class="jpane-toggler title" id="'.$id.'"><span>'.$text.'</span></h3>'
@@ -286,6 +286,6 @@ class JPaneSliders extends JPane
 
 		$js = '		window.addEvent(\'domready\', function(){ new Accordion($$(\'.panel h3.jpane-toggler\'), $$(\'.panel div.jpane-slider\'), '.$options.'); });';
 
-		$document->addScriptDeclaration( $js );
+		$document->addScriptDeclaration($js);
 	}
 }
