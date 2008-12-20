@@ -38,6 +38,26 @@ class AccessModelACL extends AccessModelPrototypeItem
 	}
 
 	/**
+	 * Overridden method to lazy load data from the request/session as necessary
+	 *
+	 * @access	public
+	 * @param	string	$key		The key of the state item to return
+	 * @param	mixed	$default	The default value to return if it does not exist
+	 * @return	mixed	The requested value by key
+	 * @since	1.0
+	 */
+	function getState($key=null, $default=null)
+	{
+		if (empty($this->__state_set))
+		{
+			$this->setState('acl_type',	JRequest::getInt('type', 1));
+			$this->setState('section_value',	JRequest::getVar('section', 'core'));
+			$this->__state_set = true;
+		}
+		return parent::getState($key, $default);
+	}
+
+	/**
 	 * @param	boolean	True to resolve foreign data relationship
 	 *
 	 * @return	JStdClass
@@ -71,6 +91,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 				jimport('joomla.acl.aclreferences');
 				$this->_item->references = new JAclReferences;
 				$this->_item->acl_type = $this->getState('acl_type');
+				$this->_item->section_value = $this->getState('section_value');
 			}
 		}
 		return $this->_item;
@@ -94,7 +115,9 @@ class AccessModelACL extends AccessModelPrototypeItem
 		$model->setState('list.hidden',			'0');
 		$model->setState('list.order',			's.order_value,a.section_value,a.order_value,a.name');
 		if ($aclType = $this->getState('acl_type')) {
-			$model->setState('list.where', 'a.acl_type = '.(int) $aclType);
+			if ($aclType > 1) {
+				$model->setState('list.where', 'a.acl_type = '.(int) $aclType);
+			}
 		}
 		return $model->getList();
 	}

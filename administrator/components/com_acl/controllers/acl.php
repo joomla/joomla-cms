@@ -60,6 +60,7 @@ class AccessControllerACL extends JController
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
 		$id  	= JRequest::getInt('id', @$cid[0]);
 		$type	= JRequest::getInt('acl_type', 1);
+		$section = JRequest::getVar('filter_section');
 
 		$session = &JFactory::getSession();
 		$session->set('com_acl.acl.id', $id);
@@ -75,7 +76,7 @@ class AccessControllerACL extends JController
 		// Synronise the AXO's
 		//$this->synchronize($model);
 
-		$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit&type='.$type, false));
+		$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit&type='.$type.'&section='.$section, false));
 	}
 
 	/**

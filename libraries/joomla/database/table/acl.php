@@ -204,11 +204,15 @@ class JTableACL extends JTable
 
 			// Find the references to mapped ACO's
 			$this->_db->setQuery(
-				'SELECT aco.id AS aco_id, a.section_value, aco.name'.
+				($named ?
+					'SELECT aco.name AS value, s.name AS section' :
+					'SELECT aco.id AS value, aco.section_value AS section').
 				' FROM #__core_acl_aco_map AS m'.
-				' LEFT JOIN #__core_acl_acl AS a ON a.id = m.acl_id'.
+				//' LEFT JOIN #__core_acl_acl AS a ON a.id = m.acl_id'.
 				' LEFT JOIN #__core_acl_aco AS aco ON aco.value = m.value AND aco.section_value = m.section_value'.
+				($named ? ' LEFT JOIN #__core_acl_aco_sections AS s ON s.value = aco.section_value' : '').
 				' WHERE m.acl_id = '.(int) $this->id
+				.($named ? ' ORDER BY s.order_value, s.name, aco.order_value, aco.name' : '')
 			);
 			$result = $this->_db->loadObjectList();
 			if (!$this->_db->query()) {
@@ -217,17 +221,21 @@ class JTableACL extends JTable
 			}
 			if (!empty($result)) {
 				foreach ($result as $acl) {
-					$this->_references->addAco($named ? $acl->name : $acl->section_value, $acl->aco_id);
+					$this->_references->addAco($acl->section, $acl->value);
 				}
 			}
 
 			// Find the references to mapped ARO's
 			$this->_db->setQuery(
-				'SELECT aro.id AS aro_id, a.section_value, aro.name'.
+				($named ?
+					'SELECT aro.name AS value, s.name AS section' :
+					'SELECT aro.id AS value, aro.section_value AS section').
 				' FROM #__core_acl_aro_map AS m'.
-				' LEFT JOIN #__core_acl_acl AS a ON a.id = m.acl_id'.
+				//' LEFT JOIN #__core_acl_acl AS a ON a.id = m.acl_id'.
 				' LEFT JOIN #__core_acl_aro AS aro ON aro.value = m.value AND aro.section_value = m.section_value'.
-				' WHERE acl_id = '.(int) $this->id
+				($named ? ' LEFT JOIN #__core_acl_aro_sections AS s ON s.value = aro.section_value' : '').
+				' WHERE m.acl_id = '.(int) $this->id
+				.($named ? ' ORDER BY s.order_value, s.name, aro.order_value, aro.name' : '')
 			);
 			$result = $this->_db->loadObjectList();
 			if (!$this->_db->query()) {
@@ -236,16 +244,20 @@ class JTableACL extends JTable
 			}
 			if (!empty($result)) {
 				foreach ($result as $acl) {
-					$this->_references->addAro($named ? $acl->name : $acl->section_value, $acl->aro_id);
+					$this->_references->addAro($acl->section, $acl->value);
 				}
 			}
 
 			// Find the references to mapped AXO's
 			$this->_db->setQuery(
-				'SELECT a.id AS axo_id, a.section_value, a.name'.
+				($named ?
+					'SELECT a.name AS value, s.name AS section' :
+					'SELECT a.id AS value, a.section_value AS section').
 				' FROM #__core_acl_axo_map AS m'.
-				' LEFT JOIN #__core_acl_axo AS a ON a.value = m.value'.
-				' WHERE acl_id = '.(int) $this->id
+				' LEFT JOIN #__core_acl_axo AS a ON a.value = m.value AND a.section_value = m.section_value'.
+				($named ? ' LEFT JOIN #__core_acl_axo_sections AS s ON s.value = a.section_value' : '').
+				' WHERE m.acl_id = '.(int) $this->id
+				.($named ? ' ORDER BY s.order_value, s.name, a.order_value, a.name' : '')
 			);
 			$result = $this->_db->loadObjectList();
 			if (!$this->_db->query()) {
@@ -254,7 +266,7 @@ class JTableACL extends JTable
 			}
 			if (!empty($result)) {
 				foreach ($result as $acl) {
-					$this->_references->addAxo($named ? $acl->name : $acl->section_value, $acl->axo_id);
+					$this->_references->addAxo($acl->section, $acl->value);
 				}
 			}
 

@@ -231,59 +231,40 @@ CREATE TABLE IF NOT EXISTS `jos_core_acl_groups_axo_map` (
   INDEX `aro_id_group_id_groups_axo_map` USING BTREE(`group_id`, `axo_id`)
 ) ENGINE=MyISAM CHARACTER SET `utf8`;
 
-INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_acl', 0, 'Access Control', 0);
-INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_admin', 0, 'Admin', 0);
+INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'core', -1, 'Core', 0);
+
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_banners', 0, 'Banners', 0);
-INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_cache', 0, 'Cache', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_categories', 0, 'Categories', 0);
-INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_checkin', 0, 'Check In', 0);
-INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_config', 0, 'Config', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_contact', 0, 'Contact', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_content', 0, 'Content', 0);
-INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_installer', 0, 'Installer', 0);
-INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_languages', 0, 'Languages', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_mailto', 0, 'Mail To', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_massmail', 0, 'Massmail', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_media', 0, 'Media Manager', 0);
-INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_menus', 0, 'Menu Manager', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_messages', 0, 'Messages', 0);
-INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_modules', 0, 'Modules', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_newsfeeds', 0, 'Newsfeeds', 0);
-INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_plugins', 0, 'Plugins', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_poll', 0, 'Polls', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_search', 0, 'Search', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_sections', 0, 'Sections', 0);
-INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_templates', 0, 'Templates', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_trash', 0, 'Trash', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_user', 0, 'User Frontend', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_users', 0, 'Users Backend', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_weblinks', 0, 'Weblinks', 0);
 INSERT INTO `jos_core_acl_acl_sections` VALUES (0, 'com_wrapper', 0, 'Wrapper', 0);
 
-INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'system', 0, 'System', 0);
-INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_acl', 0, 'Access Control', 0);
-INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_admin', 0, 'Admin', 0);
+INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'core', -1, 'Core', 0);
+
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_banners', 0, 'Banners', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_categories', 0, 'Categories', 0);
-INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_cache', 0, 'Cache', 0);
-INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_checkin', 0, 'Check In', 0);
-INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_config', 0, 'Config', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_contact', 0, 'Contact', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_content', 0, 'Content', 0);
-INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_installer', 0, 'Installer', 0);
-INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_languages', 0, 'Languages', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_mailto', 0, 'Mail To', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_massmail', 0, 'Massmail', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_media', 0, 'Media Manager', 0);
-INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_menus', 0, 'Menu Manager', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_messages', 0, 'Messages', 0);
-INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_modules', 0, 'Modules', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_newsfeeds', 0, 'Newsfeeds', 0);
-INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_plugins', 0, 'Plugins', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_poll', 0, 'Polls', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_search', 0, 'Search', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_sections', 0, 'Sections', 0);
-INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_templates', 0, 'Templates', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_trash', 0, 'Trash', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_user', 0, 'User Frontend', 0);
 INSERT INTO `jos_core_acl_aco_sections` VALUES (0, 'com_users', 0, 'Users Backend', 0);
@@ -294,14 +275,10 @@ INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_banners', 0, 'Banners', 
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_categories', 0, 'Categories', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_contact', 0, 'Contact', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_content', 0, 'Content', 0);
-INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_installer', 0, 'Installer', 0);
-INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_languages', 0, 'Languages', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_massmail', 0, 'Massmail', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_media', 0, 'Media Manager', 0);
-INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_menus', 0, 'Menu Manager', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_messages', 0, 'Messages', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_newsfeeds', 0, 'Newsfeeds', 0);
-INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_plugins', 0, 'Plugins', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_poll', 0, 'Polls', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_user', 0, 'User Frontend', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_users', 0, 'Users Backend', 0);
@@ -309,31 +286,40 @@ INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_weblinks', 0, 'Weblinks'
 
 -- Type 1 Permissions
 
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'system', 'login', 0, 'Login', 0, 1, 'ACO System Login Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'system', 'event.email', 0, 'Email Event', 0, 1, 'ACO System Email Event Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_acl', 'manage', 0, 'Manage', 0, 1, 'ACO Acess Control Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'login', 0, 'Login', 0, 1, 'ACO System Login Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'event.email', 0, 'Email Event', 0, 1, 'ACO System Email Event Desc');
+
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'acl.manage', 0, 'Manage Global Access Control', 0, 1, 'ACO ACL Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'checkin.manage', 0, 'Manage Global Checkins', 0, 1, 'ACO Checkin Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'cache.manage', 0, 'Manage Global Cache', 0, 1, 'ACO Cache Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'config.manage', 0, 'Manage Global Configuration', 0, 1, 'ACO Config Manage Desc');
+
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'component.install', 0, 'Install Components', 0, 1, 'ACO Component Install Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'language.install', 0, 'Install Langauges', 0, 1, 'ACO Language Install Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'module.install', 0, 'Install Modules', 0, 1, 'ACO Module Install Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'plugin.install', 0, 'Install Plugins', 0, 1, 'ACO Plugin Install Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'template.install', 0, 'Install Templates', 0, 1, 'ACO Template Install Desc');
+
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'language.manage', 0, 'Manage Langauges', 0, 1, 'ACO Language Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'module.manage', 0, 'Manage Modules', 0, 1, 'ACO Module Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'plugin.manage', 0, 'Manage Plugins', 0, 1, 'ACO Plugin Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'template.manage', 0, 'Manage Templates', 0, 1, 'ACO Template Manage Desc');
+
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'menu.manage', 0, 'Manage Menus', 0, 1, 'ACO Menus Manage Desc');
+
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_banners', 'manage', 0, 'Manage', 0, 1, 'ACO Banners Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_checkin', 'manage', 0, 'Manage', 0, 1, 'ACO Checkin Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_cache', 'manage', 0, 'Manage', 0, 1, 'ACO Cache Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_config', 'manage', 0, 'Manage', 0, 1, 'ACO Config Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_categories', 'manage', 0, 'Manage', 0, 1, 'ACO Categories Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_contact', 'manage', 0, 'Manage', 0, 1, 'ACO Contacts Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_content', 'articles.manage', 0, 'Manage Article', 0, 1, 'ACO Content Manage Article Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_content', 'frontpage.manage', 0, 'Manage Frontpage', 0, 1, 'ACO Content Manage Frontpage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_installer', 'manage', 0, 'Manage', 0, 1, 'ACO Installer Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_installer', 'extension.install', 0, 'Install', 0, 1, 'ACO Installer Extension Install Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_installer', 'extension.uninstall', 0, 'Uninstall', 0, 1, 'ACO Installer Extension Uninstall Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_languages', 'manage', 0, 'Manage', 0, 1, 'ACO Language Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_massmail', 'manage', 0, 'Manage', 0, 1, 'ACO Massmail Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_media', 'manage', 0, 'Manage', 0, 1, 'ACO Media Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_menus', 'type.manage', 0, 'Manage Menu Types', 0, 1, 'ACO Menus Manage Types Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_menus', 'menus.manage', 0, 'Manage Menu Items', 0, 1, 'ACO Menus Manage Items Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_modules', 'manage', 0, 'Manage', 0, 1, 'ACO Modules Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_newsfeeds', 'manage', 0, 'Manage', 0, 1, 'ACO Newsfeeds Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_plugins', 'manage', 0, 'Manage', 0, 1, 'ACO Plugin Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_poll', 'manage', 0, 'Manage', 0, 1, 'ACO Poll Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_sections', 'manage', 0, 'Manage', 0, 1, 'ACO Sections Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_templates', 'manage', 0, 'Manage', 0, 1, 'ACO Templates Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_trash', 'manage', 0, 'Manage', 0, 1, 'ACO Trash Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_user', 'profile.edit', 0, 'Edit Profile', 0, 1, 'ACO User Edit Profile Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_users', 'manage', 0, 'Manage', 0, 1, 'ACO Users Manage Desc');

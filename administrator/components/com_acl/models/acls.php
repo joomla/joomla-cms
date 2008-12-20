@@ -38,91 +38,66 @@ class AccessModelACLs extends AccessModelPrototypeList
 			$limitstart = $app->getUserStateFromRequest('acl.rules.limitstart', 'limitstart', 0);
 			$orderCol	= $app->getUserStateFromRequest('acl.rules.ordercol', 'filter_order', 'a.id');
 			$orderDirn	= $app->getUserStateFromRequest('acl.rules.orderdirn', 'filter_order_Dir', 'asc');
+			$ruleType	= $app->getUserStateFromRequest('acl.rules.type', 'filter_type', '1');
+			$ruleSection = $app->getUserStateFromRequest('acl.rules.section', 'filter_section', 'core');
 
-			$this->setState('list.search', $search);
-			$this->setState('list.limit', $limit);
-			$this->setState('list.start', $limitstart);
+			$this->setState('list.search',	$search);
+			$this->setState('list.limit',	$limit);
+			$this->setState('list.start',	$limitstart);
 			if ($orderCol) {
 				$this->setState('list.order',	$orderCol.' '.($orderDirn == 'asc' ? 'asc' : 'desc'));
 			}
-			$this->setState('orderCol',	$orderCol);
-			$this->setState('orderDirn',	$orderDirn);
+			$this->setState('orderCol',				$orderCol);
+			$this->setState('orderDirn',			$orderDirn);
+			$this->setState('list.acl_type', 		$ruleType);
+			$this->setState('list.section_value',	$ruleSection);
 
 			$this->__state_set = true;
 		}
 		return parent::getState($key, $default);
 	}
 
-	function getExtendedItems($items = null)
+	/**
+	 * Method to get a list of items.
+	 *
+	 * @access	public
+	 * @return	mixed	An array of objects on success, false on failure.
+	 * @since	1.0
+	 */
+	function &getItems()
 	{
-		if ($items == null) {
-			$items = $this->getList();
-		}
-		if (!is_array($items)) {
-			$items = array($items);
+		// Try to load the value from internal storage.
+		if (!empty($this->_list_items)) {
+			return $this->_list_items;
 		}
 
-		// first pass, get the id's
-		$n		= count($items);
-		$aclIds	= array();
-		$rlu	= array();
-		for ($i = 0; $i < $n; $i++)
+		// Run the parent get items method.
+		parent::getList();
+
+		// If the items were successfully loaded, lets process them further.
+		if (!empty($this->_list_items))
 		{
-			$aclIds[]				= $items[$i]->id;
-			$rlu[$items[$i]->id]	= $i;
-		}
+			$rule = JTable::getInstance('Acl', 'JTable');
 
-		$db		= &$this->getDBO();
-		$acls	= array();
-
-		// run sql to get ACO's, ARO's and AXO's
-		if (!empty($aclIds))
-		{
-			$ids = implode(',', $aclIds);
-			foreach (array('aco', 'aro', 'axo') as $type)
+			for ($i = 0, $n = count($this->_list_items); $i < $n; $i++)
 			{
-				$query = 'SELECT	a.acl_id,o.name,s.name AS section_name' .
-						' FROM	#__core_acl_'. $type .'_map a' .
-						' INNER JOIN #__core_acl_'. $type .' o ON (o.section_value=a.section_value AND o.value=a.value)' .
-						' INNER JOIN #__core_acl_'. $type . '_sections s ON s.value=a.section_value' .
-						' WHERE	a.acl_id IN ('. $ids . ')';
-				$db->setQuery($query);
-				$temp = $db->loadObjectList();
-				foreach ($temp as $item)
-				{
-					$i	= $rlu[$item->acl_id];
-					$k	= $type.'s';
+				$rule->reset();
+				$rule->load($this->_list_items[$i]->id);
 
-					if (!isset($items[$i]->$k)) {
-						$items[$i]->$k = array();
-					}
-					$r = &$items[$i]->$k;
-					$r[$item->section_name][] = $item->name;
+				if ($references = &$rule->findReferences(true)) {
+					$this->_list_items[$i]->references = $references;
 				}
-			}
+				else {
+					// Non fatal but lets alert the user somethings amiss
+					JError::raiseWarning(500, $rule->getError());
 
-			// grab ARO and AXO groups
-			foreach (array('aro', 'axo') as $type)
-			{
-				$query = 'SELECT a.acl_id,g.name' .
-						' FROM #__core_acl_'. $type .'_groups_map a' .
-						' INNER JOIN #__core_acl_'. $type .'_groups g ON g.id=a.group_id' .
-						' WHERE	a.acl_id IN ('. $ids . ')';
-				$db->setQuery($query);
-				$temp	= $db->loadObjectList();
-				foreach ($temp as $item)
-				{
-					$i	= $rlu[$item->acl_id];
-					$k	= $type.'Groups';
-					if (!isset($items[$i]->$k)) {
-						$items[$i]->$type = array();
-					}
-					$r = &$items[$i]->$k;
-					$r[] = $item->name;
+					jximport('jxtended.acl.aclreferences');
+					$this->_list_items[$i]->references = new JxAclReferences;
 				}
 			}
 		}
-		return $items;
+
+		return $this->_list_items;
 	}
 
 	/**

@@ -12,25 +12,18 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
 
-// Helper functions
-
-function aclObjectChecked(&$array, $section, $value)
-{
-	$values	= @$array[$section];
-	return in_array($value, (array) $values) ? 'checked="checked"' : '';
-}
-
-function aclGroupChecked(&$array, $value)
-{
-	return in_array($value, (array) $array) ? 'checked="checked"' : '';
-}
-
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_acl
  */
 class AccessViewRule extends JView
 {
+	public $item;
+	public $acos;
+	public $aroGroups;
+	public $axos;
+	public $axoGroups;
+
 	/**
 	 * Display the view
 	 *
@@ -54,7 +47,6 @@ class AccessViewRule extends JView
 
 		$this->assignRef('state',		$state);
 		$this->assignRef('item',		$item);
-		$this->assignRef('acl',			$acl);
 		$this->assignRef('acos',		$acos);
 		$this->assignRef('aroGroups',	$aroGroups);
 		$this->assignRef('axos',		$axos);

@@ -18,6 +18,10 @@ jimport('joomla.application.component.view');
  */
 class AccessViewRules extends JView
 {
+	public $items;
+
+	public $pagination;
+
 	/**
 	 * Display the view
 	 *
@@ -26,7 +30,7 @@ class AccessViewRules extends JView
 	function display($tpl = null)
 	{
 		$state		= $this->get('State');
-		$items		= $this->get('ExtendedItems');
+		$items		= $this->get('Items');
 		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
