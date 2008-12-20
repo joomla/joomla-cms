@@ -20,6 +20,10 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JAclAdmin
 {
+	//
+	// ACL Maintenance
+	//
+
 	/**
 	 * Generic method to register a section
 	 *
@@ -289,13 +293,6 @@ class JAclAdmin
 		return $table->id;
 	}
 
-	public static function removeAction($section, $value)
-	{
-		// Load the table object based on section and value, then nuke it
-
-		throw new JException('TODO');
-	}
-
 	/**
 	 * Creates or updates a user (ARO) record (note this does not create a Joomla user)
 	 *
@@ -320,7 +317,7 @@ class JAclAdmin
 		}
 
 		// Load the object if it already exists
-		$table->loadByValue($value, $section);
+		$table->loadByValue($value, 'users');
 
 		// Bind the data.
 		$data = array(
@@ -400,12 +397,71 @@ class JAclAdmin
 		return $table->id;
 	}
 
-	public static function removeAsset($section, $value)
+	/**
+	 * Removes an action (Aco)
+	 *
+	 * JAclAdmin::removeAction('com_fireboard', 'forum.create');
+	 *
+	 * @param	string $section	The action section
+	 * @param	string $value	The action value
+	 * @param	boolean $erase	True removes all referencing elements to the section
+	 *
+	 * @return	mixed			True if successful, a JException otherwise
+	 */
+	function removeAction($section, $value, $erase = false)
 	{
-		// Load the table object based on section and value, then nuke it
+		// Get a group row instance.
+		$table = JTable::getInstance('Aco');
 
-		throw new JException('TODO');
+		// Verify we got a proper JTable object.
+		if (!is_a($table, 'JTableAco')) {
+			throw new JException(JText::_('Error Acl Missing API'));
+		}
+
+		// Load the object if it already exists
+		$table->loadByValue($value, $section);
+
+		if (!$table->delete(null, $erase)) {
+			return new JException($table->getError());
+		}
+
+		return true;
 	}
+
+	/**
+	 * Removes an asset (Axo)
+	 *
+	 * JAclAdmin::removeAsset('com_fireboard', 23);
+	 *
+	 * @param	string $section	The action section
+	 * @param	string $value	The action value
+	 * @param	boolean $erase	True removes all referencing elements to the section
+	 *
+	 * @return	mixed
+	 */
+	function removeAsset($section, $value, $erase = false)
+	{
+		// Get a group row instance.
+		$table = JTable::getInstance('Axo');
+
+		// Verify we got a proper JTable object.
+		if (!is_a($table, 'JTableAxo')) {
+			return new JException(JText::_('Error Acl Missing API'));
+		}
+
+		// Load the object if it already exists
+		$table->loadByValue($value, $section);
+
+		if (!$table->delete(null, $erase)) {
+			return new JException($table->getError());
+		}
+
+		return true;
+	}
+
+	//
+	// Note: Names can change - just using familiar terminolgy for now
+	//
 
 	/**
 	 * Adds a rule
@@ -613,9 +669,41 @@ class JAclAdmin
 		return $table->id;
 	}
 
-	public static function deleteRule($id)
+	/**
+	 * Delete a rule (Acl)
+	 *
+	 * Either the $id  of the Acl, or the $name of the Acl can be searched for.
+	 * Note, if both are provided only $id is used.
+	 *
+	 * @param	int $id			The Id of the rule
+	 * @param	string $name	The name of the rule
+	 *
+	 * @return	mixed			True is successful, false if the rule was not found, a JException otherwise
+	 */
+	function removeRule($id = 0, $name = null)
 	{
-		throw new JException('TODO');
+		$table = &JTable::getInstance('Acl');
+
+		if (!empty($id)) {
+			if ($table->delete($id)) {
+				return true;
+			}
+			else {
+				throw new JException($table->getError());
+			}
+		}
+		else if ($name !== null) {
+			if ($table->loadByName($name)) {
+				if ($table->delete()) {
+					return true;
+				}
+				else {
+					throw new JException($table->getError());
+				}
+			}
+		}
+
+		return false;
 	}
 
 	//
