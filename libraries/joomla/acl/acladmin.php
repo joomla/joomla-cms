@@ -513,7 +513,7 @@ class JAclAdmin
 
 		// The references file is in the wrong place I know
 		require_once dirname(__FILE__).DS.'aclreferences.php';
-		$references = new JxAclReferences;
+		$references = new JAclReferences;
 		$db = &JFactory::getDBO();
 
 		if ($mode == 0)
@@ -907,7 +907,7 @@ class JAclAdmin
 	 */
 	function getAsset($value = null, $name = null)
 	{
-		return JxAclAdmin::getObject('Axo', $value, $name);
+		return JAclAdmin::getObject('Axo', $value, $name);
 	}
 
 	/**
@@ -920,7 +920,7 @@ class JAclAdmin
 	 */
 	function getRule($name, $section = null)
 	{
-		$table = &JTable::getInstance('Acl', 'JxTable');
+		$table = &JTable::getInstance('Acl');
 		if ($table->loadByName($name)) {
 			return $table;
 		}

@@ -822,6 +822,15 @@ class JInstallationModel extends JModel
 			return false;
 		}
 
+		try {
+			require JPATH_INSTALLATION.DS.'sql'.DS.'mysql'.DS.'install.php';
+		}
+		catch (JException $e) {
+			$info = $e->get('info');
+			print_r($info);
+			die;
+		}
+
 		JInstallationHelper::createAdminUser($vars);
 
 		return true;
