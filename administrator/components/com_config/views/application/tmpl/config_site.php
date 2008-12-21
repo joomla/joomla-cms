@@ -72,7 +72,7 @@
 					</span>
 				</td>
 				<td>
-					<input class="text_area" type="text" name="sitename" size="12" value="<?php echo @$this->row->root_user; ?>" />
+					<input class="text_area" type="text" name="root_user" size="12" value="<?php echo @$this->row->root_user; ?>" />
 				</td>
 			</tr>
 		</tbody>
