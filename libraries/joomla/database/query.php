@@ -64,8 +64,8 @@ class JQueryElement
 /**
  * Query Building Class
  *
- * @package		JXtended
- * @subpackage	Database
+ * @package		Joomla.Framework
+ * @subpackage	Query
  */
 class JQuery
 {
