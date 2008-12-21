@@ -101,5 +101,8 @@ class JConfig {
 
 	/* Feed Settings */
 	var $feed_limit   = 10;
+	
+	/* Advanced Settings */
+	var $root_user = 62;	// The User Id of the user that has access to everything
 }
 ?>

@@ -778,6 +778,7 @@ class JInstallationModel extends JModel
 		$data->cache_handler	= 'file';
 		$data->MetaAuthor 		= '';
 		$data->MetaTitle		= '';
+		$data->root_user		= '62';
 		$data->sef				= 0;
 		$data->sef_rewrite		= 0;
 		$data->sef_suffix 		= 0;

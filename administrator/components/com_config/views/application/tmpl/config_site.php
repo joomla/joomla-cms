@@ -65,6 +65,16 @@
 					<?php echo JHtml::_('config.listLimits', $this->row->feed_limit, 'feed_limit'); ?>
 				</td>
 			</tr>
+			<tr>
+				<td width="185" class="key">
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Config Root User' ); ?>::<?php echo JText::_( 'Config Root User Desc' ); ?>">
+						<?php echo JText::_( 'Config Root User' ); ?>
+					</span>
+				</td>
+				<td>
+					<input class="text_area" type="text" name="sitename" size="12" value="<?php echo @$this->row->root_user; ?>" />
+				</td>
+			</tr>
 		</tbody>
 	</table>
 </fieldset>
