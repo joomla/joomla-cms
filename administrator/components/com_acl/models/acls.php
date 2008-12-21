@@ -91,7 +91,7 @@ class AccessModelACLs extends AccessModelPrototypeList
 					// Non fatal but lets alert the user somethings amiss
 					JError::raiseWarning(500, $rule->getError());
 
-					jximport('jxtended.acl.aclreferences');
+					jimport('joomla.acl.aclreferences');
 					$this->_list_items[$i]->references = new JxAclReferences;
 				}
 			}
