@@ -43,9 +43,12 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+22-Dec-2008 Andrew Eddie
+ + Added root_user to global config. This provides a failsafe is the user completely messes up the permissions and at least allows one user access to restore order.
+
 19-Dec-2008 Sam Moffatt
  + Added username blacklist option to GMail plugin to prevent users from authenticating with those usernames
- ^ Changed GMail XML file to look like 1.6 style 
+ ^ Changed GMail XML file to look like 1.6 style
 
 16-Dec-2008 Sam Moffatt
  + Added is_file check for JLoader::import to prevent it from trying to load non-existent files
@@ -54,7 +57,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ Altered com_plugins to handle an error condition better and use JApplication::getPath more
  - Removed duplicate Jtask::setDBO function
  - Removed set sql_mode=mysql40 from mysql and mysqli connectors
- ^ Expanded JApplication::getPath('plg_xml') to handle newer style 1.6 plugins   
+ ^ Expanded JApplication::getPath('plg_xml') to handle newer style 1.6 plugins
 
 25-Nov-2008 Andrew Eddie
  ^ Changed AXO Table value field to INT
