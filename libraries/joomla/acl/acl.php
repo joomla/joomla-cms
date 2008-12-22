@@ -68,12 +68,17 @@ class JAcl
 	 */
 	function check($acoSectionValue, $acoValue, $aroSectionValue, $aroValue, $axoSectionValue=NULL, $axoValue=NULL, $rootAroGroup=NULL, $rootAxoGroup=NULL)
 	{
-		$cache_id = 'acl_query_'.$acoSectionValue.'-'.$acoValue.'-'.$aroSectionValue.'-'.$aroValue.'-'.$axoSectionValue.'-'.$axoValue.'-'.$rootAroGroup.'-'.$rootAxoGroup;
+		// @todo More advanced caching to span session
+		static $cache;
 
-		//$retarr = $this->get_cache($cache_id);
-		$retarr = null;
+		// Simple cache
+		if ($cache == null) {
+			$cache = array();
+		}
 
-		if (!$retarr)
+		$cacheId = 'acl_query_'.$acoSectionValue.'-'.$acoValue.'-'.$aroSectionValue.'-'.$aroValue.'-'.$axoSectionValue.'-'.$axoValue.'-'.$rootAroGroup.'-'.$rootAxoGroup;
+
+		if (!isset($cache[$cacheId]))
 		{
 			/*
 			 * This query is where all the magic happens.
@@ -184,17 +189,15 @@ class JAcl
 					$allow = FALSE;
 				}
 
-				$retarr = array('acl_id' => $row[0], 'return_value' => $row[2], 'allow' => $allow);
-			} else {
-				// Permission denied.
-				$retarr = array('acl_id' => NULL, 'return_value' => NULL, 'allow' => FALSE);
+				$cache[$cacheId] = array('acl_id' => $row[0], 'return_value' => $row[2], 'allow' => $allow);
 			}
-
-			//Cache data.
-			//$this->put_cache($retarr, $cache_id);
+			else {
+				// Permission denied.
+				$cache[$cacheId] = array('acl_id' => NULL, 'return_value' => NULL, 'allow' => FALSE);
+			}
 		}
 
-		return $retarr;
+		return $cache[$cacheId];
 	}
 
 	/**
@@ -210,6 +213,9 @@ class JAcl
 	 */
 	function acl_get_groups($sectionValue, $value, $rootGroupValue=NULL, $type='ARO')
 	{
+		// @todo More advanced caching to span session
+		static $cache;
+
 		$db		= &JFactory::getDbo();
 		$type	= strtolower($type);
 
@@ -218,13 +224,15 @@ class JAcl
 			return array();
 		}
 
-		//Generate unique cache id.
-		$cache_id = 'acl_get_groups_'.$sectionValue.'-'.$value.'-'.$rootGroupValue.'-'.$type;
+		// Simple cache
+		if ($cache == null) {
+			$cache = array();
+		}
 
-		//$result = $this->get_cache($cache_id);
-		$result = array();
+		// Generate unique cache id.
+		$cacheId = 'acl_get_groups_'.$sectionValue.'-'.$value.'-'.$rootGroupValue.'-'.$type;
 
-		if (!$result)
+		if (!isset($cache[$cacheId]))
 		{
 			$query = new JQuery;
 
@@ -252,13 +260,10 @@ class JAcl
 
 			$db->setQuery($query->toString());
 			//echo $db->getQuery();
-			$result = $db->loadResultArray();
-
-			//Cache data.
-			//$this->put_cache($retarr, $cache_id);
+			$cache[$cacheId] = $db->loadResultArray();
 		}
 
-		return $result;
+		return $cache[$cacheId];
 	}
 
 	/**
@@ -268,7 +273,7 @@ class JAcl
 	 * to one or more asset groups.  An primary object will typically be given a single asset level
 	 * in an `access` field.  The usage could be something like:
 	 *
-	 * $assetGroups = JAcl::getAllowedAssetGroups('com_content', 'view');
+	 * $assetGroups = JAcl::getAllowedAssetGroups('core', 'global.view');
 	 *
 	 * $query = new JQuery;
 	 * $query->select('a.*');
