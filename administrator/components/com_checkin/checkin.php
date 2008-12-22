@@ -13,7 +13,7 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 if (!JAcl::authorise('core', 'checkin.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
@@ -22,7 +22,7 @@ if (!JAcl::authorise('core', 'checkin.manage')) {
 // Require the base controller
 require_once JPATH_COMPONENT.DS.'controller.php';
 
-$controller	= new CheckinController( );
+$controller	= new CheckinController();
 
 // Perform the Request task
 $controller->execute(JRequest::getCmd('task'));

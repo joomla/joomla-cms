@@ -15,7 +15,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Checkin component
@@ -34,27 +34,28 @@ class CheckinViewCheckin extends JView
 		global $mainframe, $option;
 
 		// get parameters from the URL or submitted form
-		$db					=& JFactory::getDBO();
+		$db			= &JFactory::getDBO();
+		$nullDate	= $db->getNullDate();
 
 		// Set toolbar items for the page
-		JToolBarHelper::title( JText::_( 'Global Check-in' ), 'checkin.png' );
-		JToolBarHelper::help( 'screen.checkin' );
+		JToolBarHelper::title(JText::_('Global Check-in'), 'checkin.png');
+		JToolBarHelper::help('screen.checkin');
 
 		$tables = $db->getTableList();
 		foreach ($tables as $tn) {
 			// make sure we get the right tables based on prefix
-			if (!preg_match( "/^".$mainframe->getCfg('dbprefix')."/i", $tn )) {
+			if (!preg_match("/^".$mainframe->getCfg('dbprefix')."/i", $tn)) {
 				continue;
 			}
-			$fields = $db->getTableFields( array( $tn ) );
+			$fields = $db->getTableFields(array($tn));
 
 			$foundCO = false;
 			$foundCOT = false;
 			$foundE = false;
 
-			$foundCO	= isset( $fields[$tn]['checked_out'] );
-			$foundCOT	= isset( $fields[$tn]['checked_out_time'] );
-			$foundE		= isset( $fields[$tn]['editor'] );
+			$foundCO	= isset($fields[$tn]['checked_out']);
+			$foundCOT	= isset($fields[$tn]['checked_out_time']);
+			$foundE		= isset($fields[$tn]['editor']);
 
 			if ($foundCO && $foundCOT) {
 				if ($foundE) {
@@ -62,16 +63,16 @@ class CheckinViewCheckin extends JView
 				} else {
 					$query = 'SELECT checked_out FROM '.$tn.' WHERE checked_out > 0';
 				}
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$res = $db->query();
-				$num = $db->getNumRows( $res );
+				$num = $db->getNumRows($res);
 
 				if ($foundE) {
 					$query = 'UPDATE '.$tn.' SET checked_out = 0, checked_out_time = '.$db->Quote($nullDate).', editor = NULL WHERE checked_out > 0';
 				} else {
 					$query = 'UPDATE '.$tn.' SET checked_out = 0, checked_out_time = '.$db->Quote($nullDate).' WHERE checked_out > 0';
 				}
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$res = $db->query();
 
 				if ($res == 1) {
