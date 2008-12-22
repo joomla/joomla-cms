@@ -100,7 +100,7 @@ class JTableContent extends JTableAsset
 	}
 
 	/**
-	 * Abstract method to return the title of the object to insert into the AXO table
+	 * Method to return the title of the object to insert into the AXO table
 	 *
 	 * @return	string
 	 */
@@ -110,7 +110,7 @@ class JTableContent extends JTableAsset
 	}
 
 	/**
-	 * Abstract method to return the section of the object to insert into the AXO table
+	 * Method to return the section of the object to insert into the AXO table
 	 *
 	 * @return	string
 	 */
