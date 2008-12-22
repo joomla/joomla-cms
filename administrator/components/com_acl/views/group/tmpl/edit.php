@@ -36,7 +36,7 @@
 				</td>
 				<td>
 					<select name="parent_id" class="inputbox" size="1">
-						<?php echo JHtml::_('acl.groups', $this->item->get('parent_id'), $parentId);  ?>
+						<?php echo JHtml::_('acladmin.groups', $this->item->get('parent_id'), $parentId);  ?>
 					</select>
 				</td>
 			</tr>

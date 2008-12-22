@@ -22,12 +22,12 @@
 			<label for="filter_section">
 				<?php echo JText::_('Acl Filter Show Section'); ?>
 			</label>
-			<?php echo JHtml::_('acl.sections', 'filter_section', $this->state->get('list.section_value'), 'class="inputbox" onchange="this.form.submit()"', $aclType); ?>
+			<?php echo JHtml::_('acladmin.sections', 'filter_section', $this->state->get('list.section_value'), 'class="inputbox" onchange="this.form.submit()"', $aclType); ?>
 
 			<label for="filter_type">
 				<?php echo JText::_('Acl Filter Show Acl Type'); ?>
 			</label>
-			<?php echo JHtml::_('acl.types', 'filter_type', $aclType, 'class="inputbox" onchange="this.form.submit()"'); ?>
+			<?php echo JHtml::_('acladmin.types', 'filter_type', $aclType, 'class="inputbox" onchange="this.form.submit()"'); ?>
 		</div>
 	</fieldset>
 
@@ -88,13 +88,13 @@
 				</td>
 				<td align="left" valign="top">
 					<div class="scroll" style="height: 100px;">
-						<?php echo JHtml::_('acl.userslist', $item->references); ?>
-						<?php echo JHtml::_('acl.usergroupslist', $item->references); ?>
+						<?php echo JHtml::_('acladmin.userslist', $item->references); ?>
+						<?php echo JHtml::_('acladmin.usergroupslist', $item->references); ?>
 					</div>
 				</td>
 				<td align="left" valign="top">
 					<div class="scroll" style="height: 100px;">
-						<?php echo JHtml::_('acl.actionslist', $item->references); ?>
+						<?php echo JHtml::_('acladmin.actionslist', $item->references); ?>
 					</div>
 				</td>
 
@@ -103,18 +103,18 @@
 					<div class="scroll" style="height: 100px;">
 						<?php
 						if ($aclType == 2) :
-							echo JHtml::_('acl.assetslist', $item->references);
+							echo JHtml::_('acladmin.assetslist', $item->references);
 						else :
-							echo JHtml::_('acl.assetgroupslist', $item->references);
+							echo JHtml::_('acladmin.assetgroupslist', $item->references);
 						endif; ?>
 					</div>
 				</td>
 				<?php endif; ?>
 				<td align="center">
-					<?php echo JHtml::_('acl.allowed', $item->allow, $item->id); ?>
+					<?php echo JHtml::_('acladmin.allowed', $item->allow, $item->id); ?>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('acl.enabled', $item->enabled, $item->id); ?>
+					<?php echo JHtml::_('acladmin.enabled', $item->enabled, $item->id); ?>
 				</td>
 				<td align="center">
 					<?php echo $item->id; ?>

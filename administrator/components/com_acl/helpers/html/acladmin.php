@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package		Joomla.Administrator
  * @subpackage	com_acl
  */
-class JHtmlACL
+class JHtmlAclAdmin
 {
 	function enabled($value, $i)
 	{

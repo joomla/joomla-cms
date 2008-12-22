@@ -125,10 +125,10 @@
 				<?php endif; ?>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('acl.allowed', $item->allow, $item->id); ?>
+					<?php echo JHtml::_('acladmin.allowed', $item->allow, $item->id); ?>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('acl.enabled', $item->enabled, $item->id); ?>
+					<?php echo JHtml::_('acladmin.enabled', $item->enabled, $item->id); ?>
 				</td>
 				<td align="center">
 					<?php echo $item->id; ?>
