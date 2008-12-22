@@ -551,15 +551,15 @@ class JAclAdmin
 				}
 			}
 
-			foreach ($actions as $section => $values)
+			foreach ($actions as $sect => $values)
 			{
 				foreach ($values as $k => $value)
 				{
-					$key = strtolower($section.'/'.$value);
+					$key = strtolower($sect.'/'.$value);
 					if (!isset($cache['acos'][$key])) {
-						throw new JException(JText::_sprinf('Error Acl Action with value %s not found', $value));
+						throw new JException(JText::sprintf('Error Acl Action with value %s not found', $value));
 					}
-					$actions[$section][$k] = $cache['acos'][$key]['id'];
+					$actions[$sect][$k] = $cache['acos'][$key]['id'];
 				}
 			}
 
@@ -577,15 +577,15 @@ class JAclAdmin
 					}
 				}
 
-				foreach ($assets as $section => $values)
+				foreach ($assets as $sect => $values)
 				{
 					foreach ($values as $k => $value)
 					{
-						$key = strtolower($section.'/'.$value);
+						$key = strtolower($sect.'/'.$value);
 						if (!isset($cache['axos'][$key])) {
 							throw new JException(JText::_sprinf('Error Acl Asset with value %s not found', $value));
 						}
-						$assets[$section][$k] = $cache['axos'][$key]['id'];
+						$assets[$sect][$k] = $cache['axos'][$key]['id'];
 
 					}
 				}
@@ -617,13 +617,13 @@ class JAclAdmin
 		// Now we assemble the References
 		$references->addAroGroup($userGroups);
 
-		foreach ($actions As $section => $values) {
-			$references->addAco($section, $values);
+		foreach ($actions As $sect => $values) {
+			$references->addAco($sect, $values);
 		}
 
 		if (count($assets)) {
-			foreach ($assets As $section => $values) {
-				$references->addAxo($section, $values);
+			foreach ($assets As $sect => $values) {
+				$references->addAxo($sect, $values);
 			}
 		}
 

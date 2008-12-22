@@ -166,7 +166,7 @@ class JAcl
 
 			// we are only interested in the first row
 			$db->setQuery($query->toString(), 0, 1);
-			//echo $db->getQuery();
+			//echo $db->getQuery().'<hr />';
 			$row = $db->loadRow();
 
 			/*
