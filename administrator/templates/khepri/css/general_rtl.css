@@ -133,6 +133,10 @@ body{
 #module-status .loggedin-users     { background-position: right 3px; }
 #module-status .logout             { background-position: right 3px; }
 
+fieldset.filter {border: 0; padding: 0; margin:0 0 10px;}
+div.left { float: right; }
+div.right { float: left; }
+
 table.adminform td{
 	text-align: right;
 }
