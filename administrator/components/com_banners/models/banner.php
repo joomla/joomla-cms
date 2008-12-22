@@ -51,7 +51,7 @@ class BannerModelBanner extends JModel
 
 		$array = JRequest::getVar('bid', array(0), '', 'array');
 		$edit	= JRequest::getVar('edit',true);
-		if($edit)
+		if ($edit)
 			$this->setId((int)$array[0]);
 	}
 
@@ -90,7 +90,7 @@ class BannerModelBanner extends JModel
 	 * @return	boolean	True if checked out
 	 * @since	1.6
 	 */
-	function isCheckedOut( $uid=0 )
+	function isCheckedOut($uid=0)
 	{
 		if ($this->_loadData())
 		{
@@ -113,8 +113,8 @@ class BannerModelBanner extends JModel
 	{
 		if ($this->_id)
 		{
-			$banner = & $this->getTable();
-			if(! $banner->checkin($this->_id)) {
+			$table = JTable::getInstance('Banner', 'BannerTable');
+			if (! $table->checkin($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -140,8 +140,8 @@ class BannerModelBanner extends JModel
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
-			$banner = & $this->getTable();
-			if(!$banner->checkout($uid, $this->_id)) {
+			$table = JTable::getInstance('Banner', 'BannerTable');
+			if (!$table->checkout($uid, $this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -160,22 +160,22 @@ class BannerModelBanner extends JModel
 	 */
 	function store($data)
 	{
-		$row =& $this->getTable();
+		$table = JTable::getInstance('Banner', 'BannerTable');
 
 		// Bind the form fields to the web link table
-		if (!$row->bind($data)) {
+		if (!$$table->bind($data)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
 		// Make sure the data is valid
-		if (!$row->check()) {
+		if (!$table->check()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
 		// Store the data to the database
-		if (!$row->store()) {
+		if (!$table->store()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -194,14 +194,14 @@ class BannerModelBanner extends JModel
 	{
 		$result = false;
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 			$query = 'DELETE FROM #__banner'
-				. ' WHERE bid IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+				. ' WHERE bid IN ('.$cids.')';
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -221,17 +221,17 @@ class BannerModelBanner extends JModel
 	{
 		$user 	=& JFactory::getUser();
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__banner'
 				. ' SET showBanner = '.(int) $publish
-				. ' WHERE bid IN ( '.$cids.' )'
-				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
+				. ' WHERE bid IN ('.$cids.')'
+				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))'
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -250,13 +250,13 @@ class BannerModelBanner extends JModel
 	 */
 	function move($direction)
 	{
-		$row =& $this->getTable();
-		if (!$row->load($this->_id)) {
+		$table = JTable::getInstance('Banner', 'BannerTable');
+		if (!$table->load($this->_id)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
-		if (!$row->move( $direction, ' catid = '.(int) $row->catid.' AND showBanner >= 0 ' )) {
+		if (!$$table->move($direction, ' catid = '.(int) $table->catid.' AND showBanner >= 0 ')) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -273,20 +273,20 @@ class BannerModelBanner extends JModel
 	 */
 	function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
+		$table = JTable::getInstance('Banner', 'BannerTable');
 		$groupings = array();
 
 		// update ordering values
-		for( $i=0; $i < count($cid); $i++ )
+		for ($i=0; $i < count($cid); $i++)
 		{
-			$row->load( (int) $cid[$i] );
+			$table->load((int) $cid[$i]);
 			// track categories
-			$groupings[] = $row->catid;
+			$groupings[] = $table->catid;
 
-			if ($row->ordering != $order[$i])
+			if ($table->ordering != $order[$i])
 			{
-				$row->ordering = $order[$i];
-				if (!$row->store()) {
+				$table->ordering = $order[$i];
+				if (!$table->store()) {
 					$this->setError($this->_db->getErrorMsg());
 					return false;
 				}
@@ -294,9 +294,9 @@ class BannerModelBanner extends JModel
 		}
 
 		// execute updateOrder for each parent group
-		$groupings = array_unique( $groupings );
+		$groupings = array_unique($groupings);
 		foreach ($groupings as $group){
-			$row->reorder('catid = '.$this->_db->Quote($group));
+			$table->reorder('catid = '.$this->_db->Quote($group));
 		}
 
 		return true;
@@ -307,24 +307,23 @@ class BannerModelBanner extends JModel
 	 */
 	function copy($cid = array())
 	{
-		$row =& $this->getTable();
-
-		$n		= count( $cid );
+		$table = JTable::getInstance('Banner', 'BannerTable');
+		$n		= count($cid);
 
 		// update ordering values
-		for( $i=0; $i < $n; $i++ )
+		for ($i=0; $i < $n; $i++)
 		{
-			$row->load( (int) $cid[$i] );
+			$table->load((int) $cid[$i]);
 
-			$row->bid				= 0;
-			$row->name			= 'Copy of ' . $row->name;
-			$row->impmade			= 0;
-			$row->clicks			= 0;
-			$row->showBanner		= 0;
-			$row->date			= $this->_db->getNullDate();
+			$table->bid				= 0;
+			$table->name			= 'Copy of ' . $table->name;
+			$table->impmade			= 0;
+			$table->clicks			= 0;
+			$table->showBanner		= 0;
+			$table->date			= $this->_db->getNullDate();
 
-			if (!$row->store()) {
-				return JError::raiseWarning( $row->getError() );
+			if (!$table->store()) {
+				return JError::raiseWarning($table->getError());
 			}
 		}
 

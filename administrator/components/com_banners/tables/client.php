@@ -13,13 +13,13 @@
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * @package		Joomla
  * @subpackage	Banners
  */
-class TableBannerClient extends JTable
+class BannerTableClient extends JTable
 {
 	var	$cid				= null;
 	var $name				= '';
@@ -30,8 +30,8 @@ class TableBannerClient extends JTable
 	var $checked_out_time	= 0;
 	var $editor				= '';
 
-	function __construct( &$_db ) {
-		parent::__construct( '#__bannerclient', 'cid', $_db );
+	function __construct(&$_db) {
+		parent::__construct('#__bannerclient', 'cid', $_db);
 	}
 
 	/**
@@ -46,20 +46,20 @@ class TableBannerClient extends JTable
 	{
 		// check for valid client name
 		if (trim($this->name == '')) {
-			$this->setError(JText::_( 'BNR_CLIENT_NAME' ));
+			$this->setError(JText::_('BNR_CLIENT_NAME'));
 			return false;
 		}
 
 		// check for valid client contact
 		if (trim($this->contact == '')) {
-			$this->setError(JText::_( 'BNR_CONTACT' ));
+			$this->setError(JText::_('BNR_CONTACT'));
 			return false;
 		}
 
 		// check for valid client email
-		jimport( 'joomla.mail.helper' );
-		if (!JMailHelper::isEmailAddress( $this->email )) {
-			$this->setError(JText::_( 'BNR_VALID_EMAIL' ));
+		jimport('joomla.mail.helper');
+		if (!JMailHelper::isEmailAddress($this->email)) {
+			$this->setError(JText::_('BNR_VALID_EMAIL'));
 			return false;
 		}
 

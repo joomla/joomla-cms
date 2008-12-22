@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
@@ -24,7 +24,7 @@ jimport('joomla.application.component.model');
  * @subpackage	Banners
  * @since 1.6
  */
-class BannerModelBannerClients extends JModel
+class BannerModelClients extends JModel
 {
 	/**
 	 * Category ata array
@@ -66,8 +66,8 @@ class BannerModelBannerClients extends JModel
 		global $mainframe, $option;
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
 
 		// In case limit has been changed, adjust limitstart accordingly
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -75,12 +75,12 @@ class BannerModelBannerClients extends JModel
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
-		$context			= 'com_banners.bannerclient.list.';
+		$context			= 'com_banners.client.list.';
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order',		'a.name',		'cmd' );
-		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$filter->state		= $mainframe->getUserStateFromRequest( $context.'filter_state',		'filter_state',		'',				'word' );
-		$filter->search		= $mainframe->getUserStateFromRequest( $context.'search',			'search',			'',				'string' );
+		$filter->order		= $mainframe->getUserStateFromRequest($context.'filter_order',		'filter_order',		'a.name',		'cmd');
+		$filter->order_Dir	= $mainframe->getUserStateFromRequest($context.'filter_order_Dir',	'filter_order_Dir',	'',				'word');
+		$filter->state		= $mainframe->getUserStateFromRequest($context.'filter_state',		'filter_state',		'',				'word');
+		$filter->search		= $mainframe->getUserStateFromRequest($context.'search',			'search',			'',				'string');
 		$this->_filter = $filter;
 	}
 
@@ -132,7 +132,7 @@ class BannerModelBannerClients extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -151,41 +151,21 @@ class BannerModelBannerClients extends JModel
 
 	function _buildQuery()
 	{
-		// Get the WHERE and ORDER BY clauses for the query
-		$where		= $this->_buildContentWhere();
-		$orderby	= $this->_buildContentOrderBy();
+		jimport('joomla.database.query');
+		$query = new JQuery;
 
-		$query = 'SELECT a.*, count(b.bid) AS nbanners, u.name AS editor'
-			. ' FROM #__bannerclient AS a'
-			. ' LEFT JOIN #__banner AS b ON a.cid = b.cid'
-			. ' LEFT JOIN #__users AS u ON u.id = a.checked_out'
-			. $where
-			. ' GROUP BY a.cid'
-			. $orderby
-		;
+		// Set up query
+		$query->select('a.*, count(b.bid) AS nbanners, u.name AS editor');
+		$query->from('#__bannerclient AS a');
+		$query->join('LEFT', '#__banner AS b ON a.cid = b.cid');
+		$query->join('LEFT', '#__users AS u ON u.id = a.checked_out');
+
+		if ($search = JString::strtolower($this->_filter->search)) {
+			$query->where('LOWER(a.name) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false));
+		}
+		$query->group('a.cid');
+		$query->order($this->_filter->order .' '. $this->_filter->order_Dir .', a.cid');
 
 		return $query;
-	}
-
-	function _buildContentOrderBy()
-	{
-		$orderby = ' ORDER BY '. $this->_filter->order .' '. $this->_filter->order_Dir .', a.cid';
-
-		return $orderby;
-	}
-
-	function _buildContentWhere()
-	{
-		$search				= JString::strtolower( $this->_filter->search );
-
-		$where = array();
-
-		if ($search) {
-			$where[] = 'LOWER(a.name) LIKE '.$this->_db->Quote( '%'.$this->_db->getEscaped( $search, true ).'%', false );
-		}
-
-		$where 		= ( count( $where ) ? ' WHERE '. implode( ' AND ', $where ) : '' );
-
-		return $where;
 	}
 }

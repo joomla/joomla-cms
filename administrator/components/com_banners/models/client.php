@@ -24,7 +24,7 @@ jimport('joomla.application.component.model');
  * @subpackage	Banners
  * @since 1.6
  */
-class BannerModelBannerClient extends JModel
+class BannerModelClient extends JModel
 {
 	/**
 	 * Banner Client id
@@ -51,7 +51,7 @@ class BannerModelBannerClient extends JModel
 
 		$array = JRequest::getVar('cid', array(0), '', 'array');
 		$edit	= JRequest::getVar('edit',true);
-		if($edit)
+		if ($edit)
 			$this->setId((int)$array[0]);
 	}
 
@@ -90,7 +90,7 @@ class BannerModelBannerClient extends JModel
 	 * @return	boolean	True if checked out
 	 * @since	1.6
 	 */
-	function isCheckedOut( $uid=0 )
+	function isCheckedOut($uid=0)
 	{
 		if ($this->_loadData())
 		{
@@ -113,8 +113,8 @@ class BannerModelBannerClient extends JModel
 	{
 		if ($this->_id)
 		{
-			$bannerclient = & $this->getTable();
-			if(! $bannerclient->checkin($this->_id)) {
+			$table = JTable::getInstance('Client', 'BannerTable');
+			if (!$table->checkin($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -140,8 +140,8 @@ class BannerModelBannerClient extends JModel
 				$uid	= $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
-			$bannerclient = & $this->getTable();
-			if(!$bannerclient->checkout($uid, $this->_id)) {
+			$table = JTable::getInstance('Client', 'BannerTable');
+			if (!$table->checkout($uid, $this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -160,22 +160,22 @@ class BannerModelBannerClient extends JModel
 	 */
 	function store($data)
 	{
-		$row =& $this->getTable();
+		$table = JTable::getInstance('Client', 'BannerTable');
 
 		// Bind the form fields to the web link table
-		if (!$row->bind($data)) {
+		if (!$table->bind($data)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
 		// Make sure the data is valid
-		if (!$row->check()) {
+		if (!$table->check()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
 		// Store the data to the database
-		if (!$row->store()) {
+		if (!$table->store()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -194,14 +194,14 @@ class BannerModelBannerClient extends JModel
 	{
 		$result = false;
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 			$query = 'DELETE FROM #__bannerclient'
-				. ' WHERE cid IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+				. ' WHERE cid IN ('.$cids.')';
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}

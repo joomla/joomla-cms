@@ -25,27 +25,27 @@ class BannerHelper
 	 * @return array
 	 * @static
 	 */
-	function &getKeywords( $keywords )
+	function &getKeywords($keywords)
 	{
 		static $instance;
 
 		if (!$instance)
 		{
-			$config =& JComponentHelper::getParams( 'com_banners' );
-			$prefix = $config->get( 'tag_prefix' );
+			$config =& JComponentHelper::getParams('com_banners');
+			$prefix = $config->get('tag_prefix');
 
 			$instance = array();
 
-			if (!is_array( $keywords ))
+			if (!is_array($keywords))
 			{
-				$keywords = explode( ',', $keywords );
+				$keywords = explode(',', $keywords);
 			}
 
 			foreach ($keywords as $keyword)
 			{
-				$keyword = trim( $keyword );
+				$keyword = trim($keyword);
 				$regex = '#^' . $prefix . '#';
-				if (preg_match( $regex, $keyword ))
+				if (preg_match($regex, $keyword))
 				{
 					$instance[] = $keyword;
 				}
@@ -60,9 +60,9 @@ class BannerHelper
 	 * @param string
 	 * @return URL
 	 */
-	function isImage( $url )
+	function isImage($url)
 	{
-		$result = preg_match( '#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#', $url );
+		$result = preg_match('#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#', $url);
 		return $result;
 	}
 
@@ -72,9 +72,9 @@ class BannerHelper
 	 * @param string
 	 * @return URL
 	 */
-	function isFlash( $url )
+	function isFlash($url)
 	{
-		$result = preg_match( '#\.swf$#', $url );
+		$result = preg_match('#\.swf$#', $url);
 		return $result;
 	}
 }

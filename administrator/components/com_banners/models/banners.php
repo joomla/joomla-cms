@@ -67,18 +67,18 @@ class BannerModelBanners extends JModel
 		$context			= 'com_banners.banner.list.';
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0, 'int' );
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($context.'limitstart', 'limitstart', 0, 'int');
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order',		'b.ordering',	'cmd' );
-		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$filter->state		= $mainframe->getUserStateFromRequest( $context.'filter_state',		'filter_state',		'',				'word' );
-		$filter->catid		= $mainframe->getUserStateFromRequest( $context.'filter_catid',		'filter_catid',		0,				'int' );
-		$filter->search		= $mainframe->getUserStateFromRequest( $context.'search',			'search',			'',				'string' );
+		$filter->order		= $mainframe->getUserStateFromRequest($context.'filter_order',		'filter_order',		'b.ordering',	'cmd');
+		$filter->order_Dir	= $mainframe->getUserStateFromRequest($context.'filter_order_Dir',	'filter_order_Dir',	'',				'word');
+		$filter->state		= $mainframe->getUserStateFromRequest($context.'filter_state',		'filter_state',		'',				'word');
+		$filter->catid		= $mainframe->getUserStateFromRequest($context.'filter_catid',		'filter_catid',		0,				'int');
+		$filter->search		= $mainframe->getUserStateFromRequest($context.'search',			'search',			'',				'string');
 		$this->_filter = $filter;
 	}
 
@@ -130,7 +130,7 @@ class BannerModelBanners extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -180,16 +180,16 @@ class BannerModelBanners extends JModel
 	{
 		global $mainframe, $option;
 
-		$search				= JString::strtolower( $this->_filter->search );
+		$search				= JString::strtolower($this->_filter->search);
 
 		$where = array();
 
-		if ( $this->_filter->state )
+		if ($this->_filter->state)
 		{
-			if ( $this->_filter->state == 'P' ) {
+			if ($this->_filter->state == 'P') {
 				$where[] = 'b.showBanner = 1';
 			}
-			else if ($this->_filter->state == 'U' ) {
+			else if ($this->_filter->state == 'U') {
 				$where[] = 'b.showBanner = 0';
 			}
 		}
@@ -197,10 +197,10 @@ class BannerModelBanners extends JModel
 			$where[] = 'cc.id = ' . (int) $this->_filter->catid;
 		}
 		if ($search) {
-			$where[] = 'LOWER(b.name) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped( $search, true ).'%', false);
+			$where[] = 'LOWER(b.name) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false);
 		}
 
-		$where		= count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '';
+		$where		= count($where) ? ' WHERE ' . implode(' AND ', $where) : '';
 
 		return $where;
 	}

@@ -13,20 +13,20 @@
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 if (!JAcl::authorise('com_banners', 'banners.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
-$controllerName = JRequest::getCmd( 'c', 'banner' );
+$controllerName = JRequest::getCmd('c', 'banner');
 
-if($controllerName == 'client') {
+if ($controllerName == 'client') {
 	JSubMenuHelper::addEntry(JText::_('Banners'), 'index.php?option=com_banners');
-	JSubMenuHelper::addEntry(JText::_('Clients'), 'index.php?option=com_banners&c=client', true );
+	JSubMenuHelper::addEntry(JText::_('Clients'), 'index.php?option=com_banners&c=client', true);
 	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_banner');
 } else {
-	JSubMenuHelper::addEntry(JText::_('Banners'), 'index.php?option=com_banners', true );
+	JSubMenuHelper::addEntry(JText::_('Banners'), 'index.php?option=com_banners', true);
 	JSubMenuHelper::addEntry(JText::_('Clients'), 'index.php?option=com_banners&c=client');
 	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_banner');
 }
@@ -52,7 +52,7 @@ switch ($controllerName)
 		$controller = new $controllerName();
 
 		// Perform the Request task
-		$controller->execute( JRequest::getCmd('task') );
+		$controller->execute(JRequest::getCmd('task'));
 
 		// Redirect if set by the controller
 		$controller->redirect();

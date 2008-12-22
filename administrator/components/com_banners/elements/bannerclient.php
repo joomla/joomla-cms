@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Renders a category element
@@ -53,6 +53,6 @@ class JElementBannerclient extends JElement
             'name',
             $value,
             $control_name.$name 
-        );
+       );
 	}
 }

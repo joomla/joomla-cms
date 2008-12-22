@@ -13,13 +13,13 @@
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * @package		Joomla
  * @subpackage	Banners
  */
-class TableBanner extends JTable
+class BannerTableBanner extends JTable
 {
 	/** @var int */
 	var $bid				= null;
@@ -70,22 +70,22 @@ class TableBanner extends JTable
 	/** @var string */
 	var $params				= null;
 
-	function __construct( &$_db )
+	function __construct(&$_db)
 	{
-		parent::__construct( '#__banner', 'bid', $_db );
+		parent::__construct('#__banner', 'bid', $_db);
 
 
 		$now =& JFactory::getDate();
-		$this->set( 'date', $now->toMySQL() );
+		$this->set('date', $now->toMySQL());
 	}
 
 	function clicks()
 	{
 		$query = 'UPDATE #__banner'
-		. ' SET clicks = ( clicks + 1 )'
+		. ' SET clicks = (clicks + 1)'
 		. ' WHERE bid = ' . (int) $this->bid
 		;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		$this->_db->query();
 	}
 
@@ -101,27 +101,27 @@ class TableBanner extends JTable
 	{
 		// check for valid client id
 		if (is_null($this->cid) || $this->cid == 0) {
-			$this->setError(JText::_( 'BNR_CLIENT' ));
+			$this->setError(JText::_('BNR_CLIENT'));
 			return false;
 		}
 
 		// check for valid name
-		if(trim($this->name) == '') {
-			$this->setError(JText::_( 'BNR_NAME' ));
+		if (trim($this->name) == '') {
+			$this->setError(JText::_('BNR_NAME'));
 			return false;
 		}
 
-		if(empty($this->alias)) {
+		if (empty($this->alias)) {
 			$this->alias = $this->name;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 
-		/*if(trim($this->imageurl) == '') {
-			$this->setError(JText::_( 'BNR_IMAGE' ));
+		/*if (trim($this->imageurl) == '') {
+			$this->setError(JText::_('BNR_IMAGE'));
 			return false;
 		}
-		if(trim($this->clickurl) == '' && trim($this->custombannercode) == '') {
-			$this->setError(JText::_( 'BNR_URL' ));
+		if (trim($this->clickurl) == '' && trim($this->custombannercode) == '') {
+			$this->setError(JText::_('BNR_URL'));
 			return false;
 		}*/
 

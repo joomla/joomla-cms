@@ -9,29 +9,29 @@ function submitbutton(pressbutton)
 	var form = document.adminForm;
 	if (pressbutton == 'cancel')
 	{
-		submitform( pressbutton );
+		submitform(pressbutton);
 		return;
 	}
 	// do field validation
 	if (form.name.value == "")
 	{
-		alert( "<?php echo JText::_( 'Please fill in the Client Name.', true ); ?>" );
+		alert("<?php echo JText::_('Please fill in the Client Name.', true); ?>");
 	}
 	else if (form.contact.value == "")
 	{
-		alert( "<?php echo JText::_( 'Please fill in the Contact Name.', true ); ?>" );
+		alert("<?php echo JText::_('Please fill in the Contact Name.', true); ?>");
 	}
 	else if (form.email.value == "")
 	{
-		alert( "<?php echo JText::_( 'Please fill in the Contact Email.', true ); ?>" );
+		alert("<?php echo JText::_('Please fill in the Contact Email.', true); ?>");
 	}
-	else if (!isEmail( form.email.value ))
+	else if (!isEmail(form.email.value))
 	{
-		alert( "<?php echo JText::_( 'Please provide a valid Contact Email.', true ); ?>" );
+		alert("<?php echo JText::_('Please provide a valid Contact Email.', true); ?>");
 	}
 	else
 	{
-		submitform( pressbutton );
+		submitform(pressbutton);
 	}
 }
 //-->
@@ -41,13 +41,13 @@ function submitbutton(pressbutton)
 
 <div class="col width-50">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Details' ); ?></legend>
+		<legend><?php echo JText::_('Details'); ?></legend>
 
 		<table class="admintable">
 			<tr>
 				<td width="20%" nowrap="nowrap">
 					<label for="name">
-						<?php echo JText::_( 'Client Name' ); ?>:
+						<?php echo JText::_('Client Name'); ?>:
 					</label>
 				</td>
 				<td>
@@ -57,7 +57,7 @@ function submitbutton(pressbutton)
 			<tr>
 				<td nowrap="nowrap">
 					<label for="contact">
-						<?php echo JText::_( 'Contact Name' ); ?>:
+						<?php echo JText::_('Contact Name'); ?>:
 					</label>
 				</td>
 				<td>
@@ -67,7 +67,7 @@ function submitbutton(pressbutton)
 			<tr>
 				<td nowrap="nowrap">
 					<label for="email">
-						<?php echo JText::_( 'Contact Email' ); ?>:
+						<?php echo JText::_('Contact Email'); ?>:
 					</label>
 				</td>
 				<td>
@@ -80,7 +80,7 @@ function submitbutton(pressbutton)
 
 <div class="col width-50">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Extra Info' ); ?></legend>
+		<legend><?php echo JText::_('Extra Info'); ?></legend>
 
 		<table class="admintable" width="100%">
 		<tr>
@@ -98,5 +98,5 @@ function submitbutton(pressbutton)
 <input type="hidden" name="cid" value="<?php echo $this->row->cid; ?>" />
 <input type="hidden" name="client_id" value="<?php echo $this->row->cid; ?>" />
 <input type="hidden" name="task" value="" />
-<?php echo JHtml::_( 'form.token' ); ?>
+<?php echo JHtml::_('form.token'); ?>
 </form>

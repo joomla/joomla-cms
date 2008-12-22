@@ -13,9 +13,9 @@
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
  * @package		Joomla
@@ -26,12 +26,12 @@ class BannerControllerClient extends JController
 	/**
 	 * Constructor
 	 */
-	function __construct( $config = array() )
+	function __construct($config = array())
 	{
-		parent::__construct( $config );
+		parent::__construct($config);
 		// Register Extra tasks
-		$this->registerTask( 'add',		'edit' );
-		$this->registerTask( 'apply',	'save' );
+		$this->registerTask('add',		'edit');
+		$this->registerTask('apply',	'save');
 	}
 
 	function display()
@@ -42,21 +42,20 @@ class BannerControllerClient extends JController
 		switch($this->getTask())
 		{
 			case 'add':
-			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'view'  , 'bannerclient');
-				JRequest::setVar( 'edit', false );
-			} break;
+				JRequest::setVar('hidemainmenu', 1);
+				JRequest::setVar('view'  , 'client');
+				JRequest::setVar('edit', false);
+				break;
+
 			case 'edit':
-			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'view'  , 'bannerclient');
-				JRequest::setVar( 'edit', true );
-			} break;
+				JRequest::setVar('hidemainmenu', 1);
+				JRequest::setVar('view'  , 'client');
+				JRequest::setVar('edit', true);
+				break;
 		}
 
-		if (JRequest::getVar( 'view', '') == '') {
-			JRequest::setVar( 'view', 'bannerclients');
+		if (JRequest::getVar('view', '') == '') {
+			JRequest::setVar('view', 'clients');
 		}
 		parent::display();
 	}
@@ -70,21 +69,21 @@ class BannerControllerClient extends JController
 		}
 
 		$post	= JRequest::get('post');
-		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid	= JRequest::getVar('cid', array(0), 'post', 'array');
 		$post['cid'] = (int) $cid[0];
 
-		$model = $this->getModel('bannerclient');
+		$model = $this->getModel('client');
 
 		if ($model->store($post)) {
-			$msg = JText::_( 'Item Saved' );
+			$msg = JText::_('Item Saved');
 		} else {
-			$msg = JText::_( 'Error Saving Item' );
+			$msg = JText::_('Error Saving Item');
 		}
 
 		// Check the table in so it can be edited.... we are done with it anyway
 		$model->checkin();
 
-		switch (JRequest::getCmd( 'task' ))
+		switch (JRequest::getCmd('task'))
 		{
 			case 'apply':
 				$link = 'index.php?option=com_banners&c=client&task=edit&cid[]='. $post['cid'];
@@ -100,13 +99,13 @@ class BannerControllerClient extends JController
 	function cancel()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		// Checkin the contact
-		$model = $this->getModel('bannerclient');
+		$model = $this->getModel('client');
 		$model->checkin();
 
-		$this->setRedirect( 'index.php?option=com_banners&c=client' );
+		$this->setRedirect('index.php?option=com_banners&c=client');
 	}
 
 	function remove()
@@ -117,18 +116,18 @@ class BannerControllerClient extends JController
 			JError::raiseError(403, 'Request Forbidden');
 		}
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to delete' ) );
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select an item to delete'));
 		}
 
 		$model = $this->getModel('contact');
-		if(!$model->delete($cid)) {
+		if (!$model->delete($cid)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect( 'index.php?option=com_banners&c=client', JText::sprintf( 'Items removed', count($cid) ) );
+		$this->setRedirect('index.php?option=com_banners&c=client', JText::sprintf('Items removed', count($cid)));
 	}
 }

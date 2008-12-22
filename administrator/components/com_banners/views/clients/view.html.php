@@ -13,30 +13,30 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * @package		Joomla
  * @subpackage	Banners
  */
-class BannerViewBannerClients extends JView
+class BannerViewClients extends JView
 {
-	function display( $tpl = null )
+	function display($tpl = null)
 	{
 		// Set toolbar items for the page
-		JToolBarHelper::title( JText::_( 'Banner Client Manager' ), 'generic.png' );
-		JToolBarHelper::deleteList( '', 'remove' );
-		JToolBarHelper::editListX( 'edit' );
-		JToolBarHelper::addNewX( 'add' );
-		JToolBarHelper::help( 'screen.banners.client' );
+		JToolBarHelper::title(JText::_('Banner Client Manager'), 'generic.png');
+		JToolBarHelper::deleteList('', 'remove');
+		JToolBarHelper::editListX('edit');
+		JToolBarHelper::addNewX('add');
+		JToolBarHelper::help('screen.banners.client');
 
 		// Get data from the model
-		$items		= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-		$filter		= & $this->get( 'Filter');
+		$items		= & $this->get('Data');
+		$total		= & $this->get('Total');
+		$pagination = & $this->get('Pagination');
+		$filter		= & $this->get('Filter');
 
 		$this->assignRef('user',		JFactory::getUser());
 		$this->assignRef('items',		$items);
