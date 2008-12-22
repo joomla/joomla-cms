@@ -926,4 +926,151 @@ class JAclAdmin
 		}
 		return null;
 	}
+
+	//
+	// Other utility methods
+	//
+
+	/**
+	 * Syncronise the assets from a local content store
+	 *
+	 * @param	array $items	An array of object have the properties id, title and ordering
+	 * @param	string $section	The asset section the object will belong to
+	 * @return	mixed			True if successful, otherwise a JException
+	 */
+	function synchronizeAssets($items, $section)
+	{
+		//
+		// Get the existing assets.
+		//
+
+		$db = &JFactory::getDbo();
+
+		$db->setQuery(
+			'SELECT *'
+			.' FROM #__core_acl_axo'
+			.' WHERE section_value = '.$db->quote($section)
+			.' ORDER BY section_value,order_value,name'
+		);
+
+		// Get the raw assets from the model.
+		$raw = $db->loadObjectList();
+
+		//
+		// Build the synchronization lists.
+		//
+
+		// Create an asset list keyed by value.
+		$assets	= array();
+		foreach ($raw as $i => $axo) {
+			$assets[$axo->value] = &$raw[$i];
+		}
+
+		// Get the IDs which are stored as the array keys for both assets and items.
+		$keys1	= array_keys($items);
+		$keys2	= array_keys($assets);
+
+		// Create the synchronization lists to add, drop and update.
+		$add	= array_diff($keys1, $keys2);
+		$drop	= array_diff($keys2, $keys1);
+		$update	= array_intersect($keys1, $keys2);
+
+		//
+		// Perform the asset synchronization.
+		//
+
+		// Get an AXO (asset) table object.
+		$table = JTable::getInstance('Axo');
+
+		// Verify we got a proper JTable object.
+		if (!is_a($table, 'JTableAxo')) {
+			return new JException(JText::_('Error Acl Missing API'));
+		}
+
+		// Perform the add operations first.
+		if (!empty($add))
+		{
+			foreach ($add as $id)
+			{
+				// Bind the data.
+				$data = array(
+					'section_value'	=> $section,
+					'name'			=> $items[$id]->title,
+					'value'			=> (int) $items[$id]->id,
+					'order_value'	=> (int) $items[$id]->ordering,
+				);
+				if (!$table->bind($data)) {
+					return new JException(JText::sprintf('Error Acl Asset bind failed %s', $table->getError()));
+				}
+
+				// Check and validate the data.
+				if (!$table->check()) {
+					return new JException($table->getError());
+				}
+
+				// Store the data.
+				if (!$table->store()) {
+					return new JException($table->getError());
+				}
+
+				// Clear the table object.
+				$table->clear();
+			}
+		}
+
+		// Next perform the drop operations.
+		if (!empty($drop))
+		{
+			foreach ($drop as $id)
+			{
+				// Attempt to delete the asset and all references.
+				if (!$table->delete($assets[$id]->id, true)) {
+					return new JException($table->getError());
+				}
+
+				// Clear the table object.
+				$table->clear();
+			}
+		}
+
+		// Lastly perform the update operations.
+		if (!empty($update))
+		{
+			foreach ($update as $id)
+			{
+				// If the name and ordering are the same, we do not need to do anything.
+				if (($assets[$id]->name == $items[$id]->title) && ($assets[$id]->order_value == $items[$id]->ordering)) {
+					continue;
+				}
+
+				// Bind the data.
+				$data = array(
+					'id'			=> (int) $assets[$id]->id,
+					'section_value'	=> $assets[$id]->section_value,
+					'value'			=> (int) $assets[$id]->value,
+					'name'			=> $items[$id]->title,
+					'order_value'	=> (int) $items[$id]->ordering,
+					'hidden'		=> 0
+				);
+				if (!$table->bind($data)) {
+					throw new JException(JText::sprintf('Error Acl Asset bind failed %s', $table->getError()));
+				}
+
+				// Check and validate the data.
+				if (!$table->check()) {
+					throw new JException($table->getError());
+				}
+
+				// Store the data.
+				if (!$table->store()) {
+					throw new JException($table->getError());
+				}
+
+				// Clear the table object.
+				$table->clear();
+			}
+		}
+
+		return true;
+	}
 }
