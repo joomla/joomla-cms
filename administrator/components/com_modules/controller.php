@@ -13,27 +13,27 @@
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 class ModulesController extends JController
 {
 	/**
 	 * Constructor
 	 */
-	function __construct( $config = array() )
+	function __construct($config = array())
 	{
-		parent::__construct( $config );
+		parent::__construct($config);
 
 		// Register Extra tasks
-		$this->registerTask( 'apply', 			'save' );
-		$this->registerTask( 'unpublish', 		'publish' );
-		$this->registerTask( 'orderup', 		'reorder' );
-		$this->registerTask( 'orderdown', 		'reorder' );
-		$this->registerTask( 'accesspublic', 	'access' );
-		$this->registerTask( 'accessregistered','access' );
-		$this->registerTask( 'accessspecial',	'access' );
+		$this->registerTask('apply', 			'save');
+		$this->registerTask('unpublish', 		'publish');
+		$this->registerTask('orderup', 		'reorder');
+		$this->registerTask('orderdown', 		'reorder');
+		$this->registerTask('accesspublic', 	'access');
+		$this->registerTask('accessregistered','access');
+		$this->registerTask('accessspecial',	'access');
 	}
 
 	/**
@@ -44,27 +44,27 @@ class ModulesController extends JController
 	function copy()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		JArrayHelper::toInteger( $cid );
-		$n		= count( $cid );
+		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
+		JArrayHelper::toInteger($cid);
+		$n		= count($cid);
 
 		if ($n == 0) {
-			return JError::raiseWarning( 500, JText::_( 'No items selected' ) );
+			return JError::raiseWarning(500, JText::_('No items selected'));
 		}
 
 		$model = $this->getModel('module');
 
 		if ($model->copy($cid)) {
-			$msg = JText::sprintf( 'Items Copied', $n );
+			$msg = JText::sprintf('Items Copied', $n);
 		} else {
-			$msg = JText::_( 'Error Copying Module(s)' );
+			$msg = JText::_('Error Copying Module(s)');
 		}
 
-		$this->setRedirect( 'index.php?option=com_modules&client='. $client->id, $msg );
+		$this->setRedirect('index.php?option=com_modules&client='. $client->id, $msg);
 	}
 
 	/**
@@ -73,37 +73,37 @@ class ModulesController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		$cache = & JFactory::getCache();
-		$cache->clean( 'com_content' );
+		$cache->clean('com_content');
 
-		$post	= JRequest::get( 'post' );
+		$post	= JRequest::get('post');
 		// fix up special html fields
-		$post['content']   = JRequest::getVar( 'content', '', 'post', 'string', JREQUEST_ALLOWRAW );
-		$post['client_id'] = $client->id;
+		$post['content']   = JRequest::getVar('content', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		//$post['client_id'] = $client->id;
 
 		$model = $this->getModel('module');
 
 		if ($model->store($post)) {
-			$msg = JText::_( 'Module Saved' );
+			$msg = JText::_('Module Saved');
 		} else {
-			$msg = JText::_( 'Error Saving Module' );
+			$msg = JText::_('Error Saving Module');
 		}
 
 		// Check the table in so it can be edited.... we are done with it anyway
 		$model->checkin();
 
 		$client = $model->getClient();
-		$this->setMessage( JText::_( 'Item saved' ) );
+		$this->setMessage(JText::_('Item saved'));
 		switch ($this->getTask())
 		{
 			case 'save':
-				$this->setRedirect( 'index.php?option=com_modules&client='. $client->id );
+				$this->setRedirect('index.php?option=com_modules&client='. $client->id);
 				break;
 
 			case 'apply':
-				$this->setRedirect( 'index.php?option=com_modules&client='. $client->id .'&task=edit&id='. $model->_id );
+				$this->setRedirect('index.php?option=com_modules&client='. $client->id .'&task=edit&id='. $model->_id);
 				break;
 		}
 	}
@@ -113,9 +113,9 @@ class ModulesController extends JController
 	*/
 	function edit()
 	{
-		JRequest::setVar( 'hidemainmenu', 1 );
-		JRequest::setVar( 'view', 'module');
-		JRequest::setVar( 'edit', true );
+		JRequest::setVar('hidemainmenu', 1);
+		JRequest::setVar('view', 'module');
+		JRequest::setVar('edit', true);
 
 		// Checkout the module
 		$model = $this->getModel('module');
@@ -129,9 +129,9 @@ class ModulesController extends JController
 	*/
 	function add()
 	{
-		JRequest::setVar( 'hidemainmenu', 1 );
-		JRequest::setVar( 'view', 'selecttype');
-		JRequest::setVar( 'edit', false );
+		JRequest::setVar('hidemainmenu', 1);
+		JRequest::setVar('view', 'selecttype');
+		JRequest::setVar('edit', false);
 
 		// Checkout the module
 		$model = $this->getModel('module');
@@ -150,26 +150,26 @@ class ModulesController extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		JArrayHelper::toInteger( $cid );
-		$n		= count( $cid );
+		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
+		JArrayHelper::toInteger($cid);
+		$n		= count($cid);
 
 		if ($n == 0) {
-			return JError::raiseWarning( 500, 'No items selected' );
+			return JError::raiseWarning(500, 'No items selected');
 		}
 
 		$model = $this->getModel('module');
 
 		if ($model->delete($cid)) {
-			$msg = JText::sprintf( 'Items removed', $n );
+			$msg = JText::sprintf('Items removed', $n);
 		} else {
-			$msg = JText::_( 'Error Deleting' );
+			$msg = JText::_('Error Deleting');
 		}
 
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id, $msg );
+		$this->setRedirect('index.php?option=com_modules&client='.$client->id, $msg);
 	}
 
 	/**
@@ -178,7 +178,7 @@ class ModulesController extends JController
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		// Initialize some variables
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
@@ -186,20 +186,20 @@ class ModulesController extends JController
 		$publish	= ($task == 'publish');
 
 		$cache = & JFactory::getCache();
-		$cache->clean( 'com_content' );
+		$cache->clean('com_content');
 
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
-		if (empty( $cid )) {
-			return JError::raiseWarning( 500, 'No items selected' );
+		if (empty($cid)) {
+			return JError::raiseWarning(500, 'No items selected');
 		}
 
 		$model = $this->getModel('module');
-		if(!$model->publish($cid, $publish)) {
+		if (!$model->publish($cid, $publish)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
+		$this->setRedirect('index.php?option=com_modules&client='.$client->id);
 	}
 
 	/**
@@ -208,13 +208,13 @@ class ModulesController extends JController
 	function cancel()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		$model = $this->getModel('module');
 		$model->checkin();
 
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
+		$this->setRedirect('index.php?option=com_modules&client='.$client->id);
 	}
 
 	/**
@@ -223,16 +223,16 @@ class ModulesController extends JController
 	function reorder()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
 		$task	= $this->getTask();
 		$inc	= ($task == 'orderup' ? -1 : 1);
 
-		if (empty( $cid )) {
-			return JError::raiseWarning( 500, 'No items selected' );
+		if (empty($cid)) {
+			return JError::raiseWarning(500, 'No items selected');
 		}
 
 		$model = $this->getModel('module');
@@ -242,7 +242,7 @@ class ModulesController extends JController
 		}
 
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id, $msg );
+		$this->setRedirect('index.php?option=com_modules&client='.$client->id, $msg);
 	}
 
 	/**
@@ -251,20 +251,20 @@ class ModulesController extends JController
 	function access()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		// Initialize some variables
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (empty( $cid )) {
-			return JError::raiseWarning( 500, 'No items selected' );
+		if (empty($cid)) {
+			return JError::raiseWarning(500, 'No items selected');
 		}
 
-		$task	= JRequest::getCmd( 'task' );
-		switch ( $task )
+		$task	= JRequest::getCmd('task');
+		switch ($task)
 		{
 			case 'accesspublic':
 				$access = 0;
@@ -281,11 +281,11 @@ class ModulesController extends JController
 
 		$msg = '';
 		$model = $this->getModel('module');
-		if(!$model->setAccess($cid, $access)) {
+		if (!$model->setAccess($cid, $access)) {
 			$msg = $model->getError();
 		}
 
-		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id, $msg );
+		$this->setRedirect('index.php?option=com_modules&client='.$client->id, $msg);
 	}
 
 	/**
@@ -294,31 +294,31 @@ class ModulesController extends JController
 	function saveOrder()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		// Initialize some variables
 
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (empty( $cid )) {
-			return JError::raiseWarning( 500, 'No items selected' );
+		if (empty($cid)) {
+			return JError::raiseWarning(500, 'No items selected');
 		}
 
-		$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
+		$order 		= JRequest::getVar('order', array(0), 'post', 'array');
 		JArrayHelper::toInteger($order);
 
 		$model = $this->getModel('module');
 		$model->saveorder($cid, $order);
 
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$msg = JText::_( 'New ordering saved' );
-		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id, $msg );
+		$msg = JText::_('New ordering saved');
+		$this->setRedirect('index.php?option=com_modules&client='.$client->id, $msg);
 	}
 
 	function preview()
 	{
-		JRequest::setVar( 'view', 'prevuuw');
+		JRequest::setVar('view', 'preview');
 
 		$document =& JFactory::getDocument();
 		$document->setTitle(JText::_('Module Preview'));

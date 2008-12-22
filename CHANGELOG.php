@@ -54,6 +54,8 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  - Drop administrator mod_stats
  ! Fix MVC issues in com_admin + code clean
  ! Partial refactor of com_banners backend
+ ^ Moved JHtmlList::accesslevel to new JHtmlAcl::assetGroups class and method
+ ! Added asset support to com_modules backend
 
 19-Dec-2008 Sam Moffatt
  + Added username blacklist option to GMail plugin to prevent users from authenticating with those usernames

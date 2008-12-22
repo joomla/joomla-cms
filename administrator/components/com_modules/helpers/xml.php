@@ -13,7 +13,7 @@
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * @package		Joomla
@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 class ModulesHelperXML
 {
-	function parseXMLModuleFile( &$rows  )
+	function parseXMLModuleFile(&$rows )
 	{
 		foreach ($rows as $i => $row)
 		{
@@ -33,9 +33,9 @@ class ModulesHelperXML
 			}
 			else
 			{
-				$data = JApplicationHelper::parseXMLInstallFile( $row->path.DS.$row->file);
+				$data = JApplicationHelper::parseXMLInstallFile($row->path.DS.$row->file);
 
-				if ( $data['type'] == 'module' )
+				if ($data['type'] == 'module')
 				{
 					$rows[$i]->name		= $data['name'];
 					$rows[$i]->descrip	= $data['description'];

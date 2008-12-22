@@ -13,9 +13,9 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Modules component
@@ -27,38 +27,41 @@ jimport( 'joomla.application.component.view');
  */
 class ModulesViewModule extends JView
 {
+	public $params;
+	public $positions;
+
 	function display($tpl = null)
 	{
 		// Initialize some variables
 		$db 	=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();
 
-		$module = JRequest::getVar( 'module', '', '', 'cmd' );
+		$module = JRequest::getVar('module', '', '', 'cmd');
 
-		$row		=& $this->get('data');
-		$client		=& $this->get('client');
-		$positions	=& $this->get('positions');
+		$row		= &$this->get('data');
+		$client		= &$this->get('client');
+		$positions	= &$this->get('positions');
 		$isNew		= ($row->id < 1);
 
-		JToolBarHelper::title( JText::_( 'Module' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'module.png' );
+		JToolBarHelper::title(JText::_('Module') . ': <small><small>[ '. JText::_('Edit') .' ]</small></small>', 'module.png');
 
-		if($row->module == 'mod_custom') {
+		if ($row->module == 'mod_custom') {
 			JToolBarHelper::Preview('index.php?option=com_modules&tmpl=component&client='.$client->id.'&pollid='.$row->id);
 		}
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
-		if ( !$isNew ) {
+		if (!$isNew) {
 			// for existing items the button is renamed `close`
-			JToolBarHelper::cancel( 'cancel', 'Close' );
+			JToolBarHelper::cancel('cancel', 'Close');
 		} else {
 			JToolBarHelper::cancel();
 		}
-		JToolBarHelper::help( 'screen.modules.edit' );
+		JToolBarHelper::help('screen.modules.edit');
 
 		$lists 	= array();
 
-		$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ), ENT_COMPAT, 'UTF-8' );
-		JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'content' );
+		$row->content = htmlspecialchars(str_replace('&amp;', '&', $row->content), ENT_COMPAT, 'UTF-8');
+		JFilterOutput::objectHTMLSafe($row, ENT_QUOTES, 'content');
 
 		// Edit or Create?
 		if ($isNew) {
@@ -88,8 +91,8 @@ class ModulesViewModule extends JView
 		. ' WHERE '. $where
 		. ' ORDER BY ordering'
 		;
-		$db->setQuery( $query );
-		if ( !($orders = $db->loadObjectList()) ) {
+		$db->setQuery($query);
+		if (!($orders = $db->loadObjectList())) {
 			echo $db->stderr();
 			return false;
 		}
@@ -98,23 +101,23 @@ class ModulesViewModule extends JView
 
 		$l = 0;
 		$r = 0;
-		for ($i=0, $n=count( $orders ); $i < $n; $i++) {
+		for ($i=0, $n=count($orders); $i < $n; $i++) {
 			$ord = 0;
-			if (array_key_exists( $orders[$i]->position, $orders2 )) {
-				$ord =count( array_keys( $orders2[$orders[$i]->position] ) ) + 1;
+			if (array_key_exists($orders[$i]->position, $orders2)) {
+				$ord =count(array_keys($orders2[$orders[$i]->position])) + 1;
 			}
 
-			$orders2[$orders[$i]->position][] = JHtml::_('select.option',  $ord, $ord.'::'.addslashes( $orders[$i]->title ) );
+			$orders2[$orders[$i]->position][] = JHtml::_('select.option',  $ord, $ord.'::'.addslashes($orders[$i]->title));
 		}
 
 		// get selected pages for $lists['selections']
-		if ( !$isNew ) {
+		if (!$isNew) {
 			$row->pages = 'select';
 			$query = 'SELECT menuid AS value'
 			. ' FROM #__modules_menu'
 			. ' WHERE moduleid = '.(int) $row->id
 			;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$lookup = $db->loadObjectList();
 			$row->pages = 'select';
 			if (empty($lookup)) {
@@ -141,15 +144,12 @@ class ModulesViewModule extends JView
 		}
 
 		if ($row->access == 99 || $row->client_id == 1 || $lists['client_id']) {
-			$lists['access'] = 'Administrator';
 			$lists['showtitle'] = 'N/A <input type="hidden" name="showtitle" value="1" />';
 			$lists['selections'] = 'N/A';
 		} else {
 			if ($client->id == '1') {
-				$lists['access'] = 'N/A';
 				$lists['selections'] = 'N/A';
 			} else {
-				$lists['access'] = JHtml::_('list.accesslevel', $row);
 
 				$selections = JHtml::_('menu.linkoptions');
 				$lists['selections'] = JHtml::_(
@@ -182,19 +182,19 @@ class ModulesViewModule extends JView
 		$row->description = '';
 
 		$lang =& JFactory::getLanguage();
-		if ( $client->id != '1' ) {
-			$lang->load( trim($row->module), JPATH_SITE );
-			$lang->load( 'joomla', JPATH_SITE.DS.'modules'.DS.trim($row->module));
+		if ($client->id != '1') {
+			$lang->load(trim($row->module), JPATH_SITE);
+			$lang->load('joomla', JPATH_SITE.DS.'modules'.DS.trim($row->module));
 		} else {
-			$lang->load( trim($row->module) );
-			$lang->load( 'joomla', JPATH_ADMINISTRATOR.DS.'modules'.DS.trim($row->module));
+			$lang->load(trim($row->module));
+			$lang->load('joomla', JPATH_ADMINISTRATOR.DS.'modules'.DS.trim($row->module));
 		}
 
 		// xml file for module
 		if ($row->module == 'mod_custom') {
-			$xmlfile = JApplicationHelper::getPath( $path, 'mod_custom' );
+			$xmlfile = JApplicationHelper::getPath($path, 'mod_custom');
 		} else {
-			$xmlfile = JApplicationHelper::getPath( $path, $row->module );
+			$xmlfile = JApplicationHelper::getPath($path, $row->module);
 		}
 
 		$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
@@ -206,11 +206,11 @@ class ModulesViewModule extends JView
 		}
 
 		// get params definitions
-		$params = new JParameter( $row->params, $xmlfile, 'module' );
+		$params = new JParameter($row->params, $xmlfile, 'module');
 
 		// Check for component metadata.xml file
-		//$path = JApplicationHelper::getPath( 'mod'.$client->id.'_xml', $row->module );
-		//$params = new JParameter( $row->params, $path );
+		//$path = JApplicationHelper::getPath('mod'.$client->id.'_xml', $row->module);
+		//$params = new JParameter($row->params, $path);
 		//$document =& JFactory::getDocument();
 
 		$this->assignRef('lists',		$lists);
@@ -218,6 +218,7 @@ class ModulesViewModule extends JView
 		$this->assignRef('orders2',		$orders2);
 		$this->assignRef('client',		$client);
 		$this->assignRef('params',		$params);
+		$this->assignRef('positions',	$positions);
 
 		parent::display($tpl);
 	}

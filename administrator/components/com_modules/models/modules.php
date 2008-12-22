@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
@@ -73,8 +73,8 @@ class ModulesModelModules extends JModel
 		global $mainframe, $option;
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
 
 		// In case limit has been changed, adjust limitstart accordingly
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -83,13 +83,13 @@ class ModulesModelModules extends JModel
 		$this->setState('limitstart', $limitstart);
 
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'm.position',	'cmd' );
-		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$filter->state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
-		$filter->position	= $mainframe->getUserStateFromRequest( $option.'filter_position',	'filter_position',	'',				'cmd' );
-		$filter->type		= $mainframe->getUserStateFromRequest( $option.'filter_type',		'filter_type',		'',				'cmd' );
-		$filter->assigned	= $mainframe->getUserStateFromRequest( $option.'filter_assigned',	'filter_assigned',	'',				'cmd' );
-		$filter->search		= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
+		$filter->order		= $mainframe->getUserStateFromRequest($option.'filter_order',		'filter_order',		'm.position',	'cmd');
+		$filter->order_Dir	= $mainframe->getUserStateFromRequest($option.'filter_order_Dir',	'filter_order_Dir',	'',				'word');
+		$filter->state		= $mainframe->getUserStateFromRequest($option.'filter_state',		'filter_state',		'',				'word');
+		$filter->position	= $mainframe->getUserStateFromRequest($option.'filter_position',	'filter_position',	'',				'cmd');
+		$filter->type		= $mainframe->getUserStateFromRequest($option.'filter_type',		'filter_type',		'',				'cmd');
+		$filter->assigned	= $mainframe->getUserStateFromRequest($option.'filter_assigned',	'filter_assigned',	'',				'cmd');
+		$filter->search		= $mainframe->getUserStateFromRequest($option.'search',			'search',			'',				'string');
 		$this->_filter = $filter;
 
 		$this->_client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', 0, '', 'int'));
@@ -143,7 +143,7 @@ class ModulesModelModules extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -178,7 +178,7 @@ class ModulesModelModules extends JModel
 		$orderby	= $this->_buildContentOrderBy();
 
 		$join = '';
-		if ( $this->_filter->assigned ) {
+		if ($this->_filter->assigned) {
 			$join = ' LEFT JOIN #__templates_menu AS t ON t.menuid = mm.menuid';
 		}
 
@@ -204,33 +204,33 @@ class ModulesModelModules extends JModel
 
 	function _buildContentWhere()
 	{
-		$search				= JString::strtolower( $this->_filter->search );
+		$search				= JString::strtolower($this->_filter->search);
 
 		$where = array();
 		$where[] = 'm.client_id = '.(int) $this->_client->id;
 
-		if ( $this->_filter->assigned ) {
+		if ($this->_filter->assigned) {
 			$joins[] = 'LEFT JOIN #__templates_menu AS t ON t.menuid = mm.menuid';
 			$where[] = 't.template = '.$this->_db->Quote($this->_filter->assigned);
 		}
-		if ( $this->_filter->position ) {
+		if ($this->_filter->position) {
 			$where[] = 'm.position = '.$this->_db->Quote($this->_filter->position);
 		}
-		if ( $this->_filter->type ) {
+		if ($this->_filter->type) {
 			$where[] = 'm.module = '.$this->_db->Quote($this->_filter->type);
 		}
 		if ($search) {
-			$where[] = 'LOWER(m.title) LIKE '.$this->_db->Quote( '%'.$this->_db->getEscaped( $search, true ).'%', false );
+			$where[] = 'LOWER(m.title) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false);
 		}
-		if ( $this->_filter->state ) {
-			if ( $this->_filter->state == 'P' ) {
+		if ($this->_filter->state) {
+			if ($this->_filter->state == 'P') {
 				$where[] = 'm.published = 1';
-			} else if ($this->_filter->state == 'U' ) {
+			} else if ($this->_filter->state == 'U') {
 				$where[] = 'm.published = 0';
 			}
 		}
 
-		$where 		= ( count( $where ) ? ' WHERE '. implode( ' AND ', $where ) : '' );
+		$where 		= (count($where) ? ' WHERE '. implode(' AND ', $where) : '');
 
 		return $where;
 	}

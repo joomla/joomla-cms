@@ -31,9 +31,9 @@ class JHtmlFilter
 		$query = 'SELECT DISTINCT(template) AS text, template AS value'.
 				' FROM #__templates_menu' .
 				' WHERE client_id = '.(int) $client->id;
-		$db->setQuery( $query );
-		$assigned[]		= JHtml::_('select.option',  '0', '- '. JText::_( 'Select Template' ) .' -' );
-		$assigned 		= array_merge( $assigned, $db->loadObjectList() );
+		$db->setQuery($query);
+		$assigned[]		= JHtml::_('select.option',  '0', '- '. JText::_('Select Template') .' -');
+		$assigned 		= array_merge($assigned, $db->loadObjectList());
 		return JHtml::_(
 			'select.genericlist',
 			$assigned,
@@ -56,9 +56,9 @@ class JHtmlFilter
 		. ' GROUP BY m.position'
 		. ' ORDER BY m.position'
 		;
-		$positions[] = JHtml::_('select.option',  '0', '- '. JText::_( 'Select Position' ) .' -' );
-		$db->setQuery( $query );
-		$positions = array_merge( $positions, $db->loadObjectList() );
+		$positions[] = JHtml::_('select.option',  '0', '- '. JText::_('Select Position') .' -');
+		$db->setQuery($query);
+		$positions = array_merge($positions, $db->loadObjectList());
 		return JHtml::_(
 			'select.genericlist',
 			$positions,
@@ -81,9 +81,9 @@ class JHtmlFilter
 		. ' GROUP BY module'
 		. ' ORDER BY module'
 		;
-		$db->setQuery( $query );
-		$types[] 		= JHtml::_('select.option',  '0', '- '. JText::_( 'Select Type' ) .' -' );
-		$types 			= array_merge( $types, $db->loadObjectList() );
+		$db->setQuery($query);
+		$types[] 		= JHtml::_('select.option',  '0', '- '. JText::_('Select Type') .' -');
+		$types 			= array_merge($types, $db->loadObjectList());
 		return JHtml::_(
 			'select.genericlist',
 			$types,

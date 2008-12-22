@@ -13,9 +13,9 @@
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.model');
 
 /**
  * @package		Joomla
@@ -55,10 +55,10 @@ class ModulesModelModule extends JModel
 	{
 		parent::__construct();
 
-		$id	= JRequest::getVar('id',null);
-		$array = JRequest::getVar('cid', array($id), '', 'array');
+		$id		= JRequest::getVar('id',null);
+		$array	= JRequest::getVar('cid', array($id), '', 'array');
 		$edit	= JRequest::getVar('edit',true);
-		if($edit)
+		if ($edit)
 			$this->setId((int)$array[0]);
 
 		$this->_client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
@@ -110,14 +110,14 @@ class ModulesModelModule extends JModel
 	{
 		if (!$this->_xml)
 		{
-			$clientId	= $this->getState( 'clientId', 0 );
+			$clientId	= $this->getState('clientId', 0);
 			$path		= ($clientId == 1) ? 'mod1_xml' : 'mod0_xml';
 			$module		= &$this->getData();
 
 			if ($module->module == 'custom') {
-				$xmlpath = JApplicationHelper::getPath( $path, 'mod_custom' );
+				$xmlpath = JApplicationHelper::getPath($path, 'mod_custom');
 			} else {
-				$xmlpath = JApplicationHelper::getPath( $path, $module->module );
+				$xmlpath = JApplicationHelper::getPath($path, $module->module);
 			}
 
 			if (file_exists($xmlpath))
@@ -142,7 +142,7 @@ class ModulesModelModule extends JModel
 			if ($ps = & $xml->document->params) {
 				foreach ($ps as $p)
 				{
-					$params->setXML( $p );
+					$params->setXML($p);
 				}
 			}
 		}
@@ -157,21 +157,21 @@ class ModulesModelModule extends JModel
 		$query = 'SELECT DISTINCT(template) AS text, template AS value'.
 				' FROM #__templates_menu' .
 				' WHERE client_id = '.(int) $this->_client->id;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		$templates = $this->_db->loadObjectList();
 
 		// Get a list of all module positions as set in the database
 		$query = 'SELECT DISTINCT(position)'.
 				' FROM #__modules' .
 				' WHERE client_id = '.(int) $this->_client->id;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		$positions = $this->_db->loadResultArray();
 		$positions = (is_array($positions)) ? $positions : array();
 
 		// Get a list of all template xml files for a given application
 
 		// Get the xml parser first
-		for ($i = 0, $n = count($templates); $i < $n; $i++ )
+		for ($i = 0, $n = count($templates); $i < $n; $i++)
 		{
 			$path = $this->_client->path.DS.'templates'.DS.$templates[$i]->value;
 
@@ -205,7 +205,7 @@ class ModulesModelModule extends JModel
 	 * @return	boolean	True if checked out
 	 * @since	1.6
 	 */
-	function isCheckedOut( $uid=0 )
+	function isCheckedOut($uid=0)
 	{
 		if ($this->_id)
 		{
@@ -230,7 +230,7 @@ class ModulesModelModule extends JModel
 		if ($this->_id)
 		{
 			$module =& JTable::getInstance('module');
-			if(! $module->checkin($this->_id)) {
+			if (! $module->checkin($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -257,7 +257,7 @@ class ModulesModelModule extends JModel
 			}
 			// Lets get to it and checkout the thing...
 			$module =& JTable::getInstance('module');
-			if(!$module->checkout($uid, $this->_id)) {
+			if (!$module->checkout($uid, $this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -292,8 +292,8 @@ class ModulesModelModule extends JModel
 
 		// if new item, order last in appropriate group
 		if (!$row->id) {
-			$where = 'position='.$this->_db->Quote( $row->position ).' AND client_id='.(int) $this->_client->id ;
-			$row->ordering = $row->getNextOrder( $where );
+			$where = 'position='.$this->_db->Quote($row->position).' AND client_id='.(int) $this->_client->id ;
+			$row->ordering = $row->getNextOrder($where);
 		}
 
 		// Store the web link table to the database
@@ -302,29 +302,29 @@ class ModulesModelModule extends JModel
 			return false;
 		}
 
-		$menus = JRequest::getVar( 'menus', '', 'post', 'word' );
-		$selections = JRequest::getVar( 'selections', array(), 'post', 'array' );
+		$menus = JRequest::getVar('menus', '', 'post', 'word');
+		$selections = JRequest::getVar('selections', array(), 'post', 'array');
 		JArrayHelper::toInteger($selections);
 
 		// delete old module to menu item associations
 		$query = 'DELETE FROM #__modules_menu'
 		. ' WHERE moduleid = '.(int) $row->id
 		;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		if (!$this->_db->query()) {
-			return JError::raiseWarning( 500, $row->getError() );
+			return JError::raiseWarning(500, $row->getError());
 		}
 
 		// check needed to stop a module being assigned to `All`
 		// and other menu items resulting in a module being displayed twice
-		if ( $menus == 'all' ) {
+		if ($menus == 'all') {
 			// assign new module to `all` menu item associations
 			$query = 'INSERT INTO #__modules_menu'
 			. ' SET moduleid = '.(int) $row->id.' , menuid = 0'
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
-				return JError::raiseWarning( 500, $row->getError() );
+				return JError::raiseWarning(500, $row->getError());
 			}
 		}
 		else
@@ -364,24 +364,24 @@ class ModulesModelModule extends JModel
 	{
 		$result = false;
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 			// remove mappings first (lest we leave orphans)
 			$query = 'DELETE FROM #__modules_menu'
-				. ' WHERE moduleid IN ( '.$cids.' )'
+				. ' WHERE moduleid IN ('.$cids.')'
 				;
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 			}
 			// remove module
 			$query = 'DELETE FROM #__modules'
-				. ' WHERE id IN ( '.$cids.' )'
+				. ' WHERE id IN ('.$cids.')'
 				;
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -401,17 +401,17 @@ class ModulesModelModule extends JModel
 	{
 		$user 	=& JFactory::getUser();
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__modules'
 				. ' SET published = '.(int) $publish
-				. ' WHERE id IN ( '.$cids.' )'
-				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
+				. ' WHERE id IN ('.$cids.')'
+				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))'
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -430,19 +430,19 @@ class ModulesModelModule extends JModel
 	 */
 	function setAccess($cid = array(), $access = 0)
 	{
-		if (count( $cid ))
+		if (count($cid))
 		{
 			$user 	=& JFactory::getUser();
 
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__modules'
 				. ' SET access = '.(int) $access
-				. ' WHERE id IN ( '.$cids.' )'
-				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
+				. ' WHERE id IN ('.$cids.')'
+				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))'
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -467,27 +467,27 @@ class ModulesModelModule extends JModel
 		foreach ($cid as $id)
 		{
 			// load the row from the db table
-			$row->load( (int) $id );
-			$row->title 		= JText::sprintf( 'Copy of', $row->title );
+			$row->load((int) $id);
+			$row->title 		= JText::sprintf('Copy of', $row->title);
 			$row->id 			= 0;
 			$row->iscore 		= 0;
 			$row->published 	= 0;
 
 			if (!$row->check()) {
-				return JError::raiseWarning( 500, $row->getError() );
+				return JError::raiseWarning(500, $row->getError());
 			}
 			if (!$row->store()) {
-				return JError::raiseWarning( 500, $row->getError() );
+				return JError::raiseWarning(500, $row->getError());
 			}
 			$row->checkin();
 
-			$row->reorder( 'position='.$this->_db->Quote( $row->position ).' AND client_id='.(int) $client->id );
+			$row->reorder('position='.$this->_db->Quote($row->position).' AND client_id='.(int) $client->id);
 
 			$query = 'SELECT menuid'
 			. ' FROM #__modules_menu'
 			. ' WHERE moduleid = '.(int) $cid[0]
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			$rows = $this->_db->loadResultArray();
 
 			foreach ($rows as $menuid) {
@@ -495,13 +495,13 @@ class ModulesModelModule extends JModel
 			}
 		}
 
-		if (!empty( $tuples ))
+		if (!empty($tuples))
 		{
 			// Module-Menu Mapping: Do it in one query
-			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES '.implode( ',', $tuples );
-			$this->_db->setQuery( $query );
+			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES '.implode(',', $tuples);
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
-				return JError::raiseWarning( 500, $row->getError() );
+				return JError::raiseWarning(500, $row->getError());
 			}
 		}
 
@@ -523,7 +523,7 @@ class ModulesModelModule extends JModel
 			return false;
 		}
 
-		if (!$row->move( $direction, 'position = '.$this->_db->Quote( $row->position ).' AND client_id='.(int) $client->id )) {
+		if (!$row->move($direction, 'position = '.$this->_db->Quote($row->position).' AND client_id='.(int) $client->id)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -540,7 +540,7 @@ class ModulesModelModule extends JModel
 	 */
 	function saveorder($cid, $order)
 	{
-		$total		= count( $cid );
+		$total		= count($cid);
 
 		$row 		=& JTable::getInstance('module');
 		$groupings = array();
@@ -548,7 +548,7 @@ class ModulesModelModule extends JModel
 		// update ordering values
 		for ($i = 0; $i < $total; $i++)
 		{
-			$row->load( (int) $cid[$i] );
+			$row->load((int) $cid[$i]);
 			// track postions
 			$groupings[] = $row->position;
 
@@ -556,13 +556,13 @@ class ModulesModelModule extends JModel
 			{
 				$row->ordering = $order[$i];
 				if (!$row->store()) {
-					return JError::raiseWarning( 500, $this->_db->getErrorMsg() );
+					return JError::raiseWarning(500, $this->_db->getErrorMsg());
 				}
 			}
 		}
 
 		// execute updateOrder for each parent group
-		$groupings = array_unique( $groupings );
+		$groupings = array_unique($groupings);
 		foreach ($groupings as $group){
 			$row->reorder('position = '.$this->_db->Quote($group).' AND client_id = '.(int) $client->id);
 		}
@@ -619,9 +619,9 @@ class ModulesModelModule extends JModel
 			$module->showtitle			= 0;
 			$module->params				= null;
 			$module->iscore				= 0;
-			$module->client_id			= 0;
+			$module->client_id			= $this->_client->id;
 			$module->control			= null;
-			$this->_data					= $module;
+			$this->_data				= $module;
 			return (boolean) $this->_data;
 		}
 		return true;

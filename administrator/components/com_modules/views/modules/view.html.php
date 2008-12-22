@@ -13,9 +13,9 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Modules component
@@ -36,27 +36,27 @@ class ModulesViewModules extends JView
 	function display($tpl = null)
 	{
 		// Set toolbar items for the page
-		JToolBarHelper::title( JText::_( 'Module Manager' ), 'module.png' );
+		JToolBarHelper::title(JText::_('Module Manager'), 'module.png');
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		JToolBarHelper::custom( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
+		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
-		JToolBarHelper::help( 'screen.modules' );
+		JToolBarHelper::help('screen.modules');
 
 		// Get data from the model
-		$rows		= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-		$filter		= & $this->get( 'Filter');
-		$client		= & $this->get( 'Client');
+		$rows		= & $this->get('Data');
+		$total		= & $this->get('Total');
+		$pagination = & $this->get('Pagination');
+		$filter		= & $this->get('Filter');
+		$client		= & $this->get('Client');
 
 		if ($client->id == 1) {
 			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_modules&client_id=0');
-			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_modules&client=1', true );
+			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_modules&client=1', true);
 		} else {
-			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_modules&client_id=0', true );
+			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_modules&client_id=0', true);
 			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_modules&client=1');
 		}
 

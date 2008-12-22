@@ -13,9 +13,9 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Modules component
@@ -33,10 +33,10 @@ class ModulesViewSelecttype extends JView
 		$modules	= array();
 		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-		JToolBarHelper::title( JText::_( 'Module' ) . ': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>', 'module.png' );
-		JToolBarHelper::customX( 'edit', 'forward.png', 'forward_f2.png', 'Next', true );
+		JToolBarHelper::title(JText::_('Module') . ': <small><small>[ '. JText::_('New') .' ]</small></small>', 'module.png');
+		JToolBarHelper::customX('edit', 'forward.png', 'forward_f2.png', 'Next', true);
 		JToolBarHelper::cancel();
-		JToolBarHelper::help( 'screen.modules.new' );
+		JToolBarHelper::help('screen.modules.new');
 
 		// path to search for modules
 		if ($client->id == '1') {
@@ -48,32 +48,32 @@ class ModulesViewSelecttype extends JView
 		}
 
 		jimport('joomla.filesystem.folder');
-		$dirs = JFolder::folders( $path );
+		$dirs = JFolder::folders($path);
 		$lang =& JFactory::getLanguage();
 
 		foreach ($dirs as $dir)
 		{
-			if (substr( $dir, 0, 4 ) == 'mod_')
+			if (substr($dir, 0, 4) == 'mod_')
 			{
-				$files 				= JFolder::files( $path.DS.$dir, '^([_A-Za-z0-9]*)\.xml$' );
+				$files 				= JFolder::files($path.DS.$dir, '^([_A-Za-z0-9]*)\.xml$');
 				$module				= new stdClass;
 				$module->file 		= $files[0];
-				$module->module 	= str_replace( '.xml', '', $files[0] );
+				$module->module 	= str_replace('.xml', '', $files[0]);
 				$module->path 		= $path.DS.$dir;
 				$modules[]			= $module;
 
 				// 1.5 Format; Core files or language packs
-				$lang->load( $module->module, $langbase );
+				$lang->load($module->module, $langbase);
 				// 1.6 3PD Extension Support
-				$lang->load( 'joomla', $langbase.DS.'modules'.DS.$module->module);
+				$lang->load('joomla', $langbase.DS.'modules'.DS.$module->module);
 			}
 		}
 
 		$this->loadHelper('xml');
-		ModulesHelperXML::parseXMLModuleFile( $modules, $client );
+		ModulesHelperXML::parseXMLModuleFile($modules, $client);
 
 		// sort array of objects alphabetically by name
-		JArrayHelper::sortObjects( $modules, 'name' );
+		JArrayHelper::sortObjects($modules, 'name');
 
 		$this->assignRef('modules',		$modules);
 		$this->assignRef('client',		$client);

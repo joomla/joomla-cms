@@ -15,6 +15,8 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
+require_once dirname(__FILE__).DS.'asset.php';
+
 /**
  * Module table
  *
@@ -22,14 +24,14 @@ defined('JPATH_BASE') or die();
  * @subpackage		Table
  * @since	1.0
  */
-class JTableModule extends JTable
+class JTableModule extends JTableAsset
 {
 	/** @var int Primary key */
-	protected $id					= null;
+	protected $id				= null;
 	/** @var string */
-	protected $title				= null;
+	protected $title			= null;
 	/** @var string */
-	protected $showtitle			= null;
+	protected $showtitle		= null;
 	/** @var int */
 	protected $content			= null;
 	/** @var int */
@@ -41,21 +43,21 @@ class JTableModule extends JTable
 	/** @var time */
 	protected $checked_out_time	= 0;
 	/** @var boolean */
-	protected $published			= null;
+	protected $published		= null;
 	/** @var string */
-	protected $module				= null;
+	protected $module			= null;
 	/** @var int */
 	protected $numnews			= null;
 	/** @var int */
-	protected $access				= null;
+	protected $access			= null;
 	/** @var string */
-	protected $params				= null;
+	protected $params			= null;
 	/** @var string */
-	protected $iscore				= null;
+	protected $iscore			= null;
 	/** @var string */
-	protected $client_id			= null;
+	protected $client_id		= null;
 	/** @var string */
-	protected $control				= null;
+	protected $control			= null;
 
 	/**
 	 * Contructore
@@ -63,8 +65,29 @@ class JTableModule extends JTable
 	 * @access protected
 	 * @param database A database connector object
 	 */
-	protected function __construct( &$db ) {
-		parent::__construct( '#__modules', 'id', $db );
+	protected function __construct(&$db)
+	{
+		parent::__construct('#__modules', 'id', $db);
+	}
+
+	/**
+	 * Method to return the title of the object to insert into the AXO table
+	 *
+	 * @return	string
+	 */
+	protected function getAssetSection()
+	{
+		return 'com_modules';
+	}
+
+	/**
+	 * Method to return the section of the object to insert into the AXO table
+	 *
+	 * @return	string
+	 */
+	protected function getAssetTitle()
+	{
+		return $this->title;
 	}
 
 	/**
@@ -77,8 +100,8 @@ class JTableModule extends JTable
 	public function check()
 	{
 		// check for valid name
-		if (trim( $this->title ) == '') {
-			$this->setError(JText::sprintf( 'must contain a title', JText::_( 'Module') ));
+		if (trim($this->title) == '') {
+			$this->setError(JText::sprintf('must contain a title', JText::_('Module')));
 			return false;
 		}
 
@@ -96,14 +119,14 @@ class JTableModule extends JTable
 	*/
 	public function bind($array, $ignore = '')
 	{
-		if (is_array( $array['params'] ))
+		if (is_array($array['params']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
-		if (isset( $array['control'] ) && is_array( $array['control'] ))
+		if (isset($array['control']) && is_array($array['control']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['control']);

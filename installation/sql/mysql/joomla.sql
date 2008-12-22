@@ -1183,6 +1183,7 @@ INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_installer', 0, 'Installe
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_massmail', 0, 'Massmail', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_media', 0, 'Media Manager', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_messages', 0, 'Messages', 0);
+INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_modules', 0, 'Modules', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_newsfeeds', 0, 'Newsfeeds', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_poll', 0, 'Polls', 0);
 INSERT INTO `jos_core_acl_axo_sections` VALUES (0, 'com_user', 0, 'User Frontend', 0);

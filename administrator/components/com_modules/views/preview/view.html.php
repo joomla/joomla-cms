@@ -13,9 +13,9 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Modules component
@@ -25,7 +25,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Modules
  * @since 1.6
  */
-class ModulesViewPrevuuw extends JView
+class ModulesViewPreview extends JView
 {
 	function display($tpl = null)
 	{

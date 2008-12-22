@@ -35,6 +35,14 @@ $db->setQuery(
 );
 JAclAdmin::synchronizeAssets($db->loadObjectList(), 'com_content');
 
+// Sync Modules
+
+$db = &JFactory::getDbo();
+$db->setQuery(
+	'SELECT id, title, 0 AS ordering FROM #__modules'
+);
+JAclAdmin::synchronizeAssets($db->loadObjectList(), 'com_modules');
+
 // Lets make some rules
 
 $result = JAclAdmin::registerRule(
