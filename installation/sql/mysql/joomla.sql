@@ -1198,31 +1198,34 @@ INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'checkin.manage', 0, 'Manage G
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'cache.manage', 0, 'Manage Global Cache', 0, 1, 'ACO Cache Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'config.manage', 0, 'Manage Global Configuration', 0, 1, 'ACO Config Manage Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'installer.manage', 0, 'Manage Installation', 0, 1, '');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'language.manage', 0, 'Manage Langauges', 0, 1, 'ACO Language Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'module.manage', 0, 'Manage Modules', 0, 1, 'ACO Module Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'plugin.manage', 0, 'Manage Plugins', 0, 1, 'ACO Plugin Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'template.manage', 0, 'Manage Templates', 0, 1, 'ACO Template Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'menu.manage', 0, 'Manage Menus', 0, 1, 'ACO Menu Manage Types Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'user.manage', 0, 'Manage Users', 0, 1, 'ACO User Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'languages.manage', 0, 'Manage Langauges', 0, 1, 'ACO Language Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'modules.manage', 0, 'Manage Modules', 0, 1, 'ACO Module Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'plugins.manage', 0, 'Manage Plugins', 0, 1, 'ACO Plugin Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'templates.manage', 0, 'Manage Templates', 0, 1, 'ACO Template Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'menus.manage', 0, 'Manage Menus', 0, 1, 'ACO Menu Manage Types Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'users.manage', 0, 'Manage Users', 0, 1, 'ACO User Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'messages.manage', 0, 'Manage Messages', 0, 1, '');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'massmail.manage', 0, 'Manage Mass Mail', 0, 1, '');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'media.manage', 0, 'Manage Media', 0, 1, '');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'content.manage', 0, 'Manage Article', 0, 1, 'ACO Content Manage Article Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'content.manage.frontpage', 0, 'Manage Frontpage', 0, 1, 'ACO Content Manage Frontpage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'categories.manage', 0, 'Manage', 0, 1, 'ACO Categories Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'sections.manage', 0, 'Manage', 0, 1, 'ACO Sections Manage Desc');
 
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_banners', 'manage', 0, 'Manage', 0, 1, 'ACO Banners Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_categories', 'manage', 0, 'Manage', 0, 1, 'ACO Categories Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_contact', 'manage', 0, 'Manage', 0, 1, 'ACO Contacts Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_content', 'articles.manage', 0, 'Manage Article', 0, 1, 'ACO Content Manage Article Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_content', 'frontpage.manage', 0, 'Manage Frontpage', 0, 1, 'ACO Content Manage Frontpage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_massmail', 'manage', 0, 'Manage', 0, 1, 'ACO Massmail Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_media', 'manage', 0, 'Manage', 0, 1, 'ACO Media Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_newsfeeds', 'manage', 0, 'Manage', 0, 1, 'ACO Newsfeeds Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_poll', 'manage', 0, 'Manage', 0, 1, 'ACO Poll Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_sections', 'manage', 0, 'Manage', 0, 1, 'ACO Sections Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_trash', 'manage', 0, 'Manage', 0, 1, 'ACO Trash Manage Desc');
+-- INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_trash', 'manage', 0, 'Manage', 0, 1, 'ACO Trash Manage Desc');
+
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_banners', 'banners.manage', 0, 'Manage Banners', 0, 1, 'ACO Banners Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_contact', 'contact.manage', 0, 'Manage Contacts', 0, 1, 'ACO Contacts Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_newsfeeds', 'newsfeeds.manage', 0, 'Manage Newsfeeds', 0, 1, 'ACO Newsfeeds Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_poll', 'poll.manage', 0, 'Manage Polls', 0, 1, 'ACO Poll Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_weblinks', 'weblinks.manage', 0, 'Manage Weblinks', 0, 1, 'ACO Weblinks Manage Desc');
+
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_user', 'profile.edit', 0, 'Edit Profile', 0, 1, 'ACO User Edit Profile Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_users', 'user.block', 0, 'Block User', 0, 1, 'ACO Users Block User Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_weblinks', 'manage', 0, 'Manage', 0, 1, 'ACO Weblinks Manage Desc');
 
 -- Type 2 Permissions
 
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'login', 0, 'Login', 0, 1, 'ACO System Login Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'login', 0, 'Login', 0, 2, 'ACO System Login Desc');
 
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_installer', 'extension.install', 0, 'Install', 0, 2, '');
 

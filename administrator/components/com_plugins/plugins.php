@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-if (!JAcl::authorise('core', 'plugin.manage')) {
+if (!JAcl::authorise('core', 'plugins.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 

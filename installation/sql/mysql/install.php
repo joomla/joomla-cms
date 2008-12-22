@@ -49,19 +49,43 @@ $result = JAclAdmin::registerRule(
 	// Applies to User Groups
 	array('Super Administrator'),
 	// The Actions attached to the rule
-	array('core' => array(
-		'acl.manage',
-		'cache.manage',
-		'checkin.manage',
-		'config.manage',
-		'installer.manage',
-		'language.manage',
-		'menu.manage',
-		'module.manage',
-		'plugin.manage',
-		'template.manage',
-		'user.manage',
-	)),
+	array(
+		'core' => array(
+			'acl.manage',
+			'cache.manage',
+			'checkin.manage',
+			'config.manage',
+			'installer.manage',
+			'languages.manage',
+			'menus.manage',
+			'modules.manage',
+			'plugins.manage',
+			'templates.manage',
+			'users.manage',
+			'categories.manage',
+			'sections.manage',
+			'content.manage',
+			'content.manage.frontpage',
+			'media.manage',
+			'messages.manage',
+			'massmail.manage',
+		),
+		'com_banners' => array(
+			'banners.manage',
+		),
+		'com_contact' => array(
+			'contact.manage',
+		),
+		'com_newsfeeds' => array(
+			'newsfeeds.manage',
+		),
+		'com_poll' => array(
+			'poll.manage',
+		),
+		'com_weblinks' => array(
+			'weblinks.manage',
+		),
+	),
 	// Applies to Assets (Type 2 only)
 	array(),
 	// Applies to Asset Groups (Type 3 only)
