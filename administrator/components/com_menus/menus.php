@@ -15,6 +15,10 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+if (!JAcl::authorise('core', 'menu.manage')) {
+	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
+}
+
 require_once JPATH_COMPONENT.DS.'controller.php';
 require_once JPATH_COMPONENT.DS.'helpers'.DS.'helper.php';
 

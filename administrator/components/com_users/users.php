@@ -10,10 +10,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Access Check
-$user = & JFactory::getUser();
-if (!$user->authorize('com_users', 'manage')) {
-	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+if (!JAcl::authorise('core', 'user.manage')) {
+	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 // Import library dependencies

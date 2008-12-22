@@ -39,7 +39,7 @@ class AccessModelACLs extends AccessModelPrototypeList
 			$orderCol	= $app->getUserStateFromRequest('acl.rules.ordercol', 'filter_order', 'a.id');
 			$orderDirn	= $app->getUserStateFromRequest('acl.rules.orderdirn', 'filter_order_Dir', 'asc');
 			$ruleType	= $app->getUserStateFromRequest('acl.rules.type', 'filter_type', '1');
-			$ruleSection = $app->getUserStateFromRequest('acl.rules.section', 'filter_section', '*');
+			$ruleSection = $app->getUserStateFromRequest('acl.rules.section', 'filter_section', 'core');
 
 			$this->setState('list.search',	$search);
 			$this->setState('list.limit',	$limit);

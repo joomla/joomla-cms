@@ -15,7 +15,6 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.database.query');
 
-
 JTable::addIncludePath(dirname(dirname(__FILE__)).DS.'database'.DS.'tables');
 
 /**
