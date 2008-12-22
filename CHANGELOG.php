@@ -52,6 +52,8 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ Changed JElementList to be able to be derived into other list based classes by adding protected _getOptions method.
  ^ Frontend com_content view rights now ACL controlled
  - Drop administrator mod_stats
+ ! Fix MVC issues in com_admin + code clean
+ ! Partial refactor of com_banners backend
 
 19-Dec-2008 Sam Moffatt
  + Added username blacklist option to GMail plugin to prevent users from authenticating with those usernames
