@@ -292,8 +292,8 @@ class MenuModuleHelper
 		if ($enabled)
 		{
 			$menu->addChild(new JMenuNode(JText::_('Help')), true);
-			$menu->addChild(new JMenuNode(JText::_('Joomla! Help'), 'index.php?option=com_admin&task=help', 'class:help'));
-			$menu->addChild(new JMenuNode(JText::_('System Info'), 'index.php?option=com_admin&task=sysinfo', 'class:info'));
+			$menu->addChild(new JMenuNode(JText::_('Joomla! Help'), 'index.php?option=com_admin&view=help', 'class:help'));
+			$menu->addChild(new JMenuNode(JText::_('System Info'), 'index.php?option=com_admin&view=sysinfo', 'class:info'));
 			$menu->getParent();
 		}
 		else {
