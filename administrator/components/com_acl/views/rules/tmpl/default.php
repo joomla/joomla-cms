@@ -7,8 +7,7 @@
 <style type="text/css">
 /* @TODO Mode to stylesheet */
 .scroll { overflow: auto; }
-div.left { float: left; }
-div.right { float: right; }
+
 </style>
 
 <form action="<?php echo JRoute::_('index.php?option=com_acl&view=rules');?>" method="post" name="adminForm">
