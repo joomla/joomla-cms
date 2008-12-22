@@ -26,35 +26,12 @@ defined('_JEXEC') or die('Restricted access');
 abstract class JHtmlList
 {
 	/**
-	* Build the select list for access level
-	*/
+	 * Use JHtml::_('acl.assetgroups', $selected) instead
+	 * @deprecated
+	 */
 	public static function accesslevel(&$row)
 	{
-		$db =& JFactory::getDBO();
-
-		$query = 'SELECT value, name AS text'
-		. ' FROM #__core_acl_axo_groups'
-		. ' WHERE value >= 0'
-		. ' ORDER BY value'
-		;
-		$db->setQuery($query);
-		try {
-			$groups = $db->loadObjectList();
-		} catch(JException $e) {
-			$groups = array();
-		}
-		$access = JHtml::_(
-			'select.genericlist',
-			$groups,
-			'access',
-			array(
-				'list.attr' => 'class="inputbox" size="3"',
-				'list.select' => intval($row->access),
-				'list.translate' => true
-			)
-		);
-
-		return $access;
+		return JHtml::_('acl.assetgroups', $row->access);
 	}
 
 	/**
