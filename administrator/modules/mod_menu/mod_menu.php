@@ -14,11 +14,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once dirname(__FILE__).DS.'helper.php';
+if (!class_exists('MenuModuleHelper')) {
+	require dirname(__FILE__).DS.'helper.php';
+}
 
-if (JRequest::getInt('hidemainmenu')) {
-	modMenuHelper::buildDisabledMenu();
-}
-else {
-	modMenuHelper::buildMenu();
-}
+MenuModuleHelper::buildMenu(JRequest::getInt('hidemainmenu') ? false : true);

@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.base.tree');
 
-class JAdminCSSMenu extends JTree
+class JAdminCssMenu extends JTree
 {
 	/**
 	 * CSS string to add to document head
