@@ -15,6 +15,7 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
+require_once dirname(__FILE__).DS.'asset.php';
 
 /**
  * Content table
@@ -23,7 +24,7 @@ defined('JPATH_BASE') or die();
  * @subpackage		Table
  * @since	1.0
  */
-class JTableContent extends JTable
+class JTableContent extends JTableAsset
 {
 	/** @var int Primary key */
 	protected $id					= null;
@@ -93,8 +94,29 @@ class JTableContent extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	protected function __construct( &$db ) {
+	protected function __construct( &$db )
+	{
 		parent::__construct( '#__content', 'id', $db );
+	}
+
+	/**
+	 * Abstract method to return the title of the object to insert into the AXO table
+	 *
+	 * @return	string
+	 */
+	protected function getAssetSection()
+	{
+		return 'com_content';
+	}
+
+	/**
+	 * Abstract method to return the section of the object to insert into the AXO table
+	 *
+	 * @return	string
+	 */
+	protected function getAssetTitle()
+	{
+		return $this->title;
 	}
 
 	/**
@@ -115,18 +137,17 @@ class JTableContent extends JTable
 		$this->fulltext =  trim( $filter->clean( $this->fulltext ) );
 		*/
 
-
-		if(empty($this->title)) {
+		if (empty($this->title)) {
 			$this->setError(JText::_('Article must have a title'));
 			return false;
 		}
 
-		if(empty($this->alias)) {
+		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 
-		if(trim(str_replace('-','',$this->alias)) == '') {
+		if (trim(str_replace('-','',$this->alias)) == '') {
 			$datenow =& JFactory::getDate();
 			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
@@ -135,7 +156,7 @@ class JTableContent extends JTable
 			$this->fulltext = '';
 		}
 
-		if(empty($this->introtext) && empty($this->fulltext)) {
+		if (empty($this->introtext) && empty($this->fulltext)) {
 			$this->setError(JText::_('Article must have some text'));
 			return false;
 		}
@@ -158,14 +179,14 @@ class JTableContent extends JTable
 				;
 				$db->setQuery( $query );
 				$this->sectionid = $db->loadResult();
-	
+
 				$query = 'SELECT name'
 				. ' FROM #__categories'
 				. ' WHERE id = '. (int) $this->catid
 				;
 				$db->setQuery( $query );
 				$this->catid = $db->loadResult();
-	
+
 				$query = 'SELECT name'
 				. ' FROM #__users'
 				. ' WHERE id = ' . (int) $this->created_by
@@ -173,7 +194,8 @@ class JTableContent extends JTable
 				$db->setQuery( $query );
 				$this->created_by = $db->loadResult();
 			}
-		} catch(JException $e) {
+		}
+		catch(JException $e) {
 			$this->setError($e->getMessage());
 			return false;
 		}

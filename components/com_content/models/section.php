@@ -298,8 +298,7 @@ class ContentModelSection extends JModel
 			// Handle the access permissions
 			$access_check = null;
 			if ($noauth) {
-				$access_check = ' AND a.access <= '.(int) $gid;
-				//$access_check .= ' AND b.access <= '.(int) $gid;
+				$where .= ' AND a.access IN ('.JAcl::getAllowedAssetGroups('core', 'global.view').')';
 			}
 
 			// Query of categories within section
@@ -391,7 +390,7 @@ class ContentModelSection extends JModel
 				' AND ( b.publish_down = '.$this->_db->Quote($nullDate).' OR b.publish_down >= '.$this->_db->Quote($now).' )';
 				' WHERE a.published = 1' .
 				$and .
-				' AND a.access <= '.(int) $aid .
+				' AND a.access IN ('.JAcl::getAllowedAssetGroups('core', 'global.view').')'.
 				' ORDER BY a.catid, a.ordering, b.ordering';
 			$this->_db->setQuery($query);
 			$this->_tree = $this->_db->loadObjectList();
@@ -420,7 +419,7 @@ class ContentModelSection extends JModel
 					' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, cc.title AS category, g.name AS groups'.$voting['select'];
 		} else {
 			$query = 'SELECT count(*) ';
-		} 
+		}
 		$query .=
 				' FROM #__content AS a' .
 				' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
@@ -488,7 +487,7 @@ class ContentModelSection extends JModel
 
 		// First thing we need to do is assert that the articles are in the current category
 		if ($noauth) {
-			$where = ' WHERE a.access <= '.(int) $aid;
+			$where = ' WHERE a.access IN ('.JAcl::getAllowedAssetGroups('core', 'global.view').')';
 		} else {
 			$where = ' WHERE 1';
 		}

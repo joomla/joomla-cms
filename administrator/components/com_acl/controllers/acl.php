@@ -16,7 +16,7 @@ jimport('joomla.application.component.controller');
  * @package		Joomla.Administrator
  * @subpackage	com_acl
  */
-class AccessControllerACL extends JController
+class AccessControllerAcl extends JController
 {
 	/**
 	 * Constructor

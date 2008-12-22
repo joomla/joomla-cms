@@ -168,9 +168,11 @@ class ContentModelArchive extends JModel
 		$aid	= (int) $user->get('aid', 0);
 
 		// First thing we need to do is build the access section of the clause
-		$where = ' WHERE a.access <= '.$aid;
-		$where .= ' AND s.access <= '.$aid;
-		$where .= ' AND cc.access <= '.$aid;
+		$groups = JAcl::getAllowedAssetGroups('core', 'global.view');
+
+		$where = ' WHERE a.access IN ('.$groups.')';
+		$where .= ' AND s.access IN ('.$groups.')';
+		$where .= ' AND cc.access IN ('.$groups.')';
 		$where .= ' AND s.published = 1';
 		$where .= ' AND cc.published = 1';
 

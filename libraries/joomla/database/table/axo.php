@@ -16,7 +16,7 @@ require_once dirname(__FILE__).DS.'_aclobject.php';
  * @subpackage	Table
  * @since		1.0
  */
-class JTableAxo extends JTableAclObject
+class JTableAxo extends JTable_AclObject
 {
 	/**
 	 * @var	string The object type

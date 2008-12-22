@@ -327,7 +327,7 @@ abstract class JTable_AclObject extends JTable
 	 * @return	boolean
 	 * @access	protected
 	 */
-	function _deleteReferences()
+	protected function _deleteReferences()
 	{
 		if (empty($this->id) || empty($this->section_value) || empty($this->value)) {
 			$this->setError(JText::_('Error Acl Object Table Invalid properties to find references'));

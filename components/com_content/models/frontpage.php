@@ -129,7 +129,7 @@ class ContentModelFrontpage extends JModel
 		} else {
 			$query = 'SELECT count(*)';
 		}
-		$query .= 
+		$query .=
 			' FROM #__content AS a' .
 			' INNER JOIN #__content_frontpage AS f ON f.content_id = a.id' .
 			' LEFT JOIN #__categories AS cc ON cc.id = a.catid'.
@@ -184,7 +184,9 @@ class ContentModelFrontpage extends JModel
 
 		// Does the user have access to view the items?
 		if ($noauth) {
-			$where .= ' AND a.access <= '.(int) $gid;
+			// $where .= ' AND a.access <= '.(int) $gid;
+			// Now how cool is the simplicity of this!
+			$where .= ' AND a.access IN ('.JAcl::getAllowedAssetGroups('core', 'global.view').')';
 		}
 
 		if ($user->authorize('com_content', 'edit', 'content', 'all')) {

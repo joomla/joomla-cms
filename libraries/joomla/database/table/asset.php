@@ -20,27 +20,21 @@ abstract class JTableAsset extends JTable
 	 *
 	 * @var		int
 	 */
-	public $access = 0;
+	protected $access = 0;
 
 	/**
 	 * Abstract method to return the title of the object to insert into the AXO table
 	 *
 	 * @return	string
 	 */
-	protected abstract function getAssetSection()
-	{
-		die('Must provide an implementation of getAssetSection');
-	}
+	protected abstract function getAssetSection();
 
 	/**
 	 * Abstract method to return the section of the object to insert into the AXO table
 	 *
 	 * @return	string
 	 */
-	protected abstract function getAssetTitle()
-	{
-		die('Must provide an implementation of getAssetTitle');
-	}
+	protected abstract function getAssetTitle();
 
 	/**
 	 * Stores the record, adds/updates the AXO Table and maps it to the appropriate AXO Group

@@ -48,6 +48,9 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  + Add ability to fire a PHP file to the Joomla installation process (to add ACL Rules)
  + Add basic ruleset for Super Admin
  + Add ACL control to various backend components
+ + New parameter element to list Asset (AXO) groups
+ ^ Changed JElementList to be able to be derived into other list based classes by adding protected _getOptions method.
+ ^ Frontend com_content view rights now ACL controlled
 
 19-Dec-2008 Sam Moffatt
  + Added username blacklist option to GMail plugin to prevent users from authenticating with those usernames

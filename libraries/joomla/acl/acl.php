@@ -306,13 +306,14 @@ class JAcl
 
 		jimport('joomla.database.query');
 		$query	= new JQuery;
-		$query->select('GROUP_CONCAT(DISTINCT axom.value SEPARATOR \',\')');
+		$query->select('GROUP_CONCAT(DISTINCT axog.value SEPARATOR \',\')');
 		$query->from('jos_core_acl_aco_map AS am');
-		$query->join('INNER',	'jos_core_acl_acl AS acl ON acl.id = am.acl_id');
-		$query->join('INNER',	'jos_core_acl_aro_groups_map AS agm ON agm.acl_id = am.acl_id');
-		$query->join('LEFT',	'jos_core_acl_axo_map AS axom ON axom.acl_id = am.acl_id');
-		$query->join('INNER',	'jos_core_acl_groups_aro_map AS garom ON garom.group_id = agm.group_id');
-		$query->join('INNER',	'jos_core_acl_aro AS aro ON aro.id = garom.aro_id');
+		$query->join('INNER',	'#__core_acl_acl AS acl ON acl.id = am.acl_id');
+		$query->join('INNER',	'#__core_acl_aro_groups_map AS agm ON agm.acl_id = am.acl_id');
+		$query->join('LEFT',	'#__core_acl_axo_groups_map AS axogm ON axogm.acl_id = am.acl_id');
+		$query->join('INNER',	'#__core_acl_axo_groups AS axog ON axog.id = axogm.group_id');
+		$query->join('INNER',	'#__core_acl_groups_aro_map AS garom ON garom.group_id = agm.group_id');
+		$query->join('INNER',	'#__core_acl_aro AS aro ON aro.id = garom.aro_id');
 		$query->where('am.section_value = '.$db->Quote($actionSection));
 
 		if (is_array($action))
@@ -327,6 +328,7 @@ class JAcl
 		$query->where('acl.allow = 1');
 		$query->where('aro.value = '.(int) $userId);
 		$db->setQuery($query->toString());
+
 		if ($ids = $db->loadResult()) {
 			return $ids;
 		}

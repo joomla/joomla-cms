@@ -26,6 +26,15 @@ $config->setValue('config.dbprefix', JArrayHelper::getValue($vars, 'DBPrefix', '
 
 jimport('joomla.acl.acladmin');
 
+
+// Sync Articles
+
+$db = &JFactory::getDbo();
+$db->setQuery(
+	'SELECT id, title, ordering FROM #__content'
+);
+JAclAdmin::synchronizeAssets($db->loadObjectList(), 'com_content');
+
 // Lets make some rules
 
 $result = JAclAdmin::registerRule(
@@ -154,3 +163,5 @@ $result = JAclAdmin::registerRule(
 		1,
 	)
 );
+
+
