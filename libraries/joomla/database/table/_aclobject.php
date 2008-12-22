@@ -149,7 +149,7 @@ abstract class JTable_AclObject extends JTable
 		);
 		$id = $this->_db->loadResult();
 		if (empty($id)) {
-			$this->setError(JText::_('Error Acl Object Table '.strtoupper($this->_type).' section not found'));
+			$this->setError(JText::_('Error Acl Object Table %s section %s not found', strtoupper($this->_type), $this->section_value));
 			return false;
 		}
 
@@ -161,7 +161,7 @@ abstract class JTable_AclObject extends JTable
 		);
 		$id = $this->_db->loadResult();
 		if (!empty($id) && $id != $this->id) {
-			$this->setError(JText::sprintf('Error Acl Object Table '.strtoupper($this->_type).' value %s already used', $this->value));
+			$this->setError(JText::sprintf('Error Acl Object Table %s value %s:%s already used', strtoupper($this->_type), $this->section_value, $this->value));
 			return false;
 		}
 
