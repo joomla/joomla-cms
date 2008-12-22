@@ -15,47 +15,41 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
+require_once dirname(dirname(__FILE__)).DS.'list.php';
+
 /**
- * Renders a list element
+ * Renders a select list of Asset Groups
  *
  * @package 	Joomla.Framework
- * @subpackage		Parameter
- * @since		1.5
+ * @subpackage	Parameter
+ * @since		1.6
  */
-
-class JElementList extends JElement
+class JElementList_AssetGroups extends JElementList
 {
 	/**
-	* Element type
+	* Element name
 	*
 	* @access	protected
 	* @var		string
 	*/
-	protected $_name = 'List';
+	protected $_name = 'List_AssetGroups';
 
 	/**
 	 * Get the options for the element
 	 *
 	 * @param	object $node
 	 * @return	array
-	 * @since	1.6
 	 */
 	protected function _getOptions(&$node)
 	{
-		$options = array ();
-		foreach ($node->children() as $option)
-		{
-			$val	= $option->attributes('value');
-			$text	= $option->data();
-			$options[] = JHtml::_('select.option', $val, JText::_($text));
-		}
+		$db = &JFactory::getDBO();
+		$db->setQuery(
+			'SELECT value, name AS text'
+			.' FROM #__core_acl_axo_groups'
+			.' WHERE parent_id > 0'
+			.' ORDER BY name'
+		);
+		$options = $db->loadObjectList();
 		return $options;
-	}
-
-	public function fetchElement($name, $value, &$node, $control_name)
-	{
-		$attribs = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="inputbox"');
-
-		return JHtml::_('select.genericlist',  $this->_getOptions($node), ''.$control_name.'['.$name.']', $attribs, 'value', 'text', $value, $control_name.$name);
 	}
 }
