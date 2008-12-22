@@ -111,7 +111,7 @@ class JHtmlACL
 	public static function sections($name, $selected, $attribs = '', $ruleType = 1)
 	{
 		$options = array(
-			//JHtml::_('select.option', '*', JText::_('JX Show All Acl Sections'))
+			JHtml::_('select.option', '*', JText::_('All Sections'))
 		);
 		$db = &JFactory::getDbo();
 		$db->setQuery(
@@ -119,16 +119,18 @@ class JHtmlACL
 			.' FROM #__core_acl_acl_sections AS s'
 			.' LEFT JOIN #__core_acl_acl AS acl ON acl.section_value = s.value AND acl.acl_type = '.(int) $ruleType
 			.' WHERE s.hidden = 0'
-			//.' AND s.value IN ('
-			//.'  SELECT DISTINCT aco.section_value FROM #__core_acl_aco AS aco WHERE aco.acl_type = '.(int) $ruleType
-			//.' )'
+			.' AND s.value IN ('
+			.'  SELECT DISTINCT aco.section_value FROM #__core_acl_aco AS aco WHERE aco.acl_type = '.(int) $ruleType
+			.' )'
 			.' GROUP BY s.id'
 			.' ORDER BY s.order_value, s.name'
 		);
 		$options = array_merge($options, $db->loadObjectList());
 		foreach ($options as $i => $option) {
 			// @todo Put into language string
-			$options[$i]->text = sprintf('%s (%d)', $option->text, $option->rule_count);
+			if ($option->value != '*') {
+				$options[$i]->text = sprintf('%s (%d)', $option->text, $option->rule_count);
+			}
 		}
 		return JHTML::_('select.genericlist', $options, $name, $attribs, 'value', 'text', $selected);
 	}

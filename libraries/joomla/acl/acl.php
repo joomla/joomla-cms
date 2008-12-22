@@ -13,7 +13,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('jxtended.database.query');
+jimport('joomla.database.query');
 
 
 JTable::addIncludePath(dirname(dirname(__FILE__)).DS.'database'.DS.'tables');
@@ -22,8 +22,37 @@ JTable::addIncludePath(dirname(dirname(__FILE__)).DS.'database'.DS.'tables');
  * @package		Joomla.Framework
  * @subpackage	Acl
  */
-class JAclHelper
+class JAcl
 {
+	/**
+	 * Authorises either the current or supplied user to perform an action
+	 *
+	 * @param	string $actionSection	The section of the action of test
+	 * @param	string $action			The action value to test
+	 * @param	string $assetSection	An optional asset section to test
+	 * @param	int $asset				An optional asset id to test (both asset section and id must be used together)
+	 * @param	int $userId				An optional user id to test against, otherwise the current user is used.
+	 *
+	 * @return	boolean
+	 */
+	function authorise($actionSection, $action, $assetSection = null, $asset = null, $userId = null)
+	{
+		// Get the current user if not supplied
+		if ($userId === null) {
+			$userId = JFactory::getUser()->get('id');
+		}
+
+		// Check for the root user
+		$config = new JConfig;
+		if ($userId == $config->root_user) {
+			return true;
+		}
+
+		$result = self::check($actionSection, $action, 'users', $userId, $assetSection, $asset);
+
+		return $result['allow'];
+	}
+
 	/**
 	 * The Main function that does the actual ACL lookup.
 	 *
@@ -70,7 +99,7 @@ class JAclHelper
 			$query->join('LEFT', '#__core_acl_axo_map ax ON ax.acl_id=a.id');
 
 			// Get all groups mapped to this ARO/AXO
-			$aroGroupIds = JAclHelper::acl_get_groups($aroSectionValue, $aroValue, $rootAroGroup, 'ARO');
+			$aroGroupIds = JAcl::acl_get_groups($aroSectionValue, $aroValue, $rootAroGroup, 'ARO');
 
 			if (is_array($aroGroupIds) AND !empty($aroGroupIds))
 			{
@@ -81,7 +110,7 @@ class JAclHelper
 
 			if ($axoSectionValue !== '' AND $axoValue !== '')
 			{
-				$axo_group_ids = JAclHelper::acl_get_groups($axoSectionValue, $axoValue, $rootAxoGroup, 'AXO');
+				$axo_group_ids = JAcl::acl_get_groups($axoSectionValue, $axoValue, $rootAxoGroup, 'AXO');
 
 				if (is_array($axo_group_ids) AND !empty($axo_group_ids))
 				{
@@ -240,7 +269,7 @@ class JAclHelper
 	 * to one or more asset groups.  An primary object will typically be given a single asset level
 	 * in an `access` field.  The usage could be something like:
 	 *
-	 * $assetGroups = JAclHelper::getAllowedAssetGroups('com_content', 'view');
+	 * $assetGroups = JAcl::getAllowedAssetGroups('com_content', 'view');
 	 *
 	 * $query = new JQuery;
 	 * $query->select('a.*');

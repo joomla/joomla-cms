@@ -39,7 +39,7 @@ class AccessModelACLs extends AccessModelPrototypeList
 			$orderCol	= $app->getUserStateFromRequest('acl.rules.ordercol', 'filter_order', 'a.id');
 			$orderDirn	= $app->getUserStateFromRequest('acl.rules.orderdirn', 'filter_order_Dir', 'asc');
 			$ruleType	= $app->getUserStateFromRequest('acl.rules.type', 'filter_type', '1');
-			$ruleSection = $app->getUserStateFromRequest('acl.rules.section', 'filter_section', 'core');
+			$ruleSection = $app->getUserStateFromRequest('acl.rules.section', 'filter_section', '*');
 
 			$this->setState('list.search',	$search);
 			$this->setState('list.limit',	$limit);
@@ -50,7 +50,9 @@ class AccessModelACLs extends AccessModelPrototypeList
 			$this->setState('orderCol',				$orderCol);
 			$this->setState('orderDirn',			$orderDirn);
 			$this->setState('list.acl_type', 		$ruleType);
-			$this->setState('list.section_value',	$ruleSection);
+			if ($ruleSection != '*') {
+				$this->setState('list.section_value',	$ruleSection);
+			}
 
 			$this->__state_set = true;
 		}
@@ -84,7 +86,7 @@ class AccessModelACLs extends AccessModelPrototypeList
 				$rule->reset();
 				$rule->load($this->_list_items[$i]->id);
 
-				if ($references = &$rule->findReferences(true)) {
+				if ($references = &$rule->findReferences(true, true)) {
 					$this->_list_items[$i]->references = $references;
 				}
 				else {

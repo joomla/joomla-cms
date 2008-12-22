@@ -50,7 +50,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 	{
 		if (empty($this->__state_set))
 		{
-			$this->setState('acl_type',	JRequest::getInt('type', 1));
+			$this->setState('acl_type',			JRequest::getInt('type', 1));
 			$this->setState('section_value',	JRequest::getVar('section', 'core'));
 			$this->__state_set = true;
 		}
@@ -71,7 +71,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 
 			$table = $this->getTable();
 			if ($table->load($id)) {
-				// @todo Cannot tell if JTable::load throw an error on a null return
+				// @todo Cannot tell if JTable::load throws an error on a null return
 				//$this->setError($table->getError());
 			}
 			$this->_item = JArrayHelper::toObject($table->getProperties(1), 'JStdClass');
@@ -99,7 +99,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 
 	function getSections()
 	{
-		$model = JModel::getInstance('Section', 'AccessModel');
+		$model = JModel::getInstance('Section', 'AccessModel', array('ignore_request' => true));
 		$model->setState('list.select',			'a.value, a.name AS text');
 		$model->setState('list.section_type',	'acl');
 		$model->setState('list.order',			'a.order_value,a.name');
@@ -109,22 +109,23 @@ class AccessModelACL extends AccessModelPrototypeItem
 	function getACOs()
 	{
 		//Model::addIncludePath(JPATH_COMPONENT.DS.'models');
-		$model = JModel::getInstance('objects', 'AccessModel');
-		$model->setState('list.section_value',	$this->getState('section_value'));
+		$aclType = $this->getState('acl_type', 1);
+
+		$model = JModel::getInstance('objects', 'AccessModel', array('ignore_request' => true));
 		$model->setState('list.object_type',	'aco');
+		$model->setState('list.acl_type',		$aclType);
 		$model->setState('list.hidden',			'0');
 		$model->setState('list.order',			's.order_value,a.section_value,a.order_value,a.name');
-		if ($aclType = $this->getState('acl_type')) {
-			if ($aclType > 1) {
-				$model->setState('list.where', 'a.acl_type = '.(int) $aclType);
-			}
+		if ($aclType > 1) {
+			$model->setState('list.section_value',	$this->getState('section_value'));
+			$model->setState('list.where',			'a.acl_type = '.(int) $aclType);
 		}
 		return $model->getList();
 	}
 
 	function getAROGroups()
 	{
-		$model = JModel::getInstance('Groups', 'AccessModel');
+		$model = JModel::getInstance('Groups', 'AccessModel', array('ignore_request' => true));
 		$model->setState('list.group_type',	'aro');
 		$model->setState('list.tree',		'1');
 		$model->setState('list.parent_id',	ACCESS_USERS_ARO_ID);
@@ -134,7 +135,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 
 	function getAXOs()
 	{
-		$model = JModel::getInstance('Objects', 'AccessModel');
+		$model = JModel::getInstance('Objects', 'AccessModel', array('ignore_request' => true));
 		$model->setState('list.section_value',	$this->getState('section_value'));
 		$model->setState('list.object_type',	'axo');
 		$model->setState('list.hidden',			'0');
@@ -144,7 +145,7 @@ class AccessModelACL extends AccessModelPrototypeItem
 
 	function getAXOGroups()
 	{
-		$model = JModel::getInstance('Groups', 'AccessModel');
+		$model = JModel::getInstance('Groups', 'AccessModel', array('ignore_request' => true));
 		$model->setState('list.group_type',	'axo');
 		$model->setState('list.tree',		'1');
 		$model->setState('list.order',		'a.lft');

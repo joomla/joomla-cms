@@ -42,6 +42,7 @@ class AccessModelObjects extends AccessModelPrototypeList
 			$query		= new JQuery;
 			$section	= $this->getState('list.section_value');
 			$type		= strtolower($this->getState('list.object_type'));
+			$aclType	= $this->getState('list.acl_type');
 			$groupId	= $this->getState('list.group_id');
 			$select		= $this->getState('list.select', 'a.*');
 			$search		= $this->getState('list.search');
@@ -118,6 +119,10 @@ class AccessModelObjects extends AccessModelPrototypeList
 				}
 			}
 
+			if ($aclType && $type == 'aco') {
+				$query->where('a.acl_type = '.(int) $aclType);
+			}
+
 			// An abritrary where clause
 			if ($where) {
 				$query->where($where);
@@ -127,7 +132,7 @@ class AccessModelObjects extends AccessModelPrototypeList
 				$query->order($this->_db->getEscaped($orderBy));
 			}
 
-			//echo nl2br($query->toString());
+			//echo nl2br($query->toString()).'<hr />';
 			$this->_list_query = (string) $query;
 		}
 

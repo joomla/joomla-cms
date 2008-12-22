@@ -10,6 +10,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+if (!JAcl::authorise('core', 'acl.manage')) {
+	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
+}
+
 require_once JPATH_COMPONENT.DS.'controller.php';
 
 // Import library dependencies

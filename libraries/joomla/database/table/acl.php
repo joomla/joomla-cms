@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package		Joomla.Framework
  * @subpackage	Table
  */
-class JTableACL extends JTable
+class JTableAcl extends JTable
 {
 	/**
 	 * @var int unsigned
@@ -182,12 +182,13 @@ class JTableACL extends JTable
 	 *
 	 * This method can only operate on a previously loaded object.
 	 *
-	 * @param	boolean $named	Return return values as names, otherwise values are returned
+	 * @param	boolean $named		Return return values as names, otherwise values are returned
+	 * @param	boolean $refresh	True if the references are to be refresh (eg, when used in a loop)
 	 *
 	 * @return	JAclReferences
 	 * @access	public
 	 */
-	function &findReferences($named = false)
+	function &findReferences($named = false, $refresh = false)
 	{
 		$false = false;
 
@@ -196,7 +197,7 @@ class JTableACL extends JTable
 			return $false;
 		}
 
-		if (empty($this->_references))
+		if (empty($this->_references) || $refresh)
 		{
 			require_once JPATH_LIBRARIES.DS.'joomla'.DS.'acl'.DS.'aclreferences.php';
 
