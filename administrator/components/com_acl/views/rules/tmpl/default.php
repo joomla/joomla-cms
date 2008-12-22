@@ -88,23 +88,27 @@
 						<?php echo $item->note; ?></a>
 				</td>
 				<td align="left" valign="top">
-					<div class="scroll" style="height: 75px;">
+					<div class="scroll" style="height: 100px;">
 						<?php echo JHtml::_('acl.userslist', $item->references); ?>
 						<?php echo JHtml::_('acl.usergroupslist', $item->references); ?>
 					</div>
 				</td>
 				<td align="left" valign="top">
-					<?php echo JHtml::_('acl.actionslist', $item->references); ?>
+					<div class="scroll" style="height: 100px;">
+						<?php echo JHtml::_('acl.actionslist', $item->references); ?>
+					</div>
 				</td>
 
 				<?php if ($aclType > 1) : ?>
 				<td align="left" valign="top">
-					<?php
-					if ($aclType == 2) :
-						echo JHtml::_('acl.assetslist', $item->references);
-					else :
-						echo JHtml::_('acl.assetgroupslist', $item->references);
-					endif; ?>
+					<div class="scroll" style="height: 100px;">
+						<?php
+						if ($aclType == 2) :
+							echo JHtml::_('acl.assetslist', $item->references);
+						else :
+							echo JHtml::_('acl.assetgroupslist', $item->references);
+						endif; ?>
+					</div>
 				</td>
 				<?php endif; ?>
 				<td align="center">

@@ -30,6 +30,7 @@ class AccessControllerTest extends JController
 				require $file;
 			}
 			catch (JException $e) {
+				JError::raiseWarning(500, $e->getMessage());
 				$info = $e->get('info');
 				print_r($info);
 			}
