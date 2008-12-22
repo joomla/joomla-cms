@@ -27,43 +27,6 @@ jimport('joomla.application.component.controller');
 class AdminController extends JController
 {
 	/**
-	 * Constructor
-	 *
-	 * @param	array	Configuration array
-	 */
-	function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		// Register Extra tasks
-		$this->registerTask('sysinfo',		'display');
-		$this->registerTask('help',		'display');
-		$this->registerTask('changelog',	'display');
-	}
-
-	/**
-	 * Display the view
-	 */
-	function display()
-	{
-		// Intercept URL's using the old task format
-		$task	= $this->getTask();
-
-		switch ($task)
-		{
-			case 'sysinfo':
-			case 'help':
-			case 'changelog':
-				JRequest::setVar('view', $task);
-				break;
-		}
-
-		if (JRequest::getVar('view')) {
-			parent::display();
-		}
-	}
-
-	/**
 	 * TODO: Description?
 	 */
 	function keepalive()
