@@ -31,17 +31,17 @@ jimport('joomla.acl.acladmin');
 
 $db = &JFactory::getDbo();
 $db->setQuery(
-	'SELECT id, title, ordering FROM #__content'
+	'SELECT id, title, access, ordering FROM #__content'
 );
-JAclAdmin::synchronizeAssets($db->loadObjectList(), 'com_content');
+JAclAdmin::synchronizeAssets($db->loadObjectList('id'), 'com_content');
 
 // Sync Modules
 
 $db = &JFactory::getDbo();
 $db->setQuery(
-	'SELECT id, title, 0 AS ordering FROM #__modules'
+	'SELECT id, title, access, 0 AS ordering FROM #__modules'
 );
-JAclAdmin::synchronizeAssets($db->loadObjectList(), 'com_modules');
+JAclAdmin::synchronizeAssets($db->loadObjectList('id'), 'com_modules');
 
 // Lets make some rules
 

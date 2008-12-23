@@ -313,7 +313,7 @@ class JAclAdmin
 
 		// Verify we got a proper JTable object.
 		if (!is_a($table, 'JTableAro')) {
-			return new JException(JText::_('Error Acl Missing API'));
+			throw new JException(JText::_('Error Acl Missing API'));
 		}
 
 		// Load the object if it already exists
@@ -327,18 +327,18 @@ class JAclAdmin
 			'order_value'	=> 0,
 		);
 		if (!$table->bind($data)) {
-			return new JException(JText::sprintf('Error Acl USer Bind Failed %s', $table->getError()));
+			throw new JException(JText::sprintf('Error Acl USer Bind Failed %s', $table->getError()));
 		}
 
 		// Check and validate the data.
 		if (!$table->check()) {
-			return new JException($table->getError());
+			throw new JException($table->getError());
 		}
 
 		// Store the data.
 		if (!$table->store()) {
 			$db = &JFactory::getDBO();
-			return new JException($db->getErrorMsg());
+			throw new JException($db->getErrorMsg());
 		}
 
 		return $table->id;
@@ -422,7 +422,7 @@ class JAclAdmin
 		$table->loadByValue($value, $section);
 
 		if (!$table->delete(null, $erase)) {
-			return new JException($table->getError());
+			throw new JException($table->getError());
 		}
 
 		return true;
@@ -446,14 +446,14 @@ class JAclAdmin
 
 		// Verify we got a proper JTable object.
 		if (!is_a($table, 'JTableAxo')) {
-			return new JException(JText::_('Error Acl Missing API'));
+			throw new JException(JText::_('Error Acl Missing API'));
 		}
 
 		// Load the object if it already exists
 		$table->loadByValue($value, $section);
 
 		if (!$table->delete(null, $erase)) {
-			return new JException($table->getError());
+			throw new JException($table->getError());
 		}
 
 		return true;
@@ -487,11 +487,11 @@ class JAclAdmin
 
 		// Input validation checks
 		if ((int) $type < 1 || (int) $type > 3) {
-			return new JException(JText::_('Error Acl Rule Type invalid'));
+			throw new JException(JText::_('Error Acl Rule Type invalid'));
 		}
 
 		if (empty($section)) {
-			return new JException(JText::_('Error Acl Rule Section Empty'));
+			throw new JException(JText::_('Error Acl Rule Section Empty'));
 		}
 
 		if (empty($userGroups)) {
@@ -725,11 +725,11 @@ class JAclAdmin
 
 		// Verify we got a proper JTable object.
 		if (!is_a($table, 'JTableGroupAroMap')) {
-			return new JException(JText::_('Error Acl Missing Api'));
+			throw new JException(JText::_('Error Acl Missing Api'));
 		}
 
 		if (!$table->store($groupIds, $mapId)) {
-			return new JException($table->getError());
+			throw new JException($table->getError());
 		}
 
 		return true;
@@ -750,11 +750,11 @@ class JAclAdmin
 
 		// Verify we got a proper JTable object.
 		if (!is_a($table, 'JTableGroupAxoMap')) {
-			return new JException(JText::_('Error Acl Missing Api'));
+			throw new JException(JText::_('Error Acl Missing Api'));
 		}
 
 		if (!$table->store($groupIds, $mapId)) {
-			return new JException($table->getError());
+			throw new JException($table->getError());
 		}
 
 		return true;
@@ -846,7 +846,7 @@ class JAclAdmin
 	{
 		$type = ucfirst(strtolower($type));
 		if (!in_array($type, array('Aco', 'Aro', 'Axo'))) {
-			return new JException(JText::_('Error Acl Invalid Object Type'));
+			throw new JException(JText::_('Error Acl Invalid Object Type'));
 		}
 		$table = &JTable::getInstance($type);
 		if ($value !== null) {
@@ -934,9 +934,10 @@ class JAclAdmin
 	/**
 	 * Syncronise the assets from a local content store
 	 *
-	 * @param	array $items	An array of object have the properties id, title and ordering
+	 * @param	array $items	A named array (by the Id field of the foreign asset table) of object have the properties id, title, access and ordering
 	 * @param	string $section	The asset section the object will belong to
 	 * @return	mixed			True if successful, otherwise a JException
+	 * @throws	JException
 	 */
 	function synchronizeAssets($items, $section)
 	{
@@ -946,15 +947,25 @@ class JAclAdmin
 
 		$db = &JFactory::getDbo();
 
+		// Note the limitation of one groups per asset
+		// If multiple groups are required then convert to using GROUP_CONCAT
 		$db->setQuery(
-			'SELECT *'
-			.' FROM #__core_acl_axo'
+			'SELECT axo.*, map.group_id'
+			.' FROM #__core_acl_axo AS axo'
+			.' LEFT JOIN #__core_acl_groups_axo_map AS map ON map.axo_id = axo.id'
 			.' WHERE section_value = '.$db->quote($section)
 			.' ORDER BY section_value,order_value,name'
 		);
 
 		// Get the raw assets from the model.
 		$raw = $db->loadObjectList();
+
+		// Cache the Asset Groups
+		$db->setQuery(
+			'SELECT id, value'
+			.' FROM #__core_acl_axo_groups'
+		);
+		$groups = $db->loadObjectList('value');
 
 		//
 		// Build the synchronization lists.
@@ -984,7 +995,7 @@ class JAclAdmin
 
 		// Verify we got a proper JTable object.
 		if (!is_a($table, 'JTableAxo')) {
-			return new JException(JText::_('Error Acl Missing API'));
+			throw new JException(JText::_('Error Acl Missing API'));
 		}
 
 		// Perform the add operations first.
@@ -1000,18 +1011,20 @@ class JAclAdmin
 					'order_value'	=> (int) $items[$id]->ordering,
 				);
 				if (!$table->bind($data)) {
-					return new JException(JText::sprintf('Error Acl Asset bind failed %s', $table->getError()));
+					throw new JException(JText::sprintf('Error Acl Asset bind failed %s', $table->getError()));
 				}
 
 				// Check and validate the data.
 				if (!$table->check()) {
-					return new JException($table->getError());
+					throw new JException($table->getError());
 				}
 
 				// Store the data.
 				if (!$table->store()) {
-					return new JException($table->getError());
+					throw new JException($table->getError());
 				}
+
+				JAclAdmin::registerAssetInGroups($table->id, $groups[$items[$id]->access]);
 
 				// Clear the table object.
 				$table->clear();
@@ -1025,7 +1038,7 @@ class JAclAdmin
 			{
 				// Attempt to delete the asset and all references.
 				if (!$table->delete($assets[$id]->id, true)) {
-					return new JException($table->getError());
+					throw new JException($table->getError());
 				}
 
 				// Clear the table object.
@@ -1039,31 +1052,35 @@ class JAclAdmin
 			foreach ($update as $id)
 			{
 				// If the name and ordering are the same, we do not need to do anything.
-				if (($assets[$id]->name == $items[$id]->title) && ($assets[$id]->order_value == $items[$id]->ordering)) {
-					continue;
+				if (($assets[$id]->name != $items[$id]->title) || ($assets[$id]->order_value != $items[$id]->ordering))
+				{
+					// Bind the data.
+					$data = array(
+						'id'			=> (int) $assets[$id]->id,
+						'section_value'	=> $assets[$id]->section_value,
+						'value'			=> (int) $assets[$id]->value,
+						'name'			=> $items[$id]->title,
+						'order_value'	=> (int) $items[$id]->ordering,
+						'hidden'		=> 0
+					);
+					if (!$table->bind($data)) {
+						throw new JException(JText::sprintf('Error Acl Asset bind failed %s', $table->getError()));
+					}
+
+					// Check and validate the data.
+					if (!$table->check()) {
+						throw new JException($table->getError());
+					}
+
+					// Store the data.
+					if (!$table->store()) {
+						throw new JException($table->getError());
+					}
 				}
 
-				// Bind the data.
-				$data = array(
-					'id'			=> (int) $assets[$id]->id,
-					'section_value'	=> $assets[$id]->section_value,
-					'value'			=> (int) $assets[$id]->value,
-					'name'			=> $items[$id]->title,
-					'order_value'	=> (int) $items[$id]->ordering,
-					'hidden'		=> 0
-				);
-				if (!$table->bind($data)) {
-					throw new JException(JText::sprintf('Error Acl Asset bind failed %s', $table->getError()));
-				}
-
-				// Check and validate the data.
-				if (!$table->check()) {
-					throw new JException($table->getError());
-				}
-
-				// Store the data.
-				if (!$table->store()) {
-					throw new JException($table->getError());
+				// If the access fields are the same, then no need to change the groups
+				if ($assets[$id]->group_id !== $items[$id]->access) {
+					JAclAdmin::registerAssetInGroups((int) $assets[$id]->id, $groups[$items[$id]->access]->id);
 				}
 
 				// Clear the table object.
