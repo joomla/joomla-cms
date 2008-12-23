@@ -112,7 +112,7 @@ class JAcl
 				$query->join('LEFT', '#__core_acl_aro_groups rg ON rg.id=arg.group_id');
 			}
 
-			if ($axoSectionValue !== '' AND $axoValue !== '')
+			if (($axoSectionValue !== '' || $axoSectionValue !== null) AND ($axoValue !== '' || $axoValue !== null))
 			{
 				$axo_group_ids = JAcl::acl_get_groups($axoSectionValue, $axoValue, $rootAxoGroup, 'AXO');
 
@@ -223,6 +223,9 @@ class JAcl
 			// @todo Throw an expection
 			return array();
 		}
+		if (($sectionValue === '' || $sectionValue === null) && ($value === '' || $value === null)) {
+			return array();
+		}
 
 		// Simple cache
 		if ($cache == null) {
@@ -292,6 +295,7 @@ class JAcl
 	 */
 	static function getAllowedAssetGroups($actionSection, $action, $userId = null)
 	{
+		static $cache;
 		// @todo This result is ideal for caching in the session as it need only be calculated once for the user for each context
 
 		if (empty($actionSection)) {
@@ -307,38 +311,50 @@ class JAcl
 			$userId = $user->get('id');
 		}
 
-		$db	= &JFactory::getDBO();
+		// Generate unique cache id.
+		$cacheId = $actionSection.'-'.$action.'-'.$userId;
 
-		jimport('joomla.database.query');
-		$query	= new JQuery;
-		$query->select('GROUP_CONCAT(DISTINCT axog.value SEPARATOR \',\')');
-		$query->from('jos_core_acl_aco_map AS am');
-		$query->join('INNER',	'#__core_acl_acl AS acl ON acl.id = am.acl_id');
-		$query->join('INNER',	'#__core_acl_aro_groups_map AS agm ON agm.acl_id = am.acl_id');
-		$query->join('LEFT',	'#__core_acl_axo_groups_map AS axogm ON axogm.acl_id = am.acl_id');
-		$query->join('INNER',	'#__core_acl_axo_groups AS axog ON axog.id = axogm.group_id');
-		$query->join('INNER',	'#__core_acl_groups_aro_map AS garom ON garom.group_id = agm.group_id');
-		$query->join('INNER',	'#__core_acl_aro AS aro ON aro.id = garom.aro_id');
-		$query->where('am.section_value = '.$db->Quote($actionSection));
+		// Simple cache
+		if ($cache == null) {
+			$cache = array();
+		}
 
-		if (is_array($action))
+		if (!isset($cache[$cacheId]))
 		{
-			$action	= array_map(array($db, 'Quote'), $action);
-			$query->where('am.value IN ('.implode(',', $action).')');
-		}
-		else {
-			$query->where('am.value = '.$db->Quote($action));
-		}
-		$query->where('acl.enabled = 1');
-		$query->where('acl.allow = 1');
-		$query->where('aro.value = '.(int) $userId);
-		$db->setQuery($query->toString());
+			$db	= &JFactory::getDBO();
 
-		if ($ids = $db->loadResult()) {
-			return $ids;
+			jimport('joomla.database.query');
+			$query	= new JQuery;
+			$query->select('GROUP_CONCAT(DISTINCT axog.value SEPARATOR \',\')');
+			$query->from('jos_core_acl_aco_map AS am');
+			$query->join('INNER',	'#__core_acl_acl AS acl ON acl.id = am.acl_id');
+			$query->join('INNER',	'#__core_acl_aro_groups_map AS agm ON agm.acl_id = am.acl_id');
+			$query->join('LEFT',	'#__core_acl_axo_groups_map AS axogm ON axogm.acl_id = am.acl_id');
+			$query->join('INNER',	'#__core_acl_axo_groups AS axog ON axog.id = axogm.group_id');
+			$query->join('INNER',	'#__core_acl_groups_aro_map AS garom ON garom.group_id = agm.group_id');
+			$query->join('INNER',	'#__core_acl_aro AS aro ON aro.id = garom.aro_id');
+			$query->where('am.section_value = '.$db->Quote($actionSection));
+
+			if (is_array($action))
+			{
+				$action	= array_map(array($db, 'Quote'), $action);
+				$query->where('am.value IN ('.implode(',', $action).')');
+			}
+			else {
+				$query->where('am.value = '.$db->Quote($action));
+			}
+			$query->where('acl.enabled = 1');
+			$query->where('acl.allow = 1');
+			$query->where('aro.value = '.(int) $userId);
+			$db->setQuery($query->toString());
+
+			if ($ids = $db->loadResult()) {
+				$cache[$cacheId] = $ids;
+			}
+			else {
+				$cache[$cacheId] = '0';
+			}
 		}
-		else {
-			return '0';
-		}
+		return $cache[$cacheId];
 	}
 }
