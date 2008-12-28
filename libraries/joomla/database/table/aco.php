@@ -10,10 +10,11 @@ defined('_JEXEC') or die('Restricted access');
 require_once dirname(__FILE__).DS.'_aclobject.php';
 
 /**
- * Table object for ACL sections.
+ * Table object for ACOs.
  *
  * @package		Joomla.Framework
  * @subpackage	Table
+ * @since		1.6
  */
 class JTableAco extends JTable_AclObject
 {
@@ -23,7 +24,6 @@ class JTableAco extends JTable_AclObject
 	public $note = null;
 	/**
 	 * @var	string The object type
-	 * @protected
 	 */
 	protected $_type = 'aco';
 

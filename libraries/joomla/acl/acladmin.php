@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @package		Joomla.Framework
  * @subpackage	Acl
- * @version		1.6
+ * @since		1.6
  */
 class JAclAdmin
 {
@@ -30,9 +30,10 @@ class JAclAdmin
 	 * @param	string $type	ACL | ACO | ARO | AXO
 	 * @param	string $name	The name of the section
 	 * @param	string $value	The value of the section (typically the option value for a component)
+	 * @param	int $order		The order value for the section
 	 * @return	int				The ID of the section
 	 */
-	public static function registerSection($type, $name, $value = null)
+	public static function registerSection($type, $name, $value = null, $order = 0)
 	{
 		$type = ucfirst(strtolower($type));
 		if (!in_array($type, array('Acl', 'Aco', 'Aro', 'Axo'))) {
@@ -51,7 +52,12 @@ class JAclAdmin
 		$table->loadByValue($value);
 
 		// Bind the data.
-		$data = array('name' => $name, 'value' => $value, 'order_value' => 0, 'hidden' => 0);
+		$data = array(
+			'name'			=> $name,
+			'value'			=> $value,
+			'order_value'	=> (int) $order,
+			'hidden'		=> 0
+		);
 		if (!$table->bind($data)) {
 			throw new JException(JText::sprintf('Error Acl Section Bind failed %s', $table->getError()));
 		}
@@ -82,11 +88,12 @@ class JAclAdmin
 	 *
 	 * @param	string $name	The name of the section
 	 * @param	string $value	The value of the section (typically the option value for a component)
+	 * @param	int $order		The order value for the section
 	 * @return	int				The ID of the section
 	 */
-	public static function registerSectionForRules($name, $value = null)
+	public static function registerSectionForRules($name, $value = null, $order = 0)
 	{
-		return JAclAdmin::registerSection('Acl', $name, $value);
+		return JAclAdmin::registerSection('Acl', $name, $value, $order);
 	}
 
 	/**
@@ -94,11 +101,12 @@ class JAclAdmin
 	 *
 	 * @param	string $name	The name of the section
 	 * @param	string $value	The value of the section (typically the option value for a component)
+	 * @param	int $order		The order value for the section
 	 * @return	int				The ID of the section
 	 */
-	public static function registerSectionForActions($name, $value = null)
+	public static function registerSectionForActions($name, $value = null, $order = 0)
 	{
-		return JAclAdmin::registerSection('Aco', $name, $value);
+		return JAclAdmin::registerSection('Aco', $name, $value, $order);
 	}
 
 	/**
@@ -106,11 +114,12 @@ class JAclAdmin
 	 *
 	 * @param	string $name	The name of the section
 	 * @param	string $value	The value of the section (typically the option value for a component)
+	 * @param	int $order		The order value for the section
 	 * @return	int				The ID of the section
 	 */
-	public static function registerSectionForAssets($name, $value = null)
+	public static function registerSectionForAssets($name, $value = null, $order = 0)
 	{
-		return JAclAdmin::registerSection('Axo', $name, $value);
+		return JAclAdmin::registerSection('Axo', $name, $value, $order);
 	}
 
 	/**
@@ -120,9 +129,10 @@ class JAclAdmin
 	 * @param	string $name	The name of the section
 	 * @param	string $value	The value of the section (typically the option value for a component)
 	 * @param	int $parentId	The parent group
+	 * @param	string $section	The name of the section in which the group is placed
 	 * @return	int				The ID of the group
 	 */
-	public static function registerGroup($type, $name, $value, $parentId = 29)
+	public static function registerGroup($type, $name, $value, $parentId = 1, $sectionValue = 'core')
 	{
 		$type = ucfirst(strtolower($type));
 		if (!in_array($type, array('Aro', 'Axo'))) {
@@ -139,10 +149,9 @@ class JAclAdmin
 			throw new JException(JText::_('Error Acl Invalid group value'));
 		}
 
-		// Sanitize and validate group parent id.
-		$parentId = (int) $parentId;
-		if (empty($parentId)) {
-			throw new JException(JText::_('Error Acl Invalid parent group'));
+		// Get the section
+		if (!($section = JAclAdmin::getSection($type, $sectionValue))) {
+			return new JException(JText::_('Error Acl Invalid section'));
 		}
 
 		// Get a group row instance.
@@ -153,11 +162,28 @@ class JAclAdmin
 			throw new JException(JText::_('Error Acl Missing API'));
 		}
 
+		// Load the section if it already exists
+		if ($value !== null) {
+			$group->loadByValue($value);
+		}
+		else if ($name) {
+			$group->loadByName($value, $section->id);
+		}
+
+		$isNew = empty($group->id);
+
+		// Sanitize and validate group parent id.
+		$parentId = (int) $parentId;
+		if ($isNew && empty($parentId)) {
+			return new JException(JText::_('Error Acl Invalid parent group'));
+		}
+
 		// Bind the data.
 		$data = array(
 			'name'		=> $name,
 			'value'		=> $value,
-			'parent_id'	=> $parentId
+			'parent_id'	=> $parentId,
+			'section_id' => $section->id
 		);
 		if (!$group->bind($data)) {
 			throw new JException(JText::sprintf('Error Acl Group bind failed %s', $group->getError()));
@@ -197,31 +223,30 @@ class JAclAdmin
 	 * Register a group for users (ARO's)
 	 *
 	 * @param	string $type	ARO | AXO
-	 * @param	string $name	The name of the section
-	 * @param	string $value	The value of the section (typically the option value for a component)
-	 * @param	int $parentId	The parent group
+	 * @param	string $name	The name of the user group
+	 * @param	string $value	The value of the user group
+	 * @param	string $section	The name of the section in which the group is placed
+	 * @param	int $parentId	The parent group id
 	 * @return	int				The ID of the group
 	 */
-	public static function registerGroupForUsers($name, $parentId = 29, $value = null)
+	public static function registerGroupForUsers($name, $value = null, $section = 'core', $parentId = 29)
 	{
 		if (empty($value)) {
 			$value = preg_replace('#[^a-z0-9\-_]+#i', '-', strtolower($name));
 		}
-		return JAclAdmin::registerGroup('Aro', $name, $value, $parentId);
+		return JAclAdmin::registerGroup('Aro', $name, $value, $parentId, $section);
 	}
 
 	/**
 	 * Register a group for assets (AXO's)
 	 *
-	 * @param	string $type	ARO | AXO
-	 * @param	string $name	The name of the section
-	 * @param	string $value	The value of the section (typically the option value for a component)
-	 * @param	int $parentId	The parent group
+	 * @param	string $name	The name of the asset group
+	 * @param	string $section	The name of the section in which the group is placed
 	 * @return	int				The ID of the group
 	 */
-	public static function registerGroupForAssets($name)
+	public static function registerGroupForAssets($name, $section = 'core')
 	{
-		return JAclAdmin::registerGroup('Axo', $name, 0, 1);
+		return JAclAdmin::registerGroup('Axo', $name, 0, 1, $section);
 	}
 
 	/**
@@ -230,7 +255,7 @@ class JAclAdmin
 	 * If the action does not exist it is created.
 	 * If an action matching the value is found, then the object is updated.
 	 *
-	 * $actionId = JAclAdmin::createAction('com_fireboard', 'Create a forum', 'forum.create');
+	 * $actionId = JAclAdmin::registerAction('com_fireboard', 'Create a forum', 'forum.create');
 	 *
 	 * Permission types:
 	 *

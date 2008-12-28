@@ -8,8 +8,11 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
+ * Table object for Acl Groups.
+ *
  * @package		Joomla.Framework
  * @subpackage	Table
+ * @since		1.6
  */
 abstract class JTable_AclGroup extends JTable
 {
@@ -62,16 +65,18 @@ abstract class JTable_AclGroup extends JTable
 	/**
 	 * Load an object by mathcing the `name` field
 	 *
-	 * @param	string $name
+	 * @param	string $name	The name of the group
+	 * @param	int $sectionId	The section id of the group
 	 *
 	 * @return	boolean			True if successful, false if not found
 	 */
-	function loadByName($name)
+	function loadByName($name, $sectionId)
 	{
 		$this->_db->setQuery(
 			'SELECT id'
 			.' FROM '.$this->_tbl
 			.' WHERE `name` = '.$this->_db->quote($name)
+			.($sectionId ? ' AND section_id = '.(int) $sectionId : '')
 		);
 		if ($id = $this->_db->loadResult()) {
 			$this->load($id);

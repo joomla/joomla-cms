@@ -10,6 +10,8 @@ defined('_JEXEC') or die('Restricted access');
 require_once dirname(__FILE__).DS.'_groupmap.php';
 
 /**
+ * Table object for Group to User map.
+ *
  * @package		Joomla.Framework
  * @subpackage	Table
  */

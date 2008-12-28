@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once dirname(__FILE__).DS.'_aclobject.php';
 
 /**
- * Axo table
+ * Table object for AXOs.
  *
  * @package 	Joomla.Framework
  * @subpackage	Table

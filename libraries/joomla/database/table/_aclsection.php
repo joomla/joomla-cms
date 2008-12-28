@@ -8,8 +8,11 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
+ * Table object for ACL sections.
+ *
  * @package		Joomla.Framework
  * @subpackage	Table
+ * @since		1.6
  */
 abstract class JTable_AclSection extends JTable
 {
@@ -169,8 +172,8 @@ abstract class JTable_AclSection extends JTable
 				// Update the acl_{type} table
 				$this->_db->setQuery(
 					'UPDATE '.$this->_db->nameQuote('#__core_acl_'.$this->_type).
-					' SET value = '.$this->_db->quote($this->value).
-					' WHERE value = '.$this->_db->quote($existing)
+					' SET section_value = '.$this->_db->quote($this->value).
+					' WHERE section_value = '.$this->_db->quote($existing)
 				);
 				if (!$this->_db->query()) {
 					$this->setError($this->_db->getErrorMsg());

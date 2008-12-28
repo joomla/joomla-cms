@@ -8,8 +8,11 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
+ * Table object for ACL rules.
+ *
  * @package		Joomla.Framework
  * @subpackage	Table
+ * @since		1.6
  */
 class JTableAcl extends JTable
 {
@@ -46,14 +49,16 @@ class JTableAcl extends JTable
 	 */
 	protected $acl_type = null;
 
-	/** @var int */
+	/**
+	 * @var varchar
+	 */
 	protected $name = null;
 
 	protected $_quiet = true;
 
 	protected $_references = false;
 
-	/*
+	/**
 	 * Constructor
 	 * @param object Database object
 	 */

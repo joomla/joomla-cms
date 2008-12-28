@@ -14,6 +14,7 @@ require_once dirname(__FILE__).DS.'_aclsection.php';
  *
  * @package		Joomla.Framework
  * @subpackage	Table
+ * @since		1.6
  */
 class JTableAxoSection extends JTable_AclSection
 {

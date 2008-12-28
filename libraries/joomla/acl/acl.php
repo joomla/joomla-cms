@@ -20,6 +20,7 @@ JTable::addIncludePath(dirname(dirname(__FILE__)).DS.'database'.DS.'tables');
 /**
  * @package		Joomla.Framework
  * @subpackage	Acl
+ * @since		1.6
  */
 class JAcl
 {
@@ -323,7 +324,6 @@ class JAcl
 		{
 			$db	= &JFactory::getDBO();
 
-			jimport('joomla.database.query');
 			$query	= new JQuery;
 			$query->select('GROUP_CONCAT(DISTINCT axog.value SEPARATOR \',\')');
 			$query->from('jos_core_acl_aco_map AS am');

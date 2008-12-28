@@ -8,8 +8,11 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
+ * Table object for access control objects: ACO, ARO and AXO.
+ *
  * @package		Joomla.Framework
  * @subpackage	Table
+ * @since		1.6
  */
 abstract class JTable_AclObject extends JTable
 {
@@ -68,7 +71,7 @@ abstract class JTable_AclObject extends JTable
 	function loadByName($name, $section = null)
 	{
 		if (empty($name)) {
-			$this->setError('Error Acl Invalid section name');
+			$this->setError('Error Acl Invalid object name');
 			return false;
 		}
 

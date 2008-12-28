@@ -14,7 +14,7 @@ require_once dirname(__FILE__).DS.'_aclgroup.php';
  *
  * @package		Joomla.Framework
  * @subpackage	Table
- * @version		1.0
+ * @since		1.6
  */
 class JTableAroGroup extends JTable_AclGroup
 {
