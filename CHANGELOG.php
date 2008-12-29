@@ -43,6 +43,11 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+29-Dec-2008 Ercan Ozkaya
+ + Added method chaining support and access keywords to JQuery
+ - Removed debug code from JAuthentication
+ # Fixed reference bug in JModuleHelper
+
 22-Dec-2008 Andrew Eddie
  + Added root_user to global config. This provides a failsafe is the user completely messes up the permissions and at least allows one user access to restore order.
  + Add ability to fire a PHP file to the Joomla installation process (to add ACL Rules)

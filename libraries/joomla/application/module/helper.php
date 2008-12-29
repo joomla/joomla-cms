@@ -273,7 +273,8 @@ abstract class JModuleHelper
 				'SOME_ERROR_CODE',
 				JText::_('Error Loading Modules') . $db->getErrorMsg()
 			);
-			return false;
+			$false = false;
+			return $false;
 		}
 
 		// Apply negative selections and eliminate duplicates

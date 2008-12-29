@@ -18,11 +18,11 @@ defined('JPATH_BASE') or die;
 class JQueryElement
 {
 	/** @var string The name of the element */
-	var $_name = null;
+	protected $_name = null;
 	/** @var array An array of elements */
-	var $_elements = null;
+	protected $_elements = null;
 	/** @var string Glue piece */
-	var $_glue = null;
+	protected $_glue = null;
 
 	/**
 	 * Constructor
@@ -30,7 +30,7 @@ class JQueryElement
 	 * @param	mixed	String or array
 	 * @param	string	The glue for elements
 	 */
-	function __construct( $name, $elements, $glue=',' )
+	public function __construct( $name, $elements, $glue=',' )
 	{
 		$this->_elements	= array();
 		$this->_name		= $name;
@@ -42,7 +42,7 @@ class JQueryElement
 	 * Appends element parts to the internal list
 	 * @param	mixed	String or array
 	 */
-	function append( $elements )
+	public function append( $elements )
 	{
 		if (is_array( $elements )) {
 			$this->_elements = array_unique( array_merge( $this->_elements, $elements ) );
@@ -55,7 +55,7 @@ class JQueryElement
 	 * Render the query element
 	 * @return	string
 	 */
-	function toString()
+	public function toString()
 	{
 		return "\n{$this->_name} " . implode( $this->_glue, $this->_elements );
 	}
@@ -70,26 +70,26 @@ class JQueryElement
 class JQuery
 {
 	/** @var string The query type */
-	var $_type = '';
+	protected $_type = '';
 	/** @var object The select element */
-	var $_select = null;
+	protected $_select = null;
 	/** @var object The from element */
-	var $_from = null;
+	protected $_from = null;
 	/** @var object The join element */
-	var $_join = null;
+	protected $_join = null;
 	/** @var object The where element */
-	var $_where = null;
+	protected $_where = null;
 	/** @var object The where element */
-	var $_group = null;
+	protected $_group = null;
 	/** @var object The where element */
-	var $_having = null;
+	protected $_having = null;
 	/** @var object The where element */
-	var $_order = null;
+	protected $_order = null;
 
 	/**
 	 * @param	mixed	A string or an array of field names
 	 */
-	function select( $columns )
+	public function select( $columns )
 	{
 		$this->_type = 'select';
 		if (is_null( $this->_select )) {
@@ -97,37 +97,43 @@ class JQuery
 		} else {
 			$this->_select->append( $columns );
 		}
+
+		return $this;
 	}
 
 	/**
 	 * @param	mixed	A string or array of table names
 	 */
-	function from( $tables )
+	public function from( $tables )
 	{
 		if (is_null( $this->_from )) {
 			$this->_from = new JQueryElement( 'FROM', $tables );
 		} else {
 			$this->_from->append( $tables );
 		}
+
+		return $this;		
 	}
 
 	/**
 	 * @param	string
 	 * @param	string
 	 */
-	function join( $type, $conditions )
+	public function join( $type, $conditions )
 	{
 		if (is_null( $this->_join )) {
 			$this->_join = array();
 		}
 		$this->_join[] = new JQueryElement( strtoupper( $type ) . ' JOIN', $conditions );
+
+		return $this;		
 	}
 
 	/**
 	 * @param	mixed	A string or array of where conditions
 	 * @param	string
 	 */
-	function where( $conditions, $glue='AND' )
+	public function where( $conditions, $glue='AND' )
 	{
 		if (is_null( $this->_where )) {
 			$glue = strtoupper( $glue );
@@ -135,48 +141,56 @@ class JQuery
 		} else {
 			$this->_where->append( $conditions );
 		}
+
+		return $this;		
 	}
 
 	/**
 	 * @param	mixed	A string or array of ordering columns
 	 */
-	function group( $columns )
+	public function group( $columns )
 	{
 		if (is_null( $this->_group )) {
 			$this->_group = new JQueryElement( 'GROUP BY', $columns );
 		} else {
 			$this->_group->append( $columns );
 		}
+
+		return $this;		
 	}
 
 	/**
 	 * @param	mixed	A string or array of ordering columns
 	 */
-	function having( $columns )
+	public function having( $columns )
 	{
 		if (is_null( $this->_having )) {
 			$this->_having = new JQueryElement( 'HAVING', $columns );
 		} else {
 			$this->_having->append( $columns );
 		}
+
+		return $this;		
 	}
 
 	/**
 	 * @param	mixed	A string or array of ordering columns
 	 */
-	function order( $columns )
+	public function order( $columns )
 	{
 		if (is_null( $this->_order )) {
 			$this->_order = new JQueryElement( 'ORDER BY', $columns );
 		} else {
 			$this->_order->append( $columns );
 		}
+
+		return $this;		
 	}
 
 	/**
 	 * @return	string	The completed query
 	 */
-	function __toString()
+	public function __toString()
 	{
 		$query = '';
 
@@ -212,7 +226,7 @@ class JQuery
 	/**
 	 * @return	string	The completed query
 	 */
-	function toString()
+	public function toString()
 	{
 		return (string) $this;
 	}
