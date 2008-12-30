@@ -13,7 +13,6 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-/* Comment to get around validation errors
 ?>
 
 -------------------- Joomla! 1.6 Credits ---------------------
