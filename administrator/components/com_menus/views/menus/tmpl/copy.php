@@ -4,17 +4,17 @@
 <!--
 	function submitbutton(pressbutton) {
 		if (pressbutton == 'doCopyMenu') {
-			if ( document.adminForm.menu_name.value == '' ) {
-				alert( "<?php echo JText::_( 'Please enter a name for the copy of the Menu', true ); ?>" );
+			if (document.adminForm.menu_name.value == '') {
+				alert("<?php echo JText::_('Please enter a name for the copy of the Menu', true); ?>");
 				return;
-			} else if ( document.adminForm.module_name.value == '' ) {
-				alert( "<?php echo JText::_( 'Please enter a name for the new Module', true ); ?>" );
+			} else if (document.adminForm.module_name.value == '') {
+				alert("<?php echo JText::_('Please enter a name for the new Module', true); ?>");
 				return;
 			} else {
-				submitform( 'doCopyMenu' );
+				submitform('doCopyMenu');
 			}
 		} else {
-			submitform( pressbutton );
+			submitform(pressbutton);
 		}
 	}
 //-->
@@ -24,26 +24,26 @@
 	<tr>
 		<td width="3%"></td>
 		<td valign="top" width="30%">
-			<strong><?php echo JText::_( 'New Menu Name' ); ?>:</strong>
+			<strong><?php echo JText::_('New Menu Name'); ?>:</strong>
 			<br />
 			<input class="inputbox" type="text" name="menu_name" size="30" value="" />
 			<br /><br /><br />
-			<strong><?php echo JText::_( 'New Module Name' ); ?>:</strong>
+			<strong><?php echo JText::_('New Module Name'); ?>:</strong>
 			<br />
 			<input class="inputbox" type="text" name="module_name" size="30" value="" />
 			<br /><br />
 		</td>
 		<td valign="top" width="25%">
-			<strong><?php echo JText::_( 'Menu being copied' ); ?>:</strong>
+			<strong><?php echo JText::_('Menu being copied'); ?>:</strong>
 			<br />
-			<font color="#000066"><strong><?php echo $this->table->menutype; ?></strong></font>
+			<strong><?php echo $this->table->menutype; ?></strong>
 			<br /><br />
-			<strong><?php echo JText::_( 'Menu Items being copied' ); ?>:</strong>
+			<strong><?php echo JText::_('Menu Items being copied'); ?>:</strong>
 			<br />
 			<ol>
 				<?php foreach ($this->items as $item) : ?>
 				<li>
-					<font color="#000066"><?php echo $item->name; ?></font>
+					<?php echo $item->name; ?>
 				</li>
 				<?php endforeach; ?>
 			</ol>
@@ -59,5 +59,5 @@
 	<input type="hidden" name="option" value="com_menus" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="type" value="<?php echo $this->table->menutype; ?>" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>
