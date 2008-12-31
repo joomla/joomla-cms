@@ -1,12 +1,12 @@
 <?php
 
 class JAdapterInstance extends JObject {
-	
-	/** Parent 
+
+	/** Parent
 	 * @var object */
 	protected $parent = null;
-	
-	
+
+
 	/**
 	 * Constructor
 	 *

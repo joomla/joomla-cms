@@ -5,14 +5,9 @@
  * @version		$Id: installer.php 10609 2008-08-01 06:26:01Z pasamio $
  * @package		Joomla.Framework
  * @subpackage	Updater
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
@@ -22,13 +17,13 @@ jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
- 
+
 /**
  * Updater Class
  * @since 1.6
  */
 class JUpdater extends JAdapter {
-	
+
 	/**
 	 * Constructor
 	 */
@@ -36,7 +31,7 @@ class JUpdater extends JAdapter {
 		// adapter base path, class prefix
 		parent::__construct(dirname(__FILE__),'JUpdater');
 	}
-	
+
 	/**
 	 * Returns a reference to the global Installer object, only creating it
 	 * if it doesn't already exist.
@@ -53,7 +48,7 @@ class JUpdater extends JAdapter {
 		}
 		return $instance;
 	}
-	
+
 	/**
 	 * Finds an update for an extension
 	 * @param int Extension Identifier; if zero use all sites
@@ -78,21 +73,21 @@ class JUpdater extends JAdapter {
 			if(is_array($update_result)) {
 				if(array_key_exists('update_sites',$update_result) && count($update_result['update_sites'])) {
 					$results = $this->arrayUnique(array_merge($results, $update_result['update_sites']));
-					$result_count = count($results);					
+					$result_count = count($results);
 				}
 				if(array_key_exists('updates', $update_result) && count($update_result['updates'])) {
 					for($k = 0; $k < count($update_result['updates']); $k++) {
 						$current_update =& $update_result['updates'][$k];
 						$update =& JTable::getInstance('update');
 						$extension =& JTable::getInstance('extension');
-						$uid = $update->find(Array('element'=>strtolower($current_update->element), 
-								'type'=>strtolower($current_update->type), 
-								'client_id'=>strtolower($current_update->client_id), 
+						$uid = $update->find(Array('element'=>strtolower($current_update->element),
+								'type'=>strtolower($current_update->type),
+								'client_id'=>strtolower($current_update->client_id),
 								'folder'=>strtolower($current_update->folder)));
-								
-						$eid = $extension->find(Array('element'=>strtolower($current_update->element), 
-								'type'=>strtolower($current_update->type), 
-								'client_id'=>strtolower($current_update->client_id), 
+
+						$eid = $extension->find(Array('element'=>strtolower($current_update->element),
+								'type'=>strtolower($current_update->type),
+								'client_id'=>strtolower($current_update->client_id),
 								'folder'=>strtolower($current_update->folder)));
 						if(!$uid) {
 							// set the extension id
@@ -109,7 +104,7 @@ class JUpdater extends JAdapter {
 								// a potentially new extension to be installed
 								//echo '<p>Storing since no equivalent extension is installed</p>';
 								$current_update->store();
-							}				
+							}
 						} else {
 							$update->load($uid);
 							// if there is an update, check that the version is newer then replaces
@@ -127,7 +122,7 @@ class JUpdater extends JAdapter {
 		}
 		return $retval;
 	}
-	
+
 	/**
 	 * Multidimensional array safe unique test
 	 * Borrowed from PHP.net
@@ -137,20 +132,20 @@ class JUpdater extends JAdapter {
 	{
 	    if(!is_array($myArray))
 	           return $myArray;
-	
+
 	    foreach ($myArray as &$myvalue){
 	        $myvalue=serialize($myvalue);
 	    }
-	
+
 	    $myArray=array_unique($myArray);
-	
+
 	    foreach ($myArray as &$myvalue){
 	        $myvalue=unserialize($myvalue);
 	    }
-	
+
 	    return $myArray;
-	} 	
-	
+	}
+
 	function update($id) {
 		$updaterow =& JTable::getInstance('update');
 		$updaterow->load($id);

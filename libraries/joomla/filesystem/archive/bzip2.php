@@ -3,14 +3,9 @@
  * @version		$Id:bzip2.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	FileSystem
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // No direct access
 defined('JPATH_BASE') or die();
@@ -65,7 +60,7 @@ class JArchiveBzip2 extends JObject
 	{
 		// Initialize variables
 		$this->_data = null;
-		
+
 		if (!extension_loaded('bz2')) {
 			$this->set('error.message', 'BZip2 Not Supported');
 			return JError::raiseWarning(100, $this->get('error.message'));
@@ -89,7 +84,7 @@ class JArchiveBzip2 extends JObject
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 		//*/
-		
+
 		// New style! streams!
 		$input =& JFactory::getStream();
 		$input->set('processingmethod','bz'); // use bzip
@@ -97,14 +92,14 @@ class JArchiveBzip2 extends JObject
 			$this->set('error.message', 'Unable to read archive (bz2)');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
-		
+
 		$output =& JFactory::getStream();
 		if(!$output->open($destination, 'w')) {
 			$this->set('error.message', 'Unable to write archive (bz2)');
 			$input->close(); // close the previous file
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
-		
+
 		$written = 0;
 		do {
 			$this->_data = $input->read($input->get('chunksize', 8196));

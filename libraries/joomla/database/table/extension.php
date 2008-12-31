@@ -3,13 +3,8 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @license		GNU General Public License, see LICENSE.php
 */
 
 // Check to ensure this file is within the rest of the framework
@@ -50,16 +45,16 @@ class JTableExtension extends JTable
 	/** @var string Generic extension data field; for extensions private use */
 	var $custom_data				= null;
 	/** @var string Generic extension data field; for Joomla! use */
-	var $system_data				= null;	
+	var $system_data				= null;
 	/** @var int Checked Out */
 	var $checked_out = 0;
 	/** @var datetime Checked Out Time */
 	var $checked_out_time = null;
 	/** @var int ordering */
-	var $ordering = 0; 
+	var $ordering = 0;
 	/** @var int state State of the extension, either default (0), discovered (-1) */
-	var $state = 0; 
-	
+	var $state = 0;
+
 
 	/**
 	 * Contructor
@@ -115,7 +110,7 @@ class JTableExtension extends JTable
 
 		return parent::bind($array, $ignore);
 	}
-	
+
 	function find($options=Array()) {
 		$dbo =& JFactory::getDBO();
 		$where = Array();

@@ -1,5 +1,5 @@
 <form action="index.php" method="post" name="adminForm">
-			
+
 	<?php if (count($this->items)) : ?>
 	<table class="adminlist" cellspacing="1">
 		<thead>

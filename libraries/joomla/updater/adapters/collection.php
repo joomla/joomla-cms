@@ -3,23 +3,23 @@
  * Collection Update Adapter
  * Handles retrieving updates from collections
  */
- 
+
 defined('JPATH_BASE') or die();
- 
+
 jimport('joomla.updater.updateadapter');
- 
+
 /**
  * Collection Update Adapater Class
  * @since 1.6
  */
 class JUpdaterCollection extends JUpdateAdapter {
-	
+
 	var $base;
-	var $parent = Array(0); 
+	var $parent = Array(0);
 	var $pop_parent = 0;
 	var $update_sites;
 	var $updates;
-	
+
 	/**
      * Gets the reference to the current direct parent
      *
@@ -28,7 +28,7 @@ class JUpdaterCollection extends JUpdateAdapter {
     function _getStackLocation()
     {
             /*$return = '';
-            
+
             foreach($this->_stack as $stack) {
                     $return .= $stack.'->';
             }
@@ -36,11 +36,11 @@ class JUpdaterCollection extends JUpdateAdapter {
             return rtrim($return, '->');*/
             return implode('->', $this->_stack);
     }
-    
+
     function _getParent() {
     	return end($this->parent);
     }
-	
+
 	function _startElement($parser, $name, $attrs = Array()) {
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
@@ -77,7 +77,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 				foreach($attrs as $key=>$attr) {
 					$values[strtolower($key)] = $attr;
 				}
-				
+
 				// only add the update if it is on the same platform and release as we are
 				$ver = new JVersion();
 				$filter =& JFilterInput::getInstance();
@@ -90,15 +90,15 @@ class JUpdaterCollection extends JUpdateAdapter {
 				//       compatible against multiple versions of the same platform (e.g. a library)
 				if(!isset($values['targetplatform'])) $values['targetplatform'] = $product; // set this to ourself as a default
 				if(!isset($values['targetplatformversion'])) $values['targetplatformversion'] = $ver->RELEASE; // set this to ourself as a default
-				// validate that we can install the extension 
-				if($product == $values['targetplatform'] && preg_match('/'.$values['targetplatformversion'].'/',$ver->RELEASE)) {				
+				// validate that we can install the extension
+				if($product == $values['targetplatform'] && preg_match('/'.$values['targetplatformversion'].'/',$ver->RELEASE)) {
 					$update->bind($values);
 					$this->updates[] = $update;
 				}
 				break;
 		}
 	}
-	
+
 	function _endElement($parser, $name) {
 		$lastcell = array_pop($this->_stack);
 		//echo 'Closed: ' . $lastcell .'; Stack: '. print_r($this->_stack,1) .'<br /><br />';
@@ -112,14 +112,14 @@ class JUpdaterCollection extends JUpdateAdapter {
 				break;
 		}
 	}
-	
+
 	/*// we don't care about char data in collection because there should be none
 	function _characterData($parser, $data) {
 		$tag = $this->_getStackLocation();
 		eval('$obj =& $this->'. $tag .'->_data;');
 		$obj .= $data;
 	}*/
-	
+
 	function findUpdate($options) {
 		$url = $options['location'];
 		$this->_update_site_id = $options['update_site_id'];
@@ -130,23 +130,23 @@ class JUpdaterCollection extends JUpdateAdapter {
 			}
 			$url .= 'update.xml';
 		}
-		
+
 		$this->base = new stdClass();
 		$this->update_sites = Array();
 		$this->updates = Array();
 		$dbo =& $this->parent->getDBO();
-		
+
 		if (!($fp = @fopen($url, "r"))) {
 			// TODO: Add a 'mark bad' setting here somehow
 		    JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Collection') .': '. JText::_('Could not open').' '. $url);
 		    return false;
 		}
-		
+
 		$this->xml_parser = xml_parser_create('');
 		xml_set_object($this->xml_parser, $this);
 		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
 		//xml_set_character_data_handler($this->xml_parser, '_characterData');
-	
+
 		while ($data = fread($fp, 8192)) {
 		    if (!xml_parse($this->xml_parser, $data, feof($fp))) {
 		        die(sprintf("XML error: %s at line %d",

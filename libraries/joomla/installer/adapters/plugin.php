@@ -3,14 +3,9 @@
  * @version		$Id:plugin.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // No direct access
 defined('JPATH_BASE') or die();
@@ -88,7 +83,7 @@ class JInstallerPlugin extends JAdapterInstance
 			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('No plugin file specified'));
 			return false;
 		}
-		
+
 		/*
 		 * Check if we should enable overwrite settings
 		 */
@@ -106,25 +101,25 @@ class JInstallerPlugin extends JAdapterInstance
 			return false;
 		}
 		$id = $db->loadResult();
-		
+
 		// if its on the fs...
 		if(file_exists($this->parent->getPath('extension_root')) && !$this->parent->getOverwrite()) {
 			$updateElement = $this->manifest->getElementByPath('update');
 			// upgrade manually set
 			// update function available
-			// update tag detected 
+			// update tag detected
 			if($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement')) {
 				// force these one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
 				$this->route = 'Update';
 			} else if(!$this->parent->getOverwrite()) { // overwrite is set
-				// we didn't have overwrite set, find an udpate function or find an update tag so lets call it safe 
+				// we didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
 				$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('Another extension is already using directory').': "'.$this->parent->getPath('extension_root').'"');
 				return false;
 			}
 		}
-		
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Installer Trigger Loading
@@ -146,16 +141,16 @@ class JInstallerPlugin extends JAdapterInstance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
 				$this->set('manifest.script', $manifestScript);
-				// Note: if we don't find the class, don't bother to copy the file				
+				// Note: if we don't find the class, don't bother to copy the file
 			}
-		}		
-		
+		}
+
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight($this->route, $this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight($this->route, $this);
 		$msg = ob_get_contents(); // create msg object; first use here
-		ob_end_clean();			
+		ob_end_clean();
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -196,7 +191,7 @@ class JInstallerPlugin extends JAdapterInstance
 		if($this->get('manifest.script')) {
 			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest.script');
 			$path['dest'] = $this->parent->getPath('extension_root').DS.$this->get('manifest.script');
-			
+
 			if(!file_exists($path['dest'])) {
 				if (!$this->parent->copyFiles(array ($path))) {
 					// Install failed, rollback changes
@@ -205,7 +200,7 @@ class JInstallerPlugin extends JAdapterInstance
 				}
 			}
 		}
-		
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Database Processing Section
@@ -242,7 +237,7 @@ class JInstallerPlugin extends JAdapterInstance
 			// Editor plugins are published by default
 			if ($group == 'editors') {
 				$row->enabled = 1;
-			}			
+			}
 
 			if (!$row->store()) {
 				// Install failed, roll back changes
@@ -254,7 +249,7 @@ class JInstallerPlugin extends JAdapterInstance
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array ('type' => 'extension', 'id' => $row->extension_id));
 		}
-		
+
 		/*
 		 * Let's run the queries for the module
 		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
@@ -267,14 +262,14 @@ class JInstallerPlugin extends JAdapterInstance
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
 			return false;
-		}		
-		
+		}
+
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,$this->route)) $this->parent->manifestClass->{$this->route}($this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,$this->route)) $this->parent->manifestClass->{$this->route}($this);
 		$msg .= ob_get_contents(); // append messages
-		ob_end_clean();		
+		ob_end_clean();
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -291,7 +286,7 @@ class JInstallerPlugin extends JAdapterInstance
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) $this->parent->manifestClass->postflight($this->route, $this);	
+		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) $this->parent->manifestClass->postflight($this->route, $this);
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
@@ -316,8 +311,8 @@ class JInstallerPlugin extends JAdapterInstance
 		$this->route = 'Update';
 		// go to install which handles updates properly
 		return $this->install();
-	}	
-	
+	}
+
 	/**
 	 * Custom uninstall method
 	 *
@@ -389,7 +384,7 @@ class JInstallerPlugin extends JAdapterInstance
 				JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
 			}
-			
+
 			/**
 			 * ---------------------------------------------------------------------------------------------
 			 * Installer Trigger Loading
@@ -411,17 +406,17 @@ class JInstallerPlugin extends JAdapterInstance
 					$this->parent->manifestClass = new $classname($this);
 					// and set this so we can copy it later
 					$this->set('manifest.script', $manifestScript);
-					// Note: if we don't find the class, don't bother to copy the file				
+					// Note: if we don't find the class, don't bother to copy the file
 				}
-			}		
-			
+			}
+
 			// run preflight if possible (since we know we're not an update)
 			ob_start();
 			ob_implicit_flush(false);
-			if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight($this->route, $this);	
+			if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight($this->route, $this);
 			$msg = ob_get_contents(); // create msg object; first use here
-			ob_end_clean();				
-			
+			ob_end_clean();
+
 			/*
 			 * Let's run the queries for the module
 			 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
@@ -434,15 +429,15 @@ class JInstallerPlugin extends JAdapterInstance
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
 				return false;
-			}		
-			
+			}
+
 			// Start Joomla! 1.6
 			ob_start();
 			ob_implicit_flush(false);
-			if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) $this->parent->manifestClass->uninstall($this);	
+			if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) $this->parent->manifestClass->uninstall($this);
 			$msg = ob_get_contents(); // append messages
 			ob_end_clean();
-			
+
 
 			// Remove the plugin files
 			$this->parent->removeFiles($root->getElementByPath('images'), -1);
@@ -466,17 +461,17 @@ class JInstallerPlugin extends JAdapterInstance
 		if (!count($files)) {
 			JFolder::delete($this->parent->getPath('extension_root'));
 		}
-		
+
 		if($msg) {
 			$this->parent->set('extension.message',$msg);
 		}
 
 		return $retval;
 	}
-	
+
 	/**
 	 * Custom discover method
-	 * 
+	 *
 	 * @access public
 	 * @return array(JExtension) list of extensions available
 	 * @since 1.6
@@ -501,10 +496,10 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 		return $results;
 	}
-	
+
 	/**
 	 * Custom discover_install method
-	 * 
+	 *
 	 * @access public
 	 * @param int $id The id of the extension to install (from #__discoveredextensions)
 	 * @return void
@@ -530,8 +525,8 @@ class JInstallerPlugin extends JAdapterInstance
 			JError::raiseWarning(101, JText::_('Plugin').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
 			return false;
 		}
-	}	
-	
+	}
+
 	function refreshManifestCache() {
 		// Plugins use the extensions table as their primary store
 		// Similar to modules and templates, rather easy
@@ -550,5 +545,5 @@ class JInstallerPlugin extends JAdapterInstance
 			JError::raiseWarning(101, JText::_('Plugin').' '.JText::_('Refresh Manifest Cache').': '.JText::_('Failed to store extension details'));
 			return false;
 		}
-	}	
+	}
 }

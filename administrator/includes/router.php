@@ -3,13 +3,8 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @license		GNU General Public License, see LICENSE.php
 */
 
 // No direct access
@@ -45,9 +40,9 @@ class JRouterAdministrator extends JRouter
 		//Create the URI object
 		$uri =& parent::build($url);
 		// Get the path data
-		$route = $uri->getPath();		
+		$route = $uri->getPath();
 		//Add basepath to the uri
-		$uri->setPath(JURI::base(true).'/'.$route);	
+		$uri->setPath(JURI::base(true).'/'.$route);
 		return $uri;
 	}
 }

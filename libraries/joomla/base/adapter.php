@@ -3,14 +3,9 @@
  * @version		$Id: object.php 9764 2007-12-30 07:48:11Z ircmaxell $
  * @package		Joomla.Framework
  * @subpackage	Base
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 /**
  * Adapter Class
@@ -37,7 +32,7 @@ class JAdapter extends JObject {
 	 * @var string
 	 */
 	protected $_classprefix = 'J';
-	
+
 	/**
 	 * Base Path for the adapter instance
 	 * @var string
@@ -48,14 +43,14 @@ class JAdapter extends JObject {
 	 * @var object
 	 */
 	protected $_db;
-	
+
 	public function __construct($basepath, $classprefix=null,$adapterfolder=null) {
 		$this->_basepath = $basepath;
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 		$this->_db =& JFactory::getDBO();
 	}
-	
+
 	/**
 	 * Get the database connector object
 	 *
@@ -66,8 +61,8 @@ class JAdapter extends JObject {
 	public function &getDBO()
 	{
 		return $this->_db;
-	}	
-	
+	}
+
 	/**
 	 * Set an adapter by name
 	 *
@@ -91,8 +86,8 @@ class JAdapter extends JObject {
 		}
 		$this->_adapters[$name] =& $adapter;
 		return true;
-	}	
-	
+	}
+
 	public function &getAdapter($name) {
 		if(!array_key_exists($name, $this->_adapters)) {
 			if(!$this->setAdapter($name)) {
@@ -102,7 +97,7 @@ class JAdapter extends JObject {
 		}
 		return $this->_adapters[$name];
 	}
-		
+
 	/**
 	 * Loads all adapters
 	 */
@@ -112,7 +107,7 @@ class JAdapter extends JObject {
 			if(JFile::getExt($filename) == 'php') {
 				// Try to load the adapter object
 				require_once($this->_basepath.DS.$this->_adapterfolder.DS.$filename);
-				
+
 				$name = JFile::stripExt($filename);
 				$class = $this->_classprefix.ucfirst($name);
 				if (!class_exists($class)) {

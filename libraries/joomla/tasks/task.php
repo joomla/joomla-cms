@@ -10,7 +10,7 @@ class JTask extends JTable {
 	private $_quanta = Array();
 	private $_lasttick = 0;
 	/** Duration between yields; overwritten each yield; Requires two yields to calculated */
-	private $_duration = 0;	
+	private $_duration = 0;
 	private $_instance = null;
 
 	protected $taskid = 0;
@@ -37,11 +37,11 @@ class JTask extends JTable {
 			parent::__construct( '#__tasks', 'taskid', $db );
 		}
 	}
-	
+
 	public function setParent(&$parent) {
 		$this->_parent = $parent;
 	}
-	
+
 	public function setInstance(&$instance, $restore=false) {
 		$this->_instance =& $instance;
 		$this->_instance->setTask($this);
@@ -49,13 +49,13 @@ class JTask extends JTable {
 			$this->_instance->restoreTask($this->data);
 		}
 	}
-	
+
 	public function load($pid=null) {
 		$res = parent::load($pid);
 		if($res) $this->data = unserialize($this->data); // pull the data back out
 		return $res;
 	}
-	
+
 	public function store($updateNulls=false) {
 		$this->params = serialize($this->params);
 		$this->data = serialize($this->data);
@@ -64,7 +64,7 @@ class JTask extends JTable {
 		$this->params = unserialize($this->params);
 		return $res;
 	}
-	
+
 	public function yield() {
 		$now = JProfiler::getmicrotime();
 		if($this->_lasttick) {
@@ -72,13 +72,13 @@ class JTask extends JTable {
 			$this->duration = ceil(array_sum($this->_quanta) / count($this->_quanta));
 		}
 		// check if we're over the run time now
-		// OR if now plus our average duration will put us over the max time		
-		if (($now - $this->_parent->_startTime) >= $this->_parent->get('run_time',15) 
+		// OR if now plus our average duration will put us over the max time
+		if (($now - $this->_parent->_startTime) >= $this->_parent->get('run_time',15)
 			|| (($now - $this->_parent->_startTime) + $this->_duration) > $this->_parent->get('max_time', 30)) {
 				$this->reload();
 		}
 	}
-	
+
 	// TODO: redo this function
 	public function reload() {
 		if($this->_instance) $this->data = $this->_instance->suspendTask();
@@ -98,7 +98,7 @@ class JTask extends JTable {
 		global $mainframe;
 		// $run_time, $startTime;
 		if($context) $return = $context->$callback($this); else $return = $callback($this);
-		
+
 		if($return) {
 			if(!$this->total || $this->offset >= $this->total) { $this->delete(); return false; }
 			$this->store();
@@ -112,7 +112,7 @@ class JTask extends JTable {
 				$mainframe->close();
 				return true;
 			}
-	
+
 			//$this->delete() or die($this->_db->getErrorMsg());
 			return true;
 		} else {

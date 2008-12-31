@@ -2,8 +2,8 @@
 /**
  * @version		$Id$
  * @package		Joomla.Framework
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 /**
@@ -42,7 +42,7 @@ class JTableBackup extends JTable
 	protected $data = null;
 
 	private $_entries = Array();
-	
+
 	/*
 	 * Constructor
 	 * @param object Database object
@@ -51,7 +51,7 @@ class JTableBackup extends JTable
 	{
 		parent::__construct('#__backups', 'backupid', $db);
 	}
-	
+
 	public function loadEntries()  {
 		$this->_entries = Array(); // reset this
 		$this->_db->setQuery('SELECT * FROM #__backup_entries WHERE backupid = '. $this->backupid);
@@ -67,23 +67,23 @@ class JTableBackup extends JTable
 			return false;
 		}
 	}
-	
+
 	public function load($oid=null) {
 		$res = parent::load($oid);
 		if($res) {
 			$res = $this->loadEntries();
-		} 
+		}
 		return $res;
 	}
-	
+
 	public function &getEntries() {
 		if(!count($this->_entries)) {
 			$this->loadEntries();
 		}
 		return $this->_entries;
 	}
-	
-	
+
+
 	/**
 	 * Inserts a new row if id is zero or updates an existing row in the database table
 	 *
@@ -115,7 +115,7 @@ class JTableBackup extends JTable
 		}
 		return true;
 	}
-	
+
 	public function &addEntry($name, $type, $params) {
 		$entry =& JTable::getInstance('backupentry');
 		$entry->name = $name;
@@ -124,10 +124,10 @@ class JTableBackup extends JTable
 		$this->_entries[] =& $entry;
 		return $entry;
 	}
-	
+
 	public function removeEntry($name, $type=null) {
 		foreach($this->_entries as $key=>$value) {
-			if($entry->name == $name 
+			if($entry->name == $name
 				&& ($type === null || $entry->type == $type)
 			) {
 				unset($this->_entries[$key]);

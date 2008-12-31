@@ -3,8 +3,8 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -30,9 +30,9 @@ class InstallerModelDiscover extends InstallerModel
 	 * @var	string
 	 */
 	var $_type = 'discover';
-	
+
 	var $_message = '';
-	
+
 	/**
 	 * Current extension list
 	 */
@@ -52,9 +52,9 @@ class InstallerModelDiscover extends InstallerModel
 				' ORDER BY type, client_id, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
-		
+
 		$apps =& JApplicationHelper::getClientInfo();
-		
+
 		$numRows = count($rows);
 		for($i=0;$i < $numRows; $i++)
 		{
@@ -64,7 +64,7 @@ class InstallerModelDiscover extends InstallerModel
 				if($data) {
 					foreach($data as $key => $value) {
 						$row->$key = $value;
-					}	
+					}
 				}
 			}
 			$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
@@ -81,7 +81,7 @@ class InstallerModelDiscover extends InstallerModel
 			$this->_items = $rows;
 		}
 	}
-	
+
 	function discover() {
 		$installer =& JInstaller::getInstance();
 		$results = $installer->discover();
@@ -94,7 +94,7 @@ class InstallerModelDiscover extends InstallerModel
 			// check if we have a match on the element
 			if(!array_key_exists($result->element, $installed)) {
 				// since the element doesn't exist, its definitely new
-				$result->store(); // put it into the table	
+				$result->store(); // put it into the table
 				//echo '<p>Added: <pre>'.print_r($result,1).'</pre></p>';
 			} else {
 				// TODO: Add extra checks here to add entries that have conflicting elements
@@ -103,7 +103,7 @@ class InstallerModelDiscover extends InstallerModel
 			}
 		}
 	}
-	
+
 	function discover_install() {
 		$installer =& JInstaller::getInstance();
 		$eid = JRequest::getVar('eid',0);
@@ -119,19 +119,19 @@ class InstallerModelDiscover extends InstallerModel
 				if(!$result) {
 					$failed = true;
 					$app->enqueueMessage(JText::_('Discover install failed').': '. $id);
-				}	
+				}
 			}
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
 			$this->setState('message', $installer->message);
-			$this->setState('extension.message', $installer->get('extension.message'));			
+			$this->setState('extension.message', $installer->get('extension.message'));
 			if(!$failed) $app->enqueueMessage(JText::_('Discover install successful'));
 		} else {
 			$app =& JFactory::getApplication();
 			$app->enqueueMessage(JText::_('No extension selected'));
 		}
 	}
-	
+
 	function purge() {
 		$db =& JFactory::getDBO();
 		$db->setQuery('DELETE FROM #__extensions WHERE state = -1');

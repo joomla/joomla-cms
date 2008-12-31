@@ -2,13 +2,8 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @license		GNU General Public License, see LICENSE.php
 */
 
 // no direct access
@@ -28,10 +23,10 @@ class plgContentLoadmodule extends JPlugin
 		if ( JString::strpos( $row->text, 'loadposition' ) === false ) {
 			return true;
 		}
-	
+
 	 	// expression to search for
 	 	$regex = '/{loadposition\s*.*?}/i';
-	
+
 		// check whether plugin has been unpublished
 		if ( !$this->params->get( 'enabled', 1 ) ) {
 			$row->text = preg_replace( $regex, '', $row->text );
@@ -40,10 +35,10 @@ class plgContentLoadmodule extends JPlugin
 
 	 	// find all instances of plugin and put in $matches
 		preg_match_all( $regex, $row->text, $matches );
-	
+
 		// Number of plugins
 	 	$count = count( $matches[0] );
-	
+
 	 	// plugin only processes if there are any instances of the plugin in the text
 	 	if ( $count ) {
 			// Get plugin parameters
@@ -60,11 +55,11 @@ class plgContentLoadmodule extends JPlugin
 	 		$load = str_replace( '{', '', $load );
 	 		$load = str_replace( '}', '', $load );
  			$load = trim( $load );
-	
+
 			$modules	= $this->_load( $load, $style );
 			$row->text 	= preg_replace( '{'. $matches[0][$i] .'}', $modules, $row->text );
 	 	}
-	
+
 	  	// removes tags without matching module positions
 		$row->text = preg_replace( $regex, '', $row->text );
 	}
@@ -74,7 +69,7 @@ class plgContentLoadmodule extends JPlugin
 		$document	= &JFactory::getDocument();
 		$renderer	= $document->loadRenderer('module');
 		$params		= array('style'=>$style);
-	
+
 		$contents = '';
 		foreach (JModuleHelper::getModules($position) as $mod)  {
 			$contents .= $renderer->render($mod, $params);

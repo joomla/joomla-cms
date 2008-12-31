@@ -4,13 +4,8 @@
  * @package		JLibMan
  * @subpackage	Installer
  * @copyright 	Copyright (C) 2008 Open Source Matters
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
@@ -20,7 +15,7 @@ jimport('joomla.base.adapterinstance');
 
 /**
  * File installer
- * 
+ *
  * @author 		Sam Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
  * @subpackage	Installer
@@ -147,7 +142,7 @@ class JInstallerFile extends JAdapterInstance
 		// ...and adds new files
 		return $this->install();
 	}
-	
+
 	/**
 	 * Custom uninstall method
 	 *
@@ -162,7 +157,7 @@ class JInstallerFile extends JAdapterInstance
 		// Initialize variables
 		$row	= null;
 		$retval = true;
-		$manifestFile = JPATH_MANIFESTS.DS.'files' . DS . $id .'.xml'; 
+		$manifestFile = JPATH_MANIFESTS.DS.'files' . DS . $id .'.xml';
 
 		// Because files may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
@@ -170,7 +165,7 @@ class JInstallerFile extends JAdapterInstance
 			$manifest = new JFileManifest($manifestFile);
 			// Set the plugin root path
 			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'files'.DS.$manifest->filename);
-			
+
 			$xml =& JFactory::getXMLParser('Simple');
 
 			// If we cannot load the xml file return null

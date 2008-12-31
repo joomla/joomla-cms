@@ -4,13 +4,8 @@
  * @package		JLibMan
  * @subpackage	Installer
  * @copyright 	Copyright (C) 2008 Open Source Matters
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
@@ -20,7 +15,7 @@ jimport('joomla.base.adapterinstance');
 
 /**
  * Library installer
- * 
+ *
  * @author 		Sam Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
  * @subpackage	Installer
@@ -59,7 +54,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		if($result) { // already installed, can we upgrade?
-			if($this->parent->getOverwrite() || $this->parent->getUpgrade()) { 
+			if($this->parent->getOverwrite() || $this->parent->getUpgrade()) {
 				// we can upgrade, so uninstall the old one
 				$installer = new JInstaller(); // we don't want to compromise this instance!
 				$installer->uninstall('library', $result);
@@ -120,7 +115,7 @@ class JInstallerLibrary extends JAdapterInstance
 			$this->parent->abort();
 			return false;
 		}
-		
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Extension Registration
@@ -196,7 +191,7 @@ class JInstallerLibrary extends JAdapterInstance
 		// now create the new files
 		return $this->install();
 	}
-	
+
 	/**
 	 * Custom uninstall method
 	 *
@@ -209,7 +204,7 @@ class JInstallerLibrary extends JAdapterInstance
 	{
 		// Initialize variables
 		$retval = true;
-		
+
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('extension');
@@ -217,15 +212,15 @@ class JInstallerLibrary extends JAdapterInstance
 			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
 			return false;
 		}
-		
+
 		// Is the library we are trying to uninstall a core one?
 		// Because that is not a good idea...
 		if ($row->protected) {
 			JError::raiseWarning(100, JText::_('Library').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCOREMODULE', $row->name)."<br />".JText::_('WARNCOREMODULE2'));
 			return false;
 		}
-		
-		$manifestFile = JPATH_MANIFESTS.DS.'libraries' . DS . $row->element .'.xml'; 
+
+		$manifestFile = JPATH_MANIFESTS.DS.'libraries' . DS . $row->element .'.xml';
 
 		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
@@ -233,7 +228,7 @@ class JInstallerLibrary extends JAdapterInstance
 			$manifest = new JLibraryManifest($manifestFile);
 			// Set the plugin root path
 			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.$manifest->libraryname);
-			
+
 			$xml =& JFactory::getXMLParser('Simple');
 
 			// If we cannot load the xml file return null
@@ -274,16 +269,16 @@ class JInstallerLibrary extends JAdapterInstance
 				}
 			}
 		}
-		
+
 		$row->delete($row->extension_id);
 		unset($row);
 
 		return $retval;
 	}
-	
+
 /**
 	 * Custom discover method
-	 * 
+	 *
 	 * @access public
 	 * @return array(JExtension) list of extensions available
 	 * @since 1.6
@@ -303,10 +298,10 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 		return $results;
 	}
-	
+
 	/**
 	 * Custom discover_install method
-	 * 
+	 *
 	 * @access public
 	 * @param int $id The id of the extension to install (from #__discoveredextensions)
 	 * @return void
@@ -317,7 +312,7 @@ class JInstallerLibrary extends JAdapterInstance
 		 * There are two parts to a library which are disjunct in their locations
 		 * 1) The manifest file (stored in /JPATH_MANIFESTS/libraries)
 		 * 2) The actual files (stored in /JPATH_LIBRARIES/libraryname)
-		 * Thus installation of a library is the process of dumping files 
+		 * Thus installation of a library is the process of dumping files
 		 * in two different places. As such it is impossible to perform
 		 * any operation beyond mere registration of a library under the presumption
 		 * that the files exist in the appropriate location so that come uninstall
@@ -339,7 +334,7 @@ class JInstallerLibrary extends JAdapterInstance
 			JError::raiseWarning(101, JText::_('Plugin').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
 			return false;
 		}
-	}		
+	}
 
 }
 

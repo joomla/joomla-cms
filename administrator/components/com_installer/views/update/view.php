@@ -3,14 +3,9 @@
  * @version		$Id:view.php 10586 2008-07-25 05:57:24Z pasamio $
  * @package		Joomla
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -44,7 +39,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-		
+
 		JHtml::_('behavior.tooltip');
 		parent::display($tpl);
 	}
@@ -65,7 +60,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 			$item->cbd		= null;
 			$item->style	= null;
 		}
-*/		
+*/
 		$item->author_info = @$item->authorEmail .'<br />'. @$item->authorUrl;
 
 		$this->assignRef('item', $item);

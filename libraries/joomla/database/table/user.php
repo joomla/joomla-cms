@@ -3,13 +3,8 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @license		GNU General Public License, see LICENSE.php
 */
 
 // No direct access
@@ -217,16 +212,16 @@ class JTableUser extends JTable
 			{
 				// existing record
 				$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
-	
+
 				// syncronise ACL
 				// single group handled at the moment
 				// trivial to expand to multiple groups
 				$object_id = $acl->get_object_id( $section_value, $this->$k, 'ARO' );
-	
+
 				$groups = $acl->get_object_groups( $object_id, 'ARO' );
 				$acl->del_group_object( $groups[0], $section_value, $this->$k, 'ARO' );
 				$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
-	
+
 				$acl->edit_object( $object_id, $section_value, $this->_db->getEscaped( $this->name ), $this->$k, 0, 0, 'ARO' );
 			}
 			else
@@ -270,7 +265,7 @@ class JTableUser extends JTable
 			;
 			$this->_db->setQuery( $query );
 			$this->_db->query();
-	
+
 			$query = 'DELETE FROM #__messages'
 			. ' WHERE user_id_to = '. (int) $this->$k
 			;

@@ -2,8 +2,8 @@
 /**
  * @version		$Id$
  * @package		Joomla.Framework
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 /**
@@ -19,7 +19,7 @@ class JTableBackupEntry extends JTable
 	/**
 	 * @var int unsigned
 	 */
-	protected $backupid = null;	
+	protected $backupid = null;
 	/**
 	 * @var varchar
 	 */
@@ -34,7 +34,7 @@ class JTableBackupEntry extends JTable
 	protected $data = null;
 	/** @var text */
 	protected $params = null;
-	
+
 	/*
 	 * Constructor
 	 * @param object Database object

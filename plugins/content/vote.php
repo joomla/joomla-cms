@@ -2,13 +2,8 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @license		GNU General Public License, see LICENSE.php
 */
 
 // no direct access
@@ -22,19 +17,19 @@ class plgContentVote extends JPlugin
 		parent::__construct($subject, $options);
 		$this->loadLanguage();
 	}
-	
+
 	public function onBeforeDisplayContent( &$row, &$params, $page=0 )
 	{
 		$uri = & JFactory::getURI();
-	
+
 		$id 	= $row->id;
 		$html 	= '';
-	
+
 		if (isset($row->rating_count) && $params->get( 'show_vote' ) && !$params->get( 'popup' ))
 		{
 			$html .= '<form method="post" action="' . $uri->toString( ) . '">';
 			$img = '';
-	
+
 			// look for images in template if available
 			$starImageOn 	= JHtml::_('image.site',  'rating_star.png', '/images/M_images/' );
 			$starImageOff 	= JHtml::_('image.site',  'rating_star_blank.png', '/images/M_images/' );
@@ -48,7 +43,7 @@ class plgContentVote extends JPlugin
 			$html .= JText::_( 'User Rating' ) .':'. $img .'&nbsp;/&nbsp;';
 			$html .= intval( $row->rating_count );
 			$html .= "</span>\n<br />\n";
-	
+
 			if (!$params->get( 'intro_only' ))
 			{
 				$html .= '<span class="content_vote">';

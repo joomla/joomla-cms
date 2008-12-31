@@ -1,29 +1,29 @@
 <?php
 /**
  * Document Description
- * 
- * Document Long Description 
- * 
+ *
+ * Document Long Description
+ *
  * PHP4/5
- *  
+ *
  * Created on Oct 30, 2008
- * 
+ *
  * @package package_name
  * @author Your Name <author@toowoombarc.qld.gov.au>
  * @author Toowoomba Regional Council Information Management Branch
  * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
- * @copyright 2008 Toowoomba Regional Council/Developer Name 
+ * @copyright 2008 Toowoomba Regional Council/Developer Name
  * @version SVN: $Id:$
- * @see http://joomlacode.org/gf/project/   JoomlaCode Project:    
+ * @see http://joomlacode.org/gf/project/   JoomlaCode Project:
  */
 
 // No direct access
 defined('JPATH_BASE') or die();
 
 abstract class JDataLoad extends JObject {
-	
+
 	abstract public function load();
-	
+
 	public static function &getInstance($options = array())
 	{
 		static $instances;
@@ -66,4 +66,4 @@ abstract class JDataLoad extends JObject {
 		return $instances[$signature];
 	}
 }
- 
+

@@ -3,8 +3,8 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -31,9 +31,9 @@ class UpdateModelUpdate extends JModel
 	 * @var	string
 	 */
 	var $_type = 'update';
-	
+
 	var $_message = '';
-	
+
 	function &getItems()
 	{
 		if (empty($this->_items)) {
@@ -56,8 +56,8 @@ class UpdateModelUpdate extends JModel
 			$this->_pagination = new JPagination($this->_state->get('pagination.total'), $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit'));
 		}
 		return $this->_pagination;
-	}	
-	
+	}
+
 	/**
 	 * Current extension list
 	 */
@@ -76,9 +76,9 @@ class UpdateModelUpdate extends JModel
 				' ORDER BY type, client_id, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
-		
+
 		$apps =& JApplicationHelper::getClientInfo();
-		
+
 		$numRows = count($rows);
 		for($i=0;$i < $numRows; $i++)
 		{
@@ -97,13 +97,13 @@ class UpdateModelUpdate extends JModel
 			$this->_items = $rows;
 		}
 	}
-	
+
 	function findUpdates($eid=0) {
 		$updater =& JUpdater::getInstance();
 		$results = $updater->findUpdates($eid);
 		return true;
 	}
-	
+
 	function purge() {
 		$db =& JFactory::getDBO();
 		$db->setQuery('TRUNCATE TABLE #__updates');

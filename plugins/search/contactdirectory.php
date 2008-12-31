@@ -2,25 +2,20 @@
 /**
  * @version		$Id: contactdirectory.php 11163 2008-10-18 15:42:00Z chantal.bisson $
  * @package		Joomla
- * @copyright	Copyright (C) 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.plugin.plugin');
 
-class plgSearchContactdirectory extends JPlugin 
+class plgSearchContactdirectory extends JPlugin
 {
 	protected $areas = array('contactdirectory'=>'Contact Directory');
 
-	public function __construct(&$subject, $options = array()) 
+	public function __construct(&$subject, $options = array())
 	{
 		parent::__construct($subject, $options);
 		$this->loadLanguage();
@@ -62,25 +57,25 @@ class plgSearchContactdirectory extends JPlugin
 		}
 
 		$section = JText::_( 'Contact Directory' );
-	
+
 		switch ( $ordering ) {
 			case 'alpha':
 				$order = 'c.name ASC';
 				break;
-	
+
 			case 'category':
 				$order = 'cat.title ASC, c.name ASC';
 				break;
-	
+
 			case 'popular':
 			case 'newest':
 			case 'oldest':
 			default:
 				$order = 'c.name DESC';
 		}
-	
+
 		$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
-	
+
 		$query	= 'SELECT DISTINCT c.name AS title, "" AS created,'
 		. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as slug, '
 		. ' CASE WHEN CHAR_LENGTH(cat.alias) THEN CONCAT_WS(\':\', cat.id, cat.alias) ELSE cat.id END AS catslug, '
@@ -101,11 +96,11 @@ class plgSearchContactdirectory extends JPlugin
 		;
 		$db->setQuery( $query, 0, $limit );
 		$rows = $db->loadObjectList();
-	
+
 		foreach($rows as $key => $row) {
 			$rows[$key]->href = 'index.php?option=com_contactdirectory&view=contact&id='.$row->slug;
 		}
-	
+
 		return $rows;
 	}
 }

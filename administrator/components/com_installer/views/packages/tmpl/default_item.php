@@ -7,7 +7,7 @@
 	<td align="center"><?php echo @$this->item->version != '' ? $this->item->version : '&nbsp;'; ?></td>
 	<td>
 		<a target="_blank" href="<?php echo $this->item->authorurl ?>"><?php echo $this->item->author  ?></a>
-	</td>	
+	</td>
 	<td>
 		<a target="_blank" href="<?php echo $this->item->packagerurl ?>"><?php echo $this->item->packager ?></a>
 	</td>

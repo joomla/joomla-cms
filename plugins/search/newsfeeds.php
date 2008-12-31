@@ -2,25 +2,20 @@
 /**
  * @version		$Id$
  * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.plugin.plugin');
 
-class plgsearchNewsfeeds extends JPlugin 
+class plgsearchNewsfeeds extends JPlugin
 {
 	protected $areas = array('newsfeeds' => 'Newsfeeds');
 
-	public function __construct(&$subject, $options = array()) 
+	public function __construct(&$subject, $options = array())
 	{
 		parent::__construct($subject, $options);
 		$this->loadLanguage();
@@ -71,7 +66,7 @@ class plgsearchNewsfeeds extends JPlugin
 				$wheres2[] 	= 'LOWER(a.link) LIKE '.$text;
 				$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
 				break;
-	
+
 			case 'all':
 			case 'any':
 			default:
@@ -88,25 +83,25 @@ class plgsearchNewsfeeds extends JPlugin
 				$where = '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';
 				break;
 		}
-	
+
 		switch ( $ordering ) {
 			case 'alpha':
 				$order = 'a.name ASC';
 				break;
-	
+
 			case 'category':
 				$order = 'b.title ASC, a.name ASC';
 				break;
-	
+
 			case 'oldest':
 			case 'popular':
 			case 'newest':
 			default:
 				$order = 'a.name ASC';
 		}
-	
+
 		$searchNewsfeeds = JText::_( 'Newsfeeds' );
-	
+
 		$query = 'SELECT a.name AS title, "" AS created, a.link AS text,'
 		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 		. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END as catslug, '
@@ -122,11 +117,11 @@ class plgsearchNewsfeeds extends JPlugin
 		;
 		$db->setQuery( $query, 0, $limit );
 		$rows = $db->loadObjectList();
-	
+
 		foreach($rows as $key => $row) {
 			$rows[$key]->href = 'index.php?option=com_newsfeeds&view=newsfeed&catid='.$row->catslug.'&id='.$row->slug;
 		}
-	
+
 		return $rows;
 	}
 }

@@ -5,7 +5,7 @@ jimport('joomla.tasks.task');
  * A set of tasks
  * @since 1.6
  */
-class JTaskSet extends JTable { 
+class JTaskSet extends JTable {
 	protected $tasksetid;
 	protected $tasksetname;
 	protected $extension_id;
@@ -18,7 +18,7 @@ class JTaskSet extends JTable {
 	protected $max_time;
 	/** Percentage Threshold */
 	protected $threshold = 75;
-	
+
 	function __construct(& $database) {
 		parent::__construct('#__tasksets', 'tasksetid', $database);
 		$app =& JFactory::getApplication();
@@ -33,7 +33,7 @@ class JTaskSet extends JTable {
 			$this->run_time = 15;
 		}
 	}
-	
+
 	public function setThreshold($threshold) {
 		$this->threshold = $threshold;
 		$this->run_time = intval($this->max_time * ($this->threshold / 100));
@@ -57,12 +57,12 @@ class JTaskSet extends JTable {
 			echo $task->toString();
 		}
 	}
-	
+
 	function countTasks() {
 		$this->_db->setQuery('SELECT count(*) FROM #__tasks WHERE tasksetid = '. $this->tasksetid);
 		return $this->_db->loadResult();
 	}
-	
+
 	function run($callback, &$context=null) {
 		while($task = $this->getNextTask()) $task->execute($callback, $context);
 		$app =& JFactory::getApplication();
@@ -70,33 +70,33 @@ class JTaskSet extends JTable {
 		if(!$this->landing_page) $this->landing_page = 'index.php';
 		$app->redirect($this->landing_page);
 	}
-	
+
 	public function &createTask() {
 		$task = new JTask($this->_db, $this);
 		$task->set('tasksetid', $this->tasksetid);
 		return $task;
 	}
-	
+
 	public function addTask($obj) {
 		$task =& $this->createTask();
 		$task->store();
 		$task->setInstance($obj);
 		$obj->setTask($task);
 	}
-	
+
 	public function load($pid=null) {
 		$res = parent::load($pid);
 		if($res) $this->data = unserialize($this->data); // pull the data back out
 		return $res;
 	}
-	
+
 	public function store($updateNulls=false) {
 		$this->params = serialize($this->params);
 		$res = parent::store($updateNulls);
 		$this->params = unserialize($this->params);
-		return $res;		
+		return $res;
 	}
-	
+
 	public function delete( $oid=null )
 	{
 
@@ -126,7 +126,7 @@ class JTaskSet extends JTable {
 			return false;
 		}
 	}
-	
+
 	public function redirect() {
 		$app =& JFactory::getApplication();
 		$app->redirect($this->landing_page);

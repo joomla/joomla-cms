@@ -105,8 +105,8 @@ class ContactdirectoryViewField extends JView
         );
 
 		$lists['pos'] = JHtml::_(
-            'select.genericlist', 
-            $positions, 
+            'select.genericlist',
+            $positions,
             'pos',
             array(
                 'list.attr' => 'class="inputbox"',

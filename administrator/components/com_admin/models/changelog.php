@@ -2,7 +2,7 @@
 /**
  * @package		Bricks
  * @copyright	Copyright (C) 2008 R Crawford.
- * @license		GNU/GPL, see LICENSE.php
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // Check to ensure this file is included in Joomla!

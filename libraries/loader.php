@@ -2,13 +2,8 @@
 /**
 * @version $Id$
 * @package		Joomla.Framework
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @license		GNU General Public License, see LICENSE.php
 */
 
 if (!defined('DS')) {
@@ -86,12 +81,12 @@ abstract class JLoader
 					// note: JLoader::register does an is_file check itself
 					// se we don't need it above, we do it here because we
 					// try to load the file directly and it may not exist
-					// which could cause php to throw up nasty warning messages 
+					// which could cause php to throw up nasty warning messages
 					// at us so we set it to false here and hope that if the
 					// programmer is good enough they'll check the return value
 					// instead of hoping it'll work. remmeber include only fires
 					// a warning, so $rs was going to be false with a nasty
-					// warning message 
+					// warning message
 				}
 			}
 

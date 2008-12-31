@@ -3,8 +3,8 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -32,9 +32,9 @@ class InstallerModelUpdate extends InstallerModel
 	 * @var	string
 	 */
 	var $_type = 'update';
-	
+
 	var $_message = '';
-	
+
 	/**
 	 * Current extension list
 	 */
@@ -59,9 +59,9 @@ class InstallerModelUpdate extends InstallerModel
 			JError::raiseWarning(-1, $e->getMessage());
 			return false;
 		}
-		
+
 		$apps =& JApplicationHelper::getClientInfo();
-		
+
 		$numRows = count($rows);
 		for($i=0;$i < $numRows; $i++)
 		{
@@ -80,13 +80,13 @@ class InstallerModelUpdate extends InstallerModel
 			$this->_items = $rows;
 		}
 	}
-	
+
 	function findUpdates($eid=0) {
 		$updater =& JUpdater::getInstance();
 		$results = $updater->findUpdates($eid);
 		return true;
 	}
-	
+
 	function purge() {
 		$db =& JFactory::getDBO();
 		$db->setQuery('TRUNCATE TABLE #__updates');
@@ -98,7 +98,7 @@ class InstallerModelUpdate extends InstallerModel
 			return false;
 		}
 	}
-	
+
 	function update($uids) {
 		foreach($uids as $uid) {
 			$update = new JUpdate();

@@ -2,14 +2,9 @@
 /**
  * @version		$Id$
  * @package	Joomla.Framework
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 /**
  * Version information
@@ -38,7 +33,7 @@ class JVersion
 	/** @var string Timezone */
 	public $RELTZ 		= '';
 	/** @var string Copyright Text */
-	public $COPYRIGHT 	= 'Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.';
+	public $COPYRIGHT 	= 'Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.';
 	/** @var string URL */
 	public $URL 	= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
@@ -87,7 +82,7 @@ class JVersion
 	public function isCompatible ( $minimum ) {
 		return (version_compare( JVERSION, $minimum, 'eq' ) == 1);
 	}
-	
+
 	/**
 	 * Returns the user agent
 	 * @param string name of the component
@@ -99,7 +94,7 @@ class JVersion
 		if($component === NULL) $component = 'Framework';
 		if($add_version) $component .= '/'.$this->RELEASE;
 		// if masked pretend to look like Mozilla 5.0 but still identify ourselves
-		if($mask) return 'Mozilla/5.0 '. $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : ''); 
+		if($mask) return 'Mozilla/5.0 '. $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
 		else return $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
 	}
 }

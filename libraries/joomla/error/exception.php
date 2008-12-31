@@ -3,14 +3,9 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Error
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // No direct access
 defined('JPATH_BASE') or die();
@@ -143,7 +138,7 @@ class JException extends Exception
 			}
 		}
 
-		//Store exception for debugging purposes!!!	
+		//Store exception for debugging purposes!!!
 		JError::addToStack($this);
 
 		parent::__construct($msg, (int) $code);

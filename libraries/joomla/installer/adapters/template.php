@@ -3,13 +3,8 @@
 * @version		$Id:template.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	Installer
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @license		GNU General Public License, see LICENSE.php
 */
 
 // No direct access
@@ -68,7 +63,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$result = $db->loadResult();
 		// TODO: Rewrite this! We shouldn't uninstall a template, we should back up the params as well
 		if($result) { // already installed, can we upgrade?
-			if($this->parent->getOverwrite() || $this->parent->getUpgrade()) { 
+			if($this->parent->getOverwrite() || $this->parent->getUpgrade()) {
 				// we can upgrade, so uninstall the old one
 				$installer = new JInstaller(); // we don't want to compromise this instance!
 				$installer->uninstall('template', $result);
@@ -142,7 +137,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
-		
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Extension Registration
@@ -181,7 +176,7 @@ class JInstallerTemplate extends JAdapterInstance
 	{
 		// Initialize variables
 		$retval	= true;
-		
+
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('extension');
@@ -189,14 +184,14 @@ class JInstallerTemplate extends JAdapterInstance
 			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
 			return false;
 		}
-		
+
 		// Is the library we are trying to uninstall a core one?
 		// Because that is not a good idea...
 		if ($row->protected) {
 			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCOREMODULE', $row->name)."<br />".JText::_('WARNCOREMODULE2'));
 			return false;
 		}
-		
+
 		$name = $row->element;
 		$clientId = $row->client_id;
 
@@ -244,7 +239,7 @@ class JInstallerTemplate extends JAdapterInstance
 		unset($row);
 		return $retval;
 	}
-	
+
 	/**
 	 * Discover existing but uninstalled templates
 	 * @return Array JExtensionTable list
@@ -277,7 +272,7 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 		return $results;
 	}
-	
+
 	/**
 	 * Perform an install from a discovered extension
 	 */

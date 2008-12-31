@@ -3,8 +3,8 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Query
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 defined('JPATH_BASE') or die;
@@ -112,7 +112,7 @@ class JQuery
 			$this->_from->append( $tables );
 		}
 
-		return $this;		
+		return $this;
 	}
 
 	/**
@@ -126,7 +126,7 @@ class JQuery
 		}
 		$this->_join[] = new JQueryElement( strtoupper( $type ) . ' JOIN', $conditions );
 
-		return $this;		
+		return $this;
 	}
 
 	/**
@@ -142,7 +142,7 @@ class JQuery
 			$this->_where->append( $conditions );
 		}
 
-		return $this;		
+		return $this;
 	}
 
 	/**
@@ -156,7 +156,7 @@ class JQuery
 			$this->_group->append( $columns );
 		}
 
-		return $this;		
+		return $this;
 	}
 
 	/**
@@ -170,7 +170,7 @@ class JQuery
 			$this->_having->append( $columns );
 		}
 
-		return $this;		
+		return $this;
 	}
 
 	/**
@@ -184,7 +184,7 @@ class JQuery
 			$this->_order->append( $columns );
 		}
 
-		return $this;		
+		return $this;
 	}
 
 	/**

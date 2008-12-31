@@ -3,38 +3,33 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
- 
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
+
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
- 
+
 /**
  * Extension object
  *
- * @author 		Sam Moffatt <pasamio@gmail.com> 
+ * @author 		Sam Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.6
  */
 // TODO: Merge this into JTableExtension?
 class JExtension extends JObject {
-		
+
 	var $filename = '';
 	var $type = '';
 	var $id = '';
-	var $published = false; // published status 
+	var $published = false; // published status
 	var $client = 'site'; // valid for modules, templates and languages; set by default
 	var $group =  ''; // valid for plugins
 	var $manifest_cache = null; // manifest cache; stored metadata
 	var $params = null;	// extension params
-	
+
 	function __construct($element=null) {
 		if($element && is_a($element, 'JSimpleXMLElement')) {
 			$this->type = $element->attributes('type');

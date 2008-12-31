@@ -3,14 +3,9 @@
  * @version		$Id:component.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
@@ -42,7 +37,7 @@ class JInstallerSQL extends JAdapterInstance
 		// Get the extension manifest object
 		$manifest =& $this->parent->getManifest();
 		$this->manifest =& $manifest->document;
-		
+
 		$manifestClass = null; // set this in case
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -93,12 +88,12 @@ class JInstallerSQL extends JAdapterInstance
 				$manifestClass = new $classname($this);
 				// and set this so we can copy it later
 				$this->set('manifest.script', $manifestScript);
-				// Note: if we don't find the class, don't bother to copy the file				
+				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 		// run preflight if possible
-		if($manifestClass && method_exists($manifestClass,'preflight')) $manifestClass->preflight('install', $this);	
-		
+		if($manifestClass && method_exists($manifestClass,'preflight')) $manifestClass->preflight('install', $this);
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Basic Checks Section
@@ -229,11 +224,11 @@ class JInstallerSQL extends JAdapterInstance
 				}
 			}
 		}
-		
+
 		if($this->get('manifest.script')) {
 			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest.script');
 			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest.script');
-			
+
 			if(!file_exists($path['dest'])) {
 				if (!$this->parent->copyFiles(array ($path))) {
 					// Install failed, rollback changes
@@ -298,7 +293,7 @@ class JInstallerSQL extends JAdapterInstance
 					}
 				}
 				// end legacy support
-				if($manifestClass && method_exists($manifestClass,'install')) $manifestClass->install($this);	
+				if($manifestClass && method_exists($manifestClass,'install')) $manifestClass->install($this);
 				$msg = ob_get_contents();
 				ob_end_clean();
 				if ($msg != '') {
@@ -319,11 +314,11 @@ class JInstallerSQL extends JAdapterInstance
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
-		
+
 		// And now we run the postflight
 		if($manifestClass && method_exists($manifestClass,'postflight')) $manifestClass->postflight('install', $this);
-		
-		
+
+
 		return true;
 	}
 

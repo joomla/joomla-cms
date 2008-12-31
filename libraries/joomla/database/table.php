@@ -3,14 +3,9 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Table
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // No direct access
 defined('JPATH_BASE') or die();
@@ -363,17 +358,17 @@ abstract class JTable extends JObject
 				. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
 				;
 				$this->_db->setQuery( $query );
-	
+
 				$this->_db->query();
-	
+
 				$query = 'UPDATE '.$this->_tbl
 				. ' SET ordering = '.(int) $this->ordering
 				. ' WHERE '.$this->_tbl_key.' = '.$this->_db->Quote($row->$k)
 				;
 				$this->_db->setQuery( $query );
-	
+
 				$this->_db->query();
-	
+
 				$this->ordering = $row->ordering;
 			}
 			else
@@ -383,7 +378,7 @@ abstract class JTable extends JObject
 				. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
 				;
 				$this->_db->setQuery( $query );
-		
+
 				$this->_db->query();
 			}
 		} catch(JException $e) {

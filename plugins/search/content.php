@@ -2,14 +2,9 @@
 /**
  * @version		$Id$
  * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -20,12 +15,12 @@ class plgSearchContent extends JPlugin
 {
 	protected $areas = array('content' => 'Articles');
 
-	public function __construct(&$subject, $options = array()) 
+	public function __construct(&$subject, $options = array())
 	{
 		parent::__construct($subject, $options);
 		$this->loadLanguage();
 	}
-	
+
 	/**
 	 * @return array An array of search areas
 	 */
@@ -49,7 +44,7 @@ class plgSearchContent extends JPlugin
 		$user	= JFactory::getUser();
 
 		require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
-	
+
 		if (is_array( $areas )) {
 			if (!array_intersect( $areas, array_keys( $this->areas ) )) {
 				return array();
@@ -60,7 +55,7 @@ class plgSearchContent extends JPlugin
 		$sUncategorised = $this->params->get( 'search_uncategorised', 	1 );
 		$sArchived 		= $this->params->get( 'search_archived', 		1 );
 		$limit 			= $this->params->def( 'search_limit', 		50 );
-	
+
 		$nullDate = $db->getNullDate();
 		$date = JFactory::getDate();
 		$now = $date->toMySQL();
@@ -69,7 +64,7 @@ class plgSearchContent extends JPlugin
 		if ($text == '') {
 			return array();
 		}
-	
+
 		$wheres = array();
 		switch ($phrase) {
 			case 'exact':
@@ -107,27 +102,27 @@ class plgSearchContent extends JPlugin
 			case 'oldest':
 				$order = 'a.created ASC';
 				break;
-	
+
 			case 'popular':
 				$order = 'a.hits DESC';
 			break;
 			case 'alpha':
 				$order = 'a.title ASC';
 				break;
-	
+
 			case 'category':
 				$order = 'b.title ASC, a.title ASC';
 				$morder = 'a.title ASC';
 				break;
-	
+
 			case 'newest':
 				default:
 				$order = 'a.created DESC';
 				break;
 		}
-	
+
 		$rows = array();
-	
+
 		// search articles
 		if ( $sContent && $limit > 0 )
 		{
@@ -187,7 +182,7 @@ class plgSearchContent extends JPlugin
 			$db->setQuery( $query, 0, $limit );
 			$list2 = $db->loadObjectList();
 			$limit -= count($list2);
-	
+
 			if(isset($list2))
 			{
 				foreach($list2 as $key => $item)
@@ -195,15 +190,15 @@ class plgSearchContent extends JPlugin
 					$list2[$key]->href = ContentHelperRoute::getArticleRoute($item->id);
 				}
 			}
-	
+
 			$rows[] = $list2;
 		}
-	
+
 		// search archived content
 		if ( $sArchived && $limit > 0 )
 		{
 			$searchArchived = JText::_( 'Archived' );
-	
+
 			$query = 'SELECT a.title AS title,'
 			. ' a.created AS created,'
 			. ' a.introtext AS text,'
@@ -227,7 +222,7 @@ class plgSearchContent extends JPlugin
 			;
 			$db->setQuery( $query, 0, $limit );
 			$list3 = $db->loadObjectList();
-	
+
 			if(isset($list3))
 			{
 				foreach($list3 as $key => $item)
@@ -235,10 +230,10 @@ class plgSearchContent extends JPlugin
 					$list3[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
 				}
 			}
-	
+
 			$rows[] = $list3;
 		}
-	
+
 		$results = array();
 		if(count($rows))
 		{
@@ -247,7 +242,7 @@ class plgSearchContent extends JPlugin
 				$results = array_merge($results, (array) $row);
 			}
 		}
-	
+
 		return $results;
 	}
 }

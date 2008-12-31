@@ -3,8 +3,8 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -119,9 +119,9 @@ class InstallerModelManage extends InstallerModel
 				' ORDER BY protected, type, client_id, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
-		
+
 		$apps =& JApplicationHelper::getClientInfo();
-		
+
 		$numRows = count($rows);
 		for($i=0;$i < $numRows; $i++)
 		{
@@ -131,7 +131,7 @@ class InstallerModelManage extends InstallerModel
 				if($data) {
 					foreach($data as $key => $value) {
 						$row->$key = $value;
-					}	
+					}
 				}
 			}
 			$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
@@ -148,7 +148,7 @@ class InstallerModelManage extends InstallerModel
 			$this->_items = $rows;
 		}
 	}
-	
+
 	/**
 	 * Remove (uninstall) an extension
 	 *
@@ -179,7 +179,7 @@ class InstallerModelManage extends InstallerModel
 		jimport('joomla.installer.installer');
 		$installer = & JInstaller::getInstance();
 		$row =& JTable::getInstance('extension');
-		
+
 		// Uninstall the chosen extensions
 		foreach ($eid as $id)
 		{
@@ -187,7 +187,7 @@ class InstallerModelManage extends InstallerModel
 			$row->load($id);
 			if($row->type) {
 				$result	= $installer->uninstall($row->type, $id );
-			
+
 
 				// Build an array of extensions that failed to uninstall
 				if ($result === false) {
@@ -215,8 +215,8 @@ class InstallerModelManage extends InstallerModel
 		$this->setState('extension.message', $installer->get('extension.message'));
 
 		return $result;
-	}	
-	
+	}
+
 	function _buildWhere() {
 		$retval = Array();
 		$filter = JRequest::getVar('filter','');
@@ -225,21 +225,21 @@ class InstallerModelManage extends InstallerModel
 			if(intval($filter)) {
 				$string .= ' OR extension_id = '. intval($filter);
 			}
-			
+
 			$string .= ')';
 			$retval[] = $string;
 		}
-		
+
 		$hideprotected = JRequest::getBool('hideprotected',0);
 		if($hideprotected) {
 			$retval[] = 'protected != 1';
 		}
-		
+
 		$type = JRequest::getVar('extensiontype','All');
 		if($type != 'All') {
 			$retval[] = 'type = "'. $type .'"';
 		}
-		
+
 		$folder = JRequest::getVar('folder','');
 		$valid_folders = Array('plugin','library','All'); // only plugins and libraries have folders
 		if(in_array($type, $valid_folders)) { // if the type supports folders, look for that
@@ -248,17 +248,17 @@ class InstallerModelManage extends InstallerModel
 					$folder = '';
 				}
 				$retval[] = 'folder = "'. $folder .'"';
-			}	
+			}
 		} else { // otherwise force it to be a *
 			JRequest::setVar('folder','*'); // reset var
 		}
-		
-		
+
+
 		if(count($retval)) {
 			return ' AND '. implode(' AND ', $retval);
 		} else return '';
 	}
-	
+
 	function refresh($eid) {
 		if (!is_array($eid)) {
 			$eid = array($eid => 0);

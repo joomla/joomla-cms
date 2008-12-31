@@ -2,14 +2,9 @@
 /**
  * @version		$Id$
  * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -20,12 +15,12 @@ class plgSearchWeblinks extends JPlugin
 {
 	protected $areas = array('weblinks' => 'Weblinks');
 
-	public function __construct(&$subject, $options = array()) 
+	public function __construct(&$subject, $options = array())
 	{
 		parent::__construct($subject, $options);
 		$this->loadLanguage();
 	}
-	
+
 	/**
 	 * @return array An array of search areas
 	 */
@@ -49,7 +44,7 @@ class plgSearchWeblinks extends JPlugin
 		$user	= JFactory::getUser();
 
 		require_once JPATH_SITE.DS.'components'.DS.'com_weblinks'.DS.'helpers'.DS.'route.php';
-	
+
 		if (is_array( $areas )) {
 			if (!array_intersect( $areas, array_keys( $this->areas ) )) {
 				return array();
@@ -63,7 +58,7 @@ class plgSearchWeblinks extends JPlugin
 			return array();
 		}
 		$section 	= JText::_( 'Web Links' );
-	
+
 		$wheres 	= array();
 		switch ($phrase)
 		{
@@ -75,7 +70,7 @@ class plgSearchWeblinks extends JPlugin
 				$wheres2[] 	= 'LOWER(a.title) LIKE '.$text;
 				$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
 				break;
-	
+
 			case 'all':
 			case 'any':
 			default:
@@ -93,30 +88,30 @@ class plgSearchWeblinks extends JPlugin
 				$where 	= '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';
 				break;
 		}
-	
+
 		switch ( $ordering )
 		{
 			case 'oldest':
 				$order = 'a.date ASC';
 				break;
-	
+
 			case 'popular':
 				$order = 'a.hits DESC';
 				break;
-	
+
 			case 'alpha':
 				$order = 'a.title ASC';
 				break;
-	
+
 			case 'category':
 				$order = 'b.title ASC, a.title ASC';
 				break;
-	
+
 			case 'newest':
 			default:
 				$order = 'a.date DESC';
 		}
-	
+
 		$query = 'SELECT a.title AS title, a.description AS text, a.date AS created,'
 		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 		. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END as catslug, '
@@ -132,11 +127,11 @@ class plgSearchWeblinks extends JPlugin
 		;
 		$db->setQuery( $query, 0, $limit );
 		$rows = $db->loadObjectList();
-	
+
 		foreach($rows as $key => $row) {
 			$rows[$key]->href = WeblinksHelperRoute::getWeblinkRoute($row->slug, $row->catslug);
 		}
-	
+
 		return $rows;
 	}
 }

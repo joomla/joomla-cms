@@ -2,14 +2,9 @@
 /**
  * @version		$Id$
  * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -20,7 +15,7 @@ class plgSearchContacts extends JPlugin
 {
 	protected $areas = array('contacts' => 'Contacts');
 
-	public function __construct(&$subject, $options = array()) 
+	public function __construct(&$subject, $options = array())
 	{
 		parent::__construct($subject, $options);
 		$this->loadLanguage();
@@ -60,25 +55,25 @@ class plgSearchContacts extends JPlugin
 		if ($text == '') {
 			return array();
 		}
-	
+
 		$section = JText::_( 'Contact' );
-	
+
 		switch ( $ordering ) {
 			case 'alpha':
 				$order = 'a.name ASC';
 				break;
-	
+
 			case 'category':
 				$order = 'b.title ASC, a.name ASC';
 				break;
-	
+
 			case 'popular':
 			case 'newest':
 			case 'oldest':
 			default:
 				$order = 'a.name DESC';
 		}
-	
+
 		$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
 		$query	= 'SELECT a.name AS title, "" AS created,'
 		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
@@ -107,11 +102,11 @@ class plgSearchContacts extends JPlugin
 		;
 		$db->setQuery( $query, 0, $limit );
 		$rows = $db->loadObjectList();
-	
+
 		foreach($rows as $key => $row) {
 			$rows[$key]->href = 'index.php?option=com_contact&view=contact&id='.$row->slug.'&catid='.$row->catslug;
 		}
-	
+
 		return $rows;
 	}
 }

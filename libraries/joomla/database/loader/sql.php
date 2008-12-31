@@ -1,21 +1,21 @@
 <?php
 /**
  * SQL File loader
- * 
- * Loads an SQL file into a database 
+ *
+ * Loads an SQL file into a database
  * Heavily borrowed from Alexey Ozerov (BigDump v0.29b)
- * 
+ *
  * PHP4/5
- *  
+ *
  * Created on Oct 30, 2008
- * 
+ *
  * @package Joomla.Framework
  * @subpackage Database.Loader
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  * @version SVN: $Id:$
  */
- 
+
 // No direct access
 defined('JPATH_BASE') or die();
 
@@ -31,11 +31,11 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 	private $_task;
 	/** @var int How many chars are read per time */
 	protected $data_chunk_length = 16384;
-	/** @var int How many lines may be considered to be one query (except text lines) */ 
+	/** @var int How many lines may be considered to be one query (except text lines) */
 	protected $max_query_lines = 300;
 	/** @var JStream Log file */
 	private $_logger;
-	
+
 	// TODO: Document this
 	protected $lines_per_session = 3000;
 	protected $delay_per_session = 0;
@@ -49,33 +49,33 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 	protected $comment = Array('#', '--' ,'/*!');
 	protected $taskid = 0;
 	protected $taskset = 0;
-	
+
 	/** Constructor */
 	public function __construct($options) {
 		if(!isset($options['filename'])) {
 			$this->setError(42, 'Filename not set');
 			return false;
 		}
-		
-		$this->_stream =& JFactory::getStream(); 
+
+		$this->_stream =& JFactory::getStream();
 		$this->setProperties($options);
 		if(!$this->_stream->open($this->filename)) {
 			$this->setError(43, 'Failed to open file: '. $this->_stream->getError());
 			return false;
 		}
-		
+
 		// Open up log file
 		//$this->_logger =& JFactory::getStream();
 		//$this->_logger->open('/tmp/datalog','a');
-		
+
 		$this->_dbo =& JFactory::getDBO();
-		
-		
+
+
 		if($this->taskset || $this->taskid) {
-			// TODO: If there is a task system available, redirect through that	
+			// TODO: If there is a task system available, redirect through that
 			if($this->taskset && !$this->taskid) {
 				// Add a new task to the task set and transfer control to the task set
-				// and set the taskid			
+				// and set the taskid
 				$taskset = new JTaskSet($this->_dbo);
 				$this->_task = $taskset->createTask();
 			} else if($this->taskid) {
@@ -84,19 +84,19 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 				$this->_task->load($this->taskid);
 			}
 		}
-		
+
 		// Hope these work
 		@ini_set('auto_detect_line_endings', true);
 		@set_time_limit(0);
 	}
-	
+
 	/** Destructor */
 	public function __destruct() {
 		//$this->_logger->close();
 		$this->_stream->close();
 	}
-	
-	/** Suspend the task; required by JTaskSuspendable */ 
+
+	/** Suspend the task; required by JTaskSuspendable */
 	public function suspendTask() {
 		// TODO: Fill this function in
 		$this->start = $this->_linenumber;
@@ -108,22 +108,22 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 		}
 		return $result;
 	}
-	
+
 	/** Restore the task;  required by JTaskSuspendable */
 	public function restoreTask($options) {
 		$this->setProperties($options);
 	}
-	
+
 	/** Set the task; required by JTaskSuspendable */
-	public function setTask(&$task) { 
+	public function setTask(&$task) {
 		$this->_task = $task;
 		$this->taskid = $task->taskid;
 		$this->taskset = $task->tasksetid;
 	}
-	
+
 	/** Load the data */
 	public function load($offset=-1) {
-		if($offset > -1) $this->offset = $offset; 
+		if($offset > -1) $this->offset = $offset;
 		if(!$this->_stream->seek($this->offset)) {
 			$this->setError('JLoaderSQL::load: Failed to seek SQL file to '. $this->offset);
 			return false;
@@ -134,9 +134,9 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 		$dropline = false;
 		$this->_linenumber = $this->start;
 		// Stay processing as long as the $linespersession is not reached or the query is still incomplete
-		// or if the last query started with 'drop', the next one should be a create 
+		// or if the last query started with 'drop', the next one should be a create
 		while($this->_linenumber < ($this->start + $this->lines_per_session) || $query != "" || $dropline) {
-			// Read the whole next line			
+			// Read the whole next line
 			$dumpline = "";
 			while(!$this->_stream->eof() && substr($dumpline, -1) != "\n") {
 				$dumpline .= $this->_stream->gets($this->data_chunk_length);
@@ -146,7 +146,7 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 
 			$dumpline = str_replace("\r\n", "\n", $dumpline);
 			$dumpline = str_replace("\r", "\n", $dumpline);
-			
+
 			// Skip comments and blank lines only if NOT in parents
 			if (!$inparents) {
 				$skipline = false;
@@ -161,7 +161,7 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 					$this->_linenumber++;
 					continue;
 				}
-				
+
 				// check for drop statements
 				if(strpos($dumpline, 'DROP') === 0) {
 					// if they're dropping something, don't yield as this may cause weird errors
@@ -174,27 +174,27 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 					$dropline = false;
 				}
 			}
-			
+
 			// Remove double back-slashes from the dumpline prior to count the quotes ('\\' can only be within strings)
 			$dumpline_deslashed = str_replace ("\\\\","",$dumpline);
-			
+
 			// Count ' and \' in the dumpline to avoid query break within a text field ending by ;
 			// Please don't use double quotes ('"')to surround strings, it wont work
 
       		$parents=substr_count ($dumpline_deslashed, "'")-substr_count ($dumpline_deslashed, "\\'");
       		if ($parents % 2 != 0) $inparents=!$inparents;
-      		
+
       		// Add the line to query
 			$query .= $dumpline;
 			// Don't count the line if in parents (text fields may include unlimited linebreaks)
       		if (!$inparents) $querylines++;
-      		
+
       		// Stop if query contains more lines as defined by $this->max_query_lines
 			if ($querylines>$this->max_query_lines) {
 				$this->setError('JLoaderSQL::load: Oversized query on line '. $this->_linenumber);
 				return false;
 			}
-			
+
 			// Execute query if end of query detected (; as last character) AND NOT in parents
 			if (ereg(";$",trim($dumpline)) && !$inparents) {
 				$this->offset = $this->_stream->tell(); // update the current location when we've finished a query
@@ -220,7 +220,7 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
       		}
       		$this->_linenumber++;
 		}
-		
+
 		if ($this->_linenumber < ($this->start+$this->lines_per_session)) {
 			if($this->_task) $this->_task->delete(); // remove this task when its done
 			return true; // we're all finished!

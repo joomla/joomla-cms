@@ -3,13 +3,8 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	User
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @license		GNU General Public License, see LICENSE.php
 */
 
 // No direct access
@@ -353,7 +348,7 @@ class JAuthorization extends gacl_api
 				$db->setQuery( $query );
 				$root = $db->loadObject();
 			}
-	
+
 			$where = '';
 			if ($root->lft+$root->rgt <> 0) {
 				if ($inclusive) {
@@ -362,7 +357,7 @@ class JAuthorization extends gacl_api
 					$where = ' WHERE g1.lft > '.(int) $root->lft.' AND g1.lft <'.(int) $root->rgt;
 				}
 			}
-	
+
 			$query	= 'SELECT '. $fields
 					. ' FROM '. $table .' AS g1'
 					. ' INNER JOIN '. $table .' AS g2 ON g1.lft BETWEEN g2.lft AND g2.rgt'

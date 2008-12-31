@@ -5,13 +5,8 @@
  * @subpackage	Installer
  * @copyright	Copyright (C) 2008 Toowoomba Regional Council/Sam Moffatt
  * @copyright 	Copyright (C) 2005-2007 Open Source Matters (Portions)
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
@@ -21,7 +16,7 @@ jimport('joomla.base.adapterinstance');
 /**
  * Package installer
  *
- * @author 		Sam Moffatt <pasamio@gmail.com> 
+ * @author 		Sam Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.6
@@ -96,7 +91,7 @@ class JInstallerPackage extends JAdapterInstance
 		if ($created) {
 			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_root')));
 		}
-		
+
 		if ($folder = $element->attributes('folder')) {
 			$source = $this->parent->getPath('source').DS.$folder;
 		} else {
@@ -104,7 +99,7 @@ class JInstallerPackage extends JAdapterInstance
 		}
 
 		// Install all necessary files
-		if(is_a($element, 'JSimpleXMLElement') && count($element->children())) { 
+		if(is_a($element, 'JSimpleXMLElement') && count($element->children())) {
 			foreach($element->children() as $child) {
 				$file = $source . DS . $child->data();
 				jimport('joomla.installer.helper');
@@ -125,7 +120,7 @@ class JInstallerPackage extends JAdapterInstance
 			$this->parent->abort(JText::_('Package').' '.JText::_('Install').': '.JText::_('There were no files to install!').print_r($element,1));
 			return false;
 		}
-				
+
 		/*if ($this->parent->parseFiles($element, -1) === false) {
 			// Install failed, roll back changes
 			$this->parent->abort();
@@ -165,7 +160,7 @@ class JInstallerPackage extends JAdapterInstance
 		$row	= null;
 		$retval = true;
 		$manifestFile = JPATH_MANIFESTS.DS.'packages' . DS . $id .'.xml';
-		$manifest = new JPackageManifest($manifestFile);		
+		$manifest = new JPackageManifest($manifestFile);
 
 		// Set the plugin root path
 		$this->parent->setPath('extension_root', JPATH_MANIFESTS.DS.'packages'.DS.$manifest->packagename);
@@ -191,7 +186,7 @@ class JInstallerPackage extends JAdapterInstance
 				JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
 			}
-			
+
 			$error = false;
 			foreach($manifest->filelist as $extension) {
 				$tmpInstaller = new JInstaller();
@@ -201,7 +196,7 @@ class JInstallerPackage extends JAdapterInstance
 					$error = true;
 					JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '.
 //							JText::_('There was an error removing an extension!') . ' ' .
-							JText::_('This extension may have already been uninstalled or might not have been uninstall properly') .': ' . 
+							JText::_('This extension may have already been uninstalled or might not have been uninstall properly') .': ' .
 							basename($extension->filename));
 					//$this->parent->abort(JText::_('Package').' '.JText::_('Uninstall').': '.JText::_('There was an error removing an extension, try reinstalling:') . basename($extension->filename));
 					//return false;
@@ -212,14 +207,14 @@ class JInstallerPackage extends JAdapterInstance
 			else JError::raiseWarning(100, JText::_('Package'). ' ' . JText::_('Uninstall'). ': '.
 					JText::_('Errors were detected, manifest file not removed!'));
 		} else {
-			JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '. 
+			JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '.
 				JText::_('Manifest File invalid or not found') . $id);
 			return false;
 		}
 
 		return $retval;
 	}
-	
+
 	function _getExtensionID($type, $id, $client, $group) {
 		// TODO: Rewrite this to handle #__extensions for more than just plugins
 		// TODO-UPDATE

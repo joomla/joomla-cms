@@ -4,11 +4,10 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Template
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @license		GNU General Public License, see LICENSE.php
 * Joomla! is free software and parts of it may contain or be derived from the
 * GNU General Public License or other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
 */
 
 // No direct access

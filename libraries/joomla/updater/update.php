@@ -16,10 +16,10 @@ class JUpdate {
 	var $category;
 	var $relationships;
 	var $targetplatform;
-	
+
 	var $_xml_parser;
 	var $_stack = Array('base');
-	
+
 	/**
      * Gets the reference to the current direct parent
      *
@@ -29,11 +29,11 @@ class JUpdate {
     {
             return implode('->', $this->_stack);
     }
-    
+
     function _getLastTag() {
     	return $this->_stack[count($this->_stack) - 1];
     }
-	
+
 	function _startElement($parser, $name, $attrs = Array()) {
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
@@ -52,12 +52,12 @@ class JUpdate {
 				$this->_current_update->$name->_data = '';
 				foreach($attrs as $key=>$data) {
 					$key = strtolower($key);
-					$this->_current_update->$name->$key = $data;	
+					$this->_current_update->$name->$key = $data;
 				}
 				break;
 		}
 	}
-	
+
 	function _endElement($parser, $name) {
 		array_pop($this->_stack);
 		//echo 'Closing: '. $name .'<br />';
@@ -91,28 +91,28 @@ class JUpdate {
 				break;
 		}
 	}
-	
+
 	function _characterData($parser, $data) {
 		$tag = $this->_getLastTag();
-		//if(!isset($this->$tag->_data)) $this->$tag->_data = ''; 
+		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
 		//$this->$tag->_data .= $data;
 		// Throw the data for this item together
 		$tag = strtolower($tag);
 		$this->_current_update->$tag->_data .= $data;
 	}
-	
+
 	function loadFromXML($url) {
 		if (!($fp = @fopen($url, "r"))) {
 			// TODO: Add a 'mark bad' setting here somehow
 		    JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Extension') .': '. JText::_('Could not open').' '. $url);
 		    return false;
 		}
-		
+
 		$this->xml_parser = xml_parser_create('');
 		xml_set_object($this->xml_parser, $this);
 		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
 		xml_set_character_data_handler($this->xml_parser, '_characterData');
-	
+
 		while ($data = fread($fp, 8192)) {
 		    if (!xml_parse($this->xml_parser, $data, feof($fp))) {
 		        die(sprintf("XML error: %s at line %d",
@@ -123,7 +123,7 @@ class JUpdate {
 		xml_parser_free($this->xml_parser);
 		return true;
 	}
-	
+
 	function install() {
 		global $mainframe;
 		if(isset($this->downloadurl->_data)) {
@@ -132,7 +132,7 @@ class JUpdate {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Invalid extension update'));
 			return false;
 		}
-		
+
 		jimport('joomla.installer.helper');
 		$p_file = JInstallerHelper::downloadPackage($url);
 
@@ -147,7 +147,7 @@ class JUpdate {
 
 		// Unpack the downloaded package file
 		$package = JInstallerHelper::unpack($tmp_dest.DS.$p_file);
-		
+
 		// Get an installer instance
 		$installer =& JInstaller::getInstance();
 

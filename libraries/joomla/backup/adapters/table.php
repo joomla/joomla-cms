@@ -6,21 +6,21 @@ jimport('joomla.base.adapterinstance');
 
 class JBackupTable extends JAdapterInstance implements JTaskSuspendable {
 	protected $task;
-	
+
 	public function setTask(&$task) {
 		$this->task =& $task;
 	}
-	
+
 	public function suspendTask() {
 		// TODO: Finish this function
 		return Array();
 	}
-	
+
 	public function restoreTask($options) {
 		$this->setProperties($options);
 	}
-		
-	
+
+
 	/**
 	 * Run a back up with a set of tables
 	 * @param $options['tables'] The tables to backup; if blank all tables
@@ -37,7 +37,7 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable {
 		// check if this is set and contains rows otherwise set it to all of the tables
 		if(!isset($options['tables']) || !count($options['tables'])) {
 			$options['tables'] = Array();
-			
+
 			foreach($tables as $tn) {
 				// make sure we get the right tables based on prefix
 				if (preg_match( "/^".$prefix."/i", $tn )) {
@@ -49,11 +49,11 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable {
 		if(!isset($options['prefix'])) {
 			$options['prefix'] = 'bak_';
 		}
-		
+
 		foreach($options['tables'] as $table) {
 			// if the table isn't in our table list ignore it
 			if(!in_array($table, $tables)) continue;
-			
+
 			// change the #__ and the current prefix (typically jos_);
 			// should probably change this to a regexp and check that its at the start of the string
 			// TODO: Change the str_replace to a regex
@@ -65,8 +65,8 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable {
 		}
 		return true;
 	}
-	
-	
+
+
 	/**
 	 * Run a restore with a set of tables
 	 * @param $options['tables'] The tables to restore; if blank all tables
@@ -94,7 +94,7 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable {
 		if(!isset($options['prefix'])) {
 			$options['prefix'] = 'bak_';
 		}
-		
+
 		foreach($options['tables'] as $table) {
 			// TODO: Read the todo above a line that looks like this
 			$baktable = $options['prefix'].str_replace('#__',$prefix,$table);
@@ -110,12 +110,12 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Remove a given backup
 	 * @param $options['tables'] The tables to remove backup copies of; if blank all backups are removed
 	 * @param $options['prefix'] Table prefix of the backups
-	 * 
+	 *
 	 */
 	function remove($options=Array()) {
 		$db =& JFactory::getDBO();
@@ -138,7 +138,7 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable {
 		if(!isset($options['prefix'])) {
 			$options['prefix'] = 'bak_';
 		}
-		
+
 		foreach($options['tables'] as $table) {
 			// TODO: Read the todo above a line that looks like this
 			$baktable = $options['prefix'].str_replace('#__',$prefix,$table);

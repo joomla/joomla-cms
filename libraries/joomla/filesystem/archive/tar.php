@@ -3,14 +3,9 @@
  * @version		$Id:tar.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	FileSystem
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // No direct access
 defined('JPATH_BASE') or die();
@@ -97,7 +92,7 @@ class JArchiveTar extends JObject
 		$return_array = array ();
 		$i = 0;
 		$chunksize = 512; // tar has items in 512 byte packets
-				
+
 		while($entry = $stream->read($chunksize)) {
 			//$entry =& $this->_data[$i];
 			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $entry);
@@ -109,7 +104,7 @@ class JArchiveTar extends JObject
 			$size = octdec($info['size']);
 			$bsize = ceil($size / $chunksize) * $chunksize;
 			$contents = '';
-			if($size) { 
+			if($size) {
 				//$contents = fread($this->_fh, $size);
 				$contents = substr($stream->read($bsize),0, octdec($info['size']));
 			}
@@ -118,9 +113,9 @@ class JArchiveTar extends JObject
 				$file = array (
 					'attr' => null,
 					'data' => null,
-					'date' => octdec($info['mtime']), 
-					'name' => trim($info['filename']), 
-					'size' => octdec($info['size']), 
+					'date' => octdec($info['mtime']),
+					'name' => trim($info['filename']),
+					'size' => octdec($info['size']),
 					'type' => isset ($this->_types[$info['typeflag']]) ? $this->_types[$info['typeflag']] : null);
 
 				if (($info['typeflag'] == 0) || ($info['typeflag'] == 0x30) || ($info['typeflag'] == 0x35)) {
@@ -141,7 +136,7 @@ class JArchiveTar extends JObject
 				} else {
 					/* Some other type. */
 				}
-				
+
 				$type = strtolower( $file['type'] );
 				if ($type == 'file' || $type == 'unix file')
 				{
@@ -157,11 +152,11 @@ class JArchiveTar extends JObject
 						$this->set('error.message', 'Unable to write entry');
 						return JError::raiseWarning(100, $this->get('error.message'));
 					}
-					$contents = ''; // reclaim some memory 
+					$contents = ''; // reclaim some memory
 				}
 			}
 		}
-		$stream->close();	
-		return true;			
+		$stream->close();
+		return true;
 	}
 }

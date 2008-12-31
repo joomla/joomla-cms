@@ -1,21 +1,17 @@
 <?php
 /**
- * Library Default view 
- * 
+ * Library Default view
+ *
  * @package Joomla
  * @subpackage Installer
  * @author Sam Moffatt <pasamio@gmail.com>
- * @copyright	Copyright (C) 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
+ * @copyright	Copyright (C) 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  *  See COPYRIGHT.php for copyright notices and details.
  */
- 
+
 // no direct access
-defined('_JEXEC') or die('Restricted access'); 
+defined('_JEXEC') or die('Restricted access');
 ?>
 <form action="index.php" method="post" name="adminForm">
 <div id="editcell">
@@ -43,14 +39,14 @@ defined('_JEXEC') or die('Restricted access');
             <th class="title">
             	<?php echo JText::_( 'Packager' ); ?>
             </th>
-        </tr>            
+        </tr>
     </thead>
 	<tfoot>
 		<tr>
 			<td colspan="6"><?php echo $this->pagination->getListFooter(); ?></td>
 		</tr>
 	</tfoot>
-	<tbody>    
+	<tbody>
     <?php
     $k = 0;
      for ($i=0, $n=count($this->items), $rc=0; $i < $n; $i++, $rc = 1 - $rc)

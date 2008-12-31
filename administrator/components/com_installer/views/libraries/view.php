@@ -1,19 +1,15 @@
 <?php
 /**
  * Library View
- * 
+ *
  * @package Joomla
  * @subpackage Installer
  * @author Sam Moffatt <pasamio@gmail.com>
- * @copyright	Copyright (C) 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
+ * @copyright	Copyright (C) 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  *  See COPYRIGHT.php for copyright notices and details.
  */
- 
+
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
@@ -46,14 +42,14 @@ class InstallerViewLibraries extends InstallerViewDefault
 		$state		= &$this->get('State');
 		$items		= &$this->get('Items');
 		$pagination	= &$this->get('Pagination');
-    	
+
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('lists',		$lists);
-		
+
         parent::display($tpl);
     }
-    
+
     /**
      * Loads data for an individual item and sets some variables
      * @access public
@@ -77,6 +73,6 @@ class InstallerViewLibraries extends InstallerViewDefault
 		$item->author_info = @$item->authorEmail .'<br />'. @$item->authorUrl;
 
 		$this->assignRef('item', $item);
-	}    
+	}
 }
 ?>

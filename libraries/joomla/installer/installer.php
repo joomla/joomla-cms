@@ -3,14 +3,9 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+  */
 
 // No direct access
 defined('JPATH_BASE') or die();
@@ -41,13 +36,13 @@ class JInstaller extends JAdapter
 	 * @var boolean
 	 */
 	protected $_upgrade = null;
-	
+
 	/**
 	 * The manifest trigger class
 	 * @var object
 	 */
 	public $manifestClass = null;
-	
+
 	/**
 	 * True if existing files can be overwritten
 	 * @var boolean
@@ -66,7 +61,7 @@ class JInstaller extends JAdapter
 	 * @var JTableExtension
 	 */
 	public $extension = null;
-	
+
 	/**
 	 * The output from the install/uninstall scripts
 	 * @var string
@@ -77,8 +72,8 @@ class JInstaller extends JAdapter
 	 * The installation manifest XML object
 	 * @var object
 	 */
-	public $manifest = null;	
-	
+	public $manifest = null;
+
 	/**
 	 * Constructor
 	 *
@@ -137,7 +132,7 @@ class JInstaller extends JAdapter
 		}
 		return $tmp;
 	}
-	
+
 	/**
 	 * Get the allow overwrite switch
 	 *
@@ -262,11 +257,11 @@ class JInstaller extends JAdapter
 				case 'query' :
 					// placeholder in case this is necessary in the future
 					break;
-					
+
 				case 'extension' :
 					// Get database connector object
 					$db =& $this->getDBO();
-					
+
 					// Remove the entry from the #__extensions table
 					$query = 'DELETE' .
 							' FROM `#__extensions`' .
@@ -300,7 +295,7 @@ class JInstaller extends JAdapter
 
 		return $retval;
 	}
-	
+
 	// -----------------------
 	// Adapter functions
 	// -----------------------
@@ -326,11 +321,11 @@ class JInstaller extends JAdapter
 			$this->abort(JText::_('Unable to detect manifest file'));
 			return false;
 		}
-		
+
 		$root		=& $this->manifest->document;
 		$type = $root->attributes('type');
-		
-		
+
+
 		$version        = $root->attributes('version');
                 $rootName       = $root->name();
                 $config         = &JFactory::getConfig();
@@ -344,19 +339,19 @@ class JInstaller extends JAdapter
 			$this->abort(JText::_('MUSTENABLELEGACY'));
 			return false;
 		}
-	
-		
+
+
 		if (is_object($this->_adapters[$type])) {
 			// Add the languages from the package itself
 			$lang =& JFactory::getLanguage();
 			$lang->load('joomla',$path);
-			
+
 			// Fire the onBeforeExtensionInstall event.
 			JPluginHelper::importPlugin( 'installer' );
 			$dispatcher =& JDispatcher::getInstance();
 			$dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'install', 'type'=>$type, 'manifest'=>$root, 'extension'=>0 ) );
-			
-			// Run the install 
+
+			// Run the install
 			$result = $this->_adapters[$type]->install();
 			// Fire the onAfterExtensionInstall
 			$dispatcher->trigger( 'onAfterExtensionInstall', array( 'installer'=>clone($this), 'eid'=> $result ) );
@@ -364,7 +359,7 @@ class JInstaller extends JAdapter
 		}
 		return false;
 	}
-	
+
 	/*
 	 * Discovered package installation method
 	 *
@@ -380,26 +375,26 @@ class JInstaller extends JAdapter
 			if(!$this->extension->load($eid)) {
 				$this->abort(JText::_('Failed to load extension details'));
 				return false;
-			} 
+			}
 			if($this->extension->state != -1) {
 				$this->abort(JText::_('Extension is already installed'));
 				return false;
 			}
-			
+
 			// Lazy load the adapter
 			if (!isset($this->_adapters[$this->extension->type]) || !is_object($this->_adapters[$this->extension->type])) {
 				if (!$this->setAdapter($this->extension->type)) {
 					return false;
 				}
 			}
-			
+
 			if (is_object($this->_adapters[$this->extension->type])) {
 				if(method_exists($this->_adapters[$this->extension->type], 'discover_install')) {
 					// Fire the onBeforeExtensionInstall event.
 	                JPluginHelper::importPlugin( 'installer' );
 	                $dispatcher =& JDispatcher::getInstance();
 	                $dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'discover_install', 'type'=>$this->extension->type, 'manifest'=>null, 'extension'=>$this->extension ) );
-					// Run the install 
+					// Run the install
 					$result = $this->_adapters[$this->extension->type]->discover_install();
 					// Fire the onAfterExtensionInstall
 					$dispatcher->trigger( 'onAfterExtensionInstall', array( 'installer'=>clone($this), 'eid'=> $result ) );
@@ -414,12 +409,12 @@ class JInstaller extends JAdapter
 			$this->abort(JText::_('Extension is not a valid'));
 			return false;
 		}
-	}	
+	}
 
 	/**
 	 * Extension discover method
 	 * Asks each adapter to find extensions
-	 * 
+	 *
 	 * @access public
 	 * @return Array JExtension
 	 */
@@ -434,12 +429,12 @@ class JInstaller extends JAdapter
 				if(is_array($tmp) && count($tmp)) {
 					// merge it into the system
 					$results = array_merge($results, $tmp);
-				}	
+				}
 			}
-		}	
+		}
 		return $results;
 	}
-	
+
 	/**
 	 * Package update method
 	 *
@@ -459,10 +454,10 @@ class JInstaller extends JAdapter
 		if (!$this->setupInstall()) {
 			return $this->abort(JText::_('Unable to detect manifest file'));
 		}
-		
+
 		$root		=& $this->manifest->document;
 		$type = $root->attributes('type');
-		
+
 		$version        = $root->attributes('version');
                 $rootName       = $root->name();
                 $config         = &JFactory::getConfig();
@@ -475,7 +470,7 @@ class JInstaller extends JAdapter
 		if ((version_compare($version, $system_version->RELEASE, '<')) && !class_exists('JLegacy')) {
 			$this->abort(JText::_('MUSTENABLELEGACY'));
 			return false;
-		}		
+		}
 
 		if (is_object($this->_adapters[$type])) {
 			// Add the languages from the package itself
@@ -525,27 +520,27 @@ class JInstaller extends JAdapter
 		}
 		return false;
 	}
-	
+
 	function refreshManifestCache($eid) {
 		if($eid) {
 			$this->extension =& JTable::getInstance('extension');
 			if(!$this->extension->load($eid)) {
 				$this->abort(JText::_('Failed to load extension details'));
 				return false;
-			} 
+			}
 			if($this->extension->state == -1) {
 				$this->abort(JText::_('Refresh Manifest Cache failed').': '.JText::_('Extension is not currently installed'));
 				return false;
 			}
-			
+
 			// Lazy load the adapter
 			if (!isset($this->_adapters[$this->extension->type]) || !is_object($this->_adapters[$this->extension->type])) {
 				if (!$this->setAdapter($this->extension->type)) {
 					return false;
 				}
 			}
-			
-			
+
+
 			if (is_object($this->_adapters[$this->extension->type])) {
 				if(method_exists($this->_adapters[$this->extension->type], 'refreshManifestCache')) {
 					$result = $this->_adapters[$this->extension->type]->refreshManifestCache();
@@ -565,7 +560,7 @@ class JInstaller extends JAdapter
 	// -----------------------
 	// Utility functions
 	// -----------------------
-	
+
 	/**
 	 * Prepare for installation: this method sets the installation directory, finds
 	 * and checks the installation file and verifies the installation type
@@ -774,7 +769,7 @@ class JInstaller extends JAdapter
 		} else {
 			$source = $this->getPath('source');
 		}
-		
+
 		// Work out what files have been deleted
 		if($oldFiles && is_a($oldFiles, 'JSimpleXMLElement')) {
 			$oldEntries = $oldFiles->children();
@@ -788,7 +783,7 @@ class JInstaller extends JAdapter
 				}
 			}
 		}
-		
+
 		// Copy the MD5SUMS file if it exists
 		if(file_exists($source.DS.'MD5SUMS')) {
 			$path['src'] = $source.DS.'MD5SUMS';
@@ -1311,7 +1306,7 @@ class JInstaller extends JAdapter
 						$this->_upgrade = true;
 						$this->_overwrite = true;
 					}
-					
+
 					// If the overwrite option is set, allow file overwriting
 					if($root->attributes('overwrite') == 'true') {
 						$this->_overwrite = true;
@@ -1375,16 +1370,16 @@ class JInstaller extends JAdapter
 		// Valid manifest file return the object
 		return $xml;
 	}
-	
+
 	/**
 	 * Generates a manifest cache
-	 * @return string serialised manifest data  
+	 * @return string serialised manifest data
 	 */
 	function generateManifestCache() {
 		return serialize(JApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
 	}
 
-	
+
 	/**
 	 * Cleans up discovered extensions if they're being installed somehow else
 	 */
@@ -1393,12 +1388,12 @@ class JInstaller extends JAdapter
 		$dbo->setQuery('DELETE FROM #__extensions WHERE type = '. $dbo->Quote($type).' AND element = '. $dbo->Quote($element) .' AND folder = '. $dbo->Quote($folder). ' AND client_id = '. intval($client).' AND state = -1');
 		return $dbo->Query();
 	}
-	
+
 	/**
 	 * Compares two "files" entries to find deleted files/folders
 	 * @param array An array of JSimpleXML objects that are the old files
 	 * @param array An array of JSimpleXML objects that are the new files
-	 * @return array An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] resepctively 
+	 * @return array An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] resepctively
 	 */
 	function findDeletedFiles($old_files, $new_files) {
 		// The magic find deleted files function!
@@ -1426,7 +1421,7 @@ class JInstaller extends JAdapter
 					break;
 			}
 		}
-		
+
 		foreach($old_files as $file) {
 			switch($file->name()) {
 				case 'folder':
@@ -1448,7 +1443,7 @@ class JInstaller extends JAdapter
 		}
 		return Array('files'=>$files_deleted, 'folders'=>$folders_deleted);
 	}
-	
+
 	/**
 	 * Loads an MD5SUMS file into an associative array
 	 * @param string Filename to load

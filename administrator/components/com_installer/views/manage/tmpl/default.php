@@ -1,4 +1,4 @@
-<?php 
+<?php
 $lists = $this->lists;
 ?>
 <form action="index.php" method="post" name="adminForm">
@@ -28,10 +28,10 @@ $lists = $this->lists;
 				//echo $lists['state'];
 				?>
 			</td>
-			
+
 		</tr>
-	</table>	
-			
+	</table>
+
 	<?php if (count($this->items)) : ?>
 	<table class="adminlist" cellspacing="1">
 		<thead>

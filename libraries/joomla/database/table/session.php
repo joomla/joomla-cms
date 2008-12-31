@@ -3,13 +3,8 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @license		GNU General Public License, see LICENSE.php
 */
 
 // No direct access
@@ -110,7 +105,7 @@ class JTableSession extends JTable
 	{
 		$this->time = time();
 		try {
-			$this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );	
+			$this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );
 		} catch(JException $e) {
 			$this->setError(strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ." <br />" . $e->getMessage());
 			return false;
@@ -157,7 +152,7 @@ class JTableSession extends JTable
 		} catch(JException $e) {
 			$this->setError($e->getMessage());
 			return false;
-		} 
+		}
 	}
 
 	/**

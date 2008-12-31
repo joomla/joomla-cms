@@ -3,8 +3,8 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -43,7 +43,7 @@ class InstallerModelWarnings extends InstallerModel
 		parent::__construct();
 
 	}
-	
+
 	/**
 	 * Load the data
 	 */
@@ -62,7 +62,7 @@ class InstallerModelWarnings extends InstallerModel
 				$messages[] = Array('message'=>JText::_('PHPUPLOADNOTWRITEABLE'), 'description'=>JText::_('PHPUPLOADNOTWRITEABLEDESC'));
 			}
 		}
-		
+
 		$config =& JFactory::getConfig();
 		$tmp_path = $config->getValue('tmp_path');
 		if(!$tmp_path) {
@@ -73,5 +73,5 @@ class InstallerModelWarnings extends InstallerModel
 			}
 		}
 		$this->_items = $messages;
-	}	
+	}
 }

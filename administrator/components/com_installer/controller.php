@@ -3,8 +3,8 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -92,7 +92,7 @@ class InstallerController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
-	
+
 	/**
 	 * Discover handler
 	 */
@@ -105,7 +105,7 @@ class InstallerController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
-	
+
 	function discover_install() {
 		$model = &$this->getModel('discover');
 		$view = &$this->getView( 'discover' );
@@ -115,7 +115,7 @@ class InstallerController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
-	
+
 	function discover_purge() {
 		$model = &$this->getModel('discover');
 		$model->purge();
@@ -212,7 +212,7 @@ class InstallerController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
-	
+
 	function refresh() {
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
@@ -232,7 +232,7 @@ class InstallerController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
-	
+
 	// Should probably use multiple controllers here
 	function update()
 	{
@@ -254,7 +254,7 @@ class InstallerController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
-	
+
 	function update_find() {
 		// Find updates
 		// Check for request forgeries
@@ -272,7 +272,7 @@ class InstallerController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
-	
+
 	function update_purge() {
 		// Purge updates
 		$model = &$this->getModel('update');
