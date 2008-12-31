@@ -38,6 +38,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+31-Dec-2008 Charl van Niekerk
+ # Fixed incorrect construction of JUser object in password reset.
+
 29-Dec-2008 Ercan Ozkaya
  + Added method chaining support and access keywords to JQuery
  - Removed debug code from JAuthentication

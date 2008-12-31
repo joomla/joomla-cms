@@ -172,7 +172,7 @@ class UserModelReset extends JModel
 		$password	= $crypt.':'.$salt;
 
 		// Get the user object
-		$user = new JUser($id);
+		$user = JUser::getInstance($id);
 
 		// Fire the onBeforeStoreUser trigger
 		JPluginHelper::importPlugin('user');
