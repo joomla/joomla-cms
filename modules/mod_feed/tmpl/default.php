@@ -16,7 +16,7 @@ if( $feed != false )
 		<tr>
 			<td>
 				<strong>
-					<a href="<?php echo str_replace( '&', '&amp', $feed->link ); ?>" target="_blank">
+					<a href="<?php echo str_replace( '&', '&amp', $feed->link ); ?>">
 						<?php echo $feed->title; ?></a>
 				</strong>
 			</td>

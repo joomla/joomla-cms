@@ -74,7 +74,7 @@
 											<div id="cpanel">
 												<div>
 													<div class="icon">
-														<a href="http://help.joomla.org/content/view/1651/243/" target="_blank">
+														<a href="http://help.joomla.org/content/view/1651/243/">
 															<br /><b><?php echo JText::_('languagebuttonlineone') ?></b>
 															<br /><?php echo JText::_('languagebuttonlinetwo') ?>
 															<br /><br /></a>
