@@ -44,7 +44,7 @@ class CategoriesViewCategories extends JView
 		$filter		= & $this->get( 'Filter');
 
 		// Set toolbar items for the page
-		JToolBarHelper::title( JText::_( 'Category Manager' ) .': <small><small>[ '. JText::_(JString::substr($filter->section, 4)).' ]</small></small>', 'categories.png' );
+		JToolBarHelper::title( JText::_( 'Category Manager' ) .': <small><small>[ '. JText::_($section_name).' ]</small></small>', 'categories.png' );
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 

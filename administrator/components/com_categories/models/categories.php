@@ -321,7 +321,7 @@ class CategoriesModelCategories extends JModel
 			$this->content_join 	= ' LEFT JOIN #__sections AS z ON z.id = c.section';
 			$where 			= ' WHERE c.section NOT LIKE "%com_%"';
 
-			$this->section_name 	= JText::_( 'All Content:' );
+			//$this->section_name 	= JText::_( 'All Content:' );
 
 			$this->type 			= 'content';
 		}
