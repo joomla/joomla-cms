@@ -176,7 +176,7 @@ class BannersModelBanner extends JModel
 		$db = &$this->getDBO();
 
 		// redirect to banner url
-		$query = 'SELECT clickurl FROM #__banner' .
+		$query = 'SELECT clickurl, bid FROM #__banner' .
 			' WHERE bid = ' . (int) $id;
 
 		$db->setQuery( $query );

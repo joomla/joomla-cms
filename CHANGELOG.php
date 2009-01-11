@@ -38,6 +38,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+11-Jan-2009 Sam Moffatt
+ # [#12577] Small change in components/com_banners/models/banner.php (1.5 Tracker)
+
 09-Jan-2009 Sam Moffatt
  ^ Fix to module selectlist to avoid invalid HTML generation
 
