@@ -6,7 +6,14 @@ jimport('joomla.base.adapterinstance');
 
 class JBackupTable extends JAdapterInstance implements JTaskSuspendable {
 	protected $task;
+	protected $db; 
+	protected $_options;
 
+	public function __construct(&$parent, &$db=null, $options=Array()) {
+		parent::__construct($parent, $db);
+		$this->_options = $options;
+	}
+	
 	public function setTask(&$task) {
 		$this->task =& $task;
 	}

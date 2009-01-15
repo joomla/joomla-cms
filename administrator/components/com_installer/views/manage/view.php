@@ -58,7 +58,7 @@ class InstallerViewManage extends InstallerViewDefault
 				'list.select' => JRequest::getVar('extensiontype'),
 				'list.translate' => true,
 				'option.key' => 'type',
-				'option.value' => 'type',
+				'option.text' => 'type',
 			)
 		);
 

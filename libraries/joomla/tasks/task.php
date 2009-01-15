@@ -23,7 +23,7 @@ class JTask extends JTable {
 	/** The parent task set for this task */
 	private $_parent;
 
-	public function __construct(& $db=null, &$parent=null, $taskid = 0, $tasksetid = 0, $data = '') {
+	public function __construct(&$db=null, &$parent=null, $taskid = 0, $tasksetid = 0, $data = '') {
 		if($db != null) {
 			$this->taskid = $taskid;
 			$this->tasksetid = $tasksetid;
@@ -52,7 +52,10 @@ class JTask extends JTable {
 
 	public function load($pid=null) {
 		$res = parent::load($pid);
-		if($res) $this->data = unserialize($this->data); // pull the data back out
+		if($res) {
+			$this->data = unserialize($this->data); // pull the data back out
+			$this->params = unserialize($this->params); // params too
+		}
 		return $res;
 	}
 
@@ -83,7 +86,7 @@ class JTask extends JTable {
 	public function reload() {
 		if($this->_instance) $this->data = $this->_instance->suspendTask();
 		$this->store(); // save ourselves before we reload
-		$link = $this->_parent->executionpage .'&taskset='.$this->tasksetid;
+		$link = $this->_parent->execution_page .'&taskset='.$this->tasksetid;
 		echo '<a href="'.$link.'">'.JText::_('Next').'</a>';
 		// mark:javascript autoprogress
 		echo "<script language=\"JavaScript\" type=\"text/javascript\">window.setTimeout('location.href=\"" . $link . "\";',1000);</script>\n";
@@ -104,7 +107,7 @@ class JTask extends JTable {
 			$this->store();
 			$checkTime = JProfiler :: getmicrotime();
 			if (($checkTime - $this->_parent->_startTime) >= $this->_parent->_run_time) {
-				$link = $this->_parent->executionpage .'&taskset='.$this->tasksetid;
+				$link = $this->_parent->execution_page .'&taskset='.$this->tasksetid;
 				echo '<a href="'.$link.'">'.JText::_('Next').'</a>';
 				// mark:javascript autoprogress
 				echo "<script language=\"JavaScript\" type=\"text/javascript\">window.setTimeout('location.href=\"" . $link . "\";',1000);</script>\n";

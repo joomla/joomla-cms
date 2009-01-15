@@ -20,7 +20,6 @@ defined('JPATH_BASE') or die();
 jimport('joomla.base.adapter');
 
 class JBackup extends JAdapter {
-
 	private $_taskset;
 	private $_backup;
 	private $_mode = 'backup'; // this needs to be retained in the task set!
@@ -142,8 +141,9 @@ class JBackup extends JAdapter {
 		if($this->landing_page) {
 			return $this->landing_page;
 		}
-		$url = JURI::current();
-		$query = JURI::getQuery();
+		$uri = JURI::getInstance();
+		$url = $uri->current();
+		$query = $uri->getQuery();
 		return $url; // send them to where they are now snas the query string - index page probably
 		return $query ? $url . '?' . $query : $url; // send the user back to where they came from
 	}
@@ -164,6 +164,7 @@ class JBackup extends JAdapter {
 			JError::raiseWarning(40,JText::_('Failed to store task set'));
 			return false;
 		}
+		echo '<p>Added new task set for backup</p>';
 		foreach($entries as &$entry) {
 			$params = $entry->params; // yay for php5 and automatic references!
 			if(!array_key_exists('destination', $params)) {
@@ -175,6 +176,8 @@ class JBackup extends JAdapter {
 			if(!$task->store()) {
 				die('Failed to store task: '. $this->_db->getErrorMSG());
 			}
+			echo '<p>Added new task to backup</p>';
+			
 		}
 		unset($entry); // remove this reference
 		return true;
@@ -200,7 +203,10 @@ class JBackup extends JAdapter {
 				return false;
 			}
 		}
+		
+		//print_r($this->_taskset);
 		while($task =& $this->_taskset->getNextTask()) {
+			echo '<p>Processing task</p>';
 			$type = $task->get('type','');
 			if(!$type) {
 				JError::raiseWarning(100, JText::_('Invalid type used for backup task'));
@@ -215,6 +221,7 @@ class JBackup extends JAdapter {
 			}
 
 			$task->setInstance($instance, true);
+			
 			$instance->{$this->_mode}($task->params);
 			// we're all done
 			$task->delete();
@@ -226,6 +233,7 @@ class JBackup extends JAdapter {
 			$this->_backup->store();
 		}
 		$this->_taskset->delete();
+		$this->_taskset->redirect();
 	}
 
 }

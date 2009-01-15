@@ -66,4 +66,21 @@ abstract class JObject extends JStdClass
 	public function __call($func, $args) {
 		throw new JException('Attempted to call non-existant method on object',0, E_ERROR, array($func, $args), true);
 	}
+	
+	/**
+	 * Modifies a property of the object, by default not creating the item.
+	 * Note: due to the way Jobject works if you try to create the item you
+	 * will get an error.
+	 *
+	 * @access	public
+	 * @param	string $property The name of the property
+	 * @param	mixed  $value The value of the property to set
+	 * @param  bool $create Create the item if it doesn't exist
+	 * @return	mixed Previous value of the property
+	 * @see		setProperties()
+	 * @since	1.5
+	 */
+	public function set( $property, $value = null, $create = false ) {
+		parent::set($property, $value, $create);
+	}
 }

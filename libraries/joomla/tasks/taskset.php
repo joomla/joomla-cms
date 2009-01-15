@@ -51,7 +51,7 @@ class JTaskSet extends JTable {
 	function listAll() {
 		$this->_db->setQuery('SELECT taskid FROM #__tasks WHERE tasksetid = '. $this->tasksetid.' ORDER BY taskid');
 		$results = $this->_db->loadResultArray();
-		$task = new JTask($this->_db);
+		$task = new JTask($this->_db, $this);
 		foreach ($results as $result) {
 			$task->load($result);
 			echo $task->toString();

@@ -115,18 +115,20 @@ class JStdClass
 
 
 	/**
-	 * Modifies a property of the object, creating it if it does not already exist.
+	 * Modifies a property of the object, by default creating it if it does not already exist.
 	 *
 	 * @access	public
 	 * @param	string $property The name of the property
 	 * @param	mixed  $value The value of the property to set
+	 * @param  bool $create Create the item if it doesn't exist already
 	 * @return	mixed Previous value of the property
 	 * @see		setProperties()
 	 * @since	1.5
 	 */
-	public function set( $property, $value = null )
+	public function set( $property, $value = null, $create = true )
 	{
 		$previous = isset($this->$property) ? $this->$property : null;
+		if(!isset($this->$property) && !$create) return null;
 		$this->$property = $value;
 		return $previous;
 	}
@@ -142,14 +144,15 @@ class JStdClass
 	*/
 	public function setProperties( $properties )
 	{
-		$properties = (array) $properties; //cast to an array
-
+		if(!is_array($properties)) {
+			if(!empty($properties)) {
+				$properties = (array) $properties; //cast to an array
+			} else return false;
+		}
 		if (is_array($properties))
 		{
 			foreach ($properties as $k => $v) {
-				try {
-					$this->set($k, $v); // use the set function which might be overriden
-				} catch (JException $e) {} // ignore undefined variable errors
+				$this->set($k, $v); // use the set function which might be overriden
 			}
 
 			return true;

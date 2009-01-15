@@ -38,6 +38,10 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+15-Jan-2009 Sam Moffatt
+ # Fixed issue with manage view in com_installer
+ ^ Updates to backup system
+
 11-Jan-2009 Sam Moffatt
  # [#12577] Small change in components/com_banners/models/banner.php (1.5 Tracker)
 

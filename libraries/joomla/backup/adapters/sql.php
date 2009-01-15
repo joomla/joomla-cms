@@ -9,10 +9,12 @@ class JBackupSql extends JAdapterInstance implements JTaskSuspendable {
 	protected $yield_amount = 100; // yield every 100 queries
 	protected $db;
 	protected $task;
-
-	public function __construct(&$parent, &$db=null) {
-		$this->parent =& $parent;
-		$this->db =& $this->db ? $db : JFactory::getDBO();
+	protected $_options;
+	
+	
+	public function __construct(&$parent, &$db=null, $options=Array()) {
+		parent::__construct($parent, $db);
+		$this->_options = $options;
 	}
 
 	public function setTask(&$task) {
@@ -53,7 +55,6 @@ class JBackupSql extends JAdapterInstance implements JTaskSuspendable {
 		// check if this is set and contains rows otherwise set it to all of the tables
 		if(!isset($options['tables']) || !count($options['tables'])) {
 			$options['tables'] = Array(); // set this
-
 			foreach($tables as $tn) {
 				// make sure we get the right tables based on prefix
 				if (preg_match( "/^".$prefix."/i", $tn )) {
@@ -96,7 +97,7 @@ class JBackupSql extends JAdapterInstance implements JTaskSuspendable {
 					$line .= ");\n";
 					$output->write($line);
 					$count++;
-					if($this->_task && !($count % $this->yield_amount))  $this->_task->yield(); // check if refresh/reload is required
+					if($this->task && !($count % $this->yield_amount))  $this->task->yield(); // check if refresh/reload is required
 				} while(($rows - $count) > 0);
 			}
 			$nl = "\n\n\n";
