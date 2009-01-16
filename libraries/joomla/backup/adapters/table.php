@@ -4,14 +4,14 @@ defined('JPATH_BASE') or die();
 
 jimport('joomla.base.adapterinstance');
 
-class JBackupTable extends JAdapterInstance implements JTaskSuspendable {
+class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackupAdapter {
 	protected $task;
 	protected $db; 
-	protected $_options;
+	protected $options;
 
 	public function __construct(&$parent, &$db=null, $options=Array()) {
 		parent::__construct($parent, $db);
-		$this->_options = $options;
+		$this->options = $options;
 	}
 	
 	public function setTask(&$task) {
@@ -34,20 +34,21 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable {
 	 * @param $options['prefix'] Backup Table prefix; default is "bak_"
 	 * @return bool Result of backups, true on success, false on failure
 	 */
-	function backup($options=Array()) {
+	public function backup($options=Array()) {
 		$db =& JFactory::getDBO();
 		$config =& JFactory::getConfig();
-		$prefix = $config->getValue('config.dbprefix');
+		$prefix = $config->getValue('config.dbprefix'); // should we get this from the db?
 		// force this into an array if it isn't; lets not let someone break something
 		if(!is_array($options)) $options = Array();
+		if(!isset($options['excluded'])) $options['excluded'] = Array($prefix.'session');
 		$tables = $db->getTableList(); // load all tables in database
 		// check if this is set and contains rows otherwise set it to all of the tables
 		if(!isset($options['tables']) || !count($options['tables'])) {
 			$options['tables'] = Array();
 
 			foreach($tables as $tn) {
-				// make sure we get the right tables based on prefix
-				if (preg_match( "/^".$prefix."/i", $tn )) {
+				// make sure we get the right tables based on prefix and exclude ones that are in that list
+				if (preg_match( "/^".$prefix."/i", $tn ) && !in_array($options['excluded'], $tn)) {
 					$options['tables'][] = $tn;
 				}
 			}
@@ -124,7 +125,7 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable {
 	 * @param $options['prefix'] Table prefix of the backups
 	 *
 	 */
-	function remove($options=Array()) {
+	public function remove($options=Array()) {
 		$db =& JFactory::getDBO();
 		$config =& JFactory::getConfig();
 		$prefix = $config->getValue('config.dbprefix');

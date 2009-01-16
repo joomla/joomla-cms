@@ -38,6 +38,12 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+16-Jan-2009 Sam Moffatt
+ ^ Changed default exclusion filter for JFolder::files
+ # Fixed issue with quanta not properly being detected with tasks
+ + Started work on new filesystem adapter for backup system
+ + Added exclusion filter for tables in the table adapter 
+
 15-Jan-2009 Sam Moffatt
  # Fixed issue with manage view in com_installer
  ^ Updates to backup system

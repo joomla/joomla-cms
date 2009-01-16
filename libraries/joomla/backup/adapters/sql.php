@@ -5,16 +5,16 @@ defined('JPATH_BASE') or die();
 jimport('joomla.base.adapterinstance');
 jimport('joomla.tasks.tasksuspendable');
 
-class JBackupSql extends JAdapterInstance implements JTaskSuspendable {
+class JBackupSql extends JAdapterInstance implements JTaskSuspendable, JBackupAdapter {
 	protected $yield_amount = 100; // yield every 100 queries
 	protected $db;
 	protected $task;
-	protected $_options;
+	protected $options;
 	
 	
 	public function __construct(&$parent, &$db=null, $options=Array()) {
 		parent::__construct($parent, $db);
-		$this->_options = $options;
+		$this->options = $options;
 	}
 
 	public function setTask(&$task) {

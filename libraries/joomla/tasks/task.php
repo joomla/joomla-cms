@@ -74,6 +74,8 @@ class JTask extends JTable {
 			$this->_quanta[] = $now - $this->_lasttick;
 			$this->duration = ceil(array_sum($this->_quanta) / count($this->_quanta));
 		}
+		$this->_lasttick = $now; // set the last tick
+		
 		// check if we're over the run time now
 		// OR if now plus our average duration will put us over the max time
 		if (($now - $this->_parent->_startTime) >= $this->_parent->get('run_time',15)
@@ -93,34 +95,5 @@ class JTask extends JTable {
 		echo '</div>';
 		$mainframe =& JFactory::getApplication();
 		$mainframe->close();
-	}
-
-
-	// TODO: legacy functions, validate relevance
-	function execute($callback, &$context=null) {
-		global $mainframe;
-		// $run_time, $startTime;
-		if($context) $return = $context->$callback($this); else $return = $callback($this);
-
-		if($return) {
-			if(!$this->total || $this->offset >= $this->total) { $this->delete(); return false; }
-			$this->store();
-			$checkTime = JProfiler :: getmicrotime();
-			if (($checkTime - $this->_parent->_startTime) >= $this->_parent->_run_time) {
-				$link = $this->_parent->execution_page .'&taskset='.$this->tasksetid;
-				echo '<a href="'.$link.'">'.JText::_('Next').'</a>';
-				// mark:javascript autoprogress
-				echo "<script language=\"JavaScript\" type=\"text/javascript\">window.setTimeout('location.href=\"" . $link . "\";',1000);</script>\n";
-				echo '</div>';
-				$mainframe->close();
-				return true;
-			}
-
-			//$this->delete() or die($this->_db->getErrorMsg());
-			return true;
-		} else {
-			$this->delete();
-			return false;
-		}
 	}
 }
