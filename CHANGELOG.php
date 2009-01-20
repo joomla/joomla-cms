@@ -41,6 +41,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 20-Jan-2009 Charl van Niekerk
  - Removed target="_blank" from com_contact.
  - Removed target="_blank" from com_newsfeeds.
+ # Fixed call to registerAssetInGroups in JAclAdmin.
 
 16-Jan-2009 Sam Moffatt
  ^ Changed default exclusion filter for JFolder::files

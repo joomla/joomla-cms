@@ -1049,7 +1049,7 @@ class JAclAdmin
 					throw new JException($table->getError());
 				}
 
-				JAclAdmin::registerAssetInGroups($table->id, $groups[$items[$id]->access]);
+				JAclAdmin::registerAssetInGroups($table->id, $groups[$items[$id]->access]->id);
 
 				// Clear the table object.
 				$table->clear();
