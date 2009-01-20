@@ -96,7 +96,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
 	</td>
 	<td>
-		<a href="<?php echo $this->contact->webpage; ?>" target="_blank">
+		<a href="<?php echo $this->contact->webpage; ?>">
 			<?php echo $this->contact->webpage; ?></a>
 	</td>
 </tr>
