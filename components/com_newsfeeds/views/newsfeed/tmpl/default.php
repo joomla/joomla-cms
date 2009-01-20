@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <table width="100%" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<td class="contentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<a href="<?php echo $this->newsfeed->channel['link']; ?>" target="_blank">
+		<a href="<?php echo $this->newsfeed->channel['link']; ?>">
 			<?php echo str_replace('&apos;', "'", $this->newsfeed->channel['title']); ?></a>
 	</td>
 </tr>
@@ -33,7 +33,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php foreach ( $this->newsfeed->items as $item ) :  ?>
 			<li>
 			<?php if ( !is_null( $item->get_link() ) ) : ?>
-				<a href="<?php echo $item->get_link(); ?>" target="_blank">
+				<a href="<?php echo $item->get_link(); ?>">
 					<?php echo $item->get_title(); ?></a>
 			<?php endif; ?>
 			<?php if ( $this->params->get( 'show_item_description' ) && $item->get_description()) : ?>
