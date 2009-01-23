@@ -342,7 +342,7 @@ abstract class JFactory
 			default :
 			{
 				$doc = null;
-			}			}
+			}
 		}
 
 		return $doc;
