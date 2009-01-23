@@ -84,7 +84,7 @@ class plgAuthenticationGMail extends JPlugin {
 		} else {
 			$message = 'curl isn\'t insalled';
 		}
-
+		$response->type = 'GMail';
 		if ($success) {
 			$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 			$response->error_message = '';
@@ -97,6 +97,8 @@ class plgAuthenticationGMail extends JPlugin {
 			} else { // the username looks like an email address (probably is) so use that
 				$response->email = $credentials['username'];
 			}
+			// reset the username to what we ended up using
+			$response->username = $credentials['username'];
 			$response->fullname = $credentials['username'];
 		} else {
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;

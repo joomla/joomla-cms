@@ -40,6 +40,8 @@ class plgAuthenticationOpenID extends JPlugin
 			define ("Auth_OpenID_RAND_SOURCE", null);
 		}
 
+		$response->type = 'OpenID';
+
 		require_once JPATH_LIBRARIES.DS.'openid'.DS.'consumer.php';
 
 		// Access the session data
@@ -68,12 +70,13 @@ class plgAuthenticationOpenID extends JPlugin
 		// Create a consumer object
 		$consumer = new Auth_OpenID_Consumer($store);
 
+
 		if (!isset($_SESSION['_openid_consumer_last_token']))
 		{
 			// Begin the OpenID authentication process.
 			if(!$request = $consumer->begin($credentials['username']))
 			{
-				$response->type = JAUTHENTICATE_STATUS_FAILURE;
+				$response->status = JAUTHENTICATE_STATUS_FAILURE;
 				$response->error_message = 'Authentication error : could not connect to the openid server';
 				return false;
 			}

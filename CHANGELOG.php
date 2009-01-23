@@ -38,6 +38,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+23-Jan-2009 Sam Moffatt
+  ^ Fixed up issue with missing type's for authentication plugins
+
 20-Jan-2009 Charl van Niekerk
  - Removed target="_blank" from com_contact.
  - Removed target="_blank" from com_newsfeeds.
