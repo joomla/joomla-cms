@@ -52,7 +52,6 @@ class JConfig {
 	var $gzip = '0';
 	var $error_reporting = '-1';
 	var $helpurl = 'http://help.joomla.org';
-	var $xmlrpc_server = '1';
 	var $ftp_host = '';
 	var $ftp_port = '';
 	var $ftp_user = '';

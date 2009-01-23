@@ -138,7 +138,6 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['secret']				= JRequest::getVar('secret', 0, 'post', 'string');
 		$config_array['gzip']				= JRequest::getVar('gzip', 0, 'post', 'int');
 		$config_array['error_reporting']	= JRequest::getVar('error_reporting', -1, 'post', 'int');
-		$config_array['xmlrpc_server']		= JRequest::getVar('xmlrpc_server', 0, 'post', 'int');
 		$config_array['log_path']			= JRequest::getVar('log_path', JPATH_ROOT.DS.'logs', 'post', 'string');
 		$config_array['tmp_path']			= JRequest::getVar('tmp_path', JPATH_ROOT.DS.'tmp', 'post', 'string');
 		$config_array['live_site'] 			= rtrim(JRequest::getVar('live_site','','post','string'), '/\\');

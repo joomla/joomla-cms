@@ -283,6 +283,31 @@ abstract class JFactory
 	}
 
 	/**
+	 * Get a parsed XML Feed Source
+	 * 
+	 * @since: 1.6
+	 * @static
+	 * @param string url for feed source
+	 * @param int time to cache feed for (using internal cache mechanism)
+	 * @return mixed Parsed SimplePie object on success, false on failure
+	 */
+	public static function &getFeedParser($url, $cache_time = 0) 
+	{
+		jimport('simplepie.simplepie');
+		if(!is_writable(JPATH_CACHE)) {
+			$cache_time = 0;
+		}
+		$simplepie = new SimplePie( $url, JPATH_CACHE, $cache_time);
+		if ($simplepie->data) {
+			return $simplepie;
+		} else {
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('ERROR LOADING FEED DATA'));
+		}
+		$data = false;
+		return $data;
+	}
+	
+	/**
 	 * Get an XML document
 	 *
 	 * @param string The type of xml parser needed 'DOM', 'RSS' or 'Simple'
@@ -291,8 +316,9 @@ abstract class JFactory
 	 * 		string  ['rssUrl'] the rss url to parse when using "RSS"
 	 * 		string	['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
 	 * @return object Parsed XML document object
+	 * @deprecated
 	 */
-	public static function &getXMLParser($type = 'DOM', $options = array())
+	public static function &getXMLParser($type = '', $options = array())
 	 {
 		$doc = null;
 
@@ -301,24 +327,8 @@ abstract class JFactory
 			case 'rss' :
 			case 'atom' :
 			{
-				if (!is_null($options['rssUrl']))
-				{
-					jimport ('simplepie.simplepie');
-					if(!is_writable(JPATH_BASE.DS.'cache')) {
-						$options['cache_time'] = 0;
-					}
-					$simplepie = new SimplePie(
-						$options['rssUrl'],
-						JPATH_BASE.DS.'cache',
-						isset($options['cache_time']) ? $options['cache_time'] : 0
-					);
-					$simplepie->handle_content_type();
-					if ($simplepie->data) {
-						$doc = $simplepie;
-					} else {
-						JError::raiseWarning('SOME_ERROR_CODE', JText::_('ERROR LOADING FEED DATA'));
-					}
-				}
+				$cache_time = isset($options['cache_time']) ? $options['cache_time'] : 0;
+				$doc = JFactory::getFeedParser($options['url'], $cache_time);	
 			}	break;
 
 			case 'simple' :
@@ -328,19 +338,11 @@ abstract class JFactory
 			}	break;
 
 			case 'dom'  :
+				throw new JException('DommitDocument is deprecated.  Use DomDocument instead');
 			default :
 			{
-				if (!isset($options['lite']) || $options['lite'])
-				{
-					jimport('domit.xml_domit_lite_include');
-					$doc = new DOMIT_Lite_Document();
-				}
-				else
-				{
-					jimport('domit.xml_domit_include');
-					$doc = new DOMIT_Document();
-				}
-			}
+				$doc = null;
+			}			}
 		}
 
 		return $doc;

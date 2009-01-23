@@ -25,16 +25,6 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="key">
-					<span class="editlinktip hasTip" title="<?php echo JText::_( 'ENABLE WEB SERVICES' ); ?>::<?php echo JText::_( 'TIPENABLEWEBSERVICES' ); ?>">
-					<?php echo JText::_( 'ENABLE WEB SERVICES' ); ?>
-				</span>
-				</td>
-				<td>
-					<?php echo JHtml::_('select.booleanlist', 'xmlrpc_server', 'class="inputbox"', $this->row->xmlrpc_server); ?>
-				</td>
-			</tr>
-			<tr>
 			<td class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Help Server' ); ?>::<?php echo JText::_( 'TIPHELPSERVER' ); ?>">
 					<?php echo JText::_( 'Help Server' ); ?>

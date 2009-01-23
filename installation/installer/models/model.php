@@ -769,7 +769,6 @@ class JInstallationModel extends JModel
 		$data->list_limit		= 30;
 		$data->debug_lang 		= 0;
 		$data->gzip 			= 0;
-		$data->xmlrpc_server	= 0;
 		$data->cache_handler	= 'file';
 		$data->MetaAuthor 		= '';
 		$data->MetaTitle		= '';

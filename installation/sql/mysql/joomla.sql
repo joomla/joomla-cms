@@ -347,8 +347,6 @@ INSERT INTO #__extensions VALUES(0,"Editor - XStandard Lite 2.0","plugin","xstan
 INSERT INTO #__extensions VALUES(0,"Editor Button - Image","plugin","image","editors-xtd",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Editor Button - Pagebreak","plugin","pagebreak","editors-xtd",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Editor Button - Readmore","plugin","readmore","editors-xtd",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"XML-RPC - Joomla","plugin","joomla","xmlrpc",0,0,0,1,"","","","",0,"0000-00-00 00:00:00",7,0);
-INSERT INTO #__extensions VALUES(0,"XML-RPC - Blogger API","plugin","blogger","xmlrpc",0,0,0,1,"","catid=1\nsectionid=0\n\n","","",0,"0000-00-00 00:00:00",7,0);
 INSERT INTO #__extensions VALUES(0,"System - SEF","plugin","sef","system",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",1,0);
 INSERT INTO #__extensions VALUES(0,"System - Debug","plugin","debug","system",0,1,0,0,"","queries=1\nmemory=1\nlangauge=1\n\n","","",0,"0000-00-00 00:00:00",2,0);
 INSERT INTO #__extensions VALUES(0,"System - Legacy","plugin","legacy","system",0,0,0,1,"","route=0\n\n","","",0,"0000-00-00 00:00:00",3,0);

@@ -38,6 +38,17 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+23-Jan-2009 Anthony Ferrara
+ + Added JFactory::getFeedParser() to return simplepie object
+ ^ Deprecated JFactory::getXMLParser()
+ ^ Throw exception on calling JFactory::getXMLParser with 'DOM' type (since DomDocument is removed)
+ - Dommit library removed
+ - XMLRPC plugins/config/installsql removed
+ 
+23-Jan-2009 Louis Landry
+ - Removed XMLRPC application
+ - Removed XStandard Plugin
+
 23-Jan-2009 Sam Moffatt
   ^ Fixed up issue with missing type's for authentication plugins
 
