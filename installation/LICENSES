@@ -1,13 +1,4 @@
-<?php
-/**
- * @version		$Id$
- * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
-  */
-
-defined('_JEXEC') or die('Restricted access');
-?>
+$Id$
 
 Joomla! includes or is derivative of works distributed under the licenses listed below.
 

@@ -1,15 +1,5 @@
-<?php
-/**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+$Id$
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-/* Comment to get around validation errors
-?>
 1. Copyright and disclaimer
 ---------------------------
 This application is opensource software released under the GPL.  Please
@@ -38,6 +28,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+24-Jan-2009 Andrew Eddie
+ ^ Move text files to /installation/ folder
+ 
 23-Jan-2009 Anthony Ferrara
  + Added JFactory::getFeedParser() to return simplepie object
  ^ Deprecated JFactory::getXMLParser()
