@@ -224,25 +224,6 @@ abstract class JFactory
 	}
 
 	/**
-	 * Get a template object
-	 *
-	 * Returns a reference to the global {@link JTemplate} object, only creating it
-	 * if it doesn't already exist.
-	 *
-	 * @return		object JTemplate
-	 * @deprecated
-	 */
-	public static function &getTemplate()
-	{
-		if (class_exists('JLegacy')) {
-			return JLegacy::JFactoryGetTemplate();
-		}
-		else {
-			throw new JException('Exception JFactory::getTemplate deprecated. Turn on legacy mode', 500, E_ERROR, 'JFactory::getTemplate', true);
-		}
-	}
-
-	/**
 	 * Get a database object
 	 *
 	 * Returns a reference to the global {@link JDatabase} object, only creating it
