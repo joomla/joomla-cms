@@ -53,3 +53,8 @@ JLoader::import( 'joomla.filter.filteroutput'	);
 //Register class that don't follow one file per class naming conventions
 JLoader::register('JText' , dirname(__FILE__).DS.'methods.php');
 JLoader::register('JRoute', dirname(__FILE__).DS.'methods.php');
+
+// Detect if we have full UTF-8 and unicode property support.
+if (!defined('JCOMPAT_UNICODE_PROPERTIES')) {
+	define('JCOMPAT_UNICODE_PROPERTIES', (bool)@preg_match('/\pL/u', 'a'));
+}

@@ -333,8 +333,8 @@ class JUser extends JObject
 			}
 
 			$this->_params->loadSetupFile($file);
-			$this->_params->loadSetupDirectory($parampath, $type.'_(.*)\.xml');
-			$this->_params->loadSetupDirectory($parampath, 'general_(.*)\.xml');
+//			$this->_params->loadSetupDirectory($parampath, $type.'_(.*)\.xml');
+//			$this->_params->loadSetupDirectory($parampath, 'general_(.*)\.xml');
 		}
 		return $this->_params;
 	}
