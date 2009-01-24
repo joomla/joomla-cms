@@ -1,7 +1,7 @@
 <?php
 /**
- * @package		Bricks
- * @copyright	Copyright (C) 2008 R Crawford.
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
@@ -11,8 +11,9 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Utility class for creating HTML Grids
  *
+ * @package		Joomla
+ * @subpackage	Content
  * @static
- * @package 	Bricks
  */
 class JHtmlContentGrid
 {

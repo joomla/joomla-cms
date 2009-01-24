@@ -1,7 +1,7 @@
 <?php
 /**
- * @package		Bricks
- * @copyright	Copyright (C) 2008 R Crawford.
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
@@ -11,11 +11,8 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 
 /**
- * Bricks Component ECB Rates Model
- *
- * Retrieve cash exchange rates from the European Central Bank
- *
- * @package		Bricks
+ * @package		Joomla
+ * @subpackage	Admin
  */
 class AdminModelChangelog extends JModel
 {
