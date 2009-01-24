@@ -1,10 +1,10 @@
 <?php
 /**
  * @version		$Id$
- * @package	Contact Directory
- * @copyright	(C) 2008 Chantal Bisson. All rights reserved.
- * @license		GNU General Public License
- * @author		Chantal Bisson
+ * @package		Joomla
+ * @subpackage	ContactDirectory
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // no direct access
@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 
 JHtml::_('behavior.tooltip');
 
-JToolBarHelper::title(JText::_( 'IMPORT_CONTACTS' ));
+JToolBarHelper::title(JText::_('IMPORT_CONTACTS'));
 JToolBarHelper::custom('import', 'save.png', 'save_f2.png', JText::_('SAVE'), false, true);
 JToolBarHelper::cancel();
 ?>
@@ -27,5 +27,5 @@ JToolBarHelper::cancel();
 	<input type="hidden" name="controller" value="contact" />
 	<input type="hidden" name="option" value="com_contactdirectory" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

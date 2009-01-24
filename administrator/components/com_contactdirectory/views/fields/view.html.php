@@ -1,16 +1,26 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
+
 // ensure a valid entry point
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 // import the JModel class
 jimport('joomla.application.component.view');
 
 /**
  * Field View
+ *
+ * @package		Joomla
+ * @subpackage	ContactDirectory
+ * @since		1.6
  */
 class ContactdirectoryViewFields extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $option;
 
@@ -18,23 +28,23 @@ class ContactdirectoryViewFields extends JView
 		$uri =& JFactory::getURI();
 		$user = & JFactory::getUser();
 
-		if (!$user->authorize( 'com_contactdirectory', 'manage fields' )) {
+		if (!$user->authorize('com_contactdirectory', 'manage fields')) {
 			$mainframe->redirect('index.php?option=com_contactdirectory&controller=contact', JText::_('ALERTNOTAUTH'));
 		}
 
-		$filter_state = $mainframe->getUserStateFromRequest( $option.'filter_state', 'filter_state', '', 'word' );
-		$filter_order = $mainframe->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'f.ordering', 'cmd' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir', '', 'word' );
-		$search = $mainframe->getUserStateFromRequest( $option.'search', 'search', '', 'string' );
-		$search	= JString::strtolower( $search );
+		$filter_state = $mainframe->getUserStateFromRequest($option.'filter_state', 'filter_state', '', 'word');
+		$filter_order = $mainframe->getUserStateFromRequest($option.'filter_order', 'filter_order', 'f.ordering', 'cmd');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir', '', 'word');
+		$search = $mainframe->getUserStateFromRequest($option.'search', 'search', '', 'string');
+		$search	= JString::strtolower($search);
 
 		// Get data from the model
-		$items = & $this->get( 'Data');
-		$total = & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
+		$items = & $this->get('Data');
+		$total = & $this->get('Total');
+		$pagination = & $this->get('Pagination');
 
 		// state filter
-		$lists['state']	= JHtml::_('grid.state',  $filter_state );
+		$lists['state']	= JHtml::_('grid.state',  $filter_state);
 
 		// table ordering
 		$lists['order_Dir'] = $filter_order_Dir;

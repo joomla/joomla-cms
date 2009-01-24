@@ -15,13 +15,13 @@ class ContactdirectoryModelField extends JModel{
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	protected function __construct()
 	{
 		parent::__construct();
 
 		$array = JRequest::getVar('cid', array(0), '', 'array');
 		$edit	= JRequest::getVar('edit',true);
-		if($edit)
+		if ($edit)
 			$this->setId((int)$array[0]);
 	}
 
@@ -32,7 +32,7 @@ class ContactdirectoryModelField extends JModel{
 	 * @param	int Field identifier
 	 */
 
-	function setId($id)
+	public function setId($id)
 	{
 		// Set field id and wipe data
 		$this->_id		= $id;
@@ -45,7 +45,7 @@ class ContactdirectoryModelField extends JModel{
 	 * @since 1.5
 	 */
 
-	function &getData()
+	public function &getData()
 	{
 		// Load the field data
 		$result = $this->_loadData();
@@ -61,7 +61,7 @@ class ContactdirectoryModelField extends JModel{
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _loadData()
+	public function _loadData()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -81,7 +81,7 @@ class ContactdirectoryModelField extends JModel{
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _initData()
+	public function _initData()
 	{
 		// Lets load the field data if it doesn't already exist
 		if (empty($this->_data))
@@ -112,7 +112,7 @@ class ContactdirectoryModelField extends JModel{
 	 * @return	boolean	True if checked out
 	 * @since	1.5
 	 */
-	function isCheckedOut( $uid=0 )
+	public function isCheckedOut($uid=0)
 	{
 		if ($this->_loadData())
 		{
@@ -131,12 +131,12 @@ class ContactdirectoryModelField extends JModel{
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function checkin()
+	public function checkin()
 	{
 		if ($this->_id)
 		{
 			$field = & $this->getTable();
-			if(! $field->checkin($this->_id)) {
+			if (! $field->checkin($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -152,7 +152,7 @@ class ContactdirectoryModelField extends JModel{
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function checkout($uid = null)
+	public function checkout($uid = null)
 	{
 		if ($this->_id)
 		{
@@ -163,7 +163,7 @@ class ContactdirectoryModelField extends JModel{
 			}
 			// Lets get to it and checkout the thing...
 			$field = & $this->getTable();
-			if(!$field->checkout($uid, $this->_id)) {
+			if (!$field->checkout($uid, $this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -179,7 +179,7 @@ class ContactdirectoryModelField extends JModel{
 	 * @return	the id on success else false
 	 * @since	1.5
 	 */
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
 
@@ -195,7 +195,7 @@ class ContactdirectoryModelField extends JModel{
 		// if new item, order last in appropriate group
 		if (!$row->id) {
 			$where = 'pos = ' . (int) $row->pos ;
-			$row->ordering = $row->getNextOrder( $where );
+			$row->ordering = $row->getNextOrder($where);
 		}
 
 		// Make sure the fields table is valid
@@ -220,34 +220,34 @@ class ContactdirectoryModelField extends JModel{
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		$row =& $this->getTable();
 
 		// delete field from contactdirectory_field table
-		for( $i=0; $i < count($cid); $i++ )
+		for($i=0; $i < count($cid); $i++)
 		{
-			if (!$row->load( (int) $cid[$i] )) {
+			if (!$row->load((int) $cid[$i])) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
 
-			if($row->id == 1){
-				$this->setError( JText::_('You are not authorized to delete the email field'));
+			if ($row->id == 1){
+				$this->setError(JText::_('You are not authorized to delete the email field'));
 				return false;
 			}
 
 			$query = 'DELETE FROM #__contactdirectory_fields'
 					. ' WHERE id = '.$row->id;
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
 
 			$query = 'DELETE FROM #__contactdirectory_details WHERE field_id = '.$row->id;
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -262,20 +262,20 @@ class ContactdirectoryModelField extends JModel{
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		$user 	=& JFactory::getUser();
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__contactdirectory_fields'
 				. ' SET published = '.(int) $publish
-				. ' WHERE id IN ( '.$cids.' )'
-				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )';
-			$this->_db->setQuery( $query );
+				. ' WHERE id IN ('.$cids.')'
+				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))';
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -291,7 +291,7 @@ class ContactdirectoryModelField extends JModel{
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function move($direction)
+	public function move($direction)
 	{
 		$row =& $this->getTable();
 		if (!$row->load($this->_id)) {
@@ -299,7 +299,7 @@ class ContactdirectoryModelField extends JModel{
 			return false;
 		}
 
-		if (!$row->move( $direction, "pos = '$row->pos' AND published != 0" )) {
+		if (!$row->move($direction, "pos = '$row->pos' AND published != 0")) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -313,14 +313,14 @@ class ContactdirectoryModelField extends JModel{
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function saveorder($cid, $order)
+	public function saveorder($cid, $order)
 	{
 		$row =& $this->getTable();
 
 		// update ordering values
-		for( $i=0; $i < count($cid); $i++ )
+		for($i=0; $i < count($cid); $i++)
 		{
-			$row->load( (int) $cid[$i] );
+			$row->load((int) $cid[$i]);
 
 			if ($row->ordering != $order[$i])
 			{
@@ -337,12 +337,12 @@ class ContactdirectoryModelField extends JModel{
 	/**
 	* Set the access of selected menu items
 	*/
-	function setAccess( $cid = array(), $access = 0 )
+	public function setAccess($cid = array(), $access = 0)
 	{
 		$row =& $this->getTable();
 		foreach ($cid as $id)
 		{
-			$row->load( $id );
+			$row->load($id);
 			$row->access = $access;
 
 			if (!$row->check()) {

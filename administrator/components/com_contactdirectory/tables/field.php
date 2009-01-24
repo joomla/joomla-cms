@@ -1,8 +1,18 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+/**
+ * @package		Joomla
+ * @subpackage	ContactDirectory
+ * @since		1.6
+ */
 class TableField extends JTable
 {
 	/** @var int Primary key */
@@ -31,25 +41,23 @@ class TableField extends JTable
 	var $params	= null;
 
 	/**
-	* @param database A database connector object
-	*/
-	function __construct(&$db)
+	 * @param database A database connector object
+	 */
+	protected function __construct(&$db)
 	{
-		parent::__construct( '#__contactdirectory_fields', 'id', $db );
+		parent::__construct('#__contactdirectory_fields', 'id', $db);
 	}
 
 	/**
-	* Overloaded bind function
-	*
-	* @acces public
-	* @param array $hash named array
-	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JTable:bind
-	* @since 1.5
-	*/
-	function bind($array, $ignore = '')
+	 * Overloaded bind function
+	 *
+	 * @param	array $hash named array
+	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @see		JTable:bind
+	 */
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
+		if (key_exists('params', $array) && is_array($array['params']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
@@ -62,11 +70,9 @@ class TableField extends JTable
 	/**
 	 * Overloaded check method to ensure data integrity
 	 *
-	 * @access public
 	 * @return boolean True on success
-	 * @since 1.0
 	 */
-	function check()
+	public function check()
 	{
 		/** check for valid title */
 		if (trim($this->title) == '') {
@@ -75,11 +81,11 @@ class TableField extends JTable
 		}
 
 
-		if(empty($this->alias)) {
+		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
-		if(trim(str_replace('-','',$this->alias)) == '') {
+		if (trim(str_replace('-','',$this->alias)) == '') {
 			$datenow =& JFactory::getDate();
 			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
@@ -96,22 +102,20 @@ class TableField extends JTable
 	/**
 	 * Overloaded store method
 	 *
-	 * @access public
 	 * @return boolean True on success
-	 * @since 1.0
 	 */
-	function store()
+	public function store()
 	{
-		if( $this->id ) {
-			if( !$this->_db->updateObject( '#__contactdirectory_fields', $this, 'id', false ) ) {
-				$this->setError(get_class( $this ).'::store failed 1 - '.$this->_db->getErrorMsg());
+		if ($this->id) {
+			if (!$this->_db->updateObject('#__contactdirectory_fields', $this, 'id', false)) {
+				$this->setError(get_class($this).'::store failed 1 - '.$this->_db->getErrorMsg());
 				return false;
 			}
 		} else {
-			$ret = $this->_db->insertObject( '#__contactdirectory_fields', $this, 'id' );
+			$ret = $this->_db->insertObject('#__contactdirectory_fields', $this, 'id');
 			$this->id = $this->_db->insertid();
-			if( !$ret || $this->id == null) {
-				$this->setError(get_class( $this ).'::store failed 2 - '.$this->_db->getErrorMsg());
+			if (!$ret || $this->id == null) {
+				$this->setError(get_class($this).'::store failed 2 - '.$this->_db->getErrorMsg());
 				return false;
 			}
 
@@ -122,8 +126,8 @@ class TableField extends JTable
 			foreach ($contacts as $contact){
 				$query = "INSERT INTO #__contactdirectory_details VALUES('$contact->id', '$this->id', '', '1', '1')";
 				$this->_db->setQuery($query);
-				if(!$this->_db->query()) {
-					$this->setError(get_class( $this ).'::store failed 3 - '.$this->_db->getErrorMsg());
+				if (!$this->_db->query()) {
+					$this->setError(get_class($this).'::store failed 3 - '.$this->_db->getErrorMsg());
 					return false;
 				}
 			}

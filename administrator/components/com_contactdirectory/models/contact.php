@@ -1,11 +1,23 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
-class ContactdirectoryModelContact extends JModel{
+/**
+ * @package		Joomla
+ * @subpackage	ContactDirectory
+ *
+ * @since 1.6
+ */
+class ContactdirectoryModelContact extends JModel
+{
 
 	var $_id = null;
 	var $_data = null;
@@ -15,15 +27,14 @@ class ContactdirectoryModelContact extends JModel{
 	/**
 	 * Constructor
 	 *
-	 * @since 1.5
 	 */
-	function __construct()
+	protected function __construct()
 	{
 		parent::__construct();
 
 		$array = JRequest::getVar('cid', array(0), '', 'array');
 		$edit	= JRequest::getVar('edit',true);
-		if($edit){
+		if ($edit){
 			$this->setId((int)$array[0]);
 		}
 	}
@@ -34,7 +45,7 @@ class ContactdirectoryModelContact extends JModel{
 	 * @access	public
 	 * @param	int Contact identifier
 	 */
-	function setId($id)
+	public function setId($id)
 	{
 		// Set contact id and wipe data
 		$this->_id		= $id;
@@ -44,9 +55,8 @@ class ContactdirectoryModelContact extends JModel{
 	/**
 	 * Method to get a contact
 	 *
-	 * @since 1.5
 	 */
-	function &getData()
+	public function &getData()
 	{
 		// Load the contact data
 		$result = $this->_loadData();
@@ -55,9 +65,9 @@ class ContactdirectoryModelContact extends JModel{
 		return $this->_data;
 	}
 
-	function &getFields()
+	public function &getFields()
 	{
-		if(!$this->_fields){
+		if (!$this->_fields){
 			$query = "SELECT f.title, d.data, f.type, f.alias, d.show_contact, d.show_directory, f.params "
 					."FROM #__contactdirectory_fields f "
 					."LEFT JOIN #__contactdirectory_details d ON d.field_id = f.id "
@@ -69,9 +79,9 @@ class ContactdirectoryModelContact extends JModel{
 		return $this->_fields;
 	}
 
-	function &getCategories()
+	public function &getCategories()
 	{
-		if(!$this->_categories){
+		if (!$this->_categories){
 			$query = " SELECT c.title, map.category_id AS id, map.ordering "
 					." FROM #__categories c "
 					." LEFT JOIN #__contactdirectory_con_cat_map map ON map.category_id = c.id "
@@ -88,9 +98,8 @@ class ContactdirectoryModelContact extends JModel{
 	 *
 	 * @access	private
 	 * @return	boolean	True on success
-	 * @since	1.5
 	 */
-	function _loadData()
+	public function _loadData()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -103,7 +112,7 @@ class ContactdirectoryModelContact extends JModel{
 		return true;
 	}
 
-	function _initData(){
+	public function _initData(){
 		// Lets load the field data if it doesn't already exist
 		if (empty($this->_data))
 		{
@@ -129,9 +138,8 @@ class ContactdirectoryModelContact extends JModel{
 	 * @access	public
 	 * @param	int	A user id
 	 * @return	boolean	True if checked out
-	 * @since	1.5
 	 */
-	function isCheckedOut( $uid=0 )
+	public function isCheckedOut($uid=0)
 	{
 		if ($this->_loadData())
 		{
@@ -148,14 +156,13 @@ class ContactdirectoryModelContact extends JModel{
 	 *
 	 * @access	public
 	 * @return	boolean	True on success
-	 * @since	1.5
 	 */
-	function checkin()
+	public function checkin()
 	{
 		if ($this->_id)
 		{
 			$contact = & $this->getTable();
-			if(! $contact->checkin($this->_id)) {
+			if (! $contact->checkin($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -169,9 +176,8 @@ class ContactdirectoryModelContact extends JModel{
 	 * @access	public
 	 * @param	int	$uid	User ID of the user checking the article out
 	 * @return	boolean	True on success
-	 * @since	1.5
 	 */
-	function checkout($uid = null)
+	public function checkout($uid = null)
 	{
 		if ($this->_id)
 		{
@@ -182,7 +188,7 @@ class ContactdirectoryModelContact extends JModel{
 			}
 			// Lets get to it and checkout the thing...
 			$contact = & $this->getTable();
-			if(!$contact->checkout($uid, $this->_id)) {
+			if (!$contact->checkout($uid, $this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -196,9 +202,8 @@ class ContactdirectoryModelContact extends JModel{
 	 *
 	 * @access	public
 	 * @return	the id on success or false if error
-	 * @since	1.5
 	 */
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
 
@@ -230,34 +235,33 @@ class ContactdirectoryModelContact extends JModel{
 	 *
 	 * @access	public
 	 * @return	boolean	True on success
-	 * @since	1.5
 	 */
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		$result = false;
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 			$query = 'DELETE FROM #__contactdirectory_contacts'
-				. ' WHERE id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+				. ' WHERE id IN ('.$cids.')';
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
 
 			$query = 'DELETE FROM #__contactdirectory_details WHERE contact_id IN ('.$cids.')';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
 
 			$query = 'DELETE FROM #__contactdirectory_con_cat_map WHERE contact_id IN ('.$cids.')';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -270,22 +274,21 @@ class ContactdirectoryModelContact extends JModel{
 	 *
 	 * @access	public
 	 * @return	boolean	True on success
-	 * @since	1.5
 	 */
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		$user 	=& JFactory::getUser();
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__contactdirectory_contacts'
 				. ' SET published = '.(int) $publish
-				. ' WHERE id IN ( '.$cids.' )'
-				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )';
-			$this->_db->setQuery( $query );
+				. ' WHERE id IN ('.$cids.')'
+				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))';
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -297,7 +300,7 @@ class ContactdirectoryModelContact extends JModel{
 	/**
 	* Set the access of selected menu items
 	*/
-	function setAccess( $cid = array(), $access = 0 )
+	public function setAccess($cid = array(), $access = 0)
 	{
 		$user 	=& JFactory::getUser();
 
@@ -306,8 +309,8 @@ class ContactdirectoryModelContact extends JModel{
 			$query = 'UPDATE #__contactdirectory_contacts'
 				. ' SET access = '.(int) $access
 				. ' WHERE id = '.$id
-				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )';
-			$this->_db->setQuery( $query );
+				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))';
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -322,9 +325,8 @@ class ContactdirectoryModelContact extends JModel{
 	 * @access	public
 	 * @param	string	$data	The contacts string in CSV format.
 	 * @return	boolean	True on success
-	 * @since	1.0
 	 */
-	function import($data = null)
+	public function import($data = null)
 	{
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'stringstream.php';
 
@@ -351,60 +353,60 @@ class ContactdirectoryModelContact extends JModel{
 				$contact_data['showContactLists'][$field->alias] = 1;
 			}
 
-			if($i == 0){
+			if ($i == 0){
 				$cols  = $csv;
 			}else{
 				$k = 0;
 				foreach($cols as $col){
-					if($col == 'name'){
-						if($csv[$k] != null){
+					if ($col == 'name'){
+						if ($csv[$k] != null){
 							$name_bool = true;
 							$contact_data['name'] = $csv[$k];
 						}
 					}
-					elseif($col == 'alias'){
+					elseif ($col == 'alias'){
 						$contact_data['alias'] = $csv[$k];
 					}
-					elseif($col == 'published'){
-						if($csv[$k] == 'y') $csv[$k] = 1;
-						elseif($csv[$k] == 'n') $csv[$k] = 0;
+					elseif ($col == 'published'){
+						if ($csv[$k] == 'y') $csv[$k] = 1;
+						elseif ($csv[$k] == 'n') $csv[$k] = 0;
 						else{
-							$this->setError( JText::sprintf('VALUE_NOT_VALID', $csv[$k]));
+							$this->setError(JText::sprintf('VALUE_NOT_VALID', $csv[$k]));
 							fclose($file);
 							return false;
 						}
 						$contact_data['published'] = $csv[$k];
 					}
-					elseif($col == 'user_id'){
+					elseif ($col == 'user_id'){
 						$contact_data['user_id'] = $csv[$k];
 					}
-					elseif($col == 'access'){
-						if($csv[$k] == 'p') $csv[$k] = 0;
-						elseif($csv[$k] == 'r') $csv[$k] = 1;
-						elseif($csv[$k] == 's') $csv[$k] = 2;
+					elseif ($col == 'access'){
+						if ($csv[$k] == 'p') $csv[$k] = 0;
+						elseif ($csv[$k] == 'r') $csv[$k] = 1;
+						elseif ($csv[$k] == 's') $csv[$k] = 2;
 						else{
-							$this->setError( JText::sprintf('VALUE_NOT_VALID', $csv[$k]));
+							$this->setError(JText::sprintf('VALUE_NOT_VALID', $csv[$k]));
 							fclose($file);
 							return false;
 						}
 						$contact_data['access'] = $csv[$k];
 					}
-					elseif($col == 'categories'){
-						if($csv[$k] != null){
+					elseif ($col == 'categories'){
+						if ($csv[$k] != null){
 							$cat_bool = true;
 							$categories = explode('|', $csv[$k]);
 							$contact_data['categories'] = $categories;
 						}
 					}
-					elseif($col == 'showContactPage'){
-						if(isset($csv[$k]) && $csv[$k] != null){
+					elseif ($col == 'showContactPage'){
+						if (isset($csv[$k]) && $csv[$k] != null){
 							$showContact = explode('|', $csv[$k]);
 							foreach($showContact as $show){
 								$show = explode('=', $show);
-								if($show[1] == 'y') $show[1] = 1;
-								elseif($show[1]== 'n') $show[1] = 0;
+								if ($show[1] == 'y') $show[1] = 1;
+								elseif ($show[1]== 'n') $show[1] = 0;
 								else{
-									$this->setError( JText::sprintf('VALUE_NOT_VALID', $show[1]));
+									$this->setError(JText::sprintf('VALUE_NOT_VALID', $show[1]));
 									fclose($file);
 									return false;
 								}
@@ -412,15 +414,15 @@ class ContactdirectoryModelContact extends JModel{
 							}
 						}
 					}
-					elseif($col == 'showContactLists'){
-						if(isset($csv[$k]) && $csv[$k] != null){
+					elseif ($col == 'showContactLists'){
+						if (isset($csv[$k]) && $csv[$k] != null){
 							$showLists = explode('|', $csv[$k]);
 							foreach($showLists as $show){
 								$show = explode('=', $show);
-								if($show[1] == 'y') $show[1] = 1;
-								elseif($show[1]== 'n') $show[1] = 0;
+								if ($show[1] == 'y') $show[1] = 1;
+								elseif ($show[1]== 'n') $show[1] = 0;
 								else{
-									$this->setError( JText::sprintf('VALUE_NOT_VALID', $show[1]));
+									$this->setError(JText::sprintf('VALUE_NOT_VALID', $show[1]));
 									fclose($file);
 									return false;
 								}
@@ -428,8 +430,8 @@ class ContactdirectoryModelContact extends JModel{
 							}
 						}
 					}
-					elseif($col == 'params'){
-						if(isset($csv[$k]) && $csv[$k] != null){
+					elseif ($col == 'params'){
+						if (isset($csv[$k]) && $csv[$k] != null){
 							$params = explode('|', $csv[$k]);
 							foreach($params as $param){
 								$param = explode('=', $param);
@@ -442,45 +444,45 @@ class ContactdirectoryModelContact extends JModel{
 						$found = false;
 						$required = false;
 						foreach($fields as $field){
-							if($field->alias == $col){
+							if ($field->alias == $col){
 								$found = true;
 								break;
-							}elseif($field->params->get('required') && $csv[$k] == null){
+							}elseif ($field->params->get('required') && $csv[$k] == null){
 								$req_field = $field->alias;
 								$required = true;
 							}
 						}
-						if($found) $contact_data['fields'][$col] = $csv[$k];
-						elseif($required){
-							$this->setError( JText::sprintf('FIELD_REQUIRED', $req_field));
+						if ($found) $contact_data['fields'][$col] = $csv[$k];
+						elseif ($required){
+							$this->setError(JText::sprintf('FIELD_REQUIRED', $req_field));
 							fclose($file);
 							return false;
 						}
 						else{
-							$this->setError( JText::sprintf('FIELD_NOT_VALID', $col));
+							$this->setError(JText::sprintf('FIELD_NOT_VALID', $col));
 							fclose($file);
 							return false;
 						}
 					}
 					$k++;
 				}
-				if(!$name_bool && !$cat_bool){
-					$this->setError( JText::__('MANDATORY_COL_NAME_CAT'));
+				if (!$name_bool && !$cat_bool){
+					$this->setError(JText::__('MANDATORY_COL_NAME_CAT'));
 					fclose($file);
 					return false;
-				}elseif(!$name_bool && $cat_bool){
-					$this->setError( JText::__('MANDATORY_COL_NAME'));
+				}elseif (!$name_bool && $cat_bool){
+					$this->setError(JText::__('MANDATORY_COL_NAME'));
 					fclose($file);
 					return false;
-				}elseif($name_bool && !$cat_bool){
-					$this->setError( JText::__('MANDATORY_COL_CAT'));
+				}elseif ($name_bool && !$cat_bool){
+					$this->setError(JText::__('MANDATORY_COL_CAT'));
 					fclose($file);
 					return false;
 				}
 
 				// Save the contact info
-				if(!$this->store($contact_data)){
-					$this->setError( JText::sprintf('STORE_FAILED', $contact_data['name']));
+				if (!$this->store($contact_data)){
+					$this->setError(JText::sprintf('STORE_FAILED', $contact_data['name']));
 					fclose($file);
 					return false;
 				}

@@ -1,9 +1,14 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the ContactDirectory component
@@ -11,7 +16,7 @@ jimport( 'joomla.application.component.view');
  * @static
  * @package		Joomla
  * @subpackage	ContactDirectory
- * @since 1.0
+ * @since 1.6
  */
 class ContactdirectoryViewField extends JView
 {
@@ -24,7 +29,7 @@ class ContactdirectoryViewField extends JView
 		$user 	=& JFactory::getUser();
 		$model	=& $this->getModel();
 
-		if (!$user->authorize( 'com_contactdirectory', 'manage fields' )) {
+		if (!$user->authorize('com_contactdirectory', 'manage fields')) {
 			$mainframe->redirect('index.php?option=com_contactdirectory&controller=contact', JText::_('ALERTNOTAUTH'));
 		}
 
@@ -35,15 +40,15 @@ class ContactdirectoryViewField extends JView
 		$isNew	= ($field->id < 1);
 
 		// fail if checked out not by 'me'
-		if ($model->isCheckedOut( $user->get('id') )) {
-			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'THE_FIELD' ), $field->title );
-			$mainframe->redirect( 'index.php?option=com_contactdirectory&controller=field', $msg );
+		if ($model->isCheckedOut($user->get('id'))) {
+			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('THE_FIELD'), $field->title);
+			$mainframe->redirect('index.php?option=com_contactdirectory&controller=field', $msg);
 		}
 
 		// Edit or Create?
 		if (!$isNew)
 		{
-			$model->checkout( $user->get('id') );
+			$model->checkout($user->get('id'));
 		}
 		else
 		{
@@ -59,10 +64,10 @@ class ContactdirectoryViewField extends JView
 			. " WHERE pos = '$field->pos'"
 			. " ORDER BY ordering";
 
-		$lists['ordering'] = JHtml::_('list.specificordering',  $field, $field->id, $query );
+		$lists['ordering'] = JHtml::_('list.specificordering',  $field, $field->id, $query);
 
 		// build the html select list for published
-		$lists['published'] = JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $field->published );
+		$lists['published'] = JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $field->published);
 
 		// build the html select list for access
 		$lists['access'] = JHtml::_('list.accesslevel', $field);
@@ -82,7 +87,7 @@ class ContactdirectoryViewField extends JView
     		'url' => JText::_('URL'),
     		//'radio' => 'Radio Button',
     		'image', JText::_('IMAGE'),
-        );
+       );
 		$lists['type'] = JHtml::_(
             'select.genericlist',
             $types,
@@ -91,8 +96,8 @@ class ContactdirectoryViewField extends JView
                 'list.attr' => 'class="inputbox"',
                 'list.select' => $field->type,
                 'option.key' => null
-            )
-        );
+           )
+       );
 
 		// build the html select list for position
 		$positions = array(
@@ -102,7 +107,7 @@ class ContactdirectoryViewField extends JView
     		'main' => JText::_('MAIN'),
     		'right' => JText::_('RIGHT'),
     		'bottom' => JText::_('BOTTOM'),
-        );
+       );
 
 		$lists['pos'] = JHtml::_(
             'select.genericlist',
@@ -112,14 +117,14 @@ class ContactdirectoryViewField extends JView
                 'list.attr' => 'class="inputbox"',
                 'list.select' => $field->pos,
                 'option.key' => null
-            )
-        );
+           )
+       );
 
 		//clean field data
-		JFilterOutput::objectHTMLSafe( $field, ENT_QUOTES, 'description' );
+		JFilterOutput::objectHTMLSafe($field, ENT_QUOTES, 'description');
 
 		$file 	= JPATH_COMPONENT.DS.'models'.DS.'field.xml';
-		$params = new JParameter( $field->params, $file );
+		$params = new JParameter($field->params, $file);
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('field', $field);

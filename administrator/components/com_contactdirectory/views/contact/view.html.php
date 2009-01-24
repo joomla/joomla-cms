@@ -1,9 +1,14 @@
 <?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the ContactDirectory component
@@ -11,11 +16,11 @@ jimport( 'joomla.application.component.view');
  * @static
  * @package		Joomla
  * @subpackage	ContactDirectory
- * @since 1.0
+ * @since		1.6
  */
 class ContactdirectoryViewContact extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe;
 
@@ -24,7 +29,7 @@ class ContactdirectoryViewContact extends JView
 		$user =& JFactory::getUser();
 		$model	=& $this->getModel();
 
-		if (!$user->authorize( 'com_contactdirectory', 'manage contacts' )) {
+		if (!$user->authorize('com_contactdirectory', 'manage contacts')) {
 			$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 		}
 
@@ -36,9 +41,9 @@ class ContactdirectoryViewContact extends JView
 
 		//get the fields
 		$fields =& $this->get('fields');
-		if($fields == null){
+		if ($fields == null){
 			$query = "SELECT title, type, params, alias FROM #__contactdirectory_fields WHERE published = 1 ORDER BY pos, ordering";
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$fields = $db->loadObjectList();
 			foreach($fields as $field){
 				$field->show_contact = 1;
@@ -51,15 +56,15 @@ class ContactdirectoryViewContact extends JView
 		$categories =& $this->get('categories');
 
 		// fail if checked out not by 'me'
-		if ($model->isCheckedOut( $user->get('id') )) {
-			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'THE_CONTACT' ), $contact->name );
-			$mainframe->redirect( 'index.php?option=com_contactdirectory&controller=contact', $msg );
+		if ($model->isCheckedOut($user->get('id'))) {
+			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('THE_CONTACT'), $contact->name);
+			$mainframe->redirect('index.php?option=com_contactdirectory&controller=contact', $msg);
 		}
 
 		// Edit or Create?
 		if (!$isNew)
 		{
-			$model->checkout( $user->get('id') );
+			$model->checkout($user->get('id'));
 		}
 		else
 		{
@@ -75,7 +80,7 @@ class ContactdirectoryViewContact extends JView
 				. " WHERE section = 'com_contactdirectory'"
 				. " AND published = 1"
 				. " ORDER BY ordering";
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$cat = $db->loadObjectList();
 
 		$select = array();
@@ -113,10 +118,10 @@ class ContactdirectoryViewContact extends JView
 			$i++;
 		}
 
-		//$lists['ordering'] = JHtml::_('list.specificordering',  $contact, $contact->id, $query );
+		//$lists['ordering'] = JHtml::_('list.specificordering',  $contact, $contact->id, $query);
 
 		// build the html select list for published
-		$lists['published'] = JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $contact->published );
+		$lists['published'] = JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $contact->published);
 
 		// build the html select list for access
 		$lists['access'] = JHtml::_('list.accesslevel', $contact);
@@ -127,19 +132,19 @@ class ContactdirectoryViewContact extends JView
 		foreach ($fields as $field){
 			$field->params = new JParameter($field->params);
 
-			$lists['showContact'.$i] = JHtml::_('select.booleanlist', 'showContactPage['.$field->alias.']', 'class="inputbox"', $field->show_contact, 'show', 'hide' );
-			$lists['showDirectory'.$i] = JHtml::_('select.booleanlist', 'showContactLists['.$field->alias.']', 'class="inputbox"', $field->show_directory, 'show', 'hide' );
+			$lists['showContact'.$i] = JHtml::_('select.booleanlist', 'showContactPage['.$field->alias.']', 'class="inputbox"', $field->show_contact, 'show', 'hide');
+			$lists['showDirectory'.$i] = JHtml::_('select.booleanlist', 'showContactLists['.$field->alias.']', 'class="inputbox"', $field->show_directory, 'show', 'hide');
 			$i++;
 		}
 
 		// build list of users
-		$lists['user_id'] = JHtml::_('list.users',  'user_id', $contact->user_id, 1, null, 'name', 0 );
+		$lists['user_id'] = JHtml::_('list.users',  'user_id', $contact->user_id, 1, null, 'name', 0);
 
 		//clean contact data
-		JFilterOutput::objectHTMLSafe( $contact, ENT_QUOTES, 'description' );
+		JFilterOutput::objectHTMLSafe($contact, ENT_QUOTES, 'description');
 
 		$file 	= JPATH_COMPONENT.DS.'models'.DS.'contact.xml';
-		$params = new JParameter( $contact->params, $file );
+		$params = new JParameter($contact->params, $file);
 
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('contact',		$contact);

@@ -1,10 +1,8 @@
 <?php
 /**
  * @version		$Id$
- * @package	Contact Directory
- * @copyright	(C) 2008 Chantal Bisson. All rights reserved.
- * @license		GNU General Public License
- * @author		Chantal Bisson
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
 
 // no direct access
@@ -16,9 +14,9 @@ jimport('joomla.application.component.view');
 /**
  * The HTML Contact Directory import view
  *
- * @author	Chantal Bisson
- * @package Contact Directory
- * @version	1.0
+ * @package		Joomla
+ * @subpackage	ContactDirectory
+ * @version		1.6
  */
 class ContactdirectoryViewImport extends JView
 {
@@ -31,7 +29,7 @@ class ContactdirectoryViewImport extends JView
 	 * @throws	object	JError
 	 * @since	1.0
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {

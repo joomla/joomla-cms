@@ -1,30 +1,28 @@
 <?php
+/**
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	ContactDirectory
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-// Make sure the user is authorized to view the component
-$auth =& JFactory::getACL();
-
-$auth->addACL('com_contactdirectory', 'manage contacts', 'users', 'super administrator');
-$auth->addACL('com_contactdirectory', 'manage contacts', 'users', 'administrator');
-$auth->addACL('com_contactdirectory', 'manage contacts', 'users', 'manager');
-$auth->addACL('com_contactdirectory', 'manage fields', 'users', 'super administrator');
-$auth->addACL('com_contactdirectory', 'manage fields', 'users', 'administrator');
+defined('_JEXEC') or die('Restricted access');
 
 // Require specific controller if requested
-if($controller = JRequest::getVar('controller','contact')) {
+if ($controller = JRequest::getVar('controller','contact')) {
 	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
 	if (file_exists($path)) {
 		require_once $path;
 	}else {
-		JError::raiseError( 500, 'Invalid Controller' );
+		JError::raiseError(500, 'Invalid Controller');
 	}
 }
 
 // Create the controller
 $controllerClass	= 'ContactdirectoryController'.ucfirst($controller);
-if (class_exists( $controllerClass )) {
+if (class_exists($controllerClass)) {
 	$controller = new $controllerClass();
 }
 else {
@@ -32,9 +30,7 @@ else {
 }
 
 // Perform the Request task
-$controller->execute( JRequest::getVar( 'task' ) );
+$controller->execute(JRequest::getVar('task'));
 
 // Redirect if set by the controller
 $controller->redirect();
-
-?>

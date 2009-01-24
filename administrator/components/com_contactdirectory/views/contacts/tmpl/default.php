@@ -1,10 +1,18 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-
-<?php JHtml::_('behavior.tooltip'); ?>
-
 <?php
+/**
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	ContactDirectory
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
+
+defined('_JEXEC') or die('Restricted access');
+
+JHtml::_('behavior.tooltip');
+
 	// Set toolbar items for the page
-	JToolBarHelper::title( JText::_( 'CONTACT_MANAGER' ), 'generic.png' );
+	JToolBarHelper::title(JText::_('CONTACT_MANAGER'), 'generic.png');
 
 	JToolBarHelper::publishList();
 	JToolBarHelper::unpublishList();
@@ -14,17 +22,17 @@
 	JToolBarHelper::custom('importView', 'save.png', 'save_f2.png', JText::_('IMPORT'), false, true);
 
 	//JToolBarHelper::preferences('com_contactdirectory', '500');
-	//JToolBarHelper::help( 'screen.contactmanager' );
+	//JToolBarHelper::help('screen.contactmanager');
 ?>
 
 <form action="index.php" method="post" name="adminForm">
 <table>
 	<tr>
 		<td align="left" width="100%">
-			<?php echo JText::_( 'FILTER' ); ?>:
+			<?php echo JText::_('FILTER'); ?>:
 			<input type="text" name="search" id="search" value="<?php echo $this->lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-			<button onclick="this.form.submit();"><?php echo JText::_( 'GO' ); ?></button>
-			<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'RESET' ); ?></button>
+			<button onclick="this.form.submit();"><?php echo JText::_('GO'); ?></button>
+			<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_('RESET'); ?></button>
 		</td>
 		<td nowrap="nowrap">
 			<?php
@@ -39,31 +47,31 @@
 	<thead>
 		<tr>
 			<th width="5">
-				<?php echo JText::_( 'NUM' ); ?>
+				<?php echo JText::_('NUM'); ?>
 			</th>
 			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 			</th>
 			<th class="title">
-				<?php echo JHtml::_('grid.sort', JText::_( 'NAME' ), 'c.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort', JText::_('NAME'), 'c.name', $this->lists['order_Dir'], $this->lists['order']); ?>
 			</th>
 			<th width="15%">
-				<?php echo JHtml::_('grid.sort', JText::_( 'E-MAIL' ), 'email', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort', JText::_('E-MAIL'), 'email', $this->lists['order_Dir'], $this->lists['order']); ?>
 			</th>
 			<th width="15%">
-				<?php echo JHtml::_('grid.sort', JText::_( 'CATEGORIES' ), 'cat.categories', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort', JText::_('CATEGORIES'), 'cat.categories', $this->lists['order_Dir'], $this->lists['order']); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php echo JHtml::_('grid.sort', JText::_( 'PUBLISHED' ), 'c.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort', JText::_('PUBLISHED'), 'c.published', $this->lists['order_Dir'], $this->lists['order']); ?>
 			</th>
 			<th width="10%">
-				<?php echo JHtml::_('grid.sort', JText::_( 'ACCESS' ), 'groupname', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort', JText::_('ACCESS'), 'groupname', $this->lists['order_Dir'], $this->lists['order']); ?>
 			</th>
 			<th class="title" nowrap="nowrap" width="10%">
-				<?php echo JHtml::_('grid.sort', JText::_( 'LINKED_USER' ), 'user', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort', JText::_('LINKED_USER'), 'user', @$lists['order_Dir'], @$lists['order']); ?>
 			</th>
 			<th width="1%" nowrap="nowrap">
-				<?php echo JHtml::_('grid.sort', JText::_( 'ID' ), 'c.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort', JText::_('ID'), 'c.id', $this->lists['order_Dir'], $this->lists['order']); ?>
 			</th>
 		</tr>
 	</thead>
@@ -77,30 +85,30 @@
 	<tbody>
 	<?php
 	$k = 0;
-	for ($i=0, $n=count( $this->items ); $i < $n; $i++)
+	for ($i=0, $n=count($this->items); $i < $n; $i++)
 	{
 		$row = &$this->items[$i];
 
-		$link 		= JRoute::_( 'index.php?option=com_contactdirectory&controller=contact&view=contact&task=edit&cid[]='. $row->id );
-		$access 	= JHtml::_('grid.access',   $row, $i );
-		$checked 	= JHtml::_('grid.checkedout',   $row, $i );
-		$published 	= JHtml::_('grid.published', $row, $i );
+		$link 		= JRoute::_('index.php?option=com_contactdirectory&controller=contact&view=contact&task=edit&cid[]='. $row->id);
+		$access 	= JHtml::_('grid.access',   $row, $i);
+		$checked 	= JHtml::_('grid.checkedout',   $row, $i);
+		$published 	= JHtml::_('grid.published', $row, $i);
 
-		$user_link	= JRoute::_( 'index.php?option=com_users&task=editA&cid[]='. $row->user_id );
+		$user_link	= JRoute::_('index.php?option=com_users&task=editA&cid[]='. $row->user_id);
 
 		$ordering = ($this->lists['order'] == 'c.ordering');
 
 		?>
 		<tr class="<?php echo "row$k"; ?>">
-			<td><?php echo $this->pagination->getRowOffset( $i ); ?></td>
+			<td><?php echo $this->pagination->getRowOffset($i); ?></td>
 			<td><?php echo $checked; ?></td>
 			<td>
 				<?php
-				if (  JTable::isCheckedOut($this->user->get ('id'), $row->checked_out ) ) {
+				if ( JTable::isCheckedOut($this->user->get ('id'), $row->checked_out)) {
 					echo $row->name;
 				} else {
 				?>
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'EDIT_CONTACTS' );?>::<?php echo $row->name; ?>">
+				<span class="editlinktip hasTip" title="<?php echo JText::_('EDIT_CONTACTS');?>::<?php echo $row->name; ?>">
 					<a href="<?php echo $link; ?>">
 						<?php echo $row->name; ?></a></span>
 				<?php
@@ -112,7 +120,7 @@
 				<?php
 					$z = 0;
 					foreach($row->categories as $category){
-						if($z == 0){
+						if ($z == 0){
 							echo $category;
 						}else{
 							echo " - ".$category;
@@ -124,7 +132,7 @@
 			<td align="center"><?php echo $published;?></td>
 			<td align="center"><?php echo $access;?></td>
 			<td align="center">
-				<a href="<?php echo $user_link; ?>" title="<?php echo JText::_( 'EDIT_USER' ); ?>">
+				<a href="<?php echo $user_link; ?>" title="<?php echo JText::_('EDIT_USER'); ?>">
 					<?php echo $row->user; ?>
 				</a>
 			</td>
@@ -144,5 +152,5 @@
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>
