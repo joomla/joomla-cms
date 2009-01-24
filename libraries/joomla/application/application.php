@@ -223,8 +223,8 @@ abstract class JApplication extends JObject
  	{
 		$document =& JFactory::getDocument();
 
-		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
-		$document->setDescription( $this->getCfg('MetaDesc') );
+		$document->setTitle($this->getCfg('sitename'));
+		$document->setDescription($this->getCfg('MetaDesc'));
 
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
