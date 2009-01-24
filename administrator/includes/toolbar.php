@@ -30,7 +30,7 @@ abstract class JToolBarHelper
 	*/
 	public static function title($title, $icon = 'generic.png')
 	{
-		$mainframe = JFactory::getApplication();
+		$mainframe = &JFactory::getApplication();
 
 		//strip the extension
 		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
