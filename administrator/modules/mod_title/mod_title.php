@@ -10,7 +10,8 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // Get the component title div
-$title = $mainframe->get('JComponentTitle');
+$app	= &JFactory::getApplication();
+$title	= $app->get('JComponentTitle');
 
 // Echo title if it exists
 if (!empty($title)) {
