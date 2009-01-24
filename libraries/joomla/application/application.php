@@ -185,6 +185,9 @@ abstract class JApplication extends JObject
 		$editor	 = $user->getParam('editor', $this->getCfg('editor'));
 		$editor = JPluginHelper::isEnabled('editors', $editor) ? $editor : $this->getCfg('editor');
 		$config->setValue('config.editor', $editor);
+		
+		JPluginHelper::importPlugin('system');
+		$this->triggerEvent('onAfterInitialise');
 	}
 
 	/**
@@ -207,6 +210,8 @@ abstract class JApplication extends JObject
 		$result = $router->parse($uri);
 
 		JRequest::set($result, 'get', false );
+		
+		$this->triggerEvent('onAfterRoute');
  	}
 
  	/**
@@ -228,6 +233,8 @@ abstract class JApplication extends JObject
 
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
+		
+		$this->triggerEvent('onAfterDispatch');
  	}
 
 	/**
@@ -249,8 +256,11 @@ abstract class JApplication extends JObject
 		);
 
 		$document =& JFactory::getDocument();
+		$document->parse($params);
+		$this->triggerEvent('onBeforeRender');
 		$data = $document->render($this->getCfg('caching'), $params );
 		JResponse::setBody($data);
+		$this->triggerEvent('onAfterRender');
 	}
 
 	/**

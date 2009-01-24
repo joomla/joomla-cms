@@ -79,7 +79,7 @@ class JAdministrator extends JApplication
 	*/
 	function route()
 	{
-
+		parent::route();
 	}
 
 	/**
@@ -138,6 +138,7 @@ class JAdministrator extends JApplication
 
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
+		$this->triggerEvent('onAfterDispatch');
 	}
 
 	/**
@@ -162,8 +163,11 @@ class JAdministrator extends JApplication
 		);
 
 		$document =& JFactory::getDocument();
+		$document->prepare($params);
+		$this->triggerEvent('onBeforeRender');
 		$data = $document->render($this->getCfg('caching'), $params );
 		JResponse::setBody($data);
+		$this->triggerEvent('onAfterRender');
 	}
 
 	/**

@@ -754,6 +754,16 @@ abstract class JDocument extends JObject
 	}
 
 	/**
+	 * Parses the document and prepares the buffers
+	 * 
+	 * @access public
+	 * @return null
+	 */
+	 public function parse($params = array()) {
+	 	return null;	 	
+	 }
+
+	/**
 	 * Outputs the document
 	 *
 	 * @access public

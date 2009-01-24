@@ -72,12 +72,15 @@ class  plgSystemCache extends JPlugin
 			// the following code searches for a token in the cached page and replaces it with the
 			// proper token.
 			$user	= &JFactory::getUser();
+			$app = JFactory::getApplication();
 			$token	= JUtility::getToken();
 			$search = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
 			$replacement = '<input type="hidden" name="'.$token.'" value="1" />';
 			$data = preg_replace( $search, $replacement, $data );
 
 			JResponse::setBody($data);
+
+			$app->triggerEvent('onAfterCacheRender');
 
 			echo JResponse::toString($mainframe->getCfg('gzip'));
 

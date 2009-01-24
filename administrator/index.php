@@ -35,12 +35,8 @@ $mainframe =& JFactory::getApplication('administrator');
 $mainframe->initialise(array(
 	'language' => $mainframe->getUserState( "application.lang", 'lang' )
 ));
-
-JPluginHelper::importPlugin('system');
-
-// trigger the onAfterInitialise events
+// Profiling 
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
-$mainframe->triggerEvent('onAfterInitialise');
 
 /**
  * ROUTE THE APPLICATION
@@ -48,22 +44,17 @@ $mainframe->triggerEvent('onAfterInitialise');
  * NOTE :
  */
 $mainframe->route();
-
-// trigger the onAfterRoute events
+// Profiling
 JDEBUG ? $_PROFILER->mark('afterRoute') : null;
-$mainframe->triggerEvent('onAfterRoute');
 
 /**
  * DISPATCH THE APPLICATION
  *
  * NOTE :
  */
-
 $mainframe->dispatch();
-
-// trigger the onAfterDispatch events
+// Profiling
 JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
-$mainframe->triggerEvent('onAfterDispatch');
 
 /**
  * RENDER THE APPLICATION
@@ -71,10 +62,8 @@ $mainframe->triggerEvent('onAfterDispatch');
  * NOTE :
  */
 $mainframe->render();
-
-// trigger the onAfterRender events
+// Profiling
 JDEBUG ? $_PROFILER->mark( 'afterRender' ) : null;
-$mainframe->triggerEvent( 'onAfterRender' );
 
 /**
  * RETURN THE RESPONSE

@@ -42,6 +42,16 @@ class JDocumentHTML extends JDocument
 	public $baseurl = null;
 	public $params = null;
 	public $_file = null;
+	
+	/**
+	 * String holding parsed template
+	 */
+	protected $_template = '';
+	
+	/**
+	 * Array of parsed template JDoc tags
+	 */
+	protected $_template_tags = array();
 
 	/**
 	 * Class constructor
@@ -206,6 +216,17 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
+	 * Parses the template and populates the buffer
+	 * 
+	 * @access public
+	 * @param array parameters for fetching the template
+	 */
+	public function parse($params = array()) {
+		$this->_template = $this->_loadTemplate($params);
+		$this->_parseTemplate();		
+	}
+
+	/**
 	 * Outputs the template to the browser.
 	 *
 	 * @access public
@@ -215,42 +236,13 @@ class JDocumentHTML extends JDocument
 	 */
 	public function render( $caching = false, $params = array())
 	{
-		// check
-		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
-		$template	= JFilterInput::_($params['template'], 'cmd');
-		$file		= JFilterInput::_($params['file'], 'cmd');
-
-		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
-			$template = 'system';
+		if(!empty($this->_template)) {
+			$data = $this->_renderTemplate();
+		} else {
+			$this->parse($params);
+			$data = $this->_renderTemplate();
 		}
-
-		// Parse the template INI file if it exists for parameters and insert
-		// them into the template.
-		if (is_readable( $directory.DS.$template.DS.'params.ini' ) )
-		{
-			$content = file_get_contents($directory.DS.$template.DS.'params.ini');
-			$params = new JParameter($content);
-		}
-
-		// Load the language file for the template
-		$lang =& JFactory::getLanguage();
-		// 1.5 or core
-		$lang->load( 'tpl_'.$template );
-		// 1.6
-		$lang->load( 'joomla', $directory.DS.$template );
-
-		// Assign the variables
-		$this->template = $template;
-		$this->baseurl  = JURI::base(true);
-		$this->params   = $params;
-
-		// load
-		$data = $this->_loadTemplate($directory.DS.$template, $file);
-
-		// parse
-		$data = $this->_parseTemplate($data);
-
-		//output
+	
 		parent::render();
 		return $data;
 	}
@@ -360,17 +352,56 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
+	 * Load the template, and initialize the params
+	 * 
+	 * @param array parameters to determine the template 
+	 */		
+	 protected function _loadTemplate($params = array()) {
+		// check
+		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
+		$template	= JFilterInput::_($params['template'], 'cmd');
+		$file		= JFilterInput::_($params['file'], 'cmd');
+
+		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
+			$template = 'system';
+		}
+
+		// Parse the template INI file if it exists for parameters and insert
+		// them into the template.
+		if (is_readable( $directory.DS.$template.DS.'params.ini' ) )
+		{
+			$content = file_get_contents($directory.DS.$template.DS.'params.ini');
+			$params = new JParameter($content);
+		}
+
+		// Load the language file for the template
+		$lang =& JFactory::getLanguage();
+		// 1.5 or core
+		$lang->load( 'tpl_'.$template );
+		// 1.6
+		$lang->load( 'joomla', $directory.DS.$template );
+
+		// Assign the variables
+		$this->template = $template;
+		$this->baseurl  = JURI::base(true);
+		$this->params   = $params;
+
+		// load
+		$this->_template = $this->_loadTemplate($directory.DS.$template, $file);
+	}
+
+	/**
 	 * Parse a document template
 	 *
 	 * @access public
 	 * @param string 	$data		The data too parse
 	 * @return The parsed contents of the template
 	 */
-	public function _parseTemplate($data)
+	public function _parseTemplate()
 	{
 		$replace = array();
 		$matches = array();
-		if(preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $data, $matches))
+		if(preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches))
 		{
 			$matches[0] = array_reverse($matches[0]);
 			$matches[1] = array_reverse($matches[1]);
@@ -384,12 +415,24 @@ class JDocumentHTML extends JDocument
 				$type  = $matches[1][$i];
 
 				$name  = isset($attribs['name']) ? $attribs['name'] : null;
-				$replace[$i] = $this->getBuffer($type, $name, $attribs);
+				$this->getBuffer($type, $name, $attribs);
+				$this->_template_tags[$matches[0]] = array('type'=>$type, 'name' => $name);
 			}
-
-			$data = str_replace($matches[0], $replace, $data);
 		}
-
-		return $data;
+	}
+	
+	/**
+	 * Render pre-parsed template
+	 * 
+	 * @return string rendered template
+	 */
+	protected function _renderTemplate() {
+		$replace = array();
+		$with = array();
+		foreach($this->_template_tags AS $jdoc => $args) {
+			$replace[] = $jdoc;
+			$with[] = $this->getBuffer($args['type'], $args['name']);
+		}
+		return str_replace($replace, $with, $this->_template);
 	}
 }

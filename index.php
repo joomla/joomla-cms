@@ -24,8 +24,6 @@ try {
 	 *
 	 * NOTE :
 	 */
-
-
 	$mainframe =& JFactory::getApplication('site');
 
 	/**
@@ -33,14 +31,9 @@ try {
 	 *
 	 * NOTE :
 	 */
-	// set the language
 	$mainframe->initialise();
-
-	JPluginHelper::importPlugin('system');
-
-	// trigger the onAfterInitialise events
+	// profiling
 	JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
-	$mainframe->triggerEvent('onAfterInitialise');
 
 	/**
 	 * ROUTE THE APPLICATION
@@ -48,14 +41,8 @@ try {
 	 * NOTE :
 	 */
 	$mainframe->route();
-
-	// authorization
-	$Itemid = JRequest::getInt('Itemid');
-	$mainframe->authorize($Itemid);
-
-	// trigger the onAfterRoute events
+	// profiling
 	JDEBUG ? $_PROFILER->mark('afterRoute') : null;
-	$mainframe->triggerEvent('onAfterRoute');
 
 	/**
 	 * DISPATCH THE APPLICATION
@@ -63,10 +50,8 @@ try {
 	 * NOTE :
 	 */
 	$mainframe->dispatch();
-
-	// trigger the onAfterDispatch events
+	// Profiling
 	JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
-	$mainframe->triggerEvent('onAfterDispatch');
 
 	/**
 	 * RENDER  THE APPLICATION
@@ -74,10 +59,8 @@ try {
 	 * NOTE :
 	 */
 	$mainframe->render();
-
-	// trigger the onAfterRender events
+	// Profiling
 	JDEBUG ? $_PROFILER->mark('afterRender') : null;
-	$mainframe->triggerEvent('onAfterRender');
 
 	/**
 	 * RETURN THE RESPONSE

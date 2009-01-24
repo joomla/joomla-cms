@@ -76,7 +76,19 @@ class JSite extends JApplication
 	* @access public
 	*/
 	public function route() {
-		parent::route();
+		// get the full request URI
+		$uri = clone(JURI::getInstance());
+
+		$router =& $this->getRouter();
+		$result = $router->parse($uri);
+
+		JRequest::set($result, 'get', false );
+		
+		// authorization
+		$Itemid = JRequest::getInt('Itemid');
+		$this->authorize($Itemid);
+		
+		$this->triggerEvent('onAfterRoute');
 	}
 
 	/**
@@ -126,6 +138,7 @@ class JSite extends JApplication
 
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer( $contents, 'component');
+		$this->triggerEvent('onAfterDispatch');
 	}
 
 	/**
@@ -168,8 +181,11 @@ class JSite extends JApplication
 			} break;
  		}
 
-		$data = $document->render( $this->getCfg('caching'), $params);
+		$document->parse($params);
+		$this->triggerEvent('onBeforeRender');
+		$data = $document->render($this->getCfg('caching'), $params );
 		JResponse::setBody($data);
+		$this->triggerEvent('onAfterRender');
 	}
 
    /**
