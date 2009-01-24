@@ -168,11 +168,11 @@ class JForm extends JObject
 		if (is_object($data))
 		{
 			// Handle a JRegistry/JParameter object.
-			if (is_a($data, 'JRegistry')) {
+			if ($data instanceof JRegistry) {
 				$data = $data->toArray();
 			}
 			// Handle a JObject.
-			elseif (is_a($data, 'JObject')) {
+			elseif ($data instanceof JObject) {
 				$data = $data->getProperties();
 			}
 			// Handle other types of objects.
@@ -305,11 +305,11 @@ class JForm extends JObject
 		if (is_object($data))
 		{
 			// Handle a JRegistry/JParameter object.
-			if (is_a($data, 'JRegistry')) {
+			if ($data instanceof JRegistry) {
 				$data = $data->toArray();
 			}
 			// Handle a JObject.
-			elseif (is_a($data, 'JObject')) {
+			elseif ($data instanceof JObject) {
 				$data = $data->getProperties();
 			}
 			// Handle other types of objects.
