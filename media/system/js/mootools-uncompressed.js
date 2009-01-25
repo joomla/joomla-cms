@@ -5437,3 +5437,25 @@ var Accordion = new Class({
 	}
 
 });
+
+/*
+ * Custom behavior for JavaScript I18N in Joomla! 1.6
+ * 
+ * Allows you to call JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
+ */
+Hash.implement({
+	// Method to get a translated string with an optional default string.
+	_: function(k, d) {
+		return typeof this[k.toUpperCase()] !== 'undefined' ? this[k.toUpperCase()] : d;
+	},
+	
+	// Method to load an object of key/value pairs.
+	load: function(o) {
+		this.combine(o);
+	}
+});
+
+// Instantiate the JText object.
+document.addEvent('domready', function() {
+	JText = new Hash(JText);
+});

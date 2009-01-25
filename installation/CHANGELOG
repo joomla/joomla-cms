@@ -33,6 +33,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  - Removed JTemplate and Legacy plugin
 
 25-Jan-2009 Rob Schley
+ + Added JText._() and JText.load() to MooTools 1.2 JavaScript to make JavaScript I18N easier.
  + Added JText::script for JavaScript I18N.
  + Added support for JavaScript I18N in JDocumentHTML.
  ^ Cleaned up the site and administrator index.php files.
