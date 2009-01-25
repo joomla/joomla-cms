@@ -128,8 +128,17 @@ class JStdClass
 	public function set( $property, $value = null, $create = true )
 	{
 		$previous = isset($this->$property) ? $this->$property : null;
-		if(!isset($this->$property) && !$create) return null;
-		$this->$property = $value;
+		// Is this going to kill performance? Need to evaluate later
+		if(!array_key_exists($property, get_object_vars($this)) && !$create) {
+			if(JDEBUG) {
+				$arr = debug_backtrace();
+				array_shift($arr);
+				$arr = array_shift($arr);
+				JError::raiseWarning(42, 'Setting '. $property .' to '. $value .' failed from '. $arr['file'] .' line '. $arr['line']);
+			}
+			return null;
+		}
+		$this->$property = $value; 
 		return $previous;
 	}
 
