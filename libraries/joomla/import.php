@@ -21,7 +21,7 @@ if (! class_exists('JLoader')) {
  */
 
 //Base classes
-JLoader::import( 'joomla.base.stdclass' );
+JLoader::import( 'joomla.base.class' );
 JLoader::import( 'joomla.base.object' );
 
 

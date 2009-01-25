@@ -18,7 +18,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Document
  * @since		1.5
  */
-abstract class JDocumentRenderer extends JObject
+abstract class JDocumentRenderer extends JClass
 {
 	/**
 	* reference to the JDocument object that instantiated the renderer

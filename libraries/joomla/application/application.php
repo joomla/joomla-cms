@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
 * @since		1.5
 */
 
-abstract class JApplication extends JObject
+abstract class JApplication extends JClass
 {
 	/**
 	 * The client identifier.

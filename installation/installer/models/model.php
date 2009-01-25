@@ -44,7 +44,7 @@ class JInstallationModel extends JModel
 	 */
 	function __construct($config = array())
 	{
-		$this->_state = new JStdClass();
+		$this->_state = new JObject;
 		//set the view name
 		if (empty($this->_name))
 		{
@@ -733,7 +733,7 @@ class JInstallationModel extends JModel
 		// Import authentication library
 		jimport('joomla.user.helper');
 
-		$data = new JstdClass();
+		$data = new JObject;
 
 		$data->dbtype 			= $vars['DBtype'];
 		$data->host 			= $vars['DBhostname'];

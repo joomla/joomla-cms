@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Application
  * @since		1.5
  */
-class JMenu extends JObject
+class JMenu extends JClass
 {
 	/**
 	 * Array to hold the menu items

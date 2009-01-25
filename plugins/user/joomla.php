@@ -73,7 +73,7 @@ class plgUserJoomla extends JPlugin
 
 		// Get the user group from the ACL
 		if ($instance->get('tmp_user') == 1) {
-			$grp = new JStdClass;
+			$grp = new JObject;
 			// This should be configurable at some point
 			$grp->set('name', 'Registered');
 		} else {

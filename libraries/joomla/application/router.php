@@ -24,7 +24,7 @@ define('JROUTER_MODE_SEF', 1);
  * @subpackage	Application
  * @since		1.5
  */
-abstract class JRouter extends JObject
+abstract class JRouter extends JClass
 {
 	/**
 	 * The rewrite mode

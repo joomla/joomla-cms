@@ -21,7 +21,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Application
  * @since		1.5
  */
-abstract class JController extends JObject
+abstract class JController extends JClass
 {
 	/**
 	 * The base path of the controller

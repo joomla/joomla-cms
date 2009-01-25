@@ -250,14 +250,14 @@ abstract class JArrayHelper
 	}
 
 	/**
-	 * Utility function to map an array to a JStdClass object.
+	 * Utility function to map an array to a JObject object.
 	 *
 	 * @param	array	The array to map.
 	 * @param	string	Name of the class to create
 	 * @return	object	The object mapped from the given array
 	 * @since	1.5
 	 */
-	public static function toObject(&$data, $class = 'JStdClass')
+	public static function toObject(&$data, $class = 'JObject')
 	{
 		$obj = null;
 		if (is_array($data))

@@ -350,7 +350,7 @@ class JSimpleXML extends JObject
  * @subpackage	Utilities
  * @since 1.5
  */
-class JSimpleXMLElement extends JStdClass
+class JSimpleXMLElement extends JObject
 {
 	/**
 	 * Array with the attributes of this XML element

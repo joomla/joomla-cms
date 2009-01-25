@@ -21,7 +21,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Application
  * @since		1.5
  */
-abstract class JModel extends JObject
+abstract class JModel extends JClass
 {
 	/**
 	 * The model (base) name
@@ -73,7 +73,7 @@ abstract class JModel extends JObject
 		if (array_key_exists('state', $config))  {
 			$this->_state = $config['state'];
 		} else {
-			$this->_state = new JStdClass();
+			$this->_state = new JObject();
 		}
 
 		//set the model dbo

@@ -21,7 +21,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Application
  * @since		1.5
  */
-abstract class JPathway extends JObject
+abstract class JPathway extends JClass
 {
 	/**
 	 * Array to hold the pathway item objects

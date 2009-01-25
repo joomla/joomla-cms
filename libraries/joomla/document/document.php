@@ -21,7 +21,7 @@ JLoader::register('JDocumentRenderer', dirname(__FILE__).DS.'renderer.php');
  * @subpackage	Document
  * @since		1.5
  */
-abstract class JDocument extends JObject
+abstract class JDocument extends JClass
 {
 	/**
 	 * Document title

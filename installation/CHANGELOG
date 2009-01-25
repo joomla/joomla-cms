@@ -35,6 +35,11 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  - Removed Foood icons from the administrator and site.
  - Removed images/stories, images/smilies, and images/M_images and other old images.
 
+25-Jan-2009 Anthony Ferrara
+ + Added JClass base class
+ - Removed JStdClass
+ ^ Renamed references from JStdClass to JObject 
+
 24-Jan-2009 Anthony Ferrara
  + Added onBeforeRender Trigger
  + Added onAfterCacheRender Trigger

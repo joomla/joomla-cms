@@ -56,7 +56,7 @@ class MediaViewImagesList extends JView
 		if (isset($this->folders[$index])) {
 			$this->_tmp_folder = $this->folders[$index];
 		} else {
-			$this->_tmp_folder = new JStdClass;
+			$this->_tmp_folder = new JObject;
 		}
 	}
 
@@ -65,7 +65,7 @@ class MediaViewImagesList extends JView
 		if (isset($this->images[$index])) {
 			$this->_tmp_img = $this->images[$index];
 		} else {
-			$this->_tmp_img = new JStdClass();
+			$this->_tmp_img = new JObject;
 		}
 	}
 }

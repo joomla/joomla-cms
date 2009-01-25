@@ -363,7 +363,7 @@ abstract class JHtmlSelect
 			$options['option.text'] = $optText;
 			$options['disable'] = $disable;
 		}
-		$obj = new JStdClass;
+		$obj = new JObject;
 		$obj->$options['option.key'] = $value;
 		$obj->$options['option.text'] = trim($text) ? $text : $value;
 
