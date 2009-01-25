@@ -148,10 +148,7 @@ abstract class JFormField extends JClass
 	 * @return	string		The field input.
 	 * @since	1.6
 	 */
-	abstract protected function _getInput()
-	{
-		return;
-	}
+	abstract protected function _getInput();
 
 	/**
 	 * Method to get the name of the input field.

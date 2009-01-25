@@ -24,18 +24,14 @@ class JFormFieldTextarea extends JFormField
 	/**
 	 * The field type.
 	 *
-	 * @access	public
 	 * @var		string
-	 * @since	1.6
 	 */
-	protected $type = 'Textarea';
+	public $type = 'Textarea';
 
 	/**
 	 * Method to get the field input.
 	 *
-	 * @access	protected
 	 * @return	string		The field input.
-	 * @since	1.6
 	 */
 	protected function _getInput()
 	{

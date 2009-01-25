@@ -10,6 +10,8 @@
 
 defined('JPATH_BASE') or die('Restricted Access');
 
+require_once dirname(__FILE__).DS.'field.php';
+
 /**
  * Form Class for the Joomla Framework.
  *

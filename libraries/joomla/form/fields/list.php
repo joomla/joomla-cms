@@ -25,18 +25,14 @@ class JFormFieldList extends JFormField
 	/**
 	 * The field type.
 	 *
-	 * @access	public
 	 * @var		string
-	 * @since	1.6
 	 */
-	protected $type = 'List';
+	public $type = 'List';
 
 	/**
 	 * Method to get a list of options for a list input.
 	 *
-	 * @access	protected
 	 * @return	array		An array of JHtml options.
-	 * @since	1.6
 	 */
 	protected function _getOptions()
 	{
