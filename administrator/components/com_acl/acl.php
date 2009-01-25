@@ -20,6 +20,6 @@ require_once JPATH_COMPONENT.DS.'controller.php';
 jimport('joomla.application.component.model');
 JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
 
-$controller = &AccessController::getInstance();
+$controller = &AccessController::getInstance('Access');
 $controller->execute(JRequest::getVar('task'));
 $controller->redirect();

@@ -154,7 +154,7 @@ abstract class JController extends JClass
 			list($type, $task) = explode('.', $command);
 
 			// Define the controller filename and path.
-			$file	= $this->_createFileName('controller', array('name' => $type, 'protocol' => $protocol));
+			$file	= JController::_createFileName('controller', array('name' => $type, 'protocol' => $protocol));
 			$path	= $basePath.DS.'controllers'.DS.$file;
 
 			// Reset the task without the contoller context.
@@ -167,7 +167,7 @@ abstract class JController extends JClass
 			$task	= $command;
 
 			// Define the controller filename and path.
-			$file	= $this->_createFileName('controller', array('name' => 'controller', 'protocol' => $protocol));
+			$file	= JController::_createFileName('controller', array('name' => 'controller', 'protocol' => $protocol));
 			$path	= $basePath.DS.$file;
 		}
 
