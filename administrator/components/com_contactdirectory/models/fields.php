@@ -13,7 +13,7 @@ jimport('joomla.application.component.model');
 /**
  * Contact Directory Component Fields Model
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	ContactDirectory
  * @since		1.6
  */

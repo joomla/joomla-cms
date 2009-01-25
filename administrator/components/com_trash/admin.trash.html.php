@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
+* @package		Joomla.Administrator
 * @subpackage	Trash
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
 * @license		GNU General Public License, see LICENSE.php
 */
 
@@ -12,7 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
 * HTML class for all trash component output
-* @package		Joomla
+* @package		Joomla.Administrator
 * @subpackage	Trash
 */
 

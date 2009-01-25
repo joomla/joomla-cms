@@ -14,7 +14,7 @@ jimport('joomla.application.component.controller');
 /**
  * Contact Directory Contact Controller
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	ContactDirectory
  * @since		1.6
  */

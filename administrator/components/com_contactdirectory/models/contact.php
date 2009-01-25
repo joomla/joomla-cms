@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 
 /**
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	ContactDirectory
  *
  * @since 1.6

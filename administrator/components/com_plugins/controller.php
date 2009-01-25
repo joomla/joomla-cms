@@ -1,9 +1,9 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Config
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
@@ -15,7 +15,7 @@ jimport( 'joomla.application.component.controller' );
 /**
  * Plugins Component Controller
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Plugins
  * @since 1.5
  */

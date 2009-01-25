@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id $
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Frontpage
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
@@ -15,7 +15,7 @@ jimport('joomla.application.component.model');
 /**
  * Frontpage Component Frontpage Model
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Content
  * @since 1.6
  */

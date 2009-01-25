@@ -9,7 +9,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	ContactDirectory
  */
 class TableContact extends JTable

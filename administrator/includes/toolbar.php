@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @package		Joomla.Administrator
+* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
 * @license		GNU General Public License, see LICENSE.php
 */
 
@@ -14,7 +14,7 @@ jimport('joomla.html.toolbar');
 /**
 * Utility class for the button bar
 *
-* @package		Joomla
+* @package		Joomla.Administrator
 */
 abstract class JToolBarHelper
 {
@@ -487,7 +487,7 @@ abstract class JToolBarHelper
 /**
 * Utility class for the submenu
 *
-* @package		Joomla
+* @package		Joomla.Administrator
 */
 abstract class JSubMenuHelper
 {

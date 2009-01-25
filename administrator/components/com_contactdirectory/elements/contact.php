@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
@@ -10,7 +10,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	ContactDirectory
  * @since		1.6
  */

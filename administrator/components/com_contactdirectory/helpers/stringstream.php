@@ -11,7 +11,7 @@
  * This file allows you to use a PHP string like
  * you would normally use a regular stream wrapper
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	ContactDirectory
  * @since		1.6
  * @todo		Integrate this with JStream

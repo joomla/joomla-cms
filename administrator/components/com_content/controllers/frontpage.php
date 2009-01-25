@@ -1,9 +1,9 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
@@ -18,7 +18,7 @@ JController::addModelPath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_content'.
 /**
  * Content Component Frontpage Controller
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Content
  * @since 1.6
  */

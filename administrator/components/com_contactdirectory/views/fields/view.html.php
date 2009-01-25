@@ -14,7 +14,7 @@ jimport('joomla.application.component.view');
 /**
  * Field View
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	ContactDirectory
  * @since		1.6
  */

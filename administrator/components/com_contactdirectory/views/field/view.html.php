@@ -14,7 +14,7 @@ jimport('joomla.application.component.view');
  * HTML View class for the ContactDirectory component
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	ContactDirectory
  * @since 1.6
  */

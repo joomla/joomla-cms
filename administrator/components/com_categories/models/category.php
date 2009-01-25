@@ -1,9 +1,9 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Categories
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
@@ -15,7 +15,7 @@ jimport('joomla.application.component.model');
 /**
  * Categories Component Category Model
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Categories
  * @since 1.5
  */
