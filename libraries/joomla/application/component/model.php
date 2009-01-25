@@ -54,13 +54,11 @@ abstract class JModel extends JClass
 
 	/**
 	 * Constructor
-	 *
-	 * @since	1.5
 	 */
 	protected function __construct($config = array())
 	{
 		//set the view name
-		if (empty( $this->_name ))
+		if (empty($this->_name))
 		{
 			if (array_key_exists('name', $config))  {
 				$this->_name = $config['name'];
@@ -86,7 +84,7 @@ abstract class JModel extends JClass
 		// set the default view search path
 		if (array_key_exists('table_path', $config)) {
 			$this->addTablePath($config['table_path']);
-		} else if (defined( 'JPATH_COMPONENT_ADMINISTRATOR' )){
+		} else if (defined('JPATH_COMPONENT_ADMINISTRATOR')){
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 		}
 
@@ -103,26 +101,25 @@ abstract class JModel extends JClass
 	 * @param	string	Prefix for the model class name. Optional.
 	 * @param	array	Configuration array for model. Optional.
 	 * @return	mixed	A model object, or false on failure
-	 * @since	1.5
-	*/
-	public static function &getInstance( $type, $prefix = '', $config = array() )
+	 */
+	public static function &getInstance($type, $prefix = '', $config = array())
 	{
 		$type		= preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$modelClass	= $prefix.ucfirst($type);
 		$result		= false;
 
-		if (!class_exists( $modelClass ))
+		if (!class_exists($modelClass))
 		{
 			jimport('joomla.filesystem.path');
 			$path = JPath::find(
 				JModel::addIncludePath(),
-				JModel::_createFileName( 'model', array( 'name' => $type))
+				JModel::_createFileName('model', array('name' => $type))
 			);
 			if ($path)
 			{
 				require_once $path;
 
-				if (!class_exists( $modelClass ))
+				if (!class_exists($modelClass))
 				{
 					throw new JException('Model class not found in file', 500, E_ERROR, $modelClass, true);
 				}
@@ -137,13 +134,11 @@ abstract class JModel extends JClass
 	/**
 	 * Method to set model state variables
 	 *
-	 * @access	public
 	 * @param	string	The name of the property
 	 * @param	mixed	The value of the property to set
 	 * @return	mixed	The previous value of the property
-	 * @since	1.5
 	 */
-	public function setState( $property, $value=null )
+	public function setState($property, $value=null)
 	{
 		return $this->_state->set($property, $value);
 	}
@@ -151,11 +146,9 @@ abstract class JModel extends JClass
 	/**
 	 * Method to get model state variables
 	 *
-	 * @access	public
 	 * @param	string	Optional parameter name
 	 * @param   mixed	Optional default value
 	 * @return	object	The property where specified, the state object where omitted
-	 * @since	1.5
 	 */
 	public function getState($property = null, $default = null)
 	{
@@ -165,9 +158,7 @@ abstract class JModel extends JClass
 	/**
 	 * Method to get the database connector object
 	 *
-	 * @access	public
 	 * @return	object JDatabase connector object
-	 * @since	1.5
 	 */
 	public function &getDBO()
 	{
@@ -179,7 +170,6 @@ abstract class JModel extends JClass
 	 *
 	 * @param	object	$db	A JDatabase based object
 	 * @return	void
-	 * @since	1.5
 	 */
 	public function setDBO(&$db)
 	{
@@ -192,21 +182,19 @@ abstract class JModel extends JClass
 	 * The model name by default parsed using the classname, or it can be set
 	 * by passing a $config['name�] in the class constructor
 	 *
-	 * @access	public
 	 * @return	string The name of the model
-	 * @since	1.5
 	 */
 	public function getName()
 	{
 		$name = $this->_name;
 
-		if (empty( $name ))
+		if (empty($name))
 		{
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r)) {
 				throw new JException('Can\'t get or parse class name', 500, E_ERROR, get_class($this), true);
 			}
-			$name = strtolower( $r[1] );
+			$name = strtolower($r[1]);
 		}
 
 		return $name;
@@ -215,12 +203,10 @@ abstract class JModel extends JClass
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
-	 * @access	public
 	 * @param	string The table name. Optional.
 	 * @param	string The class prefix. Optional.
 	 * @param	array	Configuration array for model. Optional.
 	 * @return	object	The table
-	 * @since	1.5
 	 */
 	public function &getTable($name='', $prefix='Table', $options = array())
 	{
@@ -228,7 +214,7 @@ abstract class JModel extends JClass
 			$name = $this->getName();
 		}
 
-		if($table = &$this->_createTable( $name, $prefix, $options ))  {
+		if($table = &$this->_createTable($name, $prefix, $options))  {
 			return $table;
 		}
 
@@ -239,21 +225,19 @@ abstract class JModel extends JClass
 	 * Add a directory where JModel should search for models. You may
 	 * either pass a string or an array of directories.
 	 *
-	 * @access	public
 	 * @param	string	A path to search.
 	 * @return	array	An array with directory elements
-	 * @since	1.5
 	 */
-	public static function addIncludePath( $path='' )
+	public static function addIncludePath($path='')
 	{
 		static $paths;
 
 		if (!isset($paths)) {
 			$paths = array();
 		}
-		if (!empty( $path ) && !in_array( $path, $paths )) {
+		if (!empty($path) && !in_array($path, $paths)) {
 			jimport('joomla.filesystem.path');
-			array_unshift($paths, JPath::clean( $path ));
+			array_unshift($paths, JPath::clean($path));
 		}
 		return $paths;
 	}
@@ -278,12 +262,10 @@ abstract class JModel extends JClass
 	 * @param	int Offset
 	 * @param	int The number of records
 	 * @return	array
-	 * @access	protected
-	 * @since	1.5
 	 */
-	protected function &_getList( $query, $limitstart=0, $limit=0 )
+	protected function &_getList($query, $limitstart=0, $limit=0)
 	{
-		$this->_db->setQuery( $query, $limitstart, $limit );
+		$this->_db->setQuery($query, $limitstart, $limit);
 		$result = $this->_db->loadObjectList();
 
 		return $result;
@@ -294,12 +276,10 @@ abstract class JModel extends JClass
 	 *
 	 * @param	string The query
 	 * @return	int
-	 * @access	protected
-	 * @since	1.5
 	 */
-	protected function _getListCount( $query )
+	protected function _getListCount($query)
 	{
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		$this->_db->query();
 
 		return $this->_db->getNumRows();
@@ -308,37 +288,33 @@ abstract class JModel extends JClass
 	/**
 	 * Method to load and return a model object.
 	 *
-	 * @access	private
 	 * @param	string	The name of the view
 	 * @param   string  The class prefix. Optional.
 	 * @return	mixed	Model object or boolean false if failed
-	 * @since	1.5
 	 */
-	private function &_createTable( $name, $prefix = 'Table', $config = array())
+	private function &_createTable($name, $prefix = 'Table', $config = array())
 	{
 		$result = null;
 
 		// Clean the model name
-		$name	= preg_replace( '/[^A-Z0-9_]/i', '', $name );
-		$prefix = preg_replace( '/[^A-Z0-9_]/i', '', $prefix );
+		$name	= preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		//Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))  {
 			$config['dbo'] =& $this->getDBO();;
 		}
 
-		$instance =& JTable::getInstance($name, $prefix, $config );
+		$instance =& JTable::getInstance($name, $prefix, $config);
 		return $instance;
 	}
 
 	/**
 	 * Create the filename for a resource
 	 *
-	 * @access	private
 	 * @param	string 	$type  The resource type to create the filename for
 	 * @param	array 	$parts An associative array of filename information
 	 * @return	string The filename
-	 * @since	1.5
 	 */
 	private static function _createFileName($type, $parts = array())
 	{
