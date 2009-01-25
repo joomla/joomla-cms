@@ -30,7 +30,7 @@ JCombobox.prototype = {
 		this.is_opera = (agt.indexOf("opera") != -1);
 		this.is_safari = (agt.indexOf("safari") != -1);
 
-		var boxes = document.getElements('.combobox');
+		var boxes = $$('.combobox');
 		for ( var i=0; i < boxes.length; i++) {
 			if (boxes[i].tagName == 'INPUT' && boxes[i].type == 'text') {
 				this.populate(boxes[i]);
@@ -110,7 +110,7 @@ JCombobox.prototype = {
 }
 
 document.combobox = null
-Window.onDomReady(function(){
+window.addEvent('domready', function(){
   var combobox = new JCombobox()
   document.combobox = combobox
 });
