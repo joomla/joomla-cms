@@ -275,7 +275,7 @@ class JRegistry extends JClass
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function loadFile($file, $format = 'INI', $namespace = null)
+	public function loadFile($file, $format = 'JSON', $namespace = null)
 	{
 		// Load a file into the given namespace [or default namespace if not given]
 		$handler =& JRegistryFormat::getInstance($format);
@@ -394,6 +394,46 @@ class JRegistry extends JClass
 	}
 
 	/**
+	 * Load an JSON string into the registry into the given namespace [or default if a namespace is not given]
+	 *
+	 * @access	public
+	 * @param	string	$data		JSON formatted string to load into the registry
+	 * @param	string	$namespace	Namespace to load the INI string into [optional]
+	 * @return	boolean True on success
+	 * @since	1.5
+	 */
+	public function loadJSON($data, $namespace = null)
+	{
+		// Load a string into the given namespace [or default namespace if not given]
+		$handler =& JRegistryFormat::getInstance('JSON');
+
+		// If namespace is not set, get the default namespace
+		if ($namespace == null) {
+			$namespace = $this->_defaultNameSpace;
+		}
+
+		if (!isset($this->_registry[$namespace])) {
+			// If namespace does not exist, make it and load the data
+			$this->makeNameSpace($namespace);
+			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
+		} else {
+			// Get the data in object format
+			$ns = $handler->stringToObject($data);
+
+			/*
+			 * We want to leave groups that are already in the namespace and add the
+			 * groups loaded into the namespace.  This overwrites any existing group
+			 * with the same name
+			 */
+			foreach (get_object_vars($ns) as $k => $v) {
+				$this->_registry[$namespace]['data']->$k = $v;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Merge a JRegistry object into this one
 	 *
 	 * @access	public
@@ -403,7 +443,7 @@ class JRegistry extends JClass
 	 */
 	public function merge(&$source)
 	{
-		if ($source INSTANCEOF JRegistry)
+		if ($source instanceof JRegistry)
 		{
 			$sns = $source->getNameSpaces();
 			foreach ($sns as $ns)
@@ -437,7 +477,7 @@ class JRegistry extends JClass
 	 * @return	string	Namespace in string format
 	 * @since	1.5
 	 */
-	public function toString($format = 'INI', $namespace = null, $params = null)
+	public function toString($format = 'JSON', $namespace = null, $params = null)
 	{
 		// Return a namespace in a given format
 		$handler =& JRegistryFormat::getInstance($format);

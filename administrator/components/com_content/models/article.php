@@ -218,16 +218,12 @@ class ContentModelArticle extends JModel
 		// Build parameter INI string
 		if (is_array($params))
 		{
-			$txt = array ();
-			foreach ($params as $k => $v) {
-				$txt[] = "$k=$v";
-			}
-			$row->attribs = implode("\n", $txt);
+			$row->attribs = json_encode($params);
 		}
 
 		// Get metadata string
 		$metadata = JRequest::getVar( 'meta', null, 'post', 'array');
-		if (is_array($params))
+		if (is_array($metadata))
 		{
 			$txt = array();
 			foreach ($metadata as $k => $v) {

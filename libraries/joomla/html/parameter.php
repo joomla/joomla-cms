@@ -76,7 +76,7 @@ class JParameter extends JRegistry
 		$this->_elementPath[] = dirname( __FILE__ ).DS.'parameter'.DS.'element';
 
 		if (trim( $data )) {
-			$this->loadINI($data);
+			$this->loadJSON($data);
 		}
 
 		if ($path) {
@@ -168,7 +168,7 @@ class JParameter extends JRegistry
 		} elseif ( is_object($data) ) {
 			return $this->loadObject($data, $group);
 		} else {
-			return $this->loadINI($data, $group);
+			return $this->loadJSON($data, $group);
 		}
 	}
 
