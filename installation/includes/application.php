@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
+* @package		Joomla.Installation
 * @subpackage	Installation
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
 * @license		GNU General Public License, see LICENSE.php
 */
 
@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 *
 * Provide many supporting API functions
 *
-* @package		Joomla
+* @package		Joomla.Installation
 * @final
 */
 class JInstallation extends JApplication
