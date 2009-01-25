@@ -28,6 +28,10 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+25-Jan-2009 Rob Schley
+ - Removed Foood icons from the administrator and site.
+ - Removed images/stories, images/smilies, and images/M_images and other old images.
+
 24-Jan-2009 Anthony Ferrara
  + Added onBeforeRender Trigger
  + Added onAfterCacheRender Trigger
