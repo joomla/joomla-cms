@@ -31,6 +31,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 25-Jan-2009 Andrew Eddie
  - Removed JTemplate and Legacy plugin
  + Add Generation 3 access control tables and framework
+ + Add JModelList, JModelItem
 
 25-Jan-2009 Rob Schley
  - Removed com_polls and mod_polls.
