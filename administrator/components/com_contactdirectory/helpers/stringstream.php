@@ -14,7 +14,7 @@
  * @package		Joomla
  * @subpackage	ContactDirectory
  * @since		1.6
- * @todo		WHY IS THIS HERE SAM??
+ * @todo		Integrate this with JStream
  */
 class StringStreamController {
 
