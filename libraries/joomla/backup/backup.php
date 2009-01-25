@@ -1,24 +1,23 @@
 <?php
 /**
- * Joomla! Backup System
- *
- * Handles backups
- *
- * PHP5
- *
- * Created on Oct 29, 2008
- *
- * @package Joomla.Framework
- * @subpackage Backup
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Backup
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
- * @version SVN: $Id$
  */
 
+// No direct access
 defined('JPATH_BASE') or die();
-
 jimport('joomla.base.adapter');
 
+/**
+ * Backup class, handles backups
+ *
+ * @package 	Joomla.Framework
+ * @subpackage	User
+ * @since		1.6
+ */
 class JBackup extends JAdapter {
 	private $_taskset;
 	private $_backup;
@@ -27,11 +26,23 @@ class JBackup extends JAdapter {
 	protected $landing_page = '';
 
 	/**
+	 * Constructor
+	 */
+	public function __construct(&$db, $backupid=0, $tasksetid=0)
+	{
+		parent::__construct(dirname(__FILE__),'JBackup');
+		$this->_db =& $db;
+		$this->setBackupID($backupid);
+		$this->setTaskSetID($tasksetid);
+	}
+
+	/**
 	 * Sets the mode of the backup
 	 * Note: This will reset the backup and backup id potentially losing data
-	 * @param enum['backup','restore','remove'] Mode to use
-	 * @param integer Backup ID to load up; required for restore or remove
-	 * @return boolean result of operation; this will be false for invalid data
+	 * 
+	 * @param	enum['backup','restore','remove'] Mode to use
+	 * @param	integer	Backup ID to load up; required for restore or remove
+	 * @return	boolean	result of operation; this will be false for invalid data
 	 */
 	public function setMode($mode, $backupid=0) {
 		$this->_backup =& JTable::getInstance('backups');
@@ -55,15 +66,7 @@ class JBackup extends JAdapter {
 		}
 		$this->_mode = $mode;
 	}
-
-	public function __construct(&$db, $backupid=0, $tasksetid=0)
-	{
-		parent::__construct(dirname(__FILE__),'JBackup');
-		$this->_db =& $db;
-		$this->setBackupID($backupid);
-		$this->setTaskSetID($tasksetid);
-	}
-
+	
 	public function setTaskSetID($tasksetid) {
 		$this->_taskset = new JTaskSet($this->_db);
 		if ($tasksetid) {
@@ -90,7 +93,7 @@ class JBackup extends JAdapter {
 	/**
 	 * Set the task set of the backup
 	 *
-	 * @param unknown_type $taskset
+	 * @param mixed	$taskset
 	 */
 	public function setTaskSet(&$taskset) {
 		$this->_taskset =& $taskset;
@@ -99,12 +102,11 @@ class JBackup extends JAdapter {
 		}
 	}
 
-
 	/**
 	 * Adds an entry to the backup queue
 	 *
-	 * @param unknown_type $type
-	 * @param unknown_type $source
+	 * @param mixed	$type
+	 * @param mixed	$source
 	 */
 	public function addEntry($name, $type, $params=Array()) {
 		if($this->_mode != 'backup') {
@@ -117,8 +119,8 @@ class JBackup extends JAdapter {
 	/**
 	 * Removes an entry from the backup queue
 	 *
-	 * @param unknown_type $type
-	 * @param unknown_type $source
+	 * @param mixed	$type
+	 * @param mixed	$source
 	 */
 	public function removeEntry($name, $type) {
 		if($this->_mode != 'backup') {
@@ -183,13 +185,12 @@ class JBackup extends JAdapter {
 		return true;
 	}
 
-
 	/**
 	 * Runs a backup
+	 * 
 	 * Implicitly does the following tasks:
 	 * 	- Saves the backup and any entries
 	 *  - Builds up a task set if it doesn't exist
-	 * -
 	 */
 	public function execute() {
 		if($this->_mode == 'backup' && !$this->_backup->get('start',null)) {
@@ -235,5 +236,4 @@ class JBackup extends JAdapter {
 		$this->_taskset->delete();
 		$this->_taskset->redirect();
 	}
-
 }
