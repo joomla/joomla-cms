@@ -28,6 +28,10 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+25-Jan-2009 Andrew Eddie
+
+ - Removed JTemplate and Legacy plugin
+
 25-Jan-2009 Rob Schley
  + Added JText::script for JavaScript I18N.
  + Added support for JavaScript I18N in JDocumentHTML.
