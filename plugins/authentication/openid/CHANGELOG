@@ -1,0 +1,122 @@
+Fri Mar 23 11:03:53 PDT 2007  cygnus@janrain.com
+  * Fix global variables for release
+
+Fri Mar 23 10:37:48 PDT 2007  cygnus@janrain.com
+  * Update OpenID.pkg
+
+Thu Feb  1 11:36:42 PST 2007  cygnus@janrain.com
+  * Make tests pass when MySQL connection cannot be established
+
+Mon Jan 15 13:27:20 PST 2007  cygnus@janrain.com
+  * null-return fix for php4.4.1
+
+Mon Jan 15 13:16:18 PST 2007  cygnus@janrain.com
+  * Set Auth_OpenID_NO_MATH_SUPPORT in OpenID.php
+
+Thu Jan 11 10:38:16 PST 2007  cygnus@janrain.com
+  * Add bigmath test values
+
+Wed Jan  3 16:19:47 PST 2007  cygnus@janrain.com
+  * FIX #1150: Move DH defaults into getters
+
+Wed Jan  3 16:09:39 PST 2007  cygnus@janrain.com
+  * FIX #1150: Move OpenID namespaces into Auth_OpenID class
+
+Wed Jan  3 16:07:42 PST 2007  cygnus@janrain.com
+  * Max priority docstring
+
+Wed Jan  3 16:07:00 PST 2007  cygnus@janrain.com
+  * FIX #1150: Move ns map data into getter
+
+Wed Jan  3 16:04:43 PST 2007  cygnus@janrain.com
+  * FIX #1150: Move supported XML extension data into getter
+
+Wed Jan  3 16:02:56 PST 2007  cygnus@janrain.com
+  * FIX #1150: Fix _startswith and _pct_escape_unicode
+
+Wed Jan  3 15:57:51 PST 2007  cygnus@janrain.com
+  * FIX #1150: Move globals into getter functions in Auth/OpenID/URINorm.php
+
+Wed Jan  3 15:52:16 PST 2007  cygnus@janrain.com
+  * FIX #1150: Move globals into getter functions in Services/Yadis/Misc.php
+
+Wed Jan  3 15:48:07 PST 2007  cygnus@janrain.com
+  * FIX #1150: Move globals into getter functions in XRI.php
+
+Wed Mar 21 16:58:47 PDT 2007  cygnus@janrain.com
+  * Apply Simon Willison's fix to the plain fetcher POST handling
+
+Wed Mar 14 16:26:23 PDT 2007  cygnus@janrain.com
+  * Fix include_path in example server server.php
+
+Wed Mar 14 16:19:05 PDT 2007  cygnus@janrain.com
+  * Fix include_path in example server setup.php
+
+Mon Mar 12 11:30:39 PDT 2007  cygnus@janrain.com
+  * Unify php.net links
+
+Mon Mar 12 11:27:26 PDT 2007  cygnus@janrain.com
+  * Remove redundant detect.php text because it needs to be first
+
+Mon Mar 12 11:23:11 PDT 2007  cygnus@janrain.com
+  * Update PHP versions in README
+
+Mon Mar 12 11:23:04 PDT 2007  cygnus@janrain.com
+  * Add note to README for using detect script
+
+Mon Mar 12 11:33:10 PDT 2007  cygnus@cprogrammer.org
+  * Make it very clear what the result is
+
+Mon Mar 12 11:31:06 PDT 2007  cygnus@cprogrammer.org
+  * Whitespace
+
+Mon Mar 12 11:30:56 PDT 2007  cygnus@cprogrammer.org
+  * Say CURL isn't required
+
+Mon Mar 12 11:30:42 PDT 2007  cygnus@cprogrammer.org
+  * Remove comment
+
+Mon Mar 12 11:30:34 PDT 2007  cygnus@cprogrammer.org
+  * Include yadis code and complain if it isn't found
+
+Mon Mar 12 11:30:05 PDT 2007  cygnus@cprogrammer.org
+  * Mention absence of open_basedir
+
+Mon Mar 12 11:29:54 PDT 2007  cygnus@cprogrammer.org
+  * Boldify web_user
+
+Mon Mar 12 11:29:46 PDT 2007  cygnus@cprogrammer.org
+  * Mention file store
+
+Mon Mar 12 11:29:35 PDT 2007  cygnus@cprogrammer.org
+  * Boldify text
+
+Mon Mar 12 11:29:26 PDT 2007  cygnus@cprogrammer.org
+  * Typo fix
+
+Mon Mar 12 10:31:01 PDT 2007  cygnus@janrain.com
+  * README tweak
+
+Mon Mar 12 10:30:44 PDT 2007  cygnus@janrain.com
+  * Update README with CONTRIBUTING section
+
+Mon Mar 12 10:14:11 PDT 2007  cygnus@janrain.com
+  * Only try to include one file in inclusion test
+
+Mon Mar 12 10:07:52 PDT 2007  cygnus@janrain.com
+  * Remove HTML tags from format-agnostic output
+
+Fri Feb 16 02:18:49 PST 2007  atrus@atrus.org
+  * Improve HTML parser effeciency and tolerence
+
+Wed Feb  7 16:12:19 PST 2007  cygnus@janrain.com
+  * Add note about open_basedir
+
+Tue Jan 16 09:45:46 PST 2007  cygnus@janrain.com
+  * Fix example consumer on Windows
+
+Mon Jan 15 13:13:59 PST 2007  cygnus@janrain.com
+  * BigMath no longer triggers error on no math support
+
+Fri Mar 23 10:28:00 PDT 2007  cygnus@janrain.com
+  tagged 1.2.1

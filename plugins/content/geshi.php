@@ -45,7 +45,7 @@ function plgContentGeshi_replacer( &$matches )
 {
 	$params =& $GLOBALS['_MAMBOT_GESHI_PARAMS'];
 
-	require_once(dirname(__FILE__).'/geshi/geshi.php');
+	require_once (dirname(__FILE__).'/geshi/geshi.php');
 	
 	jimport('joomla.utilities.utility');
 

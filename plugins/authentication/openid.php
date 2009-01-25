@@ -42,7 +42,7 @@ class plgAuthenticationOpenID extends JPlugin
 
 		$response->type = 'OpenID';
 
-		require_once JPATH_LIBRARIES.DS.'openid'.DS.'consumer.php';
+		require_once (dirname(__FILE__).'/openid/consumer.php');
 
 		// Access the session data
 		$session =& JFactory::getSession();
