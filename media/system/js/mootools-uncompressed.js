@@ -5457,5 +5457,5 @@ Hash.implement({
 
 // Instantiate the JText object.
 document.addEvent('domready', function() {
-	JText = new Hash(JText);
+	JText = new Hash(typeof JText != 'undefined' ? JText : {});
 });
