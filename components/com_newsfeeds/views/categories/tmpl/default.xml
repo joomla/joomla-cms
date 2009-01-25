@@ -20,7 +20,7 @@
 			<param name="comp_description" type="textarea" default="" label="Description Text" rows="5" cols="30" description="Description for page"/>
 
 			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="-1" label="Image" description="PARAMIMAGE" />
+			<param name="image" type="imagelist" directory="/images" hide_default="1" default="-1" label="Image" description="PARAMIMAGE" />
 			<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
 				<option value="left">Left</option>
 				<option value="right">Right</option>

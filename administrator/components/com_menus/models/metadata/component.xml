@@ -11,7 +11,7 @@
 			</param>
 			<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+			<param name="menu_image" type="imagelist" directory="/images" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
 				<option value="-1">Off</option>

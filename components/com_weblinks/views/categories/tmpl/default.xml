@@ -9,7 +9,7 @@
 		<name>WEBLINK CATEGORY LIST LAYOUT</name>
 		<description>WEBLINK CATEGORY LIST LAYOUT DESC</description>
 		<params>
-			<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Image" description="PARAMIMAGE" />
+			<param name="image" type="imagelist" directory="/images" hide_default="1" default="" label="Image" description="PARAMIMAGE" />
 			<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
 				<option value="left">Left</option>
 				<option value="right">Right</option>

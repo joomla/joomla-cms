@@ -566,7 +566,6 @@ class JInstallationModel extends JModel
 			'components',
 			'images',
 			'images/banners',
-			'images/stories',
 			'language',
 			'plugins',
 			'plugins/content',

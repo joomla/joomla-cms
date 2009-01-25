@@ -35,7 +35,7 @@ abstract class JHtmlList
 	public static function images($name, $active = NULL, $javascript = NULL, $directory = NULL, $extensions =  "bmp|gif|jpg|png")
 	{
 		if (!$directory) {
-			$directory = '/images/stories/';
+			$directory = '/images/';
 		}
 
 		if (!$javascript) {

@@ -84,7 +84,7 @@ class UserViewLogin extends JView
 
 		// Build login image if enabled
 		if ( $params->get( 'image_'.$type ) != -1 ) {
-			$image = 'images/stories/'.$params->get( 'image_'.$type );
+			$image = 'images/'.$params->get( 'image_'.$type );
 			$image = '<img src="'. $image  .'" align="'. $params->get( 'image_'.$type.'_align' ) .'" hspace="10" alt="" />';
 		}
 

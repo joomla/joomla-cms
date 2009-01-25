@@ -24,7 +24,7 @@
 				<option value="1">Show</option>
 			</param>
 			<param name="description_login_text" type="textarea" cols="30" rows="5" default="" label="Login Description Text" description="PARAMLOGINDESCTEXT" />
-			<param name="image_login" type="imagelist" directory="/images/stories" default="" label="Login Image" description="Image for the Login Page" />
+			<param name="image_login" type="imagelist" directory="/images" default="" label="Login Image" description="Image for the Login Page" />
 			<param name="image_login_align" type="radio" default="right" label="Login Image Align" description="Alignment for Login Image">
 				<option value="left">Left</option>
 				<option value="right">Right</option>
@@ -45,7 +45,7 @@
 				<option value="1">Show</option>
 			</param>
 			<param name="description_logout_text" type="textarea" cols="30" rows="5" default="" label="Logout Description Text" description="PARAMLOGOUTDESCTEXT" />
-			<param name="image_logout" type="imagelist" directory="/images/stories" default="" label="Logout Image" description="Image for the Logout Page" />
+			<param name="image_logout" type="imagelist" directory="/images" default="" label="Logout Image" description="Image for the Logout Page" />
 			<param name="image_logout_align" type="radio" default="1" label="Logout Image Align" description="Alignment for Logout Image">
 				<option value="left">Left</option>
 				<option value="right">Right</option>

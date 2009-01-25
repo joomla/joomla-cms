@@ -4,7 +4,7 @@
 		<param name="upload_extensions" type="text" size="50" default="bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS" label="LEGAL EXTENSIONS LABEL" description="LEGAL EXTENSIONS DESC" />
 		<param name="upload_maxsize" type="text" size="50" default="10000000" label="MAXIMUM SIZE LABEL" description="MAXIMUM SIZE DESC" />
 		<param name="file_path" type="text" size="50" default="images" label="PATH TO FILE FOLDER" description="TIPFILEFOLDER" />
-		<param name="image_path" type="text" size="50" default="images/stories" label="PATH TO IMAGE FOLDER" description="TIPIMAGEFOLDER" />
+		<param name="image_path" type="text" size="50" default="images" label="PATH TO IMAGE FOLDER" description="TIPIMAGEFOLDER" />
 		<param name="restrict_uploads" type="radio" default="1" label="RESTRICT UPLOADS" description="RESTRICT UPLOADS DESC">
 			<option value="0">NO</option>
 			<option value="1">YES</option>

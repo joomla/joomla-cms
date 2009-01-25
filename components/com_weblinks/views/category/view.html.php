@@ -103,7 +103,7 @@ class WeblinksViewCategory extends JView
 			$attribs['hspace'] = 6;
 
 			// Use the static HTML library to build the image tag
-			$category->image = JHtml::_('image', 'images/stories/'.$category->image, JText::_('Web Links'), $attribs);
+			$category->image = JHtml::_('image', 'images/'.$category->image, JText::_('Web Links'), $attribs);
 		}
 
 		// icon in table display

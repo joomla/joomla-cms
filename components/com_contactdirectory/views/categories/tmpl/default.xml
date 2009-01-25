@@ -18,7 +18,7 @@
 	 			<option value="0">Hide</option>
 	 			<option value="1">Show</option>
 	 		</param>
-			<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="IMAGE" description="IMAGE_DESCRIPTION" />
+			<param name="image" type="imagelist" directory="/images" hide_default="1" default="" label="IMAGE" description="IMAGE_DESCRIPTION" />
 			<param name="image_align" type="radio" default="right" label="IMAGE_ALIGN" description="IMAGE_ALIGN_DESCRIPTION">
 				<option value="left">LEFT</option>
 				<option value="right">RIGHT</option>
