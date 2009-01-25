@@ -23,7 +23,6 @@ var JCaption = new Class({
 	initialize: function(selector)
 	{
 		this.selector = selector;
-
 		var images = $$(selector);
 		images.each(function(image){ this.createCaption(image); }, this);
 	},
@@ -54,8 +53,6 @@ var JCaption = new Class({
 	}
 });
 
-document.caption = null
 window.addEvent('load', function() {
   var caption = new JCaption('img.caption')
-  document.caption = caption
 });
