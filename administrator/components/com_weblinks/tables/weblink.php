@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage	Weblinks
  * @since		1.5
  */
-class TableWeblink extends JTable
+class WeblinksTableWeblink extends JTable
 {
 	/**
 	 * Primary Key

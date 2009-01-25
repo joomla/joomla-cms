@@ -13,36 +13,62 @@ jimport('joomla.application.component.view');
 /**
  * HTML View class for the WebLinks component
  *
- * @static
  * @package		Joomla.Administrator
  * @subpackage	Weblinks
  * @since		1.5
  */
 class WeblinksViewWeblinks extends JView
 {
-	function display($tpl = null)
+	public $state;
+	public $items;
+	public $pagination;
+	public $filter_state;
+
+	/**
+	 * Display the view
+	 *
+	 * @return	void
+	 */
+	public function display($tpl = null)
 	{
-		// Set toolbar items for the page
-		JToolBarHelper::title(  JText::_('Weblink Manager'), 'generic.png');
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
-		JToolBarHelper::addNewX();
-		JToolBarHelper::preferences('com_weblinks', '480');
-		JToolBarHelper::help('screen.weblink');
+		$state		= &$this->get('State');
+		$items		= &$this->get('Items');
+		$pagination = &$this->get('Pagination');
 
-		// Get data from the model
-		$items		= & $this->get('Data');
-		$total		= & $this->get('Total');
-		$pagination = & $this->get('Pagination');
-		$filter		= & $this->get('Filter');
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
 
-		$this->assignRef('user',		JFactory::getUser());
-		$this->assignRef('items',		$items);
-		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('filter',		$filter);
+		// Build the active state filter options.
+		$options	= array();
+		$options[]	= JHtml::_('select.option', '*', 'JSelect_Any');
+		$options[]	= JHtml::_('select.option', '0', 'JSelect_UnPublished');
+		$options[]	= JHtml::_('select.option', '1', 'JSelect_Published');
+		$options[]	= JHtml::_('select.option', '-1', 'Weblinks_Reported');
+
+		$this->assignRef('state',			$state);
+		$this->assignRef('items',			$items);
+		$this->assignRef('pagination',		$pagination);
+		$this->assignRef('filter_state',	$options);
 
 		parent::display($tpl);
+		$this->_setToolbar();
+	}
+
+	/**
+	 * Setup the Toolbar
+	 */
+	protected function _setToolbar()
+	{
+		JToolBarHelper::title(JText::_('Weblinks Manager'), 'generic.png');
+		JToolBarHelper::publishList('weblinks.publish');
+		JToolBarHelper::unpublishList('weblinks.unpublish');
+		JToolBarHelper::deleteList('', 'weblinks.delete');
+		JToolBarHelper::editListX('weblink.edit');
+		JToolBarHelper::addNewX('weblink.add');
+		JToolBarHelper::preferences('com_weblinks', '480');
+		JToolBarHelper::help('screen.weblink');
 	}
 }

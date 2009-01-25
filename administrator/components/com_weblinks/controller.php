@@ -30,41 +30,33 @@ class WeblinksController extends JController
 
 	function display()
 	{
-		$app	=& JFactory::getApplication();
-		$user 	=& JFactory::getUser();
+		// Get the document object.
+		$document = &JFactory::getDocument();
 
-		switch($this->getTask())
+		// Set the default view name and format from the Request.
+		$vName		= JRequest::getWord('view', 'weblinks');
+		$vFormat	= $document->getType();
+		$lName		= JRequest::getWord('layout', 'default');
+
+		// Get and render the view.
+		if ($view = &$this->getView($vName, $vFormat))
 		{
-			case 'add':
+			switch ($vName)
 			{
-				JRequest::setVar('hidemainmenu', 1);
-				JRequest::setVar('layout', 'form' );
-				JRequest::setVar('view'  , 'weblink');
-				JRequest::setVar('edit', false);
+				default:
+					$model = &$this->getModel($vName);
+					break;
+			}
 
-				// Checkout the weblink
-				$model = $this->getModel('weblink');
-				$model->checkout();
-			} break;
-			case 'edit':
-			{
-				JRequest::setVar('hidemainmenu', 1);
-				JRequest::setVar('layout', 'form' );
-				JRequest::setVar('view'  , 'weblink');
-				JRequest::setVar('edit', true);
+			// Push the model into the view (as default).
+			$view->setModel($model, true);
+			$view->setLayout($lName);
 
-				// Checkout the weblink
-				$model = $this->getModel('weblink');
-				// fail if checked out not by 'me'
-				if ($model->isCheckedOut($user->get('id'))) {
-					$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The weblink'), $weblink->title);
-					$app->redirect('index.php?option=com_weblinks', $msg);
-				}
-				$model->checkout();
-			} break;
+			// Push document object into the view.
+			$view->assignRef('document', $document);
+
+			$view->display();
 		}
-
-		parent::display();
 	}
 
 	function save()

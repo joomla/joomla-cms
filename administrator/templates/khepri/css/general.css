@@ -330,9 +330,16 @@ div.width-30 { width: 30%; }
 div.width-60 { width: 60%; }
 div.width-40 { width: 40%; }
 
-fieldset.filter {border: 0; padding: 0; margin:0 0 10px;}
-div.left { float: left; }
-div.right { float: right; }
+/* Some new classes for edit forms */
+
+fieldset ol,ol#property-values{margin:0;padding:0}
+fieldset li,ol#property-values li{list-style:none;margin:0;padding:5px}
+fieldset.filter{border:0;margin:0;padding:0 0 5px}
+fieldset.filter ol{border:0;list-style:none;margin:0;padding:5px 0 0}
+fieldset.filter ol li{float:left;padding:0 5px 0 0}
+fieldset.filter ol li fieldset{border:0;margin:0;padding:0}
+fieldset.filter .left{float:left}
+fieldset.filter .right{float:right}
 
 table.admintable td 					 { padding: 3px; }
 table.admintable td.key,

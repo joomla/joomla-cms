@@ -20,7 +20,7 @@ class JHtmlWeblink
 		// State cannot be set to "Reported" here
 		$alt 	= $row->state == 1 ? JText::_('Published') : ($row->state == -1 ? JText::_('Reported') : JText::_('Unpublished'));
 		$img 	= JHtml::_('image.administrator', $row->state == 1 ? $imgY : ($row->state == -1 ? $imgR : $imgX), null, null, null, $alt);
-		$task 	= $row->state == 1 ? 'unpublish' : 'publish';
+		$task 	= $row->state == 1 ? 'weblinks.unpublish' : 'weblinks.publish';
 		$action = $row->state == 1 ? JText::_('Unpublish Item') : JText::_('Publish item');
 
 		$href = '
