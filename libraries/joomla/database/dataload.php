@@ -20,7 +20,7 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
-abstract class JDataLoad extends JObject {
+abstract class JDataLoad extends JClass {
 
 	abstract public function load();
 

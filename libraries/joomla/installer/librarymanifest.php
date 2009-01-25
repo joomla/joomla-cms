@@ -20,7 +20,7 @@ jimport( 'joomla.filesystem.file' );
  * @subpackage	Installer
  * @since		1.6
  */
-class JLibraryManifest extends JObject {
+class JLibraryManifest extends JClass {
 	/** @var string name Name of variable */
 	var $name = '';
 	var $libraryname = '';

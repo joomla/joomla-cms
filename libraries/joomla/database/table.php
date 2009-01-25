@@ -22,7 +22,7 @@ defined('JPATH_BASE') or die();
  * @since		1.0
  * @tutorial	Joomla.Framework/jtable.cls
  */
-abstract class JTable extends JObject
+abstract class JTable extends JClass
 {
 	/**
 	 * Name of the table in the db schema relating to child class

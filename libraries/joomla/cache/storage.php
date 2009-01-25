@@ -18,7 +18,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Cache
  * @since		1.5
  */
-abstract class JCacheStorage extends JObject
+abstract class JCacheStorage extends JClass
 {
 	protected $_application = null;
 	protected $_language = null;

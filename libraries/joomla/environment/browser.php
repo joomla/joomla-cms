@@ -27,7 +27,7 @@ defined('JPATH_BASE') or die();
  * @since       1.5
  */
 
-class JBrowser extends JObject
+class JBrowser extends JClass
 {
     /**
      * Major version number.

@@ -17,7 +17,7 @@
  * @subpackage	Client
  * @since		1.5
  */
-class JLDAP extends JObject
+class JLDAP extends JClass
 {
 	/** @var string Hostname of LDAP server
 		@access public */

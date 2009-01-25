@@ -19,7 +19,7 @@ defined('JPATH_BASE') or die();
  * @since		1.6
  */
 // TODO: Merge this into JTableExtension?
-class JExtension extends JObject {
+class JExtension extends JClass {
 
 	var $filename = '';
 	var $type = '';

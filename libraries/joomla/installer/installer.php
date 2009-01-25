@@ -776,7 +776,7 @@ class JInstaller extends JAdapter
 			if(count($oldEntries)) {
 				$deletions = $this->findDeletedFiles($oldEntries, $files);
 				foreach($deletions['folders'] as $deleted_folder) {
-					JFolder::delete($destination.DS.$deleted);
+					JFolder::delete($destination.DS.$deleted_folder);
 				}
 				foreach($deletions['files'] as $deleted_file) {
 					JFile::delete($destination.DS.$deleted_file);

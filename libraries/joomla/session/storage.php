@@ -19,7 +19,7 @@ defined('JPATH_BASE') or die();
 * @since		1.5
 * @see http://www.php.net/manual/en/function.session-set-save-handler.php
 */
-abstract class JSessionStorage extends JObject
+abstract class JSessionStorage extends JClass
 {
 	/**
 	* Constructor

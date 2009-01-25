@@ -18,7 +18,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	HTML
  * @since		1.5
  */
-class JPagination extends JObject
+class JPagination extends JClass
 {
 	/**
 	 * The record number to start dislpaying from

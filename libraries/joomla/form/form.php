@@ -22,7 +22,7 @@ defined('JPATH_BASE') or die('Restricted Access');
  * @subpackage	Forms
  * @version		1.6
  */
-class JForm extends JObject
+class JForm extends JClass
 {
 	/**
 	 * The form name.

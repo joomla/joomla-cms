@@ -105,7 +105,7 @@ abstract class JFileSystem
 				require_once $path;
 			}
 			if($force || call_user_func(array($class, 'test'))) {
-				$arr[] = $type;
+				$arr[] = $name;
 			}
 		}
 		return $arr;

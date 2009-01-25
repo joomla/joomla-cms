@@ -21,7 +21,7 @@ JLoader::register('JCacheStorage', dirname(__FILE__).DS.'storage.php');
  * @subpackage	Cache
  * @since		1.5
  */
-class JCache extends JObject
+class JCache extends JClass
 {
 	/**
 	 * Storage Handler

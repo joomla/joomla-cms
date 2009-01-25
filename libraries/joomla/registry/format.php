@@ -18,7 +18,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Registry
  * @since		1.5
  */
-abstract class JRegistryFormat extends JObject
+abstract class JRegistryFormat extends JClass
 {
 	/**
 	 * Returns a reference to a Format object, only creating it

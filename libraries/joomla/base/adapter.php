@@ -16,7 +16,7 @@
  * @subpackage	Base
  * @since		1.6
  */
-class JAdapter extends JObject {
+class JAdapter extends JClass {
 	/**
 	 * Associative array of adapters
 	 * @var array

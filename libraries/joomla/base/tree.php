@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Base
  * @since		1.5
  */
-class JTree extends JObject
+class JTree extends JClass
 {
 	/**
 	 * Root node

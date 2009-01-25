@@ -60,6 +60,7 @@ class JFilesystemFTP extends JFilesystem
 	}
 
 	public function read($src) {
+		$buffer = null;
 		if(!$this->ftp->read($this->_makePath($src), $buffer)) {
 			$buffer = false;
 		}
@@ -71,11 +72,13 @@ class JFilesystemFTP extends JFilesystem
 	}
 
 	public function isWritable($path) {
+		$buffer = null;
 		$this->ftp->read($this->_makePath($path), $buffer);
 		return (bool) $this->write($path, $buffer);
 	}
 
 	public function isReadable($path) {
+		$buffer = null;
 		return (bool) $this->ftp->read($this->_makePath($path), $buffer);
 	}
 

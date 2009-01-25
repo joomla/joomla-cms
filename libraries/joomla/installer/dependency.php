@@ -13,7 +13,6 @@ defined('JPATH_BASE') or die();
  */
 class JDependency {
 
-
 	function getCurrentPlatform() {
 		$version = new JVersion();
 		$filter =& JFilterInput::getInstance();

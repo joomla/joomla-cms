@@ -19,7 +19,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Base
  * @since		1.5
  */
-class JObservable extends JObject
+class JObservable extends JClass
 {
 	/**
 	 * An array of Observer objects to notify

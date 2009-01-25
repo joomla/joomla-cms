@@ -20,7 +20,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Error
  * @since		1.5
  */
-class JLog extends JObject
+class JLog extends JClass
 {
 	/**
 	 * Log File Pointer

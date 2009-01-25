@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die('Restricted Access');
  * @subpackage	Forms
  * @version		1.6
  */
-class JFormValidator extends JObject
+class JFormValidator extends JClass
 {
 	/**
 	 * Method to validate a group of fields.

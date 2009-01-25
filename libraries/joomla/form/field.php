@@ -19,7 +19,7 @@ jimport('joomla.utilities.simplexml');
  * @subpackage	Form
  * @since		1.6
  */
-abstract class JFormField extends JObject
+abstract class JFormField extends JClass
 {
 	/**
 	 * The field type.

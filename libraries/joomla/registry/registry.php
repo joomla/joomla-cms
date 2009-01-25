@@ -20,7 +20,7 @@ JLoader::register('JRegistryFormat', dirname(__FILE__).DS.'format.php');
  * @subpackage	Registry
  * @since 		1.5
  */
-class JRegistry extends JObject
+class JRegistry extends JClass
 {
 	/**
 	 * Default NameSpace

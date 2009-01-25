@@ -18,7 +18,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	HTML
  * @since		1.5
  */
-abstract class JPane extends JObject
+abstract class JPane extends JClass
 {
 
 	public $useCookies = false;

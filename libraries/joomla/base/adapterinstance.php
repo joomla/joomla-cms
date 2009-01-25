@@ -1,6 +1,6 @@
 <?php
 
-class JAdapterInstance extends JObject {
+class JAdapterInstance extends JClass {
 
 	/** Parent
 	 * @var object */

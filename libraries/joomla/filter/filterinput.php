@@ -20,7 +20,7 @@ defined('JPATH_BASE') or die();
  * @subpackage		Filter
  * @since		1.5
  */
-class JFilterInput extends JObject
+class JFilterInput extends JClass
 {
 	public $tagsArray; // default = empty array
 	public $attrArray; // default = empty array

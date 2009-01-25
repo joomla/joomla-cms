@@ -20,7 +20,7 @@ jimport( 'joomla.html.parameter');
  * @subpackage	User
  * @since		1.5
  */
-class JUser extends JObject
+class JUser extends JClass
 {
 	/**
 	 * Unique id

@@ -76,7 +76,7 @@ abstract class JString
 	 * @return mixed Number of characters before the last match or FALSE on failure
 	 * @see http://www.php.net/strrpos
 	 */
-	public static function strrpos($str, $search)
+	public static function strrpos($str, $search, $offset = false)
 	{
 		if ( $offset === FALSE )
 		{

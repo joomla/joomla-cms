@@ -18,7 +18,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Base
  * @since		1.5
  */
-abstract class JObserver extends JObject
+abstract class JObserver extends JClass
 {
 
 	/**

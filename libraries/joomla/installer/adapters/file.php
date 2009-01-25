@@ -140,7 +140,7 @@ class JInstallerFile extends JAdapterInstance
 		$installer = new JInstaller(); // we don't want to compromise this instance!
 		return $installer->uninstall('file', $name, 0 );
 		// ...and adds new files
-		return $this->install();
+		//return $this->install();
 	}
 
 	/**

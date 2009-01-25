@@ -18,7 +18,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Database
  * @since		1.0
  */
-abstract class JDatabase extends JObject
+abstract class JDatabase extends JClass
 {
 	/**
 	 * The database driver name
@@ -841,7 +841,7 @@ abstract class JDatabase extends JObject
 	* @return	string
 	* @access public
 	*/
-	public function Quote( $text, $escaped = true )
+	public function quote( $text, $escaped = true )
 	{
 		return '\''.($escaped ? $this->getEscaped( $text ) : $text).'\'';
 	}
@@ -852,13 +852,13 @@ abstract class JDatabase extends JObject
 	 * @access	public
 	 * @param	string SQL
 	 * @since	1.5
+	 * @deprecated
 	 */
 	public function GetCol( $query )
 	{
 		$this->setQuery( $query );
 		return $this->loadResultArray();
 	}
-
 	/**
 	 * ADODB compatability function
 	 *
@@ -866,6 +866,7 @@ abstract class JDatabase extends JObject
 	 * @param	string SQL
 	 * @return	object
 	 * @since	1.5
+	 * @deprecated
 	 */
 	public function Execute( $query )
 	{
@@ -885,12 +886,12 @@ abstract class JDatabase extends JObject
 			}
 		}
 	}
-
 	/**
 	 * ADODB compatability function
 	 *
 	 * @access public
 	 * @since 1.5
+	 * @deprecated
 	 */
 	public function SelectLimit( $query, $count, $offset=0 )
 	{
@@ -900,12 +901,12 @@ abstract class JDatabase extends JObject
 		$result = $this->loadRowList();
 		return new JRecordSet( $result );
 	}
-
 	/**
 	 * ADODB compatability function
 	 *
 	 * @access public
 	 * @since 1.5
+	 * @deprecated
 	 */
 	public function PageExecute( $sql, $nrows, $page, $inputarr=false, $secs2cache=0 )
 	{
@@ -915,6 +916,7 @@ abstract class JDatabase extends JObject
 		$result = $this->loadRowList();
 		return new JRecordSet( $result );
 	}
+	
 	/**
 	 * ADODB compatability function
 	 *
@@ -922,6 +924,7 @@ abstract class JDatabase extends JObject
 	 * @param string SQL
 	 * @return array
 	 * @since 1.5
+	 * @deprecated
 	 */
 	public function GetRow( $query )
 	{
@@ -929,7 +932,6 @@ abstract class JDatabase extends JObject
 		$result = $this->loadRowList();
 		return $result[0];
 	}
-
 	/**
 	 * ADODB compatability function
 	 *
@@ -937,6 +939,7 @@ abstract class JDatabase extends JObject
 	 * @param string SQL
 	 * @return mixed
 	 * @since 1.5
+	 * @deprecated
 	 */
 	public function GetOne( $query )
 	{
@@ -944,58 +947,58 @@ abstract class JDatabase extends JObject
 		$result = $this->loadResult();
 		return $result;
 	}
-
 	/**
 	 * ADODB compatability function
 	 *
 	 * @since 1.5
+	 * @deprecated
 	 */
 	public function BeginTrans()
 	{
 	}
-
 	/**
 	 * ADODB compatability function
 	 *
 	 * @since 1.5
+	 * @deprecated
 	 */
 	public function RollbackTrans()
 	{
 	}
-
 	/**
 	 * ADODB compatability function
 	 *
 	 * @since 1.5
+	 * @deprecated
 	 */
 	public function CommitTrans()
 	{
 	}
-
 	/**
 	 * ADODB compatability function
 	 *
 	 * @since 1.5
+	 * @deprecated
 	 */
 	public function ErrorMsg()
 	{
 		return $this->getErrorMsg();
 	}
-
 	/**
 	 * ADODB compatability function
 	 *
 	 * @since 1.5
+	 * @deprecated
 	 */
 	public function ErrorNo()
 	{
 		return $this->getErrorNum();
 	}
-
 	/**
 	 * ADODB compatability function
 	 *
 	 * @since 1.5
+	 * @deprecated
 	 */
 	public function GenID( $foo1=null, $foo2=null )
 	{

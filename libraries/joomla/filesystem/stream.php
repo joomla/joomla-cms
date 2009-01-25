@@ -32,7 +32,7 @@ jimport('joomla.utilities.utility');
  * @see http://au.php.net/manual/en/filters.php Stream Filters
  * @see http://au.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  */
-class JStream extends JObject {
+class JStream extends JClass {
 	// Publicly settable vars (protected to let our parent read them)
 	/** @var File Mode */
 	protected $filemode = 0644;
@@ -662,7 +662,7 @@ class JStream extends JObject {
 			$php_errormsg = '';
 			$track_errors = ini_get('track_errors');
 			ini_set('track_errors', true);
-			$res = @stream_filter_prepend($this->_fh, $filername, $read_write, $params);
+			$res = @stream_filter_prepend($this->_fh, $filtername, $read_write, $params);
 			if(!$res && $php_errormsg) $this->setError($php_errormsg); // set the error msg
 			else JUtility::array_unshift_ref($res, $this->filters); // push the new resource onto the filter stack
 			// restore error tracking to what it was before

@@ -67,7 +67,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Set the installation path
 		$plugin_files =& $this->manifest->getElementByPath('files');
-		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
+		if ($plugin_files INSTANCEOF JSimpleXMLElement && count($element->children())) {
 			$files =& $plugin_files->children();
 			foreach ($files as $file) {
 				if ($file->attributes($type)) {
@@ -213,7 +213,7 @@ class JInstallerPlugin extends JAdapterInstance
 			if (!$this->parent->getOverwrite())
 			{
 				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Plugin').' "'.$pname.'" '.JText::_('already exists!'));
+				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Plugin').' "'.$name.'" '.JText::_('already exists!'));
 				return false;
 			}
 

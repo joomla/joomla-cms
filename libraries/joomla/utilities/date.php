@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Utilities
  * @since		1.5
  */
-class JDate extends JObject
+class JDate extends JClass
 {
 	/**
 	 * Unix timestamp

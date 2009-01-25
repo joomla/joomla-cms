@@ -21,7 +21,7 @@ jimport( 'joomla.installer.extension' );
  * @subpackage	Installer
  * @since		1.6
  */
-class JPackageManifest extends JObject {
+class JPackageManifest extends JClass {
 	var $name = '';
 	var $packagename = '';
 	var $url = '';

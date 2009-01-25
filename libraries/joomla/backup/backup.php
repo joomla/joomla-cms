@@ -145,7 +145,7 @@ class JBackup extends JAdapter {
 		$url = $uri->current();
 		$query = $uri->getQuery();
 		return $url; // send them to where they are now snas the query string - index page probably
-		return $query ? $url . '?' . $query : $url; // send the user back to where they came from
+	//	return $query ? $url . '?' . $query : $url; // send the user back to where they came from
 	}
 
 	private function _buildTaskSet() {

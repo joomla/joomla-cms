@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Language
  * @since		1.5
  */
-class JLanguage extends JObject
+class JLanguage extends JClass
 {
 	/**
 	 * Debug language, If true, highlights if string isn't found.

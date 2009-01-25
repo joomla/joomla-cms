@@ -21,7 +21,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Environment
  * @since		1.5
  */
-class JURI extends JObject
+class JURI extends JClass
 {
 	/**
 	 * Original URI

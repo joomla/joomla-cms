@@ -20,7 +20,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Error
  * @since 1.0
  */
-class JProfiler extends JObject
+class JProfiler extends JClass
 {
 	/**
 	 *

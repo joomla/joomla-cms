@@ -25,7 +25,7 @@ JLoader::register('JSessionStorage', dirname(__FILE__).DS.'storage.php');
 * @subpackage	Session
 * @since		1.5
 */
-class JSession extends JObject
+class JSession extends JClass
 {
 	/**
 	 * internal state
