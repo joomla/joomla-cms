@@ -21,45 +21,33 @@ jimport('joomla.database.query');
 class JModelList extends JModel
 {
 	/**
-	 * Flag to indicate model state initialization.
-	 *
-	 * @access	private
-	 * @var		boolean
-	 */
-	var $__state_set	= false;
-
-	/**
 	 * An array of totals for the lists.
 	 *
-	 * @access	protected
 	 * @var		array
 	 */
-	var $_totals		= array();
+	protected $_totals		= array();
 
 	/**
 	 * Array of lists containing items.
 	 *
-	 * @access	protected
 	 * @var		array
 	 */
-	var $_lists			= array();
+	protected $_lists			= array();
 
 	/**
 	 * Model context string.
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
-	 var $_context		= 'group.type';
+	 protected $_context		= 'group.type';
 
 	/**
 	 * Overridden model constructor.
 	 *
-	 * @access	public
 	 * @param	array	$config	Configuration array
 	 * @return	void
 	 */
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
 		// If ignore request flag is set, set the state set flag.
 		if (!empty($config['ignore_request'])) {
@@ -71,11 +59,10 @@ class JModelList extends JModel
 	/**
 	 * Overridden method to get model state variables.
 	 *
-	 * @access	public
 	 * @param	string	$property	Optional parameter name.
 	 * @return	object	The property where specified, the state object where omitted.
 	 */
-	function getState($property = null, $default = null)
+	public function getState($property = null, $default = null)
 	{
 		if (!$this->__state_set)
 		{
@@ -93,10 +80,9 @@ class JModelList extends JModel
 	/**
 	 * Method to get a list of items.
 	 *
-	 * @access	public
 	 * @return	mixed	An array of objects on success, false on failure.
 	 */
-	function &getItems()
+	public function &getItems()
 	{
 		// Get a unique key for the current list state.
 		$key = $this->_getStoreId($this->_context);
@@ -119,10 +105,9 @@ class JModelList extends JModel
 	/**
 	 * Method to get a list pagination object.
 	 *
-	 * @access	public
 	 * @return	object	A JPagination object.
 	 */
-	function &getPagination()
+	public function &getPagination()
 	{
 		jimport('joomla.html.pagination');
 
@@ -135,10 +120,9 @@ class JModelList extends JModel
 	/**
 	 * Method to get the total number of published items.
 	 *
-	 * @access	public
 	 * @return	int		The number of published items.
 	 */
-	function getTotal()
+	public function getTotal()
 	{
 		// Get a unique key for the current list state.
 		$key = $this->_getStoreId($this->_context);
@@ -167,10 +151,9 @@ class JModelList extends JModel
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @access	protected
 	 * @return	string		An SQL query
 	 */
-	function _getListQuery()
+	protected function _getListQuery()
 	{
 		$query = new JQuery();
 
@@ -184,11 +167,10 @@ class JModelList extends JModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @access	protected
 	 * @param	string		$context	A prefix for the store id.
 	 * @return	string		A store id.
 	 */
-	function _getStoreId($id = '')
+	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('list.start');
@@ -206,10 +188,9 @@ class JModelList extends JModel
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 *
-	 * @access	protected
 	 * @return	void
 	 */
-	function _populateState()
+	protected function _populateState()
 	{
 		$this->setState('list.start', 0);
 	}
