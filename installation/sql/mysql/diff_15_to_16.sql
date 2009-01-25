@@ -611,3 +611,5 @@ CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
 DROP TABLE `#__polls`, `#__poll_data`, `#__poll_date`, `#__poll_menu`;
 
 DELETE FROM `#__modules` WHERE `id` = 16 LIMIT 1;
+
+DELETE FROM `#__components` WHERE `id` = 10 LIMIT 1;
