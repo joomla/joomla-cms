@@ -110,9 +110,19 @@ abstract class JHtmlGrid
 		return $checked;
 	}
 
-	public static function published(&$row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='')
+	/**
+	 * @param	mixed $value	Either the scalar value, or an object (for backward compatibility, deprecated)
+	 * @param	int $i
+	 * @param	string $img1	Image for a positive or on value
+	 * @param	string $img0	Image for the empty or off value
+	 * @param	string $prefix	An optional prefix for the task
+	 */
+	public static function published($value, $i, $img1 = 'tick.png', $img0 = 'publish_x.png', $prefix='')
 	{
-		$img 	= $row->published ? $imgY : $imgX;
+		if (is_object($value)) {
+			$value = $value->published;
+		}
+		$img 	= $row->published ? $img1 : $img0;
 		$task 	= $row->published ? 'unpublish' : 'publish';
 		$alt 	= $row->published ? JText::_('Published') : JText::_('Unpublished');
 		$action = $row->published ? JText::_('Unpublish Item') : JText::_('Publish item');
