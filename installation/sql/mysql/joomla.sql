@@ -565,68 +565,6 @@ CREATE TABLE `#__newsfeeds` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__poll_data`
-#
-
-CREATE TABLE `#__poll_data` (
-  `id` int(11) NOT NULL auto_increment,
-  `pollid` int(11) NOT NULL default '0',
-  `text` text NOT NULL default '',
-  `hits` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `pollid` (`pollid`,`text`(1))
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__poll_date`
-#
-
-CREATE TABLE `#__poll_date` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `vote_id` int(11) NOT NULL default '0',
-  `poll_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `poll_id` (`poll_id`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__polls`
-#
-
-CREATE TABLE `#__polls` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `title` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `voters` int(9) NOT NULL default '0',
-  `checked_out` int(11) NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `published` tinyint(1) NOT NULL default '0',
-  `access` int(11) NOT NULL default '0',
-  `lag` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__poll_menu`
-# !!!DEPRECATED!!!
-#
-
-CREATE TABLE `#__poll_menu` (
-  `pollid` int(11) NOT NULL default '0',
-  `menuid` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`pollid`,`menuid`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__sections`
 #
 

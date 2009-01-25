@@ -33,6 +33,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  + Add Generation 3 access control tables and framework
 
 25-Jan-2009 Rob Schley
+ - Removed com_polls and mod_polls.
  # Fixed the admin login form rendering incorrectly after a timeout.
  ^ Changed JRegistry::toString with PHP format to use public properties.
  ^ Changed JConfig in the distribution file to have public properties.
