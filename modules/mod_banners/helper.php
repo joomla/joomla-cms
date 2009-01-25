@@ -11,9 +11,9 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'helpers'.DS.'banner.php';
 
-class modBannersHelper
+abstract class modBannersHelper
 {
-	function getList(&$params)
+	public static function getList(&$params)
 	{
 		$model		= modBannersHelper::getModel();
 
@@ -37,7 +37,7 @@ class modBannersHelper
 		return $banners;
 	}
 
-	function getModel()
+	public static function getModel()
 	{
 		if (!class_exists( 'BannersModelBanner' ))
 		{
@@ -58,11 +58,11 @@ class modBannersHelper
 			}
 		}
 
-		$model = new BannersModelBanner();
+		$model = JModel::getInstance('Banner', 'BannersModel');
 		return $model;
 	}
 
-	function renderBanner($params, &$item)
+	public static function renderBanner($params, &$item)
 	{
 		$link = JRoute::_( 'index.php?option=com_banners&task=click&bid='. $item->bid );
 		$baseurl = JURI::base();

@@ -57,7 +57,7 @@ abstract class JModel extends JClass
 	 *
 	 * @since	1.5
 	 */
-	public function __construct($config = array())
+	protected function __construct($config = array())
 	{
 		//set the view name
 		if (empty( $this->_name ))
