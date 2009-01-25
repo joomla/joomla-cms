@@ -207,7 +207,7 @@ class InstallerModelManage extends InstallerModel
 		$this->setState('action', 'remove');
 		$this->setState('name', $installer->get('name'));
 		$this->setState('message', $installer->message);
-		$this->setState('extension.message', $installer->get('extension.message'));
+		$this->setState('extension_message', $installer->get('extension_message'));
 
 		return $result;
 	}
@@ -225,7 +225,7 @@ class InstallerModelManage extends InstallerModel
 			$retval[] = $string;
 		}
 
-		$hideprotected = JRequest::getBool('hideprotected',0);
+		$hideprotected = JRequest::getBool('hideprotected',1);
 		if($hideprotected) {
 			$retval[] = 'protected != 1';
 		}

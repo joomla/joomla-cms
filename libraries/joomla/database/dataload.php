@@ -8,13 +8,11 @@
  *
  * Created on Oct 30, 2008
  *
- * @package package_name
- * @author Your Name <author@toowoombarc.qld.gov.au>
- * @author Toowoomba Regional Council Information Management Branch
- * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
- * @copyright 2008 Toowoomba Regional Council/Developer Name
+ * @package Joomla.Framework
+ * @subpackage Database
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  * @version SVN: $Id$
- * @see http://joomlacode.org/gf/project/   JoomlaCode Project:
  */
 
 // No direct access

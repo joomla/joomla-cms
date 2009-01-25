@@ -10,14 +10,12 @@
  * Created on Aug 7, 2008
  *
  * @package stringstream
- * @author Sam Moffatt <sam.moffatt@toowoombarc.qld.gov.au>
- * @author Toowoomba Regional Council Information Management Branch
- * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
- * @copyright 2008 Toowoomba Regional Council/Sam Moffatt
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  * @version SVN: $Id$
  */
 
-//jimport('joomla.filesystem.support.stringcontroller');
+jimport('joomla.filesystem.support.stringcontroller');
 
 
 class JStreamString {

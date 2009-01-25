@@ -53,6 +53,7 @@ class JAdministrator extends JApplication
 		{
 			$user = & JFactory::getUser();
 			$lang	= $user->getParam( 'admin_language' );
+			$config =& JFactory::getConfig();
 
 			// Make sure that the user's language exists
 			if ( $lang && JLanguage::exists($lang) ) {
@@ -60,13 +61,18 @@ class JAdministrator extends JApplication
 			} else {
 				$params = JComponentHelper::getParams('com_languages');
 				$client	=& JApplicationHelper::getClientInfo($this->getClientId());
-				$options['language'] = $params->get($client->name, 'en-GB');
+				$options['language'] = $params->get($client->name, $config->getValue('config.language','en-GB'));
 			}
 		}
 
 		// One last check to make sure we have something
 		if ( ! JLanguage::exists($options['language']) ) {
-			$options['language'] = 'en-GB';
+			$lang = $config->getValue('config.language','en-GB');
+			if(JLanguage::exists($lang)) {
+				$options['language'] = $lang;
+			} else {
+				$options['language'] = 'en-GB'; // as a last ditch fail to english
+			}
 		}
 
 		parent::initialise($options);

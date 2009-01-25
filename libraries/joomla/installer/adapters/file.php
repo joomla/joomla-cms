@@ -138,7 +138,7 @@ class JInstallerFile extends JAdapterInstance
 		$name =& $this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
 		$installer = new JInstaller(); // we don't want to compromise this instance!
-		return $installer->uninstall('file', $name, 0 );
+		$installer->uninstall('file', $name, 0 );
 		// ...and adds new files
 		//return $this->install();
 	}

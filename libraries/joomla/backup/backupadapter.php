@@ -13,5 +13,5 @@ defined('JPATH_BASE') or die();
 interface JBackupAdapter {
 	public function remove($options=Array());
 	public function backup($options=Array());
-	public function remove($options=Array());
+	public function restore($options=Array());
 }

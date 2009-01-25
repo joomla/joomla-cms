@@ -125,7 +125,7 @@ class InstallerModel extends JModel
 		$this->setState('action', 'remove');
 		$this->setState('name', $installer->get('name'));
 		$this->setState('message', $installer->message);
-		$this->setState('extension.message', $installer->get('extension.message'));
+		$this->setState('extension_message', $installer->get('extension_message'));
 
 		return $result;
 	}

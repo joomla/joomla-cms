@@ -94,7 +94,7 @@ class InstallerViewManage extends InstallerViewDefault
 			true
 		);
 		//$lists['state'] = ''; // published or otherwise?
-		$lists['hideprotected'] = JRequest::getBool('hideprotected', 0);
+		$lists['hideprotected'] = JRequest::getBool('hideprotected', 1);
 		$this->assignRef('lists', $lists);
 
 		parent::display($tpl);

@@ -146,7 +146,7 @@ abstract class JArchive
 					JError::raiseError(500,JText::_('Unable to load archive'));
 				}
 			}
-
+			
 			$adapters[$type] = new $class();
 		}
 		return $adapters[$type];

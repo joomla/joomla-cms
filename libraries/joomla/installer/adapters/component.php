@@ -24,7 +24,13 @@ class JInstallerComponent extends JAdapterInstance
 	protected $name = null;
 	protected $element = null;
 	protected $scriptElement = null;
-
+	protected $adminElement	= null;
+	protected $installElement = null;
+	protected $uninstallElement	= null;		
+	protected $oldAdminFiles = null;
+	protected $oldFiles = null;
+	protected $manifest_script = null;
+	protected $install_script = null;
 
 	/**
 	 * Custom install method for components
@@ -42,6 +48,7 @@ class JInstallerComponent extends JAdapterInstance
 		$manifest =& $this->parent->getManifest();
 		$this->manifest =& $manifest->document;
 
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Manifest Document Setup Section
@@ -52,6 +59,7 @@ class JInstallerComponent extends JAdapterInstance
 		$name =& $this->manifest->getElementByPath('name');
 		$element = strtolower('com_'.JFilterInput::clean($name->data(), 'cmd'));
 		$name = $name->data();
+
 		$this->set('element', $element);
 		$this->set('name', $name);
 
@@ -61,12 +69,12 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '' );
-		}
+		}		
 
 		// Get some important manifest elements
 		$this->adminElement		=& $this->manifest->getElementByPath('administration');
 		$this->installElement	=& $this->manifest->getElementByPath('install');
-		$this->uninstallElement	=& $this->manifest->getElementByPath('uninstall');
+		$this->uninstallElement	=& $this->manifest->getElementByPath('uninstall');		
 
 		// Set the installation target paths
 		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS."components".DS.$this->get('element')));
@@ -135,7 +143,7 @@ class JInstallerComponent extends JAdapterInstance
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
-				$this->set('manifest.script', $manifestScript);
+				$this->set('manifest_script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
@@ -226,7 +234,7 @@ class JInstallerComponent extends JAdapterInstance
 					return false;
 				}
 			}
-			$this->set('install.script', $installScriptElement->data());
+			$this->set('install_script', $installScriptElement->data());
 		}
 
 		// Deprecated uninstall, remove after 1.6
@@ -247,9 +255,9 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// If there is a manifest script, lets copy it.
-		if($this->get('manifest.script')) {
-			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest.script');
-			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest.script');
+		if($this->get('manifest_script')) {
+			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
+			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest_script');
 
 			if(!file_exists($path['dest'])) {
 				if (!$this->parent->copyFiles(array ($path))) {
@@ -295,11 +303,11 @@ class JInstallerComponent extends JAdapterInstance
 		 * method to the installation message.
 		 */
 		// start legacy support
-		if ($this->get('install.script')) {
-			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install.script'))) {
+		if ($this->get('install_script')) {
+			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script'))) {
 				ob_start();
 				ob_implicit_flush(false);
-				require_once $this->parent->getPath('extension_administrator').DS.$this->get('install.script');
+				require_once $this->parent->getPath('extension_administrator').DS.$this->get('install_script');
 				if (function_exists('com_install')) {
 					if (com_install() === false) {
 						$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Custom install routine failure'));
@@ -365,7 +373,7 @@ class JInstallerComponent extends JAdapterInstance
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
-			$this->parent->set('extension.message', $msg);
+			$this->parent->set('extension_message', $msg);
 		}
 
 		return $row->extension_id;
@@ -426,13 +434,13 @@ class JInstallerComponent extends JAdapterInstance
 		 * Hunt for the original XML file
 		 */
 		$oldmanifest = null;
-		$tmpInstaller = new JInstaller(); // create a new installer because _findManifest sets stuff
+		$tmpInstaller = new JInstaller(); // create a new installer because findManifest sets stuff
 		// look in the administrator first
 		$tmpInstaller->setPath('source', $this->parent->getPath('extension_administrator'));
-		if(!$tmpInstaller->_findManifest()) {
+		if(!$tmpInstaller->findManifest()) {
 			// then the site
 			$tmpInstaller->setPath('source', $this->parent->getPath('extension_site'));
-			if($tmpInstaller->_findManifest()) {
+			if($tmpInstaller->findManifest()) {
 				$old_manifest = $tmpInstaller->getManifest();
 				$old_manifest = $old_manifest->document;
 			}
@@ -440,6 +448,7 @@ class JInstallerComponent extends JAdapterInstance
 			$old_manifest = $tmpInstaller->getManifest();
 			$old_manifest = $old_manifest->document;
 		}
+		
 		// should do this above perhaps?
 		if($old_manifest) {
 			$this->oldAdminFiles =& $old_manifest->getElementByPath('administration/files');
@@ -448,7 +457,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->oldAdminFiles = null;
 			$this->oldFiles = null;
 		}
-
+	
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Basic Checks Section
@@ -481,7 +490,7 @@ class JInstallerComponent extends JAdapterInstance
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
-				$this->set('manifest.script', $manifestScript);
+				$this->set('manifest_script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
@@ -579,7 +588,7 @@ class JInstallerComponent extends JAdapterInstance
 					return false;
 				}
 			}
-			$this->set('install.script', $installScriptElement->data());
+			$this->set('install_script', $installScriptElement->data());
 		}
 
 		// Deprecated uninstall, remove after 1.6
@@ -600,9 +609,9 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// If there is a manifest script, lets copy it.
-		if($this->get('manifest.script')) {
-			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest.script');
-			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest.script');
+		if($this->get('manifest_script')) {
+			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
+			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest_script');
 
 			if(!file_exists($path['dest'])) {
 				if (!$this->parent->copyFiles(array ($path))) {
@@ -667,11 +676,6 @@ class JInstallerComponent extends JAdapterInstance
 		$row->load($eid);
 		$row->name = $this->get('name'); //update the name possibly
 		$row->manifest_cache = $this->parent->generateManifestCache(); // and the manifest cache
-		if (!$row->store()) {
-			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
-			return false;
-		}
 
 		// Clobber any possible pending updates
 		$update =& JTable::getInstance('update');
@@ -700,9 +704,10 @@ class JInstallerComponent extends JAdapterInstance
 		$row->type = 'component';
 		$row->element = $this->get('element');
 		$row->manifest_cache = $this->parent->generateManifestCache();
+		
 		if (!$row->store()) {
 			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
+			$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.$db->stderr(true));
 			return false;
 		}
 
@@ -721,7 +726,7 @@ class JInstallerComponent extends JAdapterInstance
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
-			$this->parent->set('extension.message', $msg);
+			$this->parent->set('extension_message', $msg);
 		}
 
 		return $row->extension_id;
@@ -824,7 +829,7 @@ class JInstallerComponent extends JAdapterInstance
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
-				$this->set('manifest.script', $manifestScript);
+				$this->set('manifest_script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
@@ -862,7 +867,7 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		if ($msg != '') {
-			$this->parent->set('extension.message', $msg);
+			$this->parent->set('extension_message', $msg);
 		}
 
 		/**
@@ -1346,7 +1351,7 @@ class JInstallerComponent extends JAdapterInstance
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
-				$this->set('manifest.script', $manifestScript);
+				$this->set('manifest_script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
@@ -1401,11 +1406,11 @@ class JInstallerComponent extends JAdapterInstance
 		 * method to the installation message.
 		 */
 		// start legacy support
-		if ($this->get('install.script')) {
-			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install.script'))) {
+		if ($this->get('install_script')) {
+			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script'))) {
 				ob_start();
 				ob_implicit_flush(false);
-				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install.script'));
+				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install_script'));
 				if (function_exists('com_install')) {
 					if (com_install() === false) {
 						$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Custom install routine failure'));
@@ -1446,7 +1451,7 @@ class JInstallerComponent extends JAdapterInstance
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
-			$this->parent->set('extension.message', $msg);
+			$this->parent->set('extension_message', $msg);
 		}
 		return $this->parent->extension->extension_id;
 	}

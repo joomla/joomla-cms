@@ -21,6 +21,8 @@ jimport('joomla.base.adapterinstance');
  */
 class JInstallerTemplate extends JAdapterInstance
 {
+	protected $name = null;
+	protected $element = null;
 
 	/**
 	 * Custom install method
@@ -55,9 +57,11 @@ class JInstallerTemplate extends JAdapterInstance
 		// Set the extensions name
 		$name =& $root->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'cmd');
-		$element = strtolower(str_replace(" ", "_", $this->get('name')));
+		
+		$element = strtolower(str_replace(" ", "_", $name));
 		$this->set('name', $name);
 		$this->set('element',$element);
+		
 		$db =& $this->parent->getDBO();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="template" AND element = "'. $element .'"');
 		$result = $db->loadResult();
@@ -69,7 +73,7 @@ class JInstallerTemplate extends JAdapterInstance
 				$installer->uninstall('template', $result);
 			} else {
 				// abort the install, no upgrade possible
-				$this->parent->abort(JText::_('Library').' '. JText::_('Install').': '.JText::_('Library already installed'));
+				$this->parent->abort(JText::_('Template').' '. JText::_('Install').': '.JText::_('Template already installed'));
 				return false;
 			}
 		}
@@ -185,7 +189,7 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 
-		// Is the library we are trying to uninstall a core one?
+		// Is the template we are trying to uninstall a core one?
 		// Because that is not a good idea...
 		if ($row->protected) {
 			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCOREMODULE', $row->name)."<br />".JText::_('WARNCOREMODULE2'));

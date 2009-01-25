@@ -93,7 +93,7 @@ class InstallerModelInstall extends JModel
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
 		$this->setState('message', $installer->message);
-		$this->setState('extension.message', $installer->get('extension.message'));
+		$this->setState('extension_message', $installer->get('extension_message'));
 
 		// Cleanup the install files
 		if (!is_file($package['packagefile'])) {

@@ -187,30 +187,29 @@ abstract class JInstallerHelper
 
 			foreach ($files as $file)
 			{
-				$xmlDoc = & JFactory::getXMLParser();
-				$xmlDoc->resolveErrors(true);
+				$xmlDoc = & JFactory::getXMLParser('Simple');
 
-				if (!$xmlDoc->loadXML($file, false, true))
+				if (!$xmlDoc->loadFile($file))
 				{
-					// Free up memory from DOMIT parser
+					// Free up memory
 					unset ($xmlDoc);
 					continue;
 				}
-				$root = & $xmlDoc->documentElement;
-				if (!is_object($root) || ($root->getTagName() != "install" && $root->getTagName() != 'extension'))
+				$root = & $xmlDoc->document;
+				if (!is_object($root) || ($root->name() != "install" && $root->name() != 'extension'))
 				{
 					unset($xmlDoc);
 					continue;
 				}
 
-				$type = $root->getAttribute('type');
-				// Free up memory from DOMIT parser
+				$type = $root->attributes('type');
+				// Free up memory
 				unset ($xmlDoc);
 				return $type;
 			}
 
 			JError::raiseWarning(1, JText::_('ERRORNOTFINDJOOMLAXMLSETUPFILE'));
-			// Free up memory from DOMIT parser
+			// Free up memory
 			unset ($xmlDoc);
 			return false;
 		} else

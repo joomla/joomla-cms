@@ -1,17 +1,16 @@
 <?php
 /**
  * @version		$Id:plugin.php 6961 2007-03-15 16:06:53Z tcp $
- * @package		JPackageMan
+ * @package		Joomla.Framework
  * @subpackage	Installer
- * @copyright	Copyright (C) 2008 Toowoomba Regional Council/Sam Moffatt
- * @copyright 	Copyright (C) 2005-2007 Open Source Matters (Portions)
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
-  */
+ * @version SVN: $Id:$
+ */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 jimport('joomla.base.adapterinstance');
-
 
 /**
  * Package installer
@@ -246,5 +245,4 @@ class JInstallerPackage extends JAdapterInstance
 		// this means they come out the same way they came in
 		return $result;
 	}
-
 }

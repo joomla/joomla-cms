@@ -87,7 +87,7 @@ class JInstallerSQL extends JAdapterInstance
 				// create a new instance
 				$manifestClass = new $classname($this);
 				// and set this so we can copy it later
-				$this->set('manifest.script', $manifestScript);
+				$this->set('manifest_script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
@@ -205,7 +205,7 @@ class JInstallerSQL extends JAdapterInstance
 					return false;
 				}
 			}
-			$this->set('install.script', $installScriptElement->data());
+			$this->set('install_script', $installScriptElement->data());
 		}
 
 		// Deprecated uninstall, remove after 1.6
@@ -225,9 +225,9 @@ class JInstallerSQL extends JAdapterInstance
 			}
 		}
 
-		if($this->get('manifest.script')) {
-			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest.script');
-			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest.script');
+		if($this->get('manifest_script')) {
+			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
+			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest_script');
 
 			if(!file_exists($path['dest'])) {
 				if (!$this->parent->copyFiles(array ($path))) {
@@ -280,12 +280,12 @@ class JInstallerSQL extends JAdapterInstance
 		 * install method, and append the return value from the custom install
 		 * method to the installation message.
 		 */
-		if ($this->get('install.script')) {
-			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install.script'))) {
+		if ($this->get('install_script')) {
+			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script'))) {
 				ob_start();
 				ob_implicit_flush(false);
 				// start legacy support
-				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install.script'));
+				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install_script'));
 				if (function_exists('com_install')) {
 					if (com_install() === false) {
 						$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Custom install routine failure'));
@@ -297,7 +297,7 @@ class JInstallerSQL extends JAdapterInstance
 				$msg = ob_get_contents();
 				ob_end_clean();
 				if ($msg != '') {
-					$this->parent->set('extension.message', $msg);
+					$this->parent->set('extension_message', $msg);
 				}
 			}
 		}
@@ -409,7 +409,7 @@ class JInstallerSQL extends JAdapterInstance
 				$msg = ob_get_contents();
 				ob_end_clean();
 				if ($msg != '') {
-					$this->parent->set('extension.message', $msg);
+					$this->parent->set('extension_message', $msg);
 				}
 			}
 		}

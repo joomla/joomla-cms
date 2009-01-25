@@ -8,13 +8,10 @@
  *
  * Created on Sep 28, 2007
  *
- * @package JPackageMan
- * @author Sam Moffatt <sam.moffatt@toowoombarc.qld.gov.au>
- * @author Toowoomba Regional Council Information Management Branch
- * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
- * @copyright 2008 Toowoomba Regional Council/Sam Moffatt
- * @version SVN: $Id$
- * @see JoomlaCode Project: http://joomlacode.org/gf/project/
+ * @package com_installer
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ * @version SVN: $Id:$
  */
 
 // Check to ensure this file is included in Joomla!
@@ -111,4 +108,3 @@ class InstallerModelPackages extends InstallerModel
 			return $retval;
     }
 }
-?>

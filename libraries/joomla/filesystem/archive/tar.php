@@ -65,6 +65,10 @@ class JArchiveTar extends JObject
 	 */
 	protected $_metadata = null;
 
+	public function __construct() {
+		
+	}
+
 	/**
 	* Extract a ZIP compressed file to a given path
 	*

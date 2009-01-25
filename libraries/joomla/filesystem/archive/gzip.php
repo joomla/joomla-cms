@@ -42,6 +42,10 @@ class JArchiveGzip extends JObject
 	 * @var string
 	 */
 	protected $_data = null;
+	
+	public function __construct() {
+		
+	}
 
 	/**
 	* Extract a Gzip compressed file to a given path

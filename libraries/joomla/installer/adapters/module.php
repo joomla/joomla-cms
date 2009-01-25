@@ -23,6 +23,7 @@ class JInstallerModule extends JAdapterInstance
 	/** @var string install function routing */
 	protected $route = 'Install';
 	protected $manifest = null;
+	protected $manifest_script = null;
 	protected $name = null;
 	protected $element = null;
 	protected $scriptElement = null;
@@ -94,7 +95,7 @@ class JInstallerModule extends JAdapterInstance
 		// Set the installation path
 		$element = '';
 		$module_files =& $this->manifest->getElementByPath('files');
-		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
+		if ($module_files INSTANCEOF JSimpleXMLElement && count($module_files->children())) {
 			$files =& $module_files->children();
 			foreach ($files as $file) {
 				if ($file->attributes('module')) {
@@ -154,7 +155,7 @@ class JInstallerModule extends JAdapterInstance
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
-				$this->set('manifest.script', $manifestScript);
+				$this->set('manifest_script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
@@ -205,9 +206,9 @@ class JInstallerModule extends JAdapterInstance
 		$this->parent->parseFiles($this->manifest->getElementByPath('images'), -1);
 
 		// If there is a manifest script, lets copy it.
-		if($this->get('manifest.script')) {
-			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest.script');
-			$path['dest'] = $this->parent->getPath('extension_root').DS.$this->get('manifest.script');
+		if($this->get('manifest_script')) {
+			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
+			$path['dest'] = $this->parent->getPath('extension_root').DS.$this->get('manifest_script');
 
 			if(!file_exists($path['dest'])) {
 				if (!$this->parent->copyFiles(array ($path))) {
@@ -320,7 +321,7 @@ class JInstallerModule extends JAdapterInstance
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
-			$this->parent->set('extension.message', $msg);
+			$this->parent->set('extension_message', $msg);
 		}
 		return true;
 	}
@@ -482,7 +483,7 @@ class JInstallerModule extends JAdapterInstance
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
-				$this->set('manifest.script', $manifestScript);
+				$this->set('manifest_script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}

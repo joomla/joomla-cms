@@ -52,7 +52,7 @@ class InstallerViewDefault extends JView
 		if ( is_object($state) )
 		{
 			$message1		= $state->get('message');
-			$message2		= $state->get('extension.message');
+			$message2		= $state->get('extension_message');
 			$showMessage	= ( $message1 || $message2 );
 		}
 

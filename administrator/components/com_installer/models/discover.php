@@ -119,7 +119,7 @@ class InstallerModelDiscover extends InstallerModel
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
 			$this->setState('message', $installer->message);
-			$this->setState('extension.message', $installer->get('extension.message'));
+			$this->setState('extension_message', $installer->get('extension_message'));
 			if(!$failed) $app->enqueueMessage(JText::_('Discover install successful'));
 		} else {
 			$app =& JFactory::getApplication();

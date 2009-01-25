@@ -28,6 +28,15 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+25-Jan-2009 Sam Moffatt
+ + Filesystem backup adapter now handles backups (not restores yet)
+ # Fixed installers so that they now work properly in PHP 5.2 and the new JObject
+ # Fixes to archive system to enable it to work properly
+ # Fixed zip library to handle nested zips
+ ^ Changed default to hide protected extensions
+ + Added extra langauge fail over possibilities
+ ^ Fixed issues with JFolder and hidden entries
+ 
 25-Jan-2009 Andrew Eddie
  - Removed JTemplate and Legacy plugin
  + Add Generation 3 access control tables and framework

@@ -10,6 +10,8 @@
 // No direct access
 defined('JPATH_BASE') or die();
 jimport('joomla.base.adapter');
+jimport('joomla.tasks.taskset');
+jimport('joomla.utilities.date');
 
 /**
  * Backup class, handles backups
