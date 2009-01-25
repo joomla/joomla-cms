@@ -45,10 +45,11 @@ function plgContentGeshi_replacer( &$matches )
 {
 	$params =& $GLOBALS['_MAMBOT_GESHI_PARAMS'];
 
-	jimport('geshi.geshi');
-	jimport('domit.xml_saxy_shared');
+	require_once(dirname(__FILE__).'/geshi/geshi.php');
+	
+	jimport('joomla.utilities.utility');
 
-	$args = SAXY_Parser_Base::parseAttributes( $matches[1] );
+	$args = JUtility::parseAttributes( $matches[1] );
 	$text = $matches[2];
 
 	$lang	= JArrayHelper::getValue( $args, 'lang', 'php' );
