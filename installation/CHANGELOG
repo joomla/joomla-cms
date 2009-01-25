@@ -29,8 +29,8 @@ Do not forget to update this page on the wiki when making changes relevant to de
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 25-Jan-2009 Andrew Eddie
-
  - Removed JTemplate and Legacy plugin
+ + Add Generation 3 access control tables and framework
 
 25-Jan-2009 Rob Schley
  + Added JText._() and JText.load() to MooTools 1.2 JavaScript to make JavaScript I18N easier.

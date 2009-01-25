@@ -402,3 +402,206 @@ CREATE TABLE  `jos_tasksets` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Task Sets';
 
 
+--
+-- 25 Jan 2009
+--
+-- Note: this will supercede traditional GACL tables above
+
+--
+-- Table structure for table `#__access_actions`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_actions` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `section_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
+  `name` varchar(100) NOT NULL default '',
+  `title` varchar(100) NOT NULL default '',
+  `description` text,
+  `access_type` int(1) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `idx_action_name_lookup` (`section_id`,`name`),
+  KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_action_rule_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_action_rule_map` (
+  `action_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_actions.id',
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
+  PRIMARY KEY  (`action_id`,`rule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_assetgroups`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_assetgroups` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'Adjacency List Reference Id',
+  `left_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested Set Reference Id',
+  `right_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested Set Reference Id',
+  `title` varchar(100) NOT NULL default '',
+  `section_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
+  `section` varchar(100) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `idx_assetgroup_title_lookup` (`section`,`title`),
+  KEY `idx_assetgroup_adjacency_lookup` (`parent_id`),
+  KEY `idx_assetgroup_nested_set_lookup` USING BTREE (`left_id`,`right_id`, `section_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_assetgroup_rule_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_assetgroup_rule_map` (
+  `group_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assetgroups.id',
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
+  PRIMARY KEY  (`group_id`,`rule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_assets`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_assets` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `section_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
+  `section` varchar(100) NOT NULL default '0',
+  `name` varchar(100) NOT NULL default '',
+  `title` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `idx_asset_name_lookup` (`section_id`,`name`),
+  KEY `idx_asset_section_lookup` (`section`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_asset_assetgroup_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_asset_assetgroup_map` (
+  `asset_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assets.id',
+  `group_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assetgroups.id',
+  PRIMARY KEY  (`asset_id`,`group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_asset_rule_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_asset_rule_map` (
+  `asset_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assets.id',
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
+  PRIMARY KEY  (`asset_id`,`rule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_rules`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_rules` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `section_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
+  `section` varchar(100) NOT NULL default '0',
+  `name` varchar(100) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  `description` varchar(255) default NULL,
+  `ordering` int(11) NOT NULL default '0',
+  `allow` int(1) unsigned NOT NULL default '0',
+  `enabled` int(1) unsigned NOT NULL default '0',
+  `access_type` int(1) unsigned NOT NULL default '0',
+  `updated_date` int(10) unsigned NOT NULL default '0',
+  `return` varchar(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `idx_rule_name_lookup` (`section_id`,`name`),
+  KEY `idx_access_check` (`enabled`, `allow`),
+  KEY `idx_updated_lookup` (`updated_date`),
+  KEY `idx_action_section_lookup` (`section`),
+  KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__access_sections`
+--
+
+CREATE TABLE IF NOT EXISTS `#__access_sections` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `name` varchar(100) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  `ordering` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `idx_section_name_lookup` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__usergroups`
+--
+
+CREATE TABLE IF NOT EXISTS `#__usergroups` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'Adjacency List Reference Id',
+  `left_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested Set Reference Id',
+  `right_id` int(10) unsigned NOT NULL default '0' COMMENT 'Nested Set Reference Id',
+  `title` varchar(100) NOT NULL default '',
+  `section_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
+  `section` varchar(100) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `idx_usergroup_title_lookup` (`section`,`title`),
+  KEY `idx_usergroup_adjacency_lookup` (`parent_id`),
+  KEY `idx_usergroup_nested_set_lookup` USING BTREE (`left_id`,`right_id`, `section_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__usergroup_rule_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__usergroup_rule_map` (
+  `group_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
+  PRIMARY KEY  (`group_id`,`rule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__user_rule_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__user_rule_map` (
+  `user_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
+  PRIMARY KEY  (`user_id`,`rule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__user_usergroup_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
+  `user_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
+  `group_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
+  PRIMARY KEY  (`user_id`,`group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
