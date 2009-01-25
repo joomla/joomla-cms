@@ -222,7 +222,7 @@ class JDocumentHTML extends JDocument
 	 * @param array parameters for fetching the template
 	 */
 	public function parse($params = array()) {
-		$this->_template = $this->_fetchTemplate($params);
+		$this->_fetchTemplate($params);
 		$this->_parseTemplate();		
 	}
 
@@ -416,7 +416,7 @@ class JDocumentHTML extends JDocument
 
 				$name  = isset($attribs['name']) ? $attribs['name'] : null;
 				$this->getBuffer($type, $name, $attribs);
-				$this->_template_tags[$matches[0]] = array('type'=>$type, 'name' => $name);
+				$this->_template_tags[$matches[0][$i]] = array('type'=>$type, 'name' => $name);
 			}
 		}
 	}
