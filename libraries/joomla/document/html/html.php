@@ -222,7 +222,7 @@ class JDocumentHTML extends JDocument
 	 * @param array parameters for fetching the template
 	 */
 	public function parse($params = array()) {
-		$this->_template = $this->_loadTemplate($params);
+		$this->_template = $this->_fetchTemplate($params);
 		$this->_parseTemplate();		
 	}
 
@@ -307,7 +307,7 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$filename	The actual filename
 	 * @return string The contents of the template
 	 */
-	public function _loadTemplate($directory, $filename)
+	protected function _loadTemplate($directory, $filename)
 	{
 		$component	= JApplicationHelper::getComponentName();
 
@@ -352,11 +352,11 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
-	 * Load the template, and initialize the params
+	 * Fetch the template, and initialize the params
 	 * 
 	 * @param array parameters to determine the template 
 	 */		
-	 protected function _loadTemplate($params = array()) {
+	 protected function _fetchTemplate($params = array()) {
 		// check
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
 		$template	= JFilterInput::_($params['template'], 'cmd');
@@ -397,7 +397,7 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$data		The data too parse
 	 * @return The parsed contents of the template
 	 */
-	public function _parseTemplate()
+	protected function _parseTemplate()
 	{
 		$replace = array();
 		$matches = array();
