@@ -15,7 +15,7 @@ jimport('joomla.base.adapter');
  * Backup class, handles backups
  *
  * @package 	Joomla.Framework
- * @subpackage	User
+ * @subpackage	Backup
  * @since		1.6
  */
 class JBackup extends JAdapter {
