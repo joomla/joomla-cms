@@ -13,7 +13,7 @@
  * @author Toowoomba Regional Council Information Management Branch
  * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
  * @copyright 2009 Toowoomba Regional Council/Developer Name 
- * @version SVN: $Id:$
+ * @version SVN: $Id$
  * @see http://joomlacode.org/gf/project/   JoomlaCode Project:    
  */
  

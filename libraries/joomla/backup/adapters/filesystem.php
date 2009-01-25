@@ -11,7 +11,7 @@
  * @package package_name
  * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
  * @copyright 2009 OpenSourceMatters 
- * @version SVN: $Id:$    
+ * @version SVN: $Id$    
  */
  
 defined('JPATH_ROOT') or die();

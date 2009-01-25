@@ -14,7 +14,7 @@
  * @author Toowoomba Regional Council Information Management Branch
  * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
  * @copyright 2008 Toowoomba Regional Council/Sam Moffatt
- * @version SVN: $Id:$
+ * @version SVN: $Id$
  */
 
 //jimport('joomla.filesystem.support.stringcontroller');

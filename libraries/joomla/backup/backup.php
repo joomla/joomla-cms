@@ -12,7 +12,7 @@
  * @subpackage Backup
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
- * @version SVN: $Id:$
+ * @version SVN: $Id$
  */
 
 defined('JPATH_BASE') or die();

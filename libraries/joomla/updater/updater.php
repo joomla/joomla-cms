@@ -2,7 +2,7 @@
 /**
  * Joomla! Update System
  *
- * @version		$Id: installer.php 10609 2008-08-01 06:26:01Z pasamio $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Updater
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
