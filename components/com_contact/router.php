@@ -2,7 +2,7 @@
 /**
  * @version		$Id: router.php 7380 2007-05-06 21:26:03Z eddieajau $
  * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
   */
 

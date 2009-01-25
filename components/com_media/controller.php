@@ -3,7 +3,7 @@
  * @version		$Id: media.php 8660 2007-08-30 23:53:21Z louis $
  * @package		Joomla
  * @subpackage	Massmail
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
