@@ -19,7 +19,7 @@
 var JMenu = new Class({
 	initialize: function(el)
 	{
-		var elements = $ES('li', el);
+		var elements = $(el).getElements('li');
 		var nested = null
 		for (var i=0; i<elements.length; i++)
 		{
@@ -29,7 +29,7 @@ var JMenu = new Class({
 			element.addEvent('mouseout', function(){ this.removeClass('hover'); });
 
 			//find nested UL
-			nested = $E('ul', element);
+			nested = element.getElement('ul');
 			if(!nested) {
 				continue;
 			}
