@@ -1,22 +1,20 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Weblinks
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
 /**
-* Weblink Table class
-*
-* @package		Joomla
-* @subpackage	Weblinks
-* @since 1.0
-*/
+ * Weblink Table class
+ *
+ * @package		Joomla.Administrator
+ * @subpackage	Weblinks
+ * @since		1.5
+ */
 class TableWeblink extends JTable
 {
 	/**
@@ -112,17 +110,17 @@ class TableWeblink extends JTable
 	}
 
 	/**
-	* Overloaded bind function
-	*
-	* @acces public
-	* @param array $hash named array
-	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JTable:bind
-	* @since 1.5
-	*/
+	 * Overloaded bind function
+	 *
+	 * @acces public
+	 * @param array $hash named array
+	 * @return null|string	null is operation was satisfactory, otherwise returns an error
+	 * @see JTable:bind
+	 * @since 1.5
+	 */
 	function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
+		if (key_exists('params', $array) && is_array($array['params']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
@@ -142,7 +140,7 @@ class TableWeblink extends JTable
 	function check()
 	{
 		if (JFilterInput::checkAttribute(array ('href', $this->url))) {
-			$this->setError( JText::_('Please provide a valid URL'));
+			$this->setError(JText::_('Please provide a valid URL'));
 			return false;
 		}
 
@@ -166,11 +164,11 @@ class TableWeblink extends JTable
 			return false;
 		}
 
-		if(empty($this->alias)) {
+		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
-		if(trim(str_replace('-','',$this->alias)) == '') {
+		if (trim(str_replace('-','',$this->alias)) == '') {
 			$datenow =& JFactory::getDate();
 			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}

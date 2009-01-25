@@ -1,23 +1,21 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
 /**
  * Weblinks Component Weblink Model
  *
- * @package		Joomla
- * @subpackage	Content
- * @since 1.5
+ * @package		Joomla.Administrator
+ * @subpackage	Weblinks
+ * @since		1.5
  */
 class WeblinksModelWeblinks extends JModel
 {
@@ -58,11 +56,11 @@ class WeblinksModelWeblinks extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe, $option;
+		$app = &JFactory::getApplication();
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+		$limitstart	= $app->getUserStateFromRequest('com_weblinks.limitstart', 'limitstart', 0, 'int');
 
 		// In case limit has been changed, adjust limitstart accordingly
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -71,12 +69,12 @@ class WeblinksModelWeblinks extends JModel
 		$this->setState('limitstart', $limitstart);
 
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
-		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$filter->state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
-		$filter->catid		= $mainframe->getUserStateFromRequest( $option.'filter_catid',		'filter_catid',		0,				'int' );
-		$filter->search		= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$this->_filter = $filter;
+		$filter->order		= $app->getUserStateFromRequest('com_weblinks.filter_order',		'filter_order',		'a.ordering',	'cmd');
+		$filter->order_Dir	= $app->getUserStateFromRequest('com_weblinks.filter_order_Dir',	'filter_order_Dir',	'',				'word');
+		$filter->state		= $app->getUserStateFromRequest('com_weblinks.filter_state',		'filter_state',		'',				'word');
+		$filter->catid		= $app->getUserStateFromRequest('com_weblinks.filter_catid',		'filter_catid',		0,				'int');
+		$filter->search		= $app->getUserStateFromRequest('com_weblinks.search',			'search',			'',				'string');
+		$this->_filter		= $filter;
 	}
 
 	/**
@@ -127,7 +125,7 @@ class WeblinksModelWeblinks extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -174,7 +172,7 @@ class WeblinksModelWeblinks extends JModel
 
 	function _buildContentWhere()
 	{
-		$search				= JString::strtolower( $this->_filter->search );
+		$search				= JString::strtolower($this->_filter->search);
 
 		$where = array();
 
@@ -182,19 +180,19 @@ class WeblinksModelWeblinks extends JModel
 			$where[] = 'a.catid = '.(int) $this->_filter->catid;
 		}
 		if ($search) {
-			$where[] = 'LOWER(a.title) LIKE '.$this->_db->Quote( '%'.$this->_db->getEscaped( $search, true ).'%', false );
+			$where[] = 'LOWER(a.title) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false);
 		}
-		if ( $this->_filter->state ) {
-			if ( $this->_filter->state == 'P' ) {
+		if ($this->_filter->state) {
+			if ($this->_filter->state == 'P') {
 				$where[] = 'a.state = 1';
-			} else if ($this->_filter->state == 'U' ) {
+			} else if ($this->_filter->state == 'U') {
 				$where[] = 'a.state = 0';
-			} else if ($this->_filter->state == 'R' ) {
+			} else if ($this->_filter->state == 'R') {
 				$where[] = 'a.state = -1';
 			}
 		}
 
-		$where 		= ( count( $where ) ? ' WHERE '. implode( ' AND ', $where ) : '' );
+		$where 		= (count($where) ? ' WHERE '. implode(' AND ', $where) : '');
 
 		return $where;
 	}

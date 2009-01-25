@@ -1,23 +1,21 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
  * Weblinks Weblink Controller
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Weblinks
- * @since 1.5
+ * @since		1.5
  */
 class WeblinksController extends JController
 {
@@ -26,11 +24,11 @@ class WeblinksController extends JController
 		parent::__construct($config);
 
 		// Register Extra tasks
-		$this->registerTask( 'add',  'display' );
-		$this->registerTask( 'edit', 'display' );
+		$this->registerTask('add',  'display');
+		$this->registerTask('edit', 'display');
 	}
 
-	function display( )
+	function display()
 	{
 		$app	=& JFactory::getApplication();
 		$user 	=& JFactory::getUser();
@@ -39,10 +37,10 @@ class WeblinksController extends JController
 		{
 			case 'add':
 			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'layout', 'form'  );
-				JRequest::setVar( 'view'  , 'weblink');
-				JRequest::setVar( 'edit', false );
+				JRequest::setVar('hidemainmenu', 1);
+				JRequest::setVar('layout', 'form' );
+				JRequest::setVar('view'  , 'weblink');
+				JRequest::setVar('edit', false);
 
 				// Checkout the weblink
 				$model = $this->getModel('weblink');
@@ -50,17 +48,17 @@ class WeblinksController extends JController
 			} break;
 			case 'edit':
 			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'layout', 'form'  );
-				JRequest::setVar( 'view'  , 'weblink');
-				JRequest::setVar( 'edit', true );
+				JRequest::setVar('hidemainmenu', 1);
+				JRequest::setVar('layout', 'form' );
+				JRequest::setVar('view'  , 'weblink');
+				JRequest::setVar('edit', true);
 
 				// Checkout the weblink
 				$model = $this->getModel('weblink');
 				// fail if checked out not by 'me'
-				if ($model->isCheckedOut( $user->get('id') )) {
-					$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The weblink' ), $weblink->title );
-					$app->redirect( 'index.php?option=com_weblinks', $msg );
+				if ($model->isCheckedOut($user->get('id'))) {
+					$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The weblink'), $weblink->title);
+					$app->redirect('index.php?option=com_weblinks', $msg);
 				}
 				$model->checkout();
 			} break;
@@ -72,18 +70,18 @@ class WeblinksController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		$post	= JRequest::get('post');
-		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid	= JRequest::getVar('cid', array(0), 'post', 'array');
 		$post['id'] = (int) $cid[0];
 
 		$model = $this->getModel('weblink');
 
 		if ($model->store($post)) {
-			$msg = JText::_( 'Weblink Saved' );
+			$msg = JText::_('Weblink Saved');
 		} else {
-			$msg = JText::_( 'Error Saving Weblink' );
+			$msg = JText::_('Error Saving Weblink');
 		}
 
 		// Check the table in so it can be edited.... we are done with it anyway
@@ -95,127 +93,127 @@ class WeblinksController extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to delete' ) );
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select an item to delete'));
 		}
 
 		$model = $this->getModel('weblink');
-		if(!$model->delete($cid)) {
+		if (!$model->delete($cid)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect( 'index.php?option=com_weblinks' );
+		$this->setRedirect('index.php?option=com_weblinks');
 	}
 
 
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to publish' ) );
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select an item to publish'));
 		}
 
 		$model = $this->getModel('weblink');
-		if(!$model->publish($cid, 1)) {
+		if (!$model->publish($cid, 1)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect( 'index.php?option=com_weblinks' );
+		$this->setRedirect('index.php?option=com_weblinks');
 	}
 
 
 	function unpublish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to unpublish' ) );
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select an item to unpublish'));
 		}
 
 		$model = $this->getModel('weblink');
-		if(!$model->publish($cid, 0)) {
+		if (!$model->publish($cid, 0)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect( 'index.php?option=com_weblinks' );
+		$this->setRedirect('index.php?option=com_weblinks');
 	}
 
 	function report()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to report' ) );
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select an item to report'));
 		}
 
 		$model = $this->getModel('weblink');
-		if(!$model->report($cid, 0)) {
+		if (!$model->report($cid, 0)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect( 'index.php?option=com_weblinks' );
+		$this->setRedirect('index.php?option=com_weblinks');
 	}
 
 	function cancel()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		// Checkin the weblink
 		$model = $this->getModel('weblink');
 		$model->checkin();
 
-		$this->setRedirect( 'index.php?option=com_weblinks' );
+		$this->setRedirect('index.php?option=com_weblinks');
 	}
 
 
 	function orderup()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		$model = $this->getModel('weblink');
 		$model->move(-1);
 
-		$this->setRedirect( 'index.php?option=com_weblinks');
+		$this->setRedirect('index.php?option=com_weblinks');
 	}
 
 	function orderdown()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		$model = $this->getModel('weblink');
 		$model->move(1);
 
-		$this->setRedirect( 'index.php?option=com_weblinks');
+		$this->setRedirect('index.php?option=com_weblinks');
 	}
 
 	function saveorder()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
+		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
+		$order 	= JRequest::getVar('order', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
@@ -223,6 +221,6 @@ class WeblinksController extends JController
 		$model->saveorder($cid, $order);
 
 		$msg = 'New ordering saved';
-		$this->setRedirect( 'index.php?option=com_weblinks', $msg );
+		$this->setRedirect('index.php?option=com_weblinks', $msg);
 	}
 }

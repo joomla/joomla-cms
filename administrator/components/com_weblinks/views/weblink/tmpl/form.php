@@ -1,39 +1,47 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-
-<?php JHtml::_('behavior.tooltip'); ?>
-
 <?php
-	// Set toolbar items for the page
-	$edit		= JRequest::getVar('edit',true);
-	$text = !$edit ? JText::_( 'New' ) : JText::_( 'Edit' );
-	JToolBarHelper::title(   JText::_( 'Weblink' ).': <small><small>[ ' . $text.' ]</small></small>' );
-	JToolBarHelper::save();
-	if (!$edit)  {
-		JToolBarHelper::cancel();
-	} else {
-		// for existing items the button is renamed `close`
-		JToolBarHelper::cancel( 'cancel', 'Close' );
-	}
-	JToolBarHelper::help( 'screen.weblink.edit' );
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Weblinks
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
+
+defined('_JEXEC') or die('Restricted access'); ?>
+
+JHtml::_('behavior.tooltip');
+
+// Set toolbar items for the page
+$edit		= JRequest::getVar('edit',true);
+$text = !$edit ? JText::_('New') : JText::_('Edit');
+JToolBarHelper::title(  JText::_('Weblink').': <small><small>[ ' . $text.' ]</small></small>');
+JToolBarHelper::save();
+if (!$edit)  {
+	JToolBarHelper::cancel();
+} else {
+	// for existing items the button is renamed `close`
+	JToolBarHelper::cancel('cancel', 'Close');
+}
+JToolBarHelper::help('screen.weblink.edit');
 ?>
 
 <script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
-			submitform( pressbutton );
+			submitform(pressbutton);
 			return;
 		}
 
 		// do field validation
 		if (form.title.value == ""){
-			alert( "<?php echo JText::_( 'Weblink item must have a title', true ); ?>" );
+			alert("<?php echo JText::_('Weblink item must have a title', true); ?>");
 		} else if (form.catid.value == "0"){
-			alert( "<?php echo JText::_( 'You must select a category', true ); ?>" );
+			alert("<?php echo JText::_('You must select a category', true); ?>");
 		} else if (form.url.value == ""){
-			alert( "<?php echo JText::_( 'You must have a url.', true ); ?>" );
+			alert("<?php echo JText::_('You must have a url.', true); ?>");
 		} else {
-			submitform( pressbutton );
+			submitform(pressbutton);
 		}
 	}
 </script>
@@ -48,13 +56,13 @@
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm">
 <div class="col width-50">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Details' ); ?></legend>
+		<legend><?php echo JText::_('Details'); ?></legend>
 
 		<table class="admintable">
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="title">
-					<?php echo JText::_( 'Name' ); ?>:
+					<?php echo JText::_('Name'); ?>:
 				</label>
 			</td>
 			<td>
@@ -64,7 +72,7 @@
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="alias">
-					<?php echo JText::_( 'Alias' ); ?>:
+					<?php echo JText::_('Alias'); ?>:
 				</label>
 			</td>
 			<td>
@@ -73,7 +81,7 @@
 		</tr>
 		<tr>
 			<td valign="top" align="right" class="key">
-				<?php echo JText::_( 'State' ); ?>:
+				<?php echo JText::_('State'); ?>:
 			</td>
 			<td>
 				<?php echo $this->lists['state']; ?>
@@ -82,7 +90,7 @@
 		<tr>
 			<td valign="top" align="right" class="key">
 				<label for="catid">
-					<?php echo JText::_( 'Category' ); ?>:
+					<?php echo JText::_('Category'); ?>:
 				</label>
 			</td>
 			<td>
@@ -92,7 +100,7 @@
 		<tr>
 			<td valign="top" align="right" class="key">
 				<label for="url">
-					<?php echo JText::_( 'URL' ); ?>:
+					<?php echo JText::_('URL'); ?>:
 				</label>
 			</td>
 			<td>
@@ -102,7 +110,7 @@
 		<tr>
 			<td valign="top" align="right" class="key">
 				<label for="ordering">
-					<?php echo JText::_( 'Ordering' ); ?>:
+					<?php echo JText::_('Ordering'); ?>:
 				</label>
 			</td>
 			<td>
@@ -114,7 +122,7 @@
 </div>
 <div class="col width-50">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Parameters' ); ?></legend>
+		<legend><?php echo JText::_('Parameters'); ?></legend>
 
 		<table class="admintable">
 		<tr>
@@ -128,7 +136,7 @@
 
 <div class="col width-50">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Description' ); ?></legend>
+		<legend><?php echo JText::_('Description'); ?></legend>
 
 		<table class="admintable">
 		<tr>
@@ -144,5 +152,5 @@
 	<input type="hidden" name="option" value="com_weblinks" />
 	<input type="hidden" name="cid[]" value="<?php echo $this->weblink->id; ?>" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

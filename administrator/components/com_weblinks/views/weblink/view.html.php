@@ -1,22 +1,20 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Weblinks
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the WebLinks component
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Weblinks
  * @since 1.0
  */
@@ -24,9 +22,10 @@ class WeblinksViewWeblink extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		// Helper classes
+		JHtml::addIncludePath(JPATH_COMPONENT.DS.'classes');
 
-		if($this->getLayout() == 'form') {
+		if ($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);
 			return;
 		}
@@ -36,7 +35,7 @@ class WeblinksViewWeblink extends JView
 
 		if ($weblink->url) {
 			// redirects to url if matching id found
-			$mainframe->redirect($weblink->url);
+			JFactory::getApplication()->redirect($weblink->url);
 		}
 
 		parent::display($tpl);
@@ -44,8 +43,6 @@ class WeblinksViewWeblink extends JView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe, $option;
-
 		$db		=& JFactory::getDBO();
 		$uri 	=& JFactory::getURI();
 		$user 	=& JFactory::getUser();
@@ -65,7 +62,7 @@ class WeblinksViewWeblink extends JView
 			$weblink->published = 1;
 			$weblink->approved 	= 1;
 			$weblink->order 	= 0;
-			$weblink->catid 	= JRequest::getVar( 'catid', 0, 'post', 'int' );
+			$weblink->catid 	= JRequest::getVar('catid', 0, 'post', 'int');
 		}
 
 		// build the html select list for ordering
@@ -74,18 +71,18 @@ class WeblinksViewWeblink extends JView
 			. ' WHERE catid = ' . (int) $weblink->catid
 			. ' ORDER BY ordering';
 
-		$lists['ordering'] 			= JHtml::_('list.specificordering',  $weblink, $weblink->id, $query );
+		$lists['ordering'] 			= JHtml::_('list.specificordering',  $weblink, $weblink->id, $query);
 
 		// build list of categories
-		$lists['catid'] 			= JHtml::_('list.category',  'catid', $option, intval( $weblink->catid ) );
+		$lists['catid'] 			= JHtml::_('list.category',  'catid', 'com_weblinks', intval($weblink->catid));
 		// build the html select list
-		$lists['state'] 		= JHtml::_('weblink.statelist',  'state', $weblink->state );
+		$lists['state'] 		= JHtml::_('weblink.statelist',  'state', $weblink->state);
 
 		//clean weblink data
-		JFilterOutput::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
+		JFilterOutput::objectHTMLSafe($weblink, ENT_QUOTES, 'description');
 
 		$file 	= JPATH_COMPONENT.DS.'models'.DS.'weblink.xml';
-		$params = new JParameter( $weblink->params, $file );
+		$params = new JParameter($weblink->params, $file);
 
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('weblink',		$weblink);

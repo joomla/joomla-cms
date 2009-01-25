@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
@@ -17,9 +15,9 @@ jimport('joomla.application.component.model');
  *
  * Read XML snapshots file
  *
- * @package		Joomla
+ * @package		Joomla.Administrator
  * @subpackage	Weblinks
- * @since 1.6
+ * @since		1.6
  */
 class WeblinksModelSnapshotSources extends JModel
 {
@@ -63,7 +61,7 @@ class WeblinksModelSnapshotSources extends JModel
 		{
 			$options = array('lite' => '1');
 			$xmlDoc = & JFactory::getXMLparser('dom', $options);
-			if ( $xmlDoc == false ) {
+			if ($xmlDoc == false) {
 				$this->setError(JText::_('Error: Cannot create XML doc'));
 				return false;
 			}
@@ -75,7 +73,7 @@ class WeblinksModelSnapshotSources extends JModel
 			}
 
 			$status = $xmlDoc->parseXML($content);
-			if ( $status == false ) {
+			if ($status == false) {
 				$this->setError(JText::_('Error: Cannot parse XML doc'));
 				return false;
 			}

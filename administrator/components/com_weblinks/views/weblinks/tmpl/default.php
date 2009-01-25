@@ -1,20 +1,31 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Weblinks
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
-<?php JHtml::_('behavior.tooltip'); ?>
+defined('_JEXEC') or die('Restricted access');
+
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'classes');
+JHtml::_('behavior.tooltip');
+?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 <table>
 <tr>
 	<td align="left" width="100%">
-		<?php echo JText::_( 'Filter' ); ?>:
+		<?php echo JText::_('Filter'); ?>:
 		<input type="text" name="search" id="search" value="<?php echo $this->filter->search;?>" class="text_area" onchange="document.adminForm.submit();" />
-		<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-		<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+		<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
+		<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 	</td>
 	<td nowrap="nowrap">
 		<?php
-			echo JHtml::_('list.category',  'filter_catid', 'com_weblinks', intval( $this->filter->catid ), 'onchange="document.adminForm.submit();"' );
-			echo JHtml::_('weblink.statefilter',  $this->filter->state );
+			echo JHtml::_('list.category',  'filter_catid', 'com_weblinks', intval($this->filter->catid), 'onchange="document.adminForm.submit();"');
+			echo JHtml::_('weblink.statefilter',  $this->filter->state);
 		?>
 	</td>
 </tr>
@@ -24,29 +35,29 @@
 	<thead>
 		<tr>
 			<th width="5">
-				<?php echo JText::_( 'NUM' ); ?>
+				<?php echo JText::_('NUM'); ?>
 			</th>
 			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 			</th>
 			<th class="title">
-				<?php echo JHtml::_('grid.sort',  'Title', 'a.title', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'Title', 'a.title', $this->filter->order_Dir, $this->filter->order); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php echo JHtml::_('grid.sort',  'State', 'a.state', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'State', 'a.state', $this->filter->order_Dir, $this->filter->order); ?>
 			</th>
 			<th width="10%" nowrap="nowrap">
-				<?php echo JHtml::_('grid.sort',  'Order', 'a.ordering', $this->filter->order_Dir, $this->filter->order ); ?>
-				<?php echo JHtml::_('grid.order',  $this->items ); ?>
+				<?php echo JHtml::_('grid.sort',  'Order', 'a.ordering', $this->filter->order_Dir, $this->filter->order); ?>
+				<?php echo JHtml::_('grid.order',  $this->items); ?>
 			</th>
 			<th width="15%"  class="title">
-				<?php echo JHtml::_('grid.sort',  'Category', 'category', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'Category', 'category', $this->filter->order_Dir, $this->filter->order); ?>
 			</th>
 			<th width="5%">
-				<?php echo JHtml::_('grid.sort',  'Hits', 'a.hits', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'Hits', 'a.hits', $this->filter->order_Dir, $this->filter->order); ?>
 			</th>
 			<th width="1%" nowrap="nowrap">
-				<?php echo JHtml::_('grid.sort',  'ID', 'a.id', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'ID', 'a.id', $this->filter->order_Dir, $this->filter->order); ?>
 			</th>
 		</tr>
 	</thead>
@@ -60,33 +71,33 @@
 	<tbody>
 	<?php
 	$k = 0;
-	for ($i=0, $n=count( $this->items ); $i < $n; $i++)
+	for ($i=0, $n=count($this->items); $i < $n; $i++)
 	{
 		$row = &$this->items[$i];
 
-		$link 	= JRoute::_( 'index.php?option=com_weblinks&view=weblink&task=edit&cid[]='. $row->id );
+		$link 	= JRoute::_('index.php?option=com_weblinks&view=weblink&task=edit&cid[]='. $row->id);
 
-		$checked 	= JHtml::_('grid.checkedout',   $row, $i );
-		$state 		= JHtml::_('weblink.state', $row, $i );
+		$checked 	= JHtml::_('grid.checkedout',   $row, $i);
+		$state 		= JHtml::_('weblink.state', $row, $i);
 
 		$ordering = ($this->filter->order == 'a.ordering');
 
-		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_weblinks&task=edit&type=other&cid[]='. $row->catid );
+		$row->cat_link 	= JRoute::_('index.php?option=com_categories&section=com_weblinks&task=edit&type=other&cid[]='. $row->catid);
 		?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td>
-				<?php echo $this->pagination->getRowOffset( $i ); ?>
+				<?php echo $this->pagination->getRowOffset($i); ?>
 			</td>
 			<td>
 				<?php echo $checked; ?>
 			</td>
 			<td>
 				<?php
-				if (  JTable::isCheckedOut($this->user->get ('id'), $row->checked_out ) ) {
+				if ( JTable::isCheckedOut($this->user->get ('id'), $row->checked_out)) {
 					echo $row->title;
 				} else {
 				?>
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Weblinks' );?>::<?php echo $row->title; ?>">
+				<span class="editlinktip hasTip" title="<?php echo JText::_('Edit Weblinks');?>::<?php echo $row->title; ?>">
 					<a href="<?php echo $link; ?>">
 						<?php echo $row->title; ?></a></span>
 				<?php
@@ -97,13 +108,13 @@
 				<?php echo $state;?>
 			</td>
 			<td class="order">
-				<span><?php echo $this->pagination->orderUpIcon( $i, ($row->catid == @$this->items[$i-1]->catid),'orderup', 'Move Up', $ordering ); ?></span>
-				<span><?php echo $this->pagination->orderDownIcon( $i, $n, ($row->catid == @$this->items[$i+1]->catid), 'orderdown', 'Move Down', $ordering ); ?></span>
+				<span><?php echo $this->pagination->orderUpIcon($i, ($row->catid == @$this->items[$i-1]->catid),'orderup', 'Move Up', $ordering); ?></span>
+				<span><?php echo $this->pagination->orderDownIcon($i, $n, ($row->catid == @$this->items[$i+1]->catid), 'orderdown', 'Move Down', $ordering); ?></span>
 				<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
 				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 			</td>
 			<td>
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Category' );?>::<?php echo $row->category; ?>">
+				<span class="editlinktip hasTip" title="<?php echo JText::_('Edit Category');?>::<?php echo $row->category; ?>">
 				<a href="<?php echo $row->cat_link; ?>" >
 				<?php echo $row->category; ?></a></span>
 			</td>
@@ -127,5 +138,5 @@
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->filter->order; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->filter->order_Dir; ?>" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>
