@@ -22,6 +22,42 @@ jimport('joomla.application.component.controller');
 class AdminController extends JController
 {
 	/**
+	 * Admin component display
+	 */
+	function display()
+	{
+		// Get the document object.
+		$document	= &JFactory::getDocument();
+
+		// Set the default view name and format from the Request.
+		$vName		= JRequest::getWord('view', 'sysinfo');
+		$vFormat	= $document->getType();
+		$lName		= JRequest::getWord('layout', 'default');
+
+		// Get and render the view.
+		if ($view = &$this->getView($vName, $vFormat))
+		{
+			switch ($vName)
+			{
+				case 'changelog':
+					$model = &$this->getModel($vName);
+					$view->setModel($model, true);
+					break;
+
+				default:
+					break;
+			}
+
+			$view->setLayout($lName);
+
+			// Push document object into the view.
+			$view->assignRef('document', $document);
+
+			$view->display();
+		}
+	}
+
+	/**
 	 * TODO: Description?
 	 */
 	function keepalive()
