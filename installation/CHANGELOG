@@ -28,6 +28,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+26-Jan-2009 Andrew Eddie
+ ^ JHtmlGrid::published first argument now takes value or object (deprecated)
+
 25-Jan-2009 Sam Moffatt
  + Filesystem backup adapter now handles backups (not restores yet)
  # Fixed installers so that they now work properly in PHP 5.2 and the new JObject
