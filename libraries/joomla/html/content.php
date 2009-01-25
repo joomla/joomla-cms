@@ -116,7 +116,7 @@ defined('_JEXEC') or die();
 	/**
 	 * Constructor
 	 * 
-	 * @var mixed Object/Array to initialize JContent object with
+	 * @param	mixed	Object/Array to initialize JContent object with
 	 */
 	public function __construct($object = null) {
 		if(!empty($object)) {
@@ -127,8 +127,8 @@ defined('_JEXEC') or die();
 	/**
 	 * Set Magic Method
 	 * 
-	 * @param string The key for the internal variable
-	 * @param mixed The value to set the internal variable to
+	 * @param	string	The key for the internal variable
+	 * @param	mixed	The value to set the internal variable to
 	 */
 	public function __set($key, $value) {
 		if(isset($this->$key)) {
@@ -150,8 +150,8 @@ defined('_JEXEC') or die();
  	 * Set a property on the object
  	 * We need to overload the parent set, so that we can force the types
  	 * 
-	 * @param string The key for the internal variable
-	 * @param mixed The value to set the internal variable 
+	 * @param	string	The key for the internal variable
+	 * @param	mixed	The value to set the internal variable 
  	 */
  	public function set($key, $value) {
  		//proxy to magic set method __set
@@ -161,7 +161,7 @@ defined('_JEXEC') or die();
  	/**
  	 * Bind an object or array to the instance
  	 * 
- 	 * @var mixed Object/Array to initialize JContent object with
+ 	 * @param	mixed	Object/Array to initialize JContent object with
  	 */
  	public function bind($object) {
  		$array = array();
@@ -182,5 +182,4 @@ defined('_JEXEC') or die();
  			$this->__set($key, $value);
  		}
  	}
- 	
  }
