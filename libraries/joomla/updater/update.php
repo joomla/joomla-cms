@@ -1,5 +1,22 @@
 <?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Update
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
+// No direct access
+defined('JPATH_BASE') or die();
+
+/**
+ * Update class.
+ *
+ * @package 	Joomla.Framework
+ * @subpackage	Update
+ * @since		1.6
+ */
 class JUpdate {
 	var $name;
 	var $description;
@@ -30,10 +47,14 @@ class JUpdate {
             return implode('->', $this->_stack);
     }
 
+    /**
+     * Get the last position in stack count
+     */
     function _getLastTag() {
     	return $this->_stack[count($this->_stack) - 1];
     }
 
+    
 	function _startElement($parser, $name, $attrs = Array()) {
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
