@@ -6,66 +6,63 @@
 * @license		GNU General Public License, see LICENSE.php
 */
 
-// Set flag that this is a parent file
-define( '_JEXEC', 1 );
-
-define('JPATH_BASE', dirname(__FILE__) );
-
+// Set flag that this is a parent file.
+define('_JEXEC', 1);
+define('JPATH_BASE', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once JPATH_BASE .DS.'includes'.DS.'defines.php';
-require_once JPATH_BASE .DS.'includes'.DS.'framework.php';
-require_once JPATH_BASE .DS.'includes'.DS.'helper.php';
-require_once JPATH_BASE .DS.'includes'.DS.'toolbar.php';
+try {
+	require_once JPATH_BASE.DS.'includes'.DS.'defines.php';
+	require_once JPATH_BASE.DS.'includes'.DS.'framework.php';
+	require_once JPATH_BASE.DS.'includes'.DS.'helper.php';
+	require_once JPATH_BASE.DS.'includes'.DS.'toolbar.php';
 
-JDEBUG ? $_PROFILER->mark( 'afterLoad' ) : null;
+	// Mark afterLoad in the profiler.
+	JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
-/**
- * CREATE THE APPLICATION
- *
- * NOTE :
- */
-$mainframe =& JFactory::getApplication('administrator');
+	/*
+	 * Instantiate the application.
+	 */
+	$mainframe =& JFactory::getApplication('administrator');
 
-/**
- * INITIALISE THE APPLICATION
- *
- * NOTE :
- */
-$mainframe->initialise(array(
-	'language' => $mainframe->getUserState( "application.lang", 'lang' )
-));
-// Profiling 
-JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
+	/*
+	 * Initialise the application.
+	 */
+	$mainframe->initialise(array('language' => $mainframe->getUserState('application.lang', 'lang')));
 
-/**
- * ROUTE THE APPLICATION
- *
- * NOTE :
- */
-$mainframe->route();
-// Profiling
-JDEBUG ? $_PROFILER->mark('afterRoute') : null;
+	// Mark afterIntialise in the profiler.
+	JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 
-/**
- * DISPATCH THE APPLICATION
- *
- * NOTE :
- */
-$mainframe->dispatch();
-// Profiling
-JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
+	/*
+	 * Route the application.
+	 */
+	$mainframe->route();
 
-/**
- * RENDER THE APPLICATION
- *
- * NOTE :
- */
-$mainframe->render();
-// Profiling
-JDEBUG ? $_PROFILER->mark( 'afterRender' ) : null;
+	// Mark afterRoute in the profiler.
+	JDEBUG ? $_PROFILER->mark('afterRoute') : null;
 
-/**
- * RETURN THE RESPONSE
- */
-echo JResponse::toString($mainframe->getCfg('gzip'));
+	/*
+	 * Dispatch the application.
+	 */
+	$mainframe->dispatch();
+
+	// Mark afterDispatch in the profiler.
+	JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
+
+	/*
+	 * Render the application.
+	 */
+	$mainframe->render();
+
+	// Mark afterRender in the profiler.
+	JDEBUG ? $_PROFILER->mark('afterRender') : null;
+
+	/*
+	 * Return the response.
+	 */
+	echo JResponse::toString($mainframe->getCfg('gzip'));
+}
+catch (JException $e) {
+	$e->set('level', E_ERROR);
+	JError::throwError($e);
+}

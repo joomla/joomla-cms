@@ -6,67 +6,61 @@
 * @license		GNU General Public License, see LICENSE.php
 */
 
-// Set flag that this is a parent file
+// Set flag that this is a parent file.
 define('_JEXEC', 1);
-
 define('JPATH_BASE', dirname(__FILE__));
-
 define('DS', DIRECTORY_SEPARATOR);
 
 try {
-	require_once JPATH_BASE .DS.'includes'.DS.'defines.php';
-	require_once JPATH_BASE .DS.'includes'.DS.'framework.php';
+	require_once JPATH_BASE.DS.'includes'.DS.'defines.php';
+	require_once JPATH_BASE.DS.'includes'.DS.'framework.php';
 
+	// Mark afterLoad in the profiler.
 	JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
-	/**
-	 * CREATE THE APPLICATION
-	 *
-	 * NOTE :
+	/*
+	 * Instantiate the application.
 	 */
 	$mainframe =& JFactory::getApplication('site');
 
-	/**
-	 * INITIALISE THE APPLICATION
-	 *
-	 * NOTE :
+	/*
+	 * Initialise the application.
 	 */
 	$mainframe->initialise();
-	// profiling
+
+	// Mark afterIntialise in the profiler.
 	JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 
-	/**
-	 * ROUTE THE APPLICATION
-	 *
-	 * NOTE :
+	/*
+	 * Route the application.
 	 */
 	$mainframe->route();
-	// profiling
+
+	// Mark afterRoute in the profiler.
 	JDEBUG ? $_PROFILER->mark('afterRoute') : null;
 
-	/**
-	 * DISPATCH THE APPLICATION
-	 *
-	 * NOTE :
+	/*
+	 * Dispatch the application.
 	 */
 	$mainframe->dispatch();
-	// Profiling
+
+	// Mark afterDispatch in the profiler.
 	JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
 
-	/**
-	 * RENDER  THE APPLICATION
-	 *
-	 * NOTE :
+	/*
+	 * Render the application.
 	 */
 	$mainframe->render();
-	// Profiling
+
+	// Mark afterRender in the profiler.
 	JDEBUG ? $_PROFILER->mark('afterRender') : null;
 
-	/**
-	 * RETURN THE RESPONSE
+	/*
+	 * Return the response.
 	 */
 	echo JResponse::toString($mainframe->getCfg('gzip'));
-} catch (JException $e) {
+}
+catch (JException $e) {
 	$e->set('level', E_ERROR);
 	JError::throwError($e);
 }
