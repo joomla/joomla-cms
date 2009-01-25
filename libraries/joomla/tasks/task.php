@@ -1,5 +1,14 @@
 <?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Task
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
+// No direct access
+defined('JPATH_BASE') or die();
 jimport('joomla.error.profiler');
 
 /**

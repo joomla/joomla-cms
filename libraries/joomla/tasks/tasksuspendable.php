@@ -1,14 +1,13 @@
 <?php
 /**
- * Task Suspendable interface
- *
- * @package Joomla.Framework
- * @subpackage Tasks
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Task
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
- * @version SVN: $Id$
  */
 
+// No direct access
 defined('JPATH_BASE') or die();
 
 interface JTaskSuspendable {
