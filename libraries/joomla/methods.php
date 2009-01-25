@@ -112,8 +112,7 @@ abstract class JText
 	 */
 	public static function _($string, $jsSafe = false)
 	{
-		$lang = JFactory::getLanguage();
-		return $lang->_($string, $jsSafe);
+		return JFactory::getLanguage()->_($string, $jsSafe);
 	}
 
 	/**
@@ -126,10 +125,9 @@ abstract class JText
 	 */
 	public static function sprintf($string)
 	{
-		$lang = JFactory::getLanguage();
 		$args = func_get_args();
 		if(!empty($args)) {
-			$args[0] = $lang->_($args[0]);
+			$args[0] = JFactory::getLanguage()->_($args[0]);
 			return call_user_func_array('sprintf', $args);
 		}
 		return '';
@@ -145,13 +143,37 @@ abstract class JText
 	 */
 	public static function printf($string)
 	{
-		$lang =&JFactory::getLanguage();
 		$args = func_get_args();
 		if (!empty($args)) {
-			$args[0] = $lang->_($args[0]);
+			$args[0] = JFactory::getLanguage()->_($args[0]);
 			return call_user_func_array('printf', $args);
 		}
 		return '';
 	}
 
+	/**
+	 * Translate a string into the current language and stores it in the JavaScript language store.
+	 *
+	 * @access	public
+	 * @param	string		$string		The JText key.
+	 * @return	void
+	 * @since	1.6
+	 */
+	public static function script($string = null)
+	{
+		static $strings;
+
+		// Instante the array if necessary.
+		if (!is_array($strings)) {
+			$strings = array();
+		}
+
+		// Add the string to the array if not null.
+		if ($string !== null) {
+			// Normalize the key and translate the string.
+			$strings[strtoupper($string)] = JFactory::getLanguage()->_($string);
+		}
+
+		return $strings;
+	}
 }

@@ -144,6 +144,13 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$strHtml .= $tab.'</script>'.$lnEnd;
 		}
 
+		// Generate script language declarations.
+		if (count(JText::script())) {
+			$strHtml .= $tab.'<script type="text/javascript">'.$lnEnd;
+			$strHtml .= $tab.'JText='.json_encode(JText::script()).$lnEnd;
+			$strHtml .= $tab.'</script>'.$lnEnd;
+		}
+
 		foreach ($document->_custom as $custom) {
 			$strHtml .= $tab.$custom.$lnEnd;
 		}
