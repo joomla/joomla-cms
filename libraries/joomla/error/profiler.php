@@ -4,7 +4,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Error
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
 * @license		GNU General Public License, see LICENSE.php
 */
 

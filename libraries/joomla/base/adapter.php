@@ -3,7 +3,7 @@
  * @version		$Id: object.php 9764 2007-12-30 07:48:11Z ircmaxell $
  * @package		Joomla.Framework
  * @subpackage	Base
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
   */
 

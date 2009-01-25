@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package	Joomla.Framework
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
   */
 
@@ -33,7 +33,7 @@ class JVersion
 	/** @var string Timezone */
 	public $RELTZ 		= '';
 	/** @var string Copyright Text */
-	public $COPYRIGHT 	= 'Copyright (C) 2005 - 2008 Open Source Matters, Inc. All rights reserved.';
+	public $COPYRIGHT 	= 'Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.';
 	/** @var string URL */
 	public $URL 	= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
