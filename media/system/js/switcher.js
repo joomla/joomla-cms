@@ -34,24 +34,24 @@ var JSwitcher = new Class({
 
 		var self = this;
 
-		togglers = $ES('a', toggler);
+		togglers = $(toggler).getElements('a');
 		for (i=0; i < togglers.length; i++) {
 			togglers[i].addEvent( 'click', function() { self.switchTo(this); } );
 		}
 
 		//hide all
-		elements = $ES('div', element);
+		elements = $(element).getElements('div');
 		for (i=0; i < elements.length; i++) {
 			this.hide(elements[i])
 		}
 
-		this.toggler = $E('a.active', toggler);
+		this.toggler = $(toggler).getElement('a.active');
 		this.page    = $('page-'+ this.toggler.id);
 
 		this.show(this.page);
 		if (this.options.cookieName)
 		{
-			if((page = Cookie.get(this.options.cookieName))) {
+			if((page = Cookie.read(this.options.cookieName))) {
 				this.switchTo($(page));
 			}
 		}
@@ -76,7 +76,7 @@ var JSwitcher = new Class({
 			}
 			this.page    = page;
 			this.toggler = toggler;
-			Cookie.set(this.options.cookieName, toggler.id);
+			Cookie.write(this.options.cookieName, toggler.id);
 		}
 	},
 
