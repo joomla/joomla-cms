@@ -54,7 +54,7 @@ class JRegistryFormatJSON extends JRegistryFormat
 		else {
 			$obj = json_decode($data);
 		}
-var_dump($obj);
+
 		return $obj;
 	}
 }
