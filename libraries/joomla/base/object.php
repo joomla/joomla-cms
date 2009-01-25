@@ -136,10 +136,9 @@ class JObject
 	 * @see		setProperties()
 	 * @since	1.5
 	 */
-	public function set( $property, $value = null, $create = true )
+	public function set( $property, $value = null )
 	{
 		$previous = isset($this->$property) ? $this->$property : null;
-		if(!isset($this->$property) && !$create) return null;
 		$this->$property = $value;
 		return $previous;
 	}

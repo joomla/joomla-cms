@@ -49,6 +49,8 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  + Added JClass base class
  - Removed JStdClass
  ^ Renamed references from JStdClass to JObject 
+ + Added JContent Class
+ ^ Moved configuration.php-dist into installation folder
 
 24-Jan-2009 Anthony Ferrara
  + Added onBeforeRender Trigger
