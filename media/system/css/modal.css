@@ -22,6 +22,7 @@
 	overflow:				visible;
 	padding:				10px;
 	-moz-border-radius:		3px;
+	-webkit-border-radius:	3px;
 }
 
 * html #sbox-window
@@ -39,6 +40,11 @@
 	top:					-15px;
 	background:				url(../images/closebox.png) no-repeat top left;
 	border:					none;
+}
+
+.sbox-window-ie6 #sbox-btn-close
+{
+	background-image:		url(closebox.gif);
 }
 
 .sbox-loading #sbox-content
@@ -75,4 +81,9 @@
 .sbox-content-iframe#sbox-content
 {
 	overflow:				visible;
+}
+
+.body-overlayed embed, .body-overlayed object, .body-overlayed select
+{
+	visibility:				hidden;
 }
