@@ -6,7 +6,6 @@
  */
 
 defined('_JEXEC') or die;
-
 /**
  * Weblink controller class.
  *
@@ -14,254 +13,139 @@ defined('_JEXEC') or die;
  * @subpackage	Weblinks
  * @version		1.6
  */
-class WeblinksControllerWeblink extends WeblinksController
+class WeblinksControllerWeblink extends JController
 {
 	/**
-	 * Method to save the changes to the current label and return
-	 * back to the label edit view.
+	 * Dummy method to redirect back to standard controller
 	 *
-	 * @access	public
-	 * @return	bool	False on failure or error, true on success.
-	 * @since	1.0
+	 * @return	void
 	 */
-	function apply()
+	public function display()
 	{
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		// Initialize variables.
-		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('Label');
-		$data	= JRequest::getVar('jxform', array(), 'post', 'array');
-
-		// Validate the posted data.
-		$data = $model->validate($data);
-
-		// Check for validation errors.
-		if ($data === false)
-		{
-			// Get the validation messages.
-			$errors	= $model->getErrors();
-
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
-				if (JError::isError($errors[$i])) {
-					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
-				} else {
-					$app->enqueueMessage($errors[$i], 'notice');
-				}
-			}
-
-			// Save the data in the session.
-			$app->setUserState('com_labels.edit.label.data', $data);
-
-			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', false));
-			return false;
-		}
-
-		// Attempt to save the label.
-		$return = $model->save($data);
-
-		if ($return === false)
-		{
-			// Save failed, go back to the label and display a notice.
-			$message = JText::sprintf('LABELS_LABEL_APPLY_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', $message, 'error');
-			return false;
-		}
-		else
-		{
-			// Attempt to check-out the new label for editing and redirect.
-			if (!$model->checkout($return))
-			{
-				// Check-out failed, go back to the list and display a notice.
-				$message = JText::sprintf('LABELS_LABEL_CHECKOUT_FAILED', $model->getError());
-				$this->setRedirect('index.php?option=com_labels&view=labels', $message, 'error');
-				return false;
-			}
-			else
-			{
-				// Save succeeded, go back to the label and display a message.
-				$app->setUserState('com_labels.edit.label.id', $return);
-				$message = JText::_('LABELS_LABEL_APPLY_SUCCESS');
-				$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', $message);
-				return true;
-			}
-		}
+		$this->setRedirect(JRoute::_('index.php?option=com_weblinks', false));
 	}
 
 	/**
-	 * Method to cancel the edit operation, check-in the checked-out
-	 * label and go back to the label list view.
+	 * Method to add a new weblink.
 	 *
-	 * @access	public
-	 * @return	bool	False on failure or error, true on success.
-	 * @since	1.0
+	 * @return	void
 	 */
-	function cancel()
+	public function add()
 	{
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
 		// Initialize variables.
-		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('Label', 'LabelsModel');
+		$app = &JFactory::getApplication();
 
-		// Get the label id.
-		$label_id = (int) $app->getUserState('com_labels.edit.label.id');
+		// Clear the level edit information from the session.
+		$app->setUserState('com_weblinks.edit.weblink.id', null);
+		$app->setUserState('com_weblinks.edit.weblink.data', null);
 
-		// Attempt to check-in the current label.
-		if ($label_id)
-		{
-			if (!$model->checkin($label_id))
-			{
-				// Check-in failed, go back to the label and display a notice.
-				$message = JText::sprintf('LABELS_LABEL_CHECKIN_FAILED', $model->getError());
-				$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', $message, 'error');
-				return false;
-			}
-		}
-
-		// Clean the session data and redirect.
-		$app->setUserState('com_labels.edit.label.id', null);
-		$this->setRedirect('index.php?option=com_labels&view=labels');
+		// Redirect to the edit screen.
+		$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit', false));
 	}
 
 	/**
-	 * Method to checkout a label for editing.  If a different label
-	 * was previously checked-out, the previous label will be checked
-	 * in first.
+	 * Method to edit an existing weblink.
 	 *
-	 * @access	public
-	 * @return	bool	False on failure or error, true on success.
-	 * @since	1.0
+	 * @return	void
 	 */
-	function edit()
+	public function edit()
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('Label', 'LabelsModel');
+		$model	= &$this->getModel('Weblink', 'WeblinksModel');
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 
 		// Get the previous label id (if any) and the current label id.
-		$previous_id	= (int) $app->getUserState('com_labels.edit.label.id');
-		$label_id		= (int) (count($cid) ? $cid[0] : JRequest::getInt('label_id'));
+		$previousId	= (int) $app->getUserState('com_labels.edit.label.id');
+		$weblinkId		= (int) (count($cid) ? $cid[0] : JRequest::getInt('weblink_id'));
 
 		// If label ids do not match, checkin previous label.
-		if (($previous_id > 0) && ($label_id != $previous_id))
+		if (($previousId > 0) && ($weblinkId != $previousId))
 		{
-			if (!$model->checkin($previous_id))
+			if (!$model->checkin($previousId))
 			{
 				// Check-in failed, go back to the label and display a notice.
-				$message = JText::sprintf('LABELS_LABEL_CHECKIN_FAILED', $model->getError());
-				$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', $message, 'error');
+				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
+				$this->setRedirect('index.php?option=com_weblinks&view=weblink&layout=edit', $message, 'error');
 				return false;
 			}
 		}
 
 		// Attempt to check-out the new label for editing and redirect.
-		if (!$model->checkout($label_id))
+		if (!$model->checkout($weblinkId))
 		{
 			// Check-out failed, go back to the list and display a notice.
 			$message = JText::sprintf('LABELS_LABEL_CHECKOUT_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_labels&view=label&label_id='.$label_id, $message, 'error');
+			$this->setRedirect('index.php?option=com_weblinks&view=weblink&label_id='.$weblinkId, $message, 'error');
 			return false;
 		}
 		else
 		{
 			// Check-out succeeded, push the new label id into the session.
-			$app->setUserState('com_labels.edit.label.id', $label_id);
-			$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1');
+			$app->setUserState('com_weblinks.edit.weblink.id',	$weblinkId);
+			$app->setUserState('com_weblinks.edit.weblink.data', null);
+			$this->setRedirect('index.php?option=com_weblinks&view=weblink&layout=edit');
 			return true;
 		}
 	}
 
 	/**
-	 * Method to get a fresh label form for creating a new label.
+	 * Method to cancel an edit
 	 *
 	 * @access	public
-	 * @return	bool	False on failure or error, true on success.
+	 * @return	void
 	 * @since	1.0
 	 */
-	function createnew()
+	public function cancel()
 	{
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		// Initialize variables.
+		$app = &JFactory::getApplication();
+
+		// Clear the member edit information from the session.
+		$app->setUserState('com_weblinks.edit.weblink.id', null);
+		$app->setUserState('com_weblinks.edit.weblink.data', null);
+
+		// Redirect to the list screen.
+		$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblinks', false));
+	}
+
+	/**
+	 * Method to save a weblink.
+	 *
+	 * @access	public
+	 * @return	void
+	 * @since	1.0
+	 */
+	public function save()
+	{
+		// Check for request forgeries.
+		JRequest::checkToken() or jexit(JText::_('JX_INVALID_TOKEN'));
 
 		// Initialize variables.
 		$app = &JFactory::getApplication();
 
-		// Prepare the session data and redirect.
-		$app->setUserState('com_labels.edit.label.id', -1);
-		$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1');
-		return true;
-	}
+		// Get the posted values from the request.
+		$data = JRequest::getVar('jxform', array(), 'post', 'array');
 
-	/**
-	 * Method to check-in a label and redirect to a content item.
-	 *
-	 * @access	public
-	 * @return	bool	False on failure or error, true on success.
-	 * @since	1.0
-	 */
-	function viewitem()
-	{
-		// Initialize variables.
-		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('Label');
-		$target	= JRequest::getVar('target', '', 'request', 'base64');
-		$target	= base64_decode($target, true);
+		// Populate the row id from the session.
+		$data['id'] = (int) $app->getUserState('com_weblinks.edit.weblink.id');
 
-		// Prepare the model state.
-		$model->getState();
-		$model->setState('label.id', $app->getUserState('com_labels.edit.label.id'));
+		// Get the model and attempt to validate the posted data.
+		$model = &$this->getModel('Member');
+		$return	= $model->validate($data);
 
-		// Save succeeded, check-in the label.
-		if (!$model->checkin())
-		{
-			// Check-in failed, go back to the label and display a notice.
-			$message = JText::sprintf('LABELS_LABEL_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', $message, 'error');
-			return false;
+		// Get and sanitize the group data.
+		$data['groups'] = JRequest::getVar('groups', array(), 'post', 'array');
+		$data['groups'] = array_unique($data['groups']);
+		JArrayHelper::toInteger($data['groups']);
+
+		// Remove any values of zero.
+		if (array_search(0, $data['groups'], true)) {
+			unset($data['groups'][array_search(0, $data['groups'], true)]);
 		}
-
-		if (!$target)
-		{
-			// Redirect decode failed, go back to the label and display a notice.
-			$message = JText::sprintf('LABELS_LABEL_REDIRECT_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', $message, 'error');
-			return false;
-		}
-		else
-		{
-			// Prepare the session data and redirect.
-			$app->setUserState('com_labels.edit.label.id', -1);
-			$this->setRedirect($target);
-			return true;
-		}
-	}
-
-	/**
-	 * Method to save the changes to the current label and return
-	 * back to the label list view.
-	 *
-	 * @access	public
-	 * @return	bool	False on failure or error, true on success.
-	 * @since	1.0
-	 */
-	function save()
-	{
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		// Initialize variables.
-		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('Label');
-		$data	= JRequest::getVar('jxform', array(), 'post', 'array');
-
-		// Validate the posted data.
-		$data = $model->validate($data);
 
 		// Check for validation errors.
-		if ($data === false)
+		if ($return === false)
 		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
@@ -277,134 +161,56 @@ class WeblinksControllerWeblink extends WeblinksController
 			}
 
 			// Save the data in the session.
-			$app->setUserState('com_labels.edit.label.data', $data);
+			$app->setUserState('com_weblinks.edit.weblink.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit', false));
 			return false;
 		}
 
-		// Attempt to save the label.
-		$return = $model->save($data);
+		// Attempt to save the data.
+		$return	= $model->save($data);
 
+		// Check for errors.
 		if ($return === false)
 		{
-			// Save failed, go back to the label and display a notice.
-			$message = JText::sprintf('LABELS_LABEL_SAVE_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', $message, 'error');
-			return false;
-		}
-
-		// Save succeeded, check-in the label.
-		if (!$model->checkin())
-		{
-			// Check-in failed, go back to the label and display a notice.
-			$message = JText::sprintf('LABELS_LABEL_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', $message, 'error');
-			return false;
-		}
-
-		// Clean the session data.
-		$app->setUserState('com_labels.edit.label.id', null);
-
-		$message = JText::_('LABELS_LABEL_SAVE_SUCCESS');
-		$this->setRedirect('index.php?option=com_labels&view=labels', $message);
-		return true;
-	}
-
-	/**
-	 * Method to save the changes to the current label and return
-	 * back to the label edit view with a clean form.
-	 *
-	 * @access	public
-	 * @return	bool	False on failure or error, true on success.
-	 * @since	1.0
-	 */
-	function savenew()
-	{
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		// Initialize variables.
-		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('Label');
-		$data	= JRequest::getVar('jxform', array(), 'post', 'array');
-
-		// Validate the posted data.
-		$data = $model->validate($data);
-
-		// Check for validation errors.
-		if ($data === false)
-		{
-			// Get the validation messages.
-			$errors	= $model->getErrors();
-
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
-				if (JError::isError($errors[$i])) {
-					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
-				} else {
-					$app->enqueueMessage($errors[$i], 'notice');
-				}
-			}
-
 			// Save the data in the session.
-			$app->setUserState('com_labels.edit.label.data', $data);
+			$app->setUserState('com_weblinks.edit.weblink.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', false));
+			$this->setMessage(JText::sprintf('MEMBERS_MEMBER_SAVE_FAILED', $model->getError()), 'notice');
+			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit', false));
 			return false;
 		}
 
-		// Attempt to save the label.
-		$return = $model->save($data);
-
-		if ($return === false)
+		// Redirect the user and adjust session state based on the chosen task.
+		switch ($this->_task)
 		{
-			// Save failed, go back to the label and display a notice.
-			$message = JText::sprintf('LABELS_LABEL_SAVE_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', $message, 'error');
-			return false;
+			case 'apply':
+				// Redirect back to the edit screen.
+				$this->setMessage(JText::_('MEMBERS_MEMBER_SAVE_SUCCESS'));
+				$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit', false));
+				break;
+
+			case 'save2new':
+				// Clear the member id and data from the session.
+				$app->setUserState('com_weblinks.edit.weblink.id', null);
+				$app->setUserState('com_weblinks.edit.weblink.data', null);
+
+				// Redirect back to the edit screen.
+				$this->setMessage(JText::_('MEMBERS_MEMBER_SAVE_SUCCESS'));
+				$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit', false));
+				break;
+
+			default:
+				// Clear the member id and data from the session.
+				$app->setUserState('com_weblinks.edit.weblink.id', null);
+				$app->setUserState('com_weblinks.edit.weblink.data', null);
+
+				// Redirect to the list screen.
+				$this->setMessage(JText::_('MEMBERS_MEMBER_SAVE_SUCCESS'));
+				$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblinks', false));
+				break;
 		}
-
-		// Save succeeded, check-in the label.
-		if (!$model->checkin())
-		{
-			// Check-in failed, go back to the label and display a notice.
-			$message = JText::sprintf('LABELS_LABEL_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', $message, 'error');
-			return false;
-		}
-
-		// Prepare the session data.
-		$app->setUserState('com_labels.edit.label.id', -1);
-
-		$message = JText::_('LABELS_LABEL_SAVE_SUCCESS');
-		$this->setRedirect('index.php?option=com_labels&view=label&layout=edit&hidemainmenu=1', $message);
-		return true;
-	}
-
-	/**
-	 * Method to view a label.
-	 *
-	 * @access	public
-	 * @return	bool	False on failure or error, true on success.
-	 * @since	1.0
-	 */
-	function view()
-	{
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		$app		= &JFactory::getApplication();
-		$model		= &$this->getModel('Label', 'LabelsModel');
-		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
-		$label_id	= (int) (count($cid) ? $cid[0] : JRequest::getInt('label_id'));
-
-		// Check-in the label just to be safe.
-		$model->checkin($label_id);
-
-		$app->setUserState('com_labels.view.label.id', $label_id);
-		$this->setRedirect('index.php?option=com_labels&view=label&layout=default&label_id='.$label_id.'&hidemainmenu=1');
-		return true;
 	}
 }

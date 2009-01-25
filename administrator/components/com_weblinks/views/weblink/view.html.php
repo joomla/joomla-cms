@@ -13,14 +13,61 @@ jimport('joomla.application.component.view');
 /**
  * HTML View class for the WebLinks component
  *
- * @static
  * @package		Joomla.Administrator
  * @subpackage	Weblinks
- * @since 1.0
+ * @since		1.5
  */
 class WeblinksViewWeblink extends JView
 {
-	function display($tpl = null)
+	public $state;
+	public $item;
+	public $form;
+
+	/**
+	 * Display the view
+	 */
+	public function display($tpl = null)
+	{
+		$state		= $this->get('State');
+		$item		= $this->get('Item');
+		$form		= $this->get('Form');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
+
+		// Bind the label to the form.
+		$form->bind($item);
+
+		$this->assignRef('state',		$state);
+		$this->assignRef('item',		$item);
+		$this->assignRef('form',		$form);
+
+		parent::display($tpl);
+		$this->_setToolbar();
+	}
+
+	/**
+	 * Setup the Toolbar
+	 *
+	 * @since	1.6
+	 */
+	protected function _setToolbar()
+	{
+		JToolBarHelper::title(JText::_('Weblinks_Manager_Weblink'));
+		JToolBarHelper::save();
+		if (empty($this->item->id))  {
+			JToolBarHelper::cancel();
+		}
+		else {
+			JToolBarHelper::cancel('cancel', 'Close');
+		}
+		JToolBarHelper::help('screen.weblink.edit');
+	}
+
+	function _display($tpl = null)
 	{
 		// Helper classes
 		JHtml::addIncludePath(JPATH_COMPONENT.DS.'classes');
@@ -39,6 +86,7 @@ class WeblinksViewWeblink extends JView
 		}
 
 		parent::display($tpl);
+		JRequest::setVar('hidemainmenu', 1);
 	}
 
 	function _displayForm($tpl)

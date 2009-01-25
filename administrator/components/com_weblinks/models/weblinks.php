@@ -10,6 +10,9 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 jimport('joomla.database.query');
 
+// Add a table include path.
+JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
+
 /**
  * Members Model for JXtended Members.
  *
@@ -150,9 +153,6 @@ class WeblinksModelWeblinks extends JModelList
 	function setStates($cid, $state = 0)
 	{
 		$user = &JFactory::getUser();
-
-		// Add a table include path.
-		JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
 
 		// Get a labels row instance.
 		$table = JTable::getInstance('Weblink', 'WeblinksTable');

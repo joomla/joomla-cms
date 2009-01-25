@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'classes');
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 $user	= &JFactory::getUser();
 $userId	= $user->get('id');
@@ -35,7 +35,7 @@ $userId	= $user->get('id');
 					<label for="filter_state">
 						<?php echo JText::_('Weblinks_Filter_State'); ?>
 					</label>
-					<?php echo JHTML::_('select.genericlist', $this->filter_state, 'filter_state', 'class="inputbox"', 'value', 'text', $this->state->get('filter.state')); ?>
+					<?php echo JHtml::_('weblink.filterstate', $this->state->get('filter.state'));?>
 				</li>
 			</ol>
 		</div>
@@ -45,29 +45,29 @@ $userId	= $user->get('id');
 		<thead>
 			<tr>
 				<th width="5">
-					<?php echo JText::_('NUM'); ?>
+					<?php echo JText::_('JCommon_Number_Column'); ?>
 				</th>
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 				</th>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort',  'Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'Weblinks_Title_Column', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'State', 'a.state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'Weblinks_State_Column', 'a.state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'Order', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'Weblinks_Order_Column', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 					<?php echo JHtml::_('grid.order',  $this->items); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php echo JHtml::_('grid.sort',  'Category', 'category', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'Weblinks_Category_Column', 'category', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort',  'Hits', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'Weblinks_Hits_Column', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JCommon_ID_Column', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>
@@ -99,12 +99,12 @@ $userId	= $user->get('id');
 						<?php echo $item->title; ?>
 					<?php else : ?>
 					<span class="editlinktip hasTip" title="<?php echo JText::_('Edit Weblinks');?>::<?php echo $item->title; ?>">
-						<a href="<?php echo $link; ?>">
+						<a href="<?php echo JRoute::_('index.php?option=com_weblinks&task=weblink.edit&weblink_id='.(int) $item->id); ?>">
 							<?php echo $item->title; ?></a></span>
 					<?php endif; ?>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('weblink.state', $item, $i);?>
+					<?php echo JHtml::_('weblink.state', $item->state, $i);?>
 				</td>
 				<td class="order">
 					<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid),'orderup', 'Move Up', $ordering); ?></span>

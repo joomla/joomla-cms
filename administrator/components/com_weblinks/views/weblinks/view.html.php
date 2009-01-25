@@ -41,17 +41,9 @@ class WeblinksViewWeblinks extends JView
 			return false;
 		}
 
-		// Build the active state filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '*', 'JSelect_Any');
-		$options[]	= JHtml::_('select.option', '0', 'JSelect_UnPublished');
-		$options[]	= JHtml::_('select.option', '1', 'JSelect_Published');
-		$options[]	= JHtml::_('select.option', '-1', 'Weblinks_Reported');
-
 		$this->assignRef('state',			$state);
 		$this->assignRef('items',			$items);
 		$this->assignRef('pagination',		$pagination);
-		$this->assignRef('filter_state',	$options);
 
 		parent::display($tpl);
 		$this->_setToolbar();
@@ -62,7 +54,7 @@ class WeblinksViewWeblinks extends JView
 	 */
 	protected function _setToolbar()
 	{
-		JToolBarHelper::title(JText::_('Weblinks Manager'), 'generic.png');
+		JToolBarHelper::title(JText::_('Weblinks_Manager_Weblinks'), 'generic.png');
 		JToolBarHelper::publishList('weblinks.publish');
 		JToolBarHelper::unpublishList('weblinks.unpublish');
 		JToolBarHelper::deleteList('', 'weblinks.delete');
