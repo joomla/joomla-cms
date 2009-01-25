@@ -33,6 +33,9 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  + Add Generation 3 access control tables and framework
 
 25-Jan-2009 Rob Schley
+ # Fixed the admin login form rendering incorrectly after a timeout.
+ ^ Changed JRegistry::toString with PHP format to use public properties.
+ ^ Changed JConfig in the distribution file to have public properties.
  # Fixed references to com_frontpage in the administrator interface.
  ^ Updated SqueezeBox to 1.1 rc2 for MooTools 1.2.
  + Added JText._() and JText.load() to MooTools 1.2 JavaScript to make JavaScript I18N easier.

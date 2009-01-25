@@ -109,11 +109,11 @@ class JAdministrator extends JApplication
 
 		// Get our component
 		if ($user->get('guest')) {
+			// The user is a guest, force to com_login.
 			$component = 'com_login';
-		}
-
-		if ( ! $component )
-		{
+			JRequest::setVar('option', $component);
+		} else {
+			// Get the component or com_cpanel as the default.
 			$component = JApplicationHelper::getComponentName('com_cpanel');
 		}
 
