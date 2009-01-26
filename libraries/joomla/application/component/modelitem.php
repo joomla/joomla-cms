@@ -18,7 +18,7 @@ jimport('joomla.database.query');
  * @subpackage	Application
  * @version		1.6
  */
-class JModelItem extends JModel
+abstract class JModelItem extends JModel
 {
 	/**
 	 * Array of items.
@@ -99,5 +99,54 @@ class JModelItem extends JModel
 	protected function _populateState()
 	{
 		$this->setState('list.start', 0);
+	}
+
+	/**
+	 * getForm can be implemented in the derived class if required
+	 */
+	public function &getForm()
+	{
+		$result = false;
+		return $result;
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @param	array	The form data.
+	 * @return	mixed	Array of filtered data if valid, false otherwise.
+	 */
+	public function validate($data)
+	{
+		// Get the form.
+		$form = &$this->getForm();
+
+		// Check for an error.
+		if ($form === false) {
+			return false;
+		}
+
+		// Filter and validate the form data.
+		$data	= $form->filter($data);
+		$return	= $form->validate($data);
+
+		// Check for an error.
+		if (JError::isError($return)) {
+			$this->setError($return->getMessage());
+			return false;
+		}
+
+		// Check the validation results.
+		if ($return === false)
+		{
+			// Get the validation messages from the form.
+			foreach ($form->getErrors() as $message) {
+				$this->setError($message);
+			}
+
+			return false;
+		}
+
+		return $data;
 	}
 }
