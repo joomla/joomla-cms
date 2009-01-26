@@ -30,8 +30,8 @@ abstract class JHtmlList
 	}
 
 	/**
-	* Build the select list to choose an image
-	*/
+	 * Build the select list to choose an image
+	 */
 	public static function images($name, $active = NULL, $javascript = NULL, $directory = NULL, $extensions =  "bmp|gif|jpg|png")
 	{
 		if (!$directory) {
@@ -63,71 +63,112 @@ abstract class JHtmlList
 	}
 
 	/**
-	 * Description
+	 * Returns an array of options
 	 *
- 	 * @param string SQL with ordering As value and 'name field' AS text
- 	 * @param integer The length of the truncated headline
- 	 * @since 1.5
+ 	 * @param	string $sql		SQL with ordering As value and 'name field' AS text
+ 	 * @param	integer	$chop	The length of the truncated headline
+ 	 *
+ 	 * @return	array	An array of objects formatted for JHtml list processing
+ 	 * @since	1.5
  	 */
 	public static function genericordering($sql, $chop = '30')
 	{
-		$db =& JFactory::getDBO();
-		$order = array();
+		$db			=& JFactory::getDBO();
+		$options	= array();
 		$db->setQuery($sql);
 		try {
-			$order = $db->loadObjectList();
-		} catch(JException $e) {
+			$items = $db->loadObjectList();
+		}
+		catch (JException $e) {
 			return false;
 		}
 
-		if(empty($orders)) {
-			$order[] = JHtml::_('select.option',  1, JText::_('first'));
-			return $order;
+		if (empty($items)) {
+			$options[] = JHtml::_('select.option',  1, JText::_('JOption_Order_First'));
+			return $options;
 		}
 
-		$order[] = JHtml::_('select.option',  0, '0 '. JText::_('first'));
-		for ($i=0, $n=count($orders); $i < $n; $i++) {
-
-			if (JString::strlen($orders[$i]->text) > $chop) {
-				$text = JString::substr($orders[$i]->text,0,$chop)."...";
+		$options[] = JHtml::_('select.option',  0, '0 '. JText::_('JOption_Order_First'));
+		for ($i=0, $n=count($items); $i < $n; $i++)
+		{
+			if (JString::strlen($items[$i]->text) > $chop) {
+				$text = JString::substr($items[$i]->text,0,$chop)."...";
 			} else {
-				$text = $orders[$i]->text;
+				$text = $items[$i]->text;
 			}
 
-			$order[] = JHtml::_('select.option',  $orders[$i]->value, $orders[$i]->value.' ('.$text.')');
+			$options[] = JHtml::_('select.option',  $items[$i]->value, $items[$i]->value.' ('.$text.')');
 		}
-		$order[] = JHtml::_('select.option',  $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_('last'));
+		$options[] = JHtml::_('select.option',  $items[$i-1]->value+1, ($items[$i-1]->value+1).' '. JText::_('JOption_Order_Last'));
 
-		return $order;
+		return $options;
 	}
 
 	/**
-	* Build the select list for Ordering of a specified Table
-	*/
-	public static function specificordering(&$row, $id, $query, $neworder = 0)
+	 * @deprecated	1.6 Use JHtml::_('list.ordering') instead
+	 */
+	public static function specificordering($value, $id, $query, $neworder = 0)
 	{
+		if (is_object($value)) {
+			$value = $value->ordering;
+		}
+
 		if ($id) {
-			$order = JHtml::_('list.genericordering', $query);
-			$ordering = JHtml::_(
-				'select.genericlist',
-				$order,
-				'ordering',
-				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => intval($row->ordering))
-			);
+			$neworder = 0;
 		} else {
 			if ($neworder) {
-				$text = JText::_('descNewItemsFirst');
+				$neworder = 1;
 			} else {
-				$text = JText::_('descNewItemsLast');
+				$neworder = -1;
 			}
-			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. $text;
 		}
-		return $ordering;
+		return JHtmlList::ordering('ordering', $value, $query, $neworder);
 	}
 
 	/**
-	* Select list of active users
-	*/
+	 * Build the select list for Ordering derived from a query
+	 *
+	 * @param	int $value		The scalar value
+	 * @param	string $query
+	 * @param	string $attribs	HTML tag attributes
+	 * @param	int $neworder	1 if new and first, -1 if new and last, 0  or null if existing item
+	 * @param	string $prefix	An optional prefix for the task
+	 *
+	 * @return	string
+	 * @since	1.6
+	 */
+	public static function ordering($name, $query, $attribs = null, $selected = null, $id = null, $neworder = null, $chop = null)
+	{
+		if (empty($attribs)) {
+			$attribs = 'class="inputbox" size="1"';
+		}
+
+		if (empty($neworder))
+		{
+			$orders	= JHtml::_('list.genericordering', $query);
+			$html	= JHtml::_(
+				'select.genericlist',
+				$orders,
+				$name,
+				array('list.attr' => $attribs, 'list.select' => (int) $selected)
+			);
+		}
+		else
+		{
+			if ($neworder > 0) {
+				$text = JText::_('descNewItemsFirst');
+			}
+			else if ($neworder < 0) {
+				$text = JText::_('descNewItemsLast');
+			}
+			$html = '<input type="hidden" name="'.$name.'" value="'. (int) $selected .'" />'. $text;
+		}
+		return $html;
+	}
+
+	/**
+	 * Select list of active users
+	 */
 	public static function users($name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1)
 	{
 		$db =& JFactory::getDBO();
@@ -166,8 +207,8 @@ abstract class JHtmlList
 	}
 
 	/**
-	* Select list of positions - generally used for location of images
-	*/
+	 * Select list of positions - generally used for location of images
+	 */
 	public static function positions(
 		$name,
 		$active = null,
@@ -208,8 +249,8 @@ abstract class JHtmlList
 	}
 
 	/**
-	* Select list of active categories for components
-	*/
+	 * Select list of active categories for components
+	 */
 	public static function category($name, $section, $active = NULL, $javascript = NULL, $order = 'ordering', $size = 1, $sel_cat = 1)
 	{
 		$db =& JFactory::getDBO();
@@ -249,8 +290,8 @@ abstract class JHtmlList
 	}
 
 	/**
-	* Select list of active sections
-	*/
+	 * Select list of active sections
+	 */
 	public static function section($name, $active = NULL, $javascript = NULL, $order = 'ordering', $uncategorized = true)
 	{
 		$db =& JFactory::getDBO();
