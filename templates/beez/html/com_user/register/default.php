@@ -3,7 +3,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 
 <script type="text/javascript">
-	Window.onDomReady(function(){
+	Window.addEvent('domready', function(){
 		document.formvalidator.setHandler('passverify', function (value) { return ($('password').value == value); }	);
 	});
 </script>

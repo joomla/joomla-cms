@@ -2,7 +2,7 @@
 
 <script language="javascript" type="text/javascript">
 	<!--
-		Window.onDomReady(function(){
+		Window.addEvent('domready', function(){
 			//document.treemanager.expandAll('menu-item');
 		});
 	//-->

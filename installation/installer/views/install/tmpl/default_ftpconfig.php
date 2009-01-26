@@ -3,7 +3,7 @@
 <script language="JavaScript" type="text/javascript">
 <!--
 
-	Window.onDomReady(function(){
+	Window.addEvent('domready', function(){
 	document.formvalidator.handlers['isftp'] = { enabled : true,
 									exec : function (value) {
 										if (document.getElementById('ftpenable').checked == true) {
