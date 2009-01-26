@@ -7,9 +7,9 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.plugin.plugin' );
+jimport('joomla.plugin.plugin');
 
 /**
  * Joomla! Debug plugin
@@ -31,7 +31,7 @@ class  plgSystemDebug extends JPlugin
 	{
 		parent::__construct($subject, $config);
 		//load the translation
-		$this->loadLanguage( );
+		$this->loadLanguage();
 	}
 
 	/**
@@ -49,7 +49,7 @@ class  plgSystemDebug extends JPlugin
 		$doctype	= $document->getType();
 
 		// Only render for HTML output
-		if ( $doctype !== 'html' ) { return; }
+		if ($doctype !== 'html') { return; }
 
 		$profiler	=& $_PROFILER;
 
@@ -64,14 +64,14 @@ class  plgSystemDebug extends JPlugin
 			echo '</ol>';
 		}
 		if ($this->params->get('profile', 1)) {
-			echo '<h4>'.JText::_( 'Profile Information' ).'</h4>';
-			foreach ( $profiler->getBuffer() as $mark ) {
+			echo '<h4>'.JText::_('Profile Information').'</h4>';
+			foreach ($profiler->getBuffer() as $mark) {
 				echo '<div>'.$mark.'</div>';
 			}
 		}
 
 		if ($this->params->get('memory', 1)) {
-			echo '<h4>'.JText::_( 'Memory Usage' ).'</h4>';
+			echo '<h4>'.JText::_('Memory Usage').'</h4>';
 			echo $profiler->getMemory();
 		}
 
@@ -82,7 +82,7 @@ class  plgSystemDebug extends JPlugin
 
 			$db	=& JFactory::getDBO();
 
-			echo '<h4>'.JText::sprintf( 'Queries logged',  $db->getTicker() ).'</h4>';
+			echo '<h4>'.JText::sprintf('Queries logged',  $db->getTicker()).'</h4>';
 
 			if ($log = $db->getLog())
 			{
@@ -99,12 +99,12 @@ class  plgSystemDebug extends JPlugin
 		$lang = &JFactory::getLanguage();
 		if ($this->params->get('language_files', 1))
 		{
-			echo '<h4>'.JText::_( 'Language Files Loaded' ).'</h4>';
+			echo '<h4>'.JText::_('Language Files Loaded').'</h4>';
 			echo '<ul>';
 			$extensions	= $lang->getPaths();
-			foreach ( $extensions as $extension => $files)
+			foreach ($extensions as $extension => $files)
 			{
-				foreach ( $files as $file => $status )
+				foreach ($files as $file => $status)
 				{
 					echo "<li>$file $status</li>";
 				}
@@ -114,57 +114,59 @@ class  plgSystemDebug extends JPlugin
 
 		$langStrings = $this->params->get('language_strings', -1);
 		if ($langStrings < 0 OR $langStrings == 1) {
-			echo '<h4>'.JText::_( 'Untranslated Strings Diagnostic' ).'</h4>';
+			echo '<h4>'.JText::_('Untranslated Strings Diagnostic').'</h4>';
 			echo '<pre>';
 			$orphans = $lang->getOrphans();
-			if (count( $orphans ))
+			if (count($orphans))
 			{
-				ksort( $orphans, SORT_STRING );
+				ksort($orphans, SORT_STRING);
 				foreach ($orphans as $key => $occurance) {
-					foreach ( $occurance as $i => $info) {
+					foreach ($occurance as $i => $info) {
 						$class	= @$info['class'];
 						$func	= @$info['function'];
 						$file	= @$info['file'];
 						$line	= @$info['line'];
-						echo strtoupper( $key )."\t$class::$func()\t[$file:$line]\n";
+						echo strtoupper($key)."\t$class::$func()\t[$file:$line]\n";
 					}
 				}
 			}
 			else {
-				echo JText::_( 'None' );
+				echo JText::_('None');
 			}
 			echo '</pre>';
 		}
 		if ($langStrings < 0 OR $langStrings == 2) {
-			echo '<h4>'.JText::_( 'Untranslated Strings Designer' ).'</h4>';
+			echo '<h4>'.JText::_('Untranslated Strings Designer').'</h4>';
 			echo '<pre>';
 			$orphans = $lang->getOrphans();
-			if (count( $orphans ))
+			if (count($orphans))
 			{
-				ksort( $orphans, SORT_STRING );
+				ksort($orphans, SORT_STRING);
 				$guesses = array();
-				foreach ($orphans as $key => $occurance) {
-					if (is_array( $occurance ) AND isset( $occurance[0] )) {
+				foreach ($orphans as $key => $occurance)
+				{
+					if (is_array($occurance) AND isset($occurance[0])) {
 						$info = &$occurance[0];
 						$file = @$info['file'];
-						if (!isset( $guesses[$file] )) {
+						if (!isset($guesses[$file])) {
 							$guesses[$file] = array();
 						}
 
-						$guess = str_replace( '_', ' ', $info['string'] );
+						$pos = strpos($info['string'], '_');
+						$guess = str_replace('_', ' ', substr($info['string'], $pos > 0 ? $pos + 1 : 0));
 						if ($strip = $this->params->get('language_prefix')) {
-							$guess = trim( preg_replace( chr(1).'^'.$strip.chr(1), '', $guess ) );
+							$guess = trim(preg_replace(chr(1).'^'.$strip.chr(1), '', $guess));
 						}
-						$guesses[$file][] = trim( strtoupper( $key ) ).'='.$guess;
+						$guesses[$file][] = trim(strtoupper($key)).'='.$guess;
 					}
 				}
 				foreach ($guesses as $file => $keys) {
-					echo "\n\n# ".($file ? $file : JText::_( 'Unknown file' ))."\n\n";
-					echo implode( "\n", $keys );
+					echo "\n\n# ".($file ? $file : JText::_('Unknown file'))."\n\n";
+					echo implode("\n", $keys);
 				}
 			}
 			else {
-				echo JText::_( 'None' );
+				echo JText::_('None');
 			}
 			echo '</pre>';
 		}
