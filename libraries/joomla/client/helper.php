@@ -1,13 +1,9 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Client
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
- * Joomla! is free software and parts of it may contain or be derived from the
- * GNU General Public License or other free or open source software licenses.
-  */
+ */
 
 /**
  * Client helper class
