@@ -149,7 +149,7 @@ abstract class JDatabase extends JClass
 	* @param	array	List of options used to configure the connection
 	* @since	1.5
 	*/
-	protected function __construct( $options )
+	protected function __construct($options)
 	{
 		$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : 'jos_';
 
@@ -185,11 +185,11 @@ abstract class JDatabase extends JClass
 	{
 		static $instances;
 
-		if (!isset( $instances )) {
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
-		$signature = serialize( $options );
+		$signature = serialize($options);
 
 		if (empty($instances[$signature]))
 		{
@@ -204,17 +204,17 @@ abstract class JDatabase extends JClass
 				require_once $path;
 			} else {
 				JError::setErrorHandling(E_ERROR, 'die'); //force error type to die
-				$error = JError::raiseError( 500, JTEXT::_('Unable to load Database Driver:') .$driver);
+				$error = JError::raiseError(500, JTEXT::_('Unable to load Database Driver:') .$driver);
 				return $error;
 			}
 
 			$adapter	= 'JDatabase'.$driver;
 			$instance	= new $adapter($options);
 
-			if ( $error = $instance->getErrorMsg() )
+			if ($error = $instance->getErrorMsg())
 			{
 				JError::setErrorHandling(E_ERROR, 'ignore'); //force error type to die
-				$error = JError::raiseError( 500, JTEXT::_('Unable to connect to the database:') .$error);
+				$error = JError::raiseError(500, JTEXT::_('Unable to connect to the database:') .$error);
 				return $error;
 			}
 
@@ -259,7 +259,7 @@ abstract class JDatabase extends JClass
 				require_once dirname(__FILE__).DS.'database'.DS.$name.'.php';
 			}
 
-			if(call_user_func_array( array( trim($class), 'test' ), null)) {
+			if(call_user_func_array(array(trim($class), 'test'), null)) {
 				$names[] = $name;
 			}
 		}
@@ -311,12 +311,12 @@ abstract class JDatabase extends JClass
 	 * @param mixed Field name or array of names
 	 * @since 1.5
 	 */
-	public function addQuoted( $quoted )
+	public function addQuoted($quoted)
 	{
-		if (is_string( $quoted )) {
+		if (is_string($quoted)) {
 			$this->_quoted[] = $quoted;
 		} else {
-			$this->_quoted = array_merge( $this->_quoted, (array)$quoted );
+			$this->_quoted = array_merge($this->_quoted, (array)$quoted);
 		}
 		$this->_hasQuoted = true;
 	}
@@ -328,7 +328,7 @@ abstract class JDatabase extends JClass
 	 * @param string The queries to split
 	 * @return array queries
 	 */
-	public function splitSql( $queries )
+	public function splitSql($queries)
 	{
 		$start = 0;
 		$open = false;
@@ -372,10 +372,10 @@ abstract class JDatabase extends JClass
 	 * @param string The field name
 	 * @return bool
 	 */
-	public function isQuoted( $fieldName )
+	public function isQuoted($fieldName)
 	{
 		if ($this->_hasQuoted) {
-			return in_array( $fieldName, $this->_quoted );
+			return in_array($fieldName, $this->_quoted);
 		} else {
 			return true;
 		}
@@ -387,8 +387,8 @@ abstract class JDatabase extends JClass
 	 * @access public
 	 * @param int 0 = off, 1 = on
 	 */
-	public function debug( $level ) {
-		$this->_debug = intval( $level );
+	public function debug($level) {
+		$this->_debug = intval($level);
 	}
 
 	/**
@@ -437,7 +437,7 @@ abstract class JDatabase extends JClass
 	 * @access	public
 	 * @abstract
 	 */
-	abstract public function getEscaped( $text, $extra = false );
+	abstract public function getEscaped($text, $extra = false);
 
 	/**
 	 * Get a database error log
@@ -445,7 +445,7 @@ abstract class JDatabase extends JClass
 	 * @access public
 	 * @return array
 	 */
-	public function getLog( )
+	public function getLog()
 	{
 		return $this->_log;
 	}
@@ -456,7 +456,7 @@ abstract class JDatabase extends JClass
 	 * @access public
 	 * @return array
 	 */
-	public function getTicker( )
+	public function getTicker()
 	{
 		return $this->_ticker;
 	}
@@ -468,13 +468,13 @@ abstract class JDatabase extends JClass
 	 * @param	string	The name
 	 * @return	string	The quoted name
 	 */
-	public function nameQuote( $s )
+	public function nameQuote($s)
 	{
 		// Only quote if the name is not using dot-notation
-		if (strpos( '.', $s ) === false)
+		if (strpos('.', $s) === false)
 		{
 			$q = $this->_nameQuote;
-			if (strlen( $q ) == 1) {
+			if (strlen($q) == 1) {
 				return $q . $s . $q;
 			} else {
 				return $q{0} . $s . $q{1};
@@ -518,9 +518,9 @@ abstract class JDatabase extends JClass
 	 * @param string The number of results to return
 	 * @param string The common table prefix
 	 */
-	public function setQuery( $sql, $offset = 0, $limit = 0, $prefix='#__' )
+	public function setQuery($sql, $offset = 0, $limit = 0, $prefix='#__')
 	{
-		$this->_sql		= $this->replacePrefix( (string)$sql, $prefix );
+		$this->_sql		= $this->replacePrefix((string)$sql, $prefix);
 		$this->_limit	= (int) $limit;
 		$this->_offset	= (int) $offset;
 	}
@@ -533,14 +533,14 @@ abstract class JDatabase extends JClass
 	 * @param string The SQL query
 	 * @param string The common table prefix
 	 */
-	public function replacePrefix( $sql, $prefix='#__' )
+	public function replacePrefix($sql, $prefix='#__')
 	{
-		$sql = trim( $sql );
+		$sql = trim($sql);
 
 		$escaped = false;
 		$quoteChar = '';
 
-		$n = strlen( $sql );
+		$n = strlen($sql);
 
 		$startPos = 0;
 		$literal = '';
@@ -550,8 +550,8 @@ abstract class JDatabase extends JClass
 				break;
 			}
 
-			$j = strpos( $sql, "'", $startPos );
-			$k = strpos( $sql, '"', $startPos );
+			$j = strpos($sql, "'", $startPos);
+			$k = strpos($sql, '"', $startPos);
 			if (($k !== FALSE) && (($k < $j) || ($j === FALSE))) {
 				$quoteChar	= '"';
 				$j			= $k;
@@ -563,7 +563,7 @@ abstract class JDatabase extends JClass
 				$j = $n;
 			}
 
-			$literal .= str_replace( $prefix, $this->_table_prefix,substr( $sql, $startPos, $j - $startPos ) );
+			$literal .= str_replace($prefix, $this->_table_prefix,substr($sql, $startPos, $j - $startPos));
 			$startPos = $j;
 
 			$j = $startPos + 1;
@@ -574,7 +574,7 @@ abstract class JDatabase extends JClass
 
 			// quote comes first, find end of quote
 			while (TRUE) {
-				$k = strpos( $sql, $quoteChar, $j );
+				$k = strpos($sql, $quoteChar, $j);
 				$escaped = false;
 				if ($k === false) {
 					break;
@@ -594,11 +594,11 @@ abstract class JDatabase extends JClass
 				// error in the query - no end quote; ignore it
 				break;
 			}
-			$literal .= substr( $sql, $startPos, $k - $startPos + 1 );
+			$literal .= substr($sql, $startPos, $k - $startPos + 1);
 			$startPos = $k+1;
 		}
 		if ($startPos < $n) {
-			$literal .= substr( $sql, $startPos, $n - $startPos );
+			$literal .= substr($sql, $startPos, $n - $startPos);
 		}
 		return $literal;
 	}
@@ -640,7 +640,7 @@ abstract class JDatabase extends JClass
 	* @access public
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
-	abstract public function queryBatch( $abort_on_error=true, $p_transaction_safe = false);
+	abstract public function queryBatch($abort_on_error=true, $p_transaction_safe = false);
 
 	/**
 	 * Diagnostic function
@@ -658,7 +658,7 @@ abstract class JDatabase extends JClass
 	 * @param object Database resource
 	 * @return int The number of rows
 	 */
-	abstract public function getNumRows( $cur=null );
+	abstract public function getNumRows($cur=null);
 
 	/**
 	 * This method loads the first field of the first row returned by the query.
@@ -691,7 +691,7 @@ abstract class JDatabase extends JClass
 	 * @param string The field name of a primary key
 	 * @return array If key is empty as sequential list of returned records.
 	 */
-	abstract public function loadAssocList( $key='' );
+	abstract public function loadAssocList($key='');
 
 	/**
 	 * This global function loads the first row of a query into an object
@@ -701,7 +701,7 @@ abstract class JDatabase extends JClass
 	 * @access public
 	 * @param object
 	 */
-	abstract public function loadObject( );
+	abstract public function loadObject();
 
 	/**
 	* Load a list of database objects
@@ -714,7 +714,7 @@ abstract class JDatabase extends JClass
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
 	*/
-	abstract public function loadObjectList( $key='' );
+	abstract public function loadObjectList($key='');
 
 	/**
 	 * Load the first row returned by the query
@@ -736,7 +736,7 @@ abstract class JDatabase extends JClass
 	* @param string The field name of a primary key
 	* @return array
 	*/
-	abstract public function loadRowList( $key='' );
+	abstract public function loadRowList($key='');
 
 	/**
 	 * Inserts a row into a table based on an objects properties
@@ -744,7 +744,7 @@ abstract class JDatabase extends JClass
 	 * @param	object	An object whose properties match table fields
 	 * @param	string	The name of the primary key. If provided the object property is updated.
 	 */
-	abstract public function insertObject( $table, &$object, $keyName = NULL );
+	abstract public function insertObject($table, &$object, $keyName = NULL);
 
 	/**
 	 * Update an object in the database
@@ -756,7 +756,7 @@ abstract class JDatabase extends JClass
 	 * @param string
 	 * @param boolean
 	 */
-	abstract public function updateObject( $table, &$object, $keyName, $updateNulls=true );
+	abstract public function updateObject($table, &$object, $keyName, $updateNulls=true);
 
 	/**
 	 * Print out an error statement
@@ -764,9 +764,9 @@ abstract class JDatabase extends JClass
 	 * @param boolean If TRUE, displays the last SQL statement sent to the database
 	 * @return string A standised error message
 	 */
-	public function stderr( $showSQL = false )
+	public function stderr($showSQL = false)
 	{
-		if ( $this->_errorNum != 0 ) {
+		if ($this->_errorNum != 0) {
 			return "DB function failed with error number $this->_errorNum"
 			."<br /><font color=\"red\">$this->_errorMsg</font>"
 			.($showSQL ? "<br />SQL = <pre>$this->_sql</pre>" : '');
@@ -820,7 +820,7 @@ abstract class JDatabase extends JClass
 	 * @param 	array|string 	A table name or a list of table names
 	 * @return 	array A list the create SQL for the tables
 	 */
-	abstract public function getTableCreate( $tables );
+	abstract public function getTableCreate($tables);
 
 	/**
 	 * Retrieves information about the given tables
@@ -831,7 +831,7 @@ abstract class JDatabase extends JClass
 	 * @param	boolean			Only return field types, default true
 	 * @return	array An array of fields by table
 	 */
-	abstract public function getTableFields( $tables, $typeonly = true );
+	abstract public function getTableFields($tables, $typeonly = true);
 
 	/**
 	* Get a quoted database escaped string
@@ -841,9 +841,9 @@ abstract class JDatabase extends JClass
 	* @return	string
 	* @access public
 	*/
-	public function quote( $text, $escaped = true )
+	public function quote($text, $escaped = true)
 	{
-		return '\''.($escaped ? $this->getEscaped( $text ) : $text).'\'';
+		return '\''.($escaped ? $this->getEscaped($text) : $text).'\'';
 	}
 
 	/**
@@ -854,9 +854,9 @@ abstract class JDatabase extends JClass
 	 * @since	1.5
 	 * @deprecated
 	 */
-	public function GetCol( $query )
+	public function GetCol($query)
 	{
-		$this->setQuery( $query );
+		$this->setQuery($query);
 		return $this->loadResultArray();
 	}
 	/**
@@ -868,21 +868,21 @@ abstract class JDatabase extends JClass
 	 * @since	1.5
 	 * @deprecated
 	 */
-	public function Execute( $query )
+	public function Execute($query)
 	{
-		jimport( 'joomla.database.recordset' );
+		jimport('joomla.database.recordset');
 
-		$query = trim( $query );
-		$this->setQuery( $query );
-		if (eregi( '^select', $query )) {
+		$query = trim($query);
+		$this->setQuery($query);
+		if (eregi('^select', $query)) {
 			$result = $this->loadRowList();
-			return new JRecordSet( $result );
+			return new JRecordSet($result);
 		} else {
 			$result = $this->query();
 			if ($result === false) {
 				return false;
 			} else {
-				return new JRecordSet( array() );
+				return new JRecordSet(array());
 			}
 		}
 	}
@@ -893,13 +893,13 @@ abstract class JDatabase extends JClass
 	 * @since 1.5
 	 * @deprecated
 	 */
-	public function SelectLimit( $query, $count, $offset=0 )
+	public function SelectLimit($query, $count, $offset=0)
 	{
-		jimport( 'joomla.database.recordset' );
+		jimport('joomla.database.recordset');
 
-		$this->setQuery( $query, $offset, $count );
+		$this->setQuery($query, $offset, $count);
 		$result = $this->loadRowList();
-		return new JRecordSet( $result );
+		return new JRecordSet($result);
 	}
 	/**
 	 * ADODB compatability function
@@ -908,13 +908,13 @@ abstract class JDatabase extends JClass
 	 * @since 1.5
 	 * @deprecated
 	 */
-	public function PageExecute( $sql, $nrows, $page, $inputarr=false, $secs2cache=0 )
+	public function PageExecute($sql, $nrows, $page, $inputarr=false, $secs2cache=0)
 	{
-		jimport( 'joomla.database.recordset' );
+		jimport('joomla.database.recordset');
 
-		$this->setQuery( $sql, $page*$nrows, $nrows );
+		$this->setQuery($sql, $page*$nrows, $nrows);
 		$result = $this->loadRowList();
-		return new JRecordSet( $result );
+		return new JRecordSet($result);
 	}
 	
 	/**
@@ -926,9 +926,9 @@ abstract class JDatabase extends JClass
 	 * @since 1.5
 	 * @deprecated
 	 */
-	public function GetRow( $query )
+	public function GetRow($query)
 	{
-		$this->setQuery( $query );
+		$this->setQuery($query);
 		$result = $this->loadRowList();
 		return $result[0];
 	}
@@ -941,9 +941,9 @@ abstract class JDatabase extends JClass
 	 * @since 1.5
 	 * @deprecated
 	 */
-	public function GetOne( $query )
+	public function GetOne($query)
 	{
-		$this->setQuery( $query );
+		$this->setQuery($query);
 		$result = $this->loadResult();
 		return $result;
 	}
@@ -1000,7 +1000,7 @@ abstract class JDatabase extends JClass
 	 * @since 1.5
 	 * @deprecated
 	 */
-	public function GenID( $foo1=null, $foo2=null )
+	public function GenID($foo1=null, $foo2=null)
 	{
 		return '0';
 	}

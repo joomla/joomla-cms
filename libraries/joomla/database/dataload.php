@@ -26,11 +26,11 @@ abstract class JDataLoad extends JClass {
 	{
 		static $instances;
 
-		if (!isset( $instances )) {
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
-		$signature = serialize( $options );
+		$signature = serialize($options);
 
 		if (empty($instances[$signature]))
 		{
@@ -44,16 +44,16 @@ abstract class JDataLoad extends JClass {
 				require_once $path;
 			} else {
 				JError::setErrorHandling(E_ERROR, 'die'); //force error type to die
-				$error = JError::raiseError( 500, JTEXT::_('Unable to load Data Load Driver:') .$driver);
+				$error = JError::raiseError(500, JTEXT::_('Unable to load Data Load Driver:') .$driver);
 				return $error;
 			}
 			$adapter	= 'JLoader'.$driver;
 			$instance	= new $adapter($options);
 
-			if ( $error = $instance->getError() )
+			if ($error = $instance->getError())
 			{
 				JError::setErrorHandling(E_ERROR, 'ignore'); //force error type to die
-				$error = JError::raiseError( 500, JTEXT::_('Unable to instantiate data load driver:') .$error);
+				$error = JError::raiseError(500, JTEXT::_('Unable to instantiate data load driver:') .$error);
 				return $error;
 			}
 

@@ -30,11 +30,11 @@ class JQueryElement
 	 * @param	mixed	String or array
 	 * @param	string	The glue for elements
 	 */
-	public function __construct( $name, $elements, $glue=',' )
+	public function __construct($name, $elements, $glue=',')
 	{
 		$this->_elements	= array();
 		$this->_name		= $name;
-		$this->append( $elements );
+		$this->append($elements);
 		$this->_glue		= $glue;
 	}
 
@@ -42,12 +42,12 @@ class JQueryElement
 	 * Appends element parts to the internal list
 	 * @param	mixed	String or array
 	 */
-	public function append( $elements )
+	public function append($elements)
 	{
-		if (is_array( $elements )) {
-			$this->_elements = array_unique( array_merge( $this->_elements, $elements ) );
+		if (is_array($elements)) {
+			$this->_elements = array_unique(array_merge($this->_elements, $elements));
 		} else {
-			$this->_elements = array_unique( array_merge( $this->_elements, array( $elements ) ) );
+			$this->_elements = array_unique(array_merge($this->_elements, array($elements)));
 		}
 	}
 
@@ -57,7 +57,7 @@ class JQueryElement
 	 */
 	public function toString()
 	{
-		return "\n{$this->_name} " . implode( $this->_glue, $this->_elements );
+		return "\n{$this->_name} " . implode($this->_glue, $this->_elements);
 	}
 }
 
@@ -89,13 +89,13 @@ class JQuery
 	/**
 	 * @param	mixed	A string or an array of field names
 	 */
-	public function select( $columns )
+	public function select($columns)
 	{
 		$this->_type = 'select';
-		if (is_null( $this->_select )) {
-			$this->_select = new JQueryElement( 'SELECT', $columns );
+		if (is_null($this->_select)) {
+			$this->_select = new JQueryElement('SELECT', $columns);
 		} else {
-			$this->_select->append( $columns );
+			$this->_select->append($columns);
 		}
 
 		return $this;
@@ -104,12 +104,12 @@ class JQuery
 	/**
 	 * @param	mixed	A string or array of table names
 	 */
-	public function from( $tables )
+	public function from($tables)
 	{
-		if (is_null( $this->_from )) {
-			$this->_from = new JQueryElement( 'FROM', $tables );
+		if (is_null($this->_from)) {
+			$this->_from = new JQueryElement('FROM', $tables);
 		} else {
-			$this->_from->append( $tables );
+			$this->_from->append($tables);
 		}
 
 		return $this;
@@ -119,12 +119,12 @@ class JQuery
 	 * @param	string
 	 * @param	string
 	 */
-	public function join( $type, $conditions )
+	public function join($type, $conditions)
 	{
-		if (is_null( $this->_join )) {
+		if (is_null($this->_join)) {
 			$this->_join = array();
 		}
-		$this->_join[] = new JQueryElement( strtoupper( $type ) . ' JOIN', $conditions );
+		$this->_join[] = new JQueryElement(strtoupper($type) . ' JOIN', $conditions);
 
 		return $this;
 	}
@@ -133,13 +133,13 @@ class JQuery
 	 * @param	mixed	A string or array of where conditions
 	 * @param	string
 	 */
-	public function where( $conditions, $glue='AND' )
+	public function where($conditions, $glue='AND')
 	{
-		if (is_null( $this->_where )) {
-			$glue = strtoupper( $glue );
-			$this->_where = new JQueryElement(  'WHERE', $conditions, "\n\t$glue " );
+		if (is_null($this->_where)) {
+			$glue = strtoupper($glue);
+			$this->_where = new JQueryElement( 'WHERE', $conditions, "\n\t$glue ");
 		} else {
-			$this->_where->append( $conditions );
+			$this->_where->append($conditions);
 		}
 
 		return $this;
@@ -148,12 +148,12 @@ class JQuery
 	/**
 	 * @param	mixed	A string or array of ordering columns
 	 */
-	public function group( $columns )
+	public function group($columns)
 	{
-		if (is_null( $this->_group )) {
-			$this->_group = new JQueryElement( 'GROUP BY', $columns );
+		if (is_null($this->_group)) {
+			$this->_group = new JQueryElement('GROUP BY', $columns);
 		} else {
-			$this->_group->append( $columns );
+			$this->_group->append($columns);
 		}
 
 		return $this;
@@ -162,12 +162,12 @@ class JQuery
 	/**
 	 * @param	mixed	A string or array of ordering columns
 	 */
-	public function having( $columns )
+	public function having($columns)
 	{
-		if (is_null( $this->_having )) {
-			$this->_having = new JQueryElement( 'HAVING', $columns );
+		if (is_null($this->_having)) {
+			$this->_having = new JQueryElement('HAVING', $columns);
 		} else {
-			$this->_having->append( $columns );
+			$this->_having->append($columns);
 		}
 
 		return $this;
@@ -176,12 +176,12 @@ class JQuery
 	/**
 	 * @param	mixed	A string or array of ordering columns
 	 */
-	public function order( $columns )
+	public function order($columns)
 	{
-		if (is_null( $this->_order )) {
-			$this->_order = new JQueryElement( 'ORDER BY', $columns );
+		if (is_null($this->_order)) {
+			$this->_order = new JQueryElement('ORDER BY', $columns);
 		} else {
-			$this->_order->append( $columns );
+			$this->_order->append($columns);
 		}
 
 		return $this;

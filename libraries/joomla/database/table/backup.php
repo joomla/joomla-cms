@@ -93,24 +93,24 @@ class JTableBackup extends JTable
 	 * @param boolean If false, null object variables are not updated
 	 * @return null|string null if successful otherwise returns and error message
 	 */
-	public function store( $updateNulls=false )
+	public function store($updateNulls=false)
 	{
 		$k = $this->_tbl_key;
 		try {
-			if( $this->$k)
+			if($this->$k)
 			{
-				$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
+				$ret = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 			}
 			else
 			{
-				$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
+				$ret = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 			}
 			for($i = 0; $i < count($this->_entries); $i++) {
 				$this->_entries[$i]->backupid = $this->backupid;
 				$this->_entries[$i]->store();
 			}
 		} catch(JException $e) {
-			$this->setError(get_class( $this ).'::store failed - '.$e->getMessage());
+			$this->setError(get_class($this).'::store failed - '.$e->getMessage());
 			return false;
 		}
 		return true;

@@ -28,11 +28,11 @@ class JRecordSet
 	 * Constuctor
 	 * @param array
 	 */
-	public function __construct( $data )
+	public function __construct($data)
 	{
 		$this->data = $data;
 		$this->pointer = 0;
-		$this->count = count( $data );
+		$this->count = count($data);
 	}
 	/**
 	 * @return int

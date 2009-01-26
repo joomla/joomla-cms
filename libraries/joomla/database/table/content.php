@@ -89,9 +89,9 @@ class JTableContent extends JTableAsset
 	/**
 	* @param database A database connector object
 	*/
-	protected function __construct( &$db )
+	protected function __construct(&$db)
 	{
-		parent::__construct( '#__content', 'id', $db );
+		parent::__construct('#__content', 'id', $db);
 	}
 
 	/**
@@ -127,9 +127,9 @@ class JTableContent extends JTableAsset
 		/*
 		TODO: This filter is too rigorous,need to implement more configurable solution
 		// specific filters
-		$filter = & JFilterInput::getInstance( null, null, 1, 1 );
-		$this->introtext = trim( $filter->clean( $this->introtext ) );
-		$this->fulltext =  trim( $filter->clean( $this->fulltext ) );
+		$filter = & JFilterInput::getInstance(null, null, 1, 1);
+		$this->introtext = trim($filter->clean($this->introtext));
+		$this->fulltext =  trim($filter->clean($this->fulltext));
 		*/
 
 		if (empty($this->title)) {
@@ -147,7 +147,7 @@ class JTableContent extends JTableAsset
 			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
 
-		if (trim( str_replace( '&nbsp;', '', $this->fulltext ) ) == '') {
+		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '') {
 			$this->fulltext = '';
 		}
 
@@ -163,7 +163,7 @@ class JTableContent extends JTableAsset
 	* Converts record to XML
 	* @param boolean Map foreign keys to text values
 	*/
-	public function toXML( $mapKeysToText=false )
+	public function toXML($mapKeysToText=false)
 	{
 		$db =& JFactory::getDBO();
 		try {
@@ -172,21 +172,21 @@ class JTableContent extends JTableAsset
 				. ' FROM #__sections'
 				. ' WHERE id = '. (int) $this->sectionid
 				;
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$this->sectionid = $db->loadResult();
 
 				$query = 'SELECT name'
 				. ' FROM #__categories'
 				. ' WHERE id = '. (int) $this->catid
 				;
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$this->catid = $db->loadResult();
 
 				$query = 'SELECT name'
 				. ' FROM #__users'
 				. ' WHERE id = ' . (int) $this->created_by
 				;
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$this->created_by = $db->loadResult();
 			}
 		}
@@ -195,6 +195,6 @@ class JTableContent extends JTableAsset
 			return false;
 		}
 
-		return parent::toXML( $mapKeysToText );
+		return parent::toXML($mapKeysToText);
 	}
 }

@@ -113,9 +113,9 @@ class JTableUser extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	protected function __construct( &$db )
+	protected function __construct(&$db)
 	{
-		parent::__construct( '#__users', 'id', $db );
+		parent::__construct('#__users', 'id', $db);
 
 		//initialise
 		$this->id		= 0;
@@ -133,23 +133,23 @@ class JTableUser extends JTable
 		jimport('joomla.mail.helper');
 
 		// Validate user information
-		if (trim( $this->name ) == '') {
-			$this->setError( JText::_( 'Please enter your name.' ) );
+		if (trim($this->name) == '') {
+			$this->setError(JText::_('Please enter your name.'));
 			return false;
 		}
 
-		if (trim( $this->username ) == '') {
-			$this->setError( JText::_( 'Please enter a user name.') );
+		if (trim($this->username) == '') {
+			$this->setError(JText::_('Please enter a user name.'));
 			return false;
 		}
 
-		if (eregi( "[<>\"'%;()&]", $this->username) || strlen(utf8_decode($this->username )) < 2) {
-			$this->setError( JText::sprintf( 'VALID_AZ09', JText::_( 'Username' ), 2 ) );
+		if (eregi("[<>\"'%;()&]", $this->username) || strlen(utf8_decode($this->username)) < 2) {
+			$this->setError(JText::sprintf('VALID_AZ09', JText::_('Username'), 2));
 			return false;
 		}
 
-		if ((trim($this->email) == "") || ! JMailHelper::isEmailAddress($this->email) ) {
-			$this->setError( JText::_( 'WARNREG_MAIL' ) );
+		if ((trim($this->email) == "") || ! JMailHelper::isEmailAddress($this->email)) {
+			$this->setError(JText::_('WARNREG_MAIL'));
 			return false;
 		}
 
@@ -166,15 +166,15 @@ class JTableUser extends JTable
 		. ' WHERE username = ' . $this->_db->Quote($this->username)
 		. ' AND id != '. (int) $this->id;
 		;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		try {
-			$xid = intval( $this->_db->loadResult() );
+			$xid = intval($this->_db->loadResult());
 		} catch(JException $e) {
 			$this->setError($e->getMessage());
 			return false;
 		}
-		if ($xid && $xid != intval( $this->id )) {
-			$this->setError(  JText::_('WARNREG_INUSE'));
+		if ($xid && $xid != intval($this->id)) {
+			$this->setError( JText::_('WARNREG_INUSE'));
 			return false;
 		}
 
@@ -185,22 +185,22 @@ class JTableUser extends JTable
 			. ' WHERE email = '. $this->_db->Quote($this->email)
 			. ' AND id != '. (int) $this->id
 			;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		try {
-			$xid = intval( $this->_db->loadResult() );
+			$xid = intval($this->_db->loadResult());
 		} catch(JException $e) {
 			$this->setError($e->getMessage());
 			return false;
 		}
-		if ($xid && $xid != intval( $this->id )) {
-			$this->setError( JText::_( 'WARNREG_EMAIL_INUSE' ) );
+		if ($xid && $xid != intval($this->id)) {
+			$this->setError(JText::_('WARNREG_EMAIL_INUSE'));
 			return false;
 		}
 
 		return true;
 	}
 
-	public function store( $updateNulls=false )
+	public function store($updateNulls=false)
 	{
 		$acl =& JFactory::getACL();
 
@@ -211,49 +211,49 @@ class JTableUser extends JTable
 			if ($key)
 			{
 				// existing record
-				$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
+				$ret = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 
 				// syncronise ACL
 				// single group handled at the moment
 				// trivial to expand to multiple groups
-				$object_id = $acl->get_object_id( $section_value, $this->$k, 'ARO' );
+				$object_id = $acl->get_object_id($section_value, $this->$k, 'ARO');
 
-				$groups = $acl->get_object_groups( $object_id, 'ARO' );
-				$acl->del_group_object( $groups[0], $section_value, $this->$k, 'ARO' );
-				$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
+				$groups = $acl->get_object_groups($object_id, 'ARO');
+				$acl->del_group_object($groups[0], $section_value, $this->$k, 'ARO');
+				$acl->add_group_object($this->gid, $section_value, $this->$k, 'ARO');
 
-				$acl->edit_object( $object_id, $section_value, $this->_db->getEscaped( $this->name ), $this->$k, 0, 0, 'ARO' );
+				$acl->edit_object($object_id, $section_value, $this->_db->getEscaped($this->name), $this->$k, 0, 0, 'ARO');
 			}
 			else
 			{
 				// new record
-				$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
+				$ret = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 				// syncronise ACL
-				$acl->add_object( $section_value, $this->name, $this->$k, null, null, 'ARO' );
-				$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
+				$acl->add_object($section_value, $this->name, $this->$k, null, null, 'ARO');
+				$acl->add_group_object($this->gid, $section_value, $this->$k, 'ARO');
 			}
 		} catch(JException $e) {
-			$this->setError( strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $e->getMessage() );
+			$this->setError(strtolower(get_class($this))."::". JText::_('store failed') ."<br />" . $e->getMessage());
 			return false;
 		}
 		return true;
 	}
 
-	public function delete( $oid=null )
+	public function delete($oid=null)
 	{
 		$acl =& JFactory::getACL();
 
 		$k = $this->_tbl_key;
 		if ($oid) {
-			$this->$k = intval( $oid );
+			$this->$k = intval($oid);
 		}
-		$aro_id = $acl->get_object_id( 'users', $this->$k, 'ARO' );
-		$acl->del_object( $aro_id, 'ARO', true );
+		$aro_id = $acl->get_object_id('users', $this->$k, 'ARO');
+		$acl->del_object($aro_id, 'ARO', true);
 
 		$query = 'DELETE FROM '. $this->_tbl
 		. ' WHERE '. $this->_tbl_key .' = '. (int) $this->$k
 		;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 
 		try {
 			$this->_db->query();
@@ -263,13 +263,13 @@ class JTableUser extends JTable
 			$query = 'DELETE FROM #__messages_cfg'
 			. ' WHERE user_id = '. (int) $this->$k
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			$this->_db->query();
 
 			$query = 'DELETE FROM #__messages'
 			. ' WHERE user_id_to = '. (int) $this->$k
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			$this->_db->query();
 		} catch(JException $e) {
 			$this->setError($e->getMessage());
@@ -284,15 +284,15 @@ class JTableUser extends JTable
 	 * @param int The timestamp, defaults to 'now'
 	 * @return boolean False if an error occurs
 	 */
-	public function setLastVisit( $timeStamp=null, $id=null )
+	public function setLastVisit($timeStamp=null, $id=null)
 	{
 		// check for User ID
-		if (is_null( $id )) {
-			if (isset( $this )) {
+		if (is_null($id)) {
+			if (isset($this)) {
 				$id = $this->id;
 			} else {
 				// do not translate
-				jexit( 'WARNMOSUSER' );
+				jexit('WARNMOSUSER');
 			}
 		}
 
@@ -304,11 +304,11 @@ class JTableUser extends JTable
 		. ' SET lastvisitDate = '.$this->_db->Quote($date->toMySQL())
 		. ' WHERE id = '. (int) $id
 		;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		try {
 			$this->_db->query();
 		} catch(JException $e) {
-			$this->setError( $e->getMessage() );
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -327,7 +327,7 @@ class JTableUser extends JTable
 
 	public function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
+		if (key_exists('params', $array) && is_array($array['params'])) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();

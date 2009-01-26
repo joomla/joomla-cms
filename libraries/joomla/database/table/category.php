@@ -53,9 +53,9 @@ class JTableCategory extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	protected function __construct( &$db )
+	protected function __construct(&$db)
 	{
-		parent::__construct( '#__categories', 'id', $db );
+		parent::__construct('#__categories', 'id', $db);
 	}
 
 	/**
@@ -69,8 +69,8 @@ class JTableCategory extends JTable
 	public function check()
 	{
 		// check for valid name
-		if (trim( $this->title ) == '') {
-			$this->setError(JText::sprintf( 'must contain a title', JText::_( 'Category') ));
+		if (trim($this->title) == '') {
+			$this->setError(JText::sprintf('must contain a title', JText::_('Category')));
 			return false;
 		}
 
@@ -80,11 +80,11 @@ class JTableCategory extends JTable
 		. ' WHERE title = '.$this->_db->Quote($this->title)
 		. ' AND section = '.$this->_db->Quote($this->section)
 		;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 
-		$xid = intval( $this->_db->loadResult() );
-		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = JText::sprintf( 'WARNNAMETRYAGAIN', JText::_( 'Category') );
+		$xid = intval($this->_db->loadResult());
+		if ($xid && $xid != intval($this->id)) {
+			$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('Category'));
 			return false;
 		}*/
 

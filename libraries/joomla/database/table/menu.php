@@ -68,8 +68,8 @@ class JTableMenu extends JTable
 	 * @access protected
 	 * @param database A database connector object
 	 */
-	protected function __construct( &$db ) {
-		parent::__construct( '#__menu', 'id', $db );
+	protected function __construct(&$db) {
+		parent::__construct('#__menu', 'id', $db);
 	}
 
 	/**
@@ -106,7 +106,7 @@ class JTableMenu extends JTable
 
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array( $array['params'] ))
+		if (isset($array['params']) && is_array($array['params']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);

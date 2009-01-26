@@ -47,7 +47,7 @@ abstract class JTableTree extends JTable
 	 * @param	int	parent id
 	 * @param	int	Left value
 	 */
-	public function rebuild( $parent_id = 0, $left = 1 )
+	public function rebuild($parent_id = 0, $left = 1)
 	{
 		$db = &$this->_db;
 
@@ -56,7 +56,7 @@ abstract class JTableTree extends JTable
 		// get all children of this node
 		$query = 'SELECT id FROM '. $this->_tbl .' WHERE parent_id='. $parent_id;
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		try {
 			$children = $db->loadResultArray();
 		} catch(JException $e) {
@@ -67,13 +67,13 @@ abstract class JTableTree extends JTable
 		// the right value of this node is the left value + 1
 		$right = $left + 1;
 
-		$n = count( $children );
+		$n = count($children);
 		foreach ($children as $id) {
 			// recursive execution of this function for each
 			// child of this node
 			// $right is the current right value, which is
 			// incremented by the rebuild_tree function
-			$right = $this->rebuild( $id, $right );
+			$right = $this->rebuild($id, $right);
 
 			if ($right === FALSE) {
 				return FALSE;
@@ -84,7 +84,7 @@ abstract class JTableTree extends JTable
 		// the children of this node we also know the right value
 		$query  = 'UPDATE '. $this->_tbl .' SET lft='. $left .', rgt='. $right .' WHERE id='. $parent_id;
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		try {
 			$db->query();
 		} catch(JException $e) {

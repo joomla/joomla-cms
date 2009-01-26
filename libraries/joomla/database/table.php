@@ -58,7 +58,7 @@ abstract class JTable extends JClass
 	 * @param string $key name of the primary key field in the table
 	 * @param object $db JDatabase object
 	 */
-	protected function __construct( $table, $key, &$db )
+	protected function __construct($table, $key, &$db)
 	{
 		$this->_tbl		= $table;
 		$this->_tbl_key	= $key;
@@ -86,29 +86,29 @@ abstract class JTable extends JClass
 	 * @return database A database object
 	 * @since 1.5
 	*/
-	public static function &getInstance( $type, $prefix = 'JTable', $config = array() )
+	public static function &getInstance($type, $prefix = 'JTable', $config = array())
 	{
 		$false = false;
 
 		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$tableClass = $prefix.ucfirst($type);
 
-		if (!class_exists( $tableClass ))
+		if (!class_exists($tableClass))
 		{
 			jimport('joomla.filesystem.path');
 			if($path = JPath::find(JTable::addIncludePath(), strtolower($type).'.php'))
 			{
 				require_once $path;
 
-				if (!class_exists( $tableClass ))
+				if (!class_exists($tableClass))
 				{
-					JError::raiseWarning( 0, 'Table class ' . $tableClass . ' not found in file.' );
+					JError::raiseWarning(0, 'Table class ' . $tableClass . ' not found in file.');
 					return $false;
 				}
 			}
 			else
 			{
-				JError::raiseWarning( 0, 'Table ' . $type . ' not supported. File not found.' );
+				JError::raiseWarning(0, 'Table ' . $type . ' not supported. File not found.');
 				return $false;
 			}
 		}
@@ -195,27 +195,27 @@ abstract class JTable extends JClass
 	 * @param	$ignore	mixed	An array or space separated list of fields not to bind
 	 * @return	boolean
 	 */
-	public function bind( $from, $ignore=array() )
+	public function bind($from, $ignore=array())
 	{
-		$fromArray	= is_array( $from );
-		$fromObject	= is_object( $from );
+		$fromArray	= is_array($from);
+		$fromObject	= is_object($from);
 
 		if (!$fromArray && !$fromObject)
 		{
-			$this->setError( get_class( $this ).'::bind failed. Invalid from argument' );
+			$this->setError(get_class($this).'::bind failed. Invalid from argument');
 			return false;
 		}
-		if (!is_array( $ignore )) {
-			$ignore = explode( ' ', $ignore );
+		if (!is_array($ignore)) {
+			$ignore = explode(' ', $ignore);
 		}
 		foreach ($this->getProperties() as $k => $v)
 		{
 			// internal attributes of an object are ignored
-			if (!in_array( $k, $ignore ))
+			if (!in_array($k, $ignore))
 			{
-				if ($fromArray && isset( $from[$k] )) {
+				if ($fromArray && isset($from[$k])) {
 					$this->$k = $from[$k];
-				} else if ($fromObject && isset( $from->$k )) {
+				} else if ($fromObject && isset($from->$k)) {
 					$this->$k = $from->$k;
 				}
 			}
@@ -230,7 +230,7 @@ abstract class JTable extends JClass
 	 * @param	mixed	Optional primary key.  If not specifed, the value of current key is used
 	 * @return	boolean	True if successful
 	 */
-	public function load( $oid=null )
+	public function load($oid=null)
 	{
 		$k = $this->_tbl_key;
 
@@ -250,14 +250,14 @@ abstract class JTable extends JClass
 		$query = 'SELECT *'
 		. ' FROM '.$this->_tbl
 		. ' WHERE '.$this->_tbl_key.' = '.$db->Quote($oid);
-		$db->setQuery( $query );
+		$db->setQuery($query);
 
-		if ($result = $db->loadAssoc( )) {
+		if ($result = $db->loadAssoc()) {
 			return $this->bind($result);
 		}
 		else
 		{
-			$this->setError( $db->getErrorMsg() );
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 	}
@@ -284,20 +284,20 @@ abstract class JTable extends JClass
 	 * @param boolean If false, null object variables are not updated
 	 * @return null|string null if successful otherwise returns and error message
 	 */
-	public function store( $updateNulls=false )
+	public function store($updateNulls=false)
 	{
 		$k = $this->_tbl_key;
 		try {
-			if( $this->$k)
+			if($this->$k)
 			{
-				$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
+				$ret = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 			}
 			else
 			{
-				$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
+				$ret = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 			}
 		} catch(JException $e) {
-			$this->setError(get_class( $this ).'::store failed - '.$e->getMessage());
+			$this->setError(get_class($this).'::store failed - '.$e->getMessage());
 			return false;
 		}
 		return true;
@@ -310,11 +310,11 @@ abstract class JTable extends JClass
 	 * @param $dirn
 	 * @param $where
 	 */
-	public function move( $dirn, $where='' )
+	public function move($dirn, $where='')
 	{
-		if (!in_array( 'ordering',  array_keys($this->getProperties())))
+		if (!in_array('ordering',  array_keys($this->getProperties())))
 		{
-			$this->setError( get_class( $this ).' does not support ordering' );
+			$this->setError(get_class($this).' does not support ordering');
 			return false;
 		}
 
@@ -341,8 +341,7 @@ abstract class JTable extends JClass
 			$sql .= ' ORDER BY ordering';
 		}
 
-		$this->_db->setQuery( $sql, 0, 1 );
-
+		$this->_db->setQuery($sql, 0, 1);
 
 		try {
 			$row = $this->_db->loadObject();
@@ -357,7 +356,7 @@ abstract class JTable extends JClass
 				. ' SET ordering = '. (int) $row->ordering
 				. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
 				;
-				$this->_db->setQuery( $query );
+				$this->_db->setQuery($query);
 
 				$this->_db->query();
 
@@ -365,7 +364,7 @@ abstract class JTable extends JClass
 				. ' SET ordering = '.(int) $this->ordering
 				. ' WHERE '.$this->_tbl_key.' = '.$this->_db->Quote($row->$k)
 				;
-				$this->_db->setQuery( $query );
+				$this->_db->setQuery($query);
 
 				$this->_db->query();
 
@@ -377,7 +376,7 @@ abstract class JTable extends JClass
 				. ' SET ordering = '.(int) $this->ordering
 				. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
 				;
-				$this->_db->setQuery( $query );
+				$this->_db->setQuery($query);
 
 				$this->_db->query();
 			}
@@ -393,11 +392,11 @@ abstract class JTable extends JClass
 	 * @access public
 	 * @param string query WHERE clause for selecting MAX(ordering).
 	 */
-	public function getNextOrder ( $where='' )
+	public function getNextOrder ($where='')
 	{
-		if (!in_array( 'ordering', array_keys($this->getProperties()) ))
+		if (!in_array('ordering', array_keys($this->getProperties())))
 		{
-			$this->setError( get_class( $this ).' does not support ordering' );
+			$this->setError(get_class($this).' does not support ordering');
 			return false;
 		}
 
@@ -405,7 +404,7 @@ abstract class JTable extends JClass
 				' FROM ' . $this->_tbl .
 				($where ? ' WHERE '.$where : '');
 
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		try {
 			$maxord = $this->_db->loadResult();
 		} catch(JException $e) {
@@ -421,13 +420,13 @@ abstract class JTable extends JClass
 	 * @access public
 	 * @param string Additional where query to limit ordering to a particular subset of records
 	 */
-	public function reorder( $where='' )
+	public function reorder($where='')
 	{
 		$k = $this->_tbl_key;
 
-		if (!in_array( 'ordering', array_keys($this->getProperties() ) ))
+		if (!in_array('ordering', array_keys($this->getProperties())))
 		{
-			$this->setError( get_class( $this ).' does not support ordering');
+			$this->setError(get_class($this).' does not support ordering');
 			return false;
 		}
 
@@ -442,10 +441,10 @@ abstract class JTable extends JClass
 
 		$query = 'SELECT '.$this->_tbl_key.', ordering'
 		. ' FROM '. $this->_tbl
-		. ' WHERE ordering >= 0' . ( $where ? ' AND '. $where : '' )
+		. ' WHERE ordering >= 0' . ($where ? ' AND '. $where : '')
 		. ' ORDER BY ordering'.$order2
 		;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		try {
 			$orders = $this->_db->loadObjectList();
 		} catch(JException $e) {
@@ -453,7 +452,7 @@ abstract class JTable extends JClass
 			return false;
 		}
 		// compact the ordering numbers
-		for ($i=0, $n=count( $orders ); $i < $n; $i++)
+		for ($i=0, $n=count($orders); $i < $n; $i++)
 		{
 			if ($orders[$i]->ordering >= 0)
 			{
@@ -464,7 +463,7 @@ abstract class JTable extends JClass
 					. ' SET ordering = '. (int) $orders[$i]->ordering
 					. ' WHERE '. $k .' = '. $this->_db->Quote($orders[$i]->$k)
 					;
-					$this->_db->setQuery( $query);
+					$this->_db->setQuery($query);
 					try {
 						$this->_db->query();
 					} catch(JException $e) {
@@ -489,18 +488,18 @@ abstract class JTable extends JClass
 	 * @param array Optional array to compiles standard joins: format [label=>'Label',name=>'table name',idfield=>'field',joinfield=>'field']
 	 * @return true|false
 	 */
-	public function canDelete( $oid=null, $joins=null )
+	public function canDelete($oid=null, $joins=null)
 	{
 		$k = $this->_tbl_key;
 		if ($oid) {
-			$this->$k = intval( $oid );
+			$this->$k = intval($oid);
 		}
 
-		if (is_array( $joins ))
+		if (is_array($joins))
 		{
 			$select = "$k";
 			$join = "";
-			foreach( $joins as $table )
+			foreach($joins as $table)
 			{
 				$select .= ', COUNT(DISTINCT '.$table['idfield'].') AS '.$table['idfield'];
 				$join .= ' LEFT JOIN '.$table['name'].' ON '.$table['joinfield'].' = '.$k;
@@ -512,7 +511,7 @@ abstract class JTable extends JClass
 			. ' WHERE '. $k .' = '. $this->_db->Quote($this->$k)
 			. ' GROUP BY '. $k
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 
 			try {
 				$obj = $this->_db->loadObject();
@@ -522,19 +521,19 @@ abstract class JTable extends JClass
 			}
 			$msg = array();
 			$i = 0;
-			foreach( $joins as $table )
+			foreach($joins as $table)
 			{
 				$k = $table['idfield'] . $i;
 				if ($obj->$k)
 				{
-					$msg[] = JText::_( $table['label'] );
+					$msg[] = JText::_($table['label']);
 				}
 				$i++;
 			}
 
-			if (count( $msg ))
+			if (count($msg))
 			{
-				$this->setError("noDeleteRecord" . ": " . implode( ', ', $msg ));
+				$this->setError("noDeleteRecord" . ": " . implode(', ', $msg));
 				return false;
 			}
 			else
@@ -554,21 +553,21 @@ abstract class JTable extends JClass
 	 * @access public
 	 * @return true if successful otherwise returns and error message
 	 */
-	public function delete( $oid=null )
+	public function delete($oid=null)
 	{
-		//if (!$this->canDelete( $msg ))
+		//if (!$this->canDelete($msg))
 		//{
 		//	return $msg;
 		//}
 
 		$k = $this->_tbl_key;
 		if ($oid) {
-			$this->$k = intval( $oid );
+			$this->$k = intval($oid);
 		}
 
-		$query = 'DELETE FROM '.$this->_db->nameQuote( $this->_tbl ).
+		$query = 'DELETE FROM '.$this->_db->nameQuote($this->_tbl).
 				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 
 		try {
 			$this->_db->query();
@@ -587,9 +586,9 @@ abstract class JTable extends JClass
 	 * @param 	mixed	The primary key value for the row
 	 * @return	boolean	True if successful, or if checkout is not supported
 	 */
-	public function checkout( $who, $oid = null )
+	public function checkout($who, $oid = null)
 	{
-		if (!in_array( 'checked_out', array_keys($this->getProperties()) )) {
+		if (!in_array('checked_out', array_keys($this->getProperties()))) {
 			return true;
 		}
 
@@ -601,10 +600,10 @@ abstract class JTable extends JClass
 		$date =& JFactory::getDate();
 		$time = $date->toMysql();
 
-		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ) .
+		$query = 'UPDATE '.$this->_db->nameQuote($this->_tbl) .
 			' SET checked_out = '.(int)$who.', checked_out_time = '.$this->_db->Quote($time) .
 			' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 
 		$this->checked_out = $who;
 		$this->checked_out_time = $time;
@@ -623,11 +622,11 @@ abstract class JTable extends JClass
 	 * @param	mixed	The primary key value for the row
 	 * @return	boolean	True if successful, or if checkout is not supported
 	 */
-	public function checkin( $oid=null )
+	public function checkin($oid=null)
 	{
 		if (!(
-			in_array( 'checked_out', array_keys($this->getProperties()) ) ||
-	 		in_array( 'checked_out_time', array_keys($this->getProperties()) )
+			in_array('checked_out', array_keys($this->getProperties())) ||
+	 		in_array('checked_out_time', array_keys($this->getProperties()))
 		)) {
 			return true;
 		}
@@ -642,10 +641,10 @@ abstract class JTable extends JClass
 			return false;
 		}
 
-		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ).
+		$query = 'UPDATE '.$this->_db->nameQuote($this->_tbl).
 				' SET checked_out = 0, checked_out_time = '.$this->_db->Quote($this->_db->getNullDate()) .
 				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 
 		$this->checked_out = 0;
 		$this->checked_out_time = '';
@@ -665,22 +664,22 @@ abstract class JTable extends JClass
 	 * @param $oid
 	 * @param $log
 	 */
-	public function hit( $oid=null, $log=false )
+	public function hit($oid=null, $log=false)
 	{
-		if (!in_array( 'hits', array_keys($this->getProperties()) )) {
+		if (!in_array('hits', array_keys($this->getProperties()))) {
 			return;
 		}
 
 		$k = $this->_tbl_key;
 
 		if ($oid !== null) {
-			$this->$k = intval( $oid );
+			$this->$k = intval($oid);
 		}
 
 		$query = 'UPDATE '. $this->_tbl
-		. ' SET hits = ( hits + 1 )'
+		. ' SET hits = (hits + 1)'
 		. ' WHERE '. $this->_tbl_key .'='. $this->_db->Quote($this->$k);
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		try {
 			$this->_db->query();
 			$this->hits++;
@@ -705,10 +704,10 @@ abstract class JTable extends JClass
 	 * 							a static function.
 	 * @return boolean
 	 */
-	public function isCheckedOut( $with = 0, $against = null)
+	public function isCheckedOut($with = 0, $against = null)
 	{
 		if(isset($this) && $this INSTANCEOF JTable && is_null($against)) {
-			$against = $this->get( 'checked_out' );
+			$against = $this->get('checked_out');
 		}
 
 		//item is not checked out, or being checked out by the same user
@@ -729,9 +728,9 @@ abstract class JTable extends JClass
 	 * @param	mixed	An array or space separated list of fields not to bind
 	 * @returns TRUE if completely successful, FALSE if partially or not succesful.
 	 */
-	public function save( $source, $order_filter='', $ignore='' )
+	public function save($source, $order_filter='', $ignore='')
 	{
-		if (!$this->bind( $source, $ignore )) {
+		if (!$this->bind($source, $ignore)) {
 			return false;
 		}
 		if (!$this->check()) {
@@ -746,7 +745,7 @@ abstract class JTable extends JClass
 		if ($order_filter)
 		{
 			$filter_value = $this->$order_filter;
-			$this->reorder( $order_filter ? $this->_db->nameQuote( $order_filter ).' = '.$this->_db->Quote( $filter_value ) : '' );
+			$this->reorder($order_filter ? $this->_db->nameQuote($order_filter).' = '.$this->_db->Quote($filter_value) : '');
 		}
 		$this->setError('');
 		return true;
@@ -761,37 +760,37 @@ abstract class JTable extends JClass
 	 * @param integer The id of the user performnig the operation
 	 * @since 1.0.4
 	 */
-	public function publish( $cid=null, $publish=1, $user_id=0 )
+	public function publish($cid=null, $publish=1, $user_id=0)
 	{
-		JArrayHelper::toInteger( $cid );
+		JArrayHelper::toInteger($cid);
 		$user_id	= (int) $user_id;
 		$publish	= (int) $publish;
 		$k			= $this->_tbl_key;
 
-		if (count( $cid ) < 1)
+		if (count($cid) < 1)
 		{
 			if ($this->$k) {
-				$cid = array( $this->$k );
+				$cid = array($this->$k);
 			} else {
 				$this->setError("No items selected.");
 				return false;
 			}
 		}
 
-		$cids = $k . '=' . implode( ' OR ' . $k . '=', $cid );
+		$cids = $k . '=' . implode(' OR ' . $k . '=', $cid);
 
 		$query = 'UPDATE '. $this->_tbl
 		. ' SET published = ' . (int) $publish
 		. ' WHERE ('.$cids.')'
 		;
 
-		$checkin = in_array( 'checked_out', array_keys($this->getProperties()) );
+		$checkin = in_array('checked_out', array_keys($this->getProperties()));
 		if ($checkin)
 		{
 			$query .= ' AND (checked_out = 0 OR checked_out = '.(int) $user_id.')';
 		}
 
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 		try {
 			$this->_db->query();
 		} catch(JException $e) {
@@ -799,10 +798,10 @@ abstract class JTable extends JClass
 			return false;
 		}
 
-		if (count( $cid ) == 1 && $checkin)
+		if (count($cid) == 1 && $checkin)
 		{
 			if ($this->_db->getAffectedRows() == 1) {
-				$this->checkin( $cid[0] );
+				$this->checkin($cid[0]);
 				if ($this->$k == $cid[0]) {
 					$this->published = $publish;
 				}
@@ -818,7 +817,7 @@ abstract class JTable extends JClass
 	 * @access public
 	 * @param boolean Map foreign keys to text values
 	 */
-	public function toXML( $mapKeysToText=false )
+	public function toXML($mapKeysToText=false)
 	{
 		$xml = '<record table="' . $this->_tbl . '"';
 
@@ -827,7 +826,7 @@ abstract class JTable extends JClass
 			$xml .= ' mapkeystotext="true"';
 		}
 		$xml .= '>';
-		foreach (get_object_vars( $this ) as $k => $v)
+		foreach (get_object_vars($this) as $k => $v)
 		{
 			if (is_array($v) or is_object($v) or $v === NULL)
 			{
@@ -854,18 +853,18 @@ abstract class JTable extends JClass
 	 * @return	array	An array with directory elements
 	 * @since 1.5
 	 */
-	public static function addIncludePath( $path=null )
+	public static function addIncludePath($path=null)
 	{
 		static $paths;
 
 		if (!isset($paths)) {
-			$paths = array( dirname( __FILE__ ).DS.'table' );
+			$paths = array(dirname(__FILE__).DS.'table');
 		}
 
 		// just force path to array
 		settype($path, 'array');
 
-		if (!empty( $path ) && !in_array( $path, $paths ))
+		if (!empty($path) && !in_array($path, $paths))
 		{
 			// loop through the path directories
 			foreach ($path as $dir)
@@ -881,4 +880,3 @@ abstract class JTable extends JClass
 		return $paths;
 	}
 }
-

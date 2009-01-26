@@ -53,8 +53,8 @@ class JTableUpdate extends JTable
 	 * @access protected
 	 * @param database A database connector object
 	 */
-	function __construct( &$db ) {
-		parent::__construct( '#__updates', 'update_id', $db );
+	function __construct(&$db) {
+		parent::__construct('#__updates', 'update_id', $db);
 	}
 
 	/**
@@ -67,8 +67,8 @@ class JTableUpdate extends JTable
 	function check()
 	{
 		// check for valid name
-		if (trim( $this->name ) == '' || trim( $this->element ) == '') {
-			$this->setError(JText::sprintf( 'must contain a title', JText::_( 'Extension') ));
+		if (trim($this->name) == '' || trim($this->element) == '') {
+			$this->setError(JText::sprintf('must contain a title', JText::_('Extension')));
 			return false;
 		}
 		return true;
@@ -85,14 +85,14 @@ class JTableUpdate extends JTable
 	*/
 	function bind($array, $ignore = '')
 	{
-		if (isset( $array['params'] ) && is_array($array['params']))
+		if (isset($array['params']) && is_array($array['params']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
-		if (isset( $array['control'] ) && is_array( $array['control'] ))
+		if (isset($array['control']) && is_array($array['control']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['control']);

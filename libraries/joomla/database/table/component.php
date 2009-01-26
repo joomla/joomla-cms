@@ -49,8 +49,8 @@ class JTableComponent extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	protected function __construct( &$db ) {
-		parent::__construct( '#__components', 'id', $db );
+	protected function __construct(&$db) {
+		parent::__construct('#__components', 'id', $db);
 	}
 
 	/**
@@ -59,14 +59,14 @@ class JTableComponent extends JTable
 	 * @param string The component option value
 	 * @return boolean
 	 */
-	public function loadByOption( $option )
+	public function loadByOption($option)
 	{
 		$db = &$this->getDBO();
 		$query = 'SELECT id' .
 				' FROM #__components' .
-				' WHERE ' . $db->nameQuote( 'option' ) . '=' . $db->Quote( $option ) .
+				' WHERE ' . $db->nameQuote('option') . '=' . $db->Quote($option) .
 				' AND parent = 0';
-		$db->setQuery( $query, 0, 1 );
+		$db->setQuery($query, 0, 1);
 		try {
 			$id = $db->loadResult();
 		} catch(JException $e) {
@@ -76,7 +76,7 @@ class JTableComponent extends JTable
 		if (empty($id)) {
 			return false;
 		} else {
-			return $this->load( $id );
+			return $this->load($id);
 		}
 	}
 
@@ -85,8 +85,8 @@ class JTableComponent extends JTable
 	 */
 	public function check()
 	{
-		$this->parent = intval( $this->parent );
-		$this->ordering = intval( $this->ordering );
+		$this->parent = intval($this->parent);
+		$this->ordering = intval($this->ordering);
 		return true;
 	}
 
@@ -101,7 +101,7 @@ class JTableComponent extends JTable
 	*/
 	public function bind($array, $ignore = '')
 	{
-		if (array_key_exists('params', $array) && is_array( $array['params'] ))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);

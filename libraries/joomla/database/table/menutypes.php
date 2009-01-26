@@ -34,9 +34,9 @@ class JTableMenuTypes extends JTable
 	 * @access protected
 	 * @param database A database connector object
 	 */
-	protected function __construct( &$db )
+	protected function __construct(&$db)
 	{
-		parent::__construct( '#__menu_types', 'id', $db );
+		parent::__construct('#__menu_types', 'id', $db);
 	}
 
 	/**
@@ -46,12 +46,12 @@ class JTableMenuTypes extends JTable
 	{
 		$this->menutype = JFilterOutput::stringURLSafe($this->menutype);
 		if(empty($this->menutype)) {
-			$this->setError( "Cannot save: Empty menu type" );
+			$this->setError("Cannot save: Empty menu type");
 			return false;
 		}
 
 		// correct spurious data
-		if (trim( $this->title) == '') {
+		if (trim($this->title) == '') {
 			$this->title = $this->menutype;
 		}
 
@@ -64,7 +64,7 @@ class JTableMenuTypes extends JTable
 			$query .= ' WHERE id != '.(int) $this->id;
 		}
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		try {
 			$menus = $db->loadResultArray();
 		} catch(JException $e) {
@@ -76,7 +76,7 @@ class JTableMenuTypes extends JTable
 		{
 			if ($menutype == $this->menutype)
 			{
-				$this->setError( "Cannot save: Duplicate menu type '{$this->menutype}'" );
+				$this->setError("Cannot save: Duplicate menu type '{$this->menutype}'");
 				return false;
 			}
 		}

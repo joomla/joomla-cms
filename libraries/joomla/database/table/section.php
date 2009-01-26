@@ -51,8 +51,8 @@ class JTableSection extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	protected function __construct( &$db ) {
-		parent::__construct( '#__sections', 'id', $db );
+	protected function __construct(&$db) {
+		parent::__construct('#__sections', 'id', $db);
 	}
 
 	/** Overloaded check function
@@ -65,8 +65,8 @@ class JTableSection extends JTable
 	public function check()
 	{
 		// check for valid name
-		if (trim( $this->title ) == '') {
-			$this->setError( JText::_( 'SECTION MUST HAVE A TITLE') );
+		if (trim($this->title) == '') {
+			$this->setError(JText::_('SECTION MUST HAVE A TITLE'));
 			return false;
 		}
 
@@ -76,11 +76,11 @@ class JTableSection extends JTable
 		. ' WHERE title = '. $this->_db->Quote($this->title)
 		. ' AND scope = ' . $this->_db->Quote($this->scope)
 		;
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 
-		$xid = intval( $this->_db->loadResult() );
-		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = JText::sprintf( 'WARNNAMETRYAGAIN', JText::_( 'Section') );
+		$xid = intval($this->_db->loadResult());
+		if ($xid && $xid != intval($this->id)) {
+			$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('Section'));
 			return false;
 		}*/
 
@@ -107,7 +107,7 @@ class JTableSection extends JTable
 	*/
 	public function bind($array, $ignore = '')
 	{
-		if (isset( $array['params'] ) && is_array($array['params']))
+		if (isset($array['params']) && is_array($array['params']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
