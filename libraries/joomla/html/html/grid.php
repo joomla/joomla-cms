@@ -122,10 +122,10 @@ abstract class JHtmlGrid
 		if (is_object($value)) {
 			$value = $value->published;
 		}
-		$img 	= $row->published ? $img1 : $img0;
-		$task 	= $row->published ? 'unpublish' : 'publish';
-		$alt 	= $row->published ? JText::_('Published') : JText::_('Unpublished');
-		$action = $row->published ? JText::_('Unpublish Item') : JText::_('Publish item');
+		$img 	= $value ? $img1 : $img0;
+		$task 	= $value ? 'unpublish' : 'publish';
+		$alt 	= $value ? JText::_('Published') : JText::_('Unpublished');
+		$action = $value ? JText::_('Unpublish Item') : JText::_('Publish item');
 
 		$href = '
 		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
