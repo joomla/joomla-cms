@@ -1,11 +1,14 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
 defined('_JEXEC') or die;
+
 /**
  * Weblink controller class.
  *
@@ -69,7 +72,7 @@ class WeblinksControllerWeblink extends JController
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 
 		// Get the previous label id (if any) and the current label id.
-		$previousId	= (int) $app->getUserState('com_labels.edit.label.id');
+		$previousId	= (int) $app->getUserState('com_weblinks.edit.label.id');
 		$weblinkId		= (int) (count($cid) ? $cid[0] : JRequest::getInt('weblink_id'));
 
 		// If label ids do not match, checkin previous label.
@@ -118,7 +121,7 @@ class WeblinksControllerWeblink extends JController
 		$model	= &$this->getModel('Weblink', 'WeblinksModel');
 
 		// Get the label id.
-		$weblinkId = (int) $app->getUserState('com_labels.edit.label.id');
+		$weblinkId = (int) $app->getUserState('com_weblinks.edit.label.id');
 
 		// Attempt to check-in the current label.
 		if ($weblinkId)
@@ -175,7 +178,7 @@ class WeblinksControllerWeblink extends JController
 			}
 
 			// Save the data in the session.
-			$app->setUserState('com_labels.edit.label.data', $data);
+			$app->setUserState('com_weblinks.edit.label.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit&hidemainmenu=1', false));
@@ -203,7 +206,7 @@ class WeblinksControllerWeblink extends JController
 		}
 
 		// Clean the session data.
-		$app->setUserState('com_labels.edit.label.id', null);
+		$app->setUserState('com_weblinks.edit.label.id', null);
 		$this->setMessage(JText::_('JController_Save_success'));
 
 		// Redirect the user and adjust session state based on the chosen task.

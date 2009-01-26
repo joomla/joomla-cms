@@ -14,7 +14,7 @@ if (!JAcl::authorise('com_weblinks', 'weblinks.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
-require_once JPATH_COMPONENT.DS.'controller.php';
+jimport('joomla.application.component.controller');
 
 $controller	= JController::getInstance('Weblinks');
 $controller->execute(JRequest::getCmd('task'));
