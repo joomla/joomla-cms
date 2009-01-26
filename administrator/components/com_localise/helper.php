@@ -1,12 +1,9 @@
 <?php
 /**
-* @version 1.5
-* @package com_localise
-* @author Ifan Evans
-* @copyright Copyright (C) 2007 Ifan Evans. All rights reserved.
-* @license GNU/GPL
-* @bugs - please report to post@ffenest.co.uk
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();

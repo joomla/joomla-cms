@@ -1,12 +1,7 @@
 /**
 * @version		$Id: modal.js 5263 2006-10-02 01:25:24Z webImagery $
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
 */
 
 /**
@@ -15,7 +10,6 @@
  * Used for transforming <input type="text" ... /> tags into combobox dropdowns with appropriate <noscript> tag following
  * for dropdown list information
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @since		1.5
  * @version     1.0

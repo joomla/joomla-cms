@@ -3,7 +3,7 @@
  * @version		$Id:plugin.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		JLibMan
  * @subpackage	Installer
- * @copyright 	Copyright (C) 2008 Open Source Matters
+ * @copyright 	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
   */
 
@@ -16,7 +16,6 @@ jimport('joomla.base.adapterinstance');
 /**
  * Library installer
  *
- * @author 		Sam Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.6

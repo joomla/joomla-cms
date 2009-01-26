@@ -2,7 +2,7 @@
 /**
  * @version		$Id: contactdirectory.php 11163 2008-10-18 15:42:00Z chantal.bisson $
  * @package		Joomla
- * @copyright	Copyright (C) 2008 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
   */
 

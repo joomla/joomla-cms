@@ -16,7 +16,6 @@ jimport( 'joomla.installer.extension' );
 /**
  * Joomla! Package Manifest File
  *
- * @author 		Sam Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.6

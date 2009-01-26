@@ -2,12 +2,10 @@
 /**
  * Library View
  *
- * @package Joomla
- * @subpackage Installer
- * @author Sam Moffatt <pasamio@gmail.com>
- * @copyright	Copyright (C) 2008 Open Source Matters, Inc. All rights reserved.
+ * @package		Joomla.Administrator
+ * @subpackage	Installer
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
- *  See COPYRIGHT.php for copyright notices and details.
  */
 
 // no direct access

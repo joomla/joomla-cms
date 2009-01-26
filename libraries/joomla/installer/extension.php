@@ -13,7 +13,6 @@ defined('JPATH_BASE') or die();
 /**
  * Extension object
  *
- * @author 		Sam Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.6

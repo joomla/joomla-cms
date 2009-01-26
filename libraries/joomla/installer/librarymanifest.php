@@ -15,7 +15,6 @@ jimport( 'joomla.filesystem.file' );
 /**
  * Joomla! Library Manifest File
  *
- * @author 		Sam Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.6

@@ -5,7 +5,7 @@
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
- * @version SVN: $Id:$
+ * @version SVN: $Id$
  */
 
 // Check to ensure this file is within the rest of the framework
@@ -15,7 +15,6 @@ jimport('joomla.base.adapterinstance');
 /**
  * Package installer
  *
- * @author 		Sam Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.6

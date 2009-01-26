@@ -13,10 +13,10 @@
  *
  * Created on Sep 17, 2008
  *
- * @package Joomla!
- * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
- * @copyright 2008 OpenSourceMatters.org
- * @version SVN: $Id$
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @license		GNU/GPL http://www.gnu.org/licenses/gpl.html
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  */
 
 // Check to ensure this file is within the rest of the framework
