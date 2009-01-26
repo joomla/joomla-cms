@@ -79,7 +79,7 @@ class JFormFieldEditor extends JFormField
 		return $editor->display($this->inputName, htmlspecialchars($this->value), $width, $height, $cols, $rows, $buttons);
 	}
 
-	protected function render(&$xml, $value, $formName, $groupName)
+	public function render(&$xml, $value, $formName, $groupName)
 	{
 		$result		= &parent::render($xml, $value, $formName, $groupName);
 		$editorName	= trim($this->_element->attributes('editor')) ? trim($this->_element->attributes('editor')) : null;

@@ -83,7 +83,8 @@ $userId	= $user->get('id');
 		$i = 0;
 		$n = count($this->items);
 		foreach ($this->items as $item) :
-			$ordering = ($this->state->get('list.ordering') == 'a.ordering');
+			$ordering	= ($this->state->get('list.ordering') == 'a.ordering');
+			$checkedOut	= JTable::isCheckedOut($userId, $item->checked_out);
 
 			$item->cat_link 	= JRoute::_('index.php?option=com_categories&section=com_weblinks&task=edit&type=other&cid[]='. $item->catid);
 			?>
@@ -98,7 +99,7 @@ $userId	= $user->get('id');
 					<?php if (JTable::isCheckedOut($userId, $item->checked_out)) : ?>
 						<?php echo $item->title; ?>
 					<?php else : ?>
-					<span class="editlinktip hasTip" title="<?php echo JText::_('Edit Weblinks');?>::<?php echo $item->title; ?>">
+					<span class="editlinktip hasTip" title="<?php echo JText::_('JCommon_Edit_item');?>::<?php echo $item->title; ?>">
 						<a href="<?php echo JRoute::_('index.php?option=com_weblinks&task=weblink.edit&weblink_id='.(int) $item->id); ?>">
 							<?php echo $item->title; ?></a></span>
 					<?php endif; ?>
@@ -107,8 +108,8 @@ $userId	= $user->get('id');
 					<?php echo JHtml::_('weblink.state', $item->state, $i);?>
 				</td>
 				<td class="order">
-					<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid),'orderup', 'Move Up', $ordering); ?></span>
-					<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->catid == @$this->items[$i+1]->catid), 'orderdown', 'Move Down', $ordering); ?></span>
+					<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid),'weblinks.orderup', 'JGrid_Move_Up', $ordering); ?></span>
+					<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->catid == @$this->items[$i+1]->catid), 'weblinks.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
 					<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
 					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 				</td>

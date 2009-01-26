@@ -418,7 +418,7 @@ class JForm extends JClass
 		}
 
 		// Get a validator object.
-		jimport('joomla.form.validator');
+		require_once dirname(__FILE__).DS.'validator.php';
 		$validator = new JFormValidator();
 
 		// Iterate through the groups.
@@ -910,7 +910,7 @@ class JForm extends JClass
 			jimport('joomla.form.fields.list');
 		}
 
-		if(!class_exists($class))
+		if (!class_exists($class))
 		{
 			$paths = JForm::addFieldPath();
 

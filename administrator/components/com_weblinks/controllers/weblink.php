@@ -16,6 +16,19 @@ defined('_JEXEC') or die;
 class WeblinksControllerWeblink extends JController
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 * @see		JController
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+		$this->registerTask('apply',	'save');
+		$this->registerTask('save2new',	'save');
+	}
+
+	/**
 	 * Dummy method to redirect back to standard controller
 	 *
 	 * @return	void
@@ -75,7 +88,7 @@ class WeblinksControllerWeblink extends JController
 		if (!$model->checkout($weblinkId))
 		{
 			// Check-out failed, go back to the list and display a notice.
-			$message = JText::sprintf('LABELS_LABEL_CHECKOUT_FAILED', $model->getError());
+			$message = JText::sprintf('JError_Checkout_failed', $model->getError());
 			$this->setRedirect('index.php?option=com_weblinks&view=weblink&label_id='.$weblinkId, $message, 'error');
 			return false;
 		}
@@ -98,14 +111,30 @@ class WeblinksControllerWeblink extends JController
 	 */
 	public function cancel()
 	{
+		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+
 		// Initialize variables.
-		$app = &JFactory::getApplication();
+		$app	= &JFactory::getApplication();
+		$model	= &$this->getModel('Weblink', 'WeblinksModel');
 
-		// Clear the member edit information from the session.
-		$app->setUserState('com_weblinks.edit.weblink.id', null);
-		$app->setUserState('com_weblinks.edit.weblink.data', null);
+		// Get the label id.
+		$weblinkId = (int) $app->getUserState('com_labels.edit.label.id');
 
-		// Redirect to the list screen.
+		// Attempt to check-in the current label.
+		if ($weblinkId)
+		{
+			if (!$model->checkin($weblinkId))
+			{
+				// Check-in failed, go back to the label and display a notice.
+				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
+				$this->setRedirect('index.php?option=com_weblinks&view=weblink&layout=edit&hidemainmenu=1', $message, 'error');
+				return false;
+			}
+		}
+
+		// Clean the session data and redirect.
+		$app->setUserState('com_weblinks.edit.weblink.id',		null);
+		$app->setUserState('com_weblinks.edit.weblink.data',	null);
 		$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblinks', false));
 	}
 
@@ -119,33 +148,18 @@ class WeblinksControllerWeblink extends JController
 	public function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JX_INVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
-		$app = &JFactory::getApplication();
+		$app	= &JFactory::getApplication();
+		$model	= $this->getModel('Weblink');
+		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 
-		// Get the posted values from the request.
-		$data = JRequest::getVar('jxform', array(), 'post', 'array');
-
-		// Populate the row id from the session.
-		$data['id'] = (int) $app->getUserState('com_weblinks.edit.weblink.id');
-
-		// Get the model and attempt to validate the posted data.
-		$model = &$this->getModel('Member');
-		$return	= $model->validate($data);
-
-		// Get and sanitize the group data.
-		$data['groups'] = JRequest::getVar('groups', array(), 'post', 'array');
-		$data['groups'] = array_unique($data['groups']);
-		JArrayHelper::toInteger($data['groups']);
-
-		// Remove any values of zero.
-		if (array_search(0, $data['groups'], true)) {
-			unset($data['groups'][array_search(0, $data['groups'], true)]);
-		}
+		// Validate the posted data.
+		$data = $model->validate($data);
 
 		// Check for validation errors.
-		if ($return === false)
+		if ($data === false)
 		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
@@ -161,34 +175,42 @@ class WeblinksControllerWeblink extends JController
 			}
 
 			// Save the data in the session.
-			$app->setUserState('com_weblinks.edit.weblink.data', $data);
+			$app->setUserState('com_labels.edit.label.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit&hidemainmenu=1', false));
 			return false;
 		}
 
-		// Attempt to save the data.
-		$return	= $model->save($data);
+		// Attempt to save the label.
+		$return = $model->save($data);
 
-		// Check for errors.
 		if ($return === false)
 		{
-			// Save the data in the session.
-			$app->setUserState('com_weblinks.edit.weblink.data', $data);
-
-			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('MEMBERS_MEMBER_SAVE_FAILED', $model->getError()), 'notice');
-			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit', false));
+			// Save failed, go back to the label and display a notice.
+			$message = JText::sprintf('JError_Save_failed', $model->getError());
+			$this->setRedirect('index.php?option=com_weblinks&view=weblink&layout=edit&hidemainmenu=1', $message, 'error');
 			return false;
 		}
+
+		// Save succeeded, check-in the label.
+		if (!$model->checkin())
+		{
+			// Check-in failed, go back to the label and display a notice.
+			$message = JText::sprintf('JError_Checkin_saved', $model->getError());
+			$this->setRedirect('index.php?option=com_weblinks&view=weblink&layout=edit&hidemainmenu=1', $message, 'error');
+			return false;
+		}
+
+		// Clean the session data.
+		$app->setUserState('com_labels.edit.label.id', null);
+		$this->setMessage(JText::_('JController_Save_success'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($this->_task)
 		{
 			case 'apply':
 				// Redirect back to the edit screen.
-				$this->setMessage(JText::_('MEMBERS_MEMBER_SAVE_SUCCESS'));
 				$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit', false));
 				break;
 
@@ -198,7 +220,6 @@ class WeblinksControllerWeblink extends JController
 				$app->setUserState('com_weblinks.edit.weblink.data', null);
 
 				// Redirect back to the edit screen.
-				$this->setMessage(JText::_('MEMBERS_MEMBER_SAVE_SUCCESS'));
 				$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit', false));
 				break;
 
@@ -208,7 +229,6 @@ class WeblinksControllerWeblink extends JController
 				$app->setUserState('com_weblinks.edit.weblink.data', null);
 
 				// Redirect to the list screen.
-				$this->setMessage(JText::_('MEMBERS_MEMBER_SAVE_SUCCESS'));
 				$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblinks', false));
 				break;
 		}

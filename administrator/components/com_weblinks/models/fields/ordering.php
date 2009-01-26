@@ -11,40 +11,22 @@
 defined('JPATH_BASE') or die('Restricted Access');
 
 jimport('joomla.html.html');
-jimport('joomla.form.field');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Supports an HTML select list of categories
  *
- * @package		Joomla.Framework
- * @subpackage	Form
+ * @package		Joomla.Administrator
+ * @subpackage	Weblinks
  * @since		1.6
  */
-class JFormFieldList extends JFormField
+class JFormFieldOrdering extends JFormField
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	public $type = 'List';
-
-	/**
-	 * Method to get a list of options for a list input.
-	 *
-	 * @return	array		An array of JHtml options.
-	 */
-	protected function _getOptions()
-	{
-		$options = array();
-
-		// Iterate through the children and build an array of options.
-		foreach ($this->_element->children() as $option) {
-			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_($option->data()));
-		}
-
-		return $options;
-	}
+	public $type = 'Ordering';
 
 	/**
 	 * Method to get the field input.
@@ -59,27 +41,26 @@ class JFormFieldList extends JFormField
 		$readonly	= $this->_element->attributes('readonly') == 'true' ? true : false;
 		$attributes	= $class;
 		$attributes = ($disabled || $readonly) ? $attributes.' disabled="disabled"' : $attributes;
-		$options	= (array)$this->_getOptions();
 		$return		= null;
+		$weblinkId	= (int) $this->_form->getValue('id');
+		$categoryId	= (int) $this->_form->getValue('catid');
+		$query		= 'SELECT ordering AS value, title AS text'
+					. ' FROM #__weblinks'
+					. ' WHERE catid = ' . $categoryId
+					. ' ORDER BY ordering';
 
-		// Handle a disabled list.
-		if ($disabled)
-		{
-			// Create a disabled list.
-			$return .= JHTML::_('select.genericlist', $options, $this->inputName, $attributes, 'value', 'text', $this->value, $this->inputId);
-		}
 		// Handle a read only list.
-		else if ($readonly)
+		if ($readonly)
 		{
 			// Create a disabled list with a hidden input to store the value.
-			$return .= JHTML::_('select.genericlist', $options, '', $attributes, 'value', 'text', $this->value, $this->inputId);
+			$return .= JHTML::_('list.ordering', '', $query, $attributes, $this->value, $this->inputId, $weblinkId ? 0 : 1);
 			$return	.= '<input type="hidden" name="'.$this->inputName.'" value="'.$this->value.'" />';
 		}
 		// Handle a regular list.
 		else
 		{
 			// Create a regular list.
-			$return = JHTML::_('select.genericlist', $options, $this->inputName, $attributes, 'value', 'text', $this->value, $this->inputId);
+			$return = JHTML::_('list.ordering', $this->inputName, $query, $attributes, $this->value, $this->inputId, $weblinkId ? 0 : 1);
 		}
 
 		return $return;

@@ -25,7 +25,10 @@ class WeblinksControllerWeblinks extends WeblinksController
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
-		$this->registerTask('unpublish', 'publish');
+		$this->registerTask('unpublish',	'publish');
+		$this->registerTask('trash',		'publish');
+		$this->registerTask('orderup',		'reorder');
+		$this->registerTask('orderdown',	'reorder');
 	}
 
 	/**
@@ -38,7 +41,7 @@ class WeblinksControllerWeblinks extends WeblinksController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('Weblinks');
+		$model	= &$this->getModel('Weblink');
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 
 		// Sanitize the input.
@@ -84,7 +87,17 @@ class WeblinksControllerWeblinks extends WeblinksController
 		}
 
 		// Attempt to publish the items.
-		$value	= $this->getTask() == 'publish' ? 1 : 0;
+		$task	= $this->getTask();
+		if ($task == 'publish') {
+			$value = 1;
+		}
+		else if ($task == 'trash') {
+			$value = -2;
+		}
+		else {
+			$value = 0;
+		}
+
 		$return = $model->setStates($cid, $value);
 
 		if ($return === false)
@@ -100,6 +113,42 @@ class WeblinksControllerWeblinks extends WeblinksController
 			return true;
 		}
 	}
+
+	/**
+	 * Method to reorder weblinks.
+	 *
+	 * @return	bool	False on failure or error, true on success.
+	 */
+	function reorder()
+	{
+		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+
+		// Initialize variables.
+		$model	= &$this->getModel('Weblink', 'WeblinksModel');
+		$cid	= JRequest::getVar('cid', null, 'post', 'array');
+
+		// Get the label id.
+		$weblinkId = (int) $cid[0];
+
+		// Attempt to move the row.
+		$return = $model->reorder($weblinkId, $this->getTask() == 'orderup' ? -1 : 1);
+
+		if ($return === false)
+		{
+			// Move failed, go back to the label and display a notice.
+			$message = JText::sprintf('JError_Reorder_failed', $model->getError());
+			$this->setRedirect('index.php?option=com_weblinks&view=weblinks', $message, 'error');
+			return false;
+		}
+		else
+		{
+			// Move succeeded, go back to the label and display a message.
+			$message = JText::_('JSuccess_Item_reordered');
+			$this->setRedirect('index.php?option=com_weblinks&view=weblinks', $message);
+			return true;
+		}
+	}
+
 
 	/**
 	 * Method to save the current ordering arrangement.

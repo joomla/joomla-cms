@@ -186,5 +186,4 @@ class WeblinksModelWeblinks extends JModelList
 
 		return true;
 	}
-
 }

@@ -30,6 +30,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 26-Jan-2009 Andrew Eddie
  ^ JHtmlGrid::published first argument now takes value or object (deprecated)
+ + Added JHtmlList::ordering, deprecated JHtmlList::specificordering
 
 25-Jan-2009 Sam Moffatt
  + Filesystem backup adapter now handles backups (not restores yet)

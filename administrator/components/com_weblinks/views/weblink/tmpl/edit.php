@@ -11,15 +11,19 @@ defined('_JEXEC') or die('Restricted access');
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
+//JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
 <!--
 	function submitbutton(task)
 	{
-		if (task == 'weblink.cancel' || document.formvalidator.isValid($('weblink-form'))) {
+		// Validation is currently busted
+		//if (task == 'weblink.cancel' || document.formvalidator.isValid($('weblink-form'))) {
+		if (task == 'weblink.cancel') {
 			submitform(task);
 		}
+		// @todo Deal with the editor methods
+		submitform(task);
 	}
 // -->
 </script>
@@ -52,6 +56,10 @@ JHtml::_('behavior.formvalidation');
 			<li>
 				<?php echo $this->form->getLabel('ordering'); ?><br />
 				<?php echo $this->form->getInput('ordering'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('description'); ?><br />
+				<?php echo $this->form->getInput('description'); ?>
 			</li>
 		</ol>
 	</fieldset>

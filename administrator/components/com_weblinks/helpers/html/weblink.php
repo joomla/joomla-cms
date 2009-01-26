@@ -26,10 +26,11 @@ class JHtmlWeblink
 			1	=> array('tick.png',		'weblinks.unpublish',	'JState_Published',		'JState_UnPublish_Item'),
 			0	=> array('publish_x.png',	'weblinks.publish',		'JState_UnPublished',	'JState_Publish_Item'),
 			-1	=> array('reported.png',	'weblinks.publish',		'Weblinks_Reported',	'JState_Publish_Item'),
+			-2	=> array('trash.png',		'weblinks.publish',		'JState_Trashed',		'JState_Publish_Item'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.$state[3].'">'
-				. JHtml::_('image.administrator', $state[0], '/images/', null, '/images/', $state[2]).'</a>';
+		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
+				. JHtml::_('image.administrator', $state[0], '/images/', null, '/images/', JText::_($state[2])).'</a>';
 
 		return $html;
 	}
@@ -45,11 +46,12 @@ class JHtmlWeblink
 	{
 		// Build the active state filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option', '*', 'JSelect_Any');
-		$options[]	= JHtml::_('select.option', '0', 'JState_UnPublished');
-		$options[]	= JHtml::_('select.option', '1', 'JState_Published');
-		$options[]	= JHtml::_('select.option', '-1', 'Weblinks_Reported');
+		$options[]	= JHtml::_('select.option', '*', JText::_('JSelect_Any'));
+		$options[]	= JHtml::_('select.option', '1', JText::_('JState_Published'));
+		$options[]	= JHtml::_('select.option', '0', JText::_('JState_UnPublished'));
+		$options[]	= JHtml::_('select.option', '-1', JText::_('Weblinks_Reported'));
+		$options[]	= JHtml::_('select.option', '-2', JText::_('JState_Trashed'));
 
-		return JHTML::_('select.genericlist', $options, 'filter_state', 'class="inputbox"', 'value', 'text', $selected);
+		return JHTML::_('select.genericlist', $options, 'filter_state', 'class="inputbox" onchange="this.form.submit();"', 'value', 'text', $selected);
 	}
 }
