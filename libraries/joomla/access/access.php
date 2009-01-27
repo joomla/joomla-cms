@@ -29,7 +29,7 @@ jimport('joomla.database.query');
  * @subpackage	User
  * @version		1.0
  */
-class JXAccess extends JObject
+class JAccess extends JObject
 {
 	var $_quiet = true;
 
@@ -95,7 +95,7 @@ class JXAccess extends JObject
 			}
 
 			// Start the query
-			$query = new JxQuery;
+			$query = new JQuery;
 
 			// Select the Id of the rule, allow and the return value
 			$query->select('r.id, r.allow, r.return');
@@ -230,7 +230,7 @@ class JXAccess extends JObject
 		$db	= &JFactory::getDBO();
 
 		// First find the usergroups that this user is in
-		$query = new JXQuery;
+		$query = new JQuery;
 		$query->select($recursive ? 'ug2.id' : 'ug1.id');
 		$query->from('#__user_usergroup_map AS uugm');
 		$query->where('uugm.user_id = '.(int) $userId);
@@ -263,7 +263,7 @@ class JXAccess extends JObject
 		$db	= &JFactory::getDBO();
 
 		// First find the usergroups that this user is in
-		$query = new JXQuery;
+		$query = new JQuery;
 		$query->select($recursive ? 'ag2.id' : 'ag1.id');
 		$query->from('#__access_asset_assetgroup_map AS aagm');
 		$query->where('aagm.asset_id = '.(int) $assetId);
@@ -291,7 +291,7 @@ class JXAccess extends JObject
 	 * @return	array	Array of access level ids.
 	 * @since	1.0
 	 */
-	public function getAuthorizedAccessLevels($userId, $action = 'core.view')
+	public function getAuthorisedAccessLevels($userId, $action = 'core.view')
 	{
 		$inGroupIds = $this->getUserGroupMap($userId, true);
 
@@ -299,7 +299,7 @@ class JXAccess extends JObject
 		$db	= &JFactory::getDBO();
 
 		// Build the base query.
-		$query	= new JXQuery;
+		$query	= new JQuery;
 		$query->select('DISTINCT ag.id');
 		$query->from('`#__access_actions` AS a');
 		// Map actions to rules

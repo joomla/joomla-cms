@@ -28,7 +28,7 @@ if (!defined('JPERMISSION_ACTION')) {
  * @subpackage	User
  * @version		1.0
  */
-class JXAccessHelper
+class JAccessHelper
 {
 	/**
 	 * Factory method to get a JAccessLevel object and optionally load it by title and section.
@@ -94,7 +94,7 @@ class JXAccessHelper
 		}
 
 		// Sanitize the section name.
-		$section = JXAccessHelper::_sanitizeName($section);
+		$section = JAccessHelper::_sanitizeName($section);
 
 		if (empty($cache[$section]))
 		{
@@ -138,7 +138,7 @@ class JXAccessHelper
 	public function registerSection($title, $name)
 	{
 		// Sanitize the section name.
-		$name = JXAccessHelper::_sanitizeName($name);
+		$name = JAccessHelper::_sanitizeName($name);
 
 		// Get a database object.
 		$db = &JFactory::getDBO();
@@ -204,7 +204,7 @@ class JXAccessHelper
 	public function removeSection($name)
 	{
 		// Sanitize the section name.
-		$name = JXAccessHelper::_sanitizeName($name);
+		$name = JAccessHelper::_sanitizeName($name);
 
 		// Get a database object.
 		$db = &JFactory::getDBO();
@@ -323,16 +323,16 @@ class JXAccessHelper
 	public function registerAction($type, $section, $title, $description = null, $name = null)
 	{
 		// Sanitize the section name.
-		$section = JXAccessHelper::_sanitizeName($section);
+		$section = JAccessHelper::_sanitizeName($section);
 
 		// Sanitize and build the action name.
 		if (!empty($name)) {
 			// If a name segment was specified, use it for the name.
-			$name = JXAccessHelper::_sanitizeName($name, $section);
+			$name = JAccessHelper::_sanitizeName($name, $section);
 		}
 		else {
 			// If no name segment was specified, use the title as the segment.
-			$name = JXAccessHelper::_sanitizeName($title, $section);
+			$name = JAccessHelper::_sanitizeName($title, $section);
 		}
 
 		// Get a database object.
@@ -418,7 +418,7 @@ class JXAccessHelper
 	public function removeAction($name)
 	{
 		// Sanitize the action name.
-		$name = JXAccessHelper::_sanitizeName($name);
+		$name = JAccessHelper::_sanitizeName($name);
 
 		// Get a database object.
 		$db = &JFactory::getDBO();
@@ -476,7 +476,7 @@ class JXAccessHelper
 	public function registerUserGroup($title, $section)
 	{
 		// Sanitize the section name.
-		$section = JXAccessHelper::_sanitizeName($section);
+		$section = JAccessHelper::_sanitizeName($section);
 
 		// Get a database object.
 		$db = &JFactory::getDBO();
@@ -534,7 +534,7 @@ class JXAccessHelper
 		$groupId = (int)$db->insertid();
 
 		// Rebuild the groups tree.
-		JXAccessHelper::_rebuildGroupsTree();
+		JAccessHelper::_rebuildGroupsTree();
 
 		return $groupId;
 	}
@@ -551,7 +551,7 @@ class JXAccessHelper
 	public function removeUserGroup($title, $section)
 	{
 		// Sanitize the section name.
-		$section = JXAccessHelper::_sanitizeName($section);
+		$section = JAccessHelper::_sanitizeName($section);
 
 		// Get a database object.
 		$db = &JFactory::getDBO();
@@ -571,7 +571,7 @@ class JXAccessHelper
 		}
 
 		// Get a usergroup table object.
-		$table = & JTable::getInstance('Usergroup', 'JXTable');
+		$table = & JTable::getInstance('Usergroup', 'JTable');
 
 		// Attempt to delete the usergroup.
 		if (!$table->delete($groupId)) {
@@ -598,19 +598,19 @@ class JXAccessHelper
 	public function registerAsset($section, $title, $name = null)
 	{
 		// Sanitize the section name.
-		$section = JXAccessHelper::_sanitizeName($section);
+		$section = JAccessHelper::_sanitizeName($section);
 
 		// Sanitize and build the action name.
 		if (!empty($name)) {
 			// If a name segment was specified, use it for the name.
-			$name = JXAccessHelper::_sanitizeName($name, $section);
+			$name = JAccessHelper::_sanitizeName($name, $section);
 		}
 		else {
 			// If no name segment was specified, use the title as the segment.
-			$name = JXAccessHelper::_sanitizeName($title, $section);
+			$name = JAccessHelper::_sanitizeName($title, $section);
 		}
 
-		$sectionId = JxAccessHelper::getSectionId($section);
+		$sectionId = JAccessHelper::getSectionId($section);
 
 		// If the section does not exist, throw an exception.
 		if (empty($sectionId)) {
@@ -677,7 +677,7 @@ class JXAccessHelper
 	public function registerAccessLevel($title, $section, $userGroups = array(), $users = array(), $action = 'core.view')
 	{
 		// Sanitize the section name.
-		$section = JXAccessHelper::_sanitizeName($section);
+		$section = JAccessHelper::_sanitizeName($section);
 
 		// Get a database object.
 		$db = &JFactory::getDBO();
@@ -733,11 +733,11 @@ class JXAccessHelper
 			$groupId = (int) $db->insertid();
 
 			// Rebuild the groups tree.
-			JXAccessHelper::_rebuildGroupsTree('assets');
+			JAccessHelper::_rebuildGroupsTree('assets');
 		}
 
 		// Get a JAccessLevel model and populate the values.
-		$model = &JXAccessHelper::getAccessLevel($title, $section, $action);
+		$model = &JAccessHelper::getAccessLevel($title, $section, $action);
 
 		// Set the access section.
 		$model->setSection($section);
@@ -775,7 +775,7 @@ class JXAccessHelper
 	public function removeAccessLevel($title, $section, $action = 'core.view')
 	{
 		// Get a JAccessLevel model.
-		$model = &JXAccessHelper::getAccessLevel();
+		$model = &JAccessHelper::getAccessLevel();
 
 		// Delete the access level.
 		if (!$model->delete($title, $section, $action)) {
@@ -829,7 +829,7 @@ class JXAccessHelper
 	public function registerSimpleRule($action, $asset = null, $userGroups = array(), $users = array())
 	{
 		// Get a JSimpleRule model and populate the values.
-		$model = &JXAccessHelper::getSimpleRule($action, $asset);
+		$model = &JAccessHelper::getSimpleRule($action, $asset);
 
 		// Set the usergroups.
 		$model->setUserGroups($userGroups);
@@ -904,7 +904,7 @@ class JXAccessHelper
 		for ($i=0,$n=count($children); $i < $n; $i++)
 		{
 			// The right value is incremented for reach recursive return.
-			$right = JXAccessHelper::_rebuildGroupsTree($type, $children[$i], $right);
+			$right = JAccessHelper::_rebuildGroupsTree($type, $children[$i], $right);
 
 			// If there is an error updating a child, return false to break out of recursion.
 			if ($right === false) {
@@ -937,10 +937,10 @@ class JXAccessHelper
 	 * @return	mixed			True if successful, otherwise a JException
 	 * @throws	JException
 	 */
-	public function synchronizeAssets($items, $section)
+	public function synchroniseAssets($items, $section)
 	{
 		// Check we have a valid section, get the id
-		$sectionId = JxAccessHelper::getSectionId($section);
+		$sectionId = JAccessHelper::getSectionId($section);
 
 		// If the section does not exist, throw an exception.
 		if (empty($sectionId)) {
@@ -994,7 +994,7 @@ class JXAccessHelper
 		{
 			foreach ($add as $id)
 			{
-				$result = JxAccessHelper::registerAsset($section, $items[$id]->title, $items[$id]->name);
+				$result = JAccessHelper::registerAsset($section, $items[$id]->title, $items[$id]->name);
 
 				if (JError::isError($result)) {
 					return $result;
@@ -1007,7 +1007,7 @@ class JXAccessHelper
 		{
 			foreach ($drop as $id)
 			{
-				/*$result = JxAccessHelper::removeAsset($section, $items[$id]->name);
+				/*$result = JAccessHelper::removeAsset($section, $items[$id]->name);
 
 				if (JError::isError($result)) {
 					return $result;
@@ -1023,7 +1023,7 @@ class JXAccessHelper
 				// If the name and ordering are the same, we do not need to do anything.
 				if ($assets[$id]->title != $items[$id]->title)
 				{
-					$result = JxAccessHelper::registerAsset($section, $items[$id]->title, $assets[$id]->name);
+					$result = JAccessHelper::registerAsset($section, $items[$id]->title, $assets[$id]->name);
 
 					if (JError::isError($result)) {
 						return $result;
@@ -1032,7 +1032,7 @@ class JXAccessHelper
 /*
 				// If the access fields are the same, then no need to change the groups
 				if ($assets[$id]->group_id !== $items[$id]->access) {
-					JxAclAdmin::registerAssetInGroups((int) $assets[$id]->id, $groups[$items[$id]->access]->id);
+					JAccessHelper::registerAssetInGroups((int) $assets[$id]->id, $groups[$items[$id]->access]->id);
 				}
 */
 			}
