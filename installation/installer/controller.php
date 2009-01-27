@@ -364,7 +364,7 @@ class JInstallationController extends JController
 		$model = &$this->getModel();
 
 		$view = &$this->getView();
-		if(!$model->checkUpload()) {
+		if (!$model->checkUpload()) {
 			$view->error();
 			return false;
 		}
@@ -383,7 +383,7 @@ class JInstallationController extends JController
 	{
 		$model = &$this->getModel();
 		$view = &$this->getView();
-		if($model->postMigrate()) {
+		if ($model->postMigrate()) {
 			// errors!
 		}
 	}

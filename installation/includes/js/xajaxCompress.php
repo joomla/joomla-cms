@@ -32,10 +32,10 @@ function xajaxCompressJavascript($sJS)
 			$d = substr($line,$j,2);
 
 			//look for start of quote
-			if(!$inQuote && !$inComment)
+			if (!$inQuote && !$inComment)
 			{
 				//is this character a quote or a comment
-				if(($c=="\"" || $c=="'") && !$inComment && !$inNormalComment)
+				if (($c=="\"" || $c=="'") && !$inComment && !$inNormalComment)
 				{
 					$inQuote = true;
 					$inComment = false;
@@ -43,7 +43,7 @@ function xajaxCompressJavascript($sJS)
 					$quoteChar = $c;
 					$literal = $c;
 				}
-				else if($d=="/*" && !$inNormalComment)
+				else if ($d=="/*" && !$inNormalComment)
 				{
 					$inQuote = false;
 					$inComment = true;
@@ -52,7 +52,7 @@ function xajaxCompressJavascript($sJS)
 					$literal = $d;
 					$j++;
 				}
-				else if($d=="//") //ignore string markers that are found inside comments
+				else if ($d=="//") //ignore string markers that are found inside comments
 				{
 					$inNormalComment = true;
 					$clean .= $c;
@@ -64,7 +64,7 @@ function xajaxCompressJavascript($sJS)
 			}
 			else //allready in a string so find end quote
 			{
-				if($c == $quoteChar && !$escaped && !$inComment)
+				if ($c == $quoteChar && !$escaped && !$inComment)
 				{
 					$inQuote = false;
 					$literal .= $c;
@@ -76,7 +76,7 @@ function xajaxCompressJavascript($sJS)
 					array_push($literal_strings,$literal);
 
 				}
-				else if($inComment && $d=="*/")
+				else if ($inComment && $d=="*/")
 				{
 					$inComment = false;
 					$literal .= $d;
@@ -89,7 +89,7 @@ function xajaxCompressJavascript($sJS)
 
 					$j++;
 				}
-				else if($c == "\\" && !$escaped)
+				else if ($c == "\\" && !$escaped)
 					$escaped = true;
 				else
 					$escaped = false;
@@ -97,7 +97,7 @@ function xajaxCompressJavascript($sJS)
 				$literal .= $c;
 			}
 		}
-		if($inComment) $literal .= "\n";
+		if ($inComment) $literal .= "\n";
 		$clean .= "\n";
 	}
 	//explode the clean string into lines again
@@ -141,4 +141,3 @@ function xajaxCompressJavascript($sJS)
 
 	return $sJS;
 }
-?>

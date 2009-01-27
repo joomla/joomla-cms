@@ -29,7 +29,7 @@ $controller	= new JInstallationController($config);
 $controller->initialize();
 
 // Set some paths
-$controller->addViewPath ($here.DS.'views' );
+$controller->addViewPath ($here.DS.'views');
 $controller->addModelPath($here.DS.'models');
 
 // Process the request

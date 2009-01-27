@@ -451,8 +451,8 @@ class JInstallationModel extends JModel
 			// This feature is available for localized version of Joomla! 1.5
 			jimport('joomla.filesystem.file');
 			$dblocalise = 'sql'.DS.$type.DS.'localise.sql';
-			if(JFile::exists($dblocalise)) {
-				if(JInstallationHelper::populateDatabase($db, $dblocalise, $errors) > 0) {
+			if (JFile::exists($dblocalise)) {
+				if (JInstallationHelper::populateDatabase($db, $dblocalise, $errors) > 0) {
 					$this->setError(JText::_('WARNPOPULATINGDB'));
 					$this->setData('back', 'dbconfig');
 					$this->setData('errors', JInstallationHelper::errors2string($errors));
@@ -867,7 +867,7 @@ class JInstallationModel extends JModel
 				return false;
 			}
 
-			if(!eregi('.sql$', $sqlFile['name'])) {
+			if (!eregi('.sql$', $sqlFile['name'])) {
 				$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
 			}
 			else {

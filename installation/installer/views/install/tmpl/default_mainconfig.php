@@ -35,7 +35,7 @@
 
 	function selectMode() {
 		var frm = this.document.filename;
-		if(frm.what_to_load[0].checked) {
+		if (frm.what_to_load[0].checked) {
 			frm.instDefault.disabled = false;
 			frm.sqlFile.disabled = true;
 			frm.oldPrefix.disabled = true;
@@ -43,7 +43,7 @@
 			frm.migrationLoad.disabled = true;
 			frm.migration.disabled = true;
 			frm.sqlUploaded.disabled = true;
-		} else if(frm.what_to_load[1].checked) {
+		} else if (frm.what_to_load[1].checked) {
 			frm.instDefault.disabled = true;
 			frm.sqlFile.disabled = false;
 			frm.oldPrefix.disabled = false;
@@ -79,7 +79,7 @@
 		var adminPassword 			= getElementByName(frm, 'vars[adminPassword]');
 		var confirmAdminPassword 	= getElementByName(frm, 'vars[confirmAdminPassword]');
 
-		if(adminPassword.defaultValue == adminPassword.value || confirmAdminPassword.defaultValue == confirmAdminPassword.value) {
+		if (adminPassword.defaultValue == adminPassword.value || confirmAdminPassword.defaultValue == confirmAdminPassword.value) {
 			adminPassword.value 		= '';
 			confirmAdminPassword.value 	= '';
 		}
@@ -388,7 +388,7 @@
 <script language="JavaScript" type="text/javascript">
 	document.filename.what_to_load[document.filename.loadchecked.value].checked = true;
 	selectMode();
-	if(this.document.filename.migstatus.value == '1') {
+	if (this.document.filename.migstatus.value == '1') {
 		this.document.filename.what_to_load.disabled = 1;
 		this.document.filename.instDefault.disabled = 1;
 		this.document.filename.default_sample.disabled = 1;

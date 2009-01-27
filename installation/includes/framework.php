@@ -27,7 +27,7 @@ if (file_exists(JPATH_CONFIGURATION . DS . 'configuration.php') && (filesize(JPA
  */
 
 // System includes
-require_once(JPATH_LIBRARIES . DS . 'joomla' . DS . 'import.php');
+require_once JPATH_LIBRARIES . DS . 'joomla' . DS . 'import.php';
 
 // Installation file includes
 define('JPATH_INCLUDES', dirname(__FILE__));

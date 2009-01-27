@@ -65,7 +65,7 @@ class JInstallation extends JApplication
 		$config		= JFactory::getConfig();
 		$user		= JFactory::getUser();
 
-		switch($document->getType())
+		switch ($document->getType())
 		{
 			case 'html':
 				//set metadata
@@ -110,10 +110,10 @@ class JInstallation extends JApplication
 		$forced = $this->getLocalise();
 
 		// Check URL arguement - useful when user has just set the language preferences
-		if(empty($options['language']))
+		if (empty($options['language']))
 		{
 			$vars		= JRequest::getVar('vars');
-			if (is_array($vars) && ! empty($vars['lang']) )
+			if (is_array($vars) && ! empty($vars['lang']))
 			{
 				$varLang	= $vars['lang'];
 				$options['language']	= $varLang;
@@ -121,7 +121,7 @@ class JInstallation extends JApplication
 		}
 
 		// Check the application state - useful when the user has previously set the language preference
-		if(empty($options['language']))
+		if (empty($options['language']))
 		{
 			$configLang = $this->getUserState('application.lang');
 			if ($configLang) {
@@ -130,7 +130,7 @@ class JInstallation extends JApplication
 		}
 
 		// This could be a first-time visit - try to determine what the client accepts
-		if(empty($options['language']))
+		if (empty($options['language']))
 		{
 			if (empty($forced['lang'])) {
 				jimport('joomla.language.helper');

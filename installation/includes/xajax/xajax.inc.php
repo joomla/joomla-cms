@@ -32,10 +32,10 @@
 // Define XAJAX_DEFAULT_CHAR_ENCODING that is used by both
 // the xajax and xajaxResponse classes
 if (!defined ('XAJAX_DEFAULT_CHAR_ENCODING')) {
-	define ('XAJAX_DEFAULT_CHAR_ENCODING', 'utf-8' );
+	define ('XAJAX_DEFAULT_CHAR_ENCODING', 'utf-8');
 }
 
-require_once(dirname( __FILE__ ).DIRECTORY_SEPARATOR."xajaxResponse.inc.php");
+require_once dirname(__FILE__).DIRECTORY_SEPARATOR."xajaxResponse.inc.php";
 
 // Communication Method Defines
 if (!defined ('XAJAX_GET'))
@@ -469,7 +469,7 @@ class xajax
 		if ($this->sEncoding && strlen(trim($this->sEncoding)) > 0)
 			$sContentHeader .= " charset=".$this->sEncoding;
 		header($sContentHeader);
-		if ($this->bErrorHandler && !empty( $GLOBALS['xajaxErrorHandlerText'] )) {
+		if ($this->bErrorHandler && !empty($GLOBALS['xajaxErrorHandlerText'])) {
 			$sErrorResponse = new xajaxResponse();
 			$sErrorResponse->addAlert("** PHP Error Messages: **" . $GLOBALS['xajaxErrorHandlerText']);
 			if ($this->sLogFile) {
@@ -744,7 +744,7 @@ class xajax
 			while(!stristr($this->aObjArray[$this->iPos],"</xjxobj>"))
 			{
 				$this->iPos++;
-				if(stristr($this->aObjArray[$this->iPos],"<e>"))
+				if (stristr($this->aObjArray[$this->iPos],"<e>"))
 				{
 					$key = "";
 					$value = null;
@@ -752,7 +752,7 @@ class xajax
 					$this->iPos++;
 					while(!stristr($this->aObjArray[$this->iPos],"</e>"))
 					{
-						if(stristr($this->aObjArray[$this->iPos],"<k>"))
+						if (stristr($this->aObjArray[$this->iPos],"<k>"))
 						{
 							$this->iPos++;
 							while(!stristr($this->aObjArray[$this->iPos],"</k>"))
@@ -761,12 +761,12 @@ class xajax
 								$this->iPos++;
 							}
 						}
-						if(stristr($this->aObjArray[$this->iPos],"<v>"))
+						if (stristr($this->aObjArray[$this->iPos],"<v>"))
 						{
 							$this->iPos++;
 							while(!stristr($this->aObjArray[$this->iPos],"</v>"))
 							{
-								if(stristr($this->aObjArray[$this->iPos],"<xjxobj>"))
+								if (stristr($this->aObjArray[$this->iPos],"<xjxobj>"))
 								{
 									$value = $this->_parseObjXml("xjxobj");
 									$this->iPos++;
@@ -852,5 +852,3 @@ function xajaxErrorHandler($errno, $errstr, $errfile, $errline)
 	}
 	$GLOBALS['xajaxErrorHandlerText'] .= "\n----\n[$errTypeStr] $errstr\nerror in line $errline of file $errfile";
 }
-
-?>

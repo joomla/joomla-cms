@@ -303,6 +303,11 @@ class JInstallationHelper
 			}
 		}
 
+		// Register the user in the ACS
+
+		jimport('joomla.access.helper');
+		JAccessHelper::
+
 		// add the ARO (Access Request Object)
 		$query = "INSERT IGNORE INTO #__core_acl_aro VALUES (10,'users','62',0,'Administrator',0)";
 		$db->setQuery($query);
@@ -845,7 +850,7 @@ class JInstallationHelper
 	{
 		$val = trim($val);
 		$last = strtolower($val{strlen($val)-1});
-		switch($last) {
+		switch ($last) {
 			// The 'G' modifier is available since PHP 5.1.0
 			case 'g':
 				$val *= 1024;
@@ -937,7 +942,7 @@ class JInstallationHelper
 				$buffer = file_get_contents($scriptName);
 			} else return false;
 
-			if ( $buffer == false) return false;
+			if ($buffer == false) return false;
 			JInstallationHelper::replaceBuffer($buffer, $oldPrefix, $newPrefix, $srcEncoding);
 
 			/*
@@ -1459,7 +1464,7 @@ class JInstallationHelper
 		// This function transforms the php.ini notation for numbers (like '2M') to an integer (2*1024*1024 in this case)
 		$l = substr($v, -1);
 		$ret = substr($v, 0, -1);
-		switch(strtoupper($l)){
+		switch (strtoupper($l)){
 		case 'P':
 			$ret *= 1024;
 		case 'T':
