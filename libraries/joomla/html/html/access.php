@@ -1,0 +1,187 @@
+<?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
+
+defined('JPATH_BASE') or die;
+
+/**
+ * Extended Utility class for all HTML drawing classes.
+ *
+ * @package		Joomla.Framework
+ * @subpackage	HTML
+ * @static
+ */
+class JHtmlAccess
+{
+	/**
+	 * Displays a list of the available access sections
+	 *
+	 * @param	string	The form field name.
+	 * @param	string	The name of the selected section.
+	 * @param	string	Additional attributes to add to the select field.
+	 * @param	boolean	True to add "All Sections" option.
+	 * @return	string	The required HTML for the SELECT tag.
+	 * @since	1.0
+	 */
+	public function section($name, $selected, $attribs = '', $allowAll = true)
+	{
+		$db = &JFactory::getDbo();
+		$db->setQuery(
+			'SELECT `id` AS value, `title` AS text'
+			.' FROM #__access_sections'
+			.' ORDER BY `ordering`, `title`'
+		);
+		$options = $db->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum()) {
+			JError::raiseNotice(500, $db->getErrorMsg());
+			return null;
+		}
+
+		// If all usergroups is allowed, push it into the array.
+		if ($allowAll) {
+			array_unshift($options, JHtml::_('select.option', '', JText::_('JOption_Access_Show_All_Sections')));
+		}
+
+		return JHTML::_('select.genericlist', $options, $name, $attribs, 'value', 'text', $selected);
+	}
+
+	/**
+	 * Displays a list of the available user groups.
+	 *
+	 * @param	string	The form field name.
+	 * @param	string	The name of the selected section.
+	 * @param	string	Additional attributes to add to the select field.
+	 * @param	boolean	True to add "All Groups" option.
+	 * @return	string	The required HTML for the SELECT tag.
+	 * @since	1.0
+	 */
+	public function usergroup($name, $selected, $attribs = '', $allowAll = true)
+	{
+		$db = &JFactory::getDbo();
+		$db->setQuery(
+			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
+			' FROM #__usergroups AS a' .
+			' LEFT JOIN `#__usergroups` AS b ON a.left_id > b.left_id AND a.right_id < b.right_id' .
+			' GROUP BY a.id' .
+			' ORDER BY a.left_id ASC'
+		);
+		$options = $db->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum()) {
+			JError::raiseNotice(500, $db->getErrorMsg());
+			return null;
+		}
+
+		for ($i=0,$n=count($options); $i < $n; $i++)
+		{
+			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
+		}
+
+		// If all usergroups is allowed, push it into the array.
+		if ($allowAll) {
+			array_unshift($options, JHtml::_('select.option', '', JText::_('JOption_Access_Show_All_Groups')));
+		}
+
+		return JHTML::_('select.genericlist', $options, $name, $attribs, 'value', 'text', $selected);
+	}
+
+	public function usergroups($name, $selected)
+	{
+		static $count;
+
+		$count++;
+
+		$db = &JFactory::getDbo();
+		$db->setQuery(
+			'SELECT a.*, COUNT(DISTINCT b.id) AS level' .
+			' FROM #__usergroups AS a' .
+			' LEFT JOIN `#__usergroups` AS b ON a.left_id > b.left_id AND a.right_id < b.right_id' .
+			' GROUP BY a.id' .
+			' ORDER BY a.left_id ASC'
+		);
+		$groups = $db->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum()) {
+			JError::raiseNotice(500, $db->getErrorMsg());
+			return null;
+		}
+
+		$html = array();
+
+		$html[] = '<ul class="checklist usergroups" style="padding:0;">';
+
+		for ($i=0, $n=count($groups); $i < $n; $i++)
+		{
+			$item = &$groups[$i];
+
+			// Setup  the variable attributes.
+			$eid = $count.'group_'.$item->id;
+			$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+			$rel = ($item->parent_id > 0) ? ' rel="'.$count.'group_'.$item->parent_id.'"' : '';
+
+			// Build the HTML for the item.
+			$html[] = '	<li>';
+			$html[] = '		<label for="'.$eid.'">';
+			$html[] = '			<input type="checkbox" name="'.$name.'[]" value="'.$item->id.'" id="'.$eid.'"';
+			$html[] = '				'.$checked.$rel.' />';
+			$html[] = '			'.str_repeat('- ', $item->level).$item->title;
+			$html[] = '		</label>';
+			$html[] = '	</li>';
+		}
+		$html[] = '</ul>';
+
+		return implode("\n", $html);
+	}
+
+	/**
+	 * Displays a Select list of the available asset groups
+	 *
+	 * @param	string $name	The name of the select element
+	 * @param	mixed $selected	The selected asset group id
+	 * @param	string $attribs	Optional attributes for the select field
+	 *
+	 * @return	mixed			An HTML string or null if an error occurs
+	 */
+	public function assetgroups($name, $selected, $attribs = '')
+	{
+		static $count, $cache;
+
+		$count++;
+
+		if ($cache == null)
+		{
+			$db = &JFactory::getDbo();
+			$db->setQuery(
+				'SELECT a.*, COUNT(DISTINCT b.id) AS level' .
+				' FROM #__access_assetgroups AS a' .
+				' LEFT JOIN `#__access_assetgroups` AS b ON a.left_id > b.left_id AND a.right_id < b.right_id' .
+				' GROUP BY a.id' .
+				' ORDER BY a.left_id ASC'
+			);
+			$cache = $db->loadObjectList();
+
+			// Check for a database error.
+			if ($db->getErrorNum()) {
+				JError::raiseNotice(500, $db->getErrorMsg());
+				return null;
+			}
+
+			foreach ($cache as $i => $group) {
+				$cache[$i]->value	= $group->id;
+				// We are not exposing any hierarchy in access levels yet.
+				//$cache[$i]->text	= str_pad($group->title, strlen($group->title) + 2*($group->level), '- ', STR_PAD_LEFT);
+				$cache[$i]->text	= $group->title;
+			}
+		}
+
+		return JHTML::_('select.genericlist', $cache, $name, $attribs, 'value', 'text', $selected, 'assetgroups_'.$count);
+	}
+}
