@@ -306,7 +306,6 @@ class JInstallationHelper
 		// Register the user in the ACS
 
 		jimport('joomla.access.helper');
-		JAccessHelper::
 
 		// add the ARO (Access Request Object)
 		$query = "INSERT IGNORE INTO #__core_acl_aro VALUES (10,'users','62',0,'Administrator',0)";
