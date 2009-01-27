@@ -1,8 +1,6 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Table
 * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
 * @license		GNU General Public License, see LICENSE.php
 */
@@ -14,8 +12,8 @@ defined('JPATH_BASE') or die();
  * Users table
  *
  * @package 	Joomla.Framework
- * @subpackage		Table
- * @since	1.0
+ * @subpackage	Table
+ * @since		1.0
  */
 class JTableUser extends JTable
 {
@@ -24,63 +22,63 @@ class JTableUser extends JTable
 	 *
 	 * @var int
 	 */
-	protected $id				= null;
+	protected $id = null;
 
 	/**
 	 * The users real name (or nickname)
 	 *
 	 * @var string
 	 */
-	protected $name			= null;
+	protected $name = null;
 
 	/**
 	 * The login name
 	 *
 	 * @var string
 	 */
-	protected $username		= null;
+	protected $username = null;
 
 	/**
 	 * The email
 	 *
 	 * @var string
 	 */
-	protected $email			= null;
+	protected $email = null;
 
 	/**
 	 * MD5 encrypted password
 	 *
 	 * @var string
 	 */
-	protected $password		= null;
+	protected $password = null;
 
 	/**
 	 * Description
 	 *
 	 * @var string
 	 */
-	protected $usertype		= null;
+	protected $usertype = null;
 
 	/**
 	 * Description
 	 *
 	 * @var int
 	 */
-	protected $block			= null;
+	protected $block = null;
 
 	/**
 	 * Description
 	 *
 	 * @var int
 	 */
-	protected $sendEmail		= null;
+	protected $sendEmail = null;
 
 	/**
 	 * The group id number
 	 *
 	 * @var int
 	 */
-	protected $gid			= null;
+	protected $gid = null;
 
 	/**
 	 * Description
@@ -94,21 +92,21 @@ class JTableUser extends JTable
 	 *
 	 * @var datetime
 	 */
-	protected $lastvisitDate	= null;
+	protected $lastvisitDate = null;
 
 	/**
 	 * Description
 	 *
 	 * @var string activation hash
 	 */
-	protected $activation		= null;
+	protected $activation = null;
 
 	/**
 	 * Description
 	 *
 	 * @var string
 	 */
-	protected $params			= null;
+	protected $params = null;
 
 	/**
 	* @param database A database connector object
