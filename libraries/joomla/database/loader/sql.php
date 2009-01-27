@@ -22,7 +22,7 @@ defined('JPATH_BASE') or die();
 jimport('joomla.tasks.task');
 jimport('joomla.tasks.tasksuspendable');
 
-class JLoaderSql extends JDataLoad implements JTaskSuspendable {
+class JDataLoaderSql extends JDataLoad implements JTaskSuspendable {
 	/** JStream internal stream object */
 	private $_stream;
 	/** DBO */
@@ -228,7 +228,7 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 			if($this->taskid) {
 				$this->_task->reload(); // force a task reload
 			} else {
-				JError::raiseError(500, 'JLoaderSQL::load: Ran out of time during load');
+				JError::raiseError(500, JText::_('JLoaderSQL::load: Ran out of time during load'));
 				return false;
 			}
 		}

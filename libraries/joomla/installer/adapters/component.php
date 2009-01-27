@@ -773,7 +773,7 @@ class JInstallerComponent extends JAdapterInstance
 		// 1.5 or Core
 		$lang->load($row->element);
 		// 1.6
-		$lang->load( 'joomla', $this->parent->getPath('extension_administrator'));
+		$lang->load($row->element, $this->parent->getPath('extension_administrator'));
 
 		/**
 		 * ---------------------------------------------------------------------------------------------

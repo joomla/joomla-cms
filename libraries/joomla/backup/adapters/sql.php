@@ -4,6 +4,7 @@ defined('JPATH_BASE') or die();
 
 jimport('joomla.base.adapterinstance');
 jimport('joomla.tasks.tasksuspendable');
+jimport('joomla.backup.backupadapter');
 
 class JBackupSql extends JAdapterInstance implements JTaskSuspendable, JBackupAdapter {
 	protected $yield_amount = 100; // yield every 100 queries
@@ -47,6 +48,14 @@ class JBackupSql extends JAdapterInstance implements JTaskSuspendable, JBackupAd
 		if(!isset($options['replace_prefix'])) $options['replace_prefix'] = 0; // replace jos_ with #__
 		if(!isset($options['create_table'])) $options['create_table'] = 1; // append create table
 		if(!isset($options['droptable'])) $options['droptable'] = 1; // append drop table
+		
+		if(!file_exists($options['destination'])) {
+			if(!JFolder::create($options['destination'])) {
+				JError::raiseError(1000, JText::_('Failed to create backup destination'));
+				return false;
+			}
+		}
+		
 		$this->db->setQuery('SET sql_quote_show_create = 1;');
 		$this->db->Query();
 		$config =& JFactory::getConfig();
@@ -122,11 +131,11 @@ class JBackupSql extends JAdapterInstance implements JTaskSuspendable, JBackupAd
 		jimport('joomla.database.dataload');
 		$loader =& JDataLoad::getInstance(Array('driver'=>'sql','filename'=>$options['destination'].DS.$options['filename']));
 		if($loader INSTANCEOF JException) {
-			JError::raiseWarning('100', 'Failed to load adapter');
+			JError::raiseWarning(1001, JText::sprintf('Failed to create data load adapter "%s"', 'sql'));
 			return false;
 		} else {
 			if(!$loader->load()) {
-				JError::raiseWarning('100', 'Load failed:'. $loader->getError());
+				JError::raiseWarning(1002, JText::sprintf('Data Load failed: %s', $loader->getError()));
 				return false;
  			}
 		}

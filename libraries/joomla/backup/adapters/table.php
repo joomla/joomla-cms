@@ -3,6 +3,8 @@
 defined('JPATH_BASE') or die();
 
 jimport('joomla.base.adapterinstance');
+jimport('joomla.tasks.tasksuspendable');
+jimport('joomla.backup.backupadapter');
 
 class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackupAdapter {
 	protected $task;
@@ -48,7 +50,7 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackup
 
 			foreach($tables as $tn) {
 				// make sure we get the right tables based on prefix and exclude ones that are in that list
-				if (preg_match( "/^".$prefix."/i", $tn ) && !in_array($options['excluded'], $tn)) {
+				if (preg_match( "/^".$prefix."/i", $tn ) && !in_array($tn, $options['excluded'])) {
 					$options['tables'][] = $tn;
 				}
 			}

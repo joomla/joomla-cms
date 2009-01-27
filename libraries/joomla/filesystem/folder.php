@@ -268,7 +268,7 @@ abstract class JFolder
 	 * @return	array	Files in the given folder.
 	 * @since 1.5
 	 */
-	public static function files($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('\._.*'))
+	public static function files($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*','.*~'))
 	{
 		// Initialize variables
 		$arr = array ();
@@ -285,7 +285,7 @@ abstract class JFolder
 		// read the source directory
 		$handle = opendir($path);
 		if(count($excludefilter)) {
-			$excludefilter = '('. implode('|', $excludefilter) .')';
+			$excludefilter = '/('. implode('|', $excludefilter) .')/';
 		} else {
 			$excludefilter = '';
 		}
@@ -336,7 +336,7 @@ abstract class JFolder
 	 * @return	array	Folders in the given folder.
 	 * @since 1.5
 	 */
-	public static function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('\..*'))
+	public static function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*'))
 	{
 		// Initialize variables
 		$arr = array ();
@@ -353,7 +353,7 @@ abstract class JFolder
 		// read the source directory
 		$handle = opendir($path);
 		if(count($excludefilter)) {
-			$excludefilter_string = '('. implode('|', $excludefilter) .')';
+			$excludefilter_string = '/('. implode('|', $excludefilter) .')/';
 		} else {
 			$excludefilter_string = '';
 		}

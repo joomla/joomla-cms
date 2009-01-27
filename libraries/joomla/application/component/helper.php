@@ -136,7 +136,7 @@ abstract class JComponentHelper
 		// 1.5 3PD or Core files
 		$lang->load($name);
 		// 1.6 3PD
-		$lang->load('joomla', JPATH_COMPONENT);
+		$lang->load($name, JPATH_COMPONENT);
 
 		// @todo if ( $legacy )
 		$option = $component;

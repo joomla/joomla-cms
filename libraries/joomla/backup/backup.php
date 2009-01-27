@@ -168,11 +168,11 @@ class JBackup extends JAdapter {
 			JError::raiseWarning(40,JText::_('Failed to store task set'));
 			return false;
 		}
-		echo '<p>Added new task set for backup</p>';
+		//echo '<p>Added new task set for backup</p>';
 		foreach($entries as &$entry) {
 			$params = $entry->params; // yay for php5 and automatic references!
 			if(!array_key_exists('destination', $params)) {
-				$params['destination'] =  $destination;
+				$params['destination'] =  $destination.DS.$entry->type;
 			}
 			$task = $this->_taskset->createTask();
 			$task->set('type', $entry->type);
@@ -180,7 +180,7 @@ class JBackup extends JAdapter {
 			if(!$task->store()) {
 				die('Failed to store task: '. $this->_db->getErrorMSG());
 			}
-			echo '<p>Added new task to backup</p>';
+			//echo '<p>Added new task to backup</p>';
 			
 		}
 		unset($entry); // remove this reference
@@ -209,7 +209,7 @@ class JBackup extends JAdapter {
 		
 		//print_r($this->_taskset);
 		while($task =& $this->_taskset->getNextTask()) {
-			echo '<p>Processing task</p>';
+			//echo '<p>Processing task</p>';
 			$type = $task->get('type','');
 			if(!$type) {
 				JError::raiseWarning(100, JText::_('Invalid type used for backup task'));

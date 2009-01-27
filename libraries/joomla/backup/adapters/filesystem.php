@@ -27,6 +27,7 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	protected $options;
 	protected $state;
 	protected $stack;
+	protected $files;
 	
 	public function __construct(&$parent, &$db=null, $options=Array()) {
 		parent::__construct($parent, $db);
@@ -57,13 +58,28 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 			if(!array_key_exists('destination', $options)) {
 				return false; // bad fugu!
 			}
+			
+			if(!file_exists($options['destination'])) {
+				if(!JFolder::create($options['destination'])) {
+					JError::raiseError(1000, JText::_('Failed to create backup destination'));
+					return false;
+				}
+			}
+			
+			
+			if(!array_key_exists('source', $options)) {
+				return false; // we don't know where to start!
+			}
+			
 			// a list of things we want to exclude
 			if(!array_key_exists('exclude', $options)) {
 				$options['exclude'] = Array('backups', '.svn', 'CVS', '.DS_Store', '__MACOSX');
 			}
 			// a list of filters we want to match against things we want to exclude
 			if(!array_key_exists('excludefilter', $options)) {
-				$options['excludefilter'] = Array('\..*');
+				// TODO: Check if it needs to be \~ or if just ~ works properly
+				// ignore hidden files and backups
+				$options['excludefilter'] = Array('^\..*', '.*~$');
 			}
 			// where we start backing up from...
 			if(!array_key_exists('root', $options)) {
@@ -107,39 +123,52 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	
 	private function _findFolders() {
 		$options =& $this->state['options'];
-		// TODO: Add support for multiple disjoint folders (e.g. admin and site for a component)
-		$folders = JFolder::folders($options['root'], $options['filter'], true, true, $options['exclude'], $options['excludefilter']);
+		if(!is_array($options['source'])) {
+			$folders = JFolder::folders($options['source'], $options['filter'], true, true, $options['exclude'], $options['excludefilter']);
+		} else {
+			$folders = Array();
+			foreach($options['source'] as $source) {
+				$folders = array_merge($folders, JFolder::folders($options['source'], $options['filter'], true, true, $options['exclude'], $options['excludefilter'])); 
+			}
+		}
+		
 		if(!is_array($folders)) {
 			$folders = Array();
 		}
 		// ensure that the folder exists
-		array_unshift($folders, $options['root']);
-		sort(array_unique($folders)); // sort the folders and make sure they're unique
-		$this->stack = $folders;
+		array_unshift($folders, $options['source']);
+		$folders = array_unique($folders); // sort the folders and make sure they're unique
+		rsort($folders);
+		$this->stack = $folders; // reverse the array since array_pop is better than array_shift
 	}
 	
 	// Should this be protected and let people override this with their own write file implementation?
 	private function _processDirectories() {
-		$directories = count($this->stack);
 		$options =& $this->state['options'];
-		for($i = 0; $i < $directories; $i++) {
-			// TODO: Look for weirdness here
-			$files = JFolder::files($this->stack[$i], $options['filter'], false, true, $options['exclude']); //, $options['excludefilter']);
-			$target = $options['destination'].DS.str_replace(JPATH_BASE, '', $this->stack[$i]);
+		// get the last item on the stack but don't remove it until we're done
+		while($directory = end($this->stack)) {
+			// if the files list is empty, populate
+			if(empty($this->files)) {
+				$this->files = JFolder::files($directory, $options['filter'], false, true, $options['exclude'], $options['excludefilter']);
+				rsort($this->files);
+			}
+			$target = $options['destination'].DS.str_replace($options['root'], '', $directory);
 			$res = JFolder::create($target);
 			if(!$res) {
-				echo 'Failed to create directory '. $target .'<br />';
+				//echo 'Failed to create directory '. $target .'<br />';
+				JError::raiseError(2, JText::sprintf('Failed to create directory: %s', $target));
 				continue;
 			}
-			$fc = count($files);
-			for($f = 0; $f < $fc; $f++) {
-				$res = JFile::copy($files[$f], $target.DS.basename($files[$f]));
+			while(($file = array_pop($this->files)) != null) {
+				$res = JFile::copy($file, $target.DS.basename($file));
 				if(!$res) {
-					//JError::raiseWarning(1, 'Failed to copy '. $files[$f]);
-					echo 'Failed to copy '. $files[$f].' to '. $target .'<br />';
+					JError::raiseWarning(1, JText::sprintf('Failed to backup "%s"', $file));
+					//echo 'Failed to copy '. $files[$f].' to '. $target .'<br />';
 				}
+				if(count($this->files)) $this->task->yield();
 			}
-			// TODO: Write function to open files and write them somewhere else
+			// remove the item off the stack
+			array_pop($this->stack);
 		}
 	}
 	

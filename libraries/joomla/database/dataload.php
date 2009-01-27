@@ -47,7 +47,7 @@ abstract class JDataLoad extends JClass {
 				$error = JError::raiseError(500, JTEXT::_('Unable to load Data Load Driver:') .$driver);
 				return $error;
 			}
-			$adapter	= 'JLoader'.$driver;
+			$adapter	= 'JDataLoader'.$driver;
 			$instance	= new $adapter($options);
 
 			if ($error = $instance->getError())

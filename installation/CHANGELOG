@@ -28,6 +28,13 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+27-Jan-2009 Sam moffatt
+ ^ Changed in extension language system to use same file names instead of just xx-XX.ini
+ ^ Changed data load adapter prefix to JDataLoader
+ # Fixed issue with JFolder regexp's; now ignores backup files by default (files ending with a ~)
+ ^ Improvements to the filesystem backup adapter
+ ^ Backup adapters have their own directory to use within a backup set
+
 26-Jan-2009 Andrew Eddie
  ^ JHtmlGrid::published first argument now takes value or object (deprecated)
  + Added JHtmlList::ordering, deprecated JHtmlList::specificordering

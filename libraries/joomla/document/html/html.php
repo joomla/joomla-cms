@@ -379,7 +379,7 @@ class JDocumentHTML extends JDocument
 		// 1.5 or core
 		$lang->load( 'tpl_'.$template );
 		// 1.6
-		$lang->load( 'joomla', $directory.DS.$template );
+		$lang->load( 'tpl_'.$template, $directory.DS.$template );
 
 		// Assign the variables
 		$this->template = $template;
