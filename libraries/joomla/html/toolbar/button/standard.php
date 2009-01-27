@@ -73,7 +73,7 @@ class JButtonStandard extends JButton
 		$hidecode	= $hide ? 'hideMainMenu();' : '';
 
 		if ($list) {
-			$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('$message');}else{ $hidecode submitbutton('$task')}";
+			$cmd = "javascript:if (document.adminForm.boxchecked.value==0){alert('$message');}else{ $hidecode submitbutton('$task')}";
 		} else {
 			$cmd = "javascript:$hidecode submitbutton('$task')";
 		}

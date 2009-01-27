@@ -61,7 +61,7 @@ defined('JPATH_BASE') or die();
  * print $attr['gender']; // f
  *
  * // access children
- * foreach( $xml->root->node->children() as $child ) {
+ * foreach($xml->root->node->children() as $child) {
  *   print $child->data();
  * }
  * </code>
@@ -112,7 +112,7 @@ class JSimpleXML extends JObject
 	 */
 	public function __construct($options = null)
 	{
-		if(! function_exists('xml_parser_create')) {
+		if (! function_exists('xml_parser_create')) {
 			return false; //TODO throw warning
 		}
 
@@ -122,9 +122,9 @@ class JSimpleXML extends JObject
 		// check parser resource
 		xml_set_object($this->_parser, $this);
 		xml_parser_set_option($this->_parser, XML_OPTION_CASE_FOLDING, 0);
-		if( is_array($options) )
+		if (is_array($options))
 		{
-			foreach( $options as $option => $value ) {
+			foreach($options as $option => $value) {
 				xml_parser_set_option($this->_parser, $option, $value);
 			}
 		}
@@ -164,12 +164,12 @@ class JSimpleXML extends JObject
 	public function loadFile($path, $classname = null)
 	{
 		//Check to see of the path exists
-		if ( !file_exists( $path ) )  {
+		if (!file_exists($path))  {
 			return false;
 		}
 
 		//Get the XML document loaded into a variable
-		$xml = trim( file_get_contents($path) );
+		$xml = trim(file_get_contents($path));
 		if ($xml == '')
 		{
 			return false;
@@ -248,7 +248,7 @@ class JSimpleXML extends JObject
 	 */
 	protected function _handleError($code, $line, $col)
 	{
-		JError::raiseWarning( 'SOME_ERROR_CODE' , 'XML Parsing Error at '.$line.':'.$col.'. Error '.$code.': '.xml_error_string($code));
+		JError::raiseWarning('SOME_ERROR_CODE' , 'XML Parsing Error at '.$line.':'.$col.'. Error '.$code.': '.xml_error_string($code));
 	}
 
 	/**
@@ -281,7 +281,7 @@ class JSimpleXML extends JObject
 		if ($count == 0)
 		{
 			//If so, set the document as the current tag
-			$classname = get_class( $this ) . 'Element';
+			$classname = get_class($this) . 'Element';
 			$this->document = new $classname($name, $attrs);
 
 			//And start out the stack with the document tag
@@ -428,7 +428,7 @@ class JSimpleXMLElement extends JObject
 	 */
 	public function attributes($attribute = null)
 	{
-		if(!isset($attribute)) {
+		if (!isset($attribute)) {
 			return $this->_attributes;
 		}
 
@@ -510,7 +510,7 @@ class JSimpleXMLElement extends JObject
 	{
 		//If there is no array already set for the tag name being added,
 		//create an empty array for it
-		if(!isset($this->$name)) {
+		if (!isset($this->$name)) {
 			$this->$name = array();
 		}
 
@@ -520,8 +520,8 @@ class JSimpleXMLElement extends JObject
 		}
 
 		//Create the child object itself
-		$classname = get_class( $this );
-		$child = new $classname( $name, $attrs, $level );
+		$classname = get_class($this);
+		$child = new $classname($name, $attrs, $level);
 
 		//Add the reference of it to the end of an array member named for the elements name
 		$this->{$name}[] =& $child;
@@ -591,8 +591,8 @@ class JSimpleXMLElement extends JObject
 	}
 
 	/**
-	 * traverses the tree calling the $callback( JSimpleXMLElement
-	 * $this, mixed $args=array() ) function with each JSimpleXMLElement.
+	 * traverses the tree calling the $callback(JSimpleXMLElement
+	 * $this, mixed $args=array()) function with each JSimpleXMLElement.
 	 *
 	 * @param string $callback function name
 	 * @param array $args
@@ -635,7 +635,7 @@ class JSimpleXMLElement extends JObject
 		else //Otherwise...
 		{
 			//If there are children
-			if(!empty($this->_children))
+			if (!empty($this->_children))
 			{
 				//Close off the start tag
 				$out .= '>';
@@ -651,7 +651,7 @@ class JSimpleXMLElement extends JObject
 			}
 
 			//If there is data, close off the start tag and add the data
-			elseif(!empty($this->_data))
+			elseif (!empty($this->_data))
 				$out .= '>'.htmlspecialchars($this->_data);
 
 			//Add the end tag

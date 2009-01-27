@@ -55,7 +55,7 @@ class JInstallerSQL extends JAdapterInstance
 		if (is_a($description, 'JSimpleXMLElement')) {
 			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', '' );
+			$this->parent->set('message', '');
 		}
 
 		// Get some important manifest elements
@@ -77,13 +77,13 @@ class JInstallerSQL extends JAdapterInstance
 		if (is_a($manifestScriptElement, 'JSimpleXMLElement')) {
 			$manifestScript = $installScriptElement->data();
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
-			if(is_file($manifestScriptFile)) {
+			if (is_file($manifestScriptFile)) {
 				// load the file
 				include_once($manifestScriptFile);
 			}
 			// Set the class name
 			$classname = $name.'Manifest';
-			if(class_exists($classname)) {
+			if (class_exists($classname)) {
 				// create a new instance
 				$manifestClass = new $classname($this);
 				// and set this so we can copy it later
@@ -92,7 +92,7 @@ class JInstallerSQL extends JAdapterInstance
 			}
 		}
 		// run preflight if possible
-		if($manifestClass && method_exists($manifestClass,'preflight')) $manifestClass->preflight('install', $this);
+		if ($manifestClass && method_exists($manifestClass,'preflight')) $manifestClass->preflight('install', $this);
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ class JInstallerSQL extends JAdapterInstance
 		 */
 
 		// Make sure that we have an admin element
-		if ( ! is_a($this->adminElement, 'JSimpleXMLElement') )
+		if (! is_a($this->adminElement, 'JSimpleXMLElement'))
 		{
 			JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('The XML file did not contain an administration element'));
 			return false;
@@ -225,11 +225,11 @@ class JInstallerSQL extends JAdapterInstance
 			}
 		}
 
-		if($this->get('manifest_script')) {
+		if ($this->get('manifest_script')) {
 			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest_script');
 
-			if(!file_exists($path['dest'])) {
+			if (!file_exists($path['dest'])) {
 				if (!$this->parent->copyFiles(array ($path))) {
 					// Install failed, rollback changes
 					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy PHP manifest file.'));
@@ -293,7 +293,7 @@ class JInstallerSQL extends JAdapterInstance
 					}
 				}
 				// end legacy support
-				if($manifestClass && method_exists($manifestClass,'install')) $manifestClass->install($this);
+				if ($manifestClass && method_exists($manifestClass,'install')) $manifestClass->install($this);
 				$msg = ob_get_contents();
 				ob_end_clean();
 				if ($msg != '') {
@@ -316,7 +316,7 @@ class JInstallerSQL extends JAdapterInstance
 		}
 
 		// And now we run the postflight
-		if($manifestClass && method_exists($manifestClass,'postflight')) $manifestClass->postflight('install', $this);
+		if ($manifestClass && method_exists($manifestClass,'postflight')) $manifestClass->postflight('install', $this);
 
 
 		return true;
@@ -341,7 +341,7 @@ class JInstallerSQL extends JAdapterInstance
 		// First order of business will be to load the component object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('component');
-		if ( !$row->load((int) $id) ) {
+		if (!$row->load((int) $id)) {
 			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
 			return false;
 		}
@@ -508,12 +508,12 @@ class JInstallerSQL extends JAdapterInstance
 		if ($exists) {
 
 			// Don't do anything if overwrite has not been enabled
-			if ( ! $this->parent->getOverwrite() ) {
+			if (! $this->parent->getOverwrite()) {
 				return true;
 			}
 
 			// Remove existing menu items if overwrite has been enabled
-			if ( $option ) {
+			if ($option) {
 
 				$sql = 'DELETE FROM #__components WHERE `option` = '.$db->Quote($option);
 
@@ -542,10 +542,10 @@ class JInstallerSQL extends JAdapterInstance
 			$db_enabled = 1;
 
 			$query = 'INSERT INTO #__components' .
-				' VALUES( "", '.$db->Quote($db_name).', '.$db->Quote($db_link).', '.(int) $db_menuid.',' .
+				' VALUES("", '.$db->Quote($db_name).', '.$db->Quote($db_link).', '.(int) $db_menuid.',' .
 				' '.(int) $db_parent.', '.$db->Quote($db_admin_menu_link).', '.$db->Quote($db_admin_menu_alt).',' .
 				' '.$db->Quote($db_option).', '.(int) $db_ordering.', '.$db->Quote($db_admin_menu_img).',' .
-				' '.(int) $db_iscore.', '.$db->Quote($db_params).', '.(int) $db_enabled.' )';
+				' '.(int) $db_iscore.', '.$db->Quote($db_params).', '.(int) $db_enabled.')';
 			$db->setQuery($query);
 			if (!$db->query()) {
 				// Install failed, rollback changes
@@ -588,10 +588,10 @@ class JInstallerSQL extends JAdapterInstance
 				$db_enabled = 1;
 
 				$query = 'INSERT INTO #__components' .
-					' VALUES( "", '.$db->Quote($db_name).', '.$db->Quote($db_link).', '.(int) $db_menuid.',' .
+					' VALUES("", '.$db->Quote($db_name).', '.$db->Quote($db_link).', '.(int) $db_menuid.',' .
 					' '.(int) $db_parent.', '.$db->Quote($db_admin_menu_link).', '.$db->Quote($db_admin_menu_alt).',' .
 					' '.$db->Quote($db_option).', '.(int) $db_ordering.', '.$db->Quote($db_admin_menu_img).',' .
-					' '.(int) $db_iscore.', '.$db->Quote($db_params).', '.(int) $db_enabled.' )';
+					' '.(int) $db_iscore.', '.$db->Quote($db_params).', '.(int) $db_enabled.')';
 				$db->setQuery($query);
 				if (!$db->query()) {
 					// Install failed, rollback changes

@@ -65,7 +65,7 @@ abstract class JTable extends JClass
 	}
 
 	public function __get($var) {
-		if(isset($this->$var)) {
+		if (isset($this->$var)) {
 			return $this->$var;
 		} else {
 			return null;
@@ -95,7 +95,7 @@ abstract class JTable extends JClass
 		if (!class_exists($tableClass))
 		{
 			jimport('joomla.filesystem.path');
-			if($path = JPath::find(JTable::addIncludePath(), strtolower($type).'.php'))
+			if ($path = JPath::find(JTable::addIncludePath(), strtolower($type).'.php'))
 			{
 				require_once $path;
 
@@ -177,7 +177,7 @@ abstract class JTable extends JClass
 		$k = $this->_tbl_key;
 		foreach ($this->getProperties() as $name => $value)
 		{
-			if($name != $k)
+			if ($name != $k)
 			{
 				$this->$name	= $value;
 			}
@@ -287,7 +287,7 @@ abstract class JTable extends JClass
 	{
 		$k = $this->_tbl_key;
 		try {
-			if($this->$k)
+			if ($this->$k)
 			{
 				$ret = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 			}
@@ -705,7 +705,7 @@ abstract class JTable extends JClass
 	 */
 	public function isCheckedOut($with = 0, $against = null)
 	{
-		if(isset($this) && $this INSTANCEOF JTable && is_null($against)) {
+		if (isset($this) && $this INSTANCEOF JTable && is_null($against)) {
 			$against = $this->get('checked_out');
 		}
 

@@ -49,7 +49,7 @@ class JObject
  	 */
 	public function get($property, $default=null)
 	{
-		if(isset($this->$property)) {
+		if (isset($this->$property)) {
 			return $this->$property;
 		}
 		return $default;
@@ -64,10 +64,10 @@ class JObject
 	 * @see		get()
 	 * @since	1.5
  	 */
-	public function getProperties( $public = true )
+	public function getProperties($public = true)
 	{
 		$vars  = get_object_vars($this);
-		if($public)
+		if ($public)
 		{
 			foreach ($vars as $key => $value)
 			{
@@ -88,15 +88,15 @@ class JObject
 	 * @access	public
 	 * @since	1.5
 	 */
-	public function getError($i = null, $toString = true )
+	public function getError($i = null, $toString = true)
 	{
 		// Find the error
-		if ( $i === null) {
+		if ($i === null) {
 			// Default, return the last message
 			$error = end($this->_errors);
 		}
 		else
-		if ( ! array_key_exists($i, $this->_errors) ) {
+		if (! array_key_exists($i, $this->_errors)) {
 			// If $i has been specified but does not exist, return false
 			return false;
 		}
@@ -105,7 +105,7 @@ class JObject
 		}
 
 		// Check if only the string is requested
-		if ( JError::isError($error) && $toString ) {
+		if (JError::isError($error) && $toString) {
 			return $error->toString();
 		}
 
@@ -136,7 +136,7 @@ class JObject
 	 * @see		setProperties()
 	 * @since	1.5
 	 */
-	public function set( $property, $value = null )
+	public function set($property, $value = null)
 	{
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
@@ -152,10 +152,10 @@ class JObject
 	* @see		set()
 	* @since	1.5
 	*/
-	public function setProperties( $properties )
+	public function setProperties($properties)
 	{
-		if(!is_array($properties)) {
-			if(!empty($properties)) {
+		if (!is_array($properties)) {
+			if (!empty($properties)) {
 				$properties = (array) $properties; //cast to an array
 			} else return false;
 		}

@@ -24,7 +24,7 @@ class JLanguageHelper
 	 * @access	public
 	 * @param	string	Client key for the area
 	 * @param	string	Base path to use
-	 * @param	array	An array of arrays ( text, value, selected )
+	 * @param	array	An array of arrays (text, value, selected)
 	 * @since	1.5
 	 */
 	public function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false)
@@ -61,13 +61,13 @@ class JLanguageHelper
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
 		{
 			$systemLangs	= JLanguage::getKnownLanguages();
-			$browserLangs	= explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+			$browserLangs	= explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
 			foreach ($browserLangs as $browserLang)
 			{
 				// slice out the part before ; on first step, the part before - on second, place into array
-				$browserLang = substr( $browserLang, 0, strcspn( $browserLang, ';' ) );
-				$primary_browserLang = substr( $browserLang, 0, 2 );
+				$browserLang = substr($browserLang, 0, strcspn($browserLang, ';'));
+				$primary_browserLang = substr($browserLang, 0, 2);
 
 				foreach($systemLangs as $systemLang => $metadata)
 				{

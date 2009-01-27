@@ -255,11 +255,11 @@ abstract class JDatabase extends JClass
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			$class = 'JDatabase'.ucfirst($name);
 
-			if(!class_exists($class)) {
+			if (!class_exists($class)) {
 				require_once dirname(__FILE__).DS.'database'.DS.$name.'.php';
 			}
 
-			if(call_user_func_array(array(trim($class), 'test'), null)) {
+			if (call_user_func_array(array(trim($class), 'test'), null)) {
 				$names[] = $name;
 			}
 		}
@@ -337,14 +337,14 @@ abstract class JDatabase extends JClass
 		$query_split = array();
 		for($i=0;$i<$end;$i++) {
 			$current = substr($queries,$i,1);
-			if(($current == '"' || $current == '\'')) {
+			if (($current == '"' || $current == '\'')) {
 				$n = 2;
 				while(substr($queries,$i - $n + 1, 1) == '\\' && $n < $i) {
 					$n ++;
 				}
-				if($n%2==0) {
+				if ($n%2==0) {
 					if ($open) {
-						if($current == $open_char) {
+						if ($current == $open_char) {
 							$open = false;
 							$open_char = '';
 						}
@@ -354,7 +354,7 @@ abstract class JDatabase extends JClass
 					}
 				}
 			}
-			if(($current == ';' && !$open)|| $i == $end - 1) {
+			if (($current == ';' && !$open)|| $i == $end - 1) {
 				$query_split[] = substr($queries, $start, ($i - $start + 1));
 				$start = $i + 1;
 			}
@@ -421,7 +421,7 @@ abstract class JDatabase extends JClass
 	 */
 	public function getErrorMsg($escaped = false)
 	{
-		if($escaped) {
+		if ($escaped) {
 			return addslashes($this->_errorMsg);
 		} else {
 			return $this->_errorMsg;

@@ -73,9 +73,9 @@ class JParameter extends JRegistry
 		parent::__construct('_default');
 
 		// Set base path
-		$this->_elementPath[] = dirname( __FILE__ ).DS.'parameter'.DS.'element';
+		$this->_elementPath[] = dirname(__FILE__).DS.'parameter'.DS.'element';
 
-		if (trim( $data )) {
+		if (trim($data)) {
 			$this->loadJSON($data);
 		}
 
@@ -138,17 +138,17 @@ class JParameter extends JRegistry
 	 * @param	object	An XML object
 	 * @since	1.5
 	 */
-	public function setXML( &$xml )
+	public function setXML(&$xml)
 	{
-		if (is_object( $xml ))
+		if (is_object($xml))
 		{
-			if ($group = $xml->attributes( 'group' )) {
+			if ($group = $xml->attributes('group')) {
 				$this->_xml[$group] = $xml;
 			} else {
 				$this->_xml['_default'] = $xml;
 			}
-			if ($dir = $xml->attributes( 'addpath' )) {
-				$this->addElementPath( JPATH_ROOT . str_replace('/', DS, $dir) );
+			if ($dir = $xml->attributes('addpath')) {
+				$this->addElementPath(JPATH_ROOT . str_replace('/', DS, $dir));
 			}
 		}
 	}
@@ -163,9 +163,9 @@ class JParameter extends JRegistry
 	 */
 	public function bind($data, $group = '_default')
 	{
-		if ( is_array($data) ) {
+		if (is_array($data)) {
 			return $this->loadArray($data, $group);
-		} elseif ( is_object($data) ) {
+		} elseif (is_object($data)) {
 			return $this->loadObject($data, $group);
 		} else {
 			return $this->loadJSON($data, $group);
@@ -350,7 +350,7 @@ class JParameter extends JRegistry
 				if ($params = & $xml->document->params) {
 					foreach ($params as $param)
 					{
-						$this->setXML( $param );
+						$this->setXML($param);
 						$result = true;
 					}
 				}
@@ -372,19 +372,19 @@ class JParameter extends JRegistry
 	 * @return	object
 	 * @since	1.5
 	 */
-	public function &loadElement( $type, $new = false )
+	public function &loadElement($type, $new = false)
 	{
 		$false = false;
-		$signature = md5( $type  );
+		$signature = md5($type );
 
-		if( (isset( $this->_elements[$signature] ) && !is_a($this->_elements[$signature], '__PHP_Incomplete_Class'))  && $new === false ) {
+		if ((isset($this->_elements[$signature]) && !is_a($this->_elements[$signature], '__PHP_Incomplete_Class'))  && $new === false) {
 			return	$this->_elements[$signature];
 		}
 
 		$elementClass	=	'JElement'.$type;
-		if( !class_exists( $elementClass ) )
+		if (!class_exists($elementClass))
 		{
-			if( isset( $this->_elementPath ) ) {
+			if (isset($this->_elementPath)) {
 				$dirs = $this->_elementPath;
 			} else {
 				$dirs = array();
@@ -400,7 +400,7 @@ class JParameter extends JRegistry
 			}
 		}
 
-		if( !class_exists( $elementClass ) ) {
+		if (!class_exists($elementClass)) {
 			return $false;
 		}
 
@@ -423,25 +423,25 @@ class JParameter extends JRegistry
 	 * @param	string|array	directory or directories to search.
 	 * @since	1.5
 	 */
-	public function addElementPath( $path )
+	public function addElementPath($path)
 	{
 		// just force path to array
-		settype( $path, 'array' );
+		settype($path, 'array');
 
 		// loop through the path directories
-		foreach ( $path as $dir )
+		foreach ($path as $dir)
 		{
 			// no surrounding spaces allowed!
-			$dir = trim( $dir );
+			$dir = trim($dir);
 
 			// add trailing separators as needed
-			if ( substr( $dir, -1 ) != DIRECTORY_SEPARATOR ) {
+			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
 				// directory
 				$dir .= DIRECTORY_SEPARATOR;
 			}
 
 			// add to the top of the search dirs
-			array_unshift( $this->_elementPath, $dir );
+			array_unshift($this->_elementPath, $dir);
 		}
 	}
 }

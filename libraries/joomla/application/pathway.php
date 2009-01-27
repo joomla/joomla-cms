@@ -60,7 +60,7 @@ abstract class JPathway extends JClass
 	{
 		static $instances;
 
-		if (!isset( $instances )) {
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
@@ -70,7 +70,7 @@ abstract class JPathway extends JClass
 			$info =& JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'pathway.php';
-			if(file_exists($path))
+			if (file_exists($path))
 			{
 				require_once $path;
 

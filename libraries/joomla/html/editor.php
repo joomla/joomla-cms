@@ -80,7 +80,7 @@ class JEditor extends JObservable
 	public function initialise()
 	{
 		//check if editor is already loaded
-		if(is_null(($this->_editor))) {
+		if (is_null(($this->_editor))) {
 			return;
 		}
 
@@ -116,7 +116,7 @@ class JEditor extends JObservable
 		$this->_loadEditor($params);
 
 		//check if editor is already loaded
-		if(is_null(($this->_editor))) {
+		if (is_null(($this->_editor))) {
 			return;
 		}
 
@@ -158,7 +158,7 @@ class JEditor extends JObservable
 		$this->_loadEditor();
 
 		//check if editor is already loaded
-		if(is_null(($this->_editor))) {
+		if (is_null(($this->_editor))) {
 			return;
 		}
 
@@ -232,7 +232,7 @@ class JEditor extends JObservable
 	 {
 		$result = array();
 
-		if(is_bool($buttons) && !$buttons) {
+		if (is_bool($buttons) && !$buttons) {
 			return $result;
 		}
 
@@ -241,14 +241,14 @@ class JEditor extends JObservable
 
 		foreach($plugins as $plugin)
 		{
-			if(is_array($buttons) &&  in_array($plugin->name, $buttons)) {
+			if (is_array($buttons) &&  in_array($plugin->name, $buttons)) {
 				continue;
 			}
 
 			$isLoaded = JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
 
 			$className = 'plgButton'.$plugin->name;
-			if(class_exists($className)) {
+			if (class_exists($className)) {
 				$plugin = new $className($this, (array)$plugin);
 			}
 
@@ -269,7 +269,7 @@ class JEditor extends JObservable
 	protected function _loadEditor($config = array())
 	{
 		//check if editor is already loaded
-		if(!is_null(($this->_editor))) {
+		if (!is_null(($this->_editor))) {
 			return;
 		}
 
@@ -297,7 +297,7 @@ class JEditor extends JObservable
 
 		// Build editor plugin classname
 		$name = 'plgEditor'.$this->_name;
-		if($this->_editor = new $name ($this, (array)$plugin))
+		if ($this->_editor = new $name ($this, (array)$plugin))
 		{
 			// load plugin parameters
 			$this->initialise();

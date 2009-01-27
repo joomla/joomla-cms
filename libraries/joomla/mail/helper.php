@@ -30,8 +30,8 @@ abstract class JMailHelper
 	 * @param string $value String to be cleaned.
 	 * @return string Cleaned string.
 	 */
-	public static function cleanLine( $value ) {
-		return trim( preg_replace( '/(%0A|%0D|\n+|\r+)/i', '', $value ) );
+	public static function cleanLine($value) {
+		return trim(preg_replace('/(%0A|%0D|\n+|\r+)/i', '', $value));
 	}
 
 	/**
@@ -41,8 +41,8 @@ abstract class JMailHelper
 	 * @param string $value Multi-line string to be cleaned.
 	 * @return string Cleaned multi-line string.
 	 */
-	public static function cleanText( $value ) {
-		return trim( preg_replace( '/(%0A|%0D|\n+|\r+)(content-type:|to:|cc:|bcc:)/i', '', $value ) );
+	public static function cleanText($value) {
+		return trim(preg_replace('/(%0A|%0D|\n+|\r+)(content-type:|to:|cc:|bcc:)/i', '', $value));
 	}
 
 	/**
@@ -112,13 +112,13 @@ abstract class JMailHelper
 		// We're a bit more conservative about what constitutes a "legal" address, that is, A-Za-z0-9!#$%&\'*+/=?^_`{|}~-
 		$allowed	= 'A-Za-z0-9!#&*+=?_-';
 		$regex		= "/^[$allowed][\.$allowed]{0,63}$/";
-		if ( ! preg_match($regex, $local) ) {
+		if (! preg_match($regex, $local)) {
 			return false;
 		}
 
 		// No problem if the domain looks like an IP address, ish
 		$regex		= '/^[0-9\.]+$/';
-		if ( preg_match($regex, $domain)) {
+		if (preg_match($regex, $domain)) {
 			return true;
 		}
 
@@ -131,26 +131,26 @@ abstract class JMailHelper
 		// Check the domain
 		$domain_array	= explode(".", $domain);
 		$regex		= '/^[A-Za-z0-9-]{0,63}$/';
-		foreach ($domain_array as $domain ) {
+		foreach ($domain_array as $domain) {
 
 			// Must be something
-			if ( ! $domain ) {
+			if (! $domain) {
 				return false;
 			}
 
 			// Check for invalid characters
-			if ( ! preg_match($regex, $domain) ) {
+			if (! preg_match($regex, $domain)) {
 				return false;
 			}
 
 			// Check for a dash at the beginning of the domain
-			if ( strpos($domain, '-' ) === 0 ) {
+			if (strpos($domain, '-') === 0) {
 				return false;
 			}
 
 			// Check for a dash at the end of the domain
 			$length = strlen($domain) -1;
-			if ( strpos($domain, '-', $length ) === $length ) {
+			if (strpos($domain, '-', $length) === $length) {
 				return false;
 			}
 

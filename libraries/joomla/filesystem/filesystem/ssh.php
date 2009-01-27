@@ -30,11 +30,11 @@ class JFilesystemSSH extends JFilesystem
 
 	public function check() {
 		$ret = JFileSystemSSH::test();
-		if($ret) {
+		if ($ret) {
 			$config =& JFactory::getConfig();
 			$path = $config->get('config.tmp_path');
 			$file = md5(rand(0,10000)).'_tmp';
-			if($this->write($path . DS . $file, 'write test')) {
+			if ($this->write($path . DS . $file, 'write test')) {
 				$this->delete($path . DS . $file);
 				$ret = true;
 			} else {
@@ -65,7 +65,7 @@ class JFilesystemSSH extends JFilesystem
 		$file = md5(rand(0,10000)).'_tmp';
 		$con =& $this->_getSSH();
 		$buffer = false;
-		if(ssh2_scp_recv($con, $this->_makePath($src), $path . DS . $file)) {
+		if (ssh2_scp_recv($con, $this->_makePath($src), $path . DS . $file)) {
 			$buffer = @file_get_contents($path. DS . $file);
 			@unlink($path . DS . $file);
 		}
@@ -79,7 +79,7 @@ class JFilesystemSSH extends JFilesystem
 		$path = $config->get('config.tmp_path');
 		$file = md5(rand(0,10000)).'_tmp';
 		$ret = false;
-		if(@file_put_contents($path . DS . $file, $buffer)) {
+		if (@file_put_contents($path . DS . $file, $buffer)) {
 			$con =& $this->_getSSH();
 			$ret = ssh2_scp_send($con, $path . DS . $file, $this->_makePath($src));
 			@unlink($path . DS . $file);
@@ -131,9 +131,9 @@ class JFilesystemSSH extends JFilesystem
 
 	protected function &_getSSH() {
 		static $obj = null;
-		if(!is_resource($obj)) {
+		if (!is_resource($obj)) {
 			$obj = ssh2_connect($this->_options['host'], $this->_options['port']);
-			if($obj) {
+			if ($obj) {
 				ssh2_auth_password($obj, $this->_options['user'], $this->_options['pass']);
 			}
 		}
@@ -142,10 +142,10 @@ class JFilesystemSSH extends JFilesystem
 
 	protected function &_getSFTP() {
 		static $obj = null;
-		if(!is_resource($obj)) {
+		if (!is_resource($obj)) {
 			$obj = false;
 			$con =& $this->_getSSH;
-			if($con) {
+			if ($con) {
 				$obj = ssh2_sftp($con);
 			}
 		}

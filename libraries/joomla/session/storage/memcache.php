@@ -49,7 +49,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	protected function __construct( $options = array() )
+	protected function __construct($options = array())
 	{
 		if (!self::test()) {
 			throw new JException("The Memcache extension isn't available", 500, E_ERROR);

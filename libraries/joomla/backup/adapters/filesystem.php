@@ -52,41 +52,41 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	
 	public function backup($options=Array()) {
 		// If the task isn't set in the state, set it
-		if(!$this->state['task']) {
+		if (!$this->state['task']) {
 			$this->state['task'] = 'initialised';
 			// validate there is a destination around
-			if(!array_key_exists('destination', $options)) {
+			if (!array_key_exists('destination', $options)) {
 				return false; // bad fugu!
 			}
 			
-			if(!file_exists($options['destination'])) {
-				if(!JFolder::create($options['destination'])) {
+			if (!file_exists($options['destination'])) {
+				if (!JFolder::create($options['destination'])) {
 					JError::raiseError(1000, JText::_('Failed to create backup destination'));
 					return false;
 				}
 			}
 			
 			
-			if(!array_key_exists('source', $options)) {
+			if (!array_key_exists('source', $options)) {
 				return false; // we don't know where to start!
 			}
 			
 			// a list of things we want to exclude
-			if(!array_key_exists('exclude', $options)) {
+			if (!array_key_exists('exclude', $options)) {
 				$options['exclude'] = Array('backups', '.svn', 'CVS', '.DS_Store', '__MACOSX');
 			}
 			// a list of filters we want to match against things we want to exclude
-			if(!array_key_exists('excludefilter', $options)) {
+			if (!array_key_exists('excludefilter', $options)) {
 				// TODO: Check if it needs to be \~ or if just ~ works properly
 				// ignore hidden files and backups
 				$options['excludefilter'] = Array('^\..*', '.*~$');
 			}
 			// where we start backing up from...
-			if(!array_key_exists('root', $options)) {
+			if (!array_key_exists('root', $options)) {
 				$options['root'] = JPATH_ROOT;
 			}
 			// a list of things we want
-			if(!array_key_exists('filter', $options)) {
+			if (!array_key_exists('filter', $options)) {
 				$options['filter'] = '.';
 			}
 			// yay done
@@ -94,7 +94,7 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 		}
 		
 		// validate that this exists
-		if(!file_exists($options['root'])) {
+		if (!file_exists($options['root'])) {
 			$this->setError('Invalid or non-existent root specified');
 			return false;
 		}
@@ -123,7 +123,7 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	
 	private function _findFolders() {
 		$options =& $this->state['options'];
-		if(!is_array($options['source'])) {
+		if (!is_array($options['source'])) {
 			$folders = JFolder::folders($options['source'], $options['filter'], true, true, $options['exclude'], $options['excludefilter']);
 		} else {
 			$folders = Array();
@@ -132,7 +132,7 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 			}
 		}
 		
-		if(!is_array($folders)) {
+		if (!is_array($folders)) {
 			$folders = Array();
 		}
 		// ensure that the folder exists
@@ -148,24 +148,24 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 		// get the last item on the stack but don't remove it until we're done
 		while($directory = end($this->stack)) {
 			// if the files list is empty, populate
-			if(empty($this->files)) {
+			if (empty($this->files)) {
 				$this->files = JFolder::files($directory, $options['filter'], false, true, $options['exclude'], $options['excludefilter']);
 				rsort($this->files);
 			}
 			$target = $options['destination'].DS.str_replace($options['root'], '', $directory);
 			$res = JFolder::create($target);
-			if(!$res) {
+			if (!$res) {
 				//echo 'Failed to create directory '. $target .'<br />';
 				JError::raiseError(2, JText::sprintf('Failed to create directory: %s', $target));
 				continue;
 			}
 			while(($file = array_pop($this->files)) != null) {
 				$res = JFile::copy($file, $target.DS.basename($file));
-				if(!$res) {
+				if (!$res) {
 					JError::raiseWarning(1, JText::sprintf('Failed to backup "%s"', $file));
 					//echo 'Failed to copy '. $files[$f].' to '. $target .'<br />';
 				}
-				if(count($this->files)) $this->task->yield();
+				if (count($this->files)) $this->task->yield();
 			}
 			// remove the item off the stack
 			array_pop($this->stack);

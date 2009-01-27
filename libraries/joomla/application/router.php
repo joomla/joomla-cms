@@ -60,7 +60,7 @@ abstract class JRouter extends JClass
 	 */
 	protected function __construct($options = array())
 	{
-		if(array_key_exists('mode', $options)) {
+		if (array_key_exists('mode', $options)) {
 			$this->_mode = $options['mode'];
 		} else {
 			$this->_mode = JROUTER_MODE_RAW;
@@ -83,7 +83,7 @@ abstract class JRouter extends JClass
 	{
 		static $instances;
 
-		if (!isset( $instances )) {
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
@@ -93,7 +93,7 @@ abstract class JRouter extends JClass
 			$info =& JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'router.php';
-			if(file_exists($path))
+			if (file_exists($path))
 			{
 				require_once $path;
 
@@ -125,12 +125,12 @@ abstract class JRouter extends JClass
 		$vars = $this->_processParseRules($uri);
 
 		// Parse RAW URL
-		if($this->_mode == JROUTER_MODE_RAW) {
+		if ($this->_mode == JROUTER_MODE_RAW) {
 			$vars += $this->_parseRawRoute($uri);
 		}
 
 		// Parse SEF URL
-		if($this->_mode == JROUTER_MODE_SEF) {
+		if ($this->_mode == JROUTER_MODE_SEF) {
 			$vars += $vars + $this->_parseSefRoute($uri);
 		}
 
@@ -152,7 +152,7 @@ abstract class JRouter extends JClass
 		$this->_processBuildRules($uri);
 
 		// Build RAW URL
-		if($this->_mode == JROUTER_MODE_RAW) {
+		if ($this->_mode == JROUTER_MODE_RAW) {
 			$this->_buildRawRoute($uri);
 		}
 
@@ -192,7 +192,7 @@ abstract class JRouter extends JClass
  	 */
 	public function setVar($key, $value, $create = true) {
 
-		if(!$create && array_key_exists($key, $this->_vars)) {
+		if (!$create && array_key_exists($key, $this->_vars)) {
 			$this->_vars[$key] = $value;
 		} else {
 			$this->_vars[$key] = $value;
@@ -208,7 +208,7 @@ abstract class JRouter extends JClass
  	 */
 	public function setVars($vars = array(), $merge = true) {
 
-		if($merge) {
+		if ($merge) {
 			$this->_vars = array_merge($this->_vars, $vars);
 		} else {
 			$this->_vars = $vars;
@@ -225,7 +225,7 @@ abstract class JRouter extends JClass
 	public function getVar($key)
 	{
 		$result = null;
-		if(isset($this->_vars[$key])) {
+		if (isset($this->_vars[$key])) {
 			$result = $this->_vars[$key];
 		}
 		return $result;
@@ -346,10 +346,10 @@ abstract class JRouter extends JClass
 	protected function &_createURI($url)
 	{
 		// Create full URL if we are only appending variables to it
-		if(substr($url, 0, 1) == '&')
+		if (substr($url, 0, 1) == '&')
 		{
 			$vars = array();
-			if(strpos($url, '&amp;') !== false)
+			if (strpos($url, '&amp;') !== false)
 			{
 				$url = str_replace('&amp;','&',$url);
 			}
@@ -360,7 +360,7 @@ abstract class JRouter extends JClass
 
 			foreach($vars as $key => $var)
 			{
-				if($var == "") {
+				if ($var == "") {
 					unset($vars[$key]);
 				}
 			}

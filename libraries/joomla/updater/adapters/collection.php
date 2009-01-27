@@ -50,7 +50,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 		//print_r($attrs); echo '<br />';
 		switch($name) {
 			case 'CATEGORY':
-				if(isset($attrs['REF'])) {
+				if (isset($attrs['REF'])) {
 					$this->update_sites[] = Array('type'=>'collection','location'=>$attrs['REF'],'update_site_id'=>$this->_update_site_id);
 					//echo 'Found new update collection: '. $attrs['NAME'] .'<br />';
 				} else {
@@ -63,9 +63,9 @@ class JUpdaterCollection extends JUpdateAdapter {
 				$update->update_site_id = $this->_update_site_id;
 				foreach($this->_updatecols AS $col) {
 					// reset the values if it doesn't exist
-					if(!array_key_exists($col, $attrs)) {
+					if (!array_key_exists($col, $attrs)) {
 						$attrs[$col] = '';
-						if($col == 'CLIENT') {
+						if ($col == 'CLIENT') {
 							$attrs[$col] = 'site';
 						}
 					}
@@ -88,10 +88,10 @@ class JUpdaterCollection extends JUpdateAdapter {
 				// Note: whilst the version is a regexp here, the targetplatform is not (new extension per platform)
 				//       Additionally, the version is a regexp here and it may also be in an extension file if the extension is
 				//       compatible against multiple versions of the same platform (e.g. a library)
-				if(!isset($values['targetplatform'])) $values['targetplatform'] = $product; // set this to ourself as a default
-				if(!isset($values['targetplatformversion'])) $values['targetplatformversion'] = $ver->RELEASE; // set this to ourself as a default
+				if (!isset($values['targetplatform'])) $values['targetplatform'] = $product; // set this to ourself as a default
+				if (!isset($values['targetplatformversion'])) $values['targetplatformversion'] = $ver->RELEASE; // set this to ourself as a default
 				// validate that we can install the extension
-				if($product == $values['targetplatform'] && preg_match('/'.$values['targetplatformversion'].'/',$ver->RELEASE)) {
+				if ($product == $values['targetplatform'] && preg_match('/'.$values['targetplatformversion'].'/',$ver->RELEASE)) {
 					$update->bind($values);
 					$this->updates[] = $update;
 				}
@@ -105,7 +105,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 		//echo 'Closed: '; print_r($this->_stack); echo '<br /><br />';
 		switch($name) {
 			case 'CATEGORY':
-				if($this->pop_parent) {
+				if ($this->pop_parent) {
 					$this->pop_parent = 0;
 					array_pop($this->parent);
 				}
@@ -124,8 +124,8 @@ class JUpdaterCollection extends JUpdateAdapter {
 		$url = $options['location'];
 		$this->_update_site_id = $options['update_site_id'];
 		//echo '<p>Find update for collection run on <a href="'. $url .'">'. $url .'</a></p>';
-		if(substr($url, -4) != '.xml') {
-			if(substr($url, -1) != '/') {
+		if (substr($url, -4) != '.xml') {
+			if (substr($url, -1) != '/') {
 				$url .= '/';
 			}
 			$url .= 'update.xml';
@@ -155,7 +155,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 		    }
 		}
 		// TODO: Decrement the bad counter if non-zero
-		/*if(count($this->update_sites)) {
+		/*if (count($this->update_sites)) {
 			return $this->update_sites;
 		} else return true;*/
 		return Array('update_sites'=>$this->update_sites,'updates'=>$this->updates);

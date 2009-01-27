@@ -171,7 +171,7 @@ abstract class JView extends JClass
 	 * @since	1.6
  	 */
 	public function &__get($var) {
-		if(isset($this->_data[$var])) {
+		if (isset($this->_data[$var])) {
 			return $this->_data[$var];
 		}
 		JError::raiseNotice(0, 'Attempted to access undefined object propery', $var);
@@ -312,7 +312,7 @@ abstract class JView extends JClass
 	{
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
-			if(array_key_exists($key, get_object_vars($this))) {
+			if (array_key_exists($key, get_object_vars($this))) {
 				$this->$key =& $val;
 			} else {
 				$this->_data[$key] =& $val;

@@ -206,7 +206,7 @@ abstract class JDocument extends JClass
 	* @access public
 	* @param	array	$options Associative array of options
 	*/
-	public function __construct( $options = array())
+	public function __construct($options = array())
 	{
 		parent::__construct();
 
@@ -254,7 +254,7 @@ abstract class JDocument extends JClass
 	{
 		static $instances;
 
-		if (!isset( $instances )) {
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
@@ -267,7 +267,7 @@ abstract class JDocument extends JClass
 			$ntype	= null;
 
 			// Check if the document type exists
-			if ( ! file_exists($path))
+			if (! file_exists($path))
 			{
 				// Default to the raw format
 				$ntype	= $type;
@@ -276,7 +276,7 @@ abstract class JDocument extends JClass
 
 			// Determine the path and class
 			$class = 'JDocument'.$type;
-			if(!class_exists($class))
+			if (!class_exists($class))
 			{
 				$path	= dirname(__FILE__).DS.$type.DS.$type.'.php';
 				if (file_exists($path)) {
@@ -289,7 +289,7 @@ abstract class JDocument extends JClass
 			$instance	= new $class($attributes);
 			$instances[$signature] =& $instance;
 
-			if ( !is_null($ntype) )
+			if (!is_null($ntype))
 			{
 				// Set the type to the Document type originally requested
 				$instance->setType($ntype);
@@ -367,9 +367,9 @@ abstract class JDocument extends JClass
 	{
 		$result = '';
 		$name = strtolower($name);
-		if($name == 'generator') {
+		if ($name == 'generator') {
 			$result = $this->getGenerator();
-		} elseif($name == 'description') {
+		} elseif ($name == 'description') {
 			$result = $this->getDescription();
 		} else {
 			if ($http_equiv == true) {
@@ -393,9 +393,9 @@ abstract class JDocument extends JClass
 	public function setMetaData($name, $content, $http_equiv = false)
 	{
 		$name = strtolower($name);
-		if($name == 'generator') {
+		if ($name == 'generator') {
 			$this->setGenerator($content);
-		} elseif($name == 'description') {
+		} elseif ($name == 'description') {
 			$this->setDescription($content);
 		} else {
 			if ($http_equiv == true) {
@@ -730,22 +730,22 @@ abstract class JDocument extends JClass
 	* @return	object
 	* @since 1.5
 	*/
-	public function &loadRenderer( $type )
+	public function &loadRenderer($type)
 	{
 		$null	= null;
 		$class	= 'JDocumentRenderer'.$type;
 
-		if( !class_exists( $class ) )
+		if (!class_exists($class))
 		{
 			$path = dirname(__FILE__).DS.$this->_type.DS.'renderer'.DS.$type.'.php';
-			if(file_exists($path)) {
+			if (file_exists($path)) {
 				require_once $path;
 			} else {
 				throw new JException(JText::_('Unable to load renderer class'), 500, E_ERROR, $class, true);
 			}
 		}
 
-		if ( !class_exists( $class ) ) {
+		if (!class_exists($class)) {
 			return $null;
 		}
 
@@ -772,12 +772,12 @@ abstract class JDocument extends JClass
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	public function render( $cache = false, $params = array())
+	public function render($cache = false, $params = array())
 	{
-		JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
+		JResponse::setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
 		if ($mdate = $this->getModifiedDate()) {
-			JResponse::setHeader( 'Last-Modified', $mdate /* gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' */ );
+			JResponse::setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
 		}
-		JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
+		JResponse::setHeader('Content-Type', $this->_mime .  '; charset=' . $this->_charset);
 	}
 }

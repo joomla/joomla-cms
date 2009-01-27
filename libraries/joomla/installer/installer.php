@@ -348,15 +348,15 @@ class JInstaller extends JAdapter
 			$lang->load('joomla',$path);
 
 			// Fire the onBeforeExtensionInstall event.
-			JPluginHelper::importPlugin( 'installer' );
+			JPluginHelper::importPlugin('installer');
 			$dispatcher =& JDispatcher::getInstance();
-			$dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'install', 'type'=>$type, 'manifest'=>$root, 'extension'=>0 ) );
+			$dispatcher->trigger('onBeforeExtensionInstall', array('method'=>'install', 'type'=>$type, 'manifest'=>$root, 'extension'=>0));
 
 			// Run the install
 			$result = $this->_adapters[$type]->install();
 			// Fire the onAfterExtensionInstall
-			$dispatcher->trigger( 'onAfterExtensionInstall', array( 'installer'=>clone($this), 'eid'=> $result ) );
-			if($result !== false) return true; else return false;
+			$dispatcher->trigger('onAfterExtensionInstall', array('installer'=>clone($this), 'eid'=> $result));
+			if ($result !== false) return true; else return false;
 		}
 		return false;
 	}
@@ -371,13 +371,13 @@ class JInstaller extends JAdapter
 	 */
 	function discover_install($eid=null)
 	{
-		if($eid) {
+		if ($eid) {
 			$this->extension =& JTable::getInstance('extension');
-			if(!$this->extension->load($eid)) {
+			if (!$this->extension->load($eid)) {
 				$this->abort(JText::_('Failed to load extension details'));
 				return false;
 			}
-			if($this->extension->state != -1) {
+			if ($this->extension->state != -1) {
 				$this->abort(JText::_('Extension is already installed'));
 				return false;
 			}
@@ -390,16 +390,16 @@ class JInstaller extends JAdapter
 			}
 
 			if (is_object($this->_adapters[$this->extension->type])) {
-				if(method_exists($this->_adapters[$this->extension->type], 'discover_install')) {
+				if (method_exists($this->_adapters[$this->extension->type], 'discover_install')) {
 					// Fire the onBeforeExtensionInstall event.
-	                JPluginHelper::importPlugin( 'installer' );
+	                JPluginHelper::importPlugin('installer');
 	                $dispatcher =& JDispatcher::getInstance();
-	                $dispatcher->trigger( 'onBeforeExtensionInstall', array( 'method'=>'discover_install', 'type'=>$this->extension->type, 'manifest'=>null, 'extension'=>$this->extension ) );
+	                $dispatcher->trigger('onBeforeExtensionInstall', array('method'=>'discover_install', 'type'=>$this->extension->type, 'manifest'=>null, 'extension'=>$this->extension));
 					// Run the install
 					$result = $this->_adapters[$this->extension->type]->discover_install();
 					// Fire the onAfterExtensionInstall
-					$dispatcher->trigger( 'onAfterExtensionInstall', array( 'installer'=>clone($this), 'eid'=> $result ) );
-					if($result !== false) return true; else return false;
+					$dispatcher->trigger('onAfterExtensionInstall', array('installer'=>clone($this), 'eid'=> $result));
+					if ($result !== false) return true; else return false;
 				} else {
 					$this->abort(JText::_('Method not supported for this extension type'));
 					return false;
@@ -424,10 +424,10 @@ class JInstaller extends JAdapter
 		$results = Array();
 		foreach($this->_adapters as $adapter) {
 			// Joomla! 1.5 installation adapter legacy support
-			if(method_exists($adapter,'discover')) {
+			if (method_exists($adapter,'discover')) {
 				$tmp = $adapter->discover();
 				// if its an array and has entries
-				if(is_array($tmp) && count($tmp)) {
+				if (is_array($tmp) && count($tmp)) {
 					// merge it into the system
 					$results = array_merge($results, $tmp);
 				}
@@ -478,14 +478,14 @@ class JInstaller extends JAdapter
 			$lang =& JFactory::getLanguage();
 			$lang->load('joomla',$path);
 			// Fire the onBeforeExtensionUpdate event.
-			JPluginHelper::importPlugin( 'installer' );
+			JPluginHelper::importPlugin('installer');
 			$dispatcher =& JDispatcher::getInstance();
-			$dispatcher->trigger( 'onBeforeExtensionUpdate', array( 'type'=>$type, 'manifest'=>$root ) );
+			$dispatcher->trigger('onBeforeExtensionUpdate', array('type'=>$type, 'manifest'=>$root));
 			// Run the update
 			$result = $this->_adapters[$type]->update();
 			// Fire the onAfterExtensionUpdate
-			$dispatcher->trigger( 'onAfterExtensionUpdate', array( 'installer'=>clone($this), 'eid'=> $result ) );
-			if($result !== false) return true; else return false;
+			$dispatcher->trigger('onAfterExtensionUpdate', array('installer'=>clone($this), 'eid'=> $result));
+			if ($result !== false) return true; else return false;
 		}
 		return false;
 	}
@@ -510,26 +510,26 @@ class JInstaller extends JAdapter
 		if (is_object($this->_adapters[$type])) {
 			// We don't load languages here, we get the extension adapter to work it out
 			// Fire the onBeforeExtensionUninstall event.
-            JPluginHelper::importPlugin( 'installer' );
+            JPluginHelper::importPlugin('installer');
             $dispatcher =& JDispatcher::getInstance();
-            $dispatcher->trigger( 'onBeforeExtensionUninstall', array( 'eid' => $identifier ) );
+            $dispatcher->trigger('onBeforeExtensionUninstall', array('eid' => $identifier));
 			// Run the uninstall
 			$result = $this->_adapters[$type]->uninstall($identifier);
 			// Fire the onAfterExtensionInstall
-			$dispatcher->trigger( 'onAfterExtensionUninstall', array( 'installer'=>clone($this), 'eid'=> $identifier, 'result' => $result ) );
+			$dispatcher->trigger('onAfterExtensionUninstall', array('installer'=>clone($this), 'eid'=> $identifier, 'result' => $result));
 			return $result;
 		}
 		return false;
 	}
 
 	function refreshManifestCache($eid) {
-		if($eid) {
+		if ($eid) {
 			$this->extension =& JTable::getInstance('extension');
-			if(!$this->extension->load($eid)) {
+			if (!$this->extension->load($eid)) {
 				$this->abort(JText::_('Failed to load extension details'));
 				return false;
 			}
-			if($this->extension->state == -1) {
+			if ($this->extension->state == -1) {
 				$this->abort(JText::_('Refresh Manifest Cache failed').': '.JText::_('Extension is not currently installed'));
 				return false;
 			}
@@ -543,9 +543,9 @@ class JInstaller extends JAdapter
 
 
 			if (is_object($this->_adapters[$this->extension->type])) {
-				if(method_exists($this->_adapters[$this->extension->type], 'refreshManifestCache')) {
+				if (method_exists($this->_adapters[$this->extension->type], 'refreshManifestCache')) {
 					$result = $this->_adapters[$this->extension->type]->refreshManifestCache();
-					if($result !== false) return true; else return false;
+					if ($result !== false) return true; else return false;
 				} else {
 					$this->abort(JText::_('Method not supported for this extension type').': '. $this->extension->type);
 					return false;
@@ -673,17 +673,17 @@ class JInstaller extends JAdapter
 				$fDriver = 'mysql';
 			}
 
-			if( $fCharset == $dbCharset && $fDriver == $dbDriver) {
+			if ($fCharset == $dbCharset && $fDriver == $dbDriver) {
 				$sqlfile = $this->getPath('extension_root').DS.$file->data();
 				// Check that sql files exists before reading. Otherwise raise error for rollback
-				if ( !file_exists( $sqlfile ) ) {
+				if (!file_exists($sqlfile)) {
 					JError::raiseWarning(1,'JInstaller::installer: '. JText::_('SQL File not found').' '. $sqlfile);
 					return false;
 				}
 				$buffer = file_get_contents($sqlfile);
 
 				// Graceful exit and rollback if read not successful
-				if ( $buffer === false ) {
+				if ($buffer === false) {
 					JError::raiseWarning(1, 'JInstaller::installer: '. JText::_('SQL File Buffer Read Error'));
 					return false;
 				}
@@ -772,9 +772,9 @@ class JInstaller extends JAdapter
 		}
 
 		// Work out what files have been deleted
-		if($oldFiles && is_a($oldFiles, 'JSimpleXMLElement')) {
+		if ($oldFiles && is_a($oldFiles, 'JSimpleXMLElement')) {
 			$oldEntries = $oldFiles->children();
-			if(count($oldEntries)) {
+			if (count($oldEntries)) {
 				$deletions = $this->findDeletedFiles($oldEntries, $files);
 				foreach($deletions['folders'] as $deleted_folder) {
 					JFolder::delete($destination.DS.$deleted_folder);
@@ -786,7 +786,7 @@ class JInstaller extends JAdapter
 		}
 
 		// Copy the MD5SUMS file if it exists
-		if(file_exists($source.DS.'MD5SUMS')) {
+		if (file_exists($source.DS.'MD5SUMS')) {
 			$path['src'] = $source.DS.'MD5SUMS';
 			$path['dest'] = $destination.DS.'MD5SUMS';
 			$path['type'] = 'file';
@@ -800,7 +800,7 @@ class JInstaller extends JAdapter
 			$path['dest']	= $destination.DS.$file->data();
 
 			// Is this path a file or folder?
-			$path['type']	= ( $file->name() == 'folder') ? 'folder' : 'file';
+			$path['type']	= ($file->name() == 'folder') ? 'folder' : 'file';
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
@@ -892,7 +892,7 @@ class JInstaller extends JAdapter
 			 */
 			if ($file->attributes('tag') != '') {
 				$path['src']	= $source.DS.$file->data();
-				if($file->attributes('client') != '') {
+				if ($file->attributes('client') != '') {
 					// override the client
 					$langclient =& JApplicationHelper::getClientInfo($file->attributes('client'), true);
 					$path['dest'] = $langclient->path.DS.'language'.DS.$file->attributes('tag').DS.basename($file->data());
@@ -1100,7 +1100,7 @@ class JInstaller extends JAdapter
 						/*
 						 * It's okay if the manifest already exists
 						 */
-						if ($this->getPath( 'manifest' ) == $filesource) {
+						if ($this->getPath('manifest') == $filesource) {
 							continue;
 						}
 
@@ -1112,7 +1112,7 @@ class JInstaller extends JAdapter
 						return false;
 				} else {
 					// Copy the folder or file to the new location.
-					if ( $filetype == 'folder') {
+					if ($filetype == 'folder') {
 
 						if (!(JFolder::copy($filesource, $filedest, null, $overwrite,1))) {
 							JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy folder to', $filesource, $filedest));
@@ -1170,7 +1170,7 @@ class JInstaller extends JAdapter
 
 		// Get the client info if we're using a specific client
 		jimport('joomla.application.helper');
-		if($cid > -1) {
+		if ($cid > -1) {
 			$client =& JApplicationHelper::getClientInfo($cid);	
 		} else {
 			$client = null;
@@ -1205,7 +1205,7 @@ class JInstaller extends JAdapter
 				break;
 
 			case 'languages':
-				if($client) {
+				if ($client) {
 					$source = $client->path.DS.'language';
 				} else {
 					$source = '';
@@ -1235,7 +1235,7 @@ class JInstaller extends JAdapter
 			 * would go in the en_US subdirectory of the languages directory.
 			 */
 			if ($file->name() == 'language' && $file->attributes('tag') != '') {
-				if($source) {
+				if ($source) {
 					$path = $source.DS.$file->attributes('tag').DS.basename($file->data());	
 				} else {
 					$target_client = JApplicationHelper::getClientInfo($file->attributes('client'), true);
@@ -1266,7 +1266,7 @@ class JInstaller extends JAdapter
 			}
 		}
 		
-		if(!empty($folder)) {
+		if (!empty($folder)) {
 			$val = JFolder::delete($source);
 		}
 
@@ -1326,7 +1326,7 @@ class JInstaller extends JAdapter
 					}
 
 					// If the overwrite option is set, allow file overwriting
-					if($root->attributes('overwrite') == 'true') {
+					if ($root->attributes('overwrite') == 'true') {
 						$this->_overwrite = true;
 					}
 
@@ -1432,9 +1432,9 @@ class JInstaller extends JAdapter
 					$container_parts = explode('/',dirname($file->data())); // break up the parts of the directory
 					$container = ''; // make sure this is clean and empty
 					foreach($container_parts as $part) { // iterate through each part
-						if(!empty($container)) $container .= '/'; // add a slash if its not empty
+						if (!empty($container)) $container .= '/'; // add a slash if its not empty
 						$container .= $part; // append the folder part
-						if(!in_array($container, $containers)) $containers[] = $container; // add the container if it doesn't already exist
+						if (!in_array($container, $containers)) $containers[] = $container; // add the container if it doesn't already exist
 					}
 					break;
 			}
@@ -1443,16 +1443,16 @@ class JInstaller extends JAdapter
 		foreach($old_files as $file) {
 			switch($file->name()) {
 				case 'folder':
-					if(!in_array($file->data(), $folders)) { // look if the folder exists in the new list
-						if(!in_array($file->data(), $containers)) { // check if the folder exists as a container in the new list
+					if (!in_array($file->data(), $folders)) { // look if the folder exists in the new list
+						if (!in_array($file->data(), $containers)) { // check if the folder exists as a container in the new list
 							$folders_deleted[] = $file->data(); // if its not in the new list or a container then delete it
 						}
 					}
 					break;
 				case 'file':
 				default:
-					if(!in_array($file->data(), $files)) { // look if the file exists in the new list
-						if(!in_array(dirname($file->data()), $folders)) { // look if the file is now potentially in a folder
+					if (!in_array($file->data(), $files)) { // look if the file exists in the new list
+						if (!in_array(dirname($file->data()), $folders)) { // look if the file is now potentially in a folder
 							$files_deleted[] = $file->data(); // not in a folder, doesn't exist, wipe it out!
 						}
 					}
@@ -1468,7 +1468,7 @@ class JInstaller extends JAdapter
 	 * @return Array Associative array with filenames as the index and the MD5 as the value
 	 */
 	function loadMD5Sum($filename) {
-		if(!file_exists($filename)) return false; // bail if the file doesn't exist
+		if (!file_exists($filename)) return false; // bail if the file doesn't exist
 		$data = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 		$retval = Array();
 		foreach($data as $row) {

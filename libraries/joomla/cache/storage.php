@@ -32,7 +32,7 @@ abstract class JCacheStorage extends JClass
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	protected function __construct( $options = array() )
+	protected function __construct($options = array())
 	{
 		$this->setOptions($options);
 	}
@@ -58,17 +58,17 @@ abstract class JCacheStorage extends JClass
 	{
 		static $instances = array();
 		static $now = null;
-		if(is_null($now)) {
+		if (is_null($now)) {
 			$now = time();
 		}
-		if(!isset($instances[$handler])) {
+		if (!isset($instances[$handler])) {
 			$options['now'] = $now;
 			$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 			$class   = 'JCacheStorage'.ucfirst($handler);
-			if(!class_exists($class))
+			if (!class_exists($class))
 			{
 				$path = dirname(__FILE__).DS.'storage'.DS.$handler.'.php';
-				if (file_exists($path) ) {
+				if (file_exists($path)) {
 					require_once($path);
 				} else {
 					return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);

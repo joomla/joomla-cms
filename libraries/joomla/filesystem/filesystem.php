@@ -52,33 +52,33 @@ abstract class JFileSystem
 	 */
 	public static function &getInstance($type = null, $options = array(), $force = false) {
 		$config = JFactory::getConfig();
-		if(empty($type)) {
+		if (empty($type)) {
 			$types = $config->get('config.filesystem',array());
 			$type = isset($types['_default']) ? $types['_default'] : 'php';
 		}
 		$type = strtolower(JFilterInput::clean($type, 'word'));
-		if(!isset(JFileSystem::$instances[$type]) || $force) {
+		if (!isset(JFileSystem::$instances[$type]) || $force) {
 			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'filesystem'.DS.'filesystem'.DS.$type.'.php';
 			$class = 'JFileSystem'.ucfirst($type);
-			if(!class_exists($class) && file_exists($path)) {
+			if (!class_exists($class) && file_exists($path)) {
 				require_once $path;
 			}
 
-			if(empty($options)) {
+			if (empty($options)) {
 				$alloptions = $config->get('config.filesystem', array());
-				if(isset($options[$type])) {
+				if (isset($options[$type])) {
 					$options = $alloptions[$type];
 				}
 			}
 
 			$instance = new $class($options);
-			if(!$force && !$instance->check() && $type != 'php') {
+			if (!$force && !$instance->check() && $type != 'php') {
 				JError::raiseNotice('SOME_ERROR_CODE', JText::sprintf('Unable to initialize filesystem %s', $type));
 				$path = JPATH_LIBRARIES.DS.'joomla'.DS.'filesystem'.DS.'filesystem'.DS.'php.php';
 				require_once $path;
 				$instance = new JFileSystemPHP();
 			}
-			if(!$force) {
+			if (!$force) {
 				JFileSystem::$instances[$type] = $instance;
 			}
 		} else {
@@ -101,10 +101,10 @@ abstract class JFileSystem
 			list($name, $ext) = explode('.', $files, 2);
 			$class = 'JFilesystem'.ucfirst($name);
 			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'filesystem'.DS.'filesystem'.DS.$file;
-			if(!class_exists($class)) {
+			if (!class_exists($class)) {
 				require_once $path;
 			}
-			if($force || call_user_func(array($class, 'test'))) {
+			if ($force || call_user_func(array($class, 'test'))) {
 				$arr[] = $name;
 			}
 		}
@@ -122,7 +122,7 @@ abstract class JFileSystem
 		$type = strtolower(JFilterInput::clean($type, 'word'));
 		$options = JFileSystem::getConfig($type);
 		$xmlPath = JPATH_LIBRARIES.DS.'joomla'.DS.'filesystem'.DS.'filesystem'.DS.$type.'.xml';
-		if(!file_exists($xmlPath)) {
+		if (!file_exists($xmlPath)) {
 			$xmlPath = '';
 		}
 		$params = new JParameter($options, $xmlPath);

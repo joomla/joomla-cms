@@ -48,38 +48,38 @@ class JCache extends JClass
 		$this->_options =& $options;
 
 		// Get the default group and caching
-		if(isset($options['language'])) {
+		if (isset($options['language'])) {
 			$this->_options['language'] = $options['language'];
 		} else {
 			$options['language'] = 'en-GB';
 		}
 
-		if(isset($options['cachebase'])) {
+		if (isset($options['cachebase'])) {
 			$this->_options['cachebase'] = $options['cachebase'];
 		} else {
 			$this->_options['cachebase'] = JPATH_ROOT.DS.'cache';
 		}
 
-		if(isset($options['defaultgroup'])) {
+		if (isset($options['defaultgroup'])) {
 			$this->_options['defaultgroup'] = $options['defaultgroup'];
 		} else {
 			$this->_options['defaultgroup'] = 'default';
 		}
 
-		if(isset($options['caching'])) {
+		if (isset($options['caching'])) {
 			$this->_options['caching'] =  $options['caching'];
 		} else {
 			$this->_options['caching'] = true;
 		}
 
-		if( isset($options['storage'])) {
+		if (isset($options['storage'])) {
 			$this->_options['storage'] = $options['storage'];
 		} else {
 			$this->_options['storage'] = 'file';
 		}
 
 		//Fix to detect if template positions are enabled...
-		if(JRequest::getCMD('tpl',0)) {
+		if (JRequest::getCMD('tpl',0)) {
 			$this->_options['caching'] = false;
 		}
 	}
@@ -98,7 +98,7 @@ class JCache extends JClass
 
 		$class = 'JCache'.ucfirst($type);
 
-		if(!class_exists($class))
+		if (!class_exists($class))
 		{
 			$path = dirname(__FILE__).DS.'handler'.DS.$type.'.php';
 
@@ -131,11 +131,11 @@ class JCache extends JClass
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			$class = 'JCacheStorage'.$name;
 
-			if(!class_exists($class)) {
+			if (!class_exists($class)) {
 				require_once(dirname(__FILE__).DS.'storage'.DS.$name.'.php');
 			}
 
-			if(call_user_func_array( array( trim($class), 'test' ), null)) {
+			if (call_user_func_array(array(trim($class), 'test'), null)) {
 				$names[] = $name;
 			}
 		}

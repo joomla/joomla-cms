@@ -69,9 +69,9 @@ class JMail extends PHPMailer
 	 */
 	public function &Send()
 	{
-		if ( ( $this->Mailer == 'mail' ) && ! function_exists('mail') )
+		if (($this->Mailer == 'mail') && ! function_exists('mail'))
 		{
-			return JError::raiseNotice( 500, JText::_('MAIL_FUNCTION_DISABLED') );
+			return JError::raiseNotice(500, JText::_('MAIL_FUNCTION_DISABLED'));
 		}
 
 		@ $result = parent::Send();
@@ -79,7 +79,7 @@ class JMail extends PHPMailer
 		if ($result == false)
 		{
 			// TODO: Set an appropriate error number
-			$result =& JError::raiseNotice( 500, JText::_($this->ErrorInfo) );
+			$result =& JError::raiseNotice(500, JText::_($this->ErrorInfo));
 		}
 		return $result;
 	}
@@ -90,7 +90,7 @@ class JMail extends PHPMailer
 	 * @access public
 	 * @param array $from E-Mail address and Name of sender
 	 * 		<pre>
-	 * 			array( [0] => E-Mail Address [1] => Name )
+	 * 			array([0] => E-Mail Address [1] => Name)
 	 * 		</pre>
 	 * @return void
 	 * @since 1.5
@@ -100,14 +100,14 @@ class JMail extends PHPMailer
 		// If $from is an array we assume it has an address and a name
 		if (is_array($from))
 		{
-			$this->From 	= JMailHelper::cleanLine( $from[0] );
-			$this->FromName = JMailHelper::cleanLine( $from[1] );
+			$this->From 	= JMailHelper::cleanLine($from[0]);
+			$this->FromName = JMailHelper::cleanLine($from[1]);
 		// If it is a string we assume it is just the address
 		} elseif (is_string($from)) {
-			$this->From = JMailHelper::cleanLine( $from );
+			$this->From = JMailHelper::cleanLine($from);
 		// If it is neither, we throw a warning
 		} else {
-			JError::raiseWarning( 0, "JMail::  Invalid E-Mail Sender: $from", "JMail::setSender($from)");
+			JError::raiseWarning(0, "JMail::  Invalid E-Mail Sender: $from", "JMail::setSender($from)");
 		}
 	}
 
@@ -120,7 +120,7 @@ class JMail extends PHPMailer
 	 * @since 1.5
 	 */
 	public function setSubject($subject) {
-		$this->Subject = JMailHelper::cleanLine( $subject );
+		$this->Subject = JMailHelper::cleanLine($subject);
 	}
 
 	/**
@@ -137,7 +137,7 @@ class JMail extends PHPMailer
 		 * Filter the Body
 		 * TODO: Check for XSS
 		 */
-		$this->Body = JMailHelper::cleanText( $content );
+		$this->Body = JMailHelper::cleanText($content);
 	}
 
 	/**
@@ -154,11 +154,11 @@ class JMail extends PHPMailer
 		if (is_array($recipient))
 		{
 			foreach ($recipient as $to) {
-				$to = JMailHelper::cleanLine( $to );
+				$to = JMailHelper::cleanLine($to);
 				$this->AddAddress($to);
 			}
 		} else {
-			$recipient = JMailHelper::cleanLine( $recipient );
+			$recipient = JMailHelper::cleanLine($recipient);
 			$this->AddAddress($recipient);
 		}
 	}
@@ -178,11 +178,11 @@ class JMail extends PHPMailer
 		{
 			if (is_array($cc)) {
 				foreach ($cc as $to) {
-					$to = JMailHelper::cleanLine( $to );
+					$to = JMailHelper::cleanLine($to);
 					parent::AddCC($to);
 				}
 			} else {
-				$cc = JMailHelper::cleanLine( $cc );
+				$cc = JMailHelper::cleanLine($cc);
 				parent::AddCC($cc);
 			}
 		}
@@ -203,11 +203,11 @@ class JMail extends PHPMailer
 		{
 			if (is_array($bcc)) {
 				foreach ($bcc as $to) {
-					$to = JMailHelper::cleanLine( $to );
+					$to = JMailHelper::cleanLine($to);
 					parent::AddBCC($to);
 				}
 			} else {
-				$bcc = JMailHelper::cleanLine( $bcc );
+				$bcc = JMailHelper::cleanLine($bcc);
 				parent::AddBCC($bcc);
 			}
 		}
@@ -242,7 +242,7 @@ class JMail extends PHPMailer
 	 * @access public
 	 * @param array $reply Either an array or multi-array of form
 	 * 		<pre>
-	 * 			array( [0] => E-Mail Address [1] => Name )
+	 * 			array([0] => E-Mail Address [1] => Name)
 	 * 		</pre>
 	 * @return void
 	 * @since 1.5
@@ -253,13 +253,13 @@ class JMail extends PHPMailer
 		if (is_array($replyto[0]))
 		{
 			foreach ($replyto as $to) {
-				$to0 = JMailHelper::cleanLine( $to[0] );
-				$to1 = JMailHelper::cleanLine( $to[1] );
+				$to0 = JMailHelper::cleanLine($to[0]);
+				$to1 = JMailHelper::cleanLine($to[1]);
 				parent::AddReplyTo($to0, $to1);
 			}
 		} else {
-			$replyto0 = JMailHelper::cleanLine( $replyto[0] );
-			$replyto1 = JMailHelper::cleanLine( $replyto[1] );
+			$replyto0 = JMailHelper::cleanLine($replyto[0]);
+			$replyto1 = JMailHelper::cleanLine($replyto[1]);
 			parent::AddReplyTo($replyto0, $replyto1);
 		}
 	}

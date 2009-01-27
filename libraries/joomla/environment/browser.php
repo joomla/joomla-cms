@@ -131,7 +131,7 @@ class JBrowser extends JClass
         'webbandit',
         'www.almaden.ibm.com/cs/crawler',
         'ZyBorg',
-    );
+   );
 
     /**
      * Is this a mobile browser?
@@ -166,7 +166,7 @@ class JBrowser extends JClass
         'xhtml+xml'     => false,
         'mathml'        => false,
         'svg'           => false
-    );
+   );
 
     /**
      * Quirks
@@ -190,7 +190,7 @@ class JBrowser extends JClass
         'scrollbar_in_way'              => false,
         'scroll_tds'                    => false,
         'windowed_controls'             => false,
-    );
+   );
 
     /**
      * List of viewable image MIME subtypes.

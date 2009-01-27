@@ -7,7 +7,7 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Load the loader class
@@ -21,34 +21,34 @@ if (! class_exists('JLoader')) {
  */
 
 //Base classes
-JLoader::import( 'joomla.base.class' );
-JLoader::import( 'joomla.base.object' );
+JLoader::import('joomla.base.class');
+JLoader::import('joomla.base.object');
 
 
 //Environment classes
-JLoader::import( 'joomla.environment.request'   );
+JLoader::import('joomla.environment.request'  );
 JRequest::clean();
 
-JLoader::import( 'joomla.environment.response'  );
+JLoader::import('joomla.environment.response' );
 
 //Factory class and methods
-JLoader::import( 'joomla.factory' 				);
-JLoader::import( 'joomla.version' 				);
+JLoader::import('joomla.factory' 				);
+JLoader::import('joomla.version' 				);
 if (!defined('JVERSION')) {
 	$version = new JVersion();
 	define('JVERSION', $version->getShortVersion());
 }
 
 //Error
-JLoader::import( 'joomla.error.error' 			);
-JLoader::import( 'joomla.error.exception' 		);
+JLoader::import('joomla.error.error' 			);
+JLoader::import('joomla.error.exception' 		);
 
 //Utilities
-JLoader::import( 'joomla.utilities.arrayhelper' );
+JLoader::import('joomla.utilities.arrayhelper');
 
 //Filters
-JLoader::import( 'joomla.filter.filterinput'	);
-JLoader::import( 'joomla.filter.filteroutput'	);
+JLoader::import('joomla.filter.filterinput'	);
+JLoader::import('joomla.filter.filteroutput'	);
 
 //Register class that don't follow one file per class naming conventions
 JLoader::register('JText' , dirname(__FILE__).DS.'methods.php');

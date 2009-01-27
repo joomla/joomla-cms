@@ -57,7 +57,7 @@ class JDocumentRAW extends JDocument
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	public function render( $cache = false, $params = array())
+	public function render($cache = false, $params = array())
 	{
 		parent::render();
 		return $this->getBuffer();

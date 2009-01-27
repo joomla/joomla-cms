@@ -30,7 +30,7 @@ class JCacheView extends JCache
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	public function get( &$view, $method, $id=false )
+	public function get(&$view, $method, $id=false)
 	{
 		$appl = JFactory::getApplication();
 
@@ -89,7 +89,7 @@ class JCacheView extends JCache
 
 			// Capture and echo output
 			ob_start();
-			ob_implicit_flush( false );
+			ob_implicit_flush(false);
 			$view->$method();
 			$data = ob_get_contents();
 			ob_end_clean();

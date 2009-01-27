@@ -26,7 +26,7 @@ abstract class JFile
 	private static $filesystem = null;
 
 	protected static function &getFileSystem() {
-		if(!is_object(JFile::$filesystem)) {
+		if (!is_object(JFile::$filesystem)) {
 			JFile::$filesystem = JFileSystem::getInstance();
 		}
 		return JFile::$filesystem;
@@ -124,7 +124,7 @@ abstract class JFile
 
 			// In case of restricted permissions we zap it one way or the other
 			// as long as the owner is either the webserver or the ftp
-			if(!$backend->delete($file)) {
+			if (!$backend->delete($file)) {
 				$filename	= basename($file);
 				JError::raiseWarning('SOME_ERROR_CODE', JText::_('Delete failed') . ": '$filename'");
 				return false;

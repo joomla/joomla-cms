@@ -128,7 +128,7 @@ class JLDAP extends JClass
 	{
 		if ($this->users_dn == '' || $nosub) {
 			$this->_dn = $username;
-		} else if(strlen($username)) {
+		} else if (strlen($username)) {
 			$this->_dn = str_replace('[username]', $username, $this->users_dn);
 		} else {
 			$this->_dn = '';
@@ -169,7 +169,7 @@ class JLDAP extends JClass
 			$password = $this->password;
 		}
 		$this->setDN($username,$nosub);
-		//if(strlen($this->getDN()))
+		//if (strlen($this->getDN()))
 		$bindResult = @ldap_bind($this->_resource, $this->getDN(), $password);
 		return $bindResult;
 	}
@@ -442,11 +442,11 @@ class JLDAP extends JClass
 			{
 				$byte = substr($networkaddress, $i, 1);
 				$addr .= ord($byte);
-				if ( ($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9) ) { // dot separate IP addresses...
+				if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9)) { // dot separate IP addresses...
 					$addr .= ".";
 				}
 			}
-			if ( ($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9) ) { // strip last period from end of $addr
+			if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9)) { // strip last period from end of $addr
 				$addr = substr($addr, 0, strlen($addr) - 1);
 			}
 		} else {
@@ -466,10 +466,10 @@ class JLDAP extends JClass
 		$userpassword = '';
 		switch(strtolower($type)) {
 			case 'sha':
-				$userpassword = '{SHA}' . base64_encode( pack( 'H*', sha1( $password ) ) );
+				$userpassword = '{SHA}' . base64_encode(pack('H*', sha1($password)));
 			case 'md5':
 			default:
-				$userpassword = '{MD5}' . base64_encode( pack( 'H*', md5( $password ) ) );
+				$userpassword = '{MD5}' . base64_encode(pack('H*', md5($password)));
 				break;
 		}
 		return $userpassword;

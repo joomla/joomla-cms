@@ -175,7 +175,7 @@ class JDate extends JClass
 	{
 		$date   = ($local) ? $this->_date + $this->_offset : $this->_date;
 		$offset = $this->getOffset();
-		$offset = ($local && $this->_offset) ? sprintf("%+03d:%02d", $offset, abs(($offset-intval($offset))*60) ) : 'Z';
+		$offset = ($local && $this->_offset) ? sprintf("%+03d:%02d", $offset, abs(($offset-intval($offset))*60)) : 'Z';
 		$date   = ($this->_date !== false) ? date('Y-m-d\TH:i:s', $date).$offset : null;
 		return $date;
 	}
@@ -234,13 +234,13 @@ class JDate extends JClass
 	 */
 	function _strftime($format, $time)
 	{
-		if(strpos($format, '%a') !== false)
+		if (strpos($format, '%a') !== false)
 			$format = str_replace('%a', $this->_dayToString(date('w', $time), true), $format);
-		if(strpos($format, '%A') !== false)
+		if (strpos($format, '%A') !== false)
 			$format = str_replace('%A', $this->_dayToString(date('w', $time)), $format);
-		if(strpos($format, '%b') !== false)
+		if (strpos($format, '%b') !== false)
 			$format = str_replace('%b', $this->_monthToString(date('n', $time), true), $format);
-		if(strpos($format, '%B') !== false)
+		if (strpos($format, '%B') !== false)
 			$format = str_replace('%B', $this->_monthToString(date('n', $time)), $format);
 		$date = strftime($format, $time);
 		return $date;

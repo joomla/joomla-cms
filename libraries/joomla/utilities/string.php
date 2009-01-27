@@ -55,9 +55,9 @@ abstract class JString
 	 */
 	public static function strpos($str, $search, $offset = FALSE)
 	{
-		if(strlen($str) && strlen($search))
+		if (strlen($str) && strlen($search))
 		{
-			if ( $offset === FALSE ) {
+			if ($offset === FALSE) {
 				return mb_strpos($str, $search);
 			} else {
 				return mb_strpos($str, $search, $offset);
@@ -78,24 +78,24 @@ abstract class JString
 	 */
 	public static function strrpos($str, $search, $offset = false)
 	{
-		if ( $offset === FALSE )
+		if ($offset === FALSE)
 		{
 			# Emulate behaviour of strrpos rather than raising warning
-			if ( empty($str) ) {
+			if (empty($str)) {
 				return FALSE;
 			}
 			return mb_strrpos($str, $search);
 		}
 		else
 		{
-			if ( !is_int($offset) ) {
+			if (!is_int($offset)) {
 				trigger_error('utf8_strrpos expects parameter 3 to be long',E_USER_WARNING);
 				return FALSE;
 			}
 
 			$str = mb_substr($str, $offset);
 
-			if ( FALSE !== ( $pos = mb_strrpos($str, $search) ) ) {
+			if (FALSE !== ($pos = mb_strrpos($str, $search))) {
 				return $pos + $offset;
 			}
 
@@ -117,7 +117,7 @@ abstract class JString
 	 */
 	public static function substr($str, $offset, $length = FALSE)
 	{
-	 	if ( $length === FALSE ) {
+	 	if ($length === FALSE) {
 			return mb_substr($str, $offset);
 		} else {
 			return mb_substr($str, $offset, $length);
@@ -185,11 +185,11 @@ abstract class JString
 	*/
 	public static function str_ireplace($search, $replace, $str, $count = NULL)
 	{
-		if ( !is_array($search) )
+		if (!is_array($search))
 		{
 			$slen = strlen($search);
 			$lendif = strlen($replace) - $slen;
-			if ( $slen == 0 ) {
+			if ($slen == 0) {
 				return $str;
 			}
 
@@ -199,8 +199,8 @@ abstract class JString
 			$lstr = JString::strtolower($str);
 			$i = 0;
 			$matched = 0;
-	 	 	while ( preg_match('/(.*)'.$search.'/Us',$lstr, $matches) ) {
-				if ( $i === $count ) {
+	 	 	while (preg_match('/(.*)'.$search.'/Us',$lstr, $matches)) {
+				if ($i === $count) {
 					break;
 				}
 				$mlen = strlen($matches[0]);
@@ -213,11 +213,11 @@ abstract class JString
 
 		} else {
 
-			foreach ( array_keys($search) as $k )
+			foreach (array_keys($search) as $k)
 			{
-				if ( is_array($replace) )
+				if (is_array($replace))
 				{
-					if ( array_key_exists($k,$replace) ) {
+					if (array_key_exists($k,$replace)) {
 						$str = JString::str_ireplace($search[$k], $replace[$k], $str, $count);
 					} else {
 						$str = JString::str_ireplace($search[$k], '', $str, $count);
@@ -243,12 +243,12 @@ abstract class JString
 	*/
 	public static function str_split($str, $split_len = 1)
 	{
-		 if ( !preg_match('/^[0-9]+$/',$split_len) || $split_len < 1 ) {
+		 if (!preg_match('/^[0-9]+$/',$split_len) || $split_len < 1) {
 	 		return FALSE;
 		}
 
 		$len = JString::strlen($str);
-   	 	if ( $len <= $split_len ) {
+   	 	if ($len <= $split_len) {
 			return array($str);
 		}
 
@@ -289,19 +289,19 @@ abstract class JString
 	*/
 	public static function strcspn($str, $mask, $start = NULL, $length = NULL)
 	{
-		if ( empty($mask) || strlen($mask) == 0 ) {
+		if (empty($mask) || strlen($mask) == 0) {
 			return NULL;
 		}
 
 		$mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
 
-		if ( $start !== NULL || $length !== NULL ) {
+		if ($start !== NULL || $length !== NULL) {
 			$str = JString::substr($str, $start, $length);
 		}
 
 		preg_match('/^[^'.$mask.']+/u',$str, $matches);
 
-		if ( isset($matches[0]) ) {
+		if (isset($matches[0])) {
 			return utf8_strlen($matches[0]);
 		}
 
@@ -323,7 +323,7 @@ abstract class JString
 	*/
 	public static function stristr($str, $search)
 	{
-		if ( strlen($search) == 0 ) {
+		if (strlen($search) == 0) {
 			return $str;
 		}
 
@@ -331,7 +331,7 @@ abstract class JString
 		$lsearch = JString::strtolower($search);
 		preg_match('|^(.*)'.preg_quote($lsearch).'|Us',$lstr, $matches);
 
-		if ( count($matches) == 2 ) {
+		if (count($matches) == 2) {
 			return substr($str, strlen($matches[1]));
 		}
 
@@ -370,13 +370,13 @@ abstract class JString
 	{
 		$mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
 
-		if ( $start !== NULL || $length !== NULL ) {
+		if ($start !== NULL || $length !== NULL) {
 			$str = JString::substr($str, $start, $length);
 		}
 
 		preg_match('/^['.$mask.']+/u',$str, $matches);
 
-		if ( isset($matches[0]) ) {
+		if (isset($matches[0])) {
 			return JString::strlen($matches[0]);
 		}
 
@@ -395,14 +395,14 @@ abstract class JString
 	 * @param int length (optional)
 	 * @see http://www.php.net/substr_replace
 	*/
-	public static function substr_replace($str, $repl, $start, $length = NULL )
+	public static function substr_replace($str, $repl, $start, $length = NULL)
 	{
 		preg_match_all('/./us', $str, $ar);
 		preg_match_all('/./us', $repl, $rar);
-		if( $length === NULL ) {
+		if ($length === NULL) {
 			$length = JString::strlen($str);
 		}
-		array_splice( $ar[0], $start, $length, $rar[0] );
+		array_splice($ar[0], $start, $length, $rar[0]);
 		return join('',$ar[0]);
 	}
 
@@ -420,9 +420,9 @@ abstract class JString
 	 * @return string the trimmed string
 	 * @see http://www.php.net/ltrim
 	*/
-	public static function ltrim( $str, $charlist = FALSE )
+	public static function ltrim($str, $charlist = FALSE)
 	{
-		if($charlist === FALSE) return ltrim($str);
+		if ($charlist === FALSE) return ltrim($str);
 
 		//quote charlist for use in a characterclass
 		$charlist = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$charlist);
@@ -444,9 +444,9 @@ abstract class JString
 	 * @return string the trimmed string
 	 * @see http://www.php.net/rtrim
 	*/
-	public static function rtrim( $str, $charlist = FALSE )
+	public static function rtrim($str, $charlist = FALSE)
 	{
-		 if($charlist === FALSE) {
+		 if ($charlist === FALSE) {
 		 	return rtrim($str);
 		 }
 
@@ -470,9 +470,9 @@ abstract class JString
 	 * @return string the trimmed string
 	 * @see http://www.php.net/trim
 	*/
-	public static function trim( $str, $charlist = FALSE )
+	public static function trim($str, $charlist = FALSE)
 	{
-		if($charlist === FALSE) {
+		if ($charlist === FALSE) {
 			return trim($str);
 		}
 
@@ -491,7 +491,7 @@ abstract class JString
 	*/
 	public static function ucfirst($str)
 	{
-		switch ( JString::strlen($str) ) {
+		switch (JString::strlen($str)) {
 			case 0:
 				return '';
 			break;
@@ -587,7 +587,7 @@ abstract class JString
 		{
 			$in = ord($str{$i});
 
-			if ( $mState == 0)
+			if ($mState == 0)
 			{
 				// When mState is zero we expect either a US-ASCII character or a
 				// multi-octet sequence.
@@ -708,7 +708,7 @@ abstract class JString
 	 */
 	public static function compliant($str)
 	{
-		if ( strlen($str) == 0 ) {
+		if (strlen($str) == 0) {
 			return TRUE;
 		}
 		// If even just the first character can be matched, when the /u

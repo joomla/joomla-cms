@@ -51,13 +51,13 @@ class JBackup extends JAdapter {
 		switch($mode) {
 			case 'backup':
 				// clear the backup data
-				if($backupid) {
+				if ($backupid) {
 					$this->_backup->load($backupid);
 				}
 				break;
 			case 'remove':
 			case 'restore':
-				if(!$backupid) {
+				if (!$backupid) {
 					return false;
 				}
 				$this->_backup->load($backupid);
@@ -78,7 +78,7 @@ class JBackup extends JAdapter {
 
 	public function setBackupID($backupid) {
 		$this->_backup =& JTable::getInstance('backup');
-		if($backupid) {
+		if ($backupid) {
 			$this->_backup->load($backupid);
 			$this->entries = $this->_backup->getEntries();
 		}
@@ -89,7 +89,7 @@ class JBackup extends JAdapter {
 	 *
 	 */
 	public function finish() {
-		 if($this->_taskset) $this->_taskset->delete();
+		 if ($this->_taskset) $this->_taskset->delete();
 	}
 
 	/**
@@ -99,7 +99,7 @@ class JBackup extends JAdapter {
 	 */
 	public function setTaskSet(&$taskset) {
 		$this->_taskset =& $taskset;
-		if(!$this->_backup && intval($taskset->fkey)) {
+		if (!$this->_backup && intval($taskset->fkey)) {
 			$this->_backup->load(intval($tasket->fkey));
 		}
 	}
@@ -111,7 +111,7 @@ class JBackup extends JAdapter {
 	 * @param mixed	$source
 	 */
 	public function addEntry($name, $type, $params=Array()) {
-		if($this->_mode != 'backup') {
+		if ($this->_mode != 'backup') {
 			JError::raiseError(101, JText::_('Cannot add entries to non-backup jobs'));
 			return false;
 		}
@@ -125,7 +125,7 @@ class JBackup extends JAdapter {
 	 * @param mixed	$source
 	 */
 	public function removeEntry($name, $type) {
-		if($this->_mode != 'backup') {
+		if ($this->_mode != 'backup') {
 			JError::raiseError(101, JText::_('Cannot add entries to non-backup jobs'));
 			return false;
 		}
@@ -133,7 +133,7 @@ class JBackup extends JAdapter {
 	}
 
 	public function getExecutionPage() {
-		if($this->execution_page) {
+		if ($this->execution_page) {
 			return $this->execution_page;
 		}
 		// TODO: Set this to com_backups
@@ -142,7 +142,7 @@ class JBackup extends JAdapter {
 	}
 
 	public function getLandingPage() {
-		if($this->landing_page) {
+		if ($this->landing_page) {
 			return $this->landing_page;
 		}
 		$uri = JURI::getInstance();
@@ -164,20 +164,20 @@ class JBackup extends JAdapter {
 		$this->_taskset->set('extensionid', '139'); // TODO: Swap this in with something better
 		$this->_taskset->set('execution_page', $this->getExecutionPage());
 		$this->_taskset->set('landing_page', $this->getLandingPage());
-		if(!$this->_taskset->store()) {
+		if (!$this->_taskset->store()) {
 			JError::raiseWarning(40,JText::_('Failed to store task set'));
 			return false;
 		}
 		//echo '<p>Added new task set for backup</p>';
 		foreach($entries as &$entry) {
 			$params = $entry->params; // yay for php5 and automatic references!
-			if(!array_key_exists('destination', $params)) {
+			if (!array_key_exists('destination', $params)) {
 				$params['destination'] =  $destination.DS.$entry->type;
 			}
 			$task = $this->_taskset->createTask();
 			$task->set('type', $entry->type);
 			$task->set('params',$params);
-			if(!$task->store()) {
+			if (!$task->store()) {
 				die('Failed to store task: '. $this->_db->getErrorMSG());
 			}
 			//echo '<p>Added new task to backup</p>';
@@ -195,13 +195,13 @@ class JBackup extends JAdapter {
 	 *  - Builds up a task set if it doesn't exist
 	 */
 	public function execute() {
-		if($this->_mode == 'backup' && !$this->_backup->get('start',null)) {
+		if ($this->_mode == 'backup' && !$this->_backup->get('start',null)) {
 			$date = new JDate();
 			$this->_backup->set('start',$date->toMySQL());
 		}
 		$this->_backup->store();
-		if(!$this->_taskset->get('tasksetid')) {
-			if(!$this->_buildTaskSet()) {
+		if (!$this->_taskset->get('tasksetid')) {
+			if (!$this->_buildTaskSet()) {
 				JError::raiseError(41, JText::_('Failed to create task set for backup'));
 				return false;
 			}
@@ -211,13 +211,13 @@ class JBackup extends JAdapter {
 		while($task =& $this->_taskset->getNextTask()) {
 			//echo '<p>Processing task</p>';
 			$type = $task->get('type','');
-			if(!$type) {
+			if (!$type) {
 				JError::raiseWarning(100, JText::_('Invalid type used for backup task'));
 				$task->delete();
 				continue;
 			}
 			$instance =& $this->getAdapter($task->type);
-			if(!$instance) {
+			if (!$instance) {
 				JError::raiseWarning(42, JText::_('Failed to load backup adapter for task').': '. $task->type);
 				$task->delete();
 				continue; // move to the next iteration
@@ -230,7 +230,7 @@ class JBackup extends JAdapter {
 			$task->delete();
 		}
 
-		if($this->_mode == 'backup') {
+		if ($this->_mode == 'backup') {
 			$date = new JDate();
 			$this->_backup->set('end',$date->toMySQL());
 			$this->_backup->store();

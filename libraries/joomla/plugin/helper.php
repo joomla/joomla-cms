@@ -38,15 +38,15 @@ abstract class JPluginHelper
 		$total = count($plugins);
 		for($i = 0; $i < $total; $i++)
 		{
-			if(is_null($plugin))
+			if (is_null($plugin))
 			{
-				if($plugins[$i]->type == $type) {
+				if ($plugins[$i]->type == $type) {
 					$result[] = $plugins[$i];
 				}
 			}
 			else
 			{
-				if($plugins[$i]->type == $type && $plugins[$i]->name == $plugin) {
+				if ($plugins[$i]->type == $type && $plugins[$i]->name == $plugin) {
 					$result = $plugins[$i];
 					break;
 				}
@@ -65,9 +65,9 @@ abstract class JPluginHelper
 	 * @param string 	$plugin	The plugin name
 	 * @return	boolean
 	 */
-	public static function isEnabled( $type, $plugin = null )
+	public static function isEnabled($type, $plugin = null)
 	{
-		$result = &JPluginHelper::getPlugin( $type, $plugin);
+		$result = &JPluginHelper::getPlugin($type, $plugin);
 		return (!empty($result));
 	}
 
@@ -88,8 +88,8 @@ abstract class JPluginHelper
 
 		$total = count($plugins);
 		for($i = 0; $i < $total; $i++) {
-			if($plugins[$i]->type == $type && ($plugins[$i]->name == $plugin ||  $plugin === null)) {
-				JPluginHelper::_import( $plugins[$i], $autocreate, $dispatcher );
+			if ($plugins[$i]->type == $type && ($plugins[$i]->name == $plugin ||  $plugin === null)) {
+				JPluginHelper::_import($plugins[$i], $autocreate, $dispatcher);
 				$result = true;
 			}
 		}
@@ -103,7 +103,7 @@ abstract class JPluginHelper
 	 * @access private
 	 * @return boolean True if success
 	 */
-	protected static function _import( &$plugin, $autocreate = true, $dispatcher = null )
+	protected static function _import(&$plugin, $autocreate = true, $dispatcher = null)
 	{
 		static $paths;
 
@@ -118,9 +118,9 @@ abstract class JPluginHelper
 		$legacypath	= JPATH_PLUGINS.DS.$plugin->type.DS.$plugin->name.'.php';
 		$path = JPATH_PLUGINS.DS.$plugin->type.DS.$plugin->name.DS.$plugin->name.'.php';
 
-		if (!isset( $paths[$path] ) || !isset($paths[$legacypath]))
+		if (!isset($paths[$path]) || !isset($paths[$legacypath]))
 		{
-			if (file_exists( $path ) || file_exists($legacypath))
+			if (file_exists($path) || file_exists($legacypath))
 			{
 				$path = file_exists($path) ? $path : $legacypath;
 				//needed for backwards compatibility
@@ -131,15 +131,15 @@ abstract class JPluginHelper
 				require_once $path;
 				$paths[$path] = true;
 
-				if($autocreate)
+				if ($autocreate)
 				{
 					// Makes sure we have an event dispatcher
-					if(!is_object($dispatcher)) {
+					if (!is_object($dispatcher)) {
 						$dispatcher = & JDispatcher::getInstance();
 					}
 
 					$className = 'plg'.$plugin->type.$plugin->name;
-					if(class_exists($className))
+					if (class_exists($className))
 					{
 						// load plugin parameters
 						$plugin =& JPluginHelper::getPlugin($plugin->type, $plugin->name);
@@ -194,7 +194,7 @@ abstract class JPluginHelper
 				. ' ORDER BY ordering';
 		}
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 
 		try {
 			$plugins = $db->loadObjectList();

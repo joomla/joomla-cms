@@ -36,7 +36,7 @@ abstract class JUtility
  	 * @param mixed $replytoname Reply to name(s)
  	 * @return boolean True on success
   	 */
-	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null )
+	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
 	{
 	 	// Get a JMail instance
 		$mail =& JFactory::getMailer();
@@ -46,7 +46,7 @@ abstract class JUtility
 		$mail->setBody($body);
 
 		// Are we sending the email as HTML?
-		if ( $mode ) {
+		if ($mode) {
 			$mail->IsHTML(true);
 		}
 
@@ -56,13 +56,13 @@ abstract class JUtility
 		$mail->addAttachment($attachment);
 
 		// Take care of reply email addresses
-		if( is_array( $replyto ) ) {
+		if (is_array($replyto)) {
 			$numReplyTo = count($replyto);
-			for ( $i=0; $i < $numReplyTo; $i++){
-				$mail->addReplyTo( array($replyto[$i], $replytoname[$i]) );
+			for ($i=0; $i < $numReplyTo; $i++){
+				$mail->addReplyTo(array($replyto[$i], $replytoname[$i]));
 			}
-		} elseif( isset( $replyto ) ) {
-			$mail->addReplyTo( array( $replyto, $replytoname ) );
+		} elseif (isset($replyto)) {
+			$mail->addReplyTo(array($replyto, $replytoname));
 		}
 
 		return  $mail->Send();
@@ -79,12 +79,12 @@ abstract class JUtility
  	 * @param string $author Author of item to approve
  	 * @return boolean True on success
  	 */
-	public static function sendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null )
+	public static function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
-		$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
+		$subject = JText::_('User Submitted') ." '". $type ."'";
 
-		$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
-		$message .= JText::_( 'MAIL_MSG') ."\n";
+		$message = sprintf (JText::_('MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
+		$message .= JText::_('MAIL_MSG') ."\n";
 
 	 	// Get a JMail instance
 		$mail =& JFactory::getMailer();
@@ -101,10 +101,10 @@ abstract class JUtility
  	 * @param string Seed string
  	 * @return string
  	 */
-	public static function getHash( $seed )
+	public static function getHash($seed)
 	{
 		$conf =& JFactory::getConfig();
-		return md5( $conf->getValue('config.secret') .  $seed  );
+		return md5($conf->getValue('config.secret') .  $seed );
 	}
 
 	/**
@@ -118,7 +118,7 @@ abstract class JUtility
 	{
 		$user		= &JFactory::getUser();
 		$session	= &JFactory::getSession();
-		$hash		= JUtility::getHash( $user->get( 'id', 0 ).$session->getToken( $forceNew ) );
+		$hash		= JUtility::getHash($user->get('id', 0).$session->getToken($forceNew));
 		return $hash;
 	}
 
@@ -129,19 +129,19 @@ abstract class JUtility
  	 * @return	array	Key/Value pairs for the attributes
  	 * @since	1.5
  	 */
-	public static function parseAttributes( $string )
+	public static function parseAttributes($string)
 	{
 	 	//Initialize variables
 		$attr		= array();
 		$retarray	= array();
 
 		// Lets grab all the key/value pairs using a regular expression
-		preg_match_all( '/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr );
+		preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);
 
 		if (is_array($attr))
 		{
 			$numPairs = count($attr[1]);
-			for($i = 0; $i < $numPairs; $i++ )
+			for($i = 0; $i < $numPairs; $i++)
 			{
 				$retarray[$attr[1][$i]] = $attr[2][$i];
 			}
@@ -169,10 +169,10 @@ abstract class JUtility
 	 * @since	1.5
 	 * @static
 	 */
-	public static function dump( &$var, $htmlSafe = true )
+	public static function dump(&$var, $htmlSafe = true)
 	{
-		$result = var_export( $var, true );
-		return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
+		$result = var_export($var, true);
+		return '<pre>'.($htmlSafe ? htmlspecialchars($result) : $result).'</pre>';
 	}
 
 	/**

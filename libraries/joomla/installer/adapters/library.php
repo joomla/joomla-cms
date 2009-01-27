@@ -10,7 +10,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.installer.librarymanifest' );
+jimport('joomla.installer.librarymanifest');
 jimport('joomla.base.adapterinstance');
 
 /**
@@ -52,8 +52,8 @@ class JInstallerLibrary extends JAdapterInstance
 		$db =& $this->parent->getDBO();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();
-		if($result) { // already installed, can we upgrade?
-			if($this->parent->getOverwrite() || $this->parent->getUpgrade()) {
+		if ($result) { // already installed, can we upgrade?
+			if ($this->parent->getOverwrite() || $this->parent->getUpgrade()) {
 				// we can upgrade, so uninstall the old one
 				$installer = new JInstaller(); // we don't want to compromise this instance!
 				$installer->uninstall('library', $result);
@@ -70,7 +70,7 @@ class JInstallerLibrary extends JAdapterInstance
 		if (is_a($description, 'JSimpleXMLElement')) {
 			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', '' );
+			$this->parent->set('message', '');
 		}
 
 		// Set the installation path
@@ -184,7 +184,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$db =& $this->parent->getDBO();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();
-		if($result) { // already installed, which would make sense
+		if ($result) { // already installed, which would make sense
 			$installer->uninstall('library', $result);
 		}
 		// now create the new files
@@ -207,7 +207,7 @@ class JInstallerLibrary extends JAdapterInstance
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('extension');
-		if ( !$row->load((int) $id) || !strlen($row->element)) {
+		if (!$row->load((int) $id) || !strlen($row->element)) {
 			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
 			return false;
 		}
@@ -260,8 +260,8 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// TODO: Change this so it walked up the path backwards so we clobber multiple empties
 		// If the folder is empty, let's delete it
-		if(JFolder::exists($this->parent->getPath('extension_root'))) {
-			if(is_dir($this->parent->getPath('extension_root'))) {
+		if (JFolder::exists($this->parent->getPath('extension_root'))) {
+			if (is_dir($this->parent->getPath('extension_root'))) {
 				$files = JFolder::files($this->parent->getPath('extension_root'));
 				if (!count($files)) {
 					JFolder::delete($this->parent->getPath('extension_root'));
@@ -327,7 +327,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$this->parent->extension->name = $manifest_details['name'];
 		$this->parent->extension->enabled = 1;
 		$this->parent->extension->params = $this->parent->getParams();
-		if($this->parent->extension->store()) {
+		if ($this->parent->extension->store()) {
 			return true;
 		} else {
 			JError::raiseWarning(101, JText::_('Plugin').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));

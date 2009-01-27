@@ -28,7 +28,7 @@ class JCacheStorageFile extends JCacheStorage
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	protected function __construct( $options = array() )
+	protected function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -55,7 +55,7 @@ class JCacheStorageFile extends JCacheStorage
 		$this->_setExpire($id, $group);
 		if (file_exists($path)) {
 			$data = file_get_contents($path);
-			if($data) {
+			if ($data) {
 				// Remove the initial die() statement
 				$data	= preg_replace('/^.*\n/', '', $data);
 			}
@@ -145,7 +145,7 @@ class JCacheStorageFile extends JCacheStorage
 		$return = true;
 		$folder	= $group;
 
-		if(trim($folder) == '') {
+		if (trim($folder) == '') {
 			$mode = 'notgroup';
 		}
 
@@ -218,12 +218,12 @@ class JCacheStorageFile extends JCacheStorage
 		$path = $this->_getFilePath($id, $group);
 
 		// set prune period
-		if(file_exists($path.'_expire')) {
+		if (file_exists($path.'_expire')) {
 			$time = @file_get_contents($path.'_expire');
 			if ($time + $this->_lifetime < $this->_now || empty($time)) {
 				$this->remove($id, $group);
 			}
-		} elseif(file_exists($path)) {
+		} elseif (file_exists($path)) {
 			//This means that for some reason there's no expire file, remove it
 			$this->remove($id, $group);
 		}

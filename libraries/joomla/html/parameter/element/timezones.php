@@ -30,7 +30,7 @@ class JElementTimezones extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		if(!strlen($value)) {
+		if (!strlen($value)) {
 			$conf =& JFactory::getConfig();
 			$value = $conf->getValue('config.offset');
 		}

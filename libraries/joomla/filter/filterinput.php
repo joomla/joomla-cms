@@ -87,7 +87,7 @@ class JFilterInput extends JClass
 
 	public static function _($source, $type = 'string') {
 		static $instance = null;
-		if(empty($instance)) {
+		if (empty($instance)) {
 			$instance = self::getInstance();
 		}
 		return $instance->clean($source, $type);
@@ -129,26 +129,26 @@ class JFilterInput extends JClass
 				break;
 
 			case 'WORD' :
-				$result = (string) preg_replace( '/[^A-Z_]/i', '', $source );
+				$result = (string) preg_replace('/[^A-Z_]/i', '', $source);
 				break;
 
 			case 'ALNUM' :
-				$result = (string) preg_replace( '/[^A-Z0-9]/i', '', $source );
+				$result = (string) preg_replace('/[^A-Z0-9]/i', '', $source);
 				break;
 
 			case 'CMD' :
-				$result = (string) preg_replace( '/[^A-Z0-9_\.-]/i', '', $source );
+				$result = (string) preg_replace('/[^A-Z0-9_\.-]/i', '', $source);
 				$result = ltrim($result, '.');
 				break;
 
 			case 'BASE64' :
-				$result = (string) preg_replace( '/[^A-Z0-9\/+=]/i', '', $source );
+				$result = (string) preg_replace('/[^A-Z0-9\/+=]/i', '', $source);
 				break;
 
 			case 'STRING' :
 				// Check for static usage and assign $filter the proper variable
 				// NOTE:  Calling ::clean() as a static method is deprecated.  Use JFilterInput::_() instead
-				if(isset($this) && $this INSTANCEOF JFilterInput) {
+				if (isset($this) && $this INSTANCEOF JFilterInput) {
 					$filter =& $this;
 				} else {
 					$filter =& JFilterInput::getInstance();
@@ -167,12 +167,12 @@ class JFilterInput extends JClass
 				break;
 
 			case 'USERNAME' :
-				$result = (string) preg_replace( '/[\x00-\x1F\x7F<>"\'%&]/', '', $source );
+				$result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
 				break;
 
 			default :
 				// Check for static usage and assign $filter the proper variable
-				if(is_object($this) && $this INSTANCEOF JFilterInput) {
+				if (is_object($this) && $this INSTANCEOF JFilterInput) {
 					$filter =& $this;
 				} else {
 					$filter =& JFilterInput::getInstance();

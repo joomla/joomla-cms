@@ -48,5 +48,5 @@ abstract class JObserver extends JClass
 	 * @access public
 	 * @return mixed
 	 */
-	abstract public function update( &$args );
+	abstract public function update(&$args);
 }

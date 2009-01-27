@@ -89,8 +89,8 @@ class JAdapter extends JClass {
 	}
 
 	public function &getAdapter($name) {
-		if(!array_key_exists($name, $this->_adapters)) {
-			if(!$this->setAdapter($name)) {
+		if (!array_key_exists($name, $this->_adapters)) {
+			if (!$this->setAdapter($name)) {
 				$false = false;
 				return $false;
 			}
@@ -104,7 +104,7 @@ class JAdapter extends JClass {
 	public function loadAllAdapters() {
 		$list = JFolder::files($this->_basepath.DS.$this->_adapterfolder);
 		foreach($list as $filename) {
-			if(JFile::getExt($filename) == 'php') {
+			if (JFile::getExt($filename) == 'php') {
 				// Try to load the adapter object
 				require_once($this->_basepath.DS.$this->_adapterfolder.DS.$filename);
 

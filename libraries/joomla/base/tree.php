@@ -78,7 +78,7 @@ class JNode extends JObject
 		return true;
 	}
 
-	public function addChild( &$node )
+	public function addChild(&$node)
 	{
 		$node->setParent($this);
 		$this->_children[] = & $node;
@@ -89,7 +89,7 @@ class JNode extends JObject
 		return $this->_parent;
 	}
 
-	public function setParent( &$node )
+	public function setParent(&$node)
 	{
 		$this->_parent = & $node;
 	}

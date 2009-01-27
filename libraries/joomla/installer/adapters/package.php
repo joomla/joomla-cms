@@ -51,7 +51,7 @@ class JInstallerPackage extends JAdapterInstance
 		if (is_a($description, 'JSimpleXMLElement')) {
 			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', '' );
+			$this->parent->set('message', '');
 		}
 
 		// Set the installation path
@@ -97,11 +97,11 @@ class JInstallerPackage extends JAdapterInstance
 		}
 
 		// Install all necessary files
-		if(is_a($element, 'JSimpleXMLElement') && count($element->children())) {
+		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
 			foreach($element->children() as $child) {
 				$file = $source . DS . $child->data();
 				jimport('joomla.installer.helper');
-				if(is_dir($file)) { // if its actually a directory then fill it up
+				if (is_dir($file)) { // if its actually a directory then fill it up
 					$package = Array();
 					$package['dir'] = $file;
 					$package['type'] = JInstallerHelper::detectType($file);
@@ -109,7 +109,7 @@ class JInstallerPackage extends JAdapterInstance
 					$package = JInstallerHelper::unpack($file);
 				}
 				$tmpInstaller = new JInstaller();
-				if(!$tmpInstaller->install($package['dir'])) {
+				if (!$tmpInstaller->install($package['dir'])) {
 					$this->parent->abort(JText::_('Package').' '.JText::_('Install').': '.JText::_('There was an error installing an extension:') . basename($file));
 					return false;
 				}
@@ -152,7 +152,7 @@ class JInstallerPackage extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall($id, $clientId )
+	function uninstall($id, $clientId)
 	{
 		// Initialize variables
 		$row	= null;
@@ -190,7 +190,7 @@ class JInstallerPackage extends JAdapterInstance
 				$tmpInstaller = new JInstaller();
 				$id = $this->_getExtensionID($extension->type, $extension->id, $extension->client, $extension->group);
 				$client = JApplicationHelper::getClientInfo($extension->client,true);
-				if(!$tmpInstaller->uninstall($extension->type, $id, $client->id)) {
+				if (!$tmpInstaller->uninstall($extension->type, $id, $client->id)) {
 					$error = true;
 					JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '.
 //							JText::_('There was an error removing an extension!') . ' ' .
@@ -201,7 +201,7 @@ class JInstallerPackage extends JAdapterInstance
 				}
 			}
 			// clean up manifest file after we're done if there were no errors
-			if(!$error) 	JFile::delete($manifestFile);
+			if (!$error) 	JFile::delete($manifestFile);
 			else JError::raiseWarning(100, JText::_('Package'). ' ' . JText::_('Uninstall'). ': '.
 					JText::_('Errors were detected, manifest file not removed!'));
 		} else {

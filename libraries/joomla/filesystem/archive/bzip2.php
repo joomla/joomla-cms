@@ -88,13 +88,13 @@ class JArchiveBzip2 extends JObject
 		// New style! streams!
 		$input =& JFactory::getStream();
 		$input->set('processingmethod','bz'); // use bzip
-		if(!$input->open($archive)) {
+		if (!$input->open($archive)) {
 			$this->set('error.message', 'Unable to read archive (bz2)');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
 		$output =& JFactory::getStream();
-		if(!$output->open($destination, 'w')) {
+		if (!$output->open($destination, 'w')) {
 			$this->set('error.message', 'Unable to write archive (bz2)');
 			$input->close(); // close the previous file
 			return JError::raiseWarning(100, $this->get('error.message'));
@@ -103,8 +103,8 @@ class JArchiveBzip2 extends JObject
 		$written = 0;
 		do {
 			$this->_data = $input->read($input->get('chunksize', 8196));
-			if($this->_data) {
-				if(!$output->write($this->_data)) {
+			if ($this->_data) {
+				if (!$output->write($this->_data)) {
 					$this->set('error.message', 'Unable to write file (bz2)');
 					return JError::raiseWarning(100, $this->get('error.message'));
 				}

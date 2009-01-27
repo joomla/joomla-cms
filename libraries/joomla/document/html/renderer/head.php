@@ -57,7 +57,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Generate base tag (need to happen first)
 		$base = $document->getBase();
-		if(!empty($base)) {
+		if (!empty($base)) {
 			$strHtml .= $tab.'<base href="'.$document->getBase().'" />'.$lnEnd;
 		}
 

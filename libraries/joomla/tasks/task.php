@@ -33,17 +33,17 @@ class JTask extends JTable {
 	private $_parent;
 
 	public function __construct(&$db=null, &$parent=null, $taskid = 0, $tasksetid = 0, $data = '') {
-		if($db != null) {
+		if ($db != null) {
 			$this->taskid = $taskid;
 			$this->tasksetid = $tasksetid;
 			$this->data = $data;
-			if($parent != null) {
+			if ($parent != null) {
 				$this->_parent =& $parent;
-			} else if($tasksetid) {
+			} else if ($tasksetid) {
 				$this->_parent = new JTaskSet($db);
 				$this->_parent->load($tasksetid);
 			}
-			parent::__construct( '#__tasks', 'taskid', $db );
+			parent::__construct('#__tasks', 'taskid', $db);
 		}
 	}
 
@@ -54,14 +54,14 @@ class JTask extends JTable {
 	public function setInstance(&$instance, $restore=false) {
 		$this->_instance =& $instance;
 		$this->_instance->setTask($this);
-		if($restore) {
+		if ($restore) {
 			$this->_instance->restoreTask($this->data);
 		}
 	}
 
 	public function load($pid=null) {
 		$res = parent::load($pid);
-		if($res) {
+		if ($res) {
 			$this->data = unserialize($this->data); // pull the data back out
 			$this->params = unserialize($this->params); // params too
 		}
@@ -79,7 +79,7 @@ class JTask extends JTable {
 
 	public function yield() {
 		$now = JProfiler::getmicrotime();
-		if($this->_lasttick) {
+		if ($this->_lasttick) {
 			$this->_quanta[] = $now - $this->_lasttick;
 			$this->duration = ceil(array_sum($this->_quanta) / count($this->_quanta));
 		}
@@ -95,7 +95,7 @@ class JTask extends JTable {
 
 	// TODO: redo this function
 	public function reload() {
-		if($this->_instance) $this->data = $this->_instance->suspendTask();
+		if ($this->_instance) $this->data = $this->_instance->suspendTask();
 		$this->store(); // save ourselves before we reload
 		$link = $this->_parent->execution_page .'&taskset='.$this->tasksetid;
 		echo '<a href="'.$link.'">'.JText::_('Next').'</a>';

@@ -32,14 +32,14 @@ abstract class JApplicationHelper
 	{
 		static $option;
 
-		if ( $option )
+		if ($option)
 		{
 			return $option;
 		}
 
 		$option = strtolower(JRequest::getCmd('option'));
 
-		if(empty($option)) {
+		if (empty($option)) {
 			$option = $default;
 		}
 
@@ -92,7 +92,7 @@ abstract class JApplicationHelper
 		}
 
 		//If no client id has been passed return the whole array
-		if(is_null($id)) {
+		if (is_null($id)) {
 			return $clients;
 		}
 
@@ -125,89 +125,89 @@ abstract class JApplicationHelper
 	* @return string The requested path
 	* @since 1.0
 	*/
-	public static function getPath( $varname, $user_option=null )
+	public static function getPath($varname, $user_option=null)
 	{
 		// check needed for handling of custom/new module xml file loading
-		$check = ( ( $varname == 'mod0_xml' ) || ( $varname == 'mod1_xml' ) );
+		$check = (($varname == 'mod0_xml') || ($varname == 'mod1_xml'));
 
-		if ( !$user_option && !$check ) {
+		if (!$user_option && !$check) {
 			$user_option = JRequest::getCmd('option');
 		} else {
 			$user_option = JFilterInput::clean($user_option, 'path');
 		}
 
 		$result = null;
-		$name 	= substr( $user_option, 4 );
+		$name 	= substr($user_option, 4);
 
 		switch ($varname) {
 			case 'front':
-				$result = JApplicationHelper::_checkPath( DS.'components'.DS. $user_option .DS. $name .'.php', 0 );
+				$result = JApplicationHelper::_checkPath(DS.'components'.DS. $user_option .DS. $name .'.php', 0);
 				break;
 
 			case 'html':
 			case 'front_html':
-				if ( !( $result = JApplicationHelper::_checkPath( DS.'templates'.DS. JApplication::getTemplate() .DS.'components'.DS. $name .'.html.php', 0 ) ) ) {
-					$result = JApplicationHelper::_checkPath( DS.'components'.DS. $user_option .DS. $name .'.html.php', 0 );
+				if (!($result = JApplicationHelper::_checkPath(DS.'templates'.DS. JApplication::getTemplate() .DS.'components'.DS. $name .'.html.php', 0))) {
+					$result = JApplicationHelper::_checkPath(DS.'components'.DS. $user_option .DS. $name .'.html.php', 0);
 				}
 				break;
 
 			case 'toolbar':
-				$result = JApplicationHelper::_checkPath( DS.'components'.DS. $user_option .DS.'toolbar.'. $name .'.php', -1 );
+				$result = JApplicationHelper::_checkPath(DS.'components'.DS. $user_option .DS.'toolbar.'. $name .'.php', -1);
 				break;
 
 			case 'toolbar_html':
-				$result = JApplicationHelper::_checkPath( DS.'components'.DS. $user_option .DS.'toolbar.'. $name .'.html.php', -1 );
+				$result = JApplicationHelper::_checkPath(DS.'components'.DS. $user_option .DS.'toolbar.'. $name .'.html.php', -1);
 				break;
 
 			case 'toolbar_default':
 			case 'toolbar_front':
-				$result = JApplicationHelper::_checkPath( DS.'includes'.DS.'HTML_toolbar.php', 0 );
+				$result = JApplicationHelper::_checkPath(DS.'includes'.DS.'HTML_toolbar.php', 0);
 				break;
 
 			case 'admin':
 				$path 	= DS.'components'.DS. $user_option .DS.'admin.'. $name .'.php';
-				$result = JApplicationHelper::_checkPath( $path, -1 );
+				$result = JApplicationHelper::_checkPath($path, -1);
 				if ($result == null) {
 					$path = DS.'components'.DS. $user_option .DS. $name .'.php';
-					$result = JApplicationHelper::_checkPath( $path, -1 );
+					$result = JApplicationHelper::_checkPath($path, -1);
 				}
 				break;
 
 			case 'admin_html':
 				$path	= DS.'components'.DS. $user_option .DS.'admin.'. $name .'.html.php';
-				$result = JApplicationHelper::_checkPath( $path, -1 );
+				$result = JApplicationHelper::_checkPath($path, -1);
 				break;
 
 			case 'admin_functions':
 				$path	= DS.'components'.DS. $user_option .DS. $name .'.functions.php';
-				$result = JApplicationHelper::_checkPath( $path, -1 );
+				$result = JApplicationHelper::_checkPath($path, -1);
 				break;
 
 			case 'class':
-				if ( !( $result = JApplicationHelper::_checkPath( DS.'components'.DS. $user_option .DS. $name .'.class.php' ) ) ) {
-					$result = JApplicationHelper::_checkPath( DS.'includes'.DS. $name .'.php' );
+				if (!($result = JApplicationHelper::_checkPath(DS.'components'.DS. $user_option .DS. $name .'.class.php'))) {
+					$result = JApplicationHelper::_checkPath(DS.'includes'.DS. $name .'.php');
 				}
 				break;
 
 			case 'helper':
 				$path	= DS.'components'.DS. $user_option .DS. $name .'.helper.php';
-				$result = JApplicationHelper::_checkPath( $path );
+				$result = JApplicationHelper::_checkPath($path);
 				break;
 
 			case 'com_xml':
 				$path 	= DS.'components'.DS. $user_option .DS. $name .'.xml';
-				$result = JApplicationHelper::_checkPath( $path, 1 );
+				$result = JApplicationHelper::_checkPath($path, 1);
 				break;
 
 			case 'mod0_xml':
 				$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
-				$result = JApplicationHelper::_checkPath( $path );
+				$result = JApplicationHelper::_checkPath($path);
 				break;
 
 			case 'mod1_xml':
 				// admin modules
 				$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
-				$result = JApplicationHelper::_checkPath( $path, -1 );
+				$result = JApplicationHelper::_checkPath($path, -1);
 				break;
 
 			case 'bot_xml':
@@ -217,15 +217,15 @@ abstract class JApplicationHelper
 				$j15path 	= DS.'plugins'.DS. $user_option .'.xml';
 				$parts = explode(DS, $user_option);
 				$j16path   = DS.'plugins'.DS. $user_option.DS.$parts[0].'.xml';
-				$j15 = JApplicationHelper::_checkPath( $path, 0 );
-				$j16 = JApplicationHelper::_checkPath( $j16path, 0);
+				$j15 = JApplicationHelper::_checkPath($path, 0);
+				$j16 = JApplicationHelper::_checkPath($j16path, 0);
 				// return 1.6 if working otherwise default to whatever 1.5 gives us
 				$result = $j16 ? $j16 : $j15;
 				break;
 
 			case 'menu_xml':
 				$path 	= DS.'components'.DS.'com_menus'.DS. $user_option .DS. $user_option .'.xml';
-				$result = JApplicationHelper::_checkPath( $path, -1 );
+				$result = JApplicationHelper::_checkPath($path, -1);
 				break;
 		}
 
@@ -247,7 +247,7 @@ abstract class JApplicationHelper
 		 *
 		 * Should be 'install', but for backward compatability we will accept 'extension'.
 		 */
-		if ( !is_object($xml->document) || ($xml->document->name() != 'install' && $xml->document->name() != 'extension')) {
+		if (!is_object($xml->document) || ($xml->document->name() != 'install' && $xml->document->name() != 'extension')) {
 			unset($xml);
 			return false;
 		}
@@ -347,14 +347,14 @@ abstract class JApplicationHelper
 	 * @param integer 	$checkAdmin		0 to check site only, 1 to check site and admin, -1 to check admin only
 	 * @since 1.5
 	 */
-	protected static function _checkPath( $path, $checkAdmin=1 )
+	protected static function _checkPath($path, $checkAdmin=1)
 	{
 		$file = JPATH_SITE . $path;
-		if ($checkAdmin > -1 && file_exists( $file )) {
+		if ($checkAdmin > -1 && file_exists($file)) {
 			return $file;
 		} else if ($checkAdmin != 0) {
 			$file = JPATH_ADMINISTRATOR . $path;
-			if (file_exists( $file )) {
+			if (file_exists($file)) {
 				return $file;
 			}
 		}

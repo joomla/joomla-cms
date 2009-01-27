@@ -34,7 +34,7 @@ class JTaskSet extends JTable {
 		$app =& JFactory::getApplication();
 		$this->_startTime = $app->get('startTime', JProfiler::getmicrotime());
 		$max_php_run = ini_get('max_execution_time');
-		if($max_php_run > 0) {
+		if ($max_php_run > 0) {
 			$this->max_time = $max_php_run;
 			$this->run_time = intval($max_php_run * ($this->threshold / 100));
 		} else {
@@ -53,9 +53,9 @@ class JTaskSet extends JTable {
 		$this->_db->setQuery('SELECT taskid FROM #__tasks WHERE tasksetid = '. $this->tasksetid .' ORDER BY taskid LIMIT 0,1');
 		$taskid = $this->_db->loadResult();// or die('Failed to find next task: ' . $this->db->getErrorMsg());
 		$false = false;
-		if(!$taskid) return $false;
+		if (!$taskid) return $false;
 		$task = new JTask($this->_db, $this);
-		if($task->load($taskid)) return $task; else return $false; //die('Task '. $taskid .' failed to load:'. print_r($this,1));
+		if ($task->load($taskid)) return $task; else return $false; //die('Task '. $taskid .' failed to load:'. print_r($this,1));
 	}
 
 	function listAll() {
@@ -77,7 +77,7 @@ class JTaskSet extends JTable {
 		while($task = $this->getNextTask()) $task->execute($callback, $context);
 		$app =& JFactory::getApplication();
 		$this->delete();
-		if(!$this->landing_page) $this->landing_page = 'index.php';
+		if (!$this->landing_page) $this->landing_page = 'index.php';
 		$app->redirect($this->landing_page);
 	}
 
@@ -96,7 +96,7 @@ class JTaskSet extends JTable {
 
 	public function load($pid=null) {
 		$res = parent::load($pid);
-		if($res) $this->data = unserialize($this->data); // pull the data back out
+		if ($res) $this->data = unserialize($this->data); // pull the data back out
 		return $res;
 	}
 
@@ -107,17 +107,17 @@ class JTaskSet extends JTable {
 		return $res;
 	}
 
-	public function delete( $oid=null )
+	public function delete($oid=null)
 	{
 
 		$k = $this->_tbl_key;
 		if ($oid) {
-			$this->$k = intval( $oid );
+			$this->$k = intval($oid);
 		}
 
-		$query = 'DELETE FROM '.$this->_db->nameQuote( $this->_tbl ).
+		$query = 'DELETE FROM '.$this->_db->nameQuote($this->_tbl).
 				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
-		$this->_db->setQuery( $query );
+		$this->_db->setQuery($query);
 
 		try {
 			$this->_db->query();

@@ -26,7 +26,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * @param string  XML Formatted String
 	 * @return object Data Object
 	 */
-	public function stringToObject( $data, $process_sections = false) {
+	public function stringToObject($data, $process_sections = false) {
 		return true;
 	}
 
@@ -40,11 +40,11 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * @param array  $param  Parameters used by the formatter
 	 * @return string XML Formatted String
 	 */
-	public function objectToString( &$object, $params )
+	public function objectToString(&$object, $params)
 	{
 		$depth = 1;
 		$retval = "<?xml version=\"1.0\" ?>\n<config>\n";
-		foreach (get_object_vars( $object ) as $key=>$item)
+		foreach (get_object_vars($object) as $key=>$item)
 		{
 			if (is_object($item))
 			{
@@ -76,7 +76,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 			$tab .= "\t";
 		}
 
-		foreach (get_object_vars( $object ) as $key=>$item)
+		foreach (get_object_vars($object) as $key=>$item)
 		{
 			if (is_object($item))
 			{

@@ -137,7 +137,7 @@ class JQuery
 	{
 		if (is_null($this->_where)) {
 			$glue = strtoupper($glue);
-			$this->_where = new JQueryElement( 'WHERE', $conditions, "\n\t$glue ");
+			$this->_where = new JQueryElement('WHERE', $conditions, "\n\t$glue ");
 		} else {
 			$this->_where->append($conditions);
 		}

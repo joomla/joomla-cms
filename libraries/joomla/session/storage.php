@@ -27,7 +27,7 @@ abstract class JSessionStorage extends JClass
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	protected function __construct( $options = array() )
+	protected function __construct($options = array())
 	{
 		$this->register($options);
 	}
@@ -53,7 +53,7 @@ abstract class JSessionStorage extends JClass
 		if (empty ($instances[$name]))
 		{
 			$class = 'JSessionStorage'.ucfirst($name);
-			if(!class_exists($class))
+			if (!class_exists($class))
 			{
 				$path = dirname(__FILE__).DS.'storage'.DS.$name.'.php';
 				if (file_exists($path)) {
@@ -76,7 +76,7 @@ abstract class JSessionStorage extends JClass
 	* @access public
 	* @param array $options optional parameters
 	*/
-	public function register( $options = array() )
+	public function register($options = array())
 	{
 		// use this object as the session handler
 		session_set_save_handler(

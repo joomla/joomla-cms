@@ -135,10 +135,10 @@ class JRegistry extends JClass
 
 				//for ($i = 0; $i < $pathNodes; $i ++) {
 				for ($i = 1; $i < $pathNodes; $i ++) {
-					if((isset($ns->$nodes[$i]))) $ns =& $ns->$nodes[$i];
+					if ((isset($ns->$nodes[$i]))) $ns =& $ns->$nodes[$i];
 				}
 
-				if(isset($ns->$nodes[$i])) {
+				if (isset($ns->$nodes[$i])) {
 					$result = $ns->$nodes[$i];
 				}
 			}
@@ -253,7 +253,7 @@ class JRegistry extends JClass
 		 * groups loaded into the namespace.  This overwrites any existing group
 		 * with the same name
 		 */
-		if (is_object( $object ))
+		if (is_object($object))
 		{
 			foreach (get_object_vars($object) as $k => $v) {
 				if (substr($k, 0,1) != '_' || $k == '_name') {
@@ -512,7 +512,7 @@ class JRegistry extends JClass
 		$ns = & $this->_registry[$namespace]['data'];
 
 		$array = array();
-		foreach (get_object_vars( $ns ) as $k => $v) {
+		foreach (get_object_vars($ns) as $k => $v) {
 			$array[$k] = $v;
 		}
 

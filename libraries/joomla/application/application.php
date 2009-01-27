@@ -89,17 +89,17 @@ abstract class JApplication extends JClass
 		$this->_clientId	= $config['clientId'];
 
 		//Enable sessions by default
-		if(!isset($config['session'])) {
+		if (!isset($config['session'])) {
 			$config['session'] = true;
 		}
 
 		//Set the session default name
-		if(!isset($config['session_name'])) {
+		if (!isset($config['session_name'])) {
 			 $config['session_name'] = $this->_name;
 		}
 
 		//Set the default configuration file
-		if(!isset($config['config_file'])) {
+		if (!isset($config['config_file'])) {
 			$config['config_file'] = 'configuration.php';
 		}
 
@@ -107,12 +107,12 @@ abstract class JApplication extends JClass
 		$this->_createConfiguration(JPATH_CONFIGURATION.DS.$config['config_file']);
 
 		//create the session if a session name is passed
-		if($config['session'] !== false) {
+		if ($config['session'] !== false) {
 			$this->_createSession(JUtility::getHash($config['session_name']));
 		}
 
-		$this->set( 'requestTime', gmdate('Y-m-d H:i') );
-		$this->set( 'startTime', JProfiler::getmicrotime() ); // used by task system to ensure that the system doesn't go over time
+		$this->set('requestTime', gmdate('Y-m-d H:i'));
+		$this->set('startTime', JProfiler::getmicrotime()); // used by task system to ensure that the system doesn't go over time
 	}
 
 	/**
@@ -132,7 +132,7 @@ abstract class JApplication extends JClass
 	{
 		static $instances;
 
-		if (!isset( $instances )) {
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
@@ -143,7 +143,7 @@ abstract class JApplication extends JClass
 			$info =& JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'application.php';
-			if(file_exists($path))
+			if (file_exists($path))
 			{
 				require_once $path;
 
@@ -176,7 +176,7 @@ abstract class JApplication extends JClass
 		$config =& JFactory::getConfig();
 
 		// Check that we were given a language in the array (since by default may be blank)
-		if(isset($options['language'])) {
+		if (isset($options['language'])) {
 			$config->setValue('config.language', $options['language']);
 		}
 
@@ -209,7 +209,7 @@ abstract class JApplication extends JClass
 		$router =& $this->getRouter();
 		$result = $router->parse($uri);
 
-		JRequest::set($result, 'get', false );
+		JRequest::set($result, 'get', false);
 		
 		$this->triggerEvent('onAfterRoute');
  	}
@@ -258,7 +258,7 @@ abstract class JApplication extends JClass
 		$document =& JFactory::getDocument();
 		$document->parse($params);
 		$this->triggerEvent('onBeforeRender');
-		$data = $document->render($this->getCfg('caching'), $params );
+		$data = $document->render($this->getCfg('caching'), $params);
 		JResponse::setBody($data);
 		$this->triggerEvent('onAfterRender');
 	}
@@ -269,7 +269,7 @@ abstract class JApplication extends JClass
 	* @access	public
 	* @param	int	Exit code
 	*/
-	public function close( $code = 0 ) {
+	public function close($code = 0) {
 		exit($code);
 	}
 
@@ -290,10 +290,10 @@ abstract class JApplication extends JClass
 	 * @since	1.5
 	 * @see		JApplication::enqueueMessage()
 	 */
-	public function redirect( $url, $msg='', $msgType='message' )
+	public function redirect($url, $msg='', $msgType='message')
 	{
 		// check for relative internal links
-		if (preg_match( '#^index[2]?.php#', $url )) {
+		if (preg_match('#^index[2]?.php#', $url)) {
 			$url = JURI::base() . $url;
 		}
 
@@ -304,10 +304,10 @@ abstract class JApplication extends JClass
 		// If we don't start with a http we need to fix this before we proceed
 		// We could validly start with something else (e.g. ftp), though this would
 		// be unlikely and isn't supported by this API
-		if(!preg_match( '#^http#', $url )) {
+		if (!preg_match('#^http#', $url)) {
 			$uri =& JURI::getInstance();
 			$prefix = $uri->toString(Array('scheme', 'user', 'pass', 'host', 'port'));
-			if($url[0] == '/') {
+			if ($url[0] == '/') {
 				// we just need the prefix since we have a path relative to the root
 				$url = $prefix . $url;
 			} else {
@@ -321,7 +321,7 @@ abstract class JApplication extends JClass
 
 
 		// If the message exists, enqueue it
-		if (trim( $msg )) {
+		if (trim($msg)) {
 			$this->enqueueMessage($msg, $msgType);
 		}
 
@@ -340,8 +340,8 @@ abstract class JApplication extends JClass
 			echo "<script>document.location.href='$url';</script>\n";
 		} else {
 			//@ob_end_clean(); // clear output buffer
-			header( 'HTTP/1.1 301 Moved Permanently' );
-			header( 'Location: ' . $url );
+			header('HTTP/1.1 301 Moved Permanently');
+			header('Location: ' . $url);
 		}
 		$this->close();
 	}
@@ -355,7 +355,7 @@ abstract class JApplication extends JClass
 	 * @return	void
 	 * @since	1.5
 	 */
-	public function enqueueMessage( $msg, $type = 'message' )
+	public function enqueueMessage($msg, $type = 'message')
 	{
 		// For empty queue, if messages exists in the session, enqueue them first
 		if (!count($this->_messageQueue))
@@ -401,7 +401,7 @@ abstract class JApplication extends JClass
 	 * @return	mixed	The user state.
 	 * @example	application/japplication-getcfg.php Getting a configuration value
 	 */
-	public function getCfg( $varname )
+	public function getCfg($varname)
 	{
 		$config =& JFactory::getConfig();
 		return $config->getValue('config.' . $varname);
@@ -421,13 +421,13 @@ abstract class JApplication extends JClass
 	{
 		$name = $this->_name;
 
-		if (empty( $name ))
+		if (empty($name))
 		{
 			$r = null;
-			if ( !preg_match( '/J(.*)/i', get_class( $this ), $r ) ) {
+			if (!preg_match('/J(.*)/i', get_class($this), $r)) {
 				throw new JException("JApplication::getName() : Can\'t get or parse class name.", 500, E_ERROR, $name, true);
 			}
-			$name = strtolower( $r[1] );
+			$name = strtolower($r[1]);
 		}
 
 		return $name;
@@ -440,11 +440,11 @@ abstract class JApplication extends JClass
 	 * @param	string	The path of the state.
 	 * @return	mixed	The user state.
 	 */
-	public function getUserState( $key )
+	public function getUserState($key)
 	{
 		$session	=& JFactory::getSession();
 		$registry	=& $session->get('registry');
-		if(!is_null($registry)) {
+		if (!is_null($registry)) {
 			return $registry->getValue($key);
 		}
 		return null;
@@ -458,11 +458,11 @@ abstract class JApplication extends JClass
 	* @param	string	The value of the variable.
 	* @return	mixed	The previous state, if one existed.
 	*/
-	public function setUserState( $key, $value )
+	public function setUserState($key, $value)
 	{
 		$session	=& JFactory::getSession();
 		$registry	=& $session->get('registry');
-		if(!is_null($registry)) {
+		if (!is_null($registry)) {
 			return $registry->setValue($key, $value);
 		}
 		return null;
@@ -478,9 +478,9 @@ abstract class JApplication extends JClass
 	 * @param	string	Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 * @return	The request user state.
 	 */
-	public function getUserStateFromRequest( $key, $request, $default = null, $type = 'none' )
+	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
 	{
-		$old_state = $this->getUserState( $key );
+		$old_state = $this->getUserState($key);
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
 		$new_state = JRequest::getVar($request, null, 'default', $type);
 
@@ -536,8 +536,8 @@ abstract class JApplication extends JClass
 	 * validation.  Successful validation will update the current session with
 	 * the user details.
 	 *
-	 * @param	array 	Array( 'username' => string, 'password' => string )
-	 * @param	array 	Array( 'remember' => boolean )
+	 * @param	array 	Array('username' => string, 'password' => string)
+	 * @param	array 	Array('remember' => boolean)
 	 * @return	boolean True on success.
 	 * @access	public
 	 * @since	1.5
@@ -545,7 +545,7 @@ abstract class JApplication extends JClass
 	public function login($credentials, $options = array())
 	{
 		// Get the global JAuthentication object
-		jimport( 'joomla.user.authentication');
+		jimport('joomla.user.authentication');
 		$authenticate	= &JAuthentication::getInstance();
 		$response		= $authenticate->authenticate($credentials, $options);
 
@@ -579,7 +579,7 @@ abstract class JApplication extends JClass
 					$crypt = new JSimpleCrypt($key);
 					$rcookie = $crypt->encrypt(serialize($credentials));
 					$lifetime = time() + 365*24*60*60;
-					setcookie( JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, '/' );
+					setcookie(JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, '/');
 				}
 				return true;
 			}
@@ -605,7 +605,7 @@ abstract class JApplication extends JClass
 	 * session record back to 'anonymous' parameters.
 	 *
 	  * @param 	int 	$userid   The user to load - Can be an integer or string - If string, it is converted to ID automatically
-	 * @param	array 	$options  Array( 'clientid' => array of client id's )
+	 * @param	array 	$options  Array('clientid' => array of client id's)
 	 *
 	 * @access public
 	 */
@@ -622,7 +622,7 @@ abstract class JApplication extends JClass
 		$parameters['id']		= $user->get('id');
 
 		// Set clientid in the options array if it hasn't been set already
-		if(empty($options['clientid'])) {
+		if (empty($options['clientid'])) {
 			$options['clientid'][] = $this->getClientId();
 		}
 
@@ -639,7 +639,7 @@ abstract class JApplication extends JClass
 		 * much more information about why the routine may have failed.
 		 */
 		if (!in_array(false, $results, true)) {
-			setcookie( JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, '/' );
+			setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, '/');
 			return true;
 		}
 
@@ -669,11 +669,11 @@ abstract class JApplication extends JClass
 	 */
 	public function &getRouter($name = null, $options = array())
 	{
-		if(!isset($name)) {
+		if (!isset($name)) {
 			$name = $this->_name;
 		}
 
-		jimport( 'joomla.application.router' );
+		jimport('joomla.application.router');
 		$router =& JRouter::getInstance($name, $options);
 		return $router;
 	}
@@ -688,11 +688,11 @@ abstract class JApplication extends JClass
 	 */
 	public function &getPathway($name = null, $options = array())
 	{
-		if(!isset($name)) {
+		if (!isset($name)) {
 			$name = $this->_name;
 		}
 
-		jimport( 'joomla.application.pathway' );
+		jimport('joomla.application.pathway');
 		$pathway =& JPathway::getInstance($name, $options);
 		return $pathway;
 	}
@@ -707,11 +707,11 @@ abstract class JApplication extends JClass
 	 */
 	public function &getMenu($name = null, $options = array())
 	{
-		if(!isset($name)) {
+		if (!isset($name)) {
 			$name = $this->_name;
 		}
 
-		jimport( 'joomla.application.menu' );
+		jimport('joomla.application.menu');
 		$menu =& JMenu::getInstance($name, $options);
 		return $menu;
 	}
@@ -725,7 +725,7 @@ abstract class JApplication extends JClass
 	 */
 	protected function &_createConfiguration($file)
 	{
-		jimport( 'joomla.registry.registry' );
+		jimport('joomla.registry.registry');
 
 		require_once $file;
 
@@ -754,7 +754,7 @@ abstract class JApplication extends JClass
 	 * @return	object	JSession on success. May call exit() on database error.
 	 * @since	1.5
 	 */
-	protected function &_createSession( $name )
+	protected function &_createSession($name)
 	{
 		$options = array();
 		$options['name'] = $name;
@@ -775,8 +775,8 @@ abstract class JApplication extends JClass
 		$session->set('registry',	new JRegistry('session'));
 		$session->set('user', JUser::getInstance());
 
-		if (!$storage->insert( $session->getId(), $this->getClientId())) {
-			jexit( $storage->getError());
+		if (!$storage->insert($session->getId(), $this->getClientId())) {
+			jexit($storage->getError());
 		}
 
 		return $session;
@@ -790,7 +790,7 @@ abstract class JApplication extends JClass
 	 * @return	int A client identifier.
 	 * @since	1.5
 	 */
-	public function getClientId( )
+	public function getClientId()
 	{
 		return $this->_clientId;
 	}

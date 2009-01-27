@@ -45,7 +45,7 @@ class JTableMenuTypes extends JTable
 	public function check()
 	{
 		$this->menutype = JFilterOutput::stringURLSafe($this->menutype);
-		if(empty($this->menutype)) {
+		if (empty($this->menutype)) {
 			$this->setError("Cannot save: Empty menu type");
 			return false;
 		}

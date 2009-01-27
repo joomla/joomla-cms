@@ -31,7 +31,7 @@ abstract class JModuleHelper
 	 * @param	string	$title	The title of the module, optional
 	 * @return	object	The Module object
 	 */
-	public static function &getModule($name, $title = null )
+	public static function &getModule($name, $title = null)
 	{
 		$result		= null;
 		$modules	=& JModuleHelper::_load();
@@ -42,7 +42,7 @@ abstract class JModuleHelper
 			if ($modules[$i]->name == $name)
 			{
 				// Match the title if we're looking for a specific instance of the module
-				if ( ! $title || $modules[$i]->title == $title )
+				if (! $title || $modules[$i]->title == $title)
 				{
 					$result =& $modules[$i];
 					break;	// Found it
@@ -51,7 +51,7 @@ abstract class JModuleHelper
 		}
 
 		// if we didn't find it, and the name is mod_something, create a dummy object
-		if (is_null( $result ) && substr( $name, 0, 4 ) == 'mod_')
+		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
 			$result				= new stdClass;
 			$result->id			= 0;
@@ -77,20 +77,20 @@ abstract class JModuleHelper
 	 */
 	public static function &getModules($position)
 	{
-		$position	= strtolower( $position );
+		$position	= strtolower($position);
 		$result		= array();
 
 		$modules =& JModuleHelper::_load();
 
 		$total = count($modules);
 		for($i = 0; $i < $total; $i++) {
-			if($modules[$i]->position == $position) {
+			if ($modules[$i]->position == $position) {
 				$result[] =& $modules[$i];
 			}
 		}
-		if(count($result) == 0) {
-			if(JRequest::getBool('tp')) {
-				$result[0] = JModuleHelper::getModule( 'mod_'.$position );
+		if (count($result) == 0) {
+			if (JRequest::getBool('tp')) {
+				$result[0] = JModuleHelper::getModule('mod_'.$position);
 				$result[0]->title = $position;
 				$result[0]->content = $position;
 				$result[0]->position = $position;
@@ -107,9 +107,9 @@ abstract class JModuleHelper
 	 * @param   string 	$module	The module name
 	 * @return	boolean
 	 */
-	public static function isEnabled( $module )
+	public static function isEnabled($module)
 	{
-		$result = &JModuleHelper::getModule( $module);
+		$result = &JModuleHelper::getModule($module);
 		return (!is_null($result));
 	}
 
@@ -128,20 +128,20 @@ abstract class JModuleHelper
 		$appl->scope = $module->module;  //set scope to component name
 
 		// Get module parameters
-		$params = new JParameter( $module->params );
+		$params = new JParameter($module->params);
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
 		$path = JPATH_BASE.DS.'modules'.DS.$module->module.DS.$module->module.'.php';
 
 		// Load the module
-		if (!$module->user && file_exists( $path ) && empty($module->content))
+		if (!$module->user && file_exists($path) && empty($module->content))
 		{
 			$lang =& JFactory::getLanguage();
 			// 1.5 or Core
 			$lang->load($module->module);
 			// 1.6 3PD
-			$lang->load( $module->module, dirname($path));
+			$lang->load($module->module, dirname($path));
 
 
 			$content = '';
@@ -158,7 +158,7 @@ abstract class JModuleHelper
 
 		require_once JPATH_BASE.DS.'templates'.DS.'system'.DS.'html'.DS.'modules.php';
 		$chromePath = JPATH_BASE.DS.'templates'.DS.$appl->getTemplate().DS.'html'.DS.'modules.php';
-		if (!isset( $chrome[$chromePath]))
+		if (!isset($chrome[$chromePath]))
 		{
 			if (file_exists($chromePath)) {
 				require_once $chromePath;
@@ -167,12 +167,12 @@ abstract class JModuleHelper
 		}
 
 		//make sure a style is set
-		if(!isset($attribs['style'])) {
+		if (!isset($attribs['style'])) {
 			$attribs['style'] = 'none';
 		}
 
 		//dynamically add outline style
-		if(JRequest::getBool('tp')) {
+		if (JRequest::getBool('tp')) {
 			$attribs['style'] .= ' outline';
 		}
 

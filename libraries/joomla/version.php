@@ -67,7 +67,7 @@ class JVersion
 	public function getHelpVersion()
 	{
 		if ($this->RELEASE > '1.0') {
-			return '.' . str_replace( '.', '', $this->RELEASE );
+			return '.' . str_replace('.', '', $this->RELEASE);
 		} else {
 			return '';
 		}
@@ -79,8 +79,8 @@ class JVersion
 	 * @return boolean
 	 * @see http://www.php.net/version_compare
 	 */
-	public function isCompatible ( $minimum ) {
-		return (version_compare( JVERSION, $minimum, 'eq' ) == 1);
+	public function isCompatible ($minimum) {
+		return (version_compare(JVERSION, $minimum, 'eq') == 1);
 	}
 
 	/**
@@ -91,10 +91,10 @@ class JVersion
 	 * @return string User Agent
 	 */
 	function getUserAgent($component=NULL, $mask=false, $add_version=true) {
-		if($component === NULL) $component = 'Framework';
-		if($add_version) $component .= '/'.$this->RELEASE;
+		if ($component === NULL) $component = 'Framework';
+		if ($add_version) $component .= '/'.$this->RELEASE;
 		// if masked pretend to look like Mozilla 5.0 but still identify ourselves
-		if($mask) return 'Mozilla/5.0 '. $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
+		if ($mask) return 'Mozilla/5.0 '. $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
 		else return $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
 	}
 }

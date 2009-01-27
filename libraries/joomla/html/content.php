@@ -119,7 +119,7 @@ defined('_JEXEC') or die();
 	 * @param	mixed	Object/Array to initialize JContent object with
 	 */
 	public function __construct($object = null) {
-		if(!empty($object)) {
+		if (!empty($object)) {
 			$this->bind($object);
 		}
 	}
@@ -131,12 +131,12 @@ defined('_JEXEC') or die();
 	 * @param	mixed	The value to set the internal variable to
 	 */
 	public function __set($key, $value) {
-		if(isset($this->$key)) {
-			if(is_array($this->$key)) {
+		if (isset($this->$key)) {
+			if (is_array($this->$key)) {
 				$this->$key = (array) $value;
-			} elseif(is_bool($this->$key)) {
+			} elseif (is_bool($this->$key)) {
 				$this->$key = (bool) $value;
-			} elseif(is_int($this->$key)) {
+			} elseif (is_int($this->$key)) {
 				$this->$key = (int) $value;
 			} else {
 				$this->$key = $value;
@@ -165,10 +165,10 @@ defined('_JEXEC') or die();
  	 */
  	public function bind($object) {
  		$array = array();
- 		if(is_array($object)) {
+ 		if (is_array($object)) {
  			$array = $object;
- 		} elseif(is_object($object)) {
- 			if($object INSTANCEOF JObject) {
+ 		} elseif (is_object($object)) {
+ 			if ($object INSTANCEOF JObject) {
  				$array = $object->getProperties();
  			} else {
  				$array = get_object_vars($object);

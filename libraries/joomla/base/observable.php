@@ -88,12 +88,12 @@ class JObservable extends JClass
 	 * @return void
 	 * @since 1.5
 	 */
-	public function attach( &$observer)
+	public function attach(&$observer)
 	{
 		// Make sure we haven't already attached this object as an observer
 		if (is_object($observer))
 		{
-			if(!$observer INSTANCEOF JObserver) {
+			if (!$observer INSTANCEOF JObserver) {
 				return;
 			}
 
@@ -106,7 +106,7 @@ class JObservable extends JClass
 			$this->_observers[] =& $observer;
 			$methods = get_class_methods($observer);
 		} else {
-			if(!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler'])) {
+			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler'])) {
 				return;
 			}
 			$this->_observers[] =& $observer;
@@ -116,7 +116,7 @@ class JObservable extends JClass
 		$key = key($this->_observers);
 		foreach($methods AS $method) {
 			$method = strtolower($method);
-			if(!isset($this->_methods[$method])) {
+			if (!isset($this->_methods[$method])) {
 				$this->_methods[$method] = array();
 			}
 			$this->_methods[$method][] = $key;
@@ -131,20 +131,20 @@ class JObservable extends JClass
 	 * @return boolean True if the observer object was detached
 	 * @since 1.5
 	 */
-	public function detach( $observer)
+	public function detach($observer)
 	{
 		// Initialize variables
 		$retval = false;
 
 		$key = array_search($observer, $this->_observers);
 
-		if ( $key !== false )
+		if ($key !== false)
 		{
 			unset($this->_observers[$key]);
 			$retval = true;
 			foreach($this->_methods AS &$method) {
 				$k = array_search($key, $method);
-				if($k !== false) {
+				if ($k !== false) {
 					unset($method[$k]);
 				}
 			}

@@ -31,7 +31,7 @@ class JCachePage extends JCache
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	public function get( $id=false, $group='page' )
+	public function get($id=false, $group='page')
 	{
 		// Initialize variables
 		$data = false;
@@ -43,9 +43,9 @@ class JCachePage extends JCache
 
 
 		// If the etag matches the page id ... sent a no change header and exit : utilize browser cache
-		if ( !headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']) ){
+		if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH'])){
 			$etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
-			if( $etag == $id) {
+			if ($etag == $id) {
 				$browserCache = isset($this->_options['browsercache']) ? $this->_options['browsercache'] : false;
 				if ($browserCache) {
 					$this->_noChange();
@@ -116,7 +116,7 @@ class JCachePage extends JCache
 		$appl = JFactory::getApplication();
 
 		// Send not modified header and exit gracefully
-		header( 'HTTP/1.x 304 Not Modified', true );
+		header('HTTP/1.x 304 Not Modified', true);
 		$appl->close();
 	}
 
@@ -129,6 +129,6 @@ class JCachePage extends JCache
 	 */
 	protected function _setEtag($etag)
 	{
-		JResponse::setHeader( 'ETag', $etag, true );
+		JResponse::setHeader('ETag', $etag, true);
 	}
 }

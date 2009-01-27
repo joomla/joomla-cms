@@ -27,7 +27,7 @@ abstract class JFolder
 	private static $treeLevel = 0;
 
 	protected static function &getFileSystem() {
-		if(!is_object(JFolder::$filesystem)) {
+		if (!is_object(JFolder::$filesystem)) {
 			JFolder::$filesystem = JFileSystem::getInstance();
 		}
 		return JFolder::$filesystem;
@@ -68,7 +68,7 @@ abstract class JFolder
 			return JError::raiseError(-1, JText::_('Unable to create target folder'));
 		}
 
-		if(! ($dh = @opendir($src))) {
+		if (! ($dh = @opendir($src))) {
 			return JError::raiseError(-1, JText::_('Unable to open source folder'));
 		}
 		// Walk through the directory copying files and recursing into folders.
@@ -142,7 +142,7 @@ abstract class JFolder
 
 		$ret = $backend->mkdir($path);
 
-		if(!$ret) {
+		if (!$ret) {
 			JError::raiseWarning('SOME_ERROR_CODE', 'JFolder::create: '.JText::_('Could not create directory'), 'Path: '.$path);
 			return false;
 		}
@@ -179,7 +179,7 @@ abstract class JFolder
 
 		// Remove all the files in folder if they exist; disable all filtering
 		$files = JFolder::files($path, '.', false, true, array(), array());
-		if(!empty($files)) {
+		if (!empty($files)) {
 			jimport('joomla.filesystem.file');
 			if (JFile::delete($files) !== true) {
 				// JFile::delete throws an error
@@ -284,7 +284,7 @@ abstract class JFolder
 
 		// read the source directory
 		$handle = opendir($path);
-		if(count($excludefilter)) {
+		if (count($excludefilter)) {
 			$excludefilter = '/('. implode('|', $excludefilter) .')/';
 		} else {
 			$excludefilter = '';
@@ -352,7 +352,7 @@ abstract class JFolder
 
 		// read the source directory
 		$handle = opendir($path);
-		if(count($excludefilter)) {
+		if (count($excludefilter)) {
 			$excludefilter_string = '/('. implode('|', $excludefilter) .')/';
 		} else {
 			$excludefilter_string = '';
@@ -436,7 +436,7 @@ abstract class JFolder
 	 */
 	public static function makeSafe($path)
 	{
-		$ds		= ( DS == '\\' ) ? '\\'.DS : DS;
+		$ds		= (DS == '\\') ? '\\'.DS : DS;
 		$regex = array('#[^A-Za-z0-9:\_\-'.$ds.' ]#');
 		return preg_replace($regex, '', $path);
 	}

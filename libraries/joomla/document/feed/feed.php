@@ -188,7 +188,7 @@ class JDocumentFeed extends JDocument
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	public function render( $cache = false, $params = array())
+	public function render($cache = false, $params = array())
 	{
 		$component	= JApplicationHelper::getComponentName();
 
@@ -203,7 +203,7 @@ class JDocumentFeed extends JDocument
 		$cache_path = JPATH_BASE.DS.'cache';
 
 		// set filename for rss feeds
-		$file = strtolower( str_replace( '.', '', $type ) );
+		$file = strtolower(str_replace('.', '', $type));
 		$file = $cache_path.DS.$file.'_'.$component.'.xml';
 
 
@@ -220,7 +220,7 @@ class JDocumentFeed extends JDocument
 		$data	.= "<!-- generator=\"".$this->getGenerator()."\" -->\n";
 
 		 // Generate stylesheet links
-		foreach ($this->_styleSheets as $src => $attr ) {
+		foreach ($this->_styleSheets as $src => $attr) {
 			$data .= "<?xml-stylesheet href=\"$src\" type=\"".$attr['mime']."\"?>\n";
 		}
 
@@ -237,7 +237,7 @@ class JDocumentFeed extends JDocument
 	 * @param object JFeedItem $item The feeditem to add to the feed.
 	 * @access public
 	 */
-	public function addItem( &$item )
+	public function addItem(&$item)
 	{
 		$this->items[] = $item;
 	}

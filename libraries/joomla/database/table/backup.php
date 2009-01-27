@@ -70,14 +70,14 @@ class JTableBackup extends JTable
 
 	public function load($oid=null) {
 		$res = parent::load($oid);
-		if($res) {
+		if ($res) {
 			$res = $this->loadEntries();
 		}
 		return $res;
 	}
 
 	public function &getEntries() {
-		if(!count($this->_entries)) {
+		if (!count($this->_entries)) {
 			$this->loadEntries();
 		}
 		return $this->_entries;
@@ -97,7 +97,7 @@ class JTableBackup extends JTable
 	{
 		$k = $this->_tbl_key;
 		try {
-			if($this->$k)
+			if ($this->$k)
 			{
 				$ret = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 			}
@@ -127,7 +127,7 @@ class JTableBackup extends JTable
 
 	public function removeEntry($name, $type=null) {
 		foreach($this->_entries as $key=>$value) {
-			if($entry->name == $name
+			if ($entry->name == $name
 				&& ($type === null || $entry->type == $type)
 			) {
 				unset($this->_entries[$key]);

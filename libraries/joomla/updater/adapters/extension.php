@@ -22,11 +22,11 @@ class JUpdaterExtension extends JUpdateAdapter {
 			case 'UPDATES': // don't do anything
 				break;
 			default:
-				if(in_array($name, $this->_updatecols)) {
+				if (in_array($name, $this->_updatecols)) {
 					$name = strtolower($name);
 					$this->current_update->$name = '';
 				}
-				if($name == 'TARGETPLATFORM') {
+				if ($name == 'TARGETPLATFORM') {
 					$this->current_update->targetplatform = $attrs;
 				}
 				break;
@@ -42,11 +42,11 @@ class JUpdaterExtension extends JUpdateAdapter {
 				$filter =& JFilterInput::getInstance();
 				$product = strtolower($filter->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
 				// check that the product matches and that the version matches (optionally a regexp)
-				if($product == $this->current_update->targetplatform['NAME'] && preg_match('/'.$this->current_update->targetplatform['VERSION'].'/',$ver->RELEASE)) {
+				if ($product == $this->current_update->targetplatform['NAME'] && preg_match('/'.$this->current_update->targetplatform['VERSION'].'/',$ver->RELEASE)) {
 					// Target platform isn't a valid field in the update table so unset it to prevent J! from trying to store it
 					unset($this->current_update->targetplatform);
-					if(isset($this->latest)) {
-						if(version_compare($this->current_update->version, $this->latest->version, '>') == 1) {
+					if (isset($this->latest)) {
+						if (version_compare($this->current_update->version, $this->latest->version, '>') == 1) {
 							$this->latest = $this->current_update;
 						}
 					} else {
@@ -62,9 +62,9 @@ class JUpdaterExtension extends JUpdateAdapter {
 
 	function _characterData($parser, $data) {
 		$tag = $this->_getLastTag();
-		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
+		//if (!isset($this->$tag->_data)) $this->$tag->_data = '';
 		//$this->$tag->_data .= $data;
-		if(in_array($tag, $this->_updatecols)) {
+		if (in_array($tag, $this->_updatecols)) {
 			$tag = strtolower($tag);
 			$this->current_update->$tag .= $data;
 		}
@@ -75,8 +75,8 @@ class JUpdaterExtension extends JUpdateAdapter {
 		$this->_url =& $url;
 		$this->_update_site_id = $options['update_site_id'];
 		//echo '<p>Find update for extension run on <a href="'. $url .'">'. $url .'</a></p>';
-		if(substr($url, -4) != '.xml') {
-			if(substr($url, -1) != '/') {
+		if (substr($url, -4) != '.xml') {
+			if (substr($url, -1) != '/') {
 				$url .= '/';
 			}
 			$url .= 'extension.xml';
@@ -104,7 +104,7 @@ class JUpdaterExtension extends JUpdateAdapter {
 		    }
 		}
 		xml_parser_free($this->xml_parser);
-		if(isset($this->latest)) {
+		if (isset($this->latest)) {
 			$updates = Array($this->latest);
 		} else {
 			$updates = Array();

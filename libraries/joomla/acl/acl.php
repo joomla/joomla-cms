@@ -184,7 +184,7 @@ class JAcl
 				//$allow = (isset($row[1]) AND $row[1] == 1);
 
 				//Prefer this.
-				if ( isset($row[1]) AND $row[1] == 1 ) {
+				if (isset($row[1]) AND $row[1] == 1) {
 					$allow = TRUE;
 				} else {
 					$allow = FALSE;
@@ -254,7 +254,7 @@ class JAcl
 			 * This essentially creates a virtual "subtree" and ignores all outside groups.
 			 * Useful for sites like sourceforge where you may seperate groups by "project".
 			 */
-			if ( $rootGroupValue != '') {
+			if ($rootGroupValue != '') {
 				$query->join('INNER', '#__core_acl_'.$type.'_groups AS g3 ON g3.value='. $db->quote($rootGroupValue));
 				$query->join('INNER', '#__core_acl_'.$type.'_groups AS g2 ON ((g2.lft BETWEEN g3.lft AND g1.lft) AND (g2.rgt BETWEEN g1.rgt AND g3.rgt))');
 			}

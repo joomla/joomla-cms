@@ -74,7 +74,7 @@ class JDocumentError extends JDocument
 	 * @param boolean 	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
 	 */
-	public function render( $cache = false, $params = array())
+	public function render($cache = false, $params = array())
 	{
 		// If no error object is set return null
 		if (!isset($this->_error)) {
@@ -82,14 +82,14 @@ class JDocumentError extends JDocument
 		}
 
 		//Set the status header
-		JResponse::setHeader('status', $this->_error->get('code').' '.str_replace( "\n", ' ', $this->_error->get('message') ));
+		JResponse::setHeader('status', $this->_error->get('code').' '.str_replace("\n", ' ', $this->_error->get('message')));
 		$file = 'error.php';
 
 		// check template
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
 		$template	= isset($params['template']) ? JFilterInput::clean($params['template'], 'cmd') : 'system';
 
-		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
+		if (!file_exists($directory.DS.$template.DS.$file)) {
 			$template = 'system';
 		}
 
@@ -118,7 +118,7 @@ class JDocumentError extends JDocument
 		$contents = '';
 
 		//Check to see if we have a valid template file
-		if ( file_exists( $directory.DS.$filename ) )
+		if (file_exists($directory.DS.$filename))
 		{
 			//store the file path
 			$this->_file = $directory.DS.$filename;

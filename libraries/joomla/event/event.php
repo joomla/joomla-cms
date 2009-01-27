@@ -10,7 +10,7 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.base.observer' );
+jimport('joomla.base.observer');
 
 /**
  * JEvent Class
@@ -55,7 +55,7 @@ abstract class JEvent extends JObserver
 		 * value.  If it does not exist, return null.
 		 */
 		if (method_exists($this, $event)) {
-			return call_user_func_array ( array($this, $event), $args );
+			return call_user_func_array (array($this, $event), $args);
 		} else {
 			return null;
 		}

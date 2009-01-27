@@ -30,7 +30,7 @@ class JExtension extends JClass {
 	var $params = null;	// extension params
 
 	function __construct($element=null) {
-		if($element && is_a($element, 'JSimpleXMLElement')) {
+		if ($element && is_a($element, 'JSimpleXMLElement')) {
 			$this->type = $element->attributes('type');
 			$this->id = $element->attributes('id');
 			switch($this->type) {
@@ -50,11 +50,11 @@ class JExtension extends JClass {
 				default:
 					// catch all
 					// get and set client and group if we don't recognise the extension
-					if($client = $element->attributes('client')) {
+					if ($client = $element->attributes('client')) {
 						$this->client_id = JApplicationHelper::getClientInfo($this->client,1);
 						$this->client_id = $this->client_id->id;
 					}
-					if($group = $element->attributes('group')) {
+					if ($group = $element->attributes('group')) {
 						$this->group = $element->attributes('group');
 					}
 					break;

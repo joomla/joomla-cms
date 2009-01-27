@@ -41,28 +41,28 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackup
 		$config =& JFactory::getConfig();
 		$prefix = $config->getValue('config.dbprefix'); // should we get this from the db?
 		// force this into an array if it isn't; lets not let someone break something
-		if(!is_array($options)) $options = Array();
-		if(!isset($options['excluded'])) $options['excluded'] = Array($prefix.'session');
+		if (!is_array($options)) $options = Array();
+		if (!isset($options['excluded'])) $options['excluded'] = Array($prefix.'session');
 		$tables = $db->getTableList(); // load all tables in database
 		// check if this is set and contains rows otherwise set it to all of the tables
-		if(!isset($options['tables']) || !count($options['tables'])) {
+		if (!isset($options['tables']) || !count($options['tables'])) {
 			$options['tables'] = Array();
 
 			foreach($tables as $tn) {
 				// make sure we get the right tables based on prefix and exclude ones that are in that list
-				if (preg_match( "/^".$prefix."/i", $tn ) && !in_array($tn, $options['excluded'])) {
+				if (preg_match("/^".$prefix."/i", $tn) && !in_array($tn, $options['excluded'])) {
 					$options['tables'][] = $tn;
 				}
 			}
 		}
 		// set the default backup prefix
-		if(!isset($options['prefix'])) {
+		if (!isset($options['prefix'])) {
 			$options['prefix'] = 'bak_';
 		}
 
 		foreach($options['tables'] as $table) {
 			// if the table isn't in our table list ignore it
-			if(!in_array($table, $tables)) continue;
+			if (!in_array($table, $tables)) continue;
 
 			// change the #__ and the current prefix (typically jos_);
 			// should probably change this to a regexp and check that its at the start of the string
@@ -89,19 +89,19 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackup
 		$prefix = $config->getValue('config.dbprefix');
 		$tables = $db->getTableList(); // grab this here so we can use it later
 		// force this into an array if it isn't; lets not let someone break something
-		if(!is_array($options)) $options = Array();
+		if (!is_array($options)) $options = Array();
 		// check if this is set otherwise set it to all of the tables
-		if(!isset($options['tables'])) {
+		if (!isset($options['tables'])) {
 			$options['tables'] = Array();
 			foreach($tables as $tn) {
 				// make sure we get the right tables based on prefix
-				if (preg_match( "/^".$prefix."/i", $tn )) {
+				if (preg_match("/^".$prefix."/i", $tn)) {
 					$options['tables'][] = $tn;
 				}
 			}
 		}
 		// set the default prefix
-		if(!isset($options['prefix'])) {
+		if (!isset($options['prefix'])) {
 			$options['prefix'] = 'bak_';
 		}
 
@@ -109,7 +109,7 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackup
 			// TODO: Read the todo above a line that looks like this
 			$baktable = $options['prefix'].str_replace('#__',$prefix,$table);
 			// if the backup table exists and the original table exists...
-			if(in_array($baktable, $tables) && in_array($table, $tables)) {
+			if (in_array($baktable, $tables) && in_array($table, $tables)) {
 				// truncate the original and select the backup into it
 				// this should retain keys and the like
 				$db->setQuery('TRUNCATE TABLE '. $table);
@@ -133,19 +133,19 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackup
 		$prefix = $config->getValue('config.dbprefix');
 		$tables = $db->getTableList(); // grab this here so we can use it later
 		// force this into an array if it isn't; lets not let someone break something
-		if(!is_array($options)) $options = Array();
+		if (!is_array($options)) $options = Array();
 		// check if this is set otherwise set it to all of the tables
-		if(!isset($options['tables'])) {
+		if (!isset($options['tables'])) {
 			$options['tables'] = Array();
 			foreach($tables as $tn) {
 				// make sure we get the right tables based on prefix
-				if (preg_match( '/^'.$prefix.'/i', $tn )) {
+				if (preg_match('/^'.$prefix.'/i', $tn)) {
 					$options['tables'][] = $tn;
 				}
 			}
 		}
 		// set the default prefix
-		if(!isset($options['prefix'])) {
+		if (!isset($options['prefix'])) {
 			$options['prefix'] = 'bak_';
 		}
 

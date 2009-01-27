@@ -146,7 +146,7 @@ abstract class JFactory
 	{
 		jimport('joomla.user.user');
 
-		if(is_null($id))
+		if (is_null($id))
 		{
 			$session  = &JFactory::getSession();
 			$instance = &$session->get('user');
@@ -178,7 +178,7 @@ abstract class JFactory
 
 		$conf = &JFactory::getConfig();
 
-		if(!isset($storage)) {
+		if (!isset($storage)) {
 			$storage = $conf->getValue('config.cache_handler', 'file');
 		}
 
@@ -275,10 +275,10 @@ abstract class JFactory
 	public static function &getFeedParser($url, $cache_time = 0) 
 	{
 		jimport('simplepie.simplepie');
-		if(!is_writable(JPATH_CACHE)) {
+		if (!is_writable(JPATH_CACHE)) {
 			$cache_time = 0;
 		}
-		$simplepie = new SimplePie( $url, JPATH_CACHE, $cache_time);
+		$simplepie = new SimplePie($url, JPATH_CACHE, $cache_time);
 		if ($simplepie->data) {
 			return $simplepie;
 		} else {
@@ -340,7 +340,7 @@ abstract class JFactory
 		jimport('joomla.html.editor');
 
 		//get the editor configuration setting
-		if(is_null($editor))
+		if (is_null($editor))
 		{
 			$conf = &JFactory::getConfig();
 			$editor = $conf->getValue('config.editor');
@@ -380,21 +380,21 @@ abstract class JFactory
 		static $classname;
 		static $mainLocale;
 
-		if(!isset($instances)) {
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
 		$language = &JFactory::getLanguage();
 		$locale = $language->getTag();
 
-		if(!isset($classname) || $locale != $mainLocale) {
+		if (!isset($classname) || $locale != $mainLocale) {
 			//Store the locale for future reference
 			$mainLocale = $locale;
 			$localePath = JPATH_ROOT . DS . 'language' . DS . $mainLocale . DS . $mainLocale . '.date.php';
-			if($mainLocale !== false && file_exists($localePath)) {
+			if ($mainLocale !== false && file_exists($localePath)) {
 				$classname = 'JDate'.str_replace('-', '_', $mainLocale);
 				JLoader::register($classname,  $localePath);
-				if(!class_exists($classname)) {
+				if (!class_exists($classname)) {
 					//Something went wrong.  The file exists, but the class does not, default to JDate
 					$classname = 'JDate';
 				}
@@ -405,7 +405,7 @@ abstract class JFactory
 		}
 		$key = $time . '-' . $tzOffset;
 
-		if(!isset($instances[$classname][$key])) {
+		if (!isset($instances[$classname][$key])) {
 			$tmp = new $classname($time, $tzOffset);
 			//We need to serialize to break the reference
 			$instances[$classname][$key] = serialize($tmp);
@@ -612,7 +612,7 @@ abstract class JFactory
 		// set the UA for HTTP and overwrite for FTP
 		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
 		$context['ftp']['overwrite'] = true;
-		if($use_prefix) {
+		if ($use_prefix) {
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$SCPOptions = JClientHelper::getCredentials('scp');
@@ -620,7 +620,7 @@ abstract class JFactory
 				$prefix = 'ftp://'. $FTPOptions['user'] .':'. $FTPOptions['pass'] .'@'. $FTPOptions['host'];
 				$prefix .= $FTPOptions['port'] ? ':'. $FTPOptions['port'] : '';
 				$prefix .= $FTPOptions['root'];
-			} else if($SCPOptions['enabled'] == 1 && $use_network) {
+			} else if ($SCPOptions['enabled'] == 1 && $use_network) {
 				$prefix = 'ssh2.sftp://'. $SCPOptions['user'] .':'. $SCPOptions['pass'] .'@'. $SCPOptions['host'];
 				$prefix .= $SCPOptions['port'] ? ':'. $SCPOptions['port'] : '';
 				$prefix .= $SCPOptions['root'];

@@ -23,7 +23,7 @@ class JFilesystemFTP extends JFilesystem
 	protected function __construct($options) {
 		parent::__construct($options);
 		jimport('joomla.client.helper');
-		if($this->_options['enabled']) {
+		if ($this->_options['enabled']) {
 			$this->_ftp = $this->_getFTP();
 		}
 	}
@@ -34,13 +34,13 @@ class JFilesystemFTP extends JFilesystem
 
 	public function check() {
 		$ret = false;
-		if(!$this->_options['enabled']) {
+		if (!$this->_options['enabled']) {
 			return $ret;
 		}
 		$config =& JFactory::getConfig();
 		$path = $config->get('config.tmp_path');
 		$file = md5(rand(0,10000)).'_tmp';
-		if($this->write($path . DS . $file, 'write test')) {
+		if ($this->write($path . DS . $file, 'write test')) {
 			$this->delete($path . DS . $file);
 			$ret = true;
 		}
@@ -61,7 +61,7 @@ class JFilesystemFTP extends JFilesystem
 
 	public function read($src) {
 		$buffer = null;
-		if(!$this->ftp->read($this->_makePath($src), $buffer)) {
+		if (!$this->ftp->read($this->_makePath($src), $buffer)) {
 			$buffer = false;
 		}
 		return $buffer;
@@ -116,7 +116,7 @@ class JFilesystemFTP extends JFilesystem
 
 	protected function &_getFTP() {
 		static $obj = null;
-		if(!is_object($obj)) {
+		if (!is_object($obj)) {
 			jimport('joomla.client.ftp');
 
 			$obj =& JFTP::getInstance($this->_options['host'], $this->_options['port'], null, $this->_options['user'], $this->_options['pass']);

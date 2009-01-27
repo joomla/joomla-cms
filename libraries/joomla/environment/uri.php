@@ -202,16 +202,16 @@ class JURI extends JClass
 		{
 			$config =& JFactory::getConfig();
 			$live_site = $config->getValue('config.live_site');
-			if(trim($live_site) != '') {
+			if (trim($live_site) != '') {
 				$uri =& JURI::getInstance($live_site);
-				$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
-				$base['path'] = rtrim($uri->toString( array('path')), '/\\');
-				if(JPATH_BASE == JPATH_ADMINISTRATOR) {
+				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
+				$base['path'] = rtrim($uri->toString(array('path')), '/\\');
+				if (JPATH_BASE == JPATH_ADMINISTRATOR) {
 					$base['path'] .= '/administrator';
 				}
 			} else {
 				$uri			 =& JURI::getInstance();
-				$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
+				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
 					//Apache CGI
@@ -240,15 +240,15 @@ class JURI extends JClass
 		static $root;
 
 		// Get the scheme
-		if(!isset($root))
+		if (!isset($root))
 		{
 			$uri			=& JURI::getInstance(JURI::base());
-			$root['prefix'] = $uri->toString( array('scheme', 'host', 'port') );
-			$root['path']   = rtrim($uri->toString( array('path') ), '/\\');
+			$root['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
+			$root['path']   = rtrim($uri->toString(array('path')), '/\\');
 		}
 
 		// Get the scheme
-		if(isset($path)) {
+		if (isset($path)) {
 			$root['path']	= $path;
 		}
 
@@ -270,7 +270,7 @@ class JURI extends JClass
 		if (!isset($current))
 		{
 			$uri	 = & JURI::getInstance();
-			$current = $uri->toString( array('scheme', 'host', 'port', 'path'));
+			$current = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		}
 
 		return $current;
@@ -301,7 +301,7 @@ class JURI extends JClass
 		}
 
 		//We need to replace &amp; with & for parse_str to work right...
-		if(isset ($_parts['query']) && strpos($_parts['query'], '&amp;')) {
+		if (isset ($_parts['query']) && strpos($_parts['query'], '&amp;')) {
 			$_parts['query'] = str_replace('&amp;', '&', $_parts['query']);
 		}
 
@@ -316,7 +316,7 @@ class JURI extends JClass
 
 		//parse the query
 
-		if(isset ($_parts['query'])) parse_str($_parts['query'], $this->_vars);
+		if (isset ($_parts['query'])) parse_str($_parts['query'], $this->_vars);
 		return $retval;
 	}
 
@@ -376,7 +376,7 @@ class JURI extends JClass
 	 */
 	public function getVar($name = null, $default=null)
 	{
-		if(isset($this->_vars[$name])) {
+		if (isset($this->_vars[$name])) {
 			return $this->_vars[$name];
 		}
 		return $default;
@@ -410,15 +410,15 @@ class JURI extends JClass
 	 */
 	public function setQuery($query)
 	{
-		if(!is_array($query)) {
-			if(strpos($query, '&amp;') !== false)
+		if (!is_array($query)) {
+			if (strpos($query, '&amp;') !== false)
 			{
 				$query = str_replace('&amp;','&',$query);
 			}
 			parse_str($query, $this->_vars);
 		}
 
-		if(is_array($query)) {
+		if (is_array($query)) {
 			$this->_vars = $query;
 		}
 
@@ -435,12 +435,12 @@ class JURI extends JClass
 	 */
 	public function getQuery($toArray = false)
 	{
-		if($toArray) {
+		if ($toArray) {
 			return $this->_vars;
 		}
 
 		//If the query is empty build it first
-		if(is_null($this->_query)) {
+		if (is_null($this->_query)) {
 			$this->_query = JURI::buildQuery($this->_vars);
 		}
 
@@ -457,26 +457,26 @@ class JURI extends JClass
 	 */
 	public static function buildQuery ($params, $akey = null)
 	{
-		if ( !is_array($params) || count($params) == 0 ) {
+		if (!is_array($params) || count($params) == 0) {
 			return false;
 		}
 
 		$out = array();
 
 		//reset in case we are looping
-		if( !isset($akey) && !count($out) )  {
+		if (!isset($akey) && !count($out))  {
 			unset($out);
 			$out = array();
 		}
 
-		foreach ( $params as $key => $val )
+		foreach ($params as $key => $val)
 		{
-			if ( is_array($val) ) {
+			if (is_array($val)) {
 				$out[] = JURI::buildQuery($val,$key);
 				continue;
 			}
 
-			$thekey = ( !$akey ) ? $key : $akey.'['.$key.']';
+			$thekey = (!$akey) ? $key : $akey.'['.$key.']';
 			$out[] = $thekey."=".urlencode($val);
 		}
 
@@ -667,7 +667,7 @@ class JURI extends JClass
 		$uri =& JURI::getInstance($url);
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
-		if(stripos($base, JURI::base()) !== 0 && !empty($host)) {
+		if (stripos($base, JURI::base()) !== 0 && !empty($host)) {
 			return false;
 		}
 		return true;

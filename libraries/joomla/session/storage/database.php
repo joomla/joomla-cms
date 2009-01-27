@@ -57,7 +57,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	public function read($id)
 	{
 		$db =& JFactory::getDBO();
-		if(!$db->connected()) {
+		if (!$db->connected()) {
 			return false;
 		}
 
@@ -77,7 +77,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	public function write($id, $session_data)
 	{
 		$db =& JFactory::getDBO();
-		if(!$db->connected()) {
+		if (!$db->connected()) {
 			return false;
 		}
 
@@ -100,7 +100,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	public function destroy($id)
 	{
 		$db =& JFactory::getDBO();
-		if(!$db->connected()) {
+		if (!$db->connected()) {
 			return false;
 		}
 
@@ -119,7 +119,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	public function gc($maxlifetime)
 	{
 		$db =& JFactory::getDBO();
-		if(!$db->connected()) {
+		if (!$db->connected()) {
 			return false;
 		}
 

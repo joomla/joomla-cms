@@ -45,7 +45,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @access protected
 	 * @param array $options optional parameters
 	 */
-	protected function __construct( $options = array() )
+	protected function __construct($options = array())
 	{
 		if (!self::test()) {
 			return JError::raiseError(404, "The memcache extension is not available");
@@ -69,7 +69,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	protected static function &getConnection() {
 		static $db = null;
-		if(is_null($db)) {
+		if (is_null($db)) {
 			$params =& JCacheStorageMemcache::getConfig();
 			$persistent	= (isset($params['persistent'])) ? $params['persistent'] : false;
 			// This will be an array of loveliness
@@ -93,7 +93,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	protected static function &getConfig() {
 		static $params = null;
-		if(is_null($params)) {
+		if (is_null($params)) {
 			$config =& JFactory::getConfig();
 			$params = $config->getValue('config.memcache_settings');
 			if (!is_array($params)) {

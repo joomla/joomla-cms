@@ -70,8 +70,8 @@ class JDocumentHTML extends JDocument
 		$this->_mime = 'text/html';
 
 		//set default document metadata
-		 $this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true );
-		 $this->setMetaData('robots', 'index, follow' );
+		 $this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true);
+		 $this->setMetaData('robots', 'index, follow');
 	}
 
 	/**
@@ -151,7 +151,7 @@ class JDocumentHTML extends JDocument
 	 */
 	public function addFavicon($href, $type = 'image/x-icon', $relation = 'shortcut icon')
 	{
-		$href = str_replace( '\\', '/', $href );
+		$href = str_replace('\\', '/', $href);
 		$this->_links[] = '<link href="'.$href.'" rel="'.$relation.'" type="'.$type.'"';
 	}
 
@@ -163,9 +163,9 @@ class JDocumentHTML extends JDocument
 	 * @return   void
 	 */
 
-	public function addCustomTag( $html )
+	public function addCustomTag($html)
 	{
-		$this->_custom[] = trim( $html );
+		$this->_custom[] = trim($html);
 	}
 
 	/**
@@ -186,7 +186,7 @@ class JDocumentHTML extends JDocument
 			return $this->_buffer;
 		}
 
-		if(isset($this->_buffer[$type][$name])) {
+		if (isset($this->_buffer[$type][$name])) {
 			$result = $this->_buffer[$type][$name];
 		}
 
@@ -195,7 +195,7 @@ class JDocumentHTML extends JDocument
 			return null;
 		}
 
-		if( $renderer =& $this->loadRenderer( $type )) {
+		if ($renderer =& $this->loadRenderer($type)) {
 			$result = $renderer->render($name, $attribs, $result);
 		}
 
@@ -234,9 +234,9 @@ class JDocumentHTML extends JDocument
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	public function render( $caching = false, $params = array())
+	public function render($caching = false, $params = array())
 	{
-		if(!empty($this->_template)) {
+		if (!empty($this->_template)) {
 			$data = $this->_renderTemplate();
 		} else {
 			$this->parse($params);
@@ -279,12 +279,12 @@ class JDocumentHTML extends JDocument
 	 */
 	public function countMenuChildren() {
 		static $children;
-		if(!isset($children)) {
+		if (!isset($children)) {
 			$dbo =& JFactory::getDBO();
 			$menu =& JSite::getMenu();
 			$where = Array();
 			$active = $menu->getActive();
-			if($active) {
+			if ($active) {
 				$where[] = 'parent = ' . $active->id;
 				$where[] = 'published = 1';
 				$dbo->setQuery('SELECT COUNT(*) FROM #__menu WHERE '. implode(' AND ', $where));
@@ -318,12 +318,12 @@ class JDocumentHTML extends JDocument
 		$contents = '';
 
 		//Check to see if we have a valid template file
-		if ( file_exists( $directory.DS.$filename ) )
+		if (file_exists($directory.DS.$filename))
 		{
 			//store the file path
 			$this->_file = $directory.DS.$filename;
 
-			// @todo if ( $legacy )
+			// @todo if ($legacy)
 			$option = $component;
 
 			//get the file content
@@ -335,15 +335,15 @@ class JDocumentHTML extends JDocument
 
 		// Try to find a favicon by checking the template and root folder
 		$path = $directory . DS;
-		$dirs = array( $path, JPATH_BASE . DS );
-		foreach ($dirs as $dir )
+		$dirs = array($path, JPATH_BASE . DS);
+		foreach ($dirs as $dir)
 		{
 			$icon =   $dir . 'favicon.ico';
-			if (file_exists( $icon ))
+			if (file_exists($icon))
 			{
-				$path = str_replace( JPATH_BASE . DS, '', $dir );
-				$path = str_replace( '\\', '/', $path );
-				$this->addFavicon( JURI::base(true).'/'.$path . 'favicon.ico' );
+				$path = str_replace(JPATH_BASE . DS, '', $dir);
+				$path = str_replace('\\', '/', $path);
+				$this->addFavicon(JURI::base(true).'/'.$path . 'favicon.ico');
 				break;
 			}
 		}
@@ -362,13 +362,13 @@ class JDocumentHTML extends JDocument
 		$template	= JFilterInput::_($params['template'], 'cmd');
 		$file		= JFilterInput::_($params['file'], 'cmd');
 
-		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
+		if (!file_exists($directory.DS.$template.DS.$file)) {
 			$template = 'system';
 		}
 
 		// Parse the template INI file if it exists for parameters and insert
 		// them into the template.
-		if (is_readable( $directory.DS.$template.DS.'params.ini' ) )
+		if (is_readable($directory.DS.$template.DS.'params.ini'))
 		{
 			$content = file_get_contents($directory.DS.$template.DS.'params.ini');
 			$params = new JParameter($content);
@@ -377,9 +377,9 @@ class JDocumentHTML extends JDocument
 		// Load the language file for the template
 		$lang =& JFactory::getLanguage();
 		// 1.5 or core
-		$lang->load( 'tpl_'.$template );
+		$lang->load('tpl_'.$template);
 		// 1.6
-		$lang->load( 'tpl_'.$template, $directory.DS.$template );
+		$lang->load('tpl_'.$template, $directory.DS.$template);
 
 		// Assign the variables
 		$this->template = $template;
@@ -401,7 +401,7 @@ class JDocumentHTML extends JDocument
 	{
 		$replace = array();
 		$matches = array();
-		if(preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches))
+		if (preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $this->_template, $matches))
 		{
 			$matches[0] = array_reverse($matches[0]);
 			$matches[1] = array_reverse($matches[1]);
@@ -411,7 +411,7 @@ class JDocumentHTML extends JDocument
 
 			for($i = 0; $i < $count; $i++)
 			{
-				$attribs = JUtility::parseAttributes( $matches[2][$i] );
+				$attribs = JUtility::parseAttributes($matches[2][$i]);
 				$type  = $matches[1][$i];
 
 				$name  = isset($attribs['name']) ? $attribs['name'] : null;

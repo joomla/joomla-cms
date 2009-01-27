@@ -30,7 +30,7 @@ class JRegistryFormatJSON extends JRegistryFormat
 	 * @param array  $param  Parameters used by the formatter
 	 * @return string INI Formatted String
 	 */
-	public function objectToString( &$object, $params )
+	public function objectToString(&$object, $params)
 	{
 		$string = json_encode($object);
 		return $string;
@@ -44,7 +44,7 @@ class JRegistryFormatJSON extends JRegistryFormat
 	 * @param boolean add an associative index for each section [in brackets]
 	 * @return object Data Object
 	 */
-	public function stringToObject( $data, $process_sections = false )
+	public function stringToObject($data, $process_sections = false)
 	{
 		trim($data);
 		if ((substr($data, 0, 1) != '{') && (substr($data, -1, 1) != '}')) {

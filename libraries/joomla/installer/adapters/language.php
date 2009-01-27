@@ -103,7 +103,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$tag =& $root->getElementByPath('tag');
 
 		// Check if we found the tag - if we didn't, we may be trying to install from an older language package
-		if ( ! $tag )
+		if (! $tag)
 		{
 			$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('NO LANGUAGE TAG?'));
 			return false;
@@ -174,7 +174,7 @@ class JInstallerLanguage extends JAdapterInstance
 		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', '' );
+			$this->parent->set('message', '');
 		}
 		return true;
 	}

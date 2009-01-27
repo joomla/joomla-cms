@@ -214,7 +214,7 @@ abstract class JModel extends JClass
 			$name = $this->getName();
 		}
 
-		if($table = &$this->_createTable($name, $prefix, $options))  {
+		if ($table = &$this->_createTable($name, $prefix, $options))  {
 			return $table;
 		}
 

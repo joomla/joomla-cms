@@ -111,7 +111,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function connected()
 	{
-		if(is_resource($this->_resource)) {
+		if (is_resource($this->_resource)) {
 			return mysql_ping($this->_resource);
 		}
 		return false;
@@ -524,10 +524,10 @@ class JDatabaseMySQL extends JDatabase
 		$vars = ($object INSTANCEOF JObject) ? $object->getProperties() : get_object_vars($object);
 		foreach ($vars as $k => $v)
 		{
-			if(is_array($v) or is_object($v) or $k[0] == '_') { // internal or NA field
+			if (is_array($v) or is_object($v) or $k[0] == '_') { // internal or NA field
 				continue;
 			}
-			if($k == $keyName) { // PK not to be updated
+			if ($k == $keyName) { // PK not to be updated
 				$where = $keyName . '=' . $this->Quote($v);
 				continue;
 			}
@@ -637,7 +637,7 @@ class JDatabaseMySQL extends JDatabase
 			$this->setQuery('SHOW FIELDS FROM ' . $tblval);
 			$fields = $this->loadObjectList();
 
-			if($typeonly)
+			if ($typeonly)
 			{
 				foreach ($fields as $field) {
 					$result[$tblval][$field->Field] = preg_replace("/[(0-9)]/",'', $field->Type);

@@ -193,7 +193,7 @@ abstract class JArrayHelper
 				break;
 
 			case 'WORD' :
-				$result = (string) preg_replace( '#\W#', '', $result );
+				$result = (string) preg_replace('#\W#', '', $result);
 				break;
 
 			case 'NONE' :

@@ -27,7 +27,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	protected function __construct( $options = array() )
+	protected function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -49,7 +49,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$cache_content = eaccelerator_get($cache_id);
-		if($cache_content === null)
+		if ($cache_content === null)
 		{
 			return false;
 		}

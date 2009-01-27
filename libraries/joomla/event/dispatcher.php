@@ -83,7 +83,7 @@ class JDispatcher extends JObservable
 		}
 		else
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', 'JDispatcher::register: Event handler not recognized.', 'Handler: '.$handler );
+			JError::raiseWarning('SOME_ERROR_CODE', 'JDispatcher::register: Event handler not recognized.', 'Handler: '.$handler);
 		}
 	}
 
@@ -107,25 +107,25 @@ class JDispatcher extends JObservable
 		 * If no arguments were passed, we still need to pass an empty array to
 		 * the call_user_func_array function.
 		 */
-		if(!is_array($args)) {
+		if (!is_array($args)) {
 			$args = (array) $args;
 		}
 
 		$event = strtolower($event);
-		if(!isset($this->_methods[$event]) || empty($this->_methods[$event])) {
+		if (!isset($this->_methods[$event]) || empty($this->_methods[$event])) {
 			//No Plugins Associated To Event!
 			return $result;
 		}
 
 		//Loop through all plugins having a method matching our event
 		foreach($this->_methods[$event] AS $key) {
-			if(!isset($this->_observers[$key])) {
+			if (!isset($this->_observers[$key])) {
 				//for some reason there's a disconnect...  Continue to next plugin key
 				continue;
-			} elseif(is_object($this->_observers[$key])) {
+			} elseif (is_object($this->_observers[$key])) {
 				$args['event'] = $event;
 				$result[] = $this->_observers[$key]->update($args);
-			} elseif(is_array($this->_observers[$key])) {
+			} elseif (is_array($this->_observers[$key])) {
 				$result[] = call_user_func_array($this->_observers[$key]['handler'], $args);
 			}
 		}

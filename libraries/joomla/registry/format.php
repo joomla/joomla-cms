@@ -34,7 +34,7 @@ abstract class JRegistryFormat extends JClass
 		static $instances = array();
 		static $filter = null;
 
-		if(empty($filter)) {
+		if (empty($filter)) {
 			$filter = JFilterInput::getInstance();
 		}
 
@@ -42,7 +42,7 @@ abstract class JRegistryFormat extends JClass
 		if (empty ($instances[$format]))
 		{
 			$class = 'JRegistryFormat'.$format;
-			if(!class_exists($class))
+			if (!class_exists($class))
 			{
 				$path	= dirname(__FILE__).DS.'format'.DS.$format.'.php';
 				if (file_exists($path)) {
@@ -66,7 +66,7 @@ abstract class JRegistryFormat extends JClass
 	 * @return	object	Data Object
 	 * @since	1.5
 	 */
-	abstract public function stringToObject( $data, $process_sections=false );
+	abstract public function stringToObject($data, $process_sections=false);
 
 	/**
 	 * Converts an object into a formatted string
@@ -77,5 +77,5 @@ abstract class JRegistryFormat extends JClass
 	 * @return	string	Formatted string
 	 * @since	1.5
 	 */
-	abstract public function objectToString( &$object, $params );
+	abstract public function objectToString(&$object, $params);
 }

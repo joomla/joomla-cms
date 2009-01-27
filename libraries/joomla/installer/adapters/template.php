@@ -66,8 +66,8 @@ class JInstallerTemplate extends JAdapterInstance
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="template" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		// TODO: Rewrite this! We shouldn't uninstall a template, we should back up the params as well
-		if($result) { // already installed, can we upgrade?
-			if($this->parent->getOverwrite() || $this->parent->getUpgrade()) {
+		if ($result) { // already installed, can we upgrade?
+			if ($this->parent->getOverwrite() || $this->parent->getUpgrade()) {
 				// we can upgrade, so uninstall the old one
 				$installer = new JInstaller(); // we don't want to compromise this instance!
 				$installer->uninstall('template', $result);
@@ -132,7 +132,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', '' );
+			$this->parent->set('message', '');
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
@@ -176,7 +176,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function uninstall( $id )
+	public function uninstall($id)
 	{
 		// Initialize variables
 		$retval	= true;
@@ -184,7 +184,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('extension');
-		if ( !$row->load((int) $id) || !strlen($row->element)) {
+		if (!$row->load((int) $id) || !strlen($row->element)) {
 			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
 			return false;
 		}
@@ -207,7 +207,7 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		// Get the template root path
-		$client =& JApplicationHelper::getClientInfo( $clientId );
+		$client =& JApplicationHelper::getClientInfo($clientId);
 		if (!$client) {
 			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::_('Invalid application'));
 			return false;
@@ -255,7 +255,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$site_info = JApplicationHelper::getClientInfo('site', true);
 		$admin_info = JApplicationHelper::getClientInfo('administrator', true);
 		foreach($site_list as $template) {
-			if($template == 'system') continue; // ignore special system template
+			if ($template == 'system') continue; // ignore special system template
 			$extension =& JTable::getInstance('extension');
 			$extension->type = 'template';
 			$extension->client_id = $site_info->id;
@@ -265,7 +265,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$results[] = $extension;
 		}
 		foreach($admin_list as $template) {
-			if($template == 'system') continue; // ignore special system template
+			if ($template == 'system') continue; // ignore special system template
 			$extension =& JTable::getInstance('extension');
 			$extension->type = 'template';
 			$extension->client_id = $admin_info->id;
@@ -293,7 +293,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->extension->name = $manifest_details['name'];
 		$this->parent->extension->enabled = 1;
 		$this->parent->extension->params = $this->parent->getParams();
-		if($this->parent->extension->store()) {
+		if ($this->parent->extension->store()) {
 			return true;
 		} else {
 			JError::raiseWarning(101, JText::_('Template').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));

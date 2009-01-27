@@ -13,9 +13,9 @@ defined('JPATH_BASE') or die();
 /**
  * Set the available masks for cleaning variables
  */
-define( 'JREQUEST_NOTRIM'   , 1 );
-define( 'JREQUEST_ALLOWRAW' , 2 );
-define( 'JREQUEST_ALLOWHTML', 4 );
+define('JREQUEST_NOTRIM'   , 1);
+define('JREQUEST_ALLOWRAW' , 2);
+define('JREQUEST_ALLOWHTML', 4);
 
 /**
  * JRequest Class
@@ -51,7 +51,7 @@ abstract class JRequest
 	 */
 	public static function getMethod()
 	{
-		$method = strtoupper( $_SERVER['REQUEST_METHOD'] );
+		$method = strtoupper($_SERVER['REQUEST_METHOD']);
 		return $method;
 	}
 
@@ -86,11 +86,11 @@ abstract class JRequest
 	public static function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
 		// Ensure hash and type are uppercase
-		$hash = strtoupper( $hash );
+		$hash = strtoupper($hash);
 		if ($hash === 'METHOD') {
-			$hash = strtoupper( $_SERVER['REQUEST_METHOD'] );
+			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		}
-		$type	= strtoupper( $type );
+		$type	= strtoupper($type);
 		$sig	= $hash.$type.$mask;
 
 		// Get the input hash
@@ -133,7 +133,7 @@ abstract class JRequest
 
 				// Handle magic quotes compatability
 				if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES')) {
-					$var = JRequest::_stripSlashesRecursive( $var );
+					$var = JRequest::_stripSlashesRecursive($var);
 				}
 
 				JRequest::$data[$name][$sig] = $var;
@@ -282,7 +282,7 @@ abstract class JRequest
 	public static function setVar($name, $value = null, $hash = 'method', $overwrite = true)
 	{
 		//If overwrite is true, makes sure the variable hasn't been set yet
-		if(!$overwrite && array_key_exists($name, $_REQUEST)) {
+		if (!$overwrite && array_key_exists($name, $_REQUEST)) {
 			return $_REQUEST[$name];
 		}
 
@@ -358,7 +358,7 @@ abstract class JRequest
 		$hash = strtoupper($hash);
 
 		if ($hash === 'METHOD') {
-			$hash = strtoupper( $_SERVER['REQUEST_METHOD'] );
+			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		}
 
 		switch ($hash)
@@ -396,7 +396,7 @@ abstract class JRequest
 
 		// Handle magic quotes compatability
 		if (get_magic_quotes_gpc() && ($hash != 'FILES')) {
-			$result = JRequest::_stripSlashesRecursive( $result );
+			$result = JRequest::_stripSlashesRecursive($result);
 		}
 
 		return $result;
@@ -409,7 +409,7 @@ abstract class JRequest
 	 * @param	string	The request variable to set (POST, GET, FILES, METHOD)
 	 * @param	boolean	If true and an existing key is found, the value is overwritten, otherwise it is ingored
 	 */
-	public static function set( $array, $hash = 'default', $overwrite = true )
+	public static function set($array, $hash = 'default', $overwrite = true)
 	{
 		foreach ($array as $key => $value) {
 			JRequest::setVar($key, $value, $hash, $overwrite);
@@ -419,17 +419,17 @@ abstract class JRequest
 	/**
 	 * Checks for a form token in the request
 	 *
-	 * Use in conjuction with JHtml::_( 'form.token' )
+	 * Use in conjuction with JHtml::_('form.token')
 	 *
 	 * @param	string	The request method in which to look for the token key
 	 * @return	boolean	True if found and valid, false otherwise
 	 */
-	public static function checkToken( $method = 'post' )
+	public static function checkToken($method = 'post')
 	{
 		$token	= JUtility::getToken();
-		if(!JRequest::getVar( $token, '', $method, 'alnum' )) {
+		if (!JRequest::getVar($token, '', $method, 'alnum')) {
 			$session = JFactory::getSession();
-			if($session->isNew()) {
+			if ($session->isNew()) {
 				//Redirect to login screen
 				$appl = JFactory::getApplication();
 				$return = JRoute::_('index.php');
@@ -452,15 +452,15 @@ abstract class JRequest
 	 */
 	public static function clean()
 	{
-		JRequest::_cleanArray( $_FILES );
-		JRequest::_cleanArray( $_ENV );
-		JRequest::_cleanArray( $_GET );
-		JRequest::_cleanArray( $_POST );
-		JRequest::_cleanArray( $_COOKIE );
-		JRequest::_cleanArray( $_SERVER );
+		JRequest::_cleanArray($_FILES);
+		JRequest::_cleanArray($_ENV);
+		JRequest::_cleanArray($_GET);
+		JRequest::_cleanArray($_POST);
+		JRequest::_cleanArray($_COOKIE);
+		JRequest::_cleanArray($_SERVER);
 
-		if (isset( $_SESSION )) {
-			JRequest::_cleanArray( $_SESSION );
+		if (isset($_SESSION)) {
+			JRequest::_cleanArray($_SESSION);
 		}
 
 		$REQUEST	= $_REQUEST;
@@ -471,14 +471,14 @@ abstract class JRequest
 		$ENV		= $_ENV;
 		$SERVER		= $_SERVER;
 
-		if (isset ( $_SESSION )) {
+		if (isset ($_SESSION)) {
 			$SESSION = $_SESSION;
 		}
 
 		foreach ($GLOBALS as $key => $value)
 		{
-			if ( $key != 'GLOBALS' ) {
-				unset ( $GLOBALS [ $key ] );
+			if ($key != 'GLOBALS') {
+				unset ($GLOBALS [ $key ]);
 			}
 		}
 		$_REQUEST	= $REQUEST;
@@ -489,7 +489,7 @@ abstract class JRequest
 		$_ENV 		= $ENV;
 		$_SERVER 	= $SERVER;
 
-		if (isset ( $SESSION )) {
+		if (isset ($SESSION)) {
 			$_SESSION = $SESSION;
 		}
 
@@ -505,19 +505,19 @@ abstract class JRequest
 	 * @param	boolean	True if the array is to be added to the GLOBALS
 	 * @since	1.5
 	 */
-	private static function _cleanArray( &$array, $globalise=false )
+	private static function _cleanArray(&$array, $globalise=false)
 	{
-		static $banned = array( '_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals' );
+		static $banned = array('_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals');
 
 		foreach ($array as $key => $value)
 		{
 			// PHP GLOBALS injection bug
-			$failed = in_array( strtolower( $key ), $banned );
+			$failed = in_array(strtolower($key), $banned);
 
 			// PHP Zend_Hash_Del_Key_Or_Index bug
-			$failed |= is_numeric( $key );
+			$failed |= is_numeric($key);
 			if ($failed) {
-				jexit( 'Illegal variable <b>' . implode( '</b> or <b>', $banned ) . '</b> passed to script.' );
+				jexit('Illegal variable <b>' . implode('</b> or <b>', $banned) . '</b> passed to script.');
 			}
 			if ($globalise) {
 				$GLOBALS[$key] = $value;
@@ -580,9 +580,9 @@ abstract class JRequest
 	 * @param	array	$array		Array of (nested arrays of) strings
 	 * @return	array	The input array with stripshlashes applied to it
 	 */
-	private static function _stripSlashesRecursive( $value )
+	private static function _stripSlashesRecursive($value)
 	{
-		$value = is_array( $value ) ? array_map( array( 'JRequest', '_stripSlashesRecursive' ), $value ) : stripslashes( $value );
+		$value = is_array($value) ? array_map(array('JRequest', '_stripSlashesRecursive'), $value) : stripslashes($value);
 		return $value;
 	}
 }

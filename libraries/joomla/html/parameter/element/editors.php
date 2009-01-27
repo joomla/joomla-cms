@@ -34,7 +34,7 @@ class JElementEditors extends JElement
 		$user	= & JFactory::getUser();
 
 		//TODO: change to acl_check method
-		if(!($user->get('gid') >= 19)) {
+		if (!($user->get('gid') >= 19)) {
 			return JText::_('No Access');
 		}
 

@@ -97,7 +97,7 @@ class JException extends Exception
 	 * @param	string	$info		Optional: The additional error information.
 	 * @param	boolean	$backtrace	True if backtrace information is to be collected
 	 */
-	public function __construct( $msg, $code = 0, $level = null, $info = null, $backtrace = false )
+	public function __construct($msg, $code = 0, $level = null, $info = null, $backtrace = false)
 	{
 		$this->level	=	$level;
 		$this->code		=	$code;
@@ -107,31 +107,31 @@ class JException extends Exception
 			$this->info = $info;
 		}
 
-		if ($backtrace && function_exists( 'debug_backtrace' ))
+		if ($backtrace && function_exists('debug_backtrace'))
 		{
 			$this->backtrace = debug_backtrace();
 
-			for( $i = count( $this->backtrace ) - 1; $i >= 0; --$i )
+			for($i = count($this->backtrace) - 1; $i >= 0; --$i)
 			{
 				++$i;
-				if (isset( $this->backtrace[$i]['file'] )) {
+				if (isset($this->backtrace[$i]['file'])) {
 					$this->file		= $this->backtrace[$i]['file'];
 				}
-				if (isset( $this->backtrace[$i]['line'] )) {
+				if (isset($this->backtrace[$i]['line'])) {
 					$this->line		= $this->backtrace[$i]['line'];
 				}
-				if (isset( $this->backtrace[$i]['class'] )) {
+				if (isset($this->backtrace[$i]['class'])) {
 					$this->class	= $this->backtrace[$i]['class'];
 				}
-				if (isset( $this->backtrace[$i]['function'] )) {
+				if (isset($this->backtrace[$i]['function'])) {
 					$this->function	= $this->backtrace[$i]['function'];
 				}
-				if (isset( $this->backtrace[$i]['type'] )) {
+				if (isset($this->backtrace[$i]['type'])) {
 					$this->type		= $this->backtrace[$i]['type'];
 				}
 
 				$this->args		= false;
-				if (isset( $this->backtrace[$i]['args'] )) {
+				if (isset($this->backtrace[$i]['args'])) {
 					$this->args		= $this->backtrace[$i]['args'];
 				}
 				break;
@@ -168,7 +168,7 @@ class JException extends Exception
  	 */
 	public function get($property, $default=null)
 	{
-		if(isset($this->$property)) {
+		if (isset($this->$property)) {
 			return $this->$property;
 		}
 		return $default;
@@ -183,10 +183,10 @@ class JException extends Exception
 	 * @see		get()
 	 * @since	1.5
  	 */
-	public function getProperties( $public = true )
+	public function getProperties($public = true)
 	{
 		$vars  = get_object_vars($this);
-		if($public)
+		if ($public)
 		{
 			foreach ($vars as $key => $value)
 			{
@@ -207,15 +207,15 @@ class JException extends Exception
 	 * @access	public
 	 * @since	1.5
 	 */
-	public function getError($i = null, $toString = true )
+	public function getError($i = null, $toString = true)
 	{
 		// Find the error
-		if ( $i === null) {
+		if ($i === null) {
 			// Default, return the last message
 			$error = end($this->_errors);
 		}
 		else
-		if ( ! array_key_exists($i, $this->_errors) ) {
+		if (! array_key_exists($i, $this->_errors)) {
 			// If $i has been specified but does not exist, return false
 			return false;
 		}
@@ -224,7 +224,7 @@ class JException extends Exception
 		}
 
 		// Check if only the string is requested
-		if ( JError::isError($error) && $toString ) {
+		if (JError::isError($error) && $toString) {
 			return $error->toString();
 		}
 
@@ -254,7 +254,7 @@ class JException extends Exception
 	 * @see		setProperties()
 	 * @since	1.5
 	 */
-	public function set( $property, $value = null )
+	public function set($property, $value = null)
 	{
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
@@ -270,7 +270,7 @@ class JException extends Exception
 	* @see		set()
 	* @since	1.5
 	*/
-	public function setProperties( $properties )
+	public function setProperties($properties)
 	{
 		$properties = (array) $properties; //cast to an array
 

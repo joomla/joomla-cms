@@ -87,9 +87,9 @@ class JUpdate {
 				$ver = new JVersion();
 				$filter =& JFilterInput::getInstance();
 				$product = strtolower($filter->clean($ver->PRODUCT, 'cmd'));
-				if($product == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version) {
-					if(isset($this->_latest)) {
-						if(version_compare($this->_current_update->version->_data, $this->_latest->version->_data, '>') == 1) {
+				if ($product == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version) {
+					if (isset($this->_latest)) {
+						if (version_compare($this->_current_update->version->_data, $this->_latest->version->_data, '>') == 1) {
 							$this->_latest = $this->_current_update;
 						}
 					} else {
@@ -99,13 +99,13 @@ class JUpdate {
 				break;
 			case 'UPDATES':
 				// If the latest item is set then we transfer it to where we want to
-				if(isset($this->_latest)) {
+				if (isset($this->_latest)) {
 					foreach(get_object_vars($this->_latest) as $key=>$val) {
 						$this->$key = $val;
 					}
 					unset($this->_latest);
 					unset($this->_current_update);
-				} else if(isset($this->_current_update)) {
+				} else if (isset($this->_current_update)) {
 					// the update might be for an older version of j!
 					unset($this->_current_update);
 				}
@@ -115,7 +115,7 @@ class JUpdate {
 
 	function _characterData($parser, $data) {
 		$tag = $this->_getLastTag();
-		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
+		//if (!isset($this->$tag->_data)) $this->$tag->_data = '';
 		//$this->$tag->_data .= $data;
 		// Throw the data for this item together
 		$tag = strtolower($tag);
@@ -147,7 +147,7 @@ class JUpdate {
 
 	function install() {
 		global $mainframe;
-		if(isset($this->downloadurl->_data)) {
+		if (isset($this->downloadurl->_data)) {
 			$url = $this->downloadurl->_data;
 		} else {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Invalid extension update'));

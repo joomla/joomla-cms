@@ -10,7 +10,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.installer.filemanifest' );
+jimport('joomla.installer.filemanifest');
 jimport('joomla.base.adapterinstance');
 
 /**
@@ -52,7 +52,7 @@ class JInstallerFile extends JAdapterInstance
 		if (is_a($description, 'JSimpleXMLElement')) {
 			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', '' );
+			$this->parent->set('message', '');
 		}
 
 		// Set the installation path
@@ -137,7 +137,7 @@ class JInstallerFile extends JAdapterInstance
 		$name =& $this->manifest->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'string');
 		$installer = new JInstaller(); // we don't want to compromise this instance!
-		$installer->uninstall('file', $name, 0 );
+		$installer->uninstall('file', $name, 0);
 		// ...and adds new files
 		//return $this->install();
 	}
@@ -151,7 +151,7 @@ class JInstallerFile extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall($id, $clientId )
+	function uninstall($id, $clientId)
 	{
 		// Initialize variables
 		$row	= null;
@@ -194,8 +194,8 @@ class JInstallerFile extends JAdapterInstance
 
 		// TODO: Change this so it walked up the path backwards so we clobber multiple empties
 		// If the folder is empty, let's delete it
-		if(JFolder::exists($this->parent->getPath('extension_root'))) {
-			if(is_dir($this->parent->getPath('extension_root'))) {
+		if (JFolder::exists($this->parent->getPath('extension_root'))) {
+			if (is_dir($this->parent->getPath('extension_root'))) {
 				$files = JFolder::files($this->parent->getPath('extension_root'));
 				if (!count($files)) {
 					JFolder::delete($this->parent->getPath('extension_root'));

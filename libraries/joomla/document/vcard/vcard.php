@@ -56,18 +56,18 @@ class JDocumentVCARD extends JDocument
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	public function render( $cache = false, $params = array())
+	public function render($cache = false, $params = array())
 	{
 		$data 	= 'BEGIN:VCARD';
 		$data	.= "\r\n";
 		$data 	.= 'VERSION:2.1';
 		$data	.= "\r\n";
 
-		foreach( $this->_properties as $key => $value ) {
+		foreach($this->_properties as $key => $value) {
 			$data	.= "$key:$value";
 			$data	.= "\r\n";
 		}
-		$data	.= 'REV:'. date( 'Y-m-d' ) .'T'. date( 'H:i:s' ). 'Z';
+		$data	.= 'REV:'. date('Y-m-d') .'T'. date('H:i:s'). 'Z';
 		$data	.= "\r\n";
 		$data	.= 'MAILER: Joomla! vCard for '. $this->getBase();
 		$data	.= "\r\n";
@@ -106,10 +106,10 @@ class JDocumentVCARD extends JDocument
 		$this->_properties['FN'] = $this->quoted_printable_encode($name);
 	}
 
-	public function setName( $family='', $first='', $additional='', $prefix='', $suffix='' )
+	public function setName($family='', $first='', $additional='', $prefix='', $suffix='')
 	{
 		$this->_properties["N"] 	= "$family;$first;$additional;$prefix;$suffix";
-		$this->setFormattedName( trim( "$prefix $first $additional $family $suffix" ) );
+		$this->setFormattedName(trim("$prefix $first $additional $family $suffix"));
 	}
 
 	// $date format is YYYY-MM-DD
@@ -119,23 +119,23 @@ class JDocumentVCARD extends JDocument
 	}
 
 	// $type may be DOM | INTL | POSTAL | PARCEL | HOME | WORK or any combination of these: e.g. "WORK;PARCEL;POSTAL"
-	public function setAddress( $postoffice='', $extended='', $street='', $city='', $region='', $zip='', $country='', $type='HOME;POSTAL' )
+	public function setAddress($postoffice='', $extended='', $street='', $city='', $region='', $zip='', $country='', $type='HOME;POSTAL')
 	{
 		$separator = ';';
 
 		$key 		= 'ADR';
-		if ( $type != '' ) {
+		if ($type != '') {
 			$key	.= $separator . $type;
 		}
 		$key.= ';ENCODING=QUOTED-PRINTABLE';
 
-		$return = $this->encode( $postoffice );
-		$return .= $separator . $this->encode( $extended );
-		$return .= $separator . $this->encode( $street );
-		$return .= $separator . $this->encode( $city );
-		$return .= $separator . $this->encode( $region);
-		$return .= $separator . $this->encode( $zip );
-		$return .= $separator . $this->encode( $country );
+		$return = $this->encode($postoffice);
+		$return .= $separator . $this->encode($extended);
+		$return .= $separator . $this->encode($street);
+		$return .= $separator . $this->encode($city);
+		$return .= $separator . $this->encode($region);
+		$return .= $separator . $this->encode($zip);
+		$return .= $separator . $this->encode($country);
 
 		$this->_properties[$key] = $return;
 	}
@@ -201,20 +201,20 @@ class JDocumentVCARD extends JDocument
 		$this->_properties[$key] = $url;
 	}
 
-	public function setFilename( $filename )
+	public function setFilename($filename)
 	{
 		$this->_filename = $filename .'.vcf';
 	}
 
-	public function setTitle( $title )
+	public function setTitle($title)
 	{
-		$title 	= trim( $title );
+		$title 	= trim($title);
 		$this->_properties['TITLE'] 	= $title;
 	}
 
-	public function setOrg( $org )
+	public function setOrg($org)
 	{
-		$org 	= trim( $org );
+		$org 	= trim($org);
 		$this->_properties['ORG'] = $org;
 	}
 
@@ -247,14 +247,14 @@ class JDocumentVCARD extends JDocument
 				$c 		= substr($line, $i, 1);
 				$dec 	= ord($c);
 
-				if ( ($dec == 32) && ($i == ($linlen - 1)) ) { // convert space at eol only
+				if (($dec == 32) && ($i == ($linlen - 1))) { // convert space at eol only
 					$c = '=20';
-				} elseif ( ($dec == 61) || ($dec < 32 ) || ($dec > 126) ) { // always encode "\t", which is *not* required
+				} elseif (($dec == 61) || ($dec < 32) || ($dec > 126)) { // always encode "\t", which is *not* required
 					$h2 = floor($dec/16);
 					$h1 = floor($dec%16);
 					$c 	= $escape.$hex["$h2"] . $hex["$h1"];
 				}
-				if ( (strlen($newline) + strlen($c)) >= $line_max ) { // CRLF is not counted
+				if ((strlen($newline) + strlen($c)) >= $line_max) { // CRLF is not counted
 					$output .= $newline.$escape.$eol; // soft line break; " =\r\n" is okay
 					$newline = "	";
 				}

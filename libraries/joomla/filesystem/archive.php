@@ -63,7 +63,7 @@ abstract class JArchive
 						@unlink($tmpfname);
 						return false;
 					}
-					if($untar)
+					if ($untar)
 					{
 						// Try to untar the file
 						$tadapter =& JArchive::getAdapter('tar');

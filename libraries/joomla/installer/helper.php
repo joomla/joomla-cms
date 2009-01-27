@@ -119,9 +119,9 @@ abstract class JInstallerHelper
 		$archivename = JPath::clean($archivename);
 
 		// do the unpacking of the archive
-		$result = JArchive::extract( $archivename, $extractdir);
+		$result = JArchive::extract($archivename, $extractdir);
 
-		if ( $result === false ) {
+		if ($result === false) {
 			return false;
 		}
 

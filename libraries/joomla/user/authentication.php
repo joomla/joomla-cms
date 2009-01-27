@@ -46,7 +46,7 @@ class JAuthentication extends JObservable
 		$isLoaded = JPluginHelper::importPlugin('authentication');
 
 		if (!$isLoaded) {
-			throw new JException( JText::_('JAuthentication::__construct: Could not load authentication libraries.'), 0, E_WARNING);
+			throw new JException(JText::_('JAuthentication::__construct: Could not load authentication libraries.'), 0, E_WARNING);
 		}
 	}
 
@@ -108,7 +108,7 @@ class JAuthentication extends JObservable
 		foreach ($plugins as $plugin)
 		{
 			$className = 'plg'.$plugin->type.$plugin->name;
-			if (class_exists( $className )) {
+			if (class_exists($className)) {
 				$plugin = new $className($this, (array)$plugin);
 			} else { // bail here if the plugin can't be created
 				JError::raiseWarning(50,'JAuthentication::authenticate: '. JText::_('Failed to load plugin') .': '. $className);
@@ -119,20 +119,20 @@ class JAuthentication extends JObservable
 			$plugin->onAuthenticate($credentials, $options, $response);
 
 			// If authentication is successfull break out of the loop
-			if($response->status === JAUTHENTICATE_STATUS_SUCCESS)
+			if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 			{
-				if (empty( $response->type )) {
-					$response->type = isset( $plugin->_name ) ? $plugin->_name : $plugin->name;
+				if (empty($response->type)) {
+					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
 				}
-   				if (empty( $response->username )) {
+   				if (empty($response->username)) {
 					$response->username = $credentials['username'];
 				}
 
-				if (empty( $response->fullname )) {
+				if (empty($response->fullname)) {
 					$response->fullname = $credentials['username'];
 				}
 
-				if (empty( $response->password )) {
+				if (empty($response->password)) {
 					$response->password = $credentials['password'];
 				}
 

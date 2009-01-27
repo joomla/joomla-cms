@@ -11,11 +11,11 @@
 defined('JPATH_BASE') or die();
 
 // Error Definition: Illegal Options
-define( 'JERROR_ILLEGAL_OPTIONS', 1 );
+define('JERROR_ILLEGAL_OPTIONS', 1);
 // Error Definition: Callback does not exist
-define( 'JERROR_CALLBACK_NOT_CALLABLE', 2 );
+define('JERROR_CALLBACK_NOT_CALLABLE', 2);
 // Error Definition: Illegal Handler
-define( 'JERROR_ILLEGAL_MODE', 3 );
+define('JERROR_ILLEGAL_MODE', 3);
 
 
 /**
@@ -41,9 +41,9 @@ abstract class JError
 		E_ERROR => 'Error'
 	);
 	protected static $handlers = array(
-		E_NOTICE 	=> array( 'mode' => 'message' ),
-		E_WARNING 	=> array( 'mode' => 'message' ),
-		E_ERROR 	=> array( 'mode' => 'callback', 'options' => array('JError','customErrorPage') )
+		E_NOTICE 	=> array('mode' => 'message'),
+		E_WARNING 	=> array('mode' => 'message'),
+		E_ERROR 	=> array('mode' => 'callback', 'options' => array('JError','customErrorPage'))
 	);
 	protected static $stack = array();
 
@@ -139,7 +139,7 @@ w
 		static $thrown = false;
 
 		//if thrown is hit again, we've come back to JError in the middle of throwing another JError, so die!
-		if($thrown) jexit('Infinite loop detected in JError');
+		if ($thrown) jexit('Infinite loop detected in JError');
 		//add loop check
 
 		$thrown = true;
@@ -222,7 +222,7 @@ w
 	* @return	array	All error handling details
 	* @since	1.5
 	*/
-	public static function getErrorHandling( $level )
+	public static function getErrorHandling($level)
 	{
 		return JError::$handlers[$level];
 	}
@@ -332,9 +332,9 @@ w
 	* @return	boolean	True on success; false if the level already has been registered
 	* @since	1.5
 	*/
-	public static function registerErrorLevel( $level, $name, $handler = 'ignore' )
+	public static function registerErrorLevel($level, $name, $handler = 'ignore')
 	{
-		if( isset(JError::$levels[$level]) ) {
+		if (isset(JError::$levels[$level])) {
 			return false;
 		}
 		JError::$levels[$level] = $name;
@@ -351,9 +351,9 @@ w
 	* @return	mixed	Human readable error level name or boolean false if it doesn't exist
 	* @since	1.5
 	*/
-	public static function translateErrorLevel( $level )
+	public static function translateErrorLevel($level)
 	{
-		if( isset(JError::$levels[$level]) ) {
+		if (isset(JError::$levels[$level])) {
 			return JError::$levels[$level];
 		}
 		return false;
@@ -535,9 +535,9 @@ w
 	 *
 	 * @see	raise()
 	 */
-	public static function &handleCallback( &$error, $options )
+	public static function &handleCallback(&$error, $options)
 	{
-		$result = call_user_func( $options, $error );
+		$result = call_user_func($options, $error);
 		return $result;
 	}
 
@@ -585,7 +585,7 @@ w
         {
                 $contents       = null;
                 $backtrace      = $error->getTrace();
-                if( is_array( $backtrace ) )
+                if (is_array($backtrace))
                 {
                         ob_start();
                         $j      =       1;
@@ -598,16 +598,16 @@ w
                         echo    '               <td class="TD"><strong>Function</strong></td>';
                         echo    '               <td class="TD"><strong>Location</strong></td>';
                         echo    '       </tr>';
-                        for( $i = count( $backtrace )-1; $i >= 0 ; $i-- )
+                        for($i = count($backtrace)-1; $i >= 0 ; $i--)
                         {
                                 echo    '       <tr>';
                                 echo    '               <td class="TD">'.$j.'</td>';
-                                if( isset( $backtrace[$i]['class'] ) ) {
+                                if (isset($backtrace[$i]['class'])) {
                                         echo    '       <td class="TD">'.$backtrace[$i]['class'].$backtrace[$i]['type'].$backtrace[$i]['function'].'()</td>';
                                 } else {
                                         echo    '       <td class="TD">'.$backtrace[$i]['function'].'()</td>';
                                 }
-                                if( isset( $backtrace[$i]['file'] ) ) {
+                                if (isset($backtrace[$i]['file'])) {
                                         echo    '               <td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
                                 } else {
                                         echo    '               <td class="TD">&nbsp;</td>';

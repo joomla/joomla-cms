@@ -144,13 +144,13 @@ class JAclReferences
 	 * Bind an input array to this class
 	 *
 	 * array(
-	 * 	'acls' => array( 'section' => array( 'value' ) ),
-	 * 	'acos' => array( 'section' => array( 'value' ) ),
-	 * 	'aros' => array( 'section' => array( 'value' ) ),
-	 * 	'axos' => array( 'section' => array( 'value' ) ),
-	 * 	'aro_groups' => array( 'value' ),
-	 * 	'axo_groups' => array( 'value' ),
-	 * )
+	 * 	'acls' => array('section' => array('value')),
+	 * 	'acos' => array('section' => array('value')),
+	 * 	'aros' => array('section' => array('value')),
+	 * 	'axos' => array('section' => array('value')),
+	 * 	'aro_groups' => array('value'),
+	 * 	'axo_groups' => array('value'),
+	 *)
 	 *
 	 * This is mainly used by the Save ACL methods
 	 *

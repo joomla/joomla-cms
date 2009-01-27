@@ -31,7 +31,7 @@ class JCacheOutput extends JCache
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	public function start( $id, $group=null)
+	public function start($id, $group=null)
 	{
 		// If we have data in cache use that...
 		$data = $this->get($id, $group);
@@ -41,7 +41,7 @@ class JCacheOutput extends JCache
 		} else {
 			// Nothing in cache... lets start the output buffer and start collecting data for next time.
 			ob_start();
-			ob_implicit_flush( false );
+			ob_implicit_flush(false);
 			// Set id and group placeholders
 			$this->_id		= $id;
 			$this->_group	= $group;

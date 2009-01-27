@@ -56,7 +56,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 			foreach ($lists as $type => $msgs)
 			{
 				if (count($msgs)) {
-					$contents .= "\n<dt class=\"".strtolower($type)."\">".JText::_( $type )."</dt>";
+					$contents .= "\n<dt class=\"".strtolower($type)."\">".JText::_($type)."</dt>";
 					$contents .= "\n<dd class=\"".strtolower($type)." message fade\">";
 					$contents .= "\n\t<ul>";
 					foreach ($msgs as $msg)

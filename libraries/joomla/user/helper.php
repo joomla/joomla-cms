@@ -39,9 +39,9 @@ abstract class JUserHelper
 		. ' AND block = 1'
 		. ' AND lastvisitDate = '.$db->Quote('0000-00-00 00:00:00');
 		;
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		try {
-			$id = intval( $db->loadResult() );
+			$id = intval($db->loadResult());
 		} catch(JException $e) {
 			$id = 0;
 		}
@@ -49,7 +49,7 @@ abstract class JUserHelper
 		// Is it a valid user to activate?
 		if ($id)
 		{
-			$user =& JUser::getInstance( (int) $id );
+			$user =& JUser::getInstance((int) $id);
 
 			$user->set('block', '0');
 			$user->set('activation', '');
@@ -57,13 +57,13 @@ abstract class JUserHelper
 			// Time to take care of business.... store the user.
 			if (!$user->save())
 			{
-				JError::raiseWarning( "SOME_ERROR_CODE", $user->getError() );
+				JError::raiseWarning("SOME_ERROR_CODE", $user->getError());
 				return false;
 			}
 		}
 		else
 		{
-			JError::raiseWarning( "SOME_ERROR_CODE", JText::_('UNABLE TO FIND A USER WITH GIVEN ACTIVATION STRING') );
+			JError::raiseWarning("SOME_ERROR_CODE", JText::_('UNABLE TO FIND A USER WITH GIVEN ACTIVATION STRING'));
 			return false;
 		}
 
@@ -81,7 +81,7 @@ abstract class JUserHelper
 		// Initialize some variables
 		$db = & JFactory::getDBO();
 
-		$query = 'SELECT id FROM #__users WHERE username = ' . $db->Quote( $username );
+		$query = 'SELECT id FROM #__users WHERE username = ' . $db->Quote($username);
 		$db->setQuery($query, 0, 1);
 		try {
 			return $db->loadResult();
@@ -289,7 +289,7 @@ abstract class JUserHelper
 		$makepass = '';
 
 		$stat = @stat(__FILE__);
-		if(empty($stat) || !is_array($stat)) $stat = array(php_uname());
+		if (empty($stat) || !is_array($stat)) $stat = array(php_uname());
 
 		mt_srand(crc32(microtime() . implode('|', $stat)));
 

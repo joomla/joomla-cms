@@ -72,7 +72,7 @@ class JDatabaseMySQLi extends JDatabase
 			// Extract the host name only
 			$host = substr($host, 0, strlen($host) - (strlen($targetSlot) + 1));
 			// This will take care of the following notation: ":3306"
-			if($host == '')
+			if ($host == '')
 				$host = 'localhost';
 		}
 
@@ -84,7 +84,7 @@ class JDatabaseMySQLi extends JDatabase
 		// connect to the server
 		$this->_resource = new mysqli($host, $user, $password, null, $port, $socket);
 
-		if($this->_resource->connect_error) {
+		if ($this->_resource->connect_error) {
 			throw new JException('Could not connect to MySQL database', 2, E_WARNING, $this->_resource->connect_error, true);
 		}
 
@@ -540,10 +540,10 @@ class JDatabaseMySQLi extends JDatabase
 		$tmp = array();
 		$vars = ($object INSTANCEOF JObject) ? $object->getProperties() : get_object_vars($object);
 		foreach ($vars as $k => $v) {
-			if(is_array($v) or is_object($v) or $k[0] == '_') { // internal or NA field
+			if (is_array($v) or is_object($v) or $k[0] == '_') { // internal or NA field
 				continue;
 			}
-			if($k == $keyName) { // PK not to be updated
+			if ($k == $keyName) { // PK not to be updated
 				$where = $keyName . '=' . $this->Quote($v);
 				continue;
 			}
@@ -654,7 +654,7 @@ class JDatabaseMySQLi extends JDatabase
 			$this->setQuery('SHOW FIELDS FROM ' . $tblval);
 			$fields = $this->loadObjectList();
 
-			if($typeonly)
+			if ($typeonly)
 			{
 				foreach ($fields as $field) {
 					$result[$tblval][$field->Field] = preg_replace("/[(0-9)]/",'', $field->Type);

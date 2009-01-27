@@ -40,7 +40,7 @@ class JCacheCallback extends JCache
 		$args		= func_get_args();
 		$callback	= array_shift($args);
 
-		return $this->get( $callback, $args );
+		return $this->get($callback, $args);
 	}
 
 	/**
@@ -52,15 +52,15 @@ class JCacheCallback extends JCache
 	 * @return	mixed	Result of the callback
 	 * @since	1.5
 	 */
-	public function get( $callback, $args, $id=false )
+	public function get($callback, $args, $id=false)
 	{
 		// Normalize callback
-		if (is_callable( $callback )) {
+		if (is_callable($callback)) {
 			// We have a standard php callback array -- do nothing
-		} elseif (strstr( $callback, '::' )) {
+		} elseif (strstr($callback, '::')) {
 			// This is shorthand for a static method callback classname::methodname
-			list( $class, $method ) = explode( '::', $callback );
-			$callback = array( trim($class), trim($method) );
+			list($class, $method) = explode('::', $callback);
+			$callback = array(trim($class), trim($method));
 		} else {
 			throw new JException('Callback not supported', 0, E_WARNING, $callback, true);
 		}
@@ -73,12 +73,12 @@ class JCacheCallback extends JCache
 		// Get the storage handler and get callback cache data by id and group
 		$data = parent::get($id);
 		if ($data !== false) {
-			$cached = unserialize( $data );
+			$cached = unserialize($data);
 			$output = $cached['output'];
 			$result = $cached['result'];
 		} else {
 			ob_start();
-			ob_implicit_flush( false );
+			ob_implicit_flush(false);
 
 			$result = call_user_func_array($callback, $args);
 			$output = ob_get_contents();
@@ -107,7 +107,7 @@ class JCacheCallback extends JCache
 	 */
 	protected function _makeId($callback, $args)
 	{
-		if(is_array($callback) && is_object($callback[0])) {
+		if (is_array($callback) && is_object($callback[0])) {
 			$vars = get_object_vars($callback[0]);
 			$vars[] = strtolower(get_class($callback[0]));
 			$callback[0] = $vars;

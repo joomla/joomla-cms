@@ -29,11 +29,11 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * @return string Config class formatted string
 	 * @since 1.5
 	 */
-	public function objectToString( &$object, $params ) {
+	public function objectToString(&$object, $params) {
 
 		// Build the object variables string
 		$vars = '';
-		foreach (get_object_vars( $object ) as $k => $v)
+		foreach (get_object_vars($object) as $k => $v)
 		{
 			if (is_scalar($v)) {
 				$vars .= "\tpublic $". $k . " = '" . addslashes($v) . "';\n";
@@ -56,7 +56,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * @return boolean True
 	 * @since 1.5
 	 */
-	public function stringToObject( $data, $process_sections = false) {
+	public function stringToObject($data, $process_sections = false) {
 		return true;
 	}
 

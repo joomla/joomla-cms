@@ -27,7 +27,7 @@ class JCacheStorageXCache extends JCacheStorage
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	protected function __construct( $options = array() )
+	protected function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -50,7 +50,7 @@ class JCacheStorageXCache extends JCacheStorage
 		$cache_id = $this->_getCacheId($id, $group);
 
 		//check if id exists
-		if( !xcache_isset( $cache_id ) ){
+		if (!xcache_isset($cache_id)){
 			return false;
 		}
 
@@ -86,7 +86,7 @@ class JCacheStorageXCache extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if( !xcache_isset( $cache_id ) ){
+		if (!xcache_isset($cache_id)){
 			return true;
 		}
 

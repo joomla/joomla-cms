@@ -38,28 +38,28 @@ class JFormFieldEditor extends JFormField
 	{
 		// editor attribute can be in the form of:
 		// editor="desired|alternative"
-		if ($editorName = trim( $this->_element->attributes('editor') ))
+		if ($editorName = trim($this->_element->attributes('editor')))
 		{
-			$parts	= explode( '|', $editorName );
+			$parts	= explode('|', $editorName);
 			$db		= &JFactory::getDBO();
 			$query	= 'SELECT element' .
 					' FROM #__plugins' .
-					' WHERE element	= '.$db->Quote( $parts[0] ) .
-					'  AND folder = '.$db->Quote( 'editors' ) .
+					' WHERE element	= '.$db->Quote($parts[0]) .
+					'  AND folder = '.$db->Quote('editors') .
 					'  AND published = 1';
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if ($db->loadResult()) {
 				$editorName	= $parts[0];
 			}
-			else if (isset( $parts[1] )) {
+			else if (isset($parts[1])) {
 				$editorName	= $parts[1];
 			}
 			else {
 				$editorName	= '';
 			}
-			$this->_element->addAttribute( 'editor', $editorName );
+			$this->_element->addAttribute('editor', $editorName);
 		}
-		$editor		= &JFactory::getEditor( $editorName ? $editorName : null );
+		$editor		= &JFactory::getEditor($editorName ? $editorName : null);
 		$rows		= $this->_element->attributes('rows');
 		$cols		= $this->_element->attributes('cols');
 		$height		= ($this->_element->attributes('height')) ? $this->_element->attributes('height') : '200';
@@ -67,11 +67,11 @@ class JFormFieldEditor extends JFormField
 		$class		= ($this->_element->attributes('class') ? 'class="'.$this->_element->attributes('class').'"' : 'class="text_area"');
 		$buttons	= $this->_element->attributes('buttons');
 
-		$editor->set( 'TemplateXML',	$this->_element->attributes('templatexml') );
+		$editor->set('TemplateXML',	$this->_element->attributes('templatexml'));
 		if ($buttons == 'true') {
 			$buttons	= true;
 		} else {
-			$buttons	= explode( ',', $buttons );
+			$buttons	= explode(',', $buttons);
 		}
 		// convert <br /> tags so they are not visible when editing
 		//$value	= str_replace('<br />', "\n", $value);

@@ -204,7 +204,7 @@ class JPaneSliders extends JPane
 
 		parent::__construct($params);
 
-		if(!$loaded) {
+		if (!$loaded) {
 			$this->_loadBehavior($params);
 			$loaded = true;
 		}

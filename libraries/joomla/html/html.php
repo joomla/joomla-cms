@@ -34,7 +34,7 @@ abstract class JHtml
         'format.depth' => 0,
         'format.eol' => "\n",
         'format.indent' => "\t"
-   );
+  );
 
 	private static $includePaths = array();
 
@@ -138,7 +138,7 @@ abstract class JHtml
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		if(strpos($url, 'http') !== 0) {
+		if (strpos($url, 'http') !== 0) {
 			$url = JURI::root(true).'/'.$url;
 		};
 

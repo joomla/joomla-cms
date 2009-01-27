@@ -52,14 +52,14 @@ class JDataLoaderSql extends JDataLoad implements JTaskSuspendable {
 
 	/** Constructor */
 	public function __construct($options) {
-		if(!isset($options['filename'])) {
+		if (!isset($options['filename'])) {
 			$this->setError(42, 'Filename not set');
 			return false;
 		}
 
 		$this->_stream =& JFactory::getStream();
 		$this->setProperties($options);
-		if(!$this->_stream->open($this->filename)) {
+		if (!$this->_stream->open($this->filename)) {
 			$this->setError(43, 'Failed to open file: '. $this->_stream->getError());
 			return false;
 		}
@@ -71,14 +71,14 @@ class JDataLoaderSql extends JDataLoad implements JTaskSuspendable {
 		$this->_dbo =& JFactory::getDBO();
 
 
-		if($this->taskset || $this->taskid) {
+		if ($this->taskset || $this->taskid) {
 			// TODO: If there is a task system available, redirect through that
-			if($this->taskset && !$this->taskid) {
+			if ($this->taskset && !$this->taskid) {
 				// Add a new task to the task set and transfer control to the task set
 				// and set the taskid
 				$taskset = new JTaskSet($this->_dbo);
 				$this->_task = $taskset->createTask();
-			} else if($this->taskid) {
+			} else if ($this->taskid) {
 				// We have a task ID, so use that. We can find the taskset from the task
 				$this->_task = new JTask($this->_dbo);
 				$this->_task->load($this->taskid);
@@ -103,7 +103,7 @@ class JDataLoaderSql extends JDataLoad implements JTaskSuspendable {
 		$data = get_object_vars($this);
 		$result = Array();
 		foreach($data as $key=>$value) {
-			if($key[0] == '_') continue;
+			if ($key[0] == '_') continue;
 			$result[$key] = $value;
 		}
 		return $result;
@@ -123,8 +123,8 @@ class JDataLoaderSql extends JDataLoad implements JTaskSuspendable {
 
 	/** Load the data */
 	public function load($offset=-1) {
-		if($offset > -1) $this->offset = $offset;
-		if(!$this->_stream->seek($this->offset)) {
+		if ($offset > -1) $this->offset = $offset;
+		if (!$this->_stream->seek($this->offset)) {
 			$this->setError('JLoaderSQL::load: Failed to seek SQL file to '. $this->offset);
 			return false;
 		}
@@ -141,7 +141,7 @@ class JDataLoaderSql extends JDataLoad implements JTaskSuspendable {
 			while(!$this->_stream->eof() && substr($dumpline, -1) != "\n") {
 				$dumpline .= $this->_stream->gets($this->data_chunk_length);
 			}
-			if($dumpline === "") break;
+			if ($dumpline === "") break;
 			// Handle DOS and Mac encoded linebreaks (I don't know if it will work on Win32 or Mac Servers)
 
 			$dumpline = str_replace("\r\n", "\n", $dumpline);
@@ -163,14 +163,14 @@ class JDataLoaderSql extends JDataLoad implements JTaskSuspendable {
 				}
 
 				// check for drop statements
-				if(strpos($dumpline, 'DROP') === 0) {
+				if (strpos($dumpline, 'DROP') === 0) {
 					// if they're dropping something, don't yield as this may cause weird errors
 					// hopefully the next valid line should contain a valid create statement
 					$dropline = true;
 				}
 				// if we see a create or an insert then reset dropline
 				// note: this is for testing, if not the above should work as an else
-				if(strpos($dumpline, 'CREATE') === 0 || strpos($dumpline, 'INSERT') === 0) {
+				if (strpos($dumpline, 'CREATE') === 0 || strpos($dumpline, 'INSERT') === 0) {
 					$dropline = false;
 				}
 			}
@@ -214,7 +214,7 @@ class JDataLoaderSql extends JDataLoad implements JTaskSuspendable {
 		        $this->_queries++;
 		        $query='';
 		        $querylines=0;
-		        if(!$dropline && $this->_task && $this->_queries && $this->_queries % $this->yield_amount == 0) {
+		        if (!$dropline && $this->_task && $this->_queries && $this->_queries % $this->yield_amount == 0) {
 		        	$this->_task->yield();
 		        }
       		}
@@ -222,10 +222,10 @@ class JDataLoaderSql extends JDataLoad implements JTaskSuspendable {
 		}
 
 		if ($this->_linenumber < ($this->start+$this->lines_per_session)) {
-			if($this->_task) $this->_task->delete(); // remove this task when its done
+			if ($this->_task) $this->_task->delete(); // remove this task when its done
 			return true; // we're all finished!
 		} else {
-			if($this->taskid) {
+			if ($this->taskid) {
 				$this->_task->reload(); // force a task reload
 			} else {
 				JError::raiseError(500, JText::_('JLoaderSQL::load: Ran out of time during load'));

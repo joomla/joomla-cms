@@ -27,7 +27,7 @@ class JCacheStorageApc extends JCacheStorage
 	 * @access protected
 	 * @param array $options optional parameters
 	 */
-	protected function __construct( $options = array() )
+	protected function __construct($options = array())
 	{
 		parent::__construct($options);
 

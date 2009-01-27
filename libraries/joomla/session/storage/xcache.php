@@ -25,7 +25,7 @@ class JSessionStorageXcache extends JSessionStorage
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	protected function __construct( $options = array() )
+	protected function __construct($options = array())
 	{
 		if (!self::test()) {
 			throw new JException("The xcache extension isn't available", 500, E_ERROR);
@@ -71,7 +71,7 @@ class JSessionStorageXcache extends JSessionStorage
 		$sess_id = 'sess_'.$id;
 
 		//check if id exists
-		if( !xcache_isset( $sess_id ) ){
+		if (!xcache_isset($sess_id)){
 			return;
 		}
 
@@ -89,7 +89,7 @@ class JSessionStorageXcache extends JSessionStorage
 	public function write($id, $session_data)
 	{
 		$sess_id = 'sess_'.$id;
-		return xcache_set($sess_id, $session_data, ini_get("session.gc_maxlifetime")  );
+		return xcache_set($sess_id, $session_data, ini_get("session.gc_maxlifetime") );
 	}
 
 	/**
@@ -104,7 +104,7 @@ class JSessionStorageXcache extends JSessionStorage
 	{
 		$sess_id = 'sess_'.$id;
 
-		if( !xcache_isset( $sess_id ) ){
+		if (!xcache_isset($sess_id)){
 			return true;
 		}
 

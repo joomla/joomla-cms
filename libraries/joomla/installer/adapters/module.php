@@ -38,7 +38,7 @@ class JInstallerModule extends JAdapterInstance
 	public function install()
 	{
 		// if this is an update, set the route accordingly
-		if($this->parent->getUpgrade()) {
+		if ($this->parent->getUpgrade()) {
 			$this->route = 'Update';
 		}
 
@@ -65,7 +65,7 @@ class JInstallerModule extends JAdapterInstance
 		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', '' );
+			$this->parent->set('message', '');
 		}
 
 		/**
@@ -123,12 +123,12 @@ class JInstallerModule extends JAdapterInstance
 			// upgrade manually set
 			// update function available
 			// update tag detected
-			if($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement')) {
+			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement')) {
 				// force these one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
 				$this->route = 'Update';
-			} else if(!$this->parent->getOverwrite()) { // overwrite is set
+			} else if (!$this->parent->getOverwrite()) { // overwrite is set
 				// we didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
 				$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('Another module is already using directory').': "'.$this->parent->getPath('extension_root').'"');
 				return false;
@@ -145,13 +145,13 @@ class JInstallerModule extends JAdapterInstance
 		if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
 			$manifestScript = $this->scriptElement->data();
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
-			if(is_file($manifestScriptFile)) {
+			if (is_file($manifestScriptFile)) {
 				// load the file
 				include_once($manifestScriptFile);
 			}
 			// Set the class name
 			$classname = $element.'InstallerScript';
-			if(class_exists($classname)) {
+			if (class_exists($classname)) {
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
@@ -163,7 +163,7 @@ class JInstallerModule extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight($this->route, $this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight($this->route, $this);
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
 
@@ -206,11 +206,11 @@ class JInstallerModule extends JAdapterInstance
 		$this->parent->parseFiles($this->manifest->getElementByPath('images'), -1);
 
 		// If there is a manifest script, lets copy it.
-		if($this->get('manifest_script')) {
+		if ($this->get('manifest_script')) {
 			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_root').DS.$this->get('manifest_script');
 
-			if(!file_exists($path['dest'])) {
+			if (!file_exists($path['dest'])) {
 				if (!$this->parent->copyFiles(array ($path))) {
 					// Install failed, rollback changes
 					$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('Could not copy PHP manifest file.'));
@@ -297,7 +297,7 @@ class JInstallerModule extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,$this->route)) $this->parent->manifestClass->{$this->route}($this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,$this->route)) $this->parent->manifestClass->{$this->route}($this);
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 
@@ -317,7 +317,7 @@ class JInstallerModule extends JAdapterInstance
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) $this->parent->manifestClass->postflight($this->route, $this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) $this->parent->manifestClass->postflight($this->route, $this);
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
@@ -399,7 +399,7 @@ class JInstallerModule extends JAdapterInstance
 		$this->parent->extension->name = $manifest_details['name'];
 		$this->parent->extension->enabled = 1;
 		$this->parent->extension->params = $this->parent->getParams();
-		if($this->parent->extension->store()) {
+		if ($this->parent->extension->store()) {
 			return true;
 		} else {
 			JError::raiseWarning(101, JText::_('Module').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
@@ -415,7 +415,7 @@ class JInstallerModule extends JAdapterInstance
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = serialize($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
-		if($this->parent->extension->store()) {
+		if ($this->parent->extension->store()) {
 			return true;
 		} else {
 			JError::raiseWarning(101, JText::_('Module').' '.JText::_('Refresh Manifest Cache').': '.JText::_('Failed to store extension details'));
@@ -431,7 +431,7 @@ class JInstallerModule extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function uninstall( $id )
+	public function uninstall($id)
 	{
 		// Initialize variables
 		$row	= null;
@@ -441,7 +441,7 @@ class JInstallerModule extends JAdapterInstance
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('extension');
-		if ( !$row->load((int) $id) || !strlen($row->element)) {
+		if (!$row->load((int) $id) || !strlen($row->element)) {
 			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
 			return false;
 		}
@@ -473,13 +473,13 @@ class JInstallerModule extends JAdapterInstance
 		if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
 			$manifestScript = $this->scriptElement->data();
 			$manifestScriptFile = $this->parent->getPath('extension_root').DS.$manifestScript;
-			if(is_file($manifestScriptFile)) {
+			if (is_file($manifestScriptFile)) {
 				// load the file
 				include_once($manifestScriptFile);
 			}
 			// Set the class name
 			$classname = $element.'InstallerScript';
-			if(class_exists($classname)) {
+			if (class_exists($classname)) {
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
@@ -491,7 +491,7 @@ class JInstallerModule extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 		// run uninstall if possible
-		if($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) $this->parent->manifestClass->uninstall($this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) $this->parent->manifestClass->uninstall($this);
 		$msg = ob_get_contents();
 		ob_end_clean();
 

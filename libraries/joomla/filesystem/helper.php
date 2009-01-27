@@ -121,7 +121,7 @@ class JFilesystemHelper {
 	function getSupported() {
 		// really quite cool what php can do with arrays when you let it...
 		static $streams;
-		if(!$streams) $streams = array_merge(stream_get_wrappers(), JFilesystemHelper::getJStreams());
+		if (!$streams) $streams = array_merge(stream_get_wrappers(), JFilesystemHelper::getJStreams());
 		return $streams;
 	}
 
@@ -147,7 +147,7 @@ class JFilesystemHelper {
 	 */
 	function getJStreams() {
 		static $streams;
-		if(!$streams) $streams = array_map(array('JFile','stripExt'),JFolder::files(dirname(__FILE__).DS.'streams','.php'));
+		if (!$streams) $streams = array_map(array('JFile','stripExt'),JFolder::files(dirname(__FILE__).DS.'streams','.php'));
 		return $streams;
 	}
 

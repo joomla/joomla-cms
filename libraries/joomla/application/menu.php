@@ -78,7 +78,7 @@ class JMenu extends JClass
 	{
 		static $instances;
 
-		if (!isset( $instances )) {
+		if (!isset($instances)) {
 			$instances = array();
 		}
 
@@ -88,7 +88,7 @@ class JMenu extends JClass
 			$info =& JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'menu.php';
-			if(file_exists($path))
+			if (file_exists($path))
 			{
 				require_once $path;
 
@@ -133,7 +133,7 @@ class JMenu extends JClass
 	 */
 	public function setDefault($id)
 	{
-		if(isset($this->_items[$id])) {
+		if (isset($this->_items[$id])) {
 			$this->_default = $id;
 			return true;
 		}
@@ -163,7 +163,7 @@ class JMenu extends JClass
 	 */
 	public function &setActive($id)
 	{
-		if(isset($this->_items[$id]))
+		if (isset($this->_items[$id]))
 		{
 			$this->_active = $id;
 			$result = &$this->_items[$id];
@@ -207,12 +207,12 @@ class JMenu extends JClass
 
 		foreach ($this->_items as  $item)
 		{
-			if ( ! is_object($item) )
+			if (! is_object($item))
 				continue;
 
 			if ($item->$attribute == $value)
 			{
-				if($firstonly) {
+				if ($firstonly) {
 					return $item;
 				}
 
@@ -236,7 +236,7 @@ class JMenu extends JClass
 		if ($menu =& $this->getItem($id)) {
 			$ini = $menu->params;
 		}
-		$result = new JParameter( $ini );
+		$result = new JParameter($ini);
 
 		return $result;
 	}

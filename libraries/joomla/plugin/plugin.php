@@ -10,7 +10,7 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.event.event' );
+jimport('joomla.event.event');
 
 /**
  * JPlugin Class
@@ -59,27 +59,27 @@ abstract class JPlugin extends JEvent
 	public function __construct(& $subject, $config = array())
 	{
 		//Set the parameters
-		if ( isset( $config['params'] ) ) {
+		if (isset($config['params'])) {
 
-			if($config['params'] INSTANCEOF JParameter) {
+			if ($config['params'] INSTANCEOF JParameter) {
 				$this->params = $config['params'];
 			} else {
 				$this->params = new JParameter($config['params']);
 			}
 		}
 
-		if ( isset( $config['name'] ) ) {
+		if (isset($config['name'])) {
 			$this->_name = $config['name'];
 		}
 
-		if ( isset( $config['type'] ) ) {
+		if (isset($config['type'])) {
 			$this->_type = $config['type'];
 		}
 		parent::__construct($subject);
 	}
 
 	public function __get($var) {
-		if(isset($this->$var)) {
+		if (isset($this->$var)) {
 			return $this->$var;
 		}
 		return null;
@@ -96,7 +96,7 @@ abstract class JPlugin extends JEvent
 	 */
 	public function loadLanguage($extension = '', $basePath = JPATH_BASE)
 	{
-		if(empty($extension)) {
+		if (empty($extension)) {
 			$extension = 'plg_'.$this->_type.'_'.$this->_name;
 		}
 

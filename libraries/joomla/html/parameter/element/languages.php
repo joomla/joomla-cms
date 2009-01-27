@@ -35,7 +35,7 @@ class JElementLanguages extends JElement
 		/*
 		 * @TODO: change to acl_check method
 		 */
-		if(!($user->get('gid') >= 23) && $node->attributes('client') == 'administrator') {
+		if (!($user->get('gid') >= 23) && $node->attributes('client') == 'administrator') {
 			return JText::_('No Access');
 		}
 

@@ -46,7 +46,7 @@ class JProfiler extends JClass
 	 * @access protected
 	 * @param string Prefix for mark messages
 	 */
-	protected function __construct( $prefix = '' )
+	protected function __construct($prefix = '')
 	{
 		$this->_start = self::getmicrotime();
 		$this->_prefix = $prefix;
@@ -58,7 +58,7 @@ class JProfiler extends JClass
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $browser = & JProfiler::getInstance( $prefix );</pre>
+	 * 		<pre>  $browser = & JProfiler::getInstance($prefix);</pre>
 	 *
 	 * @access public
 	 * @param string Prefix used to distinguish profiler objects.
@@ -89,12 +89,12 @@ class JProfiler extends JClass
 	 * @param string A label for the time mark
 	 * @return string Mark enclosed in <div> tags
 	 */
-	public function mark( $label )
+	public function mark($label)
 	{
 		$mark	= $this->_prefix." $label: ";
 		$mark	.= sprintf('%.3f', self::getmicrotime() - $this->_start) . ' seconds';
-		if ( function_exists('memory_get_usage') ) {
-			$mark	.= ', '.sprintf('%0.2f', memory_get_usage() / 1048576 ).' MB';
+		if (function_exists('memory_get_usage')) {
+			$mark	.= ', '.sprintf('%0.2f', memory_get_usage() / 1048576).' MB';
 		}
 
 		$this->_buffer[] = $mark;
@@ -109,7 +109,7 @@ class JProfiler extends JClass
 	 */
 	public static function getmicrotime()
 	{
-		list( $usec, $sec ) = explode( ' ', microtime() );
+		list($usec, $sec) = explode(' ', microtime());
 		return ((float)$usec + (float)$sec);
 	}
 
@@ -124,11 +124,11 @@ class JProfiler extends JClass
 	{
 		static $isWin;
 
-		if (function_exists( 'memory_get_usage' )) {
+		if (function_exists('memory_get_usage')) {
 			return memory_get_usage();
 		} else {
 			// Determine if a windows server
-			if (is_null( $isWin )) {
+			if (is_null($isWin)) {
 				$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
 			}
 
@@ -138,11 +138,11 @@ class JProfiler extends JClass
 
 			if ($isWin) {
 				// Windows workaround
-				@exec( 'tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output );
+				@exec('tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output);
 				if (!isset($output[5])) {
 					$output[5] = null;
 				}
-				return substr( $output[5], strpos( $output[5], ':' ) + 1 );
+				return substr($output[5], strpos($output[5], ':') + 1);
 			} else {
 				@exec("ps -o rss -p $pid", $output);
 				return $output[1] *1024;

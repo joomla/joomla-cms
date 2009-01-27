@@ -86,7 +86,7 @@ class JPagination extends JClass
 		}
 
 		// Set the total pages and current page values
-		if($this->limit > 0)
+		if ($this->limit > 0)
 		{
 			$this->set('pages_total', ceil($this->total / $this->limit));
 			$this->set('pages_current', ceil(($this->limitstart + 1) / $this->limit));
@@ -268,7 +268,7 @@ class JPagination extends JClass
 			$list['end']['data'] = ($itemOverride) ? pagination_item_inactive($data->end) : $this->_item_inactive($data->end);
 		}
 
-		if($this->total > $this->limit){
+		if ($this->total > $this->limit){
 			return ($listOverride) ? pagination_list_render($list) : $this->_list_render($list);
 		}
 		else{
@@ -357,7 +357,7 @@ class JPagination extends JClass
 		$html = '&nbsp;';
 		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition)
 		{
-			if($enabled) {
+			if ($enabled) {
 				$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
 				$html	.= '   <img src="images/uparrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 				$html	.= '</a>';
@@ -388,7 +388,7 @@ class JPagination extends JClass
 		$html = '&nbsp;';
 		if (($i < $n -1 || $i + $this->limitstart < $this->total - 1) && $condition)
 		{
-			if($enabled) {
+			if ($enabled) {
 				$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
 				$html	.= '  <img src="images/downarrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
 				$html	.= '</a>';
@@ -441,7 +441,7 @@ class JPagination extends JClass
 		$appl = JFactory::getApplication();
 		if ($appl->isAdmin())
 		{
-			if($item->base>0)
+			if ($item->base>0)
 				return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$item->base."; submitform();return false;\">".$item->text."</a>";
 			else
 				return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=0; submitform();return false;\">".$item->text."</a>";

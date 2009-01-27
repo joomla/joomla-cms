@@ -62,7 +62,7 @@ class JSession extends JClass
 	* @access protected
 	* @var array $_security list of checks that will be done.
 	*/
-	protected $_security = array( 'fix_browser' );
+	protected $_security = array('fix_browser');
 
 	/**
 	* Constructor
@@ -71,7 +71,7 @@ class JSession extends JClass
 	* @param string $storage
 	* @param array 	$options 	optional parameters
 	*/
-	protected function __construct( $store = 'none', $options = array() )
+	protected function __construct($store = 'none', $options = array())
 	{
 		//Need to destroy any existing sessions started with session.auto_start
 		if (session_id()) {
@@ -86,7 +86,7 @@ class JSession extends JClass
 		$this->_store =& JSessionStorage::getInstance($store, $options);
 
 		//set options
-		$this->_setOptions( $options );
+		$this->_setOptions($options);
 
 		//load the session
 		$this->_start();
@@ -166,12 +166,12 @@ class JSession extends JClass
 	 */
 	public function getToken($forceNew = false)
 	{
-		$token = $this->get( 'session.token' );
+		$token = $this->get('session.token');
 
 		//create a token
-		if( $token === null || $forceNew ) {
-			$token	=	$this->_createToken( 12 );
-			$this->set( 'session.token', $token );
+		if ($token === null || $forceNew) {
+			$token	=	$this->_createToken(12);
+			$this->set('session.token', $token);
 		}
 
 		return $token;
@@ -189,12 +189,12 @@ class JSession extends JClass
 	public function hasToken($tCheck, $forceExpire = true)
 	{
 		// check if a token exists in the session
-		$tStored = $this->get( 'session.token' );
+		$tStored = $this->get('session.token');
 
 		//check token
-		if(($tStored !== $tCheck))
+		if (($tStored !== $tCheck))
 		{
-			if($forceExpire) {
+			if ($forceExpire) {
 				$this->_state = 'expired';
 			}
 			return false;
@@ -212,7 +212,7 @@ class JSession extends JClass
 	 */
 	public function getName()
 	{
-		if( $this->_state === 'destroyed' ) {
+		if ($this->_state === 'destroyed') {
 			// @TODO : raise error
 			return null;
 		}
@@ -227,7 +227,7 @@ class JSession extends JClass
 	 */
 	public function getId()
 	{
-		if( $this->_state === 'destroyed' ) {
+		if ($this->_state === 'destroyed') {
 			// @TODO : raise error
 			return null;
 		}
@@ -252,11 +252,11 @@ class JSession extends JClass
 			$class = 'JSessionStorage'.ucfirst($name);
 
 			//Load the class only if needed
-			if(!class_exists($class)) {
+			if (!class_exists($class)) {
 				require_once dirname(__FILE__).DS.'storage'.DS.$name.'.php';
 			}
 
-			if(call_user_func_array( array( trim($class), 'test' ), null)) {
+			if (call_user_func_array(array(trim($class), 'test'), null)) {
 				$names[] = $name;
 			}
 		}
@@ -272,8 +272,8 @@ class JSession extends JClass
 	*/
 	public function isNew()
 	{
-		$counter = $this->get( 'session.counter' );
-		if( $counter === 1 ) {
+		$counter = $this->get('session.counter');
+		if ($counter === 1) {
 			return true;
 		}
 		return false;
@@ -293,7 +293,7 @@ class JSession extends JClass
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
-		if($this->_state !== 'active' && $this->_state !== 'expired') {
+		if ($this->_state !== 'active' && $this->_state !== 'expired') {
 			// @TODO :: generated error here
 			$error = null;
 			return $error;
@@ -318,7 +318,7 @@ class JSession extends JClass
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
-		if($this->_state !== 'active') {
+		if ($this->_state !== 'active') {
 			// @TODO :: generated error here
 			return null;
 		}
@@ -342,16 +342,16 @@ class JSession extends JClass
 	* @param  string 	$namespace 	Namespace to use, default to 'default'
 	* @return boolean $result true if the variable exists
 	*/
-	public function has( $name, $namespace = 'default' )
+	public function has($name, $namespace = 'default')
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
-		if( $this->_state !== 'active' ) {
+		if ($this->_state !== 'active') {
 			// @TODO :: generated error here
 			return null;
 		}
 
-		return isset( $_SESSION[$namespace][$name] );
+		return isset($_SESSION[$namespace][$name]);
 	}
 
 	/**
@@ -362,19 +362,19 @@ class JSession extends JClass
 	* @param  string 	$namespace 	Namespace to use, default to 'default'
 	* @return mixed $value the value from session or NULL if not set
 	*/
-	public function clear( $name, $namespace = 'default' )
+	public function clear($name, $namespace = 'default')
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
-		if( $this->_state !== 'active' ) {
+		if ($this->_state !== 'active') {
 			// @TODO :: generated error here
 			return null;
 		}
 
 		$value	=	null;
-		if( isset( $_SESSION[$namespace][$name] ) ) {
+		if (isset($_SESSION[$namespace][$name])) {
 			$value	=	$_SESSION[$namespace][$name];
-			unset( $_SESSION[$namespace][$name] );
+			unset($_SESSION[$namespace][$name]);
 		}
 
 		return $value;
@@ -391,8 +391,8 @@ class JSession extends JClass
 	public function _start()
 	{
 		//  start session if not startet
-		if( $this->_state == 'restart' ) {
-			session_id( $this->_createId() );
+		if ($this->_state == 'restart') {
+			session_id($this->_createId());
 		}
 
 		session_cache_limiter('none');
@@ -421,7 +421,7 @@ class JSession extends JClass
 	public function destroy()
 	{
 		// session was already destroyed
-		if( $this->_state === 'destroyed' ) {
+		if ($this->_state === 'destroyed') {
 			return true;
 		}
 
@@ -449,7 +449,7 @@ class JSession extends JClass
 	public function restart()
 	{
 		$this->destroy();
-		if( $this->_state !==  'destroyed' ) {
+		if ($this->_state !==  'destroyed') {
 			// @TODO :: generated error here
 			return false;
 		}
@@ -459,7 +459,7 @@ class JSession extends JClass
 
 		$this->_state	=   'restart';
 		//regenerate session id
-		$id	=	$this->_createId( strlen( $this->getId() ) );
+		$id	=	$this->_createId(strlen($this->getId()));
 		session_id($id);
 		$this->_start();
 		$this->_state	=	'active';
@@ -479,7 +479,7 @@ class JSession extends JClass
 	*/
 	public function fork()
 	{
-		if( $this->_state !== 'active' ) {
+		if ($this->_state !== 'active') {
 			// @TODO :: generated error here
 			return false;
 		}
@@ -488,14 +488,14 @@ class JSession extends JClass
 		$values	= $_SESSION;
 
 		// keep session config
-		$trans	=	ini_get( 'session.use_trans_sid' );
-		if( $trans ) {
-			ini_set( 'session.use_trans_sid', 0 );
+		$trans	=	ini_get('session.use_trans_sid');
+		if ($trans) {
+			ini_set('session.use_trans_sid', 0);
 		}
 		$cookie	=	session_get_cookie_params();
 
 		// create new session id
-		$id	=	$this->_createId( strlen( $this->getId() ) );
+		$id	=	$this->_createId(strlen($this->getId()));
 
 		// kill session
 		session_destroy();
@@ -504,11 +504,11 @@ class JSession extends JClass
 		$this->_store->register();
 
 		// restore config
-		ini_set( 'session.use_trans_sid', $trans );
-		session_set_cookie_params( $cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'] );
+		ini_set('session.use_trans_sid', $trans);
+		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure']);
 
 		// restart session with new id
-		session_id( $id );
+		session_id($id);
 		session_start();
 
 		return true;
@@ -539,14 +539,14 @@ class JSession extends JClass
 	 * @access private
 	 * @return string Session ID
 	 */
-	private function _createId( )
+	private function _createId()
 	{
 		$id = 0;
 		while (strlen($id) < 32)  {
 			$id .= mt_rand(0, mt_getrandmax());
 		}
 
-		$id	= md5( uniqid($id, true));
+		$id	= md5(uniqid($id, true));
 		return $id;
 	}
 
@@ -557,14 +557,14 @@ class JSession extends JClass
 	* @param int $length lenght of string
 	* @return string $id generated token
 	*/
-	private function _createToken( $length = 32 )
+	private function _createToken($length = 32)
 	{
 		static $chars	=	'0123456789abcdef';
-		$max			=	strlen( $chars ) - 1;
+		$max			=	strlen($chars) - 1;
 		$token			=	'';
 		$name 			=  session_name();
-		for( $i = 0; $i < $length; ++$i ) {
-			$token .=	$chars[ (rand( 0, $max )) ];
+		for($i = 0; $i < $length; ++$i) {
+			$token .=	$chars[ (rand(0, $max)) ];
 		}
 
 		return md5($token.$name);
@@ -578,10 +578,10 @@ class JSession extends JClass
 	*/
 	private function _setCounter()
 	{
-		$counter = $this->get( 'session.counter', 0 );
+		$counter = $this->get('session.counter', 0);
 		++$counter;
 
-		$this->set( 'session.counter', $counter );
+		$this->set('session.counter', $counter);
 		return true;
 	}
 
@@ -593,17 +593,17 @@ class JSession extends JClass
 	*/
 	private function _setTimers()
 	{
-		if( !$this->has( 'session.timer.start' ) )
+		if (!$this->has('session.timer.start'))
 		{
 			$start	=	time();
 
-			$this->set( 'session.timer.start' , $start );
-			$this->set( 'session.timer.last'  , $start );
-			$this->set( 'session.timer.now'   , $start );
+			$this->set('session.timer.start' , $start);
+			$this->set('session.timer.last'  , $start);
+			$this->set('session.timer.now'   , $start);
 		}
 
-		$this->set( 'session.timer.last', $this->get( 'session.timer.now' ) );
-		$this->set( 'session.timer.now', time() );
+		$this->set('session.timer.last', $this->get('session.timer.now'));
+		$this->set('session.timer.now', time());
 
 		return true;
 	}
@@ -615,26 +615,26 @@ class JSession extends JClass
 	* @param array $options list of parameter
 	* @return boolean $result true on success
 	*/
-	private function _setOptions( &$options )
+	private function _setOptions(&$options)
 	{
 		// set name
-		if( isset( $options['name'] ) ) {
-			session_name( md5($options['name']) );
+		if (isset($options['name'])) {
+			session_name(md5($options['name']));
 		}
 
 		// set id
-		if( isset( $options['id'] ) ) {
-			session_id( $options['id'] );
+		if (isset($options['id'])) {
+			session_id($options['id']);
 		}
 
 		// set expire time
-		if( isset( $options['expire'] ) ) {
+		if (isset($options['expire'])) {
 			$this->_expire	=	$options['expire'];
 		}
 
 		// get security options
-		if( isset( $options['security'] ) ) {
-			$this->_security	=	explode( ',', $options['security'] );
+		if (isset($options['security'])) {
+			$this->_security	=	explode(',', $options['security']);
 		}
 
 		//sync the session maxlifetime
@@ -657,46 +657,46 @@ class JSession extends JClass
 	* @return boolean $result true on success
 	* @see http://shiflett.org/articles/the-truth-about-sessions
 	*/
-	private function _validate( $restart = false )
+	private function _validate($restart = false)
 	{
 		// allow to restart a session
-		if( $restart )
+		if ($restart)
 		{
 			$this->_state	=	'active';
 
-			$this->set( 'session.client.address'	, null );
-			$this->set( 'session.client.forwarded'	, null );
-			$this->set( 'session.client.browser'	, null );
-			$this->set( 'session.token'				, null );
+			$this->set('session.client.address'	, null);
+			$this->set('session.client.forwarded'	, null);
+			$this->set('session.client.browser'	, null);
+			$this->set('session.token'				, null);
 		}
 
 		// check if session has expired
-		if( $this->_expire )
+		if ($this->_expire)
 		{
-			$curTime =	$this->get( 'session.timer.now' , 0  );
-			$maxTime =	$this->get( 'session.timer.last', 0 ) +  $this->_expire;
+			$curTime =	$this->get('session.timer.now' , 0 );
+			$maxTime =	$this->get('session.timer.last', 0) +  $this->_expire;
 
 			// empty session variables
-			if( $maxTime < $curTime ) {
+			if ($maxTime < $curTime) {
 				$this->_state	=	'expired';
 				return false;
 			}
 		}
 
 		// record proxy forwarded for in the session in case we need it later
-		if( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$this->set( 'session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+			$this->set('session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		}
 
 		// check for client adress
-		if( in_array( 'fix_adress', $this->_security ) && isset( $_SERVER['REMOTE_ADDR'] ) )
+		if (in_array('fix_adress', $this->_security) && isset($_SERVER['REMOTE_ADDR']))
 		{
-			$ip	= $this->get( 'session.client.address' );
+			$ip	= $this->get('session.client.address');
 
-			if( $ip === null ) {
-				$this->set( 'session.client.address', $_SERVER['REMOTE_ADDR'] );
+			if ($ip === null) {
+				$this->set('session.client.address', $_SERVER['REMOTE_ADDR']);
 			}
-			else if( $_SERVER['REMOTE_ADDR'] !== $ip )
+			else if ($_SERVER['REMOTE_ADDR'] !== $ip)
 			{
 				$this->_state	=	'error';
 				return false;
@@ -704,14 +704,14 @@ class JSession extends JClass
 		}
 
 		// check for clients browser
-		if( in_array( 'fix_browser', $this->_security ) && isset( $_SERVER['HTTP_USER_AGENT'] ) )
+		if (in_array('fix_browser', $this->_security) && isset($_SERVER['HTTP_USER_AGENT']))
 		{
-			$browser = $this->get( 'session.client.browser' );
+			$browser = $this->get('session.client.browser');
 
-			if( $browser === null ) {
-				$this->set( 'session.client.browser', $_SERVER['HTTP_USER_AGENT']);
+			if ($browser === null) {
+				$this->set('session.client.browser', $_SERVER['HTTP_USER_AGENT']);
 			}
-			else if( $_SERVER['HTTP_USER_AGENT'] !== $browser )
+			else if ($_SERVER['HTTP_USER_AGENT'] !== $browser)
 			{
 //				$this->_state	=	'error';
 //				return false;

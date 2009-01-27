@@ -10,7 +10,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.filesystem.file' );
+jimport('joomla.filesystem.file');
 
 /**
  * Joomla! Library Manifest File
@@ -38,13 +38,13 @@ class JLibraryManifest extends JClass {
 	var $manifest_file = '';
 
 	function __construct($xmlpath='') {
-		if(strlen($xmlpath)) $this->loadManifestFromXML($xmlpath);
+		if (strlen($xmlpath)) $this->loadManifestFromXML($xmlpath);
 	}
 
 	function loadManifestFromXML($xmlfile) {
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
 		$xml = JFactory::getXMLParser('Simple');
-		if(!$xml->loadFile($xmlfile)) {
+		if (!$xml->loadFile($xmlfile)) {
 			$this->_errors[] = 'Failed to load XML File: ' . $xmlfile;
 			return false;
 		} else {
@@ -60,7 +60,7 @@ class JLibraryManifest extends JClass {
 			$this->packager = isset($xml->packager[0]) ? $xml->packager[0]->data() : '';
 			$this->packagerurl = isset($xml->packagerurl[0]) ? $xml->packagerurl[0]->data() : '';
 			$this->update = isset($xml->update[0]) ? $xml->update[0]->data() : '';
-			if(isset($xml->files[0]) && isset($xml->files[0]->file) && count($xml->files[0]->file)) {
+			if (isset($xml->files[0]) && isset($xml->files[0]->file) && count($xml->files[0]->file)) {
 				foreach($xml->files[0]->file as $file) {
 					$this->filelist[] = $file->data();
 				}

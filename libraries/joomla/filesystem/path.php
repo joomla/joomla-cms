@@ -38,7 +38,7 @@ abstract class JPath
 	private static $filesystem = null;
 
 	protected static function &getFileSystem() {
-		if(!is_object(JPath::$filesystem)) {
+		if (!is_object(JPath::$filesystem)) {
 			JPath::$filesystem = JFileSystem::getInstance();
 		}
 		return JPath::$filesystem;
@@ -155,12 +155,12 @@ abstract class JPath
 	public static function check($path)
 	{
 		if (strpos($path, '..') !== false) {
-			JError::raiseError( 20, 'JPath::check Use of relative paths not permitted'); // don't translate
+			JError::raiseError(20, 'JPath::check Use of relative paths not permitted'); // don't translate
 			jexit();
 		}
 		$path = JPath::clean($path);
 		if (strpos($path, JPath::clean(JPATH_ROOT)) !== 0) {
-			JError::raiseError( 20, 'JPath::check Snooping out of bounds @ '.$path); // don't translate
+			JError::raiseError(20, 'JPath::check Snooping out of bounds @ '.$path); // don't translate
 			jexit();
 		}
 	}

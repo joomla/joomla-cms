@@ -29,13 +29,13 @@ abstract class JHelp
 		$appl		= JFactory::getApplication();
 
 		$user			= JFactory::getUser();
-		$userHelpUrl	= $user->getParam( 'helpsite' );
+		$userHelpUrl	= $user->getParam('helpsite');
 		$globalHelpUrl 	= $appl->getCfg('helpurl');
 		$lang			= JFactory::getLanguage();
 
 		if ($useComponent)
 		{
-			if (!eregi( '\.html$', $ref )) {
+			if (!eregi('\.html$', $ref)) {
 				$ref = $ref . '.html';
 			}
 
@@ -43,10 +43,10 @@ abstract class JHelp
 			$tag =  $lang->getTag();
 
 			// Check if the file exists within a different language!
-			if( $lang->getTag() != 'en-GB' ) {
+			if ($lang->getTag() != 'en-GB') {
 				$localeURL = JPATH_BASE.DS.$url.DS.$tag.DS.$ref;
-				jimport( 'joomla.filesystem.file' );
-				if( !JFile::exists( $localeURL ) ) {
+				jimport('joomla.filesystem.file');
+				if (!JFile::exists($localeURL)) {
 					$tag = 'en-GB';
 				}
 			}
@@ -54,34 +54,34 @@ abstract class JHelp
 		}
 
 
-		if ( $userHelpUrl )
+		if ($userHelpUrl)
 		{
 			// Online help site as defined in GC
 			$version = new JVersion();
 			$ref .= $version->getHelpVersion();
-			$url = $userHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref=' . urlencode( $ref );
+			$url = $userHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref=' . urlencode($ref);
 		}
-		else if ( $globalHelpUrl )
+		else if ($globalHelpUrl)
 		{
 			// Online help site as defined in GC
 			$version = new JVersion();
 			$ref .= $version->getHelpVersion();
-			$url = $globalHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component;1&amp;keyref=' . urlencode( $ref );
+			$url = $globalHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component;1&amp;keyref=' . urlencode($ref);
 		}
 		else
 		{
 			// Included html help files
 			$helpURL = 'help/' .$lang->getTag() .'/';
 
-			if (!eregi( '\.html$', $ref )) {
+			if (!eregi('\.html$', $ref)) {
 				$ref = $ref . '.html';
 			}
 
 			// Check if the file exists within a different language!
-			if( $lang->getTag() != 'en-GB' ) {
+			if ($lang->getTag() != 'en-GB') {
 				$localeURL = JPATH_BASE . $helpURL .$ref;
-				jimport( 'joomla.filesystem.file' );
-				if( !JFile::exists( $localeURL ) ) {
+				jimport('joomla.filesystem.file');
+				if (!JFile::exists($localeURL)) {
 					$helpURL = 'help/en-GB/';
 				}
 			}
@@ -96,18 +96,18 @@ abstract class JHelp
 	 *
 	 * @param string	Path to an xml file
 	 * @param string	Language tag to select (if exists)
-	 * @param array	An array of arrays ( text, value, selected )
+	 * @param array	An array of arrays (text, value, selected)
 	 */
 	public static function createSiteList($pathToXml, $selected = null)
 	{
 		$list	= array ();
 		$xml	= JFactory::getXMLParser('Simple');
 		$data	= null;
-		if( !empty( $pathToXml ) ) {
+		if (!empty($pathToXml)) {
 			$data = file_get_contents($pathToXml);
 		}
 
-		if(empty($data))
+		if (empty($data))
 		{
 			$option['text'] = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
@@ -115,7 +115,7 @@ abstract class JHelp
 		}
 		else
 		{
-			if($xml->loadString($data))
+			if ($xml->loadString($data))
 			{
 				// Are there any languages??
 				$elmSites = & $xml->document->sites[0];

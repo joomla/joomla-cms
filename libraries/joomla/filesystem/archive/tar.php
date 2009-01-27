@@ -86,7 +86,7 @@ class JArchiveTar extends JObject
 		$this->_metadata = null;
 
 		$stream =& JFactory::getStream();
-		if(!$stream->open($archive, 'rb'))
+		if (!$stream->open($archive, 'rb'))
 		{
 			$this->set('error.message', 'Unable to read archive');
 			return JError::raiseWarning(100, $this->get('error.message'));
@@ -108,7 +108,7 @@ class JArchiveTar extends JObject
 			$size = octdec($info['size']);
 			$bsize = ceil($size / $chunksize) * $chunksize;
 			$contents = '';
-			if($size) {
+			if ($size) {
 				//$contents = fread($this->_fh, $size);
 				$contents = substr($stream->read($bsize),0, octdec($info['size']));
 			}
@@ -141,7 +141,7 @@ class JArchiveTar extends JObject
 					/* Some other type. */
 				}
 
-				$type = strtolower( $file['type'] );
+				$type = strtolower($file['type']);
 				if ($type == 'file' || $type == 'unix file')
 				{
 					$path = JPath::clean($destination.DS.$file['name']);
