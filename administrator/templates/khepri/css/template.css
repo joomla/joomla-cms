@@ -24,5 +24,9 @@
 @import url("menu.css");
 @import url("component.css");
 
+/* New styles for forms that need a propper home */
+
 .invalid { color: red; font-weight: bold; }
 input.invalid { border: 1px solid red; }
+input.readonly { border: 0; }
+input.required { background-color: #FFD3AF; }
