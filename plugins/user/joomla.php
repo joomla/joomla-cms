@@ -30,15 +30,31 @@ class plgUserJoomla extends JPlugin
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
-	function onAfterDeleteUser($user, $succes, $msg)
+	public function onAfterDeleteUser($user, $succes, $msg)
 	{
-		if(!$succes) {
+		if (!$succes) {
 			return false;
 		}
 
-		$db =& JFactory::getDBO();
-		$db->setQuery('DELETE FROM #__session WHERE userid = '.$db->Quote($user['id']));
-		$db->Query();
+		try
+		{
+			$db =& JFactory::getDBO();
+			$db->setQuery('DELETE FROM #__session WHERE userid = '.(int) $user['id']);
+			$db->query();
+
+			// Clean up private messaging data
+
+			$db->setQuery('DELETE FROM #__messages_cfg WHERE user_id = '.(int) $user['id']);
+			$db->query();
+
+			$db->setQuery('DELETE FROM #__messages WHERE user_id_to = '.(int) $user['id']);
+			$db->query();
+		}
+		catch (JException $e) {
+			// @todo Should we do a setError on the dispatcher?
+			JError::raiseWarning(500, $e->getMessage());
+			return false;
+		}
 
 		return true;
 	}

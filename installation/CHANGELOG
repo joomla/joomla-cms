@@ -28,6 +28,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+29-Jan-2009 Andrew Eddie
+ ^ [#14784] Move delete queries of messages from JTableUser to plugin
+
 28-Jan-2009 Sam Moffatt
  # Fixed quirk with backup system not storing params and data properly for backup entries
  # Fixed issue with incorrect table name used
