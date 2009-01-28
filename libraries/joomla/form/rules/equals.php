@@ -10,7 +10,7 @@
 
 defined('JPATH_BASE') or die('Restricted Access');
 
-jimport('joomla.form.rule');
+jimport('joomla.form.formrule');
 
 /**
  * Form Rule class for the Joomla Framework.

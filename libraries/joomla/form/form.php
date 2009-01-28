@@ -10,7 +10,7 @@
 
 defined('JPATH_BASE') or die('Restricted Access');
 
-require_once dirname(__FILE__).DS.'field.php';
+jimport('joomla.form.formfield');
 
 /**
  * Form Class for the Joomla Framework.
@@ -418,7 +418,7 @@ class JForm extends JClass
 		}
 
 		// Get a validator object.
-		require_once dirname(__FILE__).DS.'validator.php';
+		jimport('joomla.form.formvalidator');
 		$validator = new JFormValidator();
 
 		// Iterate through the groups.
