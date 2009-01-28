@@ -522,7 +522,7 @@ class JForm extends JClass
 
 		// Get the value for the form field.
 		if ($value === null) {
-			$value = array_key_exists($name, $this->_data[$group]) ? $this->_data[$group][$name] : $node->attributes('default');
+			$value = (array_key_exists($name, $this->_data[$group]) && ($this->_data[$group][$name] !== null)) ? $this->_data[$group][$name] : $node->attributes('default');
 		}
 
 		// Check the form control.
@@ -662,7 +662,7 @@ class JForm extends JClass
 			{
 				// Get the field info.
 				$type	= $node->attributes('type');
-				$value	= (isset($this->_data[$group]) && array_key_exists($name, $this->_data[$group])) ? $this->_data[$group][$name] : $node->attributes('default');
+				$value	= (isset($this->_data[$group]) && array_key_exists($name, $this->_data[$group]) && ($this->_data[$group][$name] !== null)) ? $this->_data[$group][$name] : $node->attributes('default');
 
 				// Load the field.
 				$field = &$this->loadFieldType($type);
