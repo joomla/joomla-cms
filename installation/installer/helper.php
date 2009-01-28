@@ -284,47 +284,66 @@ class JInstallationHelper
 		// create the admin user
 		$installdate 	= date('Y-m-d H:i:s');
 		$nullDate 		= $db->getNullDate();
-		$query = "INSERT IGNORE INTO #__users VALUES (62, 'Administrator', 'admin', ".$db->Quote($adminEmail).", ".$db->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '')";
-		$db->setQuery($query);
-		try {
+		//
+		// @todo randomise this number, note that the model saveConfig method needs to take the userId as an arg
+		//
+		$userId			= 42;
+		try
+		{
+			//
+			// @todo Check if the admin user was already in the migrated data first
+			//
+
+			$query = "INSERT IGNORE INTO #__users VALUES (".(int) $userId.", 'Administrator', 'admin', ".$db->Quote($adminEmail).", ".$db->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '')";
+			$db->setQuery($query);
 			$db->query();
-		} catch(JException $e) {
-			// is there already and existing admin in migrated data
+
+			// Register the user in the ACS
+			// We need to do this all by hand because the framework is not properly set up to use the real API
+
+			// Find the target group id
+			$db->setQuery(
+				'SELECT id FROM #__usergroups WHERE title = '.$db->quote('Super Administrator')
+			);
+			$groupId = $db->loadResult();
+			if (empty($groupId)) {
+				throw new JException(JText::_('JInstallation_Error_Super_admin_group_not_found'));
+			}
+
+			// Map the user to the group
+			$db->setQuery(
+				'REPLACE INTO #__user_usergroup_map VALUES ('.(int) $userId.','.(int) $groupId.')'
+			);
+			$db->query();
+
+			//
+			// @todo The following can be nuked as soon as the rest of the system is working
+			//
+
+			// add the ARO (Access Request Object)
+			$query = "INSERT IGNORE INTO #__core_acl_aro VALUES (10,'users',".(int) $userId.",0,'Administrator',0)";
+			$db->setQuery($query);
+			$db->query();
+
+			// add the map between the ARO and the Group
+			$query = "INSERT IGNORE INTO #__core_acl_groups_aro_map VALUES (25,'',10)";
+			$db->setQuery($query);
+			$db->query();
+		}
+		catch (JException $e)
+		{
+			// Is there already and existing admin in migrated data
+			// @todo Working off an error number is not engine agnostic - see note above
 			if ($db->getErrorNum() == 1062)
 			{
 				$vars['adminLogin'] = JText::_('Admin login in migrated content was kept');
 				$vars['adminPassword'] = JText::_('Admin password in migrated content was kept');
 				return;
 			}
-			else
-			{
-				echo $db->getErrorMsg();
-				return;
-			}
-		}
 
-		// Register the user in the ACS
-
-		jimport('joomla.access.helper');
-
-		// add the ARO (Access Request Object)
-		$query = "INSERT IGNORE INTO #__core_acl_aro VALUES (10,'users','62',0,'Administrator',0)";
-		$db->setQuery($query);
-		try {
-			$db->query();
-		} catch (JException $e) {
-			echo $db->getErrorMsg();
-			return;
-		}
-
-		// add the map between the ARO and the Group
-		$query = "INSERT IGNORE INTO #__core_acl_groups_aro_map VALUES (25,'',10)";
-		$db->setQuery($query);
-		try {
-			$db->query();
-		} catch (JException $e) {
-			echo $db->getErrorMsg();
-			return;
+			// @todo Echo is a bit lame!!
+			echo $e->getMessage();
+			return false;
 		}
 	}
 
