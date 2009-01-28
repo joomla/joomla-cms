@@ -105,29 +105,45 @@ class WeblinksTableWeblink extends JTable
 	 * @param object Database connector object
 	 * @since 1.0
 	 */
-	function __construct(& $db) {
+	function __construct(& $db)
+	{
 		parent::__construct('#__weblinks', 'id', $db);
 	}
 
 	/**
-	 * Overloaded bind function
+	 * Loads a weblinks, and any other necessary data
 	 *
-	 * @acces public
-	 * @param array $hash named array
-	 * @return null|string	null is operation was satisfactory, otherwise returns an error
-	 * @see JTable:bind
-	 * @since 1.5
+	 * @param	integer		$id		An optional user id.
+	 * @return	boolean		True on success, false on failure.
+	 * @since	1.6
 	 */
-	function bind($array, $ignore = '')
+	public function load($id = null)
 	{
-		if (key_exists('params', $array) && is_array($array['params']))
-		{
-			$registry = new JRegistry();
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
+		if ($result = parent::load($id)) {
+			$this->params = json_decode($this->params);
 		}
 
-		return parent::bind($array, $ignore);
+		return $result;
+	}
+
+	/**
+	 * Stores a weblink
+	 *
+	 * @param	boolean		$updateNulls	Toggle whether null values should be updated.
+	 * @return	boolean		True on success, false on failure.
+	 * @since	1.6
+	 */
+	public function store($updateNulls = false)
+	{
+		// Transform the params field
+		if (is_array($this->params)) {
+			$registry = new JRegistry();
+			$registry->loadArray($this->params);
+			$this->params = $registry->toString();
+		}
+
+		// Attempt to store the user data.
+		return parent::store($updateNulls);
 	}
 
 	/**
