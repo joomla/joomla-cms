@@ -88,7 +88,7 @@ abstract class JUserHelper
 	public static function getUserGroups($userId)
 	{
 		// Get the user object.
-		$user = new JUser($userId);
+		$user = &JUser::getInstance($userId);
 
 		return isset($user->groups) ? $user->groups : array();
 	}
@@ -104,7 +104,7 @@ abstract class JUserHelper
 	public static function removeUserFromGroup($userId, $groupId)
 	{
 		// Get the user object.
-		$user = new JUser($userId);
+		$user = &JUser::getInstance($userId);
 
 		// Remove the user from the group if necessary.
 		if (array_key_exists($groupId, $user->groups))
@@ -142,7 +142,7 @@ abstract class JUserHelper
 	public static function setUserGroups($userId, $groups)
 	{
 		// Get the user object.
-		$user = new JUser($userId);
+		$user = &JUser::getInstance($userId);
 
 		// Set the group ids.
 		JArrayHelper::toInteger($groups);
@@ -214,7 +214,7 @@ abstract class JUserHelper
 		// Is it a valid user to activate?
 		if ($id)
 		{
-			$user =& JUser::getInstance((int) $id);
+			$user = &JUser::getInstance((int) $id);
 
 			$user->set('block', '0');
 			$user->set('activation', '');
