@@ -20,98 +20,99 @@ defined('_JEXEC') or die();
  */
  class JContent extends JObject
  {
+ 	
  	/**
  	 * A Unique identifier for the content item
  	 * @var mixed
  	 */
- 	protected $id = '';
+ 	public $id = '';
 
  	/**
  	 * The title for the content item if appropriate
  	 * @var string
  	 */
- 	protected $title = '';
+ 	public $title = '';
 
  	/**
  	 * The most basic url to get the content item
  	 * Ex: index.php?option=com_content&view=article&id=7
  	 * @var string
  	 */
- 	protected $url = '';
+ 	public $url = '';
 
  	/**
  	 * The configured url to get the content item (pre-sef'd)
  	 * Ex: index.php?option=com_content&view=article&id=7:foobar&catid=12:mycat&Itemid=42
  	 * @var string
  	 */
- 	protected $route = '';
+ 	public $route = '';
 
  	/**
  	 * Summary data about the content item (intro-text for example)
  	 * @var string
  	 */
- 	protected $summary = '';
+ 	public $summary = '';
 
  	/**
  	 * The full textual content of the item (fulltext for example)
  	 * @var string
  	 */
- 	protected $body = '';
+ 	public $body = '';
 
  	/**
  	 * An associative array of $metadata_type=>$metatdata_value
  	 * This is used for HTML or Document
  	 * @var array
  	 */
- 	protected $metadata = array();
+ 	public $metadata = array();
 
  	/**
  	 * String date the item was created
  	 * @var string
  	 */
- 	protected $created_date = '';
+ 	public $created_date = '';
 
  	/**
  	 * String date the item was modified
  	 * @var string
  	 */
- 	protected $modified_date = '';
+ 	public $modified_date = '';
 
  	/**
  	 * String date for display purposes (such as date published)
  	 * @var string
  	 */
- 	protected $display_date = '';
+ 	public $display_date = '';
 
  	/**
  	 * Name of the author of the content item
  	 * @var string
  	 */
- 	protected $author_name = '';
+ 	public $author_name = '';
 
  	/**
  	 * Internal user id of the author (0 if not exists)
  	 * @var string
  	 */
- 	protected $author_id = 0;
+ 	public $author_id = 0;
 
  	/**
  	 * Publishing status of the content item
  	 * @var bool
  	 */
- 	protected $published = false;
+ 	public $published = false;
 
  	/**
  	 * Authorization status for the content item
  	 * @var bool
  	 */
- 	protected $authorized = false;
+ 	public $authorized = false;
 
  	/**
  	 * Language of the content item
  	 * @var string
  	 */
- 	protected $language = '';
+ 	public $language = '';
 
 	/**
 	 * Constructor
@@ -123,29 +124,39 @@ defined('_JEXEC') or die();
 			$this->bind($object);
 		}
 	}
-
-	/**
-	 * Set Magic Method
-	 *
-	 * @param	string	The key for the internal variable
-	 * @param	mixed	The value to set the internal variable to
-	 */
-	public function __set($key, $value) {
-		if (isset($this->$key)) {
-			if (is_array($this->$key)) {
-				$this->$key = (array) $value;
-			} elseif (is_bool($this->$key)) {
-				$this->$key = (bool) $value;
-			} elseif (is_int($this->$key)) {
-				$this->$key = (int) $value;
-			} else {
-				$this->$key = $value;
+	
+	public static function &getInstance($name = '', $include_path = '') {
+		static $cache = array();
+		if(!isset($cache[$name])) {
+			$type = $name;
+			$scope = '';
+			if(strpos($name, '.') !== false) {
+				$parts = explode('.', $name, 2);
+				if(isset($parts[1])) {
+					$type = $parts[1];
+					$scope = preg_replace('#[^A-Z0-9_-]#i', '', $parts[0]);
+				}
 			}
-		} else {
-			$this->$key = $value;
+			$type = preg_replace('#[^A-Z0-9_-]#i', '', $type);
+			$class = 'JContent'.ucfirst($scope).ucfirst($type);
+			if(!class_exists($class)) {
+				//we must find the class
+				$base = empty($include_path) ? $include_path : JPATH_ROOT;
+				if(file_exists($base.DS.$type.'.php')) {
+					require_once($base.DS.$type.'.php');
+				} elseif(file_exists($base.DS.'content'.DS.$type.'.php')) {
+					require_once($base.DS.'content'.DS.$type.'.php');
+				} elseif(file_exists($base.DS.'components'.DS.'com_'.$scope.DS.'content'.DS.$type.'.php')) {
+					require_once($base.DS.'components'.DS.'com_'.$scope.DS.'content'.DS.$type.'.php');
+				} else {
+					throw new JException('Could not find JContent include file for Scope: '.$scope.', Type: '.$type);
+				}
+			}
+			$cache[$name] = new $class();
 		}
+		return clone $cache[$name];
 	}
-
+	
  	/**
  	 * Set a property on the object
  	 * We need to overload the parent set, so that we can force the types
@@ -155,7 +166,7 @@ defined('_JEXEC') or die();
  	 */
  	public function set($key, $value) {
  		//proxy to magic set method __set
- 		return $this->__set($key, $value);
+ 		return $this->bind(array($key=>$value));
  	}
 
  	/**
@@ -178,8 +189,42 @@ defined('_JEXEC') or die();
  		}
 
  		foreach($array AS $key => $value) {
- 			//Used to enforce types
- 			$this->__set($key, $value);
+ 			if(isset($this->$key)) {
+ 				//force types...
+ 				switch(getType($this->$key)) {
+					case 'array':
+					 	$value = (array) $value;
+					 	break;
+					 case 'boolean':
+					 	$value = (bool) $value;
+					 	break;
+					case 'integer':
+						$value = (int) $value;
+						break;
+				}
+ 			}
+ 			$this->$key = $value;
  		}
+ 	}
+ 	
+ 	public function prepare() {
+ 		$app = JFactory::getApplication();
+ 		$app->triggerEvent('onContentPrepare', array(&$this));
+ 	}
+ 	
+ 	public function getDisplay($defaults = array()) {
+ 		if(is_object($defaults)) {
+ 			$positions = $defaults;
+ 		} elseif(is_array($defaults)) {
+ 			$positions = new stdclass();
+ 			foreach($defaults AS $value) {
+ 				$positions->$value = '';
+ 			}
+ 		} else {
+ 			$positions = new stdclass();
+ 		}
+ 		$app = JFactory::getApplication();
+ 		$app->triggerEvent('onContentDisplay', array($this, &$positions));
+ 		return $positions;
  	}
  }
