@@ -43,4 +43,30 @@ class JTableBackupEntry extends JTable
 	{
 		parent::__construct('#__backup_entries', 'entryid', $db);
 	}
+	
+	/**
+	 * Serialise (and unserialise after store) the params and data
+	 *
+	 */
+	public function store($updateNulls=false) {
+		 $this->data = serialize($this->data);
+		 $this->params = serialize($this->params);
+		 $res = parent::store($updateNulls);
+		 $this->data = unserialize($this->data);
+		 $this->params = unserialize($this->params);
+		 return $res;
+	}
+	
+	/**
+	 * Unserialise the params and data
+	 *
+	 */
+	public function load($oid = null) {
+		 $res = parent::load($oid);
+		 if($res) {
+		 	$this->data = unserialize($this->data);
+		 	$this->params = unserialize($this->params);
+		 }
+		 return $res;
+	}
 }
