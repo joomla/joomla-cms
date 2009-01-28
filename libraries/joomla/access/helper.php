@@ -471,70 +471,62 @@ class JAccessHelper
 	 * @param	string	Group title.
 	 * @param	string	Section name.
 	 * @return	mixed	JException on failure or group id on success.
+	 * @throws	JExecption
 	 * @since	1.0
 	 */
 	public function registerUserGroup($title, $section)
 	{
-		// Sanitize the section name.
-		$section = JAccessHelper::_sanitizeName($section);
+		try
+		{
+			// Sanitize the section name.
+			$section = JAccessHelper::_sanitizeName($section);
 
-		// Get a database object.
-		$db = &JFactory::getDBO();
+			// Get a database object.
+			$db = &JFactory::getDBO();
 
-		// Check to see if the section already exists.
-		$db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__access_sections`' .
-			' WHERE `name` = '.$db->Quote($section)
-		);
-		$sectionId = $db->loadResult();
+			// Check to see if the section already exists.
+			$db->setQuery(
+				'SELECT `id`' .
+				' FROM `#__access_sections`' .
+				' WHERE `name` = '.$db->Quote($section)
+			);
+			$sectionId = $db->loadResult();
 
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			return new JException($db->getErrorMsg());
+			// If the section does not exist, throw an exception.
+			if (empty($sectionId)) {
+				throw new JException(JText::_('ACCESS SECTION INVALID'));
+			}
+
+			// Check to see if the user group already exists.
+			$db->setQuery(
+				'SELECT `id`' .
+				' FROM `#__usergroups`' .
+				' WHERE `title` = '.$db->Quote($title) .
+				' AND `section_id` = '.(int) $sectionId
+			);
+			$groupId = $db->loadResult();
+
+			// If the group already exists, return the id.
+			if (!empty($groupId)) {
+				return (int)$groupId;
+			}
+
+			// Insert the user group into the database.
+			$db->setQuery(
+				'INSERT INTO `#__usergroups` (`parent_id` ,`left_id` ,`right_id` ,`title` ,`section_id` ,`section`) VALUES' .
+				' (1, 0, 0, '.$db->Quote($title).', '.(int)$sectionId.', '.$db->Quote($section).')'
+			);
+			$db->query();
+
+			// Get the group id of the user group just inserted.
+			$groupId = (int)$db->insertid();
+
+			// Rebuild the groups tree.
+			JAccessHelper::_rebuildGroupsTree();
 		}
-
-		// If the section does not exist, throw an exception.
-		if (empty($sectionId)) {
-			return new JException(JText::_('ACCESS SECTION INVALID'));
+		catch (JException $e) {
+			throw $e;
 		}
-
-		// Check to see if the user group already exists.
-		$db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__usergroups`' .
-			' WHERE `title` = '.$db->Quote($title) .
-			' AND `section_id` = '.(int) $sectionId
-		);
-		$groupId = $db->loadResult();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			return new JException($db->getErrorMsg());
-		}
-
-		// If the group already exists, return the id.
-		if (!empty($groupId)) {
-			return (int)$groupId;
-		}
-
-		// Insert the user group into the database.
-		$db->setQuery(
-			'INSERT INTO `#__usergroups` (`parent_id` ,`left_id` ,`right_id` ,`title` ,`section_id` ,`section`) VALUES' .
-			' (1, 0, 0, '.$db->Quote($title).', '.(int)$sectionId.', '.$db->Quote($section).')'
-		);
-		$db->query();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			return new JException($db->getErrorMsg());
-		}
-
-		// Get the group id of the user group just inserted.
-		$groupId = (int)$db->insertid();
-
-		// Rebuild the groups tree.
-		JAccessHelper::_rebuildGroupsTree();
 
 		return $groupId;
 	}

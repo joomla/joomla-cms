@@ -130,6 +130,46 @@ class JQuery
 	}
 
 	/**
+	 * @param	string
+	 */
+	function &innerJoin($conditions)
+	{
+		$this->join('INNER', $conditions);
+
+		return $this;
+	}
+
+	/**
+	 * @param	string
+	 */
+	function &outerJoin($conditions)
+	{
+		$this->join('OUTER', $conditions);
+
+		return $this;
+	}
+
+	/**
+	 * @param	string
+	 */
+	function &leftJoin($conditions)
+	{
+		$this->join('LEFT', $conditions);
+
+		return $this;
+	}
+
+	/**
+	 * @param	string
+	 */
+	function &rightJoin($conditions)
+	{
+		$this->join('RIGHT', $conditions);
+
+		return $this;
+	}
+
+	/**
 	 * @param	mixed	A string or array of where conditions
 	 * @param	string
 	 */

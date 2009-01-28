@@ -521,6 +521,9 @@ class JUser extends JClass
 		}
 
 		// If user is made a Super Admin group and user is NOT a Super Admin
+		//
+		// @todo ACL - this needs to be acl checked
+		//
 		$my =& JFactory::getUser();
 		if ($this->get('gid') == 25 && $my->get('gid') != 25)
 		{

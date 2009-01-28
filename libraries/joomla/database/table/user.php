@@ -18,6 +18,14 @@ defined('JPATH_BASE') or die();
 class JTableUser extends JTable
 {
 	/**
+	 * Associative array of user group ids => names.
+	 *
+	 * @since	1.6
+	 * @var		array
+	 */
+	public $groups = null;
+
+	/**
 	 * Unique id
 	 *
 	 * @var int
@@ -120,7 +128,6 @@ class JTableUser extends JTable
 		$this->gid		= 0;
 		$this->sendEmail = 0;
 	}
-
 	/**
 	 * Validation and filtering
 	 *
@@ -167,7 +174,7 @@ class JTableUser extends JTable
 		$this->_db->setQuery($query);
 		try {
 			$xid = intval($this->_db->loadResult());
-		} catch(JException $e) {
+		} catch (JException $e) {
 			$this->setError($e->getMessage());
 			return false;
 		}
@@ -186,7 +193,7 @@ class JTableUser extends JTable
 		$this->_db->setQuery($query);
 		try {
 			$xid = intval($this->_db->loadResult());
-		} catch(JException $e) {
+		} catch (JException $e) {
 			$this->setError($e->getMessage());
 			return false;
 		}
@@ -195,84 +202,6 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		return true;
-	}
-
-	public function store($updateNulls=false)
-	{
-		$acl =& JFactory::getACL();
-
-		$section_value = 'users';
-		$k = $this->_tbl_key;
-		$key =  $this->$k;
-		try {
-			if ($key)
-			{
-				// existing record
-				$ret = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
-
-				// syncronise ACL
-				// single group handled at the moment
-				// trivial to expand to multiple groups
-				$object_id = $acl->get_object_id($section_value, $this->$k, 'ARO');
-
-				$groups = $acl->get_object_groups($object_id, 'ARO');
-				$acl->del_group_object($groups[0], $section_value, $this->$k, 'ARO');
-				$acl->add_group_object($this->gid, $section_value, $this->$k, 'ARO');
-
-				$acl->edit_object($object_id, $section_value, $this->_db->getEscaped($this->name), $this->$k, 0, 0, 'ARO');
-			}
-			else
-			{
-				// new record
-				$ret = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
-				// syncronise ACL
-				$acl->add_object($section_value, $this->name, $this->$k, null, null, 'ARO');
-				$acl->add_group_object($this->gid, $section_value, $this->$k, 'ARO');
-			}
-		} catch(JException $e) {
-			$this->setError(strtolower(get_class($this))."::". JText::_('store failed') ."<br />" . $e->getMessage());
-			return false;
-		}
-		return true;
-	}
-
-	public function delete($oid=null)
-	{
-		$acl =& JFactory::getACL();
-
-		$k = $this->_tbl_key;
-		if ($oid) {
-			$this->$k = intval($oid);
-		}
-		$aro_id = $acl->get_object_id('users', $this->$k, 'ARO');
-		$acl->del_object($aro_id, 'ARO', true);
-
-		$query = 'DELETE FROM '. $this->_tbl
-		. ' WHERE '. $this->_tbl_key .' = '. (int) $this->$k
-		;
-		$this->_db->setQuery($query);
-
-		try {
-			$this->_db->query();
-			// cleanup related data
-
-			// private messaging
-			$query = 'DELETE FROM #__messages_cfg'
-			. ' WHERE user_id = '. (int) $this->$k
-			;
-			$this->_db->setQuery($query);
-			$this->_db->query();
-
-			$query = 'DELETE FROM #__messages'
-			. ' WHERE user_id_to = '. (int) $this->$k
-			;
-			$this->_db->setQuery($query);
-			$this->_db->query();
-		} catch(JException $e) {
-			$this->setError($e->getMessage());
-			return false;
-		}
 		return true;
 	}
 
@@ -285,12 +214,13 @@ class JTableUser extends JTable
 	public function setLastVisit($timeStamp=null, $id=null)
 	{
 		// check for User ID
-		if (is_null($id)) {
+		if (is_null($id))
+		{
 			if (isset($this)) {
 				$id = $this->id;
 			} else {
 				// do not translate
-				jexit('WARNMOSUSER');
+				jExit('WARNMOSUSER');
 			}
 		}
 
@@ -305,7 +235,8 @@ class JTableUser extends JTable
 		$this->_db->setQuery($query);
 		try {
 			$this->_db->query();
-		} catch(JException $e) {
+		}
+		catch (JException $e) {
 			$this->setError($e->getMessage());
 			return false;
 		}
@@ -314,16 +245,15 @@ class JTableUser extends JTable
 	}
 
 	/**
-	 * Overloaded bind function
+	 * Method to bind the user, user groups, and any other necessary data.
 	 *
-	 * @access public
-	 * @param array $hash named array
-	 * @return null|string	null is operation was satisfactory, otherwise returns an error
-	 * @see JTable:bind
-	 * @since 1.5
+	 * @access	public
+	 * @param	array		$array		The data to bind.
+	 * @param	mixed		$ignore		An array or space separated list of fields to ignore.
+	 * @return	boolean		True on success, false on failure.
+	 * @since	1.0
 	 */
-
-	public function bind($array, $ignore = '')
+	function bind($array, $ignore = '')
 	{
 		if (key_exists('params', $array) && is_array($array['params'])) {
 			$registry = new JRegistry();
@@ -331,6 +261,181 @@ class JTableUser extends JTable
 			$array['params'] = $registry->toString();
 		}
 
-		return parent::bind($array, $ignore);
+		// Attempt to bind the data.
+		$return = parent::bind($array, $ignore);
+
+		// Load the real group data based on the bound ids.
+		if ($return && !empty($this->groups))
+		{
+			// Set the group ids.
+			JArrayHelper::toInteger($this->groups);
+			$this->groups = array_fill_keys(array_values($this->groups), null);
+
+			// Get the titles for the user groups.
+			$this->_db->setQuery(
+				'SELECT `id`, `title`' .
+				' FROM `#__usergroups`' .
+				' WHERE `id` = '.implode(' OR `id` = ', array_keys($this->groups))
+			);
+			$results = $this->_db->loadObjectList();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+
+			// Set the titles for the user groups.
+			for ($i = 0, $n = count($results); $i < $n; $i++) {
+				$this->groups[$results[$i]->id] = $results[$i]->title;
+			}
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Method to delete a user, user groups, and any other necessary
+	 * data from the database.
+	 *
+	 * @access	public
+	 * @param	integer		$id		An optional user id.
+	 * @return	boolean		True on success, false on failure.
+	 * @since	1.0
+	 */
+	function delete($id = null)
+	{
+		// Attempt to delete the user.
+		$return = parent::delete($id);
+
+		try {
+			// Delete the group maps if the user data was deleted.
+			if ($return)
+			{
+				// Delete the user group maps.
+				$this->_db->setQuery(
+					'DELETE FROM `#__user_usergroup_map`' .
+					' WHERE `user_id` = '.(int)$this->id
+				);
+				$this->_db->query();
+			}
+		}
+		catch (JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
+
+		// @todo We used to delete from #__messages and #__messages_cfg - move this to a plugin
+
+		return $return;
+	}
+
+	/**
+	 * Method to load a user, user groups, and any other necessary data
+	 * from the database so that it can be bound to the user object.
+	 *
+	 * @access	public
+	 * @param	integer		$id		An optional user id.
+	 * @return	boolean		True on success, false on failure.
+	 * @since	1.0
+	 */
+	function load($id = null)
+	{
+		// Get the id to load.
+		if ($id !== null) {
+			$this->id = $id;
+		} else {
+			$id = $this->id;
+		}
+
+		// Check for a valid id to load.
+		if ($id === null) {
+			return false;
+		}
+
+		try {
+			// Reset the table.
+			$this->reset();
+
+			// Load the user data.
+			$this->_db->setQuery(
+				'SELECT *' .
+				' FROM #__users' .
+				' WHERE id = '.(int)$id
+			);
+			$data = (array) $this->_db->loadAssoc();
+
+			// Bind the data to the table.
+			$return = $this->bind($data);
+
+			if ($return !== false)
+			{
+				// Load the user groups.
+				$this->_db->setQuery(
+					'SELECT g.id, g.title' .
+					' FROM #__usergroups AS g' .
+					' JOIN #__user_usergroup_map AS m ON m.group_id = g.id' .
+					' WHERE m.user_id = '.(int)$id
+				);
+				$result = $this->_db->loadObjectList();
+				$groups	= array();
+
+				// Create an array of groups.
+				for ($i = 0, $n = count($result); $i < $n; $i++) {
+					$groups[$result[$i]->id] = $result[$i]->title;
+				}
+
+				// Add the groups to the user data.
+				$this->groups = $groups;
+			}
+		}
+		catch (JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Method to store a user, user groups, and any other necessary
+	 * data to the database.
+	 *
+	 * @access	public
+	 * @param	boolean		$updateNulls	Toggle whether null values should be updated.
+	 * @return	boolean		True on success, false on failure.
+	 * @since	1.0
+	 */
+	function store($updateNulls = false)
+	{
+		// Attempt to store the user data.
+		$return = parent::store($updateNulls);
+
+		try {
+			// Store the group data if the user data was saved.
+			if ($return && is_array($this->groups) && count($this->groups))
+			{
+				// Delete the old user group maps.
+				$this->_db->setQuery(
+					'DELETE FROM `#__user_usergroup_map`' .
+					' WHERE `user_id` = '.(int)$this->id
+				);
+				$this->_db->query();
+
+				// Set the new user group maps.
+				$this->_db->setQuery(
+					'INSERT INTO `#__user_usergroup_map` (`user_id`, `group_id`)' .
+					' VALUES ('.$this->id.', '.implode('), ('.$this->id.', ', array_keys($this->groups)).')'
+				);
+				$this->_db->query();
+			}
+
+		}
+		catch (JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
+
+		return $return;
 	}
 }

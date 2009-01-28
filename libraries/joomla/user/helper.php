@@ -1,8 +1,6 @@
 <?php
 /**
 * @version		$Id:helper.php 6961 2007-03-15 16:06:53Z tcp $
-* @package		Joomla.Framework
-* @subpackage	User
 * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
 * @license		GNU General Public License, see LICENSE.php
 */
@@ -20,6 +18,173 @@
  */
 abstract class JUserHelper
 {
+	/**
+	 * Method to add a user to a group.
+	 *
+	 * @param	integer		$userId		The id of the user.
+	 * @param	integer		$groupId	The id of the group.
+	 * @return	mixed		Boolean true on success, JException on error.
+	 * @since	1.6
+	 * @throws	JException
+	 */
+	public static function addUserToGroup($userId, $groupId)
+	{
+		try
+		{
+			// Get the user object.
+			$user = &JUser::getInstance($userId);
+
+			// Add the user to the group if necessary.
+			if (!array_key_exists($groupId, $user->groups))
+			{
+				// Get the title of the group.
+				$db	= &JFactory::getDBO();
+				$db->setQuery(
+					'SELECT `title`' .
+					' FROM `#__usergroups`' .
+					' WHERE `id` = '.(int)$groupId
+				);
+				$title = $db->loadResult();
+
+				// If the group does not exist, throw an exception.
+				if (empty($title)) {
+					throw new JException(JText::_('ACCESS USERGROUP INVALID'));
+				}
+
+				// Add the group data to the user object.
+				$user->groups[$groupId] = $title;
+
+				// Store the user object.
+				if (!$user->save()) {
+					throw new JException($user->getError());
+				}
+			}
+		}
+		catch (JExcpetion $e) {
+			throw $e;
+			return false;
+		}
+
+		// Set the group data for any preloaded user objects.
+		$temp = &JFactory::getUser($userId);
+		$temp->groups = $user->groups;
+
+		// Set the group data for the user object in the session.
+		$temp = &JFactory::getUser();
+		if ($temp->id == $userId) {
+			$temp->groups = $user->groups;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to get a list of groups a user is in.
+	 *
+	 * @param	integer		$userId		The id of the user.
+	 * @return	mixed		Array on success, JException on error.
+	 * @since	1.6
+	 */
+	public static function getUserGroups($userId)
+	{
+		// Get the user object.
+		$user = new JUser($userId);
+
+		return isset($user->groups) ? $user->groups : array();
+	}
+
+	/**
+	 * Method to remove a user from a group.
+	 *
+	 * @param	integer		$userId		The id of the user.
+	 * @param	integer		$groupId	The id of the group.
+	 * @return	mixed		Boolean true on success, JException on error.
+	 * @since	1.6
+	 */
+	public static function removeUserFromGroup($userId, $groupId)
+	{
+		// Get the user object.
+		$user = new JUser($userId);
+
+		// Remove the user from the group if necessary.
+		if (array_key_exists($groupId, $user->groups))
+		{
+			// Remove the user from the group.
+			unset($user->groups[$groupId]);
+
+			// Store the user object.
+			if (!$user->save()) {
+				return new JException($user->getError());
+			}
+		}
+
+		// Set the group data for any preloaded user objects.
+		$temp = &JFactory::getUser($userId);
+		$temp->groups = $user->groups;
+
+		// Set the group data for the user object in the session.
+		$temp = &JFactory::getUser();
+		if ($temp->id == $userId) {
+			$temp->groups = $user->groups;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to set the groups for a user.
+	 *
+	 * @param	integer		$userId		The id of the user.
+	 * @param	array		$groups		An array of group ids to put the user in.
+	 * @return	mixed		Boolean true on success, JException on error.
+	 * @since	1.6
+	 */
+	public static function setUserGroups($userId, $groups)
+	{
+		// Get the user object.
+		$user = new JUser($userId);
+
+		// Set the group ids.
+		JArrayHelper::toInteger($groups);
+		$user->groups = array_fill_keys(array_values($groups), null);
+
+		// Get the titles for the user groups.
+		$db = &JFactory::getDBO();
+		$db->setQuery(
+			'SELECT `id`, `title`' .
+			' FROM `#__usergroups`' .
+			' WHERE `id` = '.implode(' OR `id` = ', array_keys($user->groups))
+		);
+		$results = $db->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum()) {
+			return new JException($db->getErrorMsg());
+		}
+
+		// Set the titles for the user groups.
+		for ($i = 0, $n = count($results); $i < $n; $i++) {
+			$user->groups[$results[$i]->id] = $results[$i]->title;
+		}
+
+		// Store the user object.
+		if (!$user->save()) {
+			return new JException($user->getError());
+		}
+
+		// Set the group data for any preloaded user objects.
+		$temp = &JFactory::getUser($userId);
+		$temp->groups = $user->groups;
+
+		// Set the group data for the user object in the session.
+		$temp = &JFactory::getUser();
+		if ($temp->id == $userId) {
+			$temp->groups = $user->groups;
+		}
+
+		return true;
+	}
+
 	/**
 	 * Method to activate a user
 	 *
