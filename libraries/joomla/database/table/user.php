@@ -255,12 +255,6 @@ class JTableUser extends JTable
 	 */
 	function bind($array, $ignore = '')
 	{
-		if (key_exists('params', $array) && is_array($array['params'])) {
-			$registry = new JRegistry();
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
-		}
-
 		// Attempt to bind the data.
 		$return = parent::bind($array, $ignore);
 
@@ -370,6 +364,8 @@ class JTableUser extends JTable
 
 			if ($return !== false)
 			{
+				$this->params = json_decode($this->params);
+
 				// Load the user groups.
 				$this->_db->setQuery(
 					'SELECT g.id, g.title' .
@@ -408,6 +404,13 @@ class JTableUser extends JTable
 	 */
 	function store($updateNulls = false)
 	{
+		// Transform the params field
+		if (is_array($this->params)) {
+			$registry = new JRegistry();
+			$registry->loadArray($this->params);
+			$this->params = $registry->toString();
+		}
+
 		// Attempt to store the user data.
 		$return = parent::store($updateNulls);
 
