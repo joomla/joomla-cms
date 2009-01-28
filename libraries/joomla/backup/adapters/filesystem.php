@@ -173,12 +173,77 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 	}
 	
 	public function restore($options=Array()) {
-		// TODO: Write restore function
+		// If the task isn't set in the state, set it
+		if(!$this->state['task']) {
+			$this->state['task'] = 'initialised';
+			// validate there is a destination around
+			if(!array_key_exists('destination', $options)) {
+				return false; // bad fugu!
+			}
+			
+			if(!file_exists($options['destination'])) {
+				return false; // the destination of the backup doesn't exist, can't restore
+			}
+			
+			
+			if(!array_key_exists('source', $options)) {
+				return false; // we don't know where to dump stuff again
+			}
+			
+			if(!array_key_exists('mode', $options)) {
+				$options['mode'] = 'merge';
+			}
+			
+			// convert the source to an array if it isn't already
+			if(!is_array($options['source'])) {
+				$options['source'] = array($options['source']);
+			}
+			
+			// Replace mode works ala Mac OS X copying; the original folder is removed
+			if($options['mode'] == 'replace') {
+				foreach($options['source'] as $source) {
+					// delete the folder
+					JFolder::delete($source);
+					// then put it back
+					JFolder::create($source);
+				}
+			}
+		
+			// Swap the root and destination around
+			// We do this since the old root is where the files came from
+			// and the destination is where they are now; so we do the
+			// reverse of the backup operation; funky eh?
+			$root = $options['root'];
+			$destination = $options['destination'];
+			$options['root'] = $destination;
+			$options['destination'] = $root;
+			
+			$this->state['options'] = $options;
+		}
+		
+		// loop until we're done; this is the same as the normal backup
+		while($this->state['task'] != 'finished') {
+			switch($this->state['task']) {
+				case 'initialised':
+					$this->_findFolders();
+					$this->state['task'] = 'processdirectories';
+					$this->task->yield(); // yield after this point before we copy directories
+					break;
+				case 'processdirectories':
+					$this->_processDirectories();
+					$this->state['task'] = 'finished';
+					// we don't yield here because we're done
+					break;
+				default:
+					JError::raiseError(500, JText::sprintf('JBackupFileSystem quit due to invalid state "%s"', $this->state['task']));
+					$this->state['task'] = 'finished';
+					break;
+			}
+		}
+		return true;
 	}
 	
 	public function remove($options=Array()) {
-		// TODO: Write remove function
+		return JFolder::delete($options['destination']);
 	}
-	
-	
 }

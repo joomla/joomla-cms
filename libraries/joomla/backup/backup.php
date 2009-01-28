@@ -47,7 +47,7 @@ class JBackup extends JAdapter {
 	 * @return	boolean	result of operation; this will be false for invalid data
 	 */
 	public function setMode($mode, $backupid=0) {
-		$this->_backup =& JTable::getInstance('backups');
+		$this->_backup =& JTable::getInstance('backup');
 		switch($mode) {
 			case 'backup':
 				// clear the backup data

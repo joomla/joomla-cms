@@ -30,6 +30,8 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 28-Jan-2009 Sam Moffatt
  # Fixed quirk with backup system not storing params and data properly for backup entries
+ # Fixed issue with incorrect table name used
+ + Created restore and remove functions for JBackupFilesystem
 
 27-Jan-2009 Sam Moffatt
  ^ Changed in extension language system to use same file names instead of just xx-XX.ini
