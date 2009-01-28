@@ -208,7 +208,26 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 					JFolder::create($source);
 				}
 			}
-		
+			
+			// a list of things we want to exclude
+			if (!array_key_exists('exclude', $options)) {
+				$options['exclude'] = Array('backups', '.svn', 'CVS', '.DS_Store', '__MACOSX');
+			}
+			// a list of filters we want to match against things we want to exclude
+			if (!array_key_exists('excludefilter', $options)) {
+				// TODO: Check if it needs to be \~ or if just ~ works properly
+				// ignore hidden files and backups
+				$options['excludefilter'] = Array('^\..*', '.*~$');
+			}
+			// where we start backing up from...
+			if (!array_key_exists('root', $options)) {
+				$options['root'] = JPATH_ROOT;
+			}
+			// a list of things we want
+			if (!array_key_exists('filter', $options)) {
+				$options['filter'] = '.';
+			}
+			
 			// Swap the root and destination around
 			// We do this since the old root is where the files came from
 			// and the destination is where they are now; so we do the
@@ -217,7 +236,7 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 			$destination = $options['destination'];
 			$options['root'] = $destination;
 			$options['destination'] = $root;
-			
+			$options['source'] = $destination;
 			$this->state['options'] = $options;
 		}
 		

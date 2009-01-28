@@ -60,6 +60,9 @@ class JTableBackup extends JTable
 			foreach($results as $result) {
 				$tmp =& JTable::getInstance('backupentry');
 				$tmp->setProperties($result);
+				// restore the two serialized fields
+				$tmp->set('data', unserialize($tmp->get('data')));
+		 		$tmp->set('params', unserialize($tmp->get('params')));
 				$this->_entries[] = clone($tmp);
 				return true;
 			}

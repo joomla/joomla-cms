@@ -67,6 +67,7 @@ class JBackup extends JAdapter {
 				break;
 		}
 		$this->_mode = $mode;
+		return true;
 	}
 	
 	public function setTaskSetID($tasksetid) {
