@@ -11,7 +11,7 @@
 defined('JPATH_BASE') or die('Restricted Access');
 
 jimport('joomla.html.html');
-jimport('joomla.form.fields.list');
+require_once dirname(__FILE__).DS.'list.php';
 
 /**
  * Form Field class for the Joomla Framework.
@@ -50,9 +50,8 @@ class JFormFieldUserGroup extends JFormFieldList
 		$options = $db->loadObjectList();
 
 		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i=0,$n=count($options); $i < $n; $i++)
-		{
-			$options[$i]->text = str_repeat('&nbsp;&nbsp;',$options[$i]->level).$options[$i]->text;
+		for ($i=0,$n=count($options); $i < $n; $i++) {
+			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
 		}
 
 		// If all usergroups is allowed, push it into the array.

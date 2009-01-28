@@ -11,7 +11,7 @@
 defined('JPATH_BASE') or die('Restricted Access');
 
 jimport('joomla.html.html');
-jimport('joomla.form.fields.list');
+require_once dirname(__FILE__).DS.'list.php';
 
 /**
  * Form Field class for the Joomla Framework.
