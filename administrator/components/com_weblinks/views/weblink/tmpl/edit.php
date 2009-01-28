@@ -67,6 +67,7 @@ JHtml::_('behavior.tooltip');
 	<fieldset style="width:45%; float:right;">
 		<legend><?php echo JText::_('Weblinks_Options'); ?></legend>
 
+		<table>
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
@@ -81,6 +82,7 @@ JHtml::_('behavior.tooltip');
 				</tr>
 			<?php endif; ?>
 		<?php endforeach; ?>
+		</table>
 
 	</fieldset>
 
