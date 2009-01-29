@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
@@ -20,14 +18,14 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldCategory extends JFormFieldList
+class JFormFieldCategories extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	public $type = 'Category';
+	public $type = 'Categories';
 
 	/**
 	 * Method to get a list of options for a list input.
@@ -80,9 +78,10 @@ class JFormFieldCategory extends JFormFieldList
 			}
 		}
 
-		if ($allowNone == 1 || $allowNone == 'true') {
-			array_unshift($options, JHtml::_('select.option', '0', JText::_('JOption_Any_Category')));
-		}
+		$options	= array_merge(
+						parent::_getOptions(),
+						$options
+					);
 
 		return $options;
 	}

@@ -18,14 +18,14 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldIntegers extends JFormFieldList
+class JFormFieldAccessSections extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	protected $type = 'Integers';
+	public $type = 'AccessSections';
 
 	/**
 	 * Method to get a list of options for a list input.
@@ -34,20 +34,24 @@ class JFormFieldIntegers extends JFormFieldList
 	 */
 	protected function _getOptions()
 	{
-		$first		= (int)$this->_element->attributes('first');
-		$last		= (int)$this->_element->attributes('last');
-		$step		= (int)max(1, $this->_element->attributes('step'));
-		$options	= array();
+		// Get the user groups from the database.
+		$db = &JFactory::getDBO();
+		$db->setQuery(
+			'SELECT `id` AS value, `title` AS text' .
+			' FROM `#__access_sections`' .
+			' ORDER BY `ordering`, `title` ASC'
+		);
+		$options = $db->loadObjectList();
 
-		for ($i = $first; $i <= $last; $i += $step) {
-			$options[] = JHTML::_('select.option', $i);
+		// Check for a database error.
+		if ($db->getErrorNum()) {
+			JError::raiseWarning(500, $db->getErrorMsg());
 		}
 
 		$options	= array_merge(
 						parent::_getOptions(),
 						$options
 					);
-
 		return $options;
 	}
 }

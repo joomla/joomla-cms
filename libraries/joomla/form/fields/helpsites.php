@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: accesslevel.php 11532 2009-01-28 06:31:23Z eddieajau $
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
@@ -18,14 +18,14 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldIntegers extends JFormFieldList
+class JFormFieldHelpsites extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	protected $type = 'Integers';
+	public $type = 'Helpsites';
 
 	/**
 	 * Method to get a list of options for a list input.
@@ -34,18 +34,10 @@ class JFormFieldIntegers extends JFormFieldList
 	 */
 	protected function _getOptions()
 	{
-		$first		= (int)$this->_element->attributes('first');
-		$last		= (int)$this->_element->attributes('last');
-		$step		= (int)max(1, $this->_element->attributes('step'));
-		$options	= array();
-
-		for ($i = $first; $i <= $last; $i += $step) {
-			$options[] = JHTML::_('select.option', $i);
-		}
-
+		jimport('joomla.language.help');
 		$options	= array_merge(
 						parent::_getOptions(),
-						$options
+						JHelp::createSiteList(JPATH_ADMINISTRATOR.DS.'help'.DS.'helpsites-15.xml', $this->value)
 					);
 
 		return $options;

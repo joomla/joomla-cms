@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
@@ -20,14 +18,14 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldUserGroup extends JFormFieldList
+class JFormFieldUserGroups extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	public $type = 'UserGroup';
+	public $type = 'UserGroups';
 
 	/**
 	 * Method to get a list of options for a list input.
@@ -54,11 +52,10 @@ class JFormFieldUserGroup extends JFormFieldList
 			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
 		}
 
-		// If all usergroups is allowed, push it into the array.
-		if ($this->_element->attributes('allow_all') == 'true') {
-			array_unshift($options, JHtml::_('select.option', '', JText::_('Show All Groups')));
-		}
-
+		$options	= array_merge(
+						parent::_getOptions(),
+						$options
+					);
 		return $options;
 	}
 }

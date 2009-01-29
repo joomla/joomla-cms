@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
@@ -20,14 +18,14 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldAccessLevel extends JFormFieldList
+class JFormFieldAccessLevels extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	public $type = 'AccessLevel';
+	public $type = 'AccessLevels';
 
 	/**
 	 * Method to get a list of options for a list input.
@@ -54,6 +52,10 @@ class JFormFieldAccessLevel extends JFormFieldList
 			JError::raiseWarning(500, $db->getErrorMsg());
 		}
 
+		$options	= array_merge(
+						parent::_getOptions(),
+						$options
+					);
 		return $options;
 	}
 }
