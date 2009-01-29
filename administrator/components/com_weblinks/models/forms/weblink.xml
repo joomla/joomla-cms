@@ -14,7 +14,7 @@
 		<field
 			id="catid"
 			name="catid"
-			type="Category"
+			type="Categories"
 			section="com_weblinks"
 			allow_none="true"
 			class="inputbox"
