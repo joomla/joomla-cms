@@ -111,7 +111,7 @@ endif; ?>
 <?php if ($this->params->get('show_url') && $this->article->urls) : ?>
 <tr>
 	<td valign="top">
-		<a href="http://<?php echo $this->article->urls ; ?>" target="_blank">
+		<a href="http://<?php echo $this->article->urls ; ?>">
 			<?php echo $this->article->urls; ?></a>
 	</td>
 </tr>
