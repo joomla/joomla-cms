@@ -129,7 +129,7 @@ abstract class JMailHelper
 		}
 
 		// Check the domain
-		$domain_array	= explode(".", $domain);
+		$domain_array	= explode(".", rtrim( $domain, '.' ));
 		$regex		= '/^[A-Za-z0-9-]{0,63}$/';
 		foreach ($domain_array as $domain) {
 

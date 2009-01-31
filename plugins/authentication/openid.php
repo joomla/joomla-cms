@@ -73,7 +73,7 @@ class plgAuthenticationOpenID extends JPlugin {
 			}
 		}
 		jimport('openid.consumer');
-		jimport('joomla.filesystem.folder');
+		require_once(JPATH_SITE.DS.'plugins'.DS.'authentication'.DS.'openid'.DS.'consumer.php');
 
 		// Access the session data
 		$session = & JFactory :: getSession();
