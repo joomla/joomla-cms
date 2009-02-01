@@ -217,7 +217,7 @@ abstract class JApplicationHelper
 				$j15path 	= DS.'plugins'.DS. $user_option .'.xml';
 				$parts = explode(DS, $user_option);
 				$j16path   = DS.'plugins'.DS. $user_option.DS.$parts[0].'.xml';
-				$j15 = JApplicationHelper::_checkPath($path, 0);
+				$j15 = JApplicationHelper::_checkPath($j15path, 0);
 				$j16 = JApplicationHelper::_checkPath($j16path, 0);
 				// return 1.6 if working otherwise default to whatever 1.5 gives us
 				$result = $j16 ? $j16 : $j15;
