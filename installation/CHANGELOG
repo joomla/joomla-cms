@@ -30,6 +30,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 01-Feb-2009 Sam Moffatt
  # Fixed issue with com_config loading incorrect language file
+ + Added language override feature
 
 01-Feb-2009 Rob Schley
  $ First pass over localizing the invalid security token message. Added JINVALID_TOKEN language key.
