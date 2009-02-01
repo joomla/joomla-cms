@@ -94,7 +94,7 @@ class BannerControllerClient extends JController
 	function cancel()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Checkin the contact
 		$model = $this->getModel('client');

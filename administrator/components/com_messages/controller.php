@@ -70,7 +70,7 @@ class MessagesController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$post	= JRequest::get('post');
 		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
@@ -92,7 +92,7 @@ class MessagesController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);

@@ -92,7 +92,7 @@ class MediaControllerFolder extends MediaController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');

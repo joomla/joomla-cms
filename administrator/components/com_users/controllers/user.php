@@ -155,7 +155,7 @@ class UserControllerUser extends JController
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
@@ -189,7 +189,7 @@ class UserControllerUser extends JController
 	function logout()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
@@ -229,7 +229,7 @@ class UserControllerUser extends JController
 	function block()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$db 			=& JFactory::getDBO();
 		$acl			=& JFactory::getACL();

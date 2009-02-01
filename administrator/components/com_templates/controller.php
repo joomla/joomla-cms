@@ -44,7 +44,7 @@ class TemplatesController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$option		= JRequest::getVar('option', '', '', 'cmd');
 		$params		= JRequest::getVar('params', array(), 'post', 'array');
@@ -87,7 +87,7 @@ class TemplatesController extends JController
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize some variables
 		$db		= & JFactory::getDBO();
@@ -130,7 +130,7 @@ class TemplatesController extends JController
 	function save_source()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');
@@ -198,7 +198,7 @@ class TemplatesController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');

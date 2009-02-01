@@ -33,7 +33,7 @@ class MediaControllerFile extends MediaController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken( 'request' ) or jexit( 'Invalid Token' );
+		JRequest::checkToken( 'request' ) or jexit(JText::_('JINVALID_TOKEN'));
 
 		$file 		= JRequest::getVar( 'Filedata', '', 'files', 'array' );
 		$folder		= JRequest::getVar( 'folder', '', '', 'path' );

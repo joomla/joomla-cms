@@ -67,7 +67,7 @@ class BannerControllerBanner extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$post	= JRequest::get('post');
 		$bid	= JRequest::getVar('bid', array(0), 'post', 'array');
@@ -130,7 +130,7 @@ class BannerControllerBanner extends JController
 	function copy()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
 		$bid		= JRequest::getVar('bid', array(), 'post', 'array');
@@ -152,7 +152,7 @@ class BannerControllerBanner extends JController
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
 		$bid		= JRequest::getVar('bid', array(), 'post', 'array');
@@ -175,7 +175,7 @@ class BannerControllerBanner extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$bid = JRequest::getVar('bid', array(), 'post', 'array');
 		JArrayHelper::toInteger($bid);
@@ -195,7 +195,7 @@ class BannerControllerBanner extends JController
 	function orderup()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('banner');
 		$model->move(-1);
@@ -206,7 +206,7 @@ class BannerControllerBanner extends JController
 	function orderdown()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('banner');
 		$model->move(1);
@@ -220,7 +220,7 @@ class BannerControllerBanner extends JController
 	function saveorder()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		$order 	= JRequest::getVar('order', array(), 'post', 'array');

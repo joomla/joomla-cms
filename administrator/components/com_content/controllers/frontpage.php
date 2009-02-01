@@ -33,7 +33,7 @@ class ContentControllerFrontpage extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -76,7 +76,7 @@ class ContentControllerFrontpage extends JController
 	function changeState( $state = 0 )
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -121,7 +121,7 @@ class ContentControllerFrontpage extends JController
 	function orderup()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
@@ -138,7 +138,7 @@ class ContentControllerFrontpage extends JController
 	function orderdown()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
@@ -155,7 +155,7 @@ class ContentControllerFrontpage extends JController
 	function accesspublic()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -175,7 +175,7 @@ class ContentControllerFrontpage extends JController
 	function accessregistered()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -195,7 +195,7 @@ class ContentControllerFrontpage extends JController
 	function accessspecial()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -217,7 +217,7 @@ class ContentControllerFrontpage extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();

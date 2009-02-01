@@ -242,7 +242,7 @@ function deleteTrash( $cid, $option )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or jexit( 'Invalid Token' );
+	JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 	$db		=& JFactory::getDBO();
 	$return	= JRequest::getCmd( 'return', 'viewContent', 'post' );
@@ -326,7 +326,7 @@ function restoreTrash( $cid, $option )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or jexit( 'Invalid Token' );
+	JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 	$db		= & JFactory::getDBO();
 	$type	= JRequest::getCmd( 'type', '', 'post' );

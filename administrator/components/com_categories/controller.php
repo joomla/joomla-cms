@@ -75,7 +75,7 @@ class CategoriesController extends JController
 		global $mainframe, $option;
 
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$db			=& JFactory::getDBO();
 		$menu		= JRequest::getVar( 'menu', 'mainmenu', 'post', 'string' );
@@ -160,7 +160,7 @@ class CategoriesController extends JController
 		global $mainframe;
 
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
 		$db =& JFactory::getDBO();
@@ -238,7 +238,7 @@ class CategoriesController extends JController
 		global $mainframe;
 
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$db =& JFactory::getDBO();
 		$sectionMove = JRequest::getCmd( 'sectionmove' );
@@ -311,7 +311,7 @@ class CategoriesController extends JController
 	function remove()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$db =& JFactory::getDBO();
 		$section = JRequest::getCmd( 'section', 'com_content' );
@@ -391,7 +391,7 @@ class CategoriesController extends JController
 	function publish()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -413,7 +413,7 @@ class CategoriesController extends JController
 	function unpublish()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -446,7 +446,7 @@ class CategoriesController extends JController
 	function orderup()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('category');
 		$model->move(-1);
@@ -458,7 +458,7 @@ class CategoriesController extends JController
 	function orderdown()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('category');
 		$model->move(1);
@@ -470,7 +470,7 @@ class CategoriesController extends JController
 	function saveorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
@@ -488,7 +488,7 @@ class CategoriesController extends JController
 	function accesspublic()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -506,7 +506,7 @@ class CategoriesController extends JController
 	function accessregistered()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -524,7 +524,7 @@ class CategoriesController extends JController
 	function accessspecial()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);

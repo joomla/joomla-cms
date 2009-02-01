@@ -62,7 +62,7 @@ class NewsfeedsController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$post	= JRequest::get('post');
 		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
@@ -85,7 +85,7 @@ class NewsfeedsController extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -106,7 +106,7 @@ class NewsfeedsController extends JController
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -127,7 +127,7 @@ class NewsfeedsController extends JController
 	function unpublish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -147,7 +147,7 @@ class NewsfeedsController extends JController
 	function cancel()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Checkin the newsfeed
 		$model = $this->getModel('newsfeed');
@@ -160,7 +160,7 @@ class NewsfeedsController extends JController
 	function orderup()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('newsfeed');
 		$model->move(-1);
@@ -171,7 +171,7 @@ class NewsfeedsController extends JController
 	function orderdown()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('newsfeed');
 		$model->move(1);
@@ -182,7 +182,7 @@ class NewsfeedsController extends JController
 	function saveorder()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );

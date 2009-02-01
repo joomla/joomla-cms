@@ -45,7 +45,7 @@ class ContactdirectoryController extends JController
 	function submit(){
 		global $mainframe;
 
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$user = &JFactory::getUser();
 		$model =& $this->getModel('contact');
 

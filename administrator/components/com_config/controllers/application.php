@@ -46,7 +46,7 @@ class ConfigControllerApplication extends ConfigController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -276,7 +276,7 @@ class ConfigControllerApplication extends ConfigController
 	function refreshHelp()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		jimport('joomla.filesystem.file');
 

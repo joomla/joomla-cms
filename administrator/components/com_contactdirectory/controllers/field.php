@@ -58,7 +58,7 @@ class ContactdirectoryControllerField extends JController
 	public function apply()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$post	= JRequest::get('post');
 		$cid	= JRequest::getVar('cid', array(0), 'post', 'array');
@@ -81,7 +81,7 @@ class ContactdirectoryControllerField extends JController
 	public function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$post	= JRequest::get('post');
 		$cid	= JRequest::getVar('cid', array(0), 'post', 'array');
@@ -104,7 +104,7 @@ class ContactdirectoryControllerField extends JController
 	public function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
@@ -128,7 +128,7 @@ class ContactdirectoryControllerField extends JController
 	public function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
@@ -148,7 +148,7 @@ class ContactdirectoryControllerField extends JController
 	public function unpublish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
@@ -168,7 +168,7 @@ class ContactdirectoryControllerField extends JController
 	public function cancel()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Checkin the field
 		$model = $this->getModel('field');
@@ -181,7 +181,7 @@ class ContactdirectoryControllerField extends JController
 	public function orderup()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('field');
 		$model->move(-1);
@@ -192,7 +192,7 @@ class ContactdirectoryControllerField extends JController
 	public function orderdown()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('field');
 		$model->move(1);
@@ -203,7 +203,7 @@ class ContactdirectoryControllerField extends JController
 	public function saveorder()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		$order 	= JRequest::getVar('order', array(), 'post', 'array');
@@ -223,7 +223,7 @@ class ContactdirectoryControllerField extends JController
 	public function accesspublic()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get some variables from the request
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
@@ -243,7 +243,7 @@ class ContactdirectoryControllerField extends JController
 	public function accessregistered()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get some variables from the request
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
@@ -263,7 +263,7 @@ class ContactdirectoryControllerField extends JController
 	public function accessspecial()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get some variables from the request
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');

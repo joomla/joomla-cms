@@ -60,7 +60,7 @@ class WeblinksControllerWeblink extends WeblinksController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get some objects from the JApplication
 		$db		=& JFactory::getDBO();

@@ -158,7 +158,7 @@ class AccessControllerGroup extends JController
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
 		$type	= JRequest::getWord('group_type', 'aro');

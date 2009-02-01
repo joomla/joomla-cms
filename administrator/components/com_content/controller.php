@@ -109,7 +109,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$db		= & JFactory::getDBO();
 
@@ -195,7 +195,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
 		$db		= & JFactory::getDBO();
@@ -262,7 +262,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
 		$db		=& JFactory::getDBO();
@@ -292,7 +292,7 @@ class ContentController extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -328,7 +328,7 @@ class ContentController extends JController
 	function orderup()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('article');
 		$model->move(-1);
@@ -343,7 +343,7 @@ class ContentController extends JController
 	function orderdown()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('article');
 		$model->move(1);
@@ -363,7 +363,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();
@@ -449,7 +449,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();
@@ -525,7 +525,7 @@ class ContentController extends JController
 	function accesspublic()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -546,7 +546,7 @@ class ContentController extends JController
 	function accessregistered()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -567,7 +567,7 @@ class ContentController extends JController
 	function accessspecial()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
@@ -590,7 +590,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();

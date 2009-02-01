@@ -155,7 +155,7 @@ class AccessControllerAcl extends JController
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
 		$type	= JRequest::getInt('acl_type', 1);
@@ -186,7 +186,7 @@ class AccessControllerAcl extends JController
 	function allow()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$values	= array('allow' => 1, 'deny' => 0);
 		$type	= JRequest::getInt('acl_type', 1);
@@ -206,7 +206,7 @@ class AccessControllerAcl extends JController
 	function enable()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$values	= array('enable' => 1, 'disable' => 0);
 		$type	= JRequest::getInt('acl_type', 1);

@@ -24,7 +24,7 @@ class CacheController extends JController
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 
