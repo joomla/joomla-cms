@@ -42,21 +42,6 @@ class JModelList extends JModel
 	 protected $_context		= 'group.type';
 
 	/**
-	 * Overridden model constructor.
-	 *
-	 * @param	array	$config	Configuration array
-	 * @return	void
-	 */
-	public function __construct($config = array())
-	{
-		// If ignore request flag is set, set the state set flag.
-		if (!empty($config['ignore_request'])) {
-			$this->__state_set = true;
-		}
-		parent::__construct($config);
-	}
-
-	/**
 	 * Overridden method to get model state variables.
 	 *
 	 * @param	string	$property	Optional parameter name.
