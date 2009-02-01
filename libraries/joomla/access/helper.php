@@ -44,7 +44,7 @@ class JAccessHelper
 	{
 		jimport('joomla.access.permission.accesslevel');
 
-		$instance = new JAccessLevel();
+		$instance = JModel::getInstance('Level', 'JAccess');
 
 		// If a title and section are present, attempt to load the access level.
 		if (!empty($title) && !empty($section)) {
@@ -67,7 +67,7 @@ class JAccessHelper
 	{
 		jimport('joomla.access.permission.simplerule');
 
-		$instance = new JSimpleRule();
+		$instance = JModel::getInstance('Rule', 'JSimple');
 
 		// If an action is present, attempt to load the rule.
 		if (!empty($action)) {
