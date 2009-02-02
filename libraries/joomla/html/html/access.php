@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @static
+ * @since		1.6
  */
 class JHtmlAccess
 {
@@ -24,10 +25,10 @@ class JHtmlAccess
 	 * @param	string	The name of the selected section.
 	 * @param	string	Additional attributes to add to the select field.
 	 * @param	boolean	True to add "All Sections" option.
+	 *
 	 * @return	string	The required HTML for the SELECT tag.
-	 * @since	1.0
 	 */
-	public function section($name, $selected, $attribs = '', $allowAll = true)
+	public static function section($name, $selected, $attribs = '', $allowAll = true)
 	{
 		$db = &JFactory::getDbo();
 		$db->setQuery(
@@ -59,9 +60,8 @@ class JHtmlAccess
 	 * @param	string	Additional attributes to add to the select field.
 	 * @param	boolean	True to add "All Groups" option.
 	 * @return	string	The required HTML for the SELECT tag.
-	 * @since	1.0
 	 */
-	public function usergroup($name, $selected, $attribs = '', $allowAll = true)
+	public static function usergroup($name, $selected, $attribs = '', $allowAll = true)
 	{
 		$db = &JFactory::getDbo();
 		$db->setQuery(
@@ -92,7 +92,15 @@ class JHtmlAccess
 		return JHTML::_('select.genericlist', $options, $name, $attribs, 'value', 'text', $selected);
 	}
 
-	public function usergroups($name, $selected)
+	/**
+	 * Returns a UL list of user groups with check boxes
+	 *
+	 * @param	string $name	The name of the checkbox controls array
+	 * @param	array $selected	An array of the checked boxes
+	 *
+	 * @return	string
+	 */
+	public static function usergroups($name, $selected)
 	{
 		static $count;
 
@@ -142,6 +150,47 @@ class JHtmlAccess
 	}
 
 	/**
+	 * Returns a UL list of user groups with check boxes
+	 *
+	 * @param	string $name	The name of the checkbox controls array
+	 * @param	array $selected	An array of the checked boxes
+	 *
+	 * @return	string
+	 */
+	public static function actions($name, $selected, $section = 'core', $type = 1)
+	{
+		static $count;
+
+		$count++;
+
+		jimport('joomla.access.helper');
+		$actions	= JAccessHelper::getActions($section, $type);
+		$html		= array();
+		$html[]		= '<ul class="checklist access-actions" style="padding:0;">';
+
+		for ($i=0, $n=count($actions); $i < $n; $i++)
+		{
+			$item = &$actions[$i];
+
+			// Setup  the variable attributes.
+			$eid = $count.'action_'.$item->id;
+			$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+
+			// Build the HTML for the item.
+			$html[] = '	<li>';
+			$html[] = '		<label for="'.$eid.'">';
+			$html[] = '			<input type="checkbox" name="'.$name.'[]" value="'.$item->id.'" id="'.$eid.'"';
+			$html[] = '				'.$checked.' />';
+			$html[] = '			'.JText::_($item->title);
+			$html[] = '		</label>';
+			$html[] = '	</li>';
+		}
+		$html[] = '</ul>';
+
+		return implode("\n", $html);
+	}
+
+	/**
 	 * Displays a Select list of the available asset groups
 	 *
 	 * @param	string $name	The name of the select element
@@ -150,7 +199,7 @@ class JHtmlAccess
 	 *
 	 * @return	mixed			An HTML string or null if an error occurs
 	 */
-	public function assetgroups($name, $selected, $attribs = '')
+	public static function assetgroups($name, $selected, $attribs = '')
 	{
 		static $count, $cache;
 
