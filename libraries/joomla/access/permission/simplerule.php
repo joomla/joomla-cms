@@ -78,6 +78,14 @@ class JSimpleRule extends JModel
 	var $_users = array();
 
 	/**
+	 * Instantiate
+	 */
+	public static function getInstance()
+	{
+		return new JSimpleRule;
+	}
+
+	/**
 	 * Method to get the rule section.
 	 *
 	 * @access	public
@@ -275,13 +283,16 @@ class JSimpleRule extends JModel
 	 */
 	public function setUserGroups($groups)
 	{
-		// If no groups are set, return false.
-		if (empty($groups)) {
-			return false;
-		}
-
 		// Get the old user groups.
 		$old = $this->_user_groups;
+
+		// If no groups are set, return false.
+		if (empty($groups)) {
+			// @louis - needed to fix this to get the rule pivots to work
+			//return false;
+			$this->_user_groups = array();
+			return $old;
+		}
 
 		// Implode the group ids.
 		$ids = implode(',', $groups);
@@ -662,6 +673,7 @@ class JSimpleRule extends JModel
 			' WHERE `rule_id` = '.(int)$this->_rule_id
 		);
 		$db->query();
+echo $db->getQuery();
 
 		// Check for a database error.
 		if ($db->getErrorNum()) {
@@ -685,6 +697,7 @@ class JSimpleRule extends JModel
 				implode(', ', $values)
 			);
 			$db->query();
+echo '<br>'.$db->getQuery();
 
 			// Check for a database error.
 			if ($db->getErrorNum()) {
