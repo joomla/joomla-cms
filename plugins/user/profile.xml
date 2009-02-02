@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<install version="1.5" type="plugin" group="profile">
+	<name>Members - Profile</name>
+	<author>JXtended</author>
+	<creationDate>January 2009</creationDate>
+	<copyright>Copyright (C) 2007 - 2009 JXtended, LLC. All rights reserved.</copyright>
+	<license>GNU General Public License</license>
+	<authorEmail>info@jxtended.com</authorEmail>
+	<authorUrl>http://www.jxtended.com</authorUrl>
+	<version>1.0.0</version>
+	<description>PLUGIN DESC</description>
+
+	<files>
+		<file plugin="profile">profile.php</file>
+		<file>profile.xml</file>
+		<folder>profile</folder>
+	</files>
+
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_members_profile.ini</language>
+	</languages>
+	
+	<params>
+		<param name="register-require_address1" type="radio" default="0" label="MEMBERS REGISTRATION TOGGLE ADDRESS1 LABEL" description="MEMBERS REGISTRATION TOGGLE ADDRESS1 DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="register-require_address2" type="radio" default="0" label="MEMBERS REGISTRATION TOGGLE ADDRESS2 LABEL" description="MEMBERS REGISTRATION TOGGLE ADDRESS2 DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="register-require_city" type="radio" default="0" label="MEMBERS REGISTRATION TOGGLE CITY LABEL" description="MEMBERS REGISTRATION TOGGLE CITY DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="register-require_region" type="radio" default="0" label="MEMBERS REGISTRATION TOGGLE REGION LABEL" description="MEMBERS REGISTRATION TOGGLE REGION DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="register-require_country" type="radio" default="0" label="MEMBERS REGISTRATION TOGGLE COUNTRY LABEL" description="MEMBERS REGISTRATION TOGGLE COUNTRY DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="register-require_postal_code" type="radio" default="0" label="MEMBERS REGISTRATION TOGGLE POSTAL CODE LABEL" description="MEMBERS REGISTRATION TOGGLE POSTAL CODE DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="register-require_phone" type="radio" default="0" label="MEMBERS PROFILE TOGGLE PHONE LABEL" description="MEMBERS REGISTRATION TOGGLE PHONE DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="register-require_website" type="radio" default="0" label="MEMBERS REGISTRATION TOGGLE WEB SITE LABEL" description="MEMBERS REGISTRATION TOGGLE WEB SITE DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param type="spacer" />
+		<param name="profile-require_address1" type="radio" default="1" label="MEMBERS PROFILE TOGGLE ADDRESS1 LABEL" description="MEMBERS PROFILE TOGGLE ADDRESS1 DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="profile-require_address2" type="radio" default="1" label="MEMBERS PROFILE TOGGLE ADDRESS2 LABEL" description="MEMBERS PROFILE TOGGLE ADDRESS2 DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="profile-require_city" type="radio" default="1" label="MEMBERS PROFILE TOGGLE CITY LABEL" description="MEMBERS PROFILE TOGGLE CITY DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="profile-require_region" type="radio" default="1" label="MEMBERS PROFILE TOGGLE REGION LABEL" description="MEMBERS PROFILE TOGGLE REGION DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="profile-require_country" type="radio" default="1" label="MEMBERS PROFILE TOGGLE COUNTRY LABEL" description="MEMBERS PROFILE TOGGLE COUNTRY DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="profile-require_postal_code" type="radio" default="1" label="MEMBERS PROFILE TOGGLE POSTAL CODE LABEL" description="MEMBERS PROFILE TOGGLE POSTAL CODE DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="profile-require_phone" type="radio" default="1" label="MEMBERS PROFILE TOGGLE PHONE LABEL" description="MEMBERS PROFILE TOGGLE PHONE DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+		<param name="profile-require_website" type="radio" default="1" label="MEMBERS PROFILE TOGGLE WEB SITE LABEL" description="MEMBERS PROFILE TOGGLE WEB SITE DESC">
+			<option value="2">REQUIRED</option>
+			<option value="1">OPTIONAL</option>
+			<option value="0">DISABLED</option>
+		</param>
+	</params>
+</install>

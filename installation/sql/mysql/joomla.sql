@@ -160,6 +160,7 @@ INSERT INTO `#__components` VALUES (35, 'Contacts', '', 0, 34, 'option=com_conta
 INSERT INTO `#__components` VALUES (36, 'Categories', '', 0, 34, 'option=com_categories&section=com_contactdirectory', 'Categories', 'com_contactdirectory', 1, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (37, 'Fields', '', 0, 34, 'option=com_contactdirectory&controller=field', 'Fields', 'com_contactdirectory', 2, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (38, 'Access Control', '', 0, 0, 'option=com_acl', 'Access Control', 'com_acl', 0, 'js/ThemeOffice/component.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (39, 'Members', 'option=com_members', 0, 0, 'option=com_members', 'Member Manager', 'com_members', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 
 # --------------------------------------------------------
 
@@ -327,6 +328,7 @@ INSERT INTO #__extensions VALUES(0,"Authentication - LDAP","plugin","ldap","auth
 INSERT INTO #__extensions VALUES(0,"Authentication - GMail","plugin","gmail","authentication",0,0,0,0,"","","","",0,"0000-00-00 00:00:00",4,0);
 INSERT INTO #__extensions VALUES(0,"Authentication - OpenID","plugin","openid","authentication",0,0,0,0,"","","","",0,"0000-00-00 00:00:00",3,0);
 INSERT INTO #__extensions VALUES(0,"User - Joomla!","plugin","joomla","user",0,1,0,0,"","autoregister=1\n","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"User - Profile","plugin","profile","user",0,0,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Search - Content","plugin","content","search",0,1,0,1,"","search_limit=50\nsearch_content=1\nsearch_uncategorised=1\nsearch_archived=1\n","","",0,"0000-00-00 00:00:00",1,0);
 INSERT INTO #__extensions VALUES(0,"Search - Contacts","plugin","contacts","search",0,1,0,1,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",3,0);
 INSERT INTO #__extensions VALUES(0,"Search - Categories","plugin","categories","search",0,1,0,0,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",4,0);
@@ -1284,13 +1286,50 @@ CREATE TABLE IF NOT EXISTS `#__access_actions` (
   `title` varchar(100) NOT NULL default '',
   `description` text,
   `access_type` int(1) unsigned NOT NULL default '0',
+  `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `idx_action_name_lookup` (`section_id`,`name`),
   KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__access_actions` VALUES 
-(1, 1, 'core.view', 'View', '', 3);
+REPLACE INTO `#__access_actions` VALUES 
+(1, 1, 'core.view', 'View', '', 3, 0),
+(2, 1, 'core.checkin.manage', 'JAction_Checkin_Manage', 'JAction_Checkin_Manage_Desc', 1, 0),
+(3, 1, 'core.cache.manage', 'JAction_Cache_Manage', 'JAction_Cache_Manage_Desc', 1, 0),
+(4, 1, 'core.config.manage', 'JAction_Config_Manage', 'JAction_Config_Manage_Desc', 1, 0),
+(5, 1, 'core.installer.manage', 'JAction_Installer_Manage', 'JJAction_Installer_Manage_Desc', 1, 0),
+(6, 1, 'core.languages.manage', 'JAction_Languages_Manage', 'JAction_Languages_Manage_Desc', 1, 0),
+(7, 1, 'core.modules.manage', 'JAction_Modules_Manage', 'JAction_Modules_Manage_Desc', 1, 0),
+(8, 1, 'core.plugins.manage', 'JAction_Plugins_Manage', 'JAction_Plugins_Manage_Desc', 1, 0),
+(9, 1, 'core.templates.manage', 'JAction_Templates_Manage', 'JAction_Templates_Manage_Desc', 1, 0),
+(10, 1, 'core.menus.manage', 'JAction_Menus_Manage', 'JAction_Menus_Manage_Desc', 1, 0),
+(11, 1, 'core.users.manage', 'JAction_Users_Manage', 'JAction_Users_Manage_Desc', 1, 0),
+(12, 1, 'core.media.manage', 'JAction_Media_Manage', 'JAction_Media_Manage_Desc', 1, 0),
+(13, 1, 'core.site.login', 'JAction_Site_Login', 'JAction_Site_Login_Desc', 1, 0),
+(14, 1, 'core.administrator.login', 'JAction_Administrator_Login', 'JAction_Administrator_Login_Desc', 1, 0)
+;
+
+
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'acl.manage', 0, 'Manage Global Access Control', 0, 1, 'ACO Acess Control Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'checkin.manage', 0, 'Manage Global Checkins', 0, 1, 'ACO Checkin Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'cache.manage', 0, 'Manage Global Cache', 0, 1, 'ACO Cache Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'config.manage', 0, 'Manage Global Configuration', 0, 1, 'ACO Config Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'installer.manage', 0, 'Manage Installation', 0, 1, '');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'languages.manage', 0, 'Manage Langauges', 0, 1, 'ACO Language Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'modules.manage', 0, 'Manage Modules', 0, 1, 'ACO Module Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'plugins.manage', 0, 'Manage Plugins', 0, 1, 'ACO Plugin Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'templates.manage', 0, 'Manage Templates', 0, 1, 'ACO Template Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'menus.manage', 0, 'Manage Menus', 0, 1, 'ACO Menu Manage Types Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'users.manage', 0, 'Manage Users', 0, 1, 'ACO User Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'messages.manage', 0, 'Manage Messages', 0, 1, '');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'massmail.manage', 0, 'Manage Mass Mail', 0, 1, '');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'media.manage', 0, 'Manage Media', 0, 1, '');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'content.manage', 0, 'Manage Article', 0, 1, 'ACO Content Manage Article Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'content.manage.frontpage', 0, 'Manage Frontpage', 0, 1, 'ACO Content Manage Frontpage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'categories.manage', 0, 'Manage', 0, 1, 'ACO Categories Manage Desc');
+INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'sections.manage', 0, 'Manage', 0, 1, 'ACO Sections Manage Desc');
+
+
 
 -- --------------------------------------------------------
 
