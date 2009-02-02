@@ -40,7 +40,7 @@ class JAccessHelper
 	 * @return	object	JAccessLevel object.
 	 * @since	1.0
 	 */
-	public function &getAccessLevel($title = null, $section = null, $action = 'core.view')
+	public static function &getAccessLevel($title = null, $section = null, $action = 'core.view')
 	{
 		jimport('joomla.access.permission.accesslevel');
 
@@ -63,7 +63,7 @@ class JAccessHelper
 	 * @return	object	JSimpleRule object.
 	 * @since	1.0
 	 */
-	public function &getSimpleRule($action = null, $asset = null)
+	public static function &getSimpleRule($action = null, $asset = null)
 	{
 		jimport('joomla.access.permission.simplerule');
 
@@ -85,7 +85,7 @@ class JAccessHelper
 	 * @return	int				The section id or zero if not found
 	 * @since	1.1
 	 */
-	public function getSectionId($section)
+	public static function getSectionId($section)
 	{
 		static $cache;
 
@@ -127,6 +127,35 @@ class JAccessHelper
 	}
 
 	/**
+	 * Gets a list of actions for a section and type
+	 *
+	 * @param	string $section		The section name
+	 * @param	string $type		The action type
+	 *
+	 * @return	array|JException
+	 */
+	public static function getActions($section = 'core', $type = 1)
+	{
+		$db = &JFactory::getDbo();
+		$db->setQuery(
+			'SELECT a.*' .
+			' FROM #__access_actions AS a' .
+			' INNER JOIN #__access_sections AS s ON s.id = a.section_id' .
+			' WHERE a.access_type = '.(int) $type .
+			'  AND s.name = '.$db->quote($section) .
+			' ORDER BY s.ordering, a.ordering, a.title'
+		);
+		$actions = $db->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum()) {
+			return new JException($db->getErrorMsg());
+		}
+
+		return $actions;
+	}
+
+	/**
 	 * Method to register an access section if it does not already exist.
 	 *
 	 * @access	public
@@ -135,7 +164,7 @@ class JAccessHelper
 	 * @return	mixed	JException on failure or section id on success.
 	 * @since	1.0
 	 */
-	public function registerSection($title, $name)
+	public static function registerSection($title, $name)
 	{
 		// Sanitize the section name.
 		$name = JAccessHelper::_sanitizeName($name);
@@ -201,7 +230,7 @@ class JAccessHelper
 	 * @return	mixed	JException on failure or boolean true on success.
 	 * @since	1.0
 	 */
-	public function removeSection($name)
+	public static function removeSection($name)
 	{
 		// Sanitize the section name.
 		$name = JAccessHelper::_sanitizeName($name);
@@ -320,7 +349,7 @@ class JAccessHelper
 	 * @return	mixed	JException on failure or action name on success.
 	 * @since	1.0
 	 */
-	public function registerAction($type, $section, $title, $description = null, $name = null)
+	public static function registerAction($type, $section, $title, $description = null, $name = null)
 	{
 		// Sanitize the section name.
 		$section = JAccessHelper::_sanitizeName($section);
@@ -415,7 +444,7 @@ class JAccessHelper
 	 * @return	mixed	JException on failure or boolean true on success.
 	 * @since	1.0
 	 */
-	public function removeAction($name)
+	public static function removeAction($name)
 	{
 		// Sanitize the action name.
 		$name = JAccessHelper::_sanitizeName($name);
@@ -474,7 +503,7 @@ class JAccessHelper
 	 * @throws	JExecption
 	 * @since	1.0
 	 */
-	public function registerUserGroup($title, $section)
+	public static function registerUserGroup($title, $section)
 	{
 		try
 		{
@@ -540,7 +569,7 @@ class JAccessHelper
 	 * @return	mixed	JException on failure or boolean true on success.
 	 * @since	1.0
 	 */
-	public function removeUserGroup($title, $section)
+	public static function removeUserGroup($title, $section)
 	{
 		// Sanitize the section name.
 		$section = JAccessHelper::_sanitizeName($section);
@@ -587,7 +616,7 @@ class JAccessHelper
 	 * @return	mixed	JException on failure or action name on success.
 	 * @since	1.0
 	 */
-	public function registerAsset($section, $title, $name = null)
+	public static function registerAsset($section, $title, $name = null)
 	{
 		// Sanitize the section name.
 		$section = JAccessHelper::_sanitizeName($section);
@@ -649,7 +678,7 @@ class JAccessHelper
 	 * @return	mixed	JException on failure or boolean true on success.
 	 * @since	1.0
 	 */
-	public function removeAsset($name)
+	public static function removeAsset($name)
 	{
 		// @todo
 	}
@@ -666,7 +695,7 @@ class JAccessHelper
 	 * @return	mixed	JException on failure or access level id on success.
 	 * @since	1.0
 	 */
-	public function registerAccessLevel($title, $section, $userGroups = array(), $users = array(), $action = 'core.view')
+	public static function registerAccessLevel($title, $section, $userGroups = array(), $users = array(), $action = 'core.view')
 	{
 		// Sanitize the section name.
 		$section = JAccessHelper::_sanitizeName($section);
@@ -764,7 +793,7 @@ class JAccessHelper
 	 * @return	mixed	JException on failure or boolean true on success.
 	 * @since	1.0
 	 */
-	public function removeAccessLevel($title, $section, $action = 'core.view')
+	public static function removeAccessLevel($title, $section, $action = 'core.view')
 	{
 		// Get a JAccessLevel model.
 		$model = &JAccessHelper::getAccessLevel();
@@ -818,7 +847,7 @@ class JAccessHelper
 	 * @return	mixed	JException on failure or access level id on success.
 	 * @since	1.0
 	 */
-	public function registerSimpleRule($action, $asset = null, $userGroups = array(), $users = array())
+	public static function registerSimpleRule($action, $asset = null, $userGroups = array(), $users = array())
 	{
 		// Get a JSimpleRule model and populate the values.
 		$model = &JAccessHelper::getSimpleRule($action, $asset);
@@ -846,12 +875,12 @@ class JAccessHelper
 	 * @return	mixed	JException on failure or boolean true on success.
 	 * @since	1.0
 	 */
-	public function removeSimpleRule($action, $asset = null)
+	public static function removeSimpleRule($action, $asset = null)
 	{
 		// Method to remove a simple access rule if it exists.
 	}
 
-	public function _sanitizeName($title, $section = null)
+	public static function _sanitizeName($title, $section = null)
 	{
 		// Sanitize the title.
 		$name = strtolower(preg_replace('#[\s\-]+#', '.', trim($title)));
@@ -873,7 +902,7 @@ class JAccessHelper
 	 * @return	boolean	True on success
 	 * @since	1.0
 	 */
-	public function _rebuildGroupsTree($type = 'user', $parentId = 0, $left = 0)
+	public static function _rebuildGroupsTree($type = 'user', $parentId = 0, $left = 0)
 	{
 		// Get a database object.
 		$db = &JFactory::getDBO();
@@ -929,7 +958,7 @@ class JAccessHelper
 	 * @return	mixed			True if successful, otherwise a JException
 	 * @throws	JException
 	 */
-	public function synchroniseAssets($items, $section)
+	public static function synchroniseAssets($items, $section)
 	{
 		// Check we have a valid section, get the id
 		$sectionId = JAccessHelper::getSectionId($section);
