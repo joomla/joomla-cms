@@ -45,7 +45,7 @@ $userId	= $user->get('id');
 		<thead>
 			<tr>
 				<th width="5">
-					<?php echo JText::_('JCommon_Number_Column'); ?>
+					<?php echo JText::_('JCommon_Heading_Row_Number'); ?>
 				</th>
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
@@ -67,7 +67,7 @@ $userId	= $user->get('id');
 					<?php echo JHtml::_('grid.sort',  'Weblinks_Hits_Column', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'JCommon_ID_Column', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>
