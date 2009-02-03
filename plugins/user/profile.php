@@ -19,6 +19,12 @@ $lang->load('plg_user_profile');
  */
 class plgUserProfile extends JPlugin
 {
+	/**
+	 * @param	int $userId		The user id
+	 * @param	JForm $form
+	 *
+	 * @return	boolean
+	 */
 	function onPrepareUserProfileForm($userId, &$form)
 	{
 		// Add the profile fields to the form.
@@ -84,6 +90,12 @@ class plgUserProfile extends JPlugin
 		return true;
 	}
 
+	/**
+	 * @param	int $userId		The user id
+	 * @param	object $data
+	 *
+	 * @return	boolean
+	 */
 	function onPrepareUserProfileData($userId, &$data)
 	{
 		// Load the profile data from the database.
@@ -110,16 +122,22 @@ class plgUserProfile extends JPlugin
 		return true;
 	}
 
+	/**
+	 * @param	int $userId		The user id
+	 * @param	array $data
+	 *
+	 * @return	boolean
+	 */
 	function onPrepareUserProfile($userId, &$data)
 	{
 		// Load the profile data from the database.
 		$db = &JFactory::getDBO();
 		$db->setQuery(
-			'SELECT profile_key, profile_data FROM #__user_profiles' .
+			'SELECT profile_key, profile_value FROM #__user_profiles' .
 			' WHERE user_id = '.(int)$userId .
 			' ORDER BY ordering'
 		);
-		$results = $db->loadAssoc('profile_key');
+		$results = $db->loadRowList();
 
 		// Check for a database error.
 		if ($db->getErrorNum()) {
@@ -128,8 +146,9 @@ class plgUserProfile extends JPlugin
 		}
 
 		// Push in the profile data to display.
-		$data['location']	= $results['city'].', '.$results['region'].', '.$results['country'];
-		$data['website']	= $results['website'];
+		foreach ($results as $result) {
+			$data[str_replace('profile.', '', $result[0])] = $result[1];
+		}
 
 		return true;
 	}
@@ -152,7 +171,7 @@ class plgUserProfile extends JPlugin
 					$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote($v).', '.$order++.')';
 				}
 
-				$db->setQuery('INSERT INTO #__user_profile VALUES '.implode(', ', $tuples));
+				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));
 				$db->query();
 			}
 			catch (JException $e) {
