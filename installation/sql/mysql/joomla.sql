@@ -328,7 +328,7 @@ INSERT INTO #__extensions VALUES(0,"Authentication - LDAP","plugin","ldap","auth
 INSERT INTO #__extensions VALUES(0,"Authentication - GMail","plugin","gmail","authentication",0,0,0,0,"","","","",0,"0000-00-00 00:00:00",4,0);
 INSERT INTO #__extensions VALUES(0,"Authentication - OpenID","plugin","openid","authentication",0,0,0,0,"","","","",0,"0000-00-00 00:00:00",3,0);
 INSERT INTO #__extensions VALUES(0,"User - Joomla!","plugin","joomla","user",0,1,0,0,"","autoregister=1\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"User - Profile","plugin","profile","user",0,0,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"User - Profile","plugin","profile","user",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Search - Content","plugin","content","search",0,1,0,1,"","search_limit=50\nsearch_content=1\nsearch_uncategorised=1\nsearch_archived=1\n","","",0,"0000-00-00 00:00:00",1,0);
 INSERT INTO #__extensions VALUES(0,"Search - Contacts","plugin","contacts","search",0,1,0,1,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",3,0);
 INSERT INTO #__extensions VALUES(0,"Search - Categories","plugin","categories","search",0,1,0,0,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",4,0);
@@ -379,6 +379,7 @@ INSERT INTO #__extensions VALUES(0,"User Manager","component","com_users","",0,1
 INSERT INTO #__extensions VALUES(0,"Web Links","component","com_weblinks","",0,1,0,0,"","show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Wrapper","component","com_wrapper","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Contact Directory","component","com_contactdirectory","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Member Manager","component","com_members","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 # Modules
 INSERT INTO #__extensions VALUES(0,"mod_login","module","mod_login","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"mod_popular","module","mod_popular","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
@@ -1309,28 +1310,6 @@ REPLACE INTO `#__access_actions` VALUES
 (14, 1, 'core.administrator.login', 'JAction_Administrator_Login', 'JAction_Administrator_Login_Desc', 1, 0)
 ;
 
-
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'acl.manage', 0, 'Manage Global Access Control', 0, 1, 'ACO Acess Control Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'checkin.manage', 0, 'Manage Global Checkins', 0, 1, 'ACO Checkin Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'cache.manage', 0, 'Manage Global Cache', 0, 1, 'ACO Cache Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'config.manage', 0, 'Manage Global Configuration', 0, 1, 'ACO Config Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'installer.manage', 0, 'Manage Installation', 0, 1, '');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'languages.manage', 0, 'Manage Langauges', 0, 1, 'ACO Language Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'modules.manage', 0, 'Manage Modules', 0, 1, 'ACO Module Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'plugins.manage', 0, 'Manage Plugins', 0, 1, 'ACO Plugin Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'templates.manage', 0, 'Manage Templates', 0, 1, 'ACO Template Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'menus.manage', 0, 'Manage Menus', 0, 1, 'ACO Menu Manage Types Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'users.manage', 0, 'Manage Users', 0, 1, 'ACO User Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'messages.manage', 0, 'Manage Messages', 0, 1, '');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'massmail.manage', 0, 'Manage Mass Mail', 0, 1, '');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'media.manage', 0, 'Manage Media', 0, 1, '');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'content.manage', 0, 'Manage Article', 0, 1, 'ACO Content Manage Article Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'content.manage.frontpage', 0, 'Manage Frontpage', 0, 1, 'ACO Content Manage Frontpage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'categories.manage', 0, 'Manage', 0, 1, 'ACO Categories Manage Desc');
-INSERT INTO `jos_core_acl_aco` VALUES (0, 'core', 'sections.manage', 0, 'Manage', 0, 1, 'ACO Sections Manage Desc');
-
-
-
 -- --------------------------------------------------------
 
 --
@@ -1552,3 +1531,46 @@ CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
   `group_id` int(10) unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
   PRIMARY KEY  (`user_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+
+
+--
+-- Table structure for table `#__simple_templates`
+--
+
+CREATE TABLE IF NOT EXISTS `#__simple_templates` (
+  `id` int(11) NOT NULL auto_increment,
+  `context` varchar(100) NOT NULL COMMENT 'The context that the template is used in',
+  `name` varchar(255) NOT NULL COMMENT 'The system name for programmatic lookup',
+  `title` varchar(255) NOT NULL COMMENT 'A human readable title',
+  `body_text` mediumtext NOT NULL COMMENT 'The body of the message - text version',
+  `body_html` mediumtext NOT NULL COMMENT 'The body of the message - html version',
+  `comments` mediumtext NOT NULL COMMENT 'General comments about this template',
+  `published` tinyint(1) NOT NULL default '0',
+  `ordering` int(11) NOT NULL default '0',
+  `params` mediumtext NOT NULL COMMENT 'The parameters for the template',
+  `checked_out` int(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created_user_id` int(11) unsigned NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `modified_user_id` int(11) unsigned NOT NULL default '0',
+  `modified_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`id`),
+  KEY `idx_name` (`name`),
+  KEY `idx_context_published` (`context`,`published`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Stores text templates for use by the system';
+
+
+--
+-- Table structure for table `#__user_profiles`
+--
+
+CREATE TABLE IF NOT EXISTS `#__user_profiles` (
+  `user_id` int(11) NOT NULL,
+  `profile_key` varchar(100) NOT NULL,
+  `profile_value` varchar(255) NOT NULL,
+  `ordering` int(11) NOT NULL default '0',
+  UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Simple user profile storage table';
+
