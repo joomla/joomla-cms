@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields>
+		<field name="password1" type="password" id="password1" size="30" default="" required="true" filter="raw"
+			class="inputbox required"
+			label="Members_Register_Password1_Label"
+			description="Members_Register_Password1_Desc"
+		/>
+		<field name="password2" type="password" id="password2" size="30" default="" required="true" filter="raw"
+			class="inputbox required"
+			label="Members_Register_Password2_Label"
+			description="Members_Register_Password2_Desc"
+		/>
+	</fields>
+</form>
