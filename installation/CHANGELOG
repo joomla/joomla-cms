@@ -34,6 +34,9 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 01-Feb-2009 Andrew Eddie
  + Added User - Profile example plugin
+ + Added jos_simple_templates and jos_user_profiles tables to install SQL
+ + Added new utility class JSimpleTemplate
+ + Added com_members
  
 01-Feb-2009 Rob Schley
  $ First pass over localizing the invalid security token message. Added JINVALID_TOKEN language key.
