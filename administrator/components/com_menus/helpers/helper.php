@@ -24,7 +24,7 @@ class MenusHelper
 				' FROM #__menu_types AS a' .
 				' LEFT JOIN #__menu AS b ON b.menutype = a.menutype' .
 				' GROUP BY a.id';
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		return $db->loadObjectList();
 	}
 
@@ -37,7 +37,7 @@ class MenusHelper
 		$db = &JFactory::getDBO();
 		$query = 'SELECT menutype' .
 				' FROM #__menu_types';
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		return $db->loadResultArray();
 	}
 
@@ -51,20 +51,20 @@ class MenusHelper
 				' FROM #__components AS c' .
 				' WHERE c.link <> "" AND parent = 0' .
 				' ORDER BY c.name';
-		$db->setQuery( $query );
-		$result = $db->loadObjectList( );
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
 		return $result;
 	}
 
 	/**
 	 * Build the select list for parent menu item
 	 */
-	function Parent( &$row )
+	function Parent(&$row)
 	{
-		$db =& JFactory::getDBO();
+		$db = &JFactory::getDBO();
 
 		// If a not a new item, lets set the menu item id
-		if ( $row->id ) {
+		if ($row->id) {
 			$id = ' AND id != '.(int) $row->id;
 		} else {
 			$id = null;
@@ -83,33 +83,33 @@ class MenusHelper
 				' AND published != -2' .
 				$id .
 				' ORDER BY parent, ordering';
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$mitems = $db->loadObjectList();
 
 		// establish the hierarchy of the menu
 		$children = array();
 
-		if ( $mitems )
+		if ($mitems)
 		{
 			// first pass - collect children
-			foreach ( $mitems as $v )
+			foreach ($mitems as $v)
 			{
 				$pt 	= $v->parent;
 				$list 	= @$children[$pt] ? $children[$pt] : array();
-				array_push( $list, $v );
+				array_push($list, $v);
 				$children[$pt] = $list;
 			}
 		}
 
 		// second pass - get an indent list of the items
-		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, 9999, 0, 0 );
+		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, 9999, 0, 0);
 
 		// assemble menu items to the array
 		$mitems 	= array();
-		$mitems[] 	= JHtml::_('select.option',  '0', JText::_( 'Top' ) );
+		$mitems[] 	= JHtml::_('select.option',  '0', JText::_('Top'));
 
-		foreach ( $list as $item ) {
-			$mitems[] = JHtml::_('select.option',  $item->id, '&nbsp;&nbsp;&nbsp;'. $item->treename );
+		foreach ($list as $item) {
+			$mitems[] = JHtml::_('select.option',  $item->id, '&nbsp;&nbsp;&nbsp;'. $item->treename);
 		}
 
 		$output = JHtml::_(
@@ -125,11 +125,11 @@ class MenusHelper
 	/**
 	* build the select list for target window
 	*/
-	function Target( &$row )
+	function Target(&$row)
 	{
-		$click[] = JHtml::_('select.option',  '0', JText::_( 'Parent Window With Browser Navigation' ) );
-		$click[] = JHtml::_('select.option',  '1', JText::_( 'New Window With Browser Navigation' ) );
-		$click[] = JHtml::_('select.option',  '2', JText::_( 'New Window Without Browser Navigation' ) );
+		$click[] = JHtml::_('select.option',  '0', JText::_('Parent Window With Browser Navigation'));
+		$click[] = JHtml::_('select.option',  '1', JText::_('New Window With Browser Navigation'));
+		$click[] = JHtml::_('select.option',  '2', JText::_('New Window Without Browser Navigation'));
 		$target = JHtml::_(
 			'select.genericlist',
 			$click,
@@ -143,16 +143,16 @@ class MenusHelper
 	/**
 	* build the select list for target window
 	*/
-	function Published( &$row )
+	function Published(&$row)
 	{
-		$put[] = JHtml::_('select.option',  '0', JText::_( 'No' ));
-		$put[] = JHtml::_('select.option',  '1', JText::_( 'Yes' ));
+		$put[] = JHtml::_('select.option',  '0', JText::_('No'));
+		$put[] = JHtml::_('select.option',  '1', JText::_('Yes'));
 
 		// If not a new item, trash is not an option
-		if ( !$row->id ) {
+		if (!$row->id) {
 			$row->published = 1;
 		}
-		$published = JHtml::_('select.radiolist',  $put, 'published', '', 'value', 'text', $row->published );
+		$published = JHtml::_('select.radiolist',  $put, 'published', '', 'value', 'text', $row->published);
 		return $published;
 	}
 }

@@ -8,7 +8,7 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
 jimport('joomla.html.pane');
@@ -27,33 +27,33 @@ class MenusViewItem extends JView
 
 	function edit($tpl = null)
 	{
-		JRequest::setVar( 'hidemainmenu', 1 );
+		JRequest::setVar('hidemainmenu', 1);
 
 		global $mainframe;
 
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 		$this->_layout = 'form';
 
 		$item = &$this->get('Item');
 
 		// clean item data
-		JFilterOutput::objectHTMLSafe( $item, ENT_QUOTES, '' );
+		JFilterOutput::objectHTMLSafe($item, ENT_QUOTES, '');
 
 		// Set toolbar items for the page
 		if (!$item->id) {
-			JToolBarHelper::title( JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>', 'menu.png' );
+			JToolBarHelper::title(JText::_('Menu Item') .': <small><small>[ '. JText::_('New') .' ]</small></small>', 'menu.png');
 		} else {
-			JToolBarHelper::title( JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'menu.png' );
+			JToolBarHelper::title(JText::_('Menu Item') .': <small><small>[ '. JText::_('Edit') .' ]</small></small>', 'menu.png');
 		}
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		if ($item->id) {
 			// for existing items the button is renamed `close`
-			JToolBarHelper::cancel( 'cancelItem', 'Close' );
+			JToolBarHelper::cancel('cancelItem', 'Close');
 		} else {
 			JToolBarHelper::cancel('cancelItem');
 		}
-		JToolBarHelper::help( 'screen.menus.edit' );
+		JToolBarHelper::help('screen.menus.edit');
 
 		// Load component language files (1.5)
 		$component		= &$this->get('Component');
@@ -62,15 +62,15 @@ class MenusViewItem extends JView
 		$lang->load('joomla', JPATH_ADMINISTRATOR.DS.'components'.DS.$component->option);
 
 		// Initialize variables
-		$urlparams		= $this->get( 'UrlParams' );
-		$params		= $this->get( 'StateParams' );
-		$sysparams		= $this->get( 'SystemParams' );
+		$urlparams		= $this->get('UrlParams');
+		$params		= $this->get('StateParams');
+		$sysparams		= $this->get('SystemParams');
 		$params->setXML($sysparams);
-		$advanced		= $this->get( 'AdvancedParams' );
+		$advanced		= $this->get('AdvancedParams');
 		$params->setXML($advanced);
-		$component		= $this->get( 'ComponentParams' );
-		$name			= $this->get( 'StateName' );
-		$description	= $this->get( 'StateDescription' );
+		$component		= $this->get('ComponentParams');
+		$name			= $this->get('StateName');
+		$description	= $this->get('StateDescription');
 		$menuTypes 		= MenusHelper::getMenuTypeList();
 		$components		= MenusHelper::getComponentList();
 
@@ -78,9 +78,9 @@ class MenusViewItem extends JView
 
 		$document = & JFactory::getDocument();
 		if ($item->id) {
-			$document->setTitle(JText::_( 'Menu Item' ) .': ['. JText::_( 'Edit' ) .']');
+			$document->setTitle(JText::_('Menu Item') .': ['. JText::_('Edit') .']');
 		} else {
-			$document->setTitle(JText::_( 'Menu Item' ) .': ['. JText::_( 'New' ) .']');
+			$document->setTitle(JText::_('Menu Item') .': ['. JText::_('New') .']');
 		}
 
 		// Was showing up null in some cases....
@@ -113,7 +113,7 @@ class MenusViewItem extends JView
 		$this->assignRef('description', $description);
 
 		// Add slider pane
-		$pane =& JPane::getInstance('sliders');
+		$pane = &JPane::getInstance('sliders');
 		$this->assignRef('pane', $pane);
 
 		parent::display($tpl);
@@ -121,25 +121,25 @@ class MenusViewItem extends JView
 
 	function type($tpl = null)
 	{
-		JRequest::setVar( 'hidemainmenu', 1 );
+		JRequest::setVar('hidemainmenu', 1);
 
 		global $mainframe;
 
-		$lang =& JFactory::getLanguage();
+		$lang = &JFactory::getLanguage();
 		$this->_layout = 'type';
 
 		$item = &$this->get('Item');
 
 		// Set toolbar items for the page
 		if (!$item->id) {
-			JToolBarHelper::title(  JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>', 'menu.png' );
+			JToolBarHelper::title( JText::_('Menu Item') .': <small><small>[ '. JText::_('New') .' ]</small></small>', 'menu.png');
 		} else {
-			JToolBarHelper::title(  JText::_( 'Change Menu Item' ), 'menu.png' );
+			JToolBarHelper::title( JText::_('Change Menu Item'), 'menu.png');
 		}
 
 		// Set toolbar items for the page
 		JToolBarHelper::cancel('view');
-		JToolBarHelper::help( 'screen.menus.type' );
+		JToolBarHelper::help('screen.menus.type');
 
 		// Add scripts and stylesheets to the document
 		$document	= & JFactory::getDocument();
@@ -169,15 +169,15 @@ class MenusViewItem extends JView
 		$item			= &$this->get('Item');
 		$expansion		= &$this->get('Expansion');
 		$component		= &$this->get('Component');
-		$name			= $this->get( 'StateName' );
-		$description	= $this->get( 'StateDescription' );
+		$name			= $this->get('StateName');
+		$description	= $this->get('StateDescription');
 		$menuTypes 		= MenusHelper::getMenuTypeList();
 
 		// Set document title
 		if ($item->id) {
-			$document->setTitle(JText::_( 'Menu Item' ) .': ['. JText::_( 'Edit' ) .']');
+			$document->setTitle(JText::_('Menu Item') .': ['. JText::_('Edit') .']');
 		} else {
-			$document->setTitle(JText::_( 'Menu Item' ) .': ['. JText::_( 'New' ) .']');
+			$document->setTitle(JText::_('Menu Item') .': ['. JText::_('New') .']');
 		}
 
 		$this->assignRef('item',		$item);

@@ -8,9 +8,9 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.model');
 
 /**
  * @package		Joomla.Administrator
@@ -31,7 +31,7 @@ class MenusModelList extends JModel
 	{
 		if ($this->_table == null)
 		{
-			$this->_table =& JTable::getInstance( 'menu');
+			$this->_table = &JTable::getInstance('menu');
 		}
 		return $this->_table;
 	}
@@ -46,24 +46,24 @@ class MenusModelList extends JModel
 			return $items;
 		}
 
-		$db =& $this->getDBO();
+		$db = &$this->getDBO();
 
-		$menutype			= $mainframe->getUserStateFromRequest( "com_menus.menutype",						'menutype',			'mainmenu',		'string' );
-		$filter_order		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_order',		'filter_order',		'm.ordering',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_order_Dir',	'filter_order_Dir',	'ASC',			'word' );
-		$filter_state		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_state',		'filter_state',		'',				'word' );
-		$limit				= $mainframe->getUserStateFromRequest( 'global.list.limit',							'limit',			$mainframe->getCfg( 'list_limit' ),	'int' );
-		$limitstart			= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.limitstart',		'limitstart',		0,				'int' );
-		$levellimit			= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.levellimit',		'levellimit',		10,				'int' );
-		$search				= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.search',			'search',			'',				'string' );
-		$search				= JString::strtolower( $search );
+		$menutype			= $mainframe->getUserStateFromRequest("com_menus.menutype",						'menutype',			'mainmenu',		'string');
+		$filter_order		= $mainframe->getUserStateFromRequest('com_menus.'.$menutype.'.filter_order',		'filter_order',		'm.ordering',	'cmd');
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest('com_menus.'.$menutype.'.filter_order_Dir',	'filter_order_Dir',	'ASC',			'word');
+		$filter_state		= $mainframe->getUserStateFromRequest('com_menus.'.$menutype.'.filter_state',		'filter_state',		'',				'word');
+		$limit				= $mainframe->getUserStateFromRequest('global.list.limit',							'limit',			$mainframe->getCfg('list_limit'),	'int');
+		$limitstart			= $mainframe->getUserStateFromRequest('com_menus.'.$menutype.'.limitstart',		'limitstart',		0,				'int');
+		$levellimit			= $mainframe->getUserStateFromRequest('com_menus.'.$menutype.'.levellimit',		'levellimit',		10,				'int');
+		$search				= $mainframe->getUserStateFromRequest('com_menus.'.$menutype.'.search',			'search',			'',				'string');
+		$search				= JString::strtolower($search);
 
 		$and = '';
-		if ( $filter_state )
+		if ($filter_state)
 		{
-			if ( $filter_state == 'P' ) {
+			if ($filter_state == 'P') {
 				$and = ' AND m.published = 1';
-			} else if ($filter_state == 'U' ) {
+			} else if ($filter_state == 'U') {
 				$and = ' AND m.published = 0';
 			}
 		}
@@ -81,9 +81,9 @@ class MenusModelList extends JModel
 			$query = 'SELECT m.id' .
 					' FROM #__menu AS m' .
 					' WHERE menutype = '.$db->Quote($menutype) .
-					' AND LOWER( m.name ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false ) .
+					' AND LOWER(m.name) LIKE '.$db->Quote('%'.$db->getEscaped($search, true).'%', false) .
 					$and;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$search_rows = $db->loadResultArray();
 		}
 
@@ -97,26 +97,26 @@ class MenusModelList extends JModel
 				' AND m.published != -2' .
 				$and .
 				$orderby;
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
 		// establish the hierarchy of the menu
 		$children = array();
 		// first pass - collect children
-		foreach ($rows as $v )
+		foreach ($rows as $v)
 		{
 			$pt = $v->parent;
 			$list = @$children[$pt] ? $children[$pt] : array();
-			array_push( $list, $v );
+			array_push($list, $v);
 			$children[$pt] = $list;
 		}
 		// second pass - get an indent list of the items
-		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
+		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, max(0, $levellimit-1));
 		// eventually only pick out the searched items.
 		if ($search) {
 			$list1 = array();
 
-			foreach ($search_rows as $sid )
+			foreach ($search_rows as $sid)
 			{
 				foreach ($list as $item)
 				{
@@ -129,20 +129,20 @@ class MenusModelList extends JModel
 			$list = $list1;
 		}
 
-		$total = count( $list );
+		$total = count($list);
 
 		jimport('joomla.html.pagination');
-		$this->_pagination = new JPagination( $total, $limitstart, $limit );
+		$this->_pagination = new JPagination($total, $limitstart, $limit);
 
 		// slice out elements based on limits
-		$list = array_slice( $list, $this->_pagination->limitstart, $this->_pagination->limit );
+		$list = array_slice($list, $this->_pagination->limitstart, $this->_pagination->limit);
 
 		$i = 0;
 		$query = array();
-		foreach ( $list as $mitem )
+		foreach ($list as $mitem)
 		{
 			$edit = '';
-			switch ( $mitem->type )
+			switch ($mitem->type)
 			{
 				case 'separator':
 					$list[$i]->descrip 	= JText::_('Separator');
@@ -212,22 +212,22 @@ class MenusModelList extends JModel
 			return $items;
 		}
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
 		if (count($cid) < 1) {
-			$this->setError(JText::_( 'Select an item to move'));
+			$this->setError(JText::_('Select an item to move'));
 			return false;
 		}
 
 		// Query to list the selected menu items
-		$db =& $this->getDBO();
-		$cids = implode( ',', $cid );
+		$db = &$this->getDBO();
+		$cids = implode(',', $cid);
 		$query = 'SELECT `id`, `name`' .
 				' FROM `#__menu`' .
-				' WHERE `id` IN ( '.$cids.' )';
+				' WHERE `id` IN ('.$cids.')';
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$items = $db->loadObjectList();
 
 		return $items;
@@ -239,24 +239,24 @@ class MenusModelList extends JModel
 	function &getComponent()
 	{
 		$id = $this->_table->componentid;
-		$component	= & JTable::getInstance( 'component');
-		$component->load( $id );
+		$component	= & JTable::getInstance('component');
+		$component->load($id);
 		return $component;
 	}
 
 	/**
 	* Save the item(s) to the menu selected
 	*/
-	function copy( $items, $menu )
+	function copy($items, $menu)
 	{
-		$curr =& JTable::getInstance('menu');
+		$curr = &JTable::getInstance('menu');
 		$itemref = array();
 		foreach ($items as $id)
 		{
-			$curr->load( $id );
+			$curr->load($id);
 			$curr->id	= NULL;
 			$curr->home	= 0;
-			if ( !$curr->store() ) {
+			if (!$curr->store()) {
 				$this->setError($row->getError());
 				return false;
 			}
@@ -264,10 +264,10 @@ class MenusModelList extends JModel
 		}
 		foreach ($itemref as $ref)
 		{
-			$curr->load( $ref[1] );
+			$curr->load($ref[1]);
 			if ($curr->parent!=0) {
 				$found = false;
-				foreach ( $itemref as $ref2 )
+				foreach ($itemref as $ref2)
 				{
 					if ($curr->parent == $ref2[0]) {
 						$curr->parent = $ref2[1];
@@ -282,11 +282,11 @@ class MenusModelList extends JModel
 			$curr->menutype = $menu;
 			$curr->ordering = '9999';
 			$curr->home		= 0;
-			if ( !$curr->store() ) {
+			if (!$curr->store()) {
 				$this->setError($row->getError());
 				return false;
 			}
-			$curr->reorder( 'menutype = '.$this->_db->Quote($curr->menutype).' AND parent = '.(int) $curr->parent );
+			$curr->reorder('menutype = '.$this->_db->Quote($curr->menutype).' AND parent = '.(int) $curr->parent);
 		} // foreach
 		return true;
 	}
@@ -299,11 +299,11 @@ class MenusModelList extends JModel
 			$this->_addChildren($id, $items);
 		}
 
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 		$ordering = 1000000;
 		$firstroot = 0;
 		foreach ($items as $id) {
-			$row->load( $id );
+			$row->load($id);
 
 			// is it moved together with his parent?
 			$found = false;
@@ -323,50 +323,50 @@ class MenusModelList extends JModel
 			} // if
 
 			$row->menutype = $menu;
-			if ( !$row->store() ) {
+			if (!$row->store()) {
 				$this->setError($row->getError());
 				return false;
 			} // if
 		} // foreach
 
 		if ($firstroot) {
-			$row->load( $firstroot );
-			$row->reorder( 'menutype = '.$this->_db->Quote($row->menutype).' AND parent = '.(int) $row->parent );
+			$row->load($firstroot);
+			$row->reorder('menutype = '.$this->_db->Quote($row->menutype).' AND parent = '.(int) $row->parent);
 		} // if
 		return true;
 	}
 
 	function toTrash($items)
 	{
-		$db		=& $this->getDBO();
+		$db		= &$this->getDBO();
 		$nd		= $db->getNullDate();
 		$state	= -2;
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 		$default = 0;
 
 		// Add all children to the list
 		foreach ($items as $id)
 		{
 			//Check if it's the default item
-			$row->load( $id );
+			$row->load($id);
 			if ($row->home != 1) {
 				$this->_addChildren($id, $items);
 			} else {
 				unset($items[$default]);
-				JError::raiseWarning( 'SOME_ERROR_CODE', JText::_('You cannot trash the default menu item'));
+				JError::raiseWarning('SOME_ERROR_CODE', JText::_('You cannot trash the default menu item'));
 			}
 			$default++;
 		}
 		if (count($items) > 0) {
 			// Sent menu items to the trash
 			JArrayHelper::toInteger($items, array(0));
-			$where = ' WHERE (id = ' . implode( ' OR id = ', $items ) . ') AND home = 0';
+			$where = ' WHERE (id = ' . implode(' OR id = ', $items) . ') AND home = 0';
 			$query = 'UPDATE #__menu' .
 					' SET published = '.(int) $state.', parent = 0, ordering = 0, checked_out = 0, checked_out_time = '.$db->Quote($nd) .
 					$where;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if (!$db->query()) {
-				$this->setError( $db->getErrorMsg() );
+				$this->setError($db->getErrorMsg());
 				return false;
 			}
 		}
@@ -380,7 +380,7 @@ class MenusModelList extends JModel
 
 	function fromTrash($items)
 	{
-		$db		=& $this->getDBO();
+		$db		= &$this->getDBO();
 		$nd		= $db->getNullDate();
 		$state	= 0;
 
@@ -392,13 +392,13 @@ class MenusModelList extends JModel
 
 		// Sent menu items to the trash
 		JArrayHelper::toInteger($items, array(0));
-		$where = ' WHERE id = ' . implode( ' OR id = ', $items );
+		$where = ' WHERE id = ' . implode(' OR id = ', $items);
 		$query = 'UPDATE #__menu' .
 				' SET published = '.(int) $state.', parent = 0, ordering = 99999, checked_out = 0, checked_out_time = '.$db->Quote($nd) .
 				$where;
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		if (!$db->query()) {
-			$this->setError( $db->getErrorMsg() );
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 
@@ -412,16 +412,16 @@ class MenusModelList extends JModel
 	/**
 	* Set the state of selected menu items
 	*/
-	function setHome( $item )
+	function setHome($item)
 	{
-		$db =& $this->getDBO();
+		$db = &$this->getDBO();
 
 		// Clear home field for all other items
 		$query = 'UPDATE #__menu' .
 				' SET home = 0' .
 				' WHERE 1';
-		$db->setQuery( $query );
-		if ( !$db->query() ) {
+		$db->setQuery($query);
+		if (!$db->query()) {
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
@@ -430,8 +430,8 @@ class MenusModelList extends JModel
 		$query = 'UPDATE #__menu' .
 				' SET home = 1' .
 				' WHERE id = '.(int) $item;
-		$db->setQuery( $query );
-		if ( !$db->query() ) {
+		$db->setQuery($query);
+		if (!$db->query()) {
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
@@ -442,14 +442,14 @@ class MenusModelList extends JModel
 	/**
 	* Set the state of selected menu items
 	*/
-	function setItemState( $items, $state )
+	function setItemState($items, $state)
 	{
 		if(is_array($items))
 		{
-			$row =& $this->getTable();
+			$row = &$this->getTable();
 			foreach ($items as $id)
 			{
-				$row->load( $id );
+				$row->load($id);
 
 				if ($row->home != 1) {
 					$row->published = $state;
@@ -458,9 +458,9 @@ class MenusModelList extends JModel
 						// Set any alias menu types to not point to unpublished menu items
 						$db = &$this->getDBO();
 						$query = 'UPDATE #__menu SET link = 0 WHERE type = \'menulink\' AND link = '.(int)$id;
-						$db->setQuery( $query );
+						$db->setQuery($query);
 						if (!$db->query()) {
-							$this->setError( $db->getErrorMsg() );
+							$this->setError($db->getErrorMsg());
 							return false;
 						}
 					}
@@ -474,14 +474,14 @@ class MenusModelList extends JModel
 						return false;
 					}
 				} else {
-					JError::raiseWarning( 'SOME_ERROR_CODE', JText::_('You cannot unpublish the default menu item'));
+					JError::raiseWarning('SOME_ERROR_CODE', JText::_('You cannot unpublish the default menu item'));
 					return false;
 				}
 			}
 		}
 
 		// clean menu cache
-		$cache =& JFactory::getCache('mod_mainmenu');
+		$cache = &JFactory::getCache('mod_mainmenu');
 		$cache->clean();
 
 		return true;
@@ -490,20 +490,20 @@ class MenusModelList extends JModel
 	/**
 	* Set the access of selected menu items
 	*/
-	function setAccess( $items, $access )
+	function setAccess($items, $access)
 	{
-		$row =& $this->getTable();
+		$row = &$this->getTable();
 		foreach ($items as $id)
 		{
-			$row->load( $id );
+			$row->load($id);
 			$row->access = $access;
 
 			// Set any alias menu types to not point to unpublished menu items
 			$db = &$this->getDBO();
 			$query = 'UPDATE #__menu SET link = 0 WHERE type = \'menulink\' AND access < '.(int)$access.' AND link = '.(int)$id;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if (!$db->query()) {
-				$this->setError( $db->getErrorMsg() );
+				$this->setError($db->getErrorMsg());
 				return false;
 			}
 
@@ -518,7 +518,7 @@ class MenusModelList extends JModel
 		}
 
 		// clean menu cache
-		$cache =& JFactory::getCache('mod_mainmenu');
+		$cache = &JFactory::getCache('mod_mainmenu');
 		$cache->clean();
 
 		return true;
@@ -526,15 +526,15 @@ class MenusModelList extends JModel
 
 	function orderItem($item, $movement)
 	{
-		$row =& $this->getTable();
-		$row->load( $item );
-		if (!$row->move( $movement, 'menutype = '.$this->_db->Quote($row->menutype).' AND parent = '.(int) $row->parent )) {
+		$row = &$this->getTable();
+		$row->load($item);
+		if (!$row->move($movement, 'menutype = '.$this->_db->Quote($row->menutype).' AND parent = '.(int) $row->parent)) {
 			$this->setError($row->getError());
 			return false;
 		}
 
 		// clean menu cache
-		$cache =& JFactory::getCache('mod_mainmenu');
+		$cache = &JFactory::getCache('mod_mainmenu');
 		$cache->clean();
 
 		return true;
@@ -542,16 +542,16 @@ class MenusModelList extends JModel
 
 	function setOrder($items, $menutype)
 	{
-		$total		= count( $items );
-		$row		=& $this->getTable();
+		$total		= count($items);
+		$row		= &$this->getTable();
 		$groupings	= array();
 
-		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
+		$order		= JRequest::getVar('order', array(), 'post', 'array');
 		JArrayHelper::toInteger($order);
 
 		// update ordering values
-		for( $i=0; $i < $total; $i++ ) {
-			$row->load( $items[$i] );
+		for($i=0; $i < $total; $i++) {
+			$row->load($items[$i]);
 			// track parents
 			$groupings[] = $row->parent;
 			if ($row->ordering != $order[$i]) {
@@ -564,13 +564,13 @@ class MenusModelList extends JModel
 		} // for
 
 		// execute updateOrder for each parent group
-		$groupings = array_unique( $groupings );
+		$groupings = array_unique($groupings);
 		foreach ($groupings as $group){
 			$row->reorder('menutype = '.$this->_db->Quote($menutype).' AND parent = '.(int) $group.' AND published >=0');
 		}
 
 		// clean menu cache
-		$cache =& JFactory::getCache('mod_mainmenu');
+		$cache = &JFactory::getCache('mod_mainmenu');
 		$cache->clean();
 
 		return true;
@@ -580,11 +580,11 @@ class MenusModelList extends JModel
 	 * Delete one or more menu items
 	 * @param mixed int or array of id values
 	 */
-	function delete( $ids )
+	function delete($ids)
 	{
 		JArrayHelper::toInteger($ids);
 
-		if (count( $ids )) {
+		if (count($ids)) {
 
 			// Add all children to the list
 			foreach ($ids as $id)
@@ -595,45 +595,45 @@ class MenusModelList extends JModel
 			$db = &$this->getDBO();
 
 			// Delete associated module and template mappings
-			$where = 'WHERE menuid = ' . implode( ' OR menuid = ', $ids );
+			$where = 'WHERE menuid = ' . implode(' OR menuid = ', $ids);
 
 			$query = 'DELETE FROM #__modules_menu '
 				. $where;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if (!$db->query()) {
-				$this->setError( $menuTable->getErrorMsg() );
+				$this->setError($menuTable->getErrorMsg());
 				return false;
 			}
 
 			$query = 'DELETE FROM #__templates_menu '
 				. $where;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if (!$db->query()) {
-				$this->setError( $menuTable->getErrorMsg() );
+				$this->setError($menuTable->getErrorMsg());
 				return false;
 			}
 
 			// Set any alias menu types to not point to missing menu items
-			$query = 'UPDATE #__menu SET link = 0 WHERE type = \'menulink\' AND (link = '.implode( ' OR id = ', $ids ).')';
-			$db->setQuery( $query );
+			$query = 'UPDATE #__menu SET link = 0 WHERE type = \'menulink\' AND (link = '.implode(' OR id = ', $ids).')';
+			$db->setQuery($query);
 			if (!$db->query()) {
-				$this->setError( $db->getErrorMsg() );
+				$this->setError($db->getErrorMsg());
 				return false;
 			}
 
 			// Delete the menu items
-			$where = 'WHERE id = ' . implode( ' OR id = ', $ids );
+			$where = 'WHERE id = ' . implode(' OR id = ', $ids);
 
 			$query = 'DELETE FROM #__menu ' . $where;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if (!$db->query()) {
-				$this->setError( $db->getErrorMsg() );
+				$this->setError($db->getErrorMsg());
 				return false;
 			}
 		}
 
 		// clean menu cache
-		$cache =& JFactory::getCache('mod_mainmenu');
+		$cache = &JFactory::getCache('mod_mainmenu');
 		$cache->clean();
 
 		return true;
@@ -642,22 +642,22 @@ class MenusModelList extends JModel
 	/**
 	 * Delete menu items by type
 	 */
-	function deleteByType( $type = '' )
+	function deleteByType($type = '')
 	{
 		$db = &$this->getDBO();
 
 		$query = 'SELECT id' .
 				' FROM #__menu' .
-				' WHERE menutype = ' . $db->Quote( $type );
-		$db->setQuery( $query );
+				' WHERE menutype = ' . $db->Quote($type);
+		$db->setQuery($query);
 		$ids = $db->loadResultArray();
 
 		if ($db->getErrorNum()) {
-			$this->setError( $db->getErrorMsg() );
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 
-		return $this->delete( $ids );
+		return $this->delete($ids);
 	}
 
 	function _addChildren($id, &$list)
@@ -666,11 +666,11 @@ class MenusModelList extends JModel
 		$return = true;
 
 		// Get all rows with parent of $id
-		$db =& $this->getDBO();
+		$db = &$this->getDBO();
 		$query = 'SELECT id' .
 				' FROM #__menu' .
 				' WHERE parent = '.(int) $id;
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
 		// Make sure there aren't any errors

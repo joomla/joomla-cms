@@ -13,7 +13,7 @@
 			<td width="60%">
 				<!-- Menu Item Type Section -->
 				<fieldset>
-					<legend><?php echo JText::_( 'Select Menu Item Type' ); ?></legend>
+					<legend><?php echo JText::_('Select Menu Item Type'); ?></legend>
 					<ul id="menu-item" class="jtree">
 						<li id="internal-node"><div class="node-open"><span></span><a href="#"><?php echo JText::_('Internal Link'); ?></a></div>
 							<ul>
@@ -42,5 +42,5 @@
 	</table>
 	<input type="hidden" name="option" value="com_menus" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_( 'form.token' ); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

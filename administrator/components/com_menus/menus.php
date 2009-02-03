@@ -8,7 +8,7 @@
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 if (!JAcl::authorise('core', 'menus.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
@@ -19,5 +19,5 @@ require_once JPATH_COMPONENT.DS.'helpers'.DS.'helper.php';
 
 $controller = new MenusController(array('default_task' => 'viewMenus'));
 $controller->registerTask('apply', 'save');
-$controller->execute(JRequest::getCmd('task' ));
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();
