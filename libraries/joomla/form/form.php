@@ -648,9 +648,9 @@ class JForm extends JClass
 		}
 
 		// Check the group control.
-		if ($groupControl == '_default' && $this->_fieldsets[$group]['array'] == false) {
+		if ($groupControl == '_default' && (empty($this->_fieldsets[$group]) || $this->_fieldsets[$group]['array'] == false)) {
 			$groupControl = false;
-		} elseif ($groupControl == '_default' && $group !== '_default' && $this->_fieldsets[$group]['array'] == true) {
+		} elseif ($groupControl == '_default' && $group !== '_default' && isset($this->_fieldsets[$group]) && $this->_fieldsets[$group]['array'] == true) {
 			$groupControl = $group;
 		}
 
