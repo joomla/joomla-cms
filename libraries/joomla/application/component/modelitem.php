@@ -35,27 +35,6 @@ abstract class JModelItem extends JModel
 	 protected $_context		= 'group.type';
 
 	/**
-	 * Overridden method to get model state variables.
-	 *
-	 * @param	string	$property	Optional parameter name.
-	 * @return	object	The property where specified, the state object where omitted.
-	 */
-	public function getState($property = null, $default = null)
-	{
-		if (!$this->__state_set)
-		{
-			// Private method to auto-populate the model state.
-			$this->_populateState();
-
-			// Set the model state set flat to true.
-			$this->__state_set = true;
-		}
-
-		$value = parent::getState($property);
-		return (is_null($value) ? $default : $value);
-	}
-
-	/**
 	 * Method to get a store id based on model configuration state.
 	 *
 	 * This is necessary because the model is used by the component and
