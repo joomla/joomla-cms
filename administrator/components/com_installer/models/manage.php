@@ -235,7 +235,7 @@ class InstallerModelManage extends InstallerModel
 			$retval[] = 'type = "'. $type .'"';
 		}
 
-		$folder = JRequest::getVar('folder','');
+		$folder = JRequest::getVar('folder','All');
 		$valid_folders = Array('plugin','library','All'); // only plugins and libraries have folders
 		if(in_array($type, $valid_folders)) { // if the type supports folders, look for that
 			if($folder != 'All') {

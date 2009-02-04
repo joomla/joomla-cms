@@ -89,7 +89,7 @@ class InstallerViewManage extends InstallerViewDefault
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"',
 			'folder',
 			'folder',
-			JRequest::getVar('folder',''),
+			JRequest::getVar('folder','All'),
 			false,
 			true
 		);

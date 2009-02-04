@@ -371,7 +371,6 @@ INSERT INTO #__extensions VALUES(0,"Messaging","component","com_messages","",0,1
 INSERT INTO #__extensions VALUES(0,"Modules Manager","component","com_modules","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"News Feeds","component","com_newsfeeds","",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Plugin Manager","component","com_plugins","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Polls","component","com_poll","",0,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Search","component","com_search","",0,1,0,1,"","enabled=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Template Manager","component","com_templates","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"User","component","com_user","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
@@ -1233,10 +1232,10 @@ CREATE TABLE  `#__tasks` (
   `taskid` int(10) unsigned NOT NULL auto_increment,
   `tasksetid` int(10) unsigned NOT NULL default '0',
   `type` varchar(20) NOT NULL default '',
-  `data` text,
+  `data` longtext,
   `offset` int(11) default '0',
   `total` int(11) default '0',
-  `params` text,
+  `params` longtext,
   PRIMARY KEY  (`taskid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Individual tasks';
 

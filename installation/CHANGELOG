@@ -28,6 +28,11 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+04-Feb-2009 Sam Moffatt
+ # Fixed issue with temp and log paths not being displayed in the directory info tabs
+ # Fixed issue with list of extensions not working properly
+ ^ Installer SQL cleanup
+
 01-Feb-2009 Sam Moffatt
  # Fixed issue with com_config loading incorrect language file
  + Added language override feature

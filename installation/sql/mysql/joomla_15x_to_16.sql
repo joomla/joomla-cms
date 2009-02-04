@@ -29,18 +29,6 @@ CREATE TABLE  `jos_extensions` (
   KEY `extension` (`type`,`element`,`folder`,`client_id`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
-# Earlier versions of this file didn't have the checkout and ordering fields
-ALTER TABLE `jos_extensions` ADD COLUMN `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT 0 AFTER `data`,
- ADD COLUMN `checked_out_time` DATETIME NOT NULL DEFAULT 0 AFTER `checked_out`,
- ADD COLUMN `ordering` INTEGER DEFAULT 0 AFTER `checked_out_time`;
-
-# Earlier versions used 'data' instead of 'custom_data' and 'system_data'
-ALTER TABLE `jos_extensions` CHANGE COLUMN `data` `custom_data` TEXT NOT NULL,
- ADD COLUMN `system_data` TEXT  NOT NULL AFTER `custom_data`;
-
-# Earlier versions didn't have a state field; used for discovered extensions
-ALTER TABLE `jos_extensions` ADD COLUMN `state` INTEGER  NOT NULL DEFAULT 0 AFTER `ordering`;
-
 # Added some indicies
 ALTER TABLE `jos_extensions` ADD INDEX `type_element`(`type`, `element`),
  ADD INDEX `element_clientid`(`element`, `client_id`),

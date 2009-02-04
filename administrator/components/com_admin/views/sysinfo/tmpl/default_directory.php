@@ -2,6 +2,7 @@
 
 jimport('joomla.filesystem.folder');
 $cparams = JComponentHelper::getParams ('com_media');
+$config =& JFactory::getConfig();
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_('Directory Permissions'); ?></legend>
@@ -61,10 +62,11 @@ $cparams = JComponentHelper::getParams ('com_media');
 			AdminViewSysinfo::writableRow('plugins/system');
 			AdminViewSysinfo::writableRow('plugins/user');
 			AdminViewSysinfo::writableRow('plugins/xmlrpc');
-			AdminViewSysinfo::writableRow('tmp');
 			AdminViewSysinfo::writableRow('templates');
 			AdminViewSysinfo::writableRow(JPATH_SITE.DS.'cache', 0, '<strong>'. JText::_('Cache Directory') .'</strong> ');
 			AdminViewSysinfo::writableRow(JPATH_ADMINISTRATOR.DS.'cache', 0, '<strong>'. JText::_('Cache Directory') .'</strong> ');
+			AdminViewSysinfo::writableRow($config->getValue('config.log_path', JPATH_ROOT.DS.'log'),0, '<strong>'. JText::_( 'Log Directory' ) . ' ($log_path)</strong> ');
+			AdminViewSysinfo::writableRow($config->getValue('config.tmp_path', JPATH_ROOT.DS.'tmp'),0, '<strong>'. JText::_( 'Temp Directory' ) . ' ($tmp_path)</strong> ');
 			?>
 		</tbody>
 		</table>
