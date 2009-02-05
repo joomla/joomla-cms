@@ -122,7 +122,7 @@ abstract class JHtmlList
 				$neworder = -1;
 			}
 		}
-		return JHtmlList::ordering('ordering', $value, $query, $neworder);
+		return JHtmlList::ordering('ordering', $query, '', $value, $neworder);
 	}
 
 	/**
@@ -137,7 +137,7 @@ abstract class JHtmlList
 	 * @return	string
 	 * @since	1.6
 	 */
-	public static function ordering($name, $query, $attribs = null, $selected = null, $id = null, $neworder = null, $chop = null)
+	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null, $chop = null)
 	{
 		if (empty($attribs)) {
 			$attribs = 'class="inputbox" size="1"';
