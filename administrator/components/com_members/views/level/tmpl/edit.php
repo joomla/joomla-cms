@@ -29,7 +29,7 @@ function submitbutton(task)
 		submitform(task);
 	}
 }
-
+/*
 window.addEvent('domready', function(){
 	$('member-groups').getElements('input').each(function(i){
 		// Event to check all child groups.
@@ -87,6 +87,7 @@ window.addEvent('domready', function(){
 		}
 	});
 });
+*/
 // -->
 </script>
 
