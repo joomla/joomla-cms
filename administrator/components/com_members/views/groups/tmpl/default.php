@@ -58,17 +58,11 @@ JHtml::stylesheet('default.css', 'administrator/components/com_members/media/css
 			foreach ($this->items as $item) : ?>
 			<tr class="row<?php echo $i++ % 2; ?>">
 				<td style="text-align:center">
-					<?php if ($item->id > 30) : ?>
 					<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
-					<?php endif; ?>
 				</td>
 				<td style="padding-left:<?php echo intval(($item->level)*15)+4; ?>px">
-					<?php if ($item->id > 8) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_members&task=group.edit&cid[]='.$item->id);?>">
 						<?php echo $item->title; ?></a>
-					<?php else : ?>
-					<?php echo $item->title; ?>
-					<?php endif; ?>
 				</td>
 				<td align="center">
 					<?php echo $item->user_count ? $item->user_count : ''; ?>
