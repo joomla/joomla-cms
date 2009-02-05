@@ -15,16 +15,14 @@ jimport('joomla.application.component.view');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
 class MembersViewGroups extends JView
 {
 	/**
 	 * Display the view
-	 *
-	 * @access	public
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
@@ -41,16 +39,15 @@ class MembersViewGroups extends JView
 		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
+		$this->_setToolbar();
 	}
 
 	/**
 	 * Build the default toolbar.
 	 *
-	 * @access	protected
 	 * @return	void
-	 * @since	1.0
 	 */
-	function buildDefaultToolBar()
+	protected function _setToolbar()
 	{
 		JToolBarHelper::title(JText::_('Members_Title_Groups'));
 

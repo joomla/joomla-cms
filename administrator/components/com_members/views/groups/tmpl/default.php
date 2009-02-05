@@ -18,9 +18,6 @@ JHtml::_('behavior.tooltip');
 
 // Load the default stylesheet.
 JHtml::stylesheet('default.css', 'administrator/components/com_members/media/css/');
-
-// Build the toolbar.
-$this->buildDefaultToolBar();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_members&view=groups');?>" method="post" name="adminForm">
 	<fieldset class="filter">

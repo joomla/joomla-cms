@@ -15,22 +15,20 @@ jimport('joomla.form.formfield');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
 class JFormFieldMember extends JFormField
 {
 	/**
 	 * Method to generate the form field markup.
 	 *
-	 * @access	public
 	 * @param	string	The form field name.
 	 * @param	string	The form field value.
 	 * @param	object	The JFormField object.
 	 * @param	string	The form field control name.
 	 * @return	string	Form field markup.
-	 * @since	1.0
 	 */
-	function _getInput()
+	protected function _getInput()
 	{
 		// Load the modal behavior.
 		JHtml::_('behavior.modal', 'a.modal');

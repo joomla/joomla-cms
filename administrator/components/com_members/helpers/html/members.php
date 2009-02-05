@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Invalid Request.');
  */
 class JHTMLMembers
 {
-	function groups($name, $attribs, $selected)
+	public static function groups($name, $attribs, $selected)
 	{
 		// Get a database object.
 		$db = &JFactory::getDBO();
@@ -44,7 +44,7 @@ class JHTMLMembers
 		return JHtml::_('select.genericlist', $options, $name, 'class="inputbox" '.$attribs, 'value', 'text', $selected, $name);
 	}
 
-	function addLevel($section = null)
+	public static function addLevel($section = null)
 	{
 		$html[] = '<form>';
 		$html[] = '';

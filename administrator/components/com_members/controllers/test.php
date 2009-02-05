@@ -11,15 +11,15 @@ defined('_JEXEC') or die('Invalid Request.');
 jimport( 'joomla.application.component.controller' );
 
 /**
- * The Members Configuration Controller
+ * This is just for development tests
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
 class MembersControllerTest extends JController
 {
-	function get_allowed_levels()
+	public function get_allowed_levels()
 	{
 		jimport('joomla.access.access');
 
@@ -29,7 +29,7 @@ class MembersControllerTest extends JController
 		$levels = $acl->getAuthorizedAccessLevels($user->id);
 	}
 
-	function assetgroups()
+	public function assetgroups()
 	{
 		jimport('joomla.access.access');
 

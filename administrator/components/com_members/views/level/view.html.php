@@ -15,16 +15,14 @@ jimport('joomla.application.component.view');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
 class MembersViewLevel extends JView
 {
 	/**
 	 * Display the view
-	 *
-	 * @access	public
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$state	= $this->get('State');
 		$item	= $this->get('Item');
@@ -44,16 +42,15 @@ class MembersViewLevel extends JView
 		$this->assignRef('item',	$item);
 
 		parent::display($tpl);
+		$this->_setToolbar();
 	}
 
 	/**
 	 * Build the default toolbar.
 	 *
-	 * @access	protected
 	 * @return	void
-	 * @since	1.0
 	 */
-	function buildDefaultToolBar()
+	protected function _setToolbar()
 	{
 		$isNew	= ($this->item->getAssetGroupId() == 0);
 		JToolBarHelper::title(JText::_($isNew ? 'Members_Title_Add_Access_Level' : 'Members_Title_Edit_Access_Level'));

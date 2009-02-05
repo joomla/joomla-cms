@@ -8,84 +8,54 @@
 
 defined('_JEXEC') or die('Invalid Request.');
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modelitem');
 
 /**
  * Member model for Members.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
-class MembersModelMember extends JModel
+class MembersModelMember extends JModelItem
 {
 	/**
-	 * Flag to indicate model state initialization.
+	 * Method to auto-populate the model state.
 	 *
-	 * @access	protected
-	 * @var		boolean
-	 */
-	var $__state_set		= null;
-
-	/**
-	 * Override constructor
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
 	 *
-	 * @access	public
-	 * @param	array	Configuration array
+	 * @return	void
 	 */
-	function __construct($config = array())
+	protected function _populateState()
 	{
-		if (!empty($config['ignore_request'])) {
-			$this->__state_set = true;
-		}
-		parent::__construct($config);
-	}
+		$app		= &JFactory::getApplication('administrator');
+		$params		= &JComponentHelper::getParams('com_members');
 
-	/**
-	 * Overridden method to get model state variables.
-	 *
-	 * @access	public
-	 * @param	string	$property	Optional parameter name.
-	 * @return	object	The property where specified, the state object where omitted.
-	 * @since	1.0
-	 */
-	function getState($property = null)
-	{
-		if (!$this->__state_set)
-		{
-			$app		= &JFactory::getApplication('administrator');
-			$params		= &JComponentHelper::getParams('com_members');
-
-			// Load the Member state.
-			if (JRequest::getWord('layout') === 'edit') {
-				$member_id = (int)$app->getUserState('com_members.edit.member.id');
-				$this->setState('member.id', $member_id);
-			} else {
-				$member_id = (int)JRequest::getInt('member_id');
-				$this->setState('member.id', $member_id);
-			}
-
-			// Add the Member id to the context to preserve sanity.
-			$context	= 'com_members.member.'.$member_id.'.';
-
-			// Load the parameters.
-			$this->setState('params', $params);
-
-			$this->__state_set = true;
+		// Load the Member state.
+		if (JRequest::getWord('layout') === 'edit') {
+			$member_id = (int)$app->getUserState('com_members.edit.member.id');
+			$this->setState('member.id', $member_id);
+		} else {
+			$member_id = (int)JRequest::getInt('member_id');
+			$this->setState('member.id', $member_id);
 		}
 
-		return parent::getState($property);
+		// Add the Member id to the context to preserve sanity.
+		$context	= 'com_members.member.'.$member_id.'.';
+
+		// Load the parameters.
+		$this->setState('params', $params);
 	}
 
 	/**
 	 * Method to get a member item.
 	 *
-	 * @access	public
 	 * @param	integer	The id of the member to get.
 	 * @return	mixed	Member data object on success, false on failure.
-	 * @since	1.0
 	 */
-	function &getItem($userId = null)
+	public function &getItem($userId = null)
 	{
 		// Initialize variables.
 		$userId = (!empty($userId)) ? $userId : (int)$this->getState('member.id');
@@ -125,11 +95,9 @@ class MembersModelMember extends JModel
 	/**
 	 * Method to get the group form.
 	 *
-	 * @access	public
 	 * @return	mixed	JForm object on success, false on failure.
-	 * @since	1.0
 	 */
-	function &getForm()
+	public function &getForm()
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
@@ -173,8 +141,10 @@ class MembersModelMember extends JModel
 
 	/**
 	 * Gets the available groups.
+	 *
+	 * @return	array
 	 */
-	function getGroups()
+	public function getGroups()
 	{
 		$model = JModel::getInstance('Groups', 'MembersModel');
 		return $model->getItems();
@@ -182,8 +152,10 @@ class MembersModelMember extends JModel
 
 	/**
 	 * Gets the groups this object is assigned to
+	 *
+	 * @return	array
 	 */
-	function getAssignedGroups($userId = null)
+	public function getAssignedGroups($userId = null)
 	{
 		// Initialize variables.
 		$userId = (!empty($userId)) ? $userId : (int)$this->getState('member.id');
@@ -197,12 +169,10 @@ class MembersModelMember extends JModel
 	/**
 	 * Method to checkin a row.
 	 *
-	 * @since	1.0
-	 * @access	public
 	 * @param	integer	$id		The numeric id of a row
 	 * @return	boolean	True on success/false on failure
 	 */
-	function checkin($userId = null)
+	public function checkin($userId = null)
 	{
 		// Initialize variables.
 		$userId = (!empty($userId)) ? $userId : (int)$this->getState('member.id');
@@ -231,12 +201,10 @@ class MembersModelMember extends JModel
 	/**
 	 * Method to check-out a Member for editing.
 	 *
-	 * @access	public
 	 * @param	int		$member_id	The numeric id of the Member to check-out.
 	 * @return	bool	False on failure or error, success otherwise.
-	 * @since	1.0
 	 */
-	function checkout($userId)
+	public function checkout($userId)
 	{
 		// Initialize variables.
 		$userId = (!empty($userId)) ? $userId : (int)$this->getState('member.id');
@@ -270,56 +238,12 @@ class MembersModelMember extends JModel
 	}
 
 	/**
-	 * Method to validate the form data.
-	 *
-	 * @access	public
-	 * @param	array	The form data.
-	 * @return	mixed	Array of filtered data if valid, false otherwise.
-	 * @since	1.0
-	 */
-	function validate($data)
-	{
-		// Get the form.
-		$form = &$this->getForm();
-
-		// Check for an error.
-		if ($form === false) {
-			return false;
-		}
-
-		// Filter and validate the form data.
-		$data	= $form->filter($data);
-		$return	= $form->validate($data);
-
-		// Check for an error.
-		if (JError::isError($return)) {
-			$this->setError($return->getMessage());
-			return false;
-		}
-
-		// Check the validation results.
-		if ($return === false)
-		{
-			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message) {
-				$this->setError($message);
-			}
-
-			return false;
-		}
-
-		return $data;
-	}
-
-	/**
 	 * Method to save the form data.
 	 *
-	 * @access	public
 	 * @param	array	The form data.
 	 * @return	boolean	True on success.
-	 * @since	1.0
 	 */
-	function save($data)
+	public function save($data)
 	{
 		$userId = (!empty($data['id'])) ? $data['id'] : (int)$this->getState('member.id');
 		$isNew	= true;
@@ -414,7 +338,7 @@ class MembersModelMember extends JModel
 	 * @param	array	An array of variable for the batch operation
 	 * @param	array	An array of IDs on which to operate
 	 */
-	function batch($config, $member_ids)
+	public function batch($config, $member_ids)
 	{
 		// Ensure there are selected members to operate on.
 		if (empty($member_ids))

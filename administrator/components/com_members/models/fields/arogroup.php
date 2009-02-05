@@ -16,11 +16,14 @@ jimport('joomla.form.fields.list');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
 class JFormFieldUserGroup extends JFormFieldList
 {
-	function _getOptions()
+	/**
+	 * @return	array	An array of list options
+	 */
+	protected function _getOptions()
 	{
 		// Get a database object.
 		$db = &JFactory::getDBO();

@@ -27,7 +27,7 @@ class JHTMLJxGrid
 	 *
 	 * @return	string
 	 */
-	function access($i, $accessValue, $accessName, $prefix='')
+	public static function access($i, $accessValue, $accessName, $prefix='')
 	{
 		if (!$accessValue)  {
 			$color_access = 'green';
@@ -53,7 +53,7 @@ class JHTMLJxGrid
 	 *
 	 * @return	string
 	 */
-	function published($i, $value, $prefix='')
+	public static function published($i, $value, $prefix='')
 	{
 		$images	= array(-2 => 'components/com_members/media/images/icon-16-trash.png', 0 => 'images/publish_x.png', 1 => 'images/tick.png');
 		$alts	= array(-2 => 'Trash', 0 => 'Unpublished', 1 => 'Published');
@@ -77,7 +77,7 @@ class JHTMLJxGrid
 	 *
 	 * @return	string
 	 */
-	function checkedout($editor, $time)
+	public static function checkedout($editor, $time)
 	{
 		$text	= addslashes(htmlspecialchars($editor));
 		$date 	= JHtml::_('date',  $time, '%A, %d %B %Y');
@@ -89,7 +89,7 @@ class JHTMLJxGrid
 		return $checked;
 	}
 
-	function enabled($value, $i)
+	public static function enabled($value, $i)
 	{
 		$images	= array(0 => 'images/publish_x.png', 1 => 'images/tick.png');
 		$alts	= array(0 => 'Disabled', 1 => 'Enabled');
@@ -106,7 +106,7 @@ class JHTMLJxGrid
 		return $href;
 	}
 
-	function allowed($value, $i)
+	public static function allowed($value, $i)
 	{
 		$images	= array(0 => 'images/publish_x.png', 1 => 'images/tick.png');
 		$alts	= array(0 => 'Denied', 1 => 'Allowed');
@@ -122,5 +122,4 @@ class JHTMLJxGrid
 
 		return $href;
 	}
-
 }

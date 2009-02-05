@@ -15,18 +15,16 @@ jimport( 'joomla.application.component.controller' );
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
 class MembersControllerLevel extends JController
 {
 	/**
 	 * Constructor
 	 *
-	 * @access	public
 	 * @return	void
-	 * @since	1.0
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -38,11 +36,9 @@ class MembersControllerLevel extends JController
 	/**
 	 * Dummy method to redirect back to standard controller
 	 *
-	 * @access	public
 	 * @return	void
-	 * @since	1.0
 	 */
-	function display()
+	public function display()
 	{
 		$this->setRedirect(JRoute::_('index.php?option=com_members', false));
 	}
@@ -50,11 +46,9 @@ class MembersControllerLevel extends JController
 	/**
 	 * Method to add a new access level.
 	 *
-	 * @access	public
 	 * @return	void
-	 * @since	1.0
 	 */
-	function add()
+	public function add()
 	{
 		// Initialize variables.
 		$app = &JFactory::getApplication();
@@ -70,11 +64,9 @@ class MembersControllerLevel extends JController
 	/**
 	 * Method to edit an existing access level.
 	 *
-	 * @access	public
 	 * @return	void
-	 * @since	1.0
 	 */
-	function edit()
+	public function edit()
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
@@ -94,11 +86,9 @@ class MembersControllerLevel extends JController
 	/**
 	 * Method to cancel an edit
 	 *
-	 * @access	public
 	 * @return	void
-	 * @since	1.0
 	 */
-	function cancel()
+	public function cancel()
 	{
 		// Initialize variables.
 		$app = &JFactory::getApplication();
@@ -114,11 +104,9 @@ class MembersControllerLevel extends JController
 	/**
 	 * Method to save an access level.
 	 *
-	 * @access	public
 	 * @return	void
-	 * @since	1.0
 	 */
-	function save()
+	public function save()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
@@ -212,11 +200,9 @@ class MembersControllerLevel extends JController
 	/**
 	 * Method to delete access levels.
 	 *
-	 * @access	public
 	 * @return	void
-	 * @since	1.0
 	 */
-	function delete()
+	public function delete()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));

@@ -19,9 +19,6 @@ JHtml::_('behavior.formvalidation');
 
 // Load the default stylesheet.
 JHtml::stylesheet('default.css', 'administrator/components/com_members/media/css/');
-
-// Build the toolbar.
-$this->buildDefaultToolBar();
 ?>
 
 <script type="text/javascript">

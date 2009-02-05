@@ -16,17 +16,16 @@ jimport('joomla.access.helper');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
 class MembersModelLevel extends JModelItem
 {
 	/**
 	 * Array of items for memory caching.
 	 *
-	 * @access	protected
 	 * @var		array
 	 */
-	var $_items			= array();
+	protected $_items = array();
 
 	/**
 	 * Method to auto-populate the model state.
@@ -54,12 +53,10 @@ class MembersModelLevel extends JModelItem
 	/**
 	 * Method to get a level item.
 	 *
-	 * @access	public
 	 * @param	integer	The id of the level to get.
 	 * @return	mixed	Group data object on success, false on failure.
-	 * @since	1.0
 	 */
-	function &getItem($levelId = null)
+	public function &getItem($levelId = null)
 	{
 		// Initialize variables.
 		$levelId = (!empty($levelId)) ? $levelId : (int)$this->getState('level.id');
@@ -86,7 +83,6 @@ class MembersModelLevel extends JModelItem
 	 * Method to get the group form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
-	 * @since	1.0
 	 */
 	public function &getForm()
 	{
@@ -120,12 +116,10 @@ class MembersModelLevel extends JModelItem
 	/**
 	 * Method to save the form data.
 	 *
-	 * @access	public
 	 * @param	array	The form data.
 	 * @return	boolean	True on success.
-	 * @since	1.0
 	 */
-	function save($data)
+	public function save($data)
 	{
 		// Initialize variables.
 		$levelId = (!empty($data['id'])) ? $data['id'] : (int)$this->getState('level.id');
@@ -185,12 +179,10 @@ class MembersModelLevel extends JModelItem
 	/**
 	 * Method to delete levels.
 	 *
-	 * @access	public
 	 * @param	array	An array of level ids.
 	 * @return	boolean	Returns true on success, false on failure.
-	 * @since	1.0
 	 */
-	function delete($levelIds)
+	public function delete($levelIds)
 	{
 		// Sanitize the ids.
 		$levelIds = (array) $levelIds;

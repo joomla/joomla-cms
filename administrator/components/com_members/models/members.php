@@ -16,26 +16,23 @@ jimport('joomla.database.query');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
 class MembersModelMembers extends JModelList
 {
 	/**
 	 * Model context string.
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
-	 var $_context = 'members.members';
+	 protected $_context = 'members.members';
 
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @access	protected
 	 * @return	string	An SQL query
-	 * @since	1.0
 	 */
-	function _getListQuery()
+	protected function _getListQuery()
 	{
 		// Create a new query object.
 		$query = new JQuery;
@@ -85,12 +82,10 @@ class MembersModelMembers extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @access	protected
 	 * @param	string		$context	A prefix for the store id.
 	 * @return	string		A store id.
-	 * @since	1.0
 	 */
-	function _getStoreId($id = '')
+	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('list.start');
@@ -112,11 +107,9 @@ class MembersModelMembers extends JModelList
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 *
-	 * @access	protected
 	 * @return	void
-	 * @since	1.0
 	 */
-	function _populateState()
+	protected function _populateState()
 	{
 		// Initialize variables.
 		$app		= &JFactory::getApplication('administrator');

@@ -15,17 +15,16 @@ jimport('joomla.application.component.modelitem');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
 class MembersModelGroup extends JModelItem
 {
 	/**
 	 * Array of items for memory caching.
 	 *
-	 * @access	protected
 	 * @var		array
 	 */
-	var $_items			= array();
+	protected $_items			= array();
 
 	/**
 	 * Method to auto-populate the model state.
@@ -53,10 +52,8 @@ class MembersModelGroup extends JModelItem
 	/**
 	 * Method to get a group item.
 	 *
-	 * @access	public
 	 * @param	integer	The id of the group to get.
 	 * @return	mixed	Group data object on success, false on failure.
-	 * @since	1.0
 	 */
 	public function &getItem($groupId = null)
 	{

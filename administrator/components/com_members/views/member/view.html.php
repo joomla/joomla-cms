@@ -25,8 +25,6 @@ class MembersViewMember extends JView
 
 	/**
 	 * Display the view
-	 *
-	 * @access	public
 	 */
 	public function display($tpl = null)
 	{
@@ -56,6 +54,7 @@ class MembersViewMember extends JView
 		$this->assign('group_id',	$user->gid);
 
 		parent::display($tpl);
+		$this->_setToolbar();
 	}
 
 	/**
@@ -64,7 +63,7 @@ class MembersViewMember extends JView
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function buildDefaultToolBar()
+	protected function _setToolbar()
 	{
 		$isNew	= ($this->item->id == 0);
 		JToolBarHelper::title(JText::_($isNew ? 'Members_Title_Add_Member' : 'Members_Title_Edit_Member'));
@@ -75,8 +74,3 @@ class MembersViewMember extends JView
 		//JToolBarHelper::help('index', true);
 	}
 }
-
-/*function aclGroupChecked(&$array, $value)
-{
-	return array_key_exists($value, (array) $array) ? 'checked="checked"' : '';
-}*/

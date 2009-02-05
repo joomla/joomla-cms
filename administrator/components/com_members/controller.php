@@ -15,18 +15,16 @@ jimport('joomla.application.component.controller');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
 class MembersController extends JController
 {
 	/**
 	 * Method to display a view.
 	 *
-	 * @access	public
 	 * @return	void
-	 * @since	1.0
 	 */
-	function display()
+	public function display()
 	{
 		// Get the document object.
 		$document = &JFactory::getDocument();

@@ -16,18 +16,16 @@ jimport( 'joomla.application.component.controller' );
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
 class MembersControllerLevel extends JController
 {
 	/**
 	 * Method to add a comment via JSON.
 	 *
-	 * @access	public
 	 * @return	void
-	 * @since	1.0
 	 */
-	function save()
+	public function save()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JInvalid_Token'), 403));
@@ -74,12 +72,10 @@ class MembersControllerLevel extends JController
 	 * can be a JException object for when an error has occurred or
 	 * a JObject for a good response.
 	 *
-	 * @access	public
 	 * @param	object	$body	JObject on success, JException on failure.
 	 * @return	void
-	 * @since	1.2
 	 */
-	function sendResponse($body)
+	public function sendResponse($body)
 	{
 		// Check if we need to send an error code.
 		if (JError::isError($body))
@@ -103,11 +99,11 @@ class MembersControllerLevel extends JController
  *
  * @package		Joomla.Administrator
  * @subpackage	com_members
- * @version		1.6
+ * @since		1.6
  */
 class MembersLevelResponse
 {
-	function __construct($state)
+	public function __construct($state)
 	{
 		// The old token is invalid so send a new one.
 		$this->token = JUtility::getToken(true);
