@@ -80,7 +80,7 @@ abstract class JPathway extends JClass
 			}
 			else
 			{
-				throw new JException('Unable to load pathway', 500, E_ERROR, $client, true);
+				throw new JException('Unable to load pathway', 1054, E_ERROR, $client, true);
 			}
 
 			$instances[$client] = & $instance;

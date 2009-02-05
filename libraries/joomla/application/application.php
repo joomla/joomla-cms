@@ -153,7 +153,7 @@ abstract class JApplication extends JClass
 			}
 			else
 			{
-				throw new JException('Unable to load application: '.$client, 500, E_ERROR, $info, true);
+				throw new JException('Unable to load application: '.$client, 1050, E_ERROR, $info, true);
 			}
 
 			$instances[$client] =& $instance;
@@ -425,7 +425,7 @@ abstract class JApplication extends JClass
 		{
 			$r = null;
 			if (!preg_match('/J(.*)/i', get_class($this), $r)) {
-				throw new JException("JApplication::getName() : Can\'t get or parse class name.", 500, E_ERROR, $name, true);
+				throw new JException("Can\'t get or parse application name", 1051, E_ERROR, $name, true);
 			}
 			$name = strtolower($r[1]);
 		}
@@ -594,8 +594,7 @@ abstract class JApplication extends JClass
 			return false;
 		}
 
-		// Return the error
-		return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_AUTHENTICATE'));
+		return JError::raiseWarning(1052, JText::_('E_LOGIN_AUTHENTICATE'));
 	}
 
 	/**

@@ -190,8 +190,7 @@ abstract class JComponentHelper
 		try {
 			$components = $db->loadObjectList('option');
 		} catch (JException $e) {
-			JError::raiseWarning('SOME_ERROR_CODE', "Error loading Components: " . $db->getErrorMsg());
-			return false;
+			return array();
 		}
 
 		return $components;

@@ -98,7 +98,7 @@ class JMenu extends JClass
 			}
 			else
 			{
-				throw new JException('Unable to load menu client', 500, E_ERROR, $client, true);
+				throw new JException('Unable to load menu client', 1053, E_ERROR, $client, true);
 			}
 
 			$instances[$client] = & $instance;

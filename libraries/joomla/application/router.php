@@ -103,7 +103,7 @@ abstract class JRouter extends JClass
 			}
 			else
 			{
-				throw new JException('Unable to load router', 500, E_ERROR, $client, true);
+				throw new JException('Unable to load router', 1055, E_ERROR, $client, true);
 			}
 
 			$instances[$client] = & $instance;

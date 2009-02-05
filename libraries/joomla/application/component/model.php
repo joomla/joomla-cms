@@ -121,7 +121,7 @@ abstract class JModel extends JClass
 
 				if (!class_exists($modelClass))
 				{
-					throw new JException('Model class not found in file', 500, E_ERROR, $modelClass, true);
+					throw new JException('Model class not found', 1061, E_ERROR, $modelClass, true);
 				}
 			}
 			else return $result;
@@ -214,7 +214,7 @@ abstract class JModel extends JClass
 		{
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r)) {
-				throw new JException('Can\'t get or parse class name', 500, E_ERROR, get_class($this), true);
+				throw new JException('Can\'t get or parse class name', 1062, E_ERROR, get_class($this), true);
 			}
 			$name = strtolower($r[1]);
 		}
@@ -240,7 +240,7 @@ abstract class JModel extends JClass
 			return $table;
 		}
 
-		throw new JException('Table not supported.  File not found.', 500, E_ERROR, $name, true);
+		throw new JException('Table not supported.  File not found', 1063, E_ERROR, $name, true);
 	}
 
 	/**
@@ -289,7 +289,6 @@ abstract class JModel extends JClass
 	{
 		$this->_db->setQuery($query, $limitstart, $limit);
 		$result = $this->_db->loadObjectList();
-
 		return $result;
 	}
 

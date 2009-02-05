@@ -174,7 +174,7 @@ abstract class JView extends JClass
 		if (isset($this->_data[$var])) {
 			return $this->_data[$var];
 		}
-		JError::raiseNotice(0, 'Attempted to access undefined object propery', $var);
+		JError::raiseNotice(1064, 'Attempted to access undefined object propery', $var);
 		return $this->$var;
 	}
 
@@ -185,7 +185,7 @@ abstract class JView extends JClass
 	 * @since	1.6
  	 */
 	public function __set($var, $val) {
-		JError::raiseNotice(0, 'Attempted to set undefined object propery', array('var'=>$var, 'val'=>$val));
+		JError::raiseNotice(1065, 'Attempted to set undefined object propery', array('var'=>$var, 'val'=>$val));
 		$this->_data[$var] = $val;
 	}
 
@@ -419,13 +419,13 @@ abstract class JView extends JClass
 		{
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r)) {
-				throw new JException('Cannot get or parse class name', 500, E_ERROR, get_class($this), true);
+				throw new JException('Cannot get or parse class name', 1066, E_ERROR, get_class($this), true);
 			}
 			if (strpos($r[3], "view"))
 			{
-				JError::raiseWarning('SOME_ERROR_CODE',"JView::getName() : Your classname contains the substring 'view'. ".
+				JError::raiseWarning(1067, "JView::getName() : Your classname contains the substring 'view'. ".
 											"This causes problems when extracting the classname from the name of your objects view. " .
-											"Avoid Object names with the substring 'view'.");
+											"Avoid Object names with the substring 'view'.", get_class($this));
 			}
 			$name = strtolower($r[3]);
 		}
@@ -567,7 +567,7 @@ abstract class JView extends JClass
 			return $this->_output;
 		}
 		else {
-			throw new JException('Layout file not found', 500, E_ERROR, $file, true);
+			throw new JException('Layout file not found', 1068, E_ERROR, $file, true);
 		}
 	}
 

@@ -168,8 +168,7 @@ abstract class JController extends JClass
 			if (file_exists($path)) {
 				require_once $path;
 			} else {
-				$error = JError::raiseError(500, JText::sprintf('INVALID CONTROLLER', $type));
-				return $error;
+				throw new JException(JText::sprintf('INVALID CONTROLLER', $type), 1056, E_ERROR, $type, true);
 			}
 		}
 
@@ -177,8 +176,7 @@ abstract class JController extends JClass
 		if (class_exists($class)) {
 			$instance = new $class($config);
 		} else {
-			$error = JError::raiseError(500, JText::sprintf('INVALID CONTROLLER CLASS', $class));
-			return $error;
+			throw new JException(JText::sprintf('INVALID CONTROLLER CLASS', $class), 1057, E_ERROR, $class, true);
 		}
 
 		return $instance;
@@ -462,7 +460,7 @@ abstract class JController extends JClass
 		{
 			$r = null;
 			if (!preg_match('/(.*)Controller/i', get_class($this), $r)) {
-				throw new JException('Cannot get or parse class name', 500, E_ERROR, $name, true);
+				throw new JException('Cannot get or parse class name', 1058, E_ERROR, $name, true);
 			}
 			$name = strtolower($r[1]);
 		}
@@ -501,11 +499,7 @@ abstract class JController extends JClass
 			if ($view = & $this->_createView($name, $prefix, $type, $config)) {
 				$views[$name] = & $view;
 			} else {
-				$result = JError::raiseError(
-					500, JText::_('View not found [name, type, prefix]:')
-						. ' ' . $name . ',' . $type . ',' . $prefix
-				);
-				return $result;
+				throw new JException(JText::_('View not found [name, type, prefix]:').' '.$name.' '. $type.' '.$prefix, 1059, array('name'=>$name, 'type' => $type, 'prefix'=>$prefix), true);
 			}
 		}
 
@@ -654,10 +648,7 @@ abstract class JController extends JClass
 				require_once $path;
 
 				if (!class_exists($viewClass)) {
-					$result = JError::raiseError(
-						500, JText::_('View class not found [class, file]:')
-						. ' ' . $viewClass . ', ' . $path);
-					return $result;
+					throw new JException(JText::_('View class not found').' '.$viewClass.' '.$path, 1060, array('viewClass'=>$viewClass, 'path'=>$path), true);
 				}
 			} else {
 				return $result;

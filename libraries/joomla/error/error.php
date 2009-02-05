@@ -63,7 +63,7 @@ w
 			return false;
 		}
 		// supports PHP 5 exception handling
-		return ($object INSTANCEOF JException || $object INSTANCEOF JError || $object INSTANCEOF Exception);
+		return $object INSTANCEOF Exception;
 	}
 
 	/**
