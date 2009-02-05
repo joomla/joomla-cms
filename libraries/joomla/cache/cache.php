@@ -105,7 +105,7 @@ class JCache extends JClass
 			if (file_exists($path)) {
 				require_once($path);
 			} else {
-				JError::raiseError(500, 'Unable to load Cache Handler: '.$type);
+				throw new JException(JText::_('Unable to load cache handler: '). $type, 1150, $type, true);
 			}
 		}
 
@@ -183,13 +183,14 @@ class JCache extends JClass
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
-
+		if(!$this->_options['caching']) return false;
 		// Get the storage handler
-		$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-		if (!JError::isError($handler) && $this->_options['caching']) {
+		try {
+			$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 			return $handler->get($id, $group, (isset($this->_options['checkTime']))? $this->_options['checkTime'] : true);
+		} catch(JException $e) {
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -206,13 +207,15 @@ class JCache extends JClass
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
+		if(!$this->_options['caching']) return false;
 
 		// Get the storage handler and store the cached data
-		$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-		if (!JError::isError($handler) && $this->_options['caching']) {
+		try {
+			$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 			return $handler->store($id, $group, $data);
+		} catch(JException $e ) {
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -231,11 +234,12 @@ class JCache extends JClass
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
 		// Get the storage handler
-		$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-		if (!JError::isError($handler)) {
+		try {
+			$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 			return $handler->remove($id, $group);
+		} catch(JException $e) {
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -256,11 +260,12 @@ class JCache extends JClass
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
 		// Get the storage handler
-		$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-		if (!JError::isError($handler)) {
+		try {
+			$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 			return $handler->clean($group, $mode);
+		} catch(JException $e) {
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -273,11 +278,12 @@ class JCache extends JClass
 	public function gc()
 	{
 		// Get the storage handler
-		$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-		if (!JError::isError($handler)) {
+		try {
+			$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 			return $handler->gc();
+		} catch(JException $e) {
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -290,6 +296,10 @@ class JCache extends JClass
 	 */
 	public function &_getStorage()
 	{
-		return JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+		try {
+			return JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+		} catch(JException $e) {
+			return $e;
+		}
 	}
 }

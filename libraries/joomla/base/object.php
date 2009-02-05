@@ -34,7 +34,7 @@ class JObject
 	 * @since	1.6
  	 */
 	public function __call($func, $args) {
-		throw new JException('Attempted to call non-existant method on object',0, E_ERROR, array($func, $args), true);
+		throw new JException('Attempted to call non-existant method on object',1100, E_ERROR, array($func, $args), true);
 	}
 	
 	/**
@@ -105,9 +105,13 @@ class JObject
 		}
 
 		// Check if only the string is requested
-		if (JError::isError($error) && $toString) {
-			return $error->toString();
-		}
+		if($toString && is_object($error)) {
+			if ($error INSTANCEOF JException || $error INSTANCEOF JObject) {
+				return $error->toString();
+			} elseif($error INSTANCEOF Exception) {
+				return $error->getMessage();
+			}
+		} 
 
 		return $error;
 	}

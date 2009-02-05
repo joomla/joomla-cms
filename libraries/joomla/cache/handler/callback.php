@@ -62,7 +62,7 @@ class JCacheCallback extends JCache
 			list($class, $method) = explode('::', $callback);
 			$callback = array(trim($class), trim($method));
 		} else {
-			throw new JException('Callback not supported', 0, E_WARNING, $callback, true);
+			throw new JException('Callback not supported', 1152, E_WARNING, $callback, true);
 		}
 
 		if (!$id) {

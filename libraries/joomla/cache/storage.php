@@ -71,7 +71,7 @@ abstract class JCacheStorage extends JClass
 				if (file_exists($path)) {
 					require_once($path);
 				} else {
-					return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
+					throw new JException('Unable to load Cache Storage: '.$handler, 1151, E_ERROR, $handler, true);
 				}
 			}
 			$instances[$handler] = new $class($options);
