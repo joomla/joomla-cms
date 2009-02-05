@@ -58,7 +58,7 @@ class MembersControllerMember extends JController
 		$app->setUserState('com_members.edit.member.data', null);
 
 		// Redirect to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_members&view=member&layout=edit&hidemainmenu=1', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_members&view=member&layout=edit', false));
 	}
 
 	/**
@@ -80,7 +80,7 @@ class MembersControllerMember extends JController
 		$app->setUserState('com_members.edit.member.data', null);
 
 		// Redirect to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_members&view=member&layout=edit&hidemainmenu=1', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_members&view=member&layout=edit', false));
 	}
 
 	/**
@@ -121,7 +121,7 @@ class MembersControllerMember extends JController
 		$data['id'] = (int) $app->getUserState('com_members.edit.member.id');
 
 		// Get the model and attempt to validate the posted data.
-		$model = &$this->getModel('Member');
+		$model	= &$this->getModel('Member');
 		$return	= $model->validate($data);
 
 		// Get and sanitize the group data.
@@ -154,7 +154,7 @@ class MembersControllerMember extends JController
 			$app->setUserState('com_members.edit.member.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_members&view=member&layout=edit&hidemainmenu=1', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_members&view=member&layout=edit', false));
 			return false;
 		}
 
@@ -164,12 +164,14 @@ class MembersControllerMember extends JController
 		// Check for errors.
 		if ($return === false)
 		{
+			JError::raiseWarning(500, $model->getError());
+
 			// Save the data in the session.
 			$app->setUserState('com_members.edit.member.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('MEMBERS_MEMBER_SAVE_FAILED', $model->getError()), 'notice');
-			$this->setRedirect(JRoute::_('index.php?option=com_members&view=member&layout=edit&hidemainmenu=1', false));
+			$this->setMessage(JText::_('MEMBERS_MEMBER_SAVE_FAILED'));
+			$this->setRedirect(JRoute::_('index.php?option=com_members&view=member&layout=edit', false));
 			return false;
 		}
 
@@ -179,7 +181,7 @@ class MembersControllerMember extends JController
 			case 'apply':
 				// Redirect back to the edit screen.
 				$this->setMessage(JText::_('MEMBERS_MEMBER_SAVE_SUCCESS'));
-				$this->setRedirect(JRoute::_('index.php?option=com_members&view=member&layout=edit&hidemainmenu=1', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_members&view=member&layout=edit', false));
 				break;
 
 			case 'save2new':
@@ -189,7 +191,7 @@ class MembersControllerMember extends JController
 
 				// Redirect back to the edit screen.
 				$this->setMessage(JText::_('MEMBERS_MEMBER_SAVE_SUCCESS'));
-				$this->setRedirect(JRoute::_('index.php?option=com_members&view=member&layout=edit&hidemainmenu=1', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_members&view=member&layout=edit', false));
 				break;
 
 			default:

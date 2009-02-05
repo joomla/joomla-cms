@@ -43,6 +43,7 @@ class MembersViewLevel extends JView
 
 		parent::display($tpl);
 		$this->_setToolbar();
+		JRequest::setVar('hidemainmenu', 1);
 	}
 
 	/**

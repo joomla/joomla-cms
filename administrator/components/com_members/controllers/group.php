@@ -58,7 +58,7 @@ class MembersControllerGroup extends JController
 		$app->setUserState('com_members.edit.group.data', null);
 
 		// Redirect to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_members&view=group&layout=edit&hidemainmenu=1', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_members&view=group&layout=edit', false));
 	}
 
 	/**
@@ -80,7 +80,7 @@ class MembersControllerGroup extends JController
 		$app->setUserState('com_members.edit.group.data', null);
 
 		// Redirect to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_members&view=group&layout=edit&hidemainmenu=1', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_members&view=group&layout=edit', false));
 	}
 
 	/**
@@ -150,7 +150,7 @@ class MembersControllerGroup extends JController
 			$app->setUserState('com_members.edit.group.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_members&view=group&layout=edit&hidemainmenu=1', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_members&view=group&layout=edit', false));
 			return false;
 		}
 
@@ -165,7 +165,7 @@ class MembersControllerGroup extends JController
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('MEMBERS_GROUP_SAVE_FAILED', $model->getError()), 'notice');
-			$this->setRedirect(JRoute::_('index.php?option=com_members&view=group&layout=edit&hidemainmenu=1', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_members&view=group&layout=edit', false));
 			return false;
 		}
 
@@ -175,7 +175,7 @@ class MembersControllerGroup extends JController
 			case 'apply':
 				// Redirect back to the edit screen.
 				$this->setMessage(JText::_('MEMBERS_GROUP_SAVE_SUCCESS'));
-				$this->setRedirect(JRoute::_('index.php?option=com_members&view=group&layout=edit&hidemainmenu=1', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_members&view=group&layout=edit', false));
 				break;
 
 			case 'save2new':
@@ -185,7 +185,7 @@ class MembersControllerGroup extends JController
 
 				// Redirect back to the edit screen.
 				$this->setMessage(JText::_('MEMBERS_GROUP_SAVE_SUCCESS'));
-				$this->setRedirect(JRoute::_('index.php?option=com_members&view=group&layout=edit&hidemainmenu=1', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_members&view=group&layout=edit', false));
 				break;
 
 			default:

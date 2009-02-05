@@ -58,7 +58,7 @@ class MembersControllerLevel extends JController
 		$app->setUserState('com_members.edit.level.data', null);
 
 		// Redirect to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_members&view=level&layout=edit&hidemainmenu=1', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_members&view=level&layout=edit', false));
 	}
 
 	/**
@@ -80,7 +80,7 @@ class MembersControllerLevel extends JController
 		$app->setUserState('com_members.edit.level.data', null);
 
 		// Redirect to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_members&view=level&layout=edit&hidemainmenu=1', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_members&view=level&layout=edit', false));
 	}
 
 	/**
@@ -147,7 +147,7 @@ class MembersControllerLevel extends JController
 			$app->setUserState('com_members.edit.level.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_members&view=level&layout=edit&hidemainmenu=1', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_members&view=level&layout=edit', false));
 			return false;
 		}
 
@@ -162,7 +162,7 @@ class MembersControllerLevel extends JController
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('MEMBERS_LEVEL_SAVE_FAILED', $model->getError()), 'notice');
-			$this->setRedirect(JRoute::_('index.php?option=com_members&view=level&layout=edit&hidemainmenu=1', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_members&view=level&layout=edit', false));
 			return false;
 		}
 
@@ -172,7 +172,7 @@ class MembersControllerLevel extends JController
 			case 'apply':
 				// Redirect back to the edit screen.
 				$this->setMessage(JText::_('MEMBERS_LEVEL_SAVE_SUCCESS'));
-				$this->setRedirect(JRoute::_('index.php?option=com_members&view=level&layout=edit&hidemainmenu=1', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_members&view=level&layout=edit', false));
 				break;
 
 			case 'save2new':
@@ -182,7 +182,7 @@ class MembersControllerLevel extends JController
 
 				// Redirect back to the edit screen.
 				$this->setMessage(JText::_('MEMBERS_LEVEL_SAVE_SUCCESS'));
-				$this->setRedirect(JRoute::_('index.php?option=com_members&view=level&layout=edit&hidemainmenu=1', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_members&view=level&layout=edit', false));
 				break;
 
 			default:
