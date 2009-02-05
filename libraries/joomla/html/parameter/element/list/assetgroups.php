@@ -39,10 +39,9 @@ class JElementList_AssetGroups extends JElementList
 	{
 		$db = &JFactory::getDBO();
 		$db->setQuery(
-			'SELECT value, name AS text'
-			.' FROM #__core_acl_axo_groups'
-			.' WHERE parent_id > 0'
-			.' ORDER BY name'
+			'SELECT id AS value, title AS text'
+			.' FROM #__access_assetgroups'
+			.' ORDER BY left_id'
 		);
 		$options = $db->loadObjectList();
 		return $options;
