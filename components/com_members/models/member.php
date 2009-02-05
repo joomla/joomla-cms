@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die('Restricted Access');
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modelitem');
 jimport('joomla.event.dispatcher');
 jimport('joomla.plugin.helper');
 
@@ -19,7 +19,7 @@ jimport('joomla.plugin.helper');
  * @subpackage	com_members
  * @since		1.6
  */
-class MembersModelMember extends JModel
+class MembersModelMember extends JModelItem
 {
 	/**
 	 */
