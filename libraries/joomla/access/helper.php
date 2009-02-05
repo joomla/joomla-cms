@@ -500,7 +500,7 @@ class JAccessHelper
 	 * @param	string	Group title.
 	 * @param	string	Section name.
 	 * @return	mixed	JException on failure or group id on success.
-	 * @throws	JExecption
+	 * @throws	JException
 	 * @since	1.0
 	 */
 	public static function registerUserGroup($title, $section)

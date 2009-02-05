@@ -244,6 +244,9 @@ class JAccess extends JObject
 
 		$result = $db->loadResultArray();
 
+		// Clean up any NULL values, just in case
+		JArrayHelper::toInteger($result);
+
 		$this->_quiet or $this->_log("User $userId in groups: ".print_r($result, 1));
 
 		return $result;

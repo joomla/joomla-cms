@@ -165,6 +165,7 @@ class JHtmlAccess
 
 		jimport('joomla.access.helper');
 		$actions	= JAccessHelper::getActions($section, $type);
+
 		$html		= array();
 		$html[]		= '<ul class="checklist access-actions" style="padding:0;">';
 

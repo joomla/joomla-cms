@@ -398,22 +398,12 @@ class JUser extends JClass
 		// Lets check to see if the user is new or not
 		if (empty($this->id))
 		{
-			// Check the password and create the crypted password
-			if (empty($array['password'])) {
-				$array['password']  = JUserHelper::genRandomPassword();
-				$array['password2'] = $array['password'];
-			}
-
-			if ($array['password'] != $array['password2']) {
-					$this->setError(JText::_('PASSWORD DO NOT MATCH.'));
-					return false;
-			}
-
-			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
+			$this->password_clear = JArrayHelper::getValue($array, 'password2', '', 'string');
+			/*$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 			$salt  = JUserHelper::genRandomPassword(32);
 			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
-			$array['password'] = $crypt.':'.$salt;
+			$array['password'] = $crypt.':'.$salt;*/
 
 			// Set the registration timestamp
 
@@ -441,16 +431,12 @@ class JUser extends JClass
 			// Updating an existing user
 			if (!empty($array['password']))
 			{
-				if ($array['password'] != $array['password2']) {
-					$this->setError(JText::_('PASSWORD DO NOT MATCH.'));
-					return false;
-				}
+				$this->password_clear = JArrayHelper::getValue($array, 'password2', '', 'string');
+				/*$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
-
-				$salt = JUserHelper::genRandomPassword(32);
-				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
-				$array['password'] = $crypt.':'.$salt;
+				$salt	= JUserHelper::genRandomPassword(32);
+				$crypt	= JUserHelper::getCryptedPassword($array['password'], $salt);
+				$array['password'] = $crypt.':'.$salt;*/
 			}
 			else
 			{
@@ -470,7 +456,8 @@ class JUser extends JClass
 		$db->setQuery($query);
 		try {
 			$this->set('usertype', $db->loadResult());
-		} catch (JException $e) {
+		}
+		catch (JException $e) {
 			$this->set('usertype', null);
 		}
 

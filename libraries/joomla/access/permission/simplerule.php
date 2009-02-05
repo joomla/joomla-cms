@@ -673,7 +673,6 @@ class JSimpleRule extends JModel
 			' WHERE `rule_id` = '.(int)$this->_rule_id
 		);
 		$db->query();
-echo $db->getQuery();
 
 		// Check for a database error.
 		if ($db->getErrorNum()) {
@@ -697,7 +696,6 @@ echo $db->getQuery();
 				implode(', ', $values)
 			);
 			$db->query();
-echo '<br>'.$db->getQuery();
 
 			// Check for a database error.
 			if ($db->getErrorNum()) {

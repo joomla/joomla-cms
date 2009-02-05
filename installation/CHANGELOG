@@ -28,6 +28,12 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+05-Feb-2009 Andrew Eddie
+ ! New option now passed to login events: action = core.site.login|core.administrator.login
+ ! Root user now bypasses ACS checks
+ ! Added rules to support frontend and backend login to installation
+ ! Login now working of new ACS checks
+
 04-Feb-2009 Sam Moffatt
  # Fixed issue with temp and log paths not being displayed in the directory info tabs
  # Fixed issue with list of extensions not working properly

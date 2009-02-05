@@ -97,12 +97,25 @@ class plgUserJoomla extends JPlugin
 		}
 
 		//Authorise the user based on the group information
-		if(!isset($options['group'])) {
+		if (!isset($options['group'])) {
 			$options['group'] = 'USERS';
 		}
 
-		if(!$acl->is_group_child_of( $grp->name, $options['group'])) {
-			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_ACCESS'));
+		//if (!$acl->is_group_child_of( $grp->name, $options['group'])) {
+		//	return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_ACCESS'));
+		//}
+
+		// THE NEW WAY
+		jimport('joomla.access.access');
+		$userId	= $instance->id;
+		// Always let the Root User in
+		if ($userId != JFactory::getApplication()->getCfg('root_user'))
+		{
+			$acs	= new JAccess;
+			$result	= $acs->check($instance->id, $options['action']);
+			if (!$result['allow']) {
+				return JError::raiseWarning(401, JText::_('JError_Login_denied'));
+			}
 		}
 
 		//Mark the user as logged in
@@ -152,11 +165,11 @@ class plgUserJoomla extends JPlugin
 	function onLogoutUser($user, $options = array())
 	{
 		//Make sure we're a valid user first
-		if($user['id'] == 0) return true;
+		if ($user['id'] == 0) return true;
 
 		$my =& JFactory::getUser();
 		//Check to see if we're deleting the current session
-		if($my->get('id') == $user['id'])
+		if ($my->get('id') == $user['id'])
 		{
 			// Hit the user last visit field
 			$my->setLastVisit();
@@ -186,7 +199,7 @@ class plgUserJoomla extends JPlugin
 	function &_getUser($user, $options = array())
 	{
 		$instance = JUser::getInstance();
-		if($id = intval(JUserHelper::getUserId($user['username'])))  {
+		if ($id = intval(JUserHelper::getUserId($user['username'])))  {
 			$instance->load($id);
 			return $instance;
 		}
@@ -209,9 +222,9 @@ class plgUserJoomla extends JPlugin
 		//If autoregister is set let's register the user
 		$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);
 
-		if($autoregister)
+		if ($autoregister)
 		{
-			if(!$instance->save()) {
+			if (!$instance->save()) {
 				return JError::raiseWarning('SOME_ERROR_CODE', $instance->getError());
 			}
 		} else {
