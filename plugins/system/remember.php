@@ -45,7 +45,8 @@ class plgSystemRemember extends JPlugin
 				$str	= $crypt->decrypt($str);
 
 				$options = array();
-				$options['silent'] = true;
+				$options['silent']	= true;
+				$options['action']	= 'core.site.login';
 				if (!$appl->login(@unserialize($str), $options)) {
 					// Clear the remember me cookie
 					setcookie( JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, '/' );

@@ -119,7 +119,8 @@ class UserController extends JController
 
 		$options = array();
 		$options['remember'] = JRequest::getBool('remember', false);
-		$options['return'] = $return;
+		$options['return']	= $return;
+		$options['action']	= 'core.site.login';
 
 		$credentials = array();
 		$credentials['username'] = JRequest::getVar('username', '', 'method', 'username');

@@ -35,7 +35,8 @@ class MembersControllerMember extends MembersController
 		// Get the login options.
 		$options = array();
 		$options['remember'] = JRequest::getBool('remember', false);
-		$options['return'] = $data['return'];
+		$options['return']	= $data['return'];
+		$options['action']	= 'core.site.login';
 
 		// Get the login credentials.
 		$credentials = array();

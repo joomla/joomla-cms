@@ -33,7 +33,7 @@ class LoginController extends JController
 		$credentials['username'] = JRequest::getVar('username', '', 'method', 'username');
 		$credentials['password'] = JRequest::getVar('passwd', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
-		$result = $mainframe->login($credentials);
+		$result = $mainframe->login($credentials, array('action' => 'core.administrator.login'));
 
 		if (!JError::isError($result)) {
 			$mainframe->redirect('index.php');
