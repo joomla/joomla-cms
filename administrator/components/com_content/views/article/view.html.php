@@ -207,7 +207,7 @@ class ContentViewArticle extends JView
 		$sectioncategories['-1'][] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
 		$categories = array();
 		foreach ($cat_list as $cat) {
-			if($cat->section == $row->sectionid)
+			if ($cat->section == $row->sectionid)
 				$categories[] = $cat;
 		}
 
@@ -220,7 +220,7 @@ class ContentViewArticle extends JView
 				' WHERE catid = ' . (int) $row->catid .
 				' AND state >= 0' .
 				' ORDER BY ordering';
-		if($edit)
+		if ($edit)
 			$lists['ordering'] = JHtml::_('list.specificordering', $row, $id, $query, 1);
 		else
 			$lists['ordering'] = JHtml::_('list.specificordering', $row, '', $query, 1);

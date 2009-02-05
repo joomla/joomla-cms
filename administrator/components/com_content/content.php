@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT.DS.'controller.php';
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 
 // Require specific controller if requested
-if($controllerName = JRequest::getWord('controller', '')) {
+if ($controllerName = JRequest::getWord('controller', '')) {
 	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controllerName.'.php';
 	if (file_exists($path)) {
 		require_once $path;

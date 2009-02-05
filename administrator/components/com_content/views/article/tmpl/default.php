@@ -250,14 +250,14 @@ function submitbutton(pressbutton)
 			$pane =& JPane::getInstance('sliders');
 			echo $pane->startPane("menu-pane");
 			$groups = $this->params->getGroups();
-			if(count($groups)) {
+			if (count($groups)) {
 				foreach($groups as $groupname => $group) {
-					if($groupname == '_default') {
+					if ($groupname == '_default') {
 						$title = 'Article';
 					} else {
 						$title = ucfirst($groupname);
 					}
-					if($this->params->getNumParams($groupname)) {
+					if ($this->params->getNumParams($groupname)) {
 						echo $pane->startPanel(JText :: _('Parameters - '.$title), $groupname.'-page');
 						echo $this->params->render('params', $groupname);
 						echo $pane->endPanel();

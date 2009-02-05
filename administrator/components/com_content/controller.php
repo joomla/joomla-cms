@@ -220,7 +220,7 @@ class ContentController extends JController
 		}
 
 		$model = $this->getModel('article');
-		if(!$model->setArticleState($cid, $state)) {
+		if (!$model->setArticleState($cid, $state)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
@@ -302,7 +302,7 @@ class ContentController extends JController
 		}
 
 		$model = $this->getModel('article');
-		if(!$model->trash($cid)) {
+		if (!$model->trash($cid)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
@@ -532,7 +532,7 @@ class ContentController extends JController
 
 		$msg = '';
 		$model = $this->getModel('article');
-		if(!$model->setAccess($cid, 0)) {
+		if (!$model->setAccess($cid, 0)) {
 			$msg = $model->getError();
 		}
 
@@ -553,7 +553,7 @@ class ContentController extends JController
 
 		$msg = '';
 		$model = $this->getModel('article');
-		if(!$model->setAccess($cid, 1)) {
+		if (!$model->setAccess($cid, 1)) {
 			$msg = $model->getError();
 		}
 
@@ -574,7 +574,7 @@ class ContentController extends JController
 
 		$msg = '';
 		$model = $this->getModel('article');
-		if(!$model->setAccess($cid, 2)) {
+		if (!$model->setAccess($cid, 2)) {
 			$msg = $model->getError();
 		}
 

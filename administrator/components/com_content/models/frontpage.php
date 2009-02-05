@@ -277,7 +277,7 @@ class ContentModelFrontpage extends JModel
 			$query = 'DELETE FROM #__content_frontpage'
 				. ' WHERE content_id IN ('.$cids.')';
 			$this->_db->setQuery($query);
-			if(!$this->_db->query()) {
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}

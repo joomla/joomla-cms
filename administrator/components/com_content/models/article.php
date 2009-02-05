@@ -47,7 +47,7 @@ class ContentModelArticle extends JModel
 
 		$array = JRequest::getVar('cid', array(0), '', 'array');
 		$edit	= JRequest::getVar('edit',true);
-		if($edit)
+		if ($edit)
 			$this->setId((int)$array[0]);
 	}
 
@@ -110,7 +110,7 @@ class ContentModelArticle extends JModel
 		if ($this->_id)
 		{
 			$article = & JTable::getInstance('content');
-			if(! $article->checkin($this->_id)) {
+			if (! $article->checkin($this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -138,7 +138,7 @@ class ContentModelArticle extends JModel
 			}
 			// Lets get to it and checkout the thing...
 			$article = & JTable::getInstance('content');
-			if(!$article->checkout($uid, $this->_id)) {
+			if (!$article->checkout($uid, $this->_id)) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -319,7 +319,7 @@ class ContentModelArticle extends JModel
 			$query = 'DELETE FROM #__content'
 				. ' WHERE id IN ('.$cids.')';
 			$this->_db->setQuery($query);
-			if(!$this->_db->query()) {
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -353,7 +353,7 @@ class ContentModelArticle extends JModel
 					', checked_out = 0, checked_out_time = '.$this->_db->Quote($nullDate).
 					' WHERE id IN ('. $cids. ')';
 			$this->_db->setQuery($query);
-			if(!$this->_db->query()) {
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
