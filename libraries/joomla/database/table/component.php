@@ -70,7 +70,7 @@ class JTableComponent extends JTable
 		try {
 			$id = $db->loadResult();
 		} catch(JException $e) {
-			$this->setError($e->getMessage());
+			$this->setError($e, true);
 			return false;
 		}
 		if (empty($id)) {

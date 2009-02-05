@@ -101,14 +101,12 @@ abstract class JTable extends JClass
 
 				if (!class_exists($tableClass))
 				{
-					JError::raiseWarning(0, 'Table class ' . $tableClass . ' not found in file.');
-					return $false;
+					throw new JException('Table class not found in file: '. $tableClass, 1251, $tableClass);
 				}
 			}
 			else
 			{
-				JError::raiseWarning(0, 'Table ' . $type . ' not supported. File not found.');
-				return $false;
+				throw new JException('Table not supported, file not found: '. $type, 1252, $tableClass);
 			}
 		}
 
@@ -201,8 +199,7 @@ abstract class JTable extends JClass
 
 		if (!$fromArray && !$fromObject)
 		{
-			$this->setError(get_class($this).'::bind failed. Invalid from argument');
-			return false;
+			throw new JException(get_class($this).'::bind failed, Invalid From Argument', 1253, $from);  
 		}
 		if (!is_array($ignore)) {
 			$ignore = explode(' ', $ignore);
@@ -250,13 +247,11 @@ abstract class JTable extends JClass
 		. ' FROM '.$this->_tbl
 		. ' WHERE '.$this->_tbl_key.' = '.$db->Quote($oid);
 		$db->setQuery($query);
-
-		if ($result = $db->loadAssoc()) {
-			return $this->bind($result);
-		}
-		else
-		{
-			$this->setError($db->getErrorMsg());
+		try {
+			$result = $db->loadAssoc();
+			$this->bind($result);
+		} catch(JException $e) {
+			$this->setError($e);
 			return false;
 		}
 	}
@@ -313,8 +308,7 @@ abstract class JTable extends JClass
 	{
 		if (!in_array('ordering',  array_keys($this->getProperties())))
 		{
-			$this->setError(get_class($this).' does not support ordering');
-			return false;
+			throw new JException(get_class($this).' does not support ordering', 1254, get_class($this), true);
 		}
 
 		$k = $this->_tbl_key;
@@ -344,11 +338,6 @@ abstract class JTable extends JClass
 
 		try {
 			$row = $this->_db->loadObject();
-		} catch(JException $e) {
-			$this->setError($e->getMessage());
-			return false;
-		}
-		try {
 			if (!empty($row))
 			{
 				$query = 'UPDATE '. $this->_tbl
@@ -395,8 +384,7 @@ abstract class JTable extends JClass
 	{
 		if (!in_array('ordering', array_keys($this->getProperties())))
 		{
-			$this->setError(get_class($this).' does not support ordering');
-			return false;
+			throw new JException(get_class($this).' does not support ordering', 1254, get_class($this), true);
 		}
 
 		$query = 'SELECT MAX(ordering)' .
@@ -425,8 +413,7 @@ abstract class JTable extends JClass
 
 		if (!in_array('ordering', array_keys($this->getProperties())))
 		{
-			$this->setError(get_class($this).' does not support ordering');
-			return false;
+			throw new JException(get_class($this).' does not support ordering', 1254, get_class($this), true);
 		}
 
 		if ($this->_tbl == '#__content_frontpage')
@@ -446,34 +433,28 @@ abstract class JTable extends JClass
 		$this->_db->setQuery($query);
 		try {
 			$orders = $this->_db->loadObjectList();
+			// compact the ordering numbers
+			for ($i=0, $n=count($orders); $i < $n; $i++)
+			{
+				if ($orders[$i]->ordering >= 0)
+				{
+					if ($orders[$i]->ordering != $i+1)
+					{
+						$orders[$i]->ordering = $i+1;
+						$query = 'UPDATE '.$this->_tbl
+						. ' SET ordering = '. (int) $orders[$i]->ordering
+						. ' WHERE '. $k .' = '. $this->_db->Quote($orders[$i]->$k)
+						;
+						$this->_db->setQuery($query);
+						$this->_db->query();
+					}
+				}
+			}
 		} catch(JException $e) {
 			$this->setError($e->getMessage());
 			return false;
 		}
-		// compact the ordering numbers
-		for ($i=0, $n=count($orders); $i < $n; $i++)
-		{
-			if ($orders[$i]->ordering >= 0)
-			{
-				if ($orders[$i]->ordering != $i+1)
-				{
-					$orders[$i]->ordering = $i+1;
-					$query = 'UPDATE '.$this->_tbl
-					. ' SET ordering = '. (int) $orders[$i]->ordering
-					. ' WHERE '. $k .' = '. $this->_db->Quote($orders[$i]->$k)
-					;
-					$this->_db->setQuery($query);
-					try {
-						$this->_db->query();
-					} catch(JException $e) {
-						$this->setError($e->getMessage());
-						return false;
-					}
-				}
-			}
-		}
-
-	return true;
+		return true;
 	}
 
 	/**
@@ -806,7 +787,6 @@ abstract class JTable extends JClass
 				}
 			}
 		}
-		$this->setError('');
 		return true;
 	}
 

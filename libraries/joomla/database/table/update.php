@@ -109,7 +109,12 @@ class JTableUpdate extends JTable
 			$where[] = $col .' = '. $dbo->Quote($val);
 		}
 		$query = 'SELECT update_id FROM #__updates WHERE '. implode(' AND ', $where);
-		$dbo->setQuery($query);
-		return $dbo->loadResult();
+		try {
+			$dbo->setQuery($query);
+			return $dbo->loadResult();
+		} catch(JException $e) {
+			$this->setError($e, true);
+			return false;
+		}
 	}
 }

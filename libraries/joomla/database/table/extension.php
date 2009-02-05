@@ -119,6 +119,11 @@ class JTableExtension extends JTable
 		}
 		$query = 'SELECT extension_id FROM #__extensions WHERE '. implode(' AND ', $where);
 		$dbo->setQuery($query);
-		return $dbo->loadResult();
+		try {
+			return $dbo->loadResult();
+		} catch(JException $e) {
+			$this->setError($e, true);
+			return false;
+		}
 	}
 }

@@ -237,7 +237,7 @@ class JTableUser extends JTable
 			$this->_db->query();
 		}
 		catch (JException $e) {
-			$this->setError($e->getMessage());
+			$this->setError($e, true);
 			return false;
 		}
 
@@ -271,11 +271,10 @@ class JTableUser extends JTable
 				' FROM `#__usergroups`' .
 				' WHERE `id` = '.implode(' OR `id` = ', array_keys($this->groups))
 			);
-			$results = $this->_db->loadObjectList();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum()) {
-				$this->setError($this->_db->getErrorMsg());
+			try {
+				$results = $this->_db->loadObjectList();
+			} catch (JException $e) {
+				$this->setError($e, true);
 				return false;
 			}
 
@@ -315,7 +314,7 @@ class JTableUser extends JTable
 			}
 		}
 		catch (JException $e) {
-			$this->setError($e->getMessage());
+			$this->setError($e, true);
 			return false;
 		}
 
@@ -386,7 +385,7 @@ class JTableUser extends JTable
 			}
 		}
 		catch (JException $e) {
-			$this->setError($e->getMessage());
+			$this->setError($e, true);
 			return false;
 		}
 
@@ -435,7 +434,7 @@ class JTableUser extends JTable
 
 		}
 		catch (JException $e) {
-			$this->setError($e->getMessage());
+			$this->setError($e, true);
 			return false;
 		}
 

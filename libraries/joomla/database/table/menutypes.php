@@ -68,7 +68,7 @@ class JTableMenuTypes extends JTable
 		try {
 			$menus = $db->loadResultArray();
 		} catch(JException $e) {
-			$this->setError($e->getMessage());
+			$this->setError($e, true);
 			return false;
 		}
 

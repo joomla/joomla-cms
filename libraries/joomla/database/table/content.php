@@ -191,7 +191,7 @@ class JTableContent extends JTableAsset
 			}
 		}
 		catch(JException $e) {
-			$this->setError($e->getMessage());
+			$this->setError($e, true);
 			return false;
 		}
 

@@ -199,27 +199,15 @@ abstract class JDatabase extends JClass
 
 			$driver = preg_replace('/[^A-Z0-9_\.-]/i', '', $driver);
 			$path	= dirname(__FILE__).DS.'database'.DS.$driver.'.php';
-
-			if (file_exists($path)) {
-				require_once $path;
-			} else {
-				JError::setErrorHandling(E_ERROR, 'die'); //force error type to die
-				$error = JError::raiseError(500, JTEXT::_('Unable to load Database Driver:') .$driver);
-				return $error;
-			}
-
 			$adapter	= 'JDatabase'.$driver;
-			$instance	= new $adapter($options);
-
-			if ($error = $instance->getErrorMsg())
-			{
-				JError::setErrorHandling(E_ERROR, 'ignore'); //force error type to die
-				$error = JError::raiseError(500, JTEXT::_('Unable to connect to the database:') .$error);
-				return $error;
+			if(!class_exists($adapter)) {
+				if (file_exists($path)) {
+					require_once $path;
+				} else {
+					throw new JException(JText::_('Unable to load database driver: ').$driver, 1250, E_ERROR, $driver, true);
+				}
 			}
-
-
-			$instances[$signature] = & $instance;
+			$instances[$signature] = new $adapter($options);
 		}
 
 		return $instances[$signature];

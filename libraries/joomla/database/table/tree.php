@@ -60,7 +60,7 @@ abstract class JTableTree extends JTable
 		try {
 			$children = $db->loadResultArray();
 		} catch(JException $e) {
-			$this->setError($e->getMessage());
+			$this->setError($e, true);
 			return false;
 		}
 
@@ -88,7 +88,7 @@ abstract class JTableTree extends JTable
 		try {
 			$db->query();
 		} catch(JException $e) {
-			$this->setError($e->getMessage());
+			$this->setError($e, true);
 			return false;
 		}
 

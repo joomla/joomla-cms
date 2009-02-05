@@ -95,7 +95,7 @@ class JTableSession extends JTable
 		try {
 			$this->_db->insertObject($this->_tbl, $this, 'session_id');
 		} catch(JException $e) {
-			$this->setError(strtolower(get_class($this))."::". JText::_('store failed') ."<br />" . $e->getMessage());
+			$this->setError(strtolower(get_class($this))."::". JText::_('store failed') .": " . $e->getMessage());
 			return false;
 		}
 		return true;
@@ -107,7 +107,7 @@ class JTableSession extends JTable
 		try {
 			$this->_db->updateObject($this->_tbl, $this, 'session_id', $updateNulls);
 		} catch(JException $e) {
-			$this->setError(strtolower(get_class($this))."::". JText::_('store failed') ." <br />" . $e->getMessage());
+			$this->setError(strtolower(get_class($this))."::". JText::_('store failed') .": " . $e->getMessage());
 			return false;
 		}
 		return true;
@@ -150,7 +150,7 @@ class JTableSession extends JTable
 		try {
 			return $this->_db->query();
 		} catch(JException $e) {
-			$this->setError($e->getMessage());
+			$this->setError($e, true);
 			return false;
 		}
 	}
@@ -170,7 +170,7 @@ class JTableSession extends JTable
 		try {
 			$result = $this->_db->loadResult();
 		} catch(JException $e) {
-			$this->setError($e->getMessage());
+			$this->setError($e, true);
 			return false;
 		}
 
@@ -205,7 +205,7 @@ class JTableSession extends JTable
 			$this->_db->query();
 			return true;
 		} catch(JException $e) {
-			$this->setError($e->getMessage());
+			$this->setError($e, true);
 			return false;
 		}
 	}

@@ -58,12 +58,14 @@ class JDatabaseMySQL extends JDatabase
 
 		// perform a number of fatality checks, then return gracefully
 		if (!function_exists('mysql_connect')) {
-			throw new JException('The MySQL adapter "mysql" is not available', 1, E_WARNING);
+			throw new JException('The database php extension "mysql" is not available', 1255, E_ERROR, 'mysql', true);
 		}
 
 		// connect to the server
 		if (!($this->_resource = @mysql_connect($host, $user, $password, true))) {
-			throw new JException('Could not connect to MySQL database', 2, E_WARNING, mysql_error(), true);
+			$this->_errorNum = mysql_errno($this->_resource);
+			$this->_errorMsg = mysql_error($this->_resource);			
+			throw new JException('Could not connect to MySQL database', 1256, E_ERROR,  array('errorNum' => $this->_errorNum, 'errorMsg' => $this->_errorMsg), true);
 		}
 
 		// finalize initialization
@@ -133,9 +135,11 @@ class JDatabaseMySQL extends JDatabase
 		}
 
 		if (!mysql_select_db($database, $this->_resource)) {
-			throw new JException('Could not selecte database', 3, E_WARNING, $database);
+			$this->_errorNum = mysql_errno($this->_resource);
+			$this->_errorMsg = mysql_error($this->_resource);	
+			throw new JException('Could not select database', 1257, E_ERROR, array('errorNum' => $this->_errorNum, 'errorMsg' => $this->_errorMsg), true );
 		}
-
+		
 		return true;
 	}
 
@@ -158,7 +162,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function setUTF()
 	{
-		mysql_query("SET NAMES 'utf8'", $this->_resource);
+		return mysql_query("SET NAMES 'utf8'", $this->_resource);
 	}
 
 	/**
@@ -188,7 +192,7 @@ class JDatabaseMySQL extends JDatabase
 	public function query()
 	{
 		if (!is_resource($this->_resource)) {
-			throw new JException('Database not connected', 10, E_WARNING);
+			throw new JException('Database not connected', 1258, E_ERROR);
 		}
 
 		// Take a local copy of the SQL before modifying it
@@ -208,7 +212,7 @@ class JDatabaseMySQL extends JDatabase
 		{
 			$this->_errorNum = mysql_errno($this->_resource);
 			$this->_errorMsg = mysql_error($this->_resource)." SQL=$sql";
-			throw new JException('Database query error', 11, E_WARNING, array('errorNum'=>$this->_errorNum, 'errorMsg'=>$this->_errorMsg), true);
+			throw new JException('Database query error', 1259, E_WARNING, array('errorNum'=>$this->_errorNum, 'errorMsg'=>$this->_errorMsg), true);
 		}
 		return $this->_cursor;
 	}
@@ -262,7 +266,7 @@ class JDatabaseMySQL extends JDatabase
 					$this->_errorNum .= mysql_errno($this->_resource) . ' ';
 					$this->_errorMsg .= mysql_error($this->_resource)." SQL=$command_line <br />";
 					if ($abort_on_error) {
-						throw new JException('Database query error', 11, E_WARNING, array('errorNum'=>$this->_errorNum, 'errorMsg'=>$this->_errorMsg), true);
+						throw new JException('Database query error', 1259, E_WARNING, array('errorNum'=>$this->_errorNum, 'errorMsg'=>$this->_errorMsg), true);
 					}
 				}
 			}
