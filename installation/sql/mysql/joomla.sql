@@ -1305,8 +1305,9 @@ REPLACE INTO `#__access_actions` VALUES
 (10, 1, 'core.menus.manage', 'JAction_Menus_Manage', 'JAction_Menus_Manage_Desc', 1, 0),
 (11, 1, 'core.users.manage', 'JAction_Users_Manage', 'JAction_Users_Manage_Desc', 1, 0),
 (12, 1, 'core.media.manage', 'JAction_Media_Manage', 'JAction_Media_Manage_Desc', 1, 0),
-(13, 1, 'core.site.login', 'JAction_Site_Login', 'JAction_Site_Login_Desc', 1, 0),
-(14, 1, 'core.administrator.login', 'JAction_Administrator_Login', 'JAction_Administrator_Login_Desc', 1, 0)
+(13, 1, 'core.site.login', 'JAction_Site_Login', 'JAction_Site_Login_Desc', 1, -1),
+(14, 1, 'core.administrator.login', 'JAction_Administrator_Login', 'JAction_Administrator_Login_Desc', 1, -1),
+(15, 1, 'core.root', 'JAction_Root', 'JAction_Root_Desc', 1, -2)
 ;
 
 -- --------------------------------------------------------
