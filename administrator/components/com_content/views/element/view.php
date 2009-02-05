@@ -33,10 +33,10 @@ class ContentViewElement extends JView
 
 		JHtml::_('behavior.modal');
 
-		$rows		= & $this->get( 'List');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-		$filter		= & $this->get( 'Filter' );
+		$rows		= & $this->get('List');
+		$total		= & $this->get('Total');
+		$pagination = & $this->get('Pagination');
+		$filter		= & $this->get('Filter');
 
 		$this->assignRef('rows',		$rows);
 		$this->assignRef('pagination',	$pagination);

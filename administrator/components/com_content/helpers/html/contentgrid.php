@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JHtmlContentGrid
 {
-	function author( $name, $filter_authorid )
+	function author($name, $filter_authorid)
 	{
 		$db			=& JFactory::getDBO();
 		$query = 'SELECT c.created_by, u.name' .
@@ -31,10 +31,10 @@ class JHtmlContentGrid
 		$authors[] = JHtml::_('select.option', '0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
 		$db->setQuery($query);
 		$authors = array_merge($authors, $db->loadObjectList());
-		return JHtml::_('select.genericlist',  $authors, $name, 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
+		return JHtml::_('select.genericlist',  $authors, $name, 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'created_by', 'name', $filter_authorid);
 	}
 
-	function category( $name, $filter_catid, $filter_sectionid = null )
+	function category($name, $filter_catid, $filter_sectionid = null)
 	{
 		$db			=& JFactory::getDBO();
 		$cat_filter = null;
@@ -54,7 +54,7 @@ class JHtmlContentGrid
 			$categories,
 			$name,
 			array(
-				'list.attr' => 'class="inputbox" size="1" onchange="document.adminForm.submit( );"',
+				'list.attr' => 'class="inputbox" size="1" onchange="document.adminForm.submit();"',
 				'list.selected' => $filter_catid
 			)
 		);

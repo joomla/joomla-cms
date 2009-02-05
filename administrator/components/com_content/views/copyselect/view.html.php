@@ -10,7 +10,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Articles component
@@ -27,10 +27,10 @@ class ContentViewCopyselect extends JView
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
-		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
-		$option		= JRequest::getCmd( 'option' );
-		$task		= JRequest::getCmd( 'task' );
+		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
+		$sectionid	= JRequest::getVar('sectionid', 0, '', 'int');
+		$option		= JRequest::getCmd('option');
+		$task		= JRequest::getCmd('task');
 
 		JArrayHelper::toInteger($cid);
 
@@ -44,7 +44,7 @@ class ContentViewCopyselect extends JView
 		## Articles query
 		$query = 'SELECT a.title' .
 				' FROM #__content AS a' .
-				' WHERE ( a.id IN ( '. $cids .' ) )' .
+				' WHERE (a.id IN ('. $cids .'))' .
 				' ORDER BY a.title';
 		$db->setQuery($query);
 		$items = $db->loadObjectList();

@@ -26,20 +26,20 @@ class ContentController extends JController
 		parent::__construct($config);
 
 		// Register Extra tasks
-		$this->registerTask( 'wizard',  'element' );
-		$this->registerTask( 'content', 'display' );
-		$this->registerTask( 'add',  'display' );
-		$this->registerTask( 'new',  'display' );
-		$this->registerTask( 'edit', 'display' );
-		$this->registerTask( 'ins_pagebreak', 'display' );
-		$this->registerTask( 'preview', 'display' );
-		$this->registerTask( 'copy', 'display' );
-		$this->registerTask( 'movesect', 'display' );
-		$this->registerTask( 'go2menu', 'save' );
-		$this->registerTask( 'go2menuitem', 'save' );
-		$this->registerTask( 'menulink', 'save' );
-		$this->registerTask( 'resethits', 'save' );
-		$this->registerTask( 'apply', 'save' );
+		$this->registerTask('wizard',  'element');
+		$this->registerTask('content', 'display');
+		$this->registerTask('add',  'display');
+		$this->registerTask('new',  'display');
+		$this->registerTask('edit', 'display');
+		$this->registerTask('ins_pagebreak', 'display');
+		$this->registerTask('preview', 'display');
+		$this->registerTask('copy', 'display');
+		$this->registerTask('movesect', 'display');
+		$this->registerTask('go2menu', 'save');
+		$this->registerTask('go2menuitem', 'save');
+		$this->registerTask('menulink', 'save');
+		$this->registerTask('resethits', 'save');
+		$this->registerTask('apply', 'save');
 	}
 
 	function display()
@@ -48,9 +48,9 @@ class ContentController extends JController
 		{
 			case 'add':
 			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'view'  , 'article');
-				JRequest::setVar( 'edit', false );
+				JRequest::setVar('hidemainmenu', 1);
+				JRequest::setVar('view'  , 'article');
+				JRequest::setVar('edit', false);
 
 				// Checkout the section
 				$model = $this->getModel('article');
@@ -58,9 +58,9 @@ class ContentController extends JController
 			} break;
 			case 'edit':
 			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'view'  , 'article');
-				JRequest::setVar( 'edit', true );
+				JRequest::setVar('hidemainmenu', 1);
+				JRequest::setVar('view'  , 'article');
+				JRequest::setVar('edit', true);
 
 				// Checkout the section
 				$model = $this->getModel('article');
@@ -69,20 +69,20 @@ class ContentController extends JController
 			case 'movesect':
 			case 'copy':
 			{
-				JRequest::setVar( 'view'  , 'copyselect');
+				JRequest::setVar('view'  , 'copyselect');
 			} break;
 			case 'ins_pagebreak':
 			{
-				JRequest::setVar( 'view'  , 'pagebreak');
+				JRequest::setVar('view'  , 'pagebreak');
 			} break;
 			case 'preview':
 			{
-				JRequest::setVar( 'view'  , 'prevuuw');
+				JRequest::setVar('view'  , 'prevuuw');
 			} break;
 			case 'content':
 			default:
 			{
-				JRequest::setVar( 'view'  , 'articles');
+				JRequest::setVar('view'  , 'articles');
 			} break;
 		}
 
@@ -94,9 +94,9 @@ class ContentController extends JController
 	 */
 	function element()
 	{
-		$model	= &$this->getModel( 'element' );
-		$view	= &$this->getView( 'element');
-		$view->setModel( $model, true );
+		$model	= &$this->getModel('element');
+		$view	= &$this->getView('element');
+		$view->setModel($model, true);
 		$view->display();
 	}
 
@@ -116,10 +116,10 @@ class ContentController extends JController
 		// Initialize variables
 		$post		= JRequest::get('post');
 		$task		= $this->getTask();
-		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
-		$redirect	= JRequest::getVar( 'redirect', $sectionid, 'post', 'int' );
-		$menu		= JRequest::getVar( 'menu', 'mainmenu', 'post', 'cmd' );
-		$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
+		$sectionid	= JRequest::getVar('sectionid', 0, '', 'int');
+		$redirect	= JRequest::getVar('redirect', $sectionid, 'post', 'int');
+		$menu		= JRequest::getVar('menu', 'mainmenu', 'post', 'cmd');
+		$menuid		= JRequest::getVar('menuid', 0, 'post', 'int');
 
 		$model = $this->getModel('article');
 
@@ -146,7 +146,7 @@ class ContentController extends JController
 				if ($success)
 					$msg = JText::sprintf('SUCCESSFULLY SAVED CHANGES TO ARTICLE', $article->title);
 				else
-					$msg = JText::_( 'Error Saving Article' );
+					$msg = JText::_('Error Saving Article');
 				$this->setRedirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&cid[]='.$article->id, $msg);
 				break;
 
@@ -155,28 +155,28 @@ class ContentController extends JController
 				if ($success)
 					$msg = JText::sprintf('Successfully Saved Article', $article->title);
 				else
-					$msg = JText::_( 'Error Saving Article' );
+					$msg = JText::_('Error Saving Article');
 				$this->setRedirect('index.php?option=com_content&sectionid='.$redirect, $msg);
 				break;
 		}
 	}
 
-	function publish( )
+	function publish()
 	{
 		$this->changeState(1);
 	}
 
-	function unpublish( )
+	function unpublish()
 	{
 		$this->changeState(0);
 	}
 
-	function archive( )
+	function archive()
 	{
 		$this->changeState(-1);
 	}
 
-	function unarchive( )
+	function unarchive()
 	{
 		$this->changeState(0);
 	}
@@ -190,7 +190,7 @@ class ContentController extends JController
 	* @param integer 0 if unpublishing, 1 if publishing
 	* @param string The name of the current user
 	*/
-	function changeState( $state = 0 )
+	function changeState($state = 0)
 	{
 		global $mainframe;
 
@@ -201,18 +201,18 @@ class ContentController extends JController
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
 
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
-		$option	= JRequest::getCmd( 'option' );
+		$option	= JRequest::getCmd('option');
 		$task		= $this->getTask();
-		$rtask	= JRequest::getCmd( 'returntask', '', 'post' );
+		$rtask	= JRequest::getCmd('returntask', '', 'post');
 		if ($rtask) {
 			$rtask = '&task='.$rtask;
 		}
 
 		$total = count($cid);
 		if ($total < 1) {
-			$redirect	= JRequest::getVar( 'redirect', '', 'post', 'int' );
+			$redirect	= JRequest::getVar('redirect', '', 'post', 'int');
 			$action		= ($state == 1) ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
 			$msg		= JText::_('Select an item to') . ' ' . JText::_($action);
 			$this->setRedirect('index.php?option='.$option.$rtask.'&sectionid='.$redirect, $msg, 'error');
@@ -248,7 +248,7 @@ class ContentController extends JController
 		$cache->clean();
 
 		// Get some return/redirect information from the request
-		$redirect	= JRequest::getVar( 'redirect', $row->sectionid, 'post', 'int' );
+		$redirect	= JRequest::getVar('redirect', $row->sectionid, 'post', 'int');
 
 		$this->setRedirect('index.php?option='.$option.$rtask.'&sectionid='.$redirect, $msg);
 	}
@@ -267,8 +267,8 @@ class ContentController extends JController
 		// Initialize variables
 		$db		=& JFactory::getDBO();
 
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$option	= JRequest::getCmd( 'option' );
+		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
+		$option	= JRequest::getCmd('option');
 		$msg	= null;
 
 		JArrayHelper::toInteger($cid);
@@ -294,11 +294,11 @@ class ContentController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to delete' ) );
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select an item to delete'));
 		}
 
 		$model = $this->getModel('article');
@@ -310,7 +310,7 @@ class ContentController extends JController
 		$cache->clean();
 
 		$msg = JText::sprintf('Item(s) sent to the Trash', count($cid));
-		$this->setRedirect( 'index.php?option=com_content', $msg );
+		$this->setRedirect('index.php?option=com_content', $msg);
 	}
 
 	/**
@@ -322,7 +322,7 @@ class ContentController extends JController
 		$model = $this->getModel('article');
 		$model->checkin();
 
-		$this->setRedirect( 'index.php?option=com_content' );
+		$this->setRedirect('index.php?option=com_content');
 	}
 
 	function orderup()
@@ -336,8 +336,8 @@ class ContentController extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
 
-		$option	= JRequest::getCmd( 'option' );
-		$this->setRedirect( 'index.php?option='.$option );
+		$option	= JRequest::getCmd('option');
+		$this->setRedirect('index.php?option='.$option);
 	}
 
 	function orderdown()
@@ -351,8 +351,8 @@ class ContentController extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
 
-		$option	= JRequest::getCmd( 'option' );
-		$this->setRedirect( 'index.php?option='.$option );
+		$option	= JRequest::getCmd('option');
+		$this->setRedirect('index.php?option='.$option);
 	}
 
 	/**
@@ -369,13 +369,13 @@ class ContentController extends JController
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 
-		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
-		$option		= JRequest::getCmd( 'option' );
+		$cid		= JRequest::getVar('cid', array(0), 'post', 'array');
+		$sectionid	= JRequest::getVar('sectionid', 0, '', 'int');
+		$option		= JRequest::getCmd('option');
 
 		JArrayHelper::toInteger($cid, array(0));
 
-		$sectcat = JRequest::getVar( 'sectcat', '', 'post', 'string' );
+		$sectcat = JRequest::getVar('sectcat', '', 'post', 'string');
 		$sectcat = explode(',', $sectcat);
 		$newsect = (int) @$sectcat[0];
 		$newcat = (int) @$sectcat[1];
@@ -414,12 +414,12 @@ class ContentController extends JController
 		}
 
 		$query = 'UPDATE #__content SET sectionid = '.(int) $newsect.', catid = '.(int) $newcat.
-				' WHERE id IN ( '.$cids.' )' .
-				' AND ( checked_out = 0 OR ( checked_out = '.(int) $uid.' ) )';
+				' WHERE id IN ('.$cids.')' .
+				' AND (checked_out = 0 OR (checked_out = '.(int) $uid.'))';
 		$db->setQuery($query);
 		if (!$db->query())
 		{
-			JError::raiseError( 500, $db->getErrorMsg() );
+			JError::raiseError(500, $db->getErrorMsg());
 			return false;
 		}
 
@@ -454,14 +454,14 @@ class ContentController extends JController
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
-		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
-		$option		= JRequest::getCmd( 'option' );
+		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
+		$sectionid	= JRequest::getVar('sectionid', 0, '', 'int');
+		$option		= JRequest::getCmd('option');
 
 		JArrayHelper::toInteger($cid);
 
 		$item	= null;
-		$sectcat = JRequest::getVar( 'sectcat', '-1,-1', 'post', 'string' );
+		$sectcat = JRequest::getVar('sectcat', '-1,-1', 'post', 'string');
 		//seperate sections and categories from selection
 		$sectcat = explode(',', $sectcat);
 		$newsect = (int) @$sectcat[0];
@@ -498,11 +498,11 @@ class ContentController extends JController
 		for ($i = 0; $i < $total; $i ++)
 		{
 			$id = $cid[$i];
-			$content->load( $id );
+			$content->load($id);
 			$content->id 		= NULL;
 			$content->sectionid = $newsect;
 			$content->catid		= $newcat;
-			$content->title 	= JText::sprintf( 'Copy of', $content->title );
+			$content->title 	= JText::sprintf('Copy of', $content->title);
 			$content->hits 		= 0;
 			$content->ordering	= 0;
 
@@ -527,7 +527,7 @@ class ContentController extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
 		$msg = '';
@@ -539,8 +539,8 @@ class ContentController extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
 
-		$option	= JRequest::getCmd( 'option' );
-		$this->setRedirect( 'index.php?option='.$option, $msg );
+		$option	= JRequest::getCmd('option');
+		$this->setRedirect('index.php?option='.$option, $msg);
 	}
 
 	function accessregistered()
@@ -548,7 +548,7 @@ class ContentController extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
 		$msg = '';
@@ -560,8 +560,8 @@ class ContentController extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
 
-		$option	= JRequest::getCmd( 'option' );
-		$this->setRedirect( 'index.php?option='.$option, $msg );
+		$option	= JRequest::getCmd('option');
+		$this->setRedirect('index.php?option='.$option, $msg);
 	}
 
 	function accessspecial()
@@ -569,7 +569,7 @@ class ContentController extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
 		$msg = '';
@@ -581,8 +581,8 @@ class ContentController extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
 
-		$option	= JRequest::getCmd( 'option' );
-		$this->setRedirect( 'index.php?option='.$option, $msg );
+		$option	= JRequest::getCmd('option');
+		$this->setRedirect('index.php?option='.$option, $msg);
 	}
 
 	function saveorder()
@@ -595,9 +595,9 @@ class ContentController extends JController
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
-		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$order		= JRequest::getVar( 'order', array (0), 'post', 'array' );
-		$redirect	= JRequest::getVar( 'redirect', 0, 'post', 'int' );
+		$cid		= JRequest::getVar('cid', array(0), 'post', 'array');
+		$order		= JRequest::getVar('order', array (0), 'post', 'array');
+		$redirect	= JRequest::getVar('redirect', 0, 'post', 'int');
 
 		JArrayHelper::toInteger($cid, array(0));
 		JArrayHelper::toInteger($order, array(0));

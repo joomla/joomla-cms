@@ -10,7 +10,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Articles component
@@ -28,7 +28,7 @@ class ContentViewPagebreak extends JView
 		$document->setTitle(JText::_('PGB ARTICLE PAGEBRK'));
 
 		$eName	= JRequest::getVar('e_name');
-		$eName	= preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', $eName );
+		$eName	= preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 
 		$this->assignRef('eName', $eName);
 

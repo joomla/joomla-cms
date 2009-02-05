@@ -10,7 +10,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Articles component
@@ -29,14 +29,14 @@ class ContentViewArticles extends JView
 
 	function display($tpl = null)
 	{
-		$rows		= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-		$filter		= & $this->get( 'Filter' );
+		$rows		= & $this->get('Data');
+		$total		= & $this->get('Total');
+		$pagination = & $this->get('Pagination');
+		$filter		= & $this->get('Filter');
 
 		$redirect			= $filter->sectionid;
 
-		JToolBarHelper::title( JText::_( 'Article Manager' ), 'addedit.png' );
+		JToolBarHelper::title(JText::_('Article Manager'), 'addedit.png');
 		if ($filter->state == 'A' || $filter->state == NULL) {
 			JToolBarHelper::unarchiveList();
 		}
@@ -45,16 +45,16 @@ class ContentViewArticles extends JView
 		}
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		JToolBarHelper::customX( 'movesect', 'move.png', 'move_f2.png', 'Move' );
-		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
+		JToolBarHelper::customX('movesect', 'move.png', 'move_f2.png', 'Move');
+		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy');
 		JToolBarHelper::trash();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
 		JToolBarHelper::preferences('com_content', '550');
-		JToolBarHelper::help( 'screen.content' );
+		JToolBarHelper::help('screen.content');
 
-		JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_content', true );
-		JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_content&controller=frontpage' );
+		JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_content', true);
+		JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_content&controller=frontpage');
 
 		$this->assignRef('redirect',	$redirect);
 		$this->assignRef('rows',		$rows);

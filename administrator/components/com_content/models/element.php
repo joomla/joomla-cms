@@ -10,8 +10,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.helper');
-jimport( 'joomla.application.component.model');
+jimport('joomla.application.component.helper');
+jimport('joomla.application.component.model');
 
 /**
  * Content Component Article Model
@@ -119,7 +119,7 @@ class ContentModelElement extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -165,7 +165,7 @@ class ContentModelElement extends JModel
 
 	function _buildContentWhere()
 	{
-		$search				= JString::strtolower( $this->_filter->search );
+		$search				= JString::strtolower($this->_filter->search);
 
 		// Only published articles
 		$where[] = 'c.state = 1';
@@ -191,7 +191,7 @@ class ContentModelElement extends JModel
 
 		// Keyword filter
 		if ($search) {
-			$where[] = 'LOWER( c.title ) LIKE '.$this->_db->Quote( '%'.$this->_db->getEscaped( $search, true ).'%', false );
+			$where[] = 'LOWER(c.title) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false);
 		}
 
 		// Build the where clause of the content record query

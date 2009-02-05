@@ -8,7 +8,7 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
 * @package		Joomla.Administrator
@@ -24,7 +24,7 @@ class TableFrontPage extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db ) {
-		parent::__construct( '#__content_frontpage', 'content_id', $db );
+	function __construct(&$db) {
+		parent::__construct('#__content_frontpage', 'content_id', $db);
 	}
 }

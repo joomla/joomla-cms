@@ -10,7 +10,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Frontpage component
@@ -32,21 +32,21 @@ class ContentViewFrontpage extends JView
 
 		$db					=& JFactory::getDBO();
 
-		JToolBarHelper::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );
+		JToolBarHelper::title(JText::_('Frontpage Manager'), 'frontpage.png');
 		JToolBarHelper::archiveList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::custom('remove','delete.png','delete_f2.png','Remove', true);
-		JToolBarHelper::help( 'screen.frontpage' );
+		JToolBarHelper::help('screen.frontpage');
 
 		JSubMenuHelper::addEntry(JText::_('Articles'), 'index.php?option=com_content');
-		JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_content&controller=frontpage', true );
+		JSubMenuHelper::addEntry(JText::_('Front Page'), 'index.php?option=com_content&controller=frontpage', true);
 
 		// Get data from the model
-		$rows		= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-		$filter		= & $this->get( 'Filter');
+		$rows		= & $this->get('Data');
+		$total		= & $this->get('Total');
+		$pagination = & $this->get('Pagination');
+		$filter		= & $this->get('Filter');
 
 		$this->assignRef('user',		JFactory::getUser());
 		$this->assignRef('rows',		$rows);

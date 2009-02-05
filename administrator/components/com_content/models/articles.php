@@ -61,22 +61,22 @@ class ContentModelArticles extends JModel
 		global $mainframe, $option;
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
 		$context			= 'com_content.viewcontent';
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $context.'.filter_order',		'filter_order',		'section_name',	'cmd' );
-		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $context.'.filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$filter->state		= $mainframe->getUserStateFromRequest( $context.'.filter_state',		'filter_state',		'',				'word' );
-		$filter->catid		= $mainframe->getUserStateFromRequest( $context.'.filter_catid',		'filter_catid',		0,				'int' );
-		$filter->search		= $mainframe->getUserStateFromRequest( $context.'.search',			'search',			'',				'string' );
-		$filter->authorid	= $mainframe->getUserStateFromRequest( $context.'.filter_authorid',	'filter_authorid',	0,	'int' );
-		$filter->section 	= JRequest::getCmd( 'section', 'com_content' );
-		$filter->sectionid	= $mainframe->getUserStateFromRequest( $context.'.filter_sectionid',	'filter_sectionid',	-1,	'int' );
+		$filter->order		= $mainframe->getUserStateFromRequest($context.'.filter_order',		'filter_order',		'section_name',	'cmd');
+		$filter->order_Dir	= $mainframe->getUserStateFromRequest($context.'.filter_order_Dir',	'filter_order_Dir',	'',				'word');
+		$filter->state		= $mainframe->getUserStateFromRequest($context.'.filter_state',		'filter_state',		'',				'word');
+		$filter->catid		= $mainframe->getUserStateFromRequest($context.'.filter_catid',		'filter_catid',		0,				'int');
+		$filter->search		= $mainframe->getUserStateFromRequest($context.'.search',			'search',			'',				'string');
+		$filter->authorid	= $mainframe->getUserStateFromRequest($context.'.filter_authorid',	'filter_authorid',	0,	'int');
+		$filter->section 	= JRequest::getCmd('section', 'com_content');
+		$filter->sectionid	= $mainframe->getUserStateFromRequest($context.'.filter_sectionid',	'filter_sectionid',	-1,	'int');
 		$this->_filter = $filter;
 	}
 
@@ -128,7 +128,7 @@ class ContentModelArticles extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -151,11 +151,11 @@ class ContentModelArticles extends JModel
 		$where		= $this->_buildContentWhere($this->_filter->section);
 		$orderby	= $this->_buildContentOrderBy($this->_filter->section);
 
-		$query = 'SELECT c.*, g.name AS groupname, cc.title AS name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
+		$query = 'SELECT c.*, g.title AS groupname, cc.title AS name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
 				' FROM #__content AS c' .
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
 				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
-				' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = c.access' .
+				' LEFT JOIN #__access_assetgroups AS g ON g.id = c.access' .
 				' LEFT JOIN #__users AS u ON u.id = c.checked_out' .
 				' LEFT JOIN #__users AS v ON v.id = c.created_by' .
 				' LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id' .
@@ -175,7 +175,7 @@ class ContentModelArticles extends JModel
 	function _buildContentWhere($section)
 	{
 		$db					=& JFactory::getDBO();
-		$search				= JString::strtolower( $this->_filter->search );
+		$search				= JString::strtolower($this->_filter->search);
 
 		$where[] = 'c.state != -2';
 
@@ -210,7 +210,7 @@ class ContentModelArticles extends JModel
 		}
 		// Keyword filter
 		if ($search) {
-			$where[] = '(LOWER( c.title ) LIKE ' . $db->Quote( "%$search%" ) .
+			$where[] = '(LOWER(c.title) LIKE ' . $db->Quote("%$search%") .
 				' OR c.id = ' . (int) $search . ')';
 		}
 

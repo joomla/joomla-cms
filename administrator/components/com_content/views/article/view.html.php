@@ -10,7 +10,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Articles component
@@ -37,10 +37,10 @@ class ContentViewArticle extends JView
 		$db				= & JFactory::getDBO();
 		$user			= & JFactory::getUser();
 
-		$cid			= JRequest::getVar( 'cid', array(0), '', 'array' );
+		$cid			= JRequest::getVar('cid', array(0), '', 'array');
 		JArrayHelper::toInteger($cid, array(0));
-		$id				= JRequest::getVar( 'id', $cid[0], '', 'int' );
-		$option			= JRequest::getCmd( 'option' );
+		$id				= JRequest::getVar('id', $cid[0], '', 'int');
+		$option			= JRequest::getCmd('option');
 		$nullDate		= $db->getNullDate();
 		$contentSection	= '';
 		$sectionid		= 0;
@@ -64,7 +64,7 @@ class ContentViewArticle extends JView
 			$where = ' WHERE section NOT LIKE "%com_%"';
 		} else {
 			// Grab from the specific section
-			$where = ' WHERE section = '. $db->Quote( $sectionid );
+			$where = ' WHERE section = '. $db->Quote($sectionid);
 		}
 		 */
 
@@ -73,7 +73,7 @@ class ContentViewArticle extends JView
 		 * out by the current user.
 		 */
 			// fail if checked out not by 'me'
-		if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out ))
+		if (JTable::isCheckedOut($user->get ('id'), $row->checked_out))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The item'), $row->title);
 			$mainframe->redirect('index.php?option=com_content', $msg);
@@ -81,7 +81,7 @@ class ContentViewArticle extends JView
 
 		if ($edit)
 		{
-			$model->checkout( $user->get('id'));
+			$model->checkout($user->get('id'));
 
 			if (trim($row->images)) {
 				$row->images = explode("\n", $row->images);
@@ -145,7 +145,7 @@ class ContentViewArticle extends JView
 			$row->frontpage = 0;
 		}
 
-		$javascript = "onchange=\"changeDynaList( 'catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
+		$javascript = "onchange=\"changeDynaList('catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
 
 		$query = 'SELECT s.id, s.title' .
 				' FROM #__sections AS s' .
@@ -174,12 +174,12 @@ class ContentViewArticle extends JView
 
 		$sectioncategories = array ();
 		$sectioncategories[-1] = array ();
-		$sectioncategories[-1][] = JHtml::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
+		$sectioncategories[-1][] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
 		$section_list = implode('\', \'', $section_list);
 
 		$query = 'SELECT id, title, section' .
 				' FROM #__categories' .
-				' WHERE section IN ( \''.$section_list.'\' )' .
+				' WHERE section IN (\''.$section_list.'\')' .
 				' ORDER BY ordering';
 		$db->setQuery($query);
 		$cat_list = $db->loadObjectList();
@@ -204,14 +204,14 @@ class ContentViewArticle extends JView
 				$sectioncategories[$section->id][] = JHtml::_('select.option', $row2->id, $row2->title, 'id', 'title');
 			}
 		}
-		$sectioncategories['-1'][] = JHtml::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
+		$sectioncategories['-1'][] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
 		$categories = array();
 		foreach ($cat_list as $cat) {
 			if($cat->section == $row->sectionid)
 				$categories[] = $cat;
 		}
 
-		$categories[] = JHtml::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
+		$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
 		$lists['catid'] = JHtml::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($row->catid));
 
 		// build the html select list for ordering
@@ -243,7 +243,7 @@ class ContentViewArticle extends JView
 
 		// Parameters
 		$file 	= JPATH_COMPONENT.DS.'models'.DS.'article.xml';
-		$params = new JParameter( '', $file );
+		$params = new JParameter('', $file);
 		$active = (intval($row->created_by) ? intval($row->created_by) : $user->get('id'));
 		$params->set('created_by', $active);
 		$params->set('access', $row->access);

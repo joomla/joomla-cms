@@ -61,20 +61,20 @@ class ContentModelFrontpage extends JModel
 		global $mainframe, $option;
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'fpordering',	'cmd' );
-		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$filter->state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
-		$filter->catid		= $mainframe->getUserStateFromRequest( $option.'filter_catid',		'filter_catid',		0,				'int' );
-		$filter->search		= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$filter->authorid	= $mainframe->getUserStateFromRequest( $option.'filter_authorid',	'filter_authorid',	0,				'int' );
-		$filter->sectionid	= $mainframe->getUserStateFromRequest( $option.'filter_sectionid',	'filter_sectionid',	-1,				'int' );
+		$filter->order		= $mainframe->getUserStateFromRequest($option.'filter_order',		'filter_order',		'fpordering',	'cmd');
+		$filter->order_Dir	= $mainframe->getUserStateFromRequest($option.'filter_order_Dir',	'filter_order_Dir',	'',				'word');
+		$filter->state		= $mainframe->getUserStateFromRequest($option.'filter_state',		'filter_state',		'',				'word');
+		$filter->catid		= $mainframe->getUserStateFromRequest($option.'filter_catid',		'filter_catid',		0,				'int');
+		$filter->search		= $mainframe->getUserStateFromRequest($option.'search',			'search',			'',				'string');
+		$filter->authorid	= $mainframe->getUserStateFromRequest($option.'filter_authorid',	'filter_authorid',	0,				'int');
+		$filter->sectionid	= $mainframe->getUserStateFromRequest($option.'filter_sectionid',	'filter_sectionid',	-1,				'int');
 		$this->_filter = $filter;
 	}
 
@@ -126,7 +126,7 @@ class ContentModelFrontpage extends JModel
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
@@ -172,7 +172,7 @@ class ContentModelFrontpage extends JModel
 
 	function _buildContentWhere()
 	{
-		$search				= JString::strtolower( $this->_filter->search );
+		$search				= JString::strtolower($this->_filter->search);
 
 		$where = array();
 		$where[] = "c.state >= 0";
@@ -180,24 +180,24 @@ class ContentModelFrontpage extends JModel
 		if ($this->_filter->catid > 0) {
 			$where[] = 'c.catid = '.(int) $this->_filter->catid;
 		}
-		if ( $this->_filter->sectionid >= 0 ) {
+		if ($this->_filter->sectionid >= 0) {
 			$where[] = 'c.sectionid = '.(int) $this->_filter->sectionid;
 		}
-		if ( $this->_filter->authorid > 0 ) {
+		if ($this->_filter->authorid > 0) {
 			$where[] = 'c.created_by = '. (int) $this->_filter->authorid;
 		}
-		if ( $this->_filter->state ) {
-			if ( $this->_filter->state == 'P' ) {
+		if ($this->_filter->state) {
+			if ($this->_filter->state == 'P') {
 				$where[] = 'c.state = 1';
-			} else if ($this->_filter->state == 'U' ) {
+			} else if ($this->_filter->state == 'U') {
 				$where[] = 'c.state = 0';
 			}
 		}
 		if ($search) {
-			$where[] = 'LOWER(c.title) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped( $search, true ).'%', false);
+			$where[] = 'LOWER(c.title) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false);
 		}
 
-		$where 		= ( count( $where ) ? ' WHERE '. implode( ' AND ', $where ) : '' );
+		$where 		= (count($where) ? ' WHERE '. implode(' AND ', $where) : '');
 
 		return $where;
 	}
@@ -211,15 +211,15 @@ class ContentModelFrontpage extends JModel
 	 */
 	function move($direction)
 	{
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 
 		$row = & JTable::getInstance('frontpage', 'Table');
-		if (!$row->load( (int) $cid[0] )) {
+		if (!$row->load((int) $cid[0])) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
-		if (!$row->move( $direction, ' 1 ' )) {
+		if (!$row->move($direction, ' 1 ')) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -239,9 +239,9 @@ class ContentModelFrontpage extends JModel
 		$row = & JTable::getInstance('frontpage', 'Table');
 
 		// update ordering values
-		for( $i=0; $i < count($cid); $i++ )
+		for($i=0; $i < count($cid); $i++)
 		{
-			$row->load( (int) $cid[$i] );
+			$row->load((int) $cid[$i]);
 
 			if ($row->ordering != $order[$i])
 			{
@@ -270,13 +270,13 @@ class ContentModelFrontpage extends JModel
 	{
 		$result = false;
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 			$query = 'DELETE FROM #__content_frontpage'
-				. ' WHERE content_id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
+				. ' WHERE content_id IN ('.$cids.')';
+			$this->_db->setQuery($query);
 			if(!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -311,10 +311,10 @@ class ContentModelFrontpage extends JModel
 			} else {
 				// new entry
 				$query = 'INSERT INTO #__content_frontpage' .
-						' VALUES ( '. (int) $id .', 0 )';
+						' VALUES ('. (int) $id .', 0)';
 				$this->_db->setQuery($query);
 				if (!$this->_db->query()) {
-					JError::raiseError( 500, $this->_db->stderr() );
+					JError::raiseError(500, $this->_db->stderr());
 					return false;
 				}
 				$fp->ordering = 0;

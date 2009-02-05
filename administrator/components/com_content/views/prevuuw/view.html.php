@@ -10,7 +10,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Articles component
@@ -30,8 +30,8 @@ class ContentViewPrevuuw extends JView
 		// Initialize variables
 		$document		=& JFactory::getDocument();
 		$db 			=& JFactory::getDBO();
-		$id				= JRequest::getVar( 'id', 0, '', 'int' );
-		$option			= JRequest::getCmd( 'option' );
+		$id				= JRequest::getVar('id', 0, '', 'int');
+		$option			= JRequest::getCmd('option');
 
 		// Get the current default template
 		$query = 'SELECT template' .
@@ -42,7 +42,7 @@ class ContentViewPrevuuw extends JView
 		$template = $db->loadResult();
 
 		// check if template editor stylesheet exists
-		if (!file_exists( JPATH_SITE.DS.'templates'.DS.$template.DS.'css'.DS.'editor.css' )) {
+		if (!file_exists(JPATH_SITE.DS.'templates'.DS.$template.DS.'css'.DS.'editor.css')) {
 			$template = 'system';
 		}
 

@@ -13,7 +13,7 @@ defined('_JEXEC') or die();
 jimport('joomla.application.component.controller');
 
 // Add Content model path - need article model to update article details
-JController::addModelPath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_content'.DS.'models' );
+JController::addModelPath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_content'.DS.'models');
 
 /**
  * Content Component Frontpage Controller
@@ -26,7 +26,7 @@ class ContentControllerFrontpage extends JController
 {
 	function display()
 	{
-		JRequest::setVar( 'view', 'frontpage' );
+		JRequest::setVar('view', 'frontpage');
 		parent::display();
 	}
 
@@ -35,11 +35,11 @@ class ContentControllerFrontpage extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select an item to delete' ) );
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select an item to delete'));
 		}
 
 		$model = $this->getModel();
@@ -50,20 +50,20 @@ class ContentControllerFrontpage extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
 
-		$this->setRedirect( 'index.php?option=com_content&controller=frontpage' );
+		$this->setRedirect('index.php?option=com_content&controller=frontpage');
 	}
 
-	function publish( )
+	function publish()
 	{
 		$this->changeState(1);
 	}
 
-	function unpublish( )
+	function unpublish()
 	{
 		$this->changeState(0);
 	}
 
-	function archive( )
+	function archive()
 	{
 		$this->changeState(-1);
 	}
@@ -73,18 +73,18 @@ class ContentControllerFrontpage extends JController
 	*
 	* @param integer 0 if unpublishing, 1 if publishing, -1 if archiving
 	*/
-	function changeState( $state = 0 )
+	function changeState($state = 0)
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 		$task		= $this->getTask();
 
 		$total = count($cid);
 		if ($total < 1) {
-			$redirect	= JRequest::getVar( 'redirect', '', 'post', 'int' );
+			$redirect	= JRequest::getVar('redirect', '', 'post', 'int');
 			$action		= ($state == 1) ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
 			$msg		= JText::_('Select an item to') . ' ' . JText::_($action);
 			$this->setRedirect('index.php?option=com_content&controller=frontpage', $msg, 'error');
@@ -123,7 +123,7 @@ class ContentControllerFrontpage extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		JArrayHelper::toInteger($cid, array(0));
 
 		$model = $this->getModel('frontpage');
@@ -132,7 +132,7 @@ class ContentControllerFrontpage extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
 
-		$this->setRedirect( 'index.php?option=com_content&controller=frontpage' );
+		$this->setRedirect('index.php?option=com_content&controller=frontpage');
 	}
 
 	function orderdown()
@@ -140,7 +140,7 @@ class ContentControllerFrontpage extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		JArrayHelper::toInteger($cid, array(0));
 
 		$model = $this->getModel('frontpage');
@@ -149,7 +149,7 @@ class ContentControllerFrontpage extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
 
-		$this->setRedirect( 'index.php?option=com_content&controller=frontpage' );
+		$this->setRedirect('index.php?option=com_content&controller=frontpage');
 	}
 
 	function accesspublic()
@@ -157,7 +157,7 @@ class ContentControllerFrontpage extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
 		$msg = '';
@@ -169,7 +169,7 @@ class ContentControllerFrontpage extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
 
-		$this->setRedirect( 'index.php?option=com_content&controller=frontpage', $msg );
+		$this->setRedirect('index.php?option=com_content&controller=frontpage', $msg);
 	}
 
 	function accessregistered()
@@ -177,7 +177,7 @@ class ContentControllerFrontpage extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
 		$msg = '';
@@ -189,7 +189,7 @@ class ContentControllerFrontpage extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
 
-		$this->setRedirect( 'index.php?option=com_content&controller=frontpage', $msg );
+		$this->setRedirect('index.php?option=com_content&controller=frontpage', $msg);
 	}
 
 	function accessspecial()
@@ -197,7 +197,7 @@ class ContentControllerFrontpage extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
 
 		$msg = '';
@@ -209,7 +209,7 @@ class ContentControllerFrontpage extends JController
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
 
-		$this->setRedirect( 'index.php?option=com_content&controller=frontpage', $msg );
+		$this->setRedirect('index.php?option=com_content&controller=frontpage', $msg);
 	}
 
 	function saveorder()
@@ -222,8 +222,8 @@ class ContentControllerFrontpage extends JController
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
-		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$order		= JRequest::getVar( 'order', array (0), 'post', 'array' );
+		$cid		= JRequest::getVar('cid', array(0), 'post', 'array');
+		$order		= JRequest::getVar('order', array (0), 'post', 'array');
 
 		JArrayHelper::toInteger($cid, array(0));
 		JArrayHelper::toInteger($order, array(0));

@@ -86,7 +86,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True if checked out
 	 * @since	1.5
 	 */
-	function isCheckedOut( $uid=0 )
+	function isCheckedOut($uid=0)
 	{
 		if ($this->_loadData())
 		{
@@ -158,12 +158,12 @@ class ContentModelArticle extends JModel
 	{
 		jimport('joomla.utilities.date');
 		$user		= & JFactory::getUser();
-		$details	= JRequest::getVar( 'details', array(), 'post', 'array');
+		$details	= JRequest::getVar('details', array(), 'post', 'array');
 		$nullDate	= $this->_db->getNullDate();
 
 		$row = & JTable::getInstance('content');
 		if (!$row->bind($data)) {
-			JError::raiseError( 500, $this->_db->stderr() );
+			JError::raiseError(500, $this->_db->stderr());
 			return false;
 		}
 		$row->bind($details);
@@ -180,7 +180,7 @@ class ContentModelArticle extends JModel
 
 		$row->created_by 	= $row->created_by ? $row->created_by : $user->get('id');
 
-		if ($row->created && strlen(trim( $row->created )) <= 10) {
+		if ($row->created && strlen(trim($row->created)) <= 10) {
 			$row->created 	.= ' 00:00:00';
 		}
 
@@ -198,13 +198,13 @@ class ContentModelArticle extends JModel
 		$row->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
-		if (trim($row->publish_down) == JText::_('Never') || trim( $row->publish_down ) == '')
+		if (trim($row->publish_down) == JText::_('Never') || trim($row->publish_down) == '')
 		{
 			$row->publish_down = $nullDate;
 		}
 		else
 		{
-			if (strlen(trim( $row->publish_down )) <= 10) {
+			if (strlen(trim($row->publish_down)) <= 10) {
 				$row->publish_down .= ' 00:00:00';
 			}
 			$date =& JFactory::getDate($row->publish_down, $tzoffset);
@@ -212,8 +212,8 @@ class ContentModelArticle extends JModel
 		}
 
 		// Get a state and parameter variables from the request
-		$row->state	= JRequest::getVar( 'state', 0, '', 'int' );
-		$params		= JRequest::getVar( 'params', null, 'post', 'array' );
+		$row->state	= JRequest::getVar('state', 0, '', 'int');
+		$params		= JRequest::getVar('params', null, 'post', 'array');
 
 		// Build parameter INI string
 		if (is_array($params))
@@ -222,7 +222,7 @@ class ContentModelArticle extends JModel
 		}
 
 		// Get metadata string
-		$metadata = JRequest::getVar( 'meta', null, 'post', 'array');
+		$metadata = JRequest::getVar('meta', null, 'post', 'array');
 		if (is_array($metadata))
 		{
 			$txt = array();
@@ -239,11 +239,11 @@ class ContentModelArticle extends JModel
 		}
 
 		// Prepare the content for saving to the database
-		$this->saveContentPrep( $row );
+		$this->saveContentPrep($row);
 
 		// Make sure the data is valid
 		if (!$row->check()) {
-			JError::raiseError( 500, $this->_db->stderr() );
+			JError::raiseError(500, $this->_db->stderr());
 			return false;
 		}
 
@@ -252,7 +252,7 @@ class ContentModelArticle extends JModel
 
 		// Store the content to the database
 		if (!$row->store()) {
-			JError::raiseError( 500, $this->_db->stderr() );
+			JError::raiseError(500, $this->_db->stderr());
 			return false;
 		}
 
@@ -278,11 +278,11 @@ class ContentModelArticle extends JModel
 			{
 				// Insert the new entry
 				$query = 'INSERT INTO #__content_frontpage' .
-						' VALUES ( '. (int) $row->id .', 1 )';
+						' VALUES ('. (int) $row->id .', 1)';
 				$this->_db->setQuery($query);
 				if (!$this->_db->query())
 				{
-					JError::raiseError( 500, $this->_db->stderr() );
+					JError::raiseError(500, $this->_db->stderr());
 					return false;
 				}
 				$fp->ordering = 1;
@@ -312,13 +312,13 @@ class ContentModelArticle extends JModel
 	{
 		$result = false;
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 			$query = 'DELETE FROM #__content'
-				. ' WHERE id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
+				. ' WHERE id IN ('.$cids.')';
+			$this->_db->setQuery($query);
 			if(!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -339,11 +339,11 @@ class ContentModelArticle extends JModel
 	{
 		$result = false;
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			// Removed content gets put in the trash [state = -2] and ordering is always set to 0
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 			$nullDate	= $this->_db->getNullDate();
 			$state		= '-2';
 			$ordering	= '0';
@@ -351,8 +351,8 @@ class ContentModelArticle extends JModel
 					' SET state = '.(int) $state .
 					', ordering = '.(int) $ordering .
 					', checked_out = 0, checked_out_time = '.$this->_db->Quote($nullDate).
-					' WHERE id IN ( '. $cids. ' )';
-			$this->_db->setQuery( $query );
+					' WHERE id IN ('. $cids. ')';
+			$this->_db->setQuery($query);
 			if(!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -376,17 +376,17 @@ class ContentModelArticle extends JModel
 	{
 		$user 	=& JFactory::getUser();
 
-		if (count( $cid ))
+		if (count($cid))
 		{
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__content'
 				. ' SET state = '.(int) $new_state
-				. ' WHERE id IN ( '.$cids.' )'
-				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
+				. ' WHERE id IN ('.$cids.')'
+				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))'
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -405,15 +405,15 @@ class ContentModelArticle extends JModel
 	 */
 	function move($direction)
 	{
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 
 		$row = & JTable::getInstance('content');
-		if (!$row->load( (int) $cid[0] )) {
+		if (!$row->load((int) $cid[0])) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
-		if (!$row->move( $direction, ' catid = '.(int) $row->catid.' AND state >= 0 ' )) {
+		if (!$row->move($direction, ' catid = '.(int) $row->catid.' AND state >= 0 ')) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -436,11 +436,11 @@ class ContentModelArticle extends JModel
 		// Update the ordering for items in the cid array
 		for ($i = 0; $i < count($cid); $i ++)
 		{
-			$row->load( (int) $cid[$i] );
+			$row->load((int) $cid[$i]);
 			if ($row->ordering != $order[$i]) {
 				$row->ordering = $order[$i];
 				if (!$row->store()) {
-					JError::raiseError( 500, $this->_db->getErrorMsg() );
+					JError::raiseError(500, $this->_db->getErrorMsg());
 					return false;
 				}
 				// remember to updateOrder this group
@@ -578,19 +578,19 @@ class ContentModelArticle extends JModel
 	 */
 	function setAccess($cid = array(), $access = 0)
 	{
-		if (count( $cid ))
+		if (count($cid))
 		{
 			$user 	=& JFactory::getUser();
 
 			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
+			$cids = implode(',', $cid);
 
 			$query = 'UPDATE #__content'
 				. ' SET access = '.(int) $access
-				. ' WHERE id IN ( '.$cids.' )'
-				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
+				. ' WHERE id IN ('.$cids.')'
+				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))'
 			;
-			$this->_db->setQuery( $query );
+			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -600,53 +600,53 @@ class ContentModelArticle extends JModel
 		return true;
 	}
 
-	function saveContentPrep( &$row )
+	function saveContentPrep(&$row)
 	{
 		// Get submitted text from the request variables
-		$text = JRequest::getVar( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW );
+		$text = JRequest::getVar('text', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		// Clean text for xhtml transitional compliance
-		$text		= str_replace( '<br>', '<br />', $text );
+		$text		= str_replace('<br>', '<br />', $text);
 
 		// Search for the {readmore} tag and split the text up accordingly.
-		$tagPos	= JString::strpos( $text, '<hr id="system-readmore" />' );
+		$tagPos	= JString::strpos($text, '<hr id="system-readmore" />');
 
-		if ( $tagPos === false )
+		if ($tagPos === false)
 		{
 			$row->introtext	= $text;
 		} else
 		{
 			$row->introtext	= JString::substr($text, 0, $tagPos);
-			$row->fulltext	= JString::substr($text, $tagPos + 27 );
+			$row->fulltext	= JString::substr($text, $tagPos + 27);
 		}
 
 		// Filter settings
-		jimport( 'joomla.application.component.helper' );
-		$config	= JComponentHelper::getParams( 'com_content' );
+		jimport('joomla.application.component.helper');
+		$config	= JComponentHelper::getParams('com_content');
 		$user	= &JFactory::getUser();
-		$gid	= $user->get( 'gid' );
+		$gid	= $user->get('gid');
 
-		$filterGroups	= (array) $config->get( 'filter_groups' );
-		if (in_array( $gid, $filterGroups ))
+		$filterGroups	= (array) $config->get('filter_groups');
+		if (in_array($gid, $filterGroups))
 		{
-			$filterType		= $config->get( 'filter_type' );
-			$filterTags		= preg_split( '#[,\s]+#', trim( $config->get( 'filter_tags' ) ) );
-			$filterAttrs	= preg_split( '#[,\s]+#', trim( $config->get( 'filter_attritbutes' ) ) );
+			$filterType		= $config->get('filter_type');
+			$filterTags		= preg_split('#[,\s]+#', trim($config->get('filter_tags')));
+			$filterAttrs	= preg_split('#[,\s]+#', trim($config->get('filter_attritbutes')));
 			switch ($filterType)
 			{
 				case 'NH':
 					$filter	= new JFilterInput();
 					break;
 				case 'WL':
-					$filter	= new JFilterInput( $filterTags, $filterAttrs, 0, 0 );
+					$filter	= new JFilterInput($filterTags, $filterAttrs, 0, 0);
 					break;
 				case 'BL':
 				default:
-					$filter	= new JFilterInput( $filterTags, $filterAttrs, 1, 1 );
+					$filter	= new JFilterInput($filterTags, $filterAttrs, 1, 1);
 					break;
 			}
-			$row->introtext	= $filter->clean( $row->introtext );
-			$row->fulltext	= $filter->clean( $row->fulltext );
+			$row->introtext	= $filter->clean($row->introtext);
+			$row->fulltext	= $filter->clean($row->fulltext);
 		}
 
 		return true;
