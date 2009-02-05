@@ -482,7 +482,7 @@ class ContentModelSection extends JModel
 
 		// First thing we need to do is assert that the articles are in the current category
 		if ($noauth) {
-			$where = ' WHERE a.access IN ('.JAcl::getAllowedAssetGroups('core', 'global.view').')';
+			$where .= ' WHERE a.access IN ('.implode(',', $user->authorisedLevels()).')';
 		} else {
 			$where = ' WHERE 1';
 		}

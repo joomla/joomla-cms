@@ -156,7 +156,7 @@ class ContentViewSection extends ContentView
 		if (($item->params->get('show_readmore') && @ $item->readmore) || $item->params->get('link_titles'))
 		{
 			// checks if the item is a public or registered/special item
-			if ($item->access <= $user->get('aid', 0))
+			if (in_array($item->access, $user->authorisedLevels()))
 			{
 				//$item->readmore_link = JRoute::_("index.php?view=article&id=".$item->slug);
 				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));

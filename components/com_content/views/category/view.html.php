@@ -179,7 +179,7 @@ class ContentViewCategory extends ContentView
 		foreach($this->items as $key => $item)
 		{
 			// checks if the item is a public or registered/special item
-			if ($item->access <= $user->get('aid', 0))
+			if (in_array($item->access, $user->authorisedLevels()))
 			{
 				$item->link	= JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
 				$item->readmore_register = false;
@@ -236,7 +236,7 @@ class ContentViewCategory extends ContentView
 		if (($item->params->get('show_readmore') && @ $item->readmore) || $item->params->get('link_titles'))
 		{
 			// checks if the item is a public or registered/special item
-			if ($item->access <= $user->get('aid', 0))
+			if (in_array($item->access, $user->authorisedLevels()))
 			{
 				//$item->readmore_link = JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
 				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));

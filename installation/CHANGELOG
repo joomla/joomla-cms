@@ -33,6 +33,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ! Root user now bypasses ACS checks
  ! Added rules to support frontend and backend login to installation
  ! Login now working of new ACS checks
+ ! And there we have it - access controlled articles
 
 04-Feb-2009 Sam Moffatt
  # Fixed issue with temp and log paths not being displayed in the directory info tabs

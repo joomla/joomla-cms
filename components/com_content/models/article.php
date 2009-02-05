@@ -588,7 +588,7 @@ class ContentModelArticle extends JModel
 		 * we are looking for and we have access to it.
 		 */
 		$where = ' WHERE a.id = '. (int) $this->_id;
-		$where .= ' AND a.access IN ('.JAcl::getAllowedAssetGroups('core', 'global.view').')';
+		$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels()).')';
 
 		if (!$user->authorize('com_content', 'edit', 'content', 'all'))
 		{

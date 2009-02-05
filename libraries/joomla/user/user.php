@@ -123,6 +123,12 @@ class JUser extends JClass
 	protected $_params 	= null;
 
 	/**
+	 * Authorised access levels
+	 * @var array
+	 */
+	protected $_authLevels 	= null;
+
+	/**
 	 * Error message
 	 * @var string
 	 */
@@ -275,6 +281,27 @@ class JUser extends JClass
 		$result	= $acl->acl_check($acoSection, $aco,	'users', $value, $axoSection, $axo);
 		$acl->setCheckMode($old);
 		return $result;
+	}
+
+	/**
+	 * Gets an array of the authorised access levels for the user
+	 *
+	 * @param	string $action	The action to apply (type 3 rule). Defaults to 'core.view'.
+	 *
+	 * @return	array
+	 */
+	public function authorisedLevels($action = 'core.view')
+	{
+		if ($this->_authLevels === null) {
+			$this->_authLevels = array();
+		}
+
+		if (!isset($this->_authLevels[$action])) {
+			jimport('joomla.access.access');
+			$acs = new JAccess;
+			$this->_authLevels[$action] = $acs->getAuthorisedAccessLevels($this->id, $action);
+		}
+		return $this->_authLevels[$action];
 	}
 
 	/**

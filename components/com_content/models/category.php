@@ -437,7 +437,7 @@ class ContentModelCategory extends JModel
 
 		// Does the user have access to view the items?
 		if ($noauth) {
-			$where .= ' AND a.access IN ('.JAcl::getAllowedAssetGroups('core', 'global.view').')';
+			$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels()).')';
 		}
 
 		// First thing we need to do is assert that the articles are in the current category
