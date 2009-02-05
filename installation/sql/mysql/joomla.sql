@@ -1325,7 +1325,10 @@ CREATE TABLE IF NOT EXISTS `#__access_action_rule_map` (
 REPLACE INTO `#__access_action_rule_map` VALUES 
 (1, 1),
 (1, 2),
-(1, 3);
+(1, 3),
+(13, 4),
+(14, 5)
+;
 
 -- --------------------------------------------------------
 
@@ -1440,7 +1443,10 @@ CREATE TABLE IF NOT EXISTS `#__access_rules` (
 REPLACE INTO `#__access_rules` VALUES 
 (1, 1, 'core', 'core.view.1', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
 (2, 1, 'core', 'core.view.2', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(3, 1, 'core', 'core.view.3', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL);
+(3, 1, 'core', 'core.view.3', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
+(4, 1, 'core', 'core.site.login', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(5, 1, 'core', 'core.administrator.login', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL)
+;
 
 -- --------------------------------------------------------
 
@@ -1506,7 +1512,10 @@ CREATE TABLE IF NOT EXISTS `#__usergroup_rule_map` (
 INSERT INTO `#__usergroup_rule_map` VALUES 
 (1, 1),
 (2, 2),
-(6, 3);
+(6, 3),
+(2, 4),
+(6, 4),
+(6, 5);
 
 -- --------------------------------------------------------
 
