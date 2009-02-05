@@ -282,7 +282,7 @@ abstract class JDocument extends JClass
 				if (file_exists($path)) {
 					require_once $path;
 				} else {
-					throw new JException(JText::_('Unable to load document class'), 500, E_ERROR, $class, true);
+					throw new JException(JText::_('Unable to load document class'), 1300, E_ERROR, $class, true);
 				}
 			}
 
@@ -732,7 +732,6 @@ abstract class JDocument extends JClass
 	*/
 	public function &loadRenderer($type)
 	{
-		$null	= null;
 		$class	= 'JDocumentRenderer'.$type;
 
 		if (!class_exists($class))
@@ -741,12 +740,12 @@ abstract class JDocument extends JClass
 			if (file_exists($path)) {
 				require_once $path;
 			} else {
-				throw new JException(JText::_('Unable to load renderer class'), 500, E_ERROR, $class, true);
+				throw new JException(JText::_('Unable to load renderer class'), 1301, E_ERROR, $class, true);
 			}
 		}
 
 		if (!class_exists($class)) {
-			return $null;
+			throw new JException(JText::_('Unable to load renderer class'), 1301, E_ERROR, $class, true);
 		}
 
 		$instance = new $class($this);

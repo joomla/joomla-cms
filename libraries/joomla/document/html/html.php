@@ -179,8 +179,6 @@ class JDocumentHTML extends JDocument
 	 */
 	public function getBuffer($type = null, $name = null, $attribs = array())
 	{
-		$result = null;
-
 		// If no type is specified, return the whole buffer
 		if ($type === null) {
 			return $this->_buffer;
@@ -195,10 +193,9 @@ class JDocumentHTML extends JDocument
 			return null;
 		}
 
-		if ($renderer =& $this->loadRenderer($type)) {
-			$result = $renderer->render($name, $attribs, $result);
-		}
-
+		$renderer =& $this->loadRenderer($type);
+		$result = $renderer->render($name, $attribs, $result);
+		
 		return $result;
 	}
 
