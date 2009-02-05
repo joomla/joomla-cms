@@ -250,6 +250,7 @@ abstract class JTable extends JClass
 		try {
 			$result = $db->loadAssoc();
 			$this->bind($result);
+			return true;
 		} catch(JException $e) {
 			$this->setError($e);
 			return false;

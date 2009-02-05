@@ -99,7 +99,6 @@ class JLanguage extends JClass
 		}
 		$this->setLanguage($lang);
 
-	$app = & JFactory::getApplication();
 		$filename = JPATH_BASE.DS.'language'.DS.'overrides'.DS.$lang.'.override.ini';
 		if ($contents = @file_get_contents( $filename ))
 		{

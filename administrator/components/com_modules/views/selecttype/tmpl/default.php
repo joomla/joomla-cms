@@ -46,7 +46,7 @@ for ($i=0; $i < $count; $i++) {
 	$k = 1 - $k;
 }
 if($k) {
-	?><td>&nbsp;</td></tr><?php
+	?><tr><td>&nbsp;</td></tr><?php
 }
 ?>
 </tbody>
