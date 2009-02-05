@@ -50,7 +50,7 @@ JHtml::stylesheet('default.css', 'administrator/components/com_members/media/css
 	<fieldset id="member-groups">
 		<legend><?php echo JText::_('Members_Actions_Available');?></legend>
 		@TODO Grey out inherited actions
-		<?php echo JHtml::_('access.actions', 'jform[actions]', $this->item->actions ); ?>
+		<?php echo JHtml::_('access.actions', 'jform[actions]', $this->item->actions); ?>
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />
