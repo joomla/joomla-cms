@@ -158,7 +158,7 @@ class ContentModelArticle extends JModel
 	{
 		jimport('joomla.utilities.date');
 		$user		= & JFactory::getUser();
-		$details	= JRequest::getVar('details', array(), 'post', 'array');
+		$details	= JArrayHelper::getValue($data, 'params', array(), 'array');
 		$nullDate	= $this->_db->getNullDate();
 
 		$row = & JTable::getInstance('content');
