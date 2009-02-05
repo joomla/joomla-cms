@@ -28,6 +28,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+06-Feb-2009 Charl van Niekerk
+ - Removed target="_blank" attributes out of administrator template.
+
 05-Feb-2009 Andrew Eddie
  ! New option now passed to login events: action = core.site.login|core.administrator.login
  ! Root user now bypasses ACS checks

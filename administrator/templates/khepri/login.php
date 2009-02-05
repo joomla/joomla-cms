@@ -86,7 +86,7 @@ $app = &JFactory::getApplication();
 </div>
 <div id="footer">
 	<p class="copyright">
-		<a href="http://www.joomla.org" target="_blank">Joomla!</a>
+		<a href="http://www.joomla.org">Joomla!</a>
 		<?php echo JText::_('ISFREESOFTWARE') ?>
 	</p>
 </div>

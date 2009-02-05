@@ -93,7 +93,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<div id="border-bottom"><div><div></div></div></div>
 	<div id="footer">
 		<p class="copyright">
-			<a href="http://www.joomla.org" target="_blank">Joomla!</a>
+			<a href="http://www.joomla.org">Joomla!</a>
 			<?php echo  JText::_('ISFREESOFTWARE') ?>
 		</p>
 	</div>
