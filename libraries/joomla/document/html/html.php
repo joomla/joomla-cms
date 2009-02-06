@@ -184,7 +184,7 @@ class JDocumentHTML extends JDocument
 			return $this->_buffer;
 		}
 
-		$result = false;
+		$result = '';
 		if (isset($this->_buffer[$type][$name])) {
 			$result = $this->_buffer[$type][$name];
 		}
