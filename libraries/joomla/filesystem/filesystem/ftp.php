@@ -48,42 +48,42 @@ class JFilesystemFTP extends JFilesystem
 	}
 
 	public function copy($src, $dest) {
-		return $this->ftp->store($this->_makePath($src), $this->_makePath($dest));
+		return $this->_ftp->store($this->_makePath($src), $this->_makePath($dest));
 	}
 
 	public function delete($src) {
-		return $this->ftp->delete($this->_makePath($src));
+		return $this->_ftp->delete($this->_makePath($src));
 	}
 
 	public function rename($src, $dest) {
-		return $this->ftp->rename($this->_makePath($src), $this->_makePath($dest));
+		return $this->_ftp->rename($this->_makePath($src), $this->_makePath($dest));
 	}
 
 	public function read($src) {
 		$buffer = null;
-		if (!$this->ftp->read($this->_makePath($src), $buffer)) {
+		if (!$this->_ftp->read($this->_makePath($src), $buffer)) {
 			$buffer = false;
 		}
 		return $buffer;
 	}
 
 	public function write($file, &$buffer) {
-		return $this->ftp->write($this->_makePath($file), $buffer);
+		return $this->_ftp->write($this->_makePath($file), $buffer);
 	}
 
 	public function isWritable($path) {
 		$buffer = null;
-		$this->ftp->read($this->_makePath($path), $buffer);
+		$this->_ftp->read($this->_makePath($path), $buffer);
 		return (bool) $this->write($path, $buffer);
 	}
 
 	public function isReadable($path) {
 		$buffer = null;
-		return (bool) $this->ftp->read($this->_makePath($path), $buffer);
+		return (bool) $this->_ftp->read($this->_makePath($path), $buffer);
 	}
 
 	public function chmod($path, $hex) {
-		return $this->ftp->chmod($this->_makePath($path), $hex);
+		return $this->_ftp->chmod($this->_makePath($path), $hex);
 	}
 
 	public function chgrp($file, $group) {
@@ -99,11 +99,11 @@ class JFilesystemFTP extends JFilesystem
 	}
 
 	public function mkdir($path) {
-		return $this->ftp->mkdir($this->_makePath($path));
+		return $this->_ftp->mkdir($this->_makePath($path));
 	}
 
 	public function rmdir($path) {
-		return $this->ftp->delete($this->_makePath($path));
+		return $this->_ftp->delete($this->_makePath($path));
 	}
 
 	public function perms($path) {
