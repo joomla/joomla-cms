@@ -31,6 +31,9 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 18-Feb-2009 Sam Moffatt
  # Fixed issue with plugin manager loading incorrect language file
 
+16-Feb-2009 Kevin Devine
+ ^ upgrade phpmailer library to version 2.3
+
 10-Feb-2009 Sam Moffatt
  # Fixed issue with plugin directories not finding the correct XML file
 
@@ -58,7 +61,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  + Added jos_simple_templates and jos_user_profiles tables to install SQL
  + Added new utility class JSimpleTemplate
  + Added com_members
- 
+
 01-Feb-2009 Rob Schley
  $ First pass over localizing the invalid security token message. Added JINVALID_TOKEN language key.
 
@@ -96,7 +99,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ Changed default to hide protected extensions
  + Added extra langauge fail over possibilities
  ^ Fixed issues with JFolder and hidden entries
- 
+
 25-Jan-2009 Andrew Eddie
  - Removed JTemplate and Legacy plugin
  + Add Generation 3 access control tables and framework
@@ -119,7 +122,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 25-Jan-2009 Anthony Ferrara
  + Added JClass base class
  - Removed JStdClass
- ^ Renamed references from JStdClass to JObject 
+ ^ Renamed references from JStdClass to JObject
  + Added JContent Class
  ^ Moved configuration.php-dist into installation folder
 
@@ -131,14 +134,14 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 24-Jan-2009 Andrew Eddie
  ^ Move text files to /installation/ folder
- 
+
 23-Jan-2009 Anthony Ferrara
  + Added JFactory::getFeedParser() to return simplepie object
  ^ Deprecated JFactory::getXMLParser()
  ^ Throw exception on calling JFactory::getXMLParser with 'DOM' type (since DomDocument is removed)
  - Dommit library removed
  - XMLRPC plugins/config/installsql removed
- 
+
 23-Jan-2009 Louis Landry
  - Removed XMLRPC application
  - Removed XStandard Plugin
@@ -155,7 +158,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ Changed default exclusion filter for JFolder::files
  # Fixed issue with quanta not properly being detected with tasks
  + Started work on new filesystem adapter for backup system
- + Added exclusion filter for tables in the table adapter 
+ + Added exclusion filter for tables in the table adapter
 
 15-Jan-2009 Sam Moffatt
  # Fixed issue with manage view in com_installer
