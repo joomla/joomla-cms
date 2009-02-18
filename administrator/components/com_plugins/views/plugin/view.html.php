@@ -98,8 +98,9 @@ class PluginsViewPlugin extends JView
 			$lang =& JFactory::getLanguage();
 			// Core or 1.5
 			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_ADMINISTRATOR );
+			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_SITE ); // handle language files not in admin, mostly core
 			// 1.6 3PD Extension
-			$lang->load( 'joomla', JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element);
+			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element);
 
 			// TODO: Rewrite this (and other instances of parseXMLInstallFile) to use the extensions table
 			$data = JApplicationHelper::parseXMLInstallFile(JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ));
