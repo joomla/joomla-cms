@@ -124,6 +124,47 @@ class JDocumentPDF extends JDocument
 		// Magnication scale for head
 		define("HEAD_MAGNIFICATION", 1.1);
 
+		//page format
+		define ('PDF_PAGE_FORMAT', 'A4');
+	
+		//page orientation (P=portrait, L=landscape)
+		define ('PDF_PAGE_ORIENTATION', 'P');
+		
+		//document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch]
+		define ('PDF_UNIT', 'mm');
+	
+		//header margin
+		define ('PDF_MARGIN_HEADER', 5);
+	
+		//footer margin
+		define ('PDF_MARGIN_FOOTER', 10);
+	
+		//top margin
+		define ('PDF_MARGIN_TOP', 27);
+	
+		//bottom margin
+		define ('PDF_MARGIN_BOTTOM', 25);
+	
+		//left margin
+		define ('PDF_MARGIN_LEFT', 15);
+	
+		//right margin
+		define ('PDF_MARGIN_RIGHT', 15);
+	
+		//main font name
+		define ('PDF_FONT_NAME_MAIN', 'helvetica');
+	
+		//main font size
+		define ('PDF_FONT_SIZE_MAIN', 10);
+
+		define ('PDF_FONT_NAME_DATA', 'helvetica');
+	
+		//data font size
+		define ('PDF_FONT_SIZE_DATA', 8);
+	
+		//Ratio used to scale the images
+		define ('PDF_IMAGE_SCALE_RATIO', 4);
+		
 		/*
 		 * Create the pdf document
 		 */
@@ -208,10 +249,11 @@ class JDocumentPDF extends JDocument
 		// Set PDF Header and Footer fonts
 		$lang = &JFactory::getLanguage();
 		$font = $lang->getPdfFontName();
-		$font = ($font) ? $font : 'freesans';
+		$font = ($font) ? $font : 'helvetica';
 
 		$pdf->setRTL($lang->isRTL());
 
+		$pdf->setFont($font);
 		$pdf->setHeaderFont(array($font, '', 10));
 		$pdf->setFooterFont(array($font, '', 8));
 

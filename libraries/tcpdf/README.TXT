@@ -1,19 +1,18 @@
 TCPDF - README
 ============================================================
 
-Name:
-	TCPDF
+IF YOU'D LIKE TO SUPPORT TCPDF, PLEASE CONSIDER MAKING A 
+DONATION: 
+http://sourceforge.net/donate/index.php?group_id=128076
 
-Version:
-	2.6.000_PHP4
-	
-Release date:
-	2008-03-07
+------------------------------------------------------------
 
-Author:
-	Nicola Asuni 
+Name: TCPDF
+Version: 4.5.015
+Release date: 2009-02-18
+Author:	Nicola Asuni 
 	
-Copyright (c) 2001-2008:
+Copyright (c) 2001-2009:
 	Nicola Asuni
 	Tecnick.com s.r.l.
 	Via Della Pace, 11
@@ -23,46 +22,64 @@ Copyright (c) 2001-2008:
 	
 URLs:
 	http://www.tcpdf.org
-	http://tcpdf.sourceforge.net/
+	http://www.sourceforge.net/projects/tcpdf
 	
 Description:
-	TCPDF is a PHP5 class for generating PDF files on-the-fly without requiring external extensions.
+	TCPDF is a PHP class for generating PDF files on-the-fly without requiring external extensions.
 	TCPDF has been originally derived from the Public Domain FPDF class by Olivier Plathey (http://www.fpdf.org).
 	
-	Main Features:
-	
-  - supports UTF-8 Unicode and Right-To-Left languages; 
-  - supports document encryption; 
-  - includes methods to publish some xhtml code; 
-  - includes graphic and transformation methods;
-  - includes bookmarks;
-  - includes Javascript and forms support;
-  - includes a method to print various barcode formats using an improved version of "Generic Barcode Render Class" by Karim Mribti (http://www.mribti.com/barcode/) (require GD library: http://www.boutell.com/gd/) 
-  - supports TrueTypeUnicode, TrueType, Type1 and encoding; 
-  - supports custom page formats, margins and units of measure; 
-  - includes methods for page header and footer management; 
-  - supports automatic page break; 
-  - supports automatic page numbering; 
-  - supports automatic line break and text justification; 
-  - supports JPEG, PNG anf GIF images; 
-  - supports colors; 
-  - supports links; 
-  - support page compression (require zlib extension: http://www.gzip.org/zlib/); 
-  - the source code is full documented in PhpDocumentor Style (http://www.phpdoc.org). 
+Main Features:
+//  * no external libraries are required for the basic functions;
+// 	* supports all ISO page formats;
+// 	* supports custom page formats, margins and units of measure;
+// 	* supports UTF-8 Unicode and Right-To-Left languages;
+// 	* supports TrueTypeUnicode, OpenTypeUnicode, TrueType, OpenType, Type1 and CID-0 fonts;
+// 	* supports document encryption;
+// 	* includes methods to publish some XHTML code;
+// 	* includes graphic (geometric) and transformation methods;
+// 	* includes Javascript and forms support;
+// 	* includes a method to print various barcode formats (CODE 39, CODE 39 EXTENDED, Interleaved 2 of 5, CODE 128 A/B/C, EAN 13, UPC-A, POSTNET, CODABAR);
+// 	* includes methods to set Bookmarks and print a Table of Content;
+// 	* includes a method to move pages;
+// 	* includes methods for automatic page header and footer management;
+// 	* supports automatic page break;
+// 	* supports automatic page numbering and page groups;
+// 	* supports automatic line break and text justification;
+// 	* supports JPEG and PNG images natively, all images supported by GD (GD, GD2, GD2PART, GIF, JPEG, PNG, BMP, XBM, XPM) and all images supported via ImagMagick (http://www.imagemagick.org/www/formats.html)
+// 	* supports stroke and clipping mode for text;
+// 	* supports clipping masks;
+// 	* supports Grayscale, RGB, CMYK, Spot Colors and Transparencies;
+// 	* supports several annotations, including links, text and file attachments;
+// 	* supports page compression (requires zlib extension);
+// 	* supports user rights management so Adobe Reader users can save filled-in copies of forms they complete.
 
-Installation:
+Installation (full instructions on http://www.tcpdf.org):
 	1. copy the folder on your Web server
 	2. set your installation path on the config/tcpdf_config.php
-	3. call the test_unicode.php page with your browser to see an example
-	NOTE: the test_old.php require proper font setup on tcpdf_config.
+	3. call the example/example_001.php page with your browser to see an example
 
 Source Code Documentation:
 	doc/index.html
 	
-For Additional Documentation check:
+For Additional Documentation:
 	http://www.tcpdf.org
 
 License
-	GNU LESSER GENERAL PUBLIC LICENSE v.2.1
-	http://www.gnu.org/copyleft/lesser.html
+	Copyright (C) 2002-2009  Nicola Asuni - Tecnick.com S.r.l.
+	
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Lesser General Public License as published by
+	the Free Software Foundation, either version 2.1 of the License, or
+	(at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	
+	See LICENSE.TXT file for more information.
+	
 ============================================================
