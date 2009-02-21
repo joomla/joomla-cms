@@ -5,11 +5,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 
 <table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-<?php if ( @$this->image || @$this->category->description ) : ?>
+<?php if ( @$this->category->image || @$this->category->description ) : ?>
 <tr>
 	<td valign="top" class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php
-		if ( isset($this->image) ) :  echo $this->image; endif;
+		if ( isset($this->category->image) ) :  echo $this->category->image; endif;
 		echo $this->category->description;
 	?>
 	</td>

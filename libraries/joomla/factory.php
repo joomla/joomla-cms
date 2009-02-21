@@ -309,7 +309,7 @@ abstract class JFactory
 			case 'atom' :
 			{
 				$cache_time = isset($options['cache_time']) ? $options['cache_time'] : 0;
-				$doc = JFactory::getFeedParser($options['url'], $cache_time);	
+				$doc = JFactory::getFeedParser($options['rssUrl'], $cache_time);	
 			}	break;
 
 			case 'simple' :
