@@ -120,7 +120,7 @@ class plgSearchWeblinks extends JPlugin
 		. ' FROM #__weblinks AS a'
 		. ' INNER JOIN #__categories AS b ON b.id = a.catid'
 		. ' WHERE ('. $where .')'
-		. ' AND a.published = 1'
+		. ' AND a.state = 1'
 		. ' AND b.published = 1'
 		. ' AND b.access <= '.(int) $user->get( 'aid' )
 		. ' ORDER BY '. $order
