@@ -199,7 +199,7 @@ abstract class JTable extends JClass
 
 		if (!$fromArray && !$fromObject)
 		{
-			throw new JException(get_class($this).'::bind failed, Invalid From Argument', 1253, $from);  
+			throw new JException(get_class($this).'::bind failed, Invalid From Argument', 1253, $from);
 		}
 		if (!is_array($ignore)) {
 			$ignore = explode(' ', $ignore);
@@ -222,8 +222,8 @@ abstract class JTable extends JClass
 	/**
 	 * Loads a row from the database and binds the fields to the object properties
 	 *
-	 * @access	public
 	 * @param	mixed	Optional primary key.  If not specifed, the value of current key is used
+	 *
 	 * @return	boolean	True if successful
 	 */
 	public function load($oid=null)
@@ -248,10 +248,15 @@ abstract class JTable extends JClass
 		. ' WHERE '.$this->_tbl_key.' = '.$db->Quote($oid);
 		$db->setQuery($query);
 		try {
-			$result = $db->loadAssoc();
-			$this->bind($result);
-			return true;
-		} catch(JException $e) {
+			if ($result = $db->loadAssoc()) {
+				$this->bind($result);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		catch (JException $e) {
 			$this->setError($e);
 			return false;
 		}
