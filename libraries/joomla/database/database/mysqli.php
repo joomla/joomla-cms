@@ -153,7 +153,7 @@ class JDatabaseMySQLi extends JDatabase
 
 		if (!$this->_resource->select_db($database)) {
 			$this->_errorNum = mysqli_errno($this->_resource);
-			$this->_errorMsg = mysqli_error($this->_resource)." SQL=$sql";
+			$this->_errorMsg = mysqli_error($this->_resource);
 			throw new JException('Could not select database', 1257, E_ERROR, array('errorNum' => $this->_errorNum, 'errorMsg' => $this->_errorMsg), true);
 			return false;
 		}
