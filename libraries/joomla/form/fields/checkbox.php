@@ -25,7 +25,7 @@ class JFormFieldCheckbox extends JFormField
 	 *
 	 * @var		string
 	 */
-	protected $type = 'Checkbox';
+	public $type = 'Checkbox';
 
 	/**
 	 * Method to get the field input.
