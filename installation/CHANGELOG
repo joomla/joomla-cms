@@ -28,6 +28,17 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+13-Mar-2009 Sam Moffatt
+ ^ Renamed files installer from file.php to files.php
+ ^ Major updates to installation adapters to conform with styles
+ ^ Fixed issue with JFile::read
+ ^ Fixed issue with JAdapter failing to find all adapters on an error
+ + Added return_bytes utility function
+ ^ Fixed up access level for extension table class variables
+ ^ Clean up in backup area
+ ^ Updated JApplicationHelper::parseXMLInstallFile to handle languages for discovery better
+ + Added some extra warnings and functionality to installer component
+
 21-Feb-2009 Sam Moffatt
  # Fixes to install SQL for incorrect client assigned to components
 
@@ -1333,4 +1344,3 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  # Fixed topic 244449 XMLRPC Search plugin doesn't work with weblinks search plugin published
 
 -------------------- 1.5.0 Release Candidate 4 Released [19-December-2007] ---------------------
-<?php */

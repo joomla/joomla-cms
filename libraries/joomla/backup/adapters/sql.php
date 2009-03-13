@@ -6,29 +6,69 @@ jimport('joomla.base.adapterinstance');
 jimport('joomla.tasks.tasksuspendable');
 jimport('joomla.backup.backupadapter');
 
+/**
+ * SQL backup adapter
+ * @package Joomla.Framework
+ * @subpackage Backup
+ * @since 1.6
+ */
 class JBackupSql extends JAdapterInstance implements JTaskSuspendable, JBackupAdapter {
-	protected $yield_amount = 100; // yield every 100 queries
+	/**
+	 * Amount of queries before yielding
+	 * @var int
+	 */
+	protected $yield_amount = 100;
+	
+	/**
+	 * A copy of the DB object
+	 * @var JDatabase
+	 */
 	protected $db;
+	
+	/**
+	 * A copy of the task instance
+	 * @var JTask
+	 */
 	protected $task;
+	
+	/**
+	 * The options for this instance
+	 * @var array
+	 */
 	protected $options;
 	
-	
+	/**
+	 * Constructor
+	 * @param object A reference to the parent adapter
+	 * @param object A reference to the database
+	 * @param array Options to use for this adapter
+	 */
 	public function __construct(&$parent, &$db=null, $options=Array()) {
 		parent::__construct($parent, $db);
 		$this->options = $options;
 	}
 
+	/**
+	 * Set the task for the backup
+	 * @param JTask A task object to set for this instance
+	 */
 	public function setTask(&$task) {
 		$this->task =& $task;
 	}
 
+	/**
+	 * Suspend the current task
+	 */
 	public function suspendTask() {
-		// TODO: Finish this function
-		return Array();
+		return $this->options;
 	}
 
+	/**
+	 * Return the task
+	 * @param array Options to set for the task
+	 */
 	public function restoreTask($options) {
-		$this->setProperties($options);
+		$this->options = $options;
 	}
 
 	/**

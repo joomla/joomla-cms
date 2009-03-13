@@ -14,13 +14,13 @@ jimport('joomla.installer.filemanifest');
 jimport('joomla.base.adapterinstance');
 
 /**
- * File installer
+ * Files installer
  *
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.6
  */
-class JInstallerFile extends JAdapterInstance
+class JInstallerFiles extends JAdapterInstance
 {
 
 	/**
@@ -139,7 +139,7 @@ class JInstallerFile extends JAdapterInstance
 		$installer = new JInstaller(); // we don't want to compromise this instance!
 		$installer->uninstall('file', $name, 0);
 		// ...and adds new files
-		//return $this->install();
+		return $this->install();
 	}
 
 	/**

@@ -244,7 +244,10 @@ class InstallerController extends JController
 		$uid = JRequest::getVar('uid', array(), '', 'array');
 
 		JArrayHelper::toInteger($uid, array());
-		$result = $model->update($uid);
+		if($model->update($uid)) {
+			$cache = &JFactory::getCache('mod_menu');
+			$cache->clean();
+		}
 
 		$view->setModel( $model, true );
 		$view->display();

@@ -1,17 +1,10 @@
 <?php
 /**
- * Document Description
- * 
- * Document Long Description 
- * 
- * PHP4/5
- *  
- * Created on Jan 16, 2009
- * 
- * @package package_name
- * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
- * @copyright 2009 OpenSourceMatters 
- * @version SVN: $Id$    
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Backup
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
  */
  
 defined('JPATH_ROOT') or die();
@@ -21,12 +14,47 @@ jimport('joomla.tasks.tasksuspendable');
 jimport('joomla.backup.backupadapter');
 jimport('joomla.filesystem.file');
 
+/**
+ * Filesystem backup adapter
+ * @package Joomla.Framework
+ * @subpackage Backup
+ * @since 1.6
+ */
 class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JBackupAdapter {
+	/**
+	 * Database object
+	 * @var JDatabase
+	 */
 	protected $db;
+	
+	/**
+	 * Task Object
+	 * @var JTask
+	 */
 	protected $task;
+	
+	/**
+	 * Copy of options
+	 * @var array
+	 */
 	protected $options;
+	
+	/**
+	 * Current State
+	 * @var string
+	 */
 	protected $state;
+	
+	/**
+	 * Stack of items being worked upon
+	 * @var array
+	 */
 	protected $stack;
+	
+	/**
+	 * List of files to be backed up
+	 * @var array
+	 */
 	protected $files;
 	
 	public function __construct(&$parent, &$db=null, $options=Array()) {
@@ -35,21 +63,41 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 		$this->state = Array('task'=>null,'options'=>Array(),'state'=>'initialised', 'entries'=>Array());
 	}
 
-	// generate an array that can be fed back to the object
+	/**
+	 * Suspend the filesystem backup (called from a yield)
+	 * @return array Suspended items
+	 */
 	public function suspendTask() {
-		return Array('options'=>$this->options, 'state'=>$this->state, 'stack'=>$this->stack);
+		// generate an array that can be fed back to the object
+		return Array('options'=>$this->options, 'state'=>$this->state, 'stack'=>$this->stack, 'files'=>$this->files);
 	}
 	
-	// the array that suspendTask generated
+	/**
+	 * Restore this task back
+	 * @param array the array that suspendTask generated
+	 */
 	public function restoreTask($options) {
 		$this->setProperties($options); // cheat :D
 	}
 	
-	// set the task for this object
+	/**
+	 * set the task for this object
+	 * @param JTask A reference to the task for this object
+	 */ 
 	public function setTask(&$task) {
 		$this->task =& $task;
 	}
 	
+	/**
+	 * Execute the backup
+	 * @param $options['destination'] string Location of where to backup
+	 * @param $options['source'] array Location of items to backup
+	 * @param $options['exclude'] array List of items to exclude
+	 * @param $options['excludefilter'] array List of regexp's to run over to exclude items
+	 * @param $options['root'] string Root of backup
+	 * @param $options['filter'] string Regexp filter to handle inclusion (default is .)
+	 * @return boolean result of backup
+	 */
 	public function backup($options=Array()) {
 		// If the task isn't set in the state, set it
 		if (!$this->state['task']) {
@@ -102,12 +150,12 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 		// loop until we're done
 		while($this->state['task'] != 'finished') {
 			switch($this->state['task']) {
-				case 'initialised':
+				case 'initialised': // when we're starting we need to find folders
 					$this->_findFolders();
 					$this->state['task'] = 'processdirectories';
 					$this->task->yield(); // yield after this point before we copy directories
 					break;
-				case 'processdirectories':
+				case 'processdirectories': // once we've got a folder listing, process them
 					$this->_processDirectories();
 					$this->state['task'] = 'finished';
 					// we don't yield here because we're done
@@ -121,6 +169,9 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 		return true;
 	}
 	
+	/**
+	 * Find folders in the source
+	 */
 	private function _findFolders() {
 		$options =& $this->state['options'];
 		if (!is_array($options['source'])) {
@@ -142,7 +193,9 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 		$this->stack = $folders; // reverse the array since array_pop is better than array_shift
 	}
 	
-	// Should this be protected and let people override this with their own write file implementation?
+	/**
+	 * Process directories looking for files in folders
+	 */
 	private function _processDirectories() {
 		$options =& $this->state['options'];
 		// get the last item on the stack but don't remove it until we're done
@@ -172,6 +225,17 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 		}
 	}
 	
+	/**
+	 * Restore the backup
+	 * @param $options['destination'] string Location of where to backup
+	 * @param $options['source'] array Location of items to backup
+	 * @param $options['exclude'] array List of items to exclude
+	 * @param $options['excludefilter'] array List of regexp's to run over to exclude items
+	 * @param $options['root'] string Root of backup
+	 * @param $options['filter'] string Regexp filter to handle inclusion (default is .)
+	 * @param $options['mode'] string Mode that the restore is taking (merge or replace)
+	 * @return boolean
+	 */
 	public function restore($options=Array()) {
 		// If the task isn't set in the state, set it
 		if(!$this->state['task']) {
@@ -262,6 +326,10 @@ class JBackupFilesystem extends JAdapterInstance implements JTaskSuspendable, JB
 		return true;
 	}
 	
+	/**
+	 * Remove a backup
+	 * @param $options['destination'] string Destination of the backup (location to remove)
+	 */
 	public function remove($options=Array()) {
 		return JFolder::delete($options['destination']);
 	}

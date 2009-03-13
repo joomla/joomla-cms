@@ -6,6 +6,12 @@ jimport('joomla.base.adapterinstance');
 jimport('joomla.tasks.tasksuspendable');
 jimport('joomla.backup.backupadapter');
 
+/**
+ * Table backup adapter
+ * @package Joomla.Framework
+ * @subpackage Backup
+ * @since 1.6
+ */
 class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackupAdapter {
 	protected $task;
 	protected $db; 
@@ -21,12 +27,14 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackup
 	}
 
 	public function suspendTask() {
-		// TODO: Finish this function
-		return Array();
+		return $this->options;
 	}
 
+	/**
+	 * Restore the task
+	 */
 	public function restoreTask($options) {
-		$this->setProperties($options);
+		$this->$options = $options;
 	}
 
 
@@ -125,7 +133,7 @@ class JBackupTable extends JAdapterInstance implements JTaskSuspendable, JBackup
 	 * Remove a given backup
 	 * @param $options['tables'] The tables to remove backup copies of; if blank all backups are removed
 	 * @param $options['prefix'] Table prefix of the backups
-	 *
+	 * @return bool
 	 */
 	public function remove($options=Array()) {
 		$db =& JFactory::getDBO();

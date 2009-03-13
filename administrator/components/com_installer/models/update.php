@@ -95,12 +95,28 @@ class InstallerModelUpdate extends InstallerModel
 	}
 
 	function update($uids) {
+		$result = true;
 		foreach($uids as $uid) {
 			$update = new JUpdate();
 			$instance =& JTable::getInstance('update');
 			$instance->load($uid);
 			$update->loadFromXML($instance->detailsurl);
-			$update->install();
+			$res = $update->install();
+			if($res) {
+				$msg = JText::sprintf('INSTALLEXT', JText::_($update->get('type','IUnknown')), JText::_('Success'));
+			} else {
+				$msg = JText::sprintf('INSTALLEXT', JText::_($update->get('type','IUnknown')), JText::_('Error'));
+			}
+			$result = $res & $result;
+			// Set some model state values
+			global $mainframe;
+			$mainframe->enqueueMessage($msg);
+			$this->setState('name', $update->get('name'));
+			
+			$this->setState('message', $update->message);
+			$this->setState('extension_message', $update->get('extension_message'));
+
 		}
+		$this->setState('result', $result);
 	}
 }

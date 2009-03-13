@@ -9,23 +9,27 @@ defined('JPATH_BASE') or die();
 jimport('joomla.updater.updateadapter');
 
 /**
- * Collection Update Adapater Class
+ * Collection Update Adapter Class
  * @since 1.6
  */
 class JUpdaterCollection extends JUpdateAdapter {
-
-	var $base;
-	var $parent = Array(0);
-	var $pop_parent = 0;
-	var $update_sites;
-	var $updates;
+	/** @var object Root of the tree */
+	private $base;
+	/** @var array Tree of objects */
+	protected $parent = Array(0);
+	/** @var boolean Used to control if an item has a child or not */
+	protected $pop_parent = 0;
+	/** @var array A list of discovered update sites */
+	protected $update_sites;
+	/** @var array A list of discovered updates */
+	protected $updates;
 
 	/**
      * Gets the reference to the current direct parent
      *
      * @return object
      */
-    function _getStackLocation()
+    protected function _getStackLocation()
     {
             /*$return = '';
 
@@ -37,22 +41,29 @@ class JUpdaterCollection extends JUpdateAdapter {
             return implode('->', $this->_stack);
     }
 
-    function _getParent() {
+	/**
+	 * Get the parent tag
+	 * @return string parent
+	 */
+    protected function _getParent() {
     	return end($this->parent);
     }
 
-	function _startElement($parser, $name, $attrs = Array()) {
+	/**
+	 * Opening an XML element
+	 * @param object parser object
+	 * @param string name of element that is opened
+	 * @param array array of attributes for the element
+	 */
+	public function _startElement($parser, $name, $attrs = Array()) {
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
 		// reset the data
 		eval('$this->'. $tag .'->_data = "";');
-		//echo 'Opened: '; print_r($this->_stack); echo '<br />';
-		//print_r($attrs); echo '<br />';
 		switch($name) {
 			case 'CATEGORY':
 				if (isset($attrs['REF'])) {
 					$this->update_sites[] = Array('type'=>'collection','location'=>$attrs['REF'],'update_site_id'=>$this->_update_site_id);
-					//echo 'Found new update collection: '. $attrs['NAME'] .'<br />';
 				} else {
 					// This item will have children, so prepare to attach them
 					$this->pop_parent = 1;
@@ -70,7 +81,6 @@ class JUpdaterCollection extends JUpdateAdapter {
 						}
 					}
 				}
-				//echo '<br /><br />';
 				$client = JApplicationHelper::getClientInfo($attrs['CLIENT'],1);
 				$attrs['CLIENT_ID'] = $client->id;
 				// lower case all of the fields
@@ -99,10 +109,14 @@ class JUpdaterCollection extends JUpdateAdapter {
 		}
 	}
 
-	function _endElement($parser, $name) {
+	/**
+	 * Closing an XML element
+	 * Note: This is a private function though has to be exposed externally as a callback
+	 * @param object parser object
+	 * @param string name of the element closing
+	 */
+	public function _endElement($parser, $name) {
 		$lastcell = array_pop($this->_stack);
-		//echo 'Closed: ' . $lastcell .'; Stack: '. print_r($this->_stack,1) .'<br /><br />';
-		//echo 'Closed: '; print_r($this->_stack); echo '<br /><br />';
 		switch($name) {
 			case 'CATEGORY':
 				if ($this->pop_parent) {
@@ -113,17 +127,17 @@ class JUpdaterCollection extends JUpdateAdapter {
 		}
 	}
 
-	/*// we don't care about char data in collection because there should be none
-	function _characterData($parser, $data) {
-		$tag = $this->_getStackLocation();
-		eval('$obj =& $this->'. $tag .'->_data;');
-		$obj .= $data;
-	}*/
+	// Note: we don't care about char data in collection because there should be none
+	
 
-	function findUpdate($options) {
+	/*
+	 * Find an update
+	 * @param array options to use; update_site_id: the unique ID of the update site to look at
+	 * @return array update_sites and updates discovered
+	 */
+	public function findUpdate($options) {
 		$url = $options['location'];
 		$this->_update_site_id = $options['update_site_id'];
-		//echo '<p>Find update for collection run on <a href="'. $url .'">'. $url .'</a></p>';
 		if (substr($url, -4) != '.xml') {
 			if (substr($url, -1) != '/') {
 				$url .= '/';
@@ -155,9 +169,6 @@ class JUpdaterCollection extends JUpdateAdapter {
 		    }
 		}
 		// TODO: Decrement the bad counter if non-zero
-		/*if (count($this->update_sites)) {
-			return $this->update_sites;
-		} else return true;*/
 		return Array('update_sites'=>$this->update_sites,'updates'=>$this->updates);
 	}
 }

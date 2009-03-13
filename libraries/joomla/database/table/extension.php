@@ -21,39 +21,39 @@ defined('JPATH_BASE') or die();
 class JTableExtension extends JTable
 {
 	/** @var int Primary key */
-	var $extension_id					= null;
+	protected $extension_id					= null;
 	/** @var string Friendly name of the extension */
-	var $name				= null;
+	protected $name				= null;
 	/** @var string Type of Extension */
-	var $type			= null;
+	protected $type			= null;
 	/** @var string Unique name of extension */
-	var $element			= null;
+	protected $element			= null;
 	/** @var string Folder/container/group of extension */
-	var $folder			= null;
+	protected $folder			= null;
 	/** @var int Client Unique Identifier (e.g. administrator=1, site=0) */
-	var $client_id			= null;
+	protected $client_id			= null;
 	/** @var boolean Published/Enabled state of the extension */
-	var $enabled			= 1;
+	protected $enabled			= 1;
 	/** @var int Primitive Access Control */
-	var $access				= 0;
+	protected $access				= 0;
 	/** @var int If the extension is included in the Core (2) or otherwise protected (1); default not protected (0)*/
-	var $protected			= 0;
+	protected $protected			= 0;
 	/** @var string Manifest Cache; cache of the manifest data */
-	var $manifest_cache		= null;
+	protected $manifest_cache		= null;
 	/** @var string Extension parameters */
-	var $params				= null;
+	protected $params				= null;
 	/** @var string Generic extension data field; for extensions private use */
-	var $custom_data				= null;
+	protected $custom_data				= null;
 	/** @var string Generic extension data field; for Joomla! use */
-	var $system_data				= null;
+	protected $system_data				= null;
 	/** @var int Checked Out */
-	var $checked_out = 0;
+	protected $checked_out = 0;
 	/** @var datetime Checked Out Time */
-	var $checked_out_time = null;
+	protected $checked_out_time = null;
 	/** @var int ordering */
-	var $ordering = 0;
+	protected $ordering = 0;
 	/** @var int state State of the extension, either default (0), discovered (-1) */
-	var $state = 0;
+	protected $state = 0;
 
 
 	/**

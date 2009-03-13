@@ -114,9 +114,9 @@ class InstallerModelManage extends InstallerModel
 				' ORDER BY protected, type, client_id, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
-
+		
 		$apps =& JApplicationHelper::getClientInfo();
-
+	
 		$numRows = count($rows);
 		for($i=0;$i < $numRows; $i++)
 		{
@@ -125,6 +125,7 @@ class InstallerModelManage extends InstallerModel
 				$data = unserialize($row->manifest_cache);
 				if($data) {
 					foreach($data as $key => $value) {
+						if($key == 'type') continue; // ignore the type field
 						$row->$key = $value;
 					}
 				}
@@ -136,6 +137,7 @@ class InstallerModelManage extends InstallerModel
 				$row->client = $row->client_id;
 			}
 		}
+		
 		$this->setState('pagination.total', $numRows);
 		if($this->_state->get('pagination.limit') > 0) {
 			$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );

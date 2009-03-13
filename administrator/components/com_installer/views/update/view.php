@@ -29,13 +29,20 @@ class InstallerViewUpdate extends InstallerViewDefault
 		 */
 		JToolBarHelper::custom( 'update', 'config', 'config', 'Update', true, false);
 		JToolBarHelper::custom( 'update_find', 'refresh', 'refresh','Find Updates',false,false);
-		//JToolBarHelper::custom( 'update_purge', 'trash', 'trash', 'Purge Cache', false,false);
+		JToolBarHelper::custom( 'update_purge', 'trash', 'trash', 'Purge Cache', false,false);
 		JToolBarHelper::help( 'screen.installer' );
 
 		// Get data from the model
 		$state		= &$this->get('State');
 		$items		= &$this->get('Items');
 		$pagination	= &$this->get('Pagination');
+
+		$paths = new stdClass();
+		$paths->first = '';
+
+		$this->assignRef('paths', $paths);
+		$this->assignRef('state', $this->get('state'));
+		
 
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);

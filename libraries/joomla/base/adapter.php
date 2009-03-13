@@ -22,11 +22,13 @@ class JAdapter extends JClass {
 	 * @var array
 	 */
 	protected $_adapters = array();
+	
 	/**
 	 * Adapter Folder
 	 * @var string
 	 */
 	protected $_adapterfolder = 'adapters';
+	
 	/**
 	 * Adapter Class Prefix
 	 * @var string
@@ -38,12 +40,19 @@ class JAdapter extends JClass {
 	 * @var string
 	 */
 	protected $_basepath = null;
+	
 	/**
 	 * Database Connector Object
 	 * @var object
 	 */
 	protected $_db;
 
+	/**
+	 * Constructor
+	 * @param string Base Path of the adapters
+	 * @param string Class prefix of adapters
+	 * @param string Name of folder to append to base path
+	 */
 	public function __construct($basepath, $classprefix=null,$adapterfolder=null) {
 		$this->_basepath = $basepath;
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
@@ -88,6 +97,11 @@ class JAdapter extends JClass {
 		return true;
 	}
 
+	/**
+	 * Return an adapter
+	 * @param string name of adapter to return
+	 * @return object Adapter of type 'name' or false
+	 */
 	public function &getAdapter($name) {
 		if (!array_key_exists($name, $this->_adapters)) {
 			if (!$this->setAdapter($name)) {
@@ -107,11 +121,10 @@ class JAdapter extends JClass {
 			if (JFile::getExt($filename) == 'php') {
 				// Try to load the adapter object
 				require_once($this->_basepath.DS.$this->_adapterfolder.DS.$filename);
-
 				$name = JFile::stripExt($filename);
 				$class = $this->_classprefix.ucfirst($name);
 				if (!class_exists($class)) {
-					return false;
+					continue; // skip to next one
 				}
 				$adapter = new $class($this, $this->_db);
 				$this->_adapters[$name] = clone($adapter);

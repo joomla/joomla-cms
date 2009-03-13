@@ -17,45 +17,55 @@ defined('JPATH_BASE') or die();
  * @subpackage	Update
  * @since		1.6
  */
-class JUpdate {
-	var $name;
-	var $description;
-	var $element;
-	var $type;
-	var $version;
-	var $infourl;
-	var $client;
-	var $group;
-	var $downloads;
-	var $tags;
-	var $maintainer;
-	var $maintainerurl;
-	var $category;
-	var $relationships;
-	var $targetplatform;
+class JUpdate extends JObject {
+	protected $name;
+	protected $description;
+	protected $element;
+	protected $type;
+	protected $version;
+	protected $infourl;
+	protected $client;
+	protected $group;
+	protected $downloads;
+	protected $tags;
+	protected $maintainer;
+	protected $maintainerurl;
+	protected $category;
+	protected $relationships;
+	protected $targetplatform;
 
-	var $_xml_parser;
-	var $_stack = Array('base');
+	private $_xml_parser;
+	private $_stack = Array('base');
+	private $_state_store = Array();
 
 	/**
      * Gets the reference to the current direct parent
      *
      * @return object
      */
-	function _getStackLocation()
+	protected function _getStackLocation()
     {
             return implode('->', $this->_stack);
     }
 
     /**
      * Get the last position in stack count
+     * 
+     * @return string
      */
-    function _getLastTag() {
+    protected function _getLastTag() {
     	return $this->_stack[count($this->_stack) - 1];
     }
 
     
-	function _startElement($parser, $name, $attrs = Array()) {
+    /**
+     * XML Start Element callback
+     * Note: This is public because it is called externally
+     * @param object parser object
+     * @param string name of the tag found
+     * @param array attributes of the tag 
+     */
+	public function _startElement($parser, $name, $attrs = Array()) {
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
 		// reset the data
@@ -63,7 +73,7 @@ class JUpdate {
 		//echo 'Opened: '; print_r($this->_stack); echo '<br />';
 		//print_r($attrs); echo '<br />';
 		switch($name) {
-			case 'UPDATE':
+			case 'UPDATE': // This is a new update; create a current update
 				$this->_current_update = new stdClass();
 				break;
 			case 'UPDATES': // don't do anything
@@ -79,11 +89,16 @@ class JUpdate {
 		}
 	}
 
-	function _endElement($parser, $name) {
+	/**
+	 * Callback for closing the element
+	 * Note: This is public because it is called externally
+	 * @param object parser object
+	 * @param string name of element that was closed
+	 */
+	public function _endElement($parser, $name) {
 		array_pop($this->_stack);
-		//echo 'Closing: '. $name .'<br />';
 		switch($name) {
-			case 'UPDATE':
+			case 'UPDATE': // closing update, find the latest version and check
 				$ver = new JVersion();
 				$filter =& JFilterInput::getInstance();
 				$product = strtolower($filter->clean($ver->PRODUCT, 'cmd'));
@@ -113,7 +128,11 @@ class JUpdate {
 		}
 	}
 
-	function _characterData($parser, $data) {
+	/**
+	 * Character Parser Function
+	 * Note: This is public because its called externally
+	 */
+	public function _characterData($parser, $data) {
 		$tag = $this->_getLastTag();
 		//if (!isset($this->$tag->_data)) $this->$tag->_data = '';
 		//$this->$tag->_data .= $data;
@@ -122,7 +141,7 @@ class JUpdate {
 		$this->_current_update->$tag->_data .= $data;
 	}
 
-	function loadFromXML($url) {
+	public function loadFromXML($url) {
 		if (!($fp = @fopen($url, "r"))) {
 			// TODO: Add a 'mark bad' setting here somehow
 		    JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Extension') .': '. JText::_('Could not open').' '. $url);
@@ -145,7 +164,7 @@ class JUpdate {
 		return true;
 	}
 
-	function install() {
+	public function install() {
 		global $mainframe;
 		if (isset($this->downloadurl->_data)) {
 			$url = $this->downloadurl->_data;
@@ -185,10 +204,11 @@ class JUpdate {
 
 		// Set some model state values
 		$mainframe->enqueueMessage($msg);
-		/*$this->setState('name', $installer->get('name'));
+		
+		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
 		$this->setState('message', $installer->message);
-		$this->setState('extension.message', $installer->get('extension.message'));*/
+		$this->setState('extension.message', $installer->get('extension.message'));
 
 		// Cleanup the install files
 		if (!is_file($package['packagefile'])) {

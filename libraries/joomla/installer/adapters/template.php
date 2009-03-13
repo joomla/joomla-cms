@@ -164,7 +164,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
 		}
-		return true;
+		return $row->get('extension_id');
 	}
 
 	/**
@@ -294,7 +294,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->extension->enabled = 1;
 		$this->parent->extension->params = $this->parent->getParams();
 		if ($this->parent->extension->store()) {
-			return true;
+			return $this->parent->extension->get('extension_id');
 		} else {
 			JError::raiseWarning(101, JText::_('Template').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
 			return false;

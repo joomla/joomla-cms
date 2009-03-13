@@ -27,7 +27,7 @@ class JUpdater extends JAdapter {
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		// adapter base path, class prefix
 		parent::__construct(dirname(__FILE__),'JUpdater');
 	}
@@ -39,7 +39,7 @@ class JUpdater extends JAdapter {
 	 * @static
 	 * @return	object	An installer object
 	 */
-	function &getInstance()
+	public function &getInstance()
 	{
 		static $instance;
 
@@ -54,7 +54,7 @@ class JUpdater extends JAdapter {
 	 * @param int Extension Identifier; if zero use all sites
 	 * @return boolean If there are updates or not
 	 */
-	function findUpdates($eid=0) {
+	public function findUpdates($eid=0) {
 		$dbo =& $this->getDBO();
 		$retval = false;
 		// push it into an array
@@ -128,7 +128,7 @@ class JUpdater extends JAdapter {
 	 * Borrowed from PHP.net
 	 * @url http://au2.php.net/manual/en/function.array-unique.php
 	 */
-	function arrayUnique($myArray)
+	public function arrayUnique($myArray)
 	{
 	    if (!is_array($myArray))
 	           return $myArray;
@@ -146,7 +146,7 @@ class JUpdater extends JAdapter {
 	    return $myArray;
 	}
 
-	function update($id) {
+	public function update($id) {
 		$updaterow =& JTable::getInstance('update');
 		$updaterow->load($id);
 		$update = new JUpdate();

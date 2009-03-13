@@ -108,7 +108,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$id = $db->loadResult();
 
 		// if its on the fs...
-		if (file_exists($this->parent->getPath('extension_root')) && $this->parent->getOverwrite()) {
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade())) {
 			$updateElement = $this->manifest->getElementByPath('update');
 			// upgrade manually set
 			// update function available
@@ -117,7 +117,9 @@ class JInstallerPlugin extends JAdapterInstance
 				// force these one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
-				$this->route = 'Update';
+				if($id) { // if there is a matching extension mark this as an update; semantics really
+					$this->route = 'Update';	
+				}
 			} else if (!$this->parent->getOverwrite()) { // overwrite is set
 				// we didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
 				$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('Another extension is already using directory').': "'.$this->parent->getPath('extension_root').'"');
@@ -253,6 +255,7 @@ class JInstallerPlugin extends JAdapterInstance
 			// Since we have created a plugin item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array ('type' => 'extension', 'id' => $row->extension_id));
+			$id = $row->extension_id;
 		}
 
 		/*
@@ -297,7 +300,7 @@ class JInstallerPlugin extends JAdapterInstance
 		if ($msg != '') {
 			$this->parent->set('extension_message', $msg);
 		}
-		return true;
+		return $id;
 	}
 
 	/**
@@ -498,6 +501,22 @@ class JInstallerPlugin extends JAdapterInstance
 				$extension->state = -1;
 				$results[] = $extension;
 			}
+			$folder_list = JFolder::folders(JPATH_SITE.DS.'plugins'.DS.$folder);
+			foreach($folder_list as $plugin_folder) {
+				$file_list = JFolder::files(JPATH_SITE.DS.'plugins'.DS.$folder.DS.$plugin_folder,'\.xml$');
+				foreach($file_list as $file) {
+					$file = JFile::stripExt($file);
+					if ($file == 'example') continue; // ignore example plugins
+					$extension =& JTable::getInstance('extension');
+					$extension->type = 'plugin';
+					$extension->client_id = 0;
+					$extension->element = $file;
+					$extension->folder = $folder;
+					$extension->name = $file;
+					$extension->state = -1;
+					$results[] = $extension;
+				}
+			}
 		}
 		return $results;
 	}
@@ -515,7 +534,11 @@ class JInstallerPlugin extends JAdapterInstance
 		// Similar to modules and templates, rather easy
 		// If its not in the extensions table we just add it
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . DS . 'plugins'. DS . $this->parent->extension->folder . DS . $this->parent->extension->element . '.xml';
+		if(is_dir($client->path . DS . 'plugins'. DS . $this->parent->extension->folder . DS . $this->parent->extension->element)) {
+			$manifestPath = $client->path . DS . 'plugins'. DS . $this->parent->extension->folder . DS . $this->parent->extension->element . DS . $this->parent->extension->element . '.xml';
+		} else {
+			$manifestPath = $client->path . DS . 'plugins'. DS . $this->parent->extension->folder . DS . $this->parent->extension->element . '.xml';	
+		}
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
@@ -525,7 +548,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$this->parent->extension->enabled = 1;
 		$this->parent->extension->params = $this->parent->getParams();
 		if ($this->parent->extension->store()) {
-			return true;
+			return $this->parent->extension->get('extension_id');
 		} else {
 			JError::raiseWarning(101, JText::_('Plugin').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
 			return false;

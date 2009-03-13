@@ -67,6 +67,13 @@ class InstallerModelWarnings extends InstallerModel
 				$messages[] = Array('message'=>JText::_('JOOMLATMPNOTWRITEABLE'), 'description'=>JText::_('JOOMLATMPNOTWRITEABLEDESC'));
 			}
 		}
+
+		$bytes = JUtility::return_bytes(ini_get('memory_limit'));
+		if($bytes < (8 * 1024 * 1024)) {
+			$messages[] = Array('message'=>JText::_('LOWMEMORYWARN'), 'description'=>JText::_('LOWMEMORYDESC'));
+		} else if($bytes < (16 * 1024 * 1024)) {
+			$messages[] = Array('message'=>JText::_('MEDMEMORYWARN'), 'description'=>JText::_('MEDMEMORYDESC'));
+		}
 		$this->_items = $messages;
 	}
 }

@@ -6,7 +6,7 @@ jimport('joomla.updater.updateadapter');
 
 class JUpdaterExtension extends JUpdateAdapter {
 
-	function _startElement($parser, $name, $attrs = Array()) {
+	protected function _startElement($parser, $name, $attrs = Array()) {
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
 		// reset the data
@@ -33,7 +33,7 @@ class JUpdaterExtension extends JUpdateAdapter {
 		}
 	}
 
-	function _endElement($parser, $name) {
+	protected function _endElement($parser, $name) {
 		array_pop($this->_stack);
 		//echo 'Closing: '. $name .'<br />';
 		switch($name) {
@@ -60,7 +60,7 @@ class JUpdaterExtension extends JUpdateAdapter {
 		}
 	}
 
-	function _characterData($parser, $data) {
+	protected function _characterData($parser, $data) {
 		$tag = $this->_getLastTag();
 		//if (!isset($this->$tag->_data)) $this->$tag->_data = '';
 		//$this->$tag->_data .= $data;
@@ -70,7 +70,7 @@ class JUpdaterExtension extends JUpdateAdapter {
 		}
 	}
 
-	function findUpdate($options) {
+	public function findUpdate($options) {
 		$url = $options['location'];
 		$this->_url =& $url;
 		$this->_update_site_id = $options['update_site_id'];
