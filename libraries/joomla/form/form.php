@@ -286,6 +286,38 @@ class JForm extends JClass
 	}
 
 	/**
+	 * Method to load form descriptions from a complete folder.
+	 *
+	 * This function loads all files that have the via $name defined prefix
+	 * in the folders defined by addIncludePath()
+	 *
+	 * @access	public
+	 * @param	string		$name		The prefix-name of the XML files
+	 * @return	boolean		True on success, false otherwise.
+	 * @since	1.6
+	 */
+	public function loadFolder($name)
+	{
+		$return = false;
+
+		jimport('joomla.filesystem.folder');
+		$files = JFolder::files($this->addFormPath(), $name, false, true);
+		if (count($files))
+		{
+			foreach($files as $file)
+			{
+				$result = $this->load($file, true, true);
+			}
+		}
+		else
+		{
+			$result = true;
+		}
+
+		return $result;
+	}
+	
+	/**
 	 * Method to recursively filter data for form fields.
 	 *
 	 * @access	public
