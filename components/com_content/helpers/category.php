@@ -27,27 +27,31 @@ abstract class ContentHelperCategory
 	
 	function getCategory($id)
 	{
-		if(!isset(self::$_categories[$id]))
+		if(!isset(self::$_categories[(int)$id]))
 		{
-			ContentHelperCategory::_loadCategories($id, true);
+			ContentHelperCategory::_loadCategories((int)$id, true);
 		}
-		if(isset(self::$_categories[$id]))
+		if(isset(self::$_categories[(int)$id]))
 		{
-			return self::$_categories[$id];
+			return self::$_categories[(int)$id];
 		} else {
 			return false;
 		}
 	}
 	
-	function getCategories($rootid)
+	function getCategories($rootid = 0)
 	{
 		if(!isset(self::$_categories[$rootid]))
 		{
 			ContentHelperCategory::_loadCategories($rootid);
 		}
+		if($rootid == 0)
+		{
+			return self::$_categories;
+		}
 		if(isset(self::$_categories[$rootid]))
 		{
-			return array( $rootid => self::$_categories[$rootid]);
+			return self::$_categories[$rootid]->children;
 		} else {
 			return false;
 		}
@@ -56,6 +60,7 @@ abstract class ContentHelperCategory
 	function _loadCategories($id, $root = false)
 	{
 		$db	=& JFactory::getDBO();
+		$user =& JFactory::getUser();
 		if($root || true)
 		{
 			$subquery = 'SELECT c.id, c.lft, c.rgt'.
@@ -72,6 +77,7 @@ abstract class ContentHelperCategory
 			' LEFT JOIN #__content AS b ON b.catid = c.id '.
 			' JOIN ('.$subquery.') AS cp ON c.lft >= cp.lft AND c.rgt <= cp.rgt'.
 			' WHERE c.extension = \'com_content\''.
+			//' AND c.access IN ('.implode(',', $user->authorisedLevels()).')'.
 			' GROUP BY c.id'.
 			' ORDER BY c.lft';
 		$db->setQuery($query);

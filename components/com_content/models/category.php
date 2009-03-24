@@ -104,9 +104,12 @@ class ContentModelCategory extends JModel
 	 */
 	public function getData($state = 1)
 	{
-		
+		if (empty($this->_category))
+		{
+			$this->_category = ContentHelperCategory::getCategory($this->_id);
+		}
 		// Load the Category data
-		if ($this->_loadCategoryTree() && $this->_loadData($state))
+		if ($this->_loadData($state))
 		{
 			// Initialize some variables
 			$user	=& JFactory::getUser();
@@ -141,7 +144,7 @@ class ContentModelCategory extends JModel
 		{
 			if(empty($this->_category))
 			{
-				$this->_loadCategoryTree();
+				$this->_category = ContentHelperCategory::getCategory($this->_id);
 			}
 			$query = $this->_buildQuery($state, true);
 			$this->_db->setQuery($query);
@@ -161,18 +164,17 @@ class ContentModelCategory extends JModel
 		// Load the Category data
 		if (empty($this->_category))
 		{
-			$this->_loadCategoryTree();
+			$this->_category = ContentHelperCategory::getCategory($this->_id);
 		}
-
+		
 		if (empty($this->_category))
 		{
 			JError::raiseError(404, JText::_("Resource Not Found"));
 			return false;
 		}
-		$this->_category = ContentHelperCategory::getCategory($this->_id);
 		// Initialize some variables
 		$user = &JFactory::getUser();
-
+		
 		// Make sure the category is published
 		if (!$this->_category->published) {
 			JError::raiseError(404, JText::_("Resource Not Found"));
@@ -183,7 +185,6 @@ class ContentModelCategory extends JModel
 			JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 			return false;
 		}
-		
 		return $this->_category;
 	}
 

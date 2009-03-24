@@ -26,8 +26,17 @@ abstract class ContentHelperRoute
 	/**
 	 * @param	int	The route of the content item
 	 */
-	public static function getArticleRoute($id, $catids = 0)
+	public static function getArticleRoute($id, $catid)
 	{
+		$category = ContentHelperCategory::getCategory($catid);
+		$catids = array();
+		$catids[] = $category->id;
+		while(is_object($category->parent))
+		{
+			$category = $category->parent;
+			$catids[] = $category->id;
+		}
+		$catids = array_reverse($catids);
 		$needles = array(
 			'article'  => (int) $id,
 			'category' => $catids
@@ -37,8 +46,7 @@ abstract class ContentHelperRoute
 		$link = 'index.php?option=com_content&view=article&id='. $id;
 
 		if(is_array($catids)) {
-			$path = '&path='.implode('/', $catids);
-			$link .= '&catid='.array_pop($catids).$path;
+			$link .= '&catid='.array_pop($catids);
 		}
 
 		if($item = ContentHelperRoute::_findItem($needles)) {
@@ -48,14 +56,22 @@ abstract class ContentHelperRoute
 		return $link;
 	}
 
-	public static function getCategoryRoute($catids)
+	public static function getCategoryRoute($category)
 	{
+		$catids = array();
+		$catids[] = $category->id;
+		while(is_object($category->parent))
+		{
+			$category = $category->parent;
+			$catids[] = $category->id;
+		}
+		$catids = array_reverse($catids);
 		$needles = array(
 			'category' => $catids
 		);
 		
 		//Create the link
-		$link = 'index.php?option=com_content&view=category&id='.array_pop($catids).'&path='.implode('/', $catids);
+		$link = 'index.php?option=com_content&view=category&id='.array_pop($catids);
 
 		if($item = ContentHelperRoute::_findItem($needles)) {
 			if(isset($item->query['layout'])) {

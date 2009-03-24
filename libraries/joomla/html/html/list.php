@@ -251,9 +251,10 @@ abstract class JHtmlList
 	/**
 	 * Select list of active categories for components
 	 */
-	public static function category($name, $extension = 'com_content', $root = NULL, $active = NULL, $javascript = NULL, $size = 1, $sel_cat = 1, $uncat = 0)
+	public static function category($name, $extension = 'com_content', $root = NULL, $active = -1, $javascript = NULL, $size = 1, $sel_cat = 1, $uncat = 0)
 	{
 		$db =& JFactory::getDBO();
+		$user =& JFactory::getDBO();
 
 		if($root == NULL)
 		{
@@ -261,33 +262,36 @@ abstract class JHtmlList
 		} else {
 			$root = ' AND cp.id = '. (int) $root.' ';
 		}
-		$query = 'SELECT c.id, c.title, c.parent_id'.
+		
+		$query = 'SELECT c.id, c.title, c.parent_id, 0 as depth'.
 				' FROM #__categories AS c'.
-				//' JOIN #__categories AS cp ON cp.lft < c.lft AND cp.rgt > c.rgt'.
 				' WHERE c.extension = '.$db->Quote($extension).
-				//' AND cp.extension = '.$db->Quote($extension).
-				' '.$root.
+				$root.
+				//' AND c.access IN ('.implode(',', $user->authorisedLevels()).')'.
 				' GROUP BY c.id ORDER BY c.lft'; 		
 		$db->setQuery($query);
 		$cat_list = $db->loadObjectList();
-		$tempcat = array();
-		foreach($cat_list as $category)
-		{
-			$tempcat[$category->id] = $category;
-			$tempcat[$category->id]->depth = 0;
-			if($category->parent_id != 0)
-			{
-				$tempcat[$category->id]->depth = $tempcat[$category->parent_id]->depth + 1;
-			}
-		}
+		$depth = array();
+		$i = 0;
 		foreach($cat_list as &$category)
 		{
-			$category->depth = $tempcat[$category->id]->depth;
+			if(isset($depth[$category->parent_id]))
+			{
+				$category->depth = $depth[$category->parent_id] + 1;
+			}
+			$depth[$category->id] = $category->depth;
+			if($cat_list[$i-1]->lft + 1 == $category->lft && $i)
+			{
+				unset($category);
+			}
 		}
 		$categories = array();
-		// Uncategorized category mapped to uncategorized section
-		$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
-		$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');
+		
+		if($sel_cat)
+		{
+			$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
+			$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');
+		}
 		if($uncat)
 		{
 			$categories[] = JHtml::_('select.option', 0, JText::_('Uncategorized'), 'id', 'title');
@@ -296,7 +300,10 @@ abstract class JHtmlList
 		
 		foreach ($cat_list as $category)
 		{
-			$categories[] = JHtml::_('select.option', $category->id, str_repeat('-', $category->depth).$category->title, 'id', 'title');
+			if(is_object($category))
+			{
+				$categories[] = JHtml::_('select.option', $category->id, str_repeat('-', $category->depth).$category->title, 'id', 'title');
+			}
 		}
 		$category = JHtml::_('select.genericlist',  $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'id', 'title', $active);
 

@@ -54,19 +54,14 @@ function ContentBuildRoute(&$query)
 
 	if (isset($view) && $view == 'category' && $mView == $view && (int) $mCatid != $category->id) {
 		$path = array();
-		for($i = 0; $i < 1;$i++)
+		while((int)$category->id != (int)$mCatid)
 		{
 			$path[] = $category->slug;
-			$category = $category->parent;
-			if($category->id != $mCatid)
-			{
-				$i--;
-			}
+			$category = $category->parent;	
 		}
 		$path = array_reverse($path);
 		$segments = array_merge($segments, $path);
 		unset($query['id']);
-		unset($query['path']);
 	}
 
 	if(isset($view) && $view == 'article' && isset($query['id'])) {
@@ -74,15 +69,11 @@ function ContentBuildRoute(&$query)
 			$segments[] = $query['id'];
 		} else {
 			$path = array();
-			$e = 1;
-			for($i = 0; $i < $e;$i++)
+
+			while((int)$category->id != (int)$mCatid)
 			{
 				$path[] = $category->slug;
-				$category = $category->parent;
-				if($category->id != $mCatid)
-				{
-					$e++;
-				}
+				$category = $category->parent;	
 			}
 			$path = array_reverse($path);
 			$segments = array_merge($segments, $path);
@@ -136,7 +127,7 @@ function ContentParseRoute($segments)
 
 	if($item->query['view'] == 'category')
 	{
-		$categories = ContentHelperCategory::getCategories($item->query['id']);
+		$category = ContentHelperCategory::getCategory($item->query['id']);
 	}
 	// Count route segments
 	$count = count($segments);
@@ -154,22 +145,28 @@ function ContentParseRoute($segments)
 	{
 		case 'category'   :
 		{
-			$categories = array_pop($categories);
-			$categories = $categories->children;
+			$categories = $category->children;
 			$found = 0;
 			foreach($segments as $segment)
 			{
-				if(isset($categories[(int) $segment]))
+				foreach($categories as $category)
 				{
-					$vars['id'] = $segment;
-					$vars['view'] = 'category';
-					$vars['path'][] = $segment;
-					$categories = $categories[(int) $segment]->children;
-				} else {
+					if($category->slug == $segment)
+					{
+						$vars['id'] = $segment;
+						$vars['view'] = 'category';
+						$categories = $category->children;
+						$found = 1;
+						break;
+					}
+				}
+				if($found == 0)
+				{
 					$vars['id'] = $segment;
 					$vars['view'] = 'article';
 					break;
 				}
+				$found = 0;
 			}
 		} break;
 
