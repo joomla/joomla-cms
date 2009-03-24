@@ -16,8 +16,32 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </tr>
 <?php endif; ?>
 <tr>
+	<td>
+	<ul>
+<?php foreach ( $this->categories as $category ) : ?>
+	<li>
+		<a href="<?php echo $category->link ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+			<?php echo $category->title;?></a>
+		<?php if ( $this->params->get( 'show_cat_items' ) ) : ?>
+		&nbsp;
+		<span class="small">
+			(<?php echo $category->numlinks;?>)
+		</span>
+		<?php endif; ?>
+		<?php if ( $this->params->get( 'show_cat_description' ) && $category->description ) : ?>
+		<br />
+		<?php echo $category->description; ?>
+		<?php endif; ?>
+	</li>
+<?php endforeach; ?>
+</ul>
+</td>
+</tr>
+<?php if(count($this->items)) : ?>
+<tr>
 	<td width="60%" colspan="2">
 	<?php echo $this->loadTemplate('items'); ?>
 	</td>
 </tr>
+<?php endif; ?>
 </table>

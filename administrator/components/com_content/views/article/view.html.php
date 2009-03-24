@@ -42,8 +42,6 @@ class ContentViewArticle extends JView
 		$id				= JRequest::getVar('id', $cid[0], '', 'int');
 		$option			= JRequest::getCmd('option');
 		$nullDate		= $db->getNullDate();
-		$contentSection	= '';
-		$sectionid		= 0;
 		$model	=& $this->getModel();
 
 		//get the content
@@ -51,22 +49,10 @@ class ContentViewArticle extends JView
 		$edit	= JRequest::getVar('edit',true);
 
 		if ($edit) {
-			$sectionid = $row->sectionid;
 			if ($row->state < 0) {
 				$mainframe->redirect('index.php?option=com_content', JText::_('You cannot edit an archived item'));
 			}
 		}
-
-		// A sectionid of zero means grab from all sections
-		/*
-		 * Not used?
-		if ($sectionid == 0) {
-			$where = ' WHERE section NOT LIKE "%com_%"';
-		} else {
-			// Grab from the specific section
-			$where = ' WHERE section = '. $db->Quote($sectionid);
-		}
-		 */
 
 		/*
 		 * If the item is checked out we cannot edit it... unless it was checked
@@ -117,21 +103,15 @@ class ContentViewArticle extends JView
 		}
 		else
 		{
-			if (!$sectionid && JRequest::getInt('filter_sectionid')) {
-				$sectionid =JRequest::getInt('filter_sectionid');
-			}
-
 			if (JRequest::getInt('catid'))
 			{
 				$row->catid	 = JRequest::getInt('catid');
 				$category 	 = & JTable::getInstance('category');
 				$category->load($row->catid);
-				$sectionid = $category->section;
 			} else {
 				$row->catid = NULL;
 			}
 			$createdate =& JFactory::getDate();
-			$row->sectionid = $sectionid;
 			$row->version = 0;
 			$row->state = 1;
 			$row->ordering = 0;
@@ -145,74 +125,7 @@ class ContentViewArticle extends JView
 			$row->frontpage = 0;
 		}
 
-		$javascript = "onchange=\"changeDynaList('catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
-
-		$query = 'SELECT s.id, s.title' .
-				' FROM #__sections AS s' .
-				' ORDER BY s.ordering';
-		$db->setQuery($query);
-
-		$sections[] = JHtml::_('select.option', '-1', '- '.JText::_('Select Section').' -', 'id', 'title');
-		$sections[] = JHtml::_('select.option', '0', JText::_('Uncategorized'), 'id', 'title');
-		$sections = array_merge($sections, $db->loadObjectList());
-		$lists['sectionid'] = JHtml::_('select.genericlist',  $sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($row->sectionid));
-
-		foreach ($sections as $section)
-		{
-			$section_list[] = (int) $section->id;
-			// get the type name - which is a special category
-			if ($row->sectionid) {
-				if ($section->id == $row->sectionid) {
-					$contentSection = $section->title;
-				}
-			} else {
-				if ($section->id == $sectionid) {
-					$contentSection = $section->title;
-				}
-			}
-		}
-
-		$sectioncategories = array ();
-		$sectioncategories[-1] = array ();
-		$sectioncategories[-1][] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
-		$section_list = implode('\', \'', $section_list);
-
-		$query = 'SELECT id, title, section' .
-				' FROM #__categories' .
-				' WHERE section IN (\''.$section_list.'\')' .
-				' ORDER BY ordering';
-		$db->setQuery($query);
-		$cat_list = $db->loadObjectList();
-
-		// Uncategorized category mapped to uncategorized section
-		$uncat = new stdClass();
-		$uncat->id = 0;
-		$uncat->title = JText::_('Uncategorized');
-		$uncat->section = 0;
-		$cat_list[] = $uncat;
-		foreach ($sections as $section)
-		{
-			$sectioncategories[$section->id] = array ();
-			$rows2 = array ();
-			foreach ($cat_list as $cat)
-			{
-				if ($cat->section == $section->id) {
-					$rows2[] = $cat;
-				}
-			}
-			foreach ($rows2 as $row2) {
-				$sectioncategories[$section->id][] = JHtml::_('select.option', $row2->id, $row2->title, 'id', 'title');
-			}
-		}
-		$sectioncategories['-1'][] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
-		$categories = array();
-		foreach ($cat_list as $cat) {
-			if ($cat->section == $row->sectionid)
-				$categories[] = $cat;
-		}
-
-		$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
-		$lists['catid'] = JHtml::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($row->catid));
+		$lists['catid'] = JHtml::_('list.category', 'catid', 'com_content', NULL, (int) $row->catid, NULL, 1, 1, 1);
 
 		// build the html select list for ordering
 		$query = 'SELECT ordering AS value, title AS text' .
@@ -268,8 +181,6 @@ class ContentViewArticle extends JView
 		$this->assignRef('row',			$row);
 		$this->assignRef('option',			$option);
 		$this->assignRef('params',			$params);
-		$this->assignRef('contentSection',	$contentSection);
-		$this->assignRef('sectioncategories',	$sectioncategories);
 
 		parent::display($tpl);
 	}

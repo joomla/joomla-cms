@@ -199,12 +199,39 @@ class CategoriesModelCategory extends JModel
 		{
 			JArrayHelper::toInteger($cid);
 			$cids = implode( ',', $cid );
-			$query = 'DELETE FROM #__categories'
-				. ' WHERE id IN ( '.$cids.' )';
-			$this->_db->setQuery( $query );
-			if(!$this->_db->query()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
+			$query = 'SELECT id, lft, rgt '.
+					'FROM #__categories '.
+					'WHERE id IN ('.$cids.') ORDER BY lft ASC';
+			$this->_db->setQuery($query);
+			$categories = $this->_db->loadObjectList();
+			for($i = 1; $i < count($categories); $i++)
+			{
+				if($categories[$i-1]->lft > $categories[$i]->lft && $categories[$i-1]->rgt > $categories[$i]->rgt)
+				{
+					unset($categories[$i]);
+					$i--;
+				}
+			}
+			foreach($categories as $category)
+			{
+				$query = 'DELETE FROM #__categories WHERE lft BETWEEN '.$category->lft.' AND '.$category->rgt;
+				$this->_db->setQuery($query);
+				if(!$this->_db->query()) {
+					$this->setError($this->_db->getErrorMsg());
+					return false;
+				}
+				$query = 'UPDATE #__categories SET rgt = rgt - '.($category->rgt - $category->lft).' WHERE rgt > '.$category->rgt;
+				$this->_db->setQuery($query);
+				if(!$this->_db->query()) {
+					$this->setError($this->_db->getErrorMsg());
+					return false;
+				}
+				$query = 'UPDATE #__categories SET lft = lft - '.($category->rgt - $category->lft).' WHERE lft > '.$category->lft;
+				$this->_db->setQuery($query);				
+				if(!$this->_db->query()) {
+					$this->setError($this->_db->getErrorMsg());
+					return false;
+				}
 			}
 		}
 
@@ -317,6 +344,17 @@ class CategoriesModelCategory extends JModel
 					' WHERE s.id = '.(int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+			if (!empty($this->_data))
+			{
+			
+				$query = 'SELECT id FROM #__categories '.
+						'WHERE lft < '.$this->_data->lft.
+						' AND rgt > '.$this->_data->rgt.
+						' ORDER BY lft DESC';
+				$this->_db->setQuery($query);
+				$parents = $this->_db->loadObjectList();
+				$this->_data->parent = $parents[0]->id;
+			}
 			return (boolean) $this->_data;
 		}
 		return true;
@@ -340,16 +378,13 @@ class CategoriesModelCategory extends JModel
 			$category->name				= null;
 			$category->alias			= null;
 			$category->title			= null;
-			$category->image			= null;
-			$category->image_position	= null;
-			$category->section			= null;
+			$category->extension		= JRequest::getCmd('extension', 'com_content');
 			$category->description		= null;
 			$category->count			= 0;
 			$category->params			= null;
 			$category->published		= 0;
 			$category->checked_out		= 0;
 			$category->checked_out_time	= 0;
-			$category->ordering			= 0;
 			$category->archived			= 0;
 			$category->approved			= 0;
 			$category->categories		= 0;

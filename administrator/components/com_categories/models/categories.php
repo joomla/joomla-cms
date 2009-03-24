@@ -49,7 +49,7 @@ class CategoriesModelCategories extends JModel
 	 */
 	var $_filter = null;
 
-	protected $section_name = null;
+	protected $extension;
 	protected $content_add;
 	protected $content_join;
 	protected $table;
@@ -78,7 +78,7 @@ class CategoriesModelCategories extends JModel
 		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
 		$filter->state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
 		$filter->search		= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$filter->section 	= JRequest::getCmd( 'section', 'com_content' );
+		$filter->extension 	= JRequest::getCmd( 'extension', 'com_content' );
 		$filter->sectionid	= $mainframe->getUserStateFromRequest( $option.'.'.$filter->section.'.sectionid',		'sectionid',		0,				'int' );
 		$this->_filter = $filter;
 	}
@@ -94,8 +94,23 @@ class CategoriesModelCategories extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
+			$extension = $this->getExtension();
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+			$tempcat = array();
+			foreach($this->_data as $category)
+			{
+				$tempcat[$category->id] = $category;
+				$tempcat[$category->id]->depth = 0;
+				if($category->parent_id != 0)
+				{
+					$tempcat[$category->id]->depth = $tempcat[$category->parent_id]->depth + 1;
+				}
+			}
+			foreach($this->_data as &$category)
+			{
+				$category->depth = $tempcat[$category->id]->depth;
+			}
 			$this->getCategoryTotals();
 		}
 
@@ -184,44 +199,31 @@ class CategoriesModelCategories extends JModel
 	}
 
 	/**
-	 * Method to get the Categories type
-	 *
-	 * @access public
-	 * @return string
-	 */
-	function getType()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->type))
-		{
-			$query = $this->_buildQuery();
-		}
-
-		return $this->type;
-	}
-
-	/**
 	 * Method to get the Categories Section Name
 	 *
 	 * @access public
 	 * @return string
 	 */
-	function getSectionName()
+	function getExtension()
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->section_name))
+		if (empty($this->extension))
 		{
-			$query = $this->_buildQuery();
+			$this->extension = new stdClass();
+			$this->extension->option = JRequest::getCmd('extension', 'com_content');
+			$db = JFactory::getDBO();
+			$db->setQuery('SELECT name FROM #__components WHERE parent = \'0\' AND `option` = '.$db->Quote($this->extension->option));
+			$this->extension->name = $db->loadResult();
 		}
 
-		return $this->section_name;
+		return $this->extension;
 	}
 
 	function _buildQuery()
 	{
 		// Get the WHERE and ORDER BY clauses for the query
-		$where		= $this->_buildContentWhere($this->_filter->section);
-		$orderby	= $this->_buildContentOrderBy($this->_filter->section);
+		$where		= $this->_buildContentWhere($this->_filter->extension);
+		$orderby	= $this->_buildContentOrderBy($this->_filter->extension);
 
 		$query = 'SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, COUNT( DISTINCT s2.checked_out ) AS checked_out_count'
 		. $this->content_add
@@ -229,6 +231,7 @@ class CategoriesModelCategories extends JModel
 		. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
 		. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = c.access'
 		. ' LEFT JOIN #__'.$this->table.' AS s2 ON s2.catid = c.id AND s2.checked_out > 0'
+		//. ', #__categories AS cp'
 		. $this->content_join
 		. $where
 		. ' AND c.published != -2'
@@ -239,93 +242,41 @@ class CategoriesModelCategories extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy($section)
+	function _buildContentOrderBy($extension)
 	{
-		if ( $section == 'com_content' ) {
-			if ($this->_filter->order == 'c.ordering'){
-				$orderby 			= ' ORDER BY  z.title, c.ordering';
-			} else {
-				$orderby 			= ' ORDER BY  '.$this->_filter->order.' '. $this->_filter->order_Dir.', z.title, c.ordering';
-			}
-		}
-		else
-		{
-			if ($this->_filter->order == 'c.ordering'){
-				$orderby 	= ' ORDER BY c.ordering '.$this->_filter->order_Dir;
-			} else {
-				$orderby 	= ' ORDER BY '.$this->_filter->order.' '.$this->_filter->order_Dir.' , c.ordering ';
-			}
-		}
-
-		return $orderby;
+		return ' ORDER BY c.lft';
 	}
 
-	function _buildContentWhere($section)
+	function _buildContentWhere($extension)
 	{
 		global $mainframe, $option;
 
 		$db					=& JFactory::getDBO();
 		$search				= JString::strtolower( $this->_filter->search );
-
+		$filter = '';
 		$where = array();
+		$parent_category = JRequest::getInt('parent', 0);
 
 		$where 		= ( count( $where ) ? ' WHERE '. implode( ' AND ', $where ) : '' );
 
-		$this->section_name 	= '';
 		$this->content_add 	= '';
 		$this->content_join 	= '';
-		if (intval( $section ) > 0) {
-			$this->table = 'content';
+		$this->table = substr( $extension, 4 );
 
-			$query = 'SELECT title'
-			. ' FROM #__sections'
-			. ' WHERE id = '.(int) $section;
-			$db->setQuery( $query );
-			$this->section_name = $db->loadResult();
-			$this->section_name = JText::sprintf( 'Content:', JText::_( $this->section_name ) );
-			$where 	= ' WHERE c.section = '.$db->Quote($section);
-			$this->type 	= 'content';
-		} else if (strpos( $section, 'com_' ) === 0) {
-			$this->table = substr( $section, 4 );
-
-			$query = 'SELECT name'
-			. ' FROM #__components'
-			. ' WHERE link = '.$db->Quote('option='.$section);
-			;
-			$db->setQuery( $query );
-			$this->section_name = $db->loadResult();
-
-			$where 	= ' WHERE c.section = '.$db->Quote($section);
-			$this->type 	= 'other';
-			// special handling for contact component
-			if ( $section == 'com_contact_details' ) {
-				$this->section_name 	= JText::_( 'Contact' );
-			}
-			$this->section_name = JText::sprintf( 'Component:', $this->section_name );
-
+		//$where 			= ' WHERE c.lft BETWEEN cp.lft AND cp.rgt'
+		$where				= ' WHERE '
+						.' c.extension = '.$db->Quote($this->extension->option);
+						//.' AND cp.extension = '.$db->Quote($this->extension->option);
+		
+		if ( $parent_category == 0 )
+		{
+		//	$where .= ' AND cp.lft = 1';
 		} else {
-			$this->table 	= $section;
-			$where 	= ' WHERE c.section = '.$db->Quote($section);
-			$this->type 	= 'other';
+		//	$where .= ' AND cp.id = '.$parent_category;
 		}
-
 		// allows for viweing of all content categories
-		if ( $section == 'com_content' ) {
+		if ( $this->extension->option == 'com_content' ) {
 			$this->table 			= 'content';
-			$this->content_add 	= ' , z.title AS section_name';
-			$this->content_join 	= ' LEFT JOIN #__sections AS z ON z.id = c.section';
-			$where 			= ' WHERE c.section NOT LIKE "%com_%"';
-
-			//$this->section_name 	= JText::_( 'All Content:' );
-
-			$this->type 			= 'content';
-		}
-
-		// used by filter
-		if ( $this->_filter->sectionid > 0 ) {
-			$filter = ' AND c.section = '.$db->Quote($this->_filter->sectionid);
-		} else {
-			$filter = '';
 		}
 
 		if ( $this->_filter->state ) {

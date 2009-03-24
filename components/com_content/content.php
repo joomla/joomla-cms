@@ -14,6 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once JPATH_COMPONENT.DS.'controller.php';
 require_once JPATH_COMPONENT.DS.'helpers'.DS.'query.php';
 require_once JPATH_COMPONENT.DS.'helpers'.DS.'route.php';
+require_once JPATH_COMPONENT.DS.'helpers'.DS.'category.php';
 
 // Component Helper
 jimport('joomla.application.component.helper');

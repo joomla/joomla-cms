@@ -78,6 +78,7 @@ class CategoriesController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$db			=& JFactory::getDBO();
+		$extension 	= JRequest::getCmd( 'extension', 'com_content' );
 		$menu		= JRequest::getVar( 'menu', 'mainmenu', 'post', 'string' );
 		$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 		$oldtitle	= JRequest::getVar( 'oldtitle', '', '', 'post', 'string' );
@@ -96,61 +97,104 @@ class CategoriesController extends JController
 		if (!$row->check()) {
 			JError::raiseError(500, $row->getError() );
 		}
-		if ( $oldtitle ) {
-			if ( $oldtitle <> $row->title ) {
-				$query = 'UPDATE #__menu'
-				. ' SET name = '.$db->Quote($row->title)
-				. ' WHERE name = '.$db->Quote($oldtitle)
-				. ' AND type = "content_category"'
-				;
-				$db->setQuery( $query );
-				$db->query();
+		if($row->id != 0)
+		{
+			$query = 'SELECT lft, rgt, parent_id FROM #__categories WHERE id = '.$row->id;
+			$db->setQuery($query);
+			$current = $db->loadObject();
+			if($current->parent_id != $row->parent_id)
+			{
+				$query = 'SELECT lft, rgt FROM #__categories WHERE id = '.(int)$row->parent_id;
+				$db->setQuery($query);
+				$new_parent = $db->loadObject();
+
+				$query = 'UPDATE #__categories SET rgt = rgt + '.($current->rgt - $current->lft).' '.
+						'WHERE rgt >= '.$new_parent->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__categories SET lft = lft + '.($current->rgt - $current->lft).' '.
+						'WHERE lft > '.$new_parent->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__categories SET ';
+				if($current->lft > $new_parent->rgt)
+				{
+					$query .= 'lft = lft - '.($current->lft - $new_parent->rgt - 1);
+				} else {
+					$query .= 'lft = lft + '.($new_parent->rgt - $current->lft + 1);
+				}
+				$query .= ' WHERE lft BETWEEN '.$current->lft.' AND '.$current->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__categories SET ';
+				if($current->lft > $new_parent->rgt)
+				{
+					$query .= 'rgt = rgt - '.($current->lft - $new_parent->rgt - 1);
+				} else {
+					$query .= 'rgt = rgt + '.($new_parent->rgt - $current->lft + 1);
+				}
+				$query .= ' WHERE rgt BETWEEN '.$current->lft.' AND '.$current->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__categories SET rgt = rgt - '.($current->rgt - $current->lft).' '.
+						'WHERE rgt >= '.$current->lft.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__categories SET lft = lft - '.($current->rgt - $current->lft).' '.
+						'WHERE lft > '.$current->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'SELECT lft, rgt, parent_id FROM #__categories WHERE id = '.$row->id;
+				$db->setQuery($query);
+				$current = $db->loadObject();
+				
+				$row->lft = $current->lft;
+				$row->rgt = $current->rgt;
+			} elseif($row->parent_id == $current->parent_id && $row->parent_id == 0) {
+				$row->lft = $current->lft;
+				$row->rgt = $current->rgt;
+			}
+		} else {
+			if($row->parent_id > 0)
+			{
+				$query = 'SELECT lft, rgt FROM #__categories WHERE id = '.(int)$row->parent_id;
+				$db->setQuery($query);
+				$new_parent = $db->loadObject();
+
+				$query = 'UPDATE #__categories SET rgt = rgt + 2 '.
+						'WHERE rgt >= '.$new_parent->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$query = 'UPDATE #__categories SET lft = lft + 2 '.
+						'WHERE lft > '.$new_parent->rgt.' AND extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$db->Query();
+				$row->lft = $new_parent->rgt;
+				$row->rgt = $new_parent->rgt + 1;
+			} else {
+				$query = 'SELECT MAX(rgt) FROM #__categories WHERE extension = '.$db->Quote($row->extension);
+				$db->setQuery($query);
+				$rgt = $db->loadResult();
+				$row->lft = $rgt + 1;
+				$row->rgt = $rgt + 2;
 			}
 		}
-
-		// if new item order last in appropriate group
-		if (!$row->id) {
-			$row->ordering = $row->getNextOrder();
-		}
-
-		if (!$row->store()) {
+		if(!$row->store()) {
 			JError::raiseError(500, $row->getError() );
 		}
 		$row->checkin();
 
-		// Update Section Count
-		if ($row->section != 'com_contact_details' &&
-			$row->section != 'com_newsfeeds' &&
-			$row->section != 'com_weblinks') {
-			$query = 'UPDATE #__sections SET count=count+1'
-			. ' WHERE id = '.$db->Quote($row->section)
-			;
-			$db->setQuery( $query );
-		}
-
-		if (!$db->query()) {
-			JError::raiseError(500, $db->getErrorMsg() );
-		}
-
 		switch ( $task )
 		{
-			case 'go2menu':
-				$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu );
-				break;
-
-			case 'go2menuitem':
-				$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu .'&task=edit&id='. $menuid );
-				break;
-
 			case 'apply':
 				$msg = JText::_( 'Changes to Category saved' );
-				$mainframe->redirect( 'index.php?option=com_categories&section='. $redirect .'&task=edit&cid[]='. $row->id, $msg );
+				$mainframe->redirect( 'index.php?option=com_categories&extension='. $extension .'&task=edit&cid[]='. $row->id, $msg );
 				break;
 
 			case 'save':
 			default:
 				$msg = JText::_( 'Category saved' );
-				$mainframe->redirect( 'index.php?option=com_categories&section='. $redirect, $msg );
+				$mainframe->redirect( 'index.php?option=com_categories&extension='. $extension, $msg );
 				break;
 		}
 	}
@@ -314,7 +358,7 @@ class CategoriesController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$db =& JFactory::getDBO();
-		$section = JRequest::getCmd( 'section', 'com_content' );
+		$extension = JRequest::getCmd( 'extension', 'com_content' );
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 		if (count( $cid ) < 1) {
@@ -323,12 +367,10 @@ class CategoriesController extends JController
 
 		$cids = implode( ',', $cid );
 
-		if (intval( $section ) > 0) {
-			$table = 'content';
-		} else if (strpos( $section, 'com_' ) === 0) {
-			$table = substr( $section, 4 );
+		if (strpos( $extension, 'com_' ) === 0) {
+			$table = substr( $extension, 4 );
 		} else {
-			$table = $section;
+			$table = $extension;
 		}
 
 		$tablesAllowed = $db->getTableList();
@@ -384,7 +426,7 @@ class CategoriesController extends JController
 			$names = implode( ', ', $name );
 			$msg = JText::sprintf( 'Categories successfully deleted', $names );
 		}
-		$this->setRedirect( 'index.php?option=com_categories&section='.$section, $msg );
+		$this->setRedirect( 'index.php?option=com_categories&extension='.$extension, $msg );
 	}
 
 
@@ -405,8 +447,8 @@ class CategoriesController extends JController
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$section = JRequest::getCmd( 'section' );
-		$this->setRedirect( 'index.php?option=com_categories&section='.$section );
+		$extension = JRequest::getCmd( 'extension' );
+		$this->setRedirect( 'index.php?option=com_categories&extension='.$extension );
 	}
 
 
@@ -427,8 +469,8 @@ class CategoriesController extends JController
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$section = JRequest::getCmd( 'section' );
-		$this->setRedirect( 'index.php?option=com_categories&section='.$section );
+		$extension = JRequest::getCmd( 'extension' );
+		$this->setRedirect( 'index.php?option=com_categories&extension='.$extension );
 	}
 
 	function cancel()
@@ -437,9 +479,9 @@ class CategoriesController extends JController
 		$model = $this->getModel('category');
 		$model->checkin();
 
-		$redirect = JRequest::getCmd( 'redirect', '', 'post' );
+		$redirect = JRequest::getCmd( 'extension', '', 'post' );
 
-		$this->setRedirect( 'index.php?option=com_categories&section='. $redirect );
+		$this->setRedirect( 'index.php?option=com_categories&extension='. $redirect );
 	}
 
 

@@ -34,8 +34,6 @@ class ContentViewArticles extends JView
 		$pagination = & $this->get('Pagination');
 		$filter		= & $this->get('Filter');
 
-		$redirect			= $filter->sectionid;
-
 		JToolBarHelper::title(JText::_('Article Manager'), 'addedit.png');
 		if ($filter->state == 'A' || $filter->state == NULL) {
 			JToolBarHelper::unarchiveList();

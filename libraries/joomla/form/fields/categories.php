@@ -35,7 +35,7 @@ class JFormFieldCategories extends JFormFieldList
 	protected function _getOptions()
 	{
 		$db			= &JFactory::getDBO();
-		$section	= $this->_element->attributes('section');
+		$extension	= $this->_element->attributes('extension');
 		$published	= $this->_element->attributes('published');
 		$allowNone	= $this->_element->attributes('allow_none');
 
@@ -43,7 +43,7 @@ class JFormFieldCategories extends JFormFieldList
 			$published = null;
 		}
 
-		if ($section == 'content') {
+		if ($extension == 'content') {
 			// This might get a conflict with the dynamic translation - TODO: search for better solution
 			$db->setQuery(
 				'SELECT c.id AS value, CONCAT_WS("/",s.title, c.title) AS text' .

@@ -48,6 +48,8 @@ class NewsfeedsModelCategory extends JModel
 	 * @var object
 	 */
 	var $_category = null;
+	
+	var $_categories = null;
 
 	/**
 	 * Constructor
@@ -154,7 +156,7 @@ class NewsfeedsModelCategory extends JModel
 	function getCategory()
 	{
 		// Load the Category data
-		if ($this->_loadCategory())
+		if ($this->_loadCategories())
 		{
 			// Initialize some variables
 			$user = &JFactory::getUser();
@@ -172,6 +174,26 @@ class NewsfeedsModelCategory extends JModel
 		}
 		return $this->_category;
 	}
+	
+	function getCategories()
+	{
+		// Load the Category data
+		if (!$this->_loadCategories())
+		{
+			return false;
+		}
+		$rgt = 0;
+		$return = array();
+		foreach($this->_categories as $category)
+		{
+			if($category->lft > $rgt && $category->id != $this->_id)
+			{
+				$return[] = $category;
+				$rgt = $category->rgt;
+			}
+		}
+		return $return;
+	}
 
 	/**
 	 * Method to load category data if it doesn't exist.
@@ -179,18 +201,33 @@ class NewsfeedsModelCategory extends JModel
 	 * @access	private
 	 * @return	boolean	True on success
 	 */
-	function _loadCategory()
+	function _loadCategories()
 	{
-		if (empty($this->_category))
+		if(empty($this->_categories))
 		{
-			// current category info
-			$query = 'SELECT c.*,' .
-				' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as slug '.
-				' FROM #__categories AS c' .
-				' WHERE c.id = '. (int) $this->_id .
-				' AND c.section = "com_newsfeeds"';
-			$this->_db->setQuery($query, 0, 1);
-			$this->_category = $this->_db->loadObject();
+			$query = 'SELECT a.*, count(b.id) AS numlinks,'
+				.' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug'
+				.' FROM #__categories AS a'
+				.' JOIN #__categories AS b ON a.lft >= b.lft AND a.rgt <= b.rgt'
+				.' LEFT JOIN #__newsfeeds AS c ON a.id = c.catid'
+				.' WHERE b.id = '.JRequest::getInt('id')
+				.' AND a.extension = \'com_newsfeeds\''
+				.' AND a.published = 1'
+				.' AND (c.published = 1 OR c.published IS NULL)'
+				.' AND a.access <= 0'
+				.' GROUP BY a.id'
+				.' ORDER BY a.lft';
+			$this->_db->setQuery($query);
+			$this->_categories = $this->_db->loadObjectList();
+			foreach($this->_categories as $category)
+			{
+				if($category->id == $this->_id)
+				{
+					$this->_category = $category;
+					break;
+				}
+			}
+			return true;
 		}
 		return true;
 	}

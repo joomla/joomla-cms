@@ -61,7 +61,7 @@ class JHtmlIcon
 		//$link	= JURI::base()."index.php?view=article&id=".$article->slug;
 		$uri	=& JURI::getInstance();
 		$base	= $uri->toString( array('scheme', 'host', 'port'));
-		$link	= $base.JRoute::_( "index.php?view=article&id=".$article->slug, false );
+		$link	= $base.JRoute::_( "index.php?view=article&catid=".$article->catslug."&id=".$article->slug, false );
 		$url	= 'index.php?option=com_mailto&tmpl=component&link='.base64_encode( $link );
 
 		$status = 'width=400,height=300,menubar=yes,resizable=yes';

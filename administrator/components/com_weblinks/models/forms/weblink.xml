@@ -15,7 +15,7 @@
 			id="catid"
 			name="catid"
 			type="Categories"
-			section="com_weblinks"
+			extension="com_weblinks"
 			allow_none="true"
 			class="inputbox"
 			default=""

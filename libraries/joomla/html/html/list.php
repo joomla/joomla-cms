@@ -251,75 +251,54 @@ abstract class JHtmlList
 	/**
 	 * Select list of active categories for components
 	 */
-	public static function category($name, $section, $active = NULL, $javascript = NULL, $order = 'ordering', $size = 1, $sel_cat = 1)
+	public static function category($name, $extension = 'com_content', $root = NULL, $active = NULL, $javascript = NULL, $size = 1, $sel_cat = 1, $uncat = 0)
 	{
 		$db =& JFactory::getDBO();
 
-		$query = 'SELECT id AS value, title AS text'
-		. ' FROM #__categories'
-		. ' WHERE section = '.$db->Quote($section)
-		. ' AND published = 1'
-		. ' ORDER BY '. $order
-		;
-		$db->setQuery($query);
-		if ($sel_cat) {
-			$categories[] = JHtml::_('select.option',  '0', '- '. JText::_('Select a Category') .' -');
-			try {
-				$categories = array_merge($categories, $db->loadObjectList());
-			} catch (JException $e) {
-				//Ignore error
-			}
+		if($root == NULL)
+		{
+			$root = '';
 		} else {
-			try {
-				$categories = $db->loadObjectList();
-			} catch (JException $e) {
-				$categories = array();
+			$root = ' AND cp.id = '. (int) $root.' ';
+		}
+		$query = 'SELECT c.id, c.title, c.parent_id'.
+				' FROM #__categories AS c'.
+				//' JOIN #__categories AS cp ON cp.lft < c.lft AND cp.rgt > c.rgt'.
+				' WHERE c.extension = '.$db->Quote($extension).
+				//' AND cp.extension = '.$db->Quote($extension).
+				' '.$root.
+				' GROUP BY c.id ORDER BY c.lft'; 		
+		$db->setQuery($query);
+		$cat_list = $db->loadObjectList();
+		$tempcat = array();
+		foreach($cat_list as $category)
+		{
+			$tempcat[$category->id] = $category;
+			$tempcat[$category->id]->depth = 0;
+			if($category->parent_id != 0)
+			{
+				$tempcat[$category->id]->depth = $tempcat[$category->parent_id]->depth + 1;
 			}
 		}
-
-		$category = JHtml::_(
-			'select.genericlist',
-			$categories,
-			$name,
-			array(
-				'list.attr' => 'class="inputbox" size="'. $size .'" '. $javascript,
-				'list.select' => $active
-			)
-		);
-		return $category;
-	}
-
-	/**
-	 * Select list of active sections
-	 */
-	public static function section($name, $active = NULL, $javascript = NULL, $order = 'ordering', $uncategorized = true)
-	{
-		$db =& JFactory::getDBO();
-
-		$categories[] = JHtml::_('select.option',  '-1', '- '. JText::_('Select Section') .' -');
-
-		if ($uncategorized) {
-			$categories[] = JHtml::_('select.option',  '0', JText::_('Uncategorized'));
+		foreach($cat_list as &$category)
+		{
+			$category->depth = $tempcat[$category->id]->depth;
 		}
-
-		$query = 'SELECT id AS value, title AS text'
-		. ' FROM #__sections'
-		. ' WHERE published = 1'
-		. ' ORDER BY ' . $order
-		;
-		$db->setQuery($query);
-		try {
-			$sections = array_merge($categories, $db->loadObjectList());
-		} catch(JException $e) {
-			//ignore error
+		$categories = array();
+		// Uncategorized category mapped to uncategorized section
+		$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
+		$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');
+		if($uncat)
+		{
+			$categories[] = JHtml::_('select.option', 0, JText::_('Uncategorized'), 'id', 'title');
+			$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');
 		}
-
-		$category = JHtml::_(
-			'select.genericlist',
-			$sections,
-			$name,
-			array('list.attr' => 'class="inputbox" size="1" '. $javascript, 'list.select' => $active)
-		);
+		
+		foreach ($cat_list as $category)
+		{
+			$categories[] = JHtml::_('select.option', $category->id, str_repeat('-', $category->depth).$category->title, 'id', 'title');
+		}
+		$category = JHtml::_('select.genericlist',  $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'id', 'title', $active);
 
 		return $category;
 	}

@@ -69,14 +69,12 @@ class ContentModelArticles extends JModel
 
 		$context			= 'com_content.viewcontent';
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest($context.'.filter_order',		'filter_order',		'section_name',	'cmd');
+		$filter->order		= $mainframe->getUserStateFromRequest($context.'.filter_order',		'filter_order',		'name',	'cmd');
 		$filter->order_Dir	= $mainframe->getUserStateFromRequest($context.'.filter_order_Dir',	'filter_order_Dir',	'',				'word');
 		$filter->state		= $mainframe->getUserStateFromRequest($context.'.filter_state',		'filter_state',		'',				'word');
-		$filter->catid		= $mainframe->getUserStateFromRequest($context.'.filter_catid',		'filter_catid',		0,				'int');
+		$filter->catid		= $mainframe->getUserStateFromRequest($context.'.filter_catid',		'filter_catid',		-1,				'int');
 		$filter->search		= $mainframe->getUserStateFromRequest($context.'.search',			'search',			'',				'string');
 		$filter->authorid	= $mainframe->getUserStateFromRequest($context.'.filter_authorid',	'filter_authorid',	0,	'int');
-		$filter->section 	= JRequest::getCmd('section', 'com_content');
-		$filter->sectionid	= $mainframe->getUserStateFromRequest($context.'.filter_sectionid',	'filter_sectionid',	-1,	'int');
 		$this->_filter = $filter;
 	}
 
@@ -148,13 +146,12 @@ class ContentModelArticles extends JModel
 	function _buildQuery()
 	{
 		// Get the WHERE and ORDER BY clauses for the query
-		$where		= $this->_buildContentWhere($this->_filter->section);
-		$orderby	= $this->_buildContentOrderBy($this->_filter->section);
+		$where		= $this->_buildContentWhere($this->_filter->catid);
+		$orderby	= $this->_buildContentOrderBy($this->_filter->catid);
 
-		$query = 'SELECT c.*, g.title AS groupname, cc.title AS name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
+		$query = 'SELECT c.*, g.title AS groupname, cc.title AS name, u.name AS editor, f.content_id AS frontpage, v.name AS author' .
 				' FROM #__content AS c' .
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
-				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
 				' LEFT JOIN #__access_assetgroups AS g ON g.id = c.access' .
 				' LEFT JOIN #__users AS u ON u.id = c.checked_out' .
 				' LEFT JOIN #__users AS v ON v.id = c.created_by' .
@@ -165,14 +162,14 @@ class ContentModelArticles extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy($section)
+	function _buildContentOrderBy($category)
 	{
-		$orderby = ' ORDER BY '. $this->_filter->order .' '. $this->_filter->order_Dir .', section_name, cc.title, c.ordering';
+		$orderby = ' ORDER BY '. $this->_filter->order .' '. $this->_filter->order_Dir .', cc.title, c.ordering';
 
 		return $orderby;
 	}
 
-	function _buildContentWhere($section)
+	function _buildContentWhere($extension)
 	{
 		$db					=& JFactory::getDBO();
 		$search				= JString::strtolower($this->_filter->search);
@@ -182,10 +179,6 @@ class ContentModelArticles extends JModel
 		/*
 		 * Add the filter specific information to the where clause
 		 */
-		// Section filter
-		if ($this->_filter->sectionid >= 0) {
-			$where[] = 'c.sectionid = ' . (int) $this->_filter->sectionid;
-		}
 		// Category filter
 		if ($this->_filter->catid > 0) {
 			$where[] = 'c.catid = ' . (int) $this->_filter->catid;

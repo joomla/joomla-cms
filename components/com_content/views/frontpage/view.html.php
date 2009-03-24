@@ -141,7 +141,7 @@ class ContentViewFrontpage extends ContentView
 			// checks if the item is a public or registered/special item
 			if (in_array($item->access, $user->authorisedLevels()))
 			{
-				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 				$item->readmore_register = false;
 			}
 			else

@@ -16,7 +16,7 @@
 	</td>
 	<td nowrap="nowrap">
 		<?php
-		echo JHtml::_('list.category',  'filter_catid', 'com_contact_details', intval( $this->filter->catid ), 'onchange="document.adminForm.submit();"' );
+		echo JHtml::_('list.category',  'filter_catid', 'com_contact', NULL, intval( $this->filter->catid ), ' onchange="document.adminForm.submit();"' );
 		echo JHtml::_('grid.state',  $this->filter->state );
 		?>
 	</td>

@@ -44,16 +44,6 @@
 ?>
 <script language="javascript" type="text/javascript">
 <!--
-var sectioncategories = new Array;
-<?php
-$i = 0;
-foreach ($this->sectioncategories as $k=>$items) {
-	foreach ($items as $v) {
-		echo "sectioncategories[".$i++."] = new Array('$k','".addslashes($v->id)."','".addslashes($v->title)."');\n\t\t";
-	}
-}
-?>
-
 function submitbutton(pressbutton)
 {
 	var form = document.adminForm;
@@ -77,8 +67,6 @@ function submitbutton(pressbutton)
 	var text = <?php echo $editor->getContent('text'); ?>
 	if (form.title.value == ""){
 		alert("<?php echo JText::_('Article must have a title', true); ?>");
-	} else if (form.sectionid.value == "-1"){
-		alert("<?php echo JText::_('You must select a Section', true); ?>");
 	} else if (form.catid.value == "-1"){
 		alert("<?php echo JText::_('You must select a Category', true); ?>");
 	} else if (form.catid.value == ""){
@@ -137,14 +125,6 @@ function submitbutton(pressbutton)
 			</td>
 		</tr>
 		<tr>
-			<td class="key">
-				<label for="sectionid">
-					<?php echo JText::_('Section'); ?>
-				</label>
-			</td>
-			<td>
-				<?php echo $this->lists['sectionid']; ?>
-			</td>
 			<td class="key">
 				<label for="catid">
 					<?php echo JText::_('Category'); ?>

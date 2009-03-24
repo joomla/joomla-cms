@@ -1,8 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php JHtml::_('behavior.tooltip'); ?>
-<?php JRequest::setVar( 'hidemainmenu', 1 ); ?>
-
 
 <?php
 	JRequest::setVar( 'hidemainmenu', 1 );
@@ -23,10 +21,6 @@
 	JToolBarHelper::help( 'screen.categories.edit' );
 
 	$editor =& JFactory::getEditor();
-
-	if ($this->row->image == '') {
-		$this->row->image = 'blank.png';
-	}
 
 	if ( $this->redirect == 'content' ) {
 		$component = 'Content';
@@ -108,22 +102,10 @@ function submitbutton(pressbutton, section) {
 			</tr>
 			<tr>
 				<td class="key">
-					<label for="section">
-						<?php echo JText::_( 'Section' ); ?>:
-					</label>
+					<?php echo JText::_('Parent'); ?>:
 				</td>
-				<td colspan="2">
-					<?php echo $this->lists['section']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="key">
-					<label for="ordering">
-						<?php echo JText::_( 'Ordering' ); ?>:
-					</label>
-				</td>
-				<td colspan="2">
-					<?php echo $this->lists['ordering']; ?>
+				<td>
+					<?php echo JHtml::_('list.category', 'parent_id', 'com_content', NULL, (int) $this->row->parent, '', 1, 1, 1); ?>
 				</td>
 			</tr>
 			<tr>
@@ -134,26 +116,6 @@ function submitbutton(pressbutton, section) {
 				</td>
 				<td>
 					<?php echo $this->lists['access']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="key">
-					<label for="image">
-						<?php echo JText::_( 'Image' ); ?>:
-					</label>
-				</td>
-				<td>
-					<?php echo $this->lists['image']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="key">
-					<label for="image_position">
-						<?php echo JText::_( 'Image Position' ); ?>:
-					</label>
-				</td>
-				<td>
-					<?php echo $this->lists['image_position']; ?>
 				</td>
 			</tr>
 			<tr>
@@ -188,12 +150,42 @@ function submitbutton(pressbutton, section) {
 			</table>
 	</fieldset>
 </div>
+<div class="col width-40">
+	<fieldset class="adminform">
+		<legend><?php echo JText::_('Parameters'); ?></legend>
+
+		<?php
+			jimport('joomla.html.pane');
+			$groups = $this->params->getGroups();
+			if (count($groups) && $groups) {
+				$pane =& JPane::getInstance('sliders');
+				echo $pane->startPane("menu-pane");
+				foreach($groups as $groupname => $group) {
+					if ($groupname == '_default') {
+						$title = 'Standard';
+					} else {
+						$title = ucfirst($groupname);
+					}
+					if ($this->params->getNumParams($groupname)) {
+						echo $pane->startPanel(JText :: _('Parameters - '.$title), $groupname.'-page');
+						echo $this->params->render('params', $groupname);
+						echo $pane->endPanel();
+					}
+
+				}
+				echo $pane->endPane();
+			} else {
+				echo '<div style="text-align: center; padding: 5px; ">'.JText::_('There are no parameters for this item').'</div>';
+			}
+			?>
+	</fieldset>
+</div>
 <div class="clr"></div>
 
 <input type="hidden" name="option" value="com_categories" />
 <input type="hidden" name="oldtitle" value="<?php echo $this->row->title ; ?>" />
 <input type="hidden" name="id" value="<?php echo $this->row->id; ?>" />
-<input type="hidden" name="sectionid" value="<?php echo $this->row->section; ?>" />
+<input type="hidden" name="extension" value="<?php echo $this->row->extension; ?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="redirect" value="<?php echo $this->redirect; ?>" />
 <?php echo JHtml::_( 'form.token' ); ?>

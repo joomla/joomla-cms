@@ -39,19 +39,13 @@ class CategoriesViewCategories extends JView
 		// Get data from the model
 		$rows		= & $this->get( 'Data');
 		$pagination = & $this->get( 'Pagination' );
-		$type		= & $this->get( 'Type');
-		$section_name	= & $this->get( 'SectionName');
+		$extension	= & $this->get( 'Extension' );
 		$filter		= & $this->get( 'Filter');
-
+		
 		// Set toolbar items for the page
-		JToolBarHelper::title( JText::_( 'Category Manager' ) .': <small><small>[ '. JText::_($section_name).' ]</small></small>', 'categories.png' );
+		JToolBarHelper::title( JText::_( 'Category Manager' ) .': <small><small>[ '. JText::_($extension->name).' ]</small></small>', 'categories.png' );
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-
-		if ( $filter->section == 'com_content' || ( $filter->section > 0 ) ) {
-			JToolBarHelper::customX( 'moveselect', 'move.png', 'move_f2.png', 'Move', true );
-			JToolBarHelper::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );
-		}
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
@@ -59,7 +53,7 @@ class CategoriesViewCategories extends JView
 
 		$this->assignRef('user',		$user);
 		$this->assignRef('type',		$type);
-		$this->assignRef('section_name',$section_name);
+		$this->assignRef('extension',	$extension);
 		$this->assignRef('rows',		$rows);
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('filter',		$filter);

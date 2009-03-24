@@ -134,18 +134,26 @@ class ContentViewArticle extends ContentView
 		/*
 		 * Handle the breadcrumbs
 		 */
-		if($menu && $menu->query['view'] != 'article')
+		$pathwaycat = ContentHelperCategory::getCategory($article->catid);
+		$path = array();
+		if(is_object($menu) && $menu->query['view'] != 'article' && $menu->query['id'] != $category->id)
 		{
-			switch ($menu->query['view'])
+			while($pathwaycat->id != $menu->query['id'])
 			{
-				case 'section':
-					$pathway->addItem($article->category, 'index.php?view=category&id='.$article->catslug);
-					$pathway->addItem($article->title, '');
-					break;
-				case 'category':
-					$pathway->addItem($article->title, '');
-					break;
+				$path[] = array($pathwaycat->title, $pathwaycat->slug);
+				$pathwaycat = $pathwaycat->parent;	
 			}
+			$path = array_reverse($path);
+			foreach($path as $element)
+			{
+				if(isset($element[1]))
+				{
+					$pathway->addItem($element[0], 'index.php?option=com_content&view=category&id='.$element[1]);
+				} else {
+					$pathway->addItem($element[0], '');
+				}
+			}
+			$pathway->addItem($article->title, '');
 		}
 
 		/*

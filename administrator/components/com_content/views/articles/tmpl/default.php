@@ -11,7 +11,7 @@
 	$nullDate 	= $db->getNullDate();
 
 	//Ordering allowed ?
-	$ordering = ($this->filter->order == 'section_name' || $this->filter->order == 'cc.name');
+	$ordering = ($this->filter->order == 'name' || $this->filter->order == 'cc.name');
 	JHtml::_('behavior.tooltip');
 ?>
 
@@ -26,8 +26,7 @@
 			</td>
 			<td nowrap="nowrap">
 				<?php
-				echo JHtml::_('list.section', 'filter_sectionid', $this->filter->sectionid, 'onchange="document.adminForm.submit();"');
-				echo JHtml::_('contentgrid.category', 'filter_catid', $this->filter->catid, $this->filter->sectionid);
+				echo JHtml::_('list.category', 'filter_catid', 'com_content', NULL, (int) $this->filter->catid, ' onchange="submitform();"', 1, 1, 1);
 				echo JHtml::_('contentgrid.author', 'filter_authorid', $this->filter->authorid);
 				echo JHtml::_('grid.state', $this->filter->state, 'Published', 'Unpublished', 'Archived');
 				?>
@@ -59,9 +58,6 @@
 			</th>
 			<th width="7%">
 				<?php echo JHtml::_('grid.sort',   'Access', 'groupname', @$this->filter->order_Dir, @$this->filter->order); ?>
-			</th>
-			<th class="title" width="8%" nowrap="nowrap">
-				<?php echo JHtml::_('grid.sort',   'Section', 'section_name', @$this->filter->order_Dir, @$this->filter->order); ?>
 			</th>
 			<th  class="title" width="8%" nowrap="nowrap">
 				<?php echo JHtml::_('grid.sort',   'Category', 'cc.name', @$this->filter->order_Dir, @$this->filter->order); ?>
@@ -198,10 +194,6 @@
 			<td align="center">
 				<?php echo $row->groupname;?>
 			</td>
-				<td>
-					<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_('Edit Section'); ?>">
-						<?php echo $row->section_name; ?></a>
-				</td>
 			<td>
 				<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_('Edit Category'); ?>">
 					<?php echo $row->name; ?></a>

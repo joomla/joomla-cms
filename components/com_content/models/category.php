@@ -57,6 +57,8 @@ class ContentModelCategory extends JModel
 	protected $_siblings = null;
 
 	protected $_content = null;
+	
+	protected $_category_tree = array();
 
 	/**
 	 * Constructor
@@ -102,8 +104,9 @@ class ContentModelCategory extends JModel
 	 */
 	public function getData($state = 1)
 	{
+		
 		// Load the Category data
-		if ($this->_loadCategory() && $this->_loadData($state))
+		if ($this->_loadCategoryTree() && $this->_loadData($state))
 		{
 			// Initialize some variables
 			$user	=& JFactory::getUser();
@@ -131,11 +134,15 @@ class ContentModelCategory extends JModel
 	 * @access public
 	 * @return integer
 	 */
-	public function getTotal($state = 1)
+	public function getTotal($state = 1, $recursive = false)
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
+			if(empty($this->_category))
+			{
+				$this->_loadCategoryTree();
+			}
 			$query = $this->_buildQuery($state, true);
 			$this->_db->setQuery($query);
 			$this->_total[$state] = $this->_db->loadResult();
@@ -152,22 +159,31 @@ class ContentModelCategory extends JModel
 	public function getCategory()
 	{
 		// Load the Category data
-		if ($this->_loadCategory())
+		if (empty($this->_category))
 		{
-			// Initialize some variables
-			$user = &JFactory::getUser();
-
-			// Make sure the category is published
-			if (!$this->_category->published) {
-				JError::raiseError(404, JText::_("Resource Not Found"));
-				return false;
-			}
-			// check whether category access level allows access
-			if ($this->_category->access > $user->get('aid', 0)) {
-				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
-				return false;
-			}
+			$this->_loadCategoryTree();
 		}
+
+		if (empty($this->_category))
+		{
+			JError::raiseError(404, JText::_("Resource Not Found"));
+			return false;
+		}
+		$this->_category = ContentHelperCategory::getCategory($this->_id);
+		// Initialize some variables
+		$user = &JFactory::getUser();
+
+		// Make sure the category is published
+		if (!$this->_category->published) {
+			JError::raiseError(404, JText::_("Resource Not Found"));
+			return false;
+		}
+		// check whether category access level allows access
+		if ($this->_category->access > $user->get('aid', 0)) {
+			JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+			return false;
+		}
+		
 		return $this->_category;
 	}
 
@@ -211,48 +227,27 @@ class ContentModelCategory extends JModel
 	{
 		return $this->getContent(-1);
 	}
-
-	/**
-	 * Method to load category data if it doesn't exist.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	protected function _loadCategory()
+	
+	public function getChildren($recursive = 0)
 	{
-		if (empty($this->_category))
-		{
-			// Lets get the information for the current category
-			$query = 'SELECT c.*, s.id as sectionid, s.title as sectiontitle,' .
-					' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug'.
-					' FROM #__categories AS c' .
-					' INNER JOIN #__sections AS s ON s.id = c.section' .
-					' WHERE c.id = '. (int) $this->_id;
-			$this->_db->setQuery($query, 0, 1);
-			$this->_category = $this->_db->loadObject();
-		}
-		return true;
+		$category = ContentHelperCategory::getCategory($this->_id);
+		return $category->children;
 	}
-
+	
 	/**
 	 * Method to load sibling category data if it doesn't exist.
 	 *
 	 * @access	private
 	 * @return	boolean	True on success
 	 */
-	protected function _loadSiblings()
+	protected function _loadCategoryTree()
 	{
-		if (empty($this->_category))
-		{
-			return false; // TODO: set error -- can't get siblings when we don't know the category
-		}
-
 		// Lets load the siblings if they don't already exist
-		if (empty($this->_siblings))
+		if (empty($this->_category_tree))
 		{
 			$user	 =& JFactory::getUser();
 			$app = JFactory::getApplication();
-
+			
 			// Get the page/component configuration
 			$params = &$app->getParams();
 
@@ -260,7 +255,6 @@ class ContentModelCategory extends JModel
 			$gid		 = (int) $user->get('aid', 0);
 			$now		 = $app->get('requestTime');
 			$nullDate = $this->_db->getNullDate();
-			$section	 = $this->_category->section;
 
 			// Get the parameters of the active menu item
 			$menu	=& JSite::getMenu();
@@ -270,36 +264,45 @@ class ContentModelCategory extends JModel
 			if ($user->authorize('com_content', 'edit', 'content', 'all'))
 			{
 				$xwhere = '';
-				$xwhere2 = ' AND b.state >= 0';
+				$xwhere2 = '';
 			}
 			else
 			{
 				$xwhere = ' AND c.published = 1';
-				$xwhere2 = ' AND b.state = 1' .
-						' AND ( publish_up = '.$this->_db->Quote($nullDate).' OR publish_up <= '.$this->_db->Quote($now).' )' .
-						' AND ( publish_down = '.$this->_db->Quote($nullDate).' OR publish_down >= '.$this->_db->Quote($now).' )';
-			}
-
-			// show/hide empty categories
-			$empty = null;
-			if (!$params->get('empty_cat'))
-			{
-				$empty = ' HAVING COUNT( b.id ) > 0';
+				$xwhere2 = '';
 			}
 
 			// Get the list of sibling categories [categories with the same parent]
-			$query = 'SELECT c.*, COUNT( b.id ) AS numitems' .
+			$query = 'SELECT c.*, COUNT( b.id ) AS numitems, ' .
+					' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug'.
 					' FROM #__categories AS c' .
-					' LEFT JOIN #__content AS b ON b.catid = c.id '.
+					' LEFT JOIN #__content AS b ON b.catid = c.id, '.
+					' (SELECT c.id, MIN(c.lft) as lft, MAX(c.rgt) as rgt '.
+					' FROM #__categories AS c, #__categories AS cp '.
+					' WHERE cp.id = '.JRequest::getInt('id').
+					' AND c.lft BETWEEN cp.lft AND cp.rgt '.
+					' AND c.extension = \'com_content\') AS cp '.
+					' WHERE c.lft BETWEEN cp.lft AND cp.rgt AND c.extension = \'com_content\''.
 					$xwhere2.
-					($noauth ? ' AND b.access <= '. (int) $gid : '') .
-					' WHERE c.section = '. $this->_db->Quote($section).
 					$xwhere.
 					($noauth ? ' AND c.access <= '. (int) $gid : '').
-					' GROUP BY c.id'.$empty.
-					' ORDER BY c.ordering';
+					' GROUP BY c.id'.
+					' ORDER BY c.lft';
 			$this->_db->setQuery($query);
-			$this->_siblings = $this->_db->loadObjectList();
+			$this->_category_tree = $this->_db->loadObjectList('id');
+			foreach($this->_category_tree as &$category)
+			{
+				$path = array();
+				foreach($this->_category_tree as $tempcategory)
+				{
+					if($tempcategory->lft <= $category->lft && $tempcategory->rgt >= $category->rgt)
+					{
+						$path[] = $tempcategory->slug;
+					}
+				}
+				$category->path = $path;
+			}
+			$this->_category = $this->_category_tree[$this->_id];
 		}
 		return true;
 	}
@@ -333,6 +336,7 @@ class ContentModelCategory extends JModel
 			foreach ($Arows as $row)
 			{
 				// check to determine if section or category has proper access rights
+				$row->path = $this->_category_tree[(int)$row->catid]->path;
 				$rows[$i] = $row;
 				$i ++;
 			}
@@ -355,7 +359,7 @@ class ContentModelCategory extends JModel
 		$orderby	= $this->_buildContentOrderBy($state);
 
 		if(!$countOnly) {
-			$query = 'SELECT cc.title AS category, a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
+			$query = 'SELECT cc.title AS category, a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
 				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
 				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
 				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
@@ -433,17 +437,19 @@ class ContentModelCategory extends JModel
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
 
-		$where = ' WHERE 1';
+		if($params->get('loadChildren', 0))
+		{
+			$where = ' WHERE cc.lft BETWEEN '.$this->_category->lft.' AND '.$this->_category->rgt.' AND cc.extension = \'com_content\' ';
+		} else {
+			if ($this->_id)
+			{
+				$where .= ' WHERE cc.id = '.(int) $this->_id.' AND cc.extension = \'com_content\'';
+			}			
+		}
 
 		// Does the user have access to view the items?
 		if ($noauth) {
 			$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels()).')';
-		}
-
-		// First thing we need to do is assert that the articles are in the current category
-		if ($this->_id)
-		{
-			$where .= ' AND a.catid = '.(int) $this->_id;
 		}
 
 		// Regular Published Content

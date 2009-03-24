@@ -72,7 +72,7 @@ function submitbutton(pressbutton) {
 				</label>
 			</td>
 			<td>
-				<?php echo JHtml::_('list.category',  'catid', $option, intval( $this->newsfeed->catid ) ); ?>
+				<?php echo JHtml::_('list.category', 'catid', 'com_newsfeeds', NULL, (int) $this->newsfeed->catid, NULL, 1, 1, 1); ?>
 			</td>
 		</tr>
 		<tr>

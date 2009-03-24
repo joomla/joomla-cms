@@ -87,7 +87,6 @@ class modNewsFlashHelper
 			' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' ) ' .
 			' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )' .
 			' AND cc.id = '. (int) $catid .
-			' AND cc.section = s.id' .
 			' AND cc.published = 1' .
 			' AND s.published = 1' .
 			' ORDER BY a.ordering';

@@ -110,33 +110,8 @@ class ContentModelArticle extends JModel
 				JError::raiseError( 404, JText::_("Article category not published") );
 			}
 
-			// Is the section published?
-			if ($this->_article->sectionid)
-			{
-				if ($this->_article->sec_pub === null)
-				{
-					// probably a new item
-					// check the sectionid probably passed in the request
-					$db =& $this->getDBO();
-					$query = 'SELECT published' .
-							' FROM #__sections' .
-							' WHERE id = ' . (int) $this->_article->sectionid;
-					$db->setQuery( $query );
-					$this->_article->sec_pub = $db->loadResult();
-				}
-				if (!$this->_article->sec_pub)
-				{
-					JError::raiseError( 404, JText::_("Article section not published") );
-				}
-			}
-
 			// Do we have access to the category?
 			if (($this->_article->cat_access > $user->get('aid', 0)) && $this->_article->catid) {
-				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
-			}
-
-			// Do we have access to the section?
-			if (($this->_article->sec_access > $user->get('aid', 0)) && $this->_article->sectionid) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 
@@ -501,20 +476,19 @@ class ContentModelArticle extends JModel
 			// Get the WHERE clause
 			$where	= $this->_buildContentWhere();
 
-			$query = 'SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section,' .
+			$query = 'SELECT a.*, u.name AS author, u.usertype, cc.title AS category, ' .
 					' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
 					' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-					' g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access '.$voting['select'].
+					' g.name AS groups, cc.published AS cat_pub, cc.access AS cat_access '.$voting['select'].
 					' FROM #__content AS a' .
 					' LEFT JOIN #__categories AS cc ON cc.id = a.catid' .
-					' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = "content"' .
 					' LEFT JOIN #__users AS u ON u.id = a.created_by' .
 					' LEFT JOIN #__core_acl_axo_groups AS g ON a.access = g.value'.
 					$voting['join'].
 					$where;
 			$this->_db->setQuery($query);
 			$this->_article = $this->_db->loadObject();
-
+//var_dump($this->_article);echo $this->_db->getQuery();die;
 			if ( ! $this->_article ) {
 				return false;
 			}

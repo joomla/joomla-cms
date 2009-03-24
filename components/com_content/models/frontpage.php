@@ -114,12 +114,12 @@ class ContentModelFrontpage extends JModel
 		$orderby = $this->_buildContentOrderBy();
 
 		if(!$countOnly) {
-			$query = ' SELECT a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
+			$query = ' SELECT a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
 				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.metakey, a.metadesc, a.access,' .
 				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
 				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
 				' CHAR_LENGTH( a.`fulltext` ) AS readmore,' .
-				' u.name AS author, u.usertype, g.name AS groups, cc.title AS category, s.title AS section, s.ordering AS s_ordering, cc.ordering AS cc_ordering, a.ordering AS a_ordering, f.ordering AS f_ordering'.
+				' u.name AS author, u.usertype, g.name AS groups, cc.title AS category, a.ordering AS a_ordering, f.ordering AS f_ordering'.
 				$voting['select'];
 		} else {
 			$query = 'SELECT count(*)';
@@ -128,7 +128,6 @@ class ContentModelFrontpage extends JModel
 			' FROM #__content AS a' .
 			' INNER JOIN #__content_frontpage AS f ON f.content_id = a.id' .
 			' LEFT JOIN #__categories AS cc ON cc.id = a.catid'.
-			' LEFT JOIN #__sections AS s ON s.id = a.sectionid'.
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
 			' LEFT JOIN #__core_acl_axo_groups AS g ON a.access = g.value'.
 			$voting['join'].
@@ -186,8 +185,7 @@ class ContentModelFrontpage extends JModel
 			$where .= ' AND a.state >= 0';
 		} else {
 			$where .= ' AND a.state = 1'.
-					' AND (( cc.published = 1'.
-					' AND s.published = 1 )'.
+					' AND (( cc.published = 1)'.
 					' OR ( a.catid = 0 AND a.sectionid = 0 ) )';
 
 			$where .= ' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .

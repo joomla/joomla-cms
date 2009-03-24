@@ -34,18 +34,15 @@ class JHtmlContentGrid
 		return JHtml::_('select.genericlist',  $authors, $name, 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'created_by', 'name', $filter_authorid);
 	}
 
-	function category($name, $filter_catid, $filter_sectionid = null)
+	function category($name, $filter_catid)
 	{
 		$db			=& JFactory::getDBO();
 		$cat_filter = null;
-		if (($filter_sectionid !== null) && ($filter_sectionid >= 0)) {
-			$cat_filter = ' WHERE cc.section = '. (int) $filter_sectionid;
-		}
-		$query = 'SELECT cc.id AS value, cc.title AS text, section' .
-				' FROM #__categories AS cc' .
-				' INNER JOIN #__sections AS s ON s.id = cc.section ' .
-				$cat_filter .
-				' ORDER BY s.ordering, cc.ordering';
+
+		$query = 'SELECT cc.id AS value, cc.title AS text' .
+				' FROM #__categories AS cc';// .
+				//$cat_filter .
+				//' ORDER BY cc.ordering';
 		$categories[] = JHtml::_('select.option', '0', '- '.JText::_('Select Category').' -');
 		$db->setQuery($query);
 		$categories = array_merge($categories, $db->loadObjectList());

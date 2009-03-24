@@ -49,23 +49,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 endif; ?>
 <?php echo $this->item->event->beforeDisplayContent; ?>
 <table class="contentpaneopen<?php echo $this->item->params->get( 'pageclass_sfx' ); ?>">
-<?php if (($this->item->params->get('show_section') && $this->item->sectionid) || ($this->item->params->get('show_category') && $this->item->catid)) : ?>
+<?php if ($this->item->params->get('show_category') && $this->item->catid) : ?>
 <tr>
 	<td>
-		<?php if ($this->item->params->get('show_section') && $this->item->sectionid && isset($this->item->section)) : ?>
-		<span>
-			<?php if ($this->item->params->get('link_section')) : ?>
-				<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getSectionRoute($this->item->sectionid)).'">'; ?>
-			<?php endif; ?>
-			<?php echo $this->item->section; ?>
-			<?php if ($this->item->params->get('link_section')) : ?>
-				<?php echo '</a>'; ?>
-			<?php endif; ?>
-				<?php if ($this->item->params->get('show_category')) : ?>
-				<?php echo ' - '; ?>
-			<?php endif; ?>
-		</span>
-		<?php endif; ?>
 		<?php if ($this->item->params->get('show_category') && $this->item->catid) : ?>
 		<span>
 			<?php if ($this->item->params->get('link_category')) : ?>

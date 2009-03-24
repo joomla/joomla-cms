@@ -34,27 +34,10 @@ class CategoriesViewCategory extends JView
 		$user =& JFactory::getUser();
 		$uid = $user->get('id');
 
-		$type = JRequest::getCmd( 'type' );
-		$redirect = JRequest::getCmd( 'section', 'com_content' );
-		$section = JRequest::getCmd( 'section', 'com_content' );
+		$extension = JRequest::getCmd( 'extension', 'com_content' );
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
 		$model =& $this->getModel();
-
-		// check for existance of any sections
-		$query = 'SELECT COUNT( id )'
-		. ' FROM #__sections'
-		. ' WHERE scope = "content"'
-		;
-		$db->setQuery( $query );
-		$sections = $db->loadResult();
-		if (!$sections && $type != 'other'
-				&& $section != 'com_weblinks'
-				&& $section != 'com_newsfeeds'
-				&& $section != 'com_contact_details'
-				&& $section != 'com_banner') {
-			$mainframe->redirect( 'index.php?option=com_categories&section='. $section, JText::_( 'WARNSECTION', true ) );
-		}
 
 		//get the section
 		$row =& $this->get('data');
@@ -63,7 +46,7 @@ class CategoriesViewCategory extends JView
 		// fail if checked out not by 'me'
 		if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out )) {
 			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The category' ), $row->title );
-			$mainframe->redirect( 'index.php?option=com_categories&section='. $row->section, $msg );
+			$mainframe->redirect( 'index.php?option=com_categories&extension='. $row->extension, $msg );
 		}
 
 		if ( $edit ) {
@@ -72,79 +55,29 @@ class CategoriesViewCategory extends JView
 			$row->published = 1;
 		}
 
-
-		// make order list
-		/*
-		$order = array();
-		$query = 'SELECT COUNT(*)'
-		. ' FROM #__categories'
-		. ' WHERE section = '.$db->Quote($row->section)
-		;
-		$db->setQuery( $query );
-		$max = intval( $db->loadResult() ) + 1;
-
-		for ($i=1; $i < $max; $i++) {
-			$order[] = JHtml::_('select.option',  $i );
-		}
-		*/
-
-		// build the html select list for sections
-		if ( $section == 'com_content' ) {
-
-			if (!$row->section && JRequest::getInt('sectionid')) {
-				$row->section = JRequest::getInt('sectionid');
-			}
-
-			$query = 'SELECT s.id AS value, s.title AS text'
-			. ' FROM #__sections AS s'
-			. ' ORDER BY s.ordering'
-			;
-			$db->setQuery( $query );
-			$sections = $db->loadObjectList();
-			$lists['section'] = JHtml::_(
-				'select.genericlist',
-				$sections,
-				'section',
-				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => $row->section)
-			 );
-		} else {
-			if ( $type == 'other' ) {
-				$section_name = JText::_( 'N/A' );
-			} else {
-				$temp =& JTable::getInstance('section');
-				$temp->load( $row->section );
-				$section_name = $temp->name;
-			}
-			if(!$section_name) $section_name = JText::_( 'N/A' );
-			$row->section = $section;
-			$lists['section'] = '<input type="hidden" name="section" value="'. $row->section .'" />'. $section_name;
-		}
-
 		// build the html select list for ordering
-		$query = 'SELECT ordering AS value, title AS text'
+		$query = 'SELECT lft AS value, title AS text'
 		. ' FROM #__categories'
-		. ' WHERE section = '.$db->Quote($row->section)
-		. ' ORDER BY ordering'
+		. ' WHERE extension = '.$db->Quote($row->extension)
+		. ' ORDER BY lft'
 		;
 		if($edit)
 			$lists['ordering'] = JHtml::_('list.specificordering',  $row, $cid[0], $query );
 		else
 			$lists['ordering'] = JHtml::_('list.specificordering',  $row, '', $query );
 
-		// build the select list for the image positions
-		$active =  ( $row->image_position ? $row->image_position : 'left' );
-		$lists['image_position'] = JHtml::_('list.positions',  'image_position', $active, NULL, 0, 0 );
-		// Imagelist
-		$lists['image'] = JHtml::_('list.images',  'image', $row->image );
 		// build the html select list for the group access
 		$lists['access'] = JHtml::_('list.accesslevel',  $row );
 		// build the html radio buttons for published
 		$published = ($row->id) ? $row->published : 1;
 		$lists['published'] = JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $published );
-
-		$this->assignRef('redirect',	$redirect);
+		jimport('joomla.html.parameters');
+		$params = new JParameter($row->params, JPATH_ADMINISTRATOR.DS.'components'.DS.$extension.DS.'category.xml');
+		
+		$this->assignRef('extension',	$extension);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('row',			$row);
+		$this->assignRef('params',			$params);
 
 		parent::display($tpl);
 	}

@@ -26,19 +26,19 @@ abstract class ContentHelperRoute
 	/**
 	 * @param	int	The route of the content item
 	 */
-	public static function getArticleRoute($id, $catid = 0, $sectionid = 0)
+	public static function getArticleRoute($id, $catids = 0)
 	{
 		$needles = array(
 			'article'  => (int) $id,
-			'category' => (int) $catid,
-			'section'  => (int) $sectionid,
+			'category' => $catids
 		);
 
 		//Create the link
 		$link = 'index.php?option=com_content&view=article&id='. $id;
 
-		if($catid) {
-			$link .= '&catid='.$catid;
+		if(is_array($catids)) {
+			$path = '&path='.implode('/', $catids);
+			$link .= '&catid='.array_pop($catids).$path;
 		}
 
 		if($item = ContentHelperRoute::_findItem($needles)) {
@@ -48,34 +48,14 @@ abstract class ContentHelperRoute
 		return $link;
 	}
 
-	public static function getSectionRoute($sectionid)
+	public static function getCategoryRoute($catids)
 	{
 		$needles = array(
-			'section' => (int) $sectionid
+			'category' => $catids
 		);
-
+		
 		//Create the link
-		$link = 'index.php?option=com_content&view=section&id='.$sectionid;
-
-		if($item = ContentHelperRoute::_findItem($needles)) {
-			if(isset($item->query['layout'])) {
-				$link .= '&layout='.$item->query['layout'];
-			}
-			$link .= '&Itemid='.$item->id;
-		};
-
-		return $link;
-	}
-
-	public static function getCategoryRoute($catid, $sectionid)
-	{
-		$needles = array(
-			'category' => (int) $catid,
-			'section'  => (int) $sectionid
-		);
-
-		//Create the link
-		$link = 'index.php?option=com_content&view=category&id='.$catid;
+		$link = 'index.php?option=com_content&view=category&id='.array_pop($catids).'&path='.implode('/', $catids);
 
 		if($item = ContentHelperRoute::_findItem($needles)) {
 			if(isset($item->query['layout'])) {
@@ -98,11 +78,26 @@ abstract class ContentHelperRoute
 
 		foreach($needles as $needle => $id)
 		{
-			foreach($items as $item)
+			if(is_array($id))
 			{
-				if ((@$item->query['view'] == $needle) && (@$item->query['id'] == $id)) {
-					$match = $item;
-					break;
+				foreach($id as $tempid)
+				{				
+					foreach($items as $item)
+					{
+						if ((@$item->query['view'] == $needle) && (@$item->query['id'] == $tempid)) {
+							$match = $item;
+							break;
+						}
+					}
+					
+				}
+			} else {
+				foreach($items as $item)
+				{
+					if ((@$item->query['view'] == $needle) && (@$item->query['id'] == $id)) {
+						$match = $item;
+						break;
+					}
 				}
 			}
 
