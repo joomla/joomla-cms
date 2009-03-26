@@ -138,7 +138,7 @@ class ContentViewArticle extends ContentView
 		$categorytree = JCategoryTree::getInstance('com_content');
 		$pathwaycat = $categorytree->get($article->catid);
 		$path = array();
-		if(is_object($menu) && $menu->query['view'] != 'article' && $menu->query['id'] != $category->id)
+		if(is_object($menu) && $menu->query['view'] != 'article' && $menu->query['id'] != $pathwaycat->id)
 		{
 			while($pathwaycat->id != $menu->query['id'])
 			{
