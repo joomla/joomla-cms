@@ -70,15 +70,15 @@ class JCategoryTree
 		{
 			$this->_load($id);
 		}
-		if(is_a($this->_nodes[$id], 'JCategoryNode'))
+		if($this->_nodes[$id] instanceof JCategoryNode)
 		{
 			return $this->_nodes[$id];
 		} else {
-			return false;
+			throw new JException('Unable to load category: '.$id, 0000, E_ERROR, $info, true);
 		}
 	}
 	
-	private function _load($id)
+	protected function _load($id)
 	{
 		$db	=& JFactory::getDBO();
 		$user =& JFactory::getUser();

@@ -102,11 +102,6 @@ class NewsfeedsModelCategory extends JModel
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 
 			$total = count($this->_data);
-			for($i = 0; $i < $total; $i++)
-			{
-				$item =& $this->_data[$i];
-				$item->slug = $item->id.'-'.$item->alias;
-			}
 		}
 
 		return $this->_data;
@@ -123,8 +118,7 @@ class NewsfeedsModelCategory extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
+			$this->getCategory();
 		}
 
 		return $this->_total;
@@ -156,8 +150,11 @@ class NewsfeedsModelCategory extends JModel
 	function getCategory()
 	{
 		// Load the Category data
-		if ($this->_loadCategories())
+		if (empty($this->_category))
 		{
+			jimport('joomla.application.categorytree');
+			$categoryTree = JCategoryTree::getInstance('com_newsfeeds');
+			$this->_category = $categoryTree->get($this->_id);
 			// Initialize some variables
 			$user = &JFactory::getUser();
 
@@ -171,71 +168,16 @@ class NewsfeedsModelCategory extends JModel
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
+			$this->_total = $this->_category->numitems;
 		}
 		return $this->_category;
 	}
 	
-	function getCategories()
-	{
-		// Load the Category data
-		if (!$this->_loadCategories())
-		{
-			return false;
-		}
-		$rgt = 0;
-		$return = array();
-		foreach($this->_categories as $category)
-		{
-			if($category->lft > $rgt && $category->id != $this->_id)
-			{
-				$return[] = $category;
-				$rgt = $category->rgt;
-			}
-		}
-		return $return;
-	}
-
-	/**
-	 * Method to load category data if it doesn't exist.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	function _loadCategories()
-	{
-		if(empty($this->_categories))
-		{
-			$query = 'SELECT a.*, count(b.id) AS numlinks,'
-				.' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug'
-				.' FROM #__categories AS a'
-				.' JOIN #__categories AS b ON a.lft >= b.lft AND a.rgt <= b.rgt'
-				.' LEFT JOIN #__newsfeeds AS c ON a.id = c.catid'
-				.' WHERE b.id = '.JRequest::getInt('id')
-				.' AND a.extension = \'com_newsfeeds\''
-				.' AND a.published = 1'
-				.' AND (c.published = 1 OR c.published IS NULL)'
-				.' AND a.access <= 0'
-				.' GROUP BY a.id'
-				.' ORDER BY a.lft';
-			$this->_db->setQuery($query);
-			$this->_categories = $this->_db->loadObjectList();
-			foreach($this->_categories as $category)
-			{
-				if($category->id == $this->_id)
-				{
-					$this->_category = $category;
-					break;
-				}
-			}
-			return true;
-		}
-		return true;
-	}
-
 	function _buildQuery()
 	{
 		// We need to get a list of all weblinks in the given category
-		$query = 'SELECT *' .
+		$query = 'SELECT *,' .
+			' CASE WHEN CHAR_LENGTH(alias) THEN CONCAT_WS(":", id, alias) ELSE id END as slug'.
 			' FROM #__newsfeeds' .
 			' WHERE catid = '.(int) $this->_id.
 			' AND published = 1' .

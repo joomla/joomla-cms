@@ -35,7 +35,7 @@ abstract class ContentHelperRoute
 			$category = $categoryTree->get($catid);
 			$catids = array();
 			$catids[] = $category->id;
-			while(is_a($category->getParent(), 'JCategoryNode'))
+			while($category->getParent() instanceof JCategoryNode)
 			{
 				$category = $category->getParent();
 				$catids[] = $category->id;
@@ -69,7 +69,7 @@ abstract class ContentHelperRoute
 		$category = $categoryTree->get($catid);
 		$catids = array();
 		$catids[] = $category->id;
-		while(is_a($category->getParent(), 'JCategoryNode'))
+		while($category->getParent() instanceof JCategoryNode)
 		{
 			$category = $category->getParent();
 			$catids[] = $category->id;
