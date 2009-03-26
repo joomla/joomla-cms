@@ -110,13 +110,6 @@ class WeblinksModelCategory extends JModel
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-
-			$total = count($this->_data);
-			for($i = 0; $i < $total; $i++)
-			{
-				$item =& $this->_data[$i];
-				$item->slug = $item->id.':'.$item->alias;
-			}
 		}
 
 		return $this->_data;
@@ -133,8 +126,7 @@ class WeblinksModelCategory extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
+			$this->getCategory();
 		}
 
 		return $this->_total;
@@ -166,8 +158,11 @@ class WeblinksModelCategory extends JModel
 	function getCategory()
 	{
 		// Load the Category data
-		if ($this->_loadCategory())
+		if (empty($this->_category))
 		{
+			jimport('joomla.application.categorytree');
+			$categoryTree = JCategoryTree::getInstacen('com_weblinks');
+			$this->_category = $categoryTree->get($this->_id);
 			// Initialize some variables
 			$user = &JFactory::getUser();
 
@@ -181,30 +176,9 @@ class WeblinksModelCategory extends JModel
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
+			$this->_total = $this->_category->numitems;
 		}
 		return $this->_category;
-	}
-
-	/**
-	 * Method to load category data if it doesn't exist.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	function _loadCategory()
-	{
-		if (empty($this->_category))
-		{
-			// current category info
-			$query = 'SELECT c.*, ' .
-				' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as slug '.
-				' FROM #__categories AS c' .
-				' WHERE c.id = '. (int) $this->_id .
-				' AND c.section = "com_weblinks"';
-			$this->_db->setQuery($query, 0, 1);
-			$this->_category = $this->_db->loadObject();
-		}
-		return true;
 	}
 
 	function _buildQuery()
@@ -217,6 +191,7 @@ class WeblinksModelCategory extends JModel
 
 		// We need to get a list of all weblinks in the given category
 		$query = 'SELECT *' .
+			' CASE WHEN CHAR_LENGTH(alias) THEN CONCAT_WS(":", id, alias) ELSE id END as slug'.
 			' FROM #__weblinks' .
 			' WHERE catid = '. (int) $this->_id.
 			' AND state = 1' .

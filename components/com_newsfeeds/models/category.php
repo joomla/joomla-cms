@@ -100,8 +100,6 @@ class NewsfeedsModelCategory extends JModel
 			$query = $this->_buildQuery();
 
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-
-			$total = count($this->_data);
 		}
 
 		return $this->_data;
