@@ -5,23 +5,14 @@
 * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
 * @license		GNU General Public License, see LICENSE.php
 */
-
+jimport('joomla.application.categorytree');
 function NewsfeedsBuildRoute(&$query)
 {
 	static $items;
 
 	$segments	= array();
-	$itemid		= null;
-
-	// Break up the newsfeed id into numeric and alias values.
-	if (isset($query['id']) && strpos($query['id'], ':')) {
-		list($query['id'], $query['alias']) = explode(':', $query['id'], 2);
-	}
-
-	// Break up the category id into numeric and alias values.
-	if (isset($query['catid']) && strpos($query['catid'], ':')) {
-		list($query['catid'], $query['catalias']) = explode(':', $query['catid'], 2);
-	}
+	$itemid		= 0;
+	$menuitem	= 0;
 
 	// Get the menu items for this component.
 	if (!$items) {
@@ -30,136 +21,79 @@ function NewsfeedsBuildRoute(&$query)
 		$items		= $menu->getItems('componentid', $component->id);
 	}
 
-	// Search for an appropriate menu item.
-	if (is_array($items))
+	if(isset($query['view']))
 	{
-		// If only the option and itemid are specified in the query, return that item.
-		if (!isset($query['view']) && !isset($query['id']) && !isset($query['catid']) && isset($query['Itemid'])) {
-			$itemid = (int) $query['Itemid'];
-		}
-
-		// Search for a specific link based on the critera given.
-		if (!$itemid) {
-			foreach ($items as $item)
-			{
-				// Check if this menu item links to this view.
-				if (isset($item->query['view']) && $item->query['view'] == 'newsfeed'
-					&& isset($query['view']) && $query['view'] != 'category'
-					&& isset($item->query['id']) && isset($query['id']) && $item->query['id'] == $query['id'])
-				{
-					$itemid	= $item->id;
-				}
-				elseif (isset($item->query['view']) && $item->query['view'] == 'category'
-						&& isset($query['view']) && $query['view'] != 'newsfeed'
-						&& isset($item->query['catid']) && $item->query['catid'] == $query['catid'])
-				{
-					$itemid	= $item->id;
-				}
-			}
-		}
-
-		// If no specific link has been found, search for a general one.
-		if (!$itemid) {
-			foreach ($items as $item)
-			{
-				//var_dump($item->query);
-				if (isset($query['view']) && $query['view'] == 'newsfeed'
-					&& isset($item->query['view']) && $item->query['view'] == 'category'
-					&& isset($item->query['id']) && isset($query['catid'])
-					&& $query['catid'] == $item->query['id'])
-				{
-					// This menu item links to the newsfeed view but we need to append the newsfeed id to it.
-					$itemid		= $item->id;
-					$segments[]	= isset($query['catalias']) ? $query['catid'].':'.$query['catalias'] : $query['catid'];
-					$segments[]	= isset($query['alias']) ? $query['id'].':'.$query['alias'] : $query['id'];
-					break;
-				}
-				elseif (isset($query['view']) && $query['view'] == 'category'
-					&& isset($item->query['view']) && $item->query['view'] == 'category'
-					&& isset($item->query['id']) && isset($query['id']) && $item->query['id'] != $query['id'])
-				{
-					// This menu item links to the category view but we need to append the category id to it.
-					$itemid		= $item->id;
-					$segments[]	= isset($query['alias']) ? $query['id'].':'.$query['alias'] : $query['id'];
-					break;
-				}
-
-			}
-		}
-
-		// Search for an even more general link.
-		if (!$itemid)
+		if($query['view'] == 'category')
 		{
-			foreach ($items as $item)
+			$catid = (int) $query['id'];
+		} elseif ($query['view'] == 'newsfeed') {
+			$catid = (int) $query['catid'];
+		}
+		$view = $query['view'];
+	}
+	
+	if(isset($catid) && $catid > 0)
+	{
+		$categoryTree = JCategoryTree::getInstance('com_newsfeeds');
+		$category = $categoryTree->get($catid);
+	}
+	
+	if(isset($category) && count($items))
+	{
+		$path = array();
+		while($category instanceof JCategoryNode)
+		{
+			foreach($items as $item)
 			{
-				if (isset($query['view']) && $query['view'] == 'newsfeed' && isset($item->query['view'])
-					&& $item->query['view'] == 'categories' && isset($query['catid']) && isset($query['id']))
+				if($item->query['view'] == 'newsfeed'
+					&& $view == 'newsfeed'
+					&& (int)$item->query['id'] == (int)$query['id'])
 				{
-					// This menu item links to the categories view but we need to append the category and newsfeed id to it.
-					$itemid		= $item->id;
-					$segments[]	= isset($query['catalias']) ? $query['catid'].':'.$query['catalias'] : $query['catid'];
-					$segments[]	= isset($query['alias']) ? $query['id'].':'.$query['alias'] : $query['id'];
-					break;
-				}
-				elseif (isset($query['view']) && $query['view'] == 'category' && isset($item->query['view'])
-					&& $item->query['view'] == 'categories' && !isset($query['catid']))
-				{
-					// This menu item links to the categories view but we need to append the category id to it.
-					$itemid		= $item->id;
-					$segments[]	= isset($query['alias']) ? $query['id'].':'.$query['alias'] : $query['id'];
+					$itemid = $item->id;
+					$menuitem = 1;
 					break;
 				}
 			}
+			foreach($items as $item)
+			{
+				if($item->query['view'] == 'category' 
+					&& (int)$item->query['id'] == (int)$category->id)
+				{
+					$itemid = $item->id;
+					break;
+				}
+			}
+			if($itemid > 0)
+			{
+				break;
+			} else {
+				$path[] = $category->slug;
+				$category = $category->getParent();
+			}
 		}
+		if($itemid > 0)
+		{
+			$query['Itemid'] = $itemid;
+		}
+		$path = array_reverse($path);
+		$segments = array_merge($segments, $path);
 	}
 
-	// Check if the router found an appropriate itemid.
-	if (!$itemid)
+	if(isset($view) && $view == 'newsfeed' && $itemid > 0)
 	{
-		// Check if a id was specified.
-		if (isset($query['id']))
-		{
-			if (isset($query['alias'])) {
-				$query['id'] .= ':'.$query['alias'];
-			}
-
-			// Push the id onto the stack.
-			$segments[] = $query['id'];
-			unset($query['view']);
-			unset($query['id']);
-			unset($query['alias']);
-		}
-		elseif (isset($query['catid']))
-		{
-			if (isset($query['alias'])) {
-				$query['catid'] .= ':'.$query['catalias'];
-			}
-
-			// Push the catid onto the stack.
-			$segments[]	= 'category';
-			$segments[] = $query['catid'];
-			unset($query['view']);
-			unset($query['catid']);
-			unset($query['catalias']);
-			unset($query['alias']);
-		}
-		else
-		{
-			// Categories view.
-			unset($query['view']);
-		}
+		if(!$menuitem)
+		$segments[] = $query['id'];
 	}
-	else
+
+	if($itemid == 0 && isset($query['id']))
 	{
-		$query['Itemid'] = $itemid;
-
-		// Remove the unnecessary URL segments.
-		unset($query['view']);
-		unset($query['id']);
-		unset($query['alias']);
-		unset($query['catid']);
-		unset($query['catalias']);
+		$segments[] = $query['id'];
 	}
+	
+	// Remove the unnecessary URL segments.
+	unset($query['view']);
+	unset($query['id']);
+	unset($query['catid']);
 
 	return $segments;
 }
@@ -175,38 +109,32 @@ function NewsfeedsParseRoute($segments)
 	// Check if we have a valid menu item.
 	if (is_object($item))
 	{
-		// Proceed through the possible variations trying to match the most specific one.
-		if (isset($item->query['view']) && $item->query['view'] == 'newsfeed' && isset($segments[0]))
+		if($item->query['view'] == 'category')
 		{
-			// Contact view.
-			$vars['view']	= 'newsfeed';
-			$vars['id']		= $segments[0];
-		}
-		elseif (isset($item->query['view']) && $item->query['view'] == 'category' && count($segments) == 2)
-		{
-			// Newsfeed view.
-			$vars['view']	= 'newsfeed';
-			$vars['id']		= $segments[1];
-			$vars['catid']	= $segments[0];
-		}
-		elseif (isset($item->query['view']) && $item->query['view'] == 'category' && isset($segments[0]))
-		{
-			// Category view.
-			$vars['view']	= 'category';
-			$vars['id']		= $segments[0];
-		}
-		elseif (isset($item->query['view']) && $item->query['view'] == 'categories' && count($segments) == 2)
-		{
-			// Newsfeed view.
-			$vars['view']	= 'newsfeed';
-			$vars['id']		= $segments[1];
-			$vars['catid']	= $segments[0];
-		}
-		elseif (isset($item->query['view']) && $item->query['view'] == 'categories' && isset($segments[0]))
-		{
-			// Category view.
-			$vars['view']	= 'category';
-			$vars['id']		= $segments[0];
+			$categorytree = JCategoryTree::getInstance('com_newsfeeds');
+			$category = $categorytree->get($item->query['id']);
+			foreach($segments as $segment)
+			{
+				$found = 0;
+				foreach($category->getChildren() as $child)
+				{
+					if($segment == $child->slug)
+					{
+						$found = 1;
+						$category = $child;
+						break;
+					}
+				}
+				if($found == 0)
+				{
+					$vars['id'] = $segment;
+					$vars['catid'] = $category->slug;
+					$vars['view'] = 'newsfeed';
+				} else {
+					$vars['id'] = $category->slug;
+					$vars['view'] = 'category';
+				}
+			}
 		}
 	}
 	else

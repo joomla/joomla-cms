@@ -41,21 +41,22 @@ INSERT INTO `#__categories` VALUES
 (12, 22, 23, 12, 9, 'com_content', 'en_GB', 'The Community', 'the-community', 'About the millions of Joomla! users and Web sites<br />', 1, 0, '0000-00-00 00:00:00', 0, ''),
 (13, 1, 2, 13, 0, 'com_weblinks', 'en_GB', 'Joomla! Specific Links', 'joomla-specific-links', 'A selection of links that are all related to the Joomla! Project.', 1, 0, '0000-00-00 00:00:00', 0, ''),
 (14, 3, 4, 14, 0, 'com_weblinks', 'en_GB', 'Other Resources', 'other-resources', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
-(15, 1, 2, 15, 0, 'com_newsfeeds', 'en_GB', 'Joomla!', 'joomla', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
-(16, 3, 4, 16, 0, 'com_newsfeeds', 'en_GB', 'Business: General', 'business-general', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
-(17, 5, 6, 17, 0, 'com_newsfeeds', 'en_GB', 'Linux', 'linux', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
-(18, 7, 8, 18, 0, 'com_newsfeeds', 'en_GB', 'Internet', 'internet', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
-(19, 1, 2, 19, 0, 'com_contact', 'en_GB', 'Contacts', 'contacts', 'Contact Details for this Web site', 1, 0, '0000-00-00 00:00:00', 0, ''),
-(20, 1, 2, 20, 0, 'com_banner', 'en_GB', 'Joomla', 'joomla', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
-(21, 3, 4, 21, 0, 'com_banner', 'en_GB', 'Text Ads', 'text-ads', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
-(22, 5, 6, 22, 0, 'com_banner', 'en_GB', 'Joomla! Promo', 'joomla-promo', '', 1, 0, '0000-00-00 00:00:00', 0, '');
+(15, 1, 10, 16, 0, 'com_newsfeeds', 'en_GB', 'Root', 'root', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
+(16, 2, 3, 16, 1, 'com_newsfeeds', 'en_GB', 'Joomla!', 'joomla', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
+(17, 4, 5, 17, 1, 'com_newsfeeds', 'en_GB', 'Business: General', 'business-general', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
+(18, 6, 7, 18, 1, 'com_newsfeeds', 'en_GB', 'Linux', 'linux', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
+(19, 8, 9, 19, 1, 'com_newsfeeds', 'en_GB', 'Internet', 'internet', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
+(20, 1, 2, 20, 0, 'com_contact', 'en_GB', 'Contacts', 'contacts', 'Contact Details for this Web site', 1, 0, '0000-00-00 00:00:00', 0, ''),
+(21, 1, 2, 21, 0, 'com_banner', 'en_GB', 'Joomla', 'joomla', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
+(22, 3, 4, 22, 0, 'com_banner', 'en_GB', 'Text Ads', 'text-ads', '', 1, 0, '0000-00-00 00:00:00', 0, ''),
+(23, 5, 6, 23, 0, 'com_banner', 'en_GB', 'Joomla! Promo', 'joomla-promo', '', 1, 0, '0000-00-00 00:00:00', 0, '');
 
 --
 -- Dumping data for table `#__contact_details`
 --
 
 INSERT INTO `#__contact_details` VALUES
-(1, 'Name', 'name', 'Position', 'Street', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', 'Miscellanous info', 'powered_by.png', 'top', 'email@email.com', 1, 1, 0, '0000-00-00 00:00:00', 1, 'show_name=1\r\nshow_position=1\r\nshow_email=0\r\nshow_street_address=1\r\nshow_suburb=1\r\nshow_state=1\r\nshow_postcode=1\r\nshow_country=1\r\nshow_telephone=1\r\nshow_mobile=1\r\nshow_fax=1\r\nshow_webpage=1\r\nshow_misc=1\r\nshow_image=1\r\nallow_vcard=0\r\ncontact_icons=0\r\nicon_address=\r\nicon_email=\r\nicon_telephone=\r\nicon_fax=\r\nicon_misc=\r\nshow_email_form=1\r\nemail_description=1\r\nshow_email_copy=1\r\nbanned_email=\r\nbanned_subject=\r\nbanned_text=', 0, 12, 0, '', '');
+(1, 'Name', 'name', 'Position', 'Street', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', 'Miscellanous info', 'powered_by.png', 'top', 'email@email.com', 1, 1, 0, '0000-00-00 00:00:00', 1, 'show_name=1\r\nshow_position=1\r\nshow_email=0\r\nshow_street_address=1\r\nshow_suburb=1\r\nshow_state=1\r\nshow_postcode=1\r\nshow_country=1\r\nshow_telephone=1\r\nshow_mobile=1\r\nshow_fax=1\r\nshow_webpage=1\r\nshow_misc=1\r\nshow_image=1\r\nallow_vcard=0\r\ncontact_icons=0\r\nicon_address=\r\nicon_email=\r\nicon_telephone=\r\nicon_fax=\r\nicon_misc=\r\nshow_email_form=1\r\nemail_description=1\r\nshow_email_copy=1\r\nbanned_email=\r\nbanned_subject=\r\nbanned_text=', 0, 20, 0, '', '');
 
 --
 -- Dumping data for table `#__content`
@@ -111,7 +112,7 @@ INSERT INTO `#__content` (`id`, `title`, `alias`, `title_alias`, `introtext`, `f
 
 -- Quick hack to fix the access levels
 
-UPDATE `#__content` SET access = access + 1;
+UPDATE `#__categories` SET access = access + 1;
 
 --
 -- Dumping data for table `#__content_frontpage`
@@ -155,7 +156,7 @@ INSERT INTO `#__menu` VALUES
 (46, 'ExamplePages', 'Category Blog', 'categoryblog', 'index.php?option=com_content&view=category&layout=blog&id=7', 'component', 1, 0, 20, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'show_page_title=1\npage_title=Example of Category Blog layout (FAQs/General category)\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n', 0, 0, 0),
 (47, 'ExamplePages', 'Category Table', 'category-table', 'index.php?option=com_content&view=category&id=8', 'component', 1, 0, 20, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'show_page_title=1\npage_title=Example of Category Table layout (FAQs/Languages category)\nshow_headings=1\nshow_date=0\ndate_format=\nfilter=1\nfilter_type=title\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_sec=\nshow_pagination=1\nshow_pagination_limit=1\nshow_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n', 0, 0, 0),
 (48, 'mainmenu', 'Web Links', 'web-links', 'index.php?option=com_weblinks&view=categories', 'component', 1, 0, 4, 0, 8, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'page_title=Weblinks\nimage=-1\nimage_align=right\npageclass_sfx=\nmenu_image=-1\nsecure=0\nshow_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', 0, 0, 0),
-(49, 'mainmenu', 'News Feeds', 'news-feeds', 'index.php?option=com_newsfeeds&view=categories', 'component', 1, 0, 11, 0, 9, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'show_page_title=1\npage_title=Newsfeeds\nshow_comp_description=1\ncomp_description=\nimage=-1\nimage_align=right\npageclass_sfx=\nmenu_image=-1\nsecure=0\nshow_headings=1\nshow_name=1\nshow_articles=1\nshow_link=1\nshow_other_cats=1\nshow_cat_description=1\nshow_cat_items=1\nshow_feed_image=1\nshow_feed_description=1\nshow_item_description=1\nfeed_word_count=0\n\n', 0, 0, 0),
+(49, 'mainmenu', 'News Feeds', 'news-feeds', 'index.php?option=com_newsfeeds&view=category&id=15', 'component', 1, 0, 11, 0, 9, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'show_page_title=1\npage_title=Newsfeeds\nshow_comp_description=1\ncomp_description=\nimage=-1\nimage_align=right\npageclass_sfx=\nmenu_image=-1\nsecure=0\nshow_headings=1\nshow_name=1\nshow_articles=1\nshow_link=1\nshow_other_cats=1\nshow_cat_description=1\nshow_cat_items=1\nshow_feed_image=1\nshow_feed_description=1\nshow_item_description=1\nfeed_word_count=0\n\n', 0, 0, 0),
 (50, 'mainmenu', 'The News', 'the-news', 'index.php?option=com_content&view=category&layout=blog&id=1', 'component', 1, 0, 20, 0, 7, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'show_page_title=1\npage_title=The News\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n', 0, 0, 0),
 (51, 'usermenu', 'Submit an Article', 'submit-an-article', 'index.php?option=com_content&view=article&layout=form', 'component', 1, 0, 20, 0, 2, 0, '0000-00-00 00:00:00', 0, 0, 2, 0, '', 0, 0, 0),
 (52, 'usermenu', 'Submit a Web Link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=weblink&layout=form', 'component', 1, 0, 4, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 2, 0, '', 0, 0, 0);
@@ -242,23 +243,14 @@ INSERT INTO `#__modules_menu` VALUES
 --
 
 INSERT INTO `#__newsfeeds` VALUES
-(4, 1, 'Joomla! - Official News', 'joomla-official-news', 'http://feedproxy.google.com/JoomlaAnnouncements', '', 1, 5, 3600, 0, '0000-00-00 00:00:00', 8, 0),
-(4, 2, 'Joomla! - Community News', 'joomla-community-news', 'http://feedproxy.google.com/JoomlaCommunityCoreTeamBlog', '', 1, 5, 3600, 0, '0000-00-00 00:00:00', 9, 0),
-(6, 3, 'Linux Today', 'linux-today', 'http://linuxtoday.com/backend/my-netscape.rdf', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 1, 0),
-(5, 4, 'Business News', 'business-news', 'http://headlines.internet.com/internetnews/bus-news/news.rss', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 2, 0),
-(7, 5, 'Web Developer News', 'web-developer-news', 'http://headlines.internet.com/internetnews/wd-news/news.rss', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 3, 0),
-(6, 6, 'Linux Central:New Products', 'linux-central-news-products', 'http://linuxcentral.com/backend/lcnew.rdf', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 4, 0),
-(6, 7, 'Linux Central:Best Selling', 'linux-central-best-selling', 'http://linuxcentral.com/backend/lcbestns.rdf', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 5, 0),
-(6, 8, 'Linux Central:Daily Specials', 'linux-central-daily-specials', 'http://linuxcentral.com/backend/lcspecialns.rdf', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 6, 0);
-
---
--- Dumping data for table `#__sections`
---
-
-INSERT INTO `#__sections` VALUES
-(1, 'News', '', 'news', 'articles.jpg', 'content', 'right', 'Select a news topic from the list below, then select a news article to read.', 1, 0, '0000-00-00 00:00:00', 3, 0, 2, ''),
-(3, 'FAQs', '', 'faqs', 'key.jpg', 'content', 'left', 'From the list below choose one of our FAQs topics, then select an FAQ to read. If you have a question which is not in this section, please contact us.', 1, 0, '0000-00-00 00:00:00', 5, 0, 23, ''),
-(4, 'About Joomla!', '', 'about-joomla', '', 'content', 'left', '', 1, 0, '0000-00-00 00:00:00', 2, 0, 14, '');
+(15, 1, 'Joomla! - Official News', 'joomla-official-news', 'http://feedproxy.google.com/JoomlaAnnouncements', '', 1, 5, 3600, 0, '0000-00-00 00:00:00', 8, 0),
+(15, 2, 'Joomla! - Community News', 'joomla-community-news', 'http://feedproxy.google.com/JoomlaCommunityCoreTeamBlog', '', 1, 5, 3600, 0, '0000-00-00 00:00:00', 9, 0),
+(17, 3, 'Linux Today', 'linux-today', 'http://linuxtoday.com/backend/my-netscape.rdf', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 1, 0),
+(16, 4, 'Business News', 'business-news', 'http://headlines.internet.com/internetnews/bus-news/news.rss', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 2, 0),
+(18, 5, 'Web Developer News', 'web-developer-news', 'http://headlines.internet.com/internetnews/wd-news/news.rss', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 3, 0),
+(17, 6, 'Linux Central:New Products', 'linux-central-news-products', 'http://linuxcentral.com/backend/lcnew.rdf', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 4, 0),
+(17, 7, 'Linux Central:Best Selling', 'linux-central-best-selling', 'http://linuxcentral.com/backend/lcbestns.rdf', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 5, 0),
+(17, 8, 'Linux Central:Daily Specials', 'linux-central-daily-specials', 'http://linuxcentral.com/backend/lcspecialns.rdf', '', 1, 3, 3600, 0, '0000-00-00 00:00:00', 6, 0);
 
 --
 -- Dumping data for table `#__weblinks`

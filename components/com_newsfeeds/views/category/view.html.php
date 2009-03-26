@@ -58,8 +58,29 @@ class NewsfeedsViewCategory extends JView
 		$document->setTitle( $params->get( 'page_title' ) );
 
 		//set breadcrumbs
-		$pathway->addItem($category->title, '');
-
+		$pathwaycat = $category;
+		$path = array();
+		if(is_object($menu) && $menu->query['id'] != $category->id)
+		{
+			$path[] = array($pathwaycat->title);
+			$pathwaycat = $pathwaycat->getParent();
+			while($pathwaycat->id != $menu->query['id'])
+			{
+				$path[] = array($pathwaycat->title, $pathwaycat->slug);
+				$pathwaycat = $pathwaycat->getParent();	
+			}
+			$path = array_reverse($path);
+			foreach($path as $element)
+			{
+				if(isset($element[1]))
+				{
+					$pathway->addItem($element[0], 'index.php?option=com_content&view=category&id='.$element[1]);
+				} else {
+					$pathway->addItem($element[0], '');
+				}
+			}
+		}
+		
 		// Prepare category description
 		$category->description = JHtml::_('content.prepare', $category->description);
 
@@ -85,16 +106,16 @@ class NewsfeedsViewCategory extends JView
 			$image = JHtml::_('image', 'images/'.$category->image, JText::_('NEWS_FEEDS'), $attribs);
 		}
 		
-		$categories = $this->get('Categories');
-		foreach($categories as &$subcategory)
+		$children = $category->getChildren();
+		foreach($children as &$child)
 		{
-			$subcategory->link = JRoute::_('index.php?option=com_newsfeeds&view=category&id='.$subcategory->slug); 
+			$child->link = JRoute::_('index.php?option=com_newsfeeds&view=category&id='.$child->slug); 
 		}
 		$this->assignRef('image',		$image);
 		$this->assignRef('params',		$params);
 		$this->assignRef('items',		$items);
 		$this->assignRef('category',	$category);
-		$this->assignRef('categories', 	$categories);
+		$this->assignRef('children', 	$children);
 		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);

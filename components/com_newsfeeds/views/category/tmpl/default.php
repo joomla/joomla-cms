@@ -18,14 +18,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td>
 	<ul>
-<?php foreach ( $this->categories as $category ) : ?>
+<?php foreach ( $this->children as $category ) : ?>
 	<li>
 		<a href="<?php echo $category->link ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 			<?php echo $category->title;?></a>
 		<?php if ( $this->params->get( 'show_cat_items' ) ) : ?>
 		&nbsp;
 		<span class="small">
-			(<?php echo $category->numlinks;?>)
+			(<?php echo $category->numitems;?>)
 		</span>
 		<?php endif; ?>
 		<?php if ( $this->params->get( 'show_cat_description' ) && $category->description ) : ?>
