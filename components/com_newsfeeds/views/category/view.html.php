@@ -74,7 +74,7 @@ class NewsfeedsViewCategory extends JView
 			{
 				if(isset($element[1]))
 				{
-					$pathway->addItem($element[0], 'index.php?option=com_content&view=category&id='.$element[1]);
+					$pathway->addItem($element[0], 'index.php?option=com_newsfeeds&view=category&id='.$element[1]);
 				} else {
 					$pathway->addItem($element[0], '');
 				}
