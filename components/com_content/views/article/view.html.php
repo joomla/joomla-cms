@@ -134,14 +134,16 @@ class ContentViewArticle extends ContentView
 		/*
 		 * Handle the breadcrumbs
 		 */
-		$pathwaycat = ContentHelperCategory::getCategory($article->catid);
+		jimport('joomla.application.categorytree');
+		$categorytree = JCategoryTree::getInstance('com_content');
+		$pathwaycat = $categorytree->get($article->catid);
 		$path = array();
 		if(is_object($menu) && $menu->query['view'] != 'article' && $menu->query['id'] != $category->id)
 		{
 			while($pathwaycat->id != $menu->query['id'])
 			{
 				$path[] = array($pathwaycat->title, $pathwaycat->slug);
-				$pathwaycat = $pathwaycat->parent;	
+				$pathwaycat = $pathwaycat->getParent();	
 			}
 			$path = array_reverse($path);
 			foreach($path as $element)

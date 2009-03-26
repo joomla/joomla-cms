@@ -6,7 +6,7 @@
 * @license		GNU General Public License, see LICENSE.php
 */
 
-require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'category.php');
+jimport('joomla.application.categorytree');
 
 function ContentBuildRoute(&$query)
 {
@@ -28,14 +28,6 @@ function ContentBuildRoute(&$query)
 		$mCatid	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 	}
 	$mId	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
-	
-	if($query['view'] == 'category')
-	{
-		$category = ContentHelperCategory::getCategory((int) $query['id']);
-	} elseif ($query['view'] == 'article') {
-		$category = ContentHelperCategory::getCategory((int) $query['catid']);	
-	}
-
 	if(isset($query['view']))
 	{
 		$view = $query['view'];
@@ -43,8 +35,23 @@ function ContentBuildRoute(&$query)
 			$segments[] = $query['view'];
 		}
 		unset($query['view']);
-	};
-
+	}
+	if(isset($view))
+	{
+		if($view == 'category')
+		{
+			$catid = (int) $query['id'];
+		} elseif ($view == 'article') {
+			$catid = (int) $query['catid'];
+		}
+	}
+	
+	if(isset($catid) && $catid > 0)
+	{
+		$categoryTree = JCategoryTree::getInstance('com_content');
+		$category = $categoryTree->get($catid);
+	}
+	
 	// are we dealing with an article that is attached to a menu item?
 	if (($mView == 'article') and (isset($query['id'])) and ($mId == intval($query['id']))) {
 		unset($query['view']);
@@ -52,12 +59,12 @@ function ContentBuildRoute(&$query)
 		unset($query['id']);
 	}
 
-	if (isset($view) && $view == 'category' && $mView == $view && (int) $mCatid != $category->id) {
+	if (isset($category) && isset($view) && $view == 'category' && $mView == $view && (int) $mCatid != $category->id) {
 		$path = array();
 		while((int)$category->id != (int)$mCatid)
 		{
 			$path[] = $category->slug;
-			$category = $category->parent;	
+			$category = $category->getParent();	
 		}
 		$path = array_reverse($path);
 		$segments = array_merge($segments, $path);
@@ -68,17 +75,18 @@ function ContentBuildRoute(&$query)
 		if (empty($query['Itemid'])) {
 			$segments[] = $query['id'];
 		} else {
-			$path = array();
-
-			while((int)$category->id != (int)$mCatid)
+			if(isset($category))
 			{
-				$path[] = $category->slug;
-				$category = $category->parent;	
+				$path = array();
+				while((int)$category->id != (int)$mCatid)
+				{
+					$path[] = $category->slug;
+					$category = $category->getParent();	
+				}
+				$path = array_reverse($path);
+				$segments = array_merge($segments, $path);
 			}
-			$path = array_reverse($path);
-			$segments = array_merge($segments, $path);
 			$segments[] = $query['id'];
-			unset($query['path']);
 			unset($query['catid']);
 		}
 		unset($query['id']);
@@ -127,7 +135,8 @@ function ContentParseRoute($segments)
 
 	if($item->query['view'] == 'category')
 	{
-		$category = ContentHelperCategory::getCategory($item->query['id']);
+		$categoryTree = JCategoryTree::getInstance('com_content');
+		$category = $categoryTree->get((int) $item->query['id']);
 	}
 	// Count route segments
 	$count = count($segments);
@@ -145,7 +154,7 @@ function ContentParseRoute($segments)
 	{
 		case 'category'   :
 		{
-			$categories = $category->children;
+			$categories = $category->getChildren();
 			$found = 0;
 			foreach($segments as $segment)
 			{
@@ -155,7 +164,7 @@ function ContentParseRoute($segments)
 					{
 						$vars['id'] = $segment;
 						$vars['view'] = 'category';
-						$categories = $category->children;
+						$categories = $category->getChildren();
 						$found = 1;
 						break;
 					}

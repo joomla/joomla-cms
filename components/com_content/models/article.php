@@ -488,7 +488,6 @@ class ContentModelArticle extends JModel
 					$where;
 			$this->_db->setQuery($query);
 			$this->_article = $this->_db->loadObject();
-//var_dump($this->_article);echo $this->_db->getQuery();die;
 			if ( ! $this->_article ) {
 				return false;
 			}

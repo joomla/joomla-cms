@@ -125,11 +125,11 @@ class ContentViewCategory extends ContentView
 		if(is_object($menu) && $menu->query['id'] != $category->id)
 		{
 			$path[] = array($pathwaycat->title);
-			$pathwaycat = $pathwaycat->parent;
+			$pathwaycat = $pathwaycat->getParent();
 			while($pathwaycat->id != $menu->query['id'])
 			{
 				$path[] = array($pathwaycat->title, $pathwaycat->slug);
-				$pathwaycat = $pathwaycat->parent;	
+				$pathwaycat = $pathwaycat->getParent();	
 			}
 			$path = array_reverse($path);
 			foreach($path as $element)
@@ -258,7 +258,6 @@ class ContentViewCategory extends ContentView
 			if (in_array($item->access, $user->authorisedLevels()))
 			{
 				//$item->readmore_link = JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
-				var_dump($item);die;
 				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 				$item->readmore_register = false;
 			}

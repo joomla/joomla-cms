@@ -12,6 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // Component Helper
 jimport('joomla.application.component.helper');
+jimport('joomla.application.categorytree');
 
 /**
  * Content Component Route Helper
@@ -28,15 +29,21 @@ abstract class ContentHelperRoute
 	 */
 	public static function getArticleRoute($id, $catid)
 	{
-		$category = ContentHelperCategory::getCategory($catid);
-		$catids = array();
-		$catids[] = $category->id;
-		while(is_object($category->parent))
+		if($catid)
 		{
-			$category = $category->parent;
+			$categoryTree = JCategoryTree::getInstance('com_content');
+			$category = $categoryTree->get($catid);
+			$catids = array();
 			$catids[] = $category->id;
+			while(is_a($category->getParent(), 'JCategoryNode'))
+			{
+				$category = $category->getParent();
+				$catids[] = $category->id;
+			}
+			$catids = array_reverse($catids);
+		} else {
+			$catids = array();
 		}
-		$catids = array_reverse($catids);
 		$needles = array(
 			'article'  => (int) $id,
 			'category' => $catids
@@ -56,22 +63,24 @@ abstract class ContentHelperRoute
 		return $link;
 	}
 
-	public static function getCategoryRoute($category)
+	public static function getCategoryRoute($catid)
 	{
+		$categoryTree = JCategoryTree::getInstance('com_content');
+		$category = $categoryTree->get($catid);
 		$catids = array();
 		$catids[] = $category->id;
-		while(is_object($category->parent))
+		while(is_a($category->getParent(), 'JCategoryNode'))
 		{
-			$category = $category->parent;
+			$category = $category->getParent();
 			$catids[] = $category->id;
 		}
 		$catids = array_reverse($catids);
 		$needles = array(
 			'category' => $catids
 		);
-		
+		$category = $categoryTree->get($catid);
 		//Create the link
-		$link = 'index.php?option=com_content&view=category&id='.array_pop($catids);
+		$link = 'index.php?option=com_content&view=category&id='.$category->slug;
 
 		if($item = ContentHelperRoute::_findItem($needles)) {
 			if(isset($item->query['layout'])) {

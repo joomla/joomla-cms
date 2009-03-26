@@ -30,7 +30,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 	{
 		$path = '';
 		$divider = '';
-		echo '<li><a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($child)).'">'.$child->title.'</a> ('.$child->numitems.')</li>';
+		echo '<li><a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)).'">'.$child->title.'</a> ('.$child->numitems.')</li>';
 	}
 	?>
 	</ul>

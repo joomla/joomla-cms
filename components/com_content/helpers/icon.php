@@ -22,7 +22,7 @@ class JHtmlIcon
 {
 	function create($article, $params, $access, $attribs = array())
 	{
-		$url = 'index.php?task=new&id=0&sectionid='.$article->sectionid;
+		$url = 'index.php?task=new&id=0';
 
 		if ($params->get('show_icons')) {
 			$text = JHtml::_('image.site', 'new.png', '/images/M_images/', NULL, NULL, JText::_('New') );
@@ -97,7 +97,7 @@ class JHtmlIcon
 
 		JHtml::_('behavior.tooltip');
 
-		$url = 'index.php?view=article&id='.$article->slug.'&task=edit';
+		$url = 'index.php?view=article&id='.$article->slug.'&catid='.$article->catslug.'&task=edit';
 		$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
 		$text = JHtml::_('image.site', $icon, '/images/M_images/', NULL, NULL, JText::_('Edit'));
 

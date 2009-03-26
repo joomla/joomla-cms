@@ -106,7 +106,9 @@ class ContentModelCategory extends JModel
 	{
 		if (empty($this->_category))
 		{
-			$this->_category = ContentHelperCategory::getCategory($this->_id);
+			jimport('joomla.application.categorytree');
+			$categoryTree = JCategoryTree::getInstance('com_content');
+			$this->_category =& $categoryTree->get($this->_id);
 		}
 		// Load the Category data
 		if ($this->_loadData($state))
@@ -122,7 +124,7 @@ class ContentModelCategory extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('aid', 0))
+			if (!in_array($this->_category->access, $user->authorisedLevels()))
 			{
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
@@ -164,7 +166,9 @@ class ContentModelCategory extends JModel
 		// Load the Category data
 		if (empty($this->_category))
 		{
-			$this->_category = ContentHelperCategory::getCategory($this->_id);
+			jimport('joomla.application.categorytree');
+			$categoryTree = JCategoryTree::getInstance('com_content');
+			$this->_category =& $categoryTree->get($this->_id);
 		}
 		
 		if (empty($this->_category))
@@ -174,14 +178,14 @@ class ContentModelCategory extends JModel
 		}
 		// Initialize some variables
 		$user = &JFactory::getUser();
-		
+
 		// Make sure the category is published
 		if (!$this->_category->published) {
 			JError::raiseError(404, JText::_("Resource Not Found"));
 			return false;
 		}
 		// check whether category access level allows access
-		if ($this->_category->access > $user->get('aid', 0)) {
+		if (!in_array($this->_category->access, $user->authorisedLevels())) {
 			JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 			return false;
 		}
@@ -231,8 +235,7 @@ class ContentModelCategory extends JModel
 	
 	public function getChildren($recursive = 0)
 	{
-		$category = ContentHelperCategory::getCategory($this->_id);
-		return $category->children;
+		return $this->_category->getChildren();
 	}
 	
 	/**
@@ -330,14 +333,12 @@ class ContentModelCategory extends JModel
 
 			$query = $this->_buildQuery();
 			$Arows = $this->_getList($query, $limitstart, $limit);
-
 			// special handling required as Uncategorized content does not have a section / category id linkage
 			$i = $limitstart;
 			$rows = array();
 			foreach ($Arows as $row)
 			{
 				// check to determine if section or category has proper access rights
-				$row->path = $this->_category_tree[(int)$row->catid]->path;
 				$rows[$i] = $row;
 				$i ++;
 			}
@@ -376,7 +377,6 @@ class ContentModelCategory extends JModel
 			$voting['join'].
 			$where.
 			$orderby;
-
 		return $query;
 	}
 
@@ -438,16 +438,7 @@ class ContentModelCategory extends JModel
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
 
-		if($params->get('loadChildren', 0))
-		{
-			$where = ' WHERE cc.lft BETWEEN '.$this->_category->lft.' AND '.$this->_category->rgt.' AND cc.extension = \'com_content\' ';
-		} else {
-			if ($this->_id)
-			{
-				$where .= ' WHERE cc.id = '.(int) $this->_id.' AND cc.extension = \'com_content\'';
-			}			
-		}
-
+		$where = ' WHERE a.catid = '.$this->_id;
 		// Does the user have access to view the items?
 		if ($noauth) {
 			$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels()).')';
