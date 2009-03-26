@@ -15,6 +15,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
+<?php if( count($this->children)) : ?>
 <tr>
 	<td>
 	<ul>
@@ -37,6 +38,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </ul>
 </td>
 </tr>
+<?php endif; ?>
 <?php if(count($this->items)) : ?>
 <tr>
 	<td width="60%" colspan="2">

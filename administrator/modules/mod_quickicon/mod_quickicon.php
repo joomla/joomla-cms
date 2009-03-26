@@ -29,7 +29,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' ))
 		</div>
 		<?php
 	}
-
+}
 	?>
 	<div id="cpanel">
 		<?php
@@ -41,9 +41,6 @@ if (!defined( '_JOS_QUICKICON_MODULE' ))
 
 		$link = 'index.php?option=com_content&controller=frontpage';
 		quickiconButton( $link, 'icon-48-frontpage.png', JText::_( 'Frontpage Manager' ) );
-
-		$link = 'index.php?option=com_sections&amp;scope=content';
-		quickiconButton( $link, 'icon-48-section.png', JText::_( 'Section Manager' ) );
 
 		$link = 'index.php?option=com_categories&amp;section=com_content';
 		quickiconButton( $link, 'icon-48-category.png', JText::_( 'Category Manager' ) );
@@ -75,5 +72,3 @@ if (!defined( '_JOS_QUICKICON_MODULE' ))
 		}
 		?>
 	</div>
-	<?php
-}
