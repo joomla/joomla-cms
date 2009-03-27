@@ -20,6 +20,7 @@ jimport('joomla.base.tree');
  */
 class JCategoryTree
 {
+	static $instances = array();
 	protected $_nodes = null;
 	
 	protected $_extension = null;
@@ -37,11 +38,9 @@ class JCategoryTree
 	
 	public static function &getInstance($extension, $options = array())
 	{
-		static $instances = array();
-		
-		if(isset($instances[$extension]))
+		if(isset(self::$instances[$extension]))
 		{
-			return $instances[$extension];
+			return self::$instances[$extension];
 		}
 		$classname = ucfirst(substr($extension,4)).'Categories';
 		if(!class_exists($classname))
@@ -54,9 +53,8 @@ class JCategoryTree
 				return false;
 			}
 		}
-		
-		$instances[$extension] = new $classname($options);
-		return $instances[$extension];
+		self::$instances[$extension] = new $classname($options);
+		return self::$instances[$extension];
 	}
 	
 	public function get($id)
