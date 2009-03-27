@@ -195,9 +195,9 @@ class JDocumentHTML extends JDocument
 		}
 
 		$renderer =& $this->loadRenderer($type);
-		$result = $renderer->render($name, $attribs, $result);
+		$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
 		
-		return $result;
+		return $this->_buffer[$type][$name];
 	}
 
 	/**
@@ -413,7 +413,7 @@ class JDocumentHTML extends JDocument
 				$type  = $matches[1][$i];
 
 				$name  = isset($attribs['name']) ? $attribs['name'] : null;
-				$this->_buffer[$type][$name] = $this->getBuffer($type, $name, $attribs);
+				$this->getBuffer($type, $name, $attribs);
 				$this->_template_tags[$matches[0][$i]] = array('type'=>$type, 'name' => $name, 'attribs' => $attribs);
 			}
 		}
