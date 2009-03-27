@@ -149,10 +149,9 @@ class ContentModelFrontpage extends JModel
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
 
-		$query = 'SELECT c.*, g.name AS groupname, cc.title as name, s.title AS sect_name, u.name AS editor, f.ordering AS fpordering, v.name AS author'
+		$query = 'SELECT c.*, g.name AS groupname, cc.title as name, u.name AS editor, f.ordering AS fpordering, v.name AS author'
 			. ' FROM #__content AS c'
 			. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
-			. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope="content"'
 			. ' INNER JOIN #__content_frontpage AS f ON f.content_id = c.id'
 			. ' INNER JOIN #__core_acl_axo_groups AS g ON g.value = c.access'
 			. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
@@ -179,9 +178,6 @@ class ContentModelFrontpage extends JModel
 
 		if ($this->_filter->catid > 0) {
 			$where[] = 'c.catid = '.(int) $this->_filter->catid;
-		}
-		if ($this->_filter->sectionid >= 0) {
-			$where[] = 'c.sectionid = '.(int) $this->_filter->sectionid;
 		}
 		if ($this->_filter->authorid > 0) {
 			$where[] = 'c.created_by = '. (int) $this->_filter->authorid;

@@ -175,19 +175,17 @@ class MenusModelItem extends JModel
 
 	function &getAdvancedParams()
 	{
-		// Get the state parameters
-		$item	= &$this->getItem();
-		$params	= new JParameter($item->params);
-
 		if ($state = &$this->_getStateXML())
 		{
 			if ($state INSTANCEOF JSimpleXMLElement)
 			{
 				$ap = &$state->getElementByPath('advanced');
-				$params->setXML($ap);
+				if($ap) {
+					$ap->addAttribute('group', 'advanced');
+				}
 			}
 		}
-		return $params;
+		return $ap;
 	}
 
 	function &getComponentParams()
@@ -261,11 +259,14 @@ class MenusModelItem extends JModel
 				$xml = &JFactory::getXMLParser('Simple');
 				if ($xml->loadFile($path)) {
 					$document = &$xml->document;
-					$params->setXML($document->getElementByPath('state/params'));
+					$system = $document->getElementByPath('state/params');
+					if($system) {
+						$system->addAttribute('group','state');
+					}
 				}
 			}
 		}
-		return $params;
+		return $system;
 	}
 
 	/**
@@ -565,7 +566,6 @@ class MenusModelItem extends JModel
 		$xml = null;
 		$xmlpath = null;
 		$item 	= &$this->getItem();
-
 		switch ($item->type)
 		{
 			case 'separator':
@@ -579,31 +579,26 @@ class MenusModelItem extends JModel
 				break;
 			case 'component':
 			default:
-				if (isset($item->linkparts['view']))
+				$linkparts = JURI::getInstance($item->link);
+				if ($linkparts->getVar('view', false))
 				{
-					// View is set... so we konw to look in view file
-					if (isset($item->linkparts['layout'])) {
-						$layout = $item->linkparts['layout'];
-					} else {
-						$layout = 'default';
-					}
-					$lpath = JPATH_ROOT.DS.'components'.DS.$item->linkparts['option'].DS.'views'.DS.$item->linkparts['view'].DS.'tmpl'.DS.$layout.'.xml';
-					$vpath = JPATH_ROOT.DS.'components'.DS.$item->linkparts['option'].DS.'views'.DS.$item->linkparts['view'].DS.'metadata.xml';
+					// View is set... so we know to look in view file
+					$lpath = JPATH_ROOT.DS.'components'.DS.$linkparts->getVar('option').DS.'views'.DS.$linkparts->getVar('view').DS.'tmpl'.DS.$linkparts->getVar('layout', 'default').'.xml';
+					$vpath = JPATH_ROOT.DS.'components'.DS.$linkparts->getVar('option').DS.'views'.DS.$linkparts->getVar('view').DS.'metadata.xml';
 					if (file_exists($lpath)) {
 						$xmlpath = $lpath;
 					} elseif (file_exists($vpath)) {
 						$xmlpath = $vpath;
 					}
 				}
-				if (!$xmlpath && isset($item->linkparts['option'])) {
-					$xmlpath = JPATH_ROOT.DS.'components'.DS.$item->linkparts['option'].DS.'metadata.xml';
+				if (!$xmlpath && $linkparts->getVar('option', false)) {
+					$xmlpath = JPATH_ROOT.DS.'components'.DS.$linkparts->getVar('option').DS.'metadata.xml';
 					if(!file_exists($xmlpath)) {
-						$xmlpath = JApplicationHelper::getPath('com_xml', $item->linkparts['option']);
+						$xmlpath = JApplicationHelper::getPath('com_xml', $linkparts->getVar('option'));
 					}
 				}
 				break;
 		}
-
 		if (file_exists($xmlpath))
 		{
 			$xml = &JFactory::getXMLParser('Simple');

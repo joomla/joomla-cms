@@ -63,9 +63,6 @@
 				<?php echo JHtml::_('grid.sort',   'ID', 'c.id', @$this->filter->order_Dir, @$this->filter->order); ?>
 			</th>
 			<th width="10%" class="title">
-				<?php echo JHtml::_('grid.sort',   'Section', 'sect_name', @$this->filter->order_Dir, @$this->filter->order); ?>
-			</th>
-			<th width="10%" class="title">
 				<?php echo JHtml::_('grid.sort',   'Category', 'cc.name', @$this->filter->order_Dir, @$this->filter->order); ?>
 			</th>
 			<th width="10%" class="title">
@@ -198,13 +195,6 @@
 			</td>
 			<td align="center">
 				<?php echo $row->id;?>
-			</td>
-			<td>
-				<?php if ($row->sectionid) : ?>
-				<span class="editlinktip hasTip" title="<?php echo $title_sec; ?>::<?php echo $row->sect_name; ?>">
-					<a href="<?php echo $row->sect_link; ?>">
-						<?php echo $row->sect_name; ?></a></span>
-				<?php endif; ?>
 			</td>
 			<td>
 				<?php if ($row->catid) : ?>
