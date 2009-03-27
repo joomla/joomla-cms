@@ -186,7 +186,7 @@ class JDocumentHTML extends JDocument
 
 		$result = '';
 		if (isset($this->_buffer[$type][$name])) {
-			$result = $this->_buffer[$type][$name];
+			return $this->_buffer[$type][$name];
 		}
 
 		// If the buffer has been explicitly turned off don't display or attempt to render
@@ -413,8 +413,8 @@ class JDocumentHTML extends JDocument
 				$type  = $matches[1][$i];
 
 				$name  = isset($attribs['name']) ? $attribs['name'] : null;
-				$this->getBuffer($type, $name, $attribs);
-				$this->_template_tags[$matches[0][$i]] = array('type'=>$type, 'name' => $name);
+				$this->_buffer[$type][$name] = $this->getBuffer($type, $name, $attribs);
+				$this->_template_tags[$matches[0][$i]] = array('type'=>$type, 'name' => $name, 'attribs' => $attribs);
 			}
 		}
 	}
@@ -429,7 +429,7 @@ class JDocumentHTML extends JDocument
 		$with = array();
 		foreach($this->_template_tags AS $jdoc => $args) {
 			$replace[] = $jdoc;
-			$with[] = $this->getBuffer($args['type'], $args['name']);
+			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
 		return str_replace($replace, $with, $this->_template);
 	}

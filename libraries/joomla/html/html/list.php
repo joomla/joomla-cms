@@ -273,17 +273,13 @@ abstract class JHtmlList
 		$cat_list = $db->loadObjectList();
 		$depth = array();
 		$i = 0;
-		foreach($cat_list as &$category)
+		foreach($cat_list as &$cat)
 		{
-			if(isset($depth[$category->parent_id]))
+			if(isset($depth[$cat->parent_id]))
 			{
-				$category->depth = $depth[$category->parent_id] + 1;
+				$cat->depth = $depth[$cat->parent_id] + 1;
 			}
-			$depth[$category->id] = $category->depth;
-			if($cat_list[$i-1]->lft + 1 == $category->lft && $i)
-			{
-				unset($category);
-			}
+			$depth[$cat->id] = $cat->depth;
 		}
 		$categories = array();
 		
@@ -297,13 +293,9 @@ abstract class JHtmlList
 			$categories[] = JHtml::_('select.option', 0, JText::_('Uncategorized'), 'id', 'title');
 			$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');
 		}
-		
 		foreach ($cat_list as $category)
 		{
-			if(is_object($category))
-			{
-				$categories[] = JHtml::_('select.option', $category->id, str_repeat('-', $category->depth).$category->title, 'id', 'title');
-			}
+			$categories[] = JHtml::_('select.option', $category->id, str_repeat('-', $category->depth).$category->title, 'id', 'title');
 		}
 		$category = JHtml::_('select.genericlist',  $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'id', 'title', $active);
 
