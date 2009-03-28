@@ -22,7 +22,7 @@
 				<?php echo JText::_('Filter'); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $this->filter->search;?>" class="text_area" onchange="document.adminForm.submit();" title="<?php echo JText::_('Filter by title or enter article ID');?>"/>
 				<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_sectionid').value='-1';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_authorid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
+				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_authorid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 			</td>
 			<td nowrap="nowrap">
 				<?php
@@ -53,7 +53,7 @@
 				<?php echo JHtml::_('grid.sort',   'Front Page', 'frontpage', @$this->filter->order_Dir, @$this->filter->order); ?>
 			</th>
 			<th width="12%">
-				<?php echo JHtml::_('grid.sort',   'Order', 'section_name', @$this->filter->order_Dir, @$this->filter->order); ?>
+				<?php echo JHtml::_('grid.sort',   'Order', 'cc.name', @$this->filter->order_Dir, @$this->filter->order); ?>
 				<?php echo JHtml::_('grid.order',  $this->rows); ?>
 			</th>
 			<th width="7%">
@@ -90,9 +90,8 @@
 	{
 		$row = &$this->rows[$i];
 
-		$link 	= 'index.php?option=com_content&sectionid='. $this->redirect .'&task=edit&cid[]='. $row->id;
+		$link 	= 'index.php?option=com_content&task=edit&cid[]='. $row->id;
 
-		$row->sect_link = JRoute::_('index.php?option=com_sections&task=edit&cid[]='. $row->sectionid);
 		$row->cat_link 	= JRoute::_('index.php?option=com_categories&task=edit&cid[]='. $row->catid);
 
 		$publish_up = new JDate($row->publish_up);

@@ -116,7 +116,6 @@ class ContentController extends JController
 		// Initialize variables
 		$post		= JRequest::get('post');
 		$task		= $this->getTask();
-		$sectionid	= JRequest::getVar('sectionid', 0, '', 'int');
 		$redirect	= JRequest::getVar('redirect', $sectionid, 'post', 'int');
 		$menu		= JRequest::getVar('menu', 'mainmenu', 'post', 'cmd');
 		$menuid		= JRequest::getVar('menuid', 0, 'post', 'int');
@@ -139,7 +138,7 @@ class ContentController extends JController
 			case 'resethits' :
 				$model->resetHits();
 				$msg = JText::_('Successfully Reset Hit count');
-				$this->setRedirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&cid[]='.$article->id, $msg);
+				$this->setRedirect('index.php?option=com_content&task=edit&cid[]='.$article->id, $msg);
 				break;
 
 			case 'apply' :
@@ -147,7 +146,7 @@ class ContentController extends JController
 					$msg = JText::sprintf('SUCCESSFULLY SAVED CHANGES TO ARTICLE', $article->title);
 				else
 					$msg = JText::_('Error Saving Article');
-				$this->setRedirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&cid[]='.$article->id, $msg);
+				$this->setRedirect('index.php?option=com_content&task=edit&cid[]='.$article->id, $msg);
 				break;
 
 			case 'save' :
@@ -156,7 +155,7 @@ class ContentController extends JController
 					$msg = JText::sprintf('Successfully Saved Article', $article->title);
 				else
 					$msg = JText::_('Error Saving Article');
-				$this->setRedirect('index.php?option=com_content&sectionid='.$redirect, $msg);
+				$this->setRedirect('index.php?option=com_content', $msg);
 				break;
 		}
 	}
@@ -215,7 +214,7 @@ class ContentController extends JController
 			$redirect	= JRequest::getVar('redirect', '', 'post', 'int');
 			$action		= ($state == 1) ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
 			$msg		= JText::_('Select an item to') . ' ' . JText::_($action);
-			$this->setRedirect('index.php?option='.$option.$rtask.'&sectionid='.$redirect, $msg, 'error');
+			$this->setRedirect('index.php?option='.$option.$rtask, $msg, 'error');
 			return;
 		}
 
@@ -245,12 +244,9 @@ class ContentController extends JController
 		}
 
 		$cache = & JFactory::getCache('com_content');
-		$cache->clean();
+		$cache->clean();	
 
-		// Get some return/redirect information from the request
-		$redirect	= JRequest::getVar('redirect', $row->sectionid, 'post', 'int');
-
-		$this->setRedirect('index.php?option='.$option.$rtask.'&sectionid='.$redirect, $msg);
+		$this->setRedirect('index.php?option='.$option.$rtask, $msg);
 	}
 
 	/**
@@ -370,7 +366,6 @@ class ContentController extends JController
 		$user		= & JFactory::getUser();
 
 		$cid		= JRequest::getVar('cid', array(0), 'post', 'array');
-		$sectionid	= JRequest::getVar('sectionid', 0, '', 'int');
 		$option		= JRequest::getCmd('option');
 
 		JArrayHelper::toInteger($cid, array(0));
@@ -381,16 +376,9 @@ class ContentController extends JController
 		$newcat = (int) @$sectcat[1];
 
 		if ((!$newsect || !$newcat) && ($sectcat !== array('0', '0'))) {
-			$this->setRedirect("index.php?option=com_content&sectionid=$sectionid", JText::_('An error has occurred'));
+			$this->setRedirect("index.php?option=com_content", JText::_('An error has occurred'));
 			return;
 		}
-
-		// find section name
-		$query = 'SELECT a.title' .
-				' FROM #__sections AS a' .
-				' WHERE a.id = '. (int) $newsect;
-		$db->setQuery($query);
-		$section = $db->loadResult();
 
 		// find category name
 		$query = 'SELECT a.title' .
@@ -413,7 +401,7 @@ class ContentController extends JController
 			$content->reorder('catid = '.(int) $content->catid.' AND state >= 0');
 		}
 
-		$query = 'UPDATE #__content SET sectionid = '.(int) $newsect.', catid = '.(int) $newcat.
+		$query = 'UPDATE #__content SET catid = '.(int) $newcat.
 				' WHERE id IN ('.$cids.')' .
 				' AND (checked_out = 0 OR (checked_out = '.(int) $uid.'))';
 		$db->setQuery($query);
@@ -432,13 +420,13 @@ class ContentController extends JController
 			$content->reorder('catid = '.(int) $content->catid.' AND state >= 0');
 		}
 
-		if ($section && $category) {
-			$msg = JText::sprintf('Item(s) successfully moved to Section', $total, $section, $category);
+		if ($category) {
+			$msg = JText::sprintf('Item(s) successfully moved to Section', $total, $category);
 		} else {
 			$msg = JText::sprintf('ITEM(S) SUCCESSFULLY MOVED TO UNCATEGORIZED', $total);
 		}
 
-		$this->setRedirect('index.php?option='.$option.'&sectionid='.$sectionid, $msg);
+		$this->setRedirect('index.php?option='.$option, $msg);
 	}
 
 	/**
@@ -455,7 +443,6 @@ class ContentController extends JController
 		$db			= & JFactory::getDBO();
 
 		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
-		$sectionid	= JRequest::getVar('sectionid', 0, '', 'int');
 		$option		= JRequest::getCmd('option');
 
 		JArrayHelper::toInteger($cid);
@@ -468,16 +455,9 @@ class ContentController extends JController
 		$newcat = (int) @$sectcat[1];
 
 		if (($newsect == -1) || ($newcat == -1)) {
-			$this->setRedirect('index.php?option=com_content&sectionid='.$sectionid, JText::_('An error has occurred'));
+			$this->setRedirect('index.php?option=com_content', JText::_('An error has occurred'));
 			return;
 		}
-
-		// find section name
-		$query = 'SELECT a.title' .
-				' FROM #__sections AS a' .
-				' WHERE a.id = '. (int) $newsect;
-		$db->setQuery($query);
-		$section = $db->loadResult();
 
 		// find category name
 		$query = 'SELECT a.title' .
@@ -500,7 +480,6 @@ class ContentController extends JController
 			$id = $cid[$i];
 			$content->load($id);
 			$content->id 		= NULL;
-			$content->sectionid = $newsect;
 			$content->catid		= $newcat;
 			$content->title 	= JText::sprintf('Copy of', $content->title);
 			$content->hits 		= 0;
@@ -518,8 +497,8 @@ class ContentController extends JController
 			$content->reorder('catid='.(int) $content->catid.' AND state >= 0');
 		}
 
-		$msg = JText::sprintf('Item(s) successfully copied to Section', $total, $section, $category);
-		$this->setRedirect('index.php?option='.$option.'&sectionid='.$sectionid, $msg);
+		$msg = JText::sprintf('Item(s) successfully copied to Section', $total, $category);
+		$this->setRedirect('index.php?option='.$option, $msg);
 	}
 
 	function accesspublic()
@@ -609,6 +588,6 @@ class ContentController extends JController
 		$cache->clean();
 
 		$msg = JText::_('New ordering saved');
-		$this->setRedirect('index.php?option=com_content&sectionid='.$redirect, $msg);
+		$this->setRedirect('index.php?option=com_content', $msg);
 	}
 }

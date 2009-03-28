@@ -4,13 +4,13 @@
 	$task		= JRequest::getCmd('task');
 	if ($task == 'copy') {
 		$error = 'VALIDSELECTSECTCATCOPYITEMS';
-		$labelsect = 'Copy to Section/Category';
+		$labelsect = 'Copy to Category';
 		$labelarticle = 'Articles being copied';
 		JToolBarHelper::title(JText::_('Copy Articles'), 'copy_f2.png');
 		JToolBarHelper::custom('copysave', 'save.png', 'save_f2.png', 'Save', false);
 	} else {
 		$error = 'Please select something';
-		$labelsect = 'Move to Section/Category';
+		$labelsect = 'Move to Category';
 		$labelarticle = 'Articles being Moved';
 		JToolBarHelper::title(JText::_('Move Articles'), 'move_f2.png');
 		JToolBarHelper::custom('movesectsave', 'save.png', 'save_f2.png', 'Save', false);
@@ -27,7 +27,7 @@ function submitbutton(pressbutton) {
 	}
 
 	// do field validation
-	if (!getSelectedValue('adminForm', 'sectcat')) {
+	if (!getSelectedValue('adminForm', 'cat')) {
 		alert("<?php echo JText::_($error, true); ?>");
 	} else {
 		submitform(pressbutton);
@@ -41,7 +41,7 @@ function submitbutton(pressbutton) {
 	<td  valign="top" width="40%">
 	<strong><?php echo JText::_($labelsect); ?>:</strong>
 	<br />
-	<?php echo $this->sectCatList; ?>
+	<?php echo $this->CatList; ?>
 	<br /><br />
 	</td>
 	<td  valign="top">
@@ -60,7 +60,6 @@ function submitbutton(pressbutton) {
 <br /><br />
 
 <input type="hidden" name="option" value="<?php echo $this->option;?>" />
-<input type="hidden" name="sectionid" value="<?php echo $this->sectionid; ?>" />
 <input type="hidden" name="task" value="" />
 <?php
 foreach ($this->cid as $id) {

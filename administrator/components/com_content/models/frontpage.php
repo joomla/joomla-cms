@@ -74,7 +74,6 @@ class ContentModelFrontpage extends JModel
 		$filter->catid		= $mainframe->getUserStateFromRequest($option.'filter_catid',		'filter_catid',		0,				'int');
 		$filter->search		= $mainframe->getUserStateFromRequest($option.'search',			'search',			'',				'string');
 		$filter->authorid	= $mainframe->getUserStateFromRequest($option.'filter_authorid',	'filter_authorid',	0,				'int');
-		$filter->sectionid	= $mainframe->getUserStateFromRequest($option.'filter_sectionid',	'filter_sectionid',	-1,				'int');
 		$this->_filter = $filter;
 	}
 

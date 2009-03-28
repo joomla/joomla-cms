@@ -28,7 +28,6 @@ class ContentViewCopyselect extends JView
 		$db			= & JFactory::getDBO();
 
 		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
-		$sectionid	= JRequest::getVar('sectionid', 0, '', 'int');
 		$option		= JRequest::getCmd('option');
 		$task		= JRequest::getCmd('task');
 
@@ -50,11 +49,10 @@ class ContentViewCopyselect extends JView
 		$items = $db->loadObjectList();
 
 		## Section & Category query
-		$query = 'SELECT CONCAT_WS(",",s.id,c.id) AS `value`, CONCAT_WS(" / ", s.title, c.title) AS `text`' .
-				' FROM #__sections AS s' .
-				' INNER JOIN #__categories AS c ON c.section = s.id' .
-				' WHERE s.scope = "content"' .
-				' ORDER BY s.title, c.title';
+		$query = 'SELECT c.id AS `value`, c.title AS `text`' .
+				' FROM #__categories AS c ' .
+				' WHERE c.extension = "com_content"' .
+				' ORDER BY c.title';
 		$db->setQuery($query);
 
 		// Add a row for uncategorized content
@@ -62,17 +60,16 @@ class ContentViewCopyselect extends JView
 		$rows	= $db->loadObjectList();
 		array_unshift($rows, $uncat);
 		// build the html select list
-		$sectCatList = JHtml::_(
+		$CatList = JHtml::_(
 			'select.genericlist',
 			$rows,
-			'sectcat',
+			'cat',
 			array('list.attr' => 'class="inputbox" size="10"')
 		);
 
 		$this->assignRef('option',		$option);
 		$this->assignRef('cid',			$cid);
-		$this->assignRef('sectCatList',	$sectCatList);
-		$this->assignRef('sectionid',	$sectionid);
+		$this->assignRef('sectCatList',	$CatList);
 		$this->assignRef('items',		$items);
 
 		// Render article preview

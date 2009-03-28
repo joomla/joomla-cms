@@ -22,7 +22,6 @@ class JHtmlContentGrid
 		$db			=& JFactory::getDBO();
 		$query = 'SELECT c.created_by, u.name' .
 				' FROM #__content AS c' .
-				' INNER JOIN #__sections AS s ON s.id = c.sectionid' .
 				' LEFT JOIN #__users AS u ON u.id = c.created_by' .
 				' WHERE c.state <> -1' .
 				' AND c.state <> -2' .
@@ -40,9 +39,7 @@ class JHtmlContentGrid
 		$cat_filter = null;
 
 		$query = 'SELECT cc.id AS value, cc.title AS text' .
-				' FROM #__categories AS cc';// .
-				//$cat_filter .
-				//' ORDER BY cc.ordering';
+				' FROM #__categories AS cc';
 		$categories[] = JHtml::_('select.option', '0', '- '.JText::_('Select Category').' -');
 		$db->setQuery($query);
 		$categories = array_merge($categories, $db->loadObjectList());

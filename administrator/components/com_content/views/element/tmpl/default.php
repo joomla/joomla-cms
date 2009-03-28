@@ -11,12 +11,11 @@
 				<?php echo JText::_('Filter'); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $this->filter->search;?>" class="text_area" onchange="document.adminForm.submit();" />
 				<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
-				<button onclick="this.form.getElementById('search').value='';this.form.getElementById('filter_sectionid').value=-1;this.form.getElementById('filter_catid').value=0;this.form.submit();"><?php echo JText::_('Reset'); ?></button>
+				<button onclick="this.form.getElementById('search').value='';this.form.getElementById('filter_catid').value=0;this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 			</td>
 			<td nowrap="nowrap">
 				<?php
-				echo JHtml::_('list.section', 'filter_sectionid', $this->filter->sectionid, 'onchange="document.adminForm.submit();"');
-				echo JHtml::_('contentgrid.category', 'filter_catid', $this->filter->catid, $this->filter->sectionid);
+				echo JHtml::_('contentgrid.category', 'filter_catid', $this->filter->catid);
 				?>
 			</td>
 		</tr>
@@ -37,10 +36,7 @@
 			<th width="2%" class="title">
 				<?php echo JHtml::_('grid.sort',   'ID', 'c.id', @$this->filter->order_Dir, @$this->filter->order); ?>
 			</th>
-			<th class="title" width="15%" nowrap="nowrap">
-				<?php echo JHtml::_('grid.sort',   'Section', 'section_name', @$this->filter->order_Dir, @$this->filter->order); ?>
-			</th>
-			<th  class="title" width="15%" nowrap="nowrap">
+			<th  class="title" width="30%" nowrap="nowrap">
 				<?php echo JHtml::_('grid.sort',   'Category', 'cc.title', @$this->filter->order_Dir, @$this->filter->order); ?>
 			</th>
 			<th align="center" width="10">
@@ -80,9 +76,6 @@
 			<td>
 				<?php echo $row->id; ?>
 			</td>
-				<td>
-					<?php echo $row->section_name; ?>
-				</td>
 			<td>
 				<?php echo $row->cctitle; ?>
 			</td>

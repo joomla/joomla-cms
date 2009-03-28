@@ -73,7 +73,6 @@ class ContentModelElement extends JModel
 		$filter->order_Dir	= $mainframe->getUserStateFromRequest('articleelement.filter_order_Dir',	'filter_order_Dir',	'',	'word');
 		$filter->catid		= $mainframe->getUserStateFromRequest('articleelement.filter_catid',		'filter_catid',		0,	'int');
 		$filter->authorid	= $mainframe->getUserStateFromRequest('articleelement.filter_authorid',		'filter_authorid',	0,	'int');
-		$filter->sectionid	= $mainframe->getUserStateFromRequest('articleelement.filter_sectionid',	'filter_sectionid',	-1,	'int');
 		$filter->search		= $mainframe->getUserStateFromRequest('articleelement.search',				'search',			'',	'string');
 		$this->_filter = $filter;
 	}
@@ -142,10 +141,9 @@ class ContentModelElement extends JModel
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
 
-		$query = 'SELECT c.*, g.name AS groupname, cc.title as cctitle, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author'
+		$query = 'SELECT c.*, g.name AS groupname, cc.title as cctitle, u.name AS editor, f.content_id AS frontpage, v.name AS author'
 			. ' FROM #__content AS c'
 			. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
-			. ' LEFT JOIN #__sections AS s ON s.id = c.sectionid'
 			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = c.access'
 			. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
 			. ' LEFT JOIN #__users AS v ON v.id = c.created_by'
@@ -173,10 +171,6 @@ class ContentModelElement extends JModel
 		/*
 		 * Add the filter specific information to the where clause
 		 */
-		// Section filter
-		if ($this->_filter->sectionid >= 0) {
-			$where[] = 'c.sectionid = '.(int) $this->_filter->sectionid;
-		}
 		// Category filter
 		if ($this->_filter->catid > 0) {
 			$where[] = 'c.catid = '.(int) $this->_filter->catid;

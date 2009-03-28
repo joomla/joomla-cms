@@ -26,8 +26,7 @@ class ContentViewArticle extends JView
 	protected $row;
 	protected $option;
 	protected $params;
-	protected $contentSection;
-	protected $sectioncategories;
+	protected $categories;
 
 	function display($tpl = null)
 	{

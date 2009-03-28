@@ -539,7 +539,6 @@ class ContentModelArticle extends JModel
 			$article->title_alias		= null;
 			$article->introtext 			= null;
 			$article->fulltext			= null;
-			$article->sectionid	 		= null;
 			$article->catid				= 0;
 			$article->state				= 0;
 			$article->mask				= 0;

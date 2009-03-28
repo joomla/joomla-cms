@@ -22,12 +22,11 @@
 				<?php echo JText::_('Filter'); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $this->filter->search;?>" class="text_area" onchange="document.adminForm.submit();" />
 				<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
-				<button onclick="document.getElementById('search').value=''; this.form.getElementById('filter_sectionid').value='-1'; this.form.getElementById('filter_catid').value='0'; this.form.getElementById('filter_authorid').value='0'; this.form.getElementById('filter_state').value=''; this.form.submit();"><?php echo JText::_('Reset'); ?></button>
+				<button onclick="document.getElementById('search').value=''; this.form.getElementById('filter_catid').value='0'; this.form.getElementById('filter_authorid').value='0'; this.form.getElementById('filter_state').value=''; this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 			</td>
 			<td nowrap="nowrap">
 				<?php
-				echo JHtml::_('list.section', 'filter_sectionid', $this->filter->sectionid, 'onchange="document.adminForm.submit();"');
-				echo JHtml::_('contentgrid.category', 'filter_catid', $this->filter->catid, $this->filter->sectionid);
+				echo JHtml::_('contentgrid.category', 'filter_catid', $this->filter->catid);
 				echo JHtml::_('contentgrid.author', 'filter_authorid', $this->filter->authorid);
 				echo JHtml::_('grid.state', $this->filter->state);
 				?>
