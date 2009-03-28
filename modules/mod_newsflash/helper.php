@@ -82,7 +82,7 @@ class modNewsFlashHelper
 			' FROM #__content AS a' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
 			' WHERE a.state = 1 ' .
-			($noauth ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid. ' AND s.access <= ' .(int) $aid : '').
+			($noauth ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid : '').
 			' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' ) ' .
 			' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )' .
 			' AND cc.id = '. (int) $catid .

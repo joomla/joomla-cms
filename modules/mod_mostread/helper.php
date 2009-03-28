@@ -22,7 +22,6 @@ class modMostReadHelper
 
 		$count		= intval($params->get('count', 5));
 		$catid		= trim($params->get('catid'));
-		$secid		= trim($params->get('secid'));
 		$show_front	= $params->get('show_front', 1);
 		$aid		= $user->get('aid', 0);
 
@@ -38,11 +37,6 @@ class modMostReadHelper
 			JArrayHelper::toInteger( $ids );
 			$catCondition = ' AND (cc.id=' . implode( ' OR cc.id=', $ids ) . ')';
 		}
-		if ($secid) {
-			$ids = explode( ',', $secid );
-			JArrayHelper::toInteger( $ids );
-			$secCondition = ' AND (s.id=' . implode( ' OR s.id=', $ids ) . ')';
-		}
 
 		//Content Items only
 		$query = 'SELECT a.*,' .
@@ -51,10 +45,10 @@ class modMostReadHelper
 			' FROM #__content AS a' .
 			' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-			' WHERE ( a.state = 1 AND s.id > 0 )' .
+			' WHERE a.state = 1' .
 			' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )' .
 			' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'.
-			($access ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid. ' AND s.access <= ' .(int) $aid : '').
+			($access ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid : '').
 			($catid ? $catCondition : '').
 			($show_front == '0' ? ' AND f.content_id IS NULL' : '').
 			' AND cc.published = 1' .

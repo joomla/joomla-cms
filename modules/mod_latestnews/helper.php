@@ -23,7 +23,6 @@ class modLatestNewsHelper
 
 		$count		= (int) $params->get('count', 5);
 		$catid		= trim( $params->get('catid') );
-		$secid		= trim( $params->get('secid') );
 		$show_front	= $params->get('show_front', 1);
 		$aid		= $user->get('aid', 0);
 
@@ -69,12 +68,6 @@ class modLatestNewsHelper
 			JArrayHelper::toInteger( $ids );
 			$catCondition = ' AND (cc.id=' . implode( ' OR cc.id=', $ids ) . ')';
 		}
-		if ($secid)
-		{
-			$ids = explode( ',', $secid );
-			JArrayHelper::toInteger( $ids );
-			$secCondition = ' AND (s.id=' . implode( ' OR s.id=', $ids ) . ')';
-		}
 
 		// Content Items only
 		$query = 'SELECT a.*, ' .
@@ -83,8 +76,8 @@ class modLatestNewsHelper
 			' FROM #__content AS a' .
 			($show_front == '0' ? ' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' : '') .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-			' WHERE '. $where .' AND s.id > 0' .
-			($access ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid. ' AND s.access <= ' .(int) $aid : '').
+			' WHERE '. $where.
+			($access ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid : '').
 			($catid ? $catCondition : '').
 			($show_front == '0' ? ' AND f.content_id IS NULL ' : '').
 			' AND cc.published = 1' .
