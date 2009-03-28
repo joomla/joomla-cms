@@ -34,7 +34,7 @@ class modNewsFlashHelper
 			{
 				// Check to see if the user has access to view the full article
 				if ($item->access <= $user->get('aid', 0)) {
-					$linkOn = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+					$linkOn = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 				} else {
 					$linkOn = JRoute::_('index.php?option=com_user&task=register');
 				}
@@ -81,14 +81,12 @@ class modNewsFlashHelper
 			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug'.
 			' FROM #__content AS a' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-			' INNER JOIN #__sections AS s ON s.id = a.sectionid' .
 			' WHERE a.state = 1 ' .
 			($noauth ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid. ' AND s.access <= ' .(int) $aid : '').
 			' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' ) ' .
 			' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )' .
 			' AND cc.id = '. (int) $catid .
 			' AND cc.published = 1' .
-			' AND s.published = 1' .
 			' ORDER BY a.ordering';
 		$db->setQuery($query, 0, $items);
 		$rows = $db->loadObjectList();

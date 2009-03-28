@@ -19,136 +19,165 @@ jimport('joomla.application.component.model');
 class ContactModelCategory extends JModel
 {
 	/**
-	 * Builds the query to select contact categories
-	 * @param array
-	 * @return string
-	 * @access protected
+	 * Category id
+	 *
+	 * @var int
 	 */
-	function _getCatgoriesQuery( &$options )
+	var $_id = null;
+
+	/**
+	 * Category data array
+	 *
+	 * @var array
+	 */
+	var $_data = null;
+
+	/**
+	 * Category total
+	 *
+	 * @var integer
+	 */
+	var $_total = null;
+
+	/**
+	 * Category data
+	 *
+	 * @var object
+	 */
+	var $_category = null;
+	
+	var $_categories = null;
+
+	/**
+	 * Constructor
+	 *
+	 * @since 1.5
+	 */
+	function __construct()
 	{
-		// TODO: Cache on the fingerprint of the arguments
-		$db		=& JFactory::getDBO();
-		$aid	= @$options['aid'];
+		global $mainframe;
 
-		$wheres[] = 'a.published = 1';
-		$wheres[] = 'cc.section = ' . $db->Quote( 'com_contact_details' );
-		$wheres[] = 'cc.published = 1';
+		parent::__construct();
 
-		if ($aid !== null)
-		{
-			$wheres[] = 'a.access <= ' . (int) $aid;
-			$wheres[] = 'cc.access <= ' . (int) $aid;
-		}
+		$config = JFactory::getConfig();
 
-		$groupBy	= 'cc.id';
-		$orderBy	= 'cc.ordering' ;
+		// Get the pagination request variables
+		$this->setState('limit', $mainframe->getUserStateFromRequest('com_contact.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
+		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
-		/*
-		 * Query to retrieve all categories that belong under the contacts
-		 * section and that are published.
-		 */
-		$query = 'SELECT cc.*, COUNT( a.id ) AS numlinks, a.id as cid'.
-				' FROM #__categories AS cc'.
-				' LEFT JOIN #__contact_details AS a ON a.catid = cc.id'.
-				' WHERE ' . implode( ' AND ', $wheres ) .
-				' GROUP BY ' . $groupBy .
-				' ORDER BY ' . $orderBy;
+		$id = JRequest::getVar('id', 0, '', 'int');
+		$this->setId((int)$id);
 
-		//echo $query;
-		return $query;
 	}
 
 	/**
-	 * Builds the query to select contact items
-	 * @param array
-	 * @return string
-	 * @access protected
+	 * Method to set the category id
+	 *
+	 * @access	public
+	 * @param	int	Category ID number
 	 */
-	function _getContactsQuery( &$options )
+	function setId($id)
 	{
-		// TODO: Cache on the fingerprint of the arguments
-		$db			=& JFactory::getDBO();
-		$aid		= @$options['aid'];
-		$catId		= @$options['category_id'];
-		$groupBy	= @$options['group by'];
-		$orderBy	= @$options['order by'];
-
-		$select = 'cd.*, ' .
-				'cc.name AS category_name, cc.description AS category_description, cc.image AS category_image,'.
-				' CASE WHEN CHAR_LENGTH(cd.alias) THEN CONCAT_WS(\':\', cd.id, cd.alias) ELSE cd.id END as slug, '.
-				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(\':\', cc.id, cc.alias) ELSE cc.id END as catslug ';
-		$from	= '#__contact_details AS cd';
-
-		$joins[] = 'INNER JOIN #__categories AS cc on cd.catid = cc.id';
-
-		if ($catId)
-		{
-			$wheres[] = 'cd.catid = ' . (int) $catId;
-		}
-		$wheres[] = 'cc.published = 1';
-		$wheres[] = 'cd.published = 1';
-
-		if ($aid !== null)
-		{
-			$wheres[] = 'cc.access <= ' . (int) $aid;
-			$wheres[] = 'cd.access <= ' . (int) $aid;
-		}
-
-		/*
-		 * Query to retrieve all categories that belong under the contacts
-		 * section and that are published.
-		 */
-		$query = 'SELECT ' . $select .
-				' FROM ' . $from .
-				' ' . implode ( ' ', $joins ) .
-				' WHERE ' . implode( ' AND ', $wheres ) .
-				($groupBy ? ' GROUP BY ' . $groupBy : '').
-				($orderBy ? ' ORDER BY ' . $orderBy : '');
-
-		return $query;
+		// Set category ID and wipe data
+		$this->_id			= $id;
+		$this->_category	= null;
 	}
 
 	/**
-	 * Gets a list of categories
-	 * @param array
+	 * Method to get newsfeed item data for the category
+	 *
+	 * @access public
 	 * @return array
 	 */
-	function getCategories( $options=array() )
+	function getData()
 	{
-		$query	= $this->_getCatgoriesQuery( $options );
-		return $this->_getList( $query, @$options['limitstart'], @$options['limit'] );
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_data))
+		{
+			$query = $this->_buildQuery();
+
+			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+		}
+
+		return $this->_data;
 	}
 
 	/**
-	 * Gets the count of the categories for the given options
-	 * @param array
-	 * @return int
+	 * Method to get the total number of newsfeed items for the category
+	 *
+	 * @access public
+	 * @return integer
 	 */
-	function getCategoryCount( $options=array() )
+	function getTotal()
 	{
-		$query	= $this->_getCatgoriesQuery( $options );
-		return $this->_getListCount( $query );
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_total))
+		{
+			$this->getCategory();
+		}
+
+		return $this->_total;
 	}
 
 	/**
-	 * Gets a list of categories
-	 * @param array
-	 * @return array
+	 * Method to get a pagination object of the newsfeeds items for the category
+	 *
+	 * @access public
+	 * @return integer
 	 */
-	function getContacts( $options=array() )
+	function getPagination()
 	{
-		$query	= $this->_getContactsQuery( $options );
-		return $this->_getList( $query, @$options['limitstart'], @$options['limit'] );
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_pagination))
+		{
+			jimport('joomla.html.pagination');
+			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+		}
+
+		return $this->_pagination;
 	}
 
 	/**
-	 * Gets the count of the categories for the given options
-	 * @param array
-	 * @return int
+	 * Method to get category data for the current category
+	 *
+	 * @since 1.5
 	 */
-	function getContactCount( $options=array() )
+	function getCategory()
 	{
-		$query	= $this->_getContactsQuery( $options );
-		return $this->_getListCount( $query );
+		// Load the Category data
+		if (empty($this->_category))
+		{
+			jimport('joomla.application.categorytree');
+			$categoryTree = JCategoryTree::getInstance('com_contact');
+			$this->_category = $categoryTree->get($this->_id);
+			// Initialize some variables
+			$user = &JFactory::getUser();
+
+			// Make sure the category is published
+			if (!$this->_category->published) {
+				JError::raiseError(404, JText::_("Resource Not Found"));
+				return false;
+			}
+			// check whether category access level allows access
+			if ($this->_category->access > $user->get('aid', 0)) {
+				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+				return false;
+			}
+			$this->_total = $this->_category->numitems;
+		}
+		return $this->_category;
+	}
+	
+	function _buildQuery()
+	{
+		// We need to get a list of all weblinks in the given category
+		$query = 'SELECT *,' .
+			' CASE WHEN CHAR_LENGTH(alias) THEN CONCAT_WS(":", id, alias) ELSE id END as slug'.
+			' FROM #__contact_details' .
+			' WHERE catid = '.(int) $this->_id.
+			' AND published = 1' .
+			' ORDER BY ordering';
+
+		return $query;
 	}
 }

@@ -20,83 +20,22 @@ class ContactViewCategory extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
+		global $mainframe;
 
-		$user		= &JFactory::getUser();
-		$uri		= &JFactory::getURI();
-		$model		= &$this->getModel();
-		$document	= &JFactory::getDocument();
+		$pathway 	= & $mainframe->getPathway();
+		$document	= & JFactory::getDocument();
 
-		$pparams	= &$mainframe->getParams('com_contact');
+		// Get the parameters of the active menu item
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+		$params	= &$mainframe->getParams();
 
-		// Selected Request vars
-		$categoryId			= JRequest::getVar('catid',				0,				'', 'int');
-		$limit				= JRequest::getVar('limit',				$mainframe->getCfg('list_limit'),	'', 'int');
-		$limitstart			= JRequest::getVar('limitstart',		0,				'', 'int');
-		$filter_order		= JRequest::getVar('filter_order',		'cd.ordering',	'', 'cmd');
-		$filter_order_Dir	= JRequest::getVar('filter_order_Dir',	'ASC',			'', 'word');
+		$category	= $this->get('category');
+		$items		= $this->get('data');
+		$total		= $this->get('total');
+		$pagination	= &$this->get('pagination');
 
-		// query options
-		$options['aid'] 		= $user->get('aid', 0);
-		$options['category_id']	= $categoryId;
-		$options['limit']		= $limit;
-		$options['limitstart']	= $limitstart;
-		$options['order by']	= "$filter_order $filter_order_Dir, cd.ordering";
-
-		$categories	= $model->getCategories( $options );
-		$contacts	= $model->getContacts( $options );
-		$total 		= $model->getContactCount( $options );
-
-		//add alternate feed link
-		if($pparams->get('show_feed_link', 1) == 1)
-		{
-			$link	= '&format=feed&limitstart=';
-			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
-			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
-		}
-
-		//prepare contacts
-		if($pparams->get('show_email', 0) == 1) {
-			jimport('joomla.mail.helper');
-		}
-
-		$k = 0;
-		for($i = 0; $i <  count( $contacts ); $i++)
-		{
-			$contact =& $contacts[$i];
-
-			$contact->link = JRoute::_('index.php?option=com_contact&view=contact&id='.$contact->slug.'&catid='.$contact->catslug);
-			if ($pparams->get('show_email', 0) == 1) {
-				$contact->email_to = trim($contact->email_to);
-				if (!empty($contact->email_to) && JMailHelper::isEmailAddress($contact->email_to)) {
-					$contact->email_to = JHtml::_('email.cloak', $contact->email_to);
-				} else {
-					$contact->email_to = '';
-				}
-			}
-
-			$contact->odd	= $k;
-			$contact->count = $i;
-			$k = 1 - $k;
-		}
-
-		// find current category
-		// TODO: Move to model
-		$category = null;
-		foreach ($categories as $i => $_cat)
-		{
-			if ($_cat->id == $categoryId) {
-				$category = &$categories[$i];
-				break;
-			}
-		}
-		if ($category == null) {
-			$db = &JFactory::getDBO();
-			$category =& JTable::getInstance( 'category' );
-		}
-
+		// Set page title
 		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();
 
@@ -105,38 +44,75 @@ class ContactViewCategory extends JView
 		if (is_object( $menu )) {
 			$menu_params = new JParameter( $menu->params );
 			if (!$menu_params->get( 'page_title')) {
-				$pparams->set('page_title',	$category->title);
+				$params->set('page_title',	$category->title);
 			}
 		} else {
-			$pparams->set('page_title',	$category->title);
+			$params->set('page_title',	$category->title);
 		}
-		$document->setTitle( $pparams->get( 'page_title' ) );
 
+		$document->setTitle( $params->get( 'page_title' ) );
+
+		//set breadcrumbs
+		$pathwaycat = $category;
+		$path = array();
+		if(is_object($menu) && $menu->query['id'] != $category->id)
+		{
+			$path[] = array($pathwaycat->title);
+			$pathwaycat = $pathwaycat->getParent();
+			while($pathwaycat->id != $menu->query['id'])
+			{
+				$path[] = array($pathwaycat->title, $pathwaycat->slug);
+				$pathwaycat = $pathwaycat->getParent();	
+			}
+			$path = array_reverse($path);
+			foreach($path as $element)
+			{
+				if(isset($element[1]))
+				{
+					$pathway->addItem($element[0], 'index.php?option=com_contact&view=category&id='.$element[1]);
+				} else {
+					$pathway->addItem($element[0], '');
+				}
+			}
+		}
+		
 		// Prepare category description
 		$category->description = JHtml::_('content.prepare', $category->description);
 
-		// table ordering
-		$lists['order_Dir'] = $filter_order_Dir;
-		$lists['order'] = $filter_order;
-		$selected = '';
+		$k = 0;
+		for($i = 0; $i <  count($items); $i++)
+		{
+			$item =& $items[$i];
 
-		jimport('joomla.html.pagination');
-		$pagination = new JPagination($total, $limitstart, $limit);
+			$item->link = JRoute::_('index.php?view=contact&catid='.$category->slug.'&id='. $item->slug );
 
-		$this->assignRef('items',		$contacts);
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('pagination',	$pagination);
-		//$this->assignRef('data',		$data);
+			$item->odd		= $k;
+			$item->count	= $i;
+			$k = 1 - $k;
+		}
+
+		// Define image tag attributes
+		if (!empty ($category->image))
+		{
+			$attribs['align'] = $category->image_position;
+			$attribs['hspace'] = 6;
+
+			// Use the static HTML library to build the image tag
+			$image = JHtml::_('image', 'images/'.$category->image, JText::_('NEWS_FEEDS'), $attribs);
+		}
+		
+		$children = $category->getChildren();
+		foreach($children as &$child)
+		{
+			$child->link = JRoute::_('index.php?option=com_contact&view=category&id='.$child->slug); 
+		}
+		$this->assignRef('image',		$image);
+		$this->assignRef('params',		$params);
+		$this->assignRef('items',		$items);
 		$this->assignRef('category',	$category);
-		$this->assignRef('params',		$pparams);
-
-		$this->assign('action',		$uri->toString());
+		$this->assignRef('children', 	$children);
+		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
-	}
-
-	function getItems()
-	{
-
 	}
 }

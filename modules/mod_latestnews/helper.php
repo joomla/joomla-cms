@@ -83,13 +83,10 @@ class modLatestNewsHelper
 			' FROM #__content AS a' .
 			($show_front == '0' ? ' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' : '') .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-			' INNER JOIN #__sections AS s ON s.id = a.sectionid' .
 			' WHERE '. $where .' AND s.id > 0' .
 			($access ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid. ' AND s.access <= ' .(int) $aid : '').
 			($catid ? $catCondition : '').
-			($secid ? $secCondition : '').
 			($show_front == '0' ? ' AND f.content_id IS NULL ' : '').
-			' AND s.published = 1' .
 			' AND cc.published = 1' .
 			' ORDER BY '. $ordering;
 		$db->setQuery($query, 0, $count);
@@ -99,7 +96,7 @@ class modLatestNewsHelper
 		$lists	= array();
 		foreach ( $rows as $row )
 		{
-			$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid));
+			$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
 			$lists[$i]->text = htmlspecialchars( $row->title );
 			$i++;
 		}

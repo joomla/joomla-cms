@@ -23,6 +23,28 @@ $cparams =& JComponentHelper::getParams('com_media');
 	<?php echo $this->category->description; ?>
 	</div>
 <?php endif; ?>
+<?php if( count($this->children)) : ?>
+<div>
+	<ul>
+<?php foreach ( $this->children as $category ) : ?>
+	<li>
+		<a href="<?php echo $category->link ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+			<?php echo $category->title;?></a>
+		<?php if ( $this->params->get( 'show_cat_items' ) ) : ?>
+		&nbsp;
+		<span class="small">
+			(<?php echo $category->numitems;?>)
+		</span>
+		<?php endif; ?>
+		<?php if ( $this->params->get( 'show_cat_description' ) && $category->description ) : ?>
+		<br />
+		<?php echo $category->description; ?>
+		<?php endif; ?>
+	</li>
+<?php endforeach; ?>
+</ul>
+</div>
+<?php endif; ?>
 <script language="javascript" type="text/javascript">
 	function tableOrdering( order, dir, task ) {
 	var form = document.adminForm;

@@ -184,4 +184,3 @@ class NewsfeedsModelCategory extends JModel
 		return $query;
 	}
 }
-?>
