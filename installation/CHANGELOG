@@ -28,6 +28,10 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+29-Mar-2009 Ercan Ozkaya
+ ^ Refactored com_checkin
+ ^ Converted all parameter fields in sample data to JSON objects
+
 13-Mar-2009 Sam Moffatt
  ^ Renamed files installer from file.php to files.php
  ^ Major updates to installation adapters to conform with styles
