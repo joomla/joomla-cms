@@ -80,7 +80,7 @@
 			<option value="1">Full Text</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" menu="hide" />
-		<param name="@spacer" type="" default="" label="Filtering options" description="TIPFILTERINGOPTIONS" menu="hide" />
+		<param name="@spacer" type="spacer" default="" label="Filtering options" description="TIPFILTERINGOPTIONS" menu="hide" />
 		<param name="filter_groups" type="usergroup" multiple="true" size="10" menu="hide"
 			default="" label="Filter Groups" description="TIPFILTERGROUPS" />
 		<param name="filter_type" type="radio" default="" menu="hide"
