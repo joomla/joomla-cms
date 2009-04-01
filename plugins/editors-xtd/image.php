@@ -29,7 +29,6 @@ class plgButtonImage extends JPlugin
 		global $mainframe;
 
 		$doc 		=& JFactory::getDocument();
-		$template 	= $mainframe->getTemplate();
 
 		$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name='.$name;
 

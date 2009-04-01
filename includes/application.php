@@ -169,19 +169,20 @@ class JSite extends JApplication
 			case 'html' :
 			default	 :
 			{
-				$template	= $this->getTemplate();
+				$template	= $this->getTemplate(true);
 				$file 		= JRequest::getCmd('tmpl', 'index');
 
 				if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
 					$file = 'offline';
 				}
-				if (!is_dir( JPATH_THEMES.DS.$template ) && !$this->getCfg('offline')) {
+				if (!is_dir( JPATH_THEMES.DS.$template->template ) && !$this->getCfg('offline')) {
 					$file = 'component';
 				}
 				$params = array(
-					'template' 	=> $template,
+					'template' 	=> $template->template,
 					'file'		=> $file.'.php',
-					'directory'	=> JPATH_THEMES
+					'directory'	=> JPATH_THEMES,
+					'params'	=> $template->params
 				);
 			} break;
  		}
@@ -301,12 +302,16 @@ class JSite extends JApplication
 	 * @return string The template name
 	 * @since 1.0
 	 */
-	public function getTemplate()
+	public function getTemplate($params = false)
 	{
 		// Allows for overriding the active template from a component, and caches the result of this function
 		// e.g. $mainframe->setTemplate('solar-flare-ii');
 		if ($template = $this->get('setTemplate')) {
-			return $template;
+			if($params)
+			{
+				return $template;
+			}
+			return $template->template;
 		}
 
 		// Get the id of the active menu item
@@ -320,26 +325,31 @@ class JSite extends JApplication
 
 		// Load template entries for the active menuid and the default template
 		$db =& JFactory::getDBO();
-		$query = 'SELECT template'
+		$query = 'SELECT template, params'
 			. ' FROM #__templates_menu'
 			. ' WHERE client_id = 0 AND (menuid = 0 OR menuid = '.(int) $id.')'
 			. ' ORDER BY menuid DESC'
 			;
 		$db->setQuery($query, 0, 1);
-		$template = $db->loadResult();
+		$template = $db->loadObject();
 
 		// Allows for overriding the active template from the request
-		$template = JRequest::getCmd('template', $template);
-		$template = JFilterInput::_($template, 'cmd'); // need to filter the default value as well
+		$template->template = JRequest::getCmd('template', $template->template);
+		$template->template = JFilterInput::_($template->template, 'cmd'); // need to filter the default value as well
 
 		// Fallback template
-		if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
-			$template = 'rhuk_milkyway';
+		if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php')) {
+			$template->template = 'rhuk_milkyway';
 		}
 
 		// Cache the result
 		$this->set('setTemplate', $template);
-		return $template;
+		if($params)
+		{
+			return $template;
+		}
+		return $template->template;
+
 	}
 
 	/**

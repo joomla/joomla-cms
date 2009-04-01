@@ -155,7 +155,7 @@ class JAdministrator extends JApplication
 	function render()
 	{
 		$component	= JRequest::getCmd('option', 'com_login');
-		$template	= $this->getTemplate();
+		$template	= $this->getTemplate(true);
 		$file 		= JRequest::getCmd('tmpl', 'index');
 
 		if($component == 'com_login') {
@@ -163,9 +163,10 @@ class JAdministrator extends JApplication
 		}
 
 		$params = array(
-			'template' 	=> $template,
+			'template' 	=> $template->template,
 			'file'		=> $file.'.php',
-			'directory'	=> JPATH_THEMES
+			'directory'	=> JPATH_THEMES,
+			'params'	=> $template->params
 		);
 
 		$document =& JFactory::getDocument();
@@ -217,7 +218,7 @@ class JAdministrator extends JApplication
 	 * @return string The template name
 	 * @since 1.0
 	 */
-	function getTemplate()
+	function getTemplate($params = false)
 	{
 		static $template;
 
@@ -225,22 +226,27 @@ class JAdministrator extends JApplication
 		{
 			// Load the template name from the database
 			$db =& JFactory::getDBO();
-			$query = 'SELECT template'
+			$query = 'SELECT template, params'
 				. ' FROM #__templates_menu'
 				. ' WHERE client_id = 1'
 				. ' AND menuid = 0'
 				;
 			$db->setQuery( $query );
-			$template = $db->loadResult();
+			$template = $db->loadObject();
 
-			$template = JFilterInput::clean($template, 'cmd');
+			$template->template = JFilterInput::clean($template->template, 'cmd');
 
-			if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
-				$template = 'khepri';
+			if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php')) {
+				$template->template = 'khepri';
+				$template->params = '{}';
 			}
 		}
+		if($params)
+		{
+			return $template;
+		}
 
-		return $template;
+		return $template->template;
 	}
 
 	/**

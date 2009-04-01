@@ -28,7 +28,6 @@ class plgButtonReadmore extends JPlugin
 		global $mainframe;
 
 		$doc 		=& JFactory::getDocument();
-		$template 	= $mainframe->getTemplate();
 
 		// button is not active in specific content components
 

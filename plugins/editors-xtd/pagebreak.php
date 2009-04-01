@@ -29,7 +29,6 @@ class plgButtonPagebreak extends JPlugin
 		global $mainframe;
 
 		$doc = & JFactory::getDocument();
-		$template = $mainframe->getTemplate();
 
 		$link = 'index.php?option=com_content&amp;task=ins_pagebreak&amp;tmpl=component&amp;e_name='.$name;
 

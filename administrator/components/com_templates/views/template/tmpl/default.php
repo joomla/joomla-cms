@@ -138,8 +138,6 @@
 <div class="col width-50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'Parameters' ); ?></legend>
-		<?php $this->templatefile = DS.'templates'.DS.$this->template.DS.'params.ini';
-		echo is_writable($this->client->path.$this->templatefile) ? JText::sprintf('PARAMSWRITABLE', $this->templatefile):JText::sprintf('PARAMSUNWRITABLE', $this->templatefile); ?>
 		<table class="admintable">
 		<tr>
 			<td>

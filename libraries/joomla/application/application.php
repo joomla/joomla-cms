@@ -249,10 +249,12 @@ abstract class JApplication extends JClass
 	*/
 	public function render()
 	{
+		$template = $this->getTemplate(true);
 		$params = array(
-			'template' 	=> $this->getTemplate(),
+			'template' 	=> $template->template,
 			'file'		=> 'index.php',
-			'directory'	=> JPATH_THEMES
+			'directory'	=> JPATH_THEMES,
+			'params'	=> $template->params
 		);
 
 		$document =& JFactory::getDocument();
@@ -653,7 +655,7 @@ abstract class JApplication extends JClass
 	 *
 	 * @return	string
 	 */
-	public function getTemplate()
+	public function getTemplate($params = false)
 	{
 		return 'system';
 	}

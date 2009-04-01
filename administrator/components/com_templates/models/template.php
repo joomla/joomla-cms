@@ -124,38 +124,25 @@ class TemplatesModelTemplate extends JModel
 		$default	= JRequest::getBool('default');
 		JArrayHelper::toInteger($menus);
 
-		// Set FTP credentials, if given
-		jimport('joomla.client.helper');
-		JClientHelper::setCredentialsFromRequest('ftp');
-		$ftp = JClientHelper::getCredentials('ftp');
-
-		$file = $this->_client->path.DS.'templates'.DS.$this->_id.DS.'params.ini';
-
-		jimport('joomla.filesystem.file');
-		if (JFile::exists($file) && count($params))
+		if($this->_client->id == '1')
 		{
-			$txt = json_encode($params);
+			$query = 'DELETE FROM #__templates_menu' .
+					' WHERE client_id = 1' .
+					' AND template = '.$this->_db->Quote( $this->_id );
+			$this->_db->setQuery($query);
+			$this->_db->query();
 
-			// Try to make the params file writeable
-			if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
-				$this->setError( JText::_('Could not make the template parameter file writable'));
-				return false;
+			$query = 'INSERT INTO #__templates_menu' .
+					' SET client_id = 1,' .
+					' template = '. $this->_db->Quote( $this->_id ) .
+					', menuid = 0'.
+					', params = '.$this->_db->Quote(json_encode($params));
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
+				return JError::raiseWarning( 500, $this->_db->getError() );
 			}
-
-			$return = JFile::write($file, $txt);
-
-			// Try to make the params file unwriteable
-			if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0555')) {
-				$this->setError( JText::_('Could not make the template parameter file unwritable'));
-				return false;
-			}
-
-			if (!$return) {
-				$this->setError( JText::_('Operation Failed').': '.JText::sprintf('Failed to open file for writing.', $file));
-				return false;
-			}
+			return true;
 		}
-
 		// Reset all existing assignments
 		$query = 'DELETE FROM #__templates_menu' .
 				' WHERE client_id = 0' .
@@ -182,7 +169,10 @@ class TemplatesModelTemplate extends JModel
 				}
 
 				$query = 'INSERT INTO #__templates_menu' .
-						' SET client_id = 0, template = '. $this->_db->Quote( $this->_id ) .', menuid = '.(int) $menuid;
+						' SET client_id = 0,' .
+						' template = '. $this->_db->Quote( $this->_id ) .
+						', menuid = '.(int) $menuid.
+						', params = '.$this->_db->Quote(json_encode($params));
 				$this->_db->setQuery($query);
 				if (!$this->_db->query()) {
 					return JError::raiseWarning( 500, $this->_db->getError() );
@@ -205,6 +195,7 @@ class TemplatesModelTemplate extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
+			$db =& JFactory::getDBO();
 			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
 
 			$tBaseDir	= JPath::clean($this->_client->path.DS.'templates');
@@ -218,19 +209,13 @@ class TemplatesModelTemplate extends JModel
 			// 1.6 3PD Templates
 			$lang->load( 'joomla', $this->_client->path.DS.'templates'.DS.$this->_id );
 
-			$ini	= $this->_client->path.DS.'templates'.DS.$this->_id.DS.'params.ini';
+			$query = 'SELECT params FROM #__templates_menu WHERE template = '.$db->Quote($this->_id).' AND client_id = 0';
+			$db->setQuery($query);
+			$ini	= $db->loadResult();
 			$xml	= $this->_client->path.DS.'templates'.DS.$this->_id.DS.'templateDetails.xml';
 			$row	= TemplatesHelper::parseXMLTemplateFile($tBaseDir, $this->_id);
 
-			jimport('joomla.filesystem.file');
-			// Read the ini file
-			if (JFile::exists($ini)) {
-				$content = JFile::read($ini);
-			} else {
-				$content = null;
-			}
-
-			$this->_params = new JParameter($content, $xml, 'template');
+			$this->_params = new JParameter($ini, $xml, 'template');
 
 			$assigned = TemplatesHelper::isTemplateAssigned($row->directory);
 			$default = TemplatesHelper::isTemplateDefault($row->directory, $this->_client->id);

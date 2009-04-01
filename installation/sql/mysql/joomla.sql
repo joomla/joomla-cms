@@ -564,32 +564,6 @@ CREATE TABLE `#__newsfeeds` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__sections`
-#
-
-CREATE TABLE `#__sections` (
-  `id` int(11) NOT NULL auto_increment,
-  `title` varchar(255) NOT NULL default '',
-  `name` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `image` TEXT NOT NULL default '',
-  `scope` varchar(50) NOT NULL default '',
-  `image_position` varchar(30) NOT NULL default '',
-  `description` text NOT NULL,
-  `published` tinyint(1) NOT NULL default '0',
-  `checked_out` int(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL default '0',
-  `access` tinyint(3) unsigned NOT NULL default '0',
-  `count` int(11) NOT NULL default '0',
-  `params` text NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `idx_scope` (`scope`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__session`
 #
 
@@ -631,12 +605,13 @@ CREATE TABLE `#__templates_menu` (
   `template` varchar(255) NOT NULL default '',
   `menuid` int(11) NOT NULL default '0',
   `client_id` tinyint(4) NOT NULL default '0',
+  `params` text NOT NULL,
   PRIMARY KEY (`menuid`, `client_id`, `template`(255))
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # Dumping data for table `#__templates_menu`
-INSERT INTO `#__templates_menu` VALUES ('rhuk_milkyway', '0', '0');
-INSERT INTO `#__templates_menu` VALUES ('khepri', '0', '1');
+INSERT INTO `#__templates_menu` VALUES ('rhuk_milkyway', '0', '0', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
+INSERT INTO `#__templates_menu` VALUES ('khepri', '0', '1', '{"useRoundedCorners":"1","showSiteName":"0","headerColor":"h_green"}');
 
 # --------------------------------------------------------
 
