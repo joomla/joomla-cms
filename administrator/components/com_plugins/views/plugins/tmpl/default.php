@@ -60,7 +60,7 @@
 			<?php echo JHtml::_('grid.sort',   'File', 'p.element', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
 		<th nowrap="nowrap"  width="1%" class="title">
-			<?php echo JHtml::_('grid.sort',   'ID', 'p.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<?php echo JHtml::_('grid.sort',   'ID', 'id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
 	</tr>
 </thead>

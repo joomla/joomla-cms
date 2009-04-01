@@ -134,10 +134,7 @@ class TemplatesModelTemplate extends JModel
 		jimport('joomla.filesystem.file');
 		if (JFile::exists($file) && count($params))
 		{
-			$txt = null;
-			foreach ($params as $k => $v) {
-				$txt .= "$k=$v\n";
-			}
+			$txt = json_encode($params);
 
 			// Try to make the params file writeable
 			if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
@@ -219,7 +216,7 @@ class TemplatesModelTemplate extends JModel
 			 // 1.5 or Core
 			$lang->load( 'tpl_'.$this->_id, $this->_client->path );
 			// 1.6 3PD Templates
-			$lang->load( 'joomla', $this->_client->path.DS.'templates'.DS.$templates );
+			$lang->load( 'joomla', $this->_client->path.DS.'templates'.DS.$this->_id );
 
 			$ini	= $this->_client->path.DS.'templates'.DS.$this->_id.DS.'params.ini';
 			$xml	= $this->_client->path.DS.'templates'.DS.$this->_id.DS.'templateDetails.xml';
