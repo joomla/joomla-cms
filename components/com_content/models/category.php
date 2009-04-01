@@ -146,7 +146,9 @@ class ContentModelCategory extends JModel
 		{
 			if(empty($this->_category))
 			{
-				$this->_category = ContentHelperCategory::getCategory($this->_id);
+				jimport('joomla.application.categorytree');
+				$categoryTree = JCategoryTree::getInstance('com_content');
+				$this->_category =& $categoryTree->get($this->_id);
 			}
 			$query = $this->_buildQuery($state, true);
 			$this->_db->setQuery($query);
@@ -363,20 +365,37 @@ class ContentModelCategory extends JModel
 		if(!$countOnly) {
 			$query = 'SELECT cc.title AS category, a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
 				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
-				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
-				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-				' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups'.$voting['select'];
+				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,';
+			if($params->get('show_subcategory_content', 0))
+			{
+				$query .= ' cc.catslug as catslug, ';
+			} else {
+				$query .= ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,';
+			}
+			$query .= ' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups'.$voting['select'];
 		} else {
 			$query = 'SELECT count(*) ';
 		}
+		if($params->get('show_subcategory_content', 0))
+		{
+			$subquery = ' RIGHT JOIN (SELECT c.id as id, c.title as title, c.alias as alias,'.
+			' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as catslug'.
+			' FROM #__categories AS c'.
+			' JOIN #__categories AS cp ON cp.lft <= c.lft AND c.rgt <= cp.rgt'.
+			' WHERE c.extension = \'com_content\''.
+			' AND cp.id = '.$this->_id.') AS cc ON a.catid = cc.id';
+		} else {
+			$subquery = ' LEFT JOIN #__categories AS cc ON a.catid = cc.id'; 
+		}
 		$query .=
 			' FROM #__content AS a' .
-			' LEFT JOIN #__categories AS cc ON a.catid = cc.id' .
+			 $subquery.
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
 			' LEFT JOIN #__core_acl_axo_groups AS g ON a.access = g.value'.
 			$voting['join'].
 			$where.
 			$orderby;
+			
 		return $query;
 	}
 
@@ -437,8 +456,12 @@ class ContentModelCategory extends JModel
 		// Get the page/component configuration
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
-
-		$where = ' WHERE a.catid = '.$this->_id;
+		if($params->get('show_subcategory_content', 0))
+		{
+			$where = ' WHERE 1 ';
+		} else {
+			$where = ' WHERE a.catid = '.$this->_id;
+		}
 		// Does the user have access to view the items?
 		if ($noauth) {
 			$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels()).')';

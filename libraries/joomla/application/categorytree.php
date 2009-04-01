@@ -81,8 +81,8 @@ class JCategoryTree
 		$db	=& JFactory::getDBO();
 		$user =& JFactory::getUser();
 		$subquery = 'SELECT c.id, c.lft, c.rgt'.
-			' FROM jos_categories AS c'.
-			' JOIN jos_categories AS cp ON cp.lft >= c.lft AND c.rgt >= cp.rgt'.
+			' FROM #__categories AS c'.
+			' JOIN #__categories AS cp ON cp.lft >= c.lft AND c.rgt >= cp.rgt'.
 			' WHERE c.extension = '.$db->Quote($this->_extension).
 			' AND cp.id = '.$id.' AND c.parent_id = 0';
 

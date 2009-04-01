@@ -53,7 +53,7 @@ function ContentBuildRoute(&$query)
 	}
 	
 	// are we dealing with an article that is attached to a menu item?
-	if (($mView == 'article' || $mView == 'category') and (isset($query['id'])) and ($mId == intval($query['id']))) {
+	if ((($mView == 'article' && isset($view) && $view == 'article')|| ($mView == 'category' && isset($view) && $view == 'category')) and (isset($query['id'])) and ($mId == intval($query['id']))) {
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);

@@ -20,6 +20,10 @@
 	 			<option value="0">Hide</option>
 	 			<option value="1">Show</option>
 	 		</param>
+			<param name="show_subcategory_content" type="radio" default="0" label="Show Subcategory Content" description="">
+	 			<option value="0">No</option>
+	 			<option value="1">Yes</option>
+	 		</param>
 
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="num_leading_articles" type="text" size="3" default="1" label="Num Leading" description="PARAMLEADING" />

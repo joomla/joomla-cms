@@ -55,7 +55,7 @@ endif; ?>
 		<?php if ($this->item->params->get('show_category') && $this->item->catid) : ?>
 		<span>
 			<?php if ($this->item->params->get('link_category')) : ?>
-				<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug, $this->item->sectionid)).'">'; ?>
+				<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'; ?>
 			<?php endif; ?>
 			<?php echo $this->item->category; ?>
 			<?php if ($this->item->params->get('link_category')) : ?>
