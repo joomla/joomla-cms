@@ -60,84 +60,78 @@ class WeblinksModelSnapshotSources extends JModel
 		if (!$this->_data)
 		{
 			$options = array('lite' => '1');
-			$xmlDoc = & JFactory::getXMLparser('dom', $options);
+			$xmlDoc = & JFactory::getXMLparser('simple', $options);
 			if ($xmlDoc == false) {
 				$this->setError(JText::_('Error: Cannot create XML doc'));
 				return false;
 			}
 
-			$content = $xmlDoc->getTextFromFile(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'models'.DS.'snapshotsources.xml');
-			if (!$content) {
+			$xml = $xmlDoc->loadFile(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'models'.DS.'snapshotsources.xml');
+			if (!$xml) {
 				$this->setError(JText::_('Error: Cannot load document'));
 				return false;
 			}
-
-			$status = $xmlDoc->parseXML($content);
-			if ($status == false) {
-				$this->setError(JText::_('Error: Cannot parse XML doc'));
-				return false;
-			}
-
-			$config = &$xmlDoc->documentElement;
-			if ($config->nodeName != 'config') {
+			die;
+			$config = &$xmlDoc->document;
+			if ($config->name != 'config') {
 				$this->setError(JText::_('Error: Root incorrect'));
 				return false;
 			}
 
-			$sitesNode = &$config->firstChild;
-			if ($sitesNode->nodeName != 'sites') {
-				$this->setError(JText::_('Error: Sites incorrect'));
-				return false;
-			}
-
-			$sites = array();
-			$siteNode = & $sitesNode->firstChild;
-			while ($siteNode) {
-				if ($siteNode->nodeName != 'site') {
-					$this->setError(JText::_('Error: Invalid site format'));
+			$sitesNodes = &$config->children();
+			foreach($sitesNodes as $siteNode)
+			{
+				if ($sitesNode->name != 'sites') {
+					$this->setError(JText::_('Error: Sites incorrect'));
 					return false;
 				}
-				$siteInfo = & $siteNode->attributes;
-				$site = new stdClass();
-				$site->name = $siteInfo['name'];
-				$siteItem = & $siteNode->firstChild;
-				while ($siteItem) {
-					switch ($siteItem->nodeName) {
-						case 'url':
-							$site->url = $siteItem->firstChild->nodeValue;
-							break;
-						case 'website':
-							$site->website = $siteItem->firstChild->nodeValue;
-							break;
-						case 'website-url':
-							$site->website_url = $siteItem->firstChild->nodeValue;
-							break;
-						case 'pic':
-							$site->pic = $siteItem->firstChild->nodeValue;
-							break;
-						case 'submit':
-							$site->submit = $siteItem->firstChild->nodeValue;
-							break;
-						case 'valid':
-							$site->valid = $siteItem->firstChild->nodeValue;
-							break;
-						default:
-							$this->setError(JText::_('Error: Invalid site parameter'));
-							return false;
-							break;
+
+				$sites = array();
+				$siteNodes = & $sitesNode->children();
+				foreach ($siteNodes as $siteNode) {
+					if ($siteNode->name != 'site') {
+						$this->setError(JText::_('Error: Invalid site format'));
+						return false;
 					}
-					$siteItem = & $siteItem->nextSibling;
+					$siteInfo = & $siteNode->attributes;
+					$site = new stdClass();
+					$site->name = $siteInfo['name'];
+					$siteItems = & $siteNode->children;
+					foreach ($siteItems as $siteItem) {
+						switch ($siteItem->name) {
+							case 'url':
+								$site->url = $siteItem->data();
+								break;
+							case 'website':
+								$site->website = $siteItem->data();
+								break;
+							case 'website-url':
+								$site->website_url = $siteItem->data();
+								break;
+							case 'pic':
+								$site->pic = $siteItem->data();
+								break;
+							case 'submit':
+								$site->submit = $siteItem->data();
+								break;
+							case 'valid':
+								$site->valid = $siteItem->data();
+								break;
+							default:
+								$this->setError(JText::_('Error: Invalid site parameter'));
+								return false;
+								break;
+						}
+					}
+					$sites[] = $site;
 				}
-				$sites[] = $site;
-				$siteNode = & $siteNode->nextSibling;
+
+				$this->_data = $sites;
+				return (boolean) $this->_data;
 			}
-
-			$this->_data = $sites;
-			return (boolean) $this->_data;
+			return true;
 		}
-		return true;
 	}
-
 	/**
 	 * Method to initialise the currency data
 	 *

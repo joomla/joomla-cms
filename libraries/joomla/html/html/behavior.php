@@ -200,13 +200,10 @@ abstract class JHtmlBehavior
 		window.addEvent('domready', function() {
 
 			SqueezeBox.initialize(".$options.");
-
-			$$('".$selector."').each(function(el) {
-				el.addEvent('click', function(e) {
-					new Event(e).stop();
-					SqueezeBox.fromElement(el);
-				});
+			SqueezeBox.assign($$('".$selector."'), {
+				parse: 'rel'
 			});
+			
 		});");
 
 		// Set static array

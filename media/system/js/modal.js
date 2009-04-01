@@ -9,15 +9,23 @@
  * Inspired by
  *  ... Lokesh Dhakar	- The original Lightbox v2
  *
- * @version		1.1 rc2
+ * @version		1.1 rc3
  *
  * @license		MIT-style license
  * @author		Harald Kirschner <mail [at] digitarald.de>
  * @copyright	Author
  */
+
 var SqueezeBox = {
 
 	presets: {
+		onOpen: $empty,
+		onClose: $empty,
+		onUpdate: $empty,
+		onResize: $empty,
+		onMove: $empty,
+		onShow: $empty,
+		onHide: $empty,
 		size: {x: 600, y: 450},
 		sizeLoading: {x: 200, y: 150},
 		marginInner: {x: 20, y: 20},
@@ -35,19 +43,16 @@ var SqueezeBox = {
 		contentFx: {},
 		parse: false, // 'rel'
 		parseSecure: false,
-		ajaxOptions: {},
-		onOpen: $empty,
-		onClose: $empty,
-		onUpdate: $empty,
-		onResize: $empty,
-		onMove: $empty,
-		onShow: $empty,
-		onHide: $empty
+		shadow: true,
+		document: null,
+		ajaxOptions: {}
 	},
 
 	initialize: function(presets) {
 		if (this.options) return this;
+
 		this.presets = $merge(this.presets, presets);
+		this.doc = this.presets.document || document;
 		this.options = {};
 		this.setOptions(this.presets).build();
 		this.bound = {
@@ -65,12 +70,25 @@ var SqueezeBox = {
 			id: 'sbox-overlay',
 			styles: {display: 'none', zIndex: this.options.zIndex}
 		});
-		this.content = new Element('div', {id: 'sbox-content'});
-		this.closeBtn = new Element('a', {id: 'sbox-btn-close', href: '#'});
 		this.win = new Element('div', {
 			id: 'sbox-window',
 			styles: {display: 'none', zIndex: this.options.zIndex + 2}
-		}).adopt(this.closeBtn, this.content);
+		});
+		if (this.options.shadow) {
+			if (Browser.Engine.webkit420) {
+				this.win.setStyle('-webkit-box-shadow', '0 0 10px rgba(0, 0, 0, 0.7)');
+			} else if (!Browser.Engine.trident4) {
+				var shadow = new Element('div', {'class': 'sbox-bg-wrap'}).inject(this.win);
+				var relay = function(e) {
+					this.overlay.fireEvent('click', [e]);
+				}.bind(this);
+				['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'].each(function(dir) {
+					new Element('div', {'class': 'sbox-bg sbox-bg-' + dir}).inject(shadow).addEvent('click', relay);
+				});
+			}
+		}
+		this.content = new Element('div', {id: 'sbox-content'}).inject(this.win);
+		this.closeBtn = new Element('a', {id: 'sbox-btn-close', href: '#'}).inject(this.win);
 		this.fx = {
 			overlay: new Fx.Tween(this.overlay, $merge({
 				property: 'opacity',
@@ -92,7 +110,7 @@ var SqueezeBox = {
 				link: 'cancel'
 			}, this.options.contentFx)).set(0)
 		};
-		$(document.body).adopt(this.overlay, this.win);
+		$(this.doc.body).adopt(this.overlay, this.win);
 	},
 
 	assign: function(to, options) {
@@ -138,22 +156,23 @@ var SqueezeBox = {
 		if (!this.isOpen || (stoppable && !$lambda(this.options.closable).call(this, e))) return this;
 		this.fx.overlay.start(0).chain(this.toggleOverlay.bind(this));
 		this.win.setStyle('display', 'none');
+		this.fireEvent('onClose', [this.content]);
 		this.trash();
 		this.toggleListeners();
 		this.isOpen = false;
-		this.fireEvent('onClose', [this.content]);
 		return this;
 	},
 
 	trash: function() {
 		this.element = this.asset = null;
+		this.content.empty();
 		this.options = {};
 		this.removeEvents().setOptions(this.presets).callChain();
 	},
 
 	onError: function() {
 		this.asset = null;
-		this.setContent('string', 'Error during loading');
+		this.setContent('string', this.options.errorMsg || 'An error occurred');
 	},
 
 	setContent: function(handler, content) {
@@ -167,6 +186,7 @@ var SqueezeBox = {
 	},
 
 	applyContent: function(content, size) {
+		if (!this.isOpen && !this.applyTimer) return;
 		this.applyTimer = $clear(this.applyTimer);
 		this.hideContent();
 		if (!content) {
@@ -175,9 +195,10 @@ var SqueezeBox = {
 			if (this.isLoading) this.toggleLoading(false);
 			this.fireEvent('onUpdate', [this.content], 20);
 		}
-		this.content.empty();
-		if (['string', 'array', false].contains($type(content))) this.content.set('html', content || '');
-		else this.content.adopt(content);
+		if (content) {
+			if (['string', 'array'].contains($type(content))) this.content.set('html', content);
+			else if (!this.content.hasChild(content)) this.content.adopt(content);
+		}
 		this.callChain();
 		if (!this.isOpen) {
 			this.toggleListeners(true);
@@ -190,7 +211,8 @@ var SqueezeBox = {
 	},
 
 	resize: function(size, instantly) {
-		var box = document.getSize(), scroll = document.getScroll();
+		this.showTimer = $clear(this.showTimer || null);
+		var box = this.doc.getSize(), scroll = this.doc.getScroll();
 		this.size = $merge((this.isLoading) ? this.options.sizeLoading : this.options.size, size);
 		var to = {
 			width: this.size.x,
@@ -198,7 +220,6 @@ var SqueezeBox = {
 			left: (scroll.x + (box.x - this.size.x - this.options.marginInner.x) / 2).toInt(),
 			top: (scroll.y + (box.y - this.size.y - this.options.marginInner.y) / 2).toInt()
 		};
-		$clear(this.showTimer || null);
 		this.hideContent();
 		if (!instantly) {
 			this.fx.win.start(to).chain(this.showContent.bind(this));
@@ -213,8 +234,8 @@ var SqueezeBox = {
 		var fn = (state) ? 'addEvent' : 'removeEvent';
 		this.closeBtn[fn]('click', this.bound.close);
 		this.overlay[fn]('click', this.bound.close);
-		document[fn]('keydown', this.bound.key)[fn]('mousewheel', this.bound.scroll);
-		window[fn]('resize', this.bound.window)[fn]('scroll', this.bound.window);
+		this.doc[fn]('keydown', this.bound.key)[fn]('mousewheel', this.bound.scroll);
+		this.doc.getWindow()[fn]('resize', this.bound.window)[fn]('scroll', this.bound.window);
 	},
 
 	toggleLoading: function(state) {
@@ -224,8 +245,15 @@ var SqueezeBox = {
 	},
 
 	toggleOverlay: function(state) {
+		var full = this.doc.getSize().x;
 		this.overlay.setStyle('display', (state) ? '' : 'none');
-		$(document.body)[(state) ? 'addClass' : 'removeClass']('body-overlayed');
+		this.doc.body[(state) ? 'addClass' : 'removeClass']('body-overlayed');
+		if (state) {
+			this.scrollOffset = this.doc.getWindow().getSize().x - full;
+			this.doc.body.setStyle('margin-right', this.scrollOffset);
+		} else {
+			this.doc.body.setStyle('margin-right', '');
+		}
 	},
 
 	showContent: function() {
@@ -235,7 +263,7 @@ var SqueezeBox = {
 
 	hideContent: function() {
 		if (!this.content.get('opacity')) this.fireEvent('onHide', [this.win]);
-		this.fx.content.set(0);
+		this.fx.content.cancel().set(0);
 	},
 
 	onKey: function(e) {
@@ -250,15 +278,13 @@ var SqueezeBox = {
 	},
 
 	reposition: function() {
-		var size = document.getSize(), scroll = document.getScroll();
+		var size = this.doc.getSize(), scroll = this.doc.getScroll(), ssize = this.doc.getScrollSize();
 		this.overlay.setStyles({
-			left: scroll.x + 'px',
-			top: scroll.y + 'px',
-			width: size.x + 'px',
-			height: size.y + 'px'
+			width: ssize.x + 'px',
+			height: ssize.y + 'px'
 		});
 		this.win.setStyles({
-			left: (scroll.x + (size.x - this.win.offsetWidth) / 2).toInt() + 'px',
+			left: (scroll.x + (size.x - this.win.offsetWidth) / 2 - this.scrollOffset).toInt() + 'px',
 			top: (scroll.y + (size.y - this.win.offsetHeight) / 2).toInt() + 'px'
 		});
 		return this.fireEvent('onMove', [this.overlay, this.win]);
@@ -320,7 +346,7 @@ SqueezeBox.handlers.extend({
 				this.onError.delay(10, this);
 				return;
 			}
-			var box = document.getSize();
+			var box = this.doc.getSize();
 			box.x -= this.options.marginImage.x;
 			box.y -= this.options.marginImage.y;
 			size = {x: tmp.width, y: tmp.height};
@@ -337,8 +363,9 @@ SqueezeBox.handlers.extend({
 			size.y = size.y.toInt();
 			this.asset = $(tmp);
 			tmp = null;
-			this.asset.setProperties({width: size.x, height: size.y});
-			if (this.isOpen) this.applyContent(this.asset, size);
+			this.asset.width = size.x;
+			this.asset.height = size.y;
+			this.applyContent(this.asset, size);
 		}).bind(this);
 		tmp.src = url;
 		if (tmp && tmp.onload && tmp.complete) tmp.onload();
@@ -346,10 +373,14 @@ SqueezeBox.handlers.extend({
 	},
 
 	clone: function(el) {
-		return el.clone();
+		if (el) return el.clone();
+		return this.onError();
 	},
 
-	adopt: $arguments(0),
+	adopt: function(el) {
+		if (el) return el;
+		return this.onError();
+	},
 
 	ajax: function(url) {
 		this.asset = new Request.HTML($merge({
@@ -357,6 +388,7 @@ SqueezeBox.handlers.extend({
 		}, this.options.ajaxOptions)).addEvents({
 			onSuccess: function(resp) {
 				this.applyContent(resp);
+				this.fireEvent('onAjax', [resp, this.asset]);
 				this.asset = null;
 			}.bind(this),
 			onFailure: this.onError.bind(this)
@@ -365,12 +397,20 @@ SqueezeBox.handlers.extend({
 	},
 
 	iframe: function(url) {
-		return new Element('iframe', $merge({
+		this.asset = new Element('iframe', $merge({
 			src: url,
 			frameBorder: 0,
 			width: this.options.size.x,
 			height: this.options.size.y
 		}, this.options.iframeOptions));
+		if (this.options.iframePreload) {
+			this.asset.addEvent('load', function() {
+				this.applyContent(this.asset.setStyle('display', ''));
+			}.bind(this));
+			this.asset.setStyle('display', 'none').inject(this.content);
+			return false;
+		}
+		return this.asset;
 	},
 
 	string: function(str) {
