@@ -180,8 +180,15 @@ class JInstallation extends JApplication
 	*
 	* @return string The template name
 	*/
-	function getTemplate()
+	function getTemplate($params = false)
 	{
+		if($params)
+		{
+			$template = new stdClass();
+			$template->template = 'template';
+			$template->params = '{}';
+			return $template;
+		}
 		return 'template';
 	}
 
