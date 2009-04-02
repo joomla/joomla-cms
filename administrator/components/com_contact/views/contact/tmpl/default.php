@@ -69,7 +69,7 @@
 				</label>
 			</td>
 			<td>
-				<?php echo JHtml::_('list.category',  'catid', 'com_contact_details', intval( $this->contact->catid ) ); ?>
+				<?php echo JHtml::_('list.category',  'catid', 'com_contacts', NULL, intval( $this->contact->catid ) ); ?>
 			</td>
 		</tr>
 		<tr>

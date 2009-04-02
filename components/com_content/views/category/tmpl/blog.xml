@@ -9,7 +9,7 @@
 		<name>Category Blog Layout</name>
 		<description>CATEGORY BLOG LAYOUT DESC</description>
 		<url>
-			<param name="id" type="category" label="Category" description="Choose a category..." />
+			<param name="id" type="category" extension="com_content" label="Category" description="Choose a category..." />
 		</url>
 		<params>
 	 		<param name="show_description" type="radio" default="0" label="Description" description="Show/Hide the Category Description">
