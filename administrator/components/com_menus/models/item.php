@@ -140,16 +140,16 @@ class MenusModelItem extends JModel
 	{
 		// Get the state parameters
 		$item	= &$this->getItem();
+		$query = JURI::getInstance($item->link);
 		$params	= new JParameter('');
-
 		if ($state = &$this->_getStateXML())
 		{
 			if ($state INSTANCEOF JSimpleXMLElement)
 			{
 				$sp = &$state->getElementByPath('url');
 				$params->setXML($sp);
-				if (isset($item->linkparts) && is_array($item->linkparts)) {
-					$params->loadArray($item->linkparts);
+				if (is_array($query->getQuery(true))) {
+					$params->loadArray($query->getQuery(true));
 				}
 			}
 		}

@@ -79,7 +79,6 @@ class CategoriesModelCategories extends JModel
 		$filter->state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
 		$filter->search		= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
 		$filter->extension 	= JRequest::getCmd( 'extension', 'com_content' );
-		$filter->sectionid	= $mainframe->getUserStateFromRequest( $option.'.'.$filter->section.'.sectionid',		'sectionid',		0,				'int' );
 		$this->_filter = $filter;
 	}
 

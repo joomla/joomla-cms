@@ -104,8 +104,14 @@ for ($i=0, $n=count( $this->rows ); $i < $n; $i++) {
 			<?php echo $published;?>
 		</td>
 		<td class="order">
-			<?php ++$ordering[$row->depth];
-			if($row->depth < $this->rows[$i-1]->depth)
+			<?php 
+			if(isset($ordering[$row->depth]))
+			{
+				++$ordering[$row->depth];
+			} else {
+				$ordering[$row->depth] = 0;
+			}
+			if(isset($this->rows[$i-1]) && $row->depth < $this->rows[$i-1]->depth)
 			{
 				for($e = 0; $e < ($this->rows[$i-1]->depth - $row->depth); $e++)
 				{
@@ -113,7 +119,7 @@ for ($i=0, $n=count( $this->rows ); $i < $n; $i++) {
 				}
 			} ?>
 			<span><?php echo $this->pagination->orderUpIcon( $i, ($row->depth <= @$this->rows[$i-1]->depth), 'orderup', 'Move Up', true ); ?></span>
-			<span><?php echo $this->pagination->orderDownIcon( $i, $n, ($row->rgt != 2 * count($this->rows) + 1 && ($row->level > @$this->rows[$i-1]->depth || $row->depth <= @$this->rows[$i+1]->depth)), 'orderdown', 'Move Down', true ); ?></span>
+			<span><?php echo $this->pagination->orderDownIcon( $i, $n, ($row->rgt != 2 * count($this->rows) + 1 && ($row->depth > @$this->rows[$i-1]->depth || $row->depth <= @$this->rows[$i+1]->depth)), 'orderdown', 'Move Down', true ); ?></span>
 			<?php $disabled = true ?  '' : 'disabled="disabled"'; ?>
 			<input type="text" name="order[]" size="5" value="<?php echo $ordering[$row->depth]; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 		</td>
