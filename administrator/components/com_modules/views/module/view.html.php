@@ -56,7 +56,7 @@ class ModulesViewModule extends JView
 		$lists 	= array();
 
 		$row->content = htmlspecialchars(str_replace('&amp;', '&', $row->content), ENT_COMPAT, 'UTF-8');
-		JFilterOutput::objectHTMLSafe($row, ENT_QUOTES, 'content');
+		JFilterOutput::objectHTMLSafe($row, ENT_QUOTES, array('content', 'params'));
 
 		// Edit or Create?
 		if ($isNew) {
@@ -202,7 +202,6 @@ class ModulesViewModule extends JView
 
 		// get params definitions
 		$params = new JParameter($row->params, $xmlfile, 'module');
-
 		// Check for component metadata.xml file
 		//$path = JApplicationHelper::getPath('mod'.$client->id.'_xml', $row->module);
 		//$params = new JParameter($row->params, $path);
