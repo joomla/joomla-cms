@@ -28,6 +28,12 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+03-Apr-2009 Ercan Ozkaya
+ + Added a table filter to checkin model
+ ^ Refactored and merged com_cache with 1.5 up to revision 11722
+ ^ Replaced a few regular expression calls
+ # Fixed an access violation in JForm
+
 29-Mar-2009 Ercan Ozkaya
  ^ Refactored com_checkin
  ^ Converted all parameter fields in sample data to JSON objects

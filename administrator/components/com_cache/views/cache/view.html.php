@@ -10,7 +10,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Cache component
@@ -18,46 +18,43 @@ jimport( 'joomla.application.component.view');
  * @static
  * @package		Joomla.Administrator
  * @subpackage	Cache
- * @since 1.0
+ * @since 1.6
  */
 class CacheViewCache extends JView
 {
-	protected $pagination;
+	protected $data;
+	
+	protected $state;
+	
 	protected $client;
-	protected $rows;
-	function display($tpl = null)
+	
+	protected $pagination;
+	
+	public function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$data 		= $this->get('Data');
+		$client 	= $this->get('Client');
+		$pagination = $this->get('Pagination');
+		$state	 	= $this->get('State');
 
-		JToolBarHelper::title( JText::_( 'Cache Manager' ), 'cache.png' );
-		JToolBarHelper::custom( 'delete', 'delete.png', 'delete_f2.png', 'Delete', true );
-		JToolBarHelper::help( 'screen.cache' );
 
-		$submenu = JRequest::getVar('client', '0', '', 'int');
-		$client	 =& JApplicationHelper::getClientInfo($submenu);
-		if ($submenu == 1) {
-			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0');
-			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1', true);
-		} else {
-			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0', true);
-			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1');
-		}
-
-		//$cmData = new CacheData($client->path.DS.'cache');
-
-		// Set the model path
-		$model =& $this->getModel();
-		$model->setPath($client->path.DS.'cache');
-
-		// Get data from the model
-		$rows		= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-
-		$this->assignRef('rows',		$rows);
+		$this->assignRef('data',		$data);
 		$this->assignRef('client',		$client);
+		$this->assignRef('state',		$state);
 		$this->assignRef('pagination',	$pagination);
 
+		$this->setToolbar();
 		parent::display($tpl);
+	}
+	
+	protected function setToolbar()
+	{
+		$condition = ($this->client->name == 'site');
+		JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0', $condition);
+		JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1', !$condition);	
+	
+		JToolBarHelper::title(JText::_('Cache Manager - Clean Cache Admin' ), 'checkin.png');
+		JToolBarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'Delete', true);
+		JToolBarHelper::help('screen.cache');
 	}
 }

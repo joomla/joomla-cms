@@ -12,7 +12,7 @@ defined('_JEXEC') or die();
 jimport('joomla.application.component.model');
 
 /**
- * Members Model for JXtended Members.
+ * Checkin Model
  *
  * @package		Joomla.Administrator
  * @subpackage	Checkin
@@ -20,16 +20,27 @@ jimport('joomla.application.component.model');
  */
 class CheckinModelCheckin extends JModel
 {
-	public function checkin()
+	/**
+	 * Checks in requested tables
+	 *
+	 * @access	public
+	 * @param  	array	An array of table names. Optional.
+	 * @return	array	Checked in table names as keys and checked in item count as values
+	 * @since	1.6
+	 */
+	public function checkin($tables = null)
 	{
 		$app 		=& JFactory::getApplication();
 		$db 		=& $this->_db;
-		$tables 	= $db->getTableList();
 		$nullDate 	= $db->getNullDate();
-	
+
+		if (!is_array($tables)) {
+			$tables = $db->getTableList();
+		}
+
 		// this array will hold table name as key and checked in item count as value
 		$results = array();
-		
+
 		foreach ($tables as $tn) {
 			// make sure we get the right tables based on prefix
 			if (stripos($tn, $app->getCfg('dbprefix')) !== 0) {
@@ -56,7 +67,7 @@ class CheckinModelCheckin extends JModel
 				continue;
 			}
 		}
-		
+
 		return $results;
 	}
 }

@@ -477,7 +477,7 @@ class JForm extends JClass
 				{
 					// Get the validation messages.
 					foreach ($results as $result) {
-						if (JError::isError($result) && $result->level === E_WARNING) {
+						if (JError::isError($result) && $result->get('level') === E_WARNING) {
 							$this->setError($result);
 							$return = false;
 						}

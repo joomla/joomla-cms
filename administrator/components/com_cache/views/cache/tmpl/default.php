@@ -8,7 +8,7 @@
 			<?php echo JText::_( 'Num' ); ?>
 		</th>
 		<th width="20">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->rows );?>);" />
+			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->data );?>);" />
 		</th>
 		<th class="title" nowrap="nowrap">
 			<?php echo JText::_( 'Cache Group' ); ?>
@@ -31,8 +31,8 @@
 	<tbody>
 	<?php
 	$rc = 0;
-	for ($i = 0, $n = count($this->rows); $i < $n; $i ++) {
-		$row = & $this->rows[$i];
+	for ($i = 0, $n = count($this->data); $i < $n; $i ++) {
+		$row = & $this->data[$i];
 		?>
 
 		<tr class="<?php echo "row$rc"; ?>" >

@@ -295,7 +295,7 @@ abstract class JApplication extends JClass
 	public function redirect($url, $msg='', $msgType='message')
 	{
 		// check for relative internal links
-		if (preg_match('#^index[2]?.php#', $url)) {
+		if (strpos($url, 'index.php') === 0) {
 			$url = JURI::base() . $url;
 		}
 
@@ -306,7 +306,7 @@ abstract class JApplication extends JClass
 		// If we don't start with a http we need to fix this before we proceed
 		// We could validly start with something else (e.g. ftp), though this would
 		// be unlikely and isn't supported by this API
-		if (!preg_match('#^http#', $url)) {
+		if (strpos($url, 'http') !== 0) {
 			$uri =& JURI::getInstance();
 			$prefix = $uri->toString(Array('scheme', 'user', 'pass', 'host', 'port'));
 			if ($url[0] == '/') {

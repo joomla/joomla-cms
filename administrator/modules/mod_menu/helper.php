@@ -272,6 +272,7 @@ class MenuModuleHelper
 			}
 			if (JAcl::authorise('core', 'cache.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Menu Clean Cache'), 'index.php?option=com_cache', 'class:config'));
+				$menu->addChild(new JMenuNode(JText::_('Purge Expired Cache'), 'index.php?option=com_cache&view=purge', 'class:config'));
 			}
 
 			$menu->getParent();
