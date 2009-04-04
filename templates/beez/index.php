@@ -31,6 +31,7 @@ $showRightColumn &= JRequest::getCmd('task') != 'edit'
 		<link href="<?php echo $this->baseurl ?>/templates/beez/css/ie7only.css" rel="stylesheet" type="text/css" />
 	<![endif]-->
 	<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez/javascript/md_stylechanger.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez/javascript/aria-landmarks.js"></script>
 </head>
 <body>
 	<div id="all">
