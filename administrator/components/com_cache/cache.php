@@ -14,7 +14,7 @@ if (!JAcl::authorise('core', 'cache.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
-require_once JPATH_COMPONENT.DS.'controller.php';
+jimport('joomla.application.component.controller');
 
 $controller	= JController::getInstance('Cache');
 $controller->execute(JRequest::getCmd('task'));

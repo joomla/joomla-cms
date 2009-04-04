@@ -73,13 +73,13 @@ class CacheController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('cache');
-		$ret = $model->clean();
+		$ret = $model->purge();
 
 		$msg = JText::_('Expired items have been purged');
 		$msgType = 'message';
 
 		if ($ret === false) {
-			$msg = JText::_('Error puring expired items');
+			$msg = JText::_('Error purging expired items');
 			$msgType = 'error';
 		}
 

@@ -24,11 +24,11 @@ class CacheViewPurge extends JView
 {
 	public function display($tpl = null)
 	{
-		$this->setToolbar();
+		$this->_setToolbar();
 		parent::display($tpl);
 	}
 	
-	protected function setToolbar()
+	protected function _setToolbar()
 	{
 		JSubMenuHelper::addEntry(JText::_('Back to Clean Cache Admin'), 'index.php?option=com_cache', false);
 		

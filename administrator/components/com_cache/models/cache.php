@@ -183,6 +183,12 @@ class CacheModelCache extends JModel
 			$this->clean($group);
 		}
 	}
+	
+	public function purge()
+	{
+		$cache =& JFactory::getCache('');
+		return $cache->gc();	
+	}
 }
 
  /**

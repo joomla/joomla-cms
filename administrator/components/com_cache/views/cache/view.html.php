@@ -43,11 +43,11 @@ class CacheViewCache extends JView
 		$this->assignRef('state',		$state);
 		$this->assignRef('pagination',	$pagination);
 
-		$this->setToolbar();
+		$this->_setToolbar();
 		parent::display($tpl);
 	}
 	
-	protected function setToolbar()
+	protected function _setToolbar()
 	{
 		$condition = ($this->client->name == 'site');
 		JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0', $condition);
