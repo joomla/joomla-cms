@@ -178,12 +178,14 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function gc()
 	{
+		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.file');
 		$result = true;
 		// files older than lifeTime get deleted from cache
 		$files = JFolder::files($this->_root, '_expire', true, true);
 		foreach($files As $file) {
 			$time = @file_get_contents($file);
-			if ($time + $this->_lifetime < $this->_now) {
+			if (($time + $this->_lifetime) < $this->_now) {
 				$result |= JFile::delete($file);
 				$result |= JFile::delete(str_replace('_expire', '', $file));
 			}
@@ -220,7 +222,7 @@ class JCacheStorageFile extends JCacheStorage
 		// set prune period
 		if (file_exists($path.'_expire')) {
 			$time = @file_get_contents($path.'_expire');
-			if ($time + $this->_lifetime < $this->_now || empty($time)) {
+			if ($time + $this->_lifetime < $this->_now || empty($time)) { 
 				$this->remove($id, $group);
 			}
 		} elseif (file_exists($path)) {
