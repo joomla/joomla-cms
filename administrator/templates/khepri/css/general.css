@@ -564,7 +564,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 .button2-left .blank	 	{ background: url(../images/j_button2_blank.png) 100% 0 no-repeat; }
 
 /* Tooltips */
-.tool-tip {
+.tip {
 	float: left;
 	background: #ffc;
 	border: 1px solid #D4D5AA;
@@ -573,7 +573,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	z-index: 50;
 }
 
-.tool-title {
+.tip-title {
 	padding: 0;
 	margin: 0;
 	font-size: 100%;
@@ -584,7 +584,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	background: url(../images/selector-arrow.png) no-repeat;
 }
 
-.tool-text {
+.tip {
 	font-size: 100%;
 	margin: 0;
 }
