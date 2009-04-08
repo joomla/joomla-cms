@@ -36,5 +36,6 @@
 			<option value="2">Designer mode</option>
 		</param>
 		<param name="language_prefix" type="text" default="" label="Strip String Prefix" description="Strip String Prefix Desc" />
+		<param name="filter_groups" type="usergroup" multiple="true" size="10" default="" label="Filter Groups" description="Filter Groups Desc" />
 	</params>
 </install>

@@ -50,6 +50,13 @@ class  plgSystemDebug extends JPlugin
 
 		// Only render for HTML output
 		if ($doctype !== 'html') { return; }
+		
+		// If the user is not allowed to view the output then end here
+		$gid = JFactory::getUser()->get('gid');
+		$filterGroups = (array) $this->params->get('filter_groups', null);
+		if (!empty($filterGroups) && !in_array($gid, $filterGroups)) {
+			return;
+		}
 
 		$profiler	=& $_PROFILER;
 
@@ -65,6 +72,7 @@ class  plgSystemDebug extends JPlugin
 		}
 		if ($this->params->get('profile', 1)) {
 			echo '<h4>'.JText::_('Profile Information').'</h4>';
+			// TODO: find a way to have onAfterRender here
 			foreach ($profiler->getBuffer() as $mark) {
 				echo '<div>'.$mark.'</div>';
 			}
@@ -75,20 +83,16 @@ class  plgSystemDebug extends JPlugin
 			echo $profiler->getMemory();
 		}
 
-		if ($this->params->get('queries', 1))
-		{
-
-			$newlineKeywords = '#(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)#i';
+		if ($this->params->get('queries', 1)) {
+			$newlineKeywords = '#\s+(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)\s+#i';
 
 			$db	=& JFactory::getDBO();
 
 			echo '<h4>'.JText::sprintf('Queries logged',  $db->getTicker()).'</h4>';
 
-			if ($log = $db->getLog())
-			{
+			if ($log = $db->getLog()) {
 				echo '<ol>';
-				foreach ($log as $k=>$sql)
-				{
+				foreach ($log as $k=>$sql) {
 					$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $sql);
 					echo '<li>'.$text.'</li>';
 				}
@@ -97,15 +101,12 @@ class  plgSystemDebug extends JPlugin
 		}
 
 		$lang = &JFactory::getLanguage();
-		if ($this->params->get('language_files', 1))
-		{
+		if ($this->params->get('language_files', 1)) {
 			echo '<h4>'.JText::_('Language Files Loaded').'</h4>';
 			echo '<ul>';
 			$extensions	= $lang->getPaths();
-			foreach ($extensions as $extension => $files)
-			{
-				foreach ($files as $file => $status)
-				{
+			foreach ($extensions as $extension => $files) {
+				foreach ($files as $file => $status) {
 					echo "<li>$file $status</li>";
 				}
 			}
@@ -117,8 +118,7 @@ class  plgSystemDebug extends JPlugin
 			echo '<h4>'.JText::_('Untranslated Strings Diagnostic').'</h4>';
 			echo '<pre>';
 			$orphans = $lang->getOrphans();
-			if (count($orphans))
-			{
+			if (count($orphans)) {
 				ksort($orphans, SORT_STRING);
 				foreach ($orphans as $key => $occurance) {
 					foreach ($occurance as $i => $info) {
@@ -139,12 +139,10 @@ class  plgSystemDebug extends JPlugin
 			echo '<h4>'.JText::_('Untranslated Strings Designer').'</h4>';
 			echo '<pre>';
 			$orphans = $lang->getOrphans();
-			if (count($orphans))
-			{
+			if (count($orphans)) {
 				ksort($orphans, SORT_STRING);
 				$guesses = array();
-				foreach ($orphans as $key => $occurance)
-				{
+				foreach ($orphans as $key => $occurance) {
 					if (is_array($occurance) AND isset($occurance[0])) {
 						$info = &$occurance[0];
 						$file = @$info['file'];
