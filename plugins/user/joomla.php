@@ -86,16 +86,17 @@ class plgUserJoomla extends JPlugin
 
 		// Get an ACL object
 		$acl =& JFactory::getACL();
+// @todo Fix these groups
+/**		// Get the user group from the ACL
 
-		// Get the user group from the ACL
-		if ($instance->get('tmp_user') == 1) {
+if ($instance->get('tmp_user') == 1) {
 			$grp = new JObject;
 			// This should be configurable at some point
 			$grp->set('name', 'Registered');
 		} else {
-			$grp = $acl->getAroGroup($instance->get('id'));
+			//$grp = $acl->getAroGroup($instance->get('id'));
 		}
-
+*/
 		//Authorise the user based on the group information
 		if (!isset($options['group'])) {
 			$options['group'] = 'USERS';
@@ -122,15 +123,6 @@ class plgUserJoomla extends JPlugin
 		$instance->set( 'guest', 0);
 		$instance->set('aid', 1);
 
-		// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-		if ($acl->is_group_child_of($grp->name, 'Registered') ||
-			$acl->is_group_child_of($grp->name, 'Public Backend'))	{
-			$instance->set('aid', 2);
-		}
-
-		//Set the usertype based on the ACL group name
-		$instance->set('usertype', $grp->name);
-
 		// Register the needed session variables
 		$session =& JFactory::getSession();
 		$session->set('user', $instance);
@@ -142,7 +134,6 @@ class plgUserJoomla extends JPlugin
 		$table->guest 		= $instance->get('guest');
 		$table->username 	= $instance->get('username');
 		$table->userid 		= intval($instance->get('id'));
-		$table->usertype 	= $instance->get('usertype');
 		$table->gid 		= intval($instance->get('gid'));
 
 		$table->update();

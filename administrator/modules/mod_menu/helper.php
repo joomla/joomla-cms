@@ -29,6 +29,7 @@ class MenuModuleHelper
 		 */
 		$menu = new JAdminCSSMenu();
 
+		$user = &JFactory::getUser();
 		/*
 		 * Site SubMenu
 		 */
@@ -37,17 +38,17 @@ class MenuModuleHelper
 			$menu->addChild(new JMenuNode(JText::_('Site')), true);
 			$menu->addChild(new JMenuNode(JText::_('Control Panel'), 'index.php', 'class:cpanel'));
 			$menu->addSeparator();
-			if (JAcl::authorise('core', 'acl.manage')) {
+			if ($user->authorize('core', 'acl.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Access Control'), 'index.php?option=com_acl', 'class:config'));
 			}
-			if (JAcl::authorise('core', 'users.manage')) {
+			if ($user->authorize('core', 'users.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('User Manager'), 'index.php?option=com_users&task=view', 'class:user'));
 			}
-			if (JAcl::authorise('core', 'media.manage')) {
+			if ($user->authorize('core', 'media.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Media Manager'), 'index.php?option=com_media', 'class:media'));
 			}
 			$menu->addSeparator();
-			if (JAcl::authorise('core', 'config.manage')) {
+			if ($user->authorize('core', 'config.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
 				$menu->addSeparator();
 			}
@@ -62,7 +63,7 @@ class MenuModuleHelper
 		/*
 		 * Menus SubMenu
 		 */
-		if (JAcl::authorise('core', 'menus.manage'))
+		if ($user->authorize('core', 'menus.manage'))
 		{
 			if ($enabled)
 			{
@@ -97,7 +98,7 @@ class MenuModuleHelper
 		/*
 		 * Content SubMenu
 		 */
-		if (JAcl::authorise('core', 'content.manage'))
+		if ($user->authorize('core', 'content.manage'))
 		{
 			if ($enabled)
 			{
@@ -107,7 +108,7 @@ class MenuModuleHelper
 
 				$menu->addSeparator();
 				$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index.php?option=com_categories&extension=com_content', 'class:category'));
-				if (JAcl::authorise('core', 'content.manage')) {
+				if ($user->authorize('core', 'content.manage')) {
 					$menu->addSeparator();
 					$menu->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index.php?option=com_content&controller=frontpage', 'class:frontpage'));
 				}
@@ -181,7 +182,7 @@ class MenuModuleHelper
 
 			foreach ($comps as $row)
 			{
-				if (JAcl::authorise($row->option, substr($row->option, 4).'.manage'))
+				if ($user->authorize($row->option, substr($row->option, 4).'.manage'))
 				{
 					if ($row->parent == 0 && (trim($row->admin_menu_link) || array_key_exists($row->id, $subs)))
 					{
@@ -211,11 +212,11 @@ class MenuModuleHelper
 		/*
 		 * Extensions SubMenu
 		 */
-		$im = JAcl::authorise('core', 'installer.manage');
-		$mm = JAcl::authorise('core', 'modules.manage');
-		$pm = JAcl::authorise('core', 'plugins.manage');
-		$tm = JAcl::authorise('core', 'templates.manage');
-		$lm = JAcl::authorise('core', 'languages.manage');
+		$im = $user->authorize('core', 'installer.manage');
+		$mm = $user->authorize('core', 'modules.manage');
+		$pm = $user->authorize('core', 'plugins.manage');
+		$tm = $user->authorize('core', 'templates.manage');
+		$lm = $user->authorize('core', 'languages.manage');
 
 		if ($im || $mm || $pm || $tm || $lm)
 		{
@@ -253,24 +254,24 @@ class MenuModuleHelper
 		{
 			$menu->addChild(new JMenuNode(JText::_('Menu Tools')), true);
 
-			if (JAcl::authorise('core', 'messages.manage')) {
+			if ($user->authorize('core', 'messages.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Menu Read Messages'), 'index.php?option=com_messages', 'class:messages'));
 				$menu->addChild(new JMenuNode(JText::_('Menu Write Message'), 'index.php?option=com_messages&task=add', 'class:messages'));
 				$menu->addSeparator();
 			}
-			if (JAcl::authorise('core', 'massmail.manage')) {
+			if ($user->authorize('core', 'massmail.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Menu Mass Mail'), 'index.php?option=com_massmail', 'class:massmail'));
 				$menu->addSeparator();
 			}
-			if (JAcl::authorise('core', 'checkin.manage')) {
+			if ($user->authorize('core', 'checkin.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Menu Global Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
 				$menu->addSeparator();
 			}
-			if (JAcl::authorise('core', 'localise.manage')) {
+			if ($user->authorize('core', 'localise.manage')) {
 				// @todo Add style for com_localise
 				$menu->addChild(new JMenuNode(JText::_('Menu Localisation'), 'index.php?option=com_localise', 'class:config'));
 			}
-			if (JAcl::authorise('core', 'cache.manage')) {
+			if ($user->authorize('core', 'cache.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Menu Clean Cache'), 'index.php?option=com_cache', 'class:config'));
 				$menu->addChild(new JMenuNode(JText::_('Purge Expired Cache'), 'index.php?option=com_cache&view=purge', 'class:config'));
 			}

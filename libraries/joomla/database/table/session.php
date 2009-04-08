@@ -41,7 +41,7 @@ class JTableSession extends JTable
 	 *
 	 * @var string
 	 */
-	protected $usertype			= null;
+	//protected $usertype			= null;
 
 	/**
 	 *

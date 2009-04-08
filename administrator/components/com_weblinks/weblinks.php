@@ -10,7 +10,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (!JAcl::authorise('com_weblinks', 'weblinks.manage')) {
+$user = & JFactory::getUser();
+if (!$user->authorize('com_weblinks', 'weblinks.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 

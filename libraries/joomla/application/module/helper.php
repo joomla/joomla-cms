@@ -254,7 +254,7 @@ abstract class JModuleHelper
 			. ' FROM #__modules AS m'
 			. ' LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id'
 			. ' WHERE m.published = 1'
-			. ' AND m.access <= '. (int)$aid
+			. ' AND m.access IN ('.implode(',', $user->authorisedLevels()).')'
 			. ' AND m.client_id = '. (int)$appl->getClientId()
 			. $wheremenu
 			. ' ORDER BY position, ordering';

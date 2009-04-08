@@ -177,7 +177,7 @@ class ContentModelFrontpage extends JModel
 
 		// Does the user have access to view the items?
 		if ($noauth) {
-			$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels()).')';
+			$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels('com_content.article.view')).')';
 		}
 
 		if ($user->authorize('com_content.edit', 'edit', 'content', 'all')) {

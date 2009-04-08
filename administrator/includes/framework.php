@@ -62,7 +62,6 @@ if (JDEBUG) {
 }
 
 // Joomla! library imports
-jimport('joomla.acl.acl');
 jimport('joomla.application.menu');
 jimport('joomla.user.user');
 jimport('joomla.environment.uri');

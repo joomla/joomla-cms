@@ -10,7 +10,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-if (!JAcl::authorise('com_newsfeeds', 'newsfeeds.manage')) {
+$user = & JFactory::getUser();
+if (!$user->authorize('com_newsfeeds', 'newsfeeds.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 

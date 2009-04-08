@@ -229,6 +229,7 @@ class JAccess extends JObject
 
 		// Clean up any NULL values, just in case
 		JArrayHelper::toInteger($result);
+		array_unshift($result, '1');
 
 		return $result;
 	}
@@ -257,11 +258,7 @@ class JAccess extends JObject
 		}
 		$db->setQuery($query->toString());
 
-		$this->_quiet or $this->_log($db->getQuery());
-
 		$result = $db->loadResultArray();
-
-		$this->_quiet or $this->_log("Asset $assetId in groups: ".print_r($result, 1));
 
 		return $result;
 	}
@@ -316,14 +313,10 @@ class JAccess extends JObject
 
 		$db->setQuery($query->toString());
 
-		$this->_quiet or $this->_log($db->getQuery());
-
 		$ids = $db->loadResultArray();
 
-		array_unshift($ids, '1');
+		array_unshift($ids, '0');
 		$ids = array_unique($ids);
-
-		$this->_quiet or $this->_log(print_r($ids, 1));
 
 		return $ids;
 	}

@@ -291,7 +291,7 @@ class ContentModelArticle extends JModel
 		$article->title = trim( JFilterOutput::ampReplace($article->title) );
 
 		// Publishing state hardening for Authors
-		if (!$user->authorize('com_content', 'publish', 'content', 'all'))
+		if (!$user->authorize('com_content.article.publish'))
 		{
 			if ($isNew)
 			{
@@ -562,7 +562,7 @@ class ContentModelArticle extends JModel
 		$where = ' WHERE a.id = '. (int) $this->_id;
 		$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels()).')';
 
-		if (!$user->authorize('com_content', 'edit', 'content', 'all'))
+		if (!$user->authorize('com_content.article.edit'))
 		{
 			$where .= ' AND ( ';
 			$where .= ' ( a.created_by = ' . (int) $user->id . ' ) ';

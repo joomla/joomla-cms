@@ -15,8 +15,6 @@ require_once JPATH_COMPONENT.DS.'helper.php';
 
 // Make sure the user is authorized to view this page
 $user 	= &JFactory::getUser();
-$acl 	= &JFactory::getACL();
-$acl->addACL('com_localise', 'manage', 'users', 'super administrator');
 if (!$user->authorize('com_localise', 'manage')) {
 	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }

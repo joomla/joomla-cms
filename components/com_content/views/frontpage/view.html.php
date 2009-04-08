@@ -65,9 +65,9 @@ class ContentViewFrontpage extends ContentView
 
 		// Create a user access object for the user
 		$access				= new stdClass();
-		$access->canEdit	= $user->authorize('com_content', 'edit', 'content', 'all');
-		$access->canEditOwn	= $user->authorize('com_content', 'edit', 'content', 'own');
-		$access->canPublish	= $user->authorize('com_content', 'publish', 'content', 'all');
+		$access->canEdit	= $user->authorize('com_content.article.edit');
+		$access->canEditOwn	= $user->authorize('com_content.article.edit_own');
+		$access->canPublish	= $user->authorize('com_content.article.publish');
 
 		//add alternate feed link
 		if($params->get('show_feed_link', 1) == 1)

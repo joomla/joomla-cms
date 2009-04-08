@@ -271,10 +271,10 @@ class JUser extends JClass
 		}
 
 		if (!isset($this->_authLevels[$action])) {
-			jimport('joomla.access.access');
-			$acs = new JAccess;
+			$acs = JFactory::getACL();
 			$this->_authLevels[$action] = $acs->getAuthorisedAccessLevels($this->id, $action);
 		}
+
 		return $this->_authLevels[$action];
 	}
 
