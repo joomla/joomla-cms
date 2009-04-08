@@ -14,7 +14,7 @@ defined('_JEXEC') or die( 'Restricted access' );
 * @package		Joomla.Administrator
 * @subpackage	Newsfeeds
 */
-class TableNewsFeed extends JTable
+class TableNewsFeed extends JTableAsset
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -50,6 +50,21 @@ class TableNewsFeed extends JTable
 		parent::__construct( '#__newsfeeds', 'id', $db );
 	}
 
+	protected function getAssetSection()
+	{
+		return 'com_newsfeeds';
+	}
+	
+	protected function getAssetNamePrefix()
+	{
+		return 'newsfeed';
+	}
+	
+	protected function getAssetTitle()
+	{
+		return $this->name;
+	}
+	
 	/**
 	 * Overloaded check function
 	 *

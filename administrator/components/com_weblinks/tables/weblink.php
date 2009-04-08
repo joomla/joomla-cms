@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage	Weblinks
  * @since		1.5
  */
-class WeblinksTableWeblink extends JTable
+class WeblinksTableWeblink extends JTableAsset
 {
 	/**
 	 * Primary Key
@@ -110,6 +110,21 @@ class WeblinksTableWeblink extends JTable
 		parent::__construct('#__weblinks', 'id', $db);
 	}
 
+	protected function getAssetSection()
+	{
+		return 'com_weblinks';
+	}
+	
+	protected function getAssetNamePrefix()
+	{
+		return 'weblink';
+	}
+	
+	protected function getAssetTitle()
+	{
+		return $this->title;
+	}
+	
 	/**
 	 * Loads a weblinks, and any other necessary data
 	 *
