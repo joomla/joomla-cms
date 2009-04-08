@@ -241,79 +241,6 @@ class ContentModelCategory extends JModel
 	}
 	
 	/**
-	 * Method to load sibling category data if it doesn't exist.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	protected function _loadCategoryTree()
-	{
-		// Lets load the siblings if they don't already exist
-		if (empty($this->_category_tree))
-		{
-			$user	 =& JFactory::getUser();
-			$app = JFactory::getApplication();
-			
-			// Get the page/component configuration
-			$params = &$app->getParams();
-
-			$noauth	 = !$params->get('show_noauth');
-			$gid		 = (int) $user->get('aid', 0);
-			$now		 = $app->get('requestTime');
-			$nullDate = $this->_db->getNullDate();
-
-			// Get the parameters of the active menu item
-			$menu	=& JSite::getMenu();
-			$item	= $menu->getActive();
-			$params	=& $menu->getParams($item->id);
-
-			if ($user->authorize('com_content', 'edit', 'content', 'all'))
-			{
-				$xwhere = '';
-				$xwhere2 = '';
-			}
-			else
-			{
-				$xwhere = ' AND c.published = 1';
-				$xwhere2 = '';
-			}
-
-			// Get the list of sibling categories [categories with the same parent]
-			$query = 'SELECT c.*, COUNT( b.id ) AS numitems, ' .
-					' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug'.
-					' FROM #__categories AS c' .
-					' LEFT JOIN #__content AS b ON b.catid = c.id, '.
-					' (SELECT c.id, MIN(c.lft) as lft, MAX(c.rgt) as rgt '.
-					' FROM #__categories AS c, #__categories AS cp '.
-					' WHERE cp.id = '.JRequest::getInt('id').
-					' AND c.lft BETWEEN cp.lft AND cp.rgt '.
-					' AND c.extension = \'com_content\') AS cp '.
-					' WHERE c.lft BETWEEN cp.lft AND cp.rgt AND c.extension = \'com_content\''.
-					$xwhere2.
-					$xwhere.
-					($noauth ? ' AND c.access <= '. (int) $gid : '').
-					' GROUP BY c.id'.
-					' ORDER BY c.lft';
-			$this->_db->setQuery($query);
-			$this->_category_tree = $this->_db->loadObjectList('id');
-			foreach($this->_category_tree as &$category)
-			{
-				$path = array();
-				foreach($this->_category_tree as $tempcategory)
-				{
-					if($tempcategory->lft <= $category->lft && $tempcategory->rgt >= $category->rgt)
-					{
-						$path[] = $tempcategory->slug;
-					}
-				}
-				$category->path = $path;
-			}
-			$this->_category = $this->_category_tree[$this->_id];
-		}
-		return true;
-	}
-
-	/**
 	 * Method to load content item data for items in the category if they don't
 	 * exist.
 	 *
@@ -372,7 +299,7 @@ class ContentModelCategory extends JModel
 			} else {
 				$query .= ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,';
 			}
-			$query .= ' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups'.$voting['select'];
+			$query .= ' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype'.$voting['select'];
 		} else {
 			$query = 'SELECT count(*) ';
 		}
@@ -391,7 +318,6 @@ class ContentModelCategory extends JModel
 			' FROM #__content AS a' .
 			 $subquery.
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
-			' LEFT JOIN #__core_acl_axo_groups AS g ON a.access = g.value'.
 			$voting['join'].
 			$where.
 			$orderby;

@@ -208,16 +208,9 @@ abstract class JFactory
 	public static function &getACL()
 	{
 		if (!is_object(JFactory::$acl)) {
-			jimport('joomla.user.authorization');
-		$db = & JFactory::getDBO();
-
-			$options = array(
-				'db'				=> &$db,
-				'db_table_prefix'	=> $db->getPrefix() . 'core_acl_',
-				'debug'				=> 0
-			);
-
-			JFactory::$acl = new JAuthorization($options);
+			jimport('joomla.access.access');
+		
+			JFactory::$acl = new JAccess();
 		}
 
 		return JFactory::$acl;

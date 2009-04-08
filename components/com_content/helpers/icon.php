@@ -110,7 +110,7 @@ class JHtmlIcon
 		$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
 		$overlib .= '&lt;br /&gt;';
-		$overlib .= JText::_($article->groups);
+		//$overlib .= JText::_($article->groups);
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;
 		$overlib .= '&lt;br /&gt;';

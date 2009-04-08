@@ -119,7 +119,7 @@ class ContentModelFrontpage extends JModel
 				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
 				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
 				' CHAR_LENGTH( a.`fulltext` ) AS readmore,' .
-				' u.name AS author, u.usertype, g.name AS groups, cc.title AS category, a.ordering AS a_ordering, f.ordering AS f_ordering'.
+				' u.name AS author, u.usertype, cc.title AS category, a.ordering AS a_ordering, f.ordering AS f_ordering'.
 				$voting['select'];
 		} else {
 			$query = 'SELECT count(*)';
@@ -129,7 +129,6 @@ class ContentModelFrontpage extends JModel
 			' INNER JOIN #__content_frontpage AS f ON f.content_id = a.id' .
 			' LEFT JOIN #__categories AS cc ON cc.id = a.catid'.
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
-			' LEFT JOIN #__core_acl_axo_groups AS g ON a.access = g.value'.
 			$voting['join'].
 			$where
 			.$orderby
@@ -181,7 +180,7 @@ class ContentModelFrontpage extends JModel
 			$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels()).')';
 		}
 
-		if ($user->authorize('com_content', 'edit', 'content', 'all')) {
+		if ($user->authorize('com_content.edit', 'edit', 'content', 'all')) {
 			$where .= ' AND a.state >= 0';
 		} else {
 			$where .= ' AND a.state = 1'.

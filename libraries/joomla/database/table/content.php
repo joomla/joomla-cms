@@ -104,6 +104,11 @@ class JTableContent extends JTableAsset
 		return 'com_content';
 	}
 
+	protected function getAssetNamePrefix()
+	{
+		return 'article';
+	}
+	
 	/**
 	 * Method to return the section of the object to insert into the AXO table
 	 *

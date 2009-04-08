@@ -251,36 +251,10 @@ class JUser extends JClass
 	 * @return	boolean	True if authorized
 	 * @since	1.5
 	 */
-	public function authorize($acoSection, $aco, $axoSection = null, $axo = null)
+	public function authorize($action, $assetname = null)
 	{
-		// the native calls (Check Mode 1) work on the user id, not the user type
 		$acl	= & JFactory::getACL();
-		$value	= $acl->getCheckMode() == 1 ? $this->id : $this->usertype;
-
-		return $acl->acl_check($acoSection, $aco,	'users', $value, $axoSection, $axo);
-	}
-
-	/**
-	 * NOTE: Temporary method to test new access control checks
-	 *
-	 * @access 	public
-	 * @param	string	$acoSection	The ACO section value
-	 * @param	string	$aco		The ACO value
-	 * @param	string	$axoSection	The AXO section value	[optional]
-	 * @param	string	$axo		The AXO value			[optional]
-	 * @return	boolean	True if authorized
-	 * @since	1.5
-	 */
-	public function authorize2($acoSection, $aco, $axoSection = null, $axo = null)
-	{
-		// the native calls (Check Mode 1) work on the user id, not the user type
-		$acl	= & JFactory::getACL();
-		$old	= $acl->setCheckMode(1);
-		$value	= $this->id;
-
-		$result	= $acl->acl_check($acoSection, $aco,	'users', $value, $axoSection, $axo);
-		$acl->setCheckMode($old);
-		return $result;
+		return $acl->check($this->id, $action, $assetname);
 	}
 
 	/**

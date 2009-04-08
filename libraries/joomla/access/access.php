@@ -31,15 +31,6 @@ jimport('joomla.database.query');
  */
 class JAccess extends JObject
 {
-	var $_quiet = true;
-
-	public function quiet($value)
-	{
-		$old = $this->_quiet;
-		$this->_quiet = (boolean) $value;
-		return $old;
-	}
-
 	/**
 	 * Method to check authorization for a user / action / asset combination.
 	 *
@@ -89,9 +80,6 @@ class JAccess extends JObject
 				// We could add this to the main query but we need to Asset Id for another part of the query anyway
 				$db->setQuery('SELECT id FROM #__access_assets WHERE `name` = '.$db->quote($assetName), 0, 1);
 				$assetId = $db->loadResult();
-
-				$this->_quiet or $this->_log($db->getQuery());
-				$this->_quiet or $this->_log("Asset by name $assetName had is = ".$assetId);
 			}
 
 			// Start the query
@@ -164,7 +152,8 @@ class JAccess extends JObject
 				// @todo It could be possible to improve this to dispense with the Acl Types in future
 				$temp = '(asrm.asset_id IS NULL)';
 				$query->order('(CASE WHEN urm.user_id IS NULL THEN 0 ELSE 1 END) DESC');
-				$query->order('(ug.right_id - ug.left_id) ASC');
+				//TODO Fix this one! order commented out since it not always applies.
+				//$query->order('(ug.right_id - ug.left_id) ASC');
 			}
 			else {
 				// Match specifically on the asset supplied
@@ -194,8 +183,6 @@ class JAccess extends JObject
 			// @todo Maybe add a parameter to return all rows for diagnositic purposes
 			$db->setQuery($query->toString(), 0, 1);
 
-			$this->_quiet or $this->_log($db->getQuery());
-
 			$row = $db->loadRow();
 
 			// Return Rule Id. This is the key to "hooking" extras like pricing assigned to rules etc... Very useful.
@@ -210,8 +197,6 @@ class JAccess extends JObject
 				$cache[$cacheId] = array('rule_id' => NULL, 'return_value' => NULL, 'allow' => FALSE);
 			}
 		}
-
-		$this->_quiet or $this->_log(print_r($cache[$cacheId], 1));
 
 		return $cache[$cacheId];
 	}
@@ -240,14 +225,10 @@ class JAccess extends JObject
 		}
 		$db->setQuery($query->toString());
 
-		$this->_quiet or $this->_log($db->getQuery());
-
 		$result = $db->loadResultArray();
 
 		// Clean up any NULL values, just in case
 		JArrayHelper::toInteger($result);
-
-		$this->_quiet or $this->_log("User $userId in groups: ".print_r($result, 1));
 
 		return $result;
 	}
@@ -394,10 +375,5 @@ class JAccess extends JObject
 		}
 
 		return $permissions;
-	}
-
-	public function _log($text)
-	{
-		echo nl2br($text).'<hr />';
 	}
 }

@@ -315,20 +315,6 @@ class JInstallationHelper
 				'REPLACE INTO #__user_usergroup_map VALUES ('.(int) $userId.','.(int) $groupId.')'
 			);
 			$db->query();
-
-			//
-			// @todo The following can be nuked as soon as the rest of the system is working
-			//
-
-			// add the ARO (Access Request Object)
-			$query = "INSERT IGNORE INTO #__core_acl_aro VALUES (10,'users',".(int) $userId.",0,'Administrator',0)";
-			$db->setQuery($query);
-			$db->query();
-
-			// add the map between the ARO and the Group
-			$query = "INSERT IGNORE INTO #__core_acl_groups_aro_map VALUES (25,'',10)";
-			$db->setQuery($query);
-			$db->query();
 		}
 		catch (JException $e)
 		{
