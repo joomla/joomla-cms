@@ -41,6 +41,7 @@ class CategoriesViewCategory extends JView
 
 		//get the section
 		$row =& $this->get('data');
+		$form =& $this->get('form');
 		$edit = JRequest::getVar('edit',true);
 
 		// fail if checked out not by 'me'
@@ -77,6 +78,7 @@ class CategoriesViewCategory extends JView
 		$this->assignRef('extension',	$extension);
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('row',			$row);
+		$this->assignRef('form',		$form);
 		$this->assignRef('params',			$params);
 
 		parent::display($tpl);

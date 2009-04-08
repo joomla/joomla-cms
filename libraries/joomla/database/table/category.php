@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
  * @subpackage		Table
  * @since	1.0
  */
-class JTableCategory extends JTable
+class JTableCategory extends JTableAsset
 {
 	/** @var int Primary key */
 	protected $id					= null;
@@ -53,6 +53,21 @@ class JTableCategory extends JTable
 		parent::__construct('#__categories', 'id', $db);
 	}
 
+	protected function getAssetSection()
+	{
+		return $this->extension;
+	}
+	
+	protected function getAssetNamePrefix()
+	{
+		return 'category';
+	}
+	
+	protected function getAssetTitle()
+	{
+		return $this->title;
+	}
+	
 	/**
 	 * Overloaded check function
 	 *

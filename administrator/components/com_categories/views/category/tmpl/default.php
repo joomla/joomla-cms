@@ -65,6 +65,60 @@ function submitbutton(pressbutton, section) {
 }
 </script>
 
+<form action="<?php JRoute::_('index.php?option=com_categories'); ?>" method="post" name="adminForm" id="category-form">
+	<fieldset style="width:45%; float:left;">
+		<legend><?php echo empty($this->item->id) ? JText::_('Categories_New_Category') : JText::sprintf('Categories_Edit_Category', $this->item->id); ?></legend>
+
+		<ol>
+			<li>
+				<?php echo $this->form->getLabel('title'); ?><br />
+				<?php echo $this->form->getInput('title'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('alias'); ?><br />
+				<?php echo $this->form->getInput('alias'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('published'); ?><br />
+				<?php echo $this->form->getInput('published'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('parent'); ?><br />
+				<?php echo $this->form->getInput('parent'); ?>
+			</li>
+			<li>
+				<?php echo $this->form->getLabel('access'); ?><br />
+				<?php echo $this->form->getInput('access'); ?>
+			</li>
+		</ol>
+	</fieldset>
+
+	<fieldset style="width:45%; float:right;">
+		<legend><?php echo JText::_('Weblinks_Options'); ?></legend>
+
+		<table>
+		<?php foreach($this->form->getFields('params') as $field): ?>
+			<?php if ($field->hidden): ?>
+				<?php echo $field->input; ?>
+			<?php else: ?>
+				<tr>
+					<td class="paramlist_key" width="40%">
+						<?php echo $field->label; ?>
+					</td>
+					<td class="paramlist_value">
+						<?php echo $field->input; ?>
+					</td>
+				</tr>
+			<?php endif; ?>
+		<?php endforeach; ?>
+		</table>
+
+	</fieldset>
+
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
+</form>
+
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
 <div class="col width-60">

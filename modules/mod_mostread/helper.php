@@ -48,7 +48,7 @@ class modMostReadHelper
 			' WHERE a.state = 1' .
 			' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )' .
 			' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'.
-			($access ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid : '').
+			($access ? ' AND a.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')). ') AND cc.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')).')' : '').
 			($catid ? $catCondition : '').
 			($show_front == '0' ? ' AND f.content_id IS NULL' : '').
 			' AND cc.published = 1' .

@@ -77,7 +77,7 @@ class modLatestNewsHelper
 			($show_front == '0' ? ' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' : '') .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
 			' WHERE '. $where.
-			($access ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid : '').
+			($access ? ' AND a.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')). ') AND cc.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')).')' : '').
 			($catid ? $catCondition : '').
 			($show_front == '0' ? ' AND f.content_id IS NULL ' : '').
 			' AND cc.published = 1' .

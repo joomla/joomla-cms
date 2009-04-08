@@ -87,10 +87,9 @@ class MenusModelList extends JModel
 			$search_rows = $db->loadResultArray();
 		}
 
-		$query = 'SELECT m.*, u.name AS editor, g.name AS groupname, c.publish_up, c.publish_down, com.name AS com_name' .
+		$query = 'SELECT m.*, u.name AS editor, c.publish_up, c.publish_down, com.name AS com_name' .
 				' FROM #__menu AS m' .
 				' LEFT JOIN #__users AS u ON u.id = m.checked_out' .
-				' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = m.access' .
 				' LEFT JOIN #__content AS c ON c.id = m.componentid AND m.type = "content_typed"' .
 				' LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = "component"' .
 				' WHERE m.menutype = '.$db->Quote($menutype) .

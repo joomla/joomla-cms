@@ -121,11 +121,10 @@ class ContactdirectoryModelContacts extends JModel
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
 
-		$query = ' SELECT DISTINCT c.*, d.data AS email, u.name AS editor, v.name AS user, g.name AS groupname'
+		$query = ' SELECT DISTINCT c.*, d.data AS email, u.name AS editor, v.name AS user'
 			. ' FROM #__contactdirectory_contacts AS c '
 			. ' LEFT JOIN #__users AS u ON u.id = c.checked_out '
 			. ' LEFT JOIN #__users AS v ON v.id = c.user_id '
-			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = c.access '
 			. ' LEFT JOIN #__contactdirectory_con_cat_map AS map ON map.contact_id = c.id '
 			. ' LEFT JOIN #__categories AS cat ON cat.id = map.category_id '
 			. ' LEFT JOIN #__contactdirectory_details AS d ON d.contact_id = c.id '
@@ -186,6 +185,8 @@ class ContactdirectoryModelContacts extends JModel
 	public function &getCategories()
 	{
 		if (!$this->_categories){
+			$categoryTree = JCategoryTree::getInstance('com_contactdirectory');
+			$this->_category = $categoryTree->get($this->_id);
 			$query = " SELECT c.title, map.contact_id, map.category_id AS id "
 					." FROM #__categories c "
 					." LEFT JOIN #__contactdirectory_con_cat_map map ON map.category_id = c.id "

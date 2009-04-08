@@ -78,6 +78,42 @@ class CategoriesModelCategory extends JModel
 	}
 
 	/**
+	 * Method to get the group form.
+	 *
+	 * @access	public
+	 * @return	mixed	JXForm object on success, false on failure.
+	 * @since	1.0
+	 */
+	function &getForm()
+	{
+		// Initialize variables.
+		$app	= &JFactory::getApplication();
+		$false	= false;
+
+		// Get the form.
+		jimport('joomla.form.form');
+		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
+		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
+		$form = &JForm::getInstance('jform', 'category', true, array('array' => true));
+
+		// Check for an error.
+		if (JError::isError($form)) {
+			$this->setError($form->getMessage());
+			return $false;
+		}
+
+		// Check the session for previously entered form data.
+		$data = $app->getUserState('com_categories.edit.category.data', array());
+
+		// Bind the form data if present.
+		if (!empty($data)) {
+			$form->bind($data);
+		}
+
+		return $form;
+	}
+	
+	/**
 	 * Tests if category is checked out
 	 *
 	 * @access	public

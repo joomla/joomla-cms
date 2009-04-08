@@ -251,23 +251,23 @@ abstract class JHtmlList
 	/**
 	 * Select list of active categories for components
 	 */
-	public static function category($name, $extension = 'com_content', $root = NULL, $active = -1, $javascript = NULL, $size = 1, $sel_cat = 1, $uncat = 0)
+	public static function category($name, $extension = 'com_content', $action = 'com_content.view', $root = NULL, $active = -1, $javascript = NULL, $size = 1, $sel_cat = 1, $uncat = 0)
 	{
 		$db =& JFactory::getDBO();
-		$user =& JFactory::getDBO();
+		$user =& JFactory::getUser();
 
 		if($root == NULL)
 		{
 			$root = '';
 		} else {
-			$root = ' AND cp.id = '. (int) $root.' ';
+			$root = '';// AND cp.id = '. (int) $root.' ';
 		}
 		
 		$query = 'SELECT c.id, c.title, c.parent_id, 0 as depth'.
 				' FROM #__categories AS c'.
 				' WHERE c.extension = '.$db->Quote($extension).
 				$root.
-				//' AND c.access IN ('.implode(',', $user->authorisedLevels()).')'.
+				' AND c.access IN ('.implode(',', $user->authorisedLevels($action)).')'.
 				' GROUP BY c.id ORDER BY c.lft'; 		
 		$db->setQuery($query);
 		$cat_list = $db->loadObjectList();

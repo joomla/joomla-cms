@@ -78,7 +78,7 @@ abstract class JHtmlGrid
 		{
 			$href = '
 			<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task_access .'\')" '. $color_access .'>
-			'. JText::_($row->groupname) .'</a>'
+			'. JText::_($row->access) .'</a>'
 			;
 		}
 

@@ -224,11 +224,10 @@ class CategoriesModelCategories extends JModel
 		$where		= $this->_buildContentWhere($this->_filter->extension);
 		$orderby	= $this->_buildContentOrderBy($this->_filter->extension);
 
-		$query = 'SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, COUNT( DISTINCT s2.checked_out ) AS checked_out_count'
+		$query = 'SELECT  c.*, c.checked_out as checked_out_contact_category, u.name AS editor, COUNT( DISTINCT s2.checked_out ) AS checked_out_count'
 		. $this->content_add
 		. ' FROM #__categories AS c'
 		. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
-		. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = c.access'
 		. ' LEFT JOIN #__'.$this->table.' AS s2 ON s2.catid = c.id AND s2.checked_out > 0'
 		//. ', #__categories AS cp'
 		. $this->content_join
