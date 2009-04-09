@@ -38,11 +38,8 @@ class MenuModuleHelper
 			$menu->addChild(new JMenuNode(JText::_('Site')), true);
 			$menu->addChild(new JMenuNode(JText::_('Control Panel'), 'index.php', 'class:cpanel'));
 			$menu->addSeparator();
-			if ($user->authorize('core', 'acl.manage')) {
-				$menu->addChild(new JMenuNode(JText::_('Access Control'), 'index.php?option=com_acl', 'class:config'));
-			}
-			if ($user->authorize('core', 'users.manage')) {
-				$menu->addChild(new JMenuNode(JText::_('User Manager'), 'index.php?option=com_users&task=view', 'class:user'));
+			if ($user->authorize('core', 'members.manage')) {
+				$menu->addChild(new JMenuNode(JText::_('Member Manager'), 'index.php?option=com_members', 'class:user'));
 			}
 			if ($user->authorize('core', 'media.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Media Manager'), 'index.php?option=com_media', 'class:media'));

@@ -150,15 +150,13 @@ INSERT INTO `#__components` VALUES (27, 'Messaging', '', 0, 0, '', 'Messages', '
 INSERT INTO `#__components` VALUES (28, 'Modules Manager', '', 0, 0, '', 'Modules', 'com_modules', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (29, 'Plugin Manager', '', 0, 0, '', 'Plugins', 'com_plugins', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (30, 'Template Manager', '', 0, 0, '', 'Templates', 'com_templates', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (31, 'User Manager', '', 0, 0, '', 'Users', 'com_users', 0, '', 1, '{"allowUserRegistration":"1","new_usertype":"Registered","useractivation":"1","frontend_userparams":"1"}', 1);
 INSERT INTO `#__components` VALUES (32, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (33, 'Control Panel', '', 0, 0, '', 'Control Panel', 'com_cpanel', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (34, 'Contact Directory', 'option=com_contactdirectory', 0, 0, 'option=com_contactdirectory', 'Contact Directory', 'com_contactdirectory', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (35, 'Contacts', '', 0, 34, 'option=com_contactdirectory&controller=contact', 'Contacts', 'com_contactdirectory', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (36, 'Categories', '', 0, 34, 'option=com_categories&extension=com_contactdirectory', 'Categories', 'com_contactdirectory', 1, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (37, 'Fields', '', 0, 34, 'option=com_contactdirectory&controller=field', 'Fields', 'com_contactdirectory', 2, 'js/ThemeOffice/component.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (38, 'Access Control', '', 0, 0, 'option=com_acl', 'Access Control', 'com_acl', 0, 'js/ThemeOffice/component.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (39, 'Members', 'option=com_members', 0, 0, 'option=com_members', 'Member Manager', 'com_members', 0, 'js/ThemeOffice/component.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (39, 'Members', '', 0, 0, 'option=com_members', 'Member Manager', 'com_members', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 
 # --------------------------------------------------------
 
