@@ -141,10 +141,9 @@ class ContentModelElement extends JModel
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
 
-		$query = 'SELECT c.*, g.name AS groupname, cc.title as cctitle, u.name AS editor, f.content_id AS frontpage, v.name AS author'
+		$query = 'SELECT c.*, cc.title as cctitle, u.name AS editor, f.content_id AS frontpage, v.name AS author'
 			. ' FROM #__content AS c'
 			. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
-			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = c.access'
 			. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
 			. ' LEFT JOIN #__users AS v ON v.id = c.created_by'
 			. ' LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id'

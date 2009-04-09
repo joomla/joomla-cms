@@ -30,9 +30,6 @@
 			<th class="title">
 				<?php echo JHtml::_('grid.sort',   'Title', 'c.title', @$this->filter->order_Dir, @$this->filter->order); ?>
 			</th>
-			<th width="7%">
-				<?php echo JHtml::_('grid.sort',   'Access', 'groupname', @$this->filter->order_Dir, @$this->filter->order); ?>
-			</th>
 			<th width="2%" class="title">
 				<?php echo JHtml::_('grid.sort',   'ID', 'c.id', @$this->filter->order_Dir, @$this->filter->order); ?>
 			</th>
@@ -69,9 +66,6 @@
 			<td>
 				<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""),$row->title); ?>', '<?php echo JRequest::getVar('object'); ?>');">
 					<?php echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8'); ?></a>
-			</td>
-			<td align="center">
-				<?php echo $row->groupname;?>
 			</td>
 			<td>
 				<?php echo $row->id; ?>
