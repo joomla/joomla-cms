@@ -856,7 +856,8 @@ REPLACE INTO `#__access_actions` VALUES
 (12, 1, 'core.media.manage', 'JAction_Media_Manage', 'JAction_Media_Manage_Desc', 1, 0),
 (13, 1, 'core.site.login', 'JAction_Site_Login', 'JAction_Site_Login_Desc', 1, -1),
 (14, 1, 'core.administrator.login', 'JAction_Administrator_Login', 'JAction_Administrator_Login_Desc', 1, -1),
-(15, 1, 'core.root', 'JAction_Root', 'JAction_Root_Desc', 1, -2)
+(15, 1, 'core.root', 'JAction_Root', 'JAction_Root_Desc', 1, -2),
+(16, 2, 'com_content.article.view', 'Article View', NULL, 3, 0)
 ;
 
 -- --------------------------------------------------------
@@ -876,7 +877,8 @@ REPLACE INTO `#__access_action_rule_map` VALUES
 (1, 2),
 (1, 3),
 (13, 4),
-(14, 5)
+(14, 5),
+(16, 6)
 ;
 
 -- --------------------------------------------------------
@@ -919,7 +921,8 @@ CREATE TABLE IF NOT EXISTS `#__access_assetgroup_rule_map` (
 REPLACE INTO `jos_access_assetgroup_rule_map` VALUES 
 (1, 1),
 (2, 2),
-(3, 3);
+(3, 3),
+(1, 6);
 
 -- --------------------------------------------------------
 
@@ -994,8 +997,8 @@ REPLACE INTO `#__access_rules` VALUES
 (2, 1, 'core', 'core.view.2', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
 (3, 1, 'core', 'core.view.3', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
 (4, 1, 'core', 'core.site.login', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(5, 1, 'core', 'core.administrator.login', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL)
-;
+(5, 1, 'core', 'core.administrator.login', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
+(6, 2, 'com_content', 'content.article.view', 'Article View', NULL, 0, 1, 1, 3, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1013,7 +1016,8 @@ CREATE TABLE IF NOT EXISTS `#__access_sections` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__access_sections` VALUES 
-(1, 'core', 'Core', -1);
+(1, 'core', 'Core', -1),
+(2, 'com_content', 'Content', 0);
 
 -- --------------------------------------------------------
 
@@ -1064,7 +1068,8 @@ INSERT INTO `#__usergroup_rule_map` VALUES
 (6, 3),
 (2, 4),
 (6, 4),
-(6, 5);
+(6, 5),
+(1, 6);
 
 -- --------------------------------------------------------
 

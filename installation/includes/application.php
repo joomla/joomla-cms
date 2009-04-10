@@ -90,7 +90,8 @@ class JInstallation extends JApplication
 		$params = array(
 			'template' 	=> 'template',
 			'file'		=> 'index.php',
-			'directory' => JPATH_THEMES
+			'directory' => JPATH_THEMES,
+			'params'	=> '{}'
 		);
 
 		$document->setBuffer($contents, 'installation');
