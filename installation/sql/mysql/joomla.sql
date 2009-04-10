@@ -414,6 +414,7 @@ CREATE TABLE `#__menu` (
   `browserNav` tinyint(4) default 0,
   `access` tinyint(3) unsigned NOT NULL default 0,
   `utaccess` tinyint(3) unsigned NOT NULL default 0,
+  `template_id` int(11) default 0,
   `params` text NOT NULL,
   `lft` int(11) unsigned NOT NULL default 0,
   `rgt` int(11) unsigned NOT NULL default 0,
@@ -1130,3 +1131,13 @@ CREATE TABLE IF NOT EXISTS `#__user_profiles` (
   `ordering` int(11) NOT NULL default '0',
   UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Simple user profile storage table';
+
+CREATE TABLE IF NOT EXISTS `#__menu_template` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `template` varchar(255) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `home` tinyint(1) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `params` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
