@@ -11,13 +11,13 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 
 /**
- * Contact Directory Component Fields Model
+ * Contact Component Fields Model
  *
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @since		1.6
  */
-class ContactdirectoryModelFields extends JModel
+class ContactModelFields extends JModel
 {
 	/**
 	 * Category data array
@@ -123,7 +123,7 @@ class ContactdirectoryModelFields extends JModel
 		$orderby	= $this->_buildContentOrderBy();
 
 		$query = ' SELECT f.*, u.name AS editor, g.name AS groupname '
-			. ' FROM #__contactdirectory_fields AS f '
+			. ' FROM #__contact_fields AS f '
 			. ' LEFT JOIN #__users AS u ON u.id = f.checked_out '
 			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = f.access '
 			. $where

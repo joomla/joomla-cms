@@ -12,13 +12,13 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 
 /**
- * Contact Directory Contact Controller
+ * Contact Contact Controller
  *
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @since		1.6
  */
-class ContactdirectoryControllerContact extends JController
+class ContactControllerContact extends JController
 {
 	/**
 	 * Display the list of contacts
@@ -82,7 +82,7 @@ class ContactdirectoryControllerContact extends JController
 
 		// Check the table in so it can be edited.... we are done with it anyway
 		$model->checkin();
-		$link = 'index.php?option=com_contactdirectory&controller=contact&task=edit&cid[]='. $id;
+		$link = 'index.php?option=com_contact&controller=contact&task=edit&cid[]='. $id;
 		$this->setRedirect($link, $msg);
 	}
 
@@ -104,7 +104,7 @@ class ContactdirectoryControllerContact extends JController
 		}
 		// Check the table in so it can be edited.... we are done with it anyway
 		$model->checkin();
-		$link = 'index.php?option=com_contactdirectory&controller=contact';
+		$link = 'index.php?option=com_contact&controller=contact';
 		$this->setRedirect($link, $msg);
 	}
 
@@ -125,7 +125,7 @@ class ContactdirectoryControllerContact extends JController
 			$msg = $model->getError();
 		}
 
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=contact', $msg);
+		$this->setRedirect('index.php?option=com_contact&controller=contact', $msg);
 	}
 
 
@@ -146,7 +146,7 @@ class ContactdirectoryControllerContact extends JController
 			$msg = $model->getError();
 		}
 
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=contact', $msg);
+		$this->setRedirect('index.php?option=com_contact&controller=contact', $msg);
 	}
 
 	public function unpublish()
@@ -166,7 +166,7 @@ class ContactdirectoryControllerContact extends JController
 			$msg = $model->getError();
 		}
 
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=contact', $msg);
+		$this->setRedirect('index.php?option=com_contact&controller=contact', $msg);
 	}
 
 	public function cancel()
@@ -178,7 +178,7 @@ class ContactdirectoryControllerContact extends JController
 		$model = $this->getModel('contact');
 		$model->checkin();
 
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=contact');
+		$this->setRedirect('index.php?option=com_contact&controller=contact');
 	}
 
 	/**
@@ -197,7 +197,7 @@ class ContactdirectoryControllerContact extends JController
 		if (!$model->setAccess($cid, 0)) {
 			$msg = $model->getError();
 		}
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=contact', $msg);
+		$this->setRedirect('index.php?option=com_contact&controller=contact', $msg);
 	}
 
 	/**
@@ -216,7 +216,7 @@ class ContactdirectoryControllerContact extends JController
 		if (!$model->setAccess($cid, 1)) {
 			$msg = $model->getError();
 		}
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=contact', $msg);
+		$this->setRedirect('index.php?option=com_contact&controller=contact', $msg);
 	}
 
 	/**
@@ -235,7 +235,7 @@ class ContactdirectoryControllerContact extends JController
 		if (!$model->setAccess($cid, 2)) {
 			$msg = $model->getError();
 		}
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=contact', $msg);
+		$this->setRedirect('index.php?option=com_contact&controller=contact', $msg);
 	}
 
 	public function import()
@@ -253,7 +253,7 @@ class ContactdirectoryControllerContact extends JController
 			}else{
 				$message = JText::_('CONTACTS_IMPORT_SUCCESS');
 			}
-			$this->setRedirect('index.php?option=com_contactdirectory&controller=contact', $message);
+			$this->setRedirect('index.php?option=com_contact&controller=contact', $message);
 		}elseif (!empty($file) && $file['error'] == 0 && $file['size'] > 0 && is_readable($file['tmp_name'])){
 			// import the contacts from a file
 			if ($file['type'] = 'text/csv' || $file['type'] = 'text/comma-separated-values'){
@@ -264,10 +264,10 @@ class ContactdirectoryControllerContact extends JController
 				} else {
 					$message = JText::_('CONTACTS_IMPORT_SUCCESS');
 				}
-				$this->setRedirect('index.php?option=com_contactdirectory&controller=contact', $message);
+				$this->setRedirect('index.php?option=com_contact&controller=contact', $message);
 			}else{
 				$message = JText::_('WRONG_FILE_TYPE');
-				$this->setRedirect('index.php?option=com_contactdirectory&controller=contact&task=importView', $message);
+				$this->setRedirect('index.php?option=com_contact&controller=contact&task=importView', $message);
 			}
 		}
 	}

@@ -5,13 +5,13 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.model');
 
 /**
- * Contact Directory Component Fields Model
+ * Contact Component Fields Model
  *
  * @package		Joomla.Administrator
- * @subpackage	Content
+ * @subpackage	Contact
  * @since 		1.6
  */
-class ContactdirectoryModelContacts extends JModel
+class ContactModelContacts extends JModel
 {
 	/**
 	 * Contact data array
@@ -122,12 +122,12 @@ class ContactdirectoryModelContacts extends JModel
 		$orderby	= $this->_buildContentOrderBy();
 
 		$query = ' SELECT DISTINCT c.*, d.data AS email, u.name AS editor, v.name AS user'
-			. ' FROM #__contactdirectory_contacts AS c '
+			. ' FROM #__contact_contacts AS c '
 			. ' LEFT JOIN #__users AS u ON u.id = c.checked_out '
 			. ' LEFT JOIN #__users AS v ON v.id = c.user_id '
-			. ' LEFT JOIN #__contactdirectory_con_cat_map AS map ON map.contact_id = c.id '
-			. ' LEFT JOIN #__categories AS cat ON cat.id = map.category_id '
-			. ' LEFT JOIN #__contactdirectory_details AS d ON d.contact_id = c.id '
+			. ' LEFT JOIN #__contact_con_cat_map AS map ON map.contact_id = c.id '
+			. ' LEFT JOIN #__categories AS cat ON cat.id = map.catid '
+			. ' LEFT JOIN #__contact_details AS d ON d.contact_id = c.id '
 			. $where
 			. $orderby;
 
@@ -167,7 +167,7 @@ class ContactdirectoryModelContacts extends JModel
 			$where[] = 'LOWER(c.name) LIKE '.$db->Quote('%'.$db->getEscaped($search, true).'%', false);
 		}
 		if ($filter_catid) {
-			$where[] = 'map.category_id = '.(int) $filter_catid;
+			$where[] = 'map.catid = '.(int) $filter_catid;
 		}
 		if ($filter_state) {
 			if ($filter_state == 'P') {
@@ -185,14 +185,15 @@ class ContactdirectoryModelContacts extends JModel
 	public function &getCategories()
 	{
 		if (!$this->_categories){
-			$categoryTree = JCategoryTree::getInstance('com_contactdirectory');
+			jimport('joomla.application.categorytree');
+			$categoryTree = JCategoryTree::getInstance('com_contact');
 			$this->_category = $categoryTree->get($this->_id);
-			$query = " SELECT c.title, map.contact_id, map.category_id AS id "
+			$query = " SELECT c.title, map.contact_id, map.catid AS id "
 					." FROM #__categories c "
-					." LEFT JOIN #__contactdirectory_con_cat_map map ON map.category_id = c.id "
+					." LEFT JOIN #__contact_con_cat_map map ON map.catid = c.id "
 					." WHERE c.published = 1 "
-					." AND map.category_id IS NOT NULL "
-					." ORDER BY c.ordering ";
+					." AND map.catid IS NOT NULL "
+					." ORDER BY c.lft ";
 			$this->_db->setQuery($query);
 			$this->_categories = $this->_db->loadObjectList();
 		}

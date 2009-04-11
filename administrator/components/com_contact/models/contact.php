@@ -12,11 +12,11 @@ jimport('joomla.application.component.model');
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  *
  * @since 1.6
  */
-class ContactdirectoryModelContact extends JModel
+class ContactModelContact extends JModel
 {
 
 	var $_id = null;
@@ -69,8 +69,8 @@ class ContactdirectoryModelContact extends JModel
 	{
 		if (!$this->_fields){
 			$query = "SELECT f.title, d.data, f.type, f.alias, d.show_contact, d.show_directory, f.params "
-					."FROM #__contactdirectory_fields f "
-					."LEFT JOIN #__contactdirectory_details d ON d.field_id = f.id "
+					."FROM #__contact_fields f "
+					."LEFT JOIN #__contact_details d ON d.field_id = f.id "
 					."WHERE f.published = 1 AND d.contact_id = '$this->_id'"
 					."ORDER BY f.pos, f.ordering";
 			$this->_db->setQuery($query);
@@ -82,9 +82,9 @@ class ContactdirectoryModelContact extends JModel
 	public function &getCategories()
 	{
 		if (!$this->_categories){
-			$query = " SELECT c.title, map.category_id AS id, map.ordering "
+			$query = " SELECT c.title, map.catid AS id, map.ordering "
 					." FROM #__categories c "
-					." LEFT JOIN #__contactdirectory_con_cat_map map ON map.category_id = c.id "
+					." LEFT JOIN #__contact_con_cat_map map ON map.catid = c.id "
 					." WHERE c.published = 1 AND map.contact_id = '$this->_id'"
 					." ORDER BY c.ordering ";
 			$this->_db->setQuery($query);
@@ -104,7 +104,7 @@ class ContactdirectoryModelContact extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM #__contactdirectory_contacts WHERE id = '.(int) $this->_id;
+			$query = 'SELECT * FROM #__contact_contacts WHERE id = '.(int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 			return (boolean) $this->_data;
@@ -244,7 +244,7 @@ class ContactdirectoryModelContact extends JModel
 		{
 			JArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
-			$query = 'DELETE FROM #__contactdirectory_contacts'
+			$query = 'DELETE FROM #__contact_contacts'
 				. ' WHERE id IN ('.$cids.')';
 			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
@@ -252,14 +252,14 @@ class ContactdirectoryModelContact extends JModel
 				return false;
 			}
 
-			$query = 'DELETE FROM #__contactdirectory_details WHERE contact_id IN ('.$cids.')';
+			$query = 'DELETE FROM #__contact_details WHERE contact_id IN ('.$cids.')';
 			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
 
-			$query = 'DELETE FROM #__contactdirectory_con_cat_map WHERE contact_id IN ('.$cids.')';
+			$query = 'DELETE FROM #__contact_con_cat_map WHERE contact_id IN ('.$cids.')';
 			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
@@ -284,7 +284,7 @@ class ContactdirectoryModelContact extends JModel
 			JArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE #__contactdirectory_contacts'
+			$query = 'UPDATE #__contact_contacts'
 				. ' SET published = '.(int) $publish
 				. ' WHERE id IN ('.$cids.')'
 				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))';
@@ -306,7 +306,7 @@ class ContactdirectoryModelContact extends JModel
 
 		foreach ($cid as $id)
 		{
-			$query = 'UPDATE #__contactdirectory_contacts'
+			$query = 'UPDATE #__contact_contacts'
 				. ' SET access = '.(int) $access
 				. ' WHERE id = '.$id
 				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))';
@@ -341,7 +341,7 @@ class ContactdirectoryModelContact extends JModel
 			$name_bool = false;
 			$cat_bool = false;
 
-			$query = "SELECT alias, params FROM #__contactdirectory_fields WHERE published=1 ";
+			$query = "SELECT alias, params FROM #__contact_fields WHERE published=1 ";
 			$this->_db->setQuery($query);
 			$fields = $this->_db->loadObjectList();
 

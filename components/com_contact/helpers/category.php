@@ -15,18 +15,18 @@ jimport('joomla.application.component.helper');
 jimport('joomla.application.categorytree');
 
 /**
- * Content Component Category Tree
+ * Contact Component Category Tree
  *
  * @static
  * @package		Joomla
- * @subpackage	Content
+ * @subpackage	Contact
  * @since 1.6
  */
 class ContactCategories extends JCategoryTree
 {
 	public function __construct($options = array())
 	{
-		$options['table'] = '#__contact_details';
+		$options['table'] = '#__contact_con_cat_map';
 		$options['extension'] = 'com_contact';
 		parent::__construct($options);
 	}

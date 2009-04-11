@@ -12,7 +12,7 @@
  * you would normally use a regular stream wrapper
  *
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @since		1.6
  * @todo		Integrate this with JStream
  */

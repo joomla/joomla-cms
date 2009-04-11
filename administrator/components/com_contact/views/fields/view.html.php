@@ -15,10 +15,10 @@ jimport('joomla.application.component.view');
  * Field View
  *
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @since		1.6
  */
-class ContactdirectoryViewFields extends JView
+class ContactViewFields extends JView
 {
 	public function display($tpl = null)
 	{
@@ -28,8 +28,8 @@ class ContactdirectoryViewFields extends JView
 		$uri =& JFactory::getURI();
 		$user = & JFactory::getUser();
 
-		if (!$user->authorize('com_contactdirectory', 'manage fields')) {
-			$mainframe->redirect('index.php?option=com_contactdirectory&controller=contact', JText::_('ALERTNOTAUTH'));
+		if (!$user->authorize('com_contact', 'manage.fields')) {
+			$mainframe->redirect('index.php?option=com_contact&controller=contact', JText::_('ALERTNOTAUTH'));
 		}
 
 		$filter_state = $mainframe->getUserStateFromRequest($option.'filter_state', 'filter_state', '', 'word');

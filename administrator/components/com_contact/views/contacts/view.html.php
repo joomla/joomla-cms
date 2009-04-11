@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
@@ -17,10 +17,10 @@ jimport('joomla.application.component.view');
  * Field View
  *
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @since		1.6
  */
-class ContactdirectoryViewContacts extends JView
+class ContactViewContacts extends JView
 {
 	public function display($tpl = null)
 	{
@@ -31,7 +31,7 @@ class ContactdirectoryViewContacts extends JView
 		$user = & JFactory::getUser();
 		$model	=& $this->getModel();
 
-		if (!$user->authorize('com_contactdirectory', 'manage contacts')) {
+		if (!$user->authorize('com_contact', 'manage contacts')) {
 			$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 		}
 

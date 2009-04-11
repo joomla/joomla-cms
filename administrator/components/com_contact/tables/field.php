@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @since		1.6
  */
 class TableField extends JTable
@@ -45,7 +45,7 @@ class TableField extends JTable
 	 */
 	protected function __construct(&$db)
 	{
-		parent::__construct('#__contactdirectory_fields', 'id', $db);
+		parent::__construct('#__contact_fields', 'id', $db);
 	}
 
 	/**
@@ -107,24 +107,24 @@ class TableField extends JTable
 	public function store()
 	{
 		if ($this->id) {
-			if (!$this->_db->updateObject('#__contactdirectory_fields', $this, 'id', false)) {
+			if (!$this->_db->updateObject('#__contact_fields', $this, 'id', false)) {
 				$this->setError(get_class($this).'::store failed 1 - '.$this->_db->getErrorMsg());
 				return false;
 			}
 		} else {
-			$ret = $this->_db->insertObject('#__contactdirectory_fields', $this, 'id');
+			$ret = $this->_db->insertObject('#__contact_fields', $this, 'id');
 			$this->id = $this->_db->insertid();
 			if (!$ret || $this->id == null) {
 				$this->setError(get_class($this).'::store failed 2 - '.$this->_db->getErrorMsg());
 				return false;
 			}
 
-			$query = "SELECT id FROM #__contactdirectory_contacts";
+			$query = "SELECT id FROM #__contact_contacts";
 			$this->_db->setQuery($query);
 			$contacts = $this->_db->loadObjectList();
 
 			foreach ($contacts as $contact){
-				$query = "INSERT INTO #__contactdirectory_details VALUES('$contact->id', '$this->id', '', '1', '1')";
+				$query = "INSERT INTO #__contact_details VALUES('$contact->id', '$this->id', '', '1', '1')";
 				$this->_db->setQuery($query);
 				if (!$this->_db->query()) {
 					$this->setError(get_class($this).'::store failed 3 - '.$this->_db->getErrorMsg());

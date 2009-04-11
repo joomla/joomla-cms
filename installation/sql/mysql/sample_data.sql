@@ -52,13 +52,6 @@ INSERT INTO `#__categories` VALUES
 (23, 5, 6, 23, 0, 'com_banner', 'en_GB', 'Joomla! Promo', 'joomla-promo', '', 1, 0, '0000-00-00 00:00:00', 0, '{}');
 
 --
--- Dumping data for table `#__contact_details`
---
-
-INSERT INTO `#__contact_details` VALUES
-(1, 'Name', 'name', 'Position', 'Street', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', 'Miscellanous info', 'powered_by.png', 'top', 'email@email.com', 1, 1, 0, '0000-00-00 00:00:00', 1, '{"show_name":"1","show_position":"1","show_email":"0","show_street_address":"1","show_suburb":"1","show_state":"1","show_postcode":"1","show_country":"1","show_telephone":"1","show_mobile":"1","show_fax":"1","show_webpage":"1","show_misc":"1","show_image":"1","allow_vcard":"0","contact_icons":"0","icon_address":"","icon_email":"","icon_telephone":"","icon_fax":"","icon_misc":"","show_email_form":"1","email_description":"1","show_email_copy":"1","banned_email":"","banned_subject":"","banned_text":""}', 0, 20, 0, '', '');
-
---
 -- Dumping data for table `#__content`
 --
 

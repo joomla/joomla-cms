@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @since		1.6
  */
 class JElementContact extends JElement
@@ -29,8 +29,8 @@ class JElementContact extends JElement
 		$db = &JFactory::getDBO();
 
 		$query = 'SELECT DISTINCT c.id, c.name AS text'
-		. ' FROM #__contactdirectory_contacts AS c'
-		. ' LEFT JOIN #__contactdirectory_con_cat_map AS map ON map.contact_id = c.id '
+		. ' FROM #__contact_contacts AS c'
+		. ' LEFT JOIN #__contact_con_cat_map AS map ON map.contact_id = c.id '
 		. ' LEFT JOIN #__categories AS cat ON cat.id = map.category_id '
 		. ' WHERE c.published = 1 AND cat.published = 1'
 		. ' ORDER BY cat.title, c.name';

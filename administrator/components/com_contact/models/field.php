@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
-class ContactdirectoryModelField extends JModel{
+class ContactModelField extends JModel{
 
 	var $_id = null;
 	var $_data = null;
@@ -66,7 +66,7 @@ class ContactdirectoryModelField extends JModel{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM #__contactdirectory_fields WHERE id = '.(int) $this->_id;
+			$query = 'SELECT * FROM #__contact_fields WHERE id = '.(int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 			return (boolean) $this->_data;
@@ -224,7 +224,7 @@ class ContactdirectoryModelField extends JModel{
 	{
 		$row =& $this->getTable();
 
-		// delete field from contactdirectory_field table
+		// delete field from contact_field table
 		for($i=0; $i < count($cid); $i++)
 		{
 			if (!$row->load((int) $cid[$i])) {
@@ -237,7 +237,7 @@ class ContactdirectoryModelField extends JModel{
 				return false;
 			}
 
-			$query = 'DELETE FROM #__contactdirectory_fields'
+			$query = 'DELETE FROM #__contact_fields'
 					. ' WHERE id = '.$row->id;
 			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
@@ -245,7 +245,7 @@ class ContactdirectoryModelField extends JModel{
 				return false;
 			}
 
-			$query = 'DELETE FROM #__contactdirectory_details WHERE field_id = '.$row->id;
+			$query = 'DELETE FROM #__contact_details WHERE field_id = '.$row->id;
 			$this->_db->setQuery($query);
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
@@ -271,7 +271,7 @@ class ContactdirectoryModelField extends JModel{
 			JArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE #__contactdirectory_fields'
+			$query = 'UPDATE #__contact_fields'
 				. ' SET published = '.(int) $publish
 				. ' WHERE id IN ('.$cids.')'
 				. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))';

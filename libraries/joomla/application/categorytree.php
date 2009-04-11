@@ -45,7 +45,7 @@ class JCategoryTree
 		$classname = ucfirst(substr($extension,4)).'Categories';
 		if(!class_exists($classname))
 		{
-			$path = JPATH_BASE.DS.'components'.DS.$extension.DS.'helpers'.DS.'category.php';
+			$path = JPATH_SITE.DS.'components'.DS.$extension.DS.'helpers'.DS.'category.php';
 			if(is_file($path))
 			{
 				require_once($path);

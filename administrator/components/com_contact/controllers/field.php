@@ -12,13 +12,13 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
 
 /**
- * Contact Directory Field Controller
+ * Contact Field Controller
  *
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @since		1.6
  */
-class ContactdirectoryControllerField extends JController
+class ContactControllerField extends JController
 {
 	/**
 	 * Display the list of fields
@@ -74,7 +74,7 @@ class ContactdirectoryControllerField extends JController
 
 		// Check the table in so it can be edited.... we are done with it anyway
 		$model->checkin();
-		$link = 'index.php?option=com_contactdirectory&controller=field&task=edit&cid[]='. $id;
+		$link = 'index.php?option=com_contact&controller=field&task=edit&cid[]='. $id;
 		$this->setRedirect($link, $msg);
 	}
 
@@ -97,7 +97,7 @@ class ContactdirectoryControllerField extends JController
 
 		// Check the table in so it can be edited.... we are done with it anyway
 		$model->checkin();
-		$link = 'index.php?option=com_contactdirectory&controller=field';
+		$link = 'index.php?option=com_contact&controller=field';
 		$this->setRedirect($link, $msg);
 	}
 
@@ -120,7 +120,7 @@ class ContactdirectoryControllerField extends JController
 			$msg = JText::_('ERROR_DELETING_FIELD');
 		}
 
-		$link = 'index.php?option=com_contactdirectory&controller=field';
+		$link = 'index.php?option=com_contact&controller=field';
 		$this->setRedirect($link, $msg);
 	}
 
@@ -142,7 +142,7 @@ class ContactdirectoryControllerField extends JController
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=field');
+		$this->setRedirect('index.php?option=com_contact&controller=field');
 	}
 
 	public function unpublish()
@@ -162,7 +162,7 @@ class ContactdirectoryControllerField extends JController
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=field');
+		$this->setRedirect('index.php?option=com_contact&controller=field');
 	}
 
 	public function cancel()
@@ -174,7 +174,7 @@ class ContactdirectoryControllerField extends JController
 		$model = $this->getModel('field');
 		$model->checkin();
 
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=field');
+		$this->setRedirect('index.php?option=com_contact&controller=field');
 	}
 
 
@@ -186,7 +186,7 @@ class ContactdirectoryControllerField extends JController
 		$model = $this->getModel('field');
 		$model->move(-1);
 
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=field');
+		$this->setRedirect('index.php?option=com_contact&controller=field');
 	}
 
 	public function orderdown()
@@ -197,7 +197,7 @@ class ContactdirectoryControllerField extends JController
 		$model = $this->getModel('field');
 		$model->move(1);
 
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=field');
+		$this->setRedirect('index.php?option=com_contact&controller=field');
 	}
 
 	public function saveorder()
@@ -214,7 +214,7 @@ class ContactdirectoryControllerField extends JController
 		$model->saveorder($cid, $order);
 
 		$msg = 'New ordering saved';
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=field', $msg);
+		$this->setRedirect('index.php?option=com_contact&controller=field', $msg);
 	}
 
 	/**
@@ -234,7 +234,7 @@ class ContactdirectoryControllerField extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=field');
+		$this->setRedirect('index.php?option=com_contact&controller=field');
 	}
 
 	/**
@@ -254,7 +254,7 @@ class ContactdirectoryControllerField extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=field');
+		$this->setRedirect('index.php?option=com_contact&controller=field');
 	}
 
 	/**
@@ -274,7 +274,7 @@ class ContactdirectoryControllerField extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect('index.php?option=com_contactdirectory&controller=field');
+		$this->setRedirect('index.php?option=com_contact&controller=field');
 	}
 }
 

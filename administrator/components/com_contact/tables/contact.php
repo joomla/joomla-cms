@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  */
 class TableContact extends JTable
 {
@@ -38,7 +38,7 @@ class TableContact extends JTable
 	*/
 	protected function __construct(&$db)
 	{
-		parent::__construct('#__contactdirectory_contacts', 'id', $db);
+		parent::__construct('#__contact_contacts', 'id', $db);
 	}
 
 	/**
@@ -94,7 +94,7 @@ class TableContact extends JTable
 	{
 		if ($this->id != null) {
 			// Edit Contact
-			if (!$this->_db->updateObject('#__contactdirectory_contacts', $this, 'id', false)) {
+			if (!$this->_db->updateObject('#__contact_contacts', $this, 'id', false)) {
 				$this->setError(get_class($this).'::store failed 1 - '.$this->_db->getErrorMsg());
 				return false;
 			}
@@ -102,23 +102,23 @@ class TableContact extends JTable
 			$fields = $data['fields'];
 			foreach ($fields as $key => $field){
 				// Get the id of the current field
-				$query = "SELECT id FROM #__contactdirectory_fields WHERE alias = '$key'";
+				$query = "SELECT id FROM #__contact_fields WHERE alias = '$key'";
 				$this->_db->setQuery($query);
 				$field_id = $this->_db->loadResult();
 				if (!$field_id) {
 					$this->setError(get_class($this).'::store failed 2 - '.$this->_db->getErrorMsg());
 					return false;
 				}
-				// Update the #__contactdirectory_details table in the database
+				// Update the #__contact_details table in the database
 				$field = addslashes($field);
-				$query = "UPDATE #__contactdirectory_details SET data = '$field' WHERE contact_id = $this->id AND field_id = ".$field_id;
+				$query = "UPDATE #__contact_details SET data = '$field' WHERE contact_id = $this->id AND field_id = ".$field_id;
 				$this->_db->setQuery($query);
 				if (!$this->_db->query()) {
 					$this->setError(get_class($this).'::store failed 3 - '.$this->_db->getErrorMsg());
 					return false;
 				}
 				if (isset($data['showContactPage'][$key])){
-					$query = "UPDATE #__contactdirectory_details SET show_contact = ".$data['showContactPage'][$key]." WHERE contact_id = $this->id AND field_id = ".$field_id;
+					$query = "UPDATE #__contact_details SET show_contact = ".$data['showContactPage'][$key]." WHERE contact_id = $this->id AND field_id = ".$field_id;
 					$this->_db->setQuery($query);
 					if (!$this->_db->query()) {
 						$this->setError(get_class($this).'::store failed 4 - '.$this->_db->getErrorMsg());
@@ -126,7 +126,7 @@ class TableContact extends JTable
 					}
 				}
 				if (isset($data['showContactLists'][$key])){
-					$query = "UPDATE #__contactdirectory_details SET show_directory = ".$data['showContactLists'][$key]." WHERE contact_id = $this->id AND field_id = ".$field_id;
+					$query = "UPDATE #__contact_details SET show_directory = ".$data['showContactLists'][$key]." WHERE contact_id = $this->id AND field_id = ".$field_id;
 					$this->_db->setQuery($query);
 					if (!$this->_db->query()) {
 						$this->setError(get_class($this).'::store failed 5 - '.$this->_db->getErrorMsg());
@@ -140,7 +140,7 @@ class TableContact extends JTable
 			// If the category exists in both $cat_map and $categories and the ordering is different then update the ordering
 			// If the category does not exist in $cat_map but is in $categories then it is a new category and insert it in the database
 			// If the category exists in $cat_map but not in $categories then then delete the category from the database
-			$query = "SELECT category_id FROM #__contactdirectory_con_cat_map WHERE contact_id = '$this->id'";
+			$query = "SELECT catid FROM #__contact_con_cat_map WHERE contact_id = '$this->id'";
 			$this->_db->setQuery($query);
 			$cat_map = $this->_db->loadResultArray();
 			if (!$cat_map) {
@@ -159,7 +159,7 @@ class TableContact extends JTable
 					if ($category == $cat_map[$k]){
 						$found = true;
 						$cat_map[$k] = -1;
-						$query = "UPDATE #__contactdirectory_con_cat_map SET ordering = '$ordering[$i]' WHERE contact_id = '$this->id' AND category_id = '$category'";
+						$query = "UPDATE #__contact_con_cat_map SET ordering = '$ordering[$i]' WHERE contact_id = '$this->id' AND catid = '$category'";
 						$this->_db->setQuery($query);
 						if (!$this->_db->query()) {
 							$this->setError(get_class($this).'::store failed 7 - '.$this->_db->getErrorMsg());
@@ -169,7 +169,7 @@ class TableContact extends JTable
 				}
 				if (!$found){
 					// If it is a new category, save the category and set the ordering as the last value
-					$query = "SELECT MAX(ordering) FROM #__contactdirectory_con_cat_map WHERE category_id = '$category'";
+					$query = "SELECT MAX(ordering) FROM #__contact_con_cat_map WHERE catid = '$category'";
 					$this->_db->setQuery($query);
 					$maxord = $this->_db->loadResult();
 					if ($this->_db->getErrorNum()) {
@@ -178,7 +178,7 @@ class TableContact extends JTable
 					}
 					$maxord++;
 
-					$query = "INSERT INTO #__contactdirectory_con_cat_map VALUES('$this->id', '$category', '$maxord')";
+					$query = "INSERT INTO #__contact_con_cat_map VALUES('$this->id', '$category', '$maxord')";
 					$this->_db->setQuery($query);
 					if (!$this->_db->query()) {
 						$this->setError(get_class($this).'::store failed 9 - '.$this->_db->getErrorMsg());
@@ -191,7 +191,7 @@ class TableContact extends JTable
 			for($k=0; $k<count($cat_map); $k++){
 				if ($cat_map[$k] != -1){
 					// Delete the category if it was remouved from the categories list
-					$query = "DELETE FROM #__contactdirectory_con_cat_map WHERE category_id = '$cat_map[$k]' AND contact_id = '$this->id'";
+					$query = "DELETE FROM #__contact_con_cat_map WHERE catid = '$cat_map[$k]' AND contact_id = '$this->id'";
 					$this->_db->setQuery($query);
 					if (!$this->_db->query()) {
 						$this->setError(get_class($this).'::store failed 10 - '.$this->_db->getErrorMsg());
@@ -200,9 +200,9 @@ class TableContact extends JTable
 				}
 
 				// Reorder the ordering
-				$query = "SELECT contact_id, category_id, ordering "
-							."FROM #__contactdirectory_con_cat_map "
-							."WHERE ordering >= 0 AND  category_id = '$category' "
+				$query = "SELECT contact_id, catid, ordering "
+							."FROM #__contact_con_cat_map "
+							."WHERE ordering >= 0 AND  catid = '$category' "
 							."ORDER BY ordering";
 			 	$this->_db->setQuery($query);
 				if (!($orders = $this->_db->loadObjectList())) {
@@ -218,9 +218,9 @@ class TableContact extends JTable
 						if ($orders[$i]->ordering != $i+1)
 						{
 							$orders[$i]->ordering = $i+1;
-							$query = 'UPDATE #__contactdirectory_con_cat_map SET ordering = '. (int) $orders[$i]->ordering
+							$query = 'UPDATE #__contact_con_cat_map SET ordering = '. (int) $orders[$i]->ordering
 											.' WHERE contact_id = '. $this->_db->Quote($orders[$i]->contact_id)
-											.' AND category_id = '.$this->_db->Quote($orders[$i]->category_id);
+											.' AND catid = '.$this->_db->Quote($orders[$i]->category_id);
 							$this->_db->setQuery($query);
 							if (!$this->_db->query()) {
 								$this->setError(get_class($this).'::store failed 11 - '.$this->_db->getErrorMsg());
@@ -233,7 +233,7 @@ class TableContact extends JTable
 
 		} else {
 			// Add Contact
-			$ret = $this->_db->insertObject('#__contactdirectory_contacts', $this, 'id');
+			$ret = $this->_db->insertObject('#__contact_contacts', $this, 'id');
 			$this->id  = $this->_db->insertid();
 
 			if (!$ret || $this->id == null) {
@@ -244,18 +244,18 @@ class TableContact extends JTable
 			$fields = $data['fields'];
 			foreach ($fields as $key => $field){
 				// Get the id of the current field
-				$query = "SELECT id FROM #__contactdirectory_fields WHERE alias = '$key' ";
+				$query = "SELECT id FROM #__contact_fields WHERE alias = '$key' ";
 				$this->_db->setQuery($query);
 				$field_id = $this->_db->loadResult();
 				if (!$field_id) {
 					$this->setError(get_class($this).'::store failed 13 - '.$this->_db->getErrorMsg());
 					return false;
 				}
-				// Insert into the #__contactdirectory_details table
+				// Insert into the #__contact_details table
 				$field = addslashes($field);
 				$showList = $data['showContactLists'][$key];
 				$showContact = $data['showContactPage'][$key];
-				$query = "INSERT INTO #__contactdirectory_details VALUES('$this->id', '$field_id', '$field', '$showContact', '$showList')";
+				$query = "INSERT INTO #__contact_details VALUES('$this->id', '$field_id', '$field', '$showContact', '$showList')";
 				$this->_db->setQuery($query);
 				if (!$this->_db->query()) {
 					$this->setError(get_class($this).'::store failed 14 - '.$this->_db->getErrorMsg());
@@ -267,7 +267,7 @@ class TableContact extends JTable
 			$i = 0;
 			// Save the categories in $categories by inserting it in the database and setting the ordering to the maxvalue
 			foreach ($categories as $category){
-				$query = "SELECT MAX(ordering) FROM #__contactdirectory_con_cat_map WHERE category_id = '$category'";
+				$query = "SELECT MAX(ordering) FROM #__contact_con_cat_map WHERE catid = '$category'";
 				$this->_db->setQuery($query);
 				$maxord = $this->_db->loadResult();
 				if ($this->_db->getErrorNum()) {
@@ -279,7 +279,7 @@ class TableContact extends JTable
 				}
 				$maxord++;
 
-				$query = "INSERT INTO #__contactdirectory_con_cat_map VALUES('$this->id', '$category', '$maxord')";
+				$query = "INSERT INTO #__contact_con_cat_map VALUES('$this->id', '$category', '$maxord')";
 				$this->_db->setQuery($query);
 				if (!$this->_db->query()) {
 					$this->setError(get_class($this).'::store failed 16 - '.$this->_db->getErrorMsg());

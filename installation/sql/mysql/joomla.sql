@@ -127,13 +127,14 @@ INSERT INTO `#__components` VALUES (2, 'Banners', '', 0, 1, 'option=com_banners'
 INSERT INTO `#__components` VALUES (3, 'Clients', '', 0, 1, 'option=com_banners&c=client', 'Manage Clients', 'com_banners', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (4, 'Web Links', 'option=com_weblinks', 0, 0, '', 'Manage Weblinks', 'com_weblinks', 0, 'js/ThemeOffice/component.png', 0, '{"show_comp_description":"1","comp_description":"","show_link_hits":"1","show_link_description":"1","show_other_cats":"1","show_headings":"1","show_numbers":"1","show_report":"1","target":"0","link_icons":"","show_snapshot":"0","snapshot_width":"120","snapshot_height":"90"}', 1);
 INSERT INTO `#__components` VALUES (5, 'Links', '', 0, 4, 'option=com_weblinks', 'View existing weblinks', 'com_weblinks', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (6, 'Categories', '', 0, 4, 'option=com_categories&extension=com_weblinks', 'Manage weblink categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (7, 'Contacts', 'option=com_contact', 0, 0, '', 'Edit contact details', 'com_contact', 0, 'js/ThemeOffice/component.png', 1, '{"contact_icons":"0","icon_address":"","icon_email":"","icon_telephone":"","icon_mobile":"","icon_fax":"","icon_misc":"","show_headings":"1","show_position":"1","show_email":"0","show_telephone":"1","show_mobile":"1","show_fax":"1","allow_vcard":"0","banned_email":"","banned_subject":"","banned_text":"","validate_session":"1","custom_reply":"0"}', 1);
-INSERT INTO `#__components` VALUES (8, 'Contacts', '', 0, 7, 'option=com_contact', 'Edit contact details', 'com_contact', 0, 'js/ThemeOffice/edit.png', 1, '', 1);
-INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categories&extension=com_contact', 'Manage contact categories', '', 2, 'js/ThemeOffice/categories.png', 1, '{"contact_icons":"0","icon_address":"","icon_email":"","icon_telephone":"","icon_mobile":"","icon_fax":"","icon_misc":"","show_headings":"1","show_position":"1","show_email":"0","show_telephone":"1","show_mobile":"1","show_fax":"1","allow_vcard":"0","banned_email":"","banned_subject":"","banned_text":"","validate_session":"1","custom_reply":"0"}', 1);
+INSERT INTO `#__components` VALUES (6, 'Categories', '', 0, 4, 'option=com_categories&extension=com_weblinks', 'Manage weblink categories', 'com_weblinks', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (7, 'Contact', 'option=com_contact', 0, 0, 'option=com_contact', 'Contact', 'com_contact', 0, 'js/ThemeOffice/component.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (8, 'Contacts', '', 0, 7, 'option=com_contact&controller=contact', 'Contacts', 'com_contact', 1, '', 0, '', 1);
+INSERT INTO `#__components` VALUES (9, 'Categories', '', 0, 7, 'option=com_categories&extension=com_contact', 'Categories', 'com_contact', 2, '', 0, '', 1);
+INSERT INTO `#__components` VALUES (10, 'Fields', '', 0, 7, 'option=com_contact&controller=field', 'Fields', 'com_contact', 3, '', 0, '', 1);
 INSERT INTO `#__components` VALUES (11, 'News Feeds', 'option=com_newsfeeds', 0, 0, '', 'News Feeds Management', 'com_newsfeeds', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (12, 'Feeds', '', 0, 11, 'option=com_newsfeeds', 'Manage News Feeds', 'com_newsfeeds', 1, 'js/ThemeOffice/edit.png', 0, '{"show_headings":"1","show_name":"1","show_articles":"1","show_link":"1","show_cat_description":"1","show_cat_items":"1","show_feed_image":"1","show_feed_description":"1","show_item_description":"1","feed_word_count":"0"}', 1);
-INSERT INTO `#__components` VALUES (13, 'Categories', '', 0, 11, 'option=com_categories&extension=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (13, 'Categories', '', 0, 11, 'option=com_categories&extension=com_newsfeeds', 'Manage Categories', 'com_newsfeeds', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (14, 'User', 'option=com_user', 0, 0, '', '', 'com_user', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (15, 'Search', 'option=com_search', 0, 0, 'option=com_search', 'Search Statistics', 'com_search', 0, 'js/ThemeOffice/component.png', 1, '{"enabled":"0","show_date":"1"}', 1);
 INSERT INTO `#__components` VALUES (16, 'Categories', '', 0, 1, 'option=com_categories&extension=com_banner', 'Categories', '', 3, '', 1, '', 1);
@@ -146,54 +147,13 @@ INSERT INTO `#__components` VALUES (22, 'Installation Manager', '', 0, 0, '', 'I
 INSERT INTO `#__components` VALUES (23, 'Language Manager', '', 0, 0, '', 'Languages', 'com_languages', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (24, 'Mass mail', '', 0, 0, '', 'Mass Mail', 'com_massmail', 0, '', 1, '{"mailSubjectPrefix":"","mailBodySuffix":""}', 1);
 INSERT INTO `#__components` VALUES (25, 'Menu Editor', '', 0, 0, '', 'Menu Editor', 'com_menus', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (27, 'Messaging', '', 0, 0, '', 'Messages', 'com_messages', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (28, 'Modules Manager', '', 0, 0, '', 'Modules', 'com_modules', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (29, 'Plugin Manager', '', 0, 0, '', 'Plugins', 'com_plugins', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (30, 'Template Manager', '', 0, 0, '', 'Templates', 'com_templates', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (32, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (33, 'Control Panel', '', 0, 0, '', 'Control Panel', 'com_cpanel', 0, '', 1, '', 1);
-INSERT INTO `#__components` VALUES (34, 'Contact Directory', 'option=com_contactdirectory', 0, 0, 'option=com_contactdirectory', 'Contact Directory', 'com_contactdirectory', 0, 'js/ThemeOffice/component.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (35, 'Contacts', '', 0, 34, 'option=com_contactdirectory&controller=contact', 'Contacts', 'com_contactdirectory', 0, 'js/ThemeOffice/component.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (36, 'Categories', '', 0, 34, 'option=com_categories&extension=com_contactdirectory', 'Categories', 'com_contactdirectory', 1, 'js/ThemeOffice/component.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (37, 'Fields', '', 0, 34, 'option=com_contactdirectory&controller=field', 'Fields', 'com_contactdirectory', 2, 'js/ThemeOffice/component.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (39, 'Members', '', 0, 0, 'option=com_members', 'Member Manager', 'com_members', 0, 'js/ThemeOffice/component.png', 0, '', 1);
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__contact_details`
-#
-
-CREATE TABLE `#__contact_details` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `con_position` varchar(255) default NULL,
-  `address` text,
-  `suburb` varchar(100) default NULL,
-  `state` varchar(100) default NULL,
-  `country` varchar(100) default NULL,
-  `postcode` varchar(100) default NULL,
-  `telephone` varchar(255) default NULL,
-  `fax` varchar(255) default NULL,
-  `misc` mediumtext,
-  `image` varchar(255) default NULL,
-  `imagepos` varchar(20) default NULL,
-  `email_to` varchar(255) default NULL,
-  `default_con` tinyint(1) unsigned NOT NULL default '0',
-  `published` tinyint(1) unsigned NOT NULL default '0',
-  `checked_out` int(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL default '0',
-  `params` text NOT NULL,
-  `user_id` int(11) NOT NULL default '0',
-  `catid` int(11) NOT NULL default '0',
-  `access` tinyint(3) unsigned NOT NULL default '0',
-  `mobile` varchar(255) NOT NULL default '',
-  `webpage` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`),
-  KEY `catid` (`catid`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+INSERT INTO `#__components` VALUES (26, 'Messaging', '', 0, 0, '', 'Messages', 'com_messages', 0, '', 1, '', 1);
+INSERT INTO `#__components` VALUES (27, 'Modules Manager', '', 0, 0, '', 'Modules', 'com_modules', 0, '', 1, '', 1);
+INSERT INTO `#__components` VALUES (28, 'Plugin Manager', '', 0, 0, '', 'Plugins', 'com_plugins', 0, '', 1, '', 1);
+INSERT INTO `#__components` VALUES (29, 'Template Manager', '', 0, 0, '', 'Templates', 'com_templates', 0, '', 1, '', 1);
+INSERT INTO `#__components` VALUES (30, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', 1, '', 1);
+INSERT INTO `#__components` VALUES (31, 'Control Panel', '', 0, 0, '', 'Control Panel', 'com_cpanel', 0, '', 1, '', 1);
+INSERT INTO `#__components` VALUES (32, 'Members', '', 0, 0, 'option=com_members', 'Member Manager', 'com_members', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 
 # --------------------------------------------------------
 
@@ -326,12 +286,11 @@ INSERT INTO `#__extensions` VALUES(0, 'Authentication - OpenID', 'plugin', 'open
 INSERT INTO `#__extensions` VALUES(0, 'User - Joomla!', 'plugin', 'joomla', 'user', 0, 1, 0, 0, '', '{"autoregister":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 INSERT INTO `#__extensions` VALUES(0, 'User - Profile', 'plugin', 'profile', 'user', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Search - Content', 'plugin', 'content', 'search', 0, 1, 0, 0, '', '{"search_limit":"50","search_content":"1","search_uncategorised":"1","search_archived":"1"}', '', '', 0, '0000-00-00 00:00:00', 1, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Search - Contacts', 'plugin', 'contacts', 'search', 0, 1, 0, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 3, 0);
+INSERT INTO `#__extensions` VALUES(0, 'Search - Contact', 'plugin', 'contact', 'search', 0, 1, 0, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 7, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Search - Categories', 'plugin', 'categories', 'search', 0, 1, 0, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 4, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Search - Sections', 'plugin', 'sections', 'search', 0, 1, 0, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 5, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Search - Newsfeeds', 'plugin', 'newsfeeds', 'search', 0, 1, 0, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 6, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Search - Weblinks', 'plugin', 'weblinks', 'search', 0, 1, 0, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 2, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Search - Contact Directory', 'plugin', 'contactdirectory', 'search', 0, 1, 0, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 7, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Content - Pagebreak', 'plugin', 'pagebreak', 'content', 0, 1, 0, 0, '', '{"enabled":"1","title":"1","multipage_toc":"1","showall":"1"}', '', '', 0, '0000-00-00 00:00:00', 10000, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Content - Rating', 'plugin', 'vote', 'content', 0, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 4, 0);
 INSERT INTO `#__extensions` VALUES(0, 'Content - Email Cloaking', 'plugin', 'emailcloak', 'content', 0, 1, 0, 0, '', '{"mode":"1"}', '', '', 0, '0000-00-00 00:00:00', 5, 0);
@@ -354,7 +313,7 @@ INSERT INTO #__extensions VALUES(0,"System - Backlink","plugin","backlink","syst
 INSERT INTO #__extensions VALUES(0,"Banners","component","com_banners","",1,1,0,0,"","track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Cache Manager","component","com_cache","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Configuration Manager","component","com_config","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Contacts","component","com_contact","",1,1,0,1,"","contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
+INSERT INTO #__extensions VALUES(0,"Contact","component","com_contact","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Articles","component","com_content","",1,1,0,1,"","show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\nfeed_summary=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Control Panel","component","com_cpanel","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Installation Manager","component","com_installer","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
@@ -373,7 +332,6 @@ INSERT INTO #__extensions VALUES(0,"User","component","com_user","",1,1,0,1,"","
 INSERT INTO #__extensions VALUES(0,"User Manager","component","com_users","",1,1,0,1,"","allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Web Links","component","com_weblinks","",1,1,0,0,"","show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Wrapper","component","com_wrapper","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Contact Directory","component","com_contactdirectory","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Member Manager","component","com_members","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 # Modules
 INSERT INTO #__extensions VALUES(0,"mod_login","module","mod_login","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
@@ -670,9 +628,9 @@ CREATE TABLE `#__weblinks` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__contactdirectory_contacts`
+# Table structure for table `#__contact_contacts`
 #
-CREATE TABLE IF NOT EXISTS `#__contactdirectory_contacts` (
+CREATE TABLE IF NOT EXISTS `#__contact_contacts` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
@@ -689,21 +647,21 @@ CREATE TABLE IF NOT EXISTS `#__contactdirectory_contacts` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__contactdirectory_con_cat_map`
+# Table structure for table `#__contact_con_cat_map`
 #
-CREATE TABLE IF NOT EXISTS `#__contactdirectory_con_cat_map` (
+CREATE TABLE IF NOT EXISTS `#__contact_con_cat_map` (
   `contact_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
+  `catid` int(11) NOT NULL,
   `ordering` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`contact_id`,`category_id`)
+  PRIMARY KEY  (`contact_id`,`catid`)
 ) DEFAULT CHARSET=utf8;
 
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__contactdirectory_details`
+# Table structure for table `#__contact_details`
 #
-CREATE TABLE IF NOT EXISTS `#__contactdirectory_details` (
+CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `contact_id` int(11) NOT NULL,
   `field_id` int(11) NOT NULL,
   `data` text character set utf8 NOT NULL,
@@ -715,9 +673,9 @@ CREATE TABLE IF NOT EXISTS `#__contactdirectory_details` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__contactdirectory_fields`
+# Table structure for table `#__contact_fields`
 #
-CREATE TABLE IF NOT EXISTS `#__contactdirectory_fields` (
+CREATE TABLE IF NOT EXISTS `#__contact_fields` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL,
