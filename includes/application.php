@@ -320,15 +320,21 @@ class JSite extends JApplication
 
 		$id = 0;
 		if(is_object($item)) { // valid item retrieved
-			$id = $item->id;
+			$id = $item->template_id;
+		}
+		$condition = '';
+		if($id == 0)
+		{
+			$condition = 'home = 1';
+		} else {
+			$condition = 'id = '.(int) $id;
 		}
 
 		// Load template entries for the active menuid and the default template
 		$db =& JFactory::getDBO();
 		$query = 'SELECT template, params'
-			. ' FROM #__templates_menu'
-			. ' WHERE client_id = 0 AND (menuid = 0 OR menuid = '.(int) $id.')'
-			. ' ORDER BY menuid DESC'
+			. ' FROM #__menu_template'
+			. ' WHERE client_id = 0 AND '.$condition
 			;
 		$db->setQuery($query, 0, 1);
 		$template = $db->loadObject();

@@ -1104,3 +1104,7 @@ CREATE TABLE IF NOT EXISTS `#__menu_template` (
   `params` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+INSERT INTO `#__menu_template` VALUES (1, 'rhuk_milkyway', '0', '1', 'Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
+INSERT INTO `#__menu_template` VALUES (2, 'khepri', '1', '1', 'Default', '{"useRoundedCorners":"1","showSiteName":"0","headerColor":"h_green"}');
+

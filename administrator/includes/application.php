@@ -227,9 +227,9 @@ class JAdministrator extends JApplication
 			// Load the template name from the database
 			$db =& JFactory::getDBO();
 			$query = 'SELECT template, params'
-				. ' FROM #__templates_menu'
+				. ' FROM #__menu_template'
 				. ' WHERE client_id = 1'
-				. ' AND menuid = 0'
+				. ' AND home = 1'
 				;
 			$db->setQuery( $query );
 			$template = $db->loadObject();
