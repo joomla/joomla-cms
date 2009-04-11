@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <install type="component" version="1.5.0">
-	<name>Contact</name>
+	<name>Contact Directory</name>
 	<author>Joomla! Project</author>
 	<copyright>(C) 2005 - 2007 Open Source Matters. All rights reserved.</copyright>
 	<creationDate>April 2006</creationDate>
@@ -8,5 +8,5 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5.0</version>
-	<description>This component shows a listing of Contact Information</description>
+	<description>This component shows a listing of contact information like a contact directory.</description>
 </install>

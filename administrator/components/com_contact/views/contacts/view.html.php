@@ -1,57 +1,81 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Contact
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	ContactDirectory
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+// ensure a valid entry point
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view');
+// import the JModel class
+jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the Contact component
+ * Field View
  *
- * @static
  * @package		Joomla.Administrator
- * @subpackage	Contact
- * @since 1.0
+ * @subpackage	ContactDirectory
+ * @since		1.6
  */
-class ContactsViewContacts extends JView
+class ContactdirectoryViewContacts extends JView
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		global $mainframe, $option;
 
-		// Set toolbar items for the page
-		JToolBarHelper::title(   JText::_( 'Contact Manager' ), 'generic.png' );
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
-		JToolBarHelper::addNewX();
-		JToolBarHelper::preferences('com_contact', '480');
-		JToolBarHelper::help( 'screen.contact' );
+		$db =& JFactory::getDBO();
+		$uri =& JFactory::getURI();
+		$user = & JFactory::getUser();
+		$model	=& $this->getModel();
+
+		if (!$user->authorize('com_contactdirectory', 'manage contacts')) {
+			$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+		}
+
+		$filter_state = $mainframe->getUserStateFromRequest($option.'filter_state', 'filter_state',	'', 'word');
+		$filter_catid = $mainframe->getUserStateFromRequest($option.'filter_catid',	 'filter_catid', 0, 'int');
+		$filter_order = $mainframe->getUserStateFromRequest($option.'filter_order', 'filter_order',	'c.ordering', 'cmd');
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir',	'', 'word');
+		$search	 = $mainframe->getUserStateFromRequest($option.'search', 	'search', '',	 'string');
+		$search	 = JString::strtolower($search);
 
 		// Get data from the model
-		$items		= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-		$filter		= & $this->get( 'Filter');
+		$items = & $this->get('Data');
+		$total = & $this->get('Total');
+		$pagination = & $this->get('Pagination');
+		$categories = & $this->get('Categories');
+
+		foreach($items as $item){
+			foreach($categories as $category){
+				if ($item->id == $category->contact_id){
+					$item->categories[] = $category->title;
+				}
+			}
+		}
 
 		// build list of categories
-		$javascript 	= 'onchange="document.adminForm.submit();"';
-		$lists['catid'] = JHtml::_('list.category',  'filter_catid', 'com_contact_details', intval( $filter->catid ), $javascript );
+		$javascript = 'onchange="document.adminForm.submit();"';
+		$lists['category'] = JHtml::_('list.category',  'filter_catid', $option, intval($filter_catid), $javascript);
 
-		$this->assignRef('user',		JFactory::getUser());
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('items',		$items);
+		// state filter
+		$lists['state']	= JHtml::_('grid.state',  $filter_state);
+$fields =& $this->get('fields');
+		// table ordering
+		$lists['order_Dir'] = $filter_order_Dir;
+		$lists['order'] = $filter_order;
+
+		// search filter
+		$lists['search']= $search;
+
+		$this->assignRef('user', JFactory::getUser());
+		$this->assignRef('lists', $lists);
+		$this->assignRef('items', $items);
 		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('filter',		$filter);
 
 		parent::display($tpl);
 	}
 }
+?>

@@ -1,14 +1,19 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
+ */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
+/**
+ * @package		Joomla.Administrator
+ * @subpackage	ContactDirectory
+ * @since		1.6
+ */
 class JElementContact extends JElement
 {
 	/**
@@ -19,20 +24,19 @@ class JElementContact extends JElement
 	 */
 	var	$_name = 'Contact';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db = &JFactory::getDBO();
 
-		$query = 'SELECT a.id, CONCAT( a.name, " - ",a.con_position ) AS text, a.catid '
-		. ' FROM #__contact_details AS a'
-		. ' INNER JOIN #__categories AS c ON a.catid = c.id'
-		. ' WHERE a.published = 1'
-		. ' AND c.published = 1'
-		. ' ORDER BY a.catid, a.name'
-		;
-		$db->setQuery( $query );
-		$options = $db->loadObjectList( );
+		$query = 'SELECT DISTINCT c.id, c.name AS text'
+		. ' FROM #__contactdirectory_contacts AS c'
+		. ' LEFT JOIN #__contactdirectory_con_cat_map AS map ON map.contact_id = c.id '
+		. ' LEFT JOIN #__categories AS cat ON cat.id = map.category_id '
+		. ' WHERE c.published = 1 AND cat.published = 1'
+		. ' ORDER BY cat.title, c.name';
+		$db->setQuery($query);
+		$options = $db->loadObjectList();
 
-		return JHtml::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'text', $value, $control_name.$name );
+		return JHtml::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'text', $value, $control_name.$name);
 	}
 }

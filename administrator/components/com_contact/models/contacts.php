@@ -1,35 +1,27 @@
 <?php
-/**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Contact
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
- */
-
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.model');
 
 /**
- * Contacts Component Contacts Model
+ * Contact Directory Component Fields Model
  *
  * @package		Joomla.Administrator
- * @subpackage	Contact
- * @since 1.5
+ * @subpackage	Content
+ * @since 		1.6
  */
-class ContactsModelContacts extends JModel
+class ContactdirectoryModelContacts extends JModel
 {
 	/**
-	 * Category ata array
+	 * Contact data array
 	 *
 	 * @var array
 	 */
 	var $_data = null;
 
 	/**
-	 * Category total
+	 * Contact total
 	 *
 	 * @var integer
 	 */
@@ -43,46 +35,39 @@ class ContactsModelContacts extends JModel
 	var $_pagination = null;
 
 	/**
-	 * Filter object
-	 *
-	 * @var object
+	 * Contacts categories
 	 */
-	var $_filter = null;
+	var $_categories = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	protected function __construct()
 	{
 		parent::__construct();
 
 		global $mainframe, $option;
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
+
+		// In case limit has been changed, adjust limitstart accordingly
+		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
-		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
-		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$filter->state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
-		$filter->catid		= $mainframe->getUserStateFromRequest( $option.'filter_catid',		'filter_catid',		0,				'int' );
-		$filter->search		= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$this->_filter = $filter;
 	}
 
 	/**
-	 * Method to get contacts item data
+	 * Method to get contact item data
 	 *
 	 * @access public
 	 * @return array
 	 */
-	function getData()
+	public function getData()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -100,7 +85,7 @@ class ContactsModelContacts extends JModel
 	 * @access public
 	 * @return integer
 	 */
-	function getTotal()
+	public function getTotal()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
@@ -113,90 +98,104 @@ class ContactsModelContacts extends JModel
 	}
 
 	/**
-	 * Method to get a pagination object for the contacts
+	 * Method to get a pagination object for the contact
 	 *
 	 * @access public
 	 * @return integer
 	 */
-	function getPagination()
+	public function getPagination()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
 		return $this->_pagination;
 	}
 
-	/**
-	 * Method to get filter object for the contacts
-	 *
-	 * @access public
-	 * @return object
-	 */
-	function getFilter()
-	{
-		return $this->_filter;
-	}
-
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		// Get the WHERE and ORDER BY clauses for the query
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
 
-		$query = ' SELECT a.*, cc.title AS category, u.name AS editor, g.name AS groupname, v.name AS user '
-			. ' FROM #__contact_details AS a '
-			. ' LEFT JOIN #__categories AS cc ON cc.id = a.catid '
-			. ' LEFT JOIN #__users AS u ON u.id = a.checked_out '
-			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = a.access'
-			. ' LEFT JOIN #__users AS v ON v.id = a.user_id'
+		$query = ' SELECT DISTINCT c.*, d.data AS email, u.name AS editor, v.name AS user'
+			. ' FROM #__contactdirectory_contacts AS c '
+			. ' LEFT JOIN #__users AS u ON u.id = c.checked_out '
+			. ' LEFT JOIN #__users AS v ON v.id = c.user_id '
+			. ' LEFT JOIN #__contactdirectory_con_cat_map AS map ON map.contact_id = c.id '
+			. ' LEFT JOIN #__categories AS cat ON cat.id = map.category_id '
+			. ' LEFT JOIN #__contactdirectory_details AS d ON d.contact_id = c.id '
 			. $where
-			. $orderby
-		;
+			. $orderby;
 
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe, $option;
 
-		if ($this->_filter->order == 'a.ordering'){
-			$orderby 	= ' ORDER BY category, a.ordering '.$this->_filter->order_Dir;
+		$filter_order	= $mainframe->getUserStateFromRequest($option.'filter_order', 'filter_order',	 'map.ordering',	'cmd');
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir',	'', 'word');
+
+		if ($filter_order == 'c.ordering'){
+			$orderby = ' ORDER BY map.ordering '.$filter_order_Dir.' , c.name ';
 		} else {
-			$orderby 	= ' ORDER BY '.$this->_filter->order.' '.$this->_filter->order_Dir.' , category, a.ordering ';
+			$orderby = ' ORDER BY '.$filter_order.' '.$filter_order_Dir.' , map.ordering, c.name ';
 		}
 
 		return $orderby;
 	}
 
-	function _buildContentWhere()
+	public function _buildContentWhere()
 	{
 		global $mainframe, $option;
-
-		$search				= JString::strtolower( $this->_filter->search );
+		$db =& JFactory::getDBO();
+		$filter_state = $mainframe->getUserStateFromRequest($option.'filter_state',	'filter_state', '', 'word');
+		$filter_catid = $mainframe->getUserStateFromRequest($option.'filter_catid', 'filter_catid', 0, 'int');
+		$filter_order = $mainframe->getUserStateFromRequest($option.'filter_order',	'filter_order', 'map.ordering', 'cmd');
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest($option.'filter_order_Dir',	'filter_order_Dir',	'', 'word');
+		$search	 = $mainframe->getUserStateFromRequest($option.'search',	'search', '',	'string');
+		$search	 = JString::strtolower($search);
 
 		$where = array();
 
-		if ($this->_filter->catid > 0) {
-			$where[] = 'a.catid = '.(int) $this->_filter->catid;
-		}
 		if ($search) {
-			$where[] = 'LOWER(a.name) LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped( $search, true ).'%', false);
+			$where[] = 'LOWER(c.name) LIKE '.$db->Quote('%'.$db->getEscaped($search, true).'%', false);
 		}
-		if ( $this->_filter->state ) {
-			if ( $this->_filter->state == 'P' ) {
-				$where[] = 'a.published = 1';
-			} else if ($this->_filter->state == 'U' ) {
-				$where[] = 'a.published = 0';
+		if ($filter_catid) {
+			$where[] = 'map.category_id = '.(int) $filter_catid;
+		}
+		if ($filter_state) {
+			if ($filter_state == 'P') {
+				$where[] = 'c.published = 1';
+			} else if ($filter_state == 'U') {
+				$where[] = 'c.published = 0';
 			}
 		}
 
-		$where 		= ( count( $where ) ? ' WHERE '. implode( ' AND ', $where ) : '' );
-
+		$where = (count($where) ? ' WHERE '. implode(' AND ', $where) : '');
+		$where .= ' AND d.field_id = 1';
 		return $where;
+	}
+
+	public function &getCategories()
+	{
+		if (!$this->_categories){
+			$categoryTree = JCategoryTree::getInstance('com_contactdirectory');
+			$this->_category = $categoryTree->get($this->_id);
+			$query = " SELECT c.title, map.contact_id, map.category_id AS id "
+					." FROM #__categories c "
+					." LEFT JOIN #__contactdirectory_con_cat_map map ON map.category_id = c.id "
+					." WHERE c.published = 1 "
+					." AND map.category_id IS NOT NULL "
+					." ORDER BY c.ordering ";
+			$this->_db->setQuery($query);
+			$this->_categories = $this->_db->loadObjectList();
+		}
+		return $this->_categories;
 	}
 }
