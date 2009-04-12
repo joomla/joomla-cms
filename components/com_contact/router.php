@@ -6,99 +6,185 @@
  * @license		GNU General Public License, see LICENSE.php
   */
 
-function ContactBuildRoute(&$query)
+function ContactdirectoryBuildRoute(&$query)
 {
 	static $items;
+	$segments = array();
+	$itemid	= null;
 
-	$segments	= array();
-	$itemid		= 0;
-	$menuitem	= 0;
+	// Break up the contact id into numeric and alias values.
+	if (isset($query['id']) && strpos($query['id'], ':')) {
+		list($query['id'], $query['alias']) = explode(':', $query['id'], 2);
+	}
+
+	// Break up the category id into numeric and alias values.
+	if (isset($query['catid']) && strpos($query['catid'], ':')) {
+		list($query['catid'], $query['catalias']) = explode(':', $query['catid'], 2);
+	}
 
 	// Get the menu items for this component.
 	if (!$items) {
-		$component	= &JComponentHelper::getComponent('com_contact');
+		$component	= &JComponentHelper::getComponent('com_contactdirectory');
 		$menu		= &JSite::getMenu();
 		$items		= $menu->getItems('componentid', $component->id);
 	}
 
-	if(isset($query['view']))
+	// Search for an appropriate menu item.
+	if (is_array($items))
 	{
-		if($query['view'] == 'category')
-		{
-			$catid = (int) $query['id'];
-		} elseif ($query['view'] == 'contact') {
-			$catid = (int) $query['catid'];
+		// If only the option and itemid are specified in the query, return that item.
+		if (!isset($query['view']) && !isset($query['id']) && !isset($query['catid']) && isset($query['Itemid'])) {
+			$itemid = (int) $query['Itemid'];
 		}
-		$view = $query['view'];
-	}
-	
-	if(isset($catid) && $catid > 0)
-	{
-		$categoryTree = JCategoryTree::getInstance('com_contact');
-		$category = $categoryTree->get($catid);
-	}
-	
-	if(isset($category) && count($items))
-	{
-		$path = array();
-		while($category instanceof JCategoryNode)
+
+		// Search for a specific link based on the critera given.
+		if (!$itemid)
 		{
-			foreach($items as $item)
+			foreach ($items as $item)
 			{
-				if($item->query['view'] == 'contact'
-					&& $view == 'contact'
-					&& (int)$item->query['id'] == (int)$query['id'])
+				// Check if this menu item links to this view.
+				if (isset($item->query['view']) && $item->query['view'] == 'contact'
+					&& isset($query['view']) && $query['view'] == 'contact'
+					&& isset($item->query['id']) && $item->query['id'] == $query['id'])
 				{
-					$itemid = $item->id;
-					$menuitem = 1;
+					$itemid	= $item->id;
+				}
+				elseif (isset($item->query['view']) && $item->query['view'] == 'category'
+					&& isset($query['view']) && $query['view'] == 'category'
+					&& isset($item->query['id']) && $item->query['id'] == $query['catid'])
+				{
+					$itemid	= $item->id;
+				}
+			}
+		}
+
+		// If no specific link has been found, search for a general one.
+		if (!$itemid)
+		{
+			foreach ($items as $item)
+			{
+				//echo $item->query['view'].'<br/>';
+				if (isset($query['view']) && $query['view'] == 'contact'
+					&& isset($item->query['view']) && $item->query['view'] == 'category'
+					&& isset($item->query['id']) && isset($query['catid'])
+					&& $query['catid'] == $item->query['id'])
+				{
+					// This menu item links to the contact view but we need to append the contact id to it.
+					$itemid	= $item->id;
+					$segments[]	= isset($query['catalias']) ? $query['catid'].':'.$query['catalias'] : $query['catid'];
+					$segments[]	= isset($query['alias']) ? $query['id'].':'.$query['alias'] : $query['id'];
+					break;
+				}
+				elseif (isset($query['view']) && $query['view'] == 'category'
+					&& isset($item->query['view']) && $item->query['view'] == 'category'
+					&& isset($item->query['id']) && isset($query['id']) && $item->query['id'] != $query['id'])
+				{
+					// This menu item links to the category view but we need to append the category id to it.
+					$itemid	= $item->id;
+					$segments[]	= isset($query['alias']) ? $query['id'].':'.$query['alias'] : $query['id'];
 					break;
 				}
 			}
-			foreach($items as $item)
+		}
+
+		// Search for an even more general link.
+		if (!$itemid)
+		{
+			foreach ($items as $item)
 			{
-				if($item->query['view'] == 'category' 
-					&& (int)$item->query['id'] == (int)$category->id)
+				if (isset($query['view']) && $query['view'] == 'contact'
+					&& isset($item->query['view']) && $item->query['view'] == 'categories'
+					&& isset($query['catid']) && isset($query['id']))
 				{
-					$itemid = $item->id;
+					// This menu item links to the categories view but we need to append the category and contact id to it.
+					$itemid	= $item->id;
+					$segments[]	= isset($query['catalias']) ? $query['catid'].':'.$query['catalias'] : $query['catid'];
+					$segments[]	= isset($query['alias']) ? $query['id'].':'.$query['alias'] : $query['id'];
+					break;
+				}
+				elseif (isset($query['view']) && $query['view'] == 'category'
+					&& isset($item->query['view']) && $item->query['view'] == 'categories'
+					&& isset($query['catid']))
+				{
+					// This menu item links to the categories view but we need to append the category id to it.
+					$itemid	= $item->id;
+					$segments[]	= isset($query['catalias']) ? $query['catid'].':'.$query['catalias'] : $query['catid'];
 					break;
 				}
 			}
-			if($itemid > 0)
-			{
-				break;
-			} else {
-				$path[] = $category->slug;
-				$category = $category->getParent();
-			}
 		}
-		if($itemid > 0)
+	}
+
+	// Check if the router found an appropriate itemid.
+	if (!$itemid)
+	{
+		// Check if a category was specified
+		if (isset($query['view']) && $query['view'] == 'category' && isset($query['catid']))
 		{
-			$query['Itemid'] = $itemid;
+			if (isset($query['catalias'])) {
+				$query['catid'] .= ':'.$query['catalias'];
+			}
+
+			// Push the catid onto the stack.
+			$segments[] = $query['catid'];
+
+			unset($query['view']);
+			unset($query['catid']);
+			unset($query['catalias']);
 		}
-		$path = array_reverse($path);
-		$segments = array_merge($segments, $path);
-	}
+		// Check if a id was specified.
+		elseif (isset($query['id']))
+		{
+			if (isset($query['catalias'])) {
+				$query['catid'] .= ':'.$query['catalias'];
+			}
 
-	if(isset($view) && $view == 'contact' && $itemid > 0)
-	{
-		if(!$menuitem)
-		$segments[] = $query['id'];
-	}
+			// Push the catid onto the stack.
+			$segments[] = $query['catid'];
 
-	if($itemid == 0 && isset($query['id']))
-	{
-		$segments[] = $query['id'];
-	}
-	
-	// Remove the unnecessary URL segments.
-	unset($query['view']);
-	unset($query['id']);
-	unset($query['catid']);
+			if (isset($query['alias'])) {
+				$query['id'] .= ':'.$query['alias'];
+			}
 
+			// Push the id onto the stack.
+			$segments[] = $query['id'];
+			unset($query['view']);
+			unset($query['id']);
+			unset($query['alias']);
+			unset($query['catid']);
+			unset($query['catalias']);
+		}
+		elseif (isset($query['catid']))
+		{
+			if (isset($query['alias'])) {
+				$query['catid'] .= ':'.$query['catalias'];
+			}
+
+			// Push the catid onto the stack.
+			$segments[]	= 'category';
+			$segments[] = $query['catid'];
+			unset($query['view']);
+			unset($query['catid']);
+			unset($query['catalias']);
+			unset($query['alias']);
+		}else{
+			// Categories view.
+			unset($query['view']);
+		}
+	}else	{
+		$query['Itemid'] = $itemid;
+
+		// Remove the unnecessary URL segments.
+		unset($query['view']);
+		unset($query['id']);
+		unset($query['alias']);
+		unset($query['catid']);
+		unset($query['catalias']);
+	}
 	return $segments;
 }
 
-function ContactParseRoute($segments)
+function ContactdirectoryParseRoute($segments)
 {
 	$vars	= array();
 
@@ -109,32 +195,78 @@ function ContactParseRoute($segments)
 	// Check if we have a valid menu item.
 	if (is_object($item))
 	{
-		if($item->query['view'] == 'category')
+		// Proceed through the possible variations trying to match the most specific one.
+		if (isset($item->query['view']) && $item->query['view'] == 'contact' && isset($segments[0]))
 		{
-			$categorytree = JCategoryTree::getInstance('com_contact');
-			$category = $categorytree->get($item->query['id']);
-			foreach($segments as $segment)
-			{
-				$found = 0;
-				foreach($category->getChildren() as $child)
-				{
-					if($segment == $child->slug)
-					{
-						$found = 1;
-						$category = $child;
-						break;
-					}
-				}
-				if($found == 0)
-				{
-					$vars['id'] = $segment;
-					$vars['catid'] = $category->slug;
-					$vars['view'] = 'contact';
-				} else {
-					$vars['id'] = $category->slug;
-					$vars['view'] = 'category';
-				}
+			// Break up the contact id into numeric and alias values.
+			if (isset($segments[0]) && strpos($segments[0], ':')) {
+				list($id, $alias) = explode(':', $segments[0], 2);
 			}
+
+			// Contact view.
+			$vars['view']	= 'contact';
+			$vars['id']		= $id;
+		}
+		elseif (isset($item->query['view']) && $item->query['view'] == 'category' && count($segments) == 2)
+		{
+			// Break up the category id into numeric and alias values.
+			if (isset($segments[0]) && strpos($segments[0], ':')) {
+				list($catid, $catalias) = explode(':', $segments[0], 2);
+			}
+
+			// Break up the contact id into numeric and alias values.
+			if (isset($segments[1]) && strpos($segments[1], ':')) {
+				list($id, $alias) = explode(':', $segments[1], 2);
+			}
+
+			// Contact view.
+			$vars['view']	= 'contact';
+			$vars['id']		= $id;
+			$vars['catid']	= $catid;
+		}
+		elseif (isset($item->query['view']) && $item->query['view'] == 'category' && isset($segments[0]))
+		{
+			// Break up the category id into numeric and alias values.
+			if (isset($segments[0]) && strpos($segments[0], ':')) {
+				list($catid, $catalias) = explode(':', $segments[0], 2);
+			}
+
+			// Category view.
+			$vars['view']	= 'category';
+			$vars['catid']	= $catid;
+		}
+		elseif (isset($item->query['view']) && $item->query['view'] == 'categories' && count($segments) == 2)
+		{
+			// Break up the category id into numeric and alias values.
+			if (isset($segments[0]) && strpos($segments[0], ':')) {
+				list($catid, $catalias) = explode(':', $segments[0], 2);
+			}
+
+			// Break up the contact id into numeric and alias values.
+			if (isset($segments[1]) && strpos($segments[1], ':')) {
+				list($id, $alias) = explode(':', $segments[1], 2);
+			}
+
+			// Contact view.
+			$vars['view']	= 'contact';
+			$vars['id']		= $id;
+			$vars['catid']	= $catid;
+		}
+		elseif (isset($item->query['view']) && $item->query['view'] == 'categories' && isset($segments[0]))
+		{
+			// Break up the category id into numeric and alias values.
+			if (isset($segments[0]) && strpos($segments[0], ':')) {
+				list($catid, $catalias) = explode(':', $segments[0], 2);
+			}
+
+			// Category view.
+			$vars['view']	= 'category';
+			$vars['catid']	= $catid;
+		}
+		elseif (isset($item->query['view']) && $item->query['view'] == 'categories')
+		{
+			// Categories view.
+			$vars['view']	= 'categories';
 		}
 	}
 	else
@@ -145,22 +277,25 @@ function ContactParseRoute($segments)
 		// Check if there are any route segments to handle.
 		if ($count)
 		{
-			if (count($segments[0]) == 2)
+			if ($count == 2)
 			{
-				// We are viewing a newsfeed.
+				// We are viewing a contact.
 				$vars['view']	= 'contact';
-				$vars['id']		= $segments[$count-2];
-				$vars['catid']	= $segments[$count-1];
-
+				$vars['catid']	= $segments[$count-2];
+				$vars['id']		= $segments[$count-1];
 			}
-			else
+			elseif($count == 1)
 			{
 				// We are viewing a category.
 				$vars['view']	= 'category';
 				$vars['catid']	= $segments[$count-1];
 			}
+			else
+			{
+				// We are viewing categories.
+				$vars['view']	= 'categories';
+			}
 		}
 	}
-
 	return $vars;
 }
