@@ -11,14 +11,14 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the ContactDirectory component
+ * HTML View class for the Contact component
  *
  * @static
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @since 1.6
  */
-class ContactdirectoryViewField extends JView
+class ContactViewField extends JView
 {
 	function display($tpl = null)
 	{
@@ -29,8 +29,8 @@ class ContactdirectoryViewField extends JView
 		$user 	=& JFactory::getUser();
 		$model	=& $this->getModel();
 
-		if (!$user->authorize('com_contactdirectory', 'manage fields')) {
-			$mainframe->redirect('index.php?option=com_contactdirectory&controller=contact', JText::_('ALERTNOTAUTH'));
+		if (!$user->authorize('com_contact', 'manage fields')) {
+			$mainframe->redirect('index.php?option=com_contact&controller=contact', JText::_('ALERTNOTAUTH'));
 		}
 
 		$lists = array();
@@ -42,7 +42,7 @@ class ContactdirectoryViewField extends JView
 		// fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id'))) {
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('THE_FIELD'), $field->title);
-			$mainframe->redirect('index.php?option=com_contactdirectory&controller=field', $msg);
+			$mainframe->redirect('index.php?option=com_contact&controller=field', $msg);
 		}
 
 		// Edit or Create?
@@ -60,7 +60,7 @@ class ContactdirectoryViewField extends JView
 
 		// build the html select list for ordering
 		$query = "SELECT ordering AS value, title AS text"
-			. " FROM #__contactdirectory_fields"
+			. " FROM #__contact_fields"
 			. " WHERE pos = '$field->pos'"
 			. " ORDER BY ordering";
 

@@ -16,7 +16,7 @@ jimport('joomla.application.component.model');
  * @package		Joomla
  * @subpackage	Contact
  */
-class ContactdirectoryModelContact extends JModel
+class ContactModelContact extends JModel
 {
 	var $_id = null;
 	var $_data = null;
@@ -97,8 +97,8 @@ class ContactdirectoryModelContact extends JModel
 	{
 		if(!$this->_fields){
 			$query = " SELECT f.id, f.title, d.data, f.pos, f.type, d.show_contact AS show_field, f.params, f.access "
-					." FROM #__contactdirectory_fields f "
-					." LEFT JOIN #__contactdirectory_details d ON d.field_id = f.id "
+					." FROM #__contact_fields f "
+					." LEFT JOIN #__contact_details d ON d.field_id = f.id "
 					." WHERE f.published = 1 AND d.contact_id = $this->_id"
 					." ORDER BY f.pos, f.ordering ";
 			$this->_db->setQuery($query);
@@ -110,8 +110,8 @@ class ContactdirectoryModelContact extends JModel
 	function &getEmail()
 	{
 		if(!$this->_email){
-			$query = " SELECT d.data FROM #__contactdirectory_details d "
-							." JOIN  #__contactdirectory_fields f ON d.field_id = f.id "
+			$query = " SELECT d.data FROM #__contact_details d "
+							." JOIN  #__contact_fields f ON d.field_id = f.id "
 							." WHERE f.published = 1 AND d.field_id = 1 AND d.contact_id = $this->_id ";
 			$this->_db->setQuery($query);
 			$this->_email = $this->_db->loadResult();
@@ -124,7 +124,7 @@ class ContactdirectoryModelContact extends JModel
 		if(!$this->_categories){
 			$query = " SELECT c.title, c.published, map.category_id AS id, map.ordering "
 					." FROM jos_categories c "
-					." LEFT JOIN jos_contactdirectory_con_cat_map map ON map.category_id = c.id "
+					." LEFT JOIN jos_contact_con_cat_map map ON map.category_id = c.id "
 					." WHERE map.contact_id = '$this->_id' ";
 			$this->_db->setQuery($query);
 			$this->_categories = $this->_db->loadObjectList();
@@ -144,7 +144,7 @@ class ContactdirectoryModelContact extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM #__contactdirectory_contacts WHERE id = '.(int) $this->_id;
+			$query = 'SELECT * FROM #__contact_contacts WHERE id = '.(int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 			return (boolean) $this->_data;
@@ -183,7 +183,7 @@ class ContactdirectoryModelContact extends JModel
 	function mailTo($access) {
 		global $mainframe;
 
-		$pparams =& $mainframe->getParams('com_contactsdirectory');
+		$pparams =& $mainframe->getParams('com_contact');
 		$SiteName = $mainframe->getCfg('sitename');
 		$default = JText::sprintf( 'MAILENQUIRY', $SiteName );
 
@@ -270,7 +270,7 @@ class ContactdirectoryModelContact extends JModel
 		$session =& JFactory::getSession();
 
 		$params	= new JParameter($contact->params);
-		$pparams = &$mainframe->getParams('com_contactdirectory');
+		$pparams = &$mainframe->getParams('com_contact');
 
 		$sessionCheck = $pparams->get( 'validate_session', 1 );
 		$sessionName	= $session->getName();

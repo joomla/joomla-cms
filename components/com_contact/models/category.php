@@ -2,7 +2,7 @@
 /**
  * @version		$Id: category.php
  * @package		Joomla
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
@@ -14,9 +14,9 @@ jimport('joomla.application.component.model');
 
 /**
  * @package		Joomla
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  */
-class ContactdirectoryModelCategory extends JModel
+class ContactModelCategory extends JModel
 {
 	var $_id = null;
 	var $_data = null;
@@ -38,7 +38,7 @@ class ContactdirectoryModelCategory extends JModel
 		$config = JFactory::getConfig();
 
 		// Get the pagination request variables
-		$this->setState('limit', $mainframe->getUserStateFromRequest('com_contactdirectory.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
+		$this->setState('limit', $mainframe->getUserStateFromRequest('com_contact.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
 		// In case limit has been changed, adjust limitstart accordingly
@@ -86,8 +86,8 @@ class ContactdirectoryModelCategory extends JModel
 			for($i=0; $i<count($this->_data); $i++) {
 				$id = $this->_data[$i]->id;
 				$query = " SELECT f.id, f.title, d.data, f.pos, f.type, d.show_directory AS show_field, f.params, f.access "
-						." FROM #__contactdirectory_fields f "
-						." LEFT JOIN #__contactdirectory_details d ON d.field_id = f.id "
+						." FROM #__contact_fields f "
+						." LEFT JOIN #__contact_details d ON d.field_id = f.id "
 						." WHERE f.published = 1 AND d.contact_id = $id"
 						." ORDER BY f.pos, f.ordering ";
 				$this->_db->setQuery($query);
@@ -214,9 +214,9 @@ class ContactdirectoryModelCategory extends JModel
 		$orderby	= $this->_buildContentOrderBy();
 
 		$query = ' SELECT c.*, cat.title AS category, v.name AS user'
-			. ' FROM #__contactdirectory_contacts AS c '
+			. ' FROM #__contact_contacts AS c '
 			. ' LEFT JOIN #__users AS v ON v.id = c.user_id '
-			. ' LEFT JOIN #__contactdirectory_con_cat_map AS map ON map.contact_id = c.id '
+			. ' LEFT JOIN #__contact_con_cat_map AS map ON map.contact_id = c.id '
 			. ' LEFT JOIN #__categories AS cat ON cat.id = map.category_id '.
 			$where.
 			$orderby;
@@ -309,8 +309,8 @@ class ContactdirectoryModelCategory extends JModel
 		$gid		= $user->get('aid', 0);
 
 		$query = ' SELECT DISTINCT ucase(substr(c.name,1,1)) AS active '
-				.' FROM #__contactdirectory_contacts AS c '
-				.' LEFT JOIN #__contactdirectory_con_cat_map AS map ON map.contact_id = c.id '
+				.' FROM #__contact_contacts AS c '
+				.' LEFT JOIN #__contact_con_cat_map AS map ON map.contact_id = c.id '
 				.' WHERE c.published = 1 AND c.access <= '.(int) $gid
 				.' AND map.category_id = '.$category->id;
 

@@ -33,10 +33,9 @@ abstract class JHtmlAcl
 		$db =& JFactory::getDBO();
 
 		$db->setQuery(
-			'SELECT value, name AS text'
-			.' FROM #__core_acl_axo_groups'
-			.' WHERE value >= 0'
-			.' ORDER BY value'
+			'SELECT id as value, title AS text'
+			.' FROM #__access_assetgroups'
+			.' ORDER BY left_id'
 		);
 		try {
 			$groups = $db->loadObjectList();

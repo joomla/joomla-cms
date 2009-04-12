@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
@@ -21,7 +21,7 @@ JHtml::_('behavior.tooltip');
 	JToolBarHelper::addNewX();
 	JToolBarHelper::custom('importView', 'save.png', 'save_f2.png', JText::_('IMPORT'), false, true);
 
-	//JToolBarHelper::preferences('com_contactdirectory', '500');
+	//JToolBarHelper::preferences('com_contact', '500');
 	//JToolBarHelper::help('screen.contactmanager');
 ?>
 
@@ -89,7 +89,7 @@ JHtml::_('behavior.tooltip');
 	{
 		$row = &$this->items[$i];
 
-		$link 		= JRoute::_('index.php?option=com_contactdirectory&controller=contact&view=contact&task=edit&cid[]='. $row->id);
+		$link 		= JRoute::_('index.php?option=com_contact&controller=contact&view=contact&task=edit&cid[]='. $row->id);
 		$access 	= JHtml::_('grid.access',   $row, $i);
 		$checked 	= JHtml::_('grid.checkedout',   $row, $i);
 		$published 	= JHtml::_('grid.published', $row, $i);
@@ -147,7 +147,7 @@ JHtml::_('behavior.tooltip');
 </div>
 
 	<input type="hidden" name="controller" value="contact" />
-	<input type="hidden" name="option" value="com_contactdirectory" />
+	<input type="hidden" name="option" value="com_contact" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />

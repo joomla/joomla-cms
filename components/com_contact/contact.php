@@ -7,7 +7,7 @@ jimport('joomla.application.component.helper');
 require_once JPATH_COMPONENT.DS.'controller.php';
 
 // Create the controller
-$controller = new ContactdirectoryController();
+$controller = new ContactController();
 
 // Perform the Request task
 $controller->execute(JRequest::getVar('task', null, 'default', 'cmd'));

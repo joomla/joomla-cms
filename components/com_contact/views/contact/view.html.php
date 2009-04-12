@@ -16,7 +16,7 @@ jimport('joomla.application.component.view');
  * @package		Joomla
  * @subpackage	Contacts
  */
-class ContactdirectoryViewContact extends JView
+class ContactViewContact extends JView
 {
 	function display($tpl = null)
 	{
@@ -30,7 +30,7 @@ class ContactdirectoryViewContact extends JView
 		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();
 
-		$pparams = &$mainframe->getParams('com_contactdirectory');
+		$pparams = &$mainframe->getParams('com_contact');
 
 		$cparams = JComponentHelper::getParams ('com_media');
 
@@ -155,7 +155,7 @@ class ContactdirectoryViewContact extends JView
 
 		$captcha = null;
 		if($contact->params->get('show_captcha')) {
-			 $captcha = JHtml::image('index.php?option=com_contactdirectory&task=captcha&amp;format=raw&amp;sid=' . md5(uniqid(time())), 'captcha', array('id'=>'captcha-img'));
+			 $captcha = JHtml::image('index.php?option=com_contact&task=captcha&amp;format=raw&amp;sid=' . md5(uniqid(time())), 'captcha', array('id'=>'captcha-img'));
 		}
 
 		$showFormTitle = false;
@@ -210,7 +210,7 @@ class ContactdirectoryViewContact extends JView
 		// Fill up the form with the original data after summit error
 		$data =& $this->get('FormData');
 
-		JHtml::stylesheet('contactdirectory.css', 'components/com_contactdirectory/css/');
+		JHtml::stylesheet('contact.css', 'components/com_contact/css/');
 
 		$this->assignRef('contact',	$contact);
 		$this->assignRef('pos_title', $pos_title);

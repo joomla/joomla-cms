@@ -73,6 +73,6 @@ function alphabetFilter(val){
 			<?php if($this->params->get('groupby_cat')) echo $this->loadTemplate('groupby'); ?>
 		</tbody>
 	</table>
-	<input type="hidden" name="option" value="com_contactdirectory" />
+	<input type="hidden" name="option" value="com_contact" />
 	</form>
 </div>

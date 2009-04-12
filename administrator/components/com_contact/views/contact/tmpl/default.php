@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
@@ -260,7 +260,7 @@ defined('_JEXEC') or die('Restricted access');
 <div class="clr"></div>
 
 	<input type="hidden" name="controller" value="contact" />
-	<input type="hidden" name="option" value="com_contactdirectory" />
+	<input type="hidden" name="option" value="com_contact" />
 	<input type="hidden" name="cid[]" value="<?php echo $this->contact->id; ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

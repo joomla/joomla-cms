@@ -11,14 +11,14 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the ContactDirectory component
+ * HTML View class for the Contact component
  *
  * @static
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @since		1.6
  */
-class ContactdirectoryViewContact extends JView
+class ContactViewContact extends JView
 {
 	public function display($tpl = null)
 	{
@@ -29,7 +29,7 @@ class ContactdirectoryViewContact extends JView
 		$user =& JFactory::getUser();
 		$model	=& $this->getModel();
 
-		if (!$user->authorize('com_contactdirectory', 'manage contacts')) {
+		if (!$user->authorize('com_contact', 'manage.contacts')) {
 			$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 		}
 
@@ -42,7 +42,7 @@ class ContactdirectoryViewContact extends JView
 		//get the fields
 		$fields =& $this->get('fields');
 		if ($fields == null){
-			$query = "SELECT title, type, params, alias FROM #__contactdirectory_fields WHERE published = 1 ORDER BY pos, ordering";
+			$query = "SELECT title, type, params, alias FROM #__contact_fields WHERE published = 1 ORDER BY pos, ordering";
 			$db->setQuery($query);
 			$fields = $db->loadObjectList();
 			foreach($fields as $field){
@@ -58,7 +58,7 @@ class ContactdirectoryViewContact extends JView
 		// fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id'))) {
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('THE_CONTACT'), $contact->name);
-			$mainframe->redirect('index.php?option=com_contactdirectory&controller=contact', $msg);
+			$mainframe->redirect('index.php?option=com_contact&controller=contact', $msg);
 		}
 
 		// Edit or Create?
@@ -77,9 +77,9 @@ class ContactdirectoryViewContact extends JView
 		// build the html list for categories
 		$query = "SELECT id AS value, title AS text"
 				. " FROM #__categories"
-				. " WHERE section = 'com_contactdirectory'"
+				. " WHERE extension = 'com_contact'"
 				. " AND published = 1"
-				. " ORDER BY ordering";
+				. " ORDER BY lft";
 		$db->setQuery($query);
 		$cat = $db->loadObjectList();
 
@@ -101,9 +101,9 @@ class ContactdirectoryViewContact extends JView
 		$i = 0;
 		foreach ($categories as $category) {
 			$query = "SELECT c.name AS text, map.ordering AS value "
-				."FROM jos_contactdirectory_contacts c "
-				."LEFT JOIN jos_contactdirectory_con_cat_map map ON map.contact_id = c.id "
-				."WHERE c.published = 1 AND map.category_id = '$category->id' ORDER BY ordering";
+				."FROM jos_contact_contacts c "
+				."LEFT JOIN jos_contact_con_cat_map map ON map.contact_id = c.id "
+				."WHERE c.published = 1 AND map.catid = '$category->id' ORDER BY ordering";
 
 			$order = JHtml::_('list.genericordering', $query);
 			$lists['ordering'.$i] = JHtml::_(

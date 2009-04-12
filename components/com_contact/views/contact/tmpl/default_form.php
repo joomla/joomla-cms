@@ -86,7 +86,7 @@ if ($this->params->get('validate_email_form')=='1') {
 			<button class="button validate" type="submit"><?php echo JText::_('SEND'); ?></button>
 		</div>
 
-	<input type="hidden" name="option" value="com_contactdirectory" />
+	<input type="hidden" name="option" value="com_contact" />
 	<input type="hidden" name="view" value="contact" />
 	<input type="hidden" name="id" value="<?php echo $this->contact->id; ?>" />
 	<input type="hidden" name="task" value="submit" />

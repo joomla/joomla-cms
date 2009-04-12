@@ -193,7 +193,7 @@ function alphabetFilter(val){
 			<?php endif; ?>
 		</tbody>
 	</table>
-	<input type="hidden" name="option" value="com_contactdirectory" />
+	<input type="hidden" name="option" value="com_contact" />
 	<input type="hidden" name="catid" value="<?php echo $this->category->id;?>" />
 	</form>
 </div>

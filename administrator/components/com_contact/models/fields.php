@@ -122,10 +122,10 @@ class ContactModelFields extends JModel
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
 
-		$query = ' SELECT f.*, u.name AS editor, g.name AS groupname '
+		$query = ' SELECT f.*, u.name AS editor, g.title AS groupname '
 			. ' FROM #__contact_fields AS f '
 			. ' LEFT JOIN #__users AS u ON u.id = f.checked_out '
-			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = f.access '
+			. ' LEFT JOIN #__access_assetgroups AS g ON g.id = f.access '
 			. $where
 			. $orderby;
 

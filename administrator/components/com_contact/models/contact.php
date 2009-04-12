@@ -86,7 +86,7 @@ class ContactModelContact extends JModel
 					." FROM #__categories c "
 					." LEFT JOIN #__contact_con_cat_map map ON map.catid = c.id "
 					." WHERE c.published = 1 AND map.contact_id = '$this->_id'"
-					." ORDER BY c.ordering ";
+					." ORDER BY c.lft ";
 			$this->_db->setQuery($query);
 			$this->_categories = $this->_db->loadObjectList();
 		}

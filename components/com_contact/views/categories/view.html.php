@@ -16,7 +16,7 @@ jimport('joomla.application.component.view');
  * @package		Joomla
  * @subpackage	Contacts
  */
-class ContactdirectoryViewCategories extends JView
+class ContactViewCategories extends JView
 {
 	function display($tpl = null)
 	{
@@ -27,7 +27,7 @@ class ContactdirectoryViewCategories extends JView
 		$model	= &$this->getModel();
 		$document =& JFactory::getDocument();
 
-		$pparams = &$mainframe->getParams('com_contactdirectory');
+		$pparams = &$mainframe->getParams('com_contact');
 		$cparams =& JComponentHelper::getParams('com_media');
 
 		$categories = $model->getCategories();
@@ -52,14 +52,14 @@ class ContactdirectoryViewCategories extends JView
 		}*/
 
 		foreach($categories as $category){
-			$category->link = JRoute::_('index.php?option=com_contactdirectory&view=category&catid='.$category->catslug);
+			$category->link = JRoute::_('index.php?option=com_contact&view=category&catid='.$category->catslug);
 		}
 
 		for($i=0; $i<count($contacts); $i++){
 			if($pparams->get('groupby_cat')){
-				$contacts[$i]->link = JRoute::_('index.php?option=com_contactdirectory&view=contact&catid='.$contacts[$i]->catslug.'&id='.$contacts[$i]->slug);
+				$contacts[$i]->link = JRoute::_('index.php?option=com_contact&view=contact&catid='.$contacts[$i]->catslug.'&id='.$contacts[$i]->slug);
 			}else{
-				$contacts[$i]->link = JRoute::_('index.php?option=com_contactdirectory&view=contact&catid=0:all&id='.$contacts[$i]->slug);
+				$contacts[$i]->link = JRoute::_('index.php?option=com_contact&view=contact&catid=0:all&id='.$contacts[$i]->slug);
 			}
 			$contacts[$i]->fields = $fields[$i];
 			$contacts[$i]->params = new JParameter($contacts[$i]->params);
@@ -152,7 +152,7 @@ class ContactdirectoryViewCategories extends JView
 
 		$document->setTitle(JText::_('CONTACT'));
 
-		JHtml::stylesheet('contactdirectory.css', 'components/com_contactdirectory/css/');
+		JHtml::stylesheet('contact.css', 'components/com_contact/css/');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('data', $data);

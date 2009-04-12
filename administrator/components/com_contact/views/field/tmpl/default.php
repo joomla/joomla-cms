@@ -2,7 +2,7 @@
 /**
  * @version		$Id: default.php 11476 2009-01-25 06:58:51Z eddieajau $
  * @package		Joomla.Administrator
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
@@ -124,7 +124,7 @@ if (!$edit)  {
 	<div class="clr"></div>
 
 	<input type="hidden" name="controller" value="field" />
-	<input type="hidden" name="option" value="com_contactdirectory" />
+	<input type="hidden" name="option" value="com_contact" />
 	<input type="hidden" name="cid[]" value="<?php echo $this->field->id; ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

@@ -6,14 +6,14 @@ defined('_JEXEC') or die( 'Restricted access' );
 jimport( 'joomla.application.component.controller' );
 
 /**
- * Contactdirectory Component Controller
+ * Contact Component Controller
  *
  * @static
  * @package		Joomla
  * @subpackage	Contact
  * @since 1.5
  */
-class ContactdirectoryController extends JController
+class ContactController extends JController
 {
 	/**
 	 * Display the view
@@ -54,7 +54,7 @@ class ContactdirectoryController extends JController
 			$contact = $model->getData($user->get('aid', 0));
 			$mainframe->enqueueMessage($msg, "message");
 			$this->display();
-			//$link = JRoute::_('index.php?option=com_contactdirectory&view=contact&id='.$contact->slug, false);
+			//$link = JRoute::_('index.php?option=com_contact&view=contact&id='.$contact->slug, false);
 			//$this->setRedirect($link, $msg);
 		} else {
 			$this->setError($model->getError());

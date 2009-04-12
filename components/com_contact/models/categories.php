@@ -2,7 +2,7 @@
 /**
  * @version		$Id: categories.php
  * @package		Joomla
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
@@ -14,9 +14,9 @@ jimport('joomla.application.component.model');
 
 /**
  * @package		Joomla
- * @subpackage	ContactDirectory
+ * @subpackage	Contact
  */
-class ContactdirectoryModelCategories extends JModel
+class ContactModelCategories extends JModel
 {
 	var $_data = null;
 	var $_total = null;
@@ -37,7 +37,7 @@ class ContactdirectoryModelCategories extends JModel
 		$config = JFactory::getConfig();
 
 		// Get the pagination request variables
-		$this->setState('limit', $mainframe->getUserStateFromRequest('com_contactdirectory.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
+		$this->setState('limit', $mainframe->getUserStateFromRequest('com_contact.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
 		// In case limit has been changed, adjust limitstart accordingly
@@ -75,8 +75,8 @@ class ContactdirectoryModelCategories extends JModel
 			for($i=0; $i<count($this->_data); $i++) {
 				$id = $this->_data[$i]->id;
 				$query = " SELECT f.id, f.title, d.data, f.pos, f.type, d.show_directory AS show_field, f.params, f.access "
-						." FROM #__contactdirectory_fields f "
-						." LEFT JOIN #__contactdirectory_details d ON d.field_id = f.id "
+						." FROM #__contact_fields f "
+						." LEFT JOIN #__contact_details d ON d.field_id = f.id "
 						." WHERE f.published = 1 AND d.contact_id = $id"
 						." ORDER BY f.pos, f.ordering ";
 				$this->_db->setQuery($query);
@@ -122,7 +122,7 @@ class ContactdirectoryModelCategories extends JModel
 							." CASE WHEN CHAR_LENGTH(alias) "
 							." THEN CONCAT_WS(':', id, alias) ELSE id END AS catslug "
 							." FROM #__categories"
-							." WHERE section = 'com_contactdirectory'"
+							." WHERE section = 'com_contact'"
 							." AND published = 1"
 							.$orderby;
 			$this->_db->setQuery($query);
@@ -170,15 +170,15 @@ class ContactdirectoryModelCategories extends JModel
 			$query = ' SELECT c.*, cat.title AS category, '
 				. ' CASE WHEN CHAR_LENGTH(cat.alias) '
 				. ' THEN CONCAT_WS(\':\', cat.id, cat.alias) ELSE cat.id END AS catslug '
-				. ' FROM #__contactdirectory_contacts AS c '
-				. ' LEFT JOIN #__contactdirectory_con_cat_map AS map ON map.contact_id = c.id '
+				. ' FROM #__contact_contacts AS c '
+				. ' LEFT JOIN #__contact_con_cat_map AS map ON map.contact_id = c.id '
 				. ' LEFT JOIN #__categories AS cat ON cat.id = map.category_id '.
 				$where.
 				$orderby;
 		}else{
 			$query =' SELECT DISTINCT c.* '
-				. ' FROM #__contactdirectory_contacts AS c '
-				. ' LEFT JOIN #__contactdirectory_con_cat_map AS map ON map.contact_id = c.id '
+				. ' FROM #__contact_contacts AS c '
+				. ' LEFT JOIN #__contact_con_cat_map AS map ON map.contact_id = c.id '
 				. ' LEFT JOIN #__categories AS cat ON cat.id = map.category_id '.
 			$where.
 			$orderby;
@@ -269,7 +269,7 @@ class ContactdirectoryModelCategories extends JModel
 		$gid		= $user->get('aid', 0);
 
 		$query = ' SELECT DISTINCT ucase(substr(name,1,1)) AS active '
-				.' FROM #__contactdirectory_contacts '
+				.' FROM #__contact_contacts '
 				.' WHERE published = 1 AND access <= '.(int) $gid;
 
 		$this->_db->setQuery($query);
