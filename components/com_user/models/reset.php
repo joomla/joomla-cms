@@ -104,7 +104,7 @@ class UserModelReset extends JModel
 	 */
 	function confirmReset($token)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		if(strlen($token) != 32) {
 			$this->setError(JText::_('INVALID_TOKEN'));
@@ -142,7 +142,7 @@ class UserModelReset extends JModel
 	{
 		jimport('joomla.user.helper');
 
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Make sure that we have a pasword
 		if ( ! $password1 )

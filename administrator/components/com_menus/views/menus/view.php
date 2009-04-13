@@ -28,7 +28,7 @@ class MenusViewMenus extends JView
 
 	function display($tpl=null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$this->_layout = 'default';
 
@@ -59,7 +59,7 @@ class MenusViewMenus extends JView
 
 	function copyForm($tpl=null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$this->_layout = 'copy';
 
@@ -86,7 +86,7 @@ class MenusViewMenus extends JView
 
 	function deleteForm($tpl=null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$this->_layout = 'delete';
 
@@ -118,7 +118,7 @@ class MenusViewMenus extends JView
 	{
 		JRequest::setVar('hidemainmenu', 1);
 
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$this->_layout = 'edit';
 		if($edit)

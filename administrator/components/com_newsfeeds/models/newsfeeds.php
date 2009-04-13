@@ -58,7 +58,8 @@ class NewsfeedsModelNewsfeeds extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		// Get the pagination request variables
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
@@ -160,7 +161,8 @@ class NewsfeedsModelNewsfeeds extends JModel
 
 	function _buildContentOrderBy()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		if ($this->_filter->order == 'a.ordering'){
 			$orderby 	= ' ORDER BY catname, a.ordering '.$this->_filter->order_Dir;
@@ -172,7 +174,8 @@ class NewsfeedsModelNewsfeeds extends JModel
 
 	function _buildContentWhere()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		$search = JString::strtolower( $this->_filter->search );
 

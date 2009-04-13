@@ -195,7 +195,7 @@ class TemplatesController extends JController
 	*/
 	function save_css()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

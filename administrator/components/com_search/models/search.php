@@ -39,7 +39,8 @@ class SearchModelSearch extends JModel
 
 	function getItems( )
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 		$db	=& JFactory::getDBO();
 
 		$filter_order		= $mainframe->getUserStateFromRequest( 'com_search.filter_order',		'filter_order',		'hits', 'cmd' );

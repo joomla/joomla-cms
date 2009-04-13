@@ -58,7 +58,7 @@ class SearchModelSearch extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		//Get configuration
 		$config = JFactory::getConfig();
@@ -187,7 +187,7 @@ class SearchModelSearch extends JModel
 	 */
 	function getAreas()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Load the Category data
 		if (empty($this->_areas['search']))

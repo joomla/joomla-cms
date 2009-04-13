@@ -46,7 +46,7 @@ class MediaModelManager extends JModel
 	 */
 	function getFolderList($base = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Get some paths from the request
 		if (empty($base)) {

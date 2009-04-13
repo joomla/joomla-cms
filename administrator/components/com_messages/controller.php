@@ -67,7 +67,7 @@ class MessagesController extends JController
 
 	function save( )
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -89,7 +89,7 @@ class MessagesController extends JController
 
 	function remove( )
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

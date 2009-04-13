@@ -26,7 +26,7 @@ class plgButtonImage extends JPlugin
 	 */
 	function onDisplay($name)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$doc 		=& JFactory::getDocument();
 

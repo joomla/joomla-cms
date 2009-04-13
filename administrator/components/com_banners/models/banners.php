@@ -58,7 +58,8 @@ class BannerModelBanners extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 		$context			= 'com_banners.banner.list.';
 
 		// Get the pagination request variables
@@ -173,7 +174,8 @@ class BannerModelBanners extends JModel
 
 	function _buildContentWhere()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		$search				= JString::strtolower($this->_filter->search);
 

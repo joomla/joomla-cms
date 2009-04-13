@@ -23,7 +23,7 @@ class LanguagesController extends JController
 {
 	function publish()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

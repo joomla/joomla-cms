@@ -62,15 +62,19 @@ class ContentViewArticle extends ContentView
 		}
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-
+		if($user->authorize('com_content.article.edit_article'))
+		{
+			$article->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
+		} else {
+			$article->edit = false;
+		}
 		// Create a user access object for the current user
 		$access = new stdClass();
-		$access->canEdit	= $user->authorize('com_content', 'edit', 'content', 'all');
-		$access->canEditOwn	= $user->authorize('com_content', 'edit', 'content', 'own');
-		$access->canPublish	= $user->authorize('com_content', 'publish', 'content', 'all');
+		$access->canEditOwn	= $user->authorize('com_content.article.edit_own');
+		$access->canPublish	= $user->authorize('com_content.article.publish');
 
 		// Check to see if the user has access to view the full article
-		if ($article->access <= $user->get('aid', 0)) {
+		if (in_array($article->access, $user->authorisedLevels('com_content.article.view'))) {
 			$article->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catslug, $article->sectionid));;
 		} else {
 			$article->readmore_link = JRoute::_("index.php?option=com_user&task=register");

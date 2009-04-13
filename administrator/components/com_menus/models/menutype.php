@@ -46,7 +46,7 @@ class MenusModelMenutype extends JModel
 	 */
 	function getMenus()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$menus= array();
 		$db = &$this->getDBO();
@@ -120,7 +120,7 @@ class MenusModelMenutype extends JModel
 	 */
 	function getPagination()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$menutypes 	= MenusHelper::getMenuTypeList();
 		$total		= count($menutypes);

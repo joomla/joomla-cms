@@ -24,7 +24,7 @@ class ContentViewFrontpage extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// parameters
 		$db			=& JFactory::getDBO();

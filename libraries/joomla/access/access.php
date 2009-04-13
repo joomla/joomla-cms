@@ -198,7 +198,7 @@ class JAccess extends JObject
 			}
 		}
 
-		return $cache[$cacheId];
+		return $cache[$cacheId]['allow'];
 	}
 
 	/**
@@ -263,6 +263,72 @@ class JAccess extends JObject
 		return $result;
 	}
 
+	/**
+	 * Method to get the authorized access actions for a user.
+	 *
+	 * @access	public
+	 * @param	integer	User id.
+	 * @param	string	Action name.
+	 * @return	array	Array of access level ids.
+	 * @since	1.0
+	 */
+	public function getAuthorisedAccessActions($userId)
+	{
+		$inGroupIds = $this->getUserGroupMap($userId, true);
+
+		// Get a database object.
+		$db	= &JFactory::getDBO();
+
+		$query = 'SELECT a.name FROM #__access_actions AS a'
+				.' INNER JOIN #__access_action_rule_map AS arm ON arm.action_id = a.id'
+				.' LEFT JOIN #__access_rules AS r ON r.id = arm.rule_id'
+				.' LEFT JOIN #__usergroup_rule_map AS ugrm ON r.id = ugrm.rule_id'
+				.' WHERE ugrm.group_id IN ('.implode(',',$inGroupIds).') && r.allow = 1 && r.access_type = 1';
+		
+/**		// Build the base query.
+		$query	= new JQuery;
+		$query->select('DISTINCT a.name');
+		$query->from('`#__access_actions` AS a');
+		// Map actions to rules
+		$query->join('INNER',	'`#__access_action_rule_map` AS arm ON arm.action_id = a.id');
+		$query->join('INNER',	'`#__access_rules` AS r ON r.id = arm.rule_id');
+		// Map users and/or user groups to rules
+		$query->join('LEFT',	'`#__user_rule_map` AS urm ON r.id = urm.rule_id');
+		// Map users to user groups
+		//$query->join('LEFT',	'`#__usergroups` AS ug ON ugrm.group_id = ug.id');
+		//$query->join('LEFT',	'`#__user_usergroup_map` AS uugm ON ug.id = uugm.group_id');
+		// Map the assets to rules
+		//$query->where('(urm.user_id = '.(int) $userId.' OR uugm.user_id = '.(int) $userId.')');
+		if (empty($inGroupIds)) {
+			// User is not mapped to any groups
+			$query->where('(urm.user_id = '.(int) $userId.')');
+
+		}
+		else {
+			// User is mapped to one or more groups
+			$query->join('LEFT',	'`#__usergroup_rule_map` AS ugrm ON r.id = ugrm.rule_id');
+			$query->where('(urm.user_id = '.(int) $userId.' OR ugrm.group_id IN ('.implode(',', $inGroupIds).'))');
+		}
+
+		$query->where('r.enabled = 1');
+		$query->where('r.allow = 1');
+
+		$db->setQuery($query->toString());
+//echo $db->getQuery();die;**/
+		$db->setQuery($query);
+		$ids = $db->loadResultArray();
+//var_dump($ids);
+		//array_unshift($ids, '0');
+		$ids = array_unique($ids);
+		$result = array();
+		foreach($ids as $id)
+		{
+			$result[$id] = true;
+		}
+		
+		return $result;
+	}
+	
 	/**
 	 * Method to get the authorized access levels for a user.
 	 *

@@ -36,7 +36,8 @@ class ContentViewCategory extends ContentView
 
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
@@ -102,9 +103,9 @@ class ContentViewCategory extends ContentView
 
 		// Create a user access object for the user
 		$access					= new stdClass();
-		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('com_content', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
+		$access->canEdit		= $user->authorize('com_content.article.edit_article');
+		$access->canEditOwn		= $user->authorize('com_content.article.edit_own');
+		$access->canPublish		= $user->authorize('com_content.article.publish');
 
 		// Set page title per category
 		// because the application sets a default page title, we need to get it
@@ -176,7 +177,7 @@ class ContentViewCategory extends ContentView
 
 	function &getItems()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		//create select lists
 		$user	= &JFactory::getUser();
@@ -199,7 +200,7 @@ class ContentViewCategory extends ContentView
 		foreach($this->items as $key => $item)
 		{
 			// checks if the item is a public or registered/special item
-			if (in_array($item->access, $user->authorisedLevels()))
+			if (in_array($item->access, $user->authorisedLevels('com_content.article.view')))
 			{
 				$item->link	= JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 				$item->readmore_register = false;
@@ -208,6 +209,12 @@ class ContentViewCategory extends ContentView
 			{
 				$item->link = JRoute::_('index.php?option=com_user&task=register');
 				$item->readmore_register = true;
+			}
+			if($user->authorize('com_content.article.edit_article'))
+			{
+				$item->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
+			} else {
+				$item->edit = false;
 			}
 			$item->created	= JHtml::_('date', $item->created, $this->params->get('date_format'));
 
@@ -226,7 +233,7 @@ class ContentViewCategory extends ContentView
 
 	function &getItem($index = 0, &$params)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
@@ -236,7 +243,12 @@ class ContentViewCategory extends ContentView
 
 		$item		=& $this->items[$index];
 		$item->text	= $item->introtext;
-
+		if($user->authorize('com_content.article.edit_article'))
+		{
+			$item->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
+		} else {
+			$item->edit = false;
+		}
 		$category		= & $this->get( 'Category' );
 		$item->category	= $category->title;
 

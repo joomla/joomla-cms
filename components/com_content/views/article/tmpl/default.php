@@ -1,14 +1,12 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
-
-$canEdit	= ($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own'));
 ?>
 <?php if ($this->params->get('show_page_title', 1) && $this->params->get('page_title') != $this->article->title) : ?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>">
 		<?php echo $this->escape($this->params->get('page_title')); ?>
 	</div>
 <?php endif; ?>
-<?php if ($canEdit || $this->params->get('show_title') || $this->params->get('show_pdf_icon') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
+<?php if ($this->article->edit || $this->params->get('show_title') || $this->params->get('show_pdf_icon') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
 <table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<?php if ($this->params->get('show_title')) : ?>
@@ -39,7 +37,7 @@ $canEdit	= ($this->user->authorize('com_content', 'edit', 'content', 'all') || $
 		<?php echo JHtml::_('icon.email',  $this->article, $this->params, $this->access); ?>
 		</td>
 		<?php endif; ?>
-		<?php if ($canEdit) : ?>
+		<?php if ($this->article->edit) : ?>
 		<td align="right" width="100%" class="buttonheading">
 			<?php echo JHtml::_('icon.edit', $this->article, $this->params, $this->access); ?>
 		</td>

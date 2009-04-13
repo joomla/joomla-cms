@@ -23,7 +23,7 @@ class LoginController extends JController
 {
 	function login()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
@@ -44,7 +44,7 @@ class LoginController extends JController
 
 	function logout()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$result = $mainframe->logout();
 

@@ -109,19 +109,17 @@ class ContentModelArchive extends JModel
 
 		if(!$countOnly) {
 			$query = 'SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,'.
-				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access, cc.title AS category, s.title AS section,' .
+				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access, cc.title AS category,' .
 				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
 				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-				' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups'.$voting['select'];
+				' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype'.$voting['select'];
 		} else {
 			$query = 'SELECT count(*) ';
 		}
 		$query .=
 			' FROM #__content AS a' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-			' LEFT JOIN #__sections AS s ON s.id = a.sectionid' .
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
-			' LEFT JOIN #__core_acl_axo_groups AS g ON a.access = g.value'.
 			$voting['join'].
 			$where.
 			$orderby;
@@ -160,15 +158,9 @@ class ContentModelArchive extends JModel
 		// Initialize some variables
 		$user	=& JFactory::getUser();
 		$db		=& JFactory::getDBO();
-		$aid	= (int) $user->get('aid', 0);
 
-		// First thing we need to do is build the access section of the clause
-		$groups = implode(',', $user->authorisedLevels());
-
-		$where = ' WHERE a.access IN ('.$groups.')';
-		$where .= ' AND s.access IN ('.$groups.')';
-		$where .= ' AND cc.access IN ('.$groups.')';
-		$where .= ' AND s.published = 1';
+		$where = ' WHERE a.access IN ('.implode(',', $user->authorisedLevels('com_content.article.view')).')';
+		$where .= ' AND cc.access IN ('.implode(',', $user->authorisedLevels('com_content.category.view')).')';
 		$where .= ' AND cc.published = 1';
 
 		$where .= ' AND a.state = \'-1\'';

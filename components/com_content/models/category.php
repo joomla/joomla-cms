@@ -310,6 +310,7 @@ class ContentModelCategory extends JModel
 			' FROM #__categories AS c'.
 			' JOIN #__categories AS cp ON cp.lft <= c.lft AND c.rgt <= cp.rgt'.
 			' WHERE c.extension = \'com_content\''.
+			' AND c.access IN ('.implode(',', $user->authorisedLevels('com_content.category.view')).')'.
 			' AND cp.id = '.$this->_id.') AS cc ON a.catid = cc.id';
 		} else {
 			$subquery = ' LEFT JOIN #__categories AS cc ON a.catid = cc.id'; 
@@ -390,7 +391,7 @@ class ContentModelCategory extends JModel
 		}
 		// Does the user have access to view the items?
 		if ($noauth) {
-			$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels()).')';
+			$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels('com_content.article.view')).')';
 		}
 
 		// Regular Published Content

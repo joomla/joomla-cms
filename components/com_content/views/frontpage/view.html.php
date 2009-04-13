@@ -65,7 +65,6 @@ class ContentViewFrontpage extends ContentView
 
 		// Create a user access object for the user
 		$access				= new stdClass();
-		$access->canEdit	= $user->authorize('com_content.article.edit');
 		$access->canEditOwn	= $user->authorize('com_content.article.edit_own');
 		$access->canPublish	= $user->authorize('com_content.article.publish');
 
@@ -108,7 +107,7 @@ class ContentViewFrontpage extends ContentView
 
 	function &getItem($index = 0, &$params)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
@@ -123,7 +122,12 @@ class ContentViewFrontpage extends ContentView
 
 		$item =& $this->items[$index];
 		$item->text = $item->introtext;
-
+		if($user->authorize('com_content.article.edit_article'))
+		{
+			$item->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
+		} else {
+			$item->edit = false;
+		}
 		// Get the page/component configuration and article parameters
 		$item->params = clone($params);
 		$aparams = new JParameter($item->attribs);
@@ -139,7 +143,7 @@ class ContentViewFrontpage extends ContentView
 		if (($item->params->get('show_readmore') && @ $item->readmore) || $item->params->get('link_titles'))
 		{
 			// checks if the item is a public or registered/special item
-			if (in_array($item->access, $user->authorisedLevels()))
+			if (in_array($item->access, $user->authorisedLevels('com_content.article.view')))
 			{
 				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 				$item->readmore_register = false;

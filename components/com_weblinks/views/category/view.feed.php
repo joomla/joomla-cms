@@ -24,7 +24,7 @@ class WeblinksViewCategory extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$document =& JFactory::getDocument();
 

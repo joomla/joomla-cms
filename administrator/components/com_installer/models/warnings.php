@@ -32,7 +32,7 @@ class InstallerModelWarnings extends InstallerModel
 	 */
 	function __construct()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Call the parent constructor
 		parent::__construct();

@@ -22,7 +22,8 @@ class ContactViewFields extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		$db =& JFactory::getDBO();
 		$uri =& JFactory::getURI();

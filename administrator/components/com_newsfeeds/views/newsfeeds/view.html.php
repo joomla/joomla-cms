@@ -24,7 +24,8 @@ class NewsfeedsViewNewsfeeds extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		$user				=& JFactory::getUser();
 

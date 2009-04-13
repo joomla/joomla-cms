@@ -1,12 +1,11 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
-$canEdit	= (in_array($this->item->access, $this->user->authorisedLevels('com_content.article.edit')));
 ?>
 <?php if ($this->item->state == 0) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
 
-<?php if ($canEdit || $this->item->params->get('show_title') || $this->item->params->get('show_pdf_icon') || $this->item->params->get('show_print_icon') || $this->item->params->get('show_email_icon')) : ?>
+<?php if ($this->item->edit || $this->item->params->get('show_title') || $this->item->params->get('show_pdf_icon') || $this->item->params->get('show_print_icon') || $this->item->params->get('show_email_icon')) : ?>
 <table class="contentpaneopen<?php echo $this->item->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<?php if ($this->item->params->get('show_title')) : ?>
@@ -37,7 +36,7 @@ $canEdit	= (in_array($this->item->access, $this->user->authorisedLevels('com_con
 	<?php echo JHtml::_('icon.email', $this->item, $this->item->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
-	<?php if ($canEdit) : ?>
+	<?php if ($this->item->edit) : ?>
 	<td>
 		<?php echo JHtml::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
 	</td>

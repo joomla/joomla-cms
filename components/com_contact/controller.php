@@ -43,7 +43,7 @@ class ContactController extends JController
 	 * @since 1.0
 	 */
 	function submit(){
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$user = &JFactory::getUser();

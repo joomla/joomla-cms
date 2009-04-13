@@ -29,7 +29,7 @@ class plgEditorTinymce extends JPlugin
 	 */
 	function onInit()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$db			=& JFactory::getDBO();
 		$language	=& JFactory::getLanguage();
 

@@ -34,7 +34,8 @@ class WrapperController
 {
 	function display()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		$document =& JFactory::getDocument();
 

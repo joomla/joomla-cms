@@ -23,7 +23,7 @@ class ContentViewCategory extends JView
 {
 	function display()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$doc	=& JFactory::getDocument();
 		$params =& $mainframe->getParams();

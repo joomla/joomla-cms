@@ -17,19 +17,8 @@ $cparams =& JComponentHelper::getParams('com_media');
 	<td>
 	<ul>
 	<?php
-	$menu = &JSite::getMenu();
-	$item = $menu->getActive();
-	if($item->query['view'] == 'category')
-	{
-		$id = $item->query['id'];
-	} else {
-		$id = $item->query['catid'];
-	}
-	//if(isset($this->children))
 	foreach($this->children as $child)
 	{
-		$path = '';
-		$divider = '';
 		echo '<li><a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)).'">'.$child->title.'</a> ('.$child->numitems.')</li>';
 	}
 	?>

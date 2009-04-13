@@ -24,7 +24,7 @@ class AdminViewHelp extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.language.help');
 
@@ -67,7 +67,7 @@ class AdminViewHelp extends JView
 	 */
 	function getHelpTOC($helpsearch)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$lang =& JFactory::getLanguage();
 		jimport('joomla.filesystem.folder');

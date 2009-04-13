@@ -23,7 +23,8 @@ class ContentViewArchive extends ContentView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		if (empty( $layout ))
 		{

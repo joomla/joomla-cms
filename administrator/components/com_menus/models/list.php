@@ -38,7 +38,7 @@ class MenusModelList extends JModel
 
 	function &getItems()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		static $items;
 

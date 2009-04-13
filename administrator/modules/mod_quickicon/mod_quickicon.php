@@ -16,7 +16,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' ))
 
 	function quickiconButton( $link, $image, $text )
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$lang		=& JFactory::getLanguage();
 		$template	= $mainframe->getTemplate();
 		?>

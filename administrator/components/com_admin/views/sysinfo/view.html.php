@@ -24,7 +24,7 @@ class AdminViewSysinfo extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		//Load switcher behavior
 		JHtml::_('behavior.switcher');

@@ -106,7 +106,7 @@ class ContentController extends JController
 	*/
 	function save()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -191,7 +191,7 @@ class ContentController extends JController
 	*/
 	function changeState($state = 0)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -255,7 +255,7 @@ class ContentController extends JController
 	*/
 	function toggle_frontpage()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -356,7 +356,7 @@ class ContentController extends JController
 	*/
 	function movesectsave()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -434,7 +434,7 @@ class ContentController extends JController
 	**/
 	function copysave()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -566,7 +566,7 @@ class ContentController extends JController
 
 	function saveorder()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

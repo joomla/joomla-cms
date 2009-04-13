@@ -181,7 +181,7 @@ abstract class JPluginHelper
 				. ' WHERE enabled >= 1'
 				. ' AND type = "plugin"'
 				. ' AND state >= 0'
-				. ' AND access <= ' . (int) $aid
+				. ' AND access IN ('.implode(',', $user->authorisedLevels('core.plugins.view')).')'
 				. ' ORDER BY ordering';
 		}
 		else

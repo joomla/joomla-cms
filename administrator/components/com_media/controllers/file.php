@@ -30,7 +30,7 @@ class MediaControllerFile extends MediaController
 	 */
 	function upload()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken( 'request' ) or jexit(JText::_('JINVALID_TOKEN'));
@@ -129,7 +129,7 @@ class MediaControllerFile extends MediaController
 	 */
 	function delete()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');

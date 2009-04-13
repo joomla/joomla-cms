@@ -31,7 +31,7 @@ class MediaControllerFolder extends MediaController
 	 */
 	function delete()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -89,7 +89,7 @@ class MediaControllerFolder extends MediaController
 	 */
 	function create()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

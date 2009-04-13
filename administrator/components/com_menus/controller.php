@@ -106,7 +106,7 @@ class MenusController extends JController
 	*/
 	function cancelItem()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$menutype = $mainframe->getUserStateFromRequest('com_menus.menutype', 'menutype', 'mainmenu', 'string');
 		$this->setRedirect('index.php?option=com_menus&task=view&menutype='.$menutype);
 	}
@@ -135,7 +135,7 @@ class MenusController extends JController
 	*/
 	function doCopy()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -179,7 +179,7 @@ class MenusController extends JController
 	*/
 	function doMove()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -501,7 +501,7 @@ class MenusController extends JController
 	 */
 	function saveMenu()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -670,7 +670,7 @@ class MenusController extends JController
 	*/
 	function doCopyMenu()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

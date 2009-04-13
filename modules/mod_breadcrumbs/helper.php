@@ -13,7 +13,7 @@ class modBreadCrumbsHelper
 {
 	function getList(&$params)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Get the PathWay object from the application
 		$pathway =& $mainframe->getPathway();
@@ -47,7 +47,7 @@ class modBreadCrumbsHelper
  	 */
 	function setSeparator($custom = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$lang =& JFactory::getLanguage();
 

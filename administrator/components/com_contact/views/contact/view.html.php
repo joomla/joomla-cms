@@ -22,7 +22,7 @@ class ContactViewContact extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db =& JFactory::getDBO();
 		$uri =& JFactory::getURI();

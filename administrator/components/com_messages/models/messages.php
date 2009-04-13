@@ -58,7 +58,8 @@ class MessagesModelMessages extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 		$context			= $option.'.list';
 
 		// Get the pagination request variables

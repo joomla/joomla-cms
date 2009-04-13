@@ -43,7 +43,7 @@ class ConfigControllerApplication extends ConfigController
 	 */
 	function save()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

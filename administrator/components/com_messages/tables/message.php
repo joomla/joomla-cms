@@ -114,7 +114,7 @@ class TableMessage extends JTable
 	 */
 	function send($fromId = null, $toId = null, $subject = null, $message = null, $mailfrom = null, $fromname = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$db =& JFactory::getDBO();
 
 		if (is_object($this))

@@ -181,7 +181,7 @@ class ContactModelContact extends JModel
 	}
 
 	function mailTo($access) {
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$pparams =& $mainframe->getParams('com_contact');
 		$SiteName = $mainframe->getCfg('sitename');
@@ -265,7 +265,7 @@ class ContactModelContact extends JModel
 	}
 
 	function _validateInputs( $contact, $email, $subject, $body, $captcha ) {
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$session =& JFactory::getSession();
 

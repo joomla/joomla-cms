@@ -129,6 +129,12 @@ class JUser extends JClass
 	protected $_authLevels 	= null;
 
 	/**
+	 * Authorised access actions
+	 * @var array
+	 */
+	protected $_authActions 	= null;
+	
+	/**
 	 * Error message
 	 * @var string
 	 */
@@ -253,8 +259,21 @@ class JUser extends JClass
 	 */
 	public function authorize($action, $assetname = null)
 	{
-		$acl	= & JFactory::getACL();
-		return $acl->check($this->id, $action, $assetname);
+		if($assetname)
+		{
+			$acl	= & JFactory::getACL();
+			return $acl->check($this->id, $action, $assetname);
+		}
+		if ($this->_authActions === null) {
+			$this->_authActions = array();
+		}
+
+		if (!isset($this->_authActions[$action])) {
+			$acl = JFactory::getACL();
+			$this->_authActions[$action] = $acl->check($this->id, $action);
+		}
+
+		return $this->_authActions[$action];
 	}
 
 	/**

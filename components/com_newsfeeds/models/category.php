@@ -58,7 +58,7 @@ class NewsfeedsModelCategory extends JModel
 	 */
 	function __construct()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		parent::__construct();
 

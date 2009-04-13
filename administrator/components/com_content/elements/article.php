@@ -21,7 +21,7 @@ class JElementArticle extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db			=& JFactory::getDBO();
 		$doc 		=& JFactory::getDocument();

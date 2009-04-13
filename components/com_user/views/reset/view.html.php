@@ -37,7 +37,7 @@ class UserViewReset extends JView
 	{
 		jimport('joomla.html.html');
 
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Load the form validation behavior
 		JHtml::_('behavior.formvalidation');

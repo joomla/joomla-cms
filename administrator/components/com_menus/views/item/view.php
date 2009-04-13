@@ -29,7 +29,7 @@ class MenusViewItem extends JView
 	{
 		JRequest::setVar('hidemainmenu', 1);
 
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$lang = &JFactory::getLanguage();
 		$this->_layout = 'form';
@@ -123,7 +123,7 @@ class MenusViewItem extends JView
 	{
 		JRequest::setVar('hidemainmenu', 1);
 
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$lang = &JFactory::getLanguage();
 		$this->_layout = 'type';

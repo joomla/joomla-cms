@@ -165,7 +165,7 @@ class JUpdate extends JObject {
 	}
 
 	public function install() {
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		if (isset($this->downloadurl->_data)) {
 			$url = $this->downloadurl->_data;
 		} else {

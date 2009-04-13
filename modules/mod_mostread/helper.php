@@ -15,7 +15,7 @@ class modMostReadHelper
 {
 	function getList(&$params)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db			=& JFactory::getDBO();
 		$user		=& JFactory::getUser();
@@ -23,7 +23,6 @@ class modMostReadHelper
 		$count		= intval($params->get('count', 5));
 		$catid		= trim($params->get('catid'));
 		$show_front	= $params->get('show_front', 1);
-		$aid		= $user->get('aid', 0);
 
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$access		= !$contentConfig->get('shownoauth');
@@ -48,7 +47,7 @@ class modMostReadHelper
 			' WHERE a.state = 1' .
 			' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )' .
 			' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'.
-			($access ? ' AND a.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')). ') AND cc.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')).')' : '').
+			($access ? ' AND a.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')). ') AND cc.access IN (' .implode(',', $user->authorisedLevels('com_content.category.view')).')' : '').
 			($catid ? $catCondition : '').
 			($show_front == '0' ? ' AND f.content_id IS NULL' : '').
 			' AND cc.published = 1' .

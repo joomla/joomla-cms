@@ -11,7 +11,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $user = & JFactory::getUser();
-if (!$user->authorize('com_newsfeeds', 'newsfeeds.manage')) {
+if (!$user->authorize('com_newsfeeds.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 

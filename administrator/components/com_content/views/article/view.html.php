@@ -30,7 +30,7 @@ class ContentViewArticle extends JView
 
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Initialize variables
 		$db				= & JFactory::getDBO();

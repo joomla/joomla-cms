@@ -100,7 +100,8 @@ class InstallerModelManage extends InstallerModel
 
 	function _loadItems()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		jimport('joomla.filesystem.folder');
 
@@ -156,7 +157,7 @@ class InstallerModelManage extends InstallerModel
 	 */
 	function remove($eid=array())
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Initialize variables
 		$failed = array ();

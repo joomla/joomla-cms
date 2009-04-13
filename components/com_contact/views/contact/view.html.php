@@ -20,7 +20,7 @@ class ContactViewContact extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$user		= &JFactory::getUser();
 		$pathway	= &$mainframe->getPathway();

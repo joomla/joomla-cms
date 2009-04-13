@@ -21,7 +21,7 @@ class SearchViewSearch extends JView
 {
 	function display($tpl=null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		JToolBarHelper::title( JText::_( 'Search Statistics' ), 'searchtext.png' );
 		JToolBarHelper::custom( 'reset', 'delete.png', 'delete_f2.png', 'Reset', false );

@@ -103,7 +103,8 @@ class InstallerModelComponents extends InstallerModel
 
 	function _loadItems()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		jimport('joomla.filesystem.folder');
 

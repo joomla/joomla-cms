@@ -560,7 +560,7 @@ class ContentModelArticle extends JModel
 		 * we are looking for and we have access to it.
 		 */
 		$where = ' WHERE a.id = '. (int) $this->_id;
-		$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels()).')';
+		$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels('com_content.article.view')).')';
 
 		if (!$user->authorize('com_content.article.edit'))
 		{

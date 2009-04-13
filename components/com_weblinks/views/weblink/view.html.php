@@ -24,7 +24,7 @@ class WeblinksViewWeblink extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		if($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);
@@ -44,7 +44,7 @@ class WeblinksViewWeblink extends JView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Get some objects from the JApplication
 		$pathway	=& $mainframe->getPathway();

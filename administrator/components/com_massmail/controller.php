@@ -23,7 +23,7 @@ class MassmailController extends JController
 {
 	function send()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries.
 		$token = JUtility::getToken();
@@ -112,7 +112,7 @@ class MassmailController extends JController
 
 	function cancel()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries.
 		$token = JUtility::getToken();

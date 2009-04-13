@@ -15,7 +15,7 @@ class modRelatedItemsHelper
 {
 	function getList($params)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db					=& JFactory::getDBO();
 		$user				=& JFactory::getUser();
@@ -72,7 +72,8 @@ class modRelatedItemsHelper
 							' LEFT JOIN #__categories AS cc ON cc.id = a.catid' .
 							' WHERE a.id != '.(int) $id .
 							' AND a.state = 1' .
-							' AND a.access <= ' .(int) $user->get('aid', 0) .
+							' AND a.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')). ')'.
+							' AND cc.access IN (' .implode(',', $user->authorisedLevels('com_content.category.view')).')'.
 							' AND ( a.metakey LIKE "%'.implode('%" OR a.metakey LIKE "%', $likes).'%" )' .
 							' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )' .
 							' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )';

@@ -28,7 +28,7 @@ class ContentViewFrontpage extends JView
 	protected $filter;
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db					=& JFactory::getDBO();
 

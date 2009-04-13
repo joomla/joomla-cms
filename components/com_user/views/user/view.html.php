@@ -24,7 +24,7 @@ class UserViewUser extends JView
 {
 	function display( $tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$layout	= $this->getLayout();
 		if( $layout == 'form') {
@@ -67,7 +67,7 @@ class UserViewUser extends JView
 
 	function _displayForm($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$user	=& JFactory::getUser();
 		$params	= &$mainframe->getParams();

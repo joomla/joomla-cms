@@ -171,7 +171,7 @@ class BannersModelBanner extends JModel
 	 */
 	function getUrl( $id = 0 )
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db = &$this->getDBO();
 

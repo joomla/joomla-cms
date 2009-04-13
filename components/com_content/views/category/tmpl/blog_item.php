@@ -1,6 +1,5 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php $canEdit   = ($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own')); ?>
 <?php if ($this->item->state == 0) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
@@ -36,7 +35,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php echo JHtml::_('icon.email', $this->item, $this->item->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
-	<?php if ($canEdit) : ?>
+	<?php if ($this->item->edit) : ?>
 	<td align="right" width="100%" class="buttonheading">
 		<?php echo JHtml::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
 	</td>

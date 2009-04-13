@@ -26,7 +26,7 @@ class MediaController extends JController
 	 */
 	function display()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$vName = JRequest::getCmd('view', 'images');
 		switch ($vName)

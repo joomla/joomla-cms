@@ -49,7 +49,8 @@ class ContactModelFields extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		// Get the pagination request variables
 		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
@@ -134,7 +135,8 @@ class ContactModelFields extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		$filter_order = $mainframe->getUserStateFromRequest($option.'filter_order', 'filter_order', 'f.ordering', 'cmd');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir',	'',				'word');
@@ -150,7 +152,8 @@ class ContactModelFields extends JModel
 
 	public function _buildContentWhere()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 		$db =& JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest($option.'filter_state', 'filter_state', '', 'word');
 		$filter_order = $mainframe->getUserStateFromRequest($option.'filter_order', 'filter_order', 'f.ordering', 'cmd');

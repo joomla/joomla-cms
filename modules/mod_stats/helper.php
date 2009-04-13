@@ -13,7 +13,7 @@ class modStatsHelper
 {
 	function &getList( &$params )
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db =& JFactory::getDBO();
 		$rows = array();

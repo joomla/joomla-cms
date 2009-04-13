@@ -34,7 +34,8 @@ class UserController extends JController
 
 	function edit()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
@@ -108,7 +109,7 @@ class UserController extends JController
 		// Check for request forgeries
 		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
 			$return = base64_decode($return);
@@ -152,7 +153,7 @@ class UserController extends JController
 
 	function logout()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		//preform the logout action
 		$error = $mainframe->logout();
@@ -204,7 +205,7 @@ class UserController extends JController
 	 */
 	function register_save()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -276,7 +277,7 @@ class UserController extends JController
 
 	function activate()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Initialize some variables
 		$db			=& JFactory::getDBO();
@@ -463,7 +464,7 @@ class UserController extends JController
 
 	function _sendMail(&$user, $password)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db		=& JFactory::getDBO();
 

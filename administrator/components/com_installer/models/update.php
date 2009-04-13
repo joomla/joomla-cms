@@ -36,7 +36,8 @@ class InstallerModelUpdate extends InstallerModel
 
 	function _loadItems()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		jimport('joomla.filesystem.folder');
 
@@ -109,7 +110,7 @@ class InstallerModelUpdate extends InstallerModel
 			}
 			$result = $res & $result;
 			// Set some model state values
-			global $mainframe;
+			$mainframe = JFactory::getApplication();
 			$mainframe->enqueueMessage($msg);
 			$this->setState('name', $update->get('name'));
 			

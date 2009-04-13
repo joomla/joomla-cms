@@ -65,7 +65,7 @@ class WeblinksModelCategory extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$config = JFactory::getConfig();
 

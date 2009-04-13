@@ -64,7 +64,8 @@ class CategoriesModelCategories extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		// Get the pagination request variables
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
@@ -247,7 +248,8 @@ class CategoriesModelCategories extends JModel
 
 	function _buildContentWhere($extension)
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		$db					=& JFactory::getDBO();
 		$search				= JString::strtolower( $this->_filter->search );

@@ -15,7 +15,7 @@ class modNewsFlashHelper
 {
 	function renderItem(&$item, &$params, &$access)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$user 	=& JFactory::getUser();
 
@@ -58,11 +58,10 @@ class modNewsFlashHelper
 
 	function getList(&$params, &$access)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db 	=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();
-		$aid	= $user->get('aid', 0);
 
 		$catid 	= (int) $params->get('catid', 0);
 		$items 	= (int) $params->get('items', 0);
@@ -82,7 +81,7 @@ class modNewsFlashHelper
 			' FROM #__content AS a' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
 			' WHERE a.state = 1 ' .
-			($noauth ? ' AND a.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')). ') AND cc.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')).')' : '').
+			($noauth ? ' AND a.access IN (' .implode(',', $user->authorisedLevels('com_content.article.view')). ') AND cc.access IN (' .implode(',', $user->authorisedLevels('com_content.category.view')).')' : '').
 			' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' ) ' .
 			' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )' .
 			' AND cc.id = '. (int) $catid .

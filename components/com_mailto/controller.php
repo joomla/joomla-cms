@@ -39,7 +39,7 @@ class MailtoController extends JController
 	 */
 	function send()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

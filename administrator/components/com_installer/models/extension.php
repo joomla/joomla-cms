@@ -34,7 +34,7 @@ class InstallerModel extends JModel
 	 */
 	function __construct()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Call the parent constructor
 		parent::__construct();
@@ -79,7 +79,7 @@ class InstallerModel extends JModel
 	 */
 	function remove($eid=array())
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Initialize variables
 		$failed = array ();

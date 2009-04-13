@@ -82,7 +82,6 @@ class JHtmlIcon
 	function edit($article, $params, $access, $attribs = array())
 	{
 		$user =& JFactory::getUser();
-
 		if ($params->get('popup')) {
 			return;
 		}
@@ -91,7 +90,7 @@ class JHtmlIcon
 			return;
 		}
 
-		if (!$access->canEdit && !($access->canEditOwn && $article->created_by == $user->get('id'))) {
+		if (!$article->edit && !($access->canEditOwn && $article->created_by == $user->get('id'))) {
 			return;
 		}
 

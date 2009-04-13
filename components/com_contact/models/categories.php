@@ -33,7 +33,7 @@ class ContactModelCategories extends JModel
 	function __construct()
 	{
 		parent::__construct();
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$config = JFactory::getConfig();
 
 		// Get the pagination request variables
@@ -94,7 +94,7 @@ class ContactModelCategories extends JModel
 	 */
 	function getCategories()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		if (empty($this->_categories))
 		{
@@ -190,7 +190,7 @@ class ContactModelCategories extends JModel
 
 	function _buildContentOrderBy($groupby_cat)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
 
@@ -217,7 +217,8 @@ class ContactModelCategories extends JModel
 
 	function _buildContentWhere()
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		$user =& JFactory::getUser();
 		$gid	= $user->get('aid', 0);

@@ -96,7 +96,7 @@ class  plgSystemCache extends JPlugin
 
 	function onAfterRender()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		if($mainframe->isAdmin() || JDEBUG) {
 			return;

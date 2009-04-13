@@ -25,7 +25,7 @@ class NewsfeedsViewNewsfeed extends JView
 {
 	function display( $tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// check if cache directory is writeable
 		$cacheDir = JPATH_BASE.DS.'cache'.DS;

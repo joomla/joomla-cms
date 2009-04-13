@@ -27,7 +27,7 @@ class CategoriesViewCategory extends JView
 	protected $row;
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Initialize variables
 		$db =& JFactory::getDBO();

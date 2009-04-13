@@ -41,7 +41,7 @@ class InstallerModelInstall extends JModel
 
 	function install()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$this->setState('action', 'install');
 

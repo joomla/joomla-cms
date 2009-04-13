@@ -264,7 +264,8 @@ class JMenu extends JClass
 	public function authorize($id, $accessid = 0)
 	{
 		$menu =& $this->getItem($id);
-		return ((isset($menu->access) ? $menu->access : 0) <= $accessid);
+		$user =& JFactory::getUser();
+		return (in_array((isset($menu->access) ? $menu->access : 0), $user->authorisedLevels('core.menu.view')));
 	}
 
 	/**

@@ -14,7 +14,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Make sure the user is authorized to view this page
  */
 $user = & JFactory::getUser();
-if (!$user->authorize('com_trash', 'trash.manage')) {
+if (!$user->authorize('com_trash.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
@@ -68,7 +68,7 @@ switch ($task)
 */
 function viewTrashContent( $option )
 {
-	global $mainframe;
+	$mainframe = JFactory::getApplication();
 
 	$db					=& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order",		'filter_order',		'sectname', 'cmd' );
@@ -137,7 +137,7 @@ function viewTrashContent( $option )
 */
 function viewTrashMenu( $option )
 {
-	global $mainframe;
+	$mainframe = JFactory::getApplication();
 
 	$db					=& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order",		'filter_order',		'm.menutype',	'cmd' );
@@ -194,7 +194,7 @@ function viewTrashMenu( $option )
 */
 function viewdeleteTrash( $cid, $mid, $option )
 {
-	global $mainframe;
+	$mainframe = JFactory::getApplication();
 
 	$db =& JFactory::getDBO();
 	$return = JRequest::getCmd( 'return', 'viewContent', 'post' );
@@ -239,7 +239,7 @@ function viewdeleteTrash( $cid, $mid, $option )
 */
 function deleteTrash( $cid, $option )
 {
-	global $mainframe;
+	$mainframe = JFactory::getApplication();
 
 	// Check for request forgeries
 	JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -278,7 +278,7 @@ function deleteTrash( $cid, $option )
 * Compiles a list of the items you have selected to permanently delte
 */
 function viewrestoreTrash( $cid, $mid, $option ) {
-	global $mainframe;
+	$mainframe = JFactory::getApplication();
 
 	$db		=& JFactory::getDBO();
 	$return = JRequest::getCmd( 'return', 'viewContent', 'post' );
@@ -323,7 +323,7 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 */
 function restoreTrash( $cid, $option )
 {
-	global $mainframe;
+	$mainframe = JFactory::getApplication();
 
 	// Check for request forgeries
 	JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

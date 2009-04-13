@@ -32,7 +32,7 @@ class MenusViewList extends JView
 
 	function display($tpl=null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$this->_layout = 'default';
 
@@ -91,7 +91,7 @@ class MenusViewList extends JView
 
 	function copyForm($tpl=null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$this->_layout = 'copy';
 
@@ -132,7 +132,7 @@ class MenusViewList extends JView
 
 	function moveForm($tpl=null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$this->_layout = 'move';
 
@@ -173,7 +173,7 @@ class MenusViewList extends JView
 
 	function &_getViewLists()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$db		= &JFactory::getDBO();
 
 		$menutype			= $mainframe->getUserStateFromRequest("com_menus.menutype",					'menutype',			'mainmenu',		'string');

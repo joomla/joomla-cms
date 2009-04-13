@@ -24,7 +24,7 @@ class MessagesViewMessages extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db					=& JFactory::getDBO();
 		$user				=& JFactory::getUser();

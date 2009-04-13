@@ -23,7 +23,7 @@ class ContentViewElement extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$document	= & JFactory::getDocument();
 		$document->setTitle('Article Selection');

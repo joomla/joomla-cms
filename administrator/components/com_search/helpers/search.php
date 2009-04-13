@@ -71,7 +71,7 @@ class SearchHelper
 
 	function logSearch( $search_term )
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$db =& JFactory::getDBO();
 

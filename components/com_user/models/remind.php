@@ -42,7 +42,7 @@ class UserModelRemind extends JModel
 	{
 		jimport('joomla.mail.helper');
 
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Validate the e-mail address
 		if (!JMailHelper::isEmailAddress($email))

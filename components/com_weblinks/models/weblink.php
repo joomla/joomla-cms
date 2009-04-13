@@ -106,7 +106,7 @@ class WeblinksModelWeblink extends JModel
 	 */
 	function hit()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		if ($this->_id)
 		{

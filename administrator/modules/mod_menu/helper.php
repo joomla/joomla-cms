@@ -38,14 +38,14 @@ class MenuModuleHelper
 			$menu->addChild(new JMenuNode(JText::_('Site')), true);
 			$menu->addChild(new JMenuNode(JText::_('Control Panel'), 'index.php', 'class:cpanel'));
 			$menu->addSeparator();
-			if ($user->authorize('core', 'members.manage')) {
+			if ($user->authorize('core.members.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Member Manager'), 'index.php?option=com_members', 'class:user'));
 			}
-			if ($user->authorize('core', 'media.manage')) {
+			if ($user->authorize('core.media.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Media Manager'), 'index.php?option=com_media', 'class:media'));
 			}
 			$menu->addSeparator();
-			if ($user->authorize('core', 'config.manage')) {
+			if ($user->authorize('core.config.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
 				$menu->addSeparator();
 			}
@@ -60,7 +60,7 @@ class MenuModuleHelper
 		/*
 		 * Menus SubMenu
 		 */
-		if ($user->authorize('core', 'menus.manage'))
+		if ($user->authorize('core.menus.manage'))
 		{
 			if ($enabled)
 			{
@@ -95,7 +95,7 @@ class MenuModuleHelper
 		/*
 		 * Content SubMenu
 		 */
-		if ($user->authorize('core', 'content.manage'))
+		if ($user->authorize('com_content.manage'))
 		{
 			if ($enabled)
 			{
@@ -105,7 +105,7 @@ class MenuModuleHelper
 
 				$menu->addSeparator();
 				$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index.php?option=com_categories&extension=com_content', 'class:category'));
-				if ($user->authorize('core', 'content.manage')) {
+				if ($user->authorize('com_content.manage')) {
 					$menu->addSeparator();
 					$menu->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index.php?option=com_content&controller=frontpage', 'class:frontpage'));
 				}
@@ -179,7 +179,7 @@ class MenuModuleHelper
 
 			foreach ($comps as $row)
 			{
-				if ($user->authorize($row->option, substr($row->option, 4).'.manage'))
+				if ($user->authorize($row->option.'.manage'))
 				{
 					if ($row->parent == 0 && (trim($row->admin_menu_link) || array_key_exists($row->id, $subs)))
 					{
@@ -209,11 +209,11 @@ class MenuModuleHelper
 		/*
 		 * Extensions SubMenu
 		 */
-		$im = $user->authorize('core', 'installer.manage');
-		$mm = $user->authorize('core', 'modules.manage');
-		$pm = $user->authorize('core', 'plugins.manage');
-		$tm = $user->authorize('core', 'templates.manage');
-		$lm = $user->authorize('core', 'languages.manage');
+		$im = $user->authorize('core.installer.manage');
+		$mm = $user->authorize('core.modules.manage');
+		$pm = $user->authorize('core.plugins.manage');
+		$tm = $user->authorize('core.templates.manage');
+		$lm = $user->authorize('core.languages.manage');
 
 		if ($im || $mm || $pm || $tm || $lm)
 		{
@@ -251,24 +251,20 @@ class MenuModuleHelper
 		{
 			$menu->addChild(new JMenuNode(JText::_('Menu Tools')), true);
 
-			if ($user->authorize('core', 'messages.manage')) {
+			if ($user->authorize('core.messages.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Menu Read Messages'), 'index.php?option=com_messages', 'class:messages'));
 				$menu->addChild(new JMenuNode(JText::_('Menu Write Message'), 'index.php?option=com_messages&task=add', 'class:messages'));
 				$menu->addSeparator();
 			}
-			if ($user->authorize('core', 'massmail.manage')) {
+			if ($user->authorize('core.massmail.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Menu Mass Mail'), 'index.php?option=com_massmail', 'class:massmail'));
 				$menu->addSeparator();
 			}
-			if ($user->authorize('core', 'checkin.manage')) {
+			if ($user->authorize('core.checkin.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Menu Global Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
 				$menu->addSeparator();
 			}
-			if ($user->authorize('core', 'localise.manage')) {
-				// @todo Add style for com_localise
-				$menu->addChild(new JMenuNode(JText::_('Menu Localisation'), 'index.php?option=com_localise', 'class:config'));
-			}
-			if ($user->authorize('core', 'cache.manage')) {
+			if ($user->authorize('core.cache.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Menu Clean Cache'), 'index.php?option=com_cache', 'class:config'));
 				$menu->addChild(new JMenuNode(JText::_('Purge Expired Cache'), 'index.php?option=com_cache&view=purge', 'class:config'));
 			}

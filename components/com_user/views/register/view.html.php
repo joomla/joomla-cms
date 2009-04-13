@@ -23,7 +23,7 @@ class UserViewRegister extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$pathway  =& $mainframe->getPathway();
 		$document =& JFactory::getDocument();

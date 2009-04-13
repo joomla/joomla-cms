@@ -11,7 +11,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $user = & JFactory::getUser();
-if (!$user->authorize('core', 'plugins.manage')) {
+if (!$user->authorize('core.plugins.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 

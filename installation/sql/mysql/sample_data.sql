@@ -185,7 +185,6 @@ INSERT INTO `#__modules` VALUES
 (30, 'Banners', '', 1, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_banners', 0, 0, 0, '{"target":"1","count":"1","cid":"1","catid":"33","tag_search":"0","ordering":"random","header_text":"","footer_text":"","moduleclass_sfx":"","cache":"1","cache_time":"15"}', 1, 0, ''),
 (31, 'Resources', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 1, '{"menutype":"othermenu","menu_style":"list","startLevel":"0","endLevel":"0","showAllChildren":"0","window_open":"","show_whitespace":"0","cache":"1","tag_id":"","class_sfx":"","moduleclass_sfx":"_menu","maxdepth":"10","menu_images":"0","menu_images_align":"0","expand_menu":"0","activate_parent":"0","full_active_id":"0","indent_image":"0","indent_image1":"","indent_image2":"","indent_image3":"","indent_image4":"","indent_image5":"","indent_image6":"","spacer":"","end_spacer":""}', 0, 0, ''),
 (32, 'Wrapper', '', 12, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_wrapper', 0, 0, 1, '{}', 0, 0, ''),
-(33, 'Footer', '', 2, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 0, '{"cache":"1"}', 1, 0, ''),
 (34, 'Feed Display', '', 13, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_feed', 0, 0, 1, '{}', 1, 0, ''),
 (35, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 0, 1, '{"moduleclass_sfx":"","cache":"0","showHome":"1","homeText":"Home","showComponent":"1","separator":""}', 1, 0, ''),
 (36, 'Syndication', '', 3, 'syndicate', 0, '0000-00-00 00:00:00', 1, 'mod_syndicate', 0, 0, 0, '{}', 1, 0, ''),
