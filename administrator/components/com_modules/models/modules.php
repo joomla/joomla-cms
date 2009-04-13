@@ -177,10 +177,10 @@ class ModulesModelModules extends JModel
 			$join = ' LEFT JOIN #__templates_menu AS t ON t.menuid = mm.menuid';
 		}
 
-		$query = 'SELECT m.*, u.name AS editor, g.name AS groupname, MIN(mm.menuid) AS pages'
+		$query = 'SELECT m.*, u.name AS editor, g.title AS groupname, MIN(mm.menuid) AS pages'
 			. ' FROM #__modules AS m'
 			. ' LEFT JOIN #__users AS u ON u.id = m.checked_out'
-			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = m.access'
+			. ' LEFT JOIN #__access_assetgroups AS g ON g.id = m.access'
 			. ' LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id'
 			. $join
 			. $where

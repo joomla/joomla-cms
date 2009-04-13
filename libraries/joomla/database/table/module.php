@@ -66,17 +66,27 @@ class JTableModule extends JTableAsset
 	}
 
 	/**
-	 * Method to return the title of the object to insert into the AXO table
+	 * Method to return the access section name for the asset table.
 	 *
 	 * @return	string
 	 */
 	protected function getAssetSection()
 	{
-		return 'com_modules';
+		return 'core';
 	}
 
 	/**
-	 * Method to return the section of the object to insert into the AXO table
+	 * Method to return the name prefix to use for the asset table.
+	 *
+	 * @abstract
+	 */
+	protected function getAssetNamePrefix()
+	{
+		return 'module';
+	}
+
+	/**
+	 * Method to return the title to use for the asset table.
 	 *
 	 * @return	string
 	 */
