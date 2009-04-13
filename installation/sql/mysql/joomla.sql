@@ -799,7 +799,7 @@ CREATE TABLE IF NOT EXISTS `#__access_actions` (
   KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `#__access_actions` VALUES 
+INSERT INTO `#__access_actions` VALUES 
 (1, 1, 'core.view', 'View', '', 3, 0),
 (2, 1, 'core.checkin.manage', 'JAction_Checkin_Manage', 'JAction_Checkin_Manage_Desc', 1, 0),
 (3, 1, 'core.cache.manage', 'JAction_Cache_Manage', 'JAction_Cache_Manage_Desc', 1, 0),
@@ -847,7 +847,7 @@ CREATE TABLE IF NOT EXISTS `#__access_action_rule_map` (
   PRIMARY KEY  (`action_id`,`rule_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `#__access_action_rule_map` VALUES 
+INSERT INTO `#__access_action_rule_map` VALUES 
 (1, 1),
 (1, 2),
 (1, 3),
@@ -904,7 +904,7 @@ CREATE TABLE IF NOT EXISTS `#__access_assetgroups` (
   KEY `idx_assetgroup_nested_set_lookup` USING BTREE (`left_id`,`right_id`, `section_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-REPLACE INTO `#__access_assetgroups` VALUES 
+INSERT INTO `#__access_assetgroups` VALUES 
 (1, 0, 1, 6, 'Public', 1, 'core'),
 (2, 1, 2, 3, 'Registered', 1, 'core'),
 (3, 1, 4, 5, 'Special', 1, 'core');
@@ -921,7 +921,7 @@ CREATE TABLE IF NOT EXISTS `#__access_assetgroup_rule_map` (
   PRIMARY KEY  (`group_id`,`rule_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `jos_access_assetgroup_rule_map` VALUES 
+INSERT INTO `jos_access_assetgroup_rule_map` VALUES 
 (1, 1),
 (2, 2),
 (3, 3),
@@ -930,7 +930,7 @@ REPLACE INTO `jos_access_assetgroup_rule_map` VALUES
 (1, 22),
 (1, 27),
 (1, 28),
-(1, 29),
+(1, 29)
 ;
 
 -- --------------------------------------------------------
@@ -1001,7 +1001,7 @@ CREATE TABLE IF NOT EXISTS `#__access_rules` (
   KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `#__access_rules` VALUES 
+INSERT INTO `#__access_rules` VALUES 
 (1, 1, 'core', 'core.view.1', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
 (2, 1, 'core', 'core.view.2', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
 (3, 1, 'core', 'core.view.3', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
@@ -1082,7 +1082,7 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
   KEY `idx_usergroup_nested_set_lookup` USING BTREE (`left_id`,`right_id`, `section_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-REPLACE INTO `#__usergroups`
+INSERT INTO `#__usergroups`
  (`id` ,`parent_id` ,`left_id` ,`right_id` ,`title` ,`section_id` ,`section`) VALUES
  (1 , 0, 1, 16, "Public", 1, "core"),
  (2 , 1, 2, 15, "Registered", 1, "core"),
