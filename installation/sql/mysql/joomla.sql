@@ -533,7 +533,7 @@ CREATE TABLE `#__session` (
   `usertype` varchar(50) default '',
   `gid` tinyint(3) unsigned NOT NULL default '0',
   `client_id` tinyint(3) unsigned NOT NULL default '0',
-  `data` longtext NOT NULL,
+  `data` longtext,
   PRIMARY KEY  (`session_id`(64)),
   KEY `whosonline` (`guest`,`usertype`),
   KEY `userid` (`userid`),
