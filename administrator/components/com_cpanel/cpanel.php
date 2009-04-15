@@ -1,20 +1,17 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Administrator
-* @subpackage	Newsfeeds
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Cpanel
+ * @copyright		Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License, see LICENSE.php
 */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die();
 
-// Require the base controller
-require_once JPATH_COMPONENT.DS.'controller.php';
+jimport('joomla.application.component.controller');
 
-$controller	= new CpanelController();
-
-// Perform the Request task
+$controller	= JController::getInstance('Cpanel');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

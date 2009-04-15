@@ -10,7 +10,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 jimport('joomla.application.module.helper');
 
 /**
@@ -28,8 +28,8 @@ class CpanelViewCpanel extends JView
 	public function display($tpl = null)
 	{
 		// Set toolbar items for the page
-		JToolBarHelper::title( JText::_( 'Control Panel' ), 'cpanel.png' );
-		JToolBarHelper::help( 'screen.cpanel' );
+		JToolBarHelper::title(JText::_('Control Panel'), 'cpanel.png');
+		JToolBarHelper::help('screen.cpanel');
 
 		/*
 		 * Set the template - this will display cpanel.php
