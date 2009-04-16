@@ -16,7 +16,7 @@ defined('JPATH_BASE') or die;
  * @static
  * @since		1.6
  */
-class JHtmlAccess
+abstract class JHtmlAccess
 {
 	/**
 	 * Displays a list of the available access sections
@@ -200,7 +200,7 @@ class JHtmlAccess
 	 *
 	 * @return	mixed			An HTML string or null if an error occurs
 	 */
-	public static function assetgroups($name, $selected, $attribs = '')
+	public static function assetgroups($name, $selected, $attribs = null)
 	{
 		static $count, $cache;
 
@@ -216,10 +216,11 @@ class JHtmlAccess
 				' GROUP BY a.id' .
 				' ORDER BY a.left_id ASC'
 			);
-			$cache = $db->loadObjectList();
-
-			// Check for a database error.
-			if ($db->getErrorNum()) {
+			
+			try {
+				$cache = $db->loadObjectList();
+			}
+			catch(JException $e) {
 				JError::raiseNotice(500, $db->getErrorMsg());
 				return null;
 			}
@@ -232,6 +233,16 @@ class JHtmlAccess
 			}
 		}
 
-		return JHTML::_('select.genericlist', $cache, $name, $attribs, 'value', 'text', $selected, 'assetgroups_'.$count);
+		return JHtml::_(
+			'select.genericlist',
+			$cache,
+			$name,
+			array(
+				'list.id' => 'assetgroups_'.$count,
+				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
+				'list.select' => (int) $selected,
+				'list.translate' => true
+			)
+		);
 	}
 }

@@ -21,12 +21,12 @@ defined('_JEXEC') or die('Restricted access');
 abstract class JHtmlList
 {
 	/**
-	 * Use JHtml::_('acl.assetgroups', $selected) instead
+	 * Use JHtml::_('access.assetgroups', 'access', $selected) instead
 	 * @deprecated
 	 */
 	public static function accesslevel(&$row)
 	{
-		return JHtml::_('acl.assetgroups', $row->access);
+		return JHtml::_('access.assetgroups', 'access', $row->access);
 	}
 
 	/**
