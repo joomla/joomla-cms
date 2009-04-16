@@ -55,6 +55,12 @@ class JElementEditors extends JElement
 
 		array_unshift($editors, JHtml::_('select.option',  '', '- '. JText::_('Select Editor') .' -'));
 
-		return JHtml::_('select.genericlist',   $editors, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
+		return JHtml::_('select.genericlist', $editors, $control_name .'['. $name .']',
+			array(
+				'id' => $control_name.$name,
+				'list.attr' => 'class="inputbox"',
+				'list.select' => $value
+			)
+		);
 	}
 }

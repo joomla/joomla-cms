@@ -30,7 +30,15 @@ class JHtmlContentGrid
 		$authors[] = JHtml::_('select.option', '0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
 		$db->setQuery($query);
 		$authors = array_merge($authors, $db->loadObjectList());
-		return JHtml::_('select.genericlist',  $authors, $name, 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'created_by', 'name', $filter_authorid);
+
+		return JHtml::_('select.genericlist', $authors, $name,
+			array(
+				'list.attr' => 'class="inputbox" size="1" onchange="document.adminForm.submit();"',
+				'list.select' => $filter_authorid,
+				'option.key' => 'created_by',
+				'option.text' => 'name'
+			)
+		);
 	}
 
 	function category($name, $filter_catid)

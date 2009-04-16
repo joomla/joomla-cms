@@ -292,7 +292,14 @@ class ContentViewArticle extends ContentView
 		$sections[] = JHtml::_('select.option', '-1', '- '.JText::_('Select Section').' -', 'id', 'title');
 		$sections[] = JHtml::_('select.option', '0', JText::_('Uncategorized'), 'id', 'title');
 		$sections = array_merge($sections, $db->loadObjectList());
-		$lists['sectionid'] = JHtml::_('select.genericlist',  $sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($article->sectionid));
+		$lists['sectionid'] = JHtml::_('select.genericlist',  $sections, 'sectionid', 
+			array(
+				'list.attr' => 'class="inputbox" size="1" '.$javascript,
+				'list.select' => (int) $article->sectionid,
+				'option.key' => 'id',
+				'option.text' => 'title'
+			)
+		);
 
 		foreach ($sections as $section)
 		{
@@ -350,7 +357,14 @@ class ContentViewArticle extends ContentView
 
 		$categories[] = JHtml::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
 		$lists['sectioncategories'] = $sectioncategories;
-		$lists['catid'] = JHtml::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($article->catid));
+		$lists['catid'] = JHtml::_('select.genericlist',  $categories, 'catid',
+			array(
+				'list.attr' => 'class="inputbox" size="1"',
+				'list.select' => (int) $article->catid,
+				'option.key' => 'id',
+				'option.text' => 'title'
+			)
+		);
 
 		// Select List: Category Ordering
 		$query = 'SELECT ordering AS value, title AS text FROM #__content WHERE catid = '.(int) $article->catid.' ORDER BY ordering';

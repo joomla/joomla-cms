@@ -41,7 +41,12 @@ class JHTMLMembers
 
 		array_unshift($options, JHtml::_('select.option', 0, 'Select Group'));
 
-		return JHtml::_('select.genericlist', $options, $name, 'class="inputbox" '.$attribs, 'value', 'text', $selected, $name);
+		return JHtml::_('select.genericlist', $options, $name, 
+			array(
+				'list.attr' => 'class="inputbox" '.$attribs,
+				'list.select' => $selected
+			)
+		);
 	}
 
 	public static function addLevel($section = null)

@@ -78,6 +78,12 @@ class JElementTimezones extends JElement
 			JHtml::_('select.option', 13, JText::_('(UTC +13:00) Tonga')),
 			JHtml::_('select.option', 14, JText::_('(UTC +14:00) Kiribati')),);
 
-		return JHtml::_('select.genericlist',  $timezones, ''.$control_name.'['.$name.']', ' class="inputbox"', 'value', 'text', $value, $control_name.$name);
+		return JHtml::_('select.genericlist', $timezones, $control_name.'['.$name.']',
+			array(
+				'id' => $control_name.$name,
+				'list.attr' => 'class="inputbox"',
+				'list.select' => $value
+			)
+		);
 	}
 }

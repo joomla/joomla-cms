@@ -297,8 +297,14 @@ abstract class JHtmlList
 		{
 			$categories[] = JHtml::_('select.option', $category->id, str_repeat('-', $category->depth).$category->title, 'id', 'title');
 		}
-		$category = JHtml::_('select.genericlist',  $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'id', 'title', $active);
-
+		$category = JHtml::_('select.genericlist', $categories, $name,
+			array(
+				'list.attr' => 'class="inputbox" size="'. $size .'" '. $javascript,
+				'list.select' => $active,
+				'option.key' => 'id',
+				'option.text' => 'title'
+			)
+		);
 		return $category;
 	}
 }

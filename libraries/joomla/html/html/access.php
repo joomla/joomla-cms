@@ -49,7 +49,12 @@ abstract class JHtmlAccess
 			array_unshift($options, JHtml::_('select.option', '', JText::_('JOption_Access_Show_All_Sections')));
 		}
 
-		return JHTML::_('select.genericlist', $options, $name, $attribs, 'value', 'text', $selected);
+		return JHtml::_('select.genericlist', $options, $name,
+			array(
+				'list.attr' => $attribs,
+				'list.select' => $selected
+			)
+		);
 	}
 
 	/**
@@ -89,7 +94,12 @@ abstract class JHtmlAccess
 			array_unshift($options, JHtml::_('select.option', '', JText::_('JOption_Access_Show_All_Groups')));
 		}
 
-		return JHTML::_('select.genericlist', $options, $name, $attribs, 'value', 'text', $selected);
+		return JHtml::_('select.genericlist', $options, $name,
+			array(
+				'list.attr' => $attribs,
+				'list.select' => $selected
+			)
+		);
 	}
 
 	/**
@@ -238,7 +248,7 @@ abstract class JHtmlAccess
 			$cache,
 			$name,
 			array(
-				'list.id' => 'assetgroups_'.$count,
+				'id' => 'assetgroups_'.$count,
 				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
 				'list.select' => (int) $selected,
 				'list.translate' => true

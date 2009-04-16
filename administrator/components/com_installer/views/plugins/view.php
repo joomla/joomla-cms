@@ -42,7 +42,12 @@ class InstallerViewPlugins extends InstallerViewDefault
 		$groups		= &$this->get('Groups');
 
 		$fields = new stdClass();
-		$fields->groups = JHtml::_('select.genericlist',   $groups, 'group', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $state->get('filter.group') );
+		$fields->groups = JHtml::_('select.genericlist', $groups, 'group', 
+			array(
+				'list.attr' => 'class="inputbox" size="1" onchange="document.adminForm.submit();"',
+				'list.select' => $state->get('filter.group')
+			)
+		);
 
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);

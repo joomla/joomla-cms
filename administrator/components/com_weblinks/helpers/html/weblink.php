@@ -52,6 +52,11 @@ class JHtmlWeblink
 		$options[]	= JHtml::_('select.option', '-1', JText::_('Weblinks_Reported'));
 		$options[]	= JHtml::_('select.option', '-2', JText::_('JState_Trashed'));
 
-		return JHTML::_('select.genericlist', $options, 'filter_state', 'class="inputbox" onchange="this.form.submit();"', 'value', 'text', $selected);
+		return JHTML::_('select.genericlist', $options, 'filter_state',
+			array(
+				'list.attr' => 'class="inputbox" onchange="this.form.submit();"',
+				'list.select' => $selected
+			)
+		);
 	}
 }

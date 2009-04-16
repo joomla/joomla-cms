@@ -51,6 +51,12 @@ class JElementList extends JElement
 	{
 		$attribs = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="inputbox"');
 
-		return JHtml::_('select.genericlist',  $this->_getOptions($node), ''.$control_name.'['.$name.']', $attribs, 'value', 'text', $value, $control_name.$name);
+		return JHtml::_('select.genericlist', $this->_getOptions($node), $control_name .'['. $name .']',
+			array(
+				'id' => $control_name.$name,
+				'list.attr' => $attribs,
+				'list.select' => $value
+			)
+		);		
 	}
 }

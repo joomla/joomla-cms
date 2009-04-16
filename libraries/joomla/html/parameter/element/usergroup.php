@@ -51,6 +51,12 @@ class JElementUserGroup extends JElement
 		}
 		//array_unshift($editors, JHtml::_('select.option',  '', '- '. JText::_('Select Editor') .' -'));
 
-		return JHtml::_('select.genericlist',   $gtree, $ctrl, $attribs, 'value', 'text', $value, $control_name.$name);
+		return JHtml::_('select.genericlist', $gtree, $ctr,
+			array(
+				'id' => $control_name.$name,
+				'list.attr' => $attribs,
+				'list.select' => $value
+			)
+		);
 	}
 }

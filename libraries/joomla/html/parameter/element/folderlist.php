@@ -58,6 +58,12 @@ class JElementFolderlist extends JElement
 			array_unshift($options, JHtml::_('select.option', '', '- '.JText::_('Use default').' -'));
 		}
 
-		return JHtml::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
+		return JHtml::_('select.genericlist', $options, $control_name .'['. $name .']',
+			array(
+				'id' => 'param'.$name,
+				'list.attr' => 'class="inputbox"',
+				'list.select' => $value
+			)
+		);
 	}
 }

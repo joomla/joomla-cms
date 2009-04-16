@@ -114,8 +114,8 @@ class TemplatesHelper
 			$options,
 			'selections[]',
 			array(
+				'id' => 'selections',
 				'list.attr' => 'class="inputbox" size="15" multiple="multiple"',
-				'list.id' =>'selections',
 				'list.select' => $lookup,
 			)
 		);

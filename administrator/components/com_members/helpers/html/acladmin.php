@@ -132,7 +132,12 @@ class JHtmlAclAdmin
 				$options[$i]->text = sprintf('%s (%d)', $option->text, $option->rule_count);
 			}
 		}
-		return JHTML::_('select.genericlist', $options, $name, $attribs, 'value', 'text', $selected);
+		return JHTML::_('select.genericlist', $options, $name, 
+			array(
+				'list.attr' => $attribs,
+				'list.select' => $selected
+			)
+		);
 	}
 
 	/**
