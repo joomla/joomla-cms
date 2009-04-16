@@ -30,11 +30,9 @@ class JElementUserGroup extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$acl	=& JFactory::getACL();
-		$gtree	= $acl->get_group_children_tree(null, 'USERS', false);
 		$ctrl	= $control_name .'['. $name .']';
-
 		$attribs	= ' ';
+		
 		if ($v = $node->attributes('size')) {
 			$attribs	.= 'size="'.$v.'"';
 		}
@@ -51,12 +49,6 @@ class JElementUserGroup extends JElement
 		}
 		//array_unshift($editors, JHtml::_('select.option',  '', '- '. JText::_('Select Editor') .' -'));
 
-		return JHtml::_('select.genericlist', $gtree, $ctr,
-			array(
-				'id' => $control_name.$name,
-				'list.attr' => $attribs,
-				'list.select' => $value
-			)
-		);
+		return JHtml::_('access.usergroup', $ctrl, $value, $attribs, false);
 	}
 }
