@@ -71,23 +71,6 @@ class TemplatesModelTemplates extends JModel
 	}
 
 	/**
-	 * Method to get Templates item data
-	 *
-	 * @access public
-	 * @return array
-	 */
-	function getData()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			$this->_loadData();
-		}
-
-		return $this->_data;
-	}
-
-	/**
 	 * Method to get the total number of Module items
 	 *
 	 * @access public
@@ -98,7 +81,8 @@ class TemplatesModelTemplates extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			$this->_loadData();
+			$query = $this->_buildQuery();
+			$this->_total = $this->_getListCount($query);
 		}
 
 		return $this->_total;
@@ -133,40 +117,40 @@ class TemplatesModelTemplates extends JModel
 		return $this->_client;
 	}
 
-	function setDefault($id)
+	function _buildQuery()
 	{
-		$query = 'DELETE FROM #__templates_menu' .
-				' WHERE client_id = '.(int) $this->_client->id .
-				' AND (menuid = 0 OR template = '.$this->_db->Quote($id).')';
-		$this->_db->setQuery($query);
-		$this->_db->query();
-
-		$query = 'INSERT INTO #__templates_menu' .
-				' SET client_id = '.(int) $this->_client->id .', template = '.$this->_db->Quote($id).', menuid = 0';
-		$this->_db->setQuery($query);
-		$this->_db->query();
+		$query = 'SELECT * FROM #__menu_template'.
+				' WHERE client_id='.$this->_client->id.
+				' GROUP BY template';
+		return $query;
 	}
 
-	function _loadData()
+	/**
+	 * Method to get Templates item data
+	 *
+	 * @access public
+	 * @return array
+	 */
+	function getData()
 	{
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
-
-		$tBaseDir = $this->_client->path.DS.'templates';
-
-		//get template xml file info
-		$rows = array();
-		$rows = TemplatesHelper::parseXMLTemplateFiles($tBaseDir);
-		$this->_total = count($rows);
-
-		// set dynamic template information
-		for($i = 0; $i < $this->_total; $i++)  {
-			$rows[$i]->assigned		= TemplatesHelper::isTemplateAssigned($rows[$i]->directory);
-			$rows[$i]->published	= TemplatesHelper::isTemplateDefault($rows[$i]->directory, $this->_client->id);
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_data))
+		{
+			$query = $this->_buildQuery();
+			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+			
+			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
+			$tBaseDir = $this->_client->path.DS.'templates';
+			$rows = TemplatesHelper::parseXMLTemplateFiles($tBaseDir);		
+			
+			$total= $this->getTotal();
+			for($i = 0; $i < $total; $i++)  {
+				$this->_data[$i]->assigned = TemplatesHelper::isTemplateNameAssigned($this->_data[$i]->template,$this->_data[$i]->client_id);
+				$this->_data[$i]->home = TemplatesHelper::isTemplateNameDefault($this->_data[$i]->template,$this->_data[$i]->client_id);
+				$this->_data[$i]->xmldata = $rows[$this->_data[$i]->template];
+			}
 		}
-
-		if ($this->getState('limit') > 0)
-			$this->_data = array_slice($rows, $this->getState('limitstart'), $this->getState('limit'));
-		else
-			$this->_data = $rows;
+		return $this->_data;
 	}
+	
 }

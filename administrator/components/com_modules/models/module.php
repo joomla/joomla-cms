@@ -149,9 +149,9 @@ class ModulesModelModule extends JModel
 		jimport('joomla.filesystem.folder');
 
 		// template assignment filter
-		$query = 'SELECT DISTINCT(template) AS text, template AS value'.
-				' FROM #__templates_menu' .
-				' WHERE client_id = '.(int) $this->_client->id;
+		$query = 'SELECT DISTINCT template'.
+				' FROM #__menu_template' .
+				' WHERE client_id = '.(int) $this->_client->id ;
 		$this->_db->setQuery($query);
 		$templates = $this->_db->loadObjectList();
 
@@ -168,7 +168,7 @@ class ModulesModelModule extends JModel
 		// Get the xml parser first
 		for ($i = 0, $n = count($templates); $i < $n; $i++)
 		{
-			$path = $this->_client->path.DS.'templates'.DS.$templates[$i]->value;
+			$path = $this->_client->path.DS.'templates'.DS.$templates[$i]->template;
 
 			$xml =& JFactory::getXMLParser('Simple');
 			if ($xml->loadFile($path.DS.'templateDetails.xml'))

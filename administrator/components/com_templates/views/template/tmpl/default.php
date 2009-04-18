@@ -2,9 +2,24 @@
 
 <?php
 	JHtml::_('behavior.tooltip');
+	
+	$page= JRoute::_('index.php');
 ?>
-
-<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
+<form action="<?php echo $page; ?>"  method="post" name="styleForm">
+<?php echo JText::_('Style'); ?>: 
+	<select name="id" id="id" onChange="document.styleForm.submit();">
+<?php for ($i = 0, $n = count($this->style); $i < $n; $i++) {
+?>
+<option <?php echo $this->style[$i]->id==$this->row->id ? 'selected="selected"' : ''; ?>value="<?php echo $this->style[$i]->id; ?>"><?php echo JText::_($this->row->template); ?> - <?php echo $this->style[$i]->description; ?> <?php echo $this->style[$i]->home ? '('.JText::_('DEFAULT').')' : ''; ?> <?php echo $this->style[$i]->assigned ? '('.JText::_('ASSIGNED').')' : ''; ?></option>
+<?php
+}
+?>
+	</select>
+<input type="hidden" name="option" value="<?php echo $this->option;?>" />
+<input type="hidden" name="task" value="edit" />
+<input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
+</form>
+<form action="<?php echo $page; ?>" method="post" name="adminForm">
 
 <?php if($this->ftp): ?>
 <fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>" class="adminform">
@@ -50,7 +65,8 @@
 			</td>
 			<td>
 				<strong>
-					<?php echo JText::_($this->row->name); ?>
+					<?php echo JText::_($this->row->template); ?> - <input class="inputbox" type="text" name="description" id="description" size="40" maxlength="255" value="<?php echo $this->row->description; ?>" />
+					
 				</strong>
 			</td>
 		</tr>
@@ -59,7 +75,7 @@
 				<?php echo JText::_( 'Description' ); ?>:
 			</td>
 			<td>
-				<?php echo JText::_($this->row->description); ?>
+				<?php echo JText::_($this->row->xmldata->description); ?>
 			</td>
 		</tr>
 		</table>
@@ -106,26 +122,30 @@
 				<td>
 					<?php if ($this->client->id == 1) {
 							echo JText::_('Cannot assign administrator template');
-						} elseif ($this->row->pages == 'all') {
-							echo JText::_('Cannot assign default template');
-							echo '<input type="hidden" name="default" value="1" />';
-						} elseif ($this->row->pages == 'none') { ?>
+						  } elseif ($this->row->pages == 'all') { ?>
+					<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();"  /><?php echo JText::_( 'None' ); ?></label>
+					<label for="menus-default"><input id="menus-default" type="radio" name="menus" value="default" onclick="disableselections();" checked="checked" /><?php echo JText::_( 'Default' ); ?></label>
+					<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" /><?php echo JText::_( 'Select From List' ); ?></label>
+					<?php } elseif ($this->row->pages == 'none') { ?>
 					<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" checked="checked" /><?php echo JText::_( 'None' ); ?></label>
+					<label for="menus-default"><input id="menus-default" type="radio" name="menus" value="default" onclick="disableselections();" /><?php echo JText::_( 'Default' ); ?></label>
 					<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" /><?php echo JText::_( 'Select From List' ); ?></label>
 					<?php } else { ?>
 					<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" /><?php echo JText::_( 'None' ); ?></label>
+					<label for="menus-default"><input id="menus-default" type="radio" name="menus" value="default" onclick="disableselections();" /><?php echo JText::_( 'Default' ); ?></label>
 					<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" checked="checked" /><?php echo JText::_( 'Select From List' ); ?></label>
+					
 					<?php } ?>
 				</td>
 			</tr>
-			<?php if ($this->row->pages != 'all' && $this->client->id != 1) : ?>
+			<?php if ($this->client->id != 1) : ?>
 			<tr>
 				<td valign="top" class="key">
 					<?php echo JText::_( 'Menu Selection' ); ?>:
 				</td>
 				<td>
 					<?php echo $this->lists['selections']; ?>
-					<?php if ($this->row->pages == 'none') { ?>
+					<?php if ($this->row->pages == 'none' || $this->row->pages == 'all') { ?>
 					<script type="text/javascript">disableselections();</script>
 					<?php } ?>
 				</td>
@@ -155,7 +175,9 @@
 </div>
 <div class="clr"></div>
 
-<input type="hidden" name="id" value="<?php echo $this->row->directory; ?>" />
+<input type="hidden" name="id" value="<?php echo $this->row->id; ?>" />
+<input type="hidden" name="template" value="<?php echo $this->row->template; ?>" />
+
 <input type="hidden" name="option" value="<?php echo $this->option;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="client" value="<?php echo $this->client->id;?>" />

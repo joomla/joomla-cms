@@ -70,7 +70,7 @@ class ContentModelElement extends JModel
 		$this->setState('limitstart', $limitstart);
 
 		$filter = new stdClass();
-		$filter->order		= $mainframe->getUserStateFromRequest('articleelement.filter_order',		'filter_order',		'section_name',	'cmd');
+		$filter->order		= $mainframe->getUserStateFromRequest('articleelement.filter_order',		'filter_order',		'cctitle',	'cmd');
 		$filter->order_Dir	= $mainframe->getUserStateFromRequest('articleelement.filter_order_Dir',	'filter_order_Dir',	'',	'word');
 		$filter->catid		= $mainframe->getUserStateFromRequest('articleelement.filter_catid',		'filter_catid',		0,	'int');
 		$filter->authorid	= $mainframe->getUserStateFromRequest('articleelement.filter_authorid',		'filter_authorid',	0,	'int');

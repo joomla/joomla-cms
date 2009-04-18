@@ -175,7 +175,7 @@ class ModulesModelModules extends JModel
 
 		$join = '';
 		if ($this->_filter->assigned) {
-			$join = ' LEFT JOIN #__templates_menu AS t ON t.menuid = mm.menuid';
+			$join = ' LEFT JOIN #__menu AS t ON t.id = mm.menuid';
 		}
 
 		$query = 'SELECT m.*, u.name AS editor, g.title AS groupname, MIN(mm.menuid) AS pages'
@@ -206,8 +206,7 @@ class ModulesModelModules extends JModel
 		$where[] = 'm.client_id = '.(int) $this->_client->id;
 
 		if ($this->_filter->assigned) {
-			$joins[] = 'LEFT JOIN #__templates_menu AS t ON t.menuid = mm.menuid';
-			$where[] = 't.template = '.$this->_db->Quote($this->_filter->assigned);
+			$where[] = 't.template_id = '.$this->_db->Quote($this->_filter->assigned);
 		}
 		if ($this->_filter->position) {
 			$where[] = 'm.position = '.$this->_db->Quote($this->_filter->position);

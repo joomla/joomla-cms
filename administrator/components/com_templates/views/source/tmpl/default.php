@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php
-	$this->template_path = $this->client->path .DS. 'templates' .DS. $this->template .DS. 'index.php';
+	$template_path = $this->client->path .DS. 'templates' .DS. $this->template .DS. 'index.php';
 ?>
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
@@ -41,7 +41,7 @@
 <table class="adminform">
 <tr>
 	<th>
-		<?php echo $this->template_path; ?>
+		<?php echo $template_path; ?>
 	</th>
 </tr>
 <tr>
@@ -53,8 +53,8 @@
 
 <div class="clr"></div>
 
-<input type="hidden" name="id" value="<?php echo $this->template; ?>" />
-<input type="hidden" name="cid[]" value="<?php echo $this->template; ?>" />
+<input type="hidden" name="id" value="<?php echo $this->id; ?>" />
+<input type="hidden" name="cid[]" value="<?php echo $this->id; ?>" />
 <input type="hidden" name="option" value="<?php echo $this->option;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="client" value="<?php echo $this->client->id;?>" />

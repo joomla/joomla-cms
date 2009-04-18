@@ -98,7 +98,7 @@ class ContentModelArticles extends JModel
 	}
 
 	/**
-	 * Method to get the total number of section items
+	 * Method to get the total number of category items
 	 *
 	 * @access public
 	 * @return integer

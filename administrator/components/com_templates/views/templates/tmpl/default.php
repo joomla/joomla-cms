@@ -59,8 +59,8 @@ $k = 0;
 for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 	$row = & $this->rows[$i];
 
-	$author_info = @ $row->authorEmail . '<br />' . @ $row->authorUrl;
-	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JFactory::getApplication()->getSiteURL() ).'/templates/'.$row->directory.'/template_thumbnail.png';
+	$author_info = @ $row->xmldata->authorEmail . '<br />' . @ $row->xmldata->authorUrl;
+	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JFactory::getApplication()->getSiteURL() ).'/templates/'.$row->template.'/template_thumbnail.png';
 ?>
 		<tr class="<?php echo 'row'. $k; ?>">
 			<td>
@@ -68,20 +68,20 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 			</td>
 			<td width="5">
 			<?php
-			if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out )) {
+			if ( JTable::isCheckedOut($user->get ('id'), $row->xmldata->checked_out )) {
 			?>
 					&nbsp;
 			<?php
 			} else {
 			?>
-					<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->directory; ?>" onclick="isChecked(this.checked);" />
+					<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" />
 			<?php
 			}
 			?>
 			</td>
 			<td>
-				<span id="<?php echo $img_path; ?>" class="hasSnapshot" title="<?php echo $row->name;?>::">
-					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&cid[]=' . $row->directory . '&client=' . $this->client->id); ?>"><?php echo $row->name;?></a>
+				<span id="<?php echo $img_path; ?>" class="hasSnapshot" title="<?php echo $row->template;?>::">
+					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&cid[]=' . $row->id . '&client=' . $this->client->id); ?>"><?php echo $row->template;?></a>
 				</span>
 			</td>
 			<?php
@@ -89,7 +89,7 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 			?>
 				<td align="center">
 				<?php
-				if ($row->published == 1) {
+				if ($row->home == 1) {
 				?>
 					<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Published' ); ?>" />
 				<?php
@@ -105,7 +105,7 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 			?>
 				<td align="center">
 				<?php
-				if ($row->published == 1) {
+				if ($row->home == 1) {
 				?>
 						<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Default' ); ?>" />
 				<?php
@@ -133,14 +133,14 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 			}
 			?>
 			<td align="center">
-				<?php echo $row->version; ?>
+				<?php echo $row->xmldata->version; ?>
 			</td>
 			<td>
-				<?php echo $row->creationdate; ?>
+				<?php echo $row->xmldata->creationdate; ?>
 			</td>
 			<td>
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Author Information' );?>::<?php echo $author_info; ?>">
-					<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
+					<?php echo @$row->xmldata->author != '' ? $row->xmldata->author : '&nbsp;'; ?>
 				</span>
 			</td>
 		</tr>

@@ -45,6 +45,13 @@ class TemplatesModelCssedit extends JModel
 	 * @var string
 	 */
 	var $_filename = null;
+	
+	/**
+	 * Template name
+	 *
+	 * @var string
+	 */
+	var $_template = null;
 
 	/**
 	 * Constructor
@@ -70,7 +77,9 @@ class TemplatesModelCssedit extends JModel
 	function setId($id)
 	{
 		// Set Template id and wipe data
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
 		$this->_id		= $id;
+		$this->_template = TemplatesHelper::getTemplateName($id);
 		$this->_data	= null;
 	}
 
@@ -100,9 +109,14 @@ class TemplatesModelCssedit extends JModel
 
 	function &getTemplate()
 	{
-		return $this->_id;
+		return $this->_template;
 	}
 
+	function &getId()
+	{
+		return $this->_id;
+	}
+	
 	function &getFilename()
 	{
 		return $this->_filename;
@@ -122,14 +136,13 @@ class TemplatesModelCssedit extends JModel
 		JClientHelper::setCredentialsFromRequest('ftp');
 		$ftp = JClientHelper::getCredentials('ftp');
 
-		$file = $this->_client->path.DS.'templates'.DS.$this->_id.DS.'css'.DS.$this->_filename;
+		$file = $this->_client->path.DS.'templates'.DS.$this->_template.DS.'css'.DS.$this->_filename;
 
 		// Try to make the css file writeable
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
 			$this->setError( JText::_('Could not make the css file writable'));
 			return false;
 		}
-
 		jimport('joomla.filesystem.file');
 		$return = JFile::write($file, $filecontent);
 
@@ -166,11 +179,11 @@ class TemplatesModelCssedit extends JModel
 				return JError::raiseWarning( 500, JText::_('Wrong file type given, only CSS files can be edited.') );
 			}
 
-			$content = JFile::read($this->_client->path.DS.'templates'.DS.$this->_id.DS.'css'.DS.$this->_filename);
+			$content = JFile::read($this->_client->path.DS.'templates'.DS.$this->_template.DS.'css'.DS.$this->_filename);
 
 			if ($content === false)
 			{
-				$this->setError(JText::sprintf('Operation Failed Could not open', $this->_client->path.DS.'templates'.DS.$this->_id.DS.'css'.DS.$this->_filename));
+				$this->setError(JText::sprintf('Operation Failed Could not open', $this->_client->path.DS.'templates'.DS.$this->_template.DS.'css'.DS.$this->_filename));
 				return false;
 			}
 

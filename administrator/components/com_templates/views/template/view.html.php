@@ -37,19 +37,25 @@ class TemplatesViewTemplate extends JView
 		jimport('joomla.filesystem.path');
 		$this->loadHelper('template');
 
+		$client		=& $this->get('Client');
+		
 		JToolBarHelper::title( JText::_( 'Template' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'thememanager' );
+		if($client->id == 1) {
+			JToolBarHelper::custom( 'admindefault', 'default.png', 'default_f2.png', 'Set as Default', false, false);
+		}
+		JToolBarHelper::custom( 'add', 'new.png', 'new_f2.png', 'New Style', false, false);
+		JToolBarHelper::custom( 'delete', 'delete.png', 'delete_f2.png', 'Delete Style', false, false);
 		JToolBarHelper::custom('preview', 'preview.png', 'preview_f2.png', 'Preview', false, false);
 		JToolBarHelper::custom( 'edit_source', 'html.png', 'html_f2.png', 'Edit HTML', false, false );
 		JToolBarHelper::custom( 'choose_css', 'css.png', 'css_f2.png', 'Edit CSS', false, false );
 		JToolBarHelper::save( 'save' );
-		JToolBarHelper::apply();
 		JToolBarHelper::cancel( 'cancel', 'Close' );
 		JToolBarHelper::help( 'screen.templates' );
 
 		$row		=& $this->get('Data');
 		$params		=& $this->get('Params');
-		$client		=& $this->get('Client');
 		$template	=& $this->get('Template');
+		$style		=& $this->get('Style');
 
 		if (!$template) {
 			return JError::raiseWarning( 500, JText::_('Template not specified') );
@@ -58,7 +64,7 @@ class TemplatesViewTemplate extends JView
 		if($client->id == '1')  {
 			$lists['selections'] =  JText::_('Cannot assign an administrator template');
 		} else {
-			$lists['selections'] = TemplatesHelper::createMenuList($template);
+			$lists['selections'] = TemplatesHelper::createMenuList($row->id);
 		}
 
 		// Set FTP credentials, if given
@@ -72,6 +78,7 @@ class TemplatesViewTemplate extends JView
 		$this->assignRef('ftp',			$ftp);
 		$this->assignRef('template',	$template);
 		$this->assignRef('params',		$params);
+		$this->assignRef('style',		$style);
 
 		parent::display($tpl);
 	}

@@ -39,7 +39,7 @@ class CategoriesViewCategory extends JView
 		JArrayHelper::toInteger($cid, array(0));
 		$model =& $this->getModel();
 
-		//get the section
+		//get the data
 		$row =& $this->get('data');
 		$form =& $this->get('form');
 		$edit = JRequest::getVar('edit',true);

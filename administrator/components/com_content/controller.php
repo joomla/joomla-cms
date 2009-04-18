@@ -52,7 +52,7 @@ class ContentController extends JController
 				JRequest::setVar('view'  , 'article');
 				JRequest::setVar('edit', false);
 
-				// Checkout the section
+				// Checkout the article
 				$model = $this->getModel('article');
 				$model->checkout();
 			} break;
@@ -62,7 +62,7 @@ class ContentController extends JController
 				JRequest::setVar('view'  , 'article');
 				JRequest::setVar('edit', true);
 
-				// Checkout the section
+				// Checkout the article
 				$model = $this->getModel('article');
 				$model->checkout();
 			} break;
@@ -314,7 +314,7 @@ class ContentController extends JController
 	*/
 	function cancel()
 	{
-		// Checkin the section
+		// Checkin the article
 		$model = $this->getModel('article');
 		$model->checkin();
 

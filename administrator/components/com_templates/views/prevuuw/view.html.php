@@ -29,10 +29,14 @@ class TemplatesViewPrevuuw extends JView
 	public function display($tpl = null)
 	{
 		JToolBarHelper::title( JText::_( 'Template Manager' ), 'thememanager' );
-		JToolBarHelper::back();
+		JToolBarHelper::custom( 'edit', 'back.png', 'back_f2.png', 'Back', false, false);
 
-		$template	= JRequest::getVar('id', '', 'method', 'cmd');
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
+
+		// Initialize some variables
 		$option 	= JRequest::getCmd('option');
+		$id 		= JRequest::getVar('id', '', 'method', 'int');
+		$template	= TemplatesHelper::getTemplateName($id);
 		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$tp			= true;
 		$url		= $client->id ? JURI::base() : JURI::root();
@@ -46,7 +50,9 @@ class TemplatesViewPrevuuw extends JView
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$this->assignRef('template',	$template);
+		$this->assignRef('option',		$option);
+		$this->assignRef('client',		$client);
+		$this->assignRef('id',			$id);
 		$this->assignRef('tp',			$tp);
 		$this->assignRef('url',			$url);
 

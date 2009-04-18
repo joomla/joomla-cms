@@ -43,6 +43,7 @@ class TemplatesViewCssedit extends JView
 		$client		=& $this->get('Client');
 		$template	=& $this->get('Template');
 		$filename	=& $this->get('Filename');
+		$id	=& $this->get('Id');
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -52,6 +53,7 @@ class TemplatesViewCssedit extends JView
 		$this->assignRef('client',		$client);
 		$this->assignRef('ftp',			$ftp);
 		$this->assignRef('template',	$template);
+		$this->assignRef('id',	$id);
 		$this->assignRef('filename',	$filename);
 		$this->assignRef('content',		$content);
 

@@ -35,9 +35,12 @@ class TemplatesViewCsschoose extends JView
 		JToolBarHelper::cancel('edit');
 		JToolBarHelper::help( 'screen.templates' );
 
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
+		
 		// Initialize some variables
 		$option 	= JRequest::getCmd('option');
-		$template	= JRequest::getVar('id', '', 'method', 'cmd');
+		$id 		= JRequest::getVar('id', '', 'method', 'int');
+		$template	=  TemplatesHelper::getTemplateName($id);
 		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		// Determine template CSS directory
@@ -55,7 +58,9 @@ class TemplatesViewCsschoose extends JView
 		$this->assignRef('client',		$client);
 		$this->assignRef('template',	$template);
 		$this->assignRef('files',		$files);
-
+		$this->assignRef('id',		$id);
+		$this->assignRef('t_dir',		$dir);
+		
 		parent::display($tpl);
 	}
 }

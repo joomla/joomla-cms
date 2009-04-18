@@ -21,10 +21,9 @@ class JHtmlFilter
 	function assigned($client, $selected = null)
 	{
 		$db		=& JFactory::getDBO();
-
 		// template assignment filter
-		$query = 'SELECT DISTINCT(template) AS text, template AS value'.
-				' FROM #__templates_menu' .
+		$query = 'SELECT CONCAT(template," - ",description) AS text, id AS value'.
+				' FROM #__menu_template' .
 				' WHERE client_id = '.(int) $client->id;
 		$db->setQuery($query);
 		$assigned[]		= JHtml::_('select.option',  '0', '- '. JText::_('Select Template') .' -');

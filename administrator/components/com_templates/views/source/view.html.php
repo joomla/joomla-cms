@@ -42,6 +42,7 @@ class TemplatesViewSource extends JView
 		$content	=& $this->get('Data');
 		$client		=& $this->get('Client');
 		$template	=& $this->get('Template');
+		$id	=& $this->get('id');
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -51,6 +52,7 @@ class TemplatesViewSource extends JView
 		$this->assignRef('client',		$client);
 		$this->assignRef('ftp',			$ftp);
 		$this->assignRef('template',	$template);
+		$this->assignRef('id',			$id);
 		$this->assignRef('content',	$content);
 
 		parent::display($tpl);

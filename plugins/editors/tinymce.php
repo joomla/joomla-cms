@@ -197,11 +197,9 @@ class plgEditorTinymce extends JPlugin
 			/*
 			 * Lets get the default template for the site application
 			 */
-			$query = 'SELECT template'
-			. ' FROM #__templates_menu'
-			. ' WHERE client_id = 0'
-			. ' AND menuid = 0'
-			;
+			$query = 'SELECT template FROM #__menu_template'.
+				' WHERE client_id = 0'.
+				' AND home = 1';
 			$db->setQuery( $query );
 			$template = $db->loadResult();
 

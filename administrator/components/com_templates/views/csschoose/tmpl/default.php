@@ -15,7 +15,7 @@
 		<?php echo JText::_( 'Num' ); ?>
 	</th>
 	<th width="85%" align="left">
-		<?php echo $t_dir; ?>
+		<?php echo $this->t_dir; ?>
 	</th>
 	<th width="10%">
 		<?php echo JText::_( 'Writable' ); ?>/<?php echo JText::_( 'Unwritable' ); ?>
@@ -34,7 +34,7 @@ for ($i = 0, $n = count($this->files); $i < $n; $i++) {
 			<?php echo $file; ?>
 		</td>
 		<td width="10%">
-			<?php echo is_writable($t_dir.DS.$file) ? '<font color="green"> '. JText::_( 'Writable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwritable' ) .'</font>' ?>
+			<?php echo is_writable($this->t_dir.DS.$file) ? '<font color="green"> '. JText::_( 'Writable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwritable' ) .'</font>' ?>
 		</td>
 	</tr>
 <?php
@@ -42,8 +42,8 @@ for ($i = 0, $n = count($this->files); $i < $n; $i++) {
 }
 ?>
 </table>
-<input type="hidden" name="id" value="<?php echo $this->template; ?>" />
-<input type="hidden" name="cid[]" value="<?php echo $this->template; ?>" />
+<input type="hidden" name="id" value="<?php echo $this->id; ?>" />
+<input type="hidden" name="cid[]" value="<?php echo $this->id; ?>" />
 <input type="hidden" name="option" value="<?php echo $this->option;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />

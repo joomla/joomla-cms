@@ -24,7 +24,6 @@ class CategoriesViewCategories extends JView
 {
 	protected $user;
 	protected $type;
-	protected $section_name;
 	protected $rows;
 	protected $pagination;
 	protected $filter;

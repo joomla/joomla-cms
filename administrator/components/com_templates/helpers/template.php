@@ -16,31 +16,51 @@ defined('_JEXEC') or die('Restricted access');
  */
 class TemplatesHelper
 {
-	function isTemplateDefault($template, $clientId)
+	function isTemplateAssigned($id)
 	{
 		$db =& JFactory::getDBO();
-
-		// Get the current default template
-		$query = ' SELECT template '
-				.' FROM #__templates_menu '
-				.' WHERE client_id = ' . (int) $clientId
-				.' AND menuid = 0 ';
+		// check if template is assigned
+		$query = 'SELECT COUNT(*)' .
+				' FROM #__menu' .
+				' WHERE template_id = '.$db->Quote($id);
 		$db->setQuery($query);
-		$defaultemplate = $db->loadResult();
-
-		return $defaultemplate == $template ? 1 : 0;
+		return $db->loadResult() ? 1 : 0;
 	}
 
-	function isTemplateAssigned($template)
+	function isTemplateDefault($id)
+	{
+		$db =& JFactory::getDBO();
+		// check if template is assigned
+		$query = 'SELECT home' .
+				' FROM #__menu_template' .
+				' WHERE id = '.$db->Quote($id);
+		$db->setQuery($query);
+		return $db->loadResult() == 1 ;
+	}
+
+	function isTemplateNameAssigned($template,$client_id)
+	{
+		$db =& JFactory::getDBO();
+		if($client_id==1)
+			return 0;
+		// check if template is assigned
+		$query = 'SELECT COUNT(*) FROM #__menu'.
+				' LEFT JOIN #__menu_template'.
+				' ON #__menu.template_id=#__menu_template.id'.
+				' WHERE #__menu_template.template = '.$db->Quote($template);
+		$db->setQuery($query);
+		return $db->loadResult() ? 1 : 0;
+	}
+
+	function isTemplateNameDefault($template,$client_id)
 	{
 		$db =& JFactory::getDBO();
 
 		// check if template is assigned
-		$query = 'SELECT COUNT(*)' .
-				' FROM #__templates_menu' .
-				' WHERE client_id = 0' .
-				' AND template = '.$db->Quote($template) .
-				' AND menuid <> 0';
+		$query = 'SELECT COUNT(*) FROM #__menu_template'.
+				' WHERE template = '.$db->Quote($template).
+				' AND client_id = '.$db->Quote($client_id).
+				' AND home = 1';
 		$db->setQuery($query);
 		return $db->loadResult() ? 1 : 0;
 	}
@@ -59,7 +79,7 @@ class TemplatesHelper
 			if(!$data = TemplatesHelper::parseXMLTemplateFile($templateBaseDir, $templateDir)){
 				continue;
 			} else {
-				$rows[] = $data;
+				$rows[$templateDir] = $data;
 			}
 		}
 
@@ -92,21 +112,17 @@ class TemplatesHelper
 		return $data;
 	}
 
-	function createMenuList($template)
+	function createMenuList($id)
 	{
 		$db =& JFactory::getDBO();
-
 		// get selected pages for $menulist
-		$query = 'SELECT menuid AS value' .
-				' FROM #__templates_menu' .
-				' WHERE client_id = 0' .
-				' AND template = '.$db->Quote($template);
+		$query = 'SELECT id AS value FROM #__menu'.
+				' WHERE template_id = '.$db->Quote($id);
 		$db->setQuery($query);
 		$lookup = $db->loadObjectList();
 		if (empty( $lookup )) {
 			$lookup = array( JHtml::_('select.option',  '-1' ) );
 		}
-
 		// build the html select list
 		$options = JHtml::_('menu.linkoptions');
 		$result = JHtml::_(
@@ -120,5 +136,19 @@ class TemplatesHelper
 			)
 		);
 		return $result;
+	}
+
+	function getTemplateName($id)
+	{
+		$db =& JFactory::getDBO();
+		$query = 'SELECT template FROM #__menu_template'.
+				' WHERE id = '.$db->Quote($id).'';
+		$db->setQuery($query);
+		$db->query();
+		if ($db->getNumRows() == 0) {
+				JError::raiseWarning( 500, JText::_('Template not found') );
+				return '';
+		}
+		return $db->loadResult();
 	}
 }

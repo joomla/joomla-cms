@@ -45,7 +45,7 @@ class CategoriesController extends JController
 				JRequest::setVar( 'view'  , 'category');
 				JRequest::setVar( 'edit', false );
 
-				// Checkout the section
+				// Checkout the category
 				$model = $this->getModel('category');
 				$model->checkout();
 			} break;
@@ -55,7 +55,7 @@ class CategoriesController extends JController
 				JRequest::setVar( 'view'  , 'category');
 				JRequest::setVar( 'edit', true );
 
-				// Checkout the section
+				// Checkout the category
 				$model = $this->getModel('category');
 				$model->checkout();
 			} break;

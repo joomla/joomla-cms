@@ -40,6 +40,13 @@ class TemplatesModelSource extends JModel
 	var $_client = null;
 
 	/**
+	 * Template name
+	 *
+	 * @var string
+	 */
+	var $_template = null;
+	
+	/**
 	 * Constructor
 	 *
 	 * @since 1.5
@@ -62,7 +69,9 @@ class TemplatesModelSource extends JModel
 	function setId($id)
 	{
 		// Set Template id and wipe data
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
 		$this->_id		= $id;
+		$this->_template = TemplatesHelper::getTemplateName($id);
 		$this->_data	= null;
 	}
 
@@ -92,6 +101,11 @@ class TemplatesModelSource extends JModel
 
 	function &getTemplate()
 	{
+		return $this->_template;
+	}
+
+	function &getId()
+	{
 		return $this->_id;
 	}
 
@@ -109,10 +123,10 @@ class TemplatesModelSource extends JModel
 		JClientHelper::setCredentialsFromRequest('ftp');
 		$ftp = JClientHelper::getCredentials('ftp');
 
-		$file = $this->_client->path.DS.'templates'.DS.$this->_id.DS.'index.php';
+		$file = $this->_client->path.DS.'templates'.DS.$this->_template.DS.'index.php';
 
 		// Try to make the template file writeable
-		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0755')) {
+		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
 			$this->setError( JText::_('Could not make the template file writable'));
 			return false;
 		}
@@ -121,7 +135,7 @@ class TemplatesModelSource extends JModel
 		$return = JFile::write($file, $filecontent);
 
 		// Try to make the template file unwriteable
-		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0555')) {
+		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0555')) {
 			$this->setError( JText::_('Could not make the template file unwritable'));
 			return false;
 		}
@@ -147,7 +161,7 @@ class TemplatesModelSource extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			$file		= $this->_client->path.DS.'templates'.DS.$this->_id.DS.'index.php';
+			$file		= $this->_client->path.DS.'templates'.DS.$this->_template.DS.'index.php';
 
 			// Read the source file
 			jimport('joomla.filesystem.file');

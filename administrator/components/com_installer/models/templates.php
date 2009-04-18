@@ -110,12 +110,15 @@ class InstallerModelTemplates extends InstallerModel
 		}
 
 		// Get a list of the currently active templates
-		$query = 'SELECT template' .
-				' FROM #__templates_menu' .
-				' WHERE 1';
+		$query = 'SELECT DISTINCT template,client_id'.
+				' FROM #__menu_template ';
 		$db->setQuery($query);
 		$activeList = $db->loadResultArray();
-
+		$activeArr = array();
+		for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
+			$activeArr[$activeLIst[$i]->client_id][$activeLIst[$i]->template]=true;
+		}
+		
 		$rows = array();
 		$rowid = 0;
 		// Check that the directory contains an xml file
@@ -135,7 +138,7 @@ class InstallerModelTemplates extends InstallerModel
 				$row->baseDir	= $template->baseDir;
 
 				// Is the template active?
-				if (in_array($row->directory, $activeList)) {
+				if (!empty($activeArr[$template->client][$rowid])) {
 					$row->active = true;
 				} else {
 					$row->active = false;

@@ -140,12 +140,6 @@
 			}
 		}
 
-		// section handling
-		if ($row->sectionid) {
-			$row->sect_link = JRoute::_('index.php?option=com_sections&task=edit&cid[]='. $row->sectionid);
-			$title_sec		= JText::_('Edit Section');
-		}
-
 		// category handling
 		if ($row->catid) {
 			$row->cat_link 	= JRoute::_('index.php?option=com_categories&task=edit&cid[]='. $row->catid);

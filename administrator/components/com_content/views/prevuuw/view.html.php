@@ -34,10 +34,9 @@ class ContentViewPrevuuw extends JView
 		$option			= JRequest::getCmd('option');
 
 		// Get the current default template
-		$query = 'SELECT template' .
-				' FROM #__templates_menu' .
+		$query = 'SELECT template FROM #__menu_template' .
 				' WHERE client_id = 0' .
-				' AND menuid = 0';
+				' AND home = 1';
 		$db->setQuery($query);
 		$template = $db->loadResult();
 

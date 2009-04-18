@@ -164,6 +164,17 @@ class JInstallerTemplate extends JAdapterInstance
 			$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
 		}
+		
+		//insert record in #_menu_template
+		$query = 'INSERT INTO #__menu_template'.
+				' (template,client_id,home,description,params)'.
+				' VALUE ('.$db->Quote($row->name).','.
+				$db->Quote($clientId).',0,'.
+				$db->Quote(JText::_('Default')).','.
+				$db->Quote($row->params).
+				')';
+		$db->setQuery($query);
+		$db->query();
 		return $row->get('extension_id');
 	}
 
@@ -195,7 +206,6 @@ class JInstallerTemplate extends JAdapterInstance
 			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCOREMODULE', $row->name)."<br />".JText::_('WARNCOREMODULE2'));
 			return false;
 		}
-
 		$name = $row->element;
 		$clientId = $row->client_id;
 
@@ -206,6 +216,16 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 
+		// Deny remove default template
+		$db =& $this->parent->getDBO();
+		$query = 'SELECT COUNT(*) FROM #__menu_template'.
+				' WHERE home = 1 AND template = '.$db->Quote($name);
+		$db->setQuery($query);
+		if($db->loadResult() != 0) {
+			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::_('Cannot remove default template'));
+			return false;
+		}
+		
 		// Get the template root path
 		$client =& JApplicationHelper::getClientInfo($clientId);
 		if (!$client) {
@@ -239,6 +259,22 @@ class JInstallerTemplate extends JAdapterInstance
 			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Uninstall').': '.JText::_('Directory does not exist, cannot remove files'));
 			$retval = false;
 		}
+		
+		//Set menu that assigned to the template back to default template
+		$query = 'UPDATE #__menu INNER JOIN #__menu_template'.
+				' ON #__menu_template.id = #__menu.template_id'.
+				' SET #__menu.template_id = 0'.
+				' WHERE #__menu_template.template = '.$db->Quote($name).
+				' AND #__menu_template.client_id = '.$db->Quote($clientId);
+		$db->setQuery($query);
+		$db->Query();
+		
+		$query = 'DELETE FROM #__menu_template'.
+				' WHERE template = '.$db->Quote($name).
+				' AND client_id = '.$db->Quote($clientId);
+		$db->setQuery($query);
+		$db->Query();
+		
 		$row->delete($row->extension_id);
 		unset($row);
 		return $retval;

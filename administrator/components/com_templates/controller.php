@@ -52,6 +52,7 @@ class TemplatesController extends JController
 		$model = $this->getModel('template');
 		$client		=& $model->getClient();
 		$template	=& $model->getTemplate();
+		$id			=& $model->getId();
 
 		if (!$template) {
 			$this->setRedirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
@@ -64,12 +65,7 @@ class TemplatesController extends JController
 			$msg = JText::_( 'Error Saving Template' ) . $model->getError();
 		}
 
-		$task = JRequest::getCmd('task');
-		if($task == 'apply') {
-			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$template.'&client='.$client->id, $msg);
-		} else {
-			$this->setRedirect('index.php?option='.$option.'&client='.$client->id, $msg);
-		}
+		$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id.'&client='.$client->id, $msg);
 	}
 
 	function cancel()
@@ -81,30 +77,86 @@ class TemplatesController extends JController
 		$this->setRedirect('index.php?option='.$option.'&client='.$client->id);
 	}
 
-	/**
-	* Sets default Template
-	*/
-	function publish()
+	/*
+	 * Add Template Style
+	 */
+	function add() {
+		
+		// Check for request forgeries
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$option		= JRequest::getVar('option', '', '', 'cmd');
+		
+		$model = $this->getModel('template');
+		$client		=& $model->getClient();
+		$template	=& $model->getTemplate();
+
+		if (!$template) {
+			$this->setRedirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
+			return;
+		}
+		$msg = JText::_( 'Template Added' );
+		$newid = $model->add();
+		$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$newid.'&client='.$client->id, $msg);
+		
+	}
+
+	/*
+	 * Delete Template Style
+	 */
+	function delete() {
+		// Check for request forgeries
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$option		= JRequest::getVar('option', '', '', 'cmd');
+		
+		$model = $this->getModel('template');
+		$client		=& $model->getClient();
+		$template	=& $model->getTemplate();
+		$id	=& $model->getId();
+		
+
+		if (!$template) {
+			$this->setRedirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
+			return;
+		}
+
+		if ($model->delete()) {
+			$msg = JText::_( 'Template Saved' );
+		} else {
+			$msg = JText::_( 'Error Saving Template' ) . $model->getError();
+		}
+		$otherid = $model->getOtherId();
+		$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$otherid.'&client='.$client->id, $msg);
+	}
+	
+	/*
+	 * Set Default for Admin Template
+	 */
+	function admindefault()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialize some variables
-		$db		= & JFactory::getDBO();
-		$cid	= JRequest::getVar('cid', array(), 'method', 'array');
-		$cid	= array(JFilterInput::clean(@$cid[0], 'cmd'));
-		$option	= JRequest::getCmd('option');
-		$model	= $this->getModel('templates');
-		$client	= $model->getClient();
+		$option		= JRequest::getVar('option', '', '', 'cmd');
 
-		if ($cid[0])
-		{
-			$model->setDefault($cid[0]);
+		$model = $this->getModel('template');
+		$client		=& $model->getClient();
+		$template	=& $model->getTemplate();
+		$id			=& $model->getId();
+
+		if (!$template) {
+			$this->setRedirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
+			return;
 		}
 
-		$this->setRedirect('index.php?option='.$option.'&client='.$client->id);
-	}
+		if ($model->setAdminDefault()) {
+			$msg = JText::_( 'Template Saved' );
+		} else {
+			$msg = JText::_( 'Error Saving Template' ) . $model->getError();
+		}
 
+		$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id.'&client='.$client->id, $msg);
+	}
 	/**
 	* Preview Template
 	*/
@@ -139,7 +191,8 @@ class TemplatesController extends JController
 		$model = $this->getModel('source');
 		$client		=& $model->getClient();
 		$template	=& $model->getTemplate();
-
+		$id			=& $model->getId();
+		
 		if (!$template) {
 			$this->setRedirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 			return;
@@ -160,12 +213,12 @@ class TemplatesController extends JController
 		switch($task)
 		{
 			case 'apply_source':
-				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_source&id='.$template, $msg);
+				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_source&id='.$id, $msg);
 				break;
 
 			case 'save_source':
 			default:
-				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit&cid[]='.$template, $msg);
+				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit&cid[]='.$id, $msg);
 				break;
 		}
 	}
@@ -206,9 +259,9 @@ class TemplatesController extends JController
 
 		$model = $this->getModel('cssedit');
 		$client		=& $model->getClient();
-		$template	=& $model->getTemplate();
+		$id			=& $model->getId();
 		$filename	=& $model->getFilename();
-
+		$template 	=& $model->getTemplate();
 		if (!$template) {
 			$this->setRedirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 			return;
@@ -229,12 +282,12 @@ class TemplatesController extends JController
 		switch($task)
 		{
 			case 'apply_css':
-				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_css&id='.$template.'&filename='.$filename, $msg );
+				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_css&id='.$id.'&filename='.$filename, $msg );
 				break;
 
 			case 'save_css':
 			default:
-				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit&cid[]='.$template, $msg);
+				$this->setRedirect('index.php?option='.$option.'&client='.$client->id.'&task=edit&cid[]='.$id, $msg);
 				break;
 		}
 	}

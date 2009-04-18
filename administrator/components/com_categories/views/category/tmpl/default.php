@@ -35,7 +35,7 @@
 	$cparams = JComponentHelper::getParams ('com_media');
 ?>
 <script language="javascript" type="text/javascript">
-function submitbutton(pressbutton, section) {
+function submitbutton(pressbutton) {
 	var form = document.adminForm;
 	if (pressbutton == 'cancel') {
 		submitform( pressbutton );
