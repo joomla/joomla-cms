@@ -323,6 +323,12 @@ class JSite extends JApplication
 			$id = $item->template_id;
 		}
 		$condition = '';
+		
+		$tid = JRequest::getInt('template', 0);
+		if((int) $tid > 0)
+		{
+			$id = (int) $tid;
+		}
 		if($id == 0)
 		{
 			$condition = 'home = 1';
