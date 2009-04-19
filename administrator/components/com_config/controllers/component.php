@@ -19,46 +19,24 @@ class ConfigControllerComponent extends JController
 	/**
 	 * Custom Constructor
 	 */
-	function __construct( $default = array())
+	public function __construct( $default = array())
 	{
-		$default['default_task'] = 'edit';
 		parent::__construct( $default );
 
-		$this->registerTask( 'apply', 'save' );
+		$this->registerTask('edit', 'display');
+		$this->registerTask('apply', 'save');
 	}
 
-	/**
-	 * Show the configuration edit form
-	 * @param string The URL option
-	 */
-	function edit()
+	public function display()
 	{
-		JRequest::setVar('tmpl', 'component'); //force the component template
-		$component = JRequest::getCmd( 'component' );
-
-		if (empty( $component ))
-		{
-			JError::raiseWarning( 500, 'Not a valid component' );
-			return false;
-		}
-
-		// load the component's language file
-		$lang = & JFactory::getLanguage();
-		// 1.5 or core
-		$lang->load( $component );
-		// 1.6 support for component specific languages
-		$lang->load( $component, JPATH_ADMINISTRATOR.DS.'components'.DS.$component);
-
-		$model = $this->getModel('Component' );
-		$view = $this->getView('Component');
-		$view->setModel( $model, true );
-		$view->display();
+		$component = JRequest::getCmd('component');
+		$this->setRedirect('index.php?option=com_config&view=component&tmpl=component&component='.$component);
 	}
 
 	/**
 	 * Save the configuration
 	 */
-	function save()
+	public function save()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -88,15 +66,17 @@ class ConfigControllerComponent extends JController
 			return false;
 		}
 
-		//$this->setRedirect( 'index.php?option=com_config', $msg );
-		$this->edit();
+		$this->display();
 	}
 
 	/**
 	 * Cancel operation
 	 */
-	function cancel()
+	public function cancel()
 	{
-		$this->setRedirect( 'index.php' );
+		// Check for request forgeries
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$this->setRedirect('index.php');
 	}
 }

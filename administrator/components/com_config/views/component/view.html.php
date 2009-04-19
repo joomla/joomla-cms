@@ -25,10 +25,10 @@ class ConfigViewComponent extends JView
 	{
 		$model		= &$this->getModel();
 		$params		= &$model->getParams();
-		$component	= JComponentHelper::getComponent(JRequest::getCmd( 'component' ));
+		$component	= JComponentHelper::getComponent(JRequest::getCmd('component'));
 
 		$document = & JFactory::getDocument();
-		$document->setTitle( JText::_('Edit Preferences') );
+		$document->setTitle(JText::_('Edit Preferences'));
 		JHtml::_('behavior.tooltip');
 
 		$this->assignRef('params',		$params);

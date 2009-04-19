@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<!-- @todo hidden fields -->
+<form>
+	<fields>
+		<field
+			id="live_site" name="live_site"
+			label="Live Site"
+			description=""
+			type="hidden"
+			default=""
+			filter="unset"
+		/>
+		<field
+			id="root_user" name="root_user"
+			label="Root User"
+			description=""
+			type="hidden"
+			default="0"
+			filter="unset"
+		/>
+	</fields>
+	<!--  Site Tab -->
+	<fields group="site" label="Site Settings">
+		<field
+			id="offline" name="offline"
+			label="Site Offline"
+			description="TIPSETYOURSITEISOFFLINE"
+			type="radio"
+			default="0"
+			required="true"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		<field
+			id="offline_message" name="offline_message"
+			label="Offline Message"
+			description="TIPIFYOURSITEISOFFLINE"
+			type="textarea"
+			cols="50" rows="2"
+			default=""
+			filter="raw"
+		/>
+		<field
+			id="sitename" name="sitename"
+			label="Site Name"
+			description="TIPSITENAME"
+			type="text"
+			class="inputbox"
+			size="50"
+			default=""
+		/>
+		<field
+			id="editor" name="editor"
+			label="Default WYSIWYG Editor"
+			description="TIPDEFWYSIWYG"
+			type="editors"
+			default="tinymce"
+		/>
+		<field
+			id="list_limit" name="list_limit"
+			label="List Length"
+			description="TIPSETSDEFAULTLENGTHLISTS"
+			type="list"
+			default="20"
+		>
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="20">20</option>
+			<option value="25">25</option>
+			<option value="30">30</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+		</field>
+		<field
+			id="feed_limit" name="feed_limit"
+			label="Feed Length"
+			description="TIPFEEDLIMIT"
+			type="list"
+			default="10"
+		>
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="20">20</option>
+			<option value="25">25</option>
+			<option value="30">30</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+		</field>
+		<field
+			id="feed_email" name="feed_email"
+			label="Feed Email"
+			description="TIPFEEDEMAIL"
+			type="list"
+			default="author"
+		>
+			<option value="author">Author Email</option>
+			<option value="site">Site Email</option>
+		</field>
+	</fields>
+
+	<fields group="metadata" label="Metadata Settings">
+		<field
+			id="MetaDesc" name="MetaDesc"
+			label="Global Site Meta Description"
+			description="TIPGLOBALSITEMETATADESC"
+			type="textarea"
+			cols="50" rows="3"
+			default=""
+		/>
+		<field
+			id="MetaKeys" name="MetaKeys"
+			label="Global Site Meta Keywords"
+			description="TIPGLOBALSITEMETAKEY"
+			type="textarea"
+			cols="50" rows="3"
+			default=""
+		/>
+		<field
+			id="MetaTitle" name="MetaTitle"
+			label="Show Title Meta Tag"
+			description="TIPSHOWTITLEMETATAGITEMS"
+			type="radio"
+			default="1"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		<field
+			id="MetaAuthor" name="MetaAuthor"
+			label="Show Author Meta Tag"
+			description="TIPSHOWAUTHORMETATAGITEMS"
+			type="radio"
+			default="1"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+	</fields>
+	<fields group="seo" label="SEO Settings">
+		<field
+			id="sef" name="sef"
+			label="Search Engine Friendly URLs"
+			description="Search Engine Optimization Settings"
+			type="radio"
+			default="0"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		<field
+			id="sef_rewrite" name="sef_rewrite"
+			label="Use mod_rewrite"
+			description="TIPUSEMODREWRITE"
+			type="radio"
+			default="0"
+			annotation="WARNAPACHEONLY"
+			warning="true"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		<field
+			id="sef_suffix" name="sef_suffix"
+			label="Add suffix to URLs"
+			description="TIPURLSUFFIX"
+			type="radio"
+			default="0"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+	</fields>
+	<!-- System Tab -->
+	<fields group="system" label="System Settings">
+		<fields
+			id="secret" name="secret"
+			label="Secret Word"
+			description="TIPSECRETWORD"
+			size="50"
+			type="text"
+			class="readonly"
+			readonly="true"
+		/>
+		<fields
+			id="log_path" name="log_path"
+			label="Path to Log-folder"
+			description="TIPLOGFOLDER"
+			size="50"
+			type="text"
+		/>
+		<field
+			id="xmlrpc_server" name="xmlrpc_server"
+			label="Enable Web Services"
+			description="TIPENABLEWEBSERVICES"
+			type="radio"
+			default="0"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		<field
+			id="helpurl" name="helpurl"
+			label="Help Server"
+			description="TIPHELPSERVER"
+			type="helpurl"
+			default="local"
+		/>
+	</fields>
+	<fields group="debug" label="Debug Settings">
+		<field
+			id="debug" name="debug"
+			label="Debug System"
+			description="TIPDEBUGGINGINFO"
+			type="radio"
+			default="0"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		<field
+			id="debug_lang" name="debug_lang"
+			label="Debug Language"
+			description="TIPDEBUGLANGUAGE"
+			type="radio"
+			default="0"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+	</fields>
+	<fields group="cache" label="Cache Settings">
+		<field
+			id="caching" name="caching"
+			label="Cache"
+			description="TIPCACHE"
+			type="radio"
+			default="0"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		<field
+			id="cachetime" name="cachetime"
+			label="Cache Time"
+			description="TIPCACHETIME"
+			type="text"
+			size="5"
+			default="15"
+			annotation="Minutes"
+		/>
+		<field
+			id="cache_handler" name="cache_handler"
+			label="Cache Handler"
+			description="TIPCACHEHANDLER"
+			type="cachehandlers"
+			default="file"
+			size="5"
+		/>
+	</fields>
+	<fields group="memcache" label="Memcache Settings">
+		<field
+			id="memcache_persistent" name="memcache_persistent"
+			label="Memcache Persistent"
+			description=""
+			type="radio"
+			default="0"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		<field
+			id="memcache_compression" name="memcache_compression"
+			label="Memcache Persistent"
+			description=""
+			type="radio"
+			default="0"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		<field
+			id="memcache_host" name="memcache_host"
+			label="Host"
+			description=""
+			type="text"
+			size="25"
+			default=""
+		/>
+		<field
+			id="memcache_port" name="memcache_port"
+			label="Port"
+			description=""
+			type="text"
+			size="6"
+			default=""
+		/>
+	</fields>
+	<fields group="session" label="Session Settings">
+		<field
+			id="lifetime" name="lifetime"
+			label="Session Lifetime"
+			description="TIPAUTOLOGOUTTIMEOF"
+			type="text"
+			size="5"
+			default="15"
+			annotation="Minutes"
+		/>
+		<field
+			id="session_handler" name="session_handler"
+			label="Session Handler"
+			description="TIPSESSIONHANDLER"
+			type="sessionhandlers"
+			size="5"
+			default="none"
+		/>
+	</fields>
+	<!-- Server Tab -->
+	<fields group="server" label="Server Settings">
+		<field
+			id="tmp_path" name="tmp_path"
+			label="Path to Temp-folder"
+			description="TIPTMPFOLDER"
+			type="text"
+			size="50"
+			default=""
+		/>
+		<field
+			id="gzip" name="gzip"
+			label="GZIP Page Compression"
+			description="Compress buffered output if supported"
+			type="radio"
+			default="0"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		<field
+			id="error_reporting" name="error_reporting"
+			label="Error Reporting"
+			description="TIPERRORREPORTING"
+			type="errorreporting"
+			size="50"
+			default="-1"
+		/>
+		<field
+			id="force_ssl" name="force_ssl"
+			label="Force SSL"
+			description="TIPFORCESSL"
+			type="list"
+			default="0"
+		>
+			<option value="0">None</option>
+			<option value="1">Administrator Only</option>
+			<option value="2">Entire Site</option>
+		</field>
+	</fields>
+	<fields group="locale" label="Locale Settings">
+		<field
+			id="offset" name="offset"
+			label="Time Zone"
+			description="TIPDATETIMEDISPLAY"
+			type="timezones"
+			size="50"
+			default="0"
+		/>
+	</fields>
+	<fields group="ftp" label="FTP Settings">
+		<field
+			id="ftp_enable" name="ftp_enable"
+			label="Enable FTP"
+			description="TIPENABLEFTP"
+			type="radio"
+			default="0"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		<field
+			id="ftp_host" name="ftp_host"
+			label="FTP Host"
+			description="TIPFTPHOST"
+			type="text"
+			size="25"
+			default=""
+		/>
+		<field
+			id="ftp_port" name="ftp_port"
+			label="FTP Port"
+			description="TIPFTPPORT"
+			type="text"
+			size="25"
+			default=""
+		/>
+		<field
+			id="ftp_user" name="ftp_user"
+			label="FTP Username"
+			description="TIPFTPUSERNAME"
+			type="text"
+			size="25"
+			default=""
+		/>
+		<field
+			id="ftp_pass" name="ftp_pass"
+			label="FTP Password"
+			description="TIPFTPPASSWORD"
+			type="text"
+			size="25"
+			default=""
+			filter="raw"
+		/>
+		<field
+			id="ftp_root" name="ftp_root"
+			label="FTP Root"
+			description="TIPFTPROOT"
+			type="text"
+			size="50"
+			default=""
+		/>
+	</fields>
+	<fields group="database" label="Database Settings">
+		<field
+			id="dbtype" name="dbtype"
+			label="Database type"
+			description="TIPDTATABASETYPE"
+			type="text"
+			size="50"
+			default=""
+		/>
+		<field
+			id="host" name="host"
+			label="Hostname"
+			description="TIPDATABASEHOSTNAME"
+			type="text"
+			size="50"
+			default=""
+		/>
+		<field
+			id="user" name="user"
+			label="Username"
+			description="TIPDATABASEUSERNAME"
+			type="text"
+			size="50"
+			default=""
+		/>
+		<field
+			id="db" name="db"
+			label="Database"
+			description="TIPDATABASENAME"
+			type="text"
+			size="50"
+			default=""
+		/>
+		<field
+			id="dbprefix" name="dbprefix"
+			label="Database Prefix"
+			description="TIPDATABASEPREFIX"
+			type="text"
+			size="10"
+			default=""
+			annotation="WARNDONOTCHANGEDATABASETABLESPREFIX"
+			warning="true"
+		/>
+	</fields>
+	<fields group="mail" label="Mail Settings">
+		<field
+			id="mailer" name="mailer"
+			label="Mailer"
+			description="TIPMAILER"
+			type="list"
+			default="mail"
+		>
+			<option value="mail">PHP mail function</option>
+			<option value="sendmail">Sendmail</option>
+			<option value="smtp">SMTP Server</option>
+		</field>
+		<field
+			id="mailfrom" name="mailfrom"
+			label="Mail From"
+			description="TIPMAILFROM"
+			type="text"
+			size="25"
+			default=""
+		/>
+		<field
+			id="fromname" name="fromname"
+			label="From Name"
+			description="TIPFROMNAME"
+			type="text"
+			size="25"
+			default=""
+		/>
+		<field
+			id="sendmail" name="sendmail"
+			label="Sendmail Path"
+			description="TIPSENDMAILPATH"
+			type="text"
+			size="25"
+			default=""
+		/>
+		<field
+			id="smtpauth" name="smtpauth"
+			label="SMTP Authentication"
+			description="TIPSMTPAUTH"
+			type="radio"
+			default="0"
+		>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</field>
+		<field
+			id="smtpuser" name="smtpuser"
+			label="SMTP Username"
+			description="TIPSMTPUSER"
+			type="text"
+			size="25"
+			default=""
+		/>
+		<field
+			id="smtppass" name="smtppass"
+			label="SMTP Password"
+			description="TIPSMTPPASS"
+			type="text"
+			size="25"
+			default=""
+			filter="raw"
+		/>
+		<field
+			id="smtphost" name="smtphost"
+			label="SMTP Host"
+			description="TIPSMTPHOST"
+			type="text"
+			size="25"
+			default=""
+		/>
+	</fields>
+</form>
