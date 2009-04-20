@@ -43,36 +43,23 @@ class JFormFieldCategories extends JFormFieldList
 			$published = null;
 		}
 
-		if ($extension == 'content') {
-			// This might get a conflict with the dynamic translation - TODO: search for better solution
+		if (!empty($extension)) {
 			$db->setQuery(
-				'SELECT c.id AS value, CONCAT_WS("/",s.title, c.title) AS text' .
+				'SELECT c.id AS value, c.title AS text' .
 				' FROM #__categories AS c' .
-				' LEFT JOIN #__sections AS s ON s.id=c.section' .
-				' WHERE s.scope = '.$db->Quote($section).
-				($published !== null ? ' AND published = '.(int) $published : '').
-				' ORDER BY s.title, c.title'
-			);
-		}
-		else if (!empty($section))
-		{
-			$db->setQuery(
-				'SELECT c.id AS value, c.title As text' .
-				' FROM #__categories AS c' .
-				' WHERE c.section = '.$db->Quote($section).
+				' WHERE c.extension = '.$db->Quote($extension).
 				($published !== null ? ' AND published = '.(int) $published : '').
 				' ORDER BY c.title'
 			);
 		}
 		else {
-			JError::raiseWarning(500, JText::_('JFramework_Form_Fields_Category_Error_section_empty'));
+			JError::raiseWarning(500, JText::_('JFramework_Form_Fields_Category_Error_extension_empty'));
 		}
 
 		try {
 			$options = $db->loadObjectList();
 		}
-		catch(JException $e)
-		{
+		catch(JException $e) {
 			$options = array();
 			if ($db->getErrorNum()) {
 			}

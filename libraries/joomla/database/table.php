@@ -10,6 +10,8 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
+JLoader::register('JTableAsset', dirname(__FILE__).DS.'table'.DS.'asset.php');
+
 /**
  * Abstract Table class
  *
