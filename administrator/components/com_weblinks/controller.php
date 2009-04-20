@@ -8,8 +8,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
-
 /**
  * Weblinks Weblink Controller
  *
@@ -19,7 +17,7 @@ jimport('joomla.application.component.controller');
  */
 class WeblinksController extends JController
 {
-	function display()
+	public function display()
 	{
 		// Get the document object.
 		$document = &JFactory::getDocument();
@@ -30,10 +28,8 @@ class WeblinksController extends JController
 		$lName		= JRequest::getWord('layout', 'default');
 
 		// Get and render the view.
-		if ($view = &$this->getView($vName, $vFormat))
-		{
-			switch ($vName)
-			{
+		if ($view = &$this->getView($vName, $vFormat)) {
+			switch ($vName) {
 				default:
 					$model = &$this->getModel($vName);
 					break;

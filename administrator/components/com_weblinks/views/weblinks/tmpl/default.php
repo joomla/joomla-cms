@@ -1,12 +1,4 @@
-<?php
-/**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Weblinks
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
- */
-
+<?php /** $Id$ */
 defined('_JEXEC') or die('Restricted access');
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');

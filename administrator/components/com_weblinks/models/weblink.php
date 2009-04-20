@@ -10,9 +10,6 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.modelitem');
 
-// Add a table include path.
-JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
-
 /**
  * Weblinks Component Weblink Model
  *
@@ -25,7 +22,7 @@ class WeblinksModelWeblink extends JModelItem
 	/**
 	 * Override to get the weblink table
 	 */
-	function &getTable()
+	public function &getTable()
 	{
 		return JTable::getInstance('Weblink', 'WeblinksTable');
 	}
@@ -55,9 +52,6 @@ class WeblinksModelWeblink extends JModelItem
 			$this->setState('weblink.id', $weblinkId);
 		}
 
-		// Add the Member id to the context to preserve sanity.
-		$context	= 'com_weblinks.weblink.'.$weblinkId.'.';
-
 		// Load the parameters.
 		$this->setState('params', $params);
 	}
@@ -84,7 +78,7 @@ class WeblinksModelWeblink extends JModelItem
 			return true;
 		}
 
-		// Get a LabelsTableLabels instance.
+		// Get a WeblinksTableWeblink instance.
 		$table = &$this->getTable();
 
 		// Attempt to check-in the row.
@@ -100,9 +94,9 @@ class WeblinksModelWeblink extends JModelItem
 	}
 
 	/**
-	 * Method to check-out a label for editing.
+	 * Method to check-out a weblink for editing.
 	 *
-	 * @param	int		$weblinkId	The numeric id of the label to check-out.
+	 * @param	int		$weblinkId	The numeric id of the weblink to check-out.
 	 * @return	bool	False on failure or error, success otherwise.
 	 * @since	1.6
 	 */
@@ -178,10 +172,10 @@ class WeblinksModelWeblink extends JModelItem
 	 * Method to get the group form.
 	 *
 	 * @access	public
-	 * @return	mixed	JXForm object on success, false on failure.
+	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.0
 	 */
-	function &getForm()
+	public function &getForm()
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
@@ -189,8 +183,8 @@ class WeblinksModelWeblink extends JModelItem
 
 		// Get the form.
 		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
+		JForm::addFormPath(JPATH_COMPONENT.DS.'models'.DS.'forms');
+		JForm::addFieldPath(JPATH_COMPONENT.DS.'models'.DS.'fields');
 		$form = &JForm::getInstance('jform', 'weblink', true, array('array' => true));
 
 		// Check for an error.
@@ -210,37 +204,34 @@ class WeblinksModelWeblink extends JModelItem
 		return $form;
 	}
 
-	function save($data)
+	public function save($data)
 	{
-		$weblinkId	= (int)$this->getState('weblink.id');
+		$weblinkId	= (int) $this->getState('weblink.id');
 		$isNew		= true;
 
 		$dispatcher = &JDispatcher::getInstance();
 		JPluginHelper::importPlugin('content');
 
-		// Get a label row instance.
+		// Get a weblink row instance.
 		$table = &$this->getTable();
 
 		// Load the row if saving an existing item.
-		if ($weblinkId > 0)
-		{
+		if ($weblinkId > 0) {
 			$table->load($weblinkId);
 			$isNew = false;
 		}
 
 		// Bind the data
-		if (!$table->bind($data))
-		{
+		if (!$table->bind($data)) {
 			$this->setError(JText::sprintf('JTable_Error_Bind_failed', $table->getError()));
 			return false;
 		}
 
 		// Prepare the row for saving
-		$table = $this->_prepareTable($table);
+		$this->_prepareTable($table);
 
 		// Check the data
-		if (!$table->check())
-		{
+		if (!$table->check()) {
 			$this->setError($table->getError());
 			return false;
 		}
@@ -255,19 +246,18 @@ class WeblinksModelWeblink extends JModelItem
 		}
 
 		// Store the data
-		if (!$table->store())
-		{
+		if (!$table->store()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
-		// Trigger the onAfterLabelSave event.
+		// Trigger the onAfterContentSave event.
 		$dispatcher->trigger('onAfterContentSave', array(&$table, $isNew));
 
 		return $table->id;
 	}
 
-	function _prepareTable($table)
+	protected function _prepareTable(&$table)
 	{
 		jimport('joomla.filter.output');
 		$date = &JFactory::getDate();
@@ -280,17 +270,12 @@ class WeblinksModelWeblink extends JModelItem
 			$table->alias = JFilterOutput::stringURLSafe($table->title);
 		}
 
-		if (empty($table->id))
-		{
+		if (empty($table->id)) {
 			// Set the values
-			//$table->created				= $date->toMySQL();
-			//$table->created_by			= $user->get('id');
-			//$table->created_by_alias	= $user->get('name');
-			//$table->created_date
+			//$table->created	= $date->toMySQL();
 
 			// Set ordering to the last item if not set
-			if (empty($table->ordering))
-			{
+			if (empty($table->ordering)) {
 				$db = &JFactory::getDBO();
 				$db->setQuery('SELECT MAX(ordering) FROM #__weblinks');
 				$max = $db->loadResult();
@@ -298,18 +283,12 @@ class WeblinksModelWeblink extends JModelItem
 				$table->ordering = $max+1;
 			}
 		}
-		else
-		{
+		else {
 			// Set the values
 			//$table->modified	= $date->toMySQL();
 			//$table->modified_by	= $user->get('id');
 		}
-
-		return $table;
 	}
-
-
-	// ====
 
 	/**
 	 * Tests if weblink is checked out
@@ -319,37 +298,48 @@ class WeblinksModelWeblink extends JModelItem
 	 * @return	boolean	True if checked out
 	 * @since	1.5
 	 */
-	function isCheckedOut($uid=0)
+	public function isCheckedOut($userId = 0)
 	{
-		if ($this->_id)
-		{
-			$weblink = & $this->getTable();
-			if (!$weblink->load($this->_id)) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-			return $weblink->isCheckedOut($uid);
+		if ($userId === 0) {
+			$user		= &JFactory::getUser();
+			$userId		= (int) $user->get('id');		
 		}
+
+		$weblinkId = (int) $this->getState('weblink.id');
+
+		if (empty($weblinkId)) {
+			return true;
+		}
+		
+		$table = &$this->getTable();
+		
+		$return = $table->load($weblinkId);
+
+		if ($return === false && $table->getError()) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		return $table->isCheckedOut($userId);
 	}
 
 	/**
-	 * Method to delete labels from the database.
+	 * Method to delete weblinks from the database.
 	 *
 	 * @param	integer	$cid	An array of	numeric ids of the rows.
 	 * @return	boolean	True on success/false on failure.
 	 */
 	public function delete($cid)
 	{
-		// Get a labels row instance
+		// Get a weblink row instance
 		$table = $this->getTable();
 
-		for ($i = 0, $c = count($cid); $i < $c; $i++)
-		{
+		for ($i = 0, $c = count($cid); $i < $c; $i++) {
 			// Load the row.
 			$return = $table->load($cid[$i]);
 
 			// Check for an error.
-			if ($return == false) {
+			if ($return === false) {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -358,7 +348,7 @@ class WeblinksModelWeblink extends JModelItem
 			$return = $table->delete();
 
 			// Check for an error.
-			if ($return == false) {
+			if ($return === false) {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -376,8 +366,14 @@ class WeblinksModelWeblink extends JModelItem
 	 */
 	public function reorder($weblinkId, $direction)
 	{
-		// Get a LabelsTableLabels instance.
+		// Get a WeblinksTableWeblink instance.
 		$table = &$this->getTable();
+		
+		$weblinkId	= (int) $weblinkId;
+
+		if ($weblinkId === 0) {
+			$weblinkId = $this->getState('weblink.id');
+		}
 
 		// Attempt to check-out and move the row.
 		if (!$this->checkout($weblinkId)) {

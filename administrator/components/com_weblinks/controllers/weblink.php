@@ -71,33 +71,29 @@ class WeblinksControllerWeblink extends JController
 		$model	= &$this->getModel('Weblink', 'WeblinksModel');
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 
-		// Get the previous label id (if any) and the current label id.
-		$previousId	= (int) $app->getUserState('com_weblinks.edit.label.id');
+		// Get the previous weblink id (if any) and the current weblink id.
+		$previousId		= (int) $app->getUserState('com_weblinks.edit.weblink.id');
 		$weblinkId		= (int) (count($cid) ? $cid[0] : JRequest::getInt('weblink_id'));
 
-		// If label ids do not match, checkin previous label.
-		if (($previousId > 0) && ($weblinkId != $previousId))
-		{
-			if (!$model->checkin($previousId))
-			{
-				// Check-in failed, go back to the label and display a notice.
+		// If weblink ids do not match, checkin previous weblink.
+		if (($previousId > 0) && ($weblinkId != $previousId)) {
+			if (!$model->checkin($previousId)) {
+				// Check-in failed, go back to the weblink and display a notice.
 				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
 				$this->setRedirect('index.php?option=com_weblinks&view=weblink&layout=edit', $message, 'error');
 				return false;
 			}
 		}
 
-		// Attempt to check-out the new label for editing and redirect.
-		if (!$model->checkout($weblinkId))
-		{
+		// Attempt to check-out the new weblink for editing and redirect.
+		if (!$model->checkout($weblinkId)) {
 			// Check-out failed, go back to the list and display a notice.
 			$message = JText::sprintf('JError_Checkout_failed', $model->getError());
-			$this->setRedirect('index.php?option=com_weblinks&view=weblink&label_id='.$weblinkId, $message, 'error');
+			$this->setRedirect('index.php?option=com_weblinks&view=weblink&weblink_id='.$weblinkId, $message, 'error');
 			return false;
 		}
-		else
-		{
-			// Check-out succeeded, push the new label id into the session.
+		else {
+			// Check-out succeeded, push the new weblink id into the session.
 			$app->setUserState('com_weblinks.edit.weblink.id',	$weblinkId);
 			$app->setUserState('com_weblinks.edit.weblink.data', null);
 			$this->setRedirect('index.php?option=com_weblinks&view=weblink&layout=edit');
@@ -120,15 +116,13 @@ class WeblinksControllerWeblink extends JController
 		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('Weblink', 'WeblinksModel');
 
-		// Get the label id.
-		$weblinkId = (int) $app->getUserState('com_weblinks.edit.label.id');
+		// Get the weblink id.
+		$weblinkId = (int) $app->getUserState('com_weblinks.edit.weblink.id');
 
-		// Attempt to check-in the current label.
-		if ($weblinkId)
-		{
-			if (!$model->checkin($weblinkId))
-			{
-				// Check-in failed, go back to the label and display a notice.
+		// Attempt to check-in the current weblink.
+		if ($weblinkId) {
+			if (!$model->checkin($weblinkId)) {
+				// Check-in failed, go back to the weblink and display a notice.
 				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
 				$this->setRedirect('index.php?option=com_weblinks&view=weblink&layout=edit&hidemainmenu=1', $message, 'error');
 				return false;
@@ -162,14 +156,12 @@ class WeblinksControllerWeblink extends JController
 		$data = $model->validate($data);
 
 		// Check for validation errors.
-		if ($data === false)
-		{
+		if ($data === false) {
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
 				if (JError::isError($errors[$i])) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
 				} else {
@@ -178,40 +170,35 @@ class WeblinksControllerWeblink extends JController
 			}
 
 			// Save the data in the session.
-			$app->setUserState('com_weblinks.edit.label.data', $data);
+			$app->setUserState('com_weblinks.edit.weblink.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit&hidemainmenu=1', false));
 			return false;
 		}
 
-		// Attempt to save the label.
+		// Attempt to save the weblink.
 		$return = $model->save($data);
 
-		if ($return === false)
-		{
-			// Save failed, go back to the label and display a notice.
+		if ($return === false) {
+			// Save failed, go back to the weblink and display a notice.
 			$message = JText::sprintf('JError_Save_failed', $model->getError());
 			$this->setRedirect('index.php?option=com_weblinks&view=weblink&layout=edit&hidemainmenu=1', $message, 'error');
 			return false;
 		}
 
-		// Save succeeded, check-in the label.
-		if (!$model->checkin())
-		{
-			// Check-in failed, go back to the label and display a notice.
+		// Save succeeded, check-in the weblink.
+		if (!$model->checkin()) {
+			// Check-in failed, go back to the weblink and display a notice.
 			$message = JText::sprintf('JError_Checkin_saved', $model->getError());
 			$this->setRedirect('index.php?option=com_weblinks&view=weblink&layout=edit&hidemainmenu=1', $message, 'error');
 			return false;
 		}
 
-		// Clean the session data.
-		$app->setUserState('com_weblinks.edit.label.id', null);
 		$this->setMessage(JText::_('JController_Save_success'));
 
 		// Redirect the user and adjust session state based on the chosen task.
-		switch ($this->_task)
-		{
+		switch ($this->_task) {
 			case 'apply':
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit', false));

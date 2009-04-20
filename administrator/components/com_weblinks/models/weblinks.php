@@ -10,11 +10,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 jimport('joomla.database.query');
 
-// Add a table include path.
-JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
-
 /**
- * Members Model for JXtended Members.
+ * Weblinks Model Class
  *
  * @package		Joomla.Administrator
  * @subpackage	Weblinks
@@ -28,7 +25,7 @@ class WeblinksModelWeblinks extends JModelList
 	 * @access	protected
 	 * @var		string
 	 */
-	 var $_context = 'weblinks.weblinks';
+	 protected $_context = 'com_weblinks.weblinks';
 
 	/**
 	 * Method to build an SQL query to load the list data.
@@ -68,14 +65,13 @@ class WeblinksModelWeblinks extends JModelList
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 		if (!empty($search)) {
-			$search = $db->Quote( $db->getEscaped( $search, true ).'%', false );
-			$query->where('(a.title LIKE '.$search);
+			$search = $this->_db->Quote('%'.$this->_db->getEscaped( $search, true ).'%', false);
+			$query->where('(a.title LIKE '.$search.')');
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.username')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query->toString())).'<hr/>';
 		return $query;
 	}
 
@@ -119,9 +115,8 @@ class WeblinksModelWeblinks extends JModelList
 	{
 		// Initialize variables.
 		$app		= &JFactory::getApplication('administrator');
-		$user		= &JFactory::getUser();
-		$params		= JComponentHelper::getParams('com_members');
-		$context	= 'com_members.members.';
+		$params		= JComponentHelper::getParams('com_weblinks');
+		$context	= $this->_context.'.';
 
 		// Load the filter state.
 		$this->setState('filter.search', $app->getUserStateFromRequest($context.'filter.search', 'filter_search', ''));
@@ -131,13 +126,8 @@ class WeblinksModelWeblinks extends JModelList
 		// Load the list state.
 		$this->setState('list.start', $app->getUserStateFromRequest($context.'list.start', 'limitstart', 0, 'int'));
 		$this->setState('list.limit', $app->getUserStateFromRequest($context.'list.limit', 'limit', $app->getCfg('list_limit', 25), 'int'));
-		$this->setState('list.ordering', $app->getUserStateFromRequest($context.'list.ordering', 'filter_order', 'a.id', 'cmd'));
+		$this->setState('list.ordering', $app->getUserStateFromRequest($context.'list.ordering', 'filter_order', 'a.ordering', 'cmd'));
 		$this->setState('list.direction', $app->getUserStateFromRequest($context.'list.direction', 'filter_order_Dir', 'ASC', 'word'));
-
-		// Load the user parameters.
-		$this->setState('user',	$user);
-		$this->setState('user.id', (int) $user->id);
-		$this->setState('user.aid', (int )$user->get('aid'));
 
 		// Load the check parameters.
 		if ($this->_state->get('filter.state') === '*') {
@@ -150,29 +140,26 @@ class WeblinksModelWeblinks extends JModelList
 		$this->setState('params', $params);
 	}
 
-	function setStates($cid, $state = 0)
+	public function setStates($cid, $state = 0)
 	{
 		$user = &JFactory::getUser();
 
-		// Get a labels row instance.
+		// Get a weblinks row instance.
 		$table = JTable::getInstance('Weblink', 'WeblinksTable');
 
 		// Update the state for each row
-		for ($i=0; $i < count($cid); $i++)
-		{
+		foreach ($cid as $id) {
 			// Load the row.
-			$table->load($cid[$i]);
+			$table->load($id);
 
-			// Make sure the label isn't checked out by someone else.
-			if ($table->checked_out != 0 && $table->checked_out != $user->id)
-			{
-				$this->setError(JText::sprintf('LABELS_LABEL_CHECKED_OUT', $cid[$i]));
+			// Make sure the weblink isn't checked out by someone else.
+			if ($table->checked_out != 0 && $table->checked_out != $user->id) {
+				$this->setError(JText::sprintf('WEBLINKS_WEBLINK_CHECKED_OUT', $id));
 				return false;
 			}
 
 			// Check the current ordering.
-			if ($table->state != $state)
-			{
+			if ($table->state != $state) {
 				// Set the new ordering.
 				$table->state = $state;
 

@@ -22,7 +22,6 @@ class WeblinksViewWeblinks extends JView
 	public $state;
 	public $items;
 	public $pagination;
-	public $filter_state;
 
 	/**
 	 * Display the view

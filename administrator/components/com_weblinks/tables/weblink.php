@@ -22,82 +22,82 @@ class WeblinksTableWeblink extends JTableAsset
 	 *
 	 * @var int
 	 */
-	var $id = null;
+	protected $id = null;
 
 	/**
 	 * @var int
 	 */
-	var $catid = null;
+	protected $catid = null;
 
 	/**
 	 * @var int
 	 */
-	var $sid = null;
+	protected $sid = null;
 
 	/**
 	 * @var string
 	 */
-	var $title = null;
+	protected $title = null;
 
 	/**
 	 * @var string
 	 */
-	var $alias = null;
+	protected $alias = null;
 
 	/**
 	 * @var string
 	 */
-	var $url = null;
+	protected $url = null;
 
 	/**
 	 * @var string
 	 */
-	var $description = null;
+	protected $description = null;
 
 	/**
 	 * @var datetime
 	 */
-	var $date = null;
+	protected $date = null;
 
 	/**
 	 * @var int
 	 */
-	var $hits = null;
+	protected $hits = null;
 
 	/**
 	 * @var int
 	 */
-	var $state = null;
+	protected $state = null;
 
 	/**
 	 * @var boolean
 	 */
-	var $checked_out = 0;
+	protected $checked_out = 0;
 
 	/**
 	 * @var time
 	 */
-	var $checked_out_time = 0;
+	protected $checked_out_time = 0;
 
 	/**
 	 * @var int
 	 */
-	var $ordering = null;
+	protected $ordering = null;
 
 	/**
 	 * @var int
 	 */
-	var $archived = null;
+	protected $archived = null;
 
 	/**
 	 * @var int
 	 */
-	var $approved = null;
+	protected $approved = null;
 
 	/**
 	 * @var string
 	 */
-	var $params = null;
+	protected $params = null;
 
 	/**
 	 * Constructor
@@ -105,7 +105,7 @@ class WeblinksTableWeblink extends JTableAsset
 	 * @param object Database connector object
 	 * @since 1.0
 	 */
-	function __construct(& $db)
+	protected function __construct(& $db)
 	{
 		parent::__construct('#__weblinks', 'id', $db);
 	}
@@ -168,7 +168,7 @@ class WeblinksTableWeblink extends JTableAsset
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function check()
+	public function check()
 	{
 		if (JFilterInput::checkAttribute(array ('href', $this->url))) {
 			$this->setError(JText::_('Please provide a valid URL'));

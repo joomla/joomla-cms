@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage	Weblinks
  * @version		1.6
  */
-class WeblinksControllerWeblinks extends WeblinksController
+class WeblinksControllerWeblinks extends JController
 {
 	/**
 	 * Constructor.
@@ -49,18 +49,16 @@ class WeblinksControllerWeblinks extends WeblinksController
 		// Sanitize the input.
 		JArrayHelper::toInteger($cid);
 
-		// Attempt to delete the labels.
+		// Attempt to delete the weblinks
 		$return = $model->delete($cid);
 
-		// Delete the labels
-		if ($return === false)
-		{
+		// Delete the weblinks
+		if ($return === false) {
 			$message = JText::sprintf('JError_Occurred', $model->getError());
 			$this->setRedirect('index.php?option=com_weblinks&view=weblinks', $message, 'error');
 			return false;
 		}
-		else
-		{
+		else {
 			$message = JText::_('JSuccess_N_items_deleted');
 			$this->setRedirect('index.php?option=com_weblinks&view=weblinks', $message);
 			return true;
@@ -76,7 +74,7 @@ class WeblinksControllerWeblinks extends WeblinksController
 	{
 		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
 
-		$model	= &$this->getModel('Weblinks', 'WeblinksModel');
+		$model	= &$this->getModel('Weblinks');
 		$cid	= JRequest::getVar('cid', null, 'post', 'array');
 
 		JArrayHelper::toInteger($cid);
@@ -102,14 +100,12 @@ class WeblinksControllerWeblinks extends WeblinksController
 
 		$return = $model->setStates($cid, $value);
 
-		if ($return === false)
-		{
+		if ($return === false) {
 			$message = JText::sprintf('JError_Occurred', $model->getError());
 			$this->setRedirect('index.php?option=com_weblinks&view=weblinks', $message, 'error');
 			return false;
 		}
-		else
-		{
+		else {
 			$message = $value ? JText::_('JSuccess_N_items_published') : JText::_('JSuccess_N_items_unpublished');
 			$this->setRedirect('index.php?option=com_weblinks&view=weblinks', $message);
 			return true;
@@ -121,30 +117,28 @@ class WeblinksControllerWeblinks extends WeblinksController
 	 *
 	 * @return	bool	False on failure or error, true on success.
 	 */
-	function reorder()
+	public function reorder()
 	{
 		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
-		$model	= &$this->getModel('Weblink', 'WeblinksModel');
+		$model	= &$this->getModel('Weblink');
 		$cid	= JRequest::getVar('cid', null, 'post', 'array');
 
-		// Get the label id.
+		// Get the weblink id.
 		$weblinkId = (int) $cid[0];
 
 		// Attempt to move the row.
 		$return = $model->reorder($weblinkId, $this->getTask() == 'orderup' ? -1 : 1);
 
-		if ($return === false)
-		{
-			// Move failed, go back to the label and display a notice.
+		if ($return === false) {
+			// Move failed, go back to the weblink and display a notice.
 			$message = JText::sprintf('JError_Reorder_failed', $model->getError());
 			$this->setRedirect('index.php?option=com_weblinks&view=weblinks', $message, 'error');
 			return false;
 		}
-		else
-		{
-			// Move succeeded, go back to the label and display a message.
+		else {
+			// Move succeeded, go back to the weblink and display a message.
 			$message = JText::_('JSuccess_Item_reordered');
 			$this->setRedirect('index.php?option=com_weblinks&view=weblinks', $message);
 			return true;
@@ -170,7 +164,7 @@ class WeblinksControllerWeblinks extends WeblinksController
 		JArrayHelper::toInteger($order);
 
 		// Get the model
-		$model = &$this->getModel('Weblinks', 'WeblinksModel');
+		$model = &$this->getModel('Weblinks');
 
 		// Save the ordering
 		$model->saveorder($cid, $order);
@@ -178,5 +172,4 @@ class WeblinksControllerWeblinks extends WeblinksController
 		$message = JText::_('JSuccess_Ordering_saved');
 		$this->setRedirect('index.php?option=com_weblinks&view=weblinks', $message);
 	}
-
 }

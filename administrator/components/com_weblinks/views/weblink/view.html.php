@@ -56,6 +56,8 @@ class WeblinksViewWeblink extends JView
 	 */
 	protected function _setToolbar()
 	{
+		JRequest::setVar('hidemainmenu', 1);
+		
 		JToolBarHelper::title(JText::_('Weblinks_Manager_Weblink'));
 		JToolBarHelper::addNew('weblink.save2new', 'JToolbar_Save_and_new');
 		JToolBarHelper::apply('weblink.apply');
