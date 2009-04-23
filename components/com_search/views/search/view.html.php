@@ -26,7 +26,7 @@ class SearchViewSearch extends JView
 	{
 		$mainframe = JFactory::getApplication();
 
-		require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php';
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'search.php';
 
 		// Initialize some variables
 		$pathway	=& $mainframe->getPathway();
