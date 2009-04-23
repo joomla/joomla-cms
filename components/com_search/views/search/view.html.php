@@ -90,9 +90,6 @@ class SearchViewSearch extends JView
 		$searchphrases[] = JHtml::_('select.option',  'exact', JText::_( 'Exact phrase' ) );
 		$lists['searchphrase' ]= JHtml::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match') );
 
-		// log the search
-		SearchHelper::logSearch( $searchword);
-
 		//limit searchword
 
 		if(SearchHelper::limitSearchWord($searchword)) {

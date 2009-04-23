@@ -229,26 +229,6 @@ CREATE TABLE `#__content_rating` (
 
 # --------------------------------------------------------
 
-# Table structure for table `#__core_log_items`
-
-CREATE TABLE `#__core_log_items` (
-  `time_stamp` date NOT NULL default '0000-00-00',
-  `item_table` varchar(50) NOT NULL default '',
-  `item_id` int(11) unsigned NOT NULL default '0',
-  `hits` int(11) unsigned NOT NULL default '0'
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-# Table structure for table `#__core_log_searches`
-
-CREATE TABLE `#__core_log_searches` (
-  `search_term` varchar(128) NOT NULL default '',
-  `hits` int(11) unsigned NOT NULL default '0'
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
 #
 # Table structure for table `#__extensions`
 #
@@ -551,24 +531,6 @@ CREATE TABLE `#__stats_agents` (
   `type` tinyint(1) unsigned NOT NULL default '0',
   `hits` int(11) unsigned NOT NULL default '1'
 ) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `#__templates_menu`
-#
-
-CREATE TABLE `#__templates_menu` (
-  `template` varchar(255) NOT NULL default '',
-  `menuid` int(11) NOT NULL default '0',
-  `client_id` tinyint(4) NOT NULL default '0',
-  `params` text NOT NULL,
-  PRIMARY KEY (`menuid`, `client_id`, `template`(255))
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-# Dumping data for table `#__templates_menu`
-INSERT INTO `#__templates_menu` VALUES ('rhuk_milkyway', '0', '0', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
-INSERT INTO `#__templates_menu` VALUES ('khepri', '0', '1', '{"useRoundedCorners":"1","showSiteName":"0","headerColor":"h_green"}');
 
 # --------------------------------------------------------
 

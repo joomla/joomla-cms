@@ -469,6 +469,7 @@ class JUser extends JClass
 
 		$gid = array_key_exists('gid', $array) ? $array['gid'] : $this->get('gid');
 
+/**
 		$query = 'SELECT name'
 		. ' FROM #__core_acl_aro_groups'
 		. ' WHERE id = ' . (int) $gid
@@ -480,7 +481,7 @@ class JUser extends JClass
 		catch (JException $e) {
 			$this->set('usertype', null);
 		}
-
+**/
 		if (array_key_exists('params', $array))
 		{
 			$params	= '';

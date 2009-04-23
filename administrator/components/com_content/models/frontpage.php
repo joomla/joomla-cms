@@ -153,7 +153,6 @@ class ContentModelFrontpage extends JModel
 			. ' FROM #__content AS c'
 			. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
 			. ' INNER JOIN #__content_frontpage AS f ON f.content_id = c.id'
-			. ' INNER JOIN #__core_acl_axo_groups AS g ON g.value = c.access'
 			. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
 			. ' LEFT JOIN #__users AS v ON v.id = c.created_by'
 			. $where
