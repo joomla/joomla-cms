@@ -153,11 +153,6 @@ class ContactViewContact extends JView
 
 		JHtml::_('behavior.formvalidation');
 
-		$captcha = null;
-		if($contact->params->get('show_captcha')) {
-			 $captcha = JHtml::image('index.php?option=com_contact&task=captcha&amp;format=raw&amp;sid=' . md5(uniqid(time())), 'captcha', array('id'=>'captcha-img'));
-		}
-
 		$showFormTitle = false;
 		$showFormTop = false;
 		$showFormLeft = false;
@@ -227,7 +222,6 @@ class ContactViewContact extends JView
 		$this->assignRef('showFormBottom', $showFormBottom);
 		$this->assignRef('params',	$pparams);
 		$this->assignRef('email', $email);
-		$this->assignRef('captcha', $captcha);
 		$this->assignRef('user',	$user);
 		$this->assignRef('data', $data);
 

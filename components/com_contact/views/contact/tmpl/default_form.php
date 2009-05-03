@@ -70,17 +70,6 @@ if ($this->params->get('validate_email_form')=='1') {
 					<?php echo JText::_( 'EMAIL_A_COPY' ); ?>
 				</label>
 			<?php endif; ?>
-			<?php if ($this->contact->params->get('show_captcha')) : ?>
-			<br />
-			<br />
-				<?php echo $this->captcha; ?>
-				<br />
-				<label for="captcha_code">
-					<?php echo JText::_( 'ENTERCODE' ); ?>
-				</label>
-				<br />
-				<input type="text" name="captcha" id="captcha_code" size="5" class="inputbox" value="" />
-			<?php endif; ?>
 			<br />
 			<br />
 			<button class="button validate" type="submit"><?php echo JText::_('SEND'); ?></button>

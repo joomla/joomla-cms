@@ -42,7 +42,6 @@ class ContactModelContact extends JModel
 		$this->_formData->subject = JRequest::getString('subject', '', 'post');
 		$this->_formData->body = JRequest::getString('body', '', 'post');
 		$this->_formData->email_copy = JRequest::getString('email_copy', '', 'post');
-		$this->_formData->captcha = JRequest::getString('captcha', '', 'post');
 	}
 
 	function &getFormData()
@@ -210,7 +209,7 @@ class ContactModelContact extends JModel
 		JPluginHelper::importPlugin( 'contact' );
 		$dispatcher =& JDispatcher::getInstance();
 
-		if  (!$this->_validateInputs( $contact, $this->_formData->email, $this->_formData->subject, $this->_formData->body, $this->_formData->captcha ) ) {
+		if (!$this->_validateInputs($contact, $this->_formData->email, $this->_formData->subject, $this->_formData->body)) {
 			return false;
 		}
 
@@ -264,7 +263,7 @@ class ContactModelContact extends JModel
 		return true;
 	}
 
-	function _validateInputs( $contact, $email, $subject, $body, $captcha ) {
+	function _validateInputs( $contact, $email, $subject, $body ) {
 		$mainframe = JFactory::getApplication();
 
 		$session =& JFactory::getSession();
@@ -328,18 +327,7 @@ class ContactModelContact extends JModel
 			$this->setError( JText::_( 'YOU CANNOT ENTER MORE THAN ONE EMAIL ADDRESS', true ) );
 			return false;
 		}
-		$sc = $params->get('show_captcha');
-		if($sc == '') {
-			$sc = $pparams->get('show_captcha');
-		}
-		if($sc) {
-			require_once JPATH_COMPONENT . DS . 'includes' . DS . 'securimage' . DS . 'securimage.php';
-			$img = new securimage();
-			if($captcha == '' || $img->check($captcha) == false) {
-				$this->setError( JText::_( 'WRONGCODE', true ) );
-				return false;
-			}
-		}
+
 		return true;
 	}
 }
