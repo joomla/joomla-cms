@@ -5443,19 +5443,15 @@ var Accordion = new Class({
  * 
  * Allows you to call JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
  */
-Hash.implement({
-	// Method to get a translated string with an optional default string.
-	_: function(k, d) {
-		return typeof this[k.toUpperCase()] !== 'undefined' ? this[k.toUpperCase()] : d;
+var JText = {
+	strings: {},
+	'_': function(key, def) {
+		return typeof this.strings[key.toUpperCase()] !== 'undefined' ? this.strings[key.toUpperCase()] : def;
 	},
-	
-	// Method to load an object of key/value pairs.
-	load: function(o) {
-		this.combine(o);
+	load: function(object) {
+		for (var key in object) {
+			this.strings[key.toUpperCase()] = object[key];
+		}
+		return this;
 	}
-});
-
-// Instantiate the JText object.
-document.addEvent('domready', function() {
-	JText = new Hash(typeof JText != 'undefined' ? JText : {});
-});
+};
