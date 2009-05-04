@@ -1,15 +1,16 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php if(JPluginHelper::isEnabled('authentication', 'openid')) :
-		$lang = &JFactory::getLanguage();
-		$lang->load( 'plg_authentication_openid', JPATH_ADMINISTRATOR );
-		$langScript = 	'var JLanguage = {};'.
-						' JLanguage.WHAT_IS_OPENID = \''.JText::_( 'WHAT_IS_OPENID' ).'\';'.
-						' JLanguage.LOGIN_WITH_OPENID = \''.JText::_( 'LOGIN_WITH_OPENID' ).'\';'.
-						' JLanguage.NORMAL_LOGIN = \''.JText::_( 'NORMAL_LOGIN' ).'\';'.
-						' var comlogin = 1;';
-		$document = &JFactory::getDocument();
-		$document->addScriptDeclaration( $langScript );
+<?php if (true || JPluginHelper::isEnabled('authentication', 'openid')) :
+		JHtml::_('behavior.mootools');
 		JHtml::_('script', 'openid.js');
+		$langScript = 'window.addEvent("domready", function() { new JOpenID("com-form-login"); });';
+		$document = &JFactory::getDocument();
+		$document->addScriptDeclaration($langScript);
+
+		$lang = &JFactory::getLanguage();
+		$lang->load('plg_authentication_openid', JPATH_ADMINISTRATOR);
+		JText::script('WHAT_IS_OPENID');
+		JText::script('LOGIN_WITH_OPENID');
+		JText::script('NORMAL_LOGIN');
 endif; ?>
 <form action="<?php echo JRoute::_( 'index.php', true, $this->params->get('usesecure')); ?>" method="post" name="com-login" id="com-form-login">
 <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">

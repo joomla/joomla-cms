@@ -14,16 +14,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<input type="hidden" name="return" value="<?php echo $return; ?>" />
 </form>
 <?php else : ?>
-<?php if(JPluginHelper::isEnabled('authentication', 'openid')) :
-		$lang->load( 'plg_authentication_openid', JPATH_ADMINISTRATOR );
-		$langScript = 	'var JLanguage = {};'.
-						' JLanguage.WHAT_IS_OPENID = \''.JText::_( 'WHAT_IS_OPENID' ).'\';'.
-						' JLanguage.LOGIN_WITH_OPENID = \''.JText::_( 'LOGIN_WITH_OPENID' ).'\';'.
-						' JLanguage.NORMAL_LOGIN = \''.JText::_( 'NORMAL_LOGIN' ).'\';'.
-						' var modlogin = 1;';
-		$document = &JFactory::getDocument();
-		$document->addScriptDeclaration( $langScript );
+<?php if (true || JPluginHelper::isEnabled('authentication', 'openid')) :
+		JHtml::_('behavior.mootools');
 		JHtml::_('script', 'openid.js');
+		$langScript = 'window.addEvent("domready", function() { new JOpenID("form-login"); });';
+		$document = &JFactory::getDocument();
+		$document->addScriptDeclaration($langScript);
+
+		$lang = &JFactory::getLanguage();
+		$lang->load('plg_authentication_openid', JPATH_ADMINISTRATOR);
+		JText::script('WHAT_IS_OPENID');
+		JText::script('LOGIN_WITH_OPENID');
+		JText::script('NORMAL_LOGIN');
 endif; ?>
 <form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" >
 	<?php echo $params->get('pretext'); ?>
