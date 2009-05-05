@@ -1,95 +1,80 @@
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	Config
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
+* @copyright		Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 */
 
 /**
- * Switcher behavior for configuration component
+ * Switcher behavior 
  *
- * @package		Joomla.Extensions
- * @subpackage	Config
+ * @package		Joomla
  * @since		1.5
  */
 var JSwitcher = new Class({
-
-	toggler : null, //holds the active toggler
-	page    : null, //holds the active page
+	Implements: [Options, Events],
+	
+	togglers: null,
+	elements: null,
+	current: null,
 
 	options : {
+		onShow: $empty,
+		onHide: $empty,
 		cookieName: 'switcher'
 	},
 
-	initialize: function(toggler, element, options)
-	{
+	initialize: function(toggler, element, options) {
 		this.setOptions(options);
+		this.togglers = $(toggler).getElements('a');
+		this.elements = $(element).getElements('div');
 
-		var self = this;
-
-		togglers = $(toggler).getElements('a');
-		for (i=0; i < togglers.length; i++) {
-			togglers[i].addEvent( 'click', function() { self.switchTo(this); } );
+		if ((this.togglers.length == 0) || (this.togglers.length != this.elements.length)) {
+			return;
 		}
 
-		//hide all
-		elements = $(element).getElements('div');
-		for (i=0; i < elements.length; i++) {
-			this.hide(elements[i])
-		}
+		this.hideAll();
 
-		this.toggler = $(toggler).getElement('a.active');
-		this.page    = $('page-'+ this.toggler.id);
+		this.togglers.each(function(el) {
+			el.addEvent('click', this.display.bind(this, el.id));
+		}.bind(this));
 
-		this.show(this.page);
-		if (this.options.cookieName)
-		{
-			if((page = Cookie.read(this.options.cookieName))) {
-				this.switchTo($(page));
-			}
-		}
+		var first = $pick(Cookie.read(this.options.cookieName), this.togglers[0].id);
+		this.display(first);
 	},
+	
+	display: function(togglerID) {
+		var toggler = $(togglerID);
+		var element = $('page-'+togglerID);
 
-	switchTo: function(toggler)
-	{
-		page = $chk(toggler) ? $('page-'+toggler.id) : null;
-		if(page && page != this.page)
-		{
-			//hide old element
-			if(this.page) {
-				this.hide(this.page);
-			}
-
-			//show new element
-			this.show(page);
-
-			toggler.addClass('active');
-			if (this.toggler) {
-				this.toggler.removeClass('active');
-			}
-			this.page    = page;
-			this.toggler = toggler;
-			Cookie.write(this.options.cookieName, toggler.id);
+		if (!$chk(toggler) || !$chk(element) || toggler == this.current) {
+			return this;
 		}
+
+		if ($chk(this.current)) {
+			this.hide($('page-'+this.current));
+			$(this.current).removeClass('active');
+		}
+
+		this.show(element);
+		toggler.addClass('active');
+
+		this.current = toggler.id;
+		Cookie.write(this.options.cookieName, this.current);
 	},
 
 	hide: function(element) {
+		this.fireEvent('hide', element);
 		element.setStyle('display', 'none');
+	},
+	
+	hideAll: function() {
+		this.elements.each(function(el) {
+			el.setStyle('display', 'none');
+		});
 	},
 
 	show: function (element) {
+		this.fireEvent('show', element);
 		element.setStyle('display', 'block');
 	}
-});
-
-JSwitcher.implement(new Options);
-
-document.switcher = null;
-window.addEvent('domready', function(){
- 	toggler = $('submenu')
-  	element = $('config-document')
-  	if(element) {
-  		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
-  	}
 });

@@ -1,5 +1,5 @@
 /**
- * @version		$Id: modal.js 5263 2006-10-02 01:25:24Z webImagery $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  */
@@ -11,7 +11,6 @@
  *
  * @package		Joomla
  * @since		1.5
- * @version     1.0
  */
 var JOpenID = new Class({
 	state: false,

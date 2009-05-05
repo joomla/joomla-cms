@@ -1,6 +1,13 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
+	JHtml::_('behavior.mootools');
 	JHtml::_('behavior.tooltip');
 	JHtml::_('behavior.switcher');
+	$doc = JFactory::getDocument();
+	$doc->addScriptDeclaration(
+	'window.addEvent("domready", function() {' .
+	'	new JSwitcher($("submenu"), $("config-document"), {cookieName: $("submenu").get("class")})' .
+	'});'
+	);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm">
 <?php if ($this->ftp) {
@@ -36,7 +43,7 @@
 				</td>
 			</tr>
 		</table>
-	</div>
+	</div>	
 	<div id="page-server">
 		<table class="noshow">
 			<tr>
