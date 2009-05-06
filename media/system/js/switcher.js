@@ -20,13 +20,16 @@ var JSwitcher = new Class({
 	options : {
 		onShow: $empty,
 		onHide: $empty,
-		cookieName: 'switcher'
+		cookieName: 'switcher',
+		togglerSelector: 'a',
+		elementSelector: 'div',
+		elementPrefix: 'page-'
 	},
 
 	initialize: function(toggler, element, options) {
 		this.setOptions(options);
-		this.togglers = $(toggler).getElements('a');
-		this.elements = $(element).getElements('div');
+		this.togglers = $(toggler).getElements(this.options.togglerSelector);
+		this.elements = $(element).getElements(this.options.elementSelector);
 
 		if ((this.togglers.length == 0) || (this.togglers.length != this.elements.length)) {
 			return;
@@ -44,14 +47,14 @@ var JSwitcher = new Class({
 	
 	display: function(togglerID) {
 		var toggler = $(togglerID);
-		var element = $('page-'+togglerID);
+		var element = $(this.options.elementPrefix+togglerID);
 
 		if (!$chk(toggler) || !$chk(element) || toggler == this.current) {
 			return this;
 		}
 
 		if ($chk(this.current)) {
-			this.hide($('page-'+this.current));
+			this.hide($(this.options.elementPrefix+this.current));
 			$(this.current).removeClass('active');
 		}
 

@@ -30,25 +30,12 @@ class ConfigController extends JController
 		$lName		= JRequest::getWord('layout', 'default');
 
 		// Get and render the view.
-		if ($view = &$this->getView($vName, $vFormat))
-		{
-			switch ($vName)
-			{
+		if ($view = &$this->getView($vName, $vFormat)) {
+			switch ($vName) {
 				case 'component':
-					JRequest::setVar('tmpl', 'component');
-					$component = JRequest::getCmd('component');
-					if (empty($component)) {
-						JError::raiseWarning( 500, 'Not a valid component' );
-						return false;
-					}
-					// load the component's language file
-					$lang = & JFactory::getLanguage();
-					// 1.5 or core
-					$lang->load($component);
-					// 1.6 support for component specific languages
-					$lang->load($component, JPATH_ADMINISTRATOR.DS.'components'.DS.$component);	
 					$model = &$this->getModel($vName);
-					$view->setModel($model, true);		
+					$model->setState('component', JRequest::getCmd('component'));
+					$view->setModel($model, true);
 					break;
 				case 'application':
 				default:

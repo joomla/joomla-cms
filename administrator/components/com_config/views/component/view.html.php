@@ -8,9 +8,9 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.view' );
+jimport('joomla.application.component.view');
 
 /**
  * @package		Joomla.Administrator
@@ -21,15 +21,16 @@ class ConfigViewComponent extends JView
 	/**
 	 * Display the view
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		$model		= &$this->getModel();
-		$params		= &$model->getParams();
-		$component	= JComponentHelper::getComponent(JRequest::getCmd('component'));
+		$params		= $this->get('Params');
+		$component  = $this->get('Component');
 
-		$document = & JFactory::getDocument();
-		$document->setTitle(JText::_('Edit Preferences'));
+		$this->document->setTitle(JText::_('Edit Preferences'));
+		JRequest::setVar('tmpl', 'component');
+
 		JHtml::_('behavior.tooltip');
+		JHtml::_('behavior.switcher');
 
 		$this->assignRef('params',		$params);
 		$this->assignRef('component',	$component);
