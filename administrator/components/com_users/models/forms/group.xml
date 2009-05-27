@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: group.xml 191 2009-02-03 09:51:49Z eddieajau $ -->
+<form>
+	<fields>
+		<field
+			id="id"
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"
+		/>
+
+		<field
+			id="parent_id"
+			name="parent_id"
+			type="UserGroups"
+			class="inputbox"
+			default=""
+			label="Users_Group_Parent"
+			description="Users_Group_Parent_Desc"
+			required="true"
+		/>
+
+		<field
+			id="title"
+			name="title"
+			type="text"
+			class="inputbox"
+			default=""
+			size="40"
+			label="Users_Group_Title"
+			description="Users_Group_Title_Desc"
+		/>
+
+		<field
+			name="left_id"
+			type="hidden"
+			filter="unset"
+		/>
+		<field
+			name="right_id"
+			type="hidden"
+			filter="unset"
+		/>
+	</fields>
+</form>

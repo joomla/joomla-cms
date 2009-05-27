@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Frontpage Blog Layout">
+		<message>
+			<![CDATA[CATEGORY BLOG LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Frontpage Blog Layout</name>
+		<description>FRONTPAGE BLOG LAYOUT DESC</description>
+		<params>
+			<param name="num_leading_articles" type="text" size="3" default="1" label="Num Leading" description="PARAMLEADING" />
+			<param name="num_intro_articles" type="text" size="3" default="4" label="Num Intro" description="PARAMINTRO" />
+			<param name="num_columns" type="text" size="3" default="2" label="Columns" description="PARAMCOLUMNS" />
+			<param name="num_links" type="text" size="3" default="4" label="Num Links" description="Number of Items to display as Links." />
+		</params>
+		<advanced>
+			<param name="orderby_pri" type="list" default="" label="Category Order" description="Order items by category">
+				<option value="">No, order by Primary Order only</option>
+				<option value="alpha">Title Alphabetical</option>
+				<option value="ralpha">Title Reverse-Alphabetical</option>
+				<option value="order">Ordering</option>
+			</param>
+			<param name="orderby_sec" type="list" default="front" label="Primary Order" description="PARAMORDERBYSEC">
+				<option value="front">Default</option>
+				<option value="date">Oldest first</option>
+				<option value="rdate">Most recent first</option>
+				<option value="alpha">Title Alphabetical</option>
+				<option value="ralpha">Title Reverse-Alphabetical</option>
+				<option value="author">Author Alphabetical</option>
+				<option value="rauthor">Author Reverse-Alphabetical</option>
+				<option value="hits">Most Hits</option>
+				<option value="rhits">Least Hits</option>
+				<option value="order">Ordering</option>
+			</param>
+			<param name="multi_column_order" type="radio" default="1" label="Multi Column Order" description="PARAMDOWNORACROSS">
+				<option value="0">Down</option>
+				<option value="1">Across</option>
+			</param>
+
+	 		<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="show_pagination" type="list" default="2" label="Pagination" description="Show/Hide Pagination support">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+				<option value="2">Auto</option>
+			</param>
+			<param name="show_pagination_results" type="radio" default="1" label="Pagination Results" description="PARAMPAGINATIONRESULTS">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="PARAMSHOWFEEDLINK">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+		</advanced>
+	</state>
+</metadata>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.0.0">
+	<name>Online Users</name>
+	<author>Joomla! Project</author>
+	<creationDate>Jan 2006</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>This module shows a list of the Backend Users logged in</description>
+	<files>
+		<filename module="mod_online">mod_online.php</filename>
+	</files>
+	<params>
+		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+			<option value="0">Never</option>
+	  	</param>
+	</params>
+</install>

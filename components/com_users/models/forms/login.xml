@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields label="Users_Login_Default_Label">
+		<field
+			name="username"
+			type="text"
+			id="username"
+			label="Users_Login_Username_Label"
+			class="inputbox validate-username"
+			size="25"
+			default=""
+			required="required"
+			filter="username"
+			validate="username"
+			field="id"
+		/>
+		<field
+			name="password"
+			type="password"
+			id="password"
+			label="Users_Login_Password_Label"
+			class="inputbox validate-password"
+			size="25"
+			required="required"
+			default=""
+			filter="raw"
+		/>
+	</fields>
+</form>

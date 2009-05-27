@@ -1,0 +1,117 @@
+#ja-headerwrap {
+	background: #7BA566;
+	color: #E4EFDF;
+}
+
+.ja-headermask {
+	background: url(images/header-mask.png) no-repeat top right;
+}
+
+#ja-header a {
+	color: #E4EFDF;
+}
+
+h1.logo-text a {
+	color: #E4EFDF !important;
+}
+
+p.site-slogan {
+	background: #9DBF8C;
+}
+
+#ja-search {
+	background: url(images/icon-search.gif) no-repeat center left;
+}
+
+#ja-search .inputbox {
+	border: 1px solid #658854;
+	color: #E4EFDF;
+	background: #9DBF8C;
+}
+
+.sectiontableheader {
+	background: #88B074;
+}
+
+#ja-botslwrap {
+	background: #7BA566;
+	color: #E4EFDF;
+}
+
+.ja-box-right div.moduletable {
+	background: url(images/vdot2.gif) repeat-y left;
+}
+
+.ja-box-center div.moduletable {
+	background: url(images/vdot2.gif) repeat-y left;
+}
+
+#ja-botsl a {
+	color: #E4EFDF;
+}
+
+/*--------------------------- VISUAL ----------------------------*/
+/* -------- All levels -------- */
+#ja-mainnavwrap {
+	border-top: 1px solid #A4C594;
+	background: #88B074;
+}
+#ja-mainnav ul, #ja-mainnav li {
+	background-image: none;
+	list-style: none;
+}
+
+#ja-mainnav span.separator {
+	display:none;
+}
+
+/* -------- Top level -------- */
+#ja-mainnav > ul {
+	background-color: #88B074;
+	padding-left: 20px;
+}
+
+#ja-mainnav > ul > li {
+	background-color: #88B074;
+	border-left: 1px solid #A4C594;
+	border-right: 1px solid #658854;
+	margin-right: 1px;
+}
+
+#ja-mainnav > ul > li.active {
+	background: url(../../../images/arrow2.png) no-repeat bottom center #88B074;
+	color: #E4EFDF;
+}
+
+#ja-mainnav > ul > li:hover,
+#ja-mainnav > ul > li:active,
+#ja-mainnav > ul > li:focus {
+	background: url(../../../images/arrow2.png) no-repeat bottom center #9DBF8C;
+	color: #E4EFDF;
+}
+
+/* -------- sub-levels -------- */
+#ja-mainnav ul ul li {
+	border-left: 1px solid #A4C594;
+	border-right: 1px solid #658854;
+	border-top: 1px solid #A4C594;
+	border-bottom: 1px solid #658854;
+	margin-bottom: 1px;
+}
+
+#ja-mainnav li ul { /* second-level lists */
+	background-color: #9DBF8C;
+}
+
+#ja-mainnav li a {
+	color: #E4EFDF;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#ja-mainnav ul ul  li:hover,
+#ja-mainnav ul ul  li:active,
+#ja-mainnav ul ul  li:focus {
+	background: #88B074;
+	color: #E4EFDF;
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<state>
+		<name>External Link</name>
+		<description>External link parameters...</description>
+		<params>
+			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+		</params>
+		<advanced />
+	</state>
+</metadata>

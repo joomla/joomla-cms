@@ -1,0 +1,366 @@
+/* BONUS TYPOGRAPHY STYLES
+--------------------------------------------------------- */
+pre, .code {
+	border-left: 5px solid #999999;
+	background: #F6F6F6;
+}
+
+blockquote span.open {
+	background: url(images/so-q.gif) no-repeat left top;
+}
+
+blockquote span.close {
+	background: url(images/sc-q.gif) no-repeat bottom right;
+}
+
+/* Quote hilight */
+.quote-hilite {
+	border: 1px solid #CACACC;
+	background: #FFFFFF;
+}
+
+/* Small quote */
+.small-quote span.open-quote {
+	background: url(images/so-q.gif) no-repeat center left;
+}
+
+.small-quote span.close-quote {
+	background: url(images/sc-q.gif) no-repeat center right;
+}
+
+.small-quote span.author {
+	border-top: 1px solid #DCDDE0;
+	background: url(../.../.../images/author.gif) no-repeat 5px 4px #EAEBEE;
+}
+
+/* Rropcap */
+.dropcap {
+	color: #999999;
+}
+
+/* Tips, Error, Message, Hightlight*/
+.error {
+	color: #666666;
+	background: url(../.../.../images/icon-error.gif) no-repeat top left;
+}
+
+.message {
+	color: #999999;
+	background: url(../.../.../images/icon-info.gif) no-repeat top left;
+}
+
+.tips {
+	color: #666666;
+	background: url(../.../.../images/icon-tips.gif) no-repeat top left;
+}
+
+.highlight {
+	background: #FFFFCC;
+}
+
+/* Note Style */
+p.stickynote {
+	border: 1px solid #CACACC;
+	background: url(images/sticky-bg.gif) no-repeat 5px center #FFFFFF;
+}
+
+p.download {
+	border: 1px solid #CACACC;
+	background: url(images/download-bg.gif) no-repeat 5px center #FFFFFF;
+}
+
+/* Check list */
+ul.checklist li {
+	background: url(images/checklist-bg.gif) no-repeat 0 3px;
+}
+
+/* Small checklist */
+ul.small-checklist li {
+	background: url(images/icon_list.gif) no-repeat 0 3px;
+}
+
+/* Check list */
+ul.stars li {
+	background: url(images/star-bg.gif) no-repeat 0 3px;
+}
+
+/* Bignumber */
+.bignumber {
+	background: url(images/ol-bg.gif) no-repeat top left;
+	color: #7BA566;
+}
+
+/* Talking box. Thinking box. */
+div.bubble1 span.author,
+div.bubble2 span.author,
+div.bubble3 span.author,
+div.bubble4 span.author {
+}
+
+div.bubble1 div {
+	background: url(images/bub1-br.gif) no-repeat bottom right;
+}
+
+div.bubble1 div div {
+	background: url(images/bub1-bl.gif) no-repeat bottom left;
+}
+
+div.bubble1 div div div {
+	background: url(images/bub1-tr.gif) no-repeat top right;
+}
+
+div.bubble1 div div div div {
+	background: url(images/bub1-tl.gif) no-repeat top left;
+}
+
+div.bubble2 div {
+	background: url(images/bub2-br.gif) no-repeat bottom right;
+}
+
+div.bubble2 div div {
+	background: url(images/bub2-bl.gif) no-repeat bottom left;
+}
+
+div.bubble2 div div div {
+	background: url(images/bub2-tr.gif) no-repeat top right;
+}
+
+div.bubble2 div div div div {
+	background: url(images/bub2-tl.gif) no-repeat top left;
+}
+
+div.bubble3 div {
+	background: url(images/bub3-br.gif) no-repeat bottom right;
+}
+
+div.bubble3 div div {
+	background: url(images/bub3-bl.gif) no-repeat bottom left;
+}
+
+div.bubble3 div div div {
+	background: url(images/bub3-tr.gif) no-repeat top right;
+}
+
+div.bubble3 div div div div {
+	background: url(images/bub3-tl.gif) no-repeat top left;
+}
+
+div.bubble4 div {
+	background: url(images/bub4-br.gif) no-repeat bottom right;
+}
+
+div.bubble4 div div {
+	background: url(images/bub4-bl.gif) no-repeat bottom left;
+}
+
+div.bubble4 div div div {
+	background: url(images/bub4-tr.gif) no-repeat top right;
+}
+
+div.bubble4 div div div div {
+	background: url(images/bub4-tl.gif) no-repeat top left;
+}
+
+/* Legend */
+.legend-title {
+	background: #FFFFFF;
+}
+
+.legend {
+	border: 1px solid #CACACC;
+	background: #FFFFFF;
+}
+
+/* MAIN LAYOUT DIVS
+--------------------------------------------------------- */
+#ja-wrapper {
+	background: #FFFFFF;
+}
+
+#ja-containerwrap {
+	background: none;
+}
+
+#ja-containerwrap2 {
+	background: url(images/cwf-bg.gif) repeat-x top left;
+}
+
+#ja-container {
+	padding: 20px 0;
+	background: url(images/cwf-bg.gif) repeat-x top left;
+}
+
+#ja-container2 {
+	padding: 0;
+	background: url(images/c-bg1.gif) repeat-y 18% 0;
+}
+
+/* Full */
+#ja-containerwrap-f {
+	background: url(images/cwf-bg.gif) repeat-x top left #FFFFFF;
+}
+
+/* Full left */
+#ja-containerwrap-fl {
+	background: url(images/cwf-bg.gif) repeat-x top left #FFFFFF;
+}
+
+/* Full right */
+#ja-containerwrap-fr {
+	background: none;
+}
+
+#ja-containerwrap-fr #ja-containerwrap2 {
+	background: url(images/cwf-bg.gif) repeat-x top left;
+}
+
+/* Module rounded */
+div.module h3 {
+	border-bottom: 1px solid #E9E9E9;
+	color: #7BA566;
+}
+
+div.module_black,
+div.module_green,
+div.module_blue,
+div.module_red,
+div.module {
+	background: url(images/b-br.gif) no-repeat bottom right #FFFFFF;
+}
+
+div.module div {
+	background: url(images/b-bl.gif) no-repeat bottom left;
+}
+
+div.module div div {
+	background: url(images/b-tr.gif) no-repeat top right;
+}
+
+div.module div div div {
+	background: url(images/b-tl.gif) no-repeat top left;
+}
+
+div.module_text span {
+	background: #FFFFFF;
+}
+
+div.module_text {
+	background: url(images/bt-br.gif) no-repeat bottom right #F6F6F6;
+}
+
+div.module_text div {
+	background: url(images/bt-bl.gif) no-repeat bottom left;
+}
+
+div.module_text div div {
+	background: url(images/bt-tr.gif) no-repeat top right;
+}
+
+div.module_text div div div {
+	background: url(images/bt-tl.gif) no-repeat top left;
+}
+
+/* red */
+div.module_black h3,
+div.module_green h3,
+div.module_blue h3,
+div.module_red h3 {
+	border-bottom: 1px solid #F6F6F6;
+	color: #FFFFFF;
+}
+
+div.module_red {
+	background: url(images/br-br.gif) no-repeat bottom right #BF0000;
+	color: #FFFFFF;
+}
+
+div.module_red div {
+	background: url(images/br-bl.gif) no-repeat bottom left;
+}
+
+div.module_red div div {
+	background: url(images/br-tr.gif) no-repeat top right;
+}
+
+div.module_red div div div {
+	padding: 0 15px 10px;
+	background: url(images/br-tl.gif) no-repeat top left;
+}
+
+/* blue */
+div.module_blue {
+	background: url(images/bb-br.gif) no-repeat bottom right #025291;
+	color: #FFFFFF;
+}
+
+div.module_blue div {
+	background: url(images/bb-bl.gif) no-repeat bottom left;
+}
+
+div.module_blue div div {
+	background: url(images/bb-tr.gif) no-repeat top right;
+}
+
+div.module_blue div div div {
+	background: url(images/bb-tl.gif) no-repeat top left;
+}
+
+/* green */
+div.module_green {
+	background: url(images/bg-br.gif) no-repeat bottom right #7BA566;
+	color: #FFFFFF;
+}
+
+div.module_green div {
+	background: url(images/bg-bl.gif) no-repeat bottom left;
+}
+
+div.module_green div div {
+	background: url(images/bg-tr.gif) no-repeat top right;
+}
+
+div.module_green div div div {
+	padding: 0 15px 10px;
+	background: url(images/bg-tl.gif) no-repeat top left;
+}
+
+/* black */
+div.module_black {
+	background: url(images/bl-br.gif) no-repeat bottom right #333333;
+	color: #FFFFFF;
+}
+
+div.module_black div {
+	background: url(images/bl-bl.gif) no-repeat bottom left;
+}
+
+div.module_black div div {
+	background: url(images/bl-tr.gif) no-repeat top right;
+}
+
+div.module_black div div div {
+	background: url(images/bl-tl.gif) no-repeat top left;
+}
+
+/* JOOMLA STYLE
+--------------------------------------------------------- */
+a.readon {
+	border: 1px solid #ECECEC;
+	background: url(images/arrow.png) no-repeat 5px 48%;
+	color: #006699;
+}
+
+a.readon:hover, a.readon:active, a.readon:focus {
+	border: 1px solid #DDDDDD;
+	background: url(images/arrow.png) no-repeat 5px 48% #F6F6F6;
+}
+
+ul.menu li.active a {
+	background-color: #ECECEC;
+}
+
+ul.menu li a:hover,
+ul.menu li a:active,
+ul.menu li a:focus {
+	background-color: #F6F6F6;
+}

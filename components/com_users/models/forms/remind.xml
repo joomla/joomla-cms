@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="email"
+			type="text"
+			label="Users_Remind_Email_Label"
+			description="Users_Remind_Email_Desc"
+			class="inputbox validate-email"
+			size="30" 
+			default=""
+			required="true"
+			validate="email"
+		/>
+	</fields>
+</form>

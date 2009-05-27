@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Search">
+		<message>
+			<![CDATA[STANDARD SEARCH LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Search</name>
+		<description>STANDARD SEARCH LAYOUT DESC</description>
+		<params>
+			<param name="search_areas" type="radio" default="1" label="Use Search Areas" description="Show the search areas checkboxes">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			<param name="show_date" type="radio" default="1" label="Show Created Date" description="TIPIFSETTOSHOWDATETIMECREATED">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+		</params>
+	</state>
+</metadata>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>Latest News</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2004</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.5.0</version>
+	<description>DESCLATESTNEWS</description>
+	<files>
+		<filename module="mod_latestnews">mod_latestnews.php</filename>
+	</files>
+	<params>
+		<param name="count" type="text" default="5" label="Count" description="The number of items to display (default 5)" />
+		<param name="ordering" type="list" default="create_dsc" label="Ordering" description="Ordering options">
+			<option value="c_dsc">Recently Added First</option>
+			<option value="m_dsc">Recently Modified First</option>
+	  	</param>
+		<param name="user_id" type="list" default="0" label="Authors" description="A filter for the authors">
+			<option value="0">Anyone</option>
+			<option value="by_me">Added or modified by me</option>
+			<option value="not_me">Not added or modified by me</option>
+	  	</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_front" type="radio" default="1" label="Frontpage Items" description="PARAMFRONTPAGEITEMS">
+			<option value="1">show</option>
+			<option value="0">hide</option>
+		</param>
+		<param name="secid" type="text" default="" label="Section ID" description="PARAMSECTIONID" />
+		<param name="catid" type="text" default="" label="Category ID" description="PARAMCATEGORYID" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+	</params>
+	<params group="advanced">
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
+	</params>
+</install>

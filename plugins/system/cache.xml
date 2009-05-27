@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.6" type="plugin" group="system">
+	<name>System - Cache</name>
+	<author>Joomla! Project</author>
+	<creationDate>February 2007</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.5</version>
+	<description>Provides page caching</description>
+	<files>
+		<filename plugin="cache">cache.php</filename>
+	</files>
+	<params>
+		<param name="browsercache" type="radio" default="0" label="Use browser caching" description="If yes, use mechanism for storing page cache in the browser">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+  		<param name="cachetime" type="text" default="15" label="Cache Lifetime" description="Page cache lifetime in minutes"/>
+	</params>
+</install>

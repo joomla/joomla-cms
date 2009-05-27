@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: weblink.xml 11702 2009-03-24 00:54:27Z hackwar $ -->
+<form>
+	<fields>
+		<field
+			id="id"
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"
+		/>
+
+		<field
+			id="catid"
+			name="catid"
+			type="Categories"
+			extension="com_weblinks"
+			allow_none="true"
+			class="inputbox"
+			default=""
+			label="Weblinks_Category_Label"
+			description="Weblinks_Category_Desc"
+			required="true"
+		/>
+
+		<field
+			id="sid"
+			name="sid"
+			type="Section"
+			default="com_weblinks"
+			label="Weblinks_Section_Label"
+			description="Weblinks_Section_Desc"
+			readonly="true"
+		/>
+
+		<field
+			id="title"
+			name="title"
+			type="text"
+			class="inputbox"
+			default=""
+			size="40"
+			label="Weblinks_Title_Label"
+			description="Weblinks_Title_Desc"
+			required="true"
+		/>
+
+		<field
+			id="alias"
+			name="alias"
+			type="text"
+			class="inputbox"
+			default=""
+			size="40"
+			label="Weblinks_Alias_Label"
+			description="Weblinks_Alias_Desc"
+		/>
+
+		<field
+			id="url"
+			name="url"
+			type="text"
+			class="inputbox"
+			default=""
+			size="40"
+			label="Weblinks_Url_Label"
+			description="Weblinks_Url_Desc"
+		/>
+
+		<field
+			id="description"
+			name="description"
+			type="editor"
+			buttons="readmore,pagebreak"
+			class="inputbox"
+			default=""
+			label="Weblinks_Description_Label"
+			description="Weblinks_Description_Desc"
+		/>
+
+		<field
+			id="date"
+			name="date"
+			type="Date"
+			class="inputbox"
+			default=""
+			label="Weblinks_Date_Label"
+			description="Weblinks_Date_Desc"
+			filter="safehtml"
+		/>
+
+		<field
+			id="hits"
+			name="hits"
+			type="Text"
+			class="inputbox"
+			default=""
+			size="6"
+			label="Weblinks_Date_Label"
+			description="Weblinks_Date_Desc"
+			readonly="true"
+			filter="unset"
+		/>
+
+		<field
+			id="state"
+			name="state"
+			type="radio"
+			class="inputbox"
+			default="1"
+			label="Weblinks_State_Label"
+			description="Weblinks_State_Desc"
+		>
+			<option value="1">JState_Published</option>
+			<option value="0">JState_UnPublished</option>
+			<option value="-1">Weblinks_Reported</option>
+			<option value="-2">JState_Trashed</option>
+		</field>
+
+		<field
+			id="checked_out"
+			name="checked_out"
+			type="Text"
+			class="inputbox"
+			default=""
+			size="6"
+			label="Weblinks_Checkedout_Label"
+			description="Weblinks_Checkedout_Desc"
+			readonly="true"
+			filter="unset"
+		/>
+
+		<field
+			id="checked_out_time"
+			name="checked_out_time"
+			type="Text"
+			class="inputbox"
+			default=""
+			size="6"
+			label="Weblinks_Checkedout_Time_Label"
+			description="Weblinks_Checkedout_Time_Desc"
+			readonly="true"
+			filter="unset"
+		/>
+		
+		<field
+			id="ordering"
+			name="ordering"
+			type="Ordering"
+			class="inputbox"
+			default=""
+			label="Weblinks_Ordering_Label"
+			description="Weblinks_Ordering_Desc"
+		/>
+
+		<field
+			id="archived"
+			name="archived"
+			type="radio"
+			class="inputbox"
+			default=""
+			label="Weblinks_Archived_Label"
+			description="Weblinks_Archived_Desc"
+		>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+
+		<field
+			id="approved"
+			name="approved"
+			type="radio"
+			class="inputbox"
+			default=""
+			label="Weblinks_Approved_Label"
+			description="Weblinks_Approved_Desc"
+		>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+
+	</fields>
+	
+	<fields
+				group="params"
+				array="true"
+				label="Weblinks_Options">
+		
+		<field
+				id="target"
+				name="target"
+				type="List"
+				default="0"
+				label="Weblinks_Target_Label"
+				description="Weblinks_Target_Desc">
+			<option value="0">JBrowserTarget_Parent</option>
+			<option value="1">JBrowserTarget_New</option>
+			<option value="2">JBrowserTarget_Popup</option>
+			<option value="3">JBrowserTarget_Modal</option>
+		</field>
+	</fields>
+</form>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+ <params>
+  <param name="default_itemid" type="menuitem" default="0" label="DEFAULT ITEM LABEL" description="DEFAULT ITEM DESC" />
+ </params>
+</config>

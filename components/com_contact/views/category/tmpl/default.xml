@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: default.xml 10880 2008-08-31 17:51:53Z willebil $ -->
+<metadata>
+	<layout title="Contact Category Layout">
+		<message>
+			<![CDATA[CONTACT CATEGORY LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Contacts Category Layout</name>
+		<description>CONTACT CATEGORY LAYOUT DESC</description>
+		<url addpath="/administrator/components/com_contact/elements">
+			<param name="catid" type="category" scope="com_contact_details" default="0" label="Select Category" description="A contacts category" />
+		</url>
+		<params>
+			<param name="display_num" type="list" default="20" label="Num Links" description="Number of Contacts to display as list.">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="15">15</option>
+				<option value="20">20</option>
+				<option value="25">25</option>
+				<option value="30">30</option>
+				<option value="50">50</option>
+				<option value="100">100</option>
+				<option value="0">All</option>
+			</param>
+			<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Image" description="PARAMIMAGE" />
+			<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
+				<option value="left">Left</option>
+				<option value="right">Right</option>
+			</param>
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="show_limit" type="radio" default="0" label="Limit Box" description="PARAMSHOWLIMIT">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="PARAMSHOWFEEDLINK">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+		</params>
+	</state>
+</metadata>

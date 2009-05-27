@@ -1,0 +1,17 @@
+/**
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	com_users
+ * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @link		http://jxtended.com
+ */
+
+* :focus,a:active{outline:none}
+a.move_up{background-image:url(../../../../images/uparrow.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
+span.move_up{background-image:url(../../../../images/uparrow0.png);display:inline-block;height:16px;width:16px}
+a.move_down{background-image:url(../../../../images/downarrow.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
+span.move_down{background-image:url(../../../../images/downarrow0.png);display:inline-block;height:16px;width:16px}
+a.grid_false{background-image:url(../../../../images/publish_x.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
+a.grid_true{background-image:url(../../../../images/tick.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
+a.grid_trash{background-image:url(../images/icon-16-trash.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}

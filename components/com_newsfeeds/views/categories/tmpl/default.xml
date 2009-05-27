@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="NEWSFEED CATEGORY LIST LAYOUT">
+		<message>
+			<![CDATA[NEWSFEED CATEGORY LIST LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Newsfeed category List Layout</name>
+		<description>NEWSFEED CATEGORY LIST LAYOUT DESC</description>
+		<params>
+			<param name="show_limit" type="radio" default="1" label="Show Limit Box" description="Show/Hide the limit box">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_comp_description" type="radio" default="1" label="Description" description="Show/Hide the Description below">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="comp_description" type="textarea" default="" label="Description Text" rows="5" cols="30" description="Description for page"/>
+
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="-1" label="Image" description="PARAMIMAGE" />
+			<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
+				<option value="left">Left</option>
+				<option value="right">Right</option>
+			</param>
+		</params>
+	</state>
+</metadata>

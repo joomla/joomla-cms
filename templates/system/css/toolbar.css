@@ -1,0 +1,34 @@
+/**
+ * CSS Document for edit page for toolbar control
+ * @version $Id: toolbar.css 10387 2008-06-03 10:59:16Z pasamio $
+ * @package Joomla
+ * @copyright Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software and parts of it may contain or be derived from the
+ * GNU General Public License or other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
+
+
+table#toolbar {
+	margin-right: 10px;
+}
+
+table#toolbar a.toolbar {
+	color : #808080;
+	text-decoration : none;
+	display: block;
+	border: 1px solid #DDD;
+	width: 40px;
+	padding: 2px 5px 2px 5px;
+}
+table#toolbar a.toolbar:hover {
+	color : #C64934;
+	cursor: pointer;
+	border: 1px solid #c24733;
+	background-color: #f1e8e6;
+	padding: 3px 5px 1px 5px;
+}
+table#toolbar a.toolbar:active {
+	color : #FF9900;
+}

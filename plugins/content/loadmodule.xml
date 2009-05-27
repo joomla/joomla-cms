@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.6" type="plugin" group="content">
+	<name>Content - Load Modules</name>
+	<author>Joomla! Project</author>
+	<creationDate>November 2005</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.5</version>
+	<description>DESCLOADPOSITION</description>
+	<files>
+		<filename plugin="loadmodule">loadmodule.php</filename>
+	</files>
+	<params>
+		<param name="enabled" type="radio" default="1" label="Enable Plugin" description="PARAMENABLED">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="style" type="list" default="0" label="Style" description="Code that will wrap modules">
+			<option value="table">Wrapped by Table - Column</option>
+			<option value="horz">Wrapped by Table - Horizontal</option>
+			<option value="xhtml">Wrapped by Divs</option>
+			<option value="rounded">Wrapped by Multiple Divs</option>
+			<option value="none">No wrapping - raw output</option>
+		</param>
+	</params>
+</install>

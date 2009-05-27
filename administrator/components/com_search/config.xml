@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+ <params>
+  <param name="enabled" type="radio" default="0" label="Gather Search Statistics" description="TIPSEARCHSTATISTICS">
+   <option value="0">No</option>
+   <option value="1">Yes</option>
+  </param>
+		<param name="show_date" type="radio" default="1" label="Show Created Date" description="TIPIFSETTOSHOWDATETIMECREATED">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+ </params>
+</config>

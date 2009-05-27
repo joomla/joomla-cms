@@ -1,0 +1,38 @@
+/* OpenID icon style */
+input.system-openid, input.com-system-openid {
+   background: url(http://openid.net/login-bg.gif) no-repeat;
+   background-color: #fff;
+   background-position: 0 50%;
+   color: #000;
+   padding-left: 18px;
+}
+
+
+/* Unpublished */
+.system-unpublished {
+background: #e8edf1;
+border-top: 4px solid #c4d3df;
+border-bottom: 4px solid #c4d3df;
+}
+
+/* System Messages */
+#system-message    { margin-bottom: 10px; padding: 0;}
+#system-message dt { font-weight: bold; }
+#system-message dd { margin: 0; font-weight: bold; text-indent: 30px; }
+#system-message dd ul { color: #0055BB; margin-bottom: 10px; list-style: none; padding: 10px; border-top: 3px solid #84A7DB; border-bottom: 3px solid #84A7DB;}
+
+/* System Standard Messages */
+#system-message dt.message { display: none; }
+#system-message dd.message {  }
+
+/* System Error Messages */
+#system-message dt.error { display: none; }
+#system-message dd.error ul { color: #c00; background-color: #E6C0C0; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
+
+/* System Notice Messages */
+#system-message dt.notice { display: none; }
+#system-message dd.notice ul { color: #c00; background: #EFE7B8; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
+
+/* Debug */
+#system-debug     { color: #ccc; background-color: #fff; padding: 10px; margin: 10px; }
+#system-debug div { font-size: 11px;}

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Category Layout">
+		<message>
+			<![CDATA[STANDARD CATEGORY LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Category Layout</name>
+		<description>STANDARD CATEGORY LAYOUT DESC</description>
+		<url>
+			<param name="id" type="category" label="Category" description="Choose a category..." />
+		</url>
+		<params>
+			<param name="display_num" type="list" default="10" label="Num Links" description="Number of Items to display as links.">
+				<option value="5">NUMBER 5</option>
+				<option value="10">NUMBER 10</option>
+				<option value="15">NUMBER 15</option>
+				<option value="20">NUMBER 20</option>
+				<option value="25">NUMBER 25</option>
+				<option value="30">NUMBER 30</option>
+				<option value="50">NUMBER 50</option>
+				<option value="100">NUMBER 100</option>
+				<option value="0">All</option>
+			</param>
+			<param name="show_headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_date" type="list" default="" label="Date Column" description="Show/Hide the Date column">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="date_format" type="text" size="15" default="" label="Date Format" description="PARAMDATEFORMAT" />
+
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="filter" type="radio" default="1" label="Filter" description="Show/Hide the Filter ability">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="filter_type" type="list" default="title" label="Filter Field" description="Which field shall the filter apply to">
+				<option value="title">Title</option>
+				<option value="author">Author</option>
+				<option value="hits">Hits</option>
+			</param>
+		</params>
+		<advanced>
+			<param name="orderby_sec" type="list" default="" label="Primary Order" description="Order that the items will be displayed in.">
+				<option value="">Default</option>
+				<option value="date">Oldest first</option>
+				<option value="rdate">Most recent first</option>
+				<option value="alpha">Title Alphabetical</option>
+				<option value="ralpha">Title Reverse-Alphabetical</option>
+				<option value="author">Author Alphabetical</option>
+				<option value="rauthor">Author Reverse-Alphabetical</option>
+				<option value="hits">Most Hits</option>
+				<option value="rhits">Least Hits</option>
+				<option value="order">Ordering</option>
+			</param>
+
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="show_pagination" type="list" default="1" label="Pagination" description="Show/Hide Pagination support">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_pagination_limit" type="radio" default="1" label="Display Select" description="Show/Hide the Display Select dropdown">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="PARAMSHOWFEEDLINK">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+		</advanced>
+	</state>
+</metadata>

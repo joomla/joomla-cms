@@ -1,0 +1,45 @@
+<?php
+/**
+ * @version		$Id: router.php 10702 2008-08-21 09:31:31Z eddieajau $
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
+
+// No direct access
+defined('JPATH_BASE') or die;
+
+/**
+ * Class to create and parse routes
+ *
+ * @package 	Joomla
+ * @since		1.5
+ */
+class JRouterAdministrator extends JRouter
+{
+	/**
+	 * Function to convert a route to an internal URI
+	 *
+	 * @access public
+	 */
+	function parse($uri)
+	{
+		return array();
+	}
+
+	/**
+	 * Function to convert an internal URI to a route
+	 *
+	 * @param	string	$string	The internal URL
+	 * @return	string	The absolute search engine friendly URL
+	 * @since	1.5
+	 */
+	function &build($url)
+	{
+		//Create the URI object
+		$uri = &$this->_createURI($url);
+
+		return $uri;
+	}
+}

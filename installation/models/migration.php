@@ -1,0 +1,22 @@
+<?php
+/**
+ * @version		$Id: migration.php 235 2009-05-26 06:19:45Z andrew.eddie $
+ * @package		Joomla.Installation
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
+
+defined('_JEXEC') or die;
+
+jimport('joomla.application.component.model');
+jimport('joomla.filesystem.file');
+
+/**
+ * Site migration model for the Joomla Core Installer.
+ *
+ * @package		Joomla.Installation
+ * @since		1.6
+ */
+class JInstallationModelMigration extends JModel
+{
+}

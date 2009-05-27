@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Standard Section Layout">
+		<message>
+			<![CDATA[STANDARD SECTION LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Section Layout</name>
+		<description>STANDARD SECTION LAYOUT DESC</description>
+		<url>
+			<param name="id" type="section" label="Section" description="Choose a section..." />
+		</url>
+		<params>
+	 		<param name="show_description" type="radio" default="0" label="Description" description="Show/Hide the Category Description">
+	 			<option value="0">Hide</option>
+	 			<option value="1">Show</option>
+	 		</param>
+			<param name="show_description_image" type="radio" default="0" label="Description Image" description="Show/Hide the Category Image">
+	 			<option value="0">Hide</option>
+	 			<option value="1">Show</option>
+	 		</param>
+
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="show_categories" type="radio" default="1" label="Category List - Section" description="PARAMOTHERCATSECTION">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_empty_categories" type="radio" default="0" label="Empty Categories in Section" description="Show/Hide empty(no items) categories in Section view">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_cat_num_articles" type="radio" default="1" label="Num Category Items" description="PARAMCATITEMS">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_category_description" type="radio" default="1" label="Category Description" description="PARAMSHOWHIDE">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+		</params>
+		<advanced>
+			<param name="orderby" type="list" default="" label="Order by" description="PARAMORDERBY">
+				<option value="">Default</option>
+				<option value="alpha">Title Alphabetical</option>
+				<option value="ralpha">Title Reverse-Alphabetical</option>
+				<option value="order">Ordering</option>
+			</param>
+			<param name="orderby_sec" type="list" default="" label="Article Order" description="Order that the articles will be displayed in">
+				<option value="">Default</option>
+				<option value="date">Oldest first</option>
+				<option value="rdate">Most recent first</option>
+				<option value="alpha">Title Alphabetical</option>
+				<option value="ralpha">Title Reverse-Alphabetical</option>
+				<option value="author">Author Alphabetical</option>
+				<option value="rauthor">Author Reverse-Alphabetical</option>
+				<option value="hits">Most Hits</option>
+				<option value="rhits">Least Hits</option>
+				<option value="order">Ordering</option>
+			</param>
+			<param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="PARAMSHOWFEEDLINK">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+		</advanced>
+	</state>
+</metadata>

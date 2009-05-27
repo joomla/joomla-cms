@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Article Submission Layout">
+		<message>
+			<![CDATA[ARTICLE SUBMISSION LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Article Submission Layout</name>
+		<description>ARTICLE SUBMISSION LAYOUT DESC</description>
+		<params>
+		</params>
+	</state>
+</metadata>

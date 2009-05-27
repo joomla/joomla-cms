@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<params>
+		<param name="upload_extensions" type="text" size="50" default="bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS" label="LEGAL EXTENSIONS LABEL" description="LEGAL EXTENSIONS DESC" />
+		<param name="upload_maxsize" type="text" size="50" default="10000000" label="MAXIMUM SIZE LABEL" description="MAXIMUM SIZE DESC" />
+		<param name="file_path" type="text" size="50" default="images" label="PATH TO FILE FOLDER" description="TIPFILEFOLDERWARN" />
+		<param name="image_path" type="text" size="50" default="images/stories" label="PATH TO IMAGE FOLDER" description="TIPIMAGEFOLDERWARN" />
+		<param name="restrict_uploads" type="radio" default="1" label="RESTRICT UPLOADS" description="RESTRICT UPLOADS DESC">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</param>
+		<param name="allowed_media_usergroup" type="list" default="3" label="ALLOWED_USERGROUP" description="ALLOWED_USERGROUP_DESC">
+			<option value="4">Registered</option>
+			<option value="3">Author</option>
+			<option value="2">Editor</option>
+			<option value="1">Publisher</option>
+		</param>		
+		<param name="check_mime" type="radio" default="1" label="CHECK MIME" description="CHECK MIME DESC">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</param>
+		<param name="image_extensions" type="text" size="50" default="bmp,gif,jpg,png" label="LEGAL IMAGE EXTENSIONS LABEL" description="LEGAL IMAGE EXTENSIONS DESC" />
+		<param name="ignore_extensions" type="text" size="50" default="" label="IGNORED EXTENSIONS LABEL" description="IGNORED EXTENSIONS DESC" />
+
+		<param name="upload_mime" type="text" size="50" default="image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip" label="LEGAL MIME TYPES LABEL" description="LEGAL MIME TYPES DESC" />
+		<param name="upload_mime_illegal" type="text" size="50" default="text/html" label="ILLEGAL MIME TYPES" description="ILLEGAL MIME TYPES DESC" />
+		<param name="enable_flash" type="radio" default="0" label="ENABLE FLASH UPLOADER" description="ENABLE FLASH UPLOADER DESC">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</param>
+	</params>
+</config>

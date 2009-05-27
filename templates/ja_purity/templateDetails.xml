@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="template">
+	<name>JA_Purity</name>
+	<version>1.2.0</version>
+	<creationDate>12/26/07</creationDate>
+	<author>JoomlArt.com</author>
+	<authorEmail>webmaster@joomlart.com</authorEmail>
+	<authorUrl>http://www.joomlart.com</authorUrl>
+	<copyright></copyright>
+	<license>GNU/GPL version 2</license>
+	<description>JA PURITY DESCRIPTION</description>
+<files>
+		<filename>component.php</filename>
+		<filename>css/index.html</filename>
+		<filename>favicon.ico</filename>
+		<filename>html/com_content/article/default.php</filename>
+		<filename>html/com_content/article/index.html</filename>
+		<filename>html/com_content/category/blog_item.php</filename>
+		<filename>html/com_content/category/index.html</filename>
+		<filename>html/com_content/frontpage/default_item.php</filename>
+		<filename>html/com_content/frontpage/index.html</filename>
+		<filename>html/com_content/index.html</filename>
+		<filename>html/com_content/section/blog_item.php</filename>
+		<filename>html/com_content/section/index.html</filename>
+		<filename>html/index.html</filename>
+		<filename>html/modules.php</filename>
+		<filename>html/mod_banners/default.php</filename>
+		<filename>html/mod_banners/index.html</filename>
+		<filename>html/mod_login/default.php</filename>
+		<filename>html/mod_login/index.html</filename>
+		<filename>html/pagination.php</filename>
+		<filename>images/icons_license.txt</filename>
+		<filename>images/index.html</filename>
+		<filename>index.html</filename>
+		<filename>index.php</filename>
+		<filename>ja_templatetools.php</filename>
+		<filename>ja_vars.php</filename>
+		<filename>js/ja.cssmenu.js</filename>
+		<filename>js/ja.moomenu.js</filename>
+		<filename>js/ja.rightcol.js</filename>
+		<filename>js/ja.script.js</filename>
+		<filename>params.ini</filename>
+		<filename>styles/background/index.html</filename>
+		<filename>styles/background/lighter/images/index.html</filename>
+		<filename>styles/background/lighter/index.html</filename>
+		<filename>styles/background/purewhite/images/index.html</filename>
+		<filename>styles/background/purewhite/index.html</filename>
+		<filename>styles/elements/black/images/index.html</filename>
+		<filename>styles/elements/black/index.html</filename>
+		<filename>styles/elements/index.html</filename>
+		<filename>styles/elements/red/images/index.html</filename>
+		<filename>styles/elements/red/index.html</filename>
+		<filename>styles/header/blue/images/index.html</filename>
+		<filename>styles/header/blue/index.html</filename>
+		<filename>styles/header/green/images/index.html</filename>
+		<filename>styles/header/green/index.html</filename>
+		<filename>styles/header/index.html</filename>
+		<filename>styles/index.html</filename>
+		<filename>templateDetails.xml</filename>
+	</files>
+	<images>
+		<filename>images/arrow.png</filename>
+		<filename>images/arrow2.png</filename>
+		<filename>images/arrow3.png</filename>
+		<filename>images/author.gif</filename>
+		<filename>images/b-bl.gif</filename>
+		<filename>images/b-br.gif</filename>
+		<filename>images/b-tl.gif</filename>
+		<filename>images/b-tr.gif</filename>
+		<filename>images/bb-bl.gif</filename>
+		<filename>images/bb-br.gif</filename>
+		<filename>images/bb-tl.gif</filename>
+		<filename>images/bb-tr.gif</filename>
+		<filename>images/bg-bl.gif</filename>
+		<filename>images/bg-br.gif</filename>
+		<filename>images/bg-tl.gif</filename>
+		<filename>images/bg-tr.gif</filename>
+		<filename>images/bl-bl.gif</filename>
+		<filename>images/bl-br.gif</filename>
+		<filename>images/bl-tl.gif</filename>
+		<filename>images/bl-tr.gif</filename>
+		<filename>images/blank.png</filename>
+		<filename>images/br-bl.gif</filename>
+		<filename>images/br-br.gif</filename>
+		<filename>images/br-tl.gif</filename>
+		<filename>images/br-tr.gif</filename>
+		<filename>images/bt-bl.gif</filename>
+		<filename>images/bt-br.gif</filename>
+		<filename>images/bt-tl.gif</filename>
+		<filename>images/bt-tr.gif</filename>
+		<filename>images/bub1-bl.gif</filename>
+		<filename>images/bub1-br.gif</filename>
+		<filename>images/bub1-tl.gif</filename>
+		<filename>images/bub1-tr.gif</filename>
+		<filename>images/bub2-bl.gif</filename>
+		<filename>images/bub2-br.gif</filename>
+		<filename>images/bub2-tl.gif</filename>
+		<filename>images/bub2-tr.gif</filename>
+		<filename>images/bub3-bl.gif</filename>
+		<filename>images/bub3-br.gif</filename>
+		<filename>images/bub3-tl.gif</filename>
+		<filename>images/bub3-tr.gif</filename>
+		<filename>images/bub4-bl.gif</filename>
+		<filename>images/bub4-br.gif</filename>
+		<filename>images/bub4-tl.gif</filename>
+		<filename>images/bub4-tr.gif</filename>
+		<filename>images/bullet.gif</filename>
+		<filename>images/bullet2.gif</filename>
+		<filename>images/bullet3.gif</filename>
+		<filename>images/bullet-list.gif</filename>
+		<filename>images/but-css.gif</filename>
+		<filename>images/but-rss.gif</filename>
+		<filename>images/but-xhtml10.gif</filename>
+		<filename>images/but-xhtml101.gif</filename>
+		<filename>images/c-bg1.gif</filename>
+		<filename>images/c-bg2.gif</filename>
+		<filename>images/checklist-bg.gif</filename>
+		<filename>images/cw-bg1.gif</filename>
+		<filename>images/cw-bg12.gif</filename>
+		<filename>images/cw-bg2.gif</filename>
+		<filename>images/cw-bg22.gif</filename>
+		<filename>images/cwf-bg.gif</filename>
+		<filename>images/download-bg.gif</filename>
+		<filename>images/emailbutton.png</filename>
+		<filename>images/grad1.gif</filename>
+		<filename>images/grad2.gif</filename>
+		<filename>images/grad3.gif</filename>
+		<filename>images/hdot.gif</filename>
+		<filename>images/hdot2.gif</filename>
+		<filename>images/header/header1.jpg</filename>
+		<filename>images/header/header2.jpg</filename>
+		<filename>images/header/header3.jpg</filename>
+		<filename>images/header-mask.png</filename>
+		<filename>images/icon-date.gif</filename>
+		<filename>images/icon-error.gif</filename>
+		<filename>images/icon-info.gif</filename>
+		<filename>images/icon-search.gif</filename>
+		<filename>images/icon-tips.gif</filename>
+		<filename>images/icon-user.gif</filename>
+		<filename>images/icon_list.gif</filename>
+		<filename>images/indent1.png</filename>
+		<filename>images/indent2.png</filename>
+		<filename>images/indent3.png</filename>
+		<filename>images/indent4.png</filename>
+		<filename>images/login-bg.gif</filename>
+		<filename>images/logo.gif</filename>
+		<filename>images/logo.png</filename>
+		<filename>images/ol-bg.gif</filename>
+		<filename>images/opaque.png</filename>
+		<filename>images/pages.gif</filename>
+		<filename>images/pdf_button.png</filename>
+		<filename>images/printbutton.png</filename>
+		<filename>images/rtl/arrow.png</filename>
+		<filename>images/rtl/bub12-bl.gif</filename>
+		<filename>images/rtl/bub12-br.gif</filename>
+		<filename>images/rtl/bub12-tl.gif</filename>
+		<filename>images/rtl/bub12-tr.gif</filename>
+		<filename>images/rtl/bub22-bl.gif</filename>
+		<filename>images/rtl/bub22-br.gif</filename>
+		<filename>images/rtl/bub22-tl.gif</filename>
+		<filename>images/rtl/bub22-tr.gif</filename>
+		<filename>images/rtl/bub32-bl.gif</filename>
+		<filename>images/rtl/bub32-br.gif</filename>
+		<filename>images/rtl/bub32-tl.gif</filename>
+		<filename>images/rtl/bub32-tr.gif</filename>
+		<filename>images/rtl/bub42-bl.gif</filename>
+		<filename>images/rtl/bub42-br.gif</filename>
+		<filename>images/rtl/bub42-tl.gif</filename>
+		<filename>images/rtl/bub42-tr.gif</filename>
+		<filename>images/rtl/c-bg1.gif</filename>
+		<filename>images/rtl/c-bg2.gif</filename>
+		<filename>images/rtl/cw-bg1.gif</filename>
+		<filename>images/rtl/cw-bg12.gif</filename>
+		<filename>images/rtl/cw-bg122.gif</filename>
+		<filename>images/rtl/cw-bg2.gif</filename>
+		<filename>images/rtl/cw-bg22.gif</filename>
+		<filename>images/sc-q.gif</filename>
+		<filename>images/so-q.gif</filename>
+		<filename>images/spacer.png</filename>
+		<filename>images/star-bg.gif</filename>
+		<filename>images/sticky-bg.gif</filename>
+		<filename>images/trans-bg.png</filename>
+		<filename>images/trans.gif</filename>
+		<filename>images/user-decrease.png</filename>
+		<filename>images/user-increase.png</filename>
+		<filename>images/user-reset.png</filename>
+		<filename>images/vdot.gif</filename>
+		<filename>images/vdot2.gif</filename>
+		<filename>styles/background/lighter/images/arrow.png</filename>
+		<filename>styles/background/lighter/images/b-bl.gif</filename>
+		<filename>styles/background/lighter/images/b-br.gif</filename>
+		<filename>styles/background/lighter/images/b-tl.gif</filename>
+		<filename>styles/background/lighter/images/b-tr.gif</filename>
+		<filename>styles/background/lighter/images/bb-bl.gif</filename>
+		<filename>styles/background/lighter/images/bb-br.gif</filename>
+		<filename>styles/background/lighter/images/bb-tl.gif</filename>
+		<filename>styles/background/lighter/images/bb-tr.gif</filename>
+		<filename>styles/background/lighter/images/bg-bl.gif</filename>
+		<filename>styles/background/lighter/images/bg-br.gif</filename>
+		<filename>styles/background/lighter/images/bg-tl.gif</filename>
+		<filename>styles/background/lighter/images/bg-tr.gif</filename>
+		<filename>styles/background/lighter/images/bl-bl.gif</filename>
+		<filename>styles/background/lighter/images/bl-br.gif</filename>
+		<filename>styles/background/lighter/images/bl-tl.gif</filename>
+		<filename>styles/background/lighter/images/bl-tr.gif</filename>
+		<filename>styles/background/lighter/images/br-bl.gif</filename>
+		<filename>styles/background/lighter/images/br-br.gif</filename>
+		<filename>styles/background/lighter/images/br-tl.gif</filename>
+		<filename>styles/background/lighter/images/br-tr.gif</filename>
+		<filename>styles/background/lighter/images/bt-bl.gif</filename>
+		<filename>styles/background/lighter/images/bt-br.gif</filename>
+		<filename>styles/background/lighter/images/bt-tl.gif</filename>
+		<filename>styles/background/lighter/images/bt-tr.gif</filename>
+		<filename>styles/background/lighter/images/bub1-bl.gif</filename>
+		<filename>styles/background/lighter/images/bub1-br.gif</filename>
+		<filename>styles/background/lighter/images/bub1-tl.gif</filename>
+		<filename>styles/background/lighter/images/bub1-tr.gif</filename>
+		<filename>styles/background/lighter/images/bub2-bl.gif</filename>
+		<filename>styles/background/lighter/images/bub2-br.gif</filename>
+		<filename>styles/background/lighter/images/bub2-tl.gif</filename>
+		<filename>styles/background/lighter/images/bub2-tr.gif</filename>
+		<filename>styles/background/lighter/images/bub3-bl.gif</filename>
+		<filename>styles/background/lighter/images/bub3-br.gif</filename>
+		<filename>styles/background/lighter/images/bub3-tl.gif</filename>
+		<filename>styles/background/lighter/images/bub3-tr.gif</filename>
+		<filename>styles/background/lighter/images/bub4-bl.gif</filename>
+		<filename>styles/background/lighter/images/bub4-br.gif</filename>
+		<filename>styles/background/lighter/images/bub4-tl.gif</filename>
+		<filename>styles/background/lighter/images/bub4-tr.gif</filename>
+		<filename>styles/background/lighter/images/c-bg1.gif</filename>
+		<filename>styles/background/lighter/images/c-bg2.gif</filename>
+		<filename>styles/background/lighter/images/checklist-bg.gif</filename>
+		<filename>styles/background/lighter/images/cw-bg1.gif</filename>
+		<filename>styles/background/lighter/images/cw-bg2.gif</filename>
+		<filename>styles/background/lighter/images/cwf-bg.gif</filename>
+		<filename>styles/background/lighter/images/download-bg.gif</filename>
+		<filename>styles/background/lighter/images/icon_list.gif</filename>
+		<filename>styles/background/lighter/images/ol-bg.gif</filename>
+		<filename>styles/background/lighter/images/sc-q.gif</filename>
+		<filename>styles/background/lighter/images/so-q.gif</filename>
+		<filename>styles/background/lighter/images/star-bg.gif</filename>
+		<filename>styles/background/lighter/images/sticky-bg.gif</filename>
+		<filename>styles/background/purewhite/images/arrow.png</filename>
+		<filename>styles/background/purewhite/images/b-bl.gif</filename>
+		<filename>styles/background/purewhite/images/b-br.gif</filename>
+		<filename>styles/background/purewhite/images/b-tl.gif</filename>
+		<filename>styles/background/purewhite/images/b-tr.gif</filename>
+		<filename>styles/background/purewhite/images/bb-bl.gif</filename>
+		<filename>styles/background/purewhite/images/bb-br.gif</filename>
+		<filename>styles/background/purewhite/images/bb-tl.gif</filename>
+		<filename>styles/background/purewhite/images/bb-tr.gif</filename>
+		<filename>styles/background/purewhite/images/bg-bl.gif</filename>
+		<filename>styles/background/purewhite/images/bg-br.gif</filename>
+		<filename>styles/background/purewhite/images/bg-tl.gif</filename>
+		<filename>styles/background/purewhite/images/bg-tr.gif</filename>
+		<filename>styles/background/purewhite/images/bl-bl.gif</filename>
+		<filename>styles/background/purewhite/images/bl-br.gif</filename>
+		<filename>styles/background/purewhite/images/bl-tl.gif</filename>
+		<filename>styles/background/purewhite/images/bl-tr.gif</filename>
+		<filename>styles/background/purewhite/images/br-bl.gif</filename>
+		<filename>styles/background/purewhite/images/br-br.gif</filename>
+		<filename>styles/background/purewhite/images/br-tl.gif</filename>
+		<filename>styles/background/purewhite/images/br-tr.gif</filename>
+		<filename>styles/background/purewhite/images/bt-bl.gif</filename>
+		<filename>styles/background/purewhite/images/bt-br.gif</filename>
+		<filename>styles/background/purewhite/images/bt-tl.gif</filename>
+		<filename>styles/background/purewhite/images/bt-tr.gif</filename>
+		<filename>styles/background/purewhite/images/bub1-bl.gif</filename>
+		<filename>styles/background/purewhite/images/bub1-br.gif</filename>
+		<filename>styles/background/purewhite/images/bub1-tl.gif</filename>
+		<filename>styles/background/purewhite/images/bub1-tr.gif</filename>
+		<filename>styles/background/purewhite/images/bub2-bl.gif</filename>
+		<filename>styles/background/purewhite/images/bub2-br.gif</filename>
+		<filename>styles/background/purewhite/images/bub2-tl.gif</filename>
+		<filename>styles/background/purewhite/images/bub2-tr.gif</filename>
+		<filename>styles/background/purewhite/images/bub3-bl.gif</filename>
+		<filename>styles/background/purewhite/images/bub3-br.gif</filename>
+		<filename>styles/background/purewhite/images/bub3-tl.gif</filename>
+		<filename>styles/background/purewhite/images/bub3-tr.gif</filename>
+		<filename>styles/background/purewhite/images/bub4-bl.gif</filename>
+		<filename>styles/background/purewhite/images/bub4-br.gif</filename>
+		<filename>styles/background/purewhite/images/bub4-tl.gif</filename>
+		<filename>styles/background/purewhite/images/bub4-tr.gif</filename>
+		<filename>styles/background/purewhite/images/c-bg1.gif</filename>
+		<filename>styles/background/purewhite/images/c-bg2.gif</filename>
+		<filename>styles/background/purewhite/images/checklist-bg.gif</filename>
+		<filename>styles/background/purewhite/images/cw-bg1.gif</filename>
+		<filename>styles/background/purewhite/images/cw-bg2.gif</filename>
+		<filename>styles/background/purewhite/images/cw-bg3.gif</filename>
+		<filename>styles/background/purewhite/images/cwf-bg.gif</filename>
+		<filename>styles/background/purewhite/images/download-bg.gif</filename>
+		<filename>styles/background/purewhite/images/icon_list.gif</filename>
+		<filename>styles/background/purewhite/images/ol-bg.gif</filename>
+		<filename>styles/background/purewhite/images/sc-q.gif</filename>
+		<filename>styles/background/purewhite/images/so-q.gif</filename>
+		<filename>styles/background/purewhite/images/star-bg.gif</filename>
+		<filename>styles/background/purewhite/images/sticky-bg.gif</filename>
+		<filename>styles/elements/blue/images/bullet3.gif</filename>
+		<filename>styles/elements/green/images/bullet3.gif</filename>
+		<filename>styles/elements/red/images/bullet3.gif</filename>
+		<filename>styles/header/blue/images/header-mask.png</filename>
+		<filename>styles/header/blue/images/icon-search.gif</filename>
+		<filename>styles/header/blue/images/opaque.png</filename>
+		<filename>styles/header/blue/images/vdot2.gif</filename>
+		<filename>styles/header/green/images/header-mask.png</filename>
+		<filename>styles/header/green/images/icon-search.gif</filename>
+		<filename>styles/header/green/images/opaque.png</filename>
+		<filename>styles/header/green/images/vdot2.gif</filename>
+		<filename>template_thumbnail.png</filename>
+	</images>
+	<css>
+		<filename>css/ja-sosdmenu.css</filename>
+		<filename>css/menu.css</filename>
+		<filename>css/template.css</filename>
+		<filename>css/template_rtl.css</filename>
+		<filename>styles/background/lighter/style.css</filename>
+		<filename>styles/background/purewhite/style.css</filename>
+		<filename>styles/elements/black/style.css</filename>
+		<filename>styles/elements/blue/style.css</filename>
+		<filename>styles/elements/green/style.css</filename>
+		<filename>styles/elements/red/style.css</filename>
+		<filename>styles/header/blue/style.css</filename>
+		<filename>styles/header/green/style.css</filename>
+	</css>
+	<languages>
+		<language tag="en-GB">en-GB.tpl_ja_purity.ini</language>
+	</languages>
+	<administration>
+    	<languages>
+			<language tag="en-GB">admin/en-GB.tpl_ja_purity.ini</language>
+		</languages>
+    </administration>
+
+	<positions>
+		<position>hornav</position>
+		<position>breadcrumbs</position>
+		<position>banner</position>
+		<position>left</position>
+		<position>right</position>
+		<position>top</position>
+		<position>user1</position>
+		<position>user2</position>
+		<position>user3</position>
+		<position>user4</position>
+		<position>user5</position>
+		<position>footer</position>
+		<position>syndicate</position>
+		<position>debug</position>
+	</positions>
+
+	<params>
+		<param type="spacer" default="Template Logo" />
+		<param name="logoType" type="list" default="image" label="Logo type" description="LOGO TYPE DESCRIPTION">
+			<option value="image">Image</option>
+			<option value="text">Text</option>
+		</param>
+		<param name="logoText" type="text" default="" size="50" label="Logo text" description="LOGO TEXT DESCRIPTION" />
+		<param name="sloganText" type="text" default="" size="50" label="Slogan" description="SLOGAN DESCRIPTION" />
+
+		<param type="spacer" default="Horizontal Navigation" />		
+		<param name="horNavType" type="list" default="moo" label="Horizontal Navigation Type" description="Suckerfish menu or JAMoo menu">
+			<option value="moo">JAMoo Menu</option>
+			<option value="css">Suckerfish Menu</option>
+		</param>
+		
+
+		<param type="spacer" default="Template Font Size" />
+		<param name="ja_font" type="list" default="3" label="Font size" description="FONT SIZE DESCRIPTION">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+		</param>
+		
+		<param type="spacer" default="Template_Width" />
+		<param name="ja_screen" type="list" default="950" label="Template Width" description="TEMPLATE WIDTH DESCRIPTION">
+			<option value="auto">AUTO</option>
+			<option value="750">Narrow Screen</option>
+			<option value="950">Wide Screen</option>
+			<option value="fluid">SPECIFIED PERCENTAGE</option>
+			<option value="fix">SPECIFIED PIXEL</option>
+		</param>		
+		<param name="ja_screen_width" type="text" default="" label="Specified width" description="SPECIFIED WIDTH DESCRIPTION" />
+		
+		<param type="spacer" default="Template Styles" />
+		<param name="theme_header" type="folderlist" directory="templates/ja_purity/styles/header" default="" label="Header Themes" description="HEADER THEMES DESCRIPTION" />
+		<param name="theme_background" type="folderlist" directory="templates/ja_purity/styles/background" default="" label="Background Themes" description="BACKGROUND THEMES DESCRIPTION" />
+		<param name="theme_elements" type="folderlist" directory="templates/ja_purity/styles/elements" default="" label="Primary Elements" description="PRIMARY ELEMENTS DESCRIPTION" />
+		
+		<param type="spacer" default="Right modules" />
+		<param name="rightCollapsible" type="radio" default="1" label="Right modules collapsible function" description="RIGHT MODULES COLLAPSIBLE FUNCTION DESCRIPTION">
+			<option value="1">Enable</option>
+			<option value="0">Disable</option>
+		</param>
+		<param name="rightCollapseDefault" type="radio" default="show" label="Default status" description="DEFAULT STATUS DESCRIPTION">
+			<option value="show">Expand All</option>
+			<option value="hide">Collapse All</option>
+		</param>
+		<param name="excludeModules" type="text" default="38" size="50" label="Exclude Modules" description="EXCLUDE MODULES DESCRIPTION" />
+		
+	</params>
+</install>

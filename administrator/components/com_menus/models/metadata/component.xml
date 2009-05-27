@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<state>
+		<name>Component</name>
+		<description>Component Parameters</description>
+		<params>
+			<param name="page_title" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
+			<param name="show_page_title" type="radio" default="1" label="Show Page Title" description="SHOW/HIDE THE PAGES TITLE">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
+				<option value="-1">Off</option>
+				<option value="0">Ignore</option>
+				<option value="1">On</option>
+			</param>
+		</params>
+		<advanced />
+	</state>
+</metadata>

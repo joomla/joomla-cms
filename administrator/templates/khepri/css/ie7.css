@@ -1,0 +1,11 @@
+input { border-width: expression(this.type=="radio"?'0px':this.type=="checkbox"?'0px':'1px'); }
+
+div#toolbar-box {
+	height: 65px;
+}
+
+#toolbar-box div.m {
+height: 50px;
+
+}
+

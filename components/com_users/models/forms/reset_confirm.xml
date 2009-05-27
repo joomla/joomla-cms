@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields>
+		<field name="token" type="text" id="token" 
+			label="Users_Reset_Token_Label"
+			description="Users_Reset_Token_Desc"
+			class="inputbox"
+			size="32"
+			default=""
+			required="true"
+			filter="alnum"
+			validate="md5"
+		/>
+	</fields>
+</form>

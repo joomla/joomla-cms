@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="username"
+			type="text"
+			label="Users_Form_Username_Label"
+			description="Users_Form_Username_Desc"
+			class="inputbox validate-username"
+			size="30"
+			default=""
+			required="true"
+			filter="username"
+		/>
+	</fields>
+</form>

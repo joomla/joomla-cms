@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module">
+	<name>Latest News</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2004</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>DESCLATESTNEWS</description>
+	<files>
+		<filename module="mod_latest">mod_latest.php</filename>
+	</files>
+	<params>
+		<param name="ordering" type="list" default="create_dsc" label="Ordering" description="Ordering options">
+			<option value="c_dsc">Recently Added First</option>
+			<option value="m_dsc">Recently Modified First</option>
+	  	</param>
+		<param name="user_id" type="list" default="0" label="Authors" description="A filter for the authors">
+			<option value="0">Anyone</option>
+			<option value="by_me">Added or modified by me</option>
+			<option value="not_me">Not added or modified by me</option>
+	  	</param>
+		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+			<option value="0">Never</option>
+	  	</param>
+	</params>
+</install>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.0.0">
+	<name>Contact Items</name>
+	<author>Joomla! Project</author>
+	<creationDate>2006</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>Parameters for individual Contact Items</description>
+	<params>
+		<param name="show_name" type="radio" default="1" label="Name" description="Show/Hide the name info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_position" type="radio" default="1" label="Contact's Position" description="Show/Hide the position info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_email" type="radio" default="0" label="E-mail" description="PARAMEMAIL">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_street_address" type="radio" default="1" label="Street Address" description="Show/Hide the street address info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_suburb" type="radio" default="1" label="Town/Suburb" description="Show/Hide the suburb info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_state" type="radio" default="1" label="State/County" description="Show/Hide the state info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_postcode" type="radio" default="1" label="Post/Zip Code" description="Show/Hide the post code info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_country" type="radio" default="1" label="Country" description="Show/Hide the country info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_telephone" type="radio" default="1" label="Telephone" description="Show/Hide the telephone info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_mobile" type="radio" default="1" label="Mobile" description="Show/Hide the mobile info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_fax" type="radio" default="1" label="Fax" description="Show/Hide the fax info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_webpage" type="radio" default="1" label="Webpage" description="Show/Hide the webpage">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_misc" type="radio" default="1" label="Misc Info" description="Show/Hide the miscellaneous info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_image" type="radio" default="1" label="Image" description="Show/Hide the image">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="allow_vcard" type="radio" default="0" label="vCard" description="Show/Hide VCard">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+	</params>
+	<params group="advanced">
+		<param name="contact_icons" type="list" default="0" label="Icons/text" description="PARAMCONTACTICONS">
+			<option value="0">Icons</option>
+			<option value="1">Text</option>
+			<option value="2">None</option>
+		</param>
+		<param name="icon_address" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Address Icon" description="Icon for the Address info" />
+		<param name="icon_email" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Email Icon" description="Icon for the Email info" />
+		<param name="icon_telephone" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Telephone Icon" description="Icon for the Telephone info" />
+		<param name="icon_mobile" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Mobile Icon" description="Icon for the Mobile info" />
+		<param name="icon_fax" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Fax Icon" description="Icon for the Fax info" />
+		<param name="icon_misc" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Misc Icon" description="Icon for the Misc info" />
+	</params>
+	<params group="email">
+		<param name="show_email_form" type="radio" default="1" label="Email Form" description="Show/Hide the email to form">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="email_description" type="text" size="30" default="" label="Description text" description="PARAMEMAILDESCTEXT" />
+		<param name="show_email_copy" type="radio" default="1" label="Email Copy" description="PARAMEMAILCOPY">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="banned_email" type="textarea" default="" label="BANNED EMAIL LABEL" rows="3" cols="30" description="BANNED EMAIL DESC" />
+		<param name="banned_subject" type="textarea" default="" label="BANNED SUBJECT LABEL" rows="3" cols="30" description="BANNED SUBJECT DESC" />
+		<param name="banned_text" type="textarea" default="" label="BANNED TEXT LABEL" rows="3" cols="30" description="BANNED TEXT DESC" />
+	</params>
+</install>

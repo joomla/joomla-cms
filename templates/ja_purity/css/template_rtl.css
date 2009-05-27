@@ -1,0 +1,655 @@
+/* COMMON STYLE
+--------------------------------------------------------- */
+html {
+	direction: rtl;
+}
+
+ul li {
+	padding-right: 30px;
+	background-position: 98% 8px;
+}
+
+ol li {
+	margin-right: 35px;
+	margin-left: -35px;
+	padding: 0;
+}
+
+th {
+	text-align: right;
+}
+
+/* JOOMLA STYLE
+--------------------------------------------------------- */
+td.sectiontableheader {
+  border-left: 1px solid #fff;
+  border-right: none;
+}
+
+table.contenttoc {
+	float:left;
+	margin: 0 10px 10px 0px;
+}
+
+table.contenttoc td {
+	padding: 1px 25px 1px 5px;
+	background-position: 95% 50%;
+}
+
+table.pollstableborder {
+	text-align: right;
+}
+
+.blog_more ul li {
+	padding: 0 17px 0 0;
+	background-position: 98% 8px;
+}
+
+a.readon {
+	float: right;
+	padding: 1px 14px 1px 5px;
+	background: url(../images/rtl/arrow.png) no-repeat 95% 48%;
+}
+
+a.readon:hover, a.readon:active, a.readon:focus {
+	background: url(../images/rtl/arrow.png) no-repeat 95% 48% #FFFFFF;
+}
+
+ul.pagination li span{
+	padding: 0;
+}
+
+.pagenavbar {
+	padding-right: 14px;
+	background-position: center right;
+}
+
+.pagenavcounter {
+	padding: 8px 14px 0 14px;
+	background-position: 0 11px;
+}
+
+.smalldark {
+	text-align: right;
+}
+
+/* META
+--------------------------------------------------------- */
+.article-tools {
+	float: right;
+}
+
+.article-meta {
+	float: right;
+}
+
+.createby {
+	padding: 3px 20px 3px 3px;
+	background-position: 100% 5px;
+	float: right;
+}
+
+.createdate {
+	padding: 3px 20px 3px 3px;
+	background-position: 100% 5px;
+	float: right;
+}
+
+.buttonheading img {
+	margin: 7px 0 0 5px;
+	float: left;
+}
+
+/* MAIN LAYOUT DIVS
+--------------------------------------------------------- */
+#ja-containerwrap {
+	background: url(../images/rtl/cw-bg12.gif) repeat-y 50% 0;
+}
+
+#ja-containerwrap-fr {
+	background: url(../images/rtl/cw-bg12.gif) repeat-y 50% 0;
+}
+
+#ja-containerwrap2 {
+	background: url(../images/rtl/cw-bg2.gif) no-repeat 50% 0;
+}
+
+#ja-container {
+	background: url(../images/rtl/c-bg1.gif) repeat-y 82% 0;
+	padding: 0;
+}
+
+#ja-container2 {
+	background: url(../images/rtl/c-bg2.gif) no-repeat 82% top;
+	padding: 20px 0;
+}
+
+#ja-mainbody, #ja-mainbody-fl {
+	float: right;
+}
+
+#ja-mainbody #ja-contentwrap,
+#ja-mainbody-fr #ja-contentwrap,
+#ja-mainbody-fl #ja-contentwrap {
+	float: left;
+}
+
+#ja-mainbody-fl #ja-contentwrap #ja-content {
+	padding-left: 20px;
+}
+
+#ja-mainbody-f, #ja-mainbody-fr {
+	float: right;
+}
+
+#ja-content {
+	padding: 0 40px 0 20px;
+}
+.OPE #ja-content {
+	padding-left: 40px;
+}
+.OPE #ja-mainbody #ja-content {
+	padding-right: 20px;
+}
+#ja-mainbody-fl #ja-content {
+	padding-right: 0;
+}
+
+/* Full */
+#ja-containerwrap-f {
+	background: url(../images/rtl/cwf-bg.gif) repeat-x top right #F6F6F6;
+}
+
+/* Full right */
+#ja-containerwrap-fl {
+	background: url(../images/rtl/cwf-bg.gif) repeat-x top right #F6F6F6;
+}
+
+#ja-containerwrap-fr #ja-containerwrap2 {
+	background: url(../images/rtl/cw-bg2.gif) no-repeat 50% 0;
+}
+
+/* HEADER
+--------------------------------------------------------- */
+.ja-headermask {
+	background-position: top left;
+	left: -1px;
+	right: auto;
+}
+
+h1.logo-text a {
+	right: 5px;
+	left: auto;
+}
+
+p.site-slogan {
+	right: 0;
+	left: auto;
+}
+
+/* Search */
+#ja-search {
+	background-position: center right;
+	left: 0;
+	right: auto;
+}
+
+/* MAIN NAVIGATION
+--------------------------------------------------------- */
+
+/* MODULE
+--------------------------------------------------------- */
+div.module_black,
+div.module_green,
+div.module_blue,
+div.module_red,
+div.module {
+	float: right;
+}
+
+div.module_black div div div div,
+div.module_green div div div div,
+div.module_blue div div div div,
+div.module_red div div div div,
+div.module_text div div div div,
+div.module div div div div {
+	float: none;
+}
+
+div.module_text span {
+	float: right;
+}
+
+div.module_text {
+	float: right;
+}
+
+div.module_blue li,
+div.module_red li,
+div.module_black li,
+div.module_green li {
+	margin-right: 20px;
+	margin-left: auto;
+}
+
+div.advs {
+	float: right;
+}
+
+/* PATHWAY
+--------------------------------------------------------- */
+#ja-pathway {
+}
+
+/* right COLUMN + left COLUMN
+--------------------------------------------------------- */
+#ja-col1 {
+	float: right;
+}
+
+#ja-col2 {
+	float: left;
+}
+
+#ja-col1 ul li,
+#ja-col2 ul li {
+	padding-right: 15px;
+	background-position: 100% 10px;
+}
+
+#ja-col1 ol, #ja-col2 ol,
+#ja-col1 ul, #ja-col2 ul
+{
+	margin-right: 5px;
+}
+ul.menu li.active a span {
+	background: none;
+}
+
+/* SPOTLIGHT
+--------------------------------------------------------- */
+/* Spotlight Box Style */
+.ja-box-full, .ja-box-right, .ja-box-center, .ja-box-left {
+	float: right;
+}
+
+.ja-box-left div.moduletable,
+.ja-box-full div.moduletable {
+	padding-left: 30px;
+}
+
+.ja-box-right div.moduletable {
+	padding-left: 30px;
+	padding-right: 30px;
+	background-position: right;
+}
+
+.ja-box-center div.moduletable {
+	background-position: right;
+}
+
+#ja-botsl ul li {
+	padding: 0 15px 0 0;
+	background-position: 99% 8px;
+}
+
+#ja-botsl ol li {
+	margin-right: 25px;
+}
+
+/* FOOTER
+--------------------------------------------------------- */
+#ja-footer {
+	background-position: 78% 0;
+}
+
+#ja-footer .copyright {
+	padding-right: 25%;
+}
+
+#ja-footnav {
+	padding-right: 25%;
+}
+
+#ja-footnav li{
+	float: right;
+	direction: ltr;
+}
+
+#ja-footer li a {
+	padding: 0 0 0 15px;
+}
+
+.ja-cert {
+	left: 0;
+	right: auto;
+}
+
+.ja-cert a {
+	margin: 0 5px 0 0;
+}
+
+.banneritem {
+	display: block;
+	margin-top: 15px;
+}
+
+/* MISCELLANOUS
+----------------------------------------------------------- */
+/*usertool*/
+ul.ja-usertools-font {
+	left: 70px;
+	right: auto;
+}
+
+/*collapsible h3*/
+h3.show {
+	background-position: 10% 60%;
+}
+
+h3.hide {
+	background-position: 10% 60%;
+}
+
+.hasTip img {
+	margin: 10px 0 0 5px;
+}
+
+/* Tooltips */
+.tool-tip {
+	float: right;
+}
+
+.breadcrumbs {
+}
+
+.breadcrumbs a {
+	float: right;
+}
+
+.breadcrumbs img {
+	float: right;
+	margin-top: 10px;
+	padding-top: 5px;
+}
+
+/* MainNav
+--------------------------------------------------------- */
+#ja-mainnav{
+	direction: ltr;
+}
+
+#ja-mainnav li a {
+	direction: rtl;
+}
+
+#ja-cssmenu {
+	float: right;
+}
+
+#ja-cssmenu li {
+	float: right;
+}
+
+#ja-cssmenu li ul {
+	right: 0;
+}
+
+#ja-cssmenu li ul ul {
+	margin: -1.5em 14em 0 0; /* third-and-above-level lists */
+}
+
+#ja-cssmenu li li {
+	padding: 0 0 0 1em;
+}
+
+/* STYLING THE MENU
+-----------------------------------*/
+/* 1st level */
+#ja-cssmenu li ul a {
+	border-left: none;
+}
+
+#ja-cssmenu li.havesubchild,
+#ja-cssmenu li.havesubchild-active {
+	background-position: 6% 50%;
+}
+
+body.IE6 #ja-cssmenu li ul,
+body.IE7 #ja-cssmenu li ul,
+body.OPE #ja-cssmenu li ul {
+	left: auto;
+	top: -999em; /* using left instead of display to hide menus because display: none isn't read by screen readers */
+}
+
+body.IE6 #ja-cssmenu li.sfhover ul ul, body.IE6 #ja-cssmenu li.havechildsfhover ul ul, body.IE6 #ja-cssmenu li.havechild-activesfhover ul ul, body.IE6 #ja-cssmenu li.activesfhover ul ul,
+body.IE6 #ja-cssmenu li.sfhover ul ul ul, body.IE6 #ja-cssmenu li.havechildsfhover ul ul ul, body.IE6 #ja-cssmenu li.havechild-activesfhover ul ul ul, body.IE6 #ja-cssmenu li.activesfhover ul ul ul,
+body.IE7 #ja-cssmenu li.sfhover ul ul, body.IE7 #ja-cssmenu li.havechildsfhover ul ul, body.IE7 #ja-cssmenu li.havechild-activesfhover ul ul, body.IE7 #ja-cssmenu li.activesfhover ul ul,
+body.IE7 #ja-cssmenu li.sfhover ul ul ul, body.IE7 #ja-cssmenu li.havechildsfhover ul ul ul, body.IE7 #ja-cssmenu li.havechild-activesfhover ul ul ul, body.IE7 #ja-cssmenu li.activesfhover ul ul ul,
+body.OPE #ja-cssmenu li.sfhover ul ul, body.OPE #ja-cssmenu li.havechildsfhover ul ul, body.OPE #ja-cssmenu li.havechild-activesfhover ul ul, body.OPE #ja-cssmenu li.activesfhover ul ul,
+body.OPE #ja-cssmenu li.sfhover ul ul ul, body.OPE #ja-cssmenu li.havechildsfhover ul ul ul, body.OPE #ja-cssmenu li.havechild-activesfhover ul ul ul, body.OPE #ja-cssmenu li.activesfhover ul ul ul {
+	left: auto;
+	left: auto;
+	top: -999em;
+}
+
+/* This "unhides" the sub-menus (left: -999em is what hides them) */
+body.IE6 #ja-cssmenu li.sfhover ul, body.IE6 #ja-cssmenu li.havechildsfhover ul, body.IE6 #ja-cssmenu li.havechild-activesfhover ul, body.IE6 #ja-cssmenu li.activesfhover ul,
+body.IE6 #ja-cssmenu li li.sfhover ul, body.IE6 #ja-cssmenu li li.havesubchildsfhover ul, body.IE6 #ja-cssmenu li li.havesubchild-activesfhover ul, body.IE6 #ja-cssmenu li li.activesfhover ul,
+body.IE6 #ja-cssmenu li li li.sfhover ul, body.IE6 #ja-cssmenu li li li.havesubchildsfhover ul, body.IE6 #ja-cssmenu li li li.havesubchild-activesfhover ul, body.IE6 #ja-cssmenu li li li.activesfhover ul,
+body.IE7 #ja-cssmenu li.sfhover ul, body.IE7 #ja-cssmenu li.havechildsfhover ul, body.IE7 #ja-cssmenu li.havechild-activesfhover ul, body.IE7 #ja-cssmenu li.activesfhover ul,
+body.IE7 #ja-cssmenu li li.sfhover ul, body.IE7 #ja-cssmenu li li.havesubchildsfhover ul, body.IE7 #ja-cssmenu li li.havesubchild-activesfhover ul, body.IE7 #ja-cssmenu li li.activesfhover ul,
+body.IE7 #ja-cssmenu li li li.sfhover ul, body.IE7 #ja-cssmenu li li li.havesubchildsfhover ul, body.IE7 #ja-cssmenu li li li.havesubchild-activesfhover ul, body.IE7 #ja-cssmenu li li li.activesfhover ul,
+body.OPE #ja-cssmenu li.sfhover ul, body.OPE #ja-cssmenu li.havechildsfhover ul, body.OPE #ja-cssmenu li.havechild-activesfhover ul, body.OPE #ja-cssmenu li.activesfhover ul,
+body.OPE #ja-cssmenu li li.sfhover ul, body.OPE #ja-cssmenu li li.havesubchildsfhover ul, body.OPE #ja-cssmenu li li.havesubchild-activesfhover ul, body.OPE #ja-cssmenu li li.activesfhover ul,
+body.OPE #ja-cssmenu li li li.sfhover ul, body.OPE #ja-cssmenu li li li.havesubchildsfhover ul, body.OPE #ja-cssmenu li li li.havesubchild-activesfhover ul, body.OPE #ja-cssmenu li li li.activesfhover ul {
+	top: auto;
+}
+
+/* TYPOGRAPY FIX FOR RTL */
+pre, .code {
+	border-right: 5px solid #999999;
+	border-left: none;
+}
+
+blockquote {
+	padding: 1em 40px 1em 15px;
+}
+
+blockquote span.open {
+	float: right;
+	padding: 0 20px 0 0;
+	background-position: right top;
+}
+
+blockquote span.close {
+	padding: 0 0 0 20px;
+	background-position: bottom left;
+}
+
+/* Small quote */
+.small-quote span.open-quote {
+	padding-left: 20px;
+	background-position: center left;
+}
+
+.small-quote span.close-quote {
+	padding-right: 20px;
+	background-position: center right;
+}
+
+.small-quote span.author {
+	padding: 2px 20px 2px 5px;
+	background-position: 99% 4px;
+}
+
+/* Dropcap */
+.dropcap {
+	float: right;
+	padding: 4px 0 0 8px;
+}
+
+/* Note Style */
+p.stickynote {
+	padding: 10px 40px 10px 0;
+	background-position: 99% 50%;
+}
+
+p.download {
+	padding: 10px 40px 10px 0;
+	background-position: 99% 50%;
+}
+
+.blocknumber {
+	clear: both;
+	padding: 5px 15px 10px;
+	position: relative;
+}
+
+/* Check list */
+ul.checklist {
+	list-style: none;
+}
+
+ul.checklist li {
+	margin-right: 15px;
+	padding: 0 20px 5px 0px;
+	background-position: right 3px;
+}
+/* Small checklist */
+ul.small-checklist {
+	list-style: none;
+}
+
+ul.small-checklist li {
+	margin-right: 15px;
+	padding: 0 20px 5px 0;
+	background-position: right 3px;
+}
+
+/* Check list */
+ul.stars {
+	list-style: none;
+}
+
+ul.stars li {
+	margin-right: 15px;
+	padding: 0px 20px 5px 0;
+	background-position: right 3px;
+}
+
+.IE7 ul li, 
+.IE7 ul.checklist li, 
+.IE7 ul.small-checklist li,
+.IE7 ul.stars li
+{
+	padding-right: 40px;
+}
+
+/* Tips, Error, Message, Hightlight*/
+p.error {
+	padding-right: 25px;
+	background-position: top right;
+}
+
+p.message {
+	padding-right: 25px;
+	background-position: top right;
+}
+
+p.tips {
+	padding-right: 25px;
+	background-position: top right;
+}
+
+/* Bignumber */
+.bignumber {
+	float: right;
+	margin-left: 8px;
+	padding: 6px 7px;
+	display: block;
+	background-position: top right;
+}
+
+/* Talking box. Thinking box. */
+div.bubble1 span.author,
+div.bubble2 span.author,
+div.bubble3 span.author,
+div.bubble4 span.author {
+	padding-right: 15px;
+	margin-right: 15px;
+	background-position: center right;
+	float: right;
+}
+
+div.bubble1 div {
+	background: url(../images/rtl/bub12-br.gif) no-repeat bottom left;
+}
+
+div.bubble1 div div {
+	background: url(../images/rtl/bub12-bl.gif) no-repeat bottom right;
+}
+
+div.bubble1 div div div {
+	background: url(../images/rtl/bub12-tr.gif) no-repeat top left;
+}
+
+div.bubble1 div div div div {
+	background: url(../images/rtl/bub12-tl.gif) no-repeat top right;
+}
+
+div.bubble2 div {
+	background: url(../images/rtl/bub22-br.gif) no-repeat bottom left;
+}
+
+div.bubble2 div div {
+	background: url(../images/rtl/bub22-bl.gif) no-repeat bottom right;
+}
+
+div.bubble2 div div div {
+	background: url(../images/rtl/bub22-tr.gif) no-repeat top left;
+}
+
+div.bubble2 div div div div {
+	background: url(../images/rtl/bub22-tl.gif) no-repeat top right;
+}
+
+div.bubble3 div {
+	background: url(../images/rtl/bub32-br.gif) no-repeat bottom left;
+}
+
+div.bubble3 div div {
+	background: url(../images/rtl/bub32-bl.gif) no-repeat bottom right;
+}
+
+div.bubble3 div div div {
+	background: url(../images/rtl/bub32-tr.gif) no-repeat top left;
+}
+
+div.bubble3 div div div div {
+	background: url(../images/rtl/bub32-tl.gif) no-repeat top right;
+}
+
+div.bubble4 div {
+	background: url(../images/rtl/bub42-br.gif) no-repeat bottom left;
+}
+
+div.bubble4 div div {
+	background: url(../images/rtl/bub42-bl.gif) no-repeat bottom right;
+}
+
+div.bubble4 div div div {
+	background: url(../images/rtl/bub42-tr.gif) no-repeat top left;
+}
+
+div.bubble4 div div div div {
+	background: url(../images/rtl/bub42-tl.gif) no-repeat top right;
+}
+
+/* Legend */
+.legend-title {
+	display: block;
+	float: left;
+	right: 7px;
+	left: auto;
+}

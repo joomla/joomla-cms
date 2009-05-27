@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields label="USERS REGISTRATION DEFAULT LABEL">
+		<field
+			name="name"
+			type="text"
+			id="name"
+			label="Users_Register_Name_Label"
+			description="Users_Register_Name_Desc"
+			message="Users_Register_Name_Message"
+			class="inputbox"
+			size="30"
+			default=""
+			required="true"
+			filter="string"
+		/>
+		<field
+			name="username"
+			type="text"
+			id="username"
+			label="Users_Register_Username_Label"
+			description="Users_Register_Username_Desc"
+			message="Users_Register_Username_Message"
+			class="inputbox validate-username"
+			size="30"
+			default=""
+			required="true"
+			filter="username"
+			validate="username"
+			field="id"
+		/>
+		<field
+			name="password1"
+			type="password"
+			id="password1"
+			label="Users_Register_Password1_Label"
+			description="Users_Register_Password1_Desc"
+			message="Users_Register_Password1_Message"
+			class="inputbox validate-password"
+			size="30"
+			autocomplete="off"
+			default=""
+			required="required"
+			filter="raw"
+			validate="equals"
+			field="password2"
+		/>
+		<field
+			name="password2"
+			type="password"
+			id="password2"
+			label="Users_Register_Password2_Label"
+			description="Users_Register_Password2_Desc"
+			message="Users_Register_Password2_Desc"
+			class="inputbox validate-password"
+			size="30"
+			autocomplete="off"
+			default=""
+			required="required"
+			filter="raw"
+		/>
+		<field
+			name="email1"
+			type="text"
+			id="email1"
+			label="Users_Register_Email1_Label"
+			description="Users_Register_Email1_Desc"
+			message="Users_Register_Email1_Message"
+			class="inputbox validate-email"
+			size="30"
+			default=""
+			required="true"
+			filter="string"
+			validate="email"
+			field="id"
+			unique="true"
+		/>
+		<field
+			name="email2"
+			type="text"
+			id="email2"
+			label="Users_Register_Email2_Label"
+			description="Users_Register_Email2_Desc"
+			message="Users_Register_Email2_Message"
+			class="inputbox validate-email"
+			size="30"
+			default=""
+			required="true"
+			filter="string"
+			validate="equals"
+			field="email1"
+		/>
+	</fields>
+</form>

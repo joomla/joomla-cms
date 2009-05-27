@@ -1,0 +1,25 @@
+<?php
+/**
+ * @version		$Id: mod_footer.php 10381 2008-06-01 03:35:53Z pasamio $
+ * @package		Joomla.Administrator
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
+
+// no direct access
+defined('_JEXEC') or die;
+
+$version = new JVersion();
+
+?>
+<div>
+	<?php echo $version->URL; ?>
+</div>
+
+<div class="smallgrey">
+	<?php echo $version->getLongVersion(); ?>
+</div>
+
+<div>
+	<a href="http://www.joomla.org/content/blogcategory/32/66/" target="_blank"><?php echo JText::_('Check for latest Version'); ?></a>
+</div>

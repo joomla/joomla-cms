@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" client="administrator">
+	<name>Admin Menu</name>
+	<author>Joomla! Project</author>
+	<creationDate>March 2006</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>This module shows the main admin navigation module</description>
+	<files>
+		<filename module="mod_menu">mod_menu.php</filename>
+		<filename>menu.php</filename>
+	</files>
+	<params>
+	</params>
+	<params group="advanced">
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+	</params>
+</install>

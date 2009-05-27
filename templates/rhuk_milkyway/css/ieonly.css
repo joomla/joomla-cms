@@ -1,0 +1,20 @@
+/* IE ONLY CSS */
+
+body.width_fmax div#wrapper {
+	width: expression(((document.body.clientWidth)) < 751? "750px": ((document.body.clientWidth)) > 1050? "1050px": "auto" );
+}
+
+div.module_menu div div div {
+	width: 100%;
+}
+
+div#footer {
+	width: 100%;
+}
+
+div#whitebox_b {
+	width: 100%;
+}
+#pathway {
+   float: left;
+}

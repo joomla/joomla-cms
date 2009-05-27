@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: manifest.xml 199 2009-02-03 21:57:40Z eddieajau $ -->
+<install type="component" version="1.5.0" method="upgrade">
+    <name>Users</name>
+    <version>1.0.0</version>
+    <creationDate>3 Feb 2009</creationDate>
+    <author>Joomla!</author>
+    <authorEmail>info@jxtended.com</authorEmail>
+    <authorUrl>http://jxtended.com</authorUrl>
+    <copyright>2008 JXtended LLC. All rights reserved.</copyright>
+    <license>GNU General Public License</license>
+    <description>
+    	<![CDATA[
+    	<p>
+    		<strong>Users</strong> extension.
+    	</p>
+    	]]>
+    </description>
+</install>

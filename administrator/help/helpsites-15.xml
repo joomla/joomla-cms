@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<joshelp>
+<sites>
+   	<site tag="en-GB" url="http://help.joomla.org">English (GB) - help.joomla.org</site>
+   	<site tag="es-ES" url="http://comunidadjoomla.org"> Spanish -comunidadjoomla.org</site>
+    <site tag="it-IT" url="http://www.joomla.it"> Italian - joomla.it</site>
+    <site tag="hu-HU" url="http://help.joomla.org.hu"> Hungarian -joomla.org.hu</site>
+    <site tag="de-DE" url="http://hilfe.jgerman.de"> German -hilfe.jgerman.de</site>
+    <site tag="nl-NL" url="http://help.joomlacommunity.eu"> Dutch(NL) - help.joomlacommunity.eu</site>
+</sites>
+</joshelp>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5.0" type="component">
+	<name>MailTo</name>
+	<author>Joomla! Project</author>
+	<creationDate>April 2006</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.5.0</version>
+	<description>A generic mail to friend component</description>
+	<files>
+	</files>
+	<params>
+		<param name="view" type="filelist" directory="/components/com_mailto/views" hide_none="1" hide_default="0" filter="." default="0" label="View Style" description="The view style for display" />
+	</params>
+</install>

@@ -1,0 +1,32 @@
+a {
+	color: #7BA566;
+	text-decoration: underline;
+}
+
+a.readon {
+	color: #7BA566;
+}
+
+#ja-container2 ul.menu li li a:hover,
+#ja-container2 ul.menu li li a:active,
+#ja-container2 ul.menu li li a:focus {
+	color: #7BA566;
+}
+
+.bignumber {
+	color: #7BA566;
+}
+
+#ja-container2 ul.menu li.active a {
+	color: #7BA566;
+}
+
+div.moduletable h3,
+div.moduletable_menu h3,
+div.moduletable_text h3 {
+	color: #7BA566;
+}
+
+div.module h3 {
+	color: #7BA566;
+}

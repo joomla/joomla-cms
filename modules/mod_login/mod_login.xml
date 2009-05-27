@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>Login</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2006</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.5.0</version>
+	<description>DESCLOGINFORM</description>
+	<files>
+		<filename module="mod_login">mod_login.php</filename>
+	</files>
+	<params>
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="0">Never</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="pretext" type="textarea" cols="30" rows="5" default="" label="Pre-text" description="PARAMPRETEXT" />
+		<param name="posttext" type="textarea" cols="30" rows="5" label="Post-text" description="PARAMPOSTTEXT" />
+		<param name="login" type="menuitem" default="" disable="separator" label="Login Redirection URL" description="PARAMLOGINREDIRECTURL" />
+		<param name="logout" type="menuitem" default="" disable="separator" label="Logout Redirection URL" description="PARAMLOGOUTREDIRECTURL" />
+		<param name="greeting" type="radio" default="1" label="Greeting" description="Show/Hide the simple greeting text">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="name" type="list" default="0" label="Name/Username">
+			<option value="0">Username</option>
+			<option value="1">Name</option>
+		</param>
+		<param name="usesecure" type="radio" default="0" label="Encrypt Login Form" description="Submit encrypted login data (requires SSL)">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
+</install>

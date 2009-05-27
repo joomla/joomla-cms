@@ -1,0 +1,194 @@
+<?php
+/**
+ * @version		$Id: joomla.php 11190 2008-10-20 00:49:55Z ian $
+ * @package		Joomla
+ * @subpackage	JFramework
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die;
+
+jimport('joomla.plugin.plugin');
+
+/**
+ * Joomla User plugin
+ *
+ * @package		Joomla
+ * @subpackage	JFramework
+ * @since 		1.5
+ */
+class plgUserJoomla extends JPlugin
+{
+	/**
+	 * Remove all sessions for the user name
+	 *
+	 * Method is called after user data is deleted from the database
+	 *
+	 * @param 	array		holds the user data
+	 * @param	boolean		true if user was succesfully stored in the database
+	 * @param	string		message
+	 */
+	public function onAfterDeleteUser($user, $succes, $msg)
+	{
+		if (!$succes) {
+			return false;
+		}
+
+		$db = &JFactory::getDbo();
+		$db->setQuery('DELETE FROM #__session WHERE userid = '.$db->Quote($user['id']));
+		$db->Query();
+
+		return true;
+	}
+
+	/**
+	 * This method should handle any login logic and report back to the subject
+	 *
+	 * @access	public
+	 * @param   array   holds the user data
+	 * @param 	array   array holding options (remember, autoregister, group)
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	function onLoginUser($user, $options = array())
+	{
+		jimport('joomla.user.helper');
+
+		$instance = &$this->_getUser($user, $options);
+
+		// if _getUser returned an error, then pass it back.
+		if (JError::isError($instance)) {
+			return $instance;
+		}
+
+		// If the user is blocked, redirect with an error
+		if ($instance->get('block') == 1) {
+			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
+		}
+
+		// Get an ACL object
+		$acl = &JFactory::getACL();
+
+		//Authorise the user based on the group information
+		if (!isset($options['group'])) {
+			$options['group'] = 'USERS';
+		}
+
+		jimport('joomla.access.access');
+		$userId	= $instance->id;
+		// Always let the Root User in
+		if ($userId != JFactory::getApplication()->getCfg('root_user'))
+		{
+			$acs	= new JAccess;
+			$result	= $acs->check($instance->id, $options['action']);
+			if (!$result) {
+				return JError::raiseWarning(401, JText::_('JError_Login_denied'));
+			}
+		}
+
+		//Mark the user as logged in
+		$instance->set('guest', 0);
+
+		// Register the needed session variables
+		$session = &JFactory::getSession();
+		$session->set('user', $instance);
+
+		// Get the session object
+		$table = & JTable::getInstance('session');
+		$table->load($session->getId());
+
+		$table->guest 		= $instance->get('guest');
+		$table->username 	= $instance->get('username');
+		$table->userid 		= intval($instance->get('id'));
+
+		$table->update();
+
+		// Hit the user last visit field
+		$instance->setLastVisit();
+
+		return true;
+	}
+
+	/**
+	 * This method should handle any logout logic and report back to the subject
+	 *
+	 * @access public
+	 * @param  array	holds the user data
+	 * @param 	array   array holding options (client, ...)
+	 * @return object   True on success
+	 * @since 1.5
+	 */
+	function onLogoutUser($user, $options = array())
+	{
+		$my = &JFactory::getUser();
+		//Make sure we're a valid user first
+		if ($user['id'] == 0 && !$my->get('tmp_user')) return true;
+
+		//Check to see if we're deleting the current session
+		if ($my->get('id') == $user['id'])
+		{
+			// Hit the user last visit field
+			$my->setLastVisit();
+
+			// Destroy the php session for this user
+			$session = &JFactory::getSession();
+			$session->destroy();
+		} else {
+			// Force logout all users with that userid
+			$table = & JTable::getInstance('session');
+			$table->destroy($user['id'], $options['clientid']);
+		}
+		return true;
+	}
+
+	/**
+	 * This method will return a user object
+	 *
+	 * If options['autoregister'] is true, if the user doesn't exist yet he will be created
+	 *
+	 * @access	public
+	 * @param   array   holds the user data
+	 * @param 	array   array holding options (remember, autoregister, group)
+	 * @return	object	A JUser object
+	 * @since	1.5
+	 */
+	function &_getUser($user, $options = array())
+	{
+		$instance = JUser::getInstance();
+		if ($id = intval(JUserHelper::getUserId($user['username'])))  {
+			$instance->load($id);
+			return $instance;
+		}
+
+		//TODO : move this out of the plugin
+		jimport('joomla.application.component.helper');
+		$config   = &JComponentHelper::getParams('com_users');
+		$usertype = $config->get('new_usertype', 'Registered');
+
+		$acl = &JFactory::getACL();
+
+		$instance->set('id'			, 0);
+		$instance->set('name'			, $user['fullname']);
+		$instance->set('username'		, $user['username']);
+		$instance->set('password_clear'	, $user['password_clear']);
+		$instance->set('email'			, $user['email']);	// Result should contain an email (check)
+		$instance->set('usertype'		, $usertype);
+
+		//If autoregister is set let's register the user
+		$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);
+
+		if ($autoregister)
+		{
+			if (!$instance->save()) {
+				return JError::raiseWarning('SOME_ERROR_CODE', $instance->getError());
+			}
+		} else {
+			// No existing user and autoregister off, this is a temporary user.
+			$instance->set('tmp_user', true);
+		}
+
+		return $instance;
+	}
+}

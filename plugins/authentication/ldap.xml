@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.6" type="plugin"  group="auth">
+	<name>Authentication - LDAP</name>
+	<author>Joomla! Project</author>
+	<creationDate>November 2005</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.5</version>
+	<description>Handles user authentication against an LDAP server</description>
+	<files>
+		<filename plugin="ldap">ldap.php</filename>
+	</files>
+	<params>
+		<param name="host" type="text" size="20" default="" label="Host" description="PARAMLDAPHOST" />
+		<param name="port" type="text" size="20" default="389" label="Port" description="PARAMLDAPPORT" />
+		<param name="use_ldapV3" type="radio" default="0" label="LDAP V3" description="PARAMLDAPV3">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="negotiate_tls" type="radio" default="0" label="Negotiate TLS" description="PARAMNEGOCIATETLS">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="no_referrals" type="radio" default="0" label="Follow referrals" description="PARAMFOLLOW">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="auth_method" default="bind" type="list" label="Authorization Method" description="PARAMAUTHMETHOD">
+			<option value="search">Bind and Search</option>
+			<option value="bind">Bind Directly As User</option>
+		</param>
+		<param name="base_dn" type="text" size="20" default="" label="Base DN" description="PARAMBASEDN" />
+		<param name="search_string" type="text" size="20" default="" label="Search string" description="PARAMSEARCHSTRING" />
+		<param name="users_dn" type="text" size="20" default="" label="Users DN" description="PARAMUSERSDN" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="username" type="text" size="20" default="" label="Connect username" description="PARAMCONNECTSTRING" />
+		<param name="password" type="password" size="20" default="" label="Connect password" description="PARAMCONNECTPASSWORD" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="ldap_fullname" type="text" size="20" default="fullName" label="Map FullName" description="PARAMMAPFN" />
+		<param name="ldap_email" type="text" size="20" default="mail" label="Map Email" description="PARAMMAPEMAIL" />
+		<param name="ldap_uid" type="text" size="20" default="uid" label="Map User ID" description="PARAMMAPUID" />
+	</params>
+</install>

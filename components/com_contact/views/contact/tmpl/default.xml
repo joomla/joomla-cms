@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: default.xml 8178 2007-07-23 05:39:47Z eddieajau $ -->
+<metadata>
+	<layout title="Standard Contact Layout">
+		<message>
+			<![CDATA[STANDARD CONTACT LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Standard Contact Layout</name>
+		<description>STANDARD CONTACT LAYOUT DESC</description>
+		<url addpath="/administrator/components/com_contact/elements">
+			<param name="id" type="contact" default="" label="Select Contact" description="The contact to link to" />
+		</url>
+		<params>
+			<param name="show_contact_list" type="radio" default="0" label="Drop Down" description="PARAMDROPDOWN">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_category_crumb" type="radio" default="0" label="Show Category in Breadcrumbs" description="Show/Hide the category in the breadcrumbs">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+		</params>
+	</state>
+</metadata>
