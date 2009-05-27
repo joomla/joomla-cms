@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id: metadata.xml 15576 2010-03-25 12:43:26Z louis $ -->
-<metadata>
-	<view title="Contact">
-		<message><![CDATA[Choose a contact layout.]]></message>
-	</view>
-</metadata>

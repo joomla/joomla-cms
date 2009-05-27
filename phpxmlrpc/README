@@ -1,0 +1,13 @@
+NAME: XMLRPC FOR PHP
+
+DESCRIPTION: A php library for building xmlrpc clients and servers
+
+
+
+HTML documentation can be found in the doc/ directory.
+
+Recent changes in the ChangeLog
+
+Use of this software is subject to the terms in doc/index.html
+
+The passphrase for the rsakey.pem certificate is 'test'.
