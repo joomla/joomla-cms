@@ -1055,3 +1055,16 @@ CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
   PRIMARY KEY  (`user_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+
+##########################################################
+##
+## CORE ASSET MAPPINGS
+##
+##########################################################
+
+INSERT INTO `jos_access_assets` VALUES 
+(7, 1, 'core', 'plugin.28', 'System - Debug')
+;
+INSERT INTO `jos_access_asset_assetgroup_map` VALUES 
+(7, 1)
+;
