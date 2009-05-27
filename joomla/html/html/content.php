@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id:  $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

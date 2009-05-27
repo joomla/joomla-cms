@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: helper.php 10386 2008-06-01 21:37:15Z pasamio $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Language
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

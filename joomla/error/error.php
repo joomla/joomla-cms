@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: error.php 10871 2008-08-30 07:30:33Z willebil $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Error
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

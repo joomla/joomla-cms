@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: equals.php 11535 2009-01-28 07:48:25Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

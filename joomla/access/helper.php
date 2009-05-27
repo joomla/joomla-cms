@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: helper.php 237 2009-05-26 06:53:58Z andrew.eddie $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Access
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

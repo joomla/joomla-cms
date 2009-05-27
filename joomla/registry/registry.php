@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: registry.php 10815 2008-08-27 01:15:56Z tcp $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Registry
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

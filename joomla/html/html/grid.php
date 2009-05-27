@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: grid.php 11682 2009-03-08 20:54:02Z willebil $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

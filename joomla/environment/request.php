@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: request.php 10919 2008-09-09 20:50:29Z willebil $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Environment
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

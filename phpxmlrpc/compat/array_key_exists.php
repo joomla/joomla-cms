@@ -15,7 +15,7 @@
 // | Authors: Aidan Lister <aidan@php.net>                                |
 // +----------------------------------------------------------------------+
 //
-// $Id: array_key_exists.php,v 1.1 2005/07/11 16:34:35 ggiunta Exp $
+// $Id$
 
 
 /**

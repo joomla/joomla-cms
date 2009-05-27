@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: helper.php 11626 2009-02-15 15:40:39Z kdevine $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

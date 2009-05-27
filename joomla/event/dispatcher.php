@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: dispatcher.php 11387 2009-01-04 02:47:53Z ian $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Event
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

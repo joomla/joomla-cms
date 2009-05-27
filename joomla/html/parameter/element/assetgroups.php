@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: assetgroups.php 11600 2009-02-05 11:15:25Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Parameter
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

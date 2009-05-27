@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: ftp.php 10707 2008-08-21 09:52:47Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Client
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

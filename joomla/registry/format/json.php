@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: json.php 312 2009-05-27 12:39:43Z andrew.eddie $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Registry
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

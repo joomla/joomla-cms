@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: select.php 10824 2008-08-27 17:20:01Z tcp $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

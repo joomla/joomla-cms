@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: access.php 291 2009-05-27 05:14:51Z andrew.eddie $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Access
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

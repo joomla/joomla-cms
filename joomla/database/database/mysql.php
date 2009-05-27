@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: mysql.php 11316 2008-11-27 03:11:24Z ian $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Database
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

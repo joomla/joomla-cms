@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: menutypes.php 10572 2008-07-21 01:52:00Z pasamio $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */

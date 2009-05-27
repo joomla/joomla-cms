@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: simplerule.php 247 2009-05-26 12:48:04Z andrew.eddie $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Access
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

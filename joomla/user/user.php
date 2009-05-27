@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: user.php 11688 2009-03-13 02:05:56Z ian $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	User
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

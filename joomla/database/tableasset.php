@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: tableasset.php 294 2009-05-27 05:40:26Z louis.landry $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Database
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

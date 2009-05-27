@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: categories.php 11779 2009-04-20 18:46:16Z pentacle $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
