@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: media.php 11784 2009-04-24 17:34:11Z kdevine $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	Massmail
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

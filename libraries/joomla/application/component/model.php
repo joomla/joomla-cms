@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: model.php 10381 2008-06-01 03:35:53Z pasamio $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

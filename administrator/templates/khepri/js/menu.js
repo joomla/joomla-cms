@@ -1,5 +1,5 @@
 /**
- * @version		$Id: menu.js 11813 2009-05-14 14:29:32Z pentacle $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  */

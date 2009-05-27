@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: content.php 11809 2009-05-13 16:09:23Z ian $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */

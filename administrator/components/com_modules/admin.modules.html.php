@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: admin.modules.html.php 11672 2009-03-08 20:39:41Z willebil $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

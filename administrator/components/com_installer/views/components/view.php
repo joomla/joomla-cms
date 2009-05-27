@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: view.php 10466 2008-06-28 14:42:22Z ircmaxell $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

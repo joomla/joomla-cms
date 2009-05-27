@@ -1,5 +1,5 @@
 /**
-* @version      $Id: mediamanager.js 10710 2008-08-21 10:08:12Z eddieajau $
+* @version      $Id$
 * @package      Joomla
 * @copyright    Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license      GNU/GPL, see LICENSE.php

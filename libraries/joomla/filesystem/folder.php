@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: folder.php 11675 2009-03-08 20:43:54Z willebil $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

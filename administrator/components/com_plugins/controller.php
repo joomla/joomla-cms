@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: controller.php 11386 2009-01-04 02:34:35Z ian $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Config
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

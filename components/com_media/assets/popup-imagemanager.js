@@ -1,5 +1,5 @@
 /**
-* @version		$Id: popup-imagemanager.js 8656 2007-08-30 22:40:39Z louis $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php

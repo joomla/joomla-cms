@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: category.php 11794 2009-05-06 01:56:42Z ian $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

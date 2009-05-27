@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: folder.php 11713 2009-03-27 09:18:26Z willebil $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Media
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

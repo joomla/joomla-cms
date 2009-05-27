@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: file.php 11807 2009-05-10 00:33:43Z kdevine $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

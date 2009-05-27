@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: rss.php 11806 2009-05-10 00:28:51Z kdevine $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Document
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

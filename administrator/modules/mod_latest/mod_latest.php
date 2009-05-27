@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: mod_latest.php 10867 2008-08-30 07:11:13Z willebil $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

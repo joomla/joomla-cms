@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: application.php 11763 2009-04-11 23:39:23Z hackwar $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

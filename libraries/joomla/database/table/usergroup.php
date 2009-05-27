@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: usergroup.php 298 2009-05-27 05:52:18Z andrew.eddie $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */

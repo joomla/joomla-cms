@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: ordering.php 11778 2009-04-20 18:42:12Z pentacle $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

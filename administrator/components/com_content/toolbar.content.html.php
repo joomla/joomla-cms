@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: toolbar.content.html.php 11798 2009-05-06 02:11:47Z ian $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

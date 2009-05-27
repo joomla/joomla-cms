@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version		$Id: openid.php 11403 2009-01-06 06:19:31Z ian $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	JFramework
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

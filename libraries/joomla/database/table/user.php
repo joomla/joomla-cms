@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: user.php 11223 2008-10-29 03:10:37Z pasamio $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */

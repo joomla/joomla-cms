@@ -1,4 +1,4 @@
-<?php // @version $Id: blog_item.php 11552 2009-01-30 00:38:32Z kdevine $
+<?php // @version $Id$
 defined('_JEXEC') or die;
 ?>
 

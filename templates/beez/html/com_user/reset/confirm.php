@@ -1,4 +1,4 @@
-<?php // @version $Id: confirm.php 11786 2009-04-24 17:48:08Z kdevine $
+<?php // @version $Id$
 defined('_JEXEC') or die;
 ?>
 

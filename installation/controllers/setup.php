@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: setup.php 250 2009-05-26 15:37:50Z louis.landry $
+ * @version		$Id$
  * @package		Joomla.Installation
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

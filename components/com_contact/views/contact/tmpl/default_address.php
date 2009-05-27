@@ -1,5 +1,5 @@
 <?php
-/** $Id: default_address.php 11328 2008-12-12 19:22:41Z kdevine $ */
+/** $Id$ */
 defined('_JEXEC') or die;
 ?>
 <?php if (($this->contact->params->get('address_check') > 0) &&  ($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>

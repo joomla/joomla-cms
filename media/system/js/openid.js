@@ -1,5 +1,5 @@
 /**
- * @version		$Id: openid.js 11793 2009-05-05 17:13:14Z pentacle $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  */

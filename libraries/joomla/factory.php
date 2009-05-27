@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: factory.php 11811 2009-05-13 16:16:52Z ian $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

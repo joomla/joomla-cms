@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: mod_popular.php 10460 2008-06-27 10:03:09Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

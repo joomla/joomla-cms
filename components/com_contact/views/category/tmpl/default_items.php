@@ -1,5 +1,5 @@
 <?php
-/** $Id: default_items.php 10381 2008-06-01 03:35:53Z pasamio $ */
+/** $Id$ */
 defined('_JEXEC') or die;
 ?>
 <?php foreach($this->items as $item) : ?>

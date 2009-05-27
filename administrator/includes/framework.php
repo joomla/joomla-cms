@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: framework.php 11725 2009-03-28 03:02:35Z pasamio $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

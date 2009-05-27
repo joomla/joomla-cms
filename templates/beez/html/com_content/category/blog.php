@@ -1,4 +1,4 @@
-<?php // @version $Id: blog.php 10381 2008-06-01 03:35:53Z pasamio $
+<?php // @version $Id$
 defined('_JEXEC') or die;
 $cparams = JComponentHelper::getParams ('com_media');
 ?>

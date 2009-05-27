@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: controller.php 11679 2009-03-08 20:50:06Z willebil $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

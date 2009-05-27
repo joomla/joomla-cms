@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: manifest.xml 199 2009-02-03 21:57:40Z eddieajau $ -->
+<!-- $Id$ -->
 <install type="component" version="1.5.0" method="upgrade">
     <name>Users</name>
     <version>1.0.0</version>

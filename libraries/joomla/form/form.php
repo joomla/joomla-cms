@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: form.php 11742 2009-04-03 12:15:59Z pentacle $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

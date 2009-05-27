@@ -1,4 +1,4 @@
-<?php // @version $Id: default_error.php 11299 2008-11-22 01:40:44Z ian $
+<?php // @version $Id$
 defined('_JEXEC') or die;
 ?>
 

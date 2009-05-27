@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: CHANGELOG.php 320 2009-05-27 19:52:28Z rob.schley $
+ * @version		$Id$
  * @package		Joomla.Installation
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: admin.cpanel.html.php 10559 2008-07-16 20:57:43Z instance $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Admin
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

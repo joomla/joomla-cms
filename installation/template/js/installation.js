@@ -1,5 +1,5 @@
 /**
- * @version		$Id: installation.js 323 2009-05-27 20:30:53Z louis.landry $
+ * @version		$Id$
  * @package		Joomla.Installation
  * @subpackage	JavaScript
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.

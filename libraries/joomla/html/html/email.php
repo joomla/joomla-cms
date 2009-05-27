@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: email.php 11236 2008-11-02 02:44:35Z ian $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

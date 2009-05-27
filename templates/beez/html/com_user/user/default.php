@@ -1,4 +1,4 @@
-<?php // @version $Id: default.php 11623 2009-02-15 15:23:08Z kdevine $
+<?php // @version $Id$
 defined('_JEXEC') or die;
 ?>
 <?php if ($this->params->get('show_page_title',1)) : ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: migration.php 235 2009-05-26 06:19:45Z andrew.eddie $
+ * @version		$Id$
  * @package		Joomla.Installation
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

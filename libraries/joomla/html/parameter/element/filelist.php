@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: filelist.php 11670 2009-03-08 20:37:02Z willebil $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Parameter
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

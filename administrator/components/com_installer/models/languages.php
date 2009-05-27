@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: languages.php 11213 2008-10-25 12:43:11Z pasamio $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

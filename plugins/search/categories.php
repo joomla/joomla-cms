@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: categories.php 10870 2008-08-30 07:26:29Z willebil $
+ * @version		$Id$
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

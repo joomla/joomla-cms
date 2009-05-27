@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: pagination.php 10822 2008-08-27 17:16:00Z tcp $
+ * @version		$Id$
  * @package		Joomla.Site
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

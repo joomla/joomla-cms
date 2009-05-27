@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: helper.php 10857 2008-08-30 06:41:16Z willebil $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_latestnews
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

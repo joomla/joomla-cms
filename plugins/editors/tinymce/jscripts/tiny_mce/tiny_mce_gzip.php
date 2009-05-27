@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: tiny_mce_gzip.php 10381 2008-06-01 03:35:53Z pasamio $
+ * $Id$
  *
  * @author Moxiecode
  * @copyright Copyright © 2005-2006, Moxiecode Systems AB, All rights reserved.

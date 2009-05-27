@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: weblink.php 11778 2009-04-20 18:42:12Z pentacle $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

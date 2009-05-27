@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: view.php 10882 2008-08-31 17:55:14Z willebil $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Config
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

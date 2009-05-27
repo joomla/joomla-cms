@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: sysinfo_system.php 11713 2009-03-27 09:18:26Z willebil $
+ * @version		$Id$
  */
 // No direct access
 defined('_JEXEC') or die;

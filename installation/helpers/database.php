@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: database.php 251 2009-05-26 19:17:22Z louis.landry $
+ * @version		$Id$
  * @package		Joomla.Installation
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

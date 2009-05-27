@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: cache.class.php 11074 2008-10-13 04:54:12Z ian $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

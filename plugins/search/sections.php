@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: sections.php 10579 2008-07-22 14:54:24Z ircmaxell $
+ * @version		$Id$
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

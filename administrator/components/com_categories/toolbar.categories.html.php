@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: toolbar.categories.html.php 10465 2008-06-28 13:20:22Z willebil $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Categories
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

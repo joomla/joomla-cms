@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: categories.php 10704 2008-08-21 09:38:40Z eddieajau $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */

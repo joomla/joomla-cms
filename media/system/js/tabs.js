@@ -1,5 +1,5 @@
 /**
-* @version		$Id: cookie.js 6138 2007-01-02 03:44:18Z eddiea $
+* @version		$Id$
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant

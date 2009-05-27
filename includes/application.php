@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: application.php 10912 2008-09-05 19:45:22Z willebil $
+ * @version		$Id$
  * @package		Joomla.Site
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

@@ -1,5 +1,5 @@
 /**
- * @version		$Id: index.js 10702 2008-08-21 09:31:31Z eddieajau $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  */

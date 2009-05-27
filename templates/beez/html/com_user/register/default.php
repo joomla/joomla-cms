@@ -1,4 +1,4 @@
-<?php // @version $Id: default.php 11305 2008-11-23 19:14:25Z ian $
+<?php // @version $Id$
 defined('_JEXEC') or die;
 ?>
 <?php if ($this->params->get('show_page_title',1)) : ?>

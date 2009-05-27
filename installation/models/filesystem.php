@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: filesystem.php 323 2009-05-27 20:30:53Z louis.landry $
+ * @version		$Id$
  * @package		Joomla.Installation
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

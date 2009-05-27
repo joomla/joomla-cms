@@ -1,4 +1,4 @@
-<?php // @version $Id: blog_links.php 10770 2008-08-23 11:36:27Z willebil $
+<?php // @version $Id$
 defined('_JEXEC') or die;
 ?>
 

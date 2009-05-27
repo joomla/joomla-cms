@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: banner.php 10878 2008-08-30 17:29:13Z willebil $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Banners
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

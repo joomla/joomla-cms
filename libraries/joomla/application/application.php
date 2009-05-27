@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: application.php 11409 2009-01-10 02:27:08Z willebil $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

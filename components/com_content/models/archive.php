@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: archive.php 11681 2009-03-08 20:52:50Z willebil $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

@@ -1,4 +1,4 @@
-<?php // @version $Id: default.php 11307 2008-11-24 00:21:48Z ian $
+<?php // @version $Id$
 defined('_JEXEC') or die;
 $cparams = JComponentHelper::getParams ('com_media');
 ?>

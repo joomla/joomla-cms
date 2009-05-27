@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: view.html.php 11398 2009-01-05 20:03:27Z kdevine $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

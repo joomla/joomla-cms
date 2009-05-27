@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: frontpage.php 11655 2009-03-08 20:04:17Z willebil $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

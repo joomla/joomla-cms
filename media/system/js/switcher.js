@@ -1,5 +1,5 @@
 /**
-* @version		$Id: switcher.js 11800 2009-05-06 18:25:13Z pentacle $
+* @version		$Id$
 * @copyright		Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 */

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: database.php 11137 2008-10-15 19:47:01Z kdevine $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Database
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

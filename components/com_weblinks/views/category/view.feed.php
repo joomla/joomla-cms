@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: view.feed.php 11782 2009-04-24 17:25:58Z kdevine $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

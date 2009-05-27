@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: exception.php 11517 2009-01-27 10:02:26Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Error
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

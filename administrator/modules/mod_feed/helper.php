@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: helper.php 11617 2009-02-07 14:16:17Z kdevine $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: geshi.php 11480 2009-01-25 07:20:50Z eddieajau $
+ * @version		$Id$
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

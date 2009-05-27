@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: controller.php 11391 2009-01-04 13:35:50Z ian $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	MailTo
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

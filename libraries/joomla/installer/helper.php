@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: helper.php 11299 2008-11-22 01:40:44Z ian $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

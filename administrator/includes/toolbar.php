@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: toolbar.php 11307 2008-11-24 00:21:48Z ian $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>

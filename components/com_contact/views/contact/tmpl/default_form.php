@@ -1,5 +1,5 @@
 <?php
-/** $Id: default_form.php 11328 2008-12-12 19:22:41Z kdevine $ */
+/** $Id$ */
 defined('_JEXEC') or die;
 
 	$script = '<!--

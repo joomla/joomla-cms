@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: weblink.php 11778 2009-04-20 18:42:12Z pentacle $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */

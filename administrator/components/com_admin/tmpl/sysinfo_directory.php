@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: sysinfo_directory.php 11613 2009-02-07 13:41:23Z kdevine $
+ * @version		$Id$
  */
 // No direct access
 defined('_JEXEC') or die;

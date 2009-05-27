@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: gmail.php 11236 2008-11-02 02:44:35Z ian $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	JFramework
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

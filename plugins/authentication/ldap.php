@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: ldap.php 10709 2008-08-21 09:58:52Z eddieajau $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	JFramework
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

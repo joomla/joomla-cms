@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: behavior.php 11683 2009-03-08 20:55:17Z willebil $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

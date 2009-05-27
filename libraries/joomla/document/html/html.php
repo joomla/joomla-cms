@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: html.php 10787 2008-08-24 07:45:36Z pasamio $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Document
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

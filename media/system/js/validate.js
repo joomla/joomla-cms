@@ -1,5 +1,5 @@
 /**
-* @version		$Id: validate.js 11813 2009-05-14 14:29:32Z pentacle $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
 * @license		http://www.gnu.org/licenses/gpl.html GNU/GPL, see LICENSE.php

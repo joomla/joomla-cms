@@ -1,4 +1,4 @@
-<?php // @version $Id: default_login.php 11796 2009-05-06 02:03:15Z ian $
+<?php // @version $Id$
 defined('_JEXEC') or die;
 ?>
 <form action="<?php echo JRoute::_('index.php', true, $this->params->get('usesecure')); ?>" method="post" name="login" id="login" class="login_form<?php echo $this->params->get('pageclass_sfx'); ?>">

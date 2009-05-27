@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: joomla.php 11190 2008-10-20 00:49:55Z ian $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	JFramework
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

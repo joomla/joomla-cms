@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: toolbar.modules.html.php 10863 2008-08-30 06:52:50Z willebil $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

@@ -1,4 +1,4 @@
-<?php /** $Id: default.php 11778 2009-04-20 18:42:12Z pentacle $ */
+<?php /** $Id$ */
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');

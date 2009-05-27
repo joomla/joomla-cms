@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: templates.php 10710 2008-08-21 10:08:12Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

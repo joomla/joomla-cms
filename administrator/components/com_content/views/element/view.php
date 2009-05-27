@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: view.php 11625 2009-02-15 15:32:42Z kdevine $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: router.php 245 2009-05-26 12:43:46Z andrew.eddie $
+ * @version		$Id$
  * @package		Joomla.Installation
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
