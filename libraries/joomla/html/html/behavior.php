@@ -85,6 +85,18 @@ abstract class JHtmlBehavior
 	public static function switcher() {
 		JHtml::_('behavior.framework');
 		JHtml::script('switcher.js' );
+
+		$script = "
+			document.switcher = null;
+			window.addEvent('domready', function(){
+			 	toggler = $('submenu')
+			  	element = $('config-document')
+			  	if(element) {
+			  		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
+			  	}
+			});";
+
+		JFactory::getDocument()->addScriptDeclaration($script);
 	}
 
 	public static function combobox() {

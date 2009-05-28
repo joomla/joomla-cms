@@ -13,6 +13,7 @@ require_once JApplicationHelper::getPath('admin_html');
 
 switch ($task)
 {
+	default:
 	case 'sysinfo':
 		HTML_admin_misc::system_info();
 		break;

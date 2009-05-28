@@ -33,6 +33,9 @@ $ -> Language fix or change
 ! -> Note
 
 27-May-2009 Rob Schley
+ # Fixed the Switcher JavaScript behavior.
+ # Fixed some rendering problems with the submenu in com_config and com_admin.
+ # Fixed the default access level setting not being added to the configuration file on install.
  # Fixed problems with the installation app trying to connect to the database becuase of JModel.
  # Fixed version numbers in the installation app.
  # Fixed many more references to gid and removed the gid columns from the users and sessions table.
