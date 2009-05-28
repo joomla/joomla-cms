@@ -41,6 +41,7 @@ $ -> Language fix or change
  ^ Implemented menu item specific parameter sets for templates
 
 28-May-2009 Rob Schley
+ # Fixed Fatal Error call to undefined method JAdministrator::getSiteURL() in the template manager.
  - Dropped the batch update interface from com_users because it has never worked.
  # Fixed the toggle buttons in the users list of com_users.
  # Fixed the allowed action list associated with a group not being translated in com_users.

@@ -60,7 +60,7 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 	$row = & $this->rows[$i];
 
 	$author_info = @ $row->xmldata->authorEmail . '<br />' . @ $row->xmldata->authorUrl;
-	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JFactory::getApplication()->getSiteURL()).'/templates/'.$row->template.'/template_thumbnail.png';
+	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$row->template.'/template_thumbnail.png';
 ?>
 		<tr class="<?php echo 'row'. $k; ?>">
 			<td>
