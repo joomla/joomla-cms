@@ -130,6 +130,7 @@ class JInstallationControllerSetup extends JController
 		{
 			// Send the appropriate error code response.
 			JResponse::setHeader('status', $response->getCode());
+			JResponse::setHeader('Content-Type', 'application/json; charset=utf-8');
 			JResponse::sendHeaders();
 		}
 
