@@ -33,6 +33,9 @@ $ -> Language fix or change
 ! -> Note
 
 27-May-2009 Rob Schley
+ # Fixed the authors drop down in com_content administrator interface.
+ ^ Cleaned up JMenuSite.
+ ^ Reworked the JAccess::getAuthorisedUsergroups() method.
  # Fixed some global configuration issues.
  + Added a default access setting to global configuration.
 
