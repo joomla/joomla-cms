@@ -2,19 +2,21 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	Admin
+ * @subpackage	Cpanel
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// no direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-require_once(JApplicationHelper::getPath('toolbar_html'));
-
-switch (JRequest::getCmd('task'))
+/**
+ * Cpanel Controller
+ *
+ * @package		Joomla.Administrator
+ * @subpackage	Cpanel
+ * @since 1.5
+ */
+class CpanelController extends JController
 {
-	default:
-		TOOLBAR_cpanel::_DEFAULT();
-		break;
 }
