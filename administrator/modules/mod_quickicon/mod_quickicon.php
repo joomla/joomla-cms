@@ -6,74 +6,66 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// no direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-if (!defined('_JOS_QUICKICON_MODULE'))
-{
-	/** ensure that functions are declared only once */
-	define('_JOS_QUICKICON_MODULE', 1);
+require_once dirname(__FILE__).DS.'helper.php';
 
-	function quickiconButton($link, $image, $text)
-	{
-		$app		= &JFactory::getApplication();
-		$lang		= &JFactory::getLanguage();
-		$template	= $app->getTemplate();
-		?>
-		<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
-			<div class="icon">
-				<a href="<?php echo $link; ?>">
-					<?php echo JHtml::_('image.site',  $image, '/templates/'. $template .'/images/header/', NULL, NULL, $text); ?>
-					<span><?php echo $text; ?></span></a>
-			</div>
-		</div>
-		<?php
-	}
+$buttons = array(
+	array(
+		'link' => JRoute::_('index.php?option=com_content&task=add'), 
+		'image' => 'icon-48-article-add.png', 
+		'text' => JText::_('Add New Article')
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_content'), 
+		'image' => 'icon-48-article.png', 
+		'text' => JText::_('Article Manager')
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_frontpage'), 
+		'image' => 'icon-48-frontpage.png', 
+		'text' => JText::_('Frontpage Manager')
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_sections&scope=content'), 
+		'image' => 'icon-48-section.png', 
+		'text' => JText::_('Section Manager')
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_categories&scope=com_content'), 
+		'image' => 'icon-48-category.png', 
+		'text' => JText::_('Category Manager')
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_media'), 
+		'image' => 'icon-48-media.png', 
+		'text' => JText::_('Media Manager')
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_menus'), 
+		'image' => 'icon-48-menumgr.png', 
+		'text' => JText::_('Menu Manager'), 
+		'access' => 'core.menus.manage'
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_languages'), 
+		'image' => 'icon-48-language.png', 
+		'text' => JText::_('Language Manager'), 
+		'access' => 'core.languages.manage'
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_members'), 
+		'image' => 'icon-48-user.png', 
+		'text' => JText::_('User Manager'), 
+		'access' => 'core.users.manage'
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_config'),
+		'image' => 'icon-48-config.png', 
+		'text' => JText::_('Global Configuration'), 
+		'access' => 'core.config.manage'
+	)
+);
 
-	?>
-	<div id="cpanel">
-		<?php
-		$link = 'index.php?option=com_content&amp;task=add';
-		quickiconButton($link, 'icon-48-article-add.png', JText::_('Add New Article'));
-
-		$link = 'index.php?option=com_content';
-		quickiconButton($link, 'icon-48-article.png', JText::_('Article Manager'));
-
-		$link = 'index.php?option=com_frontpage';
-		quickiconButton($link, 'icon-48-frontpage.png', JText::_('Frontpage Manager'));
-
-		$link = 'index.php?option=com_sections&amp;scope=content';
-		quickiconButton($link, 'icon-48-section.png', JText::_('Section Manager'));
-
-		$link = 'index.php?option=com_categories&amp;section=com_content';
-		quickiconButton($link, 'icon-48-category.png', JText::_('Category Manager'));
-
-		$link = 'index.php?option=com_media';
-		quickiconButton($link, 'icon-48-media.png', JText::_('Media Manager'));
-
-		// Get the current JUser object
-		$user = &JFactory::getUser();
-
-		if ($user->authorize('core.menus.manage')) {
-			$link = 'index.php?option=com_menus';
-			quickiconButton($link, 'icon-48-menumgr.png', JText::_('Menu Manager'));
-		}
-
-		if ($user->authorize('core.languages.manage')) {
-			$link = 'index.php?option=com_languages&amp;client=0';
-			quickiconButton($link, 'icon-48-language.png', JText::_('Language Manager'));
-		}
-
-		if ($user->authorize('core.users.manage')) {
-			$link = 'index.php?option=com_users';
-			quickiconButton($link, 'icon-48-user.png', JText::_('User Manager'));
-		}
-
-		if ($user->authorize('core.config.manage')) {
-			$link = 'index.php?option=com_config';
-			quickiconButton($link, 'icon-48-config.png', JText::_('Global Configuration'));
-		}
-		?>
-	</div>
-	<?php
-}
+require JModuleHelper::getLayoutPath('mod_quickicon');
