@@ -268,7 +268,7 @@ class JPaneSliders extends JPane
 		$opt['display']		 = (isset($params['startOffset']) && ($params['startTransition'])) ? (int)$params['startOffset'] : null ;
 		$opt['show']		 = (isset($params['startOffset']) && (!$params['startTransition'])) ? (int)$params['startOffset'] : null ;
 		$opt['opacity']		 = (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false' ;
-		$opt['alwaysHide']	 = (isset($params['allowAllClose']) && ($params['allowAllClose'])) ? 'true' : null ;
+		$opt['alwaysHide']	 = (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
 		foreach ($opt as $k => $v)
 		{
 			if ($v) {
