@@ -34,7 +34,7 @@ class ConfigViewComponent extends JView
 	<form action="index.php" method="post" name="adminForm" autocomplete="off">
 		<fieldset>
 			<div style="float: right">
-				<button type="button" onclick="submitbutton('save');window.top.setTimeout('window.parent.document.getElementById(\'sbox-window\').close()', 700);">
+				<button type="button" onclick="Joomla.submitform('save', this.form);window.top.setTimeout('window.parent.document.getElementById(\'sbox-window\').close()', 700);">
 					<?php echo JText::_('Save');?></button>
 				<button type="button" onclick="window.parent.document.getElementById('sbox-window').close();">
 					<?php echo JText::_('Cancel');?></button>

@@ -33,6 +33,7 @@ $ -> Language fix or change
 ! -> Note
 
 27-May-2009 Rob Schley
+ # Fixed part of the component config screen. Still not quite correct but at least it saves now.
  # Fixed the recipients drop down in com_messages administrator interface.
  # Fixed the authors drop down in com_content administrator interface.
  ^ Cleaned up JMenuSite.
