@@ -20,7 +20,7 @@ defined('JPATH_BASE') or die;
  * @subpackage		Parameter
  * @since		1.5
  */
-abstract class JElement extends JObject
+class JElement extends JObject
 {
 	/**
 	* element name
@@ -91,5 +91,8 @@ abstract class JElement extends JObject
 		return $output;
 	}
 
-	abstract public function fetchElement($name, $value, &$xmlElement, $control_name);
+	public function fetchElement($name, $value, &$xmlElement, $control_name)
+	{
+
+	}
 }
