@@ -40,41 +40,60 @@ class ContentHelper
 		// Filter settings
 		jimport('joomla.application.component.helper');
 		$config	= JComponentHelper::getParams('com_content');
-		$user	= &JFactory::getUser();
-		$gid	= $user->get('gid');
 
-		$filterGroups	=  $config->get('filter_groups');
-
+		$filterGroups = $config->get('filter_groups', array());
 		// convert to array if one group selected
 		if ((!is_array($filterGroups) && (int) $filterGroups > 0)) {
 			$filterGroups = array($filterGroups);
 		}
 
-		if (is_array($filterGroups) && in_array($gid, $filterGroups))
+		// Get the user's groups.
+		$user	= &JFactory::getUser();
+		$groups	= $user->get('groups') ? array_keys($user->get('groups')) : array();
+
+		// If the user can manage all content, don't filter.
+		if ($user->authorise('com_content.manage')) {
+			// Don't filter.
+		}
+		// If the user can't manage content, check if they set to be filtered.
+		elseif (is_array($filterGroups) && count($filterGroups))
 		{
-			$filterType		= $config->get('filter_type');
-			$filterTags		= preg_split('#[,\s]+#', trim($config->get('filter_tags')));
-			$filterAttrs	= preg_split('#[,\s]+#', trim($config->get('filter_attritbutes')));
-			switch ($filterType)
+			foreach ($groups as $group)
 			{
-				case 'NH':
-					$filter	= new JFilterInput();
+				if (in_array($group, $filterGroups))
+				{
+					$filterType		= $config->get('filter_type');
+					$filterTags		= preg_split('#[,\s]+#', trim($config->get('filter_tags')));
+					$filterAttrs	= preg_split('#[,\s]+#', trim($config->get('filter_attritbutes')));
+					switch ($filterType)
+					{
+						case 'NH':
+							$filter	= new JFilterInput();
+							break;
+						case 'WL':
+							$filter	= new JFilterInput($filterTags, $filterAttrs, 0, 0, 0);  // turn off xss auto clean
+							break;
+						case 'BL':
+						default:
+							$filter	= new JFilterInput($filterTags, $filterAttrs, 1, 1);
+							break;
+					}
+
+					$row->introtext	= $filter->clean($row->introtext);
+					$row->fulltext	= $filter->clean($row->fulltext);
+
 					break;
-				case 'WL':
-					$filter	= new JFilterInput($filterTags, $filterAttrs, 0, 0, 0);  // turn off xss auto clean
-					break;
-				case 'BL':
-				default:
-					$filter	= new JFilterInput($filterTags, $filterAttrs, 1, 1);
-					break;
+				}
 			}
-			$row->introtext	= $filter->clean($row->introtext);
-			$row->fulltext	= $filter->clean($row->fulltext);
-		} elseif (empty($filterGroups) && $gid != '25') { // no default filtering for super admin (gid=25)
+		}
+		// If the user can't manage and the filter settings are empty, use the default filter.
+		else
+		{
 			$filter = new JFilterInput(array(), array(), 1, 1);
 			$row->introtext	= $filter->clean($row->introtext);
 			$row->fulltext	= $filter->clean($row->fulltext);
 		}
+
 		return true;
 	}
 
