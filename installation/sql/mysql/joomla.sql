@@ -591,19 +591,21 @@ CREATE TABLE `#__stats_agents` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__templates_menu`
+# Table structure for table `#__menu_template`
 #
 
-CREATE TABLE `#__templates_menu` (
-  `template` varchar(255) NOT NULL default '',
-  `menuid` int(11) NOT NULL default '0',
-  `client_id` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY (`menuid`, `client_id`, `template`(255))
-) TYPE=MyISAM CHARACTER SET `utf8`;
+CREATE TABLE IF NOT EXISTS `#__menu_template` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `template` varchar(255) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `home` tinyint(1) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `params` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
-# Dumping data for table `#__templates_menu`
-INSERT INTO `#__templates_menu` VALUES ('rhuk_milkyway', '0', '0');
-INSERT INTO `#__templates_menu` VALUES ('khepri', '0', '1');
+INSERT INTO `#__menu_template` VALUES (1, 'rhuk_milkyway', '0', '1', 'Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
+INSERT INTO `#__menu_template` VALUES (2, 'khepri', '1', '1', 'Default', '{"useRoundedCorners":"1","showSiteName":"0","headerColor":"h_green"}');
 
 # --------------------------------------------------------
 

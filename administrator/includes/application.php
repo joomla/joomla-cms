@@ -148,8 +148,8 @@ class JAdministrator extends JApplication
 	*/
 	function render()
 	{
-		$component	= JRequest::getCmd('option');
-		$template	= $this->getTemplate();
+		$component	= JRequest::getCmd('option', 'com_login');
+		$template	= $this->getTemplate(true);
 		$file 		= JRequest::getCmd('tmpl', 'index');
 
 		if ($component == 'com_login') {
@@ -157,23 +157,17 @@ class JAdministrator extends JApplication
 		}
 
 		$params = array(
-			'template' 	=> $template,
+			'template' 	=> $template->template,
 			'file'		=> $file.'.php',
-			'directory'	=> JPATH_THEMES
+			'directory'	=> JPATH_THEMES,
+			'params'	=> $template->params
 		);
 
-		// Parse the document.
 		$document = &JFactory::getDocument();
 		$document->parse($params);
-
-		// Trigger the onBeforeRender event.
-		JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onBeforeRender');
-
-		// Render the document.
-		JResponse::setBody($document->render($this->getCfg('caching'), $params));
-
-		// Trigger the onAfterRender event.
+		$data = $document->render($this->getCfg('caching'), $params);
+		JResponse::setBody($data);
 		$this->triggerEvent('onAfterRender');
 	}
 
@@ -229,22 +223,27 @@ class JAdministrator extends JApplication
 		{
 			// Load the template name from the database
 			$db = &JFactory::getDbo();
-			$query = 'SELECT template'
-				. ' FROM #__templates_menu'
+			$query = 'SELECT template, params'
+				. ' FROM #__menu_template'
 				. ' WHERE client_id = 1'
-				. ' AND menuid = 0'
+				. ' AND home = 1'
 				;
 			$db->setQuery($query);
-			$template = $db->loadResult();
+			$template = $db->loadObject();
 
-			$template = JFilterInput::clean($template, 'cmd');
+			$template->template = JFilterInput::clean($template->template, 'cmd');
 
-			if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
-				$template = 'khepri';
+			if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php')) {
+				$template->template = 'khepri';
+				$template->params = '{}';
 			}
 		}
+		if ($params)
+		{
+			return $template;
+		}
 
-		return $template;
+		return $template->template;
 	}
 
 	/**

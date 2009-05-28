@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-May-2009 Hannes Papenberg
+ ^ Implemented menu item specific parameter sets for templates
+
 28-May-2009 Rob Schley
  - Dropped the batch update interface from com_users because it has never worked.
  # Fixed the toggle buttons in the users list of com_users.
