@@ -29,8 +29,6 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-		JHtml::_('behavior.caption');
-
 		// Set a default view if none exists
 		if (! JRequest::getCmd('view')) {
 			$default	= JRequest::getInt('id') ? 'article' : 'frontpage';
