@@ -46,7 +46,7 @@ abstract class JHtmlList
 		$imageFiles	= JFolder::files(JPATH_SITE.DS.$directory);
 		$images		= array(JHtml::_('select.option',  '', '- '. JText::_('Select Image') .' -'));
 		foreach ($imageFiles as $file) {
-			if (preg_match('#('.$extensions.')$#', $file) {
+			if (preg_match('#('.$extensions.')$#', $file)) {
 				$images[] = JHtml::_('select.option', $file);
 			}
 		}

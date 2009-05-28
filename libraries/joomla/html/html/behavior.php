@@ -151,7 +151,6 @@ abstract class JHtmlBehavior
 
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset($included)) {
-
 			// Load the javascript and css
 			JHtml::_('behavior.framework');
 			JHtml::script('modal.js');
@@ -172,6 +171,7 @@ abstract class JHtmlBehavior
 		// Setup options object
 		$opt['ajaxOptions']	= (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;
 		$opt['size']		= (isset($params['size']) && (is_array($params['size']))) ? $params['size'] : null;
+		$opt['shadow']		= (isset($params['shadow'])) ? $params['shadow'] : null;
 		$opt['onOpen']		= (isset($params['onOpen'])) ? $params['onOpen'] : null;
 		$opt['onClose']		= (isset($params['onClose'])) ? $params['onClose'] : null;
 		$opt['onUpdate']	= (isset($params['onUpdate'])) ? $params['onUpdate'] : null;
@@ -187,12 +187,8 @@ abstract class JHtmlBehavior
 		window.addEvent('domready', function() {
 
 			SqueezeBox.initialize(".$options.");
-
-			$$('".$selector."').each(function(el) {
-				el.addEvent('click', function(e) {
-					new Event(e).stop();
-					SqueezeBox.fromElement(el);
-				});
+			SqueezeBox.assign($$('".$selector."'), {
+				parse: 'rel'
 			});
 		});");
 
