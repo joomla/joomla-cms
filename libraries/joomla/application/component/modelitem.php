@@ -21,18 +21,18 @@ jimport('joomla.database.query');
 abstract class JModelItem extends JModel
 {
 	/**
-	 * Array of items.
+	 * An item.
 	 *
 	 * @var		array
 	 */
-	protected $_items			= array();
+	protected $_item = null;
 
 	/**
 	 * Model context string.
 	 *
 	 * @var		string
 	 */
-	 protected $_context		= 'group.type';
+	 protected $_context = 'group.type';
 
 	/**
 	 * Method to get a store id based on model configuration state.
@@ -62,7 +62,6 @@ abstract class JModelItem extends JModel
 	 */
 	protected function _populateState()
 	{
-		$this->setState('list.start', 0);
 	}
 
 	/**
