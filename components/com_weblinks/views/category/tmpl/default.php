@@ -9,45 +9,51 @@
 
 // no direct access
 defined('_JEXEC') or die;
+
+// If the page class is defined, wrap the whole output in a div.
+$pageClass = $this->params->get('pageclass_sfx');
 ?>
+<?php if ($pageClass) : ?>
+<div class="<?php echo $pageClass;?>">
+<?php endif;?>
+
 <?php if ($this->params->def('show_page_title', 1)) : ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
+	<h1>
 		<?php echo $this->escape($this->params->get('page_title')); ?>
-	</div>
+	</h1>
 <?php endif; ?>
 
-<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get('pageclass_sfx'); ?>">
-<?php if (@$this->category->image || @$this->category->description) : ?>
-<tr>
-	<td valign="top" class="contentdescription<?php echo $this->params->get('pageclass_sfx'); ?>">
+<?php if ($this->category->image) : ?>
 	<?php
-		if (isset($this->category->image)) :  echo $this->category->image; endif;
-		echo $this->category->description;
+		// Define image tag attributes
+		$attribs['align']	= $this->category->image_position;
+		$attribs['hspace']	= 6;
+
+		// Use the static HTML library to build the image tag
+		echo JHtml::_('image', 'images/stories/'.$this->category->image, JText::_('Web Links'), $attribs);
 	?>
-	</td>
-</tr>
 <?php endif; ?>
-<tr>
-	<td width="60%" colspan="2">
-	<?php echo $this->loadTemplate('items'); ?>
-	</td>
-</tr>
+
+<?php if ($this->category->description) : ?>
+	<p>
+		<?php echo $this->category->description; ?>
+	</p>
+<?php endif; ?>
+
+<?php echo $this->loadTemplate('items'); ?>
+
 <?php if ($this->params->get('show_other_cats', 1)): ?>
-<tr>
-	<td width="60%" colspan="2">
-		<ul>
-		<?php foreach ($this->categories as $category) : ?>
-			<li>
-				<a href="<?php echo $category->link; ?>" class="category<?php echo $this->params->get('pageclass_sfx'); ?>">
-					<?php echo $this->escape($category->title);?></a>
-				&nbsp;
-				<span class="small">
-					(<?php echo $category->numlinks;?>)
-				</span>
-			</li>
-		<?php endforeach; ?>
-		</ul>
-	</td>
-</tr>
+	<ul>
+	<?php foreach ($this->categories as $category) : ?>
+		<li>
+			<a href="<?php echo $category->link; ?>" class="category<?php echo $this->params->get('pageclass_sfx'); ?>">
+				<?php echo $this->escape($category->title);?></a>
+			<small>(<?php echo $category->numlinks;?>)</small>
+		</li>
+	<?php endforeach; ?>
+	</ul>
 <?php endif; ?>
-</table>
+
+<?php if ($pageClass) : ?>
+</div>
+<?php endif;?>

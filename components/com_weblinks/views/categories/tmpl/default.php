@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// If the page class is defined, wrap the whole output in a div
+// If the page class is defined, wrap the whole output in a div.
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
 <?php if ($pageClass) : ?>

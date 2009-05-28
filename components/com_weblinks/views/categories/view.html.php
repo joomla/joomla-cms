@@ -41,13 +41,15 @@ class WeblinksViewCategories extends JView
 			return false;
 		}
 
-		// Prepare the data.
+		// PREPARE THE DATA
+
+		// Compute the weblink slug and prepare description (runs content plugins).
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
 			$item		= &$items[$i];
 			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 
-			// Prepare category description
+			// TODO: only use if the description is displayed
 			$item->description = JHtml::_('content.prepare', $item->description);
 		}
 
@@ -55,7 +57,16 @@ class WeblinksViewCategories extends JView
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 
-		// Prepare the document.
+		$this->_prepareDocument();
+
+		parent::display($tpl);
+	}
+
+	/**
+	 * Prepares the document
+	 */
+	protected function _prepareDocument()
+	{
 		$menus	= &JSite::getMenu();
 
 		// Because the application sets a default page title,
@@ -73,7 +84,5 @@ class WeblinksViewCategories extends JView
 		else {
 			$this->document->setTitle(JText::_('Web Links'));
 		}
-
-		parent::display($tpl);
 	}
 }
