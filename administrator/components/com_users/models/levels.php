@@ -75,14 +75,13 @@ class UsersModelLevels extends JModelList
 			$query->where('a.title LIKE '.$this->_db->Quote('%'.$search.'%'));
 		}
 
-		// Extended joins
-
-		$query->select('GROUP_CONCAT(ug.title SEPARATOR \',\') AS user_groups');
-
+		// Extended joins to get a list of user groups associated with an access level.
+		$query->select('GROUP_CONCAT(DISTINCT ug2.title ORDER BY ug2.left_id ASC SEPARATOR \',\') AS user_groups');
 		$query->leftJoin('#__access_assetgroup_rule_map AS agrm ON agrm.group_id = a.id');
 		$query->innerJoin('#__access_rules AS r ON r.id = agrm.rule_id');
 		$query->leftJoin('#__usergroup_rule_map AS ugrm ON ugrm.rule_id = r.id');
-		$query->leftJoin('#__usergroups AS ug ON ug.id = ugrm.group_id');
+		$query->innerJoin('#__usergroups AS ug1 ON ug1.id = ugrm.group_id');
+		$query->leftJoin('#__usergroups AS ug2 ON ug2.left_id >= ug1.left_id AND ug2.right_id <= ug1.right_id');
 
 		$query->group('a.id');
 

@@ -32,6 +32,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-May-2009 Rob Schley
+ # Fixed the allowed action list associated with a group not being translated in com_users.
+ # Fixed the "User Groups Having Access" feature in com_users.
+
 27-May-2009 Rob Schley
  # Fixed the root_user setting getting lost when updating global configuration.
  # Fixed the Switcher JavaScript behavior.

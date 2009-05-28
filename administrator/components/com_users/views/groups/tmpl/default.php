@@ -41,7 +41,7 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 					<?php echo JText::_('Users_Heading_Users_in_group'); ?>
 				</th>
 				<th width="50%">
-					&nbsp;
+					<?php echo JText::_('Users_Heading_Group_Actions'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -53,10 +53,10 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php
-			$i = 0;
+			<?php
+			$n = 0;
 			foreach ($this->items as $item) : ?>
-			<tr class="row<?php echo $i++ % 2; ?>">
+			<tr class="row<?php echo $n++ % 2; ?>">
 				<td style="text-align:center">
 					<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
 				</td>
@@ -68,10 +68,18 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 					<?php echo $item->user_count ? $item->user_count : ''; ?>
 				</td>
 				<td>
-					<?php echo nl2br(implode("\n", explode(',', $item->actions))); ?>
+					<?php
+					$actions = explode(',', $item->actions);
+					for ($i = 0, $t = count($actions); $i < $t; $i++) {
+						echo JText::_($actions[$i]);
+						echo '<br />';
+					}
+					?>
 				</td>
 			</tr>
-		<?php endforeach; ?>
+			<?php
+			endforeach;
+			?>
 		</tbody>
 	</table>
 
