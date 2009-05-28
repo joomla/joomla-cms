@@ -78,8 +78,6 @@ defined('_JEXEC') or die;
 
 				<div id="whitebox_m">
 					<div id="area">
-									<jdoc:include type="message" />
-
 						<div id="leftcolumn">
 						<?php if ($this->countModules('left')) : ?>
 							<jdoc:include type="modules" name="left" style="rounded" />
@@ -116,6 +114,7 @@ defined('_JEXEC') or die;
 							<table class="nopad">
 								<tr valign="top">
 									<td>
+										<jdoc:include type="message" />
 										<jdoc:include type="component" />
 										<jdoc:include type="modules" name="footer" style="xhtml"/>
 									</td>
