@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 // Execute the task.
 $controller	= &JController::getInstance('Users');

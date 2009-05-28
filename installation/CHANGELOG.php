@@ -33,6 +33,8 @@ $ -> Language fix or change
 ! -> Note
 
 28-May-2009 Rob Schley
+ - Dropped the batch update interface from com_users because it has never worked.
+ # Fixed the toggle buttons in the users list of com_users.
  # Fixed the allowed action list associated with a group not being translated in com_users.
  # Fixed the "User Groups Having Access" feature in com_users.
 

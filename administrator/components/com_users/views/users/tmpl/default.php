@@ -17,6 +17,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 
 // Load the default stylesheet.
+JHtml::stylesheet('grid.css', 'administrator/components/com_users/media/css/');
 JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/');
 ?>
 
@@ -119,32 +120,6 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 		?>
 		</tbody>
 	</table>
-
-	<fieldset>
-		<legend><?php echo JText::_('Users_Batch_Update'); ?></legend>
-
-		<label for="batch[group_id]">
-			<?php echo JText::_('Users_Batch_Group'); ?>
-		</label>
-		<?php echo JHtml::_('access.usergroup', 'batch[group_id]', $this->state->get('list.group_id')); ?>
-
-		<input type="radio" name="batch[group_logic]" id="batch_group_logic_add" value="add" checked="checked" />
-		<label for="batch_group_logic_add">
-			<?php echo JText::_('Users_Batch_Add_To_Group'); ?>
-		</label>
-		<input type="radio" name="batch[group_logic]" id="batch_group_logic_del" value="del" />
-		<label for="batch_group_logic_del">
-			<?php echo JText::_('Users_Batch_Delete_From_Group'); ?>
-		</label>
-		<input type="radio" name="batch[group_logic]" id="batch_group_logic_set" value="set" />
-		<label for="batch_group_logic_set">
-			<?php echo JText::_('Users_Batch_Set_To_Group'); ?>
-		</label>
-
-		<button type="button" onclick="submitbutton('user.batch');"><?php echo JText::_('Users_Batch_Process'); ?></button>
-
-	</fieldset>
-
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
