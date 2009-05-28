@@ -30,9 +30,9 @@ class WeblinksViewWeblinks extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$state		= &$this->get('State');
-		$items		= &$this->get('Items');
-		$pagination = &$this->get('Pagination');
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
