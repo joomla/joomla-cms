@@ -87,7 +87,12 @@ class JInstallation extends JApplication
 		$contents = ob_get_contents();
 		ob_end_clean();
 
-		$params = array('template' => 'template', 'file' => 'index.php', 'directory' => JPATH_THEMES);
+		$params = array(
+			'template' 	=> 'template',
+			'file'		=> 'index.php',
+			'directory' => JPATH_THEMES,
+			'params'	=> '{}'
+		);
 
 		$document->setBuffer($contents, 'installation');
 		$document->setTitle(JText::_('PAGE_TITLE'));
@@ -181,8 +186,15 @@ class JInstallation extends JApplication
 	*
 	* @return string The template name
 	*/
-	function getTemplate()
+	function getTemplate($params = false)
 	{
+		if ($params)
+		{
+			$template = new stdClass();
+			$template->template = 'template';
+			$template->params = '{}';
+			return $template;
+		}
 		return 'template';
 	}
 

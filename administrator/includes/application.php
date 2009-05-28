@@ -215,7 +215,7 @@ class JAdministrator extends JApplication
 	 * @return string The template name
 	 * @since 1.0
 	 */
-	function getTemplate()
+	function getTemplate($params = false)
 	{
 		static $template;
 

@@ -33,6 +33,7 @@ $ -> Language fix or change
 ! -> Note
 
 28-May-2009 Hannes Papenberg
+ ^ Updated TinyMCE to version 3.2.4.1
  ^ Implemented menu item specific parameter sets for templates
 
 28-May-2009 Rob Schley

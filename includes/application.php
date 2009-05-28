@@ -293,7 +293,7 @@ class JSite extends JApplication
 	 * @return string The template name
 	 * @since 1.0
 	 */
-	function getTemplate()
+	function getTemplate($params = false)
 	{
 		// Allows for overriding the active template from a component, and caches the result of this function
 		// e.g. $mainframe->setTemplate('solar-flare-ii');
@@ -338,7 +338,7 @@ class JSite extends JApplication
 
 		// Allows for overriding the active template from the request
 		$template->template = JRequest::getCmd('template', $template->template);
-		$template->template = JFilterInput::_($template->template, 'cmd'); // need to filter the default value as well
+		$template->template = JFilterInput::clean($template->template, 'cmd'); // need to filter the default value as well
 
 		// Fallback template
 		if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php')) {
