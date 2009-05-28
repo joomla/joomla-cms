@@ -1,4 +1,13 @@
-<?php /** $Id$ */
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_weblinks
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
+
+// no direct access
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
@@ -75,9 +84,8 @@ $userId	= $user->get('id');
 		</tfoot>
 		<tbody>
 		<?php
-		$i = 0;
 		$n = count($this->items);
-		foreach ($this->items as $item) :
+		foreach ($this->items as $i => $item) :
 			$ordering	= ($this->state->get('list.ordering') == 'a.ordering');
 			$checkedOut	= JTable::isCheckedOut($userId, $item->checked_out);
 
@@ -123,7 +131,7 @@ $userId	= $user->get('id');
 					<?php echo $item->id; ?>
 				</td>
 			</tr>
-			<?php $i++; endforeach; ?>
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 
