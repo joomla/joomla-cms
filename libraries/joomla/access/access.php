@@ -428,7 +428,19 @@ class JAccess extends JObject
 
 		$query->where('r.enabled = 1');
 		$query->where('r.allow = 1');
-		$query->where('a.name = '.$db->Quote($action));
+
+		// Handle an array of actions or just a single action.
+		if (is_array($action))
+		{
+			// Quote the actions.
+			foreach ($action as $k => $v) {
+				$action[$k] = $db->Quote($v);
+			}
+			$query->where('(a.name = '.implode(' OR a.name = ', $action).')');
+		}
+		else {
+			$query->where('a.name = '.$db->Quote($action));
+		}
 
 		$db->setQuery($query->toString());
 

@@ -21,7 +21,8 @@ jimport('joomla.database.query');
 class JElementAuthor extends JElement
 {
 	/**
-	 * Element name
+	 * The name of the element.
+	 *
 	 * @access	protected
 	 * @var		string
 	 */
@@ -30,31 +31,21 @@ class JElementAuthor extends JElement
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 		$access	= &JFactory::getACL();
-		$groups	= array();
 
-		// Include user in groups that have access to edit their own articles.
-		$return = $access->getAuthorisedUsergroups('com_content.article.edit_own', true);
-		if (count($return)) {
-			$groups = array_merge($groups, $return);
+		// Include user in groups that have access to edit their articles, other articles, or manage content.
+		$action = array('com_content.article.edit_own', 'com_content.article.edit_article', 'com_content.manage');
+		$groups	= $access->getAuthorisedUsergroups($action, true);
+
+		// Check the results of the access check.
+		if (!$groups) {
+			return false;
 		}
 
-		// Include user in groups that have access to edit other people's articles.
-		$return = $access->getAuthorisedUsergroups('com_content.article.edit_article', true);
-		if (count($return)) {
-			$groups = array_merge($groups, $return);
-		}
-
-		// Include user in groups that have access to manage content.
-		$return = $access->getAuthorisedUsergroups('com_content.manage', true);
-		if (count($return)) {
-			$groups = array_merge($groups, $return);
-		}
-
-		// Remove duplicate entries and serialize.
+		// Clean up and serialize.
 		JArrayHelper::toInteger($groups);
-		$groups = implode(',', array_unique($groups));
+		$groups = implode(',', $groups);
 
-		// Build the query to get the possible authors.
+		// Build the query to get the users.
 		$query = new JQuery();
 		$query->select('u.id AS value');
 		$query->select('u.name AS text');
@@ -63,9 +54,9 @@ class JElementAuthor extends JElement
 		$query->where('u.block = 0');
 		$query->where('m.group_id IN ('.$groups.')');
 
+		// Get the users.
 		$db = &JFactory::getDbo();
 		$db->setQuery($query->toString());
-
 		$users = $db->loadObjectList();
 
 		// Check for a database error.
