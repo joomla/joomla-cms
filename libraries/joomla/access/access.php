@@ -340,8 +340,6 @@ class JAccess extends JObject
 		$this->_quiet or $this->_log($db->getQuery());
 
 		$ids = $db->loadResultArray();
-
-		array_unshift($ids, '0');
 		$ids = array_unique($ids);
 
 		$this->_quiet or $this->_log(print_r($ids, 1));
@@ -405,14 +403,14 @@ class JAccess extends JObject
 	 *
 	 * @return	array
 	 */
-	function getAuthorisedUsergroups($action)
+	function getAuthorisedUsergroups($action, $recursive = false)
 	{
 		// Get a database object.
 		$db	= &JFactory::getDbo();
 
 		// Build the base query.
 		$query	= new JQuery;
-		$query->select('DISTINCT ugrm.group_id');
+		$query->select('DISTINCT ug2.id');
 		$query->from('`#__access_actions` AS a');
 		// Map actions to rules
 		$query->join('INNER',	'`#__access_action_rule_map` AS arm ON arm.action_id = a.id');
@@ -420,14 +418,29 @@ class JAccess extends JObject
 		// Map users and/or user groups to rules
 		$query->join('INNER',	'`#__usergroup_rule_map` AS ugrm ON ugrm.rule_id = r.id');
 
+		if ($recursive) {
+			$query->join('INNER', '#__usergroups AS ug1 ON ug1.id = ugrm.group_id');
+			$query->join('LEFT', '#__usergroups AS ug2 ON ug2.left_id >= ug1.left_id AND ug2.right_id <= ug1.right_id');
+		}
+		else {
+			$query->join('INNER', '#__usergroups AS ug2 ON ug2.id = ugrm.group_id');
+		}
+
 		$query->where('r.enabled = 1');
 		$query->where('r.allow = 1');
+		$query->where('a.name = '.$db->Quote($action));
 
 		$db->setQuery($query->toString());
 
 		$this->_quiet or $this->_log($db->getQuery());
 
 		$ids = $db->loadResultArray();
+
+		// Check for a database error.
+		if ($db->getErrorNum()) {
+			JError::raiseNotice(500, $db->getErrorMsg());
+			return false;
+		}
 
 		$this->_quiet or $this->_log(print_r($ids, 1));
 
