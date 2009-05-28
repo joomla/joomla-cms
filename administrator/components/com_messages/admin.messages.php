@@ -189,27 +189,49 @@ function saveConfig($option)
 
 function newMessage($option, $user, $subject)
 {
-	$db		= &JFactory::getDbo();
-	$acl	= &JFactory::getACL();
+	$access	= &JFactory::getACL();
+	$groups	= array();
 
-	// get available backend user groups
-	$gid 	= $acl->get_group_id('Public Backend', 'ARO');
-	$gids 	= $acl->get_group_children($gid, 'ARO', 'RECURSE');
-	JArrayHelper::toInteger($gids, array(0));
-	$gids 	= implode(',', $gids);
+	// Include user in groups that have access to log in to the administrator.
+	$return = $access->getAuthorisedUsergroups('core.administrator.login', true);
+	if (count($return)) {
+		$groups = array_merge($groups, $return);
+	}
 
-	// get list of usernames
-	$recipients = array(JHtml::_('select.option',  '0', '- '. JText::_('Select User') .' -'));
-	$query = 'SELECT id AS value, username AS text FROM #__users'
-	. ' WHERE gid IN ('.$gids.')'
-	. ' ORDER BY name'
-	;
-	$db->setQuery($query);
-	$recipients = array_merge($recipients, $db->loadObjectList());
+	// Remove duplicate entries and serialize.
+	JArrayHelper::toInteger($groups);
+	$groups = implode(',', array_unique($groups));
 
-	$recipientslist =
-		JHtml::_('select.genericlist', $recipients, 'user_id_to', 'class="inputbox" size="1"', 'value', 'text', $user);
-	HTML_messages::newMessage($option, $recipientslist, $subject);
+	// Build the query to get the users.
+	$query = new JQuery();
+	$query->select('u.id AS value');
+	$query->select('u.name AS text');
+	$query->from('#__users AS u');
+	$query->join('INNER', '#__user_usergroup_map AS m ON m.user_id = u.id');
+	$query->where('u.block = 0');
+	$query->where('m.group_id IN ('.$groups.')');
+
+	// Get the users.
+	$db = &JFactory::getDBO();
+	$db->setQuery($query->toString());
+	$users = $db->loadObjectList();
+
+	// Check for a database error.
+	if ($db->getErrorNum()) {
+		JError::raiseNotice(500, $db->getErrorMsg());
+		return false;
+	}
+
+	// Build the options.
+	$options = array(JHtml::_('select.option',  '0', '- '. JText::_('Select User') .' -'));
+
+	if (count($users)) {
+		$options = array_merge($options, $users);
+	}
+
+	$list = JHtml::_('select.genericlist', $options, 'user_id_to', 'class="inputbox" size="1"', 'value', 'text', $user);
+
+	HTML_messages::newMessage($option, $list, $subject);
 }
 
 function saveMessage($option)

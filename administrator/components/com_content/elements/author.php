@@ -29,7 +29,7 @@ class JElementAuthor extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$access	= new JAccess();
+		$access	= &JFactory::getACL();
 		$groups	= array();
 
 		// Include user in groups that have access to edit their own articles.
@@ -51,6 +51,7 @@ class JElementAuthor extends JElement
 		}
 
 		// Remove duplicate entries and serialize.
+		JArrayHelper::toInteger($groups);
 		$groups = implode(',', array_unique($groups));
 
 		// Build the query to get the possible authors.
