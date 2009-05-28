@@ -86,6 +86,8 @@ class JTableContent extends JTableAsset
 	function __construct(&$db)
 	{
 		parent::__construct('#__content', 'id', $db);
+
+		$this->access	= (int)JFactory::getConfig()->getValue('access');
 	}
 
 	/**

@@ -79,6 +79,7 @@ class ConfigControllerApplication extends ConfigController
 		}
 		// build the html select list
 		$lists['editor'] 		= JHtml::_('select.genericlist',  $edits, 'editor', 'class="inputbox" size="1"', 'value', 'text', $row->editor);
+		$lists['access']		= JHtml::_('access.assetgroups', 'access', $row->access, 'class="inputbox" size="1"');
 		$listLimit 				= array (JHtml::_('select.option', 5, 5), JHtml::_('select.option', 10, 10), JHtml::_('select.option', 15, 15), JHtml::_('select.option', 20, 20), JHtml::_('select.option', 25, 25), JHtml::_('select.option', 30, 30), JHtml::_('select.option', 50, 50), JHtml::_('select.option', 100, 100),);
 		$lists['list_limit'] 	= JHtml::_('select.genericlist',  $listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->list_limit ? $row->list_limit : 50));
 
@@ -282,6 +283,7 @@ class ConfigControllerApplication extends ConfigController
 		// SITE SETTINGS
 		$config_array['offline']	= JRequest::getVar('offline', 0, 'post', 'int');
 		$config_array['editor']		= JRequest::getVar('editor', 'tinymce', 'post', 'cmd');
+		$config_array['access']		= JRequest::getVar('access', '1', 'post', 'int');
 		$config_array['list_limit']	= JRequest::getVar('list_limit', 20, 'post', 'int');
 		$config_array['helpurl']	= JRequest::getVar('helpurl', 'http://help.joomla.org', 'post', 'string');
 

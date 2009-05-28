@@ -71,6 +71,8 @@ class JTableMenu extends JTableAsset
 	function __construct(&$db)
 	{
 		parent::__construct('#__menu', 'id', $db);
+
+		$this->access	= (int)JFactory::getConfig()->getValue('access');
 	}
 
 	/**

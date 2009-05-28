@@ -54,6 +54,8 @@ class JTableSection extends JTableAsset
 	function __construct(&$db)
 	{
 		parent::__construct('#__sections', 'id', $db);
+
+		$this->access	= (int)JFactory::getConfig()->getValue('access');
 	}
 
 	/**

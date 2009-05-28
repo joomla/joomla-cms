@@ -76,6 +76,8 @@ class TableContact extends JTable
 	function __construct(&$db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
+
+		$this->access	= (int)JFactory::getConfig()->getValue('access');
 	}
 
 	/**

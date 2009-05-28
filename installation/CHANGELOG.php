@@ -32,6 +32,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-May-2009 Rob Schley
+ # Fixed some global configuration issues.
+ + Added a default access setting to global configuration.
+
 27-May-2009 Andrew Eddie
  - Dropped PEAR package and JArchive::create
  ^ Deprecated JHtmlList::accesslevel, use JHtmlList::accessLevels instead

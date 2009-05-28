@@ -46,6 +46,16 @@
 		</tr>
 		<tr>
 			<td class="key">
+				<span class="editlinktip hasTip" title="<?php echo JText::_('Default_Access_Level_Label'); ?>::<?php echo JText::_('Default_Access_Level_Desc'); ?>">
+			<?php echo JText::_('Default_Access_Level_Label'); ?>
+			</span>
+			</td>
+			<td>
+				<?php echo $lists['access']; ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_('List Length'); ?>::<?php echo JText::_('TIPSETSDEFAULTLENGTHLISTS'); ?>">
 					<?php echo JText::_('List Length'); ?>
 				</span>
