@@ -46,7 +46,7 @@ class JInstallationController extends JController
 			switch ($vName)
 			{
 				default:
-					$model = &$this->getModel('Setup');
+					$model = &$this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 					break;
 			}
 

@@ -33,7 +33,7 @@ class JInstallationControllerSetup extends JController
 		$session = & JFactory::getSession();
 
 		// Get the setup model.
-		$model = &$this->getModel('Setup');
+		$model = &$this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($vars);
@@ -58,13 +58,13 @@ class JInstallationControllerSetup extends JController
 		$session = & JFactory::getSession();
 
 		// Get the setup model.
-		$model = & $this->getModel('Setup');
+		$model = & $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($vars);
 
 		// Get the database model.
-		$database = & $this->getModel('Database');
+		$database = & $this->getModel('Database', 'JInstallationModel', array('dbo' => null));
 
 		// Attempt to initialize the database.
 		$return = $database->initialize($vars);
@@ -89,7 +89,7 @@ class JInstallationControllerSetup extends JController
 		$session = & JFactory::getSession();
 
 		// Get the setup model.
-		$model = & $this->getModel('Setup');
+		$model = & $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($vars);
@@ -107,13 +107,13 @@ class JInstallationControllerSetup extends JController
 		$session = & JFactory::getSession();
 
 		// Get the setup model.
-		$model = & $this->getModel('Setup');
+		$model = & $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($vars);
 
 		// Get the configuration model.
-		$configuration = & $this->getModel('Configuration');
+		$configuration = & $this->getModel('Configuration', 'JInstallationModel', array('dbo' => null));
 
 		// Attempt to setup the configuration.
 		$return = $configuration->setup($vars);

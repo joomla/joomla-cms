@@ -33,6 +33,7 @@ $ -> Language fix or change
 ! -> Note
 
 27-May-2009 Rob Schley
+ # Fixed problems with the installation app trying to connect to the database becuase of JModel.
  # Fixed version numbers in the installation app.
  # Fixed many more references to gid and removed the gid columns from the users and sessions table.
  # Fixed checks against gid in com_content. Frontend editing should work now!
