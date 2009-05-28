@@ -1,8 +1,8 @@
 /**
-* @version		$Id$
-* @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-*/
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ */
 
 /**
  * JCombobox javascript behavior
