@@ -55,7 +55,7 @@ class WeblinksViewWeblink extends JView
 		$params = &$mainframe->getParams();
 
 		// Make sure you are logged in and have the necessary access rights
-		if ($user->get('gid') < 19) {
+		if ($user->authorise('com_weblinks.submit')) {
 			  JResponse::setHeader('HTTP/1.0 403',true);
               JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
 			return;
