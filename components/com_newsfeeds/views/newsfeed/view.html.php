@@ -8,7 +8,7 @@
 *
  */
 
-// Check to ensure this file is included in Joomla!
+// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
