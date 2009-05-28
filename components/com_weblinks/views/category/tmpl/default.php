@@ -46,7 +46,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<ul>
 	<?php foreach ($this->categories as $category) : ?>
 		<li>
-			<a href="<?php echo $category->link; ?>" class="category<?php echo $this->params->get('pageclass_sfx'); ?>">
+			<a href="<?php echo JRoute::_('index.php?view=category&id='.$category->slug); ?>">
 				<?php echo $this->escape($category->title);?></a>
 			<small>(<?php echo $category->numlinks;?>)</small>
 		</li>
