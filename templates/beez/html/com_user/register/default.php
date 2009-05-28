@@ -45,6 +45,5 @@ defined('_JEXEC') or die;
 	<button class="button validate" type="submit"><?php echo JText::_('Register'); ?></button>
 	<input type="hidden" name="task" value="register_save" />
 	<input type="hidden" name="id" value="0" />
-	<input type="hidden" name="gid" value="0" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -568,7 +568,6 @@ CREATE TABLE `#__session` (
   `guest` tinyint(4) default '1',
   `userid` int(11) default '0',
   `usertype` varchar(50) default '',
-  `gid` tinyint(3) unsigned NOT NULL default '0',
   `client_id` tinyint(3) unsigned NOT NULL default '0',
   `data` longtext,
   PRIMARY KEY  (`session_id`(64)),
@@ -621,7 +620,6 @@ CREATE TABLE `#__users` (
   `usertype` varchar(25) NOT NULL default '',
   `block` tinyint(4) NOT NULL default '0',
   `sendEmail` tinyint(4) default '0',
-  `gid` tinyint(3) unsigned NOT NULL default '1',
   `registerDate` datetime NOT NULL default '0000-00-00 00:00:00',
   `lastvisitDate` datetime NOT NULL default '0000-00-00 00:00:00',
   `activation` varchar(100) NOT NULL default '',
@@ -629,7 +627,7 @@ CREATE TABLE `#__users` (
   PRIMARY KEY  (`id`),
   KEY `usertype` (`usertype`),
   KEY `idx_name` (`name`),
-  KEY `gid_block` (`gid`, `block`),
+  KEY `idx_block` (`block`),
   KEY `username` (`username`),
   KEY `email` (`email`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;

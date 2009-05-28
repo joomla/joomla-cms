@@ -33,6 +33,7 @@ $ -> Language fix or change
 ! -> Note
 
 27-May-2009 Rob Schley
+ # Fixed many more references to gid and removed the gid columns from the users and sessions table.
  # Fixed checks against gid in com_content. Frontend editing should work now!
  # Fixed checks against gid in com_weblinks submit form.
  - Removed the gid field from the user form.

@@ -30,16 +30,6 @@ class JElementLanguages extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$user	= & JFactory::getUser();
-
-		/*
-		 * @TODO: change to acl_check method
-		 */
-		if (!($user->get('gid') >= 23) && $node->attributes('client') == 'administrator') {
-			return JText::_('No Access');
-		}
-
-
 		$client = $node->attributes('client');
 
 		jimport('joomla.language.helper');

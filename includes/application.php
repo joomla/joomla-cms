@@ -151,7 +151,7 @@ class JSite extends JApplication
 				$template	= $this->getTemplate();
 				$file 		= JRequest::getCmd('tmpl', 'index');
 
-				if ($this->getCfg('offline') && $user->get('gid') < '23') {
+				if ($this->getCfg('offline') && $user->authorise('core.administrator.login')) {
 					$file = 'offline';
 				}
 				if (!is_dir(JPATH_THEMES.DS.$template) && !$this->getCfg('offline')) {

@@ -50,7 +50,6 @@ defined('_JEXEC') or die;
 
 	<input type="hidden" name="username" value="<?php echo $this->user->get('username');?>" />
 	<input type="hidden" name="id" value="<?php echo $this->user->get('id');?>" />
-	<input type="hidden" name="gid" value="<?php echo $this->user->get('gid');?>" />
 	<input type="hidden" name="option" value="com_users" />
 	<input type="hidden" name="task" value="save" />
 	<?php echo JHtml::_('form.token'); ?>

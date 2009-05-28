@@ -219,7 +219,6 @@ class JInstallationModelConfiguration extends JModel
 				. ', usertype = '.$db->quote('deprecated')		// Need to weed out where this is used
 				. ', block = 0'
 				. ', sendEmail = 1'
-				. ', gid = 0 '									// Need to weed out where this is used
 				. ', registerDate = '.$db->quote($installdate)
 				. ', lastvisitDate = '.$db->quote($nullDate)
 				. ', activation = '.$db->quote('')

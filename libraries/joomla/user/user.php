@@ -75,12 +75,6 @@ class JUser extends JObject
 	public $sendEmail		= null;
 
 	/**
-	 * The group id number
-	 * @var int
-	 */
-	public $gid			= null;
-
-	/**
 	 * Description
 	 * @var datetime
 	 */
@@ -153,7 +147,6 @@ class JUser extends JObject
 		{
 			//initialise
 			$this->id		= 0;
-			$this->gid		= 0;
 			$this->sendEmail = 0;
 			$this->aid		= 0;
 			$this->guest	= 1;
