@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
@@ -13,7 +11,7 @@ defined('_JEXEC') or die;
  * Weblink controller class.
  *
  * @package		Joomla.Administrator
- * @subpackage	Weblinks
+ * @subpackage	com_weblinks
  * @version		1.6
  */
 class WeblinksControllerWeblink extends JController

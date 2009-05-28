@@ -14,7 +14,7 @@ jimport('joomla.application.component.view');
  * HTML View class for the WebLinks component
  *
  * @package		Joomla.Administrator
- * @subpackage	Weblinks
+ * @subpackage	com_weblinks
  * @since		1.5
  */
 class WeblinksViewWeblinks extends JView

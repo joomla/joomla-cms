@@ -14,7 +14,7 @@ jimport('joomla.application.component.modelitem');
  * Weblinks Component Weblink Model
  *
  * @package		Joomla.Administrator
- * @subpackage	Weblinks
+ * @subpackage	com_weblinks
  * @since		1.5
  */
 class WeblinksModelWeblink extends JModelItem

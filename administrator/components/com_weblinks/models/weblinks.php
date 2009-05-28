@@ -14,7 +14,7 @@ jimport('joomla.database.query');
  * Weblinks Model Class
  *
  * @package		Joomla.Administrator
- * @subpackage	Weblinks
+ * @subpackage	com_weblinks
  * @version		1.5
  */
 class WeblinksModelWeblinks extends JModelList

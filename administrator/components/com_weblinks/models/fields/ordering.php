@@ -15,7 +15,7 @@ jimport('joomla.html.html');
  * Supports an HTML select list of categories
  *
  * @package		Joomla.Administrator
- * @subpackage	Weblinks
+ * @subpackage	com_weblinks
  * @since		1.6
  */
 class JFormFieldOrdering extends JFormField

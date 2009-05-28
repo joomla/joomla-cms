@@ -14,7 +14,7 @@ jimport('joomla.database.tableasset');
  * Weblink Table class
  *
  * @package		Joomla.Administrator
- * @subpackage	Weblinks
+ * @subpackage	com_weblinks
  * @since		1.5
  */
 class WeblinksTableWeblink extends JTableAsset

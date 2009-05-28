@@ -10,7 +10,7 @@
  *
  * @static
  * @package 	Joomla.Administrator
- * @subpackage	Weblinks
+ * @subpackage	com_weblinks
  * @since		1.5
  */
 class JHtmlWeblink
