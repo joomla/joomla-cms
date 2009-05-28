@@ -63,9 +63,10 @@ class ContentViewArticle extends ContentView
 
 		// Create a user access object for the current user
 		$access = new stdClass();
-		$access->canEdit	= $user->authorize('com_content.article.edit_article');
-		$access->canEditOwn	= $user->authorize('com_content.article.edit_own');
-		$access->canPublish	= $user->authorize('com_content.article.publish');
+		$access->canEdit	= $user->authorise('com_content.article.edit_article');
+		$access->canEditOwn	= $user->authorise('com_content.article.edit_own') && $user->get('id') == $article->created_by;
+		$access->canPublish	= $user->authorise('com_content.article.publish');
+		$access->canManage	= $user->authorise('com_content.manage');
 
 		// Check to see if the user has access to view the full article
 		if (in_array($article->access, $groups)) {
@@ -202,13 +203,15 @@ class ContentViewArticle extends ContentView
 		$aparams	= &$article->parameters;
 		$isNew		= ($article->id < 1);
 
-		// Check if the user is allowed to edit their own articles.
-		if (!(($isNew || $user->get('id') == $article->created_by) && $user->authorise('com_content.article.edit_own'))) {
-			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
-			return false;
-		}
-		// Check if the user is allowed to edit other articles.
-		if (!($isNew && $user->authorise('com_content.article.edit_article')) && !(!$isNew && !$user->authorise('com_content.article.edit', 'article.'.$article->id))) {
+		// Create a user access object for the user
+		$access = new stdClass();
+		$access->canEdit	= $user->authorise('com_content.article.edit_article');
+		$access->canEditOwn	= $user->authorise('com_content.article.edit_own') && ($article->id == 0 || $user->get('id') == $article->created_by);
+		$access->canPublish	= $user->authorise('com_content.article.publish');
+		$access->canManage	= $user->authorise('com_content.manage');
+
+		// Check the user's access to edit the article.
+		if (!$access->canEdit && !$access->canEditOwn && !$access->canPublish && !$access->canManage) {
 			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
 			return false;
 		}

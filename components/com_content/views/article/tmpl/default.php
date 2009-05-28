@@ -1,7 +1,7 @@
 <?php // no direct access
 defined('_JEXEC') or die;
 
-$canEdit	= ($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own'));
+$canEdit = ($this->access->canEdit || $this->access->canEditOwn || $this->access->canPublish || $this->access->canManage);
 ?>
 <?php if ($this->params->get('show_page_title', 1) && $this->params->get('page_title') != $this->article->title) : ?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>">

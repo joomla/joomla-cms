@@ -33,6 +33,7 @@ $ -> Language fix or change
 ! -> Note
 
 27-May-2009 Rob Schley
+ # Fixed checks against gid in com_content. Frontend editing should work now!
  # Fixed checks against gid in com_weblinks submit form.
  - Removed the gid field from the user form.
  # Fixed JElement. Changed it back to a concrete class until other areas are changed to not use it as such.

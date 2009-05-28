@@ -73,7 +73,7 @@ class JHTMLIcon
 			return;
 		}
 
-		if (!$access->canEdit && !($access->canEditOwn && $article->created_by == $user->get('id'))) {
+		if (!$access->canEdit && !$access->canEditOwn && !$access->canPublish && !$access->canManage) {
 			return;
 		}
 
@@ -91,8 +91,6 @@ class JHTMLIcon
 		$date = JHtml::_('date', $article->created);
 		$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
-		$overlib .= '&lt;br /&gt;';
-		$overlib .= JText::_($article->groups);
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;
 		$overlib .= '&lt;br /&gt;';
