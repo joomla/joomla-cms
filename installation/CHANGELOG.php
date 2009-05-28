@@ -32,6 +32,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-May-2009 Ercan Ozkaya
+ # Fixed sample data installation error
+ # Fixed com_members reference in mod_quickicon
+
 28-May-2009 Hannes Papenberg
  ^ Updated TinyMCE to version 3.2.4.1
  ^ Implemented menu item specific parameter sets for templates

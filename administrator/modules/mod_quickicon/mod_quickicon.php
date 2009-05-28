@@ -55,7 +55,7 @@ $buttons = array(
 		'access' => 'core.languages.manage'
 	),
 	array(
-		'link' => JRoute::_('index.php?option=com_members'), 
+		'link' => JRoute::_('index.php?option=com_users'), 
 		'image' => 'icon-48-user.png', 
 		'text' => JText::_('User Manager'), 
 		'access' => 'core.users.manage'

@@ -23,13 +23,13 @@ class JInstallationControllerSetup extends JController
 		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('Invalid_Token'), 403));
 
 		// Get the setup model.
-		$model = & $this->getModel('Setup');
+		$model = &$this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 
 		// Get the options from the session.
 		$vars = $model->getOptions();
 
 		// Get the database model.
-		$database = & $this->getModel('Database');
+		$database = &$this->getModel('Database', 'JInstallationModel', array('dbo' => null));
 
 		// Attempt to load the database sample data.
 		$return = $database->installSampleData($vars);
