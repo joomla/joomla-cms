@@ -108,6 +108,8 @@ class JTablePlugin extends JTableAsset
 	function __construct(& $db)
 	{
 		parent::__construct('#__plugins', 'id', $db);
+
+		$this->access	= (int)JFactory::getConfig()->getValue('access');
 	}
 
 	/**

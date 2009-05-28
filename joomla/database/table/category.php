@@ -56,6 +56,8 @@ class JTableCategory extends JTableAsset
 	function __construct(&$db)
 	{
 		parent::__construct('#__categories', 'id', $db);
+
+		$this->access	= (int)JFactory::getConfig()->getValue('access');
 	}
 
 	/**
