@@ -130,7 +130,6 @@ class MenusModelItem extends JModel
 				}
 				break;
 		}
-
 		$item = $table;
 		return $item;
 	}
