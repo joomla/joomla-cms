@@ -124,6 +124,7 @@ class ConfigApplicationView
 		<input type="hidden" name="live_site" value="<?php echo isset($row->live_site) ? $row->live_site : ''; ?>" />
 		<input type="hidden" name="option" value="com_config" />
 		<input type="hidden" name="secret" value="<?php echo $row->secret; ?>" />
+		<input type="hidden" name="root_user" value="<?php echo $row->root_user; ?>" />
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 		</form>

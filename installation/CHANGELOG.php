@@ -33,6 +33,7 @@ $ -> Language fix or change
 ! -> Note
 
 27-May-2009 Rob Schley
+ # Fixed the root_user setting getting lost when updating global configuration.
  # Fixed the Switcher JavaScript behavior.
  # Fixed some rendering problems with the submenu in com_config and com_admin.
  # Fixed the default access level setting not being added to the configuration file on install.

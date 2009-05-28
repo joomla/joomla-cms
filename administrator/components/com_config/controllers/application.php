@@ -286,6 +286,7 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['access']		= JRequest::getVar('access', '1', 'post', 'int');
 		$config_array['list_limit']	= JRequest::getVar('list_limit', 20, 'post', 'int');
 		$config_array['helpurl']	= JRequest::getVar('helpurl', 'http://help.joomla.org', 'post', 'string');
+		$config_array['root_user']	= JRequest::getVar('root_user', '42', 'post', 'int');
 
 		// DEBUG
 		$config_array['debug']		= JRequest::getVar('debug', 0, 'post', 'int');
