@@ -159,7 +159,7 @@ class ModulesController extends JController
 				' WHERE client_id = '.(int) $client->id;
 		$db->setQuery($query);
 		$assigned[]		= JHtml::_('select.option',  '0', '- '. JText::_('Select Template') .' -');
-		$assigned 		= array_merge($assigned, $db->loadObjectList());
+		$assigned 		= array_merge((array) $assigned, (array) $db->loadObjectList());
 		$lists['assigned']	= JHtml::_('select.genericlist',   $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_assigned");
 
 		// table ordering
