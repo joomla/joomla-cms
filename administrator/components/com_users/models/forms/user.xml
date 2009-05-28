@@ -55,15 +55,6 @@
 			class="inputbox required validate-email"
 			label="Users_User_Email"
 			description="Users_User_Email_Desc"/>
-		<field
-			name="gid"
-			type="text"
-			id="gid"
-			default="18"
-			class="inputbox readonly"
-			label="Users_User_GID"
-			description="Users_User_GID_Desc"
-			readonly="true"/>
 	</fields>
 
 	<fields

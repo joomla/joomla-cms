@@ -33,6 +33,7 @@ $ -> Language fix or change
 ! -> Note
 
 27-May-2009 Rob Schley
+ - Removed the gid field from the user form.
  # Fixed JElement. Changed it back to a concrete class until other areas are changed to not use it as such.
  # Fixed the group based filtering in com_content admin interface.
  # Fixed part of the component config screen. Still not quite correct but at least it saves now.
