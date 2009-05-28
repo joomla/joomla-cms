@@ -52,12 +52,12 @@ INSERT INTO `#__content_frontpage` VALUES
 UPDATE `#__menu` SET `params` = 'show_page_title=1\npage_title=Welcome to the Frontpage\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n' WHERE id = 1;
 
 INSERT INTO `#__menu` VALUES
-(2, 'mainmenu', 'Administrator', 'administrator', 'administrator/', 'url', 1, 0, 0, 0, 7, 0, '0000-00-00 00:00:00', 0, 0, 1, 3, 'menu_image=-1\n\n', 0, 0, 0),
-(3, 'usermenu', 'Your Details', 'your-details', 'index.php?option=com_user&view=user&task=edit', 'component', 1, 0, 14, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 2, 3, '', 0, 0, 0),
-(4, 'usermenu', 'Logout', 'logout', 'index.php?option=com_user&view=login', 'component', 1, 0, 14, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 2, 3, '', 0, 0, 0),
-(5, 'usermenu', 'Submit an Article', 'submit-an-article', 'index.php?option=com_content&view=article&layout=form', 'component', 1, 0, 20, 0, 2, 0, '0000-00-00 00:00:00', 0, 0, 2, 0, '', 0, 0, 0),
-(6, 'usermenu', 'Submit a Web Link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=weblink&layout=form', 'component', 1, 0, 4, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 2, 0, '', 0, 0, 0),
-(7, 'mainmenu', 'Weblinks', 'weblinks', 'index.php?option=com_weblinks&view=categories', 'component', 1, 0, 4, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 1, 0, '{"image":"-1","image_align":"right","show_feed_link":"1","show_comp_description":"","comp_description":"","show_link_hits":"","show_link_description":"","show_other_cats":"","show_headings":"","show_numbers":"","show_report":"","target":"","link_icons":"","page_title":"","show_page_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0"}', 0, 0, 0)
+(2, 'mainmenu', 'Administrator', 'administrator', 'administrator/', 'url', 1, 0, 0, 0, 7, 0, '0000-00-00 00:00:00', 0, 0, 1, 3, 0, 'menu_image=-1\n\n', 0, 0, 0),
+(3, 'usermenu', 'Your Details', 'your-details', 'index.php?option=com_user&view=user&task=edit', 'component', 1, 0, 14, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 2, 3, 0, '', 0, 0, 0),
+(4, 'usermenu', 'Logout', 'logout', 'index.php?option=com_user&view=login', 'component', 1, 0, 14, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 2, 3, 0, '', 0, 0, 0),
+(5, 'usermenu', 'Submit an Article', 'submit-an-article', 'index.php?option=com_content&view=article&layout=form', 'component', 1, 0, 20, 0, 2, 0, '0000-00-00 00:00:00', 0, 0, 2, 0, 0, '', 0, 0, 0),
+(6, 'usermenu', 'Submit a Web Link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=weblink&layout=form', 'component', 1, 0, 4, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 2, 0, 0, '', 0, 0, 0),
+(7, 'mainmenu', 'Weblinks', 'weblinks', 'index.php?option=com_weblinks&view=categories', 'component', 1, 0, 4, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 1, 0, 0, '{"image":"-1","image_align":"right","show_feed_link":"1","show_comp_description":"","comp_description":"","show_link_hits":"","show_link_description":"","show_other_cats":"","show_headings":"","show_numbers":"","show_report":"","target":"","link_icons":"","page_title":"","show_page_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0"}', 0, 0, 0)
 ;
 
 INSERT INTO `jos_access_assets` VALUES 

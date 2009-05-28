@@ -61,6 +61,8 @@ class JTableMenu extends JTableAsset
 	var $rgt				= null;
 	/** @var int */
 	var $home				= null;
+	/** @var int */
+	var $template_id			= null;
 
 	/**
 	 * Constructor
