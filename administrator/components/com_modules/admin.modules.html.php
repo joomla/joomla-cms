@@ -281,25 +281,14 @@ class HTML_modules
 							</label>
 						</td>
 						<td>
-							<input type="text" id="position" class="combobox" name="position" value="<?php echo $row->position; ?>" />
-							<ul id="combobox-position" style="display:none;">
+							<select id="combobox-position" class="combobox" name="position">
 							<?php
 								$positions = $model->getPositions();
 								foreach ($positions as $position) {
-									echo '<li>'.$position.'</li>';
+									echo '<option value="'.$position.'"'.($row->position == $position ? ' selected="selected"' : '').'>'.$position.'</option>';
 								}
 							?>
-							</ul>
-							<script language="javascript" type="text/javascript">
-								window.addEvent('domready', function() {
-									$('combobox-position').addEvent('change', function() {
-										changeDynaList('ordering', orders, document.adminForm.position.value, 0, 0);
-									});
-									$('position').addEvent('change', function() {
-										changeDynaList('ordering', orders, document.adminForm.position.value, 0, 0);
-									});
-								});
-							</script>
+							</select>
 						</td>
 					</tr>
 					<tr>

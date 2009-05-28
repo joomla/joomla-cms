@@ -1,123 +1,155 @@
 /**
  * @version		$Id$
+ * @package		Joomla.JavaScript
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 /**
- * JCombobox javascript behavior
+ * JCombobox JavaScript behavior.
  *
- * Used for transforming <input type="text" ... /> tags into combobox dropdowns with appropriate <noscript> tag following
- * for dropdown list information
+ * Inspired by: Subrata Chakrabarty <http://chakrabarty.com/editable_dropdown_samplecode.html>
  *
- * @package		Joomla
- * @since		1.5
- * @version     1.0
+ * @package		Joomla.JavaScript
+ * @since		1.6
  */
-var JCombobox = new Class({   
+var JCombobox = new Class({
+
+	// Implement the options and event classes.
 	Implements : [Options,Events],
-	
-   options: {
-      classElement: '.combobox',
-      valueProp: false
-   },
-   
-   // initialization
-   initialize: function(options) {
-      // set options
-      this.setOptions(options);
-         
-      var boxes = $$(this.options.classElement);
-      /*boxes.each(function(el){
-         if(el.tagName == 'INPUT' && el.type == 'text'){
-            this.populate(el);
-         }
-      });*/
-      for ( var i=0; i < boxes.length; i++) {
-         if (boxes[i].tagName == 'INPUT' && boxes[i].type == 'text') {
-            this.populate(boxes[i]);
-         }
-      }
-      
-   },
-   
-   populate: function(element)
-   {
-      // alert(element.get('tag'));
-      var list = $('combobox-'+element.id).getElements('li').setStyle('display','none');
-      var parent = element.getParent().setStyle('position','relative');
-      var select = new Element('select',{
-         styles:{
-            position:'relative'
-         }
-      }).inject(parent);
 
-      list.each(function(el){
-         var o = new Element('option', {
-            value: el.get('html'),
-            html: el.get('html'),
-         }).inject(select);
-         
-         if (o.value == element.value) {
-            o.selected = 'selected';
-         }
-      });
-            
-      select.addEvent('change', function(){
-         var input = $(element.id);
-         input.value = this.options[this.selectedIndex].value;
-      })
-      
-      var coords = select.getCoordinates();
-      var widthOffset = 23;
-      var heightOffset = 6;
-      
-      if (Browser.Engine.trident) {
-         coords.x = coords.x + 2;
-         widthOffset = 22;
-         heightOffset = 5;
-      }
-      
-      else if (Browser.Engine.presto) {
-         widthOffset = 19;
-         heightOffset = 4;
-      }
-      
-      else if (Browser.Engine.webkit ) {
-         coords.y = coords.y - 2;
-         coords.x = coords.x + 2;
-         widthOffset = 18;
-         heightOffset = 0;
-      }
-      
-      element.setStyles({
-         position:'absolute',
-         top: coords.y + 'px',
-         left: coords.x + 'px',
-         width: select.offsetWidth - widthOffset + 'px',
-         height: select.offsetHeight - heightOffset + 'px',
-         zIndex: 80000
-      });
-      
+	options: {
+		selector: 'select.combobox',
+		initString: Joomla.JText._('ComboBoxInitString', 'Type custom...')
+	},
 
-      // Add iFrame for IE
-      if (Browser.Engine.trident) {
-         var iframe = new Element('iframe', {
-            src: 'about:blank',
-            scrolling: 'no',
-            frameborder: 'no',
-            styles:{
-               position: 'absolute',
-               top: coords.y + 'px',
-               left: coords.x + 'px',
-               width: element.offsetWidth + 'px',
-               height: element.offsetHeight + 'px'
-            }
-         }).inject(parent);
-      }
-   }
+	// Object constructor.
+	initialize: function(options) {
+
+		// Set the object options.
+		this.setOptions(options);
+
+		// Add the custom option to the combobox elements.
+		$$(this.options.selector).each(function(el){
+			var o = new Element('option', {'class':'custom'}).set('text', this.options.initString);
+			o.inject(el, 'top');
+			el.set('changeType', 'manual');
+		}, this);
+		
+		// Add a key press event handler.
+		$$(this.options.selector).addEvent('keypress', function(e){
+
+			// Check to see if the character is valid.
+			if ((e.code > 47 && e.code < 59) || (e.code > 62 && e.code < 127) || (e.code == 32)) {
+				var validChar = true;
+			} else {
+				var validChar = false;
+			}
+
+			// If the editable option is selected, proceed. 
+			if (this.options.selectedIndex == 0)
+			{		
+
+				// Get the custom string for editing.
+				var customString = this.options[0].value;
+
+				// If the string is being edited for the first time, nullify it.
+				if ((validChar == true) || (e.key == 'backspace'))
+				{
+					if (customString == Joomla.combobox.options.initString) {
+						customString = '';
+					}
+				}
+
+				// If the backspace key was used, remove a character from the end of the string.
+				if (e.key == 'backspace')
+				{
+					customString = customString.substring(0, customString.length - 1);
+
+					// Indicate that the change event was manually initiated.
+					this.set('changeType', 'manual');
+				}
+
+				// Handle valid characters to add to the editable option.
+				if (validChar == true)
+				{
+					// Concatenate the new character to the custom string.
+					customString += String.fromCharCode(e.code);
+				}
+
+				// Set the new custom string into the editable select option.
+				this.options.selectedIndex = 0;
+				this.options[0].text = customString;
+				this.options[0].value = customString;
+
+				e.stop();
+			}
+		});
+		
+		// Add a change event handler.
+		$$(this.options.selector).addEvent('change', function(e){
+
+			// The change in selected option was browser behavior.
+			if ((this.options.selectedIndex != 0) && (this.get('changeType') == 'auto'))
+			{
+				this.options.selectedIndex = 0;
+				this.set('changeType', 'manual');
+			}
+		});
+		
+		// Add a keydown event handler.
+		$$(this.options.selector).addEvent('keydown', function(e){
+
+			// Stop the backspace key from firing the back button of the browser.
+			if (e.code == 8 || e.code == 127) {
+				e.stop();
+			}
+
+			if (this.options.selectedIndex == 0)
+			{
+				/*
+				 * In some browsers a feature exists to automatically jump to select options which
+				 * have the same letter typed as the first letter of the option.  The following 
+				 * section is designed to mitigate this issue when editing the custom option.
+				 *
+				 * Compare the entered character with the first character of all non-editable
+				 * select options.  If they match, then we assume the change happened because of
+				 * the browser trying to auto-change for the given character.
+				 */
+				var char = String.fromCharCode(e.code).toLowerCase();
+				for (var i = 1; i < this.options.length; i++)
+				{
+					// Get the first character from the select option.
+					var FirstChar = this.options[i].value.charAt(0).toLowerCase();
+
+					// If the first character matches the entered character, the change was automatic.
+					if ((FirstChar == char)) {
+						this.options.selectedIndex = 0;
+						this.set('changeType', 'auto');
+					}
+				}
+			}
+		});
+
+		// Add a keyup event handler.
+		$$(this.options.selector).addEvent('keyup', function(e){
+			
+			// If the left or right arrow keys are pressed, return to the editable option.
+			if ((e.key == 'left') || (e.key == 'right')) {
+				this.set('value', this.options[0].value);
+			}
+
+			// The change in selected option was browser behavior.
+			if ((this.options.selectedIndex != 0) && (this.get('changeType') == 'auto'))
+			{
+				this.options.selectedIndex = 0;
+				this.set('changeType', 'manual');
+			}
+		});
+	}
 });
 
+// Load the combobox behavior into the Joomla namespace when the document is ready.
 window.addEvent('domready', function(){
-  Joomla.combobox = new JCombobox()
+	Joomla.combobox = new JCombobox()
 });

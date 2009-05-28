@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-May-2009 Louis Landry
+ ^ Replaced the combobox behavior -- still needs a few tweaks.
+
 28-May-2009 Ercan Ozkaya
  # Fixed sample data installation error
  # Fixed com_members reference in mod_quickicon
