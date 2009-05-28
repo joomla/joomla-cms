@@ -32,9 +32,8 @@ class JHelp
 		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
 		$lang			= &JFactory::getLanguage();
 
-		if ($useComponent)
-		{
-			if (!eregi('\.html$', $ref)) {
+		if ($useComponent) {
+			if (!preg_match('#\.html$#i', $ref)) {
 				$ref = $ref . '.html';
 			}
 
