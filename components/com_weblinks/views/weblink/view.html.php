@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
- * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
@@ -17,14 +15,23 @@ jimport('joomla.application.component.view');
  *
  * @static
  * @package		Joomla.Site
- * @subpackage	Weblinks
- * @since 1.0
+ * @subpackage	com_weblinks
+ * @since		1.5
  */
 class WeblinksViewWeblink extends JView
 {
+	protected $state;
+	protected $item;
+
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$app		= &JFactory::getApplication();
+		$params		= &$app->getParams();
+
+		// Get some data from the models
+		$state		= &$this->get('State');
+		$item		= &$this->get('Item');
+		$category	= &$this->get('Category');
 
 		if ($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);

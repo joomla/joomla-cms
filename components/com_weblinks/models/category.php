@@ -162,28 +162,13 @@ class WeblinksModelCategory extends JModelList
 				'SELECT a.*' .
 				' FROM #__categories AS a' .
 				' WHERE id = '.(int) $id .
-				'  AND a.published = 1' .
+				'  AND a.published = '.$this->getState('filter.published').
 				'  AND a.section = '.$this->_db->quote('com_weblinks')
 			);
 			$this->_category = $this->_db->loadObject();
 
 			if ($this->_db->getErrorNum()) {
 				$this->setError($this->_db->getErrorMsg());
-			}
-			else
-			{
-				$user	= &JFactory::getUser();
-				$groups	= $user->authorisedLevels();
-
-				// Make sure the category is published
-				if (empty($this->_category) || $this->_category->published < 1) {
-					JError::raiseError(404, JText::_("Weblinks_Error_Category_not_found"));
-				}
-				// check whether category access level allows access
-				else if (!in_array($this->_category->access, $groups)) {
-					JError::raiseError(403, JText::_("ALERTNOTAUTH"));
-					return false;
-				}
 			}
 		}
 

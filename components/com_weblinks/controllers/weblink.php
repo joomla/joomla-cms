@@ -22,6 +22,76 @@ jimport('joomla.application.component.controller');
 class WeblinksControllerWeblink extends WeblinksController
 {
 	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param	string	The model name. Optional.
+	 * @param	string	The class prefix. Optional.
+	 * @param	array	Configuration array for model. Optional.
+	 * @return	object	The model.
+	 * @since	1.6
+	 */
+	public function &getModel($name = 'Weblink', $prefix = 'WeblinksModel')
+	{
+		return parent::getModel($name, $prefix, array('ignore_request' => true));
+	}
+
+	/**
+	 * Go to a weblink
+	 */
+	function go()
+	{
+		// Get the ID from the request
+		$id		= JRequest::getInt('id');
+
+		// Get the model, requiring published items
+		$modelLink	= &$this->getModel();
+		$modelLink->setState('filter.published', 1);
+
+		// Get the item
+		$link	= &$modelLink->getItem($id);
+
+		// Make sure the item was found.
+		if (empty($link)) {
+			return JError::raiseWarning(404, JText::_('Weblinks_Error_Weblink_not_found'));
+		}
+
+		// Check whether item access level allows access.
+		$user	= &JFactory::getUser();
+		$groups	= $user->authorisedLevels();
+		if (!in_array($link->access, $groups)) {
+			return JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+		}
+
+		// Check whether category access level allows access.
+		$modelCat = &$this->getModel('Category');
+		$modelCat->setState('filter.published', 1);
+
+		// Get the category
+		$category = &$modelCat->getCategory($link->catid);
+
+		// Make sure the category was found.
+		if (empty($category)) {
+			return JError::raiseWarning(404, JText::_('Weblinks_Error_Weblink_not_found'));
+		}
+
+		// Check whether item access level allows access.
+		if (!in_array($category->access, $groups)) {
+			return JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+		}
+
+		// Redirect to the URL
+		// TODO: Probably should check for a valid http link
+		if ($link->url)
+		{
+			$modelLink->hit($id);
+			JFactory::getApplication()->redirect($link->url);
+		}
+		else {
+			return JError::raiseWarning(404, JText::_('Weblinks_Error_Weblink_url_invalid'));
+		}
+	}
+
+	/**
 	* Edit a weblink and show the edit form
 	*
 	* @acces public

@@ -75,23 +75,25 @@ defined('_JEXEC') or die;
 						// Compute the correct link
 
 						$menuclass = 'category'.$this->params->get('pageclass_sfx');
-						$link	= JRoute::_('index.php?view=weblink&catid='.$this->category->slug.'&id='. $item->slug);
+						$link	= JRoute::_('index.php?task=weblink.go&catid='.$this->category->slug.'&id='. $item->slug);
 						switch ($item->params->get('target', $this->params->get('target')))
 						{
-							// cases are slightly different
 							case 1:
 								// open in a new window
-								echo '<a href="'. $link .'" target="_blank" class="'. $menuclass .'">'. $this->escape($item->title) .'</a>';
+								echo '<a href="'. $link .'" target="_blank" class="'. $menuclass .'" rel="nofollow">'.
+									$this->escape($item->title) .'</a>';
 								break;
 
 							case 2:
 								// open in a popup window
-								echo "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $this->escape($item->title) ."</a>\n";
+								echo "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">".
+									$this->escape($item->title) ."</a>\n";
 								break;
 
 							default:
 								// open in parent window
-								echo '<a href="'. $link .'" class="'. $menuclass .'">'. $this->escape($item->title) .'</a>';
+								echo '<a href="'. $link .'" class="'. $menuclass .'" rel="nofollow">'.
+									$this->escape($item->title) .'</a>';
 								break;
 						}
 					?>

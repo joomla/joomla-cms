@@ -48,13 +48,6 @@ class WeblinksController extends JController
 			$model->setState('filter.published',	1);
 			$model->setState('filter.approved',		1);
 
-			switch ($vName)
-			{
-				case 'weblink':
-					$model->hit();
-					break;
-			}
-
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
 			$view->setLayout($lName);

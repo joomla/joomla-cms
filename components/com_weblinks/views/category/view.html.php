@@ -30,7 +30,7 @@ class WeblinksViewCategory extends JView
 		$app		= &JFactory::getApplication();
 		$params		= &$app->getParams();
 
-		// Get some data from the model
+		// Get some data from the models
 		$state		= &$this->get('State');
 		$items		= &$this->get('Items');
 		$category	= &$this->get('Category');
@@ -43,7 +43,21 @@ class WeblinksViewCategory extends JView
 			return false;
 		}
 
-		// PREPARE THE DATA
+		// Validate the category.
+
+		// Make sure the category was found.
+		if (empty($category)) {
+			return JError::raiseWarning(404, JText::_('Weblinks_Error_Category_not_found'));
+		}
+
+		// Check whether category access level allows access.
+		$user	= &JFactory::getUser();
+		$groups	= $user->authorisedLevels();
+		if (!in_array($category->access, $groups)) {
+			return JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+		}
+
+		// Prepare the data.
 
 		// Compute the active category slug.
 		$category->slug = $category->alias ? ($category->id.':'.$category->alias) : $category->id;
