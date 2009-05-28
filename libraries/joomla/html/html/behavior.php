@@ -134,8 +134,16 @@ abstract class JHtmlBehavior
 
 		// Attach tooltips to document
 		$document = &JFactory::getDocument();
-		$tooltipInit = '		window.addEvent(\'domready\', function(){ var JTooltips = new Tips($$(\''.$selector.'\'), '.$options.'); });';
-		$document->addScriptDeclaration($tooltipInit);
+		$document->addScriptDeclaration("
+		window.addEvent('domready', function() {
+			$$('$selector').each(function(el) {
+				var title = el.get('title');
+				var parts = title.split('::', 2);
+				el.store('tip:title', parts[0]);
+				el.store('tip:text', parts[1]);
+			});
+			var JTooltips = new Tips($$('$selector'), $options); 
+		});");
 
 		// Set static array
 		$tips[$sig] = true;
