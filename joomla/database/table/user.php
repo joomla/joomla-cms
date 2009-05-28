@@ -73,13 +73,6 @@ class JTableUser extends JTable
 	var $sendEmail		= null;
 
 	/**
-	 * The group id number
-	 *
-	 * @var int
-	 */
-	var $gid			= null;
-
-	/**
 	 * Description
 	 *
 	 * @var datetime
@@ -125,7 +118,6 @@ class JTableUser extends JTable
 
 		//initialise
 		$this->id        = 0;
-		$this->gid       = 0;
 		$this->sendEmail = 0;
 	}
 

@@ -178,12 +178,13 @@ abstract class JHtmlList
 		$and = '';
 		if ($reg) {
 		// does not include registered users in the list
-		//	$and = ' AND gid > 18';
+			$and = ' AND m.group_id != 2';
 		}
 
-		$query = 'SELECT id AS value, name AS text'
-		. ' FROM #__users'
-		. ' WHERE block = 0'
+		$query = 'SELECT u.id AS value, u.name AS text'
+		. ' FROM #__users AS u'
+		. ' JOIN #__user_usergroup_map AS m WHERE m.user_id = u.id'
+		. ' WHERE u.block = 0'
 		. $and
 		. ' ORDER BY '. $order
 		;
