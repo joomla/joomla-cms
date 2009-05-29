@@ -87,9 +87,8 @@ foreach ($this->orders2 as $k=>$items) {
 				<td>
 					<select id="combobox-position" class="combobox" name="position">
 					<?php
-					$positions = $model->getPositions();
-					foreach ($positions as $position) {
-						echo '<option value="'.$position.'"'.($row->position == $position ? ' selected="selected"' : '').'>'.$position.'</option>';
+					foreach ($this->positions as $position) {
+						echo '<option value="'.$position.'"'.($this->row->position == $position ? ' selected="selected"' : '').'>'.$position.'</option>';
 					}
 					?>
 					</select>

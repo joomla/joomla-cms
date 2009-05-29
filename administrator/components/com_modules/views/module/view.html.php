@@ -207,7 +207,9 @@ class ModulesViewModule extends JView
 		//$params = new JParameter($row->params, $path);
 		//$document = &JFactory::getDocument();
 
-		$positions = array_push($positions, $row->position);
+		if (!in_array($row->position, $positions)) {
+			array_push($positions, $row->position);
+		}
 		sort($positions);
 
 		$this->assignRef('lists',		$lists);
