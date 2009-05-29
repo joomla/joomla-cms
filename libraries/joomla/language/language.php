@@ -451,39 +451,6 @@ class JLanguage extends JObject
 	}
 
 	/**
-	* Getter for PDF Font Name
-	*
-	* @access	public
-	* @return	string name of pdf font to be used
-	* @since	1.5
-	*/
-	function getPdfFontName() {
-		return $this->_metadata['pdffontname'];
-	}
-
-	/**
-	* Getter for Windows locale code page
-	*
-	* @access	public
-	* @return	string windows locale encoding
-	* @since	1.5
-	*/
-	function getWinCP() {
-		return $this->_metadata['wincodepage'];
-	}
-
-	/**
-	* Getter for backward compatible language name
-	*
-	* @access	public
-	* @return	string backward compatible name
-	* @since	1.5
-	*/
-	function getBackwardLang() {
-		return $this->_metadata['backwardlang'];
-	}
-
-	/**
 	* Get for the language tag (as defined in RFC 3066)
 	*
 	* @access	public
@@ -492,27 +459,6 @@ class JLanguage extends JObject
 	*/
 	function getTag() {
 		return $this->_metadata['tag'];
-	}
-
-	/**
-	* Get locale property
-	*
-	* @access	public
-	* @return	string The locale property
-	* @since	1.5
-	*/
-	function getLocale()
-	{
-		$locales = explode(',', $this->_metadata['locale']);
-
-		for ($i = 0; $i < count($locales); $i++) {
-			$locale = $locales[$i];
-			$locale = trim($locale);
-			$locales[$i] = $locale;
-		}
-
-		//return implode(',', $locales);
-		return $locales;
 	}
 
 	/**
@@ -683,9 +629,6 @@ class JLanguage extends JObject
 		$this->_lang		= $lang;
 		$this->_metadata	= $this->getMetadata($this->_lang);
 
-		//set locale based on the language tag
-		//TODO : add function to display locale setting in configuration
-		$locale = setlocale(LC_TIME, $this->getLocale());
 		return $previous;
 	}
 

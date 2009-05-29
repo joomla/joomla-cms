@@ -32,6 +32,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-May-2009 Ercan Ozkaya
+ + Added file list section to language meta files
+ - Removed legacy methods from JLanguage
+ - Removed com_polls language files
+ - Removed legacy fields from language meta files (locale, winCodePage, backwardLang, pdfFontName)
+ ! Committers, please update language meta files when adding/removing translation files
+
 29-May-2009 Louis Landry
  + Added redirect manager component/plugin.
 

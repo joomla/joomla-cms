@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id -->
-<metafile version="1.5"  client="site" >
-	<name>English(United Kingdom)</name>
+<metafile version="1.6"  client="site">
+	<name>English (United Kingdom)</name>
 	<tag>en-GB</tag>
-	<version>1.5.9</version>
+	<version>1.6.0</version>
 	<creationDate>2008-03-15</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,14 +11,55 @@
 	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description></description>
+	<files>
+		<filename>en-GB.com_banners.ini</filename>
+		<filename>en-GB.com_contact.ini</filename>
+		<filename>en-GB.com_content.ini</filename>
+		<filename>en-GB.com_frontpage.ini</filename>
+		<filename>en-GB.com_mailto.ini</filename>
+		<filename>en-GB.com_media.ini</filename>
+		<filename>en-GB.com_members.ini</filename>
+		<filename>en-GB.com_messages.ini</filename>
+		<filename>en-GB.com_newsfeeds.ini</filename>
+		<filename>en-GB.com_search.ini</filename>
+		<filename>en-GB.com_weblinks.ini</filename>
+		<filename>en-GB.com_wrapper.ini</filename>
+		<filename>en-GB.ini</filename>
+		<filename>en-GB.mod_archive.ini</filename>
+		<filename>en-GB.mod_banners.ini</filename>
+		<filename>en-GB.mod_breadcrumbs.ini</filename>
+		<filename>en-GB.mod_custom.ini</filename>
+		<filename>en-GB.mod_feed.ini</filename>
+		<filename>en-GB.mod_footer.ini</filename>
+		<filename>en-GB.mod_latestnews.ini</filename>
+		<filename>en-GB.mod_login.ini</filename>
+		<filename>en-GB.mod_mainmenu.ini</filename>
+		<filename>en-GB.mod_mostread.ini</filename>
+		<filename>en-GB.mod_newsflash.ini</filename>
+		<filename>en-GB.mod_online.ini</filename>
+		<filename>en-GB.mod_random_image.ini</filename>
+		<filename>en-GB.mod_related_items.ini</filename>
+		<filename>en-GB.mod_search.ini</filename>
+		<filename>en-GB.mod_sections.ini</filename>
+		<filename>en-GB.mod_stats.ini</filename>
+		<filename>en-GB.mod_syndicate.ini</filename>
+		<filename>en-GB.mod_whosonline.ini</filename>
+		<filename>en-GB.mod_wrapper.ini</filename>
+		<filename>en-GB.plg_content_vote.ini</filename>
+		<filename>en-GB.plg_search_categories.ini</filename>
+		<filename>en-GB.plg_search_contacts.ini</filename>
+		<filename>en-GB.plg_search_content.ini</filename>
+		<filename>en-GB.plg_search_newsfeeds.ini</filename>
+		<filename>en-GB.plg_search_sections.ini</filename>
+		<filename>en-GB.plg_search_weblinks.ini</filename>
+		<filename>en-GB.plg_system_debug.ini</filename>
+		<filename>en-GB.tpl_beez.ini</filename>
+		<filename>en-GB.tpl_rhuk_milkyway.ini</filename>
+	</files>	
 	<metadata>
 		<name>English (United Kingdom)</name>
 		<tag>en-GB</tag>
 		<rtl>0</rtl>
-		<locale>en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
-		<winCodePage>iso-8859-1</winCodePage>
-		<backwardLang>english</backwardLang>
-		<pdfFontName>freesans</pdfFontName>
 	</metadata>
 	<params />
 </metafile>
