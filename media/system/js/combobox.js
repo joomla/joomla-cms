@@ -25,11 +25,18 @@ Joomla.combobox.transform = function(el, options)
 	// Add the editable option to the select.
 	var o = new Element('option', {'class':'custom'}).set('text', Joomla.JText._('ComboBoxInitString', 'type custom...'));
 	o.inject(el, 'top');
-	el.set('changeType', 'manual');
+	$(el).set('changeType', 'manual');
 
 	// Add a key press event handler.
-	$(el).addEvent('keypress', function(e){
+	el.addEvent('keypress', function(e){
 
+		// The change in selected option was browser behavior.
+		if ((this.options.selectedIndex != 0) && (this.get('changeType') == 'auto'))
+		{
+			this.options.selectedIndex = 0;
+			this.set('changeType', 'manual');
+		}
+		
 		// Check to see if the character is valid.
 		if ((e.code > 47 && e.code < 59) || (e.code > 62 && e.code < 127) || (e.code == 32)) {
 			var validChar = true;
@@ -37,10 +44,9 @@ Joomla.combobox.transform = function(el, options)
 			var validChar = false;
 		}
 
-		// If the editable option is selected, proceed. 
+		// If the editable option is selected, proceed.
 		if (this.options.selectedIndex == 0)
-		{		
-
+		{
 			// Get the custom string for editing.
 			var customString = this.options[0].value;
 
@@ -56,7 +62,10 @@ Joomla.combobox.transform = function(el, options)
 			if (e.key == 'backspace')
 			{
 				customString = customString.substring(0, customString.length - 1);
-
+				if (customString == '') {
+					customString = Joomla.JText._('ComboBoxInitString', 'type custom...');
+				}
+				
 				// Indicate that the change event was manually initiated.
 				this.set('changeType', 'manual');
 			}
@@ -94,6 +103,11 @@ Joomla.combobox.transform = function(el, options)
 		// Stop the backspace key from firing the back button of the browser.
 		if (e.code == 8 || e.code == 127) {
 			e.stop();
+
+			// Stopping the keydown event in WebKit stops the keypress event as well.
+			if (Browser.Engine.webkit) {
+				this.fireEvent('keypress', e);
+			}
 		}
 
 		if (this.options.selectedIndex == 0)
@@ -127,7 +141,7 @@ Joomla.combobox.transform = function(el, options)
 		
 		// If the left or right arrow keys are pressed, return to the editable option.
 		if ((e.key == 'left') || (e.key == 'right')) {
-			this.set('value', this.options[0].value);
+			this.options.selectedIndex = 0;
 		}
 
 		// The change in selected option was browser behavior.
