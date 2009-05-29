@@ -19,11 +19,11 @@ defined('_JEXEC') or die;
 		<?php endif; ?>
 
 		<script type="text/javascript" src="../media/system/js/core.js"></script>
-		<script type="text/javascript" src="../media/system/js/mootools.js"></script>
+		<script type="text/javascript" src="../media/system/js/mootools-core.js"></script>
 		<script type="text/javascript" src="template/js/installation.js"></script>
 
 		<script type="text/javascript">
-			//window.addEvent('domready', function(){ new Accordion($$('h3.moofx-toggler'), $$('div.moofx-slider'), {onActive: function(toggler, i) { toggler.addClass('moofx-toggler-down'); },onBackground: function(toggler, i) { toggler.removeClass('moofx-toggler-down'); },duration: 300,opacity: false, alwaysHide:true, show: 1}); });
+			window.addEvent('domready', function(){ new Accordion($$('h3.moofx-toggler'), $$('div.moofx-slider'), {onActive: function(toggler, i) { toggler.addClass('moofx-toggler-down'); },onBackground: function(toggler, i) { toggler.removeClass('moofx-toggler-down'); },duration: 300,opacity: false, alwaysHide:true, show: 1}); });
   		</script>
 	</head>
 	<body>
