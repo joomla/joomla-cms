@@ -112,14 +112,19 @@ class plgEditorCodemirror extends JPlugin
 			$options->lineNumbers = true;
 			$options->textWrapping = false;
 		}
+		if ($this->params->get('tabmode', '') == 'shift') {
+			$options->tabMode = 'shift';
+		}
 		
 		$html = array();
 
 		$html[]	= "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\">$content</textarea>";
 		$html[] = $buttons;
 		$html[] = '<script type="text/javascript">';
+		$html[] = '(function() {';
 		$html[] = 'var editor = CodeMirror.fromTextArea("'.$name.'", '.json_encode($options).');';
-		$html[] = 'Joomla.editors.instances[\'$name\'] = editor;';
+		$html[] = 'Joomla.editors.instances[\''.$name.'\'] = editor;';
+		$html[] = '})()';
 		$html[] = '</script>';
 
 		return implode("\n", $html);

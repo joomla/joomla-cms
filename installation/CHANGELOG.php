@@ -33,6 +33,9 @@ $ -> Language fix or change
 ! -> Note
 
 29-May-2009 Ercan Ozkaya
+ + Added CodeMirror editor plugin
+
+29-May-2009 Ercan Ozkaya
  + Added file list section to language meta files
  - Removed legacy methods from JLanguage
  - Removed com_polls language files
