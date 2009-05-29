@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-May-2009 Louis Landry
+ + Added redirect manager component/plugin.
+
 28-May-2009 Louis Landry
  ^ Replaced the combobox behavior -- still needs a few tweaks.
 

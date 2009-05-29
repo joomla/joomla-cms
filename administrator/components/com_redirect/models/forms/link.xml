@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields>
+		<field name="id" type="hidden" id="id" class="inputbox"
+			label="REDIRECT_LINK_ID"
+			size="10"
+			default="0"
+			required="true"
+			readonly="true"
+		/>
+		<field name="old_url" type="text" id="old_url" class="inputbox validate required"
+			label="REDIRECT_LINK_OLD_URL"
+			description="REDIRECT_LINK_OLD_URL_DESC"
+			size="50"
+			default=""
+		/>
+		<field name="new_url" type="text" id="new_url" class="inputbox"
+			label="REDIRECT_LINK_NEW_URL"
+			description="REDIRECT_LINK_NEW_URL_DESC"
+			size="50"
+			default=""
+		/>
+		<field name="comment" type="text" id="comment" class="inputbox validate required"
+			label="REDIRECT_LINK_COMMENT"
+			description="REDIRECT_LINK_COMMENT_DESC"
+			size="40"
+			default=""
+		/>
+		<field name="published" type="radio" id="published" class="inputbox"
+			label="REDIRECT_LINK_STATE"
+			default="1"
+			required="true">
+			<option value="0">Pending</option>
+			<option value="1">Active</option>
+			<option value="2">Archived</option>
+		</field>
+		<field name="referer" type="text" id="referer" class="inputbox"
+			label="REDIRECT_LINK_REFERRER"
+			size="50"
+			default=""
+			readonly="true"
+		/>
+		<field name="created_date" type="text" id="created_date" class="inputbox"
+			label="REDIRECT_LINK_CREATED_DATE"
+			size="20"
+			default=""
+			readonly="true"
+		/>
+		<field name="updated_date" type="text" id="updated_date" class="inputbox"
+			label="REDIRECT_LINK_UPDATED_DATE"
+			size="20"
+			default=""
+			readonly="true"
+		/>
+	</fields>
+</form>

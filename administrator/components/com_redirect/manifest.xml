@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<install type="component" version="1.6.0">
+    <name>Redirect</name>
+    <version>1.6.0</version>
+    <creationDate>April 2009</creationDate>
+	<author>Joomla! Project</author>
+	<creationDate>2009</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<description>Redirect Manager</description>
+
+	<administration>
+        <menu link="option=com_redirect">Redirect</menu>
+
+		<languages folder="admin/language">
+			<language tag="en-GB">en-GB/en-GB.com_redirect.ini</language>
+		</languages>
+
+		<files folder="admin">
+			<file>controller.php</file>
+			<file>index.html</file>
+			<file>redirect.php</file>
+
+			<folder>controllers</folder>
+			<folder>media</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+	</administration>
+</install>

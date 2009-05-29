@@ -335,6 +335,7 @@ INSERT INTO `#__plugins` VALUES (30, 'System - Cache', 'cache', 'system', 1, 4, 
 INSERT INTO `#__plugins` VALUES (31, 'System - Log', 'log', 'system', 1, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (32, 'System - Remember Me', 'remember', 'system', 1, 6, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (33, 'System - Backlink', 'backlink', 'system', 1, 7, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (34, 'System - Redirect', 'redirect', 'system', 1, 8, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 
 # --------------------------------------------------------
 
@@ -662,6 +663,27 @@ CREATE TABLE `#__weblinks` (
   PRIMARY KEY  (`id`),
   KEY `catid` (`catid`,`state`,`archived`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__redirect_links`
+#
+
+CREATE TABLE `#__redirect_links` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `old_url` varchar(150) NOT NULL,
+  `new_url` varchar(150) NOT NULL,
+  `referer` varchar(150) NOT NULL,
+  `comment` varchar(255) NOT NULL,
+  `published` tinyint(4) NOT NULL,
+  `created_date` int(11) NOT NULL,
+  `updated_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `idx_link_old` (`old_url`),
+  KEY `idx_link_updated` (`updated_date`)
+) ENGINE=MyISAM CHARACTER SET `utf8`;
+
 
 # --------------------------------------------------------
 

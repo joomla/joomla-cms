@@ -1,0 +1,87 @@
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ */
+
+defined('JPATH_BASE') or die;
+
+jimport('joomla.plugin.plugin');
+
+/**
+ * Plugin class for redirect handling.
+ *
+ * @package		Joomla
+ * @subpackage	plgSystemRedirect
+ */
+class plgSystemRedirect extends JPlugin
+{
+	/**
+	 * Object Constructor.
+	 *
+	 * @access	public
+	 * @param	object	The object to observe -- event dispatcher.
+	 * @param	object	The configuration object for the plugin.
+	 * @return	void
+	 * @since	1.0
+	 */
+	function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+
+		// Set the error handler for E_ERROR to be the class handleError method.
+		JError::setErrorHandling(E_ERROR, 'callback', array('plgSystemRedirect','handleError'));
+	}
+
+	static function handleError(&$error)
+	{
+		// Get the application object.
+		$app = & JFactory::getApplication();
+
+		// Make sure the error is a 404 and we are not in the administrator.
+		if (!$app->isAdmin() and ($error->getCode() == 404))
+		{
+			// Get the full current URI.
+			$uri = & JURI::getInstance();
+			$current = $uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'));
+
+			// Attempt to ignore idiots.
+			if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false)) {
+				// Render the error page.
+				JError::customErrorPage($error);
+			}
+
+			// See if the current url exists in the database as a redirect.
+			$db = & JFactory::getDBO();
+			$db->setQuery(
+				'SELECT `new_url`, `published`' .
+				' FROM `#__redirect_links`' .
+				' WHERE `old_url` = '.$db->quote($current),
+				0, 1
+			);
+			$link = $db->loadObject();
+
+			// If a redirect exists and is published, redirect.
+			if ($link and ($link->published == 1)) {
+				$app->redirect($link->new_url);
+			} else {
+				// If not, add the new url to the database.
+				$now = & JFactory::getDate();
+				$db->setQuery(
+					'INSERT INTO `#__redirect_links` (`old_url`, `referer`, `published`, `created_date`)' .
+					' VALUES ('.$db->Quote($current).', '.$db->Quote($_SERVER["HTTP_REFERER"]).', 0, '.$now->toUNIX().')'
+				);
+				$db->query();
+
+				// Render the error page.
+				JError::customErrorPage($error);
+			}
+
+		} else {
+			// Render the error page.
+			JError::customErrorPage($error);
+		}
+	}
+}
