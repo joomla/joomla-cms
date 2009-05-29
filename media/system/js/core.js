@@ -7,7 +7,11 @@
 // Only define the Joomla namespace if not defined.
 if (typeof(Joomla) === 'undefined') {
 	var Joomla = {};
-};
+}
+
+Joomla.editors = {};
+// An object to hold each editor instance on page
+Joomla.editors.instances = {};
 
 /**
  * Generic submit form

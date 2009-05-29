@@ -336,6 +336,7 @@ INSERT INTO `#__plugins` VALUES (31, 'System - Log', 'log', 'system', 1, 5, 0, 1
 INSERT INTO `#__plugins` VALUES (32, 'System - Remember Me', 'remember', 'system', 1, 6, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (33, 'System - Backlink', 'backlink', 'system', 1, 7, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (34, 'System - Redirect', 'redirect', 'system', 1, 8, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (35, 'Editor - CodeMirror', 'codemirror', 'editors', 1, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', 'linenumbers=0\n\n');
 
 # --------------------------------------------------------
 

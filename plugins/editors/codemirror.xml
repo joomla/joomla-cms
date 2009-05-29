@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<install version="1.6" type="plugin" group="editors">
+	<name>Editor - CodeMirror</name>
+	<version>1.0</version>
+	<creationDate>May 2009</creationDate>
+	<author></author>
+	<authorEmail>N/A</authorEmail>
+	<authorUrl></authorUrl>
+	<copyright></copyright>
+	<license></license>
+	<description></description>
+	<files>
+		<filename plugin="codemirror">codemirror.php</filename>
+	</files>
+	<param name="linenumbers" type="radio" default="0" label="CodeMirror_LineNumbers" description="CodeMirror_LineNumbers_Desc">
+		<option value="0">Off</option>
+		<option value="1">On</option>
+	</param>
+</install>
