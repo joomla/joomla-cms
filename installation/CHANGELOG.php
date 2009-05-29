@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-May-2009 Hannes Papenberg
+ ^ MVCed com_modules in the backend
+
 29-May-2009 Ercan Ozkaya
  + Added CodeMirror editor plugin
 

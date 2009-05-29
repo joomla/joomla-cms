@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: modules.php 11838 2009-05-27 22:07:20Z eddieajau $
  * @package		Joomla.Administrator
  * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -10,20 +10,19 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
 if (!$user->authorize('core.modules.manage')) {
-	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
-// Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
+// Helper classes
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'classes');
 
-// Create the controller
-$controller	= new ModulesController(array('default_task' => 'view'));
+// Require the base controller
+require_once JPATH_COMPONENT.DS.'controller.php';
+
+$controller	= new ModulesController();
 
 // Perform the Request task
-$controller->execute(JRequest::getCmd('task', 'view'));
-
-// Redirect if set by the controller
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

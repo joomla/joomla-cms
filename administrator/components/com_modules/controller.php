@@ -12,15 +12,6 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-$client	= JRequest::getVar('client', 0, '', 'int');
-if ($client == 1) {
-	JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_modules&client_id=0');
-	JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_modules&client=1', true);
-} else {
-	JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_modules&client_id=0', true);
-	JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_modules&client=1');
-}
-
 class ModulesController extends JController
 {
 	/**
@@ -41,139 +32,6 @@ class ModulesController extends JController
 	}
 
 	/**
-	 * Compiles a list of installed or defined modules
-	 */
-	function view()
-	{
-		global $mainframe;
-
-		// Initialize some variables
-		$db		= &JFactory::getDbo();
-		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$option	= 'com_modules';
-
-		$filter_order		= $mainframe->getUserStateFromRequest($option.'filter_order',		'filter_order',		'm.position',	'cmd');
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest($option.'filter_order_Dir',	'filter_order_Dir',	'',				'word');
-		$filter_state		= $mainframe->getUserStateFromRequest($option.'filter_state',		'filter_state',		'',				'word');
-		$filter_position	= $mainframe->getUserStateFromRequest($option.'filter_position',	'filter_position',	'',				'cmd');
-		$filter_type		= $mainframe->getUserStateFromRequest($option.'filter_type',		'filter_type',		'',				'cmd');
-		$filter_assigned	= $mainframe->getUserStateFromRequest($option.'filter_assigned',	'filter_assigned',	'',				'cmd');
-		$search				= $mainframe->getUserStateFromRequest($option.'search',			'search',			'',				'string');
-		$search				= JString::strtolower($search);
-
-		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-		$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
-
-		$where[] = 'm.client_id = '.(int) $client->id;
-
-		$joins[] = 'LEFT JOIN #__users AS u ON u.id = m.checked_out';
-		$joins[] = 'LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id';
-		$joins[] = 'LEFT JOIN #__access_assetgroups AS ag ON ag.id = m.access';
-
-		// used by filter
-		if ($filter_assigned) {
-			$joins[] = 'LEFT JOIN #__templates_menu AS t ON t.menuid = mm.menuid';
-			$where[] = 't.template = '.$db->Quote($filter_assigned);
-		}
-		if ($filter_position) {
-			$where[] = 'm.position = '.$db->Quote($filter_position);
-		}
-		if ($filter_type) {
-			$where[] = 'm.module = '.$db->Quote($filter_type);
-		}
-		if ($search) {
-			$where[] = 'LOWER(m.title) LIKE '.$db->Quote('%'.$db->getEscaped($search, true).'%', false);
-		}
-		if ($filter_state) {
-			if ($filter_state == 'P') {
-				$where[] = 'm.published = 1';
-			} else if ($filter_state == 'U') {
-				$where[] = 'm.published = 0';
-			}
-		}
-
-		$where 		= ' WHERE ' . implode(' AND ', $where);
-		$join 		= ' ' . implode(' ', $joins);
-		if ($filter_order == 'm.ordering') {
-			$orderby = ' ORDER BY m.position, m.ordering '. $filter_order_Dir;
-		} else {
-			$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', m.ordering ASC';
-		}
-
-		// get the total number of records
-		$query = 'SELECT COUNT(DISTINCT m.id)'
-		. ' FROM #__modules AS m'
-		. $join
-		. $where
-		;
-		$db->setQuery($query);
-		$total = $db->loadResult();
-
-		jimport('joomla.html.pagination');
-		$pageNav = new JPagination($total, $limitstart, $limit);
-
-		$query = 'SELECT m.*, u.name AS editor, ag.title AS groupname, MIN(mm.menuid) AS pages'
-		. ' FROM #__modules AS m'
-		. $join
-		. $where
-		. ' GROUP BY m.id'
-		. $orderby
-		;
-		$db->setQuery($query, $pageNav->limitstart, $pageNav->limit);
-		$rows = $db->loadObjectList();
-		if ($db->getErrorNum()) {
-			echo $db->stderr();
-			return false;
-		}
-
-		// get list of Positions for dropdown filter
-		$query = 'SELECT m.position AS value, m.position AS text'
-		. ' FROM #__modules as m'
-		. ' WHERE m.client_id = '.(int) $client->id
-		. ' GROUP BY m.position'
-		. ' ORDER BY m.position'
-		;
-		$positions[] = JHtml::_('select.option',  '0', '- '. JText::_('Select Position') .' -');
-		$db->setQuery($query);
-		$positions = array_merge($positions, $db->loadObjectList());
-		$lists['position']	= JHtml::_('select.genericlist',   $positions, 'filter_position', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_position");
-
-		// get list of Positions for dropdown filter
-		$query = 'SELECT module AS value, module AS text'
-		. ' FROM #__modules'
-		. ' WHERE client_id = '.(int) $client->id
-		. ' GROUP BY module'
-		. ' ORDER BY module'
-		;
-		$db->setQuery($query);
-		$types[] 		= JHtml::_('select.option',  '0', '- '. JText::_('Select Type') .' -');
-		$types 			= array_merge($types, $db->loadObjectList());
-		$lists['type']	= JHtml::_('select.genericlist',   $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_type");
-
-		// state filter
-		$lists['state']	= JHtml::_('grid.state',  $filter_state);
-
-		// template assignment filter
-		$query = 'SELECT DISTINCT(template) AS text, template AS value'.
-				' FROM #__templates_menu' .
-				' WHERE client_id = '.(int) $client->id;
-		$db->setQuery($query);
-		$assigned[]		= JHtml::_('select.option',  '0', '- '. JText::_('Select Template') .' -');
-		$assigned 		= array_merge((array) $assigned, (array) $db->loadObjectList());
-		$lists['assigned']	= JHtml::_('select.genericlist',   $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_assigned");
-
-		// table ordering
-		$lists['order_Dir']	= $filter_order_Dir;
-		$lists['order']		= $filter_order;
-
-		// search filter
-		$lists['search']= $search;
-
-		require_once(JApplicationHelper::getPath('admin_html'));
-		HTML_modules::view($rows, $client, $pageNav, $lists);
-	}
-
-	/**
 	* Compiles information to add or edit a module
 	* @param string The current GET/POST option
 	* @param integer The unique id of the record to edit
@@ -181,65 +39,26 @@ class ModulesController extends JController
 	function copy()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialize some variables
-		$db 	= &JFactory::getDbo();
 		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$this->setRedirect('index.php?option=com_modules&client='.$client->id);
 
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
+		JArrayHelper::toInteger($cid);
 		$n		= count($cid);
 
 		if ($n == 0) {
 			return JError::raiseWarning(500, JText::_('No items selected'));
 		}
 
-		$row 	= &JTable::getInstance('module');
-		$tuples	= array();
+		$model = $this->getModel('module');
 
-		foreach ($cid as $id)
-		{
-			// load the row from the db table
-			$row->load((int) $id);
-			$row->title 		= JText::sprintf('Copy of', $row->title);
-			$row->id 			= 0;
-			$row->iscore 		= 0;
-			$row->published 	= 0;
-
-			if (!$row->check()) {
-				return JError::raiseWarning(500, $row->getError());
-			}
-			if (!$row->store()) {
-				return JError::raiseWarning(500, $row->getError());
-			}
-			$row->checkin();
-
-			$row->reorder('position='.$db->Quote($row->position).' AND client_id='.(int) $client->id);
-
-			$query = 'SELECT menuid'
-			. ' FROM #__modules_menu'
-			. ' WHERE moduleid = '.(int) $cid[0]
-			;
-			$db->setQuery($query);
-			$rows = $db->loadResultArray();
-
-			foreach ($rows as $menuid) {
-				$tuples[] = '('.(int) $row->id.','.(int) $menuid.')';
-			}
+		if ($model->copy($cid)) {
+			$msg = JText::sprintf('Items Copied', $n);
+		} else {
+			$msg = JText::_('Error Copying Module(s)');
 		}
 
-		if (!empty($tuples))
-		{
-			// Module-Menu Mapping: Do it in one query
-			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES '.implode(',', $tuples);
-			$db->setQuery($query);
-			if (!$db->query()) {
-				return JError::raiseWarning(500, $db->getError());
-			}
-		}
-
-		$msg = JText::sprintf('Items Copied', $n);
 		$this->setRedirect('index.php?option=com_modules&client='. $client->id, $msg);
 	}
 
@@ -249,257 +68,55 @@ class ModulesController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		global $mainframe;
-
-		// Initialize some variables
-		$db		= &JFactory::getDbo();
-		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$this->setRedirect('index.php?option=com_modules&client='.$client->id);
+		$cache = & JFactory::getCache();
+		$cache->clean('com_content');
 
 		$post	= JRequest::get('post');
 		// fix up special html fields
 		$post['content']   = JRequest::getVar('content', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post['client_id'] = $client->id;
+		//$post['client_id'] = $client->id;
 
-		$row = &JTable::getInstance('module');
+		$model = $this->getModel('module');
 
-		if (!$row->bind($post, 'selections')) {
-			return JError::raiseWarning(500, $row->getError());
+		if ($model->store($post)) {
+			$msg = JText::_('Module Saved');
+		} else {
+			$msg = JText::_('Error Saving Module');
 		}
 
-		if (!$row->check()) {
-			return JError::raiseWarning(500, $row->getError());
-		}
+		// Check the table in so it can be edited.... we are done with it anyway
+		$model->checkin();
 
-		// if new item, order last in appropriate group
-		if (!$row->id) {
-			$where = 'position='.$db->Quote($row->position).' AND client_id='.(int) $client->id ;
-			$row->ordering = $row->getNextOrder($where);
-		}
-
-		if (!$row->store()) {
-			return JError::raiseWarning(500, $row->getError());
-		}
-		$row->checkin();
-
-		$menus = JRequest::getVar('menus', '', 'post', 'word');
-		$selections = JRequest::getVar('selections', array(), 'post', 'array');
-		JArrayHelper::toInteger($selections);
-
-		// delete old module to menu item associations
-		$query = 'DELETE FROM #__modules_menu'
-		. ' WHERE moduleid = '.(int) $row->id
-		;
-		$db->setQuery($query);
-		if (!$db->query()) {
-			return JError::raiseWarning(500, $db->getError());
-		}
-
-		// check needed to stop a module being assigned to `All`
-		// and other menu items resulting in a module being displayed twice
-		if ($menus == 'all') {
-			// assign new module to `all` menu item associations
-			$query = 'INSERT INTO #__modules_menu'
-			. ' SET moduleid = '.(int) $row->id.' , menuid = 0'
-			;
-			$db->setQuery($query);
-			if (!$db->query()) {
-				return JError::raiseWarning(500, $db->getError());
-			}
-		}
-		else
-		{
-			foreach ($selections as $menuid)
-			{
-				// this check for the blank spaces in the select box that have been added for cosmetic reasons
-				if ((int) $menuid >= 0) {
-					// assign new module to menu item associations
-					$query = 'INSERT INTO #__modules_menu'
-					. ' SET moduleid = '.(int) $row->id .', menuid = '.(int) $menuid
-					;
-					$db->setQuery($query);
-					if (!$db->query()) {
-						return JError::raiseWarning(500, $db->getError());
-					}
-				}
-			}
-		}
-
-		// clean cache for all 3 front-end user groups (guest, reg, special)
-		$cache = &JFactory::getCache();
-		$cache->remove($row->id . '0', $row->module);
-		$cache->remove($row->id . '1', $row->module);
-		$cache->remove($row->id . '2', $row->module);
-		// clean content cache because of loadposition plugin
-		$cache->clean('com_content');
-
+		$client = $model->getClient();
 		$this->setMessage(JText::_('Item saved'));
 		switch ($this->getTask())
 		{
+			case 'save':
+				$this->setRedirect('index.php?option=com_modules&client='. $client->id);
+				break;
+
 			case 'apply':
-				$this->setRedirect('index.php?option=com_modules&client='. $client->id .'&task=edit&id='. $row->id);
+				$this->setRedirect('index.php?option=com_modules&client='. $client->id .'&task=edit&id='. $model->_id);
 				break;
 		}
 	}
 
 	/**
-	* Compiles information to add or edit a module
-	* @param string The current GET/POST option
-	* @param integer The unique id of the record to edit
+	* Compiles information to edit a module
 	*/
 	function edit()
 	{
-		// Initialize some variables
-		$db 	= &JFactory::getDbo();
-		$user 	= &JFactory::getUser();
+		JRequest::setVar('hidemainmenu', 1);
+		JRequest::setVar('view', 'module');
+		JRequest::setVar('edit', true);
 
-		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$module = JRequest::getVar('module', '', '', 'cmd');
-		$id 	= JRequest::getVar('id', 0, 'method', 'int');
-		$cid 	= JRequest::getVar('cid', array($id), 'method', 'array');
-		JArrayHelper::toInteger($cid, array(0));
+		// Checkout the module
+		$model = $this->getModel('module');
+		$model->checkout();
 
-		$model	= &$this->getModel('module');
-		$model->setState('id',			$cid[0]);
-		$model->setState('clientId',	$client->id);
-
-		$lists 	= array();
-		$row 	= &JTable::getInstance('module');
-		// load the row from the db table
-		$row->load((int) $cid[0]);
-		// fail if checked out not by 'me'
-		if ($row->isCheckedOut($user->get('id'))) {
-			$this->setRedirect('index.php?option=com_modules&client='.$client->id);
-			return JError::raiseWarning(500, JText::sprintf('DESCBEINGEDITTED', JText::_('The module'), $row->title));
-		}
-
-		$row->content = htmlspecialchars($row->content, ENT_COMPAT, 'UTF-8');
-
-		if ($cid[0]) {
-			$row->checkout($user->get('id'));
-		}
-		// if a new record we must still prime the JTableModel object with a default
-		// position and the order; also add an extra item to the order list to
-		// place the 'new' record in last position if desired
-		if ($cid[0] == 0) {
-			$row->position 	= 'left';
-			$row->showtitle = true;
-			$row->published = 1;
-			//$row->ordering = $l;
-
-			$row->module 	= $module;
-		}
-
-		if ($client->id == 1)
-		{
-			$where 				= 'client_id = 1';
-			$lists['client_id'] = 1;
-			$path				= 'mod1_xml';
-		}
-		else
-		{
-			$where 				= 'client_id = 0';
-			$lists['client_id'] = 0;
-			$path				= 'mod0_xml';
-		}
-
-		$query = 'SELECT position, ordering, showtitle, title'
-		. ' FROM #__modules'
-		. ' WHERE '. $where
-		. ' ORDER BY ordering'
-		;
-		$db->setQuery($query);
-		$orders = $db->loadObjectList();
-		if ($db->getErrorNum()) {
-			echo $db->stderr();
-			return false;
-		}
-
-		$orders2 	= array();
-
-		$l = 0;
-		$r = 0;
-		for ($i=0, $n=count($orders); $i < $n; $i++) {
-			$ord = 0;
-			if (array_key_exists($orders[$i]->position, $orders2)) {
-				$ord =count(array_keys($orders2[$orders[$i]->position])) + 1;
-			}
-
-			$orders2[$orders[$i]->position][] = JHtml::_('select.option',  $ord, $ord.'::'.addslashes($orders[$i]->title));
-		}
-
-		// get selected pages for $lists['selections']
-		if ($cid[0]) {
-			$query = 'SELECT menuid AS value'
-			. ' FROM #__modules_menu'
-			. ' WHERE moduleid = '.(int) $row->id
-			;
-			$db->setQuery($query);
-			$lookup = $db->loadObjectList();
-			if (empty($lookup)) {
-				$lookup = array(JHtml::_('select.option',  '-1'));
-				$row->pages = 'none';
-			} elseif (count($lookup) == 1 && $lookup[0]->value == 0) {
-				$row->pages = 'all';
-			} else {
-				$row->pages = null;
-			}
-		} else {
-			$lookup = array(JHtml::_('select.option',  0, JText::_('All')));
-			$row->pages = 'all';
-		}
-
-		if ($row->access == 99 || $row->client_id == 1 || $lists['client_id']) {
-			$lists['access'] 			= 'Administrator';
-			$lists['showtitle'] 		= 'N/A <input type="hidden" name="showtitle" value="1" />';
-			$lists['selections'] 		= 'N/A';
-		} else {
-			if ($client->id == '1') {
-				$lists['access'] 		= 'N/A';
-				$lists['selections'] 	= 'N/A';
-			} else {
-				$lists['access'] 		= JHtml::_('access.assetgroups', 'access', $row->access);
-
-				$selections				= JHtml::_('menu.linkoptions');
-				$lists['selections']	= JHtml::_('select.genericlist',   $selections, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections');
-			}
-			$lists['showtitle'] = JHtml::_('select.booleanlist',  'showtitle', 'class="inputbox"', $row->showtitle);
-		}
-
-		// build the html select list for published
-		$lists['published'] = JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $row->published);
-
-		$row->description = '';
-
-		$lang = &JFactory::getLanguage();
-		if ($client->id != '1') {
-			$lang->load(trim($row->module), JPATH_SITE);
-		} else {
-			$lang->load(trim($row->module));
-		}
-
-		// xml file for module
-		if ($row->module == 'custom') {
-			$xmlfile = JApplicationHelper::getPath($path, 'mod_custom');
-		} else {
-			$xmlfile = JApplicationHelper::getPath($path, $row->module);
-		}
-
-		$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
-		if ($data)
-		{
-			foreach($data as $key => $value) {
-				$row->$key = $value;
-			}
-		}
-
-		// get params definitions
-		$params = new JParameter($row->params, $xmlfile, 'module');
-
-		require_once(JApplicationHelper::getPath('admin_html'));
-		HTML_modules::edit($model, $row, $orders2, $lists, $params, $client);
+		parent::display();
 	}
 
 	/**
@@ -507,53 +124,16 @@ class ModulesController extends JController
 	*/
 	function add()
 	{
-		global $mainframe;
+		JRequest::setVar('hidemainmenu', 1);
+		JRequest::setVar('view', 'selecttype');
+		JRequest::setVar('edit', false);
 
-		// Initialize some variables
-		$modules	= array();
-		$client		= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		// Checkout the module
+		$model = $this->getModel('module');
+		$model->checkout();
 
-		// path to search for modules
-		if ($client->id == '1') {
-			$path		= JPATH_ADMINISTRATOR.DS.'modules';
-			$langbase	= JPATH_ADMINISTRATOR;
-		} else {
-			$path		= JPATH_ROOT.DS.'modules';
-			$langbase	= JPATH_ROOT;
-		}
-
-		jimport('joomla.filesystem.folder');
-		$dirs = JFolder::folders($path);
-		$lang = &JFactory::getLanguage();
-
-		foreach ($dirs as $dir)
-		{
-			if (substr($dir, 0, 4) == 'mod_')
-			{
-				$files 				= JFolder::files($path.DS.$dir, '^([_A-Za-z0-9]*)\.xml$');
-				$module				= new stdClass;
-				$module->file 		= $files[0];
-				$module->module 	= str_replace('.xml', '', $files[0]);
-				$module->path 		= $path.DS.$dir;
-				$modules[]			= $module;
-
-				$lang->load($module->module, $langbase);
-			}
-		}
-
-		require_once(JPATH_COMPONENT.DS.'helpers'.DS.'xml.php');
-		ModulesHelperXML::parseXMLModuleFile($modules, $client);
-
-		$n = count($modules);
-		for ($i = 0; $i < $n; $i++) {
-			$modules[$i]->name = JText::_(stripslashes($modules[$i]->name));
-		}
-
-		// sort array of objects alphabetically by name
-		JArrayHelper::sortObjects($modules, 'name');
-
-		require_once(JApplicationHelper::getPath('admin_html'));
-		HTML_modules::add($modules, $client);
+		parent::display();
+		return;
 	}
 
 	/**
@@ -564,52 +144,27 @@ class ModulesController extends JController
 	*/
 	function remove()
 	{
-		global $mainframe;
-
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
-
-		// Initialize some variables
-		$db		= &JFactory::getDbo();
-		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$this->setRedirect('index.php?option=com_modules&client='.$client->id);
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
+		$n		= count($cid);
 
-		if (empty($cid)) {
+		if ($n == 0) {
 			return JError::raiseWarning(500, 'No items selected');
 		}
 
-		$cids = implode(',', $cid);
+		$model = $this->getModel('module');
 
-		// pasamio: Disabled this as it breaks the uninstall ability!
-		/*$query = 'SELECT id, module, title, iscore, params'
-		. ' FROM #__modules WHERE id IN ('.$cids.')'
-		;
-		$db->setQuery($query);
-		if (!($rows = $db->loadObjectList())) {
-			return JError::raiseError(500, $db->getErrorMsg());
-		}*/
-
-		// remove mappings first (lest we leave orphans)
-		$query = 'DELETE FROM #__modules_menu'
-			. ' WHERE moduleid IN ('.$cids.')'
-			;
-		$db->setQuery($query);
-		if (!$db->query()) {
-			return JError::raiseError(500, $db->getErrorMsg());
-		}
-		// remove module
-		$query = 'DELETE FROM #__modules'
-			. ' WHERE id IN ('.$cids.')'
-			;
-		$db->setQuery($query);
-		if (!$db->query()) {
-			return JError::raiseError(500, $db->getErrorMsg());
+		if ($model->delete($cid)) {
+			$msg = JText::sprintf('Items removed', $n);
+		} else {
+			$msg = JText::_('Error Deleting');
 		}
 
-		$this->setMessage(JText::sprintf('Items removed', count($cid)));
+		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$this->setRedirect('index.php?option=com_modules&client='.$client->id, $msg);
 	}
 
 	/**
@@ -617,46 +172,29 @@ class ModulesController extends JController
 	*/
 	function publish()
 	{
-		global $mainframe;
-
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize some variables
-		$db 	= &JFactory::getDbo();
-		$user 	= &JFactory::getUser();
 		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$this->setRedirect('index.php?option=com_modules&client='.$client->id);
+		$task	= $this->getTask();
+		$publish	= ($task == 'publish');
 
 		$cache = & JFactory::getCache();
 		$cache->clean('com_content');
 
 		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
-
-		$task	= $this->getTask();
-		$publish	= ($task == 'publish');
-
 		if (empty($cid)) {
 			return JError::raiseWarning(500, 'No items selected');
 		}
 
-		$cids = implode(',', $cid);
-
-		$query = 'UPDATE #__modules'
-		. ' SET published = ' . intval($publish)
-		. ' WHERE id IN ('.$cids.')'
-		. ' AND (checked_out = 0 OR (checked_out = '.(int) $user->get('id').'))'
-		;
-		$db->setQuery($query);
-		if (!$db->query()) {
-			return JError::raiseWarning(500, $db->getErrorMsg());
+		$model = $this->getModel('module');
+		if (!$model->publish($cid, $publish)) {
+			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
-		if (count($cid) == 1) {
-			$row = &JTable::getInstance('module');
-			$row->checkin($cid[0]);
-		}
+		$this->setRedirect('index.php?option=com_modules&client='.$client->id);
 	}
 
 	/**
@@ -664,20 +202,14 @@ class ModulesController extends JController
 	 */
 	function cancel()
 	{
-		global $mainframe;
-
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialize some variables
-		$db		= &JFactory::getDbo();
+		$model = $this->getModel('module');
+		$model->checkin();
+
 		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect('index.php?option=com_modules&client='.$client->id);
-
-		$row = &JTable::getInstance('module');
-		// ignore array elements
-		$row->bind(JRequest::get('post'), 'selections params');
-		$row->checkin();
 	}
 
 	/**
@@ -685,15 +217,8 @@ class ModulesController extends JController
 	 */
 	function reorder()
 	{
-		global $mainframe;
-
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
-
-		// Initialize some variables
-		$db		= &JFactory::getDbo();
-		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$this->setRedirect('index.php?option=com_modules&client='.$client->id);
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
@@ -705,10 +230,14 @@ class ModulesController extends JController
 			return JError::raiseWarning(500, 'No items selected');
 		}
 
-		$row = &JTable::getInstance('module');
-		$row->load((int) $cid[0]);
+		$model = $this->getModel('module');
 
-		$row->move($inc, 'position = '.$db->Quote($row->position).' AND client_id='.(int) $client->id);
+		if (!$model->move($inc)) {
+			$msg = $model->getError();
+		}
+
+		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$this->setRedirect('index.php?option=com_modules&client='.$client->id, $msg);
 	}
 
 	/**
@@ -716,25 +245,20 @@ class ModulesController extends JController
 	 */
 	function access()
 	{
-		global $mainframe;
-
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize some variables
-		$db		= &JFactory::getDbo();
 		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$this->setRedirect('index.php?option=com_modules&client='.$client->id);
 
 		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
-
-		$task	= JRequest::getCmd('task');
 
 		if (empty($cid)) {
 			return JError::raiseWarning(500, 'No items selected');
 		}
 
+		$task	= JRequest::getCmd('task');
 		switch ($task)
 		{
 			case 'accesspublic':
@@ -750,16 +274,13 @@ class ModulesController extends JController
 				break;
 		}
 
-		$row = &JTable::getInstance('module');
-		$row->load((int) $cid[0]);
-		$row->access = $access;
+		$msg = '';
+		$model = $this->getModel('module');
+		if (!$model->setAccess($cid, $access)) {
+			$msg = $model->getError();
+		}
 
-		if (!$row->check()) {
-			JError::raiseWarning(500, $row->getError());
-		}
-		if (!$row->store()) {
-			JError::raiseWarning(500, $row->getError());
-		}
+		$this->setRedirect('index.php?option=com_modules&client='.$client->id, $msg);
 	}
 
 	/**
@@ -768,12 +289,9 @@ class ModulesController extends JController
 	function saveOrder()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialize some variables
-		$db		= &JFactory::getDbo();
-		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$this->setRedirect('index.php?option=com_modules&client='.$client->id);
 
 		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
@@ -782,44 +300,24 @@ class ModulesController extends JController
 			return JError::raiseWarning(500, 'No items selected');
 		}
 
-		$total		= count($cid);
-		$row 		= &JTable::getInstance('module');
-		$groupings = array();
-
 		$order 		= JRequest::getVar('order', array(0), 'post', 'array');
 		JArrayHelper::toInteger($order);
 
-		// update ordering values
-		for ($i = 0; $i < $total; $i++)
-		{
-			$row->load((int) $cid[$i]);
-			// track postions
-			$groupings[] = $row->position;
+		$model = $this->getModel('module');
+		$model->saveorder($cid, $order);
 
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-				if (!$row->store()) {
-					return JError::raiseWarning(500, $db->getErrorMsg());
-				}
-			}
-		}
-
-		// execute updateOrder for each parent group
-		$groupings = array_unique($groupings);
-		foreach ($groupings as $group){
-			$row->reorder('position = '.$db->Quote($group).' AND client_id = '.(int) $client->id);
-		}
-
-		$this->setMessage (JText::_('New ordering saved'));
+		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$msg = JText::_('New ordering saved');
+		$this->setRedirect('index.php?option=com_modules&client='.$client->id, $msg);
 	}
 
 	function preview()
 	{
+		JRequest::setVar('view', 'preview');
+
 		$document = &JFactory::getDocument();
 		$document->setTitle(JText::_('Module Preview'));
 
-		require_once(JApplicationHelper::getPath('admin_html'));
-		HTML_modules::preview();
+		parent::display();
 	}
 }
