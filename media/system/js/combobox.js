@@ -105,7 +105,7 @@ Joomla.combobox.transform = function(el, options)
 			e.stop();
 
 			// Stopping the keydown event in WebKit stops the keypress event as well.
-			if (Browser.Engine.webkit) {
+			if (Browser.Engine.webkit || Browser.Engine.trident) {
 				this.fireEvent('keypress', e);
 			}
 		}
