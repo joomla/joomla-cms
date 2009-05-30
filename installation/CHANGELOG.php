@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-May-2009 Hannes Papenberg
+ ^ Changed template manager to better support new template styles
+
 29-May-2009 Hannes Papenberg
  ^ MVCed com_modules in the backend
 

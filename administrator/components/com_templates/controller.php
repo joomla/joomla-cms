@@ -132,10 +132,11 @@ class TemplatesController extends JController
 	/*
 	 * Set Default for Admin Template
 	 */
-	function admindefault()
+	function setdefault()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+//TODO: FIX TOKEN
+		//JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$option		= JRequest::getVar('option', '', '', 'cmd');
 
@@ -149,7 +150,7 @@ class TemplatesController extends JController
 			return;
 		}
 
-		if ($model->setAdminDefault()) {
+		if ($model->setDefault()) {
 			$msg = JText::_('Template Saved');
 		} else {
 			$msg = JText::_('Error Saving Template') . $model->getError();

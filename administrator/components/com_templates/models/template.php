@@ -148,10 +148,6 @@ class TemplatesModelTemplate extends JModel
 		$menutype		= JRequest::getVar('menus', '', 'post', 'string');
 		$description = JRequest::getVar('description', '', 'post', 'string');
 		JArrayHelper::toInteger($menus);
-		if (TemplatesHelper::isTemplateDefault($this->_id)&&$menutype!='default'&&$this->_client->id!=1) {
-			JError::raiseWarning(500, 'Must have one default template');
-			return false;
-		}
 		$query = 'UPDATE #__menu_template SET description='.$this->_db->Quote($description).
 					', params = '.$this->_db->Quote(json_encode($params)).
 					' WHERE id = '.$this->_db->Quote($this->_id);
@@ -297,7 +293,7 @@ class TemplatesModelTemplate extends JModel
 		return true;
 	}
 	
-	function setAdminDefault()
+	function setDefault()
 	{
 		$query = 'UPDATE #__menu_template SET home=0 WHERE client_id='.$this->_db->Quote($this->_client->id);
 		$this->_db->setQuery($query);

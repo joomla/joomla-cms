@@ -297,13 +297,13 @@ class JSite extends JApplication
 	{
 		// Allows for overriding the active template from a component, and caches the result of this function
 		// e.g. $mainframe->setTemplate('solar-flare-ii');
-		if ($template = $this->get('setTemplate')) {
+		/**if ($template = $this->get('setTemplate')) {
 			if ($params)
 			{
 				return $template;
 			}
 			return $template->template;
-		}
+		}**/
 
 		// Get the id of the active menu item
 		$menu = &$this->getMenu();
