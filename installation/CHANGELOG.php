@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-May-2009 Sam Moffatt
+ ^ Fix to htaccess to permit different extensions from /component SEF'd links
+
 30-May-2009 Hannes Papenberg
  ^ Changed template manager to better support new template styles
 
