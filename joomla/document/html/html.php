@@ -355,16 +355,6 @@ class JDocumentHTML extends JDocument
 			$template = 'system';
 		}
 
-		// Parse the template INI file if it exists for parameters and insert them into the template.
-		if (is_readable($directory.DS.$template.DS.'params.ini')) {
-			$content = file_get_contents($directory.DS.$template.DS.'params.ini');
-			$params['params'] = $content;
-		}
-
-		// Parse the template INI file if it exists for parameters and insert
-		// them into the template.
-		$params = new JParameter(empty($params['params']) ? '' : $params['params']);
-
 		// Load the language file for the template
 		$lang = &JFactory::getLanguage();
 		// 1.5 or core
@@ -375,7 +365,7 @@ class JDocumentHTML extends JDocument
 		// Assign the variables
 		$this->template = $template;
 		$this->baseurl  = JURI::base(true);
-		$this->params   = $params;
+		$this->params   = new JParameter($params['params']);
 
 		// load
 		$this->_template = $this->_loadTemplate($directory.DS.$template, $file);
