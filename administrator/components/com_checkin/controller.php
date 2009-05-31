@@ -7,13 +7,18 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// no direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-require_once(JApplicationHelper::getPath('toolbar_html'));
+jimport('joomla.application.component.controller');
 
-switch ($task){
-	default:
-		TOOLBAR_checkin::_DEFAULT();
-		break;
+/**
+ * Checkin Controller
+ *
+ * @package		Joomla.Administrator
+ * @subpackage	Checkin
+ * @since 1.6
+ */
+class CheckinController extends JController
+{
 }

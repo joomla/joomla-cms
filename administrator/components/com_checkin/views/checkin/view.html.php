@@ -7,20 +7,31 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// no direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
+jimport('joomla.application.component.view');
+
 /**
+ * HTML View class for the Checkin component
+ *
+ * @static
  * @package		Joomla.Administrator
  * @subpackage	Checkin
+ * @since 1.0
  */
-class TOOLBAR_checkin {
-	/**
-	* Draws the menu for a New category
-	*/
-	function _DEFAULT() {
+class CheckinViewCheckin extends JView
+{
+	protected $tables;
 
+	public function display($tpl = null)
+	{
+		$model = $this->getModel();
+		$tables = $model->checkin();
+		
 		JToolBarHelper::title(JText::_('Global Check-in'), 'checkin.png');
 		JToolBarHelper::help('screen.checkin');
+		$this->assignRef('tables', $tables);
+		parent::display($tpl);
 	}
 }

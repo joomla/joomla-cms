@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-May-2009 Ercan Ozkaya
+ ^ Merged refactored com_checkin from experimental branch
+
 30-May-2009 Sam Moffatt
  ^ Fix to htaccess to permit different extensions from /component SEF'd links
 
