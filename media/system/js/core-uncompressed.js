@@ -7,7 +7,11 @@
 // Only define the Joomla namespace if not defined.
 if (typeof(Joomla) === 'undefined') {
 	var Joomla = {};
-};
+}
+
+Joomla.editors = {};
+// An object to hold each editor instance on page
+Joomla.editors.instances = {};
 
 /**
  * Generic submit form
@@ -40,6 +44,19 @@ Joomla.JText = {
 			this.strings[key.toUpperCase()] = object[key];
 		}
 		return this;
+	}
+};
+
+/**
+ * Method to replace all request tokens on the page with a new one.
+ */
+Joomla.replaceTokens = function(n) {
+	var els = document.getElementsByTagName('input');
+	for (var i=0; i < els.length; i++)
+	{
+		if ((els[i].type == 'hidden') && (els[i].name.length == 32) && els[i].value == '1') {
+			els[i].name = n;
+		}
 	}
 };
 
