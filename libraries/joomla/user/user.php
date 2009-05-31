@@ -99,6 +99,15 @@ class JUser extends JObject
 	public $params			= null;
 
 	/**
+	 * Associative array of user group ids => names.
+	 *
+	 * @access	public
+	 * @since	1.6
+	 * @var		array
+	 */
+	var $groups;
+	
+	/**
 	 * Description
 	 * @var boolean
 	 */

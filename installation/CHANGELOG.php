@@ -32,6 +32,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-May-2009 Ercan Ozkaya
+ + Added usergroup filter to debug plugin
+ + Added groups property to JUser
+
 31-May-2009 Sam Moffatt
  ^ Added extra functionality to GMail auth plugin (configurable verify peer, user blacklisting and domain control)
  ^ Set the type for all authentication plugins

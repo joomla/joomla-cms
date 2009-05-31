@@ -27,7 +27,7 @@ class plgSystemDebug extends JPlugin
 	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since	1.0
 	 */
-	function __construct(& $subject, $config)
+	function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -51,6 +51,15 @@ class plgSystemDebug extends JPlugin
 
 		// Only render for HTML output
 		if ($doctype !== 'html') { return; }
+		
+		// If the user is not allowed to view the output then end here
+		$filterGroups = (array) $this->params->get('filter_groups', null);	
+		if (!empty($filterGroups)) {
+			$userGroups = JFactory::getUser()->get('groups');
+			if (!array_intersect($filterGroups, array_keys($userGroups))) {
+				return;
+			}
+		}
 
 		$profiler	= &$_PROFILER;
 
@@ -68,9 +77,8 @@ class plgSystemDebug extends JPlugin
 			echo number_format($profiler->getMemory());
 		}
 
-		if ($this->params->get('queries', 1))
-		{
-			$newlineKeywords = '#\s+(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)\s+#i';
+		if ($this->params->get('queries', 1)) {
+			$newlineKeywords = '#\b(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)\b#i';
 
 			$db	= &JFactory::getDbo();
 
