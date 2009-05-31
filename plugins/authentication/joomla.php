@@ -35,6 +35,7 @@ class plgAuthenticationJoomla extends JPlugin
 	{
 		jimport('joomla.user.helper');
 
+		$response->type = 'Joomla';
 		// Joomla does not like blank passwords
 		if (empty($credentials['password']))
 		{

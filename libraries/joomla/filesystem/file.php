@@ -66,12 +66,8 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function copy($src, $dest, $path = null)
+	function copy($src, $dest, $path = null, $use_streams=false)
 	{
-		// Initialize variables
-		jimport('joomla.client.helper');
-		$FTPOptions = JClientHelper::getCredentials('ftp');
-
 		// Prepend a base path if it exists
 		if ($path) {
 			$src = JPath::clean($path.DS.$src);
@@ -83,6 +79,18 @@ class JFile
 			JError::raiseWarning(21, 'JFile::copy: ' . JText::_('Cannot find or read file') . ": '$src'");
 			return false;
 		}
+
+		if($use_streams) {
+			$stream =& JFactory::getStream();
+			if(!$stream->copy($src, $dest)) {
+				JError::raiseWarning(21, 'JFile::copy('. $src .', '. $dest .'): '. $stream->getError());
+				return false;
+			}
+			return true;
+		} else {
+			// Initialize variables
+			jimport('joomla.client.helper');
+			$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
@@ -110,6 +118,7 @@ class JFile
 			$ret = true;
 		}
 		return $ret;
+	}
 	}
 
 	/**
@@ -176,11 +185,8 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function move($src, $dest, $path = '')
+	function move($src, $dest, $path = '', $use_streams=false)
 	{
-		// Initialize variables
-		jimport('joomla.client.helper');
-		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($path) {
 			$src = JPath::clean($path.DS.$src);
@@ -188,11 +194,22 @@ class JFile
 		}
 
 		//Check src path
-		if (!is_readable($src) && !is_writable($src)) {
-			JError::raiseWarning(21, 'JFile::move: ' . JText::_('Cannot find, read or write file') . ": '$src'");
-			return false;
+		if (!is_readable($src)) { // && !is_writable($src)) { // file may not be writable by php if via ftp!
+			return JText::_('Cannot find source file');
 		}
 
+		if($use_streams) {
+			$stream =& JFactory::getStream();
+			if(!$stream->move($src, $dest)) {
+				JError::raiseWarning(21, 'JFile::move: '. $stream->getError());
+				return false;
+			}
+			return true;
+		} else {
+			// Initialize variables
+			jimport('joomla.client.helper');
+			$FTPOptions = JClientHelper::getCredentials('ftp');
+			
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
@@ -214,6 +231,7 @@ class JFile
 			}
 		}
 		return true;
+	}
 	}
 
 	/**
@@ -268,11 +286,8 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function write($file, $buffer)
+	function write($file, &$buffer, $use_streams=false)
 	{
-		// Initialize variables
-		jimport('joomla.client.helper');
-		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		// If the destination directory doesn't exist we need to create it
 		if (!file_exists(dirname($file))) {
@@ -280,6 +295,19 @@ class JFile
 			JFolder::create(dirname($file));
 		}
 
+		if($use_streams) {
+			$stream =& JFactory::getStream();
+			$stream->set('chunksize', (1024 * 1024 * 1024)); // beef up the chunk size to a meg
+			if(!$stream->writeFile($file, $buffer)) {
+				JError::raiseWarning(21, 'JFile::write('. $file.'): '. $stream->getError());
+				return false;
+			}
+			return true;
+		} else {
+			// Initialize variables
+			jimport('joomla.client.helper');
+			$FTPOptions = JClientHelper::getCredentials('ftp');
+			
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
@@ -294,6 +322,7 @@ class JFile
 		}
 		return $ret;
 	}
+	}
 
 	/**
 	 * Moves an uploaded file to a destination folder
@@ -303,12 +332,8 @@ class JFile
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function upload($src, $dest)
+	function upload($src, $dest, $use_streams=false)
 	{
-		// Initialize variables
-		jimport('joomla.client.helper');
-		$FTPOptions = JClientHelper::getCredentials('ftp');
-		$ret		= false;
 
 		// Ensure that the path is valid and clean
 		$dest = JPath::clean($dest);
@@ -320,6 +345,19 @@ class JFile
 			JFolder::create($baseDir);
 		}
 
+		if($use_streams) {
+			$stream =& JFactory::getStream();
+			if(!$stream->upload($src, $dest)) {
+				JError::raiseWarning(21, 'JFile::upload: '. $stream->getError());
+				return false;
+			}
+			return true;
+		} else {
+			// Initialize variables
+			jimport('joomla.client.helper');
+			$FTPOptions = JClientHelper::getCredentials('ftp');
+			$ret		= false;
+	
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
@@ -347,6 +385,7 @@ class JFile
 			}
 		}
 		return $ret;
+	}
 	}
 
 	/**

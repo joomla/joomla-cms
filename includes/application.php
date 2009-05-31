@@ -41,6 +41,7 @@ class JSite extends JApplication
 	*/
 	function initialise($options = array())
 	{
+		$config =& JFactory::getConfig();
 		// if a language was specified it has priority
 		// otherwise use user or default language settings
 		if (empty($options['language']))
@@ -54,14 +55,18 @@ class JSite extends JApplication
 			} else {
 				$params =  JComponentHelper::getParams('com_languages');
 				$client	= &JApplicationHelper::getClientInfo($this->getClientId());
-				$options['language'] = $params->get($client->name, 'en-GB');
+				$options['language'] = $params->get($client->name, $config->getValue('config.language','en-GB'));
 			}
-
 		}
 
 		// One last check to make sure we have something
 		if (! JLanguage::exists($options['language'])) {
-			$options['language'] = 'en-GB';
+			$lang = $config->getValue('config.language','en-GB');
+			if(JLanguage::exists($lang)) {
+				$options['language'] = $lang;
+			} else {
+				$options['language'] = 'en-GB'; // as a last ditch fail to english
+		}
 		}
 
 		parent::initialise($options);

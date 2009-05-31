@@ -63,6 +63,7 @@ class JArchiveGzip extends JObject
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
+		/*
 		if (!$this->_data = JFile::read($archive)) {
 			$this->set('error.message', 'Unable to read archive');
 			return JError::raiseWarning(100, $this->get('error.message'));
@@ -79,6 +80,35 @@ class JArchiveGzip extends JObject
 			$this->set('error.message', 'Unable to write archive');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
+		return true;
+		*/
+		// New style! streams!
+		$input =& JFactory::getStream();
+		$input->set('processingmethod','gz'); // use gz
+		if(!$input->open($archive)) {
+			$this->set('error.message', 'Unable to read archive (gz)');
+			return JError::raiseWarning(100, $this->get('error.message'));
+		}
+		
+		$output =& JFactory::getStream();
+		if(!$output->open($destination, 'w')) {
+			$this->set('error.message', 'Unable to write archive (gz)');
+			$input->close(); // close the previous file
+			return JError::raiseWarning(100, $this->get('error.message'));
+		}
+		
+		$written = 0;
+		do {
+			$this->_data = $input->read($input->get('chunksize', 8196));
+			if($this->_data) {
+				if(!$output->write($this->_data)) {
+					$this->set('error.message', 'Unable to write file (gz)');
+					return JError::raiseWarning(100, $this->get('error.message'));
+				}
+			}
+		} while ($this->_data);
+		$output->close();
+		$input->close();
 		return true;
 	}
 

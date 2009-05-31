@@ -32,6 +32,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-May-2009 Sam Moffatt
+ ^ Added extra functionality to GMail auth plugin (configurable verify peer, user blacklisting and domain control)
+ ^ Set the type for all authentication plugins
+ ^ Updated loader to handle non-existent files properly
+ + Added ability to override default language in configuration.php file
+ ^ Updates to improve performance of archiving subsystem
+ + Added JStream class
+ ^ Minor updates to database system
+
 31-May-2009 Ercan Ozkaya
  ^ Merged refactored com_checkin from experimental branch
 

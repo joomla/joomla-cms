@@ -41,7 +41,7 @@ class plgAuthenticationExample extends JPlugin
 		 * user if the routine passes
 		 */
 		$success = true;
-
+		$response->type = 'Example';
 		if ($success)
 		{
 			$response->status			= JAUTHENTICATE_STATUS_SUCCESS;

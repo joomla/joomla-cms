@@ -75,7 +75,7 @@ class JArchive
 					{
 						$path = JPath::clean($extractdir);
 						JFolder::create($path);
-						$result = JFile::copy($tmpfname,$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))));
+						$result = JFile::copy($tmpfname,$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))),null,1);
 					}
 					@unlink($tmpfname);
 				}
@@ -107,7 +107,7 @@ class JArchive
 					{
 						$path = JPath::clean($extractdir);
 						JFolder::create($path);
-						$result = JFile::copy($tmpfname,$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))));
+						$result = JFile::copy($tmpfname,$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))),null,1);
 					}
 					@unlink($tmpfname);
 				}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @version		$Id$
  * @package		Joomla
@@ -54,6 +53,7 @@ class plgAuthenticationOpenID extends JPlugin
 			}
 		}
 
+		$response->type = 'OpenID';
 		require_once(dirname(__FILE__).'/openid/consumer.php');
 		jimport('joomla.filesystem.folder');
 

@@ -70,9 +70,24 @@ class JLoader
 			{
 				/*
 				 * If it is not in the joomla namespace then we have no idea if
-				 * it uses our pattern for class names/files so just include.
+				 * it uses our pattern for class names/files so just include
+				 * if the file exists or set it to false if not
 				 */
-				$rs   = include($base.DS.$path.'.php');
+				$filename = $base.DS.$path.'.php';
+				if(is_file($filename)) {
+					$rs   = include($filename);
+				} else {
+					$rs   = false; // if the file doesn't exist fail
+					// note: JLoader::register does an is_file check itself
+					// se we don't need it above, we do it here because we
+					// try to load the file directly and it may not exist
+					// which could cause php to throw up nasty warning messages 
+					// at us so we set it to false here and hope that if the
+					// programmer is good enough they'll check the return value
+					// instead of hoping it'll work. remmeber include only fires
+					// a warning, so $rs was going to be false with a nasty
+					// warning message 
+			}
 			}
 
 			$paths[$keyPath] = $rs;
