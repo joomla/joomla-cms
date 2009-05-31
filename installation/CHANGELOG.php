@@ -40,6 +40,7 @@ $ -> Language fix or change
  ^ Updates to improve performance of archiving subsystem
  + Added JStream class
  ^ Minor updates to database system
+ - Removed backlink migration from plugin installation SQL
 
 31-May-2009 Ercan Ozkaya
  ^ Merged refactored com_checkin from experimental branch
