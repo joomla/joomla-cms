@@ -32,6 +32,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jun-2009 Ercan Ozkaya
+ - Removed obsolete Mootree version
+ - Removed index.js from khepri
+ ^ Started refactoring of JTabs
+ ^ Merged core-uncompressed.js and core.js
+
 31-May-2009 Ercan Ozkaya
  + Added usergroup filter to debug plugin
  + Added groups property to JUser

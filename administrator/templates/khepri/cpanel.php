@@ -34,8 +34,13 @@ defined('_JEXEC') or die;
 
 <?php if (JModuleHelper::isEnabled('menu')) : ?>
 	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/menu.js"></script>
-	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/index.js"></script>
 <?php endif; ?>
+<script type="text/javascript">
+	//For IE6 - Background flicker fix
+	try {
+	  document.execCommand('BackgroundImageCache', false, true);
+	} catch(e) {}
+</script>
 
 </head>
 <body id="minwidth-body">
