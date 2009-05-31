@@ -32,7 +32,7 @@ class JFolder
 	 * @return	mixed	JError object on failure or boolean True on success.
 	 * @since	1.5
 	 */
-	function copy($src, $dest, $path = '', $force = false)
+	function copy($src, $dest, $path = '', $force = false, $use_streams=false)
 	{
 		// Initialize variables
 		jimport('joomla.client.helper');
@@ -59,7 +59,8 @@ class JFolder
 			return JError::raiseError(-1, JText::_('Unable to create target folder'));
 		}
 
-		if ($ftpOptions['enabled'] == 1)
+		// if we're using ftp and don't have streams enabled
+		if ($FTPOptions['enabled'] == 1 && !$use_streams)
 		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
@@ -105,7 +106,7 @@ class JFolder
 				switch (filetype($sfid)) {
 					case 'dir':
 						if ($file != '.' && $file != '..') {
-							$ret = JFolder::copy($sfid, $dfid, null, $force);
+							$ret = JFolder::copy($sfid, $dfid, null, $force, $use_streams);
 							if ($ret !== true) {
 								return $ret;
 							}
@@ -113,8 +114,15 @@ class JFolder
 						break;
 
 					case 'file':
+						if($use_streams) {
+							$stream =& JFactory::getStream();
+							if(!$stream->copy($sfid, $dfid)) {
+								return JError::raiseError(-1, JText::_('Copy failed').': '. $stream->getError());
+							}
+						} else {
 						if (!@copy($sfid, $dfid)) {
 							return JError::raiseError(-1, JText::_('Copy failed'));
+						}
 						}
 						break;
 				}
@@ -267,8 +275,8 @@ class JFolder
 			return false;
 		}
 
-		// Remove all the files in folder if they exist
-		$files = JFolder::files($path, '.', false, true, array());
+		// Remove all the files in folder if they exist; disable all filtering
+		$files = JFolder::files($path, '.', false, true, array(), array());
 		if (!empty($files)) {
 			jimport('joomla.filesystem.file');
 			if (JFile::delete($files) !== true) {
@@ -277,8 +285,8 @@ class JFolder
 			}
 		}
 
-		// Remove sub-folders of folder
-		$folders = JFolder::folders($path, '.', false, true, array());
+		// Remove sub-folders of folder; disable all filtering
+		$folders = JFolder::folders($path, '.', false, true, array(), array());
 		foreach ($folders as $folder) {
 			if (is_link($folder)) {
 				// Don't descend into linked directories, just delete the link.
@@ -331,7 +339,7 @@ class JFolder
 	 * @return mixed Error message on false or boolean true on success.
 	 * @since 1.5
 	 */
-	function move($src, $dest, $path = '')
+	function move($src, $dest, $path = '', $use_streams=false)
 	{
 		// Initialize variables
 		jimport('joomla.client.helper');
@@ -342,13 +350,20 @@ class JFolder
 			$dest = JPath::clean($path . DS . $dest);
 		}
 
-		if (!JFolder::exists($src) && !is_writable($src)) {
+		if (!JFolder::exists($src)) {
 			return JText::_('Cannot find source folder');
 		}
 		if (JFolder::exists($dest)) {
 			return JText::_('Folder already exists');
 		}
-
+		if($use_streams) {
+			$stream =& JFactory::getStream();
+			if(!$stream->move($src, $dest)) {
+				return JText::_('Rename failed').': '. $stream->getError();
+				//return JError::raiseError(-1, JText::_('Rename failed').': '. $stream->getError()));
+			}
+			$ret = true;
+		} else {
 		if ($ftpOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
@@ -371,6 +386,7 @@ class JFolder
 				return JText::_('Rename failed');
 			}
 			$ret = true;
+		}
 		}
 		return $ret;
 	}
@@ -400,7 +416,7 @@ class JFolder
 	 * @return	array	Files in the given folder.
 	 * @since 1.5
 	 */
-	function files($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS'))
+	public static function files($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*','.*~'))
 	{
 		// Initialize variables
 		$arr = array();
@@ -416,9 +432,14 @@ class JFolder
 
 		// read the source directory
 		$handle = opendir($path);
+		if(count($excludefilter)) {
+			$excludefilter = '/('. implode('|', $excludefilter) .')/';
+		} else {
+			$excludefilter = '';	
+		}
 		while (($file = readdir($handle)) !== false)
 		{
-			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude))) {
+			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file))) {
 				$dir = $path . DS . $file;
 				$isDir = is_dir($dir);
 				if ($isDir) {
@@ -458,10 +479,12 @@ class JFolder
 	 * @param	boolean	True to return the full path to the folders.
 	 * @param	array	Array with names of folders which should not be shown in
 	 * the result.
+	 * @param	array	Array with regular expressions matching folders which
+	 * should not be shown in the result.
 	 * @return	array	Folders in the given folder.
 	 * @since 1.5
 	 */
-	function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS'))
+	public static function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*'))
 	{
 		// Initialize variables
 		$arr = array();
@@ -477,9 +500,14 @@ class JFolder
 
 		// read the source directory
 		$handle = opendir($path);
+		if(count($excludefilter)) {
+			$excludefilter_string = '/('. implode('|', $excludefilter) .')/';
+		} else {
+			$excludefilter_string = '';
+		}
 		while (($file = readdir($handle)) !== false)
 		{
-			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude))) {
+			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file))) {
 				$dir = $path . DS . $file;
 				$isDir = is_dir($dir);
 				if ($isDir) {
@@ -493,9 +521,9 @@ class JFolder
 					}
 					if ($recurse) {
 						if (is_integer($recurse)) {
-							$arr2 = JFolder::folders($dir, $filter, $recurse - 1, $fullpath);
+						$arr2 = JFolder::folders($dir, $filter, $recurse - 1, $fullpath, $exclude, $excludefilter);
 						} else {
-							$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath);
+						$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath, $exclude, $excludefilter);
 						}
 
 						$arr = array_merge($arr, $arr2);

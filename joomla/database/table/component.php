@@ -68,7 +68,7 @@ class JTableComponent extends JTable
 		$db->setQuery($query, 0, 1);
 		$id = $db->loadResult();
 
-		if ($id === null) {
+		if (empty($id)) {
 			return false;
 		} else {
 			return $this->load($id);
@@ -96,7 +96,7 @@ class JTableComponent extends JTable
 	*/
 	function bind($array, $ignore = '')
 	{
-		if (is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array( $array['params'] ))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);

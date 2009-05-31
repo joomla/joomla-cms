@@ -160,12 +160,6 @@ class JDatabaseMySQLi extends JDatabase
 			return false;
 		}
 
-		// if running mysql 5, set sql-mode to mysql40 - thereby circumventing strict mode problems
-		if (strpos($this->getVersion(), '5') === 0) {
-			$this->setQuery("SET sql_mode = 'MYSQL40'");
-			$this->query();
-		}
-
 		return true;
 	}
 
