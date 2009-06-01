@@ -51,11 +51,11 @@ class JFormFieldList extends JFormField
 	 */
 	protected function _getInput()
 	{
-		$size		= $this->_element->attributes('size');
 		$class		= $this->_element->attributes('class') ? 'class="'.$this->_element->attributes('class').'"' : 'class="inputbox"';
+		$size		= $this->_element->attributes('size') ? ' size="'.(int) $this->_element->attributes('size').'"' : '';
 		$disabled	= $this->_element->attributes('disabled') == 'true' ? true : false;
 		$readonly	= $this->_element->attributes('readonly') == 'true' ? true : false;
-		$attributes	= $class;
+		$attributes	= $class.$size;
 		$attributes = ($disabled || $readonly) ? $attributes.' disabled="disabled"' : $attributes;
 		$options	= (array)$this->_getOptions();
 		$return		= null;

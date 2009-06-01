@@ -10,6 +10,11 @@
 
 defined('JPATH_BASE') or die;
 
+// Detect if we have full UTF-8 and unicode support.
+if (!defined('JCOMPAT_UNICODE_PROPERTIES')) {
+	define('JCOMPAT_UNICODE_PROPERTIES', (bool)@preg_match('/\pL/u', 'a'));
+}
+
 /**
  * Form Rule class for the Joomla Framework.
  *

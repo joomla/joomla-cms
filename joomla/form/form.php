@@ -238,7 +238,7 @@ class JForm extends JObject
 			if ($file)
 			{
 				// If we were not given the absolute path of a form file, attempt to find one.
-				if (!file_exists($data)) {
+				if (!is_file($data)) {
 					jimport('joomla.filesystem.path');
 					$data = JPath::find(JForm::addFormPath(), strtolower($data).'.xml');
 				}
@@ -250,7 +250,6 @@ class JForm extends JObject
 			else {
 				$loaded	= $parser->loadString($data);
 			}
-
 			// Make sure the XML was loaded.
 			if ($loaded)
 			{
@@ -939,7 +938,10 @@ class JForm extends JObject
 
 		if (!class_exists('JFormField')) {
 			jimport('joomla.form.field');
-			jimport('joomla.form.fields.list');
+		}
+
+		if (!class_exists('JFormFieldList')) {
+			require_once dirname(__FILE__).DS.'fields'.DS.'list.php';
 		}
 
 		if (!class_exists($class))
