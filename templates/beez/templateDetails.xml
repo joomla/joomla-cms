@@ -7,7 +7,7 @@
 	<authorEmail>joomla@run-digital.com</authorEmail>
 	<authorUrl>http://www.run-digital.com</authorUrl>
 	<copyright></copyright>
-	<license>GNU/GPL</license>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>1.0.0</version>
 	<description>Accessible template for Joomla 1.5</description>
 	<files>

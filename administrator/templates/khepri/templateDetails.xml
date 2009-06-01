@@ -7,7 +7,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>http://www.joomla.org</authorUrl>
 	<copyright></copyright>
-	<license>GNU/GPL</license>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>1.0</version>
 	<description>Administration template for Joomla! 1.5</description>
 	<files>

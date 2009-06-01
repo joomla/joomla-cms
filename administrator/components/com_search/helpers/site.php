@@ -4,7 +4,7 @@
  * @package  Joomla
  * @subpackage	Search
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * source software licenses. See COPYRIGHT.php for copyright notices and details.
  */
 

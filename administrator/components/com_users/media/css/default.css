@@ -3,7 +3,7 @@
  * @package		Joomla
  * @subpackage	com_users
  * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @link		http://jxtended.com
  */
 

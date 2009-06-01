@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Installation
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -37,6 +37,11 @@ $ -> Language fix or change
  - Removed index.js from khepri
  ^ Started refactoring of JTabs
  ^ Merged core-uncompressed.js and core.js
+
+31-Jun-2009 Rob Schley
+ ^ Moved LICENSE.php out of the installation folder and renamed to LICENSE.txt.
+ ^ Updated the license declarations.
+ ^ Updated some copyright declarations that still referred to 2008.
 
 31-May-2009 Ercan Ozkaya
  + Added usergroup filter to debug plugin
