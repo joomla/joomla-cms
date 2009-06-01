@@ -129,38 +129,34 @@ JHtml::_('behavior.formvalidation');
 							<table class="content2">
 								<tr>
 									<td width="100">
-										<input id="ftpenable" type="radio" name="vars[ftpEnable]" value="1" />
-										<label for="ftpenable"><?php echo JText::_('Yes'); ?></label><br />
-
-										<input id="ftpdisable" type="radio" name="vars[ftpEnable]" value="0" checked="checked" />
-										<label for="ftpdisable"> <?php echo JText::_('No'); ?> </label>
+										<?php echo $this->form->getLabel('ftp_enable'); ?>
 									</td>
-									<td align="justify">
-										<?php echo JText::_('Enable FTP filesystem layer'); ?>
+									<td>
+										<?php echo $this->form->getInput('ftp_enable'); ?>
 									</td>
 								</tr>
 								<tr>
 									<td width="100">
-										<label for="ftpuser"><span id="ftpusermsg"><?php echo JText::_('FTP user'); ?></span></label>
+										<?php echo $this->form->getLabel('ftp_user'); ?>
 									</td>
-									<td align="center">
-										<input class="inputbox validate notrequired isftp ftpusermsg" type="text" id="ftpuser" name="vars[ftpUser]" value="<?php echo !empty($this->options['ftpUser']) ? $this->options['ftpUser'] : ''; ?>" size="30" />
+									<td>
+										<?php echo $this->form->getInput('ftp_user'); ?>
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<label for="ftppass"> <span id="ftppassmsg"><?php echo JText::_('FTP password'); ?></span></label>
+										<?php echo $this->form->getLabel('ftp_pass'); ?>
 									</td>
-									<td align="center">
-										<input class="inputbox validate notrequired isftp ftppassmsg" type="password" id="ftppass" name="vars[ftpPassword]" value="<?php echo !empty($this->options['ftpPassword']) ? $this->options['ftpPassword'] : ''; ?>" size="30" />
+									<td>
+										<?php echo $this->form->getInput('ftp_pass'); ?>
 									</td>
 								</tr>
 								<tr id="rootPath">
 									<td>
-										<label for="ftproot"> <span id="ftprootmsg"><?php echo JText::_('FTP Root Path'); ?></span></label>
+										<?php echo $this->form->getLabel('ftp_root'); ?>
 									</td>
-									<td align="center">
-										<input class="inputbox validate notrequired isftp ftprootmsg" id="ftproot" type="text" name="vars[ftpRoot]" value="<?php echo !empty($this->options['ftpRoot']) ? $this->options['ftpRoot'] : ''; ?>" size="30" />
+									<td>
+										<?php echo $this->form->getInput('ftp_root'); ?>
 									</td>
 								</tr>
 							</table>
@@ -177,30 +173,26 @@ JHtml::_('behavior.formvalidation');
 							<table class="content2">
 								<tr id="host">
 									<td width="100">
-										<label for="ftphost"> <?php echo JText::_('FTP host'); ?></label>
+										<?php echo $this->form->getLabel('ftp_host'); ?>
 									</td>
-									<td align="center">
-										<input class="inputbox" type="text" id="ftphost" name="vars[ftpHost]" value="<?php echo !empty($this->options['ftpHost']) ? $this->options['ftpHost'] : ''; ?>" size="30" />
+									<td>
+										<?php echo $this->form->getInput('ftp_host'); ?>
 									</td>
 								</tr>
 								<tr id="port">
 									<td width="100">
-										<label for="ftpport"><?php echo JText::_('FTP port'); ?></label>
+										<?php echo $this->form->getLabel('ftp_port'); ?>
 									</td>
-									<td align="center">
-										<input class="inputbox" type="text" id="ftpport" name="vars[ftpPort]" value="<?php echo !empty($this->options['ftpPort']) ? $this->options['ftpPort'] : ''; ?>" size="30" />
+									<td>
+										<?php echo $this->form->getInput('ftp_port'); ?>
 									</td>
 								</tr>
 								<tr>
 									<td width="100">
-										<label for="ftpsavepass"> <?php echo JText::_('Save FTP Password'); ?></label>
+										<?php echo $this->form->getLabel('ftp_save'); ?>
 									</td>
-									<td align="justify">
-										<input id="ftpsavepass" type="radio" name="vars[ftpSavePass]" value="1" />
-										<label for="ftpsavepass"><?php echo JText::_('Yes'); ?></label><br />
-
-										<input id="ftpnosavepass" type="radio" name="vars[ftpSavePass]" value="0" checked="checked" />
-										<label for="ftpnosavepass"><?php echo JText::_('No'); ?></label>
+									<td>
+										<?php echo $this->form->getInput('ftp_save'); ?>
 									</td>
 								</tr>
 							</table>

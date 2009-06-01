@@ -27,8 +27,7 @@ class JInstallationViewDatabase extends JView
 	function display($tpl = null)
 	{
 		$state = $this->get('State');
-		$options = $this->get('Options');
-		$dbOptions = $this->get('DBOptions');
+		$form  = $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -37,8 +36,7 @@ class JInstallationViewDatabase extends JView
 		}
 
 		$this->assignRef('state', $state);
-		$this->assignRef('options', $options);
-		$this->assignRef('dbOptions', $dbOptions);
+		$this->assignRef('form', $form);
 
 		parent::display($tpl);
 	}

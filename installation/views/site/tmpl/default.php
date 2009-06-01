@@ -111,10 +111,10 @@ JHtml::_('behavior.formvalidation');
 							<table class="content2">
 								<tr>
 									<td class="item">
-										<label for="siteName"><span id="sitenamemsg"><?php echo JText::_('Site Name'); ?></span></label>
+										<?php echo $this->form->getLabel('site_name'); ?>
 									</td>
 									<td align="center">
-										<input class="inputbox validate required sitename sitenamemsg" type="text" id="siteName" name="vars[siteName]" size="30" value="<?php echo !empty($this->options['siteName']) ? $this->options['siteName'] : ''; ?>" />
+										<?php echo $this->form->getInput('site_name'); ?>
 									</td>
 								</tr>
 							</table>
@@ -145,32 +145,34 @@ JHtml::_('behavior.formvalidation');
 							<table class="content2">
 								<tr>
 									<td class="item">
-									<label for="adminEmail">
-										<span id="emailmsg"><?php echo JText::_('Your E-mail'); ?></span>
-									</label>
+										<?php echo $this->form->getLabel('admin_user'); ?>
 									</td>
 									<td align="center">
-									<input class="inputbox validate required email emailmsg" type="text" id="adminEmail" name="vars[adminEmail]" value="" size="30" />
+										<?php echo $this->form->getInput('admin_user'); ?>
 									</td>
 								</tr>
 								<tr>
 									<td class="item">
-									<label for="adminPassword">
-										<span id="passwordmsg"><?php echo JText::_('Admin password'); ?></span>
-									</label>
+										<?php echo $this->form->getLabel('admin_email'); ?>
 									</td>
 									<td align="center">
-									<input class="inputbox validate required password passwordmsg" type="password" id="adminPassword" name="vars[adminPassword]" value="" size="30"/>
+										<?php echo $this->form->getInput('admin_email'); ?>
 									</td>
 								</tr>
 								<tr>
 									<td class="item">
-									<label for="confirmAdminPassword">
-										<span id="confirmpasswordmsg"><?php echo JText::_('Confirm admin password'); ?></span>
-									</label>
+										<?php echo $this->form->getLabel('admin_password'); ?>
 									</td>
 									<td align="center">
-									<input class="inputbox validate required confirmpassword confirmpasswordmsg" type="password" id="confirmAdminPassword" name="vars[confirmAdminPassword]" value="" size="30"/>
+										<?php echo $this->form->getInput('admin_password'); ?>
+									</td>
+								</tr>
+								<tr>
+									<td class="item">
+										<?php echo $this->form->getLabel('admin_password2'); ?>
+									</td>
+									<td align="center">
+										<?php echo $this->form->getInput('admin_password2'); ?>
 									</td>
 								</tr>
 							</table>

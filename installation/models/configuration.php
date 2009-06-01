@@ -49,7 +49,7 @@ class JInstallationModelConfiguration extends JModel
 		/* Site Settings */
 		$registry->setValue('offline', 0);
 		$registry->setValue('offline_message', JText::_('STDOFFLINEMSG'));
-		$registry->setValue('sitename', $options->siteName);
+		$registry->setValue('sitename', $options->site_name);
 		$registry->setValue('editor', 'tinymce');
 		$registry->setValue('list_limit', 20);
 		$registry->setValue('root_user', 42);
@@ -60,12 +60,12 @@ class JInstallationModelConfiguration extends JModel
 		$registry->setValue('debug_lang', 0);
 
 		/* Database Settings */
-		$registry->setValue('dbtype', $options->DBtype);
-		$registry->setValue('host', $options->DBhostname);
-		$registry->setValue('user', $options->DBuserName);
-		$registry->setValue('password', $options->DBpassword);
-		$registry->setValue('db', $options->DBname);
-		$registry->setValue('dbprefix', $options->DBPrefix);
+		$registry->setValue('dbtype', $options->db_type);
+		$registry->setValue('host', $options->db_host);
+		$registry->setValue('user', $options->db_user);
+		$registry->setValue('password', $options->db_pass);
+		$registry->setValue('db', $options->db_name);
+		$registry->setValue('dbprefix', $options->db_prefix);
 
 		/* Server Settings */
 		$registry->setValue('live_site', '');
@@ -74,12 +74,12 @@ class JInstallationModelConfiguration extends JModel
 		$registry->setValue('error_reporting', -1);
 		$registry->setValue('helpurl', 'http://help.joomla.org');
 		$registry->setValue('xmlrpc_server', 0);
-		$registry->setValue('ftp_host', $options->ftpHost);
-		$registry->setValue('ftp_port', $options->ftpPort);
-		$registry->setValue('ftp_user', $options->ftpUser);
-		$registry->setValue('ftp_pass', $options->ftpPassword);
-		$registry->setValue('ftp_root', $options->ftpRoot);
-		$registry->setValue('ftp_enable', $options->ftpEnable);
+		$registry->setValue('ftp_host', $options->ftp_host);
+		$registry->setValue('ftp_port', $options->ftp_port);
+		$registry->setValue('ftp_user', $options->ftp_save ? $options->ftp_user : '');
+		$registry->setValue('ftp_pass', $options->ftp_save ? $options->ftp_pass : '');
+		$registry->setValue('ftp_root', $options->ftp_save ? $options->ftp_root : '');
+		$registry->setValue('ftp_enable', $options->ftp_enable);
 
 		/* Locale Settings */
 		$registry->setValue('offset', 0);
@@ -87,8 +87,8 @@ class JInstallationModelConfiguration extends JModel
 
 		/* Mail Settings */
 		$registry->setValue('mailer', 'mail');
-		$registry->setValue('mailfrom', $options->adminEmail);
-		$registry->setValue('fromname', $options->siteName);
+		$registry->setValue('mailfrom', $options->admin_email);
+		$registry->setValue('fromname', $options->site_name);
 		$registry->setValue('sendmail', '/usr/sbin/sendmail');
 		$registry->setValue('smtpauth', 0);
 		$registry->setValue('smtpuser', '');
@@ -159,16 +159,17 @@ class JInstallationModelConfiguration extends JModel
 			jimport('joomla.client.ftp');
 			jimport('joomla.filesystem.path');
 
-			$ftp = & JFTP::getInstance($options->ftpHost, $options->ftpPort);
-			$ftp->login($options->ftpUser, $options->ftpPassword);
+			$ftp = & JFTP::getInstance($options->ftp_host, $options->ftp_port);
+			$ftp->login($options->ftp_user, $options->ftp_pass);
 
 			// Translate path for the FTP account
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftpRoot, $path), '/');
+			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
 
 			// Use FTP write buffer to file
 			if (!$ftp->write($file, $buffer)) {
-				$this->setData('buffer', $buffer);
-				return false;
+				// Set the config string to the session.
+				$session = & JFactory::getSession();
+				$session->set('setup.config', $buffer);
 			}
 
 			$ftp->quit();
@@ -177,9 +178,12 @@ class JInstallationModelConfiguration extends JModel
 		{
 			if ($canWrite) {
 				file_put_contents($path, $buffer);
+				$session = & JFactory::getSession();
+				$session->set('setup.config', null);
 			} else {
-				$this->setData('buffer', $buffer);
-				return true;
+				// Set the config string to the session.
+				$session = & JFactory::getSession();
+				$session->set('setup.config', $buffer);
 			}
 		}
 
@@ -189,7 +193,7 @@ class JInstallationModelConfiguration extends JModel
 	function _createRootUser($options)
 	{
 		// Get a database object.
-		$db = & JInstallationHelperDatabase::getDBO($options->DBtype, $options->DBhostname, $options->DBuserName, $options->DBpassword, $options->DBname, $options->DBPrefix);
+		$db = & JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 
 		// Check for errors.
 		if (JError::isError($db)) {
@@ -205,7 +209,7 @@ class JInstallationModelConfiguration extends JModel
 
 		// Create random salt/password for the admin user
 		$salt = JUserHelper::genRandomPassword(32);
-		$crypt = JUserHelper::getCryptedPassword($options->adminPassword, $salt);
+		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt);
 		$cryptpass = $crypt.':'.$salt;
 
 		// create the admin user
@@ -214,8 +218,8 @@ class JInstallationModelConfiguration extends JModel
 		$query	= 'INSERT INTO #__users SET'
 				. ' id = 42'
 				. ', name = '.$db->quote('Administrator')
-				. ', username = '.$db->quote('admin')
-				. ', email = '.$db->quote($options->adminEmail)
+				. ', username = '.$db->quote($options->admin_user)
+				. ', email = '.$db->quote($options->admin_email)
 				. ', password = '.$db->quote($cryptpass)
 				. ', usertype = '.$db->quote('deprecated')		// Need to weed out where this is used
 				. ', block = 0'

@@ -106,11 +106,7 @@ JHtml::_('behavior.formvalidation');
 					</div>
 					<div class="m">
 						<fieldset>
-							<select name="vars[lang]" class="inputbox" size="20">
-<?php foreach ($this->langs as $lang) : ?>
-								<option value="<?php echo $lang['value']; ?>"<?php echo (empty($lang['selected'])) ? '' : ' '.$lang['selected']; ?>><?php echo $lang['text'],' - ',$lang['value']; ?></option>
-<?php endforeach; ?>
-							</select>
+							<?php echo $this->form->getInput('language'); ?>
 						</fieldset>
 						<div class="clr"></div>
 					</div>

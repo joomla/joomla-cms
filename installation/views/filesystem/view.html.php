@@ -27,7 +27,7 @@ class JInstallationViewFilesystem extends JView
 	function display($tpl = null)
 	{
 		$state = $this->get('State');
-		$options = $this->get('Options');
+		$form  = $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -36,7 +36,7 @@ class JInstallationViewFilesystem extends JView
 		}
 
 		$this->assignRef('state', $state);
-		$this->assignRef('options', $options);
+		$this->assignRef('form', $form);
 
 		parent::display($tpl);
 	}

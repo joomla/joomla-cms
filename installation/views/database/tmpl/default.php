@@ -125,14 +125,9 @@ JHtml::_('behavior.formvalidation');
 								</tr>
 								<tr>
 									<td colspan="2">
-										<label for="vars_dbtype"><?php echo JText::_('Database Type'); ?></label>
+										<?php echo $this->form->getLabel('db_type'); ?>
 										<br />
-										<select id="vars_dbtype" name="vars[DBtype]" class="inputbox" size="1">
-										<option value=""><?php echo JText::_('Select Type'); ?></option>
-<?php foreach ($this->dbOptions as $option) : ?>
-											<option value="<?php echo $option->value; ?>"<?php echo !empty($option->selected) ? $option->selected : ''; ?>><?php echo $option->text; ?></option>
-<?php endforeach; ?>
-										</select>
+										<?php echo $this->form->getInput('db_type'); ?>
 									</td>
 									<td>
 										<em>
@@ -142,11 +137,9 @@ JHtml::_('behavior.formvalidation');
 								</tr>
 								<tr>
 									<td colspan="2">
-										<label for="vars_dbhostname">
-											<span id="dbhostnamemsg"><?php echo JText::_('Host Name'); ?></span>
-										</label>
+										<?php echo $this->form->getLabel('db_host'); ?>
 										<br />
-										<input id="vars_dbhostname" class="inputbox validate required none dbhostnamemsg" type="text" name="vars[DBhostname]" value="<?php echo !empty($this->options['DBhostname']) ? $this->options['DBhostname'] : 'localhost'; ?>" />
+										<?php echo $this->form->getInput('db_host'); ?>
 									</td>
 									<td>
 										<em>
@@ -156,11 +149,9 @@ JHtml::_('behavior.formvalidation');
 								</tr>
 								<tr>
 									<td colspan="2">
-										<label for="vars_dbusername">
-											<span id="dbusernamemsg"><?php echo JText::_('User Name'); ?></span>
-										</label>
+										<?php echo $this->form->getLabel('db_user'); ?>
 										<br />
-										<input id="vars_dbusername" class="inputbox validate required none dbusernamemsg" type="text" name="vars[DBuserName]" value="<?php echo !empty($this->options['DBuserName']) ? $this->options['DBuserName'] : ''; ?>" />
+										<?php echo $this->form->getInput('db_user'); ?>
 									</td>
 									<td>
 										<em>
@@ -170,11 +161,9 @@ JHtml::_('behavior.formvalidation');
 								</tr>
 								<tr>
 									<td colspan="2">
-										<label for="vars_dbpassword">
-											<?php echo JText::_('Password'); ?>
-										</label>
+										<?php echo $this->form->getLabel('db_pass'); ?>
 										<br />
-										<input id="vars_dbpassword" class="inputbox" type="password" name="vars[DBpassword]" value="<?php echo !empty($this->options['DBpassword']) ? $this->options['DBpassword'] : ''; ?>" />
+										<?php echo $this->form->getInput('db_pass'); ?>
 									</td>
 									<td>
 										<em>
@@ -184,11 +173,9 @@ JHtml::_('behavior.formvalidation');
 								</tr>
 								<tr>
 									<td colspan="2">
-										<label for="vars_dbname">
-											<span id="dbnamemsg"><?php echo JText::_('Database Name'); ?></span>
-										</label>
+										<?php echo $this->form->getLabel('db_name'); ?>
 										<br />
-										<input id="vars_dbname" class="inputbox validate required none dbnamemsg" type="text" name="vars[DBname]" value="<?php echo !empty($this->options['DBname']) ? $this->options['DBname'] : ''; ?>" />
+										<?php echo $this->form->getInput('db_name'); ?>
 									</td>
 									<td>
 										<em>
@@ -211,27 +198,11 @@ JHtml::_('behavior.formvalidation');
 									<td></td>
 								</tr>
 								<tr>
-									<td>
-										<input id="vars_dbolddel" type="radio" name="vars[DBOld]" value="rm" />
+									<td colspan="2">
+										<?php echo $this->form->getLabel('db_old'); ?>
+										<br />
+										<?php echo $this->form->getInput('db_old'); ?>
 									</td>
-									<td>
-										<label for="vars_dbolddel">
-											<?php echo JText::_('Drop Existing Tables'); ?>
-										</label>
-									</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>
-										<input id="vars_dboldbackup" type="radio" name="vars[DBOld]" value="bu"  checked="checked"/>
-									</td>
-
-									<td>
-										<label for="vars_dboldbackup">
-											<?php echo JText::_('Backup Old Tables'); ?>
-										</label>
-									</td>
-
 									<td>
 										<em>
 										<?php echo JText::_('Any existing backup tables from former Joomla! installations will be replaced'); ?>
@@ -240,11 +211,9 @@ JHtml::_('behavior.formvalidation');
 								</tr>
 								<tr>
 									<td colspan="2">
-										<label for="vars_dbprefix">
-											<?php echo JText::_('Table Prefix'); ?>
-										</label>
+										<?php echo $this->form->getLabel('db_prefix'); ?>
 										<br />
-										<input id="vars_dbprefix" class="inputbox" type="text" name="vars[DBPrefix]" value="<?php echo !empty($this->options['DBPrefix']) ? $this->options['DBPrefix'] : 'jos_'; ?>" />
+										<?php echo $this->form->getInput('db_prefix'); ?>
 									</td>
 									<td>
 										<em>

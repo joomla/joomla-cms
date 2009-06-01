@@ -29,6 +29,10 @@ class JInstallationViewComplete extends JView
 		$state = $this->get('State');
 		$options = $this->get('Options');
 
+		// Get the config string from the session.
+		$session = & JFactory::getSession();
+		$config = $session->get('setup.config', null);
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
@@ -37,6 +41,7 @@ class JInstallationViewComplete extends JView
 
 		$this->assignRef('state', $state);
 		$this->assignRef('options', $options);
+		$this->assignRef('config', $config);
 
 		parent::display($tpl);
 	}

@@ -27,7 +27,7 @@ class JInstallationViewLanguage extends JView
 	function display($tpl = null)
 	{
 		$state = $this->get('State');
-		$langs = $this->get('Languages');
+		$form  = $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -36,7 +36,7 @@ class JInstallationViewLanguage extends JView
 		}
 
 		$this->assignRef('state', $state);
-		$this->assignRef('langs', $langs);
+		$this->assignRef('form', $form);
 
 		parent::display($tpl);
 	}

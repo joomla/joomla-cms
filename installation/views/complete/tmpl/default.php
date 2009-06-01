@@ -124,7 +124,7 @@ JHtml::_('behavior.formvalidation');
 								</tr>
 								<tr>
 									<td align="center" class="notice">
-										<?php echo JText::_('Username'); ?>: admin
+										<?php echo JText::_('Username'); ?>: <?php echo $this->options['admin_user']; ?>
 									</td>
 								</tr>
 								<tr>
@@ -150,7 +150,7 @@ JHtml::_('behavior.formvalidation');
 								<tr>
 									<td>&nbsp;</td>
 								</tr>
-								<jtmpl:tmpl name="configuration-error" type="simplecondition" requiredvars="buffer">
+								<?php if ($this->config) : ?>
 								<tr>
 									<td class="small">
 										<?php echo JText::_('confProblem'); ?>
@@ -158,10 +158,10 @@ JHtml::_('behavior.formvalidation');
 								</tr>
 								<tr>
 									<td align="center">
-										<textarea rows="5" cols="60" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();" >{BUFFER}</textarea>
+										<textarea rows="5" cols="60" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();" ><?php echo $this->config; ?></textarea>
 									</td>
 								</tr>
-								</jtmpl:tmpl>
+								<?php endif; ?>
 							</table>
 						</fieldset>
 						<div class="clr"></div>

@@ -28,24 +28,42 @@ class JInstallationControllerSetup extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
 
-		// Get the posted config options.
-		$vars = JRequest::getVar('vars', array(), 'post', 'array');
-		$session = & JFactory::getSession();
+		// Get the application object.
+		$app = & JFactory::getApplication();
 
 		// Get the setup model.
 		$model = &$this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 
-		// Store the options in the session.
-		$vars = $model->storeOptions($vars);
+		// Get the posted values from the request and validate them.
+		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$return	= $model->validate($data, 'language');
 
-		// Ensure a language was set.
-		if (!$vars || empty($vars['lang'])) {
-			$this->setMessage(JText::_('Language_Invalid'), 'notice');
-			$this->setRedirect('index.php?option=language');
+		// Check for validation errors.
+		if ($return === false)
+		{
+			// Get the validation messages.
+			$errors	= $model->getErrors();
+
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if (JError::isError($errors[$i])) {
+					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+				} else {
+					$app->enqueueMessage($errors[$i], 'notice');
+				}
+			}
+
+			// Redirect back to the language selection screen.
+			$this->setRedirect('index.php?view=language');
+			return false;
 		}
-		else {
-			$this->setRedirect('index.php?view=preinstall');
-		}
+
+		// Store the options in the session.
+		$vars = $model->storeOptions($return);
+
+		// Redirect to the next page.
+		$this->setRedirect('index.php?view=preinstall');
 	}
 
 	function database()
@@ -53,15 +71,39 @@ class JInstallationControllerSetup extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
 
-		// Get the posted config options.
-		$vars = JRequest::getVar('vars', array(), 'post', 'array');
-		$session = & JFactory::getSession();
+		// Get the application object.
+		$app = & JFactory::getApplication();
 
 		// Get the setup model.
-		$model = & $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = &$this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+
+		// Get the posted values from the request and validate them.
+		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$return	= $model->validate($data, 'database');
+
+		// Check for validation errors.
+		if ($return === false)
+		{
+			// Get the validation messages.
+			$errors	= $model->getErrors();
+
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if (JError::isError($errors[$i])) {
+					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+				} else {
+					$app->enqueueMessage($errors[$i], 'notice');
+				}
+			}
+
+			// Redirect back to the database selection screen.
+			$this->setRedirect('index.php?view=database');
+			return false;
+		}
 
 		// Store the options in the session.
-		$vars = $model->storeOptions($vars);
+		$vars = $model->storeOptions($return);
 
 		// Get the database model.
 		$database = & $this->getModel('Database', 'JInstallationModel', array('dbo' => null));
@@ -84,15 +126,39 @@ class JInstallationControllerSetup extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
 
-		// Get the posted config options.
-		$vars = JRequest::getVar('vars', array(), 'post', 'array');
-		$session = & JFactory::getSession();
+		// Get the application object.
+		$app = & JFactory::getApplication();
 
 		// Get the setup model.
-		$model = & $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = &$this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+
+		// Get the posted values from the request and validate them.
+		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$return	= $model->validate($data, 'filesystem');
+
+		// Check for validation errors.
+		if ($return === false)
+		{
+			// Get the validation messages.
+			$errors	= $model->getErrors();
+
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if (JError::isError($errors[$i])) {
+					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+				} else {
+					$app->enqueueMessage($errors[$i], 'notice');
+				}
+			}
+
+			// Redirect back to the database selection screen.
+			$this->setRedirect('index.php?view=filesystem');
+			return false;
+		}
 
 		// Store the options in the session.
-		$vars = $model->storeOptions($vars);
+		$vars = $model->storeOptions($return);
 
 		$this->setRedirect('index.php?view=site');
 	}
@@ -102,15 +168,40 @@ class JInstallationControllerSetup extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
 
-		// Get the posted config options.
-		$vars = JRequest::getVar('vars', array(), 'post', 'array');
-		$session = & JFactory::getSession();
+		// Get the application object.
+		$app = & JFactory::getApplication();
 
 		// Get the setup model.
-		$model = & $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = &$this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+
+		// Get the posted values from the request and validate them.
+		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$return	= $model->validate($data, 'site');
+
+		// Check for validation errors.
+		if ($return === false)
+		{
+			// Get the validation messages.
+			$errors	= $model->getErrors();
+
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if (JError::isError($errors[$i])) {
+					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+				} else {
+					$app->enqueueMessage($errors[$i], 'notice');
+				}
+			}
+
+			// Redirect back to the database selection screen.
+			$this->setRedirect('index.php?view=site');
+			return false;
+		}
 
 		// Store the options in the session.
-		$vars = $model->storeOptions($vars);
+		unset($return['admin_password2']);
+		$vars = $model->storeOptions($return);
 
 		// Get the configuration model.
 		$configuration = & $this->getModel('Configuration', 'JInstallationModel', array('dbo' => null));

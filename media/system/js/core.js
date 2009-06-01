@@ -62,6 +62,18 @@ Joomla.replaceTokens = function(n) {
 
 
 /**
+ * Verifies if the string is in a valid email format
+ * 
+ * @param string
+ * @return boolean
+ */
+Joomla.isEmail = function(text) {
+	var regex = new RegExp("^[\\w-_\.]*[\\w-_\.]\@[\\w]\.+[\\w]+[\\w]$");
+	return regex.test(text);
+}
+
+
+/**
  * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
  * 
  * Writes a dynamically generated list
@@ -355,18 +367,4 @@ function checkAll_button(n, task) {
 		}
 	}
 	submitform(task);
-}
-
-/**
- * USED IN: administrator/components/com_banners/views/client/tmpl/default.php
- * 
- * Verifies if the string is in a valid email format
- * 
- * @param string
- * @return boolean
- */
-function isEmail(text) {
-	var pattern = "^[\\w-_\.]*[\\w-_\.]\@[\\w]\.+[\\w]+[\\w]$";
-	var regex = new RegExp(pattern);
-	return regex.test(text);
 }

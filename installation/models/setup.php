@@ -45,6 +45,45 @@ class JInstallationModelSetup extends JModel
 		return $options;
 	}
 
+	/**
+	 * Method to get the link form.
+	 *
+	 * @access	public
+	 * @return	mixed	JForm object on success, false on failure.
+	 * @since	1.6
+	 */
+	function & getForm($view = null)
+	{
+		// Initialize variables.
+		$false = false;
+
+		if (!$view) {
+			$view = JRequest::getWord('view', 'language');
+		}
+
+		// Get the form.
+		jimport('joomla.form.form');
+		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
+		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
+		$form = & JForm::getInstance('jform', $view, true, array('array' => true));
+
+		// Check for an error.
+		if (JError::isError($form)) {
+			$this->setError($form->getMessage());
+			return $false;
+		}
+
+		// Check the session for previously entered form data.
+		$data = (array) $this->getOptions();
+
+		// Bind the form data if present.
+		if (!empty($data)) {
+			$form->bind($data);
+		}
+
+		return $form;
+	}
+
 	function getDboptions()
 	{
 		// Initialize variables.
@@ -234,5 +273,47 @@ class JInstallationModelSetup extends JModel
 		$settings[] = $setting;
 
 		return $settings;
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @access	public
+	 * @param	array	The form data.
+	 * @return	mixed	Array of filtered data if valid, false otherwise.
+	 * @since	1.6
+	 */
+	function validate($data, $view = null)
+	{
+		// Get the form.
+		$form = & $this->getForm($view);
+
+		// Check for an error.
+		if ($form === false) {
+			return false;
+		}
+
+		// Filter and validate the form data.
+		$data	= $form->filter($data);
+		$return	= $form->validate($data);
+
+		// Check for an error.
+		if (JError::isError($return)) {
+			$this->setError($return->getMessage());
+			return false;
+		}
+
+		// Check the validation results.
+		if ($return === false)
+		{
+			// Get the validation messages from the form.
+			foreach ($form->getErrors() as $message) {
+				$this->setError($message);
+			}
+
+			return false;
+		}
+
+		return $data;
 	}
 }

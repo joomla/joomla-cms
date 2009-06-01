@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields>
+		<field name="db_type" type="list" id="db_type" class="inputbox"
+			label="Installation_Database_Type_Label"
+			default="mysql"
+			required="true"
+		>
+			<option value="mysql">MySQL</option>
+			<option value="mysqli">MySQLi</option>
+		</field>
+		<field name="db_host" type="text" id="db_host" class="inputbox"
+			label="Installation_Database_Host_Label"
+			description="Installation_Database_Host_Desc"
+			default="localhost"
+			required="true"
+		/>
+		<field name="db_user" type="text" id="db_user" class="inputbox"
+			label="Installation_Database_User_Label"
+			description="Installation_Database_User_Desc"
+			default=""
+			required="true"
+		/>
+		<field name="db_pass" type="password" id="db_pass" class="inputbox"
+			label="Installation_Database_Password_Label"
+			description="Installation_Database_Password_Desc"
+			default=""
+		/>
+		<field name="db_name" type="text" id="db_name" class="inputbox"
+			label="Installation_Database_Name_Label"
+			description="Installation_Database_Name_Desc"
+			default=""
+			required="true"
+		/>
+
+		<!-- Advanced Settings -->
+		<field name="db_old" type="radio" id="db_old" class="inputbox"
+			label="Installation_Old_Database_Process_Label"
+			default="backup"
+			required="true"
+		>
+			<option value="remove">Remove</option>
+			<option value="backup">Backup</option>
+		</field>
+		<field name="db_prefix" type="text" id="db_prefix" class="inputbox"
+			label="Installation_Database_Prefix_Label"
+			description="Installation_Database_Prefix_Desc"
+			default="jos_"
+			required="true"
+		/>
+	</fields>
+</form>

@@ -28,46 +28,46 @@ class JInstallationModelDatabase extends JModel
 		$options = JArrayHelper::toObject($options, 'JObject');
 
 		// Ensure a database type was selected.
-		if (empty($options->DBtype)) {
+		if (empty($options->db_type)) {
 			$this->setError(JText::_('validType'));
 			return false;
 		}
 
 		// Ensure that a valid hostname and user name were input.
-		if (empty($options->DBhostname) || empty($options->DBuserName)) {
+		if (empty($options->db_host) || empty($options->db_user)) {
 			$this->setError(JText::_('validDBDetails'));
 			return false;
 		}
 
 		// Ensure that a database name was input.
-		if (empty($options->DBname)) {
+		if (empty($options->db_name)) {
 			$this->setError(JText::_('emptyDBName'));
 			return false;
 		}
 
 		// Validate database table prefix.
-		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->DBPrefix)) {
+		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix)) {
 			$this->setError(JText::_('MYSQLPREFIXINVALIDCHARS'));
 			return false;
 		}
 
 		// Validate length of database table prefix.
-		if (strlen($options->DBPrefix) > 15) {
+		if (strlen($options->db_prefix) > 15) {
 			$this->setError(JText::_('MYSQLPREFIXTOOLONG'));
 			return false;
 		}
 
 		// Validate length of database name.
-		if (strlen($options->DBname) > 64) {
+		if (strlen($options->db_name) > 64) {
 			$this->setError(JText::_('MYSQLDBNAMETOOLONG'));
 			return false;
 		}
 
 		// If the database is not yet created, create it.
-		if (empty($options->DBcreated))
+		if (empty($options->db_created))
 		{
 			// Get a database object.
-			$db = & $this->getDbo($options->DBtype, $options->DBhostname, $options->DBuserName, $options->DBpassword, null, $options->DBPrefix, false);
+			$db = & $this->getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
 
 			// Check for errors.
 			if (JError::isError($db)) {
@@ -85,27 +85,27 @@ class JInstallationModelDatabase extends JModel
 			$utfSupport = $db->hasUTF();
 
 			// Try to select the database
-			if (!$db->select($options->DBname))
+			if (!$db->select($options->db_name))
 			{
 				// If the database could not be selected, attempt to create it and then select it.
-				if ($this->createDatabase($db, $options->DBname, $utfSupport)) {
-					$db->select($options->DBname);
+				if ($this->createDatabase($db, $options->db_name, $utfSupport)) {
+					$db->select($options->db_name);
 				}
 				else {
-					$this->setError(JText::sprintf('WARNCREATEDB', $options->DBname));
+					$this->setError(JText::sprintf('WARNCREATEDB', $options->db_name));
 					return false;
 				}
 			}
 			else {
 				// Set the character set to UTF-8 for pre-existing databases.
-				$this->setDatabaseCharset($db, $options->DBname);
+				$this->setDatabaseCharset($db, $options->db_name);
 			}
 
 			// Should any old database tables be removed or backed up?
-			if ($options->DBOld == 'rm')
+			if ($options->db_old == 'remove')
 			{
 				// Attempt to delete the old database tables.
-				if (!$this->deleteDatabase($db, $options->DBname, $options->DBPrefix)) {
+				if (!$this->deleteDatabase($db, $options->db_name, $options->db_prefix)) {
 					$this->setError(JText::_('WARNDELETEDB'));
 					return false;
 				}
@@ -113,14 +113,14 @@ class JInstallationModelDatabase extends JModel
 			else
 			{
 				// If the database isn't being deleted, back it up.
-				if (!$this->backupDatabase($db, $options->DBname, $options->DBPrefix)) {
+				if (!$this->backupDatabase($db, $options->db_name, $options->db_prefix)) {
 					$this->setError(JText::_('WARNBACKINGUPDB'));
 					return false;
 				}
 			}
 
 			// Set the appropriate schema script based on UTF-8 support.
-			$type = $options->DBtype;
+			$type = $options->db_type;
 			if ($utfSupport) {
 				$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla.sql';
 			} else {
@@ -145,15 +145,15 @@ class JInstallationModelDatabase extends JModel
 			// Handle default backend language setting. This feature is available for localized versions of Joomla! 1.5.
 			$app = & JFactory::getApplication();
 			$languages = $app->getLocaliseAdmin();
-			if (in_array($options->lang, $languages['admin']) || in_array($options->lang, $languages['site']))
+			if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))
 			{
 				// Build the language parameters for the language manager.
 				$params = array();
-				if (in_array($options->lang, $languages['admin'])) {
-					$params[] = 'administrator='.$options->lang;
+				if (in_array($options->language, $languages['admin'])) {
+					$params[] = 'administrator='.$options->language;
 				}
-				if (in_array($options->lang, $languages['site'])) {
-					$params[] = 'site='.$options->lang;
+				if (in_array($options->language, $languages['site'])) {
+					$params[] = 'site='.$options->language;
 				}
 				$params = implode("\n", $params);
 
@@ -181,7 +181,7 @@ class JInstallationModelDatabase extends JModel
 		$options = JArrayHelper::toObject($options, 'JObject');
 
 		// Get a database object.
-		$db = & JInstallationHelperDatabase::getDBO($options->DBtype, $options->DBhostname, $options->DBuserName, $options->DBpassword, $options->DBname, $options->DBPrefix);
+		$db = & JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 
 		// Check for errors.
 		if (JError::isError($db)) {
@@ -196,7 +196,7 @@ class JInstallationModelDatabase extends JModel
 		}
 
 		// Build the path to the sample data file.
-		$type = $options->DBtype;
+		$type = $options->db_type;
 		if ($type == 'mysqli') {
 			$type = 'mysql';
 		}

@@ -173,7 +173,7 @@ class BannersViewClients
 			{
 				alert("<?php echo JText::_('Please fill in the Contact Email.', true); ?>");
 			}
-			else if (!isEmail(form.email.value))
+			else if (!Joomla.isEmail(form.email.value))
 			{
 				alert("<?php echo JText::_('Please provide a valid Contact Email.', true); ?>");
 			}
