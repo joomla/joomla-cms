@@ -14,7 +14,7 @@
  * Created on Sep 17, 2008
  * 
  * @package Joomla!
- * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
+ * @license GNU General Public License version 2 or later; see LICENSE.txt
  * @copyright 2008 OpenSourceMatters.org 
  * @version SVN: $Id:$    
  */

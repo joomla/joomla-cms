@@ -10,7 +10,7 @@
  * 
  * @package Joomla
  * @subpackage Filesystem
- * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
+ * @license GNU General Public License version 2 or later; see LICENSE.txt
  * @copyright 2008 OpenSourceMatters 
  * @version SVN: $Id:$    
  */

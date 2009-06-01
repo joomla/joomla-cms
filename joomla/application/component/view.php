@@ -4,7 +4,7 @@
  * @package		Joomla.Framework
  * @subpackage	Application
  * @copyright Copyright Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
