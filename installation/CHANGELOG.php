@@ -33,6 +33,8 @@ $ -> Language fix or change
 ! -> Note
 
 02-Jun-2009 Sam Moffatt
+ + Added language override system
+ + Added JVersion::getUserAgent
  + Added JFactory::getStream
 
 01-Jun-2009 Louis Landry
