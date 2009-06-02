@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Jun-2009 Sam Moffatt
+ + Added JFactory::getStream
+
 01-Jun-2009 Louis Landry
  ^ Reworked installation app to use JForm and cleanup of variable names -- first pass.
  ! Installation language strings and JavaScript behaviors need to be reworked still.
