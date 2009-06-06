@@ -32,6 +32,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+05-Jun-2009 Ian MacLennan
+ + Added layouts from 1.5.11 to milkyway template as overrides
+
 02-Jun-2009 Sam Moffatt
  + Added language override system
  + Added JVersion::getUserAgent
