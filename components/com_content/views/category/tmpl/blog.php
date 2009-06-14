@@ -23,6 +23,18 @@ $cparams =& JComponentHelper::getParams('com_media');
 	</td>
 </tr>
 <?php endif; ?>
+<tr>
+	<td>
+	<ul>
+	<?php
+	foreach($this->children as $child)
+	{
+		echo '<li><a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)).'">'.$child->title.'</a> ('.$child->numitems.')</li>';
+	}
+	?>
+	</ul>
+	</td>
+</tr>
 <?php if ($this->params->get('num_leading_articles')) : ?>
 <tr>
 	<td valign="top">
