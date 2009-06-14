@@ -9,16 +9,20 @@
 		<name>Category Blog Layout</name>
 		<description>CATEGORY BLOG LAYOUT DESC</description>
 		<url>
-			<param name="id" type="category" label="Category" description="Choose a category..." />
+			<param name="id" type="category" extension="com_content" label="Category" description="Choose a category..." />
 		</url>
 		<params>
 	 		<param name="show_description" type="radio" default="0" label="Description" description="Show/Hide the Category Description">
 	 			<option value="0">Hide</option>
 	 			<option value="1">Show</option>
 	 		</param>
-			<param name="show_description_image" type="radio" default="0" label="Description Image" description="Show/Hide the Category Image">
+			<param name="show_description_image" type="radio" default="0" label="Description Image" description="Show/Hide the Category Description">
 	 			<option value="0">Hide</option>
 	 			<option value="1">Show</option>
+	 		</param>
+			<param name="show_subcategory_content" type="radio" default="0" label="Show Subcategory Content" description="">
+	 			<option value="0">No</option>
+	 			<option value="1">Yes</option>
 	 		</param>
 
 			<param name="@spacer" type="spacer" default="" label="" description="" />
@@ -45,10 +49,6 @@
 				<option value="hits">Most Hits</option>
 				<option value="rhits">Least Hits</option>
 				<option value="order">Ordering</option>
-			</param>
-			<param name="multi_column_order" type="radio" default="0" label="Multi Column Order" description="PARAMDOWNORACROSS">
-				<option value="0">Down</option>
-				<option value="1">Across</option>
 			</param>
 
 			<param name="@spacer" type="spacer" default="" label="" description="" />

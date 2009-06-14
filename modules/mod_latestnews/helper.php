@@ -22,7 +22,6 @@ class modLatestNewsHelper
 
 		$count		= (int) $params->get('count', 5);
 		$catid		= trim($params->get('catid'));
-		$secid		= trim($params->get('secid'));
 		$show_front	= $params->get('show_front', 1);
 		$groups		= $user->authorisedLevels();
 		$groupsA	= implode(',', $groups);
@@ -69,12 +68,6 @@ class modLatestNewsHelper
 			JArrayHelper::toInteger($ids);
 			$catCondition = ' AND (cc.id=' . implode(' OR cc.id=', $ids) . ')';
 		}
-		if ($secid)
-		{
-			$ids = explode(',', $secid);
-			JArrayHelper::toInteger($ids);
-			$secCondition = ' AND (s.id=' . implode(' OR s.id=', $ids) . ')';
-		}
 
 		// Content Items only
 		$query = 'SELECT a.*, ' .
@@ -83,13 +76,10 @@ class modLatestNewsHelper
 			' FROM #__content AS a' .
 			($show_front == '0' ? ' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' : '') .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-			' INNER JOIN #__sections AS s ON s.id = a.sectionid' .
 			' WHERE '. $where .' AND s.id > 0' .
 			($access ? ' AND a.access IN ('.$groups.') AND cc.access IN ('.$groups.') AND s.access IN ('.$groups.')' : '').
 			($catid ? $catCondition : '').
-			($secid ? $secCondition : '').
 			($show_front == '0' ? ' AND f.content_id IS NULL ' : '').
-			' AND s.published = 1' .
 			' AND cc.published = 1' .
 			' ORDER BY '. $ordering;
 		$db->setQuery($query, 0, $count);
@@ -101,7 +91,7 @@ class modLatestNewsHelper
 		{
 			if (in_array($row->access, $groups))
 			{
-				$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid));
+				$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
 			}
 			else {
 				$lists[$i]->link = JRoute::_('index.php?option=com_users&view=login');

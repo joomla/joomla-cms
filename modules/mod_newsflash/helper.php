@@ -34,7 +34,7 @@ class modNewsFlashHelper
 			{
 				// Check to see if the user has access to view the full article
 				if (in_array($item->access, $groups)) {
-					$item->linkOn = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+					$item->linkOn = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 					$item->linkText = JText::_('Read more text');
 				}
 				else {
@@ -79,7 +79,6 @@ class modNewsFlashHelper
 			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug'.
 			' FROM #__content AS a' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-			' INNER JOIN #__sections AS s ON s.id = a.sectionid' .
 			' WHERE a.state = 1 ' .
 			($noauth ? ' AND a.access IN ('.$groups.') AND cc.access IN ('.$groups.') AND s.access IN ('.$groups.')' : '').
 			' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') ' .
@@ -87,7 +86,6 @@ class modNewsFlashHelper
 			' AND cc.id = '. (int) $catid .
 			' AND cc.section = s.id' .
 			' AND cc.published = 1' .
-			' AND s.published = 1' .
 			' ORDER BY a.ordering';
 		$db->setQuery($query, 0, $items);
 		$rows = $db->loadObjectList();

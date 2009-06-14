@@ -21,7 +21,6 @@ class modMostReadHelper
 
 		$count		= intval($params->get('count', 5));
 		$catid		= trim($params->get('catid'));
-		$secid		= trim($params->get('secid'));
 		$show_front	= $params->get('show_front', 1);
 		$groups		= implode(',', $user->authorisedLevels());
 
@@ -37,11 +36,6 @@ class modMostReadHelper
 			JArrayHelper::toInteger($ids);
 			$catCondition = ' AND (cc.id=' . implode(' OR cc.id=', $ids) . ')';
 		}
-		if ($secid) {
-			$ids = explode(',', $secid);
-			JArrayHelper::toInteger($ids);
-			$secCondition = ' AND (s.id=' . implode(' OR s.id=', $ids) . ')';
-		}
 
 		//Content Items only
 		$query = 'SELECT a.*,' .
@@ -50,15 +44,12 @@ class modMostReadHelper
 			' FROM #__content AS a' .
 			' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-			' INNER JOIN #__sections AS s ON s.id = a.sectionid' .
 			' WHERE (a.state = 1 AND s.id > 0)' .
 			' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')' .
 			' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'.
 			($access ? ' AND a.access IN ('.$groups.') AND cc.access IN ('.$groups.') AND s.access IN ('.$groups.')' : '').
 			($catid ? $catCondition : '').
-			($secid ? $secCondition : '').
 			($show_front == '0' ? ' AND f.content_id IS NULL' : '').
-			' AND s.published = 1' .
 			' AND cc.published = 1' .
 			' ORDER BY a.hits DESC';
 		$db->setQuery($query, 0, $count);
@@ -70,7 +61,7 @@ class modMostReadHelper
 		{
 			if (!$user->get('guest'))
 			{
-				$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid));
+				$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
 			} else {
 				$lists[$i]->link = JRoute::_('index.php?option=com_users&view=login');
 			}

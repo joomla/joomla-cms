@@ -9,7 +9,7 @@
 		<name>WEBLINK STANDARD CATEGORY LAYOUT</name>
 		<description>WEBLINK STANDARD CATEGORY LAYOUT DESC</description>
 		<url>
-			<param name="id" type="category" section="com_weblinks" default="0" label="Category" description="PARAMCATSELECT" />
+			<param name="id" type="category" extension="com_weblinks" default="0" label="Category" description="PARAMCATSELECT" />
 		</url>
 		<params>
 			<param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="PARAMSHOWFEEDLINK">

@@ -20,8 +20,8 @@ defined('_JEXEC') or die; ?>
 		<tr>
 		<?php if ($this->params->get('filter')) : ?>
 			<td align="left" width="60%" nowrap="nowrap">
-				<?php echo JText::_($this->params->get('filter_type') . ' Filter').'&nbsp;'; ?>
-				<input type="text" name="filter" value="<?php echo $this->escape($this->lists['filter']);?>" class="inputbox" onchange="document.adminForm.submit();" />
+				<?php echo JText::_('Filter').'&nbsp;'; ?>
+				<input type="text" name="filter" value="<?php echo $this->lists['filter'];?>" class="inputbox" onchange="document.adminForm.submit();" />
 			</td>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
@@ -70,9 +70,8 @@ defined('_JEXEC') or die; ?>
 		<?php echo $this->pagination->getRowOffset($item->count); ?>
 	</td>
 	<?php if ($this->params->get('show_title')) : ?>
-	<?php if (1) : ?>
+	<?php if (!$item->readmore_register) : ?>
 	<td>
-	FIX ME: ACL CHECK NEEDED
 		<a href="<?php echo $item->link; ?>">
 			<?php echo $item->title; ?></a>
 			<?php $this->item = $item; echo JHtml::_('icon.edit', $item, $this->params, $this->access) ?>
@@ -81,11 +80,7 @@ defined('_JEXEC') or die; ?>
 	<td>
 		<?php
 			echo $this->escape($item->title).' : ';
-			$link = JRoute::_('index.php?option=com_users&view=login');
-			$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid), false);
-			$fullURL = new JURI($link);
-			$fullURL->setVar('return', base64_encode($returnURL));
-			$link = $fullURL->toString();
+			$link = JRoute::_('index.php?option=com_user&task=register');
 		?>
 		<a href="<?php echo $link; ?>">
 			<?php echo JText::_('Register to read more...'); ?></a>
@@ -127,9 +122,7 @@ defined('_JEXEC') or die; ?>
 </table>
 
 <input type="hidden" name="id" value="<?php echo $this->category->id; ?>" />
-<input type="hidden" name="sectionid" value="<?php echo $this->category->sectionid; ?>" />
 <input type="hidden" name="task" value="<?php echo $this->lists['task']; ?>" />
-<input type="hidden" name="filter_order" value="" />
+<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 <input type="hidden" name="filter_order_Dir" value="" />
-<input type="hidden" name="limitstart" value="0" />
 </form>

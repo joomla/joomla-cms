@@ -33,6 +33,7 @@ $ -> Language fix or change
 ! -> Note
 
 14-Jun-2009 Hannes Papenberg
+ ^ Implemented nested categories
  # Fixed old references to #__templates_menu to work with the new #__menu_template
 
 05-Jun-2009 Ian MacLennan

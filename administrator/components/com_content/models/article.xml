@@ -25,16 +25,6 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_section" type="list" default="" label="Section Name" description="PARAMSECTION">
-			<option value="">Use Global</option>
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="link_section" type="list" default="" label="Section Name Linkable" description="PARAMSECTIONLINK">
-			<option value="">Use Global</option>
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
 		<param name="show_category" type="list" default="" label="Category Name" description="PARAMCATEG">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>

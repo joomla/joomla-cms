@@ -28,7 +28,6 @@
 			<option value="1">show</option>
 			<option value="0">hide</option>
 		</param>
-		<param name="secid" type="text" default="" label="Section ID" description="PARAMSECTIONID" />
 		<param name="catid" type="text" default="" label="Category ID" description="PARAMCATEGORYID" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />

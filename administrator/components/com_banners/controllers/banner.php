@@ -96,7 +96,7 @@ class BannerControllerBanner extends JController
 
 		// build list of categories
 		$javascript		= 'onchange="document.adminForm.submit();"';
-		$lists['catid'] = JHtml::_('list.category',  'filter_catid', 'com_banner', (int) $filter_catid, $javascript);
+		$lists['catid'] = JHtml::_('list.category',  'filter_catid', 'com_banner', 'com_banner.view', NULL, (int) $filter_catid, 'inputbox', $javascript);
 
 		// state filter
 		$lists['state']	= JHtml::_('grid.state',  $filter_state);
@@ -162,7 +162,7 @@ class BannerControllerBanner extends JController
 		$lists['imageurl']	= JHtml::_('list.images',  'imageurl', $row->imageurl, $javascript, $directory, "bmp|gif|jpg|png|swf");
 
 		// build list of categories
-		$lists['catid']		= JHtml::_('list.category',  'catid', 'com_banner', intval($row->catid));
+		$lists['catid']		= JHtml::_('list.category',  'catid', 'com_banner', 'com_banner.view', NULL, (int) $row->catid, 'inputbox', $javascript);
 
 		// sticky
 		$lists['sticky']	= JHtml::_('select.booleanlist',  'sticky', 'class="inputbox"', $row->sticky);

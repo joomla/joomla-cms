@@ -8,7 +8,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.database.tableasset');
+jimport('joomla.database.table');
 
 /**
  * Weblink Table class
@@ -17,7 +17,7 @@ jimport('joomla.database.tableasset');
  * @subpackage	com_weblinks
  * @since		1.5
  */
-class WeblinksTableWeblink extends JTableAsset
+class WeblinksTableWeblink extends JTable
 {
 	/**
 	 * Primary Key
@@ -105,6 +105,8 @@ class WeblinksTableWeblink extends JTableAsset
 	 * @var string
 	 */
 	public $params = null;
+	
+	protected $_trackAssets = true;
 
 	/**
 	 * Constructor

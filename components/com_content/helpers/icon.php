@@ -41,7 +41,7 @@ class JHTMLIcon
 	{
 		$uri	= &JURI::getInstance();
 		$base	= $uri->toString(array('scheme', 'host', 'port'));
-		$link	= $base.JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catslug, $article->sectionid) , false);
+		$link	= $base.JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catslug) , false);
 		$url	= 'index.php?option=com_mailto&tmpl=component&link='.base64_encode($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';

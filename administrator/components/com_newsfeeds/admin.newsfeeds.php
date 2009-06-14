@@ -142,7 +142,7 @@ function showNewsFeeds()
 
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['catid'] = JHtml::_('list.category',  'filter_catid', 'com_newsfeeds', $filter_catid, $javascript);
+	$lists['catid'] = JHtml::_('list.category',  'filter_catid', 'com_newsfeeds', 'com_newsfeeds.view', NULL, $filter_catid, 'inputbox', $javascript);
 
 	// state filter
 	$lists['state']	= JHtml::_('grid.state',  $filter_state);
@@ -198,7 +198,7 @@ function editNewsFeed($edit)
 		$lists['ordering'] 			= JHtml::_('list.specificordering',  $row, '', $query);
 
 	// build list of categories
-	$lists['category'] 			= JHtml::_('list.category',  'catid', $option, intval($row->catid));
+	$lists['category'] 			= JHtml::_('list.category',  'catid', 'com_newsfeeds', 'com_newsfeeds.view', NULL, intval($row->catid), 'inputbox', $javascript);
 	// build the html select list
 	$lists['published'] 		= JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $row->published);
 		$rtl[] = JHtml::_('select.option',  '0', JText::_('Site Language Direction'));

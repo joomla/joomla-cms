@@ -86,7 +86,6 @@ function viewFrontPage($option)
 	$filter_state		= $mainframe->getUserStateFromRequest($option.'.filter_state',		'filter_state',		'',				'word');
 	$catid				= $mainframe->getUserStateFromRequest($option.'.catid',			'catid',			0,				'int');
 	$filter_authorid	= $mainframe->getUserStateFromRequest($option.'.filter_authorid',	'filter_authorid',	0,				'int');
-	$filter_sectionid	= $mainframe->getUserStateFromRequest($option.'.filter_sectionid',	'filter_sectionid',	-1,				'int');
 	$search				= $mainframe->getUserStateFromRequest($option.'.search',			'search',			'',				'string');
 	$search				= JString::strtolower($search);
 
@@ -105,9 +104,6 @@ function viewFrontPage($option)
 	);
 
 	// used by filter
-	if ($filter_sectionid >= 0) {
-		$where[] = 'c.sectionid = '.(int) $filter_sectionid;
-	}
 	if ($catid > 0) {
 		$where[] = 'c.catid = '.(int) $catid;
 	}
@@ -133,7 +129,6 @@ function viewFrontPage($option)
 	$query = 'SELECT count(*)'
 	. ' FROM #__content AS c'
 	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
-	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope="content"'
 	. ' INNER JOIN #__content_frontpage AS f ON f.content_id = c.id'
 	. $where
 	;
@@ -143,10 +138,9 @@ function viewFrontPage($option)
 	jimport('joomla.html.pagination');
 	$pageNav = new JPagination($total, $limitstart, $limit);
 
-	$query = 'SELECT c.*, ag.title AS groupname, cc.title as name, s.title AS sect_name, u.name AS editor, f.ordering AS fpordering, v.name AS author'
+	$query = 'SELECT c.*, ag.title AS groupname, cc.title as name, u.name AS editor, f.ordering AS fpordering, v.name AS author'
 	. ' FROM #__content AS c'
 	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
-	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope="content"'
 	. ' INNER JOIN #__content_frontpage AS f ON f.content_id = c.id'
 	. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
 	. ' LEFT JOIN #__users AS v ON v.id = c.created_by'
@@ -162,24 +156,11 @@ function viewFrontPage($option)
 	}
 
 	// get list of categories for dropdown filter
-	$query = 'SELECT cc.id AS value, cc.title AS text, section'
-	. ' FROM #__categories AS cc'
-	. ' INNER JOIN #__sections AS s ON s.id = cc.section '
-	. ' ORDER BY s.ordering, cc.ordering'
-	;
-	$db->setQuery($query);
-	$categories[] 	= JHtml::_('select.option',  '-1', '- '. JText::_('Select Category') .' -');
-	$categories 	= array_merge($categories, $db->loadObjectList());
-	$lists['catid'] = JHtml::_('select.genericlist',   $categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $catid);
-
-	// get list of sections for dropdown filter
-	$javascript			= 'onchange="document.adminForm.submit();"';
-	$lists['sectionid']	= JHtml::_('list.section',  'filter_sectionid', $filter_sectionid, $javascript);
+	$lists['catid'] = JHtml::_('list.categories', 'catid');
 
 	// get list of Authors for dropdown filter
 	$query = 'SELECT c.created_by, u.name'
 	. ' FROM #__content AS c'
-	. ' INNER JOIN #__sections AS s ON s.id = c.sectionid'
 	. ' LEFT JOIN #__users AS u ON u.id = c.created_by'
 	. ' WHERE c.state <> -1'
 	. ' AND c.state <> -2'

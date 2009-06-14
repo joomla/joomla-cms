@@ -10,7 +10,7 @@
 		<name>Contacts Category Layout</name>
 		<description>CONTACT CATEGORY LAYOUT DESC</description>
 		<url addpath="/administrator/components/com_contact/elements">
-			<param name="catid" type="category" scope="com_contact_details" default="0" label="Select Category" description="A contacts category" />
+			<param name="catid" type="category" extension="com_contact_details" default="0" label="Select Category" description="A contacts category" />
 		</url>
 		<params>
 			<param name="display_num" type="list" default="20" label="Num Links" description="Number of Contacts to display as list.">

@@ -1,19 +1,20 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
 defined('_JEXEC') or die;
 
 // Require the com_content helper library
-require_once(JPATH_COMPONENT.DS.'controller.php');
-require_once(JPATH_COMPONENT.DS.'helpers'.DS.'query.php');
-require_once(JPATH_COMPONENT.DS.'helpers'.DS.'route.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
+require_once JPATH_COMPONENT.DS.'helpers'.DS.'query.php';
+require_once JPATH_COMPONENT.DS.'helpers'.DS.'route.php';
+require_once JPATH_COMPONENT.DS.'helpers'.DS.'category.php';
 
 // Component Helper
 jimport('joomla.application.component.helper');

@@ -17,7 +17,7 @@ class modArchiveHelper
 		//get database
 		$db = &JFactory::getDbo();
 
-		$query = 'SELECT MONTH(created) AS created_month, created, id, sectionid, title, YEAR(created) AS created_year' .
+		$query = 'SELECT MONTH(created) AS created_month, created, id, title, YEAR(created) AS created_year' .
 			' FROM #__content' .
 			' WHERE (state = -1 AND checked_out = 0 AND sectionid != 0)' .
 			' GROUP BY created_year DESC, created_month DESC';

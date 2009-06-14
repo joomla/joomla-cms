@@ -1,43 +1,51 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// No direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+require_once JPATH_COMPONENT.DS.'view.php';
 
 /**
  * Frontpage View class
  *
  * @static
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @since 1.5
  */
 class ContentViewFrontpage extends ContentView
 {
+	protected $pagination = null;
+	protected $total = null;
+	protected $access = null;
+	protected $user = null;
+	protected $params = null;
+	protected $items = null;
+	protected $item = null;
+
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option', 'com_content');
 
 		// Initialize variables
 		$user		= &JFactory::getUser();
 		$document	= &JFactory::getDocument();
 
 		// Request variables
-		$id			= JRequest::getVar('id', null, '', 'int');
+		$id		= JRequest::getVar('id', null, '', 'int');
 		$limit		= JRequest::getVar('limit', 5, '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
-
 		// parameters
 		$intro			= $params->def('num_intro_articles',	4);
 		$leading		= $params->def('num_leading_articles',	1);
@@ -57,7 +65,6 @@ class ContentViewFrontpage extends ContentView
 
 		// Create a user access object for the user
 		$access				= new stdClass();
-		$access->canEdit	= $user->authorize('com_content.article.edit_article');
 		$access->canEditOwn	= $user->authorize('com_content.article.edit_own');
 		$access->canPublish	= $user->authorize('com_content.article.publish');
 
@@ -71,7 +78,7 @@ class ContentViewFrontpage extends ContentView
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
 
-		$menus	= &JSite::getMenu();
+		$menus	= &$mainframe->getMenu();
 		$menu	= $menus->getActive();
 
 		// because the application sets a default page title, we need to get it
@@ -95,17 +102,15 @@ class ContentViewFrontpage extends ContentView
 		$this->assignRef('access',		$access);
 		$this->assignRef('params',		$params);
 		$this->assignRef('items',		$items);
-
 		parent::display($tpl);
 	}
 
 	function &getItem($index = 0, &$params)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Initialize some variables
 		$user		= &JFactory::getUser();
-		$groups		= $user->authorisedLevels();
 		$dispatcher	= &JDispatcher::getInstance();
 
 		$SiteName	= $mainframe->getCfg('sitename');
@@ -117,7 +122,12 @@ class ContentViewFrontpage extends ContentView
 
 		$item = &$this->items[$index];
 		$item->text = $item->introtext;
-
+		if ($user->authorize('com_content.article.edit_article'))
+		{
+			$item->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
+		} else {
+			$item->edit = false;
+		}
 		// Get the page/component configuration and article parameters
 		$item->params = clone($params);
 		$aparams = new JParameter($item->attribs);
@@ -133,14 +143,14 @@ class ContentViewFrontpage extends ContentView
 		if (($item->params->get('show_readmore') && @ $item->readmore) || $item->params->get('link_titles'))
 		{
 			// checks if the item is a public or registered/special item
-			if (in_array($item->access, $groups))
+			if (in_array($item->access, $user->authorisedLevels('com_content.article.view')))
 			{
-				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 				$item->readmore_register = false;
 			}
 			else
 			{
-				$item->readmore_link = JRoute::_("index.php?option=com_users&view=login");
+				$item->readmore_link = JRoute::_("index.php?option=com_user&task=register");
 				$item->readmore_register = true;
 			}
 		}

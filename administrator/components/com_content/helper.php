@@ -118,19 +118,4 @@ class ContentHelper
 		$msg = JText::_('Successfully Reset Hit count');
 		$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&id='.$id, $msg);
 	}
-
-	function filterCategory($query, $active = NULL)
-	{
-		// Initialize variables
-		$db	= & JFactory::getDbo();
-
-		$categories[] = JHtml::_('select.option', '0', '- '.JText::_('Select Category').' -');
-		$db->setQuery($query);
-		$categories = array_merge($categories, $db->loadObjectList());
-
-		$category = JHtml::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $active);
-
-		return $category;
-	}
-
 }

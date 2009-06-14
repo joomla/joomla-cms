@@ -1,13 +1,13 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// No direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -15,7 +15,7 @@ jimport('joomla.application.component.model');
 /**
  * Content Component Category Model
  *
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @since 1.5
  */
@@ -26,52 +26,55 @@ class ContentModelCategory extends JModel
 	 *
 	 * @var int
 	 */
-	var $_id = null;
+	protected $_id = null;
 
 	/**
 	 * Category items data
 	 *
 	 * @var array
 	 */
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * Category number items
 	 *
 	 * @var integer
 	 */
-	var $_total = null;
+	protected $_total = null;
 
 	/**
 	 * Category data
 	 *
 	 * @var object
 	 */
-	var $_category = null;
+	protected $_category = null;
 
 	/**
 	 * Category data
 	 *
 	 * @var array
 	 */
-	var $_siblings = null;
+	protected $_siblings = null;
+
+	protected $_content = null;
+	
+	protected $_category_tree = array();
 
 	/**
 	 * Constructor
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
-
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId((int)$id);
 
 		// here we initialize defaults for category model
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 		$params->def('filter',					1);
 		$params->def('filter_type',				'title');
 	}
@@ -82,7 +85,7 @@ class ContentModelCategory extends JModel
 	 * @access	public
 	 * @param	int	Category ID number
 	 */
-	function setId($id)
+	public function setId($id)
 	{
 		// Set category ID and wipe data
 		$this->_id			= $id;
@@ -99,14 +102,19 @@ class ContentModelCategory extends JModel
 	 * category
 	 * @since 1.5
 	 */
-	function getData($state = 1)
+	public function getData($state = 1)
 	{
+		if (empty($this->_category))
+		{
+			jimport('joomla.application.categorytree');
+			$categoryTree = JCategories::getInstance('com_content');
+			$this->_category = &$categoryTree->get($this->_id);
+		}
 		// Load the Category data
-		if ($this->_loadCategory() && $this->_loadData($state))
+		if ($this->_loadData($state))
 		{
 			// Initialize some variables
 			$user	= &JFactory::getUser();
-			$groups	= $user->authorisedLevels();
 
 			// Make sure the category is published
 			if (!$this->_category->published)
@@ -116,7 +124,7 @@ class ContentModelCategory extends JModel
 			}
 
 			// check whether category access level allows access
-			if (!in_array($this->_category->access, $groups))
+			if (!in_array($this->_category->access, $user->authorisedLevels()))
 			{
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
@@ -131,13 +139,20 @@ class ContentModelCategory extends JModel
 	 * @access public
 	 * @return integer
 	 */
-	function getTotal($state = 1)
+	public function getTotal($state = 1, $recursive = false)
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery($state);
-			$this->_total[$state] = $this->_getListCount($query);
+			if (empty($this->_category))
+			{
+				jimport('joomla.application.categorytree');
+				$categoryTree = JCategories::getInstance('com_content');
+				$this->_category = &$categoryTree->get($this->_id);
+			}
+			$query = $this->_buildQuery($state, true);
+			$this->_db->setQuery($query);
+			$this->_total[$state] = $this->_db->loadResult();
 		}
 
 		return $this->_total[$state];
@@ -148,25 +163,33 @@ class ContentModelCategory extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function getCategory()
+	public function getCategory()
 	{
 		// Load the Category data
-		if ($this->_loadCategory())
+		if (empty($this->_category))
 		{
-			// Initialize some variables
-			$user = &JFactory::getUser();
-			$groups	= $user->authorisedLevels();
+			jimport('joomla.application.categorytree');
+			$categoryTree = JCategories::getInstance('com_content');
+			$this->_category = &$categoryTree->get($this->_id);
+		}
+		
+		if (empty($this->_category))
+		{
+			JError::raiseError(404, JText::_("Resource Not Found"));
+			return false;
+		}
+		// Initialize some variables
+		$user = &JFactory::getUser();
 
-			// Make sure the category is published
-			if (!$this->_category->published) {
-				JError::raiseError(404, JText::_("Resource Not Found"));
-				return false;
-			}
-			// check whether category access level allows access
-			if (in_array($this->_category->access, $groups)) {
-				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
-				return false;
-			}
+		// Make sure the category is published
+		if (!$this->_category->published) {
+			JError::raiseError(404, JText::_("Resource Not Found"));
+			return false;
+		}
+		// check whether category access level allows access
+		if (!in_array($this->_category->access, $user->authorisedLevels())) {
+			JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+			return false;
 		}
 		return $this->_category;
 	}
@@ -176,11 +199,10 @@ class ContentModelCategory extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function getSiblings()
+	public function getSiblings()
 	{
 		// Initialize some variables
 		$user	= &JFactory::getUser();
-		$groups	= $user->authorisedLevels();
 
 		// Load the Category data
 		if ($this->_loadCategory() && $this->_loadSiblings())
@@ -193,7 +215,7 @@ class ContentModelCategory extends JModel
 			}
 
 			// check whether category access level allows access
-			if (!in_array($this->_category->access, $groups))
+			if ($this->_category->access > $user->get('aid', 0))
 			{
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
@@ -208,104 +230,16 @@ class ContentModelCategory extends JModel
 	 * @param	int	$state	The content state to pull from for the current section
 	 * @since 1.5
 	 */
-	function getArchives($state = -1)
+	public function getArchives($state = -1)
 	{
 		return $this->getContent(-1);
 	}
-
-	/**
-	 * Method to load category data if it doesn't exist.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	function _loadCategory()
+	
+	public function getChildren($recursive = 0)
 	{
-		if (empty($this->_category))
-		{
-			// Lets get the information for the current category
-			$query = 'SELECT c.*, s.id as sectionid, s.title as sectiontitle,' .
-					' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug'.
-					' FROM #__categories AS c' .
-					' INNER JOIN #__sections AS s ON s.id = c.section' .
-					' WHERE c.id = '. (int) $this->_id;
-			$this->_db->setQuery($query, 0, 1);
-			$this->_category = $this->_db->loadObject();
-		}
-		return true;
+		return $this->_category->getChildren();
 	}
-
-	/**
-	 * Method to load sibling category data if it doesn't exist.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	function _loadSiblings()
-	{
-		global $mainframe;
-
-		if (empty($this->_category))
-		{
-			return false; // TODO: set error -- can't get siblings when we don't know the category
-		}
-
-		// Lets load the siblings if they don't already exist
-		if (empty($this->_siblings))
-		{
-			$user	 = &JFactory::getUser();
-
-			// Get the page/component configuration
-			$params = &$mainframe->getParams();
-
-			$noauth		= !$params->get('show_noauth');
-			$groups		= implode(',', $user->authorisedLevels());
-			$now		= $mainframe->get('requestTime');
-			$nullDate	= $this->_db->getNullDate();
-			$section	= $this->_category->section;
-
-			// Get the parameters of the active menu item
-			$menu	= &JSite::getMenu();
-			$item    = $menu->getActive();
-			$params	= &$menu->getParams($item->id);
-
-			if ($user->authorize('com_content.article.edit_article'))
-			{
-				$xwhere = '';
-				$xwhere2 = ' AND b.state >= 0';
-			}
-			else
-			{
-				$xwhere = ' AND c.published = 1';
-				$xwhere2 = ' AND b.state = 1' .
-						' AND (publish_up = '.$this->_db->Quote($nullDate).' OR publish_up <= '.$this->_db->Quote($now).')' .
-						' AND (publish_down = '.$this->_db->Quote($nullDate).' OR publish_down >= '.$this->_db->Quote($now).')';
-			}
-
-			// show/hide empty categories
-			$empty = null;
-			if (!$params->get('empty_cat'))
-			{
-				$empty = ' HAVING COUNT(b.id) > 0';
-			}
-
-			// Get the list of sibling categories [categories with the same parent]
-			$query = 'SELECT c.*, COUNT(b.id) AS numitems' .
-					' FROM #__categories AS c' .
-					' LEFT JOIN #__content AS b ON b.catid = c.id '.
-					$xwhere2.
-					($noauth ? ' AND b.access IN ('.$groups.')' : '') .
-					' WHERE c.section = '. $this->_db->Quote($section).
-					$xwhere.
-					($noauth ? ' AND c.access IN ('.$groups.')' : '').
-					' GROUP BY c.id'.$empty.
-					' ORDER BY c.ordering';
-			$this->_db->setQuery($query);
-			$this->_siblings = $this->_db->loadObjectList();
-		}
-		return true;
-	}
-
+	
 	/**
 	 * Method to load content item data for items in the category if they don't
 	 * exist.
@@ -313,7 +247,7 @@ class ContentModelCategory extends JModel
 	 * @access	private
 	 * @return	boolean	True on success
 	 */
-	function _loadData($state = 1)
+	protected function _loadData($state = 1)
 	{
 		if (empty($this->_category)) {
 			return false; // TODO: set error -- can't get siblings when we don't know the category
@@ -328,7 +262,6 @@ class ContentModelCategory extends JModel
 
 			$query = $this->_buildQuery();
 			$Arows = $this->_getList($query, $limitstart, $limit);
-
 			// special handling required as Uncategorized content does not have a section / category id linkage
 			$i = $limitstart;
 			$rows = array();
@@ -343,11 +276,11 @@ class ContentModelCategory extends JModel
 		return true;
 	}
 
-	function _buildQuery($state = 1)
+	protected function _buildQuery($state = 1, $countOnly = false)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		// Get the page/component configuration
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 
 		// If voting is turned on, get voting data as well for the content items
 		$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -356,39 +289,56 @@ class ContentModelCategory extends JModel
 		$where		= $this->_buildContentWhere($state);
 		$orderby	= $this->_buildContentOrderBy($state);
 
-		$query = 'SELECT cc.title AS category, a.id, a.title, a.alias, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
-			' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
-			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
-			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-			' CHAR_LENGTH(a.`fulltext`) AS readmore, u.name AS author, u.usertype, u.email as author_email'.$voting['select'] .
+		if (!$countOnly) {
+			$query = 'SELECT cc.title AS category, a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
+				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
+				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,';
+			if ($params->get('show_subcategory_content', 0))
+			{
+				$query .= ' cc.catslug as catslug, ';
+			} else {
+				$query .= ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,';
+			}
+			$query .= ' CHAR_LENGTH(a.`fulltext`) AS readmore, u.name AS author, u.usertype'.$voting['select'];
+		} else {
+			$query = 'SELECT count(*) ';
+		}
+		if ($params->get('show_subcategory_content', 0))
+		{
+			$subquery = ' RIGHT JOIN (SELECT c.id as id, c.title as title, c.alias as alias,'.
+			' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as catslug'.
+			' FROM #__categories AS c'.
+			' JOIN #__categories AS cp ON cp.lft <= c.lft AND c.rgt <= cp.rgt'.
+			' WHERE c.extension = \'com_content\''.
+			' AND c.access IN ('.implode(',', JFactory::getUser()->authorisedLevels('com_content.category.view')).')'.
+			' AND cp.id = '.$this->_id.') AS cc ON a.catid = cc.id';
+		} else {
+			$subquery = ' LEFT JOIN #__categories AS cc ON a.catid = cc.id'; 
+		}
+		$query .=
 			' FROM #__content AS a' .
-			' LEFT JOIN #__categories AS cc ON a.catid = cc.id' .
+			 $subquery.
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
 			$voting['join'].
 			$where.
 			$orderby;
-
+			
 		return $query;
 	}
 
-	function _buildContentOrderBy($state = 1)
+	protected function _buildContentOrderBy($state = 1)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		// Get the page/component configuration
-		$params = &$mainframe->getParams();
-		$itemid = JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
-		$filter_order  = $mainframe->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'cmd');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
+		$params = &$app->getParams();
+
+		$filter_order		= JRequest::getCmd('filter_order');
+		$filter_order_Dir	= JRequest::getWord('filter_order_Dir');
+
 		$orderby = ' ORDER BY ';
 		if ($filter_order && $filter_order_Dir)
 		{
 			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
-		}
-	    elseif ($filter_order == '' && $filter_order_Dir == '')
-		{
-				$filter_order='a.ordering';
-				$filter_order_Dir='ASC';
-				$orderby .= $filter_order .' '. $filter_order_Dir.', ';
 		}
 
 		if ($filter_order == 'author')
@@ -418,39 +368,37 @@ class ContentModelCategory extends JModel
 		return $orderby;
 	}
 
-	function _buildContentWhere($state = 1)
+	protected function _buildContentWhere($state = 1)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
+		// Get the page/component configuration
+		$params = &$app->getParams();
 
-		$user	= &JFactory::getUser();
-		$groups	= implode(',', $user->authorisedLevels());
+		$user		= &JFactory::getUser();
+		$gid		= $user->get('aid', 0);
 
-		$jnow	= &JFactory::getDate();
-		$now	= $jnow->toMySQL();
+		$jnow		= &JFactory::getDate();
+		$now		= $jnow->toMySQL();
 
 		// Get the page/component configuration
-		$params = &$mainframe->getParams();
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
-
-        $where = ' WHERE 1';
-
+		if ($params->get('show_subcategory_content', 0))
+		{
+			$where = ' WHERE 1 ';
+		} else {
+			$where = ' WHERE a.catid = '.$this->_id;
+		}
 		// Does the user have access to view the items?
 		if ($noauth) {
-			$where .= ' AND a.access IN ('.$groups.')';
-		}
-
-		// First thing we need to do is assert that the articles are in the current category
-		if ($this->_id)
-		{
-			$where .= ' AND a.catid = '.(int) $this->_id;
+			$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels('com_content.article.view')).')';
 		}
 
 		// Regular Published Content
 		switch ($state)
 		{
 			case 1:
-				if ($user->authorize('com_content.article.edit_article'))
+				if ($user->authorize('com_content', 'edit', 'content', 'all'))
 				{
 					$where .= ' AND a.state >= 0';
 				}
@@ -489,22 +437,20 @@ class ContentModelCategory extends JModel
 			{
 				// clean filter variable
 				$filter = JString::strtolower($filter);
-				$hitsFilter = intval($filter);
 				$filter	= $this->_db->Quote('%'.$this->_db->getEscaped($filter, true).'%', false);
 
 				switch ($params->get('filter_type'))
 				{
+					case 'title' :
+						$where .= ' AND LOWER(a.title) LIKE '.$filter;
+						break;
+
 					case 'author' :
 						$where .= ' AND ((LOWER(u.name) LIKE '.$filter.') OR (LOWER(a.created_by_alias) LIKE '.$filter.'))';
 						break;
 
 					case 'hits' :
-						$where .= ' AND a.hits >= '.$hitsFilter. ' ';
-						break;
-
-					case 'title' :
-					default : // default to 'title' if parameter is not valid
-						$where .= ' AND LOWER(a.title) LIKE '.$filter;
+						$where .= ' AND a.hits LIKE '.$filter;
 						break;
 				}
 			}

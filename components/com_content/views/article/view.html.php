@@ -1,40 +1,48 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// No direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+require_once JPATH_COMPONENT.DS.'view.php';
 
 /**
  * HTML Article View class for the Content component
  *
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @since 1.5
  */
 class ContentViewArticle extends ContentView
 {
+	protected $article = null;
+	protected $params = null;
+	protected $user = null;
+	protected $access = null;
+	protected $print = null;
+	protected $action = null;
+	protected $lists = null;
+	protected $editor = null;
+
+
 	function display($tpl = null)
 	{
-		global $mainframe;
-
+		$app			= &JFactory::getApplication();
 		$user		= &JFactory::getUser();
-		$groups		= $user->authorisedLevels();
 		$document	= &JFactory::getDocument();
 		$dispatcher	= &JDispatcher::getInstance();
-		$pathway	= &$mainframe->getPathway();
-		$params		= &$mainframe->getParams('com_content');
+		$pathway	= &$app->getPathway();
+		$params		= JComponentHelper::getParams('com_content');
 
 		// Initialize variables
 		$article	= &$this->get('Article');
-		$aparams		= &$article->parameters;
+		$aparams	= $article->parameters;
 		$params->merge($aparams);
 
 		if ($this->getLayout() == 'pagebreak') {
@@ -54,39 +62,22 @@ class ContentViewArticle extends ContentView
 		}
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-
-		if (!$params->get('intro_only') && ($this->getLayout() == 'default') && ($limitstart == 0))
+		if ($user->authorize('com_content.article.edit_article'))
 		{
-			$model = &$this->getModel();
-			$model->hit();
+			$article->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
+		} else {
+			$article->edit = false;
 		}
-
 		// Create a user access object for the current user
 		$access = new stdClass();
-		$access->canEdit	= $user->authorise('com_content.article.edit_article');
-		$access->canEditOwn	= $user->authorise('com_content.article.edit_own') && $user->get('id') == $article->created_by;
-		$access->canPublish	= $user->authorise('com_content.article.publish');
-		$access->canManage	= $user->authorise('com_content.manage');
+		$access->canEditOwn	= $user->authorize('com_content.article.edit_own');
+		$access->canPublish	= $user->authorize('com_content.article.publish');
 
 		// Check to see if the user has access to view the full article
-		if (in_array($article->access, $groups)) {
+		if (in_array($article->access, $user->authorisedLevels('com_content.article.view'))) {
 			$article->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catslug, $article->sectionid));;
-		}
-		else if ($user->get('guest'))
-		{
-			// Redirect to login
-			$uri		= JFactory::getURI();
-			$return		= $uri->toString();
-
-			$url  = 'index.php?option=com_users&view=login';
-			$url .= '&return='.base64_encode($return);;
-
-			//$url	= JRoute::_($url, false);
-			$mainframe->redirect($url, JText::_('You must login first'));
-		}
-		else {
-			JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
-			return;
+		} else {
+			$article->readmore_link = JRoute::_("index.php?option=com_user&task=register");
 		}
 
 		/*
@@ -121,11 +112,11 @@ class ContentViewArticle extends ContentView
 			$document->setMetadata('keywords', $article->metakey);
 		}
 
-		if ($mainframe->getCfg('MetaTitle') == '1') {
-			$document->setMetaData('title', $article->title);
+		if ($app->getCfg('MetaTitle') == '1') {
+			$document->setMetadata('title', $article->title);
 		}
-		if ($mainframe->getCfg('MetaAuthor') == '1') {
-			$document->setMetaData('author', $article->author);
+		if ($app->getCfg('MetaAuthor') == '1') {
+			$document->setMetadata('author', $article->author);
 		}
 
 		$mdata = new JParameter($article->metadata);
@@ -147,18 +138,28 @@ class ContentViewArticle extends ContentView
 		/*
 		 * Handle the breadcrumbs
 		 */
-		if ($menu && $menu->query['view'] != 'article')
+		jimport('joomla.application.categorytree');
+		$categorytree = JCategories::getInstance('com_content');
+		$pathwaycat = $categorytree->get($article->catid);
+		$path = array();
+		if (is_object($menu) && $menu->query['view'] != 'article' && $menu->query['id'] != $pathwaycat->id)
 		{
-			switch ($menu->query['view'])
+			while($pathwaycat->id != $menu->query['id'])
 			{
-				case 'section':
-					$pathway->addItem($article->category, 'index.php?view=category&id='.$article->catslug);
-					$pathway->addItem($article->title, '');
-					break;
-				case 'category':
-					$pathway->addItem($article->title, '');
-					break;
+				$path[] = array($pathwaycat->title, $pathwaycat->slug);
+				$pathwaycat = $pathwaycat->getParent();	
 			}
+			$path = array_reverse($path);
+			foreach($path as $element)
+			{
+				if (isset($element[1]))
+				{
+					$pathway->addItem($element[0], 'index.php?option=com_content&view=category&id='.$element[1]);
+				} else {
+					$pathway->addItem($element[0], '');
+				}
+			}
+			$pathway->addItem($article->title, '');
 		}
 
 		/*
@@ -175,9 +176,6 @@ class ContentViewArticle extends ContentView
 		$article->event->afterDisplayContent = trim(implode("\n", $results));
 
 		$print = JRequest::getBool('print');
-		if ($print) {
-      $document->setMetaData('robots', 'noindex, nofollow');
-    }
 
 		$this->assignRef('article', $article);
 		$this->assignRef('params' , $params);
@@ -190,31 +188,24 @@ class ContentViewArticle extends ContentView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe;
-
 		// Initialize variables
+		$app		= &JFactory::getApplication();
 		$document	= &JFactory::getDocument();
 		$user		= &JFactory::getUser();
 		$uri		= &JFactory::getURI();
-		$params		= &$mainframe->getParams('com_content');
+		$params		= JComponentHelper::getParams('com_content');
+
+		// Make sure you are logged in and have the necessary access rights
+		if ($user->get('gid') < 19) {
+			JResponse::setHeader('HTTP/1.0 403',true);
+			JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
+			return;
+		}
 
 		// Initialize variables
 		$article	= &$this->get('Article');
-		$aparams	= &$article->parameters;
+		$aparams	= $article->parameters;
 		$isNew		= ($article->id < 1);
-
-		// Create a user access object for the user
-		$access = new stdClass();
-		$access->canEdit	= $user->authorise('com_content.article.edit_article');
-		$access->canEditOwn	= $user->authorise('com_content.article.edit_own') && ($article->id == 0 || $user->get('id') == $article->created_by);
-		$access->canPublish	= $user->authorise('com_content.article.publish');
-		$access->canManage	= $user->authorise('com_content.manage');
-
-		// Check the user's access to edit the article.
-		if (!$access->canEdit && !$access->canEditOwn && !$access->canPublish && !$access->canManage) {
-			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
-			return false;
-		}
 
 		$params->merge($aparams);
 
@@ -260,7 +251,7 @@ class ContentViewArticle extends ContentView
 		$document->setTitle($params->get('page_title'));
 
 		// get pathway
-		$pathway = &$mainframe->getPathWay();
+		$pathway = &$app->getPathway();
 		$pathway->addItem($title, '');
 
 		// Unify the introtext and fulltext fields and separated the fields by the {readmore} tag
@@ -269,6 +260,9 @@ class ContentViewArticle extends ContentView
 		} else {
 			$article->text = $article->introtext;
 		}
+
+		// Ensure the row data is safe html
+		JFilterOutput::objectHTMLSafe($article);
 
 		$this->assign('action', 	$uri->toString());
 
@@ -298,7 +292,14 @@ class ContentViewArticle extends ContentView
 		$sections[] = JHtml::_('select.option', '-1', '- '.JText::_('Select Section').' -', 'id', 'title');
 		$sections[] = JHtml::_('select.option', '0', JText::_('Uncategorized'), 'id', 'title');
 		$sections = array_merge($sections, $db->loadObjectList());
-		$lists['sectionid'] = JHtml::_('select.genericlist',  $sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($article->sectionid));
+		$lists['sectionid'] = JHtml::_('select.genericlist',  $sections, 'sectionid', 
+			array(
+				'list.attr' => 'class="inputbox" size="1" '.$javascript,
+				'list.select' => (int) $article->sectionid,
+				'option.key' => 'id',
+				'option.text' => 'title'
+			)
+		);
 
 		foreach ($sections as $section)
 		{
@@ -356,10 +357,17 @@ class ContentViewArticle extends ContentView
 
 		$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
 		$lists['sectioncategories'] = $sectioncategories;
-		$lists['catid'] = JHtml::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($article->catid));
+		$lists['catid'] = JHtml::_('select.genericlist',  $categories, 'catid',
+			array(
+				'list.attr' => 'class="inputbox" size="1"',
+				'list.select' => (int) $article->catid,
+				'option.key' => 'id',
+				'option.text' => 'title'
+			)
+		);
 
 		// Select List: Category Ordering
-		$query = 'SELECT ordering AS value, title AS text FROM #__content WHERE catid = '.(int) $article->catid.' AND state > ' .(int) "-1" . ' ORDER BY ordering';
+		$query = 'SELECT ordering AS value, title AS text FROM #__content WHERE catid = '.(int) $article->catid.' ORDER BY ordering';
 		$lists['ordering'] = JHtml::_('list.specificordering', $article, $article->id, $query, 1);
 
 		// Radio Buttons: Should the article be published
@@ -377,7 +385,7 @@ class ContentViewArticle extends ContentView
 		$lists['frontpage'] = JHtml::_('select.booleanlist', 'frontpage', '', (boolean) $article->frontpage);
 
 		// Select List: Group Access
-		$lists['access'] = JHtml::_('access.assetgroups', 'access', $article->access);;
+		$lists['access'] = JHtml::_('list.accesslevel', $article);
 
 		return $lists;
 	}

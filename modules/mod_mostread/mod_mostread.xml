@@ -21,7 +21,6 @@
 		</param>
 		<param name="count" type="text" default="5" label="Count" description="The number of items to display (default is 5)" />
 		<param name="catid" type="text" default="" label="Category ID" description="PARAMCATEGORYID" />
-		<param name="secid" type="text" default="" label="Section ID" description="PARAMSECTIONID" />
 	</params>
 	<params group="advanced">
 		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">

@@ -1,10 +1,12 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
+ * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
+
+jimport('joomla.application.categories');
 
 function ContentBuildRoute(&$query)
 {
@@ -17,10 +19,15 @@ function ContentBuildRoute(&$query)
 	} else {
 		$menuItem = &$menu->getItem($query['Itemid']);
 	}
-	$mView	= (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-	$mCatid	= (empty($menuItem->query['catid'])) ? null : $menuItem->query['catid'];
-	$mId	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 
+	$mView	= (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
+	if (isset($menuItem->query['catid']))
+	{
+		$mCatid	= (empty($menuItem->query['catid'])) ? null : $menuItem->query['catid'];
+	} else {
+		$mCatid	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+	}
+	$mId	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 	if (isset($query['view']))
 	{
 		$view = $query['view'];
@@ -28,48 +35,61 @@ function ContentBuildRoute(&$query)
 			$segments[] = $query['view'];
 		}
 		unset($query['view']);
-	};
-
+	}
+	if (isset($view))
+	{
+		if ($view == 'category')
+		{
+			$catid = (int) $query['id'];
+		} elseif ($view == 'article') {
+			$catid = (int) $query['catid'];
+		}
+	}
+	
+	if (isset($catid) && $catid > 0)
+	{
+		$categoryTree = JCategories::getInstance('com_content');
+		$category = $categoryTree->get($catid);
+	}
+	
 	// are we dealing with an article that is attached to a menu item?
-	if (($mView == 'article') and (isset($query['id'])) and ($mId == intval($query['id']))) {
+	if ((($mView == 'article' && isset($view) && $view == 'article')|| ($mView == 'category' && isset($view) && $view == 'category')) and (isset($query['id'])) and ($mId == intval($query['id']))) {
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
-	}
-
-	if (isset($view) and ($view == 'section' && !empty($query['Itemid']))) {
-		if (($mView != 'section') or ($mView == 'section' and $mId != intval($query['id']))) {
-			$segments[] = 'section';
-			unset($query['Itemid']);
+	}	
+	
+	if (isset($category) && isset($view) 
+		&& $view == 'category' && $mView == $view 
+		&& (int) $mCatid != $category->id) {
+		$path = array();
+		while((int)$category->id != (int)$mCatid)
+		{
+			$path[] = $category->slug;
+			$category = $category->getParent();	
 		}
-	}
-
-	if (isset($view) and $view == 'category') {
-		if ($mId != intval($query['id']) || $mView != $view) {
-			$segments[] = $query['id'];
-		}
+		$path = array_reverse($path);
+		$segments = array_merge($segments, $path);
 		unset($query['id']);
 	}
 
-	if (isset($query['catid'])) {
-		// if we are routing an article or category where the category id matches the menu catid, don't include the category segment
-		if ((($view == 'article') and ($mView != 'category') and ($mView != 'article') and ($mCatid != intval($query['catid'])))) {
-			$segments[] = $query['catid'];
-		}
-		unset($query['catid']);
-	};
-
-	if (isset($query['id'])) {
+	if (isset($view) && $view == 'article' && isset($query['id'])) {
 		if (empty($query['Itemid'])) {
 			$segments[] = $query['id'];
 		} else {
-			if (isset($menuItem->query['id'])) {
-				if ($query['id'] != $mId) {
-					$segments[] = $query['id'];
+			if (isset($category))
+			{
+				$path = array();
+				while((int)$category->id != (int)$mCatid)
+				{
+					$path[] = $category->slug;
+					$category = $category->getParent();	
 				}
-			} else {
-				$segments[] = $query['id'];
+				$path = array_reverse($path);
+				$segments = array_merge($segments, $path);
 			}
+			$segments[] = $query['id'];
+			unset($query['catid']);
 		}
 		unset($query['id']);
 	};
@@ -115,6 +135,11 @@ function ContentParseRoute($segments)
 	$menu = &JSite::getMenu();
 	$item = &$menu->getActive();
 
+	if ($item->query['view'] == 'category')
+	{
+		$categoryTree = JCategories::getInstance('com_content');
+		$category = $categoryTree->get((int) $item->query['id']);
+	}
 	// Count route segments
 	$count = count($segments);
 
@@ -122,37 +147,38 @@ function ContentParseRoute($segments)
 	if (!isset($item))
 	{
 		$vars['view']  = $segments[0];
-		$vars['id']    = $segments[$count - 1];
+		$vars['id']	= $segments[$count - 1];
 		return $vars;
 	}
 
 	//Handle View and Identifier
 	switch($item->query['view'])
 	{
-		case 'section' :
-		{
-			if ($count == 1) {
-				$vars['view'] = 'category';
-
-				if (isset($item->query['layout']) && $item->query['layout'] == 'blog') {
-					$vars['layout'] = 'blog';
-				}
-			}
-
-			if ($count == 2) {
-				$vars['view']  = 'article';
-				$vars['catid'] = $segments[$count-2];
-			}
-
-			$vars['id']    = $segments[$count-1];
-
-		} break;
-
 		case 'category'   :
 		{
-			$vars['id']   = $segments[$count-1];
-			$vars['view'] = 'article';
-
+			$categories = $category->getChildren();
+			$found = 0;
+			foreach($segments as $segment)
+			{
+				foreach($categories as $category)
+				{
+					if ($category->slug == $segment)
+					{
+						$vars['id'] = $segment;
+						$vars['view'] = 'category';
+						$categories = $category->getChildren();
+						$found = 1;
+						break;
+					}
+				}
+				if ($found == 0)
+				{
+					$vars['id'] = $segment;
+					$vars['view'] = 'article';
+					break;
+				}
+				$found = 0;
+			}
 		} break;
 
 		case 'frontpage'   :
@@ -164,20 +190,20 @@ function ContentParseRoute($segments)
 
 		case 'article' :
 		{
-			$vars['id']	  = $segments[$count-1];
-			$vars['view'] = 'article';
+			$vars['id']		= $segments[$count-1];
+			$vars['view']	= 'article';
 		} break;
 
 		case 'archive' :
 		{
 			if ($count != 1)
 			{
-				$vars['year']  = $count >= 2 ? $segments[$count-2] : null;
-				$vars['month'] = $segments[$count-1];
-				$vars['view']  = 'archive';
+				$vars['year']	= $count >= 2 ? $segments[$count-2] : null;
+				$vars['month']	= $segments[$count-1];
+				$vars['view']	= 'archive';
 			} else {
-				$vars['id']	  = $segments[$count-1];
-				$vars['view'] = 'article';
+				$vars['id']		= $segments[$count-1];
+				$vars['view']	= 'article';
 			}
 		}
 	}

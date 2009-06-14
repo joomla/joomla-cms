@@ -9,7 +9,7 @@
 		<name>Newsfeed Category Layout</name>
 		<description>NEWSFEED CATEGORY LAYOUT DESC</description>
 		<url addpath="/administrator/components/com_newsfeeds/elements">
-			<param name="id" type="category" section="com_newsfeeds" default="0" label="Category" description="PARAMCATSELECT" />
+			<param name="id" type="category" extension="com_newsfeeds" default="0" label="Category" description="PARAMCATSELECT" />
 		</url>
 		<params>
 			<param name="show_limit" type="radio" default="1" label="Show Limit Box" description="Show/Hide the limit box">

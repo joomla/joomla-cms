@@ -49,14 +49,12 @@ class ContentModelElement extends JModel
 		$filter	= null;
 
 		// Get some variables from the request
-		$sectionid			= JRequest::getVar('sectionid', -1, '', 'int');
 		$redirect			= $sectionid;
 		$option				= JRequest::getCmd('option');
 		$filter_order		= $mainframe->getUserStateFromRequest('articleelement.filter_order',		'filter_order',		'',	'cmd');
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest('articleelement.filter_order_Dir',	'filter_order_Dir',	'',	'word');
 		$catid				= $mainframe->getUserStateFromRequest('articleelement.catid',				'catid',			0,	'int');
 		$filter_authorid	= $mainframe->getUserStateFromRequest('articleelement.filter_authorid',		'filter_authorid',	0,	'int');
-		$filter_sectionid	= $mainframe->getUserStateFromRequest('articleelement.filter_sectionid',	'filter_sectionid',	-1,	'int');
 		$limit				= $mainframe->getUserStateFromRequest('global.list.limit',					'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart			= $mainframe->getUserStateFromRequest('articleelement.limitstart',			'limitstart',		0,	'int');
 		$search				= $mainframe->getUserStateFromRequest('articleelement.search',				'search',			'',	'string');
@@ -65,25 +63,12 @@ class ContentModelElement extends JModel
 		//$where[] = "c.state >= 0";
 		$where[] = "c.state != -2";
 
-		if (!$filter_order) {
-			$filter_order = 'section_name';
-		}
-		$order = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', section_name, cc.name, c.ordering';
+		$order = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', cc.name, c.ordering';
 		$all = 1;
-
-		if ($filter_sectionid >= 0) {
-			$filter = ' WHERE cc.section = '.$db->Quote($filter_sectionid);
-		}
-		$section->title = 'All Articles';
-		$section->id = 0;
 
 		/*
 		 * Add the filter specific information to the where clause
 		 */
-		// Section filter
-		if ($filter_sectionid >= 0) {
-			$where[] = 'c.sectionid = '.(int) $filter_sectionid;
-		}
 		// Category filter
 		if ($catid > 0) {
 			$where[] = 'c.catid = '.(int) $catid;
@@ -108,7 +93,6 @@ class ContentModelElement extends JModel
 		$query = 'SELECT COUNT(*)' .
 				' FROM #__content AS c' .
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
-				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
 				$where;
 		$db->setQuery($query);
 		$total = $db->loadResult();
@@ -118,10 +102,9 @@ class ContentModelElement extends JModel
 		$this->_page = new JPagination($total, $limitstart, $limit);
 
 		// Get the articles
-		$query = 'SELECT c.*, cc.title as cctitle, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
+		$query = 'SELECT c.*, cc.title as cctitle, u.name AS editor, f.content_id AS frontpage, v.name AS author' .
 				' FROM #__content AS c' .
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
-				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
 				' LEFT JOIN #__users AS u ON u.id = c.checked_out' .
 				' LEFT JOIN #__users AS v ON v.id = c.created_by' .
 				' LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id' .

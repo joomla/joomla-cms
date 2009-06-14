@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die;
+defined('_JEXEC') or die; ?>
 JHtml::_('behavior.caption'); ?>
 <form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">
 <?php if ($this->params->get('show_page_title', 1)) : ?>

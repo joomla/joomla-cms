@@ -1,14 +1,14 @@
 <?php
 /**
-* version $Id$
- * @package		Joomla.Site
+ * version $Id$
+ * @package		Joomla
  * @subpackage	Newsfeeds
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
-*
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ *
  */
 
-// No direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -17,7 +17,7 @@ jimport('joomla.application.component.view');
  * HTML View class for the Newsfeeds component
  *
  * @static
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Newsfeeds
  * @since 1.0
  */
@@ -25,7 +25,7 @@ class NewsfeedsViewNewsfeed extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// check if cache directory is writeable
 		$cacheDir = JPATH_BASE.DS.'cache'.DS;
@@ -61,17 +61,17 @@ class NewsfeedsViewNewsfeed extends JView
 		$lists = array();
 
 		// channel header and link
-		$newsfeed->channel['title'] 	  = $rssDoc->get_title();
-		$newsfeed->channel['link'] 		  = $rssDoc->get_link();
-		$newsfeed->channel['description'] = $rssDoc->get_description();
-		$newsfeed->channel['language'] 	  = $rssDoc->get_language();
+		$newsfeed->channel['title']			= $rssDoc->get_title();
+		$newsfeed->channel['link']			= $rssDoc->get_link();
+		$newsfeed->channel['description']	= $rssDoc->get_description();
+		$newsfeed->channel['language']		= $rssDoc->get_language();
 
 		// channel image if exists
-		$newsfeed->image['url']    = $rssDoc->get_image_url();
-		$newsfeed->image['title']  = $rssDoc->get_image_title();
-		$newsfeed->image['link']   = $rssDoc->get_image_link();
-		$newsfeed->image['height'] = $rssDoc->get_image_height();
-		$newsfeed->image['width']  = $rssDoc->get_image_width();
+		$newsfeed->image['url']		= $rssDoc->get_image_url();
+		$newsfeed->image['title']	= $rssDoc->get_image_title();
+		$newsfeed->image['link']	= $rssDoc->get_image_link();
+		$newsfeed->image['height']	= $rssDoc->get_image_height();
+		$newsfeed->image['width']	= $rssDoc->get_image_width();
 
 		// items
 		$newsfeed->items = $rssDoc->get_items();
@@ -117,7 +117,7 @@ class NewsfeedsViewNewsfeed extends JView
 		if ($count > $wordcount)
 		{
 			$text = '';
-			for($i=0; $i < $wordcount; $i++) {
+			for ($i=0; $i < $wordcount; $i++) {
 				$text .= ' '. $texts[$i];
 			}
 			$text .= '...';

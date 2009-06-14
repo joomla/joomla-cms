@@ -36,7 +36,7 @@ class ContentView
 		$now	= &JFactory::getDate();
 
 		//Ordering allowed ?
-		$ordering = ($lists['order'] == 'section_name' || $lists['order'] == 'cc.title' || $lists['order'] == 'c.ordering');
+		$ordering = ($lists['order'] == 'cc.title');
 		JHtml::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_content" method="post" name="adminForm">
@@ -47,11 +47,10 @@ class ContentView
 						<?php echo JText::_('Filter'); ?>:
 						<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" title="<?php echo JText::_('Filter by title or enter article ID');?>"/>
 						<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
-						<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_sectionid').value='-1';this.form.getElementById('catid').value='0';this.form.getElementById('filter_authorid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
+						<button onclick="document.getElementById('search').value='';this.form.getElementById('catid').value='0';this.form.getElementById('filter_authorid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 					</td>
 					<td nowrap="nowrap">
 						<?php
-						echo $lists['sectionid'];
 						echo $lists['catid'];
 						echo $lists['authorid'];
 						echo $lists['state'];
@@ -85,9 +84,6 @@ class ContentView
 					<th width="7%">
 						<?php echo JHtml::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
-					<th class="title" width="8%" nowrap="nowrap">
-						<?php echo JHtml::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order']); ?>
-					</th>
 					<th  class="title" width="8%" nowrap="nowrap">
 						<?php echo JHtml::_('grid.sort',   'Category', 'cc.title', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
@@ -120,9 +116,8 @@ class ContentView
 			{
 				$row = &$rows[$i];
 
-				$link 	= 'index.php?option=com_content&sectionid='. $redirect .'&task=edit&cid[]='. $row->id;
+				$link 	= 'index.php?option=com_content&task=edit&cid[]='. $row->id;
 
-				$row->sect_link = JRoute::_('index.php?option=com_sections&task=edit&cid[]='. $row->sectionid);
 				$row->cat_link 	= JRoute::_('index.php?option=com_categories&task=edit&cid[]='. $row->catid);
 
 				$publish_up = &JFactory::getDate($row->publish_up);
@@ -223,10 +218,6 @@ class ContentView
 					<td align="center">
 						<?php echo $row->groupname;?>
 					</td>
-						<td>
-							<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_('Edit Section'); ?>">
-								<?php echo $row->section_name; ?></a>
-						</td>
 					<td>
 						<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_('Edit Category'); ?>">
 							<?php echo $row->name; ?></a>
@@ -267,7 +258,7 @@ class ContentView
 	* Writes a list of the articles
 	* @param array An array of article objects
 	*/
-	function showArchive(&$rows, $section, &$lists, $pageNav, $option, $all=NULL, $redirect)
+	function showArchive(&$rows, &$lists, $pageNav, $option, $all=NULL, $redirect)
 	{
 		// Initialize variables
 		$user	= &JFactory::getUser();
@@ -285,7 +276,7 @@ class ContentView
 			}
 		}
 		</script>
-		<form action="index.php?option=com_content&amp;task=showarchive&amp;sectionid=0" method="post" name="adminForm">
+		<form action="index.php?option=com_content&amp;task=showarchive" method="post" name="adminForm">
 
 		<table>
 		<tr>
@@ -297,9 +288,6 @@ class ContentView
 			</td>
 			<td nowrap="nowrap">
 				<?php
-				if ($all) {
-					echo $lists['sectionid'];
-				}
 				echo $lists['catid'];
 				echo $lists['authorid'];
 				?>
@@ -322,9 +310,6 @@ class ContentView
 				</th>
 				<th width="3%"  class="title">
 					<?php echo JHtml::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order']); ?>
-				</th>
-				<th width="15%"  class="title">
-					<?php echo JHtml::_('grid.sort',   'Section', 'sectname', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
 				<th width="15%"  class="title">
 					<?php echo JHtml::_('grid.sort',   'Category', 'cc.name', @$lists['order_Dir'], @$lists['order']); ?>
@@ -351,7 +336,6 @@ class ContentView
 				$row = &$rows[$i];
 
 				$row->cat_link 	= JRoute::_('index.php?option=com_categories&task=edit&cid[]='. $row->catid);
-				$row->sec_link 	= JRoute::_('index.php?option=com_sections&task=edit&cid[]='. $row->sectionid);
 
 				if ($user->authorize('core.users.manage')) {
 					if ($row->created_by_alias) {
@@ -383,10 +367,6 @@ class ContentView
 						<?php echo $row->id; ?>
 					</td>
 					<td>
-						<a href="<?php echo $row->sec_link; ?>" title="<?php echo JText::_('Edit Section'); ?>">
-							<?php echo $row->sectname; ?></a>
-					</td>
-					<td>
 						<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_('Edit Category'); ?>">
 							<?php echo $row->name; ?></a>
 					</td>
@@ -406,7 +386,6 @@ class ContentView
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
-		<input type="hidden" name="sectionid" value="<?php echo $section->id;?>" />
 		<input type="hidden" name="task" value="showarchive" />
 		<input type="hidden" name="returntask" value="showarchive" />
 		<input type="hidden" name="boxchecked" value="0" />
@@ -426,7 +405,7 @@ class ContentView
 	* @param JTableContent The category object
 	* @param string The html for the groups select list
 	*/
-	function editContent(&$row, $section, &$lists, &$sectioncategories, $option, &$form)
+	function editContent(&$row, &$lists, &$sectioncategories, $option, &$form)
 	{
 		JRequest::setVar('hidemainmenu', 1);
 
@@ -442,16 +421,6 @@ class ContentView
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--
-		var sectioncategories = new Array;
-		<?php
-		$i = 0;
-		foreach ($sectioncategories as $k=>$items) {
-			foreach ($items as $v) {
-				echo "sectioncategories[".$i++."] = new Array('$k','".addslashes($v->id)."','".addslashes($v->title)."');\n\t\t";
-			}
-		}
-		?>
-
 		function submitbutton(pressbutton)
 		{
 			var form = document.adminForm;
@@ -475,8 +444,6 @@ class ContentView
 			var text = <?php echo $editor->getContent('text'); ?>
 			if (form.title.value == ""){
 				alert("<?php echo JText::_('Article must have a title', true); ?>");
-			} else if (form.sectionid.value == "-1"){
-				alert("<?php echo JText::_('You must select a Section', true); ?>");
 			} else if (form.catid.value == "-1"){
 				alert("<?php echo JText::_('You must select a Category', true); ?>");
  			} else if (form.catid.value == ""){
@@ -555,7 +522,7 @@ class ContentView
 	* @param int The current section we are looking at
 	* @param array The list of sections and categories to move to
 	*/
-	function moveSection($cid, $sectCatList, $option, $sectionid, $items)
+	function moveSection($cid, $sectCatList, $option, $items)
 	{
 		?>
 		<script language="javascript" type="text/javascript">
@@ -580,7 +547,7 @@ class ContentView
 		<table class="adminform">
 		<tr>
 			<td  valign="top" width="40%">
-			<strong><?php echo JText::_('Move to Section/Category'); ?>:</strong>
+			<strong><?php echo JText::_('Move to Category'); ?>:</strong>
 			<br />
 			<?php echo $sectCatList; ?>
 			<br /><br />
@@ -601,7 +568,6 @@ class ContentView
 		<br /><br />
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
-		<input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" />
 		<input type="hidden" name="task" value="" />
 		<?php
 		foreach ($cid as $id) {
@@ -616,7 +582,7 @@ class ContentView
 	/**
 	* Form to select Section/Category to copys item(s) to
 	*/
-	function copySection($option, $cid, $sectCatList, $sectionid, $items)
+	function copySection($option, $cid, $sectCatList, $items)
 	{
 		?>
 		<script language="javascript" type="text/javascript">
@@ -640,7 +606,7 @@ class ContentView
 		<table class="adminform">
 		<tr>
 			<td  valign="top" width="40%">
-			<strong><?php echo JText::_('Copy to Section/Category'); ?>:</strong>
+			<strong><?php echo JText::_('Copy to Category'); ?>:</strong>
 			<br />
 			<?php echo $sectCatList; ?>
 			<br /><br />
@@ -661,7 +627,6 @@ class ContentView
 		<br /><br />
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
-		<input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" />
 		<input type="hidden" name="task" value="" />
 		<?php
 		foreach ($cid as $id) {
@@ -807,14 +772,6 @@ class ContentView
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<label for="sectionid">
-					<?php echo JText::_('Section'); ?>
-				</label>
-			</td>
-			<td>
-				<?php echo $lists['sectionid']; ?>
-			</td>
 			<td>
 				<label for="catid">
 					<?php echo JText::_('Category'); ?>

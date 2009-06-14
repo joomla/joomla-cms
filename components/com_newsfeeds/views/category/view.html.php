@@ -1,14 +1,14 @@
 <?php
 /**
-* version $Id$
- * @package		Joomla.Site
+ * version $Id$
+ * @package		Joomla
  * @subpackage	Newsfeeds
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
-*
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ *
  */
 
-// No direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -17,7 +17,7 @@ jimport('joomla.application.component.view');
  * HTML View class for the Newsfeeds component
  *
  * @static
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Newsfeeds
  * @since 1.0
  */
@@ -25,7 +25,7 @@ class NewsfeedsViewCategory extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		$pathway 	= & $mainframe->getPathway();
 		$document	= & JFactory::getDocument();
@@ -58,13 +58,34 @@ class NewsfeedsViewCategory extends JView
 		$document->setTitle($params->get('page_title'));
 
 		//set breadcrumbs
-		$pathway->addItem($category->title, '');
-
+		$pathwaycat = $category;
+		$path = array();
+		if (is_object($menu) && $menu->query['id'] != $category->id)
+		{
+			$path[] = array($pathwaycat->title);
+			$pathwaycat = $pathwaycat->getParent();
+			while($pathwaycat->id != $menu->query['id'])
+			{
+				$path[] = array($pathwaycat->title, $pathwaycat->slug);
+				$pathwaycat = $pathwaycat->getParent();	
+			}
+			$path = array_reverse($path);
+			foreach($path as $element)
+			{
+				if (isset($element[1]))
+				{
+					$pathway->addItem($element[0], 'index.php?option=com_newsfeeds&view=category&id='.$element[1]);
+				} else {
+					$pathway->addItem($element[0], '');
+				}
+			}
+		}
+		
 		// Prepare category description
 		$category->description = JHtml::_('content.prepare', $category->description);
 
 		$k = 0;
-		for($i = 0; $i <  count($items); $i++)
+		for ($i = 0; $i <  count($items); $i++)
 		{
 			$item = &$items[$i];
 
@@ -82,13 +103,19 @@ class NewsfeedsViewCategory extends JView
 			$attribs['hspace'] = 6;
 
 			// Use the static HTML library to build the image tag
-			$image = JHtml::_('image', 'images/stories/'.$category->image, JText::_('NEWS_FEEDS'), $attribs);
+			$image = JHtml::_('image', 'images/'.$category->image, JText::_('NEWS_FEEDS'), $attribs);
 		}
-
+		
+		$children = $category->getChildren();
+		foreach($children as &$child)
+		{
+			$child->link = JRoute::_('index.php?option=com_newsfeeds&view=category&id='.$child->slug); 
+		}
 		$this->assignRef('image',		$image);
 		$this->assignRef('params',		$params);
 		$this->assignRef('items',		$items);
 		$this->assignRef('category',	$category);
+		$this->assignRef('children', 	$children);
 		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);

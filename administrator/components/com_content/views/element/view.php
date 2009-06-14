@@ -60,7 +60,6 @@ class ContentViewElement extends JView
 					</td>
 					<td nowrap="nowrap">
 						<?php
-						echo $lists['sectionid'];
 						echo $lists['catid'];
 						?>
 					</td>
@@ -81,9 +80,6 @@ class ContentViewElement extends JView
 					</th>
 					<th width="2%" class="title">
 						<?php echo JHtml::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order']); ?>
-					</th>
-					<th class="title" width="15%" nowrap="nowrap">
-						<?php echo JHtml::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th  class="title" width="15%" nowrap="nowrap">
 						<?php echo JHtml::_('grid.sort',   'Category', 'cc.title', @$lists['order_Dir'], @$lists['order']); ?>
@@ -124,9 +120,6 @@ class ContentViewElement extends JView
 					<td>
 						<?php echo $row->id; ?>
 					</td>
-						<td>
-							<?php echo $row->section_name; ?>
-						</td>
 					<td>
 						<?php echo $row->cctitle; ?>
 					</td>
@@ -156,7 +149,6 @@ class ContentViewElement extends JView
 		$db		= &JFactory::getDbo();
 
 		// Get some variables from the request
-		$sectionid			= JRequest::getVar('sectionid', -1, '', 'int');
 		$redirect			= $sectionid;
 		$option				= JRequest::getCmd('option');
 		$filter_order		= $mainframe->getUserStateFromRequest('articleelement.filter_order',		'filter_order',		'',	'cmd');
@@ -164,27 +156,12 @@ class ContentViewElement extends JView
 		$filter_state		= $mainframe->getUserStateFromRequest('articleelement.filter_state',		'filter_state',		'',	'word');
 		$catid				= $mainframe->getUserStateFromRequest('articleelement.catid',				'catid',			0,	'int');
 		$filter_authorid	= $mainframe->getUserStateFromRequest('articleelement.filter_authorid',		'filter_authorid',	0,	'int');
-		$filter_sectionid	= $mainframe->getUserStateFromRequest('articleelement.filter_sectionid',	'filter_sectionid',	-1,	'int');
 		$limit				= $mainframe->getUserStateFromRequest('global.list.limit',					'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart			= $mainframe->getUserStateFromRequest('articleelement.limitstart',			'limitstart',		0,	'int');
 		$search				= $mainframe->getUserStateFromRequest('articleelement.search',				'search',			'',	'string');
 		$search				= JString::strtolower($search);
 
-		// get list of categories for dropdown filter
-		$filter = ($filter_sectionid >= 0) ? ' WHERE cc.section = '.$db->Quote($filter_sectionid) : '';
-
-		// get list of categories for dropdown filter
-		$query = 'SELECT cc.id AS value, cc.title AS text, section' .
-				' FROM #__categories AS cc' .
-				' INNER JOIN #__sections AS s ON s.id = cc.section' .
-				$filter .
-				' ORDER BY s.ordering, cc.ordering';
-
-		$lists['catid'] = ContentHelper::filterCategory($query, $catid);
-
-		// get list of sections for dropdown filter
-		$javascript = 'onchange="document.adminForm.submit();"';
-		$lists['sectionid'] = JHtml::_('list.section', 'filter_sectionid', $filter_sectionid, $javascript);
+		$lists['catid'] = JHTML::_('list.category', 'catid');
 
 		// table ordering
 		$lists['order_Dir']	= $filter_order_Dir;

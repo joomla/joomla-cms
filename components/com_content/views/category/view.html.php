@@ -1,29 +1,43 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// No direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+require_once JPATH_COMPONENT.DS.'view.php';
 
 /**
  * HTML View class for the Content component
  *
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @since 1.5
  */
 class ContentViewCategory extends ContentView
 {
+	protected $_params = null;
+	public $total = null;
+	public $access = null;
+	public $action = null;
+	public $items = null;
+	public $item = null;
+	public $params = null;
+	public $category = null;
+	public $user = null;
+	public $pagination = null;
+	public $lists = null;
+	public $links = array();
+
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		// Initialize some variables
 		$user		= &JFactory::getUser();
@@ -39,7 +53,7 @@ class ContentViewCategory extends ContentView
 		$params = clone($mainframe->getParams('com_content'));
 
 		// Request variables
-		$layout     = JRequest::getCmd('layout');
+		$layout	 = JRequest::getCmd('layout');
 		$task		= JRequest::getCmd('task');
 
 		// Parameters
@@ -52,9 +66,6 @@ class ContentViewCategory extends ContentView
 		$params->def('show_pagination_results',	1);
 		$params->def('show_pagination_limit',	1);
 		$params->def('filter',					1);
-		if (($params->def('filter_type', 'title') != 'hits') && ($params->def('filter_type', 'title') != 'author')) {
-			$params->set('filter_type', 'title');
-		}
 
 		$intro		= $params->get('num_intro_articles');
 		$leading	= $params->get('num_leading_articles');
@@ -110,10 +121,28 @@ class ContentViewCategory extends ContentView
 		$document->setTitle($params->get('page_title'));
 
 		//set breadcrumbs
-		if (is_object($menu) && $menu->query['view'] != 'category') {
-			$pathway->addItem($category->title, '');
+		$pathwaycat = $category;
+		$path = array();
+		if (is_object($menu) && $menu->query['id'] != $category->id)
+		{
+			$path[] = array($pathwaycat->title);
+			$pathwaycat = $pathwaycat->getParent();
+			while($pathwaycat->id != $menu->query['id'])
+			{
+				$path[] = array($pathwaycat->title, $pathwaycat->slug);
+				$pathwaycat = $pathwaycat->getParent();	
+			}
+			$path = array_reverse($path);
+			foreach($path as $element)
+			{
+				if (isset($element[1]))
+				{
+					$pathway->addItem($element[0], 'index.php?option=com_content&view=category&id='.$element[1]);
+				} else {
+					$pathway->addItem($element[0], '');
+				}
+			}
 		}
-
 		// Prepare category description
 		$category->description = JHtml::_('content.prepare', $category->description);
 
@@ -130,27 +159,28 @@ class ContentViewCategory extends ContentView
 		} else {
 			$pagination = new JPagination($total, $limitstart, $limit);
 		}
+		
+		$children = $this->get('Children');
 
 		$this->assign('total',		$total);
-		$this->assign('action', 	str_replace('&', '&amp;', $uri->toString()));
+		$this->assign('action', 	$uri->toString());
 
 		$this->assignRef('items',		$items);
 		$this->assignRef('params',		$params);
 		$this->assignRef('category',	$category);
+		$this->assignRef('children', 	$children);
 		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('pagination',	$pagination);
-
 		parent::display($tpl);
 	}
 
 	function &getItems()
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		//create select lists
 		$user	= &JFactory::getUser();
-		$groups	= $user->authorisedLevels();
 		$lists	= $this->_buildSortLists();
 
 		if (!count($this->items))
@@ -162,7 +192,7 @@ class ContentViewCategory extends ContentView
 
 		//create paginatiion
 		if ($lists['filter']) {
-			$this->data->link .= '&amp;filter='.urlencode($lists['filter']);
+			$this->data->link .= '&amp;filter='.$lists['filter'];
 		}
 
 		$k = 0;
@@ -170,24 +200,26 @@ class ContentViewCategory extends ContentView
 		foreach($this->items as $key => $item)
 		{
 			// checks if the item is a public or registered/special item
-			if (in_array($item->access, $groups))
+			if (in_array($item->access, $user->authorisedLevels('com_content.article.view')))
 			{
-				$item->link	= JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+				$item->link	= JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 				$item->readmore_register = false;
 			}
 			else
 			{
-				$item->link = JRoute::_('index.php?option=com_users&task=register');
-				$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid), false);
-				$fullURL = new JURI($item->link);
-				$fullURL->setVar('return', base64_encode($returnURL));
-				$item->link = $fullURL->toString();
+				$item->link = JRoute::_('index.php?option=com_user&task=register');
 				$item->readmore_register = true;
+			}
+			if ($user->authorize('com_content.article.edit_article'))
+			{
+				$item->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
+			} else {
+				$item->edit = false;
 			}
 			$item->created	= JHtml::_('date', $item->created, $this->params->get('date_format'));
 
 			$item->odd		= $k;
-			$item->count    = $i;
+			$item->count	= $i;
 
 			$this->items[$key] = $item;
 			$k = 1 - $k;
@@ -201,21 +233,24 @@ class ContentViewCategory extends ContentView
 
 	function &getItem($index = 0, &$params)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Initialize some variables
 		$user		= &JFactory::getUser();
-		$groups		= $user->authorisedLevels();
 		$dispatcher	= &JDispatcher::getInstance();
 
 		$SiteName	= $mainframe->getCfg('sitename');
 
-		$item 		= &$this->items[$index];
-		$item->text = $item->introtext;
-
-		$category	= & $this->get('Category');
-		$item->category = $category->title;
-		$item->section  = $category->sectiontitle;
+		$item		= &$this->items[$index];
+		$item->text	= $item->introtext;
+		if ($user->authorize('com_content.article.edit_article'))
+		{
+			$item->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
+		} else {
+			$item->edit = false;
+		}
+		$category		= & $this->get('Category');
+		$item->category	= $category->title;
 
 		// Get the page/component configuration and article parameters
 		$item->params = clone($params);
@@ -232,19 +267,15 @@ class ContentViewCategory extends ContentView
 		if (($item->params->get('show_readmore') && @ $item->readmore) || $item->params->get('link_titles'))
 		{
 			// checks if the item is a public or registered/special item
-			if (in_array($item->access, $groups))
+			if (in_array($item->access, $user->authorisedLevels()))
 			{
 				//$item->readmore_link = JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
-				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+				$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 				$item->readmore_register = false;
 			}
 			else
 			{
-				$item->readmore_link = JRoute::_('index.php?option=com_users&view=login');
-				$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid),false);
-				$fullURL = new JURI($item->readmore_link);
-				$fullURL->setVar('return', base64_encode($returnURL));
-				$item->readmore_link = $fullURL->toString();
+				$item->readmore_link = JRoute::_("index.php?option=com_user&task=register");
 				$item->readmore_register = true;
 			}
 		}
@@ -266,14 +297,13 @@ class ContentViewCategory extends ContentView
 	{
 		// Table ordering values
 		$filter				= JRequest::getString('filter');
-		global $mainframe;
-		$itemid = JRequest::getInt('id',0) . ':' . JRequest::getInt('Itemid',0);
-		$filter_order  = $mainframe->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'cmd');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
-		$lists['task']      = 'category';
-		$lists['filter']    = $filter;
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+		$filter_order		= JRequest::getCmd('filter_order');
+		$filter_order_Dir	= JRequest::getCmd('filter_order_Dir');
+
+		$lists['task']		= 'category';
+		$lists['filter']	= $filter;
+		$lists['order']		= $filter_order;
+		$lists['order_Dir']	= $filter_order_Dir;
 
 		return $lists;
 	}

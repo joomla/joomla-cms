@@ -1,11 +1,10 @@
 <?php // no direct access
 defined('_JEXEC') or die; ?>
-<?php $canEdit   = ($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own')); ?>
 <?php if ($this->item->state == 0) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
 
-<?php if ($this->item->params->get('show_title') || $this->item->params->get('show_print_icon') || $this->item->params->get('show_email_icon') || $canEdit) : ?>
+<?php if ($this->item->params->get('show_title') || $this->item->params->get('show_pdf_icon') || $this->item->params->get('show_print_icon') || $this->item->params->get('show_email_icon')) : ?>
 <table class="contentpaneopen<?php echo $this->item->params->get('pageclass_sfx'); ?>">
 <tr>
 	<?php if ($this->item->params->get('show_title')) : ?>
@@ -30,11 +29,11 @@ defined('_JEXEC') or die; ?>
 	<?php echo JHtml::_('icon.email', $this->item, $this->item->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
-	   <?php if ($canEdit) : ?>
-	   <td align="right" width="100%" class="buttonheading">
-	   <?php echo JHtml::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
-	   </td>
-   <?php endif; ?>
+	<?php if ($this->item->edit) : ?>
+	<td align="right" width="100%" class="buttonheading">
+		<?php echo JHtml::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
+	</td>
+	<?php endif; ?>
 </tr>
 </table>
 <?php endif; ?>
@@ -43,27 +42,13 @@ defined('_JEXEC') or die; ?>
 endif; ?>
 <?php echo $this->item->event->beforeDisplayContent; ?>
 <table class="contentpaneopen<?php echo $this->item->params->get('pageclass_sfx'); ?>">
-<?php if (($this->item->params->get('show_section') && $this->item->sectionid) || ($this->item->params->get('show_category') && $this->item->catid)) : ?>
+<?php if ($this->item->params->get('show_category') && $this->item->catid) : ?>
 <tr>
 	<td>
-		<?php if ($this->item->params->get('show_section') && $this->item->sectionid && isset($this->item->section)) : ?>
-		<span>
-			<?php if ($this->item->params->get('link_section')) : ?>
-				<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getSectionRoute($this->item->sectionid)).'">'; ?>
-			<?php endif; ?>
-			<?php echo $this->item->section; ?>
-			<?php if ($this->item->params->get('link_section')) : ?>
-				<?php echo '</a>'; ?>
-			<?php endif; ?>
-				<?php if ($this->item->params->get('show_category')) : ?>
-				<?php echo ' - '; ?>
-			<?php endif; ?>
-		</span>
-		<?php endif; ?>
 		<?php if ($this->item->params->get('show_category') && $this->item->catid) : ?>
 		<span>
 			<?php if ($this->item->params->get('link_category')) : ?>
-				<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug, $this->item->sectionid)).'">'; ?>
+				<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'; ?>
 			<?php endif; ?>
 			<?php echo $this->item->category; ?>
 			<?php if ($this->item->params->get('link_category')) : ?>
@@ -97,7 +82,7 @@ endif; ?>
 <?php if ($this->item->params->get('show_url') && $this->item->urls) : ?>
 <tr>
 	<td valign="top" colspan="2">
-		<a href="http://<?php echo $this->item->urls ; ?>" target="_blank">
+		<a href="http://<?php echo $this->item->urls ; ?>">
 			<?php echo $this->item->urls; ?></a>
 	</td>
 </tr>
@@ -115,7 +100,7 @@ endif; ?>
 <?php if (intval($this->item->modified) != 0 && $this->item->params->get('show_modify_date')) : ?>
 <tr>
 	<td colspan="2"  class="modifydate">
-		<?php echo JText::sprintf('LAST_UPDATED2', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
+		<?php echo JText::_('Last Updated'); ?> (<?php echo JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2')); ?>)
 	</td>
 </tr>
 <?php endif; ?>

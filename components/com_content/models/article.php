@@ -1,13 +1,13 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// No direct access
+// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -15,28 +15,29 @@ jimport('joomla.application.component.model');
 /**
  * Content Component Article Model
  *
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Content
  * @since 1.5
  */
 class ContentModelArticle extends JModel
 {
+
+	protected $_id = null;
 	/**
 	 * Article data
 	 *
 	 * @var object
 	 */
-	var $_article = null;
+	protected $_article = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
-
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId((int)$id);
 	}
@@ -47,7 +48,7 @@ class ContentModelArticle extends JModel
 	 * @access	public
 	 * @param	int	Article ID number
 	 */
-	function setId($id)
+	public function setId($id)
 	{
 		// Set new article ID and wipe data
 		$this->_id		= $id;
@@ -63,7 +64,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function set($property, $value=null)
+	public function set($property, $value=null)
 	{
 		if ($this->_loadArticle()) {
 			$this->_article->$property = $value;
@@ -82,7 +83,7 @@ class ContentModelArticle extends JModel
 	 * @return 	mixed 				The value of the property
 	 * @since	1.5
 	 */
-	function get($property, $default=null)
+	public function get($property, $default=null)
 	{
 		if ($this->_loadArticle()) {
 			if (isset($this->_article->$property)) {
@@ -97,50 +98,34 @@ class ContentModelArticle extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function &getArticle()
+	public function &getArticle()
 	{
 		// Load the Category data
 		if ($this->_loadArticle())
 		{
 			$user	= & JFactory::getUser();
-			$groups	= $user->authorisedLevels();
 
 			// Is the category published?
 			if (!$this->_article->cat_pub && $this->_article->catid) {
 				JError::raiseError(404, JText::_("Article category not published"));
 			}
 
-			// Is the section published?
-			if ($this->_article->sectionid)
-			{
-				if ($this->_article->sec_pub === null)
-				{
-					// probably a new item
-					// check the sectionid probably passed in the request
-					$db = &$this->getDbo();
-					$query = 'SELECT published' .
-							' FROM #__sections' .
-							' WHERE id = ' . (int) $this->_article->sectionid;
-					$db->setQuery($query);
-					$this->_article->sec_pub = $db->loadResult();
-				}
-				if (!$this->_article->sec_pub)
-				{
-					JError::raiseError(404, JText::_("Article section not published"));
-				}
-			}
-
 			// Do we have access to the category?
-			if ((!in_array($this->_article->cat_access, $groups)) && $this->_article->catid) {
-				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
-			}
-
-			// Do we have access to the section?
-			if ((!in_array($this->_article->sec_access, $groups)) && $this->_article->sectionid) {
+			if ($this->_article->catid && (!in_array($this->_article->cat_access, $user->authorisedLevels()))) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 			}
 
 			$this->_loadArticleParams();
+
+			/*
+			 * Record the hit on the article if necessary
+			 */
+			$limitstart	= JRequest::getVar('limitstart',	0, '', 'int');
+			if (!$this->_article->parameters->get('intro_only') && ($limitstart == 0))
+			{
+				$this->hit();
+			}
+
 		}
 		else
 		{
@@ -168,10 +153,8 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function hit()
+	public function hit()
 	{
-		global $mainframe;
-
 		if ($this->_id)
 		{
 			$article = & JTable::getInstance('content');
@@ -189,7 +172,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True if checked out
 	 * @since	1.5
 	 */
-	function isCheckedOut($uid=0)
+	public function isCheckedOut($uid=0)
 	{
 		if ($this->_loadArticle())
 		{
@@ -213,7 +196,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function checkin()
+	public function checkin()
 	{
 		if ($this->_id)
 		{
@@ -231,7 +214,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function checkout($uid = null)
+	public function checkout($uid = null)
 	{
 		if ($this->_id)
 		{
@@ -254,13 +237,11 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function store($data)
+	public function store($data)
 	{
-		global $mainframe;
-
-		$article  = &JTable::getInstance('content');
-		$user     = &JFactory::getUser();
-		$dispatcher = &JDispatcher::getInstance();
+		$article	= &JTable::getInstance('content');
+		$user		= &JFactory::getUser();
+		$dispatcher	= &JDispatcher::getInstance();
 		JPluginHelper::importPlugin('content');
 
 		// Bind the form fields to the web link table
@@ -307,7 +288,7 @@ class ContentModelArticle extends JModel
 			$article->publish_down = $date->toMySQL();
 		}
 
-		$article->title = trim($article->title);
+		$article->title = trim(JFilterOutput::ampReplace($article->title));
 
 		// Publishing state hardening for Authors
 		if (!$user->authorize('com_content.article.publish'))
@@ -348,61 +329,33 @@ class ContentModelArticle extends JModel
 			list($article->introtext, $article->fulltext) = preg_split($pattern, $text, 2);
 		}
 
-				// Filter settings
+		// Filter settings
 		jimport('joomla.application.component.helper');
 		$config	= JComponentHelper::getParams('com_content');
-
-		$filterGroups = $config->get('filter_groups', array());
-		// convert to array if one group selected
-		if ((!is_array($filterGroups) && (int) $filterGroups > 0)) {
-			$filterGroups = array($filterGroups);
-		}
-
-		// Get the user's groups.
 		$user	= &JFactory::getUser();
-		$groups	= $user->get('groups') ? array_keys($user->get('groups')) : array();
+		$gid	= $user->get('gid');
 
-		// If the user can manage all content, don't filter.
-		if ($user->authorise('com_content.manage')) {
-			// Don't filter.
-		}
-		// If the user can't manage content, check if they set to be filtered.
-		elseif (is_array($filterGroups) && count($filterGroups))
+		$filterGroups	= (array) $config->get('filter_groups');
+		if (in_array($gid, $filterGroups))
 		{
-			foreach ($groups as $group)
+			$filterType		= $config->get('filter_type');
+			$filterTags		= preg_split('#[,\s]+#', trim($config->get('filter_tags')));
+			$filterAttrs	= preg_split('#[,\s]+#', trim($config->get('filter_attritbutes')));
+			switch ($filterType)
 			{
-				if (in_array($group, $filterGroups))
-				{
-					$filterType		= $config->get('filter_type');
-					$filterTags		= preg_split('#[,\s]+#', trim($config->get('filter_tags')));
-					$filterAttrs	= preg_split('#[,\s]+#', trim($config->get('filter_attritbutes')));
-					switch ($filterType)
-					{
-						case 'NH':
-							$filter	= new JFilterInput();
-							break;
-						case 'WL':
-							$filter	= new JFilterInput($filterTags, $filterAttrs, 0, 0, 0);  // turn off xss auto clean
-							break;
-						case 'BL':
-						default:
-							$filter	= new JFilterInput($filterTags, $filterAttrs, 1, 1);
-							break;
-					}
-
-					$row->introtext	= $filter->clean($row->introtext);
-					$row->fulltext	= $filter->clean($row->fulltext);
-
+				case 'NH':
+					$filter	= new JFilterInput();
 					break;
-				}
+				case 'WL':
+					$filter	= new JFilterInput($filterTags, $filterAttrs, 0, 0);
+					break;
+				case 'BL':
+				default:
+					$filter	= new JFilterInput($filterTags, $filterAttrs, 1, 1);
+					break;
 			}
-		}
-		// If the user can't manage and the filter settings are empty, use the default filter.
-		else
-		{
-			$filter = new JFilterInput(array(), array(), 1, 1);
-			$row->introtext	= $filter->clean($row->introtext);
-			$row->fulltext	= $filter->clean($row->fulltext);
+			$article->introtext	= $filter->clean($article->introtext);
+			$article->fulltext	= $filter->clean($article->fulltext);
 		}
 
 		// Make sure the article table is valid
@@ -449,7 +402,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean True on success
 	 * @since	1.5
 	 */
-	function storeVote($rate)
+	public function storeVote($rate)
 	{
 		if ($rate >= 1 && $rate <= 5)
 		{
@@ -502,9 +455,9 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _loadArticle()
+	protected function _loadArticle()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		if ($this->_id == '0')
 		{
@@ -515,7 +468,7 @@ class ContentModelArticle extends JModel
 		if (empty($this->_article))
 		{
 			// Get the page/component configuration
-			$params = &$mainframe->getParams();
+			$params = &$app->getParams();
 
 			// If voting is turned on, get voting data as well for the article
 			$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -523,19 +476,17 @@ class ContentModelArticle extends JModel
 			// Get the WHERE clause
 			$where	= $this->_buildContentWhere();
 
-			$query = 'SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section,' .
+			$query = 'SELECT a.*, u.name AS author, u.usertype, cc.title AS category, ' .
 					' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
 					' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-					' s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access '.$voting['select'].
+					' cc.published AS cat_pub, cc.access AS cat_access '.$voting['select'].
 					' FROM #__content AS a' .
 					' LEFT JOIN #__categories AS cc ON cc.id = a.catid' .
-					' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = "content"' .
 					' LEFT JOIN #__users AS u ON u.id = a.created_by' .
 					$voting['join'].
 					$where;
 			$this->_db->setQuery($query);
 			$this->_article = $this->_db->loadObject();
-
 			if (! $this->_article) {
 				return false;
 			}
@@ -562,12 +513,12 @@ class ContentModelArticle extends JModel
 	 * @return	void
 	 * @since	1.5
 	 */
-	function _loadArticleParams()
+	protected function _loadArticleParams()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		// Get the page/component configuration
-		$params = clone($mainframe->getParams('com_content'));
+		$params = clone($app->getParams('com_content'));
 
 		// Merge article parameters into the page configuration
 		$aparams = new JParameter($this->_article->attribs);
@@ -595,11 +546,10 @@ class ContentModelArticle extends JModel
 	 * @return	string	WHERE clause
 	 * @since	1.5
 	 */
-	function _buildContentWhere()
+	protected function _buildContentWhere()
 	{
-		global $mainframe;
-
 		$user		= &JFactory::getUser();
+		$aid		= (int) $user->get('aid', 0);
 
 		$jnow		= &JFactory::getDate();
 		$now		= $jnow->toMySQL();
@@ -610,8 +560,9 @@ class ContentModelArticle extends JModel
 		 * we are looking for and we have access to it.
 		 */
 		$where = ' WHERE a.id = '. (int) $this->_id;
+		$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels('com_content.article.view')).')';
 
-		if (!$user->authorize('com_content.article.edit_article'))
+		if (!$user->authorize('com_content.article.edit'))
 		{
 			$where .= ' AND (';
 			$where .= ' (a.created_by = ' . (int) $user->id . ') ';

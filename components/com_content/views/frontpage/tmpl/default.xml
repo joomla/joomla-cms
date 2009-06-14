@@ -33,10 +33,6 @@
 				<option value="rhits">Least Hits</option>
 				<option value="order">Ordering</option>
 			</param>
-			<param name="multi_column_order" type="radio" default="1" label="Multi Column Order" description="PARAMDOWNORACROSS">
-				<option value="0">Down</option>
-				<option value="1">Across</option>
-			</param>
 
 	 		<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="show_pagination" type="list" default="2" label="Pagination" description="Show/Hide Pagination support">

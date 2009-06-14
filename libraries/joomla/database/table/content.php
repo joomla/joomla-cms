@@ -8,7 +8,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-jimport('joomla.database.tableasset');
+jimport('joomla.database.table');
 
 /**
  * Content table
@@ -17,7 +17,7 @@ jimport('joomla.database.tableasset');
  * @subpackage		Table
  * @since	1.0
  */
-class JTableContent extends JTableAsset
+class JTableContent extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -33,7 +33,7 @@ class JTableContent extends JTableAsset
 	var $fulltext			= null;
 	/** @var int */
 	var $state				= null;
-	/** @var int The id of the category section*/
+	/** @var int DEPRECATED */
 	var $sectionid			= null;
 	/** @var int DEPRECATED */
 	var $mask				= null;
@@ -201,13 +201,6 @@ class JTableContent extends JTableAsset
 		$db = &JFactory::getDbo();
 
 		if ($mapKeysToText) {
-			$query = 'SELECT name'
-			. ' FROM #__sections'
-			. ' WHERE id = '. (int) $this->sectionid
-			;
-			$db->setQuery($query);
-			$this->sectionid = $db->loadResult();
-
 			$query = 'SELECT name'
 			. ' FROM #__categories'
 			. ' WHERE id = '. (int) $this->catid

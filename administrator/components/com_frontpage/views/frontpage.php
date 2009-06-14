@@ -43,11 +43,10 @@ class FrontpageView
 						<?php echo JText::_('Filter'); ?>:
 						<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 						<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
-						<button onclick="document.getElementById('search').value=''; this.form.getElementById('filter_sectionid').value='-1'; this.form.getElementById('catid').value='0'; this.form.getElementById('filter_authorid').value='0'; this.form.getElementById('filter_state').value=''; this.form.submit();"><?php echo JText::_('Reset'); ?></button>
+						<button onclick="document.getElementById('search').value=''; this.form.getElementById('catid').value='0'; this.form.getElementById('filter_authorid').value='0'; this.form.getElementById('filter_state').value=''; this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 					</td>
 					<td nowrap="nowrap">
 						<?php
-						echo $lists['sectionid'];
 						echo $lists['catid'];
 						echo $lists['authorid'];
 						echo $lists['state'];
@@ -82,9 +81,6 @@ class FrontpageView
 					</th>
 					<th width="2%" class="title" align="center" nowrap="nowrap">
 						<?php echo JHtml::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order']); ?>
-					</th>
-					<th width="10%" class="title">
-						<?php echo JHtml::_('grid.sort',   'Section', 'sect_name', @$lists['order_Dir'], @$lists['order']); ?>
 					</th>
 					<th width="10%" class="title">
 						<?php echo JHtml::_('grid.sort',   'Category', 'cc.name', @$lists['order_Dir'], @$lists['order']); ?>
@@ -164,12 +160,6 @@ class FrontpageView
 					}
 				}
 
-				// section handling
-				if ($row->sectionid) {
-					$row->sect_link = JRoute::_('index.php?option=com_sections&task=edit&cid[]='. $row->sectionid);
-					$title_sec		= JText::_('Edit Section');
-				}
-
 				// category handling
 				if ($row->catid) {
 					$row->cat_link 	= JRoute::_('index.php?option=com_categories&task=edit&cid[]='. $row->catid);
@@ -218,13 +208,6 @@ class FrontpageView
 					</td>
 					<td align="center">
 						<?php echo $row->id;?>
-					</td>
-					<td>
-						<?php if ($row->sectionid) : ?>
-						<span class="editlinktip hasTip" title="<?php echo $title_sec; ?>::<?php echo $row->sect_name; ?>">
-							<a href="<?php echo $row->sect_link; ?>">
-								<?php echo $row->sect_name; ?></a></span>
-						<?php endif; ?>
 					</td>
 					<td>
 						<?php if ($row->catid) : ?>
