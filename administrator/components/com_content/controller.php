@@ -1434,9 +1434,9 @@ class ContentController extends JController
 
 		// Get the current default template
 		$query = 'SELECT template' .
-				' FROM #__templates_menu' .
+				' FROM #__menu_template' .
 				' WHERE client_id = 0' .
-				' AND menuid = 0';
+				' AND home = 1';
 		$db->setQuery($query);
 		$template = $db->loadResult();
 

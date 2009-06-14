@@ -521,14 +521,6 @@ class MenusModelItem extends JModel
 				return false;
 			}
 
-			$query = 'DELETE FROM #__templates_menu '
-				. $where;
-			$db->setQuery($query);
-			if (!$db->query()) {
-				$this->setError($menuTable->getErrorMsg());
-				return false;
-			}
-
 			// Set any alias menu types to not point to missing menu items
 			$query = 'UPDATE #__menu SET link = 0 WHERE type = \'menulink\' AND (link = '.implode(' OR id = ', $ids).')';
 			$db->setQuery($query);

@@ -32,6 +32,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Jun-2009 Hannes Papenberg
+ # Fixed old references to #__templates_menu to work with the new #__menu_template
 
 05-Jun-2009 Ian MacLennan
  + Added layouts from 1.5.11 to milkyway template as overrides
