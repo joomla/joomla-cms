@@ -45,11 +45,12 @@ class JFormFieldCategories extends JFormFieldList
 
 		if (!empty($extension)) {
 			$db->setQuery(
-				'SELECT c.id AS value, c.title AS text' .
-				' FROM #__categories AS c' .
-				' WHERE c.section = '.$db->Quote($extension).
+				'SELECT c.id AS value, c.title AS text'.
+				' FROM #__categories AS c'.
+				' WHERE c.extension = '.$db->Quote($extension).
 				($published !== null ? ' AND published = '.(int) $published : '').
-				' ORDER BY c.title'
+				//' AND c.access IN ('.implode(',', $user->authorisedLevels($action)).')'.
+				' GROUP BY c.id ORDER BY c.lft'
 			);
 		}
 		else {

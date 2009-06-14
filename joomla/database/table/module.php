@@ -8,7 +8,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-jimport('joomla.database.tableasset');
+jimport('joomla.database.table');
 
 /**
  * Module table
@@ -17,7 +17,7 @@ jimport('joomla.database.tableasset');
  * @subpackage	Table
  * @since		1.0
  */
-class JTableModule extends JTableAsset
+class JTableModule extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;

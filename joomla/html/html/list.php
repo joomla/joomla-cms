@@ -251,88 +251,71 @@ abstract class JHtmlList
 	/**
 	 * Select list of active categories for components
 	 */
-	public static function category($name, $extension = 'com_content', $action = 'com_content.view', $root = NULL, $active = -1, $javascript = NULL, $size = 1, $sel_cat = 1, $uncat = 0)
+	public static function category($name, $extension = 'com_content', $action = 'com_content.view', $filter = NULL, $active = -1, $class = 'inputbox', $javascript = NULL, $size = 1, $idtag=false, $sel_cat = 1)
 	{
 		$db = &JFactory::getDbo();
 		$user = &JFactory::getUser();
 
-		if ($root == NULL)
+		if ($filter == NULL)
 		{
-			$root = '';
-		} else {
-			$root = '';// AND cp.id = '. (int) $root.' ';
+			$filter = '';
 		}
-
-		$query = 'SELECT c.id, c.title, c.parent_id, 0 as depth'.
+		else 
+		{
+		    $filter = ' AND c.id NOT IN ('.implode(', ', $filter).')';
+		}
+		
+		$query = 'SELECT c.id, c.title, c.parent, 0 as depth'.
 				' FROM #__categories AS c'.
-				' WHERE c.section = '.$db->Quote($extension).
-				$root.
-				' AND c.access IN ('.implode(',', $user->authorisedLevels($action)).')'.
-				' GROUP BY c.id ORDER BY c.ordering';
+				' WHERE c.extension = '.$db->Quote($extension).
+				$filter.
+				//' AND c.access IN ('.implode(',', $user->authorisedLevels($action)).')'.
+				' GROUP BY c.id ORDER BY c.lft'; 		
 		$db->setQuery($query);
 		$cat_list = $db->loadObjectList();
 		$depth = array();
 		$i = 0;
-		foreach($cat_list as &$cat)
+		if($cat_list)
 		{
-			if (isset($depth[$cat->parent_id]))
+			foreach($cat_list as &$cat)
 			{
-				$cat->depth = $depth[$cat->parent_id] + 1;
+				if (isset($depth[$cat->parent]))
+				{
+					$cat->depth = $depth[$cat->parent] + 1;
+				}
+				$depth[$cat->id] = $cat->depth;
 			}
-			$depth[$cat->id] = $cat->depth;
 		}
 		$categories = array();
-
+		
 		if ($sel_cat)
 		{
-			$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
-			$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');
+			$categories[] = JHtml::_('select.option', '-1', '('.JText::_('Select Category').')', 'id', 'title');
+			if($active === NULL || $active === '')
+			{
+				$active = -1;
+			}
 		}
-		if ($uncat)
+		
+		$categories[] = JHtml::_('select.option', '0', 'ROOT', 'id', 'title');
+		
+		if($cat_list)
 		{
-			$categories[] = JHtml::_('select.option', 0, JText::_('Uncategorized'), 'id', 'title');
-			$categories[] = JHtml::_('select.option', '', '----------', 'id', 'title');
-		}
-
-		foreach ($cat_list as $category)
-		{
-			$categories[] = JHtml::_('select.option', $category->id, str_repeat('-', $category->depth).$category->title, 'id', 'title');
+			foreach ($cat_list as $category)
+			{
+				$categories[] = JHtml::_('select.option', $category->id, str_repeat('&nbsp;&nbsp;', $category->depth).'- '.$category->title, 'id', 'title');
+			}
 		}
 		$category = JHtml::_('select.genericlist', $categories, $name,
 			array(
-				'list.attr' => 'class="inputbox" size="'. $size .'" '. $javascript,
+				'id' => $idtag,
+				'list.attr' => 'class="'.$class.'" size="'. $size .'" '. $javascript,
 				'list.select' => $active,
 				'option.key' => 'id',
 				'option.text' => 'title'
 			)
 		);
-
 		return $category;
 	}
-
-	/**
-	 * Select list of active sections
-	 */
-	function section($name, $active = NULL, $javascript = NULL, $order = 'ordering', $uncategorized = true)
-	{
-		$db = &JFactory::getDbo();
-
-		$categories[] = JHtml::_('select.option',  '-1', '- '. JText::_('Select Section') .' -');
-
-		if ($uncategorized) {
-			$categories[] = JHtml::_('select.option',  '0', JText::_('Uncategorized'));
-		}
-
-		$query = 'SELECT id AS value, title AS text'
-		. ' FROM #__sections'
-		. ' WHERE published = 1'
-		. ' ORDER BY ' . $order
-		;
-		$db->setQuery($query);
-		$sections = array_merge($categories, $db->loadObjectList());
-
-		$category = JHtml::_('select.genericlist',   $sections, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active);
-
-		return $category;
-	}
+	
 }

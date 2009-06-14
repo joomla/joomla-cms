@@ -8,7 +8,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-jimport('joomla.database.tableasset');
+jimport('joomla.database.table');
 
 /**
  * Menu table
@@ -17,7 +17,7 @@ jimport('joomla.database.tableasset');
  * @subpackage	Table
  * @since		1.0
  */
-class JTableMenu extends JTableAsset
+class JTableMenu extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;

@@ -10,7 +10,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-jimport('joomla.database.tableasset');
+jimport('joomla.database.table');
 
 /**
  * Plugin table
@@ -19,7 +19,7 @@ jimport('joomla.database.tableasset');
  * @subpackage	Table
  * @since		1.5
  */
-class JTablePlugin extends JTableAsset
+class JTablePlugin extends JTable
 {
 	/**
 	 * Primary Key
