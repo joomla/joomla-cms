@@ -28,12 +28,7 @@ $buttons = array(
 		'text' => JText::_('Frontpage Manager')
 	),
 	array(
-		'link' => JRoute::_('index.php?option=com_sections&scope=content'), 
-		'image' => 'icon-48-section.png', 
-		'text' => JText::_('Section Manager')
-	),
-	array(
-		'link' => JRoute::_('index.php?option=com_categories&scope=com_content'), 
+		'link' => JRoute::_('index.php?option=com_categories&extension=com_content'), 
 		'image' => 'icon-48-category.png', 
 		'text' => JText::_('Category Manager')
 	),
