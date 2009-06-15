@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Jun-2009 Ercan Ozkaya
+ ^ Refactored com_cache
+
 14-Jun-2009 Hannes Papenberg
  ^ Implemented nested categories
  # Fixed old references to #__templates_menu to work with the new #__menu_template

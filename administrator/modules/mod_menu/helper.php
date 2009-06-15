@@ -248,7 +248,7 @@ class MenuModuleHelper
 			}
 			if ($user->authorize('core.cache.manage')) {
 				$menu->addChild(new JMenuNode(JText::_('Clean Cache'), 'index.php?option=com_cache', 'class:config'));
-				$menu->addChild(new JMenuNode(JText::_('Purge Expired Cache'), 'index.php?option=com_cache&task=purgeadmin', 'class:config'));
+				$menu->addChild(new JMenuNode(JText::_('Purge Expired Cache'), 'index.php?option=com_cache&view=purge', 'class:config'));
 			}
 
 			$menu->getParent();

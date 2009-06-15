@@ -10,24 +10,28 @@
 // no direct access
 defined('_JEXEC') or die;
 
+jimport('joomla.application.component.view');
+
 /**
+ * HTML View class for the Cache component
+ *
+ * @static
  * @package		Joomla.Administrator
  * @subpackage	Cache
+ * @since 1.6
  */
-class TOOLBAR_cache
+class CacheViewPurge extends JView
 {
-	/**
-	* Draws the menu for a New category
-	*/
-	function _DEFAULT() {
-
-		JToolBarHelper::title(JText::_('Cache Manager - Clean Cache Admin'), 'checkin.png');
-		JToolBarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'Delete', true);
-		JToolBarHelper::help('screen.cache');
+	public function display($tpl = null)
+	{
+		$this->_setToolbar();
+		parent::display($tpl);
 	}
-
-	function _PURGEADMIN() {
-
+	
+	protected function _setToolbar()
+	{
+		JSubMenuHelper::addEntry(JText::_('Back to Clean Cache Admin'), 'index.php?option=com_cache', false);
+		
 		JToolBarHelper::title(JText::_('Cache Manager - Purge Cache Admin'), 'checkin.png');
 		JToolBarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'Purge expired', false);
 		JToolBarHelper::help('screen.cache');
