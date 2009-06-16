@@ -13,98 +13,112 @@ defined('JPATH_BASE') or die;
 /**
  * Abstract Table class
  *
- * Parent classes to all tables.
+ * Parent class to all tables.
  *
  * @abstract
  * @package 	Joomla.Framework
  * @subpackage	Table
  * @since		1.0
  * @tutorial	Joomla.Framework/jtable.cls
+ * @link		http://docs.joomla.org/JTable
  */
 abstract class JTable extends JObject
 {
 	/**
-	 * Name of the table in the db schema relating to child class
+	 * Name of the database table to model.
 	 *
-	 * @var 	string
+	 * @var		string
+	 * @since	1.0
 	 */
 	protected $_tbl	= '';
 
 	/**
-	 * Name of the primary key field in the table
+	 * Name of the primary key field in the table.
 	 *
 	 * @var		string
+	 * @since	1.0
 	 */
 	protected $_tbl_key = '';
 
 	/**
-	 * Database connector
+	 * JDatabase connector object.
 	 *
-	 * @var		JDatabase
+	 * @var		object
+	 * @since	1.0
 	 */
 	protected $_db = null;
 
 	/**
-	 * Object constructor to set table and key field
+	 * Object constructor to set table and key fields.  In most cases this will
+	 * be overridden by child classes to explicitly set the table and key fields
+	 * for a particular database table.
 	 *
-	 * Can be overloaded/supplemented by the child class
-	 *
-	 * @param string $table name of the table in the db schema relating to child class
-	 * @param string $key name of the primary key field in the table
-	 * @param object $db JDatabase object
+	 * @param	string Name of the table to model.
+	 * @param	string Name of the primary key field in the table.
+	 * @param	object JDatabase connector object.
+	 * @since	1.0
 	 */
 	function __construct($table, $key, &$db)
 	{
+		// Set internal variables.
 		$this->_tbl		= $table;
 		$this->_tbl_key	= $key;
 		$this->_db		= &$db;
 	}
 
 	/**
-	 * Returns a reference to the a Table object, always creating it
+	 * Static method to get an instance of a JTable class if it can be found in
+	 * the table include paths.  To add include paths for searching for JTable
+	 * classes @see JTable::addIncludePath().
 	 *
-	 * @param type 		$type 	 The table type to instantiate
-	 * @param string 	$prefix	 A prefix for the table class name. Optional.
-	 * @param array		$options Configuration array for model. Optional.
-	 * @return database A database object
-	 * @since 1.5
+	 * @param	string	The type (name) of the JTable class to get an instance of.
+	 * @param	string 	An optional prefix for the table class name.
+	 * @param	array	An optional array of configuration values for the JTable object.
+	 * @return	mixed	A JTable object if found or boolean false if one could not be found.
+	 * @since	1.5
+	 * @link	http://docs.joomla.org/JTable/getInstance
 	*/
 	public static function &getInstance($type, $prefix = 'JTable', $config = array())
 	{
+		// Initialize variables.
 		$false = false;
 
+		// Sanitize and prepare the table class name.
 		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$tableClass = $prefix.ucfirst($type);
 
+		// Only try to load the class if it doesn't already exist.
 		if (!class_exists($tableClass))
 		{
+			// Search for the class file in the JTable include paths.
 			jimport('joomla.filesystem.path');
 			if ($path = JPath::find(JTable::addIncludePath(), strtolower($type).'.php'))
 			{
+				// Import the class file.
 				require_once $path;
 
-				if (!class_exists($tableClass))
-				{
+				// If we were unable to load the proper class, raise a warning and return false.
+				if (!class_exists($tableClass)) {
 					JError::raiseWarning(0, 'Table class ' . $tableClass . ' not found in file.');
 					return $false;
 				}
 			}
-			else
-			{
+			else {
+				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
 				JError::raiseWarning(0, 'Table ' . $type . ' not supported. File not found.');
 				return $false;
 			}
 		}
 
-		//Make sure we are returning a DBO object
+		// If a database object was passed in the configuration array use it, otherwise get the global one from JFactory.
 		if (array_key_exists('dbo', $config))  {
 			$db = &$config['dbo'];
 		} else {
 			$db = & JFactory::getDbo();
 		}
 
+		// Instantiate a new table class and return it.
 		$instance = new $tableClass($db);
-		//$instance->setDBO($db);
 
 		return $instance;
 	}
@@ -131,10 +145,11 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Gets the internal table name for the object
+	 * Method to get the database table name for the class.
 	 *
-	 * @return string
-	 * @since 1.5
+	 * @return	string	The name of the database table being modeled.
+	 * @since	1.5
+	 * @link	http://docs.joomla.org/JTable/getTableName
 	 */
 	public function getTableName()
 	{
@@ -142,10 +157,11 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Gets the internal primary key name
+	 * Method to get the primary key field name for the table.
 	 *
-	 * @return string
-	 * @since 1.5
+	 * @return	string	The name of the primary key for the table.
+	 * @since	1.5
+	 * @link	http://docs.joomla.org/JTable/getKeyName
 	 */
 	public function getKeyName()
 	{
@@ -153,8 +169,13 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Resets the default properties
+	 * Method to reset class properties to the defaults set in the class
+	 * definition.  It will ignore the primary key as well as any private class
+	 * properties.
+	 *
 	 * @return	void
+	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/reset
 	 */
 	public function reset()
 	{
@@ -169,13 +190,16 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Binds a named array/hash to this object
+	 * Method to bind an associative array or object to the JTable instance.This
+	 * method only binds properties that are publicly accessible and optionally
+	 * takes an array of properties to ignore when binding.
 	 *
-	 * Can be overloaded/supplemented by the child class
-	 *
-	 * @param	$from	mixed	An associative array or object
-	 * @param	$ignore	mixed	An array or space separated list of fields not to bind
-	 * @return	boolean
+	 * @param	mixed	An associative array or object to bind to the JTable instance.
+	 * @param	mixed	An optional array or space separated list of properties
+	 * 					to ignore while binding.
+	 * @return	boolean	True on success.
+	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/bind
 	 */
 	public function bind($from, $ignore=array())
 	{
@@ -187,12 +211,16 @@ abstract class JTable extends JObject
 			$this->setError(get_class($this).'::bind failed. Invalid from argument');
 			return false;
 		}
+
+		// If the ignore value is a string, explode it over spaces.
 		if (!is_array($ignore)) {
 			$ignore = explode(' ', $ignore);
 		}
+
+		// Bind the source value, excluding the ignored fields.
 		foreach ($this->getProperties() as $k => $v)
 		{
-			// internal attributes of an object are ignored
+			// Only process fields not in the ignore array.
 			if (!in_array($k, $ignore))
 			{
 				if ($fromArray && isset($from[$k])) {
@@ -202,6 +230,7 @@ abstract class JTable extends JObject
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -214,6 +243,7 @@ abstract class JTable extends JObject
 	 */
 	public function load($oid=null)
 	{
+		// Initialize variables.
 		$k = $this->_tbl_key;
 
 		if ($oid !== null) {
@@ -245,11 +275,14 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Generic check method
+	 * Method to perform sanity checks on the JTable instance properties to ensure
+	 * they are safe to store in the database.  Child classes should override this
+	 * method to make sure the data they are storing in the database is safe and
+	 * as expected before storage.
 	 *
-	 * Can be overloaded/supplemented by the child class
-	 *
-	 * @return boolean True if the object is ok
+	 * @return	boolean	True if the instance is sane and able to be stored in the database.
+	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/check
 	 */
 	public function check()
 	{
@@ -257,17 +290,23 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Inserts a new row if id is zero or updates an existing row in the database table
+	 * Method to store a row in the database from the JTable instance properties.
+	 * If a primary key value is set the row with that primary key value will be
+	 * updated with the instance property values.  If no primary key value is set
+	 * a new row will be inserted into the database with the properties from the
+	 * JTable instance.
 	 *
-	 * Can be overloaded/supplemented by the child class
-	 *
-	 * @param boolean If false, null object variables are not updated
-	 * @return null|string null if successful otherwise returns and error message
+	 * @param	boolean True to update fields even if they are null.
+	 * @return	boolean	True on success.
+	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/store
 	 */
-	public function store($updateNulls=false)
+	public function store($updateNulls = false)
 	{
+		// Initialize variables.
 		$k = $this->_tbl_key;
 
+		// If a primary key exists update the object, otherwise insert it.
 		if ($this->$k)
 		{
 			$ret = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
