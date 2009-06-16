@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jun-2009 Andrew Eddie
+ + Added placeholder folders for language override files.
+
 15-Jun-2009 Ercan Ozkaya
  ^ Refactored com_cache
 
