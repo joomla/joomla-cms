@@ -34,6 +34,7 @@ $ -> Language fix or change
 
 16-Jun-2009 Andrew Eddie
  + Added placeholder folders for language override files.
+ ^ JModelForm::getForm now returns false on error.
 
 15-Jun-2009 Ercan Ozkaya
  ^ Refactored com_cache
