@@ -370,7 +370,7 @@ class ContentController extends JController
 
 		}
 
-		$lists['catid'] = JHtml::_('list.categories', 'catid');
+		$lists['catid'] = JHtml::_('list.category', 'catid');
 
 		// build the html select list for ordering
 		$query = 'SELECT ordering AS value, title AS text' .
