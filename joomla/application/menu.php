@@ -197,20 +197,21 @@ class JMenu extends JObject
 	/**
 	 * Gets menu items by attribute
 	 *
-	 * @access public
-	 * @param string 	The field name
-	 * @param string 	The value of the field
-	 * @param boolean 	If true, only returns the first item found
-	 * @return array
+	 * @param	string 		The field name
+	 * @param	string 		The value of the field
+	 * @param	boolean 	If true, only returns the first item found
+	 *
+	 * @return	array
 	 */
-	function getItems($attribute, $value, $firstonly = false)
+	public function getItems($attribute, $value, $firstonly = false)
 	{
 		$items = null;
 
 		foreach ($this->_items as  $item)
 		{
-			if (! is_object($item))
+			if (!is_object($item)) {
 				continue;
+			}
 
 			if ($item->$attribute == $value)
 			{
@@ -218,7 +219,7 @@ class JMenu extends JObject
 					return $item;
 				}
 
-				$items[] = $item;
+				$items[] = &$item;
 			}
 		}
 
