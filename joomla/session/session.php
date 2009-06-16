@@ -82,11 +82,6 @@ class JSession extends JObject
 	*/
 	function __construct($store = 'none', $options = array())
 	{
-		// Register faked "destructor" in PHP4, this needs to happen before creating the session store
-		if (version_compare(PHP_VERSION, '5') == -1) {
-			register_shutdown_function((array(&$this, '__destruct')));
-		}
-
 		//Need to destroy any existing sessions started with session.auto_start
 		if (session_id()) {
 			session_unset();
