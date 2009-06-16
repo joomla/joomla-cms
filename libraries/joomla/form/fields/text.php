@@ -33,11 +33,12 @@ class JFormFieldText extends JFormField
 	 */
 	protected function _getInput()
 	{
-		$size		= $this->_element->attributes('size') ? ' size="'.$this->_element->attributes('size').'"' : '';
-		$class		= $this->_element->attributes('class') ? 'class="'.$this->_element->attributes('class').'"' : 'class="text_area"';
+		$size		= ($v = $this->_element->attributes('size')) ? ' size="'.$v.'"' : '';
+		$class		= ($v = $this->_element->attributes('class')) ? 'class="'.$v.'"' : 'class="text_area"';
 		$readonly	= $this->_element->attributes('readonly') == 'true' ? ' readonly="readonly"' : '';
-		$onchange	= $this->_element->attributes('onchange') ? ' onchange="'.$this->_element->attributes('onchange').'"' : '';
+		$onchange	= ($v = $this->_element->attributes('onchange')) ? ' onchange="'.$v.'"' : '';
+		$maxLength	= ($v = $this->_element->attributes('maxlength')) ? ' maxlength="'.$v.'"' : '';
 
-		return '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value).'" '.$class.$size.$readonly.$onchange.' />';
+		return '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value).'" '.$class.$size.$readonly.$onchange.$maxLength.' />';
 	}
 }
