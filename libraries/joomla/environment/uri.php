@@ -107,6 +107,17 @@ class JURI extends JObject
 	}
 
 	/**
+	 * Magic method to get the string representation of the URI object
+	 *
+	 * @return	string
+	 * @since	1.6
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
+	/**
 	 * Returns a reference to a global JURI object, only creating it
 	 * if it doesn't already exist.
 	 *
