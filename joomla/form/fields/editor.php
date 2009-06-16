@@ -60,12 +60,11 @@ class JFormFieldEditor extends JFormField
 		$editor		= &JFactory::getEditor($editorName ? $editorName : null);
 		$rows		= $this->_element->attributes('rows');
 		$cols		= $this->_element->attributes('cols');
-		$height		= ($this->_element->attributes('height')) ? $this->_element->attributes('height') : '200';
+		$height		= ($this->_element->attributes('height')) ? $this->_element->attributes('height') : '250';
 		$width		= ($this->_element->attributes('width')) ? $this->_element->attributes('width') : '100%';
 		$class		= ($this->_element->attributes('class') ? 'class="'.$this->_element->attributes('class').'"' : 'class="text_area"');
 		$buttons	= $this->_element->attributes('buttons');
 
-		$editor->set('TemplateXML',	$this->_element->attributes('templatexml'));
 		if ($buttons == 'true') {
 			$buttons	= true;
 		} else {
