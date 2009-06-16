@@ -11,26 +11,25 @@
 defined('JPATH_BASE') or die;
 
 /**
-* Database session storage handler for PHP
-*
+ * Database session storage handler for PHP
+ *
  * @package		Joomla.Framework
  * @subpackage	Session
  * @since		1.5
-* @see http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @see http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 class JSessionStorageDatabase extends JSessionStorage
 {
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * Open the SessionHandler backend.
 	 *
-	 * @access public
-	 * @param string $save_path     The path to the session object.
-	 * @param string $session_name  The name of the session.
-	 * @return boolean  True on success, false otherwise.
+	 * @param	string	The path to the session object.
+	 * @param	string	The name of the session.
+	 * @return	boolean	True on success, false otherwise.
 	 */
-	function open($save_path, $session_name)
+	public function open($save_path, $session_name)
 	{
 		return true;
 	}
@@ -38,10 +37,9 @@ class JSessionStorageDatabase extends JSessionStorage
 	/**
 	 * Close the SessionHandler backend.
 	 *
-	 * @access public
-	 * @return boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 */
-	function close()
+	public function close()
 	{
 		return true;
 	}
@@ -50,12 +48,12 @@ class JSessionStorageDatabase extends JSessionStorage
  	 * Read the data for a particular session identifier from the
  	 * SessionHandler backend.
  	 *
- 	 * @access public
- 	 * @param string $id  The session identifier.
- 	 * @return string  The session data.
+ 	 * @param	string	The session identifier.
+ 	 * @return	string	The session data.
  	 */
-	function read($id)
+	public function read($id)
 	{
+		// Get the database connection object and verify its connected.
 		$db = &JFactory::getDbo();
 		if (!$db->connected()) {
 			return false;
@@ -69,13 +67,13 @@ class JSessionStorageDatabase extends JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @access public
-	 * @param string $id            The session identifier.
-	 * @param string $session_data  The session data.
-	 * @return boolean  True on success, false otherwise.
+	 * @param	string	The session identifier.
+	 * @param	string	The session data.
+	 * @return	boolean	True on success, false otherwise.
 	 */
-	function write($id, $session_data)
+	public function write($id, $session_data)
 	{
+		// Get the database connection object and verify its connected.
 		$db = &JFactory::getDbo();
 		if (!$db->connected()) {
 			return false;
@@ -93,12 +91,12 @@ class JSessionStorageDatabase extends JSessionStorage
 	  * Destroy the data for a particular session identifier in the
 	  * SessionHandler backend.
 	  *
-	  * @access public
 	  * @param string $id  The session identifier.
 	  * @return boolean  True on success, false otherwise.
 	  */
-	function destroy($id)
+	public function destroy($id)
 	{
+		// Get the database connection object and verify its connected.
 		$db = &JFactory::getDbo();
 		if (!$db->connected()) {
 			return false;
@@ -112,12 +110,12 @@ class JSessionStorageDatabase extends JSessionStorage
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
 	 *
-	 * @access public
-	 * @param integer $maxlifetime  The maximum age of a session.
-	 * @return boolean  True on success, false otherwise.
+	 * @param	integer	The maximum age of a session.
+	 * @return	boolean	True on success, false otherwise.
 	 */
-	function gc($maxlifetime)
+	public function gc($maxlifetime)
 	{
+		// Get the database connection object and verify its connected.
 		$db = &JFactory::getDbo();
 		if (!$db->connected()) {
 			return false;

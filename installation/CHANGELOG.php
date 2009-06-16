@@ -38,6 +38,7 @@ $ -> Language fix or change
  + Added magic JUri::__toString method.
  + Added maxlenth attribute to TEXT parameter type.
  # Jhtml::calendar now load script declarations once for each field.
+ - Remove fake destructor from JSession.
 
 15-Jun-2009 Ercan Ozkaya
  ^ Refactored com_cache
