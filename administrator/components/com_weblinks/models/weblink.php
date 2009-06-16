@@ -158,11 +158,10 @@ class WeblinksModelWeblink extends JModelItem
 			return $false;
 		}
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return $false;
-		}
+		// Convert the params field to an array.
+		$registry = new JRegistry();
+		$registry->loadJSON($table->params);
+		$table->params = $registry->toArray();
 
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 		return $value;
