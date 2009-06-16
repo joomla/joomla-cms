@@ -69,8 +69,8 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 							endif;
 						endfor;
 						?></td>
-						<?php endfor; 
-						$i = $i + $this->params->get('num_intro_articles', 4) ; 
+						<?php endfor;
+						$i = $i + $this->params->get('num_intro_articles', 4) ;
 			else : // otherwise, order down, same as before (default behaviour)
 				for ($z = 0; $z < $this->params->get('num_columns'); $z ++) :
 				if ($z > 0) : $divider = " column_separator"; endif; ?>
@@ -83,8 +83,8 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 					endif;
 				endfor; ?>
 				</td>
-		<?php endfor; 
-		endif; ?> 
+		<?php endfor;
+		endif; ?>
 		</tr>
 		</table>
 	</td>

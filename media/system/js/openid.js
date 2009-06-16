@@ -19,7 +19,7 @@ var JOpenID = new Class({
 	form: null,
 	passwordContainer: null,
 	username: null,
-	
+
 	initialize: function(form) {
 		this.form = $(form);
 		this.username = this.form.getElement('input[name=username]');
@@ -40,7 +40,7 @@ var JOpenID = new Class({
 		switcher.inject(this.form);
 
 		var link = new Element('a', {
-			'styles': {'text-align' : 'right', 'display' : 'block', 'font-size' : 'xx-small'}, 
+			'styles': {'text-align' : 'right', 'display' : 'block', 'font-size' : 'xx-small'},
 			'href' : 'http://openid.net'
 		});
 		link.set('html', JText._('WHAT_IS_OPENID'));

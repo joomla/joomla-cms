@@ -560,7 +560,7 @@ var select = {};
     select.scrollToNode = function(element) {
       if (!element) return;
       var doc = element.ownerDocument, body = doc.body, win = doc.defaultView, html = doc.documentElement;
-      
+
       // In Opera, BR elements *always* have a scrollTop property of zero. Go Opera.
       while (element && !element.offsetTop)
         element = element.previousSibling;

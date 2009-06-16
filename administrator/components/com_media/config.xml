@@ -14,7 +14,7 @@
 			<option value="3">Author</option>
 			<option value="2">Editor</option>
 			<option value="1">Publisher</option>
-		</param>		
+		</param>
 		<param name="check_mime" type="radio" default="1" label="CHECK MIME" description="CHECK MIME DESC">
 			<option value="0">NO</option>
 			<option value="1">YES</option>

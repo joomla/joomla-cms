@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die; ?>
 <div id="cpanel">
-<?php 
+<?php
 foreach ($buttons as $button):
 	echo QuickIconHelper::button($button);
 endforeach;

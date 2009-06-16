@@ -25,7 +25,7 @@ $tbmain = $tbpath['dirname'].'/tinybrowser.php';
     tinyMCE.activeEditor.windowManager.open({
         file : cmsURL,
         title : 'Tiny Browser',
-        width : <?php echo $tinybrowser['window']['width']; ?>, 
+        width : <?php echo $tinybrowser['window']['width']; ?>,
         height : <?php echo $tinybrowser['window']['height']; ?>,
         resizable : "yes",
 		  scrollbars : "yes",

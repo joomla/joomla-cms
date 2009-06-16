@@ -81,11 +81,11 @@ class TemplatesController extends JController
 	 * Add Template Style
 	 */
 	function add() {
-		
+
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$option		= JRequest::getVar('option', '', '', 'cmd');
-		
+
 		$model = $this->getModel('template');
 		$client		= &$model->getClient();
 		$template	= &$model->getTemplate();
@@ -97,7 +97,7 @@ class TemplatesController extends JController
 		$msg = JText::_('Template Added');
 		$newid = $model->add();
 		$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$newid.'&client='.$client->id, $msg);
-		
+
 	}
 
 	/*
@@ -108,12 +108,12 @@ class TemplatesController extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$option		= JRequest::getVar('option', '', '', 'cmd');
-		
+
 		$model = $this->getModel('template');
 		$client		= &$model->getClient();
 		$template	= &$model->getTemplate();
 		$id	= &$model->getId();
-		
+
 
 		if (!$template) {
 			$this->setRedirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
@@ -128,7 +128,7 @@ class TemplatesController extends JController
 		$otherid = $model->getOtherId();
 		$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$otherid.'&client='.$client->id, $msg);
 	}
-	
+
 	/*
 	 * Set Default for Admin Template
 	 */
@@ -193,7 +193,7 @@ class TemplatesController extends JController
 		$client		= &$model->getClient();
 		$template	= &$model->getTemplate();
 		$id			= &$model->getId();
-		
+
 		if (!$template) {
 			$this->setRedirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 			return;

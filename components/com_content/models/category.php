@@ -57,7 +57,7 @@ class ContentModelCategory extends JModel
 	protected $_siblings = null;
 
 	protected $_content = null;
-	
+
 	protected $_category_tree = array();
 
 	/**
@@ -172,7 +172,7 @@ class ContentModelCategory extends JModel
 			$categoryTree = JCategories::getInstance('com_content');
 			$this->_category = &$categoryTree->get($this->_id);
 		}
-		
+
 		if (empty($this->_category))
 		{
 			JError::raiseError(404, JText::_("Resource Not Found"));
@@ -234,12 +234,12 @@ class ContentModelCategory extends JModel
 	{
 		return $this->getContent(-1);
 	}
-	
+
 	public function getChildren($recursive = 0)
 	{
 		return $this->_category->getChildren();
 	}
-	
+
 	/**
 	 * Method to load content item data for items in the category if they don't
 	 * exist.
@@ -313,7 +313,7 @@ class ContentModelCategory extends JModel
 			' AND c.access IN ('.implode(',', JFactory::getUser()->authorisedLevels('com_content.category.view')).')'.
 			' AND cp.id = '.$this->_id.') AS cc ON a.catid = cc.id';
 		} else {
-			$subquery = ' LEFT JOIN #__categories AS cc ON a.catid = cc.id'; 
+			$subquery = ' LEFT JOIN #__categories AS cc ON a.catid = cc.id';
 		}
 		$query .=
 			' FROM #__content AS a' .
@@ -322,7 +322,7 @@ class ContentModelCategory extends JModel
 			$voting['join'].
 			$where.
 			$orderby;
-			
+
 		return $query;
 	}
 

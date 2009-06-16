@@ -31,7 +31,7 @@ Joomla.submitform = function(task, form) {
 
 /**
  * Custom behavior for JavaScript I18N in Joomla! 1.6
- * 
+ *
  * Allows you to call JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
  */
 Joomla.JText = {
@@ -63,9 +63,9 @@ Joomla.replaceTokens = function(n) {
 
 /**
  * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
- * 
+ *
  * Writes a dynamically generated list
- * 
+ *
  * @param string
  *            The parameters to insert into the <select> tag
  * @param array
@@ -99,9 +99,9 @@ function writeDynaList(selectParams, source, key, orig_key, orig_val) {
 
 /**
  * USED IN: administrator/components/com_content/views/article/view.html.php
- * 
+ *
  * Changes a dynamically generated list
- * 
+ *
  * @param string
  *            The name of the list to change
  * @param array
@@ -138,7 +138,7 @@ function changeDynaList(listname, source, key, orig_key, orig_val) {
 
 /**
  * USED IN: administrator/components/com_menus/views/menus/tmpl/default.php
- * 
+ *
  * @param radioObj
  * @return
  */
@@ -177,7 +177,7 @@ function radioGetCheckedValue(radioObj) {
  * administrator/components/com_newsfeeds/views/newsfeed/tmpl/default.php
  * components/com_content/views/article/tmpl/form.php
  * templates/beez/html/com_content/article/form.php
- * 
+ *
  * @param frmName
  * @param srcListName
  * @return
@@ -196,11 +196,11 @@ function getSelectedValue(frmName, srcListName) {
 
 /**
  * USED IN: all list forms.
- * 
+ *
  * Toggles the check state of a group of boxes
- * 
+ *
  * Checkboxes must have an id attribute in the form cb0, cb1...
- * 
+ *
  * @param The
  *            number of box to 'check'
  * @param An
@@ -229,7 +229,7 @@ function checkAll(n, fldName) {
 
 /**
  * USED IN: all over :)
- * 
+ *
  * @param id
  * @param task
  * @return
@@ -271,7 +271,7 @@ function listItemTask(id, task) {
  * administrator/components/com_trash/admin.trash.html.php
  * administrator/components/com_update/views/update/tmpl/default_item.php
  * libraries/joomla/html/html/grid.php
- * 
+ *
  * @param isitchecked
  * @return
  */
@@ -305,7 +305,7 @@ function submitform(pressbutton) {
 
 /**
  * USED IN: libraries/joomla/html/toolbar/button/help.php
- * 
+ *
  * Pops up a new window in the middle of the screen
  */
 function popupWindow(mypage, myname, w, h, scroll) {
@@ -359,9 +359,9 @@ function checkAll_button(n, task) {
 
 /**
  * USED IN: administrator/components/com_banners/views/client/tmpl/default.php
- * 
+ *
  * Verifies if the string is in a valid email format
- * 
+ *
  * @param string
  * @return boolean
  */

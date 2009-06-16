@@ -118,7 +118,7 @@
 				ed.selection.select(ed.dom.get('_mce_tmp'));
 				ed.getDoc().execCommand("Delete", false, ' ');
 			});
-	
+
 	/*		ed.onKeyDown.add(function(ed, e) {
 				// Ctrl+A select all will fail on WebKit since if you paste the contents you selected it will produce a odd div wrapper
 				if ((e.ctrlKey || e.metaKey) && e.keyCode == 65) {

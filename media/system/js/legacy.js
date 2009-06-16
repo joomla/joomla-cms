@@ -6,7 +6,7 @@
 
 /**
  * Overlib Styling Declarations to allow CSS class override of styles
- * 
+ *
  */
 var ol_fgclass = 'ol-foreground';
 var ol_bgclass = 'ol-background';
@@ -25,7 +25,7 @@ function xshow(o) {
 
 /**
  * Writes a dynamically generated list
- * 
+ *
  * @param string
  *            The parameters to insert into the <select> tag
  * @param array
@@ -59,7 +59,7 @@ function writeDynaList(selectParams, source, key, orig_key, orig_val) {
 
 /**
  * Changes a dynamically generated list
- * 
+ *
  * @param string
  *            The name of the list to change
  * @param array
@@ -265,9 +265,9 @@ function chgSelectedValue(frmName, srcListName, value) {
 
 /**
  * Toggles the check state of a group of boxes
- * 
+ *
  * Checkboxes must have an id attribute in the form cb0, cb1...
- * 
+ *
  * @param The
  *            number of box to 'check'
  * @param An
@@ -607,7 +607,7 @@ function go2(pressbutton, menu, id) {
 }
 /**
  * Verifies if the string is in a valid email format
- * 
+ *
  * @param string
  * @return boolean
  */

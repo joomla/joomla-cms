@@ -36,7 +36,7 @@ Joomla.combobox.transform = function(el, options)
 			this.options.selectedIndex = 0;
 			this.set('changeType', 'manual');
 		}
-		
+
 		// Check to see if the character is valid.
 		if ((e.code > 47 && e.code < 59) || (e.code > 62 && e.code < 127) || (e.code == 32)) {
 			var validChar = true;
@@ -65,7 +65,7 @@ Joomla.combobox.transform = function(el, options)
 				if (customString == '') {
 					customString = Joomla.JText._('ComboBoxInitString', 'type custom...');
 				}
-				
+
 				// Indicate that the change event was manually initiated.
 				this.set('changeType', 'manual');
 			}
@@ -85,7 +85,7 @@ Joomla.combobox.transform = function(el, options)
 			e.stop();
 		}
 	});
-	
+
 	// Add a change event handler.
 	el.addEvent('change', function(e){
 
@@ -96,7 +96,7 @@ Joomla.combobox.transform = function(el, options)
 			this.set('changeType', 'manual');
 		}
 	});
-	
+
 	// Add a keydown event handler.
 	el.addEvent('keydown', function(e){
 
@@ -114,7 +114,7 @@ Joomla.combobox.transform = function(el, options)
 		{
 			/*
 			 * In some browsers a feature exists to automatically jump to select options which
-			 * have the same letter typed as the first letter of the option.  The following 
+			 * have the same letter typed as the first letter of the option.  The following
 			 * section is designed to mitigate this issue when editing the custom option.
 			 *
 			 * Compare the entered character with the first character of all non-editable
@@ -138,7 +138,7 @@ Joomla.combobox.transform = function(el, options)
 
 	// Add a keyup event handler.
 	el.addEvent('keyup', function(e){
-		
+
 		// If the left or right arrow keys are pressed, return to the editable option.
 		if ((e.key == 'left') || (e.key == 'right')) {
 			this.options.selectedIndex = 0;

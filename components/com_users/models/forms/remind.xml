@@ -8,7 +8,7 @@
 			label="Users_Remind_Email_Label"
 			description="Users_Remind_Email_Desc"
 			class="inputbox validate-email"
-			size="30" 
+			size="30"
 			default=""
 			required="true"
 			validate="email"

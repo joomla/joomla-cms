@@ -45,28 +45,28 @@ function ContentBuildRoute(&$query)
 			$catid = (int) $query['catid'];
 		}
 	}
-	
+
 	if (isset($catid) && $catid > 0)
 	{
 		$categoryTree = JCategories::getInstance('com_content');
 		$category = $categoryTree->get($catid);
 	}
-	
+
 	// are we dealing with an article that is attached to a menu item?
 	if ((($mView == 'article' && isset($view) && $view == 'article')|| ($mView == 'category' && isset($view) && $view == 'category')) and (isset($query['id'])) and ($mId == intval($query['id']))) {
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
-	}	
-	
-	if (isset($category) && isset($view) 
-		&& $view == 'category' && $mView == $view 
+	}
+
+	if (isset($category) && isset($view)
+		&& $view == 'category' && $mView == $view
 		&& (int) $mCatid != $category->id) {
 		$path = array();
 		while((int)$category->id != (int)$mCatid)
 		{
 			$path[] = $category->slug;
-			$category = $category->getParent();	
+			$category = $category->getParent();
 		}
 		$path = array_reverse($path);
 		$segments = array_merge($segments, $path);
@@ -83,7 +83,7 @@ function ContentBuildRoute(&$query)
 				while((int)$category->id != (int)$mCatid)
 				{
 					$path[] = $category->slug;
-					$category = $category->getParent();	
+					$category = $category->getParent();
 				}
 				$path = array_reverse($path);
 				$segments = array_merge($segments, $path);

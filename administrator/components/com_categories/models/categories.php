@@ -268,7 +268,7 @@ class CategoriesModelCategories extends JModel
 		$where				= ' WHERE '
 						.' c.extension = '.$db->Quote($this->extension->option);
 						//.' AND cp.extension = '.$db->Quote($this->extension->option);
-		
+
 		if ($parent_category == 0)
 		{
 		//	$where .= ' AND cp.lft = 1';
@@ -298,12 +298,12 @@ class CategoriesModelCategories extends JModel
 
 		return $where . $filter;
 	}
-	
+
 	public function countRows($table, $cid) {
-	    
+
 	    // load the database Instance
 	    $db = JFactory::getDbo();
-	    
+
 	    // create the query
 	    $query = "
 	       SELECT
@@ -319,12 +319,12 @@ class CategoriesModelCategories extends JModel
 	       IN
 	           ('".implode("','", $cid)."')"
 	    ;
-	    
+
 	    // set the query
 	    $db->setQuery($query);
-	    
+
 	    // get the result
 	    return $db->loadResult();
-	    
+
 	}
 }

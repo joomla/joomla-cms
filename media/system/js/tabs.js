@@ -13,7 +13,7 @@
  */
 var JTabs = new Class({
 	Implements: [Options, Events],
-	
+
 	options : {
 		display: 0,
 		onActive: function(title, description) {
@@ -25,7 +25,7 @@ var JTabs = new Class({
 			title.addClass('closed').removeClass('open');
 		},
 		titleSelector: 'dt',
-		descriptionSelector: 'dd',		
+		descriptionSelector: 'dd',
 	},
 
     initialize: function(dlist, options){

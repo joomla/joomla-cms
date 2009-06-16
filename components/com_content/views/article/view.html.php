@@ -147,7 +147,7 @@ class ContentViewArticle extends ContentView
 			while($pathwaycat->id != $menu->query['id'])
 			{
 				$path[] = array($pathwaycat->title, $pathwaycat->slug);
-				$pathwaycat = $pathwaycat->getParent();	
+				$pathwaycat = $pathwaycat->getParent();
 			}
 			$path = array_reverse($path);
 			foreach($path as $element)
@@ -292,7 +292,7 @@ class ContentViewArticle extends ContentView
 		$sections[] = JHtml::_('select.option', '-1', '- '.JText::_('Select Section').' -', 'id', 'title');
 		$sections[] = JHtml::_('select.option', '0', JText::_('Uncategorized'), 'id', 'title');
 		$sections = array_merge($sections, $db->loadObjectList());
-		$lists['sectionid'] = JHtml::_('select.genericlist',  $sections, 'sectionid', 
+		$lists['sectionid'] = JHtml::_('select.genericlist',  $sections, 'sectionid',
 			array(
 				'list.attr' => 'class="inputbox" size="1" '.$javascript,
 				'list.select' => (int) $article->sectionid,

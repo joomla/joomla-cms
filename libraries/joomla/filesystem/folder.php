@@ -435,7 +435,7 @@ class JFolder
 		if(count($excludefilter)) {
 			$excludefilter = '/('. implode('|', $excludefilter) .')/';
 		} else {
-			$excludefilter = '';	
+			$excludefilter = '';
 		}
 		while (($file = readdir($handle)) !== false)
 		{

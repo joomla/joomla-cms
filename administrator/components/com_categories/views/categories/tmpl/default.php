@@ -4,14 +4,14 @@
  * @package     Joomla!.Administrator
  * @subpackage  Components.Categories
  * @license     GNU/GPL, see http://www.gnu.org/copyleft/gpl.html and LICENSE.php
- * 
+ *
  * Categories view default
- * 
+ *
  * Joomla! is free software. you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * Joomla! is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Joomla!; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * The "GNU General Public License" (GPL) is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
@@ -102,22 +102,22 @@ JHTML::_('behavior.tooltip');
         <tbody>
             <?php
                 if (count($this->rows)) :
-                
+
                     $i = 0;
-                    
+
                     $parent = $this->ordering['parent'];
                     $n = $this->ordering['parent'];
                     foreach($this->rows as $row) :
-                    
-                        
+
+
                         $link = 'index.php?option=com_categories&extension='. $this->extension->option .'&task=edit&cid[]='. $row->id;
                         $checked = JHTML::_('grid.checkedout',   $row, $i);
                         $published = JHTML::_('grid.published', $row, $i);
                         if ($row->parent == 0) :
                             --$parent;
                         endif;
-                        
-                        
+
+
             ?>
                         <tr class="<?php echo 'row'.$i%2; ?>">
                             <td>
@@ -167,7 +167,7 @@ JHTML::_('behavior.tooltip');
                         ++$i;
                     endforeach;
                 else :
-                
+
                     if ($this->extension->option == 'com_content') :
             ?>
                         <tr>
@@ -185,7 +185,7 @@ JHTML::_('behavior.tooltip');
                         </tr>
             <?php
                     endif;
-                
+
                 endif;
             ?>
         </tbody>

@@ -51,8 +51,8 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 					endif;
 				endfor;
 						?></td>
-						<?php endfor; 
-						$i = $i + $this->params->get('num_intro_articles') ; 
+						<?php endfor;
+						$i = $i + $this->params->get('num_intro_articles') ;
 			else : // otherwise, order down columns, like old category blog
 				for ($z = 0; $z < $this->params->get('num_columns'); $z ++) :
 					if ($z > 0) : $divider = " column_separator"; endif; ?>
@@ -65,8 +65,8 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 					endif;
 				endfor; ?>
 				</td>
-		<?php endfor; 
-		endif;?>		
+		<?php endfor;
+		endif;?>
 		</tr>
 		</table>
 	</td>

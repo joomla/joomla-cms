@@ -45,7 +45,7 @@ class TemplatesModelSource extends JModel
 	 * @var string
 	 */
 	var $_template = null;
-	
+
 	/**
 	 * Constructor
 	 *

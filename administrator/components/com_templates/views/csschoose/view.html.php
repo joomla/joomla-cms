@@ -36,7 +36,7 @@ class TemplatesViewCsschoose extends JView
 		JToolBarHelper::help('screen.templates');
 
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
-		
+
 		// Initialize some variables
 		$option 	= JRequest::getCmd('option');
 		$id 		= JRequest::getVar('id', '', 'method', 'int');
@@ -60,7 +60,7 @@ class TemplatesViewCsschoose extends JView
 		$this->assignRef('files',		$files);
 		$this->assignRef('id',		$id);
 		$this->assignRef('t_dir',		$dir);
-		
+
 		parent::display($tpl);
 	}
 }

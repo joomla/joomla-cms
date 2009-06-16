@@ -31,13 +31,13 @@ function WeblinksBuildRoute(&$query)
 		}
 		$view = $query['view'];
 	}
-	
+
 	if (isset($catid) && $catid > 0)
 	{
 		$categoryTree = JCategories::getInstance('com_weblinks');
 		$category = $categoryTree->get($catid);
 	}
-	
+
 	if (isset($category) && count($items))
 	{
 		$path = array();
@@ -56,7 +56,7 @@ function WeblinksBuildRoute(&$query)
 			}
 			foreach($items as $item)
 			{
-				if ($item->query['view'] == 'category' 
+				if ($item->query['view'] == 'category'
 					&& (int)$item->query['id'] == (int)$category->id)
 				{
 					$itemid = $item->id;
@@ -89,7 +89,7 @@ function WeblinksBuildRoute(&$query)
 	{
 		$segments[] = $query['id'];
 	}
-	
+
 	// Remove the unnecessary URL segments.
 	unset($query['view']);
 	unset($query['id']);

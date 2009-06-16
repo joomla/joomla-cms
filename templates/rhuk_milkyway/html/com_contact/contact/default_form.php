@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		// -->';
 	$document =& JFactory::getDocument();
 	$document->addScriptDeclaration($script);
-	
+
 	if(isset($this->error)) : ?>
 <tr>
 	<td><?php echo $this->error; ?></td>

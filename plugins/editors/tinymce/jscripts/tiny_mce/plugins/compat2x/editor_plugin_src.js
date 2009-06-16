@@ -296,7 +296,7 @@
 			},
 
 			addSelectAccessibility : function(e, s, w) {
-				// Add event handlers 
+				// Add event handlers
 				if (!s._isAccessible) {
 					s.onkeydown = tinyMCE.accessibleEventHandler;
 					s.onblur = tinyMCE.accessibleEventHandler;

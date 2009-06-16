@@ -3,12 +3,12 @@ require_once("../config_tinybrowser.php");
 
 header ("Content-type: text/css");
 ?>
-html { 
-overflow: -moz-scrollbars-vertical !important; 
+html {
+overflow: -moz-scrollbars-vertical !important;
 }
 .panel_wrapper div.currentmod {
 display:block;
-width:100%; 
+width:100%;
 overflow-x:hidden;
 }
 .tabs li.right {
@@ -45,7 +45,7 @@ margin-right: 2px;
 margin: 0;
 padding: 0;
 border: none;
-width: 13px !important; /* for IE */ 
+width: 13px !important; /* for IE */
 height: 13px !important; /* for IE */
 vertical-align: middle;
 }
@@ -168,23 +168,23 @@ padding-left: 3px;
 a.imghover {
 padding-left: 22px;
 display: block;
-position: relative; 
+position: relative;
 z-index: 30;
 background-image: url(../img/preview.gif);
 background-repeat: no-repeat;
 background-position: 0 4px;
 }
 a.imghover img {
-position: absolute; 
+position: absolute;
 z-index: 31;
 background-color: #fff;
 padding: 4px;
 border: 1px solid #888888;
-display: none; 
+display: none;
 }
 a.imghover:hover img {
-top: -5px; 
-left: 140px; 
+top: -5px;
+left: 140px;
 display: block;
 }
 .pushleft {

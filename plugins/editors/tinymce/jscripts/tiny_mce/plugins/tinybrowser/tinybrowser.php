@@ -3,7 +3,7 @@ require_once('config_tinybrowser.php');
 // Set language
 if(isset($tinybrowser['language']) && file_exists('langs/'.$tinybrowser['language'].'.php'))
 	{
-	require_once('langs/'.$tinybrowser['language'].'.php'); 
+	require_once('langs/'.$tinybrowser['language'].'.php');
 	}
 else
 	{
@@ -29,19 +29,19 @@ $foldernow = str_replace(array('../','..\\','./','.\\'),'',($tinybrowser['allowf
 
 if($standalone)
 	{
-	$passfeid = '&feid='.$_GET['feid'];	
+	$passfeid = '&feid='.$_GET['feid'];
 	$rowhlightinit =  ' onload="rowHighlight();"';
 	}
 else
 	{
 	$passfeid = '';
-	$rowhlightinit =  '';	
+	$rowhlightinit =  '';
 	}
 
 // Assign browsing options
 $sortbynow = (isset($_REQUEST['sortby']) ? $_REQUEST['sortby'] : $tinybrowser['order']['by']);
 $sorttypenow = (isset($_REQUEST['sorttype']) ? $_REQUEST['sorttype'] : $tinybrowser['order']['type']);
-$sorttypeflip = ($sorttypenow == 'asc' ? 'desc' : 'asc');  
+$sorttypeflip = ($sorttypenow == 'asc' ? 'desc' : 'asc');
 $viewtypenow = (isset($_REQUEST['viewtype']) ? $_REQUEST['viewtype'] : $tinybrowser['view']['image']);
 $findnow = (isset($_POST['find']) && !empty($_POST['find']) ? $_POST['find'] : false);
 $showpagenow = (isset($_REQUEST['showpage']) ? $_REQUEST['showpage'] : 0);
@@ -60,19 +60,19 @@ $thumbpath = $tinybrowser[$tinybrowser['thumbsrc']][$typenow].$foldernow;
 // Assign sort parameters for column header links
 $sortbyget = array();
 $sortbyget['name'] = '&viewtype='.$viewtypenow.'&sortby=name';
-$sortbyget['size'] = '&viewtype='.$viewtypenow.'&sortby=size'; 
-$sortbyget['type'] = '&viewtype='.$viewtypenow.'&sortby=type'; 
+$sortbyget['size'] = '&viewtype='.$viewtypenow.'&sortby=size';
+$sortbyget['type'] = '&viewtype='.$viewtypenow.'&sortby=type';
 $sortbyget['modified'] = '&viewtype='.$viewtypenow.'&sortby=modified';
-$sortbyget['dimensions'] = '&viewtype='.$viewtypenow.'&sortby=dimensions'; 
+$sortbyget['dimensions'] = '&viewtype='.$viewtypenow.'&sortby=dimensions';
 $sortbyget[$sortbynow] .= '&sorttype='.$sorttypeflip;
 
 // Assign css style for current sort type column
 $thclass = array();
 $thclass['name'] = '';
-$thclass['size'] = ''; 
-$thclass['type'] = ''; 
+$thclass['size'] = '';
+$thclass['type'] = '';
 $thclass['modified'] = '';
-$thclass['dimensions'] = ''; 
+$thclass['dimensions'] = '';
 $thclass[$sortbynow] = ' class="'.$sorttypenow.'"';
 
 // Initalise alert array
@@ -99,7 +99,7 @@ if(file_exists($tinybrowser['docroot'].$browsepath))
 			{
 			// search file name if search term entered
 			if($findnow) $exists = strpos(strtolower($filename),strtolower($findnow));
-	
+
 			// assign file details to array, for all files or those that match search
 			if(!$findnow || ($findnow && $exists !== false))
 				{
@@ -107,7 +107,7 @@ if(file_exists($tinybrowser['docroot'].$browsepath))
 				$file['sortname'][] = strtolower($filename);
 				$file['modified'][] = filemtime($tinybrowser['docroot'].$browsepath.$filename);
 				$file['size'][] = filesize($tinybrowser['docroot'].$browsepath.$filename);
-	
+
 				// image specific info or general
 				if($typenow=='image' && $imginfo = getimagesize($tinybrowser['docroot'].$browsepath.$filename))
 					{
@@ -115,7 +115,7 @@ if(file_exists($tinybrowser['docroot'].$browsepath))
 					$file['height'][] = $imginfo[1];
 					$file['dimensions'][] = $imginfo[0] + $imginfo[1];
 					$file['type'][] = $imginfo['mime'];
-					
+
 					// Check a thumbnail exists
 					if(!file_exists($tinybrowser['docroot'].$browsepath.'_thumbs/')) createfolder($tinybrowser['docroot'].$browsepath.'_thumbs/',$tinybrowser['unixpermissions']);
 			  		$thumbimg = $tinybrowser['docroot'].$browsepath.'_thumbs/_'.$filename;
@@ -129,14 +129,14 @@ if(file_exists($tinybrowser['docroot'].$browsepath))
 						$newthumbqty++;
 						}
 					}
-				else 
+				else
 					{
 					$file['width'][] = 'N/A';
 					$file['height'][] = 'N/A';
 					$file['dimensions'][] = 'N/A';
 					$file['type'][] = returnMIMEType($filename);
 					}
-				}			
+				}
 			}
 		}
 	closedir($dh);
@@ -157,18 +157,18 @@ else
 		$notify['message'][]=sprintf(TB_MSGMKDIRFAIL, $browsepath);
 		}
 	}
-	
+
 // Assign directory structure to array
 $browsedirs=array();
 dirtree($browsedirs,$tinybrowser['filetype'][$typenow],$tinybrowser['docroot'],$tinybrowser['path'][$typenow]);
-	
+
 // generate alert if new thumbnails created
 if($newthumbqty>0)
    {
 	$notify['type'][]='info';
 	$notify['message'][]=sprintf(TB_MSGNEWTHUMBS, $newthumbqty);
 	}
-	
+
 
 // determine sort order
 $sortorder = ($sorttypenow == 'asc' ? SORT_ASC : SORT_DESC);
@@ -207,7 +207,7 @@ if(!$standalone && $tinybrowser['integration']=='tinymce')
 	}
 else
 	{
-	?><link rel="stylesheet" type="text/css" media="all" href="css/stylefull_tinybrowser.css" /><?php 
+	?><link rel="stylesheet" type="text/css" media="all" href="css/stylefull_tinybrowser.css" /><?php
 	}
 ?>
 <link rel="stylesheet" type="text/css" media="all" href="css/style_tinybrowser.css.php" />
@@ -221,7 +221,7 @@ form_open('foldertab',false,'tinybrowser.php','?type='.$typenow.$passviewtype.$p
 <div class="tabs">
 <ul>
 <li id="browse_tab" class="current"><span><a href="tinybrowser.php?type=<?php echo $typenow.$passfolder.$passfeid; ?>"><?php echo TB_BROWSE; ?></a></span></li><?php
-if($tinybrowser['allowupload']) 
+if($tinybrowser['allowupload'])
 	{
 	?><li id="upload_tab"><span><a href="upload.php?type=<?php echo $typenow.$passfolder.$passfeid; ?>"><?php echo TB_UPLOAD; ?></a></span></li><?php
 	}
@@ -239,7 +239,7 @@ if(count($browsedirs)>1)
 	?><li id="folder_tab" class="right"><span><?php
 	form_select($browsedirs,'folder',TB_FOLDERCURR,urlencode($foldernow),true);
 	?></span></li><?php
-	} 
+	}
 ?>
 </ul>
 </div>
@@ -263,7 +263,7 @@ if($typenow=='image')
 	);
 	form_select($select,'viewtype',TB_VIEW,$viewtypenow,true);
 	}
-	
+
 // Show page select if pagination is set
 if($tinybrowser['pagination']>0)
 	{
@@ -324,7 +324,7 @@ else
 		if($typenow=='image') echo '<td><a class="imghover" href="#" onclick="selectURL(\''.$linkpath.$file['name'][$i].'\');" title="'.$file['name'][$i].'"><img src="'.$thumbpath.'_thumbs/_'.$file['name'][$i].'" alt="" />'.truncate_text($file['name'][$i],30).'</a></td>';
 		else echo '<td><a href="#" onclick="selectURL(\''.$linkpath.$file['name'][$i].'\');" title="'.$file['name'][$i].'">'.truncate_text($file['name'][$i],30).'</a></td>';
 		echo '<td>'.bytestostring($file['size'][$i],1).'</td>';
-		if($typenow=='image') echo '<td>'.$file['width'][$i].' x '.$file['height'][$i].'</td>';	
+		if($typenow=='image') echo '<td>'.$file['width'][$i].' x '.$file['height'][$i].'</td>';
 		echo '<td>'.$file['type'][$i].'</td>'
 			.'<td>'.date($tinybrowser['dateformat'],$file['modified'][$i]).'</td></tr>'."\n";
 		}

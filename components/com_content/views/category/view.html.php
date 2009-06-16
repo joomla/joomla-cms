@@ -130,7 +130,7 @@ class ContentViewCategory extends ContentView
 			while($pathwaycat->id != $menu->query['id'])
 			{
 				$path[] = array($pathwaycat->title, $pathwaycat->slug);
-				$pathwaycat = $pathwaycat->getParent();	
+				$pathwaycat = $pathwaycat->getParent();
 			}
 			$path = array_reverse($path);
 			foreach($path as $element)
@@ -159,7 +159,7 @@ class ContentViewCategory extends ContentView
 		} else {
 			$pagination = new JPagination($total, $limitstart, $limit);
 		}
-		
+
 		$children = $this->get('Children');
 
 		$this->assign('total',		$total);

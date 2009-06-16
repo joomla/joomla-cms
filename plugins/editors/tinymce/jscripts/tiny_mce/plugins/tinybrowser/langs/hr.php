@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 TinyBrowser 1.32 - A TinyMCE file browser (C) 2008  Bryn Jones
 Language 'hr'

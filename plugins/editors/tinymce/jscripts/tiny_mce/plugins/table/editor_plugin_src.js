@@ -597,7 +597,7 @@
 							case "mceTablePasteRowAfter":
 								if (!trElm || !tdElm)
 									return true;
-								
+
 								var nextTR = nextElm(trElm, "TR");
 								var newTR = inst.tableRowClipboard.cloneNode(true);
 

@@ -2,7 +2,7 @@
 <!-- $Id$ -->
 <form>
 	<fields>
-		<field name="token" type="text" id="token" 
+		<field name="token" type="text" id="token"
 			label="Users_Reset_Token_Label"
 			description="Users_Reset_Token_Desc"
 			class="inputbox"

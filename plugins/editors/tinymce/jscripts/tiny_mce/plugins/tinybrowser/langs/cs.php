@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 TinyBrowser 1.40 - A TinyMCE file browser (C) 2008  Bryn Jones
 Default Language 'cs'
@@ -62,9 +62,9 @@ Author: J. Frank
 		define("TB_UPDENIED", "Potřebujete povolení pro upload souborů.");
 		define("TB_EDDENIED", "Potřebujete povolení pro změnu nebo mazání souborů.");
 		define("TB_MSGCREATE", "%s Složky byly úspěšně vytvořeny.");
-	
-		
 
-	
+
+
+
 
 ?>

@@ -33,7 +33,7 @@
 			label="Categories_Alias"
 			description="Categories_Alias_Desc"
 		/>
-		
+
 		<field
 			id="published"
 			name="published"
@@ -104,7 +104,7 @@
 			readonly="true"
 			filter="unset"
 		/>
-		
+
 		<field
 			id="ordering"
 			name="ordering"
@@ -142,12 +142,12 @@
 		</field>
 
 	</fields>
-	
+
 	<fields
 				group="params"
 				array="true"
 				label="Categories_Options">
-		
+
 		<field
 				id="target"
 				name="target"

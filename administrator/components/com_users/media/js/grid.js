@@ -21,7 +21,7 @@ window.addEvent('domready', function(){
 			listItemTask(args.id, args.task);
 		});
 	});
-	
+
 	$$('input.check-all-toggle').each(function(el){
 		el.addEvent('click', function(){
 			if (el.checked) {

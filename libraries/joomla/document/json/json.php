@@ -26,7 +26,7 @@ class JDocumentJSON extends JDocument
 	 * @access  protected
 	 */
 	protected $_name = 'joomla';
-	
+
 	/**
 	 * Class constructor
 	 *

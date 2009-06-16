@@ -22,7 +22,7 @@ for($i=0;$i<$alert_num;$i++)
 // *************************SORT FILE ARRAY BY SELECTED ORDER**********************************
 function sortfileorder(&$sortbynow,&$sortorder,&$file) {
 
-switch($sortbynow) 
+switch($sortbynow)
 	{
 	case 'name':
 		array_multisort($file['sortname'], $sortorder, $file['name'], $sortorder, $file['type'], $sortorder, $file['modified'], $sortorder, $file['size'], $sortorder, $file['dimensions'], $sortorder, $file['width'], $sortorder, $file['height'], $sortorder);
@@ -54,14 +54,14 @@ if(($maxwidth && $width > $maxwidth) || ($maxheight && $height > $maxheight))
 		{
 		$widthratio = $maxwidth/$width;
 		$resizewidth=true;
-		} 
+		}
 	else $resizewidth=false;
 
 	if($maxheight && $height > $maxheight)
 		{
 		$heightratio = $maxheight/$height;
 		$resizeheight=true;
-		} 
+		}
 	else $resizeheight=false;
 
  	if($resizewidth && $resizeheight)
@@ -107,7 +107,7 @@ if(($maxwidth && $width > $maxwidth) || ($maxheight && $height > $maxheight))
 		}
 
    imagecopyresampled($newim, $im, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-   
+
    if($imagetype == 'image/pjpeg' || $imagetype == 'image/jpeg')
    	{
    	imagejpeg ($newim,$urlandname,$comp);
@@ -167,13 +167,13 @@ function form_open($name,$class,$url,$parameters){
 
 // **************************GENERATE FORM SELECT ELEMENT*****************************
 function form_select($options,$name,$label,$current,$auto){
-if ($label) {?><label for="<?php echo $name; ?>"><?php echo $label; ?></label><?php } 
+if ($label) {?><label for="<?php echo $name; ?>"><?php echo $label; ?></label><?php }
 ?><select name="<?php echo $name; ?>" <?php if ($auto) {?>onchange="this.form.submit();"<?php }?>>
 <?php
-$loopnum = count($options); 
+$loopnum = count($options);
 for($i=0;$i<$loopnum;$i++)
 	{
-	$selected = ($options[$i][0] == $current ? ' selected' : ''); 
+	$selected = ($options[$i][0] == $current ? ' selected' : '');
 	echo '<option value="'.$options[$i][0].'"'.$selected.'>'.$options[$i][1].'</option>';
 	}
 ?></select><?php
@@ -215,7 +215,7 @@ function truncate_text($textstring,$length){
 
 /**
  * Present a size (in bytes) as a human-readable value
- * 
+ *
  * @param int    $size        size (in bytes)
  * @param int    $precision    number of digits after the decimal point
  * @return string

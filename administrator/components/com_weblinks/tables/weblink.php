@@ -105,7 +105,7 @@ class WeblinksTableWeblink extends JTable
 	 * @var string
 	 */
 	public $params = null;
-	
+
 	protected $_trackAssets = true;
 
 	/**

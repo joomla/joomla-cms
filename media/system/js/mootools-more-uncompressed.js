@@ -24,7 +24,7 @@ Script: MooTools.Lang.js
 		},
 		cascades: ['en-US']
 	};
-	
+
 	var cascaded;
 
 	MooTools.lang = new Events();
@@ -109,11 +109,11 @@ Script: Log.js
 */
 
 var Log = new Class({
-	
+
 	log: function(){
 		Log.logger.call(this, arguments);
 	}
-	
+
 });
 
 Log.logged = [];
@@ -966,7 +966,7 @@ Script: String.Extras.js
 */
 
 (function(){
-  
+
 var special = ['À','à','Á','á','Â','â','Ã','ã','Ä','ä','Å','å','Ă','ă','Ą','ą','Ć','ć','Č','č','Ç','ç', 'Ď','ď','Đ','đ', 'È','è','É','é','Ê','ê','Ë','ë','Ě','ě','Ę','ę', 'Ğ','ğ','Ì','ì','Í','í','Î','î','Ï','ï', 'Ĺ','ĺ','Ľ','ľ','Ł','ł', 'Ñ','ñ','Ň','ň','Ń','ń','Ò','ò','Ó','ó','Ô','ô','Õ','õ','Ö','ö','Ø','ø','ő','Ř','ř','Ŕ','ŕ','Š','š','Ş','ş','Ś','ś', 'Ť','ť','Ť','ť','Ţ','ţ','Ù','ù','Ú','ú','Û','û','Ü','ü','Ů','ů', 'Ÿ','ÿ','ý','Ý','Ž','ž','Ź','ź','Ż','ż', 'Þ','þ','Ð','ð','ß','Œ','œ','Æ','æ','µ'];
 
 var standard = ['A','a','A','a','A','a','A','a','Ae','ae','A','a','A','a','A','a','C','c','C','c','C','c','D','d','D','d', 'E','e','E','e','E','e','E','e','E','e','E','e','G','g','I','i','I','i','I','i','I','i','L','l','L','l','L','l', 'N','n','N','n','N','n', 'O','o','O','o','O','o','O','o','Oe','oe','O','o','o', 'R','r','R','r', 'S','s','S','s','S','s','T','t','T','t','T','t', 'U','u','U','u','U','u','Ue','ue','U','u','Y','y','Y','y','Z','z','Z','z','Z','z','TH','th','DH','dh','ss','OE','oe','AE','ae','u'];
@@ -1177,9 +1177,9 @@ var URI = new Class({
 	},
 
 	setData: function(values, merge, part){
-		if ($type(arguments[0]) == 'string'){ 
-			values = this.getData(); 
-			values[arguments[0]] = arguments[1]; 
+		if ($type(arguments[0]) == 'string'){
+			values = this.getData();
+			values[arguments[0]] = arguments[1];
 		} else if (merge) {
 			values = $merge(this.getData(), values);
 		}
@@ -1397,7 +1397,7 @@ Element.implement({
 		};
 		if (vis(this)) return fn.apply(this);
 		var parent = this.getParent(),
-			toMeasure = [], 
+			toMeasure = [],
 			restorers = [];
 		while (!vis(parent) && parent != document.body) {
 			toMeasure.push(parent.expose());
@@ -1536,7 +1536,7 @@ Script: Element.Pin.js
 
 		pin: function(enable){
 			if (this.getStyle('display') == 'none') return null;
-			
+
 			var p;
 			if (enable !== false){
 				p = this.getPosition();
@@ -3002,7 +3002,7 @@ Fx.Reveal = new Class({
 
 	Extends: Fx.Morph,
 
-	options: {/*	  
+	options: {/*
 		onShow: $empty(thisElemeng),
 		onHide: $empty(thisElemeng),
 		onComplete: $empty(thisElemeng),
@@ -3641,7 +3641,7 @@ Fx.Sort = new Class({
 	swap: function(one, two){
 		if ($type(one) == 'element') one = this.elements.indexOf(one);
 		if ($type(two) == 'element') two = this.elements.indexOf(two);
-		
+
 		var newOrder = $A(this.currentOrder);
 		newOrder[this.currentOrder.indexOf(one)] = two;
 		newOrder[this.currentOrder.indexOf(two)] = one;
@@ -4167,7 +4167,7 @@ var Sortables = new Class({
 			this.elements.erase(element);
 			var start = element.retrieve('sortables:start');
 			(this.options.handle ? element.getElement(this.options.handle) || element : element).removeEvent('mousedown', start);
-			
+
 			return element;
 		}, this));
 	},
@@ -4176,7 +4176,7 @@ var Sortables = new Class({
 		return $$(Array.flatten(arguments).map(function(list){
 			this.lists.erase(list);
 			this.removeItems(list.getChildren());
-			
+
 			return list;
 		}, this));
 	},
@@ -4376,10 +4376,10 @@ Request.JSONP = new Class({
 			case 'object': case 'hash': data = Hash.toQueryString(options.data);
 		}
 
-		var src = options.url + 
-			 (options.url.test('\\?') ? '&' :'?') + 
-			 (options.callbackKey || this.options.callbackKey) + 
-			 '=Request.JSONP.request_map.request_'+ index + 
+		var src = options.url +
+			 (options.url.test('\\?') ? '&' :'?') +
+			 (options.callbackKey || this.options.callbackKey) +
+			 '=Request.JSONP.request_map.request_'+ index +
 			 (data ? '&' + data : '');
 		if (src.length > 2083) this.log('JSONP '+ src +' will fail in Internet Explorer, which enforces a 2083 bytes length limit on URIs');
 
@@ -5151,10 +5151,10 @@ var Scroller = new Class({
 	},
 
 	scroll: function(){
-		var size = this.element.getSize(), 
-			scroll = this.element.getScroll(), 
-			pos = this.element.getOffsets(), 
-			scrollSize = this.element.getScrollSize(), 
+		var size = this.element.getSize(),
+			scroll = this.element.getScroll(),
+			pos = this.element.getOffsets(),
+			scrollSize = this.element.getScrollSize(),
 			change = {x: 0, y: 0};
 		for (var z in this.page){
 			if (this.page[z] < (this.options.area + pos[z]) && scroll[z] != 0)
@@ -5207,7 +5207,7 @@ var Tips = new Class({
 		this.setOptions(params.options);
 		this.container = new Element('div', {'class': 'tip'});
 		this.tip = this.getTip();
-		
+
 		if (params.elements) this.attach(params.elements);
 	},
 
@@ -5237,15 +5237,15 @@ var Tips = new Class({
 			var title = read(this.options.title, element);
 			element.erase('title').store('tip:native', title).retrieve('tip:title', title);
 			element.retrieve('tip:text', read(this.options.text, element));
-			
+
 			var events = ['enter', 'leave'];
 			if (!this.options.fixed) events.push('move');
-			
+
 			events.each(function(value){
 				element.addEvent('mouse' + value, element.retrieve('tip:' + value, this['element' + value.capitalize()].bindWithEvent(this, element)));
 			}, this);
 		}, this);
-		
+
 		return this;
 	},
 
@@ -5254,29 +5254,29 @@ var Tips = new Class({
 			['enter', 'leave', 'move'].each(function(value){
 				element.removeEvent('mouse' + value, element.retrieve('tip:' + value) || $empty);
 			});
-			
+
 			element.eliminate('tip:enter').eliminate('tip:leave').eliminate('tip:move');
-			
+
 			if ($type(this.options.title) == 'string' && this.options.title == 'title'){
 				var original = element.retrieve('tip:native');
 				if (original) element.set('title', original);
 			}
 		}, this);
-		
+
 		return this;
 	},
 
 	elementEnter: function(event, element){
 		$A(this.container.childNodes).each(Element.dispose);
-		
+
 		['title', 'text'].each(function(value){
 			var content = element.retrieve('tip:' + value);
 			if (!content) return;
-			
+
 			this[value + 'Element'] = new Element('div', {'class': 'tip-' + value}).inject(this.container);
 			this.fill(this[value + 'Element'], content);
 		}, this);
-		
+
 		this.timer = $clear(this.timer);
 		this.timer = this.show.delay(this.options.showDelay, this, element);
 		this.tip.setStyle('display', 'block');
@@ -5298,12 +5298,12 @@ var Tips = new Class({
 			tip = {x: this.tip.offsetWidth, y: this.tip.offsetHeight},
 			props = {x: 'left', y: 'top'},
 			obj = {};
-		
+
 		for (var z in props){
 			obj[props[z]] = event.page[z] + this.options.offset[z];
 			if ((obj[props[z]] + tip[z] - scroll[z]) > size[z]) obj[props[z]] = event.page[z] - this.options.offset[z] - tip[z];
 		}
-		
+
 		this.tip.setStyles(obj);
 	},
 

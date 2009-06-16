@@ -67,7 +67,7 @@ class NewsfeedsViewCategory extends JView
 			while($pathwaycat->id != $menu->query['id'])
 			{
 				$path[] = array($pathwaycat->title, $pathwaycat->slug);
-				$pathwaycat = $pathwaycat->getParent();	
+				$pathwaycat = $pathwaycat->getParent();
 			}
 			$path = array_reverse($path);
 			foreach($path as $element)
@@ -80,7 +80,7 @@ class NewsfeedsViewCategory extends JView
 				}
 			}
 		}
-		
+
 		// Prepare category description
 		$category->description = JHtml::_('content.prepare', $category->description);
 
@@ -105,11 +105,11 @@ class NewsfeedsViewCategory extends JView
 			// Use the static HTML library to build the image tag
 			$image = JHtml::_('image', 'images/'.$category->image, JText::_('NEWS_FEEDS'), $attribs);
 		}
-		
+
 		$children = $category->getChildren();
 		foreach($children as &$child)
 		{
-			$child->link = JRoute::_('index.php?option=com_newsfeeds&view=category&id='.$child->slug); 
+			$child->link = JRoute::_('index.php?option=com_newsfeeds&view=category&id='.$child->slug);
 		}
 		$this->assignRef('image',		$image);
 		$this->assignRef('params',		$params);

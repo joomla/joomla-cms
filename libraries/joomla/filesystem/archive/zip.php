@@ -184,7 +184,7 @@ class JArchiveZip extends JObject
 			$this->set('error.message', 'Unable to read archive');
 			return false;
 		}
-		
+
 		if (!$this->_getZipInfo($this->_data)) {
 			$this->set('error.message', 'Get ZIP Information failed');
 			return false;

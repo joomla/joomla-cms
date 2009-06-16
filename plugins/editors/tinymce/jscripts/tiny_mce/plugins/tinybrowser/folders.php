@@ -3,7 +3,7 @@ require_once('config_tinybrowser.php');
 // Set language
 if(isset($tinybrowser['language']) && file_exists('langs/'.$tinybrowser['language'].'.php'))
 	{
-	require_once('langs/'.$tinybrowser['language'].'.php'); 
+	require_once('langs/'.$tinybrowser['language'].'.php');
 	}
 else
 	{
@@ -20,7 +20,7 @@ if(session_id() != '')
 		exit;
 		}
 	}
-	
+
 if(!$tinybrowser['allowfolders'])
 	{
 	echo TB_FODENIED;
@@ -49,7 +49,7 @@ $createqty = 0;
 $deleteqty = 0;
 $renameqty = 0;
 $errorqty = 0;
-	
+
 // Create any child folders with entered name
 if(isset($_POST['createfolder']))
 	{
@@ -66,7 +66,7 @@ if(isset($_POST['createfolder']))
 			}
 		}
 	}
-	
+
 // Delete any checked folders
 if(isset($_POST['deletefolder']))
 	{
@@ -87,7 +87,7 @@ if(isset($_POST['deletefolder']))
 		}
 
 	}
-	
+
 // Rename any folders with changed name
 if(isset($_POST['renamefolder']))
 	{
@@ -131,14 +131,14 @@ elseif($renameqty>0)
 	$notify['type'][]='success';
 	$notify['message'][]=sprintf(TB_MSGRENAME, $renameqty);
 	}
-	
+
 // generate alert if file errors encountered
 if($errorqty>0)
    {
 	$notify['type'][]='failure';
 	$notify['message'][]=sprintf(TB_MSGEDITERR, $errorqty);
 	}
-	
+
 // count folders
 $num_of_folders = (isset($dirs) ? count($dirs) : 0);
 
@@ -152,11 +152,11 @@ $num_of_folders = (isset($dirs) ? count($dirs) : 0);
 <?php
 if($passfeid == '' && $tinybrowser['integration']=='tinymce')
 	{
-	?><link rel="stylesheet" type="text/css" media="all" href="<?php echo $tinybrowser['tinymcecss']; ?>" /><?php 
+	?><link rel="stylesheet" type="text/css" media="all" href="<?php echo $tinybrowser['tinymcecss']; ?>" /><?php
 	}
 else
 	{
-	?><link rel="stylesheet" type="text/css" media="all" href="css/stylefull_tinybrowser.css" /><?php 
+	?><link rel="stylesheet" type="text/css" media="all" href="css/stylefull_tinybrowser.css" /><?php
 	}
 ?>
 <link rel="stylesheet" type="text/css" media="all" href="css/style_tinybrowser.css.php" />
@@ -171,10 +171,10 @@ form_open('foldertab',false,'folders.php','?type='.$typenow.$passfeid);
 <ul>
 <li id="browse_tab"><span><a href="tinybrowser.php?type=<?php echo $typenow.$passfolder.$passfeid ; ?>"><?php echo TB_BROWSE; ?></a></span></li>
 <?php
-if($tinybrowser['allowupload']) 
+if($tinybrowser['allowupload'])
 	{
 	?><li id="upload_tab"><span><a href="upload.php?type=<?php echo $typenow.$passfolder.$passfeid ; ?>"><?php echo TB_UPLOAD; ?></a></span></li>
-	<?php 
+	<?php
 	}
 if($tinybrowser['allowfolders'])
 	{
@@ -210,9 +210,9 @@ if($actionnow=='move')
    { ?><div class="pushleft"><?php
    form_select($editdirs,'destination',TB_FOLDERDEST,urlencode($foldernow),false);
    ?></div><?php
-   } 
+   }
 
-switch($actionnow) 
+switch($actionnow)
 	{
 	case 'delete':
 		$actionhead = TB_DELETE;
@@ -242,7 +242,7 @@ for($i=0;$i<$num_of_folders;$i++)
 	echo '<td>'.$dirs[$i][4].'</td><td>'.date($tinybrowser['dateformat'],$dirs[$i][5]).'</td>'
 	.'<td>';
 	form_hidden_input('actionfolder['.$i.']',$dirs[$i][0]);
-	switch($actionnow) 
+	switch($actionnow)
 		{
 		case 'create':
          echo '&rarr; ';

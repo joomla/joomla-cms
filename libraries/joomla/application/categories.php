@@ -26,35 +26,35 @@ class JCategories
 	 * @param array
 	 */
 	static $instances = array();
-	
+
 	/**
 	 * Array of category nodes
-	 * 
+	 *
 	 * @var mixed
 	 */
 	protected $_nodes = null;
-	
+
 	/**
-	 * Name of the extension the categories belong to 
-	 * 
+	 * Name of the extension the categories belong to
+	 *
 	 * @var string
 	 */
 	protected $_extension = null;
-	
+
 	/**
 	 * Name of the linked content table to get category content count
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_table = null;
-	
+
 	/**
 	 * Array of options
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_options = null;
-	
+
 	/**
 	 * Class constructor
 	 *
@@ -68,13 +68,13 @@ class JCategories
 		$this->_options		= $options;
 		return true;
 	}
-	
+
 	/**
 	 * Returns a reference to a JCategories object
-	 * 
+	 *
 	 * This method must be invoked as:
 	 * 		<pre>  $categories = &JCategories::getInstance();</pre>
-	 * 
+	 *
 	 * @param $extension Name of the categories extension
 	 * @param $options An array of options
 	 * @return object
@@ -99,7 +99,7 @@ class JCategories
 		self::$instances[$extension] = new $classname($options);
 		return self::$instances[$extension];
 	}
-	
+
 	/**
 	 * Loads a specific category and all its children in a JCategoryNode object
 	 * @param $id
@@ -123,7 +123,7 @@ class JCategories
 			throw new JException('Unable to load category: '.$id, 0000, E_ERROR, $info, true);
 		}
 	}
-	
+
 	protected function _load($id)
 	{
 		$db	= &JFactory::getDbo();
@@ -197,11 +197,11 @@ class JCategoryNode extends JObject
 	public $numitems				= null;
 	/** @var string */
 	public $slug					= null;
-	
+
 	protected $_parent				= null;
-	
+
 	protected $_children			= array();
-	
+
 	/**
 	 * Class constructor
 	 * @param $category
@@ -232,8 +232,8 @@ class JCategoryNode extends JObject
 	{
 		$node->setParent($this);
 		$this->_children[] = & $node;
-	}	
-	
+	}
+
 	/**
 	 * Returns the parent category of the current category
 	 * @return JCategoryNode

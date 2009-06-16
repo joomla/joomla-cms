@@ -51,9 +51,9 @@ class plgSystemDebug extends JPlugin
 
 		// Only render for HTML output
 		if ($doctype !== 'html') { return; }
-		
+
 		// If the user is not allowed to view the output then end here
-		$filterGroups = (array) $this->params->get('filter_groups', null);	
+		$filterGroups = (array) $this->params->get('filter_groups', null);
 		if (!empty($filterGroups)) {
 			$userGroups = JFactory::getUser()->get('groups');
 			if (!array_intersect($filterGroups, array_keys($userGroups))) {

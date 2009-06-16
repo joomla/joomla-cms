@@ -112,7 +112,7 @@ class CategoriesModelCategory extends JModel
 
 		return $form;
 	}
-	
+
 	/**
 	 * Tests if category is checked out
 	 *

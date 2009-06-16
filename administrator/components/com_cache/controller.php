@@ -53,7 +53,7 @@ class CacheController extends JController
 			$view->display();
 		}
 	}
-	
+
 	public function delete()
 	{
 		// Check for request forgeries
@@ -66,7 +66,7 @@ class CacheController extends JController
 
 		$this->setRedirect('index.php?option=com_cache');
 	}
-	
+
 	public function purge()
 	{
 		// Check for request forgeries

@@ -138,11 +138,11 @@ class TemplatesModelTemplates extends JModel
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-			
+
 			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
 			$tBaseDir = $this->_client->path.DS.'templates';
-			$rows = TemplatesHelper::parseXMLTemplateFiles($tBaseDir);		
-			
+			$rows = TemplatesHelper::parseXMLTemplateFiles($tBaseDir);
+
 			$total= $this->getTotal();
 			for ($i = 0; $i < $total; $i++)  {
 				$this->_data[$i]->assigned = TemplatesHelper::isTemplateNameAssigned($this->_data[$i]->template,$this->_data[$i]->client_id);
@@ -152,5 +152,5 @@ class TemplatesModelTemplates extends JModel
 		}
 		return $this->_data;
 	}
-	
+
 }

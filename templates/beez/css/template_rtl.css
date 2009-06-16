@@ -19,7 +19,7 @@
  * @since                1.5
  * @version     1.0
  */
- 
+
 body{
 	direction: rtl;
 }
@@ -101,13 +101,13 @@ body #header ul {
 
 #header form .button{
 	margin:20px 0 0 10px;
-	padding:0 30px 0 5px;	
+	padding:0 30px 0 5px;
 	background: #000000 url(../images/pfeil_rtl.gif) no-repeat scroll 100%
 }
 
 #breadcrumbs{
 	text-align: right !important;
-	margin:0 0 0 -10px !important;	
+	margin:0 0 0 -10px !important;
 }
 
 #wrapper {

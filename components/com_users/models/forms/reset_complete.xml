@@ -19,7 +19,7 @@
 		/>
 		<field
 			name="password2"
-			type="password" 
+			type="password"
 			label="Users_Reset_Password2_Label"
 			description="Users_Reset_Password2_Desc"
 			message="Users_Reset_Password2_Message"

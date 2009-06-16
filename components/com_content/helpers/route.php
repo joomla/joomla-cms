@@ -106,7 +106,7 @@ abstract class ContentHelperRoute
 			if (is_array($id))
 			{
 				foreach($id as $tempid)
-				{				
+				{
 					foreach($items as $item)
 					{
 						if ((@$item->query['view'] == $needle) && (@$item->query['id'] == $tempid)) {
@@ -114,7 +114,7 @@ abstract class ContentHelperRoute
 							break;
 						}
 					}
-					
+
 				}
 			} else {
 				foreach($items as $item)

@@ -40,7 +40,7 @@ class CacheModelCache extends JModel
 	 * @var object
 	 */
 	protected $_pagination = null;
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -54,20 +54,20 @@ class CacheModelCache extends JModel
 	protected function _populateState()
 	{
 		$app = &JFactory::getApplication();
-		
+
 		$clientId = JRequest::getInt('client', 0);
 		$this->setState('clientId', $clientId == 1 ? 1 : 0);
-		
+
 		$client	= &JApplicationHelper::getClientInfo($clientId);
 		$this->setState('client', $client);
-		
+
 		$this->setState('path', $client->path.DS.'cache');
-		
+
 		$context	= 'com_cache.cache.';
-		
+
 		$start = $app->getUserStateFromRequest($context.'list.start', 'limitstart', 0, 'int');
 		$limit = $app->getUserStateFromRequest($context.'list.limit', 'limit', $app->getCfg('list_limit', 20), 'int');
-		
+
 		$this->setState('list.start', $start);
 		$this->setState('list.limit', $limit);
 	}
@@ -96,7 +96,7 @@ class CacheModelCache extends JModel
 			}
 			$data[$folder] = $item;
 		}
-		
+
 		return $data;
 	}
 
@@ -114,7 +114,7 @@ class CacheModelCache extends JModel
 
 		return $this->_data;
 	}
-	
+
 	/**
 	 * Method to get client data
 	 *
@@ -175,11 +175,11 @@ class CacheModelCache extends JModel
 			$this->clean($group);
 		}
 	}
-	
+
 	public function purge()
 	{
 		$cache = &JFactory::getCache('');
-		return $cache->gc();	
+		return $cache->gc();
 	}
 }
 

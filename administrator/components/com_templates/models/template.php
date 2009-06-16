@@ -38,15 +38,15 @@ class TemplatesModelTemplate extends JModel
 	 * @var object
 	 */
 	var $_client = null;
-	
+
 	/**
 	 * Template style object list
 	 *
 	 * @var array
 	 */
-	
+
 	var $_style = null;
-	
+
 
 	/**
 	 * params object
@@ -60,7 +60,7 @@ class TemplatesModelTemplate extends JModel
 	 *
 	 * @var string
 	 */
-	var $_template = null; 
+	var $_template = null;
 	/**
 	 * Constructor
 	 *
@@ -228,7 +228,7 @@ class TemplatesModelTemplate extends JModel
 			$this->_params = new JParameter($this->_data->params, $xml, 'template');
 
 			$assigned = TemplatesHelper::isTemplateAssigned($this->_id);
-			
+
 			if ($this->_data->home) {
 				$this->_data->pages = 'all';
 			} elseif (!$assigned) {
@@ -251,13 +251,13 @@ class TemplatesModelTemplate extends JModel
 			$this->_style = $this->_db->loadObjectList();
 			for ($i = 0, $n = count($this->_style); $i < $n; $i++) {
 				$this->_style[$i]->assigned = TemplatesHelper::isTemplateAssigned($this->_style[$i]->id);
-				
+
 			}
-			
+
 		}
 		return $this->_style;
 	}
-	
+
 	function add()
 	{
 		$query = 'SELECT params FROM #__menu_template WHERE id = '.$this->_db->Quote($this->_id);
@@ -270,7 +270,7 @@ class TemplatesModelTemplate extends JModel
 		$this->_db->query();
 		return $this->_db->insertid();
 	}
-	
+
 	function delete()
 	{
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
@@ -292,7 +292,7 @@ class TemplatesModelTemplate extends JModel
 		$this->_db->query();
 		return true;
 	}
-	
+
 	function setDefault()
 	{
 		$query = 'UPDATE #__menu_template SET home=0 WHERE client_id='.$this->_db->Quote($this->_client->id);
@@ -303,7 +303,7 @@ class TemplatesModelTemplate extends JModel
 		$this->_db->query();
 		return true;
 	}
-	
+
 	function getOtherID()
 	{
 		$query = 'SELECT id FROM #__menu_template WHERE template = '.$this->_db->Quote($this->_template).
@@ -311,7 +311,7 @@ class TemplatesModelTemplate extends JModel
 		$this->_db->setQuery($query);
 		return $this->_db->loadResult();
 	}
-	
+
 	/**
 	 * Method to initialise the Template data
 	 *

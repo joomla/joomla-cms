@@ -27,11 +27,11 @@ var MediaManager = {
         this.tree = new MooTreeControl({ div: 'media-tree_tree', mode: 'folders', grid: true, theme: 'components/com_media/assets/mootree.gif', onClick:
                 function(node){
                     target = $chk(node.data.target) ? node.data.target : '_self';
-                    
+
                     // Get the current URL.
                    	uri = this._getUriObject(this.frameurl);
                    	current	= uri.file+'?'+uri.query;
-                    
+
                     if (current != node.data.url) {
                     	window.frames[target].location.href = node.data.url;
                     }
@@ -84,7 +84,7 @@ return;
             }
         }, query);
         a.query = query.join('&');
-        
+
         if (a.port) {
             $('uploadForm').setProperty('action', a.scheme+'://'+a.domain+':'+a.port+a.path+'?'+a.query);
         } else {

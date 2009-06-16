@@ -23,13 +23,13 @@ jimport('joomla.application.component.view');
 class CacheViewCache extends JView
 {
 	public $data;
-	
+
 	public $state;
-	
+
 	public $client;
-	
+
 	public $pagination;
-	
+
 	public function display($tpl = null)
 	{
 		$data 		= $this->get('Data');
@@ -45,13 +45,13 @@ class CacheViewCache extends JView
 		$this->_setToolbar();
 		parent::display($tpl);
 	}
-	
+
 	protected function _setToolbar()
 	{
 		$condition = ($this->client->name == 'site');
 		JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0', $condition);
-		JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1', !$condition);	
-	
+		JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1', !$condition);
+
 		JToolBarHelper::title(JText::_('Cache Manager - Clean Cache Admin'), 'checkin.png');
 		JToolBarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'Delete', true);
 		JToolBarHelper::help('screen.cache');

@@ -18,7 +18,7 @@ TinyBrowser 1.41 - A TinyMCE file browser (C) 2008  Bryn Jones
 */
 
 // switch off error handling, to use custom handler
-error_reporting(0); 
+error_reporting(0);
 
 // set script time out higher, to help with thumbnail generation
 set_time_limit(240);

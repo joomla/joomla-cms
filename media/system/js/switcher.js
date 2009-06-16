@@ -5,14 +5,14 @@
  */
 
 /**
- * Switcher behavior 
+ * Switcher behavior
  *
  * @package		Joomla
  * @since		1.5
  */
 var JSwitcher = new Class({
 	Implements: [Options, Events],
-	
+
 	togglers: null,
 	elements: null,
 	current: null,
@@ -44,7 +44,7 @@ var JSwitcher = new Class({
 		var first = $pick(Cookie.read(this.options.cookieName), this.togglers[0].id);
 		this.display(first);
 	},
-	
+
 	display: function(togglerID) {
 		var toggler = $(togglerID);
 		var element = $(this.options.elementPrefix+togglerID);
@@ -69,7 +69,7 @@ var JSwitcher = new Class({
 		this.fireEvent('hide', element);
 		element.setStyle('display', 'none');
 	},
-	
+
 	hideAll: function() {
 		this.elements.each(function(el) {
 			el.setStyle('display', 'none');

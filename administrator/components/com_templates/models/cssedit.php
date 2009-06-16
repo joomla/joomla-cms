@@ -45,7 +45,7 @@ class TemplatesModelCssedit extends JModel
 	 * @var string
 	 */
 	var $_filename = null;
-	
+
 	/**
 	 * Template name
 	 *
@@ -116,7 +116,7 @@ class TemplatesModelCssedit extends JModel
 	{
 		return $this->_id;
 	}
-	
+
 	function &getFilename()
 	{
 		return $this->_filename;

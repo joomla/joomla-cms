@@ -39,14 +39,14 @@ class CategoriesViewCategory extends JView
 		JArrayHelper::toInteger($cid, array(0));
 		$model = &$this->getModel();
 		$table = JTable::getInstance('category');
-		
+
 		$tree = $table->getTree((int)$cid[0]);
-		
+
 		if ($tree) {
     		foreach ($tree as $item) {
-    		    
+
     		    $filter[] = $item->id;
-    		    
+
     		}
 		}
 
@@ -68,7 +68,7 @@ class CategoriesViewCategory extends JView
 		} else {
 			$check->published = 1;
 		}
-		
+
 		// build the html select list for the group access
 		$lists['access'] = JHtml::_('list.accesslevel',  $row);
 		// build the html radio buttons for published
@@ -76,8 +76,8 @@ class CategoriesViewCategory extends JView
 		$lists['published'] = JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $published);
 		jimport('joomla.html.parameters');
 		$params = new JParameter($row->params, JPATH_ADMINISTRATOR.DS.'components'.DS.$extension.DS.'category.xml');
-		
-		
+
+
 		$this->assignRef('filter',	$filter);
 		$this->assignRef('extension',	$extension);
 		$this->assignRef('lists',		$lists);

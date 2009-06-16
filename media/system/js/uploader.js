@@ -100,7 +100,7 @@ var FancyUpload = new Class({
 		$(this.element.form).addEvent('submit', this.upload.bindWithEvent(this));
 		if (this.options.createReplacement) this.options.createReplacement(this.element);
 		else {
-			
+
 			new Element('input', {
 				type: 'button',
 				value: sBrowseCaption,

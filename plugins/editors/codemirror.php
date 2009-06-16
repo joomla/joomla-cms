@@ -44,7 +44,7 @@ class plgEditorCodemirror extends JPlugin
 	 *
 	 * @param string 	The name of the editor
 	 */
-	public function onSave($editor) 
+	public function onSave($editor)
 	{
 		return "document.getElementById('$editor').value = Joomla.editors.instances['$editor'].getCode();\n";
 	}
@@ -54,7 +54,7 @@ class plgEditorCodemirror extends JPlugin
 	 *
 	 * @param string 	The name of the editor
 	 */
-	public function onGetContent($editor) 
+	public function onGetContent($editor)
 	{
 		return "Joomla.editors.instances['$editor'].getCode();\n";
 	}
@@ -64,7 +64,7 @@ class plgEditorCodemirror extends JPlugin
 	 *
 	 * @param string 	The name of the editor
 	 */
-	public function onSetContent($editor, $html) 
+	public function onSetContent($editor, $html)
 	{
 		return "Joomla.editors.instances['$editor'].setCode($html);\n";
 	}
@@ -110,7 +110,7 @@ class plgEditorCodemirror extends JPlugin
 		$options->basefiles = array('basefiles'.$compressed.'.js');
 		$options->path = JURI::root(true).'/'.$this->_basePath;
 		$options->parserfile = 'parsexml.js';
-		$options->stylesheet = JURI::root(true).'/'.$this->_basePath.'css/xmlcolors.css';		
+		$options->stylesheet = JURI::root(true).'/'.$this->_basePath.'css/xmlcolors.css';
 
 		$options->height = $height;
 		$options->width = $width;

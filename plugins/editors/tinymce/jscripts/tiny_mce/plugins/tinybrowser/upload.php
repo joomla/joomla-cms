@@ -3,7 +3,7 @@ require_once('config_tinybrowser.php');
 // Set language
 if(isset($tinybrowser['language']) && file_exists('langs/'.$tinybrowser['language'].'.php'))
 	{
-	require_once('langs/'.$tinybrowser['language'].'.php'); 
+	require_once('langs/'.$tinybrowser['language'].'.php');
 	}
 else
 	{
@@ -97,11 +97,11 @@ if(isset($_GET['permerror']))
 <?php
 if($passfeid == '' && $tinybrowser['integration']=='tinymce')
 	{
-	?><link rel="stylesheet" type="text/css" media="all" href="<?php echo $tinybrowser['tinymcecss']; ?>" /><?php 
+	?><link rel="stylesheet" type="text/css" media="all" href="<?php echo $tinybrowser['tinymcecss']; ?>" /><?php
 	}
 else
 	{
-	?><link rel="stylesheet" type="text/css" media="all" href="css/stylefull_tinybrowser.css" /><?php 
+	?><link rel="stylesheet" type="text/css" media="all" href="css/stylefull_tinybrowser.css" /><?php
 	}
 ?>
 <link rel="stylesheet" type="text/css" media="all" href="css/style_tinybrowser.css.php" />
@@ -147,7 +147,7 @@ form_open('foldertab',false,'upload.php','?type='.$typenow.$passfeid);
 if($tinybrowser['allowedit'] || $tinybrowser['allowdelete'])
 	{
 	?><li id="edit_tab"><span><a href="edit.php?type=<?php echo $typenow.$passfolder.$passfeid ; ?>"><?php echo TB_EDIT; ?></a></span></li>
-	<?php 
+	<?php
 	}
 if($tinybrowser['allowfolders'])
 	{

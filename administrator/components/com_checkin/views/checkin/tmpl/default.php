@@ -30,7 +30,7 @@
 				<?php endif; ?>
 			</td>
 		</tr>
-	<?php 
+	<?php
 	$k = 1 - $k;
 	endforeach;
 	?>

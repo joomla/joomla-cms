@@ -27,20 +27,20 @@ if ($handle = opendir($folder))
 			//-- File Naming
 			$tmp_filename = $folder.$file;
 			$dest_filename	 = $folder.rtrim($file,'_');
-        
+
 			//-- Duplicate Files
 			if(file_exists($dest_filename)) { unlink($tmp_filename); $dup++; continue; }
 
 			//-- Bad extensions
 			$nameparts = explode('.',$dest_filename);
 			$ext = end($nameparts);
-			
+
 			if(!validateExtension($ext, $tinybrowser['prohibited'])) { unlink($tmp_filename); continue; }
-        
+
 			//-- Rename temp file to dest file
 			rename($tmp_filename, $dest_filename);
 			$good++;
-			
+
 			//-- if image, perform additional processing
 			if($_GET['type']=='image')
 				{

@@ -48,7 +48,7 @@ class NewsfeedsModelCategory extends JModel
 	 * @var object
 	 */
 	var $_category = null;
-	
+
 	var $_categories = null;
 
 	/**
@@ -170,7 +170,7 @@ class NewsfeedsModelCategory extends JModel
 		}
 		return $this->_category;
 	}
-	
+
 	function _buildQuery()
 	{
 		// We need to get a list of all weblinks in the given category

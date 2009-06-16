@@ -28,7 +28,7 @@ class CheckinViewCheckin extends JView
 	{
 		$model = $this->getModel();
 		$tables = $model->checkin();
-		
+
 		JToolBarHelper::title(JText::_('Global Check-in'), 'checkin.png');
 		JToolBarHelper::help('screen.checkin');
 		$this->assignRef('tables', $tables);

@@ -15,7 +15,7 @@
 			<th><?php echo JText::_('Default'); ?></th>
 			<th><?php echo JText::_('Delete'); ?></th>
 		</tr>
-		<?php 
+		<?php
 		$i = 1;
 		foreach($this->style as $style)
 		{ ?>
@@ -51,7 +51,7 @@
 			<td>
 				<strong>
 					<?php echo JText::_($this->row->template); ?> - <input class="inputbox" type="text" name="description" id="description" size="40" maxlength="255" value="<?php echo $this->row->description; ?>" />
-					
+
 				</strong>
 			</td>
 		</tr>
