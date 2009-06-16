@@ -25,7 +25,6 @@ abstract class JMail extends PHPMailer
 	/**
 	 * Constructor
 	 *
-	 * @access	public
 	 */
 	public function __construct()
 	{
@@ -67,7 +66,6 @@ abstract class JMail extends PHPMailer
 	/**
 	 * Send the mail
 	 * 
-	 * @access	public
 	 * @return	mixed	True if successful, a JError object otherwise
 	 */
 	public function &Send()
@@ -90,7 +88,6 @@ abstract class JMail extends PHPMailer
 	/**
 	 * Set the E-Mail sender
 	 *
-	 * @access	public
 	 * @param	array	$from	E-Mail address and Name of sender
 	 * 		<pre>
 	 * 			array([0] => E-Mail Address [1] => Name)
@@ -117,7 +114,6 @@ abstract class JMail extends PHPMailer
 	/**
 	 * Set the E-Mail subject
 	 *
-	 * @access	public
 	 * @param	string	$subject	Subject of the e-mail
 	 * @return	void
 	 * @since	1.5
@@ -129,7 +125,6 @@ abstract class JMail extends PHPMailer
 	/**
 	 * Set the E-Mail body
 	 *
-	 * @access	public
 	 * @param	string	$content	Body of the e-mail
 	 * @return	void
 	 * @since	1.5
@@ -146,7 +141,6 @@ abstract class JMail extends PHPMailer
 	/**
 	 * Add recipients to the email
 	 *
-	 * @access	public
 	 * @param	mixed	$recipient	Either a string or array of strings [e-mail address(es)]
 	 * @return	void
 	 * @since	1.5
@@ -169,7 +163,6 @@ abstract class JMail extends PHPMailer
 	/**
 	 * Add carbon copy recipients to the email
 	 *
-	 * @access	public
 	 * @param	mixed	$cc	Either a string or array of strings [e-mail address(es)]
 	 * @return	void
 	 * @since	1.5
@@ -194,7 +187,6 @@ abstract class JMail extends PHPMailer
 	/**
 	 * Add blind carbon copy recipients to the email
 	 *
-	 * @access	public
 	 * @param	mixed	$cc	Either a string or array of strings [e-mail address(es)]
 	 * @return	void
 	 * @since	1.5
@@ -219,7 +211,6 @@ abstract class JMail extends PHPMailer
 	/**
 	 * Add file attachments to the email
 	 *
-	 * @access	public
 	 * @param	mixed	$attachment	Either a string or array of strings [filenames]
 	 * @return	void
 	 * @since	1.5
@@ -242,7 +233,6 @@ abstract class JMail extends PHPMailer
 	/**
 	 * Add Reply to e-mail address(es) to the e-mail
 	 *
-	 * @access	public
 	 * @param	array	$reply	Either an array or multi-array of form
 	 * 		<pre>
 	 * 			array([0] => E-Mail Address [1] => Name)
@@ -270,7 +260,6 @@ abstract class JMail extends PHPMailer
 	/**
 	 * Use sendmail for sending the e-mail
 	 *
-	 * @access	public
 	 * @param	string	$sendmail	Path to sendmail [optional]
 	 * @return	boolean	True on success
 	 * @since	1.5
@@ -291,7 +280,6 @@ abstract class JMail extends PHPMailer
 	/**
 	 * Use SMTP for sending the e-mail
 	 *
-	 * @access	public
 	 * @param	string	$auth	SMTP Authentication [optional]
 	 * @param	string	$host	SMTP Host [optional]
 	 * @param	string	$user	SMTP Username [optional]
