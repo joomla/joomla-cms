@@ -209,7 +209,7 @@ class JFile
 			// Initialize variables
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
-			
+
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
@@ -307,7 +307,7 @@ class JFile
 			// Initialize variables
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
-			
+
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
@@ -357,7 +357,7 @@ class JFile
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$ret		= false;
-	
+
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');

@@ -43,15 +43,15 @@ class JElementCategory extends JElement
 				$extension = 'com_content';
 			}
 		}
-		
+
 		if (!$class) {
 			$class = "inputbox";
 		}
-		
+
 		if (count($filter) < 1) {
 			$filter = null;
 		}
-		
+
 		return JHtml::_('list.category', $control_name.'['.$name.']', $extension, $extension.'.view', $filter, (int) $value, $class, null, 1, $control_name.$name);
 	}
 }

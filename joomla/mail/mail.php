@@ -65,7 +65,7 @@ abstract class JMail extends PHPMailer
 
 	/**
 	 * Send the mail
-	 * 
+	 *
 	 * @return	mixed	True if successful, a JError object otherwise
 	 */
 	public function &Send()

@@ -89,14 +89,14 @@ class JArchiveGzip extends JObject
 			$this->set('error.message', 'Unable to read archive (gz)');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
-		
+
 		$output =& JFactory::getStream();
 		if(!$output->open($destination, 'w')) {
 			$this->set('error.message', 'Unable to write archive (gz)');
 			$input->close(); // close the previous file
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
-		
+
 		$written = 0;
 		do {
 			$this->_data = $input->read($input->get('chunksize', 8196));

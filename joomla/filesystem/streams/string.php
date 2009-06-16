@@ -1,35 +1,35 @@
 <?php
 /**
  * String Stream Wrapper
- * 
+ *
  * This file allows you to use a PHP string like
- * you would normally use a regular stream wrapper 
- * 
+ * you would normally use a regular stream wrapper
+ *
  * PHP5
- *  
+ *
  * Created on Aug 7, 2008
- * 
+ *
  * @package stringstream
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  * @version SVN: $Id$
  */
- 
+
 jimport('joomla.filesystem.support.stringcontroller');
- 
+
 
 class JStreamString {
 	private $_currentstring;
-	
+
 	private $_path;
 	private $_mode;
 	private $_options;
 	private $_opened_path;
 	private $_pos;
 	private $_len;
-	
+
 	private $_stat;
-		
+
 	function stream_open($path, $mode, $options, &$opened_path) {
 		$this->_currentstring =& JStringController::getRef(str_replace('string://','',$path));
 		if($this->_currentstring) {
@@ -38,18 +38,18 @@ class JStreamString {
 			$this->_stat = $this->url_stat($path, 0);
 			return true;
 		} else {
-			return false;	
+			return false;
 		}
 	}
-	
+
 	function stream_stat() {
 		return $this->_stat;
 	}
-	
+
 	function url_stat($path, $flags=0) {
 		$now = time();
 		$string =& JStringController::getRef(str_replace('string://','',$path));
-		$stat = Array(	
+		$stat = Array(
 						'dev'=> 0,
 						'ino'=> 0,
 						'mode'=>0,
@@ -66,26 +66,26 @@ class JStreamString {
 						);
 		return $stat;
 	}
-	
+
 	function stream_read($count) {
 		$result = substr(&$this->_currentstring, $this->_pos, $count);
 		$this->_pos += $count;
-		return $result;	
+		return $result;
 	}
-	
+
 	function stream_write($data) {
 		return false; // we don't support updating the string
 	}
-	
+
 	function stream_tell() {
 		return $this->_pos;
 	}
-	
+
 	function stream_eof() {
 		if($this->_pos > $this->_len) return true;
 		return false;
 	}
-	
+
 	function stream_seek($offset, $whence) {
 		//$whence: SEEK_SET, SEEK_CUR, SEEK_END
 		if($offset > $this->_len) return false; // we can't seek beyond our len
@@ -104,7 +104,7 @@ class JStreamString {
 		}
 		return true;
 	}
-	
+
 	function stream_flush() {
 		return true; // we don't store data
 	}

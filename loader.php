@@ -81,12 +81,12 @@ class JLoader
 					// note: JLoader::register does an is_file check itself
 					// se we don't need it above, we do it here because we
 					// try to load the file directly and it may not exist
-					// which could cause php to throw up nasty warning messages 
+					// which could cause php to throw up nasty warning messages
 					// at us so we set it to false here and hope that if the
 					// programmer is good enough they'll check the return value
 					// instead of hoping it'll work. remmeber include only fires
 					// a warning, so $rs was going to be false with a nasty
-					// warning message 
+					// warning message
 			}
 			}
 

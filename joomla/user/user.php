@@ -106,7 +106,7 @@ class JUser extends JObject
 	 * @var		array
 	 */
 	var $groups;
-	
+
 	/**
 	 * Description
 	 * @var boolean

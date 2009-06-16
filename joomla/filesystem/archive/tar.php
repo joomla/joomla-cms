@@ -104,7 +104,7 @@ class JArchiveTar extends JObject
 			$size = octdec($info['size']);
 			$bsize = ceil($size / $chunksize) * $chunksize;
 			$contents = '';
-			if($size) { 
+			if($size) {
 				//$contents = fread($this->_fh, $size);
 				$contents = substr($stream->read($bsize),0, octdec($info['size']));
 			}
@@ -113,9 +113,9 @@ class JArchiveTar extends JObject
 				$file = array (
 					'attr' => null,
 					'data' => null,
-					'date' => octdec($info['mtime']), 
-					'name' => trim($info['filename']), 
-					'size' => octdec($info['size']), 
+					'date' => octdec($info['mtime']),
+					'name' => trim($info['filename']),
+					'size' => octdec($info['size']),
 					'type' => isset ($this->_types[$info['typeflag']]) ? $this->_types[$info['typeflag']] : null);
 
 				if (($info['typeflag'] == 0) || ($info['typeflag'] == 0x30) || ($info['typeflag'] == 0x35)) {
@@ -136,7 +136,7 @@ class JArchiveTar extends JObject
 				} else {
 					/* Some other type. */
 				}
-				
+
 				$type = strtolower( $file['type'] );
 				if ($type == 'file' || $type == 'unix file')
 				{
@@ -152,11 +152,11 @@ class JArchiveTar extends JObject
 						$this->set('error.message', 'Unable to write entry');
 						return JError::raiseWarning(100, $this->get('error.message'));
 		}
-					$contents = ''; // reclaim some memory 
+					$contents = ''; // reclaim some memory
 				}
 			}
 		}
-		$stream->close();	
+		$stream->close();
 		return true;
 	}
 }

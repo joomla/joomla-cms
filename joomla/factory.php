@@ -590,7 +590,7 @@ abstract class JFactory
 		$doc = &JDocument::getInstance($type, $attributes);
 		return $doc;
 	}
-	
+
 	/**
 	 * Creates a new stream object with appropriate prefix
 	 * @param boolean Prefix the connections for writing
@@ -605,7 +605,7 @@ abstract class JFactory
 		$version = new JVersion();
 		// set the UA for HTTP and overwrite for FTP
 		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
-		$context['ftp']['overwrite'] = true;		
+		$context['ftp']['overwrite'] = true;
 		if($use_prefix) {
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');

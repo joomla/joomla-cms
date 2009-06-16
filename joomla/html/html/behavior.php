@@ -142,7 +142,7 @@ abstract class JHtmlBehavior
 				el.store('tip:title', parts[0]);
 				el.store('tip:text', parts[1]);
 			});
-			var JTooltips = new Tips($$('$selector'), $options); 
+			var JTooltips = new Tips($$('$selector'), $options);
 		});");
 
 		// Set static array

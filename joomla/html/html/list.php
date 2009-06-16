@@ -260,17 +260,17 @@ abstract class JHtmlList
 		{
 			$filter = '';
 		}
-		else 
+		else
 		{
 		    $filter = ' AND c.id NOT IN ('.implode(', ', $filter).')';
 		}
-		
+
 		$query = 'SELECT c.id, c.title, c.parent, 0 as depth'.
 				' FROM #__categories AS c'.
 				' WHERE c.extension = '.$db->Quote($extension).
 				$filter.
 				//' AND c.access IN ('.implode(',', $user->authorisedLevels($action)).')'.
-				' GROUP BY c.id ORDER BY c.lft'; 		
+				' GROUP BY c.id ORDER BY c.lft';
 		$db->setQuery($query);
 		$cat_list = $db->loadObjectList();
 		$depth = array();
@@ -287,7 +287,7 @@ abstract class JHtmlList
 			}
 		}
 		$categories = array();
-		
+
 		if ($sel_cat)
 		{
 			$categories[] = JHtml::_('select.option', '-1', '('.JText::_('Select Category').')', 'id', 'title');
@@ -296,9 +296,9 @@ abstract class JHtmlList
 				$active = -1;
 			}
 		}
-		
+
 		$categories[] = JHtml::_('select.option', '0', 'ROOT', 'id', 'title');
-		
+
 		if($cat_list)
 		{
 			foreach ($cat_list as $category)
@@ -317,5 +317,5 @@ abstract class JHtmlList
 		);
 		return $category;
 	}
-	
+
 }
