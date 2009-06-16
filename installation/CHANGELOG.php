@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jun-2009 Hannes Papenberg
+ # Fixed categories implementation. Changed sample data and fixed bugs in com_newsfeeds
+
 16-Jun-2009 Andrew Eddie
  + Added placeholder folders for language override files.
  ^ JModelForm::getForm now returns false on error.

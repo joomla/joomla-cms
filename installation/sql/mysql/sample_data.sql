@@ -20,9 +20,9 @@ INSERT INTO `#__bannerclient` VALUES
 --
 
 INSERT INTO `#__categories` VALUES
-(1, 0, 'Latest', '', 'latest-news', 'taking_notes.jpg', '1', 'left', 'The latest news from the Joomla! Team', 1, 0, '0000-00-00 00:00:00', '', 1, 1, 1, ''),
-(2, 0, 'Joomla! Specific Links', '', 'joomla-specific-links', 'clock.jpg', 'com_weblinks', 'left', 'A selection of links that are all related to the Joomla! Project.', 1, 0, '0000-00-00 00:00:00', NULL, 1, 1, 0, ''),
-(3, 0, 'Other Resources', '', 'other-resources', '', 'com_weblinks', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 2, 1, 0, '');
+(1, 1, 2, 1, 0, 'com_content', 'en_GB', 'Latest', 'latest-news', 'The latest news from the Joomla! Team', 1, 0, '0000-00-00 00:00:00', 1, '{}'),
+(2, 3, 4, 2, 0, 'com_weblinks', 'en_GB', 'Joomla! Specific Links', 'joomla-specific-links', 'A selection of links that are all related to the Joomla! Project.', 1, 42, '2009-03-15 15:34:27', 1, '{}'),
+(3, 5, 6, 3, 0, 'com_weblinks', 'en_GB', 'Other Resources', 'other-resources', '', 1, 0, '0000-00-00 00:00:00', 1, '{}');
 
 --
 -- Dumping data for table `#__contact_details`
