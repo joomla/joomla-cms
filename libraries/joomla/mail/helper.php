@@ -30,7 +30,8 @@ abstract class JMailHelper
 	 * @param	string	$value	String to be cleaned.
 	 * @return	string	Cleaned string.
 	 */
-	public static function cleanLine($value) {
+	public static function cleanLine($value)
+	{
 		return trim(preg_replace('/(%0A|%0D|\n+|\r+)/i', '', $value));
 	}
 
@@ -41,7 +42,8 @@ abstract class JMailHelper
 	 * @param	string	$value	Multi-line string to be cleaned.
 	 * @return	string	Cleaned multi-line string.
 	 */
-	public static function cleanText($value) {
+	public static function cleanText($value)
+	{
 		return trim(preg_replace('/(%0A|%0D|\n+|\r+)(content-type:|to:|cc:|bcc:)/i', '', $value));
 	}
 
@@ -53,7 +55,8 @@ abstract class JMailHelper
 	 * @return	string	Cleaned E-Mail body string.
 	 * @since	1.5
 	 */
-	public static function cleanBody($body) {
+	public static function cleanBody($body)
+	{
 		// Strip all E-Mail headers from a string
 		return preg_replace("/((From:|To:|Cc:|Bcc:|Subject:|Content-type:) ([\S]+))/", "", $body);
 	}
@@ -66,7 +69,8 @@ abstract class JMailHelper
 	 * @return	string	Cleaned E-Mail subject string.
 	 * @since	1.5
 	 */
-	public static function cleanSubject($subject) {
+	public static function cleanSubject($subject)
+	{
 		return preg_replace("/((From:|To:|Cc:|Bcc:|Content-type:) ([\S]+))/", "", $subject);
 	}
 
