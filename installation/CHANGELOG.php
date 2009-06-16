@@ -37,6 +37,7 @@ $ -> Language fix or change
  ^ JModelForm::getForm now returns false on error.
  + Added magic JUri::__toString method.
  + Added maxlenth attribute to TEXT parameter type.
+ # Jhtml::calendar now load script declarations once for each field.
 
 15-Jun-2009 Ercan Ozkaya
  ^ Refactored com_cache

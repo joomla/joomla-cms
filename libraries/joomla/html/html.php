@@ -329,20 +329,32 @@ abstract class JHtml
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
 	{
+		static $done;
+
+		if ($done === null) {
+			$done = array();
+		}
+
 		// Load the calendar behavior
 		JHtml::_('behavior.calendar');
 
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
 		}
-		$document = &JFactory::getDocument();
-		$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
-        inputField     :    "'.$id.'",     // id of the input field
-        ifFormat       :    "'.$format.'",      // format of the input field
-        button         :    "'.$id.'_img",  // trigger for the calendar (button ID)
-        align          :    "Tl",           // alignment (defaults to "Bl")
-        singleClick    :    true
-    });});');
+
+		// Only display the triggers once for each control.
+		if (!in_array($id, $done))
+		{
+			$document = &JFactory::getDocument();
+			$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
+	        inputField     :    "'.$id.'",     // id of the input field
+	        ifFormat       :    "'.$format.'",      // format of the input field
+	        button         :    "'.$id.'_img",  // trigger for the calendar (button ID)
+	        align          :    "Tl",           // alignment (defaults to "Bl")
+	        singleClick    :    true
+	    });});');
+			$done[] = $id;
+		}
 
 		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
 				 '<img class="calendar" src="'.JURI::root(true).'/templates/system/images/calendar.png" alt="calendar" id="'.$id.'_img" />';
