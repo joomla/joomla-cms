@@ -204,7 +204,7 @@ class JInstallationModelDatabase extends JModel
 
 		// Attempt to import the database schema.
 		if (!$this->populateDatabase($db, $data)) {
-			$this->setError(JText::_('WARNPOPULATINGDB'));
+			$this->setError(JText::sprintf('Install_Error_DB', $this->getError()));
 			return false;
 		}
 
