@@ -97,7 +97,7 @@ function plgSearchCategories($text, $phrase='', $ordering='', $areas=null)
 
 	$count = count($rows);
 	for ($i = 0; $i < $count; $i++) {
-		$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug, $rows[$i]->secid);
+		$rows[$i]->href = ContentRoute::category($rows[$i]->slug, $rows[$i]->secid);
 		$rows[$i]->section 	= JText::_('Category');
 	}
 
