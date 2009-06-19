@@ -1,22 +1,39 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// no direct access
+defined('_JEXEC') or die;
+
 /**
- * Utility class for creating HTML Grids
- *
- * @static
  * @package		Joomla.Administrator
- * @subpackage	Content
- * @since		1.5
+ * @subpackage	com_content
  */
-class JHTMLContent
+abstract class JHtmlContent
 {
+	/**
+	 * @param	int $value	The state value
+	 * @param	int $i
+	 */
+	function featured($value = 0, $i)
+	{
+		// Array of image, task, title, action
+		$states	= array(
+			0	=> array('disabled.png',	'articles.featured',	'Content_Toggle_Featured',	'Content_Toggle_Featured'),
+			1	=> array('tick.png',		'articles.unfeatured',	'Content_Toggle_Featured',	'Content_Toggle_Featured'),
+		);
+		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
+		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
+				. JHtml::_('image.administrator', $state[0], '/images/', null, '/images/', JText::_($state[2])).'</a>';
+
+		return $html;
+	}
+
+
+
 	/**
 	 * Displays the publishing state legend for articles
 	 */

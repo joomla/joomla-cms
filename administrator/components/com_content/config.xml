@@ -18,6 +18,14 @@
 			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_section" type="radio" default="0" label="Section Name" description="PARAMSECTION">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="link_section" type="radio" default="0" label="Section Name Linkable" description="PARAMSECTIONLINK">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 		<param name="show_category" type="radio" default="1" label="Category Name" description="PARAMCATEG">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
