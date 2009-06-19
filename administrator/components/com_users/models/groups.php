@@ -43,7 +43,7 @@ class UsersModelGroups extends JModelList
 
 		// Add the level in the tree.
 		$query->select('COUNT(DISTINCT c2.id) AS level');
-		$query->join('LEFT OUTER', '`#__usergroups` AS c2 ON a.left_id > c2.left_id AND a.right_id < c2.right_id');
+		$query->join('LEFT OUTER', '`#__usergroups` AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt');
 		$query->group('a.id');
 
 		// Count the objects in the user group.
@@ -60,7 +60,7 @@ class UsersModelGroups extends JModelList
 		$parent_id = $this->getState('filter.parent_id');
 		if ($parent_id !== null && $parent_id > 0) {
 			$query->join('LEFT', '`#__usergroups` AS p ON p.id = '.(int)$parent_id);
-			$query->where('a.left_id > p.left_id AND a.right_id < p.right_id');
+			$query->where('a.lft > p.lft AND a.rgt < p.rgt');
 		}
 
 		// Filter the items over the section id if set.
@@ -83,7 +83,7 @@ class UsersModelGroups extends JModelList
 		$query->leftJoin('#__access_actions AS act ON act.id = arm.action_id ');
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.left_id')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.lft')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query->toString())).'<hr/>';
 		return $query;
@@ -142,7 +142,7 @@ class UsersModelGroups extends JModelList
 		// Load the list state.
 		$this->setState('list.start', $app->getUserStateFromRequest($context.'list.start', 'limitstart', 0, 'int'));
 		$this->setState('list.limit', $app->getUserStateFromRequest($context.'list.limit', 'limit', $app->getCfg('list_limit', 25), 'int'));
-		$this->setState('list.ordering', 'a.left_id');
+		$this->setState('list.ordering', 'a.lft');
 		$this->setState('list.direction', 'ASC');
 
 		// Load the user parameters.

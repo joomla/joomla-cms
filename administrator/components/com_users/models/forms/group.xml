@@ -34,12 +34,12 @@
 		/>
 
 		<field
-			name="left_id"
+			name="lft"
 			type="hidden"
 			filter="unset"
 		/>
 		<field
-			name="right_id"
+			name="rgt"
 			type="hidden"
 			filter="unset"
 		/>

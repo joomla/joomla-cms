@@ -117,7 +117,7 @@ foreach ($this->orders2 as $k=>$items) {
 				<td>
 					<?php
 					if ($this->row->client_id == 0) :
-						echo JHtml::_('access.assetgroups', 'access', $this->row->access);
+						echo JHtml::_('access.assetgrouplist', 'access', $this->row->access);
 					else :
 						echo JText::_('N/A');
 					endif;

@@ -59,7 +59,7 @@ class PluginsViewPlugin extends JView
 			$lists['access'] = 'Administrator<input type="hidden" name="access" value="99" />';
 		} else {
 			// build the html select list for the group access
-			$lists['access'] = JHtml::_('access.assetgroups', 'access', $row->access);
+			$lists['access'] = JHtml::_('access.assetgrouplist', 'access', $row->access);
 		}
 
 		if ($cid[0])

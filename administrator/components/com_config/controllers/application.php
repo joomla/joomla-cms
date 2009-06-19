@@ -63,11 +63,11 @@ class ConfigControllerApplication extends ConfigController
 
 		// -- menu items --
 
-		$query = 'SELECT id AS value, name AS text FROM #__menu'
+		$query = 'SELECT id AS value, title FROM #__menu'
 				.' WHERE (type="content_section" OR type="components" OR type="content_typed")'
 				.' AND published = 1'
 				.' AND access = 0'
-				.' ORDER BY name'
+				.' ORDER BY title'
 				;
 		$db->setQuery($query);
 		$menuitems = array_merge($menuitems, $db->loadObjectList());
