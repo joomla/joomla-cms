@@ -2,6 +2,29 @@
 #
 # IMPORTANT - THIS FILE MUST BE SAVED WITH UTF-8 ENCODING ONLY. BEWARE IF EDITING!
 #
+
+INSERT IGNORE INTO `#__access_assets` VALUES 
+(2, 7, 'com_weblinks', 'weblink.1', 'Joomla!'),
+(3, 7, 'com_weblinks', 'weblink.4', 'OpenSourceMatters'),
+(4, 7, 'com_weblinks', 'weblink.2', 'php.net'),
+(5, 7, 'com_weblinks', 'weblink.5', 'Joomla! - Forums'),
+(6, 7, 'com_weblinks', 'weblink.3', 'MySQL'),
+(7, 7, 'com_weblinks', 'weblink.6', 'Ohloh Tracking of Joomla!');
+
+INSERT IGNORE INTO `#__access_asset_assetgroup_map` VALUES 
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1);
+
+INSERT IGNORE INTO `jos_access_assets` VALUES 
+(8, 1, 'core', 'menu.7', 'Weblinks');
+
+INSERT IGNORE INTO `jos_access_asset_assetgroup_map` VALUES 
+(8, 1);
+
 -- Dumping data for table `#__banner`
 --
 
@@ -20,9 +43,9 @@ INSERT IGNORE INTO `#__bannerclient` VALUES
 --
 
 INSERT IGNORE INTO `#__categories` VALUES
-(1, 1, 2, 1, 0, 'com_content', 'en_GB', 'Latest', 'latest-news', 'The latest news from the Joomla! Team', 1, 0, '0000-00-00 00:00:00', 1, '{}'),
-(2, 3, 4, 2, 0, 'com_weblinks', 'en_GB', 'Joomla! Specific Links', 'joomla-specific-links', 'A selection of links that are all related to the Joomla! Project.', 1, 42, '2009-03-15 15:34:27', 1, '{}'),
-(3, 5, 6, 3, 0, 'com_weblinks', 'en_GB', 'Other Resources', 'other-resources', '', 1, 0, '0000-00-00 00:00:00', 1, '{}');
+(1, 0, 1, 4, 0, '', 'com_content', 'Latest', 'latest-news', 'The latest news from the Joomla! Team', 1, 0, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(2, 0, 5, 6, 0, '', 'com_weblinks', 'Joomla! Specific Links', 'joomla-specific-links', 'A selection of links that are all related to the Joomla! Project.', 1, 0, 42, '2009-03-15 15:34:27', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(3, 0, 7, 8, 0, '', 'com_weblinks', 'Other Resources', 'other-resources', '', 1, 0, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB');
 
 --
 -- Dumping data for table `#__contact_details`
@@ -36,7 +59,7 @@ INSERT IGNORE INTO `#__contact_details` VALUES
 --
 
 INSERT IGNORE INTO `#__content` VALUES
-(1, 'Welcome to Joomla!', 'welcome-to-joomla', '', '<p>Introtext</p>', '<p>Bodytext </p>', 1, 1, 0, 1, '2008-08-12 10:00:00', 42, '', '2008-08-12 10:00:00', 42, 0, '0000-00-00 00:00:00', '2006-01-03 01:00:00', '0000-00-00 00:00:00', '', '', 'show_title=\nlink_titles=\nshow_intro=\nshow_section=\nlink_section=\nshow_category=\nlink_category=\nshow_vote=\nshow_author=\nshow_create_date=\nshow_modify_date=\nshow_pdf_icon=\nshow_print_icon=\nshow_email_icon=\nlanguage=\nkeyref=\nreadmore=', 29, 0, 1, '', '', 1, 92, 'robots=\nauthor=');
+(1, 'Welcome to Joomla!', 'welcome-to-joomla', '', '<p>Introtext</p>', '<p>Bodytext</p>', 1, 1, 0, 1, '2008-08-12 10:00:00', 42, '', '2008-08-12 10:00:00', 42, 0, '0000-00-00 00:00:00', '2006-01-03 01:00:00', '0000-00-00 00:00:00', '', '', '{"show_title":"","link_titles":"","show_intro":"","show_section":"","link_section":"","show_category":"","link_category":"","show_vote":"","show_author":"","show_create_date":"","show_modify_date":"","show_print_icon":"","show_email_icon":"","language":"en-GB","keyref":"","readmore":""}', 29, 0, 1, '', '', 1, 92, '{"robots":"","author":""}', 1, 'en-GB', '');
 
 --
 -- Dumping data for table `#__content_frontpage`
@@ -52,19 +75,12 @@ INSERT IGNORE INTO `#__content_frontpage` VALUES
 UPDATE `#__menu` SET `params` = 'show_page_title=1\npage_title=Welcome to the Frontpage\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n' WHERE id = 1;
 
 INSERT IGNORE INTO `#__menu` VALUES
-(2, 'mainmenu', 'Administrator', 'administrator', 'administrator/', 'url', 1, 0, 0, 0, 7, 0, '0000-00-00 00:00:00', 0, 0, 1, 3, 0, 'menu_image=-1\n\n', 0, 0, 0),
-(3, 'usermenu', 'Your Details', 'your-details', 'index.php?option=com_user&view=user&task=edit', 'component', 1, 0, 14, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 2, 3, 0, '', 0, 0, 0),
-(4, 'usermenu', 'Logout', 'logout', 'index.php?option=com_user&view=login', 'component', 1, 0, 14, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 2, 3, 0, '', 0, 0, 0),
-(5, 'usermenu', 'Submit an Article', 'submit-an-article', 'index.php?option=com_content&view=article&layout=form', 'component', 1, 0, 20, 0, 2, 0, '0000-00-00 00:00:00', 0, 0, 2, 0, 0, '', 0, 0, 0),
-(6, 'usermenu', 'Submit a Web Link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=weblink&layout=form', 'component', 1, 0, 4, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 2, 0, 0, '', 0, 0, 0),
-(7, 'mainmenu', 'Weblinks', 'weblinks', 'index.php?option=com_weblinks&view=categories', 'component', 1, 0, 4, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 1, 0, 0, '{"image":"-1","image_align":"right","show_feed_link":"1","show_comp_description":"","comp_description":"","show_link_hits":"","show_link_description":"","show_other_cats":"","show_headings":"","show_numbers":"","show_report":"","target":"","link_icons":"","page_title":"","show_page_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0"}', 0, 0, 0)
-;
-
-INSERT IGNORE INTO `jos_access_assets` VALUES 
-(8, 1, 'core', 'menu.7', 'Weblinks');
-
-INSERT IGNORE INTO `jos_access_asset_assetgroup_map` VALUES 
-(8, 1);
+(3, 'mainmenu', 'Administrator', 'administrator', 'administrator', 'administrator/', 'url', 1, 1, 1, 0, 2, 0, '0000-00-00 00:00:00', 0, 1, 0, 'menu_image=-1\r\n\r\n', 5, 6, 0),
+(4, 'usermenu', 'Your Details', 'your-details', 'your-details', 'index.php?option=com_user&view=user&task=edit', 'component', 1, 1, 1, 14, 1, 0, '0000-00-00 00:00:00', 0, 2, 0, '', 3, 4, 0),
+(5, 'usermenu', 'Logout', 'logout', 'logout', 'index.php?option=com_user&view=login', 'component', 1, 1, 1, 14, 5, 0, '0000-00-00 00:00:00', 0, 2, 0, '', 11, 12, 0),
+(6, 'usermenu', 'Submit an Article', 'submit-an-article', 'submit-an-article', 'index.php?option=com_content&view=article&layout=form', 'component', 1, 1, 1, 20, 3, 0, '0000-00-00 00:00:00', 0, 2, 0, '', 7, 8, 0),
+(7, 'usermenu', 'Submit a Web Link', 'submit-a-web-link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=weblink&layout=form', 'component', 1, 1, 1, 4, 4, 0, '0000-00-00 00:00:00', 0, 2, 0, '', 9, 10, 0),
+(8, 'mainmenu', 'Weblinks', 'weblinks', 'weblinks', 'index.php?option=com_weblinks&view=categories', 'component', 1, 1, 1, 4, 6, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"image":"-1","image_align":"right","show_feed_link":"1","show_comp_description":"","comp_description":"","show_link_hits":"","show_link_description":"","show_other_cats":"","show_headings":"","show_numbers":"","show_report":"","target":"","link_icons":"","page_title":"","show_page_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0"}', 13, 14, 0);
 
 --
 -- Dumping data for table `#__menu_types`
@@ -96,19 +112,3 @@ INSERT IGNORE INTO `#__weblinks` VALUES
 (4, 2, 0, 'OpenSourceMatters', 'opensourcematters', 'http://www.opensourcematters.org', 'Home of OSM', '2005-02-14 15:19:02', 11, 1, 0, '0000-00-00 00:00:00', 2, 0, 1, 1, '{"target":"0"}'),
 (5, 3, 0, 'Joomla! - Forums', 'joomla-forums', 'http://forum.joomla.org', 'Joomla! Forums', '2005-02-14 15:19:02', 4, 1, 0, '0000-00-00 00:00:00', 4, 0, 1, 1, '{"target":"0"}'),
 (6, 3, 0, 'Ohloh Tracking of Joomla!', 'ohloh-tracking-of-joomla', 'http://www.ohloh.net/projects/20', 'Objective reports from Ohloh about Joomla''s development activity. Joomla! has some star developers with serious kudos.', '2007-07-19 09:28:31', 1, 1, 0, '0000-00-00 00:00:00', 6, 0, 1, 1, '{"target":"0"}');
-
-INSERT IGNORE INTO `#__access_assets` VALUES 
-(1, 7, 'com_weblinks', 'weblink.1', 'Joomla!'),
-(2, 7, 'com_weblinks', 'weblink.4', 'OpenSourceMatters'),
-(3, 7, 'com_weblinks', 'weblink.2', 'php.net'),
-(4, 7, 'com_weblinks', 'weblink.5', 'Joomla! - Forums'),
-(5, 7, 'com_weblinks', 'weblink.3', 'MySQL'),
-(6, 7, 'com_weblinks', 'weblink.6', 'Ohloh Tracking of Joomla!');
-
-INSERT IGNORE INTO `#__access_asset_assetgroup_map` VALUES 
-(1, 1),
-(2, 1),
-(3, 1),
-(4, 1),
-(5, 1),
-(6, 1);
