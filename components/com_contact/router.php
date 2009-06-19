@@ -17,7 +17,7 @@ function ContactBuildRoute(&$query)
 	if (!$items) {
 		$component	= &JComponentHelper::getComponent('com_contact');
 		$menu		= &JSite::getMenu();
-		$items		= $menu->getItems('componentid', $component->id);
+		$items		= $menu->getItems('component_id', $component->id);
 	}
 
 	// Break up the contact id into numeric and alias values.

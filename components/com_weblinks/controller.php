@@ -37,7 +37,7 @@ class WeblinksController extends JController
 		$document = &JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getWord('view', 'categories');
+		$vName		= JRequest::getWord('view', 'category');
 		$vFormat	= $document->getType();
 		$lName		= JRequest::getWord('layout', 'default');
 

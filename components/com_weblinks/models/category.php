@@ -163,7 +163,7 @@ class WeblinksModelCategory extends JModelList
 				' FROM #__categories AS a' .
 				' WHERE id = '.(int) $id .
 				'  AND a.published = '.$this->getState('filter.published').
-				'  AND a.section = '.$this->_db->quote('com_weblinks')
+				'  AND a.extension = '.$this->_db->quote('com_weblinks')
 			);
 			$this->_category = $this->_db->loadObject();
 

@@ -38,7 +38,7 @@ class UsersHelperRoute
 
 			$menu	= &JSite::getMenu();
 			$com	= &JComponentHelper::getComponent('com_users');
-			$items	= $menu->getItems('componentid', $com->id);
+			$items	= $menu->getItems('component_id', $com->id);
 
 			// If no items found, set to empty array.
 			if (!$items) {

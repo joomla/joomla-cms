@@ -1,10 +1,12 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+defined('_JEXEC') or die;
+
 jimport('joomla.application.categories');
 function NewsfeedsBuildRoute(&$query)
 {
@@ -18,7 +20,7 @@ function NewsfeedsBuildRoute(&$query)
 	if (!$items) {
 		$component	= &JComponentHelper::getComponent('com_newsfeeds');
 		$menu		= &JSite::getMenu();
-		$items		= $menu->getItems('componentid', $component->id);
+		$items		= $menu->getItems('component_id', $component->id);
 	}
 
 	if (isset($query['view']))

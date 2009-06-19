@@ -18,7 +18,7 @@ function WeblinksBuildRoute(&$query)
 	if (!$items) {
 		$component	= &JComponentHelper::getComponent('com_weblinks');
 		$menu		= &JSite::getMenu();
-		$items		= $menu->getItems('componentid', $component->id);
+		$items		= $menu->getItems('component_id', $component->id);
 	}
 
 	if (isset($query['view']))
@@ -26,7 +26,8 @@ function WeblinksBuildRoute(&$query)
 		if ($query['view'] == 'category')
 		{
 			$catid = (int) $query['id'];
-		} elseif ($query['view'] == 'weblink') {
+		}
+		elseif ($query['view'] == 'weblink') {
 			$catid = (int) $query['catid'];
 		}
 		$view = $query['view'];
