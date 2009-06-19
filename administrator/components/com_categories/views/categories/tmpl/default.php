@@ -1,33 +1,14 @@
 <?php
 /**
- * @version     $Id: default.php 2009-05-15 10:43:09Z bembelimen $
- * @package     Joomla!.Administrator
- * @subpackage  Components.Categories
- * @license     GNU/GPL, see http://www.gnu.org/copyleft/gpl.html and LICENSE.php
- *
- * Categories view default
- *
- * Joomla! is free software. you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * Joomla! is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with Joomla!; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * The "GNU General Public License" (GPL) is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version     $Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_categories
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-
-// Ensure, that the file was included by Joomla!
-defined('_JEXEC') or jexit();
+// no direct access
+defined('_JEXEC') or die;
 
 // load tooltip method
 JHTML::_('behavior.tooltip');
@@ -105,16 +86,16 @@ JHTML::_('behavior.tooltip');
 
                     $i = 0;
 
-                    $parent = $this->ordering['parent'];
-                    $n = $this->ordering['parent'];
+                    $parentId = $this->ordering['parent_id'];
+                    $n = $this->ordering['parent_id'];
                     foreach($this->rows as $row) :
 
 
                         $link = 'index.php?option=com_categories&extension='. $this->extension->option .'&task=edit&cid[]='. $row->id;
                         $checked = JHTML::_('grid.checkedout',   $row, $i);
                         $published = JHTML::_('grid.published', $row, $i);
-                        if ($row->parent == 0) :
-                            --$parent;
+                        if ($row->parent_id == 0) :
+                            --$parentId;
                         endif;
 
 
@@ -144,8 +125,8 @@ JHTML::_('behavior.tooltip');
                                 <?php echo $published;?>
                             </td>
                             <td class="order">
-                                <span><?php echo $this->pagination->orderUpIcon( $i, $row->parent == 0 || ($row->lft > @$this->rows[$row->parent]->lft+1 && @$this->rows[$row->parent]->children > 1), 'orderup', 'Move Up', true); ?></span>
-                                <span><?php echo $this->pagination->orderDownIcon( $i, $n, (($row->parent == 0 && $parent > 0) || ($row->rgt < @$this->rows[$row->parent]->rgt-1 && @$this->rows[$row->parent]->children > 1)), 'orderdown', 'Move Down', true ); ?></span>
+                                <span><?php echo $this->pagination->orderUpIcon( $i, $row->parent_id == 0 || ($row->lft > @$this->rows[$row->parent_id]->lft+1 && @$this->rows[$row->parent_id]->children > 1), 'orderup', 'Move Up', true); ?></span>
+                                <span><?php echo $this->pagination->orderDownIcon( $i, $n, (($row->parent_id == 0 && $parentId > 0) || ($row->rgt < @$this->rows[$row->parent_id]->rgt-1 && @$this->rows[$row->parent_id]->children > 1)), 'orderdown', 'Move Down', true ); ?></span>
                             </td>
             <?php
                             if ($this->extension->option == 'com_content') :

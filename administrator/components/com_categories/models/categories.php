@@ -1,10 +1,8 @@
 <?php
 /**
- * @version		$Id: categories.php 11838 2009-05-27 22:07:20Z eddieajau $
- * @package		Joomla.Administrator
- * @subpackage	Categories
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Check to ensure this file is included in Joomla!
@@ -103,9 +101,9 @@ class CategoriesModelCategories extends JModel
 			{
 				$tempcat[$category->id] = $category;
 				$tempcat[$category->id]->depth = 0;
-				if ($category->parent != 0 && isset($tempcat[$category->parent]))
+				if ($category->parent_id != 0 && isset($tempcat[$category->parent_id]))
 				{
-					$tempcat[$category->id]->depth = $tempcat[$category->parent]->depth + 1;
+					$tempcat[$category->id]->depth = $tempcat[$category->parent_id]->depth + 1;
 				}
 			}
 			foreach($this->_data as &$category)
@@ -213,7 +211,7 @@ class CategoriesModelCategories extends JModel
 			$this->extension = new stdClass();
 			$this->extension->option = JRequest::getCmd('extension', 'com_content');
 			$db = JFactory::getDbo();
-			$db->setQuery('SELECT name FROM #__components WHERE parent = \'0\' AND `option` = '.$db->Quote($this->extension->option));
+			$db->setQuery('SELECT name FROM #__components WHERE parent = 0 AND `option` = '.$db->Quote($this->extension->option));
 			$this->extension->name = $db->loadResult();
 		}
 
@@ -256,7 +254,7 @@ class CategoriesModelCategories extends JModel
 		$search				= JString::strtolower($this->_filter->search);
 		$filter = '';
 		$where = array();
-		$parent_category = JRequest::getInt('parent', 0);
+		$parent_category = JRequest::getInt('parent_id', 0);
 
 		$where 		= (count($where) ? ' WHERE '. implode(' AND ', $where) : '');
 

@@ -1,8 +1,6 @@
 <?php
 /**
- * @version		$Id: category.php 11838 2009-05-27 22:07:20Z eddieajau $
- * @package		Joomla.Administrator
- * @subpackage	Categories
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
@@ -169,7 +167,7 @@ class CategoriesModelCategory extends JModel
 		{
 			$category = new stdClass();
 			$category->id				= 0;
-			$category->parent			= -1;
+			$category->parent_id		= -1;
 			$category->name				= null;
 			$category->alias			= null;
 			$category->title			= null;

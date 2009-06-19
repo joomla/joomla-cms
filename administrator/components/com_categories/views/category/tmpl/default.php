@@ -106,7 +106,7 @@ function submitbutton(pressbutton) {
 					<?php echo JText::_('Parent'); ?>:
 				</td>
 				<td>
-					<?php echo JHtml::_('list.category', 'parent', $this->row->extension, 'com_content.view', $this->filter, (int) $this->row->parent, '', 1, 1); ?>
+					<?php echo JHtml::_('list.category', 'parent_id', $this->row->extension, 'com_content.view', $this->filter, (int) $this->row->parent_id, '', 1, 1); ?>
 				</td>
 			</tr>
 			<tr>
