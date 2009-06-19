@@ -269,7 +269,7 @@ class JSite extends JApplication
 			if (is_object($menu))
 			{
 				$params[$hash]->merge(new JParameter($menu->params));
-				$title = $menu->name;
+				$title = $menu->title;
 
 			}
 

@@ -53,7 +53,7 @@ class JPathwaySite extends JPathway
 							$url = 'index.php?Itemid='.$link->id;
 					}
 
-					$this->addItem($menus[$menupath]->name, $url);
+					$this->addItem($menus[$menupath]->title, $url);
 
 				} // end foreach
 			}

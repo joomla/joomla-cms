@@ -36,9 +36,9 @@ class JMenuSite extends JMenu
 
 			$sql	= 'SELECT m.*, c.`option` as component' .
 					' FROM #__menu AS m' .
-					' LEFT JOIN #__components AS c ON m.componentid = c.id'.
+					' LEFT JOIN #__components AS c ON m.component_id = c.id'.
 					' WHERE m.published = 1'.
-					' ORDER BY m.sublevel, m.parent, m.ordering';
+					' ORDER BY m.lft';
 			$db->setQuery($sql);
 
 			if (!($menus = $db->loadObjectList('id'))) {
@@ -51,7 +51,7 @@ class JMenuSite extends JMenu
 				//Get parent information
 				$parent_route = '';
 				$parent_tree  = array();
-				if (($parent = $menus[$key]->parent) && (isset($menus[$parent])) &&
+				if (($parent = $menus[$key]->parent_id) && (isset($menus[$parent])) &&
 					(is_object($menus[$parent])) && (isset($menus[$parent]->route)) && isset($menus[$parent]->tree)) {
 					$parent_route = $menus[$parent]->route.'/';
 					$parent_tree  = $menus[$parent]->tree;
