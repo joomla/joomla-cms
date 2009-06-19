@@ -37,7 +37,10 @@ class plgUserJoomla extends JPlugin
 		}
 
 		$db = &JFactory::getDbo();
-		$db->setQuery('DELETE FROM #__session WHERE userid = '.$db->Quote($user['id']));
+		$db->setQuery(
+			'DELETE FROM `#__session`' .
+			' WHERE `userid` = '.(int) $user['id']
+		);
 		$db->Query();
 
 		return true;
@@ -95,15 +98,16 @@ class plgUserJoomla extends JPlugin
 		$session = &JFactory::getSession();
 		$session->set('user', $instance);
 
-		// Get the session object
-		$table = & JTable::getInstance('session');
-		$table->load($session->getId());
-
-		$table->guest 		= $instance->get('guest');
-		$table->username 	= $instance->get('username');
-		$table->userid 		= intval($instance->get('id'));
-
-		$table->update();
+		// Update the user related fields for the Joomla sessions table.
+		$db = JFactory::getDBO();
+		$db->setQuery(
+			'UPDATE `#__session`' .
+			' SET `guest` = '.$db->quote($instance->get('guest')).',' .
+			'	  `username` = '.$db->quote($instance->get('username')).',' .
+			'	  `userid` = '.(int) $instance->get('id') .
+			' WHERE `session_id` = '.$db->quote($session->getId())
+		);
+		$db->query();
 
 		// Hit the user last visit field
 		$instance->setLastVisit();
@@ -137,8 +141,13 @@ class plgUserJoomla extends JPlugin
 			$session->destroy();
 		} else {
 			// Force logout all users with that userid
-			$table = & JTable::getInstance('session');
-			$table->destroy($user['id'], $options['clientid']);
+			$db = JFactory::getDBO();
+			$db->setQuery(
+				'DELETE FROM `#__session`' .
+				' WHERE `userid` = '.(int) $user['id'] .
+				' AND `client_id` = '.(int) $options['clientid']
+			);
+			$db->query();
 		}
 		return true;
 	}
