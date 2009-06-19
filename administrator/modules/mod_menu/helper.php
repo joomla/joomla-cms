@@ -63,9 +63,7 @@ class MenuModuleHelper
 			if ($enabled)
 			{
 				$menu->addChild(new JMenuNode(JText::_('Menus')), true);
-				$menu->addChild(new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus', 'class:menu'));
-				// @todo Handle trash better
-				$menu->addChild(new JMenuNode(JText::_('Menu Trash'), 'index.php?option=com_trash&task=viewMenu', 'class:trash'));
+				$menu->addChild(new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus&view=menus', 'class:menu'));
 
 				$menu->addSeparator();
 				/*
@@ -73,13 +71,18 @@ class MenuModuleHelper
 				 */
 
 				// Menu Types
-				require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php';
-				$menuTypes 	= MenusHelper::getMenuTypelist();
+				$db = &JFactory::getDbo();
+				$query = 'SELECT a.*, SUM(b.home) AS home' .
+						' FROM #__menu_types AS a' .
+						' LEFT JOIN #__menu AS b ON b.menutype = a.menutype' .
+						' GROUP BY a.id';
+				$db->setQuery($query);
+				$menuTypes = $db->loadObjectList();
 
 
 				if (count($menuTypes)) {
 					foreach ($menuTypes as $menuType) {
-						$menu->addChild(new JMenuNode($menuType->title.($menuType->home ? ' *' : ''), 'index.php?option=com_menus&task=view&menutype='.$menuType->menutype, 'class:menu'));
+						$menu->addChild(new JMenuNode($menuType->title.($menuType->home ? ' *' : ''), 'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu'));
 					}
 				}
 
@@ -99,8 +102,6 @@ class MenuModuleHelper
 			{
 				$menu->addChild(new JMenuNode(JText::_('Content')), true);
 				$menu->addChild(new JMenuNode(JText::_('Article Manager'), 'index.php?option=com_content', 'class:article'));
-				$menu->addChild(new JMenuNode(JText::_('Article Trash'), 'index.php?option=com_trash&task=viewContent', 'class:trash'));
-				$menu->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index.php?option=com_frontpage', 'class:frontpage'));
 				$menu->addSeparator();
 				$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index.php?option=com_categories&extension=com_content', 'class:category'));
 				$menu->getParent();
