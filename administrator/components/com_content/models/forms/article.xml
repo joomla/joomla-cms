@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			id="id"
+			name="id"
+			type="hidden"
+			class="inputbox"
+			label="Content_Id_Label"
+			size="10"
+			default="0"
+			required="true"
+			readonly="true"/>
+
+		<field
+			id="title"
+			name="title"
+			type="text"
+			label="JCommon_Title_Label"
+			description="Content_Title_Desc"
+			class="inputbox"
+			size="30"
+			default=""/>
+
+		<field
+			id="alias"
+			name="alias"
+			type="text"
+			label="JCommon_Alias_Label"
+			description="Content_Alias_Desc"
+			class="inputbox"
+			size="30"
+			default=""/>
+
+		<field
+			id="introtext"
+			name="introtext"
+			type="editor"
+			class="inputbox"
+			label="Content_Introtext_Label"
+			description="Content_Introtext_Desc"
+			filter="safehtml"
+			default=""/>
+
+		<field
+			id="fulltext"
+			name="fulltext"
+			type="editor"
+			label="Content_Fulltext_Label"
+			description="Content_Fulltext_Desc"
+			class="inputbox"
+			filter="safehtml"
+			default=""/>
+
+		<field
+			id="state"
+			name="state"
+			type="list"
+			label="Content_State_Label"
+			description="Content_State_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option
+				value="1">
+				JState_Published</option>
+			<option
+				value="0">
+				JState_UnPublished</option>
+			<option
+				value="-1">
+				JState_Archived</option>
+			<option
+				value="-2">
+				JState_Trashed</option>
+		</field>
+
+		<field
+			id="catid"
+			name="catid"
+			type="text"
+			label="Content_Catid_Label"
+			description="Content_Catid_Desc"
+			class="inputbox"
+			size=""
+			default=""/>
+
+		<field
+			id="created"
+			name="created"
+			type="calendar"
+			label="Content_Created_Label"
+			description="Content_Created_Desc"
+			class="inputbox"
+			size="16"
+			format="%Y-%m-%d %H-%M-%S"
+			/>
+
+		<field
+			id="created_by"
+			name="created_by"
+			type="text"
+			label="Content_Created_by_Label"
+			description="Content_Created_by_Desc"/>
+
+		<field
+			id="created_by_alias"
+			name="created_by_alias"
+			type="text"
+			label="Content_Created_by_alias_Label"
+			description="Content_Created_by_alias_Desc"
+			class="inputbox"
+			size="30"
+			default=""/>
+
+		<field
+			id="modified"
+			name="modified"
+			type="text"
+			class="readonly"
+			label="Content_Modified_Label"
+			description="Content_Modified_Desc"
+			size="16"
+			readonly="true"
+			filter="unset"/>
+
+		<field
+			name="modified_by"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"/>
+
+		<field
+			id="publish_up"
+			name="publish_up"
+			type="calendar"
+			label="Content_Publish_up_Label"
+			description="Content_Publish_up_Desc"
+			class="inputbox"
+			format="%Y-%m-%d %H-%M-%S"
+			size="30"
+			default=""/>
+
+		<field
+			id="publish_down"
+			name="publish_down"
+			type="calendar"
+			label="Content_Publish_down_Label"
+			description="Content_Publish_down_Desc"
+			class="inputbox"
+			format="%Y-%m-%d %H-%M-%S"
+			size="30"
+			default=""/>
+
+		<field
+			id="version"
+			name="version"
+			type="text"
+			class="readonly"
+			label="Content_Version_Label"
+			size="6"
+			description="Content_Version_Desc"
+			readonly="true"
+			filter="unset"/>
+
+		<field
+			id="ordering"
+			name="ordering"
+			type="text"
+			label="Content_Ordering_Label"
+			description="Content_Ordering_Desc"
+			class="inputbox"
+			size="6"
+			default="0"/>
+
+		<field
+			id="metakey"
+			name="metakey"
+			type="textarea"
+			label="Content_Metakey_Label"
+			description="Content_Metakey_Desc"
+			class="inputbox"
+			rows="3"
+			cols="30"
+			default=""/>
+
+		<field
+			id="metadesc"
+			name="metadesc"
+			type="textarea"
+			label="Content_Metadesc_Label"
+			description="Content_Metadesc_Desc"
+			class="inputbox"
+			rows="3"
+			cols="30"
+			default=""/>
+
+		<field
+			id="access"
+			name="access"
+			type="accesslevels"
+			label="Content_Access_Label"
+			description="Content_Access_Desc"
+			class="inputbox"
+			size="1"
+			default=""/>
+
+		<field
+			id="hits"
+			name="hits"
+			type="text"
+			label="Content_Hits_Label"
+			description="Content_Hits_Desc"
+			class="readonly"
+			size="6"
+			readonly="true"
+			filter="unset"/>
+
+		<field
+			id="metadata"
+			name="metadata"
+			type="textarea"
+			label="Content_Metadata_Label"
+			description="Content_Metadata_Desc"
+			class="inputbox"
+			rows="3"
+			cols="30"
+			default=""/>
+
+		<field
+			id="language"
+			name="language"
+			type="text"
+			label="Content_Language_Label"
+			description="Content_Language_Desc"
+			class="inputbox"
+			size="10"
+			default=""/>
+
+		<field
+			id="xreference"
+			name="xreference"
+			type="text"
+			label="Content_XReference_Label"
+			description="Content_XReference_Desc"
+			class="inputbox"
+			size="30"
+			default=""/>
+
+	</fields>
+
+	<fields
+		group="attribs"
+		array="true"
+		label="Content_Options">
+		<field
+			name="show_title"
+			type="list"
+			default=""
+			label="Content_Attribs_Show_Title_Label"
+			description="Content_Attribs_Show_Title_Desc">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			name="link_titles"
+			type="list"
+			label="Content_Attribs_Linked_Titles_Label"
+			description="Content_Attribs_Linked_Titles_Desc"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+		<field
+			name="show_intro"
+			type="list"
+			label="Content_Attribs_Show_Intro_Label"
+			description="Content_Attribs_Show_Intro_Label"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_category"
+			type="list"
+			label="Content_Attribs_Show_Category_Label"
+			description="Content_Attribs_Show_Category_Desc"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="link_category"
+			type="list"
+			label="Content_Attribs_Link_Category_Label"
+			description="Content_Attribs_Link_Category_Desc"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			name="article-allow_ratings"
+			type="list"
+			label="Content_Attribs_Allow_Ratings_Label"
+			description="Content_Attribs_Allow_Ratings_Desc"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="article-allow_comments"
+			type="list"
+			label="Content_Attribs_Allow_Comments_Label"
+			description="Content_Attribs_Allow_Comments_Desc"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_author"
+			type="list"
+			label="Content_Attribs_Show_Author_Label"
+			description="Content_Attribs_Show_Author_Desc"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_create_date"
+			type="list"
+			label="Content_Attribs_Show_Create_Date_Label"
+			description="Content_Attribs_Show_Create_Date_Desc"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_modify_date"
+			type="list"
+			label="Content_Attribs_Show_Modify_Date_Label"
+			description="Content_Attribs_Show_Modify_Date_Desc"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_print_icon"
+			type="list"
+			label="Content_Attribs_Show_Print_Icon_Label"
+			description="Content_Attribs_Show_Print_Icon_Desc"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_email_icon"
+			type="list"
+			label="Content_Attribs_Show_Email_Icon_Label"
+			description="Content_Attribs_Show_Email_Icon_Desc"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="readmore"
+			type="text"
+			label="Content_Attribs_Readmore_Label"
+			description="Content_Attribs_Readmore_Desc"
+			size="25"
+			default=""/>
+
+		<field
+			name="page_title"
+			type="text"
+			label="Content_Attribs_Page_title_Label"
+			description="Content_Attribs_Page_title_Desc"
+			size="25"
+			default=""/>
+
+		<field
+			name="layout"
+			type="text"
+			label="Content_Attribs_Layout_Label"
+			description="Content_Attribs_Layout_Desc"
+			size="25"
+			default=""/>
+
+	</fields>
+
+	<fields
+		group="metadata"
+		array="true">
+
+		<field
+			name="robots"
+			type="text"
+			size="20"
+			default=""
+			label="Content_Metadata_Robots_Label"
+			description="Content_Metadata_Robots_Desc"/>
+		<field
+			name="author"
+			type="text"
+			size="20"
+			default=""
+			label="Content_Metadata_Author_Label"
+			description="Content_Metadata_Author_Desc"/>
+
+	</fields>
+</form>
