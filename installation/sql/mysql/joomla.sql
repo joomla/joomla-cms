@@ -1,4 +1,4 @@
-# $Id: joomla.sql 320 2009-05-27 19:52:28Z rob.schley $
+# $Id$
 
 --
 -- Table structure for table `#__access_actions`

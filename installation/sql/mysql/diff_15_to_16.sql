@@ -1,4 +1,4 @@
-# $Id: diff_15_to_16.sql 304 2009-05-27 06:50:21Z andrew.eddie $
+# $Id$
 
 # 1.5 to 1.6
 
