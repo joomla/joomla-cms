@@ -146,13 +146,13 @@ function plgContentNavigation(&$row, &$params, $page=0)
 		}
 
 		if ($row->prev) {
-			$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));
+			$row->prev = JRoute::_(ContentRoute::article($row->prev->slug, $row->prev->catslug));
 		} else {
 			$row->prev = '';
 		}
 
 		if ($row->next) {
-			$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug));
+			$row->next = JRoute::_(ContentRoute::article($row->next->slug, $row->next->catslug));
 		} else {
 			$row->next = '';
 		}
