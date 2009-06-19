@@ -91,7 +91,7 @@ class modLatestNewsHelper
 		{
 			if (in_array($row->access, $groups))
 			{
-				$lists[$i]->link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
+				$lists[$i]->link = JRoute::_(ContentRoute::article($row->slug, $row->catslug, $row->sectionid));
 			}
 			else {
 				$lists[$i]->link = JRoute::_('index.php?option=com_users&view=login');

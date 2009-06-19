@@ -34,7 +34,7 @@ class modNewsFlashHelper
 			{
 				// Check to see if the user has access to view the full article
 				if (in_array($item->access, $groups)) {
-					$item->linkOn = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
+					$item->linkOn = JRoute::_(ContentRoute::article($item->slug, $item->catslug, $item->sectionid));
 					$item->linkText = JText::_('Read more text');
 				}
 				else {
