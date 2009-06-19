@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			id="id"
+			name="id"
+			type="hidden"
+			default="0"
+			filter="int"
+			required="true"
+			readonly="true"/>
+
+		<field
+			id="menutype"
+			name="menutype"
+			type="text"
+			label="Menus_Menu_Menutype_Label"
+			description="Menus_Menu_Menutype_Desc"
+			default=""
+			class="inputbox"
+			size="30"
+			maxlength="24"
+			required="true" />
+
+		<field
+			id="title"
+			name="title"
+			type="text"
+			label="Menus_Menu_Title_Label"
+			description="Menus_Menu_Title_Desc"
+			default=""
+			class="inputbox"
+			size="30"
+			maxlength="48"
+			required="true" />
+
+		<field
+			id="description"
+			name="description"
+			type="text"
+			label="Menus_Menu_Description_Label"
+			description="Menus_Menu_Description_Desc"
+			default=""
+			class="inputbox"
+			size="60"
+			maxlength="255" />
+
+	</fields>
+</form>

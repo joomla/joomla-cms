@@ -1,135 +1,109 @@
-<?php defined('_JEXEC') or die; ?>
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_menus
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-<script language="javascript" type="text/javascript">
-<!--
-	function submitbutton(task)
-	{
-		var f = document.adminForm;
-		if (task == 'deleteconfirm') {
-			id = radioGetCheckedValue(f.id);
-			//document.popup.show('index.php?option=com_menus&tmpl=component&task=deleteconfirm&id='+id, 700, 500, null);
-		} else {
-			submitform(task);
-		}
-	}
+defined('_JEXEC') or die;
 
-	function menu_listItemTask(id, task, option)
-	{
-		var f = document.adminForm;
-		cb = eval('f.' + id);
-		if (cb) {
-			cb.checked = true;
-			submitbutton(task);
-		}
-		return false;
-	}
-//-->
-</script>
+// Include the component HTML helpers.
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-<form action="index.php" method="post" name="adminForm">
+// Load the tooltip behavior.
+JHtml::_('behavior.tooltip');
 
+$uri	= &JFactory::getUri();
+$return	= base64_encode($uri->toString());
+?>
+<form action="<?php echo JRoute::_('index.php?option=com_menus&view=menus');?>" method="post" name="adminForm">
 	<table class="adminlist">
-	<thead>
-		<tr>
-			<th width="20">
-				<?php echo JText::_('NUM'); ?>
-			</th>
-			<th width="20">
-				&nbsp;
-			</th>
-			<th class="title" nowrap="nowrap">
-				<?php echo JText::_('Title'); ?>
-			</th>
-			<th class="title" nowrap="nowrap">
-				<?php echo JText::_('Type'); ?>
-			</th>
-			<th width="5%" nowrap="nowrap">
-				<?php echo JText::_('Menu Items'); ?>
-			</th>
-			<th width="10%">
-				<?php echo JText::_('NUM Published'); ?>
-			</th>
-			<th width="15%">
-				<?php echo JText::_('NUM Unpublished'); ?>
-			</th>
-			<th width="15%">
-				<?php echo JText::_('NUM Trash'); ?>
-			</th>
-			<th width="15%">
-				<?php echo JText::_('NUM Modules'); ?>
-			</th>
-			<th width="3%">
-				<?php echo JText::_('ID'); ?>
-			</th>
-		</tr>
-	</thead>
-	<tfoot>
-		<tr>
-			<td colspan="13">
-				<?php echo $this->pagination->getListFooter(); ?>
-			</td>
-		</tr>
-	</tfoot>
-	<tbody>
-	<?php $i = 0; $k = 0; ?>
-	<?php foreach ($this->menus as $menu) : ?>
-		<?php
-			// Get the current iteration and set a few values
-			$link 	= 'index.php?option=com_menus&amp;task=editMenu&amp;id='. $menu->id;
-			$linkA 	= 'index.php?option=com_menus&amp;task=view&amp;menutype='. $menu->menutype;
-		?>
-		<tr class="<?php echo "row". $k; ?>">
-			<td align="center" width="30">
-				<?php echo $this->pagination->limitstart + 1 + $i; ?>
-			</td>
-			<td width="30" align="center">
-				<input type="radio" id="cb<?php echo $i;?>" name="id" value="<?php echo $menu->id; ?>" onclick="isChecked(this.checked);" />
-			</td>
-			<td>
-			<span class="editlinktip hasTip" title="<?php echo JText::_('Edit Menu Name');?>::<?php echo $menu->title; ?>">
-				<a href="<?php echo $link; ?>">
-					<?php echo $menu->title; ?></a></span>
-			</td>
-			<td>
-				<?php echo $menu->menutype; ?>
-			</td>
-			<td align="center">
-				<a href="<?php echo $linkA; ?>" title="<?php echo JText::_('Edit Menu Items'); ?>">
-					<img src="<?php echo JURI::root(); ?>includes/js/ThemeOffice/mainmenu.png" border="0" /></a>
-			</td>
-			<td align="center">
-				<?php
-				echo $menu->published;
-				?>
-			</td>
-			<td align="center">
-				<?php
-				echo $menu->unpublished;
-				?>
-			</td>
-			<td align="center">
-				<?php
-				echo $menu->trash;
-				?>
-			</td>
-			<td align="center">
-				<?php
-				echo $menu->modules;
-				?>
-			</td>
-			<td align="center">
-				<?php
-				echo $menu->id;
-				?>
-			</td>
-		</tr>
-		<?php $i++; $k = 1 - $k; ?>
-	<?php endforeach; ?>
-	</tbody>
+		<thead>
+			<tr>
+				<th width="20" rowspan="2">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
+				</th>
+				<th class="title" rowspan="2">
+					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="30%" colspan="3">
+					<?php echo JText::_('JMenus_Heading_Number_menu_items'); ?>
+				</th>
+				<th width="20%" rowspan="2">
+					<?php echo JText::_('JMenus_Heading_Linked_modules'); ?>
+				</th>
+				<th width="1%" nowrap="nowrap" rowspan="2">
+					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+			</tr>
+			<tr>
+				<th width="10%">
+					<?php echo JText::_('JMenus_Heading_Published_Items'); ?>
+				</th>
+				<th width="10%">
+					<?php echo JText::_('JMenus_Heading_UnPublished_Items'); ?>
+				</th>
+				<th width="10%">
+					<?php echo JText::_('JMenus_Heading_Trashed_Items'); ?>
+				</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="15">
+					<?php echo $this->pagination->getListFooter(); ?>
+				</td>
+			</tr>
+		</tfoot>
+		<tbody>
+		<?php foreach ($this->items as $i => $item) : ?>
+			<tr class="row<?php echo $i % 2; ?>">
+				<td style="text-align:center">
+					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+				</td>
+				<td>
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=menu.edit&cid[]='.$item->id);?>" title="<?php echo $this->escape($item->description);?>">
+						<?php echo $this->escape($item->title); ?></a>
+					<small>(<?php echo $this->escape($item->menutype);?>)</small>
+				</td>
+				<td align="center">
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=1');?>">
+						( <?php echo $item->count_published; ?> )</a>
+				</td>
+				<td align="center">
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=0');?>">
+						( <?php echo $item->count_unpublished; ?> )</a>
+				</td>
+				<td align="center">
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=2');?>">
+						( <?php echo $item->count_trashed; ?> )</a>
+				</td>
+				<td align="left">
+					<?php
+					if (isset($this->modules[$item->menutype])) :
+						foreach ($this->modules[$item->menutype] as &$module) :
+						?>
+						<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&module_id='.$module->id.'&return='.$return);?>">
+							<?php echo $this->escape($module->title); ?></a>
+						<small>(<?php echo $this->escape($module->position);?>)</small><br />
+						<?php
+						endforeach;
+					endif;
+					?>
+				</td>
+				<td align="center">
+					<?php echo $item->id; ?>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
 	</table>
 
-	<input type="hidden" name="option" value="com_menus" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
