@@ -8,6 +8,8 @@
 
 defined('JPATH_BASE') or die;
 
+jimport('joomla.database.query');
+
 /**
  * Extended Utility class for all HTML drawing classes.
  *
@@ -18,6 +20,11 @@ defined('JPATH_BASE') or die;
  */
 abstract class JHtmlAccess
 {
+	/**
+	 * @var	array	A cached array of the asset groups
+	 */
+	protected static $asset_groups = null;
+
 	/**
 	 * Displays a list of the available access sections
 	 *
@@ -72,9 +79,9 @@ abstract class JHtmlAccess
 		$db->setQuery(
 			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
 			' FROM #__usergroups AS a' .
-			' LEFT JOIN `#__usergroups` AS b ON a.left_id > b.left_id AND a.right_id < b.right_id' .
+			' LEFT JOIN `#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
 			' GROUP BY a.id' .
-			' ORDER BY a.left_id ASC'
+			' ORDER BY a.lft ASC'
 		);
 		$options = $db->loadObjectList();
 
@@ -120,9 +127,9 @@ abstract class JHtmlAccess
 		$db->setQuery(
 			'SELECT a.*, COUNT(DISTINCT b.id) AS level' .
 			' FROM #__usergroups AS a' .
-			' LEFT JOIN `#__usergroups` AS b ON a.left_id > b.left_id AND a.right_id < b.right_id' .
+			' LEFT JOIN `#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
 			' GROUP BY a.id' .
-			' ORDER BY a.left_id ASC'
+			' ORDER BY a.lft ASC'
 		);
 		$groups = $db->loadObjectList();
 
@@ -202,58 +209,68 @@ abstract class JHtmlAccess
 	}
 
 	/**
-	 * Displays a Select list of the available asset groups
+	 * Gets a list of the asset groups as an array of JHtml compatible options.
 	 *
-	 * @param	string $name	The name of the select element
-	 * @param	mixed $selected	The selected asset group id
-	 * @param	string $attribs	Optional attributes for the select field
+	 * @param	array $config	An array of options for the options
 	 *
-	 * @return	mixed			An HTML string or null if an error occurs
+	 * @return	mixed			An array or false if an error occurs
 	 */
-	public static function assetgroups($name, $selected, $attribs = null)
+	public static function &assetgroups($config = array())
 	{
-		static $count, $cache;
-
-		$count++;
-
-		if ($cache == null)
+		if (empty(JHtmlAccess::$asset_groups))
 		{
-			$db = &JFactory::getDbo();
-			$db->setQuery(
-				'SELECT a.*, COUNT(DISTINCT b.id) AS level' .
-				' FROM #__access_assetgroups AS a' .
-				' LEFT JOIN `#__access_assetgroups` AS b ON a.left_id > b.left_id AND a.right_id < b.right_id' .
-				' GROUP BY a.id' .
-				' ORDER BY a.left_id ASC'
-			);
+			$db		= &JFactory::getDbo();
+			$query	= new JQuery;
 
-			$cache = $db->loadObjectList();
+			$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
+			$query->from('#__access_assetgroups AS a');
+			$query->join('LEFT', '`#__access_assetgroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			$query->group('a.id');
+			$query->order('a.lft ASC');
+
+			$db->setQuery($query);
+			JHtmlAccess::$asset_groups = $db->loadObjectList();
 
 			// Check for a database error.
 			if ($db->getErrorNum()) {
 				JError::raiseNotice(500, $db->getErrorMsg());
 				return false;
 			}
+		}
 
-			foreach ($cache as $i => $group)
-			{
-				$cache[$i]->value	= $group->id;
-				// We are not exposing any hierarchy in access levels yet.
-				//$cache[$i]->text	= str_pad($group->title, strlen($group->title) + 2*($group->level), '- ', STR_PAD_LEFT);
-				$cache[$i]->text	= $group->title;
-			}
+		return JHtmlAccess::$asset_groups;
+	}
+
+	/**
+	 * Displays a Select list of the available asset groups
+	 *
+	 * @param	string $name	The name of the select element
+	 * @param	mixed $selected	The selected asset group id
+	 * @param	string $attribs	Optional attributes for the select field
+	 * @param	array $config	An array of options for the control
+	 *
+	 * @return	mixed			An HTML string or null if an error occurs
+	 */
+	public static function assetgrouplist($name, $selected, $attribs = null, $config = array())
+	{
+		static $count;
+
+		$options = JHtmlAccess::assetgroups();
+		if (isset($config['title'])) {
+			array_unshift($options, JHtml::_('select.option', '', $config['title']));
 		}
 
 		return JHtml::_(
 			'select.genericlist',
-			$cache,
+			$options,
 			$name,
 			array(
-				'id' =>				'assetgroups_'.$count,
+				'id' =>				isset($config['id']) ? $config['id'] : 'assetgroups_'.++$count,
 				'list.attr' =>		(is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
 				'list.select' =>	(int) $selected,
 				'list.translate' => true
 			)
 		);
 	}
+
 }
