@@ -61,6 +61,8 @@ $ -> Language fix or change
  + Add small alias to backend weblinks list.
  + Add ability for a weblink to not be categorised.
  ! Convert JForm categories field to use new API.
+ + Added backend com_content.menu language file.
+ ^ Refactored com_categories to support sub-controllers.
 
 16-Jun-2009 Hannes Papenberg
  # Fixed categories implementation. Changed sample data and fixed bugs in com_newsfeeds
