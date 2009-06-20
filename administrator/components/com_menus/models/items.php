@@ -38,7 +38,7 @@ class MenusModelItems extends JModelList
 		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
 		$this->setState('filter.search', $search);
 
-		$published 	= $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$published = $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
 		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
@@ -54,7 +54,7 @@ class MenusModelItems extends JModelList
 		$this->setState('filter.menutype', $menuType);
 
 		// List state information.
-		$limit 		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 		$this->setState('list.limit', $limit);
 
 		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
@@ -88,7 +88,7 @@ class MenusModelItems extends JModelList
 		$id	.= ':'.$this->getState('list.limit');
 		$id	.= ':'.$this->getState('list.ordering');
 		$id	.= ':'.$this->getState('list.direction');
-		$id	.= ':'.$this->getState('check.state');
+		$id	.= ':'.$this->getState('filter.access');
 		$id	.= ':'.$this->getState('filter.published');
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.parent_id');
@@ -133,7 +133,7 @@ class MenusModelItems extends JModelList
 			$query->where('a.published = '.(int) $published);
 		}
 		else if ($published === '') {
-			$query->where('(a.published = 0 OR a.published = 1)');
+			$query->where('(a.published IN (0, 1))');
 		}
 
 		// Filter by search in title, alias or id
