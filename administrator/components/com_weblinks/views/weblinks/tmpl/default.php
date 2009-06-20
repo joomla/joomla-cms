@@ -111,6 +111,7 @@ $userId	= $user->get('id');
 						<a href="<?php echo JRoute::_('index.php?option=com_weblinks&task=weblink.edit&weblink_id='.(int) $item->id); ?>">
 							<?php echo $item->title; ?></a></span>
 					<?php endif; ?>
+					<br /><small><?php echo $this->escape($item->alias);?></small>
 				</td>
 				<td align="center">
 					<?php echo JHtml::_('weblink.state', $item->state, $i);?>

@@ -135,22 +135,6 @@ class WeblinksTableWeblink extends JTable
 	}
 
 	/**
-	 * Loads a weblinks, and any other necessary data
-	 *
-	 * @param	integer		$id		An optional user id.
-	 * @return	boolean		True on success, false on failure.
-	 * @since	1.6
-	 */
-	public function load($id = null)
-	{
-		if ($result = parent::load($id)) {
-			$this->params = json_decode($this->params);
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Stores a weblink
 	 *
 	 * @param	boolean		$updateNulls	Toggle whether null values should be updated.

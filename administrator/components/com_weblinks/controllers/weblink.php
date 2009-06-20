@@ -151,10 +151,16 @@ class WeblinksControllerWeblink extends JController
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Validate the posted data.
-		$data = $model->validate($data);
+		$form	= &$model->getForm();
+		if (!$form) {
+			JError::raiseError(500, $model->getError());
+			return false;
+		}
+		$data	= $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($data === false) {
+		if ($data === false)
+		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 

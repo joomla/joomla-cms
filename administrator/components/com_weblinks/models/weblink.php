@@ -8,7 +8,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelitem');
+jimport('joomla.application.component.modelform');
 
 /**
  * Weblinks Component Weblink Model
@@ -17,7 +17,7 @@ jimport('joomla.application.component.modelitem');
  * @subpackage	com_weblinks
  * @since		1.5
  */
-class WeblinksModelWeblink extends JModelItem
+class WeblinksModelWeblink extends JModelForm
 {
 	/**
 	 * Override to get the weblink table
