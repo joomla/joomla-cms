@@ -249,63 +249,24 @@ abstract class JHtmlList
 	}
 
 	/**
-	 * Select list of active categories for components
+	 * @deprecated
 	 */
-	public static function category($name, $extension = 'com_content', $action = 'com_content.view', $filter = NULL, $active = -1, $class = 'inputbox', $javascript = NULL, $size = 1, $idtag=false, $sel_cat = 1)
+	public static function category($name, $extension, $selected = NULL, $javascript = NULL, $order = null, $size = 1, $sel_cat = 1)
 	{
-		$db = &JFactory::getDbo();
-		$user = &JFactory::getUser();
-
-		if ($filter == NULL)
-		{
-			$filter = '';
-		}
-		else
-		{
-		    $filter = ' AND c.id NOT IN ('.implode(', ', $filter).')';
+		$categories = JHtml::_('category.options', $extension);
+		if ($sel_cat) {
+			array_unshift($categories, JHTML::_('select.option',  '0', JText::_('JOption_Select_Category')));
 		}
 
-		$query = 'SELECT c.id, c.title, c.parent_id, c.level'.
-				' FROM #__categories AS c'.
-				' WHERE c.extension = '.$db->Quote($extension).
-				$filter.
-				//' AND c.access IN ('.implode(',', $user->authorisedLevels($action)).')'.
-				' GROUP BY c.id ORDER BY c.lft';
-		$db->setQuery($query);
-		$cat_list = $db->loadObjectList();
-		$depth = array();
-		$i = 0;
-
-		$categories = array();
-
-		if ($sel_cat)
-		{
-			$categories[] = JHtml::_('select.option', '-1', '('.JText::_('Select Category').')', 'id', 'title');
-			if($active === NULL || $active === '')
-			{
-				$active = -1;
-			}
-		}
-
-		$categories[] = JHtml::_('select.option', '0', 'ROOT', 'id', 'title');
-
-		if($cat_list)
-		{
-			foreach ($cat_list as $category)
-			{
-				$categories[] = JHtml::_('select.option', $category->id, str_repeat('&nbsp;&nbsp;', $category->level).'- '.$category->title, 'id', 'title');
-			}
-		}
-		$category = JHtml::_('select.genericlist', $categories, $name,
-			array(
-				'id' => $idtag,
-				'list.attr' => 'class="'.$class.'" size="'. $size .'" '. $javascript,
-				'list.select' => $active,
-				'option.key' => 'id',
-				'option.text' => 'title'
-			)
+		$category = JHTML::_(
+			'select.genericlist',
+			$categories,
+			$name,
+			'class="inputbox" size="'. $size .'" '. $javascript,
+			'value', 'text',
+			$selected
 		);
+
 		return $category;
 	}
-
 }
