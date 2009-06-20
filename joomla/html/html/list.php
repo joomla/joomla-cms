@@ -21,12 +21,12 @@ defined('_JEXEC') or die;
 abstract class JHtmlList
 {
 	/**
-	 * Use JHtml::_('access.assetgroups', 'access', $selected) instead
+	 * Use JHtml::_('access.assetgrouplist', 'access', $selected) instead
 	 * @deprecated
 	 */
 	public static function accesslevel(&$row)
 	{
-		return JHtml::_('access.assetgroups', 'access', $row->access);
+		return JHtml::_('access.assetgrouplist', 'access', $row->access);
 	}
 
 	/**
@@ -265,7 +265,7 @@ abstract class JHtmlList
 		    $filter = ' AND c.id NOT IN ('.implode(', ', $filter).')';
 		}
 
-		$query = 'SELECT c.id, c.title, c.parent, 0 as depth'.
+		$query = 'SELECT c.id, c.title, c.parent_id, c.level'.
 				' FROM #__categories AS c'.
 				' WHERE c.extension = '.$db->Quote($extension).
 				$filter.
@@ -275,17 +275,7 @@ abstract class JHtmlList
 		$cat_list = $db->loadObjectList();
 		$depth = array();
 		$i = 0;
-		if($cat_list)
-		{
-			foreach($cat_list as &$cat)
-			{
-				if (isset($depth[$cat->parent]))
-				{
-					$cat->depth = $depth[$cat->parent] + 1;
-				}
-				$depth[$cat->id] = $cat->depth;
-			}
-		}
+
 		$categories = array();
 
 		if ($sel_cat)
@@ -303,7 +293,7 @@ abstract class JHtmlList
 		{
 			foreach ($cat_list as $category)
 			{
-				$categories[] = JHtml::_('select.option', $category->id, str_repeat('&nbsp;&nbsp;', $category->depth).'- '.$category->title, 'id', 'title');
+				$categories[] = JHtml::_('select.option', $category->id, str_repeat('&nbsp;&nbsp;', $category->level).'- '.$category->title, 'id', 'title');
 			}
 		}
 		$category = JHtml::_('select.genericlist', $categories, $name,
