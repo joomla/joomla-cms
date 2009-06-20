@@ -53,6 +53,14 @@ $ -> Language fix or change
  + Added JHtmlJGrid (temporary class).
  ^ Removed the need for JSession to use JTable (saves loading that class unnecessarily).
  ^ Add a temporary recursion block in JError::raiseError.
+ ! Reverted JHtmlList::category to original argument list and deprecated method.
+ + Added JHtmlCategory.
+ + Added access filter to backend com_weblinks.
+ + Reconfigured the JHtmlJGrid published list helper.
+ + Added root/uncategorised categories to the sample data.
+ + Add small alias to backend weblinks list.
+ + Add ability for a weblink to not be categorised.
+ ! Convert JForm categories field to use new API.
 
 16-Jun-2009 Hannes Papenberg
  # Fixed categories implementation. Changed sample data and fixed bugs in com_newsfeeds
