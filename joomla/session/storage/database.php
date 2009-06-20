@@ -59,9 +59,13 @@ class JSessionStorageDatabase extends JSessionStorage
 			return false;
 		}
 
-		$session = & JTable::getInstance('session');
-		$session->load($id);
-		return (string)$session->data;
+		// Get the session data from the database table.
+		$db->setQuery(
+			'SELECT `data`' .
+			' FROM `#__session`' .
+			' WHERE `session_id` = '.$db->quote($id)
+		);
+		return (string) $db->loadResult();
 	}
 
 	/**
@@ -71,7 +75,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * @param	string	The session data.
 	 * @return	boolean	True on success, false otherwise.
 	 */
-	public function write($id, $session_data)
+	public function write($id, $data)
 	{
 		// Get the database connection object and verify its connected.
 		$db = &JFactory::getDbo();
@@ -79,21 +83,42 @@ class JSessionStorageDatabase extends JSessionStorage
 			return false;
 		}
 
-		$session = & JTable::getInstance('session');
-		$session->load($id);
-		$session->data = $session_data;
-		$session->store();
+		// Get the session data from the database table.
+		$db->setQuery(
+			'SELECT `session_id`' .
+			' FROM `#__session`' .
+			' WHERE `session_id` = '.$db->quote($id)
+		);
+		$exists = $db->loadResult();
 
-		return true;
+		// If the session exists we just need to update the data field.
+		if ($exists) {
+			$db->setQuery(
+				'UPDATE `#__session`' .
+				' SET `data` = '.$db->quote($data).',' .
+				'	  `time` = '.(int) time() .
+				' WHERE `session_id` = '.$db->quote($id)
+			);
+		}
+		// If the session does not exist, we need to insert the session.
+		else {
+			$db->setQuery(
+				'INSERT INTO `#__session` (`session_id`, `data`, `time`)' .
+				' VALUES ('.$db->quote($id).', '.$db->quote($data).', '.(int) time().')'
+			);
+		}
+
+		// Write the session data to the database.
+		return (boolean) $db->query();
 	}
 
 	/**
-	  * Destroy the data for a particular session identifier in the
-	  * SessionHandler backend.
-	  *
-	  * @param string $id  The session identifier.
-	  * @return boolean  True on success, false otherwise.
-	  */
+	 * Destroy the data for a particular session identifier in the
+	 * SessionHandler backend.
+	 *
+	 * @param	string	The session identifier.
+	 * @return	boolean	True on success, false otherwise.
+	 */
 	public function destroy($id)
 	{
 		// Get the database connection object and verify its connected.
@@ -102,9 +127,12 @@ class JSessionStorageDatabase extends JSessionStorage
 			return false;
 		}
 
-		$session = & JTable::getInstance('session');
-		$session->delete($id);
-		return true;
+		// Remove a session from the database.
+		$db->setQuery(
+			'DELETE FROM `#__session`' .
+			' WHERE `session_id` = '.$db->quote($id)
+		);
+		return (boolean) $db->query();
 	}
 
 	/**
@@ -113,7 +141,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * @param	integer	The maximum age of a session.
 	 * @return	boolean	True on success, false otherwise.
 	 */
-	public function gc($maxlifetime)
+	function gc($lifetime = 1440)
 	{
 		// Get the database connection object and verify its connected.
 		$db = &JFactory::getDbo();
@@ -121,8 +149,14 @@ class JSessionStorageDatabase extends JSessionStorage
 			return false;
 		}
 
-		$session = & JTable::getInstance('session');
-		$session->purge($maxlifetime);
-		return true;
+		// Determine the timestamp threshold with which to purge old sessions.
+		$past = time() - $lifetime;
+
+		// Remove expired sessions from the database.
+		$db->setQuery(
+			'DELETE FROM `#__session`' .
+			' WHERE `time` < '.(int) $past
+		);
+		return (boolean) $db->query();
 	}
 }
