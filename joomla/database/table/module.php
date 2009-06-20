@@ -8,7 +8,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-jimport('joomla.database.table');
+jimport('joomla.database.tableasset');
 
 /**
  * Module table
@@ -51,6 +51,14 @@ class JTableModule extends JTable
 	var $client_id			= null;
 	/** @var string */
 	var $control				= null;
+
+	/**
+	 * Track rows as assets.
+	 *
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected $_trackAssets = true;
 
 	/**
 	 * Contructore

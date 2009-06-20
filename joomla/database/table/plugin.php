@@ -10,7 +10,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-jimport('joomla.database.table');
+jimport('joomla.database.tableasset');
 
 /**
  * Plugin table
@@ -104,6 +104,14 @@ class JTablePlugin extends JTable
 	 * @var text
 	 */
 	var $params = null;
+
+	/**
+	 * Track rows as assets.
+	 *
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected $_trackAssets = true;
 
 	function __construct(& $db)
 	{

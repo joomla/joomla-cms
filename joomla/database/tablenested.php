@@ -1,1310 +1,1378 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla!.Framework
- * @subpackage	Database.Table
- * @license		GNU/GPL, see http://www.gnu.org/copyleft/gpl.html and LICENSE.php
- *
- * Abstract class for handling nested sets
- *
- * Joomla! is free software. you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * Joomla! is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
- * along with Joomla!; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * The "GNU General Public License" (GPL) is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version		$Id: tablenested.php 12077 2009-06-14 18:52:44Z chrisdavenport $
+ * @package		Joomla.Framework
+ * @subpackage	Database
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-
-// Ensure, that the file was included by Joomla!
-defined('_JEXEC') or jexit();
+defined('JPATH_BASE') or die;
 
 jimport('joomla.database.table');
 
 /**
- * JTable Nested Sets class
+ * Table class supporting modified pre-order tree traversal behavior.
  *
- * @abstract
- * @category	Database
- * @package		Joomla!.Framework
- * @subpackage	Database.Table
- * @author		Benjamin Trenkle <bembelimen@web.de>
- * @license		GNU/GPL, see http://www.gnu.org/copyleft/gpl.html and LICENSE.php
+ * @package		Joomla.Framework
+ * @subpackage	Database
  * @since		1.6
- *
+ * @link		http://docs.joomla.org/JTableNested
  */
-abstract class JTableNested extends JTable {
+class JTableNested extends JTable
+{
+	/**
+	 * Object property holding the primary key of the parent node.  Provides
+	 * adjacency list data for nodes.
+	 *
+	 * @var integer
+	 */
+	public $parent_id = null;
 
 	/**
-	 * Name of the table in the db schema
+	 * Object property holding the depth level of the node in the tree.
 	 *
-	 * @access	protected
-	 * @var		string
+	 * @var integer
 	 */
-	protected $_tbl;
+	public $level = null;
 
 	/**
-	 * Name of the primary key field in the table
+	 * Object property holding the left value of the node for managing its
+	 * placement in the nested sets tree.
 	 *
-	 * @access	protected
-	 * @var		string
+	 * @var integer
 	 */
-	protected $_tbl_key;
+	public $lft = null;
 
 	/**
-	 * Database connector {@see JDatabase}
+	 * Object property holding the right value of the node for managing its
+	 * placement in the nested sets tree.
 	 *
-	 * @access	protected
-	 * @var		JDatabase
+	 * @var integer
 	 */
-	protected $_db;
+	public $rgt = null;
 
 	/**
-	 * Name for the 'lft' field in the database schema
+	 * Object property to hold the location type to use when storing the row.
+	 * Possible values are: ['before', 'after', 'first-child', 'last-child'].
 	 *
-	 * @access	protected
-	 * @var		string
+	 * @var string
 	 */
-	protected $_lft;
+	protected $_location = null;
 
 	/**
-	 * Name for the 'rgt' field in the database schema
+	 * Object property to hold the primary key of the location reference node to
+	 * use when storing the row.  A combination of location type and reference
+	 * node describes where to store the current node in the tree.
 	 *
-	 * @access	protected
-	 * @var		string
+	 * @var integer
 	 */
-	protected $_rgt;
+	protected $_location_id = null;
 
 	/**
-	 * Name for the 'parent' field in the database schema
+	 * Method to get an array of nodes from a given node to its root.
 	 *
-	 * @access	protected
-	 * @var		string
+	 * @param	integer	Primary key of the node for which to get the path.
+	 * @param	boolean	Only select diagnostic data for the nested sets.
+	 * @return	mixed	Boolean false on failure or array of node objects on success.
+	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTableNested/getPath
 	 */
-	protected $_parent;
-
-	/**
-	 * Name for the 'ordering' field in the database schema
-	 *
-	 * @access	protected
-	 * @var		string
-	 */
-
-	/**
-	 * The NestedSets constructor for initializing the variables
-	 *
-	 * @author		Benjamin Trenkle
-	 * @access		public
-	 * @param		string $table The name of the table in the db schema.
-	 * @param		string $key The name of the primary key field in the table.
-	 * @param		object $db The JDatabase object {@see JDatabase}
-	 * @param		string $lft Name for the 'lft' field in the database schema. Default: lft
-	 * @param		string $rgt Name for the 'rgt' field in the database schema Default: rgt
-	 * @param		string $rgt Name for the 'parent' field in the database schema Default: parent
-	 * @param		string $rgt Name for the 'ordering' field in the database schema Default: ordering
-	 * @return		void
-	 * @since		1.6
-	 */
-	public function __construct($table, $key, $db, $lft='lft', $rgt='rgt', $parent='parent') {
-
-		// assign the table name to the class variable $this->_tbl
-		$this->_tbl = $table;
-		// assign the table key name to the class variable $this->_tbl_key
-		$this->_tbl_key = $key;
-		// assign the JDatabase object {@see JDatabase} to the class variable $this->_db
-		$this->_db = $db;
-		// assign the name of the 'lft' field to the class variable $this->_lft
-		$this->_lft = $lft;
-		// assign the name of the 'rgt' field to the class variable $this->_rgt
-		$this->_rgt = $rgt;
-		// assign the name of the 'parent' field to the class variable $this->_parent
-		$this->_parent = $parent;
-
-	}
-
-	/**
-	 * Stores a new row if {@see $this->tbl_key} is null/zero or updates an existing row in the database table
-	 *
-	 * @author		Benjamin Trenkle
-	 * @access		public
-	 * @param		void
-	 * @return		bool returns true if successful otherwise returns false and sets an error message {@see JException}
-	 * @since		1.6
-	 */
-	public function store($updateNulls=false) {
-
-		// is the primary key null? then prepare the database table for a new row
-		if (!$this->{$this->_tbl_key}) :
-
-			// new entry as "root"
-			if ($this->{$this->_parent} == 0) :
-
-				$query = "
-					SELECT
-						".$this->_db->nameQuote($this->_rgt)." as rgt
-					FROM
-						".$this->_db->nameQuote($this->_tbl)."
-					WHERE
-						".$this->_db->nameQuote($this->_parent)." = ".$this->_db->Quote(0)."
-					ORDER BY
-						".$this->_db->nameQuote($this->_rgt)." DESC"
-				;
-
-				// set the query and set LIMIT to 0,1
-				$this->_db->setQuery($query, 0, 1);
-
-				/**
-				 * load the result into $result
-				 *
-				 * @param object $result an JDatabase Object with the following keys
-				 * - $result->_rgt (default: 'rgt')
-				 *
-				 */
-				$result = $this->_db->loadObject();
-
-				$this->{$this->_lft} = $result->rgt+1;
-				$this->{$this->_rgt} = $result->rgt+2;
-
-			// new entry as "child"
-			elseif ($this->{$this->_parent} > 0) :
-
-				$query = "
-					SELECT
-						".$this->_db->nameQuote($this->_rgt)." as rgt
-					FROM
-						".$this->_db->nameQuote($this->_tbl)."
-					WHERE
-						".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($this->{$this->_parent})
-				;
-
-				// set the query and set LIMIT to 0,1
-				$this->_db->setQuery($query, 0, 1);
-
-				/**
-				 * load the result into $result
-				 *
-				 * @param object $result an JDatabase Object with the following keys
-				 * - $result->_rgt (default: 'rgt')
-				 *
-				 */
-				$result = $this->_db->loadObject();
-
-				// update all rows with $this->_rgt >= $result->rgt for making space for the new row
-				$query = "
-					UPDATE
-						".$this->_db->nameQuote($this->_tbl)."
-					SET
-						".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."+2"."
-					WHERE
-						".$this->_db->nameQuote($this->_rgt)." >= ".$this->_db->Quote($result->rgt)
-				;
-
-				// set the query
-				$this->_db->setQuery($query);
-
-				// execute the query
-				if (!$this->_db->query()) :
-
-					// set Error, if the query fails
-					$this->setError(get_class($this).'::store failed - Cannot move '.$this->_rgt.' values');
-					// exit the method with false
-					return false;
-
-				endif;
-
-				// update all rows with $this->_lft >= $result->rgt for making space for the new row
-				$query = "
-					UPDATE
-						".$this->_db->nameQuote($this->_tbl)."
-					SET
-						".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."+2"."
-					WHERE
-						".$this->_db->nameQuote($this->_lft)." > ".$this->_db->Quote($result->rgt)
-				;
-
-				// set the query
-				$this->_db->setQuery($query);
-
-				// execute the query
-				if (!$this->_db->query()) :
-
-					// set Error, if the query fails
-					$this->setError(get_class($this).'::store failed - Cannot move '.$this->_lft.' values');
-					// exit the method with false
-					return false;
-
-				endif;
-
-				$this->{$this->_lft} = $result->rgt;
-				$this->{$this->_rgt} = $result->rgt+1;
-
-			 // no parent choosen
-			else :
-
-				// set Error
-				$this->setError(get_class($this).'::store failed - Please choose a parent category');
-				// exit the method with false
-				return false;
-
-			endif;
-
-		// we'll only update a row
-		else :
-
-			// clone the object
-			$category = clone $this;
-
-
-			parent::load();
-
-			// check, if we have to move the whole category
-			if ($this->{$this->_parent} != $category->{$this->_parent}) :
-
-				if (!$this->move($category->{$this->_parent}, false)) :
-
-					return false;
-
-				endif;
-
-				parent::load($category->{$this->_tbl_key});
-
-				$category->{$this->_lft} = $this->{$this->_lft};
-				$category->{$this->_rgt} = $this->{$this->_rgt};
-
-			endif;
-
-			$this->bind($category);
-
-		endif;
-
-		// store/update the row
-		if (!parent::store()) :
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		// return on success
-		return true;
-
-	}
-
-	/**
-	 * Moves a tree
-	 *
-	 * @author		Benjamin Trenkle
-	 * @access		public
-	 * @param		int $parent The id of the parent row (the moved tree will be a child of it). If the tree should be a root element, then set $parent=0
-	 * @param		bool $first specified if the tree should be the first (true) or the last (false) child of the $parent row
-	 * @param		int $oid the id of the row which should be moved. If not set, the loaded $this->_tbl_key will be used
-	 * @return		bool returns true if successful otherwise returns false and sets an error message {@see JException}
-	 * @since		1.6
-	 */
-	public function move($parent, $first=false, $oid=null) {
-
-		// load the current row from the database
-		if (!parent::load($oid)) :
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		// generate the query for loading all $this->_tbl_key from the tree which should be moved
-		$query = "
-			SELECT
-				".$this->_db->nameQuote($this->_tbl_key)."
-			FROM
-				".$this->_db->nameQuote($this->_tbl)."
-			WHERE
-				(".$this->_db->nameQuote($this->_lft)."
-			BETWEEN
-				".$this->_db->Quote($this->{$this->_lft})."
-			AND
-				".$this->_db->Quote($this->{$this->_rgt}).")"
-		;
-
-		// set the query
-		$this->_db->setQuery($query);
-
-		// load the result
-		$result = $this->_db->loadResultArray();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set Error, if the query fails
-			$this->setError($this->_db->getErrorMsg());
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		// don't be child of yourself
-		if (in_array($parent, $result)) :
-
-			// set Error, if the query fails
-			$this->setError(get_class($this).'::move failed - Cannot be child of itself');
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		// create the query for removing the tree which should be moved (save it temporary in the negative area)
-		$query = "
-			UPDATE
-				".$this->_db->nameQuote($this->_tbl)."
-			SET
-				".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."*(-1),
-				".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."*(-1)
-			WHERE
-				".$this->_db->nameQuote($this->_lft)."
-			BETWEEN
-				".$this->_db->Quote($this->{$this->_lft})."
-			AND
-				".$this->_db->Quote($this->{$this->_rgt})
-		;
-
-		// set the query
-		$this->_db->setQuery($query);
-
-		// execute the query
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set Error, if the query fails
-			$this->setError($this->_db->getErrorMsg());
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		// hold the lft
-		$lft = $this->{$this->_lft};
-		// hold the lft
-		$rgt = $this->{$this->_rgt};
-
-		// create query for compressing the lft values
-		$query = "
-			UPDATE
-				".$this->_db->nameQuote($this->_tbl)."
-			SET
-				".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."-(".$this->{$this->_rgt}."-".$this->{$this->_lft}."+1)
-			WHERE
-				".$this->_db->nameQuote($this->_lft)." > ".$this->_db->Quote($this->{$this->_rgt})
-		;
-
-		// set the query
-		$this->_db->setQuery($query);
-
-		// execute the query
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set Error, if the query fails
-			$this->setError($this->_db->getErrorMsg());
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		// create query for compressing the rgt values
-		$query = "
-			UPDATE
-				".$this->_db->nameQuote($this->_tbl)."
-			SET
-				".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."-(".$this->{$this->_rgt}."-".$this->{$this->_lft}."+1)
-			WHERE
-				".$this->_db->nameQuote($this->_rgt)." > ".$this->_db->Quote($this->{$this->_rgt})
-		;
-
-		// set the query
-		$this->_db->setQuery($query);
-
-		// execute the query
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set Error, if the query fails
-			$this->setError($this->_db->getErrorMsg());
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		// if we move in the tree, then do this
-		if ($parent != 0):
-
-			// load the row with $this->_tbl_key = $parent
-			if (!parent::load($parent)) :
-
-				// set Error, if the query fails
-				$this->setError(get_class($this).'::move failed - Cannot load parent information');
-				// exit the method with false
-				return false;
-
-			endif;
-
-			// clear $where
-			unset($where);
-
-			// should the row be saved as first item of $parent?
-			if ($first) :
-
-				// then update the specific values
-				$where[0] = $this->_db->nameQuote($this->_rgt)." >= ".$this->{$this->_lft};
-				$where[1] = $this->_db->nameQuote($this->_lft)." > ".$this->{$this->_lft};
-
-			// or do we want it as least?
-			else :
-
-				// then update the specific values
-				$where[0] = $this->_db->nameQuote($this->_rgt)." >= ".$this->{$this->_rgt};
-				$where[1] = $this->_db->nameQuote($this->_lft)." >= ".$this->{$this->_rgt};
-
-			endif;
-
-			// generate query for making space for the new row (move $this->_rgt)
-			$query = "
-				UPDATE
-					".$this->_db->nameQuote($this->_tbl)."
-				SET
-					".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."+".$rgt."-".$lft."+1
-				WHERE
-					".$where[0]
-			;
-
-			// set the query
-			$this->_db->setQuery($query);
-
-			// execute the query
-			$this->_db->query();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum()) :
-
-				// set Error, if the query fails
-				$this->setError($this->_db->getErrorMsg());
-
-				// exit the method with false
-				return false;
-
-			endif;
-
-			// generate query for making space for the new row (move $this->_lft)
-			$query = "
-				UPDATE
-					".$this->_db->nameQuote($this->_tbl)."
-				SET
-					".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."+".$rgt."-".$lft."+1
-				WHERE
-					".$where[1]
-			;
-
-			// set the query
-			$this->_db->setQuery($query);
-
-			// execute the query
-			$this->_db->query();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum()) :
-
-				// set Error, if the query fails
-				$this->setError($this->_db->getErrorMsg());
-
-				// exit the method with false
-				return false;
-
-			endif;
-
-			// load the row with $this->_tbl_key = $parent
-			if (!parent::load($parent)) :
-
-				// set Error, if the query fails
-				$this->setError(get_class($this).'::move failed - Cannot load parent information');
-				// exit the method with false
-				return false;
-
-			endif;
-
-			if ($first) :
-
-				$this->{$this->_rgt} = $this->{$this->_lft}+1;
-
-			endif;
-
-		// otherwise get the root informations
-		else :
-
-			$query = "
-				SELECT
-					".$this->_db->nameQuote($this->_rgt)." as rgt
-				FROM
-					".$this->_db->nameQuote($this->_tbl)."
-				WHERE
-					".$this->_db->nameQuote($this->_parent)." = ".$this->_db->Quote(0)."
-				ORDER BY
-					".$this->_db->nameQuote($this->_lft)." DESC"
-			;
-
-			// set the query
-			$this->_db->setQuery($query, 0, 1);
-
-			$result = $this->_db->loadObject();
-
-			$this->{$this->_rgt} = $result->rgt+($rgt-$lft)+2;
-
-		endif;
-
-		// bring the tree back to the positive are and move $this->_lft to the correct position
-		$query = "
-			UPDATE
-				".$this->_db->nameQuote($this->_tbl)."
-			SET
-				".$this->_db->nameQuote($this->_rgt)." = ".$this->{$this->_rgt}."-(".$rgt."+".$this->_db->nameQuote($this->_rgt)."+1),
-				".$this->_db->nameQuote($this->_lft)." = ".$this->{$this->_rgt}."-(".$rgt."+".$this->_db->nameQuote($this->_lft)."+1)
-			WHERE
-				".$this->_db->nameQuote($this->_lft)." < ".$this->_db->Quote(0)
-		;
-
-		// set the query
-		$this->_db->setQuery($query);
-
-		// execute the query
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set Error, if the query fails
-			$this->setError($this->_db->getErrorMsg());
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		// everything works...puh
-		return true;
-
-	}
-
-	/**
-	 * Deletes a tree
-	 *
-	 * @author		Benjamin Trenkle
-	 * @access		public
-	 * @param		int $oid the id of the row which should be moved. If not set, the loaded $this->_tbl_key will be used
-	 * @param		bool $sub should only the parent row be deleted or the whole branche?
-	 * @return		bool returns true if successful otherwise returns false and sets an error message {@see JException}
-	 * @since		1.6
-	 */
-	public function delete($oid=null, $sub=true) {
-
-		// load the current row from the database
-		if (!parent::load($oid)) :
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		// should we delete the whole tree?
-		if ($sub) :
-
-			// generate deletion query for the whole branche
-			$query = "
-				DELETE
-				FROM
-					".$this->_db->nameQuote($this->_tbl)."
-				WHERE
-					".$this->_db->nameQuote($this->_lft)."
-				BETWEEN
-					".$this->_db->Quote((int) $this->{$this->_lft})."
-				AND
-					".$this->_db->Quote((int) $this->{$this->_rgt})
-			;
-
-			// set the query
-			$this->_db->setQuery($query);
-
-			// execute the query
-			$this->_db->query();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum()) :
-
-				// set Error, if the query fails
-				$this->setError($this->_db->getErrorMsg());
-
-				// exit the method with false
-				return false;
-
-			endif;
-
-			// generate the update query for filling the $this->_lft space, the deleted rows left
-			$query = "
-				UPDATE
-					".$this->_db->nameQuote($this->_tbl)."
-				SET
-					".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."-(".$this->{$this->_rgt}."-".$this->{$this->_lft}."+1)
-				WHERE
-					".$this->_db->nameQuote($this->_lft)." > ".$this->_db->Quote((int) $this->{$this->_rgt})
-			;
-
-			// set the query
-			$this->_db->setQuery($query);
-
-			// execute the query
-			$this->_db->query();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum()) :
-
-				// set Error, if the query fails
-				$this->setError($this->_db->getErrorMsg());
-
-				// exit the method with false
-				return false;
-
-			endif;
-
-			// generate the update query for filling the $this->_rgt space, the deleted rows left
-			$query = "
-				UPDATE
-					".$this->_db->nameQuote($this->_tbl)."
-				SET
-					".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."-(".$this->{$this->_rgt}."-".$this->{$this->_lft}."+1)
-				WHERE
-					".$this->_db->nameQuote($this->_rgt)." > ".$this->_db->Quote((int) $this->{$this->_rgt})
-			;
-
-			// set the query
-			$this->_db->setQuery($query);
-
-			// execute the query
-			$this->_db->query();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum()) :
-
-				// set Error, if the query fails
-				$this->setError($this->_db->getErrorMsg());
-
-				// exit the method with false
-				return false;
-
-			endif;
-
-		// or should we only delete the current row?
-		else :
-
-			// delete the current row
-			if(!parent::delete()) :
-
-				// exit the method with false
-				return false;
-
-			endif;
-
-			// move all childs to $this->_parent and adjust $this->_lft+$this->_rgt
-			$query = "
-				UPDATE
-					".$this->_db->nameQuote($this->_tbl)."
-				SET
-					".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."-1,
-					".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."-1,
-					".$this->_db->nameQuote($this->_parent)." = ".$this->_db->Quote((int) $this->{$this->_parent})."
-				WHERE
-					".$this->_db->nameQuote($this->_lft)."
-				BETWEEN
-					".$this->_db->Quote((int) $this->{$this->_lft})."
-				AND
-					".$this->_db->Quote((int) $this->{$this->_rgt})
-			;
-
-			// set the query
-			$this->_db->setQuery($query);
-
-			// execute the query
-			$this->_db->query();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum()) :
-
-				// set Error, if the query fails
-				$this->setError($this->_db->getErrorMsg());
-
-				// exit the method with false
-				return false;
-
-			endif;
-
-			// update all rows to fill the $this->_lft space the deleted row left
-			$query = "
-				UPDATE
-					".$this->_db->nameQuote($this->_tbl)."
-				SET
-					".$this->_db->nameQuote($this->_lft)." = ".$this->_db->nameQuote($this->_lft)."-2
-				WHERE
-					".$this->_db->nameQuote($this->_lft)." > ".$this->_db->Quote((int) $this->{$this->_rgt})
-			;
-
-			// set the query
-			$this->_db->setQuery($query);
-
-			// execute the query
-			$this->_db->query();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum()) :
-
-				// set Error, if the query fails
-				$this->setError($this->_db->getErrorMsg());
-
-				// exit the method with false
-				return false;
-
-			endif;
-
-			// update all rows to fill the $this->_rgt space the deleted row left
-			$query = "
-				UPDATE
-					".$this->_db->nameQuote($this->_tbl)."
-				SET
-					".$this->_db->nameQuote($this->_rgt)." = ".$this->_db->nameQuote($this->_rgt)."-2
-				WHERE
-					".$this->_db->nameQuote($this->_rgt)." > ".$this->_db->Quote((int) $this->{$this->_rgt})
-			;
-
-			// set the query
-			$this->_db->setQuery($query);
-
-			// execute the query
-			$this->_db->query();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum()) :
-
-				// set Error, if the query fails
-				$this->setError($this->_db->getErrorMsg());
-
-				// exit the method with false
-				return false;
-
-			endif;
-
-		endif;
-
-		// if all worked then return true
-		return true;
-
-
-	}
-
-	/**
-	 * moves a row one step up
-	 *
-	 * @author		Benjamin Trenkle
-	 * @access		public
-	 * @param		int $oid the id of the row which should be moved. If not set, the loaded $this->_tbl_key will be used
-	 * @return		bool returns true if successful otherwise returns false
-	 * @since		1.6
-	 */
-	public function orderUp($oid=null) {
-
-		// is $oid null?
-		if (!is_null($oid)) :
-
-			// then set $this->_tbl_key as $oid
-			$this->{$this->_tbl_key} = $oid;
-
-		endif;
-
-		// check, if $oid exists and is not 0
-		if (!$this->{$this->_tbl_key} = (int) $this->{$this->_tbl_key}) :
-
-			// otherwise return false
-			return false;
-
-		endif;
-
-		$query = "
-			SELECT
-				n1.".$this->_db->nameQuote($this->_tbl_key)."
-			FROM
-				".$this->_db->nameQuote($this->_tbl)." as n1
-			INNER JOIN
-				".$this->_db->nameQuote($this->_tbl)." as n2
-			ON
-				n1.".$this->_db->nameQuote($this->_lft)."
-			BETWEEN
-				n2.".$this->_db->nameQuote($this->_lft)."
-			AND
-				n2.".$this->_db->nameQuote($this->_rgt)."
-			WHERE
-				n2.".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($this->{$this->_tbl_key})."
-			ORDER BY
-				n1.".$this->_db->nameQuote($this->_lft)
-		;
-
-		$this->_db->setQuery( $query );
-		$return = $this->_db->loadResultArray();
-
-		$count1 = count($return);
-
-		if ($count1 < 1) :
-
-			return false;
-
-		endif;
-
-		$query = "
-			SELECT
-				n1.".$this->_db->nameQuote($this->_tbl_key)."
-			FROM
-				".$this->_db->nameQuote($this->_tbl)." as n1
-			INNER JOIN
-				".$this->_db->nameQuote($this->_tbl)." as n2
-			ON
-				n1.".$this->_db->nameQuote($this->_lft)."
-			BETWEEN
-				n2.".$this->_db->nameQuote($this->_lft)."
-			AND
-				n2.".$this->_db->nameQuote($this->_rgt)."
-			JOIN
-				".$this->_db->nameQuote($this->_tbl)." as n3
-			ON
-				n3.".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($this->{$this->_tbl_key})."
-			WHERE
-				n2.".$this->_db->nameQuote($this->_parent)." = n3.".$this->_db->nameQuote($this->_parent)."
-			AND
-				n2.".$this->_db->nameQuote($this->_rgt)." = n3.".$this->_db->nameQuote($this->_lft)."-1
-			ORDER BY
-				n1.".$this->_db->nameQuote($this->_lft)
-		;
-
-		$this->_db->setQuery( $query );
-		$return2 = $this->_db->loadResultArray();
-		$count2 = count($return2);
-
-		if ($count2 < 1) :
-
-			return false;
-
-		endif;
-
-		$query = "
-			UPDATE
-				".$this->_db->nameQuote($this->_tbl)."
-			SET
-				".$this->_db->nameQuote($this->_lft)." = (".$this->_db->nameQuote($this->_lft)."+".($count1*2)."),
-				".$this->_db->nameQuote($this->_rgt)." = (".$this->_db->nameQuote($this->_rgt)."+".($count1*2).")
-			WHERE
-				".$this->_db->nameQuote($this->_tbl_key)." IN (".implode(',',$return2).")
-		";
-
-		$this->_db->setQuery( $query );
-
-		// execute the query
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set Error, if the query fails
-			$this->setError($this->_db->getErrorMsg());
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		$query = "
-			UPDATE
-				".$this->_db->nameQuote($this->_tbl)."
-			SET
-				".$this->_db->nameQuote($this->_lft)." = (".$this->_db->nameQuote($this->_lft)."-".($count2*2)."),
-				".$this->_db->nameQuote($this->_rgt)." = (".$this->_db->nameQuote($this->_rgt)."-".($count2*2).")
-			WHERE
-				".$this->_db->nameQuote($this->_tbl_key)." IN (".implode(',',$return).")
-		";
-
-		$this->_db->setQuery( $query );
-
-		// execute the query
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set Error, if the query fails
-			$this->setError($this->_db->getErrorMsg());
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		return true;
-
-	}
-
-	/**
-	 * moves a row one step down
-	 *
-	 * @author		Benjamin Trenkle
-	 * @access		public
-	 * @param		int $oid the id of the row which should be moved. If not set, the loaded $this->_tbl_key will be used
-	 * @return		bool returns true if successful otherwise returns false
-	 * @since		1.6
-	 */
-	public function orderDown($oid=null) {
-
-		// is $oid null?
-		if (!is_null($oid)) :
-
-			// then set $this->_tbl_key as $oid
-			$this->{$this->_tbl_key} = $oid;
-
-		endif;
-
-		// check, if $oid exists and is not 0
-		if (!$this->{$this->_tbl_key} = (int) $this->{$this->_tbl_key}) :
-
-			// otherwise return false
-			return false;
-
-		endif;
-
-		$query = "
-			SELECT
-				n1.".$this->_db->nameQuote($this->_tbl_key)."
-			FROM
-				".$this->_db->nameQuote($this->_tbl)." as n1
-			INNER JOIN
-				".$this->_db->nameQuote($this->_tbl)." as n2
-			ON
-				n1.".$this->_db->nameQuote($this->_lft)."
-			BETWEEN
-				n2.".$this->_db->nameQuote($this->_lft)."
-			AND
-				n2.".$this->_db->nameQuote($this->_rgt)."
-			WHERE
-				n2.".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($this->{$this->_tbl_key})."
-			ORDER BY
-				n1.".$this->_db->nameQuote($this->_lft)
-		;
-
-		$this->_db->setQuery( $query );
-		$return = $this->_db->loadResultArray();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set Error, if the query fails
-			$this->setError($this->_db->getErrorMsg());
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		$count1 = count($return);
-
-		if ($count1 < 1) :
-
-			return false;
-
-		endif;
-
-		$query = "
-			SELECT
-				n1.".$this->_db->nameQuote($this->_tbl_key)."
-			FROM
-				".$this->_db->nameQuote($this->_tbl)." as n1
-			INNER JOIN
-				".$this->_db->nameQuote($this->_tbl)." as n2
-			ON
-				n1.".$this->_db->nameQuote($this->_lft)."
-			BETWEEN
-				n2.".$this->_db->nameQuote($this->_lft)."
-			AND
-				n2.".$this->_db->nameQuote($this->_rgt)."
-			JOIN
-				".$this->_db->nameQuote($this->_tbl)." as n3
-			ON
-				n3.".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($this->{$this->_tbl_key})."
-			WHERE
-				n2.".$this->_db->nameQuote($this->_parent)." = n3.".$this->_db->nameQuote($this->_parent)."
-			AND
-				n2.".$this->_db->nameQuote($this->_lft)." = n3.".$this->_db->nameQuote($this->_rgt)."+1
-			ORDER BY
-				n1.".$this->_db->nameQuote($this->_lft)
-		;
-
-		$this->_db->setQuery( $query );
-		$return2 = $this->_db->loadResultArray();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set Error, if the query fails
-			$this->setError($this->_db->getErrorMsg());
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		$count2 = count($return2);
-
-		if ($count2 < 1) :
-
-			return false;
-
-		endif;
-
-		$query = "
-			UPDATE
-				".$this->_db->nameQuote($this->_tbl)."
-			SET
-				".$this->_db->nameQuote($this->_lft)." = (".$this->_db->nameQuote($this->_lft)."-".($count1*2)."),
-				".$this->_db->nameQuote($this->_rgt)." = (".$this->_db->nameQuote($this->_rgt)."-".($count1*2).")
-			WHERE
-				".$this->_db->nameQuote($this->_tbl_key)."
-			IN
-				(".implode(',',$return2).")
-		";
-
-		$this->_db->setQuery( $query );
-
-		// execute the query
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set Error, if the query fails
-			$this->setError($this->_db->getErrorMsg());
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		$query = "
-			UPDATE
-				".$this->_db->nameQuote($this->_tbl)."
-			SET
-				".$this->_db->nameQuote($this->_lft)." = (".$this->_db->nameQuote($this->_lft)."+".($count2*2)."),
-				".$this->_db->nameQuote($this->_rgt)." = (".$this->_db->nameQuote($this->_rgt)."+".($count2*2).")
-			WHERE
-				".$this->_db->nameQuote($this->_tbl_key)." IN (".implode(',',$return).")
-		";
-
-		$this->_db->setQuery( $query );
-
-		// execute the query
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set Error, if the query fails
-			$this->setError($this->_db->getErrorMsg());
-
-			// exit the method with false
-			return false;
-
-		endif;
-
-		return true;
-
-	}
-
-	/**
-	 * get the Path of a row
-	 *
-	 * @author		Benjamin Trenkle
-	 * @access		public
-	 * @param		int $oid the id of the row which should be moved. If not set, the loaded $this->_tbl_key will be used
-	 * @return		object|bool returns the path as object if successful otherwise returns false
-	 * @since		1.6
-	 */
-	public function getPath ($oid=null) {
-
-		// is $oid null?
-		if (is_null($oid)) :
-
-			// then set $this->_tbl_key as $oid
-			$oid = $this->{$this->_tbl_key};
-
-		endif;
-
-		// check, if $oid exists and is not 0
-		if (!$oid = (int) $oid) :
-
-			// otherwise return false
-			return false;
-
-		endif;
-
-		// create the query for the path
-		$query = "
-			SELECT
-				p.*
-			FROM
-				".$this->_db->nameQuote($this->_tbl)." as c,
-				".$this->_db->nameQuote($this->_tbl)." as p
-			WHERE
-				(c.".$this->_db->nameQuote($this->_lft)."
-			BETWEEN
-				p.".$this->_db->nameQuote($this->_lft)."
-			AND
-				p.".$this->_db->nameQuote($this->_rgt).")
-			AND
-				c.".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($oid)."
-			ORDER BY
-				p.".$this->_db->nameQuote($this->_lft)." ASC"
-		;
-
-		// set the query
-		$this->_db->setQuery($query);
-
-		// load the path as object
+	public function getPath($pk = null, $diagnostic = false)
+	{
+		// Initialize variables.
+		$k = $this->_tbl_key;
+		$pk = (is_null($pk)) ? $this->$k : $pk;
+
+		// Get the path from the node to the root.
+		$select = ($diagnostic) ? 'SELECT p.'.$k.', p.parent_id, p.level, p.lft, p.rgt' : 'SELECT p.*';
+		$this->_db->setQuery(
+			$select .
+			' FROM `'.$this->_tbl.'` AS n, `'.$this->_tbl.'` AS p' .
+			' WHERE n.lft BETWEEN p.lft AND p.rgt' .
+			' AND n.'.$k.' = '.(int) $pk .
+			' ORDER BY p.lft'
+		);
 		$path = $this->_db->loadObjectList();
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set error
+		if ($this->_db->getErrorNum()) {
 			$this->setError($this->_db->getErrorMsg());
-			// leave with false
 			return false;
+		}
 
-		endif;
-
-		// return the path
 		return $path;
-
 	}
 
 	/**
-	 * get the tree of a row
+	 * Method to get a node and all its child nodes.
 	 *
-	 * @author		Benjamin Trenkle
-	 * @access		public
-	 * @param		int $oid the id of the row which should be moved. If not set, the loaded $this->_tbl_key will be used
-	 * @return		object|bool returns the path as object if successful otherwise returns false
-	 * @since		1.6
+	 * @param	integer	Primary key of the node for which to get the tree.
+	 * @param	boolean	Only select diagnostic data for the nested sets.
+	 * @return	mixed	Boolean false on failure or array of node objects on success.
+	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTableNested/getTree
 	 */
-	public function getTree($oid=null) {
+	public function getTree($pk = null, $diagnostic = false)
+	{
+		// Initialize variables.
+		$k = $this->_tbl_key;
+		$pk = (is_null($pk)) ? $this->$k : $pk;
 
-		// is $oid null?
-		if (is_null($oid)) :
-
-			// then set $this->_tbl_key as $oid
-			$oid = $this->{$this->_tbl_key};
-
-		endif;
-
-		// check, if $oid exists and is not 0
-		if (!$oid = (int) $oid) :
-
-			// otherwise return false
-			return false;
-
-		endif;
-
-		// create the query for the tree
-		$query = "
-			SELECT
-				c.*
-			FROM
-				".$this->_db->nameQuote($this->_tbl)." as c,
-				".$this->_db->nameQuote($this->_tbl)." as p
-			WHERE
-				(c.".$this->_db->nameQuote($this->_lft)."
-			BETWEEN
-				p.".$this->_db->nameQuote($this->_lft)."
-			AND
-				p.".$this->_db->nameQuote($this->_rgt).")
-			AND
-				p.".$this->_db->nameQuote($this->_tbl_key)." = ".$this->_db->Quote($oid)."
-			ORDER BY
-				c.".$this->_db->nameQuote($this->_lft).",
-                p.".$this->_db->nameQuote($this->_lft)
-		;
-
-		// set the query
-		$this->_db->setQuery($query);
-
-		// load the path as object
+		// Get the node and children as a tree.
+		$select = ($diagnostic) ? 'SELECT n.'.$k.', n.parent_id, n.level, n.lft, n.rgt' : 'SELECT n.*';
+		$this->_db->setQuery(
+			$select .
+			' FROM `'.$this->_tbl.'` AS n, `'.$this->_tbl.'` AS p' .
+			' WHERE n.lft BETWEEN p.lft AND p.rgt' .
+			' AND p.'.$k.' = '.(int) $pk .
+			' ORDER BY n.lft'
+		);
 		$tree = $this->_db->loadObjectList();
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum()) :
-
-			// set error
+		if ($this->_db->getErrorNum()) {
 			$this->setError($this->_db->getErrorMsg());
-			// leave with false
 			return false;
+		}
 
-		endif;
-
-		// return the path
 		return $tree;
-
 	}
 
 	/**
-	 * check, if a row is a leaf
+	 * Method to determine if a node is a leaf node in the tree (has no children).
 	 *
-	 * @author		Benjamin Trenkle
-	 * @access		public
-	 * @param		int $oid the id of the row which should be moved. If not set, the loaded $this->_tbl_key will be used
-	 * @return		bool returns true if is leaf otherwise returns false
-	 * @since		1.6
+	 * @param	integer	Primary key of the node to check.
+	 * @return	boolean	True if a leaf node.
+	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTableNested/isLeaf
 	 */
-	public function isLeaf($oid=null) {
+	public function isLeaf($pk = null)
+	{
+		// Initialize variables.
+		$k = $this->_tbl_key;
+		$pk = (is_null($pk)) ? $this->$k : $pk;
 
-		// load the current row from the database
-		if (!parent::load($oid)) :
-
-			// exit the method with false
+		// Get the node by primary key.
+		if (!$node = $this->_getNode($pk)) {
+			// Error message set in getNode method.
 			return false;
+		}
 
-		endif;
-
-		// return true/false
-		return ($this->{$this->_rgt}-$this->{$this->_lft} == 1);
-
+		// The node is a leaf node.
+		return (($node->rgt - $node->lft) == 1);
 	}
 
-}
+	/**
+	 * Method to set the location of a node in the tree object.  This method does not
+	 * save the new location to the database, but will set it in the object so
+	 * that when the node is stored it will be stored in the new location.
+	 *
+	 * @param	integer	The primary key of the node to reference new location by.
+	 * @param	string	Location type string. ['before', 'after', 'first-child', 'last-child']
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTableNested/setLocation
+	 */
+	public function setLocation($referenceId, $position = 'after')
+	{
+		// Make sure the location is valid.
+		if (($position != 'before') && ($position != 'after') &&
+			($position != 'first-child') && ($position != 'last-child')) {
+			return false;
+		}
 
-?>
+		// Set the location properties.
+		$this->_location = $position;
+		$this->_location_id = $referenceId;
+
+		return true;
+	}
+
+	/**
+	 * Method to move a node and its children to a new location in the tree.
+	 *
+	 * @param	integer	The primary key of the node to reference new location by.
+	 * @param	string	Location type string. ['before', 'after', 'first-child', 'last-child']
+	 * @param	integer	The primary key of the node to move.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTableNested/move
+	 */
+	public function move($referenceId, $position = 'after', $pk = null)
+	{
+		// Initialize variables.
+		$k = $this->_tbl_key;
+		$pk = (is_null($pk)) ? $this->$k : $pk;
+
+		// Get the node by id.
+		if (!$node = $this->_getNode($pk)) {
+			// Error message set in getNode method.
+			return false;
+		}
+
+		// Get the ids of child nodes.
+		$this->_db->setQuery(
+			'SELECT `'.$k.'`' .
+			' FROM `'.$this->_tbl.'`' .
+			' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt
+		);
+		$children = $this->_db->loadResultArray();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+
+		// Cannot move the node to be a child of itself.
+		if (in_array($referenceId, $children)) {
+			$this->setError(JText::_('Invalid_Node_Recursion'));
+			return false;
+		}
+
+		// Lock the table for writing.
+		if (!$this->_lock()) {
+			// Error message set in lock method.
+			return false;
+		}
+
+		// Temporarily set the current tree to move to have negative right and left values during processing.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `lft` = `lft` * (-1), `rgt` = `rgt` * (-1)' .
+			' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+
+		// Compress the left values.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `lft` = `lft` - '.(int) $node->width .
+			' WHERE `lft` > '.(int) $node->rgt
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+
+		// Compress the right values.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `rgt` = `rgt` - '.(int) $node->width .
+			' WHERE `rgt` > '.(int) $node->rgt
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+
+		// We are moving the tree relative to a reference node.
+		if ($referenceId)
+		{
+			// Get the reference node by primary key.
+			if (!$reference = $this->_getNode($referenceId)) {
+				// Error message set in getNode method.
+				$this->_unlock();
+				return false;
+			}
+
+			// Get the reposition data for shifting the tree and re-inserting the node.
+			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, $position)) {
+				// Error message set in getNode method.
+				$this->_unlock();
+				return false;
+			}
+
+			// Create space in the tree at the new location for the moved subtree in right ids.
+			$this->_db->setQuery(
+				'UPDATE `'.$this->_tbl.'`' .
+				' SET `rgt` = `rgt` + '.(int) $node->width .
+				' WHERE '.$repositionData->right_where
+			);
+			$this->_db->query();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				$this->_unlock();
+				return false;
+			}
+
+			// Create space in the tree at the new location for the moved subtree in left ids.
+			$this->_db->setQuery(
+				'UPDATE `'.$this->_tbl.'`' .
+				' SET `lft` = `lft` + '.(int) $node->width .
+				' WHERE '.$repositionData->left_where
+			);
+			$this->_db->query();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				$this->_unlock();
+				return false;
+			}
+
+			// Reload the parent data.
+			unset($reference);
+			if (!$reference = $this->_getNode($referenceId)) {
+				// Error message set in getNode method.
+				$this->_unlock();
+				return false;
+			}
+		}
+
+		// We are moving the tree to be a new root node.
+		else
+		{
+			// Get the last root node as the reference node.
+			$this->_db->setQuery(
+				'SELECT `'.$this->_tbl_key.'`, `parent_id`, `level`, `lft`, `rgt`' .
+				' FROM `'.$this->_tbl.'`' .
+				' WHERE `parent_id` = 0' .
+				' ORDER BY `lft` DESC',
+				0, 1
+			);
+			$reference = $this->_db->loadObject();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				$this->_unlock();
+				return false;
+			}
+
+			// Get the reposition data for re-inserting the node after the found root.
+			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, 'after')) {
+				// Error message set in getNode method.
+				$this->_unlock();
+				return false;
+			}
+		}
+
+		/*
+		 * Calculate the offset between where the node used to be in the tree and
+		 * where it needs to be in the tree for left ids (also works for right ids).
+		 */
+		$offset = $repositionData->new_lft + $node->lft;
+		$levelOffset = $repositionData->new_level - $node->level;
+
+		// Move the nodes back into position in the tree using the calculated offsets.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `rgt` = '.(int) $offset.' - `rgt`,' .
+			'	  `lft` = '.(int) $offset.' - `lft`,' .
+			'	  `level` = `level` + '.(int) $levelOffset .
+			' WHERE `lft` < 0'
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+
+		// Set the correct parent id for the moved node if required.
+		if ($node->parent_id != $repositionData->new_parent_id)
+		{
+			$this->_db->setQuery(
+				'UPDATE `'.$this->_tbl.'`' .
+				' SET `parent_id` = '.(int) $repositionData->new_parent_id .
+				' WHERE `'.$this->_tbl_key.'` = '.(int) $node->$k
+			);
+			$this->_db->query();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				$this->_unlock();
+				return false;
+			}
+		}
+
+		// Unlock the table for writing.
+		$this->_unlock();
+
+		// Set the object values.
+		$this->parent_id = $repositionData->new_parent_id;
+		$this->level = $repositionData->new_level;
+		$this->lft = $repositionData->new_lft;
+		$this->rgt = $repositionData->new_rgt;
+
+		return true;
+	}
+
+	/**
+	 * Method to delete a node, and optionally its child nodes, from the table.
+	 *
+	 * @param	integer	The primary key of the node to delete.
+	 * @param	boolean	True to delete child nodes, false to move them up a level.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTableNested/delete
+	 */
+	public function delete($pk = null, $children = true)
+	{
+		// Initialize variables.
+		$k = $this->_tbl_key;
+		$pk = (is_null($pk)) ? $this->$k : $pk;
+
+		// Lock the table for writing.
+		if (!$this->_lock()) {
+			// Error message set in lock method.
+			return false;
+		}
+
+		// Get the node by id.
+		if (!$node = $this->_getNode($pk)) {
+			// Error message set in getNode method.
+			$this->_unlock();
+			return false;
+		}
+
+		// Should we delete all children along with the node?
+		if ($children)
+		{
+			// Delete the node and all of its children.
+			$this->_db->setQuery(
+				'DELETE FROM `'.$this->_tbl.'`' .
+				' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt
+			);
+			$this->_db->query();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				$this->_unlock();
+				return false;
+			}
+
+			// Compress the left values.
+			$this->_db->setQuery(
+				'UPDATE `'.$this->_tbl.'`' .
+				' SET `lft` = `lft` - '.(int) $node->width .
+				' WHERE `lft` > '.(int) $node->rgt
+			);
+			$this->_db->query();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				$this->_unlock();
+				return false;
+			}
+
+			// Compress the right values.
+			$this->_db->setQuery(
+				'UPDATE `'.$this->_tbl.'`' .
+				' SET `rgt` = `rgt` - '.(int) $node->width .
+				' WHERE `rgt` > '.(int) $node->rgt
+			);
+			$this->_db->query();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				$this->_unlock();
+				return false;
+			}
+		}
+
+		// Leave the children and move them up a level.
+		else
+		{
+			// Delete the node.
+			$this->_db->setQuery(
+				'DELETE FROM `'.$this->_tbl.'`' .
+				' WHERE `lft` = '.(int) $node->lft
+			);
+			$this->_db->query();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				$this->_unlock();
+				return false;
+			}
+
+			// Shift all node's children up a level.
+			$this->_db->setQuery(
+				'UPDATE `'.$this->_tbl.'`' .
+				' SET `lft` = `lft` - 1,' .
+				'	  `rgt` = `rgt` - 1,' .
+				'	  `level` = `level` - 1' .
+				' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt
+			);
+			$this->_db->query();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				$this->_unlock();
+				return false;
+			}
+
+			// Adjust all the parent values for direct children of the deleted node.
+			$this->_db->setQuery(
+				'UPDATE `'.$this->_tbl.'`' .
+				' SET `parent_id` = '.(int) $node->parent_id .
+				' WHERE `parent_id` = '.(int) $node->$k
+			);
+			$this->_db->query();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				$this->_unlock();
+				return false;
+			}
+
+			// Shift all of the left values that are right of the node.
+			$this->_db->setQuery(
+				'UPDATE `'.$this->_tbl.'`' .
+				' SET `lft` = `lft` - 2' .
+				' WHERE `lft` > '.(int) $node->rgt
+			);
+			$this->_db->query();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				$this->_unlock();
+				return false;
+			}
+
+			// Shift all of the right values that are right of the node.
+			$this->_db->setQuery(
+				'UPDATE `'.$this->_tbl.'`' .
+				' SET `rgt` = `rgt` - 2' .
+				' WHERE `rgt` > '.(int) $node->rgt
+			);
+			$this->_db->query();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				$this->_unlock();
+				return false;
+			}
+		}
+
+		// Unlock the table for writing.
+		$this->_unlock();
+
+		return true;
+	}
+
+	/**
+	 * Method to store a node in the database table.
+	 *
+	 * @param	boolean	True to update null values as well.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTableNested/store
+	 */
+	public function store($updateNulls = false)
+	{
+		// Initialize variables.
+		$k = $this->_tbl_key;
+
+		/*
+		 * If the primary key is empty, then we assume we are inserting a new node into the
+		 * tree.  From this point we would need to determine where in the tree to insert it.
+		 */
+		if (empty($this->$k))
+		{
+			/*
+			 * We are inserting a node somewhere in the tree with a known reference
+			 * node.  We have to make room for the new node and set the left and right
+			 * values before we insert the row.
+			 */
+			if ($this->_location_id >= 0)
+			{
+				// Lock the table for writing.
+				if (!$this->_lock()) {
+					// Error message set in lock method.
+					return false;
+				}
+
+				// We are inserting a node relative to the last root node.
+				if ($this->_location == 0)
+				{
+					// Get the last root node as the reference node.
+					$this->_db->setQuery(
+						'SELECT `'.$this->_tbl_key.'`, `parent_id`, `level`, `lft`, `rgt`' .
+						' FROM `'.$this->_tbl.'`' .
+						' WHERE `parent_id` = 0' .
+						' ORDER BY `lft` DESC',
+						0, 1
+					);
+					$reference = $this->_db->loadObject();
+
+					// Check for a database error.
+					if ($this->_db->getErrorNum()) {
+						$this->setError($this->_db->getErrorMsg());
+						$this->_unlock();
+						return false;
+					}
+				}
+
+				// We have a real node set as a location reference.
+				else
+				{
+					// Get the reference node by primary key.
+					if (!$reference = $this->_getNode($this->_location_id)) {
+						// Error message set in getNode method.
+						$this->_unlock();
+						return false;
+					}
+				}
+
+				// Get the reposition data for shifting the tree and re-inserting the node.
+				if (!$repositionData = $this->_getTreeRepositionData($reference, 2, $this->_location)) {
+					// Error message set in getNode method.
+					$this->_unlock();
+					return false;
+				}
+
+				// Create space in the tree at the new location for the new node in right ids.
+				$this->_db->setQuery(
+					'UPDATE `'.$this->_tbl.'`' .
+					' SET `rgt` = `rgt` + 2' .
+					' WHERE '.$repositionData->right_where
+				);
+				$this->_db->query();
+
+				// Check for a database error.
+				if ($this->_db->getErrorNum()) {
+					$this->setError($this->_db->getErrorMsg());
+					$this->_unlock();
+					return false;
+				}
+
+				// Create space in the tree at the new location for the new node in left ids.
+				$this->_db->setQuery(
+					'UPDATE `'.$this->_tbl.'`' .
+					' SET `lft` = `lft` + 2' .
+					' WHERE '.$repositionData->left_where
+				);
+				$this->_db->query();
+
+				// Check for a database error.
+				if ($this->_db->getErrorNum()) {
+					$this->setError($this->_db->getErrorMsg());
+					$this->_unlock();
+					return false;
+				}
+
+				// Set the object values.
+				$this->parent_id	= $repositionData->new_parent_id;
+				$this->level		= $repositionData->new_level;
+				$this->lft		= $repositionData->new_lft;
+				$this->rgt		= $repositionData->new_rgt;
+			}
+			else
+			{
+				// Negative parent ids are invalid
+				$this->setError(JText::_('Invalid_Parent'));
+				return false;
+			}
+		}
+
+		/*
+		 * If we have a given primary key then we assume we are simply updating this
+		 * node in the tree.  We should assess whether or not we are moving the node
+		 * or just updating its data fields.
+		 */
+		else
+		{
+			// If the location has been set, move the node to its new location.
+			if ($this->_location_id > 0)
+			{
+				if (!$this->move($this->_location_id, $this->_location, $this->$k)) {
+					// Error message set in move method.
+					return false;
+				}
+			}
+
+			// Lock the table for writing.
+			if (!$this->_lock()) {
+				// Error message set in lock method.
+				return false;
+			}
+		}
+
+		// Store the row to the database.
+		if (!parent::store()) {
+			$this->_unlock();
+			return false;
+		}
+
+		// Unlock the table for writing.
+		$this->_unlock();
+
+		return true;
+	}
+
+	/**
+	 * Method to set the publishing state for a node or list of nodes in the database
+	 * table.  The method respects rows checked out by other users and will attempt
+	 * to checkin rows that it can after adjustments are made.  The method will now
+	 * allow you to set a publishing state higher than any ancestor node and will
+	 * not allow you to set a publishing state on a node with a checked out child.
+	 *
+	 * @param	mixed	An optional array of primary key values to update.  If not
+	 * 					set the instance property value is used.
+	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param	integer The user id of the user performing the operation.
+	 * @return	boolean	True on success.
+	 * @since	1.0.4
+	 * @link	http://docs.joomla.org/JTableNested/publish
+	 */
+	public function publish($pks = null, $state = 1, $userId = 0)
+	{
+		// Initialize variables.
+		$k = $this->_tbl_key;
+
+		// Sanitize input.
+		JArrayHelper::toInteger($pks);
+		$userId = (int) $userId;
+		$state  = (int) $state;
+
+		// If there are no primary keys set check to see if the instance key is set.
+		if (empty($pks))
+		{
+			if ($this->$k) {
+				$pks = array($this->$k);
+			}
+			// Nothing to set publishing state on, return false.
+			else {
+				$this->setError(JText::_('No_Rows_Selected'));
+				return false;
+			}
+		}
+
+		// Determine if there is checkout support for the table.
+		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time')) {
+			$checkoutSupport = false;
+		}
+		else {
+			$checkoutSupport = true;
+		}
+
+		// Iterate over the primary keys to execute the publish action if possible.
+		foreach ($pks as $pk)
+		{
+			// Get the node by primary key.
+			if (!$node = $this->_getNode($pk)) {
+				// Error message set in getNode method.
+				return false;
+			}
+
+			// If the table has checkout support, verify no children are checked out.
+			if ($checkoutSupport)
+			{
+				// Ensure that children are not checked out.
+				$this->_db->setQuery(
+					'SELECT COUNT('.$this->_tbl_key.')' .
+					' FROM `'.$this->_tbl.'`' .
+					' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt .
+					' AND (checked_out <> 0 AND checked_out <> '.(int) $userId.')'
+				);
+
+				// Check for checked out children.
+				if ($this->_db->loadResult()) {
+					$this->setError('Child_Rows_Checked_Out');
+					return false;
+				}
+			}
+
+			// If any parent nodes have lower published state values, we cannot continue.
+			if ($node->parent_id)
+			{
+				// Get any ancestor nodes that have a lower publishing state.
+				$this->_db->setQuery(
+					'SELECT p.'.$k .
+					' FROM `'.$this->_tbl.'` AS n, `'.$this->_tbl.'` AS p' .
+					' WHERE n.lft BETWEEN p.lft AND p.rgt' .
+					' AND n.'.$k.' = '.(int) $pk .
+					' AND p.parent_id > 0' .
+					' AND p.published < '.(int) $state .
+					' ORDER BY p.lft DESC',
+					1, 0
+				);
+				$rows = $this->_db->loadResultArray();
+
+				// Check for a database error.
+				if ($this->_db->getErrorNum()) {
+					$this->setError($this->_db->getErrorMsg());
+					return false;
+				}
+
+				if (!empty($rows)) {
+					$this->setError('Ancestor_Nodes_Lower_Published_State');
+					return false;
+				}
+			}
+
+			// Update the publishing state.
+			$this->_db->setQuery(
+				'UPDATE `'.$this->_tbl.'`' .
+				' SET `published` = '.(int) $state .
+				' WHERE `'.$this->_tbl_key.'` = '.(int) $pk
+			);
+			$this->_db->query();
+
+			// Check for a database error.
+			if ($this->_db->getErrorNum()) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+
+			// If checkout support exists for the object, check the row in.
+			if ($checkoutSupport) {
+				$this->checkin($pk);
+			}
+		}
+
+		// If the JTable instance value is in the list of primary keys that were set, set the instance.
+		if (in_array($this->$k, $pks)) {
+			$this->published = $state;
+		}
+
+		$this->_errors = array();
+		return true;
+	}
+
+	/**
+	 * Method to move a node one position to the left in the same level.
+	 *
+	 * @param	integer	Primary key of the node to move.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTableNested/orderUp
+	 */
+	public function orderUp($pk)
+	{
+		// Initialize variables.
+		$k = $this->_tbl_key;
+		$pk = (is_null($pk)) ? $this->$k : $pk;
+
+		// Lock the table for writing.
+		if (!$this->_lock()) {
+			// Error message set in lock method.
+			return false;
+		}
+
+		// Get the node by primary key.
+		if (!$node = $this->_getNode($pk)) {
+			// Error message set in getNode method.
+			$this->_unlock();
+			return false;
+		}
+
+		// Get the left sibling node.
+		if (!$sibling = $this->_getNode($node->lft - 1, 'right')) {
+			// Error message set in getNode method.
+			$this->_unlock();
+			return false;
+		}
+
+		// Get the primary keys of child nodes.
+		$this->_db->setQuery(
+			'SELECT `'.$this->_tbl_key.'`' .
+			' FROM `'.$this->_tbl.'`' .
+			' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt
+		);
+		$children = $this->_db->loadResultArray();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+
+		// Shift left and right values for the node and it's children.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `lft` = `lft` - '.(int) $sibling->width.', `rgt` = `rgt` - '.(int) $sibling->width.'' .
+			' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+
+		// Shift left and right values for the sibling and it's children.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `lft` = `lft` + '.(int) $node->width.', `rgt` = `rgt` + '.(int) $node->width .
+			' WHERE `lft` BETWEEN '.(int) $sibling->lft.' AND '.(int) $sibling->rgt .
+			' AND `'.$this->_tbl_key.'` NOT IN ('.implode(',', $children).')'
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+
+		// Unlock the table for writing.
+		$this->_unlock();
+
+		return true;
+	}
+
+	/**
+	 * Method to move a node one position to the right in the same level.
+	 *
+	 * @param	integer	Primary key of the node to move.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTableNested/orderDown
+	 */
+	public function orderDown($pk)
+	{
+		// Initialize variables.
+		$k = $this->_tbl_key;
+		$pk = (is_null($pk)) ? $this->$k : $pk;
+
+		// Lock the table for writing.
+		if (!$this->_lock()) {
+			// Error message set in lock method.
+			return false;
+		}
+
+		// Get the node by primary key.
+		if (!$node = $this->_getNode($pk)) {
+			// Error message set in getNode method.
+			$this->_unlock();
+			return false;
+		}
+
+		// Get the right sibling node.
+		if (!$sibling = $this->_getNode($node->rgt + 1, 'left')) {
+			// Error message set in getNode method.
+			$this->_unlock();
+			return false;
+		}
+
+		// Get the primary keys of child nodes.
+		$this->_db->setQuery(
+			'SELECT `'.$this->_tbl_key.'`' .
+			' FROM `'.$this->_tbl.'`' .
+			' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt
+		);
+		$children = $this->_db->loadResultArray();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+
+		// Shift left and right values for the node and it's children.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `lft` = `lft` + '.(int) $sibling->width.', `rgt` = `rgt` + '.(int) $sibling->width.'' .
+			' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+
+		// Shift left and right values for the sibling and it's children.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `lft` = `lft` - '.(int) $node->width.', `rgt` = `rgt` - '.(int) $node->width .
+			' WHERE `lft` BETWEEN '.(int) $sibling->lft.' AND '.(int) $sibling->rgt .
+			' AND `'.$this->_tbl_key.'` NOT IN ('.implode(',', $children).')'
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+
+		// Unlock the table for writing.
+		$this->_unlock();
+
+		return true;
+	}
+
+	/**
+	 * Gets the ID of the root item in the tree
+	 *
+	 * @return	mixed	The ID of the root row, or false and the internal error is set.
+	 */
+	public function getRootId()
+	{
+		// Get the root item.
+		$k = $this->_tbl_key;
+
+		try
+		{
+			// Test for a unique record with parent_id = 0
+			$this->_db->setQuery(
+				'SELECT '.$this->_db->nameQuote($k).
+				' FROM '.$this->_tbl .
+				' WHERE `parent_id` = 0'
+			);
+			$result = $this->_db->loadResultArray();
+			if ($this->_db->getErrorNum()) {
+				throw new Exception($this->_db->getErrorMsg());
+			}
+
+			if (count($result) == 1) {
+				$parentId = $result[0];
+			}
+			else
+			{
+				// Test for a unique record with lft = 0
+				$this->_db->setQuery(
+					'SELECT '.$this->_db->nameQuote($k).
+					' FROM '.$this->_tbl .
+					' WHERE `lft` = 0'
+				);
+				$result = $this->_db->loadResultArray();
+				if ($this->_db->getErrorNum()) {
+					throw new Exception($this->_db->getErrorMsg());
+				}
+
+				if (count($result) == 1) {
+					$parentId = $result[0];
+				}
+				else if (property_exists($this, 'alias'))
+				{
+					// Test for a unique record with lft = 0
+					$this->_db->setQuery(
+						'SELECT '.$this->_db->nameQuote($k).
+						' FROM '.$this->_tbl .
+						' WHERE `alias` = '.$this->_db->quote('root')
+					);
+					$result = $this->_db->loadResultArray();
+					if ($this->_db->getErrorNum()) {
+						throw new Exception($this->_db->getErrorMsg());
+					}
+
+					if (count($result) == 1) {
+						$parentId = $result[0];
+					}
+					else {
+						throw new Exception(JText::_('JTable_Error_Root_node_not_found'));
+					}
+				}
+				else {
+					throw new Exception(JText::_('JTable_Error_Root_node_not_found'));
+				}
+			}
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+			return false;
+		}
+
+		return $parentId;
+	}
+
+	/**
+	 * Method to recursively rebuild the whole nested set tree.
+	 *
+	 * @param	integer	The root of the tree to rebuild.
+	 * @param	integer	The left id to start with in building the tree.
+	 * @return	boolean	True on success
+	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTableNested/rebuild
+	 */
+	public function rebuild($parentId = null, $leftId = 0, $level = 0)
+	{
+		static $sql;
+
+		// If no parent is provided, try to find it.
+		if ($parentId === null)
+		{
+			// Get the root item.
+			$parentId = $this->getRootId();
+			if ($parentId === false) {
+				return false;
+			}
+		}
+
+		// Build the structure of the recursive query.
+		if ($sql == null)
+		{
+			jimport('joomla.database.query');
+
+			$query = new JQuery;
+			$query->select('id');
+			$query->from($this->_tbl);
+			$query->where('parent_id = %d');
+
+			// If the table has an `ordering` field, use that for ordering.
+			if (property_exists($this, 'ordering')) {
+				$query->order('parent_id, ordering, title');
+			}
+			else {
+				$query->order('parent_id, title');
+			}
+			$sql = (string) $query;
+		}
+
+		// Make a shortcut to database object.
+		$db = &$this->_db;
+
+		// Assemble the query to find all children of this node.
+		$db->setQuery(sprintf($sql, (int) $parentId));
+		$children = $db->loadResultArray();
+
+		// The right value of this node is the left value + 1
+		$rightId = $leftId + 1;
+
+		// execute this function recursively over all children
+		for ($i = 0, $n = count($children); $i < $n; $i++)
+		{
+			// $rightId is the current right value, which is incremented on recursion return.
+			$rightId = $this->rebuild($children[$i], $rightId, $level + 1);
+
+			// If there is an update failure, return false to break out of the recursion.
+			if ($rightId === false) {
+				return false;
+			}
+		}
+
+		// We've got the left value, and now that we've processed
+		// the children of this node we also know the right value.
+		$db->setQuery(
+			'UPDATE '. $this->_tbl .
+			' SET lft = '. (int) $leftId .', rgt = '. (int) $rightId . ', level = '.(int) $level .
+			' WHERE id = '. (int)$parentId
+		);
+
+		// If there is an update failure, return false to break out of the recursion.
+		if (!$db->query())
+		{
+			$this->setError($db->getErrorMsg());
+			return false;
+		}
+
+		// Return the right value of this node + 1.
+		return $rightId + 1;
+	}
+
+	/**
+	 * Method to rebuild the node's path field from the alias values of the
+	 * nodes from the current node to the root node of the tree.
+	 *
+	 * @param	integer	Primary key of the node for which to get the path.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 * @link	http://docs.joomla.org/JTableNested/rebuildPath
+	 */
+	public function rebuildPath($pk = null)
+	{
+		// If there is no alias or path field, just return true.
+		if (!property_exists($this, 'alias') || !property_exists($this, 'path')) {
+			return true;
+		}
+
+		// Initialize variables.
+		$k = $this->_tbl_key;
+		$pk = (is_null($pk)) ? $this->$k : $pk;
+
+		// Get the aliases for the path from the node to the root node.
+		$this->_db->setQuery(
+			'SELECT p.alias' .
+			' FROM '.$this->_tbl.' AS n, '.$this->_tbl.' AS p' .
+			' WHERE n.lft BETWEEN p.lft AND p.rgt' .
+			' AND n.'.$this->_tbl_key.' = '. (int) $pk .
+			' ORDER BY p.lft'
+		);
+		$segments = $this->_db->loadResultArray();
+
+		// Make sure to remove the root path if it exists in the list.
+		if ($segments[0] == 'root') {
+			array_shift($segments);
+		}
+
+		// Build the path.
+		$path = trim(implode('/', $segments), ' /\\');
+
+		// Update the path field for the node.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `path` = '.$this->_db->quote($path) .
+			' WHERE `'.$this->_tbl_key.'` = '.(int) $pk
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to get nested set properties for a node in the tree.
+	 *
+	 * @param	integer	Value to look up the node by.
+	 * @param	string	Key to look up the node by.
+	 * @return	mixed	Boolean false on failure or node object on success.
+	 * @since	1.6
+	 */
+	protected function _getNode($id, $key = null)
+	{
+		// Determine which key to get the node base on.
+		switch ($key)
+		{
+			case 'parent':
+				$k = 'parent_id';
+				break;
+			case 'left':
+				$k = 'lft';
+				break;
+			case 'right':
+				$k = 'rgt';
+				break;
+			default:
+				$k = $this->_tbl_key;
+				break;
+		}
+
+		// Get the node data.
+		$this->_db->setQuery(
+			'SELECT `'.$this->_tbl_key.'`, `parent_id`, `level`, `lft`, `rgt`' .
+			' FROM `'.$this->_tbl.'`' .
+			' WHERE `'.$k.'` = '.(int) $id,
+			0, 1
+		);
+		$row = $this->_db->loadObject();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+
+		// Do some simple calculations.
+		$row->numChildren = (int) ($row->rgt - $row->lft - 1) / 2;
+		$row->width = (int) $row->rgt - $row->lft + 1;
+
+		return $row;
+	}
+
+	/**
+	 * Method to get various data necessary to make room in the tree at a location
+	 * for a node and its children.  The returned data object includes conditions
+	 * for SQL WHERE clauses for updating left and right id values to make room for
+	 * the node as well as the new left and right ids for the node.
+	 *
+	 * @param	object	A node object with at least a 'lft' and 'rgt' with
+	 * 					which to make room in the tree around for a new node.
+	 * @param	integer	The width of the node for which to make room in the tree.
+	 * @param	string	The position relative to the reference node where the room
+	 * 					should be made.
+	 * @return	mixed	Boolean false on failure or data object on success.
+	 * @since	1.6
+	 */
+	protected function _getTreeRepositionData($referenceNode, $nodeWidth, $position = 'before')
+	{
+		// Make sure the reference an object with a left and right id.
+		if (!is_object($referenceNode) && isset($referenceNode->lft) && isset($referenceNode->rgt)) {
+			return false;
+		}
+
+		// A valid node cannot have a width less than 2.
+		if ($nodeWidth < 2) {
+			return false;
+		}
+
+		// Initialize variables
+		$k = $this->_tbl_key;
+		$data = new stdClass;
+
+		// Run the calculations and build the data object by reference position.
+		switch ($position)
+		{
+			case 'first-child':
+				$data->left_where = 'lft > '.$referenceNode->lft;
+				$data->right_where = 'lft >= '.$referenceNode->lft;
+
+				$data->new_lft 		= $referenceNode->lft + 1;
+				$data->new_rgt		= $referenceNode->lft + $nodeWidth;
+				$data->new_parent_id	= $referenceNode->$k;
+				$data->new_level		= $referenceNode->level + 1;
+				break;
+
+			case 'last-child':
+				$data->left_where = 'rgt > '.$referenceNode->rgt;
+				$data->right_where = 'rgt >= '.$referenceNode->rgt;
+
+				$data->new_lft		= $referenceNode->rgt;
+				$data->new_rgt		= $referenceNode->rgt + $nodeWidth - 1;
+				$data->new_parent_id	= $referenceNode->$k;
+				$data->new_level		= $referenceNode->level + 1;
+				break;
+
+			case 'before':
+				$data->left_where = 'lft >= '.$referenceNode->lft;
+				$data->right_where = 'rgt >= '.$referenceNode->rgt;
+
+				$data->new_lft		= $referenceNode->lft;
+				$data->new_rgt 	= $referenceNode->lft + $nodeWidth - 1;
+				$data->new_parent_id	= $referenceNode->parent_id;
+				$data->new_level		= $referenceNode->level;
+				break;
+
+			default:
+			case 'after':
+				$data->left_where = 'lft > '.$referenceNode->lft;
+				$data->right_where = 'rgt > '.$referenceNode->rgt;
+
+				$data->new_lft 		= $referenceNode->rgt + 1;
+				$data->new_rgt		= $referenceNode->rgt + $nodeWidth;
+				$data->new_parent_id	= $referenceNode->parent_id;
+				$data->new_level		= $referenceNode->level;
+				break;
+		}
+
+		return $data;
+	}
+}

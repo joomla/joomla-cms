@@ -41,7 +41,7 @@ class JRequest
 	 *
 	 * @return string
 	 */
-	function getURI()
+	static function getURI()
 	{
 		$uri = &JFactory::getURI();
 		return $uri->toString(array('path', 'query'));
@@ -52,7 +52,7 @@ class JRequest
 	 *
 	 * @return string
 	 */
-	function getMethod()
+	static function getMethod()
 	{
 		$method = strtoupper($_SERVER['REQUEST_METHOD']);
 		return $method;
@@ -86,7 +86,7 @@ class JRequest
 	 * @return	mixed	Requested variable
 	 * @since	1.5
 	 */
-	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
+	static function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
 		// Ensure hash and type are uppercase
 		$hash = strtoupper($hash);
@@ -169,7 +169,7 @@ class JRequest
 	 * @return	integer	Requested variable
 	 * @since	1.5
 	 */
-	function getInt($name, $default = 0, $hash = 'default')
+	static function getInt($name, $default = 0, $hash = 'default')
 	{
 		return JRequest::getVar($name, $default, $hash, 'int');
 	}
@@ -188,7 +188,7 @@ class JRequest
 	 * @return	float	Requested variable
 	 * @since	1.5
 	 */
-	function getFloat($name, $default = 0.0, $hash = 'default')
+	static function getFloat($name, $default = 0.0, $hash = 'default')
 	{
 		return JRequest::getVar($name, $default, $hash, 'float');
 	}
@@ -207,7 +207,7 @@ class JRequest
 	 * @return	bool		Requested variable
 	 * @since	1.5
 	 */
-	function getBool($name, $default = false, $hash = 'default')
+	static function getBool($name, $default = false, $hash = 'default')
 	{
 		return JRequest::getVar($name, $default, $hash, 'bool');
 	}
@@ -226,7 +226,7 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getWord($name, $default = '', $hash = 'default')
+	static function getWord($name, $default = '', $hash = 'default')
 	{
 		return JRequest::getVar($name, $default, $hash, 'word');
 	}
@@ -245,7 +245,7 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getCmd($name, $default = '', $hash = 'default')
+	static function getCmd($name, $default = '', $hash = 'default')
 	{
 		return JRequest::getVar($name, $default, $hash, 'cmd');
 	}
@@ -265,7 +265,7 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getString($name, $default = '', $hash = 'default', $mask = 0)
+	static function getString($name, $default = '', $hash = 'default', $mask = 0)
 	{
 		// Cast to string, in case JREQUEST_ALLOWRAW was specified for mask
 		return (string) JRequest::getVar($name, $default, $hash, 'string', $mask);
@@ -282,7 +282,7 @@ class JRequest
 	 * @return	string	Previous value
 	 * @since	1.5
 	 */
-	function setVar($name, $value = null, $hash = 'method', $overwrite = true)
+	static function setVar($name, $value = null, $hash = 'method', $overwrite = true)
 	{
 		//If overwrite is true, makes sure the variable hasn't been set yet
 		if (!$overwrite && array_key_exists($name, $_REQUEST)) {
@@ -356,7 +356,7 @@ class JRequest
 	 * @return	mixed	Request hash
 	 * @since	1.5
 	 */
-	function get($hash = 'default', $mask = 0)
+	static function get($hash = 'default', $mask = 0)
 	{
 		$hash = strtoupper($hash);
 
@@ -412,7 +412,7 @@ class JRequest
 	 * @param	string	The request variable to set (POST, GET, FILES, METHOD)
 	 * @param	boolean	If true and an existing key is found, the value is overwritten, otherwise it is ingored
 	 */
-	function set($array, $hash = 'default', $overwrite = true)
+	static function set($array, $hash = 'default', $overwrite = true)
 	{
 		foreach ($array as $key => $value) {
 			JRequest::setVar($key, $value, $hash, $overwrite);
@@ -427,10 +427,11 @@ class JRequest
 	 * @param	string	The request method in which to look for the token key
 	 * @return	boolean	True if found and valid, false otherwise
 	 */
-	function checkToken($method = 'post')
+	static function checkToken($method = 'post')
 	{
-		$token	= JUtility::getToken();
-		if (!JRequest::getVar($token, '', $method, 'alnum')) {
+		$token = JUtility::getToken();
+		if (!JRequest::getVar($token, '', $method, 'alnum'))
+		{
 			$session = JFactory::getSession();
 			if ($session->isNew()) {
 				//Redirect to login screen
@@ -453,7 +454,7 @@ class JRequest
 	 * @return	void
 	 * @since	1.5
 	 */
-	function clean()
+	static function clean()
 	{
 		JRequest::_cleanArray($_FILES);
 		JRequest::_cleanArray($_ENV);
@@ -508,7 +509,7 @@ class JRequest
 	 * @param	boolean	True if the array is to be added to the GLOBALS
 	 * @since	1.5
 	 */
-	function _cleanArray(&$array, $globalise=false)
+	static function _cleanArray(&$array, $globalise=false)
 	{
 		static $banned = array('_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals');
 
@@ -540,7 +541,7 @@ class JRequest
 	 * other than the 1 bit is set, a strict filter is applied.
 	 * @param string The variable type {@see JFilterInput::clean()}.
 	 */
-	function _cleanVar($var, $mask = 0, $type=null)
+	static function _cleanVar($var, $mask = 0, $type=null)
 	{
 		// Static input filters for specific settings
 		static $noHtmlFilter	= null;
@@ -583,7 +584,7 @@ class JRequest
 	 * @param	array	$array		Array of (nested arrays of) strings
 	 * @return	array	The input array with stripshlashes applied to it
 	 */
-	function _stripSlashesRecursive($value)
+	static function _stripSlashesRecursive($value)
 	{
 		$value = is_array($value) ? array_map(array('JRequest', '_stripSlashesRecursive'), $value) : stripslashes($value);
 		return $value;
