@@ -16,7 +16,6 @@ JHtml::_('behavior.tooltip');
 
 $user	= &JFactory::getUser();
 $userId	= $user->get('id');
-$n = count($this->items);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm">
 	<fieldset class="filter">
@@ -67,7 +66,7 @@ $n = count($this->items);
 					<?php echo JHtml::_('grid.sort', 'JCommon_Heading_Published', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_Ordering', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JText::_('JCommon_Heading_Ordering'); ?>
 					<?php echo JHtml::_('grid.order',  $this->items); ?>
 				</th>
 				<th width="10%"  class="title">
@@ -87,16 +86,14 @@ $n = count($this->items);
 		</tfoot>
 		<tbody>
 		<?php
-		$n = count($this->items);
 		foreach ($this->items as $i => $item) :
-			$item->max_ordering = 0; //??
-			$ordering	= ($this->state->get('list.ordering') == 'a.ordering');
+			$ordering = ($this->state->get('list.ordering') == 'a.lft');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td style="text-align:center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
-				<td style="padding-left:<?php echo intval($item->level*15)+4; ?>px">
+				<td style="padding-left:<?php echo intval(($item->level-1)*15)+4; ?>px">
 					<?php if ($item->home == 1) : ?>
 						<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" title="<?php echo JText::_('Default'); ?>" />
 					<?php endif; ?>
