@@ -18,7 +18,7 @@ abstract class JHtmlJGrid
 	 * @param	int $value	The state value
 	 * @param	int $i
 	 */
-	function published($value = 0, $i, $taskPrefix = '')
+	public static function published($value = 0, $i, $taskPrefix = '')
 	{
 		// Array of image, task, title, action
 		$states	= array(
@@ -34,32 +34,21 @@ abstract class JHtmlJGrid
 	}
 
 	/**
-	 * Display an HTML select list of state filters
+	 * Returns an array of standard published state filter options.
 	 *
-	 * @param	int $selected	The selected value of the list
 	 * @return	string			The HTML code for the select tag
 	 * @since	1.6
 	 */
-	function filterPublished($name, $selected = 0, $attribs = null)
+	public static function publishedOptions()
 	{
 		// Build the active state filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option', '*', JText::_('JSelect_Any'));
-		$options[]	= JHtml::_('select.option', '1', JText::_('JState_Published'));
-		$options[]	= JHtml::_('select.option', '0', JText::_('JState_UnPublished'));
-		$options[]	= JHtml::_('select.option', '-2', JText::_('JState_Trashed'));
+		$options[]	= JHtml::_('select.option', '1', 'JCommon_Option_Filter_Published');
+		$options[]	= JHtml::_('select.option', '0', 'JCommon_Option_Filter_Unpublished');
+		$options[]	= JHtml::_('select.option', '-2', 'JCommon_Option_Filter_Trash');
+		$options[]	= JHtml::_('select.option', '*', 'JCommon_Option_Filter_All');
 
-		if ($attribs === null)
-		{
-			$attribs = array(
-				'list.attr' => 'class="inputbox" onchange="this.form.submit();"',
-				'list.select' => $selected
-			);
-		}
-
-		return JHTML::_('select.genericlist', $options, $name,
-			$attribs
-		);
+		return $options;
 	}
 
 	/**
@@ -70,7 +59,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @return	string	The required HTML.
 	 */
-	function checkedout($editorName, $time)
+	public static function checkedout($editorName, $time)
 	{
 		$text	= addslashes(htmlspecialchars($editorName));
 		$date 	= JHTML::_('date',  $time, '%A, %d %B %Y');
