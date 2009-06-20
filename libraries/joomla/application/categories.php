@@ -132,7 +132,7 @@ class JCategories
 			' FROM #__categories AS c'.
 			' JOIN #__categories AS cp ON cp.lft >= c.lft AND c.rgt >= cp.rgt'.
 			' WHERE c.extension = '.$db->Quote($this->_extension).
-			' AND cp.id = '.$id.' AND c.parent = 0';
+			' AND cp.id = '.$id.' AND c.parent_id = 0';
 
 		$query = 'SELECT c.*, COUNT(b.id) AS numitems, ' .
 			' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug'.
@@ -212,10 +212,10 @@ class JCategoryNode extends JObject
 		if ($category)
 		{
 			$this->setProperties($category);
-			if ($this->parent > 0)
+			if ($this->parent_id > 0)
 			{
 				$categoryTree = JCategories::getInstance($this->extension);
-				$parentNode = &$categoryTree->get($this->parent);
+				$parentNode = &$categoryTree->get($this->parent_id);
 				$parentNode->addChild(&$this);
 			}
 			return true;
