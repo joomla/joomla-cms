@@ -165,7 +165,7 @@ class JAccess extends JObject
 				$temp = '(asrm.asset_id IS NULL)';
 				$query->order('(CASE WHEN urm.user_id IS NULL THEN 0 ELSE 1 END) DESC');
 				//TODO Fix this one! order commented out since it not always applies.
-				//$query->order('(ug.right_id - ug.left_id) ASC');
+				//$query->order('(ug.rgt - ug.lft) ASC');
 			}
 			else {
 				// Match specifically on the asset supplied
@@ -178,7 +178,7 @@ class JAccess extends JObject
 				$temp .= ' OR ag.id IN ('. $sqlAssetGroupIds .')';
 
 				$query->order('(CASE WHEN asrm.asset_id IS NULL THEN 0 ELSE 1 END) DESC');
-				$query->order('(ag.right_id - ag.left_id) ASC');
+				$query->order('(ag.rgt - ag.lft) ASC');
 			}
 			else {
 				$temp .= ' AND agrm.group_id IS NULL';
@@ -237,7 +237,7 @@ class JAccess extends JObject
 		$query->where('uugm.user_id = '.(int) $userId);
 		$query->join('LEFT', '#__usergroups AS ug1 ON ug1.id = uugm.group_id');
 		if ($recursive) {
-			$query->join('LEFT', '#__usergroups AS ug2 ON ug2.left_id <= ug1.left_id AND ug2.right_id >= ug1.right_id');
+			$query->join('LEFT', '#__usergroups AS ug2 ON ug2.lft <= ug1.lft AND ug2.rgt >= ug1.rgt');
 		}
 		$db->setQuery($query->toString());
 
@@ -274,7 +274,7 @@ class JAccess extends JObject
 		$query->where('aagm.asset_id = '.(int) $assetId);
 		$query->join('LEFT', '#__access_assetgroups AS ag1 ON ag1.id = aagm.group_id');
 		if ($recursive) {
-			$query->join('LEFT', '#__access_assetgroups AS ag2 ON ag2.left_id <= ag1.left_id AND ag2.right_id >= ag1.right_id');
+			$query->join('LEFT', '#__access_assetgroups AS ag2 ON ag2.lft <= ag1.lft AND ag2.rgt >= ag1.rgt');
 		}
 		$db->setQuery($query->toString());
 
@@ -420,7 +420,7 @@ class JAccess extends JObject
 
 		if ($recursive) {
 			$query->join('INNER', '#__usergroups AS ug1 ON ug1.id = ugrm.group_id');
-			$query->join('LEFT', '#__usergroups AS ug2 ON ug2.left_id >= ug1.left_id AND ug2.right_id <= ug1.right_id');
+			$query->join('LEFT', '#__usergroups AS ug2 ON ug2.lft >= ug1.lft AND ug2.rgt <= ug1.rgt');
 		}
 		else {
 			$query->join('INNER', '#__usergroups AS ug2 ON ug2.id = ugrm.group_id');
