@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jun-2009 Ercan Ozkaya
+ ^ Upgraded Mootools to version 1.2.3
+
 20-Jun-2009 Andrew Eddie
  ^ Converted admin com_content to MVC
  ^ Converted 'frontpage' to 'featured' articles.

@@ -28,7 +28,7 @@ var JOpenID = new Class({
 		var switcher = new Element('a', {
 			'styles': {'cursor': 'pointer'},
 			'id': (this.form.id == 'com-form-login' ? 'com-' : '')+'openid-link',
-			'html': JText._('LOGIN_WITH_OPENID'),
+			'html': Joomla.JText._('LOGIN_WITH_OPENID'),
 			'class': 'system-openid'
 		});
 		switcher.addEvent('click', (function(e) {
@@ -43,7 +43,7 @@ var JOpenID = new Class({
 			'styles': {'text-align' : 'right', 'display' : 'block', 'font-size' : 'xx-small'},
 			'href' : 'http://openid.net'
 		});
-		link.set('html', JText._('WHAT_IS_OPENID'));
+		link.set('html', Joomla.JText._('WHAT_IS_OPENID'));
 		link.inject(this.form);
 
 		this.switcher = switcher;
@@ -58,7 +58,7 @@ var JOpenID = new Class({
 
 		if (this.state == 0) {
 			this.username.removeClass('system-openid');
-			var text = JText._('LOGIN_WITH_OPENID');
+			var text = Joomla.JText._('LOGIN_WITH_OPENID');
 			effect.start({
 			    'height': [0, this.length],
 			    'opacity': [this.state, 1-this.state]
@@ -66,7 +66,7 @@ var JOpenID = new Class({
 		}
 		else {
 			this.username.addClass('system-openid');
-			var text = JText._('NORMAL_LOGIN');
+			var text = Joomla.JText._('NORMAL_LOGIN');
 			effect.start({
 			    'height': [this.length, 0],
 			    'opacity': [this.state, 1-this.state]
