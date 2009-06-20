@@ -43,9 +43,11 @@ INSERT IGNORE INTO `#__bannerclient` VALUES
 --
 
 INSERT IGNORE INTO `#__categories` VALUES
-(1, 0, 1, 4, 0, '', 'com_content', 'Latest', 'latest-news', 'The latest news from the Joomla! Team', 1, 0, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
-(2, 0, 5, 6, 0, '', 'com_weblinks', 'Joomla! Specific Links', 'joomla-specific-links', 'A selection of links that are all related to the Joomla! Project.', 1, 0, 42, '2009-03-15 15:34:27', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
-(3, 0, 7, 8, 0, '', 'com_weblinks', 'Other Resources', 'other-resources', '', 1, 0, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB');
+(11, 1, 1, 4, 1, '', 'com_content', 'Uncategorised Articles', 'uncategorised-articles', 'The top articles category.', 1, 0, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(12, 11, 2, 3, 2, '', 'com_content', 'Latest', 'latest-news', 'The latest news from the Joomla! Team', 1, 0, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(20, 1, 5, 10, 1, '', 'com_weblinks', 'Uncategorised Weblinks', 'uncategorised-weblinks', 'The top weblinks category.', 1, 0, 42, '2009-03-15 15:34:27', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(21, 21, 6, 7, 2, '', 'com_weblinks', 'Joomla! Specific Links', 'joomla-specific-links', 'A selection of links that are all related to the Joomla! Project.', 1, 0, 42, '2009-03-15 15:34:27', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(22, 22, 8, 9, 2, '', 'com_weblinks', 'Other Resources', 'other-resources', '', 1, 0, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB');
 
 --
 -- Dumping data for table `#__contact_details`
@@ -59,7 +61,7 @@ INSERT IGNORE INTO `#__contact_details` VALUES
 --
 
 INSERT IGNORE INTO `#__content` VALUES
-(1, 'Welcome to Joomla!', 'welcome-to-joomla', '', '<p>Introtext</p>', '<p>Bodytext</p>', 1, 1, 0, 1, '2008-08-12 10:00:00', 42, '', '2008-08-12 10:00:00', 42, 0, '0000-00-00 00:00:00', '2006-01-03 01:00:00', '0000-00-00 00:00:00', '', '', '{"show_title":"","link_titles":"","show_intro":"","show_section":"","link_section":"","show_category":"","link_category":"","show_vote":"","show_author":"","show_create_date":"","show_modify_date":"","show_print_icon":"","show_email_icon":"","language":"en-GB","keyref":"","readmore":""}', 29, 0, 1, '', '', 1, 92, '{"robots":"","author":""}', 1, 'en-GB', '');
+(1, 'Welcome to Joomla!', 'welcome-to-joomla', '', '<p>Introtext</p>', '<p>Bodytext</p>', 1, 1, 0, 10, '2008-08-12 10:00:00', 42, '', '2008-08-12 10:00:00', 42, 0, '0000-00-00 00:00:00', '2006-01-03 01:00:00', '0000-00-00 00:00:00', '', '', '{"show_title":"","link_titles":"","show_intro":"","show_section":"","link_section":"","show_category":"","link_category":"","show_vote":"","show_author":"","show_create_date":"","show_modify_date":"","show_print_icon":"","show_email_icon":"","language":"en-GB","keyref":"","readmore":""}', 29, 0, 1, '', '', 1, 92, '{"robots":"","author":""}', 1, 'en-GB', '');
 
 --
 -- Dumping data for table `#__content_frontpage`
@@ -106,9 +108,9 @@ INSERT IGNORE INTO `#__menu_types` VALUES
 --
 
 INSERT IGNORE INTO `#__weblinks` VALUES
-(1, 2, 0, 'Joomla!', 'joomla', 'http://www.joomla.org', 'Home of Joomla!', '2005-02-14 15:19:02', 3, 1, 0, '0000-00-00 00:00:00', 1, 0, 1, 1, '{"target":"0"}'),
-(2, 3, 0, 'php.net', 'php', 'http://www.php.net', 'The language that Joomla! is developed in', '2004-07-07 11:33:24', 6, 1, 0, '0000-00-00 00:00:00', 3, 0, 1, 1, '{}'),
-(3, 3, 0, 'MySQL', 'mysql', 'http://www.mysql.com', 'The database that Joomla! uses', '2004-07-07 10:18:31', 1, 1, 0, '0000-00-00 00:00:00', 5, 0, 1, 1, '{}'),
-(4, 2, 0, 'OpenSourceMatters', 'opensourcematters', 'http://www.opensourcematters.org', 'Home of OSM', '2005-02-14 15:19:02', 11, 1, 0, '0000-00-00 00:00:00', 2, 0, 1, 1, '{"target":"0"}'),
-(5, 3, 0, 'Joomla! - Forums', 'joomla-forums', 'http://forum.joomla.org', 'Joomla! Forums', '2005-02-14 15:19:02', 4, 1, 0, '0000-00-00 00:00:00', 4, 0, 1, 1, '{"target":"0"}'),
-(6, 3, 0, 'Ohloh Tracking of Joomla!', 'ohloh-tracking-of-joomla', 'http://www.ohloh.net/projects/20', 'Objective reports from Ohloh about Joomla''s development activity. Joomla! has some star developers with serious kudos.', '2007-07-19 09:28:31', 1, 1, 0, '0000-00-00 00:00:00', 6, 0, 1, 1, '{"target":"0"}');
+(1, 20, 0, 'Joomla!', 'joomla', 'http://www.joomla.org', 'Home of Joomla!', '2005-02-14 15:19:02', 3, 1, 0, '0000-00-00 00:00:00', 1, 0, 1, 1, '{"target":"0"}'),
+(2, 21, 0, 'php.net', 'php', 'http://www.php.net', 'The language that Joomla! is developed in', '2004-07-07 11:33:24', 6, 1, 0, '0000-00-00 00:00:00', 3, 0, 1, 1, '{}'),
+(3, 21, 0, 'MySQL', 'mysql', 'http://www.mysql.com', 'The database that Joomla! uses', '2004-07-07 10:18:31', 1, 1, 0, '0000-00-00 00:00:00', 5, 0, 1, 1, '{}'),
+(4, 20, 0, 'OpenSourceMatters', 'opensourcematters', 'http://www.opensourcematters.org', 'Home of OSM', '2005-02-14 15:19:02', 11, 1, 0, '0000-00-00 00:00:00', 2, 0, 1, 1, '{"target":"0"}'),
+(5, 21, 0, 'Joomla! - Forums', 'joomla-forums', 'http://forum.joomla.org', 'Joomla! Forums', '2005-02-14 15:19:02', 4, 1, 0, '0000-00-00 00:00:00', 4, 0, 1, 1, '{"target":"0"}'),
+(6, 21, 0, 'Ohloh Tracking of Joomla!', 'ohloh-tracking-of-joomla', 'http://www.ohloh.net/projects/20', 'Objective reports from Ohloh about Joomla''s development activity. Joomla! has some star developers with serious kudos.', '2007-07-19 09:28:31', 1, 1, 0, '0000-00-00 00:00:00', 6, 0, 1, 1, '{"target":"0"}');

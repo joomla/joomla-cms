@@ -55,6 +55,8 @@ ALTER TABLE `jos_categories`
  ADD INDEX idx_path(`path`),
  ADD INDEX idx_left_right(`lft`, `rgt`);
 
+-- TODO: Merge from sections and add uncategorised nodes.
+
 -- ----------------------------------------------------------------
 -- jos_components
 -- ----------------------------------------------------------------

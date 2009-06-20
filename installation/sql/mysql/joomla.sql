@@ -391,6 +391,9 @@ CREATE TABLE `#__categories` (
   KEY `idx_left_right` (`lft`,`rgt`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+INSERT INTO `#__categories` VALUES 
+(1, 0, 0, 15, 0, '', 'system', 'ROOT', 'root', '', 1, 0, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '');
+
 # --------------------------------------------------------
 
 #
