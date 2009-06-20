@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id$
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
@@ -17,63 +17,79 @@ jimport('joomla.application.component.view');
  * @subpackage	com_categories
  * @since		1.6
  */
-class CategoriesViewCategories extends JView {
+class CategoriesViewCategories extends JView
+{
+	protected $state;
+	protected $items;
+	protected $pagination;
 
-    /**
-     * Creates the Main Categories View
-     *
-     * @access      public
-     * @param       string $tpl The name of the template file to parse.
-     * @return      void
-     * @since       1.5
-     * @version     1.6
-     */
-    public function display($tpl =   null) {
+	/**
+	 * Display the view
+	 */
+	public function display($tpl = null)
+	{
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
 
-        // load current User object
-        $user = JFactory::getUser();
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
 
-        // Get data from the model
-        $rows = $this->get('Data');
-        $pagination = $this->get('Pagination');
-        $extension = $this->get('Extension');
-        $filter = $this->get('Filter');
-        $parentId = 0;
+		// Preprocess the list of items to find ordering divisions.
+		foreach ($items as $i => &$item)
+		{
+			// TODO: Complete the ordering stuff with nested sets
+			$item->order_up = true;
+			$item->order_dn = true;
+		}
 
-        JToolBarHelper::title(JText::_('Category Manager') .': <small><small>[ '. JText::_($extension->name).' ]</small></small>', 'categories.png');
-        JToolBarHelper::publishList();
-        JToolBarHelper::unpublishList();
-        JToolBarHelper::deleteList();
-        JToolBarHelper::editListX();
-        JToolBarHelper::addNewX();
-        JToolBarHelper::help('screen.categories');
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
+		$this->assignRef('pagination',	$pagination);
 
-        foreach ($rows as $v )
-        {
-            $pt = $v->parent_id;
-            $list = @$children[$pt] ? $children[$pt] : array();
-            array_push( $list, $v );
-            $children[$pt] = $list;
-            if($v->parent_id == 0) :
-                $parentId++;
-            endif;
-        }
+		$this->_setToolbar();
+		parent::display($tpl);
+	}
 
-        $ordering['parent_id'] = $parentId;
+	/**
+	 * Display the toolbar
+	 *
+	 * @access	private
+	 */
+	protected function _setToolbar()
+	{
+		$state = $this->get('State');
+		$extension	= $state->get('filter.extension');
 
-        $rows = JHTML::_('menu.treerecurse', 0, '', array(), $children );
+		// Need to load the menu language file as mod_menu hasn't been loaded yet.
+		$lang = &JFactory::getLanguage();
+		$lang->load($extension.'.menu');
 
+		JToolBarHelper::title(
+			JText::sprintf(
+				'Categories_Categories_Title',
+				$this->escape(JText::_($extension))
+			),
+			'categories.png'
+		);
+		if ($state->get('filter.published') != -1) {
+			JToolBarHelper::archiveList('categories.archive');
+		}
+		JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
+		JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
+		if ($state->get('filter.published') == -2) {
+			JToolBarHelper::deleteList('', 'categories.delete');
+		}
+		else {
+			JToolBarHelper::trash('categories.trash');
+		}
+		JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'New', false);
 
-        $this->assignRef('user', $user);
-        $this->assignRef('type', $type);
-        $this->assignRef('extension', $extension);
-        $this->assignRef('rows', $rows);
-        $this->assignRef('pagination', $pagination);
-        $this->assignRef('filter', $filter);
-        $this->assignRef('ordering', $ordering);
-
-        parent::display($tpl);
-
-    }
-
+		JToolBarHelper::divider();
+		JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
+	}
 }
