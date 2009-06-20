@@ -16,29 +16,34 @@ $user	= &JFactory::getUser();
 $userId	= $user->get('id');
 ?>
 
-<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm">
 	<fieldset class="filter">
 		<div class="left">
-			<label for="search"><?php echo JText::_('JSearch_Filter'); ?>:</label>
+			<label for="search">
+				<?php echo JText::_('JSearch_Filter'); ?>
+			</label>
 			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Weblinks_Search_in_title'); ?>" />
-			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="$('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
+
+			<button type="submit">
+				<?php echo JText::_('JSearch_Filter_Submit'); ?></button>
+			<button type="button" onclick="$('search').value='';this.form.submit();">
+				<?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 		<div class="right">
-			<ol>
-				<li>
-					<label for="filter_category_id">
-						<?php echo JText::_('Weblinks_Filter_Category'); ?>
-					</label>
-					<?php echo JHtml::_('list.category', 'filter_category', 'com_weblinks', $this->state->get('filter.category_id'), 'onchange="this.form.submit()"'); ?>
-				</li>
-				<li>
-					<label for="filter_state">
-						<?php echo JText::_('Weblinks_Filter_State'); ?>
-					</label>
-					<?php echo JHtml::_('weblink.filterstate', $this->state->get('filter.state'));?>
-				</li>
-			</ol>
+			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('Weblinks_Option_Filter_Access');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
+			</select>
+
+			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('Weblinks_Option_Filter_Published');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
+			</select>
+
+			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JCOMMON_OPTION_SELECT_CATEGORY');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_weblinks'), 'value', 'text', $this->state->get('filter.category_id'));?>
+			</select>
 		</div>
 	</fieldset>
 
@@ -135,7 +140,6 @@ $userId	= $user->get('id');
 		</tbody>
 	</table>
 
-	<input type="hidden" name="option" value="com_weblinks" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
