@@ -32,6 +32,28 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jun-2009 Andrew Eddie
+ ^ Converted admin com_content to MVC
+ ^ Converted 'frontpage' to 'featured' articles.
+ ^ Integrated trash handling into com_content.
+ - Removed com_frontpage and com_trash.
+ ^ Converted com_menus to nested sets.
+ ^ Redesigned com_menus menu item edit page.
+ ^ Integrated trash handling into com_menus.
+ ^ Changed article router helper to ContentRoute::article and ContentRoute::category
+ ^ Standardise nested set left and right fields as lft and rgt.
+ + Added xreference field to jos_categories to enable sync with external data sources (replaces keyref parameter).
+ + Added added language field to jos_categories (replaces parameter).
+ + Added metadesc, metakey, metadata fields to jos_categories.
+ + Added created_user_id, created_timte, modified_user_id, modified_time fields to jos_categories.
+ + Added language and hits fields to jos_categories.
+ ^ Change jos_session.session_id to VARCHAR(32).
+ - Removed form handling methods from JModelItem (now in JModelForm).
+ ^ Moved menu helper methods from com_menus to JHtmlMenu.
+ + Added JHtmlJGrid (temporary class).
+ ^ Removed the need for JSession to use JTable (saves loading that class unnecessarily).
+ ^ Add a temporary recursion block in JError::raiseError.
+
 16-Jun-2009 Hannes Papenberg
  # Fixed categories implementation. Changed sample data and fixed bugs in com_newsfeeds
 
