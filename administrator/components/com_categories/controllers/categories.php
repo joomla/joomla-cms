@@ -45,7 +45,7 @@ class CategoriesControllerCategories extends JController
 	/**
 	 * Proxy for getModel
 	 */
-	function &getModel($name = 'Item', $prefix = 'CategoriesModel')
+	function &getModel($name = 'Category', $prefix = 'CategoriesModel')
 	{
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
