@@ -202,7 +202,7 @@ class JPath
 
 			// Create the test file
 			$blank = '';
-			JFile::write($test, $blank, true);
+			JFile::write($test, $blank, false);
 
 			// Test ownership
 			$return = (fileowner($test) == fileowner($path));
