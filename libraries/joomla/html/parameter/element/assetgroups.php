@@ -41,7 +41,7 @@ class JElementAssetGroups extends JElementList
 		$db->setQuery(
 			'SELECT id AS value, title AS text'
 			.' FROM #__access_assetgroups'
-			.' ORDER BY left_id'
+			.' ORDER BY lft'
 		);
 		$options = $db->loadObjectList();
 		return $options;
