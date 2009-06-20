@@ -53,6 +53,14 @@ class JTableNested extends JTable
 	public $rgt = null;
 
 	/**
+	 * Object property holding the alias of this node used to constuct the
+	 * full text path, forward-slash delimited.
+	 *
+	 * @var string
+	 */
+	public $alias = null;
+
+	/**
 	 * Object property to hold the location type to use when storing the row.
 	 * Possible values are: ['before', 'after', 'first-child', 'last-child'].
 	 *
@@ -68,6 +76,11 @@ class JTableNested extends JTable
 	 * @var integer
 	 */
 	protected $_location_id = null;
+
+	/**
+	 * @var	array	An array to cache values in recursive processes.
+	 */
+	protected $_cache = array();
 
 	/**
 	 * Method to get an array of nodes from a given node to its root.
@@ -1115,14 +1128,14 @@ class JTableNested extends JTable
 	 *
 	 * @param	integer	The root of the tree to rebuild.
 	 * @param	integer	The left id to start with in building the tree.
+	 * @param	integer	The level to assign to the current nodes.
+	 * @param	string	The path to the current nodes.
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 * @link	http://docs.joomla.org/JTableNested/rebuild
 	 */
-	public function rebuild($parentId = null, $leftId = 0, $level = 0)
+	public function rebuild($parentId = null, $leftId = 0, $level = 0, $path = '')
 	{
-		static $sql;
-
 		// If no parent is provided, try to find it.
 		if ($parentId === null)
 		{
@@ -1134,12 +1147,12 @@ class JTableNested extends JTable
 		}
 
 		// Build the structure of the recursive query.
-		if ($sql == null)
+		if (!isset($this->_cache['rebuild.sql']))
 		{
 			jimport('joomla.database.query');
 
 			$query = new JQuery;
-			$query->select('id');
+			$query->select('id, alias');
 			$query->from($this->_tbl);
 			$query->where('parent_id = %d');
 
@@ -1150,15 +1163,15 @@ class JTableNested extends JTable
 			else {
 				$query->order('parent_id, title');
 			}
-			$sql = (string) $query;
+			$this->_cache['rebuild.sql'] = (string) $query;
 		}
 
 		// Make a shortcut to database object.
 		$db = &$this->_db;
 
 		// Assemble the query to find all children of this node.
-		$db->setQuery(sprintf($sql, (int) $parentId));
-		$children = $db->loadResultArray();
+		$db->setQuery(sprintf($this->_cache['rebuild.sql'], (int) $parentId));
+		$children = $db->loadObjectList();
 
 		// The right value of this node is the left value + 1
 		$rightId = $leftId + 1;
@@ -1167,7 +1180,9 @@ class JTableNested extends JTable
 		for ($i = 0, $n = count($children); $i < $n; $i++)
 		{
 			// $rightId is the current right value, which is incremented on recursion return.
-			$rightId = $this->rebuild($children[$i], $rightId, $level + 1);
+			// Increment the level for the children.
+			// Add this item's alias to the path (but avoid a leading /)
+			$rightId = $this->rebuild($children[$i]->id, $rightId, $level + 1, $path.(empty($path) ? '' : '/').$children[$i]->alias);
 
 			// If there is an update failure, return false to break out of the recursion.
 			if ($rightId === false) {
@@ -1179,7 +1194,9 @@ class JTableNested extends JTable
 		// the children of this node we also know the right value.
 		$db->setQuery(
 			'UPDATE '. $this->_tbl .
-			' SET lft = '. (int) $leftId .', rgt = '. (int) $rightId . ', level = '.(int) $level .
+			' SET lft = '. (int) $leftId .', rgt = '. (int) $rightId .
+			' , level = '.(int) $level .
+			' , path = '.$db->quote($path) .
 			' WHERE id = '. (int)$parentId
 		);
 
