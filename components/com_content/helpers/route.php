@@ -97,7 +97,7 @@ abstract class ContentHelperRoute
 		$component = &JComponentHelper::getComponent('com_content');
 		$app = JFactory::getApplication();
 		$menus	= & $app->getMenu();
-		$items	= $menus->getItems('componentid', $component->id);
+		$items	= $menus->getItems('component_id', $component->id);
 
 		$match = null;
 

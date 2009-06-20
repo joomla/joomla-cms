@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Standard Article Layout">
+	<layout
+		title="Standard Article Layout">
 		<message>
 			<![CDATA[STANDARD ARTICLE LAYOUT DESC]]>
 		</message>
@@ -8,8 +9,14 @@
 	<state>
 		<name>Standard Article Layout</name>
 		<description>STANDARD ARTICLE LAYOUT DESC</description>
-		<url addpath="/administrator/components/com_content/elements">
-			<param name="id" type="article" default="0" label="Select Article" description="An article" />
+		<url
+			addpath="/administrator/components/com_content/elements">
+			<param
+				name="id"
+				type="article"
+				default="0"
+				label="Select Article"
+				description="An article"/>
 		</url>
 		<params>
 		</params>

@@ -1,13 +1,11 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
+// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -15,7 +13,7 @@ jimport('joomla.application.component.model');
 /**
  * Content Component Category Model
  *
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
  * @since 1.5
  */
@@ -281,6 +279,9 @@ class ContentModelCategory extends JModel
 		$app = JFactory::getApplication();
 		// Get the page/component configuration
 		$params = &$app->getParams();
+		$user	= &JFactory::getUser();
+		$groups	= implode(',', $user->authorisedLevels());
+
 
 		// If voting is turned on, get voting data as well for the content items
 		$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -310,7 +311,7 @@ class ContentModelCategory extends JModel
 			' FROM #__categories AS c'.
 			' JOIN #__categories AS cp ON cp.lft <= c.lft AND c.rgt <= cp.rgt'.
 			' WHERE c.extension = \'com_content\''.
-			' AND c.access IN ('.implode(',', JFactory::getUser()->authorisedLevels('com_content.category.view')).')'.
+			' AND c.access IN ('.$groups.')'.
 			' AND cp.id = '.$this->_id.') AS cc ON a.catid = cc.id';
 		} else {
 			$subquery = ' LEFT JOIN #__categories AS cc ON a.catid = cc.id';
@@ -375,7 +376,7 @@ class ContentModelCategory extends JModel
 		$params = &$app->getParams();
 
 		$user		= &JFactory::getUser();
-		$gid		= $user->get('aid', 0);
+		$groups	= implode(',', $user->authorisedLevels());
 
 		$jnow		= &JFactory::getDate();
 		$now		= $jnow->toMySQL();
@@ -391,7 +392,7 @@ class ContentModelCategory extends JModel
 		}
 		// Does the user have access to view the items?
 		if ($noauth) {
-			$where .= ' AND a.access IN ('.implode(',', $user->authorisedLevels('com_content.article.view')).')';
+			$where .= ' AND a.access IN ('.$groups.')';
 		}
 
 		// Regular Published Content

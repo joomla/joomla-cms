@@ -1,13 +1,11 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
+// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -15,8 +13,8 @@ jimport('joomla.application.component.view');
 /**
  * HTML View class for the Content component
  *
- * @package		Joomla
- * @subpackage	Content
+ * @package		Joomla.Site
+ * @subpackage	com_content
  * @since 1.5
  */
 class ContentViewCategory extends JView

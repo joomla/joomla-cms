@@ -1,13 +1,11 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
+// No direct access
 defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT.DS.'view.php';
@@ -15,8 +13,8 @@ require_once JPATH_COMPONENT.DS.'view.php';
 /**
  * HTML View class for the Content component
  *
- * @package		Joomla
- * @subpackage	Content
+ * @package		Joomla.Site
+ * @subpackage	com_content
  * @since 1.5
  */
 class ContentViewCategory extends ContentView
@@ -181,6 +179,7 @@ class ContentViewCategory extends ContentView
 
 		//create select lists
 		$user	= &JFactory::getUser();
+		$groups	= $user->authorisedLevels();
 		$lists	= $this->_buildSortLists();
 
 		if (!count($this->items))
@@ -200,7 +199,7 @@ class ContentViewCategory extends ContentView
 		foreach($this->items as $key => $item)
 		{
 			// checks if the item is a public or registered/special item
-			if (in_array($item->access, $user->authorisedLevels('com_content.article.view')))
+			if (in_array($item->access, $groups))
 			{
 				$item->link	= JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 				$item->readmore_register = false;

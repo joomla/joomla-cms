@@ -1,401 +1,189 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
+// No direct access
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.DS.'view.php';
+require_once (JPATH_COMPONENT.DS.'view.php');
 
 /**
  * HTML Article View class for the Content component
  *
- * @package		Joomla
- * @subpackage	Content
- * @since 1.5
+ * @package		Joomla.Site
+ * @subpackage	com_content
+ * @since		1.5
  */
 class ContentViewArticle extends ContentView
 {
-	protected $article = null;
-	protected $params = null;
-	protected $user = null;
-	protected $access = null;
-	protected $print = null;
-	protected $action = null;
-	protected $lists = null;
-	protected $editor = null;
-
+	protected $state;
+	protected $item;
+	protected $print;
 
 	function display($tpl = null)
 	{
-		$app			= &JFactory::getApplication();
+		// Initialise variables.
+		$app		= &JFactory::getApplication();
 		$user		= &JFactory::getUser();
-		$document	= &JFactory::getDocument();
 		$dispatcher	= &JDispatcher::getInstance();
-		$pathway	= &$app->getPathway();
-		$params		= JComponentHelper::getParams('com_content');
 
-		// Initialize variables
-		$article	= &$this->get('Article');
-		$aparams	= $article->parameters;
-		$params->merge($aparams);
+		// Get view related request variables.
+		$print	= JRequest::getBool('print');
 
-		if ($this->getLayout() == 'pagebreak') {
-			$this->_displayPagebreak($tpl);
-			return;
+		// Get model data.
+		$state	= $this->get('State');
+		$item	= $this->get('Item');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseWarning(500, implode("\n", $errors));
+			return false;
 		}
 
-		if ($this->getLayout() == 'form') {
-			$this->_displayForm($tpl);
-			return;
-		}
+		// Add router helpers.
+		$item->slug		= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
+		$item->catslug	= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
 
-		if (($article->id == 0))
+		// Create a shortcut to the paramemters.
+		$params	= &$state->params;
+		$offset	= $state->get('page.offset');
+
+		// If a guest user, they may be able to log in to view the full article
+		// TODO: Does this satisfy the show not auth setting?
+		if (!$item->params->get('access-view'))
 		{
-			$id = JRequest::getVar('id', '', 'default', 'int');
-			return JError::raiseError(404, JText::sprintf('Article # not found', $id));
-		}
-
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		if ($user->authorize('com_content.article.edit_article'))
-		{
-			$article->edit = $user->authorize('com_content.article.edit', 'article.'.$item->id);
-		} else {
-			$article->edit = false;
-		}
-		// Create a user access object for the current user
-		$access = new stdClass();
-		$access->canEditOwn	= $user->authorize('com_content.article.edit_own');
-		$access->canPublish	= $user->authorize('com_content.article.publish');
-
-		// Check to see if the user has access to view the full article
-		if (in_array($article->access, $user->authorisedLevels('com_content.article.view'))) {
-			$article->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catslug, $article->sectionid));;
-		} else {
-			$article->readmore_link = JRoute::_("index.php?option=com_user&task=register");
-		}
-
-		/*
-		 * Process the prepare content plugins
-		 */
-		JPluginHelper::importPlugin('content');
-		$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
-
-		/*
-		 * Handle the metadata
-		 */
-		// because the application sets a default page title, we need to get it
-		// right from the menu item itself
-		// Get the menu item object
-		$menus = &JSite::getMenu();
-		$menu  = $menus->getActive();
-
-		if (is_object($menu) && isset($menu->query['view']) && $menu->query['view'] == 'article' && isset($menu->query['id']) && $menu->query['id'] == $article->id) {
-			$menu_params = new JParameter($menu->params);
-			if (!$menu_params->get('page_title')) {
-				$params->set('page_title',	$article->title);
+			if ($user->get('guest'))
+			{
+				// Redirect to login
+				$uri		= JFactory::getURI();
+				$app->redirect(
+					'index.php?option=com_users&view=login&return='.base64_encode($uri),
+					JText::_('Content_Error_Login_to_view_article')
+				);
+				return;
 			}
-		} else {
-			$params->set('page_title',	$article->title);
+			else {
+				JError::raiseWarning(403, JText::_('Content_Error_Not_auth'));
+				return;
+			}
 		}
-		$document->setTitle($params->get('page_title'));
 
-		if ($article->metadesc) {
-			$document->setDescription($article->metadesc);
+		//
+		// Process the content plugins.
+		//
+		JPluginHelper::importPlugin('content');
+		//$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
+
+		$item->text = JHtml::_('content.prepare', $item->introtext.$item->fulltext);
+
+		$item->event = new stdClass();
+		$results = $dispatcher->trigger('onAfterDisplayTitle', array(&$item, &$params, $offset));
+		$item->event->afterDisplayTitle = trim(implode("\n", $results));
+
+		$results = $dispatcher->trigger('onBeforeDisplayContent', array(&$item, &$params, $offset));
+		$item->event->beforeDisplayContent = trim(implode("\n", $results));
+
+		$results = $dispatcher->trigger('onAfterDisplayContent', array(&$item, &$params, $offset));
+		$item->event->afterDisplayContent = trim(implode("\n", $results));
+
+		$this->assignRef('state',	$state);
+		$this->assignRef('item',	$item);
+		$this->assignRef('user',	$user);
+		$this->assign('print',		$print);
+
+		// Override the layout.
+		if ($layout = $params->get('layout')) {
+			$this->setLayout($layout);
 		}
-		if ($article->metakey) {
-			$document->setMetadata('keywords', $article->metakey);
+
+		// Increment the hit counter of the article.
+		if (!$params->get('intro_only') && $offset == 0)
+		{
+			$model = &$this->getModel();
+			$model->hit();
+		}
+
+		$this->_prepareDocument();
+		parent::display($tpl);
+	}
+
+	/**
+	 * Prepares the document
+	 */
+	protected function _prepareDocument()
+	{
+		$app		= &JFactory::getApplication();
+		$pathway	= &$app->getPathway();
+		$menus		= &JSite::getMenu();
+		$title		= null;
+
+		// Because the application sets a default page title,
+		// we need to get it from the menu item itself
+		if ($menu = $menus->getActive())
+		{
+			if (isset($menu->query['view']) && isset($menu->query['id']))
+			{
+				if ($menu->query['view'] == 'article' && $menu->query['id'] == $this->item->id)
+				{
+					$menuParams = new JParameter($menu->params);
+					$title = $menuParams->get('page_title');
+				}
+			}
+		}
+		if (empty($title)) {
+			$title	= $this->item->title;
+		}
+		$this->document->setTitle($title);
+
+		if ($this->item->metadesc) {
+			$this->document->setDescription($this->item->metadesc);
+		}
+
+		if ($this->item->metakey) {
+			$this->document->setMetadata('keywords', $this->item->metakey);
 		}
 
 		if ($app->getCfg('MetaTitle') == '1') {
-			$document->setMetadata('title', $article->title);
-		}
-		if ($app->getCfg('MetaAuthor') == '1') {
-			$document->setMetadata('author', $article->author);
+			$this->document->setMetaData('title', $this->item->title);
 		}
 
-		$mdata = new JParameter($article->metadata);
-		$mdata = $mdata->toArray();
+		if ($app->getCfg('MetaAuthor') == '1') {
+			$this->document->setMetaData('author', $this->item->author);
+		}
+
+		$mdata = $this->item->metadata->toArray();
 		foreach ($mdata as $k => $v)
 		{
 			if ($v) {
-				$document->setMetadata($k, $v);
+				$this->document->setMetadata($k, $v);
 			}
 		}
 
 		// If there is a pagebreak heading or title, add it to the page title
-		if (!empty($article->page_title))
+		if (!empty($this->item->page_title))
 		{
 			$article->title = $article->title .' - '. $article->page_title;
-			$document->setTitle($article->page_title.' - '.JText::sprintf('Page %s', $limitstart + 1));
+			$this->document->setTitle($article->page_title.' - '.JText::sprintf('Page %s', $this->state->get('page.offset') + 1));
 		}
 
-		/*
-		 * Handle the breadcrumbs
-		 */
-		jimport('joomla.application.categorytree');
-		$categorytree = JCategories::getInstance('com_content');
-		$pathwaycat = $categorytree->get($article->catid);
-		$path = array();
-		if (is_object($menu) && $menu->query['view'] != 'article' && $menu->query['id'] != $pathwaycat->id)
+		//
+		// Handle the breadcrumbs
+		//
+		if ($menu && $menu->query['view'] != 'article')
 		{
-			while($pathwaycat->id != $menu->query['id'])
+			switch ($menu->query['view'])
 			{
-				$path[] = array($pathwaycat->title, $pathwaycat->slug);
-				$pathwaycat = $pathwaycat->getParent();
-			}
-			$path = array_reverse($path);
-			foreach($path as $element)
-			{
-				if (isset($element[1]))
-				{
-					$pathway->addItem($element[0], 'index.php?option=com_content&view=category&id='.$element[1]);
-				} else {
-					$pathway->addItem($element[0], '');
-				}
-			}
-			$pathway->addItem($article->title, '');
-		}
-
-		/*
-		 * Handle display events
-		 */
-		$article->event = new stdClass();
-		$results = $dispatcher->trigger('onAfterDisplayTitle', array ($article, &$params, $limitstart));
-		$article->event->afterDisplayTitle = trim(implode("\n", $results));
-
-		$results = $dispatcher->trigger('onBeforeDisplayContent', array (& $article, & $params, $limitstart));
-		$article->event->beforeDisplayContent = trim(implode("\n", $results));
-
-		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $article, & $params, $limitstart));
-		$article->event->afterDisplayContent = trim(implode("\n", $results));
-
-		$print = JRequest::getBool('print');
-
-		$this->assignRef('article', $article);
-		$this->assignRef('params' , $params);
-		$this->assignRef('user'   , $user);
-		$this->assignRef('access' , $access);
-		$this->assignRef('print', $print);
-
-		parent::display($tpl);
-	}
-
-	function _displayForm($tpl)
-	{
-		// Initialize variables
-		$app		= &JFactory::getApplication();
-		$document	= &JFactory::getDocument();
-		$user		= &JFactory::getUser();
-		$uri		= &JFactory::getURI();
-		$params		= JComponentHelper::getParams('com_content');
-
-		// Make sure you are logged in and have the necessary access rights
-		if ($user->get('gid') < 19) {
-			JResponse::setHeader('HTTP/1.0 403',true);
-			JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
-			return;
-		}
-
-		// Initialize variables
-		$article	= &$this->get('Article');
-		$aparams	= $article->parameters;
-		$isNew		= ($article->id < 1);
-
-		$params->merge($aparams);
-
-		// At some point in the future this will come from a request object
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-
-		// Add the Calendar includes to the document <head> section
-		JHtml::_('behavior.calendar');
-
-		if ($isNew)
-		{
-			// TODO: Do we allow non-sectioned articles from the frontend??
-			$article->sectionid = JRequest::getVar('sectionid', 0, '', 'int');
-			$db = JFactory::getDbo();
-			$db->setQuery('SELECT title FROM #__sections WHERE id = '.(int) $article->sectionid);
-			$article->section = $db->loadResult();
-		}
-
-		// Get the lists
-		$lists = $this->_buildEditLists();
-
-		// Load the JEditor object
-		$editor = &JFactory::getEditor();
-
-		// Build the page title string
-		$title = $article->id ? JText::_('Edit') : JText::_('New');
-
-		// Set page title
-		// because the application sets a default page title, we need to get it
-		// right from the menu item itself
-		// Get the menu item object
-		$menus = &JSite::getMenu();
-		$menu  = $menus->getActive();
-		$params->set('page_title', $params->get('page_title'));
-		if (is_object($menu)) {
-			$menu_params = new JParameter($menu->params);
-			if (!$menu_params->get('page_title')) {
-				$params->set('page_title',	JText::_('Submit an Article'));
-			}
-		} else {
-			$params->set('page_title', JText::_('Submit an Article'));
-		}
-		$document->setTitle($params->get('page_title'));
-
-		// get pathway
-		$pathway = &$app->getPathway();
-		$pathway->addItem($title, '');
-
-		// Unify the introtext and fulltext fields and separated the fields by the {readmore} tag
-		if (JString::strlen($article->fulltext) > 1) {
-			$article->text = $article->introtext."<hr id=\"system-readmore\" />".$article->fulltext;
-		} else {
-			$article->text = $article->introtext;
-		}
-
-		// Ensure the row data is safe html
-		JFilterOutput::objectHTMLSafe($article);
-
-		$this->assign('action', 	$uri->toString());
-
-		$this->assignRef('article',	$article);
-		$this->assignRef('params',	$params);
-		$this->assignRef('lists',	$lists);
-		$this->assignRef('editor',	$editor);
-		$this->assignRef('user',	$user);
-
-
-		parent::display($tpl);
-	}
-
-	function _buildEditLists()
-	{
-		// Get the article and database connector from the model
-		$article = & $this->get('Article');
-		$db 	 = & JFactory::getDbo();
-
-		$javascript = "onchange=\"changeDynaList('catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
-
-		$query = 'SELECT s.id, s.title' .
-				' FROM #__sections AS s' .
-				' ORDER BY s.ordering';
-		$db->setQuery($query);
-
-		$sections[] = JHtml::_('select.option', '-1', '- '.JText::_('Select Section').' -', 'id', 'title');
-		$sections[] = JHtml::_('select.option', '0', JText::_('Uncategorized'), 'id', 'title');
-		$sections = array_merge($sections, $db->loadObjectList());
-		$lists['sectionid'] = JHtml::_('select.genericlist',  $sections, 'sectionid',
-			array(
-				'list.attr' => 'class="inputbox" size="1" '.$javascript,
-				'list.select' => (int) $article->sectionid,
-				'option.key' => 'id',
-				'option.text' => 'title'
-			)
-		);
-
-		foreach ($sections as $section)
-		{
-			$section_list[] = (int) $section->id;
-			// get the type name - which is a special category
-			if ($article->sectionid) {
-				if ($section->id == $article->sectionid) {
-					$contentSection = $section->title;
-				}
-			} else {
-				if ($section->id == $article->sectionid) {
-					$contentSection = $section->title;
-				}
+				case 'category':
+					$pathway->addItem($this->item->title, '');
+					break;
 			}
 		}
 
-		$sectioncategories = array ();
-		$sectioncategories[-1] = array ();
-		$sectioncategories[-1][] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
-		$section_list = implode('\', \'', $section_list);
-
-		$query = 'SELECT id, title, section' .
-				' FROM #__categories' .
-				' WHERE section IN (\''.$section_list.'\')' .
-				' ORDER BY ordering';
-		$db->setQuery($query);
-		$cat_list = $db->loadObjectList();
-
-		// Uncategorized category mapped to uncategorized section
-		$uncat = new stdClass();
-		$uncat->id = 0;
-		$uncat->title = JText::_('Uncategorized');
-		$uncat->section = 0;
-		$cat_list[] = $uncat;
-		foreach ($sections as $section)
-		{
-			$sectioncategories[$section->id] = array ();
-			$rows2 = array ();
-			foreach ($cat_list as $cat)
-			{
-				if ($cat->section == $section->id) {
-					$rows2[] = $cat;
-				}
-			}
-			foreach ($rows2 as $row2) {
-				$sectioncategories[$section->id][] = JHtml::_('select.option', $row2->id, $row2->title, 'id', 'title');
-			}
+		if ($this->print) {
+			$this->document->setMetaData('robots', 'noindex, nofollow');
 		}
-
-		$categories = array();
-		foreach ($cat_list as $cat) {
-			if ($cat->section == $article->sectionid)
-				$categories[] = $cat;
-		}
-
-		$categories[] = JHtml::_('select.option', '-1', JText::_('Select Category'), 'id', 'title');
-		$lists['sectioncategories'] = $sectioncategories;
-		$lists['catid'] = JHtml::_('select.genericlist',  $categories, 'catid',
-			array(
-				'list.attr' => 'class="inputbox" size="1"',
-				'list.select' => (int) $article->catid,
-				'option.key' => 'id',
-				'option.text' => 'title'
-			)
-		);
-
-		// Select List: Category Ordering
-		$query = 'SELECT ordering AS value, title AS text FROM #__content WHERE catid = '.(int) $article->catid.' ORDER BY ordering';
-		$lists['ordering'] = JHtml::_('list.specificordering', $article, $article->id, $query, 1);
-
-		// Radio Buttons: Should the article be published
-		$lists['state'] = JHtml::_('select.booleanlist', 'state', '', $article->state);
-
-		// Radio Buttons: Should the article be added to the frontpage
-		if ($article->id) {
-			$query = 'SELECT content_id FROM #__content_frontpage WHERE content_id = '. (int) $article->id;
-			$db->setQuery($query);
-			$article->frontpage = $db->loadResult();
-		} else {
-			$article->frontpage = 0;
-		}
-
-		$lists['frontpage'] = JHtml::_('select.booleanlist', 'frontpage', '', (boolean) $article->frontpage);
-
-		// Select List: Group Access
-		$lists['access'] = JHtml::_('list.accesslevel', $article);
-
-		return $lists;
-	}
-
-	function _displayPagebreak($tpl)
-	{
-		$document = &JFactory::getDocument();
-		$document->setTitle(JText::_('PGB ARTICLE PAGEBRK'));
-
-		parent::display($tpl);
 	}
 }
-?>

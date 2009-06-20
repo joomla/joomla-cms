@@ -1,13 +1,129 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 jimport('joomla.application.categories');
 
+/**
+ * Content Component Route Helper
+ *
+ * @package		Joomla.Site
+ * @subpackage	com_content
+ * @since 1.6
+ */
+class ContentRoute
+{
+	/**
+	 * @var	array	A cache of the menu items pertaining to com_content
+	 */
+	protected static $lookup = null;
+
+	/**
+	 * @param	int $id			The id of the article.
+	 * @param	int	$categoryId	An optional category id.
+	 *
+	 * @return	string	The routed link.
+	 */
+	public static function article($id, $categoryId = null)
+	{
+		$needles = array(
+			'article'  => (int) $id,
+			'category' => (int) $categoryId
+		);
+
+		//Create the link
+		$link = 'index.php?option=com_content&view=article&id='. $id;
+
+		if ($categoryId) {
+			$link .= '&catid='.$categoryId;
+		}
+
+		if ($itemId = self::_findItemId($needles)) {
+			$link .= '&Itemid='.$itemId;
+		};
+
+		return $link;
+	}
+
+	/**
+	 * @param	int $id			The id of the article.
+	 * @param	int	$categoryId	An optional category id.
+	 *
+	 * @return	string	The routed link.
+	 */
+	public static function category($catid, $sectionid)
+	{
+		$needles = array(
+			'category' => (int) $catid,
+			'section'  => (int) $sectionid
+		);
+
+		//Create the link
+		$link = 'index.php?option=com_content&view=category&id='.$catid;
+
+		if ($itemId = self::_findItemId($needles)) {
+			// TODO: The following should work automatically??
+			//if (isset($item->query['layout'])) {
+			//	$link .= '&layout='.$item->query['layout'];
+			//}
+			$link .= '&Itemid='.$itemId;
+		};
+
+		return $link;
+	}
+
+	protected static function _findItemId($needles)
+	{
+		// Prepare the reverse lookup array.
+		if (self::$lookup === null)
+		{
+			self::$lookup = array();
+
+			$component	= &JComponentHelper::getComponent('com_content');
+			$menus		= &JApplication::getMenu('site', array());
+			$items		= $menus->getItems('component_id', $component->id);
+
+			foreach ($items as &$item)
+			{
+				if (isset($item->query) && isset($item->query['view']))
+				{
+					$view = $item->query['view'];
+					if (!isset(self::$lookup[$view])) {
+						self::$lookup[$view] = array();
+					}
+					if (isset($item->query['id'])) {
+						self::$lookup[$view][$item->query['id']] = $item->id;
+					}
+				}
+			}
+		}
+
+		$match = null;
+
+		foreach ($needles as $view => $id)
+		{
+			if (isset(self::$lookup[$view]))
+			{
+				if (isset(self::$lookup[$view][$id])) {
+					return self::$lookup[$view][$id];
+				}
+			}
+		}
+
+		return null;
+	}
+}
+
+/**
+ * Build the route for the com_content component
+ *
+ * @param	array	An array of URL arguments
+ *
+ * @return	array	The URL arguments to use to assemble the subsequent URL.
+ */
 function ContentBuildRoute(&$query)
 {
 	$segments = array();
@@ -127,6 +243,13 @@ function ContentBuildRoute(&$query)
 	return $segments;
 }
 
+/**
+ * Parse the segments of a URL.
+ *
+ * @param	array	The segments of the URL to parse.
+ *
+ * @return	array	The URL attributes to be used by the application.
+ */
 function ContentParseRoute($segments)
 {
 	$vars = array();
@@ -147,15 +270,14 @@ function ContentParseRoute($segments)
 	if (!isset($item))
 	{
 		$vars['view']  = $segments[0];
-		$vars['id']	= $segments[$count - 1];
+		$vars['id']    = $segments[$count - 1];
 		return $vars;
 	}
 
 	//Handle View and Identifier
 	switch($item->query['view'])
 	{
-		case 'category'   :
-		{
+		case 'category':
 			$categories = $category->getChildren();
 			$found = 0;
 			foreach($segments as $segment)
@@ -179,33 +301,29 @@ function ContentParseRoute($segments)
 				}
 				$found = 0;
 			}
-		} break;
+			break;
 
-		case 'frontpage'   :
-		{
+		case 'frontpage':
 			$vars['id']   = $segments[$count-1];
 			$vars['view'] = 'article';
+			break;
 
-		} break;
+		case 'article':
+			$vars['id']	  = $segments[$count-1];
+			$vars['view'] = 'article';
+			break;
 
-		case 'article' :
-		{
-			$vars['id']		= $segments[$count-1];
-			$vars['view']	= 'article';
-		} break;
-
-		case 'archive' :
-		{
+		case 'archive':
 			if ($count != 1)
 			{
-				$vars['year']	= $count >= 2 ? $segments[$count-2] : null;
-				$vars['month']	= $segments[$count-1];
-				$vars['view']	= 'archive';
+				$vars['year']  = $count >= 2 ? $segments[$count-2] : null;
+				$vars['month'] = $segments[$count-1];
+				$vars['view']  = 'archive';
 			} else {
-				$vars['id']		= $segments[$count-1];
-				$vars['view']	= 'article';
+				$vars['id']	  = $segments[$count-1];
+				$vars['view'] = 'article';
 			}
-		}
+			break;
 	}
 
 	return $vars;

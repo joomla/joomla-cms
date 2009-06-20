@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
  */
 class JHTMLIcon
 {
-	function create($article, $params, $access, $attribs = array())
+	function create($article, $params)
 	{
 		$uri = &JFactory::getURI();
 		$ret = $uri->toString();
@@ -37,11 +37,11 @@ class JHTMLIcon
 		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}
 
-	function email($article, $params, $access, $attribs = array())
+	function email($article, $params, $attribs = array())
 	{
 		$uri	= &JURI::getInstance();
 		$base	= $uri->toString(array('scheme', 'host', 'port'));
-		$link	= $base.JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catslug) , false);
+		$link	= $base.JRoute::_(ContentRoute::article($article->slug, $article->catslug) , false);
 		$url	= 'index.php?option=com_mailto&tmpl=component&link='.base64_encode($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
@@ -59,7 +59,7 @@ class JHTMLIcon
 		return $output;
 	}
 
-	function edit($article, $params, $access, $attribs = array())
+	function edit($article, $params, $attribs = array())
 	{
 		$user = &JFactory::getUser();
 		$uri = &JFactory::getURI();
@@ -103,7 +103,7 @@ class JHTMLIcon
 	}
 
 
-	function print_popup($article, $params, $access, $attribs = array())
+	function print_popup($article, $params, $attribs = array())
 	{
 		$url  = 'index.php?view=article';
 		$url .=  @$article->catslug ? '&catid='.$article->catslug : '';
@@ -125,7 +125,7 @@ class JHTMLIcon
 		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}
 
-	function print_screen($article, $params, $access, $attribs = array())
+	function print_screen($article, $params, $attribs = array())
 	{
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {

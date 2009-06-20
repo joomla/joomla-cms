@@ -1,13 +1,13 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
+// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
@@ -158,9 +158,10 @@ class ContentModelArchive extends JModel
 		// Initialize some variables
 		$user	= &JFactory::getUser();
 		$db		= &JFactory::getDbo();
+		$groups	= implode(',', $user->authorisedLevels());
 
-		$where = ' WHERE a.access IN ('.implode(',', $user->authorisedLevels('com_content.article.view')).')';
-		$where .= ' AND cc.access IN ('.implode(',', $user->authorisedLevels('com_content.category.view')).')';
+		$where = ' WHERE a.access IN ('.$groups.')';
+		$where .= ' AND cc.access IN ('.$groups.')';
 		$where .= ' AND cc.published = 1';
 
 		$where .= ' AND a.state = \'-1\'';

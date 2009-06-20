@@ -1,3 +1,15 @@
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	com_content
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// no direct access
+defined('_JEXEC') or die;
+?>
 		<script type="text/javascript">
 			function insertPagebreak(editor)
 			{
@@ -24,7 +36,7 @@
 
 		<form>
 		<table width="100%" align="center">
-			<tr>
+			<tr width="40%">
 				<td class="key" align="right">
 					<label for="title">
 						<?php echo JText::_('PGB PAGE TITLE'); ?>
@@ -34,7 +46,7 @@
 					<input type="text" id="title" name="title" />
 				</td>
 			</tr>
-			<tr>
+			<tr width="60%">
 				<td class="key" align="right">
 					<label for="alias">
 						<?php echo JText::_('PGB TOC ALIAS PROMPT'); ?>
