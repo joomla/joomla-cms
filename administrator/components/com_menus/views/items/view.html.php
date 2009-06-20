@@ -20,6 +20,11 @@ jimport('joomla.application.component.view');
  */
 class MenusViewItems extends JView
 {
+	protected $state;
+	protected $items;
+	protected $pagination;
+	protected $f_levels;
+
 	/**
 	 * Display the view
 	 */
@@ -39,13 +44,13 @@ class MenusViewItems extends JView
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 
-		// Published filter.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', 'JCommon_Option_Filter_Published');
-		$options[]	= JHtml::_('select.option', '0', 'JCommon_Option_Filter_Unpublished');
-		$options[]	= JHtml::_('select.option', '-2', 'JCommon_Option_Filter_Trash');
-		$options[]	= JHtml::_('select.option', '*', 'JCommon_Option_Filter_All');
-		$this->assign('f_published', $options);
+		// Preprocess the list of items to find ordering divisions.
+		foreach ($items as $i => &$item)
+		{
+			// TODO: Complete the ordering stuff with nested sets
+			$item->order_up = true;
+			$item->order_dn = true;
+		}
 
 		// Levels filter.
 		$options	= array();

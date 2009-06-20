@@ -26,7 +26,6 @@ class ContentModelArticles extends JModelList
 	 */
 	public $_context = 'com_content.articles';
 
-
 	/**
 	 * Overridden method to lazy load data from the request/session as necessary
 	 *
