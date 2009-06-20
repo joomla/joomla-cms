@@ -552,7 +552,7 @@ class JAccessHelper
 
 			// Insert the user group into the database.
 			$db->setQuery(
-				'INSERT INTO `#__usergroups` (`parent_id` ,`left_id` ,`right_id` ,`title` ,`section_id` ,`section`) VALUES' .
+				'INSERT INTO `#__usergroups` (`parent_id` ,`lft` ,`rgt` ,`title` ,`section_id` ,`section`) VALUES' .
 				' (1, 0, 0, '.$db->Quote($title).', '.(int)$sectionId.', '.$db->Quote($section).')'
 			);
 			$db->query();
@@ -752,7 +752,7 @@ class JAccessHelper
 		{
 			// Insert the assetgroup into the database.
 			$db->setQuery(
-				'INSERT INTO `#__access_assetgroups` (`parent_id` ,`left_id` ,`right_id` ,`title` ,`section_id` ,`section`) VALUES' .
+				'INSERT INTO `#__access_assetgroups` (`parent_id` ,`lft` ,`rgt` ,`title` ,`section_id` ,`section`) VALUES' .
 				' (1, 0, 0, '.$db->Quote($title).', '.(int)$sectionId.', '.$db->Quote($section).')'
 			);
 			$db->query();
@@ -948,7 +948,7 @@ class JAccessHelper
 		// Now having both left and right values, update the current node.
 		$db->setQuery(
 			'UPDATE `'.$table.'`' .
-			' SET `left_id` = '.(int) $left.', `right_id` = '.(int) $right .
+			' SET `lft` = '.(int) $left.', `rgt` = '.(int) $right .
 			' WHERE `id` = '.(int) $parentId
 		);
 
