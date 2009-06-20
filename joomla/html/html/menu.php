@@ -26,7 +26,7 @@ abstract class JHtmlMenu
 	protected static $menus = null;
 
 	/**
-	 * @var	array	Cached array of the menus.
+	 * @var	array	Cached array of the menus items.
 	 */
 	protected static $items = null;
 
