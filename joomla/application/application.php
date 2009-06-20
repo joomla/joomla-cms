@@ -780,24 +780,41 @@ class JApplication extends JObject
 				break;
 		}
 
-		$session = &JFactory::getSession($options);
+		$session = JFactory::getSession($options);
 
-		jimport('joomla.database.table');
-		$storage = & JTable::getInstance('session');
-		$storage->purge($session->getExpire());
+		//TODO: At some point we need to get away from having session data always in the db.
 
-		// Session exists and is not expired, update time in session table
-		if ($storage->load($session->getId())) {
-			$storage->update();
-			return $session;
-		}
+		// Remove expired sessions from the database.
+		$db = JFactory::getDBO();
+		$db->setQuery(
+			'DELETE FROM `#__session`' .
+			' WHERE `time` < '.(int) (time() - $session->getExpire())
+		);
+		$db->query();
 
-		//Session doesn't exist yet, initalise and store it in the session table
-		$session->set('registry',	new JRegistry('session'));
-		$session->set('user',		new JUser());
+		// Check to see the the session already exists.
+		$db->setQuery(
+			'SELECT `session_id`' .
+			' FROM `#__session`' .
+			' WHERE `session_id` = '.$db->quote($session->getId())
+		);
+		$exists = $db->loadResult();
 
-		if (!$storage->insert($session->getId(), $this->getClientId())) {
-			jexit($storage->getError());
+		// If the session doesn't exist initialize it.
+		if (!$exists) {
+			$db->setQuery(
+				'INSERT INTO `#__session` (`session_id`, `client_id`, `time`)' .
+				' VALUES ('.$db->quote($session->getId()).', '.(int) $this->getClientId().', '.(int) time().')'
+			);
+
+			// If the insert failed, exit the application.
+			if (!$db->query()) {
+				jexit($db->getErrorMSG());
+			}
+
+			//Session doesn't exist yet, initalise and store it in the session table
+			$session->set('registry',	new JRegistry('session'));
+			$session->set('user',		new JUser());
 		}
 
 		return $session;
