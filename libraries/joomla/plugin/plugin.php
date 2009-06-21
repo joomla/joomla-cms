@@ -76,7 +76,6 @@ abstract class JPlugin extends JEvent
 		if (isset($config['type'])) {
 			$this->_type = $config['type'];
 		}
-
 		parent::__construct($subject);
 	}
 
