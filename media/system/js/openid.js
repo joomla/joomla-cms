@@ -21,7 +21,7 @@ var JOpenID = new Class({
 	username: null,
 
 	initialize: function(form) {
-		this.form = $(form);
+		this.form = document.id(form);
 		this.username = this.form.getElement('input[name=username]');
 		this.passwordContainer = this.form.getElement('input[name=passwd]').getParent();
 

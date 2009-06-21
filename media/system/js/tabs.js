@@ -30,7 +30,7 @@ var JTabs = new Class({
 
     initialize: function(dlist, options){
 		this.setOptions(options);
-        this.dlist = $(dlist);
+        this.dlist = document.id(dlist);
         this.titles = this.dlist.getElements(this.options.titleSelector);
         this.descriptions = this.dlist.getElements(this.options.descriptionSelector);
         this.content = new Element('div').inject(this.dlist, 'after').addClass('current');

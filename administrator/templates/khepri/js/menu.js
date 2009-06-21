@@ -14,7 +14,7 @@
 var JMenu = new Class({
 	initialize: function(el)
 	{
-		var elements = $(el).getElements('li');
+		var elements = document.id(el).getElements('li');
 		var nested = null
 		for (var i=0; i<elements.length; i++)
 		{
@@ -43,18 +43,18 @@ var JMenu = new Class({
 			for (l=0; l < nested.childNodes.length; l++) {
 				var node = nested.childNodes[l]
 				if (node.nodeName == "LI") {
-					$(node).setStyle('width', offsetWidth+'px');
+					document.id(node).setStyle('width', offsetWidth+'px');
 				}
 			}
 
-			$(nested).setStyle('width', offsetWidth+'px');
+			document.id(nested).setStyle('width', offsetWidth+'px');
 		}
 	}
 });
 
 document.menu = null;
 window.addEvent('load', function(){
-	element = $('menu');
+	element = document.id('menu');
 	if(!element.hasClass('disabled')) {
 		var menu = new JMenu(element);
 		document.menu = menu;

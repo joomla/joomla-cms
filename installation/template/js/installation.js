@@ -18,7 +18,7 @@ Install.sampleData = function(el) {
 	// make the ajax call
 	var req = new Request({
 		method: 'get',
-		url: 'index.php?'+$(el.form).toQueryString(),
+		url: 'index.php?'+document.id(el.form).toQueryString(),
 		data: {'task':'setup.loadSampleData', 'protocol':'json'},
 		onRequest: function() { el.set('disabled', 'disabled'); },
 		onComplete: function(response) {
@@ -42,7 +42,7 @@ Install.detectFtpRoot = function(el) {
 	// make the ajax call
 	var req = new Request({
 		method: 'get',
-		url: 'index.php?'+$(el.form).toQueryString(),
+		url: 'index.php?'+document.id(el.form).toQueryString(),
 		data: {'task':'setup.detectFtpRoot', 'protocol':'json'},
 		onRequest: function() { el.set('disabled', 'disabled'); },
 		onComplete: function(response) {
@@ -51,7 +51,7 @@ Install.detectFtpRoot = function(el) {
 			{
 				Joomla.replaceTokens(r.token)
 				if (r.error == false) {
-					$('ftproot').set('value', r.data.root);
+					document.id('ftproot').set('value', r.data.root);
 				}
 			}
 			el.set('disabled', '');
@@ -66,7 +66,7 @@ Install.verifyFtpSettings = function(el) {
 	// make the ajax call
 	var req = new Request({
 		method: 'get',
-		url: 'index.php?'+$(el.form).toQueryString(),
+		url: 'index.php?'+document.id(el.form).toQueryString(),
 		data: {'task':'setup.verifyFtpSettings', 'protocol':'json'},
 		onRequest: function() { el.set('disabled', 'disabled'); },
 		onComplete: function(response) {

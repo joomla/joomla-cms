@@ -28,8 +28,8 @@ var JSwitcher = new Class({
 
 	initialize: function(toggler, element, options) {
 		this.setOptions(options);
-		this.togglers = $(toggler).getElements(this.options.togglerSelector);
-		this.elements = $(element).getElements(this.options.elementSelector);
+		this.togglers = document.id(toggler).getElements(this.options.togglerSelector);
+		this.elements = document.id(element).getElements(this.options.elementSelector);
 
 		if ((this.togglers.length == 0) || (this.togglers.length != this.elements.length)) {
 			return;
@@ -46,16 +46,16 @@ var JSwitcher = new Class({
 	},
 
 	display: function(togglerID) {
-		var toggler = $(togglerID);
-		var element = $(this.options.elementPrefix+togglerID);
+		var toggler = document.id(togglerID);
+		var element = document.id(this.options.elementPrefix+togglerID);
 
 		if (!$chk(toggler) || !$chk(element) || toggler == this.current) {
 			return this;
 		}
 
 		if ($chk(this.current)) {
-			this.hide($(this.options.elementPrefix+this.current));
-			$(this.current).removeClass('active');
+			this.hide(document.id(this.options.elementPrefix+this.current));
+			document.id(this.current).removeClass('active');
 		}
 
 		this.show(element);

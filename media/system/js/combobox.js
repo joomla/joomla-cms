@@ -25,7 +25,7 @@ Joomla.combobox.transform = function(el, options)
 	// Add the editable option to the select.
 	var o = new Element('option', {'class':'custom'}).set('text', Joomla.JText._('ComboBoxInitString', 'type custom...'));
 	o.inject(el, 'top');
-	$(el).set('changeType', 'manual');
+	document.id(el).set('changeType', 'manual');
 
 	// Add a key press event handler.
 	el.addEvent('keypress', function(e){
