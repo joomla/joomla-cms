@@ -174,4 +174,42 @@ class JUtility
 		$result = var_export($var, true);
 		return '<pre>'.($htmlSafe ? htmlspecialchars($result) : $result).'</pre>';
 	}
+	
+	/**
+	 * Prepend a reference to an element to the beginning of an array. Renumbers numeric keys, so $value is always inserted to $array[0]
+	 * 
+	 * @param $array array
+	 * @param $value mixed
+	 * @return int
+	 * @see http://www.php.net/manual/en/function.array-unshift.php#40270
+	 */
+	function array_unshift_ref(&$array, &$value)
+	{
+	   $return = array_unshift($array,'');
+	   $array[0] =& $value;
+	   return $return;
+	}
+
+	/**
+	 * Return the byte value of a particular string
+	 * @param string String optionally with G, M or K suffix
+	 * @return int size in bytes
+	 * @since 1.6
+	 */
+	function return_bytes($val) {
+            $val = trim($val);
+            $last = strtolower($val{strlen($val)-1});
+            switch($last) {
+                // The 'G' modifier is available since PHP 5.1.0
+                case 'g':
+                    $val *= 1024;
+                case 'm':
+                    $val *= 1024;
+                case 'k':
+                    $val *= 1024;
+            }
+
+            return $val;
+        }
+
 }
