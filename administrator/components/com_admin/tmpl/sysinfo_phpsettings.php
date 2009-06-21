@@ -147,8 +147,8 @@ defined('_JEXEC') or die;
 			</td>
 		</tr>
 		<?php
-		$query = 'SELECT name FROM #__plugins'
-		. ' WHERE folder="editors" AND published="1"';
+		$query = 'SELECT name FROM #__extensions'
+		. ' WHERE folder="editors" AND type = "plugin" AND enabled="1"';
 		$db->setQuery($query, 0, 1);
 		$editor = $db->loadResult();
 		?>

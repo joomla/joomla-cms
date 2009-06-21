@@ -116,7 +116,8 @@ class MediaControllerFolder extends MediaController
 			{
 				jimport('joomla.filesystem.*');
 				JFolder::create($path);
-				JFile::write($path.DS."index.html", "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>");
+				$data = "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>";
+				JFile::write($path.DS."index.html", $data);
 			}
 			JRequest::setVar('folder', ($parent) ? $parent.'/'.$folder : $folder);
 		}

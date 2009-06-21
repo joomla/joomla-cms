@@ -122,11 +122,12 @@ class MenuModuleHelper
 
 			$menu->addChild(new JMenuNode(JText::_('Components')), true);
 
-			$query = 'SELECT *' .
-				' FROM #__components' .
+			$query = 'SELECT c.*' .
+				' FROM #__components c LEFT JOIN #__extensions e ON c.option = e.element ' .
 				' WHERE '.$db->NameQuote('option').' <> "com_frontpage"' .
 				' AND '.$db->NameQuote('option').' <> "com_media"' .
-				' AND enabled = 1' .
+				' AND e.enabled = 1' .
+				' AND e.state > -1' .
 				' ORDER BY ordering, name';
 			$db->setQuery($query);
 			$comps = $db->loadObjectList(); // component list
@@ -154,7 +155,10 @@ class MenuModuleHelper
 				unset($langs['.menu']);
 			}
 			foreach ($langs as $lang_name => $nothing) {
+				// 1.5 or Core
 				$lang->load($lang_name);
+				// 1.6 3PD Extensions
+				$lang->load( 'menu', JPATH_ADMINISTRATOR.DS.'components'.DS.str_replace('.menu','',$lang_name));
 			}
 
 			foreach ($comps as $row)
@@ -202,7 +206,7 @@ class MenuModuleHelper
 				$menu->addChild(new JMenuNode(JText::_('Extensions')), true);
 
 				if ($im) {
-					$menu->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index.php?option=com_installer', 'class:install'));
+					$menu->addChild(new JMenuNode(JText::_('Extension Manager'), 'index.php?option=com_installer', 'class:install'));
 					$menu->addSeparator();
 				}
 				if ($mm) {

@@ -162,6 +162,8 @@ class InstallerModelLanguages extends InstallerModel
 	{
 		global $mainframe;
 
+		// TODO: Check why this does this or if its still necessary!
+		// Hopefully its just another redundant path we can remove
 		$lang = &JFactory::getLanguage();
 		$lang->load('com_installer');
 

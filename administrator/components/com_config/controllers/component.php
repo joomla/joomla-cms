@@ -44,7 +44,10 @@ class ConfigControllerComponent extends JController
 
 		// load the component's language file
 		$lang = & JFactory::getLanguage();
+		// 1.5 or core
 		$lang->load($component);
+		// 1.6 support for component specific languages
+		$lang->load( $component, JPATH_ADMINISTRATOR.DS.'components'.DS.$component);
 
 		$model = $this->getModel('Component');
 		$table = &JTable::getInstance('component');

@@ -87,6 +87,10 @@ if (!class_exists('JAdminSubMenu'))
 			$db   = &JFactory::getDbo();
 			$lang = &JFactory::getLanguage();
 
+			// 1.5 or Core
+			$lang->load($componentOption.'.menu');
+			// 1.6 3PD extension
+			$lang->load($componentOption.'menu', JPATH_ADMINISTRATOR.DS.'component'.DS.$componentOption);
 			$lang->load($componentOption.'.menu');
 
 			$query = 'SELECT a.name, a.admin_menu_link, a.admin_menu_img' .
