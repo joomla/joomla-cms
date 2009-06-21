@@ -35,9 +35,10 @@ class JElementEditors extends JElement
 
 		// compile list of the editors
 		$query = 'SELECT element AS value, name AS text'
-		. ' FROM #__plugins'
+		. ' FROM #__extensions'
 		. ' WHERE folder = "editors"'
-		. ' AND published = 1'
+		. ' AND type = "plugin"'
+		. ' AND enabled = 1'
 		. ' ORDER BY ordering, name'
 		;
 		$db->setQuery($query);
