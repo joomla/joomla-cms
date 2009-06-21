@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jun-2009 Gergo Erdosi
+ # Fixed configuration variable error.
+
 21-Jun-2009 Ercan Ozkaya
  ^ Upgraded Mootools to version 1.2.3
 
