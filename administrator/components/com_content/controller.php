@@ -34,12 +34,8 @@ class ContentController extends JController
 		// Get and render the view.
 		if ($view = &$this->getView($vName, $vFormat))
 		{
-			switch ($vName)
-			{
-				default:
-					$model	= &$this->getModel($vName);
-					break;
-			}
+			// Get the model for the view.
+			$model = &$this->getModel($vName);
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
@@ -48,7 +44,7 @@ class ContentController extends JController
 			// Push document object into the view.
 			$view->assignRef('document', $document);
 
-			$this->_setupLinkbar($vName);
+			$this->addLinkbar($vName);
 			$view->display();
 		}
 	}
@@ -58,10 +54,10 @@ class ContentController extends JController
 	 *
 	 * @param	string	The name of the active view
 	 */
-	protected function _setupLinkbar($vName)
+	public function addLinkbar($vName)
 	{
-		JSubMenuHelper::addEntry(JText::_('Content_Link_Articles'),		'index.php?option=com_content&view=articles',	$vName == 'articles');
-		JSubMenuHelper::addEntry(JText::_('Content_Link_Categories'),	'index.php?option=com_content&view=categories',	$vName == 'categories');
-		JSubMenuHelper::addEntry(JText::_('Content_Link_Featured'),		'index.php?option=com_content&view=featured',	$vName == 'featured');
+		JSubMenuHelper::addEntry(JText::_('Content_Link_Articles'),		'index.php?option=com_content&view=articles',			$vName == 'articles');
+		JSubMenuHelper::addEntry(JText::_('Content_Link_Categories'),	'index.php?option=com_categories&extension=com_content',	$vName == 'categories');
+		JSubMenuHelper::addEntry(JText::_('Content_Link_Featured'),		'index.php?option=com_content&view=featured',			$vName == 'featured');
 	}
 }
