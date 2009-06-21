@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="library" version="1.5">
+	<name>PHP UTF-8</name>
+	<libraryname>phputf8</libraryname>
+	<version>1.5</version>
+	<description>PHP UTF-8 support functions</description>
+	<creationDate>2008</creationDate>
+	<copyright>Copyright (C) 2008 PHP UTF-8.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<author>PHP UTF-8</author>
+	<authorEmail></authorEmail>
+	<authorUrl>http://sourceforge.net/projects/phputf8</authorUrl>
+	<packager>Joomla!</packager>
+	<packagerurl>http://www.joomla.org</packagerurl>
+	<update>http://update.joomla.org/libraries/phputf8</update>	
+	<files>
+		<file>trim.php</file>
+		<file>substr_replace.php</file>
+		<file>LICENSE</file>
+		<file>utils/ascii.php</file>
+		<file>utils/validation.php</file>
+		<file>utils/specials.php</file>
+		<file>utils/index.html</file>
+		<file>utils/patterns.php</file>
+		<file>utils/bad.php</file>
+		<file>utils/unicode.php</file>
+		<file>TODO.tsk</file>
+		<file>str_split.php</file>
+		<file>README</file>
+		<file>index.html</file>
+		<file>stristr.php</file>
+		<file>ucfirst.php</file>
+		<file>native/index.html</file>
+		<file>native/case.php</file>
+		<file>native/core.php</file>
+		<file>native/strlen.php</file>
+		<file>strrev.php</file>
+		<file>mbstring/index.html</file>
+		<file>mbstring/case.php</file>
+		<file>mbstring/core.php</file>
+		<file>mbstring/strlen.php</file>
+		<file>ucwords.php</file>
+		<file>str_ireplace.php</file>
+		<file>strcspn.php</file>
+		<file>strcasecmp.php</file>
+		<file>utf8.php</file>
+		<file>strspn.php</file>
+	</files>
+</extension>
