@@ -1,20 +1,15 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.plugin.plugin' );
+jimport('joomla.plugin.plugin');
 
 /**
  * Joomla! Debug plugin
@@ -22,7 +17,7 @@ jimport( 'joomla.plugin.plugin' );
  * @package		Joomla
  * @subpackage	System
  */
-class  plgSystemDebug extends JPlugin
+class plgSystemDebug extends JPlugin
 {
 	/**
 	 * Constructor
@@ -30,13 +25,14 @@ class  plgSystemDebug extends JPlugin
 	 * @access	protected
 	 * @param	object $subject The object to observe
 	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since	1.6
+	 * @since	1.0
 	 */
-	function __construct($subject, $config)
+	function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
+
 		//load the translation
-		$this->loadLanguage( );
+		$this->loadLanguage();
 	}
 
 	/**
@@ -45,86 +41,55 @@ class  plgSystemDebug extends JPlugin
 	*/
 	function onAfterRender()
 	{
-		global $_PROFILER;
-		$mainframe = JFactory::getApplication();
-		$database = JFactory::getDBO();
+		global $_PROFILER, $mainframe, $database;
 
 		// Do not render if debugging is not enabled
-		if(!JDEBUG) { return; }
+		if (!JDEBUG) { return; }
 
-		$document	=& JFactory::getDocument();
+		$document	= &JFactory::getDocument();
 		$doctype	= $document->getType();
 
 		// Only render for HTML output
-		if ( $doctype !== 'html' ) { return; }
+		if ($doctype !== 'html') { return; }
 
-		$profiler	=& $_PROFILER;
+		// If the user is not allowed to view the output then end here
+		$filterGroups = (array) $this->params->get('filter_groups', null);
+		if (!empty($filterGroups)) {
+			$userGroups = JFactory::getUser()->get('groups');
+			if (!array_intersect($filterGroups, array_keys($userGroups))) {
+				return;
+			}
+		}
+
+		$profiler	= &$_PROFILER;
 
 		ob_start();
 		echo '<div id="system-debug" class="profiler">';
-		$errors = JError::getErrors();
-		if(!empty($errors)) {
-			echo '<h4>'.JText::_('Errors').'</h4><ol>';
-			while($error = JError::getError(true)) {
-				echo '<li>'.$error->getMessage().'<br /><h4>'.JText::_('Info').'</h4><pre>'.print_r($error->get('info'), true).'</pre><br /><h4>'.JText::_('Backtrace').'</h4>'.JError::renderBacktrace($error).'</li>';
-			}
-			echo '</ol>';
-		}
 		if ($this->params->get('profile', 1)) {
-			echo '<h4>'.JText::_( 'Profile Information' ).'</h4>';
-			foreach ( $profiler->getBuffer() as $mark ) {
+			echo '<h4>'.JText::_('Profile Information').'</h4>';
+			foreach ($profiler->getBuffer() as $mark) {
 				echo '<div>'.$mark.'</div>';
 			}
 		}
 
 		if ($this->params->get('memory', 1)) {
-			echo '<h4>'.JText::_( 'Memory Usage' ).'</h4>';
-			echo $profiler->getMemory();
+			echo '<h4>'.JText::_('Memory Usage').'</h4>';
+			echo number_format($profiler->getMemory());
 		}
 
-		if ($this->params->get('queries', 1))
-		{
-			jimport('geshi.geshi');
+		if ($this->params->get('queries', 1)) {
+			$newlineKeywords = '#\b(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)\b#i';
 
-			$geshi = new GeSHi( '', 'sql' );
-			$geshi->set_header_type(GESHI_HEADER_DIV);
-			//$geshi->enable_line_numbers( GESHI_FANCY_LINE_NONE );
+			$db	= &JFactory::getDbo();
 
-			$newlineKeywords = '/<span style="color: #993333; font-weight: bold;">'
-				.'(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)'
-				.'<\\/span>/i'
-			;
+			echo '<h4>'.JText::sprintf('Queries logged',  $db->getTicker()).'</h4>';
 
-			$db	=& JFactory::getDBO();
-
-			echo '<h4>'.JText::sprintf( 'Queries logged',  $db->getTicker() ).'</h4>';
-
-			if ($log = $db->getLog())
-			{
+			if ($log = $db->getLog()) {
 				echo '<ol>';
-				foreach ($log as $k=>$sql)
-				{
-					$geshi->set_source($sql);
-					$text = $geshi->parse_code();
-					$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
+				foreach ($log as $k=>$sql) {
+					$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $sql);
 					echo '<li>'.$text.'</li>';
 				}
-				echo '</ol>';
-			}
-
-			if(isset($database))
-			{
-				echo '<h4>'.JText::sprintf( 'Legacy Queries logged',  $database->getTicker() ).'</h4>';
-				echo '<ol>';
-
-					foreach ($database->getLog() as $k=>$sql)
-					{
-						$geshi->set_source($sql);
-						$text = $geshi->parse_code();
-						$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
-						echo '<li>'.$text.'</li>';
-					}
-
 				echo '</ol>';
 			}
 		}
@@ -132,12 +97,12 @@ class  plgSystemDebug extends JPlugin
 		$lang = &JFactory::getLanguage();
 		if ($this->params->get('language_files', 1))
 		{
-			echo '<h4>'.JText::_( 'Language Files Loaded' ).'</h4>';
+			echo '<h4>'.JText::_('Language Files Loaded').'</h4>';
 			echo '<ul>';
 			$extensions	= $lang->getPaths();
-			foreach ( $extensions as $extension => $files)
+			foreach ($extensions as $extension => $files)
 			{
-				foreach ( $files as $file => $status )
+				foreach ($files as $file => $status)
 				{
 					echo "<li>$file $status</li>";
 				}
@@ -147,57 +112,57 @@ class  plgSystemDebug extends JPlugin
 
 		$langStrings = $this->params->get('language_strings', -1);
 		if ($langStrings < 0 OR $langStrings == 1) {
-			echo '<h4>'.JText::_( 'Untranslated Strings Diagnostic' ).'</h4>';
+			echo '<h4>'.JText::_('Untranslated Strings Diagnostic').'</h4>';
 			echo '<pre>';
 			$orphans = $lang->getOrphans();
-			if (count( $orphans ))
+			if (count($orphans))
 			{
-				ksort( $orphans, SORT_STRING );
+				ksort($orphans, SORT_STRING);
 				foreach ($orphans as $key => $occurance) {
-					foreach ( $occurance as $i => $info) {
+					foreach ($occurance as $i => $info) {
 						$class	= @$info['class'];
 						$func	= @$info['function'];
 						$file	= @$info['file'];
 						$line	= @$info['line'];
-						echo strtoupper( $key )."\t$class::$func()\t[$file:$line]\n";
+						echo strtoupper($key)."\t$class::$func()\t[$file:$line]\n";
 					}
 				}
 			}
 			else {
-				echo JText::_( 'None' );
+				echo JText::_('None');
 			}
 			echo '</pre>';
 		}
 		if ($langStrings < 0 OR $langStrings == 2) {
-			echo '<h4>'.JText::_( 'Untranslated Strings Designer' ).'</h4>';
+			echo '<h4>'.JText::_('Untranslated Strings Designer').'</h4>';
 			echo '<pre>';
 			$orphans = $lang->getOrphans();
-			if (count( $orphans ))
+			if (count($orphans))
 			{
-				ksort( $orphans, SORT_STRING );
+				ksort($orphans, SORT_STRING);
 				$guesses = array();
 				foreach ($orphans as $key => $occurance) {
-					if (is_array( $occurance ) AND isset( $occurance[0] )) {
+					if (is_array($occurance) AND isset($occurance[0])) {
 						$info = &$occurance[0];
 						$file = @$info['file'];
-						if (!isset( $guesses[$file] )) {
+						if (!isset($guesses[$file])) {
 							$guesses[$file] = array();
 						}
 
-						$guess = str_replace( '_', ' ', $info['string'] );
+						$guess = str_replace('_', ' ', $info['string']);
 						if ($strip = $this->params->get('language_prefix')) {
-							$guess = trim( preg_replace( chr(1).'^'.$strip.chr(1), '', $guess ) );
+							$guess = trim(preg_replace(chr(1).'^'.$strip.chr(1), '', $guess));
 						}
-						$guesses[$file][] = trim( strtoupper( $key ) ).'='.$guess;
+						$guesses[$file][] = trim(strtoupper($key)).'='.$guess;
 					}
 				}
 				foreach ($guesses as $file => $keys) {
-					echo "\n\n# ".($file ? $file : JText::_( 'Unknown file' ))."\n\n";
-					echo implode( "\n", $keys );
+					echo "\n\n# ".($file ? $file : JText::_('Unknown file'))."\n\n";
+					echo implode("\n", $keys);
 				}
 			}
 			else {
-				echo JText::_( 'None' );
+				echo JText::_('None');
 			}
 			echo '</pre>';
 		}
@@ -209,5 +174,4 @@ class  plgSystemDebug extends JPlugin
 		$body = str_replace('</body>', $debug.'</body>', $body);
 		JResponse::setBody($body);
 	}
-
 }
