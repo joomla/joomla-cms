@@ -71,11 +71,11 @@
 			default="1"
 			filter="integer">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 			<option
-				value="-2">Trash</option>
+				value="-2">JOption_Trash</option>
 		</field>
 
 		<field

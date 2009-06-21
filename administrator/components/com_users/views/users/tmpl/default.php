@@ -69,7 +69,7 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 					<?php echo JHtml::_('grid.sort', 'Users_Heading_Last_Visit_Date', 'a.lastvisitDate', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th nowrap="nowrap" width="3%">
-					<?php echo JHtml::_('grid.sort', 'JCommon_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>

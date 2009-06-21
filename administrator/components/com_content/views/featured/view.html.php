@@ -19,7 +19,6 @@ class ContentViewFeatured extends JView
 	protected $state;
 	protected $items;
 	protected $pagination;
-	protected $f_published;
 
 	/**
 	 * Display the view
@@ -39,15 +38,6 @@ class ContentViewFeatured extends JView
 		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-
-		// Published filter.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', 'JCommon_Option_Filter_Published');
-		$options[]	= JHtml::_('select.option', '0', 'JCommon_Option_Filter_Unpublished');
-		$options[]	= JHtml::_('select.option', '-1', 'Content_Option_Filter_Archived');
-		$options[]	= JHtml::_('select.option', '-2', 'JCommon_Option_Filter_Trash');
-		$options[]	= JHtml::_('select.option', '*', 'JCommon_Option_Filter_All');
-		$this->assign('f_published', $options);
 
 		$this->_setToolbar();
 		parent::display($tpl);

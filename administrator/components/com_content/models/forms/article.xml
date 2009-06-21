@@ -64,16 +64,16 @@
 			default="1">
 			<option
 				value="1">
-				JState_Published</option>
+				JOption_Published</option>
 			<option
 				value="0">
-				JState_UnPublished</option>
+				JOption_UnPublished</option>
 			<option
 				value="-1">
-				JState_Archived</option>
+				JOption_Archived</option>
 			<option
 				value="-2">
-				JState_Trashed</option>
+				JOption_Trashed</option>
 		</field>
 
 		<field

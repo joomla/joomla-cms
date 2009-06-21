@@ -82,11 +82,11 @@
 			label="Categories_Published_Label"
 			description="Categories_Published_Desc">
 			<option
-				value="0">JCommon_Option_Unpublished</option>
+				value="0">JOption_Unpublished</option>
 			<option
-				value="1">JCommon_Option_Published</option>
+				value="1">JOption_Published</option>
 			<option
-				value="-2">JCommon_Option_Trash</option>
+				value="-2">JOption_Trash</option>
 		</field>
 
 		<field

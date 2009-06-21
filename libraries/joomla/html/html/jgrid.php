@@ -43,10 +43,10 @@ abstract class JHtmlJGrid
 	{
 		// Build the active state filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', 'JCommon_Option_Filter_Published');
-		$options[]	= JHtml::_('select.option', '0', 'JCommon_Option_Filter_Unpublished');
-		$options[]	= JHtml::_('select.option', '-2', 'JCommon_Option_Filter_Trash');
-		$options[]	= JHtml::_('select.option', '*', 'JCommon_Option_Filter_All');
+		$options[]	= JHtml::_('select.option', '1', 'JOption_Published');
+		$options[]	= JHtml::_('select.option', '0', 'JOption_Unpublished');
+		$options[]	= JHtml::_('select.option', '-2', 'JOption_Trash');
+		$options[]	= JHtml::_('select.option', '*', 'JOption_All');
 
 		return $options;
 	}

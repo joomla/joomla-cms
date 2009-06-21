@@ -26,7 +26,7 @@ $return	= base64_encode($uri->toString());
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
 				<th class="title" rowspan="2">
-					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="30%" colspan="3">
 					<?php echo JText::_('JMenus_Heading_Number_menu_items'); ?>
@@ -35,7 +35,7 @@ $return	= base64_encode($uri->toString());
 					<?php echo JText::_('JMenus_Heading_Linked_modules'); ?>
 				</th>
 				<th width="1%" nowrap="nowrap" rowspan="2">
-					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 			<tr>

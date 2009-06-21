@@ -31,12 +31,12 @@ $this->assign('object', JRequest::getVar('object'));
 
 		<div class="right">
 			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JCommon_Option_Select_access_level');?></option>
+				<option value=""><?php echo JText::_('JOption_Select_access_level');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
 
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JCommon_Option_Select_published_state');?></option>
+				<option value=""><?php echo JText::_('JOption_Select_published_state');?></option>
 				<?php echo JHtml::_('select.options', $this->f_published, 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 		</div>
@@ -49,19 +49,19 @@ $this->assign('object', JRequest::getVar('object'));
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort', 'JCommon_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JCommon_Heading_Category', 'a.catid', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Category', 'a.catid', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%">
-					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_Access', 'category', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Access', 'category', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort',  'Content_Heading_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort', 'JCommon_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>

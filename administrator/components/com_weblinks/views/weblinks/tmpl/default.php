@@ -31,17 +31,17 @@ $userId	= $user->get('id');
 		</div>
 		<div class="right">
 			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('Weblinks_Option_Filter_Access');?></option>
+				<option value=""><?php echo JText::_('JOption_Select_Access');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
 
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('Weblinks_Option_Filter_Published');?></option>
+				<option value=""><?php echo JText::_('JOption_Select_Published');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 
 			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JCOMMON_OPTION_SELECT_CATEGORY');?></option>
+				<option value=""><?php echo JText::_('JOption_Select_Category');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_weblinks'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
 		</div>
@@ -51,7 +51,7 @@ $userId	= $user->get('id');
 		<thead>
 			<tr>
 				<th width="5">
-					<?php echo JText::_('JCommon_Heading_Row_Number'); ?>
+					<?php echo JText::_('JGrid_Heading_Row_Number'); ?>
 				</th>
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
@@ -76,7 +76,7 @@ $userId	= $user->get('id');
 					<?php echo JHtml::_('grid.sort',  'Weblinks_Hits_Heading', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>
@@ -114,7 +114,7 @@ $userId	= $user->get('id');
 					<br /><small><?php echo $this->escape($item->alias);?></small>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('weblink.state', $item->state, $i);?>
+					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'weblinks.');?>
 				</td>
 				<td class="order">
 					<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid),'weblinks.orderup', 'JGrid_Move_Up', $ordering); ?></span>

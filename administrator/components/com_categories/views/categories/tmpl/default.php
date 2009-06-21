@@ -34,12 +34,12 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 
 		<div class="right">
 			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JCommon_Option_Select_Access');?></option>
+				<option value=""><?php echo JText::_('JOption_Select_Access');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
 
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JCommon_Option_Select_Published');?></option>
+				<option value=""><?php echo JText::_('JOption_Select_Published');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 		</div>
@@ -52,20 +52,20 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort', 'JCommon_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JCommon_Heading_Published', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Published', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" nowrap="nowrap">
-					<?php echo JText::_('JCommon_Heading_Ordering'); ?>
+					<?php echo JText::_('JGrid_Heading_Ordering'); ?>
 					<?php echo JHtml::_('grid.order',  $this->items); ?>
 				</th>
 				<th width="10%"  class="title">
-					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_Access', 'category', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Access', 'category', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'JCommon_Heading_ID', 'a.lft', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.lft', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>

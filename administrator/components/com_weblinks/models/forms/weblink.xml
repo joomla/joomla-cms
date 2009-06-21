@@ -96,13 +96,13 @@
 			label="Weblinks_State_Label"
 			description="Weblinks_State_Desc">
 			<option
-				value="1">JCOMMON_OPTION_FILTER_PUBLISHED</option>
+				value="1">JOption_Published</option>
 			<option
-				value="0">JCOMMON_OPTION_FILTER_UNPUBLISHED</option>
+				value="0">JOption_Unpublished</option>
 			<option
 				value="-1">Weblinks_Reported</option>
 			<option
-				value="-2">JCOMMON_OPTION_FILTER_TRASH</option>
+				value="-2">JOption_Trash</option>
 		</field>
 
 		<field
