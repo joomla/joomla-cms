@@ -32,7 +32,7 @@ Joomla.submitform = function(task, form) {
 /**
  * Custom behavior for JavaScript I18N in Joomla! 1.6
  *
- * Allows you to call JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
+ * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
  */
 Joomla.JText = {
 	strings: {},
@@ -52,16 +52,16 @@ Joomla.JText = {
  */
 Joomla.replaceTokens = function(n) {
 	var els = document.getElementsByTagName('input');
-	for (var i=0; i < els.length; i++)
-	{
+	for (var i = 0; i < els.length; i++) {
 		if ((els[i].type == 'hidden') && (els[i].name.length == 32) && els[i].value == '1') {
 			els[i].name = n;
 		}
 	}
 };
 
-
 /**
+ * USED IN: administrator/components/com_banners/views/client/tmpl/default.php
+ *
  * Verifies if the string is in a valid email format
  *
  * @param string
@@ -70,8 +70,7 @@ Joomla.replaceTokens = function(n) {
 Joomla.isEmail = function(text) {
 	var regex = new RegExp("^[\\w-_\.]*[\\w-_\.]\@[\\w]\.+[\\w]+[\\w]$");
 	return regex.test(text);
-}
-
+};
 
 /**
  * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
@@ -126,7 +125,7 @@ function writeDynaList(selectParams, source, key, orig_key, orig_val) {
  *            The original item value that was selected
  */
 function changeDynaList(listname, source, key, orig_key, orig_val) {
-	var list = eval('document.adminForm.' + listname);
+	var list = document.adminForm[listname];
 
 	// empty the list
 	for (i in list.options.length) {
@@ -195,8 +194,8 @@ function radioGetCheckedValue(radioObj) {
  * @return
  */
 function getSelectedValue(frmName, srcListName) {
-	var form = eval('document.' + frmName);
-	var srcList = eval('form.' + srcListName);
+	var form = document[frmName];
+	var srcList = form[srcListName];
 
 	i = srcList.selectedIndex;
 	if (i != null && i > -1) {
@@ -213,29 +212,47 @@ function getSelectedValue(frmName, srcListName) {
  *
  * Checkboxes must have an id attribute in the form cb0, cb1...
  *
- * @param The
- *            number of box to 'check'
- * @param An
- *            alternative field name
+ * @param	mixed	The number of box to 'check', for a checkbox element
+ * @param	string	An alternative field name
  */
-function checkAll(n, fldName) {
-	if (!fldName) {
-		fldName = 'cb';
-	}
-	var f = document.adminForm;
-	var c = f.toggle.checked;
-	var n2 = 0;
-	for (i = 0; i < n; i++) {
-		cb = eval('f.' + fldName + '' + i);
-		if (cb) {
-			cb.checked = c;
-			n2++;
+function checkAll(checkbox, stub) {
+	if (checkbox.form) {
+		var c = 0;
+		for (var i = 0, n = checkbox.form.elements.length; i < n; i++) {
+			var e = checkbox.form.elements[i];
+			if (e.type == checkbox.type) {
+				if ((stub && e.name.indexOf(stub) == 0) || !stub) {
+					e.checked = checkbox.checked;
+					c += (e.checked == true ? 1 : 0);
+				}
+			}
 		}
+		if (checkbox.form.boxchecked) {
+			checkbox.form.boxchecked.value = c;
+		}
+		return true;
 	}
-	if (c) {
-		document.adminForm.boxchecked.value = n2;
-	} else {
-		document.adminForm.boxchecked.value = 0;
+	else {
+		// The old way of doing it
+		if (!stub) {
+			stub = 'cb';
+		}		
+		var f = document.adminForm;
+		var c = f.toggle.checked;
+		var n = checkbox;
+		var n2 = 0;
+		for (var i = 0; i < n; i++) {
+			var cb = f[stub+''+i];
+			if (cb) {
+				cb.checked = c;
+				n2++;
+			}
+		}
+		if (c) {
+			document.adminForm.boxchecked.value = n2;
+		} else {
+			document.adminForm.boxchecked.value = 0;
+		}
 	}
 }
 
@@ -248,10 +265,10 @@ function checkAll(n, fldName) {
  */
 function listItemTask(id, task) {
 	var f = document.adminForm;
-	cb = eval('f.' + id);
+	var cb = f[id];
 	if (cb) {
-		for (i = 0; true; i++) {
-			cbx = eval('f.cb' + i);
+		for (var i = 0; true; i++) {
+			var cbx = f['cb'+i];
 			if (!cbx)
 				break;
 			cbx.checked = false;
@@ -350,13 +367,12 @@ function saveorder(n, task) {
 	checkAll_button(n, task);
 }
 function checkAll_button(n, task) {
-
 	if (!task) {
 		task = 'saveorder';
 	}
 
-	for ( var j = 0; j <= n; j++) {
-		box = eval("document.adminForm.cb" + j);
+	for (var j = 0; j <= n; j++) {
+		var box = document.adminForm['cb'+j];
 		if (box) {
 			if (box.checked == false) {
 				box.checked = true;
