@@ -133,7 +133,11 @@ abstract class JModuleHelper
 		if (!$module->user && file_exists($path) && empty($module->content))
 		{
 			$lang = &JFactory::getLanguage();
+			// 1.5 or Core
 			$lang->load($module->module);
+			// 1.6 3PD
+			$lang->load( $module->module, dirname($path));
+			
 
 			$content = '';
 			ob_start();

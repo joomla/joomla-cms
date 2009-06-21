@@ -179,8 +179,13 @@ class JApplicationHelper
 
 			case 'plg_xml':
 				// Site plugins
-				$path 	= DS.'plugins'.DS. $user_option .'.xml';
-				$result = JApplicationHelper::_checkPath($path, 0);
+				$j15path 	= DS.'plugins'.DS. $user_option .'.xml';
+				$parts = explode(DS, $user_option);
+				$j16path   = DS.'plugins'.DS. $user_option.DS.$parts[1].'.xml';
+				$j15 = JApplicationHelper::_checkPath($j15path, 0);
+				$j16 = JApplicationHelper::_checkPath( $j16path, 0);
+				// return 1.6 if working otherwise default to whatever 1.5 gives us
+				$result = $j16 ? $j16 : $j15;
 				break;
 
 			case 'menu_xml':
@@ -205,18 +210,21 @@ class JApplicationHelper
 		/*
 		 * Check for a valid XML root tag.
 		 *
-		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
+		 * Should be 'install', but for backward compatability we will accept 'extension'.
+		 * Languages are annoying and use 'metafile' instead
 		 */
-		if (!is_object($xml->document) || ($xml->document->name() != 'install' && $xml->document->name() != 'mosinstall')) {
+		if (!is_object($xml->document) || ($xml->document->name() != 'install' && $xml->document->name() != 'extension' && $xml->document->name() != 'metafile')) {
 			unset($xml);
 			return false;
 		}
 
 		$data = array();
+		$data['legacy'] = ($xml->document->name() == 'mosinstall' || $xml->document->name() == 'install');
 
 		$element = & $xml->document->name[0];
 		$data['name'] = $element ? $element->data() : '';
-		$data['type'] = $element ? $xml->document->attributes("type") : '';
+		// check if we're a language if so use that
+		$data['type'] = $xml->document->name() == 'metafile' ? 'language' : ($element ? $xml->document->attributes("type") : '');
 
 		$element = & $xml->document->creationDate[0];
 		$data['creationdate'] = $element ? $element->data() : JText::_('Unknown');

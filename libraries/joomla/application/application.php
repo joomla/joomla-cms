@@ -59,6 +59,22 @@ class JApplication extends JObject
 	var $scope = null;
 
 	/**
+	 * The time the request was made
+	 * 
+	 * @var		date
+	 * @access 	public
+	 */
+	public $requestTime = null;
+	/**
+	 * The time the request was made as Unix timestamp
+	 * 
+	 * @var 	integer
+	 * @access 	public
+	 * @since 	1.6
+	 */
+	public $startTime = null;
+
+	/**
 	* Class constructor.
 	*
 	* @param	integer	A client identifier.
@@ -66,6 +82,7 @@ class JApplication extends JObject
 	function __construct($config = array())
 	{
 		jimport('joomla.utilities.utility');
+		jimport('joomla.error.profiler');
 
 		//set the view name
 		$this->_name		= $this->getName();
@@ -95,6 +112,7 @@ class JApplication extends JObject
 		}
 
 		$this->set('requestTime', gmdate('Y-m-d H:i'));
+		$this->set( 'startTime', JProfiler::getmicrotime() ); // used by task system to ensure that the system doesn't go over time
 	}
 
 	/**
