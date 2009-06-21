@@ -87,10 +87,8 @@
 		<filename>en-GB.plg_search_newsfeeds.ini</filename>
 		<filename>en-GB.plg_search_sections.ini</filename>
 		<filename>en-GB.plg_search_weblinks.ini</filename>
-		<filename>en-GB.plg_system_backlink.ini</filename>
 		<filename>en-GB.plg_system_cache.ini</filename>
 		<filename>en-GB.plg_system_debug.ini</filename>
-		<filename>en-GB.plg_system_legacy.ini</filename>
 		<filename>en-GB.plg_system_redirect.ini</filename>
 		<filename>en-GB.plg_system_sef.ini</filename>
 		<filename>en-GB.plg_user_joomla.ini</filename>

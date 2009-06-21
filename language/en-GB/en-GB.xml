@@ -15,13 +15,12 @@
 		<filename>en-GB.com_banners.ini</filename>
 		<filename>en-GB.com_contact.ini</filename>
 		<filename>en-GB.com_content.ini</filename>
-		<filename>en-GB.com_frontpage.ini</filename>
 		<filename>en-GB.com_mailto.ini</filename>
 		<filename>en-GB.com_media.ini</filename>
-		<filename>en-GB.com_members.ini</filename>
 		<filename>en-GB.com_messages.ini</filename>
 		<filename>en-GB.com_newsfeeds.ini</filename>
 		<filename>en-GB.com_search.ini</filename>
+		<filename>en-GB.com_users.ini</filename>
 		<filename>en-GB.com_weblinks.ini</filename>
 		<filename>en-GB.com_wrapper.ini</filename>
 		<filename>en-GB.ini</filename>
@@ -40,7 +39,6 @@
 		<filename>en-GB.mod_random_image.ini</filename>
 		<filename>en-GB.mod_related_items.ini</filename>
 		<filename>en-GB.mod_search.ini</filename>
-		<filename>en-GB.mod_sections.ini</filename>
 		<filename>en-GB.mod_stats.ini</filename>
 		<filename>en-GB.mod_syndicate.ini</filename>
 		<filename>en-GB.mod_whosonline.ini</filename>
@@ -50,7 +48,6 @@
 		<filename>en-GB.plg_search_contacts.ini</filename>
 		<filename>en-GB.plg_search_content.ini</filename>
 		<filename>en-GB.plg_search_newsfeeds.ini</filename>
-		<filename>en-GB.plg_search_sections.ini</filename>
 		<filename>en-GB.plg_search_weblinks.ini</filename>
 		<filename>en-GB.plg_system_debug.ini</filename>
 		<filename>en-GB.tpl_beez.ini</filename>
