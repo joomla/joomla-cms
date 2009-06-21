@@ -121,7 +121,7 @@ JHtml::_('behavior.formvalidation');
 										<?php echo $option->label; ?>
 									</td>
 									<td valign="top">
-										<span class="<?php echo ($option->state) ? 'Yes' : 'No'; ?>">
+										<span class="<?php echo ($option->state) ? 'green' : 'red'; ?>">
 											<?php echo ($option->state) ? 'Yes' : 'No'; ?>
 										</span>
 										<span class="small">
@@ -183,13 +183,13 @@ JHtml::_('behavior.formvalidation');
 										<?php echo $setting->label; ?>:
 									</td>
 									<td class="toggle">
-										<span class="<?php echo ($setting->recommended) ? 'Yes' : 'No'; ?>">
-										<?php echo ($setting->recommended) ? 'Yes' : 'No'; ?>
+										<span>
+										<?php echo ($setting->recommended) ? 'On' : 'Off'; ?>
 										</span>
 									</td>
 									<td>
-										<span class="<?php echo ($setting->state) ? 'Yes' : 'No'; ?>">
-										<?php echo ($setting->state) ? 'Yes' : 'No'; ?>
+										<span class="<?php echo ($setting->state === $setting->recommended) ? 'green' : 'red'; ?>">
+										<?php echo ($setting->state) ? 'On' : 'Off'; ?>
 										</span>
 									</td>
 								</tr>

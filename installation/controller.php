@@ -68,7 +68,7 @@ class JInstallationController extends JController
 	 * @return	object	JInstallation Controller
 	 * @since	1.0
 	 */
-	static function & getInstance()
+	static function &getInstance()
 	{
 		static $instance;
 

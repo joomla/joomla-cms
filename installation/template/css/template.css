@@ -279,12 +279,12 @@ span.step {
 	text-align: center;
 }
 
-.Yes, .Writeable {
+.green {
 	font-weight: bold;
 	color: #46882B;
 }
 
-.No, .Unwriteable {
+.red {
 	font-weight: bold;
 	color: #c00;
 }

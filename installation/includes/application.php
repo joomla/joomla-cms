@@ -9,22 +9,20 @@
 defined('_JEXEC') or die;
 
 /**
-* Joomla! Application class
-*
-* Provide many supporting API functions
-*
-* @package		Joomla
-* @final
-*/
+ * Joomla! Application class
+ *
+ * Provide many supporting API functions
+ *
+ * @package		Joomla.Installation
+ */
 class JInstallation extends JApplication
 {
 	/**
 	 * The url of the site
 	 *
 	 * @var string
-	 * @access protected
 	 */
-	var $_siteURL = null;
+	protected $_siteURL = null;
 
 	/**
 	* Class constructor
@@ -33,7 +31,7 @@ class JInstallation extends JApplication
 	* @param	array An optional associative array of configuration settings.
 	* Recognized key values include 'clientId' (this list is not meant to be comprehensive).
 	*/
-	function __construct($config = array())
+	public function __construct(array $config = array())
 	{
 		$config['clientId'] = 2;
 		parent::__construct($config);
@@ -47,22 +45,21 @@ class JInstallation extends JApplication
 
 	/**
 	 * Render the application
-	 *
-	 * @access public
+	 * 
+	 * @return	void
 	 */
-	function render()
+	public function render()
 	{
-		$document = & JFactory::getDocument();
-		$config = & JFactory::getConfig();
-		$user = & JFactory::getUser();
+		$document = &JFactory::getDocument();
+		$config = &JFactory::getConfig();
+		$user = &JFactory::getUser();
 
 		switch($document->getType())
 		{
 			case 'html' :
-				//set metadata
+				// Set metadata
 				$document->setTitle(JText::_('PAGE_TITLE'));
 				break;
-
 			default :
 				break;
 		}
@@ -101,46 +98,44 @@ class JInstallation extends JApplication
 	}
 
 	/**
-	* Initialise the application.
-	*
-	* @access public
-	*/
-	function initialise($options = array())
+	 * Initialise the application.
+	 *
+	 * @param	$options	array
+	 */
+	public function initialise(array $options = array())
 	{
-		//Get the localisation information provided in the localise xml file
+		//Get the localisation information provided in the localise.xml file.
 		$forced = $this->getLocalise();
-
-		// Check URL arguement - useful when user has just set the language preferences
+		
+		// Check the request data for the language.
 		if (empty($options['language']))
 		{
-			$vars = JRequest::getVar('vars');
-			if (is_array($vars) && !empty($vars['lang']))
+			$requestLang = JRequest::getCmd('lang', null);
+			if (!is_null($requestLang))
 			{
-				$varLang = $vars['lang'];
-				$options['language'] = $varLang;
+				$options['language'] = $requestLang;
 			}
 		}
-
-		// Check the application state - useful when the user has previously set the language preference
+		
+		// Check the session for the language.
 		if (empty($options['language']))
 		{
-			$configLang = $this->getUserState('application.lang');
-			if ($configLang)
+			$sessionLang = &JFactory::getSession()->get('setup.language');
+			if (!is_null($sessionLang))
 			{
-				$options['language'] = $configLang;
+				$options['language'] = $sessionLang;
 			}
 		}
-
-		// This could be a first-time visit - try to determine what the client accepts
+		
+		// This could be a first-time visit - try to determine what the client accepts.
 		if (empty($options['language']))
 		{
-			if (empty($forced['lang']))
+			if (!empty($forced['language']))
 			{
+				$options['language'] = $forced['language']; 
+			} else {
 				jimport('joomla.language.helper');
 				$options['language'] = JLanguageHelper::detectLanguage();
-			} else
-			{
-				$options['language'] = $forced['lang'];
 			}
 		}
 
@@ -150,8 +145,8 @@ class JInstallation extends JApplication
 			$options['language'] = 'en-GB';
 		}
 
-		//Set the language in the class
-		$conf = & JFactory::getConfig();
+		// Set the language in the class
+		$conf = &JFactory::getConfig();
 		$conf->setValue('config.language', $options['language']);
 		$conf->setValue('config.debug_lang', $forced['debug']);
 	}
@@ -159,21 +154,18 @@ class JInstallation extends JApplication
 	/**
 	 * Set configuration values
 	 *
-	 * @access private
-	 * @param array 	Array of configuration values
-	 * @param string 	The namespace
+	 * @param	array 	Array of configuration values
+	 * @param 	string 	The namespace
 	 */
-	function setCfg($vars, $namespace = 'config')
+	public function setCfg(array $vars = array(), $namespace = 'config')
 	{
 		$this->_registry->loadArray($vars, $namespace);
 	}
 
 	/**
 	 * Create the configuration registry
-	 *
-	 * @access private
 	 */
-	function _createConfiguration()
+	public function _createConfiguration()
 	{
 		jimport('joomla.registry.registry');
 
@@ -186,9 +178,9 @@ class JInstallation extends JApplication
 	*
 	* @return string The template name
 	*/
-	function getTemplate($params = false)
+	public function getTemplate($params = false)
 	{
-		if ($params)
+		if ((bool) $params)
 		{
 			$template = new stdClass();
 			$template->template = 'template';
@@ -201,16 +193,15 @@ class JInstallation extends JApplication
 	/**
 	 * Create the user session
 	 *
-	 * @access private
-	 * @param string		The sessions name
-	 * @return	object 		JSession
+	 * @param	string	The sessions name
+	 * @return	object	JSession
 	 */
-	function & _createSession($name)
+	public function & _createSession($name)
 	{
 		$options = array();
 		$options['name'] = $name;
 
-		$session = & JFactory::getSession($options);
+		$session = &JFactory::getSession($options);
 		if (!is_a($session->get('registry'), 'JRegistry'))
 		{
 			// Registry has been corrupted somehow
@@ -221,27 +212,29 @@ class JInstallation extends JApplication
 	}
 
 	/**
-	 * returns the langauge code and help url set in the localise.xml file.
-	 * Used for forcing a particular language in localised releases
+	 * Returns the langauge code and help url set in the localise.xml file.
+	 * Used for forcing a particular language in localised releases.
+	 * 
+	 * @return	bool|array	False on failure, array on success.
 	 */
-	function getLocalise()
+	public function getLocalise()
 	{
 		$xml = & JFactory::getXMLParser('Simple');
 
 		if (!$xml->loadFile(JPATH_SITE.DS.'installation'.DS.'localise.xml'))
 		{
-			return 'no file'; //null;
+			return false;
 		}
 
 		// Check that it's a localise file
 		if ($xml->document->name() != 'localise')
 		{
-			return 'not a localise'; //null;
+			return false;
 		}
 
 		$tags = $xml->document->children();
 		$ret = array();
-		$ret['lang'] = $tags[0]->data();
+		$ret['language'] = $tags[0]->data();
 		$ret['helpurl'] = $tags[1]->data();
 		$ret['debug'] = $tags[2]->data();
 		return $ret;
@@ -252,10 +245,9 @@ class JInstallation extends JApplication
 	 * Returns the installed admin language files in the administrative and
 	 * front-end area.
 	 *
-	 * @access private
-	 * @return	array 		Array with installed language packs in admin area
+	 * @return	array 	Array with installed language packs in admin area
 	 */
-	function getLocaliseAdmin()
+	public function getLocaliseAdmin()
 	{
 		jimport('joomla.filesystem.folder');
 
