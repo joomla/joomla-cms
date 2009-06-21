@@ -213,6 +213,158 @@ ALTER TABLE `jos_session`
 ALTER TABLE `jos_weblinks`
  ADD COLUMN `access` INT UNSIGNED NOT NULL DEFAULT 1 AFTER `approved`;
 
+
+-- ----------------------------------------------------------------
+-- jos_extensions (and migration)
+-- ----------------------------------------------------------------
+
+# Table structure for table `#__extensions`
+CREATE TABLE  `#__extensions` (
+  `extension_id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL default '',
+  `type` varchar(20) NOT NULL default '',
+  `element` varchar(100) NOT NULL default '',
+  `folder` varchar(100) NOT NULL default '',
+  `client_id` tinyint(3) NOT NULL default '0',
+  `enabled` tinyint(3) NOT NULL default '1',
+  `access` tinyint(3) unsigned NOT NULL default '0',
+  `protected` tinyint(3) NOT NULL default '0',
+  `manifestcache` text NOT NULL,
+  `params` text NOT NULL,
+  `custom_data` text NOT NULL,
+  `system_data` text NOT NULL,
+  `checked_out` int(10) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `ordering` int(11) default '0',
+  `state` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`extension_id`),
+  KEY `type_element` (`type`,`element`),
+  KEY `element_clientid` (`element`,`client_id`),
+  KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
+  KEY `element_folder` (`element`,`folder`),
+  KEY `extension` (`type`,`element`,`folder`,`client_id`)
+) TYPE=MyISAM CHARACTER SET `utf8`;
+
+# Added some indicies
+ALTER TABLE `#__extensions` ADD INDEX `type_element`(`type`, `element`),
+ ADD INDEX `element_clientid`(`element`, `client_id`),
+ ADD INDEX `element_folder_clientid`(`element`, `folder`, `client_id`).
+ ADD INDEX `extension`(`type`,`element`,`folder`,`client_id`);
+
+TRUNCATE TABLE #__extensions; 
+INSERT INTO #__extensions SELECT 
+     0,							# extension id (regenerate)
+     name,						# name
+     'plugin',					# type
+     element,					# element
+     folder,                    # folder
+     client_id,                 # client_id
+     published,                 # enabled 
+     access,                    # access
+     iscore,                    # protected
+     '',                        # manifest_cache
+     params,                    # params
+     '',                        # data
+     checked_out,            	# checked_out
+     checked_out_time,         	# checked_out_time
+     ordering                   # ordering
+     FROM #__plugins;         	# #__extensions replaces the old #__plugins table
+     
+ INSERT INTO #__extensions SELECT 
+     0,                         # extension id (regenerate)
+     name,						# name
+     'component',				# type
+     `option`,					# element
+     '',                        # folder
+     0,                         # client id (unused for components)
+     enabled,                   # enabled 
+     0,                         # access
+     iscore,                    # protected
+     '',                        # manifest cache
+     params,                    # params
+     '',                        # data
+     '0',                       # checked_out
+     '0000-00-00 00:00:00',     # checked_out_time
+     0                          # ordering
+     FROM #__components        # #__extensions replaces #__components for install uninstall
+                                # component menu selection still utilises the #__components table
+     WHERE parent = 0;          # only get top level entries
+     
+ INSERT INTO #__extensions SELECT DISTINCT
+     0,                         # extension id (regenerate)
+     module,                    # name
+     'module',                  # type
+     `module`,                  # element
+     '',                        # folder
+     client_id,                 # client id
+     1,                         # enabled (module instances may be enabled/disabled in #__modules) 
+     0,                         # access (module instance access controlled in #__modules)
+     iscore,                    # protected
+     '',                        # manifest cache
+     '',                        # params (module instance params controlled in #__modules)
+     '',                        # data
+     '0',                       # checked_out (module instance, see #__modules)
+     '0000-00-00 00:00:00',     # checked_out_time (module instance, see #__modules)
+     0                          # ordering (module instance, see #__modules)
+     FROM #__modules			# #__extensions provides the install/uninstall control for modules
+     WHERE id IN (SELECT id FROM #__modules GROUP BY module ORDER BY id)     
+
+-- New extensions
+INSERT INTO `#__extensions` VALUES(0, 'Editor - CodeMirror', 'plugin', 'codemirror', 'editors', 1, 0, 1, 1, '', 'linenumbers=0\n\n', '', '', 0, '0000-00-00 00:00:00', 7, 0);
+
+
+-- ----------------------------------------------------------------
+-- Update System
+-- ----------------------------------------------------------------
+
+# Update Sites
+CREATE TABLE  `#__updates` (
+  `update_id` int(11) NOT NULL auto_increment,
+  `update_site_id` int(11) default '0',
+  `extension_id` int(11) default '0',
+  `categoryid` int(11) default '0',
+  `name` varchar(100) default '',
+  `description` text,
+  `element` varchar(100) default '',
+  `type` varchar(20) default '',
+  `folder` varchar(20) default '',
+  `client_id` tinyint(3) default '0',
+  `version` varchar(10) default '',
+  `data` text,
+  `detailsurl` text,
+  PRIMARY KEY  (`update_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Available Updates';
+
+CREATE TABLE  `#__update_sites` (
+  `update_site_id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) default '',
+  `type` varchar(20) default '',
+  `location` text,
+  `enabled` int(11) default '0',
+  PRIMARY KEY  (`update_site_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Sites';
+
+CREATE TABLE `#__update_sites_extensions` (
+  `update_site_id` INT DEFAULT 0,
+  `extension_id` INT DEFAULT 0,
+  INDEX `newindex`(`update_site_id`, `extension_id`)
+) ENGINE = MYISAM CHARACTER SET utf8 COMMENT = 'Links extensions to update sites';
+
+CREATE TABLE  `#__update_categories` (
+  `categoryid` int(11) NOT NULL auto_increment,
+  `name` varchar(20) default '',
+  `description` text,
+  `parent` int(11) default '0',
+  `updatesite` int(11) default '0',
+  PRIMARY KEY  (`categoryid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Categories';
+
+CREATE TABLE `#__schemas` (
+  `extensionid` int(11) NOT NULL,
+  `versionid` varchar(20) NOT NULL,
+  PRIMARY KEY (`extensionid`, `versionid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 -- ----------------------------------------------------------------
 -- Reconfigure the admin module permissions
 -- ----------------------------------------------------------------
@@ -251,3 +403,10 @@ DROP TABLE `#__core_acl_aro_groups`;
 DROP TABLE `#__core_acl_groups_aro_map`;
 DROP TABLE `#__core_acl_aro_sections`;
 
+
+-- ----------------------------------------------------------------
+-- Add an entry to the extensions (for the app)
+-- Add an entry to the schema table (for this migration)
+-- ----------------------------------------------------------------
+INSERT INTO #__extensions (name, type, element, protected) VALUES ('Joomla! CMS', 'package', 'joomla', 1);
+INSERT INTO #__schema VALUES(LAST_INSERT_ID()), '20090622');
