@@ -36,6 +36,7 @@ $ -> Language fix or change
  # Fixed configuration variable error.
  # Fixed typo in installation SQL file.
  ^ Merged 'installation' branch (fixes to installer).
+ - Removed installation/LICENSE.
 
 21-Jun-2009 Ercan Ozkaya
  ^ Upgraded Mootools to version 1.2.3
