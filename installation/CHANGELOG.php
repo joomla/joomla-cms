@@ -34,6 +34,7 @@ $ -> Language fix or change
 
 21-Jun-2009 Gergo Erdosi
  # Fixed configuration variable error.
+ # Fixed typo in installation SQL file.
 
 21-Jun-2009 Ercan Ozkaya
  ^ Upgraded Mootools to version 1.2.3
