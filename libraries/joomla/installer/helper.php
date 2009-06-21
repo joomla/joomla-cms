@@ -40,10 +40,13 @@ class JInstallerHelper
 
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
+		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
 
 		// Set user agent
-		ini_set('user_agent', "Joomla! 1.5 Installer");
+		jimport('joomla.version');
+		$version = new JVersion();
+		ini_set('user_agent', $version->getUserAgent('Installer'));
 
 		// Open the remote server socket for reading
 		$inputHandle = @ fopen($url, "r");
@@ -86,6 +89,9 @@ class JInstallerHelper
 
 		// Close file pointer resource
 		fclose($inputHandle);
+
+		// restore error tracking to what it was before
+		ini_set('track_errors',$track_errors);
 
 		// Return the name of the downloaded package
 		return basename($target);
