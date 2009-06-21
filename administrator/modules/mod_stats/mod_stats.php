@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $db = &JFactory::getDbo();
 $query = 'SELECT menutype, COUNT(id) AS numitems'
 . ' FROM #__menu'
-. ' WHERE published = 1'
+. ' WHERE published = 1 and parent_id <> 0'
 . ' GROUP BY menutype'
 ;
 $db->setQuery($query);
