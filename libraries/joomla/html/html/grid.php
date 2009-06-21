@@ -247,7 +247,7 @@ abstract class JHtmlGrid
 			actions.combine($$(\'a.grid_trash\'));
 			actions.each(function(a){
 				a.addEvent(\'click\', function(){
-					args = Json.evaluate(this.rel);
+					args = JSON.decode(this.rel);
 					listItemTask(args.id, args.task);
 				});
 			});
