@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla
- * @subpackage	Content
+ * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
@@ -19,7 +19,7 @@ jimport('joomla.application.categories');
  *
  * @static
  * @package		Joomla
- * @subpackage	Content
+ * @subpackage	com_content
  * @since 1.6
  */
 class ContentCategories extends JCategories

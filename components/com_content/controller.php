@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Site
- * @subpackage	Content
+ * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,8 +16,8 @@ jimport('joomla.application.component.controller');
  * Content Component Controller
  *
  * @package		Joomla.Site
- * @subpackage	Content
- * @since 1.5
+ * @subpackage	com_content
+ * @since		1.5
  */
 class ContentController extends JController
 {
