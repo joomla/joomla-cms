@@ -29,6 +29,8 @@ $ -> Language fix or change
 
 22-Jun-2009 Andrew Eddie
  ^ Configured helpers to support the com_categories submenu.
+ + Added JForm fields and parameters to list component and module layout overrides.
+ - Drop ordering field from jos_categoies.
 
 21-Jun-2009 Gergo Erdosi
  # Fixed configuration variable error.

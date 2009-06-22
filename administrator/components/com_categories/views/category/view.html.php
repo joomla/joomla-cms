@@ -57,7 +57,7 @@ class CategoriesViewCategory extends JView
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 
-		JToolBarHelper::title(JText::_($isNew ? 'Categories_Title_Add_Item' : 'Categories_Title_Edit_Item'));
+		JToolBarHelper::title(JText::_($isNew ? 'Categories_Category_Add_Title' : 'Categories_Category_Edit_Title'));
 
 		// If an existing item, can save to a copy.
 		if (!$isNew) {

@@ -52,8 +52,16 @@ ALTER TABLE `jos_categories`
  ADD COLUMN `language` VARCHAR(7) NOT NULL AFTER `hits`;
 
 ALTER TABLE `jos_categories`
- ADD INDEX idx_path(`path`),
+ ADD INDEX idx_alias(`alias`);
+
+ALTER TABLE `jos_categories`
+ ADD INDEX idx_path(`path`);
+
+ALTER TABLE `jos_categories`
  ADD INDEX idx_left_right(`lft`, `rgt`);
+
+ALTER TABLE `jos_categories`
+ DROP COLUMN `ordering`;
 
 -- TODO: Merge from sections and add uncategorised nodes.
 

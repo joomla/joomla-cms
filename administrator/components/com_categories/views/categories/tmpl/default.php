@@ -18,7 +18,7 @@ $user	= &JFactory::getUser();
 $userId	= $user->get('id');
 $extension	= $this->escape($this->state->get('filter.extension'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_categories&view=items');?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories');?>" method="post" name="adminForm">
 	<fieldset class="filter">
 		<div class="left">
 			<label for="search">
@@ -57,9 +57,8 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Published', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="10%" nowrap="nowrap">
+				<th width="5%" nowrap="nowrap">
 					<?php echo JText::_('JGrid_Heading_Ordering'); ?>
-					<?php echo JHtml::_('grid.order',  $this->items); ?>
 				</th>
 				<th width="10%"  class="title">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Access', 'category', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -100,8 +99,6 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 				<td class="order">
 					<span><?php echo $this->pagination->orderUpIcon($i, $item->order_up, 'categories.orderup', 'JGrid_Move_Up', $ordering); ?></span>
 					<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, $item->order_dn, 'categories.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
-					<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
-					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 				</td>
 				<td align="center">
 					<?php echo $this->escape($item->access_level); ?>

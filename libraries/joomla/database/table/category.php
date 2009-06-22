@@ -55,11 +55,6 @@ class JTableCategory extends JTableNested
 	public $published = null;
 
 	/**
-	 *  @var int
-	 */
-	public $ordering = null;
-
-	/**
 	 *  @var boolean
 	 */
 	public $checked_out = 0;

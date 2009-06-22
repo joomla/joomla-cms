@@ -369,7 +369,6 @@ CREATE TABLE `#__categories` (
   `alias` varchar(255) NOT NULL default '',
   `description` varchar(5120) NOT NULL default '',
   `published` tinyint(1) NOT NULL default '0',
-  `ordering` int(11) NOT NULL default '0',
   `checked_out` int(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `access` tinyint(3) unsigned NOT NULL default '0',
@@ -388,11 +387,12 @@ CREATE TABLE `#__categories` (
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_path` (`path`),
-  KEY `idx_left_right` (`lft`,`rgt`)
+  KEY `idx_left_right` (`lft`,`rgt`),
+  KEY `idx_alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__categories` VALUES 
-(1, 0, 0, 15, 0, '', 'system', 'ROOT', 'root', '', 1, 0, 0, '0000-00-00 00:00:00', 0, '{}', '', '', '', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '');
+(1, 0, 0, 15, 0, '', 'system', 'ROOT', 'root', '', 1, 0, '0000-00-00 00:00:00', 0, '{}', '', '', '', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '');
 
 # --------------------------------------------------------
 

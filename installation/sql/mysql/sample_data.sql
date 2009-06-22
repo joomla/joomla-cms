@@ -43,12 +43,14 @@ INSERT IGNORE INTO `#__bannerclient` VALUES
 --
 
 INSERT IGNORE INTO `#__categories` VALUES
-(11, 1, 1, 4, 1, '', 'com_content', 'Uncategorised Articles', 'uncategorised-articles', 'The top articles category.', 1, 0, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
-(12, 11, 2, 3, 2, '', 'com_content', 'Latest', 'latest-news', 'The latest news from the Joomla! Team', 1, 0, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
-(20, 1, 5, 10, 1, '', 'com_weblinks', 'Uncategorised Weblinks', 'uncategorised-weblinks', 'The top weblinks category.', 1, 0, 42, '2009-03-15 15:34:27', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
-(21, 21, 6, 7, 2, '', 'com_weblinks', 'Joomla! Specific Links', 'joomla-specific-links', 'A selection of links that are all related to the Joomla! Project.', 1, 0, 42, '2009-03-15 15:34:27', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
-(22, 22, 8, 9, 2, '', 'com_weblinks', 'Other Resources', 'other-resources', '', 1, 0, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-18 13:51:00', 0, '0000-00-00 00:00:00', 0, 'en_GB');
-
+(11, 1, 1, 2, 1, 'news', 'com_content', 'News', 'news', 'The top articles category.', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 19:42:11', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(12, 1, 9, 16, 1, 'countries', 'com_content', 'Countries', 'countries', 'The latest news from the Joomla! Team', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 20:25:13', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(20, 1, 3, 8, 1, 'uncategorised-weblinks', 'com_weblinks', 'Uncategorised Weblinks', 'uncategorised-weblinks', 'The top weblinks category.', 1, 42, '2009-03-15 15:34:27', 1, '{}', '', '', '', 0, '2009-06-22 19:42:11', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(21, 20, 4, 7, 2, 'uncategorised-weblinks/joomla-specific-links', 'com_weblinks', 'Joomla! Specific Links', 'joomla-specific-links', 'A selection of links that are all related to the Joomla! Project.', 1, 42, '2009-03-15 15:34:27', 1, '{}', '', '', '', 0, '2009-06-22 19:42:11', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(22, 21, 5, 6, 3, 'uncategorised-weblinks/joomla-specific-links/other-resources', 'com_weblinks', 'Other Resources', 'other-resources', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 19:42:11', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
+(23, 12, 10, 15, 2, 'countries/australia', 'com_content', 'Australia', 'australia', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:13', 0, '0000-00-00 00:00:00', 0, ''),
+(24, 23, 11, 12, 3, 'countries/australia/queensland', 'com_content', 'Queensland', 'queensland', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:17', 0, '0000-00-00 00:00:00', 0, ''),
+(25, 23, 13, 14, 3, 'countries/australia/tasmania', 'com_content', 'Tasmania', 'tasmania', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:17', 0, '0000-00-00 00:00:00', 0, '');
 --
 -- Dumping data for table `#__contact_details`
 --

@@ -52,8 +52,8 @@
 		<field
 			name="title"
 			type="text"
-			label="Categories_Title"
-			description="Categories_Title_Desc"
+			label="JField_Title_Label"
+			description="JField_Title_Desc"
 			class="inputbox"
 			size="40"
 			required="true"/>
@@ -61,8 +61,8 @@
 		<field
 			name="alias"
 			type="text"
-			label="Categories_Alias"
-			description="Categories_Alias_Desc"
+			label="JField_Alias_Label"
+			description="JField_Alias_Desc"
 			class="inputbox"
 			size="40"/>
 
@@ -79,8 +79,8 @@
 			type="radio"
 			class="inputbox"
 			default="1"
-			label="Categories_Published_Label"
-			description="Categories_Published_Desc">
+			label="JField_Published_Label"
+			description="JField_Published_Desc">
 			<option
 				value="0">JOption_Unpublished</option>
 			<option
@@ -88,14 +88,6 @@
 			<option
 				value="-2">JOption_Trash</option>
 		</field>
-
-		<field
-			name="ordering"
-			type="Ordering"
-			label="Categories_Ordering"
-			description="Categories_Ordering_Desc"
-			class="inputbox"
-			default="0"/>
 
 		<field
 			name="checked_out"
@@ -110,15 +102,15 @@
 		<field
 			name="access"
 			type="accesslevels"
-			label="Categories_Access_Label"
-			description="Categories_Access_Desc"
+			label="JField_Access_Label"
+			description="JField_Access_Desc"
 			class="inputbox"/>
 
 		<field
 			name="metadesc"
 			type="textarea"
-			label="JCommon_Meta_Description_Label"
-			description="Categories_Item_Meta_Description_Desc"
+			label="JField_Meta_Description_Label"
+			description="JField_Meta_Description_Desc"
 			default=""
 			rows="3"
 			cols="40"/>
@@ -126,8 +118,8 @@
 		<field
 			name="metakey"
 			type="textarea"
-			label="JCommon_Meta_Keywords_Label"
-			description="Categories_Item_Meta_Keywords_Desc"
+			label="JField_Meta_Keywords_Label"
+			description="JField_Meta_Keywords_Desc"
 			default=""
 			rows="3"
 			cols="40"/>
@@ -160,8 +152,8 @@
 		<field
 			name="language"
 			type="language"
-			label="Categories_Language_Label"
-			description="Categories_Language_Desc"
+			label="JField_Language_Label"
+			description="JField_Language_Desc"
 			class="inputbox"/>
 	</fields>
 
@@ -172,19 +164,12 @@
 
 		<field
 			name="target"
-			type="List"
-			default="0"
-			label="Categories_Target"
-			description="Categories_Target_Desc">
-			<option
-				value="0">JBrowserTarget_Parent</option>
-			<option
-				value="1">JBrowserTarget_New</option>
-			<option
-				value="2">JBrowserTarget_Popup</option>
-			<option
-				value="3">JBrowserTarget_Modal</option>
-		</field>
+			type="componentlayouts"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Component_Layout_Desc"
+			extension=""
+			view="categories"
+			/>
 	</fields>
 
 	<fields
@@ -192,18 +177,26 @@
 		array="true">
 
 		<field
+			name="page_title"
+			type="text"
+			label="JField_Alt_Page_title_Label"
+			description="JField_Alt_Page_title_Desc"
+			size="30"
+			default=""/>
+
+		<field
 			name="robots"
 			type="text"
-			label="Categories_Metadata_Robots_Label"
-			description="Categories_Metadata_Robots_Desc"
-			size="20"/>
+			label="JField_Metadata_Robots_Label"
+			description="JField_Metadata_Robots_Desc"
+			size="30"/>
 
 		<field
 			name="author"
 			type="text"
-			label="Categories_Metadata_Author_Label"
-			description="Categories_Metadata_Author_Desc"
-			size="20"/>
+			label="JField_Metadata_Author_Label"
+			description="JField_Metadata_Author_Desc"
+			size="30"/>
 
 	</fields>
 
