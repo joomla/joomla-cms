@@ -82,6 +82,8 @@ class JTableNested extends JTable
 	 */
 	protected $_cache = array();
 
+	protected $_debug = false;
+
 	/**
 	 * Method to get an array of nodes from a given node to its root.
 	 *
@@ -237,6 +239,9 @@ class JTableNested extends JTable
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
+		if ($this->_debug) {
+			$this->_logtable(false);
+		}
 
 		// Cannot move the node to be a child of itself.
 		if (in_array($referenceId, $children)) {
@@ -256,13 +261,15 @@ class JTableNested extends JTable
 			' SET `lft` = `lft` * (-1), `rgt` = `rgt` * (-1)' .
 			' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt
 		);
-		$this->_db->query();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum()) {
 			$this->setError($this->_db->getErrorMsg());
 			$this->_unlock();
 			return false;
+		}
+		if ($this->_debug) {
+			$this->_logtable();
 		}
 
 		// Compress the left values.
@@ -279,6 +286,9 @@ class JTableNested extends JTable
 			$this->_unlock();
 			return false;
 		}
+		if ($this->_debug) {
+			$this->_logtable();
+		}
 
 		// Compress the right values.
 		$this->_db->setQuery(
@@ -293,6 +303,9 @@ class JTableNested extends JTable
 			$this->setError($this->_db->getErrorMsg());
 			$this->_unlock();
 			return false;
+		}
+		if ($this->_debug) {
+			$this->_logtable();
 		}
 
 		// We are moving the tree relative to a reference node.
@@ -326,6 +339,9 @@ class JTableNested extends JTable
 				$this->_unlock();
 				return false;
 			}
+			if ($this->_debug) {
+				$this->_logtable();
+			}
 
 			// Create space in the tree at the new location for the moved subtree in left ids.
 			$this->_db->setQuery(
@@ -340,6 +356,9 @@ class JTableNested extends JTable
 				$this->setError($this->_db->getErrorMsg());
 				$this->_unlock();
 				return false;
+			}
+			if ($this->_debug) {
+				$this->_logtable();
 			}
 
 			// Reload the parent data.
@@ -369,6 +388,9 @@ class JTableNested extends JTable
 				$this->setError($this->_db->getErrorMsg());
 				$this->_unlock();
 				return false;
+			}
+			if ($this->_debug) {
+				$this->_logtable(false);
 			}
 
 			// Get the reposition data for re-inserting the node after the found root.
@@ -402,6 +424,9 @@ class JTableNested extends JTable
 			$this->_unlock();
 			return false;
 		}
+		if ($this->_debug) {
+			$this->_logtable();
+		}
 
 		// Set the correct parent id for the moved node if required.
 		if ($node->parent_id != $repositionData->new_parent_id)
@@ -418,6 +443,9 @@ class JTableNested extends JTable
 				$this->setError($this->_db->getErrorMsg());
 				$this->_unlock();
 				return false;
+			}
+			if ($this->_debug) {
+				$this->_logtable();
 			}
 		}
 
@@ -1158,10 +1186,10 @@ class JTableNested extends JTable
 
 			// If the table has an `ordering` field, use that for ordering.
 			if (property_exists($this, 'ordering')) {
-				$query->order('parent_id, ordering, title');
+				$query->order('parent_id, ordering, lft');
 			}
 			else {
-				$query->order('parent_id, title');
+				$query->order('parent_id, lft');
 			}
 			$this->_cache['rebuild.sql'] = (string) $query;
 		}
@@ -1391,5 +1419,29 @@ class JTableNested extends JTable
 		}
 
 		return $data;
+	}
+
+	protected function _logtable($showData = true)
+	{
+		$sep	= "\n".str_pad('', 40, '-');
+		$buffer = "\n".$this->_db->getQuery().$sep;
+
+		if ($showData)
+		{
+			$this->_db->setQuery(
+				'SELECT id, parent_id, lft, rgt, level' .
+				' FROM `'.$this->_tbl.'`' .
+				' ORDER BY id'
+			);
+			$rows = $this->_db->loadRowList();
+			$buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", 'id', 'par', 'lft', 'rgt');
+			$buffer .= $sep;
+			foreach ($rows as $row)
+			{
+				$buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", $row[0], $row[1], $row[2], $row[3]);
+			}
+			$buffer .= $sep;
+		}
+		echo $buffer;
 	}
 }
