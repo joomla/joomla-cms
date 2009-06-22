@@ -255,59 +255,6 @@ class JTableNested extends JTable
 			return false;
 		}
 
-		// Temporarily set the current tree to move to have negative right and left values during processing.
-		$this->_db->setQuery(
-			'UPDATE `'.$this->_tbl.'`' .
-			' SET `lft` = `lft` * (-1), `rgt` = `rgt` * (-1)' .
-			' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt
-		);
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			$this->_unlock();
-			return false;
-		}
-		if ($this->_debug) {
-			$this->_logtable();
-		}
-
-		// Compress the left values.
-		$this->_db->setQuery(
-			'UPDATE `'.$this->_tbl.'`' .
-			' SET `lft` = `lft` - '.(int) $node->width .
-			' WHERE `lft` > '.(int) $node->rgt
-		);
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			$this->_unlock();
-			return false;
-		}
-		if ($this->_debug) {
-			$this->_logtable();
-		}
-
-		// Compress the right values.
-		$this->_db->setQuery(
-			'UPDATE `'.$this->_tbl.'`' .
-			' SET `rgt` = `rgt` - '.(int) $node->width .
-			' WHERE `rgt` > '.(int) $node->rgt
-		);
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			$this->_unlock();
-			return false;
-		}
-		if ($this->_debug) {
-			$this->_logtable();
-		}
-
 		// We are moving the tree relative to a reference node.
 		if ($referenceId)
 		{
@@ -320,50 +267,6 @@ class JTableNested extends JTable
 
 			// Get the reposition data for shifting the tree and re-inserting the node.
 			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, $position)) {
-				// Error message set in getNode method.
-				$this->_unlock();
-				return false;
-			}
-
-			// Create space in the tree at the new location for the moved subtree in right ids.
-			$this->_db->setQuery(
-				'UPDATE `'.$this->_tbl.'`' .
-				' SET `rgt` = `rgt` + '.(int) $node->width .
-				' WHERE '.$repositionData->right_where
-			);
-			$this->_db->query();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum()) {
-				$this->setError($this->_db->getErrorMsg());
-				$this->_unlock();
-				return false;
-			}
-			if ($this->_debug) {
-				$this->_logtable();
-			}
-
-			// Create space in the tree at the new location for the moved subtree in left ids.
-			$this->_db->setQuery(
-				'UPDATE `'.$this->_tbl.'`' .
-				' SET `lft` = `lft` + '.(int) $node->width .
-				' WHERE '.$repositionData->left_where
-			);
-			$this->_db->query();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum()) {
-				$this->setError($this->_db->getErrorMsg());
-				$this->_unlock();
-				return false;
-			}
-			if ($this->_debug) {
-				$this->_logtable();
-			}
-
-			// Reload the parent data.
-			unset($reference);
-			if (!$reference = $this->_getNode($referenceId)) {
 				// Error message set in getNode method.
 				$this->_unlock();
 				return false;
@@ -402,10 +305,108 @@ class JTableNested extends JTable
 		}
 
 		/*
+		 * Move the sub-tree out of the nested sets by negating its left and right values.
+		 */
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `lft` = `lft` * (-1), `rgt` = `rgt` * (-1)' .
+			' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+		if ($this->_debug) {
+			$this->_logtable();
+		}
+
+		/*
+		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
+		 */
+		// Compress the left values.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `lft` = `lft` - '.(int) $node->width .
+			' WHERE `lft` > '.(int) $node->rgt
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+		if ($this->_debug) {
+			$this->_logtable();
+		}
+
+		// Compress the right values.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `rgt` = `rgt` - '.(int) $node->width .
+			' WHERE `rgt` > '.(int) $node->rgt
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+		if ($this->_debug) {
+			$this->_logtable();
+		}
+
+		/*
+		 * Create space in the nested sets at the new location for the moved sub-tree.
+		 */
+		// Shift left values.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `lft` = `lft` + '.(int) $node->width .
+			' WHERE '.$repositionData->left_where
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+		if ($this->_debug) {
+			$this->_logtable();
+		}
+
+		// Shift right values.
+		$this->_db->setQuery(
+			'UPDATE `'.$this->_tbl.'`' .
+			' SET `rgt` = `rgt` + '.(int) $node->width .
+			' WHERE '.$repositionData->right_where
+		);
+		$this->_db->query();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			$this->_unlock();
+			return false;
+		}
+		if ($this->_debug) {
+			$this->_logtable();
+		}
+
+		/*
 		 * Calculate the offset between where the node used to be in the tree and
 		 * where it needs to be in the tree for left ids (also works for right ids).
 		 */
-		$offset = $repositionData->new_lft + $node->lft;
+		$offset = $repositionData->new_lft - $node->lft;
 		$levelOffset = $repositionData->new_level - $node->level;
 
 		// Move the nodes back into position in the tree using the calculated offsets.
@@ -1387,11 +1388,11 @@ class JTableNested extends JTable
 				break;
 
 			case 'last-child':
-				$data->left_where = 'rgt > '.$referenceNode->rgt;
-				$data->right_where = 'rgt >= '.$referenceNode->rgt;
+				$data->left_where = 'lft >= '.($referenceNode->rgt - $nodeWidth);
+				$data->right_where = 'rgt >= '.($referenceNode->rgt - $nodeWidth);
 
-				$data->new_lft		= $referenceNode->rgt;
-				$data->new_rgt		= $referenceNode->rgt + $nodeWidth - 1;
+				$data->new_lft		= $referenceNode->rgt - $nodeWidth;
+				$data->new_rgt		= $referenceNode->rgt - 1;
 				$data->new_parent_id	= $referenceNode->$k;
 				$data->new_level		= $referenceNode->level + 1;
 				break;
