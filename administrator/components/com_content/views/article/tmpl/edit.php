@@ -75,7 +75,7 @@ JHtml::_('behavior.formvalidation');
 	<div class="width-40" style="float:left">
 		<?php echo $pane->startPane('content-pane'); ?>
 
-		<?php echo $pane->startPanel(JText::_('Content_Publishing_Details'), 'publishing-details'); ?>
+		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Publishing'), 'publishing-details'); ?>
 
 		<ol>
 			<li>
@@ -109,7 +109,7 @@ JHtml::_('behavior.formvalidation');
 		</ol>
 		<?php echo $pane->endPanel(); ?>
 
-		<?php echo $pane->startPanel(JText::_('Content_Basic_Options'), 'basic-options'); ?>
+		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Options'), 'basic-options'); ?>
 		<table>
 		<?php foreach($this->form->getFields('attribs') as $field): ?>
 			<?php if ($field->hidden): ?>
@@ -128,7 +128,7 @@ JHtml::_('behavior.formvalidation');
 		</table>
 		<?php echo $pane->endPanel(); ?>
 
-		<?php echo $pane->startPanel(JText::_('Content_Metadata_Options'), 'meta-options'); ?>
+		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Metadata'), 'meta-options'); ?>
 		<ol>
 			<li>
 				<?php echo $this->form->getLabel('language'); ?><br />

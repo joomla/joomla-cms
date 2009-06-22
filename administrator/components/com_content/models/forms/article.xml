@@ -17,8 +17,8 @@
 			id="title"
 			name="title"
 			type="text"
-			label="JCommon_Title_Label"
-			description="Content_Title_Desc"
+			label="JField_Title_Label"
+			description="JField_Title_Desc"
 			class="inputbox"
 			size="30"
 			default=""/>
@@ -27,8 +27,8 @@
 			id="alias"
 			name="alias"
 			type="text"
-			label="JCommon_Alias_Label"
-			description="Content_Alias_Desc"
+			label="JField_Alias_Label"
+			description="JField_Alias_Desc"
 			class="inputbox"
 			size="30"
 			default=""/>
@@ -57,8 +57,8 @@
 			id="state"
 			name="state"
 			type="list"
-			label="Content_State_Label"
-			description="Content_State_Desc"
+			label="JField_Published_Label"
+			description="JField_Published_Desc"
 			class="inputbox"
 			size="1"
 			default="1">
@@ -80,8 +80,8 @@
 			id="catid"
 			name="catid"
 			type="text"
-			label="Content_Catid_Label"
-			description="Content_Catid_Desc"
+			label="JField_Category_Label"
+			description="JField_Category_Desc"
 			class="inputbox"
 			size=""
 			default=""/>
@@ -177,8 +177,8 @@
 			id="ordering"
 			name="ordering"
 			type="text"
-			label="Content_Ordering_Label"
-			description="Content_Ordering_Desc"
+			label="JField_Ordering_Label"
+			description="JField_Ordering_Desc"
 			class="inputbox"
 			size="6"
 			default="0"/>
@@ -187,8 +187,8 @@
 			id="metakey"
 			name="metakey"
 			type="textarea"
-			label="Content_Metakey_Label"
-			description="Content_Metakey_Desc"
+			label="JField_Meta_Keywords_Label"
+			description="JField_Meta_Keywords_Desc"
 			class="inputbox"
 			rows="3"
 			cols="30"
@@ -198,8 +198,8 @@
 			id="metadesc"
 			name="metadesc"
 			type="textarea"
-			label="Content_Metadesc_Label"
-			description="Content_Metadesc_Desc"
+			label="JField_Meta_Description_Label"
+			description="JField_Meta_Description_Desc"
 			class="inputbox"
 			rows="3"
 			cols="30"
@@ -209,8 +209,8 @@
 			id="access"
 			name="access"
 			type="accesslevels"
-			label="Content_Access_Label"
-			description="Content_Access_Desc"
+			label="JField_Access_Label"
+			description="JField_Access_Desc"
 			class="inputbox"
 			size="1"
 			default=""/>
@@ -241,8 +241,8 @@
 			id="language"
 			name="language"
 			type="text"
-			label="Content_Language_Label"
-			description="Content_Language_Desc"
+			label="JField_Language_Label"
+			description="JField_Language_Desc"
 			class="inputbox"
 			size="10"
 			default=""/>
@@ -441,18 +441,19 @@
 		<field
 			name="page_title"
 			type="text"
-			label="Content_Attribs_Page_title_Label"
-			description="Content_Attribs_Page_title_Desc"
+			label="JField_Alt_Page_title_Label"
+			description="JField_Alt_Page_title_Desc"
 			size="25"
 			default=""/>
 
 		<field
 			name="layout"
-			type="text"
-			label="Content_Attribs_Layout_Label"
-			description="Content_Attribs_Layout_Desc"
-			size="25"
-			default=""/>
+			type="componentlayouts"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Component_Layout_Desc"
+			extension="com_content"
+			view="article"
+			/>
 
 	</fields>
 
@@ -463,17 +464,16 @@
 		<field
 			name="robots"
 			type="text"
-			size="20"
-			default=""
-			label="Content_Metadata_Robots_Label"
-			description="Content_Metadata_Robots_Desc"/>
+			label="JField_Metadata_Robots_Label"
+			description="JField_Metadata_Robots_Desc"
+			size="20"/>
+
 		<field
 			name="author"
 			type="text"
-			size="20"
-			default=""
-			label="Content_Metadata_Author_Label"
-			description="Content_Metadata_Author_Desc"/>
+			label="JField_Metadata_Author_Label"
+			description="JField_Metadata_Author_Desc"
+			size="20"/>
 
 	</fields>
 </form>
