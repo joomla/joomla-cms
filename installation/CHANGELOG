@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 22-Jun-2009 Gergo Erdosi
  - Removed a duplicate checked out icon from com_content.
+ # Fixed form validation on cancel in com_content.
 
 22-Jun-2009 Andrew Eddie
  ^ Configured helpers to support the com_categories submenu.
