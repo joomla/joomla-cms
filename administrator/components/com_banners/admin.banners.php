@@ -24,11 +24,11 @@ $controllerName = JRequest::getCmd('c', 'banner');
 if ($controllerName == 'client') {
 	JSubMenuHelper::addEntry(JText::_('Banners'), 'index.php?option=com_banners');
 	JSubMenuHelper::addEntry(JText::_('Clients'), 'index.php?option=com_banners&c=client', true);
-	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_banner');
+	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&extension=com_banner');
 } else {
 	JSubMenuHelper::addEntry(JText::_('Banners'), 'index.php?option=com_banners', true);
 	JSubMenuHelper::addEntry(JText::_('Clients'), 'index.php?option=com_banners&c=client');
-	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_banner');
+	JSubMenuHelper::addEntry(JText::_('Categories'), 'index.php?option=com_categories&extension=com_banner');
 }
 
 switch ($controllerName)

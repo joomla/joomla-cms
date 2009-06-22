@@ -23,11 +23,6 @@ $buttons = array(
 		'text' => JText::_('Article Manager')
 	),
 	array(
-		'link' => JRoute::_('index.php?option=com_frontpage'),
-		'image' => 'icon-48-frontpage.png',
-		'text' => JText::_('Frontpage Manager')
-	),
-	array(
 		'link' => JRoute::_('index.php?option=com_categories&extension=com_content'),
 		'image' => 'icon-48-category.png',
 		'text' => JText::_('Category Manager')

@@ -97,7 +97,7 @@ class HTML_newsfeeds
 				$checked 	= JHtml::_('grid.checkedout',   $row, $i);
 				$published 	= JHtml::_('grid.published', $row, $i);
 
-				$row->cat_link 	= JRoute::_('index.php?option=com_categories&section=com_newsfeeds&task=edit&cid[]='. $row->catid);
+				$row->cat_link 	= JRoute::_('index.php?option=com_categories&extension=com_newsfeeds&task=edit&cid[]='. $row->catid);
 				?>
 				<tr class="<?php echo 'row'. $k; ?>">
 					<td align="center">
