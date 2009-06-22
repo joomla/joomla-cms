@@ -48,6 +48,10 @@ class ContentModelArticle extends JModelItem
 		// Load the parameters.
 		$params	= $app->getParams();
 		$this->setState('params', $params);
+
+		// TODO: Tune these values based on other permissions.
+		$this->setState('filter.published',	1);
+		$this->setState('filter.access',		true);
 	}
 
 	/**

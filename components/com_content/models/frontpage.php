@@ -59,6 +59,10 @@ class ContentModelFrontpage extends JModelList
 		$this->setState('params', $params);
 
 		$this->setState('filter.frontpage', true);
+
+		// TODO: Tune these values based on other permissions.
+		$this->setState('filter.published',	1);
+		$this->setState('filter.access',		true);
 	}
 
 	/**
