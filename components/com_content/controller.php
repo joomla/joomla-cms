@@ -40,10 +40,6 @@ class ContentController extends JController
 			// Get the model for the view.
 			$model	= &$this->getModel($vName);
 
-			// TODO: Tune these values based on other permissions.
-			$model->setState('filter.published',	1);
-			$model->setState('filter.access',		true);
-
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
 			$view->setLayout($lName);

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout
+		title="com_content_layout_categories_default_title">
+		<message>
+			<![CDATA[com_content_layout_categories_default_desc]]>
+		</message>
+	</layout>
+	<state>
+		<name>com_content_layout_categories_default_title</name>
+		<description>com_content_layout_categories_default_desc</description>
+		<params>
+		</params>
+		<advanced>
+		</advanced>
+	</state>
+</metadata>

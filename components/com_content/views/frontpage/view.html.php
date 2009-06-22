@@ -8,7 +8,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+jimport('joomla.application.component.view');
 
 /**
  * Frontpage View class
@@ -17,7 +17,7 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  * @subpackage	com_content
  * @since		1.5
  */
-class ContentViewFrontpage extends ContentView
+class ContentViewFrontpage extends JView
 {
 	protected $state = null;
 	protected $item = null;

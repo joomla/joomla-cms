@@ -52,11 +52,10 @@ class ContentRoute
 	 *
 	 * @return	string	The routed link.
 	 */
-	public static function category($catid, $sectionid)
+	public static function category($catid, $parentId = null)
 	{
 		$needles = array(
-			'category' => (int) $catid,
-			'section'  => (int) $sectionid
+			'category' => (int) $catid
 		);
 
 		//Create the link
