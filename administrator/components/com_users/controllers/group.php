@@ -114,7 +114,8 @@ class UsersControllerGroup extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
-		$app = &JFactory::getApplication();
+		$app	= &JFactory::getApplication();
+		$model	= &$this->getModel('Group');
 
 		// Get the posted values from the request.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -122,16 +123,16 @@ class UsersControllerGroup extends JController
 		// Populate the row id from the session.
 		$data['id'] = (int) $app->getUserState('com_users.edit.group.id');
 
-		// Fudge the access section for usergroups for now.
-		$data['section_id'] = 1;
-		$data['section'] = 'core';
-
-		// Get the model and attempt to validate the posted data.
-		$model = &$this->getModel('Group');
-		$return	= $model->validate($data);
+		// Validate the posted data.
+		$form	= &$model->getForm();
+		if (!$form) {
+			JError::raiseError(500, $model->getError());
+			return false;
+		}
+		$data	= $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($return === false)
+		if ($data === false)
 		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
@@ -154,6 +155,10 @@ class UsersControllerGroup extends JController
 			return false;
 		}
 
+		// Fudge the access section for usergroups for now.
+		$data['section_id']	= 1;
+		$data['section']	= 'core';
+
 		// Attempt to save the data.
 		$return	= $model->save($data);
 
@@ -173,6 +178,10 @@ class UsersControllerGroup extends JController
 		switch ($this->_task)
 		{
 			case 'apply':
+				// Set the row data in the session.
+				$app->setUserState('com_users.edit.group.id',	$model->getState('group.id'));
+				$app->setUserState('com_users.edit.group.data',	null);
+
 				// Redirect back to the edit screen.
 				$this->setMessage(JText::_('USERS_GROUP_SAVE_SUCCESS'));
 				$this->setRedirect(JRoute::_('index.php?option=com_users&view=group&layout=edit', false));

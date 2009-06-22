@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelitem');
+jimport('joomla.application.component.modelform');
 
 /**
  * User model for Users.
@@ -17,7 +17,7 @@ jimport('joomla.application.component.modelitem');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersModelUser extends JModelItem
+class UsersModelUser extends JModelForm
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -248,48 +248,6 @@ class UsersModelUser extends JModelItem
 	}
 
 	/**
-	 * Method to validate the form data.
-	 *
-	 * @access	public
-	 * @param	array	The form data.
-	 * @return	mixed	Array of filtered data if valid, false otherwise.
-	 * @since	1.0
-	 */
-	function validate($data)
-	{
-		// Get the form.
-		$form = &$this->getForm();
-
-		// Check for an error.
-		if ($form === false) {
-			return false;
-		}
-
-		// Filter and validate the form data.
-		$data	= $form->filter($data);
-		$return	= $form->validate($data);
-
-		// Check for an error.
-		if (JError::isError($return)) {
-			$this->setError($return->getMessage());
-			return false;
-		}
-
-		// Check the validation results.
-		if ($return === false)
-		{
-			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message) {
-				$this->setError($message);
-			}
-
-			return false;
-		}
-
-		return $data;
-	}
-
-	/**
 	 * Method to save the form data.
 	 *
 	 * @param	array	The form data.
@@ -357,7 +315,9 @@ class UsersModelUser extends JModelItem
 		// Fire the onAftereStoreUser event
 		$dispatcher->trigger('onAfterStoreUser', array($user->getProperties(), $isNew, $result, $this->getError()));
 
-		return $user->id;
+		$this->setState('user.id', $user->id);
+
+		return true;
 	}
 
 	/**

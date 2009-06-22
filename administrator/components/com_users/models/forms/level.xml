@@ -56,5 +56,10 @@
 			type="hidden"
 			filter="unset"
 		/>
+
+		<field
+			name="groups"
+			type="hidden"
+		/>
 	</fields>
 </form>

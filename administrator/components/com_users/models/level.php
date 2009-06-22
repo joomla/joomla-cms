@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelitem');
+jimport('joomla.application.component.modelform');
 jimport('joomla.access.helper');
 
 /**
@@ -18,7 +18,7 @@ jimport('joomla.access.helper');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersModelLevel extends JModelItem
+class UsersModelLevel extends JModelForm
 {
 	/**
 	 * Array of items for memory caching.
@@ -143,6 +143,14 @@ class UsersModelLevel extends JModelItem
 
 			// Use the AccessHelper class to register the new access level.
 			$return = JAccessHelper::registerAccessLevel($data['title'], $section, $data['groups']);
+
+			if (JError::isError($return))
+			{
+				$this->setError($return->getMessage());
+				return false;
+			}
+
+			$this->setState('level.id', $return);
 		}
 		else
 		{

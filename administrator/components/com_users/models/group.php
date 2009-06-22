@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelitem');
+jimport('joomla.application.component.modelform');
 
 /**
  * User Group model for Users.
@@ -17,7 +17,7 @@ jimport('joomla.application.component.modelitem');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersModelGroup extends JModelItem
+class UsersModelGroup extends JModelForm
 {
 	/**
 	 * Array of items for memory caching.
@@ -218,7 +218,7 @@ class UsersModelGroup extends JModelItem
 
 			// Is this group in this rule
 			$inGroup	= in_array($groupId, $groups);
-			$changed		= false;
+			$changed	= false;
 
 			if ($hasAction && !$inGroup) {
 				// Need to add this user group to the rule
@@ -242,7 +242,9 @@ class UsersModelGroup extends JModelItem
 			}
 		}
 
-		return $table->id;
+		$this->setState('group.id', $table->id);
+
+		return true;
 	}
 
 	/**

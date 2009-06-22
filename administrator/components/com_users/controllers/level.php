@@ -112,7 +112,8 @@ class UsersControllerLevel extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
-		$app = &JFactory::getApplication();
+		$app	= &JFactory::getApplication();
+		$model	= &$this->getModel('Level');
 
 		// Get the posted values from the request.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -123,12 +124,16 @@ class UsersControllerLevel extends JController
 		// Set the default parent id to 1.
 		$data['parent_id'] = (!empty($data['parent_id'])) ? (int) $data['parent_id'] : 1;
 
-		// Get the model and attempt to validate the posted data.
-		$model = &$this->getModel('Level');
-		$return	= $model->validate($data);
+		// Validate the posted data.
+		$form	= &$model->getForm();
+		if (!$form) {
+			JError::raiseError(500, $model->getError());
+			return false;
+		}
+		$data	= $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($return === false)
+		if ($data === false)
 		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
@@ -170,6 +175,10 @@ class UsersControllerLevel extends JController
 		switch ($this->_task)
 		{
 			case 'apply':
+				// Set the row data in the session.
+				$app->setUserState('com_users.edit.level.id',	$model->getState('level.id'));
+				$app->setUserState('com_users.edit.level.data',	null);
+
 				// Redirect back to the edit screen.
 				$this->setMessage(JText::_('USERS_LEVEL_SAVE_SUCCESS'));
 				$this->setRedirect(JRoute::_('index.php?option=com_users&view=level&layout=edit', false));
