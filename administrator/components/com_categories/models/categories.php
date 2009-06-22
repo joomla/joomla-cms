@@ -24,7 +24,7 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @var		string
 	 */
-	public $_context = 'com_content.articles';
+	public $_context = 'com_categories.articles';
 
 	/**
 	 * Overridden method to lazy load data from the request/session as necessary
