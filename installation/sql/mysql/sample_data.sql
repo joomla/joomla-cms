@@ -3,27 +3,91 @@
 # IMPORTANT - THIS FILE MUST BE SAVED WITH UTF-8 ENCODING ONLY. BEWARE IF EDITING!
 #
 
+-- 
+-- Dumping data for table `#__access_action_rule_map`
+-- 
+
+INSERT IGNORE INTO `jos_access_action_rule_map` VALUES 
+(1, 35);
+
+--
+-- Dumping data for table `#__access_asset_assetgroups`
+--
+
+INSERT IGNORE INTO `#__access_assetgroups` VALUES
+(4, 1, 2, 3, 'Confidential', 1, 'core');
+
+--
+-- Dumping data for table `#__access_assetgroup_rule_map`
+--
+
+INSERT IGNORE INTO `#__access_assetgroup_rule_map` VALUES 
+(4, 35);
+
+--
+-- Dumping data for table `#__access_assets`
+--
+
 INSERT IGNORE INTO `#__access_assets` VALUES 
 (2, 7, 'com_weblinks', 'weblink.1', 'Joomla!'),
 (3, 7, 'com_weblinks', 'weblink.4', 'OpenSourceMatters'),
 (4, 7, 'com_weblinks', 'weblink.2', 'php.net'),
 (5, 7, 'com_weblinks', 'weblink.5', 'Joomla! - Forums'),
 (6, 7, 'com_weblinks', 'weblink.3', 'MySQL'),
-(7, 7, 'com_weblinks', 'weblink.6', 'Ohloh Tracking of Joomla!');
+(7, 7, 'com_weblinks', 'weblink.6', 'Ohloh Tracking of Joomla!'),
+(8, 1, 'core', 'menu.7', 'Weblinks'),
+(9, 2, 'com_content', 'category.11', 'News'),
+(10, 2, 'com_content', 'category.12', 'Countries'),
+(11, 2, 'com_content', 'category.23', 'Australia'),
+(12, 2, 'com_content', 'category.24', 'Queensland'),
+(13, 2, 'com_content', 'category.25', 'Tasmania'),
+(14, 2, 'com_content', 'article.2', 'Great Barrier Reef'),
+(15, 2, 'com_content', 'article.3', 'Cradle Mountain-Lake St Clair National Park');
 
+--
+-- Dumping data for table `#__access_asset_assetgroup_map`
+--
+ 
 INSERT IGNORE INTO `#__access_asset_assetgroup_map` VALUES 
 (2, 1),
 (3, 1),
 (4, 1),
 (5, 1),
 (6, 1),
-(7, 1);
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 1),
+(11, 1),
+(12, 1),
+(13, 1),
+(14, 1),
+(15, 1);
 
-INSERT IGNORE INTO `jos_access_assets` VALUES 
-(8, 1, 'core', 'menu.7', 'Weblinks');
+-- 
+-- Dumping data for table `jos_access_asset_rule_map`
+-- 
 
-INSERT IGNORE INTO `jos_access_asset_assetgroup_map` VALUES 
-(8, 1);
+--
+-- Dumping data for table `#__access_rules`
+--
+
+INSERT IGNORE INTO `#__access_rules` VALUES 
+(35, 1, 'core', 'core.view.4', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL);
+
+--
+-- Dumping data for table `#__access_asset_assetgroup_map`
+--
+
+INSERT IGNORE INTO `#__access_asset_assetgroup_map` VALUES 
+(8, 1),
+(9, 1),
+(10, 1),
+(11, 1),
+(12, 1),
+(13, 1),
+(14, 1),
+(15, 1);
 
 -- Dumping data for table `#__banner`
 --
@@ -106,6 +170,21 @@ INSERT IGNORE INTO `#__menu_types` VALUES
 --
 -- Dumping data for table `#__newsfeeds`
 --
+
+--
+-- Dumping data for table `#__usergroups`
+--
+
+INSERT IGNORE INTO `#__usergroups` VALUES
+(9, 2, 15, 16, 'Park Rangers', 1, 'core');
+
+--
+-- Dumping data for table `#__usergroup_rule_map`
+--
+
+INSERT IGNORE INTO `#__usergroup_rule_map` VALUES
+(9, 4),
+(9, 35);
 
 --
 -- Dumping data for table `#__weblinks`

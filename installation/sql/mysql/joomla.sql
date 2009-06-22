@@ -121,9 +121,9 @@ CREATE TABLE IF NOT EXISTS `#__access_assetgroups` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__access_assetgroups` VALUES 
-(1, 0, 1, 6, 'Public', 1, 'core'),
-(2, 1, 2, 3, 'Registered', 1, 'core'),
-(3, 1, 4, 5, 'Special', 1, 'core');
+(1, 0, 1, 8, 'Public', 1, 'core'),
+(2, 1, 4, 5, 'Registered', 1, 'core'),
+(3, 1, 6, 7, 'Special', 1, 'core');
 
 -- --------------------------------------------------------
 
@@ -392,7 +392,7 @@ CREATE TABLE `#__categories` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__categories` VALUES 
-(1, 0, 0, 15, 0, '', 'system', 'ROOT', 'root', '', 1, 0, '0000-00-00 00:00:00', 0, '{}', '', '', '', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '');
+(1, 0, 0, 17, 0, '', 'system', 'ROOT', 'root', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 20:25:13', 0, '0000-00-00 00:00:00', 0, '');
 
 # --------------------------------------------------------
 
@@ -740,8 +740,8 @@ CREATE TABLE `#__menu` (
 
 
 INSERT INTO `#__menu` VALUES 
-(1, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 1, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '', 0, 15, 0),
-(2, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 2, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, 'show_page_title=1\r\npage_title=Welcome to the Frontpage\r\nshow_description=0\r\nshow_description_image=0\r\nnum_leading_articles=1\r\nnum_intro_articles=4\r\nnum_columns=2\r\nnum_links=4\r\nshow_title=1\r\npageclass_sfx=\r\nmenu_image=-1\r\nsecure=0\r\norderby_pri=\r\norderby_sec=front\r\nshow_pagination=2\r\nshow_pagination_results=1\r\nshow_noauth=0\r\nlink_titles=0\r\nshow_intro=1\r\nshow_section=0\r\nlink_section=0\r\nshow_category=0\r\nlink_category=0\r\nshow_author=1\r\nshow_create_date=1\r\nshow_modify_date=1\r\nshow_item_navigation=0\r\nshow_readmore=1\r\nshow_vote=0\r\nshow_icons=1\r\nshow_pdf_icon=1\r\nshow_print_icon=1\r\nshow_email_icon=1\r\nshow_hits=1\r\n\r\n', 1, 2, 1);
+(1, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, 'show_page_title=1\npage_title=Welcome to the Frontpage\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n', 0, 15, 0),
+(2, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, 'show_page_title=1\r\npage_title=Welcome to the Frontpage\r\nshow_description=0\r\nshow_description_image=0\r\nnum_leading_articles=1\r\nnum_intro_articles=4\r\nnum_columns=2\r\nnum_links=4\r\nshow_title=1\r\npageclass_sfx=\r\nmenu_image=-1\r\nsecure=0\r\norderby_pri=\r\norderby_sec=front\r\nshow_pagination=2\r\nshow_pagination_results=1\r\nshow_noauth=0\r\nlink_titles=0\r\nshow_intro=1\r\nshow_section=0\r\nlink_section=0\r\nshow_category=0\r\nlink_category=0\r\nshow_author=1\r\nshow_create_date=1\r\nshow_modify_date=1\r\nshow_item_navigation=0\r\nshow_readmore=1\r\nshow_vote=0\r\nshow_icons=1\r\nshow_pdf_icon=1\r\nshow_print_icon=1\r\nshow_email_icon=1\r\nshow_hits=1\r\n\r\n', 1, 2, 1);
 
 # --------------------------------------------------------
 
@@ -1051,14 +1051,14 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
 
 INSERT INTO `#__usergroups`
  (`id` ,`parent_id` ,`lft` ,`rgt` ,`title` ,`section_id` ,`section`) VALUES
- (1 , 0, 1, 16, "Public", 1, "core"),
- (2 , 1, 2, 15, "Registered", 1, "core"),
- (3 , 2, 3, 8, "Author", 1, "core"),
- (4 , 3, 4, 7, "Editor", 1, "core"),
- (5 , 4, 5, 6, "Publisher", 1, "core"),
- (6 , 2, 9, 14, "Manager", 1, "core"),
- (7 , 6, 10, 13, "Administrator", 1, "core"),
- (8 , 7, 11, 12, "Super Administrator", 1, "core");
+ (1, 0, 1, 18, 'Public', 1, 'core'),
+(2, 1, 2, 17, 'Registered', 1, 'core'),
+(3, 2, 3, 8, 'Author', 1, 'core'),
+(4, 3, 4, 7, 'Editor', 1, 'core'),
+(5, 4, 5, 6, 'Publisher', 1, 'core'),
+(6, 2, 9, 14, 'Manager', 1, 'core'),
+(7, 6, 10, 13, 'Administrator', 1, 'core'),
+(8, 7, 11, 12, 'Super Administrator', 1, 'core');
 
 -- --------------------------------------------------------
 
