@@ -43,11 +43,12 @@ class JFormFieldEditors extends JFormFieldList
 		$db = & JFactory::getDbo();
 		$db->setQuery($query);
 
-		$editors = $db->loadObjectList();
+		$options = $db->loadObjectList();
 
 		// @todo: Check for an error msg.
 
-		$options = array_merge(parent::_getOptions(), $editors);
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::_getOptions(), $options);
 
 		return $options;
 	}
