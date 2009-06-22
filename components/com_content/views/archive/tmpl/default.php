@@ -10,7 +10,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.caption'); ?>
+//JHtml::_('behavior.caption');
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
+?>
 <form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">
 <?php if ($this->params->get('show_page_title', 1)) : ?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>

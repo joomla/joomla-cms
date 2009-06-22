@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 // TODO: Make JS friendly
 //JHtml::_('behavior.caption');
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');

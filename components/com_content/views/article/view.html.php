@@ -8,7 +8,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+jimport('joomla.application.component.view');
 
 /**
  * HTML Article View class for the Content component
@@ -17,7 +17,7 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  * @subpackage	com_content
  * @since		1.5
  */
-class ContentViewArticle extends ContentView
+class ContentViewArticle extends JView
 {
 	protected $state;
 	protected $item;
