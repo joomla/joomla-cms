@@ -42,23 +42,26 @@ class ContentModelArticles extends JModelList
 		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$published 	= $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
-		$this->setState('filter.published', $published);
-
 		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
 
+		$published = $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
+		$categoryId = $app->getUserStateFromRequest($this->_context.'.category_id', 'filter_category_id');
+		$this->setState('filter.category_id', $categoryId);
+
 		// List state information
-		$limit 		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 		$this->setState('list.limit', $limit);
 
 		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
 		$this->setState('list.limitstart', $limitstart);
 
-		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
+		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
 		$this->setState('list.ordering', $orderCol);
 
-		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
+		$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
 		$this->setState('list.direction', $orderDirn);
 	}
 
@@ -132,6 +135,12 @@ class ContentModelArticles extends JModelList
 		}
 		else if ($published === '') {
 			$query->where('(a.state = 0 OR a.state = 1)');
+		}
+
+		// Filter by category.
+		$categoryId = $this->getState('filter.category_id');
+		if (is_numeric($categoryId)) {
+			$query->where('a.state = ' . (int) $published);
 		}
 
 		// Filter by search in title

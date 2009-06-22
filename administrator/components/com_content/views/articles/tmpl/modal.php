@@ -39,6 +39,11 @@ $this->assign('object', JRequest::getVar('object'));
 				<option value=""><?php echo JText::_('JOption_Select_published_state');?></option>
 				<?php echo JHtml::_('select.options', $this->f_published, 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
+
+			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JOption_Select_Category');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id'));?>
+			</select>
 		</div>
 	</fieldset>
 

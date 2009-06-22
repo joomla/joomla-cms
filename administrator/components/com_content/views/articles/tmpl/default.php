@@ -39,6 +39,11 @@ $n = count($this->items);
 				<option value=""><?php echo JText::_('JOption_Select_Published');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
+
+			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JOption_Select_Category');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id'));?>
+			</select>
 		</div>
 	</fieldset>
 
@@ -55,7 +60,7 @@ $n = count($this->items);
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Published', 'a.state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'Content_Heading_Featured', 'a.catid', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Content_Heading_Featured', 'a.featured', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Category', 'a.catid', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>

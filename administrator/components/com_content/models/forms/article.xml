@@ -19,7 +19,7 @@
 			type="text"
 			label="JField_Title_Label"
 			description="JField_Title_Desc"
-			class="inputbox validate required"
+			class="inputbox"
 			size="30"
 			required="true"
 			/>
@@ -80,12 +80,14 @@
 		<field
 			id="catid"
 			name="catid"
-			type="text"
+			type="Categories"
+			extension="com_content"
 			label="JField_Category_Label"
 			description="JField_Category_Desc"
 			class="inputbox"
-			size=""
-			default=""/>
+			required="true">
+			<option value="0">JOption_No_Category</option>
+		</field>
 
 		<field
 			id="created"
