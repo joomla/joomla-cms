@@ -42,15 +42,6 @@ class ContentModelFrontpage extends JModelList
 	{
 		$app = &JFactory::getApplication();
 
-		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
-		$this->setState('filter.search', $search);
-
-		$published 	= $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
-		$this->setState('filter.published', $published);
-
-		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
-		$this->setState('filter.access', $access);
-
 		// List state information
 		$limit 		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 		$this->setState('list.limit', $limit);
@@ -147,12 +138,8 @@ class ContentModelFrontpage extends JModelList
 		));
 		$query->from('#__content AS a');
 
-		// Join over the users for the checked out user.
-		//$query->select('uc.name AS editor');
-		//$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
-
 		// Join over the categories.
-		$query->select('c.title AS category_title, a.alias AS category_alias, c.access AS category_access');
+		$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access');
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author.
@@ -165,7 +152,7 @@ class ContentModelFrontpage extends JModelList
 			$user	= &JFactory::getUser();
 			$groups	= implode(',', $user->authorisedLevels());
 			$query->where('a.access IN ('.$groups.')');
-			$query->where('c.access IN ('.$groups.')');
+			$query->where('(c.access IS NULL OR c.access IN ('.$groups.'))');
 		}
 
 		// Filter by published state.
@@ -207,7 +194,9 @@ class ContentModelFrontpage extends JModelList
 	 */
 	public function &getItems()
 	{
-		$items = &parent::getItems();
+		$items	= &parent::getItems();
+		$user	= &JFactory::getUser();
+		$groups	= $user->authorisedLevels();
 
 		// Contvert the parameter fields into objects.
 		foreach ($items as &$item)
@@ -229,9 +218,12 @@ class ContentModelFrontpage extends JModelList
 			else
 			{
 				// If no access filter is set, the layout takes some responsibility for display of limited information.
-				$user	= &JFactory::getUser();
-				$groups	= $user->authorisedLevels();
-				$item->params->set('access-view', in_array($item->access, $groups) && in_array($item->category_access, $groups));
+				if ($item->catid == 0 || $item->category_access === null) {
+					$item->params->set('access-view', in_array($item->access, $groups));
+				}
+				else {
+					$item->params->set('access-view', in_array($item->access, $groups) && in_array($item->category_access, $groups));
+				}
 			}
 		}
 

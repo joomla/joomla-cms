@@ -26,7 +26,7 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-		// Get the document object.
+		// Initialise variables.
 		$document	= &JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
@@ -37,12 +37,12 @@ class ContentController extends JController
 		// Get and render the view.
 		if ($view = &$this->getView($vName, $vFormat))
 		{
-			switch ($vName)
-			{
-				default:
-					$model	= &$this->getModel($vName);
-					break;
-			}
+			// Get the model for the view.
+			$model	= &$this->getModel($vName);
+
+			// TODO: Tune these values based on other permissions.
+			$model->setState('filter.published',	1);
+			$model->setState('filter.access',		true);
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);

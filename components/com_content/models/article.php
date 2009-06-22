@@ -77,11 +77,11 @@ class ContentModelArticle extends JModelItem
 
 				// Join on category table.
 				$query->select('c.title AS category_title, a.alias AS category_alias, c.access AS category_access');
-				$query->join('INNER', '#__categories AS c on c.id = a.catid');
+				$query->join('LEFT', '#__categories AS c on c.id = a.catid');
 
 				// Join on user table.
 				$query->select('u.name AS author');
-				$query->join('INNER', '#__users AS u on u.id = a.created_by');
+				$query->join('LEFT', '#__users AS u on u.id = a.created_by');
 
 				$query->where('a.id = '.(int) $pk);
 
@@ -97,7 +97,7 @@ class ContentModelArticle extends JModelItem
 					$user	= &JFactory::getUser();
 					$groups	= implode(',', $user->authorisedLevels());
 					$query->where('a.access IN ('.$groups.')');
-					$query->where('c.access IN ('.$groups.')');
+					$query->where('(c.access IS NULL OR c.access IN ('.$groups.'))');
 				}
 
 				$this->_db->setQuery($query);
@@ -113,7 +113,7 @@ class ContentModelArticle extends JModelItem
 				}
 
 				// Check for published state if filter set.
-				if (is_numeric($published) && $data->published != $published) {
+				if (is_numeric($published) && $data->state != $published) {
 					throw new Exception(JText::_('Content_Error_Article_not_found'));
 				}
 
@@ -131,14 +131,20 @@ class ContentModelArticle extends JModelItem
 				if ($access)
 				{
 					// If the access filter has been set, we already know this user can view.
-					$item->params->set('access-view', true);
+					$data->params->set('access-view', true);
 				}
 				else
 				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
 					$user	= &JFactory::getUser();
 					$groups	= $user->authorisedLevels();
-					$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+
+					if ($data->catid == 0 || $data->category_access === null) {
+						$data->params->set('access-view', in_array($data->access, $groups));
+					}
+					else {
+						$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+					}
 				}
 				// TODO: Type 2 permission checks?
 
