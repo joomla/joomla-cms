@@ -202,8 +202,13 @@ class WeblinksControllerWeblink extends JController
 		$this->setMessage(JText::_('JController_Save_success'));
 
 		// Redirect the user and adjust session state based on the chosen task.
-		switch ($this->_task) {
+		switch ($this->_task)
+		{
 			case 'apply':
+				// Set the row data in the session.
+				$app->setUserState('com_weblinks.edit.weblink.id',		$model->getState('weblink.id'));
+				$app->setUserState('com_weblinks.edit.weblink.data',	null);
+
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink&layout=edit', false));
 				break;

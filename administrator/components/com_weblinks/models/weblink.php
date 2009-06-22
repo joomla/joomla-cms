@@ -253,7 +253,9 @@ class WeblinksModelWeblink extends JModelForm
 		// Trigger the onAfterContentSave event.
 		$dispatcher->trigger('onAfterContentSave', array(&$table, $isNew));
 
-		return $table->id;
+		$this->setState('weblink.id', $table->id);
+
+		return true;
 	}
 
 	protected function _prepareTable(&$table)
