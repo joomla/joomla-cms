@@ -31,7 +31,7 @@ class JElementList extends JElement
 	/**
 	 * Get the options for the element
 	 *
-	 * @param	object $node
+	 * @param	object	The current XML node.
 	 * @return	array
 	 * @since	1.6
 	 */
@@ -47,11 +47,37 @@ class JElementList extends JElement
 		return $options;
 	}
 
+	/**
+	 * Fetch the HTML code for the parameter element.
+	 *
+	 * @param	string	The field name.
+	 * @param	mixed	The value of the field.
+	 * @param	object	The current XML node.
+	 * @param	string	The name of the HTML control.
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$attribs = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="inputbox"');
+		$ctrl	= $control_name .'['. $name .']';
+		$attribs	= ' ';
 
-		return JHtml::_('select.genericlist', $this->_getOptions($node), $control_name .'['. $name .']',
+		if ($v = $node->attributes('size')) {
+			$attribs	.= 'size="'.$v.'"';
+		}
+		if ($v = $node->attributes('class')) {
+			$attribs	.= 'class="'.$v.'"';
+		} else {
+			$attribs	.= 'class="inputbox"';
+		}
+		if ($m = $node->attributes('multiple'))
+		{
+			$attribs	.= 'multiple="multiple"';
+			$ctrl		.= '[]';
+		}
+
+		return JHtml::_(
+			'select.genericlist',
+			$this->_getOptions($node),
+			$ctrl,
 			array(
 				'id' => $control_name.$name,
 				'list.attr' => $attribs,
