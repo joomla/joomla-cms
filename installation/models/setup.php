@@ -154,7 +154,7 @@ class JInstallationModelSetup extends JModel
 
 	/**
 	 * Gets PHP options.
-	 * 
+	 *
 	 * @return	array
 	 */
 	public function getPhpOptions()
@@ -220,7 +220,7 @@ class JInstallationModelSetup extends JModel
 
 	/**
 	 * Gets PHP Settings.
-	 * 
+	 *
 	 * @return	array
 	 */
 	public function getPhpSettings()
@@ -245,14 +245,14 @@ class JInstallationModelSetup extends JModel
 		// Check for file uploads.
 		$setting = new stdClass;
 		$setting->label = JText::_('File Uploads');
-		$setting->state = (booL) ini_get('file_uploads');
+		$setting->state = (bool) ini_get('file_uploads');
 		$setting->recommended = true;
 		$settings[] = $setting;
 
 		// Check for magic quotes.
 		$setting = new stdClass;
 		$setting->label = JText::_('Magic Quotes Runtime');
-		$setting->state = (booL) ini_get('magic_quotes_runtime');
+		$setting->state = (bool) ini_get('magic_quotes_runtime');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
