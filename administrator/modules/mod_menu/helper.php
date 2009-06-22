@@ -24,10 +24,11 @@ class MenuModuleHelper
 	 */
 	function buildMenu($enabled = true)
 	{
-		// Get the menu object
-		$menu = new JAdminCSSMenu();
+		// Initialise variables.
+		$lang	= &JFactory::getLanguage();
+		$user	= &JFactory::getUser();
+		$menu	= new JAdminCSSMenu();
 
-		$user = &JFactory::getUser();
 		/*
 		 * Site SubMenu
 		 */
@@ -121,10 +122,7 @@ class MenuModuleHelper
 		 */
 		if ($enabled)
 		{
-			$lang	= &JFactory::getLanguage();
-			$user	= &JFactory::getUser();
 			$db		= &JFactory::getDbo();
-
 			$menu->addChild(new JMenuNode(JText::_('Components')), true);
 
 			$query = 'SELECT c.*' .
@@ -239,9 +237,11 @@ class MenuModuleHelper
 		 */
 		if ($enabled)
 		{
+			$lang->load('com_redirect.menu');
+
 			$menu->addChild(new JMenuNode(JText::_('Tools')), true);
 
-			$menu->addChild(new JMenuNode(JText::_('Redirect'), 'index.php?option=com_redirect', 'class:component'));
+			$menu->addChild(new JMenuNode(JText::_('com_redirect'), 'index.php?option=com_redirect', 'class:component'));
 			$menu->addSeparator();
 
 			if ($user->authorize('core.messages.manage')) {
