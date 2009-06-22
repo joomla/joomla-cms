@@ -16,7 +16,7 @@
  * @package Joomla!
  * @license GNU General Public License version 2 or later; see LICENSE.txt
  * @copyright 2008 OpenSourceMatters.org
- * @version SVN: $Id:$
+ * @version SVN: $Id$
  */
 
 // Check to ensure this file is within the rest of the framework
