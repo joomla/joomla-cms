@@ -13,16 +13,8 @@
  * @since		1.5
  * @version     1.0
  */
-var JCaption = new Class({
-	initialize: function(selector)
-	{
-		this.selector = selector;
-		var images = $$(selector);
-		images.each(function(image){ this.createCaption(image); }, this);
-	},
-
-	createCaption: function(element)
-	{
+var JCaption = (function(selectorFn) {
+	var _createCaption = function(element, selector) {
 		var caption   = document.createTextNode(element.title);
 		var container = document.createElement("div");
 		var text      = document.createElement("p");
@@ -36,17 +28,32 @@ var JCaption = new Class({
 		text.appendChild(caption);
 		element.parentNode.insertBefore(container, element);
 		container.appendChild(element);
-		if ( element.title != "" ) {
+		if (element.title != "") {
 			container.appendChild(text);
 		}
-		container.className   = this.selector.replace('.', '_');
-		container.className   = container.className + " " + align;
-		container.setAttribute("style","float:"+align);
-		container.style.width = width + "px";
 
-	}
-});
+		container.className = selector.replace('.', '_');
+		if (align) {
+			container.className = container.className+' '+align;
+			container.setAttribute("style","float:"+align);
+		}
+		container.style.width = width + "px";
+	};
+	
+	var JCaption = function(selector, fn) {
+		if (typeof fn === 'function') {
+			selectorFn = fn;
+		}
+		selectorFn(selector).each(function(el) {
+			_createCaption(el, selector);
+		});
+	};
+	JCaption.create = function() {
+		this.apply(this, arguments);
+	};
+	return JCaption;
+})($$);
 
 window.addEvent('load', function() {
-  var caption = new JCaption('img.caption')
+	JCaption.create('img.caption');
 });
