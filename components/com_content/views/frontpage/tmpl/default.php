@@ -10,8 +10,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// TODO: Make this js friendly
-//JHtml::_('behavior.caption');
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
 // If the page class is defined, wrap the whole output in a div.

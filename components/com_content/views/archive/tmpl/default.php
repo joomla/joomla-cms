@@ -10,7 +10,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-//JHtml::_('behavior.caption');
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 ?>
 <form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">

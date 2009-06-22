@@ -10,7 +10,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.caption');
 $cparams =& JComponentHelper::getParams('com_media');
 ?>
 <?php if ($this->params->get('show_page_title', 1)) : ?>
