@@ -56,7 +56,7 @@ class JFormFieldComponentLayouts extends JFormFieldList
 			$extn	= preg_replace('#\W#', '', $extn);
 			$path1	= JPATH_SITE.DS.'components'.DS.$extn.DS.'views'.DS.$view.DS.'tmpl';
 			$path2	= JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.$extn.DS.$view;
-			$options[]	= JHTML::_('select.option', '', 'JOption_Use_Menu_Request_Setting');
+			$options[]	= JHTML::_('select.option', '', JText::_('JOption_Use_Menu_Request_Setting'));
 		}
 
 		if ($path1 && $path2)
@@ -74,7 +74,7 @@ class JFormFieldComponentLayouts extends JFormFieldList
 
 			if (is_dir($path2) && ($files = JFolder::files($path2, '^[^_]*\.php$')))
 			{
-				$options[]	= JHTML::_('select.optgroup', JText::_('JOption_From_Default Template'));
+				$options[]	= JHTML::_('select.optgroup', JText::_('JOption_From_Default_Template'));
 				foreach ($files as $file) {
 					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
 				}
