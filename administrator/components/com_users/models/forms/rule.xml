@@ -26,7 +26,7 @@
 			name="note"
 			type="text"
 			default=""
-			class="inputbox validate required"
+			class="inputbox"
 			required="true"
 			label="JX ACL Note"
 			description="This is the section the rule is placed in"

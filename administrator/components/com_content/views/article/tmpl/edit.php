@@ -68,6 +68,8 @@ JHtml::_('behavior.formvalidation');
 		<?php echo $this->form->getLabel('introtext'); ?><br />
 		<?php echo $this->form->getInput('introtext'); ?>
 
+		<br class="clr" ?>
+
 		<?php echo $this->form->getLabel('fulltext'); ?><br />
 		<?php echo $this->form->getInput('fulltext'); ?>
 	</div>

@@ -9,11 +9,12 @@
 			required="true"
 			readonly="true"
 		/>
-		<field name="old_url" type="text" id="old_url" class="inputbox validate required"
+		<field name="old_url" type="text" id="old_url" class="inputbox"
 			label="REDIRECT_LINK_OLD_URL"
 			description="REDIRECT_LINK_OLD_URL_DESC"
 			size="50"
 			default=""
+			required="true"
 		/>
 		<field name="new_url" type="text" id="new_url" class="inputbox"
 			label="REDIRECT_LINK_NEW_URL"
@@ -21,11 +22,12 @@
 			size="50"
 			default=""
 		/>
-		<field name="comment" type="text" id="comment" class="inputbox validate required"
+		<field name="comment" type="text" id="comment" class="inputbox"
 			label="REDIRECT_LINK_COMMENT"
 			description="REDIRECT_LINK_COMMENT_DESC"
 			size="40"
 			default=""
+			required="true"
 		/>
 		<field name="published" type="radio" id="published" class="inputbox"
 			label="REDIRECT_LINK_STATE"
