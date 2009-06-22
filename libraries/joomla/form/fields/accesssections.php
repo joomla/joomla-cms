@@ -48,10 +48,9 @@ class JFormFieldAccessSections extends JFormFieldList
 			JError::raiseWarning(500, $db->getErrorMsg());
 		}
 
-		$options	= array_merge(
-						parent::_getOptions(),
-						$options
-					);
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::_getOptions(), $options);
+
 		return $options;
 	}
 }

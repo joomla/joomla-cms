@@ -43,10 +43,8 @@ class JFormFieldIntegers extends JFormFieldList
 			$options[] = JHtml::_('select.option', $i);
 		}
 
-		$options	= array_merge(
-						parent::_getOptions(),
-						$options
-					);
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::_getOptions(), $options);
 
 		return $options;
 	}

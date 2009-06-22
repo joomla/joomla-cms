@@ -52,10 +52,9 @@ class JFormFieldUserGroups extends JFormFieldList
 			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
 		}
 
-		$options	= array_merge(
-						parent::_getOptions(),
-						$options
-					);
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::_getOptions(), $options);
+
 		return $options;
 	}
 }

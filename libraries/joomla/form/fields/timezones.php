@@ -83,10 +83,8 @@ class JFormFieldTimezones extends JFormFieldList
 			JHtml::_('select.option', 14, JText::_('(UTC +14:00) Kiribati')),
 		);
 
-		$options	= array_merge(
-						parent::_getOptions(),
-						$options
-					);
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::_getOptions(), $options);
 
 		return $options;
 	}

@@ -37,6 +37,7 @@ class JFormFieldCategories extends JFormFieldList
 		$db			= &JFactory::getDbo();
 		$extension	= $this->_element->attributes('extension');
 		$published	= $this->_element->attributes('published');
+		$options	= array();
 
 		if ($published === '') {
 			$published = null;
@@ -50,26 +51,14 @@ class JFormFieldCategories extends JFormFieldList
 			else {
 				$options = JHtml::_('category.options', $extension);
 			}
-
-			$db->setQuery(
-				'SELECT c.id AS value, c.title AS text'.
-				' FROM #__categories AS c'.
-				' WHERE c.extension = '.$db->Quote($extension).
-				($published !== null ? ' AND published = '.(int) $published : '').
-				//' AND c.access IN ('.implode(',', $user->authorisedLevels($action)).')'.
-				' GROUP BY c.id ORDER BY c.lft'
-			);
 		}
 		else
 		{
 			JError::raiseWarning(500, JText::_('JFramework_Form_Fields_Category_Error_extension_empty'));
-			return array();
 		}
 
-		// Allow for manual options.
-		if (is_array($options)) {
-			$options = array_merge(parent::_getOptions(), $options);
-		}
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::_getOptions(), $options);
 
 		return $options;
 	}
