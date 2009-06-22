@@ -13,10 +13,9 @@ require_once (JPATH_COMPONENT.DS.'view.php');
 /**
  * Frontpage View class
  *
- * @static
  * @package		Joomla.Site
  * @subpackage	com_content
- * @since 1.5
+ * @since		1.5
  */
 class ContentViewFrontpage extends ContentView
 {

@@ -13,10 +13,9 @@ jimport('joomla.application.component.view');
 /**
  * Frontpage View class
  *
- * @static
  * @package		Joomla.Site
  * @subpackage	com_content
- * @since 1.5
+ * @since		1.5
  */
 class ContentViewFrontpage extends JView
 {
