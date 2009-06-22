@@ -96,6 +96,10 @@ class MenuModuleHelper
 		/*
 		 * Content SubMenu
 		 */
+		/*
+
+		// Let's try something different.
+
 		if ($user->authorize('com_content.manage'))
 		{
 			if ($enabled)
@@ -110,6 +114,7 @@ class MenuModuleHelper
 				$menu->addChild(new JMenuNode(JText::_('Content'), null, 'disabled'));
 			}
 		}
+		*/
 
 		/*
 		 * Components SubMenu
@@ -124,8 +129,7 @@ class MenuModuleHelper
 
 			$query = 'SELECT c.*' .
 				' FROM #__components c LEFT JOIN #__extensions e ON c.option = e.element ' .
-				' WHERE '.$db->NameQuote('option').' <> "com_frontpage"' .
-				' AND '.$db->NameQuote('option').' <> "com_media"' .
+				' WHERE '.$db->NameQuote('option').' <> "com_media"' .
 				' AND e.enabled = 1' .
 				' AND e.state > -1' .
 				' ORDER BY ordering, name';
@@ -169,10 +173,12 @@ class MenuModuleHelper
 					{
 						$text = $lang->hasKey($row->option) ? JText::_($row->option) : $row->name;
 						$link = $row->admin_menu_link ? "index.php?$row->admin_menu_link" : "index.php?option=$row->option";
-						if (array_key_exists($row->id, $subs)) {
+						if (array_key_exists($row->id, $subs))
+						{
 							$menu->addChild(new JMenuNode($text, $link, $row->admin_menu_img), true);
-							foreach ($subs[$row->id] as $sub) {
-								$key  = $row->option.'.'.$sub->name;
+							foreach ($subs[$row->id] as $sub)
+							{
+								$key  = $row->option.'_'.str_replace(' ', '_', $sub->name);
 								$text = $lang->hasKey($key) ? JText::_($key) : $sub->name;
 								$link = $sub->admin_menu_link ? "index.php?$sub->admin_menu_link" : null;
 								$menu->addChild(new JMenuNode($text, $link, $sub->admin_menu_img));
