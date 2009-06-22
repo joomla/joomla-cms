@@ -52,14 +52,10 @@ class UsersController extends JController
 			$view->assignRef('document', $document);
 
 			$view->display();
-		}
-		else {
-			// Error condition.
-		}
 
-		// Setup the sub-menu.
-		JSubMenuHelper::addEntry(JText::_('Users_Submenu_Users'),	'index.php?option=com_users&view=users',	(in_array($vName, array('users','user'))));
-		JSubMenuHelper::addEntry(JText::_('Users_Submenu_Groups'),	'index.php?option=com_users&view=groups',		(in_array($vName, array('groups','group'))));
-		JSubMenuHelper::addEntry(JText::_('Users_Submenu_Levels'),	'index.php?option=com_users&view=levels',		(in_array($vName, array('levels','level'))));
+			// Load the submenu.
+			require_once JPATH_COMPONENT.DS.'helpers'.DS.'users.php';
+			UsersHelper::addSubmenu($vName);
+		}
 	}
 }
