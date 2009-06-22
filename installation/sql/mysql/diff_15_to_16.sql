@@ -64,6 +64,17 @@ ALTER TABLE `jos_categories`
 ALTER TABLE `jos_components`
  MODIFY COLUMN `enabled` TINYINT(4) UNSIGNED NOT NULL DEFAULT 1;
 
+INSERT INTO `#__components` VALUES
+ (0, 'Articles', '', 0, 0, 'option=com_content&view=articles', 'com_content_Articles', 'com_content', 1, '', 1, '{}', 1),
+ (0, 'Categories', '', 0, 0, 'option=com_categories&view=categories&extension=com_content', 'com_content_Categories', 'com_content', 2, '', 1, '{}', 1),
+ (0, 'Featured', '', 0, 0, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1);
+
+UPDATE jos_components AS a
+ LEFT JOIN jos_components AS b ON b.link='option=com_content'
+ SET a.parent = b.id
+ WHERE a.link = ''
+  AND a.option = 'com_content';
+
 -- ----------------------------------------------------------------
 -- jos_content
 -- ----------------------------------------------------------------
