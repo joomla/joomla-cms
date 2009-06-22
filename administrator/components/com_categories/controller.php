@@ -47,41 +47,11 @@ class CategoriesController extends JController
 			// Push document object into the view.
 			$view->assignRef('document', $document);
 
-			$this->addLinkbar($model);
 			$view->display();
-		}
-	}
 
-	/**
-	 * Configure the Linkbar
-	 *
-	 * @param	string	The name of the active view
-	 */
-	public function addLinkbar(&$model)
-	{
-		// This is pretty interesting :)
-		$extension = $model->getState('filter.extension');
-
-		if ($extension == 'com_categories') {
-			return;
-		}
-
-		$file = JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$extension.'/controller.php');
-		if (file_exists($file))
-		{
-			require_once $file;
-			$prefix	= ucfirst(str_replace('com_', '', $extension));
-			$cName	= $prefix.'Controller';
-			if (class_exists($cName))
-			{
-				$controller = new $cName;
-				if ($controller instanceof JController && method_exists($controller, 'addLinkbar'))
-				{
-					$lang = &JFactory::getLanguage();
-					$lang->load($extension);
-					$controller->addLinkbar('categories');
-				}
-			}
+			// Load the submenu.
+			require_once JPATH_COMPONENT.DS.'helpers'.DS.'categories.php';
+			CategoriesHelper::addSubmenu($model->getState('filter.extension'));
 		}
 	}
 }

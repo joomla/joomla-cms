@@ -32,6 +32,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jun-2009 Andrew Eddie
+ ^ Configured helpers to support the com_categories submenu.
+
 21-Jun-2009 Gergo Erdosi
  # Fixed configuration variable error.
  # Fixed typo in installation SQL file.

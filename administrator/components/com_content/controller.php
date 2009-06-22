@@ -44,20 +44,11 @@ class ContentController extends JController
 			// Push document object into the view.
 			$view->assignRef('document', $document);
 
-			$this->addLinkbar($vName);
 			$view->display();
-		}
-	}
 
-	/**
-	 * Configure the Linkbar
-	 *
-	 * @param	string	The name of the active view
-	 */
-	public function addLinkbar($vName)
-	{
-		JSubMenuHelper::addEntry(JText::_('Content_Link_Articles'),		'index.php?option=com_content&view=articles',			$vName == 'articles');
-		JSubMenuHelper::addEntry(JText::_('Content_Link_Categories'),	'index.php?option=com_categories&extension=com_content',	$vName == 'categories');
-		JSubMenuHelper::addEntry(JText::_('Content_Link_Featured'),		'index.php?option=com_content&view=featured',			$vName == 'featured');
+			// Load the submenu.
+			require_once JPATH_COMPONENT.DS.'helpers'.DS.'content.php';
+			ContentHelper::addSubmenu($vName);
+		}
 	}
 }

@@ -37,12 +37,8 @@ class MenusController extends JController
 		// Get and render the view.
 		if ($view = &$this->getView($vName, $vFormat))
 		{
-			switch ($vName)
-			{
-				default:
-					$model = &$this->getModel($vName);
-					break;
-			}
+			// Get the model for the view.
+			$model = &$this->getModel($vName);
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
@@ -52,13 +48,10 @@ class MenusController extends JController
 			$view->assignRef('document', $document);
 
 			$view->display();
-		}
-		else {
-			// Error condition.
-		}
 
-		// Setup the sub-menu.
-		JSubMenuHelper::addEntry(JText::_('Menus_Submenu_Items'),	'index.php?option=com_menus&view=items',	(in_array($vName, array('items','item'))));
-		JSubMenuHelper::addEntry(JText::_('Menus_Submenu_Menus'),	'index.php?option=com_menus&view=menus',	(in_array($vName, array('menus','menu'))));
+			// Load the submenu.
+			require_once JPATH_COMPONENT.DS.'helpers'.DS.'menus.php';
+			MenusHelper::addSubmenu($vName);
+		}
 	}
 }
