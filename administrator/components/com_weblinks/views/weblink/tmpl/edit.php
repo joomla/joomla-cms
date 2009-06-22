@@ -12,15 +12,13 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
-//JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
 <!--
 	function submitbutton(task)
 	{
-		// @todo Validation is currently busted
-		//if (task == 'weblink.cancel' || document.formvalidator.isValid($('weblink-form'))) {
-		if (task == 'weblink.cancel') {
+		if (task == 'weblink.cancel' || document.formvalidator.isValid($('weblink-form'))) {
 			submitform(task);
 		}
 		// @todo Deal with the editor methods
@@ -29,7 +27,7 @@ JHtml::_('behavior.tooltip');
 // -->
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="weblink-form">
+<form action="<?php JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="weblink-form" class="form-validate">
 <div class="col width-50">
 	<fieldset>
 		<legend><?php echo empty($this->item->id) ? JText::_('Weblinks_New_Weblink') : JText::sprintf('Weblinks_Edit_Weblink', $this->item->id); ?></legend>

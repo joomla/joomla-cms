@@ -32,7 +32,7 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 // -->
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="group-form">
+<form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
 	<fieldset style="width:45%;float:left">
 		<legend><?php echo JText::_('Users_Usergroup_Details');?></legend>
 		<ol>

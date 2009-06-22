@@ -26,7 +26,7 @@ $this->buildDefaultToolBar();
 // Get the form fields.
 $fields	= $this->form->getFields();
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_redirect');?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_redirect');?>" method="post" name="adminForm" class="form-validate">
 		<div class="col width-60">
 			<div>
 				<?php echo $fields['old_url']->label; ?><br />

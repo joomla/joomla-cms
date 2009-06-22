@@ -62,7 +62,7 @@ JHtml::_('behavior.formvalidation');
 	</div>
 </div>
 
-<form action="index.php" method="post" name="adminForm">
+<form action="index.php" method="post" name="adminForm" class="form-validate">
 <div id="right">
 	<div id="rightpad">
 		<div id="step">

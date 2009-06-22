@@ -17,9 +17,9 @@
 			type="text"
 			label="JField_Title_Label"
 			description="Menus_Item_Title_Desc"
-			default=""
-			class="inputbox"
-			size="40"/>
+			class="inputbox validate required"
+			size="40"
+			required="true"/>
 
 		<field
 			id="alias"

@@ -32,7 +32,7 @@ JHtml::_('behavior.formvalidation');
 // -->
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_content'); ?>" method="post" name="adminForm" id="item-form">
+<form action="<?php JRoute::_('index.php?option=com_content'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<div class="width-60" style="float:left">
 		<table style="display:block">

@@ -19,9 +19,10 @@
 			type="text"
 			label="JField_Title_Label"
 			description="JField_Title_Desc"
-			class="inputbox"
+			class="inputbox validate required"
 			size="30"
-			default=""/>
+			required="true"
+			/>
 
 		<field
 			id="alias"

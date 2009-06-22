@@ -95,7 +95,7 @@ JHtml::_('behavior.formvalidation');
 				</div>
 			</div>
 			<div class="m">
-				<form action="index.php" method="post" name="adminForm">
+				<form action="index.php" method="post" name="adminForm" class="form-validate">
 				<h2><?php echo JText::_('Site Name'); ?></h2>
 				<div class="install-text">
 					<?php echo JText::_('ENTERSITENAME'); ?>
