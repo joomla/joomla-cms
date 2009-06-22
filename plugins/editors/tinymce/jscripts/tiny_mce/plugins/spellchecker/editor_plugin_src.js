@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 425 2007-11-21 15:17:39Z spocke $
+ * $Id$
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.

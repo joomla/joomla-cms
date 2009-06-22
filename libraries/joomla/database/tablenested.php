@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: tablenested.php 12077 2009-06-14 18:52:44Z chrisdavenport $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Database
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

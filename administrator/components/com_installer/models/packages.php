@@ -11,7 +11,7 @@
  * @package com_installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
- * @version SVN: $Id:$
+ * @version SVN: $Id$
  */
  
 // Check to ensure this file is included in Joomla!

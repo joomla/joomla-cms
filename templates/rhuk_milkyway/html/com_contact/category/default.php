@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: default.php 11917 2009-05-29 19:37:05Z ian $
+ * $Id$
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 

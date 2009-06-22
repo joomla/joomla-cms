@@ -1,5 +1,5 @@
 <?php
-/** $Id: default_items.php 11917 2009-05-29 19:37:05Z ian $ */
+/** $Id$ */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 <?php foreach($this->items as $item) : ?>
