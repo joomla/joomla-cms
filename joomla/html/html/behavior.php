@@ -74,7 +74,6 @@ abstract class JHtmlBehavior
 	}
 
 	public static function caption() {
-		JHtml::_('behavior.framework');
 		JHtml::script('caption.js');
 	}
 
