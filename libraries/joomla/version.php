@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @package	Joomla.Framework
+ * @package		Joomla.Framework
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -19,15 +19,15 @@ class JVersion
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.6';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Dev';
+	var $DEV_STATUS = 'Alpha';
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '0';
 	/** @var int build Number */
 	var $BUILD	= '';
 	/** @var string Codename */
-	var $CODENAME 	= 'Wohmamni';
+	var $CODENAME 	= 'Hope';
 	/** @var string Date */
-	var $RELDATE 	= '27-March-2009';
+	var $RELDATE 	= '22-June-2009';
 	/** @var string Time */
 	var $RELTIME 	= '23:00';
 	/** @var string Timezone */
