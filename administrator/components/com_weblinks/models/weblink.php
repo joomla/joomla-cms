@@ -82,10 +82,7 @@ class WeblinksModelWeblink extends JModelForm
 		$table = &$this->getTable();
 
 		// Attempt to check-in the row.
-		$return = $table->checkin($userId, $weblinkId);
-
-		// Check for a database error.
-		if ($return === false) {
+		if (!$table->checkin($weblinkId)) {
 			$this->setError($table->getError());
 			return false;
 		}
