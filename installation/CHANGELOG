@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+========== VERSION 1.6 APLHA RELEASED ==========
+
 22-Jun-2009 Gergo Erdosi
  - Removed a duplicate checked out icon from com_content.
  # Fixed form validation on cancel in com_content.
