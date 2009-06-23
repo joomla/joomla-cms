@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.0.0">
-	<name>Custom HTML</name>
+<install
+	type="module"
+	version="1.6.0">
+	<name>mod_custom</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
 	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.5.0</version>
-	<description>DESCMODCUSTOM</description>
+	<version>1.6.0</version>
+	<description>mod_custom_desc</description>
 	<params>
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param
+			name="prepare_content"
+			type="radio"
+			label="Mod_Custom_Prepare_Content_Label"
+			description="Mod_Custom_Prepare_Content_Desc"
+			default="1">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</param>
+
+		<param
+			name="moduleclass_sfx"
+			type="text"
+			label="Module Class Suffix"
+			description="PARAMMODULECLASSSUFFIX"/>
 	</params>
 </install>

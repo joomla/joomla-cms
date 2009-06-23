@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Jun-2009 Andrew Eddie
+ ^ Changed mod_custom into real module; added allowance to run content through content plugin system.
+ # Fixed bug preventing mod_custom from displaying content.
+ 
 ========== VERSION 1.6 APLHA RELEASED ==========
 
 22-Jun-2009 Gergo Erdosi
