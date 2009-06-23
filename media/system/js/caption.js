@@ -13,7 +13,7 @@
  * @since		1.5
  * @version     1.0
  */
-var JCaption = (function(selectorFn) {
+(function() {
 	var _createCaption = function(element, selector) {
 		var caption   = document.createTextNode(element.title);
 		var container = document.createElement("div");
@@ -40,20 +40,32 @@ var JCaption = (function(selectorFn) {
 		container.style.width = width + "px";
 	};
 	
-	var JCaption = function(selector, fn) {
-		if (typeof fn === 'function') {
-			selectorFn = fn;
+	var JCaption = function(className) {
+		var els = document.getElementsByTagName('img');
+		var regexp = new RegExp('\\b'+className+'\\b', 'i');
+
+		for (var i = 0, j = els.length; i < j; i++) {
+			var el = els[i];
+			if (regexp.test(el.className)) {
+				_createCaption(el, className);
+			}
 		}
-		selectorFn(selector).each(function(el) {
-			_createCaption(el, selector);
-		});
 	};
+
 	JCaption.create = function() {
 		this.apply(this, arguments);
 	};
-	return JCaption;
-})($$);
 
-window.addEvent('load', function() {
-	JCaption.create('img.caption');
-});
+	// Expose to global scope
+	this.JCaption = JCaption;
+})();
+
+(function() {
+	var tmp = window.onload || null;
+	window.onload = function() {
+		if (typeof tmp === 'function') {
+			tmp();
+		}
+		JCaption.create('caption');
+	}
+})();
