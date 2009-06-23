@@ -10,5 +10,4 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-	<a href="<?php echo $item->link; ?>" class="">
-		<?php echo $item->title; ?></a>
+	<span class="separator"><?php echo $item->title;?></span>

@@ -14,9 +14,7 @@ defined('_JEXEC') or die;
 <ul class="menu<?php echo $params->get('moduleclass_sfx'); ?>">
 <?php
 $level = $list[0]->level;
-for ($i=0,$n=count($list); $i<$n; $i++)
-{
-	$item = $list[$i];
+foreach ($list as $i => &$item) :
 
 	// The next item is deeper.
 	if ($item->deeper)
@@ -35,7 +33,17 @@ for ($i=0,$n=count($list); $i<$n; $i++)
 	}
 
 	// Render the menu item.
-	require JModuleHelper::getLayoutPath('mod_menu', 'default_item');
+	switch ($item->type) :
+		case 'separator':
+		case 'url':
+		case 'component':
+			require JModuleHelper::getLayoutPath('mod_menu', 'default_'.$item->type);
+			break;
+
+		default:
+			require JModuleHelper::getLayoutPath('mod_menu', 'default_url');
+			break;
+	endswitch;
 
 	// The next item is deeper.
 	if ($item->deeper)
@@ -52,6 +60,6 @@ for ($i=0,$n=count($list); $i<$n; $i++)
 	else {
 		echo "\n\t</li>";
 	}
-}
+endforeach;
 ?>
 </ul>
