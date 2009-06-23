@@ -30,6 +30,7 @@ $ -> Language fix or change
 23-Jun-2009 Andrew Eddie
  ^ Changed mod_custom into real module; added allowance to run content through content plugin system.
  # Fixed bug preventing mod_custom from displaying content.
+ # Fixed bug in JTable::move causing SQL error (ordering field not quoted properly).
  
 ========== VERSION 1.6 APLHA RELEASED ==========
 

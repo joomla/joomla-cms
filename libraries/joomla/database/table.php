@@ -1048,7 +1048,7 @@ abstract class JTable extends JObject
 		$query = new JQuery();
 
 		// Select the primary key and ordering values from the table.
-		$query->select('`'.$this->_tbl_key.'`, `ordering');
+		$query->select('`'.$this->_tbl_key.'`, `ordering`');
 		$query->from('`'.$this->_tbl.'`');
 
 		// If the movement delta is negative move the row up.
