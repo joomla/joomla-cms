@@ -100,13 +100,16 @@ class CategoriesControllerCategory extends JController
 				}
 			}
 		}
+		
+		// Check if we are adding for a particular extension
+		$extension = $app->getUserStateFromRequest($this->_context.'.filter.extension', 'extension', 'com_content');
 
 		// Push the new row id into the session.
 		$app->setUserState('com_categories.edit.category.id',	$id);
 		$app->setUserState('com_categories.edit.category.data',	null);
 		$app->setUserState('com_categories.edit.category.type',	null);
 
-		$this->setRedirect('index.php?option=com_categories&view=category&layout=edit');
+		$this->setRedirect('index.php?option=com_categories&view=category&layout=edit&extension='.$extension);
 
 		return true;
 	}

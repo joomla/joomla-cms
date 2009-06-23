@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 23-Jun-2009 Gergo Erdosi
  # Fixed weblink checkin method.
+ # Fixed extension parameter of categories. 
 
 23-Jun-2009 Andrew Eddie
  ^ Changed mod_custom into real module; added allowance to run content through content plugin system.
