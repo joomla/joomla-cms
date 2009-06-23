@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Document
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -22,12 +20,11 @@ class JDocumentRendererModule extends JDocumentRenderer
 	/**
 	 * Renders a module script and returns the results as a string
 	 *
-	 * @access public
-	 * @param string 	$name		The name of the module to render
-	 * @param array 		$params		Associative array of values
-	 * @return string	The output of the script
+	 * @param	string $name	The name of the module to render
+	 * @param	array $params	Associative array of values
+	 * @return	string			The output of the script
 	 */
-	function render($module, $params = array(), $content = null)
+	public function render($module, $params = array(), $content = null)
 	{
 		if (!is_object($module))
 		{
@@ -39,7 +36,8 @@ class JDocumentRendererModule extends JDocumentRenderer
 			{
 				if (is_null($content)) {
 					return '';
-				} else {
+				}
+				else {
 					/**
 					 * If module isn't found in the database but data has been pushed in the buffer
 					 * we want to render it
@@ -70,11 +68,10 @@ class JDocumentRendererModule extends JDocumentRenderer
 		if ($mod_params->get('cache', 0) && $conf->getValue('config.caching'))
 		{
 			$cache = &JFactory::getCache($module->module);
-
 			$cache->setLifeTime($mod_params->get('cache_time', $conf->getValue('config.cachetime') * 60));
-
 			$contents =  $cache->get(array('JModuleHelper', 'renderModule'), array($module, $params), $module->id. $user->get('aid', 0).md5(JRequest::getURI()));
-		} else {
+		}
+		else {
 			$contents = JModuleHelper::renderModule($module, $params);
 		}
 
