@@ -111,7 +111,7 @@ class ContentModelCategories extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.access, a.published, a.access, a.ordering' .
+				'a.id, a.title, a.alias, a.access, a.published, a.access' .
 				', a.path, a.parent_id, a.level, a.lft, a.rgt' .
 				', a.description'
 			)
