@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -26,9 +24,9 @@ abstract class JModuleHelper
 	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
 	 *
-	 * @access	public
 	 * @param	string 	$name	The name of the module
 	 * @param	string	$title	The title of the module, optional
+	 *
 	 * @return	object	The Module object
 	 */
 	public static function &getModule($name, $title = null)
@@ -42,7 +40,7 @@ abstract class JModuleHelper
 			if ($modules[$i]->name == $name)
 			{
 				// Match the title if we're looking for a specific instance of the module
-				if (! $title || $modules[$i]->title == $title)
+				if (!$title || $modules[$i]->title == $title)
 				{
 					$result = &$modules[$i];
 					break;	// Found it
@@ -71,8 +69,8 @@ abstract class JModuleHelper
 	/**
 	 * Get modules by position
 	 *
-	 * @access public
 	 * @param string 	$position	The position of the module
+	 *
 	 * @return array	An array of module objects
 	 */
 	public static function &getModules($position)
@@ -103,8 +101,8 @@ abstract class JModuleHelper
 	/**
 	 * Checks if a module is enabled
 	 *
-	 * @access	public
 	 * @param   string 	$module	The module name
+	 *
 	 * @return	boolean
 	 */
 	public static function isEnabled($module)
@@ -113,6 +111,14 @@ abstract class JModuleHelper
 		return (!is_null($result));
 	}
 
+	/**
+	 * Render the module.
+	 *
+	 * @param	object	A module object.
+	 * @param	array	An array of attributes for the module (probably from the XML).
+	 *
+	 * @return	strign	The HTML content of the module output.
+	 */
 	public static function renderModule($module, $attribs = array())
 	{
 		static $chrome;
@@ -130,14 +136,13 @@ abstract class JModuleHelper
 		$path = JPATH_BASE.DS.'modules'.DS.$module->module.DS.$module->module.'.php';
 
 		// Load the module
-		if (!$module->user && file_exists($path) && empty($module->content))
+		if (!$module->user && file_exists($path))
 		{
 			$lang = &JFactory::getLanguage();
 			// 1.5 or Core
 			$lang->load($module->module);
 			// 1.6 3PD
-			$lang->load( $module->module, dirname($path));
-			
+			$lang->load($module->module, dirname($path));
 
 			$content = '';
 			ob_start();
