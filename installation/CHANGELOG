@@ -35,6 +35,8 @@ $ -> Language fix or change
  ^ Changed mod_custom into real module; added allowance to run content through content plugin system.
  # Fixed bug preventing mod_custom from displaying content.
  # Fixed bug in JTable::move causing SQL error (ordering field not quoted properly).
+ # Fixed SQL bug in frontend com_content categories view.
+ + Added sample menu item to test frontend categories view.
  
 ========== VERSION 1.6 APLHA RELEASED ==========
 
