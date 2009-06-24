@@ -504,6 +504,40 @@ class MenusModelItem extends JModelForm
 			return false;
 		}
 
+		// Convert the parameters not in JSON format.
+		$this->_db->setQuery(
+			'SELECT id, params' .
+			' FROM #__menu' .
+			' WHERE params NOT LIKE '.$this->_db->quote('{%') .
+			'  AND params <> '.$this->_db->quote('')
+		);
+
+		$items = $this->_db->loadObjectList();
+		if ($error = $this->_db->getErrorMsg())
+		{
+			$this->setError($error);
+			return false;
+		}
+
+		foreach ($items as &$item)
+		{
+			$registry = new JRegistry;
+			$registry->loadJSON($item->params);
+			$params = $registry->toString();
+
+			$this->_db->setQuery(
+				'UPDATE #__menu' .
+				' SET params = '.$this->_db->quote($params).
+				' WHERE id = '.(int) $item->id
+			);
+			if (!$this->_db->query())
+			{
+				$this->setError($error);
+				return false;
+			}
+			unset($registry);
+		}
+
 		return true;
 	}
 
