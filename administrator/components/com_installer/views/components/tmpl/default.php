@@ -1,3 +1,15 @@
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_installer
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// no direct access
+defined('_JEXEC') or die;
+?>
 <form action="index.php" method="post" name="adminForm">
 	<?php if ($this->showMessage) : ?>
 		<?php echo $this->loadTemplate('message'); ?>
@@ -12,7 +24,7 @@
 		<thead>
 			<tr>
 				<th class="title" width="10px"><?php echo JText::_('Num'); ?></th>
-				<th class="title" nowrap="nowrap"><?php echo JText::_( 'Component' ); ?></th>
+				<th class="title" nowrap="nowrap"><?php echo JText::_('Component'); ?></th>
 				<th class="title" width="5%" align="center"><?php echo JText::_('Enabled'); ?></th>
 				<th class="title" width="10%" align="center"><?php echo JText::_('Version'); ?></th>
 				<th class="title" width="15%"><?php echo JText::_('Date'); ?></th>

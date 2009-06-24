@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,10 +14,10 @@ jimport('joomla.application.component.view');
  * Extension Manager Languages View
  *
  * @package		Joomla.Administrator
- * @subpackage	Installer
+ * @subpackage	com_installer
  * @since		1.5
  */
-include_once(dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php');
+include_once dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php';
 
 class InstallerViewLanguages extends InstallerViewDefault
 {
@@ -57,7 +55,9 @@ class InstallerViewLanguages extends InstallerViewDefault
 		if ($item->published) {
 			$item->cbd		= 'disabled';
 			$item->style	= 'style="color:#999999;"';
-		} else {
+		}
+		else
+		{
 			$item->cbd		= null;
 			$item->style	= null;
 		}

@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,16 +10,15 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
+include_once dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php';
+
 /**
  * Extension Manager Modules View
  *
  * @package		Joomla.Administrator
- * @subpackage	Installer
+ * @subpackage	com_installer
  * @since		1.5
  */
-
-include_once(dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php');
-
 class InstallerViewModules extends InstallerViewDefault
 {
 	function display($tpl=null)

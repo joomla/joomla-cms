@@ -1,7 +1,18 @@
 <?php
-	$state			= &$this->get('State');
-	$message1		= $state->get('message');
-	$message2		= $state->get('extension_message');
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_installer
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// no direct access
+defined('_JEXEC') or die;
+
+$state			= &$this->get('State');
+$message1		= $state->get('message');
+$message2		= $state->get('extension_message');
 ?>
 <table class="adminform">
 	<tbody>

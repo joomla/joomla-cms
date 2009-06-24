@@ -1,7 +1,19 @@
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_installer
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// no direct access
+defined('_JEXEC') or die;
+?>
 <form action="index.php" method="post" name="adminForm">
 <?php
 
-if(!count($this->messages)) {
+if (!count($this->messages)) {
 	echo '<p>'. JText::_('No warnings detected').'</p>';
 } else {
 	jimport('joomla.html.pane');
@@ -23,4 +35,4 @@ if(!count($this->messages)) {
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="option" value="com_installer" />
 <input type="hidden" name="type" value="warnings" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHTML::_('form.token'); ?>

@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
@@ -17,7 +15,7 @@ jimport('joomla.client.helper');
  * Installer Controller
  *
  * @package		Joomla.Administrator
- * @subpackage	Installer
+ * @subpackage	com_installer
  * @since		1.5
  */
 class InstallerController extends JController
@@ -62,7 +60,8 @@ class InstallerController extends JController
 
 		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
-		if ($model->install()) {
+		if ($model->install())
+		{
 			$cache = &JFactory::getCache('mod_menu');
 			$cache->clean();
 		}
@@ -90,31 +89,34 @@ class InstallerController extends JController
 		$view->setModel($model, true);
 		$view->display();
 	}
-	
+
 	/**
 	 * Discover handler
 	 */
-	function discover() {
+	function discover()
+	{
 		$model = &$this->getModel('discover');
-		$view = &$this->getView( 'discover' );
+		$view = &$this->getView('discover');
 		$model->discover();
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
-	
-	function discover_install() {
+
+	function discover_install()
+	{
 		$model = &$this->getModel('discover');
-		$view = &$this->getView( 'discover' );
+		$view = &$this->getView('discover');
 		$model->discover_install();
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
-	
-	function discover_purge() {
+
+	function discover_purge()
+	{
 		$model = &$this->getModel('discover');
 		$model->purge();
 		$this->setRedirect('index.php?option=com_installer&task=manage&type=discover', $model->_message);
@@ -139,7 +141,8 @@ class InstallerController extends JController
 		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
-		if (method_exists($model, 'enable')) {
+		if (method_exists($model, 'enable'))
+		{
 			$eid = JRequest::getVar('eid', array(), '', 'array');
 			JArrayHelper::toInteger($eid, array());
 			$model->enable($eid);
@@ -168,7 +171,8 @@ class InstallerController extends JController
 		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
-		if (method_exists($model, 'disable')) {
+		if (method_exists($model, 'disable'))
+		{
 			$eid = JRequest::getVar('eid', array(), '', 'array');
 			JArrayHelper::toInteger($eid, array());
 			$model->disable($eid);
@@ -185,7 +189,8 @@ class InstallerController extends JController
 	 * @return	void
 	 * @since	1.5
 	 */
-	function remove() {
+	function remove()
+	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit('Invalid Token');
 
@@ -202,7 +207,9 @@ class InstallerController extends JController
 		// Checks there is only one extensions, we're uninstalling components
 		// and then checks that the zero numbered item is set (shouldn't be a zero
 		// if the eid is set to the proper format)
-		if ((count($eid) == 1) && ($type == 'components') && (isset($eid[0]))) $eid = array($eid[0] => 0);
+		if ((count($eid) == 1) && ($type == 'components') && (isset($eid[0]))) {
+			$eid = array($eid[0] => 0);
+		}
 
 		JArrayHelper::toInteger($eid, array());
 		$result = $model->remove($eid);
@@ -210,14 +217,15 @@ class InstallerController extends JController
 		$view->setModel($model, true);
 		$view->display();
 	}
-	
-	function refresh() {
+
+	function refresh()
+	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		$type	= JRequest::getWord('type', 'manage');
-		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type );
+		$model	= &$this->getModel($type);
+		$view	= &$this->getView($type);
 
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
@@ -227,19 +235,19 @@ class InstallerController extends JController
 		JArrayHelper::toInteger($uid, array());
 		$result = $model->refresh($uid);
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
-	
+
 	// Should probably use multiple controllers here
 	function update()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		$type	= JRequest::getWord('type', 'components');
-		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type );
+		$model	= &$this->getModel($type);
+		$view	= &$this->getView($type);
 
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
@@ -247,34 +255,37 @@ class InstallerController extends JController
 		$uid = JRequest::getVar('uid', array(), '', 'array');
 
 		JArrayHelper::toInteger($uid, array());
-		if($model->update($uid)) {
+		if ($model->update($uid))
+		{
 			$cache = &JFactory::getCache('mod_menu');
 			$cache->clean();
 		}
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
-	
-	function update_find() {
+
+	function update_find()
+	{
 		// Find updates
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		$type	= JRequest::getWord('type', 'components');
-		$model	= &$this->getModel( $type );
-		$view	= &$this->getView( $type );
+		$model	= &$this->getModel($type);
+		$view	= &$this->getView($type);
 
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 		$model->purge();
 		$result = $model->findUpdates();
 
-		$view->setModel( $model, true );
+		$view->setModel($model, true);
 		$view->display();
 	}
-	
-	function update_purge() {
+
+	function update_purge()
+	{
 		// Purge updates
 		$model = &$this->getModel('update');
 		$model->purge();

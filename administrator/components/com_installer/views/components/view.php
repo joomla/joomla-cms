@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -14,7 +12,7 @@ defined('_JEXEC') or die;
  * Extension Manager Components View
  *
  * @package		Joomla.Administrator
- * @subpackage	Installer
+ * @subpackage	com_installer
  * @since		1.5
  */
 
@@ -50,10 +48,12 @@ class InstallerViewComponents extends InstallerViewDefault
 		$item->alt 		= $item->enabled ? JText::_('Enabled') : JText::_('Disabled');
 		$item->action	= $item->enabled ? JText::_('disable') : JText::_('enable');
 
-		if ($item->iscore) {
+		if ($item->iscore)
+		{
 			$item->cbd		= 'disabled';
 			$item->style	= 'style="color:#999999;"';
-		} else {
+		}
+		else {
 			$item->cbd		= null;
 			$item->style	= null;
 		}
