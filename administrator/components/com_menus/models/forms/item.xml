@@ -262,7 +262,7 @@
 			type="radio"
 			label="Menus_Item_Secure_Label"
 			description="Menus_Item_Secure_Desc"
-			default="1"
+			default="0"
 			filter="integer">
 			<option
 				value="-1">Off</option>
