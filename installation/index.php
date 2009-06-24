@@ -6,6 +6,11 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// PHP 5 check
+if (version_compare(PHP_VERSION, '5.2.0', '<')) {
+	die('Your host needs to use PHP 5.2.0 or higher to run Joomla 1.6.');
+}
+
 define('_JEXEC', 1);
 
 define('JPATH_BASE', dirname(__FILE__));
