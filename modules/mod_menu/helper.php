@@ -60,20 +60,23 @@ class modMenuHelper
 			$item->shallower	= (isset($list[$i+1]) && ($item->level > $list[$i+1]->level));
 			$item->level_diff	= (isset($list[$i+1])) ? ($item->level - $list[$i+1]->level) : 0;
 
-			// Correct the URL for the home page.
-			if ($item->home == 1) {
-				$item->link = JURI::base();
-			}
+			$item->params = new JObject(json_decode($item->params));
 
 			switch ($item->type)
 			{
-				case 'url' :
-					if ((strpos($item->link, 'index.php?') === 0) && (strpos($item->link, 'Itemid=') === false)) {
+				case 'separator':
+					// No further action needed.
+					continue;
+
+				case 'url':
+					if ((strpos($item->link, 'index.php?') === 0) && (strpos($item->link, 'Itemid=') === false))
+					{
+						// If this is an internal Joomla link, ensure the Itemid is set.
 						$item->link = $tmp->link.'&amp;Itemid='.$item->id;
 					}
 					break;
 
-				default :
+				default:
 					$router = JSite::getRouter();
 					if ($router->getMode() == JROUTER_MODE_SEF) {
 						$item->link = 'index.php?Itemid='.$item->id;
@@ -82,6 +85,22 @@ class modMenuHelper
 						$item->link .= '&Itemid='.$item->id;
 					}
 					break;
+			}
+
+			if ($item->home == 1)
+			{
+				// Correct the URL for the home page.
+				$item->link = JURI::base();
+			}
+			elseif (strcasecmp(substr($item->link, 0, 4), 'http') && (strpos($item->link, 'index.php?') !== false))
+			{
+				// This is an internal Joomla web site link.
+				$item->link = JRoute::_($item->link, true, $item->params->get('secure'));
+			}
+			else
+			{
+				// Correct the & in the link.
+				$item->link = str_replace('&', '&amp;', $item->link);
 			}
 		}
 
