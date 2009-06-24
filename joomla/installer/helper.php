@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -51,7 +49,8 @@ class JInstallerHelper
 		// Open the remote server socket for reading
 		$inputHandle = @ fopen($url, "r");
 		$error = strstr($php_errormsg,'failed to open stream:');
-		if (!$inputHandle) {
+		if (!$inputHandle)
+		{
 			JError::raiseWarning(42, JText::_('SERVER_CONNECT_FAILED').', '.$error);
 			return false;
 		}
@@ -59,7 +58,8 @@ class JInstallerHelper
 		$meta_data = stream_get_meta_data($inputHandle);
 		foreach ($meta_data['wrapper_data'] as $wrapper_data)
 		{
-			if (substr($wrapper_data, 0, strlen("Content-Disposition")) == "Content-Disposition") {
+			if (substr($wrapper_data, 0, strlen("Content-Disposition")) == "Content-Disposition")
+			{
 				$contentfilename = explode ("\"", $wrapper_data);
 				$target = $contentfilename[1];
 			}
@@ -68,7 +68,8 @@ class JInstallerHelper
 		// Set the target path if not given
 		if (!$target) {
 			$target = $config->getValue('config.tmp_path').DS.JInstallerHelper::getFilenameFromURL($url);
-		} else {
+		}
+		else {
 			$target = $config->getValue('config.tmp_path').DS.basename($target);
 		}
 
@@ -78,7 +79,8 @@ class JInstallerHelper
 		while (!feof($inputHandle))
 		{
 			$contents .= fread($inputHandle, 4096);
-			if ($contents == false) {
+			if ($contents == false)
+			{
 				JError::raiseWarning(44, 'Failed reading network resource: '.$php_errormsg);
 				return false;
 			}
@@ -160,11 +162,10 @@ class JInstallerHelper
 		 * Get the extension type and return the directory/type array on success or
 		 * false on fail.
 		 */
-		if ($retval['type'] = JInstallerHelper::detectType($extractdir))
-		{
+		if ($retval['type'] = JInstallerHelper::detectType($extractdir)) {
 			return $retval;
-		} else
-		{
+		}
+		else {
 			return false;
 		}
 	}
@@ -184,7 +185,6 @@ class JInstallerHelper
 
 		if (count($files) > 0)
 		{
-
 			foreach ($files as $file)
 			{
 				$xmlDoc = & JFactory::getXMLParser('Simple');
@@ -212,7 +212,8 @@ class JInstallerHelper
 			// Free up memory.
 			unset ($xmlDoc);
 			return false;
-		} else
+		}
+		else
 		{
 			JError::raiseWarning(1, JText::_('ERRORNOTFINDXMLSETUPFILE'));
 			return false;
@@ -229,7 +230,8 @@ class JInstallerHelper
 	 */
 	function getFilenameFromURL($url)
 	{
-		if (is_string($url)) {
+		if (is_string($url))
+		{
 			$parts = explode('/', $url);
 			return $parts[count($parts) - 1];
 		}
@@ -257,7 +259,9 @@ class JInstallerHelper
 		// Is the package file a valid file?
 		if (is_file($package)) {
 			JFile::delete($package);
-		} elseif (is_file(JPath::clean($config->getValue('config.tmp_path').DS.$package))) {
+		}
+		elseif (is_file(JPath::clean($config->getValue('config.tmp_path').DS.$package)))
+		{
 			// It might also be just a base filename
 			JFile::delete(JPath::clean($config->getValue('config.tmp_path').DS.$package));
 		}
