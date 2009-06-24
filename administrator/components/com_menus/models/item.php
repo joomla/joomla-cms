@@ -109,17 +109,16 @@ class MenusModelItem extends JModelForm
 			$table->type		= $this->getState('item.type');
 		}
 
-		if ($table->type != 'url' && $table->type != 'alias' && $table->type != 'separator') {
+		if ($table->type != 'url' && $table->type != 'alias' && $table->type != 'separator')
+		{
 			$type = explode('::', $table->type, 2);
-			if (strpos($table->link, $type[1]) === false) {
+			if (isset($type[1]) && strpos($table->link, $type[1]) === false) {
 				$table->link = 'index.php?'.$type[1];
 			}
 		}
 
 		// Convert the params field to an array.
-		$registry = new JRegistry();
-		$registry->loadJSON($table->params);
-		$table->params = $registry->toArray();
+		$table->params = json_decode($table->params, true);
 
 		$result = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
