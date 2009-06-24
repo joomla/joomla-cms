@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -13,7 +11,7 @@ defined('JPATH_BASE') or die;
 /**
  * JMenu class
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Site
  * @subpackage	Application
  * @since		1.5
  */
@@ -22,10 +20,9 @@ class JMenuSite extends JMenu
 	/**
 	 * Loads the entire menu table into memory
 	 *
-	 * @access public
 	 * @return array
 	 */
-	function load()
+	public function load()
 	{
 		$cache = &JFactory::getCache('_system', 'output');
 
@@ -41,7 +38,8 @@ class JMenuSite extends JMenu
 					' ORDER BY m.lft';
 			$db->setQuery($sql);
 
-			if (!($menus = $db->loadObjectList('id'))) {
+			if (!($menus = $db->loadObjectList('id')))
+			{
 				JError::raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
 				return false;
 			}
@@ -52,7 +50,8 @@ class JMenuSite extends JMenu
 				$parent_route = '';
 				$parent_tree  = array();
 				if (($parent = $menus[$key]->parent_id) && (isset($menus[$parent])) &&
-					(is_object($menus[$parent])) && (isset($menus[$parent]->route)) && isset($menus[$parent]->tree)) {
+					(is_object($menus[$parent])) && (isset($menus[$parent]->route)) && isset($menus[$parent]->tree))
+				{
 					$parent_route = $menus[$parent]->route.'/';
 					$parent_tree  = $menus[$parent]->tree;
 				}
@@ -67,8 +66,7 @@ class JMenuSite extends JMenu
 
 				//Create the query array
 				$url = str_replace('index.php?', '', $menus[$key]->link);
-				if (strpos($url, '&amp;') !== false)
-				{
+				if (strpos($url, '&amp;') !== false) {
 				   $url = str_replace('&amp;','&',$url);
 				}
 

@@ -2,6 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Site
+ * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -19,6 +20,7 @@ defined('_JEXEC') or die;
 /*
  * Installation check, and check on removal of the install directory.
  */
+
 if (!file_exists(JPATH_CONFIGURATION.DS.'configuration.php') || (filesize(JPATH_CONFIGURATION.DS.'configuration.php') < 10) /*|| file_exists(JPATH_INSTALLATION.DS.'index.php')*/)
 {
 	if (file_exists(JPATH_INSTALLATION.DS.'index.php')) {
@@ -37,17 +39,19 @@ if (!file_exists(JPATH_CONFIGURATION.DS.'configuration.php') || (filesize(JPATH_
  */
 
 // System includes
-require_once(JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php');
+require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'import.php');
 
 // Pre-Load configuration
-require_once(JPATH_CONFIGURATION	.DS.'configuration.php');
+require_once(JPATH_CONFIGURATION.DS.'configuration.php');
 
 // System configuration
 $CONFIG = new JConfig();
 
 if (@$CONFIG->error_reporting === 0) {
 	error_reporting(0);
-} else if (@$CONFIG->error_reporting > 0) {
+}
+else if (@$CONFIG->error_reporting > 0)
+{
 	error_reporting($CONFIG->error_reporting);
 	ini_set('display_errors', 1);
 }
@@ -61,7 +65,8 @@ unset($CONFIG);
  */
 
 // System profiler
-if (JDEBUG) {
+if (JDEBUG)
+{
 	jimport('joomla.error.profiler');
 	$_PROFILER = &JProfiler::getInstance('Application');
 }
@@ -76,4 +81,3 @@ jimport('joomla.event.event');
 jimport('joomla.event.dispatcher');
 jimport('joomla.language.language');
 jimport('joomla.utilities.string');
-?>
