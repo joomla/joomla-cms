@@ -1,14 +1,13 @@
 <?php
 /**
- * @version		$Id:component.php 6961 2007-03-15 16:06:53Z tcp $
- * @package		Joomla.Framework
- * @subpackage	Installer
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
 defined('JPATH_BASE') or die;
+
 jimport('joomla.base.adapterinstance');
 
 /**
@@ -26,7 +25,7 @@ class JInstallerComponent extends JAdapterInstance
 	protected $scriptElement = null;
 	protected $adminElement	= null;
 	protected $installElement = null;
-	protected $uninstallElement	= null;		
+	protected $uninstallElement	= null;
 	protected $oldAdminFiles = null;
 	protected $oldFiles = null;
 	protected $manifest_script = null;
@@ -69,12 +68,12 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '');
-		}		
+		}
 
 		// Get some important manifest elements
 		$this->adminElement		= &$this->manifest->getElementByPath('administration');
 		$this->installElement	= &$this->manifest->getElementByPath('install');
-		$this->uninstallElement	= &$this->manifest->getElementByPath('uninstall');		
+		$this->uninstallElement	= &$this->manifest->getElementByPath('uninstall');
 
 		// Set the installation target paths
 		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS."components".DS.$this->get('element')));
@@ -104,7 +103,8 @@ class JInstallerComponent extends JAdapterInstance
 		 * If the component site or admin directory already exists, then we will assume that the component is already
 		 * installed or another component is using that directory.
 		 */
-		if ((file_exists($this->parent->getPath('extension_site')) || file_exists($this->parent->getPath('extension_administrator')))) {
+		if ((file_exists($this->parent->getPath('extension_site')) || file_exists($this->parent->getPath('extension_administrator'))))
+		{
 			// look for an update function or update tag
 			$updateElement = $this->manifest->getElementByPath('update');
 			// upgrade manually set
@@ -112,11 +112,15 @@ class JInstallerComponent extends JAdapterInstance
 			// update tag detected
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement')) {
 				return $this->update(); // transfer control to the update function
-			} else if (!$this->parent->getOverwrite()) { // overwrite is set
+			}
+			else if (!$this->parent->getOverwrite())
+			{
+				// overwrite is set
 				// we didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				if (file_exists($this->parent->getPath('extension_site'))) { // if the site exists say that
 					JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_site').'"');
-				} else { // if the admin exists say that
+				}
+				else { // if the admin exists say that
 					JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_administrator').'"');
 				}
 				return false;
@@ -130,16 +134,19 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$this->scriptElement = &$this->manifest->getElementByPath('scriptfile');
-		if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
+		if (is_a($this->scriptElement, 'JSimpleXMLElement'))
+		{
 			$manifestScript = $this->scriptElement->data();
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
-			if (is_file($manifestScriptFile)) {
+			if (is_file($manifestScriptFile))
+			{
 				// load the file
 				include_once($manifestScriptFile);
 			}
 			// Set the class name
 			$classname = $element.'InstallerScript';
-			if (class_exists($classname)) {
+			if (class_exists($classname))
+			{
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
@@ -157,8 +164,10 @@ class JInstallerComponent extends JAdapterInstance
 
 		// If the component directory does not exist, lets create it
 		$created = false;
-		if (!file_exists($this->parent->getPath('extension_site'))) {
-			if (!$created = JFolder::create($this->parent->getPath('extension_site'))) {
+		if (!file_exists($this->parent->getPath('extension_site')))
+		{
+			if (!$created = JFolder::create($this->parent->getPath('extension_site')))
+			{
 				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_site').'"');
 				return false;
 			}
@@ -174,8 +183,10 @@ class JInstallerComponent extends JAdapterInstance
 
 		// If the component admin directory does not exist, lets create it
 		$created = false;
-		if (!file_exists($this->parent->getPath('extension_administrator'))) {
-			if (!$created = JFolder::create($this->parent->getPath('extension_administrator'))) {
+		if (!file_exists($this->parent->getPath('extension_administrator')))
+		{
+			if (!$created = JFolder::create($this->parent->getPath('extension_administrator')))
+			{
 				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_administrator').'"');
 				// Install failed, rollback any changes
 				$this->parent->abort();
@@ -194,7 +205,8 @@ class JInstallerComponent extends JAdapterInstance
 		// Find files to copy
 		foreach ($this->manifest->children() as $child)
 		{
-			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'files') {
+			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'files')
+			{
 				if ($this->parent->parseFiles($child) === false) {
 					// Install failed, rollback any changes
 					$this->parent->abort();
@@ -205,8 +217,10 @@ class JInstallerComponent extends JAdapterInstance
 
 		foreach ($this->adminElement->children() as $child)
 		{
-			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'files') {
-				if ($this->parent->parseFiles($child, 1) === false) {
+			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'files')
+			{
+				if ($this->parent->parseFiles($child, 1) === false)
+				{
 					// Install failed, rollback any changes
 					$this->parent->abort();
 					return false;
@@ -222,13 +236,15 @@ class JInstallerComponent extends JAdapterInstance
 		// Deprecated install, remove after 1.6
 		// If there is an install file, lets copy it.
 		$installScriptElement = &$this->manifest->getElementByPath('installfile');
-		if ($installScriptElement INSTANCEOF JSimpleXMLElement) {
+		if ($installScriptElement INSTANCEOF JSimpleXMLElement)
+		{
 			// Make sure it hasn't already been copied (this would be an error in the xml install file)
 			if (!file_exists($this->parent->getPath('extension_administrator').DS.$installScriptElement->data()) || $this->parent->getOverwrite())
 			{
 				$path['src']	= $this->parent->getPath('source').DS.$installScriptElement->data();
 				$path['dest']	= $this->parent->getPath('extension_administrator').DS.$installScriptElement->data();
-				if (!$this->parent->copyFiles(array ($path))) {
+				if (!$this->parent->copyFiles(array ($path)))
+				{
 					// Install failed, rollback changes
 					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy PHP install file.'));
 					return false;
@@ -240,13 +256,15 @@ class JInstallerComponent extends JAdapterInstance
 		// Deprecated uninstall, remove after 1.6
 		// If there is an uninstall file, lets copy it.
 		$uninstallScriptElement = &$this->manifest->getElementByPath('uninstallfile');
-		if ($uninstallScriptElement INSTANCEOF JSimpleXMLElement) {
+		if ($uninstallScriptElement INSTANCEOF JSimpleXMLElement)
+		{
 			// Make sure it hasn't already been copied (this would be an error in the xml install file)
 			if (!file_exists($this->parent->getPath('extension_administrator').DS.$uninstallScriptElement->data()) || $this->parent->getOverwrite())
 			{
 				$path['src']	= $this->parent->getPath('source').DS.$uninstallScriptElement->data();
 				$path['dest']	= $this->parent->getPath('extension_administrator').DS.$uninstallScriptElement->data();
-				if (!$this->parent->copyFiles(array ($path))) {
+				if (!$this->parent->copyFiles(array ($path)))
+				{
 					// Install failed, rollback changes
 					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy PHP uninstall file.'));
 					return false;
@@ -255,12 +273,15 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// If there is a manifest script, lets copy it.
-		if ($this->get('manifest_script')) {
+		if ($this->get('manifest_script'))
+		{
 			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest_script');
 
-			if (!file_exists($path['dest']) || $this->parent->getOverwrite()) {
-				if (!$this->parent->copyFiles(array ($path))) {
+			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
+			{
+				if (!$this->parent->copyFiles(array ($path)))
+				{
 					// Install failed, rollback changes
 					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy PHP manifest file.'));
 					return false;
@@ -282,7 +303,8 @@ class JInstallerComponent extends JAdapterInstance
 		// try for Joomla 1.5 type queries
 		// second argument is the utf compatible version attribute
 		$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath('install/sql'));
-		if ($utfresult === false) {
+		if ($utfresult === false)
+		{
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
 			return false;
@@ -303,13 +325,17 @@ class JInstallerComponent extends JAdapterInstance
 		 * method to the installation message.
 		 */
 		// start legacy support
-		if ($this->get('install_script')) {
-			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script')) || $this->parent->getOverwrite()) {
+		if ($this->get('install_script'))
+		{
+			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script')) || $this->parent->getOverwrite())
+			{
 				ob_start();
 				ob_implicit_flush(false);
 				require_once $this->parent->getPath('extension_administrator').DS.$this->get('install_script');
-				if (function_exists('com_install')) {
-					if (com_install() === false) {
+				if (function_exists('com_install'))
+				{
+					if (com_install() === false)
+					{
 						$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Custom install routine failure'));
 						return false;
 					}
@@ -323,7 +349,9 @@ class JInstallerComponent extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'install')) $this->parent->manifestClass->install($this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'install')) {
+			$this->parent->manifestClass->install($this);
+		}
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 
@@ -345,7 +373,8 @@ class JInstallerComponent extends JAdapterInstance
 		$row->set('client_id', 0);
 		$row->set('params', $this->parent->getParams());
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
-		if (!$row->store()) {
+		if (!$row->store())
+		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
@@ -357,20 +386,23 @@ class JInstallerComponent extends JAdapterInstance
 								'type'=>'component',
 								'client_id'=>'',
 								'folder'=>''));
-		if ($uid) $update->delete($uid);
+		if ($uid) {
+			$update->delete($uid);
+		}
 
 		// We will copy the manifest file to its appropriate place.
-		if (!$this->parent->copyManifest()) {
+		if (!$this->parent->copyManifest())
+		{
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
-		
+
 		// Add a new section, register a manage action and create a default rule assigned to managers to manage this extension
 		// Require the access helper library.
 		jimport('joomla.access.helper');
 		jimport('joomla.access.permission.simplerule');
-		
+
 		// Register the sections
 		JAccessHelper::registerSection($row->get('name'), $row->get('element'));
 
@@ -382,7 +414,8 @@ class JInstallerComponent extends JAdapterInstance
 		$rule->load($action);
 		$gid = $this->parent->getGroupIDFromName('Manager');
 		$rule->setUserGroups(array($gid));
-		if(!$rule->store()) {
+		if (!$rule->store())
+		{
 			// TODO: Remember how I'm supposed to be doing these language keys again...
 			JError::raiseWarning(1, JText::_('JOOMLA_FAILED_TO_ADD_RULE'));
 		}
@@ -436,7 +469,8 @@ class JInstallerComponent extends JAdapterInstance
 		$description = & $this->manifest->getElementByPath('description');
 		if (is_a($description, 'JSimpleXMLElement')) {
 			$this->parent->set('message', $description->data());
-		} else {
+		}
+		else {
 			$this->parent->set('message', '');
 		}
 
@@ -458,27 +492,34 @@ class JInstallerComponent extends JAdapterInstance
 		$tmpInstaller = new JInstaller(); // create a new installer because findManifest sets stuff
 		// look in the administrator first
 		$tmpInstaller->setPath('source', $this->parent->getPath('extension_administrator'));
-		if (!$tmpInstaller->findManifest()) {
+
+		if (!$tmpInstaller->findManifest())
+		{
 			// then the site
 			$tmpInstaller->setPath('source', $this->parent->getPath('extension_site'));
 			if ($tmpInstaller->findManifest()) {
 				$old_manifest = $tmpInstaller->getManifest();
 				$old_manifest = $old_manifest->document;
 			}
-		} else {
+		}
+		else
+		{
 			$old_manifest = $tmpInstaller->getManifest();
 			$old_manifest = $old_manifest->document;
 		}
-		
+
 		// should do this above perhaps?
-		if ($old_manifest) {
+		if ($old_manifest)
+		{
 			$this->oldAdminFiles = &$old_manifest->getElementByPath('administration/files');
 			$this->oldFiles = &$old_manifest->getElementByPath('files');
-		} else {
+		}
+		else
+		{
 			$this->oldAdminFiles = null;
 			$this->oldFiles = null;
 		}
-	
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Basic Checks Section
@@ -498,16 +539,19 @@ class JInstallerComponent extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
-		if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
+		if (is_a($this->scriptElement, 'JSimpleXMLElement'))
+		{
 			$manifestScript = $this->scriptElement->data();
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
-			if (is_file($manifestScriptFile)) {
+			if (is_file($manifestScriptFile))
+			{
 				// load the file
 				include_once($manifestScriptFile);
 			}
 			// Set the class name
 			$classname = $element.'InstallerScript';
-			if (class_exists($classname)) {
+			if (class_exists($classname))
+			{
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
@@ -519,7 +563,9 @@ class JInstallerComponent extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight('update', $this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
+			$this->parent->manifestClass->preflight('update', $this);
+		}
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
 
@@ -531,13 +577,14 @@ class JInstallerComponent extends JAdapterInstance
 
 		// If the component directory does not exist, lets create it
 		$created = false;
-		if (!file_exists($this->parent->getPath('extension_site'))) {
-			if (!$created = JFolder::create($this->parent->getPath('extension_site'))) {
+		if (!file_exists($this->parent->getPath('extension_site')))
+		{
+			if (!$created = JFolder::create($this->parent->getPath('extension_site')))
+			{
 				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Update').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_site').'"');
 				return false;
 			}
 		}
-
 
 		/*
 		 * Since we created the component directory and will want to remove it if we have to roll back
@@ -549,8 +596,10 @@ class JInstallerComponent extends JAdapterInstance
 
 		// If the component admin directory does not exist, lets create it
 		$created = false;
-		if (!file_exists($this->parent->getPath('extension_administrator'))) {
-			if (!$created = JFolder::create($this->parent->getPath('extension_administrator'))) {
+		if (!file_exists($this->parent->getPath('extension_administrator')))
+		{
+			if (!$created = JFolder::create($this->parent->getPath('extension_administrator')))
+			{
 				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Update').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_administrator').'"');
 				// Install failed, rollback any changes
 				$this->parent->abort();
@@ -569,8 +618,10 @@ class JInstallerComponent extends JAdapterInstance
 		// Find files to copy
 		foreach ($this->manifest->children() as $child)
 		{
-			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'files') {
-				if ($this->parent->parseFiles($child, 0, $this->oldFiles) === false) {
+			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'files')
+			{
+				if ($this->parent->parseFiles($child, 0, $this->oldFiles) === false)
+				{
 					// Install failed, rollback any changes
 					$this->parent->abort();
 					return false;
@@ -580,8 +631,10 @@ class JInstallerComponent extends JAdapterInstance
 
 		foreach ($this->adminElement->children() as $child)
 		{
-			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'files') {
-				if ($this->parent->parseFiles($child, 1, $this->oldAdminFiles) === false) {
+			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'files')
+			{
+				if ($this->parent->parseFiles($child, 1, $this->oldAdminFiles) === false)
+				{
 					// Install failed, rollback any changes
 					$this->parent->abort();
 					return false;
@@ -597,13 +650,15 @@ class JInstallerComponent extends JAdapterInstance
 		// Deprecated install, remove after 1.6
 		// If there is an install file, lets copy it.
 		$installScriptElement = &$this->manifest->getElementByPath('installfile');
-		if (is_a($installScriptElement, 'JSimpleXMLElement')) {
+		if (is_a($installScriptElement, 'JSimpleXMLElement'))
+		{
 			// Make sure it hasn't already been copied (this would be an error in the xml install file)
 			if (!file_exists($this->parent->getPath('extension_administrator').DS.$installScriptElement->data()) || $this->parent->getOverwrite())
 			{
 				$path['src']	= $this->parent->getPath('source').DS.$installScriptElement->data();
 				$path['dest']	= $this->parent->getPath('extension_administrator').DS.$installScriptElement->data();
-				if (!$this->parent->copyFiles(array ($path))) {
+				if (!$this->parent->copyFiles(array ($path)))
+				{
 					// Install failed, rollback changes
 					$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Could not copy PHP install file.'));
 					return false;
@@ -615,13 +670,15 @@ class JInstallerComponent extends JAdapterInstance
 		// Deprecated uninstall, remove after 1.6
 		// If there is an uninstall file, lets copy it.
 		$uninstallScriptElement = &$this->manifest->getElementByPath('uninstallfile');
-		if (is_a($uninstallScriptElement, 'JSimpleXMLElement')) {
+		if (is_a($uninstallScriptElement, 'JSimpleXMLElement'))
+		{
 			// Make sure it hasn't already been copied (this would be an error in the xml install file)
 			if (!file_exists($this->parent->getPath('extension_administrator').DS.$uninstallScriptElement->data()) || $this->parent->getOverwrite())
 			{
 				$path['src']	= $this->parent->getPath('source').DS.$uninstallScriptElement->data();
 				$path['dest']	= $this->parent->getPath('extension_administrator').DS.$uninstallScriptElement->data();
-				if (!$this->parent->copyFiles(array ($path))) {
+				if (!$this->parent->copyFiles(array ($path)))
+				{
 					// Install failed, rollback changes
 					$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Could not copy PHP uninstall file.'));
 					return false;
@@ -630,12 +687,15 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// If there is a manifest script, lets copy it.
-		if ($this->get('manifest_script')) {
+		if ($this->get('manifest_script'))
+		{
 			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_administrator').DS.$this->get('manifest_script');
 
-			if (!file_exists($path['dest']) || $this->parent->getOverwrite()) {
-				if (!$this->parent->copyFiles(array ($path))) {
+			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
+			{
+				if (!$this->parent->copyFiles(array ($path)))
+				{
 					// Install failed, rollback changes
 					$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Could not copy PHP manifest file.'));
 					return false;
@@ -656,7 +716,8 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 		// second argument is the utf compatible version attribute
 		$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath('update/sql'));
-		if ($utfresult === false) {
+		if ($utfresult === false)
+		{
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
 			return false;
@@ -679,7 +740,9 @@ class JInstallerComponent extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) $this->parent->manifestClass->update($this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) {
+			$this->parent->manifestClass->update($this);
+		}
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 
@@ -700,10 +763,12 @@ class JInstallerComponent extends JAdapterInstance
 		$row = & JTable::getInstance('extension');
 		$eid = $row->find(Array('element'=>strtolower($this->get('element')),
 						'type'=>'component'));
-		
+
 		if ($eid) {
 			$row->load($eid);
-		} else {
+		}
+		else
+		{
 			// set the defaults
 			$row->folder = ''; // There is no folder for components
 			$row->enabled = 1;
@@ -716,8 +781,9 @@ class JInstallerComponent extends JAdapterInstance
 		$row->type = 'component';
 		$row->element = $this->get('element');
 		$row->manifest_cache = $this->parent->generateManifestCache();
-		
-		if (!$row->store()) {
+
+		if (!$row->store())
+		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.$db->stderr(true));
 			return false;
@@ -725,7 +791,8 @@ class JInstallerComponent extends JAdapterInstance
 
 
 		// We will copy the manifest file to its appropriate place.
-		if (!$this->parent->copyManifest()) {
+		if (!$this->parent->copyManifest())
+		{
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Could not copy setup file'));
 			return false;
@@ -734,7 +801,9 @@ class JInstallerComponent extends JAdapterInstance
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) $this->parent->manifestClass->postflight('update', $this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) {
+			$this->parent->manifestClass->postflight('update', $this);
+		}
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
@@ -798,7 +867,8 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Get the package manifest objecct
 		$manifest = &$this->parent->getManifest();
-		if (!$manifest INSTANCEOF JSimpleXML) {
+		if (!$manifest INSTANCEOF JSimpleXML)
+		{
 			// Make sure we delete the folders if no manifest exists
 			JFolder::delete($this->parent->getPath('extension_administrator'));
 			JFolder::delete($this->parent->getPath('extension_site'));
@@ -828,16 +898,19 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$this->scriptElement = &$this->manifest->getElementByPath('scriptfile');
-		if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
+		if (is_a($this->scriptElement, 'JSimpleXMLElement'))
+		{
 			$manifestScript = $this->scriptElement->data();
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
-			if (is_file($manifestScriptFile)) {
+			if (is_file($manifestScriptFile))
+			{
 				// load the file
 				include_once($manifestScriptFile);
 			}
 			// Set the class name
 			$classname = $row->element.'InstallerScript';
-			if (class_exists($classname)) {
+			if (class_exists($classname))
+			{
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
@@ -861,14 +934,18 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Now lets load the uninstall file if there is one and execute the uninstall function if it exists.
 		$uninstallfileElement = &$this->manifest->getElementByPath('uninstallfile');
-		if ($uninstallfileElement INSTANCEOF JSimpleXMLElement) {
+		if ($uninstallfileElement INSTANCEOF JSimpleXMLElement)
+		{
 			// Element exists, does the file exist?
-			if (is_file($this->parent->getPath('extension_administrator').DS.$uninstallfileElement->data())) {
+			if (is_file($this->parent->getPath('extension_administrator').DS.$uninstallfileElement->data()))
+			{
 				ob_start();
 				ob_implicit_flush(false);
 				require_once $this->parent->getPath('extension_administrator').DS.$uninstallfileElement->data();
-				if (function_exists('com_uninstall')) {
-					if (com_uninstall() === false) {
+				if (function_exists('com_uninstall'))
+				{
+					if (com_uninstall() === false)
+					{
 						JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('Custom Uninstall script unsuccessful'));
 						$retval = false;
 					}
@@ -896,7 +973,8 @@ class JInstallerComponent extends JAdapterInstance
 		// try for Joomla 1.5 type queries
 		// second argument is the utf compatible version attribute
 		$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath('uninstall/sql'));
-		if ($utfresult === false) {
+		if ($utfresult === false)
+		{
 			// Install failed, rollback changes
 			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
 			$retval = false;
@@ -925,18 +1003,23 @@ class JInstallerComponent extends JAdapterInstance
 		if ($uid) $update->delete($uid);
 
 		// Now we need to delete the installation directories.  This is the final step in uninstalling the component.
-		if (trim($row->element)) {
+		if (trim($row->element))
+		{
 			// Delete the component site directory
-			if (is_dir($this->parent->getPath('extension_site'))) {
-				if (!JFolder::delete($this->parent->getPath('extension_site'))) {
+			if (is_dir($this->parent->getPath('extension_site')))
+			 {
+				if (!JFolder::delete($this->parent->getPath('extension_site')))
+				{
 					JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('Unable to remove the component site directory'));
 					$retval = false;
 				}
 			}
 
 			// Delete the component admin directory
-			if (is_dir($this->parent->getPath('extension_administrator'))) {
-				if (!JFolder::delete($this->parent->getPath('extension_administrator'))) {
+			if (is_dir($this->parent->getPath('extension_administrator')))
+			{
+				if (!JFolder::delete($this->parent->getPath('extension_administrator')))
+				{
 					JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('Unable to remove the component admin directory'));
 					$retval = false;
 				}
@@ -947,7 +1030,9 @@ class JInstallerComponent extends JAdapterInstance
 			unset ($row);
 
 			return $retval;
-		} else {
+		}
+		else
+		{
 			// No component option defined... cannot delete what we don't know about
 			JError::raiseWarning(100, 'Component Uninstall: Option field empty, cannot remove files');
 			return false;
@@ -979,13 +1064,15 @@ class JInstallerComponent extends JAdapterInstance
 		$db->setQuery($query);
 		try {
 			$componentrow = $db->loadAssoc(); // will return null on error
-		} catch(JException $e) {
+		}
+		catch(JException $e) {
 			$componentrow = null;
 		}
 		$exists = 0;
 		$oldparams = '';
 		// Check if menu items exist
-		if ($componentrow) {
+		if ($componentrow)
+		{
 			// set the value of exists to be the value of the old id
 			$exists = $componentrow['id'];
 			// and set the old params
@@ -999,14 +1086,15 @@ class JInstallerComponent extends JAdapterInstance
 			}
 
 			// Remove existing menu items if overwrite has been enabled
-			if ($option) {
-
+			if ($option)
+			{
 				$sql = 'DELETE FROM #__components WHERE `option` = '.$db->Quote($option);
 
 				$db->setQuery($sql);
 				try {
 					$db->query();
-				} catch(JException $e) {
+				}
+				catch(JException $e) {
 					JError::raiseWarning(100, JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 				}
 			}
@@ -1014,8 +1102,8 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		$menuElement = & $this->adminElement->getElementByPath('menu');
-		if ($menuElement INSTANCEOF JSimpleXMLElement) {
-
+		if ($menuElement INSTANCEOF JSimpleXMLElement)
+		{
 			$db_name = $menuElement->data();
 			$db_link = "option=".$option;
 			$db_menuid = 0;
@@ -1041,7 +1129,9 @@ class JInstallerComponent extends JAdapterInstance
 			$db->setQuery($query);
 			try {
 				$db->query();
-			} catch(JException $e) {
+			}
+			catch(JException $e)
+			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
@@ -1054,7 +1144,9 @@ class JInstallerComponent extends JAdapterInstance
 			 * so that if we have to rollback the changes we can undo it.
 			 */
 			$this->parent->pushStep(array ('type' => 'menu', 'id' => $menuid));
-		} else {
+		}
+		else
+		{
 
 			/*
 			 * No menu element was specified so lets first see if we have an admin menu entry for this component
@@ -1067,11 +1159,13 @@ class JInstallerComponent extends JAdapterInstance
 			$db->setQuery($query);
 			try {
 				$menuid = $db->loadResult();
-			} catch(JException $e) {
+			}
+			catch(JException $e) {
 				$menuid = null;
 			}
 
-			if (!$menuid) {
+			if (!$menuid)
+			{
 				// No menu entry, lets just enter a component entry to the table.
 				$db_name = $this->get('name');
 				$db_link = "";
@@ -1094,7 +1188,9 @@ class JInstallerComponent extends JAdapterInstance
 				$db->setQuery($query);
 				try {
 					$db->query();
-				} catch (JException $e) {
+				}
+				catch (JException $e)
+				{
 					// Install failed, rollback changes
 					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 					return false;
@@ -1121,8 +1217,8 @@ class JInstallerComponent extends JAdapterInstance
 		}
 		foreach ($submenu->children() as $child)
 		{
-			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'menu') {
-
+			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'menu')
+			{
 				$com = &JTable::getInstance('component');
 				$com->name = $child->data();
 				$com->link = '';
@@ -1136,7 +1232,9 @@ class JInstallerComponent extends JAdapterInstance
 				// Set the sub menu link
 				if ($child->attributes("link")) {
 					$com->admin_menu_link = str_replace('&amp;', '&', $child->attributes("link"));
-				} else {
+				}
+				else
+				{
 					$request = array();
 					if ($child->attributes('act')) {
 						$request[] = 'act='.$child->attributes('act');
@@ -1163,12 +1261,14 @@ class JInstallerComponent extends JAdapterInstance
 				// Set the sub menu image
 				if ($child->attributes("img")) {
 					$com->admin_menu_img = $child->attributes("img");
-				} else {
+				}
+				else {
 					$com->admin_menu_img = "js/ThemeOffice/component.png";
 				}
 
 				// Store the submenu
-				if (!$com->store()) {
+				if (!$com->store())
+				{
 					// Install failed, rollback changes
 					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('SQL Error')." ".$db->stderr(true));
 					return false;
@@ -1205,7 +1305,9 @@ class JInstallerComponent extends JAdapterInstance
 		$db->setQuery($sql);
 		try {
 			$db->query();
-		} catch(JException $e) {
+		}
+		catch(JException $e)
+		{
 			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.$db->stderr(true));
 			$retval = false;
 		}
@@ -1233,17 +1335,21 @@ class JInstallerComponent extends JAdapterInstance
 		$db->setQuery($query);
 		try {
 			return $db->query();
-		} catch(JException $e) {
+		}
+		catch(JException $e) {
 			return false;
 		}
 	}
 
-	function discover() {
+	function discover()
+	{
 		$results = Array();
 		$site_components = JFolder::folders(JPATH_SITE.DS.'components');
 		$admin_components = JFolder::folders(JPATH_ADMINISTRATOR.DS.'components');
-		foreach($site_components as $component) {
-			if (file_exists(JPATH_SITE.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml')) {
+		foreach ($site_components as $component)
+		{
+			if (file_exists(JPATH_SITE.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml'))
+			{
 				$extension = &JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 0);
@@ -1253,8 +1359,10 @@ class JInstallerComponent extends JAdapterInstance
 				$results[] = $extension;
 			}
 		}
-		foreach($admin_components as $component) {
-			if (file_exists(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml')) {
+		foreach ($admin_components as $component)
+		{
+			if (file_exists(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml'))
+			{
 				$extension = &JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 1);
@@ -1267,7 +1375,8 @@ class JInstallerComponent extends JAdapterInstance
 		return $results;
 	}
 
-	function discover_install() {
+	function discover_install()
+	{
 		// Need to find to find where the XML file is since we don't store this normally
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$short_element = str_replace('com_', '', $this->parent->extension->element);
@@ -1285,7 +1394,9 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->extension->params = $this->parent->getParams();
 		try {
 			$this->parent->extension->store();
-		} catch(JException $e) {
+		}
+		catch(JException $e)
+		{
 			JError::raiseWarning(101, JText::_('Component').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
 			return false;
 		}
@@ -1316,7 +1427,8 @@ class JInstallerComponent extends JAdapterInstance
 		$description = & $this->manifest->getElementByPath('description');
 		if (is_a($description, 'JSimpleXMLElement')) {
 			$this->parent->set('message', $description->data());
-		} else {
+		}
+		else {
 			$this->parent->set('message', '');
 		}
 
@@ -1350,16 +1462,19 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$this->scriptElement = &$this->manifest->getElementByPath('scriptfile');
-		if (is_a($this->scriptElement, 'JSimpleXMLElement')) {
+		if (is_a($this->scriptElement, 'JSimpleXMLElement'))
+		{
 			$manifestScript = $this->scriptElement->data();
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
-			if (is_file($manifestScriptFile)) {
+			if (is_file($manifestScriptFile))
+			{
 				// load the file
 				include_once($manifestScriptFile);
 			}
 			// Set the class name
 			$classname = $element.'InstallerScript';
-			if (class_exists($classname)) {
+			if (class_exists($classname))
+			{
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
@@ -1371,7 +1486,9 @@ class JInstallerComponent extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) $this->parent->manifestClass->preflight('discover_install', $this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
+			$this->parent->manifestClass->preflight('discover_install', $this);
+		}
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
 
@@ -1397,7 +1514,8 @@ class JInstallerComponent extends JAdapterInstance
 		// try for Joomla 1.5 type queries
 		// second argument is the utf compatible version attribute
 		$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath('install/sql'));
-		if ($utfresult === false) {
+		if ($utfresult === false)
+		{
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
 			return false;
@@ -1418,13 +1536,17 @@ class JInstallerComponent extends JAdapterInstance
 		 * method to the installation message.
 		 */
 		// start legacy support
-		if ($this->get('install_script')) {
-			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script'))) {
+		if ($this->get('install_script'))
+		{
+			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script')))
+			{
 				ob_start();
 				ob_implicit_flush(false);
 				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install_script'));
-				if (function_exists('com_install')) {
-					if (com_install() === false) {
+				if (function_exists('com_install'))
+				{
+					if (com_install() === false)
+					{
 						$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Custom install routine failure'));
 						return false;
 					}
@@ -1438,7 +1560,10 @@ class JInstallerComponent extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'discover_install')) $this->parent->manifestClass->install($this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'discover_install'))
+		{
+			$this->parent->manifestClass->install($this);
+		}
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 
@@ -1454,12 +1579,17 @@ class JInstallerComponent extends JAdapterInstance
 								'type'=>'component',
 								'client_id'=>'',
 								'folder'=>''));
-		if ($uid) $update->delete($uid);
+		if ($uid) {
+			$update->delete($uid);
+		}
 
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) $this->parent->manifestClass->postflight('discover_install', $this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight'))
+		{
+			$this->parent->manifestClass->postflight('discover_install', $this);
+		}
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
@@ -1468,7 +1598,8 @@ class JInstallerComponent extends JAdapterInstance
 		return $this->parent->extension->extension_id;
 	}
 
-	public function refreshManifestCache() {
+	public function refreshManifestCache()
+	{
 		// Need to find to find where the XML file is since we don't store this normally
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$short_element = str_replace('com_', '', $this->parent->extension->element);
@@ -1481,7 +1612,9 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->extension->name = $manifest_details['name'];
 		try {
 			return $this->parent->extension->store();
-		} catch(JException $e) {
+		}
+		catch(JException $e)
+		{
 			JError::raiseWarning(101, JText::_('Component').' '.JText::_('Refresh Manifest Cache').': '.JText::_('Failed to store extension details'));
 			return false;
 		}
