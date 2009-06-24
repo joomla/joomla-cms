@@ -13,7 +13,7 @@
  */
 
 /**
- * Object class, allowing __construct in PHP4.
+ * Base object class.
  *
  * @package		Joomla.Framework
  * @subpackage	Base
@@ -26,36 +26,19 @@ class JObject
 	 * An array of errors
 	 *
 	 * @var		array of error messages or JExceptions objects
-	 * @access	protected
-	 * @since	1.0
-	 */
-	var		$_errors		= array();
-
-	/**
-	 * A hack to support __construct() on PHP 4
-	 *
-	 * Hint: descendant classes have no PHP4 class_name() constructors,
-	 * so this constructor gets called first and calls the top-layer __construct()
-	 * which (if present) should call parent::__construct()
-	 *
-	 * @access	public
-	 * @return	Object
 	 * @since	1.5
 	 */
-	function JObject()
-	{
-		$args = func_get_args();
-		call_user_func_array(array(&$this, '__construct'), $args);
-	}
+	protected $_errors = array();
 
 	/**
 	 * Class constructor, overridden in descendant classes.
 	 *
-	 * @access	protected
 	 * @since	1.5
 	 */
-	function __construct() {}
+	public function __construct()
+	{
 
+	}
 
 	/**
 	 * Returns a property of the object or the default value if the property is not set.
