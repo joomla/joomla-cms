@@ -28,10 +28,14 @@ class JObject
 	/**
 	 * Class constructor, overridden in descendant classes.
 	 *
+	 * @param	mixed $properties	Either and associative array or another object to set the initial properties of the object.
 	 * @since	1.5
 	 */
-	public function __construct()
+	public function __construct($properties = null)
 	{
+		if ($properties !== null) {
+			$this->setProperties($properties);
+		}
 	}
 
 	/**
@@ -43,6 +47,19 @@ class JObject
 	public function __toString()
 	{
 		return get_class($this);
+	}
+
+	/**
+	 * Sets a default value if not alreay assigned
+	 *
+	 * @param	string $property	The name of the property.
+	 * @param	mixed  $default		The default value.
+	 * @since	1.6
+	 */
+	public function def($property, $default=null)
+	{
+		$value = $this->get($property, $default);
+		return $this->set($property, $default);
 	}
 
 	/**
@@ -99,11 +116,13 @@ class JObject
 	public function getError($i = null, $toString = true)
 	{
 		// Find the error
-		if ($i === null) {
+		if ($i === null)
+		{
 			// Default, return the last message
 			$error = end($this->_errors);
 		}
-		else if (!array_key_exists($i, $this->_errors)) {
+		else if (!array_key_exists($i, $this->_errors))
+		{
 			// If $i has been specified but does not exist, return false
 			return false;
 		}
@@ -156,12 +175,12 @@ class JObject
 	 */
 	public function setProperties($properties)
 	{
-		$properties = (array) $properties; //cast to an array
-
-		if (is_array($properties))
+		if (is_array($properties) || is_object($properties))
 		{
-			foreach ($properties as $k => $v) {
-				$this->set($k, $v); // use the set function which might be overriden
+			foreach ((array) $properties as $k => $v)
+			{
+				// Use the set function which might be overriden.
+				$this->set($k, $v);
 			}
 			return true;
 		}
