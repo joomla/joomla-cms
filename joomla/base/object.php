@@ -59,7 +59,7 @@ class JObject
 	public function def($property, $default=null)
 	{
 		$value = $this->get($property, $default);
-		return $this->set($property, $default);
+		return $this->set($property, $value);
 	}
 
 	/**
