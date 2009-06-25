@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Jun-2009 Gergo Erdosi
+ ^ Merged 'com_newsfeed' branch (Newsfeed component refactoring).
+ ! Thanks to Rob Clayburn for refactoring the com_newsfeed component.
+
 23-Jun-2009 Gergo Erdosi
  # Fixed weblink checkin method.
  # Fixed extension parameter of categories. 
