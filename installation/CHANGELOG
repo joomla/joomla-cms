@@ -28,7 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 25-Jun-2009 Gergo Erdosi
- ^ Merged 'com_newsfeed' branch (Newsfeed component refactoring).
+ ^ Merged 'com_newsfeeds' branch (Newsfeed component refactoring).
  ! Thanks to Rob Clayburn for refactoring the com_newsfeed component.
 
 23-Jun-2009 Gergo Erdosi
