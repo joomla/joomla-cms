@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: view.html.php 11476 2009-01-25 06:58:51Z eddieajau $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */

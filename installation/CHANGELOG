@@ -30,6 +30,7 @@ $ -> Language fix or change
 26-Jun-2009 Gergo Erdosi
  ^ Replaced com_login with its refactored version.
  ! Thanks to Christophe Demko for helping refactor the com_login component.
+ ^ Updated SVN properties on com_login.
 
 25-Jun-2009 Gergo Erdosi
  ^ Merged 'com_newsfeeds' branch (Newsfeeds component refactoring).
