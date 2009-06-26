@@ -27,9 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Jun-2009 Gergo Erdosi
+ ^ Replaced com_login with its refactored version.
+ ! Thanks to Christophe Demko for helping refactor the com_login component.
+
 25-Jun-2009 Gergo Erdosi
- ^ Merged 'com_newsfeeds' branch (Newsfeed component refactoring).
- ! Thanks to Rob Clayburn for refactoring the com_newsfeed component.
+ ^ Merged 'com_newsfeeds' branch (Newsfeeds component refactoring).
+ ! Thanks to Rob Clayburn for refactoring the com_newsfeeds component.
 
 23-Jun-2009 Gergo Erdosi
  # Fixed weblink checkin method.
