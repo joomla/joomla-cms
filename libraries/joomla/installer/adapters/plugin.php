@@ -259,7 +259,7 @@ class JInstallerPlugin extends JAdapterInstance
 			$row->folder = $group;
 			$row->enabled = 0;
 			$row->protected = 0;
-			$row->access = 0;
+			$row->access = 1;
 			$row->client_id = 0;
 			$row->params = $this->parent->getParams();
 			$row->custom_data = ''; // custom data

@@ -169,7 +169,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$row->folder = ''; // There is no folder for templates
 		$row->enabled = 1;
 		$row->protected = 0;
-		$row->access = 0;
+		$row->access = 1;
 		$row->client_id = 0;
 		$row->params = $this->parent->getParams();
 		$row->custom_data = ''; // custom data
