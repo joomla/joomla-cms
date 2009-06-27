@@ -13,7 +13,7 @@ require_once dirname(__FILE__).DS.'helper.php';
 
 $buttons = array(
 	array(
-		'link' => JRoute::_('index.php?option=com_content&task=add'),
+		'link' => JRoute::_('index.php?option=com_content&task=article.add'),
 		'image' => 'icon-48-article-add.png',
 		'text' => JText::_('Add New Article')
 	),
