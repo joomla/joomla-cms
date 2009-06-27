@@ -30,6 +30,7 @@ $ -> Language fix or change
 27-Jun-2009 Gergo Erdosi
  ^ Updated SimplePie to version 1.1.3.
  - Removed sections search plugin.
+ ^ Replaced emailcloak content plugin with its refactored version.
 
 26-Jun-2009 Gergo Erdosi
  ^ Replaced com_login with its refactored version.

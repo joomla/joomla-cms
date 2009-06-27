@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+
 <install version="1.6" type="plugin" group="content">
 	<name>Content - Email Cloaking</name>
 	<author>Joomla! Project</author>
@@ -7,7 +9,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.5</version>
+	<version>1.6</version>
 	<description>DESCMOSEMAILCLOAK</description>
 	<files>
 		<filename plugin="emailcloak">emailcloak.php</filename>
