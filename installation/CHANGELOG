@@ -32,6 +32,7 @@ $ -> Language fix or change
  - Removed sections search plugin.
  ^ Replaced emailcloak content plugin with its refactored version.
  ^ Replaced pagebreak content plugin with its refactored version.
+ ^ Replaced pagenavigation content plugin with its refactored version.
 
 26-Jun-2009 Gergo Erdosi
  ^ Replaced com_login with its refactored version.
