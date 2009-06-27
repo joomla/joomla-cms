@@ -13,11 +13,7 @@
 		<filename plugin="loadmodule">loadmodule.php</filename>
 	</files>
 	<params>
-		<param name="enabled" type="radio" default="1" label="Enable Plugin" description="PARAMENABLED">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="style" type="list" default="0" label="Style" description="Code that will wrap modules">
+		<param name="style" type="list" default="none" label="Style" description="Code that will wrap modules">
 			<option value="table">Wrapped by Table - Column</option>
 			<option value="horz">Wrapped by Table - Horizontal</option>
 			<option value="xhtml">Wrapped by Divs</option>

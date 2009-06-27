@@ -3,80 +3,53 @@
  * @version		$Id$
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // no direct access
 defined('_JEXEC') or die;
 
-$mainframe->registerEvent('onPrepareContent', 'plgContentLoadModule');
+jimport('joomla.plugin.plugin');
 
-/**
-* Plugin that loads module positions within content
- */
-function plgContentLoadModule(&$row, &$params, $page=0)
+class plgContentLoadmodule extends JPlugin
 {
-	$db = &JFactory::getDbo();
-	// simple performance check to determine whether bot should process further
-	if (JString::strpos($row->text, 'loadposition') === false) {
-		return true;
-	}
-
-	// Get plugin info
-	$plugin = &JPluginHelper::getPlugin('content', 'loadmodule');
-
- 	// expression to search for
- 	$regex = '/{loadposition\s*.*?}/i';
-
- 	$pluginParams = new JParameter($plugin->params);
-
-	// check whether plugin has been unpublished
-	if (!$pluginParams->get('enabled', 1)) {
-		$row->text = preg_replace($regex, '', $row->text);
-		return true;
-	}
-
- 	// find all instances of plugin and put in $matches
-	preg_match_all($regex, $row->text, $matches);
-
-	// Number of plugins
- 	$count = count($matches[0]);
-
- 	// plugin only processes if there are any instances of the plugin in the text
- 	if ($count) {
-		// Get plugin parameters
-	 	$style	= $pluginParams->def('style', -2);
-
- 		plgContentProcessPositions($row, $matches, $count, $regex, $style);
-	}
-}
-
-function plgContentProcessPositions (&$row, &$matches, $count, $regex, $style)
-{
- 	for ($i=0; $i < $count; $i++)
+	/**
+	* Plugin that loads module positions within content
+	*/
+	public function onPrepareContent(&$article, &$params, $page = 0)
 	{
- 		$load = str_replace('loadposition', '', $matches[0][$i]);
- 		$load = str_replace('{', '', $load);
- 		$load = str_replace('}', '', $load);
- 		$load = trim($load);
+		// simple performance check to determine whether bot should process further
+		if (strpos($article->text, 'loadposition') === false) {
+			return true;
+		}
 
-		$modules	= plgContentLoadPosition($load, $style);
-		$row->text 	= str_replace($matches[0][$i], $modules, $row->text);
- 	}
+	 	// expression to search for
+	 	$regex 		= '/{loadposition\s+(.*?)}/i';
+		$matches 	= array();
+		$style 		= $this->params->def('style', 'none');
 
-  	// removes tags without matching module positions
-	$row->text = preg_replace($regex, '', $row->text);
-}
+	 	// find all instances of plugin and put in $matches
+		preg_match_all($regex, $article->text, $matches, PREG_SET_ORDER);
 
-function plgContentLoadPosition($position, $style=-2)
-{
-	$document	= &JFactory::getDocument();
-	$renderer	= $document->loadRenderer('module');
-	$params		= array('style'=>$style);
-
-	$contents = '';
-	foreach (JModuleHelper::getModules($position) as $mod)  {
-		$contents .= $renderer->render($mod, $params);
+		foreach ($matches as $match) {
+			// $match[0] is full pattern match, $match[1] is the position
+			$output = $this->_load($match[1], $style);
+			$article->text = str_replace($match[0], $output, $article->text);
+		}
 	}
-	return $contents;
+
+	protected function _load($position, $style = 'none')
+	{
+		$document	= &JFactory::getDocument();
+		$renderer	= $document->loadRenderer('module');
+		$modules 	= JModuleHelper::getModules($position);
+		$params		= array('style' => $style);
+
+		ob_start();
+		foreach ($modules as $module) {
+			echo $renderer->render($module, $params);
+		}
+		$output = ob_get_clean();
+		return $output;
+	}
 }
