@@ -21,6 +21,7 @@ jimport('joomla.application.component.helper');
  */
 abstract class JModuleHelper
 {
+
 	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
 	 *
@@ -75,19 +76,23 @@ abstract class JModuleHelper
 	 */
 	public static function &getModules($position)
 	{
+		$app		= &JFactory::getApplication();
 		$position	= strtolower($position);
 		$result		= array();
 
 		$modules = &JModuleHelper::_load();
 
 		$total = count($modules);
-		for ($i = 0; $i < $total; $i++) {
+		for ($i = 0; $i < $total; $i++)
+		{
 			if ($modules[$i]->position == $position) {
 				$result[] = &$modules[$i];
 			}
 		}
-		if (count($result) == 0) {
-			if (JRequest::getBool('tp')) {
+		if (count($result) == 0)
+		{
+			if ($app->getCfg('debug_modules') && JRequest::getBool('tp'))
+			{
 				$result[0] = JModuleHelper::getModule('mod_'.$position);
 				$result[0]->title = $position;
 				$result[0]->content = $position;
@@ -122,11 +127,15 @@ abstract class JModuleHelper
 	public static function renderModule($module, $attribs = array())
 	{
 		static $chrome;
-		$option = JRequest::getCmd('option');
 
-		$app	= JFactory::getApplication();
-		$scope = $app->scope; //record the scope
-		$app->scope = $module->module;  //set scope to component name
+		$option = JRequest::getCmd('option');
+		$app	= &JFactory::getApplication();
+
+		// Record the scope.
+		$scope	= $app->scope;
+
+		// Set scope to component name
+		$app->scope = $module->module;
 
 		// Get module parameters
 		$params = new JParameter($module->params);
@@ -172,7 +181,7 @@ abstract class JModuleHelper
 		}
 
 		//dynamically add outline style
-		if (JRequest::getBool('tp')) {
+		if ($app->getCfg('debug_modules') && JRequest::getBool('tp')) {
 			$attribs['style'] .= ' outline';
 		}
 
@@ -254,7 +263,8 @@ abstract class JModuleHelper
 			. ' ORDER BY position, ordering'
 		);
 
-		if (null === ($modules = $db->loadObjectList())) {
+		if (null === ($modules = $db->loadObjectList()))
+		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Error Loading Modules') . $db->getErrorMsg());
 			return false;
 		}

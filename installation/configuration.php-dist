@@ -82,9 +82,10 @@ class JConfig {
 	var $cache_handler = 'file';
 
 	/* Debug Settings */
-	var $debug      = '0';
-	var $debug_db 	= '0';
-	var $debug_lang = '0';
+	var $debug      	= '0';
+	var $debug_db 		= '0';
+	var $debug_lang		= '0';
+	var $debug_modules	= '1';
 
 	/* Meta Settings */
 	var $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';

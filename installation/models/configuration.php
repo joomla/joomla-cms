@@ -58,6 +58,7 @@ class JInstallationModelConfiguration extends JModel
 		/* Debug Settings */
 		$registry->setValue('debug', 0);
 		$registry->setValue('debug_lang', 0);
+		$registry->setValue('debug_modules', 1);
 
 		/* Database Settings */
 		$registry->setValue('dbtype', $options->db_type);

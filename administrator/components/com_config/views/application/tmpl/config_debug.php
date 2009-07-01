@@ -23,5 +23,15 @@
 				<?php echo $lists['debug_lang']; ?>
 			</td>
 		</tr>
+		<tr>
+			<td class="key">
+				<span class="editlinktip hasTip" title="<?php echo JText::_('Config_Debug_Modules_Label'); ?>::<?php echo JText::_('Config_Debug_Modules_Desc'); ?>">
+					<?php echo JText::_('Config_Debug_Modules_Label'); ?>
+				</span>
+			</td>
+			<td>
+				<?php echo $lists['debug_modules']; ?>
+			</td>
+		</tr>
 	</table>
 </fieldset>

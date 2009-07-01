@@ -93,6 +93,7 @@ class ConfigControllerApplication extends ConfigController
 		// DEBUG
 		$lists['debug'] 		= JHtml::_('select.booleanlist', 'debug', 'class="inputbox"', $row->debug);
 		$lists['debug_lang'] 	= JHtml::_('select.booleanlist', 'debug_lang', 'class="inputbox"', $row->debug_lang);
+		$lists['debug_modules'] = JHtml::_('select.booleanlist', 'debug_modules', 'class="inputbox"', @$row->debug_modules, 'JEnabled', 'JDisabled');
 
 		// DATABASE SETTINGS
 
@@ -290,8 +291,9 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['root_user']	= JRequest::getVar('root_user', '42', 'post', 'int');
 
 		// DEBUG
-		$config_array['debug']		= JRequest::getVar('debug', 0, 'post', 'int');
-		$config_array['debug_lang']	= JRequest::getVar('debug_lang', 0, 'post', 'int');
+		$config_array['debug']			= JRequest::getInt('debug', 0, 'post');
+		$config_array['debug_lang']		= JRequest::getInt('debug_lang', 0, 'post');
+		$config_array['debug_modules']	= JRequest::getInt('debug_modules', 1, 'post');
 
 		// SEO SETTINGS
 		$config_array['sef']			= JRequest::getVar('sef', 0, 'post', 'int');

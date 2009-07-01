@@ -32,6 +32,7 @@ $ -> Language fix or change
 
 01-Jun-2009 Andrew Eddie
  ^ Changed successful translation marker in JLanguage from &bull; to ** to avoid double escaping ugliness.
+ + Added new configuration variable to enable (default) or disable the tp=1 feature.
 
 27-Jun-2009 Gergo Erdosi
  ^ Updated SimplePie to version 1.1.3.
