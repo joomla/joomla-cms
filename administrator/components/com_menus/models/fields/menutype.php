@@ -25,6 +25,8 @@ class JFormFieldMenuType extends JFormFieldList
 	 */
 	public $type = 'MenuType';
 
+	protected $_rlu = array();
+
 	/**
 	 * Method to get the field input.
 	 *
@@ -54,7 +56,9 @@ class JFormFieldMenuType extends JFormFieldList
 				break;
 
 			default:
-				$value = htmlspecialchars(substr($this->value, 0, strpos($this->value, '::')));
+				$link	= $this->_form->getValue('link');
+				$value	= JArrayHelper::getValue($this->_rlu, $link);
+				//$value	= htmlspecialchars(substr($this->value, 0, strpos($this->value, '::')));
 				break;
 		}
 
@@ -79,7 +83,7 @@ class JFormFieldMenuType extends JFormFieldList
 
 		$html[] = '<input type="text" readonly="readonly" value="'.$value.'"'.$size.$class.'>';
 		$html[] = '<input type="button" class="modal" value="'.JText::_('Change').'" rel="{handler:\'clone\', target:\'menu-types\'}">';
-		$html[] = '<input type="hidden" value="'.htmlspecialchars($this->value).'">';
+		$html[] = '<input type="hidden" name="'.$this->inputName.'" value="'.htmlspecialchars($this->value).'">';
 
 		$html[] = '<div id="menu-types">';
 		$html[] = $types;
@@ -157,8 +161,17 @@ class JFormFieldMenuType extends JFormFieldList
 
 		foreach ($components as $component)
 		{
-			if ($options = $this->_getTypeOptionsByComponent($component->option)) {
+			if ($options = $this->_getTypeOptionsByComponent($component->option))
+			{
 				$list[$component->name] = $options;
+
+				// Create the reverse lookup for link-to-name.
+				foreach ($options as $option)
+				{
+					if (isset($option->request)) {
+						$this->_rlu['index.php?'.http_build_query($option->request)] = $option->get('title');
+					}
+				}
 			}
 		}
 

@@ -70,6 +70,10 @@ class MenusModelItem extends JModelForm
 		}
 		$this->setState('item.type', $type);
 
+		if ($link = $app->getUserState('com_menus.edit.item.link')) {
+			$this->setState('item.link', $link);
+		}
+
 		// Load the parameters.
 		$params	= &JComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
@@ -102,6 +106,8 @@ class MenusModelItem extends JModelForm
 		}
 
 		// Prime required properties.
+		$type = $this->getState('item.type');
+
 		if (empty($table->id))
 		{
 			$table->parent_id	= $this->getState('item.parent_id');
@@ -109,12 +115,26 @@ class MenusModelItem extends JModelForm
 			$table->type		= $this->getState('item.type');
 		}
 
-		if ($table->type != 'url' && $table->type != 'alias' && $table->type != 'separator')
+		if ($link = $this->getState('item.link')) {
+			$table->link = $link;
+		}
+
+		switch ($table->type)
 		{
-			$type = explode('::', $table->type, 2);
-			if (isset($type[1]) && strpos($table->link, $type[1]) === false) {
-				$table->link = 'index.php?'.$type[1];
-			}
+			case 'alias':
+				break;
+
+			case 'separator':
+				$table->link = '';
+				break;
+
+			case 'url':
+				break;
+
+			case 'component':
+			default:
+				break;
+
 		}
 
 		// Convert the params field to an array.

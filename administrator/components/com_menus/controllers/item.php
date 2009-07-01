@@ -58,6 +58,7 @@ class MenusControllerItem extends JController
 		$app->setUserState('com_menus.edit.item.id',	null);
 		$app->setUserState('com_menus.edit.item.data',	null);
 		$app->setUserState('com_menus.edit.item.type',	null);
+		$app->setUserState('com_menus.edit.item.link',	null);
 
 		// Check if we are adding for a particular menutype
 		$menuType = $app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu');
@@ -105,6 +106,7 @@ class MenusControllerItem extends JController
 		$app->setUserState('com_menus.edit.item.id',	$id);
 		$app->setUserState('com_menus.edit.item.data',	null);
 		$app->setUserState('com_menus.edit.item.type',	null);
+		$app->setUserState('com_menus.edit.item.link',	null);
 
 		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
 
@@ -146,6 +148,7 @@ class MenusControllerItem extends JController
 		$app->setUserState('com_menus.edit.item.id',	null);
 		$app->setUserState('com_menus.edit.item.data',	null);
 		$app->setUserState('com_menus.edit.item.type',	null);
+		$app->setUserState('com_menus.edit.item.link',	null);
 	}
 
 	/**
@@ -254,6 +257,7 @@ class MenusControllerItem extends JController
 				$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
 				$app->setUserState('com_menus.edit.item.data',	null);
 				$app->setUserState('com_menus.edit.item.type',	null);
+				$app->setUserState('com_menus.edit.item.link',	null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
@@ -264,6 +268,7 @@ class MenusControllerItem extends JController
 				$app->setUserState('com_menus.edit.item.id',	null);
 				$app->setUserState('com_menus.edit.item.data',	null);
 				$app->setUserState('com_menus.edit.item.type',	null);
+				$app->setUserState('com_menus.edit.item.link',	null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
@@ -274,6 +279,7 @@ class MenusControllerItem extends JController
 				$app->setUserState('com_menus.edit.item.id',	null);
 				$app->setUserState('com_menus.edit.item.data',	null);
 				$app->setUserState('com_menus.edit.item.type',	null);
+				$app->setUserState('com_menus.edit.item.link',	null);
 
 				// Redirect to the list screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
@@ -290,8 +296,15 @@ class MenusControllerItem extends JController
 		$type = JRequest::getVar('type');
 		$type = json_decode(base64_decode($type));
 
-		$string = $type->title.((isset($type->request)) ? '::'.http_build_query($type->request) : '');
-		$app->setUserState('com_menus.edit.item.type', $string);
+		$title = isset($type->title) ? $type->title : null;
+		if ($title != 'alias' && $title != 'separator' && $title != 'url') {
+			$title = 'component';
+		}
+		$app->setUserState('com_menus.edit.item.type',	$title);
+
+		if (isset($type->request)) {
+			$app->setUserState('com_menus.edit.item.link', 'index.php?'.http_build_query($type->request));
+		}
 
 		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
 	}
