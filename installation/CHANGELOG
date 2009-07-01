@@ -44,6 +44,13 @@ $ -> Language fix or change
  ^ Merged 'com_newsfeeds' branch (Newsfeeds component refactoring).
  ! Thanks to Rob Clayburn for refactoring the com_newsfeeds component.
 
+24-Jun-2009 Andrew Eddie
+ ^ Deprecated JObject::toString, added JObject::__toString magic method.
+ + Added PHP5 check to installation index.php.
+ + Menus rebuild task now converts menu params to JSON format.
+ + Added constructor to JObject to initialise the properties.
+ + Added JObject::def with similar function to JParameter::def.
+
 23-Jun-2009 Gergo Erdosi
  # Fixed weblink checkin method.
  # Fixed extension parameter of categories. 
