@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -13,20 +11,19 @@ defined('JPATH_BASE') or die;
 /**
  * Class to create and parse routes for the site application
  *
- * @package 	Joomla
+ * @package		Joomla.Site
+ * @subpackage	Application
  * @since		1.5
  */
 class JRouterSite extends JRouter
 {
 	/**
-	 * Class constructor
+	 * Parse the URI
 	 *
-	 * @access public
+	 * @param	object	The URI
+	 *
+	 * @return	array
 	 */
-	function __construct($options = array()) {
-		parent::__construct($options);
-	}
-
 	function parse(&$uri)
 	{
 		$vars = array();
@@ -34,7 +31,8 @@ class JRouterSite extends JRouter
 		// Get the application
 		$app = &JFactory::getApplication();
 
-		if ($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https') {
+		if ($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https')
+		{
 			//forward to https
 			$uri->setScheme('https');
 			$app->redirect($uri->toString());
@@ -182,11 +180,9 @@ class JRouterSite extends JRouter
 			return $vars;
 		}
 
-
 		/*
 		 * Parse the application route
 		 */
-
 		if (substr($route, 0, 9) == 'component')
 		{
 			$segments	= explode('/', $route);
