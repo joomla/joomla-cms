@@ -41,10 +41,10 @@ class JFormFieldEditor extends JFormField
 			$parts	= explode('|', $editorName);
 			$db		= &JFactory::getDbo();
 			$query	= 'SELECT element' .
-					' FROM #__plugins' .
+					' FROM #__extensions' .
 					' WHERE element	= '.$db->Quote($parts[0]) .
 					'  AND folder = '.$db->Quote('editors') .
-					'  AND published = 1';
+					'  AND enabled = 1';
 			$db->setQuery($query);
 			if ($db->loadResult()) {
 				$editorName	= $parts[0];
