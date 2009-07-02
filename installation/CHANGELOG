@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 02-Jun-2009 Andrew Eddie
  - Deprecated JDatabase::stderr
+ + [#16045] Added JDatabase::getNextRow, JDatabase::getNextObject
 
 01-Jun-2009 Gergo Erdosi
  # Fixed editor and editors form fields.
