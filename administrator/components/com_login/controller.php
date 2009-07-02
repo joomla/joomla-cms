@@ -20,8 +20,39 @@ jimport( 'joomla.application.component.controller' );
 class LoginController extends JController
 {
 	/**
+	 * Method to display a view.
+	 *
+	 * @return	void
+	 */
+	function display()
+	{
+		// Get the document object.
+		$document = &JFactory::getDocument();
+
+		// Set the default view name and format from the Request.
+		$vName		= JRequest::getWord('view', 'login');
+		$vFormat	= $document->getType();
+
+		// Get and render the view.
+		if ($view = &$this->getView($vName, $vFormat))
+		{
+			// Get the model for the view.
+			$model = &$this->getModel($vName);
+
+			// Push the model into the view (as default).
+			$view->setModel($model, true);
+			$view->setLayout('default');
+
+			// Push document object into the view.
+			$view->assignRef('document', $document);
+
+			$view->display();
+		}
+	}
+
+	/**
 	 * Method to log in a user.
-	 * 
+	 *
 	 * @return	void
 	 */
 	public function login()
@@ -45,7 +76,7 @@ class LoginController extends JController
 
 	/**
 	 * Method to log out a user.
-	 * 
+	 *
 	 * @return	void
 	 */
 	public function logout()

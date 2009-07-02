@@ -10,4 +10,8 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-echo JModuleHelper::renderModule($this->module, array('style' => 'rounded', 'id' => 'section-box'));
+// Get the login module
+$module = &JModuleHelper::getModule('login');
+
+// Render the login module
+echo JModuleHelper::renderModule($module, array('style' => 'rounded', 'id' => 'section-box'));

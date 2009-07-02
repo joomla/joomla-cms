@@ -33,6 +33,7 @@ $ -> Language fix or change
 01-Jun-2009 Andrew Eddie
  ^ Changed successful translation marker in JLanguage from &bull; to ** to avoid double escaping ugliness.
  + Added new configuration variable to enable (default) or disable the tp=1 feature.
+ # [#17020] Refactoring com_login component: error on at the end of inactivity period.
 
 27-Jun-2009 Gergo Erdosi
  ^ Updated SimplePie to version 1.1.3.
