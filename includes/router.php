@@ -241,7 +241,7 @@ class JRouterSite extends JRouter
 				}
 				else { // fix up search for URL
 					$total = count($segments);
-					for($i=0; $i<$total; $i++) {
+					for ($i=0; $i<$total; $i++) {
 						// urldecode twice because it is encoded twice
 						$segments[$i] = urldecode(urldecode(stripcslashes($segments[$i])));
 					}
@@ -300,12 +300,17 @@ class JRouterSite extends JRouter
 			$parts		= $function($query);
 
 			// encode the route segments
-			if ($component != "com_search") { // Cheep fix on searches
+			if ($component != 'com_search')
+			{
+				// Cheep fix on searches
 				$parts = $this->_encodeSegments($parts);
 			}
-			else { // fix up search for URL
+			else
+			{
+				// fix up search for URL
 				$total = count($parts);
-				for($i=0; $i<$total; $i++) {
+				for ($i = 0; $i < $total; $i++)
+				{
 					// urlencode twice because it is decoded once after redirect
 					$parts[$i] = urlencode(urlencode(stripcslashes($parts[$i])));
 				}
@@ -322,8 +327,8 @@ class JRouterSite extends JRouter
 		if (isset($query['Itemid']) && !empty($query['Itemid']))
 		{
 			$item = $menu->getItem($query['Itemid']);
-
-			if (is_object($item) && $query['option'] == $item->component) {
+			if (is_object($item) && $query['option'] == $item->component)
+			{
 				$tmp = !empty($tmp) ? $item->route.'/'.$tmp : $item->route;
 				$built = true;
 			}

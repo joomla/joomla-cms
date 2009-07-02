@@ -62,11 +62,12 @@ class JRoute
 		$ssl	= (int) $ssl;
 		if ($ssl)
 		{
-			$uri	         = &JURI::getInstance();
+			$uri  = &JURI::getInstance();
 
 			// Get additional parts
 			static $prefix;
-			if (! $prefix) {
+			if (!$prefix)
+			{
 				$prefix = $uri->toString(array('host', 'port'));
 				//$prefix .= JURI::base(true);
 			}
@@ -128,7 +129,8 @@ class JText
 	{
 		$lang = &JFactory::getLanguage();
 		$args = func_get_args();
-		if (count($args) > 0) {
+		if (count($args) > 0)
+		{
 			$args[0] = $lang->_($args[0]);
 			return call_user_func_array('sprintf', $args);
 		}
@@ -147,7 +149,8 @@ class JText
 	{
 		$lang = &JFactory::getLanguage();
 		$args = func_get_args();
-		if (count($args) > 0) {
+		if (count($args) > 0)
+		{
 			$args[0] = $lang->_($args[0]);
 			return call_user_func_array('printf', $args);
 		}

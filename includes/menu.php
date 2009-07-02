@@ -28,49 +28,37 @@ class JMenuSite extends JMenu
 
 		if (!$data = $cache->get('menu_items'))
 		{
+			jimport('joomla.database.query');
+
 			// Initialize some variables
 			$db		= & JFactory::getDbo();
+			$query	= new JQuery;
 
-			$sql	= 'SELECT m.*, c.`option` as component' .
-					' FROM #__menu AS m' .
-					' LEFT JOIN #__components AS c ON m.component_id = c.id'.
-					' WHERE m.published = 1'.
-					' ORDER BY m.lft';
-			$db->setQuery($sql);
+			$query->select('m.id, m.menutype, m.title, m.alias, m.path AS route, m.link, m.type, m.level');
+			$query->select('m.browserNav, m.access, m.params, m.home, m.template_id, m.component_id, m.parent_id');
+			$query->select('c.option as component');
+			$query->from('#__menu AS m');
+			$query->leftJoin('#__components AS c ON m.component_id = c.id');
+			$query->where('m.published = 1');
+			$query->where('m.parent_id > 0');
+			$query->order('m.lft');
 
+			$db->setQuery($query);
 			if (!($menus = $db->loadObjectList('id')))
 			{
-				JError::raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
+				JError::raiseWarning(500, "Error loading Menus: ".$db->getErrorMsg());
 				return false;
 			}
 
-			foreach($menus as $key => $menu)
+			foreach ($menus as &$menu)
 			{
-				//Get parent information
-				$parent_route = '';
-				$parent_tree  = array();
-				if (($parent = $menus[$key]->parent_id) && (isset($menus[$parent])) &&
-					(is_object($menus[$parent])) && (isset($menus[$parent]->route)) && isset($menus[$parent]->tree))
-				{
-					$parent_route = $menus[$parent]->route.'/';
-					$parent_tree  = $menus[$parent]->tree;
-				}
-
-				//Create tree
-				array_push($parent_tree, $menus[$key]->id);
-				$menus[$key]->tree   = $parent_tree;
-
-				//Create route
-				$route = $parent_route.$menus[$key]->alias;
-				$menus[$key]->route  = $route;
-
 				//Create the query array
-				$url = str_replace('index.php?', '', $menus[$key]->link);
+				$url = str_replace('index.php?', '', $menu->link);
 				if (strpos($url, '&amp;') !== false) {
 				   $url = str_replace('&amp;','&',$url);
 				}
 
-				parse_str($url, $menus[$key]->query);
+				parse_str($url, $menu->query);
 			}
 
 			$cache->store(serialize($menus), 'menu_items');
