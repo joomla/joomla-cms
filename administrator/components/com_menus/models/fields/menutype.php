@@ -44,21 +44,20 @@ class JFormFieldMenuType extends JFormFieldList
 		switch ($this->value)
 		{
 			case 'url':
-				$value = JText::_('Menu_External_URL');
+				$value = JText::_('Menus_Type_External_URL');
 				break;
 
 			case 'alias':
-				$value = JText::_('Menu_Alias');
+				$value = JText::_('Menus_Type_Alias');
 				break;
 
 			case 'separator':
-				$value = JText::_('Menu_Separator');
+				$value = JText::_('Menus_Type_Separator');
 				break;
 
 			default:
 				$link	= $this->_form->getValue('link');
-				$value	= JArrayHelper::getValue($this->_rlu, $link);
-				//$value	= htmlspecialchars(substr($this->value, 0, strpos($this->value, '::')));
+				$value	= JText::_(JArrayHelper::getValue($this->_rlu, $link));
 				break;
 		}
 
@@ -71,7 +70,6 @@ class JFormFieldMenuType extends JFormFieldList
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
-
 			var div = new Element('div').setStyle('display', 'none').injectBefore(\$('menu-types'));
 			\$('menu-types').injectInside(div);
 			SqueezeBox.initialize();
@@ -79,7 +77,6 @@ class JFormFieldMenuType extends JFormFieldList
 				parse: 'rel'
 			});
 		});");
-
 
 		$html[] = '<input type="text" readonly="readonly" value="'.$value.'"'.$size.$class.'>';
 		$html[] = '<input type="button" class="modal" value="'.JText::_('Change').'" rel="{handler:\'clone\', target:\'menu-types\'}">';
@@ -92,7 +89,6 @@ class JFormFieldMenuType extends JFormFieldList
 		return implode("\n", $html);
 	}
 
-
 	protected function _getTypeList()
 	{
 		// Initialize variables.
@@ -101,17 +97,18 @@ class JFormFieldMenuType extends JFormFieldList
 
 		$html[] = '<dl class="menu_types">';
 
-		$html[] = '	<dt>'.JText::_('System').'</dt>';
+		$html[] = '	<dt>'.JText::_('Menus_Type_System').'</dt>';
 		$html[] = '	<dd>';
+		$html[] = '		'.JText::_('Menus_Type_System_Desc');
 		$html[] = '		<ul>';
 		$html[] = '			<li>';
-		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'url'))).'" title="'.JText::_('Menu_External_URL_Desc').'">'.JText::_('Menu_External_URL').'</a>';
+		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'url'))).'" title="'.JText::_('Menus_Type_External_URL_Desc').'">'.JText::_('Menus_Type_External_URL').'</a>';
 		$html[] = '			</li>';
 		$html[] = '			<li>';
-		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'alias'))).'" title="'.JText::_('Menu_Alias_Desc').'">'.JText::_('Menu_Alias').'</a>';
+		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'alias'))).'" title="'.JText::_('Menus_Type_Alias_Desc').'">'.JText::_('Menus_Type_Alias').'</a>';
 		$html[] = '			</li>';
 		$html[] = '			<li>';
-		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'separator'))).'" title="'.JText::_('Menu_Separator_Desc').'">'.JText::_('Menu_Separator').'</a>';
+		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'separator'))).'" title="'.JText::_('Menus_Type_Separator_Desc').'">'.JText::_('Menus_Type_Separator').'</a>';
 		$html[] = '			</li>';
 		$html[] = '		</ul>';
 		$html[] = '	</dd>';
@@ -124,7 +121,7 @@ class JFormFieldMenuType extends JFormFieldList
 			foreach ($list as $item)
 			{
 		$html[] = '			<li>';
-		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>$item->title, 'request'=>$item->request))).'" title="'.$item->description.'">'.$item->title.'</a>';
+		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>$item->title, 'request'=>$item->request))).'" title="'.JText::_($item->description).'">'.JText::_($item->title).'</a>';
 		$html[] = '			</li>';
 			}
 		$html[] = '		</ul>';
@@ -146,6 +143,7 @@ class JFormFieldMenuType extends JFormFieldList
 		jimport('joomla.filesystem.file');
 
 		// Initialize variables.
+		$lang = &JFactory::getLanguage();
 		$list = array();
 
 		// Get the list of components.
@@ -168,8 +166,13 @@ class JFormFieldMenuType extends JFormFieldList
 				// Create the reverse lookup for link-to-name.
 				foreach ($options as $option)
 				{
-					if (isset($option->request)) {
+					if (isset($option->request))
+					{
 						$this->_rlu['index.php?'.http_build_query($option->request)] = $option->get('title');
+
+						if (isset($option->request['option'])) {
+							$lang->load($option->request['option'].'.menu');
+						}
 					}
 				}
 			}

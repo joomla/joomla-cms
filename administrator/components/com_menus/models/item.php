@@ -141,6 +141,11 @@ class MenusModelItem extends JModelForm
 				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 				if (isset($args['option']))
 				{
+					// Load the language file for the component.
+					$lang = &JFactory::getLanguage();
+					$lang->load($args['option']);
+
+					// Determine the component id.
 					$component = JComponentHelper::getComponent($args['option']);
 					if (isset($component->id)) {
 						$table->component_id = $component->id;
