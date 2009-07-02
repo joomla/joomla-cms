@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Jun-2009 Andrew Eddie
+ - Deprecated JDatabase::stderr
+
 01-Jun-2009 Gergo Erdosi
  # Fixed editor and editors form fields.
 
