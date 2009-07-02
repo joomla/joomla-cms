@@ -90,14 +90,9 @@
 			size="1"/>
 
 		<field
-			id="component_id"
 			name="component_id"
-			type="text"
-			label="Menus_Item_Component_Label"
-			description="Menus_Item_Component_Desc"
-			default=""
-			filter="int"
-			class="inputbox"/>
+			type="hidden"
+			filter="int" />
 
 		<field
 			id="ordering"

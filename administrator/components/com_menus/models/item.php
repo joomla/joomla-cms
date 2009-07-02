@@ -122,17 +122,31 @@ class MenusModelItem extends JModelForm
 		switch ($table->type)
 		{
 			case 'alias':
+				$table->component_id = 0;
 				break;
 
 			case 'separator':
 				$table->link = '';
+				$table->component_id = 0;
 				break;
 
 			case 'url':
+				$table->component_id = 0;
 				break;
 
 			case 'component':
 			default:
+				// Ensure the integrity of the component_id field is maintained, particularly when changing the menu item type.
+				$args = array();
+				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+				if (isset($args['option']))
+				{
+					$component = JComponentHelper::getComponent($args['option']);
+					if (isset($component->id)) {
+						$table->component_id = $component->id;
+					}
+				}
+
 				break;
 
 		}

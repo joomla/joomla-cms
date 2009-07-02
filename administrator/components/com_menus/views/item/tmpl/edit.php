@@ -61,10 +61,6 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getInput('published'); ?>
 			</li>
 			<li>
-				<?php echo $this->form->getLabel('ordering'); ?><br />
-				<?php echo $this->form->getInput('ordering'); ?>
-			</li>
-			<li>
 				<?php echo $this->form->getLabel('browserNav'); ?><br />
 				<?php echo $this->form->getInput('browserNav'); ?>
 			</li>
@@ -94,6 +90,7 @@ JHtml::_('behavior.formvalidation');
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />
+	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <div class="clr"></div>
