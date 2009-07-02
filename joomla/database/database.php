@@ -704,6 +704,24 @@ abstract class JDatabase extends JObject
 	abstract public function loadRowList($key='');
 
 	/**
+	 * Load the next row returned by the query.
+	 *
+	 * @return	mixed	The result of the query as an array, false if there are no more rows, or null on an error.
+	 *
+	 * @since	1.6.0
+	 */
+	abstract public function loadNextRow();
+
+	/**
+	 * Load the next row returned by the query.
+	 *
+	 * @return	mixed	The result of the query as an object, false if there are no more rows, or null on an error.
+	 *
+	 * @since	1.6.0
+	 */
+	abstract public function loadNextObject();
+
+	/**
 	 * Inserts a row into a table based on an objects properties
 	 * @param	string	The name of the table
 	 * @param	object	An object whose properties match table fields
