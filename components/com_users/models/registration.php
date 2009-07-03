@@ -23,8 +23,11 @@ jimport('joomla.plugin.helper');
 class UsersModelRegistration extends JModel
 {
 	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @since	1.6
 	 */
-	function _populateState()
+	protected function _populateState()
 	{
 		// Get the application object.
 		$app	= &JFactory::getApplication();

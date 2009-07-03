@@ -27,15 +27,11 @@ class CategoriesModelCategories extends JModelList
 	public $_context = 'com_categories.articles';
 
 	/**
-	 * Overridden method to lazy load data from the request/session as necessary
+	 * Method to auto-populate the model state.
 	 *
-	 * @access	public
-	 * @param	string	$key		The key of the state item to return
-	 * @param	mixed	$default	The default value to return if it does not exist
-	 * @return	mixed	The requested value by key
-	 * @since	1.0
+	 * @since	1.6
 	 */
-	function _populateState()
+	protected function _populateState()
 	{
 		$app = &JFactory::getApplication();
 
@@ -76,7 +72,7 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @return	string		A store id.
 	 */
-	public function _getStoreId($id = '')
+	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('list.start');

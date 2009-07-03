@@ -23,8 +23,11 @@ jimport('joomla.plugin.helper');
 class UsersModelUser extends JModelForm
 {
 	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @since	1.6
 	 */
-	function _populateState($property = null, $default = null)
+	protected function _populateState($property = null, $default = null)
 	{
 		// Get the application object.
 		$app	= &JFactory::getApplication();
