@@ -27,7 +27,7 @@ class ContentModelArticle extends JModelItem
 	 *
 	 * @var		string
 	 */
-	 protected $_context = 'com_content.item';
+	 protected $_context = 'com_content.article';
 
 	/**
 	 * Method to auto-populate the model state.

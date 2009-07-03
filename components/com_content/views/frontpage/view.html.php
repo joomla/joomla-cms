@@ -63,7 +63,7 @@ class ContentViewFrontpage extends JView
 		foreach ($items as $i => &$item)
 		{
 			$item->slug		= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
-			$item->catslug	= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
+			$item->catslug	= $item->category_route ? ($item->catid.':'.$item->category_route) : $item->catid;
 			$item->event	= new stdClass();
 
 			$dispatcher	= &JDispatcher::getInstance();

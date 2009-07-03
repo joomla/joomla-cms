@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 <ol class="jlinks">
 <?php foreach ($this->link_items as &$item) : ?>
 	<li>
-		<a href="<?php echo JRoute::_(ContentRoute::article($item->slug, $item->catslug, $item->sectionid)); ?>">
+		<a href="<?php echo JRoute::_(ContentRoute::article($item->slug, $item->catslug)); ?>">
 			<?php echo $item->title; ?></a>
 	</li>
 <?php endforeach; ?>

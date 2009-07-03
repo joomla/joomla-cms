@@ -28,7 +28,7 @@ class ContentRoute
 	public static function article($id, $categoryId = null)
 	{
 		$needles = array(
-			'article'  => (int) $id,
+			'article'	=> (int) $id,
 			'category' => (int) $categoryId
 		);
 
@@ -236,47 +236,56 @@ function ContentParseRoute($segments)
 {
 	$vars = array();
 
-	//Get the active menu item
+	//G et the active menu item.
 	$menu = &JSite::getMenu();
 	$item = &$menu->getActive();
 
 	// Count route segments
 	$count = count($segments);
 
-	//Standard routing for articles
+	// Standard routing for articles.
 	if (!isset($item))
 	{
-		$vars['view']  = $segments[0];
-		$vars['id']    = $segments[$count - 1];
+		$vars['view']	= $segments[0];
+		$vars['id']		= $segments[$count - 1];
 		return $vars;
 	}
 
-	//Handle View and Identifier
-	switch($item->query['view'])
+	// Handle View and Identifier.
+	switch ($item->query['view'])
 	{
+		case 'categories':
+			// From the categories view, we can only jump to a category.
+			// 123-path/to/category
+			$vars['id']		= $segments[0];
+			$vars['view']	= 'category';
+			break;
+
 		case 'category':
-			$vars['id']   = $segments[$count-1];
-			$vars['view'] = 'article';
+			$vars['id']		= $segments[$count-1];
+			$vars['view']	= 'article';
 			break;
 
 		case 'frontpage':
-			$vars['id']   = $segments[$count-1];
-			$vars['view'] = 'article';
+			$vars['id']		= $segments[$count-1];
+			$vars['view']	= 'article';
 			break;
 
 		case 'article':
-			$vars['id']	  = $segments[$count-1];
-			$vars['view'] = 'article';
+			$vars['id']		= $segments[$count-1];
+			$vars['view']	= 'article';
 			break;
 
 		case 'archive':
 			if ($count != 1)
 			{
-				$vars['year']  = $count >= 2 ? $segments[$count-2] : null;
+				$vars['year']	= $count >= 2 ? $segments[$count-2] : null;
 				$vars['month'] = $segments[$count-1];
-				$vars['view']  = 'archive';
-			} else {
-				$vars['id']	  = $segments[$count-1];
+				$vars['view']	= 'archive';
+			}
+			else
+			{
+				$vars['id']		= $segments[$count-1];
 				$vars['view'] = 'article';
 			}
 			break;

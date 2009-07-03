@@ -52,9 +52,8 @@ class ContentViewCategories extends JView
 		// Compute the weblink slug and prepare description (runs content plugins).
 		foreach ($items as $i => &$item)
 		{
-			$item->slug		= $item->path ? ($item->id.':'.$item->path) : $item->id;
-
-			$item->description = JHtml::_('content.prepare', $item->description);
+			$item->slug			= $item->route ? ($item->id.':'.$item->route) : $item->id;
+			$item->description	= JHtml::_('content.prepare', $item->description);
 		}
 
 		$this->assignRef('params',		$params);

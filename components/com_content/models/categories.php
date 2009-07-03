@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 
 /**
- * Categories Component Categories Model
+ * This models supports retrieving lists of article categories.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_content
@@ -34,35 +34,35 @@ class ContentModelCategories extends JModelList
 	protected $_extension = 'com_content';
 
 	/**
-	 * Overridden method to lazy load data from the request/session as necessary
+	 * Method to auto-populate the model state.
 	 *
-	 * @access	public
-	 * @param	string	$key		The key of the state item to return
-	 * @param	mixed	$default	The default value to return if it does not exist
-	 * @return	mixed	The requested value by key
-	 * @since	1.0
+	 * @since	1.6
 	 */
-	function _populateState()
+	protected function _populateState()
 	{
 		$app = &JFactory::getApplication();
 
 		$this->setState('filter.extension', $this->_extension);
 
-		// Get the parent id
+		// Get the parent id if defined.
 		$parentId = JRequest::getInt('id');
-		$this->setState('list.parentId', $parentId);
+		$this->setState('filter.parentId', $parentId);
 
 		// List state information
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		//$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$limit = JRequest::getInt('limit', $app->getCfg('list_limit', 0));
 		$this->setState('list.limit', $limit);
 
-		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
+		//$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
+		$limitstart = JRequest::getInt('limitstart', 0);
 		$this->setState('list.limitstart', $limitstart);
 
-		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.lft');
+		//$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.lft');
+		$orderCol = JRequest::getCmd('filter_order', 'a.lft');
 		$this->setState('list.ordering', $orderCol);
 
-		$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
+		//$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
+		$orderDirn = JRequest::getWord('filter_order_Dir', 'asc');
 		$this->setState('list.direction', $orderDirn);
 
 		$params = $app->getParams();
@@ -83,7 +83,7 @@ class ContentModelCategories extends JModelList
 	 *
 	 * @return	string		A store id.
 	 */
-	public function _getStoreId($id = '')
+	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('list.start');
@@ -112,23 +112,11 @@ class ContentModelCategories extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.access, a.published, a.access' .
-				', a.path, a.parent_id, a.level, a.lft, a.rgt' .
+				', a.path AS route, a.parent_id, a.level, a.lft, a.rgt' .
 				', a.description'
 			)
 		);
 		$query->from('#__categories AS a');
-
-		// Retrieve a sub tree
-		if ($parentId = $this->getState('list.parentId'))
-		{
-			$query->join('LEFT', '#__categories AS p ON p.id = '.(int) $parentId);
-			$query->where('(a.lft > p.lft AND a.rgt < p.rgt)');
-		}
-
-		// Filter by extension
-		if ($extension = $this->getState('filter.extension')) {
-			$query->where('a.extension = '.$this->_db->quote($extension));
-		}
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
@@ -138,7 +126,7 @@ class ContentModelCategories extends JModelList
 			$query->where('a.access IN ('.$groups.')');
 		}
 
-		// Filter by published state
+		// Filter by published state.
 		$published = $this->getState('filter.published');
 		if (is_numeric($published)) {
 			$query->where('a.published = ' . (int) $published);
@@ -146,11 +134,80 @@ class ContentModelCategories extends JModelList
 		else if (is_array($published))
 		{
 			JArrayHelper::toInteger($published);
+			$published = implode(',', $published);
 			$query->where('a.published IN ('.$published.')');
 		}
 
+		// Filter by extension.
+		$query->where('a.extension = '.$this->_db->quote($this->_extension));
+
+		// Retrieve a sub tree or lineage.
+		if ($parentId = $this->getState('filter.parent_id'))
+		{
+			if ($levels = $this->getState('filter.get_children'))
+			{
+				// Optionally get all the child categories for given parent.
+				$query->leftJoin('#__categories AS p ON p.id = '.(int) $parentId);
+				$query->where('a.lft > p.lft AND a.rgt < p.rgt');
+				if ((int) $levels > 0)
+				{
+					// Only go to a certain depth.
+					$query->where('a.level <= p.level + '.(int) $levels);
+				}
+			}
+			else if ($this->getState('filter.get_parents'))
+			{
+				// Optionally get all the parents to the category.
+				$query->leftJoin('#__categories AS p ON p.id = '.(int) $parentId);
+				$query->where('a.lft < p.lft AND a.rgt > p.rgt');
+			}
+			else
+			{
+				// Only looking for categories with this parent.
+				$query->where('a.parent_id = '.(int) $parentId);
+			}
+		}
+
+		// Inclusive/exclusive filters (-ve id's are to be excluded).
+		$categoryId = $this->getState('filter.category_id');
+		if (is_numeric($categoryId))
+		{
+			if ($categoryId > 0) {
+				$query->where('a.id = ' . (int) $categoryId);
+			}
+			else {
+				$query->where('a.id <> ' . -(int) $categoryId);
+			}
+		}
+		else if (is_array($categoryId))
+		{
+			JArrayHelper::toInteger($categoryId);
+			// Find the include/excludes
+			$include = array();
+			$exclude = array();
+			foreach ($categoryId as $id)
+			{
+				if ($id > 0) {
+					$include[] = $id;
+				}
+				else {
+					$exclude[] = $id;
+				}
+			}
+			if (!empty($include))
+			{
+				$include = implode(',', $include);
+				$query->where('a.id IN ('.$include.')');
+			}
+			else
+			{
+				$include = implode(',', $include);
+				$query->where('a.id NOT IN ('.$include.')');
+			}
+		}
+
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.title')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.lft')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

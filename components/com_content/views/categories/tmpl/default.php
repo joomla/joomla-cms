@@ -29,9 +29,13 @@ $pageClass = $this->params->get('pageclass_sfx');
 <ol>
 	<?php foreach ($this->items as &$item) : ?>
 	<li>
-		<a href="<?php echo ContentRoute::category('index.php?option=com_content&view=categories&id='.$this->escape($item->slug));?>">
+		<a href="<?php echo ContentRoute::category('index.php?option=com_content&view=category&id='.$this->escape($item->slug));?>">
 			<?php echo $this->escape($item->title); ?></a>
 	</li>
 	<?php endforeach; ?>
 </ol>
 <?php endif; ?>
+
+<?php if ($pageClass) : ?>
+</div>
+<?php endif;?>
