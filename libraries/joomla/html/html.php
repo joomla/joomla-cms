@@ -147,10 +147,10 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <img></amg> element
+	 * Write a <img></img> element
 	 *
 	 * @access	public
-	 * @param	string 	The relative or absoluete URL to use for the src attribute
+	 * @param	string 	The relative or absolute URL to use for the src attribute
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
 	 * @since	1.5
