@@ -37,6 +37,7 @@ $ -> Language fix or change
  # [#15813] PHP Notice During Installation
  # [#16527] JQuery class not imported in form/fields/accesslevels.php
  # [#16691] [patch] docblock typos in html.php
+ ^ [#14459] JProfiler Time elapsed, Memory used
 
 02-Jun-2009 Andrew Eddie
  - Deprecated JDatabase::stderr
