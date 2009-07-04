@@ -31,7 +31,6 @@ $config = &JFactory::getConfig();
 		</tfoot>
 		<tbody>
 			<?php
-			writableCell('administrator/backups');
 			writableCell('administrator/components');
 			writableCell('administrator/language');
 

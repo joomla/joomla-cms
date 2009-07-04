@@ -40,6 +40,8 @@ $ -> Language fix or change
  ^ [#14459] JProfiler Time elapsed, Memory used
  # [#15367] JRegistry::setValue() return value is incorrect as per documentation
  + Added JRegistry::__toString magic method.
+ # [#16941] administrator/backups not created
+ - Removed JPATH_BACKUPS
 
 02-Jun-2009 Andrew Eddie
  - Deprecated JDatabase::stderr
