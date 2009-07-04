@@ -44,6 +44,7 @@ $ -> Language fix or change
  - Removed JPATH_BACKUPS
  # [#15411] Invalid HTML in com_member templates
  ^ [#17021] Refactoring administrator/com_admin
+ ^ Added Robs refactoring of com_config, refactored some more.
 
 02-Jun-2009 Andrew Eddie
  - Deprecated JDatabase::stderr

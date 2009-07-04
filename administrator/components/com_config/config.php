@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	Config
+ * @subpackage	com_config
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,25 +16,12 @@ if (!$user->authorize('core.config.manage')) {
 	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
-// Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
-
-// Require specific controller if requested
-if ($controller = JRequest::getWord('controller', 'application')) {
-	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
-	if (file_exists($path)) {
-		require_once $path;
-	} else {
-		$controller = '';
-	}
-}
-
-// Create the controller
-$classname	= 'ConfigController'.ucfirst($controller);
-$controller	= new $classname();
-
+// Tell the browser not to cache this page.
 JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 
-// Perform the Request task
+jimport('joomla.application.component.controller');
+
+// Execute the controller.
+$controller = JController::getInstance('Config');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

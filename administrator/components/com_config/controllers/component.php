@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	Config
+ * @subpackage	com_config
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,7 +12,7 @@ require_once(JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php');
 /**
  * Note: this view is intended only to be opened in a popup
  * @package		Joomla.Administrator
- * @subpackage	Config
+ * @subpackage	com_config
  */
 class ConfigControllerComponent extends JController
 {

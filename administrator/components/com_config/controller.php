@@ -16,9 +16,40 @@ jimport('joomla.application.component.controller');
  * Config Component Controller
  *
  * @package		Joomla.Administrator
- * @subpackage	Config
+ * @subpackage	com_config
  * @since 1.5
  */
 class ConfigController extends JController
 {
+	/**
+	 * Method to display the view.
+	 *
+	 * @since	1.6
+	 */
+	public function display()
+	{
+		// Get the document object.
+		$document	= &JFactory::getDocument();
+
+		// Set the default view name and format from the Request.
+		$vName		= JRequest::getWord('view', 'application');
+		$vFormat	= $document->getType();
+		$lName		= JRequest::getWord('layout', 'default');
+
+		// Get and render the view.
+		if ($view = &$this->getView($vName, $vFormat))
+		{
+			// Get the model for the view.
+			$model = &$this->getModel($vName);
+
+			// Push the model into the view (as default).
+			$view->setModel($model, true);
+			$view->setLayout($lName);
+
+			// Push document object into the view.
+			$view->assignRef('document', $document);
+
+			$view->display();
+		}
+	}
 }

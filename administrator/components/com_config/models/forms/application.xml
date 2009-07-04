@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields group="cache" label="Config_Cache_Settings_Label">
+		<field
+			name="caching"
+			type="radio"
+			default="0"
+			label="Config_Cache_Label"
+			description="Config_Cache_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="cachetime"
+			type="text"
+			default="15"
+			label="Config_Cache_Time_Label"
+			description="Config_Cache_Time_Desc"
+			required="true"
+			filter="integer"
+		/>
+		
+		<field
+			name="cache_handler"
+			type="cachehandlers"
+			default="file"
+			label="Config_Cache_Handler_Label"
+			description="Config_Cache_Handler_Desc"
+			filter="word"
+		/>
+	</fields>
+	
+	<fields group="database" label="Config_Database_Settings_Label">
+		<field
+			name="dbtype"
+			type="list"
+			default=""
+			label="Config_Database_Type_Label"
+			description="Config_Database_Type_Desc"
+			filter="string"
+		>
+			<option value="mysql">Config_Option_Mysql</option>
+			<option value="mysqli">Config_Option_Mysqli</option>
+		</field>
+		
+		<field
+			name="host"
+			type="text"
+			default=""
+			label="Config_Database_Host_Label"
+			description="Config_Database_Host_Desc"
+			filter="string"
+			size="30"
+		/>
+		
+		<field
+			name="user"
+			type="text"
+			default=""
+			label="Config_Database_Username_Label"
+			description="Config_Database_Username_Desc"
+			filter="string"
+			size="30"
+		/>
+		
+		<field
+			name="db"
+			type="text"
+			default=""
+			label="Config_Database_Database_Label"
+			description="Config_Database_Database_Desc"
+			filter="string"
+			size="30"
+		/>
+		
+		<field
+			name="dbprefix"
+			type="text"
+			default="jos_"
+			label="Config_Database_Prefix_Label"
+			description="Config_Database_Prefix_Desc"
+			filter="string"
+			size="10"
+		/>
+	
+	</fields>
+	
+	<fields group="debug" label="Config_Debug_Settings_Label">
+		<field
+			name="debug"
+			type="radio"
+			default="0"
+			label="Config_Debug_System_Label"
+			description="Config_Debug_System_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="debug_lang"
+			type="radio"
+			default="0"
+			label="Config_Debug_Lang_Label"
+			description="Config_Debug_Lang_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="debug_modules"
+			type="radio"
+			default="1"
+			label="Config_Debug_Modules_Label"
+			description="Config_Debug_Modules_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+	</fields>
+	
+	<fields group="ftp" label="Config_Ftp_Settings_Label">
+		<field
+			name="ftp_enable"
+			type="radio"
+			default="0"
+			label="Config_Ftp_Enable_Label"
+			description="Config_Ftp_Enable_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+	
+		<field
+			name="ftp_host"
+			type="text"
+			default=""
+			label="Config_Ftp_Host_Label"
+			description="Config_Ftp_Host_Desc"
+			filter="string"
+			size="25"
+		/>
+		
+		<field
+			name="ftp_port"
+			type="text"
+			default=""
+			label="Config_Ftp_Port_Label"
+			description="Config_Ftp_Port_Desc"
+			filter="string"
+			size="25"
+		/>
+		
+		<field
+			name="ftp_user"
+			type="text"
+			default=""
+			label="Config_Ftp_Username_Label"
+			description="Config_Ftp_Username_Desc"
+			filter="string"
+			size="25"
+		/>
+		
+		<field
+			name="ftp_pass"
+			type="text"
+			default=""
+			label="Config_Ftp_Password_Label"
+			description="Config_Ftp_Password_Desc"
+			filter="string"
+			size="25"
+		/>
+		
+		<field
+			name="ftp_root"
+			type="text"
+			default=""
+			label="Config_Ftp_Root_Label"
+			description="Config_Ftp_Root_Desc"
+			filter="string"
+			size="50"
+		/>
+	</fields>
+	
+	<fields group="locale" label="Config_Locale_Settings_Label">
+		<field
+			name="offset"
+			type="timezones"
+			default="0"
+			label="Config_Server_Timezone_Label"
+			description="Config_Server_Timezone_Desc"
+			required="true"
+			filter="integer"
+		/>
+	</fields>
+	
+	<fields group="mail" label="Config_Mail_Settings_Label">
+		<field
+			name="mailer"
+			type="list"
+			default="mail"
+			label="Config_Mail_Mailer_Label"
+			description="Config_Mail_Mailer_Desc"
+			required="true"
+			filter="word"
+		>
+			<option value="mail">Config_Option_Php_Mail</option>
+			<option value="sendmail">Config_Option_Sendmail</option>
+			<option value="smtp">Config_Option_Smtp</option>
+		</field>
+		
+		<field
+			name="mailfrom"
+			type="text"
+			default=""
+			label="Config_Mail_From_Email_Label"
+			description="Config_Mail_From_Email_Desc"
+			filter="string"
+			size="30"
+		/>
+		
+		<field
+			name="fromname"
+			type="text"
+			default=""
+			label="Config_Mail_From_Name_Label"
+			description="Config_Mail_From_Name_Desc"
+			filter="string"
+			size="30"
+		/>
+		
+		<field
+			name="sendmail"
+			type="text"
+			default="/usr/sbin/sendmail"
+			label="Config_Mail_Sendmail_Path_Label"
+			description="Config_Mail_Sendmail_Path_Desc"
+			filter="string"
+			size="30"
+		/>
+		
+		<field
+			name="smtpauth"
+			type="radio"
+			default="0"
+			label="Config_Mail_Smtp_Auth_Label"
+			description="Config_Mail_Smtp_Auth_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="smtpuser"
+			type="text"
+			default=""
+			label="Config_Mail_Smtp_Username_Label"
+			description="Config_Mail_Smtp_Username_Desc"
+			filter="string"
+			size="30"
+		/>
+		
+		<field
+			name="smtppass"
+			type="text"
+			default=""
+			label="Config_Mail_Smtp_Password_Label"
+			description="Config_Mail_Smtp_Password_Desc"
+			filter="string"
+			size="30"
+		/>
+		
+		<field
+			name="smtphost"
+			type="text"
+			default="localhost"
+			label="Config_Mail_Smtp_Host_Label"
+			description="Config_Mail_Smtp_Host_Desc"
+			filter="string"
+			size="30"
+		/>
+	</fields>
+	
+	<fields group="metadata" label="Config_Metadata_Settings_Label">
+		<field
+			name="MetaDesc"
+			type="textarea"
+			default=""
+			label="Config_Metadesc_Label"
+			description="Config_Metadesc_Desc"
+			required="true"
+			filter="string"
+			cols="60"
+			rows="3"
+		/>
+		
+		<field
+			name="MetaKeys"
+			type="textarea"
+			default=""
+			label="Config_Metakeys_Label"
+			description="Config_Metakeys_Desc"
+			required="true"
+			filter="string"
+			cols="60"
+			rows="3"
+		/>
+		
+		<field
+			name="MetaTitle"
+			type="radio"
+			default="1"
+			label="Config_Metatitle_Label"
+			description="Config_Metatitle_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="MetaAuthor"
+			type="radio"
+			default="1"
+			label="Config_Metaauthor_Label"
+			description="Config_Metaauthor_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+	</fields>
+	
+	<fields group="seo" label="Config_Seo_Settings_Label">
+		<field
+			name="sef"
+			type="radio"
+			default="0"
+			label="Config_Sef_Url_Label"
+			description="Config_Sef_Url_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="sef_rewrite"
+			type="radio"
+			default="0"
+			label="Config_Sef_Rewrite_Label"
+			description="Config_Sef_Rewrite_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="sef_suffix"
+			type="radio"
+			default="0"
+			label="Config_Sef_Suffix_Label"
+			description="Config_Sef_Suffix_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+	</fields>
+	
+	<fields group="server" label="Config_Server_Settings_Label">
+		<field
+			name="tmp_path"
+			type="text"
+			default=""
+			label="Config_Temp_Path_Label"
+			description="Config_Temp_Path_Desc"
+			required="true"
+			filter="string"
+			size="50"
+		/>
+		
+		<field
+			name="gzip"
+			type="radio"
+			default="0"
+			label="Config_Gzip_Compression_Label"
+			description="Config_Gzip_Compression_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="error_reporting"
+			type="list"
+			default="-1"
+			label="Config_Gzip_Compression_Label"
+			description="Config_Gzip_Compression_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="-1">Config_Option_System_Default</option>
+			<option value="0">Config_Option_None</option>
+			<option value="7">Config_Option_Simple</option>
+			<option value="6143">Config_Option_Maximum</option>
+		</field>
+		
+		<field
+			name="error_reporting"
+			type="list"
+			default="-1"
+			label="Config_Gzip_Compression_Label"
+			description="Config_Gzip_Compression_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="-1">Config_Option_System_Default</option>
+			<option value="0">Config_Option_None</option>
+			<option value="7">Config_Option_Simple</option>
+			<option value="6143">Config_Option_Maximum</option>
+		</field>
+		
+		<field
+			name="force_ssl"
+			type="list"
+			default="-1"
+			label="Config_Force_Ssl_Label"
+			description="Config_Force_Ssl_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="0">Config_Option_None</option>
+			<option value="1">Config_Option_Administrator_Only</option>
+			<option value="2">Config_Option_Entire_Site</option>
+		</field>
+	</fields>
+	
+	<fields group="session" label="Config_Session_Settings_Label">
+		<field
+			name="lifetime"
+			type="text"
+			default="15"
+			label="Config_Session_Time_Label"
+			description="Config_Session_Time_Desc"
+			required="true"
+			filter="integer"
+		/>
+		
+		<field
+			name="session_handler"
+			type="sessionhandlers"
+			default="none"
+			label="Config_Session_Handler_Label"
+			description="Config_Session_Handler_Desc"
+			required="true"
+			filter="word"
+		/>
+	</fields>
+	
+	<fields group="site" label="Config_Site_Settings_Label">
+		<field
+			name="offline"
+			type="radio"
+			default="0"
+			label="Config_Site_Offline_Label"
+			description="Config_Site_Offline_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="offline_message"
+			type="textarea"
+			default=""
+			label="Config_Offline_Message_Label"
+			description="Config_Offline_Message_Desc"
+			required="true"
+			filter="safehtml"
+			cols="60"
+			rows="2"
+		/>
+		
+		<field
+			name="sitename"
+			type="text"
+			default=""
+			label="Config_Site_Name_Label"
+			description="Config_Site_Name_Desc"
+			required="true"
+			filter="string"
+			size="50"
+		/>
+		
+		<field
+			name="editor"
+			type="editors"
+			default="tinymce"
+			label="Config_Default_Editor_Label"
+			description="Config_Default_Editor_Desc"
+			required="true"
+			filter="cmd"
+		/>
+		
+		<field
+			name="access"
+			type="accesslevels"
+			default="1"
+			label="Config_Default_Access_Level_Label"
+			description="Config_Default_Access_Level_Desc"
+			required="true"
+			filter="integer"
+		/>
+		
+		<field
+			name="list_limit"
+			type="list"
+			default="20"
+			label="Config_Default_List_Limit_Label"
+			description="Config_Default_List_Limit_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="20">20</option>
+			<option value="25">25</option>
+			<option value="30">30</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+		</field>
+		
+		<field
+			name="feed_limit"
+			type="list"
+			default="10"
+			label="Config_Default_Feed_Limit_Label"
+			description="Config_Default_Feed_Limit_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="20">20</option>
+			<option value="25">25</option>
+			<option value="30">30</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+		</field>
+		
+		<field
+			name="feed_email"
+			type="list"
+			default="author"
+			label="Config_Feed_Email_Label"
+			description="Config_Feed_Email_Desc"
+			required="true"
+			filter="word"
+		>
+			<option value="author">Config_Option_Author_Email</option>
+			<option value="site">Config_Option_Site_Email</option>
+		</field>
+	</fields>
+	
+	<fields group="system" label="Config_System_Settings_Label">
+		<field
+			name="secret"
+			type="text"
+			default=""
+			label="Config_Secret_Label"
+			description="Config_Secret_Desc"
+			required="true"
+			readonly="true"
+			filter="alnum"
+		/>
+
+		<field
+			name="log_path"
+			type="text"
+			default=""
+			label="Config_Log_Path_Label"
+			description="Config_Log_Path_Desc"
+			required="true"
+			filter="string"
+			size="50"
+		/>
+		
+		<field
+			name="xmlrpc_server"
+			type="radio"
+			default="0"
+			label="Config_Web_Services_Label"
+			description="Config_Web_Services_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</field>
+		
+		<field
+			name="helpurl"
+			type="helpsites"
+			default=""
+			label="Config_Help_Server_Label"
+			description="Config_Help_Server_Desc"
+			required="true"
+		/>
+	</fields>
+</form>
