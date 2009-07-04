@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jul-2009 Andrew Eddie
+ + Add accessability tweaks to admin mod_menu.
+
 04-Jul-2009 Gergo Erdosi
  - Removed closing tag in configuration.php file.
  + Added new parameter option 'closingtag' to JRegistryFormatPHP::objectToString().

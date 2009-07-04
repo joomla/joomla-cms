@@ -13,7 +13,7 @@
 if ($enabled)
 {
 	$menu->addChild(
-		new JMenuNode(JText::_('Site')), true
+		new JMenuNode(JText::_('Site'), '#'), true
 	);
 	$menu->addChild(
 		new JMenuNode(JText::_('Control Panel'), 'index.php', 'class:cpanel')
@@ -65,7 +65,7 @@ if ($user->authorize('core.menus.manage'))
 	if ($enabled)
 	{
 		$menu->addChild(
-			new JMenuNode(JText::_('Menus')), true
+			new JMenuNode(JText::_('Menus'), '#'), true
 		);
 		$menu->addChild(
 			new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus&view=menus', 'class:menu')
@@ -98,7 +98,7 @@ if ($user->authorize('com_content.manage'))
 	if ($enabled)
 	{
 		$menu->addChild(
-			new JMenuNode(JText::_('Content')), true
+			new JMenuNode(JText::_('Content'), '#'), true
 		);
 		//
 		$menu->addChild(
@@ -140,7 +140,7 @@ if ($user->authorize('com_content.manage'))
 if ($enabled)
 {
 	$db		= &JFactory::getDbo();
-	$menu->addChild(new JMenuNode(JText::_('Components')), true);
+	$menu->addChild(new JMenuNode(JText::_('Components'), '#'), true);
 
 	// Get the authorised components and sub-menus.
 	$components = ModMenuHelper::getComponents(array('com_content'));
@@ -184,7 +184,7 @@ if ($im || $mm || $pm || $tm || $lm)
 {
 	if ($enabled)
 	{
-		$menu->addChild(new JMenuNode(JText::_('Extensions')), true);
+		$menu->addChild(new JMenuNode(JText::_('Extensions'), '#'), true);
 
 		if ($im)
 		{
@@ -217,7 +217,7 @@ if ($enabled)
 {
 	$lang->load('com_redirect.menu');
 
-	$menu->addChild(new JMenuNode(JText::_('Tools')), true);
+	$menu->addChild(new JMenuNode(JText::_('Tools'), '#'), true);
 
 	$menu->addChild(new JMenuNode(JText::_('com_redirect'), 'index.php?option=com_redirect', 'class:component'));
 	$menu->addSeparator();
@@ -261,7 +261,7 @@ else {
 if ($enabled)
 {
 	$menu->addChild(
-		new JMenuNode(JText::_('Help')), true
+		new JMenuNode(JText::_('Help'), '#'), true
 	);
 	$menu->addChild(
 		new JMenuNode(JText::_('Mod_Menu_Help'), 'index.php?option=com_admin&view=help', 'class:help')
