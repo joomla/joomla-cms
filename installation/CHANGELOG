@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jul-2009 Gergo Erdosi
+ - Removed closing tag in configuration.php file.
+ + Added new parameter option 'closingtag' to JRegistryFormatPHP::objectToString().
+
 04-Jun-2009 Andrew Eddie
  ^ SQL CHANGE: Add missing entries in jos_extensions.
  + Added new administrator template: bluestork.
