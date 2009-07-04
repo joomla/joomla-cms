@@ -9,6 +9,7 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
+jimport('joomla.database.query');
 require_once dirname(__FILE__).DS.'list.php';
 
 /**
