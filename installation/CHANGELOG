@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jun-2009 Andrew Eddie
+ ^ SQL CHANGE: Add missing entries in jos_extensions.
+
 02-Jun-2009 Andrew Eddie
  - Deprecated JDatabase::stderr
  + [#16045] Added JDatabase::getNextRow, JDatabase::getNextObject

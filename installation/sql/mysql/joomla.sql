@@ -629,77 +629,125 @@ CREATE TABLE `#__extensions` (
   INDEX `extension`(`type`,`element`,`folder`,`client_id`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
+# Components
+
+INSERT INTO `#__extensions` VALUES 
+(0, 'com_admin', 'component', 'com_admin', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'Banners', 'component', 'com_banners', '', 1, 1, 0, 0, '', 'track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Cache Manager', 'component', 'com_cache', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'com_categories', 'component', 'com_categories', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'com_checkin', 'component', 'com_checkin', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'Configuration Manager', 'component', 'com_config', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Contacts', 'component', 'com_contact', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Articles', 'component', 'com_content', '', 1, 1, 0, 1, '', 'show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\nfeed_summary=0\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Control Panel', 'component', 'com_cpanel', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Installation Manager', 'component', 'com_installer', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Language Manager', 'component', 'com_languages', '', 1, 1, 0, 1, '', 'administrator=en-GB\nsite=en-GB', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'com_login', 'component', 'com_login', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'Mail To', 'component', 'com_mailto', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Mass mail', 'component', 'com_massmail', '', 1, 1, 0, 1, '', 'mailSubjectPrefix=\nmailBodySuffix=\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Media Manager', 'component', 'com_media', '', 1, 1, 0, 1, '', 'upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nfile_path=images\nimage_path=images\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave\nflash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html\nenable_flash=1\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Member Manager', 'component', 'com_members', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Menu Editor', 'component', 'com_menus', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Messaging', 'component', 'com_messages', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Modules Manager', 'component', 'com_modules', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'News Feeds', 'component', 'com_newsfeeds', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Plugin Manager', 'component', 'com_plugins', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Search', 'component', 'com_search', '', 1, 1, 0, 1, '', 'enabled=0\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Template Manager', 'component', 'com_templates', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'User', 'component', 'com_user', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'User Manager', 'component', 'com_users', '', 1, 1, 0, 1, '', 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Web Links', 'component', 'com_weblinks', '', 1, 1, 0, 0, '', 'show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Wrapper', 'component', 'com_wrapper', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+
+# Languages
+
+INSERT INTO `#__extensions` VALUES 
+(0, 'en-GB', 'language', 'en-GB', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'en-GB', 'language', 'en-GB', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
+
+# Libraries
+
+INSERT INTO `#__extensions` VALUES 
+(0, 'phpmailer', 'library', 'phpmailer', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'phpxmlrpc', 'library', 'phpxmlrpc', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'simplepie', 'library', 'simplepie', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
+
+# Modules
+
+INSERT INTO `#__extensions` VALUES 
+(0, 'mod_archive', 'module', 'mod_archive', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_banners', 'module', 'mod_banners', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_breadcrumbs', 'module', 'mod_breadcrumbs', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_custom', 'module', 'mod_custom', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_custom', 'module', 'mod_custom', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_feed', 'module', 'mod_feed', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_feed', 'module', 'mod_feed', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_footer', 'module', 'mod_footer', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_latest', 'module', 'mod_latest', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_latestnews', 'module', 'mod_latestnews', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_logged', 'module', 'mod_logged', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_login', 'module', 'mod_login', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_menu', 'module', 'mod_menu', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_mostread', 'module', 'mod_mostread', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_newsflash', 'module', 'mod_newsflash', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_online', 'module', 'mod_online', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_popular', 'module', 'mod_popular', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_quickicon', 'module', 'mod_quickicon', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_random_image', 'module', 'mod_random_image', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_related_items', 'module', 'mod_related_items', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_search', 'module', 'mod_search', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_stats', 'module', 'mod_stats', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_status', 'module', 'mod_status', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_submenu', 'module', 'mod_submenu', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_syndicate', 'module', 'mod_syndicate', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_title', 'module', 'mod_title', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_toolbar', 'module', 'mod_toolbar', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_unread', 'module', 'mod_unread', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_whosonline', 'module', 'mod_whosonline', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'mod_wrapper', 'module', 'mod_wrapper', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
 # Plugins
-INSERT INTO `#__extensions` VALUES(0, 'Authentication - Joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 1, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Authentication - LDAP', 'plugin', 'ldap', 'authentication', 0, 0, 1, 0, '', '{"host":"","port":"389","use_ldapV3":"0","negotiate_tls":"0","no_referrals":"0","auth_method":"bind","base_dn":"","search_string":"","users_dn":"","username":"","password":"","ldap_fullname":"fullName","ldap_email":"mail","ldap_uid":"uid"}', '', '', 0, '0000-00-00 00:00:00', 2, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Authentication - GMail', 'plugin', 'gmail', 'authentication', 0, 0, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 4, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Authentication - OpenID', 'plugin', 'openid', 'authentication', 0, 0, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 3, 0);
-INSERT INTO `#__extensions` VALUES(0, 'User - Joomla!', 'plugin', 'joomla', 'user', 0, 1, 1, 0, '', '{"autoregister":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
-INSERT INTO `#__extensions` VALUES(0, 'User - Profile', 'plugin', 'profile', 'user', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Search - Content', 'plugin', 'content', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","search_content":"1","search_uncategorised":"1","search_archived":"1"}', '', '', 0, '0000-00-00 00:00:00', 1, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Search - Contact', 'plugin', 'contact', 'search', 0, 1, 1, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 7, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Search - Categories', 'plugin', 'categories', 'search', 1, 1, 0, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 4, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Search - Newsfeeds', 'plugin', 'newsfeeds', 'search', 0, 1, 1, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 6, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Search - Weblinks', 'plugin', 'weblinks', 'search', 0, 1, 1, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 2, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Content - Pagebreak', 'plugin', 'pagebreak', 'content', 0, 1, 1, 0, '', '{"enabled":"1","title":"1","multipage_toc":"1","showall":"1"}', '', '', 0, '0000-00-00 00:00:00', 10000, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Content - Rating', 'plugin', 'vote', 'content', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 4, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Content - Email Cloaking', 'plugin', 'emailcloak', 'content', 0, 1, 1, 0, '', '{"mode":"1"}', '', '', 0, '0000-00-00 00:00:00', 5, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Content - Load Module', 'plugin', 'loadmodule', 'content', 0, 1, 1, 0, '', '{"style":"none"}', '', '', 0, '0000-00-00 00:00:00', 6, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Content - Page Navigation', 'plugin', 'pagenavigation', 'content', 0, 1, 1, 0, '', '{"position":"1"}', '', '', 0, '0000-00-00 00:00:00', 2, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Editor - No Editor', 'plugin', 'none', 'editors', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Editor - CodeMirror', 'plugin', 'codemirror', 'editors', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Editor - TinyMCE 3.2', 'plugin', 'tinymce', 'editors', 0, 1, 1, 0, '', '{"theme":"advanced","cleanup_startup":"0","cleanup_save":"2","cleanup_entities":"1","autosave":"1","compressed":"0","relative_urls":"0","text_direction":"ltr","lang_mode":"0","lang_code":"en","invalid_elements":"applet","content_css":"1","content_css_custom":"","newlines":"0","extended_elements":"","toolbar":"top","hr":"1","smilies":"1","table":"1","style":"1","layer":"1","xhtmlxtras":"0","template":"0","directionality":"1","fullscreen":"1","html_height":"550","html_width":"750","preview":"1","element_path":"0","insertdate":"1","format_date":"%Y-%m-%d","inserttime":"1","format_time":"%H:%M:%S"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Editor Button - Image', 'plugin', 'image', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Editor Button - Pagebreak', 'plugin', 'pagebreak', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 42, '2009-04-01 10:14:48', 0, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Editor Button - Readmore', 'plugin', 'readmore', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 42, '2009-04-01 10:14:53', 0, 0);
-INSERT INTO `#__extensions` VALUES(0, 'System - SEF', 'plugin', 'sef', 'system', 0, 1, 1, 0, '', '', '', '', 42, '2009-04-01 10:14:57', 1, 0);
-INSERT INTO `#__extensions` VALUES(0, 'System - Debug', 'plugin', 'debug', 'system', 0, 1, 1, 0, '', '{"profile":"1","queries":"1","memory":"1","language_files":"1","language_strings":"2","language_prefix":""}', '', '', 0, '0000-00-00 00:00:00', 2, 0);
-INSERT INTO `#__extensions` VALUES(0, 'System - Cache', 'plugin', 'cache', 'system', 0, 0, 1, 0, '', '{"browsercache":"0","cachetime":"15"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
-INSERT INTO `#__extensions` VALUES(0, 'System - Log', 'plugin', 'log', 'system', 0, 0, 1, 1, '', '', '', '', 42, '2009-04-01 10:15:19', 5, 0);
-INSERT INTO `#__extensions` VALUES(0, 'System - Remember Me', 'plugin', 'remember', 'system', 0, 1, 1, 1, '', '', '', '', 42, '2009-04-01 10:15:25', 6, 0);
-INSERT INTO `#__extensions` VALUES(0, 'System - Redirect', 'plugin', 'redirect', 'system', 1, 8, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 7, 0);
-INSERT INTO `#__extensions` VALUES(0, 'Editor - CodeMirror', 'plugin', 'codemirror', 'editors', 1, 0, 1, 1, '', 'linenumbers=0\n\n', '', '', 0, '0000-00-00 00:00:00', 7, 0);
 
-# Components
-INSERT INTO #__extensions VALUES(0,"Banners","component","com_banners","",1,1,0,0,"","track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Cache Manager","component","com_cache","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Configuration Manager","component","com_config","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Contacts","component","com_contact","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Articles","component","com_content","",1,1,0,1,"","show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\nfeed_summary=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Control Panel","component","com_cpanel","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Installation Manager","component","com_installer","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Language Manager","component","com_languages","",1,1,0,1,"","administrator=en-GB\nsite=en-GB","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Mail To","component","com_mailto","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Mass mail","component","com_massmail","",1,1,0,1,"","mailSubjectPrefix=\nmailBodySuffix=\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Media Manager","component","com_media","",1,1,0,1,"","upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nfile_path=images\nimage_path=images\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave\nflash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html\nenable_flash=1\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Menu Editor","component","com_menus","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Messaging","component","com_messages","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Modules Manager","component","com_modules","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"News Feeds","component","com_newsfeeds","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Plugin Manager","component","com_plugins","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Search","component","com_search","",1,1,0,1,"","enabled=0\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Template Manager","component","com_templates","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"User","component","com_user","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"User Manager","component","com_users","",1,1,0,1,"","allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Web Links","component","com_weblinks","",1,1,0,0,"","show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Wrapper","component","com_wrapper","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Member Manager","component","com_members","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-# Modules
-INSERT INTO #__extensions VALUES(0,"mod_login","module","mod_login","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_popular","module","mod_popular","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_latest","module","mod_latest","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_unread","module","mod_unread","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_online","module","mod_online","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_toolbar","module","mod_toolbar","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_quickicon","module","mod_quickicon","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_logged","module","mod_logged","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_footer","module","mod_footer","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_menu","module","mod_menu","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_submenu","module","mod_submenu","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_status","module","mod_status","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"mod_title","module","mod_title","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
+(0, 'System - Cache', 'plugin', 'cache', 'system', 0, 0, 1, 0, '', '{"browsercache":"0","cachetime":"15"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(, 'Search - Categories', 'plugin', 'categories', 'search', 1, 1, 0, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 4, 0),
+(0, 'Editor - CodeMirror', 'plugin', 'codemirror', 'editors', 1, 0, 1, 1, '', 'linenumbers=0\n\n', '', '', 0, '0000-00-00 00:00:00', 7, 0),
+(0, 'Search - Contact', 'plugin', 'contact', 'search', 0, 1, 1, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 7, 0),
+(0, 'contacts', 'plugin', 'contacts', 'search', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'Search - Content', 'plugin', 'content', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","search_content":"1","search_uncategorised":"1","search_archived":"1"}', '', '', 0, '0000-00-00 00:00:00', 1, 0),
+(0, 'System - Debug', 'plugin', 'debug', 'system', 0, 1, 1, 0, '', '{"profile":"0","queries":"0","memory":"0","language_files":"0","language_strings":"2","language_prefix":"(Mod_[^_]*)"}', '', '', 0, '0000-00-00 00:00:00', 2, 0),
+(0, 'Content - Email Cloaking', 'plugin', 'emailcloak', 'content', 0, 1, 1, 0, '', '{"mode":"1"}', '', '', 0, '0000-00-00 00:00:00', 5, 0),
+(0, 'Content - Code Hightlighter (GeSHi)', 'plugin', 'geshi', 'content', 0, 0, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 5, 0),
+(0, 'Authentication - GMail', 'plugin', 'gmail', 'authentication', 0, 0, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 4, 0),
+(0, 'Editor Button - Image', 'plugin', 'image', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Authentication - Joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 1, 0),
+(0, 'User - Joomla!', 'plugin', 'joomla', 'user', 0, 1, 1, 0, '', '{"autoregister":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Authentication - LDAP', 'plugin', 'ldap', 'authentication', 0, 0, 1, 0, '', '{"host":"","port":"389","use_ldapV3":"0","negotiate_tls":"0","no_referrals":"0","auth_method":"bind","base_dn":"","search_string":"","users_dn":"","username":"","password":"","ldap_fullname":"fullName","ldap_email":"mail","ldap_uid":"uid"}', '', '', 0, '0000-00-00 00:00:00', 2, 0),
+(0, 'Content - Load Module', 'plugin', 'loadmodule', 'content', 0, 1, 1, 0, '', '{"enabled":"1","style":"table"}', '', '', 0, '0000-00-00 00:00:00', 6, 0),
+(0, 'System - Log', 'plugin', 'log', 'system', 0, 0, 1, 1, '', '', '', '', 42, '2009-04-01 10:15:19', 5, 0),
+(0, 'Search - Newsfeeds', 'plugin', 'newsfeeds', 'search', 0, 1, 1, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 6, 0),
+(0, 'Editor - No Editor', 'plugin', 'none', 'editors', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Authentication - OpenID', 'plugin', 'openid', 'authentication', 0, 0, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 3, 0),
+(0, 'Content - Pagebreak', 'plugin', 'pagebreak', 'content', 0, 1, 1, 0, '', '{"enabled":"1","title":"1","multipage_toc":"1","showall":"1"}', '', '', 0, '0000-00-00 00:00:00', 10000, 0),
+(0, 'Editor Button - Pagebreak', 'plugin', 'pagebreak', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 42, '2009-04-01 10:14:48', 0, 0),
+(0, 'Content - Page Navigation', 'plugin', 'pagenavigation', 'content', 0, 1, 1, 0, '', '{"position":"1"}', '', '', 0, '0000-00-00 00:00:00', 2, 0),
+(0, 'User - Profile', 'plugin', 'profile', 'user', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Editor Button - Readmore', 'plugin', 'readmore', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 42, '2009-04-01 10:14:53', 0, 0),
+(0, 'System - Redirect', 'plugin', 'redirect', 'system', 1, 8, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 7, 0),
+(0, 'System - Remember Me', 'plugin', 'remember', 'system', 0, 1, 1, 1, '', '', '', '', 42, '2009-04-01 10:15:25', 6, 0),
+(0, 'Search - Sections', 'plugin', 'sections', 'search', 0, 1, 1, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 5, 0),
+(0, 'System - SEF', 'plugin', 'sef', 'system', 0, 1, 1, 0, '', '', '', '', 42, '2009-04-01 10:14:57', 1, 0),
+(0, 'Editor - TinyMCE 3.2', 'plugin', 'tinymce', 'editors', 0, 1, 1, 0, '', '{"theme":"advanced","cleanup_startup":"0","cleanup_save":"2","cleanup_entities":"1","autosave":"1","compressed":"0","relative_urls":"0","text_direction":"ltr","lang_mode":"0","lang_code":"en","invalid_elements":"applet","content_css":"1","content_css_custom":"","newlines":"0","extended_elements":"","toolbar":"top","hr":"1","smilies":"1","table":"1","style":"1","layer":"1","xhtmlxtras":"0","template":"0","directionality":"1","fullscreen":"1","html_height":"550","html_width":"750","preview":"1","element_path":"0","insertdate":"1","format_date":"%Y-%m-%d","inserttime":"1","format_time":"%H:%M:%S"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Content - Rating', 'plugin', 'vote', 'content', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 4, 0),
+(0, 'Search - Weblinks', 'plugin', 'weblinks', 'search', 0, 1, 1, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 2, 0);
 
+# Templates
+
+INSERT INTO `#__extensions` VALUES 
+(0, 'beez', 'template', 'beez', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'bluestork', 'template', 'bluestork', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'khepri', 'template', 'khepri', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(0, 'rhuk_milkyway', 'template', 'rhuk_milkyway', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
 # --------------------------------------------------------
 
@@ -759,7 +807,7 @@ CREATE TABLE IF NOT EXISTS `#__menu_template` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `#__menu_template` VALUES (1, 'rhuk_milkyway', '0', '1', 'Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
-INSERT INTO `#__menu_template` VALUES (2, 'khepri', '1', '1', 'Default', '{"useRoundedCorners":"1","showSiteName":"0","headerColor":"h_green"}');
+INSERT INTO `#__menu_template` VALUES (2, 'bluestork', '1', '1', 'Default', '{"useRoundedCorners":"1","showSiteName":"0","headerColor":"h_green"}');
 
 # --------------------------------------------------------
 
