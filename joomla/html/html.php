@@ -98,8 +98,12 @@ abstract class JHtml
 
 		if (is_callable(array($className, $func)))
 		{
-			$args = func_get_args();
-			array_shift($args);
+			$temp	= func_get_args();
+			array_shift($temp);
+			$args	= array();
+			foreach ($temp AS &$arg) {
+				$args[] = &$arg;
+			}
 			return call_user_func_array(array($className, $func), $args);
 		}
 		else
