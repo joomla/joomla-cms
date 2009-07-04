@@ -152,12 +152,12 @@ if ($enabled)
 		if (!empty($component->submenu))
 		{
 			// This component has a db driven submenu.
-			$menu->addChild(new JMenuNode($text, 'index.php?'.$component->admin_menu_link, $component->admin_menu_img), true);
+			$menu->addChild(new JMenuNode($text, $component->admin_menu_link, $component->admin_menu_img), true);
 			foreach ($component->submenu as $sub)
 			{
 				$key  = $component->option.'_'.str_replace(' ', '_', $sub->name);
 				$text = $lang->hasKey($key) ? JText::_($key) : $sub->name;
-				$menu->addChild(new JMenuNode($text, 'index.php?'.$component->admin_menu_link, $sub->admin_menu_img));
+				$menu->addChild(new JMenuNode($text, $component->admin_menu_link, $sub->admin_menu_img));
 			}
 			$menu->getParent();
 		}
