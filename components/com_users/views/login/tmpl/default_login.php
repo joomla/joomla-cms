@@ -14,12 +14,14 @@ defined('_JEXEC') or die;
 
 	<?php foreach ($this->form->getGroups() as $group): ?>
 	<fieldset>
+		<dl>
 		<?php foreach ($this->form->getFields($group, $group) as $name => $field): ?>
 			<?php if (!$field->hidden): ?>
 				<dt><?php echo $field->label; ?></dt>
 				<dd><?php echo $field->input; ?></dd>
 			<?php endif; ?>
 		<?php endforeach; ?>
+		</dl>
 	</fieldset>
 	<?php endforeach; ?>
 

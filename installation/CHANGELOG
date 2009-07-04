@@ -42,6 +42,7 @@ $ -> Language fix or change
  + Added JRegistry::__toString magic method.
  # [#16941] administrator/backups not created
  - Removed JPATH_BACKUPS
+ # [#15411] Invalid HTML in com_member templates
 
 02-Jun-2009 Andrew Eddie
  - Deprecated JDatabase::stderr

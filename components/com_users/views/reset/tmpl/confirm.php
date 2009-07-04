@@ -17,10 +17,12 @@ JHtml::_('behavior.formvalidation');
 
 <?php foreach ($this->form->getGroups() as $group): ?>
 	<fieldset>
-<?php foreach ($this->form->getFields($group, $group) as $name => $field): ?>
-		<dt><?php echo $field->label; ?></dt>
-		<dd><?php echo $field->input; ?></dd>
-<?php endforeach; ?>
+		<dl>
+		<?php foreach ($this->form->getFields($group, $group) as $name => $field): ?>
+			<dt><?php echo $field->label; ?></dt>
+			<dd><?php echo $field->input; ?></dd>
+		<?php endforeach; ?>
+		</dl>
 	</fieldset>
 <?php endforeach; ?>
 
