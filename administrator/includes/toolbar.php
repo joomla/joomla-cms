@@ -468,7 +468,7 @@ class JToolBarHelper
 	* @param	string	An alternative path for the configuation xml relative to JPATH_SITE
 	* @since 1.0
 	*/
-	function preferences($component, $height='150', $width='570', $alt = 'Preferences', $path = '')
+	function preferences($component, $height='450', $width='800', $alt = 'JToolbar_Options', $path = '')
 	{
 		$user = &JFactory::getUser();
 		if (!$user->authorise('core.config.manage')) {
@@ -479,7 +479,7 @@ class JToolBarHelper
 		$path		= urlencode($path);
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add a configuration button
-		$bar->appendButton('Popup', 'config', $alt, 'index.php?option=com_config&amp;controller=component&amp;component='.$component.'&amp;path='.$path, $width, $height);
+		$bar->appendButton('Popup', 'config', $alt, 'index.php?option=com_config&amp;view=component&amp;component='.$component.'&amp;path='.$path.'&amp;tmpl=component', $width, $height);
 	}
 }
 

@@ -23,12 +23,19 @@ class ConfigViewComponent extends JView
 	 */
 	function display()
 	{
-		$model		= &$this->getModel();
-		$params		= &$model->getParams();
-		$component	= JComponentHelper::getComponent(JRequest::getCmd('component'));
+		$params		= $this->get('Params');
+		$component	= $this->get('Component');
 
-		$document = & JFactory::getDocument();
-		$document->setTitle(JText::_('Edit Preferences'));
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
+
+		$this->assignRef('component',	$component);
+		$this->assignRef('params',		$params);
+
+		$this->document->setTitle(JText::_('Edit Preferences'));
 
 		parent::display();
 		JRequest::setVar('hidemainmenu', true);
