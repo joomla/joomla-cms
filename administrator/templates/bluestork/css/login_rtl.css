@@ -1,0 +1,33 @@
+/**
+ * @version		$Id: index.php 11952 2009-06-01 03:21:19Z robs $
+ * @package		Joomla.Administrator
+ * @subpackage	templates.bluestork
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/* -- Imported styles ----------------------------- */
+
+@import url("general_rtl.css");
+
+/* -- Specific styles ----------------------------- */
+
+#section-box{
+	float: left;
+	margin-left: 0px;
+	margin-right: 10px;
+}
+
+#form-login label{
+	float: right;
+	text-align: left;
+}
+
+#form-login div.button_holder{
+ 	padding-left: 0px;
+}
+
+form .inputbox {
+	margin-left:0px;
+	margin-right:10px;
+}

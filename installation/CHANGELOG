@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 04-Jun-2009 Andrew Eddie
  ^ SQL CHANGE: Add missing entries in jos_extensions.
+ + Added new administrator template: bluestork.
 
 02-Jun-2009 Andrew Eddie
  - Deprecated JDatabase::stderr
