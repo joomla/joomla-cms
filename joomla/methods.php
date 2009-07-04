@@ -157,4 +157,29 @@ class JText
 		return '';
 	}
 
+	/**
+	 * Translate a string into the current language and stores it in the JavaScript language store.
+	 *
+	 * @access	public
+	 * @param	string		$string		The JText key.
+	 * @return	void
+	 * @since	1.6
+	 */
+	public static function script($string = null)
+	{
+		static $strings;
+
+		// Instante the array if necessary.
+		if (!is_array($strings)) {
+			$strings = array();
+		}
+
+		// Add the string to the array if not null.
+		if ($string !== null) {
+			// Normalize the key and translate the string.
+			$strings[strtoupper($string)] = JFactory::getLanguage()->_($string);
+		}
+
+		return $strings;
+	}
 }
