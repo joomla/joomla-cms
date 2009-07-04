@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.0.0</version>
+	<version>1.6.0</version>
 	<description>This module shows Quick Icons that are visible on the Admin area Home Page</description>
 	<files>
 		<filename module="mod_quickicon">mod_quickicon.php</filename>

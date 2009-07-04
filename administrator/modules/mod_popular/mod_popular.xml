@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.0.0</version>
+	<version>1.6.0</version>
 	<description>DESCPOPULARITEMS</description>
 	<files>
 		<filename module="mod_popular">mod_popular.php</filename>
