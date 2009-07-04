@@ -33,6 +33,7 @@ $ -> Language fix or change
  ^ Refactored admin mod_menu; added layout support.
  # Fixed bugs in module layout list parameter.
  ^ Menu changes based on Ron Severdia's suggestions added.
+ # [#15509] JHTML::_() breaks on PHP 5.3.0 when calling methods which uses a reference in its argument list.
 
 02-Jun-2009 Andrew Eddie
  - Deprecated JDatabase::stderr
