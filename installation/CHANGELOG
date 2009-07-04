@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#16941] administrator/backups not created
  - Removed JPATH_BACKUPS
  # [#15411] Invalid HTML in com_member templates
+ ^ [#17021] Refactoring administrator/com_admin
 
 02-Jun-2009 Andrew Eddie
  - Deprecated JDatabase::stderr
