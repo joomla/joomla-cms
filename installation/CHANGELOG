@@ -32,7 +32,7 @@ $ -> Language fix or change
  + Added new parameter option 'closingtag' to JRegistryFormatPHP::objectToString().
  ^ Syncronized configuration.php-dist with the changes.
 
-04-Jun-2009 Andrew Eddie
+04-Jul-2009 Andrew Eddie
  ^ SQL CHANGE: Add missing entries in jos_extensions.
  + Added new administrator template: bluestork.
  ^ Refactored admin mod_menu; added layout support.
@@ -51,14 +51,14 @@ $ -> Language fix or change
  ^ [#17021] Refactoring administrator/com_admin
  ^ Added Robs refactoring of com_config, refactored some more.
 
-02-Jun-2009 Andrew Eddie
+02-Jul-2009 Andrew Eddie
  - Deprecated JDatabase::stderr
  + [#16045] Added JDatabase::getNextRow, JDatabase::getNextObject
 
-01-Jun-2009 Gergo Erdosi
+01-Jul-2009 Gergo Erdosi
  # Fixed editor and editors form fields.
 
-01-Jun-2009 Andrew Eddie
+01-Jul-2009 Andrew Eddie
  ^ Changed successful translation marker in JLanguage from &bull; to ** to avoid double escaping ugliness.
  + Added new configuration variable to enable (default) or disable the tp=1 feature.
  # [#17020] Refactoring com_login component: error on at the end of inactivity period.
