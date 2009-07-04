@@ -12,23 +12,22 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.helper');
 
 /**
-* Joomla! Application class
-*
-* Provide many supporting API functions
-*
+ * Joomla! Application class
+ *
+ * Provide many supporting API functions
+ *
  * @package		Joomla.Administrator
-* @final
+ * @final
  */
 class JAdministrator extends JApplication
 {
 	/**
-	* Class constructor
-	*
-	* @access protected
-	* @param	array An optional associative array of configuration settings.
-	* Recognized key values include 'clientId' (this list is not meant to be comprehensive).
-	*/
-	function __construct($config = array())
+	 * Class constructor
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * Recognized key values include 'clientId' (this list is not meant to be comprehensive).
+	 */
+	public function __construct($config = array())
 	{
 		$config['clientId'] = 1;
 		parent::__construct($config);
@@ -38,15 +37,14 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Initialise the application.
-	*
-	* @access public
-	* @param array An optional associative array of configuration settings.
-	*/
+	 * Initialise the application.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 */
 	function initialise($options = array())
 	{
 		$config = &JFactory::getConfig();
-		
+
 		// if a language was specified it has priority
 		// otherwise use user or default language settings
 		if (empty($options['language']))
@@ -57,7 +55,9 @@ class JAdministrator extends JApplication
 			// Make sure that the user's language exists
 			if ($lang && JLanguage::exists($lang)) {
 				$options['language'] = $lang;
-			} else {
+			}
+			else
+			{
 				$params = JComponentHelper::getParams('com_languages');
 				$client	= &JApplicationHelper::getClientInfo($this->getClientId());
 				$options['language'] = $params->get($client->name, $config->getValue('config.language','en-GB'));
@@ -65,11 +65,13 @@ class JAdministrator extends JApplication
 		}
 
 		// One last check to make sure we have something
-		if (! JLanguage::exists($options['language'])) {
+		if (! JLanguage::exists($options['language']))
+		{
 			$lang = $config->getValue('config.language','en-GB');
 			if (JLanguage::exists($lang)) {
 				$options['language'] = $lang;
-			} else {
+			}
+			else {
 				$options['language'] = 'en-GB'; // as a last ditch fail to english
 			}
 		}
@@ -78,15 +80,14 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Route the application
-	*
-	* @access public
-	*/
-	function route()
+	 * Route the application
+	 */
+	public function route()
 	{
 		$uri = JURI::getInstance();
 
-		if ($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https') {
+		if ($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https')
+		{
 			//forward to https
 			$uri->setScheme('https');
 			$this->redirect($uri->toString());
@@ -100,35 +101,34 @@ class JAdministrator extends JApplication
 	/**
 	 * Return a reference to the JRouter object.
 	 *
-	 * @access	public
-	 * @return	JRouter.
+	 * @return	JRouter
 	 * @since	1.5
 	 */
-	function &getRouter()
+	public function &getRouter()
 	{
 		$router = &parent::getRouter('administrator');
 		return $router;
 	}
 
 	/**
-	* Dispatch the application
-	*
-	* @access public
-	*/
-	function dispatch($component)
+	 * Dispatch the application
+	 *
+	 * @param	string	The component to dispatch.
+	 */
+	public function dispatch($component)
 	{
 		$document	= &JFactory::getDocument();
 		$user		= &JFactory::getUser();
 
-		switch($document->getType())
+		switch ($document->getType())
 		{
-			case 'html' :
-			{
+			case 'html':
 				$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
 				JHtml::_('behavior.framework', true);
-			} break;
+				break;
 
-			default : break;
+			default:
+				break;
 		}
 
 		$document->setTitle(htmlspecialchars_decode($this->getCfg('sitename')). ' - ' .JText::_('Administration'));
@@ -143,11 +143,9 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Display the application.
-	*
-	* @access public
-	*/
-	function render()
+	 * Display the application.
+	 */
+	public function render()
 	{
 		$component	= JRequest::getCmd('option', 'com_login');
 		$template	= $this->getTemplate(true);
@@ -173,14 +171,13 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Login authentication function
-	*
-	* @param	array 	Array('username' => string, 'password' => string)
-	* @param	array 	Array('remember' => boolean)
-	* @access public
-	* @see JApplication::login
-	*/
-	function login($credentials, $options = array())
+	 * Login authentication function
+	 *
+	 * @param	array 	Array('username' => string, 'password' => string)
+	 * @param	array 	Array('remember' => boolean)
+	 * @see		JApplication::login
+	 */
+	public function login($credentials, $options = array())
 	{
 		//The minimum group
 		$options['group'] = 'Public Backend';
@@ -213,10 +210,10 @@ class JAdministrator extends JApplication
 	/**
 	 * Get the template
 	 *
-	 * @return string The template name
-	 * @since 1.0
+	 * @return	string	The template name
+	 * @since	1.0
 	 */
-	function getTemplate($params = false)
+	public function getTemplate($params = false)
 	{
 		static $template;
 
@@ -234,13 +231,13 @@ class JAdministrator extends JApplication
 
 			$template->template = JFilterInput::clean($template->template, 'cmd');
 
-			if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php')) {
-				$template->template = 'khepri';
+			if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php'))
+			{
+				$template->template = 'bluestork';
 				$template->params = '{}';
 			}
 		}
-		if ($params)
-		{
+		if ($params) {
 			return $template;
 		}
 
@@ -248,12 +245,11 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Purge the jos_messages table of old messages
-	*
-	* static method
-	* @since 1.5
-	*/
-	function purgeMessages()
+	 * Purge the jos_messages table of old messages
+	 *
+	 * @since 1.5
+	 */
+	public static function purgeMessages()
 	{
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
