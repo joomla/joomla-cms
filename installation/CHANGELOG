@@ -30,6 +30,7 @@ $ -> Language fix or change
 04-Jul-2009 Gergo Erdosi
  - Removed closing tag in configuration.php file.
  + Added new parameter option 'closingtag' to JRegistryFormatPHP::objectToString().
+ ^ Syncronized configuration.php-dist with the changes.
 
 04-Jun-2009 Andrew Eddie
  ^ SQL CHANGE: Add missing entries in jos_extensions.
