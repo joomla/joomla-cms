@@ -7,7 +7,7 @@
 -- Dumping data for table `#__access_action_rule_map`
 -- 
 
-INSERT IGNORE INTO `jos_access_action_rule_map` VALUES 
+INSERT IGNORE INTO `#__access_action_rule_map` VALUES 
 (1, 35);
 
 --
@@ -65,7 +65,7 @@ INSERT IGNORE INTO `#__access_asset_assetgroup_map` VALUES
 (15, 1);
 
 -- 
--- Dumping data for table `jos_access_asset_rule_map`
+-- Dumping data for table `#__access_asset_rule_map`
 -- 
 
 --

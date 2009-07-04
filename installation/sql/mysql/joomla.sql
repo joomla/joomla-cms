@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `#__access_assetgroup_rule_map` (
   PRIMARY KEY  (`group_id`,`rule_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `jos_access_assetgroup_rule_map` VALUES 
+INSERT INTO `#__access_assetgroup_rule_map` VALUES 
 (1, 1),
 (2, 2),
 (3, 3),
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `#__access_assets` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-INSERT INTO `jos_access_assets` VALUES 
+INSERT INTO `#__access_assets` VALUES 
 (1, 1, 'core', 'plugin.28', 'System - Debug');
 
 -- --------------------------------------------------------
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `#__access_asset_assetgroup_map` (
   PRIMARY KEY  (`asset_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `jos_access_asset_assetgroup_map` VALUES 
+INSERT INTO `#__access_asset_assetgroup_map` VALUES 
 (7, 1);
 
 -- --------------------------------------------------------
