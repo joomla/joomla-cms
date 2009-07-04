@@ -38,6 +38,8 @@ $ -> Language fix or change
  # [#16527] JQuery class not imported in form/fields/accesslevels.php
  # [#16691] [patch] docblock typos in html.php
  ^ [#14459] JProfiler Time elapsed, Memory used
+ # [#15367] JRegistry::setValue() return value is incorrect as per documentation
+ + Added JRegistry::__toString magic method.
 
 02-Jun-2009 Andrew Eddie
  - Deprecated JDatabase::stderr
