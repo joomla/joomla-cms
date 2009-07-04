@@ -28,7 +28,9 @@ class JElementModuleLayouts extends JElementList
 	 */
 	protected function _getOptions(&$node)
 	{
-		global $mainframe;
+		jimport('joomla.database.query');
+
+		$clientId = ($v = $node->attributes('client_id')) ? $v : 0;
 
 		$options	= array();
 		$path1		= null;
@@ -36,17 +38,20 @@ class JElementModuleLayouts extends JElementList
 
 		// Load template entries for each menuid
 		$db			=& JFactory::getDBO();
-		$query		= 'SELECT template'
-			. ' FROM #__templates_menu'
-			. ' WHERE client_id = 0 AND menuid = 0';
+		$query		= new JQuery;
+		$query->select('template');
+		$query->from('#__menu_template');
+		$query->where('client_id = '.(int) $clientId);
+		$query->where('home = 1');
 		$db->setQuery($query);
 		$template	= $db->loadResult();
 
 		if ($module = $node->attributes('module'))
 		{
+			$base	= ($clientId == 1) ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$module	= preg_replace('#\W#', '', $module);
-			$path1	= JPATH_SITE.DS.'modules'.DS.$module.DS.'tmpl';
-			$path2	= JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.$module;
+			$path1	= $base.DS.'modules'.DS.$module.DS.'tmpl';
+			$path2	= $base.DS.'templates'.DS.$template.DS.'html'.DS.$module;
 			$options[]	= JHTML::_('select.option', '', '');
 		}
 
@@ -71,7 +76,7 @@ class JElementModuleLayouts extends JElementList
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::_getOptions(), $options);
+		$options = array_merge(parent::_getOptions($node), $options);
 
 		return $options;
 	}
