@@ -2,6 +2,7 @@
 /**
  * @version		$Id:mod_menu.php 2463 2006-02-18 06:05:38Z webImagery $
  * @package		Joomla.Administrator
+ * @subpackage	mod_menu
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -9,8 +10,20 @@
 // no direct access
 defined('_JEXEC') or die;
 
+// Include the module helper classes.
 if (!class_exists('MenuModuleHelper')) {
 	require dirname(__FILE__).DS.'helper.php';
 }
 
-MenuModuleHelper::buildMenu(JRequest::getInt('hidemainmenu') ? false : true);
+if (!class_exists('JAdminCssMenu')) {
+	require dirname(__FILE__).DS.'menu.php';
+}
+
+// Initialise variables.
+$lang		= &JFactory::getLanguage();
+$user		= &JFactory::getUser();
+$menu		= new JAdminCSSMenu();
+$enabled	= JRequest::getInt('hidemainmenu') ? false : true;
+
+// Render the module layout
+require JModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));

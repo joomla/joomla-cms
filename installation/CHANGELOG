@@ -30,6 +30,9 @@ $ -> Language fix or change
 04-Jun-2009 Andrew Eddie
  ^ SQL CHANGE: Add missing entries in jos_extensions.
  + Added new administrator template: bluestork.
+ ^ Refactored admin mod_menu; added layout support.
+ # Fixed bugs in module layout list parameter.
+ ^ Menu changes based on Ron Severdia's suggestions added.
 
 02-Jun-2009 Andrew Eddie
  - Deprecated JDatabase::stderr

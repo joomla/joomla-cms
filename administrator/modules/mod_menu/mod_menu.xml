@@ -14,6 +14,15 @@
 		<filename>menu.php</filename>
 	</files>
 	<params>
+		<param
+			name="layout"
+			type="modulelayouts"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Module_Layout_Desc"
+			module="mod_menu"
+			client_id="1">
+		</param>
+
 	</params>
 	<params group="advanced">
 		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -11,6 +10,10 @@ defined('_JEXEC') or die;
 
 jimport('joomla.base.tree');
 
+/**
+ * @package		Joomla.Administrator
+ * @subpackage	mod_menu
+ */
 class JAdminCssMenu extends JTree
 {
 	/**
@@ -171,6 +174,10 @@ class JAdminCssMenu extends JTree
 	}
 }
 
+/**
+ * @package		Joomla.Administrator
+ * @subpackage	mod_menu
+ */
 class JMenuNode extends JNode
 {
 	/**
