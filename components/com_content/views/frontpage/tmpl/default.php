@@ -28,7 +28,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php if (!empty($this->lead_items)) : ?>
 <ol class="jarticles-lead">
 	<?php foreach ($this->lead_items as &$item) : ?>
-	<li<?php echo $item->state == 0 ? 'system-unpublished' : null; ?>>
+	<li<?php echo $item->state == 0 ? ' class="system-unpublished"' : null; ?>>
 		<?php
 			$this->item = &$item;
 			echo $this->loadTemplate('item');
@@ -44,7 +44,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php if (!empty($this->lead_items)) : ?>
 <ol class="jarticles columns-<?php echo (int) $this->columns;?>">
 	<?php foreach ($this->intro_items as &$item) : ?>
-	<li<?php echo $item->state == 0 ? 'system-unpublished' : null; ?>>
+	<li<?php echo $item->state == 0 ? ' class="system-unpublished"' : null; ?>>
 		<?php
 			$this->item = &$item;
 			echo $this->loadTemplate('item');
@@ -55,7 +55,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif; ?>
 
 <?php if (!empty($this->link_items)) : ?>
-	<?php $this->loadTemplate('links'); ?>
+	<?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
 
 
