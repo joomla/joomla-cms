@@ -441,3 +441,11 @@ DROP TABLE `#__core_acl_aro_sections`;
 -- ----------------------------------------------------------------
 INSERT INTO #__extensions (name, type, element, protected) VALUES ('Joomla! CMS', 'package', 'joomla', 1);
 INSERT INTO #__schema VALUES(LAST_INSERT_ID()), '20090622');
+
+-- Parameter conversions todo
+
+# com_content show_vote -> article-allow_ratings
+
+
+
+
