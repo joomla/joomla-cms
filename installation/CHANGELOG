@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jul-2009 Gergo Erdosi
+ ^ Replaced mod_status with its refactored version.
+ ! Thanks to Andrea Tarr for helping refactor the mod_status module.
+
 05-Jul-2009 Andrew Eddie
  + Add accessability tweaks to admin mod_menu.
  + [#16547] Cancel button on Article Manager parameters does not work

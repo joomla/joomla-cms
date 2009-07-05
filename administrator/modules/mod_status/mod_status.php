@@ -2,74 +2,60 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
+ * @subpackage	mod_status
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
 
-global $task;
+// Initialize variables.
+$config = &JFactory::getConfig();
+$user = &JFactory::getUser();
+$db = &JFactory::getDbo();
+$lang = &JFactory::getLanguage();
 
-// Initialize some variables
-$config		= &JFactory::getConfig();
-$user		= &JFactory::getUser();
-$db			= &JFactory::getDbo();
-$lang		= &JFactory::getLanguage();
-$session	= &JFactory::getSession();
+// Get the number of unread messages in your inbox.
+$query = new JQuery;
 
-$sid	= $session->getId();
-$output = array();
+$query->select('COUNT(*)');
+$query->from('#__messages');
+$query->where('state = 0 AND user_id_to = '.(int) $user->get('id'));
 
-// Print the preview button
-$output[] = "<span class=\"preview\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
-
-// Get the number of unread messages in your inbox
-$query = 'SELECT COUNT(*)'
-. ' FROM #__messages'
-. ' WHERE state = 0'
-. ' AND user_id_to = '.(int) $user->get('id');
 $db->setQuery($query);
-$unread = $db->loadResult();
+$unread = (int) $db->loadResult();
 
+// Set the inbox link.
 if (JRequest::getInt('hidemainmenu')) {
-	$inboxLink = '<a>';
+	$inboxLink = '';
 } else {
-	$inboxLink = '<a href="index.php?option=com_messages">';
+	$inboxLink = JRoute::_('index.php?option=com_messages');
 }
 
-// Print the inbox message
+// Set the inbox class.
 if ($unread) {
-	$output[] = $inboxLink.'<span class="unread-messages">'.$unread.'</span></a>';
+	$inboxClass = 'unread-messages';
 } else {
-	$output[] = $inboxLink.'<span class="no-unread-messages">'.$unread.'</span></a>';
+	$inboxClass = 'no-unread-messages';
 }
 
-// Get the number of logged in users
-$query = 'SELECT COUNT(session_id)'
-. ' FROM #__session'
-. ' WHERE guest <> 1'
-;
+// Get the number of logged in users.
+$query = new JQuery;
+
+$query->select('COUNT(session_id)');
+$query->from('#__session');
+$query->where('guest <> 1');
+
 $db->setQuery($query);
-$online_num = intval($db->loadResult());
+$online_num = (int) $db->loadResult();
 
-//Print the logged in users message
-$output[] = "<span class=\"loggedin-users\">".$online_num."</span>";
-
+// Set the logout link.
+$task = JRequest::getCmd('task');
 if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
-	 // Print the logout message
-	 $output[] = "<span class=\"logout\">".JText::_('Logout')."</span>";
+	 $logoutLink = '';
 } else {
-	// Print the logout message
-	$output[] = "<span class=\"logout\"><a href=\"index.php?option=com_login&amp;task=logout\">".JText::_('Logout')."</a></span>";
+	$logoutLink = JRoute::_('index.php?option=com_login&task=logout');
 }
 
-// reverse rendering order for rtl display
-if ($lang->isRTL()) {
-	$output = array_reverse($output);
-}
-
-// output the module
-foreach ($output as $item){
-	echo $item;
-}
+require(JModuleHelper::getLayoutPath('mod_status'));
