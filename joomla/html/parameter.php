@@ -63,7 +63,7 @@ class JParameter extends JRegistry
 	 * @param	string Path to the xml setup file
 	 * @since	1.5
 	 */
-	public function __construct($data, $path = '')
+	public function __construct($data = '', $path = '')
 	{
 		parent::__construct('_default');
 
@@ -90,7 +90,6 @@ class JParameter extends JRegistry
 	/**
 	 * Set a value
 	 *
-	 * @access	public
 	 * @param	string The name of the param
 	 * @param	string The value of the parameter
 	 * @return	string The set value
@@ -104,7 +103,6 @@ class JParameter extends JRegistry
 	/**
 	 * Get a value
 	 *
-	 * @access	public
 	 * @param	string The name of the param
 	 * @param	mixed The default value if not found
 	 * @return	string
@@ -120,7 +118,6 @@ class JParameter extends JRegistry
 	/**
 	 * Sets a default value if not alreay assigned
 	 *
-	 * @access	public
 	 * @param	string	The name of the param
 	 * @param	string	The value of the parameter
 	 * @param	string	The parameter group to modify
@@ -136,7 +133,6 @@ class JParameter extends JRegistry
 	/**
 	 * Sets the XML object from custom xml files
 	 *
-	 * @access	public
 	 * @param	object	An XML object
 	 * @since	1.5
 	 */
@@ -160,7 +156,6 @@ class JParameter extends JRegistry
 	 *
 	 * @param	mixed	$data Array or Object
 	 * @return	boolean	True if the data was successfully bound
-	 * @access	public
 	 * @since	1.5
 	 */
 	public function bind($data, $group = '_default')
@@ -177,7 +172,6 @@ class JParameter extends JRegistry
 	/**
 	 * Render
 	 *
-	 * @access	public
 	 * @param	string	The name of the control, or the default text area if a setup file is not found
 	 * @return	string	HTML
 	 * @since	1.5
@@ -224,7 +218,6 @@ class JParameter extends JRegistry
 	/**
 	 * Render all parameters to an array
 	 *
-	 * @access	public
 	 * @param	string	The name of the control, or the default text area if a setup file is not found
 	 * @return	array	Array of all parameters, each as array Any array of the label, the form element and the tooltip
 	 * @since	1.5
@@ -245,7 +238,6 @@ class JParameter extends JRegistry
 	/**
 	 * Return number of params to render
 	 *
-	 * @access	public
 	 * @return	mixed	Boolean falst if no params exist or integer number of params that exist
 	 * @since	1.5
 	 */
@@ -261,7 +253,6 @@ class JParameter extends JRegistry
 	/**
 	 * Get the number of params in each group
 	 *
-	 * @access	public
 	 * @return	array	Array of all group names as key and param count as value
 	 * @since	1.5
 	 */
@@ -280,7 +271,6 @@ class JParameter extends JRegistry
 	/**
 	 * Render all parameters
 	 *
-	 * @access	public
 	 * @param	string	The name of the control, or the default text area if a setup file is not found
 	 * @return	array	Aarray of all parameters, each as array Any array of the label, the form element and the tooltip
 	 * @since	1.5
@@ -334,7 +324,6 @@ class JParameter extends JRegistry
 	/**
 	 * Loads an xml setup file and parses it
 	 *
-	 * @access	public
 	 * @param	string	path to xml setup file
 	 * @return	object
 	 * @since	1.5
@@ -369,7 +358,6 @@ class JParameter extends JRegistry
 	/**
 	 * Loads a element type
 	 *
-	 * @access	public
 	 * @param	string	elementType
 	 * @return	object
 	 * @since	1.5
@@ -421,7 +409,6 @@ class JParameter extends JRegistry
 	 * the custom folders, it will look in
 	 * JParameter/types.
 	 *
-	 * @access	public
 	 * @param	string|array	directory or directories to search.
 	 * @since	1.5
 	 */
