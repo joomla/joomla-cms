@@ -171,22 +171,18 @@ class WeblinksModelWeblink extends JModelForm
 	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.0
 	 */
-	public function &getForm()
+	public function getForm()
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-		$false	= false;
 
 		// Get the form.
-		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.DS.'models'.DS.'forms');
-		JForm::addFieldPath(JPATH_COMPONENT.DS.'models'.DS.'fields');
-		$form = &JForm::getInstance('jform', 'weblink', true, array('array' => true));
+		$form = parent::getForm('weblink', 'com_weblinks.weblink', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
 			$this->setError($form->getMessage());
-			return $false;
+			return false;
 		}
 
 		// Check the session for previously entered form data.

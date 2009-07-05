@@ -84,22 +84,18 @@ class UsersModelLevel extends JModelForm
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
 	 */
-	public function &getForm()
+	public function getForm()
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-		$false	= false;
 
 		// Get the form.
-		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
-		$form = &JForm::getInstance('jform', 'level', true, array('array' => true));
+		$form = parent::getForm('level', 'com_users.level', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
 			$this->setError($form->getMessage());
-			return $false;
+			return false;
 		}
 
 		// Check the session for previously entered form data.

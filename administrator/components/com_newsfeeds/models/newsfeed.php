@@ -175,22 +175,18 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.0
 	 */
-	public function &getForm()
+	public function getForm()
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-		$false	= false;
 
 		// Get the form.
-		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.DS.'models'.DS.'forms');
-		JForm::addFieldPath(JPATH_COMPONENT.DS.'models'.DS.'fields');
-		$form = &JForm::getInstance('jform', 'newsfeed', true, array('array' => true));
+		$form = parent::getForm('newsfeed', 'com_newsfeeds.newsfeed', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
 			$this->setError($form->getMessage());
-			return $false;
+			return false;
 		}
 
 		// Check the session for previously entered form data.
@@ -238,7 +234,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 
 		// Trigger the onBeforeSaveContent event.
 		$result = $dispatcher->trigger('onBeforeContentSave', array(&$table, $isNew));
-		
+
 		// Check the event responses.
 		if (in_array(false, $result, true)) {
 			$this->setError($table->getError());

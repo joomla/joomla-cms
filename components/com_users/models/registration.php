@@ -47,20 +47,15 @@ class UsersModelRegistration extends JModel
 	 * @return	mixed		JForm object on success, false on failure.
 	 * @since	1.0
 	 */
-	function &getForm()
+	function getForm()
 	{
-		$false = false;
-
 		// Get the form.
-		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.DS.'models'.DS.'forms');
-		JForm::addFieldPath(JPATH_PLUGINS.'/system/jxtended/form/fields');
-		$form = &JForm::getInstance('jform', 'registration', true, array('array' => true));
+		$form = parent::getForm('registration', 'com_users.registration', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
 			$this->setError($form->getMessage());
-			return $false;
+			return false;
 		}
 
 		// Get the dispatcher and load the users plugins.
@@ -73,7 +68,7 @@ class UsersModelRegistration extends JModel
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true)) {
 			$this->setError($dispatcher->getError());
-			return $false;
+			return false;
 		}
 
 		return $form;

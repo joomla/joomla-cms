@@ -60,7 +60,8 @@ class ConfigControllerApplication extends JController
 		$return = $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($return === false) {
+		if ($return === false)
+		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 

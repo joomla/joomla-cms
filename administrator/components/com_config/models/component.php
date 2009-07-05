@@ -54,7 +54,7 @@ class ConfigModelComponent extends JModelForm
 		JForm::addFormPath(JPATH_ADMINISTRATOR.'/components/'.$option);
 
 		// Get the form.
-		$form = parent::getForm('config', array('array' => 'jform', 'event' => 'onPrepareForm'));
+		$form = parent::getForm('config', 'com_config.component', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
