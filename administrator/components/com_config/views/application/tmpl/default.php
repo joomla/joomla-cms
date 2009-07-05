@@ -10,11 +10,9 @@
 // No direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
-
 // Load tooltips behavior
-		JHtml::_('behavior.tooltip');
-		JHtml::_('behavior.switcher');
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.switcher');
 
 // Special treatment to get the submenu to work.
 $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');

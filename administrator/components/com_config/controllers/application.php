@@ -17,7 +17,7 @@ class ConfigControllerApplication extends JController
 {
 	/**
 	 * Class Constructor
-	 * 
+	 *
 	 * @param	array	$config		An optional associative array of configuration settings.
 	 * @return	void
 	 * @since	1.5
@@ -25,15 +25,14 @@ class ConfigControllerApplication extends JController
 	function __construct($config = array())
 	{
 		parent::__construct($config);
-		
+
 		// Map the apply task to the save method.
 		$this->registerTask('apply', 'save');
 	}
 
-
 	/**
 	 * Method to save the configuration.
-	 * 
+	 *
 	 * @return	bool	True on success, false on failure.
 	 * @since	1.5
 	 */
@@ -41,12 +40,12 @@ class ConfigControllerApplication extends JController
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
-		
+
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorize('core.config.manage')) {
 			$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 		}
-		
+
 		// Set FTP credentials, if given.
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
@@ -91,7 +90,7 @@ class ConfigControllerApplication extends JController
 		{
 			// Save the data in the session.
 			$app->setUserState('com_config.config.global.data', $data);
-			
+
 			// Save failed, go back to the screen and display a notice.
 			$message = JText::sprintf('JError_Save_Failed', $model->getError());
 			$this->setRedirect('index.php?option=com_config&view=application', $message, 'error');
@@ -113,7 +112,7 @@ class ConfigControllerApplication extends JController
 				$this->setRedirect('index.php', $message);
 				break;
 		}
-		
+
 		return true;
 	}
 

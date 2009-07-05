@@ -7,8 +7,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once(JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php');
-
 /**
  * Note: this view is intended only to be opened in a popup
  * @package		Joomla.Administrator
@@ -17,51 +15,18 @@ require_once(JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php');
 class ConfigControllerComponent extends JController
 {
 	/**
-	 * Custom Constructor
+	 * Class Constructor
+	 *
+	 * @param	array	$config		An optional associative array of configuration settings.
+	 * @return	void
+	 * @since	1.5
 	 */
-	function __construct($default = array())
+	function __construct($config = array())
 	{
-		$default['default_task'] = 'edit';
-		parent::__construct($default);
+		parent::__construct($config);
 
+		// Map the apply task to the save method.
 		$this->registerTask('apply', 'save');
-	}
-
-	/**
-	 * Show the configuration edit form
-	 * @param string The URL option
-	 */
-	function edit()
-	{
-		JRequest::setVar('tmpl', 'component'); //force the component template
-		$component = JRequest::getCmd('component');
-
-		if (empty($component))
-		{
-			JError::raiseWarning(500, 'Not a valid component');
-			return false;
-		}
-
-		// load the component's language file
-		$lang = & JFactory::getLanguage();
-		// 1.5 or core
-		$lang->load($component);
-		// 1.6 support for component specific languages
-		$lang->load( $component, JPATH_ADMINISTRATOR.DS.'components'.DS.$component);
-
-		$model = $this->getModel('Component');
-		$table = &JTable::getInstance('component');
-
-		if (!$table->loadByOption($component))
-		{
-			JError::raiseWarning(500, 'Not a valid component');
-			return false;
-		}
-
-		$view = new ConfigViewComponent();
-		$view->assignRef('component', $table);
-		$view->setModel($model, true);
-		$view->display();
 	}
 
 	/**
@@ -69,43 +34,75 @@ class ConfigControllerComponent extends JController
 	 */
 	function save()
 	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		// Check for request forgeries.
+		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
 
-		$component = JRequest::getCmd('component');
+		// Check if the user is authorized to do this.
+		// TODO: This permission need to change based on the extension.
+		if (!JFactory::getUser()->authorize('core.config.manage')) {
+			$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+		}
 
-		$table = &JTable::getInstance('component');
-		if (!$table->loadByOption($component))
+		// Set FTP credentials, if given.
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
+
+		// Initialize variables.
+		$app	= JFactory::getApplication();
+		$model	= $this->getModel('Component');
+		$form	= $model->getForm();
+		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$id		= JRequest::getInt('id');
+		$option	= JRequest::getWord('component');
+
+		// Validate the posted data.
+		$return = $model->validate($form, $data);
+
+		// Check for validation errors.
+		if ($return === false) {
+			// Get the validation messages.
+			$errors	= $model->getErrors();
+
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+				if (JError::isError($errors[$i])) {
+					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+				} else {
+					$app->enqueueMessage($errors[$i], 'notice');
+				}
+			}
+
+			// Save the data in the session.
+			$app->setUserState('com_config.config.global.data', $data);
+
+			// Redirect back to the edit screen.
+			$this->setRedirect(JRoute::_('index.php?option=com_config&view=component&component='.$option, false));
+			return false;
+		}
+
+		// Attempt to save the configuration.
+		$data	= array(
+					'params'	=> $return,
+					'id'		=> $id
+					);
+		$return = $model->save($data);
+
+		// Check the return value.
+		if ($return === false)
 		{
-			JError::raiseWarning(500, 'Not a valid component');
+			// Save the data in the session.
+			$app->setUserState('com_config.config.global.data', $data);
+
+			// Save failed, go back to the screen and display a notice.
+			$message = JText::sprintf('JError_Save_Failed', $model->getError());
+			$this->setRedirect('index.php?option=com_config&view=component&component='.$option, $message, 'error');
 			return false;
 		}
 
-		$post = JRequest::get('post');
-		$post['option'] = $component;
-		$table->bind($post);
+		// Set the success message.
+		$message = JText::_('Config_Save_Success');
 
-		// pre-save checks
-		if (!$table->check()) {
-			JError::raiseWarning(500, $table->getError());
-			return false;
-		}
-
-		// save the changes
-		if (!$table->store()) {
-			JError::raiseWarning(500, $table->getError());
-			return false;
-		}
-
-		//$this->setRedirect('index.php?option=com_config', $msg);
-		$this->edit();
-	}
-
-	/**
-	 * Cancel operation
-	 */
-	function cancel()
-	{
-		$this->setRedirect('index.php');
+		$this->setRedirect('index.php?option=com_config&view=component&component='.$option, $message);
+		return true;
 	}
 }

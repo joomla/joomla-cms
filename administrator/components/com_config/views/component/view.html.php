@@ -23,7 +23,7 @@ class ConfigViewComponent extends JView
 	 */
 	function display()
 	{
-		$params		= $this->get('Params');
+		$form		= $this->get('Form');
 		$component	= $this->get('Component');
 
 		// Check for errors.
@@ -32,8 +32,13 @@ class ConfigViewComponent extends JView
 			return false;
 		}
 
+		// Bind the form to the data.
+		if ($form && $component->params) {
+			$form->bind($component->params);
+		}
+
+		$this->assignRef('form',		$form);
 		$this->assignRef('component',	$component);
-		$this->assignRef('params',		$params);
 
 		$this->document->setTitle(JText::_('Edit Preferences'));
 

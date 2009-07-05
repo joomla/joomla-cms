@@ -10,13 +10,13 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modelform');
 
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_config
  */
-class ConfigModelComponent extends JModel
+class ConfigModelComponent extends JModelForm
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -25,69 +25,104 @@ class ConfigModelComponent extends JModel
 	 */
 	protected function _populateState()
 	{
+		// Set the component (option) we are dealing with.
 		$component = JRequest::getCmd('component');
 		$this->setState('component.option', $component);
+
+		// Set an alternative path for the configuration file.
+		if ($path = JRequest::getString('path'))
+		{
+			$path = JPath::clean(JPATH_SITE.DS.$path);
+			JPath::check($path);
+			$this->setState('component.path', $path);
+		}
+	}
+
+	/**
+	 * Method to get a form object.
+	 *
+	 * @return	mixed		A JForm object on success, false on failure.
+	 * @since	1.6
+	 */
+	public function getForm()
+	{
+		$option = $this->getState('component.option');
+
+		jimport('joomla.form.form');
+
+		// Add the search path for the admin component config.xml file.
+		JForm::addFormPath(JPATH_ADMINISTRATOR.'/components/'.$option);
+
+		// Get the form.
+		$form = parent::getForm('config', array('array' => 'jform', 'event' => 'onPrepareForm'));
+
+		// Check for an error.
+		if (JError::isError($form)) {
+			$this->setError($form->getMessage());
+			return false;
+		}
+
+		return $form;
 	}
 
 	/**
 	 * Get the component information.
 	 *
-	 * @param	string	An optional 'option'.
-	 *
 	 * @return	object
 	 * @since	1.6
 	 */
-	function getComponent($option = null)
+	function getComponent()
 	{
-		if (empty($option)) {
-			$option = $this->getState('component.option');
-		}
+		// Initialise variables.
+		$option = $this->getState('component.option');
 
-		// Load common language files
+		// Load common and local language files.
 		$lang = &JFactory::getLanguage();
-		// 1.5 3PD or Core files
 		$lang->load($option);
-		// 1.6 3PD
 		$lang->load($option, JPATH_COMPONENT);
 
-		return JComponentHelper::getComponent($option);
+		$result = JComponentHelper::getComponent($option);
+
+		return $result;
 	}
 
 	/**
-	 * Get the params for the configuration variables.
+	 * Method to save the configuration data.
 	 *
-	 * @return	JParameter
+	 * @param	array	An array containing all global config data.
+	 * @return	bool	True on success, false on failure.
+	 * @since	1.6
 	 */
-	function &getParams()
+	public function save($data)
 	{
-		static $instance;
+		$table = &JTable::getInstance('component');
 
-		if ($instance == null)
+		// Bind the data.
+		if (!$table->bind($data))
 		{
-			$component	= JRequest::getCmd('component');
-
-			$table = &JTable::getInstance('component');
-			$table->loadByOption($component);
-
-			// work out file path
-			if ($path = JRequest::getString('path'))
-			{
-				$path = JPath::clean(JPATH_SITE.DS.$path);
-				JPath::check($path);
-			}
-			else
-			{
-				$option	= preg_replace('#\W#', '', $table->option);
-				$path	= JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'config.xml';
-			}
-
-			if (file_exists($path)) {
-				$instance = new JParameter($table->params, $path);
-			}
-			else {
-				$instance = new JParameter($table->params);
-			}
+			$this->setError($table->getError());
+			return false;
 		}
-		return $instance;
+
+		// Check the data.
+		if (!$table->check())
+		{
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Store the data.
+		if (!$table->store())
+		{
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Clean the cache.
+		$cache = &JFactory::getCache('com_content');
+		$cache->clean();
+
+		return true;
 	}
+
 }

@@ -10,14 +10,19 @@
 // No direct access
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
+$template = JFactory::getApplication()->getTemplate();
 
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+jimport('joomla.html.pane');
+$pane = &JPane::getInstance('tabs', array('allowAllClose' => true));
+
+// Load the tooltip behavior.
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.formvalidation');
 ?>
-<form action="index.php" method="post" name="adminForm" autocomplete="off">
+<form action="<?php echo JRoute::_('index.php?option=com_config');?>" method="post" name="adminForm" autocomplete="off">
 	<fieldset>
 		<div style="float: right">
-			<button type="button" onclick="Joomla.submitform('save', this.form);window.top.setTimeout('window.parent.document.getElementById(\'sbox-window\').close()', 700);">
+			<button type="button" onclick="Joomla.submitform('component.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 700);">
 				<?php echo JText::_('Save');?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();">
 				<?php echo JText::_('Cancel');?></button>
@@ -27,19 +32,43 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 		</div>
 	</fieldset>
 
-	<fieldset>
-		<legend>
-			<?php echo JText::_('Configuration');?>
-		</legend>
-		<?php echo $this->params->render();?>
-	</fieldset>
+	<?php
+	echo $pane->startPane('content-pane');
+		$fieldSets = $this->form->getFieldsets();
+		foreach ($fieldSets as $name => $fieldSet) :
+			$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
+			echo $pane->startPanel(JText::_($label), 'publishing-details');
+			if (isset($fieldSet['description'])) :
+				echo '<p class="tip" style="float:right;">'.JText::_($fieldSet['description']).'</p>';
+			endif;
+	?>
+	<table class="admintable">
+		<tbody>
+			<?php
+			foreach ($this->form->getFields($name) as $field):
+			?>
+			<tr>
+				<td width="185" class="key">
+					<?php echo $field->label; ?>
+				</td>
+				<td>
+					<?php echo $field->input; ?>
+				</td>
+			</tr>
+			<?php
+			endforeach;
+			?>
+		</tbody>
+	</table>
+	<br class="clr" />
+	<?php
+			echo $pane->endPanel();
+		endforeach;
+	echo $pane->endPane();
+	?>
 
 	<input type="hidden" name="id" value="<?php echo $this->component->id;?>" />
 	<input type="hidden" name="component" value="<?php echo $this->component->option;?>" />
-
-	<input type="hidden" name="controller" value="component" />
-	<input type="hidden" name="option" value="com_config" />
-	<input type="hidden" name="tmpl" value="component" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

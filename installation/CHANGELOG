@@ -31,6 +31,8 @@ $ -> Language fix or change
  + Add accessability tweaks to admin mod_menu.
  + [#16547] Cancel button on Article Manager parameters does not work
  ^ All arguments are now optional in JParameter::__construct.
+ ^ Refactored com_config.
+ + Added support for tabbed configuration files in com_config component support.
 
 04-Jul-2009 Gergo Erdosi
  - Removed closing tag in configuration.php file.
