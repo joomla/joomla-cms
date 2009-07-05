@@ -1,79 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<fields
-		label="Content_Config_Global_Settings_Label"
-		description="Content_Config_Global_Settings_Desc">
-
-		<field
-			name="filter_groups"
-			type="usergroups"
-			label="Content_Attribs_Filter_Groups_Label"
-			description="Content_Attribs_Filter_Groups_Desc"
-			multiple="true"
-			size="10"
-			default=""
-			menu="hide" />
-
-		<field
-			name="filter_type"
-			type="radio"
-			label="Content_Attribs_Filter_Type_Label"
-			description="Content_Attribs_Filter_Type_Desc"
-			default=""
-			menu="hide">
-			<option
-				value="BL">Content_Option_Black_List</option>
-			<option
-				value="WL">Content_Option_White_List</option>
-			<option
-				value="NH">Content_Option_No_HTML</option>
-		</field>
-
-		<field
-			name="filter_tags"
-			type="text"
-			label="Content_Attribs_Filter_Tags_Label"
-			description="Content_Attribs_Filter_Tags_Desc"
-			default=""
-			menu="hide" />
-
-		<field
-			name="filter_attritbutes"
-			type="text"
-			label="Content_Attribs_Filter_Attributes_Label"
-			description="Content_Attribs_Filter_Attributes_Desc"
-			default=""
-			menu="hide" />
-	</fields>
-
-	<fields
 		group="articles"
 		label="Content_Config_Article_Settings_Label"
 		description="Content_Config_Article_Settings_Desc">
-
-		<field
-			name="article-allow_ratings"
-			type="radio"
-			label="Content_Attribs_Allow_Ratings_Label"
-			description="Content_Attribs_Allow_Ratings_Desc"
-			default="">
-			<option
-				value="0">No</option>
-			<option
-				value="1">Yes</option>
-		</field>
-
-		<field
-			name="article-allow_comments"
-			type="radio"
-			label="Content_Attribs_Allow_Comments_Label"
-			description="Content_Attribs_Allow_Comments_Desc"
-			default="">
-			<option
-				value="0">No</option>
-			<option
-				value="1">Yes</option>
-		</field>
 
 		<field
 			name="show_noauth"
@@ -286,5 +216,83 @@
 				value="1">Content_Option_Full_text</option>
 		</field>
 	</fields>
+
+	<fields
+		group="integration"
+		label="Content_Config_Integration_Settings_Label"
+		description="Content_Config_Integration_Settings_Desc">
+
+		<field
+			name="article-allow_ratings"
+			type="radio"
+			label="Content_Attribs_Allow_Ratings_Label"
+			description="Content_Attribs_Allow_Ratings_Desc"
+			default="">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			name="article-allow_comments"
+			type="radio"
+			label="Content_Attribs_Allow_Comments_Label"
+			description="Content_Attribs_Allow_Comments_Desc"
+			default="">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+	</fields>
+
+	<fields
+		group="filters"
+		label="Content_Config_Text_Filters_Label"
+		description="Content_Config_Text_Filters_Desc">
+
+		<field
+			name="filter_groups"
+			type="usergroups"
+			label="Content_Attribs_Filter_Groups_Label"
+			description="Content_Attribs_Filter_Groups_Desc"
+			multiple="true"
+			size="10"
+			default=""
+			menu="hide" />
+
+		<field
+			name="filter_type"
+			type="radio"
+			label="Content_Attribs_Filter_Type_Label"
+			description="Content_Attribs_Filter_Type_Desc"
+			default=""
+			menu="hide">
+			<option
+				value="BL">Content_Option_Black_List</option>
+			<option
+				value="WL">Content_Option_White_List</option>
+			<option
+				value="NH">Content_Option_No_HTML</option>
+		</field>
+
+		<field
+			name="filter_tags"
+			type="text"
+			label="Content_Attribs_Filter_Tags_Label"
+			description="Content_Attribs_Filter_Tags_Desc"
+			default=""
+			menu="hide" />
+
+		<field
+			name="filter_attritbutes"
+			type="text"
+			label="Content_Attribs_Filter_Attributes_Label"
+			description="Content_Attribs_Filter_Attributes_Desc"
+			default=""
+			menu="hide" />
+	</fields>
+
 
 </config>

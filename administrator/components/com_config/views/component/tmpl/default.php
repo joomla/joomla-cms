@@ -28,7 +28,7 @@ JHtml::_('behavior.formvalidation');
 				<?php echo JText::_('Cancel');?></button>
 		</div>
 		<div class="configuration" >
-			<?php echo JText::_($this->component->name) ?>
+			<?php echo JText::_($this->component->option.'_configuration') ?>
 		</div>
 	</fieldset>
 
