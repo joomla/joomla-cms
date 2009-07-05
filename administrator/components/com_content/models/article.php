@@ -194,7 +194,8 @@ class ContentModelArticle extends JModelForm
 			return false;
 		}
 
-		$cache = & JFactory::getCache('com_content');
+		// Clean the cache.
+		$cache = &JFactory::getCache('com_content');
 		$cache->clean();
 
 		$dispatcher->trigger('onAfterContentSave', array(&$table, $isNew));

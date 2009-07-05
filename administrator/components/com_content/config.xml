@@ -1,102 +1,290 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<params>
-		<param name="show_noauth" type="radio" default="0" label="Show UnAuthorized Links" description="TIPLINKS">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="show_title" type="radio" default="1" label="Show Article Title" description="Show/Hide the articles title">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="link_titles" type="radio" default="1" label="Linked Titles" description="TIPIFYESTITLECONTENTITEMS">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="show_intro" type="radio" default="1" label="Show Intro Text" description="Show/Hide the intro text">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="show_section" type="radio" default="0" label="Section Name" description="PARAMSECTION">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="link_section" type="radio" default="0" label="Section Name Linkable" description="PARAMSECTIONLINK">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="show_category" type="radio" default="1" label="Category Name" description="PARAMCATEG">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="link_category" type="radio" default="1" label="Category Name Linkable" description="PARAMCATEGLINK">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
+	<fields
+		label="Content_Config_Global_Settings_Label"
+		description="Content_Config_Global_Settings_Desc">
 
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="show_author" type="radio" default="1" label="Author Names" description="TIPIFSETTOSHOWAUTHOR">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_create_date" type="radio" default="1" label="Created Date and Time" description="TIPIFSETTOSHOWDATETIMECREATED">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_modify_date" type="radio" default="1" label="Modified Date and Time" description="TIPIFSETTOSHOWDATETIMEMODIFIED">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_item_navigation" type="radio" default="1" label="Show Navigation" description="PARAMNAVIGATIONARTICLE">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_readmore" type="radio" default="1" label="Read More Link" description="TIPIFSETTOSHOWREADMORELINK">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_vote" type="radio" default="0" label="Item Rating/Voting" description="TIPIFSETTOSHOWVOTING">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
+		<field
+			name="filter_groups"
+			type="usergroups"
+			label="Content_Attribs_Filter_Groups_Label"
+			description="Content_Attribs_Filter_Groups_Desc"
+			multiple="true"
+			size="10"
+			default=""
+			menu="hide" />
 
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="show_icons" type="radio" default="1" label="Icons" description="TIPPRINTEMAIL">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_print_icon" type="radio" default="1" label="Print Icon" description="PARAMPRINT">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_email_icon" type="radio" default="1" label="Email Icon" description="PARAMEMAIL">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_hits" type="radio" default="1" label="Hits" description="TIPIFSETTOSHOWHITS">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="feed_summary" type="radio" default="0" label="For each feed item show" description="TIPSHOWFEEDITEM">
-			<option value="0">Intro Text</option>
-			<option value="1">Full Text</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" menu="hide" />
-		<param name="@spacer" type="" default="" label="Filtering options" description="TIPFILTERINGOPTIONS" menu="hide" />
-		<param name="filter_groups" type="usergroup" multiple="true" size="10" menu="hide"
-			default="" label="Filter Groups" description="TIPFILTERGROUPS" />
-		<param name="filter_type" type="radio" default="" menu="hide"
-			label="Filter Type" description="TIPSFILTERTYPE">
-			<option value="BL">Black List (Default)</option>
-			<option value="WL">White List</option>
-			<option value="NH">No HTML</option>
-		</param>
-		<param name="filter_tags" type="text" menu="hide"
-			default="" label="Filter Tags" description="TIPSFILTERTAGS" />
-		<param name="filter_attritbutes" type="text" menu="hide"
-			default="" label="Filter Attributes" description="TIPSFILTERATTRIBUTES" />
+		<field
+			name="filter_type"
+			type="radio"
+			label="Content_Attribs_Filter_Type_Label"
+			description="Content_Attribs_Filter_Type_Desc"
+			default=""
+			menu="hide">
+			<option
+				value="BL">Content_Option_Black_List</option>
+			<option
+				value="WL">Content_Option_White_List</option>
+			<option
+				value="NH">Content_Option_No_HTML</option>
+		</field>
 
-	</params>
+		<field
+			name="filter_tags"
+			type="text"
+			label="Content_Attribs_Filter_Tags_Label"
+			description="Content_Attribs_Filter_Tags_Desc"
+			default=""
+			menu="hide" />
+
+		<field
+			name="filter_attritbutes"
+			type="text"
+			label="Content_Attribs_Filter_Attributes_Label"
+			description="Content_Attribs_Filter_Attributes_Desc"
+			default=""
+			menu="hide" />
+	</fields>
+
+	<fields
+		group="articles"
+		label="Content_Config_Article_Settings_Label"
+		description="Content_Config_Article_Settings_Desc">
+
+		<field
+			name="article-allow_ratings"
+			type="radio"
+			label="Content_Attribs_Allow_Ratings_Label"
+			description="Content_Attribs_Allow_Ratings_Desc"
+			default="">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			name="article-allow_comments"
+			type="radio"
+			label="Content_Attribs_Allow_Comments_Label"
+			description="Content_Attribs_Allow_Comments_Desc"
+			default="">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			name="show_noauth"
+			type="radio"
+			default="0"
+			label="Content_Attribs_Show_Unauth_Links_Label"
+			description="Content_Attribs_Show_Unauth_Links_Desc">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			type="spacer" />
+
+		<field
+			name="show_category"
+			type="radio"
+			label="Content_Attribs_Show_Category_Label"
+			description="Content_Attribs_Show_Category_Desc"
+			default="1">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="link_category"
+			type="radio"
+			label="Content_Attribs_Link_Category_Label"
+			description="Content_Attribs_Link_Category_Desc"
+			default="1">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			type="spacer" />
+
+		<field
+			name="show_title"
+			type="radio"
+			default="1"
+			label="Content_Attribs_Show_Title_Label"
+			description="Content_Attribs_Show_Title_Desc">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			name="link_titles"
+			type="radio"
+			default="1"
+			label="Content_Attribs_Linked_Titles_Label"
+			description="Content_Attribs_Linked_Titles_Desc">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			name="show_intro"
+			type="radio"
+			default="1"
+			label="Content_Attribs_Show_Intro_Label"
+			description="Content_Attribs_Show_Intro_Desc">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			type="spacer" />
+
+		<field
+			name="show_author"
+			type="radio"
+			label="Content_Attribs_Show_Author_Label"
+			description="Content_Attribs_Show_Author_Desc"
+			default="1">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_create_date"
+			type="radio"
+			label="Content_Attribs_Show_Create_Date_Label"
+			description="Content_Attribs_Show_Create_Date_Desc"
+			default="1">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_modify_date"
+			type="radio"
+			label="Content_Attribs_Show_Modify_Date_Label"
+			description="Content_Attribs_Show_Modify_Date_Desc"
+			default="1">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_item_navigation"
+			type="radio"
+			label="Content_Attribs_Show_Navigation_Label"
+			description="Content_Attribs_Show_Navigation_Desc"
+			default="1">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_readmore"
+			type="radio"
+			label="Content_Attribs_Show_Readmore_Label"
+			description="Content_Attribs_Show_Readmore_Desc"
+			default="1">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			type="spacer" />
+
+		<field
+			name="show_icons"
+			type="radio"
+			label="Content_Attribs_Show_Icons_Label"
+			description="Content_Attribs_Show_Icons_Desc"
+			default="1">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_print_icon"
+			type="radio"
+			label="Content_Attribs_Show_Print_Icon_Label"
+			description="Content_Attribs_Show_Print_Icon_Desc"
+			default="1">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_email_icon"
+			type="radio"
+			label="Content_Attribs_Show_Email_Icon_Label"
+			description="Content_Attribs_Show_Email_Icon_Desc"
+			default="1">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_hits"
+			type="radio"
+			label="Content_Attribs_Show_Hits_Label"
+			description="Content_Attribs_Show_Hits_Desc"
+			default="1">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+	</fields>
+
+	<fields
+		group="categories"
+		label="Content_Config_Category_Settings_Label"
+		description="Content_Config_Category_Settings_Desc">
+
+		<field
+			name="feed_summary"
+			type="radio"
+			label="Content_Attribs_Feed_Summary_Label"
+			description="Content_Attribs_Feed_Summary_Desc"
+			default="0">
+			<option
+				value="0">Content_Option_Intro_text</option>
+			<option
+				value="1">Content_Option_Full_text</option>
+		</field>
+	</fields>
+
 </config>

@@ -63,7 +63,11 @@ class ContentViewArticles extends JView
 		else {
 			JToolBarHelper::trash('articles.trash');
 		}
+		JToolBarHelper::divider();
 		JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
 		JToolBarHelper::custom('article.edit', 'new.png', 'new_f2.png', 'New', false);
+		JToolBarHelper::divider();
+		JToolBarHelper::preferences('com_content');
+		JToolBarHelper::help('screen.content.articles');
 	}
 }

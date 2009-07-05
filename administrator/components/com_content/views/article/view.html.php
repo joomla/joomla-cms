@@ -83,5 +83,7 @@ class ContentViewArticle extends JView
 			JToolBarHelper::apply('article.apply');
 		}
 		JToolBarHelper::cancel('article.cancel');
+		JToolBarHelper::divider();
+		JToolBarHelper::help('screen.content.article');
 	}
 }

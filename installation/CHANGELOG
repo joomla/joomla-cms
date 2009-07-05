@@ -33,6 +33,7 @@ $ -> Language fix or change
  ^ All arguments are now optional in JParameter::__construct.
  ^ Refactored com_config.
  + Added support for tabbed configuration files in com_config component support.
+ ^ Configured com_content component parameters to use tabs.
 
 04-Jul-2009 Gergo Erdosi
  - Removed closing tag in configuration.php file.
