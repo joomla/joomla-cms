@@ -30,6 +30,7 @@ $ -> Language fix or change
 05-Jul-2009 Gergo Erdosi
  ^ Replaced mod_status with its refactored version.
  ! Thanks to Andrea Tarr for helping refactor the mod_status module.
+ # Fixed bug in installation.
 
 05-Jul-2009 Andrew Eddie
  + Add accessability tweaks to admin mod_menu.

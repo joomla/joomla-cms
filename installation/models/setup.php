@@ -64,7 +64,7 @@ class JInstallationModelSetup extends JModel
 		jimport('joomla.form.form');
 		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
-		$form = & JForm::getInstance($view, 'jform', true, array('array' => true));
+		$form = &JForm::getInstance($view, 'jform', true, array('array' => 'jform'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
