@@ -30,6 +30,7 @@ $ -> Language fix or change
 05-Jul-2009 Andrew Eddie
  + Add accessability tweaks to admin mod_menu.
  + [#16547] Cancel button on Article Manager parameters does not work
+ ^ All arguments are now optional in JParameter::__construct.
 
 04-Jul-2009 Gergo Erdosi
  - Removed closing tag in configuration.php file.
