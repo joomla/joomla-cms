@@ -6,12 +6,30 @@
 			<![CDATA[com_content_categories_view_default_desc]]>
 		</message>
 	</layout>
-	<state>
-		<name>com_content_categories_view_default_title</name>
-		<description>com_content_categories_view_default_desc</description>
-		<params>
-		</params>
-		<advanced>
-		</advanced>
-	</state>
+	<fields
+		group="url"
+		array="true"
+		label="URL"
+		description="URL Desc">
+
+		<field
+			name="test"
+			type="text"
+			label="Testing"
+			description="foobar"
+			default="" />
+	</fields>
+	
+	<fields
+		group="basic"
+		label="Basic"
+		description="Basic Stuff">
+
+		<field
+			name="test2"
+			type="text"
+			label="Testing2"
+			description="foobar2"
+			default="" />
+	</fields>
 </metadata>
