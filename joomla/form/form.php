@@ -82,7 +82,7 @@ class JForm extends JObject
 	 * @return	object		A JForm instance.
 	 * @since	1.6
 	 */
-	public function &getInstance($name = 'jform', $data, $file = true, $options = array())
+	public function &getInstance($data, $name = 'form', $file = true, $options = array())
 	{
 		static $instances;
 
@@ -560,7 +560,7 @@ class JForm extends JObject
 		if ($formControl == '_default' && $this->_options['array'] == false) {
 			$formControl = false;
 		} elseif ($formControl == '_default' && $this->_options['array'] == true) {
-			$formControl = $this->_name;
+			$formControl = $this->_options['array'];
 		}
 
 		// Check the group control.
@@ -675,7 +675,7 @@ class JForm extends JObject
 		if ($formControl == '_default' && $this->_options['array'] == false) {
 			$formControl = false;
 		} elseif ($formControl == '_default' && $this->_options['array'] == true) {
-			$formControl = $this->_name;
+			$formControl = $this->_options['array'];
 		}
 
 		// Check the group control.

@@ -47,7 +47,7 @@ class JFormValidator extends JObject
 					if ($message = $field->attributes('message')) {
 						$results[] = new JException(JText::_($message), 0, E_WARNING);
 					} else {
-						$results[] = new JException(JText::sprintf('LIBRARIES FORM VALIDATOR FIELD REQUIRED', JText::_($field->attributes('name'))), 0, E_WARNING);
+						$results[] = new JException(JText::sprintf('Libraries_Form_Validator_Field_Required', JText::_($field->attributes('name'))), 0, E_WARNING);
 					}
 
 					// We don't want to display more than one message per field so continue to the next one.
@@ -70,7 +70,7 @@ class JFormValidator extends JObject
 				if ($message = $field->attributes('message')) {
 					$results[] = new JException(JText::_($message), 0, E_WARNING);
 				} else {
-					$results[] = new JException(JText::sprintf('LIBRARIES FORM VALIDATOR FIELD INVALID', $field->attributes('name')), 0, E_WARNING);
+					$results[] = new JException(JText::sprintf('Libraries_Form_Validator_Field_Invalid', $field->attributes('name')), 0, E_WARNING);
 				}
 			}
 		}
@@ -107,7 +107,7 @@ class JFormValidator extends JObject
 				}
 
 				if (!class_exists($class)) {
-					return new JException(JText::sprintf('LIBRARIES FORM VALIDATOR RULE NOT FOUND', $type), 0, E_ERROR);
+					return new JException(JText::sprintf('Libraries_Form_Validator_Rule_Not_Found', $type), 0, E_ERROR);
 				}
 			}
 
