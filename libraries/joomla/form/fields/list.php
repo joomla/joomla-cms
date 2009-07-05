@@ -67,7 +67,7 @@ class JFormFieldList extends JFormField
 		}
 		if ($m = $this->_element->attributes('multiple'))
 		{
-			$attribs	.= 'multiple="multiple"';
+			$attributes	.= 'multiple="multiple"';
 			$mult		= '[]';
 		}
 
