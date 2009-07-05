@@ -93,20 +93,26 @@ class MenusModelMenu extends JModelForm
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
 	 */
-	public function &getForm()
+	public function getForm()
 	{
 		// Initialize variables.
 		$app = &JFactory::getApplication();
 
-		if ($form = &parent::getForm('menu'))
-		{
-			// Check the session for previously entered form data.
-			$data = $app->getUserState('com_menus.edit.menu.data', array());
+		// Get the form.
+		$form = parent::getForm('menu', 'com_menus.menu', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
-			// Bind the form data if present.
-			if (!empty($data)) {
-				$form->bind($data);
-			}
+		// Check for an error.
+		if (JError::isError($form)) {
+			$this->setError($form->getMessage());
+			return false;
+		}
+
+		// Check the session for previously entered form data.
+		$data = $app->getUserState('com_menus.edit.menu.data', array());
+
+		// Bind the form data if present.
+		if (!empty($data)) {
+			$form->bind($data);
 		}
 
 		return $form;

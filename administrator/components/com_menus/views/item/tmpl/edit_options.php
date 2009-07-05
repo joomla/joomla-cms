@@ -8,20 +8,40 @@
  */
 
 defined('_JEXEC') or die;
+
+jimport('joomla.html.pane');
+$pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
+
+echo $pane->startPane('content-pane');
+	$fieldSets = $this->paramsform->getFieldsets();
+	foreach ($fieldSets as $name => $fieldSet) :
+		$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
+		echo $pane->startPanel(JText::_($label), 'publishing-details');
+		if (isset($fieldSet['description'])) :
+			echo '<p class="tip" style="float:right;">'.JText::_($fieldSet['description']).'</p>';
+		endif;
 ?>
-<table>
-<?php foreach($this->form->getFields('params') as $field): ?>
-	<?php if ($field->hidden): ?>
-		<?php echo $field->input; ?>
-	<?php else: ?>
+<table class="admintable">
+	<tbody>
+		<?php
+		foreach ($this->paramsform->getFields($name) as $field):
+		?>
 		<tr>
-			<td class="paramlist_key" width="40%">
+			<td width="185" class="key">
 				<?php echo $field->label; ?>
 			</td>
-			<td class="paramlist_value">
+			<td>
 				<?php echo $field->input; ?>
 			</td>
 		</tr>
-	<?php endif; ?>
-<?php endforeach; ?>
+		<?php
+		endforeach;
+		?>
+	</tbody>
 </table>
+<br class="clr" />
+<?php
+		echo $pane->endPanel();
+	endforeach;
+echo $pane->endPane();
+?>

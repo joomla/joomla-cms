@@ -106,7 +106,6 @@ class MenusModelItem extends JModelForm
 		}
 
 		// Prime required properties.
-		$type = $this->getState('item.type');
 
 		if (empty($table->id))
 		{
@@ -136,6 +135,9 @@ class MenusModelItem extends JModelForm
 
 			case 'component':
 			default:
+				// Enforce a valid type.
+				$table->type = 'component';
+
 				// Ensure the integrity of the component_id field is maintained, particularly when changing the menu item type.
 				$args = array();
 				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
@@ -153,8 +155,10 @@ class MenusModelItem extends JModelForm
 				}
 
 				break;
-
 		}
+
+		// We have a valid type, inject it into the state for forms to use.
+		$this->setState('item.type', $table->type);
 
 		// Convert the params field to an array.
 		$table->params = json_decode($table->params, true);
@@ -170,22 +174,18 @@ class MenusModelItem extends JModelForm
 	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.6
 	 */
-	public function &getForm()
+	public function getForm()
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-		$false	= false;
 
 		// Get the form.
-		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
-		$form = &JForm::getInstance('jform', 'item', true, array('array' => true));
+		$form = parent::getForm('item', 'com_menus.item', array('array' => 'jform', 'event' => 'onPrepareForm'), true);
 
 		// Check for an error.
 		if (JError::isError($form)) {
 			$this->setError($form->getMessage());
-			return $false;
+			return false;
 		}
 
 		// Check the session for previously entered form data.
@@ -198,6 +198,40 @@ class MenusModelItem extends JModelForm
 
 		return $form;
 	}
+
+	/**
+	 * Method to get a form object.
+	 *
+	 * @param	string		An optional type (component, url, alias or separator).
+	 *
+	 * @return	mixed		A JForm object on success, false on failure.
+	 * @since	1.6
+	 */
+	public function getParamsForm($type = null)
+	{
+		jimport('joomla.form.form');
+
+		if (empty($type)) {
+			$type = $this->getState('item.type');
+		}
+
+		// Get the form.
+		$form = parent::getForm('item_'.$type, 'com_menus.item.params', array('array' => 'jformparams', 'event' => 'onPrepareForm'), true);
+
+		// Check for an error.
+		if (JError::isError($form)) {
+			$this->setError($form->getMessage());
+			return false;
+		}
+
+		//if ($item = &$this->getItem())
+		//{
+		//}
+
+		return $form;
+	}
+
+
 
 	/**
 	 * Get the list of modules not in trash.

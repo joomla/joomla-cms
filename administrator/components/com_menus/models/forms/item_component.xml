@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields
+		array="true"
+		label="Menu_System_Options"
+		description="">
+
+		<field
+			id="menu-anchor_title"
+			name="menu-anchor_title"
+			type="text"
+			label="Menus_Item_Anchor_Title_Label"
+			description="Menus_item_Anchor_Title_Desc"
+			default=""/>
+
+		<field
+			id="menu-anchor_css"
+			name="menu-anchor_css"
+			type="text"
+			label="Menus_Item_Anchor_CSS_Label"
+			description="Menus_item_Anchor_CSS_Desc"
+			default=""/>
+
+		<field
+			id="page_title"
+			name="page_title"
+			type="text"
+			label="Menus_Item_Page_Title_Label"
+			description="Menus_Item_Page_Title_Desc"
+			default=""/>
+
+		<field
+			id="show_page_title"
+			name="show_page_title"
+			type="radio"
+			label="Menus_Item_Show_Page_Title_Label"
+			description="Menus_Item_Show_Page_Title_Desc"
+			default="1"
+			filter="integer">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			id="pageclass_sfx"
+			name="pageclass_sfx"
+			type="text"
+			label="Menus_Item_Page_Class_Label"
+			description="Menus_Item_Page_Class_Desc"
+			default=""/>
+
+		<field
+			id="menu_image"
+			name="menu_image"
+			type="text"
+			label="Menus_Item_Menu_Image_Label"
+			description="Menus_Item_Menu_Image_Desc"
+			default=""/>
+
+		<field
+			id="secure"
+			name="secure"
+			type="radio"
+			label="Menus_Item_Secure_Label"
+			description="Menus_Item_Secure_Desc"
+			default="0"
+			filter="integer">
+			<option
+				value="-1">Off</option>
+			<option
+				value="0">Ignore</option>
+			<option
+				value="1">On</option>
+		</field>
+
+		<field
+			id="menu-meta_description"
+			name="menu-meta_description"
+			type="textarea"
+			label="JField_Meta_Description_Label"
+			description="Menus_Item_Meta_Description_Desc"
+			default=""
+			rows="3"
+			cols="40"/>
+
+		<field
+			id="menu-meta_keywords"
+			name="menu-meta_keywords"
+			type="textarea"
+			label="JField_Meta_Keywords_Label"
+			description="Menus_Item_Meta_Keywords_Desc"
+			default=""
+			rows="3"
+			cols="40"/>
+
+
+	</fields>
+
+</form>

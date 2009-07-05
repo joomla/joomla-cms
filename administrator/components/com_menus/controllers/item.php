@@ -167,11 +167,12 @@ class MenusControllerItem extends JController
 		$task	= $this->getTask();
 
 		// Get the posted values from the request.
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$iData	= JRequest::getVar('jform', array(), 'post', 'array');
+		$pData	= JRequest::getVar('jformparams', array(), 'post', 'array');
 		$map	= JRequest::getVar('menuid', array(), 'post', 'array');
 
 		// Populate the row id from the session.
-		$data['id'] = (int) $app->getUserState('com_menus.edit.item.id');
+		$iData['id'] = (int) $app->getUserState('com_menus.edit.item.id');
 
 		// The save2copy task needs to be handled slightly differently.
 		if ($task == 'save2copy')
@@ -186,23 +187,39 @@ class MenusControllerItem extends JController
 			}
 
 			// Reset the ID and then treat the request as for Apply.
-			$data['id']	= 0;
+			$iData['id']	= 0;
 			$task		= 'apply';
 		}
 
 		// Validate the posted data.
-		$form	= &$model->getForm();
-		if (!$form) {
+		// This post is made up of two forms, one for the item and one for params.
+		$itemForm	= &$model->getForm();
+		if (!$itemForm) {
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
-		$data	= $model->validate($form, $data);
+		$iData	= $model->validate($itemForm, $iData);
+
+		$paramsForm	= &$model->getParamsForm($iData['type']);
+		if (!$paramsForm) {
+			JError::raiseError(500, $model->getError());
+			return false;
+		}
+		$pData	= $model->validate($paramsForm, $pData);
+
+		// Params are validated so add them to the item data.
+		$iData['params'] = array();
+
+		// The array is in groups to we need to flatten it.
+		foreach ($pData as $group => $params) {
+			$iData['params'] = array_merge($iData['params'], $params);
+		}
 
 		// Push the menu id map back into the array
-		$data['map'] = &$map;
+		$iData['map'] = &$map;
 
 		// Check for validation errors.
-		if ($data === false)
+		if ($iData === false)
 		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
@@ -219,7 +236,7 @@ class MenusControllerItem extends JController
 			}
 
 			// Save the data in the session.
-			$app->setUserState('com_menus.edit.item.data', $data);
+			$app->setUserState('com_menus.edit.item.data', $iData);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
@@ -227,10 +244,10 @@ class MenusControllerItem extends JController
 		}
 
 		// Attempt to save the data.
-		if (!$model->save($data))
+		if (!$model->save($iData))
 		{
 			// Save the data in the session.
-			$app->setUserState('com_menus.edit.item.data', $data);
+			$app->setUserState('com_menus.edit.item.data', $iData);
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JError_Save_failed', $model->getError()), 'notice');
