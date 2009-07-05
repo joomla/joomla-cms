@@ -45,20 +45,20 @@ class JTableComponent extends JTable
 	var $enabled			= null;
 
 	/**
-	* @param database A database connector object
-	*/
-	function __construct(&$db)
+	 * @param database A database connector object
+	 */
+	public function __construct(&$db)
 	{
 		parent::__construct('#__components', 'id', $db);
 	}
 
 	/**
-	 * Loads a data row by option
+	 * Loads a data row by option.
 	 *
-	 * @param string The component option value
-	 * @return boolean
+	 * @param	string	The component option value.
+	 * @return	boolean
 	 */
-	function loadByOption($option)
+	public function loadByOption($option)
 	{
 		$db = &$this->getDbo();
 		$query = 'SELECT id' .
@@ -70,7 +70,8 @@ class JTableComponent extends JTable
 
 		if (empty($id)) {
 			return false;
-		} else {
+		}
+		else {
 			return $this->load($id);
 		}
 	}
@@ -86,23 +87,22 @@ class JTableComponent extends JTable
 	}
 
 	/**
-	* Overloaded bind function
-	*
-	* @access public
-	* @param array $hash named array
-	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JTable:bind
-	* @since 1.5
+	 * Overloaded bind function
+	 *
+	 * @param	array $hash	named array
+	 *
+	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @see		JTable:bind
+	 * @since	1.5
 	*/
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (array_key_exists('params', $array) && is_array( $array['params'] ))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
-
 		return parent::bind($array, $ignore);
 	}
 }
