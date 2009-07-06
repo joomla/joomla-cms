@@ -29,9 +29,8 @@ class plgEditorTinymce extends JPlugin
 	 */
 	function onInit()
 	{
-		global $mainframe;
-
-		$language	=& JFactory::getLanguage();
+		$app		= &JFactory::getApplication();
+		$language	= &JFactory::getLanguage();
 
 		$mode = (int) $this->params->get('mode',1);
 		$theme = array('simple','advanced','advanced');
@@ -66,7 +65,7 @@ class plgEditorTinymce extends JPlugin
 			$cleanup = 'false';
 			break;
 		case '1': /* Clean up front end edits only */
-			if ($mainframe->isadmin())
+			if ($app->isadmin())
 				$cleanup = 'false';
 			else
 				$cleanup = 'true';

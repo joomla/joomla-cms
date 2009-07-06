@@ -24,12 +24,11 @@ class SearchViewSearch extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
-
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php');
 
 		// Initialize some variables
-		$pathway  = &$mainframe->getPathway();
+		$app	= &JFactory::getApplication();
+		$pathway  = &$app->getPathway();
 		$uri      = &JFactory::getURI();
 
 		$error	= '';
@@ -41,7 +40,7 @@ class SearchViewSearch extends JView
 		$state 		= &$this->get('state');
 		$searchword = $state->get('keyword');
 
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 
 		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();
@@ -61,7 +60,7 @@ class SearchViewSearch extends JView
 		$document->setTitle($params->get('page_title'));
 
 		// Get the parameters of the active menu item
-		$params	= &$mainframe->getParams();
+		$params	= &$app->getParams();
 
 		// built select lists
 		$orders = array();

@@ -24,8 +24,6 @@ class MediaViewImagesList extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
-
 		// Do not allow cache
 		JResponse::allowCache(false);
 

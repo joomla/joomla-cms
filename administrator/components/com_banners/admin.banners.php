@@ -11,9 +11,10 @@
 defined('_JEXEC') or die;
 
 // Make sure the user is authorized to view this page
-$user = & JFactory::getUser();
+$user	= & JFactory::getUser();
+$app	= &JFactory::getApplication();
 if (!$user->authorize('com_banners.manage')) {
-	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 // Set the table directory

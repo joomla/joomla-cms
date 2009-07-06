@@ -13,9 +13,10 @@ defined('_JEXEC') or die;
 /*
  * Make sure the user is authorized to view this page
  */
-$user = & JFactory::getUser();
+$user	= & JFactory::getUser();
+$app	= &JFactory::getApplication();
 if (!$user->authorize('com_contact.manage')) {
-	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 require_once(JApplicationHelper::getPath('admin_html'));
@@ -94,18 +95,18 @@ switch ($task)
  */
 function showContacts($option)
 {
-	global $mainframe;
+	$app	= &JFactory::getApplication();
+	$db		= &JFactory::getDbo();
 
-	$db					= &JFactory::getDbo();
-	$filter_order		= $mainframe->getUserStateFromRequest($option.'filter_order', 		'filter_order', 	'cd.ordering',	'cmd');
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest($option.'filter_order_Dir',	'filter_order_Dir',	'',				'word');
-	$filter_state 		= $mainframe->getUserStateFromRequest($option.'filter_state', 		'filter_state', 	'',				'word');
-	$filter_catid 		= $mainframe->getUserStateFromRequest($option.'filter_catid', 		'filter_catid',		0,				'int');
-	$search 			= $mainframe->getUserStateFromRequest($option.'search', 			'search', 			'',				'string');
+	$filter_order		= $app->getUserStateFromRequest($option.'filter_order', 		'filter_order', 	'cd.ordering',	'cmd');
+	$filter_order_Dir	= $app->getUserStateFromRequest($option.'filter_order_Dir',	'filter_order_Dir',	'',				'word');
+	$filter_state 		= $app->getUserStateFromRequest($option.'filter_state', 		'filter_state', 	'',				'word');
+	$filter_catid 		= $app->getUserStateFromRequest($option.'filter_catid', 		'filter_catid',		0,				'int');
+	$search 			= $app->getUserStateFromRequest($option.'search', 			'search', 			'',				'string');
 	$search 			= JString::strtolower($search);
 
-	$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-	$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
+	$limit		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+	$limitstart	= $app->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
 
 	$where = array();
 
@@ -240,12 +241,11 @@ function editContact($edit)
  */
 function saveContact($task)
 {
-	global $mainframe;
-
 	// Check for request forgeries
 	JRequest::checkToken() or jexit('Invalid Token');
 
 	// Initialize variables
+	$app	= &JFactory::getApplication();
 	$db		= &JFactory::getDbo();
 	$row	= &JTable::getInstance('contact', 'Table');
 	$post = JRequest::get('post');
@@ -314,7 +314,7 @@ function saveContact($task)
 			break;
 	}
 
-	$mainframe->redirect($link, $msg);
+	$app->redirect($link, $msg);
 }
 
 /**
@@ -324,13 +324,12 @@ function saveContact($task)
  */
 function removeContacts(&$cid)
 {
-	global $mainframe;
-
 	// Check for request forgeries
 	JRequest::checkToken() or jexit('Invalid Token');
 
 	// Initialize variables
-	$db = &JFactory::getDbo();
+	$app	= &JFactory::getApplication();
+	$db		= &JFactory::getDbo();
 	JArrayHelper::toInteger($cid);
 
 	if (count($cid)) {
@@ -344,7 +343,7 @@ function removeContacts(&$cid)
 		}
 	}
 
-	$mainframe->redirect("index.php?option=com_contact");
+	$app->redirect("index.php?option=com_contact");
 }
 
 /**
@@ -355,12 +354,11 @@ function removeContacts(&$cid)
  */
 function changeContact($cid=null, $state=0)
 {
-	global $mainframe;
-
 	// Check for request forgeries
 	JRequest::checkToken() or jexit('Invalid Token');
 
 	// Initialize variables
+	$app	= &JFactory::getApplication();
 	$db 	= &JFactory::getDbo();
 	$user 	= &JFactory::getUser();
 	JArrayHelper::toInteger($cid);
@@ -387,7 +385,7 @@ function changeContact($cid=null, $state=0)
 		$row->checkin(intval($cid[0]));
 	}
 
-	$mainframe->redirect('index.php?option=com_contact');
+	$app->redirect('index.php?option=com_contact');
 }
 
 /** JJC
@@ -396,19 +394,18 @@ function changeContact($cid=null, $state=0)
  */
 function orderContacts($uid, $inc)
 {
-	global $mainframe;
-
 	// Check for request forgeries
 	JRequest::checkToken() or jexit('Invalid Token');
 
 	// Initialize variables
+	$app	= &JFactory::getApplication();
 	$db = &JFactory::getDbo();
 
 	$row = &JTable::getInstance('contact', 'Table');
 	$row->load($uid);
 	$row->move($inc, 'catid = '. (int) $row->catid .' AND published != 0');
 
-	$mainframe->redirect('index.php?option=com_contact');
+	$app->redirect('index.php?option=com_contact');
 }
 
 /** PT
@@ -416,18 +413,17 @@ function orderContacts($uid, $inc)
  */
 function cancelContact()
 {
-	global $mainframe;
-
 	// Check for request forgeries
 	JRequest::checkToken() or jexit('Invalid Token');
 
 	// Initialize variables
-	$db = &JFactory::getDbo();
-	$row = &JTable::getInstance('contact', 'Table');
+	$app	= &JFactory::getApplication();
+	$db		= &JFactory::getDbo();
+	$row	= &JTable::getInstance('contact', 'Table');
 	$row->bind(JRequest::get('post'));
 	$row->checkin();
 
-	$mainframe->redirect('index.php?option=com_contact');
+	$app->redirect('index.php?option=com_contact');
 }
 
 /**
@@ -436,13 +432,12 @@ function cancelContact()
  */
 function changeAccess($id, $access)
 {
-	global $mainframe;
-
 	// Check for request forgeries
 	JRequest::checkToken() or jexit('Invalid Token');
 
 	// Initialize variables
-	$db = &JFactory::getDbo();
+	$app	= &JFactory::getApplication();
+	$db		= &JFactory::getDbo();
 
 	$row = &JTable::getInstance('contact', 'Table');
 	$row->load($id);
@@ -455,20 +450,19 @@ function changeAccess($id, $access)
 		return $row->getError();
 	}
 
-	$mainframe->redirect('index.php?option=com_contact');
+	$app->redirect('index.php?option=com_contact');
 }
 
 function saveOrder(&$cid)
 {
-	global $mainframe;
-
 	// Check for request forgeries
 	JRequest::checkToken() or jexit('Invalid Token');
 
 	// Initialize variables
-	$db			= &JFactory::getDbo();
-	$total		= count($cid);
-	$order 		= JRequest::getVar('order', array(0), 'post', 'array');
+	$app	= &JFactory::getApplication();
+	$db		= &JFactory::getDbo();
+	$total	= count($cid);
+	$order 	= JRequest::getVar('order', array(0), 'post', 'array');
 	JArrayHelper::toInteger($order, array(0));
 
 	$row = &JTable::getInstance('contact', 'Table');
@@ -495,5 +489,5 @@ function saveOrder(&$cid)
 	}
 
 	$msg 	= 'New ordering saved';
-	$mainframe->redirect('index.php?option=com_contact', $msg);
+	$app->redirect('index.php?option=com_contact', $msg);
 }

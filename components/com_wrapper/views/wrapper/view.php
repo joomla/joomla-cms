@@ -20,7 +20,7 @@ class WrapperViewWrapper extends JView
 {
 	function display($tpl = null)
 	{
-		$mainframe	= &JFactory::getApplication();
+		$app	= &JFactory::getApplication();
 		$document	= &JFactory::getDocument();
 
 		// auto height control
@@ -31,7 +31,7 @@ class WrapperViewWrapper extends JView
 		}
 
 		// Get the page/component configuration
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 
 		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();

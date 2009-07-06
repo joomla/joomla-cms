@@ -25,13 +25,13 @@ class ContentViewFrontpage extends JView
 		$app		= &JFactory::getApplication();
 		$db			= &JFactory::getDbo();
 		$document	= &JFactory::getDocument();
-		$params = &$mainframe->getParams();
-		$feedEmail = (@$mainframe->getCfg('feed_email')) ? $mainframe->getCfg('feed_email') : 'author';
-		$siteEmail = $mainframe->getCfg('mailfrom');
+		$params		= &$app->getParams();
+		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
+		$siteEmail	= $app->getCfg('mailfrom');
 		$document->link = JRoute::_('index.php?option=com_content&view=frontpage');
 
 		// Get some data from the model
-		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
+		JRequest::setVar('limit', $app->getCfg('feed_limit'));
 		$rows 		= & $this->get('Data');
 		foreach ($rows as $row)
 		{

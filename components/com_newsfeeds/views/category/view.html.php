@@ -25,15 +25,15 @@ class NewsfeedsViewCategory extends JView
 {
 	function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
-		$pathway 	= & $mainframe->getPathway();
+		$pathway 	= & $app->getPathway();
 		$document	= & JFactory::getDocument();
 
 		// Get the parameters of the active menu item
 		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();
-		$params	= &$mainframe->getParams();
+		$params	= &$app->getParams();
 
 		$category	= $this->get('category');
 		$items		= $this->get('data');

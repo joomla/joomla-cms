@@ -24,15 +24,14 @@ class WeblinksViewCategory extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
-
+		$app	= &JFactory::getApplication();
 		$document = &JFactory::getDocument();
 
 		$document->link = JRoute::_('index.php?option=com_weblinks&view=category&id='.JRequest::getVar('id',null, '', 'int'));
 
-		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
-		$siteEmail = $mainframe->getCfg('mailfrom');
-		$fromName = $mainframe->getCfg('fromname');
+		JRequest::setVar('limit', $app->getCfg('feed_limit'));
+		$siteEmail = $app->getCfg('mailfrom');
+		$fromName = $app->getCfg('fromname');
 		$document->editor = $fromName;
 		$document->editorEmail = $siteEmail;
 

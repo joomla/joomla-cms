@@ -32,14 +32,14 @@ class InstallerModelPlugins extends InstallerModel
 	 */
 	function __construct()
 	{
-		global $mainframe;
+		$app	= &JFactory::getApplication();
 
 		// Call the parent constructor
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.group', $mainframe->getUserStateFromRequest("com_installer.plugins.group", 'group', '', 'cmd'));
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest("com_installer.plugins.string", 'filter', '', 'string'));
+		$this->setState('filter.group', $app->getUserStateFromRequest("com_installer.plugins.group", 'group', '', 'cmd'));
+		$this->setState('filter.string', $app->getUserStateFromRequest("com_installer.plugins.string", 'filter', '', 'string'));
 	}
 
 	function &getGroups()
@@ -63,8 +63,6 @@ class InstallerModelPlugins extends InstallerModel
 
 	function _loadItems()
 	{
-		global $mainframe, $option;
-
 		// Get a database connector
 		$db = & JFactory::getDbo();
 

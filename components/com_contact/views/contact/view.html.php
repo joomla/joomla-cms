@@ -20,10 +20,9 @@ class ContactViewContact extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
-
+		$app		= &JFactory::getApplication();
 		$user		= &JFactory::getUser();
-		$pathway	= &$mainframe->getPathway();
+		$pathway	= &$app->getPathway();
 		$document	= & JFactory::getDocument();
 		$model		= &$this->getModel();
 
@@ -31,7 +30,7 @@ class ContactViewContact extends JView
 		$menus	= &JSite::getMenu();
 		$menu    = $menus->getActive();
 
-		$pparams = &$mainframe->getParams('com_contact');
+		$pparams = &$app->getParams('com_contact');
 
 		// Push a model into the view
 		$model		= &$this->getModel();
@@ -63,7 +62,7 @@ class ContactViewContact extends JView
 			$url  = 'index.php?option=com_users&view=login';
 			$url .= '&return='.base64_encode($return);
 
-			$mainframe->redirect($url, JText::_('You must login first'));
+			$app->redirect($url, JText::_('You must login first'));
 
 		}
 

@@ -14,8 +14,9 @@ defined('_JEXEC') or die;
  * Make sure the user is authorized to view this page
  */
 $user = & JFactory::getUser();
+$app	= &JFactory::getApplication();
 if (!$user->authorize('core.languages.manage')) {
-	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 require_once(JApplicationHelper::getPath('admin_html'));
@@ -49,15 +50,14 @@ switch ($task)
  */
 function viewLanguages()
 {
-	global $mainframe, $option;
-
 	// Initialize some variables
+	$app	= &JFactory::getApplication();
 	$db		= &JFactory::getDbo();
 	$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	$rows	= array ();
 
-	$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-	$limitstart = $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
+	$limit		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+	$limitstart = $app->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
 
 	$rowid = 0;
 
@@ -117,12 +117,11 @@ function viewLanguages()
  */
 function publishLanguage($language)
 {
-	global $mainframe;
-
 	// Check for request forgeries
 	JRequest::checkToken() or jexit('Invalid Token');
 
 	// Initialize some variables
+	$app	= &JFactory::getApplication();
 	$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$params = JComponentHelper::getParams('com_languages');
@@ -145,5 +144,5 @@ function publishLanguage($language)
 		return false;
 	}
 
-	$mainframe->redirect('index.php?option=com_languages&client='.$client->id);
+	$app->redirect('index.php?option=com_languages&client='.$client->id);
 }

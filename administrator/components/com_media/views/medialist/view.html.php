@@ -24,12 +24,11 @@ class MediaViewMediaList extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
-
 		// Do not allow cache
 		JResponse::allowCache(false);
 
-		$style = $mainframe->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
+		$app	= &JFactory::getApplication();
+		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 		JHtml::_('behavior.framework', true);
 

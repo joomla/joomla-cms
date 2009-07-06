@@ -14,8 +14,9 @@ defined('_JEXEC') or die;
  * Make sure the user is authorized to view this page
  */
 $user = & JFactory::getUser();
+$app	= &JFactory::getApplication();
 if (!$user->authorize('core.massmail.manage')) {
-	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 require_once(JApplicationHelper::getPath('admin_html'));
@@ -27,7 +28,7 @@ switch ($task)
 		break;
 
 	case 'cancel':
-		$mainframe->redirect('index.php');
+		$app->redirect('index.php');
 		break;
 
 	default:
@@ -43,20 +44,19 @@ function messageForm($option)
 
 function sendMail()
 {
-	global $mainframe;
-
 	// Check for request forgeries
 	JRequest::checkToken() or jexit('Invalid Token');
 
-	$db					= &JFactory::getDbo();
-	$user 				= &JFactory::getUser();
-	$acl 				= &JFactory::getACL();
+	$app	= &JFactory::getApplication();
+	$db		= &JFactory::getDbo();
+	$user 	= &JFactory::getUser();
+	$acl 	= &JFactory::getACL();
 
-	$mode				= JRequest::getVar('mm_mode', 0, 'post', 'int');
-	$subject			= JRequest::getVar('mm_subject', '', 'post', 'string');
-	$gou				= JRequest::getVar('mm_group', '0', 'post', 'int');
-	$recurse			= JRequest::getVar('mm_recurse', 'NO_RECURSE', 'post', 'word');
-	$bcc				= JRequest::getVar('mm_bcc', 0, 'post', 'int');
+	$mode		= JRequest::getVar('mm_mode', 0, 'post', 'int');
+	$subject	= JRequest::getVar('mm_subject', '', 'post', 'string');
+	$gou		= JRequest::getVar('mm_group', '0', 'post', 'int');
+	$recurse	= JRequest::getVar('mm_recurse', 'NO_RECURSE', 'post', 'word');
+	$bcc		= JRequest::getVar('mm_bcc', 0, 'post', 'int');
 
 	// pulls message inoformation either in text or html format
 	if ($mode) {
@@ -68,7 +68,7 @@ function sendMail()
 
 	// Check for a message body and subject
 	if (!$message_body || !$subject) {
-		$mainframe->redirect('index.php?option=com_massmail', JText::_('Please fill in the form correctly'));
+		$app->redirect('index.php?option=com_massmail', JText::_('Please fill in the form correctly'));
 	}
 
 	// get users in the group out of the acl
@@ -98,14 +98,14 @@ function sendMail()
 	// Check to see if there are any users in this group before we continue
 	if (! count($rows)) {
 		$msg	= JText::_('No users could be found in this group.');
-		$mainframe->redirect('index.php?option=com_massmail', $msg);
+		$app->redirect('index.php?option=com_massmail', $msg);
 	}
 
 	$mailer = &JFactory::getMailer();
 	$params = &JComponentHelper::getParams('com_massmail');
 
 	// Build e-mail message format
-	$mailer->setSender(array($mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname')));
+	$mailer->setSender(array($app->getCfg('mailfrom'), $app->getCfg('fromname')));
 	$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
 	$mailer->setBody($message_body . $params->get('mailBodySuffix'));
 	$mailer->IsHTML($mode);
@@ -116,7 +116,7 @@ function sendMail()
 		foreach ($rows as $row) {
 			$mailer->addBCC($row->email);
 		}
-		$mailer->addRecipient($mainframe->getCfg('mailfrom'));
+		$mailer->addRecipient($app->getCfg('mailfrom'));
 	}else {
 		foreach ($rows as $row) {
  			$mailer->addRecipient($row->email);
@@ -134,6 +134,6 @@ function sendMail()
 	}
 
 	// Redirect with the message
-	$mainframe->redirect('index.php?option=com_massmail', $msg);
+	$app->redirect('index.php?option=com_massmail', $msg);
 
 }

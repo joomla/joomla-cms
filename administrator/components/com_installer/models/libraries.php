@@ -36,14 +36,14 @@ class InstallerModelLibraries extends InstallerModel
 	 */
 	function __construct()
 	{
-		global $mainframe;
+		$app	= &JFactory::getApplication();
 
 		// Call the parent constructor
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest("com_installer.libraries.string", 'filter', '', 'string'));
-		$this->setState('filter.client', $mainframe->getUserStateFromRequest("com_installer.libraries.client", 'client', -1, 'int'));
+		$this->setState('filter.string', $app->getUserStateFromRequest("com_installer.libraries.string", 'filter', '', 'string'));
+		$this->setState('filter.client', $app->getUserStateFromRequest("com_installer.libraries.client", 'client', -1, 'int'));
 	}
 
 	/**

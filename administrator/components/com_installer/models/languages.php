@@ -33,20 +33,18 @@ class InstallerModelLanguages extends InstallerModel
 	 */
 	function __construct()
 	{
-		global $mainframe;
+		$app	= &JFactory::getApplication();
 
 		// Call the parent constructor
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest("com_installer.languages.string", 'filter', '', 'string'));
-		$this->setState('filter.client', $mainframe->getUserStateFromRequest("com_installer.languages.client", 'client', -1, 'int'));
+		$this->setState('filter.string', $app->getUserStateFromRequest("com_installer.languages.string", 'filter', '', 'string'));
+		$this->setState('filter.client', $app->getUserStateFromRequest("com_installer.languages.client", 'client', -1, 'int'));
 	}
 
 	function _loadItems()
 	{
-		global $mainframe, $option;
-
 		$db = &JFactory::getDbo();
 
 		if ($this->_state->get('filter.client') < 0) {
@@ -161,8 +159,6 @@ class InstallerModelLanguages extends InstallerModel
 	 */
 	function remove($eid=array())
 	{
-		global $mainframe;
-
 		// TODO: Check why this does this or if its still necessary!
 		// Hopefully its just another redundant path we can remove
 		$lang = &JFactory::getLanguage();
@@ -223,7 +219,8 @@ class InstallerModelLanguages extends InstallerModel
 			$result = true;
 		}
 
-		$mainframe->enqueueMessage($msg);
+		$app	= &JFactory::getApplication();
+		$app->enqueueMessage($msg);
 		$this->setState('action', 'remove');
 		$this->setState('message', $installer->message);
 		// re-construct the list of all language

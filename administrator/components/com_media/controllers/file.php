@@ -30,16 +30,16 @@ class MediaControllerFile extends MediaController
 	 */
 	function upload()
 	{
-		global $mainframe;
 
 		// Check for request forgeries
 		JRequest::checkToken('request') or jexit('Invalid Token');
 
-		$file 		= JRequest::getVar('Filedata', '', 'files', 'array');
-		$folder		= JRequest::getVar('folder', '', '', 'path');
-		$format		= JRequest::getVar('format', 'html', '', 'cmd');
-		$return		= JRequest::getVar('return-url', null, 'post', 'base64');
-		$err		= null;
+		$app	= &JFactory::getApplication();
+		$file 	= JRequest::getVar('Filedata', '', 'files', 'array');
+		$folder	= JRequest::getVar('folder', '', '', 'path');
+		$format	= JRequest::getVar('format', 'html', '', 'cmd');
+		$return	= JRequest::getVar('return-url', null, 'post', 'base64');
+		$err	= null;
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -63,7 +63,7 @@ class MediaControllerFile extends MediaController
 					JError::raiseNotice(100, JText::_($err));
 					// REDIRECT
 					if ($return) {
-						$mainframe->redirect(base64_decode($return).'&folder='.$folder);
+						$app->redirect(base64_decode($return).'&folder='.$folder);
 					}
 					return;
 				}
@@ -80,7 +80,7 @@ class MediaControllerFile extends MediaController
 					JError::raiseNotice(100, JText::_('Error. File already exists'));
 					// REDIRECT
 					if ($return) {
-						$mainframe->redirect(base64_decode($return).'&folder='.$folder);
+						$app->redirect(base64_decode($return).'&folder='.$folder);
 					}
 					return;
 				}
@@ -97,7 +97,7 @@ class MediaControllerFile extends MediaController
 					JError::raiseWarning(100, JText::_('Error. Unable to upload file'));
 					// REDIRECT
 					if ($return) {
-						$mainframe->redirect(base64_decode($return).'&folder='.$folder);
+						$app->redirect(base64_decode($return).'&folder='.$folder);
 					}
 					return;
 				}
@@ -108,16 +108,16 @@ class MediaControllerFile extends MediaController
 					$log->addEntry(array('comment' => $folder));
 					jexit('Upload complete');
 				} else {
-					$mainframe->enqueueMessage(JText::_('Upload complete'));
+					$app->enqueueMessage(JText::_('Upload complete'));
 					// REDIRECT
 					if ($return) {
-						$mainframe->redirect(base64_decode($return).'&folder='.$folder);
+						$app->redirect(base64_decode($return).'&folder='.$folder);
 					}
 					return;
 				}
 			}
 		} else {
-			$mainframe->redirect('index.php', 'Invalid Request', 'error');
+			$app->redirect('index.php', 'Invalid Request', 'error');
 		}
 	}
 
@@ -129,8 +129,6 @@ class MediaControllerFile extends MediaController
 	 */
 	function delete()
 	{
-		global $mainframe;
-
 		JRequest::checkToken('request') or jexit('Invalid Token');
 
 		// Set FTP credentials, if given
@@ -138,6 +136,7 @@ class MediaControllerFile extends MediaController
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Get some data from the request
+		$app	= &JFactory::getApplication();
 		$tmpl	= JRequest::getCmd('tmpl');
 		$paths	= JRequest::getVar('rm', array(), '', 'array');
 		$folder = JRequest::getVar('folder', '', '', 'path');
@@ -175,9 +174,9 @@ class MediaControllerFile extends MediaController
 		}
 		if ($tmpl == 'component') {
 			// We are inside the iframe
-			$mainframe->redirect('index.php?option=com_media&view=mediaList&folder='.$folder.'&tmpl=component');
+			$app->redirect('index.php?option=com_media&view=mediaList&folder='.$folder.'&tmpl=component');
 		} else {
-			$mainframe->redirect('index.php?option=com_media&folder='.$folder);
+			$app->redirect('index.php?option=com_media&folder='.$folder);
 		}
 	}
 }

@@ -101,8 +101,6 @@ class InstallerModelManage extends InstallerModel
 
 	function _loadItems()
 	{
-		global $mainframe, $option;
-
 		jimport('joomla.filesystem.folder');
 
 		/* Get a database connector */
@@ -157,8 +155,6 @@ class InstallerModelManage extends InstallerModel
 	 */
 	function remove($eid=array())
 	{
-		global $mainframe;
-
 		// Initialize variables
 		$failed = array ();
 
@@ -206,7 +202,8 @@ class InstallerModelManage extends InstallerModel
 			$result = true;
 		}
 
-		$mainframe->enqueueMessage($msg);
+		$app	= &JFactory::getApplication();
+		$app->enqueueMessage($msg);
 		$this->setState('action', 'remove');
 		$this->setState('name', $installer->get('name'));
 		$this->setState('message', $installer->message);

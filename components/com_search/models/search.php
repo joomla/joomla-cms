@@ -58,13 +58,12 @@ class SearchModelSearch extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe;
-
 		//Get configuration
+		$app	= &JFactory::getApplication();
 		$config = JFactory::getConfig();
 
 		// Get the pagination request variables
-		$this->setState('limit', $mainframe->getUserStateFromRequest('com_search.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
+		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
 		// Set the search parameters
@@ -187,8 +186,6 @@ class SearchModelSearch extends JModel
 	 */
 	function getAreas()
 	{
-		global $mainframe;
-
 		// Load the Category data
 		if (empty($this->_areas['search']))
 		{

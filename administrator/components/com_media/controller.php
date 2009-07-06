@@ -26,8 +26,6 @@ class MediaController extends JController
 	 */
 	function display()
 	{
-		global $mainframe;
-
 		$vName = JRequest::getCmd('view', 'media');
 		switch ($vName)
 		{
@@ -44,8 +42,9 @@ class MediaController extends JController
 				break;
 
 			case 'mediaList':
+				$app	= &JFactory::getApplication();
 				$mName = 'list';
-				$vLayout = $mainframe->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
+				$vLayout = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 				break;
 

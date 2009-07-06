@@ -20,12 +20,12 @@ JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 /*
  * Instantiate the application.
  */
-$mainframe = &JFactory::getApplication('site');
+$app = &JFactory::getApplication('site');
 
 /*
  * Initialise the application.
  */
-$mainframe->initialise();
+$app->initialise();
 
 // Mark afterIntialise in the profiler.
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
@@ -33,11 +33,11 @@ JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 /*
  * Route the application.
  */
-$mainframe->route();
+$app->route();
 
 // authorization
 $Itemid = JRequest::getInt('Itemid');
-$mainframe->authorize($Itemid);
+$app->authorize($Itemid);
 
 // Mark afterRoute in the profiler.
 JDEBUG ? $_PROFILER->mark('afterRoute') : null;
@@ -45,7 +45,7 @@ JDEBUG ? $_PROFILER->mark('afterRoute') : null;
 /*
  * Dispatch the application.
  */
-$mainframe->dispatch();
+$app->dispatch();
 
 // Mark afterDispatch in the profiler.
 JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
@@ -53,7 +53,7 @@ JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
 /*
  * Render the application.
  */
-$mainframe->render();
+$app->render();
 
 // Mark afterRender in the profiler.
 JDEBUG ? $_PROFILER->mark('afterRender') : null;
@@ -61,4 +61,4 @@ JDEBUG ? $_PROFILER->mark('afterRender') : null;
 /*
  * Return the response.
  */
-echo JResponse::toString($mainframe->getCfg('gzip'));
+echo JResponse::toString($app->getCfg('gzip'));

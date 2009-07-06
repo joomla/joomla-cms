@@ -171,8 +171,6 @@ class BannersModelBanner extends JModel
 	 */
 	function getUrl($id = 0)
 	{
-		global $mainframe;
-
 		$db = &$this->getDbo();
 
 		// redirect to banner url

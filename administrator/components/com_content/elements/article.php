@@ -21,11 +21,10 @@ class JElementArticle extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		global $mainframe;
-
+		$app		= &JFactory::getApplication();
 		$db			= &JFactory::getDbo();
 		$doc 		= &JFactory::getDocument();
-		$template 	= $mainframe->getTemplate();
+		$template 	= $app->getTemplate();
 		$fieldName	= $control_name.'['.$name.']';
 		$article = &JTable::getInstance('content');
 		if ($value) {

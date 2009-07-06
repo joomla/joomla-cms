@@ -14,8 +14,9 @@ defined('_JEXEC') or die;
  * Make sure the user is authorized to view this page
  */
 $user = & JFactory::getUser();
+$app	= &JFactory::getApplication();
 if (!$user->authorize('core.installer.manage')) {
-	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 $ext	= JRequest::getWord('type');

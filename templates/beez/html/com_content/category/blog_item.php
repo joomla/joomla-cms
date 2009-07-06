@@ -1,5 +1,6 @@
 <?php // @version $Id$
 defined('_JEXEC') or die;
+$app = &JFactory::getApplication();
 ?>
 
 <?php if ($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own')) : ?>
@@ -25,7 +26,7 @@ endif; ?>
 
 <?php if ($this->item->params->get('show_print_icon') || $this->item->params->get('show_email_icon')) : ?>
 <p class="buttonheading">
-	<img src="<?php echo $this->baseurl ?>/templates/<?php echo $mainframe->getTemplate(); ?>/images/trans.gif" alt="<?php echo JText::_('attention open in a new window'); ?>" />
+	<img src="<?php echo $this->baseurl ?>/templates/<?php echo $app->getTemplate(); ?>/images/trans.gif" alt="<?php echo JText::_('attention open in a new window'); ?>" />
 	<?php if ($this->item->params->get('show_print_icon')) :
 		echo JHtml::_('icon.print_popup', $this->item, $this->item->params, $this->access);
 	endif;

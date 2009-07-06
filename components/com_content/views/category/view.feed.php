@@ -21,13 +21,13 @@ class ContentViewCategory extends JView
 {
 	function display()
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$doc	= &JFactory::getDocument();
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 
 		// Get some data from the model
-		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
+		JRequest::setVar('limit', $app->getCfg('feed_limit'));
 		$category	= & $this->get('Category');
 		$rows 		= & $this->get('Data');
 

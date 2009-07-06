@@ -20,14 +20,13 @@ class ContactViewCategory extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$app		= &JFactory::getApplication();
+		$user		= &JFactory::getUser();
+		$uri		= &JFactory::getURI();
+		$model		= &$this->getModel();
+		$document	= &JFactory::getDocument();
 
-		$user	  = &JFactory::getUser();
-		$uri 	  = &JFactory::getURI();
-		$model	  = &$this->getModel();
-		$document = &JFactory::getDocument();
-
-		$pparams = &$mainframe->getParams('com_contact');
+		$pparams = &$app->getParams('com_contact');
 
 		// Selected Request vars
 		$categoryId			= JRequest::getVar('catid',				0,				'', 'int');
@@ -35,10 +34,10 @@ class ContactViewCategory extends JView
 		$filter_order		= JRequest::getVar('filter_order',		'cd.ordering',	'', 'cmd');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir',	'ASC',			'', 'word');
 
-		$pparams->def('display_num', $mainframe->getCfg('list_limit'));
+		$pparams->def('display_num', $app->getCfg('list_limit'));
 		$default_limit = $pparams->def('display_num', 20);
 
-		$limit = $mainframe->getUserStateFromRequest('com_contact.'.$this->getLayout().'.limit', 'limit', $default_limit, 'int');
+		$limit = $app->getUserStateFromRequest('com_contact.'.$this->getLayout().'.limit', 'limit', $default_limit, 'int');
 
 		// query options
 		$options['category_id']	= $categoryId;

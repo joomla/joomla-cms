@@ -1,5 +1,6 @@
 <?php // @version $Id$
 defined('_JEXEC') or die;
+$app = &JFactory::getApplication();
 ?>
 
 <div id="page">
@@ -57,7 +58,7 @@ endif; ?>
 	<?php if ($this->print) :
 		echo JHtml::_('icon.print_screen', $this->article, $this->params, $this->access);
 	elseif ($this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
-	<img src="<?php echo $this->baseurl ?>/templates/<?php echo $mainframe->getTemplate(); ?>/images/trans.gif" alt="<?php echo JText::_('attention open in a new window'); ?>" />
+	<img src="<?php echo $this->baseurl ?>/templates/<?php echo $app->getTemplate(); ?>/images/trans.gif" alt="<?php echo JText::_('attention open in a new window'); ?>" />
 	<?php if ($this->params->get('show_print_icon')) :
 		echo JHtml::_('icon.print_popup', $this->article, $this->params, $this->access);
 	endif;

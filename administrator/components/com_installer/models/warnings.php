@@ -33,11 +33,8 @@ class InstallerModelWarnings extends InstallerModel
 	 */
 	function __construct()
 	{
-		global $mainframe;
-
 		// Call the parent constructor
 		parent::__construct();
-
 	}
 
 	/**

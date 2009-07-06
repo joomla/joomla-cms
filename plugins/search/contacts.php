@@ -9,8 +9,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$mainframe->registerEvent('onSearch', 'plgSearchContacts');
-$mainframe->registerEvent('onSearchAreas', 'plgSearchContactAreas');
+$app = &JFactory::getApplication();
+$app->registerEvent('onSearch', 'plgSearchContacts');
+$app->registerEvent('onSearchAreas', 'plgSearchContactAreas');
 
 JPlugin::loadLanguage('plg_search_contacts');
 

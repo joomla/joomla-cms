@@ -29,10 +29,9 @@ class InstallerController extends JController
 	 */
 	function installform()
 	{
-		global $mainframe;
-
+		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('Install');
-		$model->setState('install.directory', $mainframe->getCfg('config.tmp_path'));
+		$model->setState('install.directory', $app->getCfg('config.tmp_path'));
 
 		$view	= &$this->getView('Install');
 

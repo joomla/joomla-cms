@@ -31,18 +31,18 @@ class BannerControllerClient extends JController
 
 	function display()
 	{
-		global $mainframe;
+		$app	= &JFactory::getApplication();
 
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
 		$context			= 'com_banners.bannerclient.list.';
-		$filter_order		= $mainframe->getUserStateFromRequest($context.'filter_order',		'filter_order',		'a.name',	'cmd');
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest($context.'filter_order_Dir',	'filter_order_Dir',	'',			'word');
-		$search				= $mainframe->getUserStateFromRequest($context.'search',			'search',			'',			'string');
+		$filter_order		= $app->getUserStateFromRequest($context.'filter_order',		'filter_order',		'a.name',	'cmd');
+		$filter_order_Dir	= $app->getUserStateFromRequest($context.'filter_order_Dir',	'filter_order_Dir',	'',			'word');
+		$search				= $app->getUserStateFromRequest($context.'search',			'search',			'',			'string');
 		$search				= JString::strtolower($search);
 
-		$limit		= $mainframe->getUserStateFromRequest('global.list.limit',		'limit',		$mainframe->getCfg('list_limit'), 'int');
-		$limitstart	= $mainframe->getUserStateFromRequest($context.'limitstart',	'limitstart',	0, 'int');
+		$limit		= $app->getUserStateFromRequest('global.list.limit',		'limit',		$app->getCfg('list_limit'), 'int');
+		$limitstart	= $app->getUserStateFromRequest($context.'limitstart',	'limitstart',	0, 'int');
 
 		$where = array();
 

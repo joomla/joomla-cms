@@ -11,9 +11,10 @@
 defined('_JEXEC') or die;
 
 // Make sure the user is authorized to view this page
-$user = & JFactory::getUser();
+$user	= & JFactory::getUser();
+$app	= &JFactory::getApplication();
 if (!$user->authorize('core.config.manage')) {
-	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 // Tell the browser not to cache this page.

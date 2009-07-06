@@ -21,7 +21,7 @@ class ContentViewArchive extends JView
 {
 	function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$option = JRequest::getCmd('option');
 
 		if (empty($layout))
@@ -32,11 +32,11 @@ class ContentViewArchive extends JView
 
 		// Initialize some variables
 		$user		= &JFactory::getUser();
-		$pathway	= &$mainframe->getPathway();
+		$pathway	= &$app->getPathway();
 		$document	= &JFactory::getDocument();
 
 		// Get the page/component configuration
-		$params = &$mainframe->getParams('com_content');
+		$params = &$app->getParams('com_content');
 
 		// Request variables
 		$task 		= JRequest::getCmd('task');

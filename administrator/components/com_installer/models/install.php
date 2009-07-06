@@ -39,8 +39,6 @@ class InstallerModelInstall extends JModel
 
 	function install()
 	{
-		global $mainframe;
-
 		$this->setState('action', 'install');
 
 		switch(JRequest::getWord('installtype'))
@@ -87,7 +85,8 @@ class InstallerModelInstall extends JModel
 		}
 
 		// Set some model state values
-		$mainframe->enqueueMessage($msg);
+		$app	= &JFactory::getApplication();
+		$app->enqueueMessage($msg);
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
 		$this->setState('message', $installer->message);

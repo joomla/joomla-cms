@@ -9,8 +9,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$mainframe->registerEvent('onSearch', 'plgSearchCategories');
-$mainframe->registerEvent('onSearchAreas', 'plgSearchCategoryAreas');
+$app = &JFactory::getApplication();
+$app->registerEvent('onSearch', 'plgSearchCategories');
+$app->registerEvent('onSearchAreas', 'plgSearchCategoryAreas');
 
 JPlugin::loadLanguage('plg_search_categories');
 

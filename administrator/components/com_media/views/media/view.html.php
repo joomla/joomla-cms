@@ -24,11 +24,10 @@ class MediaViewMedia extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
-
+		$app	= &JFactory::getApplication();
 		$config = &JComponentHelper::getParams('com_media');
 
-		$style = $mainframe->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
+		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 		$listStyle = "
 			<ul id=\"submenu\">

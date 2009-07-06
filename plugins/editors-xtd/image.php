@@ -26,7 +26,7 @@ class plgButtonImage extends JPlugin
 	 */
 	function onDisplay($name)
 	{
-		global $mainframe;
+		$app = &JFactory::getApplication();
 		$params = &JComponentHelper::getParams('com_media');
 		$ranks = array('publisher', 'editor', 'author', 'registered');
 		$acl = & JFactory::getACL();
@@ -45,7 +45,7 @@ class plgButtonImage extends JPlugin
 			//return;
 		}
 		$doc 		= &JFactory::getDocument();
-		$template 	= $mainframe->getTemplate();
+		$template 	= $app->getTemplate();
 
 		$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name='.$name;
 

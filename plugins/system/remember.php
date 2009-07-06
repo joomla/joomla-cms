@@ -21,10 +21,10 @@ class plgSystemRemember extends JPlugin
 {
 	function onAfterInitialise()
 	{
-		global $mainframe;
+		$app = &JFactory::getApplication();
 
 		// No remember me for admin
-		if ($mainframe->isAdmin()) {
+		if ($app->isAdmin()) {
 			return;
 		}
 
@@ -46,7 +46,7 @@ class plgSystemRemember extends JPlugin
 
 				$options = array();
 				$options['silent'] = true;
-				if (!$mainframe->login(@unserialize($str), $options)) {
+				if (!$app->login(@unserialize($str), $options)) {
 					// Clear the remember me cookie
 					setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, '/');
 				}

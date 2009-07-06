@@ -41,10 +41,9 @@ class MailtoController extends JController
 	 */
 	function send()
 	{
-		global $mainframe;
-
 		// Check for request forgeries
 		JRequest::checkToken() or jexit('Invalid Token');
+		$app	= &JFactory::getApplication();
 		$session = &JFactory::getSession();
 		$db	= &JFactory::getDbo();
 
@@ -56,9 +55,9 @@ class MailtoController extends JController
 
 		jimport('joomla.mail.helper');
 
-		$SiteName 	= $mainframe->getCfg('sitename');
-		$MailFrom 	= $mainframe->getCfg('mailfrom');
-		$FromName 	= $mainframe->getCfg('fromname');
+		$SiteName 	= $app->getCfg('sitename');
+		$MailFrom 	= $app->getCfg('mailfrom');
+		$FromName 	= $app->getCfg('fromname');
 
 		$link 		= base64_decode(JRequest::getVar('link', '', 'post', 'base64'));
 

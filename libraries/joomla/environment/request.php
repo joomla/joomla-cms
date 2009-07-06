@@ -435,10 +435,10 @@ class JRequest
 			$session = JFactory::getSession();
 			if ($session->isNew()) {
 				//Redirect to login screen
-				global $mainframe;
+				$app = &JFactory::getApplication();
 				$return = JRoute::_('index.php');
-;				$mainframe->redirect($return, JText::_('SESSION_EXPIRED'));
-				$mainframe->close();
+				$app->redirect($return, JText::_('SESSION_EXPIRED'));
+				$app->close();
 			} else {
 				return false;
 			}

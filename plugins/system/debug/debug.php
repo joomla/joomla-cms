@@ -41,7 +41,7 @@ class plgSystemDebug extends JPlugin
 	*/
 	function onAfterRender()
 	{
-		global $_PROFILER, $mainframe, $database;
+		global $_PROFILER;
 
 		// Do not render if debugging is not enabled
 		if (!JDEBUG) { return; }

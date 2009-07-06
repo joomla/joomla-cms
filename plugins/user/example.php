@@ -31,7 +31,7 @@ class plgUserExample extends JPlugin
 	 */
 	function onBeforeStoreUser($user, $isnew)
 	{
-		$mainframe = &JFactory::getApplication();
+		$app = &JFactory::getApplication();
 	}
 
 	/**
@@ -46,7 +46,7 @@ class plgUserExample extends JPlugin
 	 */
 	function onAfterStoreUser($user, $isnew, $success, $msg)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// convert the user parameters passed to the event
 		// to a format the external application
@@ -78,7 +78,7 @@ class plgUserExample extends JPlugin
 	 */
 	function onBeforeDeleteUser($user)
 	{
-		$mainframe = &JFactory::getApplication();
+		$app = &JFactory::getApplication();
 	}
 
 	/**
@@ -92,7 +92,7 @@ class plgUserExample extends JPlugin
 	 */
 	function onAfterDeleteUser($user, $succes, $msg)
 	{
-		$mainframe = &JFactory::getApplication();
+		$app = &JFactory::getApplication();
 
 	 	// only the $user['id'] exists and carries valid information
 

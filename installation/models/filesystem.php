@@ -459,7 +459,7 @@ class JInstallationModelFilesystem extends JModel
 	 */
 	function setFTPCfg($vars)
 	{
-		global $mainframe;
+		$app	= &JFactory::getApplication();
 		$arr = array();
 		$arr['ftp_enable'] = $vars['ftpEnable'];
 		$arr['ftp_user'] = $vars['ftpUser'];
@@ -468,20 +468,20 @@ class JInstallationModelFilesystem extends JModel
 		$arr['ftp_host'] = $vars['ftpHost'];
 		$arr['ftp_port'] = $vars['ftpPort'];
 
-		$mainframe->setCfg($arr, 'config');
+		$app->setCfg($arr, 'config');
 	}
 
 	function _chmod($path, $mode)
 	{
-		global $mainframe;
+		$app	= &JFactory::getApplication();
 		$ret = false;
 
 		// Initialize variables
 		$ftpFlag = true;
-		$ftpRoot = $mainframe->getCfg('ftp_root');
+		$ftpRoot = $app->getCfg('ftp_root');
 
 		// Do NOT use ftp if it is not enabled
-		if ($mainframe->getCfg('ftp_enable') != 1)
+		if ($app->getCfg('ftp_enable') != 1)
 		{
 			$ftpFlag = false;
 		}
@@ -490,8 +490,8 @@ class JInstallationModelFilesystem extends JModel
 		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP::getInstance($app->getCfg('ftp_host'), $app->getCfg('ftp_port'));
+			$ftp->login($app->getCfg('ftp_user'), $app->getCfg('ftp_pass'));
 
 			//Translate the destination path for the FTP account
 			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), '/');

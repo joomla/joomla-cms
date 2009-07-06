@@ -75,14 +75,13 @@ class ContactController extends JController
 	 */
 	function submit()
 	{
-		global $mainframe;
-
 		// Check for request forgeries
 		JRequest::checkToken() or jexit('Invalid Token');
 
 		// Initialize some variables
+		$app		= &JFactory::getApplication();
 		$db			= & JFactory::getDbo();
-		$SiteName	= $mainframe->getCfg('sitename');
+		$SiteName	= $app->getCfg('sitename');
 
 		$default	= JText::sprintf('MAILENQUIRY', $SiteName);
 		$contactId	= JRequest::getInt('id',			0,			'post');
@@ -141,11 +140,11 @@ class ContactController extends JController
 		// Passed Validation: Process the contact plugins to integrate with other applications
 		$results	= $dispatcher->trigger('onSubmitContact', array(&$contact, &$post));
 
-		$pparams = &$mainframe->getParams('com_contact');
+		$pparams = &$app->getParams('com_contact');
 		if (!$pparams->get('custom_reply'))
 		{
-			$MailFrom 	= $mainframe->getCfg('mailfrom');
-			$FromName 	= $mainframe->getCfg('fromname');
+			$MailFrom 	= $app->getCfg('mailfrom');
+			$FromName 	= $app->getCfg('fromname');
 
 			// Prepare email body
 			$prefix = JText::sprintf('ENQUIRY_TEXT', JURI::base());
@@ -198,13 +197,12 @@ class ContactController extends JController
 	 */
 	function vcard()
 	{
-		global $mainframe;
-
 		// Initialize some variables
+		$app	= &JFactory::getApplication();
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
 
-		$SiteName = $mainframe->getCfg('sitename');
+		$SiteName = $app->getCfg('sitename');
 		$contactId = JRequest::getVar('contact_id', 0, '', 'int');
 		// Get a Contact table object and load the selected contact details
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
@@ -300,13 +298,12 @@ class ContactController extends JController
 	 */
 	function _validateInputs($contact, $email, $subject, $body)
 	{
-		global $mainframe;
-
+		$app	= &JFactory::getApplication();
 		$session = &JFactory::getSession();
 
 		// Get params and component configurations
 		$params		= new JParameter($contact->params);
-		$pparams	= &$mainframe->getParams('com_contact');
+		$pparams	= &$app->getParams('com_contact');
 
 		// check for session cookie
 		$sessionCheck 	= $pparams->get('validate_session', 1);

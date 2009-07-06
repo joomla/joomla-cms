@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
+$app	= &JFactory::getApplication();
 if (!$user->authorize('core.media.manage')) {
-	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 $params = &JComponentHelper::getParams('com_media');

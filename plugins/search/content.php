@@ -9,8 +9,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$mainframe->registerEvent('onSearch', 'plgSearchContent');
-$mainframe->registerEvent('onSearchAreas', 'plgSearchContentAreas');
+$app = &JFactory::getApplication();
+$app->registerEvent('onSearch', 'plgSearchContent');
+$app->registerEvent('onSearchAreas', 'plgSearchContentAreas');
 
 JPlugin::loadLanguage('plg_search_content');
 
@@ -36,8 +37,6 @@ function &plgSearchContentAreas()
  */
 function plgSearchContent($text, $phrase='', $ordering='', $areas=null)
 {
-	global $mainframe;
-
 	$db		= &JFactory::getDbo();
 	$user	= &JFactory::getUser();
 	$groups	= implode(',', $user->authorisedLevels());

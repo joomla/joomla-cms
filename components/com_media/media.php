@@ -19,8 +19,9 @@ for($i = 0; $i < $params->get('allowed_media_usergroup', 3); $i++)
 }
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
+$app	= &JFactory::getApplication();
 if (!$user->authorize('com_media', 'popup')) {
-	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 // Set the path definitions

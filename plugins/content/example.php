@@ -32,8 +32,7 @@ class plgContentExample extends JPlugin
 	 */
 	function onPrepareContent(&$article, &$params, $limitstart)
 	{
-		global $mainframe;
-
+		$app = &JFactory::getApplication();
 	}
 
 	/**
@@ -48,7 +47,7 @@ class plgContentExample extends JPlugin
 	 */
 	function onAfterDisplayTitle(&$article, &$params, $limitstart)
 	{
-		global $mainframe;
+		$app = &JFactory::getApplication();
 
 		return '';
 	}
@@ -65,7 +64,7 @@ class plgContentExample extends JPlugin
 	 */
 	function onBeforeDisplayContent(&$article, &$params, $limitstart)
 	{
-		global $mainframe;
+		$app = &JFactory::getApplication();
 
 		return '';
 	}
@@ -82,7 +81,7 @@ class plgContentExample extends JPlugin
 	 */
 	function onAfterDisplayContent(&$article, &$params, $limitstart)
 	{
-		global $mainframe;
+		$app = &JFactory::getApplication();
 
 		return '';
 	}
@@ -101,7 +100,7 @@ class plgContentExample extends JPlugin
 	 */
 	function onBeforeContentSave(&$article, $isNew)
 	{
-		global $mainframe;
+		$app = &JFactory::getApplication();
 
 		return true;
 	}
@@ -118,9 +117,8 @@ class plgContentExample extends JPlugin
 	 */
 	function onAfterContentSave(&$article, $isNew)
 	{
-		global $mainframe;
+		$app = &JFactory::getApplication();
 
 		return true;
 	}
-
 }

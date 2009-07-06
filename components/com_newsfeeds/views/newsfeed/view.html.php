@@ -25,7 +25,7 @@ class NewsfeedsViewNewsfeed extends JView
 {
 	function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// check if cache directory is writeable
 		$cacheDir = JPATH_BASE.DS.'cache'.DS;
@@ -35,13 +35,13 @@ class NewsfeedsViewNewsfeed extends JView
 		}
 
 		// Get some objects from the JApplication
-		$pathway  = &$mainframe->getPathway();
+		$pathway  = &$app->getPathway();
 		$document = &JFactory::getDocument();
 
 		// Get the current menu item
 		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();
-		$params	= &$mainframe->getParams();
+		$params	= &$app->getParams();
 
 		//get the newsfeed
 		$newsfeed = &$this->get('data');
@@ -55,7 +55,7 @@ class NewsfeedsViewNewsfeed extends JView
 
 		if ($rssDoc == false) {
 			$msg = JText::_('Error: Feed not retrieved');
-			$mainframe->redirect('index.php?option=com_newsfeeds&view=category&id='. $newsfeed->catslug, $msg);
+			$app->redirect('index.php?option=com_newsfeeds&view=category&id='. $newsfeed->catslug, $msg);
 			return;
 		}
 		$lists = array();

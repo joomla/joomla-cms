@@ -43,7 +43,7 @@ class ConfigControllerApplication extends JController
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorize('core.config.manage')) {
-			$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+			JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 		}
 
 		// Set FTP credentials, if given.

@@ -114,8 +114,8 @@ class TableMessage extends JTable
 	 */
 	function send($fromId = null, $toId = null, $subject = null, $message = null, $mailfrom = null, $fromname = null)
 	{
-		global $mainframe;
-		$db = &JFactory::getDbo();
+		$app	= &JFactory::getApplication();
+		$db		= &JFactory::getDbo();
 
 		if (is_object($this))
 		{
@@ -155,7 +155,7 @@ class TableMessage extends JTable
 					$fromname	= $fromObject->name;
 					$mailfrom	= $fromObject->email;
 					$siteURL		= JURI::base();
-					$sitename 		= $mainframe->getCfg('sitename');
+					$sitename 		= $app->getCfg('sitename');
 
 					$query = 'SELECT email' .
 							' FROM #__users' .

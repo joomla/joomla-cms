@@ -9,8 +9,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$mainframe->registerEvent('onSearch', 'plgSearchWeblinks');
-$mainframe->registerEvent('onSearchAreas', 'plgSearchWeblinksAreas');
+$app = &JFactory::getApplication();
+$app->registerEvent('onSearch', 'plgSearchWeblinks');
+$app->registerEvent('onSearchAreas', 'plgSearchWeblinksAreas');
 
 JPlugin::loadLanguage('plg_search_weblinks');
 

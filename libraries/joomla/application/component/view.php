@@ -525,8 +525,6 @@ class JView extends JObject
 	 */
 	function loadTemplate($tpl = null)
 	{
-		global $mainframe, $option;
-
 		// clear prior output
 		$this->_output = null;
 
@@ -604,7 +602,9 @@ class JView extends JObject
 	*/
 	function _setPath($type, $path)
 	{
-		global $mainframe, $option;
+		jimport('joomla.application.helper');
+		$component	= JApplicationHelper::getComponentName();
+		$app		= &JFactory::getApplication();
 
 		// clear out the prior search dirs
 		$this->_path[$type] = array();
@@ -616,15 +616,14 @@ class JView extends JObject
 		switch (strtolower($type))
 		{
 			case 'template':
-			{
-				// set the alternative template search dir
-				if (isset($mainframe))
+				// Set the alternative template search dir
+				if (isset($app))
 				{
-					$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
-					$fallback = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->getName();
+					$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+					$fallback	= JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.$component.DS.$this->getName();
 					$this->_addPath('template', $fallback);
 				}
-			}	break;
+				break;
 		}
 	}
 

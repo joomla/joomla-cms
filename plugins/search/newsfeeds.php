@@ -9,8 +9,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$mainframe->registerEvent('onSearch', 'plgSearchNewsfeedslinks');
-$mainframe->registerEvent('onSearchAreas', 'plgSearchNewsfeedAreas');
+$app = &JFactory::getApplication();
+$app->registerEvent('onSearch', 'plgSearchNewsfeedslinks');
+$app->registerEvent('onSearchAreas', 'plgSearchNewsfeedAreas');
 
 JPlugin::loadLanguage('plg_search_newsfeeds');
 

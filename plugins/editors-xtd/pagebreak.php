@@ -26,10 +26,10 @@ class plgButtonPagebreak extends JPlugin
 	 */
 	function onDisplay($name)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$doc = & JFactory::getDocument();
-		$template = $mainframe->getTemplate();
+		$template = $app->getTemplate();
 
 		$link = 'index.php?option=com_content&amp;task=ins_pagebreak&amp;tmpl=component&amp;e_name='.$name;
 

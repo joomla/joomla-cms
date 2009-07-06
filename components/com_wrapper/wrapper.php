@@ -34,15 +34,14 @@ class WrapperController
 {
 	function display()
 	{
-		global $mainframe, $option;
-
+		$app	= &JFactory::getApplication();
 		$document = &JFactory::getDocument();
 
 		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();
 
 		// Get the page/component configuration
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 
 		//set page title
 		$document->setTitle($menu->name);

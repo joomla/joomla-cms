@@ -32,8 +32,9 @@ class plgAuthenticationOpenID extends JPlugin
 	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate($credentials, $options, & $response) {
-		$mainframe = &JFactory::getApplication();
+	function onAuthenticate($credentials, $options, & $response)
+	{
+		$app = &JFactory::getApplication();
 
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 			define('Auth_OpenID_RAND_SOURCE', null);
@@ -141,7 +142,7 @@ class plgAuthenticationOpenID extends JPlugin
 					displayError("Could not redirect to server: " . $redirect_url->message);
 				} else {
 					// Send redirect.
-					$mainframe->redirect($redirect_url);
+					$app->redirect($redirect_url);
 					return false;
 				}
 			} else {
@@ -156,8 +157,8 @@ class plgAuthenticationOpenID extends JPlugin
 					//displayError("Could not redirect to server: " . $form_html->message);
 				} else {
 					JResponse :: setBody($form_html);
-					echo JResponse :: toString($mainframe->getCfg('gzip'));
-					$mainframe->close();
+					echo JResponse :: toString($app->getCfg('gzip'));
+					$app->close();
 					return false;
 				}
 			}

@@ -98,8 +98,6 @@ class InstallerModelComponents extends InstallerModel
 
 	function _loadItems()
 	{
-		global $mainframe, $option;
-
 		jimport('joomla.filesystem.folder');
 
 		/* Get a database connector */

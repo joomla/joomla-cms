@@ -7,6 +7,7 @@
  */
 
 defined('_JEXEC') or die;
+$app = &JFactory::getApplication();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -23,10 +24,10 @@ defined('_JEXEC') or die;
 	<div id="frame" class="outline">
 		<img src="images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />
 		<h1>
-			<?php echo $mainframe->getCfg('sitename'); ?>
+			<?php echo $app->getCfg('sitename'); ?>
 		</h1>
 	<p>
-		<?php echo $mainframe->getCfg('offline_message'); ?>
+		<?php echo $app->getCfg('offline_message'); ?>
 	</p>
 	<?php if (JPluginHelper::isEnabled('authentication', 'openid')) : ?>
 	<?php JHtml::_('script', 'openid.js'); ?>

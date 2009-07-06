@@ -21,16 +21,40 @@ defined('JPATH_BASE') or die;
 class JApplicationHelper
 {
 	/**
+	 * Return the name of the request component [main component]
+	 *
+	 * @param	string $default The default option
+	 * @return	string Option
+	 * @since	1.6
+	 */
+	public static function getComponentName($default = NULL)
+	{
+		static $option;
+
+		if ($option) {
+			return $option;
+		}
+
+		$option = strtolower(JRequest::getCmd('option'));
+
+		if (empty($option)) {
+			$option = $default;
+		}
+
+		JRequest::setVar('option', $option);
+		return $option;
+	}
+
+	/**
 	 * Gets information on a specific client id.  This method will be useful in
 	 * future versions when we start mapping applications in the database.
 	 *
-	 * @access	public
 	 * @param	int			$id		A client identifier
 	 * @param	boolean		$byName	If True, find the client by it's name
 	 * @return	mixed	Object describing the client or false if not known
 	 * @since	1.5
 	 */
-	function &getClientInfo($id = null, $byName = false)
+	public static function &getClientInfo($id = null, $byName = false)
 	{
 		static $clients;
 
@@ -86,13 +110,12 @@ class JApplicationHelper
 	/**
 	* Get a path
 	*
-	* @access public
 	* @param string $varname
 	* @param string $user_option
 	* @return string The requested path
 	* @since 1.0
 	*/
-	function getPath($varname, $user_option=null)
+	public static function getPath($varname, $user_option=null)
 	{
 		// check needed for handling of custom/new module xml file loading
 		$check = (($varname == 'mod0_xml') || ($varname == 'mod1_xml'));
@@ -108,73 +131,73 @@ class JApplicationHelper
 
 		switch ($varname) {
 			case 'front':
-				$result = JApplicationHelper::_checkPath(DS.'components'.DS. $user_option .DS. $name .'.php', 0);
+				$result = self::_checkPath(DS.'components'.DS. $user_option .DS. $name .'.php', 0);
 				break;
 
 			case 'html':
 			case 'front_html':
-				if (!($result = JApplicationHelper::_checkPath(DS.'templates'.DS. JApplication::getTemplate() .DS.'components'.DS. $name .'.html.php', 0))) {
-					$result = JApplicationHelper::_checkPath(DS.'components'.DS. $user_option .DS. $name .'.html.php', 0);
+				if (!($result = self::_checkPath(DS.'templates'.DS. JApplication::getTemplate() .DS.'components'.DS. $name .'.html.php', 0))) {
+					$result = self::_checkPath(DS.'components'.DS. $user_option .DS. $name .'.html.php', 0);
 				}
 				break;
 
 			case 'toolbar':
-				$result = JApplicationHelper::_checkPath(DS.'components'.DS. $user_option .DS.'toolbar.'. $name .'.php', -1);
+				$result = self::_checkPath(DS.'components'.DS. $user_option .DS.'toolbar.'. $name .'.php', -1);
 				break;
 
 			case 'toolbar_html':
-				$result = JApplicationHelper::_checkPath(DS.'components'.DS. $user_option .DS.'toolbar.'. $name .'.html.php', -1);
+				$result = self::_checkPath(DS.'components'.DS. $user_option .DS.'toolbar.'. $name .'.html.php', -1);
 				break;
 
 			case 'toolbar_default':
 			case 'toolbar_front':
-				$result = JApplicationHelper::_checkPath(DS.'includes'.DS.'HTML_toolbar.php', 0);
+				$result = self::_checkPath(DS.'includes'.DS.'HTML_toolbar.php', 0);
 				break;
 
 			case 'admin':
 				$path 	= DS.'components'.DS. $user_option .DS.'admin.'. $name .'.php';
-				$result = JApplicationHelper::_checkPath($path, -1);
+				$result = self::_checkPath($path, -1);
 				if ($result == null) {
 					$path = DS.'components'.DS. $user_option .DS. $name .'.php';
-					$result = JApplicationHelper::_checkPath($path, -1);
+					$result = self::_checkPath($path, -1);
 				}
 				break;
 
 			case 'admin_html':
 				$path	= DS.'components'.DS. $user_option .DS.'admin.'. $name .'.html.php';
-				$result = JApplicationHelper::_checkPath($path, -1);
+				$result = self::_checkPath($path, -1);
 				break;
 
 			case 'admin_functions':
 				$path	= DS.'components'.DS. $user_option .DS. $name .'.functions.php';
-				$result = JApplicationHelper::_checkPath($path, -1);
+				$result = self::_checkPath($path, -1);
 				break;
 
 			case 'class':
-				if (!($result = JApplicationHelper::_checkPath(DS.'components'.DS. $user_option .DS. $name .'.class.php'))) {
-					$result = JApplicationHelper::_checkPath(DS.'includes'.DS. $name .'.php');
+				if (!($result = self::_checkPath(DS.'components'.DS. $user_option .DS. $name .'.class.php'))) {
+					$result = self::_checkPath(DS.'includes'.DS. $name .'.php');
 				}
 				break;
 
 			case 'helper':
 				$path	= DS.'components'.DS. $user_option .DS. $name .'.helper.php';
-				$result = JApplicationHelper::_checkPath($path);
+				$result = self::_checkPath($path);
 				break;
 
 			case 'com_xml':
 				$path 	= DS.'components'.DS. $user_option .DS. $name .'.xml';
-				$result = JApplicationHelper::_checkPath($path, 1);
+				$result = self::_checkPath($path, 1);
 				break;
 
 			case 'mod0_xml':
 				$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
-				$result = JApplicationHelper::_checkPath($path);
+				$result = self::_checkPath($path);
 				break;
 
 			case 'mod1_xml':
 				// admin modules
 				$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
-				$result = JApplicationHelper::_checkPath($path, -1);
+				$result = self::_checkPath($path, -1);
 				break;
 
 			case 'plg_xml':
@@ -182,22 +205,22 @@ class JApplicationHelper
 				$j15path 	= DS.'plugins'.DS. $user_option .'.xml';
 				$parts = explode(DS, $user_option);
 				$j16path   = DS.'plugins'.DS. $user_option.DS.$parts[1].'.xml';
-				$j15 = JApplicationHelper::_checkPath($j15path, 0);
-				$j16 = JApplicationHelper::_checkPath( $j16path, 0);
+				$j15 = self::_checkPath($j15path, 0);
+				$j16 = self::_checkPath( $j16path, 0);
 				// return 1.6 if working otherwise default to whatever 1.5 gives us
 				$result = $j16 ? $j16 : $j15;
 				break;
 
 			case 'menu_xml':
 				$path 	= DS.'components'.DS.'com_menus'.DS. $user_option .DS. $user_option .'.xml';
-				$result = JApplicationHelper::_checkPath($path, -1);
+				$result = self::_checkPath($path, -1);
 				break;
 		}
 
 		return $result;
 	}
 
-	function parseXMLInstallFile($path)
+	public static function parseXMLInstallFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
 		$xml = & JFactory::getXMLParser('Simple');
@@ -253,7 +276,7 @@ class JApplicationHelper
 		return $data;
 	}
 
-	function parseXMLLangMetaFile($path)
+	public static function parseXMLLangMetaFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
 		$xml = & JFactory::getXMLParser('Simple');
@@ -309,17 +332,18 @@ class JApplicationHelper
 	/**
 	 * Tries to find a file in the administrator or site areas
 	 *
-	 * @access private
 	 * @param string 	$parth			A file name
 	 * @param integer 	$checkAdmin		0 to check site only, 1 to check site and admin, -1 to check admin only
 	 * @since 1.5
 	 */
-	function _checkPath($path, $checkAdmin=1)
+	protected static function _checkPath($path, $checkAdmin=1)
 	{
 		$file = JPATH_SITE . $path;
 		if ($checkAdmin > -1 && file_exists($file)) {
 			return $file;
-		} else if ($checkAdmin != 0) {
+		}
+		else if ($checkAdmin != 0)
+		{
 			$file = JPATH_ADMINISTRATOR . $path;
 			if (file_exists($file)) {
 				return $file;

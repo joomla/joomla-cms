@@ -42,7 +42,7 @@ class WeblinksViewSubmit extends JView
 
 		if ($weblink->url) {
 			// redirects to url if matching id found
-			$mainframe->redirect($weblink->url);
+			$app->redirect($weblink->url);
 		}
 
 		parent::display($tpl);
@@ -50,15 +50,14 @@ class WeblinksViewSubmit extends JView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe;
-
 		// Get some objects from the JApplication
-		$pathway	= &$mainframe->getPathway();
+		$app	= &JFactory::getApplication();
+		$pathway	= &$app->getPathway();
 		$document	= &JFactory::getDocument();
 		$model		= &$this->getModel();
 		$user		= &JFactory::getUser();
 		$uri     	= &JFactory::getURI();
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->authorise('com_weblinks.submit')) {
@@ -76,7 +75,7 @@ class WeblinksViewSubmit extends JView
 		{
 			// Is this link checked out?  If not by me fail
 			//if ($model->isCheckedOut($user->get('id'))) {
-			//	$mainframe->redirect("index.php?option=$option", "The weblink $weblink->title is currently being edited by another administrator.");
+			//	$app->redirect("index.php?option=$option", "The weblink $weblink->title is currently being edited by another administrator.");
 			//}
 
 			// Set page title

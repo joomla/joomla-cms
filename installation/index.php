@@ -63,13 +63,13 @@ jimport('joomla.language.language');
 jimport('joomla.utilities.string');
 
 // Create the application object.
-$mainframe = & JFactory::getApplication('installation');
+$app = & JFactory::getApplication('installation');
 
 // Initialize the application.
-$mainframe->initialise();
+$app->initialise();
 
 // Render the document.
-$mainframe->render();
+$app->render();
 
 /**
  * RETURN THE RESPONSE

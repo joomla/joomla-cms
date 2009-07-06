@@ -30,8 +30,6 @@ class JToolBarHelper
 	*/
 	function title($title, $icon = 'generic.png')
 	{
-		global $mainframe;
-
 		//strip the extension
 		$icon	= preg_replace('#\.[^.]*$#', '', $icon);
 
@@ -39,7 +37,8 @@ class JToolBarHelper
 		$html .= "$title\n";
 		$html .= "</div>\n";
 
-		$mainframe->set('JComponentTitle', $html);
+		$app = &JFactory::getApplication();
+		$app->set('JComponentTitle', $html);
 	}
 
 	/**

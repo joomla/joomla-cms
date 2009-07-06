@@ -37,8 +37,6 @@ class InstallerModelUpdate extends InstallerModel
 
 	function _loadItems()
 	{
-		global $mainframe, $option;
-
 		jimport('joomla.filesystem.folder');
 
 		/* Get a database connector */
@@ -72,7 +70,8 @@ class InstallerModelUpdate extends InstallerModel
 		}
 	}
 
-	function findUpdates($eid=0) {
+	function findUpdates($eid=0)
+	{
 		$updater =& JUpdater::getInstance();
 		$results = $updater->findUpdates($eid);
 		return true;
@@ -105,8 +104,8 @@ class InstallerModelUpdate extends InstallerModel
 		}
 			$result = $res & $result;
 			// Set some model state values
-			global $mainframe;
-			$mainframe->enqueueMessage($msg);
+			$app	= &JFactory::getApplication();
+			$app->enqueueMessage($msg);
 			$this->setState('name', $update->get('name'));
 
 			$this->setState('message', $update->message);
