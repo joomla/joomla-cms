@@ -46,10 +46,14 @@ class MenusHelper
 	 *
 	 * @param	mixed	A link string or array of request variables.
 	 *
-	 * @return	A link in standard option-view-layout form.
+	 * @return	mixed	A link in standard option-view-layout form, or false if the supplied response is invalid.
 	 */
 	public static function getLinkKey($request)
 	{
+		if (empty($request)) {
+			return false;
+		}
+
 		// Check if the link is in the form of index.php?...
 		if (is_string($request))
 		{

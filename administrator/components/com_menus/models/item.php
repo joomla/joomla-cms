@@ -114,6 +114,7 @@ class MenusModelItem extends JModelForm
 			$table->parent_id	= $this->getState('item.parent_id');
 			$table->menutype	= $this->getState('item.menutype');
 			$table->type		= $this->getState('item.type');
+			$table->params		= '{}';
 		}
 
 		// If the link has been set in the state, possibly changing link type.
