@@ -304,7 +304,6 @@ class JDocumentHTML extends JDocument
 	function _loadTemplate($directory, $filename)
 	{
 //		$component	= JApplicationHelper::getComponentName();
-		$mainframe	= &JFactory::getApplication();
 
 		$contents = '';
 

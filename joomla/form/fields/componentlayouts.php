@@ -31,8 +31,6 @@ class JFormFieldComponentLayouts extends JFormFieldList
 	 */
 	protected function _getOptions()
 	{
-		global $mainframe;
-
 		$options	= array();
 		$path1		= null;
 		$path2		= null;

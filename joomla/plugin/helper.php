@@ -123,9 +123,6 @@ abstract class JPluginHelper
 			if (file_exists( $path ) || file_exists($legacypath))
 			{
 				$path = file_exists($path) ? $path : $legacypath;
-				//needed for backwards compatibility
-				// @todo if legacy ...
-				$mainframe = JFactory::getApplication();
 
 				jimport('joomla.plugin.plugin');
 				require_once $path;

@@ -110,11 +110,11 @@ class JCachePage extends JCache
 	 */
 	function _noChange()
 	{
-		global $mainframe;
+		$app = &JFactory::getApplication();
 
 		// Send not modified header and exit gracefully
 		header('HTTP/1.x 304 Not Modified', true);
-		$mainframe->close();
+		$app->close();
 	}
 
 	/**

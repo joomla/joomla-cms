@@ -33,11 +33,11 @@ class JUpdate extends JObject {
 	protected $category;
 	protected $relationships;
 	protected $targetplatform;
-	
+
 	private $_xml_parser;
 	private $_stack = Array('base');
 	private $_state_store = Array();
-	
+
 	/**
      * Gets the reference to the current direct parent
      *
@@ -47,23 +47,23 @@ class JUpdate extends JObject {
     {
             return implode('->', $this->_stack);
     }
-    
+
     /**
      * Get the last position in stack count
-     * 
+     *
      * @return string
      */
     protected function _getLastTag() {
     	return $this->_stack[count($this->_stack) - 1];
     }
-	
-    
+
+
     /**
      * XML Start Element callback
      * Note: This is public because it is called externally
      * @param object parser object
      * @param string name of the tag found
-     * @param array attributes of the tag 
+     * @param array attributes of the tag
      */
 	public function _startElement($parser, $name, $attrs = Array()) {
 		array_push($this->_stack, $name);
@@ -83,12 +83,12 @@ class JUpdate extends JObject {
 				$this->_current_update->$name->_data = '';
 				foreach($attrs as $key=>$data) {
 					$key = strtolower($key);
-					$this->_current_update->$name->$key = $data;	
+					$this->_current_update->$name->$key = $data;
 				}
 				break;
 		}
 	}
-	
+
 	/**
 	 * Callback for closing the element
 	 * Note: This is public because it is called externally
@@ -127,32 +127,32 @@ class JUpdate extends JObject {
 				break;
 		}
 	}
-	
+
 	/**
 	 * Character Parser Function
 	 * Note: This is public because its called externally
 	 */
 	public function _characterData($parser, $data) {
 		$tag = $this->_getLastTag();
-		//if(!isset($this->$tag->_data)) $this->$tag->_data = ''; 
+		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
 		//$this->$tag->_data .= $data;
 		// Throw the data for this item together
 		$tag = strtolower($tag);
 		$this->_current_update->$tag->_data .= $data;
 	}
-	
+
 	public function loadFromXML($url) {
 		if (!($fp = @fopen($url, "r"))) {
 			// TODO: Add a 'mark bad' setting here somehow
 		    JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Extension') .': '. JText::_('Could not open').' '. $url);
 		    return false;
 		}
-		
+
 		$this->xml_parser = xml_parser_create('');
 		xml_set_object($this->xml_parser, $this);
 		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
 		xml_set_character_data_handler($this->xml_parser, '_characterData');
-	
+
 		while ($data = fread($fp, 8192)) {
 		    if (!xml_parse($this->xml_parser, $data, feof($fp))) {
 		        die(sprintf("XML error: %s at line %d",
@@ -163,16 +163,17 @@ class JUpdate extends JObject {
 		xml_parser_free($this->xml_parser);
 		return true;
 	}
-	
-	public function install() {
-		global $mainframe;
+
+	public function install()
+	{
+		$app = &JFactory::getApplication();
 		if(isset($this->downloadurl->_data)) {
 			$url = $this->downloadurl->_data;
 		} else {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Invalid extension update'));
 			return false;
 		}
-		
+
 		jimport('joomla.installer.helper');
 		$p_file = JInstallerHelper::downloadPackage($url);
 
@@ -187,7 +188,7 @@ class JUpdate extends JObject {
 
 		// Unpack the downloaded package file
 		$package = JInstallerHelper::unpack($tmp_dest.DS.$p_file);
-		
+
 		// Get an installer instance
 		$installer =& JInstaller::getInstance();
 
@@ -203,8 +204,8 @@ class JUpdate extends JObject {
 		}
 
 		// Set some model state values
-		$mainframe->enqueueMessage($msg);
-		
+		$app->enqueueMessage($msg);
+
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
 		$this->setState('message', $installer->message);

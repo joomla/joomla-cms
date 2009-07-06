@@ -25,11 +25,11 @@ class JHelp
 	*/
 	function createURL($ref, $useComponent = false)
 	{
-		global $mainframe, $option;
-
+		$component		= JApplicationHelper::getComponentName();
+		$app			= &JFactory::getApplication();
 		$user			= &JFactory::getUser();
 		$userHelpUrl	= $user->getParam('helpsite');
-		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
+		$globalHelpUrl 	= $app->getCfg('helpurl');
 		$lang			= &JFactory::getLanguage();
 
 		if ($useComponent) {
@@ -37,7 +37,7 @@ class JHelp
 				$ref = $ref . '.html';
 			}
 
-			$url = 'components/' . $option. '/help';
+			$url = 'components/' . $component. '/help';
 			$tag =  $lang->getTag();
 
 			// Check if the file exists within a different language!

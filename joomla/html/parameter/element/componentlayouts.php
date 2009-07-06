@@ -28,8 +28,6 @@ class JElementComponentLayouts extends JElementList
 	 */
 	protected function _getOptions(&$node)
 	{
-		global $mainframe;
-
 		$options	= array();
 		$path1		= null;
 		$path2		= null;
