@@ -648,7 +648,7 @@ a img.calendar {
 /* -- LOGIN STYLES ----------------------------- */
 
 form  			{ margin: 0px; padding: 0px; }
-form .inputbox  { width: 120px; margin-left: 10px; }
+/*form .inputbox  { width: 120px; margin-left: 10px; }*/
 /*form br 	    { display: none; }*/
 .login          { margin: 0 auto; width: 500px; margin-bottom: 100px; }
 
