@@ -66,8 +66,8 @@ class ModMenuHelper
 
 		// Filter on the enabled states.
 		$query->leftJoin('#__extensions e ON c.option = e.element');
-		$query->where('e.enabled = 1');
-		$query->where('e.state > -1');
+		$query->where('((c.parent = 0 AND e.enabled = 1) OR c.parent > 0)');
+		$query->where('((c.parent = 0 AND e.state > -1) OR c.parent > 0)');
 
 		// Filter on the exclusions.
 		if (is_array($exclude) && !empty($exclude)) {
@@ -83,12 +83,13 @@ class ModMenuHelper
 		// Parse the list of extensions.
 		foreach ($components as &$component)
 		{
-			if ($authCheck == false || $user->authorize($component->option.'.manage'))
-			{
-				// Trim the menu link.
-				$component->admin_menu_link = trim($component->admin_menu_link);
+			// Trim the menu link.
+			$component->admin_menu_link = trim($component->admin_menu_link);
 
-				if ($component->parent == 0)
+			if ($component->parent == 0)
+			{
+				// Only add this top level if it is authorised and enabled.
+				if ($authCheck == false || $user->authorize($component->option.'.manage'))
 				{
 					// Root level.
 					$result[$component->id] = $component;
@@ -100,20 +101,21 @@ class ModMenuHelper
 					if (empty($component->admin_menu_link)) {
 						$component->admin_menu_link = 'index.php?option='.$component->option;
 					}
-				}
-				else
-				{
-					// Sub-menu level.
-					if (isset($result[$component->parent]))
-					{
-						// Add the submenu link if it is defined.
-						if (isset($result[$component->parent]->submenu) && !empty($component->admin_menu_link)) {
-							$result[$component->parent]->submenu[] = &$component;
-						}
+
+					if (!empty($component->option)) {
+						$langs[$component->option.'.menu'] = true;
 					}
 				}
-				if (!empty($component->option)) {
-					$langs[$component->option.'.menu'] = true;
+			}
+			else
+			{
+				// Sub-menu level.
+				if (isset($result[$component->parent]))
+				{
+					// Add the submenu link if it is defined.
+					if (isset($result[$component->parent]->submenu) && !empty($component->admin_menu_link)) {
+						$result[$component->parent]->submenu[] = &$component;
+					}
 				}
 			}
 		}

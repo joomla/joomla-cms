@@ -191,7 +191,7 @@ if ($enabled)
 			{
 				$key  = $component->option.'_'.str_replace(' ', '_', $sub->name);
 				$text = $lang->hasKey($key) ? JText::_($key) : $sub->name;
-				$menu->addChild(new JMenuNode($text, $component->admin_menu_link, $sub->admin_menu_img));
+				$menu->addChild(new JMenuNode($text, $sub->admin_menu_link, $sub->admin_menu_img));
 			}
 			$menu->getParent();
 		}
