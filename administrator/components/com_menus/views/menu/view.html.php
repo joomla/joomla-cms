@@ -52,10 +52,12 @@ class MenusViewMenu extends JView
 	protected function _setToolBar()
 	{
 		$isNew	= ($this->item->id == 0);
-		JToolBarHelper::title(JText::_($isNew ? 'Menus_Title_Add_Menu' : 'Menus_Title_Edit_Menu'));
+		JToolBarHelper::title(JText::_($isNew ? 'Menus_View_New_Menu_Title' : 'Menus_View_Edit_Menu_Title'));
 
 		JToolBarHelper::save('menu.save');
 		JToolBarHelper::apply('menu.apply');
 		JToolBarHelper::cancel('menu.cancel');
+		JToolBarHelper::divider();
+		JToolBarHelper::help('screen.menus.menu');
 	}
 }

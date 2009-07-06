@@ -2,7 +2,7 @@
 	<!-- $Id$ -->
 <form>
 	<fields
-		label="Menu_System_Options"
+		label="Menus_Linktype_Options_Label"
 		description="">
 
 		<field
