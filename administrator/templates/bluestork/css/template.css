@@ -148,7 +148,7 @@ textarea:focus { background-color: #ffd }
 /* #module-status { background: url(../images/mini_icon.png) 3px 5px no-repeat; } */
 .legacy-mode{ color: #c00;}
 
-#module-status .viewsite { background: url(../images/menu/icon-16-viewsite.png) 3px 3px no-repeat; }
+#module-status .viewsite { background: url(../images/menu/icon-16-viewsite.png) 3px 4px no-repeat; }
 #module-status .preview { background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat; }
 
 #module-status .unread-messages,

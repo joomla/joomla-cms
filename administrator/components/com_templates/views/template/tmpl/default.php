@@ -27,7 +27,7 @@
 			<td><?php
 			if($style->home)
 			{
-				echo '<img src="templates/khepri/images/menu/icon-16-default.png" alt="'.JText::_('Default').'" />';
+				echo '<img src="templates/bluestork/images/menu/icon-16-default.png" alt="'.JText::_('Default').'" />';
 			} else {
 				echo '<a href="'.JRoute::_('index.php?option=com_templates&task=setdefault&id='.$style->id).'">default</a>';
 			} ?></td>

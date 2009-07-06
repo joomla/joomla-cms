@@ -35,12 +35,12 @@
 			<option value="1">Yes</option>
 		</param>
 		
-		<param name="textBig" type="radio" default="0" label="Bigger Text" description="Turn on to increase size of text.">
+		<param name="textBig" type="radio" default="0" label="Bigger Text" description="Turn on to increase size of text">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
 		
-		<param name="highContrast" type="radio" default="0" label="High Contrast" description="Turn on to create high-contrast">
+		<param name="highContrast" type="radio" default="0" label="High Contrast" description="Turn on for high-contrast version">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>

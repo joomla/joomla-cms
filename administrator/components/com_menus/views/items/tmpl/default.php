@@ -95,7 +95,7 @@ $userId	= $user->get('id');
 				</td>
 				<td style="padding-left:<?php echo intval(($item->level-1)*15)+4; ?>px">
 					<?php if ($item->home == 1) : ?>
-						<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" title="<?php echo JText::_('Default'); ?>" />
+						<img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" title="<?php echo JText::_('Default'); ?>" />
 					<?php endif; ?>
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>

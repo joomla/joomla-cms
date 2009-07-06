@@ -91,7 +91,7 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 				<?php
 				if ($row->home == 1) {
 				?>
-					<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_('Published'); ?>" />
+					<img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Published'); ?>" />
 				<?php
 				} else {
 				?>
