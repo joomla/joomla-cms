@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 06-Jul-2009 Andrew Eddie
  # [#17103] Missing JText::_ in administrator/components/com_admin/helpers/html/directory.php
+ ^ Change component configuration files from params to fields.
 
 05-Jul-2009 Gergo Erdosi
  ^ Replaced mod_status with its refactored version.

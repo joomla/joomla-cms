@@ -292,6 +292,4 @@
 			description="Content_Attribs_Filter_Attributes_Desc"
 			default="" />
 	</fields>
-
-
 </config>

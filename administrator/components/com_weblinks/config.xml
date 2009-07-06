@@ -1,42 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<params>
-		<param name="show_comp_description" type="radio" default="1" label="Description" description="Show/Hide the Description below">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+		<param
+			name="show_comp_description"
+			type="radio"
+			default="1"
+			label="Description"
+			description="Show/Hide the Description below">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
 		</param>
-		<param name="comp_description" type="textarea" default="" label="Weblinks Intro" rows="3" cols="50" description="WEBLINKS_INTRO_DESC" />
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="show_link_hits" type="radio" default="1" label="Hits" description="TIPIFSETTOSHOWHITS">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+
+		<param
+			name="comp_description"
+			type="textarea"
+			default=""
+			label="Weblinks Intro"
+			rows="3"
+			cols="50"
+			description="WEBLINKS_INTRO_DESC" />
+
+		<param
+			type="spacer" />
+
+		<param
+			name="show_link_hits"
+			type="radio"
+			default="1"
+			label="Hits"
+			description="TIPIFSETTOSHOWHITS">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
 		</param>
-		<param name="show_link_description" type="radio" default="1" label="Link Descriptions" description="PARAMSHOWHIDELINKS">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+
+		<param
+			name="show_link_description"
+			type="radio"
+			default="1"
+			label="Link Descriptions"
+			description="PARAMSHOWHIDELINKS">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
 		</param>
-		<param name="show_other_cats" type="radio" default="1" label="Other Categories" description="PARAMWHENVIEWCAT">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+
+		<param
+			name="show_other_cats"
+			type="radio"
+			default="1"
+			label="Other Categories"
+			description="PARAMWHENVIEWCAT">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
 		</param>
-		<param name="show_headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+
+		<param
+			name="show_headings"
+			type="radio"
+			default="1"
+			label="Table Headings"
+			description="Show/Hide the Table Headings">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
 		</param>
-		<param name="show_numbers" type="radio" default="1" label="Item Numbers" description="Show/Hide the Item Numbers">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+
+		<param
+			name="show_numbers"
+			type="radio"
+			default="1"
+			label="Item Numbers"
+			description="Show/Hide the Item Numbers">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
 		</param>
-		<param name="show_report" type="radio" default="1" label="Report Link" description="Show/Hide the Report Bad Link option">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+
+		<param
+			name="show_report"
+			type="radio"
+			default="1"
+			label="Report Link"
+			description="Show/Hide the Report Bad Link option">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
 		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="target" type="list" default="0" label="Target" description="Target window when the link is clicked">
-			<option value="0">Parent Window With Browser Navigation</option>
-			<option value="1">New Window With Browser Navigation</option>
-			<option value="2">New Window Without Browser Navigation</option>
+
+		<param
+			type="spacer" />
+
+		<param
+			name="target"
+			type="list"
+			default="0"
+			label="Target"
+			description="Target window when the link is clicked">
+			<option
+				value="0">Parent Window With Browser Navigation</option>
+			<option
+				value="1">New Window With Browser Navigation</option>
+			<option
+				value="2">New Window Without Browser Navigation</option>
 		</param>
-		<param name="link_icons" type="imagelist" directory="/images/M_images" default="" label="Icon" description="PARAMICONIMG" />
+		<param
+			name="link_icons"
+			type="imagelist"
+			directory="/images/M_images"
+			default=""
+			label="Icon"
+			description="PARAMICONIMG" />
 	</params>
 </config>
