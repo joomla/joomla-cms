@@ -12,7 +12,8 @@
 		array="true"
 		label="Menus_Layout_Request_Variables_Label"
 		description="Menus_Layout_Request_Variables_Desc"
-		addpath="/administrator/components/com_contact/models/fields">
+		addfieldpath="/administrator/components/com_contact/models/fields">
+
 		<field
 			name="id"
 			type="contact"

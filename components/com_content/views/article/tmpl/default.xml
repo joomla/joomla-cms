@@ -12,7 +12,7 @@
 		array="true"
 		label="Menus_Layout_Request_Variables_Label"
 		description="Menus_Layout_Request_Variables_Desc"
-		addpath="/administrator/components/com_content/models/fields">
+		addfieldpath="/administrator/components/com_content/models/fields">
 
 		<field
 			name="id"
