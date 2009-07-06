@@ -202,7 +202,8 @@
 	<fields
 		group="categories"
 		label="Content_Config_Category_Settings_Label"
-		description="Content_Config_Category_Settings_Desc">
+		description="Content_Config_Category_Settings_Desc"
+		hidden="true">
 
 		<field
 			name="feed_summary"
@@ -220,7 +221,8 @@
 	<fields
 		group="integration"
 		label="Content_Config_Integration_Settings_Label"
-		description="Content_Config_Integration_Settings_Desc">
+		description="Content_Config_Integration_Settings_Desc"
+		hidden="true">
 
 		<field
 			name="article-allow_ratings"
@@ -250,7 +252,8 @@
 	<fields
 		group="filters"
 		label="Content_Config_Text_Filters_Label"
-		description="Content_Config_Text_Filters_Desc">
+		description="Content_Config_Text_Filters_Desc"
+		hidden="true">
 
 		<field
 			name="filter_groups"
@@ -259,16 +262,14 @@
 			description="Content_Attribs_Filter_Groups_Desc"
 			multiple="true"
 			size="10"
-			default=""
-			menu="hide" />
+			default="" />
 
 		<field
 			name="filter_type"
 			type="radio"
 			label="Content_Attribs_Filter_Type_Label"
 			description="Content_Attribs_Filter_Type_Desc"
-			default=""
-			menu="hide">
+			default="">
 			<option
 				value="BL">Content_Option_Black_List</option>
 			<option
@@ -282,16 +283,14 @@
 			type="text"
 			label="Content_Attribs_Filter_Tags_Label"
 			description="Content_Attribs_Filter_Tags_Desc"
-			default=""
-			menu="hide" />
+			default="" />
 
 		<field
 			name="filter_attritbutes"
 			type="text"
 			label="Content_Attribs_Filter_Attributes_Label"
 			description="Content_Attribs_Filter_Attributes_Desc"
-			default=""
-			menu="hide" />
+			default="" />
 	</fields>
 
 
