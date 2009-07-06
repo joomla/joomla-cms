@@ -118,6 +118,11 @@ class ModMenuHelper
 					}
 				}
 			}
+
+			// Check that index.php prefixes the link.
+			if (strpos($component->admin_menu_link, 'index.php') === false && strpos($component->admin_menu_link, 'http') === false) {
+				$component->admin_menu_link = 'index.php?'.$component->admin_menu_link;
+			}
 		}
 
 		// Load additional language files.
