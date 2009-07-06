@@ -15,8 +15,13 @@ $pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
 echo $pane->startPane('content-pane');
 	$fieldSets = $this->paramsform->getFieldsets();
 	foreach ($fieldSets as $name => $fieldSet) :
+		if (isset($fieldSet['hidden']) && $fieldSet['hidden'] == true) :
+			continue;
+		endif;
+
 		$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
 		echo $pane->startPanel(JText::_($label), 'publishing-details');
+
 		if (isset($fieldSet['description'])) :
 			echo '<p class="tip" style="float:right;">'.JText::_($fieldSet['description']).'</p>';
 		endif;
@@ -24,7 +29,7 @@ echo $pane->startPane('content-pane');
 <table class="admintable">
 	<tbody>
 		<?php
-		foreach ($this->paramsform->getFields($name) as $field):
+		foreach ($this->paramsform->getFields($name) as $field) :
 		?>
 		<tr>
 			<td width="185" class="key">

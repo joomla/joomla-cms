@@ -39,7 +39,7 @@
 			description="Menus_Item_Link_Desc"
 			default=""
 			class="inputbox"
-			size="40"/>
+			size="60"/>
 
 		<field
 			id="menutype"

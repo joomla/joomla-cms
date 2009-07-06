@@ -2,7 +2,6 @@
 	<!-- $Id$ -->
 <form>
 	<fields
-		array="true"
 		label="Menu_System_Options"
 		description="">
 

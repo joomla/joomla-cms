@@ -188,7 +188,7 @@ class MenusControllerItem extends JController
 
 			// Reset the ID and then treat the request as for Apply.
 			$iData['id']	= 0;
-			$task		= 'apply';
+			$task			= 'apply';
 		}
 
 		// Validate the posted data.
@@ -200,20 +200,28 @@ class MenusControllerItem extends JController
 		}
 		$iData	= $model->validate($itemForm, $iData);
 
-		$paramsForm	= &$model->getParamsForm($iData['type']);
+		$paramsForm	= &$model->getParamsForm($iData['type'], $iData['link']);
 		if (!$paramsForm) {
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
 		$pData	= $model->validate($paramsForm, $pData);
 
-		// Params are validated so add them to the item data.
-		$iData['params'] = array();
+		// Check for the special 'request' entry.
+		if ($iData['type'] == 'component' && isset($pData['request']) && is_array($pData['request']) && !empty($pData['request']))
+		{
+			// Parse the submitted link arguments.
+			$args = array();
+			parse_str(parse_url($iData['link'], PHP_URL_QUERY), $args);
 
-		// The array is in groups to we need to flatten it.
-		foreach ($pData as $group => $params) {
-			$iData['params'] = array_merge($iData['params'], $params);
+			// Merge in the user supplied request arguments.
+			$args = array_merge($args, $pData['request']);
+			$iData['link'] = 'index.php?'.http_build_query($args);
+			unset($pData['request']);
 		}
+
+		// Params are validated so add them to the item data.
+		$iData['params'] = $pData;
 
 		// Push the menu id map back into the array
 		$iData['map'] = &$map;

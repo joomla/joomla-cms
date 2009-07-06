@@ -8,8 +8,10 @@
 // No direct access
 defined('_JEXEC') or die;
 
+// Include dependancies.
 jimport('joomla.application.component.modelform');
 jimport('joomla.database.query');
+require_once JPATH_COMPONENT.DS.'helpers'.DS.'menus.php';
 
 /**
  * Menu Item Model for Menus.
@@ -114,8 +116,13 @@ class MenusModelItem extends JModelForm
 			$table->type		= $this->getState('item.type');
 		}
 
-		if ($link = $this->getState('item.link')) {
-			$table->link = $link;
+		// If the link has been set in the state, possibly changing link type.
+		if ($link = $this->getState('item.link'))
+		{
+			// Check if we are changing away from the actual link type.
+			if (MenusHelper::getLinkKey($table->link) != MenusHelper::getLinkKey($link)) {
+				$table->link = $link;
+			}
 		}
 
 		switch ($table->type)
@@ -163,6 +170,15 @@ class MenusModelItem extends JModelForm
 		// Convert the params field to an array.
 		$table->params = json_decode($table->params, true);
 
+		// Merge the request arguments in to the params for a component.
+		if ($table->type == 'component')
+		{
+			// Note that all request arguments become reserved parameter names.
+			$args = array();
+			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+			$table->params = array_merge($table->params, $args);
+		}
+
 		$result = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
 		return $result;
@@ -200,38 +216,134 @@ class MenusModelItem extends JModelForm
 	}
 
 	/**
-	 * Method to get a form object.
+	 * Method to get a form object for the menu item params.
+	 *
+	 * This is one of the most complicated aspects of the menu item.
+	 * If it's an alias, a separator or URL, we just need a simple form for the extra params.
+	 * If it's a component, we need to look first for layout, view and component form data.
+	 * Then we need to add the component configuration if it's available. Note that hidden fieldset groups
+	 * with not display in the menu edit form.
 	 *
 	 * @param	string		An optional type (component, url, alias or separator).
+	 * @param	string		An optional link
 	 *
 	 * @return	mixed		A JForm object on success, false on failure.
 	 * @since	1.6
 	 */
-	public function getParamsForm($type = null)
+	public function getParamsForm($type = null, $link = null)
 	{
-		jimport('joomla.form.form');
+		jimport('joomla.filesystem.file');
 
+		// Initialise variables.
+		$form			= null;
+		$formFile		= null;
+		$formName		= 'com_menus.item.params';
+		$formOptions	= array('array' => 'jformparams', 'event' => 'onPrepareForm');
+
+		// Determine the link type.
 		if (empty($type)) {
 			$type = $this->getState('item.type');
 		}
 
-		// Get the form.
-		$form = parent::getForm('item_'.$type, 'com_menus.item.params', array('array' => 'jformparams', 'event' => 'onPrepareForm'), true);
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
-			return false;
+		if (empty($link))
+		{
+			// If the link not supplied, try to load it.
+			if ($item = &$this->getItem()) {
+				$link = $item->link;
+			}
 		}
 
-		//if ($item = &$this->getItem())
-		//{
-		//}
+		// Initialise form with component view params if available.
+		if ($type == 'component')
+		{
+			// Parse the link arguments.
+			$args = array();
+			parse_str(parse_url($link, PHP_URL_QUERY), $args);
+
+			// Confirm that the option is defined.
+			if (isset($args['option']))
+			{
+				// The option determines the base path to work with.
+				$option = $args['option'];
+				$base	= JPATH_SITE.DS.'components'.DS.$option;
+
+				// Confirm a view is defined.
+				if (isset($args['view']))
+				{
+					$view = $args['view'];
+
+					// Determine the layout to search for.
+					if (isset($args['layout'])) {
+						$layout = $args['layout'];
+					}
+					else {
+						$layout = 'default';
+					}
+
+					// Check for the layout XML file.
+					$path = JPath::clean($base.DS.'views'.DS.$view.DS.'tmpl'.DS.$layout.'.xml');
+					if (JFile::exists($path)) {
+						$formFile = $path;
+					}
+
+					// TODO: Now check for a view manifest file
+					// TODO: Now check for a component manifest file
+				}
+			}
+
+			if ($formFile)
+			{
+				// If an XML file was found in the component, load it first.
+				// We need to qualify the full path to avoid collisions with component file names.
+				$form = parent::getForm($formFile, $formName, $formOptions, true);
+
+				// Check for an error.
+				if (JError::isError($form)) {
+					$this->setError($form->getMessage());
+					return false;
+				}
+			}
+
+			// Now load the component params.
+			$path = JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'config.xml');
+			if (JFile::exists($path))
+			{
+				if (empty($form))
+				{
+					// It's possible the form hasn't been defined yet.
+					$form = parent::getForm($path, $formName, $formOptions, true);
+
+					// Check for an error.
+					if (JError::isError($form)) {
+						$this->setError($form->getMessage());
+						return false;
+					}
+				}
+				else
+				{
+					// Add the component params last of all to the existing form.
+					$form->load($path, true, false);
+				}
+			}
+		}
+
+		// If no component file found, or not a component, create the form.
+		if (empty($form))
+		{
+			$form = parent::getForm('item_'.$type, $formName, $formOptions, true);
+
+			// Check for an error.
+			if (JError::isError($form)) {
+				$this->setError($form->getMessage());
+				return false;
+			}
+		}
+		else {
+			$form->load('item_'.$type, true, false);
+		}
 
 		return $form;
 	}
-
-
 
 	/**
 	 * Get the list of modules not in trash.
