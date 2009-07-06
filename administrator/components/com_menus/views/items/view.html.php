@@ -87,7 +87,6 @@ class MenusViewItems extends JView
 		JToolBarHelper::custom('item.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
 
 		JToolBarHelper::divider();
-		JToolBarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'Menus_Toolbar_Rebuild', false);
 		JToolBarHelper::help('screen.menus.items');
 	}
 }

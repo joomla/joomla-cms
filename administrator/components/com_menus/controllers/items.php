@@ -147,31 +147,4 @@ class MenusControllerItems extends JController
 			return true;
 		}
 	}
-
-	/**
-	 * Rebuild the menu tree.
-	 *
-	 * @return	bool	False on failure or error, true on success.
-	 */
-	public function rebuild()
-	{
-		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
-
-		$this->setRedirect('index.php?option=com_menus&view=items');
-
-		// Initialize variables.
-		$model = &$this->getModel();
-
-		if ($model->rebuild())
-		{
-			// Reorder succeeded.
-			$this->setMessage(JText::_('Menus_Rebuild_success'));
-			return true;
-		}
-		else {
-			// Rebuild failed.
-			$this->setMessage(JText::sprintf('Menus_Rebuild_failed', $model->getMessage()));
-			return false;
-		}
-	}
 }

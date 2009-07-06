@@ -56,6 +56,7 @@ class MenusViewMenus extends JView
 		JToolBarHelper::custom('menu.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
 		JToolBarHelper::deleteList('', 'menus.delete');
 		JToolBarHelper::divider();
+		JToolBarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'Menus_Toolbar_Rebuild', false);
 		JToolBarHelper::help('screen.menus.menus');
 	}
 }
