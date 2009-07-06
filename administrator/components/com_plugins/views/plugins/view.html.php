@@ -31,21 +31,20 @@ class PluginsViewPlugins extends JView
 
 	function display( $tpl = null )
 	{
-		global $mainframe, $option;
-
-		$db =& JFactory::getDBO();
+		$app	= &JFactory::getApplication();
+		$db		=& JFactory::getDBO();
 
 		$client = JRequest::getWord( 'filter_client', 'site' );
 
-		$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order",		'filter_order',		'p.folder',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'',			'word' );
-		$filter_state		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state",		'filter_state',		'',			'word' );
-		$filter_type		= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 		'filter_type',		1,			'cmd' );
-		$search				= $mainframe->getUserStateFromRequest( "$option.$client.search",			'search',			'',			'string' );
+		$filter_order		= $app->getUserStateFromRequest( "com_plugins.$client.filter_order",		'filter_order',		'p.folder',	'cmd' );
+		$filter_order_Dir	= $app->getUserStateFromRequest( "com_plugins.$client.filter_order_Dir",	'filter_order_Dir',	'',			'word' );
+		$filter_state		= $app->getUserStateFromRequest( "com_plugins.$client.filter_state",		'filter_state',		'',			'word' );
+		$filter_type		= $app->getUserStateFromRequest( "com_plugins.$client.filter_type", 		'filter_type',		1,			'cmd' );
+		$search				= $app->getUserStateFromRequest( "com_plugins.$client.search",			'search',			'',			'string' );
 		$search				= JString::strtolower( $search );
 
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
+		$limit		= $app->getUserStateFromRequest( 'global.list.limit', 'limit', $app->getCfg('list_limit'), 'int' );
+		$limitstart	= $app->getUserStateFromRequest( 'com_plugins.limitstart', 'limitstart', 0, 'int' );
 
 		$where = '';
 		if ($client == 'admin') {
@@ -70,7 +69,7 @@ class PluginsViewPlugins extends JView
 				$where[] = 'p.enabled = 0';
 			}
 		}
-		
+
 		$where[] = 'type = "plugin"';
 		$where[] = 'state > -1';
 

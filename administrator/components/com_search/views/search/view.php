@@ -21,7 +21,7 @@ class SearchViewSearch extends JView
 {
 	function display($tpl=null)
 	{
-		global $mainframe;
+		$app	= &JFactory::getApplication();
 
 		JToolBarHelper::title(JText::_('Search Statistics'), 'searchtext.png');
 		JToolBarHelper::custom('reset', 'delete.png', 'delete_f2.png', 'Reset', false);
@@ -31,8 +31,8 @@ class SearchViewSearch extends JView
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('Search Statistics'));
 
-		$limit 		= $mainframe->getUserStateFromRequest('global.list.limit',	'limit', $mainframe->getCfg('list_limit'), 'int');
-		$limitstart	= $mainframe->getUserStateFromRequest('com_search.limitstart', 'limitstart', 0, 'int');
+		$limit 		= $app->getUserStateFromRequest('global.list.limit',	'limit', $app->getCfg('list_limit'), 'int');
+		$limitstart	= $app->getUserStateFromRequest('com_search.limitstart', 'limitstart', 0, 'int');
 
 		$model = $this->getModel();
 		$items = $model->getItems();
@@ -44,7 +44,7 @@ class SearchViewSearch extends JView
 
 		$showResults	= JRequest::getInt('search_results');
 
-		$search 		= $mainframe->getUserStateFromRequest('com_search.search', 'search', '', 'string');
+		$search 		= $app->getUserStateFromRequest('com_search.search', 'search', '', 'string');
 
 		$this->assignRef('items', 	$items);
 		$this->assignRef('enabled', $enabled);

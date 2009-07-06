@@ -71,8 +71,6 @@ class SearchHelper
 
 	function logSearch($search_term)
 	{
-		global $mainframe;
-
 		$db = &JFactory::getDbo();
 
 		$params = &JComponentHelper::getParams('com_search');

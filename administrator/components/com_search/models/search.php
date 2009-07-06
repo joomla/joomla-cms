@@ -39,14 +39,14 @@ class SearchModelSearch extends JModel
 
 	function getItems()
 	{
-		global $mainframe, $option;
-		$db	= &JFactory::getDbo();
+		$app	= &JFactory::getApplication();
+		$db		= &JFactory::getDbo();
 
-		$filter_order		= $mainframe->getUserStateFromRequest('com_search.filter_order',		'filter_order',		'hits', 'cmd');
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest('com_search.filter_order_Dir',	'filter_order_Dir',	'',		'word');
-		$limit				= $mainframe->getUserStateFromRequest('global.list.limit',				'limit',			$mainframe->getCfg('list_limit'), 'int');
-		$limitstart			= $mainframe->getUserStateFromRequest('com_search.limitstart',			'limitstart',		0,		'int');
-		$search				= $mainframe->getUserStateFromRequest('com_search.search',				'search',			'',		'string');
+		$filter_order		= $app->getUserStateFromRequest('com_search.filter_order',		'filter_order',		'hits', 'cmd');
+		$filter_order_Dir	= $app->getUserStateFromRequest('com_search.filter_order_Dir',	'filter_order_Dir',	'',		'word');
+		$limit				= $app->getUserStateFromRequest('global.list.limit',				'limit',			$app->getCfg('list_limit'), 'int');
+		$limitstart			= $app->getUserStateFromRequest('com_search.limitstart',			'limitstart',		0,		'int');
+		$search				= $app->getUserStateFromRequest('com_search.search',				'search',			'',		'string');
 		$search				= JString::strtolower($search);
 		$showResults		= JRequest::getInt('search_results');
 
@@ -99,7 +99,7 @@ class SearchModelSearch extends JModel
 			// determine if number of results for search item should be calculated
 			// by default it is `off` as it is highly query intensive
 			if ($showResults) {
-				$results = $mainframe->triggerEvent('onSearch', array($rows[$i]->search_term));
+				$results = $app->triggerEvent('onSearch', array($rows[$i]->search_term));
 
 				$count = 0;
 				for ($j = 0, $n2 = count($results); $j < $n2; $j++) {
