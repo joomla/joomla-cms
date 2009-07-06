@@ -7,6 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
+
 /**
  * Utility class working with directory
  *
@@ -17,7 +18,7 @@ defined('_JEXEC') or die;
 abstract class JHtmlDirectory
 {
 	/**
-	 * method to generate a (un)writable message for directory
+	 * Method to generate a (un)writable message for directory
 	 *
 	 * @param	boolean	$writable is the directory writable?
 	 *
@@ -34,7 +35,7 @@ abstract class JHtmlDirectory
 	}
 
 	/**
-	 * method to generate a message for a directory
+	 * Method to generate a message for a directory
 	 *
 	 * @param	string	$dir the directory
 	 * @param	boolean	$message the message
@@ -42,7 +43,7 @@ abstract class JHtmlDirectory
 	 *
 	 * @return	string	html code
 	 */
-	public static function message($dir,$message,$visible=true)
+	public static function message($dir, $message, $visible=true)
 	{
 		if ($visible) {
 			$output = $dir;
@@ -54,7 +55,7 @@ abstract class JHtmlDirectory
 			return $output;
 		}
 		else {
-			return $output.' <strong>'.$message.'</strong';
+			return $output.' <strong>'.JText::_($message).'</strong>';
 		}
 	}
 }
