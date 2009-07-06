@@ -33,6 +33,7 @@ $ -> Language fix or change
  ^ Make view/layout labels consistent and convert XML from params to fields.
  ^ Refactored instances of global $mainframe.
  ^ Moved the milkyway overrides out of the way for the time being (too many errors to fix).
+ + Added JApplicationHelper::getComponentName from experimental branch.
 
 05-Jul-2009 Gergo Erdosi
  ^ Replaced mod_status with its refactored version.
