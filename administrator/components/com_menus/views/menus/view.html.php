@@ -50,7 +50,7 @@ class MenusViewMenus extends JView
 	 */
 	protected function _setToolBar()
 	{
-		JToolBarHelper::title(JText::_('Menus_View_Menus_Title'));
+		JToolBarHelper::title(JText::_('Menus_View_Menus_Title'), 'menumgr.png');
 
 		JToolBarHelper::custom('menu.add', 'new.png', 'new_f2.png', 'New', false);
 		JToolBarHelper::custom('menu.edit', 'edit.png', 'edit_f2.png', 'Edit', true);

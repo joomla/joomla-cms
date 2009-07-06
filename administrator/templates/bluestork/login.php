@@ -46,7 +46,7 @@ $app = &JFactory::getApplication();
 </script>
 </head>
 <body onload="javascript:setFocus()">
-	<div id="border-top" class="<?php echo $this->params->get('headerColor','green');?>">
+	<div id="border-top" class="h_blue">
 		<div>
 			<div>
 				<span class="title"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') : JText::_('Administration'); ?></span>

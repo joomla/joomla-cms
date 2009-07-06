@@ -59,7 +59,7 @@ $app	= &JFactory::getApplication();
 
 </head>
 <body id="minwidth-body">
-	<div id="border-top" class="<?php echo $this->params->get('headerColor','blue');?>">
+	<div id="border-top" class="h_blue">
 		<div>
 			<div>
 				<span class="logo"><img src="templates/<?php echo  $this->template ?>/images/logo.png" alt="Joomla!" /></span>

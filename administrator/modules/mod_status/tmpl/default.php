@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 $output = array();
 
 // Print the Preview link to Main site.
-	$output[] = "<span class=\"preview\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
+	$output[] = "<span class=\"viewsite\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('View site')."</a></span>";
 
 //  Print the inbox message.
 	$output[] = "<span class=\"$inboxClass\"><a href=\"$inboxLink\">". $unread . " " . JText::_('Msgs'). "</a></span>";

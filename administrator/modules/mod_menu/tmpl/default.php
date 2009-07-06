@@ -79,7 +79,7 @@ if ($com || $chm || $cam )
 
 	$menu->addSeparator();
 		$menu->addChild(
-		new JMenuNode(JText::_('System Info'), 'index.php?option=com_admin&view=sysinfo', 'class:info')
+		new JMenuNode(JText::_('System Information'), 'index.php?option=com_admin&view=sysinfo', 'class:info')
 	);
 	$menu->addSeparator();
 

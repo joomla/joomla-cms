@@ -246,3 +246,17 @@ div#element-box div.b div.b div.b {
 .mooTree_selected {
 	background-color:#999999 !important;
 }
+
+/* System Standard Messages */
+#system-message dd.message ul { background: #000 url(../images/notice-info.png) 4px center no-repeat;}
+
+/* System Error Messages */
+#system-message dd.error ul { color: #fff; background: #000 url(../images/notice-alert.png) 4px top no-repeat; border-top: 3px solid #666; border-bottom: 3px solid #666;}
+
+/* System Notice Messages */
+#system-message dd.notice ul { color: #fff; background: #000 url(../images/notice-note.png) 4px top no-repeat; border-top: 3px solid #666; border-bottom: 3px solid #666;}
+
+#system-message dd ul {
+	color:#fff;
+
+}

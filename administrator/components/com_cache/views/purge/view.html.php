@@ -32,7 +32,7 @@ class CacheViewPurge extends JView
 	{
 		JSubMenuHelper::addEntry(JText::_('Back to Clean Cache Admin'), 'index.php?option=com_cache', false);
 
-		JToolBarHelper::title(JText::_('Cache Manager - Purge Cache Admin'), 'checkin.png');
+		JToolBarHelper::title(JText::_('Cache Manager - Purge Cache Admin'), 'purge.png');
 		JToolBarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'Purge expired', false);
 		JToolBarHelper::help('screen.cache');
 	}

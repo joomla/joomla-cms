@@ -71,7 +71,7 @@ class MenusViewItems extends JView
 	 */
 	protected function _setToolbar()
 	{
-		JToolBarHelper::title(JText::_('Menus_View_Items_Title'));
+		JToolBarHelper::title(JText::_('Menus_View_Items_Title'), 'menu.png');
 
 		JToolBarHelper::custom('items.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 		JToolBarHelper::custom('items.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
