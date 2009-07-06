@@ -6,24 +6,11 @@
 			<![CDATA[com_content_categories_view_default_desc]]>
 		</message>
 	</layout>
-	<fields
-		group="url"
-		array="true"
-		label="URL"
-		description="URL Desc">
-
-		<field
-			name="test"
-			type="text"
-			label="Testing"
-			description="foobar"
-			default="" />
-	</fields>
 	
 	<fields
 		group="basic"
-		label="Basic"
-		description="Basic Stuff">
+		label="Menus_Layout_Basic_Options_Label"
+		description="">
 
 		<field
 			name="test2"

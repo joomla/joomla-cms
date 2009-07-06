@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Archived Article List Layout">
+	<layout
+		title="com_content_archive_view_default_title">
 		<message>
-			<![CDATA[ARCHIVED ARTICLE LIST LAYOUT DESC]]>
+			<![CDATA[com_content_archive_view_default_desc]]>
 		</message>
 	</layout>
-	<state>
-		<name>Archived Article List Layout</name>
-		<description>ARCHIVED ARTICLE LIST LAYOUT DESC</description>
-		<params>
-			<param name="orderby" type="list" default="" label="Order by" description="PARAMORDERBY">
-				<option value="">Default</option>
-				<option value="date">Oldest first</option>
-				<option value="rdate">Most recent first</option>
-				<option value="alpha">Title Alphabetical</option>
-				<option value="ralpha">Title Reverse-Alphabetical</option>
-				<option value="author">Author Alphabetical</option>
-				<option value="rauthor">Author Reverse-Alphabetical</option>
-				<option value="hits">Most Hits</option>
-				<option value="rhits">Least Hits</option>
-				<option value="order">Ordering</option>
-			</param>
-		</params>
-	</state>
+
+	<fields
+		group="basic"
+		label="Menus_Layout_Basic_Options_Label"
+		description="">
+
+		<field
+			name="orderby"
+			type="list"
+			default=""
+			label="Order by"
+			description="fieldORDERBY">
+			<option
+				value="">Default</option>
+			<option
+				value="date">Oldest first</option>
+			<option
+				value="rdate">Most recent first</option>
+			<option
+				value="alpha">Title Alphabetical</option>
+			<option
+				value="ralpha">Title Reverse-Alphabetical</option>
+			<option
+				value="author">Author Alphabetical</option>
+			<option
+				value="rauthor">Author Reverse-Alphabetical</option>
+			<option
+				value="hits">Most Hits</option>
+			<option
+				value="rhits">Least Hits</option>
+			<option
+				value="order">Ordering</option>
+		</field>
+	</fields>
 </metadata>

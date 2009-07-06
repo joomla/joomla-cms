@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="NEWSFEED SINGLE LAYOUT">
+	<layout
+		title="com_newsfeeds_newsfeed_view_default_title">
 		<message>
-			<![CDATA[NEWSFEED SINGLE LAYOUT DESC]]>
+			<![CDATA[com_newsfeeds_newsfeed_view_default_desc]]>
 		</message>
 	</layout>
-	<state>
-		<name>Newsfeed Layout</name>
-		<description>NEWSFEED SINGLE LAYOUT DESC</description>
-		<url addpath="/administrator/components/com_newsfeeds/elements">
-			<param name="id" type="newsfeed" default="0" label="Feed" description="A feed" />
-		</url>
-		<params>
-		</params>
-	</state>
+
+	<fields
+		group="request"
+		array="true"
+		label="Menus_Layout_Request_Variables_Label"
+		description="Menus_Layout_Request_Variables_Desc"
+		addpath="/administrator/components/com_newsfeeds/models/fields">
+		<field
+			name="id"
+			type="newsfeed"
+			default="0"
+			label="Feed"
+			description="A feed" />
+	</fields>
 </metadata>

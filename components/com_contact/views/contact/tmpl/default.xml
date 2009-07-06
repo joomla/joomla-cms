@@ -1,26 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
+	<!-- $Id$ -->
 <metadata>
-	<layout title="Standard Contact Layout">
+	<layout
+		title="com_contact_contact_view_default_title">
 		<message>
-			<![CDATA[STANDARD CONTACT LAYOUT DESC]]>
+			<![CDATA[com_contact_contact_view_default_desc]]>
 		</message>
 	</layout>
-	<state>
-		<name>Standard Contact Layout</name>
-		<description>STANDARD CONTACT LAYOUT DESC</description>
-		<url addpath="/administrator/components/com_contact/elements">
-			<param name="id" type="contact" default="" label="Select Contact" description="The contact to link to" />
-		</url>
-		<params>
-			<param name="show_contact_list" type="radio" default="0" label="Drop Down" description="PARAMDROPDOWN">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="show_category_crumb" type="radio" default="0" label="Show Category in Breadcrumbs" description="Show/Hide the category in the breadcrumbs">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-		</params>
-	</state>
+	<fields
+		group="request"
+		array="true"
+		label="Menus_Layout_Request_Variables_Label"
+		description="Menus_Layout_Request_Variables_Desc"
+		addpath="/administrator/components/com_contact/models/fields">
+		<field
+			name="id"
+			type="contact"
+			default=""
+			label="Select Contact"
+			description="The contact to link to" />
+	</fields>
+	<fields>
+		<field
+			name="show_contact_list"
+			type="radio"
+			default="0"
+			label="Drop Down"
+			description="fieldDROPDOWN">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="show_category_crumb"
+			type="radio"
+			default="0"
+			label="Show Category in Breadcrumbs"
+			description="Show/Hide the category in the breadcrumbs">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+	</fields>
 </metadata>

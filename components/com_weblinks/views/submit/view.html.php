@@ -13,12 +13,11 @@ jimport('joomla.application.component.view');
 /**
  * HTML View class for the WebLinks component
  *
- * @static
  * @package		Joomla.Site
  * @subpackage	com_weblinks
  * @since		1.5
  */
-class WeblinksViewWeblink extends JView
+class WeblinksViewSubmit extends JView
 {
 	protected $state;
 	protected $item;

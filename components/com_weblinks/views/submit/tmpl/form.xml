@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout
+		title="com_weblinks_submit_view_form_title">
+		<message>
+			<![CDATA[com_weblinks_submit_view_form_desc]]>
+		</message>
+	</layout>
+</metadata>

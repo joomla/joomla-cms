@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="WEBLINK STANDARD CATEGORY LAYOUT">
+	<layout
+		title="com_weblinks_category_view_default_title">
 		<message>
-			<![CDATA[WEBLINK STANDARD CATEGORY LAYOUT DESC]]>
+			<![CDATA[com_weblinks_category_view_default_desc]]>
 		</message>
 	</layout>
-	<state>
-		<name>WEBLINK STANDARD CATEGORY LAYOUT</name>
-		<description>WEBLINK STANDARD CATEGORY LAYOUT DESC</description>
-		<url>
-			<param name="id" type="category" extension="com_weblinks" default="0" label="Category" description="PARAMCATSELECT" />
-		</url>
-		<params>
-			<param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="PARAMSHOWFEEDLINK">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
-		</params>
-	</state>
+
+	<fields
+		group="request"
+		array="true"
+		label="Menus_Layout_Request_Variables_Label"
+		description="Menus_Layout_Request_Variables_Desc">
+		<field
+			name="id"
+			type="category"
+			extension="com_weblinks"
+			default="0"
+			label="Category"
+			description="fieldCATSELECT" />
+	</fields>
+	
+	<fields
+		group="basic"
+		label="Menus_Layout_Basic_Options_Label"
+		description="">
+
+		<field
+			name="show_feed_link"
+			type="radio"
+			default="1"
+			label="Show a feed link"
+			description="fieldSHOWFEEDLINK">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+	</fields>
 </metadata>

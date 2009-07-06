@@ -1,34 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Wrapper">
+	<layout
+		title="com_wrapper_wrapper_view_default_title">
 		<message>
-			<![CDATA[WRAPPER DESC]]>
+			<![CDATA[com_wrapper_wrapper_view_default_desc]]>
 		</message>
 	</layout>
-	<state>
-		<name>Wrapper</name>
-		<description>WRAPPER DESC</description>
-		<params>
-			<param name="url" type="text" size="30" default="" label="Wrapper URL" description="URL to open in an IFRAME" />
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="scrolling" type="radio" default="auto" label="Scroll Bars" description="PARAMHORIVERT">
-				<option value="no">No</option>
-				<option value="yes">Yes</option>
-				<option value="auto">Auto</option>
-			</param>
-			<param name="width" type="text" size="5" default="100%" label="Width" description="PARAMWIDTH" />
-			<param name="height" type="text" size="5" default="500" label="Height" description="PARAMHEIGHT" />
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-		</params>
-		<advanced>
-			<param name="height_auto" type="radio" default="0" label="Auto Height" description="PARAMHEIGHTAUTO">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
-			<param name="add_scheme" type="radio" default="1" label="Auto Add" description="PARAMADD">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
-		</advanced>
-	</state>
+
+	<fields
+		group="basic"
+		label="Menus_Layout_Basic_Options_Label"
+		description="">
+
+		<field
+			name="url"
+			type="text"
+			size="30"
+			default=""
+			label="Wrapper URL"
+			description="URL to open in an IFRAME" />
+
+		<field
+			type="spacer" />
+
+		<field
+			name="scrolling"
+			type="radio"
+			default="auto"
+			label="Scroll Bars"
+			description="fieldHORIVERT">
+			<option
+				value="no">No</option>
+			<option
+				value="yes">Yes</option>
+			<option
+				value="auto">Auto</option>
+		</field>
+
+		<field
+			name="width"
+			type="text"
+			size="5"
+			default="100%"
+			label="Width"
+			description="fieldWIDTH" />
+
+		<field
+			name="height"
+			type="text"
+			size="5"
+			default="500"
+			label="Height"
+			description="fieldHEIGHT" />
+		<field
+			type="spacer" />
+	</fields>
+
+	<fields
+		group="advanced"
+		label="Menus_Layout_Advanced_Options_Label"
+		description="">
+
+		<field
+			name="height_auto"
+			type="radio"
+			default="0"
+			label="Auto Height"
+			description="fieldHEIGHTAUTO">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			name="add_scheme"
+			type="radio"
+			default="1"
+			label="Auto Add"
+			description="fieldADD">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+	</fields>
 </metadata>

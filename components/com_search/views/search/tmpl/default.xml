@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Search">
+	<layout
+		title="com_search_search_view_default_title">
 		<message>
-			<![CDATA[STANDARD SEARCH LAYOUT DESC]]>
+			<![CDATA[com_search_search_view_default_desc]]>
 		</message>
 	</layout>
-	<state>
-		<name>Search</name>
-		<description>STANDARD SEARCH LAYOUT DESC</description>
-		<params>
-			<param name="search_areas" type="radio" default="1" label="Use Search Areas" description="Show the search areas checkboxes">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
-			<param name="show_date" type="radio" default="1" label="Show Created Date" description="TIPIFSETTOSHOWDATETIMECREATED">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-		</params>
-	</state>
+
+	<fields
+		group="basic"
+		label="Menus_Layout_Basic_Options_Label"
+		description="">
+
+		<field
+			name="search_areas"
+			type="radio"
+			default="1"
+			label="Use Search Areas"
+			description="Show the search areas checkboxes">
+			<option
+				value="0">No</option>
+			<option
+				value="1">Yes</option>
+		</field>
+
+		<field
+			name="show_date"
+			type="radio"
+			default="1"
+			label="Show Created Date"
+			description="TIPIFSETTOSHOWDATETIMECREATED">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+	</fields>
 </metadata>

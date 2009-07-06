@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout
-		title="Standard Article Layout">
+		title="com_content_article_view_default_title">
 		<message>
-			<![CDATA[STANDARD ARTICLE LAYOUT DESC]]>
+			<![CDATA[com_content_article_view_default_desc]]>
 		</message>
 	</layout>
-	<state>
-		<name>Standard Article Layout</name>
-		<description>STANDARD ARTICLE LAYOUT DESC</description>
-		<url
-			addpath="/administrator/components/com_content/elements">
-			<param
-				name="id"
-				type="article"
-				default="0"
-				label="Select Article"
-				description="An article"/>
-		</url>
-		<params>
-		</params>
-	</state>
+
+	<fields
+		group="request"
+		array="true"
+		label="Menus_Layout_Request_Variables_Label"
+		description="Menus_Layout_Request_Variables_Desc"
+		addpath="/administrator/components/com_content/models/fields">
+
+		<field
+			name="id"
+			type="article"
+			default="0"
+			label="Select Article"
+			description="An article" />
+	</fields>
 </metadata>
