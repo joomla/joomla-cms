@@ -31,6 +31,8 @@ $ -> Language fix or change
  # [#17103] Missing JText::_ in administrator/components/com_admin/helpers/html/directory.php
  ^ Change component configuration files from params to fields.
  ^ Make view/layout labels consistent and convert XML from params to fields.
+ ^ Refactored instances of global $mainframe.
+ ^ Moved the milkyway overrides out of the way for the time being (too many errors to fix).
 
 05-Jul-2009 Gergo Erdosi
  ^ Replaced mod_status with its refactored version.
