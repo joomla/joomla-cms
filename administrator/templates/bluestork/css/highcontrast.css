@@ -1,0 +1,248 @@
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	templates.bluestork
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+
+body {
+	font-size: 12px;
+	font-weight: bold !important;
+	color: #FFFFFF;
+	background-color: #000000;
+}
+
+a:link,
+a:visited,
+a:active {
+	color: #FFFFFF;
+	text-decoration:underline;
+}
+
+a:hover {
+	color: #FFFFFF;
+	text-decoration:none;
+}
+
+
+#border-top.h_green          { background: none }
+#border-top.h_green div      { background: none }
+#border-top.h_green div div   { background: none }
+
+#border-top.h_teal           { background: none }
+#border-top.h_teal div       { background: none }
+#border-top.h_teal div div   { background: none }
+
+#border-top.h_cherry           { background: none }
+#border-top.h_cherry div       { background: none }
+#border-top.h_cherry div div   { background: none }
+
+#border-top.h_blue           { background: none }
+#border-top.h_blue div       { background: none }
+#border-top.h_blue div div   { background: none }
+
+
+
+table.adminform {
+	background-color: #000;
+	/* border: solid 1px #fff; */
+}
+table.adminform tr.row0 { background-color: #f9f9f9; }
+table.adminform tr.row1 { background-color: #000000; }
+
+table.adminform th {
+	color: #fff;
+}
+
+
+div#element-box,
+div#toolbar-box,
+div#element-box div.section-box {
+  background: #000;
+}
+
+table.admintable td.key,
+table.admintable td.paramlist_key {
+	background-color: #000;
+	color: #fff;
+
+}
+#border-bottom div,
+#border-bottom { background: none }
+#border-bottom div div 	{ background: none; height: 11px; }
+
+
+legend    {
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+}
+div.header {
+	color: #fff;
+}
+
+/* ---- Menu layout -------------------------- */
+
+#header-box  { border: 1px solid #ccc; background: #000000; }
+
+#menu li {
+	border-left: 1px solid #fff;
+	border-right: 1px solid #d8d8d8;
+}
+#menu li li { border: 0;}
+
+#menu ul    { border: 0.1em solid #ccc; background: #000 ;font-weight: bold !important;}
+#menu ul li.node { background: transparent url(../images/j_arrow.png) no-repeat right 50%; font-weight: bold !important;}
+#menu ul li.separator { background: #000 url(../images/bg-menu.gif);  height: 1px;  }
+
+#menu a, #menu div {
+	color: #ffffff;
+	font-weight: bold !important;
+}
+
+#menu a:hover {
+	color: #000;
+	font-weight: bold !important;
+}
+
+
+#menu li.disabled a { color: #fff; }
+
+
+/* 1 level - hover */
+#menu li.hover a {  color:000; background-color: #e8e8e8; border-left: 1px solid #025a8d;  border-right:1px solid #025a8d; margin: 0; font-weight: bold !important;}
+/* 2 level - normal */
+#menu li.hover li a { color:000;  background-color: transparent; border: 0 none; margin: 2px;  font-weight: bold !important;}
+/* 2 level - hover */
+#menu li.hover li.hover a { color:000; background-color: #e8e8e8; border: 1px solid #025a8d;  margin: 1px;  font-weight: bold !important; }
+/* 3 level - normal */
+#menu li.hover li.hover li a { color:000; background-color: transparent; border: 0 none;   margin: 2px;font-weight: bold !important;  }
+/* 3 level - hover */
+#menu li.hover li.hover li a:hover { color:000; background-color: #e8e8e8; border: 1px solid #025a8d;  margin: 1px; font-weight: bold !important; }
+
+
+#submenu-box { background: #000; margin-bottom: 10px; }
+
+#submenu li a,
+#submenu span.nolink {
+	color: #fff;
+}
+
+#submenu span.nolink {
+	color: #999;
+}
+
+#submenu a.active,
+#submenu span.nolink.active {
+	color: #fff;
+}
+
+table.adminlist {
+	background-color: #000;
+	color: #fff;
+}
+
+table.adminlist thead th {
+	background: #000;
+	color: #fff;
+}
+
+table.adminlist tbody tr			{ background-color: #000;   }
+table.adminlist tbody tr.row1 	{ background: #000;  }
+
+table.adminlist tbody tr.row0:hover td,
+table.adminlist tbody tr.row1:hover td  { background-color: #000 ; }
+
+table.adminlist tbody tr td 	   { background: #000; }
+table.adminlist tbody tr.row1 td { background: #000;  }
+
+table.adminlist tfoot tr {  color: #fff; }
+table.adminlist tfoot td,
+table.adminlist tfoot th { background-color: #000;  }
+
+
+
+.pane-sliders .panel h3 { background: #000; color: #fff}
+
+.pane-sliders .content { background: #000; }
+
+.pane-sliders .title {
+	color: #fff;
+}
+
+#cpanel div.icon a {
+	border: 1px solid #f0f0f0;
+	color: #fff;
+	background: #000;
+}
+
+#cpanel div.icon a:hover {
+	color: #fff;
+	background: #000;
+}
+
+#content-box {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 10px;
+	background: #000;
+}
+
+
+
+div#submenu-box div.t div.t {
+   background: url(../images/j_crn_tr_black.png) 100% 0 no-repeat;
+}
+
+div#submenu-box div.t div.t div.t {
+   background: url(../images/j_crn_tl_black.png) 0 0 no-repeat;
+}
+
+div#submenu-box div.b div.b {
+   background: url(../images/j_crn_br_black.png) 100% 0 no-repeat;
+}
+
+div#submenu-box div.b div.b div.b {
+   background: url(../images/j_crn_bl_black.png) 0 0 no-repeat;
+}
+
+
+div#toolbar-box div.t div.t,
+div#element-box div.section-box div.t div.t {
+   background: url(../images/j_crn_tr_black.png) 100% 0 no-repeat;
+}
+
+div#toolbar-box div.t div.t div.t,
+div#element-box div.section-box div.t div.t div.t {
+   background: url(../images/j_crn_tl_black.png) 0 0 no-repeat;
+}
+div#toolbar-box div.b div.b,
+div#element-box div.section-box div.b div.b {
+   background: url(../images/j_crn_br_black.png) 100% 0 no-repeat;
+}
+
+div#toolbar-box div.b div.b div.b,
+div#element-box div.section-box div.b div.b div.b {
+   background: url(../images/j_crn_bl_black.png) 0 0 no-repeat;
+}
+
+div#element-box div.t div.t {
+   background: url(../images/j_crn_tr_black.png) 100% 0 no-repeat;
+}
+
+div#element-box div.t div.t div.t {
+   background: url(../images/j_crn_tl_black.png) 0 0 no-repeat;
+}
+
+div#element-box div.b div.b {
+   background: url(../images/j_crn_br_black.png) 100% 0 no-repeat;
+}
+
+div#element-box div.b div.b div.b {
+   background: url(../images/j_crn_bl_black.png) 0 0 no-repeat;
+}
+
+.mooTree_selected {
+	background-color:#999999 !important;
+}

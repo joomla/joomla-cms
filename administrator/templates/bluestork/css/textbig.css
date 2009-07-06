@@ -5,19 +5,10 @@
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
- 
- 
-/* IE7 OVERRIDES */
 
-input { 
-	border-width: expression(this.type=="radio"?'0px':this.type=="checkbox"?'0px':'1px'); 
+
+body {
+	font-size: 14px;
+	color: #000000;
+	line-height: 140%;
 }
-
-div#toolbar-box {
-	height: 65px;
-}
-
-#toolbar-box div.m {
-	height: 50px;
-}
-

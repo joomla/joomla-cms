@@ -36,6 +36,16 @@ defined('_JEXEC') or die;
 	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/norounded.css" />
 <?php endif; ?>
 
+<?php if ($this->params->get('textBig')) : ?>
+	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/textbig.css" />
+<?php endif; ?>
+
+<?php if ($this->params->get('highContrast')) : ?>
+	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/highcontrast.css" />
+<?php endif; ?>
+
+
+
 <?php if (JModuleHelper::isEnabled('menu')) : ?>
 	<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/menu.js"></script>
 <?php endif; ?>

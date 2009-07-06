@@ -34,6 +34,17 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		
+		<param name="textBig" type="radio" default="0" label="Bigger Text" description="Turn on to increase size of text.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		
+		<param name="highContrast" type="radio" default="0" label="High Contrast" description="Turn on to create high-contrast">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		
 		<param name="headerColor" type="folderlist" default="h_green" directory="administrator/templates/bluestork/images" filter="^h_." hide_none="1" hide_default="1" label="Header Color" description="The color of the bar under the header" />
 	</params>
 </install>
