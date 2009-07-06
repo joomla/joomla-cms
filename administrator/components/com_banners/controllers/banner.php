@@ -96,7 +96,7 @@ class BannerControllerBanner extends JController
 
 		// build list of categories
 		$javascript		= 'onchange="document.adminForm.submit();"';
-		$lists['catid'] = JHtml::_('list.category',  'filter_catid', 'com_banner', 'com_banner.view', NULL, (int) $filter_catid, 'inputbox', $javascript);
+		$lists['catid'] = JHtml::_('list.category',  'filter_catid', 'com_banner', 'com_banner.view', NULL, (int) $filter_catid, 1, $javascript);
 
 		// state filter
 		$lists['state']	= JHtml::_('grid.state',  $filter_state);
