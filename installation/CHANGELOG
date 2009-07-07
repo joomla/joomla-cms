@@ -30,6 +30,7 @@ $ -> Language fix or change
 07-Jul-2009 Gergo Erdosi
  + Added MySQL version check to installation.
  # [#17119] [patch] Add keyboard access to admin com_admin
+ # [#17131] [patch] Add keyboard access to admin mod_login
 
 07-Jul-2009 Andrew Eddie
  # Fixed modal article selector.

@@ -55,7 +55,7 @@ endif; ?>
 	<div class="button_holder">
 	<div class="button1">
 		<div class="next">
-			<a onclick="login.submit();">
+			<a href="#" onclick="login.submit();">
 				<?php echo JText::_('Login'); ?></a>
 
 		</div>
