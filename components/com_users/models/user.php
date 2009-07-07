@@ -66,7 +66,7 @@ class UsersModelUser extends JModelForm
 		);
 
 		// Get the form.
-		$form = $this->getForm('login', $options);
+		$form = $this->getForm('login', 'com_users.login', $options);
 
 		// Check for an error.
 		if (JError::isError($form)) {
@@ -108,7 +108,7 @@ class UsersModelUser extends JModelForm
 		);
 
 		// Get the form.
-		return $this->getForm('remind', $options);
+		return $this->getForm('remind', 'com_users.remind', $options);
 	}
 
 	/**
@@ -128,7 +128,7 @@ class UsersModelUser extends JModelForm
 		);
 
 		// Get the form.
-		return $this->getForm('reset_request', $options);
+		return $this->getForm('reset_request', 'com_users.reset_request', $options);
 	}
 
 	/**
@@ -148,7 +148,7 @@ class UsersModelUser extends JModelForm
 		);
 
 		// Get the form.
-		return $this->getForm('reset_confirm', $options);
+		return $this->getForm('reset_confirm', 'com_users.reset_confirm', $options);
 	}
 
 	/**
@@ -168,7 +168,7 @@ class UsersModelUser extends JModelForm
 		);
 
 		// Get the form.
-		return $this->getForm('reset_complete', $options);
+		return $this->getForm('reset_complete', 'com_users.reset_complete', $options);
 	}
 
 	function processRemindRequest($data)
