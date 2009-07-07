@@ -80,6 +80,17 @@ class JInstallationModelDatabase extends JModel
 				$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->getErrorNum()));
 				return false;
 			}
+			
+			// Check MySQL version.
+			$mysql_version = mysql_get_server_info();
+			if (($position = strpos($mysql_version, '-')) !== false) {
+				$mysql_version = substr($mysql_version, 0, $position);
+			}
+			
+			if (version_compare($mysql_version, '5.0.4', '>=') === -1) {
+				$this->setError(JText::_('You need MySQL 5.0.4 or higher to continue the installation.'));
+				return false;
+			}
 
 			// Check utf8 support.
 			$utfSupport = $db->hasUTF();

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jul-2009 Gergo Erdosi
+ + Added MySQL version check to installation.
+
 07-Jul-2009 Andrew Eddie
  # Fixed modal article selector.
 
