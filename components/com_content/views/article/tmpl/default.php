@@ -14,7 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
-
 ?>
 <?php if ($params->get('show_page_title', 1) && $params->get('page_title') != $this->item->title) : ?>
 	<h1>
@@ -24,8 +23,8 @@ $params = $this->state->get('params');
 
 <?php if ($params->get('show_title')) : ?>
 	<h2>
-		<?php if ($params->get('link_titles') && $this->item->readmore_link != '') : ?>
-		<a href="<?php echo $this->item->readmore_link; ?>">
+		<?php if ($params->get('link_titles') && !empty($this->item->rlink)) : ?>
+		<a href="<?php echo $this->item->rlink; ?>">
 			<?php echo $this->escape($this->item->title); ?></a>
 		<?php else : ?>
 			<?php echo $this->escape($this->item->title); ?>
@@ -69,10 +68,10 @@ endif; ?>
 <?php if ($params->get('show_category') && $this->item->catid) : ?>
 	<span>
 	<?php if ($params->get('link_category')) : ?>
-		<a href="<?php echo JRoute::_(ContentRoute::category($this->item->catslug, $this->item->sectionid));?>">
-			<?php echo $this->escape($this->item->category); ?></a>
+		<a href="<?php echo JRoute::_(ContentRoute::category($this->item->catslug));?>">
+			<?php echo $this->escape($this->item->category_title); ?></a>
 	<?php else : ?>
-			<?php echo $this->escape($this->item->category); ?>
+			<?php echo $this->escape($this->item->category_title); ?>
 	<?php endif; ?>
 	</span>
 <?php endif; ?>

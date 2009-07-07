@@ -47,6 +47,9 @@ class ContentViewArticle extends JView
 		$item->slug		= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 		$item->catslug	= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
 
+		// TODO: Change based on shownoauth
+		$item->rlink	= JRoute::_(ContentRoute::article($item->slug, $item->catslug));
+
 		// Create a shortcut to the paramemters.
 		$params	= &$state->params;
 		$offset	= $state->get('page.offset');
