@@ -64,11 +64,13 @@ class UsersViewUser extends JView
 	protected function _setToolbar()
 	{
 		$isNew	= ($this->item->id == 0);
-		JToolBarHelper::title(JText::_($isNew ? 'Users_Title_Add_User' : 'Users_Title_Edit_User'), 'user');
+		JToolBarHelper::title(JText::_($isNew ? 'Users_View_New_User_Title' : 'Users_View_Edit_User_Title'), 'user');
 
+		JToolBarHelper::addNew('user.save2new', 'JToolbar_Save_and_new');
 		JToolBarHelper::save('user.save');
 		JToolBarHelper::apply('user.apply');
 		JToolBarHelper::cancel('user.cancel');
-		//JToolBarHelper::help('index', true);
+		JToolBarHelper::divider();
+		JToolBarHelper::help('screen.users.user');
 	}
 }

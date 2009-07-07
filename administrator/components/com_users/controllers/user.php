@@ -173,7 +173,7 @@ class UsersControllerUser extends JController
 			$app->setUserState('com_users.edit.user.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('USERS_MEMBER_SAVE_FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('USERS_USER_SAVE_FAILED', $model->getError()), 'notice');
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false));
 			return false;
 		}
@@ -187,7 +187,7 @@ class UsersControllerUser extends JController
 				$app->setUserState('com_users.edit.user.data',	null);
 
 				// Redirect back to the edit screen.
-				$this->setMessage(JText::_('USERS_MEMBER_SAVE_SUCCESS'));
+				$this->setMessage(JText::_('USERS_USER_SAVE_SUCCESS'));
 				$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false));
 				break;
 
@@ -197,7 +197,7 @@ class UsersControllerUser extends JController
 				$app->setUserState('com_users.edit.user.data', null);
 
 				// Redirect back to the edit screen.
-				$this->setMessage(JText::_('USERS_MEMBER_SAVE_SUCCESS'));
+				$this->setMessage(JText::_('USERS_USER_SAVE_SUCCESS'));
 				$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false));
 				break;
 
@@ -207,7 +207,7 @@ class UsersControllerUser extends JController
 				$app->setUserState('com_users.edit.user.data', null);
 
 				// Redirect to the list screen.
-				$this->setMessage(JText::_('USERS_MEMBER_SAVE_SUCCESS'));
+				$this->setMessage(JText::_('USERS_USER_SAVE_SUCCESS'));
 				$this->setRedirect(JRoute::_('index.php?option=com_users&view=users', false));
 				break;
 		}
@@ -270,10 +270,10 @@ class UsersControllerUser extends JController
 
 		// Attempt to delete the item(s).
 		if (!$model->delete($cid)) {
-			$this->setMessage(JText::sprintf('USERS_MEMBER_DELETE_FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('USERS_USER_DELETE_FAILED', $model->getError()), 'notice');
 		}
 		else {
-			$this->setMessage(JText::sprintf('USERS_MEMBER_DELETE_SUCCESS', count($cid)));
+			$this->setMessage(JText::sprintf('USERS_USER_DELETE_SUCCESS', count($cid)));
 		}
 
 		// Redirect to the list screen.

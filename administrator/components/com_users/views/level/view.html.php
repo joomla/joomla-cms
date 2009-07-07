@@ -54,11 +54,13 @@ class UsersViewLevel extends JView
 	protected function _setToolbar()
 	{
 		$isNew	= ($this->item->getAssetGroupId() == 0);
-		JToolBarHelper::title(JText::_($isNew ? 'Users_Title_Add_Access_Level' : 'Users_Title_Edit_Access_Level'), 'user');
+		JToolBarHelper::title(JText::_($isNew ? 'Users_View_New_Level_Title' : 'Users_View_Edit_Level_Title'), 'user');
 
+		JToolBarHelper::addNew('level.save2new', 'JToolbar_Save_and_new');
 		JToolBarHelper::save('level.save');
 		JToolBarHelper::apply('level.apply');
 		JToolBarHelper::cancel('level.cancel');
-		//JToolBarHelper::help('index', true);
+		JToolBarHelper::divider();
+		JToolBarHelper::help('screen.users.level');
 	}
 }

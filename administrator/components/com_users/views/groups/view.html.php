@@ -49,7 +49,7 @@ class UsersViewGroups extends JView
 	 */
 	protected function _setToolbar()
 	{
-		JToolBarHelper::title(JText::_('Users_Title_Groups'), 'groups');
+		JToolBarHelper::title(JText::_('Users_View_Groups_Title'), 'user');
 
 		JToolBarHelper::custom('group.add', 'new.png', 'new_f2.png', 'New', false);
 		JToolBarHelper::custom('group.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
@@ -60,7 +60,6 @@ class UsersViewGroups extends JView
 		// We can't use the toolbar helper here because there is no generic popup button.
 		$bar = &JToolBar::getInstance('toolbar');
 		$bar->appendButton('Popup', 'config', 'JToolbar_Options', 'index.php?option=com_users&view=config&tmpl=component', 570, 500);
-
-		//JToolBarHelper::help('index', true);
+		JToolBarHelper::help('screen.users.groups');
 	}
 }

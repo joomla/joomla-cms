@@ -58,7 +58,7 @@ class UsersViewUsers extends JView
 	 */
 	protected function _setToolbar()
 	{
-		JToolBarHelper::title(JText::_('Users_Title_Users'), 'user');
+		JToolBarHelper::title(JText::_('Users_View_Users_Title'), 'user');
 
 		//JToolBarHelper::custom('user.activate', 'publish.png', 'publish_f2.png', 'Activate', true);
 		//JToolBarHelper::custom('user.block', 'unpublish.png', 'unpublish_f2.png', 'Block', true);
@@ -72,7 +72,6 @@ class UsersViewUsers extends JView
 		// We can't use the toolbar helper here because there is no generic popup button.
 		$bar = &JToolBar::getInstance('toolbar');
 		$bar->appendButton('Popup', 'config', 'JToolbar_Options', 'index.php?option=com_users&view=config&tmpl=component', 570, 500);
-
-		//JToolBarHelper::help('index', true);
+		JToolBarHelper::help('screen.users.users');
 	}
 }

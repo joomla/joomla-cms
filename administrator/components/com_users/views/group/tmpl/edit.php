@@ -49,7 +49,6 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 
 	<fieldset id="user-groups">
 		<legend><?php echo JText::_('Users_Actions_Available');?></legend>
-		@TODO Grey out inherited actions
 		<?php echo JHtml::_('access.actions', 'jform[actions]', $this->item->actions); ?>
 	</fieldset>
 

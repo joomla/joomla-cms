@@ -51,7 +51,7 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 					<?php echo JText::_('Users_Heading_Section'); ?>
 				</th>
 				<th width="30%">
-					<?php echo JText::_('Users_Heading_Level_User_Groups'); ?>
+					<?php // echo JText::_('Users_Heading_Level_User_Groups'); ?>
 				</th>
 				<th width="30%">
 					&nbsp;
@@ -81,7 +81,7 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 					<?php echo $item->section_title; ?>
 				</td>
 				<td>
-					<?php echo nl2br(implode("\n", explode(',', $item->user_groups))); ?>
+					<?php //echo nl2br(implode("\n", explode(',', $item->user_groups))); ?>
 				</td>
 				<td>
 					&nbsp;

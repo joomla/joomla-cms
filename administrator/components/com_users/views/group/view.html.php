@@ -53,11 +53,13 @@ class UsersViewGroup extends JView
 	protected function _setToolbar()
 	{
 		$isNew	= ($this->item->id == 0);
-		JToolBarHelper::title(JText::_($isNew ? 'Users_Title_Add_Group' : 'Users_Title_Edit_Group'), 'user');
+		JToolBarHelper::title(JText::_($isNew ? 'Users_View_New_Group_Title' : 'Users_View_Edit_Group_Title'), 'user');
 
+		JToolBarHelper::addNew('group.save2new', 'JToolbar_Save_and_new');
 		JToolBarHelper::save('group.save');
 		JToolBarHelper::apply('group.apply');
 		JToolBarHelper::cancel('group.cancel');
-		//JToolBarHelper::help('index', true);
+		JToolBarHelper::divider();
+		JToolBarHelper::help('screen.users.group');
 	}
 }

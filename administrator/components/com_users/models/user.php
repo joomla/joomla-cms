@@ -236,7 +236,7 @@ class UsersModelUser extends JModelForm
 
 		// Check if the row is checked-out by someone else.
 		if ($return === null) {
-			$this->setError(JText::_('USERS_MEMBER_CHECKED_OUT'));
+			$this->setError(JText::_('USERS_USER_CHECKED_OUT'));
 			return false;
 		}
 

@@ -33,61 +33,65 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="user-form" class="form-validate">
-	<fieldset style="width:60%; float:left;">
-		<legend><?php echo JText::_('User_Account_Details'); ?></legend>
+	<div class="width-55 col">
+		<fieldset>
+			<legend><?php echo JText::_('Users_User_Account_Details'); ?></legend>
 
-		<ol>
-			<li>
-				<?php echo $this->form->getLabel('name'); ?><br />
-				<?php echo $this->form->getInput('name'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('username'); ?><br />
-				<?php echo $this->form->getInput('username'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('password'); ?><br />
-				<?php echo $this->form->getInput('password'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('password2'); ?><br />
-				<?php echo $this->form->getInput('password2'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('email'); ?><br />
-				<?php echo $this->form->getInput('email'); ?>
-			</li>
-		</ol>
-	</fieldset>
+			<ol>
+				<li>
+					<?php echo $this->form->getLabel('name'); ?><br />
+					<?php echo $this->form->getInput('name'); ?>
+				</li>
+				<li>
+					<?php echo $this->form->getLabel('username'); ?><br />
+					<?php echo $this->form->getInput('username'); ?>
+				</li>
+				<li>
+					<?php echo $this->form->getLabel('password'); ?><br />
+					<?php echo $this->form->getInput('password'); ?>
+				</li>
+				<li>
+					<?php echo $this->form->getLabel('password2'); ?><br />
+					<?php echo $this->form->getInput('password2'); ?>
+				</li>
+				<li>
+					<?php echo $this->form->getLabel('email'); ?><br />
+					<?php echo $this->form->getInput('email'); ?>
+				</li>
+			</ol>
+		</fieldset>
 
-	<fieldset style="width:37%; float:right;" id="user-groups">
-		<legend><?php echo JText::_('Users_Assigned_Groups'); ?></legend>
-			<?php if ($this->grouplist) :
-				echo $this->loadTemplate('groups');
-			endif; ?>
-	</fieldset>
+		<fieldset>
+			<legend><?php echo JText::_('Users_User_Options'); ?></legend>
 
-	<fieldset style="width:60%; float:left;">
-		<legend><?php echo JText::_('Users_User_Options'); ?></legend>
+			<table>
+			<?php foreach($this->form->getFields('params') as $field): ?>
+				<?php if ($field->hidden): ?>
+					<?php echo $field->input; ?>
+				<?php else: ?>
+					<tr>
+						<td class="paramlist_key" width="40%">
+							<?php echo $field->label; ?>
+						</td>
+						<td class="paramlist_value">
+							<?php echo $field->input; ?>
+						</td>
+					</tr>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			</table>
 
-		<table>
-		<?php foreach($this->form->getFields('params') as $field): ?>
-			<?php if ($field->hidden): ?>
-				<?php echo $field->input; ?>
-			<?php else: ?>
-				<tr>
-					<td class="paramlist_key" width="40%">
-						<?php echo $field->label; ?>
-					</td>
-					<td class="paramlist_value">
-						<?php echo $field->input; ?>
-					</td>
-				</tr>
-			<?php endif; ?>
-		<?php endforeach; ?>
-		</table>
+		</fieldset>
+	</div>
 
-	</fieldset>
+	<div class="width-40 col">
+		<fieldset id="user-groups">
+			<legend><?php echo JText::_('Users_Assigned_Groups'); ?></legend>
+				<?php if ($this->grouplist) :
+					echo $this->loadTemplate('groups');
+				endif; ?>
+		</fieldset>
+	</div>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
