@@ -89,15 +89,10 @@ class UsersModelUser extends JModelForm
 		// Trigger the data preparation event.
 		$results = $dispatcher->trigger('onPrepareUserProfileData', array($userId, &$value));
 
-		// Build params array.
-		$value->params = array();
-		foreach (explode("\n", trim($table->params, " \n")) as $param)
-		{
-			if (!empty($param)) {
-				list ($k, $v) = explode("=", $param, 2);
-				$value->params[$k] = $v;
-			}
-		}
+		// Convert the params field to an array.
+		$registry = new JRegistry;
+		$registry->loadJSON($value->params);
+		$value->params = $registry->toArray();
 
 		return $value;
 	}
