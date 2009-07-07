@@ -185,8 +185,8 @@ class JInstallationModelSetup extends JModel
 
 		// Check for MySQL support.
 		$option = new stdClass;
-		$option->label  = JText::_('MySQL support');
-		$option->state  = (function_exists('mysql_connect') || function_exists('mysqli_connect'));
+		$option->label  = JText::_('MySQL support').' >= 5.0.4';
+		$option->state  = ((function_exists('mysql_connect') || function_exists('mysqli_connect')) && version_compare(mysql_get_client_info(), '5.0.4', '>='));
 		$option->notice = null;
 		$options[] = $option;
 
