@@ -16,7 +16,7 @@
 
 		<field
 			name="id"
-			type="article"
+			type="modal_articles"
 			default="0"
 			label="Select Article"
 			description="An article" />

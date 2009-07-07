@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jul-2009 Andrew Eddie
+ # Fixed modal article selector.
+
 06-Jul-2009 Andrew Eddie
  # [#17103] Missing JText::_ in administrator/components/com_admin/helpers/html/directory.php
  ^ Change component configuration files from params to fields.

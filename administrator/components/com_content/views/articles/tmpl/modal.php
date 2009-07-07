@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 
-$this->assign('object', JRequest::getVar('object'));
+$function = JRequest::getVar('function', 'jSelectArticle');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles');?>" method="post" name="adminForm">
 	<fieldset class="filter clearfix">
@@ -31,13 +31,13 @@ $this->assign('object', JRequest::getVar('object'));
 
 		<div class="right">
 			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOption_Select_access_level');?></option>
+				<option value=""><?php echo JText::_('JOption_Select_Access');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
 
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOption_Select_published_state');?></option>
-				<?php echo JHtml::_('select.options', $this->f_published, 'value', 'text', $this->state->get('filter.published'), true);?>
+				<option value=""><?php echo JText::_('JOption_Select_Published');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 
 			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
@@ -84,7 +84,7 @@ $this->assign('object', JRequest::getVar('object'));
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
-					<a style="cursor: pointer;" onclick="if (window.parent) window.parent.jSelectArticle('<?php echo $item->id; ?>', '<?php echo urlencode($row->title); ?>', '<?php echo $this->object; ?>');">
+					<a style="cursor: pointer;" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->title); ?>');">
 						<?php echo $this->escape($item->title); ?></a>
 				</td>
 				<td align="center">
