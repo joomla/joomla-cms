@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Jul-2009 Gergo Erdosi
+ # Fixed bug in JForm::loadFileType() path building.
+
 07-Jul-2009 Gergo Erdosi
  + Added MySQL version check to installation.
  # [#17119] [patch] Add keyboard access to admin com_admin

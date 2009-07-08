@@ -960,7 +960,7 @@ class JForm extends JObject
 				for ($i = 0, $n = count($paths); $i < $n; $i++)
 				{
 					// Derive the new path.
-					$path = $paths[$i].DS.substr($type, 0, $pos);
+					$path = $paths[$i].DS.strtolower(substr($type, 0, $pos));
 
 					// If the path does not exist, add it.
 					if (!in_array($path, $paths)) {
