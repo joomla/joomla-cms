@@ -49,7 +49,7 @@ class UsersViewLevels extends JView
 	 */
 	protected function _setToolbar()
 	{
-		JToolBarHelper::title(JText::_('Users_View_Levels_Title'), 'user');
+		JToolBarHelper::title(JText::_('Users_View_Levels_Title'), 'levels');
 
 		JToolBarHelper::custom('level.add', 'new.png', 'new_f2.png', 'New', false);
 		JToolBarHelper::custom('level.edit', 'edit.png', 'edit_f2.png', 'Edit', true);

@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 08-Jul-2009 Gergo Erdosi
  # Fixed bug in JForm::loadFileType() path building.
+ ^ Changed header icons in com_users.
 
 07-Jul-2009 Gergo Erdosi
  + Added MySQL version check to installation.
