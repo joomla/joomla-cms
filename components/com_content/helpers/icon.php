@@ -28,7 +28,7 @@ class JHTMLIcon
 		$url = 'index.php?task=new&ret='.base64_encode($ret).'&id=0&sectionid='.$article->sectionid;
 
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image.site', 'new.png', '/images/M_images/', NULL, NULL, JText::_('New'));
+			$text = JHtml::_('image.site', 'new.png', '/images/joomla/', NULL, NULL, JText::_('New'));
 		} else {
 			$text = JText::_('New').'&nbsp;';
 		}
@@ -47,7 +47,7 @@ class JHTMLIcon
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
 
 		if ($params->get('show_icons')) 	{
-			$text = JHtml::_('image.site', 'emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'));
+			$text = JHtml::_('image.site', 'emailButton.png', '/images/joomla/', NULL, NULL, JText::_('Email'));
 		} else {
 			$text = '&nbsp;'.JText::_('Email');
 		}
@@ -81,7 +81,7 @@ class JHTMLIcon
 
 		$url = 'index.php?view=article&id='.$article->slug.'&task=edit&ret='.base64_encode($ret);
 		$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
-		$text = JHtml::_('image.site', $icon, '/images/M_images/', NULL, NULL, JText::_('Edit'));
+		$text = JHtml::_('image.site', $icon, '/images/joomla/', NULL, NULL, JText::_('Edit'));
 
 		if ($article->state == 0) {
 			$overlib = JText::_('Unpublished');
@@ -113,7 +113,7 @@ class JHTMLIcon
 
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image.site',  'printButton.png', '/images/M_images/', NULL, NULL, JText::_('Print'));
+			$text = JHtml::_('image.site',  'printButton.png', '/images/joomla/', NULL, NULL, JText::_('Print'));
 		} else {
 			$text = JText::_('ICON_SEP') .'&nbsp;'. JText::_('Print') .'&nbsp;'. JText::_('ICON_SEP');
 		}
@@ -129,7 +129,7 @@ class JHTMLIcon
 	{
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image.site',  'printButton.png', '/images/M_images/', NULL, NULL, JText::_('Print'));
+			$text = JHtml::_('image.site',  'printButton.png', '/images/joomla/', NULL, NULL, JText::_('Print'));
 		} else {
 			$text = JText::_('ICON_SEP') .'&nbsp;'. JText::_('Print') .'&nbsp;'. JText::_('ICON_SEP');
 		}

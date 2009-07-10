@@ -34,7 +34,7 @@ abstract class JHtmlImage
 	* @param	array	An associative array of attributes to add
 	* @param	boolean	True (default) to display full tag, false to return just the path
 	*/
-	public static function site($file, $folder='/images/M_images/', $altFile=NULL, $altFolder='/images/M_images/', $alt=NULL, $attribs = null, $asTag = 1)
+	public static function site($file, $folder='/images/joomla/', $altFile=NULL, $altFolder='/images/joomla/', $alt=NULL, $attribs = null, $asTag = 1)
 	{
 		static $paths;
 		$appl = &JFactory::getApplication();

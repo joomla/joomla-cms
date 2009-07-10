@@ -116,7 +116,7 @@
 		<param
 			name="link_icons"
 			type="imagelist"
-			directory="/images/M_images"
+			directory="/images/joomla"
 			default=""
 			label="Icon"
 			description="PARAMICONIMG" />

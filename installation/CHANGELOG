@@ -34,7 +34,8 @@ $ -> Language fix or change
  - Removed Khepri template.
  - Removed unnecessary Food icons.
  - Removed images/smilies and images/stories directories.
- ^ Renamed images/M_images to images/joomla. 
+ ^ Renamed images/M_images to images/joomla.
+ ^ Renamed references of M_images to joomla.
 
 08-Jul-2009 Gergo Erdosi
  # Fixed bug in JForm::loadFileType() path building.

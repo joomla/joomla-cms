@@ -430,7 +430,7 @@ class HTML_contact
 						if (document.forms.adminForm.image.options.value!=''){
 							jsimg='../<?php echo $cparams->get('image_path'); ?>/' + getSelectedValue('adminForm', 'image');
 						} else {
-							jsimg='../images/M_images/blank.png';
+							jsimg='../images/joomla/blank.png';
 						}
 						document.write('<img src=' + jsimg + ' name="imagelib" width="100" height="100" border="2" alt="<?php echo JText::_('Preview'); ?>" />');
 						</script>
