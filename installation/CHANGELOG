@@ -30,6 +30,7 @@ $ -> Language fix or change
 10-Jul-2009 Gergo Erdosi
  + Added Geshi plugin back to content plugins.
  ^ Updated Geshi library to version 1.0.8.4.
+ - Removed language/pdf_fonts directory.
 
 08-Jul-2009 Gergo Erdosi
  # Fixed bug in JForm::loadFileType() path building.
