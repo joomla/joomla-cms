@@ -32,6 +32,9 @@ $ -> Language fix or change
  ^ Updated Geshi library to version 1.0.8.4.
  - Removed language/pdf_fonts directory.
  - Removed Khepri template.
+ - Removed unnecessary Food icons.
+ - Removed images/smilies and images/stories directories.
+ ^ Renamed images/M_images to images/joomla. 
 
 08-Jul-2009 Gergo Erdosi
  # Fixed bug in JForm::loadFileType() path building.
