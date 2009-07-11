@@ -6,7 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('JPATH_BASE') or die;
 
 /**
@@ -21,23 +21,22 @@ class JRoute
 	/**
 	 * Translates an internal Joomla URL to a humanly readible URL.
 	 *
-	 * @access public
-	 * @param 	string 	 $url 	Absolute or Relative URI to Joomla resource
-	 * @param 	boolean  $xhtml Replace & by &amp; for xml compilance
-	 * @param	int		 $ssl	Secure state for the resolved URI
-	 * 		 1: Make URI secure using global secure site URI
-	 * 		 0: Leave URI in the same secure state as it was passed to the function
-	 * 		-1: Make URI unsecure using the global unsecure site URI
-	 * @return The translated humanly readible URL
+	 * @param 	string 	 $url 	Absolute or Relative URI to Joomla resource.
+	 * @param 	boolean  $xhtml Replace & by &amp; for xml compilance.
+	 * @param	int		 $ssl	Secure state for the resolved URI.
+	 * 		 1: Make URI secure using global secure site URI.
+	 * 		 0: Leave URI in the same secure state as it was passed to the function.
+	 * 		-1: Make URI unsecure using the global unsecure site URI.
+	 * @return	The translated humanly readible URL.
 	 */
-	function _($url, $xhtml = true, $ssl = null)
+	public static function _($url, $xhtml = true, $ssl = null)
 	{
-		// Get the router
-		$app	= &JFactory::getApplication();
+		// Get the router.
+		$app = &JFactory::getApplication();
 		$router = &$app->getRouter();
 
 		// Make sure that we have our router
-		if (! $router) {
+		if (!$router) {
 			return null;
 		}
 
@@ -45,43 +44,41 @@ class JRoute
             return $url;
  		}
 
-		// Build route
+		// Build route.
 		$uri = &$router->build($url);
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 
-		// Replace spaces
+		// Replace spaces.
 		$url = preg_replace('/\s/u', '%20', $url);
 
 		/*
 		 * Get the secure/unsecure URLs.
-
+		 * 
 		 * If the first 5 characters of the BASE are 'https', then we are on an ssl connection over
 		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
-		$ssl	= (int) $ssl;
-		if ($ssl)
+		if ((int) $ssl)
 		{
-			$uri  = &JURI::getInstance();
+			$uri = &JURI::getInstance();
 
-			// Get additional parts
+			// Get additional parts.
 			static $prefix;
 			if (!$prefix)
 			{
 				$prefix = $uri->toString(array('host', 'port'));
-				//$prefix .= JURI::base(true);
 			}
 
-			// Determine which scheme we want
+			// Determine which scheme we want.
 			$scheme	= ($ssl === 1) ? 'https' : 'http';
 
-			// Make sure our url path begins with a slash
-			if (! preg_match('#^/#', $url)) {
-				$url	= '/' . $url;
+			// Make sure our URL path begins with a slash.
+			if (!preg_match('#^/#', $url)) {
+				$url = '/'.$url;
 			}
 
-			// Build the URL
-			$url	= $scheme . '://' . $prefix . $url;
+			// Build the URL.
+			$url = $scheme.'://'.$prefix.$url;
 		}
 
 		if ($xhtml) {
@@ -93,7 +90,7 @@ class JRoute
 }
 
 /**
- * Text  handling class
+ * Text  handling class.
  *
  * @static
  * @package 	Joomla.Framework
@@ -103,29 +100,27 @@ class JRoute
 class JText
 {
 	/**
-	 * Translates a string into the current language
+	 * Translates a string into the current language.
 	 *
-	 * @access	public
-	 * @param	string $string The string to translate
-	 * @param	boolean	$jsSafe		Make the result javascript safe
+	 * @param	string $string The string to translate.
+	 * @param	boolean	$jsSafe		Make the result javascript safe.
 	 * @since	1.5
 	 *
 	 */
-	function _($string, $jsSafe = false)
+	public static function _($string, $jsSafe = false)
 	{
 		$lang = &JFactory::getLanguage();
 		return $lang->_($string, $jsSafe);
 	}
 
 	/**
-	 * Passes a string thru an sprintf
+	 * Passes a string thru an sprintf.
 	 *
-	 * @access	public
-	 * @param	format The format string
-	 * @param	mixed Mixed number of arguments for the sprintf function
+	 * @param	format The format string.
+	 * @param	mixed Mixed number of arguments for the sprintf function.
 	 * @since	1.5
 	 */
-	function sprintf($string)
+	public static function sprintf($string)
 	{
 		$lang = &JFactory::getLanguage();
 		$args = func_get_args();
@@ -138,14 +133,13 @@ class JText
 	}
 
 	/**
-	 * Passes a string thru an printf
+	 * Passes a string thru an printf.
 	 *
-	 * @access	public
-	 * @param	format The format string
-	 * @param	mixed Mixed number of arguments for the sprintf function
+	 * @param	format The format string.
+	 * @param	mixed Mixed number of arguments for the sprintf function.
 	 * @since	1.5
 	 */
-	function printf($string)
+	public static function printf($string)
 	{
 		$lang = &JFactory::getLanguage();
 		$args = func_get_args();
@@ -160,7 +154,6 @@ class JText
 	/**
 	 * Translate a string into the current language and stores it in the JavaScript language store.
 	 *
-	 * @access	public
 	 * @param	string		$string		The JText key.
 	 * @return	void
 	 * @since	1.6
