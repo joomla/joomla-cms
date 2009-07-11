@@ -2,15 +2,16 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
+ * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 /*
- * Joomla! system checks
+ * Joomla! system checks.
  */
 
 @set_magic_quotes_runtime(0);
@@ -28,13 +29,13 @@ if (!file_exists(JPATH_CONFIGURATION.DS.'configuration.php') || (filesize(JPATH_
  * Joomla! system startup
  */
 
-// System includes
-require_once(JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php');
+// System includes.
+require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'import.php');
 
-// Pre-Load configuration
-require_once(JPATH_CONFIGURATION	.DS.'configuration.php');
+// Pre-Load configuration.
+require_once(JPATH_CONFIGURATION.DS.'configuration.php');
 
-// System configuration
+// System configuration.
 $CONFIG = new JConfig();
 
 if (@$CONFIG->error_reporting === 0) {
@@ -49,16 +50,16 @@ define('JDEBUG', $CONFIG->debug);
 unset($CONFIG);
 
 /*
- * Joomla! framework loading
+ * Joomla! framework loading.
  */
 
-// System profiler
+// System profiler.
 if (JDEBUG) {
 	jimport('joomla.error.profiler');
 	$_PROFILER = &JProfiler::getInstance('Application');
 }
 
-// Joomla! library imports
+// Joomla! library imports.
 jimport('joomla.application.menu');
 jimport('joomla.user.user');
 jimport('joomla.environment.uri');
@@ -69,5 +70,3 @@ jimport('joomla.event.event');
 jimport('joomla.event.dispatcher');
 jimport('joomla.language.language');
 jimport('joomla.utilities.string');
-
-?>

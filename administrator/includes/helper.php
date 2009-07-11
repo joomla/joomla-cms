@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,23 +9,21 @@
 defined('_JEXEC') or die;
 
 /**
-* Joomla! Administrator Application helper class
-*
-* Provide many supporting API functions
-*
+ * Joomla! Administrator Application helper class.
+ * Provide many supporting API functions.
+ *
  * @package		Joomla.Administrator
-* @final
+ * @subpackage	Application	
  */
 class JAdministratorHelper
 {
 	/**
-	 * Return the application option string [main component]
+	 * Return the application option string [main component].
 	 *
-	 * @access public
-	 * @return string Option
-	 * @since 1.5
+	 * @return	string		Option.
+	 * @since	1.5
 	 */
-	function findOption()
+	public function findOption()
 	{
 		$option = strtolower(JRequest::getCmd('option'));
 
@@ -43,5 +40,3 @@ class JAdministratorHelper
 		return $option;
 	}
 }
-
-?>

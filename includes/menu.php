@@ -5,8 +5,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+// No direct access.
+defined('_JEXEC') or die;
 
 /**
  * JMenu class
@@ -18,7 +18,7 @@ defined('JPATH_BASE') or die;
 class JMenuSite extends JMenu
 {
 	/**
-	 * Loads the entire menu table into memory
+	 * Loads the entire menu table into memory.
 	 *
 	 * @return array
 	 */
@@ -30,9 +30,9 @@ class JMenuSite extends JMenu
 		{
 			jimport('joomla.database.query');
 
-			// Initialize some variables
-			$db		= & JFactory::getDbo();
-			$query	= new JQuery;
+			// Initialize some variables.
+			$db = &JFactory::getDbo();
+			$query = new JQuery;
 
 			$query->select('m.id, m.menutype, m.title, m.alias, m.path AS route, m.link, m.type, m.level');
 			$query->select('m.browserNav, m.access, m.params, m.home, m.template_id, m.component_id, m.parent_id');
@@ -52,8 +52,8 @@ class JMenuSite extends JMenu
 
 			foreach ($menus as &$menu)
 			{
-				// Get parent information
-				$parent_tree  = array();
+				// Get parent information.
+				$parent_tree = array();
 				if (($parent = $menu->parent_id) && (isset($menus[$parent])) &&
 					(is_object($menus[$parent])) && (isset($menus[$parent]->route)) && isset($menus[$parent]->tree)) {
 					$parent_tree  = $menus[$parent]->tree;

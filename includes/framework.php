@@ -7,11 +7,11 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 /*
- * Joomla! system checks
+ * Joomla! system checks.
  */
 
 @set_magic_quotes_runtime(0);
@@ -23,11 +23,13 @@ defined('_JEXEC') or die;
 
 if (!file_exists(JPATH_CONFIGURATION.DS.'configuration.php') || (filesize(JPATH_CONFIGURATION.DS.'configuration.php') < 10) /*|| file_exists(JPATH_INSTALLATION.DS.'index.php')*/)
 {
-	if (file_exists(JPATH_INSTALLATION.DS.'index.php')) {
+	if (file_exists(JPATH_INSTALLATION.DS.'index.php'))
+	{
 		header('Location: installation/index.php');
 		exit();
 	}
-	else {
+	else
+	{
 		echo 'No configuration file found and no installation code available. Exiting...';
 		exit();
 	}
@@ -35,16 +37,16 @@ if (!file_exists(JPATH_CONFIGURATION.DS.'configuration.php') || (filesize(JPATH_
 
 
 /*
- * Joomla! system startup
+ * Joomla! system startup.
  */
 
-// System includes
+// System includes.
 require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'import.php');
 
-// Pre-Load configuration
+// Pre-Load configuration.
 require_once(JPATH_CONFIGURATION.DS.'configuration.php');
 
-// System configuration
+// System configuration.
 $CONFIG = new JConfig();
 
 if (@$CONFIG->error_reporting === 0) {
@@ -61,17 +63,17 @@ define('JDEBUG', $CONFIG->debug);
 unset($CONFIG);
 
 /*
- * Joomla! framework loading
+ * Joomla! framework loading.
  */
 
-// System profiler
+// System profiler.
 if (JDEBUG)
 {
 	jimport('joomla.error.profiler');
 	$_PROFILER = &JProfiler::getInstance('Application');
 }
 
-// Joomla! library imports;
+// Joomla! library imports.
 jimport('joomla.application.menu');
 jimport('joomla.user.user');
 jimport('joomla.environment.uri');

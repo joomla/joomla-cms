@@ -7,18 +7,18 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 /**
-* Joomla! Application define
+ * Joomla! Application define.
  */
 
-//Global definitions
-//Joomla framework path definitions
+//Global definitions.
+//Joomla framework path definitions.
 $parts = explode(DS, JPATH_BASE);
 
-//Defines
+//Defines.
 define('JPATH_ROOT',			implode(DS, $parts));
 
 define('JPATH_SITE',			JPATH_ROOT);

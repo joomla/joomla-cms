@@ -7,42 +7,42 @@
  */
 
 /**
- * Version information
+ * Version information.
  *
  * @package	Joomla.Framework
  * @since	1.0
  */
 class JVersion
 {
-	/** @var string Product */
-	var $PRODUCT 	= 'Joomla!';
-	/** @var int Main Release Level */
-	var $RELEASE 	= '1.6';
-	/** @var string Development Status */
-	var $DEV_STATUS = 'Alpha';
-	/** @var int Sub Release Level */
-	var $DEV_LEVEL 	= '0';
-	/** @var int build Number */
-	var $BUILD	= '';
-	/** @var string Codename */
-	var $CODENAME 	= 'Hope';
-	/** @var string Date */
-	var $RELDATE 	= '22-June-2009';
-	/** @var string Time */
-	var $RELTIME 	= '23:00';
-	/** @var string Timezone */
-	var $RELTZ 	= 'GMT';
-	/** @var string Copyright Text */
-	var $COPYRIGHT 	= 'Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.';
-	/** @var string URL */
-	var $URL 	= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	/** @public string Product */
+	public $PRODUCT 	= 'Joomla!';
+	/** @public int Main Release Level */
+	public $RELEASE 	= '1.6';
+	/** @public string Development Status */
+	public $DEV_STATUS 	= 'Alpha';
+	/** @public int Sub Release Level */
+	public $DEV_LEVEL 	= '0';
+	/** @public int build Number */
+	public $BUILD		= '';
+	/** @public string Codename */
+	public $CODENAME 	= 'Hope';
+	/** @public string Date */
+	public $RELDATE 	= '22-June-2009';
+	/** @public string Time */
+	public $RELTIME 	= '23:00';
+	/** @public string Timezone */
+	public $RELTZ 		= 'GMT';
+	/** @public string Copyright Text */
+	public $COPYRIGHT 	= 'Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.';
+	/** @public string URL */
+	public $URL 		= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
-	 *
-	 *
-	 * @return string Long format version
+	 * Method to get the long version information.
+	 * 
+	 * @return	string	Long format version.
 	 */
-	function getLongVersion()
+	public function getLongVersion()
 	{
 		return $this->PRODUCT .' '. $this->RELEASE .'.'. $this->DEV_LEVEL .' '
 			. $this->DEV_STATUS
@@ -51,20 +51,20 @@ class JVersion
 	}
 
 	/**
+	 * Method to get the short version information.
 	 *
-	 *
-	 * @return string Short version format
+	 * @return	string	Short version format.
 	 */
-	function getShortVersion() {
+	public function getShortVersion() {
 		return $this->RELEASE .'.'. $this->DEV_LEVEL;
 	}
 
 	/**
+	 * Method to get the help file version.
 	 *
-	 *
-	 * @return string Version suffix for help files
+	 * @return	string	Version suffix for help files.
 	 */
-	function getHelpVersion()
+	public function getHelpVersion()
 	{
 		if ($this->RELEASE > '1.0') {
 			return '.' . str_replace('.', '', $this->RELEASE);
@@ -74,27 +74,39 @@ class JVersion
 	}
 
 	/**
-	 * Compares two "A PHP standardized" version number against the current Joomla! version
+	 * Compares two "A PHP standardized" version number against the current Joomla! version.
 	 *
-	 * @return boolean
-	 * @see http://www.php.net/version_compare
+	 * @return	boolean
+	 * @see		http://www.php.net/version_compare
 	 */
-	function isCompatible ($minimum) {
+	public function isCompatible ($minimum) {
 		return (version_compare(JVERSION, $minimum, 'eq') == 1);
 	}
 
 	/**
-	 * Returns the user agent
-	 * @param string name of the component
-	 * @param bool Mask as Mozilla/5.0 or not
-	 * @param bool Add version afterwards to component
-	 * @return string User Agent
+	 * Returns the user agent.
+	 * 
+	 * @param	string	Name of the component.
+	 * @param	bool	Mask as Mozilla/5.0 or not.
+	 * @param	bool	Add version afterwards to component.
+	 * @return	string	User Agent.
 	 */
-	function getUserAgent($component=NULL, $mask=false, $add_version=true) {
-		if($component === NULL) $component = 'Framework';
-		if($add_version) $component .= '/'.$this->RELEASE;
-		// if masked pretend to look like Mozilla 5.0 but still identify ourselves
-		if($mask) return 'Mozilla/5.0 '. $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
-		else return $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
+	public function getUserAgent($component = null, $mask = false, $add_version = true)
+	{
+		if ($component === null) {
+			$component = 'Framework';	
+		}
+		
+		if ($add_version) {
+			$component .= '/'.$this->RELEASE;	
+		}
+		
+		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
+		if ($mask) {
+			return 'Mozilla/5.0 '. $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');	
+		}
+		else {
+			return $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
+		}
 	}
 }

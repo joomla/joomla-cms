@@ -1,17 +1,15 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
-  */
+ */
 
-// No direct access
-defined('JPATH_BASE') or die;
+// No direct access.
+defined('_JEXEC') or die;
 
 /**
- * JMenu class
+ * JMenu class.
  *
  * @package		Joomla.Framework
  * @subpackage	Application
