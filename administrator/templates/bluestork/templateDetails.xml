@@ -8,7 +8,7 @@
 	<authorUrl>http://www.joomla.org</authorUrl>
 	<copyright>2009</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>0.1</version>
+	<version>0.2</version>
 	<description>Administration template for Joomla 1.6</description>
 	<files>
 		<filename>index.php</filename>
@@ -27,22 +27,22 @@
 	</positions>
 	<params>
 		<param name="useRoundedCorners" type="radio" default="1" label="Use Rounded Corners" description="Enable/Disable Rounded Corner Effect">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
 		</param>
 		<param name="showSiteName" type="radio" default="0" label="Show Site Name" description="Show the site name in the template header">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
 		</param>
 		
 		<param name="textBig" type="radio" default="0" label="Bigger Text" description="Turn on to increase size of text">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
 		</param>
 		
 		<param name="highContrast" type="radio" default="0" label="High Contrast" description="Turn on for high-contrast version">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
 		</param>
 		
 	</params>
