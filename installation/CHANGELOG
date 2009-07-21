@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jul-2009 Sam Moffatt
+ ^ Changed default behaviour of JStream::open to not autodetect processing method
+
 10-Jul-2009 Gergo Erdosi
  + Added Geshi plugin back to content plugins.
  ^ Updated Geshi library to version 1.0.8.4.
