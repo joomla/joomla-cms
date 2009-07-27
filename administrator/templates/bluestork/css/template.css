@@ -14,7 +14,6 @@ body {
 	margin: 10px; padding: 0;
 	background: #fff;
 	padding-bottom: 1px;
-
 	font-size: 11px;
 }
 
@@ -33,8 +32,11 @@ img { border: 0 none; }
 form { margin: 0; padding: 0; }
 
 h1 {
-	margin: 0; padding-bottom: 8px;
-	color: #0B55C4; font-size: 20px; font-weight: bold;
+	margin: 0; 
+	padding-bottom: 8px;
+	color: #025A8D; 
+	font-size: 20px; 
+	font-weight: bold;
 }
 
 h3 {
@@ -82,7 +84,8 @@ textarea:focus { background-color: #ffd }
 #border-top.h_blue div      { background: url(../images/j_header_right.png) 100% 0 no-repeat; }
 #border-top.h_blue div div  { background: url(../images/j_header_left.png) no-repeat; height: 54px; }
 
-#border-top .title {
+#border-top .title,
+#border-top .title a{
 	font-size: 22px; 
 	font-weight: bold; 
 	color: #fff; 

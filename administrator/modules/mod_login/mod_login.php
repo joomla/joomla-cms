@@ -56,13 +56,13 @@ endif; ?>
 	<div class="button1">
 		<div class="next">
 			<a href="#" onclick="login.submit();">
-				<?php echo JText::_('Login'); ?></a>
+				<?php echo JText::_('Log_in'); ?></a>
 
 		</div>
 	</div>
 	</div>
 	<div class="clr"></div>
-	<input type="submit" style="border: 0; padding: 0; margin: 0; width: 0px; height: 0px;" value="<?php echo JText::_('Login'); ?>" />
+	<input type="submit" style="border: 0; padding: 0; margin: 0; width: 0px; height: 0px;" value="<?php echo JText::_('Log_in'); ?>" />
 	<input type="hidden" name="option" value="com_login" />
 	<input type="hidden" name="task" value="login" />
 	<?php echo JHtml::_('form.token'); ?>

@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 
 		<link href="template/css/template.css" rel="stylesheet" type="text/css" />
 		<?php if ($this->direction == 'rtl') : ?>
-		<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
+			<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
 		<script type="text/javascript" src="../media/system/js/core.js"></script>
@@ -30,8 +30,8 @@ defined('_JEXEC') or die;
 		<div id="header1">
 			<div id="header2">
 				<div id="header3">
-					<div id="version"><?php echo JText::_('Version#') ?></div>
-					<span><?php echo JText::_('Installation') ?></span>
+					<span class="logo"><a href="http://www.joomla.org" target="_blank"><img src="template/images/logo.png" alt="Joomla!" /></a></span>
+					<span>Joomla! <?php echo JVERSION; ?> <?php echo JText::_('Installation') ?></span>
 				</div>
 			</div>
 		</div>
@@ -46,8 +46,8 @@ defined('_JEXEC') or die;
 				<div id="footer3"></div>
 			</div>
 		</div>
-		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
-			<?php echo JText::_('ISFREESOFTWARE') ?>
+		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla</a>
+			<?php echo JText::_('ISFREESOFTWARE') ?> <br />
 		</div>
 	</body>
 </html>

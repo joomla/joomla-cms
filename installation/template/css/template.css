@@ -24,7 +24,7 @@ body, div, p, td, span {
 
 a:link, a:visited {
 	text-decoration: none;
-	color: #0B55C4;
+	color: #025A8D;
 }
 
 a:hover {
@@ -72,8 +72,18 @@ form {
 	font-size: 22px;
 	color: #fff;
 	font-weight: bold;
-	padding-left: 180px;
+	padding-left: 15px;
 	line-height: 44px;
+}
+
+#header3 span.logo {
+	display: block; 
+	float: right;
+	padding: 7px 10px 0 0;
+}
+
+#header3 span.logo img {
+	border: 0 none;
 }
 
 #version {
@@ -121,7 +131,7 @@ form {
 	margin: 0;
 	padding-bottom: 8px;
 	font-size: 20px;
-	color: #0B55C4;
+	color: #025A8D;
 	font-weight: bold;
 	background: url(../images/j_divider.png) 0 100% repeat-x;
 }
@@ -139,7 +149,7 @@ form {
 }
 
 .step-on {
-	color: #0B55C4;
+	color: #f48b06;
 }
 
 .step-grey {
@@ -162,7 +172,7 @@ form {
 span.step {
 	font-size: 20px;
 	line-height: 30px;
-	color: #0B55C4;
+	color: #025A8D;
 	font-weight: bold;
 	padding-left: 6px;
 }
