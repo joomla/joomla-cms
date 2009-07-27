@@ -340,6 +340,12 @@ div.current dd {
 #cpanel img  { padding: 10px 0; margin: 0 auto; }
 #cpanel span { display: block; text-align: center; }
 
+div.cpanel-left {width:54%;float:left; }
+div.cpanel-right { width:45%; float:right; }
+
+
+
+
 /* standard form style table */
 div.col { float: left; }
 div.width-45 { width: 45%; }
@@ -731,6 +737,21 @@ p {
 .icon-16-featured 	{ background-image: url(../images/menu/icon-16-frontpage.png); }
 .icon-16-groups		{ background-image: url(../images/menu/icon-16-groups.png); }
 .icon-16-help		{ background-image: url(../images/menu/icon-16-help.png); }
+
+.icon-16-help		{ background-image: url(../images/menu/icon-16-help.png); }
+
+.icon-16-help-this		{ background-image: url(../images/menu/icon-16-help-this.png); }
+
+.icon-16-help-forum		{ background-image: url(../images/menu/icon-16-help-forum.png); }
+.icon-16-help-docs		{ background-image: url(../images/menu/icon-16-help-docs.png); }
+.icon-16-help-jed		{ background-image: url(../images/menu/icon-16-help-jed.png); }
+.icon-16-help-jrd		{ background-image: url(../images/menu/icon-16-help-jrd.png); }
+.icon-16-help-community		{ background-image: url(../images/menu/icon-16-help-community.png); }
+.icon-16-help-security		{ background-image: url(../images/menu/icon-16-help-security.png); }
+.icon-16-help-dev		{ background-image: url(../images/menu/icon-16-help-dev.png); }
+.icon-16-help-shop		{ background-image: url(../images/menu/icon-16-help-shop.png); }
+
+
 .icon-16-info 		{ background-image: url(../images/menu/icon-16-info.png); }
 .icon-16-install 	{ background-image: url(../images/menu/icon-16-install.png);}
 .icon-16-language 	{ background-image: url(../images/menu/icon-16-language.png);}
@@ -814,7 +835,7 @@ p {
 .icon-48-browser 		{ background-image: url(../images/header/icon-48-stats.png); }
 .icon-48-searchtext 	{ background-image: url(../images/header/icon-48-stats.png); }
 .icon-48-thememanager{ background-image: url(../images/header/icon-48-themes.png); }
-.icon-48-massemail 	{ background-image: url(../images/header/icon-48-massemail.png); }
+.icon-48-writemess 	{ background-image: url(../images/header/icon-48-writemess.png); }
 .icon-48-frontpage 	{ background-image: url(../images/header/icon-48-frontpage.png); }
 .icon-48-sections 	{ background-image: url(../images/header/icon-48-section.png); }
 .icon-48-article-add 		{ background-image: url(../images/header/icon-48-article-add.png); }
@@ -826,7 +847,7 @@ p {
 .icon-48-dbrestore 	{ background-image: url(../images/header/icon-48-dbrestore.png); }
 .icon-48-dbquery 		{ background-image: url(../images/header/icon-48-query.png); }
 .icon-48-systeminfo 	{ background-image: url(../images/header/icon-48-info.png); }
-.icon-48-massemail 	{ background-image: url(../images/header/icon-48-massmail.png); }
+.icon-48-massmail 	{ background-image: url(../images/header/icon-48-massmail.png); }
 
 /* ---- Basic menu styles ------------------- */
 
