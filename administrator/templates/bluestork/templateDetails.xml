@@ -9,10 +9,20 @@
 	<copyright>2009</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>0.2</version>
-	<description>Administration template for Joomla 1.6</description>
+	<description>Administrator template for Joomla 1.6</description>
 	<files>
 		<filename>index.php</filename>
-		<filename>css/template.css</filename>
+		<filename>login.php</filename>
+		<filename>component.php</filename>
+		<filename>cpanel.php</filename>
+		<filename>params.ini</filename>
+		<filename>favicon.ico</filename>
+		<filename>index.html</filename>
+		<filename>template_thumbnail.png</filename>
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>css</folder>
+		<folder>html</folder>
 	</files>
 	<positions>
 		<position>menu</position>
@@ -23,6 +33,7 @@
 		<position>icon</position>
 		<position>cp_shell</position>
 		<position>cpanel</position>
+		<position>footer</position>
 		<position>debug</position>
 	</positions>
 	<params>

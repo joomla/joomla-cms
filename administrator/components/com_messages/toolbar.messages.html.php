@@ -18,7 +18,7 @@ class TOOLBAR_messages
 {
 	function _VIEW() {
 
-		JToolBarHelper::title(JText::_('View Private Message'), 'inbox.png');
+		JToolBarHelper::title(JText::_('View Private Message'), 'readmess.png');
 		JToolBarHelper::customX('reply', 'restore.png', 'restore_f2.png', 'Reply', false);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::cancel();
@@ -27,7 +27,7 @@ class TOOLBAR_messages
 
 	function _EDIT() {
 
-		JToolBarHelper::title(JText::_('Write Private Message'), 'inbox.png');
+		JToolBarHelper::title(JText::_('Write Private Message'), 'writemess.png');
 		JToolBarHelper::save('save', 'Send');
 		JToolBarHelper::cancel();
 		JToolBarHelper::help('screen.messages.edit');

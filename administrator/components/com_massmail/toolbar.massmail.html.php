@@ -21,7 +21,7 @@ class TOOLBAR_massmail
 	*/
 	function _DEFAULT() {
 
-		JToolBarHelper::title(JText::_('Mass Mail'), 'massemail.png');
+		JToolBarHelper::title(JText::_('Mass Mail'), 'massmail.png');
 		JToolBarHelper::custom('send','send.png','send_f2.png','Send Mail',false);
 		JToolBarHelper::cancel();
 		JToolBarHelper::preferences('com_massmail', 200);

@@ -87,16 +87,14 @@ $app	= &JFactory::getApplication();
 						</div>
 					</div>
 					<div class="m" >
-						<table class="adminform">
-						<tr>
-							<td width="55%" valign="top">
-								<jdoc:include type="modules" name="icon" />
-							</td>
-							<td width="45%" valign="top">
+					<div class="adminform">
+						<div class="cpanel-left">
+							<jdoc:include type="modules" name="icon" />
+						</div>
+						<div class="cpanel-right">
 								<jdoc:include type="component" />
-							</td>
-						</tr>
-						</table>
+						</div>
+					</div>
 						<div class="clr"></div>
 					</div>
 					<div class="b">
@@ -113,12 +111,7 @@ $app	= &JFactory::getApplication();
 		</div>
 	</div>
 	<div id="border-bottom"><div><div></div></div></div>
-	<div id="footer">
-		<p class="copyright">
-			<a href="http://www.joomla.org" target="_blank">Joomla</a>
-			<?php echo  JText::_('ISFREESOFTWARE') ?> <br />
-			<span class="version">Your version: Joomla <?php echo  JVERSION; ?> | Current version: Joomla 1.6.0 (No update needed)</span>
-		</p>
-	</div>
+		<jdoc:include type="modules" name="footer" style="none"  />
+
 </body>
 </html>

@@ -12,17 +12,17 @@ defined('_JEXEC') or die;
 
 $output = array();
 
-// Print the Preview link to Main site.
-	$output[] = "<span class=\"viewsite\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('View site')."</a></span>";
-
-//  Print the inbox message.
-	$output[] = "<span class=\"$inboxClass\"><a href=\"$inboxLink\">". $unread . " " . JText::_('Msgs'). "</a></span>";
-
 // Print the logged in users.
 	$output[] = "<span class=\"loggedin-users\">".$online_num."</span>";
+	
+//  Print the inbox message.
+	$output[] = "<span class=\"$inboxClass\"><a href=\"$inboxLink\">". $unread . " " . JText::_('Messages'). "</a></span>";
 
+// Print the Preview link to Main site.
+	$output[] = "<span class=\"viewsite\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('View site')."</a></span>";
+	
 // Print the logout link.
-	$output[] = "<span class=\"logout\"><a href=\"$logoutLink\">".JText::_('Logout')."</a></span>";
+	$output[] = "<span class=\"logout\"><a href=\"$logoutLink\">".JText::_('Log out')."</a></span>";
 
 // Reverse rendering order for rtl display.
 if ($lang->isRTL()) {

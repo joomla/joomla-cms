@@ -126,13 +126,8 @@ $app	= &JFactory::getApplication();
 </div>
 </div>
 	<div id="border-bottom"><div><div></div></div></div>
-	<div id="footer">
+	
+	<jdoc:include type="modules" name="footer" style="none"  />
 
-		<p class="copyright">
-			<a href="http://www.joomla.org" target="_blank">Joomla</a>
-			<?php echo  JText::_('ISFREESOFTWARE') ?> <br />
-			<span class="version">Your version: Joomla <?php echo  JVERSION; ?> | Current version: Joomla 1.6.0 (No update needed)</span>
-		</p>
-	</div>
 </body>
 </html>
