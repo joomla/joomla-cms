@@ -37,6 +37,13 @@ abstract class JHtml
  );
 
 	private static $includePaths = array();
+	
+	/** 
+	 * An array to hold method references
+	 * 
+	 * @var array
+	 */
+	private static $registry = array();
 
 	/**
 	 * Class loader method
@@ -50,31 +57,27 @@ abstract class JHtml
 	 */
 	public static function _($type)
 	{
-		//Initialise variables
-		$prefix = 'JHtml';
-		$file   = '';
-		$func   = $type;
+		$type = preg_replace('#[^A-Z0-9_\.]#i', '', $type);
 
 		// Check to see if we need to load a helper file
 		$parts = explode('.', $type);
+		
+		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
+		$file 	= (count($parts) == 2 ? array_shift($parts) : '');
+		$func 	= array_shift($parts);
 
-		switch (count($parts))
+		$key = strtolower($prefix.'.'.$file.'.'.$func);
+
+		if (array_key_exists($key, self::$registry)) 
 		{
-			case 3 :
-			{
-				$prefix		= preg_replace('#[^A-Z0-9_]#i', '', $parts[0]);
-				$file		= preg_replace('#[^A-Z0-9_]#i', '', $parts[1]);
-				$func		= preg_replace('#[^A-Z0-9_]#i', '', $parts[2]);
-			} break;
-
-			case 2 :
-			{
-				$file		= preg_replace('#[^A-Z0-9_]#i', '', $parts[0]);
-				$func		= preg_replace('#[^A-Z0-9_]#i', '', $parts[1]);
-			} break;
+			$function = self::$registry[$key];
+			$args = func_get_args();
+			// remove function name from arguments
+			array_shift($args);
+			return JHtml::call($function, $args);
 		}
 
-		$className	= $prefix.ucfirst($file);
+		$className = $prefix.ucfirst($file);
 
 		if (!class_exists($className))
 		{
@@ -96,19 +99,65 @@ abstract class JHtml
 			}
 		}
 
-		if (is_callable(array($className, $func)))
+		$toCall = array($className, $func);
+		if (is_callable($toCall))
 		{
-			$temp	= func_get_args();
-			array_shift($temp);
-			$args	= array();
-			foreach ($temp AS &$arg) {
-				$args[] = &$arg;
-			}
-			return call_user_func_array(array($className, $func), $args);
+			JHtml::register($key, $toCall); 
+			$args = func_get_args();
+			// remove function name from arguments
+			array_shift($args);
+			return JHtml::call($toCall, $args);
 		}
 		else
 		{
 			JError::raiseWarning(0, $className.'::'.$func.' not supported.');
+			return false;
+		}
+	}
+
+	public static function register($key, $function)
+	{
+		$parts = explode('.', $key);
+		
+		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
+		$file 	= (count($parts) == 2 ? array_shift($parts) : '');
+		$func 	= array_shift($parts);
+
+		$key = strtolower($prefix.'.'.$file.'.'.$func);
+
+		if (is_callable($function))
+		{
+			self::$registry[$key] = $function;
+			return true;
+		}
+
+		return false;
+	}
+	
+	public static function unregister($key)
+	{
+		$key = strtolower($key);
+		if (isset(self::$registry[$key])) {
+			unset(self::$registry[$key]);
+			return true;
+		}
+
+		return false;
+	}
+	
+	private static function call($function, $args)
+	{
+		if (is_callable($function))
+		{
+			// PHP 5.3 workaround
+			$temp	= array();
+			foreach ($args AS &$arg) {
+				$temp[] = &$arg;
+			}
+			return call_user_func_array($function, $temp);
+		}
+		else {
+			// TODO raiseError here?
 			return false;
 		}
 	}
