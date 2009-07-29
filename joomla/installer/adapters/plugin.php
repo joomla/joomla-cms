@@ -212,7 +212,8 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Parse optional tags -- media and language files for plugins go in admin app
 		$this->parent->parseMedia($this->manifest->getElementByPath('media'), 1);
-		$this->parent->parseLanguages($this->manifest->getElementByPath('languages'), 1);
+		$this->parent->parseLanguages($this->manifest->getElementByPath('languages'));
+		$this->parent->parseLanguages($this->manifest->getElementByPath('administration/languages'), 1);
 
 		// If there is a manifest script, lets copy it.
 		if ($this->get('manifest_script'))
@@ -499,7 +500,8 @@ class JInstallerPlugin extends JAdapterInstance
 
 			// Remove all media and languages as well
 			$this->parent->removeFiles($root->getElementByPath('media'));
-			$this->parent->removeFiles($root->getElementByPath('languages'), -1);
+			$this->parent->parseLanguages($this->manifest->getElementByPath('languages'));
+			$this->parent->parseLanguages($this->manifest->getElementByPath('administration/languages'), 1);
 		}
 		else
 		{
