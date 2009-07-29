@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Jul-2009 Gergo Erdosi
+ + [#17091] Enabling installing front-end languages for plugins
+
 21-Jul-2009 Sam Moffatt
  ^ Changed default behaviour of JStream::open to not autodetect processing method
 
