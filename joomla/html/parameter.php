@@ -300,9 +300,6 @@ class JParameter extends JRegistry
 		//get the type of the parameter
 		$type = $node->attributes('type');
 
-		//remove any occurance of a mos_ prefix
-		$type = str_replace('mos_', '', $type);
-
 		$element = &$this->loadElement($type);
 
 		// error happened

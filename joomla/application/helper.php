@@ -48,6 +48,9 @@ class JApplicationHelper
 	/**
 	 * Gets information on a specific client id.  This method will be useful in
 	 * future versions when we start mapping applications in the database.
+	 * 
+	 * This method will return a client information array if called
+	 * with no arguments which can be used to add custom application information.
 	 *
 	 * @param	int			$id		A client identifier
 	 * @param	boolean		$byName	If True, find the client by it's name
@@ -64,25 +67,25 @@ class JApplicationHelper
 			$obj = new stdClass();
 
 			// Site Client
-			$obj->id		= 0;
+			$obj->id	= 0;
 			$obj->name	= 'site';
 			$obj->path	= JPATH_SITE;
 			$clients[0] = clone($obj);
 
 			// Administrator Client
-			$obj->id		= 1;
+			$obj->id	= 1;
 			$obj->name	= 'administrator';
 			$obj->path	= JPATH_ADMINISTRATOR;
 			$clients[1] = clone($obj);
 
 			// Installation Client
-			$obj->id		= 2;
+			$obj->id	= 2;
 			$obj->name	= 'installation';
 			$obj->path	= JPATH_INSTALLATION;
 			$clients[2] = clone($obj);
 		}
 
-		//If no client id has been passed return the whole array
+		// If no client id has been passed return the whole array
 		if (is_null($id)) {
 			return $clients;
 		}
