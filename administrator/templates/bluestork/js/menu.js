@@ -6,55 +6,43 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/**
- * JMenu javascript behavior
- */
-var JMenu = new Class({
-	initialize: function(el)
-	{
-		var elements = document.id(el).getElements('li');
-		var nested = null
-		for (var i=0; i<elements.length; i++)
-		{
-			var element = elements[i];
+var Joomla = Joomla || {};
 
-			element.addEvent('mouseover', function(){ this.addClass('hover'); });
-			element.addEvent('mouseout', function(){ this.removeClass('hover'); });
+/**
+ * Joomla Menu javascript behavior
+ */
+Joomla.JMenu = new Class({
+	initialize: function(element) {
+		this.element = $(element);
+		var elements = this.element.getElements('li');
+		elements.each(function(el) {
+			el.addEvent('mouseover', function(){ this.addClass('hover'); });
+			el.addEvent('mouseout', function(){ this.removeClass('hover'); });
 
 			//find nested UL
-			nested = element.getElement('ul');
-			if(!nested) {
-				continue;
+			var nested = el.getElement('ul');
+			if (!nested) {
+				return;
 			}
 
-			//declare width
 			var offsetWidth  = 0;
+			var children = nested.getElements('li');
 
 			//find longest child
-			for (k=0; k < nested.childNodes.length; k++) {
-				var node  = nested.childNodes[k]
-				if (node.nodeName == "LI")
-					offsetWidth = (offsetWidth >= node.offsetWidth) ? offsetWidth :  node.offsetWidth;
-			}
+			children.each(function(node) {
+				offsetWidth = (offsetWidth >= node.offsetWidth) ? offsetWidth :  node.offsetWidth;
+			});
 
-			//match longest child
-			for (l=0; l < nested.childNodes.length; l++) {
-				var node = nested.childNodes[l]
-				if (node.nodeName == "LI") {
-					document.id(node).setStyle('width', offsetWidth+'px');
-				}
-			}
-
-			document.id(nested).setStyle('width', offsetWidth+'px');
-		}
+			children.setStyle('width', offsetWidth)
+			nested.setStyle('width', offsetWidth);
+		});
+		this.element.store('menu', this);
 	}
 });
 
-document.menu = null;
-window.addEvent('load', function(){
-	element = document.id('menu');
+window.addEvent('domready', function() {
+	var element = document.id('menu');
 	if(!element.hasClass('disabled')) {
-		var menu = new JMenu(element);
-		document.menu = menu;
+		new Joomla.JMenu(element);
 	}
 });
