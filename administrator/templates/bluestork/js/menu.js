@@ -13,7 +13,7 @@ var Joomla = Joomla || {};
  */
 Joomla.JMenu = new Class({
 	initialize: function(element) {
-		this.element = $(element);
+		this.element = document.id(element);
 		var elements = this.element.getElements('li');
 		elements.each(function(el) {
 			el.addEvent('mouseover', function(){ this.addClass('hover'); });

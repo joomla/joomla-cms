@@ -25,7 +25,7 @@ var JTable = new Class( {
 	
 	doselect: function(e){
 		e = new Event(e);
-		var current = $(e.target);
+		var current = document.id(e.target);
 		if(e.shift && $type(this.last) !== false){
 			var checked = current.getProperty('checked')  ? 'checked' : '';
 			var range = [this.boxes.indexOf(current), this.boxes.indexOf(this.last)].sort();
