@@ -529,7 +529,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	font-weight: bold;
 	color: #333;
 	cursor: pointer;
-	padding: 0 30px 0 6px;
+	padding: 0 35px 0 6px;
 }
 
 .button1 a:hover { text-decoration: none; color: #0B55C4; }
@@ -651,23 +651,30 @@ a img.calendar {
 
 /* -- LOGIN STYLES ----------------------------- */
 
-form  			{ margin: 0px; padding: 0px; }
-/*form .inputbox  { width: 120px; margin-left: 10px; }*/
-/*form br 	    { display: none; }*/
-.login          { margin: 0 auto; width: 500px; margin-bottom: 100px; }
+	
+.login { 
+	margin: 0 auto; 
+	width: 500px; 
+	margin-bottom: 100px; 
+	margin-top: 50px;
+}
+
+form#form-login {
+	clear:both;
+	padding: 10px 0 10px 0;
+}
 
 h1 {
-  margin: 15px 0;
+  margin: 10px 0 15px 10px;
 }
 
 p {
-  margin: 0;
+  margin: 0 0 15px 10px;
   padding: 0;
-  margin-bottom: 10px;
 }
 
 #lock  {
-	background: url(../images/j_login_lock.jpg) 50% 0 no-repeat;
+	background: url(../images/j_login_lock.png) 50% 0 no-repeat;
 	width: 150px;
 	height: 137px;
 }
@@ -680,10 +687,16 @@ p {
   /* padding: 30px 0; */
 }
 
-#section-box  { float: right; width: 320px; margin-left: 10px;}
+#section-box  { 
+	float: right; 
+	width: auto; 
+	max-width: 300px;
+	margin-left: 10px;
+	margin-right: 10px;
+	}
 
 #section-box .m {
-  padding: 5px;
+	padding: 5px;
 }
 #section-box .padding {
 	background: none; padding: 0;
@@ -700,7 +713,8 @@ p {
 #form-login label {
 	display: block;
 	float: left;
-	width: 120px;
+	width: auto;
+	max-width: 120px;
 	text-align: right;
 	padding: 4px;
 	color: #666;
@@ -708,8 +722,8 @@ p {
 }
 
 #form-login .button_holder {
-	float: left;
-	padding-left: 180px;
+	float: right;
+	padding-right: 15px;
 }
 
 #form-login div.button1{
@@ -718,6 +732,25 @@ p {
 
 #form-login div.button1 div.next {
 	float: left;
+}
+
+select#lang.inputbox {
+	width: 106px;
+}
+
+p#form-login-username {
+	float: right;
+	margin-right: 15px;
+}
+
+p#form-login-password {
+	float: right;
+	margin-right: 15px;
+}
+
+p#form-login-lang {
+ 	float: right;
+ 	margin-right: 15px;
 }
 
 

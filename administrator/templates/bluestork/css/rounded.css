@@ -77,12 +77,12 @@ div#element-box div.section-box div.t {
 
 div#toolbar-box div.t div.t,
 div#element-box div.section-box div.t div.t {
-   background: url(../images/j_crn_tr_med.png) 100% 0 no-repeat;
+   background: url(../images/j_crn_tr_dark.png) 100% 0 no-repeat;
 }
 
 div#toolbar-box div.t div.t div.t,
 div#element-box div.section-box div.t div.t div.t {
-   background: url(../images/j_crn_tl_med.png) 0 0 no-repeat;
+   background: url(../images/j_crn_tl_dark.png) 0 0 no-repeat;
 }
 
 div#toolbar-box div.b,
@@ -92,12 +92,12 @@ div#element-box div.section-box div.b {
 
 div#toolbar-box div.b div.b,
 div#element-box div.section-box div.b div.b {
-   background: url(../images/j_crn_br_med.png) 100% 0 no-repeat;
+   background: url(../images/j_crn_br_dark.png) 100% 0 no-repeat;
 }
 
 div#toolbar-box div.b div.b div.b,
 div#element-box div.section-box div.b div.b div.b {
-   background: url(../images/j_crn_bl_med.png) 0 0 no-repeat;
+   background: url(../images/j_crn_bl_dark.png) 0 0 no-repeat;
 }
 
 div#element-box div.t {
@@ -105,11 +105,11 @@ div#element-box div.t {
 }
 
 div#element-box div.t div.t {
-   background: url(../images/j_crn_tr_light.png) 100% 0 no-repeat;
+   background: url(../images/j_crn_tr_dark.png) 100% 0 no-repeat;
 }
 
 div#element-box div.t div.t div.t {
-   background: url(../images/j_crn_tl_light.png) 0 0 no-repeat;
+   background: url(../images/j_crn_tl_dark.png) 0 0 no-repeat;
 }
 
 div#element-box div.b {
@@ -117,9 +117,9 @@ div#element-box div.b {
 }
 
 div#element-box div.b div.b {
-   background: url(../images/j_crn_br_light.png) 100% 0 no-repeat;
+   background: url(../images/j_crn_br_dark.png) 100% 0 no-repeat;
 }
 
 div#element-box div.b div.b div.b {
-   background: url(../images/j_crn_bl_light.png) 0 0 no-repeat;
+   background: url(../images/j_crn_bl_dark.png) 0 0 no-repeat;
 }
