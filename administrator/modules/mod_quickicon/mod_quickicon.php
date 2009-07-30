@@ -39,22 +39,20 @@ $buttons = array(
 		'access' => 'core.menus.manage'
 	),
 	array(
-		'link' => JRoute::_('index.php?option=com_languages'),
-		'image' => 'icon-48-language.png',
-		'text' => JText::_('Language Manager'),
-		'access' => 'core.languages.manage'
-	),
-	array(
 		'link' => JRoute::_('index.php?option=com_users'),
 		'image' => 'icon-48-user.png',
 		'text' => JText::_('User Manager'),
 		'access' => 'core.users.manage'
 	),
 	array(
-		'link' => JRoute::_('index.php?option=com_config'),
-		'image' => 'icon-48-config.png',
-		'text' => JText::_('Global Configuration'),
-		'access' => 'core.config.manage'
+		'link' => JRoute::_('index.php?option=com_modules'),
+		'image' => 'icon-48-module.png',
+		'text' => JText::_('Module Manager'),
+	),
+	array(
+		'link' => JRoute::_('index.php?option=com_installer'),
+		'image' => 'icon-48-extension.png',
+		'text' => JText::_('Extension Manager'),
 	)
 );
 
