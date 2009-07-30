@@ -9,12 +9,14 @@
 
 // No direct access.
 defined('_JEXEC') or die;
+
+$float = JFactory::getLanguage()->isRTL() ? 'right' : 'left';
 ?>
 
-<div style="float:<?php echo $float; ?>;">
+<div style="float: <?php echo $float; ?>;">
 	<div class="icon">
 		<a href="<?php echo $button['link']; ?>">
-			<?php echo JHtml::_('image.site', $button['image'], '/templates/'. $template .'/images/header/', NULL, NULL, $button['text']); ?>
+			<?php echo JHtml::_('image.site', $button['image'], $button['imagePath'], NULL, NULL, $button['text']); ?>
 			<span><?php echo $button['text']; ?></span></a>
 	</div>
 </div>
