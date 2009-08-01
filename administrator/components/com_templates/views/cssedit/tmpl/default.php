@@ -52,7 +52,7 @@
 </table>
 
 <input type="hidden" name="id" value="<?php echo $this->id; ?>" />
-<input type="hidden" name="cid[]" value="<?php echo $this->id; ?>" />
+<input type="hidden" name="template" value="<?php echo $this->template; ?>" />
 <input type="hidden" name="filename" value="<?php echo $this->filename; ?>" />
 <input type="hidden" name="option" value="<?php echo $this->option;?>" />
 <input type="hidden" name="task" value="" />

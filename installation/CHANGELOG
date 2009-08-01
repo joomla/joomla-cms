@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Aug-2009 Hannes Papenberg
+ # Fixed com_templates and template parameterset-to-menu item assignment
+
 30-Jul-2009 Gergo Erdosi
  ^ Updated SimplePie to version 1.2.
 

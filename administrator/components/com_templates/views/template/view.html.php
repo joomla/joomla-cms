@@ -54,19 +54,13 @@ class TemplatesViewTemplate extends JView
 		JToolBarHelper::cancel('cancel', 'Close');
 		JToolBarHelper::help('screen.templates');
 
-		$row		= &$this->get('Data');
-		$params		= &$this->get('Params');
+		$data		= &$this->get('Data');
+		$params		= &$this->get('CurrentParams');
 		$template	= &$this->get('Template');
-		$style		= &$this->get('Style');
+		$parametersets		= &$this->get('Parametersets');
 
 		if (!$template) {
 			return JError::raiseWarning(500, JText::_('Template not specified'));
-		}
-
-		if ($client->id == '1')  {
-			$lists['selections'] =  JText::_('Cannot assign an administrator template');
-		} else {
-			$lists['selections'] = TemplatesHelper::createMenuList($row->id);
 		}
 
 		// Set FTP credentials, if given
@@ -74,13 +68,13 @@ class TemplatesViewTemplate extends JView
 		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 
 		$this->assignRef('lists',		$lists);
-		$this->assignRef('row',			$row);
+		$this->assignRef('data',			$data);
 		$this->assign('option',		JRequest::getCMD('option'));
 		$this->assignRef('client',		$client);
 		$this->assignRef('ftp',			$ftp);
 		$this->assignRef('template',	$template);
 		$this->assignRef('params',		$params);
-		$this->assignRef('style',		$style);
+		$this->assignRef('paramsets',		$parametersets);
 
 		parent::display($tpl);
 	}

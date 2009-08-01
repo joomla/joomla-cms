@@ -26,27 +26,11 @@ class TemplatesModelTemplate extends JModel
 	var $_id = null;
 
 	/**
-	 * Template data
-	 *
-	 * @var array
-	 */
-	var $_data = null;
-
-	/**
 	 * client object
 	 *
 	 * @var object
 	 */
 	var $_client = null;
-
-	/**
-	 * Template style object list
-	 *
-	 * @var array
-	 */
-
-	var $_style = null;
-
 
 	/**
 	 * params object
@@ -61,6 +45,28 @@ class TemplatesModelTemplate extends JModel
 	 * @var string
 	 */
 	var $_template = null;
+	
+	/**
+	 * Template parametersets
+	 * 
+	 * @var array
+	 */
+	var $_paramsets = null;
+
+	/**
+	 * Currently active parameterset
+	 * 
+	 * @var int
+	 */
+	var $_activerecord = null;
+	
+	/**
+	 * Data of the template
+	 * 
+	 * @var object
+	 */
+	var $_data = null;
+	
 	/**
 	 * Constructor
 	 *
@@ -70,25 +76,10 @@ class TemplatesModelTemplate extends JModel
 	{
 		parent::__construct();
 
-		$id			= JRequest::getVar('id', '', 'method', 'int');
-		$cid		= JRequest::getVar('cid', array($id), 'method', 'array');
-		$cid		= array(JFilterInput::clean(@$cid[0], 'int'));
-		$this->setId($cid[0]);
+		$this->_template		= JRequest::getVar('template');
+		$this->_activerecord 	= JRequest::getVar('id', '', 'method', 'int');
 
 		$this->_client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-	}
-
-	/**
-	 * Method to set the Template identifier
-	 *
-	 * @access	public
-	 * @param	int Template identifier
-	 */
-	function setId($id)
-	{
-		// Set Template id and wipe data
-		$this->_id		= $id;
-		$this->_data	= null;
 	}
 
 	/**
@@ -115,25 +106,27 @@ class TemplatesModelTemplate extends JModel
 		return $this->_client;
 	}
 
-	function &getParams()
+	function &getCurrentParams()
 	{
 		$this->getData();
-		return $this->_params;
+		return $this->_paramsets[$this->_activerecord];
 	}
 
 	function &getTemplate()
 	{
-		if (empty($this->_template)) {
-			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
-			$this->_template=TemplatesHelper::getTemplateName($this->_id);
-		}
 		return $this->_template;
+	}
+	
+	function &getParametersets()
+	{
+		return $this->_paramsets;
 	}
 
 	function &getId()
 	{
-		return $this->_id;
+		return $this->_activerecord;
 	}
+	
 	/**
 	 * Method to store the Template
 	 *
@@ -150,7 +143,7 @@ class TemplatesModelTemplate extends JModel
 		JArrayHelper::toInteger($menus);
 		$query = 'UPDATE #__menu_template SET description='.$this->_db->Quote($description).
 					', params = '.$this->_db->Quote(json_encode($params)).
-					' WHERE id = '.$this->_db->Quote($this->_id);
+					' WHERE id = '.$this->_db->Quote($this->_activerecord);
 		$this->_db->setQuery($query);
 		if (!$this->_db->query()) {
 			return JError::raiseWarning(500, $this->_db->getError());
@@ -161,7 +154,7 @@ class TemplatesModelTemplate extends JModel
 			$query = 'UPDATE #__menu_template SET home=0 WHERE client_id='.$this->_db->Quote($this->_client->id);
 			$this->_db->setQuery($query);
 			$this->_db->query();
-			$query = 'UPDATE #__menu_template SET home=1 WHERE id='.$this->_db->Quote($this->_id);
+			$query = 'UPDATE #__menu_template SET home=1 WHERE id='.$this->_db->Quote(JRequest::getInt('id'));
 			$this->_db->setQuery($query);
 			$this->_db->query();
 		}
@@ -175,16 +168,6 @@ class TemplatesModelTemplate extends JModel
 			return JError::raiseWarning(500, $this->_db->getError());
 		}
 
-		foreach ($menus as $menuid)	{
-			// If 'None' is not in array
-			if ((int) $menuid >= 0)	{
-				$query = 'UPDATE #__menu SET template_id='.$this->_db->Quote($this->_id).' WHERE id='.$this->_db->Quote($menuid);
-				$this->_db->setQuery($query);
-				if (!$this->_db->query()) {
-					return JError::raiseWarning(500, $this->_db->getError());
-				}
-			}
-		}
 		return true;
 	}
 
@@ -198,17 +181,21 @@ class TemplatesModelTemplate extends JModel
 	function _loadData()
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
+		if (empty($this->_paramsets))
 		{
-			$query = 'SELECT * FROM #__menu_template WHERE id = '.$this->_db->Quote($this->_id);
+			$query = 'SELECT * FROM #__menu_template WHERE template = '.$this->_db->Quote($this->_template);
 			$this->_db->setQuery($query);
-			$this->_db->query();
-			if ($this->_db->getNumRows() == 0) {
-				return JError::raiseWarning(500, JText::_('Template not found'));
+			$this->_paramsets = $this->_db->loadObjectList('id');
+			if($this->_activerecord == 0)
+			{
+				if(count($this->_paramsets))
+				{
+					$this->_activerecord = current($this->_paramsets)->id;
+				} else {
+					$this->_activerecord = 0;
+				}
 			}
-			$this->_data=$this->_db->loadObject();
 			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
-			$this->_template=$this->_data->template;
 			$tBaseDir	= JPath::clean($this->_client->path.DS.'templates');
 
 
@@ -223,39 +210,21 @@ class TemplatesModelTemplate extends JModel
 			$lang->load('joomla', $this->_client->path.DS.'templates'.DS.$this->_template);
 
 			$xml	= $this->_client->path.DS.'templates'.DS.$this->_template.DS.'templateDetails.xml';
-			$this->_data->xmldata	= TemplatesHelper::parseXMLTemplateFile($tBaseDir, $this->_template);
+			$this->_data	= TemplatesHelper::parseXMLTemplateFile($tBaseDir, $this->_template);
 
-			$this->_params = new JParameter($this->_data->params, $xml, 'template');
+			$this->_paramsets[$this->_activerecord]->params = new JParameter($this->_paramsets[$this->_activerecord]->params, $xml, 'template');
 
-			$assigned = TemplatesHelper::isTemplateAssigned($this->_id);
+			$assigned = TemplatesHelper::isTemplateAssigned($this->_template);
 
-			if ($this->_data->home) {
+/**			if ($this->_data->home) {
 				$this->_data->pages = 'all';
 			} elseif (!$assigned) {
 				$this->_data->pages = 'none';
 			} else {
 				$this->_data->pages = null;
-			}
+			}**/
 		}
 		return true;
-	}
-
-	function &getStyle()
-	{
-		if (empty($this->_style)) {
-			$query = 'SELECT id,description,home FROM #__menu_template '.
-					'WHERE template = '.$this->_db->Quote($this->_template).
-					' AND client_id = '.$this->_db->Quote($this->_client->id);
-			$this->_db->setQuery($query);
-			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
-			$this->_style = $this->_db->loadObjectList();
-			for ($i = 0, $n = count($this->_style); $i < $n; $i++) {
-				$this->_style[$i]->assigned = TemplatesHelper::isTemplateAssigned($this->_style[$i]->id);
-
-			}
-
-		}
-		return $this->_style;
 	}
 
 	function add()
@@ -287,7 +256,7 @@ class TemplatesModelTemplate extends JModel
 			JError::raiseWarning(500, JText::_('Can not delete default style'));
 			return false;
 		}
-		$query = 'DELETE FROM #__menu_template WHERE id = '.$this->_db->Quote($this->_id);
+		$query = 'DELETE FROM #__menu_template WHERE id = '.$this->_db->Quote(JRequest::getInt('id'));
 		$this->_db->setQuery($query);
 		$this->_db->query();
 		return true;
@@ -302,14 +271,6 @@ class TemplatesModelTemplate extends JModel
 		$this->_db->setQuery($query);
 		$this->_db->query();
 		return true;
-	}
-
-	function getOtherID()
-	{
-		$query = 'SELECT id FROM #__menu_template WHERE template = '.$this->_db->Quote($this->_template).
-				' AND client_id = '.$this->_db->Quote($clientId).' LIMIT 1';
-		$this->_db->setQuery($query);
-		return $this->_db->loadResult();
 	}
 
 	/**

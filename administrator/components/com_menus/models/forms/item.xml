@@ -128,7 +128,7 @@
 		<field
 			id="template_id"
 			name="template_id"
-			type="text"
+			type="templates"
 			label="Menus_Item_Template_Label"
 			description="Menus_Item_Template_Desc"
 			default=""

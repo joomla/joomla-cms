@@ -17,21 +17,21 @@
 		</tr>
 		<?php
 		$i = 1;
-		foreach($this->style as $style)
+		foreach($this->paramsets as $set)
 		{ ?>
 		<tr>
 			<td><?php echo $i; ?></td>
-			<td><a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&cid[]='.$style->id.'&client='.$this->client->id); ?>">
-				<?php echo JText::_($this->row->template); ?> - <?php echo $style->description; ?>
+			<td><a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&template='.$this->template.'&id='.$set->id.'&client='.$this->client->id); ?>">
+				<?php echo JText::_($this->template); ?> - <?php echo $set->description; ?>
 			</a></td>
 			<td><?php
-			if($style->home)
+			if($set->home)
 			{
 				echo '<img src="templates/bluestork/images/menu/icon-16-default.png" alt="'.JText::_('Default').'" />';
 			} else {
-				echo '<a href="'.JRoute::_('index.php?option=com_templates&task=setdefault&id='.$style->id).'">default</a>';
+				echo '<a href="'.JRoute::_('index.php?option=com_templates&task=setdefault&id='.$set->id).'">default</a>';
 			} ?></td>
-			<td><a href="<?php echo JRoute::_('index.php?option=com_templates&task=delete&id='.$style->id); ?>">delete</a></td>
+			<td><a href="<?php echo JRoute::_('index.php?option=com_templates&task=delete&template='.$this->template.'&id='.$set->id); ?>">delete</a></td>
 		</tr>
 		<?php } ?>
 		</table>
@@ -50,7 +50,7 @@
 			</td>
 			<td>
 				<strong>
-					<?php echo JText::_($this->row->template); ?> - <input class="inputbox" type="text" name="description" id="description" size="40" maxlength="255" value="<?php echo $this->row->description; ?>" />
+					<?php echo JText::_($this->template); ?> - <input class="inputbox" type="text" name="description" id="description" size="40" maxlength="255" value="<?php echo $this->params->description; ?>" />
 
 				</strong>
 			</td>
@@ -60,7 +60,7 @@
 				<?php echo JText::_('Description'); ?>:
 			</td>
 			<td>
-				<?php echo JText::_($this->row->xmldata->description); ?>
+				<?php echo JText::_($this->data->description); ?>
 			</td>
 		</tr>
 		</table>
@@ -71,8 +71,8 @@
 		<tr>
 			<td>
 			<?php
-			if (!is_null($this->params)) {
-				echo $this->params->render();
+			if (!is_null($this->params->params)) {
+				echo $this->params->params->render();
 			} else {
 				echo '<i>' . JText :: _('No Parameters') . '</i>';
 			}
@@ -84,8 +84,8 @@
 </div>
 <div class="clr"></div>
 
-<input type="hidden" name="id" value="<?php echo $this->row->id; ?>" />
-<input type="hidden" name="template" value="<?php echo $this->row->template; ?>" />
+<input type="hidden" name="id" value="<?php echo $this->params->id; ?>" />
+<input type="hidden" name="template" value="<?php echo $this->template; ?>" />
 
 <input type="hidden" name="option" value="<?php echo $this->option;?>" />
 <input type="hidden" name="task" value="" />

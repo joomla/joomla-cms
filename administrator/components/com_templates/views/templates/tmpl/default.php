@@ -3,7 +3,7 @@
 <?php
 	$user = & JFactory :: getUser();
 
-	JHtml::_('behavior.imagetooltip', 206, 145);
+	JHtml::_('behavior.tooltip');
 ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
@@ -56,32 +56,22 @@
 	<tbody>
 <?php
 $k = 0;
-for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
-	$row = & $this->rows[$i];
-
+$i = 0;
+foreach($this->rows as $row) {
 	$author_info = @ $row->xmldata->authorEmail . '<br />' . @ $row->xmldata->authorUrl;
-	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$row->template.'/template_thumbnail.png';
+	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$row->name.'/template_thumbnail.png';
 ?>
 		<tr class="<?php echo 'row'. $k; ?>">
 			<td>
 				<?php echo $this->pagination->getRowOffset($i); ?>
 			</td>
 			<td width="5">
-			<?php
-			if (JTable::isCheckedOut($user->get ('id'), $row->xmldata->checked_out)) {
-			?>
-					&nbsp;
-			<?php
-			} else {
-			?>
-					<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" />
-			<?php
-			}
-			?>
+				<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->name; ?>" onclick="isChecked(this.checked);" />
 			</td>
 			<td>
-				<span id="<?php echo $img_path; ?>" class="hasSnapshot" title="<?php echo $row->template;?>::">
-					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&cid[]=' . $row->id . '&client=' . $this->client->id); ?>"><?php echo $row->template;?></a>
+				<span class="editlinktip hasTip" title="<?php echo $row->name;?>::
+<img border=&quot;1&quot; src=&quot;<?php echo $img_path; ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?php echo JText::_( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />">
+					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&template=' . $row->name . '&client=' . $this->client->id); ?>"><?php echo $row->name;?></a>
 				</span>
 			</td>
 			<?php
@@ -133,18 +123,19 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 			}
 			?>
 			<td align="center">
-				<?php echo $row->xmldata->version; ?>
+				<?php echo $row->version; ?>
 			</td>
 			<td>
-				<?php echo $row->xmldata->creationdate; ?>
+				<?php echo $row->creationdate; ?>
 			</td>
 			<td>
 				<span class="editlinktip hasTip" title="<?php echo JText::_('Author Information');?>::<?php echo $author_info; ?>">
-					<?php echo @$row->xmldata->author != '' ? $row->xmldata->author : '&nbsp;'; ?>
+					<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
 				</span>
 			</td>
 		</tr>
 		<?php
+		$i++;
 		}
 		?>
 	</tbody>

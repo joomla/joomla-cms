@@ -53,6 +53,7 @@ class TemplatesViewPrevuuw extends JView
 		$this->assignRef('option',		$option);
 		$this->assignRef('client',		$client);
 		$this->assignRef('id',			$id);
+		$this->assignRef('template',	$template);
 		$this->assignRef('tp',			$tp);
 		$this->assignRef('url',			$url);
 

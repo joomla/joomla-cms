@@ -136,18 +136,15 @@ class TemplatesModelTemplates extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-
 			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
 			$tBaseDir = $this->_client->path.DS.'templates';
-			$rows = TemplatesHelper::parseXMLTemplateFiles($tBaseDir);
+			$this->_data = TemplatesHelper::parseXMLTemplateFiles($tBaseDir);
 
 			$total= $this->getTotal();
-			for ($i = 0; $i < $total; $i++)  {
-				$this->_data[$i]->assigned = TemplatesHelper::isTemplateNameAssigned($this->_data[$i]->template,$this->_data[$i]->client_id);
-				$this->_data[$i]->home = TemplatesHelper::isTemplateNameDefault($this->_data[$i]->template,$this->_data[$i]->client_id);
-				$this->_data[$i]->xmldata = $rows[$this->_data[$i]->template];
+			foreach($this->_data as $dir => $data) {
+				$this->_data[$dir]->assigned = TemplatesHelper::isTemplateNameAssigned($this->_data[$dir]->name,$this->_client->id);
+				$this->_data[$dir]->home = TemplatesHelper::isTemplateNameDefault($this->_data[$dir]->name,$this->_client->id);
+//				$this->_data[$dir]->xmldata = $rows[$this->_data[$dir]->name];
 			}
 		}
 		return $this->_data;

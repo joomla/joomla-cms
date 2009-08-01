@@ -55,24 +55,8 @@ class TemplatesModelSource extends JModel
 	{
 		parent::__construct();
 
-		$id	= JRequest::getVar('id', '', 'method', 'cmd');
-		$this->setId($id);
+		$this->_template = JRequest::getVar('template');
 		$this->_client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-	}
-
-	/**
-	 * Method to set the Template identifier
-	 *
-	 * @access	public
-	 * @param	int Template identifier
-	 */
-	function setId($id)
-	{
-		// Set Template id and wipe data
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
-		$this->_id		= $id;
-		$this->_template = TemplatesHelper::getTemplateName($id);
-		$this->_data	= null;
 	}
 
 	/**
@@ -102,11 +86,6 @@ class TemplatesModelSource extends JModel
 	function &getTemplate()
 	{
 		return $this->_template;
-	}
-
-	function &getId()
-	{
-		return $this->_id;
 	}
 
 	/**
