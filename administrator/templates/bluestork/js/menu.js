@@ -16,8 +16,8 @@ Joomla.JMenu = new Class({
 		this.element = document.id(element);
 		var elements = this.element.getElements('li');
 		elements.each(function(el) {
-			el.addEvent('mouseover', function(){ this.addClass('hover'); });
-			el.addEvent('mouseout', function(){ this.removeClass('hover'); });
+			el.addEvent('mouseenter', function(){ this.addClass('hover'); });
+			el.addEvent('mouseleave', function(){ this.removeClass('hover'); });
 
 			//find nested UL
 			var nested = el.getElement('ul');
