@@ -129,7 +129,7 @@ textarea:focus { background-color: #ffd }
 
 #toolbar-box 			{ background: #fbfbfb; margin-bottom: 10px; }
 
-#submenu-box { background: #f6f6f6; margin-bottom: 10px; }
+#submenu-box { background: #f6f6f6; margin-bottom: 10px;  }
 #submenu-box .padding { padding: 0px;}
 
 
@@ -194,18 +194,22 @@ span.note {
 
 /** toolbar **/
 
-div.header {
-	font-size: 22px; 
-	font-weight: bold; 
-	/* color: #045889;  */
-	color: #146295;
-	line-height: 48px;
+div.pagetitle {
 	padding-left: 60px;
 	background-repeat: no-repeat;
 	margin-left: 10px;
 }
 
-div.header span { color: #666; }
+div.pagetitle h2 {
+	line-height: 48px;
+	font-size: 22px; 
+	font-weight: bold; 
+	color: #146295;
+	margin: 0;
+	padding: 0;
+}
+
+div.pagetitle span { color: #666; }
 
 div.configuration {
 	font-size: 14px; 
@@ -218,24 +222,25 @@ div.configuration {
 	background-repeat: no-repeat;
 }
 
-div.toolbar { float: right; text-align: right; padding: 0; }
+div.toolbar-list { float: right; text-align: right; padding: 0; }
 
-table.toolbar    			 { border-collapse: collapse; padding: 0; margin: 0;	 }
-table.toolbar td 			 { padding: 1px 1px 1px 4px; text-align: center; color: #666; height: 48px; }
-table.toolbar td.spacer  { width: 10px; }
-table.toolbar td.divider { border-right: 1px solid #eee; width: 5px; }
+div.toolbar-list ul 			{ margin:0; padding:0; }
+div.toolbar-list li 			{ padding: 1px 1px 3px 4px; text-align: center; color: #666; height: 48px; list-style:none; float:left;}
+div.toolbar-list li.spacer  	{ width: 10px; }
+div.toolbar-list li.divider 	{ border-right: 1px solid #eee; width: 5px; }
 
-table.toolbar span { float: none; width: 32px; height: 32px; margin: 0 auto; display: block; }
+div.toolbar-list span { float: none; width: 32px; height: 32px; margin: 0 auto; display: block; }
 
-table.toolbar a {
-   display: block; float: left;
+div.toolbar-list a {
+   display: block; 
+   float: left;
 	white-space: nowrap;
 	border: 1px solid #fbfbfb;
 	padding: 1px 5px;
 	cursor: pointer;
 }
 
-table.toolbar a:hover {
+div.toolbar-list a:hover {
 	border-left: 1px solid #eee;
 	border-top: 1px solid #eee;
 	border-right: 1px solid #ccc;
@@ -243,6 +248,7 @@ table.toolbar a:hover {
 	text-decoration: none;
 	color: #0B55C4;
 }
+
 
 /** for massmail component **/
 td#mm_pane			{ width: 90%; }
@@ -450,7 +456,7 @@ table.adminlist thead th {
 
 table.adminlist thead a:hover { text-decoration: none; }
 
-table.adminlist thead th img { vertical-align: middle; }
+table.adminlist thead th img { vertical-align: middle; padding-left: 3px;}
 
 table.adminlist tbody th { font-weight: bold; }
 
@@ -460,7 +466,7 @@ table.adminlist tbody tr.row1 	{ background: #f9f9f9; border-top: 1px solid #fff
 table.adminlist tbody tr.row0:hover td,
 table.adminlist tbody tr.row1:hover td  { background-color: #ffd ; }
 
-table.adminlist tbody tr td 	   { height: 35px; background: #fff; border: 1px solid #fff; }
+table.adminlist tbody tr td 	   { height: 36px; background: #fff; border: 1px solid #fff; }
 table.adminlist tbody tr.row1 td { background: #f9f9f9; border-top: 1px solid #FFF; }
 
 table.adminlist tfoot tr { text-align: center;  color: #333; }
@@ -473,7 +479,7 @@ table.adminlist td.order span { float: left; display: block; width: 20px; text-a
 table.adminlist .pagination { display:table; padding:0;  margin:0 auto;	 }
 
 
-div#element-box div.m form table.adminlist tr td a { font-size: 1.1em;}
+div#element-box div.m form table.adminlist tr td a { font-size: 1.1em; }
 div#element-box div.m div.jpane-slider form table.adminlist a { font-size: 1em;}
 
 
@@ -950,6 +956,7 @@ p#form-login-lang {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	line-height: 115%;
 }
 
 #submenu li {
@@ -966,7 +973,7 @@ p#form-login-lang {
 	font-weight: bold;
 	color: #0B55C4;
 	line-height: 12px;
-	height: 12px;
+	height: 12px; 
 }
 
 #submenu span.nolink {

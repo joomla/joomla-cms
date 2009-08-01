@@ -34,9 +34,9 @@ abstract class JToolBarHelper
 		// Strip the extension
 		$icon = preg_replace('#\.[^.]*$#', '', $icon);
 
-		$html = "<div class=\"header icon-48-$icon\">\n";
+		$html = "<div class=\"pagetitle icon-48-$icon\"><h2>\n";
 		$html .= "$title\n";
-		$html .= "</div>\n";
+		$html .= "</h2></div>\n";
 
 		$app = &JFactory::getApplication();
 		$app->set('JComponentTitle', $html);
