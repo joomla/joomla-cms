@@ -76,9 +76,9 @@ abstract class JButton extends JObject
 		}
 
 		// Build the HTML Button
-		$html	.= "<td class=\"button\" $id>\n";
+		$html	.= "<li class=\"button\" $id>\n";
 		$html	.= $action;
-		$html	.= "</td>\n";
+		$html	.= "</li>\n";
 
 		return $html;
 	}

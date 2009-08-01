@@ -38,7 +38,7 @@ class JButtonSeparator extends JButton
 		// Custom width
 		$style = (empty($definition[2])) ? null : ' style="width:' .  intval($definition[2]) . 'px;"';
 
-		return '<td class="' . $class . '"' . $style . ">\n</td>\n";
+		return '<li class="' . $class . '"' . $style . ">\n</li>\n";
 	}
 
 	/**

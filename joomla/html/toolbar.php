@@ -158,8 +158,8 @@ class JToolBar extends JObject
 		$html = array ();
 
 		// Start toolbar div
-		$html[] = '<div class="toolbar" id="'.$this->_name.'">';
-		$html[] = '<table class="toolbar"><tr>';
+		$html[] = '<div class="toolbar-list" id="'.$this->_name.'">';
+		$html[] = '<ul>';
 
 		// Render each button in the toolbar
 		foreach ($this->_bar as $button) {
@@ -167,7 +167,8 @@ class JToolBar extends JObject
 		}
 
 		// End toolbar div
-		$html[] = '</tr></table>';
+		$html[] = '</ul>';
+		$html[] = '<div class="clr"></div>';
 		$html[] = '</div>';
 
 		return implode("\n", $html);
