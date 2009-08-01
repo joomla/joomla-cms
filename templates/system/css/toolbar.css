@@ -4,25 +4,28 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-table#toolbar {
+div.toolbar-list {
 	margin-right: 10px;
+	float: right; 
+	text-align: right;
 }
 
-table#toolbar a.toolbar {
+div.toolbar-list a {
 	color : #808080;
 	text-decoration : none;
 	display: block;
+	float: left;
 	border: 1px solid #DDD;
 	width: 40px;
 	padding: 2px 5px 2px 5px;
 }
-table#toolbar a.toolbar:hover {
+div.toolbar-list a:hover {
 	color : #C64934;
 	cursor: pointer;
 	border: 1px solid #c24733;
 	background-color: #f1e8e6;
 	padding: 3px 5px 1px 5px;
 }
-table#toolbar a.toolbar:active {
+div.toolbar-list a:active {
 	color : #FF9900;
 }
