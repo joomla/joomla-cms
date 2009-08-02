@@ -412,13 +412,14 @@ class JApplication extends JObject
 	 *
 	 * @access	public
 	 * @param	string	The name of the value to get.
+	 * @param	string	Default value to return
 	 * @return	mixed	The user state.
 	 * @example	application/japplication-getcfg.php Getting a configuration value
 	 */
-	function getCfg($varname)
+	function getCfg($varname, $default=null)
 	{
 		$config = &JFactory::getConfig();
-		return $config->getValue('config.' . $varname);
+		return $config->getValue('config.' . $varname, $default);
 	}
 
 	/**
@@ -594,7 +595,11 @@ class JApplication extends JObject
 					$crypt = new JSimpleCrypt($key);
 					$rcookie = $crypt->encrypt(serialize($credentials));
 					$lifetime = time() + 365*24*60*60;
-					setcookie(JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, '/');
+
+					// Use domain and path set in config for cookie if it exists
+					$cookie_domain = $this->getCfg('cookie_domain', '');
+					$cookie_path = $this->getCfg('cookie_path', '/');
+					setcookie( JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain );
 				}
 				return true;
 			}
@@ -654,7 +659,10 @@ class JApplication extends JObject
 		 * much more information about why the routine may have failed.
 		 */
 		if (!in_array(false, $results, true)) {
-			setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, '/');
+			// Use domain and path set in config for cookie if it exists
+			$cookie_domain = $this->getCfg('cookie_domain', '');
+			$cookie_path = $this->getCfg('cookie_path', '/');
+			setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain );
 			return true;
 		}
 
