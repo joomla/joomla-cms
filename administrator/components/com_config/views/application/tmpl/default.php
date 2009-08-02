@@ -42,6 +42,7 @@ $this->document->addScriptDeclaration("
 					</td>
 					<td width="35%">
 						<?php echo $this->loadTemplate('seo'); ?>
+						<?php echo $this->loadTemplate('cookie'); ?>
 					</td>
 				</tr>
 			</table>

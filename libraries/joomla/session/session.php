@@ -443,7 +443,10 @@ class JSession extends JObject
 		// must also be unset. If a cookie is used to propagate the session id (default behavior),
 		// then the session cookie must be deleted.
 		if (isset($_COOKIE[session_name()])) {
-			setcookie(session_name(), '', time()-42000, '/');
+			$config =& JFactory::getConfig();
+			$cookie_domain = $config->getValue('config.cookie_domain', '');
+			$cookie_path = $config->getValue('config.cookie_path', '/');
+			setcookie(session_name(), '', time()-42000, $cookie_path, $cookie_domain);
 		}
 
 		session_unset();
@@ -573,6 +576,14 @@ class JSession extends JObject
 		$cookie	=	session_get_cookie_params();
 		if ($this->_force_ssl) {
 			$cookie['secure'] = true;
+		}
+		
+		$config = &JFactory::getConfig();
+		if($config->getValue('config.cookie_domain', '') != '') {
+			$cookie['domain'] = $config->getValue('config.cookie_domain');
+		}
+		if($config->getValue('config.cookie_path', '') != '') {
+			$cookie['path'] = $config->getValue('config.cookie_path');
 		}
 		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure']);
 	}

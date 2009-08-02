@@ -636,4 +636,28 @@
 			required="true"
 		/>
 	</fields>
+
+	<fields group="cookie" label="Config_Cookie_Settings_Label">
+		<field
+			name="cookie_domain"
+			type="text"
+			default=""
+			label="Config_Cookie_Domain_Label"
+			description="Config_Cookie_Domain_Desc"
+			required="true"
+			filter="string"
+			size="50"
+		/>
+
+		<field
+			name="cookie_path"
+			type="text"
+			default=""
+			label="Config_Cookie_Path_Label"
+			description="Config_Cookie_Path_Desc"
+			required="true"
+			filter="string"
+			size="50" 
+		/>
+	</fields>
 </form>
