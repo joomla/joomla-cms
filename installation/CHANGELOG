@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Aug-2009 Sam Moffatt
+ + Added file installer thanks to work by Ajay Lulia
+
 02-Aug-2009 Sam Moffatt
  + Added default to JApplication::getCfg
  + [#16939] Add Cookie Domain and Path setting to global config
