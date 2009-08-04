@@ -12,11 +12,12 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
+JHtml::_('script', 'multiselect.js');
 $user	= &JFactory::getUser();
 $userId	= $user->get('id');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter">
 		<div class="left">
 			<label for="search">
