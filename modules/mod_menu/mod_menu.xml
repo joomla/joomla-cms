@@ -13,7 +13,7 @@
 		<filename module="mod_menu">mod_menu.php</filename>
 	</files>
 	<params>
-		<param name="menutype" type="mos_menu" default="" label="Menu Name" description="The name of the menu (default is mainmenu)" />
+		<param name="menutype" type="menu" default="" label="Menu Name" description="The name of the menu (default is mainmenu)" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="startLevel" type="text" default="0" size="5" label="Start Level" description="PARAMSTARTLEVEL" />
 		<param name="endLevel" type="text" default="0" size="5" label="End Level" description="PARAMSTOPLEVEL" />

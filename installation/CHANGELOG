@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Aug-2009 Ercan Ozkaya
+ # [#17479] Com_menus and com_modules issue fix (Thanks Johnathan Cheung)
+
 04-Aug-2009 Sam Moffatt
  + Added file installer thanks to work by Ajay Lulia
 
