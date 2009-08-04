@@ -4,7 +4,7 @@
  * @package		Joomla.Framework
  * @subpackage	Error
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
 // No direct access
@@ -17,28 +17,6 @@ define('JERROR_CALLBACK_NOT_CALLABLE', 2);
 // Error Definition: Illegal Handler
 define('JERROR_ILLEGAL_MODE', 3);
 
-/*
- * JError exception stack
- */
-$GLOBALS['_JERROR_STACK'] = array();
-
-/*
- * Default available error levels
- */
-$GLOBALS['_JERROR_LEVELS'] = array(
-	E_NOTICE 	=> 'Notice',
-	E_WARNING	=> 'Warning',
-	E_ERROR 	=> 'Error'
-);
-
-/*
- * Default error handlers
- */
-$GLOBALS['_JERROR_HANDLERS'] = array(
-	E_NOTICE 	=> array('mode' => 'message'),
-	E_WARNING 	=> array('mode' => 'message'),
-	E_ERROR 	=> array('mode' => 'callback', 'options' => array('JError','customErrorPage'))
-);
 
 /**
  * Error Handling Class
@@ -55,70 +33,90 @@ $GLOBALS['_JERROR_HANDLERS'] = array(
  * @subpackage	Error
  * @since		1.5
  */
-class JError
+abstract class JError
 {
+	protected static $levels = array(
+		E_NOTICE => 'Notice',
+		E_WARNING => 'Warning',
+		E_ERROR => 'Error'
+	);
+	protected static $handlers = array(
+		E_NOTICE 	=> array('mode' => 'message'),
+		E_WARNING 	=> array('mode' => 'message'),
+		E_ERROR 	=> array('mode' => 'callback', 'options' => array('JError','customErrorPage'))
+	);
+	protected static $stack = array();
+
 	/**
 	 * Method to determine if a value is an exception object.  This check supports both JException and PHP5 Exception objects
 	 *
+	 * @static
+	 * @access	public
 	 * @param	mixed	&$object	Object to check
 	 * @return	boolean	True if argument is an exception, false otherwise.
 	 * @since	1.5
+w
 	 */
-	public static function isError(&$object)
+	public static function isError(& $object)
 	{
 		if (!is_object($object)) {
 			return false;
 		}
 		// supports PHP 5 exception handling
-		return is_a($object, 'JException') || is_a($object, 'JError') || is_a($object, 'Exception');
+		return $object INSTANCEOF Exception;
 	}
 
 	/**
 	 * Method for retrieving the last exception object in the error stack
 	 *
+	 * @static
+	 * @access	public
 	 * @return	mixed	Last exception object in the error stack or boolean false if none exist
 	 * @since	1.5
 	 */
-	public static function &getError($unset = false)
+	public static function & getError($unset = false)
 	{
-		if (!isset($GLOBALS['_JERROR_STACK'][0])) {
+		if (!isset(JError::$stack[0])) {
 			$false = false;
 			return $false;
 		}
 		if ($unset) {
-			$error = array_shift($GLOBALS['_JERROR_STACK']);
+			$error = array_shift(JError::$stack[0]);
 		} else {
-			$error = &$GLOBALS['_JERROR_STACK'][0];
+			$error = &JError::$stack[0];
 		}
 		return $error;
 	}
 
 	/**
+	 * Method for retrieving the exception stack
+	 *
+	 * @static
+	 * @access	public
+	 * @return	array 	Chronological array of errors that have been stored during script execution
+	 * @since	1.5
+	 */
+	public static function & getErrors()
+	{
+		return JError::$stack[0];
+	}
+
+	/**
 	 * Method to add non-JError thrown JExceptions to the JError stack for debugging purposes
 	 *
+	 * @access 	public
 	 * @param 	object JException
 	 * @return 	void
 	 * @since 	1.6
 	 */
-	public static function addToStack(JException &$e)
-	{
-		$GLOBALS['_JERROR_STACK'][] = &$e;
-	}
-
-	/**
-	 * Method for retrieving the exception stack
-	 *
-	 * @return	array 	Chronological array of errors that have been stored during script execution
-	 * @since	1.5
-	 */
-	public static function &getErrors()
-	{
-		return $GLOBALS['_JERROR_STACK'];
+	public static function addToStack(JException &$e) {
+		JError::$stack[0][] = &$e;
 	}
 
 	/**
 	 * Create a new JException object given the passed arguments
 	 *
+	 * @static
 	 * @param	int		$level	The error level - use any of PHP's own error levels for this: E_ERROR, E_WARNING, E_NOTICE, E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE.
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
@@ -134,13 +132,25 @@ class JError
 
 		// build error object
 		$exception = new JException($msg, $code, $level, $info, $backtrace);
+		return JError::throwError($exception);
+	}
+
+	public static function &throwError(&$exception) {
+		static $thrown = false;
+
+		//if thrown is hit again, we've come back to JError in the middle of throwing another JError, so die!
+		if ($thrown) jexit('Infinite loop detected in JError');
+		//add loop check
+
+		$thrown = true;
+		$level = $exception->get('level');
 
 		// see what to do with this kind of error
 		$handler = JError::getErrorHandling($level);
 
 		$function = 'handle'.ucfirst($handler['mode']);
 		if (is_callable(array('JError', $function))) {
-			$reference = &JError::$function ($exception, (isset($handler['options'])) ? $handler['options'] : array());
+			$reference = &call_user_func_array(array('JError',$function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
 		} else {
 			// This is required to prevent a very unhelpful white-screen-of-death
 			jexit(
@@ -150,38 +160,24 @@ class JError
 				'<br />' . $exception->getMessage()
 			);
 		}
-
-		//store and return the error
-		$GLOBALS['_JERROR_STACK'][] = &$reference;
+		//we don't need to store the error, since JException already does that for us!
+		//remove loop check
+		$thrown = false;
 		return $reference;
 	}
 
 	/**
 	 * Wrapper method for the {@link raise()} method with predefined error level of E_ERROR and backtrace set to true.
 	 *
+	 * @static
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
 	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
 	 * @return	object	$error	The configured JError object
 	 * @since	1.5
 	 */
-	public static function &raiseError($code, $msg, $info = null)
+	public static function & raiseError($code, $msg, $info = null)
 	{
-		// Workaround for recursion problems.
-		// TODO: Remove once we find the root cause of the problem.
-		static $count = 0;
-		if (++$count > 1)
-		{
-			echo '<h1>Recursion Detected</h1><pre>'.$msg.'</pre><ul>';
-			foreach (debug_backtrace() as $trace) {
-				if (isset($trace['file'])) {
-					printf('<li>%s:%d</li>', str_replace(JPATH_SITE, '', $trace['file']), $trace['line']);
-				}
-			}
-			echo '</ul>';
-			die;
-		}
-
 		$reference = & JError::raise(E_ERROR, $code, $msg, $info, true);
 		return $reference;
 	}
@@ -189,13 +185,14 @@ class JError
 	/**
 	 * Wrapper method for the {@link raise()} method with predefined error level of E_WARNING and backtrace set to false.
 	 *
+	 * @static
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
 	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
 	 * @return	object	$error	The configured JError object
 	 * @since	1.5
 	 */
-	public static function &raiseWarning($code, $msg, $info = null)
+	public static function & raiseWarning($code, $msg, $info = null)
 	{
 		$reference = & JError::raise(E_WARNING, $code, $msg, $info);
 		return $reference;
@@ -204,13 +201,14 @@ class JError
 	/**
 	 * Wrapper method for the {@link raise()} method with predefined error level of E_NOTICE and backtrace set to false.
 	 *
+	 * @static
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
 	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
 	 * @return	object	$error	The configured JError object
 	 * @since	1.5
 	 */
-	public static function &raiseNotice($code, $msg, $info = null)
+	public static function & raiseNotice($code, $msg, $info = null)
 	{
 		$reference = & JError::raise(E_NOTICE, $code, $msg, $info);
 		return $reference;
@@ -219,14 +217,15 @@ class JError
 	/**
 	* Method to get the current error handler settings for a specified error level.
 	*
+	* @static
 	* @param	int		$level	The error level to retrieve. This can be any of PHP's own error levels, e.g. E_ALL, E_NOTICE...
 	* @return	array	All error handling details
 	* @since	1.5
 	*/
-    public static function getErrorHandling($level)
-    {
-		return $GLOBALS['_JERROR_HANDLERS'][$level];
-    }
+	public static function getErrorHandling($level)
+	{
+		return JError::$handlers[$level];
+	}
 
 	/**
 	 * Method to set the way the JError will handle different error levels. Use this if you want to override the default settings.
@@ -246,6 +245,7 @@ class JError
 	 * - E_ERROR | E_WARNING = Set the handling for errors and warnings
 	 * - E_ALL ^ E_ERROR = Set the handling for all levels except errors
 	 *
+	 * @static
 	 * @param	int		$level		The error level for which to set the error handling
 	 * @param	string	$mode		The mode to use for the error handling.
 	 * @param	mixed	$options	Optional: Any options needed for the given mode.
@@ -254,7 +254,7 @@ class JError
 	 */
 	public static function setErrorHandling($level, $mode, $options = null)
 	{
-		$levels = $GLOBALS['_JERROR_LEVELS'];
+		$levels = JError::$levels;
 
 		$function = 'handle'.ucfirst($mode);
 		if (!is_callable(array ('JError',$function))) {
@@ -262,7 +262,7 @@ class JError
 		}
 
 		foreach ($levels as $eLevel => $eTitle) {
-			if (($level &$eLevel) != $eLevel) {
+			if (($level & $eLevel) != $eLevel) {
 				continue;
 			}
 
@@ -286,9 +286,9 @@ class JError
 			}
 
 			// save settings
-			$GLOBALS['_JERROR_HANDLERS'][$eLevel] = array ('mode' => $mode);
+			JError::$handlers[$eLevel] = array ('mode' => $mode);
 			if ($options != null) {
-				$GLOBALS['_JERROR_HANDLERS'][$eLevel]['options'] = $options;
+				JError::$handlers[$eLevel]['options'] = $options;
 			}
 		}
 
@@ -298,6 +298,7 @@ class JError
 	/**
   	 * Method that attaches the error handler to JError
   	 *
+  	 * @access public
   	 * @see set_error_handler
   	 */
 	public static function attachHandler()
@@ -308,6 +309,7 @@ class JError
 	/**
   	 * Method that dettaches the error handler from JError
   	 *
+  	 * @access public
   	 * @see restore_error_handler
   	 */
 	public static function detachHandler()
@@ -323,6 +325,7 @@ class JError
 	* - E_WARNING
 	* - E_NOTICE
 	*
+	* @static
 	* @param	int		$level		Error level to register
 	* @param	string	$name		Human readable name for the error level
 	* @param	string	$handler	Error handler to set for the new error level [optional]
@@ -331,26 +334,27 @@ class JError
 	*/
 	public static function registerErrorLevel($level, $name, $handler = 'ignore')
 	{
-		if (isset($GLOBALS['_JERROR_LEVELS'][$level])) {
+		if (isset(JError::$levels[$level])) {
 			return false;
 		}
-		$GLOBALS['_JERROR_LEVELS'][$level] = $name;
+		JError::$levels[$level] = $name;
 		JError::setErrorHandling($level, $handler);
 		return true;
 	}
 
 	/**
-	 * Translate an error level integer to a human readable string
-	 * e.g. E_ERROR will be translated to 'Error'
-	 *
-	 * @param	int		$level	Error level to translate
-	 * @return	mixed	Human readable error level name or boolean false if it doesn't exist
-	 * @since	1.5
-	 */
+	* Translate an error level integer to a human readable string
+	* e.g. E_ERROR will be translated to 'Error'
+	*
+	* @static
+	* @param	int		$level	Error level to translate
+	* @return	mixed	Human readable error level name or boolean false if it doesn't exist
+	* @since	1.5
+	*/
 	public static function translateErrorLevel($level)
 	{
-		if (isset($GLOBALS['_JERROR_LEVELS'][$level])) {
-			return $GLOBALS['_JERROR_LEVELS'][$level];
+		if (isset(JError::$levels[$level])) {
+			return JError::$levels[$level];
 		}
 		return false;
 	}
@@ -359,6 +363,7 @@ class JError
 	 * Ignore error handler
 	 * 	- Ignores the error
 	 *
+	 * @static
 	 * @param	object	$error		Exception object to handle
 	 * @param	array	$options	Handler options
 	 * @return	object	The exception object
@@ -375,6 +380,7 @@ class JError
 	 * Echo error handler
 	 * 	- Echos the error message to output
 	 *
+	 * @static
 	 * @param	object	$error		Exception object to handle
 	 * @param	array	$options	Handler options
 	 * @return	object	The exception object
@@ -404,6 +410,7 @@ class JError
 	 * Verbose error handler
 	 * 	- Echos the error message to output as well as related info
 	 *
+	 * @static
 	 * @param	object	$error		Exception object to handle
 	 * @param	array	$options	Handler options
 	 * @return	object	The exception object
@@ -411,7 +418,7 @@ class JError
 	 *
 	 * @see	raise()
 	 */
-	public static function &handleVerbose(&$error, $options)
+	public static function &handleVerbose(& $error, $options)
 	{
 		$level_human = JError::translateErrorLevel($error->get('level'));
 		$info = $error->get('info');
@@ -438,6 +445,7 @@ class JError
 	 * Die error handler
 	 * 	- Echos the error message to output and then dies
 	 *
+	 * @static
 	 * @param	object	$error		Exception object to handle
 	 * @param	array	$options	Handler options
 	 * @return	object	The exception object
@@ -445,7 +453,7 @@ class JError
 	 *
 	 * @see	raise()
 	 */
-	public static function &handleDie(&$error, $options)
+	public static function &handleDie(& $error, $options)
 	{
 		$level_human = JError::translateErrorLevel($error->get('level'));
 
@@ -467,6 +475,7 @@ class JError
 	 * Message error handler
 	 * 	- Enqueues the error message into the system queue
 	 *
+	 * @static
 	 * @param	object	$error		Exception object to handle
 	 * @param	array	$options	Handler options
 	 * @return	object	The exception object
@@ -474,11 +483,11 @@ class JError
 	 *
 	 * @see	raise()
 	 */
-	public static function &handleMessage(&$error, $options)
+	public static function & handleMessage(& $error, $options)
 	{
-		$app = &JFactory::getApplication();
+		$appl = JFactory::getApplication();
 		$type = ($error->get('level') == E_NOTICE) ? 'notice' : 'error';
-		$app->enqueueMessage($error->get('message'), $type);
+		$appl->enqueueMessage($error->get('message'), $type);
 		return $error;
 	}
 
@@ -486,6 +495,7 @@ class JError
 	 * Log error handler
 	 * 	- Logs the error message to a system log file
 	 *
+	 * @static
 	 * @param	object	$error		Exception object to handle
 	 * @param	array	$options	Handler options
 	 * @return	object	The exception object
@@ -493,7 +503,7 @@ class JError
 	 *
 	 * @see	raise()
 	 */
-	public static function &handleLog(&$error, $options)
+	public static function & handleLog(& $error, $options)
 	{
 		static $log;
 
@@ -517,6 +527,7 @@ class JError
 	 * Callback error handler
 	 * 	- Send the error object to a callback method for error handling
 	 *
+	 * @static
 	 * @param	object	$error		Exception object to handle
 	 * @param	array	$options	Handler options
 	 * @return	object	The exception object
@@ -533,15 +544,16 @@ class JError
 	/**
 	 * Display a custom error page and exit gracefully
 	 *
+	 * @static
 	 * @param	object	$error Exception object
 	 * @return	void
 	 * @since	1.5
 	 */
-	public static function customErrorPage(&$error)
+	public static function customErrorPage(& $error)
 	{
 		// Initialize variables
 		jimport('joomla.document.document');
-		$app        = & JFactory::getApplication();
+		$app		= & JFactory::getApplication();
 		$document	= & JDocument::getInstance('error');
 		$config		= & JFactory::getConfig();
 
@@ -552,7 +564,7 @@ class JError
 		$document->setError($error);
 
 		@ob_end_clean();
-		$document->setTitle(JText::_('Error').': '.$error->getCode());
+		$document->setTitle(JText::_('Error').': '.$error->get('code'));
 		$data = $document->render(false, array (
 			'template' => $template,
 			'directory' => JPATH_THEMES,
@@ -568,4 +580,46 @@ class JError
 	{
 		JError::raise($level, '', $msg);
 	}
+
+	public static function renderBacktrace($error)
+        {
+                $contents       = null;
+                $backtrace      = $error->getTrace();
+                if (is_array($backtrace))
+                {
+                        ob_start();
+                        $j      =       1;
+                        echo    '<table border="0" cellpadding="0" cellspacing="0" class="Table">';
+                        echo    '       <tr>';
+                        echo    '               <td colspan="3" align="left" class="TD"><strong>Call stack</strong></td>';
+                        echo    '       </tr>';
+                        echo    '       <tr>';
+                        echo    '               <td class="TD"><strong>#</strong></td>';
+                        echo    '               <td class="TD"><strong>Function</strong></td>';
+                        echo    '               <td class="TD"><strong>Location</strong></td>';
+                        echo    '       </tr>';
+                        for ($i = count($backtrace)-1; $i >= 0 ; $i--)
+                        {
+                                echo    '       <tr>';
+                                echo    '               <td class="TD">'.$j.'</td>';
+                                if (isset($backtrace[$i]['class'])) {
+                                        echo    '       <td class="TD">'.$backtrace[$i]['class'].$backtrace[$i]['type'].$backtrace[$i]['function'].'()</td>';
+                                } else {
+                                        echo    '       <td class="TD">'.$backtrace[$i]['function'].'()</td>';
+                                }
+                                if (isset($backtrace[$i]['file'])) {
+                                        echo    '               <td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
+                                } else {
+                                        echo    '               <td class="TD">&nbsp;</td>';
+                                }
+                                echo    '       </tr>';
+                                $j++;
+                        }
+                        echo    '</table>';
+                        $contents = ob_get_contents();
+                        ob_end_clean();
+                }
+                return $contents;
+        }
+
 }
