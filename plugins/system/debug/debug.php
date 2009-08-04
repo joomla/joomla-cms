@@ -65,6 +65,14 @@ class plgSystemDebug extends JPlugin
 
 		ob_start();
 		echo '<div id="system-debug" class="profiler">';
+		$errors = JError::getErrors();
+		if(!empty($errors)) {
+			echo '<h4>'.JText::_('Errors').'</h4><ol>';
+			while($error = JError::getError(true)) {
+				echo '<li>'.$error->getMessage().'<br /><h4>'.JText::_('Info').'</h4><pre>'.print_r($error->get('info'), true).'</pre><br /><h4>'.JText::_('Backtrace').'</h4>'.JError::renderBacktrace($error).'</li>';
+			}
+			echo '</ol>';
+		}
 		if ($this->params->get('profile', 1)) {
 			echo '<h4>'.JText::_('Profile Information').'</h4>';
 			foreach ($profiler->getBuffer() as $mark) {
@@ -86,7 +94,7 @@ class plgSystemDebug extends JPlugin
 
 			if ($log = $db->getLog()) {
 				echo '<ol>';
-				foreach ($log as $k=>$sql) {
+				foreach ($log as $k => $sql) {
 					$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $sql);
 					echo '<li>'.$text.'</li>';
 				}
