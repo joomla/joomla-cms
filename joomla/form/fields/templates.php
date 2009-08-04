@@ -49,10 +49,10 @@ class JFormFieldTemplates extends JFormField {
 
 	private function _getSelected()
 	{
-		$id = JRequest::getVar( 'cid', 0 );
+		$id = JRequest::getVar('cid', array(0));
 		$db = JFactory::getDBO();
 		$query = 'SELECT `template_id` FROM `#__menu` '
-			. 'WHERE id = '.$id[0];
+			. 'WHERE id = '.(int)$id[0];
 		$db->setQuery( $query );
 		$result = $db->loadResult();
 		return $result;
