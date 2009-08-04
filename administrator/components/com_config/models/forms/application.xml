@@ -644,7 +644,7 @@
 			default=""
 			label="Config_Cookie_Domain_Label"
 			description="Config_Cookie_Domain_Desc"
-			required="true"
+			required="false"
 			filter="string"
 			size="50"
 		/>
@@ -655,7 +655,7 @@
 			default=""
 			label="Config_Cookie_Path_Label"
 			description="Config_Cookie_Path_Desc"
-			required="true"
+			required="false"
 			filter="string"
 			size="50" 
 		/>
