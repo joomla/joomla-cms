@@ -405,11 +405,17 @@ class JForm extends JObject
 									break;
 
 								default:
-									// Check for a callback filter.
-									if (is_callable(explode('::', $filter))) {
+									if (strpos($filter, '::') !== false && is_callable(explode('::', $filter))) 
+									{
 										// Filter using the callback method.
 										$return[$name] = call_user_func(explode('::', $filter), $data[$name]);
-									} else {
+									}
+									else if (function_exists($filter)) 
+									{
+										// Filter using the callback function.
+										$return[$name] = call_user_func($filter, $data[$name]);
+									}
+									else {
 										// Filter out HTML.
 										$return[$name] = $noHtmlFilter->clean($data[$name], $filter);
 									}
