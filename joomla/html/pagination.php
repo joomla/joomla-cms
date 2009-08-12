@@ -143,7 +143,7 @@ class JPagination extends JObject
 		// Initialize variables
 		$html = null;
 		if ($this->get('pages.total') > 1) {
-			$html .= JText::_('Page')." ".$this->get('pages.current')." ".JText::_('of')." ".$this->get('pages.total');
+			$html .= JText::_sprintf('JPAGE_CURRENT_OF_TOTAL', $this->get('pages.current'), $this->get('pages.total'));
 		}
 		return $html;
 	}
