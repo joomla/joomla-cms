@@ -67,7 +67,7 @@ class JInstallationModelDatabase extends JModel
 		if (empty($options->db_created))
 		{
 			// Get a database object.
-			$db = & $this->getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
+			$db = &$this->getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
 
 			// Check for errors.
 			if (JError::isError($db)) {
@@ -81,13 +81,13 @@ class JInstallationModelDatabase extends JModel
 				return false;
 			}
 			
-			// Check MySQL version.
-			$mysql_version = mysql_get_server_info();
-			if (($position = strpos($mysql_version, '-')) !== false) {
-				$mysql_version = substr($mysql_version, 0, $position);
+			// Check database version.
+			$db_version = $db->getVersion();
+			if (($position = strpos($db_version, '-')) !== false) {
+				$db_version = substr($db_version, 0, $position);
 			}
 			
-			if (!version_compare($mysql_version, '5.0.4', '>=')) {
+			if (!version_compare($db_version, '5.0.4', '>=')) {
 				$this->setError(JText::_('You need MySQL 5.0.4 or higher to continue the installation.'));
 				return false;
 			}

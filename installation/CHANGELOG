@@ -35,6 +35,7 @@ $ -> Language fix or change
  ^ Replaced com_messages with its refactored version.
  ! Thanks to Joe LeBlanc for helping refactor the com_messages component.
  - Removed DEFAULT values of TEXT types in installation SQL.
+ # Fixed database version check during installation.
 
 05-Aug-2009 Ercan Ozkaya
  # [#17479] Com_menus and com_modules issue fix (Thanks Johnathan Cheung)
