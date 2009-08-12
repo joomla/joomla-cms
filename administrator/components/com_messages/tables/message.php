@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.database.table');
 
+/**
+ * Message Table class
+ *
+ * @package		Joomla.Administrator
+ * @subpackage	com_messages
+ * @since		1.5
+ */
 class TableMessage extends JTable
 {
 	/**

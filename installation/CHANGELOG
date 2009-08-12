@@ -32,6 +32,8 @@ $ -> Language fix or change
  ^ Updated robots.txt to the current directory structure.
  ^ Replaced com_languages with its refactored version.
  ! Thanks to Christophe Demko for helping refactor the com_languages component.
+ ^ Replaced com_messages with its refactored version.
+ ! Thanks to Joe LeBlanc for helping refactor the com_messages component.
 
 05-Aug-2009 Ercan Ozkaya
  # [#17479] Com_menus and com_modules issue fix (Thanks Johnathan Cheung)
