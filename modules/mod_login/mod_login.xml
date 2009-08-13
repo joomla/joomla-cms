@@ -23,16 +23,16 @@
 		<param name="login" type="menuitem" default="" disable="separator" label="Login Redirection URL" description="PARAMLOGINREDIRECTURL" />
 		<param name="logout" type="menuitem" default="" disable="separator" label="Logout Redirection URL" description="PARAMLOGOUTREDIRECTURL" />
 		<param name="greeting" type="radio" default="1" label="Greeting" description="Show/Hide the simple greeting text">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 		<param name="name" type="list" default="0" label="Name/Username">
 			<option value="0">Username</option>
 			<option value="1">Name</option>
 		</param>
 		<param name="usesecure" type="radio" default="0" label="Encrypt Login Form" description="Submit encrypted login data (requires SSL)">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 	</params>
 </install>

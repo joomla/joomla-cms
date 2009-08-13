@@ -11,8 +11,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 		
 		<field
@@ -100,8 +100,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 		
 		<field
@@ -113,8 +113,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 		
 		<field
@@ -126,8 +126,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 	</fields>
 	
@@ -141,8 +141,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 	
 		<field
@@ -262,8 +262,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 		
 		<field
@@ -331,8 +331,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 		
 		<field
@@ -344,8 +344,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 	</fields>
 	
@@ -359,8 +359,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 		
 		<field
@@ -372,8 +372,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 		
 		<field
@@ -385,8 +385,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 	</fields>
 	
@@ -411,31 +411,16 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 		
 		<field
 			name="error_reporting"
 			type="list"
 			default="-1"
-			label="Config_Gzip_Compression_Label"
-			description="Config_Gzip_Compression_Desc"
-			required="true"
-			filter="integer"
-		>
-			<option value="-1">Config_Option_System_Default</option>
-			<option value="0">Config_Option_None</option>
-			<option value="7">Config_Option_Simple</option>
-			<option value="6143">Config_Option_Maximum</option>
-		</field>
-		
-		<field
-			name="error_reporting"
-			type="list"
-			default="-1"
-			label="Config_Gzip_Compression_Label"
-			description="Config_Gzip_Compression_Desc"
+			label="Config_Error_Reporting_Label"
+			description="Config_Error_Reporting_Desc"
 			required="true"
 			filter="integer"
 		>
@@ -492,8 +477,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 		
 		<field
@@ -623,8 +608,8 @@
 			required="true"
 			filter="integer"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</field>
 		
 		<field

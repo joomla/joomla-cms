@@ -23,8 +23,8 @@
 		<param name="cid" type="bannerclient" default="" label="Banner client" description="PARAMSINGLECLIENT" />
 		<param name="catid" type="category" section="com_banner" default="" label="Category" description="PARAMCATEGORY" />
 		<param name="tag_search" type="radio" default="0" label="Search By Tags" description="PARAMSEARCHBYTAG">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 		<param name="ordering" type="list" default="0" label="Randomise" description="PARAMRANDOMISE">
 			<option value="0">Sticky,Ordering</option>

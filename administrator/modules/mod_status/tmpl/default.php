@@ -22,7 +22,7 @@ $output = array();
 	$output[] = "<span class=\"viewsite\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('View site')."</a></span>";
 	
 // Print the logout link.
-	$output[] = "<span class=\"logout\"><a href=\"$logoutLink\">".JText::_('Log out')."</a></span>";
+	$output[] = "<span class=\"logout\"><a href=\"$logoutLink\">".JText::_('Log_out')."</a></span>";
 
 // Reverse rendering order for rtl display.
 if ($lang->isRTL()) {

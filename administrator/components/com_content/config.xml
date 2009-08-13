@@ -12,9 +12,9 @@
 			label="Content_Attribs_Show_Unauth_Links_Label"
 			description="Content_Attribs_Show_Unauth_Links_Desc">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 
 		<field
@@ -39,9 +39,9 @@
 			description="Content_Attribs_Link_Category_Desc"
 			default="1">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 
 		<field
@@ -54,9 +54,9 @@
 			label="Content_Attribs_Show_Title_Label"
 			description="Content_Attribs_Show_Title_Desc">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 
 		<field
@@ -66,9 +66,9 @@
 			label="Content_Attribs_Linked_Titles_Label"
 			description="Content_Attribs_Linked_Titles_Desc">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 
 		<field
@@ -231,9 +231,9 @@
 			description="Content_Attribs_Allow_Ratings_Desc"
 			default="">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 
 		<field
@@ -243,9 +243,9 @@
 			description="Content_Attribs_Allow_Comments_Desc"
 			default="">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 	</fields>
 

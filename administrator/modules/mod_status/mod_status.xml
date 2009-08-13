@@ -8,7 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>This module shows the status of the logged in user.</description>
+	<description>This_module_shows_the_status_of_the_logged_in_user.</description>
 	<files>
 		<filename module="mod_status">mod_status.php</filename>
 	</files>

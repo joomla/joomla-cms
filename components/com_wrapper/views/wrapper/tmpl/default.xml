@@ -30,9 +30,9 @@
 			label="Scroll Bars"
 			description="fieldHORIVERT">
 			<option
-				value="no">No</option>
+				value="no">JNo</option>
 			<option
-				value="yes">Yes</option>
+				value="yes">JYes</option>
 			<option
 				value="auto">Auto</option>
 		</field>
@@ -68,9 +68,9 @@
 			label="Auto Height"
 			description="fieldHEIGHTAUTO">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 
 		<field
@@ -80,9 +80,9 @@
 			label="Auto Add"
 			description="fieldADD">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 	</fields>
 </metadata>

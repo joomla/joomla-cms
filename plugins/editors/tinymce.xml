@@ -49,8 +49,8 @@
     </param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
   		<param name="lang_mode" type="radio" default="0" label="Automatic Language Selection" description="DESCLANGMODE">
- 			<option value="0">No</option>
- 			<option value="1">Yes</option>
+ 			<option value="0">JNo</option>
+ 			<option value="1">JYes</option>
  		</param>
  		<param name="lang_code" type="text" default="en" size="2" label="Language Code" description="DESCLANGCODE"/>
  		<param name="text_direction" type="list" default="ltr" label="Text Direction" description="Ability to change text direction">
@@ -59,8 +59,8 @@
  		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
   	<param name="content_css" type="radio" default="1" label="Template CSS classes" description="PARAMTEMPLATECSS">
- 			<option value="0">No</option>
- 			<option value="1">Yes</option>
+ 			<option value="0">JNo</option>
+ 			<option value="1">JYes</option>
  		</param>
  		<param name="content_css_custom" type="text" size="30" default="" label="Custom CSS Classes" description="PARAMCUSTOMCSS"/>
  		<param name="@spacer" type="spacer" default="" label="" description="" />

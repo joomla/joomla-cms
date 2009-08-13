@@ -14,16 +14,16 @@
 	</files>
 	<params>
 		<param name="serverinfo" type="radio" default="0" label="Server Info" description="Display server information">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</param>
 		<param name="siteinfo" type="radio" default="0" label="Site Info" description="Display site information">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</param>
 		<param name="counter" type="radio" default="0" label="Hit Counter" description="Display hit counter">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</param>
 		<param name="increase" type="text" default="0" label="Increase counter" description="Enter the amount of hits to increase counter by" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />

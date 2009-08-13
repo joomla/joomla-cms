@@ -8,9 +8,9 @@
 			label="Allow User Registration"
 			description="TIPALLOWUSERREG">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</param>
 
 		<param
@@ -36,9 +36,9 @@
 			label="New User Account Activation"
 			description="TIPIFYESUSERMAILEDLINK">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</param>
 
 		<param

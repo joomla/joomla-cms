@@ -8,9 +8,9 @@
 			label="TRACK BANNER IMPRESSION LABEL"
 			description="TRACK BANNER IMPRESSION DESC">
 			<option
-				value="0">NO</option>
+				value="0">JNO</option>
 			<option
-				value="1">YES</option>
+				value="1">JYES</option>
 		</field>
 		
 		<field
@@ -20,9 +20,9 @@
 			label="TRACK BANNER CLICK LABEL"
 			description="TRACK BANNER CLICK DESC">
 			<option
-				value="0">NO</option>
+				value="0">JNO</option>
 			<option
-				value="1">YES</option>
+				value="1">JYES</option>
 		</field>
 		
 		<field

@@ -275,9 +275,9 @@
 			<option
 				value="">Use Global</option>
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 
 		<field
@@ -289,9 +289,9 @@
 			<option
 				value="">Use Global</option>
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 		<field
 			name="show_intro"
@@ -330,9 +330,9 @@
 			<option
 				value="">Use Global</option>
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 
 		<field

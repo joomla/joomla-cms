@@ -84,7 +84,7 @@
 			type="menuparent"
 			label="Menus_Item_Parent_Label"
 			description="Menus_Item_Parent_Desc"
-			default=""
+			default="Menu_Item_Root"
 			filter="int"
 			class="inputbox"
 			size="1"/>
@@ -156,9 +156,9 @@
 			class="inputbox"
 			filter="integer">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 
 		<field

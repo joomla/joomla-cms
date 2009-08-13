@@ -14,13 +14,13 @@
 	</files>
 	<params>
 		<param name="showHome" type="radio" default="1" label="Show Home" description="PARAMSHOWHOME">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 		<param name="homeText" type="text" default="Home" label="Text for Home entry" description="PARAMHOMETEXT" />
 		<param name="showLast" type="radio" default="1" label="Show Last" description="PARAMSHOWLAST">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 		<param name="separator" type="text" default="" label="Text Separator" description="A text separator" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />

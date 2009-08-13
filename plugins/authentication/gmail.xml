@@ -20,8 +20,8 @@
 		</param>
 		<param name="suffix" type="text" size="20" default="" label="Username Suffix" description="PARAMUSERNAMESUFFIX" />
 		<param name="verifypeer" type="radio" default="1" label="Verify Peer" description="PARAMVERIFYPEER">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 		<param name="user_blacklist" type="text" size="20" default="" label="User blacklist" description="PARAMUSERBLACKLIST" />
 	</params>

@@ -17,25 +17,25 @@
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="rssurl" type="text" size="50" default="" label="Feed URL" description="Enter the URL of the RSS/RDF feed" />
 		<param name="rssrtl" type="radio" default="0" label="RTL feed" description="Display feed in RTL direction">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</param>
 		<param name="rsstitle" type="radio" default="1" label="Feed Title" description="Display news feed title">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</param>
 		<param name="rssdesc" type="radio" default="1" label="Feed Description" description="Show the description text for the whole Feed">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</param>
 		<param name="rssimage" type="radio" default="1" label="Feed Image" description="Show the image associated with the whole Feed">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</param>
 		<param name="rssitems" type="text" default="3" label="Items" description="Enter number of RSS items to display" />
 		<param name="rssitemdesc" type="radio" default="1" label="Item Description" description="PARAMITEMDESC">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</param>
 		<param name="word_count" type="text" size="6" default="0" label="Word Count" description="PARAMWORDCOUNT" />
 	</params>

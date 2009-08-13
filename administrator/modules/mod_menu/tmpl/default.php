@@ -42,11 +42,11 @@ if ($com || $chm || $cam )
 			new JMenuNode(JText::_('Site Maintenance'), '#', 'class:maintenance'), true
 		);
 
-		$menu->addChild(new JMenuNode(JText::_('Global Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
+		$menu->addChild(new JMenuNode(JText::_('Global_Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
 
 		$menu->addSeparator();
-		$menu->addChild(new JMenuNode(JText::_('Clear Cache'), 'index.php?option=com_cache', 'class:clear'));
-		$menu->addChild(new JMenuNode(JText::_('Purge Expired Cache'), 'index.php?option=com_cache&view=purge', 'class:purge'));
+		$menu->addChild(new JMenuNode(JText::_('Clear_Cache'), 'index.php?option=com_cache', 'class:clear'));
+		$menu->addChild(new JMenuNode(JText::_('Purge_Expired_Cache'), 'index.php?option=com_cache&view=purge', 'class:purge'));
 		$menu->getParent();
 	}
 
@@ -152,10 +152,10 @@ if ($user->authorize('com_content.manage'))
 	if ($enabled)
 	{
 		$menu->addChild(
-			new JMenuNode(JText::_('Content'), '#'), true
+			new JMenuNode(JText::_('Com_Content'), '#'), true
 		);
 		$menu->addChild(
-			new JMenuNode(JText::_('Com_content_Article_Manager'), 'index.php?option=com_content', 'class:article')
+			new JMenuNode(JText::_('Com_Content_Article_Manager'), 'index.php?option=com_content', 'class:article')
 		);
 		
 		$menu->addChild(
@@ -236,29 +236,29 @@ if ($im || $mm || $pm || $tm || $lm)
 {
 	if ($enabled)
 	{
-		$menu->addChild(new JMenuNode(JText::_('Extensions'), '#'), true);
+		$menu->addChild(new JMenuNode(JText::_('Mod_Extensions_Extensions'), '#'), true);
 
 		if ($im)
 		{
-			$menu->addChild(new JMenuNode(JText::_('Extension Manager'), 'index.php?option=com_installer', 'class:install'));
+			$menu->addChild(new JMenuNode(JText::_('Mod_Extensions_Extension_Manager'), 'index.php?option=com_installer', 'class:install'));
 			$menu->addSeparator();
 		}
 		if ($mm) {
-			$menu->addChild(new JMenuNode(JText::_('Module Manager'), 'index.php?option=com_modules', 'class:module'));
+			$menu->addChild(new JMenuNode(JText::_('Mod_Extensions_Module_Manager'), 'index.php?option=com_modules', 'class:module'));
 		}
 		if ($pm) {
-			$menu->addChild(new JMenuNode(JText::_('Plugin Manager'), 'index.php?option=com_plugins', 'class:plugin'));
+			$menu->addChild(new JMenuNode(JText::_('Mod_Extensions_Plugin_Manager'), 'index.php?option=com_plugins', 'class:plugin'));
 		}
 		if ($tm) {
-			$menu->addChild(new JMenuNode(JText::_('Template Manager'), 'index.php?option=com_templates', 'class:themes'));
+			$menu->addChild(new JMenuNode(JText::_('Mod_Extensions_Template_Manager'), 'index.php?option=com_templates', 'class:themes'));
 		}
 		if ($lm) {
-			$menu->addChild(new JMenuNode(JText::_('Language Manager'), 'index.php?option=com_languages', 'class:language'));
+			$menu->addChild(new JMenuNode(JText::_('Mod_Extensions_Language_Manager'), 'index.php?option=com_languages', 'class:language'));
 		}
 		$menu->getParent();
 	}
 	else {
-		$menu->addChild(new JMenuNode(JText::_('Extensions'), null, 'disabled'));
+		$menu->addChild(new JMenuNode(JText::_('Mod_Extensions_Extensions'), null, 'disabled'));
 	}
 }
 
@@ -269,14 +269,14 @@ if ($im || $mm || $pm || $tm || $lm)
  {
  	$lang->load('com_redirect.menu');
 
- 	$menu->addChild(new JMenuNode(JText::_('Tools'), '#'), true);
+ 	$menu->addChild(new JMenuNode(JText::_('Mod_Tools'), '#'), true);
 
 // 	$menu->addChild(new JMenuNode(JText::_('com_redirect'), 'index.php?option=com_redirect', 'class:component'));
 
  	$menu->getParent();
  }
  else {
- 	$menu->addChild(new JMenuNode(JText::_('Tools'),  null, 'disabled'));
+ 	$menu->addChild(new JMenuNode(JText::_('Mod_Tools'),  null, 'disabled'));
  }
 
 //
@@ -285,10 +285,10 @@ if ($im || $mm || $pm || $tm || $lm)
 if ($enabled)
 {
 	$menu->addChild(
-		new JMenuNode(JText::_('Help'), '#'), true
+		new JMenuNode(JText::_('Mod_Menu_Help'), '#'), true
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('Mod_Menu_Help'), 'index.php?option=com_admin&view=help', 'class:help')
+		new JMenuNode(JText::_('Mod_Menu_Joomla_Help'), 'index.php?option=com_admin&view=help', 'class:help')
 	);
 	$menu->addSeparator();
 	
@@ -321,7 +321,7 @@ if ($enabled)
 	$menu->getParent();
 }
 else {
-	$menu->addChild(new JMenuNode(JText::_('Help'),  null, 'disabled'));
+	$menu->addChild(new JMenuNode(JText::_('Mod_Help'),  null, 'disabled'));
 }
 
 $menu->renderMenu('menu', $enabled ? '' : 'disabled');

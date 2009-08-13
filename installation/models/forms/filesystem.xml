@@ -9,8 +9,8 @@
 			filter="int"
 			required="true"
 		>
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</field>
 		<field name="ftp_user" type="text" id="ftp_user" class="inputbox"
 			label="Installation_Ftp_User_Label"
@@ -46,8 +46,8 @@
 			required="true"
 			filter="int"
 		>
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</field>
 	</fields>
 </form>

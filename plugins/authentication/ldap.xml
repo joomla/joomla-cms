@@ -16,16 +16,16 @@
 		<param name="host" type="text" size="20" default="" label="Host" description="PARAMLDAPHOST" />
 		<param name="port" type="text" size="20" default="389" label="Port" description="PARAMLDAPPORT" />
 		<param name="use_ldapV3" type="radio" default="0" label="LDAP V3" description="PARAMLDAPV3">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 		<param name="negotiate_tls" type="radio" default="0" label="Negotiate TLS" description="PARAMNEGOCIATETLS">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 		<param name="no_referrals" type="radio" default="0" label="Follow referrals" description="PARAMFOLLOW">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 		<param name="auth_method" default="bind" type="list" label="Authorization Method" description="PARAMAUTHMETHOD">
 			<option value="search">Bind and Search</option>

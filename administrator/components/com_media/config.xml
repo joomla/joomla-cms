@@ -40,9 +40,9 @@
 			label="RESTRICT UPLOADS"
 			description="RESTRICT UPLOADS DESC">
 			<option
-				value="0">NO</option>
+				value="0">JNo</option>
 			<option
-				value="1">YES</option>
+				value="1">JYes</option>
 		</field>
 
 		<field
@@ -68,9 +68,9 @@
 			label="CHECK MIME"
 			description="CHECK MIME DESC">
 			<option
-				value="0">NO</option>
+				value="0">JNo</option>
 			<option
-				value="1">YES</option>
+				value="1">JYes</option>
 		</field>
 
 		<field
@@ -112,9 +112,9 @@
 			label="ENABLE FLASH UPLOADER"
 			description="ENABLE FLASH UPLOADER DESC">
 			<option
-				value="0">NO</option>
+				value="0">JNo</option>
 			<option
-				value="1">YES</option>
+				value="1">JYes</option>
 		</field>
 	</fields>
 </config>

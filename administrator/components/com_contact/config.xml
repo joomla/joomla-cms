@@ -154,9 +154,9 @@
 			label="Enable vcard"
 			description="Enable vcard support for contacts">
 			<option
-				value="0">NO</option>
+				value="0">JNo</option>
 			<option
-				value="1">YES</option>
+				value="1">JYes</option>
 		</field>
 
 		<field
@@ -196,9 +196,9 @@
 			label="SESSION CHECK LABEL"
 			description="SESSION CHECK DESC">
 			<option
-				value="0">NO</option>
+				value="0">JNo</option>
 			<option
-				value="1">YES</option>
+				value="1">JYes</option>
 		</field>
 
 		<field
@@ -208,9 +208,9 @@
 			label="Custom Reply"
 			description="Custom Reply Desc">
 			<option
-				value="0">NO</option>
+				value="0">JNo</option>
 			<option
-				value="1">YES</option>
+				value="1">JYes</option>
 		</field>
 	</fields>
 </config>

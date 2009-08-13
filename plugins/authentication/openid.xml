@@ -14,20 +14,20 @@
 	</files>
 	<params>
 		<param name="usermode" type="radio" default="2" label="Convert old usernames" description="OPENID_USERMODE_DESC">
-			<option value="2">Yes</option>
-			<option value="1">No</option>
+			<option value="2">JYes</option>
+			<option value="1">JNo</option>
 		</param>
 		<param name="phishing-resistant" type="radio" default="0" label="Require Policy phishing resistant" description="PHISHING_RESISTANT_DESC">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</param>
 		<param name="multi-factor" type="radio" default="0" label="Require Policy multi factor" description="MULTI_FACTOR_DESC">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</param>
 		<param name="multi-factor-physical" type="radio" default="0" label="Require Policy multi factor physical" description="MULTI_FACTOR_PHYSICAL_DESC">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
 		</param>
 	</params>
 </install>

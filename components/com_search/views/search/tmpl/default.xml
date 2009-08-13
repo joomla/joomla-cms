@@ -19,9 +19,9 @@
 			label="Use Search Areas"
 			description="Show the search areas checkboxes">
 			<option
-				value="0">No</option>
+				value="0">JNo</option>
 			<option
-				value="1">Yes</option>
+				value="1">JYes</option>
 		</field>
 
 		<field

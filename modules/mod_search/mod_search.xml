@@ -19,8 +19,8 @@
 		<param name="text" type="text" default="" label="Text" description="PARAMTEXT" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="button" type="radio" default="" label="Search Button" description="Display a Search Button">
-			<option value="">No</option>
-			<option value="1">Yes</option>
+			<option value="">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 		<param name="button_pos" type="list" default="right" label="Button Position" description="Position of the button relative to the search box">
 			<option value="right">Right</option>
@@ -29,8 +29,8 @@
 			<option value="bottom">Bottom</option>
 		</param>
 		<param name="imagebutton" type="radio" default="" label="Search button as image" description="Use an image as button">
-			<option value="">No</option>
-			<option value="1">Yes</option>
+			<option value="">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 		<param name="button_text" type="text" default="" label="Button Text" description="PARAMBUTTONTEXT" />
 	</params>

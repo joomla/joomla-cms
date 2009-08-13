@@ -16,16 +16,16 @@
 		<param name="search_limit" type="text" size="5" default="50" label="Search Limit" description="Number of Search items to return"/>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="search_content" type="radio" default="1" label="Content Items" description="Search Content Items?">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 		<param name="search_uncategorised" type="radio" default="1" label="Uncategorised Content" description="Search Uncategorised Content?">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 		<param name="search_archived" type="radio" default="1" label="Archived Content" description="Search Archived Content?">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
 		</param>
 	</params>
 </install>
