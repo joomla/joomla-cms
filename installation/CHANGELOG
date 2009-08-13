@@ -37,6 +37,7 @@ $ -> Language fix or change
  # Fixed JDatabaseMySQLi __destruct() method.
  - Removed value returning in database drivers __destruct() methods.
  - Removed legacy.js file.
+ ^ Moved /images/joomla/ to /images/system/.
 
 12-Aug-2009 Gergo Erdosi
  ^ Removed legacy code from the .htaccess file.

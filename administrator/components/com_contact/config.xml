@@ -18,7 +18,7 @@
 		<field
 			name="icon_address"
 			type="imagelist"
-			directory="/images/joomla"
+			directory="/images/system"
 			hide_none="1"
 			default=""
 			label="Address Icon"
@@ -27,7 +27,7 @@
 		<field
 			name="icon_email"
 			type="imagelist"
-			directory="/images/joomla"
+			directory="/images/system"
 			hide_none="1"
 			default=""
 			label="Email Icon"
@@ -36,7 +36,7 @@
 		<field
 			name="icon_telephone"
 			type="imagelist"
-			directory="/images/joomla"
+			directory="/images/system"
 			hide_none="1"
 			default=""
 			label="Telephone Icon"
@@ -45,7 +45,7 @@
 		<field
 			name="icon_mobile"
 			type="imagelist"
-			directory="/images/joomla"
+			directory="/images/system"
 			hide_none="1"
 			default=""
 			label="Mobile Icon"
@@ -54,7 +54,7 @@
 		<field
 			name="icon_fax"
 			type="imagelist"
-			directory="/images/joomla"
+			directory="/images/system"
 			hide_none="1"
 			default=""
 			label="Fax Icon"
@@ -63,7 +63,7 @@
 		<field
 			name="icon_misc"
 			type="imagelist"
-			directory="/images/joomla"
+			directory="/images/system"
 			hide_none="1"
 			default=""
 			label="Misc Icon"
