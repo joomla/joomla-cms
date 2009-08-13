@@ -34,7 +34,7 @@ abstract class JHtmlGrid
 		self::behavior();
 
 		// Build the title.
-		$title = ($value) ? JText::_('Yes') : JText::_('No');
+		$title = ($value) ? JText::_('JYes') : JText::_('JNo');
 		$title .= '::'.JText::_('Click_To_Toggle');
 
 		// Build the <a> tag.
