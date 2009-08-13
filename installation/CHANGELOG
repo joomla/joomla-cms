@@ -35,6 +35,7 @@ $ -> Language fix or change
  # Fixed bug pagination getPagesCounter() method.
  ^ Changed database $_resource variable to $_connection.
  # Fixed JDatabaseMySQLi __destruct() method.
+ - Removed value returning in database drivers __destruct() methods.
 
 12-Aug-2009 Gergo Erdosi
  ^ Removed legacy code from the .htaccess file.

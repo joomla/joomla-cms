@@ -89,11 +89,9 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function __destruct()
 	{
-		$return = false;
 		if (is_resource($this->_connection)) {
-			$return = mysql_close($this->_connection);
+			mysql_close($this->_connection);
 		}
-		return $return;
 	}
 
 	/**
