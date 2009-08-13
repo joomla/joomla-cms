@@ -31,91 +31,91 @@ abstract class JDatabase extends JObject
 	 *
 	 * @var string
 	 **/
-	protected $_sql			= '';
+	protected $_sql = '';
 
 	/**
 	 * The database error number
 	 *
 	 * @var int
 	 **/
-	protected $_errorNum		= 0;
+	protected $_errorNum = 0;
 
 	/**
 	 * The database error message
 	 *
 	 * @var string
 	 */
-	protected $_errorMsg		= '';
+	protected $_errorMsg = '';
 
 	/**
 	 * The prefix used on all database tables
 	 *
 	 * @var string
 	 */
-	protected $_table_prefix	= '';
+	protected $_table_prefix = '';
 
 	/**
-	 * The connector resource
+	 * The database link identifier.
 	 *
-	 * @var resource
+	 * @var mixed
 	 */
-	protected $_resource		= '';
+	protected $_connection = '';
 
 	/**
 	 * The last query cursor
 	 *
 	 * @var resource
 	 */
-	protected $_cursor		= null;
+	protected $_cursor = null;
 
 	/**
 	 * Debug option
 	 *
 	 * @var boolean
 	 */
-	protected $_debug			= 0;
+	protected $_debug = 0;
 
 	/**
 	 * The limit for the query
 	 *
 	 * @var int
 	 */
-	protected $_limit			= 0;
+	protected $_limit = 0;
 
 	/**
 	 * The for offset for the limit
 	 *
 	 * @var int
 	 */
-	protected $_offset		= 0;
+	protected $_offset = 0;
 
 	/**
 	 * The number of queries performed by the object instance
 	 *
 	 * @var int
 	 */
-	protected $_ticker		= 0;
+	protected $_ticker = 0;
 
 	/**
 	 * A log of queries
 	 *
 	 * @var array
 	 */
-	protected $_log			= null;
+	protected $_log = null;
 
 	/**
 	 * The null/zero date string
 	 *
 	 * @var string
 	 */
-	protected $_nullDate		= null;
-
+	protected $_nullDate = null;
+	
 	/**
 	 * Quote for named objects
 	 *
 	 * @var string
 	 */
-	protected $_nameQuote		= null;
+	protected $_nameQuote = null;
 
 	/**
 	 * UTF-8 support
@@ -123,7 +123,7 @@ abstract class JDatabase extends JObject
 	 * @var boolean
 	 * @since	1.5
 	 */
-	protected $_utf			= 0;
+	protected $_utf = 0;
 
 	/**
 	 * The fields that are to be quote
@@ -131,7 +131,7 @@ abstract class JDatabase extends JObject
 	 * @var array
 	 * @since	1.5
 	 */
-	protected $_quoted	= null;
+	protected $_quoted = null;
 
 	/**
 	 *  Legacy compatibility
@@ -139,7 +139,7 @@ abstract class JDatabase extends JObject
 	 * @var bool
 	 * @since	1.5
 	 */
-	protected $_hasQuoted	= null;
+	protected $_hasQuoted = null;
 
 	/**
 	* Database object constructor
