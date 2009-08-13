@@ -33,6 +33,8 @@ $ -> Language fix or change
  ^ Changed deprecated JToolBarHelper function calls in core components.
  ^ Replaced JQueryElement toString() method by __toString magic method.
  # Fixed bug pagination getPagesCounter() method.
+ ^ Changed database $_resource variable to $_connection.
+ # Fixed JDatabaseMySQLi __destruct() method.
 
 12-Aug-2009 Gergo Erdosi
  ^ Removed legacy code from the .htaccess file.

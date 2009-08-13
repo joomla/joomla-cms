@@ -89,7 +89,7 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// connect to the server
-		if (!($this->_resource = @mysqli_connect($host, $user, $password, NULL, $port, $socket)))
+		if (!($this->_connection = @mysqli_connect($host, $user, $password, NULL, $port, $socket)))
 		{
 			$this->_errorNum = 2;
 			$this->_errorMsg = 'Could not connect to MySQL';
@@ -114,8 +114,8 @@ class JDatabaseMySQLi extends JDatabase
 	public function __destruct()
 	{
 		$return = false;
-		if (is_resource($this->_resource)) {
-			$return = mysqli_close($this->_resource);
+		if (is_object($this->_connection)) {
+			$return = mysqli_close($this->_connection);
 		}
 		return $return;
 	}
@@ -138,7 +138,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function connected()
 	{
-		return $this->_resource->ping();
+		return $this->_connection->ping();
 	}
 
 	/**
@@ -155,7 +155,7 @@ class JDatabaseMySQLi extends JDatabase
 			return false;
 		}
 
-		if (!mysqli_select_db($this->_resource, $database))
+		if (!mysqli_select_db($this->_connection, $database))
 		{
 			$this->_errorNum = 3;
 			$this->_errorMsg = 'Could not connect to database';
@@ -181,7 +181,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function setUTF()
 	{
-		mysqli_query($this->_resource, "SET NAMES 'utf8'");
+		mysqli_query($this->_connection, "SET NAMES 'utf8'");
 	}
 
 	/**
@@ -193,7 +193,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function getEscaped($text, $extra = false)
 	{
-		$result = mysqli_real_escape_string($this->_resource, $text);
+		$result = mysqli_real_escape_string($this->_connection, $text);
 		if ($extra) {
 			$result = addcslashes($result, '%_');
 		}
@@ -206,7 +206,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function query()
 	{
-		if (!is_object($this->_resource)) {
+		if (!is_object($this->_connection)) {
 			return false;
 		}
 
@@ -222,12 +222,12 @@ class JDatabaseMySQLi extends JDatabase
 		}
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
-		$this->_cursor = mysqli_query($this->_resource, $sql);
+		$this->_cursor = mysqli_query($this->_connection, $sql);
 
 		if (!$this->_cursor)
 		{
-			$this->_errorNum = mysqli_errno($this->_resource);
-			$this->_errorMsg = mysqli_error($this->_resource)." SQL=$sql";
+			$this->_errorNum = mysqli_errno($this->_connection);
+			$this->_errorMsg = mysqli_error($this->_connection)." SQL=$sql";
 
 			if ($this->_debug) {
 				JError::raiseError(500, 'JDatabaseMySQL::query: '.$this->_errorNum.' - '.$this->_errorMsg);
@@ -245,7 +245,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function getAffectedRows()
 	{
-		return mysqli_affected_rows($this->_resource);
+		return mysqli_affected_rows($this->_connection);
 	}
 
 	/**
@@ -279,7 +279,7 @@ class JDatabaseMySQLi extends JDatabase
 			$command_line = trim($command_line);
 			if ($command_line != '')
 			{
-				$this->_cursor = mysqli_query($this->_resource, $command_line);
+				$this->_cursor = mysqli_query($this->_connection, $command_line);
 				if ($this->_debug)
 				{
 					$this->_ticker++;
@@ -288,8 +288,8 @@ class JDatabaseMySQLi extends JDatabase
 				if (!$this->_cursor)
 				{
 					$error = 1;
-					$this->_errorNum .= mysqli_errno($this->_resource) . ' ';
-					$this->_errorMsg .= mysqli_error($this->_resource)." SQL=$command_line <br />";
+					$this->_errorNum .= mysqli_errno($this->_connection) . ' ';
+					$this->_errorMsg .= mysqli_error($this->_connection)." SQL=$command_line <br />";
 					if ($abort_on_error) {
 						return $this->_cursor;
 					}
@@ -646,7 +646,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function insertid()
 	{
-		return mysqli_insert_id($this->_resource);
+		return mysqli_insert_id($this->_connection);
 	}
 
 	/**
@@ -654,7 +654,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function getVersion()
 	{
-		return mysqli_get_server_info($this->_resource);
+		return mysqli_get_server_info($this->_connection);
 	}
 
 	/**
