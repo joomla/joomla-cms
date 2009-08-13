@@ -196,7 +196,7 @@ class UsersModelUser extends JModelForm
 		$query->where('`email` = '.$this->_db->Quote($data['email']));
 
 		// Get the user id.
-		$this->_db->setQuery($query->toString());
+		$this->_db->setQuery((string) $query);
 		$user = $this->_db->loadObject();
 
 		// Check for an error.
@@ -397,7 +397,7 @@ class UsersModelUser extends JModelForm
 		$query->where('`activation` = '.$this->_db->Quote($data['token']));
 
 		// Get the user id.
-		$this->_db->setQuery($query->toString());
+		$this->_db->setQuery((string) $query);
 		$user = $this->_db->loadObject();
 
 		// Check for an error.

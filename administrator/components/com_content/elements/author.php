@@ -56,7 +56,7 @@ class JElementAuthor extends JElement
 
 		// Get the users.
 		$db = &JFactory::getDbo();
-		$db->setQuery($query->toString());
+		$db->setQuery((string) $query);
 		$users = $db->loadObjectList();
 
 		// Check for a database error.

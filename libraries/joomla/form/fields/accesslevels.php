@@ -45,7 +45,7 @@ class JFormFieldAccessLevels extends JFormFieldList
 		$query->group('a.id');
 
 		// Get the options.
-		$db->setQuery($query->toString());
+		$db->setQuery((string) $query);
 		$options = $db->loadObjectList();
 
 		// Check for a database error.

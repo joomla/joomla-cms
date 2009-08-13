@@ -90,7 +90,7 @@ class MessagesModelMessage extends JModel
 		$query->where('m.group_id IN ('.$groups.')');
 
 		// Get the users.
-		$this->_db->setQuery($query->toString());
+		$this->_db->setQuery((string) $query);
 		$users = $this->_db->loadObjectList();
 
 		// Check for a database error.
