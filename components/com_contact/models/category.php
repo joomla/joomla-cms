@@ -39,7 +39,7 @@ class ContactModelCategory extends JModel
 		$wheres[] = 'cc.access <= ('.$groups.')';
 
 		$groupBy	= 'cc.id';
-		$orderBy	= 'cc.ordering' ;
+		$orderBy	= 'cc.lft' ;
 
 		/*
 		 * Query to retrieve all categories that belong under the contacts
@@ -73,7 +73,7 @@ class ContactModelCategory extends JModel
 		$orderBy	= @$options['order by'];
 
 		$select = 'cd.*, ' .
-				'cc.name AS category_name, cc.description AS category_description, cc.image AS category_image,'.
+				'cc.title AS category_name, cc.description AS category_description, '.
 				' CASE WHEN CHAR_LENGTH(cd.alias) THEN CONCAT_WS(\':\', cd.id, cd.alias) ELSE cd.id END as slug, '.
 				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(\':\', cc.id, cc.alias) ELSE cc.id END as catslug ';
 		$from	= '#__contact_details AS cd';
