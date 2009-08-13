@@ -39,7 +39,7 @@ class MessagesViewMessages extends JView
 	{
 		JToolBarHelper::title(JText::_('Private Messaging'), 'inbox.png');
 		JToolBarHelper::deleteList();
-		JToolBarHelper::addNewX();
+		JToolBarHelper::addNew();
 		JToolBarHelper::custom('config', 'config.png', 'config_f2.png', 'Settings', false, false);
 		JToolBarHelper::help('screen.messages.inbox');
 	}

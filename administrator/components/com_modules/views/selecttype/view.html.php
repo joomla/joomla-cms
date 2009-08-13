@@ -29,7 +29,7 @@ class ModulesViewSelecttype extends JView
 		$client		= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		JToolBarHelper::title(JText::_('Module') . ': <small><small>[ '. JText::_('New') .' ]</small></small>', 'module.png');
-		JToolBarHelper::customX('edit', 'forward.png', 'forward_f2.png', 'Next', true);
+		JToolBarHelper::custom('edit', 'forward.png', 'forward_f2.png', 'Next', true);
 		JToolBarHelper::cancel();
 		JToolBarHelper::help('screen.modules.new');
 

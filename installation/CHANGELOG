@@ -30,6 +30,7 @@ $ -> Language fix or change
 13-Aug-2009 Gergo Erdosi
  ^ Deprecated JToolBarHelper functions: customX, addNewX, editListX, editHtmlX, editCssX and deleteListX.
  - Removed $hideMenu parameter of JButtonStandard->fetchButton.
+ ^ Changed deprecated JToolBarHelper function calls in core components.
 
 12-Aug-2009 Gergo Erdosi
  ^ Removed legacy code from the .htaccess file.

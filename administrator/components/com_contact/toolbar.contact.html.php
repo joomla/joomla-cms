@@ -45,8 +45,8 @@ class TOOLBAR_contact
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
-		JToolBarHelper::addNewX();
+		JToolBarHelper::editList();
+		JToolBarHelper::addNew();
 		JToolBarHelper::preferences('com_contact', '500');
 
 		JToolBarHelper::help('screen.contactmanager');

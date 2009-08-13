@@ -50,7 +50,7 @@ class TemplatesViewTemplates extends JView
 		// Set toolbar items for the page
 		JToolBarHelper::title(JText::_('Template Manager'), 'thememanager');
 
-		JToolBarHelper::editListX('edit', 'Edit');
+		JToolBarHelper::editList('edit', 'Edit');
 		//JToolBarHelper::addNew();
 		JToolBarHelper::help('screen.templates');
 

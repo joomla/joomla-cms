@@ -36,8 +36,8 @@ class ModulesViewModules extends JView
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
 		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
-		JToolBarHelper::addNewX();
+		JToolBarHelper::editList();
+		JToolBarHelper::addNew();
 		JToolBarHelper::help('screen.modules');
 
 		// Get data from the model

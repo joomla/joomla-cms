@@ -54,7 +54,7 @@ class MessagesViewMessage extends JView
 	protected function _setDefaultToolbar()
 	{
 		JToolBarHelper::title(JText::_('View Private Message'), 'inbox.png');
-		JToolBarHelper::customX('reply', 'restore.png', 'restore_f2.png', 'Reply', false);
+		JToolBarHelper::custom('reply', 'restore.png', 'restore_f2.png', 'Reply', false);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::cancel();
 		JToolBarHelper::help('screen.messages.read');

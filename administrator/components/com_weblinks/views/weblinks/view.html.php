@@ -62,8 +62,8 @@ class WeblinksViewWeblinks extends JView
 		else {
 			JToolBarHelper::trash('weblinks.trash');
 		}
-		JToolBarHelper::editListX('weblink.edit');
-		JToolBarHelper::addNewX('weblink.add');
+		JToolBarHelper::editList('weblink.edit');
+		JToolBarHelper::addNew('weblink.add');
 		JToolBarHelper::preferences('com_weblinks', '480', '570', 'JToolbar_Options');
 		JToolBarHelper::help('screen.weblink');
 	}

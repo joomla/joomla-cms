@@ -56,9 +56,9 @@ class NewsfeedsViewNewsfeeds extends JView
 		JToolBarHelper::title(JText::_('Newsfeeds_Manager_Newsfeeds'), 'generic.png');
 		JToolBarHelper::publishList('newsfeeds.publish');
 		JToolBarHelper::unpublishList('newsfeeds.unpublish');
-		JToolBarHelper::deleteListX('', 'newsfeeds.delete');
-		JToolBarHelper::editListX('newsfeed.edit');
-		JToolBarHelper::addNewX('newsfeed.add');
+		JToolBarHelper::deleteList('', 'newsfeeds.delete');
+		JToolBarHelper::editList('newsfeed.edit');
+		JToolBarHelper::addNew('newsfeed.add');
 		JToolBarHelper::preferences('com_newsfeeds','400');
 		JToolBarHelper::help('screen.newsfeed');
 	}
