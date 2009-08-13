@@ -58,7 +58,7 @@ class JModelList extends JModel
 
 		// Load the list.
 		$query	= $this->_getListQuery();
-		$rows	= $this->_getList($query->toString(), $this->getState('list.start'), $this->getState('list.limit'));
+		$rows	= $this->_getList((string) $query, $this->getState('list.start'), $this->getState('list.limit'));
 
 		// Add the rows to the internal storage.
 		$this->_lists[$key] = $rows;
@@ -98,7 +98,7 @@ class JModelList extends JModel
 
 		// Load the total.
 		$query = $this->_getListQuery();
-		$return = (int)$this->_getListCount($query->toString());
+		$return = (int)$this->_getListCount((string) $query);
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum()) {

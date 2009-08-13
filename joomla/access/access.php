@@ -193,7 +193,7 @@ class JAccess extends JObject
 
 			// We are only interested in the first row
 			// @todo Maybe add a parameter to return all rows for diagnositic purposes
-			$db->setQuery($query->toString(), 0, 1);
+			$db->setQuery((string) $query, 0, 1);
 
 			$this->_quiet or $this->_log($db->getQuery());
 
@@ -239,7 +239,7 @@ class JAccess extends JObject
 		if ($recursive) {
 			$query->join('LEFT', '#__usergroups AS ug2 ON ug2.lft <= ug1.lft AND ug2.rgt >= ug1.rgt');
 		}
-		$db->setQuery($query->toString());
+		$db->setQuery((string) $query);
 
 		$this->_quiet or $this->_log($db->getQuery());
 
@@ -276,7 +276,7 @@ class JAccess extends JObject
 		if ($recursive) {
 			$query->join('LEFT', '#__access_assetgroups AS ag2 ON ag2.lft <= ag1.lft AND ag2.rgt >= ag1.rgt');
 		}
-		$db->setQuery($query->toString());
+		$db->setQuery((string) $query);
 
 		$this->_quiet or $this->_log($db->getQuery());
 
@@ -335,7 +335,7 @@ class JAccess extends JObject
 		$query->where('r.enabled = 1');
 		$query->where('r.allow = 1');
 
-		$db->setQuery($query->toString());
+		$db->setQuery((string) $query);
 
 		$this->_quiet or $this->_log($db->getQuery());
 
@@ -442,7 +442,7 @@ class JAccess extends JObject
 			$query->where('a.name = '.$db->Quote($action));
 		}
 
-		$db->setQuery($query->toString());
+		$db->setQuery((string) $query);
 
 		$this->_quiet or $this->_log($db->getQuery());
 

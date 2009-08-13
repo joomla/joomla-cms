@@ -8,7 +8,7 @@
 defined('JPATH_BASE') or die;
 
 /**
- * Query Element Class
+ * Query Element Class.
  *
  * @package		Joomla.Framework
  * @subpackage	Database
@@ -18,28 +18,38 @@ class JQueryElement
 {
 	/** @var string The name of the element */
 	protected $_name = null;
+	
 	/** @var array An array of elements */
 	protected $_elements = null;
+	
 	/** @var string Glue piece */
 	protected $_glue = null;
 
 	/**
-	 * Constructor
-	 * @param	string	The name of the element
-	 * @param	mixed	String or array
-	 * @param	string	The glue for elements
+	 * Constructor.
+	 * 
+	 * @param	string	The name of the element.
+	 * @param	mixed	String or array.
+	 * @param	string	The glue for elements.
 	 */
 	public function __construct($name, $elements, $glue=',')
 	{
 		$this->_elements	= array();
-		$this->_name		= $name;
-		$this->append($elements);
+		$this->_name		= $name;		
 		$this->_glue		= $glue;
+		
+		$this->append($elements);
 	}
-
+	
+	public function __toString()
+	{
+		return PHP_EOL.$this->_name.' '.implode($this->_glue, $this->_elements);
+	}
+	
 	/**
-	 * Appends element parts to the internal list
-	 * @param	mixed	String or array
+	 * Appends element parts to the internal list.
+	 * 
+	 * @param	mixed	String or array.
 	 */
 	public function append($elements)
 	{
@@ -49,19 +59,10 @@ class JQueryElement
 			$this->_elements = array_unique(array_merge($this->_elements, array($elements)));
 		}
 	}
-
-	/**
-	 * Render the query element
-	 * @return	string
-	 */
-	public function toString()
-	{
-		return "\n{$this->_name} " . implode($this->_glue, $this->_elements);
-	}
 }
 
 /**
- * Query Building Class
+ * Query Building Class.
  *
  * @package		Joomla.Framework
  * @subpackage	Database
@@ -71,18 +72,25 @@ class JQuery
 {
 	/** @var string The query type */
 	protected $_type = '';
+	
 	/** @var object The select element */
 	protected $_select = null;
+	
 	/** @var object The from element */
 	protected $_from = null;
+	
 	/** @var object The join element */
 	protected $_join = null;
+	
 	/** @var object The where element */
 	protected $_where = null;
+	
 	/** @var object The where element */
 	protected $_group = null;
+	
 	/** @var object The where element */
 	protected $_having = null;
+	
 	/** @var object The where element */
 	protected $_order = null;
 
@@ -132,7 +140,7 @@ class JQuery
 	/**
 	 * @param	string
 	 */
-	function &innerJoin($conditions)
+	public function &innerJoin($conditions)
 	{
 		$this->join('INNER', $conditions);
 
@@ -142,7 +150,7 @@ class JQuery
 	/**
 	 * @param	string
 	 */
-	function &outerJoin($conditions)
+	public function &outerJoin($conditions)
 	{
 		$this->join('OUTER', $conditions);
 
@@ -152,7 +160,7 @@ class JQuery
 	/**
 	 * @param	string
 	 */
-	function &leftJoin($conditions)
+	public function &leftJoin($conditions)
 	{
 		$this->join('LEFT', $conditions);
 
@@ -162,7 +170,7 @@ class JQuery
 	/**
 	 * @param	string
 	 */
-	function &rightJoin($conditions)
+	public function &rightJoin($conditions)
 	{
 		$this->join('RIGHT', $conditions);
 
@@ -237,38 +245,29 @@ class JQuery
 		switch ($this->_type)
 		{
 			case 'select':
-				$query .= $this->_select->toString();
-				$query .= $this->_from->toString();
+				$query .= (string) $this->_select;
+				$query .= (string) $this->_from;
 				if ($this->_join) {
 					// special case for joins
 					foreach ($this->_join as $join) {
-						$query .= $join->toString();
+						$query .= (string) $join;
 					}
 				}
 				if ($this->_where) {
-					$query .= $this->_where->toString();
+					$query .= (string) $this->_where;
 				}
 				if ($this->_group) {
-					$query .= $this->_group->toString();
+					$query .= (string) $this->_group;
 				}
 				if ($this->_having) {
-					$query .= $this->_having->toString();
+					$query .= (string) $this->_having;
 				}
 				if ($this->_order) {
-					$query .= $this->_order->toString();
+					$query .= (string) $this->_order;
 				}
 				break;
 		}
 
 		return $query;
 	}
-
-	/**
-	 * @return	string	The completed query
-	 */
-	public function toString()
-	{
-		return (string) $this;
-	}
-
 }
