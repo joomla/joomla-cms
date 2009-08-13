@@ -27,7 +27,7 @@ class JButtonStandard extends JButton
 	 */
 	protected $_name = 'Standard';
 
-	public function fetchButton($type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
+	public function fetchButton($type='Standard', $name = '', $text = '', $task = '', $list = true)
 	{
 		$i18n_text	= JText::_($text);
 		$class	= $this->fetchIconClass($name);

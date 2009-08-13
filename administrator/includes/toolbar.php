@@ -31,7 +31,7 @@ abstract class JToolBarHelper
 	 */
 	public static function title($title, $icon = 'generic.png')
 	{
-		// Strip the extension
+		// Strip the extension.
 		$icon = preg_replace('#\.[^.]*$#', '', $icon);
 
 		$html = "<div class=\"pagetitle icon-48-$icon\"><h2>\n";
@@ -56,7 +56,7 @@ abstract class JToolBarHelper
 	}
 
 	/**
-	 * Write a divider between menu buttons
+	 * Writes a divider between menu buttons
 	 * 
 	 * @since	1.0
 	 */
@@ -68,7 +68,7 @@ abstract class JToolBarHelper
 	}
 
 	/**
-	 * Writes a custom option and task button for the button bar
+	 * Writes a custom option and task button for the button bar.
 	 *
 	 * @param	string	$task		The task to perform (picked up by the switch($task) blocks.
 	 * @param	string	$icon		The image to display.
@@ -97,16 +97,11 @@ abstract class JToolBarHelper
 	 * @param	string	$alt		The alt text for the icon image.
 	 * @param	bool	$listSelect	True if required to check that a standard list item is checked.
 	 * @since	1.0
+	 * @deprecated
 	 */
-	function customX($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
+	public static function customX($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
 	{
-		$bar = &JToolBar::getInstance('toolbar');
-
-		// Strip extension.
-		$icon = preg_replace('#\.[^.]*$#', '', $icon);
-
-		// Add a standard button.
-		$bar->appendButton('Standard', $icon, $alt, $task, $listSelect);
+		self::custom($task, $icon, $iconOver, $alt, $listSelect);
 	}
 
 	/**
@@ -156,7 +151,7 @@ abstract class JToolBarHelper
 	 * Writes a media_manager button.
 	 * 
 	 * @param	string	$directory	The sub-drectory to upload the media to.
-	 * @param	strin	$alt		An override for the alt text.
+	 * @param	string	$alt		An override for the alt text.
 	 * @since	1.0
 	 */
 	public static function media_manager($directory = '', $alt = 'Upload')
@@ -165,64 +160,7 @@ abstract class JToolBarHelper
 		// Add an upload button.
 		$bar->appendButton('Popup', 'upload', $alt, 'index.php?option=com_media&tmpl=component&task=popupUpload&directory='.$directory, 640, 520);
 	}
-
-	/**
-	 * Writes the common 'new' icon for the button bar.
-	 * 
-	 * @param	string	$task	An override for the task.
-	 * @param	string	$alt	An override for the alt text.
-	 * @since	1.0
-	 */
-	function addNew($task = 'add', $alt = 'New')
-	{
-		$bar = &JToolBar::getInstance('toolbar');
-		// Add a new button.
-		$bar->appendButton('Standard', 'new', $alt, $task, false, false);
-	}
-
-	/**
-	 * Writes the common 'new' icon for the button bar.
-	 * Extended version of addNew() calling hideMainMenu() before submitbutton().
-	 * 
-	 * @param	string	$task	An override for the task.
-	 * @param	string	$alt	An override for the alt text.
-	 * @since	1.0
-	 */
-	public static function addNewX($task = 'add', $alt = 'New')
-	{
-		$bar = &JToolBar::getInstance('toolbar');
-		// Add a new button (hide menu).
-		$bar->appendButton('Standard', 'new', $alt, $task, false, true);
-	}
-
-	/**
-	 * Writes a common 'publish' button.
-	 * 
-	 * @param	string	$task	An override for the task.
-	 * @param	string	$alt	An override for the alt text.
-	 * @since	1.0
-	 */
-	public static function publish($task = 'publish', $alt = 'Publish')
-	{
-		$bar = &JToolBar::getInstance('toolbar');
-		// Add a publish button.
-		$bar->appendButton('Standard', 'publish', $alt, $task, false, false);
-	}
-
-	/**
-	 * Writes a common 'publish' button for a list of records.
-	 * 
-	 * @param	string	$task	An override for the task.
-	 * @param	string	$alt	An override for the alt text.
-	 * @since	1.0
-	 */
-	public static function publishList($task = 'publish', $alt = 'Publish')
-	{
-		$bar = &JToolBar::getInstance('toolbar');
-		// Add a publish button (list).
-		$bar->appendButton('Standard', 'publish', $alt, $task, true, false);
-	}
-
+	
 	/**
 	 * Writes a common 'default' button for a record.
 	 * 
@@ -234,7 +172,7 @@ abstract class JToolBarHelper
 	{
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add a default button.
-		$bar->appendButton('Standard', 'default', $alt, $task, true, false);
+		$bar->appendButton('Standard', 'default', $alt, $task, true);
 	}
 
 	/**
@@ -248,7 +186,63 @@ abstract class JToolBarHelper
 	{
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add an assign button.
-		$bar->appendButton('Standard', 'assign', $alt, $task, true, false);
+		$bar->appendButton('Standard', 'assign', $alt, $task, true);
+	}
+
+	/**
+	 * Writes the common 'new' icon for the button bar.
+	 * 
+	 * @param	string	$task	An override for the task.
+	 * @param	string	$alt	An override for the alt text.
+	 * @since	1.0
+	 */
+	public static function addNew($task = 'add', $alt = 'New')
+	{
+		$bar = &JToolBar::getInstance('toolbar');
+		// Add a new button.
+		$bar->appendButton('Standard', 'new', $alt, $task, false);
+	}
+
+	/**
+	 * Writes the common 'new' icon for the button bar.
+	 * Extended version of addNew() calling hideMainMenu() before submitbutton().
+	 * 
+	 * @param	string	$task	An override for the task.
+	 * @param	string	$alt	An override for the alt text.
+	 * @since	1.0
+	 * @deprecated
+	 */
+	public static function addNewX($task = 'add', $alt = 'New')
+	{
+		self::addNew($task, $alt);
+	}
+
+	/**
+	 * Writes a common 'publish' button.
+	 * 
+	 * @param	string	$task	An override for the task.
+	 * @param	string	$alt	An override for the alt text.
+	 * @since	1.0
+	 */
+	public static function publish($task = 'publish', $alt = 'Publish')
+	{
+		$bar = &JToolBar::getInstance('toolbar');
+		// Add a publish button.
+		$bar->appendButton('Standard', 'publish', $alt, $task, false);
+	}
+
+	/**
+	 * Writes a common 'publish' button for a list of records.
+	 * 
+	 * @param	string	$task	An override for the task.
+	 * @param	string	$alt	An override for the alt text.
+	 * @since	1.0
+	 */
+	public static function publishList($task = 'publish', $alt = 'Publish')
+	{
+		$bar = &JToolBar::getInstance('toolbar');
+		// Add a publish button (list).
+		$bar->appendButton('Standard', 'publish', $alt, $task, true);
 	}
 
 	/**
@@ -262,7 +256,7 @@ abstract class JToolBarHelper
 	{
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add an unpublish button
-		$bar->appendButton('Standard', 'unpublish', $alt, $task, false, false);
+		$bar->appendButton('Standard', 'unpublish', $alt, $task, false);
 	}
 
 	/**
@@ -276,7 +270,7 @@ abstract class JToolBarHelper
 	{
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add an unpublish button (list).
-		$bar->appendButton('Standard', 'unpublish', $alt, $task, true, false);
+		$bar->appendButton('Standard', 'unpublish', $alt, $task, true);
 	}
 
 	/**
@@ -290,7 +284,7 @@ abstract class JToolBarHelper
 	{
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add an archive button.
-		$bar->appendButton('Standard', 'archive', $alt, $task, true, false);
+		$bar->appendButton('Standard', 'archive', $alt, $task, true);
 	}
 
 	/**
@@ -304,7 +298,7 @@ abstract class JToolBarHelper
 	{
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add an unarchive button (list).
-		$bar->appendButton('Standard', 'unarchive', $alt, $task, true, false);
+		$bar->appendButton('Standard', 'unarchive', $alt, $task, true);
 	}
 
 	/**
@@ -318,7 +312,7 @@ abstract class JToolBarHelper
 	{
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add an edit button.
-		$bar->appendButton('Standard', 'edit', $alt, $task, true, false);
+		$bar->appendButton('Standard', 'edit', $alt, $task, true);
 	}
 
 	/**
@@ -328,12 +322,11 @@ abstract class JToolBarHelper
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
+	 * @deprecated
 	 */
 	public static function editListX($task = 'edit', $alt = 'Edit')
 	{
-		$bar = &JToolBar::getInstance('toolbar');
-		// Add an edit button (hide).
-		$bar->appendButton('Standard', 'edit', $alt, $task, true, true);
+		self::editList($task, $alt);
 	}
 
 	/**
@@ -347,7 +340,7 @@ abstract class JToolBarHelper
 	{
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add an edit html button.
-		$bar->appendButton('Standard', 'edithtml', $alt, $task, true, false);
+		$bar->appendButton('Standard', 'edithtml', $alt, $task, true);
 	}
 
 	/**
@@ -357,12 +350,11 @@ abstract class JToolBarHelper
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
+	 * @deprecated
 	 */
 	public static function editHtmlX($task = 'edit_source', $alt = 'Edit HTML')
 	{
-		$bar = &JToolBar::getInstance('toolbar');
-		// Add an edit html button (hide)
-		$bar->appendButton('Standard', 'edithtml', $alt, $task, true, true);
+		self::editHtml($task, $alt);
 	}
 
 	/**
@@ -376,7 +368,7 @@ abstract class JToolBarHelper
 	{
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add an edit css button (hide).
-		$bar->appendButton('Standard', 'editcss', $alt, $task, true, false);
+		$bar->appendButton('Standard', 'editcss', $alt, $task, true);
 	}
 
 	/**
@@ -386,12 +378,11 @@ abstract class JToolBarHelper
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
+	 * @deprecated
 	 */
 	public static function editCssX($task = 'edit_css', $alt = 'Edit CSS')
 	{
-		$bar = &JToolBar::getInstance('toolbar');
-		// Add an edit css button (hide).
-		$bar->appendButton('Standard', 'editcss', $alt, $task, true, true);
+		self::editCss($task, $alt);
 	}
 
 	/**
@@ -407,9 +398,9 @@ abstract class JToolBarHelper
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add a delete button.
 		if ($msg) {
-			$bar->appendButton('Confirm', $msg, 'delete', $alt, $task, true, false);
+			$bar->appendButton('Confirm', $msg, 'delete', $alt, $task, true);
 		} else {
-			$bar->appendButton('Standard', 'delete', $alt, $task, true, false);
+			$bar->appendButton('Standard', 'delete', $alt, $task, true);
 		}
 	}
 
@@ -421,16 +412,11 @@ abstract class JToolBarHelper
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
+	 * @deprecated
 	 */
 	public static function deleteListX($msg = '', $task = 'remove', $alt = 'Delete')
 	{
-		$bar = &JToolBar::getInstance('toolbar');
-		// Add a delete button (hide).
-		if ($msg) {
-			$bar->appendButton('Confirm', $msg, 'delete', $alt, $task, true, true);
-		} else {
-			$bar->appendButton('Standard', 'delete', $alt, $task, true, true);
-		}
+		self::deleteList($msg, $task, $alt);
 	}
 
 	/**
@@ -460,7 +446,7 @@ abstract class JToolBarHelper
 	{
 		$bar = & JToolBar::getInstance('toolbar');
 		// Add an apply button
-		$bar->appendButton('Standard', 'apply', $alt, $task, false, false);
+		$bar->appendButton('Standard', 'apply', $alt, $task, false);
 	}
 
 	/**
@@ -475,7 +461,7 @@ abstract class JToolBarHelper
 	{
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add a save button.
-		$bar->appendButton('Standard', 'save', $alt, $task, false, false);
+		$bar->appendButton('Standard', 'save', $alt, $task, false);
 	}
 
 	/**
@@ -489,7 +475,7 @@ abstract class JToolBarHelper
 	{
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add a cancel button.
-		$bar->appendButton('Standard', 'cancel', $alt, $task, false, false);
+		$bar->appendButton('Standard', 'cancel', $alt, $task, false);
 	}
 
 	/**
