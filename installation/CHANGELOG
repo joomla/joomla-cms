@@ -32,6 +32,7 @@ $ -> Language fix or change
  - Removed $hideMenu parameter of JButtonStandard->fetchButton.
  ^ Changed deprecated JToolBarHelper function calls in core components.
  ^ Replaced JQueryElement toString() method by __toString magic method.
+ # Fixed bug pagination getPagesCounter() method.
 
 12-Aug-2009 Gergo Erdosi
  ^ Removed legacy code from the .htaccess file.
