@@ -113,11 +113,9 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	public function __destruct()
 	{
-		$return = false;
 		if (is_object($this->_connection)) {
-			$return = mysqli_close($this->_connection);
+			mysqli_close($this->_connection);
 		}
-		return $return;
 	}
 
 	/**
