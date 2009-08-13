@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: text.php 12105 2009-06-16 11:46:51Z eddieajau $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
