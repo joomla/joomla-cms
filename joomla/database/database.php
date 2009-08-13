@@ -142,19 +142,19 @@ abstract class JDatabase extends JObject
 	protected $_hasQuoted = null;
 
 	/**
-	* Database object constructor
-	*
-	* @param	array	List of options used to configure the connection
-	* @since	1.5
-	*/
-	function __construct($options)
+	 * Database object constructor
+	 *
+	 * @param	array	List of options used to configure the connection
+	 * @since	1.5
+	 */
+	public function __construct($options)
 	{
 		$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : 'jos_';
 
-		// Determine utf-8 support
+		// Determine utf-8 support.
 		$this->_utf = $this->hasUTF();
 
-		//Set charactersets (needed for MySQL 4.1.2+)
+		// Set charactersets (needed for MySQL 4.1.2+).
 		if ($this->_utf){
 			$this->setUTF();
 		}
