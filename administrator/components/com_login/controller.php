@@ -30,7 +30,7 @@ class LoginController extends JController
 		$document = &JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getWord('view', 'login');
+		$vName		= 'login';
 		$vFormat	= $document->getType();
 
 		// Get and render the view.
