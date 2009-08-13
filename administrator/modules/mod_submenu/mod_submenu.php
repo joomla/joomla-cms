@@ -33,7 +33,7 @@ if (!class_exists('JAdminSubMenu'))
 					if ($section) {
 						if ($section != 'content') {
 							// special handling for specific core components
-							$map['com_contact_details']	= 'com_contact';
+							$map['com_contact']	= 'com_contact';
 							$map['com_banner']			= 'com_banners';
 
 							$option = isset($map[$section]) ? $map[$section] : $section;

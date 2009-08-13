@@ -95,7 +95,7 @@ class HTML_contact
 				$checked 	= JHtml::_('grid.checkedout',   $row, $i);
 				$published 	= JHtml::_('grid.published', $row, $i);
 
-				$row->cat_link 	= JRoute::_('index.php?option=com_categories&extension=com_contact_details&task=edit&type=other&cid[]='. $row->catid);
+				$row->cat_link 	= JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&cid[]='. $row->catid);
 				$row->user_link	= JRoute::_('index.php?option=com_users&task=editA&cid[]='. $row->user_id);
 				?>
 				<tr class="<?php echo "row$k"; ?>">

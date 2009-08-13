@@ -32,7 +32,7 @@ class ContactModelCategory extends JModel
 		$groups	= implode(',', $user->authorisedLevels());
 
 		$wheres[] = 'a.published = 1';
-		$wheres[] = 'cc.section = ' . $db->Quote('com_contact_details');
+		$wheres[] = 'cc.extension = ' . $db->Quote('com_contact');
 		$wheres[] = 'cc.published = 1';
 
 		$wheres[] = 'a.access IN ('.$groups.')';

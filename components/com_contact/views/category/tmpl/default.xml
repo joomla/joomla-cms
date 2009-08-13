@@ -17,7 +17,7 @@
 		<field
 			name="catid"
 			type="category"
-			extension="com_contact_details"
+			extension="com_contact"
 			default="0"
 			label="Select Category"
 			description="A contacts category" />

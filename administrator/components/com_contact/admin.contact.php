@@ -157,7 +157,7 @@ function showContacts($option)
 
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['catid'] = JHtml::_('list.category',  'filter_catid', 'com_contact_details', 'com_contact_details.view', NULL, intval($filter_catid), 'inputbox', $javascript);
+	$lists['catid'] = JHtml::_('list.category',  'filter_catid', 'com_contact', 'com_contact.view', NULL, intval($filter_catid), 'inputbox', $javascript);
 
 	// state filter
 	$lists['state']	= JHtml::_('grid.state',  $filter_state);
@@ -218,7 +218,7 @@ function editContact($edit)
 	// build list of users
 	$lists['user_id'] 			= JHtml::_('list.users',  'user_id', $row->user_id, 1, NULL, 'name', 0);
 	// build list of categories
-	$lists['catid'] 			= JHtml::_('list.category',  'catid', 'com_contact_details', 'com_contact_details.view', NULL, intval($row->catid));
+	$lists['catid'] 			= JHtml::_('list.category',  'catid', 'com_contact', 'com_contact.view', NULL, intval($row->catid));
 	// build the html select list for images
 	$lists['image'] 			= JHtml::_('list.images',  'image', $row->image);
 	// build the html select list for the group access
