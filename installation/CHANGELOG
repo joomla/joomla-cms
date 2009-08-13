@@ -36,6 +36,7 @@ $ -> Language fix or change
  ^ Changed database $_resource variable to $_connection.
  # Fixed JDatabaseMySQLi __destruct() method.
  - Removed value returning in database drivers __destruct() methods.
+ - Removed legacy.js file.
 
 12-Aug-2009 Gergo Erdosi
  ^ Removed legacy code from the .htaccess file.
