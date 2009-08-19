@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Aug-2009 Sam Moffatt
+ # [#17680] Menu links not working for 3rd party components thanks to Matias Aguirre
+
 13-Aug-2009 Gergo Erdosi
  ^ Deprecated JToolBarHelper functions: customX, addNewX, editListX, editHtmlX, editCssX and deleteListX.
  - Removed $hideMenu parameter of JButtonStandard->fetchButton.
