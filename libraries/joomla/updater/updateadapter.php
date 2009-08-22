@@ -12,7 +12,7 @@ class JUpdateAdapter extends JAdapterInstance {
      *
      * @return object
      */
-	function _getStackLocation()
+	private function _getStackLocation()
     {
             return implode('->', $this->_stack);
     }
