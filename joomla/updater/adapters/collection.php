@@ -71,7 +71,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 				break;
 			case 'EXTENSION':
 				$update =& JTable::getInstance('update');
-				$update->update_site_id = $this->_update_site_id;
+				$update->set('update_site_id', $this->_update_site_id);
 				foreach($this->_updatecols AS $col) {
 					// reset the values if it doesn't exist
 					if(!array_key_exists($col, $attrs)) {
