@@ -210,6 +210,10 @@ class ContentModelArticle extends JModelForm
 	 */
 	public function delete($pks)
 	{
+		$dispatcher = & JDispatcher::getInstance();
+		// Include the content plugins for the onSave events.
+		JPluginHelper::importPlugin('content');
+		
 		// Sanitize the ids.
 		$pks = (array) $pks;
 		JArrayHelper::toInteger($pks);
@@ -220,13 +224,24 @@ class ContentModelArticle extends JModelForm
 		// Iterate the items to delete each one.
 		foreach ($pks as $itemId)
 		{
+			$table->load($itemId); // get article for onBeforeContentDelete event
+			$result = $dispatcher->trigger('onBeforeContentDelete', array($table));
+			if (in_array(false, $result, true)) 
+			{
+				JError::raiseError(500, $row->getError());
+				return false;
+			}
+			
+			// delete row
 			if (!$table->delete($itemId))
 			{
 				$this->setError($table->getError());
 				return false;
 			}
+			
+			$dispatcher->trigger('onAfterContentDelete', array($itemId));
 		}
-
+		
 		return true;
 	}
 

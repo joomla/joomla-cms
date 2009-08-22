@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="content">
+<name>Content - Keyword Map</name>
+<creationDate>June 2009</creationDate>
+<author>Joomla! Project</author>
+<authorEmail>admin@joomla.org</authorEmail>
+<authorUrl>www.joomla.org</authorUrl>
+<copyright>Copyright (C) 2009 Open Source Matters. All rights reserved.</copyright>
+<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+<version>1.5</version>
+<description>KEYWORDPLUGINDESC</description>
+<files>
+   <filename plugin="keyword">keyword.php</filename>
+</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB.plg_content_keyword.ini</language>
+	</languages>
+</install>
+  

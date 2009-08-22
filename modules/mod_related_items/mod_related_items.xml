@@ -10,17 +10,72 @@
 	<version>1.0.0</version>
 	<description>DESCRELATEDITEMS</description>
 	<files>
-	<filename module="mod_related_items">mod_related_items.php</filename>
+		<filename module="mod_related_items">mod_related_items.php</filename>
 	</files>
 	<params>
-		<param name="showDate" type="radio" default="0" label="Show date" description="Show/Hide date">
+  		<param type="spacer" default="SPACERLIMITDESC" />
+		<param name="count" type="text" default="5" label="Count" description="PARAMARTICLECOUNT" />
+		<param name="minimumMatches" type="text" default="1" label="Minimum Matches" description="PARAMMINIMUMMATCHES" />		
+		<param name="catid" type="text" default="" label="Category ID" description="PARAMCATEGORYID" />
+   		<param type="spacer" default="SPACERAUTHORDESC" />
+		<param name="matchAuthor" type="radio" default="0" label="Match on Author" description="PARAMAUTHORMATCH">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>		
+		<param name="matchAuthorAlias" type="radio" default="0" label="Match on Author Alias" description="PARAMAUTHORALIASMATCH">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>		
+   		<param type="spacer" default="SPACERCATEGORYDESC" />
+		<param name="matchCategory" type="radio" default="0" label="Match on Category" description="PARAMCATEGORYMATCH">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>	
+		<param type="spacer" default="SPACERORDERDESC"/>
+		<param name="ordering" type="list" default="alpha" label="Ordering" description="PARAMORDERING">
+			<option value="alpha">Title Alphabetical</option>
+			<option value="rdate">Recently Added First</option>
+			<option value="date">Oldest First</option>
+			<option value="bestmatch">Most Matches First</option>
+			<option value="article_order">Article Manager Order</option>
+			<option value="keyword_article">Keyword Alphabetical</option>
+	  	</param>
+		<param name="showDate" type="list" default="none" label="Article date" description="RELATEDPARAMDATE">
+			<option value="none">No Date</option>
+			<option value="create">Create Date</option>
+			<option value="modify">Modified Date</option>
+		</param>
+		<param name="showMatchCount" type="radio" default="0" label="Keyword Match Count" description="PARAMKEYWORDCOUNT">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="showMatchList" type="radio" default="0" label="Keyword Match List" description="PARAMKEYWORDLIST">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="keywordLabel" type="text" default="" size = "30" label="Keyword Label" description="PARAMKEYWORDLABEL" />
+
+   		<param type="spacer" default="SPACERTOOLTIPDESC" />
+		<param name="showTooltip" type="radio" default="1" label="Show Intro Text as Tooltip" description="RELATEDPARAMSHOWTOOLTIP" >
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="maxChars" type="text" default="250" label="Tooltip Maximum Length" description="RELATEDMAXCHARS" />		
 	</params>
 	<params group="advanced">
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="dateFormat" type="text" size="30" default="" label="Date Format" description="PARAMDATEFORMAT" />
+		<param name="notArticleText" type="text" default="" size = "50" label="Text If Not An Article" description="PARAMNOTARTICLETEXT" />		
+		<param name="noRelatedText" type="text" default="" size = "50" label="Text If No Related" description="PARAMNORELATEDTEXT" />		
+		<param name="ignoreKeywords" type="textarea" rows="3" cols="30" default="" label="Keywords to Ignore" description="RELATEDIGNORE" />
+		<param name="ignoreAllKeywords" type="radio" default="0" label="Ignore All Keywords" description="RELATEDPARAMIGNOREALL" >
+			<option value="0">No</option>
+			<option value="1">Yes</option>		
+		</param>	
+		<param name="titleLinkable" type="radio" default="1" label="Title Linkable" description="RELATEDPARAMTITLELINKABLE" >
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
 			<option value="1">Use global</option>
 			<option value="0">No caching</option>

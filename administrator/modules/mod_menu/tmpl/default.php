@@ -164,6 +164,9 @@ if ($user->authorize('com_content.manage'))
 		$menu->addChild(
 			new JMenuNode(JText::_('Com_content_Featured'), 'index.php?option=com_content&view=featured', 'class:featured')
 		);
+		$menu->addChild(
+			new JMenuNode(JText::_('Com_content_Keywords'), 'index.php?option=com_content&view=keywords', 'class:keywords')
+		);
 		$menu->addSeparator();
 		$menu->addChild(
 			new JMenuNode(JText::_('Com_content_New_article'), 'index.php?option=com_content&task=article.add', 'class:newarticle')
