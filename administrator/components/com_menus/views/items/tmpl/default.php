@@ -94,16 +94,19 @@ $userId	= $user->get('id');
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td style="padding-left:<?php echo intval(($item->level-1)*15)+4; ?>px">
-					<?php if ($item->home == 1) : ?>
-						<img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" title="<?php echo JText::_('Default'); ?>" />
-					<?php endif; ?>
+					
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>">
 						<?php echo $this->escape($item->title); ?></a>
+						
+					<?php if ($item->home == 1) : ?>
+						<span><img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" title="<?php echo JText::_('Default'); ?>" /></span>
+					<?php endif; ?>
+					
 					<br /><small title="<?php echo $this->escape($item->path);?>">
-						(<?php echo $this->escape($item->alias);?>)</small>
+						(<?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>: <?php echo $this->escape($item->alias);?>)</small>
 				</td>
 				<td align="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'items.');?>

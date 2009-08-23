@@ -91,7 +91,7 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 					<a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&cid[]='.$item->id.'&extension='.$extension);?>">
 						<?php echo $this->escape($item->title); ?></a>
 					<br /><small title="<?php echo $this->escape($item->path);?>">
-						(<?php echo $this->escape($item->alias);?>)</small>
+						(<?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>: <?php echo $this->escape($item->alias);?>)</small>
 				</td>
 				<td align="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.');?>

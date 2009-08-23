@@ -39,7 +39,7 @@ class TemplatesViewTemplate extends JView
 
 		$client		= &$this->get('Client');
 
-		JToolBarHelper::title(JText::_('Template') . ': <small><small>[ '. JText::_('Edit') .' ]</small></small>', 'thememanager');
+		JToolBarHelper::title(JText::_('TEMPLATE_MANAGER') . ': '. JText::_('EDIT_TEMPLATE') .' ', 'thememanager');
 		if ($client->id == 1) {
 			JToolBarHelper::custom('admindefault', 'default.png', 'default_f2.png', 'Set as Default', false, false);
 		}

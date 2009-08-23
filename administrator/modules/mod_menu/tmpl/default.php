@@ -66,7 +66,7 @@ else {
 
 
 //
-// Users SubMenu
+// Users Submenu
 //
 
 if ($user->authorize('core.users.manage'))
@@ -112,7 +112,7 @@ if ($user->authorize('core.users.manage'))
 	}
 		
 //
-// Menus SubMenu
+// Menus Submenu
 //
 if ($user->authorize('core.menus.manage'))
 {
@@ -131,7 +131,7 @@ if ($user->authorize('core.menus.manage'))
 		{
 			$menu->addChild(
 				new JMenuNode(
-					$menuType->title.($menuType->home ? ' *' : ''),
+					$menuType->title.($menuType->home ? ' <span><img src="templates/bluestork/images/menu/icon-16-default.png" /></span>' : ''),
 					'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu'
 				)
 			);
@@ -144,7 +144,7 @@ if ($user->authorize('core.menus.manage'))
 }
 
 //
-// Content SubMenu
+// Content Submenu
 //
 
 if ($user->authorize('com_content.manage'))
@@ -188,7 +188,7 @@ if ($user->authorize('com_content.manage'))
 }
 
 //
-// Components SubMenu
+// Components Submenu
 //
 
 if ($enabled)
@@ -227,7 +227,7 @@ else {
 }
 
 //
-// Extensions SubMenu
+// Extensions Submenu
 //
 $im = $user->authorize('core.installer.manage');
 $mm = $user->authorize('core.modules.manage');
@@ -266,7 +266,7 @@ if ($im || $mm || $pm || $tm || $lm)
 }
 
 //
-// Tools SubMenu
+// Tools Submenu
 //
  if ($enabled)
  {
@@ -283,7 +283,7 @@ if ($im || $mm || $pm || $tm || $lm)
  }
 
 //
-// Help SubMenu
+// Help Submenu
 //
 if ($enabled)
 {

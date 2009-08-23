@@ -109,7 +109,7 @@ $n = count($this->items);
 					<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&cid[]='.$item->id);?>">
 						<?php echo $this->escape($item->title); ?></a>
 					<br /><small>
-						(<?php echo $this->escape($item->alias); ?>)</small>
+						(<?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>: <?php echo $this->escape($item->alias);?>)</small>
 				</td>
 				<td align="center">
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.'); ?>

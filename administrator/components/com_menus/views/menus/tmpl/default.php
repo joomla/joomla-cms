@@ -66,7 +66,7 @@ $return	= base64_encode($uri->toString());
 				<td>
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=menu.edit&cid[]='.$item->id);?>" title="<?php echo $this->escape($item->description);?>">
 						<?php echo $this->escape($item->title); ?></a>
-					<small>(<?php echo $this->escape($item->menutype);?>)</small>
+					<small>(<?php echo JText::_('MENUS_MENU_MENUTYPE_LABEL'); ?>: <?php echo $this->escape($item->menutype);?>)</small>
 				</td>
 				<td align="center">
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=1');?>">

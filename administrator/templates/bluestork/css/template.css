@@ -1,4 +1,6 @@
-/**
+ @charset "UTF-8";
+
+ /**
  * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	templates.bluestork
@@ -6,7 +8,20 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
- 
+/* ------------------------- COLOR PALETTE FOR BLUE STORK
+
+Dark blue color: 			#146295 		RGB: 20/98/149
+Med blue color: 			#025A8D 		RGB: 2/90/141
+Light blue color: 			#70ace4 		RGB: 112/172/228
+Extra light blue color: 	#BED6FF 		RGB: 190/214/255
+Orange color: 				#FC8F30 		RGB: 252/143/48
+Light grey color:			#f7f7f7 		RGB: 247/247/247
+Medium grey color:			#d7d7d7 		RGB: 215/215/215
+Dark grey color:			#666666 		RGB: 102/102/102
+Border grey color:			#CCCCCC 		RGB: 204/204/204
+
+----------------------------------------------------------*/
+
 
 /* -- General styles ------------------------------ */
 
@@ -57,7 +72,7 @@ fieldset {
 fieldset p {  margin: 10px 0px;  }
 
 legend    {
-	color: #0B55C4;
+	color: #146295;
 	font-size: 12px;
 	font-weight: bold;
 }
@@ -264,7 +279,7 @@ textarea#mm_message { width: 100%; }
 }
 
 
-
+#content-pane { margin: 15px;}
 
 .pane-sliders .panel   { border: 1px solid #ccc; margin-bottom: 3px;}
 
@@ -376,10 +391,11 @@ fieldset.filter ol li fieldset{border:0;margin:0;padding:0}
 fieldset.filter .left{float:left}
 fieldset.filter .right{float:right}
 
-table.admintable td 					 { padding: 3px; }
+table.admintable td { padding: 3px; }
 table.admintable td.key,
 table.admintable td.paramlist_key {
-	background-color: #f6f6f6;
+	/* background-color: #f6f6f6; */
+	background-color: #f9f9f9;
 	text-align: right;
 	width: 140px;
 	color: #666;
@@ -448,7 +464,7 @@ table.adminlist th { padding: 4px; }
 
 table.adminlist thead th {
 	text-align: center;
-	background: #f0f0f0;
+	background: #f7f7f7;
 	color: #666;
 	border-bottom: 1px solid #999;
 	border-left: 1px solid #fff;
@@ -471,7 +487,7 @@ table.adminlist tbody tr.row1 td { background: #f9f9f9; border-top: 1px solid #F
 
 table.adminlist tfoot tr { text-align: center;  color: #333; }
 table.adminlist tfoot td,
-table.adminlist tfoot th { background-color: #f3f3f3; border-top: 1px solid #999; text-align: center; }
+table.adminlist tfoot th { background-color: #f7f7f7; border-top: 1px solid #999; text-align: center; }
 
 table.adminlist td.order 		{ text-align: center; white-space: nowrap; }
 table.adminlist td.order span { float: left; display: block; width: 20px; text-align: center; }
@@ -971,9 +987,10 @@ p#form-login-lang {
 	cursor: pointer;
 	padding: 0px 15px;
 	border-right: 1px solid #ccc;
+	font-size: 1.1em;
 	font-weight: bold;
-	color: #0B55C4;
-	line-height: 12px;
+	color: #146295;
+	line-height: 14px;
 	height: 12px; 
 }
 
@@ -983,8 +1000,7 @@ p#form-login-lang {
 
 #submenu a.active,
 #submenu span.nolink.active {
-	color: #000;
-	text-decoration: underline;
+	color: #70ace4;
 }
 
 
@@ -1044,7 +1060,7 @@ div.message {
 .invalid { color: red; font-weight: bold; }
 input.invalid { border: 1px solid red; }
 input.readonly { border: 0; }
-input.required { background-color: #FFD3AF; }
+input.required { background-color: #bed6ff; }
 
 
 

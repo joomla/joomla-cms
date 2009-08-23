@@ -12,7 +12,8 @@ div#toolbar-box {
 }
 
 div#element-box {
-  background: #f8f8f8;
+  /*background: #f8f8f8;*/
+  background: #fff;
 }
 
 div#element-box div.section-box div.m {
