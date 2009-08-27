@@ -264,19 +264,9 @@ class JForm extends JObject
 					}
 				}
 
-				// Check if an action is set.
-				if ($parser->document->attributes('action') && $reset) {
-					$this->setAction($parser->document->attributes('action'));
-				}
-
 				// Check if a name is set.
 				if ($parser->document->attributes('name') && $reset) {
 					$this->setName($parser->document->attributes('name'));
-				}
-
-				// Check if an id is set.
-				if ($parser->document->attributes('id') && $reset) {
-					$this->setId($parser->document->attributes('id'));
 				}
 			}
 		}
@@ -416,7 +406,7 @@ class JForm extends JObject
 										$return[$name] = call_user_func($filter, $data[$name]);
 									}
 									else {
-										// Filter out HTML.
+										// Filter using JFilterInput. All HTML code is filtered by default.
 										$return[$name] = $noHtmlFilter->clean($data[$name], $filter);
 									}
 									break;
