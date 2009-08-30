@@ -115,6 +115,12 @@ abstract class JHtml
 		}
 	}
 
+	/**
+	 * Registers a function to be called with a specific key
+	 *
+	 * @param	string	The name of the key
+	 * @param	string	Function or method
+	 */	
 	public static function register($key, $function)
 	{
 		$parts = explode('.', $key);
@@ -133,7 +139,12 @@ abstract class JHtml
 
 		return false;
 	}
-	
+
+	/**
+	 * Removes a key for a method from registry.
+	 *
+	 * @param	string	The name of the key
+	 */		
 	public static function unregister($key)
 	{
 		$key = strtolower($key);
@@ -144,7 +155,13 @@ abstract class JHtml
 
 		return false;
 	}
-	
+
+	/**
+	 * Function caller method
+	 *
+	 * @param	string 	Function or method to call
+	 * @param	array	Arguments to be passed to function
+	 */
 	private static function call($function, $args)
 	{
 		if (is_callable($function))
