@@ -141,7 +141,7 @@ JHtml::_('behavior.formvalidation');
 													<br />
 													<?php echo JText::_('languagebuttonlinetwo'); ?>
 													<br /><br />
-													</a></td>
+													</a>
 												</div>
 											</div>
 										</div>
