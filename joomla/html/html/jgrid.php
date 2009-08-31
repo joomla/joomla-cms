@@ -45,7 +45,6 @@ abstract class JHtmlJGrid
 		$options	= array();
 		$options[]	= JHtml::_('select.option', '1', 'JOption_Published');
 		$options[]	= JHtml::_('select.option', '0', 'JOption_Unpublished');
-		$options[]	= JHtml::_('select.option', '-1', 'JOption_Archived');
 		$options[]	= JHtml::_('select.option', '-2', 'JOption_Trash');
 		$options[]	= JHtml::_('select.option', '*', 'JOption_All');
 
