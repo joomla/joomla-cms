@@ -136,7 +136,7 @@ class ContentModelArticles extends JModelList
 		// Filter by category.
 		$categoryId = $this->getState('filter.category_id');
 		if (is_numeric($categoryId)) {
-			$query->where('a.catid = ' . (int) $categoryId);
+			$query->where('a.state = ' . (int) $published);
 		}
 
 		// Filter by search in title

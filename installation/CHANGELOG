@@ -27,10 +27,6 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-22-Aug-2009 Gergo Erdosi
- + [#17722] Related Items & Keyword Patch for 1.6 Core
- ! Thanks to work by Mark Dexter.
-
 19-Aug-2009 Sam Moffatt
  # [#17680] Menu links not working for 3rd party components thanks to Matias Aguirre
 

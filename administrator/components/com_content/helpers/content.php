@@ -38,10 +38,5 @@ class ContentHelper
 			'index.php?option=com_content&view=featured',
 			$vName == 'featured'
 		);
-			JSubMenuHelper::addEntry(
-			JText::_('Content_Submenu_Keywords'),
-			'index.php?option=com_content&view=keywords',
-			$vName == 'keywords'
-		);
 	}
 }

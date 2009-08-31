@@ -563,18 +563,6 @@ CREATE TABLE `#__content_frontpage` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__content_keyword_article_map`
-#
-
-CREATE TABLE `#__content_keyword_article_map` (
-  `keyword` varchar(255) NOT NULL,
-  `article_id` int(11) NOT NULL,
-  PRIMARY KEY (`keyword`,`article_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__content_rating`
 #
 
@@ -737,7 +725,6 @@ INSERT INTO `#__extensions` VALUES
 (0, 'User - Joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, '', '{"autoregister":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Authentication - LDAP', 'plugin', 'ldap', 'authentication', 0, 0, 1, 0, '', '{"host":"","port":"389","use_ldapV3":"0","negotiate_tls":"0","no_referrals":"0","auth_method":"bind","base_dn":"","search_string":"","users_dn":"","username":"","password":"","ldap_fullname":"fullName","ldap_email":"mail","ldap_uid":"uid"}', '', '', 0, '0000-00-00 00:00:00', 2, 0),
 (0, 'Content - Load Module', 'plugin', 'loadmodule', 'content', 0, 1, 1, 0, '', '{"enabled":"1","style":"table"}', '', '', 0, '0000-00-00 00:00:00', 6, 0),
-(0, 'Content - Keyword Update', 'plugin', 'keyword', 'content', 0, 1, 1, 0, '', '{"enabled":"1"}', '', '', 0, '0000-00-00 00:00:00', 7, 0),
 (0, 'System - Log', 'plugin', 'log', 'system', 0, 0, 1, 1, '', '', '', '', 42, '2009-04-01 10:15:19', 5, 0),
 (0, 'Search - Newsfeeds', 'plugin', 'newsfeeds', 'search', 0, 1, 1, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 6, 0),
 (0, 'Editor - No Editor', 'plugin', 'none', 'editors', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),

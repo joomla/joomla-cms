@@ -756,7 +756,7 @@ td.key {
 
 /* Tooltips */
 
-.tip {
+.tool-tip {
 	float: left;
 	background: #ffc;
 	border: 1px solid #D4D5AA;
@@ -764,7 +764,7 @@ td.key {
 	max-width: 200px;
 }
 
-.tip-title {
+.tool-title {
 	padding: 0;
 	margin: 0;
 	font-size: 100%;
@@ -775,7 +775,7 @@ td.key {
 	background: url(../../system/images/selector-arrow.png) no-repeat;
 }
 
-.tip-text {
+.tool-text {
 	font-size: 100%;
 	margin: 0;
 }
