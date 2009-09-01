@@ -37,7 +37,7 @@ class MessagesViewMessages extends JView
 	
 	protected function _setToolbar()
 	{
-		JToolBarHelper::title(JText::_('Private Messaging'), 'inbox.png');
+		JToolBarHelper::title(JText::_('READ_PRIVATE_MESSAGES'), 'inbox.png');
 		JToolBarHelper::deleteList();
 		JToolBarHelper::addNew();
 		JToolBarHelper::custom('config', 'config.png', 'config_f2.png', 'Settings', false, false);

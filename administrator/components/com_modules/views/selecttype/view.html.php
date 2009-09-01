@@ -28,8 +28,7 @@ class ModulesViewSelecttype extends JView
 		$modules	= array();
 		$client		= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-		JToolBarHelper::title(JText::_('Module') . ': <small><small>[ '. JText::_('New') .' ]</small></small>', 'module.png');
-		JToolBarHelper::custom('edit', 'forward.png', 'forward_f2.png', 'Next', true);
+		JToolBarHelper::title(JText::_('Module_Manager') . ': '. JText::_('Add_New_Module') .'', 'module.png');
 		JToolBarHelper::cancel();
 		JToolBarHelper::help('screen.modules.new');
 

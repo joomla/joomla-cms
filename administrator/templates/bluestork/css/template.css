@@ -23,10 +23,11 @@ Border grey color:			#CCCCCC 		RGB: 204/204/204
 ----------------------------------------------------------*/
 
 
-/* -- General styles ------------------------------ */
+/* -- GENERAL STYLES ----------------------------- */
 
 body {
-	margin: 10px; padding: 0;
+	margin: 10px; 
+	padding: 0;
 	background: #fff;
 	padding-bottom: 1px;
 	font-size: 11px;
@@ -58,9 +59,10 @@ h3 {
 	font-size: 13px;
 }
 
-a:link    { color: #025A8D; text-decoration: none; }
-a:visited { color: #025A8D; text-decoration: none; }
+a:link    { color: #025A8D; text-decoration: none; outline: none; }
+a:visited { color: #025A8D; text-decoration: none; outline: none; }
 a:hover   { text-decoration: underline; }
+a:focus   { -moz-outline-style: none; }
 
 fieldset {
 	margin-bottom: 10px;
@@ -92,15 +94,14 @@ input:focus,
 select:focus,
 textarea:focus { background-color: #ffd }
 
-/* -- overall styles ------------------------------ */
-
+/* -- OVERALL STYLES ----------------------------- */
 
 #border-top.h_blue          { background: url(../images/j_header_middle.png) repeat-x; }
 #border-top.h_blue div      { background: url(../images/j_header_right.png) 100% 0 no-repeat; }
 #border-top.h_blue div div  { background: url(../images/j_header_left.png) no-repeat; height: 54px; }
 
 #border-top .title,
-#border-top .title a{
+#border-top .title a {
 	font-size: 22px; 
 	font-weight: bold; 
 	color: #fff; 
@@ -109,7 +110,8 @@ textarea:focus { background-color: #ffd }
 }
 
 #border-top .logo {
-	display: block; 
+	display: block;
+	width: auto;
 	float: right;
 	padding: 7px 10px 0 0;
 }
@@ -123,15 +125,12 @@ textarea:focus { background-color: #ffd }
 */
 
 #border-bottom 			{ background: url(../images/j_bottom.png) repeat-x; }
-#border-bottom div  		{ background: url(../images/j_corner_br.png) 100% 0 no-repeat; }
+#border-bottom div  	{ background: url(../images/j_corner_br.png) 100% 0 no-repeat; }
 #border-bottom div div 	{ background: url(../images/j_corner_bl.png) no-repeat; height: 11px; }
 
 #footer .copyright { margin: 10px; text-align: center; line-height: 160%;}
 
 #footer .version { margin: 10px; text-align: center; }
-
-
-
 
 #header-box  { border: 1px solid #ccc; background: #f0f0f0; }
 
@@ -142,13 +141,14 @@ textarea:focus { background-color: #ffd }
 
 #content-box .padding  { padding: 10px 10px 0 10px; }
 
-#toolbar-box 			{ background: #fbfbfb; margin-bottom: 10px; }
+#toolbar-box { background: #fbfbfb; margin-bottom: 10px; }
 
 #submenu-box { background: #f6f6f6; margin-bottom: 10px;  }
 #submenu-box .padding { padding: 0px;}
 
 
-/* -- status layout */
+/* -- STATUS STYLES ----------------------------- */
+
 #module-status      { float: right; }
 #module-status span { 
 	display: block; 
@@ -159,7 +159,7 @@ textarea:focus { background-color: #ffd }
 }
 
 /* #module-status { background: url(../images/mini_icon.png) 3px 5px no-repeat; } */
-.legacy-mode{ color: #c00;}
+.legacy-mode { color: #c00;}
 
 #module-status .viewsite { background: url(../images/menu/icon-16-viewsite.png) 3px 4px no-repeat; 	}
 #module-status .preview { background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat; 	}
@@ -170,7 +170,9 @@ textarea:focus { background-color: #ffd }
 #module-status .loggedin-users { background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat; }
 #module-status .logout { background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat; }
 
-/* -- various styles -- */
+
+/* -- MISC. STYLES ----------------------------- */
+
 span.note {
 	display: block;
 	background: #ffd;
@@ -178,7 +180,7 @@ span.note {
 	color: #666;
 }
 
-/** overlib **/
+/* -- OVERLIB STYLES ----------------------------- */
 
 .ol-foreground {
 	background-color: #ffe;
@@ -207,7 +209,8 @@ span.note {
 
 .ol-closefont {}
 
-/** toolbar **/
+
+/* -- TOOLBAR STYLES ----------------------------- */
 
 div.pagetitle {
 	padding-left: 60px;
@@ -265,19 +268,21 @@ div.toolbar-list a:hover {
 }
 
 
-/** for massmail component **/
+/* -- MASSMAIL STYLES ----------------------------- */
+
 td#mm_pane			{ width: 90%; }
 input#mm_subject    { width: 200px; }
 textarea#mm_message { width: 100%; }
 
-/* pane-sliders  */
+
+/* -- PANE SLIDER STYLES ----------------------------- */
+
 .pane-sliders .title {
 	margin: 0;
 	padding: 2px 2px 2px 5px;
 	color: #666;
 	cursor: pointer;
 }
-
 
 #content-pane { margin: 15px;}
 
@@ -295,7 +300,8 @@ textarea#mm_message { width: 100%; }
 
 .jpane-toggler-down {  border-bottom: 1px solid #ccc; }
 
-/* tabs */
+
+/* -- TAB STYLES ----------------------------- */
 
 dl.tabs {
 	float: left;
@@ -331,7 +337,8 @@ div.current dd {
 	padding: 0;
 	margin: 0;
 }
-/** cpanel settings **/
+
+/* -- CONTROL PANEL STYLES ----------------------------- */
 
 #cpanel div.icon {
 	text-align: center;
@@ -369,8 +376,8 @@ div.cpanel-right { width:45%; float:right; }
 
 
 
+/* -- FORM STYLES ----------------------------- */
 
-/* standard form style table */
 div.col { float: left; }
 div.width-45 { width: 45%; }
 div.width-55 { width: 55%; }
@@ -380,7 +387,6 @@ div.width-30 { width: 30%; }
 div.width-60 { width: 60%; }
 div.width-40 { width: 40%; }
 
-/* Some new classes for edit forms */
 
 fieldset ol,ol#property-values{margin:0;padding:0}
 fieldset li,ol#property-values li{list-style:none;margin:0;padding:5px}
@@ -447,10 +453,9 @@ table.adminform td.helpMenu{
 	text-align: right;
 }
 
-
 fieldset.adminform { border: 1px solid #ccc; margin: 0 10px 10px 10px; }
 
-/** Table styles **/
+/* -- TABLE STYLES ----------------------------- */
 
 table.adminlist {
 	width: 100%;
@@ -471,17 +476,13 @@ table.adminlist thead th {
 }
 
 table.adminlist thead a:hover { text-decoration: none; }
-
 table.adminlist thead th img { vertical-align: middle; padding-left: 3px;}
 
 table.adminlist tbody th { font-weight: bold; }
-
-table.adminlist tbody tr			{ background-color: #fff;  text-align: left; }
+table.adminlist tbody tr		{ background-color: #fff;  text-align: left; }
 table.adminlist tbody tr.row1 	{ background: #f9f9f9; border-top: 1px solid #fff; }
-
 table.adminlist tbody tr.row0:hover td,
 table.adminlist tbody tr.row1:hover td  { background-color: #ffd ; }
-
 table.adminlist tbody tr td 	   { height: 36px; background: #fff; border: 1px solid #fff; }
 table.adminlist tbody tr.row1 td { background: #f9f9f9; border-top: 1px solid #FFF; }
 
@@ -489,15 +490,13 @@ table.adminlist tfoot tr { text-align: center;  color: #333; }
 table.adminlist tfoot td,
 table.adminlist tfoot th { background-color: #f7f7f7; border-top: 1px solid #999; text-align: center; }
 
-table.adminlist td.order 		{ text-align: center; white-space: nowrap; }
+table.adminlist td.order 	{ text-align: center; white-space: nowrap; }
 table.adminlist td.order span { float: left; display: block; width: 20px; text-align: center; }
 
 table.adminlist .pagination { display:table; padding:0;  margin:0 auto;	 }
 
-
 div#element-box div.m form table.adminlist tr td a { font-size: 1.1em; }
 div#element-box div.m div.jpane-slider form table.adminlist a { font-size: 1em;}
-
 
 .pagination div.limit {
 	float: left;
@@ -511,11 +510,11 @@ div#element-box div.m div.jpane-slider form table.adminlist a { font-size: 1em;}
 }
 
 
-/** stu nicholls solution for centering divs **/
 .container {clear:both; text-decoration:none;}
 * html .container {display:inline-block;}
 
-/** table solution for global config **/
+/* -- GLOBAL CONFIG STYLES ----------------------------- */
+
 table.noshow   		 { width: 100%; border-collapse: collapse; padding: 0; margin: 0; }
 table.noshow tr 		 { vertical-align: top; }
 table.noshow td 		 { }
@@ -523,10 +522,10 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 
 #editor-xtd-buttons { padding: 5px; }
 
-/* -- buttons -> STILL NEED CLEANUP*/
+/* -- BUTTON STYLES ----------------------------- */
 
 .button1,
-.button1 div{
+.button1 div {
 	height: 1%;
 	float: right;
 }
@@ -539,7 +538,6 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 }
 
 .button1 { background: url(../images/j_button1_left.png) no-repeat; white-space: nowrap; padding-left: 10px; margin-left: 5px;}
-
 .button1 .next { background: url(../images/j_button1_next.png) 100% 0 no-repeat; }
 
 .button1 a {
@@ -624,7 +622,9 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 .button2-left .pagebreak 	{ background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat; }
 .button2-left .blank	 	{ background: url(../images/j_button2_blank.png) 100% 0 no-repeat; }
 
-/* Tooltips */
+
+/* -- TOOLTIP STYLES ----------------------------- */
+
 .tip {
 	float: left;
 	background: #ffc;
@@ -650,7 +650,8 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	margin: 0;
 }
 
-/* Calendar */
+/* -- CALENDAR STYLES ----------------------------- */
+
 a img.calendar {
 	width: 16px;
 	height: 16px;
@@ -659,6 +660,8 @@ a img.calendar {
 	cursor: pointer;
 	vertical-align: middle;
 }
+
+/* -- SYSTEM MESSAGE STYLES ----------------------------- */
 
 /* System Standard Messages */
 #system-message dd.message ul { background: #C3D2E5 url(../images/notice-info.png) 4px center no-repeat;}
@@ -669,10 +672,13 @@ a img.calendar {
 /* System Notice Messages */
 #system-message dd.notice ul { color: #c00; background: #EFE7B8 url(../images/notice-note.png) 4px top no-repeat; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
 
+.invalid { color: red; font-weight: bold; }
+input.invalid { border: 1px solid red; }
+input.readonly { border: 0; }
+input.required { background-color: #bed6ff; }
 
 
 /* -- LOGIN STYLES ----------------------------- */
-
 	
 .login { 
 	margin: 0 auto; 
@@ -693,6 +699,7 @@ h1 {
 p {
   margin: 0 0 15px 10px;
   padding: 0;
+  font-size: 11px;
 }
 
 #lock  {
@@ -776,12 +783,8 @@ p#form-login-lang {
 }
 
 
+/* -- ICON STYLES ----------------------------- */
 
-
-
-/* -- ICONS ------------------------------ */
-
-/** menu icons **/
 .icon-16-archive 	{ background-image: url(../images/menu/icon-16-archive.png); }
 .icon-16-article 	{ background-image: url(../images/menu/icon-16-article.png); }
 .icon-16-category 	{ background-image: url(../images/menu/icon-16-category.png); }
@@ -840,7 +843,7 @@ p#form-login-lang {
 .icon-16-writemess 	{ background-image: url(../images/menu/icon-16-writemess.png); }
 
 
-/** toolbar icons **/
+/* -- TOOLBAR ICON STYLES ----------------------------- */
 .icon-32-send 			{ background-image: url(../images/toolbar/icon-32-send.png); }
 .icon-32-delete 		{ background-image: url(../images/toolbar/icon-32-delete.png); }
 .icon-32-help 			{ background-image: url(../images/toolbar/icon-32-help.png); }
@@ -869,7 +872,7 @@ p#form-login-lang {
 .icon-32-default 		{ background-image: url(../images/toolbar/icon-32-default.png); }
 .icon-32-refresh		{ background-image: url(../images/toolbar/icon-32-refresh.png); }
 
-/** header icons **/
+/* -- HEADER ICON STYLES ----------------------------- */
 .icon-48-generic 		{ background-image: url(../images/header/icon-48-generic.png); }
 .icon-48-checkin 		{ background-image: url(../images/header/icon-48-checkin.png); }
 .icon-48-clear 		{ background-image: url(../images/header/icon-48-clear.png); }
@@ -907,9 +910,8 @@ p#form-login-lang {
 .icon-48-systeminfo 	{ background-image: url(../images/header/icon-48-info.png); }
 .icon-48-massmail 	{ background-image: url(../images/header/icon-48-massmail.png); }
 
-/* ---- Basic menu styles ------------------- */
+/* -- BASIC MENU STYLES ----------------------------- */
 
-/* common styling */
 #menu, #menu ul, #menu li { margin: 0; padding: 0; border: 0 none; }
 
 #menu       { position:relative; z-index: 100;}
@@ -940,10 +942,14 @@ p#form-login-lang {
 	padding: 0.35em 1em 0.35em;
 	margin: 0 1px 0 1px;
 	color: #333333;
-	line-height: 1.6em; vertical-align: middle;
-	font-size: 11px; font-weight: bold; text-decoration: none;
+	line-height: 1.6em; 
+	vertical-align: middle;
+	font-size: 11px; 
+	font-weight: bold; 
+	text-decoration: none;
 	cursor: default;
-	background-repeat: no-repeat; background-position: left 50%
+	background-repeat: no-repeat; 
+	background-position: left 50%;
 }
 
 #menu li.disabled a { color: gray; }
@@ -967,7 +973,15 @@ p#form-login-lang {
 /* 3 level - hover */
 #menu li.hover li.hover li a:hover { background-color: #dbe4e9; border: 1px solid #025a8d;  margin: 1px;  }
 
-/* submenu styling */
+a.icon-16-menu span img {
+	height: 16px;
+	width: 16px;
+	vertical-align:bottom;
+}
+
+
+/* -- SUBMENU STYLES ----------------------------- */
+
 #submenu {
 	list-style: none;
 	padding: 0;
@@ -1001,9 +1015,6 @@ p#form-login-lang {
 #submenu span.nolink.active {
 	color: #70ace4;
 }
-
-
-
 
 /* -- COMPONENT STYLES ------------------------------ */
 
@@ -1054,12 +1065,6 @@ div.message {
 }
 
 
-/* New styles for forms that need a proper home */
-
-.invalid { color: red; font-weight: bold; }
-input.invalid { border: 1px solid red; }
-input.readonly { border: 0; }
-input.required { background-color: #bed6ff; }
 
 
 

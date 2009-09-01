@@ -38,7 +38,7 @@ class ModulesViewModule extends JView
 		$positions	= &$this->get('positions');
 		$isNew		= ($row->id < 1);
 
-		JToolBarHelper::title(JText::_('Module') . ': <small><small>[ '. JText::_('Edit') .' ]</small></small>', 'module.png');
+		JToolBarHelper::title(JText::_('Module_Manager') . ': '. JText::_('Edit_Module') .'', 'module.png');
 
 		if ($row->module == 'mod_custom') {
 			JToolBarHelper::Preview('index.php?option=com_modules&tmpl=component&client='.$client->id.'&pollid='.$row->id);

@@ -36,7 +36,6 @@ for ($i=0; $i < $count; $i++) {
 		<?php $x = 1 - $x; } ?>
 		<td width="50%">
 			<span class="editlinktip hasTip" title="<?php echo JText::_(stripslashes($row->name)).' :: '.JText::_(stripslashes($row->descrip)); ?>">
-				<input type="radio" name="module" value="<?php echo $row->module; ?>" id="cb<?php echo $i; ?>">
 				<a href="<?php echo $link;?>"><?php echo JText::_($row->name); ?></a></span>
 		</td>
 		<?php if ($k) : ?>
