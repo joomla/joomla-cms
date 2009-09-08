@@ -287,12 +287,17 @@ abstract class JMail extends PHPMailer
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function useSMTP($auth = null, $host = null, $user = null, $pass = null)
+	public function useSMTP($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
 	{
 		$this->SMTPAuth = $auth;
 		$this->Host 	= $host;
 		$this->Username = $user;
 		$this->Password = $pass;
+		$this->Port     = $port;
+
+		if ($secure == 'ssl' || $secure == 'tls') {
+			$this->SMTPSecure = $secure;
+		} 
 
 		if ($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null) {
 			$this->IsSMTP();

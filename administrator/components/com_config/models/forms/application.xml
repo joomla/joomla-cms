@@ -265,7 +265,32 @@
 			<option value="1">JYes</option>
 			<option value="0">JNo</option>
 		</field>
-		
+
+		<field
+			name="smtpsecure"
+			type="list"
+			default="none"
+			label="Config_Mail_SMTP_Secure_Label"
+			description="Config_Mail_SMTP_Secure_Desc"
+			required="true"
+			filter="word"
+		>
+			<option value="none">Config_Option_None</option>
+			<option value="ssl">Config_Option_SSL</option>
+			<option value="tls">Config_Option_TLS</option>
+		</field>
+
+		<field
+			name="smtpport"
+			type="text"
+			default="25"
+			label="Config_Mail_SMTP_Port_Label"
+			description="Config_Mail_SMTP_Port_Desc"
+			required="true"
+			filter="string"
+			size="50"
+		/>
+
 		<field
 			name="smtpuser"
 			type="text"

@@ -20,6 +20,8 @@ class JFrameworkConfig
 	public $fromname 	= '';
 	public $sendmail 	= '/usr/sbin/sendmail';
 	public $smtpauth 	= '0';
+	public $smtpsecure = 'none';
+	public $smtpport	= '25'; 
 	public $smtpuser 	= '';
 	public $smtppass 	= '';
 	public $smtphost 	= 'localhost';
