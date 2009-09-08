@@ -17,6 +17,7 @@
 		<param name="ordering" type="list" default="create_dsc" label="Ordering" description="Ordering options">
 			<option value="c_dsc">Recently Added First</option>
 			<option value="m_dsc">Recently Modified First</option>
+			<option value="mc_dsc">Recently Touched First</option>
 	  	</param>
 		<param name="user_id" type="list" default="0" label="Authors" description="A filter for the authors">
 			<option value="0">Anyone</option>

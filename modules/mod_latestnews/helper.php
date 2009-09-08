@@ -56,6 +56,9 @@ class modLatestNewsHelper
 			case 'm_dsc':
 				$ordering		= 'a.modified DESC, a.created DESC';
 				break;
+			case 'mc_dsc':
+				$ordering 		= 'dateslug DESC';
+				break; 
 			case 'c_dsc':
 			default:
 				$ordering		= 'a.created DESC';
@@ -72,7 +75,8 @@ class modLatestNewsHelper
 		// Content Items only
 		$query = 'SELECT a.*, ' .
 			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
-			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug'.
+			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
+			' CASE WHEN (a.modified = "0000-00-00 00:00:00") THEN a.created ELSE a.modified END AS dateslug'. 
 			' FROM #__content AS a' .
 			($show_front == '0' ? ' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' : '') .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
