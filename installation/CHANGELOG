@@ -13,7 +13,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.5, including beta and release candidate versions.
+Joomla! 1.6, including alpha and beta versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -26,6 +26,23 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+08-Sep-2009 Ron Severdia
+# BlueStork fixes
+^ Moved Media Manager folder field to bottom
+$ Language consistency fixes
+^ -> Updated toolbar icons
+
+31-Aug-2009 Ron Severdia
+# BlueStork fixes
+$ Language consistency fixes
+- Removed unnecessary radio buttons in new module
+- Removed unused Tools menu from top menu
+
+22-Aug-2009 Ron Severdia
+# BlueStork fixes
+$ Added missing language strings
++ New icon for Menu Manager in top menu
 
 19-Aug-2009 Sam Moffatt
  # [#17680] Menu links not working for 3rd party components thanks to Matias Aguirre

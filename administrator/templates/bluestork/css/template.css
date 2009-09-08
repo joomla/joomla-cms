@@ -282,6 +282,7 @@ textarea#mm_message { width: 100%; }
 	padding: 2px 2px 2px 5px;
 	color: #666;
 	cursor: pointer;
+	
 }
 
 #content-pane { margin: 15px;}
@@ -292,7 +293,7 @@ textarea#mm_message { width: 100%; }
 
 .pane-sliders .content { background: #f6f6f6; }
 
-.pane-sliders .adminlist     { border: 0 none; }
+.pane-sliders .adminlist     { border: 0 none; font-size: 11px; }
 .pane-sliders .adminlist td  { border: 0 none; }
 
 .jpane-toggler  span     { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; padding-left: 20px;}
@@ -346,6 +347,7 @@ div.current dd {
 	float: left;
 	margin-bottom: 15px;
 	background-color: #fff;
+	font-size: 11px;
 }
 
 #cpanel div.icon a {
