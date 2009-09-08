@@ -295,7 +295,7 @@ class UsersModelUser extends JModelForm
 		// Fire the onBeforeStoreUser event.
 		JPluginHelper::importPlugin('user');
 		$dispatcher = &JDispatcher::getInstance();
-		$dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isNew));
+		$dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isNew, $user->getProperties()));
 
 		// Store the data.
 		if (!$result = $user->store()) {

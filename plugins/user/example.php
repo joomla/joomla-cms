@@ -28,8 +28,9 @@ class plgUserExample extends JPlugin
 	 *
 	 * @param 	array		holds the old user data
 	 * @param 	boolean		true if a new user is stored
+	 * @param 	array		holds the new user data
 	 */
-	function onBeforeStoreUser($user, $isnew)
+	function onBeforeStoreUser($user, $isnew, $new)
 	{
 		$app = &JFactory::getApplication();
 	}
