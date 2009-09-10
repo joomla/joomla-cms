@@ -31,6 +31,8 @@ $ -> Language fix or change
  ^ Localised invalid token messages
  ^ Converted jExit calls to jexit
  # Fixed notices in com_messages
+ # Fixed invalid client_id value for redirect plugin
+ - Removed checked_out values in installation sql
 
 08-Sep-2009 Ron Severdia
  # BlueStork fixes
