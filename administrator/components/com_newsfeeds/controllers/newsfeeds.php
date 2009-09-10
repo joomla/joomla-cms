@@ -69,7 +69,7 @@ class NewsfeedsControllerNewsfeeds extends JController
 	 */
 	public function publish()
 	{
-		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$model	= &$this->getModel('Newsfeeds');
 		$cid	= JRequest::getVar('cid', null, 'post', 'array');
@@ -109,7 +109,7 @@ class NewsfeedsControllerNewsfeeds extends JController
 	 */
 	public function reorder()
 	{
-		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 		// Initialize variables.
 		$model	= &$this->getModel('Newsfeed');
 		$cid	= JRequest::getVar('cid', null, 'post', 'array');

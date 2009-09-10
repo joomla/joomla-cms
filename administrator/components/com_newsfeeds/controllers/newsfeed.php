@@ -108,7 +108,7 @@ class NewsfeedsControllerNewsfeed extends JController
 	 */
 	public function cancel()
 	{
-		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
 		$app	= &JFactory::getApplication();

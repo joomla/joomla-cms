@@ -70,7 +70,7 @@ class WeblinksControllerWeblinks extends JController
 	 */
 	public function publish()
 	{
-		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$model	= &$this->getModel('Weblinks');
 		$cid	= JRequest::getVar('cid', null, 'post', 'array');
@@ -117,7 +117,7 @@ class WeblinksControllerWeblinks extends JController
 	 */
 	public function reorder()
 	{
-		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
 		$model	= &$this->getModel('Weblink');

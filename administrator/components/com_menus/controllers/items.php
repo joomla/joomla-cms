@@ -56,7 +56,7 @@ class MenusControllerItems extends JController
 	public function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get items to remove from the request.
 		$pks	= JRequest::getVar('cid', array(), 'post', 'array');
@@ -90,7 +90,7 @@ class MenusControllerItems extends JController
 	public function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get items to publish from the request.
 		$pks	= JRequest::getVar('cid', array(), '', 'array');
@@ -125,7 +125,7 @@ class MenusControllerItems extends JController
 	 */
 	public function ordering()
 	{
-		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
 		$pks	= JRequest::getVar('cid', null, 'post', 'array');
