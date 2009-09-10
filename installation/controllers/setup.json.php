@@ -20,7 +20,7 @@ class JInstallationControllerSetup extends JController
 	function loadSampleData()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('Invalid_Token'), 403));
+		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JInvalid_Token'), 403));
 
 		// Get the setup model.
 		$model = &$this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
@@ -50,7 +50,7 @@ class JInstallationControllerSetup extends JController
 	function detectFtpRoot()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('Invalid_Token'), 403));
+		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JInvalid_Token'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('vars', array(), 'post', 'array');
@@ -83,7 +83,7 @@ class JInstallationControllerSetup extends JController
 	function verifyFtpSettings()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('Invalid_Token'), 403));
+		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JInvalid_Token'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('vars', array(), 'post', 'array');

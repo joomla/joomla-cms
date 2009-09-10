@@ -26,7 +26,7 @@ class JInstallationControllerSetup extends JController
 	function setlanguage()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get the application object.
 		$app = & JFactory::getApplication();
@@ -69,7 +69,7 @@ class JInstallationControllerSetup extends JController
 	function database()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get the application object.
 		$app = & JFactory::getApplication();
@@ -124,7 +124,7 @@ class JInstallationControllerSetup extends JController
 	function filesystem()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get the application object.
 		$app = & JFactory::getApplication();
@@ -166,7 +166,7 @@ class JInstallationControllerSetup extends JController
 	function saveconfig()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get the application object.
 		$app = & JFactory::getApplication();
