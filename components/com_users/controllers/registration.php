@@ -79,7 +79,7 @@ class UsersControllerRegistration extends UsersController
 	function register()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('USERS INVALID TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
 		$app	= &JFactory::getApplication();

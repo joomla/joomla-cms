@@ -42,7 +42,8 @@ class MailtoController extends JController
 	function send()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+
 		$app	= &JFactory::getApplication();
 		$session = &JFactory::getSession();
 		$db	= &JFactory::getDbo();

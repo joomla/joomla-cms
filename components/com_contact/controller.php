@@ -76,7 +76,7 @@ class ContactController extends JController
 	function submit()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize some variables
 		$app		= &JFactory::getApplication();

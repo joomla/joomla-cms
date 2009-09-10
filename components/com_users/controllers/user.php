@@ -163,7 +163,7 @@ class UsersControllerUser extends UsersController
 	function remind()
 	{
 		// Check the request token.
-		JRequest::checkToken('post') or jexit(JText::_('INVALID_TOKEN'));
+		JRequest::checkToken('post') or jexit(JText::_('JInvalid_Token'));
 
 		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('User', 'UsersModel');
@@ -227,6 +227,7 @@ class UsersControllerUser extends UsersController
 	 */
 	function resend()
 	{
+		// Check for request forgeries
 		JRequest::checkToken('post') or jexit(JText::_('JInvalid_Token'));
 	}
 }

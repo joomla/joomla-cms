@@ -71,7 +71,7 @@ class UsersControllerProfile extends UsersController
 	function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('USERS_INVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
