@@ -427,7 +427,7 @@ abstract class JHtml
 		}
 
 		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
-				 '<img class="calendar" src="'.JURI::root(true).'/templates/system/images/calendar.png" alt="calendar" id="'.$id.'_img" />';
+				 '<img class="calendar" src="'.JURI::root(true).'/administrator/templates/bluestork/images/system/calendar.png" alt="calendar" id="'.$id.'_img" />';
 	}
 
 	/**

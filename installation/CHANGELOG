@@ -27,6 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+<<<<<<< .mine
+
+10-Sep-2009 Ron Severdia
+# BlueStork fixes
+# Edit Category interface tweaks
+^ Copied system images to admin template subfolder
+
+=======
 10-Sep-2009 Ercan Ozkaya
  ^ Localised invalid token messages
  ^ Converted jExit calls to jexit
@@ -34,6 +42,7 @@ $ -> Language fix or change
  # Fixed invalid client_id value for redirect plugin
  - Removed checked_out values in installation sql
 
+>>>>>>> .r12689
 08-Sep-2009 Ron Severdia
  # BlueStork fixes
  ^ Moved Media Manager folder field to bottom

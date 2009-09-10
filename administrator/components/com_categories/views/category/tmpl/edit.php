@@ -32,18 +32,10 @@ JHtml::_('behavior.formvalidation');
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-	<div class="width-60" style="float:left;">
+	<div class="width-60">
 		<fieldset>
 			<legend><?php echo JText::_('Categories_Fieldset_Details');?></legend>
 			<ol>
-				<li>
-					<?php echo $this->form->getLabel('extension'); ?><br />
-					<?php echo $this->form->getInput('extension'); ?>
-				</li>
-				<li>
-					<?php echo $this->form->getLabel('parent_id'); ?><br />
-					<?php echo $this->form->getInput('parent_id'); ?>
-				</li>
 				<li>
 					<?php echo $this->form->getLabel('title'); ?><br />
 					<?php echo $this->form->getInput('title'); ?>
@@ -52,6 +44,16 @@ JHtml::_('behavior.formvalidation');
 					<?php echo $this->form->getLabel('alias'); ?><br />
 					<?php echo $this->form->getInput('alias'); ?>
 				</li>
+				<!-- <li>
+					<?php echo $this->form->getLabel('extension'); ?><br />
+					<?php echo $this->form->getInput('extension'); ?>
+				</li>
+				-->
+				<li>
+					<?php echo $this->form->getLabel('parent_id'); ?><br />
+					<?php echo $this->form->getInput('parent_id'); ?>
+				</li>
+				
 				<li>
 					<?php echo $this->form->getLabel('published'); ?><br />
 					<?php echo $this->form->getInput('published'); ?>
@@ -64,7 +66,7 @@ JHtml::_('behavior.formvalidation');
 		</fieldset>
 	</div>
 
-	<div class="width-40" style="float:left;">
+	<div class="width-40">
 		<fieldset>
 			<legend><?php echo JText::_('Categories_Fieldset_Options'); ?></legend>
 			<?php echo $this->loadTemplate('options'); ?>
@@ -76,7 +78,7 @@ JHtml::_('behavior.formvalidation');
 		</fieldset>
 	</div>
 
-	<br class="clr" />
+	<div class="clr"></div>
 	<?php echo $this->form->getLabel('description'); ?><br />
 	<?php echo $this->form->getInput('description'); ?>
 

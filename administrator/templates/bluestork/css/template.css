@@ -30,10 +30,13 @@ body {
 	padding: 0;
 	background: #fff;
 	padding-bottom: 1px;
+}
+
+body, td, th { 
+	font-family: Arial, Helvetica, sans-serif; 
 	font-size: 11px;
 }
 
-body, td, th { font-family: Arial, Helvetica, sans-serif; }
 
 html, body { height: 95%; }
 
@@ -347,7 +350,6 @@ div.current dd {
 	float: left;
 	margin-bottom: 15px;
 	background-color: #fff;
-	font-size: 11px;
 }
 
 #cpanel div.icon a {
@@ -381,13 +383,14 @@ div.cpanel-right { width:45%; float:right; }
 /* -- FORM STYLES ----------------------------- */
 
 div.col { float: left; }
-div.width-45 { width: 45%; }
-div.width-55 { width: 55%; }
-div.width-50 { width: 50%; }
-div.width-70 { width: 70%; }
-div.width-30 { width: 30%; }
-div.width-60 { width: 60%; }
-div.width-40 { width: 40%; }
+
+div.width-30 { width: 30%; float: left;}
+div.width-40 { width: 40%; float: left;}
+div.width-45 { width: 45%; float: left;}
+div.width-50 { width: 50%; float: left;}
+div.width-55 { width: 55%; float: left;}
+div.width-60 { width: 60%; float: left;}
+div.width-70 { width: 70%; float: left;}
 
 
 fieldset ol,ol#property-values{margin:0;padding:0}
@@ -677,7 +680,21 @@ a img.calendar {
 .invalid { color: red; font-weight: bold; }
 input.invalid { border: 1px solid red; }
 input.readonly { border: 0; }
-input.required { background-color: #bed6ff; }
+input.required { background-color: #d5eeff; }
+
+input#jform_title.inputbox {
+	font-size: 15px;
+}
+
+form fieldset ol li {
+	margin-bottom: 10px;
+	font-size: 12px;
+}
+form fieldset ol li label {
+	margin-bottom: 5px;
+
+}
+
 
 
 /* -- LOGIN STYLES ----------------------------- */

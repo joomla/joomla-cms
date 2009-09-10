@@ -18,7 +18,7 @@ function modChrome_none($module, &$params, &$attribs)
 }
 
 /*
- * xhtml (divs and font headder tags)
+ * xhtml (divs and font header tags)
  */
 function modChrome_xhtml($module, &$params, &$attribs)
 {
