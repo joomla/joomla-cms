@@ -59,7 +59,7 @@ class MenusHelper
 		{
 			$args = array();
 			if (strpos($request, 'index.php') === 0) {
-				parse_str(parse_url($request, PHP_URL_QUERY), $args);
+				parse_str(parse_url(htmlspecialchars_decode($request), PHP_URL_QUERY), $args);
 			}
 			else {
 				parse_str($request, $args);

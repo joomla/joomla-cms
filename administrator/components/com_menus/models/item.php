@@ -234,7 +234,8 @@ class MenusModelItem extends JModelForm
 	public function getParamsForm($type = null, $link = null)
 	{
 		jimport('joomla.filesystem.file');
-
+		jimport('joomla.filesystem.folder');
+		
 		// Initialise variables.
 		$form			= null;
 		$formFile		= null;
@@ -250,7 +251,7 @@ class MenusModelItem extends JModelForm
 		{
 			// If the link not supplied, try to load it.
 			if ($item = &$this->getItem()) {
-				$link = $item->link;
+				$link = htmlspecialchars_decode($item->link);
 			}
 		}
 
@@ -259,7 +260,7 @@ class MenusModelItem extends JModelForm
 		{
 			// Parse the link arguments.
 			$args = array();
-			parse_str(parse_url($link, PHP_URL_QUERY), $args);
+			parse_str(parse_url(htmlspecialchars_decode($link), PHP_URL_QUERY), $args);
 
 			// Confirm that the option is defined.
 			if (isset($args['option']))
@@ -281,12 +282,24 @@ class MenusModelItem extends JModelForm
 						$layout = 'default';
 					}
 
-					// Check for the layout XML file.
-					$path = JPath::clean($base.DS.'views'.DS.$view.DS.'tmpl'.DS.$layout.'.xml');
-					if (JFile::exists($path)) {
-						$formFile = $path;
+					$formFile = false;
+					$folders = JFolder::folders(JPATH_SITE.DS.'templates','',false,true);
+					foreach($folders as $folder)
+					{
+						if (JFile::exists($folder.DS.'html'.DS.$option.DS.$view.DS.$layout.'.xml')) {
+							$formFile = $folder.DS.'html'.DS.$option.DS.$view.DS.$layout.'.xml';
+							break;
+						}
 					}
 
+					if(!$formFile)
+					{
+						// Check for the layout XML file.
+						$path = JPath::clean($base.DS.'views'.DS.$view.DS.'tmpl'.DS.$layout.'.xml');
+						if (JFile::exists($path)) {
+							$formFile = $path;
+						}
+					}
 					// TODO: Now check for a view manifest file
 					// TODO: Now check for a component manifest file
 				}

@@ -27,14 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-<<<<<<< .mine
+11-Sep-2009 Hannes Papenberg
+ ^ Ability to add additional layouts with own parameters via a template added to menu manager
 
 10-Sep-2009 Ron Severdia
-# BlueStork fixes
-# Edit Category interface tweaks
-^ Copied system images to admin template subfolder
+ # BlueStork fixes
+ # Edit Category interface tweaks
+ ^ Copied system images to admin template subfolder
 
-=======
 10-Sep-2009 Ercan Ozkaya
  ^ Localised invalid token messages
  ^ Converted jExit calls to jexit
@@ -42,7 +42,9 @@ $ -> Language fix or change
  # Fixed invalid client_id value for redirect plugin
  - Removed checked_out values in installation sql
 
->>>>>>> .r12689
+08-Sep-2009 Hannes Papenberg
+ + Added "Touched" option to mod_latestnews
+
 08-Sep-2009 Ron Severdia
  # BlueStork fixes
  ^ Moved Media Manager folder field to bottom

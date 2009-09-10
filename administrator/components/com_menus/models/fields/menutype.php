@@ -66,7 +66,6 @@ class JFormFieldMenuType extends JFormFieldList
 				$value	= JText::_(JArrayHelper::getValue($this->_rlu, MenusHelper::getLinkKey($link)));
 				break;
 		}
-
 		// Load the javascript and css
 		JHtml::_('behavior.framework');
 		JHtml::script('modal.js');
@@ -369,23 +368,33 @@ class JFormFieldMenuType extends JFormFieldList
 		// Initialize variables.
 		$options = array();
 
+		$layouts = array();
+		$folders = JFolder::folders(JPATH_SITE.DS.'templates','',false,true);
+		foreach($folders as $folder)
+		{
+			if (JFolder::exists($folder.DS.'html'.DS.$component.DS.$view)) {
+				$layouts = array_merge($layouts, JFolder::files($folder.DS.'html'.DS.$option.DS.$component.DS.$view, '.xml$', false, true));
+			}
+		}
+
 		// Get the layouts from the view folder.
 		$path = JPATH_SITE.'/components/'.$component.'/views/'.$view.'/tmpl';
 		if (JFolder::exists($path)) {
-			$layouts = JFolder::files($path, '.php$');
+			$layouts = array_merge($layouts, JFolder::files($path, '.xml$', false, true));
 		}
 		else {
 			return $options;
 		}
-
+		
 		// Process the found layouts.
 		foreach ($layouts as $layout)
 		{
 			// Ignore private layouts.
-			if (strpos($layout, '_') === false)
+			if (strpos(JFile::getName($layout), '_') === false)
 			{
+				$file = $layout;
 				// Get the layout name.
-				$layout = JFile::stripext($layout);
+				$layout = JFile::stripext(JFile::getName($layout));
 
 				// Create the menu option for the layout.
 				$o = new JObject;
@@ -399,7 +408,6 @@ class JFormFieldMenuType extends JFormFieldList
 				}
 
 				// Load layout metadata if it exists.
-				$file = $path.'/'.$layout.'.xml';
 				if (is_file($file))
 				{
 					// Attempt to load the xml file.
