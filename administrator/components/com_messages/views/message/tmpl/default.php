@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 ?>
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm">
 
 <table class="adminform">
 	<tr>
@@ -45,7 +45,6 @@ defined('_JEXEC') or die;
 	</tr>
 </table>
 
-<input type="hidden" name="option" value="<?php echo $option;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="1" />
 <input type="hidden" name="cid[]" value="<?php echo $this->item->message_id; ?>" />

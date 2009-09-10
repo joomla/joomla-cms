@@ -30,6 +30,7 @@ $ -> Language fix or change
 10-Sep-2009 Ercan Ozkaya
  ^ Localised invalid token messages
  ^ Converted jExit calls to jexit
+ # Fixed notices in com_messages
 
 08-Sep-2009 Ron Severdia
  # BlueStork fixes

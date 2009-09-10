@@ -81,14 +81,6 @@ class MessagesModelMessages extends JModelList
 			$query->where('a.subject LIKE '.$searchEscaped.' OR a.message LIKE '.$searchEscaped.')');
 		}
 
-		if ($filter_state) {
-			if ($filter_state == 'P') {
-				$query->where('a.state = 1');
-			} else if ($filter_state == 'U') {
-				$query->where('a.state = 0');
-			}
-		}
-
 		// Add the list ordering clause.
 		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.date_time')).' '.$this->_db->getEscaped($this->getState('list.direction', 'DESC')));
 

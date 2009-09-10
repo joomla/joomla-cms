@@ -30,7 +30,7 @@ function submitbutton(pressbutton) {
 	}
 }
 </script>
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm">
 
 <table class="adminform">
 <tr>
@@ -60,7 +60,6 @@ function submitbutton(pressbutton) {
 </table>
 
 <input type="hidden" name="user_id_from" value="<?php echo $user->get('id'); ?>">
-<input type="hidden" name="option" value="<?php echo $option; ?>">
 <input type="hidden" name="task" value="">
 <?php echo JHtml::_('form.token'); ?>
 </form>

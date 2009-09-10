@@ -10,20 +10,15 @@ defined('_JEXEC') or die;
 
 $user	= &JFactory::getUser();
 ?>
-<form action="index.php?option=com_messages" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm">
 
 <table>
 <tr>
 	<td align="left" width="100%">
 		<?php echo JText::_('Search'); ?>:
-		<input type="text" name="search" id="search" value="<?php echo $this->lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+		<input type="text" name="search" id="search" value="<?php echo $this->state->get('filter.search');?>" class="text_area" onchange="document.adminForm.submit();" />
 		<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 		<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
-	</td>
-	<td nowrap="nowrap">
-		<?php
-		echo $this->lists['state'];
-		?>
 	</td>
 </tr>
 </table>
@@ -36,7 +31,7 @@ $user	= &JFactory::getUser();
 				<?php echo JText::_('NUM'); ?>
 			</th>
 			<th width="20" class="title">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->rows); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 			</th>
 			<th width="50%" class="title">
 				<?php echo JHtml::_('grid.sort',   'Subject', 'a.subject', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -104,10 +99,9 @@ $user	= &JFactory::getUser();
 	</table>
 </div>
 
-<input type="hidden" name="option" value="<?php echo $option;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
-<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
+<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
+<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
 <?php echo JHtml::_('form.token'); ?>
 </form>
