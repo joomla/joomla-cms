@@ -242,7 +242,7 @@ function editContact($edit)
 function saveContact($task)
 {
 	// Check for request forgeries
-	JRequest::checkToken() or jexit('Invalid Token');
+	JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 	// Initialize variables
 	$app	= &JFactory::getApplication();
@@ -325,7 +325,7 @@ function saveContact($task)
 function removeContacts(&$cid)
 {
 	// Check for request forgeries
-	JRequest::checkToken() or jexit('Invalid Token');
+	JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 	// Initialize variables
 	$app	= &JFactory::getApplication();
@@ -355,7 +355,7 @@ function removeContacts(&$cid)
 function changeContact($cid=null, $state=0)
 {
 	// Check for request forgeries
-	JRequest::checkToken() or jexit('Invalid Token');
+	JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 	// Initialize variables
 	$app	= &JFactory::getApplication();
@@ -395,7 +395,7 @@ function changeContact($cid=null, $state=0)
 function orderContacts($uid, $inc)
 {
 	// Check for request forgeries
-	JRequest::checkToken() or jexit('Invalid Token');
+	JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 	// Initialize variables
 	$app	= &JFactory::getApplication();
@@ -414,7 +414,7 @@ function orderContacts($uid, $inc)
 function cancelContact()
 {
 	// Check for request forgeries
-	JRequest::checkToken() or jexit('Invalid Token');
+	JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 	// Initialize variables
 	$app	= &JFactory::getApplication();
@@ -433,7 +433,7 @@ function cancelContact()
 function changeAccess($id, $access)
 {
 	// Check for request forgeries
-	JRequest::checkToken() or jexit('Invalid Token');
+	JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 	// Initialize variables
 	$app	= &JFactory::getApplication();
@@ -456,7 +456,7 @@ function changeAccess($id, $access)
 function saveOrder(&$cid)
 {
 	// Check for request forgeries
-	JRequest::checkToken() or jexit('Invalid Token');
+	JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 	// Initialize variables
 	$app	= &JFactory::getApplication();

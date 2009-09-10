@@ -45,7 +45,7 @@ function messageForm($option)
 function sendMail()
 {
 	// Check for request forgeries
-	JRequest::checkToken() or jexit('Invalid Token');
+	JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 	$app	= &JFactory::getApplication();
 	$db		= &JFactory::getDbo();

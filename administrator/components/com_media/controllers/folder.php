@@ -31,7 +31,7 @@ class MediaControllerFolder extends MediaController
 	 */
 	function delete()
 	{
-		JRequest::checkToken('request') or jexit('Invalid Token');
+		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -91,7 +91,7 @@ class MediaControllerFolder extends MediaController
 	function create()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');

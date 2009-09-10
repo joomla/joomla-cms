@@ -57,7 +57,7 @@ class CacheController extends JController
 	public function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 
@@ -70,7 +70,7 @@ class CacheController extends JController
 	public function purge()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$model = $this->getModel('cache');
 		$ret = $model->purge();

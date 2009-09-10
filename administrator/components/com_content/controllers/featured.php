@@ -25,7 +25,7 @@ class ContentControllerFeatured extends ContentControllerArticles
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get items to remove from the request.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');

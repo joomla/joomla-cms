@@ -126,7 +126,7 @@ class BannerControllerClient extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$this->setRedirect('index.php?option=com_banners&c=client');
 
@@ -158,7 +158,7 @@ class BannerControllerClient extends JController
 	function cancel()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$this->setRedirect('index.php?option=com_banners&c=client');
 
@@ -172,7 +172,7 @@ class BannerControllerClient extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$this->setRedirect('index.php?option=com_banners&c=client');
 

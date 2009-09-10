@@ -38,7 +38,7 @@ class LanguagesController extends JController
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 		$model = & $this->getModel('languages');
 		if ($model->publish())
 		{

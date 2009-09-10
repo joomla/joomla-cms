@@ -52,7 +52,7 @@ class InstallerController extends JController
 	function doInstall()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$model	= &$this->getModel('Install');
 		$view	= &$this->getView('Install');
@@ -131,7 +131,7 @@ class InstallerController extends JController
 	function enable()
 	{
 		// Check for request forgeries
-		JRequest::checkToken('request') or jexit('Invalid Token');
+		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
 
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel($type);
@@ -161,7 +161,7 @@ class InstallerController extends JController
 	function disable()
 	{
 		// Check for request forgeries
-		JRequest::checkToken('request') or jexit('Invalid Token');
+		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
 
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel($type);
@@ -191,7 +191,7 @@ class InstallerController extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel($type);
@@ -220,7 +220,7 @@ class InstallerController extends JController
 	function refresh()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$type	= JRequest::getWord('type', 'manage');
 		$model	= &$this->getModel($type);
@@ -242,7 +242,7 @@ class InstallerController extends JController
 	function update()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel($type);
@@ -268,7 +268,7 @@ class InstallerController extends JController
 	{
 		// Find updates
 		// Check for request forgeries
-		JRequest::checkToken() or jexit('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel($type);

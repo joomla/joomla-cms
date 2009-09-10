@@ -32,7 +32,7 @@ class MediaControllerFile extends MediaController
 	{
 
 		// Check for request forgeries
-		JRequest::checkToken('request') or jexit('Invalid Token');
+		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
 
 		$app	= &JFactory::getApplication();
 		$file 	= JRequest::getVar('Filedata', '', 'files', 'array');
@@ -129,7 +129,7 @@ class MediaControllerFile extends MediaController
 	 */
 	function delete()
 	{
-		JRequest::checkToken('request') or jexit('Invalid Token');
+		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');

@@ -39,7 +39,7 @@ class ModulesController extends JController
 	function copy()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
@@ -68,7 +68,7 @@ class ModulesController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$cache = & JFactory::getCache();
 		$cache->clean('com_content');
@@ -145,7 +145,7 @@ class ModulesController extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
@@ -173,7 +173,7 @@ class ModulesController extends JController
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize some variables
 		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
@@ -203,7 +203,7 @@ class ModulesController extends JController
 	function cancel()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$model = $this->getModel('module');
 		$model->checkin();
@@ -218,7 +218,7 @@ class ModulesController extends JController
 	function reorder()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$cid 	= JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
@@ -246,7 +246,7 @@ class ModulesController extends JController
 	function access()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize some variables
 		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
@@ -289,7 +289,7 @@ class ModulesController extends JController
 	function saveOrder()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize some variables
 

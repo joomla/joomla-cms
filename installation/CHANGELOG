@@ -27,22 +27,25 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Sep-2009 Ercan Ozkaya
+ ^ Localised invalid token messages
+
 08-Sep-2009 Ron Severdia
-# BlueStork fixes
-^ Moved Media Manager folder field to bottom
-$ Language consistency fixes
-^ -> Updated toolbar icons
+ # BlueStork fixes
+ ^ Moved Media Manager folder field to bottom
+ $ Language consistency fixes
+ ^ -> Updated toolbar icons
 
 31-Aug-2009 Ron Severdia
-# BlueStork fixes
-$ Language consistency fixes
-- Removed unnecessary radio buttons in new module
-- Removed unused Tools menu from top menu
+ # BlueStork fixes
+ $ Language consistency fixes
+ - Removed unnecessary radio buttons in new module
+ - Removed unused Tools menu from top menu
 
 22-Aug-2009 Ron Severdia
-# BlueStork fixes
-$ Added missing language strings
-+ New icon for Menu Manager in top menu
+ # BlueStork fixes
+ $ Added missing language strings
+ + New icon for Menu Manager in top menu
 
 19-Aug-2009 Sam Moffatt
  # [#17680] Menu links not working for 3rd party components thanks to Matias Aguirre

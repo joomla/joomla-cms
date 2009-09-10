@@ -297,7 +297,7 @@ class ContentControllerArticle extends JController
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get items to remove from the request.
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
@@ -332,7 +332,7 @@ class ContentControllerArticle extends JController
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get items to publish from the request.
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
@@ -365,7 +365,7 @@ class ContentControllerArticle extends JController
 	function ordering()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$cid	= JRequest::getVar('cid', null, 'post', 'array');
 		$inc	= $this->getTask() == 'orderup' ? -1 : +1;

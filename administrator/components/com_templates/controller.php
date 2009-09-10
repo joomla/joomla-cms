@@ -44,7 +44,7 @@ class TemplatesController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$option		= JRequest::getVar('option', '', '', 'cmd');
 		$params		= JRequest::getVar('params', array(), 'post', 'array');
@@ -83,7 +83,7 @@ class TemplatesController extends JController
 	function add() {
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 		$option		= JRequest::getVar('option', '', '', 'cmd');
 
 		$model = $this->getModel('template');
@@ -105,7 +105,7 @@ class TemplatesController extends JController
 	 */
 	function delete() {
 		// Check for request forgeries
-		//JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		//JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$option		= JRequest::getVar('option', '', '', 'cmd');
 
@@ -135,7 +135,7 @@ class TemplatesController extends JController
 	{
 		// Check for request forgeries
 //TODO: FIX TOKEN
-		//JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		//JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$option		= JRequest::getVar('option', '', '', 'cmd');
 
@@ -182,7 +182,7 @@ class TemplatesController extends JController
 	function save_source()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');
@@ -250,7 +250,7 @@ class TemplatesController extends JController
 		$mainframe = JFactory::getApplication();
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');

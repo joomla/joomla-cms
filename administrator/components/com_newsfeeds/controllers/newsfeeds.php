@@ -69,7 +69,7 @@ class NewsfeedsControllerNewsfeeds extends JController
 	 */
 	public function publish()
 	{
-		JRequest::checkToken() or jExit(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
 
 		$model	= &$this->getModel('Newsfeeds');
 		$cid	= JRequest::getVar('cid', null, 'post', 'array');

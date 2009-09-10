@@ -51,7 +51,7 @@ class ContentControllerArticles extends JController
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get items to remove from the request.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
@@ -81,7 +81,7 @@ class ContentControllerArticles extends JController
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get items to publish from the request.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
@@ -115,7 +115,7 @@ class ContentControllerArticles extends JController
 	function featured()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Get items to publish from the request.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
