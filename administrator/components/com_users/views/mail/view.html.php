@@ -19,25 +19,33 @@ jimport('joomla.application.component.view');
  * @subpackage	Massmail
  * @since 1.0
  */
-class UsersViewMail extends JView
+class UsersViewMassMail extends JView
 {
 	/**
-	 * Display the view.
+	 * @var object form object
 	 */
-	public function display($tpl = null)
+	protected $form=null;
+	
+	/**
+	 * Display the view
+	 */
+	function display($tpl = null)
 	{
-		// Assign data to the view.
-		$this->assignRef('form', $this->get('Form'));
+		// Get data from the model
+		$form = & $this->get('Form');
 
-		// Set the toolbar.
+		// Assign data to the view
+		$this->assignRef('form', $form);
+
+		// Set the toolbar
 		$this->_setToolBar();
 		
-		// Display the view.
+		// Display the view
 		parent::display($tpl);
 	}
 
 	/**
-	 * Setup the Toolbar.
+	 * Setup the Toolbar
 	 *
 	 * @since	1.6
 	 */

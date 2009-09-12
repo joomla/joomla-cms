@@ -18,18 +18,18 @@ jimport('joomla.database.query');
  * @subpackage	com_massmail
  * @version		1.6
  */
-class UsersModelMail extends JModelForm
+class UsersModelMassMail extends JModelForm
 {
 
 	public function send()
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
-		$db			= &JFactory::getDbo();
-		$user 		= &JFactory::getUser();
-		$acl 		= &JFactory::getACL();
+		$db					= &JFactory::getDbo();
+		$user 				= &JFactory::getUser();
+		$acl 				= &JFactory::getACL();
 
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data = &JRequest::getVar('jform', array(), 'post', 'array');
 		
 		$mode = array_key_exists('mode',$data) ? intval($data['mode']) : 0;
 		$subject = array_key_exists('subject',$data) ? $data['subject'] : '';
@@ -133,13 +133,13 @@ class UsersModelMail extends JModelForm
 	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.6
 	 */
-	public function getForm()
+	public function &getForm()
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
 
 		// Get the form.
-		$form = parent::getForm('mail', 'com_users.mail', array('array' => 'jform', 'event' => 'onPrepareForm'));
+		$form = parent::getForm('massmail', 'com_massmail', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
@@ -148,7 +148,7 @@ class UsersModelMail extends JModelForm
 		}
 
 		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_users.display.mail.data', array());
+		$data = $app->getUserState('com_massmail.data', array());
 
 		// Bind the form data if present.
 		if (!empty($data)) {
