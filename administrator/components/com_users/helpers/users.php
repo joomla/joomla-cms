@@ -39,10 +39,5 @@ class UsersHelper
 			'index.php?option=com_users&view=levels',
 			$vName == 'levels'
 		);
-		JSubMenuHelper::addEntry(
-			JText::_('Users_Submenu_Email_Groups'),
-			'index.php?option=com_users&view=massmail',
-			$vName == 'massmail'
-		);
 	}
 }
