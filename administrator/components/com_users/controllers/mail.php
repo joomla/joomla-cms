@@ -30,14 +30,15 @@ class UsersControllerMassMail extends JController
 		} else {
 			$type = 'error';
 		}
+		
 		$msg = &$model->getError();		
-		$this->setredirect('index.php?option=com_massmail',$msg,$type);
+		$this->setredirect('index.php?option=com_users&view=massmail', $msg, $type);
 	}
 
 	public function cancel()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
-		$this->setRedirect('index.php');
+		$this->setRedirect('index.php?option=com_users&view=massmail.php');
 	}
 }
