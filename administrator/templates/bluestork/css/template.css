@@ -577,7 +577,7 @@ table.noshow tr 		 { vertical-align: top; }
 table.noshow td 		 { }
 table.noshow fieldset { margin: 15px 7px 7px 7px; }
 
-#editor-xtd-buttons { padding: 5px; }
+#editor-xtd-buttons { padding-top: 10px; }
 
 /* -- BUTTON STYLES ----------------------------- */
 
@@ -651,7 +651,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 .button2-right a,
 .button2-right span { padding: 0 6px 0 24px; }
 
-.button2-left { background: url(../images/j_button2_left.png) no-repeat; float: left; margin-left: 5px; }
+.button2-left { background: url(../images/j_button2_left.png) no-repeat; float: left; margin-right: 10px; }
 
 .button2-right { background: url(../images/j_button2_right.png) 100% 0 no-repeat; float: left; margin-left: 5px; }
 
