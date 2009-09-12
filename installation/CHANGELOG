@@ -27,6 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Sep-2009 Ron Severdia
+# BlueStork CSS fixes
+# Article Manager cleanup
+^ Replace tables in pane sliders
++ Robots dropdown added
++ Missing language strings added
+
+
 11-Sep-2009 Hannes Papenberg
  ^ Ability to add additional layouts with own parameters via a template added to menu manager
 
@@ -49,7 +57,7 @@ $ -> Language fix or change
  # BlueStork fixes
  ^ Moved Media Manager folder field to bottom
  $ Language consistency fixes
- ^ -> Updated toolbar icons
+ ^ Updated toolbar icons
 
 31-Aug-2009 Ron Severdia
  # BlueStork fixes
