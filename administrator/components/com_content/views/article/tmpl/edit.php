@@ -34,129 +34,107 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_content'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-	<div class="width-60" style="float:left">
-		<table style="display:block">
-			<tr>
-				<td>
-					<?php echo $this->form->getLabel('title'); ?><br />
+	<div class="width-60">
+		<fieldset>	
+		<legend><?php echo JText::_('ARTICLE_DETAILS'); ?></legend>
+					<?php echo $this->form->getLabel('title'); ?>
 					<?php echo $this->form->getInput('title'); ?>
-				</td>
-				<td>
-					<?php echo $this->form->getLabel('alias'); ?><br />
+				
+					<?php echo $this->form->getLabel('alias'); ?>
 					<?php echo $this->form->getInput('alias'); ?>
-				</td>
-				<td>
-					<?php echo $this->form->getLabel('catid'); ?><br />
+				
+					<?php echo $this->form->getLabel('catid'); ?>
 					<?php echo $this->form->getInput('catid'); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo $this->form->getLabel('state'); ?><br />
+				
+					<?php echo $this->form->getLabel('state'); ?>
 					<?php echo $this->form->getInput('state'); ?>
-				</td>
-				<td>
-					<?php echo $this->form->getLabel('version'); ?><br />
-					<?php echo $this->form->getInput('version'); ?>
-				</td>
-				<td>
-					<?php echo $this->form->getLabel('hits'); ?><br />
-					<?php echo $this->form->getInput('hits'); ?>
-				</td>
-			</tr>
-		</table>
-		<?php echo $this->form->getLabel('introtext'); ?><br />
+					
+		<div class="clr"></div>
+		<?php echo $this->form->getLabel('introtext'); ?>
+		<div class="clr"></div>
 		<?php echo $this->form->getInput('introtext'); ?>
 
-		<br class="clr" ?>
-
+		<div class="clr"></div>
 		<?php echo $this->form->getLabel('fulltext'); ?><br />
+		<div class="clr"></div>
 		<?php echo $this->form->getInput('fulltext'); ?>
+		</fieldset>
 	</div>
 
-	<div class="width-40" style="float:left">
+	<div class="width-40">
 		<?php echo $pane->startPane('content-pane'); ?>
 
 		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Publishing'), 'publishing-details'); ?>
 
-		<ol>
-			<li>
-				<?php echo $this->form->getLabel('created_by'); ?><br />
+		<fieldset>
+			
+				<?php echo $this->form->getLabel('created_by'); ?>
 				<?php echo $this->form->getInput('created_by'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('created_by_alias'); ?><br />
+			
+				<?php echo $this->form->getLabel('created_by_alias'); ?>
 				<?php echo $this->form->getInput('created_by_alias'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('access'); ?><br />
+			
+				<?php echo $this->form->getLabel('access'); ?>
 				<?php echo $this->form->getInput('access'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('created'); ?><br />
+			
+				<?php echo $this->form->getLabel('created'); ?>
 				<?php echo $this->form->getInput('created'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('publish_up'); ?><br />
+			
+				<?php echo $this->form->getLabel('publish_up'); ?>
 				<?php echo $this->form->getInput('publish_up'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('publish_down'); ?><br />
+			
+				<?php echo $this->form->getLabel('publish_down'); ?>
 				<?php echo $this->form->getInput('publish_down'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('modified'); ?><br />
+			
+				<?php echo $this->form->getLabel('modified'); ?>
 				<?php echo $this->form->getInput('modified'); ?>
-			</li>
-		</ol>
+				
+				
+				<?php echo $this->form->getLabel('version'); ?>
+				<?php echo $this->form->getInput('version'); ?>
+				
+				<?php echo $this->form->getLabel('hits'); ?>
+				<?php echo $this->form->getInput('hits'); ?>
+			
+		</fieldset>
 		<?php echo $pane->endPanel(); ?>
 
 		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Options'), 'basic-options'); ?>
-		<table>
+		<fieldset>
 		<?php foreach($this->form->getFields('attribs') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
-				<tr>
-					<td class="paramlist_key" width="40%">
 						<?php echo $field->label; ?>
-					</td>
-					<td class="paramlist_value">
 						<?php echo $field->input; ?>
-					</td>
-				</tr>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		</table>
+		</fieldsset>
 		<?php echo $pane->endPanel(); ?>
 
 		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Metadata'), 'meta-options'); ?>
-		<ol>
-			<li>
-				<?php echo $this->form->getLabel('language'); ?><br />
-				<?php echo $this->form->getInput('language'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('metadesc'); ?><br />
+		<fieldset>	
+				
+			
+				<?php echo $this->form->getLabel('metadesc'); ?>
 				<?php echo $this->form->getInput('metadesc'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('metakey'); ?><br />
+			
+				<?php echo $this->form->getLabel('metakey'); ?>
 				<?php echo $this->form->getInput('metakey'); ?>
-			</li>
+			
 
 			<?php foreach($this->form->getFields('metadata') as $field): ?>
-			<li>
-				<?php echo $field->label; ?><br />
+				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
-			</li>
 			<?php endforeach; ?>
-
-			<li>
+			
+			<?php echo $this->form->getLabel('language'); ?>
+				<?php echo $this->form->getInput('language'); ?>
+			
 				<?php echo $this->form->getLabel('xreference'); ?><br />
 				<?php echo $this->form->getInput('xreference'); ?>
-			</li>
-		</ol>
+		</fieldset>	
+		
 		<?php echo $pane->endPanel(); ?>
 
 		<?php echo $pane->endPane(); ?>

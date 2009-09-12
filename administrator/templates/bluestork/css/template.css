@@ -78,7 +78,7 @@ fieldset p {  margin: 10px 0px;  }
 
 legend    {
 	color: #146295;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: bold;
 }
 
@@ -288,7 +288,7 @@ textarea#mm_message { width: 100%; }
 	
 }
 
-#content-pane { margin: 15px;}
+#content-pane { margin: 8px 10px 15px 15px;}
 
 .pane-sliders .panel   { border: 1px solid #ccc; margin-bottom: 3px;}
 
@@ -303,6 +303,13 @@ textarea#mm_message { width: 100%; }
 .jpane-toggler-down span { background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat; padding-left: 20px;}
 
 .jpane-toggler-down {  border-bottom: 1px solid #ccc; }
+
+
+.jpane-slider ol li {
+	list-style:none;
+	margin-left:-25px;	
+	margin-top: 10px;
+}
 
 
 /* -- TAB STYLES ----------------------------- */
@@ -392,44 +399,90 @@ div.width-55 { width: 55%; float: left;}
 div.width-60 { width: 60%; float: left;}
 div.width-70 { width: 70%; float: left;}
 
-
-fieldset ol,ol#property-values{margin:0;padding:0}
-fieldset li,ol#property-values li{list-style:none;margin:0;padding:5px}
-fieldset.filter{border:0;margin:0;padding:0 0 5px}
-fieldset.filter ol{border:0;list-style:none;margin:0;padding:5px 0 0}
-fieldset.filter ol li{float:left;padding:0 5px 0 0}
-fieldset.filter ol li fieldset{border:0;margin:0;padding:0}
-fieldset.filter .left{float:left}
-fieldset.filter .right{float:right}
-
-table.admintable td { padding: 3px; }
-table.admintable td.key,
-table.admintable td.paramlist_key {
-	/* background-color: #f6f6f6; */
-	background-color: #f9f9f9;
-	text-align: right;
-	width: 140px;
-	color: #666;
-	font-weight: bold;
-	border-bottom: 1px solid #e9e9e9;
-	border-right: 1px solid #e9e9e9;
+form#item-form fieldset {
+	padding: 15px;
 }
 
-table.paramlist td.paramlist_description {
-	background-color: #f6f6f6;
-	text-align: left;
-	width: 170px;
-	color: #333;
-	font-weight: normal;
-	border-bottom: 1px solid #e9e9e9;
-	border-right: 1px solid #e9e9e9;
+fieldset label {
+	float: left;
+	clear:left;
+	font-size: 12px;
+	margin: 5px 5px 5px 0;
 }
 
-table.admintable td.key.vtop { vertical-align: top; }
+fieldset input,
+fieldset textarea,
+fieldset select,
+fieldset img {
+	float: left;
+	width:auto;
+	margin: 3px 3px 10px 0px;
+}
+
+label#jform_title-lbl {
+	padding-top: 3px;
+}
+input#jform_title {
+	margin-bottom: 10px;
+}
+
+label#jform_introtext-lbl,
+label#jform_fulltext-lbl {
+	font-size: 13px;
+	padding-top: 15px;
+	margin-top: 15px;
+	width: 100%;
+}
+
+label#jform_fulltext-lbl {
+}
+
+label#jform_state-lbl{
+	clear:none;
+}
+
+select#jform_catid.inputbox {
+	margin-right: 20px;
+}
+
+input.readonly {
+	font-size: 12px;
+	padding-top:1px;
+	border: 0;
+	font-weight:bold;
+	background-color: #F6F6F6;
+}
+
+input.required { background-color: #d5eeff; }
+
+input#jform_title.inputbox {
+	font-size: 15px;
+}
+
+div#content-pane fieldset {
+	border: 0;
+	padding: 10px 15px 0 15px;
+}
+form#item-form fieldset {
+	
+}
+div#content-pane label {
+	min-width: 110px;
+}
+
+
+
+fieldset.filter{border:0;margin:0;padding:0 0 5px;}
+fieldset.filter ol{border:0;list-style:none;margin:0;padding:5px 0 0;}
+fieldset.filter ol li{float:left;padding:0 5px 0 0;}
+fieldset.filter ol li fieldset{border:0;margin:0;padding:0;}
+fieldset.filter .left{float:left;}
+fieldset.filter .right{float:right;}
+fieldset.filter .right select.inputbox {margin-left: 10px;}
 
 table.adminform {
 	background-color: #f8f8f8;
-	/* border: solid 1px #d5d5d5; */
+	border: solid 1px #d5d5d5; 
 	width: 100%;
 	border-collapse: collapse;
 	margin: 8px 0 10px 0;
@@ -458,7 +511,6 @@ table.adminform td.helpMenu{
 	text-align: right;
 }
 
-fieldset.adminform { border: 1px solid #ccc; margin: 0 10px 10px 10px; }
 
 /* -- TABLE STYLES ----------------------------- */
 
@@ -679,21 +731,7 @@ a img.calendar {
 
 .invalid { color: red; font-weight: bold; }
 input.invalid { border: 1px solid red; }
-input.readonly { border: 0; }
-input.required { background-color: #d5eeff; }
 
-input#jform_title.inputbox {
-	font-size: 15px;
-}
-
-form fieldset ol li {
-	margin-bottom: 10px;
-	font-size: 12px;
-}
-form fieldset ol li label {
-	margin-bottom: 5px;
-
-}
 
 
 
@@ -1082,8 +1120,6 @@ div.message {
 	margin: 0;
 	padding: 2px 0px 0px 0px;
 }
-
-
 
 
 

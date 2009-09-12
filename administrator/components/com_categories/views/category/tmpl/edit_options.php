@@ -9,19 +9,17 @@
 
 defined('_JEXEC') or die;
 ?>
-<table>
 <?php foreach($this->form->getFields('params') as $field): ?>
 	<?php if ($field->hidden): ?>
 		<?php echo $field->input; ?>
 	<?php else: ?>
-		<tr>
-			<td class="paramlist_key" width="40%">
+		<ol>
+			<li class="paramlist_key">
 				<?php echo $field->label; ?>
-			</td>
-			<td class="paramlist_value">
+			</li>
+			<li class="paramlist_value">
 				<?php echo $field->input; ?>
-			</td>
-		</tr>
+			</li>
+		</ol>
 	<?php endif; ?>
 <?php endforeach; ?>
-</table>
