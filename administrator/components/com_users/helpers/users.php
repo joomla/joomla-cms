@@ -41,8 +41,8 @@ class UsersHelper
 		);
 		JSubMenuHelper::addEntry(
 			JText::_('Users_Submenu_Email_Groups'),
-			'index.php?option=com_users&view=massmail',
-			$vName == 'massmail'
+			'index.php?option=com_users&view=mail',
+			$vName == 'mail'
 		);
 	}
 }

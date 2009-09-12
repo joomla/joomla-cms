@@ -17,14 +17,14 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_massmail
  * @since		1.5
  */
-class UsersControllerMassMail extends JController
+class UsersControllerMail extends JController
 {
 	public function send()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
 
-		$model = &$this->getModel('MassMail');
+		$model = &$this->getModel('Mail');
 		if ($model->send()) {
 			$type = 'message';
 		} else {
@@ -32,13 +32,13 @@ class UsersControllerMassMail extends JController
 		}
 		
 		$msg = &$model->getError();		
-		$this->setredirect('index.php?option=com_users&view=massmail', $msg, $type);
+		$this->setredirect('index.php?option=com_users&view=mail', $msg, $type);
 	}
 
 	public function cancel()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
-		$this->setRedirect('index.php?option=com_users&view=massmail.php');
+		$this->setRedirect('index.php?option=com_users&view=mail');
 	}
 }
