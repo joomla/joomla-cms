@@ -31,6 +31,7 @@ $ -> Language fix or change
  ^ Replaced installation favicon.
  # [#18011] XML says category instead of categories
  # [#17983] [patch] New Categories are attaching to ROOT instead of designated parent
+ # [#17980] Query Error in JHTML::_( 'list.users' )
 
 12-Sep-2009 Ron Severdia
 # BlueStork CSS fixes
