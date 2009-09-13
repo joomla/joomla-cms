@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Sep-2009 Gergo Erdosi
+ ^ Replaced installation favicon.
 
 12-Sep-2009 Ron Severdia
 # BlueStork CSS fixes
@@ -34,7 +36,6 @@ $ -> Language fix or change
 ^ Replace tables in pane sliders
 + Robots dropdown added
 + Missing language strings added
-
 
 11-Sep-2009 Hannes Papenberg
  ^ Ability to add additional layouts with own parameters via a template added to menu manager
