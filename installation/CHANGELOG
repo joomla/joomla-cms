@@ -38,6 +38,7 @@ $ -> Language fix or change
  # Various E_STRICT validation fixes.
  ^ Changed arguments of setBuffer() method in JDocument classes.
  # [#18025] Make Toolbars conistent across administrator components
+ # Fixed issue in the clean() method of JFilterInput.
 
 12-Sep-2009 Ron Severdia
 # BlueStork CSS fixes
