@@ -21,7 +21,7 @@ class JRouterAdministrator extends JRouter
 	/**
 	 * Function to convert a route to an internal URI
 	 */
-	public static function parse(&$uri)
+	public function parse(&$uri)
 	{
 		return array();
 	}

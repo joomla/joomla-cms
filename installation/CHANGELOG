@@ -39,6 +39,7 @@ $ -> Language fix or change
  ^ Changed arguments of setBuffer() method in JDocument classes.
  # [#18025] Make Toolbars conistent across administrator components
  # Fixed issue in the clean() method of JFilterInput.
+ # Fixed issue with JRoute->parse().
 
 12-Sep-2009 Ron Severdia
 # BlueStork CSS fixes
