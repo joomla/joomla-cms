@@ -55,7 +55,7 @@ class JResponse
 	 * @param string 	$value
 	 * @param boolean 	$replace
 	 */
-	public function setHeader($name, $value, $replace = false)
+	public static function setHeader($name, $value, $replace = false)
 	{
 		$name	= (string) $name;
 		$value	= (string) $value;
@@ -86,10 +86,8 @@ class JResponse
 
 	/**
 	 * Clear headers.
-	 *
-	 * @access public
 	 */
-	public function clearHeaders() {
+	public static function clearHeaders() {
 		$GLOBALS['_JRESPONSE']->headers = array();
 	}
 
@@ -98,7 +96,7 @@ class JResponse
 	 *
 	 * @return void
 	 */
-	public function sendHeaders()
+	public static function sendHeaders()
 	{
 		if (!headers_sent())
 		{
@@ -122,7 +120,7 @@ class JResponse
 	 *
 	 * @param string $content
 	 */
-	public function setBody($content) {
+	public static function setBody($content) {
 		$GLOBALS['_JRESPONSE']->body = array((string) $content);
 	}
 
@@ -151,7 +149,7 @@ class JResponse
 	 * array of strings or as a single string; defaults to false
 	 * @return string|array
 	 */
-	public function getBody($toArray = false)
+	public static function getBody($toArray = false)
 	{
 		if ($toArray) {
 			return $GLOBALS['_JRESPONSE']->body;
@@ -171,7 +169,7 @@ class JResponse
 	 * @param boolean 	$compress	If true, compress the data
 	 * @return string
 	 */
-	public function toString($compress = false)
+	public static function toString($compress = false)
 	{
 		$data = self::getBody();
 

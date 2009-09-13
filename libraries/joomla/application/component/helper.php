@@ -162,7 +162,7 @@ class JComponentHelper
 	 *
 	 * @return	boolean
 	 */
-	protected function _load()
+	protected static function _load()
 	{
 		jimport('joomla.database.query');
 		$db		= &JFactory::getDbo();

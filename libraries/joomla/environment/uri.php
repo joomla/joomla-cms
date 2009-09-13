@@ -84,12 +84,11 @@ class JURI extends JObject
 	 * This method must be invoked as:
 	 * 		<pre>  $uri = &JURI::getInstance([$uri]);</pre>
 	 *
-	 * @static
 	 * @param	string $uri The URI to parse.  [optional: if null uses script URI]
 	 * @return	JURI  The URI object.
 	 * @since	1.5
 	 */
-	function &getInstance($uri = 'SERVER')
+	public static function &getInstance($uri = 'SERVER')
 	{
 		static $instances = array();
 

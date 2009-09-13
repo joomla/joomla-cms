@@ -23,7 +23,7 @@ class JAdministratorHelper
 	 * @return	string		Option.
 	 * @since	1.5
 	 */
-	public function findOption()
+	public static function findOption()
 	{
 		$option = strtolower(JRequest::getCmd('option'));
 

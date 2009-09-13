@@ -24,7 +24,7 @@ class LoginController extends JController
 	 *
 	 * @return	void
 	 */
-	function display()
+	public function display($cachable = false)
 	{
 		// Get the document object.
 		$document = &JFactory::getDocument();

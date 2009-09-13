@@ -145,7 +145,7 @@ class JProfiler extends JObject
 	 *
 	 * @return float The current time
 	 */
-	public function getmicrotime()
+	public static function getmicrotime()
 	{
 		list($usec, $sec) = explode(' ', microtime());
 		return ((float)$usec + (float)$sec);

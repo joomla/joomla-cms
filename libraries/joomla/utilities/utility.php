@@ -101,7 +101,7 @@ class JUtility
  	 * @param string Seed string
  	 * @return string
  	 */
-	function getHash($seed)
+	public static function getHash($seed)
 	{
 		$conf = &JFactory::getConfig();
 		return md5($conf->getValue('config.secret') .  $seed );
@@ -114,7 +114,7 @@ class JUtility
 	 * @since	1.5
 	 * @static
 	 */
-	function getToken($forceNew = false)
+	public static function getToken($forceNew = false)
 	{
 		$user		= &JFactory::getUser();
 		$session	= &JFactory::getSession();
@@ -129,7 +129,7 @@ class JUtility
  	 * @return	array	Key/Value pairs for the attributes
  	 * @since	1.5
  	 */
-	function parseAttributes($string)
+	public static function parseAttributes($string)
 	{
 	 	//Initialize variables
 		$attr		= array();

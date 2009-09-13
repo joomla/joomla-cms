@@ -148,8 +148,7 @@ abstract class JFactory
 
 		if (is_null($id))
 		{
-			$session  = &JFactory::getSession();
-			$instance = &$session->get('user');
+			$instance = JFactory::getSession()->get('user');
 			if (!$instance INSTANCEOF JUser) {
 				$instance = &JUser::getInstance();
 			}
@@ -226,17 +225,17 @@ abstract class JFactory
 	 */
 	public static function &getDbo()
 	{
-		if (!is_object(JFactory::$database))
+		if (!is_object(self::$database))
 		{
 			//get the debug configuration setting
-			$conf = &JFactory::getConfig();
+			$conf = &self::getConfig();
 			$debug = $conf->getValue('config.debug');
 
-			JFactory::$database = JFactory::_createDBO();
-			JFactory::$database->debug($debug);
+			self::$database = self::_createDbo();
+			self::$database->debug($debug);
 		}
 
-		return JFactory::$database;
+		return self::$database;
 	}
 
 	/**
@@ -469,7 +468,7 @@ abstract class JFactory
 	 * @return object JDatabase
 	 * @since 1.5
 	 */
-	function &_createDBO()
+	private static function &_createDbo()
 	{
 		jimport('joomla.database.database');
 		jimport('joomla.database.table');

@@ -32,6 +32,8 @@ $ -> Language fix or change
  # [#18011] XML says category instead of categories
  # [#17983] [patch] New Categories are attaching to ROOT instead of designated parent
  # [#17980] Query Error in JHTML::_( 'list.users' )
+ # Various E-Strict validation fixes.
+ ^ Changed arguments of setBuffer() method in JDocument classes.
 
 12-Sep-2009 Ron Severdia
 # BlueStork CSS fixes

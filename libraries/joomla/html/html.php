@@ -179,7 +179,7 @@ abstract class JHtml
 		}
 	}
 
-	function core($debug = null)
+	public static function core($debug = null)
 	{
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null) {

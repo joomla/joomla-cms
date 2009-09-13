@@ -29,47 +29,41 @@ class JApplication extends JObject
 	 * The client identifier.
 	 *
 	 * @var		integer
-	 * @access	protected
 	 * @since	1.5
 	 */
-	var $_clientId = null;
+	protected $_clientId = null;
 
 	/**
 	 * The application message queue.
 	 *
 	 * @var		array
-	 * @access	protected
 	 */
-	var $_messageQueue = array();
+	protected $_messageQueue = array();
 
 	/**
 	 * The name of the application
 	 *
 	 * @var		array
-	 * @access	protected
 	 */
-	var $_name = null;
+	protected $_name = null;
 
 	/**
 	 * The scope of the application
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $scope = null;
+	public $scope = null;
 
 	/**
 	 * The time the request was made
 	 * 
 	 * @var		date
-	 * @access 	public
 	 */
 	public $requestTime = null;
 	/**
 	 * The time the request was made as Unix timestamp
 	 * 
 	 * @var 	integer
-	 * @access 	public
 	 * @since 	1.6
 	 */
 	public $startTime = null;
@@ -79,7 +73,7 @@ class JApplication extends JObject
 	*
 	* @param	integer	A client identifier.
 	*/
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
 		jimport('joomla.utilities.utility');
 		jimport('joomla.error.profiler');
@@ -128,7 +122,7 @@ class JApplication extends JObject
 	 * @return	JApplication	The appliction object.
 	 * @since	1.5
 	 */
-	function &getInstance($client, $config = array(), $prefix = 'J')
+	public static function &getInstance($client, $config = array(), $prefix = 'J')
 	{
 		static $instances;
 
@@ -167,9 +161,8 @@ class JApplication extends JObject
 	* Initialise the application.
 	*
 	* @param	array An optional associative array of configuration settings.
-	* @access	public
 	*/
-	function initialise($options = array())
+	public function initialise($options = array())
 	{
 		jimport('joomla.plugin.helper');
 
@@ -201,9 +194,8 @@ class JApplication extends JObject
 	* dispatched.
 	*
 	* @abstract
-	* @access	public
 	*/
-	function route()
+	public function route()
  	{
 		// get the full request URI
 		$uri = clone(JURI::getInstance());
@@ -226,9 +218,8 @@ class JApplication extends JObject
 	* determining a default component to dispatch.
 	*
 	* @abstract
-	* @access	public
 	*/
- 	function dispatch($component)
+ 	public function dispatch($component)
  	{
 		$document = &JFactory::getDocument();
 
@@ -251,9 +242,8 @@ class JApplication extends JObject
 	* the JResponse buffer.
 	*
 	* @abstract
-	* @access	public
 	*/
-	function render()
+	public function render()
 	{
 		$params = array(
 			'template' 	=> $this->getTemplate(),
@@ -280,10 +270,9 @@ class JApplication extends JObject
 	/**
 	* Exit the application.
 	*
-	* @access	public
 	* @param	int	Exit code
 	*/
-	function close($code = 0) {
+	public function close($code = 0) {
 		exit($code);
 	}
 
@@ -296,7 +285,6 @@ class JApplication extends JObject
 	 * code in the header pointing to the new location. If the headers have already been
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
-	 * @access	public
 	 * @param	string	$url	The URL to redirect to. Can only be http/https URL
 	 * @param	string	$msg	An optional message to display on redirect.
 	 * @param	string  $msgType An optional message type.
@@ -304,7 +292,7 @@ class JApplication extends JObject
 	 * @since	1.5
 	 * @see		JApplication::enqueueMessage()
 	 */
-	function redirect($url, $msg='', $msgType='message')
+	public function redirect($url, $msg='', $msgType='message')
 	{
 		// check for relative internal links
 		if (preg_match('#^index[2]?.php#', $url)) {
@@ -363,13 +351,12 @@ class JApplication extends JObject
 	/**
 	 * Enqueue a system message.
 	 *
-	 * @access	public
 	 * @param	string 	$msg 	The message to enqueue.
 	 * @param	string	$type	The message type.
 	 * @return	void
 	 * @since	1.5
 	 */
-	function enqueueMessage($msg, $type = 'message')
+	public function enqueueMessage($msg, $type = 'message')
 	{
 		// For empty queue, if messages exists in the session, enqueue them first
 		if (!count($this->_messageQueue))
@@ -388,11 +375,10 @@ class JApplication extends JObject
 	/**
 	 * Get the system message queue.
 	 *
-	 * @access	public
 	 * @return	The system message queue.
 	 * @since	1.5
 	 */
-	function getMessageQueue()
+	public function getMessageQueue()
 	{
 		// For empty queue, if messages exists in the session, enqueue them
 		if (!count($this->_messageQueue))
@@ -410,13 +396,12 @@ class JApplication extends JObject
 	 /**
 	 * Gets a configuration value.
 	 *
-	 * @access	public
 	 * @param	string	The name of the value to get.
 	 * @param	string	Default value to return
 	 * @return	mixed	The user state.
 	 * @example	application/japplication-getcfg.php Getting a configuration value
 	 */
-	function getCfg($varname, $default=null)
+	public function getCfg($varname, $default=null)
 	{
 		$config = &JFactory::getConfig();
 		return $config->getValue('config.' . $varname, $default);
@@ -428,11 +413,10 @@ class JApplication extends JObject
 	 * The dispatcher name by default parsed using the classname, or it can be set
 	 * by passing a $config['name'] in the class constructor
 	 *
-	 * @access	public
 	 * @return	string The name of the dispatcher
 	 * @since	1.5
 	 */
-	function getName()
+	public function getName()
 	{
 		$name = $this->_name;
 
@@ -451,14 +435,13 @@ class JApplication extends JObject
 	/**
 	 * Gets a user state.
 	 *
-	 * @access	public
 	 * @param	string	The path of the state.
 	 * @return	mixed	The user state.
 	 */
-	function getUserState($key)
+	public function getUserState($key)
 	{
 		$session	= &JFactory::getSession();
-		$registry	= &$session->get('registry');
+		$registry	= $session->get('registry');
 		if (!is_null($registry)) {
 			return $registry->getValue($key);
 		}
@@ -468,12 +451,11 @@ class JApplication extends JObject
 	/**
 	* Sets the value of a user state variable.
 	*
-	* @access	public
 	* @param	string	The path of the state.
 	* @param	string	The value of the variable.
 	* @return	mixed	The previous state, if one existed.
 	*/
-	function setUserState($key, $value)
+	public function setUserState($key, $value)
 	{
 		$session	= &JFactory::getSession();
 		$registry	= &$session->get('registry');
@@ -486,14 +468,13 @@ class JApplication extends JObject
 	/**
 	 * Gets the value of a user state variable.
 	 *
-	 * @access	public
 	 * @param	string	The key of the user state variable.
 	 * @param	string	The name of the variable passed in a request.
 	 * @param	string	The default value for the variable if not found. Optional.
 	 * @param	string	Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 * @return	The request user state.
 	 */
-	function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
+	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
 	{
 		$old_state = $this->getUserState($key);
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
@@ -518,7 +499,7 @@ class JApplication extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function registerEvent($event, $handler)
+	public static function registerEvent($event, $handler)
 	{
 		$dispatcher = &JDispatcher::getInstance();
 		$dispatcher->register($event, $handler);
@@ -554,10 +535,9 @@ class JApplication extends JObject
 	 * @param	array 	Array('username' => string, 'password' => string)
 	 * @param	array 	Array('remember' => boolean)
 	 * @return	boolean True on success.
-	 * @access	public
 	 * @since	1.5
 	 */
-	function login($credentials, $options = array())
+	public function login($credentials, $options = array())
 	{
 		// Get the global JAuthentication object
 		jimport('joomla.user.authentication');
@@ -624,12 +604,10 @@ class JApplication extends JObject
 	 * Passed the current user information to the onLogoutUser event and reverts the current
 	 * session record back to 'anonymous' parameters.
 	 *
-	  * @param 	int 	$userid   The user to load - Can be an integer or string - If string, it is converted to ID automatically
+	 * @param 	int 	$userid   The user to load - Can be an integer or string - If string, it is converted to ID automatically
 	 * @param	array 	$options  Array('clientid' => array of client id's)
-	 *
-	 * @access public
 	 */
-	function logout($userid = null, $options = array())
+	public function logout($userid = null, $options = array())
 	{
 		// Initialize variables
 		$retval = false;
@@ -677,7 +655,7 @@ class JApplication extends JObject
 	 *
 	 * @return	string
 	 */
-	function getTemplate()
+	public function getTemplate()
 	{
 		return 'system';
 	}
@@ -685,12 +663,11 @@ class JApplication extends JObject
 	/**
 	 * Return a reference to the application JRouter object.
 	 *
-	 * @access	public
 	 * @param  array	$options 	An optional associative array of configuration settings.
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
-	function &getRouter($name = null, $options = array())
+	public function &getRouter($name = null, array $options = array())
 	{
 		if (!isset($name)) {
 			$name = $this->_name;
@@ -708,12 +685,11 @@ class JApplication extends JObject
 	/**
 	 * Return a reference to the application JPathway object.
 	 *
-	 * @access public
 	 * @param  array	$options 	An optional associative array of configuration settings.
 	 * @return object JPathway.
 	 * @since 1.5
 	 */
-	function &getPathway($name = null, $options = array())
+	public function &getPathway($name = null, $options = array())
 	{
 		if (!isset($name)) {
 			$name = $this->_name;
@@ -731,12 +707,11 @@ class JApplication extends JObject
 	/**
 	 * Return a reference to the application JPathway object.
 	 *
-	 * @access public
 	 * @param  array	$options 	An optional associative array of configuration settings.
 	 * @return object JMenu.
 	 * @since 1.5
 	 */
-	function &getMenu($name = null, $options = array())
+	public function &getMenu($name = null, $options = array())
 	{
 		if (!isset($name)) {
 			$name = $this->_name;
@@ -850,11 +825,10 @@ class JApplication extends JObject
 	/**
 	 * Gets the client id of the current running application.
 	 *
-	 * @access	public
 	 * @return	int A client identifier.
 	 * @since	1.5
 	 */
-	function getClientId()
+	public function getClientId()
 	{
 		return $this->_clientId;
 	}
@@ -862,11 +836,10 @@ class JApplication extends JObject
 	/**
 	 * Is admin interface?
 	 *
-	 * @access	public
 	 * @return	boolean		True if this application is administrator.
 	 * @since	1.0.2
 	 */
-	function isAdmin()
+	public function isAdmin()
 	{
 		return ($this->_clientId == 1);
 	}
@@ -874,11 +847,10 @@ class JApplication extends JObject
 	/**
 	 * Is site interface?
 	 *
-	 * @access	public
 	 * @return	boolean		True if this application is site.
 	 * @since	1.5
 	 */
-	function isSite()
+	public function isSite()
 	{
 		return ($this->_clientId == 0);
 	}
