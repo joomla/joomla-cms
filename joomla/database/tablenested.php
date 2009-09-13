@@ -657,7 +657,7 @@ class JTableNested extends JTable
 				}
 
 				// We are inserting a node relative to the last root node.
-				if ($this->_location == 0)
+				if ($this->_location_id == 0)
 				{
 					// Get the last root node as the reference node.
 					$this->_db->setQuery(
