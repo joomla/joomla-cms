@@ -63,7 +63,6 @@ class JFilterInput extends JObject
 	 * This method must be invoked as:
 	 * 		<pre>  $filter = & JFilterInput::getInstance();</pre>
 	 *
-	 * @static
 	 * @param	array	$tagsArray	list of user-defined tags
 	 * @param	array	$attrArray	list of user-defined attributes
 	 * @param	int		$tagsMethod	WhiteList method = 0, BlackList method = 1
@@ -72,7 +71,7 @@ class JFilterInput extends JObject
 	 * @return	object	The JFilterInput object.
 	 * @since	1.5
 	 */
-	function & getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
+	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
 	{
 		static $instances;
 
@@ -93,14 +92,13 @@ class JFilterInput extends JObject
 	 * Method to be called by another php script. Processes for XSS and
 	 * specified bad code.
 	 *
-	 * @access	public
 	 * @param	mixed	$source	Input string/array-of-string to be 'cleaned'
 	 * @param	string	$type	Return type for the variable (INT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
 	 * @return	mixed	'Cleaned' version of input parameter
 	 * @since	1.5
 	 * @static
 	 */
-	function clean($source, $type='string')
+	public static function clean($source, $type='string')
 	{
 		// Handle the type constraint
 		switch (strtoupper($type))
@@ -200,12 +198,11 @@ class JFilterInput extends JObject
 	/**
 	 * Function to determine if contents of an attribute is safe
 	 *
-	 * @static
 	 * @param	array	$attrSubSet	A 2 element array for attributes name,value
 	 * @return	boolean True if bad code is detected
 	 * @since	1.5
 	 */
-	function checkAttribute($attrSubSet)
+	public static function checkAttribute($attrSubSet)
 	{
 		$attrSubSet[0] = strtolower($attrSubSet[0]);
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
@@ -215,12 +212,11 @@ class JFilterInput extends JObject
 	/**
 	 * Internal method to iteratively remove all unwanted tags and attributes
 	 *
-	 * @access	protected
 	 * @param	string	$source	Input string to be 'cleaned'
 	 * @return	string	'Cleaned' version of input parameter
 	 * @since	1.5
 	 */
-	function _remove($source)
+	protected function _remove($source)
 	{
 		$loopCounter = 0;
 
@@ -236,12 +232,11 @@ class JFilterInput extends JObject
 	/**
 	 * Internal method to strip a string of certain tags
 	 *
-	 * @access	protected
 	 * @param	string	$source	Input string to be 'cleaned'
 	 * @return	string	'Cleaned' version of input parameter
 	 * @since	1.5
 	 */
-	function _cleanTags($source)
+	protected function _cleanTags($source)
 	{
 		/*
 		 * In the beginning we don't really have a tag, so everything is
@@ -402,12 +397,11 @@ class JFilterInput extends JObject
 	/**
 	 * Internal method to strip a tag of certain attributes
 	 *
-	 * @access	protected
 	 * @param	array	$attrSet	Array of attribute pairs to filter
 	 * @return	array	Filtered array of attribute pairs
 	 * @since	1.5
 	 */
-	function _cleanAttributes($attrSet)
+	protected function _cleanAttributes($attrSet)
 	{
 		// Initialize variables
 		$newSet = array();
@@ -479,12 +473,11 @@ class JFilterInput extends JObject
 	/**
 	 * Try to convert to plaintext
 	 *
-	 * @access	protected
 	 * @param	string	$source
 	 * @return	string	Plaintext string
 	 * @since	1.5
 	 */
-	function _decode($source)
+	protected function _decode($source)
 	{
 		// entity decode
 		$trans_tbl = get_html_translation_table(HTML_ENTITIES);

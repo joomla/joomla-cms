@@ -343,11 +343,10 @@ class JController extends JObject
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @access	public
 	 * @param	string	$cachable	If true, the view output will be cached
 	 * @since	1.5
 	 */
-	function display($cachable=false)
+	public function display($cachable = false)
 	{
 		$document = &JFactory::getDocument();
 
@@ -761,13 +760,12 @@ class JController extends JObject
 	/**
 	 * Create the filename for a resource.
 	 *
-	 * @access	private
 	 * @param	string	The resource type to create the filename for.
 	 * @param	array	An associative array of filename information. Optional.
 	 * @return	string	The filename.
 	 * @since	1.5
 	 */
-	function _createFileName($type, $parts = array())
+	private static function _createFileName($type, $parts = array())
 	{
 		$filename = '';
 

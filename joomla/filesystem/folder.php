@@ -398,7 +398,7 @@ class JFolder
 	 * @return boolean True if path is a folder
 	 * @since 1.5
 	 */
-	function exists($path)
+	public static function exists($path)
 	{
 		return is_dir(JPath::clean($path));
 	}

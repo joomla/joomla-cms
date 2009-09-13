@@ -36,12 +36,11 @@ class JSessionStorage extends JObject
 	 * Returns a reference to a session storage handler object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @access public
 	 * @param name 	$name The session store to instantiate
 	 * @return database A JSessionStorage object
 	 * @since 1.5
 	 */
-	function &getInstance($name = 'none', $options = array())
+	public static function &getInstance($name = 'none', $options = array())
 	{
 		static $instances;
 

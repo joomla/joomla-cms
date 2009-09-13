@@ -68,13 +68,12 @@ class JMenu extends JObject
 	 * This method must be invoked as:
 	 * 		<pre>  $menu = &JSite::getMenu();</pre>
 	 *
-	 * @access	public
 	 * @param   string  $client  The name of the client
 	 * @param array     $options An associative array of options
 	 * @return JMenu 	A menu object.
 	 * @since	1.5
 	 */
-	function &getInstance($client, $options = array())
+	public static function &getInstance($client, $options = array())
 	{
 		static $instances;
 

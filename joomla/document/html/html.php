@@ -202,14 +202,19 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Set the contents a document include
 	 *
-	 * @access public
-	 * @param string 	$type		The type of renderer
-	 * @param string 	$name		oke The name of the element to render
-	 * @param string 	$content	The content to be set in the buffer
+	 * @param	string	$content	The content to be set in the buffer.
+	 * @param	array	$options	Array of optional elements.
 	 */
-	function setBuffer($contents, $type, $name = null)
+	public function setBuffer($content, $options = array())
 	{
-		$this->_buffer[$type][$name] = $contents;
+		// The following code is just for backward compatibility.
+		if (func_num_args() > 1 && !is_array($options)) {
+			$args = func_get_args(); $options = array();
+			$options['type'] = $args[1];
+			$options['name'] = (isset($args[2])) ? $args[2] : null;
+		}
+
+		$this->_buffer[$options['type']][$options['name']] = $content;
 	}
 
 	/**

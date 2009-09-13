@@ -331,12 +331,11 @@ class JView extends JObject
 	/**
 	 * Method to get data from a registered model or a property of the view
 	 *
-	 * @access	public
 	 * @param	string	The name of the method to call on the model, or the property to get
 	 * @param	string	The name of the model to reference, or the default value [optional]
 	 * @return mixed	The return value of the method
 	 */
-	function &get($property, $default = null)
+	public function get($property, $default = null)
 	{
 
 		// If $model is null we use the default model

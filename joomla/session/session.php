@@ -132,11 +132,10 @@ class JSession extends JObject
 	 * This method must be invoked as:
 	 * 		<pre>  $session = &JSession::getInstance();</pre>
 	 *
-	 * @access	public
 	 * @return	JSession	The Session object.
 	 * @since	1.5
 	 */
-	function & getInstance($handler, $options)
+	public static function &getInstance($handler, $options)
 	{
 		static $instance;
 
@@ -296,14 +295,12 @@ class JSession extends JObject
 	 /**
 	 * Get data from the session store
 	 *
-	 * @static
-	 * @access public
 	 * @param  string $name			Name of a variable
 	 * @param  mixed  $default 		Default value of a variable if not set
 	 * @param  string 	$namespace 	Namespace to use, default to 'default'
 	 * @return mixed  Value of a variable
 	 */
-	function &get($name, $default = null, $namespace = 'default')
+	public function get($name, $default = null, $namespace = 'default')
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
@@ -322,13 +319,12 @@ class JSession extends JObject
 	/**
 	 * Set data into the session store
 	 *
-	 * @access public
 	 * @param  string $name  		Name of a variable
 	 * @param  mixed  $value 		Value of a variable
 	 * @param  string 	$namespace 	Namespace to use, default to 'default'
 	 * @return mixed  Old value of a variable
 	 */
-	function set($name, $value, $namespace = 'default')
+	public function set($name, $value = null, $namespace = 'default')
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 

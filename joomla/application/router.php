@@ -74,12 +74,11 @@ class JRouter extends JObject
 	 * This method must be invoked as:
 	 * 		<pre>  $menu = &JRouter::getInstance();</pre>
 	 *
-	 * @access	public
 	 * @param string  $client  The name of the client
 	 * @param array   $options An associative array of options
 	 * @return	JRouter	A router object.
 	 */
-	function &getInstance($client, $options = array())
+	public static function &getInstance($client, $options = array())
 	{
 		static $instances;
 
@@ -115,10 +114,8 @@ class JRouter extends JObject
 
 	/**
 	 *  Function to convert a route to an internal URI
-	 *
-	 * @access public
 	 */
-	function parse(&$uri)
+	public static function parse(&$uri)
 	{
 		$vars = array();
 
