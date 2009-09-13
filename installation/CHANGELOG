@@ -30,6 +30,7 @@ $ -> Language fix or change
 13-Sep-2009 Gergo Erdosi
  ^ Replaced installation favicon.
  # [#18011] XML says category instead of categories
+ # [#17983] [patch] New Categories are attaching to ROOT instead of designated parent
 
 12-Sep-2009 Ron Severdia
 # BlueStork CSS fixes
