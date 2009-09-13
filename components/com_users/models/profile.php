@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelitem');
+jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
 jimport('joomla.plugin.helper');
 
@@ -20,7 +20,7 @@ jimport('joomla.plugin.helper');
  * @subpackage	com_users
  * @version		1.0
  */
-class UsersModelProfile extends JModelItem
+class UsersModelProfile extends JModelForm
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -68,7 +68,7 @@ class UsersModelProfile extends JModelItem
 
 		// Get the dispatcher and load the users plugins.
 		$dispatcher	= &JDispatcher::getInstance();
-		JPluginHelper::importPlugin('users');
+		JPluginHelper::importPlugin('user');
 
 		// Trigger the form preparation event.
 		$results = $dispatcher->trigger('onPrepareUsersProfileForm', array($this->getState('member.id'), &$form));
@@ -229,8 +229,7 @@ class UsersModelProfile extends JModelItem
 	{
 		$memberId = (!empty($data['id'])) ? $data['id'] : (int)$this->getState('member.id');
 
-		// Add the table include path and then initialize the table with JUser.
-		JTable::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'system'.DS.'jxtended'.DS.'database'.DS.'table');
+		// initialize the table with JUser.
 		JUser::getTable('User', 'JTable');
 		$user = new JUser($memberId);
 
