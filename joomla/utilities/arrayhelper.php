@@ -25,7 +25,7 @@ class JArrayHelper
 	 * @param	mixed	$default	A default value (int|array) to assign if $array is not an array
 	 * @since	1.5
 	 */
-	function toInteger(&$array, $default = null)
+	static function toInteger(&$array, $default = null)
 	{
 		if (is_array($array)) {
 			foreach ($array as $i => $v) {
@@ -52,7 +52,7 @@ class JArrayHelper
 	 * @return	object	The object mapped from the given array
 	 * @since	1.5
 	 */
-	function toObject(&$array, $class = 'stdClass')
+	static function toObject(&$array, $class = 'stdClass')
 	{
 		$obj = null;
 		if (is_array($array))
@@ -70,7 +70,7 @@ class JArrayHelper
 		return $obj;
 	}
 
-	function toString($array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false)
+	static function toString($array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false)
 	{
 		$output = array();
 
@@ -105,7 +105,7 @@ class JArrayHelper
 	 * @return	array	The array mapped from the given object
 	 * @since	1.5
 	 */
-	function fromObject($p_obj, $recurse = true, $regex = null)
+	static function fromObject($p_obj, $recurse = true, $regex = null)
 	{
 		$result = null;
 		if (is_object($p_obj))
