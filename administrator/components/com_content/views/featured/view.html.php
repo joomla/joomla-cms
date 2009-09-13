@@ -52,17 +52,19 @@ class ContentViewFeatured extends JView
 	{
 		$state = $this->get('State');
 		JToolBarHelper::title(JText::_('Content_Featured_Title'), 'frontpage.png');
-		if ($state->get('filter.published') != -1) {
-			JToolBarHelper::archiveList('featured.archive');
-		}
+
+		JToolBarHelper::custom('article.edit', 'new.png', 'new_f2.png', 'New', false);		
+		JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png', 'Edit', true);	
+		JToolBarHelper::divider();		
 		JToolBarHelper::custom('featured.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 		JToolBarHelper::custom('featured.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
+		if ($state->get('filter.published') != -1) {
+			JToolBarHelper::archiveList('featured.archive');
+		}		
 		JToolBarHelper::custom('featured.delete','delete.png','delete_f2.png','JToolbar_Remove', true);
 		JToolBarHelper::divider();
-		JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
-		JToolBarHelper::custom('article.edit', 'new.png', 'new_f2.png', 'New', false);
-		JToolBarHelper::divider();
 		JToolBarHelper::preferences('com_content');
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.content.featured');
 	}
 }

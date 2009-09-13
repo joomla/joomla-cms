@@ -68,10 +68,8 @@ class UsersViewUsers extends JView
 		JToolBarHelper::deleteList('', 'user.delete');
 
 		JToolBarHelper::divider();
-
-		// We can't use the toolbar helper here because there is no generic popup button.
-		$bar = &JToolBar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'config', 'JToolbar_Options', 'index.php?option=com_users&view=config&tmpl=component', 570, 500);
+		JToolBarHelper::preferences('com_users', '480', '570', 'JToolbar_Options');
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.users.users');
 	}
 }

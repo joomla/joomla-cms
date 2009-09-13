@@ -62,19 +62,25 @@ class MenusViewItem extends JView
 
 		JToolBarHelper::title(JText::_($isNew ? 'Menus_View_New_Item_Title' : 'Menus_View_Edit_Item_Title'));
 
-		// If an existing item, can save to a copy.
-		if (!$isNew) {
-			JToolBarHelper::custom('item.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_copy', false);
-		}
 
 		// If not checked out, can save the item.
 		if ($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'))
 		{
-			JToolBarHelper::addNew('item.save2new', 'JToolbar_Save_and_new');
+
 			JToolBarHelper::save('item.save');
 			JToolBarHelper::apply('item.apply');
+			JToolBarHelper::addNew('item.save2new', 'JToolbar_Save_and_new');
 		}
-		JToolBarHelper::cancel('item.cancel');
+		// If an existing item, can save to a copy.
+		if (!$isNew) {
+			JToolBarHelper::custom('item.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_copy', false)
+			;}
+		if ($isNew) {
+			JToolBarHelper::cancel('item.cancel','JToolbar_Cancel');
+			}
+		else {
+			JToolBarHelper::cancel('item.cancel', 'JToolbar_Close');
+		}	
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.menus.item');
 	}

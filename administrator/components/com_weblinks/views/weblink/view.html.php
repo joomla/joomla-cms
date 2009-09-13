@@ -59,15 +59,16 @@ class WeblinksViewWeblink extends JView
 		JRequest::setVar('hidemainmenu', 1);
 
 		JToolBarHelper::title(JText::_('Weblinks_Manager_Weblink'));
-		JToolBarHelper::addNew('weblink.save2new', 'JToolbar_Save_and_new');
-		JToolBarHelper::apply('weblink.apply');
 		JToolBarHelper::save('weblink.save');
+		JToolBarHelper::apply('weblink.apply');
+		JToolBarHelper::addNew('weblink.save2new', 'JToolbar_Save_and_new');
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('weblink.cancel');
 		}
 		else {
 			JToolBarHelper::cancel('weblink.cancel', 'JToolbar_Close');
 		}
+		JToolBarHelper::divider();	
 		JToolBarHelper::help('screen.weblink.edit');
 	}
 }

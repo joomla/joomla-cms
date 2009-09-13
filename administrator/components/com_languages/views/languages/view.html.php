@@ -86,6 +86,7 @@ class LanguagesViewLanguages extends JView
 	{
 		JToolBarHelper::title(JText::_('Languages_Language_Manager'), 'langmanager.png');
 		JToolBarHelper::makeDefault('publish');
+		JToolBarHelper::divider();		
 		JToolBarHelper::help('screen.languages');
 	}
 }

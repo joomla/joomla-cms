@@ -61,7 +61,7 @@ class modMenuHelper
 			$item->level_diff	= (isset($list[$i+1])) ? ($item->level - $list[$i+1]->level) : 0;
 
 			$item->params = new JObject(json_decode($item->params));
-
+//var_dump($item);die();
 			switch ($item->type)
 			{
 				case 'separator':
@@ -75,7 +75,12 @@ class modMenuHelper
 						$item->link = $tmp->link.'&amp;Itemid='.$item->id;
 					}
 					break;
-
+				case 'alias':
+									
+						// If this is an alias use the item id stored in the parameters to make the link.
+						$item->link = 'index.php?Itemid='.$item->params->aliasoptions;
+				
+					break;
 				default:
 					$router = JSite::getRouter();
 					if ($router->getMode() == JROUTER_MODE_SEF) {

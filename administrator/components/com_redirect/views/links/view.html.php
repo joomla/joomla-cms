@@ -63,14 +63,16 @@ class RedirectViewLinks extends JView
 	 */
 	function buildDefaultToolBar()
 	{
-		JToolBarHelper::title('Redirect: Links', 'generic');
-
+		JToolBarHelper::title('Redirect:_Links', 'generic');
+		JToolBarHelper::custom('link.add', 'new.png', 'new_f2.png', 'New', false);
+		JToolBarHelper::custom('link.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		JToolBarHelper::divider()	;	
 		JToolBarHelper::custom('link.activate', 'default.png', 'default_f2.png', 'Activate', true);
-		JToolBarHelper::custom('link.archive', 'archive.png', 'archive_f2.png', 'Archive', true);
 		JToolBarHelper::custom('link.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 		JToolBarHelper::custom('link.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
-		JToolBarHelper::custom('link.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
-		JToolBarHelper::custom('link.add', 'new.png', 'new_f2.png', 'New', false);
+		JToolBarHelper::custom('link.archive', 'archive.png', 'archive_f2.png', 'Archive', true);
 		JToolBarHelper::deleteList('Are you sure you want to remove these links?', 'link.delete', 'delete');
+		JToolBarHelper::divider();
+		JToolBarHelper::help('screen.redirect');		
 	}
 }

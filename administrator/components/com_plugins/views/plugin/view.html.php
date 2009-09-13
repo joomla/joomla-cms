@@ -24,7 +24,13 @@ class PluginsViewPlugin extends JView
 {
 	function display( $tpl = null )
 	{
-		global $option;
+	JToolBarHelper::title( JText::_( 'Plugin_Manager' ), 'plugin.png' );
+	JToolBarHelper::save();
+	JToolBarHelper::apply();
+	JToolBarHelper::cancel( 'cancel', 'Close' );
+	JToolBarHelper::divider();
+	JToolBarHelper::help( 'screen.plugins.edit' );
+		//global $option;
 
 		$db		=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();

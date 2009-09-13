@@ -3,11 +3,7 @@
 <?php JHTML::_('behavior.tooltip'); ?>
 
 <?php
-	JToolBarHelper::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
-	JToolBarHelper::publishList();
-	JToolBarHelper::unpublishList();
-	JToolBarHelper::editList();
-	JToolBarHelper::help( 'screen.plugins' );
+
 	$ordering = ($this->lists['order'] == 'p.folder' || $this->lists['order'] == 'p.ordering');
 	$rows =& $this->items;
 

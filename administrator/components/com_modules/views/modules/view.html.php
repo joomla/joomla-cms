@@ -32,12 +32,15 @@ class ModulesViewModules extends JView
 	{
 		// Set toolbar items for the page
 		JToolBarHelper::title(JText::_('Module Manager'), 'module.png');
+		JToolBarHelper::addNew();	
+		JToolBarHelper::editList();	
+		JToolBarHelper::divider();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
 		JToolBarHelper::deleteList();
-		JToolBarHelper::editList();
-		JToolBarHelper::addNew();
+
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.modules');
 
 		// Get data from the model

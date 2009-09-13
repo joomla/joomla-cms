@@ -37,6 +37,7 @@ $ -> Language fix or change
  # [#17980] Query Error in JHTML::_( 'list.users' )
  # Various E_STRICT validation fixes.
  ^ Changed arguments of setBuffer() method in JDocument classes.
+ # [#18025] Make Toolbars conistent across administrator components
 
 12-Sep-2009 Ron Severdia
 # BlueStork CSS fixes

@@ -67,9 +67,16 @@ class RedirectViewLink extends JView
 		}
 
 		JToolBarHelper::title('Redirect: '.($isNew ? 'Add Link' : 'Edit Link'), 'generic');
-		JToolBarHelper::custom('link.save2new', 'new.png', 'new_f2.png', 'Save and New', false);
+
 		JToolBarHelper::save('link.save');
 		JToolBarHelper::apply('link.apply');
-		JToolBarHelper::cancel('link.cancel');
+		JToolBarHelper::custom('link.save2new', 'new.png', 'new_f2.png', 'Save and New', false);	
+		if (empty($this->item->id))  {
+			JToolBarHelper::cancel('link.cancel');
+		}
+		else {
+			JToolBarHelper::cancel('link.cancel', 'JToolbar_Close');
+		}
+		JToolBarHelper::help('screen.redirect.link');		
 	}
 }

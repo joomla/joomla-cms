@@ -75,21 +75,24 @@ class CategoriesViewCategories extends JView
 			),
 			'categories.png'
 		);
+		JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'New', false);	
+		JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'Edit', true);	
+		JToolBarHelper::divider();		
+		JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
+		JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
 		if ($state->get('filter.published') != -1) {
 			JToolBarHelper::archiveList('categories.archive');
 		}
-		JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
-		JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
 		if ($state->get('filter.published') == -2) {
 			JToolBarHelper::deleteList('', 'categories.delete');
 		}
 		else {
 			JToolBarHelper::trash('categories.trash');
 		}
-		JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
-		JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'New', false);
-
 		JToolBarHelper::divider();
 		JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
+		JToolBarHelper::divider();
+		JToolBarHelper::help('screen.categories');
+		
 	}
 }

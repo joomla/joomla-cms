@@ -31,6 +31,14 @@ class PluginsViewPlugins extends JView
 
 	function display( $tpl = null )
 	{
+	JToolBarHelper::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
+	JToolBarHelper::editList();
+	JToolBarHelper::publishList();
+	JToolBarHelper::unpublishList();
+	JToolBarHelper::divider();
+	JToolBarHelper::help( 'screen.plugins' );
+	
+	
 		$app	= &JFactory::getApplication();
 		$db		=& JFactory::getDBO();
 

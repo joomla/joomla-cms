@@ -13,6 +13,23 @@
  */
 class SearchHelper
 {
+
+
+	/**
+	 * Configure the Linkbar.
+	 *
+	 * @param	string	The name of the active view.
+	 */
+	public static function addSubmenu($vName)
+	{
+		JSubMenuHelper::addEntry(
+			JText::_('Search_Submenu'),
+			'index.php?option=com_search',
+			$vName == 'view'
+		);
+	
+	}
+
 	function santiseSearchWord(&$searchword, $searchphrase)
 	{
 		$ignored = false;

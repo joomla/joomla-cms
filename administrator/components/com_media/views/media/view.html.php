@@ -104,7 +104,7 @@ class MediaViewMedia extends JView
 					<span class=\"icon-32-delete\" title=\"$title\" type=\"Custom\"></span>
 					$title</a>";
 		$bar->appendButton('Custom', $dhtml, 'delete');
-
+		JToolBarHelper::divider();
 		// Add a popup configuration button
 		JToolBarHelper::help('screen.mediamanager');
 	}

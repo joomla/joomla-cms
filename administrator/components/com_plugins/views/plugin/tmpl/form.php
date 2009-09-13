@@ -2,13 +2,6 @@
 
 <?php JHTML::_('behavior.tooltip'); ?>
 
-<?php
-	JToolBarHelper::title( JText::_( 'Plugin' ) .': ' .JText::_('Edit_Plugin'). '', 'plugin.png' );
-	JToolBarHelper::save();
-	JToolBarHelper::apply();
-	JToolBarHelper::cancel( 'cancel', 'Close' );
-	JToolBarHelper::help( 'screen.plugins.edit' );
-?>
 
 <?php
 	// clean item data
