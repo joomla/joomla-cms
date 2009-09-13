@@ -14,7 +14,7 @@
 		description="Menus_Layout_Request_Variables_Desc">
 		<field
 			name="id"
-			type="category"
+			type="categories"
 			extension="com_content"
 			label="Category"
 			description="Choose a category..." />

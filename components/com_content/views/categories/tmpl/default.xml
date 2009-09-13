@@ -13,10 +13,10 @@
 		description="">
 
 		<field
-			name="test2"
-			type="text"
-			label="Testing2"
-			description="foobar2"
+			name="Category"
+			type="categories"
+			label="Choose_Category_Label"
+			description="Choose_Category_Desc"
 			default="" />
 	</fields>
 </metadata>

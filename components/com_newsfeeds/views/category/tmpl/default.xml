@@ -16,7 +16,7 @@
 
 		<field
 			name="id"
-			type="category"
+			type="categories"
 			extension="com_newsfeeds"
 			default="0"
 			label="Category"
