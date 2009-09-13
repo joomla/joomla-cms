@@ -21,6 +21,12 @@ jimport('joomla.application.component.helper');
 final class JSite extends JApplication
 {
 	/**
+	 * Currently active template
+	 * @var object
+	 */
+	private $template = null;
+	
+	/**
 	 * Class constructor
 	 *
 	 * @param	array An optional associative array of configuration settings.
@@ -284,6 +290,13 @@ final class JSite extends JApplication
 	 */
 	public function getTemplate($params = false)
 	{
+		if(is_object($this->template))
+		{
+			if ($params) {
+				return $this->template;
+			}
+			return $this->template->template;
+		}
 		// Get the id of the active menu item
 		$menu = &$this->getMenu();
 		$item = $menu->getActive();
@@ -324,7 +337,7 @@ final class JSite extends JApplication
 		}
 
 		// Cache the result
-		$this->set('setTemplate', $template);
+		$this->template = $template;
 		if ($params) {
 			return $template;
 		}
@@ -339,7 +352,9 @@ final class JSite extends JApplication
 	public function setTemplate($template)
 	{
 		if (is_dir(JPATH_THEMES.DS.$template)) {
-			$this->set('setTemplate', $template);
+			$this->template = new stdClass();
+			$this->template->params = new JParameter();
+			$this->template->template = $template;
 		}
 	}
 
@@ -349,7 +364,7 @@ final class JSite extends JApplication
 	 * @return object JPathway.
 	 * @since 1.5
 	 */
-	public function &getMenu()
+	static public function &getMenu()
 	{
 		$options	= array();
 		$menu		= &parent::getMenu('site', $options);
@@ -375,7 +390,7 @@ final class JSite extends JApplication
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
-	public function &getRouter()
+	static public function &getRouter()
 	{
 		$config = &JFactory::getConfig();
 		$options['mode'] = $config->getValue('config.sef');

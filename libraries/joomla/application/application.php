@@ -667,7 +667,7 @@ class JApplication extends JObject
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
-	public function &getRouter($name = null, array $options = array())
+	static public function &getRouter($name = null, array $options = array())
 	{
 		if (!isset($name)) {
 			$name = $this->_name;
@@ -711,7 +711,7 @@ class JApplication extends JObject
 	 * @return object JMenu.
 	 * @since 1.5
 	 */
-	public function &getMenu($name = null, $options = array())
+	static public function &getMenu($name = null, $options = array())
 	{
 		if (!isset($name)) {
 			$name = $this->_name;

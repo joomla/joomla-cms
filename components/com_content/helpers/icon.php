@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
  */
 class JHTMLIcon
 {
-	function create($article, $params)
+	static function create($article, $params)
 	{
 		$uri = &JFactory::getURI();
 		$ret = $uri->toString();
@@ -37,7 +37,7 @@ class JHTMLIcon
 		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}
 
-	function email($article, $params, $attribs = array())
+	static function email($article, $params, $attribs = array())
 	{
 		$uri	= &JURI::getInstance();
 		$base	= $uri->toString(array('scheme', 'host', 'port'));
@@ -59,7 +59,7 @@ class JHTMLIcon
 		return $output;
 	}
 
-	function edit($article, $params, $attribs = array())
+	static function edit($article, $params, $attribs = array())
 	{
 		$user = &JFactory::getUser();
 		$uri = &JFactory::getURI();
@@ -103,7 +103,7 @@ class JHTMLIcon
 	}
 
 
-	function print_popup($article, $params, $attribs = array())
+	static function print_popup($article, $params, $attribs = array())
 	{
 		$url  = 'index.php?view=article';
 		$url .=  @$article->catslug ? '&catid='.$article->catslug : '';
@@ -125,7 +125,7 @@ class JHTMLIcon
 		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}
 
-	function print_screen($article, $params, $attribs = array())
+	static function print_screen($article, $params, $attribs = array())
 	{
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {

@@ -23,7 +23,7 @@ class JHelp
 	* @param string The name of the popup file (excluding the file extension for an xml file)
 	* @param boolean Use the help file in the component directory
 	*/
-	function createURL($ref, $useComponent = false)
+	static function createURL($ref, $useComponent = false)
 	{
 		$component		= JApplicationHelper::getComponentName();
 		$app			= &JFactory::getApplication();
@@ -96,7 +96,7 @@ class JHelp
 	 * @param string	Language tag to select (if exists)
 	 * @param array	An array of arrays (text, value, selected)
 	 */
-	function createSiteList($pathToXml, $selected = null)
+	static function createSiteList($pathToXml, $selected = null)
 	{
 		$list	= array ();
 		$xml	= &JFactory::getXMLParser('Simple');

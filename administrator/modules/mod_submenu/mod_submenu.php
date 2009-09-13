@@ -19,7 +19,7 @@ if (!class_exists('JAdminSubMenu'))
 	 */
 	class JAdminSubMenu
 	{
-		function get()
+		static function get()
 		{
 			// Lets get some variables we are going to need
 			$menu = JToolBar::getInstance('submenu');

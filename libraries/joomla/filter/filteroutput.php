@@ -98,7 +98,7 @@ class JFilterOutput
 	* @static
 	* @since 1.5
 	*/
-	function ampReplace($text)
+	static function ampReplace($text)
 	{
 		$text = str_replace('&&', '*--*', $text);
 		$text = str_replace('&#', '*-*', $text);

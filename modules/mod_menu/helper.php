@@ -19,7 +19,7 @@ class modMenuHelper
 	/**
 	 * Get a list of the menu items.
 	 */
-	function getList(&$params)
+	static function getList(&$params)
 	{
 		// Initialize variables.
 		$list	= array();

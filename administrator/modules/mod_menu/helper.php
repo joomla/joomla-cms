@@ -47,7 +47,7 @@ class ModMenuHelper
 	 *
 	 * @return	array	A nest array of component objects and submenus
 	 */
-	function getComponents($exclude = array(), $authCheck = true)
+	static function getComponents($exclude = array(), $authCheck = true)
 	{
 		// Initialise variables.
 		$lang	= &JFactory::getLanguage();

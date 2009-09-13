@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Get the component title div
-$title = &JFactory::getApplication()->get('JComponentTitle');
+$title = JFactory::getApplication()->get('JComponentTitle');
 
 // Echo title if it exists
 if (!empty($title)) {
