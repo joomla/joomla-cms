@@ -77,8 +77,7 @@ class JTableMenu extends JTableNested
 	/**
 	 * @var datetime
 	 */
-	var $checked_out_time = 0;
-
+	var $checked_out_time = '0000-00-00 00:00:00';
 	/**
 	 * @var string
 	 */
