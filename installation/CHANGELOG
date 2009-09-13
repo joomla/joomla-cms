@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 13-Sep-2009 Hannes Papenberg
  + Added Profile Plugin from experimental branch. This makes it possible to extend your user profile easily.
+ ^ Some performance improvements and changing some code to PHP strict.
 
 13-Sep-2009 Gergo Erdosi
  ^ Replaced installation favicon.
