@@ -183,7 +183,7 @@ abstract class JHtmlList
 
 		$query = 'SELECT u.id AS value, u.name AS text'
 		. ' FROM #__users AS u'
-		. ' JOIN #__user_usergroup_map AS m WHERE m.user_id = u.id'
+		. ' JOIN #__user_usergroup_map AS m ON m.user_id = u.id'
 		. ' WHERE u.block = 0'
 		. $and
 		. ' ORDER BY '. $order
