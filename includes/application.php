@@ -364,7 +364,7 @@ final class JSite extends JApplication
 	 * @return object JPathway.
 	 * @since 1.5
 	 */
-	static public function &getMenu()
+	public function &getMenu()
 	{
 		$options	= array();
 		$menu		= &parent::getMenu('site', $options);
