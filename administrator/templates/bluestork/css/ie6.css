@@ -8,7 +8,7 @@
 
 /* IE6 OVERRIDES */
 
-div#toolbar-box {
+div.toolbar-box {
   float: left;
   width: 100%;
 }
@@ -25,3 +25,13 @@ input {
 	border-width: expression(this.type=="radio"?'0px':this.type=="checkbox"?'0px':'1px'); 
 }
 
+div.toolbar-list span {
+	margin: 0px;
+	position: relative;
+}
+
+div.toolbar-list a {
+	position: relative;
+	float: none;
+
+}

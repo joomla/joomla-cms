@@ -385,6 +385,12 @@ div.current dd {
 div.cpanel-left {width:54%;float:left; }
 div.cpanel-right { width:45%; float:right; }
 
+h3.jpane-toggler-down a:hover,
+h3.jpane-toggler a:hover {
+	text-decoration: none;
+}
+
+//*[@id="cpanel-panel-popular"]
 
 
 /* -- FORM STYLES ----------------------------- */
@@ -510,6 +516,8 @@ table.adminform td.filter{
 table.adminform td.helpMenu{
 	text-align: right;
 }
+
+
 
 
 /* -- TABLE STYLES ----------------------------- */

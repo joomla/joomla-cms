@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Sep-2009 Ron Severdia
+# Accessibility improvements to com_config, mod_status. Thanks to Andrea Tarr.
+
 13-Sep-2009 Hannes Papenberg
  + Added Profile Plugin from experimental branch. This makes it possible to extend your user profile easily.
  ^ Some performance improvements and changing some code to PHP strict.

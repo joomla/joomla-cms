@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 $output = array();
 
 // Print the logged in users.
-	$output[] = "<span class=\"loggedin-users\">".$online_num."</span>";
+	$output[] = "<span class=\"loggedin-users\">".$online_num. " " . JText::_('Users') . "</span>";
 	
 //  Print the inbox message.
 	$output[] = "<span class=\"$inboxClass\"><a href=\"$inboxLink\">". $unread . " " . JText::_('Messages'). "</a></span>";
