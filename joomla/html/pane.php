@@ -228,7 +228,7 @@ class JPaneSliders extends JPane
 	public function startPanel($text, $id)
 	{
 		return '<div class="panel">'
-			.'<h3 class="jpane-toggler title" id="'.$id.'"><span>'.$text.'</span></h3>'
+			.'<h3 class="jpane-toggler title" id="'.$id.'"><a href="#"><span>'.$text.'</span></a></h3>'
 			.'<div class="jpane-slider content">';
 	}
 
