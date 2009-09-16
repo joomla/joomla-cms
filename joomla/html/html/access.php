@@ -141,7 +141,7 @@ abstract class JHtmlAccess
 
 		$html = array();
 
-		$html[] = '<ul class="checklist usergroups" style="padding:0;">';
+		$html[] = '<ul class="checklist usergroups">';
 
 		for ($i=0, $n=count($groups); $i < $n; $i++)
 		{
@@ -184,7 +184,7 @@ abstract class JHtmlAccess
 		$actions	= JAccessHelper::getActions($section, $type);
 
 		$html		= array();
-		$html[]		= '<ul class="checklist access-actions" style="padding:0;">';
+		$html[]		= '<ul class="checklist access-actions">';
 
 		for ($i=0, $n=count($actions); $i < $n; $i++)
 		{
