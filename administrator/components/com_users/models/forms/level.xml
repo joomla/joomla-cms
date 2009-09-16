@@ -22,7 +22,7 @@
 		/>
 
 		<field
-			id="title"
+			id="leveltitle"
 			name="title"
 			type="text"
 			default=""

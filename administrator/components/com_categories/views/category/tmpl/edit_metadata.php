@@ -9,29 +9,26 @@
 
 defined('_JEXEC') or die;
 ?>
-			<ol>
-				<li>
+<div class="width-40">
+			<legend><?php echo JText::_('Categories_Fieldset_Metadata');?></legend>
 					<?php echo $this->form->getLabel('metadesc'); ?><br />
 					<?php echo $this->form->getInput('metadesc'); ?>
-				</li>
-			</ol>
-			<ol>
-				<li>
+			
+			
 					<?php echo $this->form->getLabel('metakey'); ?><br />
 					<?php echo $this->form->getInput('metakey'); ?>
-				</li>
-			</ol>
+				
+
 <?php foreach($this->form->getFields('metadata') as $field): ?>
 	<?php if ($field->hidden): ?>
 		<?php echo $field->input; ?>
 	<?php else: ?>
-		<ol>
-			<li class="paramlist_key">
+		
 				<?php echo $field->label; ?>
-			</li>
-			<li class="paramlist_value">
+			
+
 				<?php echo $field->input; ?>
-			</li>
-		</ol>
+			 
 	<?php endif; ?>
 <?php endforeach; ?>
+</div>

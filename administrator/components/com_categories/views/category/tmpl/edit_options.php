@@ -9,17 +9,17 @@
 
 defined('_JEXEC') or die;
 ?>
+<div class="width-40">
+		<legend><?php echo JText::_('Categories_Fieldset_Options');?></legend>
 <?php foreach($this->form->getFields('params') as $field): ?>
 	<?php if ($field->hidden): ?>
 		<?php echo $field->input; ?>
 	<?php else: ?>
-		<ol>
-			<li class="paramlist_key">
+		
 				<?php echo $field->label; ?>
-			</li>
-			<li class="paramlist_value">
+			
 				<?php echo $field->input; ?>
-			</li>
-		</ol>
+		
 	<?php endif; ?>
 <?php endforeach; ?>
+</div>

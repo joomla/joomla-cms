@@ -186,10 +186,23 @@
 
 		<field
 			name="robots"
-			type="text"
+			type="list"
 			label="JField_Metadata_Robots_Label"
 			description="JField_Metadata_Robots_Desc"
-			size="30"/>
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">index, follow</option>
+			<option
+				value="1">noindex, follow</option>
+			<option
+				value="2">index, nofollow</option>
+			<option
+				value="3">noindex, nofollow</option>
+			<option
+				value="4">Don't display robots tag</option>
+		</field>
 
 		<field
 			name="author"

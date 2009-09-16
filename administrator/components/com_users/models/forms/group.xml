@@ -23,7 +23,7 @@
 		/>
 
 		<field
-			id="title"
+			id="grouptitle"
 			name="title"
 			type="text"
 			class="inputbox"

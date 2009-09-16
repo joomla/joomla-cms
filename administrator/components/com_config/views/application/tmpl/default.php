@@ -34,23 +34,20 @@ $this->document->addScriptDeclaration("
 	<?php endif; ?>
 	<div id="config-document">
 		<div id="page-site">
-			<table class="noshow">
-				<tr>
-					<td width="65%">
+			<div class="noshow">
+					<div class="width-65">
 						<?php echo $this->loadTemplate('site'); ?>
 						<?php echo $this->loadTemplate('metadata'); ?>
-					</td>
-					<td width="35%">
+					</div>
+					<div class="width-35">
 						<?php echo $this->loadTemplate('seo'); ?>
 						<?php echo $this->loadTemplate('cookie'); ?>
-					</td>
-				</tr>
-			</table>
+					</div>
+			</div>
 		</div>
 		<div id="page-system">
-			<table class="noshow">
-				<tr>
-					<td width="60%">
+			<div class="noshow">
+					<div class="width-60">
 						<?php echo $this->loadTemplate('system'); ?>
 						<fieldset class="adminform">
 							<legend><?php echo JText::_('User Settings'); ?></legend>
@@ -64,29 +61,26 @@ $this->document->addScriptDeclaration("
 							</legend>
 							<?php echo $this->mediaParams->render('mediaparams'); ?>
 						</fieldset>
-					</td>
-					<td width="40%">
+					</div>
+					<div class="width-40">
 						<?php echo $this->loadTemplate('debug'); ?>
 						<?php echo $this->loadTemplate('cache'); ?>
 						<?php echo $this->loadTemplate('session'); ?>
-					</td>
-				</tr>
-			</table>
+					</div>
+			</div>
 		</div>
 		<div id="page-server">
-			<table class="noshow">
-				<tr>
-					<td width="60%">
+			<div class="noshow">
+					<div class="width-60">
 						<?php echo $this->loadTemplate('server'); ?>
 						<?php echo $this->loadTemplate('locale'); ?>
 						<?php echo $this->loadTemplate('ftp'); ?>
-					</td>
-					<td width="40%">
+					</div>
+					<div class="width-40">
 						<?php echo $this->loadTemplate('database'); ?>
 						<?php echo $this->loadTemplate('mail'); ?>
-					</td>
-				</tr>
-			</table>
+					</div>
+			</div>
 		</div>
 	</div>
 	<div class="clr"></div>

@@ -33,9 +33,10 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
-	<fieldset style="width:45%;float:left">
+<div class="width-50">
+	<fieldset>
 		<legend><?php echo JText::_('Users_Usergroup_Details');?></legend>
-		<ol>
+		<ul>
 			<li>
 				<?php echo $this->form->getLabel('parent_id'); ?><br />
 				<?php echo $this->form->getInput('parent_id'); ?>
@@ -44,9 +45,9 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 				<?php echo $this->form->getLabel('title'); ?><br />
 				<?php echo $this->form->getInput('title'); ?>
 			</li>
-		</ol>
+		</ul>
 	</fieldset>
-
+</div>
 	<fieldset id="user-groups">
 		<legend><?php echo JText::_('Users_Actions_Available');?></legend>
 		<?php echo JHtml::_('access.actions', 'jform[actions]', $this->item->actions); ?>
@@ -54,5 +55,6 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
+	
 </form>
 <div class="clr"></div>

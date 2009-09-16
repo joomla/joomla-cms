@@ -35,34 +35,26 @@ JHtml::_('behavior.formvalidation');
 	<div class="width-60">
 		<fieldset>
 			<legend><?php echo JText::_('Categories_Fieldset_Details');?></legend>
-			<ol>
-				<li>
-					<?php echo $this->form->getLabel('title'); ?><br />
+			
+					<?php echo $this->form->getLabel('title'); ?>
 					<?php echo $this->form->getInput('title'); ?>
-				</li>
-				<li>
-					<?php echo $this->form->getLabel('alias'); ?><br />
-					<?php echo $this->form->getInput('alias'); ?>
-				</li>
-				<!-- <li>
-					<?php echo $this->form->getLabel('extension'); ?><br />
-					<?php echo $this->form->getInput('extension'); ?>
-				</li>
-				-->
-				<li>
-					<?php echo $this->form->getLabel('parent_id'); ?><br />
-					<?php echo $this->form->getInput('parent_id'); ?>
-				</li>
 				
-				<li>
-					<?php echo $this->form->getLabel('published'); ?><br />
+					<?php echo $this->form->getLabel('alias'); ?>
+					<?php echo $this->form->getInput('alias'); ?>
+				<!-- 
+					<?php echo $this->form->getLabel('extension'); ?>
+					<?php echo $this->form->getInput('extension'); ?>
+				-->
+				
+					<?php echo $this->form->getLabel('parent_id'); ?>
+					<?php echo $this->form->getInput('parent_id'); ?>
+				
+					<?php echo $this->form->getLabel('published'); ?>
 					<?php echo $this->form->getInput('published'); ?>
-				</li>
-				<li>
-					<?php echo $this->form->getLabel('access'); ?><br />
+				
+					<?php echo $this->form->getLabel('access'); ?>
 					<?php echo $this->form->getInput('access'); ?>
-				</li>
-			</ol>
+			
 		</fieldset>
 	</div>
 

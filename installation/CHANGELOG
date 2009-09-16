@@ -28,6 +28,11 @@ $ -> Language fix or change
 ! -> Note
 
 15-Sep-2009 Ron Severdia
+# BlueStork CSS fixes/additions
+^ Form tweaks for com_categories & com_content & com_users
+^ Replace tables from com_config & com_menus
+
+15-Sep-2009 Ron Severdia
 # Accessibility improvements to com_config, mod_status. Thanks to Andrea Tarr.
 
 13-Sep-2009 Hannes Papenberg

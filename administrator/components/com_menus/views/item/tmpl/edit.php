@@ -29,65 +29,59 @@ JHtml::_('behavior.formvalidation');
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-	<fieldset style="width:45%;float:left">
+
+<div class="width-45">
+	<fieldset>
 		<legend><?php echo JText::_('Menus_Item_Details');?></legend>
-		<ol>
-			<li>
-				<?php echo $this->form->getLabel('menutype'); ?><br />
-				<?php echo $this->form->getInput('menutype'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('parent_id'); ?><br />
-				<?php echo $this->form->getInput('parent_id'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('title'); ?><br />
+		
+			<?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('alias'); ?><br />
+			
+				<?php echo $this->form->getLabel('alias'); ?>
 				<?php echo $this->form->getInput('alias'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('link'); ?><br />
+		
+				<?php echo $this->form->getLabel('menutype'); ?>
+				<?php echo $this->form->getInput('menutype'); ?>
+			
+				<?php echo $this->form->getLabel('parent_id'); ?>
+				<?php echo $this->form->getInput('parent_id'); ?>
+			
+			
+			
+				<?php echo $this->form->getLabel('link'); ?>
 				<?php echo $this->form->getInput('link'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('type'); ?><br />
+			
+				<?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('published'); ?><br />
+			
+				<?php echo $this->form->getLabel('published'); ?>
 				<?php echo $this->form->getInput('published'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('browserNav'); ?><br />
+			
+				<?php echo $this->form->getLabel('browserNav'); ?>
 				<?php echo $this->form->getInput('browserNav'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('access'); ?><br />
+			
+				<?php echo $this->form->getLabel('access'); ?>
 				<?php echo $this->form->getInput('access'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('home'); ?><br />
+			
+				<?php echo $this->form->getLabel('home'); ?>
 				<?php echo $this->form->getInput('home'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('template_id'); ?><br />
+			
+				<?php echo $this->form->getLabel('template_id'); ?>
 				<?php echo $this->form->getInput('template_id'); ?>
-			</li>
-		</ol>
+			
 	</fieldset>
+</div>
 
-	<fieldset style="width:45%; float:left;">
-		<legend><?php echo JText::_('Menus_Item_Options'); ?></legend>
-		<?php echo $this->loadTemplate('options'); ?>
-	</fieldset>
-
-	<fieldset style="width:45%; float:left;">
+<div class="width-45" style="clear:right;">
+	<fieldset>
 		<legend><?php echo JText::_('Menus_Item_Module_Assignment'); ?></legend>
 		<?php echo $this->loadTemplate('modules'); ?>
 	</fieldset>
+</div>
+<div class="width-45">
+		<?php echo $this->loadTemplate('options'); ?>
+</div>
+
 
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput('component_id'); ?>

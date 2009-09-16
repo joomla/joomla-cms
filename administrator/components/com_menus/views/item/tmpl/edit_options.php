@@ -26,25 +26,19 @@ echo $pane->startPane('content-pane');
 			echo '<p class="tip" style="float:right;">'.JText::_($fieldSet['description']).'</p>';
 		endif;
 ?>
-<table class="admintable">
-	<tbody>
+
 		<?php
 		foreach ($this->paramsform->getFields($name) as $field) :
 		?>
-		<tr>
-			<td width="185" class="key">
+			<div class="paramrow" />
 				<?php echo $field->label; ?>
-			</td>
-			<td>
+			
 				<?php echo $field->input; ?>
-			</td>
-		</tr>
+			</div>
 		<?php
 		endforeach;
 		?>
-	</tbody>
-</table>
-<br class="clr" />
+<div class="clr" /></div>
 <?php
 		echo $pane->endPanel();
 	endforeach;

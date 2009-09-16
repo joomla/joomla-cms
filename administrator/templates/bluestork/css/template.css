@@ -285,7 +285,6 @@ textarea#mm_message { width: 100%; }
 	padding: 2px 2px 2px 5px;
 	color: #666;
 	cursor: pointer;
-	
 }
 
 #content-pane { margin: 8px 10px 15px 15px;}
@@ -299,11 +298,10 @@ textarea#mm_message { width: 100%; }
 .pane-sliders .adminlist     { border: 0 none; font-size: 11px; }
 .pane-sliders .adminlist td  { border: 0 none; }
 
-.jpane-toggler  span     { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; padding-left: 20px;}
+.jpane-toggler span     { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; padding-left: 20px;}
 .jpane-toggler-down span { background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat; padding-left: 20px;}
 
 .jpane-toggler-down {  border-bottom: 1px solid #ccc; }
-
 
 .jpane-slider ol li {
 	list-style:none;
@@ -311,6 +309,27 @@ textarea#mm_message { width: 100%; }
 	margin-top: 10px;
 }
 
+.jpane-slider {
+}
+
+.jpane-slider .paramrow {
+	margin: 15px;
+}
+
+div.paramrow label {
+
+}
+
+div.paramrow input {
+
+}
+
+
+
+h3.jpane-toggler-down a:hover,
+h3.jpane-toggler a:hover {
+	text-decoration: none;
+}
 
 /* -- TAB STYLES ----------------------------- */
 
@@ -385,28 +404,29 @@ div.current dd {
 div.cpanel-left {width:54%;float:left; }
 div.cpanel-right { width:45%; float:right; }
 
-h3.jpane-toggler-down a:hover,
-h3.jpane-toggler a:hover {
-	text-decoration: none;
-}
-
-//*[@id="cpanel-panel-popular"]
-
 
 /* -- FORM STYLES ----------------------------- */
 
 div.col { float: left; }
 
 div.width-30 { width: 30%; float: left;}
+div.width-35 { width: 35%; float: left;}
 div.width-40 { width: 40%; float: left;}
 div.width-45 { width: 45%; float: left;}
 div.width-50 { width: 50%; float: left;}
 div.width-55 { width: 55%; float: left;}
 div.width-60 { width: 60%; float: left;}
+div.width-65 { width: 65%; float: left;}
 div.width-70 { width: 70%; float: left;}
+div.width-100 { width: 100%; float: left;}
 
-form#item-form fieldset {
+form#item-form fieldset,
+fieldset.adminform {
 	padding: 15px;
+}
+
+fieldset.adminform {
+	margin: 10px;
 }
 
 fieldset label {
@@ -421,7 +441,7 @@ fieldset textarea,
 fieldset select,
 fieldset img {
 	float: left;
-	width:auto;
+	width: auto;
 	margin: 3px 3px 10px 0px;
 }
 
@@ -443,9 +463,57 @@ label#jform_fulltext-lbl {
 label#jform_fulltext-lbl {
 }
 
-label#jform_state-lbl{
+label#jform_state-lbl {
 	clear:none;
 }
+
+fieldset.adminform label {
+	clear:none;
+}
+
+fieldset.adminform input {
+	margin-left:10px;
+}
+fieldset.adminform select {
+	margin-right:20px;
+}
+
+label#jform_offline_message-lbl,
+label#jform_sitename-lbl,
+label#jform_editor-lbl,
+label#jform_list_limit-lbl,
+label#jform_sef_rewrite-lbl,
+label#jform_sef_suffix-lbl,
+label#jform_metakeys-lbl,
+label#jform_metatitle-lbl,
+label#jform_debug_lang-lbl,
+label#jform_debug_modules-lbl,
+label#jform_gzip-lbl,
+label#jform_error_reporting-lbl,
+label#jform_ftp_host-lbl,
+label#jform_ftp_user-lbl,
+label#jform_ftp_root-lbl,
+label#jform_xmlrpc_server-lbl,
+label#jform_helpurl-lbl,
+label#jform_host-lbl,
+label#jform_user-lbl,
+label#jform_db-lbl,
+label#jform_dbprefix-lbl,
+label#jform_mailfrom-lbl,
+label#jform_fromname-lbl,
+label#jform_smtphost-lbl,
+label#jform_sendmail-lbl,
+label#jform_smtpauth-lbl,
+label#jform_smtpsecure-lbl,
+label#jform_log_path-lbl {
+	clear:left;
+}
+
+div.clrleft {
+	float: left;
+
+}
+
 
 select#jform_catid.inputbox {
 	margin-right: 20px;
@@ -470,10 +538,20 @@ div#content-pane fieldset {
 	padding: 10px 15px 0 15px;
 }
 form#item-form fieldset {
-	
+	margin: 10px;
 }
 div#content-pane label {
 	min-width: 110px;
+}
+
+input#jform_offline1 {
+
+
+}
+
+
+fieldset ul li {
+	margin-left: -30px;
 }
 
 
@@ -485,6 +563,9 @@ fieldset.filter ol li fieldset{border:0;margin:0;padding:0;}
 fieldset.filter .left{float:left;}
 fieldset.filter .right{float:right;}
 fieldset.filter .right select.inputbox {margin-left: 10px;}
+
+
+
 
 table.adminform {
 	background-color: #f8f8f8;
@@ -580,14 +661,16 @@ div#element-box div.m div.jpane-slider form table.adminlist a { font-size: 1em;}
 
 /* -- GLOBAL CONFIG STYLES ----------------------------- */
 
+/*
 table.noshow   		 { width: 100%; border-collapse: collapse; padding: 0; margin: 0; }
 table.noshow tr 		 { vertical-align: top; }
 table.noshow td 		 { }
 table.noshow fieldset { margin: 15px 7px 7px 7px; }
-
-#editor-xtd-buttons { padding-top: 10px; }
+*/
 
 /* -- BUTTON STYLES ----------------------------- */
+
+#editor-xtd-buttons { padding-top: 10px; }
 
 .button1,
 .button1 div {

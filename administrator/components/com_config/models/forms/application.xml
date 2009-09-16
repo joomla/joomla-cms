@@ -23,6 +23,7 @@
 			description="Config_Cache_Time_Desc"
 			required="true"
 			filter="integer"
+			size="6"
 		/>
 		
 		<field
@@ -152,7 +153,7 @@
 			label="Config_Ftp_Host_Label"
 			description="Config_Ftp_Host_Desc"
 			filter="string"
-			size="25"
+			size="14"
 		/>
 		
 		<field
@@ -162,7 +163,7 @@
 			label="Config_Ftp_Port_Label"
 			description="Config_Ftp_Port_Desc"
 			filter="string"
-			size="25"
+			size="8"
 		/>
 		
 		<field
@@ -288,7 +289,7 @@
 			description="Config_Mail_SMTP_Port_Desc"
 			required="true"
 			filter="string"
-			size="50"
+			size="6"
 		/>
 
 		<field
@@ -324,7 +325,7 @@
 	
 	<fields group="metadata" label="Config_Metadata_Settings_Label">
 		<field
-			name="MetaDesc"
+			name="metadesc"
 			type="textarea"
 			default=""
 			label="Config_Metadesc_Label"
@@ -336,7 +337,7 @@
 		/>
 		
 		<field
-			name="MetaKeys"
+			name="metakeys"
 			type="textarea"
 			default=""
 			label="Config_Metakeys_Label"
@@ -348,7 +349,7 @@
 		/>
 		
 		<field
-			name="MetaTitle"
+			name="metatitle"
 			type="radio"
 			default="1"
 			label="Config_Metatitle_Label"
@@ -361,7 +362,7 @@
 		</field>
 		
 		<field
-			name="MetaAuthor"
+			name="metaauthor"
 			type="radio"
 			default="1"
 			label="Config_Metaauthor_Label"
@@ -479,6 +480,7 @@
 			description="Config_Session_Time_Desc"
 			required="true"
 			filter="integer"
+			size="6"
 		/>
 		
 		<field
