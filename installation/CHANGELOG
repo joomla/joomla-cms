@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Sep-2009 Ron Severdia
++ BlueStork CSS updates
+# Admin interface fixes
+^ Replace tables in administrator components & mod_online/quickicon/unread
++ New & updated language strings
+
 15-Sep-2009 Ron Severdia
 # BlueStork CSS fixes/additions
 ^ Form tweaks for com_categories & com_content & com_users

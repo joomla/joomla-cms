@@ -33,7 +33,7 @@
 </script>
 
 <form action="index.php" method="post" name="adminForm">
-<div class="col width-60">
+<div class="width-60">
 	<fieldset class="adminform">
 	<legend><?php echo JText::_( 'Details' ); ?></legend>
 	<table class="admintable">
@@ -104,7 +104,7 @@
 		</table>
 	</fieldset>
 </div>
-<div class="col width-40">
+<div class="width-40">
 	<fieldset class="adminform">
 	<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 	<?php
@@ -116,7 +116,7 @@
 		if($output = $this->params->render('params')) :
 			echo $output;
 		else :
-			echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no parameters for this item')."</div>";
+			echo "<div class=\"noparams-notice\">".JText::_('There are no parameters for this item')."</div>";
 		endif;
 		echo $pane->endPanel();
 
@@ -125,7 +125,7 @@
 			if($output = $this->params->render('params', 'advanced')) :
 				echo $output;
 			else :
-				echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no advanced parameters for this item')."</div>";
+				echo "<div class=\"noparams-notice\">".JText::_('There are no advanced parameters for this item')."</div>";
 			endif;
 			echo $pane->endPanel();
 		}

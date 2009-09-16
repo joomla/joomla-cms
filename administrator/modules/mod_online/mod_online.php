@@ -22,4 +22,4 @@ $query = 'SELECT COUNT(session_id)'
 $db->setQuery($query);
 $online_num = intval($db->loadResult());
 
-echo $online_num . ' <img src="images/users.png" align="middle" alt="'. JText::_('Users Online') .'" />';
+echo $online_num . ' <img src="images/users.png" alt="'. JText::_('Users Online') .'" />';

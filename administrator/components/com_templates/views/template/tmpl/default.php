@@ -4,34 +4,37 @@
 	JHtml::_('behavior.tooltip');
 ?>
 <form action="<?php echo JRoute::_('index.php') ?>" method="post" name="adminForm">
-<div class="col width-50">
+<div class="width-50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Styles'); ?></legend>
 
 		<table class="admintable">
 		<tr>
-			<th><?php echo JText::_('#'); ?></th>
-			<th><?php echo JText::_('Style'); ?></th>
-			<th><?php echo JText::_('Default'); ?></th>
-			<th><?php echo JText::_('Delete'); ?></th>
+			<th width="120"><?php echo JText::_('Style'); ?></th>
+			<th width="70"><?php echo JText::_('Default'); ?></th>
+			<th width="70"><?php echo JText::_('Delete'); ?></th>
 		</tr>
 		<?php
 		$i = 1;
 		foreach($this->paramsets as $set)
 		{ ?>
 		<tr>
-			<td><?php echo $i; ?></td>
 			<td><a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&template='.$this->template.'&id='.$set->id.'&client='.$this->client->id); ?>">
-				<?php echo JText::_($this->template); ?> - <?php echo $set->description; ?>
+				<?php echo JText::_($this->template); ?> (<?php echo $set->description; ?>)
 			</a></td>
 			<td><?php
 			if($set->home)
 			{
-				echo '<img src="templates/bluestork/images/menu/icon-16-default.png" alt="'.JText::_('Default').'" />';
+				echo '<img src="templates/'.$this->template.'/images/menu/icon-16-default.png" alt="'.JText::_('Default').'" />';
 			} else {
 				echo '<a href="'.JRoute::_('index.php?option=com_templates&task=setdefault&id='.$set->id).'">default</a>';
 			} ?></td>
-			<td><a href="<?php echo JRoute::_('index.php?option=com_templates&task=delete&template='.$this->template.'&id='.$set->id); ?>">delete</a></td>
+			<td><a href="<?php echo JRoute::_('index.php?option=com_templates&task=delete&template='.$this->template.'&id='.$set->id); ?>">
+			
+			
+				<?php echo '<img src="templates/'.$this->template.'/images/menu/icon-16-delete.png"  alt="'.JText::_('Delete').'" />' ; ?> 
+				</a>
+			</td>
 		</tr>
 		<?php } ?>
 		</table>
@@ -39,7 +42,7 @@
 
 </div>
 
-<div class="col width-50">
+<div class="width-50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Details'); ?></legend>
 
@@ -74,7 +77,7 @@
 			if (!is_null($this->params->params)) {
 				echo $this->params->params->render();
 			} else {
-				echo '<i>' . JText :: _('No Parameters') . '</i>';
+				echo '<div class="noparams-notice">' . JText :: _('No Parameters') . '</div>';
 			}
 			?>
 			</td>

@@ -27,24 +27,20 @@ $this->buildDefaultToolBar();
 $fields	= $this->form->getFields();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_redirect');?>" method="post" name="adminForm" class="form-validate">
-		<div class="col width-60">
-			<div>
-				<?php echo $fields['old_url']->label; ?><br />
+		<div class="width-60">
+			<fieldset>
+				<legend><?php echo JText::_('URLs'); ?></legend>
+				<?php echo $fields['old_url']->label; ?>
 				<?php echo $fields['old_url']->input; ?>
-			</div>
-			<br />
-			<div>
-				<?php echo $fields['new_url']->label; ?><br />
+			
+				<?php echo $fields['new_url']->label; ?>
 				<?php echo $fields['new_url']->input; ?>
-			</div>
-			<br />
-			<div>
-				<?php echo $fields['comment']->label; ?><br />
+			
+				<?php echo $fields['comment']->label; ?>
 				<?php echo $fields['comment']->input; ?>
-			</div>
 		</div>
 
-		<div class="col width-40">
+		<div class="width-40">
 			<fieldset>
 				<legend><?php echo JText::_('Details'); ?></legend>
 

@@ -1,3 +1,4 @@
+
 <?php defined('_JEXEC') or die; ?>
 <table width="100%" cellspacing="0">
     <tr valign="top">

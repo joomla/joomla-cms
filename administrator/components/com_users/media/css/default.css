@@ -29,14 +29,14 @@ fieldset#buttonbar li{margin:0;padding:5px}
 
 /* Configuration Modal */
 div#config #submenu{list-style-image:none;list-style-position:outside;list-style-type:none;margin:0;padding:0}
-div#config #submenu-box div.t{background:transparent url(../../../../templates/khepri/images/j_border.png) 0 0 repeat-x}
+div#config #submenu-box div.t{background:transparent url(../../../../templates/bluestork/images/j_border.png) 0 0 repeat-x}
 div#config div.t,div#config div.b{height:6px;margin:0;overflow:hidden;padding:0}
-div#config #submenu-box div.t div.t{background:transparent url(../../../../templates/khepri/images/j_crn_tr_dark.png) no-repeat scroll 100% 0}
-div#config #submenu-box div.t div.t div.t{background:transparent url(../../../../templates/khepri/images/j_crn_tl_dark.png) no-repeat scroll 0}
+div#config #submenu-box div.t div.t{background:transparent url(../../../../templates/bluestork/images/j_crn_tr_dark.png) no-repeat scroll 100% 0}
+div#config #submenu-box div.t div.t div.t{background:transparent url(../../../../templates/bluestork/images/j_crn_tl_dark.png) no-repeat scroll 0}
 div#config div.m{border-left:1px solid #CCC;border-right:1px solid #CCC;padding:0 8px}
-div#config #submenu-box div.b{background:transparent url(../../../../templates/khepri/images/j_border.png) repeat-x scroll 0 100%}
-div#config #submenu-box div.b div.b{background:transparent url(../../../../templates/khepri/images/j_crn_br_dark.png) no-repeat scroll 100% 0}
-div#config #submenu-box div.b div.b div.b{background:transparent url(../../../../templates/khepri/images/j_crn_bl_dark.png) no-repeat scroll 0}
+div#config #submenu-box div.b{background:transparent url(../../../../templates/bluestork/images/j_border.png) repeat-x scroll 0 100%}
+div#config #submenu-box div.b div.b{background:transparent url(../../../../templates/bluestork/images/j_crn_br_dark.png) no-repeat scroll 100% 0}
+div#config #submenu-box div.b div.b div.b{background:transparent url(../../../../templates/bluestork/images/j_crn_bl_dark.png) no-repeat scroll 0}
 div#config #submenu li{float:left;margin:0;padding:0}
 div#config #submenu li a,div#config #submenu span.nolink{border-right:1px solid #CCC;color:#0B55C4;cursor:pointer;font-weight:700;height:12px;line-height:12px;padding:0 15px}
 div#config #submenu li:last-child a{border-right:none}

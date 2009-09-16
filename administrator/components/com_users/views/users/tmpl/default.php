@@ -50,7 +50,7 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 				<th class="left">
 					<?php echo JHtml::_('grid.sort', 'Users_Heading_Name', 'a.name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th nowrap="nowrap" width="15%">
+				<th nowrap="nowrap" width="10%">
 					<?php echo JHtml::_('grid.sort', 'Users_Heading_Username', 'a.username', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th nowrap="nowrap" width="5%">
@@ -59,7 +59,7 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 				<th nowrap="nowrap" width="5%">
 					<?php echo JHtml::_('grid.sort', 'Users_Heading_Activated', 'a.activation', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th nowrap="nowrap" width="15%">
+				<th nowrap="nowrap" width="10%">
 					<?php echo JText::_('Users_Heading_Groups'); ?>
 				</th>
 				<th nowrap="nowrap" width="15%">
@@ -67,6 +67,9 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 				</th>
 				<th nowrap="nowrap" width="15%">
 					<?php echo JHtml::_('grid.sort', 'Users_Heading_Last_Visit_Date', 'a.lastvisitDate', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th nowrap="nowrap" width="15%">
+					<?php echo JHtml::_('grid.sort', 'Users_Heading_Registration_Date', 'a.registerDate', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th nowrap="nowrap" width="3%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -109,6 +112,9 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 				</td>
 				<td align="center">
 					<?php echo JHtml::date($item->lastvisitDate); ?>
+				</td>
+				<td align="center">
+					<?php echo JHtml::date($item->registerDate); ?>
 				</td>
 				<td align="center">
 					<?php echo $item->id; ?>

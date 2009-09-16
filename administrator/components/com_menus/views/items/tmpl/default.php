@@ -50,6 +50,11 @@ $userId	= $user->get('id');
 				<option value=""><?php echo JText::_('JMenu_Option_Select_Level');?></option>
 				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
 			</select>
+			
+			<select name="filter_menutype" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JMenu_Option_Select_Menutype');?></option>
+				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
+			</select>
 		</div>
 	</fieldset>
 
@@ -71,6 +76,9 @@ $userId	= $user->get('id');
 				</th>
 				<th width="10%"  class="title">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Access', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="10%"  class="title">
+					<?php echo JText::_('JGrid_Heading_Menu_Type'); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.lft', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -119,6 +127,9 @@ $userId	= $user->get('id');
 				</td>
 				<td align="center">
 					<?php echo $this->escape($item->access_level); ?>
+				</td>
+				<td align="center">
+					Type
 				</td>
 				<td align="center">
 					<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt);?>">

@@ -22,9 +22,9 @@ class TOOLBAR_contact
 	function _EDIT($edit) {
 		$cid = JRequest::getVar('cid', array(0), '', 'array');
 
-		$text = ($edit ? JText::_('Edit') : JText::_('New'));
+		$text = ($edit ? JText::_('Edit_Contact') : JText::_('Add_New_Contact'));
 
-		JToolBarHelper::title(JText::_('Contact') .': <small><small>[ '. $text .' ]</small></small>', 'generic.png');
+		JToolBarHelper::title(JText::_('COM_CONTACTS') .': '. $text .'', 'contact.png');
 
 		//JToolBarHelper::custom('save2new', 'new.png', 'new_f2.png', 'Save & New', false,  false);
 		//JToolBarHelper::custom('save2copy', 'copy.png', 'copy_f2.png', 'Save To Copy', false,  false);

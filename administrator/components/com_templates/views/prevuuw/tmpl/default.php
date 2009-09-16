@@ -1,13 +1,6 @@
 <?php defined('_JEXEC') or die; ?>
 
-<style type="text/css">
-.previewFrame {
-	border: none;
-	width: 95%;
-	height: 600px;
-	padding: 0px 5px 0px 10px;
-}
-</style>
+
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 <table class="adminform">
 	<tr>

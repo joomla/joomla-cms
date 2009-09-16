@@ -18,7 +18,7 @@ class BannersViewBanner
 {
 	function setBannersToolbar()
 	{
-		JToolBarHelper::title(JText::_('Banner Manager'), 'generic.png');
+		JToolBarHelper::title(JText::_('Banner Manager'), 'banner.png');
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy');

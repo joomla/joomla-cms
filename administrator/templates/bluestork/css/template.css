@@ -74,7 +74,11 @@ fieldset {
 	text-align: left;
 }
 
-fieldset p {  margin: 10px 0px;  }
+fieldset.batch {
+	margin: 25px 0 10px 0;
+}
+fieldset.batch label {  margin: 5px;  }
+fieldset.batch button {  margin: 3px;  }
 
 legend    {
 	color: #146295;
@@ -95,7 +99,7 @@ input.button  { cursor: pointer;   }
 
 input:focus,
 select:focus,
-textarea:focus { background-color: #ffd }
+textarea:focus { background-color: #ffd; }
 
 /* -- OVERALL STYLES ----------------------------- */
 
@@ -173,6 +177,40 @@ textarea:focus { background-color: #ffd }
 #module-status .loggedin-users { background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat; }
 #module-status .logout { background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat; }
 
+#module-unread-new span {
+	color: red; 
+	text-decoration: none;  
+	font-weight: bold;
+}
+
+#module-unread span {
+	color: black;
+	text-decoration: none;
+}
+
+#module-unread img,
+#module-unread-new img {
+	border: 0;
+}
+
+
+span.stat-notice {
+	font-weight: bold;
+}
+
+div.noparams-notice {
+	text-align: center;
+	padding: 5px; 
+	}
+
+span.writable {
+	color:green;
+}
+
+span.unwritable {
+	color:green;
+}
+
 
 /* -- MISC. STYLES ----------------------------- */
 
@@ -181,6 +219,13 @@ span.note {
 	background: #ffd;
 	padding: 5px;
 	color: #666;
+}
+
+.previewFrame {
+	border: none;
+	width: 95%;
+	height: 600px;
+	padding: 0px 5px 0px 10px;
 }
 
 /* -- OVERLIB STYLES ----------------------------- */
@@ -316,12 +361,28 @@ textarea#mm_message { width: 100%; }
 	margin: 15px;
 }
 
-div.paramrow label {
-
+div#content-pane label {
 }
 
-div.paramrow input {
+div.paramrow label:first-child {
+	vertical-align:top;
+	margin-top: 2px;
+	float:left;
+}
 
+label.hasTip {
+	min-width: 130px;
+}
+
+fieldset input[type="radio"] {
+	display: block;
+	width: 15px;
+}
+
+input#jformparams_link_titles1,
+input#jformparams_show_title1,
+input#jformparams_link_category1 {
+	margin-left: 13px;
 }
 
 
@@ -463,10 +524,9 @@ label#jform_fulltext-lbl {
 label#jform_fulltext-lbl {
 }
 
-label#jform_state-lbl {
+label#jform_state-lbl  {
 	clear:none;
 }
-
 fieldset.adminform label {
 	clear:none;
 }
@@ -509,12 +569,6 @@ label#jform_log_path-lbl {
 	clear:left;
 }
 
-div.clrleft {
-	float: left;
-
-}
-
-
 select#jform_catid.inputbox {
 	margin-right: 20px;
 }
@@ -540,9 +594,7 @@ div#content-pane fieldset {
 form#item-form fieldset {
 	margin: 10px;
 }
-div#content-pane label {
-	min-width: 110px;
-}
+
 
 input#jform_offline1 {
 
@@ -554,7 +606,9 @@ fieldset ul li {
 	margin-left: -30px;
 }
 
-
+fieldset p {
+  margin: 0 0 15px 0;
+}
 
 fieldset.filter{border:0;margin:0;padding:0 0 5px;}
 fieldset.filter ol{border:0;list-style:none;margin:0;padding:5px 0 0;}
@@ -821,6 +875,7 @@ a img.calendar {
 #system-message dd.notice ul { color: #c00; background: #EFE7B8 url(../images/notice-note.png) 4px top no-repeat; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
 
 .invalid { color: red; font-weight: bold; }
+
 input.invalid { border: 1px solid red; }
 
 

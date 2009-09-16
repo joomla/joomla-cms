@@ -63,7 +63,7 @@ class RedirectViewLinks extends JView
 	 */
 	function buildDefaultToolBar()
 	{
-		JToolBarHelper::title('Redirect:_Links', 'generic');
+		JToolBarHelper::title('Redirect', 'redirect');
 		JToolBarHelper::custom('link.add', 'new.png', 'new_f2.png', 'New', false);
 		JToolBarHelper::custom('link.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
 		JToolBarHelper::divider()	;	

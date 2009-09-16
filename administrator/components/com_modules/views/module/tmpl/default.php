@@ -37,7 +37,7 @@ foreach ($this->orders2 as $k=>$items) {
 //-->
 </script>
 <form action="<?php echo JRoute::_('index.php');?>" method="post" name="adminForm">
-<div class="col width-50">
+<div class="width-50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Details'); ?></legend>
 
@@ -219,7 +219,7 @@ foreach ($this->orders2 as $k=>$items) {
 	</fieldset>
 </div>
 
-<div class="col width-50">
+<div class="width-50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Parameters'); ?></legend>
 
@@ -230,7 +230,7 @@ foreach ($this->orders2 as $k=>$items) {
 			if ($this->params = $p->render('params')) :
 				echo $this->params;
 			else :
-				echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no parameters for this item')."</div>";
+				echo "<div class=\"noparams-notice\">".JText::_('There are no parameters for this item')."</div>";
 			endif;
 			echo $pane->endPanel();
 
@@ -239,7 +239,7 @@ foreach ($this->orders2 as $k=>$items) {
 				if ($this->params = $p->render('params', 'advanced')) :
 					echo $this->params;
 				else :
-					echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no advanced parameters for this item')."</div>";
+					echo "<div class=\"noparams-notice\">".JText::_('There are no advanced parameters for this item')."</div>";
 				endif;
 				echo $pane->endPanel();
 			}
@@ -249,7 +249,7 @@ foreach ($this->orders2 as $k=>$items) {
 				if ($this->params = $p->render('params', 'legacy')) :
 					echo $this->params;
 				else :
-					echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no legacy parameters for this item')."</div>";
+					echo "<div class=\"noparams-notice\">".JText::_('There are no legacy parameters for this item')."</div>";
 				endif;
 				echo $pane->endPanel();
 			}
@@ -260,7 +260,7 @@ foreach ($this->orders2 as $k=>$items) {
 			if ($this->params = $p->render('params', 'other')) :
 				echo $this->params;
 				else :
-				echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no other parameters for this item')."</div>";
+				echo "<div class=\"noparams-notice\">".JText::_('There are no other parameters for this item')."</div>";
 				endif;
 				echo $pane->endPanel();
 			}

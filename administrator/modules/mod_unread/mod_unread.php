@@ -21,7 +21,7 @@ $db->setQuery($query);
 $unread = $db->loadResult();
 
 if ($unread) {
-	echo "<a href=\"index.php?option=com_messages\" style=\"color: red; text-decoration: none;  font-weight: bold\">$unread <img src=\"images/mail.png\" align=\"middle\" border=\"0\" alt=\"". JText::_('Mail') ."\" /></a>";
+	echo "<div id=\"module-unread-new\"><a href=\"index.php?option=com_messages\">$unread <img src=\"images/mail.png\" alt=\"". JText::_('Mail') ."\" /></a></div>";
 } else {
-	echo "<a href=\"index.php?option=com_messages\" style=\"color: black; text-decoration: none;\">$unread <img src=\"images/nomail.png\" align=\"middle\" border=\"0\" alt=\"". JText::_('Mail') ."\" /></a>";
+	echo "<div id=\"module-unread\"><a href=\"index.php?option=com_messages\">$unread <img src=\"images/nomail.png\" alt=\"". JText::_('Mail') ."\" /></a></div>";
 }

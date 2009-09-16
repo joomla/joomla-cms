@@ -6,8 +6,8 @@
 		<tr>
 			<th><?php echo JText::_('Preview'); ?></th>
 			<th><?php echo JText::_('Name'); ?></th>
-			<th><?php echo JText::_('Dimensions'); ?></th>
-			<th><?php echo JText::_('Size'); ?></th>
+			<th><?php echo JText::_('Pixel_Dimensions'); ?></th>
+			<th><?php echo JText::_('File_Size'); ?></th>
 			<th><?php echo JText::_('Delete'); ?></th>
 		</tr>
 	</thead>

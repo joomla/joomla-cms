@@ -532,6 +532,19 @@
 		/>
 		
 		<field
+			name="sitename_pagetitles"
+			type="radio"
+			default="0"
+			label="Config_Sitename_Pagetitles_Label"
+			description="Config_Sitename_Pagetitles_Desc"
+			required="true"
+			filter="integer"
+		>
+			<option value="1">JYes</option>
+			<option value="0">JNo</option>
+		</field>
+		
+		<field
 			name="editor"
 			type="editors"
 			default="tinymce"

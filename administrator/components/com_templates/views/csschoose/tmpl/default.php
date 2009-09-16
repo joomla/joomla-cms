@@ -34,7 +34,7 @@ for ($i = 0, $n = count($this->files); $i < $n; $i++) {
 			<?php echo $file; ?>
 		</td>
 		<td width="10%">
-			<?php echo is_writable($this->t_dir.DS.$file) ? '<font color="green"> '. JText::_('Writable') .'</font>' : '<font color="red"> '. JText::_('Unwritable') .'</font>' ?>
+			<?php echo is_writable($this->t_dir.DS.$file) ? '<span class="writable"> '. JText::_('Writable') .'</span>' : '<span class="unwritable"> '. JText::_('Unwritable') .'</span>' ?>
 		</td>
 	</tr>
 <?php

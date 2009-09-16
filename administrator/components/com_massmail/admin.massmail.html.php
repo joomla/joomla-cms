@@ -40,7 +40,7 @@ class HTML_massmail
 
 		<form action="index.php" name="adminForm" method="post">
 
-		<div class="col width-30">
+		<div class="width-30">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('Details'); ?></legend>
 
@@ -95,7 +95,7 @@ class HTML_massmail
 			</fieldset>
 		</div>
 
-		<div class="col width-70">
+		<div class="width-70">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('Message'); ?></legend>
 

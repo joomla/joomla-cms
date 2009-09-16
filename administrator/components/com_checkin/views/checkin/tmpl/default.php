@@ -36,7 +36,7 @@
 	?>
 	<tr>
 		<td colspan="3">
-			<strong><?php echo JText::_('Checked out items have now been all checked in'); ?></strong>
+			<span class="stat-notice"><?php echo JText::_('Checked out items have now been all checked in'); ?></span>
 		</td>
 	</tr>
 	</table>

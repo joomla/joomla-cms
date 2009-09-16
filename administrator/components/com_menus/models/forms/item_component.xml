@@ -42,7 +42,15 @@
 			<option
 				value="1">JYes</option>
 		</field>
-
+		
+		<field
+			id="page_heading"
+			name="page_heading"
+			type="text"
+			label="Menus_Item_Page_Heading_Label"
+			description="Menus_Item_Page_Heading_Desc"
+			default=""/>
+			
 		<field
 			id="pageclass_sfx"
 			name="pageclass_sfx"
@@ -57,6 +65,14 @@
 			type="text"
 			label="Menus_Item_Menu_Image_Label"
 			description="Menus_Item_Menu_Image_Desc"
+			default=""/>
+			
+		<field
+			id="link_title"
+			name="link_title"
+			type="text"
+			label="Menus_Item_Link_Title_Label"
+			description="Menus_Item_Link_Title_Desc"
 			default=""/>
 
 		<field
@@ -94,7 +110,26 @@
 			default=""
 			rows="3"
 			cols="40"/>
-
+			
+			<field
+			name="robots"
+			type="list"
+			label="JField_Metadata_Robots_Label"
+			description="JField_Metadata_Robots_Desc"
+			default="">
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">index, follow</option>
+			<option
+				value="1">noindex, follow</option>
+			<option
+				value="2">index, nofollow</option>
+			<option
+				value="3">noindex, nofollow</option>
+			<option
+				value="4">Don't display robots tag</option>
+		</field>
 
 	</fields>
 

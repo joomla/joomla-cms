@@ -34,67 +34,52 @@ JHtml::_('behavior.formvalidation');
 	<fieldset>
 		<legend><?php echo empty($this->item->id) ? JText::_('Newsfeeds_New_Newsfeed') : JText::sprintf('Newsfeeds_Edit_Newsfeed', $this->item->id); ?></legend>
 
-	<ol>
-		<li>
-			<?php echo $this->form->getLabel('name'); ?><br />
+	
+			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('alias'); ?><br />
+	
+			<?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('published'); ?><br />
+		
+			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('catid'); ?><br />
+		
+			<?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('link'); ?><br />
+		
+			<?php echo $this->form->getLabel('link'); ?>
 			<?php echo $this->form->getInput('link'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('numarticles'); ?><br />
+		
+			<?php echo $this->form->getLabel('numarticles'); ?>
 			<?php echo $this->form->getInput('numarticles'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('cache_time'); ?><br />
+		
+			<?php echo $this->form->getLabel('cache_time'); ?>
 			<?php echo $this->form->getInput('cache_time'); ?>
-		</li>
-		<li>
-			<?php echo $this->form->getLabel('ordering'); ?><br />
+		
+			<?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?>
-		</li>
-		<li>
+		
 			<?php echo $this->form->getLabel('rtl'); ?><br />
 			<?php echo $this->form->getInput('rtl'); ?>
-		</li>
-	</ol>
+		
 	</fieldset>
 </div>
 
-<div class="col width-40">
+<div class="width-40">
 	<fieldset>
 		<legend><?php echo JText::_('Newsfeeds_Options'); ?></legend>
-
-		<table>
+		
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
-				<tr>
-					<td class="paramlist_key" width="40%">
+				
 						<?php echo $field->label; ?>
-					</td>
-					<td class="paramlist_value">
+					
 						<?php echo $field->input; ?>
-					</td>
-				</tr>
+		
 			<?php endif; ?>
 		<?php endforeach; ?>
-		</table>
 
 	</fieldset>
 </div>
