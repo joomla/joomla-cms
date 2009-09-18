@@ -211,7 +211,7 @@ class JTableContent extends JTable
 	/**
 	 *
 	 */
-	protected function _getAssetParent()
+	protected function _getAssetParentId()
 	{
 		// TODO: Lookup the category id.
 		return 1;

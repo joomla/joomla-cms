@@ -33,6 +33,7 @@ $ -> Language fix or change
  + Added JTableAsset
  + Added check to JTableNested to ensure that parent node exists in the tree.
  ^ Added nested set fields (parent_id, lft, rgt, level) to jos_access_assets and removed section and section_id fields.
+ # Fixed bugs in JTableNested::_getTreeRepositionData and updating of lft and rgt in JTableNested::store (rgt's were being updated first, wrong way round?).
 
 16-Sep-2009 Ron Severdia
 + BlueStork CSS updates

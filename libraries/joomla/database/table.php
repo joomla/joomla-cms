@@ -231,10 +231,7 @@ abstract class JTable extends JObject
 			return 1;
 		}
 
-
-
-
-
+		return 1;
 	}
 
 	/**
@@ -486,12 +483,17 @@ abstract class JTable extends JObject
 		$asset->title		= $title;
 		$asset->actions		= json_encode(array());
 
+		// Specify how a new node asset is inserted into the tree.
+		if (empty($this->asset_id)) {
+			$asset->setLocation($parentId, 'last-child');
+		}
+
 		if (!$asset->check() || !$asset->store())
 		{
 			$this->setError($asset->getError());
 			return false;
 		}
-
+//die;
 		if (empty($this->asset_id))
 		{
 			// Update the asset_id field in this table.
