@@ -28,7 +28,7 @@ abstract class JHtmlGrid
 	 * @return	string	The boolean setting widget.
 	 * @since	1.0
 	 */
-	function boolean($i, $value, $taskOn = null, $taskOff = null)
+	static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{
 		// Load the behavior.
 		self::behavior();
@@ -231,7 +231,7 @@ abstract class JHtmlGrid
 		return $checked;
 	}
 
-	function behavior()
+	static function behavior()
 	{
 		static $loaded;
 

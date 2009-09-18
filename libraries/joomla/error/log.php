@@ -67,7 +67,7 @@ class JLog extends JObject
 	 * @return	object	The JLog object.
 	 * @since	1.5
 	 */
-	function & getInstance($file = 'error.php', $options = null, $path = null)
+	static function & getInstance($file = 'error.php', $options = null, $path = null)
 	{
 		static $instances;
 

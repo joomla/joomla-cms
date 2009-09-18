@@ -54,7 +54,7 @@ $params = &$this->item->params;
 <?php if ($params->get('show_category')) : ?>
 	<span>
 		<?php if ($params->get('link_category')) : ?>
-			<?php echo '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'; ?>
+			<a href="<?php echo JRoute::_(ContentRoute::category($this->item->catslug)); ?>">
 				<?php echo $this->escape($this->item->category); ?></a>
 		<?php else : ?>
 			<?php echo $this->escape($this->item->category); ?>

@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  */
 class JHTMLFilter
 {
-	function state($active = null)
+	static function state($active = null)
 	{
 		// Build the filter options.
 		$options	= array();
@@ -32,7 +32,7 @@ class JHTMLFilter
 		return $html;
 	}
 
-	function active($active = null)
+	static function active($active = null)
 	{
 		// Build the filter options.
 		$options	= array();
@@ -47,7 +47,7 @@ class JHTMLFilter
 		return $html;
 	}
 
-	function usergroup($active = null)
+	static function usergroup($active = null)
 	{
 		$db = &JFactory::getDbo();
 		$db->setQuery(

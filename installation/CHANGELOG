@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Sep-2009 Hannes Papenberg
+ ^ changed some functions to be static to adhere to PHP5 strict
+ ^ fixed some output to fix a false warning in Eclipse
+
 18-Sep-2009 Andrew Eddie
  # Installation application: Fix untranslated strings; cleanup missing string; add HTML helper for stepbar; namespace language and preinstall layouts.
  # Fixed spurious PHP errors on menu item edit page.
