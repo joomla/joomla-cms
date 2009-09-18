@@ -82,7 +82,8 @@ w
 		}
 		if ($unset) {
 			$error = array_shift(JError::$stack[0]);
-		} else {
+		}
+		else {
 			$error = &JError::$stack[0];
 		}
 		return $error;
@@ -135,12 +136,16 @@ w
 		return JError::throwError($exception);
 	}
 
-	public static function &throwError(&$exception) {
+	public static function &throwError(&$exception)
+	{
 		static $thrown = false;
 
-		//if thrown is hit again, we've come back to JError in the middle of throwing another JError, so die!
-		if ($thrown) jexit('Infinite loop detected in JError');
-		//add loop check
+		// If thrown is hit again, we've come back to JError in the middle of throwing another JError, so die!
+		if ($thrown)
+		{
+			//echo debug_print_backtrace();
+			jexit('Infinite loop detected in JError');
+		}
 
 		$thrown = true;
 		$level = $exception->get('level');
@@ -151,7 +156,8 @@ w
 		$function = 'handle'.ucfirst($handler['mode']);
 		if (is_callable(array('JError', $function))) {
 			$reference = &call_user_func_array(array('JError',$function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
-		} else {
+		}
+		else {
 			// This is required to prevent a very unhelpful white-screen-of-death
 			jexit(
 				'JError::raise -> Static method JError::' . $function . ' does not exist.' .
@@ -261,23 +267,27 @@ w
 			return JError::raiseError(E_ERROR, 'JError:'.JERROR_ILLEGAL_MODE, 'Error Handling mode is not known', 'Mode: '.$mode.' is not implemented.');
 		}
 
-		foreach ($levels as $eLevel => $eTitle) {
+		foreach ($levels as $eLevel => $eTitle)
+		{
 			if (($level & $eLevel) != $eLevel) {
 				continue;
 			}
 
 			// set callback options
-			if ($mode == 'callback') {
+			if ($mode == 'callback')
+			{
 				if (!is_array($options)) {
 					return JError::raiseError(E_ERROR, 'JError:'.JERROR_ILLEGAL_OPTIONS, 'Options for callback not valid');
 				}
 
-				if (!is_callable($options)) {
+				if (!is_callable($options))
+				{
 					$tmp = array ('GLOBAL');
 					if (is_array($options)) {
 						$tmp[0] = $options[0];
 						$tmp[1] = $options[1];
-					} else {
+					}
+					else {
 						$tmp[1] = $options;
 					}
 
@@ -392,14 +402,18 @@ w
 	{
 		$level_human = JError::translateErrorLevel($error->get('level'));
 
-		if (isset ($_SERVER['HTTP_HOST'])) {
+		if (isset ($_SERVER['HTTP_HOST']))
+		{
 			// output as html
 			echo "<br /><b>jos-$level_human</b>: ".$error->get('message')."<br />\n";
-		} else {
+		}
+		else
+		{
 			// output as simple text
 			if (defined('STDERR')) {
 				fwrite(STDERR, "J$level_human: ".$error->get('message')."\n");
-			} else {
+			}
+			else {
 				echo "J$level_human: ".$error->get('message')."\n";
 			}
 		}
@@ -423,14 +437,17 @@ w
 		$level_human = JError::translateErrorLevel($error->get('level'));
 		$info = $error->get('info');
 
-		if (isset ($_SERVER['HTTP_HOST'])) {
+		if (isset ($_SERVER['HTTP_HOST']))
+		{
 			// output as html
 			echo "<br /><b>J$level_human</b>: ".$error->get('message')."<br />\n";
 			if ($info != null) {
 				echo "&nbsp;&nbsp;&nbsp;".$info."<br />\n";
 			}
 			echo $error->getBacktrace(true);
-		} else {
+		}
+		else
+		{
 			// output as simple text
 			echo "J$level_human: ".$error->get('message')."\n";
 			if ($info != null) {
@@ -457,14 +474,18 @@ w
 	{
 		$level_human = JError::translateErrorLevel($error->get('level'));
 
-		if (isset ($_SERVER['HTTP_HOST'])) {
+		if (isset ($_SERVER['HTTP_HOST']))
+		{
 			// output as html
 			jexit("<br /><b>J$level_human</b> ".$error->get('message')."<br />\n");
-		} else {
+		}
+		else
+		{
 			// output as simple text
 			if (defined('STDERR')) {
 				fwrite(STDERR, "J$level_human ".$error->get('message')."\n");
-			} else {
+			}
+			else {
 				jexit("J$level_human ".$error->get('message')."\n");
 			}
 		}
@@ -483,7 +504,7 @@ w
 	 *
 	 * @see	raise()
 	 */
-	public static function & handleMessage(& $error, $options)
+	public static function &handleMessage(& $error, $options)
 	{
 		$appl = JFactory::getApplication();
 		$type = ($error->get('level') == E_NOTICE) ? 'notice' : 'error';
@@ -503,7 +524,7 @@ w
 	 *
 	 * @see	raise()
 	 */
-	public static function & handleLog(& $error, $options)
+	public static function &handleLog(& $error, $options)
 	{
 		static $log;
 
@@ -582,44 +603,43 @@ w
 	}
 
 	public static function renderBacktrace($error)
-        {
-                $contents       = null;
-                $backtrace      = $error->getTrace();
-                if (is_array($backtrace))
-                {
-                        ob_start();
-                        $j      =       1;
-                        echo    '<table border="0" cellpadding="0" cellspacing="0" class="Table">';
-                        echo    '       <tr>';
-                        echo    '               <td colspan="3" align="left" class="TD"><strong>Call stack</strong></td>';
-                        echo    '       </tr>';
-                        echo    '       <tr>';
-                        echo    '               <td class="TD"><strong>#</strong></td>';
-                        echo    '               <td class="TD"><strong>Function</strong></td>';
-                        echo    '               <td class="TD"><strong>Location</strong></td>';
-                        echo    '       </tr>';
-                        for ($i = count($backtrace)-1; $i >= 0 ; $i--)
-                        {
-                                echo    '       <tr>';
-                                echo    '               <td class="TD">'.$j.'</td>';
-                                if (isset($backtrace[$i]['class'])) {
-                                        echo    '       <td class="TD">'.$backtrace[$i]['class'].$backtrace[$i]['type'].$backtrace[$i]['function'].'()</td>';
-                                } else {
-                                        echo    '       <td class="TD">'.$backtrace[$i]['function'].'()</td>';
-                                }
-                                if (isset($backtrace[$i]['file'])) {
-                                        echo    '               <td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
-                                } else {
-                                        echo    '               <td class="TD">&nbsp;</td>';
-                                }
-                                echo    '       </tr>';
-                                $j++;
-                        }
-                        echo    '</table>';
-                        $contents = ob_get_contents();
-                        ob_end_clean();
-                }
-                return $contents;
-        }
-
+	{
+		$contents	   = null;
+		$backtrace	  = $error->getTrace();
+		if (is_array($backtrace))
+		{
+			ob_start();
+			$j	  =	   1;
+			echo '<table border="0" cellpadding="0" cellspacing="0" class="Table">';
+			echo '	   <tr>';
+			echo '			   <td colspan="3" align="left" class="TD"><strong>Call stack</strong></td>';
+			echo '	   </tr>';
+			echo '	   <tr>';
+			echo '			   <td class="TD"><strong>#</strong></td>';
+			echo '			   <td class="TD"><strong>Function</strong></td>';
+			echo '			   <td class="TD"><strong>Location</strong></td>';
+			echo '	   </tr>';
+			for ($i = count($backtrace)-1; $i >= 0 ; $i--)
+			{
+				echo	'	   <tr>';
+				echo	'			   <td class="TD">'.$j.'</td>';
+				if (isset($backtrace[$i]['class'])) {
+						echo	'	   <td class="TD">'.$backtrace[$i]['class'].$backtrace[$i]['type'].$backtrace[$i]['function'].'()</td>';
+				} else {
+						echo	'	   <td class="TD">'.$backtrace[$i]['function'].'()</td>';
+				}
+				if (isset($backtrace[$i]['file'])) {
+						echo	'			   <td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
+				} else {
+						echo	'			   <td class="TD">&nbsp;</td>';
+				}
+				echo	'	   </tr>';
+				$j++;
+			}
+			echo '</table>';
+			$contents = ob_get_contents();
+			ob_end_clean();
+		}
+		return $contents;
+	}
 }
