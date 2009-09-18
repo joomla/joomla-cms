@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 
 /**
  * @package 	Joomla.Framework
- * @subpackage		Language
+ * @subpackage	Language
  * @static
  * @since 1.5
  */
@@ -49,7 +49,7 @@ class JLanguageHelper
 	}
 
 	/**
- 	 * Tries to detect the language
+ 	 * Tries to detect the language.
  	 *
  	 * @return	string locale
  	 * @since	1.5
@@ -71,7 +71,8 @@ class JLanguageHelper
 				{
 					if (strtolower($browserLang) == strtolower(substr($metadata['tag'], 0, strlen($browserLang)))) {
 						return $systemLang;
-					} elseif ($primary_browserLang == substr($metadata['tag'], 0, 2)) {
+					}
+					else if ($primary_browserLang == substr($metadata['tag'], 0, 2)) {
 						$primaryDetectedLang = $systemLang;
 					}
 				}
@@ -84,5 +85,4 @@ class JLanguageHelper
 
 		return 'en-GB';
 	}
-
 }
