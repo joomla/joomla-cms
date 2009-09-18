@@ -30,6 +30,7 @@ $ -> Language fix or change
 18-Sep-2009 Hannes Papenberg
  ^ changed some functions to be static to adhere to PHP5 strict
  ^ fixed some output to fix a false warning in Eclipse
+ # Fixed missing class in radio buttons in JForms
 
 18-Sep-2009 Andrew Eddie
  # Installation application: Fix untranslated strings; cleanup missing string; add HTML helper for stepbar; namespace language and preinstall layouts.
