@@ -18,15 +18,24 @@ jimport('joomla.application.component.model');
  */
 class JInstallationModelSetup extends JModel
 {
+	/**
+	 * Get the current setup options from the session.
+	 *
+	 * @return	array
+	 */
 	public function getOptions()
 	{
-		// Get the current setup options from the session.
 		$session = & JFactory::getSession();
 		$options = $session->get('setup.options', array());
 
 		return $options;
 	}
 
+	/**
+	 * Store the current setup options in the session.
+	 *
+	 * @return	array
+	 */
 	public function storeOptions($options)
 	{
 		// Get the current setup options from the session.
@@ -92,7 +101,6 @@ class JInstallationModelSetup extends JModel
 		$map = array(
 			'MySQL'  => 'mysql_connect',
 			'MySQLi' => 'mysqli_connect',
-			//'MSSQL'  => 'mssql_connect'
 		);
 
 		// Iterate over the options, building an array.
@@ -138,8 +146,7 @@ class JInstallationModelSetup extends JModel
 
 		// Get a forced language if it exists.
 		$forced = $app->getLocalise();
-		if (!empty($forced['language']))
-		{
+		if (!empty($forced['language'])) {
 			$native = $forced['language'];
 		}
 

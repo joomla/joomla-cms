@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Joomla! Application class
+ * Joomla Application class
  *
  * Provide many supporting API functions
  *
@@ -45,7 +45,7 @@ class JInstallation extends JApplication
 
 	/**
 	 * Render the application
-	 * 
+	 *
 	 * @return	void
 	 */
 	public function render()
@@ -106,7 +106,7 @@ class JInstallation extends JApplication
 	{
 		//Get the localisation information provided in the localise.xml file.
 		$forced = $this->getLocalise();
-		
+
 		// Check the request data for the language.
 		if (empty($options['language']))
 		{
@@ -116,7 +116,7 @@ class JInstallation extends JApplication
 				$options['language'] = $requestLang;
 			}
 		}
-		
+
 		// Check the session for the language.
 		if (empty($options['language']))
 		{
@@ -126,13 +126,13 @@ class JInstallation extends JApplication
 				$options['language'] = $sessionLang;
 			}
 		}
-		
+
 		// This could be a first-time visit - try to determine what the client accepts.
 		if (empty($options['language']))
 		{
 			if (!empty($forced['language']))
 			{
-				$options['language'] = $forced['language']; 
+				$options['language'] = $forced['language'];
 			} else {
 				jimport('joomla.language.helper');
 				$options['language'] = JLanguageHelper::detectLanguage();
@@ -214,7 +214,7 @@ class JInstallation extends JApplication
 	/**
 	 * Returns the langauge code and help url set in the localise.xml file.
 	 * Used for forcing a particular language in localised releases.
-	 * 
+	 *
 	 * @return	bool|array	False on failure, array on success.
 	 */
 	public function getLocalise()

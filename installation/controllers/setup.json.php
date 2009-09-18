@@ -161,7 +161,7 @@ class JInstallationJsonResponse
 		{
 			// Prepare the error response.
 			$this->error	= true;
-			$this->header	= JText::_('Installation_Header_Error');
+			$this->header	= JText::_('Instl_Header_Error');
 			$this->message	= $state->getMessage();
 		}
 		else

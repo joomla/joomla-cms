@@ -80,13 +80,13 @@ class JInstallationModelDatabase extends JModel
 				$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->getErrorNum()));
 				return false;
 			}
-			
+
 			// Check database version.
 			$db_version = $db->getVersion();
 			if (($position = strpos($db_version, '-')) !== false) {
 				$db_version = substr($db_version, 0, $position);
 			}
-			
+
 			if (!version_compare($db_version, '5.0.4', '>=')) {
 				$this->setError(JText::_('You need MySQL 5.0.4 or higher to continue the installation.'));
 				return false;
@@ -153,7 +153,7 @@ class JInstallationModelDatabase extends JModel
 				}
 			}
 
-			// Handle default backend language setting. This feature is available for localized versions of Joomla! 1.5.
+			// Handle default backend language setting. This feature is available for localized versions of Joomla 1.5.
 			$app = & JFactory::getApplication();
 			$languages = $app->getLocaliseAdmin();
 			if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))

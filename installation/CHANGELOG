@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Sep-2009 Andrew Eddie
+ # Installation application: Fix untranslated strings; cleanup missing string; add HTML helper for stepbar; namespace language and preinstall layouts.
+
 16-Sep-2009 Ron Severdia
 + BlueStork CSS updates
 # Admin interface fixes

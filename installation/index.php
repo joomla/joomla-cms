@@ -32,7 +32,7 @@ define('JPATH_THEMES',			JPATH_BASE);
 define('JPATH_CACHE',			JPATH_ROOT.DS.'cache');
 
 /*
- * Joomla! system checks.
+ * Joomla system checks.
  */
 error_reporting(E_ALL);
 @set_magic_quotes_runtime(0);
@@ -47,13 +47,13 @@ if (file_exists(JPATH_CONFIGURATION.DS.'configuration.php') && (filesize(JPATH_C
 }
 
 /*
- * Joomla! system startup
+ * Joomla system startup
  */
 
-// Bootstrap the Joomla! Framework.
+// Bootstrap the Joomla Framework.
 require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'import.php');
 
-// Joomla! library imports.
+// Joomla library imports.
 jimport('joomla.database.table');
 jimport('joomla.user.user');
 jimport('joomla.environment.uri');

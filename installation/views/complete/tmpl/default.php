@@ -31,28 +31,7 @@ JHtml::_('behavior.formvalidation');
 		</div>
 	</div>
 	<div class="m">
-		<h1><?php echo JText::_('Steps'); ?></h1>
-		<div class="step-off">
-			1 : <?php echo JText::_('Language'); ?>
-		</div>
-		<div class="step-off">
-			2 : <?php echo JText::_('Pre-Installation check'); ?>
-		</div>
-		<div class="step-off">
-			3 : <?php echo JText::_('License'); ?>
-		</div>
-		<div class="step-off">
-			4 : <?php echo JText::_('Database'); ?>
-		</div>
-		<div class="step-off">
-			5 : <?php echo JText::_('FTP Configuration'); ?>
-		</div>
-		<div class="step-off">
-			6 : <?php echo JText::_('Configuration'); ?>
-		</div>
-		<div class="step-on">
-			7 : <?php echo JText::_('Finish'); ?>
-		</div>
+		<?php echo JHtml::_('installation.stepbar', 7); ?>
 		<div class="box"></div>
   	</div>
 	<div class="b">

@@ -22,11 +22,10 @@ class JInstallationController extends JController
 	/**
 	 * Method to display a view.
 	 *
-	 * @access	public
 	 * @return	void
 	 * @since	1.0
 	 */
-	function display()
+	public function display()
 	{
 		// Get the current URI to redirect to.
 		$uri		= &JURI::getInstance();
@@ -64,11 +63,10 @@ class JInstallationController extends JController
 	/**
 	 * Method to get the appropriate controller.
 	 *
-	 * @access	public
 	 * @return	object	JInstallation Controller
 	 * @since	1.0
 	 */
-	static function &getInstance()
+	public static function &getInstance()
 	{
 		static $instance;
 

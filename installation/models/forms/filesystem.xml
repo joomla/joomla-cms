@@ -3,8 +3,8 @@
 <form>
 	<fields>
 		<field name="ftp_enable" type="list" id="ftp_enable" class="inputbox"
-			label="Installation_Ftp_Enable_Label"
-			description="Installation_Ftp_Enable_Desc"
+			label="Instl_Ftp_Enable_Label"
+			description="Instl_Ftp_Enable_Desc"
 			default="0"
 			filter="int"
 			required="true"
@@ -13,35 +13,35 @@
 			<option value="1">JYes</option>
 		</field>
 		<field name="ftp_user" type="text" id="ftp_user" class="inputbox"
-			label="Installation_Ftp_User_Label"
-			description="Installation_Ftp_User_Desc"
+			label="Instl_Ftp_User_Label"
+			description="Instl_Ftp_User_Desc"
 			default=""
 		/>
 		<field name="ftp_pass" type="password" id="ftp_pass" class="inputbox"
-			label="Installation_Ftp_Password_Label"
-			description="Installation_Ftp_Password_Desc"
+			label="Instl_Ftp_Password_Label"
+			description="Instl_Ftp_Password_Desc"
 			default=""
 		/>
 		<field name="ftp_root" type="text" id="ftp_root" class="inputbox"
-			label="Installation_Ftp_Root_Label"
-			description="Installation_Ftp_Root_Desc"
+			label="Instl_Ftp_Root_Label"
+			description="Instl_Ftp_Root_Desc"
 			default=""
 		/>
 
 		<!-- Advanced Settings -->
 		<field name="ftp_host" type="text" id="ftp_host" class="inputbox"
-			label="Installation_Ftp_Host_Label"
-			description="Installation_Ftp_Host_Desc"
+			label="Instl_Ftp_Host_Label"
+			description="Instl_Ftp_Host_Desc"
 			default="127.0.0.1"
 		/>
 		<field name="ftp_port" type="text" id="ftp_port" class="inputbox"
-			label="Installation_Ftp_Port_Label"
-			description="Installation_Ftp_Port_Desc"
+			label="Instl_Ftp_Port_Label"
+			description="Instl_Ftp_Port_Desc"
 			default="21"
 			filter="int"
 		/>
 		<field name="ftp_save" type="radio" id="ftp_save" class="inputbox"
-			label="Installation_Ftp_Save_Label"
+			label="Instl_Ftp_Save_Label"
 			default="0"
 			required="true"
 			filter="int"

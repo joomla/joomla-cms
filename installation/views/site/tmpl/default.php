@@ -31,28 +31,7 @@ JHtml::_('behavior.formvalidation');
 		</div>
 	</div>
 	<div class="m">
-		<h1><?php echo JText::_('Steps'); ?></h1>
-		<div class="step-off">
-			1 : <?php echo JText::_('Language'); ?>
-		</div>
-		<div class="step-off">
-			2 : <?php echo JText::_('Pre-Installation check'); ?>
-		</div>
-		<div class="step-off">
-			3 : <?php echo JText::_('License'); ?>
-		</div>
-		<div class="step-off">
-			4 : <?php echo JText::_('Database'); ?>
-		</div>
-		<div class="step-off">
-			5 : <?php echo JText::_('FTP Configuration'); ?>
-		</div>
-		<div class="step-on">
-			6 : <?php echo JText::_('Configuration'); ?>
-		</div>
-		<div class="step-off">
-			7 : <?php echo JText::_('Finish'); ?>
-		</div>
+		<?php echo JHtml::_('installation.stepbar', 6); ?>
 		<div class="box"></div>
   	</div>
 	<div class="b">
@@ -73,11 +52,11 @@ JHtml::_('behavior.formvalidation');
 			<div class="m">
 				<div class="far-right">
 <?php if ($this->document->direction == 'ltr') : ?>
-					<div class="button1-right"><div class="prev"><a href="index.php?view=filesystem" title="<?php echo JText::_('Previous'); ?>"><?php echo JText::_('Previous'); ?></a></div></div>
-					<div class="button1-left"><div class="next"><a onclick="validateForm(adminForm, 'setup.saveconfig');" title="<?php echo JText::_('Next'); ?>"><?php echo JText::_('Next'); ?></a></div></div>
+					<div class="button1-right"><div class="prev"><a href="index.php?view=filesystem" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
+					<div class="button1-left"><div class="next"><a onclick="validateForm(adminForm, 'setup.saveconfig');" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
 <?php elseif ($this->document->direction == 'rtl') : ?>
-					<div class="button1-right"><div class="prev"><a onclick="validateForm(adminForm, 'setup.saveconfig');" title="<?php echo JText::_('Next'); ?>"><?php echo JText::_('Next'); ?></a></div></div>
-					<div class="button1-left"><div class="next"><a href="index.php?view=filesystem" title="<?php echo JText::_('Previous'); ?>"><?php echo JText::_('Previous'); ?></a></div></div>
+					<div class="button1-right"><div class="prev"><a onclick="validateForm(adminForm, 'setup.saveconfig');" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
+					<div class="button1-left"><div class="next"><a href="index.php?view=filesystem" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
 <?php endif; ?>
 				</div>
 				<span class="step"><?php echo JText::_('Main Configuration'); ?></span>

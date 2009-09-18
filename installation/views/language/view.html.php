@@ -35,8 +35,8 @@ class JInstallationViewLanguage extends JView
 			return false;
 		}
 
-		$this->assignRef('state', $state);
-		$this->assignRef('form', $form);
+		$this->assignRef('state',	$state);
+		$this->assignRef('form',	$form);
 
 		parent::display($tpl);
 	}
