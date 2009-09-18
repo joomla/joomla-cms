@@ -25,7 +25,7 @@ class JFormFieldLanguages extends JFormFieldList
 	 *
 	 * @var		string
 	 */
-	public $type = 'Languages';
+	protected $type = 'Languages';
 
 	/**
 	 * Method to get a list of options for a list input.

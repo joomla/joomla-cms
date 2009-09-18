@@ -26,7 +26,6 @@ class JFormRuleEquals extends JFormRule
 	 * XML needs a validate attribute of equals and a field attribute
 	 * that is equal to the field to test against.
 	 *
-	 * @access	public
 	 * @param	object		$field		A reference to the form field.
 	 * @param	mixed		$values		The values to test for validiaty.
 	 * @return	mixed		JException on invalid rule, true if the value is valid, false otherwise.

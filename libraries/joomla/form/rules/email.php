@@ -24,7 +24,6 @@ class JFormRuleEmail extends JFormRule
 	/**
 	 * The regular expression.
 	 *
-	 * @access	protected
 	 * @var		string
 	 * @since	1.6
 	 */
@@ -33,7 +32,6 @@ class JFormRuleEmail extends JFormRule
 	/**
 	 * Method to test if an e-mail address is unique.
 	 *
-	 * @access	public
 	 * @param	object		$field		A reference to the form field.
 	 * @param	mixed		$values		The values to test for validiaty.
 	 * @return	mixed		JException on invalid rule, true if the value is valid, false otherwise.

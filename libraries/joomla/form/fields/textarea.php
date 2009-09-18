@@ -24,7 +24,7 @@ class JFormFieldTextarea extends JFormField
 	 *
 	 * @var		string
 	 */
-	public $type = 'Textarea';
+	protected $type = 'Textarea';
 
 	/**
 	 * Method to get the field input.

@@ -24,7 +24,7 @@ class JFormFieldText extends JFormField
 	 *
 	 * @var		string
 	 */
-	public $type = 'Text';
+	protected $type = 'Text';
 
 	/**
 	 * Method to get the field input.

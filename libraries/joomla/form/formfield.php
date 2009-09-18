@@ -24,16 +24,14 @@ abstract class JFormField extends JObject
 	/**
 	 * The field type.
 	 *
-	 * @access	public
 	 * @var		string
 	 * @since	1.6
 	 */
-	public $type;
+	protected $type;
 
    /**
 	* A reference to the form object that the field belongs to.
 	*
-	* @access	protected
 	* @var		object
 	* @since	1.6
 	*/
@@ -42,7 +40,6 @@ abstract class JFormField extends JObject
 	/**
 	 * Method to instantiate the form field.
 	 *
-	 * @access	public
 	 * @param	object		$form		A reference to the form that the field belongs to.
 	 * @return	void
 	 * @since	1.6
@@ -55,11 +52,11 @@ abstract class JFormField extends JObject
    /**
 	* Method to get the form field type.
 	*
-	* @access	public
 	* @return	string		The field type.
 	* @since	1.6
 	*/
-	public function getType() {
+	public function getType()
+	{
 		return $this->type;
 	}
 
@@ -115,7 +112,6 @@ abstract class JFormField extends JObject
 	/**
 	 * Method to get the field label.
 	 *
-	 * @access	protected
 	 * @return	string		The field label.
 	 * @since	1.6
 	 */
@@ -144,7 +140,6 @@ abstract class JFormField extends JObject
 	/**
 	 * Method to get the field input.
 	 *
-	 * @access	protected
 	 * @return	string		The field input.
 	 * @since	1.6
 	 */
@@ -153,7 +148,6 @@ abstract class JFormField extends JObject
 	/**
 	 * Method to get the name of the input field.
 	 *
-	 * @access	protected
 	 * @param	string		$fieldName		The field name.
 	 * @param	string		$formName		The form name.
 	 * @param	string		$groupName		The group name.
@@ -191,7 +185,6 @@ abstract class JFormField extends JObject
 	/**
 	 * Method to get the id of the input field.
 	 *
-	 * @access	protected
 	 * @param	string		$fieldId		The field id.
 	 * @param	string		$fieldName		The field name.
 	 * @param	string		$formName		The form name.

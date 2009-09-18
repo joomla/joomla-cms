@@ -24,7 +24,7 @@ class JFormFieldSpacer extends JFormField
 	 *
 	 * @var		string
 	 */
-	public $type = 'Spacer';
+	protected $type = 'Spacer';
 
 	/**
 	 * Method to get the field input.

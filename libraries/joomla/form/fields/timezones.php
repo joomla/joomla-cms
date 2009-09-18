@@ -25,7 +25,7 @@ class JFormFieldTimezones extends JFormFieldList
 	 *
 	 * @var		string
 	 */
-	public $type = 'Timezones';
+	protected $type = 'Timezones';
 
 	/**
 	 * Method to get a list of options for a list input.

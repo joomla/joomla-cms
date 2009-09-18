@@ -24,7 +24,7 @@ class JFormFieldHidden extends JFormField
 	 *
 	 * @var		string
 	 */
-	public $type = 'Hidden';
+	protected $type = 'Hidden';
 
 	/**
 	 * Method to get the field input.
