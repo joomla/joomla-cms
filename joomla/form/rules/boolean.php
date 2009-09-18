@@ -24,7 +24,6 @@ class JFormRuleBoolean extends JFormRule
 	/**
 	 * The regular expression.
 	 *
-	 * @access	protected
 	 * @var		string
 	 * @since	1.6
 	 */
@@ -33,7 +32,6 @@ class JFormRuleBoolean extends JFormRule
 	/**
 	 * The regular expression modifiers.
 	 *
-	 * @access	protected
 	 * @var		string
 	 * @since	1.6
 	 */

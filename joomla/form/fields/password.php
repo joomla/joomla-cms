@@ -24,7 +24,7 @@ class JFormFieldPassword extends JFormField
 	 *
 	 * @var		string
 	 */
-	public $type = 'Password';
+	protected $type = 'Password';
 
 	/**
 	 * Method to get the field input.

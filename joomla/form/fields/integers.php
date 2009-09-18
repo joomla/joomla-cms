@@ -25,7 +25,7 @@ class JFormFieldIntegers extends JFormFieldList
 	 *
 	 * @var		string
 	 */
-	public $type = 'Integers';
+	protected $type = 'Integers';
 
 	/**
 	 * Method to get a list of options for a list input.

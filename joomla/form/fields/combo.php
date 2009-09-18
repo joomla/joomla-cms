@@ -47,7 +47,6 @@ class JFormFieldCombo extends JFormField
 	/**
 	 * Method to get the field input.
 	 *
-	 * @access	protected
 	 * @return	string		The field input.
 	 * @since	1.6
 	 */

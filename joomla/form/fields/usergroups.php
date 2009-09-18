@@ -25,7 +25,7 @@ class JFormFieldUserGroups extends JFormFieldList
 	 *
 	 * @var		string
 	 */
-	public $type = 'UserGroups';
+	protected $type = 'UserGroups';
 
 	/**
 	 * Method to get a list of options for a list input.

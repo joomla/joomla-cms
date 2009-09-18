@@ -27,7 +27,6 @@ class JFormRule
 	/**
 	 * The regular expression.
 	 *
-	 * @access	protected
 	 * @var		string
 	 * @since	1.6
 	 */
@@ -36,7 +35,6 @@ class JFormRule
 	/**
 	 * The regular expression modifiers.
 	 *
-	 * @access	protected
 	 * @var		string
 	 * @since	1.6
 	 */
@@ -45,7 +43,6 @@ class JFormRule
 	/**
 	 * Method to test the value.
 	 *
-	 * @access	public
 	 * @param	object		$field		A reference to the form field.
 	 * @param	mixed		$values		The values to test for validiaty.
 	 * @return	boolean		True if the value is valid, false otherwise.

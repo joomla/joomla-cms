@@ -24,7 +24,7 @@ class JFormFieldMedia extends JFormField
 	 *
 	 * @var		string
 	 */
-	public $type = 'Media';
+	protected $type = 'Media';
 
 	/**
 	 * Method to get the field input.

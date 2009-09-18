@@ -25,7 +25,7 @@ class JFormFieldRadio extends JFormField
 	 *
 	 * @var		string
 	 */
-	public $type = 'Radio';
+	protected $type = 'Radio';
 
 	/**
 	 * Method to get the field input.

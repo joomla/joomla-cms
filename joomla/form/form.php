@@ -29,7 +29,6 @@ class JForm extends JObject
 	/**
 	 * The form name.
 	 *
-	 * @access	protected
 	 * @since	1.6
 	 * @var		string
 	 */
@@ -38,7 +37,6 @@ class JForm extends JObject
 	/**
 	 * An array of options for form groups.
 	 *
-	 * @access	protected
 	 * @since	1.6
 	 * @var		array
 	 */
@@ -47,7 +45,6 @@ class JForm extends JObject
 	/**
 	 * Form groups containing field objects.
 	 *
-	 * @access	protected
 	 * @since	1.6
 	 * @var		array
 	 */
@@ -56,7 +53,6 @@ class JForm extends JObject
 	/**
 	 * Form data containing field values.
 	 *
-	 * @access	protected
 	 * @since	1.6
 	 * @var		array
 	 */
@@ -65,7 +61,6 @@ class JForm extends JObject
 	/**
 	 * Form options.
 	 *
-	 * @access	protected
 	 * @since	1.6
 	 * @var		array
 	 */
@@ -74,7 +69,6 @@ class JForm extends JObject
 	/**
 	 * Method to get an instance of a form.
 	 *
-	 * @access	public
 	 * @param	string		$name		The name of the form.
 	 * @param	string		$data		The name of an XML file or an XML string.
 	 * @param	string		$file		Flag to toggle whether the $data is a file path or a string.
@@ -114,7 +108,6 @@ class JForm extends JObject
 	/**
 	 * Method to construct the object on instantiation.
 	 *
-	 * @access	protected
 	 * @param	array		$options	An array of form options.
 	 * @return	void
 	 * @since	1.6
@@ -128,7 +121,6 @@ class JForm extends JObject
 	/**
 	 * Method to get the form name.
 	 *
-	 * @access	public
 	 * @return	string		The name of the form.
 	 * @since	1.6
 	 */
@@ -140,7 +132,6 @@ class JForm extends JObject
 	/**
 	 * Method to set the form name.
 	 *
-	 * @access	public
 	 * @param	string		$name	The new name of the form.
 	 * @return	void
 	 * @since	1.6
@@ -153,7 +144,6 @@ class JForm extends JObject
 	/**
 	 * Method to recursively bind values to form fields.
 	 *
-	 * @access	public
 	 * @param	mixed		$data	An array or object of form values.
 	 * @param	string		$group	The group to bind the fields to.
 	 * @return	boolean		True on success, false otherwise.
@@ -217,7 +207,6 @@ class JForm extends JObject
 	 * that have already been created they will be replaced with the fields
 	 * in the new file unless the $reset parameter has been set to false.
 	 *
-	 * @access	public
 	 * @param	string		$data		The name of an XML file or an XML string.
 	 * @param	string		$file		Flag to toggle whether the $data is a file path or a string.
 	 * @param	string		$reset		Flag to toggle whether the form description should be reset.
@@ -280,7 +269,6 @@ class JForm extends JObject
 	 * This function loads all files that have the via $name defined prefix
 	 * in the folders defined by addIncludePath()
 	 *
-	 * @access	public
 	 * @param	string		$name		The prefix-name of the XML files
 	 * @return	boolean		True on success, false otherwise.
 	 * @since	1.6
@@ -309,7 +297,6 @@ class JForm extends JObject
 	/**
 	 * Method to recursively filter data for form fields.
 	 *
-	 * @access	public
 	 * @param	array		$data		The data to filter.
 	 * @param	string		$limit		An optional group to limit the filtering to.
 	 * @return	array		An array of filtered data.
@@ -395,12 +382,12 @@ class JForm extends JObject
 									break;
 
 								default:
-									if (strpos($filter, '::') !== false && is_callable(explode('::', $filter))) 
+									if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 									{
 										// Filter using the callback method.
 										$return[$name] = call_user_func(explode('::', $filter), $data[$name]);
 									}
-									else if (function_exists($filter)) 
+									else if (function_exists($filter))
 									{
 										// Filter using the callback function.
 										$return[$name] = call_user_func($filter, $data[$name]);
@@ -427,7 +414,6 @@ class JForm extends JObject
 	 * Validation warnings will be pushed into JForm::_errors and should be
 	 * retrieved with JForm::getErrors() when validate returns boolean false.
 	 *
-	 * @access	public
 	 * @param	array		$data		An array of field values to validate.
 	 * @param	string		$limit		An option group to limit the validation to.
 	 * @return	mixed		Boolean on success, JException on error.
@@ -487,7 +473,6 @@ class JForm extends JObject
 	/**
 	 * Method to add a field to a group.
 	 *
-	 * @access	public
 	 * @param	object		$field		The field object to add.
 	 * @param	string		$group		The group to add the field to.
 	 * @return	void
@@ -502,7 +487,6 @@ class JForm extends JObject
 	/**
 	 * Method to add an array of fields to a group.
 	 *
-	 * @access	public
 	 * @param	array		$fields	An array of field objects to add.
 	 * @param	string		$group	The group to add the fields to.
 	 * @return	void
@@ -519,7 +503,6 @@ class JForm extends JObject
 	/**
 	 * Method to get a form field.
 	 *
-	 * @access	public
 	 * @param	string		$name			The name of the form field.
 	 * @param	string		$group			The group the field is in.
 	 * @param	mixed		$formControl	The optional form control. Set to false to disable.
@@ -573,7 +556,6 @@ class JForm extends JObject
 	/**
 	 * Method to get a field attribute value.
 	 *
-	 * @access	public
 	 * @param	string		$field			The name of the field.
 	 * @param	string		$attribute		The name of the attribute.
 	 * @param	mixed		$default		The default value of the attribute.
@@ -596,7 +578,6 @@ class JForm extends JObject
 	/**
 	 * Method to replace a field in a group.
 	 *
-	 * @access	public
 	 * @param	object		$field		The field object to replace.
 	 * @param	string		$group		The group to replace the field in.
 	 * @return	boolean		True on success, false when field does not exist.
@@ -618,7 +599,6 @@ class JForm extends JObject
 	/**
 	 * Method to remove a field from a group.
 	 *
-	 * @access	public
 	 * @param	string		$field		The field to remove.
 	 * @param	string		$group		The group to remove.
 	 * @return	void
@@ -632,7 +612,6 @@ class JForm extends JObject
 	/**
 	 * Method to set a field attribute value.
 	 *
-	 * @access	public
 	 * @param	string		$field			The name of the field.
 	 * @param	string		$attribute		The name of the attribute.
 	 * @param	mixed		$value			The value to set the attribute to.
@@ -656,7 +635,6 @@ class JForm extends JObject
 	/**
 	 * Method to get the fields in a group.
 	 *
-	 * @access	public
 	 * @param	string		$group			The form field group.
 	 * @param	mixed		$formControl	The optional form control. Set to false to disable.
 	 * @param	mixed		$groupControl	The optional group control. Set to false to disable.
@@ -710,7 +688,6 @@ class JForm extends JObject
 	/**
 	 * Method to assign an array of fields to a group.
 	 *
-	 * @access	public
 	 * @param	array		$fields		An array of field objects to assign.
 	 * @param	string		$group		The group to assign the fields to.
 	 * @return	void
@@ -735,7 +712,6 @@ class JForm extends JObject
 	/**
 	 * Method to get a list of groups.
 	 *
-	 * @access	public
 	 * @return	array	An array of groups.
 	 * @since	1.6
 	 */
@@ -747,7 +723,6 @@ class JForm extends JObject
 	/**
 	 * Method to remove a group.
 	 *
-	 * @access	public
 	 * @param	string		$group		The group to remove.
 	 * @return	void
 	 * @since	1.6
@@ -760,7 +735,6 @@ class JForm extends JObject
 	/**
 	 * Method to get the input control for a field.
 	 *
-	 * @access	public
 	 * @param	string		$name			The field name.
 	 * @param	string		$group			The group the field is in.
 	 * @param	mixed		$formControl	The optional form control. Set to false to disable.
@@ -780,7 +754,6 @@ class JForm extends JObject
 	/**
 	 * Method to get the label for a field.
 	 *
-	 * @access	public
 	 * @param	string		$name			The field name.
 	 * @param	string		$group			The group the field is in.
 	 * @param	mixed		$formControl	The optional form control. Set to false to disable.
@@ -800,7 +773,6 @@ class JForm extends JObject
 	/**
 	 * Method to get the value of a field.
 	 *
-	 * @access	public
 	 * @param	string		$field		The field to set.
 	 * @param	mixed		$default	The default value of the field if empty.
 	 * @param	string		$group		The group the field is in.
@@ -822,7 +794,6 @@ class JForm extends JObject
 	/**
 	 * Method to set the value of a field.
 	 *
-	 * @access	public
 	 * @param	string		$field		The field to set.
 	 * @param	mixed		$value		The value to set the field to.
 	 * @param	string		$group		The group the field is in.
@@ -843,7 +814,6 @@ class JForm extends JObject
 	/**
 	 * Loads form fields from an XML fields element optionally reseting fields before loading new ones.
 	 *
-	 * @access	public
 	 * @param	object		$xml		The XML fields object.
 	 * @param	boolean		$reset		Flag to toggle whether the form groups should be reset.
 	 * @return	boolean		True on success, false otherwise.
@@ -920,7 +890,6 @@ class JForm extends JObject
 	/**
 	 * Method to load a form field object.
 	 *
-	 * @access	public
 	 * @param	string		$type		The field type.
 	 * @param	boolean		$new		Flag to toggle whether we should get a new instance of the object.
 	 * @return	mixed		Field object on success, false otherwise.
@@ -991,7 +960,6 @@ class JForm extends JObject
 	/**
 	 * Method to add a path to the list of form include paths.
 	 *
-	 * @access	public
 	 * @param	mixed		$new		A path or array of paths to add.
 	 * @return	array		The list of paths that have been added.
 	 * @since	1.6
@@ -1021,7 +989,6 @@ class JForm extends JObject
 	/**
 	 * Method to add a path to the list of field include paths.
 	 *
-	 * @access	public
 	 * @param	mixed		$new		A path or array of paths to add.
 	 * @return	array		The list of paths that have been added.
 	 * @since	1.6
