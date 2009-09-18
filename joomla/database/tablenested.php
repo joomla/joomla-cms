@@ -82,7 +82,7 @@ class JTableNested extends JTable
 	 */
 	protected $_cache = array();
 
-	protected $_debug = false;
+	protected $_debug = true;
 
 	/**
 	 * Method to get an array of nodes from a given node to its root.
@@ -675,6 +675,9 @@ class JTableNested extends JTable
 		// Initialize variables.
 		$k = $this->_tbl_key;
 
+		if ($this->_debug) {
+			$this->_logtable(true, false);
+		}
 		/*
 		 * If the primary key is empty, then we assume we are inserting a new node into the
 		 * tree.  From this point we would need to determine where in the tree to insert it.
@@ -713,6 +716,9 @@ class JTableNested extends JTable
 						$this->_unlock();
 						return false;
 					}
+					if ($this->_debug) {
+						$this->_logtable(false);
+					}
 				}
 
 				// We have a real node set as a location reference.
@@ -727,23 +733,9 @@ class JTableNested extends JTable
 				}
 
 				// Get the reposition data for shifting the tree and re-inserting the node.
-				if (!$repositionData = $this->_getTreeRepositionData($reference, 2, $this->_location)) {
+				if (!($repositionData = $this->_getTreeRepositionData($reference, 2, $this->_location)))
+				{
 					// Error message set in getNode method.
-					$this->_unlock();
-					return false;
-				}
-
-				// Create space in the tree at the new location for the new node in right ids.
-				$this->_db->setQuery(
-					'UPDATE `'.$this->_tbl.'`' .
-					' SET `rgt` = `rgt` + 2' .
-					' WHERE '.$repositionData->right_where
-				);
-				$this->_db->query();
-
-				// Check for a database error.
-				if ($this->_db->getErrorNum()) {
-					$this->setError($this->_db->getErrorMsg());
 					$this->_unlock();
 					return false;
 				}
@@ -762,12 +754,33 @@ class JTableNested extends JTable
 					$this->_unlock();
 					return false;
 				}
+				if ($this->_debug) {
+					$this->_logtable();
+				}
+
+				// Create space in the tree at the new location for the new node in right ids.
+				$this->_db->setQuery(
+					'UPDATE `'.$this->_tbl.'`' .
+					' SET `rgt` = `rgt` + 2' .
+					' WHERE '.$repositionData->right_where
+				);
+				$this->_db->query();
+
+				// Check for a database error.
+				if ($this->_db->getErrorNum()) {
+					$this->setError($this->_db->getErrorMsg());
+					$this->_unlock();
+					return false;
+				}
+				if ($this->_debug) {
+					$this->_logtable();
+				}
 
 				// Set the object values.
 				$this->parent_id	= $repositionData->new_parent_id;
 				$this->level		= $repositionData->new_level;
-				$this->lft		= $repositionData->new_lft;
-				$this->rgt		= $repositionData->new_rgt;
+				$this->lft			= $repositionData->new_lft;
+				$this->rgt			= $repositionData->new_rgt;
 			}
 			else
 			{
@@ -804,6 +817,9 @@ class JTableNested extends JTable
 		if (!parent::store()) {
 			$this->_unlock();
 			return false;
+		}
+		if ($this->_debug) {
+			$this->_logtable();
 		}
 
 		// Unlock the table for writing.
@@ -1416,55 +1432,70 @@ class JTableNested extends JTable
 		switch ($position)
 		{
 			case 'first-child':
-				$data->left_where = 'lft > '.$referenceNode->lft;
-				$data->right_where = 'lft >= '.$referenceNode->lft;
+				$data->left_where		= 'lft > '.$referenceNode->lft;
+				$data->right_where		= 'lft >= '.$referenceNode->lft;
 
-				$data->new_lft 		= $referenceNode->lft + 1;
-				$data->new_rgt		= $referenceNode->lft + $nodeWidth;
+				$data->new_lft 			= $referenceNode->lft + 1;
+				$data->new_rgt			= $referenceNode->lft + $nodeWidth;
 				$data->new_parent_id	= $referenceNode->$k;
 				$data->new_level		= $referenceNode->level + 1;
 				break;
 
 			case 'last-child':
-				$data->left_where = 'lft >= '.($referenceNode->rgt - $nodeWidth);
-				$data->right_where = 'rgt >= '.($referenceNode->rgt - $nodeWidth);
+				$data->left_where		= 'rgt > '.($referenceNode->rgt);
+				$data->right_where		= 'rgt >= '.($referenceNode->rgt);
 
-				$data->new_lft		= $referenceNode->rgt - $nodeWidth;
-				$data->new_rgt		= $referenceNode->rgt - 1;
+				$data->new_lft			= $referenceNode->rgt;
+				$data->new_rgt			= $referenceNode->rgt + $nodeWidth - 1;
 				$data->new_parent_id	= $referenceNode->$k;
 				$data->new_level		= $referenceNode->level + 1;
 				break;
 
 			case 'before':
-				$data->left_where = 'lft >= '.$referenceNode->lft;
-				$data->right_where = 'rgt >= '.$referenceNode->rgt;
+				$data->left_where		= 'lft >= '.$referenceNode->lft;
+				$data->right_where		= 'rgt >= '.$referenceNode->rgt;
 
-				$data->new_lft		= $referenceNode->lft;
-				$data->new_rgt 	= $referenceNode->lft + $nodeWidth - 1;
+				$data->new_lft			= $referenceNode->lft;
+				$data->new_rgt			= $referenceNode->lft + $nodeWidth - 1;
 				$data->new_parent_id	= $referenceNode->parent_id;
 				$data->new_level		= $referenceNode->level;
 				break;
 
 			default:
 			case 'after':
-				$data->left_where = 'lft > '.$referenceNode->lft;
-				$data->right_where = 'rgt > '.$referenceNode->rgt;
+				$data->left_where		= 'lft > '.$referenceNode->lft;
+				$data->right_where		= 'rgt > '.$referenceNode->rgt;
 
-				$data->new_lft 		= $referenceNode->rgt + 1;
-				$data->new_rgt		= $referenceNode->rgt + $nodeWidth;
+				$data->new_lft 			= $referenceNode->rgt + 1;
+				$data->new_rgt			= $referenceNode->rgt + $nodeWidth;
 				$data->new_parent_id	= $referenceNode->parent_id;
 				$data->new_level		= $referenceNode->level;
 				break;
 		}
 
+		if ($this->_debug) {
+			echo "\nRepositioning Data for $position" .
+					"\n-----------------------------------" .
+					"\nLeft Where:    $data->left_where" .
+					"\nRight Where:   $data->right_where" .
+					"\nNew Lft:       $data->new_lft" .
+					"\nNew Rgt:       $data->new_rgt".
+					"\nNew Parent ID: $data->new_parent_id".
+					"\nNew Level:     $data->new_level" .
+					"\n";
+		}
+
 		return $data;
 	}
 
-	protected function _logtable($showData = true)
+	protected function _logtable($showData = true, $showQuery = true)
 	{
 		$sep	= "\n".str_pad('', 40, '-');
-		$buffer = "\n".$this->_db->getQuery().$sep;
-
+		$buffer	= '';
+		if ($showQuery)
+		{
+			$buffer .= "\n".$this->_db->getQuery().$sep;
+		}
 		if ($showData)
 		{
 			$this->_db->setQuery(
