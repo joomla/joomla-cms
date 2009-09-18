@@ -169,7 +169,8 @@ class MenusModelItem extends JModelForm
 		$this->setState('item.type', $table->type);
 
 		// Convert the params field to an array.
-		$table->params = json_decode($table->params, true);
+		$params = new JParameter($table->params);
+		$table->params = $params->toArray();
 
 		// Merge the request arguments in to the params for a component.
 		if ($table->type == 'component')
@@ -235,7 +236,7 @@ class MenusModelItem extends JModelForm
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
-		
+
 		// Initialise variables.
 		$form			= null;
 		$formFile		= null;

@@ -373,7 +373,7 @@ class JFormFieldMenuType extends JFormFieldList
 		foreach($folders as $folder)
 		{
 			if (JFolder::exists($folder.DS.'html'.DS.$component.DS.$view)) {
-				$layouts = array_merge($layouts, JFolder::files($folder.DS.'html'.DS.$option.DS.$component.DS.$view, '.xml$', false, true));
+				$layouts = array_merge($layouts, JFolder::files($folder.DS.'html'.DS.$component.DS.$view, '.xml$', false, true));
 			}
 		}
 
@@ -385,7 +385,7 @@ class JFormFieldMenuType extends JFormFieldList
 		else {
 			return $options;
 		}
-		
+
 		// Process the found layouts.
 		foreach ($layouts as $layout)
 		{

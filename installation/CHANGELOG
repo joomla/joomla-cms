@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 18-Sep-2009 Andrew Eddie
  # Installation application: Fix untranslated strings; cleanup missing string; add HTML helper for stepbar; namespace language and preinstall layouts.
+ # Fixed spurious PHP errors on menu item edit page.
 
 16-Sep-2009 Ron Severdia
 + BlueStork CSS updates
