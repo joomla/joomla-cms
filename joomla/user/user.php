@@ -174,7 +174,7 @@ class JUser extends JObject
 	 * @return 	JUser  			The User object.
 	 * @since 	1.5
 	 */
-	function &getInstance($id = 0)
+	static function &getInstance($id = 0)
 	{
 		static $instances;
 

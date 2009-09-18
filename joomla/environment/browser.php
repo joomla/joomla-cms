@@ -175,7 +175,7 @@ class JBrowser extends JObject
      * @param string $accept     The HTTP_ACCEPT settings to use.
      * @return JBrowser  The Browser object.
      */
-	public function &getInstance($userAgent = null, $accept = null)
+	static public function &getInstance($userAgent = null, $accept = null)
     {
         static $instances;
 
