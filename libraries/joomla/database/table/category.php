@@ -95,9 +95,9 @@ class JTableCategory extends JTableNested
 	protected $_trackAssets 	= true;
 
 	/**
-	* @param database A database connector object
-	*/
-	function __construct(&$db)
+	 * @param database A database connector object
+	 */
+	public function __construct(&$db)
 	{
 		parent::__construct('#__categories', 'id', $db);
 

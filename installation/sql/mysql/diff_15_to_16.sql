@@ -92,6 +92,9 @@ UPDATE `jos_components` AS a
 -- ----------------------------------------------------------------
 
 ALTER TABLE `jos_content`
+ ADD COLUMN `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the jos_access_assets table.' AFTER `id`;
+
+ALTER TABLE `jos_content`
  ADD COLUMN `featured` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.' AFTER `metadata`;
 
 ALTER TABLE `jos_content`

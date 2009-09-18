@@ -625,6 +625,44 @@ class JTableNested extends JTable
 	}
 
 	/**
+	 * Asset that the nested set data is valid.
+	 *
+	 * @return	boolean	True if the instance is sane and able to be stored in the database.
+	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/check
+	 */
+	public function check()
+	{
+		$this->parent_id = (int) $this->parent_id;
+		if ($this->parent_id > 0)
+		{
+			$this->_db->setQuery(
+				'SELECT COUNT(id)' .
+				' FROM '.$this->_db->nameQuote($this->_tbl).
+				' WHERE `id` = '.$this->parent_id
+			);
+			if ($this->_db->loadResult()) {
+				return true;
+			}
+			else
+			{
+				if ($error = $this->_db->getErrorMsg()) {
+					$this->setError($error);
+				}
+				else {
+					$this->setError('JError_Invalid_parent_id');
+				}
+			}
+		}
+		else {
+			$this->setError('JError_Invalid_parent_id');
+		}
+
+		return false;
+	}
+
+
+	/**
 	 * Method to store a node in the database table.
 	 *
 	 * @param	boolean	True to update null values as well.

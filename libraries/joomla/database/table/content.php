@@ -25,6 +25,11 @@ class JTableContent extends JTable
 	public $id = null;
 
 	/**
+	 * @var int Foreign key to #__access_assets.id
+	 */
+	public $asset_id = null;
+
+	/**
 	 *  @var string
 	 */
 	public $title = null;
@@ -185,69 +190,42 @@ class JTableContent extends JTable
 	public $xreference = null;
 
 	/**
-	 * Track rows as assets.
-	 *
-	 * @var		boolean
-	 * @since	1.6
+	 * @param database A database connector object
 	 */
-	protected $_trackAssets = true;
-
-	/**
-	* @param database A database connector object
-	*/
 	function __construct(&$db)
 	{
 		parent::__construct('#__content', 'id', $db);
-
-		$this->access	= (int)JFactory::getConfig()->getValue('access');
-	}
-
-	/**
-	 * Method to return the access section name for the asset table.
-	 *
-	 * @access	public
-	 * @return	string
-	 * @since	1.6
-	 */
-	function getAssetSection()
-	{
-		return 'com_content';
-	}
-
-	/**
-	 * Method to return the name prefix to use for the asset table.
-	 *
-	 * @access	public
-	 * @return	string
-	 * @since	1.6
-	 */
-	function getAssetNamePrefix()
-	{
-		return 'article';
 	}
 
 	/**
 	 * Method to return the title to use for the asset table.
 	 *
-	 * @access	public
 	 * @return	string
 	 * @since	1.0
 	 */
-	function getAssetTitle()
+	protected function _getAssetTitle()
 	{
 		return $this->title;
 	}
 
 	/**
+	 *
+	 */
+	protected function _getAssetParent()
+	{
+		// TODO: Lookup the category id.
+		return 1;
+	}
+
+	/**
 	 * Overloaded bind function
 	 *
-	 * @access public
-	 * @param array $hash named array
-	 * @return null|string	null is operation was satisfactory, otherwise returns an error
+	 * @param	array		$hash named array
+	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
 	 * @see JTable:bind
 	 * @since 1.5
 	 */
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (isset($array['attribs']) && is_array($array['attribs']))
 		{
@@ -269,12 +247,11 @@ class JTableContent extends JTable
 	/**
 	 * Overloaded check function
 	 *
-	 * @access public
-	 * @return boolean
-	 * @see JTable::check
-	 * @since 1.5
+	 * @return	boolean
+	 * @see		JTable::check
+	 * @since	1.5
 	 */
-	function check()
+	public function check()
 	{
 		/*
 		TODO: This filter is too rigorous,need to implement more configurable solution
@@ -445,9 +422,10 @@ class JTableContent extends JTable
 	}
 
 	/**
-	* Converts record to XML
-	* @param boolean Map foreign keys to text values
-	*/
+	 * Converts record to XML
+	 *
+	 * @param	boolean	Map foreign keys to text values
+	 */
 	function toXML($mapKeysToText=false)
 	{
 		$db = &JFactory::getDbo();

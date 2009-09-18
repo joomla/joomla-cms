@@ -30,6 +30,9 @@ $ -> Language fix or change
 18-Sep-2009 Andrew Eddie
  # Installation application: Fix untranslated strings; cleanup missing string; add HTML helper for stepbar; namespace language and preinstall layouts.
  # Fixed spurious PHP errors on menu item edit page.
+ + Added JTableAsset
+ + Added check to JTableNested to ensure that parent node exists in the tree.
+ ^ Added nested set fields (parent_id, lft, rgt, level) to jos_access_assets and removed section and section_id fields.
 
 16-Sep-2009 Ron Severdia
 + BlueStork CSS updates

@@ -156,19 +156,23 @@ INSERT INTO `#__access_assetgroup_rule_map` VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__access_assets` (
-  `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `section_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
-  `section` varchar(100) NOT NULL default '0',
-  `name` varchar(100) NOT NULL default '',
-  `title` varchar(100) NOT NULL default '',
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
+  `parent_id` int(11) NOT NULL default '0' COMMENT 'Nested set parent.',
+  `lft` int(11) NOT NULL default '0' COMMENT 'Nested set lft.',
+  `rgt` int(11) NOT NULL default '0' COMMENT 'Nested set rgt.',
+  `level` INTEGER UNSIGNED NOT NULL COMMENT 'The cached level in the nested tree.',
+  `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
+  `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
+  `actions` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_asset_name_lookup` (`section_id`,`name`),
-  KEY `idx_asset_section_lookup` (`section`)
+  UNIQUE KEY `idx_asset_name` (`name`),
+  KEY `idx_lft_rgt` (`lft`,`rgt`),
+  KEY `idx_parent_id` (`parent_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 INSERT INTO `#__access_assets` VALUES 
-(1, 1, 'core', 'plugin.28', 'System - Debug');
+(1, 0, 1, 9999, 0, 'root.1', 'Root Asset', '{}');
 
 -- --------------------------------------------------------
 
@@ -504,6 +508,7 @@ CREATE TABLE `#__contact_details` (
 
 CREATE TABLE `#__content` (
   `id` integer unsigned NOT NULL auto_increment,
+  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the jos_access_assets table.',
   `title` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
   `title_alias` varchar(255) NOT NULL default '',
