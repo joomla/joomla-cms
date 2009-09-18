@@ -81,7 +81,10 @@ abstract class JTable extends JObject
 		$this->_db		= &$db;
 
 		// If we are tracking assets, make sure an access field exists and initially set the default.
-		if ($this->_trackAssets) {
+		if (property_exists($this, 'asset_id'))
+		{
+			$this->_trackAssets = true;
+			// TODO: Do we need to asset an access field anymore?
 			$this->access = (int) JFactory::getConfig()->getValue('access');
 		}
 	}
@@ -183,49 +186,55 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Abstract method to return the access section name for the asset table.
-	 * For example to have assets for this table tracked in the access section
-	 * with the name 'core' you would return the string: 'core'.
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form `table_name.id`
+	 * where id is the value of the primary key of the table.
 	 *
-	 * @return	string	The name of the asset section to track table objects in.
-	 * @since	1.6
-	 * @link	http://docs.joomla.org/JTable/getAssetSection
+	 * @return	string
 	 */
-	public function getAssetSection()
+	protected function _getAssetName()
 	{
-		die('Must provide an implementation of getAssetSection');
+		$k = $this->_tbl_key;
+		return $this->_tbl.'.'.(int) $this->$k;
 	}
 
 	/**
-	 * Abstract method to return the name prefix to use for the asset table.
-	 * Different types of assets can co-exist within the same section by using
-	 * different name prefixes.  For example, if you have a section named 'core'
-	 * that tracks both modules and plugins you could have asset name prefixes
-	 * for those asset types as 'module' and 'plugin' respectively.
-	 *
-	 * @return	string	The asset name prefix to use for tracking assets.
-	 * @since	1.6
-	 * @link	http://docs.joomla.org/JTable/getAssetNamePrefix
-	 */
-	public function getAssetNamePrefix()
-	{
-		die('Must provide an implementation of getAssetNamePrefix');
-	}
-
-	/**
-	 * Abstract method to return the title to use for the asset table.  In
+	 * Method to return the title to use for the asset table.  In
 	 * tracking the assets a title is kept for each asset so that there is some
 	 * context available in a unified access manager.  Usually this woud just
 	 * return $this->title or $this->name or whatever is being used for the
-	 * primary name of the row.
+	 * primary name of the row. If this method is not overriden, the asset name is used.
 	 *
 	 * @return	string	The string to use as the title in the asset table.
 	 * @since	1.6
 	 * @link	http://docs.joomla.org/JTable/getAssetTitle
 	 */
-	public function getAssetTitle()
+	protected function _getAssetTitle()
 	{
-		die('Must provide an implementation of getAssetTitle');
+		return $this->_getAssetName();
+	}
+
+	/**
+	 * Method to get the parent asset under which to register this one.
+	 * By default, all assets are registered to the ROOT node with ID 1.
+	 * The extended class can define a table and id to lookup.  If the
+	 * asset does not exist it will be created.
+	 *
+	 * @param	JTable	A JTable object for the asset parent.
+	 *
+	 * @return	int
+	 */
+	protected function _getAssetParentId($table = null, $id = null)
+	{
+		// For simple cases, parent to the asset root.
+		if (empty($table) || empty($id)) {
+			return 1;
+		}
+
+
+
+
+
 	}
 
 	/**
@@ -453,106 +462,52 @@ abstract class JTable extends JObject
 			$this->_unlock();
 		}
 
-		/*
-		 * The following section is only encountered if tracking assets is enabled
-		 * for the database table class.
-		 */
+		//
+		// Asset Tracking
+		//
 
-		// Get the section id for the asset.
-		$section = $this->getAssetSection();
-		$this->_db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__access_sections`' .
-			' WHERE `name` = '.$this->_db->Quote($section)
-		);
-		$sectionId = $this->_db->loadResult();
+		$parentId	= $this->_getAssetParentId();
+		$name		= $this->_getAssetName();
+		$title		= $this->_getAssetTitle();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
+		$asset	= JTable::getInstance('Asset');
+		$asset->loadByName($name);
+
+		// Check for an error.
+		if ($error = $asset->getError())
+		{
+			$this->setError($error);
 			return false;
 		}
 
-		// Make sure the section is valid.
-		if (empty($sectionId)) {
-			$this->setError(JText::_('Access_Section_Invalid'));
-			return false;
-		}
-
-		// Get and sanitize the asset name.
-		$prefix = $this->getAssetNamePrefix();
-		$name = strtolower(preg_replace('#[\s\-]+#', '.', trim($prefix.'.'.$this->$k, ' .')));
-
-		// Get the asset id for the asset.
-		$this->_db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__access_assets`' .
-			' WHERE `name` = '.$this->_db->Quote($name)
-		);
-		$assetId = $this->_db->loadResult();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
-		// Is the asset new.
-		$isNew = (empty($assetId)) ? true : false;
-
-		// Build the asset object.
-		$asset = new stdClass;
-		$asset->section_id	= $sectionId;
-		$asset->section		= $section;
+		// Prepare the asset to be stored.
+		$asset->parent_id	= $parentId;
 		$asset->name		= $name;
-		$asset->title		= $this->getAssetTitle();
+		$asset->title		= $title;
+		$asset->actions		= json_encode(array());
 
-		// Synchronize the assets table.
-		if ($isNew) {
-			$asset->id = null;
-			$return = $this->_db->insertObject('#__access_assets', $asset, 'id');
-		}
-		else {
-			$asset->id = $assetId;
-			$return = $this->_db->updateObject('#__access_assets', $asset, 'id');
-		}
-
-		// Check for error.
-		if (!$return) {
-			$this->setError($this->_db->getErrorMsg());
+		if (!$asset->check() || !$asset->store())
+		{
+			$this->setError($asset->getError());
 			return false;
 		}
 
-		// Get the updated asset id.
-		$assetId = $asset->id;
+		if (empty($this->asset_id))
+		{
+			// Update the asset_id field in this table.
+			$this->asset_id = (int) $asset->id;
 
-		// Get the asset group id[ default to 1 or public].
-		$groupId = (!$this->access) ? 1 : $this->access;
+			$this->_db->setQuery(
+				'UPDATE '.$this->_db->nameQuote($this->_tbl).
+				' SET asset_id = '.(int) $this->asset_id.
+				' WHERE '.$this->_db->nameQuote($k).' = '.(int) $this->$k
+			);
 
-		// Delete previous asset to group maps.
-		$this->_db->setQuery(
-			'DELETE FROM `#__access_asset_assetgroup_map`' .
-			' WHERE `asset_id` = '.(int) $assetId
-		);
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
-		// Insert asset to group map.
-		$this->_db->setQuery(
-			'INSERT INTO `#__access_asset_assetgroup_map` (`asset_id`, `group_id`) VALUES' .
-			' ('.(int) $assetId.', '.(int) $groupId.')'
-		);
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
+			if (!$this->_db->query())
+			{
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
 		}
 
 		return true;
