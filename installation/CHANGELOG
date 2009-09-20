@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Sep-2009 Hannes Papenberg
+ ^ Removed static insert for com_redirect. its now properly retrieved from the database.
+ # Fixed path to the form file for com_redirect
+
 18-Sep-2009 Hannes Papenberg
  ^ changed some functions to be static to adhere to PHP5 strict
  ^ fixed some output to fix a false warning in Eclipse

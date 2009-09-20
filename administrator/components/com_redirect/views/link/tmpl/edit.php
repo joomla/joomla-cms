@@ -38,6 +38,7 @@ $fields	= $this->form->getFields();
 			
 				<?php echo $fields['comment']->label; ?>
 				<?php echo $fields['comment']->input; ?>
+			</fieldset>
 		</div>
 
 		<div class="width-40">

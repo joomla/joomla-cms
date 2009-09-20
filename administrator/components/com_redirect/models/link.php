@@ -119,7 +119,7 @@ class RedirectModelLink extends JModel
 		// Get the form.
 		jimport('joomla.form.form');
 		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
-		$form = & JForm::getInstance('jform', 'link', true, array('array' => true));
+		$form = & JForm::getInstance('link', 'com_redirect.link', true, array('array' => true));
 
 		// Check for an error.
 		if (JError::isError($form)) {

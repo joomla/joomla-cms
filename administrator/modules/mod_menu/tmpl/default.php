@@ -216,7 +216,6 @@ if ($enabled)
 			$menu->addChild(new JMenuNode($text, $component->admin_menu_link, $component->admin_menu_img));
 		}
 	}
-	$menu->addChild(new JMenuNode(JText::_('Redirect'), 'index.php?option=com_redirect', 'class:redirect'));
 	$menu->getParent();
 }
 else {
