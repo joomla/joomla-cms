@@ -33,7 +33,7 @@
 </script>
 
 <form action="index.php" method="post" name="adminForm">
-<div class="width-60">
+<div class="width-60 fltlft">
 	<fieldset class="adminform">
 	<legend><?php echo JText::_( 'Details' ); ?></legend>
 	<table class="admintable">
@@ -104,7 +104,7 @@
 		</table>
 	</fieldset>
 </div>
-<div class="width-40">
+<div class="width-40 fltrt">
 	<fieldset class="adminform">
 	<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 	<?php

@@ -33,21 +33,19 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
-<div class="width-50">
+<div class="width-100">
 	<fieldset>
 		<legend><?php echo JText::_('Users_Usergroup_Details');?></legend>
-		<ul>
-			<li>
-				<?php echo $this->form->getLabel('parent_id'); ?><br />
+		
+				<?php echo $this->form->getLabel('parent_id'); ?>
 				<?php echo $this->form->getInput('parent_id'); ?>
-			</li>
-			<li>
-				<?php echo $this->form->getLabel('title'); ?><br />
+			
+				<?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?>
-			</li>
-		</ul>
+		
 	</fieldset>
 </div>
+<div class="width-50">
 	<fieldset id="user-groups">
 		<legend><?php echo JText::_('Users_Actions_Available');?></legend>
 		<?php echo JHtml::_('access.actions', 'jform[actions]', $this->item->actions); ?>
@@ -55,6 +53,6 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-	
+</div>	
 </form>
 <div class="clr"></div>

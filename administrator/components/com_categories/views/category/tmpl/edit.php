@@ -32,7 +32,7 @@ JHtml::_('behavior.formvalidation');
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-	<div class="width-60">
+	<div class="width-60 fltlft">
 		<fieldset>
 			<legend><?php echo JText::_('Categories_Fieldset_Details');?></legend>
 			
@@ -57,13 +57,14 @@ JHtml::_('behavior.formvalidation');
 			
 		</fieldset>
 	</div>
-
-	<div class="width-40">
+	
+	<div class="width-100">
 		<fieldset>
-			<legend><?php echo JText::_('Categories_Fieldset_Options'); ?></legend>
+			<legend><?php echo JText::_('Categories_Fieldset_Options');?></legend>
 			<?php echo $this->loadTemplate('options'); ?>
 		</fieldset>
-
+</div>
+<div class="width-100">
 		<fieldset>
 			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
 			<?php echo $this->loadTemplate('metadata'); ?>

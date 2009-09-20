@@ -30,7 +30,7 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-<div class="width-45">
+<div class="width-50 fltlft">
 	<fieldset>
 		<legend><?php echo JText::_('Menus_Item_Details');?></legend>
 		
@@ -72,17 +72,17 @@ JHtml::_('behavior.formvalidation');
 	</fieldset>
 </div>
 
-<div class="width-45" style="clear:right;">
+
+<div class="width-50 fltrt">
+		<?php echo $this->loadTemplate('options'); ?>
+</div>
+
+<div class="width-50 clrlft" >
 	<fieldset>
 		<legend><?php echo JText::_('Menus_Item_Module_Assignment'); ?></legend>
 		<?php echo $this->loadTemplate('modules'); ?>
 	</fieldset>
 </div>
-<div class="width-45">
-		<?php echo $this->loadTemplate('options'); ?>
-</div>
-
-
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>

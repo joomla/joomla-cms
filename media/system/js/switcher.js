@@ -22,7 +22,7 @@ var JSwitcher = new Class({
 		onHide: $empty,
 		cookieName: 'switcher',
 		togglerSelector: 'a',
-		elementSelector: 'div',
+		elementSelector: 'div.tab',
 		elementPrefix: 'page-'
 	},
 

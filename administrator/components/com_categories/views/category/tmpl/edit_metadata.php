@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 ?>
-<div class="width-40">
-			<legend><?php echo JText::_('Categories_Fieldset_Metadata');?></legend>
-					<?php echo $this->form->getLabel('metadesc'); ?><br />
+
+					<?php echo $this->form->getLabel('metadesc'); ?>
 					<?php echo $this->form->getInput('metadesc'); ?>
 			
 			
-					<?php echo $this->form->getLabel('metakey'); ?><br />
+					<?php echo $this->form->getLabel('metakey'); ?>
 					<?php echo $this->form->getInput('metakey'); ?>
 				
 
@@ -26,9 +25,7 @@ defined('_JEXEC') or die;
 		
 				<?php echo $field->label; ?>
 			
-
 				<?php echo $field->input; ?>
 			 
 	<?php endif; ?>
 <?php endforeach; ?>
-</div>

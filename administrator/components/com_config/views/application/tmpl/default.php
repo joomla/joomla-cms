@@ -33,53 +33,53 @@ $this->document->addScriptDeclaration("
 		<?php echo $this->loadTemplate('ftplogin'); ?>
 	<?php endif; ?>
 	<div id="config-document">
-		<div id="page-site">
+		<div id="page-site" class="tab">
 			<div class="noshow">
-					<div class="width-65">
-						<?php echo $this->loadTemplate('site'); ?>
-						<?php echo $this->loadTemplate('metadata'); ?>
-					</div>
-					<div class="width-35">
-						<?php echo $this->loadTemplate('seo'); ?>
-						<?php echo $this->loadTemplate('cookie'); ?>
-					</div>
+				<div class="width-65 fltlft">
+					<?php echo $this->loadTemplate('site'); ?>
+					<?php echo $this->loadTemplate('metadata'); ?>
+				</div>
+				<div class="width-35 fltrt">
+					<?php echo $this->loadTemplate('seo'); ?>
+					<?php echo $this->loadTemplate('cookie'); ?>
+				</div>
 			</div>
 		</div>
-		<div id="page-system">
+		<div id="page-system" class="tab">
 			<div class="noshow">
-					<div class="width-60">
-						<?php echo $this->loadTemplate('system'); ?>
-						<fieldset class="adminform">
-							<legend><?php echo JText::_('User Settings'); ?></legend>
-							<?php echo $this->usersParams->render('userparams'); ?>
-						</fieldset>
-						<fieldset class="adminform">
-							<legend><?php echo JText::_('Media Settings'); ?>
-			<span class="error hasTip" title="<?php echo JText::_('Warning');?>::<?php echo JText::_('WARNPATHCHANGES'); ?>">
-				<?php echo $this->warningIcon(); ?>
-			</span>
-							</legend>
-							<?php echo $this->mediaParams->render('mediaparams'); ?>
-						</fieldset>
-					</div>
-					<div class="width-40">
-						<?php echo $this->loadTemplate('debug'); ?>
-						<?php echo $this->loadTemplate('cache'); ?>
-						<?php echo $this->loadTemplate('session'); ?>
-					</div>
+				<div class="width-60 fltlft">
+					<?php echo $this->loadTemplate('system'); ?>
+					<fieldset class="adminform">
+						<legend><?php echo JText::_('User Settings'); ?></legend>
+						<?php echo $this->usersParams->render('userparams'); ?>
+					</fieldset>
+					<fieldset class="adminform">
+						<legend><?php echo JText::_('Media Settings'); ?>
+							<span class="error hasTip" title="<?php echo JText::_('Warning');?>::<?php echo JText::_('WARNPATHCHANGES'); ?>">
+								<?php echo $this->warningIcon(); ?>
+							</span>
+						</legend>
+						<?php echo $this->mediaParams->render('mediaparams'); ?>
+					</fieldset>
+				</div>
+				<div class="width-40 fltrt">
+					<?php echo $this->loadTemplate('debug'); ?>
+					<?php echo $this->loadTemplate('cache'); ?>
+					<?php echo $this->loadTemplate('session'); ?>
+				</div>
 			</div>
 		</div>
-		<div id="page-server">
+		<div id="page-server" class="tab">
 			<div class="noshow">
-					<div class="width-60">
-						<?php echo $this->loadTemplate('server'); ?>
-						<?php echo $this->loadTemplate('locale'); ?>
-						<?php echo $this->loadTemplate('ftp'); ?>
-					</div>
-					<div class="width-40">
-						<?php echo $this->loadTemplate('database'); ?>
-						<?php echo $this->loadTemplate('mail'); ?>
-					</div>
+				<div class="width-60 fltlft">
+					<?php echo $this->loadTemplate('server'); ?>
+					<?php echo $this->loadTemplate('locale'); ?>
+					<?php echo $this->loadTemplate('ftp'); ?>
+				</div>
+				<div class="width-40 fltrt">
+					<?php echo $this->loadTemplate('database'); ?>
+					<?php echo $this->loadTemplate('mail'); ?>
+				</div>
 			</div>
 		</div>
 	</div>

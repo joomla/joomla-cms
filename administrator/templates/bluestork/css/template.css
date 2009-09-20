@@ -44,6 +44,7 @@ html, body { height: 95%; }
 
 .clr { clear: both; overflow:hidden; height: 0; }
 
+
 a, img { padding: 0; margin: 0; }
 
 img { border: 0 none; }
@@ -73,6 +74,7 @@ fieldset {
 	padding: 5px;
 	text-align: left;
 }
+
 
 fieldset.batch {
 	margin: 25px 0 10px 0;
@@ -208,7 +210,7 @@ span.writable {
 }
 
 span.unwritable {
-	color:green;
+	color:red;
 }
 
 
@@ -377,6 +379,7 @@ label.hasTip {
 fieldset input[type="radio"] {
 	display: block;
 	width: 15px;
+float:left;
 }
 
 input#jformparams_link_titles1,
@@ -470,16 +473,37 @@ div.cpanel-right { width:45%; float:right; }
 
 div.col { float: left; }
 
-div.width-30 { width: 30%; float: left;}
-div.width-35 { width: 35%; float: left;}
-div.width-40 { width: 40%; float: left;}
-div.width-45 { width: 45%; float: left;}
-div.width-50 { width: 50%; float: left;}
-div.width-55 { width: 55%; float: left;}
-div.width-60 { width: 60%; float: left;}
-div.width-65 { width: 65%; float: left;}
-div.width-70 { width: 70%; float: left;}
-div.width-100 { width: 100%; float: left;}
+div.width-30 { width: 30%;}
+div.width-35 { width: 35%; }
+div.width-40 { width: 40%;}
+div.width-45 { width: 45%;}
+div.width-50 { width: 50%;}
+div.width-55 { width: 55%;}
+div.width-60 { width: 60%; }
+div.width-65 { width: 65%;}
+div.width-70 { width: 70%;}
+div.width-100 { width: 100%;}
+
+
+.clrlft { clear: left; }
+.clrrt { clear: right; }
+.fltlft { float: left; }
+.fltrt { float: right; }
+.fltnone { float: none; }
+
+div.width-30 fieldset,
+div.width-35 fieldset,
+div.width-40 fieldset,
+div.width-45 fieldset,
+div.width-50 fieldset,
+div.width-55 fieldset,
+div.width-60 fieldset,
+div.width-65 fieldset,
+div.width-70 fieldset,
+div.width-100 fieldset { 
+	background-color: #fff;
+}
+
 
 form#item-form fieldset,
 fieldset.adminform {
@@ -532,7 +556,7 @@ fieldset.adminform label {
 }
 
 fieldset.adminform input {
-	margin-left:10px;
+	/* margin-left:10px; */
 }
 fieldset.adminform select {
 	margin-right:20px;
@@ -593,13 +617,16 @@ div#content-pane fieldset {
 }
 form#item-form fieldset {
 	margin: 10px;
+	background-color: #FFF;
 }
 
 
 input#jform_offline1 {
 
-
 }
+
+
+
 
 
 fieldset ul li {
@@ -635,14 +662,14 @@ table.adminform tr.row0 { background-color: #f9f9f9; }
 table.adminform tr.row1 { background-color: #eeeeee; }
 
 table.adminform th {
-	font-size: 11px;
+	font-size: 12px;
 	padding: 6px 2px 4px 4px;
 	text-align: left;
 	height: 25px;
 	color: #000;
 	background-repeat: repeat;
 }
-table.adminform td { padding: 3px; text-align: left; }
+table.adminform td { padding: 5px; text-align: left; font-size: 12px;}
 
 table.adminform td.filter{
 	text-align: left;
@@ -652,10 +679,12 @@ table.adminform td.helpMenu{
 	text-align: right;
 }
 
-
-
+table.adminform {
+	
+}
 
 /* -- TABLE STYLES ----------------------------- */
+
 
 table.adminlist {
 	width: 100%;
@@ -1266,11 +1295,6 @@ div.message {
 	margin: 0;
 	padding: 2px 0px 0px 0px;
 }
-
-
-
-
-
 
 
 

@@ -17,56 +17,45 @@ JHtml::_('behavior.switcher');
 ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
-
 	<div id="config-document">
-		<div id="page-site">
-			<table class="noshow">
-				<tr>
-					<td>
-						<?php echo $this->loadTemplate('system'); ?>
-					</td>
-				</tr>
-			</table>
+		<div id="page-site" class="tab">
+			<div class="noshow">
+				<div class="width-100">
+					<?php echo $this->loadTemplate('system'); ?>
+				</div>
+			</div>
 		</div>
 
-		<div id="page-phpsettings">
-			<table class="noshow">
-				<tr>
-					<td>
-						<?php echo $this->loadTemplate('phpsettings'); ?>
-					</td>
-				</tr>
-			</table>
+		<div id="page-phpsettings" class="tab">
+			<div class="noshow">
+				<div class="width-60">
+					<?php echo $this->loadTemplate('phpsettings'); ?>
+				</div>
+			</div>
 		</div>
 
-		<div id="page-config">
-			<table class="noshow">
-				<tr>
-					<td>
-						<?php echo $this->loadTemplate('config'); ?>
-					</td>
-				</tr>
-			</table>
+		<div id="page-config" class="tab">
+			<div class="noshow">
+				<div class="width-60">
+					<?php echo $this->loadTemplate('config'); ?>
+				</div>
+			</div>
 		</div>
 
-		<div id="page-directory">
-			<table class="noshow">
-				<tr>
-					<td>
-						<?php echo $this->loadTemplate('directory'); ?>
-					</td>
-				</tr>
-			</table>
+		<div id="page-directory" class="tab">
+			<div class="noshow">
+				<div class="width-60">
+					<?php echo $this->loadTemplate('directory'); ?>
+				</div>
+			</div>
 		</div>
 
-		<div id="page-phpinfo">
-			<table class="noshow">
-				<tr>
-					<td>
-						<?php echo $this->loadTemplate('phpinfo'); ?>
-					</td>
-				</tr>
-			</table>
+		<div id="page-phpinfo" class="tab">
+			<div class="noshow">
+				<div class="width-100">
+					<?php echo $this->loadTemplate('phpinfo'); ?>
+				</div>
+			</div>
 		</div>
 	</div>
 

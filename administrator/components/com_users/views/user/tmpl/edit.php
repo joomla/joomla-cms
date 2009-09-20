@@ -33,32 +33,26 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="user-form" class="form-validate">
-	<div class="width-55 col">
+	<div class="width-60 fltlft">
 		<fieldset>
 			<legend><?php echo JText::_('Users_User_Account_Details'); ?></legend>
 
-			<ol>
-				<li>
+			
 					<?php echo $this->form->getLabel('name'); ?><br />
 					<?php echo $this->form->getInput('name'); ?>
-				</li>
-				<li>
+			
 					<?php echo $this->form->getLabel('username'); ?><br />
 					<?php echo $this->form->getInput('username'); ?>
-				</li>
-				<li>
+				
 					<?php echo $this->form->getLabel('password'); ?><br />
 					<?php echo $this->form->getInput('password'); ?>
-				</li>
-				<li>
+				
 					<?php echo $this->form->getLabel('password2'); ?><br />
 					<?php echo $this->form->getInput('password2'); ?>
-				</li>
-				<li>
+				
 					<?php echo $this->form->getLabel('email'); ?><br />
 					<?php echo $this->form->getInput('email'); ?>
-				</li>
-			</ol>
+				
 		</fieldset>
 
 		<fieldset>
@@ -84,7 +78,7 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 		</fieldset>
 	</div>
 
-	<div class="width-40 col">
+	<div class="width-40 fltrt">
 		<fieldset id="user-groups">
 			<legend><?php echo JText::_('Users_Assigned_Groups'); ?></legend>
 				<?php if ($this->grouplist) :

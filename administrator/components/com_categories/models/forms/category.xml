@@ -77,7 +77,7 @@
 		<field
 			name="published"
 			type="radio"
-			class="inputbox"
+			class="radiobtn"
 			default="1"
 			label="JField_Published_Label"
 			description="JField_Published_Desc">
@@ -183,7 +183,14 @@
 			description="JField_Alt_Page_title_Desc"
 			size="30"
 			default=""/>
-
+		
+		<field
+			name="author"
+			type="text"
+			label="JField_Metadata_Author_Label"
+			description="JField_Metadata_Author_Desc"
+			size="30"/>
+			
 		<field
 			name="robots"
 			type="list"
@@ -204,12 +211,7 @@
 				value="4">Don't display robots tag</option>
 		</field>
 
-		<field
-			name="author"
-			type="text"
-			label="JField_Metadata_Author_Label"
-			description="JField_Metadata_Author_Desc"
-			size="30"/>
+		
 
 	</fields>
 

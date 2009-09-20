@@ -91,29 +91,30 @@ window.addEvent('domready', function(){
 // -->
 </script>
 
+<div class="width-100">
 <form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="level-form" class="form-validate">
-	<fieldset style="width:45%;float:left">
+	<fieldset>
 		<legend><?php echo JText::_('Users_Level_Details');?></legend>
 
-		<ol>
+		
 <?php if (!$this->item->getSectionId()) : ?>
-			<li>
-				<?php echo $this->form->getLabel('section_id'); ?><br />
+			
+				<?php echo $this->form->getLabel('section_id'); ?>
 				<?php echo $this->form->getInput('section_id'); ?>
-			</li>
+			
 <?php endif; ?>
-			<li>
-				<?php echo $this->form->getLabel('title'); ?><br />
+			
+				<?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?>
-			</li>
-		</ol>
+			
 	</fieldset>
-
-	<fieldset id="user-groups">
+	</div>
+<div class="width-50">
+	<fieldset>
 		<legend><?php echo JText::_('Users_User_Groups_Having_Access');?></legend>
 		<?php echo JHtml::_('access.usergroups', 'jform[groups]', $this->item->getUserGroups()); ?>
 	</fieldset>
-
+</div>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

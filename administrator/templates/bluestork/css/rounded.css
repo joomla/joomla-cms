@@ -22,16 +22,18 @@ div#element-box div.section-box div.m {
 }
 
 div.t, div.b {
-  height: 6px;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
+	height: 6px;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	background-color: #f8f8f8;
 }
 
 div.m {
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc; 
-  padding: 0 8px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc; 
+	padding: 0 8px;
+	background-color: #f8f8f8;
 }
 
 div#toolbar-box div.m {
@@ -102,7 +104,7 @@ div#element-box div.section-box div.b div.b div.b {
 }
 
 div#element-box div.t {
-  background: url(../images/j_border.png) 0 0 repeat-x;
+  background: url(../images/j_border.png) 0 0 repeat-x; 
 }
 
 div#element-box div.t div.t {
