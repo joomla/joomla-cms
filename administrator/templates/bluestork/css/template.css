@@ -373,7 +373,7 @@ div.paramrow label:first-child {
 }
 
 label.hasTip {
-	min-width: 130px;
+	min-width: 135px;
 }
 
 fieldset input[type="radio"] {
@@ -504,7 +504,7 @@ div.width-100 fieldset {
 	background-color: #fff;
 }
 
-
+form#weblink-form fieldset,
 form#item-form fieldset,
 fieldset.adminform {
 	padding: 15px;
@@ -517,8 +517,11 @@ fieldset.adminform {
 fieldset label {
 	float: left;
 	clear:left;
-	font-size: 12px;
 	margin: 5px 5px 5px 0;
+}
+
+form label {
+	font-size: 12px;
 }
 
 fieldset input,
@@ -589,13 +592,32 @@ label#jform_smtphost-lbl,
 label#jform_sendmail-lbl,
 label#jform_smtpauth-lbl,
 label#jform_smtpsecure-lbl,
-label#jform_log_path-lbl {
+label#jform_log_path-lbl,
+label#jform_force_ssl-lbl,
+label#jform_smtpport-lbl,
+label#jform_ftp_pass-lbl,
+label#jform_smtpuser-lbl,
+label#jform_ftp_port-lbl,
+label#jform_session_handler-lbl,
+label#jform_metaauthor-lbl,
+label#jform_feed_email-lbl,
+label#jform_sitename_pagetitles-lbl,
+label#jform_offline-lbl,
+label#jform_cachetime-lbl,
+label#jform_cache_handler-lbl,
+label#jform_state-lbl {
 	clear:left;
+}
+
+label#jform_description-lbl {
+	/* margin-bottom: 10px;
+	display:block; */
 }
 
 select#jform_catid.inputbox {
 	margin-right: 20px;
 }
+
 
 input.readonly {
 	font-size: 12px;
@@ -615,11 +637,16 @@ div#content-pane fieldset {
 	border: 0;
 	padding: 10px 15px 0 15px;
 }
+
+form#weblink-form fieldset,
 form#item-form fieldset {
 	margin: 10px;
 	background-color: #FFF;
 }
 
+label#jform_description-lbl {
+	padding: 10px;
+}
 
 input#jform_offline1 {
 

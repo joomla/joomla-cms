@@ -61,7 +61,7 @@ $app = &JFactory::getApplication();
 						<div class="t"></div>
 					</div>
 				</div>
-				<div class="m">
+				<div class="m wbg">
 
 					<h1><?php echo JText::_('Joomla! Administration Login') ?></h1>
 					<jdoc:include type="message" />

@@ -304,7 +304,7 @@ if ($enabled)
 	$menu->getParent();
 }
 else {
-	$menu->addChild(new JMenuNode(JText::_('Mod_Help'),  null, 'disabled'));
+	$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Help'),  null, 'disabled'));
 }
 
 $menu->renderMenu('menu', $enabled ? '' : 'disabled');

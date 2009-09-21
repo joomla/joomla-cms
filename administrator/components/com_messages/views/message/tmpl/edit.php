@@ -31,34 +31,22 @@ function submitbutton(pressbutton) {
 }
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm">
-
-<table class="adminform">
-<tr>
-	<td width="100">
+<div class="width-100">
+		<fieldset class="adminform">	
+		<legend><?php echo JText::_('NEW_PRIVATE_MESSAGE'); ?></legend>
 		<?php echo JText::_('To'); ?>:
-	</td>
-	<td width="85%">
+	
 		<?php echo $this->recipientslist; ?>
-	</td>
-</tr>
-<tr>
-	<td>
+	
 		<?php echo JText::_('Subject'); ?>:
-	</td>
-	<td>
-		<input type="text" name="subject" size="50" maxlength="100" class="inputbox" value="<?php echo $this->subject; ?>"/>
-	</td>
-</tr>
-<tr>
-	<td valign="top">
-		<?php echo JText::_('Message'); ?>:
-	</td>
-	<td width="100%">
-		<textarea name="message" style="width:95%" rows="30" class="inputbox"></textarea>
-	</td>
-</tr>
-</table>
 
+		<input type="text" name="subject" size="50" maxlength="100" class="inputbox" value="<?php echo $this->subject; ?>"/>
+
+		<?php echo JText::_('Message'); ?>:
+	
+		<textarea name="message" style="width:95%" rows="30" class="inputbox"></textarea>
+	</fieldset>	
+</div>
 <input type="hidden" name="user_id_from" value="<?php echo $user->get('id'); ?>">
 <input type="hidden" name="task" value="">
 <?php echo JHtml::_('form.token'); ?>

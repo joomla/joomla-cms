@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 ?>
 
-<div class="width-40">
+<div class="width-100">
 
 <fieldset class="adminform">
 	<legend><?php echo JText::_('Cookie Settings'); ?></legend>

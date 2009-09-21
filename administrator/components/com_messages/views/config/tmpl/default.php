@@ -21,36 +21,23 @@ function submitbutton(pressbutton) {
 }
 </script>
 <form action="index.php" method="post" name="adminForm">
-
-<div id="editcell">
-	<table class="adminform">
-	<tr>
-		<td width="20%">
+	<div class="width-40">
+		<fieldset>	
+			<legend><?php echo JText::_('CONFIGURATION_DETAILS'); ?></legend>
 			<?php echo JText::_('Lock Inbox'); ?>:
-		</td>
-		<td>
+		
 			<?php echo $this->vars['lock']; ?>
-		</td>
-	</tr>
-	<tr>
-		<td width="20%">
+		
 			<?php echo JText::_('Mail me on new Message'); ?>:
-		</td>
-		<td>
+	
 			<?php echo $this->vars['mail_on_new']; ?>
-		</td>
-	</tr>
-	<tr>
-		<td>
+	
 			<?php echo JText::_('Auto Purge Messages'); ?>:
-		</td>
-		<td>
+		
 			<input type="text" name="vars[auto_purge]" size="5" value="<?php echo $this->vars['auto_purge']; ?>" class="inputbox" />
 			<?php echo JText::_('days old'); ?>
-		</td>
-	</tr>
-	</table>
-</div>
+		</fieldset>
+	</div>
 
 <input type="hidden" name="option" value="<?php echo $option; ?>" />
 <input type="hidden" name="task" value="" />

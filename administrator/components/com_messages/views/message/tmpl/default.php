@@ -9,41 +9,26 @@
 defined('_JEXEC') or die;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm">
+<div class="width-60 fltlft">
+		<fieldset class="adminform">	
+		<legend><?php echo JText::_('NEW_PRIVATE_MESSAGE'); ?></legend>
 
-<table class="adminform">
-	<tr>
-		<td width="100">
 			<?php echo JText::_('From'); ?>:
-		</td>
-		<td width="85%" bgcolor="#ffffff">
+		
 			<?php echo $this->item->user_from;?>
-		</td>
-	</tr>
-	<tr>
-		<td>
+		
 			<?php echo JText::_('Posted'); ?>:
-		</td>
-		<td bgcolor="#ffffff">
+		
 			<?php echo $this->item->date_time;?>
-		</td>
-	</tr>
-	<tr>
-		<td>
+		
 			<?php echo JText::_('Subject'); ?>:
-		</td>
-		<td bgcolor="#ffffff">
+		
 			<?php echo $this->item->subject;?>
-		</td>
-	</tr>
-	<tr>
-		<td valign="top">
+	
 			<?php echo JText::_('Message'); ?>:
-		</td>
-		<td width="100%" bgcolor="#ffffff">
+		
 			<pre><?php echo htmlspecialchars($this->item->message, ENT_COMPAT, 'UTF-8');?></pre>
-		</td>
-	</tr>
-</table>
+	</fieldset>	
 
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="1" />

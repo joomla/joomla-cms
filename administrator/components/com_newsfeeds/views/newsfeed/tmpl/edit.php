@@ -30,7 +30,7 @@ JHtml::_('behavior.formvalidation');
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_newsfeeds'); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
-<div class="col width-60">
+<div class="width-60 fltlft">
 	<fieldset>
 		<legend><?php echo empty($this->item->id) ? JText::_('Newsfeeds_New_Newsfeed') : JText::sprintf('Newsfeeds_Edit_Newsfeed', $this->item->id); ?></legend>
 
@@ -65,7 +65,7 @@ JHtml::_('behavior.formvalidation');
 	</fieldset>
 </div>
 
-<div class="width-40">
+<div class="width-40 fltrt">
 	<fieldset>
 		<legend><?php echo JText::_('Newsfeeds_Options'); ?></legend>
 		

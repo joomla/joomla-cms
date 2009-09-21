@@ -495,6 +495,18 @@
 	</fields>
 	
 	<fields group="site" label="Config_Site_Settings_Label">
+	
+		<field
+			name="sitename"
+			type="text"
+			default=""
+			label="Config_Site_Name_Label"
+			description="Config_Site_Name_Desc"
+			required="true"
+			filter="string"
+			size="50"
+		/> 
+		
 		<field
 			name="offline"
 			type="radio"
@@ -520,16 +532,7 @@
 			rows="2"
 		/>
 		
-		<field
-			name="sitename"
-			type="text"
-			default=""
-			label="Config_Site_Name_Label"
-			description="Config_Site_Name_Desc"
-			required="true"
-			filter="string"
-			size="50"
-		/>
+		
 		
 		<field
 			name="sitename_pagetitles"

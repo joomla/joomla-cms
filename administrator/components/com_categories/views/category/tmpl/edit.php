@@ -54,25 +54,23 @@ JHtml::_('behavior.formvalidation');
 				
 					<?php echo $this->form->getLabel('access'); ?>
 					<?php echo $this->form->getInput('access'); ?>
-			
 		</fieldset>
 	</div>
-	
-	<div class="width-100">
+	<div class="width-40 fltrt">
 		<fieldset>
 			<legend><?php echo JText::_('Categories_Fieldset_Options');?></legend>
 			<?php echo $this->loadTemplate('options'); ?>
 		</fieldset>
-</div>
-<div class="width-100">
+	</div>
+	<div class="width-40 fltrt">
 		<fieldset>
 			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
 			<?php echo $this->loadTemplate('metadata'); ?>
 		</fieldset>
 	</div>
-
 	<div class="clr"></div>
-	<?php echo $this->form->getLabel('description'); ?><br />
+	<?php echo $this->form->getLabel('description'); ?>
+	<div class="clr"></div>
 	<?php echo $this->form->getInput('description'); ?>
 
 	<input type="hidden" name="task" value="" />

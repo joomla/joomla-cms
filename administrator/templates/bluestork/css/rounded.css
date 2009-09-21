@@ -36,6 +36,10 @@ div.m {
 	background-color: #f8f8f8;
 }
 
+.wbg {
+	background-color: #fff!important;
+}
+
 div#toolbar-box div.m {
   padding: 0;
 }

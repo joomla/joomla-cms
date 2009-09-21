@@ -27,11 +27,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Sep-2009 Ron Severdia
+# BlueStork CSS fixes
++ New icons
+$ Language fixes
+^ Replace tables in components
+
 20-Sep-2009 Ron Severdia
 # BlueStork CSS fixes
 # Fixed submenu switcher
 # Visual cleanup
-
 
 20-Sep-2009 Hannes Papenberg
  ^ Removed static insert for com_redirect. its now properly retrieved from the database.

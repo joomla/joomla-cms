@@ -88,7 +88,7 @@
 			id="state"
 			name="state"
 			type="radio"
-			class="inputbox"
+			class="rbtn"
 			default="1"
 			label="Weblinks_State_Label"
 			description="Weblinks_State_Desc">
