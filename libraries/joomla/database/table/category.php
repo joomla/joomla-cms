@@ -90,11 +90,6 @@ class JTableCategory extends JTableNested
 	public $language = null;
 
 	/**
-	 *  @var boolean
-	 */
-	protected $_trackAssets 	= true;
-
-	/**
 	 * @param database A database connector object
 	 */
 	public function __construct(&$db)
