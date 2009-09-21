@@ -90,7 +90,7 @@ legend    {
 
 input, select { font-size: 10px;  border: 1px solid silver; }
 textarea      { font-size: 11px;  border: 1px solid silver; }
-button        { font-size: 10px;  }
+button        { font-size: 10px;  margin-top:2px;margin-left:5px;}
 
 .invalid { color: red; font-weight: bold; }
 input.invalid { border: 1px solid red; }
@@ -338,9 +338,9 @@ textarea#mm_message { width: 100%; }
 
 .pane-sliders .panel   { border: 1px solid #ccc; margin-bottom: 3px;}
 
-.pane-sliders .panel h3 { background: #fff; color: #666}
+.pane-sliders .panel h3 { background: #fafafa; color: #666}
 
-.pane-sliders .content { background: #f6f6f6; }
+.pane-sliders .content { background: #fff; }
 
 .pane-sliders .adminlist     { border: 0 none; font-size: 11px; }
 .pane-sliders .adminlist td  { border: 0 none; }
@@ -379,7 +379,11 @@ label.hasTip {
 fieldset input[type="radio"] {
 	display: block;
 	width: 15px;
-float:left;
+	float:left;
+}
+
+table input[type="radio"] {
+	float:none;
 }
 
 input#jformparams_link_titles1,
@@ -517,7 +521,7 @@ fieldset.adminform {
 fieldset label {
 	float: left;
 	clear:left;
-	margin: 5px 5px 5px 0;
+	margin: 5px 5px 2px 0;
 }
 
 form label {
@@ -558,9 +562,6 @@ fieldset.adminform label {
 	clear:none;
 }
 
-fieldset.adminform input {
-	/* margin-left:10px; */
-}
 fieldset.adminform select {
 	margin-right:20px;
 }
@@ -605,19 +606,16 @@ label#jform_sitename_pagetitles-lbl,
 label#jform_offline-lbl,
 label#jform_cachetime-lbl,
 label#jform_cache_handler-lbl,
-label#jform_state-lbl {
+label#jform_state-lbl,
+input#jform_menutype,
+input#jform_menudescription {
 	clear:left;
 }
 
-label#jform_description-lbl {
-	/* margin-bottom: 10px;
-	display:block; */
-}
 
 select#jform_catid.inputbox {
 	margin-right: 20px;
 }
-
 
 input.readonly {
 	font-size: 12px;
@@ -639,10 +637,16 @@ div#content-pane fieldset {
 }
 
 form#weblink-form fieldset,
-form#item-form fieldset {
-	margin: 10px;
+form#item-form fieldset,
+fieldset.batch {
+	margin: 0 10px 10px  0px;
 	background-color: #FFF;
 }
+
+fieldset.batch {
+	margin: 20px 0px 10px 0px;
+}
+
 
 label#jform_description-lbl {
 	padding: 10px;
@@ -651,10 +655,6 @@ label#jform_description-lbl {
 input#jform_offline1 {
 
 }
-
-
-
-
 
 fieldset ul li {
 	margin-left: -30px;
@@ -671,8 +671,6 @@ fieldset.filter ol li fieldset{border:0;margin:0;padding:0;}
 fieldset.filter .left{float:left;}
 fieldset.filter .right{float:right;}
 fieldset.filter .right select.inputbox {margin-left: 10px;}
-
-
 
 
 table.adminform {
@@ -934,7 +932,24 @@ a img.calendar {
 
 input.invalid { border: 1px solid red; }
 
+/* -- SYSTEM MESSAGES relocated from system.css ---- */
+/* System Messages */
+#system-message    { margin-bottom: 10px; padding: 0;}
+#system-message dt { font-weight: bold; }
+#system-message dd { margin: 0; font-weight: bold; text-indent: 30px; }
+#system-message dd ul { color: #0055BB; margin-bottom: 10px; list-style: none; padding: 10px; border-top: 3px solid #84A7DB; border-bottom: 3px solid #84A7DB;}
 
+/* System Standard Messages */
+#system-message dt.message { display: none; }
+#system-message dd.message {  }
+
+/* System Error Messages */
+#system-message dt.error { display: none; }
+#system-message dd.error ul { color: #c00; background-color: #E6C0C0; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
+
+/* System Notice Messages */
+#system-message dt.notice { display: none; }
+#system-message dd.notice ul { color: #c00; background: #EFE7B8; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
 
 
 /* -- LOGIN STYLES ----------------------------- */
@@ -1041,6 +1056,15 @@ p#form-login-lang {
  	margin-right: 15px;
 }
 
+
+/* OpenID icon style */
+input.system-openid, input.com-system-openid {
+   background: url(http://openid.net/login-bg.gif) no-repeat;
+   background-color: #fff;
+   background-position: 0 50%;
+   color: #000;
+   padding-left: 18px;
+}
 
 /* -- ICON STYLES ----------------------------- */
 
@@ -1324,4 +1348,51 @@ div.message {
 }
 
 
+.outline {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  padding: 2px;
+}
 
+
+/* -- ERROR STYLES relocated from error.css ----------- */
+
+/*
+body {
+	margin: 15px;
+	height: 100%;
+	padding: 0px;
+	font-family: Arial, Helvetica, Sans Serif;
+	font-size: 11px;
+	color: #333333;
+	background: #ffffff;
+}
+
+.frame {
+	background-color:#FEFCF3;
+	padding:8px;
+	border:solid 1px #000000;
+	margin-top:13px;
+	margin-bottom:25px;
+}
+
+.table {
+	border-collapse:collapse;
+	margin-top:13px;
+}
+
+td {
+	padding:3px;
+	padding-left:5px;
+	padding-right:5px;
+	border:solid 1px #bbbbbb;
+	font-size: 10px;
+}
+
+.type {
+	background-color:#cc0000;
+	color:#ffffff;
+	font-weight:bold;
+	padding:3px;
+}
+*/

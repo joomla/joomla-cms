@@ -4,11 +4,11 @@
 	<name>BlueStork</name>
 	<creationDate>07/02/09</creationDate>
 	<author>Ron Severdia</author>
-	<authorEmail>design@severdia.com</authorEmail>
-	<authorUrl>http://www.joomla.org</authorUrl>
+	<authorEmail>ron@kontentdesign.com</authorEmail>
+	<authorUrl>http://www.kontentdesign.com</authorUrl>
 	<copyright>2009</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>0.2</version>
+	<version>0.5</version>
 	<description>Administrator template for Joomla 1.6</description>
 	<files>
 		<filename>index.php</filename>

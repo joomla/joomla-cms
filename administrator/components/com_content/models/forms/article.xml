@@ -247,7 +247,7 @@
 			label="JField_Language_Label"
 			description="JField_Language_Desc"
 			class="inputbox"
-			size="10"
+			size="20"
 			default=""/>
 
 		<field
