@@ -53,14 +53,6 @@ class JTableModule extends JTable
 	var $control				= null;
 
 	/**
-	 * Track rows as assets.
-	 *
-	 * @var		boolean
-	 * @since	1.6
-	 */
-	protected $_trackAssets = true;
-
-	/**
 	 * Contructore
 	 *
 	 * @access protected
