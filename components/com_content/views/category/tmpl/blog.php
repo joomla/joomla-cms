@@ -10,108 +10,88 @@
 // no direct access
 defined('_JEXEC') or die;
 
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 $cparams =& JComponentHelper::getParams('com_media');
+
+// If the page class is defined, add to class as suffix. 
+// It will be a separate class if the user starts it with a space
+$pageClass = $this->params->get('pageclass_sfx');
 ?>
+
+<div class="jarticles<?php echo $pageClass;?>">
+
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-<div class="componentheading<?php echo $this->params->get('pageclass_sfx');?>">
+<h2>
 	<?php echo $this->escape($this->params->get('page_title')); ?>
-</div>
+</h2>
 <?php endif; ?>
-<table class="blog<?php echo $this->params->get('pageclass_sfx');?>" cellpadding="0" cellspacing="0">
+
+<!-- Show Category Information -->
+<div>
 <?php if ($this->params->def('show_description', 1) || $this->params->def('show_description_image', 1)) :?>
-<tr>
-	<td valign="top">
 	<?php if ($this->params->get('show_description_image') && $this->category->image) : ?>
 		<img src="<?php echo $this->baseurl . '/' . $cparams->get('image_path') . '/'. $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="" />
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 		<?php echo $this->category->description; ?>
 	<?php endif; ?>
-		<br/>
-		<br/>
-	</td>
-</tr>
 <?php endif; ?>
-<tr>
-	<td>
-	<ul>
-	<?php
-	foreach($this->children as $child)
-	{
-		echo '<li><a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)).'">'.$child->title.'</a> ('.$child->numitems.')</li>';
-	}
-	?>
-	</ul>
-	</td>
-</tr>
-<?php if ($this->params->get('num_leading_articles')) : ?>
-<tr>
-	<td valign="top">
-	<?php for ($i = $this->pagination->limitstart; $i < ($this->pagination->limitstart + $this->params->get('num_leading_articles')); $i++) : ?>
-		<?php if ($i >= $this->total) : break; endif; ?>
-		<div>
+</div>
+
+<!-- Show subcategory links -->
+<ol class="jsubcategories">
+	<?php foreach($this->children as $child) : ?>
+			<li><a href="<?php /* @TODO class not found echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); */ ?>">
+				<?php echo $child->title; ?></a> (<?php /* echo @TODO numitems not loaded $child->numitems; */?>)</li>
+	<?php endforeach; ?>
+</ol>
+
+<!-- Leading Articles -->
+<?php if (!empty($this->lead_items)) : ?>
+<ol class="jarticles-lead">
+	<?php foreach ($this->lead_items as &$item) : ?>
+	<li<?php echo $item->state == 0 ? ' class="system-unpublished"' : null; ?>>
 		<?php
-			$this->item = &$this->getItem($i, $this->params);
+			$this->item = &$item;
 			echo $this->loadTemplate('item');
 		?>
-		</div>
-	<?php endfor; ?>
-	</td>
-</tr>
-<?php else : $i = $this->pagination->limitstart; endif; ?>
+	</li>
+	<?php endforeach; ?>
+</ol>
+<?php endif; ?>
 
-<?php
-$startIntroArticles = $this->pagination->limitstart + $this->params->get('num_leading_articles');
-$numIntroArticles = $startIntroArticles + $this->params->get('num_intro_articles');
-if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
-<tr>
-	<td valign="top">
-		<table width="100%"  cellpadding="0" cellspacing="0">
-		<tr>
+<!-- Intro'd Articles -->
+
+<?php if (!empty($this->intro_items)) : ?>
+<ol class="jarticles-intro jcols-<?php echo (int) $this->columns;?>">
+	<?php foreach ($this->intro_items as $key => &$item) : ?>
+	<li class="jcolumn-<?php echo (((int)$key - 1) % (int) $this->columns)+1;?><?php echo $item->state == 0 ? ' system-unpublished"' : null; ?>">
 		<?php
-			$divider = '';
-			for ($z = 0; $z < $this->params->get('num_columns'); $z ++) :
-				if ($z > 0) : $divider = " column_separator"; endif; ?>
-				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
-				<?php for ($y = 0; $y < ($this->params->get('num_intro_articles') / $this->params->get('num_columns')); $y ++) :
-					if ($i < $this->total && $i < ($numIntroArticles)) :
-						$this->item = &$this->getItem($i, $this->params);
-						echo $this->loadTemplate('item');
-						$i ++;
-					endif;
-				endfor; ?>
-				</td>
-		<?php endfor; ?>
-		</tr>
-		</table>
-	</td>
-</tr>
+			$this->item = &$item;
+			echo $this->loadTemplate('item');
+		?>
+	</li>
+	<?php endforeach; ?>
+</ol>
+
 <?php endif; ?>
-<?php if ($this->params->get('num_links') && ($i < $this->total)) : ?>
-<tr>
-	<td valign="top">
-		<div class="blog_more<?php echo $this->params->get('pageclass_sfx') ?>">
-			<?php
-				$this->links = array_splice($this->items, $i - $this->pagination->limitstart);
-				echo $this->loadTemplate('links');
-			?>
-		</div>
-	</td>
-</tr>
+
+<?php if (!empty($this->link_items)) : ?>
+	<div class="jarticles-more">
+	<?php echo $this->loadTemplate('links'); ?>
+	</div>
 <?php endif; ?>
-<?php if ($this->params->get('show_pagination')) : ?>
-<tr>
-	<td valign="top" align="center">
-		<?php echo $this->pagination->getPagesLinks(); ?>
-		<br /><br />
-	</td>
-</tr>
-<?php endif; ?>
-<?php if ($this->params->get('show_pagination_results')) : ?>
-<tr>
-	<td valign="top" align="center">
-		<?php echo $this->pagination->getPagesCounter(); ?>
-	</td>
-</tr>
-<?php endif; ?>
-</table>
+
+
+<?php // if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
+	<div class="jpagination">
+		<?php // echo $this->pagination->getPagesLinks(); ?>
+		<?php // if ($this->params->def('show_pagination_results', 1)) : ?>
+			<div class="jpag-results">
+				<?php // echo $this->pagination->getPagesCounter(); ?>
+			</div>
+		<?php // endif; ?>
+	</div>
+<?php // endif; ?>
+
+</div>

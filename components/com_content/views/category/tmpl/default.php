@@ -12,33 +12,40 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
-// If the page class is defined, wrap the whole output in a div.
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
-<?php if ($pageClass) : ?>
-<div class="<?php echo $pageClass;?>">
-<?php endif;?>
+
+<div class="jcategory<?php echo $pageClass;?>">
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-<h1>
+<h2>
 	<?php echo $this->escape($this->params->get('page_title')); ?>
-</h1>
+</h2>
 <?php endif; ?>
 
-<h2>
+<h3>
 	<?php echo $this->escape($this->item->title); ?>
-</h2>
+</h3>
 
-<?php echo $this->item->description; ?>
+<?php if ($this->params->get('show_description') && $this->category->description) : ?>
+	<?php echo $this->item->description; ?>
+	
+<?php endif; ?>
 
+<div class="jcat-articles">
 <?php echo $this->loadTemplate('articles'); ?>
-
-<?php echo $this->loadTemplate('siblings'); ?>
-
-<?php echo $this->loadTemplate('children'); ?>
-
-<?php echo $this->loadTemplate('parents'); ?>
-
-<?php if ($pageClass) : ?>
 </div>
-<?php endif;?>
+
+<div class="jcat-siblings">
+<?php /* echo $this->loadTemplate('siblings'); */?>
+</div> 
+
+<div class="jcat-children">
+<?php echo $this->loadTemplate('children'); ?>
+</div>
+
+<div class="jcat-parents">
+<?php /* echo $this->loadTemplate('parents'); */ ?>
+</div> 
+
+</div>

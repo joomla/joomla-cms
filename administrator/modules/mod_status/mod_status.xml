@@ -8,12 +8,12 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>This_module_shows_the_status_of_the_logged_in_user.</description>
+	<description>MOD_STATUS_DESC</description>
 	<files>
 		<filename module="mod_status">mod_status.php</filename>
 	</files>
 	<params>
-		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+		<param name="cache" type="list" default="0" label="Mod_Status_Cache_Label" description="Mod_Status_Cache_Desc">
 			<option value="0">Never</option>
 	  	</param>
 	</params>

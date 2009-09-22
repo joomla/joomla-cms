@@ -10,14 +10,13 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<div>
-	<strong><?php echo JText::_('More Articles...'); ?></strong>
-</div>
-<ul>
-<?php foreach ($this->links as $link) : ?>
+<h3><?php echo JText::_('More Articles...'); ?></h3>
+
+<ol class="jlinks">
+<?php foreach ($this->link_items as &$item) : ?>
 	<li>
-			<a class="blogsection" href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($link->slug, $link->catslug)); ?>">
-			<?php echo $link->title; ?></a>
+		<a href="<?php echo JRoute::_(ContentRoute::article($item->slug, $item->catslug)); ?>">
+			<?php echo $item->title; ?></a>
 	</li>
 <?php endforeach; ?>
-</ul>
+</ol>

@@ -96,7 +96,7 @@ class MenusControllerItem extends JController
 				{
 					// Check-out failed, go back to the list and display a notice.
 					$message = JText::sprintf('JError_Checkout_failed', $model->getError());
-					$this->setRedirect('index.php?option=com_menus&view=item&item_id='.$id, $message, 'error');
+					//$this->setRedirect('index.php?option=com_menus&view=item&item_id='.$id, $message, 'error');
 					return false;
 				}
 			}
@@ -125,32 +125,34 @@ class MenusControllerItem extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
+		
 		$app	= &JFactory::getApplication();
+		// Get the previous menu item id (if any) and the current menu item id.
+		$previousId	= (int) $app->getUserState('com_content.edit.item.id');
+		
 		$model	= &$this->getModel('Item');
 
-		// Get the previous row id.
-		$previousId	= (int) $app->getUserState('com_menus.edit.item.id');
+
+
 
 		// If rows ids do not match, checkin previous row.
-		if ($model->checkin($previousId))
-		{
-			// Redirect to the list screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
-		}
-		else
-		{
-			// Check-in failed
+		if (!$model->checkin($previousId)) {
+		// Check-in failed, go back to the menu item and display a notice.
 			$message = JText::sprintf('JError_Checkin_failed', $model->getError());
-			$this->setRedirect('index.php?option=com_menus&view=items', $message, 'error');
+			$this->setRedirect('index.php?option=com_content&view=item&layout=edit', $message, 'error');
+			return false;		
+			
 		}
 
-		// Clear the row edit information from the session.
+				// Clear the row edit information from the session.
 		$app->setUserState('com_menus.edit.item.id',	null);
 		$app->setUserState('com_menus.edit.item.data',	null);
 		$app->setUserState('com_menus.edit.item.type',	null);
 		$app->setUserState('com_menus.edit.item.link',	null);
-	}
 
+	// Redirect to the list screen.
+		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
+	}
 	/**
 	 * Method to save a menu item.
 	 *
@@ -182,7 +184,7 @@ class MenusControllerItem extends JController
 			{
 				// Check-in failed, go back to the item and display a notice.
 				$message = JText::sprintf('JError_Checkin_saved', $model->getError());
-				$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
+			//	$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
 				return false;
 			}
 
@@ -259,7 +261,7 @@ class MenusControllerItem extends JController
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JError_Save_failed', $model->getError()), 'notice');
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
+		//	$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
 			return false;
 		}
 
@@ -268,7 +270,7 @@ class MenusControllerItem extends JController
 		{
 			// Check-in failed, go back to the row and display a notice.
 			$message = JText::sprintf('JError_Checkin_saved', $model->getError());
-			$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
+		//	$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
 			return false;
 		}
 
@@ -316,21 +318,45 @@ class MenusControllerItem extends JController
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-
+		
 		// Get the type.
 		$type = JRequest::getVar('type');
 		$type = json_decode(base64_decode($type));
-
 		$title = isset($type->title) ? $type->title : null;
 		if ($title != 'alias' && $title != 'separator' && $title != 'url') {
 			$title = 'component';
 		}
 		$app->setUserState('com_menus.edit.item.type',	$title);
+		if ($title=='component'){
+			if (isset($type->request)) {
 
-		if (isset($type->request)) {
-			$app->setUserState('com_menus.edit.item.link', 'index.php?'.http_build_query($type->request));
+				$app->setUserState('com_menus.edit.item.link', 'index.php?option='.  $type->request->option.'&view='. $type->request->view);
+
+				//	$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
+				//	$app->setUserState('com_menus.edit.item.data',	null);
+				//$app->setUserState('com_menus.edit.item.type',	$type->type);
+				//	$app->setUserState('com_menus.edit.item.link',	null);
+			}
 		}
+		//If the type is alias you just need the item id from the menu item referenced.
+		else if ($title=='alias'){
+				$app->setUserState('com_menus.edit.item.link', 'index.php?Itemid=');
 
+				//	$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
+				//	$app->setUserState('com_menus.edit.item.data',	null);
+				//$app->setUserState('com_menus.edit.item.type',	$type->type);
+				//	$app->setUserState('com_menus.edit.item.link',	null);
+		}
+		//else if ($title=='url'){
+			//	$app->setUserState('com_menus.edit.item.link', null );
+
+				//	$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
+				//	$app->setUserState('com_menus.edit.item.data',	null);
+				//$app->setUserState('com_menus.edit.item.type',	$type->type);
+				//	$app->setUserState('com_menus.edit.item.link',	null);
+		//}
+		
+		$this->type=$type;
 		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
 	}
 

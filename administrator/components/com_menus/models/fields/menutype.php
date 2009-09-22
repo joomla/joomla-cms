@@ -83,7 +83,7 @@ class JFormFieldMenuType extends JFormFieldList
 			});
 		});");
 
-		$html[] = '<input type="text" readonly="readonly" value="'.$value.'"'.$size.$class.'>';
+		$html[] = '<input type="text" readonly="readonly" disabled="disabled" value="'.$value.'"'.$size.$class.'>';
 		$html[] = '<input type="button" class="modal" value="'.JText::_('Menus_Change_Linktype').'" rel="{handler:\'clone\', target:\'menu-types\'}">';
 		$html[] = '<input type="hidden" name="'.$this->inputName.'" value="'.htmlspecialchars($this->value).'">';
 
@@ -102,21 +102,7 @@ class JFormFieldMenuType extends JFormFieldList
 
 		$html[] = '<dl class="menu_types">';
 
-		$html[] = '	<dt>'.JText::_('Menus_Type_System').'</dt>';
-		$html[] = '	<dd>';
-		$html[] = '		'.JText::_('Menus_Type_System_Desc');
-		$html[] = '		<ul>';
-		$html[] = '			<li>';
-		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'url'))).'" title="'.JText::_('Menus_Type_External_URL_Desc').'">'.JText::_('Menus_Type_External_URL').'</a>';
-		$html[] = '			</li>';
-		$html[] = '			<li>';
-		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'alias'))).'" title="'.JText::_('Menus_Type_Alias_Desc').'">'.JText::_('Menus_Type_Alias').'</a>';
-		$html[] = '			</li>';
-		$html[] = '			<li>';
-		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'separator'))).'" title="'.JText::_('Menus_Type_Separator_Desc').'">'.JText::_('Menus_Type_Separator').'</a>';
-		$html[] = '			</li>';
-		$html[] = '		</ul>';
-		$html[] = '	</dd>';
+
 
 		foreach ($types as $name => $list)
 		{
@@ -132,11 +118,26 @@ class JFormFieldMenuType extends JFormFieldList
 		$html[] = '		</ul>';
 		$html[] = '	</dd>';
 		}
+
+		$html[] = '	<dt>'.JText::_('Menus_Type_System').'</dt>';
+		$html[] = '	<dd>';
+		$html[] = '		'.JText::_('Menus_Type_System_Desc');
+		$html[] = '		<ul>';
+		$html[] = '			<li>';
+		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'url'))).'" title="'.JText::_('Menus_Type_External_URL_Desc').'">'.JText::_('Menus_Type_External_URL').'</a>';
+		$html[] = '			</li>';
+		$html[] = '			<li>';
+		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'alias'))).'" title="'.JText::_('Menus_Type_Alias_Desc').'">'.JText::_('Menus_Type_Alias').'</a>';
+		$html[] = '			</li>';
+		$html[] = '			<li>';
+		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'separator'))).'" title="'.JText::_('Menus_Type_Separator_Desc').'">'.JText::_('Menus_Type_Separator').'</a>';
+		$html[] = '			</li>';
+		$html[] = '		</ul>';
+		$html[] = '	</dd>';
 		$html[] = '</dl>';
-
+		
 		return implode("\n", $html);
-	}
-
+	}		
 	/**
 	 * Method to get the available menu item type options.
 	 *

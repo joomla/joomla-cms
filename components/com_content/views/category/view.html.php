@@ -22,8 +22,19 @@ class ContentViewCategory extends JView
 	protected $state = null;
 	protected $item = null;
 	protected $articles = null;
+	// Note: pagination works in frontpage view, but not set up in this view yet
 	protected $pagination = null;
 
+	protected $lead_items = array();
+	protected $intro_items = array();
+	protected $link_items = array();
+	protected $columns = 1;
+
+	/**
+	 * Display the view
+	 *
+	 * @return	mixed	False on error, null otherwise.
+	 */
 	function display($tpl = null)
 	{
 		// Initialize variables
@@ -36,7 +47,7 @@ class ContentViewCategory extends JView
 		$siblings	= $this->get('Siblings');
 		$children	= $this->get('Children');
 		$parents	= $this->get('Parents');
-		//$pagination	= $this->get('Pagination');
+		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -48,9 +59,14 @@ class ContentViewCategory extends JView
 
 		// PREPARE THE DATA
 
+		// Get the metrics for the structural page layout.
+		$numLeading	= $params->def('num_leading_articles',	1);
+		$numIntro	= $params->def('num_intro_articles',	4);
+		$numLinks	= $params->def('num_links', 			4);
+
 		// Compute the category slug and prepare description (runs content plugins).
-		$item->slug			= $item->path ? ($item->id.':'.$item->path) : $item->id;
-		$item->description	= JHtml::_('content.prepare', $item->description);
+		 $item->slug			= $item->path ? ($item->id.':'.$item->path) : $item->id;
+		 $item->description	= JHtml::_('content.prepare', $item->description);
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($articles as $i => &$article)
@@ -62,8 +78,8 @@ class ContentViewCategory extends JView
 			$dispatcher	= &JDispatcher::getInstance();
 
 			// Ignore content plugins on links.
-			//if ($i < $numLeading + $numIntro)
-			//{
+			if ($i < $numLeading + $numIntro)
+			{
 				$article->introtext = JHtml::_('content.prepare', $article->introtext);
 
 				$results = $dispatcher->trigger('onAfterDisplayTitle', array (&$article, &$article->params, 0));
@@ -74,7 +90,49 @@ class ContentViewCategory extends JView
 
 				$results = $dispatcher->trigger('onAfterDisplayContent', array (&$article, &$article->params, 0));
 				$article->event->afterDisplayContent = trim(implode("\n", $results));
-			//}
+			}
+		}
+
+		// Preprocess the breakdown of leading, intro and linked articles.
+		// This makes it much easier for the designer to just interogate the arrays.
+		$max	= count($articles);
+
+		// The first group is the leading articles.
+		$limit	= $numLeading;
+		for ($i = 0; $i < $limit &&$i < $max; $i++)
+		{
+			$this->lead_items[$i] = &$articles[$i];
+		}
+
+		// The second group is the intro articles.
+		$limit		= $numLeading + $numIntro;
+		$this->columns	= max(1, $params->def('num_columns', 1));
+		$order		= $params->def('multi_column_order', 1);
+
+		if ($order !== 1 || $this->columns == 1)
+		{
+			// Order articles across, then down (or single column mode)
+			for ($i = $numLeading; $i < $limit &&$i < $max; $i++) {
+				$this->intro_items[$i] = &$articles[$i];
+			}
+		}
+		else
+		{
+			// Order articles down, then across
+			$k = $numLeading;
+
+			// Pass over the second group by the number of columns
+			for ($j = 0; $j < $this->columns; $j++)
+			{
+				for ($i = $numLeading + $j; $i < $limit &&$i < $max; $i += $this->columns, $k++) {
+					$this->intro_items[$k] = &$articles[$i];
+				}
+			}
+		}
+
+		// The remainder are the links.
+		for ($i = $numLeading + $numIntro; $i < $max; $i++) {
+			$this->link_items[$i] = &$articles[$i];
 		}
 
 		// Compute the sibling category slugs and prepare description (runs content plugins).
@@ -84,7 +142,7 @@ class ContentViewCategory extends JView
 			$sibling->description	= JHtml::_('content.prepare', $sibling->description);
 		}
 
-		// Compute the sibling category slugs and prepare description (runs content plugins).
+		// Compute the children category slugs and prepare description (runs content plugins).
 		foreach ($children as $i => &$child)
 		{
 			$child->slug		= $child->route ? ($child->id.':'.$child->route) : $child->id;
@@ -92,10 +150,10 @@ class ContentViewCategory extends JView
 		}
 
 		// Compute the parent category slugs.
-		foreach ($parents as $i => &$parent)
-		{
+		 foreach ($parents as $i => &$parent)
+		 {
 			$parent->slug = $parent->route ? ($parent->id.':'.$parent->route) : $parent->id;
-		}
+		 }
 
 		$this->assignRef('params',		$params);
 		$this->assignRef('item',		$item);
@@ -103,7 +161,7 @@ class ContentViewCategory extends JView
 		$this->assignRef('siblings',	$siblings);
 		$this->assignRef('children',	$children);
 		$this->assignRef('parents',		$parents);
-		//$this->assignRef('pagination',	$pagination);
+		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('user',		$user);
 
 		$this->_prepareDocument();
@@ -122,7 +180,7 @@ class ContentViewCategory extends JView
 		$title		= $this->item->title;
 
 		// Because the application sets a default page title,
-		// we need to get it from the menu item itself.
+		// we need to get it from the menu item itself
 		if ($menu = $menus->getActive())
 		{
 			$menuParams = new JObject(json_decode($menu->params, true));
@@ -135,7 +193,7 @@ class ContentViewCategory extends JView
 		}
 		$this->document->setTitle($title);
 
-		// Add feed links.
+		// Add feed links
 		if ($this->params->get('show_feed_link', 1))
 		{
 			$link = '&format=feed&limitstart=';

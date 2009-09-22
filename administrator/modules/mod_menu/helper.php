@@ -47,7 +47,7 @@ class ModMenuHelper
 	 *
 	 * @return	array	A nest array of component objects and submenus
 	 */
-	static function getComponents($exclude = array(), $authCheck = true)
+	function getComponents($exclude = array(), $authCheck = true)
 	{
 		// Initialise variables.
 		$lang	= &JFactory::getLanguage();
@@ -59,7 +59,7 @@ class ModMenuHelper
 
 		// SQL quote the excluded 'option' values.
 		$exclude = array_map(array($db, 'quote'), $exclude);
-
+		
 		// Prepare the query.
 		$query->select('c.id, c.parent, c.name, c.option, c.admin_menu_link, c.admin_menu_img');
 		$query->from('#__components AS c');
@@ -79,7 +79,6 @@ class ModMenuHelper
 
 		$db->setQuery($query);
 		$components	= $db->loadObjectList(); // component list
-
 		// Parse the list of extensions.
 		foreach ($components as &$component)
 		{
@@ -89,7 +88,7 @@ class ModMenuHelper
 			if ($component->parent == 0)
 			{
 				// Only add this top level if it is authorised and enabled.
-				if ($authCheck == false || $user->authorize($component->option.'.manage'))
+				if (!$authCheck == false || $user->authorize($component->option.'.manage'))
 				{
 					// Root level.
 					$result[$component->id] = $component;
@@ -99,8 +98,9 @@ class ModMenuHelper
 
 					// If the root menu link is empty, add it in.
 					if (empty($component->admin_menu_link)) {
-						$component->admin_menu_link = 'index.php?option='.$component->option;
-					}
+					$component->admin_menu_link = 'index.php?option='.$component->option;
+
+				}
 
 					if (!empty($component->option)) {
 						$langs[$component->option.'.menu'] = true;

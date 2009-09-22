@@ -122,7 +122,7 @@ $userId	= $user->get('id');
 					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 				</td>
 				<td>
-					<span class="editlinktip hasTip" title="<?php echo JText::_('Edit Category');?>::<?php echo $item->category; ?>">
+					<span class="editlinktip hasTip" title="<?php echo JText::_('Newsfeeds_Edit_Category');?>::<?php echo $item->category; ?>">
 					<a href="<?php echo JRoute::_('index.php?option=com_newsfeeds&view=newsfeed&task=edit&cid[]='.$item->id); ?>" >
 						<?php echo $item->category; ?></a></span>
 				</td>

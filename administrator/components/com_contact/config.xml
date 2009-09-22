@@ -1,107 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fields>
+
+	<fields group="contact" array="true"
+			label="Contact_Config_Individual_Contact_Display" >
+				<field name="show_name" type="radio" default="1" label="Contact_Params_Name_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_position" type="radio" default="1" label="Contact_Params_Contact_Position_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_email" type="radio" default="0" label="Contact_Params_Contact_Position_E-mail_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_street_address" type="radio" default="1" label="Contact_Params_Street_Address_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_suburb" type="radio" default="1" label="Contact_Params_Town/Suburb_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_state" type="radio" default="1" label="Contact_Params_State/County_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_postcode" type="radio" default="1" label="Contact_Params_Post/Zip_Code_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_country" type="radio" default="1" label="Contact_Params_Country_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_telephone" type="radio" default="1" label="Contact_Params_Telephone_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_mobile" type="radio" default="1" label="Contact_Params_Mobile_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_fax" type="radio" default="1" label="Contact_Params_Fax_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_webpage" type="radio" default="1" label="Contact_Params_Webpage_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_misc" type="radio" default="1" label="Contact_Params_Misc Info_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_image" type="radio" default="1" label="Contact_Params_Image_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="show_links" type="radio" default="1" label="Contact_Params_Image_Label" description="Contact_Params_Name_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>
+			<field name="allow_vcard" type="radio" default="0" label="Contact_Config_Allow_vCard_Label" description="Contact_Config_Allow_vCard_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+			</field>	
+			<field
+				id="show_links"
+				name="show_links"
+				label="Contact_Show_Links_Label"
+				description="Contact_Show_Links_Desc"
+				type="radio"
+				default="1"> 
+					<option value="0">Jcommon_Hide</option>
+					<option value="1">Jcommon_Show</option>
+					<option value="1">Jcommon_Use_Global</option>		
+			</field>
+			<field
+				id="linka_name"
+				name="linka_name"
+				type="text"
+				label="Contact_LInka_Name_Label"
+				description="Contact_Linka_Name_Desc"
+				class="inputbox"
+				size="30"
+				default="Contact_Default_Link_Name"/>	
+			<field
+				id="linkb_name"
+				name="linkb_name"
+				type="text"
+				label="Contact_LInkb_Name_Label"
+				description="Contact_Linkb_Name_Desc"
+				class="inputbox"
+				size="30"
+				default="Contact_Default_Link_Name"/>					
+			<field
+				id="linkc_name"
+				name="linkc_name"
+				type="text"
+				label="Contact_LInkc_Name_Label"
+				description="Contact_Linkc_Name_Desc"
+				class="inputbox"
+				size="30"
+				default="Contact_Default_Link_Name"/>					
+			<field
+				id="linkd_name"
+				name="linkd_name"
+				type="text"
+				label="Contact_LInkd_Name_Label"
+				description="Contact_Linkd_Name_Desc"
+				class="inputbox"
+				size="30"
+				default="Contact_Default_Link_Name"/>					
+			<field
+				id="linke_name"
+				name="linke_name"
+				type="text"
+				label="Contact_LInke_Name_Label"
+				description="Contact_Linke_Name_Desc"
+				class="inputbox"
+				size="30"
+				default="Contact_Default_Link_Name"/>				
+	</fields>		
+	<fields group="Icons"  label="Contact_Icon_Settings" >	
+
 		<field
 			name="contact_icons"
 			type="list"
 			default="0"
-			label="Icons/text"
-			description="fieldCONTACTICONS">
+			label="CONTACT_ICONS_Settings_Label"
+			description="CONTACT_ICONS_Settings_Desc">
 			<option
-				value="0">Icons</option>
+				value="0">Contact_Icons_Options_Icons</option>
 			<option
-				value="1">Text</option>
+				value="1">Contact_Icons_Options_Text</option>
 			<option
-				value="2">None</option>
+				value="2">Contact_Icons_Options_None</option>
 		</field>
 
 		<field
 			name="icon_address"
-			type="imagelist"
-			directory="/images/system"
+			type="media"
+			link="images/system"
 			hide_none="1"
 			default=""
-			label="Address Icon"
-			description="Icon for the Address info" />
+			label="Contact_Icons_Address_Label"
+			description="Contact_Icons_Address_Desc" />
 
 		<field
 			name="icon_email"
-			type="imagelist"
+			type="media"
 			directory="/images/system"
 			hide_none="1"
 			default=""
-			label="Email Icon"
-			description="Icon for the Email info" />
+			label="Contact_Icons_Email_Label"
+			description="Contact_Icons_Email_Desc" />
 
 		<field
 			name="icon_telephone"
-			type="imagelist"
+			type="media"
 			directory="/images/system"
 			hide_none="1"
 			default=""
-			label="Telephone Icon"
-			description="Icon for the Telephone info" />
+			label="Contact_Icons_Telephone_Label"
+			description="Contact_Icons_Telephone_Desc" />
 
 		<field
 			name="icon_mobile"
-			type="imagelist"
+			type="media"
 			directory="/images/system"
 			hide_none="1"
 			default=""
-			label="Mobile Icon"
-			description="Icon for the Mobile info" />
+			label="Contact_Icons_Mobile_Label"
+			description="Contact_Icons_Mobile_Desc" />
 
 		<field
 			name="icon_fax"
-			type="imagelist"
+			type="media"
 			directory="/images/system"
 			hide_none="1"
 			default=""
-			label="Fax Icon"
-			description="Icon for the Fax info" />
+			label="Contact_Icons_Fax_Label"
+			description="Contact_Icons_Fax_Desc" />
 
 		<field
 			name="icon_misc"
-			type="imagelist"
-			directory="/images/system"
+			type="media"
+			directory="/images/system"			
 			hide_none="1"
 			default=""
-			label="Misc Icon"
-			description="Icon for the Misc info" />
+			label="Contact_Icons_Misc_Label"
+			description="Contact_Icons_Misc_info_Desc" />
+	</fields>
 
-		<field
-			type="spacer" />
-
+	<fields group="contacts" array="true"
+			label="Contact_Config_Table_of_Contacts">
 		<field
 			name="show_headings"
 			type="radio"
 			default="1"
-			label="Show Table Headings"
-			description="Show/Hide the Table Headings">
+			label="Contact_Config_Table_Headings_Label"
+			description="Contact_Config_Table_Headings_Desc">
 			<option
-				value="0">Hide</option>
+				value="0">Jcommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">Jcommon_Show</option>
 		</field>
 
 		<field
 			name="show_position"
 			type="radio"
 			default="1"
-			label="Show Contact's Position"
-			description="Show/Hide the Contact Position">
+			label="Contact_Config_Position_Label"
+			description="Contact_Config_Position_Desc">
 			<option
-				value="0">Hide</option>
+				value="0">Jcommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">Jcommon_Show</option>
 		</field>
 
 		<field
 			name="show_email"
 			type="radio"
 			default="0"
-			label="Show Email Address"
-			description="Show/Hide the Email Address">
+			label="Contact_Show_Email_Address_Label"
+			description="Contact_Show_Email_Address_Desc">
 			<option
 				value="0">Hide</option>
 			<option
@@ -112,89 +237,97 @@
 			name="show_telephone"
 			type="radio"
 			default="1"
-			label="Show Phone Number"
-			description="Show/Hide the Telephone Number">
+			label="Contact_Config_Phone_Label"
+			description="Contact_Config_Telephone_Desc">
 			<option
-				value="0">Hide</option>
+				value="0">Jcommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">Jcommon_Show</option>
 		</field>
 
 		<field
 			name="show_mobile"
 			type="radio"
 			default="1"
-			label="Show Mobile Number"
-			description="Show/Hide the Mobile Number">
+			label="Contact_Config_Mobile_Label"
+			description="Contact_Config_Mobile_Desc">
 			<option
-				value="0">Hide</option>
+				value="0">Jcommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">Jcommon_Show</option>
 		</field>
 
 		<field
 			name="show_fax"
 			type="radio"
 			default="1"
-			label="Show Fax Number"
-			description="Show/Hide the Fax Number">
+			label="Contact_Config_Mobile_Label"
+			description="Contact_Config_Mobile_Desc">
 			<option
-				value="0">Hide</option>
+				value="0">Jcommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">Jcommon_Show</option>
 		</field>
 
-		<field
-			type="spacer" />
 
 		<field
 			name="allow_vcard"
 			type="radio"
 			default="0"
-			label="Enable vcard"
-			description="Enable vcard support for contacts">
+			label="Contact_Config_vCard_Label"
+			description="Contact_Config_vCard_Desc">
 			<option
-				value="0">JNo</option>
+				value="0">Jcommon_Hide</option>
 			<option
-				value="1">JYes</option>
+				value="1">Jcommon_Show</option>
+
 		</field>
+			
+	</fields>
+	<fields group="Contact_Form" array="true"
+			label="Contact_Config_Contact_Form">
 
-		<field
-			type="spacer" />
-
+		<field name="show_email_form" 
+			type="radio" 
+			default="1" 
+			label="Contact_Email_Show_Form_Label" 
+			description="Contact_Email_Show_Form_Desc">
+				<option value="0">Jcommon_Hide</option>
+				<option value="1">Jcommon_Show</option>
+		</field>
 		<field
 			name="banned_email"
 			type="textarea"
 			default=""
-			label="BANNED EMAIL LABEL"
+			label="Contact_Config_BANNED_EMAIL_LABEL"
 			rows="3"
 			cols="30"
-			description="BANNED EMAIL DESC" />
+			description="Contact_Config_BANNED_EMAIL_DESC" />
 
 		<field
 			name="banned_subject"
 			type="textarea"
 			default=""
-			label="BANNED SUBJECT LABEL"
+			label="Contact_Config_BANNED_SUBJECT_LABEL"
 			rows="3"
 			cols="30"
-			description="BANNED SUBJECT DESC" />
+			description="Contact_Config_BANNED_SUBJECT_DESC" />
 
 		<field
 			name="banned_text"
 			type="textarea"
 			default=""
-			label="BANNED TEXT LABEL"
+			label="Contact_Config_BANNED_TEXT_LABEL"
 			rows="3"
 			cols="30"
-			description="BANNED TEXT DESC" />
+			description="Contact_Config_BANNED_TEXT_DESC" />
 
 		<field
 			name="validate_session"
 			type="radio"
 			default="1"
-			label="SESSION CHECK LABEL"
-			description="SESSION CHECK DESC">
+			label="Contact_Config_SESSION_CHECK_LABEL"
+			description="Contact_Config_SESSION_CHECK_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -205,12 +338,80 @@
 			name="custom_reply"
 			type="radio"
 			default="0"
-			label="Custom Reply"
-			description="Custom Reply Desc">
+			label="Contact_Config_Custom_Reply"
+			description="Contact_Config_Custom_Reply_Desc">
 			<option
 				value="0">JNo</option>
 			<option
 				value="1">JYes</option>
 		</field>
+		<field
+			name="redirect"
+			type="text"
+			default=""
+			size="30"
+			label="Contact_Config_Redirect_LABEL"
+			description="Contact_Config_Redirect_DESC" />
+	</fields>
+	<fields group="Contact_Config_Meta_Data" array="true"
+		label="Contact_Fieldset_Meta_Data">
+		<field
+			id="metakey"
+			name="metakey"
+			type="textarea"
+			label="JField_Meta_Keywords_Label"
+			description="JField_Meta_Keywords_Desc"
+			class="inputbox"
+			rows="3"
+			cols="30"
+			default=""/>
+
+		<field
+			id="metadesc"
+			name="metadesc"
+			type="textarea"
+			label="JField_Meta_Description_Label"
+			description="JField_Meta_Description_Desc"
+			class="inputbox"
+			rows="3"
+			cols="30"
+			default=""/>
+			<field
+				name="robots"
+				type="text"
+				label="JField_Metadata_Robots_Label"
+				description="JField_Metadata_Robots_Desc"
+				size="20"/>
+
+			<field
+				name="author"
+				type="text"
+				label="JField_Metadata_Author_Label"
+				description="JField_Metadata_Author_Desc"
+				size="20"/>
+			<field
+				name="rights"
+				type="text"
+				label="JField_Metadata_Rights_Label"
+				description="JField_Metadata_Rights_Desc"
+				size="20"/>			
+			<field
+				id="language"
+				name="language"
+				type="text"
+				label="JField_Language_Label"
+				description="JField_Language_Desc"
+				class="inputbox"
+				size="10"
+				default=""/>
+			<field
+				id="xreference"
+				name="xreference"
+				type="hidden"
+				label="JField_Metadata_XReference_Label"
+				description="JField_Metadata_XReference_Desc"
+				class="inputbox"
+				size="30"
+				default=""/>	
 	</fields>
 </config>

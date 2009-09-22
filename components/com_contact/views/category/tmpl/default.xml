@@ -16,7 +16,7 @@
 
 		<field
 			name="catid"
-			type="category"
+			type="categories"
 			extension="com_contact"
 			default="0"
 			label="Select Category"

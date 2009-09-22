@@ -10,15 +10,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.helper');
+jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT.DS.'router.php';
 
-require_once(JPATH_COMPONENT.DS.'controller.php');
-
-// Create the controller
-$controller = new ContactController();
-
-// Perform the Request task
-$controller->execute(JRequest::getVar('task', null, 'default', 'cmd'));
-
-// Redirect if set by the controller
+$controller = JController::getInstance('Contact');
+$controller->execute(JRequest::getVar('task'));
 $controller->redirect();

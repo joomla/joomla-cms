@@ -10,16 +10,17 @@
 			filter="int"
 			required="true"
 			readonly="true"/>
-
+			
 		<field
 			id="title"
 			name="title"
 			type="text"
-			label="JField_Title_Label"
+			label="MENUS_ITEM_TITLE_LABEL"
 			description="Menus_Item_Title_Desc"
 			class="inputbox"
 			size="40"
 			required="true"/>
+
 
 		<field
 			id="alias"
@@ -30,7 +31,17 @@
 			default=""
 			class="inputbox"
 			size="40"/>
-
+			
+		<field
+			name="access"
+			type="accesslevels"
+			id="access"
+			class="inputbox"
+			label="JField_Access_Label"
+			description="JField_Access_Desc"
+			default="1"
+			filter="integer"/>
+			
 		<field
 			id="link"
 			name="link"
@@ -40,17 +51,16 @@
 			default=""
 			class="inputbox"
 			size="50"/>
-
 		<field
 			id="menutype"
 			name="menutype"
 			type="menus"
-			label="Menus_Item_MenuType_Label"
-			description="Menus_Item_MenuType_Desc"
-			default=""
+			label="Menus_Menu_Assigned_Label"
+			description="Menus_Menu_Assigned_Desc"
 			class="inputbox"
-			size="1"/>
-
+			default=""
+			required="true"
+			size="1" />
 		<field
 			id="type"
 			name="type"
@@ -59,8 +69,8 @@
 			description="Menus_Item_Type_Desc"
 			default=""
 			class="inputbox"
+			required="true"
 			size="40" />
-
 		<field
 			name="published"
 			type="radio"
@@ -97,7 +107,7 @@
 		<field
 			id="ordering"
 			name="ordering"
-			type="text"
+			type="ordering"
 			label="JField_Ordering_Label"
 			description="JField_Ordering_Desc"
 			default=""
@@ -107,22 +117,16 @@
 		<field
 			id="browserNav"
 			name="browserNav"
-			type="text"
+			type="list"
 			label="Menus_Item_BrowserNav_Label"
 			description="Menus_Item_BrowserNav_Desc"
-			default=""
+			default="Parent"
 			filter="int"
-			class="inputbox"/>
-
-		<field
-			name="access"
-			type="accesslevels"
-			id="access"
-			class="inputbox"
-			label="JField_Access_Label"
-			description="JField_Access_Desc"
-			default="1"
-			filter="integer"/>
+			class="inputbox">
+				<option value="0">Menus_BrowserNav_Option_Parent</option>
+				<option value="1">Menus_BrowserNav_Option_New_With_Nav</option>
+				<option value="2">Menus_BrowserNav_Option_New_Without_Nav</option>
+			</field>
 
 
 		<field
@@ -189,6 +193,6 @@
 		<field
 			name="rgt"
 			type="hidden"
-			filter="unset"/>
+			filter="unset"/>	
 	</fields>
 </form>

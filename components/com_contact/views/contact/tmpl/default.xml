@@ -13,36 +13,36 @@
 		label="Menus_Layout_Request_Variables_Label"
 		description="Menus_Layout_Request_Variables_Desc"
 		addfieldpath="/administrator/components/com_contact/models/fields">
-
 		<field
 			name="id"
-			type="contact"
+			type="contacts"
 			default=""
 			label="Select Contact"
-			description="The contact to link to" />
+			description="The contact to link to" 
+			/>
 	</fields>
 	<fields>
 		<field
 			name="show_contact_list"
 			type="radio"
 			default="0"
-			label="Drop Down"
-			description="fieldDROPDOWN">
+			label="Com_Contact_Contact_Contact_Show_List_Label"
+			description="Com_Contact_Contact_Contact_Show_List_Desc">
 			<option
-				value="0">Hide</option>
+				value="0">JHide</option>
 			<option
-				value="1">Show</option>
+				value="1">JShow</option>
 		</field>
 		<field
 			name="show_category_crumb"
 			type="radio"
 			default="0"
-			label="Show Category in Breadcrumbs"
-			description="Show/Hide the category in the breadcrumbs">
+			label="Com_Contact_Contact_Breadcrumbs_Label"
+			description="Com_Contact_Contact_Breadcrumbs_Desc">
 			<option
-				value="0">Hide</option>
+				value="0">JHide</option>
 			<option
-				value="1">Show</option>
+				value="1">JShow</option>
 		</field>
 	</fields>
 </metadata>

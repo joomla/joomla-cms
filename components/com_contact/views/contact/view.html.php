@@ -46,7 +46,8 @@ class ContactViewContact extends JView
 		$options['id']	= $contactId;
 
 		$contact	= $model->getContact($options);
-
+		
+	
 		// check if we have a contact
 		if (!is_object($contact)) {
 			JError::raiseError(404, 'Contact not found');
@@ -94,21 +95,7 @@ class ContactViewContact extends JView
 
 		$pparams->merge($contact->params);
 
-		// Handle component/menu overides for some contact parameters if set
-		/*
-		$contact->params->def('contact_icons',	$pparams->get('contact_icons'));
-		$contact->params->def('icon_address',	$pparams->get('icon_address'));
-		$contact->params->def('icon_email',		$pparams->get('icon_email'));
-		$contact->params->def('icon_telephone',	$pparams->get('icon_telephone'));
-		$contact->params->def('icon_fax',		$pparams->get('icon_fax'));
-		$contact->params->def('icon_misc',		$pparams->get('icon_misc'));
-		$contact->params->def('show_position',	$pparams->get('show_position'));
-		$contact->params->def('show_email',		$pparams->get('show_email'));
-		$contact->params->def('show_telephone',	$pparams->get('show_telephone'));
-		$contact->params->def('show_mobile',	$pparams->get('show_mobile'));
-		$contact->params->def('show_fax',		$pparams->get('show_fax'));
-		$contact->params->def('allow_vcard',	$pparams->get('allow_vcard'));
-		*/
+
 
 		// Handle email cloaking
 		if ($contact->email_to && $contact->params->get('show_email')) {
@@ -163,7 +150,7 @@ class ContactViewContact extends JView
 				$contact->params->set('marker_telephone', 	$image3);
 				$contact->params->set('marker_fax', 		$image4);
 				$contact->params->set('marker_misc',		$image5);
-				$contact->params->set('marker_mobile', 	$image6);
+				$contact->params->set('marker_mobile', 		$image6);
 				$contact->params->set('column_width', 		'40');
 				break;
 		}

@@ -36,7 +36,7 @@ class ContactModelCategory extends JModel
 		$wheres[] = 'cc.published = 1';
 
 		$wheres[] = 'a.access IN ('.$groups.')';
-		$wheres[] = 'cc.access <= ('.$groups.')';
+		$wheres[] = 'cc.access IN ('.$groups.')';
 
 		$groupBy	= 'cc.id';
 		$orderBy	= 'cc.lft' ;

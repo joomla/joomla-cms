@@ -86,7 +86,7 @@ class ContactController extends JController
 		$default	= JText::sprintf('MAILENQUIRY', $SiteName);
 		$contactId	= JRequest::getInt('id',			0,			'post');
 		$name		= JRequest::getVar('name',			'',			'post');
-		$email		= JRequest::getVar('email',		'',			'post');
+		$email		= JRequest::getVar('email',			'',			'post');
 		$subject	= JRequest::getVar('subject',		$default,	'post');
 		$body		= JRequest::getVar('text',			'',			'post');
 		$emailCopy	= JRequest::getInt('email_copy', 	0,			'post');
@@ -184,8 +184,18 @@ class ContactController extends JController
 			}
 		}
 
-		$msg = JText::_('Thank you for your e-mail');
-		$link = JRoute::_('index.php?option=com_contact&view=contact&id='.$contact->slug.'&catid='.$contact->catslug, false);
+		$msg = JText::_('Com_Contact_Contact_Email_Thanks');
+		//redirect if it is set
+		if ($this->contact->params->$link)
+		{
+			$link=$contact->redirect;
+		}
+		else
+		{
+			// stay on the same  contact page
+		
+		$link = JRoute::_('index.php?option=com_contact&view=contact&id='.(int) $contact->id, false);
+		}
 		$this->setRedirect($link, $msg);
 	}
 

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout
+		title="com_content_category_view_featured_title">
+		<message>
+			<![CDATA[com_content_category_view_featured_desc]]>
+		</message>
+	</layout>
+
+	<fields>
+		<field
+			name="num_leading_articles"
+			type="text"
+			size="3"
+			default="1"
+			label="Num Leading"
+			description="fieldLEADING" />
+
+		<field
+			name="num_intro_articles"
+			type="text"
+			size="3"
+			default="4"
+			label="Num Intro"
+			description="fieldINTRO" />
+
+		<field
+			name="num_columns"
+			type="text"
+			size="3"
+			default="2"
+			label="Columns"
+			description="fieldCOLUMNS" />
+
+		<field
+			name="num_links"
+			type="text"
+			size="3"
+			default="4"
+			label="Num Links"
+			description="Number of Items to display as Links." />
+	</fields>
+
+	<fields>
+		<field
+			name="orderby_pri"
+			type="list"
+			default=""
+			label="Category Order"
+			description="Order items by category">
+			<option
+				value="">No, order by Primary Order only</option>
+			<option
+				value="alpha">Title Alphabetical</option>
+			<option
+				value="ralpha">Title Reverse-Alphabetical</option>
+			<option
+				value="order">Ordering</option>
+		</field>
+
+		<field
+			name="orderby_sec"
+			type="list"
+			default="front"
+			label="Primary Order"
+			description="fieldORDERBYSEC">
+			<option
+				value="front">Default</option>
+			<option
+				value="date">Oldest first</option>
+			<option
+				value="rdate">Most recent first</option>
+			<option
+				value="alpha">Title Alphabetical</option>
+			<option
+				value="ralpha">Title Reverse-Alphabetical</option>
+			<option
+				value="author">Author Alphabetical</option>
+			<option
+				value="rauthor">Author Reverse-Alphabetical</option>
+			<option
+				value="hits">Most Hits</option>
+			<option
+				value="rhits">Least Hits</option>
+			<option
+				value="order">Ordering</option>
+		</field>
+
+		<field
+			name="multi_column_order"
+			type="radio"
+			default="1"
+			label="Multi Column Order"
+			description="fieldDOWNORACROSS">
+			<option
+				value="0">Down</option>
+			<option
+				value="1">Across</option>
+		</field>
+
+		<field
+			type="spacer" />
+
+		<field
+			name="show_pagination"
+			type="list"
+			default="2"
+			label="Pagination"
+			description="Show/Hide Pagination support">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+			<option
+				value="2">Auto</option>
+		</field>
+
+		<field
+			name="show_pagination_results"
+			type="radio"
+			default="1"
+			label="Pagination Results"
+			description="fieldPAGINATIONRESULTS">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_feed_link"
+			type="radio"
+			default="1"
+			label="Show a feed link"
+			description="fieldSHOWFEEDLINK">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+	</fields>
+</metadata>

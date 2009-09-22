@@ -15,69 +15,111 @@ defined('_JEXEC') or die;
  * @package		Joomla.Administrator
  * @subpackage	Contact
  */
-class TableContact extends JTable
+class ContactTableContact extends JTable
 {
 	/** @var int Primary key */
-	var $id 					= null;
+	public $id 					= null;
 	/** @var string */
-	var $name 				= null;
+	public $name 				= null;
 	/** @var string */
-	var $alias				= null;
+	public $alias				= null;
 	/** @var string */
-	var $con_position 		= null;
+	public $con_position 		= null;
 	/** @var string */
-	var $address 			= null;
+	public $address 			= null;
 	/** @var string */
-	var $suburb 				= null;
+	public $suburb 				= null;
 	/** @var string */
-	var $state 				= null;
+	public $state 				= null;
 	/** @var string */
-	var $country 			= null;
+	public $country 			= null;
 	/** @var string */
-	var $postcode 			= null;
+	public $postcode 			= null;
 	/** @var string */
-	var $telephone 			= null;
+	public $telephone 			= null;
 	/** @var string */
-	var $fax 				= null;
+	public $fax 				= null;
 	/** @var string */
-	var $misc 				= null;
+	public $misc 				= null;
 	/** @var string */
-	var $image 				= null;
+	public $image 				= null;
 	/** @var string */
-	var $imagepos 			= null;
+	public $imagepos 			= null;
 	/** @var string */
-	var $email_to 			= null;
+	public $email_to 			= null;
 	/** @var int */
-	var $default_con 		= null;
+	public $default_con 		= null;
 	/** @var int */
-	var $published 			= 0;
+	public $published 			= 0;
 	/** @var int */
-	var $checked_out 		= 0;
+	public $checked_out 		= 0;
 	/** @var datetime */
-	var $checked_out_time 	= 0;
+	public $checked_out_time 	= 0;
 	/** @var int */
-	var $ordering 			= null;
+	public $ordering 			= null;
 	/** @var string */
-	var $params 				= null;
+	public $params 				= null;
 	/** @var int A link to a registered user */
-	var $user_id 			= null;
+	public $user_id 			= null;
 	/** @var int A link to a category */
-	var $catid 				= null;
+	public $catid 				= null;
 	/** @var int */
-	var $access 				= null;
+	public $access 				= null;
 	/** @var string Mobile phone number(s) */
-	var $mobile 				= null;
+	public $mobile 				= null;
 	/** @var string */
-	var $webpage 			= null;
-
+	public $webpage 			= null;
+	/** @var string */
+	protected $_trackAssets = true;
 	/**
-	* @param database A database connector object
-	*/
-	function __construct(&$db)
+	 * Constructor
+	 *
+	 * @param object Database connector object
+	 * @since 1.0
+	 */
+	public function __construct(& $db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
+	}
 
-		$this->access	= (int)JFactory::getConfig()->getValue('access');
+	public function getAssetSection()
+	{
+		return 'com_contact';
+	}
+
+	public function getAssetNamePrefix()
+	{
+		return 'contact';
+	}
+
+	public function getAssetTitle()
+	{
+		return $this->name;
+	}
+		/**
+	 * Stores a contact
+	 *
+	 * @param	boolean		$updateNulls	Toggle whether null values should be updated.
+	 * @return	boolean		True on success, false on failure.
+	 * @since	1.6
+	 */
+	public function store($updateNulls = false)
+	{
+		// Transform the params field
+		if (is_array($this->params)) {
+			$registry = new JRegistry();
+			$registry->loadArray($this->params);
+			$this->params = $registry->toString();
+		}
+		// Transform the metadata field
+		if (is_array($this->metadata)) {
+			$registry = new JRegistry();
+			$registry->loadArray($this->metadata);
+			$this->metadata = $registry->toString();
+		}
+
+		// Attempt to store the data.
+		return parent::store($updateNulls);
 	}
 
 	/**
@@ -93,24 +135,52 @@ class TableContact extends JTable
 		$this->default_con = intval($this->default_con);
 
 		if (JFilterInput::checkAttribute(array ('href', $this->webpage))) {
-			$this->setError(JText::_('Please provide a valid URL'));
+			$this->setError(JText::_('CONTACT_WARNING_PROVIDE_VALID_URL'));
 			return false;
 		}
-
 		// check for http on webpage
 		if (strlen($this->webpage) > 0 && (!(eregi('http://', $this->webpage) || (eregi('https://', $this->webpage)) || (eregi('ftp://', $this->webpage))))) {
-			$this->webpage = 'http://'.$this->webpage;
+			$this->webpage = 'http://'.$this->contact->params->get('linka');
 		}
+		// check for http on additional links
 
 		if (empty($this->alias)) {
 			$this->alias = $this->name;
+		}
+				
+		$this->alias = JFilterOutput::stringURLSafe($this->alias);
+		if (trim(str_replace('-','',$this->alias)) == '') {
+			$datenow = &JFactory::getDate();
+			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
+		}
+		/** check for valid name */
+		if (trim($this->name) == '') {
+			$this->setError(JText::_('CONTACT_WARNING_NAME'));
+			return false;
+		}
+				/** check for existing name */
+		$query = 'SELECT id FROM #__contact_details WHERE name = '.$this->_db->Quote($this->name).' AND catid = '.(int) $this->catid;
+		$this->_db->setQuery($query);
+
+		$xid = intval($this->_db->loadResult());
+		if ($xid && $xid != intval($this->id)) {
+			$this->setError(JText::sprintf('Contact_Warning_Same_Name', JText::_('Contact')));
+			return false;
+		}
+
+		if (empty($this->alias)) {
+			$this->alias = $this->title;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 		if (trim(str_replace('-','',$this->alias)) == '') {
 			$datenow = &JFactory::getDate();
 			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
-
+		/** check for valid category */
+		if (trim($this->catid) == '') {
+			$this->setError(JText::_('CONTACT_WARNING_CATEGORY'));
+			return false;
+		}
 		return true;
 	}
 }

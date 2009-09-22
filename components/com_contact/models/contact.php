@@ -30,6 +30,7 @@ class ContactModelContact extends JModel
 		$db			= &JFactory::getDbo();
 		$user		= &JFactory::getUser();
 		$id			= @$options['id'];
+		$groups		= implode(',', $user->authorisedLevels());
 		$groupBy	= @$options['group by'];
 		$orderBy	= @$options['order by'];
 
@@ -53,12 +54,11 @@ class ContactModelContact extends JModel
 				' FROM ' . $from .
 				' '. implode (' ', $joins) .
 				' WHERE ' . implode(' AND ', $wheres);
-
 		return $query;
 	}
 
 	/**
-	 * Gets a list of categories
+	 * Gets a list of contacts
 	 * @param array
 	 * @return mixed Object or null
 	 */
@@ -66,6 +66,21 @@ class ContactModelContact extends JModel
 	{
 		$query	= $this->_getContactQuery($options);
 		$result = $this->_getList($query);
-		return @$result[0];
+		if ($contact = @$result[0])
+		{
+			$user		= &JFactory::getUser();
+			$groups	= implode(',', $user->authorisedLevels());		
+			//get the content by the linked user
+			$query = 'SELECT id, title, state, access, created' .
+				' FROM #__content' .
+				' WHERE created_by = '.(int)$contact->user_id . 
+				' AND access IN ('. $groups . ')' .
+				' ORDER BY state DESC, created DESC' ;
+			$this->_db->setQuery($query, 0, 10);
+			$articles = $this->_db->loadObjectList();
+			$contact->articles=$articles;
+		}
+		return $contact;
 	}
+	
 }

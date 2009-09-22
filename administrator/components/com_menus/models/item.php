@@ -67,8 +67,8 @@ class MenusModelItem extends JModelForm
 		}
 		$this->setState('item.menutype', $menuType);
 
-		if (!($type = $app->getUserState('com_menus.edit.item.type'))) {
-			$type = JRequest::getCmd('type', 'url');
+		if ($type = $app->getUserState('com_menus.edit.item.type')){
+	//		$type = JRequest::getCmd('type', 'url');
 		}
 		$this->setState('item.type', $type);
 
@@ -98,7 +98,7 @@ class MenusModelItem extends JModelForm
 
 		// Attempt to load the row.
 		$table->load($pk);
-
+		
 		// Check for a table object error.
 		if ($error = $table->getError())
 		{
@@ -130,6 +130,9 @@ class MenusModelItem extends JModelForm
 		{
 			case 'alias':
 				$table->component_id = 0;
+				$args = array();
+	
+				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 				break;
 
 			case 'separator':
@@ -139,6 +142,8 @@ class MenusModelItem extends JModelForm
 
 			case 'url':
 				$table->component_id = 0;
+
+				parse_str(parse_url($table->link, PHP_URL_QUERY));
 				break;
 
 			case 'component':
@@ -176,11 +181,28 @@ class MenusModelItem extends JModelForm
 		if ($table->type == 'component')
 		{
 			// Note that all request arguments become reserved parameter names.
+			$args = array();			
+			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+
+			$table->params = array_merge($table->params, $args);
+		}
+		if ($table->type == 'alias')
+		{
+			// Note that all request arguments become reserved parameter names.
+			$args = array();
+			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+			$table->params = array_merge($table->params, $args);
+
+		}
+		if ($table->type == 'url')
+		{
+			// Note that all request arguments become reserved parameter names.
 			$args = array();
 			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 			$table->params = array_merge($table->params, $args);
 		}
-
+		
+		
 		$result = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
 		return $result;
@@ -257,6 +279,7 @@ class MenusModelItem extends JModelForm
 		}
 
 		// Initialise form with component view params if available.
+
 		if ($type == 'component')
 		{
 			// Parse the link arguments.
@@ -269,7 +292,7 @@ class MenusModelItem extends JModelForm
 				// The option determines the base path to work with.
 				$option = $args['option'];
 				$base	= JPATH_SITE.DS.'components'.DS.$option;
-
+			}
 				// Confirm a view is defined.
 				if (isset($args['view']))
 				{
@@ -295,16 +318,16 @@ class MenusModelItem extends JModelForm
 
 					if(!$formFile)
 					{
-						// Check for the layout XML file.
+					// Check for the layout XML file.
 						$path = JPath::clean($base.DS.'views'.DS.$view.DS.'tmpl'.DS.$layout.'.xml');
 						if (JFile::exists($path)) {
 							$formFile = $path;
 						}
-					}
+				//	}
 					// TODO: Now check for a view manifest file
 					// TODO: Now check for a component manifest file
+					}
 				}
-			}
 
 			if ($formFile)
 			{
@@ -320,7 +343,9 @@ class MenusModelItem extends JModelForm
 			}
 
 			// Now load the component params.
-			$path = JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'config.xml');
+			if ($isNew=false){
+			$path = JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS. $option.DS.'config.xml');}
+			else $path='null';
 			if (JFile::exists($path))
 			{
 				if (empty($form))
@@ -341,6 +366,7 @@ class MenusModelItem extends JModelForm
 				}
 			}
 		}
+		
 
 		// If no component file found, or not a component, create the form.
 		if (empty($form))
@@ -359,6 +385,7 @@ class MenusModelItem extends JModelForm
 
 		return $form;
 	}
+	
 
 	/**
 	 * Get the list of modules not in trash.
@@ -619,7 +646,7 @@ class MenusModelItem extends JModelForm
 	}
 
 	/**
-	 * Method to publish categories.
+	 * Method to publish 
 	 *
 	 * @param	array	The ids of the items to publish.
 	 * @param	int		The value of the published state
@@ -741,7 +768,7 @@ class MenusModelItem extends JModelForm
 	}
 
 	/**
-	 * Method to perform batch operations on a category or a set of categories.
+	 * Method to perform batch operations on an item or a set of items.
 	 *
 	 * @param	array	An array of commands to perform.
 	 * @param	array	An array of category ids.

@@ -1,5 +1,11 @@
 <?php
-/** $Id$ */
+/**
+ * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	Contact
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 defined('_JEXEC') or die;
 ?>
 <?php if (($this->contact->params->get('address_check') > 0) &&  ($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>

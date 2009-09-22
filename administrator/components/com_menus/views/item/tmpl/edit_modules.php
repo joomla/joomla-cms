@@ -16,38 +16,42 @@ defined('_JEXEC') or die;
 			<th>
 				<?php echo JText::_('Menus_Heading_Assign_Module');?>
 			</th>
-			<th width="10%">
-				<?php echo JText::_('Menus_Heading_Assign_All');?>
+			<th width="120%">
+				<?php echo JText::_('Menus_Heading_Display');?>
 			</th>
-			<th width="10%">
-				<?php echo JText::_('Menus_Heading_Assign_Show');?>
-			</th>
-			<th width="10%">
-				<?php echo JText::_('Menus_Heading_Assign_Hide');?>
-			</th>
-			<th width="10%">
-				<?php echo JText::_('Menus_Heading_Assign_Ignore');?>
+			<th width="20%">
+				<?php echo JText::_('Menus_Heading_Edit_Link'); ?>
 			</th>
 		</thead>
 		<tbody>
 		<?php foreach ($this->modules as $i => &$module) : ?>
-			<tr class="row<?php echo $i % 2;?>">
-				<td>
-					<?php echo JText::sprintf('Menus_Item_Module_Access_Position', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position));?>
-				</td>
-				<td align="center">
-					<input type="radio" name="menuid[<?php echo $module->id;?>]" value="0" <?php echo is_numeric($module->menuid) && $module->menuid == 0 ? 'checked="checked" ' : '';?>/>
-				</td>
-				<td align="center">
-					<input type="radio" name="menuid[<?php echo $module->id;?>]" value="1" <?php echo $module->menuid == $this->item->id ? 'checked="checked" ' : '';?>/>
-				</td>
-				<td align="center">
-					<input type="radio" name="menuid[<?php echo $module->id;?>]" value="-1" <?php echo $module->menuid == -$this->item->id ? 'checked="checked" ' : '';?>/>
-				</td>
-				<td align="center">
-					<input type="radio" name="menuid[<?php echo $module->id;?>]" value="" <?php echo !is_numeric($module->menuid) || (is_numeric($module->menuid) && $module->menuid != 0 && abs($module->menuid) != $this->item->id)? 'checked="checked" ' : '';?>/>
-				</td>
-			</tr>
+				<tr class="row<?php echo $i % 2;?>">
+					<td>
+						<?php echo JText::sprintf('Menus_Item_Module_Access_Position', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
+					</td>
+					<td align="center">
+					<?php				if (is_null($module->menuid)) {
+						echo JText::_('Menus_Module_Show_None');
+					} else if ($module->menuid != 0) {
+						echo JText::_('Menus_Module_Show_Varies');
+					} else {
+						echo JText::_('Menus_Module_Show_All');
+					} ?>
+	
+					</td>
+					<td align="center">
+					<?php $document = &JFactory::getDocument();
+						$document->addScriptDeclaration($js); ?>
+						<?php 			
+							$link = 'index.php?option=com_modules&client=0&task=edit&cid[]='. $module->id.'&tmpl=component' ;
+						 	JHTML::_('behavior.modal', 'a.modal');
+							$html = '    <a class="modal" title="'.JText::_('Edit').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('Edit_module_settings').'</a>';
+							
+							echo  $html;
+									
+							?>		
+					</td>
+				</tr>
 		<?php endforeach; ?>
 		</tbody>
 	</table>

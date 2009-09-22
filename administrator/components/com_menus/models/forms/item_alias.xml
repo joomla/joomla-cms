@@ -22,5 +22,19 @@
 			default=""/>
 
 	</fields>
+	<fields
+		label="Menus_Required_Fields_Label"
+		description="Menus_Required_Fields_Desc"
+		group="request">
 
+		<field
+			id="aliasoptions"
+			name="aliasoptions"
+			type="aliasoptions"
+			label="JMenu_Alias_Menu_Label"
+			description="JMenu_Alias_Menu_Desc"
+			required="true"			
+		/>
+			
+	</fields>
 </form>

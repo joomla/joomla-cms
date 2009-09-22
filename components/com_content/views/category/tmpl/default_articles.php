@@ -11,18 +11,16 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (empty($this->articles)) : ?>
-	no articles
+	<!--  no articles -->
 <?php else : ?>
-
-	<table>
-		<?php foreach ($this->articles as &$item) : ?>
-		<tr>
-			<td>
-				<a href="<?php echo JRoute::_(ContentRoute::article($item->slug, $item->catslug)); ?>">
-					<?php echo $item->title; ?></a>
-			</td>
-		</tr>
+<h5>Article Links</h5>
+	<ol>
+		<?php foreach ($this->articles as &$article) : ?>
+			<li>
+				<a href="<?php echo JRoute::_(ContentRoute::article($article->slug, $article->catslug)); ?>">
+					<?php echo $article->title; ?></a>
+			</li>
 		<?php endforeach; ?>
-	</table>
+	</ol>
 
 <?php endif; ?>

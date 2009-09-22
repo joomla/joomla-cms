@@ -1,7 +1,12 @@
 <?php
-/**
+ /**
  * $Id$
+ * @package		Joomla.Site
+ * @subpackage	Contact
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 
 $cparams = JComponentHelper::getParams ('com_media');
@@ -41,39 +46,57 @@ $cparams = JComponentHelper::getParams ('com_media');
 	</td>
 </tr>
 <?php endif; ?>
-<tr>
-	<td>
-		<table border="0" width="100%">
-		<tr>
-			<td></td>
-			<td rowspan="2" align="right" valign="top">
-			<?php if ($this->contact->image && $this->contact->params->get('show_image')) : ?>
-				<div style="float: right;">
-					<?php echo JHtml::_('image', 'images/stories' . '/'.$this->contact->image, JText::_('Contact'), array('align' => 'middle')); ?>
-				</div>
-			<?php endif; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo $this->loadTemplate('address'); ?>
-			</td>
-		</tr>
-		</table>
-	</td>
-	<td>&nbsp;</td>
-</tr>
-<?php if ($this->contact->params->get('allow_vcard')) : ?>
-<tr>
-	<td colspan="2">
-	<?php echo JText::_('Download information as a');?>
-		<a href="<?php echo JURI::base(); ?>index.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $this->contact->id; ?>&amp;format=raw&amp;tmpl=component">
-			<?php echo JText::_('VCard');?></a>
-	</td>
-</tr>
-<?php endif;
-if ($this->contact->params->get('show_email_form') && ($this->contact->email_to || $this->contact->user_id))
-	echo $this->loadTemplate('form');
-?>
+	<tr>
+		<td>
+			<table border="0" width="100%">
+			<tr>
+				<td></td>
+				<td rowspan="2" align="right" valign="top">
+				<?php if ($this->contact->image && $this->contact->params->get('show_image')) : ?>
+					<div style="float: right;">
+						<?php echo JHtml::_('image', 'images/stories' . '/'.$this->contact->image, JText::_('Contact'), array('align' => 'middle')); ?>
+					</div>
+				<?php endif; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo $this->loadTemplate('address'); ?>
+				</td>
+			</tr>
+						<tr>
+				<td>
+					<?php echo $this->loadTemplate('links'); ?>
+				</td>
+			</tr>
+			</table>
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+	<?php 	if ($this->contact->params->get('allow_vcard')) : 	//TODO either reimplement vcard or delete this.?>
+	<tr>
+		<td colspan="2">
+		<?php echo JText::_('Download information as a');?>
+			<a href="<?php echo JURI::base(); ?>index.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $this->contact->id; ?>&amp;format=raw&amp;tmpl=component">
+				<?php echo JText::_('VCard');?></a>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<?php endif;
+		if ($this->contact->params->get('show_email_form') && ($this->contact->email_to ))
+			echo $this->loadTemplate('form');
+
+		?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?php 
+			if ($this->contact->params->get('show_articles') &&  $this->contact->user_id)  
+			echo $this->loadTemplate('articles');
+			?>
+		</td>
+	</tr>
 </table>
 </div>

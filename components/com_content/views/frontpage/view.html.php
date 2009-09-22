@@ -59,7 +59,7 @@ class ContentViewFrontpage extends JView
 		$numIntro	= $params->def('num_intro_articles',	4);
 		$numLinks	= $params->def('num_links', 			4);
 
-		// Compute the weblink slug and prepare description (runs content plugins).
+		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($items as $i => &$item)
 		{
 			$item->slug		= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
@@ -100,7 +100,7 @@ class ContentViewFrontpage extends JView
 		$this->columns	= max(1, $params->def('num_columns', 1));
 		$order		= $params->def('multi_column_order', 1);
 
-		if ($order == 1 || $this->columns == 1)
+		if ($order !== 1 || $this->columns == 1)
 		{
 			// Order articles across, then down (or single column mode)
 			for ($i = $numLeading; $i < $limit &&$i < $max; $i++) {
@@ -149,8 +149,10 @@ class ContentViewFrontpage extends JView
 		// we need to get it from the menu item itself
 		if ($menu = $menus->getActive())
 		{
-			$menuParams = new JParameter($menu->params);
-			$title = $menuParams->get('page_title');
+			$menuParams = new JObject(json_decode($menu->params, true));
+			if ($pageTitle = $menuParams->get('page_title')) {
+				$title = $pageTitle;
+			}
 		}
 		if (empty($title)) {
 			$title	= htmlspecialchars_decode($app->getCfg('sitename'));

@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<h4><?php echo JText::_('More Articles...'); ?></h4>
+<h3><?php echo JText::_('More Articles...'); ?></h3>
 
 <ol class="jlinks">
 <?php foreach ($this->link_items as &$item) : ?>

@@ -13,16 +13,16 @@ defined('_JEXEC') or die;
 $output = array();
 
 // Print the logged in users.
-	$output[] = "<span class=\"loggedin-users\">".$online_num. " " . JText::_('Users') . "</span>";
+	$output[] = "<span class=\"loggedin-users\">".$online_num. " " . JText::_('mod_status_users') . "</span>";
 	
 //  Print the inbox message.
-	$output[] = "<span class=\"$inboxClass\"><a href=\"$inboxLink\">". $unread . " " . JText::_('Messages'). "</a></span>";
+	$output[] = "<span class=\"$inboxClass\"><a href=\"$inboxLink\">". $unread . " " . JText::_('mod_status_Messages'). "</a></span>";
 
 // Print the Preview link to Main site.
-	$output[] = "<span class=\"viewsite\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('View site')."</a></span>";
+	$output[] = "<span class=\"viewsite\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('mod_status_View_site')."</a></span>";
 	
 // Print the logout link.
-	$output[] = "<span class=\"logout\"><a href=\"$logoutLink\">".JText::_('Log_out')."</a></span>";
+	$output[] = "<span class=\"logout\"><a href=\"$logoutLink\">".JText::_('mod_status_Log_out')."</a></span>";
 
 // Reverse rendering order for rtl display.
 if ($lang->isRTL()) {

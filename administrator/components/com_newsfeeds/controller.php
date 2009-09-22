@@ -48,6 +48,9 @@ class NewsfeedsController extends JController
 			$view->assignRef('document', $document);
 
 			$view->display();
+			// Load the submenu.
+			require_once JPATH_COMPONENT.DS.'helpers'.DS.'newsfeeds.php';
+			NewsfeedsHelper::addSubmenu($vName);			
 		}
 	}
 }

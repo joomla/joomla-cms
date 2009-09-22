@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id: item_alias.xml 12477 2009-07-06 04:31:45Z eddieajau $ -->
+<form>
+	<fields
+		label="Menus_Linktype_Options_Label"
+		description="">
+
+		<field
+			id="menu-anchor_title"
+			name="menu-anchor_title"
+			type="text"
+			label="Menus_Item_Anchor_Title_Label"
+			description="Menus_item_Anchor_Title_Desc"
+			default=""/>
+
+		<field
+			id="menu-anchor_css"
+			name="menu-anchor_css"
+			type="text"
+			label="Menus_Item_Anchor_CSS_Label"
+			description="Menus_item_Anchor_CSS_Desc"
+			default=""/>
+
+	</fields>
+
+</form>
+
