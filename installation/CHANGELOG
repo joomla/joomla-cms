@@ -27,6 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Sep-2009 Mark Dexter
+^ Merge from dextercowley branch
+^ Layouts for frontend components
+^ Make com_contact MVC
+^ Fix a number of issues in in com_menus
+^ Fix problem in administrator menu
+^ Update strings
+
 21-Sep-2009 Ron Severdia
 # BlueStork CSS fixes
 + New icons
