@@ -10,7 +10,7 @@
 			filter="int"
 			required="true"
 			readonly="true"/>
-			
+
 		<field
 			id="title"
 			name="title"
@@ -21,7 +21,6 @@
 			size="40"
 			required="true"/>
 
-
 		<field
 			id="alias"
 			name="alias"
@@ -31,17 +30,7 @@
 			default=""
 			class="inputbox"
 			size="40"/>
-			
-		<field
-			name="access"
-			type="accesslevels"
-			id="access"
-			class="inputbox"
-			label="JField_Access_Label"
-			description="JField_Access_Desc"
-			default="1"
-			filter="integer"/>
-			
+
 		<field
 			id="link"
 			name="link"
@@ -51,6 +40,7 @@
 			default=""
 			class="inputbox"
 			size="50"/>
+
 		<field
 			id="menutype"
 			name="menutype"
@@ -71,21 +61,27 @@
 			class="inputbox"
 			required="true"
 			size="40" />
+		
 		<field
 			name="published"
-			type="radio"
+			type="list"
 			id="published"
 			class="inputbox"
 			label="JField_Published_Label"
 			description="JField_Published_Desc"
+			size="1"
 			default="1"
 			filter="integer">
 			<option
-				value="0">JNo</option>
+				value="1">
+				JOption_Published</option>
 			<option
-				value="1">JYes</option>
+				value="0">
+				JOption_UnPublished</option>
+		
 			<option
-				value="-2">JOption_Trash</option>
+				value="-2">
+				JOption_Trashed</option>
 		</field>
 
 		<field
@@ -127,6 +123,16 @@
 				<option value="1">Menus_BrowserNav_Option_New_With_Nav</option>
 				<option value="2">Menus_BrowserNav_Option_New_Without_Nav</option>
 			</field>
+
+		<field
+			name="access"
+			type="accesslevels"
+			id="access"
+			class="inputbox"
+			label="JField_Access_Label"
+			description="JField_Access_Desc"
+			default="1"
+			filter="integer"/>
 
 
 		<field
@@ -193,6 +199,6 @@
 		<field
 			name="rgt"
 			type="hidden"
-			filter="unset"/>	
+			filter="unset"/>
 	</fields>
 </form>

@@ -16,25 +16,28 @@ $pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
 		if (isset($fieldSet['hidden']) && $fieldSet['hidden'] == true || $name == 'request') :
 			continue;
 		endif;
-		$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
-		echo $pane->startPanel(JText::_($label), 'publishing-details');
-			if (isset($fieldSet['description'])) :
-				echo '<p class="tip" style="float:right;">'.JText::_($fieldSet['description']).'</p>';
-			endif;	
-			?>
-					<?php
-					foreach ($this->paramsform->getFields($name) as $field) :
-					?>
-						<div>	
-							<?php echo $field->label; ?><br />
-							<?php echo $field->input; ?>
-						</div>							
-					<?php
-					endforeach;
-					?>
-			
-			<br class="clr" />
-		<?php 	echo $pane->endPanel();
 		
+	$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
+		echo $pane->startPanel(JText::_($label), 'publishing-details');
+		
+		if (isset($fieldSet['description'])) :
+			echo '<p class="tip" style="float:right;">'.JText::_($fieldSet['description']).'</p>';
+		endif;	
+		?>
+	<fieldset>		
+	<?php
+		foreach ($this->paramsform->getFields($name) as $field) :
+		?>
+		<div class="paramrow" />
+			<?php echo $field->label; ?>
+			<?php echo $field->input; ?>
+		</div>							
+	<?php
+		endforeach;
+		?>
+	</fieldset>
+	
+<?php
+	echo $pane->endPanel();
 	endforeach;
 ?>

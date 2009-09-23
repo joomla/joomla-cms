@@ -52,14 +52,6 @@
 			default=""/>
 			
 		<field
-			id="page_heading"
-			name="page_heading"
-			type="text"
-			label="Menus_Item_Page_Heading_Label"
-			description="Menus_Item_Page_Heading_Desc"
-			default=""/>
-			
-		<field
 			id="pageclass_sfx"
 			name="pageclass_sfx"
 			type="text"

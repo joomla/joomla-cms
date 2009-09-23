@@ -636,6 +636,10 @@ div#content-pane fieldset {
 	padding: 10px 15px 0 15px;
 }
 
+div.panel fieldset {
+	border: 0;
+	}
+	
 form#weblink-form fieldset,
 form#item-form fieldset,
 fieldset.batch {
@@ -661,8 +665,38 @@ fieldset ul li {
 }
 
 fieldset p {
-  margin: 0 0 15px 0;
+	margin: 0 0 15px 0;
+	font-size: 12px;
 }
+
+ul#overviewlist,
+ul#paramlist {
+	clear:both;
+	font-size: 12px;
+	padding-top: 5px;
+}
+
+ul#overviewlist li {
+	list-style-type: none;
+	margin-left: -40px;
+	margin-bottom: 15px;
+	min-width: 140px;
+}
+
+ul#paramlist li {
+	list-style-type: none;
+	margin-left: -40px;
+	margin-bottom: 5px;
+}
+
+
+li#jform_menutype_label,
+li#jform_parentid_label,
+li#jform_published_label,
+li#jform_access_label {
+	float:left;
+}
+
 
 fieldset.filter{border:0;margin:0;padding:0 0 5px;}
 fieldset.filter ol{border:0;list-style:none;margin:0;padding:5px 0 0;}
