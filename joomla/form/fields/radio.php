@@ -35,7 +35,7 @@ class JFormFieldRadio extends JFormField
 	protected function _getInput()
 	{
 		$options = array();
-		$class = $this->_element->attributes('class') ? ' class="'.$this->_element->attributes('class').'" ': '';
+		$class = $this->_element->attributes('class') ? ' class="radiobtn '.$this->_element->attributes('class').'" ': ' class="radiobtn"';
 
 		// Get the options for the radio list.
 		foreach ($this->_element->children() as $option) {
