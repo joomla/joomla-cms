@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Sep-2009 Hannes Papenberg
+^ Added class and ID to radio buttons
+
 21-Sep-2009 Mark Dexter
 ^ Merge from dextercowley branch
 ^ Layouts for frontend components
