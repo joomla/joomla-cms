@@ -11,11 +11,48 @@ defined('_JEXEC') or die;
 ?>
 <p><?php echo JText::_('Menus_Item_Module_assignment_desc');?></p>
 <?php if (!empty($this->modules)) : ?>
-	<input class="modal" type="button" rel="{handler:'clone', target:'menu-types'}" value="Change"/>
-	<div class="clr"></div>
-	<ul id="paramlist">
+	<table class="adminlist">
+		<thead>
+			<th>
+				<?php echo JText::_('Menus_Heading_Assign_Module');?>
+			</th>
+			<th width="120%">
+				<?php echo JText::_('Menus_Heading_Display');?>
+			</th>
+			<th width="20%">
+				<?php echo JText::_('Menus_Heading_Edit_Link'); ?>
+			</th>
+		</thead>
+		<tbody>
 		<?php foreach ($this->modules as $i => &$module) : ?>
-			<li><?php echo JText::sprintf('Menus_Item_Module_Access_Position', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></li>
+				<tr class="row<?php echo $i % 2;?>">
+					<td>
+						<?php echo JText::sprintf('Menus_Item_Module_Access_Position', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
+					</td>
+					<td align="center">
+					<?php				if (is_null($module->menuid)) {
+						echo JText::_('Menus_Module_Show_None');
+					} else if ($module->menuid != 0) {
+						echo JText::_('Menus_Module_Show_Varies');
+					} else {
+						echo JText::_('Menus_Module_Show_All');
+					} ?>
+	
+					</td>
+					<td align="center">
+					<?php $document = &JFactory::getDocument();
+						$document->addScriptDeclaration($js); ?>
+						<?php 			
+							$link = 'index.php?option=com_modules&client=0&task=edit&cid[]='. $module->id.'&tmpl=component' ;
+						 	JHTML::_('behavior.modal', 'a.modal');
+							$html = '    <a class="modal" title="'.JText::_('Edit').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('Edit_module_settings').'</a>';
+							
+							echo  $html;
+									
+							?>		
+					</td>
+				</tr>
 		<?php endforeach; ?>
-		</ul>
+		</tbody>
+	</table>
 <?php endif; ?>
