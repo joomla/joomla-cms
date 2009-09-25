@@ -5,6 +5,10 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+defined('JPATH_BASE') or die;
+
+jimport('joomla.access.action');
+
 /**
  * @package 	Joomla.Framework
  * @subpackage	Access
@@ -39,7 +43,7 @@ class JActions
 		{
 			// Top level keys represent the actions.
 			foreach ($input as $action => $identities) {
-				$this->addAction($action, $identities);
+				$this->mergeAction($action, $identities);
 			}
 		}
 	}
@@ -91,30 +95,27 @@ class JActions
 		{
 			$data = $actions->getData();
 
-			foreach ($data as $action => $identities) {
-				$this->mergeAction($action, $identities);
+			foreach ($data as $name => $identities) {
+				$this->mergeAction($name, $identities);
 			}
 		}
 	}
 
 	/**
 	 * @param	string	The name of the action.
-	 *
-	 * @return	array	A reference to the action identities array (chaining supported).
 	 */
-	public function &mergeAction($action, $identities)
+	public function mergeAction($action, $identities)
 	{
-		if (!isset($this->_data[$action]))
-		{
-			// If new, add the action.
-			$this->_data[$action] = new JAction($identities);
-		}
-		else
+		if (isset($this->_data[$action]))
 		{
 			// If exists, merge the action.
 			$this->_data[$action]->mergeIdentities($identities);
 		}
-		return $this->_data[$action];
+		else
+		{
+			// If new, add the action.
+			$this->_data[$action] = new JAction($identities);
+		}
 	}
 
 	/**
@@ -153,114 +154,20 @@ class JActions
 	}
 
 	/**
-	 * Magic method to convert the object to string representation.
+	 * Magic method to convert the object to JSON string representation.
 	 *
 	 * @return	string
 	 */
 	public function __toString()
 	{
-		return json_encode((string) $this->_data);
-	}
-}
-
-/**
- * @package 	Joomla.Framework
- * @subpackage	Access
- * @since		1.6
- */
-class JAction
-{
-	/**
-	 * @var	array	A named array
-	 */
-	protected $_data = array();
-
-	/**
-	 * Constructor.
-	 *
-	 * The input array must be in the form: array(-42 => true, 3 => true, 4 => false)
-	 * or an equivalent JSON encoded string.
-	 *
-	 * @param	mixed	A JSON format string (probably from the database), or a named array.
-	 */
-	public function __construct($identities)
-	{
-		// Convert string input to an array.
-		if (is_string($identities)) {
-			$identities = json_decode($identities, true);
-		}
-
-		$this->mergeIdentities($identities);
-	}
-
-	/**
-	 * Merges the identities
-	 */
-	public function mergeIdentities($identities)
-	{
-		if (is_array($identities))
+		$temp = array();
+		foreach ($this->_data as $name => $action)
 		{
-			foreach ($identities as $identity => $allow) {
-				$this->mergeIdentity($identity, $allow);
-			}
+			// Convert the action to JSON, then back into an array otherwise
+			// re-encoding will quote the JSON for the identities in the action.
+			$temp[$name] = json_decode((string) $action);
 		}
-	}
 
-	/**
-	 * Merges the value for an identity.
-	 *
-	 * @param	int		The identity.
-	 * @param	boolean	The value for the identity (true == allow, false == deny).
-	 */
-	public function mergeIdentity($identity, $allow)
-	{
-		$identity	= (int) $identity;
-		$allow		= (boolean) $allow;
-
-		// Check that the identity exists.
-		if (isset($this->_data[$identity])) {
-			$this->_data[$identity] = $allow;
-		}
-		else
-		{
-			// Explicit deny always wins a merge.
-			if ($this->_data[$identity] !== false) {
-				$this->_data[$identity] = $allow;
-			}
-		}
-	}
-
-	/**
-	 * Checks that this action can be performed by an identity.
-	 *
-	 * The identity is an integer where +ve represents a user group,
-	 * and -ve represents a user.
-	 *
-	 * @param	int			An integer representing the identity.
-	 */
-	public function allow($identity)
-	{
-		// Check that the inputs are valid.
-		if (!empty($identity))
-		{
-			// Technically the identity just needs to be unique.
-			$identity = (int) $identity;
-
-			// Check if the identity is known.
-			if (isset($this->_data[$identity])) {
-				return $this->_data[$identity];
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Convert this object into a JSON encoded string.
-	 *
-	 * @return	string
-	 */
-	public function __toString()
-	{
-		return json_encode($this->_data);
+		return json_encode($temp);
 	}
 }
