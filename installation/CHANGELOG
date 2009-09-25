@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Sep-2009 Mark Dexter
+# Add extension to new Category in Content->Category Manager
+
 23-Sep-2009 Hannes Papenberg
 ^ Added class and ID to radio buttons
 
