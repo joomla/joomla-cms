@@ -251,15 +251,15 @@ class JInstallerLanguage extends JAdapterInstance
 	 */
 	public function update()
 	{
-		$manifest = &$this->parent->getManifest();
+		$manifest	= &$this->parent->getManifest();
 		$this->manifest = &$manifest->document;
-		$root = &$manifest->document;
+		$root		= &$manifest->document;
+		$cname		= $root->attributes('client');
 
-		$cname = $root->attributes('client');
 		// Attempt to map the client to a base path
 		jimport('joomla.application.helper');
 		$client = &JApplicationHelper::getClientInfo($cname, true);
-		if ($client === null)
+		if ($client === null || (empty($cname) && $cname !== 0))
 		{
 			$this->parent->abort(JText::sprintf('Instr_Abort', JText::sprintf('Instr_Error_Unknown_client_type', $cname)));
 			return false;
