@@ -21,20 +21,40 @@ jimport('joomla.installer.helper');
  */
 class InstallerModelInstall extends JModel
 {
-	/** @var object JTable object */
-	var $_table = null;
-
-	/** @var object JTable object */
-	var $_url = null;
+	/**
+	 * @var object JTable object
+	 */
+	protected $_table = null;
 
 	/**
-	 * Overridden constructor
-	 * @access	protected
+	 * @var object JTable object
 	 */
-	function __construct()
-	{
-		parent::__construct();
+	protected $_url = null;
 
+	/**
+	 * Model context string.
+	 *
+	 * @var		string
+	 */
+	 protected $_context = 'com_installer.install';
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * @since	1.6
+	 */
+	protected function _populateState()
+	{
+		// Initialize variables.
+		$app = &JFactory::getApplication('administrator');
+
+		// Remember the 'Install from Directory' path.
+		$path = $app->getUserStateFromRequest($this->_context.'.install_directory', 'install_directory', $app->getCfg('config.tmp_path'));
+		$this->setState('install.directory', $path);
 	}
 
 	function install()

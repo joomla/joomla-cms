@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Sep-2009 Andrew Eddie
+^ Install from directory now remembers previous path.
+
 25-Sep-2009 Mark Dexter
 # Add extension to new Category in Content->Category Manager
 

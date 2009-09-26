@@ -31,8 +31,6 @@ class InstallerController extends JController
 	{
 		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('Install');
-		$model->setState('install.directory', $app->getCfg('config.tmp_path'));
-
 		$view	= &$this->getView('Install');
 
 		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
@@ -81,10 +79,9 @@ class InstallerController extends JController
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel($type);
 		$view	= &$this->getView($type);
+		$ftp	= &JClientHelper::setCredentialsFromRequest('ftp');
 
-		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
-
 		$view->setModel($model, true);
 		$view->display();
 	}
@@ -94,10 +91,10 @@ class InstallerController extends JController
 	 */
 	function discover()
 	{
-		$model = &$this->getModel('discover');
-		$view = &$this->getView('discover');
+		$model	= &$this->getModel('discover');
+		$view	= &$this->getView('discover');
 		$model->discover();
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp	= &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 		$view->setModel($model, true);
 		$view->display();
@@ -105,10 +102,10 @@ class InstallerController extends JController
 
 	function discover_install()
 	{
-		$model = &$this->getModel('discover');
-		$view = &$this->getView('discover');
+		$model	= &$this->getModel('discover');
+		$view	= &$this->getView('discover');
 		$model->discover_install();
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp	= &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 		$view->setModel($model, true);
 		$view->display();
@@ -196,8 +193,7 @@ class InstallerController extends JController
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel($type);
 		$view	= &$this->getView($type);
-
-		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp	= &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		$eid = JRequest::getVar('eid', array(), '', 'array');
@@ -225,8 +221,7 @@ class InstallerController extends JController
 		$type	= JRequest::getWord('type', 'manage');
 		$model	= &$this->getModel($type);
 		$view	= &$this->getView($type);
-
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp	= &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		$uid = JRequest::getVar('eid', array(), '', 'array');
@@ -247,8 +242,7 @@ class InstallerController extends JController
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel($type);
 		$view	= &$this->getView($type);
-
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp	= &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		$uid = JRequest::getVar('uid', array(), '', 'array');
@@ -274,7 +268,7 @@ class InstallerController extends JController
 		$model	= &$this->getModel($type);
 		$view	= &$this->getView($type);
 
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp	= &JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 		$model->purge();
 		$result = $model->findUpdates();
