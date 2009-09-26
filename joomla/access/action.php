@@ -94,24 +94,42 @@ class JAction
 	 * The identity is an integer where +ve represents a user group,
 	 * and -ve represents a user.
 	 *
-	 * @param	int			An integer representing the identity.
+	 * @param	mixed		An integer or array of integers representing the identities to check.
 	 *
 	 * @return	boolean
 	 */
-	public function allow($identity)
+	public function allow($identities)
 	{
-		// Check that the inputs are valid.
-		if (!empty($identity))
-		{
-			// Technically the identity just needs to be unique.
-			$identity = (int) $identity;
+		// Implicit deny by default.
+		$result = null;
 
-			// Check if the identity is known.
-			if (isset($this->_data[$identity])) {
-				return (boolean) $this->_data[$identity];
+		// Check that the inputs are valid.
+		if (!empty($identities))
+		{
+			if (!is_array($identities)) {
+				$identities = array($identities);
+			}
+
+			foreach ($identities as $identity)
+			{
+				// Technically the identity just needs to be unique.
+				$identity = (int) $identity;
+
+				// Check if the identity is known.
+				if (isset($this->_data[$identity]))
+				{
+					$result = $this->_data[$identity];
+
+					// An explicit deny wins.
+					if ($result === 0) {
+						break;
+					}
+				}
+
 			}
 		}
-		return false;
+
+		return (boolean) $result;
 	}
 
 	/**
