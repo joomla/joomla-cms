@@ -45,7 +45,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Get the client application target
 		if ($root->attributes('client') == 'both')
 		{
-			JError::raiseWarning(42, JText::_('Deprecated install format, use package installer in future'));
+			JError::raiseWarning(42, JText::_('Instr_Error_Deprecated_format'));
 			$siteElement = &$root->getElementByPath('site');
 			$element = &$siteElement->getElementByPath('files');
 			if (!$this->_install('site', JPATH_SITE, 0, $element)) {
@@ -66,7 +66,7 @@ class JInstallerLanguage extends JAdapterInstance
 			jimport('joomla.application.helper');
 			$client = &JApplicationHelper::getClientInfo($cname, true);
 			if ($client === null) {
-				$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('Unknown client type').' ['.$cname.']');
+				$this->parent->abort(JText::sprintf('Instr_Abort', JText::sprintf('Instr_Error_Unknown_client_type', $cname)));
 				return false;
 			}
 			$basePath = $client->path;
@@ -106,9 +106,9 @@ class JInstallerLanguage extends JAdapterInstance
 		$tag = &$root->getElementByPath('tag');
 
 		// Check if we found the tag - if we didn't, we may be trying to install from an older language package
-		if (! $tag)
+		if (!$tag)
 		{
-			$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('NO LANGUAGE TAG'));
+			$this->parent->abort(JText::sprintf('Instr_Abort', JText::_('Instr_Error_No_Language_Tag')));
 			return false;
 		}
 
@@ -134,7 +134,7 @@ class JInstallerLanguage extends JAdapterInstance
 		if (!$this->_core)
 		{
 			if (!JFile::exists($this->parent->getPath('extension_site').DS.$this->get('tag').'.xml')) {
-				$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('No core pack exists for the language').' :'.$this->get('tag'));
+				$this->parent->abort(JText::sprintf('Instr_Abort', JText::sprintf('Instr_Error_No_core_language', $this->get('tag'))));
 				return false;
 			}
 		}
@@ -145,7 +145,7 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_site')))
 			{
-				$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('Failed to create directory').' "'.$this->parent->getPath('extension_site').'"');
+				$this->parent->abort(JText::sprintf('Instr_Abort', JText::sprintf('Instr_Error_Create_folder_failed', $this->parent->getPath('extension_site'))));
 				return false;
 			}
 		}
@@ -164,10 +164,10 @@ class JInstallerLanguage extends JAdapterInstance
 				// overwrite is set
 				// we didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				if (file_exists($this->parent->getPath('extension_site'))) { // if the site exists say that
-					JError::raiseWarning(1, JText::_('Language').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_site').'"');
+					JError::raiseWarning(1, JText::sprintf('Instr_Abort', JText::sprintf('Instr_Error_Folder_in_use', $this->parent->getPath('extension_site'))));
 				}
 				else { // if the admin exists say that
-					JError::raiseWarning(1, JText::_('Language').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_administrator').'"');
+					JError::raiseWarning(1, JText::sprintf('Instr_Abort', JText::sprintf('Instr_Error_Folder_in_use', $this->parent->getPath('extension_administrator'))));
 				}
 				return false;
 			}
@@ -226,7 +226,7 @@ class JInstallerLanguage extends JAdapterInstance
 		if (!$row->store())
 		{
 			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.$db->stderr(true));
+			$this->parent->abort(JText::sprintf('Instr_Abort', $db->getErrorMsg()));
 			return false;
 		}
 
@@ -261,7 +261,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$client = &JApplicationHelper::getClientInfo($cname, true);
 		if ($client === null)
 		{
-			$this->parent->abort(JText::_('Language').' '.JText::_('Update').': '.JText::_('Unknown client type').' ['.$cname.']');
+			$this->parent->abort(JText::sprintf('Instr_Abort', JText::sprintf('Instr_Error_Unknown_client_type', $cname)));
 			return false;
 		}
 		$basePath = $client->path;
@@ -278,9 +278,9 @@ class JInstallerLanguage extends JAdapterInstance
 		$tag = &$root->getElementByPath('tag');
 
 		// Check if we found the tag - if we didn't, we may be trying to install from an older language package
-		if (! $tag)
+		if (!$tag)
 		{
-			$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('NO LANGUAGE TAG'));
+			$this->parent->abort(JText::sprintf('Instr_Abort', JText::_('Instr_Error_No_Language_Tag')));
 			return false;
 		}
 
@@ -309,7 +309,7 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			if (!JFile::exists($this->parent->getPath('extension_site').DS.$this->get('tag').'.xml'))
 			{
-				$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('No core pack exists for the language').' :'.$this->get('tag'));
+				$this->parent->abort(JText::sprintf('Instr_Abort', JText::sprintf('Instr_Error_No_core_language', $this->get('tag'))));
 				return false;
 			}
 		}
@@ -382,7 +382,7 @@ class JInstallerLanguage extends JAdapterInstance
 		if (!$row->store())
 		{
 			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Language').' '.JText::_('Update').': '.$db->stderr(true));
+			$this->parent->abort(JText::sprintf('Instr_Abort', $db->getErrorMsg()));
 			return false;
 		}
 

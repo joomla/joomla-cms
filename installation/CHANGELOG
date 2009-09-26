@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 26-Sep-2009 Andrew Eddie
 ^ Install from directory now remembers previous path.
+^ Refactored language installation error messages.
 
 25-Sep-2009 Mark Dexter
 # Add extension to new Category in Content->Category Manager
