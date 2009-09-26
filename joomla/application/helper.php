@@ -48,7 +48,7 @@ class JApplicationHelper
 	/**
 	 * Gets information on a specific client id.  This method will be useful in
 	 * future versions when we start mapping applications in the database.
-	 * 
+	 *
 	 * This method will return a client information array if called
 	 * with no arguments which can be used to add custom application information.
 	 *
