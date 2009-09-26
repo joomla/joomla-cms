@@ -44,13 +44,17 @@ class plgSystemDebug extends JPlugin
 		global $_PROFILER;
 
 		// Do not render if debugging is not enabled
-		if (!JDEBUG) { return; }
+		if (!JDEBUG) {
+			return;
+		}
 
 		$document	= &JFactory::getDocument();
 		$doctype	= $document->getType();
 
 		// Only render for HTML output
-		if ($doctype !== 'html') { return; }
+		if ($doctype !== 'html') {
+			return;
+		}
 
 		// If the user is not allowed to view the output then end here
 		$filterGroups = (array) $this->params->get('filter_groups', null);
@@ -60,6 +64,9 @@ class plgSystemDebug extends JPlugin
 				return;
 			}
 		}
+
+		$lang = &JFactory::getLanguage();
+		$lang->load('plg_system_debug', JPATH_SITE);
 
 		$profiler	= &$_PROFILER;
 
@@ -74,14 +81,14 @@ class plgSystemDebug extends JPlugin
 			echo '</ol>';
 		}
 		if ($this->params->get('profile', 1)) {
-			echo '<h4>'.JText::_('Profile Information').'</h4>';
+			echo '<h4>'.JText::_('Debug_Profile_Information').'</h4>';
 			foreach ($profiler->getBuffer() as $mark) {
 				echo '<div>'.$mark.'</div>';
 			}
 		}
 
 		if ($this->params->get('memory', 1)) {
-			echo '<h4>'.JText::_('Memory Usage').'</h4>';
+			echo '<h4>'.JText::_('Debug_Memory_Usage').'</h4>';
 			echo number_format($profiler->getMemory());
 		}
 
@@ -90,7 +97,7 @@ class plgSystemDebug extends JPlugin
 
 			$db	= &JFactory::getDbo();
 
-			echo '<h4>'.JText::sprintf('Queries logged',  $db->getTicker()).'</h4>';
+			echo '<h4>'.JText::sprintf('Debug_Queries_logged',  $db->getTicker()).'</h4>';
 
 			if ($log = $db->getLog()) {
 				echo '<ol>';
@@ -105,7 +112,7 @@ class plgSystemDebug extends JPlugin
 		$lang = &JFactory::getLanguage();
 		if ($this->params->get('language_files', 1))
 		{
-			echo '<h4>'.JText::_('Language Files Loaded').'</h4>';
+			echo '<h4>'.JText::_('Debug_Language_Files_Loaded').'</h4>';
 			echo '<ul>';
 			$extensions	= $lang->getPaths();
 			foreach ($extensions as $extension => $files)
@@ -118,54 +125,73 @@ class plgSystemDebug extends JPlugin
 			echo '</ul>';
 		}
 
-		$langStrings = $this->params->get('language_strings', -1);
-		if ($langStrings < 0 OR $langStrings == 1) {
-			echo '<h4>'.JText::_('Untranslated Strings Diagnostic').'</h4>';
-			echo '<pre>';
-			$orphans = $lang->getOrphans();
-			if (count($orphans))
-			{
-				ksort($orphans, SORT_STRING);
-				foreach ($orphans as $key => $occurance) {
-					foreach ($occurance as $i => $info) {
-						$class	= @$info['class'];
-						$func	= @$info['function'];
-						$file	= @$info['file'];
-						$line	= @$info['line'];
-						echo strtoupper($key)."\t$class::$func()\t[$file:$line]\n";
-					}
-				}
-			}
-			else {
-				echo JText::_('None');
-			}
-			echo '</pre>';
-		}
-		if ($langStrings < 0 OR $langStrings == 2) {
-			echo '<h4>'.JText::_('Untranslated Strings Designer').'</h4>';
+		if ($this->params->get('language_strings'))
+		{
+			$stripFirst	= $this->params->get('strip-first');
+			$stripPref	= $this->params->get('strip-prefix');
+			$stripSuff	= $this->params->get('strip-suffix');
+
+			echo '<h4>'.JText::_('Debug_Untranslated_Strings').'</h4>';
 			echo '<pre>';
 			$orphans = $lang->getOrphans();
 			if (count($orphans))
 			{
 				ksort($orphans, SORT_STRING);
 				$guesses = array();
-				foreach ($orphans as $key => $occurance) {
-					if (is_array($occurance) AND isset($occurance[0])) {
+				foreach ($orphans as $key => $occurance)
+				{
+					if (is_array($occurance) AND isset($occurance[0]))
+					{
 						$info = &$occurance[0];
 						$file = @$info['file'];
 						if (!isset($guesses[$file])) {
 							$guesses[$file] = array();
 						}
 
-						$guess = str_replace('_', ' ', $info['string']);
-						if ($strip = $this->params->get('language_prefix')) {
-							$guess = trim(preg_replace(chr(1).'^'.$strip.chr(1), '', $guess));
+						// Prepare the key
+
+						if (($pos = strpos($info['string'], '=')) > 0)
+						{
+							$parts	= explode('=', $info['string']);
+							$key	= $parts[0];
+							$guess	= $parts[1];
 						}
-						$guesses[$file][] = trim(strtoupper($key)).'='.$guess;
+						else
+						{
+							$guess = str_replace('_', ' ', $info['string']);
+							if ($stripFirst)
+							{
+								$parts = explode(' ', $guess);
+								if (count($parts) > 1)
+								{
+									array_shift($parts);
+									$guess = implode(' ', $parts);
+								}
+							}
+
+							$guess = trim($guess);
+
+							if ($stripPref) {
+								$guess = trim(preg_replace(chr(1).'^'.$stripPref.chr(1).'i', '', $guess));
+							}
+
+							if ($stripSuff) {
+								$guess = trim(preg_replace(chr(1).$stripSuff.'$'.chr(1).'i', '', $guess));
+							}
+						}
+
+						$key = trim(strtoupper($key));
+						$key = preg_replace('#\s+#', '_', $key);
+						$key = preg_replace('#\W#', '', $key);
+
+						// Prepare the text
+
+						$guesses[$file][] = $key.'='.$guess;
 					}
 				}
-				foreach ($guesses as $file => $keys) {
-					echo "\n\n# ".($file ? $file : JText::_('Unknown file'))."\n\n";
+				foreach ($guesses as $file => $keys)
+				{
+					echo "\n\n# ".($file ? $file : JText::_('Debug_Unknown_file'))."\n\n";
 					echo implode("\n", $keys);
 				}
 			}
