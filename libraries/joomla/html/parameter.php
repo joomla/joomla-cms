@@ -146,7 +146,7 @@ class JParameter extends JRegistry
 			else {
 				$this->_xml['_default'] = $xml;
 			}
-			
+
 			if ($dir = $xml->attributes('addpath')) {
 				$this->addElementPath(JPATH_ROOT . str_replace('/', DS, $dir));
 			}
@@ -266,7 +266,7 @@ class JParameter extends JRegistry
 		if (!is_array($this->_xml)) {
 			return false;
 		}
-		
+
 		$results = array();
 		foreach ($this->_xml as $name => $group)  {
 			$results[$name] = $this->getNumParams($name);
@@ -286,7 +286,7 @@ class JParameter extends JRegistry
 		if (!isset($this->_xml[$group])) {
 			return false;
 		}
-		
+
 		$results = array();
 		foreach ($this->_xml[$group]->children() as $param)  {
 			$results[] = $this->getParam($param, $name);
@@ -387,13 +387,18 @@ class JParameter extends JRegistry
 			jimport('joomla.filesystem.path');
 			if ($elementFile = JPath::find($dirs, $file)) {
 				include_once $elementFile;
-			} else {
-				return false;
+			}
+			else
+			{
+				$false = false;
+				return $false;
 			}
 		}
 
-		if (!class_exists($elementClass)) {
-			return false;
+		if (!class_exists($elementClass))
+		{
+			$false = false;
+			return $false;
 		}
 
 		$this->_elements[$signature] = new $elementClass($this);
