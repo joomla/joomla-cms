@@ -273,7 +273,7 @@ if ($enabled)
 		new JMenuNode(JText::_('Mod_Menu_Help'), '#'), true
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('Mod_Menu_Joomla_Help'), 'index.php?option=com_admin&view=help', 'class:help')
+		new JMenuNode(JText::_('Mod_Menu_Help_Joomla'), 'index.php?option=com_admin&view=help', 'class:help')
 	);
 	$menu->addSeparator();
 	
@@ -287,6 +287,9 @@ if ($enabled)
 	$menu->addSeparator();
 	$menu->addChild(
 		new JMenuNode(JText::_('Mod_Menu_Help_Extensions'), 'http://extensions.joomla.org', 'class:help-jed')
+	);
+	$menu->addChild(
+		new JMenuNode(JText::_('Mod_Menu_Help_Translations'), 'http://community.joomla.org/translations.html', 'class:help-trans')
 	);
 	$menu->addChild(
 		new JMenuNode(JText::_('Mod_Menu_Help_Resources'), 'http://resources.joomla.org', 'class:help-jrd')

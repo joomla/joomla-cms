@@ -76,17 +76,24 @@
 
 		<field
 			name="published"
-			type="radio"
-			class="radiobtn"
+			type="list"
+			class="inputbox"
 			default="1"
+			size="1"
 			label="JField_Published_Label"
 			description="JField_Published_Desc">
 			<option
-				value="0">JOption_Unpublished</option>
+				value="1">
+				JOption_Published</option>
 			<option
-				value="1">JOption_Published</option>
+				value="0">
+				JOption_UnPublished</option>
 			<option
-				value="-2">JOption_Trash</option>
+				value="-1">
+				JOption_Archived</option>
+			<option
+				value="-2">
+				JOption_Trashed</option>
 		</field>
 
 		<field

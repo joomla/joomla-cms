@@ -58,22 +58,15 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 		<fieldset>
 			<legend><?php echo JText::_('Users_User_Options'); ?></legend>
 
-			<table>
 			<?php foreach($this->form->getFields('params') as $field): ?>
 				<?php if ($field->hidden): ?>
 					<?php echo $field->input; ?>
 				<?php else: ?>
-					<tr>
-						<td class="paramlist_key" width="40%">
 							<?php echo $field->label; ?>
-						</td>
-						<td class="paramlist_value">
+					
 							<?php echo $field->input; ?>
-						</td>
-					</tr>
 				<?php endif; ?>
 			<?php endforeach; ?>
-			</table>
 
 		</fieldset>
 	</div>

@@ -49,18 +49,22 @@ $this->document->addScriptDeclaration("
 			<div class="noshow">
 				<div class="width-60 fltlft">
 					<?php echo $this->loadTemplate('system'); ?>
-					<fieldset class="adminform">
-						<legend><?php echo JText::_('User Settings'); ?></legend>
-						<?php echo $this->usersParams->render('userparams'); ?>
-					</fieldset>
-					<fieldset class="adminform">
-						<legend><?php echo JText::_('Media Settings'); ?>
-							<span class="error hasTip" title="<?php echo JText::_('Warning');?>::<?php echo JText::_('WARNPATHCHANGES'); ?>">
-								<?php echo $this->warningIcon(); ?>
-							</span>
-						</legend>
-						<?php echo $this->mediaParams->render('mediaparams'); ?>
-					</fieldset>
+					<div class="width-100">
+						<fieldset class="adminform">
+							<legend><?php echo JText::_('User Settings'); ?></legend>
+							<?php echo $this->usersParams->render('userparams'); ?>
+						</fieldset>
+					</div>
+					<div class="width-100">
+						<fieldset class="adminform">
+							<legend><?php echo JText::_('Media Settings'); ?>
+								<span class="error hasTip" title="<?php echo JText::_('Warning');?>::<?php echo JText::_('WARNPATHCHANGES'); ?>">
+									<?php echo $this->warningIcon(); ?>
+								</span>
+							</legend>
+							<?php echo $this->mediaParams->render('mediaparams'); ?>
+						</fieldset>
+					</div>
 				</div>
 				<div class="width-40 fltrt">
 					<?php echo $this->loadTemplate('debug'); ?>

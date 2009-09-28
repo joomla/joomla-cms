@@ -11,20 +11,15 @@
 defined('_JEXEC') or die;
 ?>
 <div class="width-100">
-<fieldset class="adminform">
-	<legend><?php echo JText::_('System Settings'); ?></legend>
-	
+	<fieldset class="adminform">
+		<legend><?php echo JText::_('System Settings'); ?></legend>
 			<?php
 			foreach ($this->form->getFields('system') as $field):
 			?>
-			
-					<?php echo $field->label; ?>
-				
-					<?php echo $field->input; ?>
-			
+				<?php echo $field->label; ?>
+				<?php echo $field->input; ?>
 			<?php
 			endforeach;
 			?>
-		
-</fieldset>
+	</fieldset>
 </div>

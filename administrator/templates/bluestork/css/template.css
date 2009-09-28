@@ -608,7 +608,10 @@ label#jform_cachetime-lbl,
 label#jform_cache_handler-lbl,
 label#jform_state-lbl,
 input#jform_menutype,
-input#jform_menudescription {
+input#jform_menudescription,
+label#userparamsnew_usertype-lbl,
+label#userparamsuseractivation-lbl,
+label#userparamsfrontend_userparams-lbl {
 	clear:left;
 }
 
@@ -636,10 +639,14 @@ div#content-pane fieldset {
 	padding: 10px 15px 0 15px;
 }
 
+div.panel fieldset {
+	border: 0;
+}
+	
 form#weblink-form fieldset,
 form#item-form fieldset,
 fieldset.batch {
-	margin: 0 10px 10px  0px;
+	margin: 0 10px 10px 0px;
 	background-color: #FFF;
 }
 
@@ -652,6 +659,20 @@ label#jform_description-lbl {
 	padding: 10px;
 }
 
+label#jform_home0-lbl,
+label#jform_home1-lbl,
+label#jformparams_show_page_title0-lbl,
+label#jformparams_show_page_title1-lbl,
+label#jformparams_secure0-lbl,
+label#jformparams_secure1-lbl,
+label#jformparams_secure-0-lbl,
+label#jformparams_secure-1-lbl{
+	clear:none;
+}
+
+
+
+
 input#jform_offline1 {
 
 }
@@ -661,8 +682,39 @@ fieldset ul li {
 }
 
 fieldset p {
-  margin: 0 0 15px 0;
+	margin: 0 0 15px 0;
+	font-size: 12px;
 }
+
+ul#overviewlist,
+ul#paramlist {
+	clear:both;
+	font-size: 12px;
+	padding-top: 5px;
+}
+
+ul#overviewlist li {
+	list-style-type: none;
+	margin-left: -40px;
+	margin-bottom: 15px;
+	min-width: 140px;
+}
+
+ul#paramlist li {
+	list-style-type: none;
+	margin-left: -40px;
+	margin-bottom: 5px;
+}
+
+
+li#jform_menutype_label,
+li#jform_parentid_label,
+li#jform_published_label,
+li#jform_access_label {
+	float:left;
+	clear:left;
+}
+
 
 fieldset.filter{border:0;margin:0;padding:0 0 5px;}
 fieldset.filter ol{border:0;list-style:none;margin:0;padding:5px 0 0;}
