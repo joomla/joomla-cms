@@ -110,7 +110,7 @@ class LanguagesModelLanguages extends JModelList
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
 		if (is_numeric($published)) {
-			$query->where('a.state = '.(int) $published);
+			$query->where('a.published = '.(int) $published);
 		}
 		else if ($published === '') {
 			$query->where('(a.published IN (0, 1))');
@@ -131,6 +131,34 @@ class LanguagesModelLanguages extends JModelList
 
 	public function setPublished($cid, $value = 0)
 	{
-		JTable::getInstance('Language')->publish($cid, $value);
+		return JTable::getInstance('Language')->publish($cid, $value);
+	}
+
+	/**
+	 * Method to delete records.
+	 *
+	 * @param	array	An array of item primary keys.
+	 *
+	 * @return	boolean	Returns true on success, false on failure.
+	 */
+	public function delete($pks)
+	{
+		// Sanitize the array.
+		$pks = (array) $pks;
+
+		// Get a row instance.
+		$table = JTable::getInstance('Language');
+
+		// Iterate the items to delete each one.
+		foreach ($pks as $itemId)
+		{
+			if (!$table->delete((int) $itemId))
+			{
+				$this->setError($table->getError());
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

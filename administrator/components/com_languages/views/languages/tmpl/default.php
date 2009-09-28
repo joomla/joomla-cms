@@ -15,7 +15,7 @@ JHtml::_('behavior.tooltip');
 $n = count($this->items);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=langauges'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter">
 		<div class="left">
 			<label for="search">

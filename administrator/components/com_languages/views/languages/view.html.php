@@ -86,7 +86,7 @@ class LanguagesViewLanguages extends JView
 				JToolBarHelper::divider();
 		JToolBarHelper::publishList('languages.publish');
 		JToolBarHelper::unpublishList('languages.unpublish');
-		if ($this->state->get('filter.state') == -2) {
+		if ($this->state->get('filter.published') == -2) {
 			JToolBarHelper::deleteList('', 'languages.delete', 'JToolbar_Empty_trash');
 		}
 		else {
