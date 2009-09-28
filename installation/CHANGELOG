@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Sep-2009 Gergo Erdosi
+ # Fixed bug in installation SQL file.
+
 28-Sep-2009 Andrew Eddie
 + Added JControllerForm (to support basic edit operations).
 + Added table jos_languages.
