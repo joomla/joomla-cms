@@ -45,7 +45,7 @@ class LanguagesModelLanguages extends JModelList
 		$params		= JComponentHelper::getParams('com_languages');
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
+		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		$published = $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
