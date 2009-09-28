@@ -70,7 +70,7 @@ class JElementComponentLayouts extends JElementList
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::_getOptions(), $options);
+		$options = array_merge(parent::_getOptions($node), $options);
 
 		return $options;
 	}
