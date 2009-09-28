@@ -28,6 +28,10 @@ $ -> Language fix or change
 ! -> Note
 
 28-Sep-2009 Ron Severdia
+^ CSS cleanup
+^ Changed commented-out to CSS hide in edit category
+
+28-Sep-2009 Ron Severdia
 # CSS fixes
 $ Missing language strings added
 ^ Replaced tables from user config
