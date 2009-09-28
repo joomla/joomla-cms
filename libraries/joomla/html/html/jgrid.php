@@ -24,6 +24,7 @@ abstract class JHtmlJGrid
 		$states	= array(
 			1	=> array('tick.png',		$taskPrefix.'unpublish',	'JState_Published',		'JState_UnPublish_Item'),
 			0	=> array('publish_x.png',	$taskPrefix.'publish',		'JState_UnPublished',	'JState_Publish_Item'),
+			-1	=> array('disabled.png',	$taskPrefix.'unpublish',	'JState_Archived',		'JState_UnPublish_Item'),
 			-2	=> array('trash.png',		$taskPrefix.'publish',		'JState_Trashed',		'JState_Publish_Item'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
