@@ -31,6 +31,7 @@ $ -> Language fix or change
 + Added JControllerForm (to support basic edit operations).
 + Added table jos_languages.
 + Added support to add and edit content languages.
+^ Updated frontend content router to support more category path scenarios.
 
 26-Sep-2009 Andrew Eddie
 ^ Install from directory now remembers previous path.

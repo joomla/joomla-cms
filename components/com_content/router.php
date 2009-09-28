@@ -256,9 +256,28 @@ function ContentParseRoute($segments)
 	{
 		case 'categories':
 			// From the categories view, we can only jump to a category.
-			// 123-path/to/category
-			$vars['id']		= $segments[0];
-			$vars['view']	= 'category';
+
+			if ($count > 1)
+			{
+				if (intval($segments[0]) && intval($segments[$count-1]))
+				{
+					// 123-path/to/category/456-article
+					$vars['id']		= $segments[$count-1];
+					$vars['view']	= 'article';
+				}
+				else
+				{
+					// 123-path/to/category
+					$vars['id']		= $segments[0];
+					$vars['view']	= 'category';
+				}
+			}
+			else
+			{
+				// 123-category
+				$vars['id']		= $segments[0];
+				$vars['view']	= 'category';
+			}
 			break;
 
 		case 'category':
