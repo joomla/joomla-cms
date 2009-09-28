@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Sep-2009 Andrew Eddie
++ Added JControllerForm (to handle basic CRU operations).
+
 26-Sep-2009 Andrew Eddie
 ^ Install from directory now remembers previous path.
 ^ Refactored language installation error messages.
