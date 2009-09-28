@@ -49,7 +49,7 @@ ALTER TABLE `jos_categories`
  ADD COLUMN `hits` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `modified_time`;
 
 ALTER TABLE `jos_categories` 
- ADD COLUMN `language` VARCHAR(7) NOT NULL AFTER `hits`;
+ ADD COLUMN `language` CHAR(7) NOT NULL AFTER `hits`;
 
 ALTER TABLE `jos_categories`
  ADD INDEX idx_alias(`alias`);
@@ -101,7 +101,7 @@ ALTER TABLE `jos_content`
  ADD INDEX idx_featured_catid(`featured`, `catid`);
 
 ALTER TABLE `jos_content`
- ADD COLUMN `language` VARCHAR(10) NOT NULL COMMENT 'The language code for the article.' AFTER `featured`;
+ ADD COLUMN `language` CHAR(7) NOT NULL COMMENT 'The language code for the article.' AFTER `featured`;
 
 ALTER TABLE `jos_content`
  ADD COLUMN `xreference` VARCHAR(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.' AFTER `language`;
