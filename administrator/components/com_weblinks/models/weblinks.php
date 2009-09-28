@@ -42,7 +42,6 @@ class WeblinksModelWeblinks extends JModelList
 		// Initialize variables.
 		$app		= &JFactory::getApplication('administrator');
 		$params		= JComponentHelper::getParams('com_weblinks');
-		$context	= $this->_context.'.';
 
 		// Load the filter state.
 		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
