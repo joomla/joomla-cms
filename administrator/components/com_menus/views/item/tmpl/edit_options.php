@@ -22,19 +22,19 @@ $pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
 				echo '<p class="tip" style="float:right;">'.JText::_($fieldSet['description']).'</p>';
 			endif;	
 			?>
-					<?php
-					foreach ($this->paramsform->getFields($name) as $field) :
-					?>
-						<div>	
-							<?php echo $field->label; ?><br />
-							<?php echo $field->input; ?>
-						</div>							
-					<?php
-					endforeach;
-					?>
-			
-			<br class="clr" />
-		<?php 	echo $pane->endPanel();
-		
+		<fieldset>		
+			<?php
+				foreach ($this->paramsform->getFields($name) as $field) :
+			?>
+			<div class="paramrow" />
+				<?php echo $field->label; ?>
+				<?php echo $field->input; ?>
+			</div>							
+			<?php
+				endforeach;
+			?>
+		</fieldset>
+<?php
+	echo $pane->endPanel();
 	endforeach;
 ?>

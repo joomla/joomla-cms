@@ -91,30 +91,28 @@ window.addEvent('domready', function(){
 // -->
 </script>
 
-<div class="width-100">
-<form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="level-form" class="form-validate">
-	<fieldset>
-		<legend><?php echo JText::_('Users_Level_Details');?></legend>
 
-		
-<?php if (!$this->item->getSectionId()) : ?>
-			
+<form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="level-form" class="form-validate">
+	<div class="width-100">
+		<fieldset>
+			<legend><?php echo JText::_('Users_Level_Details');?></legend>
+			<?php echo $this->form->getLabel('title'); ?>
+			<?php echo $this->form->getInput('title'); ?>
+				
+			<?php if (!$this->item->getSectionId()) : ?>
 				<?php echo $this->form->getLabel('section_id'); ?>
 				<?php echo $this->form->getInput('section_id'); ?>
-			
-<?php endif; ?>
-			
-				<?php echo $this->form->getLabel('title'); ?>
-				<?php echo $this->form->getInput('title'); ?>
-			
-	</fieldset>
+			<?php endif; ?>
+		</fieldset>
 	</div>
-<div class="width-50">
-	<fieldset>
-		<legend><?php echo JText::_('Users_User_Groups_Having_Access');?></legend>
-		<?php echo JHtml::_('access.usergroups', 'jform[groups]', $this->item->getUserGroups()); ?>
-	</fieldset>
-</div>
+
+	<div class="width-50">
+		<fieldset>
+			<legend><?php echo JText::_('Users_User_Groups_Having_Access');?></legend>
+			<?php echo JHtml::_('access.usergroups', 'jform[groups]', $this->item->getUserGroups()); ?>
+		</fieldset>
+	</div>
+
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

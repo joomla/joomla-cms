@@ -469,6 +469,7 @@ div.width-65 fieldset,
 div.width-70 fieldset,
 div.width-100 fieldset { 
 	background-color: #fff;
+	padding: 17px;
 }
 
 form#weblink-form fieldset,
@@ -487,6 +488,23 @@ fieldset label {
 	margin: 5px 5px 2px 0;
 }
 
+fieldset ul {
+	margin: 0;
+	padding: 0;
+}
+
+fieldset ul.checklist {
+	margin-left: 27px;
+}
+
+/* Temporary fix until User Groups lists remove inputboxes from within labels */
+fieldset ul.checklist input {
+	float:none;
+}
+
+
+
+
 form label {
 	font-size: 12px;
 }
@@ -500,7 +518,9 @@ fieldset img {
 	margin: 3px 3px 10px 0px;
 }
 
-label#jform_title-lbl {
+label#jform_title-lbl,
+label#jform_leveltitle-lbl,
+label#jform_grouptitle-lbl {
 	padding-top: 3px;
 }
 input#jform_title {
@@ -597,8 +617,16 @@ input.readonly {
 
 input.required { background-color: #d5eeff; }
 
-input#jform_title.inputbox {
+input#jform_title.inputbox,
+input#jform_leveltitle.inputbox,
+input#jform_grouptitle.inputbox  {
 	font-size: 15px;
+}
+
+label#jform_title-lbl,
+label#jform_leveltitle-lbl,
+label#jform_grouptitle-lbl {
+	padding-top: 3px;
 }
 
 div#content-pane fieldset {
@@ -635,6 +663,16 @@ label#jformparams_secure-0-lbl,
 label#jformparams_secure-1-lbl{
 	clear:none;
 }
+
+label#userparamsallowUserRegistration-lbl,
+label#userparamsnew_usertype-lbl,
+label#userparamsuseractivation-lbl,
+label#userparamsfrontend_userparams-lbl {
+	min-width: 180px;
+}
+
+
+
 
 fieldset ul li {
 	margin-left: -30px;
@@ -711,7 +749,6 @@ table.adminform td.helpMenu { text-align: right; }
 
 
 /* -- TABLE STYLES ----------------------------- */
-
 
 table.adminlist {
 	width: 100%;
@@ -1083,20 +1120,16 @@ input.system-openid, input.com-system-openid {
 .icon-16-featured 		{ background-image: url(../images/menu/icon-16-frontpage.png); }
 .icon-16-groups			{ background-image: url(../images/menu/icon-16-groups.png); }
 .icon-16-help			{ background-image: url(../images/menu/icon-16-help.png); }
-
-.icon-16-help			{ background-image: url(../images/menu/icon-16-help.png); }
-
 .icon-16-help-this		{ background-image: url(../images/menu/icon-16-help-this.png); }
-
 .icon-16-help-forum		{ background-image: url(../images/menu/icon-16-help-forum.png); }
 .icon-16-help-docs		{ background-image: url(../images/menu/icon-16-help-docs.png); }
 .icon-16-help-jed		{ background-image: url(../images/menu/icon-16-help-jed.png); }
 .icon-16-help-jrd		{ background-image: url(../images/menu/icon-16-help-jrd.png); }
+.icon-16-help-trans		{ background-image: url(../images/menu/icon-16-help-trans.png); }
 .icon-16-help-community	{ background-image: url(../images/menu/icon-16-help-community.png); }
 .icon-16-help-security	{ background-image: url(../images/menu/icon-16-help-security.png); }
 .icon-16-help-dev		{ background-image: url(../images/menu/icon-16-help-dev.png); }
 .icon-16-help-shop		{ background-image: url(../images/menu/icon-16-help-shop.png); }
-
 
 .icon-16-info 			{ background-image: url(../images/menu/icon-16-info.png); }
 .icon-16-install 		{ background-image: url(../images/menu/icon-16-install.png);}

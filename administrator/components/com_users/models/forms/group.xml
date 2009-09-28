@@ -12,17 +12,6 @@
 		/>
 
 		<field
-			id="parent_id"
-			name="parent_id"
-			type="UserGroups"
-			class="inputbox"
-			default=""
-			label="Users_Group_Parent"
-			description="Users_Group_Parent_Desc"
-			required="true"
-		/>
-
-		<field
 			id="grouptitle"
 			name="title"
 			type="text"
@@ -31,6 +20,17 @@
 			size="40"
 			label="Users_Group_Title"
 			description="Users_Group_Title_Desc"
+		/>
+		
+		<field
+			id="parent_id"
+			name="parent_id"
+			type="UserGroups"
+			class="inputbox"
+			default=""
+			label="Users_Group_Parent"
+			description="Users_Group_Parent_Desc"
+			required="true"
 		/>
 
 		<field

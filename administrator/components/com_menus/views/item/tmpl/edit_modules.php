@@ -10,6 +10,9 @@
 defined('_JEXEC') or die;
 ?>
 <p><?php echo JText::_('Menus_Item_Module_assignment_desc');?></p>
+
+<!-- TO DO: Remove options and replace with single Change button for modal. -->
+
 <?php if (!empty($this->modules)) : ?>
 	<table class="adminlist">
 		<thead>

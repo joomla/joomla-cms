@@ -12,16 +12,6 @@
 		/>
 
 		<field
-			id="parent_id"
-			name="parent_id"
-			type="hidden"
-			default="1"
-			required="true"
-			label="Users_Level_Parent"
-			description="Users_Level_Parent_Desc"
-		/>
-
-		<field
 			id="leveltitle"
 			name="title"
 			type="text"
@@ -30,6 +20,16 @@
 			class="inputbox"
 			label="Users_Level_Title"
 			description="Users_Level_Title_Desc"
+		/>
+		
+		<field
+			id="parent_id"
+			name="parent_id"
+			type="hidden"
+			default="1"
+			required="true"
+			label="Users_Level_Parent"
+			description="Users_Level_Parent_Desc"
 		/>
 
 		<field

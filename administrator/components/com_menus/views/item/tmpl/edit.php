@@ -32,95 +32,68 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-<div class="col width-50">
+<div class="width-50 fltlft">
 	<fieldset>
 		<legend><?php echo JText::_('Menus_Item_Details');?></legend>
-		
-				<div>
-					<?php echo $this->form->getLabel('type'); ?>
-					<?php echo $this->form->getInput('type'); ?>
+
+			<?php echo $this->form->getLabel('title'); ?>
+			<?php echo $this->form->getInput('title'); ?>
+
+			<?php echo $this->form->getLabel('alias'); ?>
+			<?php echo $this->form->getInput('alias'); ?>
 				
-				</div>
-				<div>
-					<?php echo $this->form->getLabel('title'); ?>
-					<?php echo $this->form->getInput('title'); ?>
-				</div>	
-					<?php if ($this->item->type =='url'){ ?>
-							<div>	
-								<?php echo $this->form->getLabel('link'); ?>
-								<?php echo $this->form->getInput('link'); ?>
-							</div>	
-					<?php } ?>					
+			<?php echo $this->form->getLabel('type'); ?>
+			<?php echo $this->form->getInput('type'); ?>
+				
+			<?php if ($this->item->type =='url'){ ?>
+				<?php echo $this->form->getLabel('link'); ?>
+				<?php echo $this->form->getInput('link'); ?>
+			<?php } ?>		
+				
+			<?php echo $this->form->getLabel('published'); ?>
+			<?php echo $this->form->getInput('published'); ?>
+	
+			<?php echo $this->form->getLabel('access'); ?>
+			<?php echo $this->form->getInput('access'); ?>
+									
+			<?php echo $this->form->getLabel('menutype'); ?>
+			<?php echo $this->form->getInput('menutype'); ?>
+	
+			<?php echo $this->form->getLabel('parent_id'); ?>
+			<?php echo $this->form->getInput('parent_id'); ?>
+				
+			<?php if ($this->item->type !=='url'){ ?>
+				<?php echo $this->form->getLabel('link'); ?>
+				<?php echo $this->form->getInput('link'); ?>
+			<?php } ?>
+
+			<?php echo $this->form->getLabel('browserNav'); ?>
+			<?php echo $this->form->getInput('browserNav'); ?>
+	
+			<?php echo $this->form->getLabel('home'); ?>
+			<?php echo $this->form->getInput('home'); ?>
+				
+			<?php echo $this->form->getLabel('template_id'); ?>
+			<?php echo $this->form->getInput('template_id'); ?>
 			
-				<?php echo $this->loadTemplate('required'); ?>
-			
+			<?php echo $this->loadTemplate('required'); ?>
 	</fieldset>
 </div>
 
-<div class="col width-50" style="clear:right;">
-	<div  style="float:left">		
-			<?php echo $pane->startPane('menu-pane'); ?>			
-				<?php echo $pane->startPanel(JText::_('Menu_Advanced_Menu_Options'), 'advanced-options'); ?>
-				<div>
-						
-							<?php echo $this->form->getLabel('access'); ?>
-							<?php echo $this->form->getInput('access'); ?>
-				</div>		
-				<div>						
-							<?php echo $this->form->getLabel('published'); ?>
-							<?php echo $this->form->getInput('published'); ?>
-				</div>						
-				
-				<div>						
-							<?php echo $this->form->getLabel('alias'); ?>
-							<?php echo $this->form->getInput('alias'); ?>
-				</div>						
-				<div>						
-							<?php echo $this->form->getLabel('parent_id'); ?>
-							<?php echo $this->form->getInput('parent_id'); ?>
-				</div>
-						
-				<?php if ($this->item->type !=='url'){ ?>
-						<div>
-							<?php echo $this->form->getLabel('link'); ?>
-							<?php echo $this->form->getInput('link'); ?>
-						</div>	
-				<?php } ?>
-				
-				<div>						
-							<?php echo $this->form->getLabel('home'); ?>
-							<?php echo $this->form->getInput('home'); ?>
-				</div>		
-				<div>						
-							<?php echo $this->form->getLabel('menutype'); ?>
-							<?php echo $this->form->getInput('menutype'); ?>
-				</div>		
-				<div>							
-							<?php echo $this->form->getLabel('browserNav'); ?>
-							<?php echo $this->form->getInput('browserNav'); ?>
-				</div>						
-				<div>	
-						
-							<?php echo $this->form->getLabel('template_id'); ?>
-							<?php echo $this->form->getInput('template_id'); ?>
-						
-				</div>
-					
-				<?php echo $pane->endPanel(); ?>
-				<div class="clr"></div>
-		
-				<?php //get the menu parameters that are automatically set but may be modified.
-				echo $this->loadTemplate('options'); ?>
-				<div class="clr"></div>
+<div class="width-50 fltrt">
+<?php echo $pane->startPane('menu-pane'); ?>
+	
+	<?php //get the menu parameters that are automatically set but may be modified.
+		echo $this->loadTemplate('options'); ?>
+	
+	<div class="clr"></div>
 
-				<?php //sliders for module selection						
-		 		echo $pane->startPanel(JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>			
-					<fieldset>
-
-						<?php echo $this->loadTemplate('modules'); ?>
-					</fieldset>		
-				<?php echo $pane->endPanel(); ?>
-	</div>
+	<?php //sliders for module selection						
+		 echo $pane->startPanel(JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>			
+			<fieldset>
+				<?php echo $this->loadTemplate('modules'); ?>
+			</fieldset>		
+			<?php echo $pane->endPanel(); ?>
 
 	<?php echo $pane->endPane(); ?>	
 </div>	
@@ -129,3 +102,4 @@ JHtml::_('behavior.formvalidation');
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <div class="clr"></div>
+

@@ -36,38 +36,32 @@ JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/'
 	<div class="width-60 fltlft">
 		<fieldset>
 			<legend><?php echo JText::_('Users_User_Account_Details'); ?></legend>
-
+			<?php echo $this->form->getLabel('name'); ?>
+			<?php echo $this->form->getInput('name'); ?>
 			
-					<?php echo $this->form->getLabel('name'); ?><br />
-					<?php echo $this->form->getInput('name'); ?>
-			
-					<?php echo $this->form->getLabel('username'); ?><br />
-					<?php echo $this->form->getInput('username'); ?>
+			<?php echo $this->form->getLabel('username'); ?>
+			<?php echo $this->form->getInput('username'); ?>
 				
-					<?php echo $this->form->getLabel('password'); ?><br />
-					<?php echo $this->form->getInput('password'); ?>
+			<?php echo $this->form->getLabel('password'); ?>
+			<?php echo $this->form->getInput('password'); ?>
 				
-					<?php echo $this->form->getLabel('password2'); ?><br />
-					<?php echo $this->form->getInput('password2'); ?>
+			<?php echo $this->form->getLabel('password2'); ?>
+			<?php echo $this->form->getInput('password2'); ?>
 				
-					<?php echo $this->form->getLabel('email'); ?><br />
-					<?php echo $this->form->getInput('email'); ?>
-				
+			<?php echo $this->form->getLabel('email'); ?>
+			<?php echo $this->form->getInput('email'); ?>
 		</fieldset>
 
 		<fieldset>
 			<legend><?php echo JText::_('Users_User_Options'); ?></legend>
-
 			<?php foreach($this->form->getFields('params') as $field): ?>
 				<?php if ($field->hidden): ?>
 					<?php echo $field->input; ?>
 				<?php else: ?>
-							<?php echo $field->label; ?>
-					
-							<?php echo $field->input; ?>
+					<?php echo $field->label; ?>
+					<?php echo $field->input; ?>
 				<?php endif; ?>
 			<?php endforeach; ?>
-
 		</fieldset>
 	</div>
 
