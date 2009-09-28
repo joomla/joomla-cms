@@ -11,13 +11,13 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * HTML Languages View class for the Languages component
+ * Displays a list of the installed languages.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_languages
  * @since		1.6
  */
-class LanguagesViewLanguages extends JView
+class LanguagesViewInstalled extends JView
 {
 	/**
 	 * @var array languages information
@@ -55,24 +55,27 @@ class LanguagesViewLanguages extends JView
 	 */
 	function display($tpl = null)
 	{
+		// Get data from the model
+
 		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$pagination	= $this->get('Pagination');
+		$rows		= $this->get('Data');
+		$pagination = $this->get('Pagination');
+		$ftp		= $this->get('Ftp');
+		$option		= $this->get('Option');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
-		}
+		// Assign data to the view
+		$this->assignRef('state',		$state);
+		$this->assignRef('rows',		$rows);
+		$this->assignRef('pagination',	$pagination);
+		$this->assignRef('ftp',			$ftp);
+		$this->assignRef('option',		$option);
 
-		$this->assignRef('state',			$state);
-		$this->assignRef('items',			$items);
-		$this->assignRef('pagination',		$pagination);
+		// Set the toolbar and the submenu
+		$this->_setToolBar();
 
+		// Display the view
 		parent::display($tpl);
-		$this->_setToolbar();
 	}
-
 	/**
 	 * Setup the Toolbar
 	 *
@@ -80,21 +83,9 @@ class LanguagesViewLanguages extends JView
 	 */
 	protected function _setToolBar()
 	{
-		JToolBarHelper::title(JText::_('Langs_View_Languages_Title'), 'generic.png');
-		JToolBarHelper::addNew('language.add');
-				JToolBarHelper::editList('language.edit');
-				JToolBarHelper::divider();
-		JToolBarHelper::publishList('languages.publish');
-		JToolBarHelper::unpublishList('languages.unpublish');
-		if ($this->state->get('filter.state') == -2) {
-			JToolBarHelper::deleteList('', 'languages.delete', 'JToolbar_Empty_trash');
-		}
-		else {
-			JToolBarHelper::trash('languages.trash');
-		}
+		JToolBarHelper::title(JText::_('Langs_View_Installed_Title'), 'langmanager.png');
+		JToolBarHelper::makeDefault('installed.publish');
 		JToolBarHelper::divider();
-		//JToolBarHelper::preferences('com_languagaes', '480', '570', 'JToolbar_Options');
-		//JToolBarHelper::divider();
 		JToolBarHelper::help('screen.languages');
 	}
 }

@@ -760,6 +760,20 @@ INSERT INTO `#__extensions` VALUES
 # --------------------------------------------------------
 
 #
+# Table structure for table `#__languages`
+#
+
+CREATE TABLE `#__languages` (
+  `lang_id` int(11) unsigned NOT NULL auto_increment,
+  `lang_code` char(7) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `title_native` varchar(50) NOT NULL,
+  `description` varchar(512) NOT NULL,
+  `published` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`lang_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8
+
+#
 # Table structure for table `#__menu`
 #
 

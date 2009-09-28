@@ -22,15 +22,17 @@ class LanguagesHelper
 	 *
 	 * @param	string	The name of the active view.
 	 */
-	public static function addSubmenu($client_id)
+	public static function addSubmenu($vName)
 	{
 		JSubMenuHelper::addEntry(
-			JText::_('Languages_Site'),
-			'#" onclick="javascript:document.adminForm.client.value=\'0\';submitbutton(\'\');',
-			$client_id == 0);
+			JText::_('Langs_Submenu_Installed'),
+			'index.php?option=com_languages&view=installed',
+			$vName == 'installed'
+		);
 		JSubMenuHelper::addEntry(
-			JText::_('Languages_Administrator'),
-			'#" onclick="javascript:document.adminForm.client.value=\'1\';submitbutton(\'\');',
-			$client_id == 1);
+			JText::_('Langs_Submenu_Content'),
+			'index.php?option=com_languages&view=languages',
+			$vName == 'languages'
+		);
 	}
 }

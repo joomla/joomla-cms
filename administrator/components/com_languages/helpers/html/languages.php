@@ -27,7 +27,7 @@ abstract class JHtmlLanguages {
 	{
 		if ($published) {
 			$app = & JFactory::getApplication();
-			return '<img src="templates/'.$app->getTemplate().'/images/menu/icon-16-default.png" alt="'.JText::_('Languages_Default').'" />';
+			return '<img src="templates/'.$app->getTemplate().'/images/menu/icon-16-default.png" alt="'.JText::_('Langs_Default').'" />';
 		}
 		else {
 			return '&nbsp;';
@@ -38,7 +38,7 @@ abstract class JHtmlLanguages {
 	 * method to generate an input radio button
 	 *
 	 * @param	int		$rowNum the row number
-	 * @param	string	language tag 
+	 * @param	string	language tag
 	 *
 	 * @return	string	html code
 	 */
@@ -46,5 +46,33 @@ abstract class JHtmlLanguages {
 	{
 		return '<input type="radio" id="cb'.$rowNum.'" name="cid[]" value="'.$language.'" onclick="isChecked(this.checked);" />';
 	}
+
+	public static function clients()
+	{
+		return array(
+			JHtml::_('select.option', 0, JText::_('Langs_Option_Client_Site')),
+			JHtml::_('select.option', 1, JText::_('Langs_Option_Client_Administrator'))
+		);
+	}
+
+	/**
+	 * Returns an array of published state filter options.
+	 *
+	 * @return	string			The HTML code for the select tag
+	 * @since	1.6
+	 */
+	public static function publishedOptions()
+	{
+		// Build the active state filter options.
+		$options	= array();
+		$options[]	= JHtml::_('select.option', '1', 'JOption_Published');
+		$options[]	= JHtml::_('select.option', '0', 'JOption_Unpublished');
+		$options[]	= JHtml::_('select.option', '-1', 'Langs_Option_Disabled');
+		$options[]	= JHtml::_('select.option', '-2', 'JOption_Trash');
+		$options[]	= JHtml::_('select.option', '*', 'JOption_All');
+
+		return $options;
+	}
+
 }
 

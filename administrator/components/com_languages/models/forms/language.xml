@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="lang_id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true" />
+
+		<field
+			name="lang_code"
+			type="text"
+			class="inputbox"
+			default=""
+			size="10"
+			maxlength="7"
+			label="Langs_Field_Lang_Code_Label"
+			description="Langs_Field_Lang_Code_Desc"
+			required="true" />
+
+		<field
+			name="title"
+			type="text"
+			class="inputbox"
+			default=""
+			size="40"
+			maxlength="50"
+			label="Langs_Field_Title_Label"
+			description="Langs_Field_Title_Desc"
+			required="true" />
+
+		<field
+			name="title_native"
+			type="text"
+			class="inputbox"
+			default=""
+			size="40"
+			maxlength="50"
+			label="Langs_Field_Title_Native_Label"
+			description="Langs_Field_Title_Native_Desc" />
+
+		<field
+			name="alias"
+			type="text"
+			class="inputbox"
+			default=""
+			size="40"
+			label="Langs_Field_Alias_Label"
+			description="Langs_Field_Alias_Desc" />
+
+		<field
+			id="description"
+			name="description"
+			type="textarea"
+			class="inputbox"
+			rows="5"
+			cols="80"
+			default=""
+			label="Langs_Field_Description_Label"
+			description="Langs_Field_Description_Desc" />
+
+		<field
+			name="published"
+			type="radio"
+			class="rbtn"
+			default="1"
+			label="Langs_Field_Published_Label"
+			description="Langs_Field_Published_Desc">
+			<option
+				value="1">JOption_Published</option>
+			<option
+				value="0">JOption_Unpublished</option>
+			<option
+				value="-1">Langs_Option_Disabled</option>
+			<option
+				value="-2">JOption_Trash</option>
+		</field>
+	</fields>
+</form>

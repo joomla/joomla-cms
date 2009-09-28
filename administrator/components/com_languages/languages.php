@@ -15,11 +15,8 @@ if (!$user->authorize('core.languages.manage')) {
 	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
-// Require the base controller
-require_once JPATH_COMPONENT.DS.'controller.php';
+jimport('joomla.application.component.controller');
 
 $controller	= JController::getInstance('Languages');
-
-// Perform the Request task
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

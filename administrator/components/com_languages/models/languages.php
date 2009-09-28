@@ -9,287 +9,25 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
+jimport('joomla.database.query');
 
 /**
- * Languages Component Languages Model
+ * Languages Model Class
  *
  * @package		Joomla.Administrator
  * @subpackage	com_languages
- * @since		1.6
+ * @version		1.5
  */
 class LanguagesModelLanguages extends JModelList
 {
 	/**
-	 * @var object client object
-	 */
-	protected $client = null;
-
-	/**
-	 * @var object user object
-	 */
-	protected $user = null;
-
-	/**
-	 * @var boolean|JExeption True, if FTP settings should be shown, or an exeption
-	 */
-	protected $ftp = null;
-
-	/**
-	 * @var string option name
-	 */
-	protected $option = null;
-
-	/**
-	 * @var array languages description
-	 */
-	protected $data = null;
-	
-	/**
-	 * @var int total number pf languages
-	 */
-	protected $total = null;
-	
-	/**
-	 * @var array languages folders
-	 */
-	protected $folders = null;
-	
-	/**
-	 * @var string language path
-	 */
-	protected $path = null;
-	
-	/**
-	 * Method to get the client object
+	 * Model context string.
 	 *
-	 * @access public
-	 * @return object
+	 * @access	protected
+	 * @var		string
 	 */
-	function &getClient()
-	{
-		if (is_null($this->client)) {
-			$this->client = &JApplicationHelper::getClientInfo($this->getState('client'));
-		}
-		return $this->client;
-	}
+	 protected $_context = 'com_languages.languages';
 
-	/**
-	 * Method to get the user object
-	 *
-	 * @access public
-	 * @return object
-	 */
-	function &getUser()
-	{
-		if (is_null($this->user)) {
-			$this->user = &JFactory::getUser();
-		}
-		return $this->user;
-	}
-
-	/**
-	 * Method to get the ftp credentials
-	 *
-	 * @access public
-	 * @return object
-	 */
-	function &getFtp()
-	{
-		if (is_null($this->ftp))
-		{
-			jimport('joomla.client.helper');
-			$this->ftp = &JClientHelper::setCredentialsFromRequest('ftp');
-		}
-		return $this->ftp;
-	}
-
-	/**
-	 * Method to get the option
-	 *
-	 * @access public
-	 * @return object
-	 */
-	function &getOption()
-	{
-		$option = $this->getState('option');
-		return $option;
-	}
-
-	/**
-	 * Method to get Languages item data
-	 *
-	 * @access public
-	 * @return array
-	 */
-	function &getData()
-	{
-		if (is_null($this->data))
-		{
-			// Get information
-			$folders = & $this->_getFolders();
-			$path = & $this->_getPath();
-			$client = & $this->getClient();
-			
-			// Compute all the languages
-			$data	= array ();
-			foreach ($folders as $folder)
-			{
-				$file = $path.DS.$folder.DS.$folder.'.xml';			
-				$info = & JApplicationHelper::parseXMLLangMetaFile($file);
-				$row = new JObject();
-				$row->language 	= $folder;
-
-				if (!is_array($info)) {
-					continue;
-				}
-				foreach($info as $key => $value) {
-					$row->$key = $value;
-				}
-				// if current than set published
-				$params = &JComponentHelper::getParams('com_languages');
-				if ($params->get($client->name, 'en-GB') == $row->language) {
-					$row->published	= 1;
-				}
-				else {
-					$row->published = 0;
-				}
-
-				$row->checked_out = 0;
-				$data[] = $row;
-			}
-			usort($data,array("LanguagesModelLanguages","_compareLanguages"));
-			
-			
-			// Prepare data
-			$limit = $this->getState('list.limit');
-			$start = $this->getState('list.start');
-			$total = $this->getTotal();
-			
-			if ($limit == 0)
-			{
-				$start = 0;
-				$end = $total;
-			}
-			else
-			{
-				if ($start > $total) {
-					$start = $total - $total % $limit;
-				}
-				$end = $start + $limit;
-				if ($end > $total) {
-					$end = $total;
-				}
-			}
-			
-			// Compute the displayed languages
-			$this->data	= array ();
-			for ($i = $start;$i < $end;$i++) {
-				$this->data[] = & $data[$i];
-			}
-		}
-		return $this->data;
-	}
-
-	/**
-	 * Method to get the total number of Languages items
-	 *
-	 * @access public
-	 * @return integer
-	 */
-	function &getTotal()
-	{
-		if (is_null($this->total))
-		{
-			$folders = & $this->_getFolders();
-			$this->total = count($folders);
-		}
-		return $this->total;
-	}
-
-	/**
-	 * Method to set the default language
-	 *
-	 * @access public
-	 * return boolean
-	 */
-	function publish()
-	{		
-		$cid = $this->getState('cid');
-		if (count($cid)>0) {
-			$client	= & $this->getClient();
-
-			$params = & JComponentHelper::getParams('com_languages');
-			$params->set($client->name, $cid[0]);
-
-			$table = & JTable::getInstance('component');
-			$table->loadByOption('com_languages');
-
-			$table->params = $params->toString();
-			// pre-save checks
-			if (!$table->check()) {
-				$this->setError($table->getError());
-				return false;
-			}
-
-			// save the changes
-			if (!$table->store()) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-		else {
-			$this->setError(JText::_('Languages_No_Language_Selected'));
-			return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * Method to get the folders
-	 *
-	 * @access protected
-	 * @return array languages folders
-	 */
-	protected function _getFolders()
-	{
-		if (is_null($this->folders))
-		{
-			$path = & $this->_getPath();
-			jimport('joomla.filesystem.folder');
-			$this->folders = &JFolder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts','overrides'));
-		}
-		return $this->folders;
-	}
-	
-	/**
-	 * Method to get the path
-	 *
-	 * @access protected
-	 * @return string the path to the languages folders
-	 */
-	protected function _getPath()
-	{
-		if (is_null($this->path))
-		{
-			$client = & $this->getClient();
-			$this->path = &JLanguage::getLanguagePath($client->path);
-		}
-		return $this->path;
-	}
-
-	/**
-	 * Method to compare two languages in order to sort them
-	 *
-	 * @access protected
-	 * @param object $lang1 the first language
-	 * @param object $lang2 the second language
-	 * @return integer
-	 */
-	protected function _compareLanguages($lang1,$lang2)
-	{
-		return strcmp($lang1->name,$lang2->name);
-	}
-	
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -298,32 +36,101 @@ class LanguagesModelLanguages extends JModelList
 	 * configuration flag to ignore the request is set.
 	 *
 	 * @return	void
+	 * @since	1.6
 	 */
 	protected function _populateState()
 	{
-		/**
-		 * Compute the client state
-		 */
-		$client = & JRequest::getVar('client', 0, '', 'int');
-		$this->setState('client',$client);
-		/**
-		 * Compute the option state
-		 */
-		$option = & JRequest::getCmd('option', 'com_languages');
-		$this->setState('option',$option);
-		/**
-		 * Compute the pagination state
-		 */
-		$app = & JFactory::getApplication();
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
-		$start = $app->getUserStateFromRequest($option.'.'.$client.'.limitstart', 'limitstart', 0, 'int');
+		// Initialize variables.
+		$app		= &JFactory::getApplication('administrator');
+		$params		= JComponentHelper::getParams('com_languages');
+
+		// Load the filter state.
+		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
+		$this->setState('filter.search', $search);
+
+		$published = $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
+		// List state information.
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 		$this->setState('list.limit', $limit);
-		$this->setState('list.start', $start);
-		/**
-		 * Compute the selected state
-		 */
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$this->setState('cid',$cid);		
+
+		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
+		$this->setState('list.limitstart', $limitstart);
+
+		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
+		$this->setState('list.ordering', $orderCol);
+
+		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
+		$this->setState('list.direction', $orderDirn);
+
+		// Load the parameters.
+		$this->setState('params', $params);
+	}
+
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param	string		$id	A prefix for the store id.
+	 * @return	string		A store id.
+	 * @since	1.6
+	 */
+	protected function _getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id	.= ':'.$this->getState('list.start');
+		$id	.= ':'.$this->getState('list.limit');
+		$id	.= ':'.$this->getState('list.ordering');
+		$id	.= ':'.$this->getState('list.direction');
+		$id	.= ':'.$this->getState('filter.search');
+		$id	.= ':'.$this->getState('filter.published');
+
+		return md5($id);
+	}
+
+	/**
+	 * Method to build an SQL query to load the list data.
+	 *
+	 * @return	string	An SQL query
+	 * @since	1.6
+	 */
+	protected function _getListQuery()
+	{
+		// Create a new query object.
+		$query = new JQuery;
+
+		// Select all fields from the users table.
+		$query->select($this->getState('list.select', 'a.*'));
+		$query->from('`#__languages` AS a');
+
+		// Filter on the published state.
+		$published = $this->getState('filter.published');
+		if (is_numeric($published)) {
+			$query->where('a.state = '.(int) $published);
+		}
+		else if ($published === '') {
+			$query->where('(a.published IN (0, 1))');
+		}
+
+		// Filter by search in title
+		$search = $this->getState('filter.search');
+		if (!empty($search)) {
+			$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false);
+			$query->where('(a.title LIKE '.$search.')');
+		}
+
+		// Add the list ordering clause.
+		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+
+		return $query;
+	}
+
+	public function setPublished($cid, $value = 0)
+	{
+		JTable::getInstance('Language')->publish($cid, $value);
 	}
 }
-

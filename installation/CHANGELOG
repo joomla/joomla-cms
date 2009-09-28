@@ -28,7 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 28-Sep-2009 Andrew Eddie
-+ Added JControllerForm (to handle basic CRU operations).
++ Added JControllerForm (to support basic edit operations).
++ Added table jos_languages.
++ Added support to add and edit content languages.
 
 26-Sep-2009 Andrew Eddie
 ^ Install from directory now remembers previous path.

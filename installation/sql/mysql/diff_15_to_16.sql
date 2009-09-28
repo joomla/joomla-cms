@@ -211,6 +211,20 @@ INSERT INTO #__extensions SELECT
 INSERT INTO `#__extensions` VALUES(0, 'Editor - CodeMirror', 'plugin', 'codemirror', 'editors', 1, 0, 1, 1, '', 'linenumbers=0\n\n', '', '', 0, '0000-00-00 00:00:00', 7, 0);
 
 -- ----------------------------------------------------------------
+-- jos_languages (new)
+-- ----------------------------------------------------------------
+
+CREATE TABLE `jos_languages` (
+  `lang_id` int(11) unsigned NOT NULL auto_increment,
+  `lang_code` char(7) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `title_native` varchar(50) NOT NULL,
+  `description` varchar(512) NOT NULL,
+  `published` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`lang_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8
+
+-- ----------------------------------------------------------------
 -- jos_menu
 -- ----------------------------------------------------------------
 

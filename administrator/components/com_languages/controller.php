@@ -8,8 +8,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
-
 /**
  * Languages Controller
  *
@@ -24,12 +22,33 @@ class LanguagesController extends JController
 	 */
 	function display()
 	{
-		// Load the submenu.
-		$model = & $this->getModel('languages');
-		$client = & $model->getClient();
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'languages.php';
-		LanguagesHelper::addSubmenu($client->id);
-		parent::display();
+		// Get the document object.
+		$document = &JFactory::getDocument();
+
+		// Set the default view name and format from the Request.
+		$vName		= JRequest::getWord('view', 'installed');
+		$vFormat	= $document->getType();
+		$lName		= JRequest::getWord('layout', 'default');
+
+		// Get and render the view.
+		if ($view = &$this->getView($vName, $vFormat))
+		{
+			// Get the model for the view.
+			$model = &$this->getModel($vName);
+
+			// Push the model into the view (as default).
+			$view->setModel($model, true);
+			$view->setLayout($lName);
+
+			// Push document object into the view.
+			$view->assignRef('document', $document);
+
+			$view->display();
+
+			// Load the submenu.
+			require_once JPATH_COMPONENT.DS.'helpers'.DS.'languages.php';
+			LanguagesHelper::addSubmenu($vName);
+		}
 	}
 
 	/**
@@ -42,7 +61,7 @@ class LanguagesController extends JController
 		$model = & $this->getModel('languages');
 		if ($model->publish())
 		{
-			$msg = JText::_('Languages_Default_Language_Saved');
+			$msg = JText::_('Langs_Default_Language_Saved');
 			$type = 'message';
 		}
 		else
