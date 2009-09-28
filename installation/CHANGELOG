@@ -33,6 +33,7 @@ $ -> Language fix or change
 + Added support to add and edit content languages.
 ^ Updated frontend content router to support more category path scenarios.
 + Added archived state support to JHtmlJGrid::published
++ Added ContentLanguages JForm field and JElement.
 
 26-Sep-2009 Andrew Eddie
 ^ Install from directory now remembers previous path.
