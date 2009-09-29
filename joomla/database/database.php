@@ -255,7 +255,7 @@ abstract class JDatabase extends JObject
 				require_once dirname(__FILE__).DS.'database'.DS.$name.'.php';
 			}
 
-			if (call_user_func_array(array(trim($class), 'test'), null)) {
+			if (call_user_func_array(array(trim($class), 'test'), array())) {
 				$names[] = $name;
 			}
 		}
