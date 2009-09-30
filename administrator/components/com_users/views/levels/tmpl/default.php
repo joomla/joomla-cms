@@ -16,8 +16,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 
-// Load the default stylesheet.
-JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=levels');?>" method="post" name="adminForm">
 	<fieldset class="filter clearfix">

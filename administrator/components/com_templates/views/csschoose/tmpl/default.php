@@ -2,17 +2,10 @@
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
-<table cellpadding="1" cellspacing="1" border="0" width="100%">
-<tr>
-	<td width="220">
-		<span class="componentheading">&nbsp;</span>
-	</td>
-</tr>
-</table>
 <table class="adminlist">
 <tr>
 	<th width="5%" align="left">
-		<?php echo JText::_('Num'); ?>
+		
 	</th>
 	<th width="85%" align="left">
 		<?php echo $this->t_dir; ?>

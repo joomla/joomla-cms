@@ -38,18 +38,12 @@
 </fieldset>
 <?php endif; ?>
 
-<table class="adminform">
-<tr>
-	<th>
-		<?php echo $css_path; ?>
-	</th>
-</tr>
-<tr>
-	<td>
-		<textarea style="width:100%;height:500px" cols="110" rows="25" name="filecontent" class="inputbox"><?php echo $this->content; ?></textarea>
-	</td>
-</tr>
-</table>
+
+		<h3 class="title"><?php echo $css_path; ?></h3>
+		<div class="clr"></div>
+		<textarea cols="110" rows="25" id="codeedit" name="filecontent" class="inputbox"><?php echo $this->content; ?></textarea>
+		<div class="clr"></div>
+
 
 <input type="hidden" name="id" value="<?php echo $this->id; ?>" />
 <input type="hidden" name="template" value="<?php echo $this->template; ?>" />

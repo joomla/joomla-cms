@@ -38,20 +38,10 @@
 </fieldset>
 <?php endif; ?>
 
-<table class="adminform">
-<tr>
-	<th>
-		<?php echo $template_path; ?>
-	</th>
-</tr>
-<tr>
-	<td>
-		<textarea style="width:100%;height:500px" cols="110" rows="25" name="filecontent" class="inputbox"><?php echo $this->content; ?></textarea>
-	</td>
-</tr>
-</table>
-
-<div class="clr"></div>
+		<h3 class="title"><?php echo $template_path; ?></h3>
+		<div class="clr"></div>
+		<textarea id="codeedit" cols="110" rows="25" name="filecontent" class="inputbox"><?php echo $this->content; ?></textarea>
+		<div class="clr"></div>
 
 <input type="hidden" name="template" value="<?php echo $this->template; ?>" />
 <input type="hidden" name="option" value="<?php echo $this->option;?>" />

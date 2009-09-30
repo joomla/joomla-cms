@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
-JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/');
 JHtml::_('behavior.tooltip');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&field='.JRequest::getCmd('field'));?>" method="post" name="adminForm">

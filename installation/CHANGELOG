@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Sep-2009 Ron Severdia
+# Template Manager cleanup
+# CSS for com_users
+^ Replace tables
++ New ACL icons
+
 29-Sep-2009 Gergo Erdosi
  # Fixed some call_user_func_array() bugs.
 

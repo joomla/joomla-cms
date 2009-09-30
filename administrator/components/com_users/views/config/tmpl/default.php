@@ -15,7 +15,6 @@ JHtml::addIncludePath(JPATH_PLUGINS.'/system/jxtended/html/html');
 
 // Load the stylesheets.
 JHtml::stylesheet('system.css', 'administrator/templates/system/css/');
-JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/');
 
 // Load the JavaScript behaviors.
 JHtml::_('behavior.switcher');

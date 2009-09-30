@@ -17,8 +17,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 
-// Load the default stylesheet.
-JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/');
 ?>
 
 <script type="text/javascript">

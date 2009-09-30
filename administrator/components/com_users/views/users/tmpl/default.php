@@ -16,20 +16,17 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 
-// Load the default stylesheet.
-JHtml::stylesheet('grid.css', 'administrator/components/com_users/media/css/');
-JHtml::stylesheet('default.css', 'administrator/components/com_users/media/css/');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm">
 	<fieldset class="filter">
-		<div class="left">
+		<div class="fltlft">
 			<label for="search"><?php echo JText::sprintf('JSearch_Label', 'Users'); ?></label>
 			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="30" title="<?php echo JText::sprintf('JSearch_Title', 'Users'); ?>" />
 			<button type="submit"><?php echo JText::_('JSearch_Submit'); ?></button>
 			<button type="button" onclick="$('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Reset'); ?></button>
 		</div>
-		<div class="right">
+		<div class="fltrt">
 			<label for="filter_state">
 				<?php echo JText::sprintf('Users_Filter_Label', 'Users'); ?>
 			</label>
