@@ -154,10 +154,10 @@ abstract class JHtmlAccess
 
 			// Build the HTML for the item.
 			$html[] = '	<li>';
-			$html[] = '		<label for="'.$eid.'">';
-			$html[] = '			<input type="checkbox" name="'.$name.'[]" value="'.$item->id.'" id="'.$eid.'"';
+			$html[] = '		<input type="checkbox" name="'.$name.'[]" value="'.$item->id.'" id="'.$eid.'"';
 			$html[] = '				'.$checked.$rel.' />';
-			$html[] = '			'.str_repeat('- ', $item->level).$item->title;
+			$html[] = '		'.str_repeat('- ', $item->level).$item->title;
+			$html[] = '		<label for="'.$eid.'">';
 			$html[] = '		</label>';
 			$html[] = '	</li>';
 		}
@@ -196,9 +196,9 @@ abstract class JHtmlAccess
 
 			// Build the HTML for the item.
 			$html[] = '	<li>';
+			$html[] = '		<input type="checkbox" name="'.$name.'[]" value="'.$item->id.'" id="'.$eid.'"';
+			$html[] = '			'.$checked.' />';
 			$html[] = '		<label for="'.$eid.'">';
-			$html[] = '			<input type="checkbox" name="'.$name.'[]" value="'.$item->id.'" id="'.$eid.'"';
-			$html[] = '				'.$checked.' />';
 			$html[] = '			'.JText::_($item->title);
 			$html[] = '		</label>';
 			$html[] = '	</li>';
