@@ -110,6 +110,15 @@ class JLanguage extends JObject
 	 * @since	1.6
 	 */
 	protected $_override 	= array();
+	
+	/**
+	 * Name of the transliterator function for this language
+	 *
+	 * @var		string
+	 * @access 	protected
+	 * @since	1.6
+	 */
+	protected $_transliterator = null;
 
 	/**
 	 * Constructor activating the default information of the language
@@ -126,7 +135,6 @@ class JLanguage extends JObject
 
 		$this->setLanguage($lang);
 
-		$app = & JFactory::getApplication();
 		$filename = JPATH_BASE.DS.'language'.DS.'overrides'.DS.$lang.'.override.ini';
 		if ($contents = @file_get_contents( $filename ))
 		{
@@ -135,6 +143,24 @@ class JLanguage extends JObject
 			$this->_override = $registry->toArray( );
 			unset($registry);
 			unset($contents);
+		}
+
+		// Look for a special transliterate function for this language
+		$function = str_replace('-', '', $lang.'Transliterate');
+		if (function_exists($function)) {
+			$this->_transliterator = $function;
+		}
+		else
+		{
+			// Function does not exist. Try to find it
+			$transFile = JPATH_ROOT.DS.'language'.DS.$lang.DS.$lang.'.transliterate.php';
+			if (file_exists($transFile))
+			{
+				require_once $transFile;
+				if (function_exists($function)) {
+					$this->_transliterator = $function;
+				}
+			}
 		}
 
 		$this->load();
@@ -224,6 +250,10 @@ class JLanguage extends JObject
 	 */
 	function transliterate($string)
 	{
+		if ($this->_transliterator !== null) {
+			return call_user_func($this->_transliterator, $string);
+		}
+
 		$string = htmlentities(utf8_decode($string));
 		$string = preg_replace(
 		array('/&szlig;/','/&(..)lig;/', '/&([aouAOU])uml;/','/&(.)[^;]*;/'),
@@ -231,6 +261,32 @@ class JLanguage extends JObject
 		$string);
 
 		return $string;
+	}
+
+	/**
+	 * Getter for transliteration function
+	 *
+	 * @access	public
+	 * @return	string|function Function name or the actual function for PHP 5.3
+	 * @since 	1.6
+	 */
+	public function getTransliterator()
+	{
+		return $this->_transliterator;
+	}
+	
+	/**
+	 * Set the transliteration function
+	 *
+	 * @access	public
+	 * @return	string|function Function name or the actual function for PHP 5.3
+	 * @since 	1.6
+	 */
+	public function setTransliterator($function)
+	{
+		$previous = $this->_transliterator;
+		$this->_transliterator = $function;
+		return $previous;
 	}
 
 	/**
@@ -711,14 +767,12 @@ class JLanguage extends JObject
 			return null;
 		}
 
-		$metadata = array ();
-
-		//if ($xml->document->attributes('type') == 'language') {
+		$metadata = array();
 
 		foreach ($xml->document->metadata[0]->children() as $child) {
 			$metadata[$child->name()] = $child->data();
 		}
-		//}
+
 		return $metadata;
 	}
 }
