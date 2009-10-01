@@ -1507,4 +1507,93 @@ a.grid_trash{background-image:url(../images/icon-16-trash.png);display:inline-bl
 
 
 
+/* -- ACL PANEL STYLES  ----------- */
+
+div#acl-options {
+	width: 340px;
+}
+
+/* All Tabs */
+table#aclsummary-table,
+table#aclmodify-table {
+	border-collapse: collapse;
+	width: 320px;
+	text-align:center;
+	font-size: 12px;
+}
+td.col1 {
+	font-size: 12px;
+	text-align:left;
+	padding: 4px;
+}
+tr.row1 {
+	background-color: #f0f0ee;
+}
+table#aclsummary-table caption,
+table#aclmodify-table caption{
+	display:none;
+}
+
+/* Summary Tab */
+table#aclsummary-table th.col2,
+table#aclsummary-table th.col3,
+table#aclsummary-table th.col4,
+table#aclsummary-table th.col5 {
+	width:15%;
+	vertical-align: bottom;
+}
+table#aclsummary-table td.col2,
+table#aclsummary-table th.col2,
+table#aclsummary-table td.col3,
+table#aclsummary-table th.col3,
+table#aclsummary-table td.col4,
+table#aclsummary-table th.col4,
+table#aclsummary-table td.col5,
+table#aclsummary-table th.col5,
+table#aclmodify-table td.col2,
+table#aclmodify-table th.col2 {
+	border-left: 1px solid #cbcbcb;
+}
+
+/* Create, Edit, Edit State & Delete Tabs */
+table#aclmodify-table th.col2,
+table#aclmodify-table th.col3,
+table#aclmodify-table th.col4 {
+	width:20%;
+	vertical-align: bottom;
+}
+
+/* ACL footer/legend */
+div#acllegend {
+	display: block;
+	float: left;
+	width: 150px;
+	margin-top: 15px;
+}
+div#acllegend img {
+	vertical-align: bottom;
+	margin-left: 5px;
+}
+div#acllegend span {
+	margin-right: 10px;
+}
+div#acleditgroups,
+div#aclresetbtn {
+	display: block;
+	float: right;
+	margin-top: 17px;
+	width: 85px;
+}
+div#acleditgroups p,
+div#aclresetbtn p{
+	margin-right: 0;
+	text-align:right;
+}
+
+
+
+
+
+
+
 
