@@ -25,7 +25,7 @@ $function = JRequest::getVar('function', 'jSelectArticle');
 
 			<button type="submit">
 				<?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="$('filter_search').value='';this.form.submit();">
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
 				<?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 

@@ -25,7 +25,7 @@ $n = count($this->items);
 
 			<button type="submit">
 				<?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="$('search').value='';this.form.submit();">
+			<button type="button" onclick="document.id('search').value='';this.form.submit();">
 				<?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 		<div class="right">

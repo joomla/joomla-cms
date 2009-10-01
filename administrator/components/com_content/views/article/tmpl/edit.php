@@ -24,7 +24,7 @@ JHtml::_('behavior.formvalidation');
 <!--
 	function submitbutton(task)
 	{
-		if (task == 'article.cancel' || document.formvalidator.isValid($('item-form'))) {
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			<?php //echo $this->form->fields['introtext']->editor->save('jform[introtext]'); ?>
 			submitform(task);
 		}

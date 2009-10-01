@@ -24,7 +24,7 @@ $this->buildDefaultToolBar();
 			<label for="search"><?php echo JText::_('Search'); ?>:</label>
 			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Search in title'); ?>" />
 			<button type="submit"><?php echo JText::_('Go'); ?></button>
-			<button type="button" onclick="$('search').value='';$('published').value=0;this.form.submit();"><?php echo JText::_('Clear'); ?></button>
+			<button type="button" onclick="document.id('search').value='';document.id('published').value=0;this.form.submit();"><?php echo JText::_('Clear'); ?></button>
 		</div>
 		<div class="right">
 			<ol>

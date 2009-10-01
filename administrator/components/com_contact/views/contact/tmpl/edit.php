@@ -23,7 +23,7 @@ JHtml::_('behavior.formvalidation');
 <!--
 	function submitbutton(task)
 	{
-		if (task == 'contact.cancel' || document.formvalidator.isValid($('contact-form'))) {
+		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form'))) {
 		}
 		// @todo Deal with the editor methods
 		submitform(task);

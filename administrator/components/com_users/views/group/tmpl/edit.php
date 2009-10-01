@@ -23,7 +23,7 @@ JHtml::_('behavior.formvalidation');
 <!--
 	function submitbutton(task)
 	{
-		if (task == 'group.cancel' || document.formvalidator.isValid($('group-form'))) {
+		if (task == 'group.cancel' || document.formvalidator.isValid(document.id('group-form'))) {
 			submitform(task);
 		}
 	}

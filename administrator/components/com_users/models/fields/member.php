@@ -37,9 +37,9 @@ class JFormFieldUser extends JFormField
 		$js = '
 		function jxSelectUser(id, title, el) {
 			console.log(el);
-			$(el + \'_id\').value = id;
-			$(el + \'_name\').value = title;
-			$(\'sbox-window\').close();
+			document.id(el + \'_id\').value = id;
+			document.id(el + \'_name\').value = title;
+			document.id(\'sbox-window\').close();
 		}';
 		$document = &JFactory::getDocument();
 		$document->addScriptDeclaration($js);

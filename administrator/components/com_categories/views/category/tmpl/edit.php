@@ -24,7 +24,7 @@ JHtml::_('behavior.formvalidation');
 <!--
 	function submitbutton(task)
 	{
-		if (task == 'category.cancel' || document.formvalidator.isValid($('item-form'))) {
+		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			submitform(task);
 		}
 	}

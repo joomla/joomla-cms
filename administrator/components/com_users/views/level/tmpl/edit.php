@@ -23,7 +23,7 @@ JHtml::_('behavior.formvalidation');
 <!--
 function submitbutton(task)
 {
-	if (task == 'level.cancel' || document.formvalidator.isValid($('level-form'))) {
+	if (task == 'level.cancel' || document.formvalidator.isValid(document.id('level-form'))) {
 		submitform(task);
 	}
 }
@@ -33,7 +33,7 @@ window.addEvent('domready', function(){
 		// Event to check all child groups.
 		i.addEvent('check', function(e){
 			// Check the child groups.
-			$('user-groups').getElements('input').each(function(c){
+			document.id('user-groups').getElements('input').each(function(c){
 				if (this.getProperty('rel') == c.id) {
 					c.setProperty('checked', true);
 					c.setProperty('disabled', true);
@@ -45,7 +45,7 @@ window.addEvent('domready', function(){
 		// Event to uncheck all the parent groups.
 		i.addEvent('uncheck', function(e){
 			// Uncheck the parent groups.
-			$('user-groups').getElements('input').each(function(c){
+			document.id('user-groups').getElements('input').each(function(c){
 				if (c.getProperty('rel') == this.id) {
 					c.setProperty('checked', false);
 					c.setProperty('disabled', false);
@@ -57,7 +57,7 @@ window.addEvent('domready', function(){
 		// Bind to the click event to check/uncheck child/parent groups.
 		i.addEvent('click', function(e){
 			// Check the child groups.
-			$('user-groups').getElements('input').each(function(c){
+			document.id('user-groups').getElements('input').each(function(c){
 				if (this.getProperty('rel') == c.id) {
 					c.setProperty('checked', true);
 					if (this.getProperty('checked')) {
@@ -70,7 +70,7 @@ window.addEvent('domready', function(){
 			}.bind(this));
 
 			// Uncheck the parent groups.
-			$('user-groups').getElements('input').each(function(c){
+			document.id('user-groups').getElements('input').each(function(c){
 				if (c.getProperty('rel') == this.id) {
 					c.setProperty('checked', false);
 					c.setProperty('disabled', false);

@@ -11,7 +11,8 @@
  * @subpackage  Media
  * @since       1.5
  */
-var MediaManager = {
+(function($) {
+var MediaManager = this.MediaManager = {
 
     initialize: function()
     {
@@ -171,6 +172,7 @@ return;
             : null;
     }
 };
+})(document.id);
 
 window.addEvent('domready', function(){
 	// Added to populate data on iframe load

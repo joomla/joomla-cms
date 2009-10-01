@@ -18,7 +18,7 @@ JHtml::_('behavior.formvalidation');
 <!--
 	function submitbutton(task)
 	{
-		if (task == 'weblink.cancel' || document.formvalidator.isValid($('weblink-form'))) {
+		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('weblink-form'))) {
 			submitform(task);
 		}
 		// @todo Deal with the editor methods

@@ -53,8 +53,8 @@ class JFormFieldModal_Contact extends JFormField
 
 		$doc->addScriptDeclaration(
 		"function jSelectChart_".$this->inputId."(id, name, object) {
-			$('".$this->inputId."_id').value = id;
-			$('".$this->inputId."_name').value = name;
+			document.id('".$this->inputId."_id').value = id;
+			document.id('".$this->inputId."_name').value = name;
 			SqueezeBox.close();
 		}"
 		);

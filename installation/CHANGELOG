@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Oct-2009 Ercan Ozkaya
+ ^ Replaced all $ instances to document.id for Mootools except third party classes
+
 29-Sep-2009 Ron Severdia
 # Template Manager cleanup
 # CSS for com_users

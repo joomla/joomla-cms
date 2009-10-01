@@ -53,8 +53,8 @@ class JFormFieldModal_Articles extends JFormField
 
 		$doc->addScriptDeclaration(
 		"function jSelectChart_".$this->inputId."(id, title, object) {
-			$('".$this->inputId."_id').value = id;
-			$('".$this->inputId."_name').value = title;
+			document.id('".$this->inputId."_id').value = id;
+			document.id('".$this->inputId."_name').value = title;
 			SqueezeBox.close();
 		}"
 		);

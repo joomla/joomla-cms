@@ -19,7 +19,7 @@ JHtml::_('behavior.formvalidation');
 	function submitbutton(task)
 	{
 		// @todo Validation is currently busted
-		//if (task == 'newsfeed.cancel' || document.formvalidator.isValid($('newsfeed-form'))) {
+		//if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form'))) {
 		if (task == 'newsfeed.cancel') {
 			submitform(task);
 		}

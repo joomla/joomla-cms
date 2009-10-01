@@ -24,7 +24,7 @@ JHtml::_('behavior.tooltip');
 			<label for="search"><?php echo JText::sprintf('JSearch_Label', 'Users'); ?></label>
 			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="30" title="<?php echo JText::sprintf('JSearch_Title', 'Users'); ?>" />
 			<button type="submit"><?php echo JText::_('JSearch_Submit'); ?></button>
-			<button type="button" onclick="$('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Reset'); ?></button>
+			<button type="button" onclick="document.id('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Reset'); ?></button>
 		</div>
 		<div class="fltrt">
 			<label for="filter_state">

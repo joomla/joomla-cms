@@ -18,7 +18,7 @@ JHtml::_('behavior.formvalidation');
 <!--
 	function submitbutton(task)
 	{
-		if (task == 'language.cancel' || document.formvalidator.isValid($('language-form'))) {
+		if (task == 'language.cancel' || document.formvalidator.isValid(document.id('language-form'))) {
 			submitform(task);
 		}
 		// @todo Deal with the editor methods
