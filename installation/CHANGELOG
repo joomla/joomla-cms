@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 01-Oct-2009 Ercan Ozkaya
  ^ Replaced all $ instances to document.id for Mootools except third party classes
+ + Added transliteration override support for language packs
 
 29-Sep-2009 Ron Severdia
 # Template Manager cleanup
