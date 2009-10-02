@@ -116,7 +116,7 @@ INSERT IGNORE INTO `#__menu_types` VALUES
 --
 
 INSERT IGNORE INTO `#__usergroups` VALUES
-	(9,2,7,8,'Park Rangers');
+	(9,2,15,16,'Park Rangers');
 
 --
 -- Dumping data for table `#__weblinks`
