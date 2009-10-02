@@ -7,14 +7,14 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.access.action');
+jimport('joomla.access.rule');
 
 /**
  * @package 	Joomla.Framework
  * @subpackage	Access
  * @since		1.6
  */
-class JActions
+class JRules
 {
 	/**
 	 * @var	array	A named array
@@ -29,7 +29,7 @@ class JActions
 	 *
 	 * @param	mixed	A JSON format string (probably from the database), or a nested array.
 	 */
-	public function __construct($input)
+	public function __construct($input = '')
 	{
 		// Convert in input to an array.
 		if (is_string($input)) {
@@ -51,7 +51,7 @@ class JActions
 	/**
 	 * Get the data for the action.
 	 *
-	 * @return	array	A named array of JAction objects.
+	 * @return	array	A named array of JRule objects.
 	 */
 	public function getData()
 	{
@@ -59,7 +59,7 @@ class JActions
 	}
 
 	/**
-	 * Method to merge a collection of JActions.
+	 * Method to merge a collection of JRules.
 	 *
 	 * @param	mixed
 	 */
@@ -91,7 +91,7 @@ class JActions
 				$this->mergeAction($action, $identities);
 			}
 		}
-		else if ($actions instanceof JActions)
+		else if ($actions instanceof JRules)
 		{
 			$data = $actions->getData();
 
@@ -114,7 +114,7 @@ class JActions
 		else
 		{
 			// If new, add the action.
-			$this->_data[$action] = new JAction($identities);
+			$this->_data[$action] = new JRule($identities);
 		}
 	}
 
@@ -124,33 +124,39 @@ class JActions
 	 * The identity is an integer where +ve represents a user group,
 	 * and -ve represents a user.
 	 *
-	 * @param	string		The name of the action.
-	 * @param	int			An integer representing the identity.
+	 * @param	string	The name of the action.
+	 * @param	mixed	An integer representing the identity, or an array of identities
 	 *
 	 * @return	mixed
 	 */
 	public function allow($action, $identity)
 	{
-		if (empty($action))
-		{
-			// Sweep for the allowed actions.
-			$allowed = new JObject;
-			foreach ($this->_data as $name => $action)
-			{
-				if ($this->_data[$action]->allow($identity)) {
-					$allowed->set($name, true);
-				}
-			}
-			return $allowed;
+// TODO: Remove debug when finished testing.
+//echo "<br>Action: $action, ".print_r($identity, 1);
+		// Check we have information about this action.
+		if (isset($this->_data[$action])) {
+//print_r($this->_data[$action]);
+			return $this->_data[$action]->allow($identity);
 		}
-		else
+		return null;
+	}
+
+	/**
+	 * Get the allowed actions for an identity.
+	 *
+	 * @param	mixed	An integer representing the identity, or an array of identities
+	 */
+	function getAllowed($identity)
+	{
+		// Sweep for the allowed actions.
+		$allowed = new JObject;
+		foreach ($this->_data as $name => $action)
 		{
-			// Check we have information about this action.
-			if (isset($this->_data[$action])) {
-				return $this->_data[$action]->allow($identity);
+			if ($this->_data[$action]->allow($identity)) {
+				$allowed->set($name, true);
 			}
 		}
-		return false;
+		return $allowed;
 	}
 
 	/**
@@ -161,13 +167,12 @@ class JActions
 	public function __toString()
 	{
 		$temp = array();
-		foreach ($this->_data as $name => $action)
+		foreach ($this->_data as $name => $rule)
 		{
 			// Convert the action to JSON, then back into an array otherwise
 			// re-encoding will quote the JSON for the identities in the action.
-			$temp[$name] = json_decode((string) $action);
+			$temp[$name] = json_decode((string) $rule);
 		}
-
 		return json_encode($temp);
 	}
 }

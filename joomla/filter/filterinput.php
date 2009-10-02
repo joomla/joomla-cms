@@ -166,7 +166,7 @@ class JFilterInput extends JObject
 			default :
 				// Check for static usage and assign $filter the proper variable
 				$filter = &JFilterInput::getInstance();
-					
+
 				// Are we dealing with an array?
 				if (is_array($source)) {
 					foreach ($source as $key => $value)

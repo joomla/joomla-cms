@@ -150,7 +150,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= $tab.$tab.$tab.'}'.$lnEnd;
 			$buffer .= $tab.$tab.'})();'.$lnEnd;
 			$buffer .= $tab.'</script>'.$lnEnd;
-		}		
+		}
 
 		foreach($document->_custom as $custom) {
 			$buffer .= $tab.$custom.$lnEnd;

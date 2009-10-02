@@ -37,10 +37,10 @@ abstract class JHtml
  );
 
 	private static $includePaths = array();
-	
-	/** 
+
+	/**
 	 * An array to hold method references
-	 * 
+	 *
 	 * @var array
 	 */
 	private static $registry = array();
@@ -61,14 +61,14 @@ abstract class JHtml
 
 		// Check to see if we need to load a helper file
 		$parts = explode('.', $type);
-		
+
 		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
 		$file 	= (count($parts) == 2 ? array_shift($parts) : '');
 		$func 	= array_shift($parts);
 
 		$key = strtolower($prefix.'.'.$file.'.'.$func);
 
-		if (array_key_exists($key, self::$registry)) 
+		if (array_key_exists($key, self::$registry))
 		{
 			$function = self::$registry[$key];
 			$args = func_get_args();
@@ -102,7 +102,7 @@ abstract class JHtml
 		$toCall = array($className, $func);
 		if (is_callable($toCall))
 		{
-			JHtml::register($key, $toCall); 
+			JHtml::register($key, $toCall);
 			$args = func_get_args();
 			// remove function name from arguments
 			array_shift($args);
@@ -120,11 +120,11 @@ abstract class JHtml
 	 *
 	 * @param	string	The name of the key
 	 * @param	string	Function or method
-	 */	
+	 */
 	public static function register($key, $function)
 	{
 		$parts = explode('.', $key);
-		
+
 		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
 		$file 	= (count($parts) == 2 ? array_shift($parts) : '');
 		$func 	= array_shift($parts);
@@ -144,7 +144,7 @@ abstract class JHtml
 	 * Removes a key for a method from registry.
 	 *
 	 * @param	string	The name of the key
-	 */		
+	 */
 	public static function unregister($key)
 	{
 		$key = strtolower($key);

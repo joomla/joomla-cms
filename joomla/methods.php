@@ -53,7 +53,7 @@ class JRoute
 
 		/*
 		 * Get the secure/unsecure URLs.
-		 * 
+		 *
 		 * If the first 5 characters of the BASE are 'https', then we are on an ssl connection over
 		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
 		 * 'http', then we need to do a quick string manipulation to switch schemes.

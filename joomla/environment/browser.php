@@ -695,7 +695,7 @@ class JBrowser extends JObject
 
     /**
      * Check the current browser capabilities.
-     * 
+     *
      * @param string $feature  The capability to check.
      * @return boolean  Does the browser have the capability set?
      */

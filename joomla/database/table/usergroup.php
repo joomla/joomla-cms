@@ -44,16 +44,6 @@ class JTableUsergroup extends JTable
 	var $title;
 
 	/**
-	 * @var int unsigned
-	 */
-	var $section_id;
-
-	/**
-	 * @var varchar
-	 */
-	var $section;
-
-	/**
 	 * Constructor
 	 *
 	 * @access	public
@@ -78,12 +68,6 @@ class JTableUsergroup extends JTable
 		// Validate the title.
 		if ((trim($this->title)) == '') {
 			$this->setError(JText::_('Usergroup must have a title'));
-			return false;
-		}
-
-		// Validate the section.
-		if (empty($this->section_id)) {
-			$this->setError(JText::_('Usergroup must have a section'));
 			return false;
 		}
 

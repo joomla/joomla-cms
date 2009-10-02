@@ -43,11 +43,16 @@ class JTableAsset extends JTableNested
 	public $title = null;
 
 	/**
+	 * @var	string
+	 */
+	public $rules = null;
+
+	/**
 	 * @param database A database connector object
 	 */
 	public function __construct(&$db)
 	{
-		parent::__construct('#__access_assets', 'id', $db);
+		parent::__construct('#__assets', 'id', $db);
 	}
 
 	/**
@@ -62,7 +67,7 @@ class JTableAsset extends JTableNested
 		// Get the asset id for the asset.
 		$this->_db->setQuery(
 			'SELECT `id`' .
-			' FROM `#__access_assets`' .
+			' FROM `#__assets`' .
 			' WHERE `name` = '.$this->_db->Quote($name)
 		);
 		$assetId = (int) $this->_db->loadResult();
@@ -75,5 +80,42 @@ class JTableAsset extends JTableNested
 		}
 
 		return $this->load($assetId);
+	}
+
+	/**
+	 * Asset that the nested set data is valid.
+	 *
+	 * @return	boolean	True if the instance is sane and able to be stored in the database.
+	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/check
+	 */
+	public function check()
+	{
+		$this->parent_id = (int) $this->parent_id;
+
+		// JTableNested does not allow parent_id = 0, override this.
+		if ($this->parent_id > 0)
+		{
+			$this->_db->setQuery(
+				'SELECT COUNT(id)' .
+				' FROM '.$this->_db->nameQuote($this->_tbl).
+				' WHERE `id` = '.$this->parent_id
+			);
+			if ($this->_db->loadResult()) {
+				return true;
+			}
+			else
+			{
+				if ($error = $this->_db->getErrorMsg()) {
+					$this->setError($error);
+				}
+				else {
+					$this->setError('JError_Invalid_parent_id');
+				}
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

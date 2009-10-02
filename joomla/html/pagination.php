@@ -248,12 +248,12 @@ class JPagination extends JObject
 			$list['next']['active'] = false;
 			$list['next']['data'] = ($itemOverride) ? pagination_item_inactive($data->next) : $this->_item_inactive($data->next);
 		}
-		
+
 		if ($data->end->base !== null) {
 			$list['end']['active'] = true;
 			$list['end']['data'] = ($itemOverride) ? pagination_item_active($data->end) : $this->_item_active($data->end);
 		}
-		
+
 		else {
 			$list['end']['active'] = false;
 			$list['end']['data'] = ($itemOverride) ? pagination_item_inactive($data->end) : $this->_item_inactive($data->end);

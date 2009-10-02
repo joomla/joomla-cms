@@ -38,7 +38,7 @@ class JFormFieldSessionHandlers extends JFormFieldList
 		jimport('joomla.session.session');
 		$stores		= JSession::getStores();
 		$options	= array();
-		
+
 		// Convert to name => name array.
 		foreach ($stores as $store) {
 			$options[$store] = $store;

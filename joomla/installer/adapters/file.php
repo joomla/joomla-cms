@@ -224,12 +224,12 @@ class JInstallerFile extends JAdapterInstance
 				JError::raiseWarning(100, JText::_('File').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
 			}
-				
+
 			$this->manifest = $root;
 
 			// Get fileset
 			$eFileset = $root->getElementByPath('fileset');
-				
+
 			// Set root folder names
 			$packagePath = $this->parent->getPath('source');
 			$jRootPath = JPath::clean(JPATH_ROOT);
@@ -248,26 +248,26 @@ class JInstallerFile extends JAdapterInstance
 					}
 					else
 					{
-						$targetFolder = JPATH_ROOT.DS.$target; 
+						$targetFolder = JPATH_ROOT.DS.$target;
 					}
-					
+
 					$folderList = array();
 					// Check if all children exists
-					if (count($eFiles->children()) > 0) 
+					if (count($eFiles->children()) > 0)
 					{
 						// loop through all filenames elements
 						foreach ($eFiles->children() as $eFileName)
 						{
 							if ($eFileName->name() == 'folder') {
 								$folderList[] = $targetFolder . DS . $eFileName->data();
-								
+
 							} else {
 								$fileName = $targetFolder . DS . $eFileName->data();
 								JFile::delete($fileName);
 							}
 						}
 					}
-					
+
 					// Delete any folders that don't have any content in them
 					foreach($folderList as $folder)
 					{
@@ -390,7 +390,7 @@ class JInstallerFile extends JAdapterInstance
 				}
 
 				// Check if all children exists
-				if (count($eFiles->children()) > 0) 
+				if (count($eFiles->children()) > 0)
 				{
 					// loop through all filenames elements
 					foreach ($eFiles->children() as $eFileName)

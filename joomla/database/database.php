@@ -109,7 +109,7 @@ abstract class JDatabase extends JObject
 	 * @var string
 	 */
 	protected $_nullDate = null;
-	
+
 	/**
 	 * Quote for named objects
 	 *

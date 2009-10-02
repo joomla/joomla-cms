@@ -197,7 +197,7 @@ class JParameter extends JRegistry
 
 		foreach ($params as $param)
 		{
-			
+
 
 			if ($param[0]) {
 				$html[] = $param[0];
@@ -212,7 +212,7 @@ class JParameter extends JRegistry
 			$html[] = "<p class=\"noparams\">".JText::_('There are no Parameters for this item')."</p>";
 		}
 
-		
+
 		return implode(PHP_EOL, $html);
 	}
 

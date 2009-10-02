@@ -47,7 +47,7 @@ abstract class JHtmlImage
 		}
 
 		$cur_template = $app->getTemplate();
-		
+
 		// Strip HTML.
 		$alt = html_entity_decode($alt);
 

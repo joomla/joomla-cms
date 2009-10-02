@@ -573,7 +573,7 @@ class JSession extends JObject
 		if ($this->_force_ssl) {
 			$cookie['secure'] = true;
 		}
-		
+
 		$config = &JFactory::getConfig();
 		if($config->getValue('config.cookie_domain', '') != '') {
 			$cookie['domain'] = $config->getValue('config.cookie_domain');

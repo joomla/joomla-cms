@@ -25,7 +25,7 @@ class JTableContent extends JTable
 	public $id = null;
 
 	/**
-	 * @var int Foreign key to #__access_assets.id
+	 * @var int Foreign key to #__assets.id
 	 */
 	public $asset_id = null;
 
@@ -198,10 +198,23 @@ class JTableContent extends JTable
 	}
 
 	/**
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form `table_name.id`
+	 * where id is the value of the primary key of the table.
+	 *
+	 * @return	string
+	 */
+	protected function _getAssetName()
+	{
+		$k = $this->_tbl_key;
+		return 'com_content.article.'.(int) $this->$k;
+	}
+
+	/**
 	 * Method to return the title to use for the asset table.
 	 *
 	 * @return	string
-	 * @since	1.0
+	 * @since	1.6
 	 */
 	protected function _getAssetTitle()
 	{
@@ -209,12 +222,53 @@ class JTableContent extends JTable
 	}
 
 	/**
+	 * Get the parent asset id for the record
 	 *
+	 * @return	int
 	 */
 	protected function _getAssetParentId()
 	{
-		// TODO: Lookup the category id.
-		return 1;
+		// Initialize variables.
+		$assetId = null;
+
+		// This is a article under a category.
+		if ($this->catid)
+		{
+			// Build the query to get the asset id for the parent category.
+			$query = new JQuery;
+			$query->select('asset_id');
+			$query->from('#__categories');
+			$query->where('id = '.(int) $this->catid);
+
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult()) {
+				$assetId = (int) $result;
+			}
+		}
+		// This is an uncategorized article that needs to parent with the extension.
+		elseif ($assetId === null)
+		{
+			// Build the query to get the asset id for the parent category.
+			$query = new JQuery;
+			$query->select('id');
+			$query->from('#__assets');
+			$query->where('name = "com_content"');
+
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult()) {
+				$assetId = (int) $result;
+			}
+		}
+
+		// Return the asset id.
+		if ($assetId) {
+			return $assetId;
+		}
+		else {
+			return parent::_getAssetParentId();
+		}
 	}
 
 	/**
@@ -287,12 +341,15 @@ class JTableContent extends JTable
 
 		// clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
-		if (!empty($this->metakey)) { // only process if not empty
+		if (!empty($this->metakey))
+		{
+			// only process if not empty
 			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
 			$keys = explode(',', $after_clean); // create array using commas as delimiter
 			$clean_keys = array();
-			foreach($keys as $key) {
+			foreach($keys as $key)
+			{
 				if (trim($key)) {  // ignore blank keywords
 					$clean_keys[] = trim($key);
 				}
@@ -301,7 +358,9 @@ class JTableContent extends JTable
 		}
 
 		// clean up description -- eliminate quotes and <> brackets
-		if (!empty($this->metadesc)) { // only process if not empty
+		if (!empty($this->metadesc))
+		{
+			// only process if not empty
 			$bad_characters = array("\"", "<", ">");
 			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}

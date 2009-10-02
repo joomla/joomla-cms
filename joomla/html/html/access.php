@@ -174,14 +174,13 @@ abstract class JHtmlAccess
 	 *
 	 * @return	string
 	 */
-	public static function actions($name, $selected, $section = 'core', $type = 1)
+	public static function actions($name, $selected, $component, $section = 'global')
 	{
 		static $count;
 
 		$count++;
 
-		jimport('joomla.access.helper');
-		$actions	= JAccessHelper::getActions($section, $type);
+		$actions	= JAccess::getActions($component, $section);
 
 		$html		= array();
 		$html[]		= '<ul class="checklist access-actions">';
@@ -222,11 +221,10 @@ abstract class JHtmlAccess
 			$db		= &JFactory::getDbo();
 			$query	= new JQuery;
 
-			$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
-			$query->from('#__access_assetgroups AS a');
-			$query->join('LEFT', '`#__access_assetgroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			$query->select('a.id AS value, a.title AS text');
+			$query->from('#__viewlevels AS a');
 			$query->group('a.id');
-			$query->order('a.lft ASC');
+			$query->order('a.ordering ASC');
 
 			$db->setQuery($query);
 			JHtmlAccess::$asset_groups = $db->loadObjectList();
@@ -272,5 +270,4 @@ abstract class JHtmlAccess
 			)
 		);
 	}
-
 }

@@ -367,6 +367,21 @@ class JForm extends JObject
 							// Handle the different filter options.
 							switch (strtoupper($filter))
 							{
+								case 'RULES':
+									$return[$name] = array();
+									foreach ((array) $data[$name] as $action => $ids)
+									{
+										// Build the rules array.
+										$return[$name][$action] = array();
+										foreach ($ids as $id => $p)
+										{
+											if ($p !== '') {
+												$return[$name][$action][$id] = ($p == '1' || $p == 'true') ? true : false;
+											}
+										}
+									}
+									break;
+
 								case 'UNSET':
 									// Do nothing.
 									break;

@@ -101,7 +101,7 @@ class JTableUpdate extends JTable
 
 		return parent::bind($array, $ignore);
 	}
-	
+
 	function find($options=Array()) {
 		$dbo =& JFactory::getDBO();
 		$where = Array();
