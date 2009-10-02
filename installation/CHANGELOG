@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+01-Oct-2009 Ian MacLennan
+ # [#16484] Changed addslashes to addcslashes in RegistryFormatPHP so that only \ and ' get slashes added.  (fix from 1.5)
+
 01-Oct-2009 Ercan Ozkaya
  ^ Replaced all $ instances to document.id for Mootools except third party classes
  + Added transliteration override support for language packs
