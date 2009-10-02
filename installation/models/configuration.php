@@ -52,7 +52,6 @@ class JInstallationModelConfiguration extends JModel
 		$registry->setValue('sitename', $options->site_name);
 		$registry->setValue('editor', 'tinymce');
 		$registry->setValue('list_limit', 20);
-		$registry->setValue('root_user', 42);
 		$registry->setValue('access', 1);
 
 		/* Debug Settings */

@@ -45,14 +45,6 @@ class JAccess
 			// Sanitize inputs.
 			$userId = (int) $userId;
 
-			// Crude check for root user.
-			$config = new JConfig;
-			if ($userId == $config->root_user)
-			{
-				self::$isRoot = true;
-				return true;
-			}
-
 			$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
 			$asset  = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
 
