@@ -13,6 +13,6 @@
 	<packager>Joomla!</packager>
 	<packagerurl>http://www.joomla.org</packagerurl>
 	<update>http://update.joomla.org/packages/joomla</update>
-	<version>1.5</version>	
+	<version>1.5</version>
 	<files />
 </extension>

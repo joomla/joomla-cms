@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		
+ * @version
  * @package		Joomla.Administrator
  * @subpackage	com_menus
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /*
  * Get the request group fields and print them out..
  */
- 
+
 
 	foreach ($this->paramsform->getFields('request') as $field) :
 		?>
@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 		</div>
 			<?php
 
-	endforeach;  
-	?>				
-	
+	endforeach;
+	?>
+
 

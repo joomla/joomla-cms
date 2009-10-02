@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
+	<!-- $Id$ -->
 <form>
-	<fields group="cache" label="Config_Cache_Settings_Label">
+	<fields
+		group="cache"
+		label="Config_Cache_Settings_Label">
 		<field
 			name="caching"
 			type="radio"
@@ -9,12 +11,13 @@
 			label="Config_Cache_Label"
 			description="Config_Cache_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		
+
 		<field
 			name="cachetime"
 			type="text"
@@ -23,32 +26,33 @@
 			description="Config_Cache_Time_Desc"
 			required="true"
 			filter="integer"
-			size="6"
-		/>
-		
+			size="6" />
+
 		<field
 			name="cache_handler"
 			type="cachehandlers"
 			default="file"
 			label="Config_Cache_Handler_Label"
 			description="Config_Cache_Handler_Desc"
-			filter="word"
-		/>
+			filter="word" />
 	</fields>
-	
-	<fields group="database" label="Config_Database_Settings_Label">
+
+	<fields
+		group="database"
+		label="Config_Database_Settings_Label">
 		<field
 			name="dbtype"
 			type="list"
 			default=""
 			label="Config_Database_Type_Label"
 			description="Config_Database_Type_Desc"
-			filter="string"
-		>
-			<option value="mysql">Config_Option_Mysql</option>
-			<option value="mysqli">Config_Option_Mysqli</option>
+			filter="string">
+			<option
+				value="mysql">Config_Option_Mysql</option>
+			<option
+				value="mysqli">Config_Option_Mysqli</option>
 		</field>
-		
+
 		<field
 			name="host"
 			type="text"
@@ -56,9 +60,8 @@
 			label="Config_Database_Host_Label"
 			description="Config_Database_Host_Desc"
 			filter="string"
-			size="30"
-		/>
-		
+			size="30" />
+
 		<field
 			name="user"
 			type="text"
@@ -66,9 +69,8 @@
 			label="Config_Database_Username_Label"
 			description="Config_Database_Username_Desc"
 			filter="string"
-			size="30"
-		/>
-		
+			size="30" />
+
 		<field
 			name="db"
 			type="text"
@@ -76,9 +78,8 @@
 			label="Config_Database_Database_Label"
 			description="Config_Database_Database_Desc"
 			filter="string"
-			size="30"
-		/>
-		
+			size="30" />
+
 		<field
 			name="dbprefix"
 			type="text"
@@ -86,12 +87,13 @@
 			label="Config_Database_Prefix_Label"
 			description="Config_Database_Prefix_Desc"
 			filter="string"
-			size="10"
-		/>
-	
+			size="10" />
+
 	</fields>
-	
-	<fields group="debug" label="Config_Debug_Settings_Label">
+
+	<fields
+		group="debug"
+		label="Config_Debug_Settings_Label">
 		<field
 			name="debug"
 			type="radio"
@@ -99,12 +101,13 @@
 			label="Config_Debug_System_Label"
 			description="Config_Debug_System_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		
+
 		<field
 			name="debug_lang"
 			type="radio"
@@ -112,12 +115,13 @@
 			label="Config_Debug_Lang_Label"
 			description="Config_Debug_Lang_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		
+
 		<field
 			name="debug_modules"
 			type="radio"
@@ -125,14 +129,17 @@
 			label="Config_Debug_Modules_Label"
 			description="Config_Debug_Modules_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
 	</fields>
-	
-	<fields group="ftp" label="Config_Ftp_Settings_Label">
+
+	<fields
+		group="ftp"
+		label="Config_Ftp_Settings_Label">
 		<field
 			name="ftp_enable"
 			type="radio"
@@ -140,12 +147,13 @@
 			label="Config_Ftp_Enable_Label"
 			description="Config_Ftp_Enable_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-	
+
 		<field
 			name="ftp_host"
 			type="text"
@@ -153,9 +161,8 @@
 			label="Config_Ftp_Host_Label"
 			description="Config_Ftp_Host_Desc"
 			filter="string"
-			size="14"
-		/>
-		
+			size="14" />
+
 		<field
 			name="ftp_port"
 			type="text"
@@ -163,9 +170,8 @@
 			label="Config_Ftp_Port_Label"
 			description="Config_Ftp_Port_Desc"
 			filter="string"
-			size="8"
-		/>
-		
+			size="8" />
+
 		<field
 			name="ftp_user"
 			type="text"
@@ -173,9 +179,8 @@
 			label="Config_Ftp_Username_Label"
 			description="Config_Ftp_Username_Desc"
 			filter="string"
-			size="25"
-		/>
-		
+			size="25" />
+
 		<field
 			name="ftp_pass"
 			type="text"
@@ -183,9 +188,8 @@
 			label="Config_Ftp_Password_Label"
 			description="Config_Ftp_Password_Desc"
 			filter="string"
-			size="25"
-		/>
-		
+			size="25" />
+
 		<field
 			name="ftp_root"
 			type="text"
@@ -193,11 +197,12 @@
 			label="Config_Ftp_Root_Label"
 			description="Config_Ftp_Root_Desc"
 			filter="string"
-			size="50"
-		/>
+			size="50" />
 	</fields>
-	
-	<fields group="locale" label="Config_Locale_Settings_Label">
+
+	<fields
+		group="locale"
+		label="Config_Locale_Settings_Label">
 		<field
 			name="offset"
 			type="timezones"
@@ -205,11 +210,12 @@
 			label="Config_Server_Timezone_Label"
 			description="Config_Server_Timezone_Desc"
 			required="true"
-			filter="integer"
-		/>
+			filter="integer" />
 	</fields>
-	
-	<fields group="mail" label="Config_Mail_Settings_Label">
+
+	<fields
+		group="mail"
+		label="Config_Mail_Settings_Label">
 		<field
 			name="mailer"
 			type="list"
@@ -217,13 +223,15 @@
 			label="Config_Mail_Mailer_Label"
 			description="Config_Mail_Mailer_Desc"
 			required="true"
-			filter="word"
-		>
-			<option value="mail">Config_Option_Php_Mail</option>
-			<option value="sendmail">Config_Option_Sendmail</option>
-			<option value="smtp">Config_Option_Smtp</option>
+			filter="word">
+			<option
+				value="mail">Config_Option_Php_Mail</option>
+			<option
+				value="sendmail">Config_Option_Sendmail</option>
+			<option
+				value="smtp">Config_Option_Smtp</option>
 		</field>
-		
+
 		<field
 			name="mailfrom"
 			type="text"
@@ -231,9 +239,8 @@
 			label="Config_Mail_From_Email_Label"
 			description="Config_Mail_From_Email_Desc"
 			filter="string"
-			size="30"
-		/>
-		
+			size="30" />
+
 		<field
 			name="fromname"
 			type="text"
@@ -241,9 +248,8 @@
 			label="Config_Mail_From_Name_Label"
 			description="Config_Mail_From_Name_Desc"
 			filter="string"
-			size="30"
-		/>
-		
+			size="30" />
+
 		<field
 			name="sendmail"
 			type="text"
@@ -251,9 +257,8 @@
 			label="Config_Mail_Sendmail_Path_Label"
 			description="Config_Mail_Sendmail_Path_Desc"
 			filter="string"
-			size="30"
-		/>
-		
+			size="30" />
+
 		<field
 			name="smtpauth"
 			type="radio"
@@ -261,10 +266,11 @@
 			label="Config_Mail_Smtp_Auth_Label"
 			description="Config_Mail_Smtp_Auth_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
 
 		<field
@@ -274,11 +280,13 @@
 			label="Config_Mail_SMTP_Secure_Label"
 			description="Config_Mail_SMTP_Secure_Desc"
 			required="true"
-			filter="word"
-		>
-			<option value="none">Config_Option_None</option>
-			<option value="ssl">Config_Option_SSL</option>
-			<option value="tls">Config_Option_TLS</option>
+			filter="word">
+			<option
+				value="none">Config_Option_None</option>
+			<option
+				value="ssl">Config_Option_SSL</option>
+			<option
+				value="tls">Config_Option_TLS</option>
 		</field>
 
 		<field
@@ -289,8 +297,7 @@
 			description="Config_Mail_SMTP_Port_Desc"
 			required="true"
 			filter="string"
-			size="6"
-		/>
+			size="6" />
 
 		<field
 			name="smtpuser"
@@ -299,9 +306,8 @@
 			label="Config_Mail_Smtp_Username_Label"
 			description="Config_Mail_Smtp_Username_Desc"
 			filter="string"
-			size="30"
-		/>
-		
+			size="30" />
+
 		<field
 			name="smtppass"
 			type="text"
@@ -309,9 +315,8 @@
 			label="Config_Mail_Smtp_Password_Label"
 			description="Config_Mail_Smtp_Password_Desc"
 			filter="string"
-			size="30"
-		/>
-		
+			size="30" />
+
 		<field
 			name="smtphost"
 			type="text"
@@ -319,13 +324,14 @@
 			label="Config_Mail_Smtp_Host_Label"
 			description="Config_Mail_Smtp_Host_Desc"
 			filter="string"
-			size="30"
-		/>
+			size="30" />
 	</fields>
-	
-	<fields group="metadata" label="Config_Metadata_Settings_Label">
+
+	<fields
+		group="metadata"
+		label="Config_Metadata_Settings_Label">
 		<field
-			name="metadesc"
+			name="MetaDesc"
 			type="textarea"
 			default=""
 			label="Config_Metadesc_Label"
@@ -333,11 +339,10 @@
 			required="true"
 			filter="string"
 			cols="60"
-			rows="3"
-		/>
-		
+			rows="3" />
+
 		<field
-			name="metakeys"
+			name="MetaKeys"
 			type="textarea"
 			default=""
 			label="Config_Metakeys_Label"
@@ -345,37 +350,40 @@
 			required="true"
 			filter="string"
 			cols="60"
-			rows="3"
-		/>
-		
+			rows="3" />
+
 		<field
-			name="metatitle"
+			name="MetaTitle"
 			type="radio"
 			default="1"
 			label="Config_Metatitle_Label"
 			description="Config_Metatitle_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		
+
 		<field
-			name="metaauthor"
+			name="MetaAuthor"
 			type="radio"
 			default="1"
 			label="Config_Metaauthor_Label"
 			description="Config_Metaauthor_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
 	</fields>
-	
-	<fields group="seo" label="Config_Seo_Settings_Label">
+
+	<fields
+		group="seo"
+		label="Config_Seo_Settings_Label">
 		<field
 			name="sef"
 			type="radio"
@@ -383,12 +391,13 @@
 			label="Config_Sef_Url_Label"
 			description="Config_Sef_Url_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		
+
 		<field
 			name="sef_rewrite"
 			type="radio"
@@ -396,12 +405,13 @@
 			label="Config_Sef_Rewrite_Label"
 			description="Config_Sef_Rewrite_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		
+
 		<field
 			name="sef_suffix"
 			type="radio"
@@ -409,14 +419,17 @@
 			label="Config_Sef_Suffix_Label"
 			description="Config_Sef_Suffix_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
 	</fields>
-	
-	<fields group="server" label="Config_Server_Settings_Label">
+
+	<fields
+		group="server"
+		label="Config_Server_Settings_Label">
 		<field
 			name="tmp_path"
 			type="text"
@@ -425,9 +438,8 @@
 			description="Config_Temp_Path_Desc"
 			required="true"
 			filter="string"
-			size="50"
-		/>
-		
+			size="50" />
+
 		<field
 			name="gzip"
 			type="radio"
@@ -435,12 +447,13 @@
 			label="Config_Gzip_Compression_Label"
 			description="Config_Gzip_Compression_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		
+
 		<field
 			name="error_reporting"
 			type="list"
@@ -448,14 +461,17 @@
 			label="Config_Error_Reporting_Label"
 			description="Config_Error_Reporting_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="-1">Config_Option_System_Default</option>
-			<option value="0">Config_Option_None</option>
-			<option value="7">Config_Option_Simple</option>
-			<option value="6143">Config_Option_Maximum</option>
+			filter="integer">
+			<option
+				value="-1">Config_Option_System_Default</option>
+			<option
+				value="0">Config_Option_None</option>
+			<option
+				value="7">Config_Option_Simple</option>
+			<option
+				value="6143">Config_Option_Maximum</option>
 		</field>
-		
+
 		<field
 			name="force_ssl"
 			type="list"
@@ -463,15 +479,19 @@
 			label="Config_Force_Ssl_Label"
 			description="Config_Force_Ssl_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="0">Config_Option_None</option>
-			<option value="1">Config_Option_Administrator_Only</option>
-			<option value="2">Config_Option_Entire_Site</option>
+			filter="integer">
+			<option
+				value="0">Config_Option_None</option>
+			<option
+				value="1">Config_Option_Administrator_Only</option>
+			<option
+				value="2">Config_Option_Entire_Site</option>
 		</field>
 	</fields>
-	
-	<fields group="session" label="Config_Session_Settings_Label">
+
+	<fields
+		group="session"
+		label="Config_Session_Settings_Label">
 		<field
 			name="lifetime"
 			type="text"
@@ -480,9 +500,8 @@
 			description="Config_Session_Time_Desc"
 			required="true"
 			filter="integer"
-			size="6"
-		/>
-		
+			size="6" />
+
 		<field
 			name="session_handler"
 			type="sessionhandlers"
@@ -490,12 +509,13 @@
 			label="Config_Session_Handler_Label"
 			description="Config_Session_Handler_Desc"
 			required="true"
-			filter="word"
-		/>
+			filter="word" />
 	</fields>
-	
-	<fields group="site" label="Config_Site_Settings_Label">
-	
+
+	<fields
+		group="site"
+		label="Config_Site_Settings_Label">
+
 		<field
 			name="sitename"
 			type="text"
@@ -504,9 +524,8 @@
 			description="Config_Site_Name_Desc"
 			required="true"
 			filter="string"
-			size="50"
-		/> 
-		
+			size="50" />
+
 		<field
 			name="offline"
 			type="radio"
@@ -514,12 +533,13 @@
 			label="Config_Site_Offline_Label"
 			description="Config_Site_Offline_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		
+
 		<field
 			name="offline_message"
 			type="textarea"
@@ -529,11 +549,10 @@
 			required="true"
 			filter="safehtml"
 			cols="60"
-			rows="2"
-		/>
-		
-		
-		
+			rows="2" />
+
+
+
 		<field
 			name="sitename_pagetitles"
 			type="radio"
@@ -541,12 +560,13 @@
 			label="Config_Sitename_Pagetitles_Label"
 			description="Config_Sitename_Pagetitles_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		
+
 		<field
 			name="editor"
 			type="editors"
@@ -554,9 +574,8 @@
 			label="Config_Default_Editor_Label"
 			description="Config_Default_Editor_Desc"
 			required="true"
-			filter="cmd"
-		/>
-		
+			filter="cmd" />
+
 		<field
 			name="access"
 			type="accesslevels"
@@ -564,9 +583,8 @@
 			label="Config_Default_Access_Level_Label"
 			description="Config_Default_Access_Level_Desc"
 			required="true"
-			filter="integer"
-		/>
-		
+			filter="integer" />
+
 		<field
 			name="list_limit"
 			type="list"
@@ -574,18 +592,25 @@
 			label="Config_Default_List_Limit_Label"
 			description="Config_Default_List_Limit_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="5">5</option>
-			<option value="10">10</option>
-			<option value="15">15</option>
-			<option value="20">20</option>
-			<option value="25">25</option>
-			<option value="30">30</option>
-			<option value="50">50</option>
-			<option value="100">100</option>
+			filter="integer">
+			<option
+				value="5">5</option>
+			<option
+				value="10">10</option>
+			<option
+				value="15">15</option>
+			<option
+				value="20">20</option>
+			<option
+				value="25">25</option>
+			<option
+				value="30">30</option>
+			<option
+				value="50">50</option>
+			<option
+				value="100">100</option>
 		</field>
-		
+
 		<field
 			name="feed_limit"
 			type="list"
@@ -593,18 +618,25 @@
 			label="Config_Default_Feed_Limit_Label"
 			description="Config_Default_Feed_Limit_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="5">5</option>
-			<option value="10">10</option>
-			<option value="15">15</option>
-			<option value="20">20</option>
-			<option value="25">25</option>
-			<option value="30">30</option>
-			<option value="50">50</option>
-			<option value="100">100</option>
+			filter="integer">
+			<option
+				value="5">5</option>
+			<option
+				value="10">10</option>
+			<option
+				value="15">15</option>
+			<option
+				value="20">20</option>
+			<option
+				value="25">25</option>
+			<option
+				value="30">30</option>
+			<option
+				value="50">50</option>
+			<option
+				value="100">100</option>
 		</field>
-		
+
 		<field
 			name="feed_email"
 			type="list"
@@ -612,14 +644,17 @@
 			label="Config_Feed_Email_Label"
 			description="Config_Feed_Email_Desc"
 			required="true"
-			filter="word"
-		>
-			<option value="author">Config_Option_Author_Email</option>
-			<option value="site">Config_Option_Site_Email</option>
+			filter="word">
+			<option
+				value="author">Config_Option_Author_Email</option>
+			<option
+				value="site">Config_Option_Site_Email</option>
 		</field>
 	</fields>
-	
-	<fields group="system" label="Config_System_Settings_Label">
+
+	<fields
+		group="system"
+		label="Config_System_Settings_Label">
 		<field
 			name="secret"
 			type="text"
@@ -628,8 +663,7 @@
 			description="Config_Secret_Desc"
 			required="true"
 			readonly="true"
-			filter="alnum"
-		/>
+			filter="alnum" />
 
 		<field
 			name="log_path"
@@ -639,9 +673,8 @@
 			description="Config_Log_Path_Desc"
 			required="true"
 			filter="string"
-			size="50"
-		/>
-		
+			size="50" />
+
 		<field
 			name="xmlrpc_server"
 			type="radio"
@@ -649,23 +682,25 @@
 			label="Config_Web_Services_Label"
 			description="Config_Web_Services_Desc"
 			required="true"
-			filter="integer"
-		>
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+			filter="integer">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		
+
 		<field
 			name="helpurl"
 			type="helpsites"
 			default=""
 			label="Config_Help_Server_Label"
 			description="Config_Help_Server_Desc"
-			required="true"
-		/>
+			required="true" />
 	</fields>
 
-	<fields group="cookie" label="Config_Cookie_Settings_Label">
+	<fields
+		group="cookie"
+		label="Config_Cookie_Settings_Label">
 		<field
 			name="cookie_domain"
 			type="text"
@@ -674,8 +709,7 @@
 			description="Config_Cookie_Domain_Desc"
 			required="false"
 			filter="string"
-			size="40"
-		/>
+			size="40" />
 
 		<field
 			name="cookie_path"
@@ -685,7 +719,55 @@
 			description="Config_Cookie_Path_Desc"
 			required="false"
 			filter="string"
-			size="40" 
-		/>
+			size="40" />
+	</fields>
+
+	<fields
+		group="permissions"
+		label="Config_Permission_Settings_Label">
+
+		<field
+			name="rules"
+			type="rules"
+			label="Config_Rules_Label"
+			description="Content_Rules_Desc"
+			class="inputbox"
+			filter="rules">
+			<action
+				name="core.admin"
+				title="JAction_Admin"
+				description="JAction_Admin_Desc" />
+			<action
+				name="core.login"
+				title="JAction_Login"
+				description="JAction_Login_Desc" />
+			<action
+				name="core.manage"
+				title="JAction_Manage"
+				description="JAction_Manage_Desc" />
+			<action
+				name="core.create"
+				title="JAction_Create"
+				description="JAction_Create_Desc" />
+			<action
+				name="core.delete"
+				title="JAction_Delete"
+				description="JAction_Delete_Desc" />
+			<action
+				name="core.edit"
+				title="JAction_Edit"
+				description="JAction_Edit_Desc" />
+			<action
+				name="core.edit.state"
+				title="JAction_Edit_State"
+				description="JAction_Edit_State_Desc" />
+		</field>
+
+	</fields>
+
+	<fields>
+			<field
+			name="asset_id"
+			type="hidden" />
 	</fields>
 </form>

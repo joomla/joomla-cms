@@ -81,7 +81,7 @@ class MenusHelper
 
 		return 'index.php?'.http_build_query($request);
 	}
-	
+
 	/**
 	 * Get the menu list for create a menu module
 	 *
@@ -89,7 +89,7 @@ class MenusHelper
 	 * @return		array  	The menu array list
 	 * @since		1.6
 	 */
-	public static function getMenuTypes() 
+	public static function getMenuTypes()
 	{
 		$db = JFactory::getDbo();
 		$db->setQuery('SELECT a.menutype FROM #__menu_types AS a');

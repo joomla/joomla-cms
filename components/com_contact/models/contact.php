@@ -69,11 +69,11 @@ class ContactModelContact extends JModel
 		if ($contact = @$result[0])
 		{
 			$user		= &JFactory::getUser();
-			$groups	= implode(',', $user->authorisedLevels());		
+			$groups	= implode(',', $user->authorisedLevels());
 			//get the content by the linked user
 			$query = 'SELECT id, title, state, access, created' .
 				' FROM #__content' .
-				' WHERE created_by = '.(int)$contact->user_id . 
+				' WHERE created_by = '.(int)$contact->user_id .
 				' AND access IN ('. $groups . ')' .
 				' ORDER BY state DESC, created DESC' ;
 			$this->_db->setQuery($query, 0, 10);
@@ -82,5 +82,5 @@ class ContactModelContact extends JModel
 		}
 		return $contact;
 	}
-	
+
 }

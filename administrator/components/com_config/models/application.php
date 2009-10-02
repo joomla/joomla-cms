@@ -54,6 +54,9 @@ class ConfigModelApplication extends JModelForm
 		$config	= new JConfig();
 		$data	= JArrayHelper::fromObject($config);
 
+		// Prime the asset_id for the rules.
+		$data['asset_id'] = 1;
+
 		// Check for data in the session.
 		$app	= JFactory::getApplication();
 		$temp	= $app->getUserState('com_config.config.global.data');
@@ -75,6 +78,28 @@ class ConfigModelApplication extends JModelForm
 	 */
 	public function save($data)
 	{
+		// Save the rules
+		if (isset($data['rules']))
+		{
+			jimport('joomla.access.rules');
+			$rules	= new JRules($data['rules']);
+			$asset	= JTable::getInstance('asset');
+			if ($asset->loadByName('root.1'))
+			{
+				$asset->rules = (string) $rules;
+
+				if (!$asset->check() || !$asset->store()) {
+					JError::raiseNotice('SOME_ERROR_CODE', $asset->getError());
+				}
+			}
+			else
+			{
+				$this->setError('Config_Error_Root_asset_not_found');
+				return false;
+			}
+			unset($data['rules']);
+		}
+
 		// Get the previous configuration.
 		$prev = new JConfig();
 		$prev = JArrayHelper::fromObject($prev);

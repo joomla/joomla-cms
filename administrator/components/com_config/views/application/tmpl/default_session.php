@@ -13,15 +13,15 @@ defined('_JEXEC') or die;
 <div class="width-100">
 <fieldset class="adminform">
 	<legend><?php echo JText::_('Session Settings'); ?></legend>
-	
+
 			<?php
 			foreach ($this->form->getFields('session') as $field):
 			?>
-		
+
 					<?php echo $field->label; ?>
-				
+
 					<?php echo $field->input; ?>
-			
+
 			<?php
 			endforeach;
 			?>

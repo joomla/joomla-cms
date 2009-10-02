@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
  * <code><hr class="system-pagebreak" title="The page title" alt="The first page" /></code>
  * or
  * <code><hr class="system-pagebreak" alt="The first page" title="The page title" /></code>
- * 
+ *
  * @package		Joomla
  * @subpackage	plg_pagebreak
  */

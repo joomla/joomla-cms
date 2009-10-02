@@ -193,7 +193,7 @@ class ContactController extends JController
 		else
 		{
 			// stay on the same  contact page
-		
+
 		$link = JRoute::_('index.php?option=com_contact&view=contact&id='.(int) $contact->id, false);
 		}
 		$this->setRedirect($link, $msg);

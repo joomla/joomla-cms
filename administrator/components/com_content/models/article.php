@@ -169,6 +169,13 @@ class ContentModelArticle extends JModelForm
 			return false;
 		}
 
+		// Bind the rules.
+		if (isset($data['rules']))
+		{
+			$rules = new JRules($data['rules']);
+			$table->setRules($rules);
+		}
+
 		// Check the data.
 		if (!$table->check()) {
 			$this->setError($table->getError());

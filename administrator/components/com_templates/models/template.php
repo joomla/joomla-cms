@@ -45,28 +45,28 @@ class TemplatesModelTemplate extends JModel
 	 * @var string
 	 */
 	var $_template = null;
-	
+
 	/**
 	 * Template parametersets
-	 * 
+	 *
 	 * @var array
 	 */
 	var $_paramsets = null;
 
 	/**
 	 * Currently active parameterset
-	 * 
+	 *
 	 * @var int
 	 */
 	var $_activerecord = null;
-	
+
 	/**
 	 * Data of the template
-	 * 
+	 *
 	 * @var object
 	 */
 	var $_data = null;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -116,7 +116,7 @@ class TemplatesModelTemplate extends JModel
 	{
 		return $this->_template;
 	}
-	
+
 	function &getParametersets()
 	{
 		return $this->_paramsets;
@@ -126,7 +126,7 @@ class TemplatesModelTemplate extends JModel
 	{
 		return $this->_activerecord;
 	}
-	
+
 	/**
 	 * Method to store the Template
 	 *

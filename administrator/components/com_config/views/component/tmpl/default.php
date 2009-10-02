@@ -52,7 +52,7 @@ JHtml::_('behavior.formvalidation');
 			<?php
 			endforeach;
 			?>
-		
+
 
 	<div class="clr"></div>
 	<?php

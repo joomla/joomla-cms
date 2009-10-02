@@ -32,16 +32,16 @@ JHtml::_('behavior.formvalidation');
 <div class="width-40">
 	<fieldset>
 		<legend><?php echo JText::_('Menus_Menu_Details');?></legend>
-			
+
 				<?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?>
-				
+
 				<?php echo $this->form->getLabel('menutype'); ?>
 				<?php echo $this->form->getInput('menutype'); ?>
-				
+
 				<?php echo $this->form->getLabel('description'); ?>
 				<?php echo $this->form->getInput('description'); ?>
-			
+
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />

@@ -135,9 +135,9 @@ class JFormFieldMenuType extends JFormFieldList
 		$html[] = '		</ul>';
 		$html[] = '	</dd>';
 		$html[] = '</dl>';
-		
+
 		return implode("\n", $html);
-	}		
+	}
 	/**
 	 * Method to get the available menu item type options.
 	 *

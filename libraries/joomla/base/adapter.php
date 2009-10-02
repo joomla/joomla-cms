@@ -22,31 +22,31 @@ class JAdapter extends JObject {
 	 * @var array
 	 */
 	protected $_adapters = array();
-	
+
 	/**
 	 * Adapter Folder
 	 * @var string
 	 */
 	protected $_adapterfolder = 'adapters';
-	
+
 	/**
 	 * Adapter Class Prefix
 	 * @var string
 	 */
 	protected $_classprefix = 'J';
-	
+
 	/**
 	 * Base Path for the adapter instance
 	 * @var string
 	 */
 	protected $_basepath = null;
-	
+
 	/**
 	 * Database Connector Object
 	 * @var object
 	 */
 	protected $_db;
-	
+
 	/**
 	 * Constructor
 	 * @param string Base Path of the adapters
@@ -59,7 +59,7 @@ class JAdapter extends JObject {
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 		$this->_db =& JFactory::getDBO();
 	}
-	
+
 	/**
 	 * Get the database connector object
 	 *
@@ -70,8 +70,8 @@ class JAdapter extends JObject {
 	public function &getDBO()
 	{
 		return $this->_db;
-	}	
-	
+	}
+
 	/**
 	 * Set an adapter by name
 	 *
@@ -95,8 +95,8 @@ class JAdapter extends JObject {
 		}
 		$this->_adapters[$name] =& $adapter;
 		return true;
-	}	
-		
+	}
+
 	/**
 	 * Return an adapter
 	 * @param string name of adapter to return
@@ -111,7 +111,7 @@ class JAdapter extends JObject {
 		}
 		return $this->_adapters[$name];
 	}
-		
+
 	/**
 	 * Loads all adapters
 	 */

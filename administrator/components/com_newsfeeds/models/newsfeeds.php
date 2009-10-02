@@ -114,7 +114,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		// Load the filter state.
 		$this->setState('filter.catid', $app->getUserStateFromRequest($context.'filter.catid', 'catid', null, 'int'));
 		$this->setState('filter.published', $app->getUserStateFromRequest($context.'filter.state', 'filter_published', '*', 'string'));
-				
+
 		$this->setState('filter.search', $app->getUserStateFromRequest($context.'filter.search', 'filter_search', ''));
 
 
@@ -216,7 +216,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		// Clear the component's cache
 		$cache = &JFactory::getCache('com_newsfeeds');
 		$cache->clean();
-		
+
 	}
 
 }

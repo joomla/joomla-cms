@@ -57,9 +57,7 @@ class UsersViewGroups extends JView
 
 		JToolBarHelper::divider();
 
-		// We can't use the toolbar helper here because there is no generic popup button.
-		$bar = &JToolBar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'config', 'JToolbar_Options', 'index.php?option=com_users&view=config&tmpl=component', 570, 500);
+		JToolBarHelper::preferences('com_users');
 		JToolBarHelper::help('screen.users.groups');
 	}
 }

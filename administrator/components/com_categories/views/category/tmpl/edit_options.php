@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die;
 ?>
-		
+
 <?php foreach($this->form->getFields('params') as $field): ?>
 	<?php if ($field->hidden): ?>
 		<?php echo $field->input; ?>
 	<?php else: ?>
-		
+
 		<?php echo $field->label; ?>
-			
+
 		<?php echo $field->input; ?>
-		
+
 	<?php endif; ?>
 <?php endforeach; ?>

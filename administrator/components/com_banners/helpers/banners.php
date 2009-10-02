@@ -11,8 +11,32 @@
  * @package		Joomla.Administrator
  * @subpackage	Banners
  */
-class BannerHelper
+class BannersHelper
 {
+	/**
+	 * Configure the Linkbar.
+	 *
+	 * @param	string	The name of the active view.
+	 */
+	public static function addSubmenu($vName)
+	{
+		JSubMenuHelper::addEntry(
+			JText::_('Banners_Submenu_Banners'),
+			'index.php?option=com_banners&view=banners',
+			$vName == 'banners'
+		);
+		JSubMenuHelper::addEntry(
+			JText::_('Banners_Submenu_Clients'),
+			'index.php?option=com_banners&view=clients',
+			$vName == 'clients'
+		);
+		JSubMenuHelper::addEntry(
+			JText::_('Banners_Submenu_Categories'),
+			'index.php?option=com_categories&extension=com_banners',
+			$vName == 'categories'
+		);
+	}
+
 	/**
 	 * Returns a list of valid keywords based on the prefix in banner
 	 * configuration
@@ -73,4 +97,3 @@ class BannerHelper
 		return $result;
 	}
 }
-?>

@@ -1,7 +1,7 @@
 <?php
 
  /**
- * @version		/** $Id: default_form.php 11845 2009-05-27 23:28:59Z robs 
+ * @version		/** $Id: default_form.php 11845 2009-05-27 23:28:59Z robs
  * @package		Joomla.Site
  * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

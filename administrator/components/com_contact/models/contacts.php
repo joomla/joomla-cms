@@ -1,6 +1,6 @@
 <?php
 /**
- * @version	
+ * @version
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -109,7 +109,7 @@ class ContactModelContacts extends JModelList
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = a.access');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
 		$query->select('c.title AS category_title');

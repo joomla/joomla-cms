@@ -174,10 +174,10 @@ class JUtility
 		$result = var_export($var, true);
 		return '<pre>'.($htmlSafe ? htmlspecialchars($result) : $result).'</pre>';
 	}
-	
+
 	/**
 	 * Prepend a reference to an element to the beginning of an array. Renumbers numeric keys, so $value is always inserted to $array[0]
-	 * 
+	 *
 	 * @param $array array
 	 * @param $value mixed
 	 * @return int

@@ -25,4 +25,24 @@
 				value="1">Show</option>
 		</field>
 	</fields>
+
+	<fields
+		group="permissions"
+		label="JConfig_Permissions_Label"
+		description="JConfig_Permissions_Desc"
+		hidden="true">
+
+		<field
+			name="rules"
+			type="rules"
+			label="JConfig_Permissions_Label"
+			filter="rules"
+			component="com_search"
+			section="component">
+			<action
+				name="core.manage"
+				title="JAction_Manage"
+				description="JAction_Manage_Desc" />
+		</field>
+	</fields>
 </config>

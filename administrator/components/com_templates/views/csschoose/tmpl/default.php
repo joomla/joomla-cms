@@ -5,7 +5,7 @@
 <table class="adminlist">
 <tr>
 	<th width="5%" align="left">
-		
+
 	</th>
 	<th width="85%" align="left">
 		<?php echo $this->t_dir; ?>

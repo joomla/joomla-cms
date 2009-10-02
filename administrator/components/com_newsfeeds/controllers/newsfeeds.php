@@ -90,7 +90,7 @@ class NewsfeedsControllerNewsfeeds extends JController
 
 		if ($return === false) {
 			//print_r($cid);exit;
-			
+
 			$message = JText::sprintf('AN ERROR HAS OCCURRED', $model->getError());
 			$this->setRedirect('index.php?option=com_newsfeeds&view=newsfeeds', $message, 'error');
 			return false;

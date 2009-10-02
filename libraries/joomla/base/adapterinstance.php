@@ -15,16 +15,16 @@
  * @since		1.6
  */
 class JAdapterInstance extends JObject {
-	
-	/** Parent 
+
+	/** Parent
 	 * @var object */
 	protected $parent = null;
-	
+
 	/** Database
 	 * @var object */
 	protected $db = null;
-	
-	
+
+
 	/**
 	 * Constructor
 	 *

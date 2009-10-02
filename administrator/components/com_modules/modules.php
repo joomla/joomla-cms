@@ -10,10 +10,15 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$user = & JFactory::getUser();
-if (!$user->authorize('core.modules.manage')) {
-	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_modules')) {
+	return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
 }
+
+// Include dependancies
+jimport('joomla.application.component.controller');
+
+// TODO: Refactor to support the latest MVC pattern.
 
 // Helper classes
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'classes');

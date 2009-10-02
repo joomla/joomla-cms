@@ -68,7 +68,7 @@ class WeblinksViewWeblink extends JView
 		else {
 			JToolBarHelper::cancel('weblink.cancel', 'JToolbar_Close');
 		}
-		JToolBarHelper::divider();	
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.weblink.edit');
 	}
 }

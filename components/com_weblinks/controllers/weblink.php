@@ -102,7 +102,7 @@ class WeblinksControllerWeblink extends WeblinksController
 		$user	= & JFactory::getUser();
 
 		// Make sure you are logged in
-		if (!$user->authorise('com_weblink.weblink.edit')) {
+		if (!$user->authorise('core.edit', 'com_weblink')) {
 			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
 			return;
 		}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fields
+		group="permissions"
+		label="JConfig_Permissions_Label"
+		description="JConfig_Permissions_Desc"
+		hidden="true">
+
+		<field
+			name="rules"
+			type="rules"
+			label="JConfig_Permissions_Label"
+			filter="rules"
+			component="com_languages"
+			section="component">
+			<action
+				name="core.manage"
+				title="JAction_Manage"
+				description="JAction_Manage_Desc" />
+			<action
+				name="core.create"
+				title="JAction_Create"
+				description="JAction_Create_Desc" />
+			<action
+				name="core.delete"
+				title="JAction_Delete"
+				description="JAction_Delete_Desc" />
+			<action
+				name="core.edit"
+				title="JAction_Edit"
+				description="JAction_Edit_Desc" />
+			<action
+				name="core.edit.state"
+				title="JAction_Edit_State"
+				description="JAction_Edit_State_Desc" />
+		</field>
+	</fields>
+</config>

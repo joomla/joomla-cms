@@ -117,7 +117,7 @@ class MenusModelItems extends JModelList
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = a.access');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Self join to find the level in the tree.
 		$query->select('COUNT(DISTINCT p.id) AS level');

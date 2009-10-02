@@ -51,7 +51,7 @@ class AdminViewHelp extends JView
 	 */
 	function display($tpl = null)
 	{
-		// Get the values	
+		// Get the values
 		$help_url = & $this->get('HelpURL');
 		$full_help_url = & $this->get('FullHelpURL');
 		$help_search = & $this->get('HelpSearch');

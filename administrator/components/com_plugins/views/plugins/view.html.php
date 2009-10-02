@@ -31,14 +31,6 @@ class PluginsViewPlugins extends JView
 
 	function display( $tpl = null )
 	{
-	JToolBarHelper::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
-	JToolBarHelper::editList();
-	JToolBarHelper::publishList();
-	JToolBarHelper::unpublishList();
-	JToolBarHelper::divider();
-	JToolBarHelper::help( 'screen.plugins' );
-	
-	
 		$app	= &JFactory::getApplication();
 		$db		=& JFactory::getDBO();
 
@@ -103,7 +95,7 @@ class PluginsViewPlugins extends JView
 		$query = 'SELECT p.*, p.extension_id AS id, p.enabled AS published, u.name AS editor, ag.title AS groupname'
 			. ' FROM #__extensions AS p'
 			. ' LEFT JOIN #__users AS u ON u.id = p.checked_out'
-			. ' LEFT JOIN #__access_assetgroups AS ag ON ag.id = p.access'
+			. ' LEFT JOIN #__viewlevels AS ag ON ag.id = p.access'
 			. $where
 			. ' GROUP BY p.extension_id'
 			. $orderby
@@ -148,6 +140,22 @@ class PluginsViewPlugins extends JView
 		$this->assignRef('items',		$rows);
 		$this->assignRef('pagination',	$pagination);
 
+		$this->_setToolbar();
 		parent::display($tpl);
+	}
+
+	/**
+	 * Display the toolbar
+	 */
+	protected function _setToolbar()
+	{
+		JToolBarHelper::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
+		JToolBarHelper::editList();
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::divider();
+		JToolBarHelper::preferences('com_plugins');
+		JToolBarHelper::divider();
+		JToolBarHelper::help( 'screen.plugins' );
 	}
 }

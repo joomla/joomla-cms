@@ -49,7 +49,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = a.access');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
 		$query->select('c.title AS category_title');

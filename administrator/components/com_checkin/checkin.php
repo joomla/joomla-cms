@@ -10,11 +10,12 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$user = & JFactory::getUser();
-if (!$user->authorize('core.checkin.manage')) {
-	JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_checkin')) {
+	return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
 }
 
+// Include dependancies
 jimport('joomla.application.component.controller');
 
 $controller	= JController::getInstance('Checkin');

@@ -39,7 +39,7 @@ class ConfigControllerComponent extends JController
 
 		// Check if the user is authorized to do this.
 		// TODO: This permission need to change based on the extension.
-		if (!JFactory::getUser()->authorize('core.config.manage')) {
+		if (!JFactory::getUser()->authorize('core.manage', 'com_config')) {
 			JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 		}
 
@@ -76,7 +76,7 @@ class ConfigControllerComponent extends JController
 			$app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_config&view=component&component='.$option, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', false));
 			return false;
 		}
 
@@ -95,14 +95,11 @@ class ConfigControllerComponent extends JController
 
 			// Save failed, go back to the screen and display a notice.
 			$message = JText::sprintf('JError_Save_Failed', $model->getError());
-			$this->setRedirect('index.php?option=com_config&view=component&component='.$option, $message, 'error');
+			$this->setRedirect('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', $message, 'error');
 			return false;
 		}
 
-		// Set the success message.
-		$message = JText::_('Config_Save_Success');
-
-		$this->setRedirect('index.php?option=com_config&view=component&component='.$option, $message);
+		$this->setRedirect('index.php?option=com_config&view=close&tmpl=component');
 		return true;
 	}
 }

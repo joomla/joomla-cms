@@ -84,8 +84,7 @@ class plgUserJoomla extends JPlugin
 		// Always let the Root User in
 		if ($userId != JFactory::getApplication()->getCfg('root_user'))
 		{
-			$acs	= new JAccess;
-			$result	= $acs->check($instance->id, $options['action']);
+			$result	= JAccess::check($instance->id, $options['action']);
 			if (!$result) {
 				return JError::raiseWarning(401, JText::_('JError_Login_denied'));
 			}

@@ -181,7 +181,7 @@ class ModulesModelModules extends JModel
 		$query = 'SELECT m.*, u.name AS editor, g.title AS groupname, MIN(mm.menuid) AS pages'
 			. ' FROM #__modules AS m'
 			. ' LEFT JOIN #__users AS u ON u.id = m.checked_out'
-			. ' LEFT JOIN #__access_assetgroups AS g ON g.id = m.access'
+			. ' LEFT JOIN #__viewlevels AS g ON g.id = m.access'
 			. ' LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id'
 			. $join
 			. $where

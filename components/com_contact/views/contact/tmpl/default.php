@@ -92,8 +92,8 @@ $cparams = JComponentHelper::getParams ('com_media');
 	</tr>
 	<tr>
 		<td>
-			<?php 
-			if ($this->contact->params->get('show_articles') &&  $this->contact->user_id)  
+			<?php
+			if ($this->contact->params->get('show_articles') &&  $this->contact->user_id)
 			echo $this->loadTemplate('articles');
 			?>
 		</td>

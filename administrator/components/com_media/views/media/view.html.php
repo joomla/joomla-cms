@@ -105,7 +105,8 @@ class MediaViewMedia extends JView
 					$title</a>";
 		$bar->appendButton('Custom', $dhtml, 'delete');
 		JToolBarHelper::divider();
-		// Add a popup configuration button
+		JToolBarHelper::preferences('com_media');
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.mediamanager');
 	}
 

@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'helpers'.DS.'banner.php');
+require_once(JPATH_SITE.DS.'components'.DS.'com_banners'.DS.'helpers'.DS.'banner.php');
 
 class modBannersHelper
 {
@@ -29,7 +29,7 @@ class modBannersHelper
 			$document		= &JFactory::getDocument();
 			$keywords		=  $document->getMetaData('keywords');
 
-			$vars['tag_search'] = BannerHelper::getKeywords($keywords);
+			$vars['tag_search'] = BannerHelpers::getKeywords($keywords);
 		}
 
 		$banners = $model->getList($vars);
@@ -75,7 +75,7 @@ class modBannersHelper
 			$html = str_replace('{CLICKURL}', $link, $item->custombannercode);
 			$html = str_replace('{NAME}', $item->name, $html);
 		}
-		else if (BannerHelper::isImage($item->imageurl))
+		else if (BannerHelpers::isImage($item->imageurl))
 		{
 			$image 	= '<img src="'.$baseurl.'images/banners/'.$item->imageurl.'" alt="'.JText::_('Banner').'" />';
 			if ($item->clickurl)
@@ -106,7 +106,7 @@ class modBannersHelper
 				$html = $image;
 			}
 		}
-		else if (BannerHelper::isFlash($item->imageurl))
+		else if (BannerHelpers::isFlash($item->imageurl))
 		{
 			//echo $item->params;
 			$banner_params = new JParameter($item->params);

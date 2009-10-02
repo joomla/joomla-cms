@@ -121,7 +121,7 @@ class JStream extends JObject
 			if(JFilesystemHelper::isJoomlaStream($url['scheme'])) {
 				require_once(dirname(__FILE__).DS.'streams'.DS.$url['scheme'].'.php');
 			}
-				
+
 			// we have a scheme! force the method to be f
 			$this->processingmethod = 'f';
 		}
@@ -290,13 +290,13 @@ class JStream extends JObject
 		if(!$res)
 		{
 			$tmp_error = '';
-				
+
 			if($php_errormsg) { // some bad went wrong
 				$tmp_error = $php_errormsg; // store the error in case we need it
 			}
-				
+
 			$res = JFilesystemHelper::remotefsize($this->filename);
-				
+
 			if(!$res)
 			{
 				if($tmp_error) { // use the php_errormsg from before
@@ -401,7 +401,7 @@ class JStream extends JObject
 					$res = ($remaining > 0) ? fread($this->_fh, $remaining) : fread($this->_fh, $this->chunksize);
 					break;
 			}
-				
+
 			if(!$res)
 			{
 				$this->setError($php_errormsg);
@@ -618,7 +618,7 @@ class JStream extends JObject
 	 * @see http://au.php.net/manual/en/function.stream-get-meta-data.php
 	 * @return array header/metadata
 	 */
-	function get_meta_data() 
+	function get_meta_data()
 	{
 		if(!$this->_fh)
 		{
@@ -994,7 +994,7 @@ class JStream extends JObject
 		}
 		return $filename;
 	}
-	
+
 	/**
 	 * Return the internal file handle
 	 */

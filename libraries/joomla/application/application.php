@@ -56,13 +56,13 @@ class JApplication extends JObject
 
 	/**
 	 * The time the request was made.
-	 * 
+	 *
 	 * @var		date
 	 */
 	public $requestTime = null;
 	/**
 	 * The time the request was made as Unix timestamp.
-	 * 
+	 *
 	 * @var 	integer
 	 * @since 	1.6
 	 */
@@ -106,7 +106,7 @@ class JApplication extends JObject
 		}
 
 		$this->set('requestTime', gmdate('Y-m-d H:i'));
-		
+
 		// Used by task system to ensure that the system doesn't go over time.
 		$this->set('startTime', JProfiler::getmicrotime());
 	}

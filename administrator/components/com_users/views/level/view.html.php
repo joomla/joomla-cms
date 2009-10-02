@@ -34,7 +34,7 @@ class UsersViewLevel extends JView
 			return false;
 		}
 
-		$item->title	= $item->getAssetGroupName();
+		//$item->title	= $item->getAssetGroupName();
 		$form->bind($item);
 
 		$this->assignRef('form',	$form);
@@ -53,7 +53,7 @@ class UsersViewLevel extends JView
 	 */
 	protected function _setToolbar()
 	{
-		$isNew	= ($this->item->getAssetGroupId() == 0);
+		$isNew	= ($this->item->id == 0);
 		JToolBarHelper::title(JText::_($isNew ? 'Users_View_New_Level_Title' : 'Users_View_Edit_Level_Title'), 'levels');
 
 		JToolBarHelper::addNew('level.save2new', 'JToolbar_Save_and_new');

@@ -28,10 +28,6 @@ JHtml::_('behavior.tooltip');
 		<div class="right">
 			<ol>
 				<li>
-					<label for="filter_group_id">
-						<?php echo JText::_('Users_Filter_Section'); ?>
-					</label>
-					<?php echo JHtml::_('access.section', 'filter_section_id', $this->state->get('filter.section_id'), 'onchange="this.form.submit()"'); ?>
 				</li>
 			</ol>
 		</div>
@@ -44,9 +40,6 @@ JHtml::_('behavior.tooltip');
 				</th>
 				<th class="left">
 					<?php echo JText::_('Users_Heading_Level_Name'); ?>
-				</th>
-				<th width="10%">
-					<?php echo JText::_('Users_Heading_Section'); ?>
 				</th>
 				<th width="30%">
 					<?php // echo JText::_('Users_Heading_Level_User_Groups'); ?>
@@ -74,9 +67,6 @@ JHtml::_('behavior.tooltip');
 				<td>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=level.edit&cid[]='.$item->id);?>">
 						<?php echo $item->title; ?></a>
-				</td>
-				<td>
-					<?php echo $item->section_title; ?>
 				</td>
 				<td>
 					<?php //echo nl2br(implode("\n", explode(',', $item->user_groups))); ?>

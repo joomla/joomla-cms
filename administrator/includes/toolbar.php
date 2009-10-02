@@ -24,7 +24,7 @@ abstract class JToolBarHelper
 	 * For the title and toolbar to be rendered correctly,
 	 * this title fucntion must be called before the starttable function and the toolbars icons
 	 * this is due to the nature of how the css has been used to postion the title in respect to the toolbar.
-	 * 
+	 *
 	 * @param	string	$title	The title.
 	 * @param	string	$icon	The name of the image.
 	 * @since	1.5
@@ -44,7 +44,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a spacer cell.
-	 * 
+	 *
 	 * @param	string	$width	The width for the cell
 	 * @since	1.0
 	 */
@@ -57,7 +57,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a divider between menu buttons
-	 * 
+	 *
 	 * @since	1.0
 	 */
 	public static function divider()
@@ -106,7 +106,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a preview button for a given option (opens a popup window).
-	 * 
+	 *
 	 * @param	string	$url	The name of the popup file (excluding the file extension)
 	 * @param	bool	$updateEditors
 	 * @since	1.0
@@ -120,7 +120,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a preview button for a given option (opens a popup window).
-	 * 
+	 *
 	 * @param	string	$ref	The name of the popup file (excluding the file extension for an xml file).
 	 * @param	bool	$com	Use the help file in the component directory.
 	 * @since	1.0
@@ -135,7 +135,7 @@ abstract class JToolBarHelper
 	/**
 	 * Writes a cancel button that will go back to the previous page without doing
 	 * any other operation.
-	 * 
+	 *
 	 * @param	string	$alt	Alternative text.
 	 * @param	string	$href	URL of the href attribute.
 	 * @since	1.0
@@ -149,7 +149,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a media_manager button.
-	 * 
+	 *
 	 * @param	string	$directory	The sub-drectory to upload the media to.
 	 * @param	string	$alt		An override for the alt text.
 	 * @since	1.0
@@ -160,10 +160,10 @@ abstract class JToolBarHelper
 		// Add an upload button.
 		$bar->appendButton('Popup', 'upload', $alt, 'index.php?option=com_media&tmpl=component&task=popupUpload&directory='.$directory, 640, 520);
 	}
-	
+
 	/**
 	 * Writes a common 'default' button for a record.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -177,7 +177,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a common 'assign' button for a record.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -191,7 +191,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes the common 'new' icon for the button bar.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -206,7 +206,7 @@ abstract class JToolBarHelper
 	/**
 	 * Writes the common 'new' icon for the button bar.
 	 * Extended version of addNew() calling hideMainMenu() before submitbutton().
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -219,7 +219,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a common 'publish' button.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -233,7 +233,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a common 'publish' button for a list of records.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -247,7 +247,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a common 'unpublish' button.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -261,7 +261,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a common 'unpublish' button for a list of records.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -275,7 +275,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a common 'archive' button for a list of records.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -289,7 +289,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes an unarchive button for a list of records.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -303,7 +303,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a common 'edit' button for a list of records.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -318,7 +318,7 @@ abstract class JToolBarHelper
 	/**
 	 * Writes a common 'edit' button for a list of records.
 	 * Extended version of editList() calling hideMainMenu() before submitbutton().
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -331,7 +331,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a common 'edit' button for a template html.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -346,7 +346,7 @@ abstract class JToolBarHelper
 	/**
 	 * Writes a common 'edit' button for a template html.
 	 * Extended version of editHtml() calling hideMainMenu() before submitbutton().
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -359,7 +359,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a common 'edit' button for a template css.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -374,7 +374,7 @@ abstract class JToolBarHelper
 	/**
 	 * Writes a common 'edit' button for a template css.
 	 * Extended version of editCss() calling hideMainMenu() before submitbutton().
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -387,7 +387,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a common 'delete' button for a list of records.
-	 * 
+	 *
 	 * @param	string	$msg	Postscript for the 'are you sure' message.
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
@@ -407,7 +407,7 @@ abstract class JToolBarHelper
 	/**
 	 * Writes a common 'delete' button for a list of records.
 	 * Extended version of deleteList() calling hideMainMenu() before submitbutton().
-	 * 
+	 *
 	 * @param	string	$msg	Postscript for the 'are you sure' message.
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
@@ -421,7 +421,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Write a trash button that will move items to Trash Manager.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @param	bool	$check
@@ -437,7 +437,7 @@ abstract class JToolBarHelper
 	/**
 	 * Writes a save button for a given option.
 	 * Apply operation leads to a save action only (does not leave edit mode).
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -452,7 +452,7 @@ abstract class JToolBarHelper
 	/**
 	 * Writes a save button for a given option.
 	 * Save operation leads to a save and then close action.
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -466,7 +466,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a cancel button and invokes a cancel operation (eg a checkin).
-	 * 
+	 *
 	 * @param	string	$task	An override for the task.
 	 * @param	string	$alt	An override for the alt text.
 	 * @since	1.0
@@ -480,7 +480,7 @@ abstract class JToolBarHelper
 
 	/**
 	 * Writes a configuration button and invokes a cancel operation (eg a checkin).
-	 * 
+	 *
 	 * @param	string	$component	The name of the component, eg, com_content.
 	 * @param	int		$height		The height of the popup.
 	 * @param	int		$width		The width of the popup.
@@ -491,7 +491,7 @@ abstract class JToolBarHelper
 	public static function preferences($component, $height = '450', $width = '800', $alt = 'JToolbar_Options', $path = '')
 	{
 		$user = &JFactory::getUser();
-		if (!$user->authorise('core.config.manage')) {
+		if (!$user->authorise('core.manage', 'com_config')) {
 			return;
 		}
 
@@ -512,7 +512,7 @@ abstract class JSubMenuHelper
 {
 	/**
 	 * Method to add a menu item to submenu.
-	 * 
+	 *
 	 * @param	string	$name	Name of the menu item.
 	 * @param	string	$link	URL of the menu item.
 	 * @param	bool	True if the item is active, false otherwise.

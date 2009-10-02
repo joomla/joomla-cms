@@ -70,7 +70,7 @@ if (count($rows))
 	{
 		$link = 'index.php?option=com_content&amp;task=edit&amp;id='. $row->id;
 
-		if ($user->authorize('core.users.manage')) {
+		if ($user->authorize('core.manage', 'com_users')) {
 			if ($row->created_by_alias)
 			{
 				$author = $row->created_by_alias;

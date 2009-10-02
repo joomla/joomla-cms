@@ -10,12 +10,13 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// Make sure the user is authorized to view this page
-$user = & JFactory::getUser();
-$app	= &JFactory::getApplication();
-if (!$user->authorize('core.media.manage')) {
-	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_media')) {
+	return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
 }
+
+// Include dependancies
+jimport('joomla.application.component.controller');
 
 $params = &JComponentHelper::getParams('com_media');
 
@@ -32,6 +33,8 @@ define('COM_MEDIA_BASEURL', JURI::root().$params->get($path, 'images/stories'));
 
 // Require the base controller
 require_once (JPATH_COMPONENT.DS.'controller.php');
+
+// TODO: Refactor to support the latest MVC pattern.
 
 $cmd = JRequest::getCmd('task', null);
 

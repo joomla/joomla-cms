@@ -25,7 +25,7 @@ class ContactViewContact extends JView
 	 */
 	function display($tpl = null)
 	{
-		$app	= &JFactory::getApplication();	
+		$app	= &JFactory::getApplication();
 		$state		= $this->get('state');
 		$item		= $this->get('item');
 		$form		= $this->get('form');
@@ -44,7 +44,7 @@ class ContactViewContact extends JView
 		$this->assignRef('form',	$form);
 		$this->_setToolbar();
 		parent::display($tpl);
-		JRequest::setVar('hidemainmenu', true);		
+		JRequest::setVar('hidemainmenu', true);
 
 	}
 
@@ -75,7 +75,7 @@ class ContactViewContact extends JView
 		else {
 			JToolBarHelper::cancel('contact.cancel', 'JToolbar_Close');
 		}
-		JToolBarHelper::divider();	
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.contact.edit'.'JToolbar_Help');
 	}
 }

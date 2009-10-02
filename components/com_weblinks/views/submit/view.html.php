@@ -60,7 +60,7 @@ class WeblinksViewSubmit extends JView
 		$params = &$app->getParams();
 
 		// Make sure you are logged in and have the necessary access rights
-		if ($user->authorise('com_weblinks.submit')) {
+		if ($user->authorise('core.create', 'com_weblinks')) {
 			  JResponse::setHeader('HTTP/1.0 403',true);
               JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
 			return;

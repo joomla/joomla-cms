@@ -10,6 +10,11 @@
 			readonly="true"/>
 
 		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset"/>
+
+		<field
 			name="parent_id"
 			type="categoryparent"
 			label="Categories_Parent_Label"
@@ -162,6 +167,18 @@
 			label="JField_Language_Label"
 			description="JField_Language_Desc"
 			class="inputbox"/>
+
+		<field
+			id="rules"
+			name="rules"
+			type="rules"
+			label="JField_Rules_Label"
+			description="JField_Rules_Desc"
+			filter="rules"
+			class="inputbox"
+			component="com_content"
+			section="category"
+			default=""/>
 	</fields>
 
 	<fields
@@ -190,14 +207,14 @@
 			description="JField_Alt_Page_title_Desc"
 			size="30"
 			default=""/>
-		
+
 		<field
 			name="author"
 			type="text"
 			label="JField_Metadata_Author_Label"
 			description="JField_Metadata_Author_Desc"
 			size="30"/>
-			
+
 		<field
 			name="robots"
 			type="list"
@@ -218,7 +235,7 @@
 				value="4">Don't display robots tag</option>
 		</field>
 
-		
+
 
 	</fields>
 

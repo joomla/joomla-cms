@@ -34,50 +34,50 @@ JHtml::_('behavior.formvalidation');
 	<fieldset>
 		<legend><?php echo empty($this->item->id) ? JText::_('Newsfeeds_New_Newsfeed') : JText::sprintf('Newsfeeds_Edit_Newsfeed', $this->item->id); ?></legend>
 
-	
+
 			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
-	
+
 			<?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?>
-		
+
 			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
-		
+
 			<?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?>
-		
+
 			<?php echo $this->form->getLabel('link'); ?>
 			<?php echo $this->form->getInput('link'); ?>
-		
+
 			<?php echo $this->form->getLabel('numarticles'); ?>
 			<?php echo $this->form->getInput('numarticles'); ?>
-		
+
 			<?php echo $this->form->getLabel('cache_time'); ?>
 			<?php echo $this->form->getInput('cache_time'); ?>
-		
+
 			<?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?>
-		
+
 			<?php echo $this->form->getLabel('rtl'); ?><br />
 			<?php echo $this->form->getInput('rtl'); ?>
-		
+
 	</fieldset>
 </div>
 
 <div class="width-40 fltrt">
 	<fieldset>
 		<legend><?php echo JText::_('Newsfeeds_Options'); ?></legend>
-		
+
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
-				
+
 						<?php echo $field->label; ?>
-					
+
 						<?php echo $field->input; ?>
-		
+
 			<?php endif; ?>
 		<?php endforeach; ?>
 

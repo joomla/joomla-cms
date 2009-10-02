@@ -41,27 +41,27 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?>
-				
+
 			<?php echo $this->form->getLabel('type'); ?>
 			<?php echo $this->form->getInput('type'); ?>
-				
+
 			<?php if ($this->item->type =='url'){ ?>
 				<?php echo $this->form->getLabel('link'); ?>
 				<?php echo $this->form->getInput('link'); ?>
-			<?php } ?>		
-				
+			<?php } ?>
+
 			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
-	
+
 			<?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?>
-									
+
 			<?php echo $this->form->getLabel('menutype'); ?>
 			<?php echo $this->form->getInput('menutype'); ?>
-	
+
 			<?php echo $this->form->getLabel('parent_id'); ?>
 			<?php echo $this->form->getInput('parent_id'); ?>
-				
+
 			<?php if ($this->item->type !=='url'){ ?>
 				<?php echo $this->form->getLabel('link'); ?>
 				<?php echo $this->form->getInput('link'); ?>
@@ -69,34 +69,34 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('browserNav'); ?>
 			<?php echo $this->form->getInput('browserNav'); ?>
-	
+
 			<?php echo $this->form->getLabel('home'); ?>
 			<?php echo $this->form->getInput('home'); ?>
-				
+
 			<?php echo $this->form->getLabel('template_id'); ?>
 			<?php echo $this->form->getInput('template_id'); ?>
-			
+
 			<?php echo $this->loadTemplate('required'); ?>
 	</fieldset>
 </div>
 
 <div class="width-50 fltrt">
 <?php echo $pane->startPane('menu-pane'); ?>
-	
+
 	<?php //get the menu parameters that are automatically set but may be modified.
 		echo $this->loadTemplate('options'); ?>
-	
+
 	<div class="clr"></div>
 
-	<?php //sliders for module selection						
-		 echo $pane->startPanel(JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>			
+	<?php //sliders for module selection
+		 echo $pane->startPanel(JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>
 			<fieldset>
 				<?php echo $this->loadTemplate('modules'); ?>
-			</fieldset>		
+			</fieldset>
 			<?php echo $pane->endPanel(); ?>
 
-	<?php echo $pane->endPane(); ?>	
-</div>	
+	<?php echo $pane->endPane(); ?>
+</div>
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>

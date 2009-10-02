@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  */
 $user = & JFactory::getUser();
 $app	= &JFactory::getApplication();
-if (!$user->authorize('core.massmail.manage')) {
+if (!$user->authorize('core.manage', 'com_massmail')) {
 	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 

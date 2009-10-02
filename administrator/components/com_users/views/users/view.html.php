@@ -68,7 +68,7 @@ class UsersViewUsers extends JView
 		JToolBarHelper::deleteList('', 'user.delete');
 
 		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_users', '480', '570', 'JToolbar_Options');
+		JToolBarHelper::preferences('com_users');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.users.users');
 	}

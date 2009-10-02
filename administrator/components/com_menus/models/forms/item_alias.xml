@@ -33,8 +33,8 @@
 			type="aliasoptions"
 			label="JMenu_Alias_Menu_Label"
 			description="JMenu_Alias_Menu_Desc"
-			required="true"			
+			required="true"
 		/>
-			
+
 	</fields>
 </form>

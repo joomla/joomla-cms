@@ -20,7 +20,7 @@
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.plg_members_profile.ini</language>
 	</languages>
-	
+
 	<params>
 		<param name="register-require_address1" type="radio" default="0" label="MEMBERS REGISTRATION TOGGLE ADDRESS1 LABEL" description="MEMBERS REGISTRATION TOGGLE ADDRESS1 DESC">
 			<option value="2">REQUIRED</option>

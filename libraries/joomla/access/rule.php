@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
  * @subpackage	Access
  * @since		1.6
  */
-class JAction
+class JRule
 {
 	/**
 	 * @var	array	A named array
@@ -52,7 +52,7 @@ class JAction
 	 */
 	public function mergeIdentities($identities)
 	{
-		if ($identities instanceof JAction) {
+		if ($identities instanceof JRule) {
 			$identities = $identities->getData();
 		}
 
@@ -96,7 +96,7 @@ class JAction
 	 *
 	 * @param	mixed		An integer or array of integers representing the identities to check.
 	 *
-	 * @return	boolean
+	 * @return	mixed		True if allowed, false for an explicit deny, null for an implicit deny.
 	 */
 	public function allow($identities)
 	{
@@ -118,10 +118,10 @@ class JAction
 				// Check if the identity is known.
 				if (isset($this->_data[$identity]))
 				{
-					$result = $this->_data[$identity];
+					$result = (boolean) $this->_data[$identity];
 
 					// An explicit deny wins.
-					if ($result === 0) {
+					if ($result === false) {
 						break;
 					}
 				}
@@ -129,7 +129,7 @@ class JAction
 			}
 		}
 
-		return (boolean) $result;
+		return $result;
 	}
 
 	/**

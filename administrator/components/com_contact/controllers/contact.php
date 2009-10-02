@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		
+ * @version
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @link		http://www.theartofjoomla.com
@@ -29,7 +29,7 @@ class ContactControllerContact extends JController
 		$this->registerTask('apply',		'save');
 		$this->registerTask('editList',		'edit');
 		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('archive',		'publish');		
+		$this->registerTask('archive',		'publish');
 		$this->registerTask('trash',		'publish');
 		$this->registerTask('report',		'publish');
 	}
@@ -128,7 +128,7 @@ class ContactControllerContact extends JController
 	 */
 	function cancel()
 	{
-		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));	
+		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
 		// Initialize variables.
 		$app = &JFactory::getApplication();
 
@@ -148,11 +148,11 @@ class ContactControllerContact extends JController
 		}
 
 		// Clear the  item edit information from the session.
-				
+
 		$app->setUserState('com_contact.edit.contact.id',	null);
 		$app->setUserState('com_contact.edit.contact.data',	null);
-		
-		
+
+
 		// Redirect to the list screen.
 		$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contacts', false));
 	}

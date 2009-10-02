@@ -73,7 +73,7 @@ class JHTMLIcon
 			return;
 		}
 
-		if (!$access->canEdit && !$access->canEditOwn && !$access->canPublish && !$access->canManage) {
+		if (!$user->authorise('core.edit', 'com_content.article.'.$article->id)) {
 			return;
 		}
 

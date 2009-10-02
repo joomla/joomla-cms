@@ -50,7 +50,7 @@
 			label="Menus_Item_Page_Heading_Label"
 			description="Menus_Item_Page_Heading_Desc"
 			default=""/>
-			
+
 		<field
 			id="pageclass_sfx"
 			name="pageclass_sfx"
@@ -66,7 +66,7 @@
 			label="Menus_Item_Menu_Image_Label"
 			description="Menus_Item_Menu_Image_Desc"
 			default=""/>
-			
+
 		<field
 			id="link_title"
 			name="link_title"
@@ -110,7 +110,7 @@
 			default=""
 			rows="3"
 			cols="40"/>
-			
+
 			<field
 			name="robots"
 			type="list"

@@ -76,10 +76,10 @@ class modMenuHelper
 					}
 					break;
 				case 'alias':
-									
+
 						// If this is an alias use the item id stored in the parameters to make the link.
 						$item->link = 'index.php?Itemid='.$item->params->aliasoptions;
-				
+
 					break;
 				default:
 					$router = JSite::getRouter();

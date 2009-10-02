@@ -39,7 +39,7 @@ class ContactViewContacts extends JView
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-		// Preprocess the list of items to find ordering divisions.	
+		// Preprocess the list of items to find ordering divisions.
 		// TODO: Complete the ordering stuff with nested sets
 		foreach ($items as $i => &$item)
 		{
@@ -62,7 +62,7 @@ class ContactViewContacts extends JView
 		JToolBarHelper::title(JText::_('Contact_Manager_Contacts'), 'generic.png');
 		JToolBarHelper::addNew('contact.edit', 'JToolbar_New');
 		JToolBarHelper::editList('contact.edit','JToolbar_Edit');
-		JToolBarHelper::divider();	
+		JToolBarHelper::divider();
 		JToolBarHelper::publish('contacts.publish');
 		JToolBarHelper::unpublish('contacts.unpublish');
 		JToolBarHelper::archiveList('contacts.archive','JToolbar_Archive');
@@ -74,9 +74,9 @@ class ContactViewContacts extends JView
 		}
 		JToolBarHelper::divider();
 
-		JToolBarHelper::preferences('com_contact', '480', '570', 'JToolbar_Options');
+		JToolBarHelper::preferences('com_contact');
 		JToolBarHelper::help('screen.contact');
 	}
 }
 
-	
+

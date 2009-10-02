@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<access component="com_newsfeeds">
+	<section name="component">
+		<action name="core.manage" title="JAction_Manage" description="JAction_Manage_Desc" />
+		<action name="core.create" title="JAction_Create" description="JAction_Create_Desc" />
+		<action name="core.delete" title="JAction_Delete" description="JAction_Delete_Desc" />
+		<action name="core.edit" title="JAction_Edit" description="JAction_Edit_Desc" />
+		<action name="core.edit.state" title="JAction_Edit_State" description="JAction_Edit_State_Desc" />
+	</section>
+	<section name="category">
+		<action name="core.create" title="JAction_Create" description="JAction_Create_Desc" />
+		<action name="core.delete" title="JAction_Delete" description="JAction_Delete_Desc" />
+		<action name="core.edit" title="JAction_Edit" description="JAction_Edit_Desc" />
+		<action name="core.edit.state" title="JAction_Edit_State" description="JAction_Edit_State_Desc" />
+	</section>
+</access>

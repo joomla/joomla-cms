@@ -22,18 +22,23 @@ class InstallerViewInstall extends InstallerViewDefault
 {
 	function display($tpl=null)
 	{
-		/*
-		 * Set toolbar items for the page
-		 */
-		JToolBarHelper::help('screen.installer');
-
 		$paths = new stdClass();
 		$paths->first = '';
 
 		$this->assignRef('paths', $paths);
 		$this->assignRef('state', $this->get('state'));
 
+		$this->_setToolbar();
 		parent::display($tpl);
 	}
 
+	/**
+	 * Display the toolbar
+	 */
+	protected function _setToolbar()
+	{
+		JToolBarHelper::preferences('com_installer');
+		JToolBarHelper::divider();
+		JToolBarHelper::help('screen.installer');
+	}
 }

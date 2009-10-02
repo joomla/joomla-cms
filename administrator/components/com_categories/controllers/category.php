@@ -100,7 +100,7 @@ class CategoriesControllerCategory extends JController
 				}
 			}
 		}
-		
+
 		// Check if we are adding for a particular extension
 		$extension = $app->getUserStateFromRequest($this->_context.'.filter.extension', 'extension', 'com_content');
 

@@ -53,17 +53,25 @@ class ContentViewFeatured extends JView
 		$state = $this->get('State');
 		JToolBarHelper::title(JText::_('Content_Featured_Title'), 'frontpage.png');
 
-		JToolBarHelper::custom('article.edit', 'new.png', 'new_f2.png', 'New', false);		
-		JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png', 'Edit', true);	
-		JToolBarHelper::divider();		
-		JToolBarHelper::custom('featured.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
-		JToolBarHelper::custom('featured.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
-		if ($state->get('filter.published') != -1) {
-			JToolBarHelper::archiveList('featured.archive');
-		}		
-		JToolBarHelper::custom('featured.delete','delete.png','delete_f2.png','JToolbar_Remove', true);
+		if ($user->authorise('core.create', 'com_content')) {
+			JToolBarHelper::custom('article.edit', 'new.png', 'new_f2.png', 'New', false);
+		}
+		if ($user->authorise('core.edit', 'com_content')) {
+			JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		}
 		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_content');
+		if ($user->authorise('core.edit.state', 'com_content')) {
+			JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
+			JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
+			if ($state->get('filter.published') != -1) {
+				JToolBarHelper::archiveList('articles.archive');
+			}
+			JToolBarHelper::custom('featured.delete','delete.png','delete_f2.png','JToolbar_Remove', true);
+		}
+		if ($user->authorise('core.admin', 'com_content')) {
+			JToolBarHelper::divider();
+			JToolBarHelper::preferences('com_content');
+		}
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.content.featured');
 	}

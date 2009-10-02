@@ -46,8 +46,8 @@ class ContactViewContact extends JView
 		$options['id']	= $contactId;
 
 		$contact	= $model->getContact($options);
-		
-	
+
+
 		// check if we have a contact
 		if (!is_object($contact)) {
 			JError::raiseError(404, 'Contact not found');

@@ -34,7 +34,7 @@ class JFormFieldOrdering extends JFormField
 	 */
 	protected function _getInput()
 	{
-		
+
 		$size		= $this->_element->attributes('size');
 		$class		= $this->_element->attributes('class') ? 'class="'.$this->_element->attributes('class').'"' : 'class="inputbox"';
 		$disabled	= $this->_element->attributes('disabled') == 'true' ? true : false;
@@ -49,7 +49,7 @@ class JFormFieldOrdering extends JFormField
 					. ' WHERE catid = ' . $categoryId
 					. ' ORDER BY ordering';
 
-					
+
 		// Handle a read only list.
 		if ($readonly) {
 			// Create a disabled list with a hidden input to store the value.

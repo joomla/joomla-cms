@@ -2,17 +2,26 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @subpackage	com_config
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access
 defined('_JEXEC') or die;
 
-// Load the mootools framework.
-JHtml::_('behavior.mootools');
-?>
+jimport('joomla.application.component.view');
 
-<script type="text/javascript">
-	window.addEvent('domready', function(){ window.parent.document.getElementById('sbox-window').close(); });
-</script>
+/**
+ * @package		Joomla.Administrator
+ * @subpackage	com_config
+ */
+class ConfigViewClose extends JView
+{
+	/**
+	 * Display the view
+	 */
+	function display()
+	{
+	}
+}

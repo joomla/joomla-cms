@@ -36,19 +36,19 @@ JHtml::_('behavior.formvalidation');
 			<legend><?php echo JText::_('Users_Usergroup_Details');?></legend>
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
-				
+
 			<?php echo $this->form->getLabel('parent_id'); ?>
 			<?php echo $this->form->getInput('parent_id'); ?>
 		</fieldset>
 	</div>
-	
+
 	<div class="width-50">
 		<fieldset id="user-groups">
 			<legend><?php echo JText::_('Users_Actions_Available');?></legend>
-			<?php echo JHtml::_('access.actions', 'jform[actions]', $this->item->actions); ?>
+			<?php //echo JHtml::_('access.actions', 'jform[actions]', $this->item->actions); ?>
 		</fieldset>
 	</div>
-	
+
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

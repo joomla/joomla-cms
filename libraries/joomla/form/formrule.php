@@ -49,7 +49,7 @@ class JFormRule
 	 * @since	1.6
 	 * @throws	JException on invalid rule.
 	 */
-	public function test(&$field, $values)
+	public function test(&$field, &$values)
 	{
 		$return = false;
 		$name	= $field->attributes('name');

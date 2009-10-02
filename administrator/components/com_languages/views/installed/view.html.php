@@ -86,6 +86,8 @@ class LanguagesViewInstalled extends JView
 		JToolBarHelper::title(JText::_('Langs_View_Installed_Title'), 'langmanager.png');
 		JToolBarHelper::makeDefault('installed.publish');
 		JToolBarHelper::divider();
+		JToolBarHelper::preferences('com_languages');
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.languages');
 	}
 }

@@ -56,7 +56,7 @@ class WeblinksViewWeblinks extends JView
 		JToolBarHelper::title(JText::_('Weblinks_Manager_Weblinks'), 'generic.png');
 		JToolBarHelper::addNew('weblink.add');
 				JToolBarHelper::editList('weblink.edit');
-				JToolBarHelper::divider();			
+				JToolBarHelper::divider();
 		JToolBarHelper::publishList('weblinks.publish');
 		JToolBarHelper::unpublishList('weblinks.unpublish');
 		if ($this->state->get('filter.state') == -2) {
@@ -65,9 +65,9 @@ class WeblinksViewWeblinks extends JView
 		else {
 			JToolBarHelper::trash('weblinks.trash');
 		}
-		JToolBarHelper::divider();	
-		JToolBarHelper::preferences('com_weblinks', '480', '570', 'JToolbar_Options');
-				JToolBarHelper::divider();	
+		JToolBarHelper::divider();
+		JToolBarHelper::preferences('com_weblinks');
+				JToolBarHelper::divider();
 		JToolBarHelper::help('screen.weblink');
 	}
 }

@@ -58,7 +58,7 @@ $userId	= $user->get('id');
 				<th width="5%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort',  'Newsfeeds_State_Heading', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				
+
 				<th width="10%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort',  'Newsfeeds_Order_Heading', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 					<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'newsfeeds.saveorder'); ?>
@@ -112,9 +112,9 @@ $userId	= $user->get('id');
 				<td align="center">
 					<?php echo JHtml::_('newsfeed.state', $item->published, $i);?>
 				</td>
-				
-				
-				
+
+
+
 				<td class="order">
 					<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid),'newsfeeds.orderup', 'JGrid_Move_Up', $ordering); ?></span>
 					<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->catid == @$this->items[$i+1]->catid), 'newsfeeds.orderdown', 'JGrid_Move_Down', $ordering); ?></span>

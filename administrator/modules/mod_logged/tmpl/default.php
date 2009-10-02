@@ -40,7 +40,7 @@ defined('_JEXEC') or die;
 		$i		= 0;
 		$now	= time();
 		foreach ($rows as $row) :
-			$auth = $user->authorize('core.users.manage');
+			$auth = $user->authorize('core.manage', 'com_users');
 			if ($auth) :
 				$link 	= 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $row->userid;
 				$name 	= '<a href="'. $link .'" title="'. JText::_('Edit User') .'">'. $row->username .'</a>';

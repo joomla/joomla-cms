@@ -25,7 +25,7 @@ final class JSite extends JApplication
 	 * @var object
 	 */
 	private $template = null;
-	
+
 	/**
 	 * Class constructor
 	 *

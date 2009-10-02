@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version		
+ * @version
  * @package		Joomla.Site
  * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -33,4 +33,4 @@ if ($this->contact->params->get('show_links')) : ?>
 			<li><a href="<?php echo $this->contact->params->get('linke') ?>"><?php echo $this->contact->params->get('linke_name')  ?></a></li>
 		<?php endif; ?>
 	</ul>
-<? endif; ?>	
+<? endif; ?>

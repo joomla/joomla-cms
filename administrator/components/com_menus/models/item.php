@@ -98,7 +98,7 @@ class MenusModelItem extends JModelForm
 
 		// Attempt to load the row.
 		$table->load($pk);
-		
+
 		// Check for a table object error.
 		if ($error = $table->getError())
 		{
@@ -131,7 +131,7 @@ class MenusModelItem extends JModelForm
 			case 'alias':
 				$table->component_id = 0;
 				$args = array();
-	
+
 				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 				break;
 
@@ -181,7 +181,7 @@ class MenusModelItem extends JModelForm
 		if ($table->type == 'component')
 		{
 			// Note that all request arguments become reserved parameter names.
-			$args = array();			
+			$args = array();
 			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 
 			$table->params = array_merge($table->params, $args);
@@ -201,8 +201,8 @@ class MenusModelItem extends JModelForm
 			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 			$table->params = array_merge($table->params, $args);
 		}
-		
-		
+
+
 		$result = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
 		return $result;
@@ -366,7 +366,7 @@ class MenusModelItem extends JModelForm
 				}
 			}
 		}
-		
+
 
 		// If no component file found, or not a component, create the form.
 		if (empty($form))
@@ -385,7 +385,7 @@ class MenusModelItem extends JModelForm
 
 		return $form;
 	}
-	
+
 
 	/**
 	 * Get the list of modules not in trash.
@@ -406,7 +406,7 @@ class MenusModelItem extends JModelForm
 
 		// Join on the asset groups table.
 		$query->select('ag.title AS access_title');
-		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = a.access');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 		$query->where('a.published >= 0');
 		$query->where('a.client_id = 0');
 		$query->order('a.position, a.ordering');
@@ -646,7 +646,7 @@ class MenusModelItem extends JModelForm
 	}
 
 	/**
-	 * Method to publish 
+	 * Method to publish
 	 *
 	 * @param	array	The ids of the items to publish.
 	 * @param	int		The value of the published state

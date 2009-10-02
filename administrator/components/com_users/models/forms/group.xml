@@ -21,7 +21,7 @@
 			label="Users_Group_Title"
 			description="Users_Group_Title_Desc"
 		/>
-		
+
 		<field
 			id="parent_id"
 			name="parent_id"

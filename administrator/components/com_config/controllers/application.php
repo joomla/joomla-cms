@@ -42,7 +42,7 @@ class ConfigControllerApplication extends JController
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
 
 		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorize('core.config.manage')) {
+		if (!JFactory::getUser()->authorize('core.manage', 'com_config')) {
 			JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
 		}
 

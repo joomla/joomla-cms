@@ -10,12 +10,15 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// Make sure the user is authorized to view this page
-$user	= & JFactory::getUser();
-$app	= &JFactory::getApplication();
-if (!$user->authorize('com_banners.manage')) {
-	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_banners')) {
+	return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
 }
+
+// Include dependancies
+jimport('joomla.application.component.controller');
+
+// TODO: Refactor this to correct MVC pattern.
 
 // Set the table directory
 JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'tables');

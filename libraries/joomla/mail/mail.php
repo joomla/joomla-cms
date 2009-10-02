@@ -297,7 +297,7 @@ abstract class JMail extends PHPMailer
 
 		if ($secure == 'ssl' || $secure == 'tls') {
 			$this->SMTPSecure = $secure;
-		} 
+		}
 
 		if ($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null) {
 			$this->IsSMTP();

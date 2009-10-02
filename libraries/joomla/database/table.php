@@ -56,6 +56,13 @@ abstract class JTable extends JObject
 	protected $_trackAssets = false;
 
 	/**
+	 * The rules associated with this record.
+	 *
+	 * @var	JRules	A JRules object.
+	 */
+	protected $_rules = null;
+
+	/**
 	 * Indicator that the tables have been locked.
 	 *
 	 * @var		boolean
@@ -83,9 +90,10 @@ abstract class JTable extends JObject
 		// If we are tracking assets, make sure an access field exists and initially set the default.
 		if (property_exists($this, 'asset_id'))
 		{
+			jimport('joomla.access.rules');
 			$this->_trackAssets = true;
-			// TODO: Do we need to asset an access field anymore?
-			$this->access = (int) JFactory::getConfig()->getValue('access');
+			// TODO: Do we need the following line anymore?
+			//$this->access = (int) JFactory::getConfig()->getValue('access');
 		}
 	}
 
@@ -136,7 +144,8 @@ abstract class JTable extends JObject
 		// If a database object was passed in the configuration array use it, otherwise get the global one from JFactory.
 		if (array_key_exists('dbo', $config))  {
 			$db = &$config['dbo'];
-		} else {
+		}
+		else {
 			$db = & JFactory::getDbo();
 		}
 
@@ -285,6 +294,31 @@ abstract class JTable extends JObject
 
 		$this->_db = &$db;
 		return true;
+	}
+
+	/**
+	 * Method to set rules for the record.
+	 *
+	 * @param	mixed	A JRules object, JSON string, or array.
+	 */
+	function setRules($input)
+	{
+		if ($input instanceof JRules) {
+			$this->_rules = $input;
+		}
+		else {
+			$this->_rules = new JRules($input);
+		}
+	}
+
+	/**
+	 * Method to get a reference to the rules for the record.
+	 *
+	 * @return	JRules
+	 */
+	public function &getRules()
+	{
+		return $this->_rules;
 	}
 
 	/**
@@ -477,23 +511,25 @@ abstract class JTable extends JObject
 			return false;
 		}
 
+		// Specify how a new or moved node asset is inserted into the tree.
+		if (empty($this->asset_id) || $asset->parent_id != $parentId) {
+			$asset->setLocation($parentId, 'last-child');
+		}
+
 		// Prepare the asset to be stored.
 		$asset->parent_id	= $parentId;
 		$asset->name		= $name;
 		$asset->title		= $title;
-		$asset->actions		= json_encode(array());
-
-		// Specify how a new node asset is inserted into the tree.
-		if (empty($this->asset_id)) {
-			$asset->setLocation($parentId, 'last-child');
+		if ($this->_rules instanceof JRules) {
+			$asset->rules = (string) $this->_rules;
 		}
 
-		if (!$asset->check() || !$asset->store())
+		if (!$asset->check() || !$asset->store($updateNulls))
 		{
 			$this->setError($asset->getError());
 			return false;
 		}
-//die;
+
 		if (empty($this->asset_id))
 		{
 			// Update the asset_id field in this table.
@@ -636,7 +672,7 @@ abstract class JTable extends JObject
 		// Get the asset id for the asset.
 		$this->_db->setQuery(
 			'SELECT `id`' .
-			' FROM `#__access_assets`' .
+			' FROM `#__assets`' .
 			' WHERE `name` = '.$this->_db->Quote($name)
 		);
 		$assetId = $this->_db->loadResult();
@@ -662,7 +698,7 @@ abstract class JTable extends JObject
 
 		// Delete the asset.
 		$this->_db->setQuery(
-			'DELETE FROM `#__access_assets`' .
+			'DELETE FROM `#__assets`' .
 			' WHERE `id` = '.(int) $assetId
 		);
 		$this->_db->query();

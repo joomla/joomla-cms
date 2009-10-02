@@ -61,7 +61,7 @@
 			class="inputbox"
 			required="true"
 			size="40" />
-		
+
 		<field
 			name="published"
 			type="list"
@@ -78,7 +78,7 @@
 			<option
 				value="0">
 				JOption_UnPublished</option>
-		
+
 			<option
 				value="-2">
 				JOption_Trashed</option>

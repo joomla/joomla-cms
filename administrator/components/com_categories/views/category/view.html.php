@@ -70,7 +70,7 @@ class CategoriesViewCategory extends JView
 			JToolBarHelper::save('category.save');
 			JToolBarHelper::apply('category.apply');
 			JToolBarHelper::addNew('category.save2new', 'JToolbar_Save_and_new');
-		}	
+		}
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('category.cancel');
 		}

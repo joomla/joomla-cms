@@ -10,14 +10,13 @@
 // no direct access
 defined('_JEXEC') or die;
 
-/*
- * Make sure the user is authorized to view this page
- */
-$user = & JFactory::getUser();
-$app	= &JFactory::getApplication();
-if (!$user->authorize('core.installer.manage')) {
-	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_installer')) {
+	return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
 }
+
+// Include dependancies
+jimport('joomla.application.component.controller');
 
 $ext	= JRequest::getWord('type');
 $task 	= JRequest::getWord('task');
@@ -34,6 +33,7 @@ foreach ($subMenus as $name => $extension)
 	JSubMenuHelper::addEntry(JText::_($name), '#" onclick="javascript:document.adminForm.type.value=\''.$extension.'\';submitbutton(\'manage\');', (($task != 'manage' && $task == $extension) || ($task == 'manage' && $extension == $ext)));
 }
 
+// TODO: Refactor to support the latest MVC pattern.
 require_once(JPATH_COMPONENT.DS.'controller.php');
 
 $controller = new InstallerController(array('default_task' => 'installform'));

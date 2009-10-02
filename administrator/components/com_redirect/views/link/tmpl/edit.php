@@ -32,10 +32,10 @@ $fields	= $this->form->getFields();
 				<legend><?php echo JText::_('URLs'); ?></legend>
 				<?php echo $fields['old_url']->label; ?>
 				<?php echo $fields['old_url']->input; ?>
-			
+
 				<?php echo $fields['new_url']->label; ?>
 				<?php echo $fields['new_url']->input; ?>
-			
+
 				<?php echo $fields['comment']->label; ?>
 				<?php echo $fields['comment']->input; ?>
 			</fieldset>

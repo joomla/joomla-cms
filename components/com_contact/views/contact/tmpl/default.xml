@@ -18,7 +18,7 @@
 			type="contacts"
 			default=""
 			label="Select Contact"
-			description="The contact to link to" 
+			description="The contact to link to"
 			/>
 	</fields>
 	<fields>

@@ -6,7 +6,7 @@
 			<![CDATA[com_content_categories_view_default_desc]]>
 		</message>
 	</layout>
-	
+
 	<fields
 		group="basic"
 		label="Menus_Layout_Basic_Options_Label"
@@ -17,6 +17,7 @@
 			type="categories"
 			label="Choose_Category_Label"
 			description="Choose_Category_Desc"
+			extension="com_content"
 			default="" />
 	</fields>
 </metadata>

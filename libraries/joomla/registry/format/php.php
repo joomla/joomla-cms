@@ -45,7 +45,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 		$str = "<?php\nclass ".$params['class']." {\n";
 		$str .= $vars;
 		$str .= "}";
-		
+
 		// Use the closing tag if it not set to false in parameters.
 		if (!isset($params['closingtag']) || $params['closingtag'] !== false) {
 			$str .= "\n?>";

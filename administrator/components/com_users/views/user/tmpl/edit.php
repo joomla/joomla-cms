@@ -36,16 +36,16 @@ JHtml::_('behavior.formvalidation');
 			<legend><?php echo JText::_('Users_User_Account_Details'); ?></legend>
 			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
-			
+
 			<?php echo $this->form->getLabel('username'); ?>
 			<?php echo $this->form->getInput('username'); ?>
-				
+
 			<?php echo $this->form->getLabel('password'); ?>
 			<?php echo $this->form->getInput('password'); ?>
-				
+
 			<?php echo $this->form->getLabel('password2'); ?>
 			<?php echo $this->form->getInput('password2'); ?>
-				
+
 			<?php echo $this->form->getLabel('email'); ?>
 			<?php echo $this->form->getInput('email'); ?>
 		</fieldset>

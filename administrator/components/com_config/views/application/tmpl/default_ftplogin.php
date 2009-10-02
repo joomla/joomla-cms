@@ -21,11 +21,11 @@ defined('_JEXEC') or die;
 	<?php endif; ?>
 
 					<label for="username"><?php echo JText::_('Username'); ?>:</label>
-				
+
 					<input type="text" id="username" name="username" class="input_box" size="70" value="" />
-			
+
 					<label for="password"><?php echo JText::_('Password'); ?>:</label>
-				
+
 					<input type="password" id="password" name="password" class="input_box" size="70" value="" />
 </fieldset>
 </div>

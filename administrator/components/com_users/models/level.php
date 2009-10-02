@@ -62,21 +62,28 @@ class UsersModelLevel extends JModelForm
 		$levelId = (!empty($levelId)) ? $levelId : (int)$this->getState('level.id');
 		$false	= false;
 
-		$db = &$this->getDbo();
-		$db->setQuery(
-			'SELECT `section_id`' .
-			' FROM `#__access_assetgroups`' .
-			' WHERE `id` = '.(int) $levelId
-		);
-		$sectionId = $db->loadResult();
+		// Get a level row instance.
+		$table = &$this->getTable('Viewlevels', 'JTable');
 
-		$item = & JAccessHelper::getAccessLevel((int)$levelId, (int)$sectionId);
+		// Attempt to load the row.
+		$return = $table->load($levelId);
 
-		if (count($item->getErrors())) {
+		// Check for a table object error.
+		if ($return === false && $table->getError()) {
+			$this->serError($table->getError());
 			return $false;
 		}
 
-		return $item;
+		// Check for a database error.
+		if ($this->_db->getErrorNum()) {
+			$this->setError($this->_db->getErrorMsg());
+			return $false;
+		}
+
+		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+		$value->groups = json_decode($value->rules);
+
+		return $value;
 	}
 
 	/**
@@ -129,50 +136,30 @@ class UsersModelLevel extends JModelForm
 
 		if ($isNew)
 		{
-			$db = &$this->getDbo();
-			$db->setQuery(
-				'SELECT `name`' .
-				' FROM `#__access_sections`' .
-				' WHERE `id` = '.(int) $data['section_id']
-			);
-			$section = $db->loadResult();
+			$table = JTable::getInstance('Viewlevels');
+			$table->title = $data['title'];
+			$table->rules = json_encode($data['groups']);
 
-			// Use the AccessHelper class to register the new access level.
-			$return = JAccessHelper::registerAccessLevel($data['title'], $section, $data['groups']);
-
-			if (JError::isError($return))
+			if (!$table->store())
 			{
-				$this->setError($return->getMessage());
+				$this->setError($table->getError());
 				return false;
 			}
 
-			$this->setState('level.id', $return);
+			$this->setState('level.id', $table->id);
 		}
 		else
 		{
 			// Update the data as necessary and store the access level.
-			$item = & $this->getItem($levelId);
+			$item = & JTable::getInstance('Viewlevels');
+			$item->load($data['id']);
 
-			// Set the user groups.
-			$item->setUserGroups($data['groups']);
+			$item->title = $data['title'];
+			$item->rules = json_encode($data['groups']);
 
 			// Store the access level.
 			if (!$item->store()) {
 				$this->setError($item->getError());
-				return false;
-			}
-
-			// Update the access level title.
-			$db = &$this->getDbo();
-			$db->setQuery(
-				'UPDATE `#__access_assetgroups`' .
-				' SET `title` = '.$db->Quote($data['title']) .
-				' WHERE `id` = '.(int) $levelId
-			);
-			$db->query();
-
-			if ($db->getErrorNum()) {
-				$this->setError($db->getErrorMsg());
 				return false;
 			}
 		}
@@ -195,23 +182,12 @@ class UsersModelLevel extends JModelForm
 		// Get a database object.
 		$db = &$this->getDbo();
 
-		// Iterate the items to delete each one.
-		foreach ($levelIds as $levelId)
-		{
-			$db->setQuery(
-				'SELECT `section_id`' .
-				' FROM `#__access_assetgroups`' .
-				' WHERE `id` = '.(int) $levelId
-			);
-			$sectionId = $db->loadResult();
+		$db->setQuery(
+			'DELETE FROM `#__viewlevels`' .
+			' WHERE `id` IN ('.implode(',', $levelIds).')'
+		);
 
-			$return = & JAccessHelper::removeAccessLevel((int)$levelId, (int)$sectionId);
-
-			if (JError::isError($return)) {
-				$this->setError($return->getMessage());
-				return false;
-			}
-		}
+		$db->Query();
 
 		return true;
 	}

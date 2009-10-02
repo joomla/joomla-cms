@@ -80,7 +80,7 @@ class MenusViewItem extends JView
 			}
 		else {
 			JToolBarHelper::cancel('item.cancel', 'JToolbar_Close');
-		}	
+		}
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.menus.item');
 	}

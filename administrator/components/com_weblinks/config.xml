@@ -121,4 +121,19 @@
 			label="Icon"
 			description="PARAMICONIMG" />
 	</params>
+
+	<fields
+		group="permissions"
+		label="JConfig_Permissions_Label"
+		description="JConfig_Permissions_Desc"
+		hidden="true">
+
+		<field
+			name="rules"
+			type="rules"
+			label="JConfig_Permissions_Label"
+			filter="rules"
+			component="com_weblinks"
+			section="component" />
+	</fields>
 </config>

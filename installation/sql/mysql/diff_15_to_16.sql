@@ -3,6 +3,25 @@
 # 1.5 to 1.6
 
 -- ----------------------------------------------------------------
+-- jos_assets
+-- ----------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `jos_assets` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set parent.',
+  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
+  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
+  `level` int(10) unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
+  `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
+  `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
+  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_asset_name` (`name`),
+  KEY `idx_lft_rgt` (`lft`,`rgt`),
+  KEY `idx_parent_id` (`parent_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- ----------------------------------------------------------------
 -- jos_categories
 -- ----------------------------------------------------------------
 
@@ -77,9 +96,11 @@ UPDATE `jos_components`
  WHERE link = 'option=com_content';
 
 INSERT INTO `#__components` VALUES
- (0, 'Articles', '', 0, 0, 'option=com_content&view=articles', 'com_content_Articles', 'com_content', 1, '', 1, '{}', 1),
- (0, 'Categories', '', 0, 0, 'option=com_categories&view=categories&extension=com_content', 'com_content_Categories', 'com_content', 2, '', 1, '{}', 1),
- (0, 'Featured', '', 0, 0, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1);
+ (null, 'Articles', '', 0, 0, 'option=com_content&view=articles', 'com_content_Articles', 'com_content', 1, '', 1, '{}', 1),
+ (null, 'Categories', '', 0, 0, 'option=com_categories&view=categories&extension=com_content', 'com_content_Categories', 'com_content', 2, '', 1, '{}', 1),
+ (null, 'Featured', '', 0, 0, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1),
+ (null, 'Redirects', '', 0, 0, 'option=com_redirect', 'Manage Redirects', 'com_redirect', 0, 'js/ThemeOffice/component.png', 1, '{}', 1),
+ (null, 'Checkin', '', 0, 0, 'option=com_checkin', 'Checkin', 'com_checkin', 0, 'js/ThemeOffice/component.png', 1, '{}', 1);
 
 UPDATE `jos_components` AS a
  LEFT JOIN `jos_components` AS b ON b.link='option=com_content'
@@ -92,7 +113,7 @@ UPDATE `jos_components` AS a
 -- ----------------------------------------------------------------
 
 ALTER TABLE `jos_content`
- ADD COLUMN `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the jos_access_assets table.' AFTER `id`;
+ ADD COLUMN `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the jos_assets table.' AFTER `id`;
 
 ALTER TABLE `jos_content`
  ADD COLUMN `featured` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.' AFTER `metadata`;

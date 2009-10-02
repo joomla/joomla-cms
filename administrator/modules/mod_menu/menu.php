@@ -201,7 +201,7 @@ class JMenuNode extends JNode
 	 * Link Target
 	 */
 	public $target = null;
- 
+
 	/**
 	 * CSS Class for node
 	 */

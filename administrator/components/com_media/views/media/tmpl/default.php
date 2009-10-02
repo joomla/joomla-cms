@@ -44,7 +44,7 @@
                 <input type="hidden" name="cb1" id="cb1" value="0" />
                 <input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
             </form>
-            
+
  			 <form action="index.php?option=com_media&amp;task=folder.create" name="folderForm" id="folderForm" method="post">
                 <fieldset id="folderview">
                 <div class="view">
@@ -57,11 +57,11 @@
                         <input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
                         <button type="submit"><?php echo JText::_('Create Folder'); ?></button>
                     </div>
-                    
+
                 </fieldset>
 				<?php echo JHtml::_('form.token'); ?>
 			</form>
-			
+
             <!-- File Upload Form -->
             <form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JUtility::getToken();?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
                 <fieldset>

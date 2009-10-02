@@ -14,7 +14,7 @@ defined( '_JEXEC' ) or die;
  * @since		1.6
  */
 class MessagesController extends JController
-{	
+{
 	public function add()
 	{
 		$this->setRedirect(JRoute::_('index.php?option=com_messages&view=message&layout=edit', false));
@@ -42,11 +42,11 @@ class MessagesController extends JController
 		JArrayHelper::toInteger($cid);
 
 		$model = $this->getModel('Message');
-		
+
 		if ($model->delete($cid)) {
 			$message = JText::_('JSuccess_N_items_deleted');
 			$this->setRedirect(JRoute::_('index.php?option=com_messages'), $message);
-			return true;		
+			return true;
 		} else {
 			$message = JText::sprintf('JError_Occurred', $model->getError());
 			$this->setRedirect('index.php?option=com_messages&view=messages', $message, 'error');
@@ -61,12 +61,12 @@ class MessagesController extends JController
 
 		$model = $this->getModel('Message');
 		$data = JRequest::get('post');
-		
+
 		if (!$model->save($data)) {
 			$this->setRedirect("index.php?option=com_messages", $model->getError());
 			return false;
 		}
-		
+
 		$this->setRedirect("index.php?option=com_messages",  JText::_('Message Sent'));
 		return true;
 	}

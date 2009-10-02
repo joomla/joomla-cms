@@ -19,12 +19,12 @@ defined('_JEXEC') or die;
 			?>
 
 					<?php echo $field->label; ?>
-			
+
 					<?php echo $field->input; ?>
-			
+
 			<?php
 			endforeach;
 			?>
-	
+
 </fieldset>
 </div>

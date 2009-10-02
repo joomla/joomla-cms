@@ -70,13 +70,13 @@ class RedirectViewLink extends JView
 
 		JToolBarHelper::save('link.save');
 		JToolBarHelper::apply('link.apply');
-		JToolBarHelper::custom('link.save2new', 'new.png', 'new_f2.png', 'Save and New', false);	
+		JToolBarHelper::custom('link.save2new', 'new.png', 'new_f2.png', 'Save and New', false);
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('link.cancel');
 		}
 		else {
 			JToolBarHelper::cancel('link.cancel', 'JToolbar_Close');
 		}
-		JToolBarHelper::help('screen.redirect.link');		
+		JToolBarHelper::help('screen.redirect.link');
 	}
 }

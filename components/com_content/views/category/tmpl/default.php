@@ -29,7 +29,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 
 <?php if ($this->params->get('show_description') && $this->category->description) : ?>
 	<?php echo $this->item->description; ?>
-	
+
 <?php endif; ?>
 
 <div class="jcat-articles">
@@ -38,7 +38,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 
 <div class="jcat-siblings">
 <?php /* echo $this->loadTemplate('siblings'); */?>
-</div> 
+</div>
 
 <div class="jcat-children">
 <?php echo $this->loadTemplate('children'); ?>
@@ -46,6 +46,6 @@ $pageClass = $this->params->get('pageclass_sfx');
 
 <div class="jcat-parents">
 <?php /* echo $this->loadTemplate('parents'); */ ?>
-</div> 
+</div>
 
 </div>

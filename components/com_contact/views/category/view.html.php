@@ -51,9 +51,9 @@ class ContactViewCategory extends JView
 
 				// Validate the category.
 
-	
-		
-		
+
+
+
 		//add alternate feed link
 		if ($pparams->get('show_feed_link', 1) == 1)
 		{
@@ -64,8 +64,8 @@ class ContactViewCategory extends JView
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
 
-		
-		
+
+
 		//prepare contacts
 		if ($pparams->get('show_email', 0) == 1) {
 			jimport('joomla.mail.helper');

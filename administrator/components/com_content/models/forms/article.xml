@@ -14,6 +14,11 @@
 			readonly="true"/>
 
 		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset"/>
+
+		<field
 			id="title"
 			name="title"
 			type="text"
@@ -260,6 +265,17 @@
 			size="20"
 			default=""/>
 
+		<field
+			id="rules"
+			name="rules"
+			type="rules"
+			label="Content_Rules_Label"
+			description="Content_Rules_Desc"
+			class="inputbox"
+			filter="rules"
+			component="com_content"
+			section="article"
+			default=""/>
 	</fields>
 
 	<fields

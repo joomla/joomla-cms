@@ -518,7 +518,7 @@ abstract class JFactory
 		$smtppass  	= $conf->getValue('config.smtppass');
 		$smtphost 	= $conf->getValue('config.smtphost');
 		$smtpsecure	= $conf->getValue('config.smtpsecure');
-		$smtpport	= $conf->getValue('config.smtpport'); 
+		$smtpport	= $conf->getValue('config.smtpport');
 		$mailfrom 	= $conf->getValue('config.mailfrom');
 		$fromname 	= $conf->getValue('config.fromname');
 		$mailer 	= $conf->getValue('config.mailer');

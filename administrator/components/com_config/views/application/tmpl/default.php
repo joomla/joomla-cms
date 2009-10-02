@@ -49,22 +49,6 @@ $this->document->addScriptDeclaration("
 			<div class="noshow">
 				<div class="width-60 fltlft">
 					<?php echo $this->loadTemplate('system'); ?>
-					<div class="width-100">
-						<fieldset class="adminform">
-							<legend><?php echo JText::_('User Settings'); ?></legend>
-							<?php echo $this->usersParams->render('userparams'); ?>
-						</fieldset>
-					</div>
-					<div class="width-100">
-						<fieldset class="adminform">
-							<legend><?php echo JText::_('Media Settings'); ?>
-								<span class="error hasTip" title="<?php echo JText::_('Warning');?>::<?php echo JText::_('WARNPATHCHANGES'); ?>">
-									<?php echo $this->warningIcon(); ?>
-								</span>
-							</legend>
-							<?php echo $this->mediaParams->render('mediaparams'); ?>
-						</fieldset>
-					</div>
 				</div>
 				<div class="width-40 fltrt">
 					<?php echo $this->loadTemplate('debug'); ?>
@@ -84,6 +68,11 @@ $this->document->addScriptDeclaration("
 					<?php echo $this->loadTemplate('database'); ?>
 					<?php echo $this->loadTemplate('mail'); ?>
 				</div>
+			</div>
+		</div>
+		<div id="page-permissions" class="tab">
+			<div class="noshow">
+				<?php echo $this->loadTemplate('permissions'); ?>
 			</div>
 		</div>
 	</div>

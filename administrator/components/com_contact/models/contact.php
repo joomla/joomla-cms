@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		
+ * @version
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -60,7 +60,7 @@ class ContactModelContact extends JModelForm
 		// Load the parameters.
 		$this->setState('params', $params);
 			}
-	
+
 
 	/**
 	 * Method to get an item.
@@ -206,7 +206,7 @@ class ContactModelContact extends JModelForm
 		$dispatcher = & JDispatcher::getInstance();
 		// Include the content plugins for the onSave events.
 		JPluginHelper::importPlugin('content');
-		
+
 		// Sanitize the ids.
 		$pks = (array) $pks;
 		JArrayHelper::toInteger($pks);
@@ -219,19 +219,19 @@ class ContactModelContact extends JModelForm
 		{
 			$table->load($itemId); // get contact for onBeforeContacttDelete event
 			$result = $dispatcher->trigger('onBeforeContacttDelete', array($table));
-			if (in_array(false, $result, true)) 
+			if (in_array(false, $result, true))
 			{
 				JError::raiseError(500, $row->getError());
 				return false;
 			}
-			
+
 			// delete row
 			if (!$table->delete($itemId))
 			{
 				$this->setError($table->getError());
 				return false;
 			}
-			
+
 			$dispatcher->trigger('onAfterContactDelete', array($itemId));
 		}
 
@@ -239,7 +239,7 @@ class ContactModelContact extends JModelForm
 		return true;
 	}
 	/**
-	 * Method to publish 
+	 * Method to publish
 	 *
 	 * @param	array	The ids of the items to publish.
 	 * @param	int		The value of the published state
@@ -297,7 +297,7 @@ class ContactModelContact extends JModelForm
 	 * @return	boolean	True on success/false on failure
 	 * @since	1.6
 	 */
-	 
+
 	public function checkin($pk = null)
 	{
 		// Initialize variables.
@@ -318,7 +318,7 @@ class ContactModelContact extends JModelForm
 				$this->setError(JText::_('JError_Checkin_user_mismatch'));
 				return false;
 			}
-			
+
 			// Attempt to check the row in.
 			if (!$table->checkin($contactId)) {
 				$this->setError($table->getError());
@@ -439,5 +439,5 @@ class ContactModelContact extends JModelForm
 		return true;
 	}
 
-	
+
 }

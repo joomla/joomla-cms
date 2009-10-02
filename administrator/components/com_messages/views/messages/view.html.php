@@ -20,7 +20,7 @@ class MessagesViewMessages extends JView
 	public $pagination;
 	public $items;
 	public $state;
-	
+
 	public function display($tpl = null)
 	{
 		$items = $this->get('Items');
@@ -30,17 +30,19 @@ class MessagesViewMessages extends JView
 		$this->assignRef('items', $items);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('state', $state);
-		
+
 		parent::display($tpl);
 		$this->_setToolbar();
 	}
-	
+
 	protected function _setToolbar()
 	{
 		JToolBarHelper::title(JText::_('READ_PRIVATE_MESSAGES'), 'inbox.png');
 		JToolBarHelper::deleteList();
 		JToolBarHelper::addNew();
 		JToolBarHelper::custom('config', 'config.png', 'config_f2.png', 'Settings', false, false);
+		JToolBarHelper::preferences('com_redirect');
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.messages.inbox');
 	}
 }

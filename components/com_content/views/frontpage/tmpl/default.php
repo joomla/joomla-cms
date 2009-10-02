@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
-// If the page class is defined, add to class as suffix. 
+// If the page class is defined, add to class as suffix.
 // It will be a separate class if the user starts it with a space
 $pageClass = $this->params->get('pageclass_sfx');
 ?>

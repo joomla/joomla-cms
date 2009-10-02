@@ -1,296 +1,59 @@
 # $Id$
 
---
--- Table structure for table `#__access_actions`
---
 
-CREATE TABLE IF NOT EXISTS `#__access_actions` (
-  `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `section_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
-  `name` varchar(100) NOT NULL default '',
-  `title` varchar(100) NOT NULL default '',
-  `description` varchar(1024) NOT NULL,
-  `access_type` tinyint(1) unsigned NOT NULL default '0',
-  `ordering` integer NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_action_name_lookup` (`section_id`,`name`),
-  KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+#
+# Table structure for table `#__assets`
+#
 
-INSERT INTO `#__access_actions` VALUES 
-(1, 1, 'core.view', 'View', '', 3, 0),
-(2, 1, 'core.checkin.manage', 'JAction_Checkin_Manage', 'JAction_Checkin_Manage_Desc', 1, 0),
-(3, 1, 'core.cache.manage', 'JAction_Cache_Manage', 'JAction_Cache_Manage_Desc', 1, 0),
-(4, 1, 'core.config.manage', 'JAction_Config_Manage', 'JAction_Config_Manage_Desc', 1, 0),
-(5, 1, 'core.installer.manage', 'JAction_Installer_Manage', 'JJAction_Installer_Manage_Desc', 1, 0),
-(6, 1, 'core.languages.manage', 'JAction_Languages_Manage', 'JAction_Languages_Manage_Desc', 1, 0),
-(7, 1, 'core.modules.manage', 'JAction_Modules_Manage', 'JAction_Modules_Manage_Desc', 1, 0),
-(8, 1, 'core.plugins.manage', 'JAction_Plugins_Manage', 'JAction_Plugins_Manage_Desc', 1, 0),
-(9, 1, 'core.templates.manage', 'JAction_Templates_Manage', 'JAction_Templates_Manage_Desc', 1, 0),
-(10, 1, 'core.menus.manage', 'JAction_Menus_Manage', 'JAction_Menus_Manage_Desc', 1, 0),
-(11, 1, 'core.users.manage', 'JAction_Users_Manage', 'JAction_Users_Manage_Desc', 1, 0),
-(12, 1, 'core.media.manage', 'JAction_Media_Manage', 'JAction_Media_Manage_Desc', 1, 0),
-(13, 1, 'core.categories.manage', 'JAction_Categories_Manage', 'JAction_Categories_Manage_Desc', 1, 0),
-(14, 1, 'core.massmail.manage', 'JAction_Massmail_Manage', 'JAction_Massmail_Manage_Desc', 1, 0),
-(15, 1, 'core.messages.manage', 'JAction_Messages_Manage', 'JAction_Messages_Manage_Desc', 1, 0),
-(16, 1, 'core.site.login', 'JAction_Site_Login', 'JAction_Site_Login_Desc', 1, -1),
-(17, 1, 'core.administrator.login', 'JAction_Administrator_Login', 'JAction_Administrator_Login_Desc', 1, -1),
-(18, 1, 'core.root', 'JAction_Root', 'JAction_Root_Desc', 1, -2),
-(19, 1, 'core.plugins.view', 'JAction_Plugins_View', 'JAction_Plugins_View_Desc', 3, 0),
-(21, 1, 'core.menu.view', 'JAction_Menu_View', 'JAction_Menu_View_Desc', 3, 0),
-(22, 2, 'com_content.manage', 'JAction_Content_Manage', 'JAction_Content_Manage_Desc', 1, 0),
-(23, 2, 'com_content.article.edit_article', 'JAction_Content_Edit_Article', 'JAction_Content_Edit_Article_Desc', 1, 0),
-(24, 2, 'com_content.article.edit_own', 'JAction_Content_Edit_Own', 'JAction_Content_Edit_Own_Desc', 1, 0),
-(25, 2, 'com_content.article.publish', 'JAction_Content_Article_Publish', 'JAction_Content_Article_Publish_Desc', 1, 0),
-(26, 2, 'com_content.article.edit', 'JAction_Content_Article_Edit', 'JAction_Content_Article_Edit_Desc', 2, 0),
-(27, 2, 'com_content.article.view', 'JAction_Content_Article_View', 'JAction_Content_Article_View_Desc', 3, 0),
-(28, 2, 'com_content.category.view', 'JAction_Content_Category_View', 'JAction_Content_Category_View_Desc', 3, 0),
-(29, 3, 'com_banners.manage', 'JAction_Banners_Manage', 'JAction_Banners_Manage_Desc', 1, 0),
-(30, 4, 'com_contact.manage', 'JAction_Contact_Manage', 'JAction_Contact_Manage_Desc', 1, 0),
-(31, 5, 'com_newsfeeds.manage', 'JAction_Newsfeeds_Manage', 'JAction_Newsfeeds_Manage_Desc', 1, 0),
-(32, 6, 'com_trash.manage', 'JAction_Trash_Manage', 'JAction_Trash_Manage_Desc', 1, 0),
-(33, 7, 'com_weblinks.manage', 'JAction_Weblinks_Manage', 'JAction_Weblinks_Manage_Desc', 1, 0),
-(34, 0, 'com_redirect.manage', 'com_redirect.manage', '', 1, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_action_rule_map`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_action_rule_map` (
-  `action_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_actions.id',
-  `rule_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
-  PRIMARY KEY  (`action_id`,`rule_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__access_action_rule_map` VALUES 
-(1, 1),
-(1, 2),
-(1, 3),
-(16, 4),
-(17, 5),
-(2, 6),
-(3, 7),
-(4, 8),
-(5, 9),
-(6, 10),
-(7, 11),
-(8, 12),
-(9, 13),
-(10, 14),
-(11, 15),
-(12, 16),
-(13, 17),
-(14, 18),
-(15, 19),
-(19, 20),
-(21, 22),
-(22, 23),
-(23, 24),
-(24, 25),
-(25, 26),
-(26, 27),
-(27, 28),
-(28, 29),
-(29, 30),
-(30, 31),
-(31, 32),
-(32, 33),
-(33, 34),
-(34, 34)
-;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_assetgroups`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_assetgroups` (
-  `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `parent_id` integer unsigned NOT NULL default '0' COMMENT 'Adjacency List Reference Id',
-  `lft` integer unsigned NOT NULL default '0' COMMENT 'Nested set lft.',
-  `rgt` integer unsigned NOT NULL default '0' COMMENT 'Nested set rgt.',
-  `title` varchar(100) NOT NULL default '',
-  `section_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
-  `section` varchar(100) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_assetgroup_title_lookup` (`section`,`title`),
-  KEY `idx_assetgroup_adjacency_lookup` (`parent_id`),
-  KEY `idx_assetgroup_nested_set_lookup` USING BTREE (`lft`,`rgt`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__access_assetgroups` VALUES 
-(1, 0, 1, 8, 'Public', 1, 'core'),
-(2, 1, 4, 5, 'Registered', 1, 'core'),
-(3, 1, 6, 7, 'Special', 1, 'core');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_assetgroup_rule_map`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_assetgroup_rule_map` (
-  `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assetgroups.id',
-  `rule_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
-  PRIMARY KEY  (`group_id`,`rule_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__access_assetgroup_rule_map` VALUES 
-(1, 1),
-(2, 2),
-(3, 3),
-(1, 20),
-(1, 21),
-(1, 22),
-(1, 27),
-(1, 28),
-(1, 29)
-;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_assets`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_assets` (
-  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `parent_id` int(11) NOT NULL default '0' COMMENT 'Nested set parent.',
-  `lft` int(11) NOT NULL default '0' COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL default '0' COMMENT 'Nested set rgt.',
-  `level` INTEGER UNSIGNED NOT NULL COMMENT 'The cached level in the nested tree.',
+CREATE TABLE IF NOT EXISTS `#__assets` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set parent.',
+  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
+  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
+  `level` int(10) unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
   `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
   `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
-  `actions` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
-  PRIMARY KEY  (`id`),
+  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
+  PRIMARY KEY (`id`),
   UNIQUE KEY `idx_asset_name` (`name`),
   KEY `idx_lft_rgt` (`lft`,`rgt`),
   KEY `idx_parent_id` (`parent_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
-INSERT INTO `#__access_assets` VALUES 
-(1, 0, 1, 9999, 0, 'root.1', 'Root Asset', '{}');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_asset_assetgroup_map`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_asset_assetgroup_map` (
-  `asset_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assets.id',
-  `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assetgroups.id',
-  PRIMARY KEY  (`asset_id`,`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__access_asset_assetgroup_map` VALUES 
-(7, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_asset_rule_map`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_asset_rule_map` (
-  `asset_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_assets.id',
-  `rule_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
-  PRIMARY KEY  (`asset_id`,`rule_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_rules`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_rules` (
-  `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `section_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
-  `section` varchar(100) NOT NULL default '0',
-  `name` varchar(100) NOT NULL default '',
-  `title` varchar(100) NOT NULL default '',
-  `description` varchar(1024) default NULL,
-  `ordering` integer NOT NULL default '0',
-  `allow` tinyint(1) unsigned NOT NULL default '0',
-  `enabled` tinyint(1) unsigned NOT NULL default '0',
-  `access_type` tinyint(1) unsigned NOT NULL default '0',
-  `updated_date` integer unsigned NOT NULL default '0',
-  `return` varchar(255) default NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_rule_name_lookup` (`section_id`,`name`),
-  KEY `idx_access_check` (`enabled`,`allow`),
-  KEY `idx_updated_lookup` (`updated_date`),
-  KEY `idx_action_section_lookup` (`section`),
-  KEY `idx_acl_manager_lookup` (`access_type`,`section_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__access_rules` VALUES 
-(1, 1, 'core', 'core.view.1', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(2, 1, 'core', 'core.view.2', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(3, 1, 'core', 'core.view.3', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(4, 1, 'core', 'core.site.login', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(5, 1, 'core', 'core.administrator.login', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(6, 1, 'core', 'core.checkin.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(7, 1, 'core', 'core.cache.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(8, 1, 'core', 'core.config.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(9, 1, 'core', 'core.installer.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(10, 1, 'core', 'core.languages.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(11, 1, 'core', 'core.modules.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(12, 1, 'core', 'core.plugins.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(13, 1, 'core', 'core.templates.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(14, 1, 'core', 'core.menus.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(15, 1, 'core', 'core.users.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(16, 1, 'core', 'core.media.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(17, 1, 'core', 'core.categories.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(18, 1, 'core', 'core.massmail.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(19, 1, 'core', 'core.messages.manage', 'SYSTEM', NULL, 0, 1, 1, 1, 0, NULL),
-(20, 1, 'core', 'core.plugins.view', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(21, 1, 'core', 'core.modules.view', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(22, 1, 'core', 'core.menu.view', 'SYSTEM', NULL, 0, 1, 1, 3, 0, NULL),
-(23, 2, 'com_content', 'com_content.manage', 'Content', NULL, 0, 1, 1, 1, 0, NULL),
-(24, 2, 'com_content', 'com_content.article.edit_article', 'Content', NULL, 0, 1, 1, 1, 0, NULL),
-(25, 2, 'com_content', 'com_content.article.edit_own', 'Content', NULL, 0, 1, 1, 1, 0, NULL),
-(26, 2, 'com_content', 'com_content.article.publish', 'Content', NULL, 0, 1, 1, 1, 0, NULL),
-(27, 2, 'com_content', 'com_content.article.edit', 'Content', NULL, 0, 1, 1, 2, 0, NULL),
-(28, 2, 'com_content', 'com_content.article.view', 'Content', NULL, 0, 1, 1, 3, 0, NULL),
-(29, 2, 'com_content', 'com_content.category.view', 'Content', NULL, 0, 1, 1, 3, 0, NULL),
-(30, 3, 'com_banners', 'com_banners.manage', 'Banners', NULL, 0, 1, 1, 1, 0, NULL),
-(31, 4, 'com_contact', 'com_contact.manage', 'Contact', NULL, 0, 1, 1, 1, 0, NULL),
-(32, 5, 'com_newsfeeds', 'com_newsfeeds.manage', 'Newsfeeds', NULL, 0, 1, 1, 1, 0, NULL),
-(33, 6, 'com_trash', 'com_trash.manage', 'Trash', NULL, 0, 1, 1, 1, 0, NULL),
-(34, 7, 'com_weblinks', 'com_weblinks.manage', 'Weblinks', NULL, 0, 1, 1, 1, 0, NULL)
-;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__access_sections`
---
-
-CREATE TABLE IF NOT EXISTS `#__access_sections` (
-  `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
-  `name` varchar(100) NOT NULL default '',
-  `title` varchar(255) NOT NULL default '',
-  `ordering` integer NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_section_name_lookup` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__access_sections` VALUES 
-(1, 'core', 'Core', -1),
-(2, 'com_content', 'Content', 0),
-(3, 'com_banners', 'Banners', 0),
-(4, 'com_contact', 'Contact', 0),
-(5, 'com_newsfeeds', 'Newsfeeds', 0),
-(6, 'com_trash', 'Trash', 0),
-(7, 'com_weblinks', 'Weblinks', 0);
+#
+# Dumping data for table `#__assets`
+#
 
-# --------------------------------------------------------
+INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)
+VALUES
+	(1,0,1,74,0,'root.1','Root Asset','{"core.admin":{"8":1},"core.login":{"2":1},"core.manage":{"7":1},"core.create":{"7":1},"core.delete":{"7":1},"core.edit":{"7":1},"core.edit.state":{"7":1}}'),
+	(2,1,2,3,1,'com_admin','com_admin','{}'),
+	(3,1,4,5,1,'com_banners','com_banners','{}'),
+	(4,1,6,7,1,'com_cache','com_cache','{"core.manage":{"6":0}}'),
+	(5,1,8,9,1,'com_checkin','com_checkin','{"core.manage":{"6":0}}'),
+	(6,1,10,11,1,'com_config','com_config','{}'),
+	(7,1,12,13,1,'com_contact','com_contact','{"core.manage":{"6":0},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(8,1,14,31,1,'com_content','com_content','{"core.manage":[],"core.create":{"5":1},"core.delete":[],"core.edit":{"5":1,"3":0},"core.edit.state":{"5":1,"4":0}}'),
+	(9,1,32,33,1,'com_cpanel','com_cpanel','{}'),
+	(10,1,34,35,1,'com_installer','com_installer','{"core.manage":{"6":0},"core.create":[],"core.delete":[],"core.edit.state":[]}'),
+	(11,1,36,37,1,'com_languages','com_languages','{"core.manage":{"6":0},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(12,1,38,39,1,'com_login','com_login','{}'),
+	(13,1,40,41,1,'com_mailto','com_mailto','{}'),
+	(14,1,42,43,1,'com_massmail','com_massmail','{}'),
+	(15,1,44,45,1,'com_media','com_media','{"core.manage":[],"core.create":{"3":1,"4":1,"5":1},"core.delete":{"5":1},"core.edit":[],"core.edit.state":[]}'),
+	(16,1,46,47,1,'com_menus','com_menus','{"core.manage":{"6":0},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(17,1,48,49,1,'com_messages','com_messages','{}'),
+	(18,1,50,51,1,'com_modules','com_modules','{"core.manage":{"6":0},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(19,1,52,53,1,'com_newsfeeds','com_newsfeeds','{}'),
+	(20,1,54,55,1,'com_plugins','com_plugins','{"core.manage":{"6":0},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(21,1,56,57,1,'com_redirect','com_redirect','{}'),
+	(22,1,58,59,1,'com_search','com_search','{}'),
+	(23,1,60,61,1,'com_templates','com_templates','{"core.manage":{"6":0,"7":0},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(24,1,62,63,1,'com_users','com_users','{"core.manage":{"6":0},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(25,1,64,71,1,'com_weblinks','com_weblinks','{}'),
+	(26,1,72,73,1,'com_wrapper','com_wrapper','{}');
+
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__banner`
@@ -326,7 +89,7 @@ CREATE TABLE `#__banner` (
   INDEX `idx_banner_catid`(`catid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__bannerclient`
@@ -344,7 +107,7 @@ CREATE TABLE `#__bannerclient` (
   PRIMARY KEY  (`cid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__bannertrack`
@@ -356,7 +119,7 @@ CREATE TABLE  `#__bannertrack` (
   `banner_id` integer unsigned NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__categories`
@@ -364,6 +127,7 @@ CREATE TABLE  `#__bannertrack` (
 
 CREATE TABLE `#__categories` (
   `id` int(11) NOT NULL auto_increment,
+  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `parent_id` int(10) unsigned NOT NULL default '0',
   `lft` int(11) NOT NULL default '0',
   `rgt` int(11) NOT NULL default '0',
@@ -386,7 +150,7 @@ CREATE TABLE `#__categories` (
   `modified_user_id` int(10) unsigned NOT NULL default '0',
   `modified_time` timestamp NOT NULL default '0000-00-00 00:00:00',
   `hits` int(10) unsigned NOT NULL default '0',
-  `language` char(7) NOT NULL,
+  `language` varchar(7) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `cat_idx` (`extension`,`published`,`access`),
   KEY `idx_access` (`access`),
@@ -397,9 +161,9 @@ CREATE TABLE `#__categories` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__categories` VALUES 
-(1, 0, 0, 17, 0, '', 'system', 'ROOT', 'root', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 20:25:13', 0, '0000-00-00 00:00:00', 0, '');
+(1, 0, 0, 0, 17, 0, '', 'system', 'ROOT', 'root', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 20:25:13', 0, '0000-00-00 00:00:00', 0, '');
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__components`
@@ -462,10 +226,11 @@ INSERT INTO `#__components` VALUES
  (35, 'Articles', '', 0, 20, 'option=com_content&view=articles', 'com_content_Articles', 'com_content', 1, '', 1, '{}', 1),
  (36, 'Categories', '', 0, 20, 'option=com_categories&view=categories&extension=com_content', 'com_content_Categories', 'com_content', 2, '', 1, '{}', 1),
  (37, 'Featured', '', 0, 20, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1),
- (38, 'Redirects', '', 0, 0, 'option=com_redirect', 'Manage Redirects', 'com_redirect', 0, 'js/ThemeOffice/component.png', 1, '{}', 1);
+ (38, 'Redirects', '', 0, 0, 'option=com_redirect', 'Manage Redirects', 'com_redirect', 0, 'js/ThemeOffice/component.png', 1, '{}', 1),
+ (39, 'Checkin', '', 0, 0, 'option=com_checkin', 'Checkin', 'com_checkin', 0, 'js/ThemeOffice/component.png', 1, '{}', 1);
 
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__contact_details`
@@ -502,7 +267,7 @@ CREATE TABLE `#__contact_details` (
   KEY `catid` (`catid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__content`
@@ -510,7 +275,7 @@ CREATE TABLE `#__contact_details` (
 
 CREATE TABLE `#__content` (
   `id` integer unsigned NOT NULL auto_increment,
-  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the jos_access_assets table.',
+  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
   `title_alias` varchar(255) NOT NULL default '',
@@ -541,7 +306,7 @@ CREATE TABLE `#__content` (
   `hits` integer unsigned NOT NULL default '0',
   `metadata` text NOT NULL,
   `featured` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Set if article is featured.',
-  `language` char(7) NOT NULL COMMENT 'The language code for the article.',
+  `language` varchar(10) NOT NULL COMMENT 'The language code for the article.',
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   PRIMARY KEY  (`id`),
   KEY `idx_section` (`sectionid`),
@@ -555,7 +320,7 @@ CREATE TABLE `#__content` (
   KEY `idx_xreference` (`xreference`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__content_frontpage`
@@ -567,7 +332,7 @@ CREATE TABLE `#__content_frontpage` (
   PRIMARY KEY  (`content_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__content_rating`
@@ -581,7 +346,7 @@ CREATE TABLE `#__content_rating` (
   PRIMARY KEY  (`content_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__core_log_items`
@@ -594,7 +359,7 @@ CREATE TABLE `#__core_log_items` (
   `hits` integer unsigned NOT NULL default '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__core_log_searches`
@@ -606,11 +371,11 @@ CREATE TABLE `#__core_log_searches` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
--- --------------------------------------------------------
+# -------------------------------------------------------
 
---
--- Table structure for table `#__extensions`
---
+#
+# Table structure for table `#__extensions`
+#
 
 CREATE TABLE `#__extensions` (
   `extension_id` INT  NOT NULL AUTO_INCREMENT,
@@ -757,7 +522,7 @@ INSERT INTO `#__extensions` VALUES
 (0, 'bluestork', 'template', 'bluestork', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'rhuk_milkyway', 'template', 'rhuk_milkyway', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__languages`
@@ -779,7 +544,7 @@ CREATE TABLE `#__languages` (
 
 CREATE TABLE `#__menu` (
   `id` integer NOT NULL auto_increment,
-  `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to jos_menu_types.menutype',
+  `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
   `alias` varchar(255) NOT NULL COMMENT 'The SEF alias of the menu item.',
   `path` varchar(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.',
@@ -788,9 +553,9 @@ CREATE TABLE `#__menu` (
   `published` tinyint(4) NOT NULL default '0' COMMENT 'The published state of the menu link.',
   `parent_id` integer unsigned NOT NULL default '0' COMMENT 'The parent menu item in the menu tree.',
   `level` integer unsigned NOT NULL default '0' COMMENT 'The relative level in the tree.',
-  `component_id` integer unsigned NOT NULL default '0' COMMENT 'FK to jos_components.id',
+  `component_id` integer unsigned NOT NULL default '0' COMMENT 'FK to #__components.id',
   `ordering` integer NOT NULL default '0' COMMENT 'The relative ordering of the menu item in the tree.',
-  `checked_out` integer unsigned NOT NULL default '0' COMMENT 'FK to jos_users.id',
+  `checked_out` integer unsigned NOT NULL default '0' COMMENT 'FK to #__users.id',
   `checked_out_time` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
   `browserNav` tinyint(4) NOT NULL default '0' COMMENT 'The click behaviour of the link.',
   `access` tinyint(3) unsigned NOT NULL default '0' COMMENT 'The access level required to view the menu item.',
@@ -812,7 +577,7 @@ INSERT INTO `#__menu` VALUES
 (1, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, 'show_page_title=1\npage_title=Welcome to the Frontpage\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n', 0, 17, 0),
 (2, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, 'show_page_title=1\r\npage_title=Welcome to the Frontpage\r\nshow_description=0\r\nshow_description_image=0\r\nnum_leading_articles=1\r\nnum_intro_articles=4\r\nnum_columns=2\r\nnum_links=4\r\nshow_title=1\r\npageclass_sfx=\r\nmenu_image=-1\r\nsecure=0\r\norderby_pri=\r\norderby_sec=front\r\nshow_pagination=2\r\nshow_pagination_results=1\r\nshow_noauth=0\r\nlink_titles=0\r\nshow_intro=1\r\nshow_section=0\r\nlink_section=0\r\nshow_category=0\r\nlink_category=0\r\nshow_author=1\r\nshow_create_date=1\r\nshow_modify_date=1\r\nshow_item_navigation=0\r\nshow_readmore=1\r\nshow_vote=0\r\nshow_icons=1\r\nshow_pdf_icon=1\r\nshow_print_icon=1\r\nshow_email_icon=1\r\nshow_hits=1\r\n\r\n', 1, 2, 1);
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__menu_template`
@@ -831,7 +596,7 @@ CREATE TABLE IF NOT EXISTS `#__menu_template` (
 INSERT INTO `#__menu_template` VALUES (1, 'rhuk_milkyway', '0', '1', 'Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
 INSERT INTO `#__menu_template` VALUES (2, 'bluestork', '1', '1', 'Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__menu_types`
@@ -847,7 +612,7 @@ CREATE TABLE `#__menu_types` (
 
 INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__messages`
@@ -866,7 +631,7 @@ CREATE TABLE `#__messages` (
   PRIMARY KEY  (`message_id`),
   KEY `useridto_state` (`user_id_to`, `state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__messages_cfg`
@@ -878,7 +643,7 @@ CREATE TABLE `#__messages_cfg` (
   `cfg_value` varchar(255) NOT NULL default '',
   UNIQUE `idx_user_var_name` (`user_id`,`cfg_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__modules`
@@ -925,7 +690,7 @@ INSERT INTO `#__modules` VALUES
 (17, 'Login Form', '', 8, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 1, 1, 'greeting=1\nname=0', 1, 0, ''),
 (18, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 1, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 1, 0, '');
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__modules_menu`
@@ -961,7 +726,7 @@ INSERT INTO `#__modules_menu` VALUES
 (17,0),
 (18,0);
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__newsfeeds`
@@ -986,7 +751,7 @@ CREATE TABLE `#__newsfeeds` (
   KEY `catid` (`catid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__redirect_links`
@@ -1007,7 +772,7 @@ CREATE TABLE `#__redirect_links` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__schemas`
@@ -1019,7 +784,7 @@ CREATE TABLE `#__schemas` (
   PRIMARY KEY (`extensionid`, `versionid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__session`
@@ -1041,7 +806,7 @@ CREATE TABLE `#__session` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 # Update Sites
 CREATE TABLE  `#__updates` (
@@ -1086,7 +851,7 @@ CREATE TABLE  `#__update_categories` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Categories';
 
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__stats_agents`
@@ -1098,11 +863,23 @@ CREATE TABLE `#__stats_agents` (
   `hits` integer unsigned NOT NULL default '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
 
---
--- Table structure for table `#__usergroups`
---
+#
+# Table structure for table `#__user_usergroup_map`
+#
+
+CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
+  `user_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
+  `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
+  PRIMARY KEY  (`user_id`,`group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+# -------------------------------------------------------
+
+#
+# Table structure for table `#__usergroups`
+#
 
 CREATE TABLE IF NOT EXISTS `#__usergroups` (
   `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
@@ -1110,77 +887,24 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
   `lft` integer NOT NULL default '0' COMMENT 'Nested set lft.',
   `rgt` integer NOT NULL default '0' COMMENT 'Nested set rgt.',
   `title` varchar(100) NOT NULL default '',
-  `section_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_sections.id',
-  `section` varchar(100) NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_usergroup_title_lookup` (`section`,`title`),
+  UNIQUE KEY `idx_usergroup_title_lookup` (`title`),
   KEY `idx_usergroup_adjacency_lookup` (`parent_id`),
   KEY `idx_usergroup_nested_set_lookup` USING BTREE (`lft`,`rgt`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__usergroups`
- (`id` ,`parent_id` ,`lft` ,`rgt` ,`title` ,`section_id` ,`section`) VALUES
- (1, 0, 1, 18, 'Public', 1, 'core'),
-(2, 1, 2, 17, 'Registered', 1, 'core'),
-(3, 2, 3, 8, 'Author', 1, 'core'),
-(4, 3, 4, 7, 'Editor', 1, 'core'),
-(5, 4, 5, 6, 'Publisher', 1, 'core'),
-(6, 2, 9, 14, 'Manager', 1, 'core'),
-(7, 6, 10, 13, 'Administrator', 1, 'core'),
-(8, 7, 11, 12, 'Super Administrator', 1, 'core');
+INSERT INTO `#__usergroups` (`id` ,`parent_id` ,`lft` ,`rgt` ,`title`)
+VALUES
+	(1,0,1,18,'Public'),
+	(2,1,2,17,'Registered'),
+	(3,4,11,12,'Author'),
+	(4,5,10,13,'Editor'),
+	(5,2,9,14,'Publisher'),
+	(6,7,4,5,'Manager'),
+	(7,2,3,6,'Administrator'),
+	(8,2,15,16,'Super Administrator');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `#__usergroup_rule_map`
---
-
-CREATE TABLE IF NOT EXISTS `#__usergroup_rule_map` (
-  `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
-  `rule_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
-  PRIMARY KEY  (`group_id`,`rule_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__usergroup_rule_map` VALUES 
-(1, 1),
-(2, 2),
-(6, 3),
-(2, 4),
-(6, 4),
-(6, 5),
-(6, 6),
-(6, 7),
-(6, 8),
-(6, 9),
-(6, 10),
-(6, 11),
-(6, 12),
-(6, 13),
-(6, 14),
-(6, 15),
-(6, 16),
-(6, 17),
-(6, 18),
-(6, 19),
-(6, 23),
-(6, 30),
-(6, 31),
-(6, 32),
-(6, 33),
-(6, 34),
-(1, 20),
-(1, 21),
-(1, 22),
-(4, 27),
-(6, 27),
-(1, 28),
-(1, 29),
-(5, 26),
-(3, 25),
-(4, 24)
-;
-
--- --------------------------------------------------------
+# -------------------------------------------------------
 
 #
 # Table structure for table `#__users`
@@ -1207,29 +931,7 @@ CREATE TABLE `#__users` (
   KEY `email` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
-
---
--- Table structure for table `#__user_rule_map`
---
-
-CREATE TABLE IF NOT EXISTS `#__user_rule_map` (
-  `user_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
-  `rule_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__access_rules.id',
-  PRIMARY KEY  (`user_id`,`rule_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__user_usergroup_map`
---
-
-CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
-  `user_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
-  `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
-  PRIMARY KEY  (`user_id`,`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+# -------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `#__user_profiles` (
   `user_id` int(11) NOT NULL,
@@ -1265,4 +967,28 @@ CREATE TABLE `#__weblinks` (
   KEY `catid` (`catid`,`state`,`archived`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# --------------------------------------------------------
+# -------------------------------------------------------
+
+#
+# Table structure for table `#__viewlevels`
+#
+
+CREATE TABLE IF NOT EXISTS `#__viewlevels` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `title` varchar(100) NOT NULL DEFAULT '',
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+#
+# Dumping data for table `#__viewlevels`
+#
+
+INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
+(1, 'Public', 0, '[]'),
+(2, 'Registered', 1, '[2]'),
+(3, 'Special', 2, '["6","7","8"]');
+
+# -------------------------------------------------------

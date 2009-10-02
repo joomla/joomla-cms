@@ -25,7 +25,7 @@ class MessagesModelMessages extends JModelList
 	 * @var string
 	 */
 	protected $_context = 'com_messages.list';
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -39,23 +39,23 @@ class MessagesModelMessages extends JModelList
 	protected function _populateState()
 	{
 		$app =& JFactory::getApplication('administrator');
-		
+
 		$filter_order		= $app->getUserStateFromRequest($this->_context.'.filter_order',	'filter_order',		'a.date_time',	'cmd');
 		$this->setState('list.ordering', $filter_order);
-		
+
 		$filter_order_Dir	= $app->getUserStateFromRequest($this->_context.'.filter_order_Dir','filter_order_Dir',	'DESC',			'word');
 		$this->setState('list.direction', $filter_order_Dir);
-		
+
 		$limit				= $app->getUserStateFromRequest('global.list.limit',			'limit',			$app->getCfg('list_limit'), 'int');
 		$this->setState('list.limit', $limit);
-		
+
 		$limitstart			= $app->getUserStateFromRequest($this->_context.'.limitstart',		'limitstart',		0,				'int');
 		$this->setState('list.limitstart', $limitstart);
-		
+
 		$search				= $app->getUserStateFromRequest($this->_context.'search',			'search',			'',				'string');
 		$this->setState('filter.search', $search);
 	}
-	
+
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *

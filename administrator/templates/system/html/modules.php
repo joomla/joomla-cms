@@ -43,7 +43,7 @@ function modChrome_sliders($module, &$params, &$attribs)
     // TODO: allowAllClose should default true in J!1.6, so remove the array when it does.
 	$sliders = &JPane::getInstance('sliders', array('allowAllClose' => true));
 
-	$editAllComponents 	= $user->authorize('core.installer.manage');
+	$editAllComponents 	= $user->authorize('core.manage', 'com_installer');
 
 	// special handling for components module
 	if ($module->module != 'mod_components' || ($module->module == 'mod_components' && $editAllComponents)) {
@@ -63,7 +63,7 @@ function modChrome_tabs($module, &$params, &$attribs)
 	$user	= &JFactory::getUser();
 	$tabs	= &JPane::getInstance('tabs');
 
-	$editAllComponents 	= $user->authorize('core.installer.manage');
+	$editAllComponents 	= $user->authorize('core.manage', 'com_installer');
 
 	// special handling for components module
 	if ($module->module != 'mod_components' || ($module->module == 'mod_components' && $editAllComponents)) {

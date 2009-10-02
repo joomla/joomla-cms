@@ -30,19 +30,6 @@ class ModulesViewModules extends JView
 
 	function display($tpl = null)
 	{
-		// Set toolbar items for the page
-		JToolBarHelper::title(JText::_('Module Manager'), 'module.png');
-		JToolBarHelper::addNew();	
-		JToolBarHelper::editList();	
-		JToolBarHelper::divider();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
-		JToolBarHelper::deleteList();
-
-		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.modules');
-
 		// Get data from the model
 		$rows		= & $this->get('Data');
 		$total		= & $this->get('Total');
@@ -64,6 +51,27 @@ class ModulesViewModules extends JView
 		$this->assignRef('filter',		$filter);
 		$this->assignRef('client',		$client);
 
+		$this->_setToolbar();
 		parent::display($tpl);
+	}
+
+	/**
+	 * Display the toolbar
+	 */
+	protected function _setToolbar()
+	{
+		JToolBarHelper::title(JText::_('Module Manager'), 'module.png');
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
+		JToolBarHelper::divider();
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+		JToolBarHelper::deleteList();
+
+		JToolBarHelper::divider();
+		JToolBarHelper::preferences('com_modules');
+		JToolBarHelper::divider();
+		JToolBarHelper::help('screen.modules');
 	}
 }

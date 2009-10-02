@@ -32,20 +32,20 @@ function submitbutton(pressbutton) {
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm">
 <div class="width-100">
-		<fieldset class="adminform">	
+		<fieldset class="adminform">
 		<legend><?php echo JText::_('NEW_PRIVATE_MESSAGE'); ?></legend>
 		<?php echo JText::_('To'); ?>:
-	
+
 		<?php echo $this->recipientslist; ?>
-	
+
 		<?php echo JText::_('Subject'); ?>:
 
 		<input type="text" name="subject" size="50" maxlength="100" class="inputbox" value="<?php echo $this->subject; ?>"/>
 
 		<?php echo JText::_('Message'); ?>:
-	
+
 		<textarea name="message" style="width:95%" rows="30" class="inputbox"></textarea>
-	</fieldset>	
+	</fieldset>
 </div>
 <input type="hidden" name="user_id_from" value="<?php echo $user->get('id'); ?>">
 <input type="hidden" name="task" value="">

@@ -54,7 +54,7 @@ class JTableExtension extends JTable
 	var $ordering = 0;
 	/** @var int state State of the extension, either default (0), discovered (-1) */
 	var $state = 0;
-	
+
 
 	/**
 	 * Contructor
@@ -110,7 +110,7 @@ class JTableExtension extends JTable
 
 		return parent::bind($array, $ignore);
 	}
-	
+
 	function find($options=Array()) {
 		$dbo =& JFactory::getDBO();
 		$where = Array();

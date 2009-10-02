@@ -96,18 +96,13 @@ window.addEvent('domready', function(){
 			<legend><?php echo JText::_('Users_Level_Details');?></legend>
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
-				
-			<?php if (!$this->item->getSectionId()) : ?>
-				<?php echo $this->form->getLabel('section_id'); ?>
-				<?php echo $this->form->getInput('section_id'); ?>
-			<?php endif; ?>
 		</fieldset>
 	</div>
 
 	<div class="width-50">
 		<fieldset>
 			<legend><?php echo JText::_('Users_User_Groups_Having_Access');?></legend>
-			<?php echo JHtml::_('access.usergroups', 'jform[groups]', $this->item->getUserGroups()); ?>
+			<?php echo JHtml::_('access.usergroups', 'jform[groups]', $this->item->groups); ?>
 		</fieldset>
 	</div>
 

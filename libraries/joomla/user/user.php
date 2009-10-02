@@ -9,6 +9,8 @@
 
 // No direct access
 defined('JPATH_BASE') or die;
+
+jimport('joomla.access.access');
 jimport('joomla.html.parameter');
 
 /**
@@ -256,30 +258,14 @@ class JUser extends JObject
 	 * object and optionally an access extension object
 	 *
 	 * @access 	public
-	 * @param	string	$acoSection	The ACO section value
-	 * @param	string	$aco		The ACO value
-	 * @param	string	$axoSection	The AXO section value	[optional]
-	 * @param	string	$axo		The AXO value			[optional]
-	 * @return	boolean	True if authorized
+	 * @param	string	The name of the action to check for permission.
+	 * @param	string	The name of the asset on which to perform the action.
+	 * @return	boolean	True if authorised
 	 * @since	1.5
 	 */
 	public function authorise($action, $assetname = null)
 	{
-		if ($assetname)
-		{
-			$acl	= & JFactory::getACL();
-			return $acl->check($this->id, $action, $assetname);
-		}
-		if ($this->_authActions === null) {
-			$this->_authActions = array();
-		}
-
-		if (!isset($this->_authActions[$action])) {
-			$acl = JFactory::getACL();
-			$this->_authActions[$action] = $acl->check($this->id, $action);
-		}
-
-		return $this->_authActions[$action];
+		return JAccess::check($this->id, $action, $assetname);
 	}
 
 	/**
@@ -289,18 +275,17 @@ class JUser extends JObject
 	 *
 	 * @return	array
 	 */
-	public function authorisedLevels($action = 'core.view')
+	public function authorisedLevels()
 	{
 		if ($this->_authLevels === null) {
 			$this->_authLevels = array();
 		}
 
-		if (!isset($this->_authLevels[$action])) {
-			$acs = JFactory::getACL();
-			$this->_authLevels[$action] = $acs->getAuthorisedAccessLevels($this->id, $action);
+		if (empty($this->_authLevels)) {
+			$this->_authLevels = JAccess::getAuthorisedViewLevels($this->id);
 		}
 
-		return $this->_authLevels[$action];
+		return $this->_authLevels;
 	}
 
 	/**

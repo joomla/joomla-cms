@@ -71,8 +71,8 @@
 			label="Newsfeeds_Link_Label"
 			description="Newsfeeds_Link_Desc"
 			required="true"
-		/>	
-		
+		/>
+
 		<field
 			id="numarticles"
 			name="numarticles"
@@ -84,7 +84,7 @@
 			description="Newsfeeds_Numarticles_Desc"
 			required="true"
 		/>
-		
+
 		<field
 			id="cache_time"
 			name="cache_time"
@@ -96,7 +96,7 @@
 			description="Newsfeeds_Cachetime_Desc"
 			required="true"
 		/>
-				
+
 		<field
 			id="ordering"
 			name="ordering"
@@ -106,7 +106,7 @@
 			label="Newsfeeds_Ordering_Label"
 			description="Newsfeeds_Ordering_Desc"
 		/>
-		
+
 		<field
 			id="rtl"
 			name="rtl"
@@ -120,8 +120,8 @@
 			<option value="1">Newsfeeds_RTL_left_to_right</option>
 			<option value="1">Newsfeeds_RTL_right_to_left</option>
 		</field>
-		
-		
+
+
 		<field
 			id="checked_out"
 			name="checked_out"
@@ -149,12 +149,12 @@
 		/>
 
 	</fields>
-	
+
 	<fields
 		group="params"
 		array="true"
 		label="Newsfeeds_Options">
-		
+
 		<field
 			id="show_headings"
 			name="show_headings"
@@ -167,7 +167,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<field
 			id="show_name"
 			name="show_name"
@@ -180,7 +180,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-			
+
 		<field
 			id="show_articles"
 			name="show_articles"
@@ -193,7 +193,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<field
 			id="show_link"
 			name="show_link"
@@ -206,9 +206,9 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<!-- Spacer -->
-		
+
 		<field
 			id="show_cat_description"
 			name="show_cat_description"
@@ -221,7 +221,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<field
 			id="show_cat_items"
 			name="show_cat_items"
@@ -234,9 +234,9 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<!-- Spacer -->
-		
+
 		<field
 			id="show_feed_image"
 			name="show_feed_image"
@@ -249,7 +249,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<field
 			id="show_feed_description"
 			name="show_feed_description"
@@ -262,7 +262,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<field
 			id="show_item_description"
 			name="show_item_description"
@@ -275,7 +275,7 @@
 			<option
 				value="1">JOption_Show</option>
 		</field>
-		
+
 		<field
 			id="feed_word_count"
 			name="feed_word_count"

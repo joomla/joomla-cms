@@ -75,9 +75,9 @@ class CategoriesViewCategories extends JView
 			),
 			'categories.png'
 		);
-		JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'New', false);	
-		JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'Edit', true);	
-		JToolBarHelper::divider();		
+		JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'New', false);
+		JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		JToolBarHelper::divider();
 		JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 		JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
 		if ($state->get('filter.published') != -1) {
@@ -93,6 +93,6 @@ class CategoriesViewCategories extends JView
 		JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.categories');
-		
+
 	}
 }

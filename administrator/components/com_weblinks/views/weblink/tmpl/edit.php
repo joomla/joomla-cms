@@ -31,43 +31,43 @@ JHtml::_('behavior.formvalidation');
 <div class="width-70 fltlft">
 	<fieldset>
 		<legend><?php echo empty($this->item->id) ? JText::_('Weblinks_New_Weblink') : JText::sprintf('Weblinks_Edit_Weblink', $this->item->id); ?></legend>
-	
+
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
-		
+
 			<?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?>
-		
+
 			<?php echo $this->form->getLabel('url'); ?>
 			<?php echo $this->form->getInput('url'); ?>
-		
+
 			<?php echo $this->form->getLabel('state'); ?>
 			<?php echo $this->form->getInput('state'); ?>
-		
+
 			<?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?>
-		
+
 			<?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?>
-		
+
 			<?php echo $this->form->getLabel('description'); ?>
 			<div class="clr"></div>
 			<?php echo $this->form->getInput('description'); ?>
-		
+
 	</fieldset>
 </div>
 <div class="width-30 fltrt">
 	<fieldset>
 		<legend><?php echo JText::_('Weblinks_Options'); ?></legend>
-		
+
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
 				<?php echo $field->label; ?>
-					
+
 				<?php echo $field->input; ?>
-				
+
 			<?php endif; ?>
 		<?php endforeach; ?>
 

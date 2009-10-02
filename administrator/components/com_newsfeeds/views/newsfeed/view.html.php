@@ -59,8 +59,8 @@ class NewsfeedsViewNewsfeed extends JView
 		JRequest::setVar('hidemainmenu', 1);
 
 		JToolBarHelper::title(JText::_('Newsfeeds_Manager_Newsfeed'));
-		JToolBarHelper::save('newsfeed.save');	
-		JToolBarHelper::apply('newsfeed.apply');	
+		JToolBarHelper::save('newsfeed.save');
+		JToolBarHelper::apply('newsfeed.apply');
 		JToolBarHelper::addNew('newsfeed.save2new', 'JToolbar_Save_and_new');
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('newsfeed.cancel');

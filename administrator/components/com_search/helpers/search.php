@@ -27,7 +27,7 @@ class SearchHelper
 			'index.php?option=com_search',
 			$vName == 'view'
 		);
-	
+
 	}
 
 	function santiseSearchWord(&$searchword, $searchphrase)

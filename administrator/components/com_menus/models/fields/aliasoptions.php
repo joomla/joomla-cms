@@ -17,7 +17,7 @@ require_once JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'fields'.DS.'list.php';
  * @subpackage	com_menus
  * @since		1.6
  */
- 
+
  //TODO add the menu name as the first level in the list display.
 class JFormFieldAliasoptions extends JFormFieldList
 {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version		
+ * @version
  * @package		Joomla.Site
  * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -14,10 +14,10 @@ defined('_JEXEC') or die;
 
 if ($this->contact->params->get('show_articles')) :
 	echo '<h3>';
-	echo JText::_('Com_Contact_Contact_Articles_Heading') ; 
+	echo JText::_('Com_Contact_Contact_Articles_Heading') ;
 	echo '</h3>';
 	echo '<ol>';
-		foreach ($this->contact->articles as $article):	
+		foreach ($this->contact->articles as $article):
 			{
 				$articlelink=
 				'<li><a href="'
@@ -28,6 +28,6 @@ if ($this->contact->params->get('show_articles')) :
 				echo $articlelink;
 			};
 		endforeach;
-	echo '</ol>';	
-endif;	
-?>	
+	echo '</ol>';
+endif;
+?>

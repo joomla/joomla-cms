@@ -20,7 +20,7 @@ class MessagesViewMessage extends JView
 	public $recipientslist;
 	public $subject;
 	public $item;
-	
+
 	public function display($tpl = null)
 	{
 		$recipientslist = $this->get('RecipientsList');
@@ -42,7 +42,7 @@ class MessagesViewMessage extends JView
 			$this->_setDefaultToolbar();
 		}
 	}
-	
+
 	protected function _setFormToolbar()
 	{
 		JToolBarHelper::title(JText::_('Write Private Message'), 'inbox.png');
@@ -50,7 +50,7 @@ class MessagesViewMessage extends JView
 		JToolBarHelper::cancel();
 		JToolBarHelper::help('screen.messages.edit');
 	}
-	
+
 	protected function _setDefaultToolbar()
 	{
 		JToolBarHelper::title(JText::_('View Private Message'), 'inbox.png');

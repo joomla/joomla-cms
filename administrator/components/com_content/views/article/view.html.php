@@ -81,7 +81,7 @@ class ContentViewArticle extends JView
 
 			JToolBarHelper::save('article.save');
 			JToolBarHelper::apply('article.apply');
-			JToolBarHelper::custom('article.save2new', 'new.png', 'new_f2.png', 'JToolbar_Save_and_new', false);			
+			JToolBarHelper::custom('article.save2new', 'new.png', 'new_f2.png', 'JToolbar_Save_and_new', false);
 		}
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('article.cancel');
@@ -89,7 +89,7 @@ class ContentViewArticle extends JView
 		else {
 			JToolBarHelper::cancel('article.cancel', 'JToolbar_Close');
 		}
-		
+
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.content.article');
 	}

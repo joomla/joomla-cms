@@ -132,6 +132,9 @@ class CategoriesModelCategory extends JModelForm
 			return false;
 		}
 
+		// Set the access control rules field compoennt value.
+		$form->setFieldAttribute('rules', 'component', $this->getState('category.extension'));
+
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_categories.edit.category.data', array());
 
@@ -243,6 +246,13 @@ class CategoriesModelCategory extends JModelForm
 		if (!$table->bind($data)) {
 			$this->setError(JText::sprintf('JTable_Error_Bind_failed', $table->getError()));
 			return false;
+		}
+
+		// Bind the rules.
+		if (isset($data['rules']))
+		{
+			$rules = new JRules($data['rules']);
+			$table->setRules($rules);
 		}
 
 		// Check the data.

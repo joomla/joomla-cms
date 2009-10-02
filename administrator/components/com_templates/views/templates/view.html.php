@@ -52,7 +52,9 @@ class TemplatesViewTemplates extends JView
 
 		JToolBarHelper::editList('edit', 'Edit');
 		//JToolBarHelper::addNew();
-		JToolBarHelper::divider();		
+		JToolBarHelper::divider();
+		JToolBarHelper::preferences('com_templates');
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.templates');
 
 		//$select[] 			= JHtml::_('select.option', '0', JText::_('Site'));

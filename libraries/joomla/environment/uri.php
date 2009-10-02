@@ -197,7 +197,7 @@ class JURI extends JObject
 
 	/**
 	 * Returns the root URI for the request.
-	 * 
+	 *
 	 * @param	boolean $pathonly If false, prepend the scheme, host and port information. Default is false..
 	 * @return	string	The root URI string.
 	 * @since	1.5
@@ -224,7 +224,7 @@ class JURI extends JObject
 
 	/**
 	 * Returns the URL for the request, minus the query.
-	 * 
+	 *
 	 * @return	string
 	 * @since	1.5
 	 */

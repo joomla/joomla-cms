@@ -10,18 +10,19 @@
 // no direct access
 defined('_JEXEC') or die;
 
-/*
- * Make sure the user is authorized to view this page
- */
-$user = & JFactory::getUser();
-if (!$user->authorize('core.plugins.manage')) {
-		$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_plugins')) {
+	return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
 }
+
+// Include dependancies
+jimport('joomla.application.component.controller');
+
+// TODO: Refactor to support latest MVC pattern.
 
 require_once(JPATH_COMPONENT.DS.'controller.php');
 
 // Create the controller
 $controller	= new PluginsController();
-
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

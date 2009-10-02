@@ -28,12 +28,36 @@ $ -> Language fix or change
 ! -> Note
 
 
+02-Oct-2009 Louis Landry
+! - Merged acl2 branch into trunk with new and improved ACL system.
+
+02-Oct2009 Andrew Eddie
+# Fix bugs in rules fields (wrong extension given).
+^ Split layout of admin mod_menu into enabled and disabled layouts.
+^ Reverse direction of user groups to allow top-down inheritance.
+
+01-Oct-2009 Louis Landry
+- Removed JFormFieldAccessSections
+- Removed JAccessHelper
+^ Drastically simplified JAccess and made all methods static.
+# Fix problem where admin session timeout produces an exception because of the request url.
+
+01-Oct-2009 Andrew Eddie
+- Removed JAccessLevel and JSimpleRule
+^ Rename jos_access_assets to jos_assets
++ Added permissions to global configuration.
++ Added permissions to component configuration.
+^ Split com_banners helper into site and admin; renamed to BannersHelper.
+
 01-Oct-2009 Ian MacLennan
  # [#16484] Changed addslashes to addcslashes in RegistryFormatPHP so that only \ and ' get slashes added.  (fix from 1.5)
 
 01-Oct-2009 Ercan Ozkaya
  ^ Replaced all $ instances to document.id for Mootools except third party classes
  + Added transliteration override support for language packs
+
+29-Sep-2009 Louis Landry
+^ Restructured the access control system and simplified the database model to use JRules and a singular nested asset tree.
 
 29-Sep-2009 Ron Severdia
 # Template Manager cleanup
@@ -45,61 +69,57 @@ $ -> Language fix or change
  # Fixed some call_user_func_array() bugs.
 
 28-Sep-2009 Ron Severdia
- # Fix visual issues in config/menus/users
- # Fix form structure & element order
- $ Fix language strings, CSS fixes
-
-28-Sep-2009 Ron Severdia
- ^ CSS cleanup
- ^ Changed commented-out to CSS hide in edit category
-
-28-Sep-2009 Ron Severdia
- # CSS fixes
- $ Missing language strings added
- ^ Replaced tables from user config
+^ CSS cleanup
+^ Changed commented-out to CSS hide in edit category
+# CSS fixes
+$ Missing language strings added
+^ Replaced tables from user config
+# Fix visual issues in config/menus/users
+# Fix form structure & element order
+$ Fix language strings, CSS fixes
 
 28-Sep-2009 Gergo Erdosi
  # Fixed bug in installation SQL file.
 
 28-Sep-2009 Andrew Eddie
- + Added JControllerForm (to support basic edit operations).
- + Added table jos_languages.
- + Added support to add and edit content languages.
- ^ Updated frontend content router to support more category path scenarios.
- + Added archived state support to JHtmlJGrid::published
- + Added ContentLanguages JForm field and JElement.
++ Added JControllerForm (to support basic edit operations).
++ Added table jos_languages.
++ Added support to add and edit content languages.
+^ Updated frontend content router to support more category path scenarios.
++ Added archived state support to JHtmlJGrid::published
++ Added ContentLanguages JForm field and JElement.
 
 26-Sep-2009 Andrew Eddie
- ^ Install from directory now remembers previous path.
- ^ Refactored language installation error messages.
- ^ Forced language installation file to require client attribute.
- ^ Refactored System Debug language strings.
- + New options in System Debug plugin to more tightly control how the untranslated string present
+^ Install from directory now remembers previous path.
+^ Refactored language installation error messages.
+^ Forced language installation file to require client attribute.
+^ Refactored System Debug language strings.
++ New options in System Debug plugin to more tightly control how the untranslated string present
 
 25-Sep-2009 Mark Dexter
- # Add extension to new Category in Content->Category Manager
+# Add extension to new Category in Content->Category Manager
 
 23-Sep-2009 Hannes Papenberg
- ^ Added class and ID to radio buttons
+^ Added class and ID to radio buttons
 
 21-Sep-2009 Mark Dexter
- ^ Merge from dextercowley branch
- ^ Layouts for frontend components
- ^ Make com_contact MVC
- ^ Fix a number of issues in in com_menus
- ^ Fix problem in administrator menu
- ^ Update strings
+^ Merge from dextercowley branch
+^ Layouts for frontend components
+^ Make com_contact MVC
+^ Fix a number of issues in in com_menus
+^ Fix problem in administrator menu
+^ Update strings
 
 21-Sep-2009 Ron Severdia
- # BlueStork CSS fixes
- + New icons
- $ Language fixes
- ^ Replace tables in components
+# BlueStork CSS fixes
++ New icons
+$ Language fixes
+^ Replace tables in components
 
 20-Sep-2009 Ron Severdia
- # BlueStork CSS fixes
- # Fixed submenu switcher
- # Visual cleanup
+# BlueStork CSS fixes
+# Fixed submenu switcher
+# Visual cleanup
 
 20-Sep-2009 Hannes Papenberg
  ^ Removed static insert for com_redirect. its now properly retrieved from the database.
@@ -119,18 +139,16 @@ $ -> Language fix or change
  # Fixed bugs in JTableNested::_getTreeRepositionData and updating of lft and rgt in JTableNested::store (rgt's were being updated first, wrong way round?).
 
 16-Sep-2009 Ron Severdia
- + BlueStork CSS updates
- # Admin interface fixes
- ^ Replace tables in administrator components & mod_online/quickicon/unread
- + New & updated language strings
++ BlueStork CSS updates
+# Admin interface fixes
+^ Replace tables in administrator components & mod_online/quickicon/unread
++ New & updated language strings
 
 15-Sep-2009 Ron Severdia
- # BlueStork CSS fixes/additions
- ^ Form tweaks for com_categories & com_content & com_users
- ^ Replace tables from com_config & com_menus
-
-15-Sep-2009 Ron Severdia
- # Accessibility improvements to com_config, mod_status. Thanks to Andrea Tarr.
+# BlueStork CSS fixes/additions
+^ Form tweaks for com_categories & com_content & com_users
+^ Replace tables from com_config & com_menus
+# Accessibility improvements to com_config, mod_status. Thanks to Andrea Tarr.
 
 13-Sep-2009 Hannes Papenberg
  + Added Profile Plugin from experimental branch. This makes it possible to extend your user profile easily.
@@ -148,11 +166,11 @@ $ -> Language fix or change
  # Fixed issue with JRoute->parse().
 
 12-Sep-2009 Ron Severdia
- # BlueStork CSS fixes
- # Article Manager cleanup
- ^ Replace tables in pane sliders
- + Robots dropdown added
- + Missing language strings added
+# BlueStork CSS fixes
+# Article Manager cleanup
+^ Replace tables in pane sliders
++ Robots dropdown added
++ Missing language strings added
 
 11-Sep-2009 Hannes Papenberg
  ^ Ability to add additional layouts with own parameters via a template added to menu manager

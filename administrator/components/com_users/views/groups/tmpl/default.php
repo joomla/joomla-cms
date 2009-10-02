@@ -38,8 +38,11 @@ JHtml::_('behavior.tooltip');
 				<th width="10%">
 					<?php echo JText::_('Users_Heading_Users_in_group'); ?>
 				</th>
+				<th width="5%">
+					<?php echo JText::_('JGrid_Heading_ID'); ?>
+				</th>
 				<th width="40%">
-					<?php //echo JText::_('Users_Heading_Group_Actions'); ?>
+					&nbsp;
 				</th>
 			</tr>
 		</thead>
@@ -65,18 +68,11 @@ JHtml::_('behavior.tooltip');
 				<td align="center">
 					<?php echo $item->user_count ? $item->user_count : ''; ?>
 				</td>
+				<td align="center">
+					<?php echo $item->id; ?>
+				</td>
 				<td>
 					&nbsp;
-					<?php
-					/*
-					// This needs to be tidied up or put in a modal
-					$actions = explode(',', $item->actions);
-					for ($i = 0, $t = count($actions); $i < $t; $i++) {
-						echo JText::_($actions[$i]);
-						echo '<br />';
-					}
-					*/
-					?>
 				</td>
 			</tr>
 			<?php

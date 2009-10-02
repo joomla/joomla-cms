@@ -64,10 +64,10 @@ $return	= base64_encode($uri->toString());
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
-					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype) ?> "> 
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype) ?> ">
 						<?php echo $this->escape($item->title); ?></a>
 					<small>( <?php echo JText::_('MENUS_MENU_MENUTYPE_LABEL') ?>
-						<?php echo '<a href="'. JRoute::_('index.php?option=com_menus&task=menu.edit&cid[]='.$item->id).' title='.   $this->escape($item->description).'">'. 
+						<?php echo '<a href="'. JRoute::_('index.php?option=com_menus&task=menu.edit&cid[]='.$item->id).' title='.   $this->escape($item->description).'">'.
 						 $this->escape($item->menutype).' </a>'; ?>)</small>
 				</td>
 				<td align="center">

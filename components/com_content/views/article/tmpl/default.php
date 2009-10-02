@@ -16,7 +16,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 $params = $this->state->get('params');
 ?>
 
-<div class="jarticle<?php echo $params->get('pageclass_sfx')?>"> 
+<div class="jarticle<?php echo $params->get('pageclass_sfx')?>">
 
 <?php if ($params->get('show_page_title', 1) && $params->get('page_title') != $this->item->title) : ?>
 	<h2>
@@ -25,7 +25,7 @@ $params = $this->state->get('params');
 <?php endif; ?>
 
 <?php if ($params->get('show_title') || $params->get('access-edit') || $params->get('show_title') ||  $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
- 
+
 <?php if ($params->get('show_title')) : ?>
 	<h3>
 		<?php if ($params->get('link_titles') && !empty($this->item->rlink)) : ?>
@@ -51,14 +51,14 @@ $params = $this->state->get('params');
 			<?php echo JHtml::_('icon.email',  $this->item, $params); ?>
 			</li>
 		<?php endif; ?>
-		
-		<?php if ($params->get('access-edit')) : ?>
+
+		<?php if ($this->user->authorise('core.edit', 'com_content.article.'.$this->item->id)) : ?>
 			<li class="jedit">
 			<?php echo JHtml::_('icon.edit', $this->item, $params); ?>
 			</li>
 		<?php endif; ?>
 	<?php else : ?>
-	
+
 		<li class="jprintscreen">
 			<?php echo JHtml::_('icon.print_screen',  $this->item, $params); ?>
 		</li>

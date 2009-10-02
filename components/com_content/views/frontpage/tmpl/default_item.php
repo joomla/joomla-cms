@@ -51,6 +51,16 @@ $params = &$this->item->params;
 
 <?php echo $this->item->event->beforeDisplayContent; ?>
 
+<?php if ($params->get('show_category')) : ?>
+	<span>
+		<?php if ($params->get('link_category')) : ?>
+			<a href="<?php echo JRoute::_(ContentRoute::category($this->item->catslug)); ?>">
+				<?php echo $this->escape($this->item->category); ?></a>
+		<?php else : ?>
+			<?php echo $this->escape($this->item->category); ?>
+		<?php endif; ?>
+	</span>
+<?php endif; ?>
 <div class="jiteminfo">
 	<?php if ($params->get('show_category')) : ?>
 		<span class="jcategory">
@@ -62,13 +72,13 @@ $params = &$this->item->params;
 			<?php endif; ?>
 		</span>
 	<?php endif; ?>
-	
+
 	<?php if ($params->get('show_create_date')) : ?>
 		<span class="jcreated-date">
 			<?php echo JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
 		</span>
 	<?php endif; ?>
-	
+
 	<?php if (intval($this->item->modified) && $params->get('show_modify_date')) : ?>
 		<span class="jmodified-date">
 			<?php echo JText::sprintf('LAST_UPDATED2', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
@@ -81,7 +91,7 @@ $params = &$this->item->params;
 		</span>
 	<?php endif; ?>
 	<?php $debugthis = $this->item; ?>
-	
+
 </div><!-- end iteminfo -->
 
 <?php echo $this->item->introtext; ?>

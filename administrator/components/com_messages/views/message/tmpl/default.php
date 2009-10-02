@@ -10,25 +10,25 @@ defined('_JEXEC') or die;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm">
 <div class="width-60 fltlft">
-		<fieldset class="adminform">	
+		<fieldset class="adminform">
 		<legend><?php echo JText::_('NEW_PRIVATE_MESSAGE'); ?></legend>
 
 			<?php echo JText::_('From'); ?>:
-		
+
 			<?php echo $this->item->user_from;?>
-		
+
 			<?php echo JText::_('Posted'); ?>:
-		
+
 			<?php echo $this->item->date_time;?>
-		
+
 			<?php echo JText::_('Subject'); ?>:
-		
+
 			<?php echo $this->item->subject;?>
-	
+
 			<?php echo JText::_('Message'); ?>:
-		
+
 			<pre><?php echo htmlspecialchars($this->item->message, ENT_COMPAT, 'UTF-8');?></pre>
-	</fieldset>	
+	</fieldset>
 
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="1" />

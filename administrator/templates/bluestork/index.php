@@ -126,7 +126,7 @@ $app	= &JFactory::getApplication();
 </div>
 </div>
 	<div id="border-bottom"><div><div></div></div></div>
-	
+
 	<jdoc:include type="modules" name="footer" style="none"  />
 
 </body>

@@ -96,7 +96,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 	</div>
 	<div class="wrap">&nbsp;</div>
 
-<?php if ($this->user->authorize('com_content', 'publish', 'content', 'all')) : ?>
+<?php if ($this->user->authorize('core.edit.state', 'com_content')) : ?>
 
 	<div class="radio">
 		<label for="state" >

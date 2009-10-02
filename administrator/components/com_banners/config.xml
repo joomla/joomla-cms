@@ -12,7 +12,7 @@
 			<option
 				value="1">JYES</option>
 		</field>
-		
+
 		<field
 			name="track_clicks"
 			type="radio"
@@ -24,12 +24,28 @@
 			<option
 				value="1">JYES</option>
 		</field>
-		
+
 		<field
 			name="tag_prefix"
 			type="text"
 			default=""
 			label="TAG PREFIX LABEL"
 			description="TAG PREFIX DESC" />
+	</fields>
+
+	<fields
+		group="permissions"
+		label="JConfig_Permissions_Label"
+		description="JConfig_Permissions_Desc"
+		hidden="true">
+
+		<field
+			name="rules"
+			type="rules"
+			label="JConfig_Permissions_Label"
+			class="inputbox"
+			filter="rules"
+			component="com_banners"
+			section="component" />
 	</fields>
 </config>

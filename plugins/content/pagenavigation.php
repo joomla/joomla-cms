@@ -12,7 +12,7 @@ jimport('joomla.plugin.plugin');
 
 /**
  * Pagenavigation plugin class.
- * 
+ *
  * @package		Joomla
  * @subpackage	plg_pagenavigation
  */
@@ -36,7 +36,7 @@ class plgContentPagenavigation extends JPlugin
 
 			$uid = $row->id;
 			$option = 'com_content';
-			$canPublish = $user->authorize('com_content', 'publish', 'content', 'all');
+			$canPublish = $user->authorize('core.edit.state', $option.'.'.$view.'.'.$row->id);
 
 			// The following is needed as different menu items types utilise a different param to control ordering.
 			// For Blogs the `orderby_sec` param is the order controlling param.

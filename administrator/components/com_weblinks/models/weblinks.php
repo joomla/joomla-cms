@@ -124,7 +124,7 @@ class WeblinksModelWeblinks extends JModelList
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__access_assetgroups AS ag ON ag.id = a.access');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Filter on the access level.
 		if ($access = $this->getState('filter.access')) {

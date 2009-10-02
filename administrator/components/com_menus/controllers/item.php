@@ -125,11 +125,11 @@ class MenusControllerItem extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
-		
+
 		$app	= &JFactory::getApplication();
 		// Get the previous menu item id (if any) and the current menu item id.
 		$previousId	= (int) $app->getUserState('com_content.edit.item.id');
-		
+
 		$model	= &$this->getModel('Item');
 
 
@@ -140,8 +140,8 @@ class MenusControllerItem extends JController
 		// Check-in failed, go back to the menu item and display a notice.
 			$message = JText::sprintf('JError_Checkin_failed', $model->getError());
 			$this->setRedirect('index.php?option=com_content&view=item&layout=edit', $message, 'error');
-			return false;		
-			
+			return false;
+
 		}
 
 				// Clear the row edit information from the session.
@@ -318,7 +318,7 @@ class MenusControllerItem extends JController
 	{
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
-		
+
 		// Get the type.
 		$type = JRequest::getVar('type');
 		$type = json_decode(base64_decode($type));
@@ -355,7 +355,7 @@ class MenusControllerItem extends JController
 				//$app->setUserState('com_menus.edit.item.type',	$type->type);
 				//	$app->setUserState('com_menus.edit.item.link',	null);
 		//}
-		
+
 		$this->type=$type;
 		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
 	}

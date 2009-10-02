@@ -122,6 +122,33 @@ class ConfigModelComponent extends JModelForm
 		$cache = &JFactory::getCache('com_content');
 		$cache->clean();
 
+		// Save the rules.
+		if (isset($data['params']) && isset($data['params']['rules']))
+		{
+			// TODO: Access access check. Possible to spoof the ACL from another extension.
+
+			// Load the complete table data to get the option.
+			$table->load();
+
+			jimport('joomla.access.rules');
+			$rules	= new JRules($data['params']['rules']);
+			$asset	= JTable::getInstance('asset');
+			if ($asset->loadByName($table->option))
+			{
+				$asset->rules = (string) $rules;
+				if (!$asset->check() || !$asset->store())
+				{
+					$this->setError($asset->getError());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError('Config_Error_Component_asset_not_found');
+				return false;
+			}
+		}
+
 		return true;
 	}
 

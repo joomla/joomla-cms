@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Provide many supporting API functions.
  *
  * @package		Joomla.Administrator
- * @subpackage	Application	
+ * @subpackage	Application
  */
 class JAdministratorHelper
 {

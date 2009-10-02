@@ -31,7 +31,7 @@ class JElementContact extends JElement
 			$contact->load($value);
 		} else {
 			$contact->title = JText::_('Contact_Element_Contact_Select');
-		}		
+		}
 				$js = "
 		function jSelectContact(id, name, object) {
 			document.getElementById(object + '_id').value = id;
@@ -47,6 +47,6 @@ class JElementContact extends JElement
 		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('Contact_Select_Contact').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('Contact_Select').'</a></div></div>'."\n";
 		$html .= "\n".'<input type="hidden" id="'.$name.'_id" name="'.$fieldName.'" value="'.(int)$value.'" />';
 
-		return $html;		
+		return $html;
 	}
 }

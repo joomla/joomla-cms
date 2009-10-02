@@ -292,4 +292,20 @@
 			description="Content_Attribs_Filter_Attributes_Desc"
 			default="" />
 	</fields>
+
+	<fields
+		group="permissions"
+		label="JConfig_Permissions_Label"
+		description="JConfig_Permissions_Desc"
+		hidden="true">
+
+		<field
+			name="rules"
+			type="rules"
+			label="JConfig_Permissions_Label"
+			class="inputbox"
+			filter="rules"
+			component="com_content"
+			section="component" />
+	</fields>
 </config>

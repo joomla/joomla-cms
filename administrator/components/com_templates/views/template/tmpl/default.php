@@ -29,7 +29,7 @@
 				echo '<a href="'.JRoute::_('index.php?option=com_templates&task=setdefault&id='.$set->id).'">default</a>';
 			} ?></td>
 			<td><a href="<?php echo JRoute::_('index.php?option=com_templates&task=delete&template='.$this->template.'&id='.$set->id); ?>">
-				<?php echo '<img src="templates/'.$this->template.'/images/menu/icon-16-delete.png"  alt="'.JText::_('Delete').'" />' ; ?> 
+				<?php echo '<img src="templates/'.$this->template.'/images/menu/icon-16-delete.png"  alt="'.JText::_('Delete').'" />' ; ?>
 				</a>
 			</td>
 		</tr>

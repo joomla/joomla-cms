@@ -20,7 +20,7 @@
 			label="Category"
 			description="fieldCATSELECT" />
 	</fields>
-	
+
 	<fields
 		group="basic"
 		label="Menus_Layout_Basic_Options_Label"

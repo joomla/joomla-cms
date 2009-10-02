@@ -12,7 +12,7 @@ jimport('joomla.plugin.plugin');
 
 /**
  * Vote plugin.
- * 
+ *
  * @package		Joomla
  * @subpackage	plg_vote
  */

@@ -37,7 +37,7 @@ JHtml::_('behavior.formvalidation');
 		<fieldset>
 			<legend><?php echo empty($this->item->id) ? JText::_('Contact_New_Contact') : JText::sprintf('Contact_Edit_Contact', $this->item->id); ?></legend>
 
-		
+
 				<div>
 					<?php echo $this->form->getLabel('name'); ?><br />
 					<?php echo $this->form->getInput('name'); ?>
@@ -76,57 +76,57 @@ JHtml::_('behavior.formvalidation');
 		<div  style="float:left">
 		<?php echo $pane->startPane('contact-pane'); ?>
 			<?php echo $pane->startPanel(JText::_('Contact_Details'), 'basic-options'); ?>
-			<legend><?php echo empty($this->item->id) ? JText::_('Contact_Contact_Details') : JText::sprintf('Contact_Edit_Details', $this->item->id); ?></legend>	
+			<legend><?php echo empty($this->item->id) ? JText::_('Contact_Contact_Details') : JText::sprintf('Contact_Edit_Details', $this->item->id); ?></legend>
 				<ol>
 					<li>
 						<?php echo $this->form->getLabel('con_position'); ?><br />
 						<?php echo $this->form->getInput('con_position'); ?>
-					</li>	
+					</li>
 					<li>
 						<?php echo $this->form->getLabel('email_to'); ?><br />
 						<?php echo $this->form->getInput('email_to'); ?>
-					</li>	
+					</li>
 					<li>
 						<?php echo $this->form->getLabel('address'); ?><br />
 						<?php echo $this->form->getInput('address'); ?>
-					</li>	
+					</li>
 					<li>
 						<?php echo $this->form->getLabel('suburb'); ?><br />
 						<?php echo $this->form->getInput('suburb'); ?>
-					</li>	
+					</li>
 					<li>
 						<?php echo $this->form->getLabel('state'); ?><br />
 						<?php echo $this->form->getInput('state'); ?>
-					</li>	
+					</li>
 					<li>
 						<?php echo $this->form->getLabel('postcode'); ?><br />
 						<?php echo $this->form->getInput('postcode'); ?>
-					</li>	
+					</li>
 					<li>
 						<?php echo $this->form->getLabel('country'); ?><br />
 						<?php echo $this->form->getInput('country'); ?>
-					</li>	
+					</li>
 					<li>
 						<?php echo $this->form->getLabel('telephone'); ?><br />
 						<?php echo $this->form->getInput('telephone'); ?>
-					</li>	
+					</li>
 					<li>
 						<?php echo $this->form->getLabel('mobile'); ?><br />
 						<?php echo $this->form->getInput('mobile'); ?>
-					</li>	
+					</li>
 					<li>
 						<?php echo $this->form->getLabel('webpage'); ?><br />
 						<?php echo $this->form->getInput('webpage'); ?>
-					</li>	
+					</li>
 					<li>
 						<?php echo $this->form->getLabel('misc'); ?><br />
 						<?php echo $this->form->getInput('misc'); ?>
-					</li>				
+					</li>
 				</ol>
 
 			<?php echo $pane->endPanel(); ?>
 			<?php echo $pane->startPanel(JText::_('Contact_Fieldset_Options'), 'display-options'); ?>
-						<legend><?php echo empty($this->item->id) ? JText::_('Contact_Display_Details') : JText::sprintf('Contact_Display_Details', $this->item->id); ?></legend>	
+						<legend><?php echo empty($this->item->id) ? JText::_('Contact_Display_Details') : JText::sprintf('Contact_Display_Details', $this->item->id); ?></legend>
 				<table>
 					<?php foreach($this->form->getFields('params') as $field): ?>
 						<?php if ($field->hidden): ?>
@@ -170,7 +170,7 @@ JHtml::_('behavior.formvalidation');
 						<?php echo $this->form->getInput('banned_text'); ?>
 					</li>
 				<ol>
-			
+
 			<?php echo $pane->endPanel(); ?>
 
 		<?php echo $pane->endPane(); ?>

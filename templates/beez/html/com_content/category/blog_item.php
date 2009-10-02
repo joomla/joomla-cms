@@ -3,7 +3,7 @@ defined('_JEXEC') or die;
 $app = &JFactory::getApplication();
 ?>
 
-<?php if ($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own')) : ?>
+<?php if ($this->user->authorize('core.edit', 'com_content.article.'.$this->item->id)) : ?>
 <div class="contentpaneopen_edit<?php echo $this->item->params->get('pageclass_sfx'); ?>">
 	<?php echo JHtml::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
 </div>

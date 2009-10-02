@@ -33,7 +33,7 @@ class AdminViewSysinfo extends JView
 	protected $info=null;
 	/**
 	 * @var string php info
-	 */ 
+	 */
 	protected $php_info=null;
 	/**
 	 * @var array informations about writable state of directories
@@ -53,7 +53,7 @@ class AdminViewSysinfo extends JView
 		$directory = & $this->get('directory');
 		// Has to be removed (present in the config)
 		$editor = & $this->get('editor');
-		
+
 		// Assign values to the view
 		$this->assignRef('php_settings', $php_settings);
 		$this->assignRef('config', $config);
@@ -65,10 +65,10 @@ class AdminViewSysinfo extends JView
 
 		// Setup the toobar
 		$this->_setToolbar();
-		
+
 		// Setup the menu
 		$this->_setSubMenu();
-		
+
 		// Display the view
 		parent::display($tpl);
 	}

@@ -20,16 +20,16 @@ $pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
 		echo $pane->startPanel(JText::_($label), 'publishing-details');
 			if (isset($fieldSet['description'])) :
 				echo '<p class="tip" style="float:right;">'.JText::_($fieldSet['description']).'</p>';
-			endif;	
+			endif;
 			?>
-		<fieldset>		
+		<fieldset>
 			<?php
 				foreach ($this->paramsform->getFields($name) as $field) :
 			?>
 			<div class="paramrow" />
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
-			</div>							
+			</div>
 			<?php
 				endforeach;
 			?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
@@ -62,7 +62,7 @@ $user	= &JFactory::getUser();
 		$img = $row->state ? 'tick.png' : 'publish_x.png';
 		$alt = $row->state ? JText::_('Read') : JText::_('Read');
 
-		if ($user->authorize('core.users.manage')) {
+		if ($user->authorize('core.manage', 'com_users')) {
 			$linkA 	= 'index.php?option=com_users&view=user&task=edit&cid[]='. $row->user_id_from;
 			$author = '<a href="'. JRoute::_($linkA) .'" title="'. JText::_('Edit User') .'">'. $row->user_from .'</a>';
 		} else {
