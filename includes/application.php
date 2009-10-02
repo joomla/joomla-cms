@@ -192,7 +192,7 @@ final class JSite extends JApplication
 		}
 
 		// Set the access control action to check.
-		$options['action'] = 'core.site.login';
+		$options['action'] = 'core.login';
 
 		return parent::login($credentials, $options);
 	}

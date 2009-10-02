@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Oct-2009 Andrew Eddie
+# Fixed bug preventing frontend login.
 
 02-Oct-2009 Louis Landry
 ! - Merged acl2 branch into trunk with new and improved ACL system.
