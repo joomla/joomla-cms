@@ -50,7 +50,8 @@ class ContentViewFeatured extends JView
 	 */
 	protected function _setToolbar()
 	{
-		$state = $this->get('State');
+		$user = JFactory::getUser();
+
 		JToolBarHelper::title(JText::_('Content_Featured_Title'), 'frontpage.png');
 
 		if ($user->authorise('core.create', 'com_content')) {
@@ -63,7 +64,7 @@ class ContentViewFeatured extends JView
 		if ($user->authorise('core.edit.state', 'com_content')) {
 			JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 			JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
-			if ($state->get('filter.published') != -1) {
+			if ($this->state->get('filter.published') != -1) {
 				JToolBarHelper::archiveList('articles.archive');
 			}
 			JToolBarHelper::custom('featured.delete','delete.png','delete_f2.png','JToolbar_Remove', true);
