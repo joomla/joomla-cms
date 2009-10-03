@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Oct-2009 Ron Severdia
+# Clean up edit category layout
+# CSS fixes for high-contrast/text sizer parameters
+
 03-Oct-2009 Andrew Eddie
 # Fixed bug preventing frontend login.
 

@@ -7,8 +7,24 @@
  */
 
 
-body {
+body, th, td {
 	font-size: 14px;
 	color: #000000;
-	line-height: 140%;
+	line-height: 150%;
+}
+div.pagetitle h2 {
+	font-size:26px;
+}
+#menu a, #menu div {
+	font-size:13px;
+	line-height:1.7em;
+
+}
+#menu ul a {
+	font-size:13px;
+	line-height:1.3em;
+}
+
+form label {
+	font-size:13px;
 }
