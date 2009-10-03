@@ -88,13 +88,13 @@ abstract class JHtml
 
 				if (!class_exists($className))
 				{
-					JError::raiseWarning(0, $className.'::' .$func. ' not found in file.');
+					JError::raiseError(500, $className.'::' .$func. ' not found in file.');
 					return false;
 				}
 			}
 			else
 			{
-				JError::raiseWarning(0, $prefix.$file . ' not supported. File not found.');
+				JError::raiseError(500, $prefix.$file . ' not supported. File not found.');
 				return false;
 			}
 		}
@@ -110,7 +110,7 @@ abstract class JHtml
 		}
 		else
 		{
-			JError::raiseWarning(0, $className.'::'.$func.' not supported.');
+			JError::raiseError(500, $className.'::'.$func.' not supported.');
 			return false;
 		}
 	}
@@ -174,7 +174,7 @@ abstract class JHtml
 			return call_user_func_array($function, $temp);
 		}
 		else {
-			// TODO raiseError here?
+			JError::raiseError(500, 'Function not supported.');
 			return false;
 		}
 	}
