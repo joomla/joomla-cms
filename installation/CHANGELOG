@@ -27,6 +27,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Oct-2009 Ercan Ozkaya
+ + Added content form view for frontend
+ ^ Changed error handling in JHtml
+ - Removed reduntant allowAllClose option from calls to JPaneSliders
+ # Fixed a broken index.html file
+ # Fixed an incomplete CSRF check
+ # Fixed access check in frontpage
+ # Fixed a fatal error in com_content
+
 02-Oct-2009 Ron Severdia
 # Clean up edit category layout
 # CSS fixes for high-contrast/text sizer parameters
