@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
+$pane = &JPane::getInstance('sliders');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');

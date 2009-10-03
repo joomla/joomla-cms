@@ -40,8 +40,7 @@ function modChrome_sliders($module, &$params, &$attribs)
 	jimport('joomla.html.pane');
 	// Initialize variables
 	$user = &JFactory::getUser();
-    // TODO: allowAllClose should default true in J!1.6, so remove the array when it does.
-	$sliders = &JPane::getInstance('sliders', array('allowAllClose' => true));
+	$sliders = &JPane::getInstance('sliders');
 
 	$editAllComponents 	= $user->authorize('core.manage', 'com_installer');
 

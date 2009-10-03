@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 $template = JFactory::getApplication()->getTemplate();
 
 jimport('joomla.html.pane');
-$pane = &JPane::getInstance('tabs', array('allowAllClose' => true));
+$pane = &JPane::getInstance('tabs');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');

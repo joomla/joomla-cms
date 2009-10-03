@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
+$pane = &JPane::getInstance('sliders');
 	$fieldSets = $this->paramsform->getFieldsets();
 	foreach ($fieldSets as $name => $fieldSet) :
 		if (isset($fieldSet['hidden']) && $fieldSet['hidden'] == true || $name == 'request') :

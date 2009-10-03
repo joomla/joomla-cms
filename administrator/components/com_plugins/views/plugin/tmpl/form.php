@@ -109,8 +109,7 @@
 	<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 	<?php
 		jimport('joomla.html.pane');
-        // TODO: allowAllClose should default true in J!1.6, so remove the array when it does.
-		$pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
+		$pane = &JPane::getInstance('sliders');
 		echo $pane->startPane('plugin-pane');
 		echo $pane->startPanel(JText :: _('Plugin Parameters'), 'param-page');
 		if($output = $this->params->render('params')) :

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders', array('allowAllClose' => true));
+$pane = &JPane::getInstance('sliders');
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
