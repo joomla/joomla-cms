@@ -155,7 +155,7 @@ class ContentControllerArticle extends JController
 	function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken();
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
 		$app	= &JFactory::getApplication();
