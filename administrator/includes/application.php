@@ -115,8 +115,12 @@ class JAdministrator extends JApplication
 	 *
 	 * @param	string	The component to dispatch.
 	 */
-	public function dispatch($component)
+	public function dispatch($component = null)
 	{
+		if ($component === null) {
+			$component = JAdministratorHelper::findOption();
+		}
+
 		$document	= &JFactory::getDocument();
 		$user		= &JFactory::getUser();
 

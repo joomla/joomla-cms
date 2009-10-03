@@ -17,48 +17,32 @@ require_once JPATH_BASE.DS.'includes'.DS.'framework.php';
 // Mark afterLoad in the profiler.
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
-/*
- * Instantiate the application.
- */
+// Instantiate the application.
 $app = &JFactory::getApplication('site');
 
-/*
- * Initialise the application.
- */
+// Initialise the application.
 $app->initialise();
 
 // Mark afterIntialise in the profiler.
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 
-/*
- * Route the application.
- */
+// Route the application.
 $app->route();
-
-// authorization
-$Itemid = JRequest::getInt('Itemid');
-$app->authorize($Itemid);
 
 // Mark afterRoute in the profiler.
 JDEBUG ? $_PROFILER->mark('afterRoute') : null;
 
-/*
- * Dispatch the application.
- */
+// Dispatch the application.
 $app->dispatch();
 
 // Mark afterDispatch in the profiler.
 JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
 
-/*
- * Render the application.
- */
+// Render the application.
 $app->render();
 
 // Mark afterRender in the profiler.
 JDEBUG ? $_PROFILER->mark('afterRender') : null;
 
-/*
- * Return the response.
- */
+// Return the response.
 echo JResponse::toString($app->getCfg('gzip'));

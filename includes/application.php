@@ -81,6 +81,18 @@ final class JSite extends JApplication
 	}
 
 	/**
+	 * Route the application.
+	 *
+	 */
+	public function route()
+ 	{
+ 		parent::route();
+
+ 		$Itemid = JRequest::getInt('Itemid');
+		$this->authorize($Itemid);
+ 	}
+
+	/**
 	 * Dispatch the application
 	 *
 	 * @param	string
@@ -214,7 +226,7 @@ final class JSite extends JApplication
 				$return		= $uri->toString();
 
 				$url  = 'index.php?option=com_users&view=login';
-				$url .= '&return='.base64_encode($return);;
+				$url .= '&return='.base64_encode($return);
 
 				//$url	= JRoute::_($url, false);
 				$this->redirect($url, JText::_('You must login first'));
