@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			id="id"
+			name="id"
+			type="hidden"
+			class="inputbox"
+			label="Content_Id_Label"
+			size="10"
+			default="0"
+			required="true"
+			readonly="true" />
+
+		<field
+			id="title"
+			name="title"
+			type="text"
+			label="JField_Title_Label"
+			description="JField_Title_Desc"
+			class="inputbox"
+			size="30"
+			required="true" />
+
+		<field
+			id="alias"
+			name="alias"
+			type="text"
+			label="JField_Alias_Label"
+			description="JField_Alias_Desc"
+			class="inputbox"
+			size="45"
+			default=""
+			filter="unset" />
+		<!-- this is for rendering -->
+		<field
+			id="text"
+			name="text"
+			type="editor"
+			label="Content_Text_Label"
+			description="Content_Text_Desc"
+			class="inputbox"
+			filter="unset"
+			required="true" />
+
+		<!-- and these two are for saving -->
+		<field
+			id="introtext"
+			name="introtext"
+			type="editor"
+			filter="safehtml"
+			required="true" />
+
+		<field
+			id="fulltext"
+			name="fulltext"
+			type="editor"
+			filter="safehtml" />
+
+		<field
+			id="state"
+			name="state"
+			type="list"
+			label="JField_Published_Label"
+			description="JField_Published_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option
+				value="1">
+				JOption_Published</option>
+			<option
+				value="0">
+				JOption_UnPublished</option>
+			<option
+				value="-1">
+				JOption_Archived</option>
+			<option
+				value="-2">
+				JOption_Trashed</option>
+		</field>
+
+		<field
+			id="catid"
+			name="catid"
+			type="Categories"
+			extension="com_content"
+			label="JField_Category_Label"
+			description="JField_Category_Desc"
+			class="inputbox"
+			required="true">
+			<option
+				value="0">JOption_No_Category</option>
+		</field>
+
+		<field
+			id="created"
+			name="created"
+			type="calendar"
+			filter="unset" />
+		<field
+			id="created_by"
+			name="created_by"
+			type="text"
+			filter="unset" />
+
+		<field
+			id="created_by_alias"
+			name="created_by_alias"
+			type="text"
+			label="Content_Created_by_alias_Label"
+			description="Content_Created_by_alias_Desc"
+			class="inputbox"
+			size="20"
+			default="" />
+
+		<field
+			id="publish_up"
+			name="publish_up"
+			type="calendar"
+			label="Content_Publish_up_Label"
+			description="Content_Publish_up_Desc"
+			class="inputbox"
+			format="%Y-%m-%d %H-%M-%S"
+			size="30"
+			default="" />
+
+		<field
+			id="publish_down"
+			name="publish_down"
+			type="calendar"
+			label="Content_Publish_down_Label"
+			description="Content_Publish_down_Desc"
+			class="inputbox"
+			format="%Y-%m-%d %H-%M-%S"
+			size="30"
+			default="" />
+
+		<field
+			id="ordering"
+			name="ordering"
+			type="ordering"
+			label="JField_Ordering_Label"
+			description="JField_Ordering_Desc"
+			class="inputbox"
+			size="6"
+			default="0" />
+
+		<field
+			id="metakey"
+			name="metakey"
+			type="textarea"
+			label="JField_Meta_Keywords_Label"
+			description="JField_Meta_Keywords_Desc"
+			class="inputbox"
+			rows="5"
+			cols="50"
+			default="" />
+
+		<field
+			id="metadesc"
+			name="metadesc"
+			type="textarea"
+			label="JField_Meta_Description_Label"
+			description="JField_Meta_Description_Desc"
+			class="inputbox"
+			rows="5"
+			cols="50"
+			default="" />
+
+		<field
+			id="access"
+			name="access"
+			type="accesslevels"
+			label="JField_Access_Label"
+			description="JField_Access_Desc"
+			class="inputbox"
+			size="1"
+			default="" />
+	</fields>
+</form>

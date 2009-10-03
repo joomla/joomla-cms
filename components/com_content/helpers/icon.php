@@ -25,7 +25,7 @@ class JHTMLIcon
 		$uri = &JFactory::getURI();
 		$ret = $uri->toString();
 
-		$url = 'index.php?task=new&ret='.base64_encode($ret).'&id=0&sectionid='.$article->sectionid;
+		$url = 'index.php?option=com_contenttask=article.add&return='.base64_encode($ret).'&id=0&sectionid='.$article->sectionid;
 
 		if ($params->get('show_icons')) {
 			$text = JHtml::_('image.site', 'new.png', '/images/system/', NULL, NULL, JText::_('New'));
@@ -79,7 +79,7 @@ class JHTMLIcon
 
 		JHtml::_('behavior.tooltip');
 
-		$url = 'index.php?view=article&id='.$article->slug.'&task=edit&ret='.base64_encode($ret);
+		$url = 'index.php?task=article.edit&id='.$article->id.'&return='.base64_encode($ret);
 		$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
 		$text = JHtml::_('image.site', $icon, '/images/system/', NULL, NULL, JText::_('Edit'));
 
@@ -89,7 +89,7 @@ class JHTMLIcon
 			$overlib = JText::_('Published');
 		}
 		$date = JHtml::_('date', $article->created);
-		$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
+		$author = $article->created_by_alias ? $article->created_by_alias : $article->created_by;
 
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;

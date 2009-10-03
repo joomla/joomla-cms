@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout
+		title="com_content_form_view_default_title">
+		<message>
+			<![CDATA[com_content_form_view_default_desc]]>
+		</message>
+	</layout>
+</metadata>
