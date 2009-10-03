@@ -37,7 +37,7 @@ $params = &$this->item->params;
 			<?php echo JHtml::_('icon.email', $this->item, $params); ?>
 		</li>
 		<?php endif; ?>
-		<?php if ($params->get('access-edit')) : ?>
+		<?php if ($this->user->authorise('core.edit', 'com_content.article.'.$this->item->id)) : ?>
 		<li class="jedit">
 			<?php echo JHtml::_('icon.edit', $this->item, $params); ?>
 		</li>
