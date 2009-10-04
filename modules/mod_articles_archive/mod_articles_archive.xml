@@ -10,7 +10,7 @@
 	<version>1.5.0</version>
 	<description>DESCARCHIVE</description>
 	<files>
-		<filename module="mod_archive">mod_archive.php</filename>
+		<filename module="mod_articles_archive">mod_articles_archive</filename>
 	</files>
 	<params>
 		<param name="count" type="text" default="10" label="Count" description="The number of items to display (default is 10)" />
