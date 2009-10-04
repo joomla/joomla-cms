@@ -31,6 +31,7 @@ abstract class ContentHelperRoute
 	{
 		if ($catid)
 		{
+			jimport('joomla.application.categories');
 			$categoryTree = JCategories::getInstance('com_content');
 			$category = $categoryTree->get($catid);
 			$catids = array();
@@ -65,6 +66,7 @@ abstract class ContentHelperRoute
 
 	public static function getCategoryRoute($catid)
 	{
+		jimport('joomla.application.categories');
 		$categoryTree = JCategories::getInstance('com_content');
 		$category = $categoryTree->get($catid);
 		$catids = array();

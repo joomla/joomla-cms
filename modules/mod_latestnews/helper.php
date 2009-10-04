@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Site
- * @subpackage	mod_latestnews
+ * @subpackage	mod_articles_latest
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -11,99 +11,83 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
+JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'models');
 
-class modLatestNewsHelper
+abstract class modArticlesLatestHelper
 {
-	function getList(&$params)
+	public static function getList(&$params)
 	{
-		$db			= &JFactory::getDbo();
-		$user		= &JFactory::getUser();
-		$userId		= (int) $user->get('id');
+		// Get an instance of the generic articles model
+		$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
-		$count		= (int) $params->get('count', 5);
-		$catid		= trim($params->get('catid'));
-		$show_front	= $params->get('show_front', 1);
-		$groups		= $user->authorisedLevels();
-		$groupsA	= implode(',', $groups);
+		// Set application parameters in model
+		$appParams = JFactory::getApplication()->getParams();
+		$model->setState('params', $appParams);
 
-		$contentConfig = &JComponentHelper::getParams('com_content');
-		$access		= !$contentConfig->get('show_noauth');
+		// Set the filters based on the module params
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', (int) $params->get('count', 5));
+		$model->setState('filter.published', 1);
 
-		$nullDate	= $db->getNullDate();
+		// Access filter
+		$access = !JComponentHelper::getParams('com_content')->get('show_noauth');
+		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
+		$model->setState('filter.access', $access);
 
-		$date = &JFactory::getDate();
-		$now = $date->toMySQL();
+		// Category filter
+		if ($catid = $params->get('catid')) {
+			$model->setState('filter.category_id', $catid);
+		}
 
-		$where		= 'a.state = 1'
-			. ' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')'
-			. ' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'
-			;
-
-		// User Filter
+		// User filter
+		$userId = JFactory::getUser()->get('id');
 		switch ($params->get('user_id'))
 		{
 			case 'by_me':
-				$where .= ' AND (created_by = ' . (int) $userId . ' OR modified_by = ' . (int) $userId . ')';
+				$model->setState('filter.author_id', $userId);
 				break;
 			case 'not_me':
-				$where .= ' AND (created_by <> ' . (int) $userId . ' AND modified_by <> ' . (int) $userId . ')';
+				$model->setState('filter.author_id', $userId);
+				$model->setState('filter.author_id.include', false);
 				break;
 		}
 
-		// Ordering
-		switch ($params->get('ordering'))
-		{
-			case 'm_dsc':
-				$ordering		= 'a.modified DESC, a.created DESC';
-				break;
-			case 'mc_dsc':
-				$ordering 		= 'dateslug DESC';
-				break;
-			case 'c_dsc':
-			default:
-				$ordering		= 'a.created DESC';
-				break;
-		}
+		// Set ordering
+		$order_map = array(
+			'm_dsc' => 'a.modified DESC, a.created',
+			/*
+			 * TODO below line does not work because it's running through JDatabase::_getEscaped
+			 * which adds unnecessary quotes before and after the null date.
+			 * This should be uncommented when it's fixed.
+			 */
+			//'mc_dsc' => 'CASE WHEN (a.modified = \'0000-00-00 00:00:00\') THEN a.created ELSE a.modified END',
+			'c_dsc' => 'a.created'
+		);
 
-		if ($catid)
-		{
-			$ids = explode(',', $catid);
-			JArrayHelper::toInteger($ids);
-			$catCondition = ' AND (cc.id=' . implode(' OR cc.id=', $ids) . ')';
-		}
+		$ordering = JArrayHelper::getValue($order_map, $params->get('ordering'), 'a.created');
+		$dir = 'DESC';
 
-		// Content Items only
-		$query = 'SELECT a.*, ' .
-			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
-			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-			' CASE WHEN (a.modified = "0000-00-00 00:00:00") THEN a.created ELSE a.modified END AS dateslug'.
-			' FROM #__content AS a' .
-			($show_front == '0' ? ' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' : '') .
-			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-			' WHERE '. $where .' AND s.id > 0' .
-			($access ? ' AND a.access IN ('.$groups.') AND cc.access IN ('.$groups.') AND s.access IN ('.$groups.')' : '').
-			($catid ? $catCondition : '').
-			($show_front == '0' ? ' AND f.content_id IS NULL ' : '').
-			' AND cc.published = 1' .
-			' ORDER BY '. $ordering;
-		$db->setQuery($query, 0, $count);
-		$rows = $db->loadObjectList();
+		$model->setState('list.ordering', $ordering);
+		$model->setState('list.direction', $dir);
 
-		$i		= 0;
-		$lists	= array();
-		foreach ($rows as $row)
-		{
-			if (in_array($row->access, $groups))
+		$items = $model->getItems();
+
+		foreach ($items as &$item) {
+			$item->slug = $item->id.':'.$item->alias;
+			$item->catslug = $item->catid.':'.$item->category_alias;
+
+			if ($access || in_array($item->access, $authorised))
 			{
-				$lists[$i]->link = JRoute::_(ContentRoute::article($row->slug, $row->catslug, $row->sectionid));
+				// We know that user has the privilege to view the article
+				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 			}
 			else {
-				$lists[$i]->link = JRoute::_('index.php?option=com_users&view=login');
+				$item->link = JRoute::_('index.php?option=com_user&view=login');
 			}
-			$lists[$i]->text = htmlspecialchars($row->title);
-			$i++;
+
+			$item->introtext = JHtml::_('content.prepare', $item->introtext);
 		}
 
-		return $lists;
+		return $items;
 	}
 }
