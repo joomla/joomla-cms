@@ -10,7 +10,7 @@
 	<version>1.5.0</version>
 	<description>DESCMOSTREAD</description>
 	<files>
-		<filename module="mod_mostread">mod_mostread.php</filename>
+		<filename module="mod_articles_popular">mod_articles_popular.php</filename>
 	</files>
 	<params>
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
