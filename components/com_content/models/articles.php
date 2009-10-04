@@ -96,7 +96,7 @@ class ContentModelArticles extends JModelList
 		// Select the required fields from the table.
 		$query->select($this->getState(
 			'list.select',
-			'a.id, a.title, a.alias, a.title_alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
+			'a.id, a.title, a.alias, a.title_alias, a.introtext, a.fulltext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
 			' a.modified, a.modified_by,a.publish_up, a.publish_down, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,' .
 			' LENGTH(a.fulltext) AS readmore'
 		));
