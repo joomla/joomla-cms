@@ -14,4 +14,4 @@ defined('_JEXEC') or die;
 require_once dirname(__FILE__).DS.'helper.php';
 
 $list = modArticlesLatestHelper::getList($params);
-require JModuleHelper::getLayoutPath('mod_latestnews');
+require JModuleHelper::getLayoutPath('mod_articles_latest');

@@ -10,7 +10,7 @@
 	<version>1.5.0</version>
 	<description>DESCLATESTNEWS</description>
 	<files>
-		<filename module="mod_latestnews">mod_latestnews.php</filename>
+		<filename module="mod_articles_latest">mod_articles_latest</filename>
 	</files>
 	<params>
 		<param name="count" type="text" default="5" label="Count" description="The number of items to display (default 5)" />
