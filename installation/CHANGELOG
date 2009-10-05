@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Oct-2009 Mark Dexter
+# Fixed problems when moving & re-ordering Categories in Category Manager
+
 03-Oct-2009 Ercan Ozkaya
  + Added content form view for frontend
  ^ Changed error handling in JHtml
