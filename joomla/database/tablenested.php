@@ -269,6 +269,12 @@ class JTableNested extends JTable
 				return false;
 			}
 
+			// If moving "down" the tree, adjust $reference lft, rgt for $node width
+			if ($node->rgt < $reference->rgt) {
+				$reference->lft -= $node->width;
+				$reference->rgt -= $node->width;
+			}
+
 			// Get the reposition data for shifting the tree and re-inserting the node.
 			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, $position)) {
 				// Error message set in getNode method.
@@ -1389,8 +1395,8 @@ class JTableNested extends JTable
 		);
 		$row = $this->_db->loadObject();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
+		// Check for a database error or no $row returned
+		if ((!$row) || ($this->_db->getErrorNum())) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
