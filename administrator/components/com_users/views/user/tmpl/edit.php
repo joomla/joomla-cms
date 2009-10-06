@@ -32,7 +32,7 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="user-form" class="form-validate">
 	<div class="width-60 fltlft">
-		<fieldset>
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_User_Account_Details'); ?></legend>
 			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
@@ -50,7 +50,7 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getInput('email'); ?>
 		</fieldset>
 
-		<fieldset>
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_User_Options'); ?></legend>
 			<?php foreach($this->form->getFields('params') as $field): ?>
 				<?php if ($field->hidden): ?>

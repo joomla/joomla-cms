@@ -29,7 +29,7 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="weblink-form" class="form-validate">
 <div class="width-70 fltlft">
-	<fieldset>
+	<fieldset class="adminform">
 		<legend><?php echo empty($this->item->id) ? JText::_('Weblinks_New_Weblink') : JText::sprintf('Weblinks_Edit_Weblink', $this->item->id); ?></legend>
 
 			<?php echo $this->form->getLabel('title'); ?>
@@ -57,17 +57,17 @@ JHtml::_('behavior.formvalidation');
 	</fieldset>
 </div>
 <div class="width-30 fltrt">
-	<fieldset>
+	<fieldset class="adminform">
 		<legend><?php echo JText::_('Weblinks_Options'); ?></legend>
 
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
+			<div class="paramrow">
 				<?php echo $field->label; ?>
-
 				<?php echo $field->input; ?>
-
+			</div>
 			<?php endif; ?>
 		<?php endforeach; ?>
 

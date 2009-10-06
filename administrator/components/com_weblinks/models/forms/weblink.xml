@@ -87,11 +87,12 @@
 		<field
 			id="state"
 			name="state"
-			type="radio"
-			class="rbtn"
-			default="1"
+			type="list"
 			label="Weblinks_State_Label"
-			description="Weblinks_State_Desc">
+			description="Weblinks_State_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
 			<option
 				value="1">JOption_Published</option>
 			<option

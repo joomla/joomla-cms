@@ -19,7 +19,7 @@ $pane = &JPane::getInstance('sliders');
 		$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
 		echo $pane->startPanel(JText::_($label), 'publishing-details');
 			if (isset($fieldSet['description'])) :
-				echo '<p class="tip" style="float:right;">'.JText::_($fieldSet['description']).'</p>';
+				echo '<p class="tip">'.JText::_($fieldSet['description']).'</p>';
 			endif;
 			?>
 		<fieldset>

@@ -31,9 +31,8 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_newsfeeds'); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
 <div class="width-60 fltlft">
-	<fieldset>
+	<fieldset class="adminform">
 		<legend><?php echo empty($this->item->id) ? JText::_('Newsfeeds_New_Newsfeed') : JText::sprintf('Newsfeeds_Edit_Newsfeed', $this->item->id); ?></legend>
-
 
 			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
@@ -66,18 +65,17 @@ JHtml::_('behavior.formvalidation');
 </div>
 
 <div class="width-40 fltrt">
-	<fieldset>
+	<fieldset class="adminform">
 		<legend><?php echo JText::_('Newsfeeds_Options'); ?></legend>
 
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
-
-						<?php echo $field->label; ?>
-
-						<?php echo $field->input; ?>
-
+			<div class="paramrow">
+				<?php echo $field->label; ?>
+				<?php echo $field->input; ?>
+			</div>
 			<?php endif; ?>
 		<?php endforeach; ?>
 

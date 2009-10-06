@@ -73,6 +73,7 @@ class MediaController extends JController
 
 		// Display the view
 		$view->display();
+		
 	}
 
 	function ftpValidate()

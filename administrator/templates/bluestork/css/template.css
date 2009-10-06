@@ -491,6 +491,7 @@ fieldset.adminform {
 	padding: 15px;
 }
 
+fieldset#user-groups,
 fieldset.adminform {
 	margin: 10px;
 }
@@ -605,11 +606,52 @@ label#userparamsnew_usertype-lbl,
 label#userparamsuseractivation-lbl,
 label#userparamsfrontend_userparams-lbl,
 label#paramsshowSiteName-lbl,
+label#jform_MetaKeys-lbl,
+label#jform_MetaTitle-lbl,
+label#jform_MetaAuthor-lbl,
+label#jform_password-lbl,
+label#jform_password2-lbl,
+label#jform_email-lbl,
+label#jform_username-lbl,
+label#jform_params_helpsite-lbl,
+label#jform_params_language-lbl,
+label#jform_params_editor-lbl,
+label#jform_params_timezone-lbl,
 label#paramstextBig-lbl,
-label#paramshighContrast-lbl {
+label#paramshighContrast-lbl,
+label#jform_alias-lbl,
+label#jform_user_id-lbl,
+label#jform_access-lbl,
+label#jform_catid-lbl,
+label#jform_published-lbl,
+label#jform_ordering-lbl,
+label#jform_con_position-lbl,
+label#jformparams_menu-anchor_css-lbl,
+label#jformparams_page_title-lbl,
+label#jformparams_show_page_title-lbl,
+label#jformparams_page_heading-lbl,
+label#jformparams_pageclass_sfx-lbl,
+label#jformparams_menu_image-lbl,
+label#jformparams_menu-meta_description-lbl,
+label#jformparams_link_title-lbl,
+label#jformparams_secure-lbl,
+label#jform_link-lbl,
+label#jform_cache_time-lbl,
+label#jform_rtl-lbl,
+label#jform_params_show_name-lbl,
+label#jform_params_show_link-lbl,
+label#jform_params_show_feed_image-lbl,
+label#jform_params_show_feed_description-lbl,
+label#jform_params_feed_word_count-lbl,
+label#jform_numarticles-lbl,
+label#jform_params_show_cat_items-lbl,
+label#jform_params_show_cat_description-lbl,
+label#jform_params_show_item_description-lbl,
+label#jform_url-lbl,
+label#jform_description-lbl
+ {
 	clear:left;
 }
-
 
 select#jform_catid.inputbox {
 	margin-right: 20px;
@@ -665,7 +707,7 @@ fieldset.batch {
 }
 
 label#jform_description-lbl {
-	padding: 10px;
+	padding: 10px 0;
 }
 
 label#jform_home0-lbl,
@@ -675,7 +717,7 @@ label#jformparams_show_page_title1-lbl,
 label#jformparams_secure0-lbl,
 label#jformparams_secure1-lbl,
 label#jformparams_secure-0-lbl,
-label#jformparams_secure-1-lbl{
+label#jformparams_secure-1-lbl {
 	clear:none;
 }
 
@@ -684,6 +726,39 @@ label#userparamsnew_usertype-lbl,
 label#userparamsuseractivation-lbl,
 label#userparamsfrontend_userparams-lbl {
 	min-width: 180px;
+}
+
+div.jpane-slider .paramrow label{
+	clear:none;
+}
+
+label#jform_params_show_position-lbl,
+label#jform_params_show_email-lbl,
+label#jform_params_show_street_address-lbl,
+label#jform_params_show_suburb-lbl,
+label#jform_params_show_state-lbl,
+label#jform_params_show_postcode-lbl,
+label#jform_params_show_country-lbl,
+label#jform_params_show_telephone-lbl,
+label#jform_params_show_fax-lbl,
+label#jform_params_show_mobile-lbl,
+label#jform_params_show_misc-lbl,
+label#jform_params_show_webpage-lbl,
+label#jform_params_show_image-lbl,
+label#jform_params_allow_vcard-lbl,
+label#jform_params_show_articles-lbl,
+label#jform_params_show_links-lbl,
+label#jform_params_linka_name-lbl,
+label#jform_params_linka-lbl,
+label#jform_params_linkb_name-lbl,
+label#jform_params_linkb-lbl,
+label#jform_params_linkc_name-lbl,
+label#jform_params_linkc-lbl,
+label#jform_params_linkd_name-lbl,
+label#jform_params_linkd-lbl,
+label#jform_params_linke_name-lbl,
+label#jform_params_linke-lbl {
+	clear:left;
 }
 
 

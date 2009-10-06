@@ -28,7 +28,7 @@ $fields	= $this->form->getFields();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_redirect');?>" method="post" name="adminForm" class="form-validate">
 		<div class="width-60">
-			<fieldset>
+			<fieldset class="adminform">
 				<legend><?php echo JText::_('URLs'); ?></legend>
 				<?php echo $fields['old_url']->label; ?>
 				<?php echo $fields['old_url']->input; ?>
@@ -42,31 +42,17 @@ $fields	= $this->form->getFields();
 		</div>
 
 		<div class="width-40">
-			<fieldset>
+			<fieldset class="adminform">
 				<legend><?php echo JText::_('Details'); ?></legend>
-
-				<table class="adminlist">
-					<tbody>
-						<tr>
-							<td>
-								<?php echo $fields['published']->label; ?><br />
-								<?php echo $fields['published']->input; ?>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<?php echo $fields['created_date']->label; ?><br />
-								<?php echo $fields['created_date']->input; ?>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<?php echo $fields['updated_date']->label; ?><br />
-								<?php echo $fields['updated_date']->input; ?>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="paramrow">
+					<?php echo $fields['published']->label; ?>
+					<?php echo $fields['published']->input; ?>
+				</div>	
+					<?php echo $fields['created_date']->label; ?><br />
+					<?php echo $fields['created_date']->input; ?>
+					
+					<?php echo $fields['updated_date']->label; ?><br />
+					<?php echo $fields['updated_date']->input; ?>
 			</fieldset>
 		</div>
 		<div class="clr"></div>
