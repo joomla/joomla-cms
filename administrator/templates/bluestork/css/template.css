@@ -1572,13 +1572,13 @@ fieldset li,ol#property-values li{list-style:none;margin:0;padding:5px}
 
 /* -- ACL STYLES relocated from com_users/media/grid.css ----------- */
 * :focus,a:active{outline:none}
-a.move_up{background-image:url(../images/uparrow.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
-span.move_up{background-image:url../images/uparrow0.png);display:inline-block;height:16px;width:16px}
-a.move_down{background-image:url(../images/downarrow.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
-span.move_down{background-image:url(../images/downarrow0.png);display:inline-block;height:16px;width:16px}
-a.grid_false{background-image:url(../images/publish_x.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
-a.grid_true{background-image:url(../images/tick.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
-a.grid_trash{background-image:url(../images/icon-16-trash.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
+a.move_up{background-image:url(../images/admin/uparrow.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
+span.move_up{background-image:url../images/admin/uparrow0.png);display:inline-block;height:16px;width:16px}
+a.move_down{background-image:url(../images/admin/downarrow.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
+span.move_down{background-image:url(../images/admin/downarrow0.png);display:inline-block;height:16px;width:16px}
+a.grid_false{background-image:url(../images/admin/publish_x.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
+a.grid_true{background-image:url(../images/admin/tick.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
+a.grid_trash{background-image:url(../images/admin/icon-16-trash.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
 
 
 
