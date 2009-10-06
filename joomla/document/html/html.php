@@ -261,7 +261,7 @@ class JDocumentHTML extends JDocument
 		$result = '';
 
 		$words = explode(' ', $condition);
-		for ($i = 0; $i < count($words); $i+=2)
+		for ($i = 0, $n = count($words); $i < $n; $i+=2)
 		{
 			// odd parts (modules)
 			$name		= strtolower($words[$i]);
