@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Oct-2009 Andrew Eddie
+^ Loop optimisation in JDocumentHTML::countModules
+
 05-Oct-2009 Mark Dexter
 # Fixed problems when moving & re-ordering Categories in Category Manager
 
