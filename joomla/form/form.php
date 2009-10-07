@@ -393,7 +393,7 @@ class JForm extends JObject
 
 								case 'SAFEHTML':
 									// Filter safe HTML.
-									$return[$name] = $safeHtmlFilter->clean($data[$name], $filter);
+									$return[$name] = $safeHtmlFilter->clean($data[$name], 'string');
 									break;
 
 								default:
