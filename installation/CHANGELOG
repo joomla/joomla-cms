@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Oct-2009 Andrew Eddie
+# Fixed static/object usage bug for default in JFilterInput::clean (sync'd with 1.5)
+
 06-Oct-2009 Ron Severdia
 # BlueStork CSS cleanup
 # Layout fixes for com_contact, com_menus, com_users, com_weblinks

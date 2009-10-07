@@ -141,9 +141,10 @@ class JFilterInput extends JObject
 
 			case 'STRING' :
 				// Check for static usage and assign $filter the proper variable
-				if (isset($this) && is_a($this, 'JFilterInput')) {
+				if (isset($this) && ($this instanceof JFilterInput)) {
 					$filter = &$this;
-				} else {
+				}
+				else {
 					$filter = &JFilterInput::getInstance();
 				}
 				$result = (string) $filter->_remove($filter->_decode((string) $source));
@@ -165,10 +166,16 @@ class JFilterInput extends JObject
 
 			default :
 				// Check for static usage and assign $filter the proper variable
-				$filter = &JFilterInput::getInstance();
+				if (isset($this) && ($this instanceof JFilterInput)) {
+					$filter = &$this;
+				}
+				else {
+					$filter = &JFilterInput::getInstance();
+				}
 
 				// Are we dealing with an array?
-				if (is_array($source)) {
+				if (is_array($source))
+				{
 					foreach ($source as $key => $value)
 					{
 						// filter element for XSS and other 'bad' code etc.
@@ -177,12 +184,15 @@ class JFilterInput extends JObject
 						}
 					}
 					$result = $source;
-				} else {
+				}
+				else
+				{
 					// Or a string?
 					if (is_string($source) && !empty ($source)) {
 						// filter source for XSS and other 'bad' code etc.
 						$result = $filter->_remove($filter->_decode($source));
-					} else {
+					}
+					else {
 						// Not an array or string.. return the passed parameter
 						$result = $source;
 					}
@@ -256,7 +266,8 @@ class JFilterInput extends JObject
 			$tagOpen_end	= strpos($fromTagOpen, '>');
 
 			// Let's catch any non-terminated tags and skip over them
-			if ($tagOpen_end === false) {
+			if ($tagOpen_end === false)
+			{
 				$postTag		= substr($postTag, $tagOpen_start +1);
 				$tagOpen_start	= strpos($postTag, '<');
 				continue;
@@ -265,7 +276,8 @@ class JFilterInput extends JObject
 			// Do we have a nested tag?
 			$tagOpen_nested = strpos($fromTagOpen, '<');
 			$tagOpen_nested_end	= strpos(substr($postTag, $tagOpen_end), '>');
-			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end)) {
+			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end))
+			{
 				$preTag			.= substr($postTag, 0, ($tagOpen_nested +1));
 				$postTag		= substr($postTag, ($tagOpen_nested +1));
 				$tagOpen_start	= strpos($postTag, '<');
@@ -281,12 +293,15 @@ class JFilterInput extends JObject
 			$currentSpace	= strpos($tagLeft, ' ');
 
 			// Are we an open tag or a close tag?
-			if (substr($currentTag, 0, 1) == '/') {
+			if (substr($currentTag, 0, 1) == '/')
+			{
 				// Close Tag
 				$isCloseTag		= true;
 				list ($tagName)	= explode(' ', $currentTag);
 				$tagName		= substr($tagName, 1);
-			} else {
+			}
+			else
+			{
 				// Open Tag
 				$isCloseTag		= false;
 				list ($tagName)	= explode(' ', $currentTag);
@@ -297,7 +312,8 @@ class JFilterInput extends JObject
 			 * OR no tagname
 			 * OR remove if xssauto is on and tag is blacklisted
 			 */
-			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto))) {
+			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
+			{
 				$postTag		= substr($postTag, ($tagLength +2));
 				$tagOpen_start	= strpos($postTag, '<');
 				// Strip tag
@@ -317,7 +333,8 @@ class JFilterInput extends JObject
 				$closeQuotes	= strpos(substr($fromSpace, ($openQuotes +1)), '"') + $openQuotes +1;
 
 				// Do we have an attribute to process? [check for equal sign]
-				if (strpos($fromSpace, '=') !== false) {
+				if (strpos($fromSpace, '=') !== false)
+				{
 					/*
 					 * If the attribute value is wrapped in quotes we need to
 					 * grab the substring from the closing quote, otherwise grab
@@ -325,10 +342,13 @@ class JFilterInput extends JObject
 					 */
 					if (($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes +1)), '"') !== false)) {
 						$attr = substr($fromSpace, 0, ($closeQuotes +1));
-					} else {
+					}
+					else {
 						$attr = substr($fromSpace, 0, $nextSpace);
 					}
-				} else {
+				}
+				else
+				{
 					/*
 					 * No more equal signs so add any extra text in the tag into
 					 * the attribute array [eg. checked]
@@ -355,10 +375,11 @@ class JFilterInput extends JObject
 			$tagFound = in_array(strtolower($tagName), $this->tagsArray);
 
 			// If the tag is allowed lets append it to the output string
-			if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod)) {
-
+			if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod))
+			{
 				// Reconstruct tag with allowed attributes
-				if (!$isCloseTag) {
+				if (!$isCloseTag)
+				{
 					// Open or Single tag
 					$attrSet = $this->_cleanAttributes($attrSet);
 					$preTag .= '<'.$tagName;
@@ -370,10 +391,12 @@ class JFilterInput extends JObject
 					// Reformat single tags to XHTML
 					if (strpos($fromTagOpen, '</'.$tagName)) {
 						$preTag .= '>';
-					} else {
+					}
+					else {
 						$preTag .= ' />';
 					}
-				} else {
+				}
+				else {
 					// Closing Tag
 					$preTag .= '</'.$tagName.'>';
 				}
@@ -424,7 +447,8 @@ class JFilterInput extends JObject
 			}
 
 			// XSS attribute value filtering
-			if ($attrSubSet[1]) {
+			if ($attrSubSet[1])
+			{
 				// strips unicode, hex, etc
 				$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
 				// strip normal newline within attr value
@@ -448,18 +472,20 @@ class JFilterInput extends JObject
 			$attrFound = in_array(strtolower($attrSubSet[0]), $this->attrArray);
 
 			// If the tag is allowed lets keep it
-			if ((!$attrFound && $this->attrMethod) || ($attrFound && !$this->attrMethod)) {
-
+			if ((!$attrFound && $this->attrMethod) || ($attrFound && !$this->attrMethod))
+			{
 				// Does the attribute have a value?
 				if ($attrSubSet[1]) {
 					$newSet[] = $attrSubSet[0].'="'.$attrSubSet[1].'"';
-				} elseif ($attrSubSet[1] == "0") {
+				}
+				else if ($attrSubSet[1] == "0") {
 					/*
 					 * Special Case
 					 * Is the value 0?
 					 */
 					$newSet[] = $attrSubSet[0].'="0"';
-				} else {
+				}
+				else {
 					$newSet[] = $attrSubSet[0].'="'.$attrSubSet[0].'"';
 				}
 			}
