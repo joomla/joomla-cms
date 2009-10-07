@@ -141,7 +141,7 @@ class JInstallerComponent extends JAdapterInstance
 			if (is_file($manifestScriptFile))
 			{
 				// load the file
-				include_once($manifestScriptFile);
+				include_once $manifestScriptFile;
 			}
 			// Set the class name
 			$classname = $element.'InstallerScript';
@@ -526,7 +526,7 @@ class JInstallerComponent extends JAdapterInstance
 			if (is_file($manifestScriptFile))
 			{
 				// load the file
-				include_once($manifestScriptFile);
+				include_once $manifestScriptFile;
 			}
 			// Set the class name
 			$classname = $element.'InstallerScript';
@@ -885,7 +885,7 @@ class JInstallerComponent extends JAdapterInstance
 			if (is_file($manifestScriptFile))
 			{
 				// load the file
-				include_once($manifestScriptFile);
+				include_once $manifestScriptFile;
 			}
 			// Set the class name
 			$classname = $row->element.'InstallerScript';
@@ -1449,7 +1449,7 @@ class JInstallerComponent extends JAdapterInstance
 			if (is_file($manifestScriptFile))
 			{
 				// load the file
-				include_once($manifestScriptFile);
+				include_once $manifestScriptFile;
 			}
 			// Set the class name
 			$classname = $element.'InstallerScript';
@@ -1522,7 +1522,7 @@ class JInstallerComponent extends JAdapterInstance
 			{
 				ob_start();
 				ob_implicit_flush(false);
-				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install_script'));
+				require_once $this->parent->getPath('extension_administrator').DS.$this->get('install_script');
 				if (function_exists('com_install'))
 				{
 					if (com_install() === false)

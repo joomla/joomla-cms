@@ -736,7 +736,7 @@ class JApplication extends JObject
 	{
 		jimport('joomla.registry.registry');
 
-		require_once($file);
+		require_once $file;
 
 		// Create the JConfig object.
 		$config = new JConfig();

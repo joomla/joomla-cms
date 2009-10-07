@@ -149,7 +149,7 @@ class JComponentHelper
 			$task = JRequest::getString('task');
 
 			// Make the toolbar
-			include_once($path);
+			include_once $path;
 		}
 
 		$app->scope = $scope; //revert the scope

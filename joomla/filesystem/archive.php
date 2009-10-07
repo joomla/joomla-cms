@@ -141,7 +141,7 @@ class JArchive
 			{
 				$path = dirname(__FILE__).DS.'archive'.DS.strtolower($type).'.php';
 				if (file_exists($path)) {
-					require_once($path);
+					require_once $path;
 				} else {
 					JError::raiseError(500,JText::_('Unable to load archive'));
 				}

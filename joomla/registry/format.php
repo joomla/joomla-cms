@@ -44,7 +44,7 @@ abstract class JRegistryFormat extends JObject
 			{
 				$path    = dirname(__FILE__).DS.'format'.DS.$format.'.php';
 				if (file_exists($path)) {
-					require_once($path);
+					require_once $path;
 				} else {
 					JError::raiseError(500,JText::_('Unable to load format class'));
 				}

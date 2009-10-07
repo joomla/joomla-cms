@@ -91,7 +91,7 @@ class JCategories
 			$path = JPATH_SITE.DS.'components'.DS.$extension.DS.'helpers'.DS.'category.php';
 			if (is_file($path))
 			{
-				require_once($path);
+				require_once $path;
 			} else {
 				return false;
 			}

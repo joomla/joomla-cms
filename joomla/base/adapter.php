@@ -86,7 +86,7 @@ class JAdapter extends JObject {
 		if (!is_object($adapter))
 		{
 			// Try to load the adapter object
-			require_once($this->_basepath.DS.$this->_adapterfolder.DS.strtolower($name).'.php');
+			require_once $this->_basepath.DS.$this->_adapterfolder.DS.strtolower($name).'.php';
 			$class = $this->_classprefix.ucfirst($name);
 			if (!class_exists($class)) {
 				return false;
@@ -120,7 +120,7 @@ class JAdapter extends JObject {
 		foreach($list as $filename) {
 			if(JFile::getExt($filename) == 'php') {
 				// Try to load the adapter object
-				require_once($this->_basepath.DS.$this->_adapterfolder.DS.$filename);
+				require_once $this->_basepath.DS.$this->_adapterfolder.DS.$filename;
 				$name = JFile::stripExt($filename);
 				$class = $this->_classprefix.ucfirst($name);
 				if (!class_exists($class)) {

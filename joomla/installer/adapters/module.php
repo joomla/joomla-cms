@@ -187,7 +187,7 @@ class JInstallerModule extends JAdapterInstance
 			if (is_file($manifestScriptFile))
 			{
 				// load the file
-				include_once($manifestScriptFile);
+				include_once $manifestScriptFile;
 			}
 			// Set the class name
 			$classname = $element.'InstallerScript';
@@ -531,7 +531,7 @@ class JInstallerModule extends JAdapterInstance
 			if (is_file($manifestScriptFile))
 			{
 				// load the file
-				include_once($manifestScriptFile);
+				include_once $manifestScriptFile;
 			}
 			// Set the class name
 			$classname = $element.'InstallerScript';
