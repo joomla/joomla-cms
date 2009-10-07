@@ -21,7 +21,7 @@ jimport('joomla.application.component.controller');
 $params = &JComponentHelper::getParams('com_media');
 
 // Load the admin HTML view
-require_once(JPATH_COMPONENT.DS.'helpers'.DS.'media.php');
+require_once JPATH_COMPONENT.DS.'helpers'.DS.'media.php';
 
 // Set the path definitions
 $view = JRequest::getCmd('view',null);
@@ -32,7 +32,7 @@ define('COM_MEDIA_BASE',    JPATH_ROOT.DS.$params->get($path, 'images/stories'))
 define('COM_MEDIA_BASEURL', JURI::root().$params->get($path, 'images/stories'));
 
 // Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 // TODO: Refactor to support the latest MVC pattern.
 
@@ -49,7 +49,7 @@ if (strpos($cmd, '.') != false)
 
 	// If the controller file path exists, include it ... else lets die with a 500 error
 	if (file_exists($controllerPath)) {
-		require_once($controllerPath);
+		require_once $controllerPath;
 	} else {
 		JError::raiseError(500, 'Invalid Controller');
 	}

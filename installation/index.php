@@ -51,7 +51,7 @@ if (file_exists(JPATH_CONFIGURATION.DS.'configuration.php') && (filesize(JPATH_C
  */
 
 // Bootstrap the Joomla Framework.
-require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'import.php');
+require_once JPATH_LIBRARIES.DS.'joomla'.DS.'import.php';
 
 // Joomla library imports.
 jimport('joomla.database.table');

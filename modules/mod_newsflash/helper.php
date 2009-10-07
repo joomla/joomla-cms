@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
 class modNewsFlashHelper
 {
@@ -54,7 +54,7 @@ class modNewsFlashHelper
 		$results = $app->triggerEvent('onBeforeDisplayContent', array (&$item, &$params, 1));
 		$item->beforeDisplayContent = trim(implode("\n", $results));
 
-		require(JModuleHelper::getLayoutPath('mod_newsflash', '_item'));
+		require JModuleHelper::getLayoutPath('mod_newsflash', '_item');
 	}
 
 	function getList(&$params, &$access)

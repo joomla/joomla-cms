@@ -8,7 +8,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-include_once(dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php');
+include_once dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php';
 
 /**
  * Extension Manager Templates View

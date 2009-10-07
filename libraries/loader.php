@@ -75,7 +75,7 @@ abstract class JLoader
 				 */
 				$filename = $base.DS.$path.'.php';
 				if (is_file($filename)) {
-					$rs   = include($filename);
+					$rs   = include $filename;
 				} else {
 					$rs   = false; // if the file doesn't exist fail
 					// note: JLoader::register does an is_file check itself
@@ -134,7 +134,7 @@ abstract class JLoader
 		}
 
 		if (array_key_exists(strtolower($class), JLoader::$classes)) {
-			include(JLoader::$classes[$class]);
+			include JLoader::$classes[$class];
 			return true;
 		}
 		return false;

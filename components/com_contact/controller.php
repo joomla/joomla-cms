@@ -261,7 +261,7 @@ class ContactController extends JController
 			$middlename = trim($middlename);
 
 			// Create a new vcard object and populate the fields
-			require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'helpers'.DS.'vcard.php');
+			require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'helpers'.DS.'vcard.php';
 			$v = new JvCard();
 
 			$v->setPhoneNumber($contact->telephone, 'PREF;WORK;VOICE');

@@ -58,4 +58,4 @@ if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
 	$logoutLink = JRoute::_('index.php?option=com_login&task=logout');
 }
 
-require(JModuleHelper::getLayoutPath('mod_status'));
+require JModuleHelper::getLayoutPath('mod_status');

@@ -41,8 +41,8 @@ function plgSearchContent($text, $phrase='', $ordering='', $areas=null)
 	$user	= &JFactory::getUser();
 	$groups	= implode(',', $user->authorisedLevels());
 
-	require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
-	require_once(JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_search'.DS.'helpers'.DS.'search.php');
+	require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
+	require_once JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_search'.DS.'helpers'.DS.'search.php';
 
 	$searchText = $text;
 	if (is_array($areas)) {

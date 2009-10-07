@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @since		1.6
  */
 
-include_once(dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php');
+include_once dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php';
 
 class InstallerViewDiscover extends InstallerViewDefault
 {

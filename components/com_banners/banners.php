@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Require the com_content helper library
-require_once (JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 // Create the controller
 $controller = new BannersController(array('default_task' => 'click'));

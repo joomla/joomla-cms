@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Oct-2009 Ercan Ozkaya
+ # [#18304] require, require_once, include, & include_once are statements, not functions (Contributed by Joseph LeBlanc)
+
 07-Oct-2009 Andrew Eddie
 # Fixed static/object usage bug for default in JFilterInput::clean (sync'd with 1.5)
 

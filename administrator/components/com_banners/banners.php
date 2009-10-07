@@ -49,7 +49,7 @@ switch ($controllerName)
 			$controllerName = 'client';
 		}
 
-		require_once(JPATH_COMPONENT.DS.'controllers'.DS.$controllerName.'.php');
+		require_once JPATH_COMPONENT.DS.'controllers'.DS.$controllerName.'.php';
 		$controllerName = 'BannerController'.$controllerName;
 
 		// Create the controller

@@ -73,7 +73,7 @@ class JInstallation extends JApplication
 		ob_start();
 
 		// Import the controller.
-		require_once(JPATH_COMPONENT.'/controller.php');
+		require_once JPATH_COMPONENT.'/controller.php';
 
 		// Execute the task.
 		$controller	= &JInstallationController::getInstance();

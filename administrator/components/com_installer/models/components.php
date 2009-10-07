@@ -6,7 +6,7 @@
  */
 
 // Import library dependencies
-require_once(dirname(__FILE__).DS.'extension.php');
+require_once dirname(__FILE__).DS.'extension.php';
 
 /**
  * Installer Components Model

@@ -90,7 +90,7 @@ class JInstallationController extends JController
 
 			// If the controller file path exists, include it ... else die with a 500 error.
 			if (file_exists($path)) {
-				require_once($path);
+				require_once $path;
 			} else {
 				JError::raiseError(500, JText::sprintf('Invalid_Controller', $type));
 			}

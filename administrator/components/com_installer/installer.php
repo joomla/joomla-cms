@@ -34,7 +34,7 @@ foreach ($subMenus as $name => $extension)
 }
 
 // TODO: Refactor to support the latest MVC pattern.
-require_once(JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 $controller = new InstallerController(array('default_task' => 'installform'));
 $controller->execute(JRequest::getCmd('task'));

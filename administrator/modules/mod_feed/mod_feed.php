@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the syndicate functions only once
-require_once (dirname(__FILE__).DS.'helper.php');
+require_once dirname(__FILE__).DS.'helper.php';
 
 $rssurl	= $params->get('rssurl', '');
 $rssrtl	= $params->get('rssrtl', 0);
@@ -34,4 +34,4 @@ if (empty ($rssurl))
 	return;
 }
 
-require(JModuleHelper::getLayoutPath('mod_feed'));
+require JModuleHelper::getLayoutPath('mod_feed');

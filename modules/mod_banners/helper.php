@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once(JPATH_SITE.DS.'components'.DS.'com_banners'.DS.'helpers'.DS.'banner.php');
+require_once JPATH_SITE.DS.'components'.DS.'com_banners'.DS.'helpers'.DS.'banner.php';
 
 class modBannersHelper
 {
@@ -48,7 +48,7 @@ class modBannersHelper
 
 			// If the model file exists include it and try to instantiate the object
 			if (file_exists($path)) {
-				require_once($path);
+				require_once $path;
 				if (!class_exists('BannersModelBanner')) {
 					JError::raiseWarning(0, 'Model class BannersModelBanner not found in file.');
 					return $false;

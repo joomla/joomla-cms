@@ -266,7 +266,7 @@ class JSession extends JObject
 
 			//Load the class only if needed
 			if (!class_exists($class)) {
-				require_once(dirname(__FILE__).DS.'storage'.DS.$name.'.php');
+				require_once dirname(__FILE__).DS.'storage'.DS.$name.'.php';
 			}
 
 			if (call_user_func_array(array(trim($class), 'test'), array())) {

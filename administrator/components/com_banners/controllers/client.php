@@ -80,7 +80,7 @@ class BannerControllerClient extends JController
 		// search filter
 		$lists['search']= $search;
 
-		require_once(JPATH_COMPONENT.DS.'views'.DS.'client.php');
+		require_once JPATH_COMPONENT.DS.'views'.DS.'client.php';
 		BannersViewClients::clients($rows, $pageNav, $lists);
 	}
 
@@ -119,7 +119,7 @@ class BannerControllerClient extends JController
 			$row->approved = 0;
 		}
 
-		require_once(JPATH_COMPONENT.DS.'views'.DS.'client.php');
+		require_once JPATH_COMPONENT.DS.'views'.DS.'client.php';
 		BannersViewClients::client($row);
 	}
 

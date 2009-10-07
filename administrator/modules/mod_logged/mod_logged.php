@@ -53,4 +53,4 @@ $query = 'SELECT username, time, userid, usertype, client_id'
 $db->setQuery($query);
 $rows = $db->loadObjectList();
 
-require(dirname(__FILE__).DS.'tmpl'.DS.'default.php');
+require dirname(__FILE__).DS.'tmpl'.DS.'default.php';

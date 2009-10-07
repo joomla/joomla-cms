@@ -56,7 +56,7 @@ class JSessionStorage extends JObject
 			{
 				$path = dirname(__FILE__).DS.'storage'.DS.$name.'.php';
 				if (file_exists($path)) {
-					require_once($path);
+					require_once $path;
 				} else {
 					// No call to JError::raiseError here, as it tries to close the non-existing session
 					jexit('Unable to load session storage class: '.$name);

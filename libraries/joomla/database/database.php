@@ -199,7 +199,7 @@ abstract class JDatabase extends JObject
 			$path	= dirname(__FILE__).DS.'database'.DS.$driver.'.php';
 
 			if (file_exists($path)) {
-				require_once($path);
+				require_once $path;
 			}
 			else
 			{

@@ -19,7 +19,7 @@ if (!$user->authorize('core.manage', 'com_massmail')) {
 	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
-require_once(JApplicationHelper::getPath('admin_html'));
+require_once JApplicationHelper::getPath('admin_html');
 
 switch ($task)
 {

@@ -24,7 +24,7 @@ class SearchViewSearch extends JView
 {
 	function display($tpl = null)
 	{
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php');
+		require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php';
 
 		// Initialize some variables
 		$app	= &JFactory::getApplication();
@@ -107,7 +107,7 @@ class SearchViewSearch extends JView
 			$total		= &$this->get('total');
 			$pagination	= &$this->get('pagination');
 
-			require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+			require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
 			for ($i=0; $i < count($results); $i++)
 			{

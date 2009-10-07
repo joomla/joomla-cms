@@ -92,7 +92,7 @@ class SearchModelSearch extends JModel
 		if (!class_exists('JSite'))
 		{
 			// This fools the routers in the search plugins into thinking it's in the frontend
-			require_once(JPATH_COMPONENT.DS.'helpers'.DS.'site.php');
+			require_once JPATH_COMPONENT.DS.'helpers'.DS.'site.php';
 		}
 
 		for ($i=0, $n = count($rows); $i < $n; $i++) {

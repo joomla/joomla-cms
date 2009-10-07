@@ -107,7 +107,7 @@ class BannerControllerBanner extends JController
 		// search filter
 		$lists['search']= $search;
 
-		require_once(JPATH_COMPONENT.DS.'views'.DS.'banner.php');
+		require_once JPATH_COMPONENT.DS.'views'.DS.'banner.php';
 		BannersViewBanner::banners($rows, $pageNav, $lists);
 	}
 
@@ -169,7 +169,7 @@ class BannerControllerBanner extends JController
 		// published
 		$lists['showBanner'] = JHtml::_('select.booleanlist',  'showBanner', '', $row->showBanner);
 
-		require_once(JPATH_COMPONENT.DS.'views'.DS.'banner.php');
+		require_once JPATH_COMPONENT.DS.'views'.DS.'banner.php';
 		BannersViewBanner::banner($row, $lists);
 	}
 

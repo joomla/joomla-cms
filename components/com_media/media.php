@@ -29,10 +29,10 @@ define('COM_MEDIA_BASE',    JPATH_ROOT.DS.$params->get('image_path', 'images'.DS
 define('COM_MEDIA_BASEURL', JURI::root(true).'/'.$params->get('image_path', 'images/stories'));
 
 // Load the admin HTML view
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'media.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'media.php';
 
 // Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 $cmd = JRequest::getCmd('task', null);
 if (strpos($cmd, '.') != false)
@@ -46,7 +46,7 @@ if (strpos($cmd, '.') != false)
 
 	// If the controller file path exists, include it ... else lets die with a 500 error
 	if (file_exists($controllerPath)) {
-		require_once($controllerPath);
+		require_once $controllerPath;
 	} else {
 		JError::raiseError(500, 'Invalid Controller');
 	}

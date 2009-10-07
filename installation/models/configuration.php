@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Invalid Request.');
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 jimport('joomla.user.helper');
-require_once(JPATH_INSTALLATION.'/helpers/database.php');
+require_once JPATH_INSTALLATION.'/helpers/database.php';
 
 /**
  * Install Configuration model for the Joomla Core Installer.

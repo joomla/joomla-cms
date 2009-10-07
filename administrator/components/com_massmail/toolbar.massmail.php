@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once(JApplicationHelper::getPath('toolbar_html'));
+require_once JApplicationHelper::getPath('toolbar_html');
 
 switch ($task)
 {
