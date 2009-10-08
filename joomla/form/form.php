@@ -396,6 +396,30 @@ class JForm extends JObject
 									$return[$name] = $safeHtmlFilter->clean($data[$name], 'string');
 									break;
 
+								case 'SERVER_UTC':
+									// Convert a date to UTC based on the server timezone offset.
+									if (intval($data[$name]))
+									{
+										$config = JFactory::getConfig();
+										$offset	= $config->getValue('config.offset');
+										$date	= JFactory::getDate($data[$name], $offset);
+										$return[$name] = $date->toMySQL();
+									}
+									break;
+
+								case 'USER_UTC':
+									// Convert a date to UTC based on the user timezone offset.
+									if (intval($data[$name]))
+									{
+										$user	= JFactory::getUser();
+										$config	= JFactory::getConfig();
+										$offset	= $user->getParam('timezone', $config->getValue('config.offset'));
+										$date   = JFactory::getDate($data[$name]);
+										$date->setOffset($offset);
+										$return[$name] = $date->toMySQL();
+									}
+									break;
+
 								default:
 									if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 									{
