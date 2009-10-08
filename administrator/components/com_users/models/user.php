@@ -87,7 +87,7 @@ class UsersModelUser extends JModelForm
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUserProfileData', array($userId, &$value));
+		$results = $dispatcher->trigger('onPrepareUsersProfileData', array($userId, &$value));
 
 		// Convert the params field to an array.
 		$registry = new JRegistry;
@@ -121,7 +121,7 @@ class UsersModelUser extends JModelForm
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onPrepareUserProfileForm', array($this->getState('user.id'), &$form));
+		$results = $dispatcher->trigger('onPrepareUsersProfileForm', array($this->getState('user.id'), &$form));
 
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true)) {

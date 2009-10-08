@@ -61,6 +61,18 @@ JHtml::_('behavior.formvalidation');
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</fieldset>
+		
+		<fieldset class="adminform">
+			<legend><?php echo JText::_('Users_User_Profile'); ?></legend>
+			<?php foreach($this->form->getFields('profile') as $field): ?>
+				<?php if ($field->hidden): ?>
+					<?php echo $field->input; ?>
+				<?php else: ?>
+					<?php echo $field->label; ?>
+					<?php echo $field->input; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</fieldset>
 	</div>
 
 	<div class="width-40 fltrt">

@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Oct-2009 Hannes Papenberg
+^ Removed the root_user feature.
+# Fixed the userprofile in the backend. This still needs some changes.
+
 08-Oct-2009 Ercan Ozkaya
 # Converted clone calls to be statements
 
