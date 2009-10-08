@@ -127,7 +127,7 @@ class JAdapter extends JObject {
 					continue; // skip to next one
 				}
 				$adapter = new $class($this, $this->_db);
-				$this->_adapters[$name] = clone($adapter);
+				$this->_adapters[$name] = clone $adapter;
 			}
 		}
 	}

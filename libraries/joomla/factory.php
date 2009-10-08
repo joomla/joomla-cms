@@ -251,7 +251,7 @@ abstract class JFactory
 		if (! is_object(JFactory::$mailer)) {
 			JFactory::$mailer = JFactory::_createMailer();
 		}
-		$copy	= clone(JFactory::$mailer);
+		$copy	= clone JFactory::$mailer;
 		return $copy;
 	}
 

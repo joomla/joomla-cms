@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Oct-2009 Ercan Ozkaya
+# Converted clone calls to be statements
+
 08-Oct-2009 Andrew Eddie
 + Added SERVER_UTC and USER_UTC filters to JForm::filter to convert user supplied dates to UTC server or UTC user time respectively.
 + Added access argument to JHtmlJGrid::published to only display the icon without click action if not permitted to perform the action.

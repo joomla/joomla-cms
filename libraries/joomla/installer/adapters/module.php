@@ -407,7 +407,7 @@ class JInstallerModule extends JAdapterInstance
 			$extension->set('element', $module);
 			$extension->set('name', $module);
 			$extension->set('state', -1);
-			$results[] = clone($extension);
+			$results[] = clone $extension;
 		}
 		foreach ($admin_list as $module)
 		{
@@ -417,7 +417,7 @@ class JInstallerModule extends JAdapterInstance
 			$extension->set('element', $module);
 			$extension->set('name', $module);
 			$extension->set('state', -1);
-			$results[] = clone($extension);
+			$results[] = clone $extension;
 		}
 		return $results;
 	}
