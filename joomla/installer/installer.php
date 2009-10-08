@@ -346,7 +346,7 @@ class JInstaller extends JAdapter
 			$result = $this->_adapters[$type]->install();
 
 			// Fire the onAfterExtensionInstall
-			$dispatcher->trigger('onAfterExtensionInstall', array('installer'=>clone($this), 'eid'=> $result));
+			$dispatcher->trigger('onAfterExtensionInstall', array('installer'=>clone $this, 'eid'=> $result));
 			if ($result !== false) {
 				return true;
 			}
@@ -401,7 +401,7 @@ class JInstaller extends JAdapter
 					// Run the install
 					$result = $this->_adapters[$this->extension->type]->discover_install();
 					// Fire the onAfterExtensionInstall
-					$dispatcher->trigger('onAfterExtensionInstall', array('installer'=>clone($this), 'eid'=> $result));
+					$dispatcher->trigger('onAfterExtensionInstall', array('installer'=>clone $this, 'eid'=> $result));
 					if ($result !== false) return true; else return false;
 				}
 				else
@@ -483,7 +483,7 @@ class JInstaller extends JAdapter
 			// Run the update
 			$result = $this->_adapters[$type]->update();
 			// Fire the onAfterExtensionUpdate
-			$dispatcher->trigger('onAfterExtensionUpdate', array('installer'=>clone($this), 'eid'=> $result));
+			$dispatcher->trigger('onAfterExtensionUpdate', array('installer'=>clone $this, 'eid'=> $result));
 			if ($result !== false) {
 				return true;
 			}
@@ -522,7 +522,7 @@ class JInstaller extends JAdapter
 			// Run the uninstall
 			$result = $this->_adapters[$type]->uninstall($identifier);
 			// Fire the onAfterExtensionInstall
-			$dispatcher->trigger('onAfterExtensionUninstall', array('installer'=>clone($this), 'eid'=> $identifier, 'result' => $result));
+			$dispatcher->trigger('onAfterExtensionUninstall', array('installer'=>clone $this, 'eid'=> $identifier, 'result' => $result));
 			return $result;
 		}
 		return false;
