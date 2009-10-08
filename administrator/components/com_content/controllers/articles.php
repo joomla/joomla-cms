@@ -53,11 +53,23 @@ class ContentControllerArticles extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Get items to remove from the request.
+		// Initialise variables.
+		$user	= JFactory::getUser();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
+		// Access checks.
+		foreach ($ids as $i => $id)
+		{
+			if (!$user->authorise('core.delete', 'com_content.article.'.(int) $id))
+			{
+				// Prune items that you can't delete.
+				unset($ids[$i]);
+				JError::raiseNotice(403, JText::_('JError_Core_Delete_not_permitted'));
+			}
+		}
+
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('Select an item to delete'));
+			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
 		}
 		else {
 			// Get the model.
@@ -83,14 +95,26 @@ class ContentControllerArticles extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Get items to publish from the request.
+		// Initialise variables.
+		$user	= JFactory::getUser();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 		$values	= array('publish' => 1, 'unpublish' => 0, 'archive' => -1, 'trash' => -2);
 		$task	= $this->getTask();
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
+		// Access checks.
+		foreach ($ids as $i => $id)
+		{
+			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
+			{
+				// Prune items that you can't delete.
+				unset($ids[$i]);
+				JError::raiseNotice(403, JText::_('JError_Core_Edit_State_not_permitted'));
+			}
+		}
+
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('Select an item to publish'));
+			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
 		}
 		else
 		{
@@ -117,14 +141,26 @@ class ContentControllerArticles extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Get items to publish from the request.
+		// Initialise variables.
+		$user	= JFactory::getUser();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 		$values	= array('featured' => 1, 'unfeatured' => 0);
 		$task	= $this->getTask();
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
+		// Access checks.
+		foreach ($ids as $i => $id)
+		{
+			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
+			{
+				// Prune items that you can't delete.
+				unset($ids[$i]);
+				JError::raiseNotice(403, JText::_('JError_Core_Edit_State_not_permitted'));
+			}
+		}
+
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('Select an item to publish'));
+			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
 		}
 		else
 		{

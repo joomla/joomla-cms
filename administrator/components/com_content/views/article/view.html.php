@@ -68,16 +68,17 @@ class ContentViewArticle extends JView
 		$user		= &JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+		$canDo		= ContentHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 
 		JToolBarHelper::title(JText::_('Content_Page_'.($checkedOut ? 'View_Article' : ($isNew ? 'Add_Article' : 'Edit_Article'))), 'article-add.png');
 
 		// If an existing item, can save to a copy.
-		if (!$isNew) {
+		if (!$isNew && $canDo->get('core.create')) {
 			JToolBarHelper::custom('article.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_Copy', false);
 		}
 
 		// If not checked out, can save the item.
-		if (!$checkedOut) {
+		if (!$checkedOut && $canDo->get('core.edit')) {
 
 			JToolBarHelper::save('article.save');
 			JToolBarHelper::apply('article.apply');

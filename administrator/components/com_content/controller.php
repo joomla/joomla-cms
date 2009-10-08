@@ -23,6 +23,8 @@ class ContentController extends JController
 	 */
 	function display()
 	{
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'content.php';
+
 		// Get the document object.
 		$document	= &JFactory::getDocument();
 
@@ -47,7 +49,6 @@ class ContentController extends JController
 			$view->display();
 
 			// Load the submenu.
-			require_once JPATH_COMPONENT.DS.'helpers'.DS.'content.php';
 			ContentHelper::addSubmenu($vName);
 		}
 	}

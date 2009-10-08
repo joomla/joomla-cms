@@ -17,6 +17,8 @@ defined('_JEXEC') or die;
  */
 class ContentHelper
 {
+	public static $extention = 'com_content';
+
 	/**
 	 * Configure the Linkbar.
 	 *
@@ -38,5 +40,39 @@ class ContentHelper
 			'index.php?option=com_content&view=featured',
 			$vName == 'featured'
 		);
+	}
+
+	/**
+	 * Gets a list of the actions that can be performed.
+	 *
+	 * @param	int		The category ID.
+	 * @param	int		The article ID.
+	 *
+	 * @return	JObject
+	 */
+	public static function getActions($categoryId = 0, $articleId = 0)
+	{
+		$user	= JFactory::getUser();
+		$result	= new JObject;
+
+		if (empty($articleId) && empty($categoryId)) {
+			$assetName = 'com_content';
+		}
+		else if (empty($articleId)) {
+			$assetName = 'com_content.category.'.(int) $categoryId;
+		}
+		else {
+			$assetName = 'com_content.article.'.(int) $articleId;
+		}
+
+		$actions = array(
+			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
+		);
+
+		foreach ($actions as $action) {
+			$result->set($action,	$user->authorise($action, $assetName));
+		}
+
+		return $result;
 	}
 }

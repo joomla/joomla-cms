@@ -50,18 +50,18 @@ class ContentViewFeatured extends JView
 	 */
 	protected function _setToolbar()
 	{
-		$user = JFactory::getUser();
+		$canDo	= ContentHelper::getActions($this->state->get('filter.category_id'));
 
 		JToolBarHelper::title(JText::_('Content_Featured_Title'), 'frontpage.png');
 
-		if ($user->authorise('core.create', 'com_content')) {
+		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('article.edit', 'new.png', 'new_f2.png', 'New', false);
 		}
-		if ($user->authorise('core.edit', 'com_content')) {
+		if ($canDo->get('core.edit')) {
 			JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
 		}
 		JToolBarHelper::divider();
-		if ($user->authorise('core.edit.state', 'com_content')) {
+		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 			JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
 			if ($this->state->get('filter.published') != -1) {
@@ -69,7 +69,7 @@ class ContentViewFeatured extends JView
 			}
 			JToolBarHelper::custom('featured.delete','delete.png','delete_f2.png','JToolbar_Remove', true);
 		}
-		if ($user->authorise('core.admin', 'com_content')) {
+		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_content');
 		}

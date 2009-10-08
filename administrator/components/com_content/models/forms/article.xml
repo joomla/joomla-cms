@@ -102,7 +102,8 @@
 			description="Content_Created_Desc"
 			class="inputbox"
 			size="16"
-			format="%Y-%m-%d %H-%M-%S" />
+			format="%Y-%m-%d %H-%M-%S"
+			filter="server_utc" />
 
 		<field
 			id="created_by"
@@ -156,7 +157,8 @@
 			class="inputbox"
 			format="%Y-%m-%d %H-%M-%S"
 			size="30"
-			default="" />
+			default=""
+			filter="server_utc" />
 
 		<field
 			id="publish_down"
@@ -167,7 +169,8 @@
 			class="inputbox"
 			format="%Y-%m-%d %H-%M-%S"
 			size="30"
-			default="" />
+			default=""
+			filter="server_utc" />
 
 		<field
 			id="version"

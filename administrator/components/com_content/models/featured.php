@@ -36,7 +36,12 @@ class ContentModelFeatured extends ContentModelArticles
 		$query = new JQuery;
 
 		// Select the required fields from the table.
-		$query->select($this->getState('list.select', 'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.state, a.access, a.created, a.hits'));
+		$query->select(
+			$this->getState(
+				'list.select',
+				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits'
+			)
+		);
 		$query->from('#__content AS a');
 
 		// Join over the content table.

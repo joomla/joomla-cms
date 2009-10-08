@@ -18,21 +18,22 @@ abstract class JHtmlContent
 	 * @param	int $value	The state value
 	 * @param	int $i
 	 */
-	function featured($value = 0, $i)
+	function featured($value = 0, $i, $canChange = true)
 	{
 		// Array of image, task, title, action
 		$states	= array(
 			0	=> array('disabled.png',	'articles.featured',	'Content_Unfeatured',	'Content_Toggle_To_Feature'),
-			1	=> array('tick.png',		'articles.unfeatured',	'Content_Featured',	'Content_Toggle_To_Unfeature'),
+			1	=> array('tick.png',		'articles.unfeatured',	'Content_Featured',		'Content_Toggle_To_Unfeature'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
-		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-				. JHtml::_('image.administrator', $state[0], '/images/', null, '/images/', JText::_($state[2])).'</a>';
+		$html	= JHtml::_('image.administrator', $state[0], '/images/', null, '/images/', JText::_($state[2]));
+		if ($canChange) {
+			$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
+					. $html.'</a>';
+		}
 
 		return $html;
 	}
-
-
 
 	/**
 	 * Displays the publishing state legend for articles
