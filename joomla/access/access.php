@@ -209,13 +209,7 @@ class JAccess
 		{
 			foreach ($rule as $id)
 			{
-				// Root user check.
-				if ($userId == $config->root_user) {
-					$authorised[] = $level;
-					break;
-				}
-				// Check to see if the user is mapped to the level.
-				else if (($id < 0) && (($id * -1) == $userId))
+				if (($id < 0) && (($id * -1) == $userId))
 				{
 					$authorised[] = $level;
 					break;
