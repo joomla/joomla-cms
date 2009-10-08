@@ -15,10 +15,12 @@
 abstract class JHtmlJGrid
 {
 	/**
-	 * @param	int $value	The state value
+	 * @param	int $value	The state value.
 	 * @param	int $i
+	 * @param	string		An optional prefix for the task.
+	 * @param	boolean		An optional setting for access control on the action.
 	 */
-	public static function published($value = 0, $i, $taskPrefix = '')
+	public static function published($value = 0, $i, $taskPrefix = '', $canChange = true)
 	{
 		// Array of image, task, title, action
 		$states	= array(
@@ -28,8 +30,11 @@ abstract class JHtmlJGrid
 			-2	=> array('trash.png',		$taskPrefix.'publish',		'JState_Trashed',		'JState_Publish_Item'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-				. JHtml::_('image.administrator', $state[0], '/images/', null, '/images/', JText::_($state[2])).'</a>';
+		$html	= JHtml::_('image.administrator', $state[0], '/images/', null, '/images/', JText::_($state[2]));
+		if ($canChange) {
+			$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
+					. $html.'</a>';
+		}
 
 		return $html;
 	}
