@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout
+		title="com_contact_categories_view_default_title">
+		<message>
+			<![CDATA[com_contact_categories_view_default_desc]]>
+		</message>
+	</layout>
+	
+	<fields
+		group="request"
+		label="Menus_Layout_Basic_Options_Label"
+		description="">
+
+		<field
+			name="Category"
+			type="categories"
+			label="Choose_Category_Label"
+			description="Choose_Category_Desc"
+			required="true"
+			extension="com_weblinks"
+			default="" />
+	</fields>
+</metadata>

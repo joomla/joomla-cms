@@ -15,10 +15,11 @@
 		addfieldpath="/administrator/components/com_contact/models/fields">
 		<field
 			name="id"
-			type="contacts"
+			type="modal_contacts"
 			default=""
 			label="Select Contact"
 			description="The contact to link to"
+			required="true"
 			/>
 	</fields>
 	<fields>

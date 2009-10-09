@@ -149,7 +149,11 @@ abstract class JHtmlAccess
 
 			// Setup  the variable attributes.
 			$eid = $count.'group_'.$item->id;
-			$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+			// don't call in_array unless something is selected
+			$checked = '';
+			if ($selected) {
+				$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+			}
 			$rel = ($item->parent_id > 0) ? ' rel="'.$count.'group_'.$item->parent_id.'"' : '';
 
 			// Build the HTML for the item.

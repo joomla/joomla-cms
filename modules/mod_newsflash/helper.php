@@ -19,7 +19,8 @@ class modNewsFlashHelper
 		$app	= &JFactory::getApplication();
 		$user 	= &JFactory::getUser();
 		$groups	= $user->authorisedLevels();
-
+		$groups	= implode(',', $groups);
+		
 		$item->text		= $item->introtext;
 		$item->groups	= '';
 		$item->readmore = (trim($item->fulltext) != '');
@@ -80,11 +81,10 @@ class modNewsFlashHelper
 			' FROM #__content AS a' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
 			' WHERE a.state = 1 ' .
-			($noauth ? ' AND a.access IN ('.$groups.') AND cc.access IN ('.$groups.') AND s.access IN ('.$groups.')' : '').
+			($noauth ? ' AND a.access IN ('.$groups.') AND cc.access IN ('.$groups.') ' : '').
 			' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') ' .
 			' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' .
 			' AND cc.id = '. (int) $catid .
-			' AND cc.section = s.id' .
 			' AND cc.published = 1' .
 			' ORDER BY a.ordering';
 		$db->setQuery($query, 0, $items);

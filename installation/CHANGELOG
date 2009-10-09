@@ -27,6 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Oct-2009 Mark Dexter
++ Added categories views to weblinks, newsfeeds, contacts (Elin Waring)
+^ Redid frontend layouts for contacts and newsfeeds (Andrea Tarr)
+# Fixed error in Add New Access Level
+^ Moved css files of classes that replace inline styles to _html folder in milkyway (Andrea Tarr)
+# Fixed contact picker modal (Elin Waring)
+^ Moved SetState from controllers to models (Elin Waring)
+
 09-Oct-2009 Hannes Papenberg
 ^ Removed the root_user feature.
 # Fixed the userprofile in the backend. This still needs some changes.

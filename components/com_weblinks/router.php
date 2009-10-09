@@ -5,164 +5,277 @@
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
-jimport('joomla.application.categorytree');
-function WeblinksBuildRoute(&$query)
+
+ /* Weblinks Component Route Helper
+ *
+ * @package		Joomla.Site
+ * @subpackage	com_weblinks
+ * @since 1.6
+ */
+
+defined('_JEXEC') or die;
+
+class WeblinksRoute
 {
+	/**
+	 * @var	array	A cache of the menu items pertaining to com_weblinks
+	 */
+	protected static $lookup = null;
+
+	/**
+	 * @param	int $id			The id of the weblink.
+	 * @param	int	$categoryId	An optional category id.
+	 *
+	 * @return	string	The routed link.
+	 */
+	public static function weblink($id, $categoryId = null)
+	{
+		$needles = array(
+			'weblink'	=> (int) $id,
+			'category' => (int) $categoryId
+		);
+
+		//Create the link
+		$link = 'index.php?option=com_weblinks&view=iteme&id='. $id;
+
+		if ($categoryId) {
+			$link .= '&catid='.$categoryId;
+		}
+
+		if ($itemId = self::_findItemId($needles)) {
+			$link .= '&Itemid='.$itemId;
+		};
+
+		return $link;
+	}
+
+	/**
+	 * @param	int $id			The id of the weblink.
+	 * @param	int	$categoryId	An optional category id.
+	 *
+	 * @return	string	The routed link.
+	 */
+	public static function category($catid, $parentId = null)
+	{
+		$needles = array(
+
+			'category' => (int) $catid
+		);
+
+		//Create the link
+		$link = 'index.php?option=com_weblinks&view=category&catid='.$catid;
+
+		if ($itemId = self::_findItemId($needles)) {
+			// TODO: The following should work automatically??
+			//if (isset($item->query['layout'])) {
+			//	$link .= '&layout='.$item->query['layout'];
+			//}
+			$link .= '&Itemid='.$itemId;
+		};
+
+		return $link;
+	}
+
+	protected static function _findItemId($needles)
+	{
+		// Prepare the reverse lookup array.
+		if (self::$lookup === null)
+		{
+			self::$lookup = array();
+
+			$component	= &JComponentHelper::getComponent('com_weblinks');
+			$menus		= &JApplication::getMenu('site', array());
+			$items		= $menus->getItems('component_id', $component->id);
+
+			foreach ($items as &$item)
+			{
+				if (isset($item->query) && isset($item->query['view']))
+				{
+					$view = $item->query['view'];
+					if (!isset(self::$lookup[$view])) {
+						self::$lookup[$view] = array();
+					}
+					if (isset($item->query['id'])) {
+						self::$lookup[$view][$item->query['id']] = $item->id;
+					}
+				}
+			}
+		}
+
+		$match = null;
+
+		foreach ($needles as $view => $id)
+		{
+			if (isset(self::$lookup[$view]))
+			{
+				if (isset(self::$lookup[$view][$id])) {
+					return self::$lookup[$view][$id];
+				}
+			}
+		}
+
+		return null;
+	}
+}
+
+/**
+ * Build the route for the com_weblinks component
+ *
+ * @param	array	An array of URL arguments
+ *
+ * @return	array	The URL arguments to use to assemble the subsequent URL.
+ */
+function WeblinksBuildRoute(&$query){
 	static $items;
 
 	$segments	= array();
-	$itemid		= 0;
-	$menuitem	= 0;
+	// get a menu item based on Itemid or currently active
+	$menu = &JSite::getMenu();
 
-	// Get the menu items for this component.
-	if (!$items) {
-		$component	= &JComponentHelper::getComponent('com_weblinks');
-		$menu		= &JSite::getMenu();
-		$items		= $menu->getItems('component_id', $component->id);
+	if (empty($query['Itemid'])) {
+		$menuItem = &$menu->getActive();
 	}
+	else {
+		$menuItem = &$menu->getItem($query['Itemid']);
+	}
+	$mView	= (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
+	$mCatid	= (empty($menuItem->query['catid'])) ? null : $menuItem->query['catid'];
+	$mId	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 
 	if (isset($query['view']))
 	{
-		if ($query['view'] == 'category')
-		{
-			$catid = (int) $query['id'];
-		}
-		elseif ($query['view'] == 'weblink') {
-			$catid = (int) $query['catid'];
-		}
 		$view = $query['view'];
+		if (empty($query['Itemid'])) {
+			$segments[] = $query['view'];
+		}
+		unset($query['view']);
+	};
+
+
+	if (isset($view) and $view == 'category') {
+		if ($mId != intval($query['id']) || $mView != $view) {
+			$segments[] = $query['id'];
+		}
+		unset($query['id']);
 	}
 
-	if (isset($catid) && $catid > 0)
-	{
-		$categoryTree = JCategories::getInstance('com_weblinks');
-		$category = $categoryTree->get($catid);
-	}
 
-	if (isset($category) && count($items))
+
+	if (isset($query['id']))
 	{
-		$path = array();
-		while($category instanceof JCategoryNode)
+		if (empty($query['Itemid'])) {
+			$segments[] = $query['id'];
+		}
+		else
 		{
-			foreach($items as $item)
+			if (isset($menuItem->query['id']))
 			{
-				if ($item->query['view'] == 'weblink'
-					&& $view == 'weblink'
-					&& (int)$item->query['id'] == (int)$query['id'])
-				{
-					$itemid = $item->id;
-					$menuitem = 1;
-					break;
+				if ($query['id'] != $mId) {
+					$segments[] = $query['id'];
 				}
 			}
-			foreach($items as $item)
-			{
-				if ($item->query['view'] == 'category'
-					&& (int)$item->query['id'] == (int)$category->id)
-				{
-					$itemid = $item->id;
-					break;
-				}
-			}
-			if ($itemid > 0)
-			{
-				break;
-			} else {
-				$path[] = $category->slug;
-				$category = $category->getParent();
+			else {
+				$segments[] = $query['id'];
 			}
 		}
-		if ($itemid > 0)
+		unset($query['id']);
+	};
+
+	if (isset($query['year']))
+	{
+		if (!empty($query['Itemid'])) {
+			$segments[] = $query['year'];
+			unset($query['year']);
+		}
+	};
+
+	if (isset($query['month']))
+	{
+		if (!empty($query['Itemid'])) {
+			$segments[] = $query['month'];
+			unset($query['month']);
+		}
+	};
+
+	if (isset($query['layout']))
+	{
+		if (!empty($query['Itemid']) && isset($menuItem->query['layout']))
 		{
-			$query['Itemid'] = $itemid;
+			if ($query['layout'] == $menuItem->query['layout']) {
+
+				unset($query['layout']);
+			}
 		}
-		$path = array_reverse($path);
-		$segments = array_merge($segments, $path);
-	}
-
-	if (isset($view) && $view == 'weblink' && $itemid > 0)
-	{
-		if (!$menuitem)
-		$segments[] = $query['id'];
-	}
-
-	if ($itemid == 0 && isset($query['id']))
-	{
-		$segments[] = $query['id'];
-	}
-
-	// Remove the unnecessary URL segments.
-	unset($query['view']);
-	unset($query['id']);
-	unset($query['catid']);
+		else
+		{
+			if ($query['layout'] == 'default') {
+				unset($query['layout']);
+			}
+		}
+	};
 
 	return $segments;
 }
-
+/**
+ * Parse the segments of a URL.
+ *
+ * @param	array	The segments of the URL to parse.
+ *
+ * @return	array	The URL attributes to be used by the application.
+ */
 function WeblinksParseRoute($segments)
 {
-	$vars	= array();
+	$vars = array();
 
 	// Get the active menu item.
 	$menu	= &JSite::getMenu();
 	$item	= &$menu->getActive();
 
-	// Check if we have a valid menu item.
-	if (is_object($item))
+	// Count route segments
+	$count = count($segments);
+
+	// Standard routing for weblinks.
+	if (!isset($item))
 	{
-		if ($item->query['view'] == 'category')
-		{
-			$categorytree = JCategories::getInstance('com_weblinks');
-			$category = $categorytree->get($item->query['id']);
-			foreach($segments as $segment)
-			{
-				$found = 0;
-				foreach($category->getChildren() as $child)
-				{
-					if ($segment == $child->slug)
-					{
-						$found = 1;
-						$category = $child;
-						break;
-					}
-				}
-				if ($found == 0)
-				{
-					$vars['id'] = $segment;
-					$vars['catid'] = $category->slug;
-					$vars['view'] = 'weblink';
-				} else {
-					$vars['id'] = $category->slug;
-					$vars['view'] = 'category';
-				}
-			}
-		}
+		$vars['view']	= $segments[0];
+		$vars['id']		= $segments[$count - 1];
+		return $vars;
 	}
-	else
+
+	// Handle View and Identifier.
+	switch ($item->query['view'])
 	{
-		// Count route segments
-		$count = count($segments);
+		case 'categories':
+			// From the categories view, we can only jump to a category.
 
-		// Check if there are any route segments to handle.
-		if ($count)
-		{
-			if (count($segments[0]) == 2)
+			if ($count > 1)
 			{
-				// We are viewing a newsfeed.
-				$vars['view']	= 'newsfeed';
-				$vars['id']		= $segments[$count-2];
-				$vars['catid']	= $segments[$count-1];
-
+				if (intval($segments[0]) && intval($segments[$count-1]))
+				{ //there is no weblink view
+					// 123-path/to/category/456-article
+				//	$vars['id']		= $segments[$count-1];
+				//	$vars['view']	= 'category';
+				}
+				else
+				{
+					// 123-path/to/category
+					$vars['id']		= $segments[0];
+					$vars['view']	= 'category';
+				}
 			}
 			else
 			{
-				// We are viewing a category.
+				// 123-category
+				$vars['id']		= $segments[0];
 				$vars['view']	= 'category';
-				$vars['catid']	= $segments[$count-1];
 			}
-		}
-	}
+			break;
 
-	return $vars;
+		case 'category':
+			$vars['id']		= $segments[$count-1];
+			$vars['view']	= 'weblink';
+			break;
+	}
+		return $vars;
+
 }
-?>

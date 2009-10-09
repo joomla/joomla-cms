@@ -19,7 +19,7 @@ jimport('joomla.application.categories');
  *
  * @static
  * @package		Joomla
- * @subpackage	Content
+ * @subpackage	Weblinks
  * @since 1.6
  */
 class WeblinksCategories extends JCategories

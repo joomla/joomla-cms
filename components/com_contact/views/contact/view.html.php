@@ -56,6 +56,14 @@ class ContactViewContact extends JView
 
 		// check if access is registered/special
 		$groups	= $user->authorisedLevels();
+		
+		// Not sure what was intented here
+		// this was blowing up in default_form as undefined $result
+		// so added the assignRef to pass it
+		// I'm initializing it here since I'm always passing it
+		// but I don't know if this is actually coming from somewhere else
+		// and so shouldn't be cleared (Andy T 10.6.9)
+		$return ="";
 		if ((!in_array($contact->access, $groups)) || (!in_array($contact->category_access, $groups))) {
 			$uri		= JFactory::getURI();
 			$return		= $uri->toString();
@@ -122,7 +130,7 @@ class ContactViewContact extends JView
 				$contact->params->set('marker_fax', 		JText::_('Fax').": ");
 				$contact->params->set('marker_mobile',		JText::_('Mobile').": ");
 				$contact->params->set('marker_misc', 		JText::_('Information').": ");
-				$contact->params->set('column_width', 		'100');
+				$contact->params->set('marker_class', 		'jicons-text');
 				break;
 
 			case 2 :
@@ -133,7 +141,7 @@ class ContactViewContact extends JView
 				$contact->params->set('marker_mobile', 	'');
 				$contact->params->set('marker_fax', 		'');
 				$contact->params->set('marker_misc', 		'');
-				$contact->params->set('column_width', 		'0');
+				$contact->params->set('marker_class', 		'jicons-none');
 				break;
 
 			default :
@@ -151,7 +159,7 @@ class ContactViewContact extends JView
 				$contact->params->set('marker_fax', 		$image4);
 				$contact->params->set('marker_misc',		$image5);
 				$contact->params->set('marker_mobile', 		$image6);
-				$contact->params->set('column_width', 		'40');
+				$contact->params->set('marker_class', 		'jicons-icons');
 				break;
 		}
 
@@ -160,6 +168,7 @@ class ContactViewContact extends JView
 		$this->assignRef('contact',		$contact);
 		$this->assignRef('contacts',	$contacts);
 		$this->assignRef('params',		$pparams);
+		$this->assignRef('return',		$return);
 
 		parent::display($tpl);
 	}

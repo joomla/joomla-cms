@@ -37,5 +37,13 @@
 			<option
 				value="1">JYes</option>
 		</field>
+		<field
+			name="image"
+			type="imagelist"
+			directory="/images/stories"
+			hide_default="1"
+			default=""
+			label="Image"
+			description="fieldIMAGE" />
 	</fields>
 </metadata>

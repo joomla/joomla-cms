@@ -18,7 +18,10 @@ class modRelatedItemsHelper
 	{
 		$db			= &JFactory::getDbo();
 		$user		= &JFactory::getUser();
-		$groups		= implode(',', $user->authorisedLevels());
+		$userId		= (int) $user->get('id');
+		$count		= intval($params->get('count', 5));		
+		$groups		= $user->authorisedLevels();
+		$groups	= implode(',', $groups);
 		$date		= &JFactory::getDate();
 
 		$option		= JRequest::getCmd('option');

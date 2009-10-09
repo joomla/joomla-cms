@@ -6,20 +6,26 @@
 			<![CDATA[com_wrapper_wrapper_view_default_desc]]>
 		</message>
 	</layout>
-
 	<fields
-		group="basic"
+		group="request"
 		label="Menus_Layout_Basic_Options_Label"
 		description="">
 
-		<field
+	<field
 			name="url"
 			type="text"
 			size="30"
 			default=""
 			label="Wrapper URL"
 			description="URL to open in an IFRAME" />
+	</fields>
 
+	<fields
+		group="basic"
+		label="Menus_Layout_Basic_Options_Label"
+		description="">
+
+	
 		<field
 			type="spacer" />
 

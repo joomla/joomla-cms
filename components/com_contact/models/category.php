@@ -24,7 +24,7 @@ class ContactModelCategory extends JModel
 	 * @return string
 	 * @access protected
 	 */
-	function _getCatgoriesQuery(&$options)
+	function _getCategoriesQuery(&$options)
 	{
 		// TODO: Cache on the fingerprint of the arguments
 		$db		= &JFactory::getDbo();
@@ -52,7 +52,7 @@ class ContactModelCategory extends JModel
 				' GROUP BY ' . $groupBy .
 				' ORDER BY ' . $orderBy;
 
-		//echo $query;
+
 		return $query;
 	}
 
@@ -111,7 +111,7 @@ class ContactModelCategory extends JModel
 	 */
 	function getCategories($options=array())
 	{
-		$query	= $this->_getCatgoriesQuery($options);
+		$query	= $this->_getCategoriesQuery($options);
 		return $this->_getList($query, @$options['limitstart'], @$options['limit']);
 	}
 
@@ -122,7 +122,7 @@ class ContactModelCategory extends JModel
 	 */
 	function getCategoryCount($options=array())
 	{
-		$query	= $this->_getCatgoriesQuery($options);
+		$query	= $this->_getCategoriesQuery($options);
 		return $this->_getListCount($query);
 	}
 

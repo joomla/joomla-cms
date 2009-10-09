@@ -89,7 +89,7 @@ class ContactModelContact extends JModelForm
 		// Prime required properties.
 		if (empty($table->id))
 		{
-			//$table->parent_id	= $this->getState('item.parent_id');
+			$table->parent_id	= $this->getState('item.parent_id');
 			//$table->menutype	= $this->getState('item.menutype');
 			//$table->type		= $this->getState('item.type');
 		}
@@ -101,7 +101,7 @@ class ContactModelContact extends JModelForm
 
 		// Convert the params field to an array.
 		$registry = new JRegistry;
-		$registry->loadJSON($table->metadata);
+		//$registry->loadJSON($table->metadata);
 		$table->metadata = $registry->toArray();
 
 

@@ -103,19 +103,13 @@ class ContactTableContact extends JTable
 	 * @return	boolean		True on success, false on failure.
 	 * @since	1.6
 	 */
-	public function store($updateNulls = false)
-	{
+	public function store($updateNulls = false){
+
 		// Transform the params field
 		if (is_array($this->params)) {
 			$registry = new JRegistry();
 			$registry->loadArray($this->params);
 			$this->params = $registry->toString();
-		}
-		// Transform the metadata field
-		if (is_array($this->metadata)) {
-			$registry = new JRegistry();
-			$registry->loadArray($this->metadata);
-			$this->metadata = $registry->toString();
 		}
 
 		// Attempt to store the data.

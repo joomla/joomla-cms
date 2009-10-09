@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<view title="CATEGORY GROUP">
+	<view title="NEWSFEEDS_CATEGORY_GROUP_LABEL">
 		<message>
-			<![CDATA[CATEGORY GROUP DESC]]>
+			<![CDATA[NEWSFEEDS_CATEGORY_GROUP_DESC]]>
 		</message>
 	</view>
 </metadata>

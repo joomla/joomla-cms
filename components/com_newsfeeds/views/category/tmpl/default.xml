@@ -19,7 +19,7 @@
 			type="categories"
 			extension="com_newsfeeds"
 			default="0"
-			label="Category"
+			label="JCategory"
 			description="fieldCATSELECT" />
 	</fields>
 
@@ -31,8 +31,8 @@
 			name="show_limit"
 			type="radio"
 			default="1"
-			label="Show Limit Box"
-			description="Show/Hide the limit box">
+			label="NEWSFEEDS_Category_Show_Limit_Box_Label"
+			description="NEWSFEEDS_Category_Show_Limit_Box_Desc">
 			<option
 				value="0">Hide</option>
 			<option

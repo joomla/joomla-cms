@@ -108,7 +108,7 @@ class WeblinksControllerWeblink extends WeblinksController
 		}
 
 		JRequest::setVar('view', 'weblink');
-		JRequest::setVar('layout', 'form');
+		JRequest::setVar('layout', 'edit');
 
 		$model = &$this->getModel('weblink');
 		$model->checkout();

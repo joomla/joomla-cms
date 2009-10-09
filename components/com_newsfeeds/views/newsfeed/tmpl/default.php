@@ -3,65 +3,59 @@ defined('_JEXEC') or die; ?>
 <?php
 		$lang = &JFactory::getLanguage();
 		$myrtl =$this->newsfeed->rtl;
-		 if ($lang->isRTL() && $myrtl==0){
-		   $direction= "direction:rtl !important;";
-		   $align= "text-align:right !important;";
+		$direction = " ";
+		
+		if ($lang->isRTL() && $myrtl==0){
+		   $direction= " jredirect-rtl";
 		   }
-		 else if ($lang->isRTL() && $myrtl==1){
-		   $direction= "direction:ltr !important;";
-		   $align= "text-align:left !important;";
+		else if ($lang->isRTL() && $myrtl==1){
+		   $direction= " jredirect-ltr";
 		   }
-		  else if ($lang->isRTL() && $myrtl==2){
-		   $direction= "direction:rtl !important;";
-		   $align= "text-align:right !important;";
+		else if ($lang->isRTL() && $myrtl==2){
+		   $direction= " jredirect-rtl";
 		   }
-
 		else if ($myrtl==0) {
-		$direction= "direction:ltr !important;";
-		   $align= "text-align:left !important;";
+			$direction= " jredirect-ltr";
 		   }
 		else if ($myrtl==1) {
-		$direction= "direction:ltr !important;";
-		   $align= "text-align:left !important;";
+			$direction= " jredirect-ltr";
 		   }
 		else if ($myrtl==2) {
-		   $direction= "direction:rtl !important;";
-		   $align= "text-align:right !important;";
+		   $direction= " jredirect-rtl";
 		   }
-
 ?>
-<div style="<?php echo $direction; ?><?php echo $align; ?>">
+
+<div class="jnewsfeed<?php echo $this->params->get('pageclass_sfx')?><?php echo $direction; ?>">
+
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>" style="<?php echo $direction; ?><?php echo $align; ?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
+	<h2 class="<?php echo $direction; ?>">
+		<?php echo $this->escape($this->params->get('page_title')); ?>
+	</h2>
 <?php endif; ?>
-<table width="100%" class="contentpane<?php echo $this->params->get('pageclass_sfx'); ?>">
-<tr>
-	<td class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>" style="<?php echo $direction; ?><?php echo $align; ?>">
+
+	<h3 class="<?php echo $direction; ?>">
 		<a href="<?php echo $this->newsfeed->channel['link']; ?>" target="_blank">
 			<?php echo str_replace('&apos;', "'", $this->newsfeed->channel['title']); ?></a>
-	</td>
-</tr>
+	</h3>
+
+<!-- Show Description -->
 <?php if ($this->params->get('show_feed_description')) : ?>
-<tr>
-	<td>
+	<div>
 		<?php echo str_replace('&apos;', "'", $this->newsfeed->channel['description']); ?>
-		<br />
-		<br />
-	</td>
-</tr>
+	</div>
 <?php endif; ?>
+
+<!-- Show Image -->
 <?php if (isset($this->newsfeed->image['url']) && isset($this->newsfeed->image['title']) && $this->params->get('show_feed_image')) : ?>
-<tr>
-	<td>
+<div>
 		<img src="<?php echo $this->newsfeed->image['url']; ?>" alt="<?php echo $this->newsfeed->image['title']; ?>" />
-	</td>
-</tr>
+</div>
 <?php endif; ?>
-<tr>
-	<td>
-		<ul>
-		<?php foreach ($this->newsfeed->items as $item) :  ?>
-			<li>
+
+<!-- Show items -->
+<ol>
+	<?php foreach ($this->newsfeed->items as $item) :  ?>
+		<li>
 			<?php if (!is_null($item->get_link())) : ?>
 				<a href="<?php echo $item->get_link(); ?>" target="_blank">
 					<?php echo $item->get_title(); ?></a>
@@ -76,8 +70,6 @@ defined('_JEXEC') or die; ?>
 			<?php endif; ?>
 			</li>
 		<?php endforeach; ?>
-		</ul>
-	</td>
-</tr>
-</table>
+		</ol>
 </div>
+

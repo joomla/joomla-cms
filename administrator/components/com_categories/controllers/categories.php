@@ -170,7 +170,7 @@ class CategoriesControllerCategories extends JController
 		}
 		else {
 			// Rebuild failed.
-			$this->setMessage(JText::sprintf('Categories_Rebuild_failed', $model->getMessage()));
+			$this->setMessage(JText::sprintf('Categories_Rebuild_failed'));
 			return false;
 		}
 	}

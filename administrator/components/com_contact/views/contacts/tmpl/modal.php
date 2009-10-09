@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 
-$function = JRequest::getVar('function', 'jSelectArticle');
+$function = JRequest::getVar('function', 'jSelectContact');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_content&view=articles');?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_contact&view=contacts');?>" method="post" name="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="left">
 			<label for="search">
@@ -84,8 +84,8 @@ $function = JRequest::getVar('function', 'jSelectArticle');
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
-					<a style="cursor: pointer;" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->title); ?>');">
-						<?php echo $this->escape($item->title); ?></a>
+					<a style="cursor: pointer;" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->name); ?>');">
+						<?php echo $this->escape($item->name); ?></a>
 				</td>
 				<td align="center">
 					<?php echo $this->escape($item->category_title); ?>
@@ -94,7 +94,7 @@ $function = JRequest::getVar('function', 'jSelectArticle');
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<td align="center">
-					<?php echo JHtml::date($item->created, '%Y.%m.%d'); ?>
+				
 				</td>
 				<td align="center">
 					<?php echo (int) $item->id; ?>

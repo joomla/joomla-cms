@@ -19,7 +19,7 @@ jimport('joomla.application.categories');
  *
  * @static
  * @package		Joomla
- * @subpackage	Content
+ * @subpackage	Com_newsfeeds
  * @since 1.6
  */
 class NewsfeedsCategories extends JCategories

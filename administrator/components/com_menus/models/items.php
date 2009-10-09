@@ -115,6 +115,12 @@ class MenusModelItems extends JModelList
 		$query->select('u.name AS editor');
 		$query->join('LEFT', '`#__users` AS u ON u.id = a.checked_out');
 
+		//Join over components
+		$query->select('c.name AS componentname');
+		$query->join('LEFT', '`#__components` AS c ON c.id = a.component_id');
+		
+		
+		
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');

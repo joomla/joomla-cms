@@ -43,8 +43,7 @@ defined('_JEXEC') or die;
 
 					</td>
 					<td align="center">
-					<?php $document = &JFactory::getDocument();
-						$document->addScriptDeclaration($js); ?>
+					<?php $document = &JFactory::getDocument(); ?>
 						<?php
 							$link = 'index.php?option=com_modules&client=0&task=edit&cid[]='. $module->id.'&tmpl=component' ;
 						 	JHTML::_('behavior.modal', 'a.modal');

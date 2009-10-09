@@ -7,123 +7,101 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
+/* marker_class: Class based on the selection of text, none, or icons
+ * jicon-text, jicon-none, jicon-icon
+ */ 
 ?>
 <?php if (($this->contact->params->get('address_check') > 0) &&  ($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<div class="jcontact-address">
+
 <?php if ($this->contact->params->get('address_check') > 0) : ?>
-<tr>
-	<td rowspan="6" valign="top" width="<?php echo $this->contact->params->get('column_width'); ?>" >
+	<span class="<?php echo $this->contact->params->get('marker_class'); ?>" >
 		<?php echo $this->contact->params->get('marker_address'); ?>
-	</td>
-</tr>
+	</span>
 <?php endif; ?>
 <?php if ($this->contact->address && $this->contact->params->get('show_street_address')) : ?>
-<tr>
-	<td valign="top">
+	<div class="jcontact-street">
 		<?php echo nl2br($this->contact->address); ?>
-	</td>
-</tr>
+	</div>
 <?php endif; ?>
 <?php if ($this->contact->suburb && $this->contact->params->get('show_suburb')) : ?>
-<tr>
-	<td valign="top">
+	<div class="jcontact-suburb">
 		<?php echo $this->contact->suburb; ?>
-	</td>
-</tr>
+	</div>
 <?php endif; ?>
 <?php if ($this->contact->state && $this->contact->params->get('show_state')) : ?>
-<tr>
-	<td valign="top">
+	<div class="jcontact-state">
 		<?php echo $this->contact->state; ?>
-	</td>
-</tr>
-<?php endif; ?>
+	</div>
+		<?php endif; ?>
 <?php if ($this->contact->postcode && $this->contact->params->get('show_postcode')) : ?>
-<tr>
-	<td valign="top">
+	<div class="jcontact-postcode">
 		<?php echo $this->contact->postcode; ?>
-	</td>
-</tr>
+	</div>
 <?php endif; ?>
 <?php if ($this->contact->country && $this->contact->params->get('show_country')) : ?>
-<tr>
-	<td valign="top">
+	<div class="jcontact-country">
 		<?php echo $this->contact->country; ?>
-	</td>
-</tr>
+	</div>
 <?php endif; ?>
-</table>
-<br />
+</div>
+
 <?php endif; ?>
-<?php if (($this->contact->email_to && $this->contact->params->get('show_email')) ||
-			($this->contact->telephone && $this->contact->params->get('show_telephone')) ||
-			($this->contact->fax && $this->contact->params->get('show_fax')) ||
-			($this->contact->mobile && $this->contact->params->get('show_mobile')) ||
-			($this->contact->webpage && $this->contact->params->get('show_webpage'))) : ?>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
+
+<div class="jcontact-contactinfo">
+
 <?php if ($this->contact->email_to && $this->contact->params->get('show_email')) : ?>
-<tr>
-	<td width="<?php echo $this->contact->params->get('column_width'); ?>" >
+	<span class="<?php echo $this->contact->params->get('marker_class'); ?>" >
 		<?php echo $this->contact->params->get('marker_email'); ?>
-	</td>
-	<td>
+	</span>
+	<span class="jcontact-emailto">
 		<?php echo $this->contact->email_to; ?>
-	</td>
-</tr>
+	</span>
 <?php endif; ?>
+
 <?php if ($this->contact->telephone && $this->contact->params->get('show_telephone')) : ?>
-<tr>
-	<td width="<?php echo $this->contact->params->get('column_width'); ?>" >
+	<span class="<?php echo $this->contact->params->get('marker_class'); ?>" >
 		<?php echo $this->contact->params->get('marker_telephone'); ?>
-	</td>
-	<td>
+	</span>
+	<span class="jcontact-telephone">
 		<?php echo nl2br($this->contact->telephone); ?>
-	</td>
-</tr>
+	</span>
 <?php endif; ?>
 <?php if ($this->contact->fax && $this->contact->params->get('show_fax')) : ?>
-<tr>
-	<td width="<?php echo $this->contact->params->get('column_width'); ?>" >
+	<span class="<?php echo $this->contact->params->get('marker_class'); ?>" >
 		<?php echo $this->contact->params->get('marker_fax'); ?>
-	</td>
-	<td>
+	</span>
+	<span class="jcontact-fax">
 		<?php echo nl2br($this->contact->fax); ?>
-	</td>
-</tr>
+	</span>
 <?php endif; ?>
 <?php if ($this->contact->mobile && $this->contact->params->get('show_mobile')) :?>
-<tr>
-	<td width="<?php echo $this->contact->params->get('column_width'); ?>" >
+	<span class="<?php echo $this->contact->params->get('marker_class'); ?>" >
 	<?php echo $this->contact->params->get('marker_mobile'); ?>
-	</td>
-	<td>
+	</span>
+	<span class="jcontact-mobile">
 		<?php echo nl2br($this->contact->mobile); ?>
-	</td>
-</tr>
+	</span>
 <?php endif; ?>
 <?php if ($this->contact->webpage && $this->contact->params->get('show_webpage')) : ?>
-<tr>
-	<td width="<?php echo $this->contact->params->get('column_width'); ?>" >
-	</td>
-	<td>
+	<span class="<?php echo $this->contact->params->get('marker_class'); ?>" >
+	</span>
+	<span class="jcontact-webpage">
 		<a href="<?php echo $this->contact->webpage; ?>" target="_blank">
 			<?php echo $this->contact->webpage; ?></a>
-	</td>
-</tr>
+	</span>
 <?php endif; ?>
-</table>
-<?php endif; ?>
-<br />
+</div>
+
+
 <?php if ($this->contact->misc && $this->contact->params->get('show_misc')) : ?>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-	<td width="<?php echo $this->contact->params->get('column_width'); ?>" valign="top" >
+<div class="jcontact-miscinfo">
+	<span class="<?php echo $this->contact->params->get('marker_class'); ?>">
 		<?php echo $this->contact->params->get('marker_misc'); ?>
-	</td>
-	<td>
+	</span>
+	<span class="jcontact-misc">
 		<?php echo $this->contact->misc; ?>
-	</td>
-</tr>
-</table>
-<br />
+	</span>
+</div>
 <?php endif; ?>

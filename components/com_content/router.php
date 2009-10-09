@@ -1,10 +1,11 @@
 <?php
 /**
  * @version		$Id$
+  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-
+ defined('_JEXEC') or die;
 /**
  * Content Component Route Helper
  *
@@ -12,6 +13,7 @@
  * @subpackage	com_content
  * @since 1.6
  */
+
 class ContentRoute
 {
 	/**
@@ -236,7 +238,7 @@ function ContentParseRoute($segments)
 {
 	$vars = array();
 
-	//G et the active menu item.
+	//Get the active menu item.
 	$menu = &JSite::getMenu();
 	$item = &$menu->getActive();
 

@@ -16,109 +16,125 @@ jimport('joomla.application.component.view');
 /**
  * HTML View class for the Newsfeeds component
  *
- * @static
- * @package		Joomla
- * @subpackage	Newsfeeds
- * @since 1.0
+ * @package		Joomla.Site
+ * @subpackage	com_newsfeeds
+ * @since		1.0
  */
 class NewsfeedsViewCategory extends JView
 {
+	protected $state;
+	protected $items;
+	protected $category;
+	protected $categories;
+	protected $pagination;
+
 	function display($tpl = null)
-	{
-		$app = JFactory::getApplication();
+	{		
+		$app		= &JFactory::getApplication();
+		$params		= &$app->getParams();
 
-		$pathway 	= & $app->getPathway();
-		$document	= & JFactory::getDocument();
+		// Get some data from the models
+		$state		= &$this->get('State');
+		$items		= &$this->get('Items');
+		$category	= &$this->get('Category');
+		$categories	= &$this->get('Categories');
+		$pagination	= &$this->get('Pagination');
 
-		// Get the parameters of the active menu item
-		$menus	= &JSite::getMenu();
-		$menu	= $menus->getActive();
-		$params	= &$app->getParams();
-
-		$category	= $this->get('category');
-		$items		= $this->get('data');
-		$total		= $this->get('total');
-		$pagination	= &$this->get('pagination');
-
-		// Set page title
-		$menus	= &JSite::getMenu();
-		$menu	= $menus->getActive();
-
-		// because the application sets a default page title, we need to get it
-		// right from the menu item itself
-		if (is_object($menu)) {
-			$menu_params = new JParameter($menu->params);
-			if (!$menu_params->get('page_title')) {
-				$params->set('page_title',	$category->title);
-			}
-		} else {
-			$params->set('page_title',	$category->title);
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
 		}
 
-		$document->setTitle($params->get('page_title'));
+		// Validate the category.
 
-		//set breadcrumbs
-		$pathwaycat = $category;
-		$path = array();
-		if (is_object($menu) && $menu->query['id'] != $category->id)
-		{
-			$path[] = array($pathwaycat->title);
-			$pathwaycat = $pathwaycat->getParent();
-			while($pathwaycat->id != $menu->query['id'])
-			{
-				$path[] = array($pathwaycat->title, $pathwaycat->slug);
-				$pathwaycat = $pathwaycat->getParent();
-			}
-			$path = array_reverse($path);
-			foreach($path as $element)
-			{
-				if (isset($element[1]))
-				{
-					$pathway->addItem($element[0], 'index.php?option=com_newsfeeds&view=category&id='.$element[1]);
-				} else {
-					$pathway->addItem($element[0], '');
-				}
-			}
+		// Make sure the category was found.
+
+		if (empty($category)) {
+			return JError::raiseWarning(404, JText::_('Newfeeds_Error_Category_not_found'));
 		}
 
-		// Prepare category description
+		// Check whether category access level allows access.
+		$user	= &JFactory::getUser();
+		$groups	= $user->authorisedLevels();
+		if (!in_array($category->access, $groups)) {
+			return JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+		}
+
+		// Prepare the data.
+
+		// Compute the active category slug.
+		$category->slug = $category->alias ? ($category->id.':'.$category->alias) : $category->id;
+
+		// Prepare category description (runs content plugins)
+		// TODO: only use if the description is displayed
 		$category->description = JHtml::_('content.prepare', $category->description);
 
-		$k = 0;
-		for ($i = 0; $i <  count($items); $i++)
+		// Compute the newsfeed slug.
+		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
-			$item = &$items[$i];
-
-			$item->link = JRoute::_('index.php?view=newsfeed&catid='.$category->slug.'&id='. $item->slug);
-
-			$item->odd		= $k;
-			$item->count	= $i;
-			$k = 1 - $k;
+			$item		= &$items[$i];
+			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 		}
 
-		// Define image tag attributes
-		if (!empty ($category->image))
+		// Compute the categories (list) slug.
+		for ($i = 0, $n = count($categories); $i < $n; $i++)
 		{
-			$attribs['align'] = $category->image_position;
-			$attribs['hspace'] = 6;
-
-			// Use the static HTML library to build the image tag
-			$image = JHtml::_('image', 'images/'.$category->image, JText::_('NEWS_FEEDS'), $attribs);
+			$item		= &$categories[$i];
+			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 		}
 
-		$children = $category->getChildren();
-		foreach($children as &$child)
-		{
-			$child->link = JRoute::_('index.php?option=com_newsfeeds&view=category&id='.$child->slug);
-		}
-		$this->assignRef('image',		$image);
-		$this->assignRef('params',		$params);
+		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);
 		$this->assignRef('category',	$category);
-		$this->assignRef('children', 	$children);
+		$this->assignRef('categories',	$categories);
+		$this->assignRef('params',		$params);
 		$this->assignRef('pagination',	$pagination);
+
+		$this->_prepareDocument();
 
 		parent::display($tpl);
 	}
+
+	/**
+	 * Prepares the document
+	 */
+	protected function _prepareDocument()
+	{
+		$app		= &JFactory::getApplication();
+		$menus		= &JSite::getMenu();
+		$pathway	= &$app->getPathway();
+
+		// Because the application sets a default page title,
+		// we need to get it from the menu item itself
+		if ($menu = $menus->getActive())
+		{
+			$menuParams = new JParameter($menu->params);
+			if ($title = $menuParams->get('jpage_title')) {
+				$this->document->setTitle($title);
+			}
+			else {
+				$this->document->setTitle(JText::_('News_Feeds'));
+			}
+
+			// Set breadcrumbs.
+			if ($menu->query['view'] != 'category') {
+				$pathway->addItem($this->category->title, '');
+			}
+		}
+		else {
+			$this->document->setTitle(JText::_('News_Feeds'));
+		}
+
+		// Add alternate feed link
+		if ($this->params->get('show_feed_link', 1) == 1)
+		{
+			$link	= '&view=category&id='.$this->category->slug.'&format=feed&limitstart=';
+			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+			$this->document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
+			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+			$this->document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
+		}
+	}
 }
-?>
+

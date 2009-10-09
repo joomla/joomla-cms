@@ -10,13 +10,13 @@ defined('JPATH_BASE') or die;
 jimport('joomla.form.field');
 
 /**
- * Supports a modal article picker.
+ * Supports a modal contact picker.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_contact
  * @since		1.6
  */
-class JFormFieldModal_Contact extends JFormField
+class JFormFieldModal_Contacts extends JFormField
 {
 	/**
 	 * The field type.
