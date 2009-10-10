@@ -102,7 +102,7 @@ $user	= JFactory::getUser();
 			$canChange	= $user->authorise('core.edit.state',	'com_content.article.'.$item->id)
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<td style="text-align:center">
+				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
@@ -118,16 +118,16 @@ $user	= JFactory::getUser();
 					<br /><small>
 						(<?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>: <?php echo $this->escape($item->alias);?>)</small>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange); ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo JHtml::_('content.featured', $item->featured, $i, $canChange); ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $this->escape($item->category_title); ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $this->escape($item->author_name); ?>
 				</td>
 				<td class="order">
@@ -135,21 +135,21 @@ $user	= JFactory::getUser();
 						<span><?php echo $this->pagination->orderUpIcon($i, true, 'items.orderup', 'JGrid_Move_Up', $ordering); ?></span>
 						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'items.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
 						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
+						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo JHtml::date($item->created, '%Y.%m.%d'); ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo (int) $item->hits; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo (int) $item->id; ?>
 				</td>
 			</tr>

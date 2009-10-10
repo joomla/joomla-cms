@@ -57,13 +57,13 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Published', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="5%" nowrap="nowrap">
+				<th width="5%" class="nowrap">
 					<?php echo JText::_('JGrid_Heading_Ordering'); ?>
 				</th>
-				<th width="10%"  class="title">
+				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Access', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
+				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.lft', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
@@ -81,7 +81,7 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 			$ordering = ($this->state->get('list.ordering') == 'a.lft');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<td style="text-align:center">
+				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td style="padding-left:<?php echo intval(($item->level-1)*15)+4; ?>px">
@@ -93,17 +93,17 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 					<br /><small title="<?php echo $this->escape($item->path);?>">
 						(<?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>: <?php echo $this->escape($item->alias);?>)</small>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.');?>
 				</td>
 				<td class="order">
 					<span><?php echo $this->pagination->orderUpIcon($i, $item->order_up, 'categories.orderup', 'JGrid_Move_Up', $ordering); ?></span>
 					<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, $item->order_dn, 'categories.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt);?>">
 						<?php echo (int) $item->id; ?></span>
 				</td>

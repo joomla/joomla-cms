@@ -233,7 +233,7 @@ class BannersViewClients
 				<table class="admintable" width="100%">
 				<tr>
 					<td width="100%" valign="top">
-						<textarea class="inputbox" name="extrainfo" id="extrainfo" cols="40" rows="10" style="width:90%"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
+						<textarea class="inputbox" name="extrainfo" id="extrainfo" cols="40" rows="10" ><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
 					</td>
 				</tr>
 				</table>

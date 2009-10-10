@@ -80,23 +80,23 @@ $function = JRequest::getVar('function', 'jSelectArticle');
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<td style="text-align:center">
+				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
-					<a style="cursor: pointer;" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->title); ?>');">
+					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->title); ?>');">
 						<?php echo $this->escape($item->title); ?></a>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $this->escape($item->category_title); ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo JHtml::date($item->created, '%Y.%m.%d'); ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo (int) $item->id; ?>
 				</td>
 			</tr>

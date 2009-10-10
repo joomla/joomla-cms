@@ -27,10 +27,10 @@ abstract class JHtmlDirectory
 	public static function writable($writable)
 	{
 		if ($writable) {
-			return '<b><span style="color:green;">'. JText::_('Admin_Writable') .'</span></b>';
+			return '<span class="writable">'. JText::_('Admin_Writable') .'</span>';
 		}
 		else {
-			return '<b><span style="color:red;">'. JText::_('Admin_Unwritable') .'</span></b>';
+			return '<span class="unwritable">'. JText::_('Admin_Unwritable') .'</span>';
 		}
 	}
 

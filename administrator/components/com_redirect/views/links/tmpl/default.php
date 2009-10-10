@@ -77,7 +77,7 @@ $this->buildDefaultToolBar();
 		foreach ($this->items as $item) :
 ?>
 		<tr class="row<?php echo $k; ?>">
-			<td style="text-align:center" class="checklist">
+			<td class="checklist center">
 				<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
 			</td>
 			<td>

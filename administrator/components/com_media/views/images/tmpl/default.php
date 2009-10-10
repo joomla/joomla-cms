@@ -8,12 +8,12 @@ echo $params->get('image_path', 'images/stories');?>/';
 		<span id="message"></span><img src="<?php echo JURI::base() ?>components/com_media/images/dots.gif" width="22" height="12" alt="..." />
 	</div>
 	<fieldset>
-		<div style="float: left">
+		<div class="fltlft">
 			<label for="folder"><?php echo JText::_('Directory') ?></label>
 			<?php echo $this->folderList; ?>
 			<button type="button" id="upbutton" title="<?php echo JText::_('Directory Up') ?>"><?php echo JText::_('Up') ?></button>
 		</div>
-		<div style="float: right">
+		<div class="fltrt">
 			<button type="button" onclick="ImageManager.onok();window.parent.document.getElementById('sbox-window').close();"><?php echo JText::_('Insert') ?></button>
 			<button type="button" onclick="window.parent.document.getElementById('sbox-window').close();"><?php echo JText::_('Cancel') ?></button>
 		</div>

@@ -60,7 +60,7 @@ $return	= base64_encode($uri->toString());
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<td style="text-align:center">
+				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
@@ -70,19 +70,19 @@ $return	= base64_encode($uri->toString());
 						<?php echo '<a href="'. JRoute::_('index.php?option=com_menus&task=menu.edit&cid[]='.$item->id).' title='.   $this->escape($item->description).'">'.
 						 $this->escape($item->menutype).' </a>'; ?>)</small>
 				</td>
-				<td align="center">
+				<td class="center">
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=1');?>">
 						( <?php echo $item->count_published; ?> )</a>
 				</td>
-				<td align="center">
+				<td class="center">
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=0');?>">
 						( <?php echo $item->count_unpublished; ?> )</a>
 				</td>
-				<td align="center">
+				<td class="center">
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=2');?>">
 						( <?php echo $item->count_trashed; ?> )</a>
 				</td>
-				<td align="left">
+				<td class="left">
 					<?php
 					if (isset($this->modules[$item->menutype])) :
 						foreach ($this->modules[$item->menutype] as &$module) :
@@ -95,7 +95,7 @@ $return	= base64_encode($uri->toString());
 					endif;
 					?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->id; ?>
 				</td>
 			</tr>

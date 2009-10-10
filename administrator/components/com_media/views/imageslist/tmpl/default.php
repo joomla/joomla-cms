@@ -17,7 +17,7 @@
 <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
 <tr>
 	<td>
-		<div align="center" style="font-size:large;font-weight:bold;color:#CCCCCC;font-family: Helvetica, sans-serif;">
+		<div class="center" style="font-size:large;font-weight:bold;color:#CCCCCC;font-family: Helvetica, sans-serif;">
 			<?php echo JText::_('No Images Found'); ?>
 		</div>
 	</td>

@@ -57,8 +57,8 @@ class JFormFieldUser extends JFormField
 		$title = htmlspecialchars($table->username, ENT_QUOTES, 'UTF-8');
 
 		// The current user display field.
-		$html[] = '<div style="float: left;">';
-		$html[] = '  <input style="background: #fff;" type="text" id="'.$this->inputId.'_name" value="'.$title.'" disabled="disabled" />';
+		$html[] = '<div class="fltlft">';
+		$html[] = '  <input type="text" id="'.$this->inputId.'_name" value="'.$title.'" disabled="disabled" />';
 		$html[] = '</div>';
 
 		// The user select button.

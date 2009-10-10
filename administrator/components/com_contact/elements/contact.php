@@ -42,7 +42,7 @@ class JElementContact extends JElement
 		$link = 'index.php?option=com_contact&amp;task=element&amp;tmpl=component&amp;object='.$name;
 
 		JHtml::_('behavior.modal', 'a.modal');
-		$html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($contact->name, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
+		$html = "\n".'<div class="fltlft"><input type="text" id="'.$name.'_name" value="'.htmlspecialchars($contact->name, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
 //		$html .= "\n &nbsp; <input class=\"inputbox modal-button\" type=\"button\" value=\"".JText::_('Select')."\" />";
 		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('Contact_Select_Contact').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('Contact_Select').'</a></div></div>'."\n";
 		$html .= "\n".'<input type="hidden" id="'.$name.'_id" name="'.$fieldName.'" value="'.(int)$value.'" />';

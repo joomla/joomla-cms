@@ -44,7 +44,7 @@ function submitbutton(pressbutton) {
 
 		<?php echo JText::_('Message'); ?>:
 
-		<textarea name="message" style="width:95%" rows="30" class="inputbox"></textarea>
+		<textarea name="message" id="message" rows="30" class="inputbox"></textarea>
 	</fieldset>
 </div>
 <input type="hidden" name="user_id_from" value="<?php echo $user->get('id'); ?>">

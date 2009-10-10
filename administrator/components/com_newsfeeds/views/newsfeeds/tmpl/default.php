@@ -116,7 +116,7 @@ $userId	= $user->get('id');
 					<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid),'newsfeeds.orderup', 'JGrid_Move_Up', $ordering); ?></span>
 					<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->catid == @$this->items[$i+1]->catid), 'newsfeeds.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
 					<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
-					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
+					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
 				</td>
 				<td class="center">
 					<span class="editlinktip hasTip" title="<?php echo JText::_('Newsfeeds_Edit_Category');?>::<?php echo $item->category; ?>">

@@ -82,7 +82,7 @@ legend    {
 	font-weight: bold;
 }
 
-input, select { font-size: 10px; border: 1px solid silver; }
+input, select { font-size: 10px; border: 1px solid silver; background: #fff;}
 textarea      { font-size: 11px; border: 1px solid silver; }
 button        { font-size: 10px; margin-top:2px; margin-left:5px;}
 
@@ -222,6 +222,11 @@ textarea#codeedit {
 	margin:0;
 	padding: 0;
 	background: #fff;
+}
+
+textarea#extrainfo,
+textarea#message {
+	width: 90%;
 }
 
 /* -- OVERLIB STYLES ----------------------------- */
