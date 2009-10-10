@@ -121,7 +121,7 @@ foreach ($this->orders2 as $k=>$items) {
 				}
 			}
 		</script>
-		
+	<!-- TO DO: Need to rework UI for this section -->
 			<label id="jform_menus-lbl" class="hasTip" for="jform_menus"><?php echo JText::_('Menus'); ?>:</label>
 				<?php if ($this->row->client_id != 1) : ?>
 				

@@ -823,6 +823,7 @@ label#jform_sef_suffix0-lbl {
 	clear:none;
 }
 
+
 /* Clear floats and adjust spacing on all wider radio button labels */
 label#jformparams_secure0-lbl,
 label#jformparams_multi_column_order0-lbl,
@@ -842,6 +843,17 @@ label#paramsregister-require_address11-lbl{
 	min-width: 45px;
 	clear:none;
 }
+
+/* Clear floats and adjust spacing on all wider radio button labels for Tiny MCE plug-in*/
+label#paramscompressed0-lbl,
+label#paramscompressed1-lbl
+
+
+ {
+	min-width: 30px;
+	clear:none;
+}
+
 
 
 
