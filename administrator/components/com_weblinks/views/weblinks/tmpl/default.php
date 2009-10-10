@@ -57,26 +57,26 @@ $userId	= $user->get('id');
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 				</th>
-				<th class="title">
+				<th>
 					<?php echo JHtml::_('grid.sort',  'Weblinks_Title_Heading', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="5%" nowrap="nowrap">
+				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'Weblinks_State_Heading', 'a.state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="10%" nowrap="nowrap">
+				<th width="10%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'Weblinks_Order_Heading', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 					<?php echo JHtml::_('grid.order',  $this->items); ?>
 				</th>
-				<th width="10%"  class="title">
+				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'Weblinks_Category_Heading', 'category', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="10%"  class="title">
+				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'Weblinks_Access_Heading', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort',  'Weblinks_Hits_Heading', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
+				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
@@ -114,7 +114,7 @@ $userId	= $user->get('id');
 					<?php endif; ?>
 					<br /><small><?php echo $this->escape($item->alias);?></small>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'weblinks.');?>
 				</td>
 				<td class="order">
@@ -128,13 +128,13 @@ $userId	= $user->get('id');
 					<a href="<?php echo JRoute::_('index.php?option=com_weblinks&view=weblink&task=edit&cid[]='.$item->id); ?>" >
 						<?php echo $item->category; ?></a></span>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->access_level; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->hits; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->id; ?>
 				</td>
 			</tr>
