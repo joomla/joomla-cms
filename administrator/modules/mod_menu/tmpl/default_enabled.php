@@ -239,32 +239,32 @@ $menu->addSeparator();
 
 // TO DO: ADD TARGET=BLANK TO EXTERNAL LINKS
 $menu->addChild(
-	new JMenuNode(JText::_('Mod_Menu_Help_Support_Forum'), 'http://forum.joomla.org', 'class:help-forum')
+	new JMenuNode(JText::_('Mod_Menu_Help_Support_Forum'), 'http://forum.joomla.org', 'class:help-forum', false, '_blank')
 );
 $menu->addChild(
-	new JMenuNode(JText::_('Mod_Menu_Help_Documentation'), 'http://docs.joomla.org', 'class:help-docs')
+	new JMenuNode(JText::_('Mod_Menu_Help_Documentation'), 'http://docs.joomla.org', 'class:help-docs', false, '_blank')
 );
 $menu->addSeparator();
 $menu->addChild(
-	new JMenuNode(JText::_('Mod_Menu_Help_Extensions'), 'http://extensions.joomla.org', 'class:help-jed')
+	new JMenuNode(JText::_('Mod_Menu_Help_Extensions'), 'http://extensions.joomla.org', 'class:help-jed', false, '_blank')
 );
 $menu->addChild(
-	new JMenuNode(JText::_('Mod_Menu_Help_Translations'), 'http://community.joomla.org/translations.html', 'class:help-trans')
+	new JMenuNode(JText::_('Mod_Menu_Help_Translations'), 'http://community.joomla.org/translations.html', 'class:help-trans', false, '_blank')
 );
 $menu->addChild(
-	new JMenuNode(JText::_('Mod_Menu_Help_Resources'), 'http://resources.joomla.org', 'class:help-jrd')
+	new JMenuNode(JText::_('Mod_Menu_Help_Resources'), 'http://resources.joomla.org', 'class:help-jrd', false, '_blank')
 );
 $menu->addChild(
-	new JMenuNode(JText::_('Mod_Menu_Help_Community'), 'http://community.joomla.org', 'class:help-community')
+	new JMenuNode(JText::_('Mod_Menu_Help_Community'), 'http://community.joomla.org', 'class:help-community', false, '_blank')
 );
 $menu->addChild(
-	new JMenuNode(JText::_('Mod_Menu_Help_Security'), 'http://developer.joomla.org/security.html', 'class:help-security')
+	new JMenuNode(JText::_('Mod_Menu_Help_Security'), 'http://developer.joomla.org/security.html', 'class:help-security', false, '_blank')
 );
 $menu->addChild(
-	new JMenuNode(JText::_('Mod_Menu_Help_Developer'), 'http://developer.joomla.org', 'class:help-dev')
+	new JMenuNode(JText::_('Mod_Menu_Help_Developer'), 'http://developer.joomla.org', 'class:help-dev', false, '_blank')
 );
 $menu->addChild(
-	new JMenuNode(JText::_('Mod_Menu_Help_Shop'), 'http://shop.joomla.org', 'class:help-shop')
+	new JMenuNode(JText::_('Mod_Menu_Help_Shop'), 'http://shop.joomla.org', 'class:help-shop', false, '_blank')
 );
 $menu->getParent();
 

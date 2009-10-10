@@ -212,12 +212,13 @@ class JMenuNode extends JNode
 	 */
 	public $active = false;
 
-	function __construct($title, $link = null, $class = null, $active = false)
+	public function __construct($title, $link = null, $class = null, $active = false, $target = null)
 	{
 		$this->title	= $title;
 		$this->link		= JFilterOutput::ampReplace($link);
 		$this->class	= $class;
 		$this->active	= $active;
 		$this->id		= str_replace(" ","-",$title);
+		$this->target	= $target;
 	}
 }
