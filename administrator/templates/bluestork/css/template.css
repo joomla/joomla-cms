@@ -97,6 +97,16 @@ input:focus,
 select:focus,
 textarea:focus { background-color: #ffd; }
 
+.enabled { color: green; font-weight: bold; }
+.disabled { color: red; font-weight: bold; }
+
+.adminlist-status {
+	
+}
+.adminlist-searchstatus a {
+	padding-left: 20px;
+}
+
 /* -- OVERALL STYLES ----------------------------- */
 
 #border-top.h_blue          { background: url(../images/j_header_middle.png) repeat-x; }
