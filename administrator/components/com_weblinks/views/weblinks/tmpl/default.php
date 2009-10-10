@@ -123,7 +123,7 @@ $userId	= $user->get('id');
 					<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
 					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 				</td>
-				<td>
+				<td class="center">
 					<span class="editlinktip hasTip" title="<?php echo JText::_('Edit Category');?>::<?php echo $item->category; ?>">
 					<a href="<?php echo JRoute::_('index.php?option=com_weblinks&view=weblink&task=edit&cid[]='.$item->id); ?>" >
 						<?php echo $item->category; ?></a></span>
