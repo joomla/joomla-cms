@@ -4,10 +4,10 @@
 
 <table class="adminlist">
 <tr>
-	<th width="5%" align="left">
+	<th width="5%" class="left">
 
 	</th>
-	<th width="85%" align="left">
+	<th width="85%" class="left">
 		<?php echo $this->t_dir; ?>
 	</th>
 	<th width="10%">

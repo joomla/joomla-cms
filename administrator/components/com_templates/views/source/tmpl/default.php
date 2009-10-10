@@ -12,17 +12,17 @@
 	<?php echo JText::_('DESCFTP'); ?>
 
 	<?php if (JError::isError($this->ftp)): ?>
-		<p><?php echo JText::_($this->ftp->message); ?></p>
+		<p class="error"><?php echo JText::_($this->ftp->message); ?></p>
 	<?php endif; ?>
 
-	<table class="adminform nospace">
+	<table class="adminform">
 	<tbody>
 	<tr>
 		<td width="120">
 			<label for="username"><?php echo JText::_('Username'); ?>:</label>
 		</td>
 		<td>
-			<input type="text" id="username" name="username" class="input_box" size="70" value="" />
+			<input type="text" id="username" name="username" class="inputbox" size="70" value="" />
 		</td>
 	</tr>
 	<tr>
@@ -30,7 +30,7 @@
 			<label for="password"><?php echo JText::_('Password'); ?>:</label>
 		</td>
 		<td>
-			<input type="password" id="password" name="password" class="input_box" size="70" value="" />
+			<input type="password" id="password" name="password" class="inputbox" size="70" value="" />
 		</td>
 	</tr>
 	</tbody>
@@ -38,7 +38,7 @@
 </fieldset>
 <?php endif; ?>
 
-		<h3 class="title"><?php echo $template_path; ?></h3>
+		<h3><?php echo $template_path; ?></h3>
 		<div class="clr"></div>
 		<textarea id="codeedit" cols="110" rows="25" name="filecontent" class="inputbox"><?php echo $this->content; ?></textarea>
 		<div class="clr"></div>

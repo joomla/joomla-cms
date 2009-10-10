@@ -100,12 +100,9 @@ textarea:focus { background-color: #ffd; }
 .enabled { color: green; font-weight: bold; }
 .disabled { color: red; font-weight: bold; }
 
-.adminlist-status {
-	
-}
-.adminlist-searchstatus a {
-	padding-left: 20px;
-}
+
+p.error { color: red; font-weight: bold; }
+
 
 /* -- OVERALL STYLES ----------------------------- */
 
@@ -194,7 +191,9 @@ span.writable { color:green; }
 span.unwritable { color:red; }
 p.noparams { padding: 20px 15px;}
 
-
+.adminlist-searchstatus a {
+	padding-left: 20px;
+}
 
 /* -- MISC. STYLES ----------------------------- */
 

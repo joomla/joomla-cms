@@ -11,10 +11,10 @@
 	<table class="adminlist">
 	<thead>
 		<tr>
-			<th width="5" class="title">
+			<th width="5">
 				<?php echo JText::_('Num'); ?>
 			</th>
-			<th class="title" colspan="2">
+			<th colspan="2">
 				<?php echo JText::_('Template Name'); ?>
 			</th>
 			<?php
@@ -35,13 +35,13 @@
 			<?php
 			}
 			?>
-			<th width="10%" align="center">
+			<th width="10%" class="center">
 				<?php echo JText::_('Version'); ?>
 			</th>
-			<th width="15%" class="title">
+			<th width="15%">
 				<?php echo JText::_('Date'); ?>
 			</th>
-			<th width="25%"  class="title">
+			<th width="25%" >
 				<?php echo JText::_('Author'); ?>
 			</th>
 		</tr>
@@ -77,7 +77,7 @@ foreach($this->rows as $row) {
 			<?php
 			if ($this->client->id == 1) {
 			?>
-				<td align="center">
+				<td class="center">
 				<?php
 				if ($row->home == 1) {
 				?>
@@ -93,7 +93,7 @@ foreach($this->rows as $row) {
 			<?php
 			} else {
 			?>
-				<td align="center">
+				<td class="center">
 				<?php
 				if ($row->home == 1) {
 				?>
@@ -106,7 +106,7 @@ foreach($this->rows as $row) {
 				}
 				?>
 				</td>
-				<td align="center">
+				<td class="center">
 				<?php
 				if ($row->assigned == 1) {
 				?>
@@ -122,7 +122,7 @@ foreach($this->rows as $row) {
 			<?php
 			}
 			?>
-			<td align="center">
+			<td class="center">
 				<?php echo $row->version; ?>
 			</td>
 			<td>

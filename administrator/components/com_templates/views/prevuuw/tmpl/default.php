@@ -6,7 +6,7 @@
 	<h3 class="title fltlft">
 		<?php echo JText::_('Site Preview'); ?>
 	</h3>
-	<h3 class="title fltrt">
+	<h3 class="fltrt">
 		<?php echo JHtml::_('link', $this->url.'index.php?tp='.$this->tp.'&amp;template='.$this->id, JText::_('Open in new window'), array('target' => '_blank')); ?>
 	</h3>
 	<div class="clr"></div>
