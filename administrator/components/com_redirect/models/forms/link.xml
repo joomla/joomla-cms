@@ -29,13 +29,25 @@
 			default=""
 			required="true"
 		/>
-		<field name="published" type="radio" id="published" class="inputbox"
+		<field
+			id="published"
+			name="published"
+			type="list"
 			label="REDIRECT_LINK_STATE"
-			default="1"
-			required="true">
-			<option value="0">Pending</option>
-			<option value="1">Active</option>
-			<option value="2">Archived</option>
+			description="JField_Published_Desc"
+			class="inputbox"
+			size="1"
+			required="true"
+			default="1">
+			<option
+				value="0">
+				Pending</option>
+			<option
+				value="1">
+				Active</option>
+			<option
+				value="2">
+				Archived</option>
 		</field>
 		<field name="referer" type="text" id="referer" class="inputbox"
 			label="REDIRECT_LINK_REFERRER"

@@ -12,8 +12,6 @@ defined('_JEXEC') or die('Invalid Request');
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 
-// Load the default stylesheets and behaviors.
-JHtml::stylesheet('default.css', 'administrator/components/com_redirect/media/css/');
 
 // Build the toolbar.
 $this->buildDefaultToolBar();
@@ -51,16 +49,16 @@ $this->buildDefaultToolBar();
 			<th class="left">
 				<?php echo JHtml::_('grid.sort', 'REDIRECT_LINK_OLD_URL', 'old_url', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
-			<th nowrap="nowrap" width="30%">
+			<th class="nowrap" width="30%">
 				<?php echo JHtml::_('grid.sort', 'REDIRECT_LINK_NEW_URL', 'new_url', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
-			<th nowrap="nowrap" width="30%">
+			<th class="nowrap" width="30%">
 				<?php echo JHtml::_('grid.sort', 'REDIRECT_LINK_REFERRER', 'referer', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
-			<th nowrap="nowrap" width="10%">
+			<th class="nowrap" width="10%">
 				<?php echo JHtml::_('grid.sort', 'REDIRECT_LINK_CREATED_DATE', 'created_date', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
-			<th nowrap="nowrap" width="5%">
+			<th class="nowrap" width="5%">
 				<?php echo JHtml::_('grid.sort', 'REDIRECT_LINK_STATE', 'published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 		</tr>
@@ -92,10 +90,10 @@ $this->buildDefaultToolBar();
 			<td>
 				<?php echo JFilterOutput::ampReplace($item->referer); ?>
 			</td>
-			<td align="center">
+			<td class="center">
 				<?php echo JHtml::_('date', $item->created_date); ?>
 			</td>
-			<td align="center">
+			<td class="center">
 				<?php echo JHtml::_('grid.published', $item, $item->id, 'tick.png', 'publish_x.png', 'link.'); ?>
 			</td>
 		</tr>

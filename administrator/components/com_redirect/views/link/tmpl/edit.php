@@ -25,7 +25,7 @@ $this->buildDefaultToolBar();
 $fields	= $this->form->getFields();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_redirect');?>" method="post" name="adminForm" class="form-validate">
-		<div class="width-60">
+		<div class="width-60 fltlft">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('URLs'); ?></legend>
 				<?php echo $fields['old_url']->label; ?>
@@ -39,13 +39,13 @@ $fields	= $this->form->getFields();
 			</fieldset>
 		</div>
 
-		<div class="width-40">
+		<div class="width-40 fltrt">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('Details'); ?></legend>
-				<div class="paramrow">
+				
 					<?php echo $fields['published']->label; ?>
 					<?php echo $fields['published']->input; ?>
-				</div>	
+				
 					<?php echo $fields['created_date']->label; ?><br />
 					<?php echo $fields['created_date']->input; ?>
 					
