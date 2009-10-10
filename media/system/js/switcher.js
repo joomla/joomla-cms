@@ -71,9 +71,8 @@ var JSwitcher = new Class({
 	},
 
 	hideAll: function() {
-		this.elements.each(function(el) {
-			el.setStyle('display', 'none');
-		});
+		this.elements.setStyle('display', 'none');
+		this.togglers.removeClass('active');
 	},
 
 	show: function (element) {
