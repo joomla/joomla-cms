@@ -1661,6 +1661,146 @@ fieldset ol,ol#property-values{margin:0;padding:0}
 fieldset li,ol#property-values li{list-style:none;margin:0;padding:5px}
 
 
+/* Styles relocated from administrator/components/com_redirect/media/default.css */
+
+.clearfix:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+
+.clearfix {
+    display:inline-block;
+}
+
+.clearfix {
+    display:block;
+}
+
+* html .clearfix {
+    height:1px;
+}
+
+.scroll {
+	overflow: auto;
+}
+
+/* Validation */
+
+.readonly {
+	border: 0;
+}
+
+.invalid {
+	color: red;
+	font-weight: bold;
+}
+
+input.invalid {
+	border: 1px solid red;
+}
+
+/* Forms */
+
+fieldset {
+	margin-bottom: 10px;
+}
+
+fieldset.batch, fieldset.filter {
+	padding-top: 10px;
+}
+
+fieldset.batch {
+	border: none;
+}
+
+fieldset legend {
+	padding: 0 2px;
+	font-weight: bold;
+}
+fieldset label {
+	line-height: 1.8;
+	vertical-align: top;
+	width: 120px; /* Width of labels */
+}
+fieldset ol {
+	margin: 0;
+	padding: 0;
+}
+
+fieldset ul {
+	margin: 0;
+	padding: 0;
+}
+
+fieldset li {
+	list-style: none;
+	padding: 1px 5px;
+	margin: 0;
+}
+
+fieldset.filter li, fieldset.batch li {
+	margin: 0px 5px 0px 0px;
+	padding: 0px 0px 5px 0px;
+	float: left;
+}
+
+fieldset.filter h4, fieldset.batch h4 {
+	margin: 5px 0px;
+}
+
+fieldset span.help {
+	font-size: 85%;
+	color: #c96;
+	margin-left: 16em;
+	padding: 0 0 0 3px;
+	border-left: 1px solid #c96;
+	display: block;
+}
+
+/* Filter Form */
+div.form-filter ul {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+div.form-filter dl {
+	margin: 0px;
+	padding: 0px;
+}
+
+div.form-filter dt {
+	float: left;
+	margin: 0px;
+	padding: 4px 5px 4px 0px;
+}
+
+div.form-filter dd {
+	margin: 0px;
+	padding: 2px 0px 4px 0px;
+	float: left;
+}
+
+div.form-filter p {
+	margin: 0px;
+	padding: 2px 0px 4px 0px;
+}
+
+
+fieldset.filter .left {
+	float: left;
+}
+
+fieldset.filter .right {
+	float: right;
+}
+
+/* END Styles relocated from administrator/components/com_redirect/media/default.css */
+
+
 
 
 /* -- ACL STYLES relocated from com_users/media/grid.css ----------- */

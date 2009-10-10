@@ -17,8 +17,6 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 
-// Load the default stylesheet.
-JHtml::stylesheet('default.css', 'administrator/components/com_redirect/media/css/');
 
 // Build the toolbar.
 $this->buildDefaultToolBar();

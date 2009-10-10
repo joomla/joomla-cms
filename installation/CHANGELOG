@@ -27,10 +27,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+
+
+
 10-Oct-2009 Ron Severdia
 ^ Replaced tables with CSS
 # Reworked CSS class structure
 ^ Added classes to components still using JParam (emulate JForm)
+^ Moved com_redirect CSS to main template.css
 
 09-Oct-2009 Mark Dexter
 + Added categories views to weblinks, newsfeeds, contacts (Elin Waring)
