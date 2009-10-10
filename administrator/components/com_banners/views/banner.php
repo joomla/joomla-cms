@@ -247,7 +247,7 @@ class BannersViewBanner
 		</script>
 		<form action="index.php" method="post" name="adminForm">
 
-		<div class="col100">
+		<div class="width-100">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('Details'); ?></legend>
 

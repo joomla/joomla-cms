@@ -52,27 +52,27 @@ $userId	= $user->get('id');
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 				</th>
-				<th class="title">
+				<th>
 					<?php echo JHtml::_('grid.sort',  'Newsfeeds_Title_Heading', 'a.name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="5%" nowrap="nowrap">
+				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'Newsfeeds_State_Heading', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 
-				<th width="10%" nowrap="nowrap">
+				<th width="10%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'Newsfeeds_Order_Heading', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 					<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'newsfeeds.saveorder'); ?>
 				</th>
-				<th width="10%"  class="title">
+				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'Newsfeeds_Category_Heading', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="10%"  class="title">
+				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'Newsfeeds_Num_Articles_Heading', 'numarticles', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort',  'Newsfeeds_Cache_Time_Heading', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
+				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
@@ -109,30 +109,27 @@ $userId	= $user->get('id');
 							<?php echo $item->name; ?></a></span>
 					<?php endif; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo JHtml::_('newsfeed.state', $item->published, $i);?>
 				</td>
-
-
-
 				<td class="order">
 					<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid),'newsfeeds.orderup', 'JGrid_Move_Up', $ordering); ?></span>
 					<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->catid == @$this->items[$i+1]->catid), 'newsfeeds.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
 					<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
 					<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 				</td>
-				<td>
+				<td class="center">
 					<span class="editlinktip hasTip" title="<?php echo JText::_('Newsfeeds_Edit_Category');?>::<?php echo $item->category; ?>">
 					<a href="<?php echo JRoute::_('index.php?option=com_newsfeeds&view=newsfeed&task=edit&cid[]='.$item->id); ?>" >
 						<?php echo $item->category; ?></a></span>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->numarticles; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->cache_time; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->id; ?>
 				</td>
 			</tr>

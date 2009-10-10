@@ -29,7 +29,7 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_languages'); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
 	<div class="width-70 fltlft">
-		<fieldset>
+		<fieldset class="adminform">
 			<?php if ($this->item->lang_id) : ?>
 				<legend><?php echo JText::sprintf('JRecord_Number', $this->item->lang_id); ?></legend>
 			<?php endif; ?>
@@ -51,7 +51,7 @@ JHtml::_('behavior.formvalidation');
 
 		</fieldset>
 	</div>
-	<br class="clr" />
+	<div class="clr"> </div>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

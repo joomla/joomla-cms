@@ -37,84 +37,43 @@ foreach ($this->orders2 as $k=>$items) {
 //-->
 </script>
 <form action="<?php echo JRoute::_('index.php');?>" method="post" name="adminForm">
-<div class="width-50">
+<div class="width-50 fltlft">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Details'); ?></legend>
 
-		<table class="admintable" cellspacing="1">
-			<tr>
-				<td valign="top" class="key">
-					<?php echo JText::_('Module Type'); ?>:
-				</td>
-				<td>
-					<strong>
-						<?php echo JText::_($this->row->module); ?>
-					</strong>
-				</td>
-			</tr>
-			<tr>
-				<td class="key">
-					<label for="title">
-						<?php echo JText::_('Title'); ?>:
-					</label>
-				</td>
-				<td>
-					<input class="text_area" type="text" name="title" id="title" size="35" value="<?php echo $this->row->title; ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td width="100" class="key">
-					<?php echo JText::_('Show title'); ?>:
-				</td>
-				<td>
+			<label id="jform_title-lbl" class="hasTip" for="jform_title"><?php echo JText::_('Title'); ?>:</label>
+			<input id="jform_title" class="inputbox required" type="text" size="35" name="jform[title]" value="<?php echo $this->row->title; ?>" />
+
+			<label id="jform_type-lbl" class="hasTip" for="jform_type"><?php echo JText::_('Module Type'); ?>:</label>
+			<input id="jform_type" class="readonly" type="text" readonly="readonly" size="16" value="<?php echo JText::_($this->row->module); ?>" name="jform[type]"/>
+			
+		
+			<label id="jform_showtitle-lbl" class="hasTip" for="jform_showtitle"><?php echo JText::_('Show title'); ?>:</label>
 					<?php echo $this->lists['showtitle']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top" class="key">
-					<?php echo JText::_('Published'); ?>:
-				</td>
-				<td>
+		
+			<label id="jform_published-lbl" class="hasTip" for="jform_published"><?php echo JText::_('Published'); ?>:</label>
 					<?php echo $this->lists['published']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top" class="key">
-					<label for="position" class="hasTip" title="<?php echo JText::_('MODULE_POSITION_TIP_TITLE', true); ?>::<?php echo JText::_('MODULE_POSITION_TIP_TEXT', true); ?>">
+		
+			<label id="jform_position-lbl" class="hasTip" for="jform_position" title="<?php echo JText::_('MODULE_POSITION_TIP_TITLE', true); ?>::<?php echo JText::_('MODULE_POSITION_TIP_TEXT', true); ?>">
 						<?php echo JText::_('Position'); ?>:
 					</label>
-				</td>
-				<td>
-					<select id="combobox-position" class="combobox" name="position">
-					<?php
+			
+			<select id="jform_position" class="inputbox" size="1" name="jform[position]">
+			<?php
 					foreach ($this->positions as $position) {
 						echo '<option value="'.$position.'"'.($this->row->position == $position ? ' selected="selected"' : '').'>'.$position.'</option>';
 					}
 					?>
 					</select>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top"  class="key">
-					<label for="ordering">
-						<?php echo JText::_('Order'); ?>:
-					</label>
-				</td>
-				<td>
+
+			<label id="jform_ordering-lbl" class="hasTip" for="jform_ordering"><?php echo JText::_('Order'); ?>:</label>
 					<script language="javascript" type="text/javascript">
 					<!--
 					writeDynaList('class="inputbox" name="ordering" id="ordering" size="1"', orders, originalPos, originalPos, originalOrder);
 					//-->
 					</script>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top" class="key">
-					<label for="access">
-						<?php echo JText::_('Access Level'); ?>:
-					</label>
-				</td>
-				<td>
+
+			<label id="jform_access-lbl" class="hasTip" for="jform_access"><?php echo JText::_('Access Level'); ?>:</label>
 					<?php
 					if ($this->row->client_id == 0) :
 						echo JHtml::_('access.assetgrouplist', 'access', $this->row->access);
@@ -122,25 +81,12 @@ foreach ($this->orders2 as $k=>$items) {
 						echo JText::_('N/A');
 					endif;
 					?>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top" class="key">
-					<?php echo JText::_('ID'); ?>:
-				</td>
-				<td>
-					<?php echo $this->row->id; ?>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top" class="key">
-					<?php echo JText::_('Description'); ?>:
-				</td>
-				<td>
-					<?php echo JText::_($this->row->description); ?>
-				</td>
-			</tr>
-		</table>
+
+			<label id="jform_id-lbl" class="hasTip" for="jform_id"><?php echo JText::_('ID'); ?>:</label>
+			<input id="jform_id" class="readonly" type="text" readonly="readonly" size="4" value="<?php echo $this->row->id; ?>" name="jform[id]"/>
+
+			<label id="jform_description-lbl" class="hasTip" for="jform_description"><?php echo JText::_('Description'); ?>:</label>
+			<p class="fltlft"><?php echo JText::_($this->row->description); ?></p>
 	</fieldset>
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Menu Assignment'); ?></legend>
@@ -175,40 +121,31 @@ foreach ($this->orders2 as $k=>$items) {
 				}
 			}
 		</script>
-		<table class="admintable" cellspacing="1">
-			<tr>
-				<td valign="top" class="key">
-					<?php echo JText::_('Menus'); ?>:
-				</td>
-				<td>
+		
+			<label id="jform_menus-lbl" class="hasTip" for="jform_menus"><?php echo JText::_('Menus'); ?>:</label>
 				<?php if ($this->row->client_id != 1) : ?>
-					<input id="menus-all" type="radio" name="menus" value="all" onclick="allselections();" <?php
+				
+				<label id="jform_menus-all-lbl" for="menus-all"><?php echo JText::_('All'); ?></label>
+				<input id="menus-all" type="radio" name="menus" value="all" onclick="allselections();" <?php
 						echo ($this->row->pages == 'all') ? 'checked="checked"' : ''; ?> />
-					<label for="menus-all"><?php echo JText::_('All'); ?></label>
-
-					<input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" <?php
+						
+				<label id="jform_menus-none-lbl" for="menus-none"><?php echo JText::_('None'); ?></label>	
+				<input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" <?php
 						echo ($this->row->pages == 'none') ? 'checked="checked"' : ''; ?> />
-					<label for="menus-none"><?php echo JText::_('None'); ?></label>
-					<br />
-					<input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" <?php
+					
+				<label id="jform_menus-select-lbl" for="menus-select"><?php echo JText::_('Select From List'); ?></label>	
+				<input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" <?php
 						echo ($this->row->pages == 'select') ? 'checked="checked"' : ''; ?> />
-					<label for="menus-select"><?php echo JText::_('Select From List'); ?></label>
-					<br />
-					<input id="menus-deselect" type="radio" name="menus" value="deselect" onclick="enableselections();" <?php
+					
+				<label id="jform_menus-deselect-lbl" for="menus-deselect"><?php echo JText::_('Deselect From List'); ?></label>
+				<input id="menus-deselect" type="radio" name="menus" value="deselect" onclick="enableselections();" <?php
 						echo ($this->row->pages == 'deselect') ? 'checked="checked"' : ''; ?> />
-					<label for="menus-deselect"><?php echo JText::_('Deselect From List'); ?></label>
+					
 				<?php endif; ?>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top" class="key">
-					<?php echo JText::_('Menu Selection'); ?>:
-				</td>
-				<td>
+				
+			<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('Menu Selection'); ?>:</label>
 					<?php echo $this->lists['selections']; ?>
-				</td>
-			</tr>
-		</table>
+			
 		<?php if ($this->row->client_id != 1) : ?>
 			<?php if ($this->row->pages == 'all') : ?>
 			<script type="text/javascript">allselections();</script>
@@ -219,16 +156,13 @@ foreach ($this->orders2 as $k=>$items) {
 	</fieldset>
 </div>
 
-<div class="width-50">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('Parameters'); ?></legend>
-
+<div class="width-50 fltrt">
 		<?php
 			echo $pane->startPane("menu-pane");
 			echo $pane->startPanel(JText :: _('Module Parameters'), "param-page");
 			$p = $this->params;
 			if ($this->params = $p->render('params')) :
-				echo $this->params;
+				echo "<fieldset class=\"panelform\">".$this->params."</fieldset>";
 			else :
 				echo "<div class=\"noparams-notice\">".JText::_('There are no parameters for this item')."</div>";
 			endif;
@@ -237,7 +171,7 @@ foreach ($this->orders2 as $k=>$items) {
 			if ($p->getNumParams('advanced')) {
 				echo $pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
 				if ($this->params = $p->render('params', 'advanced')) :
-					echo $this->params;
+					echo "<fieldset class=\"panelform\">".$this->params."</fieldset>";
 				else :
 					echo "<div class=\"noparams-notice\">".JText::_('There are no advanced parameters for this item')."</div>";
 				endif;
@@ -247,7 +181,7 @@ foreach ($this->orders2 as $k=>$items) {
 			if ($p->getNumParams('legacy')) {
 				echo $pane->startPanel(JText :: _('Legacy Parameters'), "legacy-page");
 				if ($this->params = $p->render('params', 'legacy')) :
-					echo $this->params;
+					echo "<fieldset class=\"panelform\">".$this->params."</fieldset>";
 				else :
 					echo "<div class=\"noparams-notice\">".JText::_('There are no legacy parameters for this item')."</div>";
 				endif;
@@ -258,7 +192,7 @@ foreach ($this->orders2 as $k=>$items) {
 		if ($p->getNumParams('other')) {
 			echo $pane->startPanel(JText :: _('Other Parameters'), "other-page");
 			if ($this->params = $p->render('params', 'other')) :
-				echo $this->params;
+				echo "<fieldset class=\"panelform\">".$this->params."</fieldset>";
 				else :
 				echo "<div class=\"noparams-notice\">".JText::_('There are no other parameters for this item')."</div>";
 				endif;
@@ -266,7 +200,6 @@ foreach ($this->orders2 as $k=>$items) {
 			}
 			echo $pane->endPane();
 		?>
-	</fieldset>
 </div>
 <div class="clr"></div>
 

@@ -12,13 +12,13 @@
 <form action="index.php" method="post" name="adminForm">
 <table>
 	<tr>
-		<td align="left" width="100%">
+		<td class="left" width="100%">
 			<?php echo JText::_( 'Filter' ); ?>:
 			<input type="text" name="search" id="search" value="<?php echo $this->lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 			<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
 			<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 		</td>
-		<td nowrap="nowrap">
+		<td class="nowrap">
 			<?php
 			echo $this->lists['type'];
 			echo $this->lists['state'];
@@ -36,26 +36,26 @@
 		<th width="20">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 		</th>
-		<th class="title">
+		<th>
 			<?php echo JHTML::_('grid.sort',   'Plugin Name', 'p.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
-		<th nowrap="nowrap" width="5%">
+		<th class="nowrap" width="5%">
 			<?php echo JHTML::_('grid.sort',   'Enabled', 'p.enabled', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
-		<th width="8%" nowrap="nowrap">
+		<th class="nowrap" width="8%">
 			<?php echo JHtml::_('grid.sort',   'Order', 'p.ordering', @$this->lists['order_Dir'], @$this->lists['order']); ?>
 			<?php if ($ordering) echo JHtml::_('grid.order',  $rows); ?>
 		</th>
-		<th nowrap="nowrap" width="10%">
+		<th class="nowrap" width="10%">
 			<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
-		<th nowrap="nowrap"  width="10%" class="title">
+		<th class="nowrap" width="10%">
 			<?php echo JHTML::_('grid.sort',   'Type', 'p.folder', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
-		<th nowrap="nowrap"  width="10%" class="title">
+		<th class="nowrap" width="10%">
 			<?php echo JHTML::_('grid.sort',   'File', 'p.element', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
-		<th nowrap="nowrap"  width="1%" class="title">
+		<th class="nowrap" width="1%">
 			<?php echo JHTML::_('grid.sort',   'ID', 'p.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
 	</tr>
@@ -81,7 +81,7 @@
 
 ?>
 	<tr class="<?php echo "row$k"; ?>">
-		<td align="right">
+		<td class="right">
 			<?php echo $this->pagination->getRowOffset( $i ); ?>
 		</td>
 		<td>
@@ -98,25 +98,25 @@
 					<?php echo $row->name; ?></a></span>
 			<?php } ?>
 		</td>
-		<td align="center">
+		<td class="center">
 			<?php echo $enabled;?>
 		</td>
 		<td class="order">
 			<span><?php echo $this->pagination->orderUpIcon( $i, ($row->folder == @$rows[$i-1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderup', 'Move Up', $ordering ); ?></span>
 			<span><?php echo $this->pagination->orderDownIcon( $i, $n, ($row->folder == @$rows[$i+1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderdown', 'Move Down', $ordering ); ?></span>
 			<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
-			<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"  <?php echo $disabled ?> class="text_area" style="text-align: center" />
+			<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"  <?php echo $disabled ?> class="text-area-order" />
 		</td>
-		<td align="center">
+		<td class="center">
 			<?php echo $row->access;?>
 		</td>
-		<td nowrap="nowrap">
+		<td class="nowrap center">
 			<?php echo $row->folder;?>
 		</td>
-		<td nowrap="nowrap">
+		<td class="nowrap center">
 			<?php echo $row->element;?>
 		</td>
-		<td align="center">
+		<td class="center">
 			<?php echo $row->extension_id;?>
 		</td>
 	</tr>

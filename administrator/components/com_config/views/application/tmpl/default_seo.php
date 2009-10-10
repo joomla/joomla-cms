@@ -16,11 +16,8 @@ defined('_JEXEC') or die;
 			<?php
 			foreach ($this->form->getFields('seo') as $field):
 			?>
-
-					<?php echo $field->label; ?>
-
-					<?php echo $field->input; ?>
-
+			<?php echo $field->label; ?>
+			<?php echo $field->input; ?>
 			<?php
 			endforeach;
 			?>

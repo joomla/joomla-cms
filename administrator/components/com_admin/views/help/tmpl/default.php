@@ -14,7 +14,7 @@ jimport('joomla.language.help');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm">
 
-	<table class="adminform" border="1">
+	<table class="adminform">
 		<tr>
 			<td colspan="2">
 				<table width="100%">

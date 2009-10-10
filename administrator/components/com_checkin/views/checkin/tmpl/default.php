@@ -2,15 +2,9 @@
 <div id="tablecell">
 	<table class="adminform">
 		<tr>
-			<th class="title">
-				<?php echo JText::_('Database Table'); ?>
-			</th>
-			<th class="title">
-				<?php echo JText::_('Num of Items'); ?>
-			</th>
-			<th class="title">
-				<?php echo JText::_('Checked-In'); ?>
-			</th>
+			<th><?php echo JText::_('Database Table'); ?></th>
+			<th><?php echo JText::_('Num of Items'); ?></th>
+			<th><?php echo JText::_('Checked-In'); ?></th>
 		</tr>
 	<?php
 	$k = 0;
@@ -22,9 +16,9 @@
 			<td width="150">
 				<?php echo JText::_('Checked-In').' '; ?><strong><?php echo $count; ?></strong><?php echo ' '.JText::_('items'); ?>
 			</td>
-			<td align="center">
+			<td>
 				<?php if ($count > 0): ?>
-				<img src="images/tick.png" border="0" alt="<?php echo JText::_('tick'); ?>" />
+				<div class="checkin-tick"><?php echo JText::_('tick'); ?></div>
 				<?php else: ?>
 				&nbsp;
 				<?php endif; ?>

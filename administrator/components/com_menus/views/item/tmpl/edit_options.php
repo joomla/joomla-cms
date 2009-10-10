@@ -22,7 +22,7 @@ $pane = &JPane::getInstance('sliders');
 				echo '<p class="tip">'.JText::_($fieldSet['description']).'</p>';
 			endif;
 			?>
-		<fieldset>
+		<fieldset class="panelform">
 			<?php
 				foreach ($this->paramsform->getFields($name) as $field) :
 			?>

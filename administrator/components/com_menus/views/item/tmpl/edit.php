@@ -32,8 +32,8 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-<div class="width-50 fltlft">
-	<fieldset>
+<div class="width-60 fltlft">
+	<fieldset class="adminform">
 		<legend><?php echo JText::_('Menus_Item_Details');?></legend>
 
 			<?php echo $this->form->getLabel('title'); ?>
@@ -80,7 +80,7 @@ JHtml::_('behavior.formvalidation');
 	</fieldset>
 </div>
 
-<div class="width-50 fltrt">
+<div class="width-40 fltrt">
 <?php echo $pane->startPane('menu-pane'); ?>
 
 	<?php //get the menu parameters that are automatically set but may be modified.

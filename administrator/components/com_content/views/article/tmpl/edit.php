@@ -34,7 +34,7 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_content'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="width-60 fltlft">
-		<fieldset>
+		<fieldset class="adminform">
 		<legend><?php echo JText::_('ARTICLE_DETAILS'); ?></legend>
 					<?php echo $this->form->getLabel('title'); ?>
 					<?php echo $this->form->getInput('title'); ?>
@@ -65,7 +65,7 @@ JHtml::_('behavior.formvalidation');
 
 		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Publishing'), 'publishing-details'); ?>
 
-		<fieldset>
+		<fieldset class="panelform">
 
 				<?php echo $this->form->getLabel('created_by'); ?>
 				<?php echo $this->form->getInput('created_by'); ?>
@@ -99,7 +99,7 @@ JHtml::_('behavior.formvalidation');
 
 		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Access'), 'access-rules'); ?>
 
-		<fieldset>
+		<fieldset class="panelform">
 
 				<?php echo $this->form->getLabel('rules'); ?>
 				<?php echo $this->form->getInput('rules'); ?>
@@ -108,7 +108,7 @@ JHtml::_('behavior.formvalidation');
 		<?php echo $pane->endPanel(); ?>
 
 		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Options'), 'basic-options'); ?>
-		<fieldset>
+		<fieldset class="panelform">
 		<?php foreach($this->form->getFields('attribs') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
@@ -121,7 +121,7 @@ JHtml::_('behavior.formvalidation');
 		<?php echo $pane->endPanel(); ?>
 
 		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Metadata'), 'meta-options'); ?>
-		<fieldset>
+		<fieldset class="panelform">
 
 
 				<?php echo $this->form->getLabel('metadesc'); ?>

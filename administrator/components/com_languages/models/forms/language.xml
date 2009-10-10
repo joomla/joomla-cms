@@ -63,19 +63,24 @@
 
 		<field
 			name="published"
-			type="radio"
-			class="rbtn"
-			default="1"
+			type="list"
 			label="Langs_Field_Published_Label"
-			description="Langs_Field_Published_Desc">
+			description="Langs_Field_Published_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
 			<option
-				value="1">JOption_Published</option>
+				value="1">
+				JOption_Published</option>
 			<option
-				value="0">JOption_Unpublished</option>
+				value="0">
+				JOption_UnPublished</option>
 			<option
-				value="-1">Langs_Option_Disabled</option>
+				value="-1">
+				Langs_Option_Disabled</option>
 			<option
-				value="-2">JOption_Trash</option>
+				value="-2">
+				JOption_Trash</option>
 		</field>
 	</fields>
 </form>

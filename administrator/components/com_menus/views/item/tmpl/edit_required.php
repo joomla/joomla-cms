@@ -12,17 +12,13 @@ defined('_JEXEC') or die;
  * Get the request group fields and print them out..
  */
 
-
 	foreach ($this->paramsform->getFields('request') as $field) :
 		?>
-		<div>
-
-				<?php echo $field->label; ?></ br>
-				<?php echo $field->input; ?>
+		<div class="paramrow" />
+			<?php echo $field->label; ?>
+			<?php echo $field->input; ?>
 		</div>
 			<?php
 
 	endforeach;
 	?>
-
-

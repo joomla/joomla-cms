@@ -33,7 +33,7 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="width-60 fltlft">
-		<fieldset>
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('Categories_Fieldset_Details');?></legend>
 
 					<?php echo $this->form->getLabel('title'); ?>
@@ -60,12 +60,11 @@ JHtml::_('behavior.formvalidation');
 					<?php echo $this->form->getLabel('description'); ?>
 					<div class="clr"></div>
 					<?php echo $this->form->getInput('description'); ?>
-										
 		</fieldset>
 	</div>
 
 	<div class="width-40 fltrt">
-		<fieldset>
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('Categories_Fieldset_Rules');?></legend>
 					<?php echo $this->form->getLabel('rules'); ?>
 					<?php echo $this->form->getInput('rules'); ?>
@@ -73,12 +72,11 @@ JHtml::_('behavior.formvalidation');
 	</div>
 	
 	<div class="width-40 fltrt">
-		<fieldset>
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
 			<?php echo $this->loadTemplate('metadata'); ?>
 		</fieldset>
 	</div>
-
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
