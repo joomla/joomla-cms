@@ -29,15 +29,8 @@ class MediaViewMedia extends JView
 
 		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
-		$listStyle = "
-			<ul id=\"submenu\">
-				<li><a id=\"thumbs\" onclick=\"MediaManager.setViewType('thumbs')\">".JText::_('Thumbnail View')."</a></li>
-				<li><a id=\"details\" onclick=\"MediaManager.setViewType('details')\">".JText::_('Detail View')."</a></li>
-			</ul>
-		";
-
 		$document = &JFactory::getDocument();
-		$document->setBuffer($listStyle, 'modules', 'submenu');
+		$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
 
 		JHtml::_('behavior.framework', true);
 		$document->addScript('components/com_media/assets/mediamanager.js');
