@@ -32,7 +32,7 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
 	<div class="width-100">
-		<fieldset>
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_Usergroup_Details');?></legend>
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>

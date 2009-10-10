@@ -39,10 +39,10 @@ JHtml::_('behavior.tooltip');
 				<th class="left">
 					<?php echo JHtml::_('grid.sort', 'Users_Heading_Name', 'a.name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th nowrap="nowrap" width="25%">
+				<th class="nowrap" width="25%">
 					<?php echo JHtml::_('grid.sort', 'Users_Heading_UserName', 'a.username', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th nowrap="nowrap" width="25%">
+				<th class="nowrap" width="25%">
 					<?php echo JHtml::_('grid.sort', 'Users_Heading_Groups', 'a.group_names', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
@@ -60,7 +60,7 @@ JHtml::_('behavior.tooltip');
 			foreach ($this->items as $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<a style="cursor: pointer;" onclick="window.parent.jxSelectUser('<?php echo $item->id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""),$item->username); ?>', '<?php echo JRequest::getCmd('field'); ?>');">
+					<a class="pointer" onclick="window.parent.jxSelectUser('<?php echo $item->id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""),$item->username); ?>', '<?php echo JRequest::getCmd('field'); ?>');">
 						<?php echo $item->name; ?></a>
 				</td>
 				<td align="center">

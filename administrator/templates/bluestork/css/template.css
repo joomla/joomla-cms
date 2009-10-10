@@ -1110,6 +1110,9 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 .button2-left .pagebreak 	{ background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat; }
 .button2-left .blank	 	{ background: url(../images/j_button2_blank.png) 100% 0 no-repeat; }
 
+a.pointer {
+	cursor: pointer;
+}
 
 /* -- TOOLTIP STYLES ----------------------------- */
 

@@ -92,7 +92,7 @@ window.addEvent('domready', function(){
 
 <form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="level-form" class="form-validate">
 	<div class="width-100">
-		<fieldset>
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_Level_Details');?></legend>
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
@@ -100,7 +100,7 @@ window.addEvent('domready', function(){
 	</div>
 
 	<div class="width-50">
-		<fieldset>
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_User_Groups_Having_Access');?></legend>
 			<?php echo JHtml::_('access.usergroups', 'jform[groups]', $this->item->groups); ?>
 		</fieldset>

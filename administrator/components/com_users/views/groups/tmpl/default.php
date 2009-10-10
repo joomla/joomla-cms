@@ -58,17 +58,18 @@ JHtml::_('behavior.tooltip');
 			$n = 0;
 			foreach ($this->items as $item) : ?>
 			<tr class="row<?php echo $n++ % 2; ?>">
-				<td style="text-align:center">
+				<td class="center">
 					<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
 				</td>
+<!-- TO DO: UI system for representing levels and parent-child relationships -->
 				<td style="padding-left:<?php echo intval(($item->level)*15)+4; ?>px">
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&cid[]='.$item->id);?>">
 						<?php echo $item->title; ?></a>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->user_count ? $item->user_count : ''; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->id; ?>
 				</td>
 				<td>

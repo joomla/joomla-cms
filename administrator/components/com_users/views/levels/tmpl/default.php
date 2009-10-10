@@ -18,7 +18,7 @@ JHtml::_('behavior.tooltip');
 
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=levels');?>" method="post" name="adminForm">
-	<fieldset class="filter clearfix">
+	<fieldset class="filter">
 		<div class="left">
 			<label for="search"><?php echo JText::sprintf('JSearch_Label', 'Levels'); ?></label>
 			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="30" title="<?php echo JText::sprintf('JSearch_Title', 'Levels'); ?>" />
@@ -61,7 +61,7 @@ JHtml::_('behavior.tooltip');
 			$i = 0;
 			foreach ($this->items as $item) : ?>
 			<tr class="row<?php echo $i++ % 2; ?>">
-				<td style="text-align:center">
+				<td class="center">
 					<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
 				</td>
 				<td>
