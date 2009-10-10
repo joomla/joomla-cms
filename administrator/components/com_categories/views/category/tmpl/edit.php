@@ -64,10 +64,10 @@ JHtml::_('behavior.formvalidation');
 	</div>
 
 	<div class="width-40 fltrt">
-		<fieldset class="adminform">
+		<fieldset>
 			<legend><?php echo JText::_('Categories_Fieldset_Rules');?></legend>
-					<?php echo $this->form->getLabel('rules'); ?>
-					<?php echo $this->form->getInput('rules'); ?>
+				<?php echo $this->form->getLabel('rules'); ?>
+				<?php echo $this->form->getInput('rules'); ?>
 		</fieldset>
 	</div>
 	

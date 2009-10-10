@@ -814,7 +814,11 @@ label#paramssearch_archived1-lbl,
 label#paramsbrowsercache0-lbl,
 label#paramsbrowsercache1-lbl,
 paramsautoregister0-lbl,
-paramsautoregister1-lbl {
+paramsautoregister1-lbl,
+label#jform_offline0-lbl,
+label#jform_sef0-lbl,
+label#jform_sef_rewrite0-lbl,
+label#jform_sef_suffix0-lbl {
 	min-width: 30px;
 	clear:none;
 }
@@ -1675,6 +1679,7 @@ fieldset li,ol#property-values li{list-style:none;margin:0;padding:5px}
 
 /* Styles relocated from administrator/components/com_redirect/media/default.css */
 
+/*
 .clearfix:after {
     content:".";
     display:block;
@@ -1698,9 +1703,9 @@ fieldset li,ol#property-values li{list-style:none;margin:0;padding:5px}
 .scroll {
 	overflow: auto;
 }
-
+*/
 /* Validation */
-
+/*
 .readonly {
 	border: 0;
 }
@@ -1713,9 +1718,9 @@ fieldset li,ol#property-values li{list-style:none;margin:0;padding:5px}
 input.invalid {
 	border: 1px solid red;
 }
-
+*/
 /* Forms */
-
+/*
 fieldset {
 	margin-bottom: 10px;
 }
@@ -1735,7 +1740,7 @@ fieldset legend {
 fieldset label {
 	line-height: 1.8;
 	vertical-align: top;
-	width: 120px; /* Width of labels */
+	width: 120px; 
 }
 fieldset ol {
 	margin: 0;
@@ -1771,8 +1776,9 @@ fieldset span.help {
 	border-left: 1px solid #c96;
 	display: block;
 }
-
+*/
 /* Filter Form */
+/*
 div.form-filter ul {
 	margin: 0px;
 	padding: 0px;
@@ -1809,7 +1815,7 @@ fieldset.filter .left {
 fieldset.filter .right {
 	float: right;
 }
-
+*/
 /* END Styles relocated from administrator/components/com_redirect/media/default.css */
 
 
