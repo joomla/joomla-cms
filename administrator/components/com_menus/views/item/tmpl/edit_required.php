@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 
 	foreach ($this->paramsform->getFields('request') as $field) :
 		?>
-		<div class="paramrow" />
+		<div class="paramrow">
 			<?php echo $field->label; ?>
 			<?php echo $field->input; ?>
 		</div>
