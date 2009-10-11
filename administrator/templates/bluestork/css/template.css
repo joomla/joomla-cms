@@ -1744,6 +1744,11 @@ table.aclmodify-table select {
 	margin:1px;
 }
 
+table.aclsummary-table td label,
+table.aclmodify-table td label {
+	min-width: 20px;
+}
+
 /* ACL footer/legend */
 ul.acllegend {
 	list-style: none;
