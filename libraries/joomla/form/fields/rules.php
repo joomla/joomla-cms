@@ -85,18 +85,18 @@ class JFormFieldRules extends JFormField
 		$html = array();
 
 		// Open the table.
-		$html[] = '<table>';
+		$html[] = '<table id="acl-config">';
 
 		// The table heading.
 		$html[] = '	<thead>';
 		$html[] = '	<tr>';
 		$html[] = '		<th>';
-		$html[] = '			<span>'.JText::_('User Group').'</span>';
+		$html[] = '			<span class="acl-action">'.JText::_('User Group').'</span>';
 		$html[] = '		</th>';
 		foreach ($actions as $action)
 		{
 			$html[] = '		<th>';
-			$html[] = '			<span title="'.JText::_($action->description).'">'.JText::_($action->title).'</span>';
+			$html[] = '			<span class="acl-action" title="'.JText::_($action->description).'">'.JText::_($action->title).'</span>';
 			$html[] = '		</th>';
 		}
 		$html[] = '	</tr>';
@@ -107,12 +107,12 @@ class JFormFieldRules extends JFormField
 		foreach ($groups as $group)
 		{
 			$html[] = '	<tr>';
-			$html[] = '		<th style="border-bottom:1px solid #ccc;text-align:left;">';
+			$html[] = '		<th class="acl-groups">';
 			$html[] = '			'.$group->text;
 			$html[] = '		</th>';
 			foreach ($actions as $action)
 			{
-				$html[] = '		<td style="border-bottom:1px solid #ccc">';
+				$html[] = '		<td>';
 				// TODO: Fix this inline style stuff...
 				//$html[] = '			<fieldset class="access_rule">';
 

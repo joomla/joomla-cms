@@ -10,22 +10,22 @@
 ?>
 
 <form action="index.php" method="post" name="adminForm">
-<table>
-	<tr>
-		<td class="left" width="100%">
-			<?php echo JText::_( 'Filter' ); ?>:
+
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl"><?php echo JText::_( 'Filter' ); ?>:</label>
 			<input type="text" name="search" id="search" value="<?php echo $this->lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 			<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
 			<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-		</td>
-		<td class="nowrap">
+		</div>
+		<div class="filter-select fltrt">
 			<?php
 			echo $this->lists['type'];
 			echo $this->lists['state'];
 			?>
-		</td>
-	</tr>
-</table>
+		</div>
+	</fieldset>
+	<div class="clr"> </div>
 
 <table class="adminlist">
 <thead>

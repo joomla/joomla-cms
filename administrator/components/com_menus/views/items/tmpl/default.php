@@ -18,20 +18,14 @@ $user	= &JFactory::getUser();
 $userId	= $user->get('id');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm">
-	<fieldset class="filter">
-		<div class="left">
-			<label for="search">
-				<?php echo JText::_('JSearch_Filter_Label'); ?>
-			</label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Menus_Items_search_filter'); ?>" />
-
-			<button type="submit">
-				<?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
-				<?php echo JText::_('JSearch_Filter_Clear'); ?></button>
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl" for="search"><?php echo JText::_('JSearch_Filter_Label'); ?>:</label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('Menus_Items_search_filter'); ?>" />
+			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
-
-		<div class="right">
+		<div class="filter-select fltrt">
 			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Access');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
@@ -57,6 +51,7 @@ $userId	= $user->get('id');
 			</select>
 		</div>
 	</fieldset>
+	<div class="clr"> </div>
 
 	<table class="adminlist">
 		<thead>

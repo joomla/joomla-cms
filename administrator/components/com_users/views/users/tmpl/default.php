@@ -19,14 +19,14 @@ JHtml::_('behavior.tooltip');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm">
-	<fieldset class="filter">
-		<div class="fltlft">
-			<label for="search"><?php echo JText::sprintf('JSearch_Label', 'Users'); ?></label>
-			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="30" title="<?php echo JText::sprintf('JSearch_Title', 'Users'); ?>" />
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl" for="search"><?php echo JText::sprintf('JSearch_Label', 'Users'); ?></label>
+			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::sprintf('JSearch_Title', 'Users'); ?>" />
 			<button type="submit"><?php echo JText::_('JSearch_Submit'); ?></button>
 			<button type="button" onclick="document.id('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Reset'); ?></button>
 		</div>
-		<div class="fltrt">
+		<div class="filter-select fltrt">
 			<label for="filter_state">
 				<?php echo JText::sprintf('Users_Filter_Label', 'Users'); ?>
 			</label>
@@ -37,6 +37,7 @@ JHtml::_('behavior.tooltip');
 			?>
 		</div>
 	</fieldset>
+	<div class="clr"> </div>
 
 	<table class="adminlist">
 		<thead>

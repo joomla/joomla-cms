@@ -18,35 +18,29 @@ $userId	= $user->get('id');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
-	<fieldset class="filter">
-		<div class="left">
-			<label for="search">
-				<?php echo JText::_('JSearch_Filter'); ?>
-			</label>
-			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Contact_Search_in_name'); ?>" />
-
-			<button type="submit">
-				<?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="document.id('search').value='';this.form.submit();">
-				<?php echo JText::_('JSearch_Filter_Clear'); ?></button>
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft" for="search">
+			<label class="filter-search-lbl"><?php echo JText::_('Filter'); ?>:</label>
+			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('Contact_Search_in_name'); ?>" />
+			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
+			<button type="button" onclick="document.id('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
-		<div class="right">
+		<div class="filter-select fltrt">
 			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Access');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
-
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Published');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
-
 			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Category');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_contact'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
 		</div>
 	</fieldset>
+	<div class="clr"> </div>
 
 	<table class="adminlist">
 		<thead>

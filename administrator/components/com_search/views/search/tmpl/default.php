@@ -1,19 +1,17 @@
 <?php defined('_JEXEC') or die; ?>
 
 <form action="index.php" method="post" name="adminForm">
-	<table class="width-100">
-		<tr>
-			<td class="left" width="80%">
-				<?php echo JText::_('Filter'); ?>:
-				<input type="text" name="search" id="search" value="<?php echo $this->escape($this->search); ?>" class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
-			</td>
-			<td class="nowrap">
-				<span class="adminlist-status"><?php echo JText::_('Search Logging'); ?>:</span>
-				<?php echo $this->enabled ? '<span class="enabled">'. JText::_('Enabled') .'</span>' : '<span class="disabled">'. JText::_('Disabled') .'</span>' ?>
-			</td>
-			<td class="nowrap right">
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl"><?php echo JText::_('Filter'); ?>:</label>
+			<input type="text" name="search" id="search" value="<?php echo $this->escape($this->search); ?>" class="text_area" onchange="document.adminForm.submit();" />
+			<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
+			<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
+			</div>
+		<div class="filter-select fltrt">
+			<span class="adminlist-status"><?php echo JText::_('Search Logging'); ?>:</span>
+			<?php echo $this->enabled ? '<span class="enabled">'. JText::_('Enabled') .'</span>' : '<span class="disabled">'. JText::_('Disabled') .'</span>' ?>
+			
 			<span class="adminlist-searchstatus">
 			<?php if ($this->showResults) : ?>
 				<a href="index.php?option=com_search&amp;search_results=0"><?php echo JText::_('Hide Search Results'); ?></a>
@@ -21,11 +19,10 @@
 				<a href="index.php?option=com_search&amp;search_results=1"><?php echo JText::_('Show Search Results'); ?></a>
 			<?php endif; ?>
 			</span>
-			</td>
-		</tr>
-	</table>
+		</div>
+	</fieldset>
+	<div class="clr"> </div>
 
-	<div id="tablecell">
 		<table class="adminlist">
 			<thead>
 				<tr>
@@ -71,7 +68,7 @@
 			?>
 			</tbody>
 		</table>
-	</div>
+	
 
 	<input type="hidden" name="option" value="com_search" />
 	<input type="hidden" name="task" value="" />

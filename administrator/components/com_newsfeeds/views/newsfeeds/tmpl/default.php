@@ -18,30 +18,22 @@ $userId	= $user->get('id');
 ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm">
-	<fieldset class="filter">
-		<div class="left">
-			<label for="search"><?php echo JText::_('JSearch_Filter'); ?>:</label>
-			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Newsfeeds_Search_in_title'); ?>" />
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft" for="search">
+			<label class="filter-search-lbl"><?php echo JText::_('Filter'); ?>:</label>
+			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('Newsfeeds_Search_in_title'); ?>" />
 			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
 			<button type="button" onclick="document.id('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
-		<div class="right">
-			<ol>
-				<li>
-					<label for="filter_category_id">
-						<?php echo JText::_('Newsfeeds_Filter_Category'); ?>
-					</label>
-					<?php echo JHtml::_('list.category', 'filter_category', 'com_newsfeeds', $this->state->get('filter.catid'), 'onchange="this.form.submit()"'); ?>
-				</li>
-				<li>
-					<label for="filter_published">
-						<?php echo JText::_('Newsfeeds_Filter_State'); ?>
-					</label>
-					<?php echo JHtml::_('newsfeed.filterstate', $this->state->get('filter.published'));?>
-				</li>
-			</ol>
+		<div class="filter-select fltrt">
+			<label class="filter-category-id-lbl" for="filter-category-id"><?php echo JText::_('Newsfeeds_Filter_Category'); ?>:</label>
+			<?php echo JHtml::_('list.category', 'filter_category', 'com_newsfeeds', $this->state->get('filter.catid'), 'onchange="this.form.submit()"'); ?>
+					
+			<label class="filter-published-lbl" for="filter-published"><?php echo JText::_('Newsfeeds_Filter_State'); ?>:</label>
+			<?php echo JHtml::_('newsfeed.filterstate', $this->state->get('filter.published'));?>
 		</div>
 	</fieldset>
+	<div class="clr"> </div>
 
 	<table class="adminlist">
 		<thead>

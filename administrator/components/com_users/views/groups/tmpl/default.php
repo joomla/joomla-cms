@@ -18,14 +18,16 @@ JHtml::_('behavior.tooltip');
 
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm">
-	<fieldset class="filter">
-		<div class="left">
-			<label for="search"><?php echo JText::sprintf('JSearch_Label', 'Groups'); ?></label>
-			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="30" title="<?php echo JText::sprintf('JSearch_Title', 'Groups'); ?>" />
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl" for="search"><?php echo JText::sprintf('JSearch_Label', 'Users'); ?></label>
+			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::sprintf('JSearch_Title', 'Groups'); ?>" />
 			<button type="submit"><?php echo JText::_('JSearch_Submit'); ?></button>
 			<button type="button" onclick="document.id('search').value='';this.form.submit();"><?php echo JText::_('JSearch_Reset'); ?></button>
 		</div>
 	</fieldset>
+	<div class="clr"> </div>
+
 	<table class="adminlist">
 		<thead>
 			<tr>

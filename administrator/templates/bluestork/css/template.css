@@ -688,10 +688,14 @@ fieldset.panelform label.radiobtn_never,
 fieldset.panelform label.radiobtn_required,
 fieldset.panelform label.radiobtn_optional,
 fieldset.panelform label.radiobtn_down,
-fieldset.panelform label.radiobtn_across {
+fieldset.panelform label.radiobtn_across,
+fieldset.panelform label.radiobtn_left,
+fieldset.panelform label.radiobtn_right,
+fieldset.panelform label.radiobtn_auto {
 	min-width: 40px !important;
 	clear:none !important;
 }
+
 fieldset.adminform label.radiobtn_published,
 fieldset.adminform label.radiobtn_unpublished,
 fieldset.panelform label.radiobtn_ignore,
@@ -707,6 +711,13 @@ fieldset.filter ol li fieldset	{ border:0;margin:0;padding:0;}
 fieldset.filter .left	{ float:left;}
 fieldset.filter .right	{ float:right;}
 fieldset.filter .right select.inputbox { margin-left: 10px;}
+
+fieldset#filter-bar { height: 40px; border: 0;}
+div.filter-search{}
+label.filter-search-lbl {margin-left: 5px;}
+div.filter-select .inputbox {margin-left: 5px; margin-right: 5px;}
+
+label.filter-published-lbl { clear:none; margin-left: 10px;}
 
 table.adminform {
 	background-color: #fff;
@@ -1760,6 +1771,26 @@ ul.acllegend li.acl-editgroups {
 }
 ul.acllegend li.acl-resetbtn {
 	padding-right: 0px;
+}
+
+table#acl-config {
+	width: 100%;
+	font-size: 13px;
+	margin-top: 30px;
+}
+
+table#acl-config th{
+	padding-bottom: 10px;
+}
+
+.acl-action {
+	font-size: 12px;
+	margin: auto 0;
+}
+
+.acl-groups {
+	font-size: 12px;
+	font-weight: normal;
 }
 
 

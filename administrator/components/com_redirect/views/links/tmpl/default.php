@@ -17,28 +17,23 @@ JHtml::_('behavior.tooltip');
 $this->buildDefaultToolBar();
 ?>
 <form action="index.php?option=com_redirect&amp;view=links" method="post" name="adminForm">
-	<fieldset class="filter">
-		<div class="left">
-			<label for="search"><?php echo JText::_('Search'); ?>:</label>
-			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Search in title'); ?>" />
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl" for="search"><?php echo JText::_('Filter'); ?>:</label>
+			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('Search in title'); ?>" />
 			<button type="submit"><?php echo JText::_('Go'); ?></button>
 			<button type="button" onclick="document.id('search').value='';document.id('published').value=0;this.form.submit();"><?php echo JText::_('Clear'); ?></button>
 		</div>
-		<div class="right">
-			<ol>
-				<li>
-					<label for="published">
-						<?php echo JText::_('REDIRECT_SHOW_BY_STATE'); ?>
-					</label>
-					<select name="filter_state" id="published" class="inputbox" onchange="this.form.submit()">
-					<?php
-						echo JHtml::_('select.options', $this->filter_state, 'value', 'text', $this->state->get('filter.state'));
-					?>
-					</select>
-				</li>
-			</ol>
+		<div class="filter-select fltrt">
+			<label for="published"><?php echo JText::_('REDIRECT_SHOW_BY_STATE'); ?></label>
+			<select name="filter_state" id="published" class="inputbox" onchange="this.form.submit()">
+				<?php
+				echo JHtml::_('select.options', $this->filter_state, 'value', 'text', $this->state->get('filter.state'));
+				?>
+			</select>
 		</div>
 	</fieldset>
+	<div class="clr"> </div>
 
 <table class="adminlist">
 	<thead>

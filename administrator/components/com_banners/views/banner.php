@@ -37,23 +37,22 @@ class BannersViewBanner
 		JHtml::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_banners" method="post" name="adminForm">
-		<table>
-		<tr>
-			<td class="left" width="100%">
-				<?php echo JText::_('Filter'); ?>:
-				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl"><?php echo JText::_('Filter'); ?>:</label>
+			<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 				<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_('Filter Reset'); ?></button>
-			</td>
-			<td class="nowrap">
-				<?php
-				echo $lists['catid'];
-				echo $lists['state'];
-				?>
-			</td>
-		</tr>
-		</table>
-
+		</div>
+		<div class="filter-select fltrt">
+			<?php
+			echo $lists['catid'];
+			echo $lists['state'];
+			?>
+		</div>
+	</fieldset>
+	<div class="clr"> </div>	
 			<table class="adminlist">
 			<thead>
 				<tr>
