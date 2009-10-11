@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
 		<legend><?php echo JText::_('Permission Settings'); ?></legend>
 		<?php foreach ($this->form->getFields('permissions') as $field): ?>
 			<?php echo $field->label; ?>
+			<div class="clr"> </div>
 			<?php echo $field->input; ?>
 		<?php endforeach; ?>
 	</fieldset>
