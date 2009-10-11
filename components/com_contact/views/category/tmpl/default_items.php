@@ -32,7 +32,6 @@ defined('_JEXEC') or die;
 		<?php if ($this->params->get('show_headings')) : ?>
 		<thead>
 			<tr>
-			
 				<th class="item-num">
 					<?php echo JText::_('Num'); ?>
 				</th>

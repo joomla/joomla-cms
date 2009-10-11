@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (empty($this->children)) : ?>
-	<!-- no children  -->
+
 <?php else : ?>
 	<h5>Sub Categories</h5>
 <?php
@@ -22,18 +22,18 @@ defined('_JEXEC') or die;
 	
 	// Loop through each of the children
 	foreach ($this->children as &$item) : 
-	// Create an <ol> for every level going deeper
-	// and an </ol> for every level jumping back up
+	// Create an <ul> for every level going deeper
+	// and an </ul> for every level jumping back up
 	// set current level to the new level
 		$difLevel = $item->level - $curLevel;
 		if ($difLevel < 0) :
 			for ($i = 0, $n = -($difLevel); $i < $n; $i++) :
-				echo "</ol>";
+				echo "</ul>";
 			endfor;
 			$curLevel = $item->level;
 		elseif ($difLevel > 0) :
 			for ($i = 0, $n = $difLevel; $i < $n; $i++) : ?>
-				<ol>
+				<ul>
 			<?php endfor;
 			$curLevel = $item->level;
 		endif;
@@ -45,5 +45,5 @@ defined('_JEXEC') or die;
 		</li>
 		<?php endforeach; ?>
 
-	</ol>
+	</ul>
 <?php endif; ?>

@@ -25,9 +25,8 @@ $pageClass = $this->params->get('pageclass_sfx');
 </h2>
 <?php endif; ?>
 
-<!-- Leading Articles -->
 <?php if (!empty($this->lead_items)) : ?>
-<ol class="jarticles-lead">
+<ul class="jarticles-lead">
 	<?php foreach ($this->lead_items as &$item) : ?>
 	<li<?php echo $item->state == 0 ? ' class="system-unpublished"' : null; ?>>
 		<?php
@@ -36,13 +35,11 @@ $pageClass = $this->params->get('pageclass_sfx');
 		?>
 	</li>
 	<?php endforeach; ?>
-</ol>
+</ul>
 <?php endif; ?>
 
-<!-- Intro'd Articles -->
-
 <?php if (!empty($this->intro_items)) : ?>
-<ol class="jarticles-intro jcols-<?php echo (int) $this->columns;?>">
+<ul class="jarticles-intro jcols-<?php echo (int) $this->columns;?>">
 	<?php foreach ($this->intro_items as $key => &$item) : ?>
 	<li class="jcolumn-<?php echo (((int)$key - 1) % (int) $this->columns)+1;?><?php echo $item->state == 0 ? ' system-unpublished"' : null; ?>">
 		<?php
@@ -51,7 +48,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		?>
 	</li>
 	<?php endforeach; ?>
-</ol>
+</ul>
 
 <?php endif; ?>
 
@@ -60,7 +57,6 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php echo $this->loadTemplate('links'); ?>
 	</div>
 <?php endif; ?>
-
 
 <?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
 	<div class="jpagination">

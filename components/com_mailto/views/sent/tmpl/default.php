@@ -6,7 +6,7 @@ defined('_JEXEC') or die; ?>
 			<?php echo JText::_('Close Window'); ?> <img src="<?php echo JURI::base() ?>components/com_mailto/assets/close-x.png" border="0" alt="" title="" /></a>
 	</div>
 
-	<div class="componentheading">
+	<h2>
 		<?php echo JText::_('EMAIL_SENT'); ?>
-	</div>
+	</h2>
 </div>

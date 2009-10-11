@@ -26,7 +26,6 @@ $pageClass = $this->params->get('pageclass_sfx');
 </h2>
 <?php endif; ?>
 
-<!-- Show Category Information -->
 <div>
 <?php if ($this->params->def('show_description', 1) || $this->params->def('show_description_image', 1)) :?>
 	<?php if ($this->params->get('show_description_image') && $this->category->image) : ?>
@@ -38,17 +37,15 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif; ?>
 </div>
 
-<!-- Show subcategory links -->
-<ol class="jsubcategories">
+<ul class="jsubcategories">
 	<?php foreach($this->children as $child) : ?>
 			<li><a href="<?php /* @TODO class not found echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); */ ?>">
 				<?php echo $child->title; ?></a> (<?php /* echo @TODO numitems not loaded $child->numitems; */?>)</li>
 	<?php endforeach; ?>
-</ol>
+</ul>
 
-<!-- Leading Articles -->
 <?php if (!empty($this->lead_items)) : ?>
-<ol class="jarticles-lead">
+<ul class="jarticles-lead">
 	<?php foreach ($this->lead_items as &$item) : ?>
 	<li<?php echo $item->state == 0 ? ' class="system-unpublished"' : null; ?>>
 		<?php
@@ -57,13 +54,11 @@ $pageClass = $this->params->get('pageclass_sfx');
 		?>
 	</li>
 	<?php endforeach; ?>
-</ol>
+</ul>
 <?php endif; ?>
 
-<!-- Intro'd Articles -->
-
 <?php if (!empty($this->intro_items)) : ?>
-<ol class="jarticles-intro jcols-<?php echo (int) $this->columns;?>">
+<ul class="jarticles-intro jcols-<?php echo (int) $this->columns;?>">
 	<?php foreach ($this->intro_items as $key => &$item) : ?>
 	<li class="jcolumn-<?php echo (((int)$key - 1) % (int) $this->columns)+1;?><?php echo $item->state == 0 ? ' system-unpublished"' : null; ?>">
 		<?php
@@ -72,7 +67,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		?>
 	</li>
 	<?php endforeach; ?>
-</ol>
+</ul>
 
 <?php endif; ?>
 

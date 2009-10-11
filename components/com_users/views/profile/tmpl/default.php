@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Check if we need to show the page title.
 if ($this->params->get('show_page_title', 1)):
 	?>
-	<h1><?php echo $this->params->get('page_title'); ?></h1>
+	<h2><?php echo $this->params->get('page_title'); ?></h2>
 	<?php
 endif;
 ?>

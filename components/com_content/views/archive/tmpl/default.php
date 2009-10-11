@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 ?>
 <form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">
-<?php if ($this->params->get('show_page_title', 1)) : ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
-<?php endif; ?>
+	<?php if ($this->params->get('show_page_title', 1)) : ?>
+		<h2 class="<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_title')); ?></h2>
+	<?php endif; ?>
 	<p>
 		<?php if ($this->params->get('filter')) : ?>
 		<?php echo JText::_('Filter').'&nbsp;'; ?>
@@ -27,7 +27,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 		<button type="submit" class="button"><?php echo JText::_('Filter'); ?></button>
 	</p>
 
-<?php echo $this->loadTemplate('items'); ?>
+	<?php echo $this->loadTemplate('items'); ?>
 
 	<input type="hidden" name="view" value="archive" />
 	<input type="hidden" name="option" value="com_content" />

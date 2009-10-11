@@ -26,9 +26,9 @@ $data	= $this->get('data');
 			<?php echo JText::_('CLOSE_WINDOW'); ?> <img src="<?php echo JURI::base() ?>components/com_mailto/assets/close-x.png" border="0" alt="" title="" /></a>
 	</div>
 
-	<div class="componentheading">
+	<h2>
 		<?php echo JText::_('EMAIL_THIS_LINK_TO_A_FRIEND'); ?>
-	</div>
+	</h2>
 
 	<p>
 		<?php echo JText::_('EMAIL_TO'); ?>:

@@ -34,9 +34,9 @@ function submitbutton(pressbutton)
 
 <form action="<?php echo $this->action ?>" method="post" name="adminForm" id="adminForm">
 <?php if ($this->params->def('show_page_title', 1)) : ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
+	<h2 class="<?php echo $this->params->get('pageclass_sfx'); ?>">
 		<?php echo $this->escape($this->params->get('page_title')); ?>
-	</div>
+	</h2>
 <?php endif; ?>
 <table cellpadding="4" cellspacing="1" border="0" width="100%">
 <tr>

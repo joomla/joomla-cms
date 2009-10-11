@@ -14,13 +14,13 @@ defined('_JEXEC') or die;
 	no parents
 <?php else : ?>
 	<h5>Parents</h5>
-	<ol>
+	<ul>
 		<?php foreach ($this->parents as &$item) : ?>
 		<li>
 			<a href="<?php echo JRoute::_(NewsfeedsRoute::category($item->slug)); ?>">
 				<?php echo $this->escape($item->title); ?></a>
 		</li>
 		<?php endforeach; ?>
-	</ol>
+	</ul>
 
 <?php endif; ?>

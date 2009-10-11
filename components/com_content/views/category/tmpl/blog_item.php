@@ -84,7 +84,7 @@ $params = &$this->item->params;
 		</span>
 	<?php endif; ?>
 
-</div><!-- end iteminfo -->
+</div>
 
 <?php echo $this->item->introtext; ?>
 

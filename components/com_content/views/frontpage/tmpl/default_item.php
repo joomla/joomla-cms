@@ -92,7 +92,7 @@ $params = &$this->item->params;
 	<?php endif; ?>
 	<?php $debugthis = $this->item; ?>
 
-</div><!-- end iteminfo -->
+</div>
 
 <?php echo $this->item->introtext; ?>
 

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	no siblings
 <?php else : ?>
 	<h5>Siblings</h5>
-	<ol>
+	<ul>
 		<?php foreach ($this->siblings as &$item) : ?>
 		<li>
 			<?php if ($item->id != $this->item->id) : ?>
@@ -25,6 +25,6 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 		</li>
 		<?php endforeach; ?>
-	</ol>
+	</ul>
 
 <?php endif; ?>

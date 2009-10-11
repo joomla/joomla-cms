@@ -18,9 +18,9 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif;?>
 
 <?php if ($this->params->def('show_page_title', 1)) : ?>
-	<h1>
+	<h2>
 		<?php echo $this->escape($this->params->get('page_title')); ?>
-	</h1>
+	</h2>
 <?php endif; ?>
 <?php  /**
 TODO fix images in com_categories ?>

@@ -14,9 +14,9 @@ function iFrameHeight() {
 </script>
 <div class="contentpane<?php echo $this->params->get('pageclass_sfx'); ?>">
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
-	<?php echo $this->params->get('page_title'); ?>
-	</div>
+	<h2 class="<?php echo $this->params->get('pageclass_sfx'); ?>">
+		<?php echo $this->params->get('page_title'); ?>
+	</h2>
 <?php endif; ?>
 <iframe <?php echo $this->wrapper->load; ?>
 	id="blockrandom"

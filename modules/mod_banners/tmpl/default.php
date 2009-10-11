@@ -20,7 +20,7 @@ foreach($list as $item) :
 
 	?><div class="banneritem<?php echo $params->get('moduleclass_sfx') ?>"><?php
 	echo modBannersHelper::renderBanner($params, $item);
-	?><div class="clr"></div>
+	?><div class="clr"> </div>
 	</div>
 <?php endforeach; ?>
 

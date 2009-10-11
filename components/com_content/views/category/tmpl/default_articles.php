@@ -14,13 +14,13 @@ defined('_JEXEC') or die;
 	<!--  no articles -->
 <?php else : ?>
 <h5>Article Links</h5>
-	<ol>
+	<ul>
 		<?php foreach ($this->articles as &$article) : ?>
 			<li>
 				<a href="<?php echo JRoute::_(ContentRoute::article($article->slug, $article->catslug)); ?>">
 					<?php echo $article->title; ?></a>
 			</li>
 		<?php endforeach; ?>
-	</ol>
+	</ul>
 
 <?php endif; ?>

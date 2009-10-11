@@ -32,12 +32,12 @@ $difLevel = 0;
 	$difLevel = $item->level - $curLevel;
 	if ($difLevel < 0) :
 		for ($i = 0, $n = -($difLevel); $i < $n; $i++) : 
-			echo "</ol>";
+			echo "</ul>";
 		endfor; 
 		$curLevel = $item->level;
 	elseif ($difLevel > 0) :
 		for ($i = 0, $n = $difLevel; $i < $n; $i++) : ?> 
-			<ol>
+			<ul>
 		<?php endfor; 
 		$curLevel = $item->level;
 	endif;
@@ -55,7 +55,7 @@ $difLevel = 0;
 	</li>
 	
 	<?php endforeach; ?>
-</ol>
+</ul>
 <?php endif; ?>
 
 </div>
