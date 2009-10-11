@@ -43,7 +43,7 @@
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Details'); ?></legend>
 		<label><?php echo JText::_('Name'); ?>:</label>
-		<?php echo JText::_($this->template); ?> - <input class="inputbox" type="text" name="description" id="description" size="40" maxlength="255" value="<?php echo $this->params->description; ?>" />
+		<div class="jform_template"><?php echo JText::_($this->template); ?> - </div><input class="inputbox" type="text" name="description" id="description" size="40" maxlength="255" value="<?php echo $this->params->description; ?>" />
 		<div class="clr"></div>
 		<label><?php echo JText::_('Description'); ?>:</label>
 		<?php echo JText::_($this->data->description); ?>

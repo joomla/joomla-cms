@@ -70,7 +70,7 @@ JHtml::_('behavior.formvalidation');
 <div class="width-50 fltrt">
 		<?php echo $pane->startPane('contact-pane'); ?>
 			<?php echo $pane->startPanel(JText::_('Contact_Details'), 'basic-options'); ?>
-			<fieldset>
+			<fieldset class="panelform">
 			<p><?php echo empty($this->item->id) ? JText::_('Contact_Contact_Details') : JText::sprintf('Contact_Edit_Details', $this->item->id); ?></p>
 						<?php echo $this->form->getLabel('con_position'); ?>
 						<?php echo $this->form->getInput('con_position'); ?>
@@ -105,7 +105,7 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $pane->endPanel(); ?>
 			<?php echo $pane->startPanel(JText::_('Contact_Fieldset_Options'), 'display-options'); ?>
-			<fieldset>
+			<fieldset class="panelform">
 				<p><?php echo empty($this->item->id) ? JText::_('Contact_Display_Details') : JText::sprintf('Contact_Display_Details', $this->item->id); ?></p>
 					<?php foreach($this->form->getFields('params') as $field): ?>
 						<?php if ($field->hidden): ?>
@@ -120,7 +120,7 @@ JHtml::_('behavior.formvalidation');
 			</fieldset>
 			<?php echo $pane->endPanel(); ?>
 			<?php echo $pane->startPanel(JText::_('Contact_Fieldset_Contact_Form'), 'email-options'); ?>
-				<fieldset>
+				<fieldset class="panelform">
 				<div class="paramrow">
 						<?php echo $this->form->getLabel('show_email_form'); ?>
 						<?php echo $this->form->getInput('show_email_form'); ?>

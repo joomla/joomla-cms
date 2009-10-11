@@ -48,7 +48,7 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getInput('catid'); ?>
 
 			<?php echo $this->form->getLabel('ordering'); ?>
-			<?php echo $this->form->getInput('ordering'); ?>
+			<div id="jform_ordering" class="fltlft"><?php echo $this->form->getInput('ordering'); ?></div>
 
 			<?php echo $this->form->getLabel('description'); ?>
 			<div class="clr"></div>

@@ -37,7 +37,7 @@
  			<option value="0">Off</option>
  			<option value="1">On</option>
  		</param>
-    <param name="cleanup_save" type="radio" default="2" label="Code Cleanup on Save" description="Code Cleanup upon saving article">
+    <param name="cleanup_save" type="list" default="2" label="Code Cleanup on Save" description="Code Cleanup upon saving article">
       <option value="0">Never</option>
       <option value="1">Front Only</option>
       <option value="2">Always</option>

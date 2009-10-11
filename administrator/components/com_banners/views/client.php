@@ -32,13 +32,13 @@ class BannersViewClients
 
 			<table>
 			<tr>
-				<td align="left" width="100%">
+				<td class="left>
 					<?php echo JText::_('Filter'); ?>:
 					<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 					<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 					<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 				</td>
-				<td nowrap="nowrap">
+				<td class="nowrap">
 				</td>
 			</tr>
 			</table>
@@ -52,16 +52,16 @@ class BannersViewClients
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 				</th>
-				<th nowrap="nowrap" class="title">
+				<th class="nowrap">
 					<?php echo JHtml::_('grid.sort',   'Client Name', 'a.name', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
-				<th nowrap="nowrap" class="title" width="35%">
+				<th class="nowrap" width="35%">
 					<?php echo JHtml::_('grid.sort',   'Contact', 'a.contact', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
-				<th align="center" nowrap="nowrap" width="5%">
+				<th class="nowrap center" width="5%">
 					<?php echo JHtml::_('grid.sort',   'No. of Active Banners', 'bid', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
+				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',   'ID', 'a.cid', @$lists['order_Dir'], @$lists['order']); ?>
 				</th>
 			</tr>
@@ -85,7 +85,7 @@ class BannersViewClients
 				$checked		= JHtml::_('grid.checkedout',   $row, $i);
 				?>
 				<tr class="<?php echo "row$k"; ?>">
-					<td align="center">
+					<td class="center">
 						<?php echo $pageNav->getRowOffset($i); ?>
 					</td>
 					<td>
@@ -105,13 +105,13 @@ class BannersViewClients
 						}
 						?>
 					</td>
-					<td>
+					<td class="center">
 						<?php echo $row->contact; ?>
 					</td>
-					<td align="center">
+					<td class="center">
 						<?php echo $row->nbanners;?>
 					</td>
-					<td align="center">
+					<td class="center">
 						<?php echo $row->cid; ?>
 					</td>
 				</tr>

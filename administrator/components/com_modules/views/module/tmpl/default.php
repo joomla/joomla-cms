@@ -49,7 +49,7 @@ foreach ($this->orders2 as $k=>$items) {
 			
 		
 			<label id="jform_showtitle-lbl" class="hasTip" for="jform_showtitle"><?php echo JText::_('Show title'); ?>:</label>
-					<?php echo $this->lists['showtitle']; ?>
+					<div class="jform_mod_title"><?php echo $this->lists['showtitle']; ?></div>
 		
 			<label id="jform_published-lbl" class="hasTip" for="jform_published"><?php echo JText::_('Published'); ?>:</label>
 					<?php echo $this->lists['published']; ?>
@@ -78,7 +78,9 @@ foreach ($this->orders2 as $k=>$items) {
 					if ($this->row->client_id == 0) :
 						echo JHtml::_('access.assetgrouplist', 'access', $this->row->access);
 					else :
+						echo "<div class='jform_na'>";
 						echo JText::_('N/A');
+						echo "</div>";
 					endif;
 					?>
 
