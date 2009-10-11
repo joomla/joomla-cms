@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://dev.joomla.org/xml/1.5/template-install.dtd">
+<install version="1.5" type="template">
+	<name>Atomic</name>
+	<creationDate>10/10/09</creationDate>
+	<author>Ron Severdia</author>
+	<authorEmail>ron@kontentdesign.com</authorEmail>
+	<authorUrl>http://www.kontentdesign.com</authorUrl>
+	<copyright></copyright>
+	<license>GPL</license>
+	<version>0.1</version>
+	<description>This simple template is just an example of how basic template elements look.</description>
+	<files>
+		<filename>index.php</filename>
+		<filename>index.html</filename>
+		<filename>favicon.ico</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_thumbnail.png</filename>
+		<filename>component.php</filename>
+		<folder>html</folder>
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+	</files>
+	<positions>
+		<position>breadcrumb</position>
+		<position>left</position>
+		<position>right</position>
+		<position>top</position>
+		<position>topmenu</position>
+		<position>leftmenu</position>
+		<position>bottom</position>
+		<position>footer</position>
+		<position>debug</position>
+	</positions>
+</install>
