@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * @version		$Id: index.php 11953 2009-06-01 03:36:36Z robs $
@@ -6,18 +6,20 @@
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @author		Ron Severdia
- * @website		http://www.kontentdesign.com 
- * @email		ron@kontentdesign.com 
+ * @website		http://www.kontentdesign.com
+ * @email		ron@kontentdesign.com
  */
 
 JHTML::_('behavior.mootools');
+
+$app = JFactory::getApplication();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
-	<head> 
-		<jdoc:include type="head" /> 
-		<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" /> 
-		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template.css" type="text/css" /> 
+	<head>
+		<jdoc:include type="head" />
+		<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
+		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template.css" type="text/css" />
 		<!--[if IE]>
 			<link type="text/css" rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template_ie.css" />
 		<![endif]-->
@@ -41,8 +43,8 @@ JHTML::_('behavior.mootools');
 				<jdoc:include type="component" />
 			</div>
 			<div id="footer">
-				&copy; <?php echo date("Y"); ?> <?php echo $mainframe->getCfg('sitename'); ?>
+				&copy; <?php echo date("Y"); ?> <?php echo $app->getCfg('sitename'); ?>
 			</div>
 		</div>
-	</body> 
+	</body>
 </html>
