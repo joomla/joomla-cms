@@ -38,9 +38,11 @@
 			default="1"
 			filter="integer">
 			<option
-				value="0">JNo</option>
+				value="0"
+				class="no">JNo</option>
 			<option
-				value="1">JYes</option>
+				value="1"
+				class="yes">JYes</option>
 		</field>
 
 		<field
