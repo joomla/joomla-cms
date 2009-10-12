@@ -34,14 +34,50 @@ class JFormFieldRadio extends JFormField
 	 */
 	protected function _getInput()
 	{
-		$options = array();
-		$class = $this->_element->attributes('class') ? ' class="radiobtn '.$this->_element->attributes('class').'" ': ' class="radiobtn"';
-
 		// Get the options for the radio list.
-		foreach ($this->_element->children() as $option) {
-			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_($option->data()));
+		$options = array();
+		foreach ($this->_element->children() as $option)
+		{
+			$tmp = JHtml::_('select.option', $option->attributes('value'), $option->data());
+			$tmp->class = $option->attributes('class');
+			$options[] = $tmp;
+		}
+		reset($options);
+
+		// Get the fieldset class.
+		$class = $this->_element->attributes('class') ? 'class="radio '.$this->_element->attributes('class').'"': 'class="radio"';
+
+		$html = array();
+		$html[] = '<div id="'.$this->inputId.'" '.$class.'>';
+
+		foreach ($options as $i => $option)
+		{
+			if (is_array($this->value))
+			{
+				foreach ($this->value as $val)
+				{
+					$value = is_object($val) ? $val->value : $val;
+					if ($option->value == $value)
+					{
+						$bool = ' selected="selected"';
+						break;
+					}
+				}
+			}
+			else {
+				$bool = ((string) $option->value == (string) $this->value ? ' checked="checked"' : null);
+			}
+
+			// Get the defined class for the option if set.
+			$class = isset($option->class) ? ' class="'.$option->class.'"' : null;
+
+
+			$html[] = '<input id="'.$this->inputId.$i.'" type="radio" name="'.$this->inputName.'"'.$class.' value="'.htmlspecialchars($option->value).'"'.$bool.' />';
+			$html[] = '<label for="'.$this->inputId.$i.'" class="">'.JText::_($option->text).'</label>';
 		}
 
-		return JHtml::_('select.radiolist', $options, $this->inputName, $class, 'value', 'text', $this->value, $this->inputId);
+		$html[] = '</div>';
+
+		return implode($html);
 	}
 }
