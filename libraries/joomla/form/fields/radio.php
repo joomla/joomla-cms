@@ -48,7 +48,7 @@ class JFormFieldRadio extends JFormField
 		$class = $this->_element->attributes('class') ? 'class="radio '.$this->_element->attributes('class').'"': 'class="radio"';
 
 		$html = array();
-		$html[] = '<div id="'.$this->inputId.'" '.$class.'>';
+		$html[] = '<fieldset id="'.$this->inputId.'" '.$class.'>';
 
 		foreach ($options as $i => $option)
 		{
@@ -72,11 +72,11 @@ class JFormFieldRadio extends JFormField
 			$class = isset($option->class) ? ' class="'.$option->class.'"' : null;
 
 
-			$html[] = '<input id="'.$this->inputId.$i.'" type="radio" name="'.$this->inputName.'"'.$class.' value="'.htmlspecialchars($option->value).'"'.$bool.' />';
-			$html[] = '<label for="'.$this->inputId.$i.'" class="">'.JText::_($option->text).'</label>';
+			$html[] = '<input id="'.$this->inputId.$i.'" type="radio" name="'.$this->inputName.'" value="'.htmlspecialchars($option->value).'"'.$bool.' />';
+			$html[] = '<label for="'.$this->inputId.$i.'"'.$class.'>'.JText::_($option->text).'</label>';
 		}
 
-		$html[] = '</div>';
+		$html[] = '</fieldset>';
 
 		return implode($html);
 	}
