@@ -26,10 +26,10 @@ $pane = &JPane::getInstance('sliders');
 			<?php
 				foreach ($this->paramsform->getFields($name) as $field) :
 			?>
-			<div class="paramrow" />
+			
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
-			</div>
+			
 			<?php
 				endforeach;
 			?>
