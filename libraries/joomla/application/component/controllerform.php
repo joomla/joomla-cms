@@ -298,7 +298,7 @@ class JControllerForm extends JController
 			return $this->_allowEdit($recordId);
 		}
 		else {
-			return $this->_allowCreate($recordId);
+			return $this->_allowAdd($recordId);
 		}
 	}
 
