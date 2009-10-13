@@ -18,15 +18,51 @@ jimport('joomla.application.component.controllerform');
 class ContentControllerArticle extends JControllerForm
 {
 	/**
-	 * Constructor
+	 * Method override to check if you can add a new record.
+	 *
+	 * @param	array	An array of input data.
+	 *
+	 * @return 	boolean
 	 */
-	function __construct()
+	protected function _allowAdd($data = array())
 	{
-		parent::__construct();
+		// Initialize variables.
+		$user		= JFactory::getUser();
+		$categoryId	= JArrayHelper::getValue($data, 'catid', JRequest::getInt('filter_category_id'), 'int');
+		$allow		= null;
 
-		$this->registerTask('save2copy',	'save');
-		$this->registerTask('save2new',		'save');
-		$this->registerTask('apply',		'save');
+		if ($categoryId)
+		{
+			// If the category has been passed in the URL check it.
+			$allow	= $user->authorise('core.create', 'com_content.category.'.$categoryId);
+		}
+		if ($allow === null)
+		{
+			// In the absense of better information, revert to the component permissions.
+			return parent::_allowAdd();
+		}
+		else {
+			return $allow;
+		}
+	}
+
+	/**
+	 * Method to check if you can add a new record.
+	 *
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param	array	An array of input data.
+	 * @param	string	The name of the key for the primary key.
+	 *
+	 * @return 	boolean
+	 */
+	protected function _allowEdit($data = array(), $key = 'id')
+	{
+		// Initialize variables.
+		$recordId	= isset($data[$key]) ? $data[$key] : '0';
+		$user		= JFactory::getUser();
+
+		return $user->authorise('core.edit', sprintf($this->_asset_name, $recordId));
 	}
 
 	/**

@@ -53,7 +53,7 @@ class ContentViewArticles extends JView
 
 		JToolBarHelper::title(JText::_('Content_Articles_Title'), 'article.png');
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('article.edit', 'new.png', 'new_f2.png', 'New', false);
+			JToolBarHelper::custom('article.add', 'new.png', 'new_f2.png', 'New', false);
 		}
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png', 'Edit', true);

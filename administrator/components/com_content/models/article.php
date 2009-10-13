@@ -128,6 +128,18 @@ class ContentModelArticle extends JModelForm
 			return false;
 		}
 
+		// Determine correct permissions to check.
+		if ($this->getState('article.id'))
+		{
+			// Existing item. Can only edit in selected categories.
+			$form->setFieldAttribute('catid', 'action', 'core.edit');
+		}
+		else
+		{
+			// New item. Can only create in selected categories.
+			$form->setFieldAttribute('catid', 'action', 'core.create');
+		}
+
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_content.edit.item.data', array());
 

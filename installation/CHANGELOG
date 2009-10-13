@@ -31,6 +31,8 @@ $ -> Language fix or change
 13-Oct-2009 Andrew Eddie
 ^ Reverse the order of Publisher, Editor and Author groups to match admin groups direction.
 ^ Change label of 'inherit' in Global Config permissions.
++ Add access check to categories form field.
+^ Configure add and edit access controls in com_content (changes to access checks in JControllerForm, article controller and model).
 
 11-Oct-2009 Ron Severdia
 ^ Standardized all list filters
