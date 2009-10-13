@@ -28,8 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 
-11-Oct-2009 Andrew Eddie
+13-Oct-2009 Andrew Eddie
 ^ Reverse the order of Publisher, Editor and Author groups to match admin groups direction.
+^ Change label of 'inherit' in Global Config permissions.
 
 11-Oct-2009 Ron Severdia
 ^ Standardized all list filters
