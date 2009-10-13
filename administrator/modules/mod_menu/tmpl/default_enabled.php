@@ -22,26 +22,31 @@ $menu->addChild(
 
 $menu->addSeparator();
 
-if ($user->authorise('core.manage', 'com_config')) {
+if ($user->authorise('core.admin')) {
 	$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
 	$menu->addSeparator();
 }
 
-$com = $user->authorise('core.manage', 'com_config');
 $chm = $user->authorise('core.manage', 'com_checkin');
 $cam = $user->authorise('core.manage', 'com_cache');
 
-if ($com || $chm || $cam )
+if ($chm || $cam )
 {
 	$menu->addChild(
 		new JMenuNode(JText::_('Mod_Menu_Site_Maintenance'), '#', 'class:maintenance'), true
 	);
 
-	$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Global_Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
+	if ($chm)
+	{
+		$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Global_Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
+		$menu->addSeparator();
+	}
+	if ($cam)
+	{
+		$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Clear_Cache'), 'index.php?option=com_cache', 'class:clear'));
+		$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Purge_Expired_Cache'), 'index.php?option=com_cache&view=purge', 'class:purge'));
+	}
 
-	$menu->addSeparator();
-	$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Clear_Cache'), 'index.php?option=com_cache', 'class:clear'));
-	$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Purge_Expired_Cache'), 'index.php?option=com_cache&view=purge', 'class:purge'));
 	$menu->getParent();
 }
 
