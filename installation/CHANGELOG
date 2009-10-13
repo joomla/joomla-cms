@@ -37,6 +37,11 @@ $ -> Language fix or change
 ! Temporarily disable fulltext display in com_content feeds (need to explicitly retrieve only the required fields to save data overhead).
 ^ Correct the inheritance (via user groups) in the JHtml rules widget.
 ^ Added component level core.admin check to allow for non Super User's to edit options (configured for Administrator, denied for Manager).
+# Fix permissions in admin mod_menu (Checkin and Cache not correct).
+# Fix permissions in com_config to correctly allow component configuration management.
+^ Change name of first installed user to "Super User".
+- Remove com_members from extensions table.
++ Added options toolbar check to com_checkin, com_cache and com_search.
 
 11-Oct-2009 Ron Severdia
 ^ Standardized all list filters

@@ -48,13 +48,17 @@ class CacheViewCache extends JView
 
 	protected function _setToolbar()
 	{
+		$user = JFactory::getUser();
 		$condition = ($this->client->name == 'site');
 		JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0', $condition);
 		JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1', !$condition);
 
 		JToolBarHelper::title(JText::_('Cache Manager - Clear Cache Admin'), 'clear.png');
 		JToolBarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'Delete', true);
-		JToolBarHelper::preferences('com_cache');
+
+		if (JFactory::getUser()->authorise('core.admin', 'com_cache')) {
+			JToolBarHelper::preferences('com_cache');
+		}
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.cache');
 	}

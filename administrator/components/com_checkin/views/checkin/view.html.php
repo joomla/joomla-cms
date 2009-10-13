@@ -40,8 +40,11 @@ class CheckinViewCheckin extends JView
 	protected function _setToolbar()
 	{
 		JToolBarHelper::title(JText::_('Global Check-in'), 'checkin.png');
-		JToolBarHelper::preferences('com_checkin');
-		JToolBarHelper::divider();
+		if (JFactory::getUser()->authorise('core.admin', 'com_checkin'))
+		{
+			JToolBarHelper::preferences('com_checkin');
+			JToolBarHelper::divider();
+		}
 		JToolBarHelper::help('screen.checkin');
 	}
 }

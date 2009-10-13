@@ -25,7 +25,9 @@ class SearchViewSearch extends JView
 
 		JToolBarHelper::title(JText::_('Search Statistics'), 'searchtext.png');
 		JToolBarHelper::custom('reset', 'delete.png', 'delete_f2.png', 'Reset', false);
-		JToolBarHelper::preferences('com_search');
+		if (JFactory::getUser()->authorise('core.admin', 'com_cache')) {
+			JToolBarHelper::preferences('com_search');
+		}
 		JToolBarHelper::help('screen.stats.searches');
 
 		$document = & JFactory::getDocument();
