@@ -18,7 +18,7 @@ $menu->addChild(new JMenuNode(JText::_('Mod_Menu_Site'), null, 'disabled'));
 //
 // Users Submenu
 //
-if ($user->authorize('core.manage', 'com_users'))
+if ($user->authorise('core.manage', 'com_users'))
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS'), null, 'disabled'));
 }
@@ -26,7 +26,7 @@ if ($user->authorize('core.manage', 'com_users'))
 //
 // Menus Submenu
 //
-if ($user->authorize('core.manage', 'com_menus'))
+if ($user->authorise('core.manage', 'com_menus'))
 {
 	$menu->addChild(new JMenuNode(JText::_('Menus'), null, 'disabled'));
 }
@@ -34,7 +34,7 @@ if ($user->authorize('core.manage', 'com_menus'))
 //
 // Content Submenu
 //
-if ($user->authorize('core.manage', 'com_content'))
+if ($user->authorise('core.manage', 'com_content'))
 {
 	$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Com_Content'), null, 'disabled'));
 }
@@ -47,11 +47,11 @@ $menu->addChild(new JMenuNode(JText::_('Mod_Menu_Components'),  null, 'disabled'
 //
 // Extensions Submenu
 //
-$im = $user->authorize('core.manage', 'com_installer');
-$mm = $user->authorize('core.manage', 'com_modules');
-$pm = $user->authorize('core.manage', 'com_plugins');
-$tm = $user->authorize('core.manage', 'com_templates');
-$lm = $user->authorize('core.manage', 'com_languages');
+$im = $user->authorise('core.manage', 'com_installer');
+$mm = $user->authorise('core.manage', 'com_modules');
+$pm = $user->authorise('core.manage', 'com_plugins');
+$tm = $user->authorise('core.manage', 'com_templates');
+$lm = $user->authorise('core.manage', 'com_languages');
 
 if ($im || $mm || $pm || $tm || $lm)
 {
