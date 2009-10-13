@@ -28,6 +28,8 @@ class ContentControllerArticles extends JController
 		$this->registerTask('archive',		'publish');
 		$this->registerTask('trash',		'publish');
 		$this->registerTask('unfeatured',	'featured');
+		$this->registerTask('orderup',		'ordering');
+		$this->registerTask('orderdown',	'ordering');
 	}
 
 	/**
@@ -107,7 +109,7 @@ class ContentControllerArticles extends JController
 		{
 			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
 			{
-				// Prune items that you can't delete.
+				// Prune items that you can't change.
 				unset($ids[$i]);
 				JError::raiseNotice(403, JText::_('JError_Core_Edit_State_not_permitted'));
 			}
@@ -153,7 +155,7 @@ class ContentControllerArticles extends JController
 		{
 			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
 			{
-				// Prune items that you can't delete.
+				// Prune items that you can't change.
 				unset($ids[$i]);
 				JError::raiseNotice(403, JText::_('JError_Core_Edit_State_not_permitted'));
 			}
@@ -172,6 +174,37 @@ class ContentControllerArticles extends JController
 				JError::raiseWarning(500, $model->getError());
 			}
 		}
+
+		$this->setRedirect('index.php?option=com_content&view=articles');
+	}
+
+	/**
+	 * Changes the order of a record.
+	 */
+	function ordering()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$ids	= JRequest::getVar('cid', null, 'post', 'array');
+		$inc	= $this->getTask() == 'orderup' ? -1 : +1;
+
+		// Access checks.
+		foreach ($ids as $i => $id)
+		{
+			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
+			{
+				// Prune items that you can't change.
+				unset($ids[$i]);
+				JError::raiseNotice(403, JText::_('JError_Core_Edit_State_not_permitted'));
+			}
+		}
+
+		$model = & $this->getModel();
+		$model->reorder($ids, $inc);
+		// TODO: Add error checks.
 
 		$this->setRedirect('index.php?option=com_content&view=articles');
 	}

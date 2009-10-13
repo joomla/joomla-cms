@@ -361,17 +361,31 @@ class ContentModelArticle extends JModelForm
 	 * @param	integer	Increment, usually +1 or -1
 	 * @return	boolean	False on failure or error, true otherwise.
 	 */
-	public function ordering($pk, $direction = 0)
+	public function reorder($pk, $direction = 0)
 	{
 		// Sanitize the id and adjustment.
 		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
-		// Get a row instance.
-		$table = &$this->getTable();
+		// Get an instance of the record's table.
+		$table = $this->getTable();
 
-		// Attempt to adjust the row ordering.
-		if (!$table->ordering((int) $direction, $pk)) {
+		// Attempt to check-out and move the row.
+		if (!$this->checkout($pk)) {
+			return false;
+		}
+
+		// Load the row.
+		if (!$table->load($pk)) {
 			$this->setError($table->getError());
+			return false;
+		}
+
+		// Move the row.
+		// TODO: Where clause to restrict category.
+		$table->move($pk);
+
+		// Check-in the row.
+		if (!$this->checkin($pk)) {
 			return false;
 		}
 
