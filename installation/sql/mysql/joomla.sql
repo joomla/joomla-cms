@@ -32,7 +32,7 @@ VALUES
 	(4,1,6,7,1,'com_cache','com_cache','{""core.admin":{"7":1,"6":0},core.manage":{"6":0}}'),
 	(5,1,8,9,1,'com_checkin','com_checkin','{""core.admin":{"7":1,"6":0},core.manage":{"6":0}}'),
 	(6,1,10,11,1,'com_config','com_config','{}'),
-	(7,1,12,13,1,'com_contact','com_contact','{"core.admin":{"7":1,"6":0},"core.manage":{"6":0},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(7,1,12,13,1,'com_contact','com_contact','{"core.admin":{"7":1,"6":0},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 	(8,1,14,31,1,'com_content','com_content','{"core.admin":{"7":1,"6":0},"core.manage":[],"core.create":{"5":1},"core.delete":[],"core.edit":{"5":1,"3":0},"core.edit.state":{"5":1,"4":0}}'),
 	(9,1,32,33,1,'com_cpanel','com_cpanel','{}'),
 	(10,1,34,35,1,'com_installer','com_installer','{"core.admin":{"7":1,"6":0},"core.manage":{"6":0},"core.create":[],"core.delete":[],"core.edit.state":[]}'),
