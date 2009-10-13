@@ -897,12 +897,12 @@ INSERT INTO `#__usergroups` (`id` ,`parent_id` ,`lft` ,`rgt` ,`title`)
 VALUES
 	(1,0,1,18,'Public'),
 	(2,1,2,17,'Registered'),
-	(3,2,3,8,'Author'),
-	(4,3,4,7,'Editor'),
-	(5,4,5,6,'Publisher'),
-	(6,2,9,14,'Manager'),
-	(7,6,10,13,'Administrator'),
-	(8,7,11,12,'Super Administrator');
+	(3,4,11,12,'Author'),
+	(4,5,10,13,'Editor'),
+	(5,2,9,14,'Publisher'),
+	(6,7,4,5,'Manager'),
+	(7,2,3,6,'Administrator'),
+	(8,2,15,16,'Super Users');
 
 # -------------------------------------------------------
 

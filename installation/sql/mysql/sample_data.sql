@@ -4,13 +4,6 @@
 #
 
 --
--- Dumping data for table `#__access_asset_assetgroups`
---
-
-INSERT IGNORE INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
-(4, 'Confidential', 3, '[9]');
-
---
 -- Dumping data for table `#__assets`
 --
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
@@ -116,7 +109,15 @@ INSERT IGNORE INTO `#__menu_types` VALUES
 --
 
 INSERT IGNORE INTO `#__usergroups` VALUES
-	(9,2,15,16,'Park Rangers');
+	(9,2,7,8,'Park Rangers');
+
+
+--
+-- Dumping data for table `#__viewlevels`
+--
+
+INSERT IGNORE INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
+(4, 'Confidential', 3, '[9]');
 
 --
 -- Dumping data for table `#__weblinks`

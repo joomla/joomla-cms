@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 
+11-Oct-2009 Andrew Eddie
+^ Reverse the order of Publisher, Editor and Author groups to match admin groups direction.
+
 11-Oct-2009 Ron Severdia
 ^ Standardized all list filters
 ^ Front-end core output cleanup
