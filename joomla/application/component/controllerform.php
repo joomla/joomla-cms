@@ -142,11 +142,13 @@ class JControllerForm extends JController
 	/**
 	 * Method to check if you can add a new record.
 	 *
-	 * Extended classes should override this if necessary.
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param	array	An array of input data.
 	 *
 	 * @return 	boolean
 	 */
-	protected function _allowAdd()
+	protected function _allowAdd($data = array())
 	{
 		// TODO: Do we add a stock category check here "can I create something in this category"?
 
@@ -183,14 +185,18 @@ class JControllerForm extends JController
 	/**
 	 * Method to check if you can add a new record.
 	 *
-	 * Extended classes should override this if necessary.
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param	array	An array of input data.
+	 * @param	string	The name of the key for the primary key.
 	 *
 	 * @return 	boolean
 	 */
-	protected function _allowEdit($recordId)
+	protected function _allowEdit($data = array(), $key = 'id')
 	{
 		// Initialize variables.
-		$user = JFactory::getUser();
+		$recordId	= isset($data[$key]) ? $data[$key] : '0';
+		$user		= JFactory::getUser();
 
 		return $user->authorise('core.edit', sprintf($this->_asset_name, $recordId));
 	}
@@ -204,17 +210,19 @@ class JControllerForm extends JController
 	{
 		// Initialize variables.
 		$app		= JFactory::getApplication();
-		$model		= &$this->getModel();
+		$model		= $this->getModel();
+		$table		= $model->getTable();
 		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
 		$context	= "$this->_option.edit.$this->_context";
 
 		// Get the previous record id (if any) and the current record id.
-		$previousId		= (int) $app->getUserState($context.'.id');
-		$recordId		= (int) (count($cid) ? $cid[0] : JRequest::getInt('id'));
-		$checkin		= method_exists($model, 'checkin');
+		$previousId	= (int) $app->getUserState($context.'.id');
+		$recordId	= (int) (count($cid) ? $cid[0] : JRequest::getInt('id'));
+		$checkin	= method_exists($model, 'checkin');
 
 		// Access check.
-		if (!$this->_allowEdit($recordId)) {
+		$key		= $table->getKeyName();
+		if (!$this->_allowEdit(array($key => $recordId), $key)) {
 			return JError::raiseWarning(403, 'JError_Core_Edit_not_permitted.');
 		}
 
@@ -269,7 +277,7 @@ class JControllerForm extends JController
 
 		// Attempt to check-in the current record.
 		if ($checkin && $recordId)
-{
+		{
 			if (!$model->checkin($recordId))
 			{
 				// Check-in failed, go back to the record and display a notice.
@@ -288,17 +296,23 @@ class JControllerForm extends JController
 	/**
 	 * Method to check if you can save a new or existing record.
 	 *
-	 * Extended classes should override this if necessary.
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param	array	An array of input data.
+	 * @param	string	The name of the key for the primary key.
 	 *
 	 * @return 	boolean
 	 */
-	protected function _allowSave($recordId)
+	protected function _allowSave($data, $key = 'id')
 	{
+		// Initialize variables.
+		$recordId	= isset($data[$key]) ? $data[$key] : '0';
+
 		if ($recordId) {
-			return $this->_allowEdit($recordId);
+			return $this->_allowEdit($data, $key);
 		}
 		else {
-			return $this->_allowAdd($recordId);
+			return $this->_allowAdd($data);
 		}
 	}
 
@@ -316,14 +330,19 @@ class JControllerForm extends JController
 		// Initialize variables.
 		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
+		$table		= $model->getTable();
 		$data		= JRequest::getVar('jform', array(), 'post', 'array');
 		$checkin	= method_exists($model, 'checkin');
 		$context	= "$this->_option.edit.$this->_context";
 		$task		= $this->getTask();
 		$recordId	= (int) $app->getUserState($context.'.id');
 
+		// Populate the row id from the session.
+		$key		= $table->getKeyName();
+		$data[$key] = $recordId;
+
 		// Access check.
-		if (!$this->_allowSave($recordId)) {
+		if (!$this->_allowSave($data)) {
 			return JError::raiseWarning(403, 'JError_Save_not_permitted.');
 		}
 
@@ -335,9 +354,6 @@ class JControllerForm extends JController
 			return false;
 		}
 		$data	= $model->validate($form, $data);
-
-		// Populate the row id from the session.
-		$data['id'] = $recordId;
 
 		// The save2copy task needs to be handled slightly differently.
 		if ($task == 'save2copy')
