@@ -29,8 +29,7 @@
 	<fields
 		group="permissions"
 		label="JConfig_Permissions_Label"
-		description="JConfig_Permissions_Desc"
-		hidden="true">
+		description="JConfig_Permissions_Desc">
 
 		<field
 			name="rules"
@@ -40,9 +39,13 @@
 			component="com_search"
 			section="component">
 			<action
+				name="core.admin"
+				title="JAction_Admin"
+				description="JAction_Manage_Component_Desc" />
+			<action
 				name="core.manage"
 				title="JAction_Manage"
-				description="JAction_Manage_Desc" />
+				description="JAction_Manage_Component_Desc" />
 		</field>
 	</fields>
 </config>

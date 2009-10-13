@@ -15,21 +15,25 @@
 			section="component">
 			<!-- Using simplified actions definition -->
 			<action
+				name="core.admin"
+				title="JAction_Admin"
+				description="JAction_Manage_Component_Desc" />
+			<action
 				name="core.manage"
 				title="JAction_Manage"
-				description="JAction_Manage_Desc" />
+				description="JAction_Manage_Component_Desc" />
 			<action
 				name="core.create"
 				title="JAction_Create"
-				description="JAction_Create_Desc" />
+				description="JAction_Create_Component_Desc" />
 			<action
 				name="core.delete"
 				title="JAction_Delete"
-				description="JAction_Delete_Desc" />
+				description="JAction_Delete_Component_Desc" />
 			<action
 				name="core.edit.state"
 				title="JAction_Edit_State"
-				description="JAction_Edit_State_Desc" />
+				description="JAction_Edit_State_Component_Desc" />
 		</field>
 	</fields>
 </config>
