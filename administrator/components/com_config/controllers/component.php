@@ -37,12 +37,6 @@ class ConfigControllerComponent extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
 
-		// Check if the user is authorized to do this.
-		// TODO: This permission need to change based on the extension.
-		if (!JFactory::getUser()->authorize('core.manage', 'com_config')) {
-			JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
-		}
-
 		// Set FTP credentials, if given.
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
@@ -54,6 +48,13 @@ class ConfigControllerComponent extends JController
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 		$id		= JRequest::getInt('id');
 		$option	= JRequest::getWord('component');
+
+		// Check if the user is authorized to do this.
+		if (!JFactory::getUser()->authorize('core.admin', $option))
+		{
+			JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
+			return;
+		}
 
 		// Validate the posted data.
 		$return = $model->validate($form, $data);

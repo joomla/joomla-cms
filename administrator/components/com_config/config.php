@@ -10,10 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// Access check.
-if (!JFactory::getUser()->authorise('core.admin')) {
-	return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
-}
+// Access checks are done internally because of different requirements for the two controllers.
 
 // Include dependancies
 jimport('joomla.application.component.controller');

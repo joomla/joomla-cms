@@ -43,6 +43,12 @@ class ConfigController extends JController
 			{
 				// Get the model for the view.
 				$model = &$this->getModel($vName);
+
+				// Access check.
+				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option'))) {
+					return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
+				}
+
 				// Push the model into the view (as default).
 				$view->setModel($model, true);
 			}
