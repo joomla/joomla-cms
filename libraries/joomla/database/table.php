@@ -621,85 +621,32 @@ abstract class JTable extends JObject
 			return false;
 		}
 
+		// If tracking assets, remove the asset first.
+		if ($this->_trackAssets)
+		{
+			// Get and the asset name.
+			$this->$k	= $pk;
+			$name		= $this->_getAssetName();
+			$asset		= JTable::getInstance('Asset');
+			if ($asset->loadByName($name))
+			{
+				if (!$asset->delete())
+				{
+					$this->setError($asset->getError());
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError($asset->getError());
+				return false;
+			}
+		}
+
 		// Delete the row by primary key.
 		$this->_db->setQuery(
 			'DELETE FROM `'.$this->_tbl.'`' .
 			' WHERE `'.$this->_tbl_key.'` = '.$this->_db->quote($pk)
-		);
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
-		// If the table is not set to track assets return true.
-		if (!$this->_trackAssets) {
-			return true;
-		}
-
-		/*
-		 * The following section is only encountered if tracking assets is enabled
-		 * for the database table class.
-		 */
-
-		// Get the section id for the asset.
-		$section = $this->getAssetSection();
-		$this->_db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__access_sections`' .
-			' WHERE `name` = '.$this->_db->Quote($section)
-		);
-		$sectionId = $this->_db->loadResult();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
-		// Make sure the section is valid.
-		if (empty($sectionId)) {
-			$this->setError(JText::_('Access_Section_Invalid'));
-			return false;
-		}
-
-		// Get and sanitize the asset name.
-		$prefix = $this->getAssetNamePrefix();
-		$name = strtolower(preg_replace('#[\s\-]+#', '.', trim($prefix.'.'.$pk, ' .')));
-
-		// Get the asset id for the asset.
-		$this->_db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__assets`' .
-			' WHERE `name` = '.$this->_db->Quote($name)
-		);
-		$assetId = $this->_db->loadResult();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
-		// Delete asset to group maps.
-		$this->_db->setQuery(
-			'DELETE FROM `#__access_asset_assetgroup_map`' .
-			' WHERE `asset_id` = '.(int) $assetId
-		);
-		$this->_db->query();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
-		// Delete the asset.
-		$this->_db->setQuery(
-			'DELETE FROM `#__assets`' .
-			' WHERE `id` = '.(int) $assetId
 		);
 		$this->_db->query();
 
