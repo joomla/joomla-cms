@@ -419,7 +419,6 @@ INSERT INTO `#__extensions` VALUES
 (0, 'Mail To', 'component', 'com_mailto', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Mass Mail', 'component', 'com_massmail', '', 1, 1, 0, 1, '', 'mailSubjectPrefix=\nmailBodySuffix=\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Media Manager', 'component', 'com_media', '', 1, 1, 0, 1, '', 'upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nfile_path=images\nimage_path=images\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave\nflash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html\nenable_flash=1\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'Member Manager', 'component', 'com_members', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Menu Editor', 'component', 'com_menus', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Messaging', 'component', 'com_messages', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Module Manager', 'component', 'com_modules', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
