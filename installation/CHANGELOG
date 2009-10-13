@@ -34,6 +34,8 @@ $ -> Language fix or change
 + Add access check to categories form field.
 ^ Configure add and edit access controls in com_content (changes to access checks in JControllerForm, article controller and model).
 # Fix bug in JTable::delete when tracking assets.
+! Temporarily disable fulltext display in com_content feeds (need to explicitly retrieve only the required fields to save data overhead).
+^ Correct the inheritance (via user groups) in the JHtml rules widget.
 
 11-Oct-2009 Ron Severdia
 ^ Standardized all list filters
