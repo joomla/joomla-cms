@@ -47,10 +47,10 @@ class UsersModelReport extends JModel
 		$actions = array(
 			'core.admin'		=> JText::_('JAction_Admin'),
 			'core.manage'		=> JText::_('JAction_Manage'),
-			'core.create'		=> JText::_('JAction_Admin'),
-			'core.delete'		=> JText::_('JAction_Admin'),
-			'core.edit'			=> JText::_('JAction_Admin'),
-			'core.edit.state'	=> JText::_('JAction_Admin')
+			'core.create'		=> JText::_('JAction_Create'),
+			'core.delete'		=> JText::_('JAction_Delete'),
+			'core.edit'			=> JText::_('JAction_Edit'),
+			'core.edit.state'	=> JText::_('JAction_Edit_State')
 		);
 		return $actions;
 	}
