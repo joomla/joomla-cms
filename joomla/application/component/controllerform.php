@@ -41,11 +41,6 @@ class JControllerForm extends JController
 	protected $_context;
 
 	/**
-	 * @var string	The name of the asset in the form 'extension.type.%d' where %d is replaced with the pk of the item.
-	 */
-	protected $_asset_name;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param	array An optional associative array of configuration settings.
@@ -100,11 +95,6 @@ class JControllerForm extends JController
 		    }
 		}
 
-		// Guess the list view as the plural of the item view.
-		if (empty($this->_asset_name)) {
-			$this->_asset_name = $this->_option.'.'.$this->_context.'.%d';
-		}
-
 		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply',		'save');
 		$this->registerTask('save2new',		'save');
@@ -150,12 +140,7 @@ class JControllerForm extends JController
 	 */
 	protected function _allowAdd($data = array())
 	{
-		// TODO: Do we add a stock category check here "can I create something in this category"?
-
-		// Initialize variables.
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.create', $this->_option);
+		return JFactory::getUser()->authorise('core.create', $this->_option);
 	}
 
 	/**
@@ -194,11 +179,7 @@ class JControllerForm extends JController
 	 */
 	protected function _allowEdit($data = array(), $key = 'id')
 	{
-		// Initialize variables.
-		$recordId	= isset($data[$key]) ? $data[$key] : '0';
-		$user		= JFactory::getUser();
-
-		return $user->authorise('core.edit', sprintf($this->_asset_name, $recordId));
+		return JFactory::getUser()->authorise('core.create', $this->_option);
 	}
 
 	/**
