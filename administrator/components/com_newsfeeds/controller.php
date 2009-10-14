@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
@@ -22,6 +22,8 @@ class NewsfeedsController extends JController
 	 */
 	function display()
 	{
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'newsfeeds.php';
+
 		// Get the document object.
 		$document = &JFactory::getDocument();
 
@@ -49,7 +51,6 @@ class NewsfeedsController extends JController
 
 			$view->display();
 			// Load the submenu.
-			require_once JPATH_COMPONENT.DS.'helpers'.DS.'newsfeeds.php';
 			NewsfeedsHelper::addSubmenu($vName);
 		}
 	}

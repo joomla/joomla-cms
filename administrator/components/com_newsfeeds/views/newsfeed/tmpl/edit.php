@@ -4,7 +4,7 @@
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -60,6 +60,12 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('rtl'); ?><br />
 			<?php echo $this->form->getInput('rtl'); ?>
+
+			<?php echo $this->form->getLabel('access'); ?><br />
+			<?php echo $this->form->getInput('access'); ?>
+
+			<?php echo $this->form->getLabel('language'); ?><br />
+			<?php echo $this->form->getInput('language'); ?>
 
 	</fieldset>
 </div>

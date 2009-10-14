@@ -245,6 +245,11 @@ CREATE TABLE `jos_languages` (
   PRIMARY KEY  (`lang_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8
 
+INSERT INTO `jos_languages` (`lang_id`,`lang_code`,`title`,`title_native`,`description`,`published`)
+VALUES
+	(1,'en_GB','English (UK)','English (UK)','',1),
+	(2,'en_US','English (US)','English (US)','',1);
+
 -- ----------------------------------------------------------------
 -- jos_menu
 -- ----------------------------------------------------------------
@@ -336,6 +341,35 @@ UPDATE `#__modules`
  SET `menutype` = 'mod_menu'
  WHERE `menutype` = 'mod_mainmenu';
  
+-- ----------------------------------------------------------------
+-- jos_newsfeeds
+-- ----------------------------------------------------------------
+
+ALTER TABLE `jos_newsfeeds`
+ CHANGE `id` `id` integer(11) UNSIGNED NOT NULL auto_increment;
+
+
+ALTER TABLE `jos_newsfeeds`
+ CHANGE `name` `name` varchar(100) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_newsfeeds`
+ CHANGE `alias` `alias` varchar(100) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_newsfeeds`
+ CHANGE `link` `link` varchar(200) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_newsfeeds`
+ CHANGE `checked_out` `checked_out` integer(10) UNSIGNED NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_newsfeeds`
+ ADD `access` tinyint UNSIGNED NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_newsfeeds`
+ ADD `language` char(7) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_newsfeeds`
+ ADD INDEX `idx_language` (`language`);
+
 -- ----------------------------------------------------------------
 -- jos_plugins
 -- ----------------------------------------------------------------

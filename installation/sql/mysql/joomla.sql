@@ -537,6 +537,11 @@ CREATE TABLE `#__languages` (
   PRIMARY KEY  (`lang_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+INSERT INTO `#__languages` (`lang_id`,`lang_code`,`title`,`title_native`,`description`,`published`)
+VALUES
+	(1,'en_GB','English (UK)','English (UK)','',1),
+	(2,'en_US','English (US)','English (US)','',1);
+
 #
 # Table structure for table `#__menu`
 #
@@ -733,21 +738,24 @@ INSERT INTO `#__modules_menu` VALUES
 
 CREATE TABLE `#__newsfeeds` (
   `catid` integer NOT NULL default '0',
-  `id` integer NOT NULL auto_increment,
-  `name` text NOT NULL,
-  `alias` varchar(255) NOT NULL default '',
-  `link` text NOT NULL,
+  `id` integer(10) UNSIGNED NOT NULL auto_increment,
+  `name`  varchar(100) NOT NULL DEFAULT '',
+  `alias` varchar(100) NOT NULL default '',
+  `link` varchar(200) NOT NULL DEFAULT '',
   `filename` varchar(200) default NULL,
   `published` tinyint(1) NOT NULL default '0',
   `numarticles` integer unsigned NOT NULL default '1',
   `cache_time` integer unsigned NOT NULL default '3600',
-  `checked_out` tinyint(3) unsigned NOT NULL default '0',
+  `checked_out` integer(10) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `ordering` integer NOT NULL default '0',
   `rtl` tinyint(4) NOT NULL default '0',
+  `access` tinyint UNSIGNED NOT NULL DEFAULT '0',
+  `language` char(7) NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
   KEY `published` (`published`),
-  KEY `catid` (`catid`)
+  KEY `catid` (`catid`),
+  INDEX `idx_language` (`language`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------

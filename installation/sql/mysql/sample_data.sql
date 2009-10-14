@@ -104,6 +104,10 @@ INSERT IGNORE INTO `#__menu_types` VALUES
 -- Dumping data for table `#__newsfeeds`
 --
 
+INSERT INTO `#__newsfeeds` (`catid`,`id`,`name`,`alias`,`link`,`filename`,`published`,`numarticles`,`cache_time`,`checked_out`,`checked_out_time`,`ordering`,`rtl`,`access`,`language`)
+VALUES
+	(0,1,'Joomla! Announcements','joomla-announcements','http://feeds.joomla.org/JoomlaAnnouncements',NULL,1,5,3600,0,'0000-00-00 00:00:00',1,0,1,'en_GB');
+
 --
 -- Dumping data for table `#__usergroups`
 --

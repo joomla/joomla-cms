@@ -14,49 +14,83 @@ defined('_JEXEC') or die;
  * @package		Joomla.Administrator
  * @subpackage	Newsfeeds
  */
-class TableNewsFeed extends JTable
+class NewsfeedsTableNewsfeed extends JTable
 {
-	/** @var int Primary key */
-	var $id					= null;
-	/** @var int */
-	var $catid				= null;
-	/** @var string */
-	var $name				= null;
-	/** @var string */
-	var $alias				= null;
-	/** @var string */
-	var $link				= null;
-	/** @var string */
-	var $filename			= null;
-	/** @var int */
-	var $published			= null;
-	/** @var int */
-	var $numarticles			= null;
-	/** @var int */
-	var $cache_time			= null;
-	/** @var int */
-	var $checked_out			= 0;
-	/** @var time */
-	var $checked_out_time		= 0;
-	/** @var int */
-	var $ordering			= null;
-	/** @var int */
-	var $rtl					= 0;
+	/**
+	 * @var int Primary key
+	 */
+	var $id = null;
+	/**
+	 * @var int
+	 */
+	var $catid = null;
+	/**
+	 * @var string
+	 */
+	var $name = null;
+	/**
+	 * @var string
+	 */
+	var $alias = null;
+	/**
+	 * @var string
+	 */
+	var $link = null;
+	/**
+	 * @var string
+	 */
+	var $filename = null;
+	/**
+	 * @var int
+	 */
+	var $published = null;
+	/**
+	 * @var int
+	 */
+	var $numarticles = null;
+	/**
+	 * @var int
+	 */
+	var $cache_time = null;
+	/**
+	 * @var int
+	 */
+	var $checked_out = 0;
+	/**
+	 * @var time
+	 */
+	var $checked_out_time = 0;
+	/**
+	 * @var int
+	 */
+	var $ordering = null;
+	/**
+	 * @var int
+	 */
+	var $rtl = 0;
+	/**
+	 * @var int
+	 */
+	var $access = 0;
+	/**
+	 * @var string
+	 */
+	var $language = 'en-GB';
 
 	/**
 	 * @param database A database connector object
 	 */
-	function __construct(&$db) {
+	function __construct(&$db)
+	{
 		parent::__construct('#__newsfeeds', 'id', $db);
 	}
 
 	/**
 	 * Overloaded check function
 	 *
-	 * @access public
-	 * @return boolean
-	 * @see JTable::check
-	 * @since 1.5
+	 * @return	boolean
+	 * @see		JTable::check
+	 * @since	1.5
 	 */
 	function check()
 	{
@@ -64,7 +98,8 @@ class TableNewsFeed extends JTable
 			$this->alias = $this->name;
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
-		if (trim(str_replace('-','',$this->alias)) == '') {
+		if (trim(str_replace('-','',$this->alias)) == '')
+		{
 			$datenow = &JFactory::getDate();
 			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
