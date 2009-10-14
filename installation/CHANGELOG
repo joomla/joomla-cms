@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Oct-2009 Ron Severdia
+# CSS and UI fixes for JForm radio button changes.
 
 13-Oct-2009 Andrew Eddie
 ^ Reverse the order of Publisher, Editor and Author groups to match admin groups direction.

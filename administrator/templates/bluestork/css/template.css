@@ -477,11 +477,14 @@ div.width-100 fieldset {
 	padding: 17px;
 }
 
+/*
 form#weblink-form fieldset,
 form#item-form fieldset,
 fieldset.adminform {
 	padding: 15px;
 }
+*/
+
 
 fieldset#user-groups,
 fieldset.adminform {
@@ -581,13 +584,15 @@ div#content-pane fieldset {
 div.panel fieldset {
 	border: 0;
 }
-	
+
+/*	
 form#weblink-form fieldset,
 form#item-form fieldset,
 fieldset.batch {
 	margin: 0 10px 10px 0px;
 	background-color: #FFF;
 }
+*/
 
 fieldset.batch {
 	margin: 20px 0px 10px 0px;
@@ -672,6 +677,39 @@ li#jform_access_label {
 }
 
 
+
+
+
+fieldset.adminform fieldset.radio,
+fieldset.panelform fieldset.radio {
+	border: 0;
+	float:left;
+	padding: 0;
+	margin: 0 0 5px 0;
+	clear:right;
+}
+fieldset.adminform fieldset.radio label,
+fieldset.panelform fieldset.radio label {
+	min-width: 40px;
+	float:left;
+	clear:none;
+}
+
+
+fieldset.panelform-legacy label {
+	min-width: 40px;
+	float:left;
+	clear:none;
+}
+
+
+
+
+
+
+
+
+/* 
 fieldset.adminform label.radiobtn_no,
 fieldset.adminform label.radiobtn_yes,
 fieldset.adminform label.radiobtn_disabled,
@@ -703,6 +741,7 @@ fieldset.panelform label.radiobtn_use {
 	min-width: 55px !important;
 	clear:none !important;
 }
+*/
 
 fieldset.filter			{ border:0;margin:0;padding:0 0 5px;}
 fieldset.filter ol		{ border:0;list-style:none;margin:0;padding:5px 0 0;}
