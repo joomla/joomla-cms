@@ -17,10 +17,12 @@
 		
 		<param name="startLevel" type="text" default="0" size="5" label="Start Level" description="PARAMSTARTLEVEL" />
 		<param name="endLevel" type="text" default="0" size="5" label="End Level" description="PARAMSTOPLEVEL" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="showAllChildren" type="radio" default="0" label="Always show submenu items" description="PARAMSHOWSUBMENUITEMS">
 			<option value="0">JNo</option>
 			<option value="1">JYes</option>
 		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="window_open" type="text" default="" label="Target Position" description="PARAMTARGETPOSITION" />
 	</params>
 	<params group="advanced">

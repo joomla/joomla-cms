@@ -246,7 +246,7 @@ class BannersViewBanner
 		</script>
 		<form action="index.php" method="post" name="adminForm">
 
-		<div class="width-100">
+		<div class="width-70">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('Details'); ?></legend>
 
@@ -255,13 +255,17 @@ class BannersViewBanner
 						
 				<label for="alias"><?php echo JText::_('Alias'); ?>:</label>
 				<input class="inputbox" type="text" name="alias" id="alias" size="50" value="<?php echo $row->alias;?>" />
-					
+				
 				<label><?php echo JText::_('Show Banner'); ?>:</label>
+				<fieldset id="jform_showbanner" class="radio">
 				<?php echo $lists['showBanner']; ?>
-						
+				</fieldset>	
+				
 				<label><?php echo JText::_('Sticky'); ?>:</label>
+				<fieldset id="jform_sticky" class="radio">
 				<?php echo $lists['sticky']; ?>
-
+				</fieldset>
+				
 				<label for="ordering"><?php echo JText::_('Ordering'); ?>:</label>
 				<input class="inputbox" type="text" name="ordering" id="ordering" size="6" value="<?php echo $row->ordering;?>" />
 							
@@ -289,7 +293,7 @@ class BannersViewBanner
 						
 					
 				<label for="clickurl"><?php echo JText::_('Click URL'); ?>:</label>
-				<input class="inputbox" type="text" name="clickurl" id="clickurl" size="100" maxlength="200" value="<?php echo $row->clickurl;?>" />
+				<input class="inputbox" type="text" name="clickurl" id="clickurl" size="70" maxlength="200" value="<?php echo $row->clickurl;?>" />
 
 				<label><?php echo JText::_('Clicks'); ?>:</label>
 				<input id="jform_clicks" class="readonly" type="text" readonly="readonly" size="10" value="<?php echo $row->clicks;?>" name="jform[clicks]"/>

@@ -51,7 +51,7 @@
 </div>
 <div class="clr"></div>
 <div class="width-50 fltlft">
-	<fieldset class="adminform">
+	<fieldset class="adminform-legacy">
 		<legend><?php echo JText::_('Parameters'); ?></legend>
 			<?php
 			if (!is_null($this->params->params)) {

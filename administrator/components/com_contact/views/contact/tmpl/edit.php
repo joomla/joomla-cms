@@ -111,26 +111,24 @@ JHtml::_('behavior.formvalidation');
 						<?php if ($field->hidden): ?>
 							<?php echo $field->input; ?>
 						<?php else: ?>
-							<div class="paramrow">
-								<?php echo $field->label; ?>
-								<?php echo $field->input; ?>
-							</div>
+							<?php echo $field->label; ?>
+							<?php echo $field->input; ?>
 						<?php endif; ?>
 					<?php endforeach; ?>
 			</fieldset>
 			<?php echo $pane->endPanel(); ?>
 			<?php echo $pane->startPanel(JText::_('Contact_Fieldset_Contact_Form'), 'email-options'); ?>
 				<fieldset class="panelform">
-				<div class="paramrow">
+				
 						<?php echo $this->form->getLabel('show_email_form'); ?>
 						<?php echo $this->form->getInput('show_email_form'); ?>
-					</div>
+					
 						<?php echo $this->form->getLabel('email_description'); ?>
 						<?php echo $this->form->getInput('email_description'); ?>
-					<div class="paramrow">
+				
 						<?php echo $this->form->getLabel('show_email_copy'); ?>
 						<?php echo $this->form->getInput('show_email_copy'); ?>
-					</div>
+					
 						<?php echo $this->form->getLabel('banned_email'); ?>
 						<?php echo $this->form->getInput('banned_email'); ?>
 			

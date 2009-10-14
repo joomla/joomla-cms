@@ -37,21 +37,21 @@
 		<position>debug</position>
 	</positions>
 	<params>
-		<param name="useRoundedCorners" type="radio" default="1" label="Use Rounded Corners" description="Enable/Disable Rounded Corner Effect">
+		<param name="useRoundedCorners" type="list" default="1" label="Use Rounded Corners" description="Enable/Disable Rounded Corner Effect">
 			<option value="0">JDISABLED</option>
 			<option value="1">JENABLED</option>
 		</param>
-		<param name="showSiteName" type="radio" default="0" label="Show Site Name" description="Show the site name in the template header">
-			<option value="0">JDISABLED</option>
-			<option value="1">JENABLED</option>
-		</param>
-
-		<param name="textBig" type="radio" default="0" label="Bigger Text" description="Turn on to increase size of text">
+		<param name="showSiteName" type="list" default="0" label="Show Site Name" description="Show the site name in the template header">
 			<option value="0">JDISABLED</option>
 			<option value="1">JENABLED</option>
 		</param>
 
-		<param name="highContrast" type="radio" default="0" label="High Contrast" description="Turn on for high-contrast version">
+		<param name="textBig" type="list" default="0" label="Bigger Text" description="Turn on to increase size of text">
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</param>
+
+		<param name="highContrast" type="list" default="0" label="High Contrast" description="Turn on for high-contrast version">
 			<option value="0">JDISABLED</option>
 			<option value="1">JENABLED</option>
 		</param>

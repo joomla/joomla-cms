@@ -90,7 +90,7 @@ foreach ($this->orders2 as $k=>$items) {
 			<input id="jform_id" class="readonly" type="text" readonly="readonly" size="4" value="<?php echo $this->row->id; ?>" name="jform[id]"/>
 
 			<label id="jform_description-lbl" class="hasTip" for="jform_description"><?php echo JText::_('Description'); ?>:</label>
-			<p class="fltlft"><?php echo JText::_($this->row->description); ?></p>
+			<p class="jform_desc"><?php echo JText::_($this->row->description); ?></p>
 	</fieldset>
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Menu Assignment'); ?></legend>
