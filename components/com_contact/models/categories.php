@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: categories.php 
+ * @version		$Id: categories.php
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -111,7 +111,7 @@ class ContactModelCategories extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.access, a.published, a.access' .
+				'a.id, a.title, a.alias, a.access, a.published' .
 				', a.path AS route, a.parent_id, a.level, a.lft, a.rgt' .
 				', a.description'
 			)

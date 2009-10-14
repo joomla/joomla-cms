@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: 
+ * @version		$Id:
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -38,7 +38,7 @@ class NewsfeedsModelCategories extends JModelList
 	 *
 	 * @since	1.6
 	 */
-	
+
 	protected function _populateState()
 	{
 		$app = &JFactory::getApplication();
@@ -70,7 +70,6 @@ class NewsfeedsModelCategories extends JModelList
 
 		$this->setState('filter.published',	1);
 		$this->setState('filter.access',	true);
-
 	}
 
 	/**
