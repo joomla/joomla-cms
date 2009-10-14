@@ -3,10 +3,9 @@
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @link		http://www.theartofjoomla.com
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -17,14 +16,16 @@ jimport('joomla.application.component.view');
  */
 class ContentViewArticle extends JView
 {
+	protected $state;
+	protected $item;
+	protected $form;
+
 	/**
 	 * Display the view
-	 *
-	 * @access	public
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$state	= $this->get('State');
 		$item	= $this->get('Item');
 		$form 	= $this->get('Form');
@@ -55,7 +56,6 @@ class ContentViewArticle extends JView
 
 		$this->_setToolbar();
 		parent::display($tpl);
-		JRequest::setVar('hidemainmenu', true);
 	}
 
 	/**
@@ -63,8 +63,10 @@ class ContentViewArticle extends JView
 	 *
 	 * @access	private
 	 */
-	function _setToolbar()
+	protected function _setToolbar()
 	{
+		JRequest::setVar('hidemainmenu', true);
+
 		$user		= &JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
@@ -78,8 +80,8 @@ class ContentViewArticle extends JView
 		}
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && $canDo->get('core.edit')) {
-
+		if (!$checkedOut && $canDo->get('core.edit'))
+		{
 			JToolBarHelper::save('article.save');
 			JToolBarHelper::apply('article.apply');
 			JToolBarHelper::custom('article.save2new', 'new.png', 'new_f2.png', 'JToolbar_Save_and_new', false);

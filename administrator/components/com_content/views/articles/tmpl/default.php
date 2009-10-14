@@ -65,16 +65,16 @@ $user	= JFactory::getUser();
 				</th>
 				<th width="10%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Ordering', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-					<?php echo JHtml::_('grid.order',  $this->items); ?>
+					<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'articles.saveorder'); ?>
 				</th>
 				<th width="10%">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Access', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Access', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort',  'Content_Heading_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Content_Heading_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Hits', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Hits', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -94,7 +94,7 @@ $user	= JFactory::getUser();
 			$ordering	= ($this->state->get('list.ordering') == 'a.ordering');
 			$canCreate	= $user->authorise('core.create',		'com_content.category.'.$item->catid);
 			$canEdit	= $user->authorise('core.edit',			'com_content.article.'.$item->id);
-			$canChange	= $user->authorise('core.edit.state',	'com_content.article.'.$item->id)
+			$canChange	= $user->authorise('core.edit.state',	'com_content.article.'.$item->id);
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">

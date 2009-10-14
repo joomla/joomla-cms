@@ -9,26 +9,37 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
-jimport('joomla.database.query');
 
 /**
- * Menu Item Model for Menus.
+ * Article model.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_content
- * @version		1.6
  */
 class ContentModelArticle extends JModelForm
 {
 	/**
-	 * Model context string.
+	 * Method to auto-populate the model state.
 	 *
-	 * @var		string
+	 * @return	void
 	 */
-	 protected $_context		= 'com_content.item';
+	protected function _populateState()
+	{
+		$app = JFactory::getApplication('administrator');
+
+		// Load the User state.
+		if (!($pk = (int) $app->getUserState('com_content.edit.article.id'))) {
+			$pk = (int) JRequest::getInt('id');
+		}
+		$this->setState('article.id', $pk);
+
+		// Load the parameters.
+		$params	= JComponentHelper::getParams('com_content');
+		$this->setState('params', $params);
+	}
 
 	/**
-	 * Returns a reference to the a Table object, always creating it
+	 * Returns a reference to the a Table object, always creating it.
 	 *
 	 * @param	type 	$type 	 The table type to instantiate
 	 * @param	string 	$prefix	 A prefix for the table class name. Optional.
@@ -41,43 +52,52 @@ class ContentModelArticle extends JModelForm
 	}
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Method to override check-out a row for editing.
 	 *
-	 * @return	void
+	 * @param	int		The ID of the primary key.
+	 * @return	boolean
 	 */
-	protected function _populateState()
+	public function checkout($pk = null)
 	{
-		$app	= &JFactory::getApplication('administrator');
+		// Initialise variables.
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
-		// Load the User state.
-		if (!($pk = (int) $app->getUserState('com_content.edit.article.id'))) {
-			$pk = (int) JRequest::getInt('item_id');
-		}
-		$this->setState('article.id',			$pk);
-
-		// Load the parameters.
-		$params	= &JComponentHelper::getParams('com_content');
-		$this->setState('params', $params);
+		return parent::checkout($pk);
 	}
 
 	/**
-	 * Method to get a menu item.
+	 * Method to checkin a row.
 	 *
-	 * @param	integer	The id of the menu item to get.
+	 * @param	integer	The ID of the primary key.
 	 *
-	 * @return	mixed	Menu item data object on success, false on failure.
+	 * @return	boolean
 	 */
-	public function &getItem($itemId = null)
+	public function checkin($pk = null)
 	{
 		// Initialise variables.
-		$itemId = (!empty($itemId)) ? $itemId : (int)$this->getState('article.id');
+		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
+
+		return parent::checkin($pk);
+	}
+
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param	integer	The id of the primary key.
+	 *
+	 * @return	mixed	Object on success, false on failure.
+	 */
+	public function &getItem($pk = null)
+	{
+		// Initialise variables.
+		$pk = (!empty($pk)) ? $pk : (int)$this->getState('article.id');
 		$false	= false;
 
 		// Get a row instance.
 		$table = &$this->getTable();
 
 		// Attempt to load the row.
-		$return = $table->load($itemId);
+		$return = $table->load($pk);
 
 		// Check for a table object error.
 		if ($return === false && $table->getError()) {
@@ -88,9 +108,7 @@ class ContentModelArticle extends JModelForm
 		// Prime required properties.
 		if (empty($table->id))
 		{
-			//$table->parent_id	= $this->getState('item.parent_id');
-			//$table->menutype	= $this->getState('item.menutype');
-			//$table->type		= $this->getState('item.type');
+			// Prepare data for a new record.
 		}
 
 		// Convert the params field to an array.
@@ -109,7 +127,7 @@ class ContentModelArticle extends JModelForm
 	}
 
 	/**
-	 * Method to get the row form.
+	 * Method to get the record form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.6
@@ -131,17 +149,17 @@ class ContentModelArticle extends JModelForm
 		// Determine correct permissions to check.
 		if ($this->getState('article.id'))
 		{
-			// Existing item. Can only edit in selected categories.
+			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 		}
 		else
 		{
-			// New item. Can only create in selected categories.
+			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
 		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_content.edit.item.data', array());
+		$data = $app->getUserState('com_content.edit.article.data', array());
 
 		// Bind the form data if present.
 		if (!empty($data)) {
@@ -161,15 +179,15 @@ class ContentModelArticle extends JModelForm
 	public function save($data)
 	{
 		// Initialise variables;
-		$dispatcher = & JDispatcher::getInstance();
-		$table		= &$this->getTable();
+		$dispatcher = JDispatcher::getInstance();
+		$table		= $this->getTable();
 		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('article.id');
 		$isNew		= true;
 
 		// Include the content plugins for the onSave events.
 		JPluginHelper::importPlugin('content');
 
-		// Load the row if saving an existing item.
+		// Load the row if saving an existing record.
 		if ($pk > 0) {
 			$table->load($pk);
 			$isNew = false;
@@ -188,18 +206,22 @@ class ContentModelArticle extends JModelForm
 			$table->setRules($rules);
 		}
 
+		// Prepare the row for saving
+		$this->_prepareTable($table);
+
 		// Check the data.
 		if (!$table->check()) {
 			$this->setError($table->getError());
 			return false;
 		}
 
-		// Increment the content version number
+		// Increment the content version number.
 		$table->version++;
 
+		// Trigger the onBeforeContentSave event.
 		$result = $dispatcher->trigger('onBeforeContentSave', array(&$table, $isNew));
 		if (in_array(false, $result, true)) {
-			JError::raiseError(500, $row->getError());
+			$this->setError($table->getError());
 			return false;
 		}
 
@@ -213,11 +235,20 @@ class ContentModelArticle extends JModelForm
 		$cache = &JFactory::getCache('com_content');
 		$cache->clean();
 
+		// Trigger the onAfterContentSave event.
 		$dispatcher->trigger('onAfterContentSave', array(&$table, $isNew));
 
 		$this->setState('article.id', $table->id);
 
 		return true;
+	}
+
+	/**
+	 * Prepare and sanitise the table prior to saving.
+	 */
+	protected function _prepareTable(&$table)
+	{
+		// TODO.
 	}
 
 	/**
@@ -229,17 +260,16 @@ class ContentModelArticle extends JModelForm
 	 */
 	public function delete($pks)
 	{
-		// Sanitize the ids.
+		// Typecast variable.
 		$pks = (array) $pks;
-		JArrayHelper::toInteger($pks);
 
 		// Get a row instance.
 		$table = &$this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($pks as $itemId)
+		foreach ($pks as $pk)
 		{
-			if (!$table->delete($itemId))
+			if (!$table->delete($pk))
 			{
 				$this->setError($table->getError());
 				return false;
@@ -250,7 +280,7 @@ class ContentModelArticle extends JModelForm
 	}
 
 	/**
-	 * Method to publish categories.
+	 * Method to publish records.
 	 *
 	 * @param	array	The ids of the items to publish.
 	 * @param	int		The value of the published state
@@ -259,21 +289,143 @@ class ContentModelArticle extends JModelForm
 	 */
 	function publish($pks, $value = 1)
 	{
-		// Sanitize the ids.
-		$pks = (array) $pks;
-		JArrayHelper::toInteger($pks);
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$table	= $this->getTable();
+		$pks	= (array) $pks;
 
-		// Get the current user object.
-		$user = &JFactory::getUser();
+		// Access checks.
+		foreach ($pks as $i => $pk)
+		{
+			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $pk))
+			{
+				// Prune items that you can't change.
+				unset($pks[$i]);
+				JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+			}
+		}
 
-		// Get a category row instance.
-		$table = &$this->getTable();
-
-		// Attempt to publish the items.
+		// Attempt to change the state of the records.
 		if (!$table->publish($pks, $value, $user->get('id'))) {
 			$this->setError($table->getError());
 			return false;
 		}
+
+		return true;
+	}
+
+	/**
+	 * Method to adjust the ordering of a row.
+	 *
+	 * @param	int		The ID of the primary key to move.
+	 * @param	integer	Increment, usually +1 or -1
+	 * @return	boolean	False on failure or error, true otherwise.
+	 */
+	public function reorder($pk, $direction = 0)
+	{
+		// Initialise variables.
+		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
+		$user = JFactory::getUser();
+
+		// Access checks.
+		if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $pk))
+		{
+			$this->setError(JText::_('JError_Core_Edit_State_not_permitted'));
+			return false;
+		}
+
+		// Get an instance of the record's table.
+		$table = $this->getTable();
+
+		// Attempt to check-out and move the row.
+		if (!$this->checkout($pk)) {
+			return false;
+		}
+
+		// Load the row.
+		if (!$table->load($pk)) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Move the row.
+		// TODO: Where clause to restrict category.
+		$table->move($pk);
+
+		// Check-in the row.
+		if (!$this->checkin($pk)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Saves the manually set order of records.
+	 *
+	 * @param	array	An array of primary key ids.
+	 * @param	int		+/-1
+	 */
+	function saveorder(&$pks, $order)
+	{
+		// Initialize variables
+		$table		= $this->getTable();
+		$conditions	= array();
+
+		if (empty($pks)) {
+			return JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+		}
+
+		// Access checks.
+		foreach ($pks as $i => $pk)
+		{
+			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $pk))
+			{
+				// Prune items that you can't change.
+				unset($pks[$i]);
+				JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+			}
+		}
+
+		// update ordering values
+		foreach ($pks as $i => $pk)
+		{
+			$table->load((int) $pk);
+			if ($table->ordering != $order[$i])
+			{
+				$table->ordering = $order[$i];
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
+				// remember to reorder this category
+				$condition = 'catid = '.(int) $table->catid;
+				$found = false;
+				foreach ($conditions as $cond)
+				{
+					if ($cond[1] == $condition)
+					{
+						$found = true;
+						break;
+					}
+				}
+				if (!$found) {
+					$conditions[] = array ($table->id, $condition);
+				}
+			}
+		}
+
+		// Execute reorder for each category.
+		foreach ($conditions as $cond)
+		{
+			$table->load($cond[0]);
+			$table->reorder($cond[1]);
+		}
+
+		// Clear the component's cache
+		$cache = &JFactory::getCache('com_content');
+		$cache->clean();
 
 		return true;
 	}
@@ -348,480 +500,8 @@ class ContentModelArticle extends JModelForm
 
 		$table->reorder();
 
-		$cache = & JFactory::getCache('com_content');
+		$cache = JFactory::getCache('com_content');
 		$cache->clean();
-
-		return true;
-	}
-
-	/**
-	 * Method to adjust the ordering of a row.
-	 *
-	 * @param	int		The numeric id of the row to move.
-	 * @param	integer	Increment, usually +1 or -1
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function reorder($pk, $direction = 0)
-	{
-		// Sanitize the id and adjustment.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
-
-		// Get an instance of the record's table.
-		$table = $this->getTable();
-
-		// Attempt to check-out and move the row.
-		if (!$this->checkout($pk)) {
-			return false;
-		}
-
-		// Load the row.
-		if (!$table->load($pk)) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Move the row.
-		// TODO: Where clause to restrict category.
-		$table->move($pk);
-
-		// Check-in the row.
-		if (!$this->checkin($pk)) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to checkin a row.
-	 *
-	 * @param	integer	$pk The numeric id of a row
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function checkin($pk = null)
-	{
-		// Initialise variables.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
-
-		// Only attempt to check the row in if it exists.
-		if ($pk)
-		{
-			$user	= &JFactory::getUser();
-
-			// Get an instance of the row to checkin.
-			$table = &$this->getTable();
-			if (!$table->load($pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-
-			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
-				$this->setError(JText::_('JError_Checkin_user_mismatch'));
-				return false;
-			}
-
-			// Attempt to check the row in.
-			if (!$table->checkin($pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to check-out a row for editing.
-	 *
-	 * @param	int		$pk	The numeric id of the row to check-out.
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function checkout($pk = null)
-	{
-		// Initialise variables.
-		$pk		= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
-
-		// Only attempt to check the row in if it exists.
-		if ($pk)
-		{
-			// Get a row instance.
-			$table = &$this->getTable();
-
-			// Get the current user object.
-			$user = &JFactory::getUser();
-
-			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to perform batch operations on a category or a set of categories.
-	 *
-	 * @param	array	An array of commands to perform.
-	 * @param	array	An array of category ids.
-	 *
-	 * @return	boolean	Returns true on success, false on failure.
-	 */
-	function batch($commands, $pks)
-	{
-		// Sanitize user ids.
-		$pks = array_unique($pks);
-		JArrayHelper::toInteger($pks);
-
-		// Remove any values of zero.
-		if (array_search(0, $pks, true)) {
-			unset($pks[array_search(0, $pks, true)]);
-		}
-
-		if (empty($pks)) {
-			$this->setError(JText::_('JError_No_items_selected'));
-			return false;
-		}
-
-		$done = false;
-
-		if (!empty($commands['assetgroup_id']))
-		{
-			if (!$this->_batchAccess($commands['assetgroup_id'], $pks)) {
-				return false;
-			}
-			$done = true;
-		}
-
-		if (!empty($commands['menu_id']))
-		{
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
-
-			if ($cmd == 'c' && !$this->_batchCopy($commands['menu_id'], $pks)) {
-				return false;
-			}
-			else if ($cmd == 'm' && !$this->_batchMove($commands['menu_id'], $pks)) {
-				return false;
-			}
-			$done = true;
-		}
-
-		if (!$done)
-		{
-			$this->setError('Menus_Error_Insufficient_batch_information');
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Batch access level changes for a group of rows.
-	 *
-	 * @param	int		The new value matching an Asset Group ID.
-	 * @param	array	An array of row IDs.
-	 *
-	 * @return	booelan	True if successful, false otherwise and internal error is set.
-	 */
-	protected function _batchAccess($value, $pks)
-	{
-		$table = &$this->getTable();
-		foreach ($pks as $pk)
-		{
-			$table->reset();
-			$table->load($pk);
-			$table->access = (int) $value;
-			if (!$table->store())
-			{
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Batch move menu items to a new menu or parent.
-	 *
-	 * @param	int		The new menu or sub-item.
-	 * @param	array	An array of row IDs.
-	 *
-	 * @return	booelan	True if successful, false otherwise and internal error is set.
-	 */
-	protected function _batchMove($value, $pks)
-	{
-		// $value comes as {menutype}.{parent_id}
-		$parts		= explode('.', $value);
-		$menuType	= $parts[0];
-		$parentId	= (int) JArrayHelper::getValue($parts, 1, 0);
-
-		$table	= &$this->getTable();
-		$db		= &$this->getDbo();
-
-		// Check that the parent exists
-		if ($parentId)
-		{
-			if (!$table->load($parentId))
-			{
-				if ($error = $table->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-					return false;
-				}
-				else
-				{
-					// Non-fatal error
-					$this->setError(JText::_('Menus_Batch_Move_parent_not_found'));
-					$parentId = 0;
-				}
-			}
-		}
-
-		// If the parent is 0, set it to the ID of the root item in the tree
-		if (empty($parentId))
-		{
-			if (!$parentId = $table->getRootId()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
-
-		// We are going to store all the children and just moved the menutype
-		$children = array();
-
-		// Parent exists so we let's proceed
-		foreach ($pks as $pk)
-		{
-			$table->reset();
-
-			// Check that the row actually exists
-			if (!$table->load($pk))
-			{
-				if ($error = $table->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-					return false;
-				}
-				else
-				{
-					// Not fatal error
-					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $pk));
-					continue;
-				}
-			}
-
-			// Check if we are moving to a different menu
-			if ($menuType != $table->menutype)
-			{
-				// Find any children to this row.
-				$db->setQuery(
-					'SELECT id' .
-					' FROM #__menu' .
-					' WHERE lft > '.(int) $table->lft.' AND rgt < '.(int) $table->rgt
-				);
-				$childIds = $db->loadResultArray();
-
-				// Add child ID's to the array only if they aren't already there.
-				foreach ($childIds as $childId)
-				{
-					if (!in_array($childId, $pks)) {
-						$children[] = $childId;
-					}
-				}
-			}
-
-			$table->parent_id	= $parentId;
-			$table->menutype	= $menuType;
-			$table->ordering	= 1;
-			$table->level		= null;
-			$table->lft		= null;
-			$table->rgt	= null;
-
-			// Store the row.
-			if (!$table->store()) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		// Process the child rows
-		if (!empty($children))
-		{
-			$db->setQuery(
-				'UPDATE #__menu' .
-				' SET menutype = '.$db->quote($menuType).
-				' WHERE id IN ('.implode(',', $children).')'
-			);
-			if (!$db->query())
-			{
-				$this->setError($db->getErrorMsg());
-				return false;
-			}
-		}
-
-		// Rebuild the hierarchy.
-		if (!$table->rebuildTree()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Rebuild the tree path.
-		if (!$table->rebuildPath($table->id)) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Batch copy menu items to a new menu or parent.
-	 *
-	 * @param	int		The new menu or sub-item.
-	 * @param	array	An array of row IDs.
-	 *
-	 * @return	booelan	True if successful, false otherwise and internal error is set.
-	 */
-	protected function _batchCopy($value, $pks)
-	{
-		// $value comes as {menutype}.{parent_id}
-		$parts		= explode('.', $value);
-		$menuType	= $parts[0];
-		$parentId	= (int) JArrayHelper::getValue($parts, 1, 0);
-
-		$table	= &$this->getTable();
-		$db		= &$this->getDbo();
-
-		// Check that the parent exists
-		if ($parentId)
-		{
-			if (!$table->load($parentId))
-			{
-				if ($error = $table->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-					return false;
-				}
-				else
-				{
-					// Non-fatal error
-					$this->setError(JText::_('Menus_Batch_Move_parent_not_found'));
-					$parentId = 0;
-				}
-			}
-		}
-
-		// If the parent is 0, set it to the ID of the root item in the tree
-		if (empty($parentId))
-		{
-			if (!$parentId = $table->getRootId()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
-
-		// We need to log the parent ID
-		$parents = array();
-
-		// Calculate the emergency stop count as a precaution against a runaway loop bug
-		$db->setQuery(
-			'SELECT COUNT(id)' .
-			' FROM #__menu'
-		);
-		$count = $db->loadResult();
-
-		if ($error = $db->getErrorMsg())
-		{
-			$this->setError($error);
-			return false;
-		}
-
-		// Parent exists so we let's proceed
-		while (!empty($pks) && $count > 0)
-		{
-			// Pop the first id off the stack
-			$pk = array_shift($pks);
-
-			$table->reset();
-
-			// Check that the row actually exists
-			if (!$table->load($pk))
-			{
-				if ($error = $table->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-					return false;
-				}
-				else
-				{
-					// Not fatal error
-					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $pk));
-					continue;
-				}
-			}
-
-			// Copy is a bit tricky, because we also need to copy the children
-			$db->setQuery(
-				'SELECT id' .
-				' FROM #__menu' .
-				' WHERE lft > '.(int) $table->lft.' AND rgt < '.(int) $table->rgt
-			);
-			$childIds = $db->loadResultArray();
-
-			// Add child ID's to the array only if they aren't already there.
-			foreach ($childIds as $childId)
-			{
-				if (!in_array($childId, $pks)) {
-					array_push($pks, $childId);
-				}
-			}
-
-			// Make a copy of the old ID and Parent ID
-			$oldId				= $table->id;
-			$oldParentId		= $table->parent_id;
-
-			// Reset the id because we are making a copy.
-			$table->id			= 0;
-
-			// If we a copying children, the Old ID will turn up in the parents list
-			// otherwise it's a new top level item
-			$table->parent_id	= isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
-			$table->menutype	= $menuType;
-			// TODO: Deal with ordering?
-			//$table->ordering	= 1;
-			$table->level		= null;
-			$table->lft		= null;
-			$table->rgt	= null;
-
-			// Store the row.
-			if (!$table->store()) {
-				$this->setError($table->getError());
-				return false;
-			}
-
-			// Now we log the old 'parent' to the new 'parent'
-			$parents[$oldId] = $table->id;
-			$count--;
-		}
-
-		// Rebuild the hierarchy.
-		if (!$table->rebuildTree()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Rebuild the tree path.
-		if (!$table->rebuildPath($table->id)) {
-			$this->setError($table->getError());
-			return false;
-		}
 
 		return true;
 	}

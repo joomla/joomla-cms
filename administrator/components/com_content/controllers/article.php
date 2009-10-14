@@ -3,10 +3,9 @@
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @link		http://www.theartofjoomla.com
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controllerform');
@@ -26,7 +25,7 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	protected function _allowAdd($data = array())
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$user		= JFactory::getUser();
 		$categoryId	= JArrayHelper::getValue($data, 'catid', JRequest::getInt('filter_category_id'), 'int');
 		$allow		= null;
@@ -47,9 +46,7 @@ class ContentControllerArticle extends JControllerForm
 	}
 
 	/**
-	 * Method to check if you can add a new record.
-	 *
-	 * Extended classes can override this if necessary.
+	 * Method override to check if you can edit an existing record.
 	 *
 	 * @param	array	An array of input data.
 	 * @param	string	The name of the key for the primary key.
@@ -58,10 +55,10 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	protected function _allowEdit($data = array(), $key = 'id')
 	{
-		// Initialize variables.
-		$recordId	= isset($data[$key]) ? $data[$key] : '0';
-		$user		= JFactory::getUser();
+		// Initialise variables.
+		$recordId	= (int) isset($data[$key]) ? $data[$key] : 0;
 
-		return $user->authorise('core.edit', sprintf($this->_asset_name, $recordId));
+		// Assets are being tracked, so no need to look into the category.
+		return JFactory::getUser()->authorise('core.edit', 'com_content.article.'.$recordId);
 	}
 }
