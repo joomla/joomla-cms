@@ -4,7 +4,6 @@
  * @package		Joomla
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,27 +17,90 @@ jimport('joomla.database.query');
  *
  * @package		Joomla.Framework
  * @subpackage	Application
- * @version		1.6
+ * @since		1.6
  */
 class JModelForm extends JModel
 {
 	/**
 	 * Array of form objects.
-	 *
-	 * @access	protected
-	 * @since	1.1
 	 */
-	var $_forms = array();
+	protected $_forms = array();
+
+	/**
+	 * Method to check-out a row for editing.
+	 *
+	 * @param	int		$pk	The numeric id of the primary key.
+	 *
+	 * @return	boolean	False on failure or error, true otherwise.
+	 */
+	public function checkout($pk = null)
+	{
+		// Only attempt to check the row in if it exists.
+		if ($pk)
+		{
+			// Get a row instance.
+			$table = &$this->getTable();
+
+			// Get the current user object.
+			$user = &JFactory::getUser();
+
+			// Attempt to check the row out.
+			if (!$table->checkout($user->get('id'), $pk))
+			{
+				$this->setError($table->getError());
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to checkin a row.
+	 *
+	 * @param	integer	$pk The numeric id of the primary key.
+	 *
+	 * @return	boolean	False on failure or error, true otherwise.
+	 */
+	public function checkin($pk = null)
+	{
+		// Only attempt to check the row in if it exists.
+		if ($pk)
+		{
+			$user = JFactory::getUser();
+
+			// Get an instance of the row to checkin.
+			$table = $this->getTable();
+			if (!$table->load($pk)) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Check if this is the user having previously checked out the row.
+			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
+			{
+				$this->setError(JText::_('JError_Checkin_user_mismatch'));
+				return false;
+			}
+
+			// Attempt to check the row in.
+			if (!$table->checkin($pk))
+			{
+				$this->setError($table->getError());
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 	/**
 	 * Method to get a form object.
 	 *
-	 * @access	public
 	 * @param	string		$xml		The form data. Can be XML string if file flag is set to false.
 	 * @param	array		$options	Optional array of parameters.
 	 * @param	boolean		$clear		Optional argument to force load a new form.
 	 * @return	mixed		JForm object on success, False on error.
-	 * @since	1.1
 	 */
 	function &getForm($xml, $name = 'form', $options = array(), $clear = false)
 	{
@@ -108,7 +170,6 @@ class JModelForm extends JModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @access	public
 	 * @param	object		$form		The form to validate against.
 	 * @param	array		$data		The data to validate.
 	 * @return	mixed		Array of filtered data if valid, false otherwise.
