@@ -31,6 +31,16 @@ $ -> Language fix or change
 # CSS and UI fixes for JForm radio button changes.
 # UI fixes with new JForm class
 
+14-Oct-2009 Andrew Eddie
++ Added languages to base install data.
+! Consistency updates to backend Newsfeeds component.
++ Added access and language fields to newsfeeds table.
+^ Refactored schema of newsfeeds table.
+^ Rolled tight coupling of asset name out of JControllerForm.
++ Added checkout and checkin base methods to JModelForm (compliments JControllerForm).
+! Consistency updates to backend Content component.
+# Added missing support for saveorder in articles list. 
+
 13-Oct-2009 Andrew Eddie
 ^ Reverse the order of Publisher, Editor and Author groups to match admin groups direction.
 ^ Change label of 'inherit' in Global Config permissions.
