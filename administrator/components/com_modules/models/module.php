@@ -278,7 +278,7 @@ class ModulesModelModule extends JModel
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-
+		
 		// Make sure the data table is valid
 		if (!$row->check()) {
 			$this->setError($this->_db->getErrorMsg());

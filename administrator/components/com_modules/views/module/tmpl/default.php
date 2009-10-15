@@ -71,7 +71,7 @@ foreach ($this->orders2 as $k=>$items) {
 			<label id="jform_ordering-lbl" class="hasTip" for="jform_ordering"><?php echo JText::_('Order'); ?>:</label>
 					<script language="javascript" type="text/javascript">
 					<!--
-					writeDynaList('class="inputbox" name="ordering" id="ordering" size="1"', orders, originalPos, originalPos, originalOrder);
+					writeDynaList('class="inputbox" name="jform[ordering]" id="ordering" size="1"', orders, originalPos, originalPos, originalOrder);
 					//-->
 					</script>
 
@@ -166,7 +166,7 @@ foreach ($this->orders2 as $k=>$items) {
 			echo $pane->startPane("menu-pane");
 			echo $pane->startPanel(JText :: _('Module Parameters'), "param-page");
 			$p = $this->params;
-			if ($this->params = $p->render('params')) :
+			if ($this->params = $p->render('jform[params]')) :
 				echo "<fieldset class=\"panelform-legacy\">".$this->params."</fieldset>";
 			else :
 				echo "<div class=\"noparams-notice\">".JText::_('There are no parameters for this item')."</div>";
@@ -175,7 +175,7 @@ foreach ($this->orders2 as $k=>$items) {
 
 			if ($p->getNumParams('advanced')) {
 				echo $pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
-				if ($this->params = $p->render('params', 'advanced')) :
+				if ($this->params = $p->render('jform[params]', 'advanced')) :
 					echo "<fieldset class=\"panelform-legacy\">".$this->params."</fieldset>";
 				else :
 					echo "<div class=\"noparams-notice\">".JText::_('There are no advanced parameters for this item')."</div>";
@@ -185,7 +185,7 @@ foreach ($this->orders2 as $k=>$items) {
 
 			if ($p->getNumParams('legacy')) {
 				echo $pane->startPanel(JText :: _('Legacy Parameters'), "legacy-page");
-				if ($this->params = $p->render('params', 'legacy')) :
+				if ($this->params = $p->render('jform[params]', 'legacy')) :
 					echo "<fieldset class=\"panelform-legacy\">".$this->params."</fieldset>";
 				else :
 					echo "<div class=\"noparams-notice\">".JText::_('There are no legacy parameters for this item')."</div>";
@@ -196,7 +196,7 @@ foreach ($this->orders2 as $k=>$items) {
 
 		if ($p->getNumParams('other')) {
 			echo $pane->startPanel(JText :: _('Other Parameters'), "other-page");
-			if ($this->params = $p->render('params', 'other')) :
+			if ($this->params = $p->render('jform[params]', 'other')) :
 				echo "<fieldset class=\"panelform-legacy\">".$this->params."</fieldset>";
 				else :
 				echo "<div class=\"noparams-notice\">".JText::_('There are no other parameters for this item')."</div>";
@@ -225,11 +225,11 @@ if (!$this->row->module || $this->row->module == 'custom' || $this->row->module 
 ?>
 
 <input type="hidden" name="option" value="com_modules" />
-<input type="hidden" name="id" value="<?php echo $this->row->id; ?>" />
+<input type="hidden" name="jform[id]" value="<?php echo $this->row->id; ?>" />
 <input type="hidden" name="cid[]" value="<?php echo $this->row->id; ?>" />
 <input type="hidden" name="original" value="<?php echo $this->row->ordering; ?>" />
-<input type="hidden" name="module" value="<?php echo $this->row->module; ?>" />
+<input type="hidden" name="jform[module]" value="<?php echo $this->row->module; ?>" />
 <input type="hidden" name="task" value="" />
-<input type="hidden" name="client" value="<?php echo $this->client->id ?>" />
+<input type="hidden" name="jform[client_id]" value="<?php echo $this->client->id ?>" />
 <?php echo JHtml::_('form.token'); ?>
 </form>

@@ -139,7 +139,7 @@ class ModulesViewModule extends JView
 		}
 
 		if ($row->access == 99 || $row->client_id == 1 || $lists['client_id']) {
-			$lists['showtitle'] = 'N/A <input type="hidden" name="showtitle" value="1" />';
+			$lists['showtitle'] = 'N/A <input type="hidden" name="jform[showtitle]" value="1" />';
 			$lists['selections'] = 'N/A';
 		} else {
 			if ($client->id == '1') {
@@ -150,7 +150,7 @@ class ModulesViewModule extends JView
 				$lists['selections'] = JHtml::_(
 					'select.genericlist',
 					$selections,
-					'selections[]',
+					'jform[selections][]',
 					'class="inputbox" size="15" multiple="multiple"',
 					'value',
 					'text',
@@ -160,7 +160,7 @@ class ModulesViewModule extends JView
 			}
 			$lists['showtitle'] = JHtml::_(
 				'select.booleanlist',
-				'showtitle',
+				'jform[showtitle]',
 				'class="inputbox"',
 				$row->showtitle
 			);
@@ -169,7 +169,7 @@ class ModulesViewModule extends JView
 		// build the html select list for published
 		$lists['published'] = JHtml::_(
 			'select.booleanlist',
-			'published',
+			'jform[published]',
 			'class="inputbox"',
 			$row->published
 		);

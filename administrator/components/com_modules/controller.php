@@ -74,13 +74,14 @@ class ModulesController extends JController
 		$cache->clean('com_content');
 
 		$post	= JRequest::get('post');
+		$data = $post['jform'];
 		// fix up special html fields
-		$post['content']   = JRequest::getVar('content', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data['content']   = JRequest::getVar('content', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		//$post['client_id'] = $client->id;
 
 		$model = $this->getModel('module');
 
-		if ($model->store($post)) {
+		if ($model->store($data)) {
 			$msg = JText::_('Module Saved');
 		} else {
 			$msg = JText::_('Error Saving Module');
