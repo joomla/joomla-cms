@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 <fieldset id="users-profile-custom">
 	<legend>
-		<?php echo JText::_('Memebers_Profile_Custom_Legend'); ?>
+		<?php echo JText::_('Members_Profile_Custom_Legend'); ?>
 	</legend>
 	<dl>
 	<?php

@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
+$function = JRequest::getVar('function', 'jSelectArticle');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&field='.JRequest::getCmd('field'));?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm">
 	<fieldset class="filter">
 		<div class="left">
 			<label for="search"><?php echo JText::_('JSearch_Filter'); ?>:</label>
@@ -60,7 +61,7 @@ JHtml::_('behavior.tooltip');
 			foreach ($this->items as $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<a class="pointer" onclick="window.parent.jxSelectUser('<?php echo $item->id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""),$item->username); ?>', '<?php echo JRequest::getCmd('field'); ?>');">
+							<a style="cursor: pointer;" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->name); ?>');">
 						<?php echo $item->name; ?></a>
 				</td>
 				<td align="center">
@@ -73,7 +74,8 @@ JHtml::_('behavior.tooltip');
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
 	<?php echo JHtml::_('form.token'); ?>

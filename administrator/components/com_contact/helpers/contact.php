@@ -35,4 +35,37 @@ class ContactHelper
 			$vName == 'categories'
 		);
 	}
+	/**
+	 * Gets a list of the actions that can be performed.
+	 *
+	 * @param	int		The category ID.
+	 * @param	int		The article ID.
+	 *
+	 * @return	JObject
+	 */
+	public static function getActions($categoryId = 0, $contactId = 0)
+	{
+		$user	= JFactory::getUser();
+		$result	= new JObject;
+
+		if (empty($contactId) && empty($categoryId)) {
+			$assetName = 'com_contact';
+		}
+		else if (empty($contactId)) {
+			$assetName = 'com_contact.category.'.(int) $categoryId;
+		}
+		else {
+			$assetName = 'com_contact.contact.'.(int) $contactId;
+		}
+
+		$actions = array(
+			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
+		);
+
+		foreach ($actions as $action) {
+			$result->set($action,	$user->authorise($action, $assetName));
+		}
+
+		return $result;
+	}
 }

@@ -329,9 +329,14 @@ class MenusControllerItem extends JController
 		$app->setUserState('com_menus.edit.item.type',	$title);
 		if ($title=='component'){
 			if (isset($type->request)) {
-
-				$app->setUserState('com_menus.edit.item.link', 'index.php?option='.  $type->request->option.'&view='. $type->request->view);
-
+				if (isset($type->request->layout)) {
+				$app->setUserState('com_menus.edit.item.link', 'index.php?option='.  $type->request->option.'&view='. 
+					$type->request->view.'&layout='.$type->request->layout);
+				}
+				else {
+			$app->setUserState('com_menus.edit.item.link', 'index.php?option='.  $type->request->option.'&view='. 
+					$type->request->view);				
+				}
 				//	$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
 				//	$app->setUserState('com_menus.edit.item.data',	null);
 				//$app->setUserState('com_menus.edit.item.type',	$type->type);

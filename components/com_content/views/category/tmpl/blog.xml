@@ -16,6 +16,7 @@
 			name="id"
 			type="category"
 			extension="com_content"
+			required="true"
 			label="Category"
 			description="Choose a category..." />
 	</fields>

@@ -35,13 +35,10 @@
 		<field
 			id="user_id"
 			name="user_id"
-			type="member"
+			type="modal_users"
 			label="Contact_Linked_User_Label"
 			description="Contact_Linked_User_Desc"
-			size="1"
-			default="None">
-
-			</field>
+			addfieldpath="/administrator/components/com_contact/models/fields"	/>
 		<field
 			id="published"
 			name="published"

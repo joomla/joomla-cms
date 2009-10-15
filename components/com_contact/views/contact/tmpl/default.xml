@@ -10,6 +10,7 @@
 	<fields
 		group="request"
 		array="true"
+		required="true"
 		label="Menus_Layout_Request_Variables_Label"
 		description="Menus_Layout_Request_Variables_Desc"
 		addfieldpath="/administrator/components/com_contact/models/fields">

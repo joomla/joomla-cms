@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout
+		title="com_user_login_view_default_title">
+		<message>
+			<![CDATA[com_user_profile_view_default_desc]]>
+		</message>
+	</layout>
+
+	<fields
+		group="basic"
+		label="Menus_Layout_Basic_Options_Label"
+		description="">
+
+	</fields>
+</metadata>

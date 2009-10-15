@@ -27,6 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Oct-2009 Mark Dexter
+# Fix link creation when the layout is not called default. 
+# Update/add access code for weblinks and contacts.  Fix typos.
+# Correct errors in sample data. Correct errors in joomla.sql (add s to user), add xml for com_users front end.
+# Add required="true" to required elements.
+^ Add modal linked user picker for com_contact. Clean up contact picker modal.
+
 13-Oct-2009 Ron Severdia
 # CSS and UI fixes for JForm radio button changes.
 # UI fixes with new JForm class

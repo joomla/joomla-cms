@@ -59,11 +59,16 @@ class WeblinksViewSubmit extends JView
 		$uri     	= &JFactory::getURI();
 		$params = &$app->getParams();
 
-		// Make sure you are logged in and have the necessary access rights
-		if ($user->authorise('core.create', 'com_weblinks')) {
-			  JResponse::setHeader('HTTP/1.0 403',true);
-              JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
-			return;
+		if (empty($item->id)) {
+			$authorised = $user->authorise('core.create', 'com_weblinks');
+		}
+		else {
+			$authorised = $user->authorise('core.edit', 'com_weblinks.weblink.'.$item->id);
+		}
+
+		if ($authorised !== true) {
+			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
+			return false;
 		}
 
 		//get the weblink
@@ -87,10 +92,10 @@ class WeblinksViewSubmit extends JView
 			if (is_object($menu)) {
 				$menu_params = new JParameter($menu->params);
 				if (!$menu_params->get('page_title')) {
-					$params->set('page_title',	JText::_('Web Links'.' - '.JText::_('Edit')));
+					$params->set('page_title',	JText::_('Web_Links'.' - '.JText::_('Edit')));
 				}
 			} else {
-				$params->set('page_title',	JText::_('Web Links'.' - '.JText::_('Edit')));
+				$params->set('page_title',	JText::_('Web_Links'.' - '.JText::_('Edit')));
 			}
 
 			$document->setTitle($params->get('page_title'));
@@ -102,10 +107,11 @@ class WeblinksViewSubmit extends JView
 				{
 					case 'categories':
 						$pathway->addItem($weblink->category, 'index.php?view=category&id='.$weblink->catid);
-						$pathway->addItem(JText::_('Edit').' '.$weblink->title, '');
+						$pathway->addItem(JText::_('JEdit').' '.$weblink->title, '');
 						break;
 					case 'category':
-						$pathway->addItem(JText::_('Edit').' '.$weblink->title, '');
+						$pathway->addItem($weblink->category, 'index.php?com_weblinks&view=category&id='.$weblink->catid);
+						$pathway->addItem(JText::_('JEdit').' '.$weblink->title, '');
 						break;
 				}
 			}
@@ -131,10 +137,10 @@ class WeblinksViewSubmit extends JView
 			if (is_object($menu)) {
 				$menu_params = new JParameter($menu->params);
 				if (!$menu_params->get('page_title')) {
-					$params->set('page_title', JText::_('Submit a Web Link'));
+					$params->set('page_title', JText::_('Weblinks_Submit_Submit'));
 				}
 			} else {
-				$params->set('page_title', JText::_('Submit a Web Link'));
+				$params->set('page_title', JText::_('Weblinks_Submit_Submit'));
 			}
 
 			$document->setTitle($params->get('page_title'));

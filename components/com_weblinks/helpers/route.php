@@ -35,7 +35,7 @@ class WeblinksHelperRoute
 		$itemid = $itemid ? '&Itemid='.$itemid : '';
 
 		//Create the link
-		$link = 'index.php?option=com_weblinks&view=weblink&id='. $id . '&catid='.$catid . $itemid;
+		$link = 'index.php?option=com_weblinks&view=submit&id='. $id . '&catid='.$catid . $itemid;
 
 		return $link;
 	}

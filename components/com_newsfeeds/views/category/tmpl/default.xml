@@ -20,6 +20,7 @@
 			extension="com_newsfeeds"
 			default="0"
 			label="JCategory"
+			required="true"
 			description="fieldCATSELECT" />
 	</fields>
 

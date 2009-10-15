@@ -34,7 +34,23 @@ class JFormFieldModal_Contacts extends JFormField
 	{
 		$db			=& JFactory::getDBO();
 		$doc 		=& JFactory::getDocument();
+		// Load the javascript and css
+		JHtml::_('behavior.framework');
+		JHtml::script('modal.js');
+		JHtml::stylesheet('modal.css');
 
+		// Attach modal behavior to document
+		$document = JFactory::getDocument();
+		$document->addScriptDeclaration("
+		window.addEvent('domready', function() {
+			var div = new Element('div').setStyle('display', 'none').injectBefore(document.id('menu-types'));
+			document.id('menu-types').injectInside(div);
+			SqueezeBox.initialize();
+			SqueezeBox.assign($$('input.modal'), {
+				parse: 'rel'
+			});
+		});");
+		
 		// Get the title of the linked chart
 		$db->setQuery(
 			'SELECT name' .

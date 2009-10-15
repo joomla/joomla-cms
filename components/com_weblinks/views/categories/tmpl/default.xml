@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout
-		title="com_contact_categories_view_default_title">
+		title="com_weblinks_categories_view_default_title">
 		<message>
 			<![CDATA[com_contact_categories_view_default_desc]]>
 		</message>

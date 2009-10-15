@@ -19,6 +19,7 @@
 			type="categories"
 			extension="com_contact"
 			default="0"
+			required="true"			
 			label="Select Category"
 			description="A contacts category" />
 	</fields>

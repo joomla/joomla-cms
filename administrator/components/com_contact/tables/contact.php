@@ -69,8 +69,6 @@ class ContactTableContact extends JTable
 	public $mobile 				= null;
 	/** @var string */
 	public $webpage 			= null;
-	/** @var string */
-	protected $_trackAssets = true;
 	/**
 	 * Constructor
 	 *
@@ -82,20 +80,7 @@ class ContactTableContact extends JTable
 		parent::__construct('#__contact_details', 'id', $db);
 	}
 
-	public function getAssetSection()
-	{
-		return 'com_contact';
-	}
 
-	public function getAssetNamePrefix()
-	{
-		return 'contact';
-	}
-
-	public function getAssetTitle()
-	{
-		return $this->name;
-	}
 		/**
 	 * Stores a contact
 	 *

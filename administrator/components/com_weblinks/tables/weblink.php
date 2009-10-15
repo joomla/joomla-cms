@@ -117,21 +117,7 @@ class WeblinksTableWeblink extends JTable
 		parent::__construct('#__weblinks', 'id', $db);
 	}
 
-	public function getAssetSection()
-	{
-		return 'com_weblinks';
-	}
-
-	public function getAssetNamePrefix()
-	{
-		return 'weblink';
-	}
-
-	public function getAssetTitle()
-	{
-		return $this->title;
-	}
-
+	
 	/**
 	 * Stores a weblink
 	 *

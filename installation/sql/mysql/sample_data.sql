@@ -15,9 +15,11 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (32, 30, 21, 26, 4,'com_content.category.25','Tasmania',''),
 (33, 31, 22, 23, 5,'com_content.article.2','Great Barrier Reef',''),
 (34, 32, 24, 25, 5,'com_content.article.3','Cradle Mountain-Lake St Clair National Park',''),
-(35, 25, 65, 70, 2,'com_weblinks.category.20','Uncategorised Weblinks',''),
-(36, 35, 66, 69, 3,'com_weblinks.category.21','Joomla! Specific Links',''),
-(37, 36, 67, 68, 4,'com_weblinks.category.22','Other Resources','');
+(35, 25, 67, 72, 2, 'com_weblinks.category.20', 'Weblinks', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(36, 35, 68, 71, 3, 'com_weblinks.category.21', 'Joomla! Project Sites', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(37, 36, 69, 70, 4, 'com_weblinks.category.22', 'Other Resources', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(38, 7, 13, 14, 2, 'com_contact.category.26', 'Contacts', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(39, 1, 76, 77, 1, 'com_contact.contact.1', 'Contact Name', '');
 
 
 --
@@ -25,14 +27,14 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 --
 
 INSERT IGNORE INTO `#__banner` VALUES
-(1, 1, 'banner', 'OSM 1', 'osm-1', 0, 43, 0, 'osmbanner1.png', 'http://www.opensourcematters.org', '2004-07-07 15:31:29', 1, 0, '0000-00-00 00:00:00', '', '', 13, '', 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '');
+(1, 1, '', 'OSM 1', 'osm-1', 0, 43, 0, 'osmbanner1.png', 'http://www.opensourcematters.org', '2009-10-10 13:52:59', 1, 0, '0000-00-00 00:00:00', '', '', 27, '', 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'width=0\nheight=0');
 
 --
 -- Dumping data for table `#__bannerclient`
 --
 
 INSERT IGNORE INTO `#__bannerclient` VALUES
-(1, 'Open Source Matters', 'Administrator', 'admin@opensourcematters.org', '', 0, '00:00:00', NULL);
+(1, 'Open Source Matters', 'Administrator', 'email@email.com', '', 0, '00:00:00', '');
 
 --
 -- Dumping data for table `#__categories`
@@ -45,14 +47,17 @@ INSERT IGNORE INTO `#__categories` VALUES
 (22, 37, 21, 5, 6, 3, 'uncategorised-weblinks/joomla-specific-links/other-resources', 'com_weblinks', 'Other Resources', 'other-resources', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-06-22 19:42:11', 0, '0000-00-00 00:00:00', 0, 'en_GB'),
 (23, 30, 12, 10, 15, 2, 'countries/australia', 'com_content', 'Australia', 'australia', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:13', 0, '0000-00-00 00:00:00', 0, ''),
 (24, 31, 23, 11, 12, 3, 'countries/australia/queensland', 'com_content', 'Queensland', 'queensland', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:17', 0, '0000-00-00 00:00:00', 0, ''),
-(25, 32, 23, 13, 14, 3, 'countries/australia/tasmania', 'com_content', 'Tasmania', 'tasmania', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:17', 0, '0000-00-00 00:00:00', 0, '');
+(25, 32, 23, 13, 14, 3, 'countries/australia/tasmania', 'com_content', 'Tasmania', 'tasmania', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:17', 0, '0000-00-00 00:00:00', 0, ''),
+(26, 38, 1, 17, 18, 1, 'contacts', 'com_contact', 'Contacts', 'contacts', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-10-10 05:52:59', 0, '0000-00-00 00:00:00', 0, ''),
+(27, 40, 1, 19, 20, 1, 'banners', 'com_banner', 'Banners', 'banners', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-10-10 09:50:46', 0, '0000-00-00 00:00:00', 0, ''),
+(28, 41, 1, 21, 22, 1, 'news-feeds', 'com_newsfeeds', 'News Feeds', 'news-feeds', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-10-10 10:17:32', 0, '0000-00-00 00:00:00', 0, '');
 
 --
 -- Dumping data for table `#__contact_details`
 --
 
 INSERT IGNORE INTO `#__contact_details` VALUES
-(1, 'Name', 'name', 'Position', 'Street', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', 'Miscellanous info', 'powered_by.png', 'top', 'email@email.com', 1, 1, 0, '0000-00-00 00:00:00', 1, 'show_name=1\r\nshow_position=1\r\nshow_email=0\r\nshow_street_address=1\r\nshow_suburb=1\r\nshow_state=1\r\nshow_postcode=1\r\nshow_country=1\r\nshow_telephone=1\r\nshow_mobile=1\r\nshow_fax=1\r\nshow_webpage=1\r\nshow_misc=1\r\nshow_image=1\r\nallow_vcard=0\r\ncontact_icons=0\r\nicon_address=\r\nicon_email=\r\nicon_telephone=\r\nicon_fax=\r\nicon_misc=\r\nshow_email_form=1\r\nemail_description=1\r\nshow_email_copy=1\r\nbanned_email=\r\nbanned_subject=\r\nbanned_text=', 0, 12, 1, '', '');
+(1, 'Contact Name', 'name', 'Position', 'Street Address', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', 'Miscellanous info', 'powered_by.png', 'top', 'email@email.com', 1, 1, 42, '2009-10-10 09:53:12', 1, '{"show_name":"1","show_position":"1","show_email":"0","show_street_address":"1","show_suburb":"1","show_state":"1","show_postcode":"1","show_country":"1","show_telephone":"1","show_mobile":"1","show_fax":"1","show_webpage":"1","show_misc":"1","show_image":"1","allow_vcard":"0","show_articles":"1","show_links":"1","linka_name":"","linka":"","linkb_name":"","linkb":"","linkc_name":"","linkc":"","linkd_name":"","linkd":"","linke_name":"","linke":""}', 0, 26, 1, '', '');
 
 --
 -- Dumping data for table `#__content`
@@ -77,13 +82,14 @@ INSERT IGNORE INTO `#__content_frontpage` VALUES
 UPDATE `#__menu` SET `params` = 'show_page_title=1\npage_title=Welcome to the Frontpage\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n' WHERE id = 1;
 
 INSERT IGNORE INTO `#__menu` VALUES
-(3, 'mainmenu', 'Administrator', 'administrator', 'administrator', 'administrator/', 'url', 1, 1, 1, 0, 2, 0, '0000-00-00 00:00:00', 0, 1, 0, 'menu_image=-1\r\n\r\n', 13, 14, 0),
-(4, 'usermenu', 'Your Details', 'your-details', 'your-details', 'index.php?option=com_user&view=user&task=edit', 'component', 1, 1, 1, 14, 1, 0, '0000-00-00 00:00:00', 0, 2, 0, '', 3, 4, 0),
-(5, 'usermenu', 'Logout', 'logout', 'logout', 'index.php?option=com_user&view=login', 'component', 1, 1, 1, 14, 5, 0, '0000-00-00 00:00:00', 0, 2, 0, '', 15, 16, 0),
-(6, 'usermenu', 'Submit an Article', 'submit-an-article', 'submit-an-article', 'index.php?option=com_content&view=article&layout=form', 'component', 1, 1, 1, 20, 3, 0, '0000-00-00 00:00:00', 0, 2, 0, '', 5, 6, 0),
-(7, 'usermenu', 'Submit a Web Link', 'submit-a-web-link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=weblink&layout=form', 'component', 1, 1, 1, 4, 4, 0, '0000-00-00 00:00:00', 0, 2, 0, '', 11, 12, 0),
-(8, 'mainmenu', 'Weblinks', 'weblinks', 'weblinks', 'index.php?option=com_weblinks&view=categories', 'component', 1, 1, 1, 4, 6, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"image":"-1","image_align":"right","show_feed_link":"1","show_comp_description":"","comp_description":"","show_link_hits":"","show_link_description":"","show_other_cats":"","show_headings":"","show_numbers":"","show_report":"","target":"","link_icons":"","page_title":"","show_page_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0"}', 9, 10, 0),
-(9, 'mainmenu', 'Article Categories', 'article-categories', 'article-categories', 'index.php?option=com_content&view=categories', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"Category":"12","menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 7, 8, 0);
+(3, 'mainmenu', 'Administrator', 'administrator', 'administrator', 'administrator/', 'url', 1, 1, 1, 0, 2, 0, '0000-00-00 00:00:00', 0, 1, 0, 'menu_image=-1\r\n\r\n', 11, 12, 0),
+(5, 'usermenu', 'Logout', 'logout', 'logout', 'index.php?option=com_user&view=login', 'component', 1, 1, 1, 14, 5, 0, '0000-00-00 00:00:00', 0, 2, 0, '', 17, 18, 0),
+(6, 'usermenu', 'Submit an Article', 'submit-an-article', 'submit-an-article', 'index.php?option=com_content&view=form&layout=edit', 'component', 1, 1, 1, 20, 3, 0, '0000-00-00 00:00:00', 0, 2, 0, '{"menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 3, 4, 0),
+(7, 'usermenu', 'Submit a Web Link', 'submit-a-web-link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=submit&layout=form', 'component', 1, 1, 1, 4, 4, 0, '0000-00-00 00:00:00', 0, 2, 0, '{"menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 9, 10, 0),
+(8, 'mainmenu', 'Weblinks', 'weblinks', 'weblinks', 'index.php?option=com_weblinks&view=categories', 'component', 1, 1, 1, 4, 6, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"image":"-1","image_align":"right","show_feed_link":"1","show_comp_description":"","comp_description":"","show_link_hits":"","show_link_description":"","show_other_cats":"","show_headings":"","show_numbers":"","show_report":"","target":"","link_icons":"","page_title":"","show_page_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0"}', 7, 8, 0),
+(9, 'mainmenu', 'Article Categories', 'article-categories', 'article-categories', 'index.php?option=com_content&view=categories', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"Category":"12","menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 5, 6, 0),
+(14, 'mainmenu', 'Contact', 'contact', 'contact', 'index.php?option=com_contact&amp;view=contact&amp;id=1', 'component', 1, 1, 1, 7, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"show_contact_list":"0","show_category_crumb":"0","menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 13, 16, 0),
+(15, 'usermenu', 'Your Profile', 'your-profile', 'contact/your-profile', 'index.php?option=com_users&view=profile', 'component', 1, 1, 1, 31, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"menu-anchor_title":"","menu-anchor_css":"","page_title":"","show_page_title":1,"page_heading":"","pageclass_sfx":"","menu_image":"","link_title":"","secure":0,"menu-meta_description":"","menu-meta_keywords":"","robots":""}', 13, 14, 0);
 
 --
 -- Dumping data for table `#__menu_types`
@@ -103,10 +109,12 @@ INSERT IGNORE INTO `#__menu_types` VALUES
 --
 -- Dumping data for table `#__newsfeeds`
 --
-
-INSERT INTO `#__newsfeeds` (`catid`,`id`,`name`,`alias`,`link`,`filename`,`published`,`numarticles`,`cache_time`,`checked_out`,`checked_out_time`,`ordering`,`rtl`,`access`,`language`)
+INSERT IGNORE INTO `#__newsfeeds`  (`catid`,`id`,`name`,`alias`,`link`,`filename`,`published`,`numarticles`,`cache_time`,`checked_out`,`checked_out_time`,`ordering`,`rtl`,`access`,`language`)
 VALUES
-	(0,1,'Joomla! Announcements','joomla-announcements','http://feeds.joomla.org/JoomlaAnnouncements',NULL,1,5,3600,0,'0000-00-00 00:00:00',1,0,1,'en_GB');
+(28, 1, 'Joomla! Announcements', 'joomla-announcements', 'http://www.joomla.org/announcements.feed?type=rss', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en_GB'),
+(28, 2, 'New Joomla! Extensions', 'new-joomla-extensions', 'http://feeds.joomla.org/JoomlaExtensions', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en_GB'),
+(28, 3, 'Joomla! Security News', 'joomla-security-news', 'http://feeds.joomla.org/JoomlaSecurityNews', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en_GB'),
+(28, 4, 'Joomla! Connect', 'joomla-connect', 'http://feeds.joomla.org/JoomlaConnect', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en_GB');
 
 --
 -- Dumping data for table `#__usergroups`

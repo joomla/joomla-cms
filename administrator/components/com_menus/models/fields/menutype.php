@@ -159,19 +159,20 @@ class JFormFieldMenuType extends JFormFieldList
 			' FROM `#__components`' .
 			' WHERE `link` <> ""' .
 			' AND `parent` = 0' .
-			' ORDER BY `name`'
+			' ORDER BY `name`'		
 		);
 		$components = $db->loadObjectList();
 
 		foreach ($components as $component)
 		{
+
 			if ($options = $this->_getTypeOptionsByComponent($component->option))
-			{
+			{		
 				$list[$component->name] = $options;
 
 				// Create the reverse lookup for link-to-name.
 				foreach ($options as $option)
-				{
+				{		
 					if (isset($option->request))
 					{
 						$this->_rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
@@ -183,6 +184,7 @@ class JFormFieldMenuType extends JFormFieldList
 				}
 			}
 		}
+
 		return $list;
 	}
 

@@ -17,7 +17,7 @@ jimport('joomla.application.component.modelitem');
  * @subpackage	com_weblinks
  * @since		1.5
  */
-class WeblinksModelWeblink extends JModelItem
+class WeblinksModelSubmit extends JModelItem
 {
 	/**
 	 * Model context string.
@@ -25,7 +25,7 @@ class WeblinksModelWeblink extends JModelItem
 	 * @access	protected
 	 * @var		string
 	 */
-	 protected $_context = 'com_weblinks.weblink';
+	 protected $_context = 'com_weblinks.edit.weblink';
 
 	/**
 	 * Method to auto-populate the model state.
@@ -89,23 +89,6 @@ class WeblinksModelWeblink extends JModelItem
 		}
 
 		return $this->_item;
-	}
-
-	/**
-	 * Method to increment the hit counter for the weblink
-	 *
-	 * @param	int		Optional ID of the weblink.
-	 * @return	boolean	True on success
-	 * @since	1.5
-	 */
-	public function hit($id = null)
-	{
-		if (empty($id)) {
-			$id = $this->getState('weblink.id');
-		}
-
-		$weblink = &$this->getTable('Weblink', 'WeblinksTable');
-		return $weblink->hit($id);
 	}
 
 	/**
@@ -177,7 +160,14 @@ class WeblinksModelWeblink extends JModelItem
 		}
 		return false;
 	}
+	protected function _setAccessFilters(&$form, $data)
+	{
+		$user = JFactory::getUser();
 
+		if (!$user->authorise('core.edit.state', 'com_weblinks')) {
+			$form->setFieldAttribute('state', 'filter', 'unset');
+		}
+	}
 	/**
 	 * Method to store the weblink
 	 *

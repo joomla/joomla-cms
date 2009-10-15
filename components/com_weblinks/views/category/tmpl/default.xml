@@ -18,6 +18,7 @@
 			extension="com_weblinks"
 			default="0"
 			label="Category"
+			required="true"
 			description="fieldCATSELECT" />
 	</fields>
 
