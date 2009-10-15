@@ -27,7 +27,7 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-14-Oct-2009 Mark Dexter
+14-Oct-2009 Elin Waring
 # Fix link creation when the layout is not called default. 
 # Update/add access code for weblinks and contacts.  Fix typos.
 # Correct errors in sample data. Correct errors in joomla.sql (add s to user), add xml for com_users front end.
@@ -86,7 +86,7 @@ $ -> Language fix or change
 # Com_modules UI fixes
 ^ Replace inline styles with classes
 
-09-Oct-2009 Mark Dexter
+09-Oct-2009 Elin Waring and Andrea Tarr
 + Added categories views to weblinks, newsfeeds, contacts (Elin Waring)
 ^ Redid frontend layouts for contacts and newsfeeds (Andrea Tarr)
 # Fixed error in Add New Access Level
@@ -215,7 +215,7 @@ $ Fix language strings, CSS fixes
 23-Sep-2009 Hannes Papenberg
 ^ Added class and ID to radio buttons
 
-21-Sep-2009 Mark Dexter
+21-Sep-2009 Elin Waring & Andrea Tarr
 ^ Merge from dextercowley branch
 ^ Layouts for frontend components
 ^ Make com_contact MVC
