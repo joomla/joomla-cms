@@ -108,7 +108,8 @@ $userId	= $user->get('id');
 						<a href="<?php echo JRoute::_('index.php?option=com_weblinks&task=weblink.edit&weblink_id='.(int) $item->id); ?>">
 							<?php echo $item->title; ?></a></span>
 					<?php endif; ?>
-					<br /><small><?php echo $this->escape($item->alias);?></small>
+					<p class="smallsub">(<span><?php echo JText::_('WEBLINKS_ALIAS_LABEL') ?>:</span>
+					<?php echo $this->escape($item->alias);?>)</p>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'weblinks.');?>

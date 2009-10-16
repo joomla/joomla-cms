@@ -66,9 +66,9 @@ $return	= base64_encode($uri->toString());
 				<td>
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype) ?> ">
 						<?php echo $this->escape($item->title); ?></a>
-					<p class="smallsub">( <?php echo JText::_('MENUS_MENU_MENUTYPE_LABEL') ?>
+					<p class="smallsub">(<span><?php echo JText::_('MENUS_MENU_MENUTYPE_LABEL') ?>:</span>
 						<?php echo '<a href="'. JRoute::_('index.php?option=com_menus&task=menu.edit&cid[]='.$item->id).' title='.   $this->escape($item->description).'">'.
-						 $this->escape($item->menutype).' </a>'; ?>)</p>
+						 $this->escape($item->menutype).'</a>'; ?>)</p>
 				</td>
 				<td class="center btns">
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=1');?>">
@@ -89,7 +89,7 @@ $return	= base64_encode($uri->toString());
 						?>
 						<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&module_id='.$module->id.'&return='.$return);?>">
 							<?php echo $this->escape($module->title); ?></a>
-						<small>(<?php echo $this->escape($module->position);?>)</small><br />
+						<p class="smallsub">(<?php echo $this->escape($module->position);?>)</p>
 						<?php
 						endforeach;
 					endif;

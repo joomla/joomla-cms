@@ -51,13 +51,13 @@ $userId	= $user->get('id');
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 				</th>
-				<th class="title">
+				<th>
 					<?php echo JHtml::_('grid.sort',  'Contact_Title_Heading', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="5%" nowrap="nowrap">
+				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'Contact_State_Heading', 'a.state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="10%" nowrap="nowrap">
+				<th width="10%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'Contact_Order_Heading', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 					<?php echo JHtml::_('grid.order',  $this->items); ?>
 				</th>
@@ -67,7 +67,7 @@ $userId	= $user->get('id');
 				<th width="10%"  class="title">
 					<?php echo JHtml::_('grid.sort',  'Contact_Access_Heading', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
+				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
@@ -99,11 +99,11 @@ $userId	= $user->get('id');
 					<?php if (JTable::isCheckedOut($userId, $item->checked_out)) : ?>
 						<?php echo $item->title; ?>
 					<?php else : ?>
-					<span >
 						<a href="<?php echo JRoute::_('index.php?option=com_contact&task=contact.edit&cid[]='.(int) $item->id); ?>">
-							<?php echo $this->escape($item->name) ?></a></span>
+							<?php echo $this->escape($item->name) ?></a>
 					<?php endif; ?>
-					<br /><small><?php echo $this->escape($item->alias);?></small>
+					<p class="smallsub">(<span><?php echo JText::_('COM_CONTACT_CONTACT_VIEW_ALIAS') ?>:</span>
+					<?php echo $this->escape($item->alias);?>)</p>
 				</td>
 				<td align="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.');?>

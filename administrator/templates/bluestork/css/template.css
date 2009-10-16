@@ -109,7 +109,6 @@ p.error { color: red; font-weight: bold; }
 .none {color: #aaa;}
 
 
-
 /* -- OVERALL STYLES ----------------------------- */
 
 #border-top.h_blue          { background: url(../images/j_header_middle.png) repeat-x; }
@@ -426,7 +425,7 @@ div.current dd {
 #cpanel div.icon a {
 	display: block;
 	float: left;
-	border: 1px solid #f0f0f0;
+	border: 1px solid #eaeaea;
 	height: 97px;
 	width: 108px;
 	color: #565656;
@@ -812,7 +811,7 @@ table.adminlist thead th {
 	text-align: center;
 	background: #f7f7f7;
 	color: #666;
-	border-bottom: 1px solid #999;
+	border-bottom: 1px solid #CCC;
 	border-left: 1px solid #fff;
 }
 
@@ -853,7 +852,8 @@ table.adminlist td.indent-109 	{ padding-left:109px; }
 table.adminlist td.indent-124 	{ padding-left:124px; }
 table.adminlist td.indent-139 	{ padding-left:139px; }
 
-p.smallsub 	{ margin:0; }
+p.smallsub 	{ margin:3px 0 0; }
+p.smallsub 	span { color: #a0a0a0; }
 div#element-box div.m form table.adminlist tr td p.smallsub a { font-size:11px; }
 
 table.adminlist tr td.btns a {

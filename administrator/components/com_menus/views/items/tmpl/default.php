@@ -109,8 +109,8 @@ $userId	= $user->get('id');
 					<?php endif; ?>
 
 					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
-								(<?php echo JText::_('JFIELD_ALIAS_LABEL') . ':' . $this->escape($item->alias)
-								.' - '.JText::_('MENUS_ITEM_TYPE_LABEL'); ?>:
+								(<span><?php echo JText::_('JFIELD_ALIAS_LABEL') . ':</span> ' . $this->escape($item->alias)
+								.' | <span>'.JText::_('MENUS_ITEM_TYPE_LABEL'); ?>:</span>
 								<?php if ($item->component_id=='0'){
 											echo $this->escape($item->type);
 										}
