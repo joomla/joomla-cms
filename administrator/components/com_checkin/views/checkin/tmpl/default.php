@@ -1,22 +1,24 @@
 <?php defined('_JEXEC') or die; ?>
 <div id="tablecell">
 	<table class="adminform">
+	<thead>
 		<tr>
 			<th><?php echo JText::_('Database Table'); ?></th>
 			<th><?php echo JText::_('Num of Items'); ?></th>
 			<th><?php echo JText::_('Checked-In'); ?></th>
 		</tr>
+	</thead>
 	<?php
 	$k = 0;
 	foreach ($this->tables as $table => $count): ?>
 		<tr class="row<?php echo $k; ?>">
-			<td width="350">
+			<td>
 				<?php echo JText::_('Checking table').' - '.$table; ?>
 			</td>
-			<td width="150">
+			<td width="30%">
 				<?php echo JText::_('Checked-In').' '; ?><strong><?php echo $count; ?></strong><?php echo ' '.JText::_('items'); ?>
 			</td>
-			<td>
+			<td width="30%">
 				<?php if ($count > 0): ?>
 				<div class="checkin-tick"><?php echo JText::_('tick'); ?></div>
 				<?php else: ?>

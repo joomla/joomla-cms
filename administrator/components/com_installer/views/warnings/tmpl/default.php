@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <?php
 
 if (!count($this->messages)) {
-	echo '<p>'. JText::_('No warnings detected').'</p>';
+	echo '<p class="nowarning">'. JText::_('No warnings detected').'</p>';
 } else {
 	jimport('joomla.html.pane');
 	$pane =& JPane::getInstance('sliders');
@@ -29,8 +29,8 @@ if (!count($this->messages)) {
 	echo $pane->endPanel();
 	echo $pane->endPane();
 }
-// the below br fixes a formatting issue in ff3 on mac
-?><br />
+?>
+<div class="clr"> </div>
 <input type="hidden" name="task" value="manage" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="option" value="com_installer" />

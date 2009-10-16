@@ -23,14 +23,14 @@ defined('_JEXEC') or die;
 	<table class="adminlist" cellspacing="1">
 		<thead>
 			<tr>
-				<th class="title" width="10px"><?php echo JText::_('Num'); ?></th>
-				<th class="title" nowrap="nowrap"><?php echo JText::_('Extension'); ?></th>
-				<th class="title"><?php echo JText::_('Install Type') ?></th>
-				<th class="title"><?php echo JText::_('Extension Type') ?></th>
-				<th class="title" width="10%" align="center"><?php echo JText::_('Version'); ?></th>
-				<th class="title" ><?php echo JText::_('Folder') ?></th>
-				<th class="title" ><?php echo JText::_('Client') ?></th>
-				<th class="title" width="25%"><?php echo JText::_('Details URL'); ?></th>
+				<th width="10"><?php echo JText::_('Num'); ?></th>
+				<th class="nowrap"><?php echo JText::_('Extension'); ?></th>
+				<th><?php echo JText::_('Install Type') ?></th>
+				<th><?php echo JText::_('Extension Type') ?></th>
+				<th width="10%" class="center"><?php echo JText::_('Version'); ?></th>
+				<th><?php echo JText::_('Folder') ?></th>
+				<th><?php echo JText::_('Client') ?></th>
+				<th width="25%"><?php echo JText::_('Details URL'); ?></th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -48,7 +48,7 @@ defined('_JEXEC') or die;
 		</tbody>
 	</table>
 	<?php else : ?>
-		<?php echo JText::_('ERRNOUPDATES'); ?>
+		<p class="nowarning"><?php echo JText::_('ERRNOUPDATES'); ?></p>
 	<?php endif; ?>
 
 	<input type="hidden" name="task" value="manage" />

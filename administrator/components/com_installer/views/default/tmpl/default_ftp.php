@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 		<p><?php echo JText::_($this->ftp->message); ?></p>
 	<?php endif; ?>
 
-	<table class="adminform nospace">
+	<table class="adminform">
 		<tbody>
 			<tr>
 				<td width="120">

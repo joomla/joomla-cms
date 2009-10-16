@@ -18,17 +18,17 @@ defined('_JEXEC') or die;
 		<?php echo $this->item->name; ?>
 		</span>
 	</td>
-	<td align="center">
+	<td class="center">
 		<?php echo $this->item->extension_id ? JText::_('Update') : JText::_('New install') ?>
 	</td>
 	<td>
 		<?php echo JText::_($this->item->type) ?>
 	</td>
-	<td align="center">
+	<td class="center">
 		<?php echo $this->item->version ?>
 	</td>
-	<td align="center"><?php echo @$this->item->folder != '' ? $this->item->folder : 'N/A'; ?></td>
-	<td align="center"><?php echo @$this->item->client != '' ? JText::_($this->item->client) : 'N/A'; ?></td>
+	<td class="center"><?php echo @$this->item->folder != '' ? $this->item->folder : 'N/A'; ?></td>
+	<td class="center"><?php echo @$this->item->client != '' ? JText::_($this->item->client) : 'N/A'; ?></td>
 	<td>
 		<?php echo $this->item->detailsurl ?>
 	</td>

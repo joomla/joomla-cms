@@ -20,16 +20,16 @@ defined('_JEXEC') or die;
 	<?php endif; ?>
 
 	<?php if (count($this->items)) : ?>
-	<table class="adminlist" cellspacing="1">
+	<table class="adminlist">
 		<thead>
 			<tr>
-				<th class="title" width="10px"><?php echo JText::_('Num'); ?></th>
-				<th class="title" nowrap="nowrap"><?php echo JText::_('Component'); ?></th>
-				<th class="title" width="5%" align="center"><?php echo JText::_('Enabled'); ?></th>
-				<th class="title" width="10%" align="center"><?php echo JText::_('Version'); ?></th>
-				<th class="title" width="15%"><?php echo JText::_('Date'); ?></th>
-				<th class="title" width="25%"><?php echo JText::_('Author'); ?></th>
-				<th class="title" width="5%"><?php echo JText::_('Compatibility'); ?></th>
+				<th width="10"><?php echo JText::_('Num'); ?></th>
+				<th class="nowrap"><?php echo JText::_('Component'); ?></th>
+				<th width="5%" class="center"><?php echo JText::_('Enabled'); ?></th>
+				<th width="10%" class="center"><?php echo JText::_('Version'); ?></th>
+				<th width="15%"><?php echo JText::_('Date'); ?></th>
+				<th width="25%"><?php echo JText::_('Author'); ?></th>
+				<th width="5%"><?php echo JText::_('Compatibility'); ?></th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -47,7 +47,7 @@ defined('_JEXEC') or die;
 		</tbody>
 	</table>
 	<?php else : ?>
-		<?php echo JText::_('There are no custom components installed'); ?>
+		<p class="nowarning"><?php echo JText::_('There are no custom components installed'); ?></p>
 	<?php endif; ?>
 
 	<input type="hidden" name="task" value="manage" />

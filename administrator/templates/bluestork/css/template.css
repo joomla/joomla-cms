@@ -102,7 +102,8 @@ textarea:focus { background-color: #ffd; }
 
 p.error { color: red; font-weight: bold; }
 
-.warning { color: red; font-weight: bold; }
+.warning { color: red; font-weight: bold; font-size: 12px;}
+.nowarning { color: #333; font-weight: bold; font-size: 12px;}
 
 .allow {color: green;}
 .deny {color: red;}
@@ -751,7 +752,9 @@ fieldset.filter .right select.inputbox { margin-left: 10px;}
 fieldset#filter-bar { height: 35px; border: 0; border-bottom: 1px solid #d5d5d5;}
 div.filter-search{}
 label.filter-search-lbl {margin-left: 5px;}
+label.filter-hide-lbl {margin-left: 5px; clear:none;}
 div.filter-select .inputbox {margin-left: 5px; margin-right: 5px;}
+button.filter-go { float:left; margin-right:15px;}
 
 label.filter-published-lbl { clear:none; margin-left: 10px;}
 

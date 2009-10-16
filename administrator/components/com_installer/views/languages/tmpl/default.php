@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 		<tbody>
 			<tr>
 				<td width="100%"><?php echo JText::_('DESCLANGUAGES'); ?></td>
-				<td align="right"><?php echo $this->lists->client; ?></td>
+				<td class="right"><?php echo $this->lists->client; ?></td>
 			</tr>
 		</tbody>
 	</table>
@@ -28,12 +28,12 @@ defined('_JEXEC') or die;
 	<table class="adminlist" cellspacing="1">
 		<thead>
 			<tr>
-				<th class="title" width="10px"><?php echo JText::_('Num'); ?></th>
-				<th class="title"><?php echo JText::_('Language'); ?></th>
-				<th class="title" width="7%" align="center"><?php echo JText::_('Client'); ?></th>
-				<th class="title" width="10%" align="center"><?php echo JText::_('Version'); ?></th>
-				<th class="title" width="15%"><?php echo JText::_('Date'); ?></th>
-				<th class="title" width="25%"><?php echo JText::_('Author'); ?></th>
+				<th width="10"><?php echo JText::_('Num'); ?></th>
+				<th><?php echo JText::_('Language'); ?></th>
+				<th width="7%" class="center"><?php echo JText::_('Client'); ?></th>
+				<th width="10%" class="center"><?php echo JText::_('Version'); ?></th>
+				<th width="15%"><?php echo JText::_('Date'); ?></th>
+				<th width="25%"><?php echo JText::_('Author'); ?></th>
 			</tr>
 		</thead>
 		<tfoot>

@@ -47,6 +47,9 @@ JHtml::_('behavior.formvalidation');
 
 					<?php echo $this->form->getLabel('state'); ?>
 					<?php echo $this->form->getInput('state'); ?>
+					
+					<?php echo $this->form->getLabel('access'); ?>
+					<?php echo $this->form->getInput('access'); ?>
 
 		<div class="clr"></div>
 		<?php echo $this->form->getLabel('introtext'); ?>
@@ -72,9 +75,6 @@ JHtml::_('behavior.formvalidation');
 
 				<?php echo $this->form->getLabel('created_by_alias'); ?>
 				<?php echo $this->form->getInput('created_by_alias'); ?>
-
-				<?php echo $this->form->getLabel('access'); ?>
-				<?php echo $this->form->getInput('access'); ?>
 
 				<?php echo $this->form->getLabel('created'); ?>
 				<?php echo $this->form->getInput('created'); ?>

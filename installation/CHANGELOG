@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Oct-2009 Ron Severdia
+^ Extension Manager fixes
+^ Language fixes
++ New warning CSS
+
 15-Oct-2009 Ron Severdia
 # BlueStork UI fixes
 ^ Replace tables

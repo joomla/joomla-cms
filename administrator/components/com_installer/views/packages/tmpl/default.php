@@ -23,17 +23,17 @@ defined('_JEXEC') or die;
     <table class="adminlist">
     <thead>
         <tr>
-        	<th class="title" width="10px"><?php echo JText::_('Num'); ?></th>
-            <th class="title">
+        	<th width="10"><?php echo JText::_('Num'); ?></th>
+            <th>
                 <?php echo JText::_('Package'); ?>
             </th>
-            <th class="title">
+            <th>
             	<?php echo JText::_('Version'); ?>
             </th>
-            <th class="title">
+            <th>
             	<?php echo JText::_('Author'); ?>
             </th>
-            <th class="title">
+            <th>
             	<?php echo JText::_('Packager'); ?>
             </th>
         </tr>

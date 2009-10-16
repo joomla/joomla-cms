@@ -17,14 +17,14 @@ defined('_JEXEC') or die;
 		<span class="bold"><?php echo $this->item->name; ?></span>
 	</td>
 	<td><?php echo $this->item->folder; ?></td>
-	<td align="center" <?php if (@$this->item->legacy) echo 'class="legacy-mode"'; ?>><?php echo @$this->item->version != '' ? $this->item->version : '&nbsp;'; ?></td>
+	<td class="center" <?php if (@$this->item->legacy) echo 'class="legacy-mode"'; ?>><?php echo @$this->item->version != '' ? $this->item->version : '&nbsp;'; ?></td>
 	<td><?php echo @$this->item->creationdate != '' ? $this->item->creationdate : '&nbsp;'; ?></td>
 	<td>
 		<span class="editlinktip hasTip" title="<?php echo JText::_('Author Information');?>::<?php echo $this->item->author_info; ?>">
 			<?php echo @$this->item->author != '' ? $this->item->author : '&nbsp;'; ?>
 		</span>
 	</td>
-	<td align="center">
+	<td class="center">
 		<span class="editlinktip hasTip" title="<?php echo (@$this->item->legacy ? JText::_('Not Compatible Extension') : JText::_('Compatible Extension'));?>">
 			<img src="images/<?php echo (@$this->item->legacy ? 'publish_x.png' : 'tick.png');?>"/>
 		</span>
