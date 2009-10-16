@@ -96,7 +96,7 @@ $userId	= $user->get('id');
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
-				<td style="padding-left:<?php echo intval(($item->level-1)*15)+4; ?>px">
+				<td class="indent-<?php echo intval(($item->level-1)*15)+4; ?>">
 
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
@@ -108,8 +108,7 @@ $userId	= $user->get('id');
 						<span><img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" title="<?php echo JText::_('Default'); ?>" /></span>
 					<?php endif; ?>
 
-					<br /><small
-							title="<?php echo $this->escape($item->path);?>">
+					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
 								(<?php echo JText::_('JFIELD_ALIAS_LABEL') . ':' . $this->escape($item->alias)
 								.' - '.JText::_('MENUS_ITEM_TYPE_LABEL'); ?>:
 								<?php if ($item->component_id=='0'){
@@ -120,7 +119,7 @@ $userId	= $user->get('id');
 										}
 
 								;?>)
-								</small>
+								</p>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'items.');?>

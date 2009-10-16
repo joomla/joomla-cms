@@ -100,8 +100,14 @@ textarea:focus { background-color: #ffd; }
 .enabled { color: green; font-weight: bold; }
 .disabled { color: red; font-weight: bold; }
 
-
 p.error { color: red; font-weight: bold; }
+
+.warning { color: red; font-weight: bold; }
+
+.allow {color: green;}
+.deny {color: red;}
+.none {color: #aaa;}
+
 
 
 /* -- OVERALL STYLES ----------------------------- */
@@ -741,7 +747,7 @@ fieldset.filter .left	{ float:left;}
 fieldset.filter .right	{ float:right;}
 fieldset.filter .right select.inputbox { margin-left: 10px;}
 
-fieldset#filter-bar { height: 40px; border: 0;}
+fieldset#filter-bar { height: 35px; border: 0; border-bottom: 1px solid #d5d5d5;}
 div.filter-search{}
 label.filter-search-lbl {margin-left: 5px;}
 div.filter-select .inputbox {margin-left: 5px; margin-right: 5px;}
@@ -778,6 +784,7 @@ table.adminform td.helpMenu { text-align: right; }
 
 input.text-area-order {
 	text-align:center;
+	margin-right: 5px;
 }
 
 /* Hack until HRs are removed from panels  */
@@ -812,11 +819,13 @@ table.adminlist thead th img { vertical-align: middle; padding-left: 3px;}
 
 table.adminlist tbody th { font-weight: bold; }
 table.adminlist tbody tr		{ background-color: #fff;  text-align: left; }
-table.adminlist tbody tr.row1 	{ background: #f9f9f9; border-top: 1px solid #fff; }
+/*
+table.adminlist tbody tr.row1 	{ background: #f1f1f1; border-top: 1px solid #fff; }
+*/
 table.adminlist tbody tr.row0:hover td,
-table.adminlist tbody tr.row1:hover td  { background-color: #ffd ; }
+table.adminlist tbody tr.row1:hover td  { background-color: #D5EEFF; }
 table.adminlist tbody tr td 	   { height: 36px; background: #fff; border: 1px solid #fff; }
-table.adminlist tbody tr.row1 td { background: #f9f9f9; border-top: 1px solid #FFF; }
+table.adminlist tbody tr.row1 td { background: #f0f0f0; border-top: 1px solid #FFF; }
 
 table.adminlist tfoot tr { text-align: center;  color: #333; }
 table.adminlist tfoot td,
@@ -829,6 +838,29 @@ table.adminlist .pagination { display:table; padding:0;  margin:0 auto;	 }
 
 div#element-box div.m form table.adminlist tr td a { font-size: 1.1em; }
 div#element-box div.m div.jpane-slider form table.adminlist a { font-size: 1em;}
+
+/* Tree indentation & nesting - Up to 10 levels deep so don't go crazy :) */
+table.adminlist td.indent-4 	{ padding-left:4px; }
+table.adminlist td.indent-19 	{ padding-left:19px; }
+table.adminlist td.indent-34 	{ padding-left:34px; }
+table.adminlist td.indent-49 	{ padding-left:49px; }
+table.adminlist td.indent-64 	{ padding-left:64px; }
+table.adminlist td.indent-79 	{ padding-left:79px; }
+table.adminlist td.indent-94 	{ padding-left:94px; }
+table.adminlist td.indent-109 	{ padding-left:109px; }
+table.adminlist td.indent-124 	{ padding-left:124px; }
+table.adminlist td.indent-139 	{ padding-left:139px; }
+
+p.smallsub 	{ margin:0; }
+div#element-box div.m form table.adminlist tr td p.smallsub a { font-size:11px; }
+
+table.adminlist tr td.btns a {
+	/* border: 1px solid #025A8D; */
+	border: 1px solid #D5EEFF;
+	padding: 3px;
+	background-color:#D5EEFF;
+}
+
 
 .pagination div.limit {
 	float: left;
@@ -1008,11 +1040,6 @@ a img.calendar {
 /* System Notice Messages */
 #system-message dd.notice ul { color: #c00; background: #EFE7B8 url(../images/notice-note.png) 4px top no-repeat; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
 
-.invalid { color: red; font-weight: bold; }
-
-input.invalid { border: 1px solid red; }
-
-.warning { color: red; font-weight: bold; }
 
 /* -- SYSTEM MESSAGES relocated from system.css ---- */
 /* System Messages */
@@ -1070,7 +1097,8 @@ p {
 	padding: 5px;
 }
 #section-box .padding {
-	background: none; padding: 0;
+	background: none; 
+	padding: 0;
 }
 
 #lock  {
@@ -1480,8 +1508,7 @@ td {
 .scroll {overflow:auto;}
 
 /* Form validation */
-.invalid{color:red;font-weight:700}
-input.invalid{border:1px solid red}
+
 
 /* Filter Form */
 fieldset ol,ol#property-values{margin:0;padding:0}

@@ -31,7 +31,7 @@ $langs = JHtml::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 		$document->addScriptDeclaration($langScript);
 		JHtml::_('script', 'openid.js');
 endif; ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" style="clear: both;">
+<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" style="clear:both">
 	<p id="form-login-username">
 		<label for="mod-login-username"><?php echo JText::_('Username'); ?></label>
 		<input name="username" id="mod-login-username" type="text" class="inputbox" size="15" />

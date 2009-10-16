@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Oct-2009 Ron Severdia
+# BlueStork UI fixes
+^ Replace tables
++ Language fixes
+
 15-Oct-2009 Hannes Papenberg
 # Fixed saving in com_modules
 

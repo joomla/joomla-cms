@@ -40,87 +40,44 @@ class HTML_massmail
 
 		<form action="index.php" name="adminForm" method="post">
 
-		<div class="width-30">
+		<div class="width-70 fltlft">
+			<fieldset class="adminform">
+				<legend><?php echo JText::_('Message'); ?></legend>
+			
+				<label for="mm_subject"><?php echo JText::_('Subject'); ?>:</label>
+					
+				<input class="inputbox" type="text" name="mm_subject" id="mm_subject" value="" size="150" />
+					
+				<label for="mm_message"><?php echo JText::_('Message'); ?>:</label>
+
+				<div id="mm_pane" >
+					<textarea rows="20" cols="150" name="mm_message" id="mm_message" class="inputbox"></textarea>
+				</div>
+
+			</fieldset>
+		</div>
+		
+		<div class="width-30 fltrt">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('Details'); ?></legend>
 
-				<table class="admintable">
-				<tr>
-					<td class="key">
-						<label for="mm_recurse">
-							<?php echo JText::_('Mail to Child Groups'); ?>:
-						</label>
-					</td>
-					<td>
-						<input type="checkbox" name="mm_recurse" id="mm_recurse" value="RECURSE" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="mm_mode">
-							<?php echo JText::_('Send in HTML mode'); ?>:
-						</label>
-					</td>
-					<td>
-						<input type="checkbox" name="mm_mode" id="mm_mode" value="1" />
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" class="key">
-						<label for="mm_group">
-							<?php echo JText::_('Group'); ?>:
-						</label>
-					</td>
-					<td>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" valign="top">
-						<?php echo $lists['group']; ?>
-					</td>
-				</tr>
-
-				<tr>
-			       <td class="key">
-							<label for="mm_bcc" title="<?php echo JText::_('Send as Blind Carbon Copy'); ?>">
-									<?php echo JText::_('Recipients as BCC'); ?>:
-							</label>
-					</td>
-					<td>
-							<input type="checkbox" name="mm_bcc" id="mm_bcc" value="1" checked="checked" />
-					</td>
-				</tr>
-
-				</table>
-			</fieldset>
-		</div>
-
-		<div class="width-70">
-			<fieldset class="adminform">
-				<legend><?php echo JText::_('Message'); ?></legend>
-
-				<table class="admintable">
-				<tr>
-					<td class="key">
-						<label for="mm_subject">
-							<?php echo JText::_('Subject'); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="mm_subject" id="mm_subject" value="" size="150" />
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" class="key">
-						<label for="mm_message">
-							<?php echo JText::_('Message'); ?>:
-						</label>
-					</td>
-					<td id="mm_pane" >
-						<textarea rows="20" cols="150" name="mm_message" id="mm_message" class="inputbox"></textarea>
-					</td>
-				</tr>
-				</table>
+				<label for="mm_recurse"><?php echo JText::_('Mail to Child Groups'); ?>:</label>
+				
+				<input type="checkbox" name="mm_recurse" id="mm_recurse" value="RECURSE" />
+				
+				<label for="mm_mode"><?php echo JText::_('Send in HTML mode'); ?>:</label>
+					
+				<input type="checkbox" name="mm_mode" id="mm_mode" value="1" />
+			
+				<label for="mm_group"><?php echo JText::_('Group'); ?>:</label>
+					
+				<?php echo $lists['group']; ?>
+				
+				<label for="mm_bcc" title="<?php echo JText::_('Send as Blind Carbon Copy'); ?>">
+						<?php echo JText::_('Recipients as BCC'); ?>:
+				</label>
+					
+				<input type="checkbox" name="mm_bcc" id="mm_bcc" value="1" checked="checked" />
 			</fieldset>
 		</div>
 		<div class="clr"></div>

@@ -51,11 +51,11 @@ $extensions	= $this->data['extensions'];
 				<td class="center">
 					<?php
 					if ($allowed === null) :
-						echo '<span style="color:#aaa">Deny</span>';
+						echo '<span class="disable">Deny</span>';
 					elseif ($allowed) :
-						echo '<span style="color:green">'.JText::_('JAllow').'</span>';
+						echo '<span class="allow">'.JText::_('JAllow').'</span>';
 					else :
-						echo '<span style="color:red">'.JText::_('JDeny').'</span>';
+						echo '<span class="deny">'.JText::_('JDeny').'</span>';
 					endif;
 					?>
 				</td>

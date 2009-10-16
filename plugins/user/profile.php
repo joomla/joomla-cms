@@ -11,7 +11,7 @@ $lang = &JFactory::getLanguage();
 $lang->load('plg_user_profile');
 
 /**
- * An exmample custom profile plugin.
+ * An example custom profile plugin.
  *
  * @package		Joomla.Plugins
  * @subpackage	user.profile

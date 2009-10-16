@@ -43,14 +43,11 @@ JHtml::_('behavior.tooltip');
 				<th width="5%">
 					<?php echo JText::_('JGrid_Heading_ID'); ?>
 				</th>
-				<th width="40%">
-					&nbsp;
-				</th>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="15">
+				<td colspan="4">
 					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
 			</tr>
@@ -64,7 +61,7 @@ JHtml::_('behavior.tooltip');
 					<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
 				</td>
 <!-- TO DO: UI system for representing levels and parent-child relationships -->
-				<td style="padding-left:<?php echo intval(($item->level)*15)+4; ?>px">
+				<td class="indent-<?php echo intval(($item->level)*15)+4; ?>">
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&cid[]='.$item->id);?>">
 						<?php echo $item->title; ?></a>
 				</td>
@@ -73,9 +70,6 @@ JHtml::_('behavior.tooltip');
 				</td>
 				<td class="center">
 					<?php echo $item->id; ?>
-				</td>
-				<td>
-					&nbsp;
 				</td>
 			</tr>
 			<?php

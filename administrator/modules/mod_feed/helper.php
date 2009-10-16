@@ -143,7 +143,7 @@ class modFeedHelper
 							}
 						}
 						?>
-						<div style="text-align: <?php echo $rssrtl ? 'right': 'left'; ?> ! important">
+						<div style="text-align: <?php echo $rssrtl ? 'right': 'left'; ?> !important">
 							<?php echo $text; ?>
 						</div>
 						<?php

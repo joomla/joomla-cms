@@ -80,14 +80,14 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
-				<td style="padding-left:<?php echo intval(($item->level-1)*15)+4; ?>px">
+				<td class="indent-<?php echo intval(($item->level-1)*15)+4; ?>">
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&cid[]='.$item->id.'&extension='.$extension);?>">
 						<?php echo $this->escape($item->title); ?></a>
-					<br /><small title="<?php echo $this->escape($item->path);?>">
-						(<?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>: <?php echo $this->escape($item->alias);?>)</small>
+					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
+						(<?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>: <?php echo $this->escape($item->alias);?>)</p>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.');?>
