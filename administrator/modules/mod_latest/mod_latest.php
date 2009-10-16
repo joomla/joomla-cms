@@ -52,17 +52,19 @@ $rows = $db->loadObjectList();
 ?>
 
 <table class="adminlist">
+<thead>
 <tr>
-	<td class="title">
-		<strong><?php echo JText::_('Latest Items'); ?></strong>
-	</td>
-	<td class="title">
+	<th>
+		<?php echo JText::_('Latest Items'); ?>
+	</th>
+	<th>
 		<strong><?php echo JText::_('Created'); ?></strong>
-	</td>
-	<td class="title">
+	</th>
+	<th>
 		<strong><?php echo JText::_('Creator'); ?></strong>
-	</td>
+	</th>
 </tr>
+</thead>
 <?php
 if (count($rows))
 {
@@ -98,10 +100,10 @@ if (count($rows))
 				<a href="<?php echo $link; ?>">
 					<?php echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');?></a>
 			</td>
-			<td>
+			<td class="center">
 				<?php echo JHtml::_('date', $row->$dateProperty, '%Y-%m-%d %H:%M:%S'); ?>
 			</td>
-			<td>
+			<td class="center">
 				<?php echo $author;?>
 			</td>
 		</tr>
@@ -113,7 +115,7 @@ else
 ?>
 		<tr>
 			<td colspan="3">
-				<?php echo JText::_('No matching results');?>
+				<p class="noresults"><?php echo JText::_('No matching results');?></p>
 			</td>
 		</tr>
 <?php

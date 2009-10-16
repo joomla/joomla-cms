@@ -35,8 +35,8 @@ foreach ($rows as $row)
 	?>
 	<tr>
 		<td><a href="<?php echo $link; ?>"><?php echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');?></a></td>
-		<td><?php echo JHtml::_('date', $row->created, '%Y-%m-%d %H:%M:%S'); ?></td>
-		<td><?php echo $row->hits;?></td>
+		<td class="center"><?php echo JHtml::_('date', $row->created, '%Y-%m-%d %H:%M:%S'); ?></td>
+		<td class="center"><?php echo $row->hits;?></td>
 	</tr>
 	<?php
 }

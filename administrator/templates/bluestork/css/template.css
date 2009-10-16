@@ -197,7 +197,9 @@ span.writable { color:green; }
 span.unwritable { color:red; }
 p.noparams { padding: 20px 15px;}
 
-.adminlist-searchstatus a {
+p.noresults { padding: 20px 15px;}
+
+archstatus a {
 	padding-left: 20px;
 }
 

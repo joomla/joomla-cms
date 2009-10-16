@@ -15,24 +15,24 @@ defined('_JEXEC') or die;
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<td class="title">
-					<strong><?php echo '#' ?></strong>
-				</td>
-				<td class="title">
-					<strong><?php echo JText::_('Name'); ?></strong>
-				</td>
-				<td class="title">
-					<strong><?php echo JText::_('Group'); ?></strong>
-				</td>
-				<td class="title">
-					<strong><?php echo JText::_('Client'); ?></strong>
-				</td>
-				<td class="title">
-					<strong><?php echo JText::_('Last Activity'); ?></strong>
-				</td>
-				<td class="title">
-					<strong><?php echo JText::_('Logout'); ?></strong>
-				</td>
+				<th>
+					<?php echo '#' ?>
+				</th>
+				<th class="left">
+					<?php echo JText::_('Name'); ?>
+				</th>
+				<th>
+					<?php echo JText::_('Group'); ?>
+				</th>
+				<th>
+					<?php echo JText::_('Client'); ?>
+				</th>
+				<th>
+					<?php echo JText::_('Last Activity'); ?>
+				</th>
+				<th>
+					<?php echo JText::_('Logout'); ?>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -51,7 +51,7 @@ defined('_JEXEC') or die;
 			$clientInfo = &JApplicationHelper::getClientInfo($row->client_id);
 			?>
 			<tr>
-				<td width="5%">
+				<td width="5%" class="center">
 					<?php echo $pageNav->getRowOffset($i); ?>
 				</td>
 				<td>
@@ -60,13 +60,13 @@ defined('_JEXEC') or die;
 				<td>
 					<?php echo $row->usertype;?>
 				</td>
-				<td>
+				<td class="center">
 					<?php echo $clientInfo->name;?>
 				</td>
-				<td>
+				<td class="center">
 					<?php echo JText::sprintf('activity hours', ($now - $row->time)/3600.0);?>
 				</td>
-				<td>
+				<td class="center">
 				<?php if ($auth && $row->userid != $user->get('id')) : ?>
 					<input type="image" src="images/publish_x.png" onclick="f=this.form;f.task.value='flogout';f.client.value=<?php echo (int) $row->client_id; ?>;f.cid_value.value=<?php echo (int) $row->userid ?>" />
 				<?php endif; ?>
