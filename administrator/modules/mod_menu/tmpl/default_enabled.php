@@ -94,8 +94,6 @@ if ($user->authorise('core.manage', 'com_users'))
 	if ($user->authorise('core.manage', 'com_massmail'))
 	{
 		$menu->addChild(new JMenuNode(JText::_('Mod_menu_Mass_Mail_Users'), 'index.php?option=com_massmail', 'class:massmail'));
-		$menu->addChild(new JMenuNode(JText::_('Mod_menu_Read_Private_Messages'), 'index.php?option=com_messages', 'class:readmess'));
-		$menu->addChild(new JMenuNode(JText::_('Mod_menu_New_Private_Message'), 'index.php?option=com_messages&task=add', 'class:writemess'));
 	}
 	$menu->getParent();
 }
@@ -170,7 +168,7 @@ $components = ModMenuHelper::getComponents(
 		array(
 			// Ignore the core components.
 			'com_content','com_config','com_modules','com_user','com_users','com_cache','com_cpanel','com_installer',
-			'com_massmail','com_messages','com_plugins','com_templates','com_languages','com_mailto','com_media',
+			'com_massmail','com_plugins','com_templates','com_languages','com_mailto','com_media',
 			'com_wrapper','com_menus'
 		),
 		true

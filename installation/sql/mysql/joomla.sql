@@ -227,7 +227,8 @@ INSERT INTO `#__components` VALUES (36, 'Categories', '', 0, 20, 'option=com_cat
 INSERT INTO `#__components` VALUES (37, 'Featured', '', 0, 20, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1);
 INSERT INTO `#__components` VALUES (38, 'Redirects', '', 0, 0, 'option=com_redirect', 'Manage Redirects', 'com_redirect', 0, 'js/ThemeOffice/component.png', 1, '{}', 1);
 INSERT INTO `#__components` VALUES (39, 'Checkin', '', 0, 0, 'option=com_checkin', 'Checkin', 'com_checkin', 0, 'js/ThemeOffice/component.png', 1, '{}', 1);
-
+INSERT INTO `#__components` VALUES (40, 'New private message', '', 0, 27, 'option=com_messages&task=add', '', '', 0, '', 0, '', 1),
+INSERT INTO `#__components` VALUES (41, 'Read private messages', '', 0, 27, 'option=com_messages', '', '', 0, '', 0, '', 1);
 
 # -------------------------------------------------------
 

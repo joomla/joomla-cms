@@ -32,6 +32,7 @@ $ -> Language fix or change
 + Added Article linker plugin for editors
 ^ Merged editor windows for article editing
 ^ Added/Fixed access field in newsfeeds
+^ Moved com_messages links in admin menu to component menu
 
 16-Oct-2009 Ron Severdia
 ^ Extension Manager fixes
