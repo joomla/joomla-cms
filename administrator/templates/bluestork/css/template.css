@@ -1230,6 +1230,8 @@ input.system-openid, input.com-system-openid {
 .icon-16-plugin 		{ background-image: url(../images/menu/icon-16-plugin.png); }
 .icon-16-purge	 		{ background-image: url(../images/menu/icon-16-purge.png); }
 .icon-16-readmess 		{ background-image: url(../images/menu/icon-16-readmess.png); }
+.icon-16-redirect 		{ background-image: url(../images/menu/icon-16-redirect.png); }
+.icon-16-search 		{ background-image: url(../images/menu/icon-16-search.png); }
 .icon-16-section 		{ background-image: url(../images/menu/icon-16-section.png); }
 .icon-16-static 		{ background-image: url(../images/menu/icon-16-static.png); }
 .icon-16-stats 			{ background-image: url(../images/menu/icon-16-stats.png); }
@@ -1237,7 +1239,8 @@ input.system-openid, input.com-system-openid {
 .icon-16-trash 			{ background-image: url(../images/menu/icon-16-trash.png); }
 .icon-16-user 			{ background-image: url(../images/menu/icon-16-user.png); }
 .icon-16-writemess 		{ background-image: url(../images/menu/icon-16-writemess.png); }
-
+.icon-16-newsfeeds 		{ background-image: url(../images/menu/icon-16-newsfeeds.png); }
+.icon-16-newsfeeds-cat 	{ background-image: url(../images/menu/icon-16-newsfeeds-cat.png); }
 
 /* -- TOOLBAR ICON STYLES ----------------------------- */
 .icon-32-send 			{ background-image: url(../images/toolbar/icon-32-send.png); }
@@ -1277,12 +1280,16 @@ input.system-openid, input.com-system-openid {
 .icon-48-cpanel 		{ background-image: url(../images/header/icon-48-cpanel.png); }
 .icon-48-config 		{ background-image: url(../images/header/icon-48-config.png); }
 .icon-48-groups 		{ background-image: url(../images/header/icon-48-groups.png); }
+.icon-48-groups-add 	{ background-image: url(../images/header/icon-48-groups-add.png); }
 .icon-48-levels 		{ background-image: url(../images/header/icon-48-levels.png); }
+.icon-48-levels-add 	{ background-image: url(../images/header/icon-48-levels-add.png); }
 .icon-48-module 		{ background-image: url(../images/header/icon-48-module.png); }
 .icon-48-menu 			{ background-image: url(../images/header/icon-48-menu.png); }
+.icon-48-menu-add 		{ background-image: url(../images/header/icon-48-menu-add.png); }
 .icon-48-menumgr 		{ background-image: url(../images/header/icon-48-menumgr.png); }
 .icon-48-trash 			{ background-image: url(../images/header/icon-48-trash.png); }
 .icon-48-user	 		{ background-image: url(../images/header/icon-48-user.png); }
+.icon-48-user-add	 	{ background-image: url(../images/header/icon-48-user-add.png); }
 .icon-48-inbox 			{ background-image: url(../images/header/icon-48-inbox.png); }
 .icon-48-msgconfig 		{ background-image: url(../images/header/icon-48-message_config.png); }
 .icon-48-langmanager 	{ background-image: url(../images/header/icon-48-language.png); }
@@ -1300,12 +1307,15 @@ input.system-openid, input.com-system-openid {
 .icon-48-article-edit 	{ background-image: url(../images/header/icon-48-article-edit.png); }
 .icon-48-article 		{ background-image: url(../images/header/icon-48-article.png); }
 .icon-48-categories 	{ background-image: url(../images/header/icon-48-category.png); }
+.icon-48-category-add 	{ background-image: url(../images/header/icon-48-category-add.png); }
 .icon-48-install 		{ background-image: url(../images/header/icon-48-extension.png); }
 .icon-48-dbbackup		{ background-image: url(../images/header/icon-48-backup.png); }
 .icon-48-dbrestore 		{ background-image: url(../images/header/icon-48-dbrestore.png); }
 .icon-48-dbquery 		{ background-image: url(../images/header/icon-48-query.png); }
 .icon-48-systeminfo 	{ background-image: url(../images/header/icon-48-info.png); }
 .icon-48-massmail 		{ background-image: url(../images/header/icon-48-massmail.png); }
+.icon-48-redirect 		{ background-image: url(../images/header/icon-48-redirect.png); }
+.icon-48-search 		{ background-image: url(../images/header/icon-48-search.png); }
 
 /* -- BASIC MENU STYLES ----------------------------- */
 

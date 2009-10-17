@@ -68,7 +68,7 @@ abstract class JHtmlGrid
 		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_('Click to sort this column').'">';
 		$html .= JText::_($title);
 		if ($order == $selected) {
-			$html .= JHtml::_('image.administrator',  $images[$index], '/images/', NULL, NULL);
+			$html .= JHtml::_('image.administrator',  $images[$index], '/templates/bluestork/images/admin/', NULL, NULL);
 		}
 		$html .= '</a>';
 		return $html;
@@ -208,7 +208,7 @@ abstract class JHtmlGrid
 
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
-		$image = JHtml::_('image.administrator',  $image, '/images/', NULL, NULL, JText::_('Save Order'));
+		$image = JHtml::_('image.administrator',  $image, '/templates/bluestork/images/admin/', NULL, NULL, JText::_('Save Order'));
 		$href = '<a href="javascript:saveorder('.(count($rows)-1).', \''.$task.'\')" title="'.JText::_('Save Order').'">'.$image.'</a>';
 		return $href;
 	}
@@ -226,7 +226,7 @@ abstract class JHtmlGrid
 
 			$hover = '<span class="editlinktip hasTip" title="'. JText::_('Checked Out') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
 		}
-		$checked = $hover .'<img src="images/checked_out.png"/></span>';
+		$checked = $hover .'<img src="templates/bluestork/images/admin/checked_out.png"/></span>';
 
 		return $checked;
 	}

@@ -30,7 +30,7 @@ abstract class JHtmlJGrid
 			-2	=> array('trash.png',		$taskPrefix.'publish',		'JState_Trashed',		'JState_Publish_Item'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= JHtml::_('image.administrator', $state[0], '/images/', null, '/images/', JText::_($state[2]));
+		$html	= JHtml::_('image.administrator', $state[0], '/templates/bluestork/images/admin/', null, '/images/', JText::_($state[2]));
 		if ($canChange) {
 			$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
 					. $html.'</a>';
@@ -72,7 +72,7 @@ abstract class JHtmlJGrid
 		$time	= JHTML::_('date',  $time, '%H:%M');
 
 		$hover = '<span class="editlinktip hasTip" title="'. JText::_('Checked Out') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
-		$checked = $hover .'<img src="images/checked_out.png" alt="'.JText::_('Checked Out').'" /></span>';
+		$checked = $hover .'<img src="templates/bluestork/images/admin/checked_out.png" alt="'.JText::_('Checked Out').'" /></span>';
 
 		return $checked;
 	}

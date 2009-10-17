@@ -91,7 +91,7 @@ class AdminViewSysinfo extends JView
 	 */
 	protected function _setToolbar()
 	{
-		JToolBarHelper::title(JText::_('Admin_Information'), 'systeminfo.png');
+		JToolBarHelper::title(JText::_('ADMIN_SYSTEM_INFORMATION'), 'systeminfo.png');
 		JToolBarHelper::help('screen.system.info');
 	}
 }

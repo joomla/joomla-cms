@@ -30,14 +30,14 @@ class MenusHelper
 	public static function addSubmenu($vName)
 	{
 		JSubMenuHelper::addEntry(
-			JText::_('Menus_Submenu_Items'),
-			'index.php?option=com_menus&view=items',
-			$vName == 'items'
-		);
-		JSubMenuHelper::addEntry(
 			JText::_('Menus_Submenu_Menus'),
 			'index.php?option=com_menus&view=menus',
 			$vName == 'menus'
+		);
+		JSubMenuHelper::addEntry(
+			JText::_('Menus_Submenu_Items'),
+			'index.php?option=com_menus&view=items',
+			$vName == 'items'
 		);
 	}
 
