@@ -84,7 +84,7 @@ $function = JRequest::getVar('function', 'jSelectArticle');
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->title); ?>');">
+					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->title); ?>', '<?php echo $this->escape($item->catid); ?>');">
 						<?php echo $this->escape($item->title); ?></a>
 				</td>
 				<td class="center">

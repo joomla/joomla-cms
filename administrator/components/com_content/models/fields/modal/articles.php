@@ -52,14 +52,14 @@ class JFormFieldModal_Articles extends JFormField
 		}
 
 		$doc->addScriptDeclaration(
-		"function jSelectChart_".$this->inputId."(id, title, object) {
+		"function jSelectArticle_".$this->inputId."(id, title, catid, object) {
 			document.id('".$this->inputId."_id').value = id;
-			document.id('".$this->inputId."_name').value = title;
+			document.id('".$this->inputId."_name').value = title;	
 			SqueezeBox.close();
 		}"
 		);
 
-		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectChart_'.$this->inputId;
+		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_'.$this->inputId;
 
 		JHTML::_('behavior.modal', 'a.modal');
 		$html = "\n".'<div class="fltlft"><input type="text" id="'.$this->inputId.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';

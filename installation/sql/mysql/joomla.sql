@@ -505,6 +505,7 @@ INSERT INTO `#__extensions` VALUES
 (0, 'Content - Page Navigation', 'plugin', 'pagenavigation', 'content', 0, 1, 1, 0, '', '{"position":"1"}', '', '', 0, '0000-00-00 00:00:00', 2, 0),
 (0, 'User - Profile', 'plugin', 'profile', 'user', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Editor Button - Readmore', 'plugin', 'readmore', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Editor Button - Article', 'plugin', 'article', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'System - Redirect', 'plugin', 'redirect', 'system', 0, 0, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 7, 0),
 (0, 'System - Remember Me', 'plugin', 'remember', 'system', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 6, 0),
 (0, 'Search - Sections', 'plugin', 'sections', 'search', 0, 1, 1, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 5, 0),

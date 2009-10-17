@@ -75,8 +75,6 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('template_id'); ?>
 			<?php echo $this->form->getInput('template_id'); ?>
-
-			<?php echo $this->loadTemplate('required'); ?>
 	</fieldset>
 </div>
 

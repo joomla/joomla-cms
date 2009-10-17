@@ -123,6 +123,8 @@ class ContentModelArticle extends JModelForm
 
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
+		$value->articletext = $value->introtext . "<hr id=\"system-readmore\" />" . $value->fulltext;
+		
 		return $value;
 	}
 

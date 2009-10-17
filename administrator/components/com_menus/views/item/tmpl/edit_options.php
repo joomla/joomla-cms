@@ -11,6 +11,15 @@ defined('_JEXEC') or die;
 
 jimport('joomla.html.pane');
 $pane = &JPane::getInstance('sliders');
+	echo $pane->startPanel(JText::_('Required Parameters'), 'publishing-details');
+	?>
+	<fieldset class="panelform">
+	<?php
+	echo $this->loadTemplate('required');
+	?>
+	</fieldset>
+	<?php
+	echo $pane->endPanel();
 	$fieldSets = $this->paramsform->getFieldsets();
 	foreach ($fieldSets as $name => $fieldSet) :
 		if (isset($fieldSet['hidden']) && $fieldSet['hidden'] == true || $name == 'request') :

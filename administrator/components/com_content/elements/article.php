@@ -34,14 +34,14 @@ class JElementArticle extends JElement
 		}
 
 		$js = "
-		function jSelectArticle(id, title, object) {
+		function jSelectArticle_".$name."(id, title, catid, object) {
 			document.getElementById(object + '_id').value = id;
 			document.getElementById(object + '_name').value = title;
-			document.getElementById('sbox-window').close();
+			SqueezeBox.close();
 		}";
 		$doc->addScriptDeclaration($js);
 
-		$link = 'index.php?option=com_content&amp;task=element&amp;tmpl=component&amp;object='.$name;
+		$link = 'index.php?option=com_content&amp;task=element&amp;tmpl=component&amp;function=jSelectArticle_'.$name;
 
 		JHtml::_('behavior.modal', 'a.modal');
 		$html = "\n".'<div class="fltlft"><input type="text" id="'.$name.'_name" value="'.htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';

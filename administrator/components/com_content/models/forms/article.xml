@@ -39,22 +39,12 @@
 			default="" />
 
 		<field
-			id="introtext"
-			name="introtext"
+			id="articletext"
+			name="articletext"
 			type="editor"
 			class="inputbox"
-			label="Content_Introtext_Label"
-			description="Content_Introtext_Desc"
-			filter="safehtml"
-			default="" />
-
-		<field
-			id="fulltext"
-			name="fulltext"
-			type="editor"
-			label="Content_Fulltext_Label"
-			description="Content_Fulltext_Desc"
-			class="inputbox"
+			label="Content_Articletext_Label"
+			description="Content_Articletext_Desc"
 			filter="safehtml"
 			default="" />
 

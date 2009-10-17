@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Oct-2009 Hannes Papenberg
+# Fixed some bugs with the menu manager and modal windows
++ Added Article linker plugin for editors
+^ Merged editor windows for article editing
+
 16-Oct-2009 Ron Severdia
 ^ Extension Manager fixes
 ^ Language fixes
