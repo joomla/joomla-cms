@@ -14,7 +14,7 @@ jimport('joomla.application.component.controllerform');
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
  */
-class NewsfeedsControllerNewsfeed extends JController
+class NewsfeedsControllerNewsfeed extends JControllerForm
 {
 	/**
 	 * Method override to check if you can add a new record.

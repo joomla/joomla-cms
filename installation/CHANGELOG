@@ -31,6 +31,7 @@ $ -> Language fix or change
 # Fixed some bugs with the menu manager and modal windows
 + Added Article linker plugin for editors
 ^ Merged editor windows for article editing
+^ Added/Fixed access field in newsfeeds
 
 16-Oct-2009 Ron Severdia
 ^ Extension Manager fixes

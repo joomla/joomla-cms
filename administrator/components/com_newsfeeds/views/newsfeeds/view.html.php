@@ -49,6 +49,7 @@ class NewsfeedsViewNewsfeeds extends JView
 	protected function _setToolbar()
 	{
 		$state	= $this->get('State');
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'newsfeeds.php';
 		$canDo	= NewsfeedsHelper::getActions($state->get('filter.category_id'));
 
 		JHtml::_('behavior.modal', 'a.modal');

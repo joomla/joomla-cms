@@ -308,7 +308,6 @@ CREATE TABLE `#__content` (
   `language` varchar(10) NOT NULL COMMENT 'The language code for the article.',
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   PRIMARY KEY  (`id`),
-  KEY `idx_section` (`sectionid`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
@@ -754,6 +753,7 @@ CREATE TABLE `#__newsfeeds` (
   `language` char(7) NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
   KEY `published` (`published`),
+  KEY `idx_access` (`access`),
   KEY `catid` (`catid`),
   INDEX `idx_language` (`language`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
