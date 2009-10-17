@@ -281,6 +281,18 @@ class JTableContent extends JTable
 	 */
 	public function bind($array, $ignore = '')
 	{
+		// Search for the {readmore} tag and split the text up accordingly.
+		$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
+		$tagPos	= preg_match($pattern, $array['articletext']);
+
+		if ( $tagPos == 0 )
+		{
+			$this->introtext	= $array['articletext'];
+		} else
+		{
+			list($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
+		}
+		
 		if (isset($array['attribs']) && is_array($array['attribs']))
 		{
 			$registry = new JRegistry();
