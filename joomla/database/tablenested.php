@@ -1443,7 +1443,7 @@ class JTableNested extends JTable
 		{
 			case 'first-child':
 				$data->left_where		= 'lft > '.$referenceNode->lft;
-				$data->right_where		= 'lft >= '.$referenceNode->lft;
+				$data->right_where		= 'rgt >= '.$referenceNode->lft;
 
 				$data->new_lft 			= $referenceNode->lft + 1;
 				$data->new_rgt			= $referenceNode->lft + $nodeWidth;
