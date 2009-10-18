@@ -1,260 +1,251 @@
 /**
- * FancyUpload - Flash meets Ajax for beauty uploads
+ * FancyUpload - Flash meets Ajax for powerful and elegant uploads.
+ * 
+ * Updated to latest 3.0 API. Hopefully 100% compat!
  *
- * Based on Swiff.Base and Swiff.Uploader.
- *
- * Its intended that you edit this class to add your
- * own queue layout/text/effects. This is NO include
- * and forget class. If you want custom effects or
- * more output, use Swiff.Uploader as interface
- * for your new class or change this class.
- *
- * USAGE:
- *  var inputElement = $E('input[type="file"]');
- * 	new FancyUpload(inputElement, {
- * 		swf: '../swf/Swiff.Uploader.swf'
- * 		// more options
- * 	})
- *
- * 	The target element has to be in an form, the upload starts onsubmit
- * 	by default.
- *
- * OPTIONS:
- *
- * 	url: Upload target URL, default is form-action if given, otherwise current page
- *  swf: Path & filename of the swf file, default: Swiff.Uploader.swf
- *  multiple: Multiple files selection, default: true
- *  queued: Queued upload, default: true
- *  types: Object with (description: extension) pairs, default: Images (*.jpg; *.jpeg; *.gif; *.png)
- *  limitSize: Maximum size for one added file, bigger files are ignored, default: false
- *  limitFiles: Maximum files in the queue, default: false
- *  createReplacement: Function that creates the replacement for the input-file, default: false, so a button with "Browse Files" is created
- *  instantStart: Upload starts instantly after selecting a file, default: false
- *  allowDuplicates: Allow duplicate filenames in the queue, default: true
- *  container: Container element for the swf, default: document.body, used only for the first FancyUpload instance, see QUIRKS
- *  optionFxDuration: Fx duration for highlight, default: 250
- *  queueList: The Element or ID for the queue list
- *  onComplete: Event fired when one file is completed
- *  onAllComplete: Event fired when all files uploaded
- *
- * NOTE:
- *
- * 	Flash FileReference is stupid, the request will have no cookies
- * 	or additional post data. Only the file is send in $_FILES['Filedata'],
- * 	with a wrong content-type (application/octet-stream).
- * 	When u have sessions, append them as get-data to the the url.
- *
- *
- * @version		1.0rc1
+ * @version		3.0
  *
  * @license		MIT License
  *
- * @author		Harald Kirschner <mail [at] digitarald [dot] de>
+ * @author		Harald Kirschner <http://digitarald.de>
  * @copyright	Authors
  */
-var FancyUpload = new Class({
 
+var FancyUpload2 = new Class({
+
+	Extends: Swiff.Uploader,
+	
 	options: {
-		url: false,
-		swf: 'Swiff.Uploader.swf',
-		multiple: true,
-		queued: true,
-		types: {'Images (*.jpg, *.jpeg, *.gif, *.png)': '*.jpg; *.jpeg; *.gif; *.png'},
-		limitSize: false,
-		limitFiles: false,
-		createReplacement: null,
-		instantStart: false,
-		allowDuplicates: false,
-		optionFxDuration: 250,
-		container: null,
-		queueList: 'photoupload-queue',
-		onComplete: Class.empty,
-		onError: Class.empty,
-		onCancel: Class.empty,
-		onAllComplete: Class.empty
+		queued: 1,
+		// compat
+		limitSize: 0,
+		limitFiles: 0,
+		validateFile: $lambda(true)
 	},
 
-	initialize: function(el, options){
-		this.element = $(el);
-		this.form = this.element.form;
-		this.setOptions(options);
-		this.fileList = [];
+	initialize: function(status, list, options) {
+		this.status = $(status);
+		this.list = $(list);
 
-		this.uploader = new Swiff.Uploader({
-			onOpen: this.onOpen.bind(this),
-			onProgress: this.onProgress.bind(this),
-			onComplete: this.onComplete.bind(this),
-			onError: this.onError.bind(this),
-			onSelect: this.onSelect.bind(this)
-		}, this.initializeFlash.bind(this), {
-			swf: this.options.swf,
-			types: this.options.types,
-			multiple: this.options.multiple,
-			queued: this.options.queued,
-			container: this.options.container
+		// compat
+		options.fileClass = options.fileClass || FancyUpload2.File;
+		options.fileSizeMax = options.limitSize || options.fileSizeMax;
+		options.fileListMax = options.limitFiles || options.fileListMax;
+
+		this.parent(options);
+
+		this.addEvents({
+			'load': this.render,
+			'select': this.onSelect,
+			'cancel': this.onCancel,
+			'start': this.onStart,
+			'queue': this.onQueue,
+			'complete': this.onComplete
 		});
 	},
 
-	initializeFlash: function() {
-		this.queue = $(this.options.queueList);
-		$(this.element.form).addEvent('submit', this.upload.bindWithEvent(this));
-		if (this.options.createReplacement) this.options.createReplacement(this.element);
-		else {
+	render: function() {
+		this.overallTitle = this.status.getElement('.overall-title');
+		this.currentTitle = this.status.getElement('.current-title');
+		this.currentText = this.status.getElement('.current-text');
 
-			new Element('input', {
-				type: 'button',
-				value: sBrowseCaption,
-				events: {
-					click: this.browse.bind(this)
-				}
-			}).injectBefore(this.element);
-			this.element.remove();
+		var progress = this.status.getElement('.overall-progress');
+		this.overallProgress = new Fx.ProgressBar(progress, {
+			text: new Element('span', {'class': 'progress-text'}).inject(progress, 'after')
+		});
+		progress = this.status.getElement('.current-progress')
+		this.currentProgress = new Fx.ProgressBar(progress, {
+			text: new Element('span', {'class': 'progress-text'}).inject(progress, 'after')
+		});
+				
+		this.updateOverall();
+	},
+
+	onSelect: function() {
+		this.status.removeClass('status-browsing');
+	},
+
+	onCancel: function() {
+		this.status.removeClass('file-browsing');
+	},
+
+	onStart: function() {
+		this.status.addClass('file-uploading');
+		this.overallProgress.set(0);
+	},
+
+	onQueue: function() {
+		this.updateOverall();
+	},
+
+	onComplete: function() {
+		this.status.removeClass('file-uploading');
+		if (this.size) {
+			this.overallProgress.start(100);
+		} else {
+			this.overallProgress.set(0);
+			this.currentProgress.set(0);
 		}
-
+		
 	},
 
-	browse: function() {
-		this.uploader.browse();
+	updateOverall: function() {
+		this.overallTitle.set('html', MooTools.lang.get('FancyUpload', 'progressOverall').substitute({
+			total: Swiff.Uploader.formatUnit(this.size, 'b')
+		}));
+		if (!this.size) {
+			this.currentTitle.set('html', MooTools.lang.get('FancyUpload', 'currentTitle'));
+			this.currentText.set('html', '');
+		}
 	},
-
-	upload: function(e) {
-		if (e) e.stop();
-		url = this.options.url || this.form.action || location.href;
-		this.uploader.send(url+'&format=json');
-	},
-
-	onSelect: function(name, size) {
-		if (this.uploadTimer) this.uploadTimer = $clear(this.uploadTimer);
-		if ((this.options.limitSize && (size > this.options.limitSize))
-			|| (this.options.limitFiles && (this.fileList.length >= this.options.limitFiles))
-			|| (!this.options.allowDuplicates && this.findFile(name, size) != -1)) return false;
-		this.addFile(name, size);
-		if (this.options.instantStart) this.uploadTimer = this.upload.delay(250, this);
-		return true;
-	},
-
-	onOpen: function(name, size) {
-		var index = this.findFile(name, size);
-		this.fileList[index].status = 1;
-		if (this.fileList[index].fx) return;
-		this.fileList[index].fx = new Element('div', {'class': 'queue-subloader'}).injectInside(
-				new Element('div', {'class': 'queue-loader'}).setHTML('Uploading').injectInside(this.fileList[index].element)
-			).effect('width', {
-				duration: 200,
-				wait: false,
-				unit: '%',
-				transition: Fx.Transitions.linear
-			}).set(0);
-	},
-
-	onProgress: function(name, bytes, total, percentage) {
-		this.uploadStatus(name, total, percentage);
-	},
-
-	onComplete: function(name, size) {
-		var index = this.uploadStatus(name, size, 100);
-		this.fileList[index].fx.element.setHTML('Completed');
-		this.fileList[index].status = 2;
-		this.highlight(index, 'e1ff80');
-		this.checkComplete(name, size, 'onComplete');
-	},
-
+	
 	/**
-	 * Error codes are just examples, customize them according to your server-errorhandling
-	 *
+	 * compat
 	 */
-	onError: function(name, size, error) {
-		var msg = "Upload failed (" + error + ")";
-		switch(error.toInt()) {
-			case 500: msg = "Internal server error, please contact Administrator!"; break;
-			case 400: msg = "Upload failed, please check your filesize!"; break;
-			case 409: msg = "File already exists."; break;
-			case 415: msg = "Unsupported media type."; break;
-			case 412: msg = "Invalid target, please reload page and try again!"; break;
-			case 417: msg = "Photo too small, please keep our photo manifest in mind!"; break;
-		}
-		var index = this.uploadStatus(name, size, 100);
-		this.fileList[index].fx.element.setStyle('background-color', '#ffd780').setHTML(msg);
-		this.fileList[index].status = 2;
-		this.highlight(index, 'ffd780');
-		this.checkComplete(name, size, 'onError');
+	upload: function() {
+		this.start();
 	},
-
-	checkComplete: function(name, size, fire) {
-		this.fireEvent(fire, [name, size]);
-		if (this.nextFile() == -1) this.fireEvent('onAllComplete');
-	},
-
-	addFile: function(name, size) {
-		if (!this.options.multiple && this.fileList.length) this.remove(this.fileList[0].name, this.fileList[0].size);
-		this.fileList.push({
-			name: name,
-			size: size,
-			status: 0,
-			percentage: 0,
-			element: new Element('li').setHTML('<span class="queue-file">'+ name +'</span><span class="queue-size" title="'+ size +' byte">~'+ Math.ceil(size / 1000) +' kb</span>').injectInside(this.queue)
-		});
-		new Element('a', {
-			href: 'javascript:void(0)',
-			'class': 'input-delete',
-			title: sRemoveToolTip,
-			events: {
-				click: this.cancelFile.bindWithEvent(this, [name, size])
-			}
-		}).injectBefore(this.fileList.getLast().element.getFirst());
-		this.highlight(this.fileList.length - 1, 'e1ff80');
-	},
-
-	uploadStatus: function(name, size, percentage) {
-		var index = this.findFile(name, size);
-		this.fileList[index].fx.start(percentage).element.setHTML(percentage +'%');
-		this.fileList[index].percentage = percentage;
-		return index;
-	},
-
-	uploadOverview: function() {
-		var l = this.fileList.length, i = -1, percentage = 0;
-		while (++i < l) percentage += this.fileList[i].percentage;
-		return Math.ceil(percentage / l);
-	},
-
-	highlight: function(index, color) {
-		return this.fileList[index].element.effect('background-color', {duration: this.options.optionFxDuration}).start(color, 'fff');
-	},
-
-	cancelFile: function(e, name, size) {
-		e.stop();
-		this.remove(name, size);
-	},
-
-	remove: function(name, size, index) {
-		if (name) index = this.findFile(name, size);
-		if (index == -1) return;
-		if (this.fileList[index].status < 2) {
-			this.uploader.remove(name, size);
-			this.checkComplete(name, size, 'onCancel');
-		}
-		this.fileList[index].element.effect('opacity', {duration: this.options.optionFxDuration}).start(1, 0).chain(Element.remove.pass([this.fileList[index].element], Element));
-		this.fileList.splice(index, 1);
-		return;
-	},
-
-	findFile: function(name, size) {
-		var l = this.fileList.length, i = -1;
-		while (++i < l) if (this.fileList[i].name == name && this.fileList[i].size == size) return i;
-		return -1;
-	},
-
-	nextFile: function() {
-		var l = this.fileList.length, i = -1;
-		while (++i < l) if (this.fileList[i].status != 2) return i;
-		return -1;
-	},
-
-	clearList: function(complete) {
-		var i = -1;
-		while (++i < this.fileList.length) if (complete || this.fileList[i].status == 2) this.remove(0, 0, 0, i--);
+	
+	removeFile: function() {
+		return this.remove();
 	}
+
 });
 
-FancyUpload.implement(new Events, new Options);
+FancyUpload2.File = new Class({
+	
+	Extends: Swiff.Uploader.File,
+
+	render: function() {
+		if (this.invalid) {
+			if (this.validationError) {
+				var msg = MooTools.lang.get('FancyUpload', 'validationErrors')[this.validationError] || this.validationError;
+				this.validationErrorMessage = msg.substitute({
+					name: this.name,
+					size: Swiff.Uploader.formatUnit(this.size, 'b'),
+					fileSizeMin: Swiff.Uploader.formatUnit(this.base.options.fileSizeMin || 0, 'b'),
+					fileSizeMax: Swiff.Uploader.formatUnit(this.base.options.fileSizeMax || 0, 'b'),
+					fileListMax: this.base.options.fileListMax || 0,
+					fileListSizeMax: Swiff.Uploader.formatUnit(this.base.options.fileListSizeMax || 0, 'b')
+				});
+			}
+			this.remove();
+			return;
+		}
+		
+		this.addEvents({
+			'start': this.onStart,
+			'progress': this.onProgress,
+			'complete': this.onComplete,
+			'error': this.onError,
+			'remove': this.onRemove
+		});
+		
+		this.info = new Element('span', {'class': 'file-info'});
+		this.element = new Element('li', {'class': 'file'}).adopt(
+			new Element('span', {'class': 'file-size', 'html': Swiff.Uploader.formatUnit(this.size, 'b')}),
+			new Element('a', {
+				'class': 'file-remove',
+				href: '#',
+				html: MooTools.lang.get('FancyUpload', 'remove'),
+				title: MooTools.lang.get('FancyUpload', 'removeTitle'),
+				events: {
+					click: function() {
+						this.remove();
+						return false;
+					}.bind(this)
+				}
+			}),
+			new Element('span', {'class': 'file-name', 'html': MooTools.lang.get('FancyUpload', 'fileName').substitute(this)}),
+			this.info
+		).inject(this.base.list);
+	},
+	
+	validate: function() {
+		return (this.parent() && this.base.options.validateFile(this));
+	},
+	
+	onStart: function() {
+		this.element.addClass('file-uploading');
+		this.base.currentProgress.cancel().set(0);
+		this.base.currentTitle.set('html', MooTools.lang.get('FancyUpload', 'currentFile').substitute(this));
+	},
+
+	onProgress: function() {
+		this.base.overallProgress.start(this.base.percentLoaded);
+		this.base.currentText.set('html', MooTools.lang.get('FancyUpload', 'currentProgress').substitute({
+			rate: (this.progress.rate) ? Swiff.Uploader.formatUnit(this.progress.rate, 'bps') : '- B',
+			bytesLoaded: Swiff.Uploader.formatUnit(this.progress.bytesLoaded, 'b'),
+			timeRemaining: (this.progress.timeRemaining) ? Swiff.Uploader.formatUnit(this.progress.timeRemaining, 's') : '-'
+		}));
+		this.base.currentProgress.start(this.progress.percentLoaded);
+	},
+	
+	onComplete: function() {
+		this.element.removeClass('file-uploading');
+		
+		this.base.currentText.set('html', 'Upload completed');
+		this.base.currentProgress.start(100);
+		
+		if (this.response.error) {
+			var msg = MooTools.lang.get('FancyUpload', 'errors')[this.response.error] || '{error} #{code}';
+			this.errorMessage = msg.substitute($extend({
+				name: this.name,
+				size: Swiff.Uploader.formatUnit(this.size, 'b')
+			}, this.response));
+			var args = [this, this.errorMessage, this.response];
+			
+			this.fireEvent('error', args).base.fireEvent('fileError', args);
+		} else {
+			this.base.fireEvent('fileSuccess', [this, this.response.text || '']);
+		}
+	},
+
+	onError: function() {
+		this.element.addClass('file-failed');
+		var error = MooTools.lang.get('FancyUpload', 'fileError').substitute(this);
+		this.info.set('html', '<strong>' + error + ':</strong> ' + this.errorMessage);
+	},
+
+	onRemove: function() {
+		this.element.getElements('a').setStyle('visibility', 'hidden');
+		this.element.fade('out').retrieve('tween').chain(Element.destroy.bind(Element, this.element));
+	}
+	
+});
+
+// Avoiding MooTools.lang dependency
+(function() {
+	var phrases = {
+		'progressOverall': 'Overall Progress ({total})',
+		'currentTitle': 'File Progress',
+		'currentFile': 'Uploading "{name}"',
+		'currentProgress': 'Upload: {bytesLoaded} with {rate}, {timeRemaining} remaining.',
+		'fileName': '{name}',
+		'remove': 'Remove',
+		'removeTitle': 'Click to remove this entry.',
+		'fileError': 'Upload failed',
+		'validationErrors': {
+			'duplicate': 'File <em>{name}</em> is already added, duplicates are not allowed.',
+			'sizeLimitMin': 'File <em>{name}</em> (<em>{size}</em>) is too small, the minimal file size is {fileSizeMin}.',
+			'sizeLimitMax': 'File <em>{name}</em> (<em>{size}</em>) is too big, the maximal file size is <em>{fileSizeMax}</em>.',
+			'fileListMax': 'File <em>{name}</em> could not be added, amount of <em>{fileListMax} files</em> exceeded.',
+			'fileListSizeMax': 'File <em>{name}</em> (<em>{size}</em>) is too big, overall filesize of <em>{fileListSizeMax}</em> exceeded.'
+		},
+		'errors': {
+			'httpStatus': 'Server returned HTTP-Status <code>#{code}</code>',
+			'securityError': 'Security error occured ({text})',
+			'ioError': 'Error caused a send or load operation to fail ({text})'
+		}
+	};
+	
+	if (MooTools.lang) {
+		MooTools.lang.set('en-US', 'FancyUpload', phrases);
+	} else {
+		MooTools.lang = {
+			get: function(from, key) {
+				return phrases[key];
+			}
+		};
+	}
+})();

@@ -204,9 +204,10 @@ abstract class JHtmlBehavior
 		return;
 	}
 
-	public static function uploader($id='file-upload', $params = array())
+	public static function uploader($id='file-upload', $params = array(), $upload_queue='upload-queue')
 	{
 		JHtml::script('swf.js');
+		JHtml::script('progressbar.js');
 		JHtml::script('uploader.js');
 
 		static $uploaders;
@@ -221,17 +222,27 @@ abstract class JHtmlBehavior
 
 		// Setup options object
 		$opt['url']					= (isset($params['targetURL'])) ? $params['targetURL'] : null ;
-		$opt['swf']					= (isset($params['swf'])) ? $params['swf'] : JURI::root(true).'/media/system/swf/uploader.swf';
+		$opt['path']				= (isset($params['swf'])) ? $params['swf'] : JURI::root(true).'/media/system/swf/uploader.swf';
+		$opt['height']				= (isset($params['height'])) && $params['height'] ? (int)$params['height'] : null;
+		$opt['width']				= (isset($params['width'])) && $params['width'] ? (int)$params['width'] : null;
 		$opt['multiple']			= (isset($params['multiple']) && !($params['multiple'])) ? '\\false' : '\\true';
-		$opt['queued']				= (isset($params['queued']) && !($params['queued'])) ? '\\false' : '\\true';
-		$opt['queueList']			= (isset($params['queueList'])) ? $params['queueList'] : 'upload-queue';
+		$opt['queued']				= (isset($params['queued']) && !($params['queued'])) ? (int)$params['queued'] : null;
+		$opt['target']				= (isset($params['target'])) ? $params['target'] : '\\$(\'upload-browse\')';
 		$opt['instantStart']		= (isset($params['instantStart']) && ($params['instantStart'])) ? '\\true' : '\\false';
 		$opt['allowDuplicates']		= (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? '\\false' : '\\true';
-		$opt['limitSize']			= (isset($params['limitSize']) && ($params['limitSize'])) ? (int)$params['limitSize'] : null;
-		$opt['limitFiles']			= (isset($params['limitFiles']) && ($params['limitFiles'])) ? (int)$params['limitFiles'] : null;
-		$opt['optionFxDuration']	= (isset($params['optionFxDuration'])) ? (int)$params['optionFxDuration'] : null;
-		$opt['container']			= (isset($params['container'])) ? '\\$('.$params['container'].')' : '\\$(\''.$id.'\').getParent()';
-		$opt['types']				= (isset($params['types'])) ?'\\'.$params['types'] : '\\{\'All Files (*.*)\': \'*.*\'}';
+		// limitSize is the old parameter name.  Remove in 1.7
+		$opt['fileSizeMax']			= (isset($params['limitSize']) && ($params['limitSize'])) ? (int)$params['limitSize'] : null;
+		// fileSizeMax is the new name.  If supplied, it will override the old value specified for limitSize
+		$opt['fileSizeMax']			= (isset($params['fileSizeMax']) && ($params['fileSizeMax'])) ? (int)$params['fileSizeMax'] : $opt['fileSizeMax'];
+		$opt['fileSizeMin']			= (isset($params['fileSizeMin']) && ($params['fileSizeMin'])) ? (int)$params['fileSizeMin'] : null;
+		// limitFiles is the old parameter name.  Remove in 1.7
+		$opt['fileListMax']			= (isset($params['limitFiles']) && ($params['limitFiles'])) ? (int)$params['limitFiles'] : null;
+		// fileListMax is the new name.  If supplied, it will override the old value specified for limitFiles
+		$opt['fileListMax']			= (isset($params['fileListMax']) && ($params['fileListMax'])) ? (int)$params['fileListMax'] : $opt['fileListMax'];
+		$opt['fileListSizeMax']		= (isset($params['fileListSizeMax']) && ($params['fileListSizeMax'])) ? (int)$params['fileListSizeMax'] : null;
+		// types is the old parameter name.  Remove in 1.7
+		$opt['typeFilter']			= (isset($params['types'])) ?'\\'.$params['types'] : '\\{\'All Files (*.*)\': \'*.*\'}';
+		$opt['typeFilter']			= (isset($params['typeFilter'])) ?'\\'.$params['typeFilter'] : $opt['typeFilter'];
 
 
 		// Optional functions
@@ -239,18 +250,53 @@ abstract class JHtmlBehavior
 		$opt['onComplete']			= (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
 		$opt['onAllComplete']		= (isset($params['onAllComplete'])) ? '\\'.$params['onAllComplete'] : null;
 
-/*  types: Object with (description: extension) pairs, default: Images (*.jpg; *.jpeg; *.gif; *.png)
- */
+		$opt['onLoad'] = 			
+			'\\function() {
+				document.id(\''.$id.'\').removeClass(\'hide\'); // we show the actual UI
+				document.id(\'uploader-noflash\').destroy(); // ... and hide the plain form
+			
+				// We relay the interactions with the overlayed flash to the link
+				this.target.addEvents({
+					click: function() {
+						return false;
+					},
+					mouseenter: function() {
+						this.addClass(\'hover\');
+					},
+					mouseleave: function() {
+						this.removeClass(\'hover\');
+						this.blur();
+					},
+					mousedown: function() {
+						this.focus();
+					}
+				});
+
+				// Interactions for the 2 other buttons
+			
+				document.id(\'upload-clear\').addEvent(\'click\', function() {
+					Uploader.remove(); // remove all files
+					return false;
+				});
+
+				document.id(\'action-upload\').addEvent(\'click\', function() {
+					Uploader.start(); // start upload
+					return false;
+				});
+			}';
 
 		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
 		$document = &JFactory::getDocument();
-		$uploaderInit = 'sBrowseCaption=\''.JText::_('Browse Files', true).'\';
-				sRemoveToolTip=\''.JText::_('Remove from queue', true).'\';
-				window.addEvent(\'load\', function(){
-				var Uploader = new FancyUpload($(\''.$id.'\'), '.$options.');
-				$(\'upload-clear\').adopt(new Element(\'input\', { type: \'button\', events: { click: Uploader.clearList.bind(Uploader, [false])}, value: \''.JText::_('Clear Completed').'\' }));				});';
+		$uploaderInit = //'sBrowseCaption=\''.JText::_('Browse Files', true).'\';
+				//sRemoveToolTip=\''.JText::_('Remove from queue', true).'\';
+				'window.addEvent(\'domready\', function(){
+				var Uploader = new FancyUpload2($(\''.$id.'\'), $(\''.$upload_queue.'\'), '.$options.'
+
+
+				);
+			});';
 		$document->addScriptDeclaration($uploaderInit);
 
 		// Set static array

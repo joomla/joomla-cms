@@ -53,9 +53,7 @@ if (strpos($cmd, '.') != false)
 	} else {
 		JError::raiseError(500, 'Invalid Controller');
 	}
-}
-else
-{
+} else {
 	// Base controller, just set the task :)
 	$controllerName = null;
 	$task = $cmd;

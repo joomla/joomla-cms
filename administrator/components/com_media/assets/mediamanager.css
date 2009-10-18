@@ -47,7 +47,77 @@
 /**
  * Upload Widget CSS
  */
-.upload-queue {
+
+
+#uploader-flash .progress {
+	background: url(./progress-bar/progress.gif) no-repeat;
+	background-position: +50% 0;
+	margin-right: 0.5em;
+	vertical-align: middle;
+}
+
+#upload-queue {
+	list-style: none;
+	clear:both;
+	margin-left:25px;
+	padding:10px;
+}
+
+#upload-queue li.file {
+	border-bottom: 1px solid #eee;
+	background: url(upload.png) no-repeat 4px 6px;
+	border:1px solid #ccc;
+	overflow: auto;
+}
+
+#upload-queue li.file.file-uploading {
+	background-image: url(uploading.png);
+	background-color: #D9DDE9;
+}
+
+#upload-queue li.file.file-success {
+	background-image: url(success.png);
+}
+
+#upload-queue li.file.file-failed {
+	background-image: url(failed.png);
+}
+
+#upload-queue li.file .file-name {
+	font-size: 1.2em;
+	margin-left: 25px;
+	display: block;
+	clear: left;
+	line-height: 20px;
+	height: 20px;
+	font-weight: bold;
+}
+
+#upload-queue li.file .file-remove {
+	font-size: 0.9em;	
+	float: right;
+	line-height: 18px;
+	margin-right: 6px;
+}
+
+
+#upload-queue li.file .file-size {
+	font-size: 0.9em;
+	line-height: 18px;
+	float: right;
+	margin-right: 6px;
+}
+
+#upload-queue li.file .file-info {
+	display: block;
+	margin-left: 44px;
+	font-size: 0.9em;
+	line-height: 18px;
+}
+
+
+
+/*.upload-queue {
 	list-style: none;
 }
 
@@ -92,4 +162,8 @@
 	text-decoration: none;
 	border: none;
 	float: right;
+}
+*/
+.overall-title, .current-title {
+	font-size:12px;
 }

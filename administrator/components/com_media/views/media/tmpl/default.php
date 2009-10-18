@@ -66,11 +66,27 @@
             <form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JUtility::getToken();?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
                 <fieldset>
                     <legend><?php echo JText::_('UPLOAD_FILE'); ?> (<?php echo JText::_('MAXIMUM_SIZE'); ?>:&nbsp;<?php echo ($this->config->get('upload_maxsize') / 1000000); ?>MB)</legend>
-                    <fieldset class="actions">
+                    <fieldset id="uploader-noflash" class="actions">
                         <input type="file" id="file-upload" name="Filedata" />
                         <input type="submit" id="file-upload-submit" value="<?php echo JText::_('START_UPLOAD'); ?>"/>
                         <span id="upload-clear"></span>
                     </fieldset>
+                    <div id="uploader-flash" class="hide">
+						<p>
+							<a href="#" id="upload-browse">Browse Files</a> |
+							<a href="#" id="upload-clear">Clear List</a> |
+							<a href="#" id="action-upload">Start Upload</a>
+						</p>
+						<div >
+							<strong class="overall-title"></strong><br />
+							<img src="components/com_media/assets/progress-bar/bar.gif" class="progress overall-progress" />
+						</div>
+						<div style="clear:both">
+							<strong class="current-title"></strong><br />
+							<img src="components/com_media/assets/progress-bar/bar.gif" class="progress current-progress" />
+						</div>
+						<div class="current-text"></div>
+					</div>
                     <ul class="upload-queue" id="upload-queue">
                         <li style="display: none" />
                     </ul>
