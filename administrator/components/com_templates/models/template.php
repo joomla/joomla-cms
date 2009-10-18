@@ -181,7 +181,7 @@ class TemplatesModelTemplate extends JModel
 	function _loadData()
 	{
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_paramsets))
+		if (empty($this->_paramsets) && empty($this->_data))
 		{
 			$query = 'SELECT * FROM #__menu_template WHERE template = '.$this->_db->Quote($this->_template);
 			$this->_db->setQuery($query);
@@ -197,7 +197,6 @@ class TemplatesModelTemplate extends JModel
 			}
 			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
 			$tBaseDir	= JPath::clean($this->_client->path.DS.'templates');
-
 
 			if (!is_dir($tBaseDir . DS . $this->_template)) {
 				return JError::raiseWarning(500, JText::_('Template folder not found'));

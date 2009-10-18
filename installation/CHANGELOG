@@ -36,6 +36,7 @@ $ -> Language fix or change
 ^ Merged editor windows for article editing
 ^ Added/Fixed access field in newsfeeds
 ^ Moved com_messages links in admin menu to component menu
+^ com_templates now uses codemirror to edit HTML
 
 16-Oct-2009 Ron Severdia
 ^ Extension Manager fixes

@@ -57,7 +57,7 @@
 <?php
 $k = 0;
 $i = 0;
-foreach($this->rows as $row) {
+foreach($this->rows as $template => $row) {
 	$author_info = @ $row->xmldata->authorEmail . '<br />' . @ $row->xmldata->authorUrl;
 	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$row->name.'/template_thumbnail.png';
 ?>
@@ -71,7 +71,7 @@ foreach($this->rows as $row) {
 			<td>
 				<span class="editlinktip hasTip" title="<?php echo $row->name;?>::
 <img border=&quot;1&quot; src=&quot;<?php echo $img_path; ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?php echo JText::_( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />">
-					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&template=' . $row->name . '&client=' . $this->client->id); ?>"><?php echo $row->name;?></a>
+					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&template=' . $template . '&client=' . $this->client->id); ?>"><?php echo $row->name;?></a>
 				</span>
 			</td>
 			<?php

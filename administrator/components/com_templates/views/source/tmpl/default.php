@@ -2,6 +2,9 @@
 
 <?php
 	$template_path = $this->client->path .DS. 'templates' .DS. $this->template .DS. 'index.php';
+	jimport('joomla.html.editor');
+
+	$editor = &JEditor::getInstance('codemirror');
 ?>
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
@@ -40,7 +43,7 @@
 
 		<h3><?php echo $template_path; ?></h3>
 		<div class="clr"></div>
-		<textarea id="codeedit" cols="110" rows="25" name="filecontent" class="inputbox"><?php echo $this->content; ?></textarea>
+		<?php echo $editor->display('filecontent', $this->content, '100%', '300px', '30', '50', false); ?>
 		<div class="clr"></div>
 
 <input type="hidden" name="template" value="<?php echo $this->template; ?>" />
