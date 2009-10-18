@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Oct-2009 Mark Dexter
+# Fix problems in jos_menu, jos_categories sample data
+
 18-Oct-2009 Ron Severdia
 + Version 0.1 of Austere template
 
