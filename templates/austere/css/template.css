@@ -1,0 +1,121 @@
+@charset "UTF-8";
+
+/* A variation on Eric Meyer's CSS Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {margin: 0;padding: 0;border: 0;outline: 0;font-weight: inherit;font-style: inherit;font-size: 100%;font-family: inherit;vertical-align: baseline;}
+:focus {outline: 0;}
+body {line-height: 1;color: black;background: white;}
+ol, ul {list-style: none;}
+table {border-collapse:collapse;border-spacing: 0;}
+caption, th, td {text-align: left;font-weight: normal;}
+blockquote:before, blockquote:after, q:before, q:after {content: "";}
+blockquote, q {quotes: "" "";}
+abbr,acronym {border:0;} 
+	
+/* Structure styles */	
+body{color:#666;text-align:center;font:13px/140% Helvetica, Arial, sans-serif;}
+#pagewidth{width:960px;text-align:left;margin:0 auto;} 
+#header{float:left;margin:0 0 28px;position:relative;width:960px;}
+#twocols{border-top:1px solid #999;float:left;padding:30px 0;width:960px;}
+#rightcol{float:right;width:320px;}
+#maincol{float:left;display:inline;position: relative;width:600px;} 
+#footer{clear:both;float:left;margin:40px 0 0;} 
+/* Float containers fix */ 
+.clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;} 
+.clearfix{display: inline-block;}
+
+/*printer styles*/@media print{ 
+/*hide the right/left column when printing*/#rightcol, #leftcol{display:none;} #twocols, #maincol{width:100%; float:none;}}
+
+/* Basic Content Elements */
+#sitename{color:#00a3e0;float:left; font-weight:bold;line-height:66px;margin:20px 0 0;} #sitename a {text-decoration:none;}
+h1, h2, h3 {color:#333;font-family:Georgia, "Times New Roman", Times, serif; font-weight:normal;}
+h1 {font-size:86px;}
+h2 {font-size:24px;margin:0 0 20px;}
+.jarticles-featured h2{color:#666;}
+h3 {font-size:24px;margin:0 0 20px;}
+h4 {font-size:16px;}
+h5 {font-size:14px;}
+h6 {}
+p{margin:0 0 15px;}
+p.last, #contact-form {border-bottom:1px solid #999;margin:0 0 40px;padding:0 0 20px;}
+p.publishing-info {color:#757575;margin:0 0 20px 10px;font-size:12px;}
+.module {border-bottom:1px solid #999;float:left;margin:0 0 40px;}
+.author {font-weight:bold;}
+.inputbox {border:1px solid #999; height:14px;padding:3px 0;} .inputbox:focus {background:#fbfaf4;border:1px solid #00a3e0;}
+.button {background:#00a3e0;border:none;color:#fff;height:22px;padding:0 15px;}
+.button:hover {background:#75AF10;}
+label {float:left; padding:0 0 0 10px;}
+#maincol img {border:1px solid #999;padding:3px;}
+
+/* Links */
+a, a:visited {color:#00a3e0;}
+a:hover, a:active {color:#75AF10;}
+
+/* Lists */
+#rightcol ul{list-style:outside}
+dl dt {font-size:18px; margin:0 0 10px;}
+.jcategories-list ul{list-style:outside;margin:0 0 20px 20px;}
+.jcategories-list li{margin:0 0 3px;}
+
+/* Search */
+.search {float:right;margin:28px 0 0;}
+#mod_search_searchword {float:left;margin:0 20px 0 0;width:200px;}
+
+/* Navigation */
+.hidden {display:none;}
+#navigation{float:right;margin:18px 0 0;position:relative;width:60%;}
+#navigation ul.menu_menu {float:right;list-style:none;}
+#navigation ul.menu_menu li {display:inline;font-size:16px;font-weight:bold;margin:0 0 0 20px; text-transform:uppercase;}
+
+/*User Menu*/
+.moduletable_menu {margin:0 0 40px;}
+.moduletable_menu ul{margin:0 0 0 25px;}
+
+li.active a, li.active a:visited {color:#75AF10;}
+li.hover a, li.active a:active {color:#75AF10;}
+
+/* Feature Area */
+#feature {background:#dcdbd8;float:left;font: 18px/140% Georgia, "Times New Roman", Times, serif; margin:28px 0 -28px; padding:30px;width:900px;}
+#feature p {margin:0;}
+/*General Module Stuff*/
+#rightcol .moduletable{margin:0 0 40px;}
+#rightcol .moduletable h3{font-size:24px;margin:0 0 20px;}
+
+/*Forms*/
+#jformcatid{height:23px;}
+#jformdescription{height:60px;}
+table label{margin:10px 0 0;}
+.inputbox, .radiobtn_no, .radiobtn_yes{float:none;}
+#adminForm label {float:none;}
+#adminForm table tr{line-height:34px;}
+
+/* Login Form */
+#form-login-username, #form-login-password {clear:both; float:left; margin:0 0 20px; width:100%;}
+#form-login-remember {border-bottom:1px dotted #999; float:left;margin:3px 0 0 120px;} #form-login-remember label {padding:0;}
+#modlgn_passwd, #modlgn_username {float:right;width:200px;}
+#form-login-username label, #form-login-password label{float:left;padding:0 0 0 10px;}
+#form-login-username br, #form-login-password br{display:none;}
+#form-login .input .button {float:right;}
+#form-login ul{margin:20px 0 0 23px;}
+#login-account {clear:both;float:left;margin:20px 0 0;width:270px;}
+#login-remember {border:none;margin:2px 0 0 2px;}
+
+/*Article Layouts*/
+.jseparator{border-bottom:1px solid #ccc;height:1%;margin:20px 0 40px;}
+.jarticle h3, .jarticles-featured h3{float:left;margin:0 58px 20px 0;width:542px;}
+.jactions{position:absolute;right:0px;width:58px;}
+.jactions li{float:left; margin:0 0 0 5px;}
+.jiteminfo{float:left;font-size:11px;margin:-2px 0 20px 15px;width:585px;}
+.jcreated-date{color:#333;font-weight:bold;}
+.jcreated-by{font-weight:bold;}
+
+
+#gototop { display:none; font-weight:bold; font-family:tahoma; font-size:10px; width:70px; background:url(/wp-content/themes/walshbook/images/add_content_spr.gif) 5px -8px no-repeat #eceff5; color:#3b5998; font-size:11px; text-decoration:none; position:fixed; right:5px; bottom:5px; padding:7px 7px 7px 20px; } 
+#gototop:hover { text-decoration:underline; }
