@@ -247,8 +247,8 @@ abstract class JHtmlBehavior
 
 		// Optional functions
 		$opt['createReplacement']	= (isset($params['createReplacement'])) ? '\\'.$params['createReplacement'] : null;
-		$opt['onComplete']			= (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
-		$opt['onAllComplete']		= (isset($params['onAllComplete'])) ? '\\'.$params['onAllComplete'] : null;
+		$opt['onFileComplete']			= (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
+		$opt['onComplete']		= (isset($params['onAllComplete'])) ? '\\'.$params['onAllComplete'] : null;
 
 		$opt['onLoad'] = 			
 			'\\function() {

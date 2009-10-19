@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Oct-2009 Ian MacLennan
+ # Fixed updated Uploader to reload Files frame
+
 18-Oct-2009 Mark Dexter
 # Fix problems in jos_menu, jos_categories sample data
 
