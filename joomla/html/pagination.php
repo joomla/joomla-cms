@@ -72,8 +72,12 @@ class JPagination extends JObject
 			$this->limitstart = 0;
 		}
 
+		/*
+		 * If limitstart is greater than total (i.e. we are asked to display records that don't exist)
+		 * then set limitstart to display the last natural page of results
+		 */
 		if ($this->limitstart > $this->total) {
-			$this->limitstart -= $this->limitstart % $this->limit;
+			$this->limitstart = (int)(ceil($this->total / $this->limit) - 1) * $this->limit;
 		}
 
 		// Set the total pages and current page values.
