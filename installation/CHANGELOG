@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Oct-2009 Ercan Ozkaya
+ ^ Updated MooTools core to 1.2.4
+ ^ Merged branch erdsiger (com_massmail is merged into com_users)
+
 20-Oct-2009 Ian MacLennan
  # Fixed regression in flash uploader.
 

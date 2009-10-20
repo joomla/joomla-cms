@@ -91,10 +91,11 @@ if ($user->authorise('core.manage', 'com_users'))
 	);
 
 	$menu->addSeparator();
-	if ($user->authorise('core.manage', 'com_massmail'))
-	{
-		$menu->addChild(new JMenuNode(JText::_('Mod_menu_Mass_Mail_Users'), 'index.php?option=com_massmail', 'class:massmail'));
-	}
+
+	$menu->addChild(
+		new JMenuNode(JText::_('Mod_menu_Mass_Mail_Users'), 'index.php?option=com_users&view=mail', 'class:massmail')
+	);
+
 	$menu->getParent();
 }
 
@@ -240,7 +241,6 @@ $menu->addChild(
 );
 $menu->addSeparator();
 
-// TO DO: ADD TARGET=BLANK TO EXTERNAL LINKS
 $menu->addChild(
 	new JMenuNode(JText::_('Mod_Menu_Help_Support_Forum'), 'http://forum.joomla.org', 'class:help-forum', false, '_blank')
 );

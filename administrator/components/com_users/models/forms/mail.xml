@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields>
+	
+		<field
+			id="recurse"
+			name="recurse"
+			type="checkbox"
+			value="1"
+			label="Users_Mail_Recurse"
+			description="Users_Mail_Recurse_Desc"
+		/>
+			
+		<field
+			id="mode"
+			name="mode"
+			type="checkbox"
+			value="1"
+			label="Users_Mail_Send_In_HTML_Mode"
+			description="Users_Mail_Send_In_HTML_Mode_Desc"
+		/>
+		
+		<field
+			id="group"
+			name="group"
+			type="usergroups"
+			size="10"
+			default="0"
+			label="Users_Mail_Group"
+			description="Users_Mail_Group_Desc">
+			
+			<option value="0">MassMail_All_Users_Groups</option>
+		</field>
+
+		<field
+			id="bcc"
+			name="bcc"
+			type="checkbox"
+			value="1"
+			default="1"
+			label="Users_Mail_Recipients_as_BCC"
+			description="Users_Mail_Send_as_Blind_Carbon_Copy"
+		/>
+		
+		<field
+			id="subject"
+			name="subject"
+			type="text"
+			size="30"
+			maxlength="150"
+			class="inputbox"
+			label="Users_Mail_Subject"
+			description="Users_Mail_Subject_Desc"
+		/>
+		
+		<field
+			id="message"
+			name="message"
+			type="textarea"
+			rows="20"
+			cols="70"
+			class="inputbox"
+			label="Users_Mail_Message"
+			description="Users_Mail_Message_Desc"
+		/>
+		
+	</fields>
+	
+</form>
