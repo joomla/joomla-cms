@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			id="id"
+			name="id"
+			type="hidden"
+			class="inputbox"
+			label="Weblink_Id_Label"
+			size="10"
+			default="0"
+			required="true"
+			readonly="true" />
+
+		<field
+			id="title"
+			name="title"
+			type="text"
+			label="JField_Title_Label"
+			description="JField_Title_Desc"
+			class="inputbox"
+			size="30"
+			required="true" />
+
+		<field
+			id="alias"
+			name="alias"
+			type="text"
+			label="JField_Alias_Label"
+			description="JField_Alias_Desc"
+			class="inputbox"
+			size="45"
+			default=""
+			filter="unset" />
+
+		<field
+			id="description"
+			name="description"
+			type="editor"
+			label="Weblink_Description_Label"
+			description="Weblink_Description_Desc"
+			class="inputbox"
+			filter="safehtml" />
+
+		<field
+			id="state"
+			name="state"
+			type="list"
+			label="JField_Published_Label"
+			description="JField_Published_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option
+				value="1">
+				JOption_Published</option>
+			<option
+				value="0">
+				JOption_UnPublished</option>
+		</field>
+
+		<field
+			id="catid"
+			name="catid"
+			type="Categories"
+			extension="com_weblinks"
+			label="JField_Category_Label"
+			description="JField_Category_Desc"
+			class="inputbox"
+			required="true" />
+
+		<field
+			id="url"
+			name="url"
+			type="text"
+			label="Weblinks_Url_Label"
+			description="Weblinks_Url_Desc"
+			class="inputbox"
+			size="45"
+			required="true" />
+	</fields>
+</form>

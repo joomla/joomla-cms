@@ -17,6 +17,7 @@ jimport('joomla.application.component.controller');
 class ContentControllerArticle extends JController
 {
 	protected $_context = 'com_content.edit.article';
+
 	/**
 	 * Constructor
 	 */
@@ -38,12 +39,8 @@ class ContentControllerArticle extends JController
 	 * @return	object	The model.
 	 * @since	1.5
 	 */
-	public function &getModel($name = '', $prefix = '', $config = array())
+	public function &getModel($name = 'form', $prefix = '', $config = array())
 	{
-		if (empty($name)) {
-			$name = 'form';
-		}
-
 		return parent::getModel($name, $prefix, $config);
 	}
 
