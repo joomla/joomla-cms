@@ -253,7 +253,7 @@ abstract class JHtmlBehavior
 		$opt['onLoad'] = 			
 			'\\function() {
 				document.id(\''.$id.'\').removeClass(\'hide\'); // we show the actual UI
-				document.id(\'uploader-noflash\').destroy(); // ... and hide the plain form
+				document.id(\'upload-noflash\').destroy(); // ... and hide the plain form
 			
 				// We relay the interactions with the overlayed flash to the link
 				this.target.addEvents({

@@ -46,7 +46,7 @@ class MediaViewMedia extends JView
 		JHtml::stylesheet('mootree.css');
 
 		if ($config->get('enable_flash', 1)) {
-			JHtml::_('behavior.uploader', 'uploader-flash', 
+			JHtml::_('behavior.uploader', 'upload-flash', 
 				array(
 					'onAllComplete' => 'function(){ MediaManager.refreshFrame(); }',
 					'targetURL' => '\\$(\'uploadForm\').action'

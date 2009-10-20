@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Oct-2009 Ian MacLennan
+ # Fixed regression in flash uploader.
+
 19-Oct-2009 Ron Severdia
 # Fixed small bugs in Media Manager and validation errors
 

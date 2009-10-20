@@ -71,7 +71,6 @@
                         <input type="file" id="upload-file" name="Filedata" />
                         <label for="upload-submit" class="hidelabeltxt"><?php echo JText::_('START_UPLOAD'); ?></label>
                         <input type="submit" id="upload-submit" value="<?php echo JText::_('START_UPLOAD'); ?>"/>
-                        <!-- <span id="upload-clear"></span> -->
                     </fieldset>
                     <div id="upload-flash" class="hide">
 						<ul>
