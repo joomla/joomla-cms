@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Oct-2009 Ron Severdia
+# Fixed small bugs in Media Manager and validation errors
+
 19-Oct-2009 Ian MacLennan
  # Fixed updated Uploader to reload Files frame
 

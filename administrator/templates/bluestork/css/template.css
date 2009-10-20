@@ -1,4 +1,4 @@
- @charset "UTF-8";
+@charset "UTF-8";
 
  /**
  * @version		$Id$
@@ -58,10 +58,10 @@ h1 {
 
 h3 { font-size: 13px; }
 
+* :focus, a:active { outline:none }
 a:link    { color: #025A8D; text-decoration: none; outline: none; }
 a:visited { color: #025A8D; text-decoration: none; outline: none; }
 a:hover   { text-decoration: underline; }
-a:focus   { -moz-outline-style: none; }
 
 fieldset {
 	margin-bottom: 10px;
@@ -108,6 +108,9 @@ p.error { color: red; font-weight: bold; }
 .allow {color: green;}
 .deny {color: red;}
 .none {color: #aaa;}
+
+.hide {display:none}
+.hidelabeltxt {text-indent:-9999em;}
 
 
 /* -- OVERALL STYLES ----------------------------- */
@@ -508,7 +511,6 @@ fieldset label {
 	clear:left;
 	margin: 5px 5px 2px 0;
 }
-
 
 
 fieldset ul {
@@ -1550,7 +1552,7 @@ div#config #submenu-box div.b div.b{background:transparent url(../images/j_crn_b
 div#config #submenu-box div.b div.b div.b{background:transparent url(../images/j_crn_bl_dark.png) no-repeat scroll 0}
 div#config #submenu li{float:left;margin:0;padding:0}
 div#config #submenu li a,div#config #submenu span.nolink{border-right:1px solid #CCC;color:#0B55C4;cursor:pointer;font-weight:700;height:12px;line-height:12px;padding:0 15px}
-div#config #submenu li:last-child a{border-right:none}
+div#config #submenu li:last-child a {border-right:none}
 div#config #submenu a.active,div#config #submenu span.nolink.active{color:#000;text-decoration:underline}
 div#config #submenu-box{background:#F6F6F6 none repeat scroll 0;margin-bottom:10px}
 div#config #submenu-box .padding{padding:0}
@@ -1705,14 +1707,14 @@ fieldset.filter .right {
 
 
 /* -- ACL STYLES relocated from com_users/media/grid.css ----------- */
-* :focus,a:active{outline:none}
-a.move_up{background-image:url(../images/admin/uparrow.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
-span.move_up{background-image:url../images/admin/uparrow0.png);display:inline-block;height:16px;width:16px}
-a.move_down{background-image:url(../images/admin/downarrow.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
-span.move_down{background-image:url(../images/admin/downarrow0.png);display:inline-block;height:16px;width:16px}
-a.grid_false{background-image:url(../images/admin/publish_x.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
-a.grid_true{background-image:url(../images/admin/tick.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
-a.grid_trash{background-image:url(../images/admin/icon-16-trash.png);display:inline-block;height:16px;text-indent:-1000em;width:16px}
+
+a.move_up{background-image:url('../images/admin/uparrow.png');display:inline-block;height:16px;text-indent:-1000em;width:16px}
+span.move_up{background-image:url('../images/admin/uparrow0.png');display:inline-block;height:16px;width:16px}
+a.move_down{background-image:url('../images/admin/downarrow.png');display:inline-block;height:16px;text-indent:-1000em;width:16px}
+span.move_down{background-image:url('../images/admin/downarrow0.png');display:inline-block;height:16px;width:16px}
+a.grid_false{background-image:url('../images/admin/publish_x.png');display:inline-block;height:16px;text-indent:-1000em;width:16px}
+a.grid_true{background-image:url('../images/admin/tick.png');display:inline-block;height:16px;text-indent:-1000em;width:16px}
+a.grid_trash{background-image:url('../images/admin/icon-16-trash.png');display:inline-block;height:16px;text-indent:-1000em;width:16px}
 
 
 /* -- ACL PANEL STYLES  ----------- */

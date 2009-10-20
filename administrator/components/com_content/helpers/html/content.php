@@ -41,8 +41,8 @@ abstract class JHtmlContent
 	function Legend()
 	{
 		?>
-		<table cellspacing="0" cellpadding="4" border="0" align="center">
-		<tr align="center">
+		<table class="center">
+		<tr>
 			<td>
 			<img src="images/publish_y.png" width="16" height="16" border="0" alt="<?php echo JText::_('Pending'); ?>" />
 			</td>
@@ -75,7 +75,7 @@ abstract class JHtmlContent
 			</td>
 		</tr>
 		<tr>
-			<td colspan="10" align="center">
+			<td colspan="10" class="center">
 			<?php echo JText::_('Click on icon to toggle state.'); ?>
 			</td>
 		</tr>
