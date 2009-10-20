@@ -1,13 +1,12 @@
 <?php
-
 /**
+ * @version		$Id$
  * @package		Joomla.Site
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @author		Steve Fisher
- * @website		http://stevefisher.ca
- * @email		hello@stevefisher.ca
  */
+
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.mootools');
 
@@ -17,7 +16,6 @@ $app = JFactory::getApplication();
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 	<head>
 		<jdoc:include type="head" />
-		<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template.css" type="text/css" />
 		<!--[if IE]>
 			<link type="text/css" rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template_ie.css" />
@@ -53,7 +51,7 @@ $app = JFactory::getApplication();
             		<jdoc:include type="modules" name="right" style="xhtml" />
                 </div>
                 <div id="footer">
-				&copy; <?php echo date("Y"); ?> <?php echo $app->getCfg('sitename'); ?>
+				&copy; <?php echo date('Y'); ?> <?php echo $app->getCfg('sitename'); ?>
 				</div>
            	</div>
 		</div><a href="#top" id="gototop" class="no-click no-print">Top of Page</a>
