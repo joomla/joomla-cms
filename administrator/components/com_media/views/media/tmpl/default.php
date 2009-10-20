@@ -74,10 +74,11 @@
                     </fieldset>
                     <div id="upload-flash" class="hide">
 						<ul>
-							<li><a href="#" id="upload-browse">Browse Files</a> |</li>
-							<li><a href="#" id="upload-clear">Clear List</a> |</li>
+							<li><a href="#" id="upload-browse">Browse Files</a></li>
+							<li><a href="#" id="upload-clear">Clear List</a></li>
 							<li><a href="#" id="upload-start">Start Upload</a></li>
 						</ul>
+						<div class="clr"> </div>
 						<div>
 							<strong class="overall-title"></strong><br />
 							<img src="components/com_media/assets/progress-bar/bar.gif" alt="<?php echo JText::_('OVERALL_PROGRESS'); ?>" class="progress overall-progress" />

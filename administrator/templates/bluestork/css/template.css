@@ -793,6 +793,16 @@ input.text-area-order {
 	margin-right: 5px;
 }
 
+/* TO DO: Fix lines in menu manager uploader */
+div#upload-flash ul li {
+	float:left;
+	clear:right;
+	margin-left: 10px;
+	/* border-right: 1px solid #ccc;*/
+}
+
+
+
 /* Hack until HRs are removed from panels  */
 div.paramrow hr,
 fieldset.panelform hr {
