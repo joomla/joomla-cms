@@ -55,6 +55,7 @@
 			label="JField_Published_Label"
 			description="JField_Published_Desc"
 			class="inputbox"
+			filter="intval"
 			size="1"
 			default="1">
 			<option

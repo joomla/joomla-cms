@@ -26,7 +26,7 @@ class ContentController extends JController
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'content.php';
 
 		// Get the document object.
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'articles');
