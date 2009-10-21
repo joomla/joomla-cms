@@ -42,6 +42,13 @@ class JPagination extends JObject
 	public $total = null;
 
 	/**
+	 * Prefix used for request variables.
+	 *
+	 * @var int
+	 */
+	public $prefix = null;
+
+	/**
 	 * View all flag
 	 *
 	 * @var boolean
@@ -54,13 +61,15 @@ class JPagination extends JObject
 	 * @param	int		The total number of items.
 	 * @param	int		The offset of the item to start at.
 	 * @param	int		The number of items to display per page.
+	 * @param	string		The prefix used for request variables.
 	 */
-	function __construct($total, $limitstart, $limit)
+	function __construct($total, $limitstart, $limit, $prefix = '')
 	{
 		// Value/type checking.
 		$this->total		= (int) $total;
 		$this->limitstart	= (int) max($limitstart, 0);
 		$this->limit		= (int) max($limit, 0);
+		$this->prefix		= $prefix;
 
 		if ($this->limit > $this->total) {
 			$this->limitstart = 0;
@@ -192,6 +201,7 @@ class JPagination extends JObject
 		$data = $this->_buildDataObject();
 
 		$list = array();
+		$list['prefix']			= $this->prefix;
 
 		$itemOverride = false;
 		$listOverride = false;
@@ -282,6 +292,7 @@ class JPagination extends JObject
 		$app = JFactory::getApplication();
 
 		$list = array();
+		$list['prefix']			= $this->prefix;
 		$list['limit']			= $this->limit;
 		$list['limitstart']		= $this->limitstart;
 		$list['total']			= $this->total;
@@ -325,10 +336,10 @@ class JPagination extends JObject
 
 		// Build the select list.
 		if ($app->isAdmin()) {
-			$html = JHtml::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="submitform();"', 'value', 'text', $selected);
+			$html = JHtml::_('select.genericlist',  $limits, $this->prefix . 'limit', 'class="inputbox" size="1" onchange="submitform();"', 'value', 'text', $selected);
 		}
 		else {
-			$html = JHtml::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected);
+			$html = JHtml::_('select.genericlist',  $limits, $this->prefix . 'limit', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected);
 		}
 		return $html;
 	}
@@ -401,7 +412,7 @@ class JPagination extends JObject
 		$html .= $list['pageslinks'];
 		$html .= "\n<div class=\"counter\">".$list['pagescounter']."</div>";
 
-		$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"".$list['limitstart']."\" />";
+		$html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"".$list['limitstart']."\" />";
 		$html .= "\n</div>";
 
 		return $html;
@@ -431,10 +442,10 @@ class JPagination extends JObject
 		if ($app->isAdmin())
 		{
 			if ($item->base > 0) {
-				return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$item->base."; submitform();return false;\">".$item->text."</a>";
+				return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.." . $this->prefix . "limitstart.value=".$item->base."; submitform();return false;\">".$item->text."</a>";
 			}
 			else {
-				return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=0; submitform();return false;\">".$item->text."</a>";
+				return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.." . $this->prefix . "limitstart.value=0; submitform();return false;\">".$item->text."</a>";
 			}
 		}
 		else {
@@ -464,15 +475,15 @@ class JPagination extends JObject
 		// Initialize variables.
 		$data = new stdClass();
 
-		$data->all = new JPaginationObject(JText::_('View All'));
+		$data->all = new JPaginationObject(JText::_('View All'), $this->prefix);
 		if (!$this->_viewall) {
 			$data->all->base	= '0';
-			$data->all->link	= JRoute::_("&limitstart=");
+			$data->all->link	= JRoute::_("&" . $this->prefix . "limitstart=");
 		}
 
 		// Set the start and previous data objects.
-		$data->start	= new JPaginationObject(JText::_('Start'));
-		$data->previous	= new JPaginationObject(JText::_('Prev'));
+		$data->start	= new JPaginationObject(JText::_('Start'), $this->prefix);
+		$data->previous	= new JPaginationObject(JText::_('Prev'), $this->prefix);
 
 		if ($this->get('pages.current') > 1)
 		{
@@ -481,14 +492,14 @@ class JPagination extends JObject
 			$page = $page == 0 ? '' : $page; //set the empty for removal from route
 
 			$data->start->base	= '0';
-			$data->start->link	= JRoute::_("&limitstart=");
+			$data->start->link	= JRoute::_("&" . $this->prefix . "limitstart=");
 			$data->previous->base	= $page;
-			$data->previous->link	= JRoute::_("&limitstart=".$page);
+			$data->previous->link	= JRoute::_("&" . $this->prefix . "limitstart=".$page);
 		}
 
 		// Set the next and end data objects.
-		$data->next	= new JPaginationObject(JText::_('Next'));
-		$data->end	= new JPaginationObject(JText::_('End'));
+		$data->next	= new JPaginationObject(JText::_('Next'), $this->prefix);
+		$data->end	= new JPaginationObject(JText::_('End'), $this->prefix);
 
 		if ($this->get('pages.current') < $this->get('pages.total'))
 		{
@@ -496,9 +507,9 @@ class JPagination extends JObject
 			$end  = ($this->get('pages.total') -1) * $this->limit;
 
 			$data->next->base	= $next;
-			$data->next->link	= JRoute::_("&limitstart=".$next);
+			$data->next->link	= JRoute::_("&" . $this->prefix . "limitstart=".$next);
 			$data->end->base	= $end;
-			$data->end->link	= JRoute::_("&limitstart=".$end);
+			$data->end->link	= JRoute::_("&" . $this->prefix . "limitstart=".$end);
 		}
 
 		$data->pages = array();
@@ -509,11 +520,11 @@ class JPagination extends JObject
 
 			$offset = $offset == 0 ? '' : $offset;  //set the empty for removal from route
 
-			$data->pages[$i] = new JPaginationObject($i);
+			$data->pages[$i] = new JPaginationObject($i, $this->prefix);
 			if ($i != $this->get('pages.current') || $this->_viewall)
 			{
 				$data->pages[$i]->base	= $offset;
-				$data->pages[$i]->link	= JRoute::_("&limitstart=".$offset);
+				$data->pages[$i]->link	= JRoute::_("&" . $this->prefix . "limitstart=".$offset);
 			}
 		}
 		return $data;
@@ -532,10 +543,12 @@ class JPaginationObject extends JObject
 	public $text;
 	public $base;
 	public $link;
+	public $prefix;
 
-	public function __construct($text, $base = null, $link = null)
+	public function __construct($text, $prefix = '', $base = null, $link = null)
 	{
 		$this->text = $text;
+		$this->prefix = $prefix;
 		$this->base = $base;
 		$this->link = $link;
 	}
