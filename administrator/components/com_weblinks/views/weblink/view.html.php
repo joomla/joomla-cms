@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the WebLinks component
+ * View to edit a weblink.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_weblinks
@@ -19,18 +19,18 @@ jimport('joomla.application.component.view');
  */
 class WeblinksViewWeblink extends JView
 {
-	public $state;
-	public $item;
-	public $form;
+	protected $state;
+	protected $item;
+	protected $form;
 
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$item		= $this->get('Item');
-		$form		= $this->get('Form');
+		$state	= $this->get('State');
+		$item	= $this->get('Item');
+		$form 	= $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -38,15 +38,15 @@ class WeblinksViewWeblink extends JView
 			return false;
 		}
 
-		// Bind the label to the form.
+		// Bind the record to the form.
 		$form->bind($item);
 
 		$this->assignRef('state',	$state);
 		$this->assignRef('item',	$item);
 		$this->assignRef('form',	$form);
 
-		parent::display($tpl);
 		$this->_setToolbar();
+		parent::display($tpl);
 	}
 
 	/**
@@ -56,18 +56,34 @@ class WeblinksViewWeblink extends JView
 	 */
 	protected function _setToolbar()
 	{
-		JRequest::setVar('hidemainmenu', 1);
+		JRequest::setVar('hidemainmenu', true);
+
+		$user		= &JFactory::getUser();
+		$isNew		= ($this->item->id == 0);
+		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+		$canDo		= WeblinksHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 
 		JToolBarHelper::title(JText::_('Weblinks_Manager_Weblink'));
-		JToolBarHelper::save('weblink.save');
-		JToolBarHelper::apply('weblink.apply');
-		JToolBarHelper::addNew('weblink.save2new', 'JToolbar_Save_and_new');
+
+		// If an existing item, can save to a copy.
+		if (!$isNew && $canDo->get('core.create')) {
+			JToolBarHelper::custom('weblink.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_Copy', false);
+		}
+
+		// If not checked out, can save the item.
+		if (!$checkedOut && $canDo->get('core.edit'))
+		{
+			JToolBarHelper::save('weblink.save');
+			JToolBarHelper::apply('weblink.apply');
+			JToolBarHelper::addNew('weblink.save2new', 'JToolbar_Save_and_new');
+		}
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('weblink.cancel');
 		}
 		else {
 			JToolBarHelper::cancel('weblink.cancel', 'JToolbar_Close');
 		}
+
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.weblink.edit');
 	}

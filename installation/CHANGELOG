@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Oct-2009 Andrew Eddie
+ + Added language field to weblinks table.
+ ^ Added permission checks to com_weblinks (with associated refactoring).
+
 21-Oct-2009 Ian MacLennan
  # Fixed start upload button to adjust to markup changes
 

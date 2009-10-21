@@ -348,7 +348,6 @@ UPDATE `#__modules`
 ALTER TABLE `jos_newsfeeds`
  CHANGE `id` `id` integer(11) UNSIGNED NOT NULL auto_increment;
 
-
 ALTER TABLE `jos_newsfeeds`
  CHANGE `name` `name` varchar(100) NOT NULL DEFAULT '';
 
@@ -466,6 +465,11 @@ CREATE TABLE  `#__update_categories` (
 ALTER TABLE `jos_weblinks`
  ADD COLUMN `access` INT UNSIGNED NOT NULL DEFAULT 1 AFTER `approved`;
 
+ALTER TABLE `jos_weblinks`
+ ADD `language` char(7) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_weblinks`
+ ADD INDEX `idx_language` (`language`);
 
 
 -- ----------------------------------------------------------------

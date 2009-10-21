@@ -54,6 +54,11 @@ JHtml::_('behavior.formvalidation');
 			<div class="clr"></div>
 			<?php echo $this->form->getInput('description'); ?>
 
+			<?php echo $this->form->getLabel('access'); ?><br />
+			<?php echo $this->form->getInput('access'); ?>
+
+			<?php echo $this->form->getLabel('language'); ?><br />
+			<?php echo $this->form->getInput('language'); ?>
 	</fieldset>
 </div>
 <div class="width-30 fltrt">
@@ -73,6 +78,7 @@ JHtml::_('behavior.formvalidation');
 
 	</fieldset>
 </div>
+
 <div class="clr"></div>
 
 	<input type="hidden" name="task" value="" />

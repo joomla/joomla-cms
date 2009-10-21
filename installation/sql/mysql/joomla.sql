@@ -971,8 +971,10 @@ CREATE TABLE `#__weblinks` (
   `approved` tinyint(1) NOT NULL default '1',
   `access` integer NOT NULL default '1',
   `params` text NOT NULL,
+  `language` char(7) NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
-  KEY `catid` (`catid`,`state`,`archived`)
+  KEY `catid` (`catid`,`state`,`archived`),
+  INDEX `idx_language` (`language`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the WebLinks component
+ * View class for a list of weblinks.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_weblinks
@@ -19,14 +19,12 @@ jimport('joomla.application.component.view');
  */
 class WeblinksViewWeblinks extends JView
 {
-	public $state;
-	public $items;
-	public $pagination;
+	protected $state;
+	protected $items;
+	protected $pagination;
 
 	/**
 	 * Display the view
-	 *
-	 * @return	void
 	 */
 	public function display($tpl = null)
 	{
@@ -40,12 +38,12 @@ class WeblinksViewWeblinks extends JView
 			return false;
 		}
 
-		$this->assignRef('state',			$state);
-		$this->assignRef('items',			$items);
-		$this->assignRef('pagination',		$pagination);
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
+		$this->assignRef('pagination',	$pagination);
 
-		parent::display($tpl);
 		$this->_setToolbar();
+		parent::display($tpl);
 	}
 
 	/**
@@ -53,29 +51,33 @@ class WeblinksViewWeblinks extends JView
 	 */
 	protected function _setToolbar()
 	{
-		$user	= JFactory::getUser();
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'weblinks.php';
+
+		$state	= $this->get('State');
+		$canDo	= WeblinksHelper::getActions($state->get('filter.category_id'));
 
 		JToolBarHelper::title(JText::_('Weblinks_Manager_Weblinks'), 'generic.png');
-		if ($user->authorise('core.create', 'com_weblinks')) {
+		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('weblink.add');
 		}
-		if ($user->authorise('core.edit', 'com_weblinks')) {
+		if ($canDo->get('core.edit')) {
 			JToolBarHelper::editList('weblink.edit');
 		}
-			JToolBarHelper::divider();
-		if ($user->authorise('core.edit.state', 'com_weblinks'))
-		{
-			JToolBarHelper::publishList('weblinks.publish');
-			JToolBarHelper::unpublishList('weblinks.unpublish');
+		JToolBarHelper::divider();
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::custom('weblinks.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
+			JToolBarHelper::custom('weblinks.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
+			if ($state->get('filter.published') != -1) {
+				JToolBarHelper::archiveList('weblinks.archive');
+			}
 		}
-		if ($this->state->get('filter.state') == -2 && $user->authorise('core.delete', 'com_weblinks')) {
-			JToolBarHelper::deleteList('', 'weblinks.delete', 'JToolbar_Empty_trash');
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+			JToolBarHelper::deleteList('', 'weblinks.delete');
 		}
-		else if ($user->authorise('core.edit.state', 'com_weblinks')){
+		else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('weblinks.trash');
 		}
-		if ($user->authorise('core.admin', 'com_weblinks'))
-		{
+		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_weblinks');
 		}

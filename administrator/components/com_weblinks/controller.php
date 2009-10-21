@@ -22,6 +22,8 @@ class WeblinksController extends JController
 	 */
 	function display()
 	{
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'weblinks.php';
+
 		// Get the document object.
 		$document = &JFactory::getDocument();
 
@@ -46,7 +48,6 @@ class WeblinksController extends JController
 			$view->display();
 
 			// Load the submenu.
-			require_once JPATH_COMPONENT.DS.'helpers'.DS.'weblinks.php';
 			WeblinksHelper::addSubmenu($vName);
 		}
 	}

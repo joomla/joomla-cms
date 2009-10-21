@@ -35,27 +35,24 @@ class WeblinksHelper
 			$vName == 'categories'
 		);
 	}
+
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @param	int		The category ID.
-	 * @param	int		The article ID.
 	 *
 	 * @return	JObject
 	 */
-	public static function getActions($categoryId = 0, $articleId = 0)
+	public static function getActions($categoryId = 0)
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($articleId) && empty($categoryId)) {
+		if (empty($categoryId)) {
 			$assetName = 'com_weblinks';
 		}
-		else if (empty($articleId)) {
-			$assetName = 'com_weblinks.category.'.(int) $categoryId;
-		}
 		else {
-			$assetName = 'com_weblinks.weblink.'.(int) $articleId;
+			$assetName = 'com_weblinks.category.'.(int) $categoryId;
 		}
 
 		$actions = array(
