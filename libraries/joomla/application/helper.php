@@ -21,6 +21,11 @@ defined('JPATH_BASE') or die;
 class JApplicationHelper
 {
 	/**
+	 * Client information array
+	 */
+	protected static $_clients = null;
+
+	/**
 	 * Return the name of the request component [main component]
 	 *
 	 * @param	string $default The default option
@@ -59,10 +64,8 @@ class JApplicationHelper
 	 */
 	public static function &getClientInfo($id = null, $byName = false)
 	{
-		static $clients;
-
 		// Only create the array if it does not exist
-		if (!is_array($clients))
+		if (self::$_clients === null)
 		{
 			$obj = new stdClass();
 
@@ -70,36 +73,36 @@ class JApplicationHelper
 			$obj->id	= 0;
 			$obj->name	= 'site';
 			$obj->path	= JPATH_SITE;
-			$clients[0] = clone $obj;
+			self::$_clients[0] = clone $obj;
 
 			// Administrator Client
 			$obj->id	= 1;
 			$obj->name	= 'administrator';
 			$obj->path	= JPATH_ADMINISTRATOR;
-			$clients[1] = clone $obj;
+			self::$_clients[1] = clone $obj;
 
 			// Installation Client
 			$obj->id	= 2;
 			$obj->name	= 'installation';
 			$obj->path	= JPATH_INSTALLATION;
-			$clients[2] = clone $obj;
+			self::$_clients[2] = clone $obj;
 		}
 
 		// If no client id has been passed return the whole array
 		if (is_null($id)) {
-			return $clients;
+			return self::$_clients;
 		}
 
 		// Are we looking for client information by id or by name?
 		if (!$byName)
 		{
-			if (isset($clients[$id])){
-				return $clients[$id];
+			if (isset(self::$_clients[$id])){
+				return self::$_clients[$id];
 			}
 		}
 		else
 		{
-			foreach ($clients as $client)
+			foreach (self::$_clients as $client)
 			{
 				if ($client->name == strtolower($id)) {
 					return $client;
@@ -108,6 +111,34 @@ class JApplicationHelper
 		}
 		$null = null;
 		return $null;
+	}
+
+	/**
+	 * Adds information for a client.
+	 *
+	 * @param	mixed	A client identifier either an array or object
+	 * @return	boolean	True if the information is added. False on error
+	 * @since	1.6
+	 */
+	public static function addClientInfo($client)
+	{
+		if (is_array($client)) {
+			$client = (object) $client;
+		}
+
+		if (!is_object($client)) {
+			return false;
+		}
+
+		$info = &self::getClientInfo();
+
+		if (!isset($client->id)) {
+			$client->id = count($info);
+		}
+
+		$info[$client->id] = clone $client;
+
+		return true;
 	}
 
 	/**
