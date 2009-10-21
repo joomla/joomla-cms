@@ -15,6 +15,7 @@ jimport('joomla.application.component.controller');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
+ * @since		1.6
  */
 class NewsfeedsControllerNewsfeeds extends JController
 {
@@ -51,7 +52,7 @@ class NewsfeedsControllerNewsfeeds extends JController
 	}
 
 	/**
-	 * Remove a record.
+	 * Method to remove a record.
 	 */
 	public function delete()
 	{

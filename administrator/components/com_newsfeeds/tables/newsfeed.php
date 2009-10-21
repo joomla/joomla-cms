@@ -19,78 +19,92 @@ class NewsfeedsTableNewsfeed extends JTable
 	/**
 	 * @var int Primary key
 	 */
-	var $id = null;
+	public $id = null;
+
 	/**
 	 * @var int
 	 */
-	var $catid = null;
+	public $catid = null;
+
 	/**
 	 * @var string
 	 */
-	var $name = null;
+	public $name = null;
+
 	/**
 	 * @var string
 	 */
-	var $alias = null;
+	public $alias = null;
+
 	/**
 	 * @var string
 	 */
-	var $link = null;
+	public $link = null;
+
 	/**
 	 * @var string
 	 */
-	var $filename = null;
+	public $filename = null;
+
 	/**
 	 * @var int
 	 */
-	var $published = null;
+	public $published = null;
+
 	/**
 	 * @var int
 	 */
-	var $numarticles = null;
+	public $numarticles = null;
+
 	/**
 	 * @var int
 	 */
-	var $cache_time = null;
+	public $cache_time = null;
+
 	/**
 	 * @var int
 	 */
-	var $checked_out = 0;
+	public $checked_out = 0;
+
 	/**
 	 * @var time
 	 */
-	var $checked_out_time = 0;
+	public $checked_out_time = 0;
+
 	/**
 	 * @var int
 	 */
-	var $ordering = null;
+	public $ordering = null;
+
 	/**
 	 * @var int
 	 */
-	var $rtl = 0;
+	public $rtl = 0;
+
 	/**
 	 * @var int
 	 */
-	var $access = 0;
+	public $access = 0;
+
 	/**
 	 * @var string
 	 */
-	var $language = 'en-GB';
+	public $language = 'en-GB';
 
 	/**
-	 * @param database A database connector object
+	 * Constructor
+	 *
+	 * @param JDatabase A database connector object
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__newsfeeds', 'id', $db);
 	}
 
 	/**
-	 * Overloaded check function
+	 * Overloaded check method to ensure data integrity.
 	 *
-	 * @return	boolean
-	 * @see		JTable::check
-	 * @since	1.5
+	 * @return	boolean	True on success.
 	 */
 	function check()
 	{

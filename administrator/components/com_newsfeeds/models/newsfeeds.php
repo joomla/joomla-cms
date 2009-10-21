@@ -15,7 +15,7 @@ jimport('joomla.database.query');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
- * @version		1.5
+ * @since		1.6
  */
 class NewsfeedsModelNewsfeeds extends JModelList
 {
@@ -28,16 +28,14 @@ class NewsfeedsModelNewsfeeds extends JModelList
 
 	/**
 	 * Method to auto-populate the model state.
-	 *
-	 * @since	1.6
 	 */
 	protected function _populateState()
 	{
 		// Initialize variables.
 		$app		= &JFactory::getApplication('administrator');
 		$params		= JComponentHelper::getParams('com_newsfeeds');
-		$context	= $this->_context.'.';
 
+		// Load the filter state.
 		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
@@ -47,10 +45,10 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$published = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_published', '', 'string');
 		$this->setState('filter.state', $published);
 
-		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.catid', 'catid', null, 'int');
-		$this->setState('filter.catid', $categoryId);
+		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.category_id', 'catid', null, 'int');
+		$this->setState('filter.category_id', $categoryId);
 
-		// List state information
+		// List state information.
 		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 		$this->setState('list.limit', $limit);
 
@@ -77,7 +75,6 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	 * @param	string		$id	A prefix for the store id.
 	 *
 	 * @return	string		A store id.
-	 * @since	1.6
 	 */
 	protected function _getStoreId($id = '')
 	{
@@ -110,7 +107,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 				'list.select',
 				'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid,' .
 				'a.numarticles, a.cache_time, ' .
-				' a.published, a.access, a.ordering, a.language')
+				' a.published, a.access, a.ordering, a.language'
+			)
 		);
 		$query->from('`#__newsfeeds` AS a');
 
@@ -128,22 +126,22 @@ class NewsfeedsModelNewsfeeds extends JModelList
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access')) {
-			$query->where('a.access = ' . (int) $access);
+			$query->where('a.access = '.(int) $access);
 		}
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
 		if (is_numeric($published)) {
-			$query->where('a.published = ' . (int) $published);
+			$query->where('a.published = '.(int) $published);
 		}
 		else if ($published === '') {
-			$query->where('(a.published = 0 OR a.published = 1)');
+			$query->where('(a.published IN (0, 1))');
 		}
 
 		// Filter by category.
 		$categoryId = $this->getState('filter.category_id');
 		if (is_numeric($categoryId)) {
-			$query->where('a.state = ' . (int) $published);
+			$query->where('a.catid = ' . (int) $categoryId);
 		}
 
 		// Filter by search in title

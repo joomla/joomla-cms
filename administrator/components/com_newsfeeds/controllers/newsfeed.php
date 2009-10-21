@@ -11,8 +11,11 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controllerform');
 
 /**
+ * Newsfeed controller class.
+ *
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
+ * @since		1.6
  */
 class NewsfeedsControllerNewsfeed extends JControllerForm
 {

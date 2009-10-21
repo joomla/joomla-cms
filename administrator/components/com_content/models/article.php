@@ -20,8 +20,6 @@ class ContentModelArticle extends JModelForm
 {
 	/**
 	 * Method to auto-populate the model state.
-	 *
-	 * @return	void
 	 */
 	protected function _populateState()
 	{

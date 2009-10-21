@@ -11,8 +11,11 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
+ * View to edit a newsfeed.
+ *
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
+ * @since		1.6
  */
 class NewsfeedsViewNewsfeed extends JView
 {
@@ -35,6 +38,7 @@ class NewsfeedsViewNewsfeed extends JView
 			return false;
 		}
 
+		// Bind the record to the form.
 		$form->bind($item);
 
 		$this->assignRef('state',	$state);

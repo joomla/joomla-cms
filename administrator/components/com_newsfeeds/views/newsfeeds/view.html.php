@@ -11,8 +11,11 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
+ * View class for a list of newsfeeds.
+ *
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
+ * @since		1.6
  */
 class NewsfeedsViewNewsfeeds extends JView
 {
@@ -48,11 +51,11 @@ class NewsfeedsViewNewsfeeds extends JView
 	 */
 	protected function _setToolbar()
 	{
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'weblinks.php';
+
 		$state	= $this->get('State');
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'newsfeeds.php';
 		$canDo	= NewsfeedsHelper::getActions($state->get('filter.category_id'));
 
-		JHtml::_('behavior.modal', 'a.modal');
 		JToolBarHelper::title(JText::_('Newsfeeds_Manager_Newsfeeds'), 'generic.png');
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('newsfeed.add');

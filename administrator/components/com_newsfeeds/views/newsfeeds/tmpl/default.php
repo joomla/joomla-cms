@@ -56,8 +56,8 @@ $userId	= $user->get('id');
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Published', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="10%">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Category', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<th width="20%">
+					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Category', 'category_title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Ordering', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -103,7 +103,7 @@ $userId	= $user->get('id');
 						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 					<?php if ($canCreate || $canEdit) : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&newsfeed_id='.(int) $item->id); ?>">
+						<a href="<?php echo JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id='.(int) $item->id); ?>">
 							<?php echo $this->escape($item->name); ?></a>
 					<?php else : ?>
 							<?php echo $this->escape($item->name); ?>

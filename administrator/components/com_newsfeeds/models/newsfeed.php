@@ -15,13 +15,12 @@ jimport('joomla.application.component.modelform');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
+ * @since		1.6
  */
 class NewsfeedsModelNewsfeed extends JModelForm
 {
 	/**
 	 * Method to auto-populate the model state.
-	 *
-	 * @return	void
 	 */
 	protected function _populateState()
 	{
