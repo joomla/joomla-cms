@@ -63,7 +63,7 @@ jimport('joomla.language.language');
 jimport('joomla.utilities.string');
 
 // Create the application object.
-$app = & JFactory::getApplication('installation');
+$app = &JFactory::getApplication('installation');
 
 // Initialize the application.
 $app->initialise();
@@ -71,7 +71,5 @@ $app->initialise();
 // Render the document.
 $app->render();
 
-/**
- * RETURN THE RESPONSE
- */
-echo JResponse::toString();
+// Return the response.
+echo $app;

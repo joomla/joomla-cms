@@ -852,4 +852,16 @@ class JApplication extends JObject
 	{
 		return ($this->_clientId == 0);
 	}
+
+	/**
+	 * Returns the response
+	 *
+	 * @return	string
+	 * @since	1.6
+	 */
+	public function __toString()
+	{
+		$compress = $this->getCfg('gzip', false);
+		return JResponse::toString($compress);
+	}
 }

@@ -49,4 +49,4 @@ $app->render();
 JDEBUG ? $_PROFILER->mark('afterRender') : null;
 
 // Return the response.
-echo JResponse::toString($app->getCfg('gzip'));
+echo $app;
