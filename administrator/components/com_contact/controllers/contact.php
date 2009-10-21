@@ -71,9 +71,6 @@ class ContactControllerContact extends JController
 	 * Method to edit an existing contact
 	 *
 	 * Sets object ID in the session from the request, checks the item out, and then redirects to the edit page.
-	 *
-	 * @access	public
-	 * @return	void
 	 */
 	function edit()
 	{
@@ -121,9 +118,6 @@ class ContactControllerContact extends JController
 	 * Method to cancel an edit
 	 *
 	 * Checks the item in, sets item ID in the session to null, and then redirects to the list page.
-	 *
-	 * @access	public
-	 * @return	void
 	 */
 	function cancel()
 	{
@@ -159,8 +153,6 @@ class ContactControllerContact extends JController
 	/**
 	 * Method to save a contact
 	 *
-	 * @access	public
-	 * @return	void
 	 * @since	1.0
 	 */
 	function save()
@@ -314,8 +306,6 @@ class ContactControllerContact extends JController
 	/**
 	 * Method to publish a list of taxa
 	 *
-	 * @access	public
-	 * @return	void
 	 * @since	1.0
 	 */
 	function publish()

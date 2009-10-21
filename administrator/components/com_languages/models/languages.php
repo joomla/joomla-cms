@@ -23,7 +23,6 @@ class LanguagesModelLanguages extends JModelList
 	/**
 	 * Model context string.
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	 protected $_context = 'com_languages.languages';

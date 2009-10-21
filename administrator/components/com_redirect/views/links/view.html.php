@@ -16,16 +16,14 @@ jimport('joomla.application.component.view');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_redirect
- * @version		1.6
+ * @since		1.6
  */
 class RedirectViewLinks extends JView
 {
 	/**
 	 * Display the view.
-	 *
-	 * @since	1.6
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Get data from the model.
 		$state		= $this->get('State');
@@ -56,12 +54,8 @@ class RedirectViewLinks extends JView
 
 	/**
 	 * Build the default toolbar.
-	 *
-	 * @access	protected
-	 * @return	void
-	 * @since	1.6
 	 */
-	function buildDefaultToolBar()
+	protected function buildDefaultToolBar()
 	{
 		JToolBarHelper::title('Redirect', 'redirect');
 		JToolBarHelper::custom('link.add', 'new.png', 'new_f2.png', 'New', false);

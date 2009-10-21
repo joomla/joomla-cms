@@ -62,7 +62,6 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Model context string.
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	 protected $_context = 'com_languages.installed';
@@ -294,7 +293,6 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the folders
 	 *
-	 * @access protected
 	 * @return array languages folders
 	 */
 	protected function _getFolders()
@@ -311,7 +309,6 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the path
 	 *
-	 * @access protected
 	 * @return string the path to the languages folders
 	 */
 	protected function _getPath()
@@ -327,7 +324,6 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to compare two languages in order to sort them
 	 *
-	 * @access protected
 	 * @param object $lang1 the first language
 	 * @param object $lang2 the second language
 	 * @return integer

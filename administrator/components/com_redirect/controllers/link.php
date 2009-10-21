@@ -22,12 +22,8 @@ class RedirectControllerLink extends JController
 {
 	/**
 	 * Overridden constructor to register alternate tasks
-	 *
-	 * @access	protected
-	 * @return	void
-	 * @since	1.6
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -42,24 +38,16 @@ class RedirectControllerLink extends JController
 
 	/**
 	 * Dummy method to redirect back to standard controller
-	 *
-	 * @access	public
-	 * @return	void
-	 * @since	1.6
 	 */
-	function display()
+	public function display()
 	{
 		$this->setRedirect('index.php?option=com_redirect');
 	}
 
 	/**
 	 * Method to add a new redirect link.
-	 *
-	 * @access	public
-	 * @return	void
-	 * @since	1.6
 	 */
-	function add()
+	public function add()
 	{
 		// Initialize variables.
 		$app = & JFactory::getApplication();
@@ -73,12 +61,8 @@ class RedirectControllerLink extends JController
 
 	/**
 	 * Method to setup a redirect link for editing and redirect to the edit form.
-	 *
-	 * @access	public
-	 * @return	void
-	 * @since	1.6
 	 */
-	function edit()
+	public function edit()
 	{
 		// Initialize variables.
 		$app	= & JFactory::getApplication();
@@ -102,12 +86,8 @@ class RedirectControllerLink extends JController
 	 * Method to cancel an edit
 	 *
 	 * Sets item id in the session to null, and then redirects to the list screen.
-	 *
-	 * @access	public
-	 * @return	void
-	 * @since	1.6
 	 */
-	function cancel()
+	public function cancel()
 	{
 		// Initialize variables.
 		$app = & JFactory::getApplication();
@@ -121,12 +101,8 @@ class RedirectControllerLink extends JController
 
 	/**
 	 * Method to delete redirect links.
-	 *
-	 * @access	public
-	 * @return	void
-	 * @since	1.6
 	 */
-	function delete()
+	public function delete()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
@@ -152,12 +128,8 @@ class RedirectControllerLink extends JController
 
 	/**
 	 * Method to save a redirect link.
-	 *
-	 * @access	public
-	 * @return	void
-	 * @since	1.6
 	 */
-	function save()
+	public function save()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
@@ -248,12 +220,8 @@ class RedirectControllerLink extends JController
 
 	/**
 	 * Method to activate a list of links
-	 *
-	 * @access	public
-	 * @return	void
-	 * @since	1.6
 	 */
-	function activate()
+	public function activate()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
@@ -282,12 +250,8 @@ class RedirectControllerLink extends JController
 
 	/**
 	 * Method to set the published state of links.
-	 *
-	 * @access	public
-	 * @return	void
-	 * @since	1.6
 	 */
-	function publish()
+	public function publish()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));

@@ -23,7 +23,6 @@ class CheckinModelCheckin extends JModel
 	/**
 	 * Checks in requested tables
 	 *
-	 * @access	public
 	 * @param  	array	An array of table names. Optional.
 	 * @return	array	Checked in table names as keys and checked in item count as values
 	 * @since	1.6

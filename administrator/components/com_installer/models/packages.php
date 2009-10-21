@@ -30,7 +30,6 @@ class InstallerModelPackages extends InstallerModel
 
 	/**
 	 * Overridden constructor
-	 * @access	protected
 	 */
 	function __construct()
 	{

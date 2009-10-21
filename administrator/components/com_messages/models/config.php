@@ -20,7 +20,6 @@ class MessagesModelConfig extends JModel
 	/**
 	 * The id of the current user.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $user_id;

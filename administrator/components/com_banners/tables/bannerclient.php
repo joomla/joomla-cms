@@ -25,14 +25,14 @@ class TableBannerClient extends JTable
 	var $checked_out_time	= 0;
 	var $editor				= '';
 
-	function __construct(&$_db) {
+	function __construct(&$_db)
+	{
 		parent::__construct('#__bannerclient', 'cid', $_db);
 	}
 
 	/**
 	 * Overloaded check function
 	 *
-	 * @access public
 	 * @return boolean
 	 * @see JTable::check
 	 * @since 1.5

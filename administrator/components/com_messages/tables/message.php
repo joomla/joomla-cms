@@ -23,77 +23,67 @@ class TableMessage extends JTable
 	/**
 	 * Primary Key
 	 *
-	 * @access	public
 	 * @var		int
 	 */
-	var $message_id	= null;
+	public $message_id	= null;
 
 	/**
 	 * Sender's userid
 	 *
-	 * @access	public
 	 * @var		int
 	 */
-	var $user_id_from	= null;
+	public $user_id_from = null;
 
 	/**
 	 * Recipient's userid
 	 *
-	 * @access	public
 	 * @var		int
 	 */
-	var $user_id_to		= null;
+	public $user_id_to = null;
 
 	/**
-	 * @access	public
 	 * @var		int
 	 */
-	var $folder_id			= null;
+	public $folder_id = null;
 
 	/**
 	 * Message creation timestamp
 	 *
-	 * @access	public
 	 * @var		datetime
 	 */
-	var $date_time		= null;
+	public $date_time = null;
 
 	/**
 	 * Message state
 	 *
-	 * @access	public
 	 * @var		int
 	 */
-	var $state				= null;
+	public $state = null;
 
 	/**
 	 * Priority level of the message
 	 *
-	 * @access	public
 	 * @var		int
 	 */
-	var $priority			= null;
+	public $priority = null;
 
 	/**
 	 * The message subject
 	 *
-	 * @access	public
 	 * @var		string
 	 */
-	var $subject			= null;
+	public $subject = null;
 
 	/**
 	 * The message body
 	 *
-	 * @access	public
 	 * @var		text
 	 */
-	var $message			= null;
+	public $message = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @access	protected
 	 * @param database A database connector object
 	 */
 	function __construct(& $db)
@@ -104,14 +94,14 @@ class TableMessage extends JTable
 	/**
 	* Validation and filtering
 	*/
-	function check() {
+	function check()
+	{
 		return true;
 	}
 
 	/**
 	 * Method to send a private message
 	 *
-	 * @access	public
 	 * @param	int		$fromId		Sender's userid
 	 * @param	int		$toId		Recipient's userid
 	 * @param	string	$subject	The message subject
@@ -119,7 +109,7 @@ class TableMessage extends JTable
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function send($fromId = null, $toId = null, $subject = null, $message = null, $mailfrom = null, $fromname = null)
+	public function send($fromId = null, $toId = null, $subject = null, $message = null, $mailfrom = null, $fromname = null)
 	{
 		$app	= &JFactory::getApplication();
 		$db		= &JFactory::getDbo();

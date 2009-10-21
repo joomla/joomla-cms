@@ -16,15 +16,12 @@ jimport('joomla.application.component.view');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_redirect
- * @version		1.6
+ * @since		1.6
  */
 class RedirectViewLink extends JView
 {
 	/**
 	 * Display the view
-	 *
-	 * @return	void
-	 * @since	1.6
 	 */
 	function display($tpl = null)
 	{
@@ -52,12 +49,8 @@ class RedirectViewLink extends JView
 
 	/**
 	 * Build the default toolbar.
-	 *
-	 * @access	protected
-	 * @return	void
-	 * @since	1.6
 	 */
-	function buildDefaultToolBar()
+	protected function buildDefaultToolBar()
 	{
 		if (is_object($this->item)) {
 			$isNew = ($this->item->id == 0);

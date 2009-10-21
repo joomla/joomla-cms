@@ -59,49 +59,7 @@ class ModulesModelModule extends JModel
 		$this->_client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	}
 
-	/**
-	 * Method to set the module identifier
-	 *
-	 * @access	public
-	 * @param	int module identifier
-	 */
-	function setId($id)
-	{
-		// Set module id and wipe data
-		$this->_id		= $id;
-		$this->_data	= null;
-	}
-
-	/**
-	 * Method to get a module
-	 *
-	 * @since 1.6
-	 */
-	function &getData()
-	{
-		// Load the data
-		if (!$this->_loadData())
-			$this->_initData();
-
-		return $this->_data;
-	}
-
-	/**
-	 * Method to get the client object
-	 *
-	 * @since 1.6
-	 */
-	function &getClient()
-	{
-		return $this->_client;
-	}
-
-	function &getModule()
-	{
-		return $this->getData();
-	}
-
-	function &_getXML()
+	protected function &_getXML()
 	{
 		if (!$this->_xml)
 		{
@@ -126,7 +84,103 @@ class ModulesModelModule extends JModel
 		return $this->_xml;
 	}
 
-	function &getParams()
+	/**
+	 * Method to load module data
+	 *
+	 * @return	boolean	True on success
+	 * @since	1.6
+	 */
+	protected function _loadData()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_data))
+		{
+			$query = 'SELECT m.*'.
+					' FROM #__modules AS m' .
+					' WHERE m.id = '.(int) $this->_id;
+			$this->_db->setQuery($query);
+			$this->_data = $this->_db->loadObject();
+			return (boolean) $this->_data;
+		}
+		return true;
+	}
+
+	/**
+	 * Method to initialise the module data
+	 *
+	 * @return	boolean	True on success
+	 * @since	1.6
+	 */
+	protected function _initData()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_data))
+		{
+			$module = new stdClass();
+			$module->id					= 0;
+			$module->title				= null;
+			$module->content			= null;
+			$module->ordering			= 0;
+			$module->position			= null;
+			$module->checked_out		= 0;
+			$module->checked_out_time	= 0;
+			$module->published			= 0;
+			$module->module				= null;
+			$module->numnews			= 0;
+			$module->access				= 0;
+			$module->showtitle			= 0;
+			$module->params				= null;
+			$module->iscore				= 0;
+			$module->client_id			= $this->_client->id;
+			$module->control			= null;
+			$this->_data				= $module;
+			return (boolean) $this->_data;
+		}
+		return true;
+	}
+
+	/**
+	 * Method to set the module identifier
+	 *
+	 * @param	int module identifier
+	 */
+	public function setId($id)
+	{
+		// Set module id and wipe data
+		$this->_id		= $id;
+		$this->_data	= null;
+	}
+
+	/**
+	 * Method to get a module
+	 *
+	 * @since 1.6
+	 */
+	public function &getData()
+	{
+		// Load the data
+		if (!$this->_loadData())
+			$this->_initData();
+
+		return $this->_data;
+	}
+
+	/**
+	 * Method to get the client object
+	 *
+	 * @since 1.6
+	 */
+	public function &getClient()
+	{
+		return $this->_client;
+	}
+
+	public function &getModule()
+	{
+		return $this->getData();
+	}
+
+	public function &getParams()
 	{
 		// Get the state parameters
 		$module	= &$this->getData();
@@ -144,7 +198,7 @@ class ModulesModelModule extends JModel
 		return $params;
 	}
 
-	function getPositions()
+	public function getPositions()
 	{
 		jimport('joomla.filesystem.folder');
 
@@ -195,12 +249,11 @@ class ModulesModelModule extends JModel
 	/**
 	 * Tests if module is checked out
 	 *
-	 * @access	public
 	 * @param	int	A user id
 	 * @return	boolean	True if checked out
 	 * @since	1.6
 	 */
-	function isCheckedOut($uid=0)
+	public function isCheckedOut($uid=0)
 	{
 		if ($this->_id)
 		{
@@ -216,11 +269,10 @@ class ModulesModelModule extends JModel
 	/**
 	 * Method to checkin/unlock the module
 	 *
-	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function checkin()
+	public function checkin()
 	{
 		if ($this->_id)
 		{
@@ -236,12 +288,11 @@ class ModulesModelModule extends JModel
 	/**
 	 * Method to checkout/lock the module
 	 *
-	 * @access	public
 	 * @param	int	$uid	User ID of the user checking out
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function checkout($uid = null)
+	public function checkout($uid = null)
 	{
 		if ($this->_id)
 		{
@@ -265,11 +316,10 @@ class ModulesModelModule extends JModel
 	/**
 	 * Method to store the module
 	 *
-	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function store($data)
+	public function store($data)
 	{
 		$row = &JTable::getInstance('module');
 
@@ -278,7 +328,7 @@ class ModulesModelModule extends JModel
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		
+
 		// Make sure the data table is valid
 		if (!$row->check()) {
 			$this->setError($this->_db->getErrorMsg());
@@ -351,11 +401,10 @@ class ModulesModelModule extends JModel
 	/**
 	 * Method to remove a module
 	 *
-	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		$result = false;
 
@@ -388,11 +437,10 @@ class ModulesModelModule extends JModel
 	/**
 	 * Method to (un)publish a module
 	 *
-	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		$user 	= &JFactory::getUser();
 
@@ -419,11 +467,10 @@ class ModulesModelModule extends JModel
 	/**
 	 * Method to set the access
 	 *
-	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function setAccess($cid = array(), $access = 0)
+	public function setAccess($cid = array(), $access = 0)
 	{
 		if (count($cid))
 		{
@@ -450,11 +497,10 @@ class ModulesModelModule extends JModel
 	/**
 	 * Method to copy modules
 	 *
-	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function copy($cid = array())
+	public function copy($cid = array())
 	{
 		$row 	= &JTable::getInstance('module');
 		$tuples	= array();
@@ -506,11 +552,10 @@ class ModulesModelModule extends JModel
 	/**
 	 * Method to move a module
 	 *
-	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function move($direction)
+	public function move($direction)
 	{
 		$row = &JTable::getInstance('module');
 		if (!$row->load($this->_id)) {
@@ -529,11 +574,10 @@ class ModulesModelModule extends JModel
 	/**
 	 * Method to move a module
 	 *
-	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function saveorder($cid, $order)
+	public function saveorder($cid, $order)
 	{
 		$total		= count($cid);
 
@@ -562,63 +606,6 @@ class ModulesModelModule extends JModel
 			$row->reorder('position = '.$this->_db->Quote($group).' AND client_id = '.(int) $client->id);
 		}
 
-		return true;
-	}
-
-	/**
-	 * Method to load module data
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 * @since	1.6
-	 */
-	function _loadData()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			$query = 'SELECT m.*'.
-					' FROM #__modules AS m' .
-					' WHERE m.id = '.(int) $this->_id;
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
-			return (boolean) $this->_data;
-		}
-		return true;
-	}
-
-	/**
-	 * Method to initialise the module data
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 * @since	1.6
-	 */
-	function _initData()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			$module = new stdClass();
-			$module->id					= 0;
-			$module->title				= null;
-			$module->content			= null;
-			$module->ordering			= 0;
-			$module->position			= null;
-			$module->checked_out		= 0;
-			$module->checked_out_time	= 0;
-			$module->published			= 0;
-			$module->module				= null;
-			$module->numnews			= 0;
-			$module->access				= 0;
-			$module->showtitle			= 0;
-			$module->params				= null;
-			$module->iscore				= 0;
-			$module->client_id			= $this->_client->id;
-			$module->control			= null;
-			$this->_data				= $module;
-			return (boolean) $this->_data;
-		}
 		return true;
 	}
 }

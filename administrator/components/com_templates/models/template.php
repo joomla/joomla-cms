@@ -23,56 +23,56 @@ class TemplatesModelTemplate extends JModel
 	 *
 	 * @var int
 	 */
-	var $_id = null;
+	protected $_id = null;
 
 	/**
 	 * client object
 	 *
 	 * @var object
 	 */
-	var $_client = null;
+	protected $_client = null;
 
 	/**
 	 * params object
 	 *
 	 * @var object
 	 */
-	var $_params = null;
+	protected $_params = null;
 
 	/**
 	 * Template name
 	 *
 	 * @var string
 	 */
-	var $_template = null;
+	protected $_template = null;
 
 	/**
 	 * Template parametersets
 	 *
 	 * @var array
 	 */
-	var $_paramsets = null;
+	protected $_paramsets = null;
 
 	/**
 	 * Currently active parameterset
 	 *
 	 * @var int
 	 */
-	var $_activerecord = null;
+	protected $_activerecord = null;
 
 	/**
 	 * Data of the template
 	 *
 	 * @var object
 	 */
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -87,7 +87,7 @@ class TemplatesModelTemplate extends JModel
 	 *
 	 * @since 1.6
 	 */
-	function &getData()
+	public function &getData()
 	{
 		// Load the data
 		if (!$this->_loadData())
@@ -101,28 +101,28 @@ class TemplatesModelTemplate extends JModel
 	 *
 	 * @since 1.6
 	 */
-	function &getClient()
+	public function &getClient()
 	{
 		return $this->_client;
 	}
 
-	function &getCurrentParams()
+	public function &getCurrentParams()
 	{
 		$this->getData();
 		return $this->_paramsets[$this->_activerecord];
 	}
 
-	function &getTemplate()
+	public function &getTemplate()
 	{
 		return $this->_template;
 	}
 
-	function &getParametersets()
+	public function &getParametersets()
 	{
 		return $this->_paramsets;
 	}
 
-	function &getId()
+	public function &getId()
 	{
 		return $this->_activerecord;
 	}
@@ -130,11 +130,10 @@ class TemplatesModelTemplate extends JModel
 	/**
 	 * Method to store the Template
 	 *
-	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function store($params)
+	public function store($params)
 	{
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
 		$menus		= JRequest::getVar('selections', array(), 'post', 'array');
@@ -174,11 +173,10 @@ class TemplatesModelTemplate extends JModel
 	/**
 	 * Method to load Template data
 	 *
-	 * @access	private
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function _loadData()
+	protected function _loadData()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_paramsets) && empty($this->_data))
@@ -226,7 +224,7 @@ class TemplatesModelTemplate extends JModel
 		return true;
 	}
 
-	function add()
+	public function add()
 	{
 		$query = 'SELECT params FROM #__menu_template WHERE id = '.$this->_db->Quote($this->_id);
 		$this->_db->setQuery($query);
@@ -239,7 +237,7 @@ class TemplatesModelTemplate extends JModel
 		return $this->_db->insertid();
 	}
 
-	function delete()
+	public function delete()
 	{
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
 		$query = 'SELECT COUNT(*) FROM #__menu_template WHERE template = '.$this->_db->Quote($this->_template).
@@ -261,7 +259,7 @@ class TemplatesModelTemplate extends JModel
 		return true;
 	}
 
-	function setDefault()
+	public function setDefault()
 	{
 		$query = 'UPDATE #__menu_template SET home=0 WHERE client_id='.$this->_db->Quote($this->_client->id);
 		$this->_db->setQuery($query);
@@ -275,11 +273,10 @@ class TemplatesModelTemplate extends JModel
 	/**
 	 * Method to initialise the Template data
 	 *
-	 * @access	private
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function _initData()
+	protected function _initData()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))

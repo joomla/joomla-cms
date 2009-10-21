@@ -21,41 +21,40 @@ class RedirectTableLink extends JTable
 	/**
 	 * @var int
 	 */
-	var $id = null;
+	public $id = null;
 	/**
 	 * @var varchar
 	 */
-	var $old_url = null;
+	public $old_url = null;
 	/**
 	 * @var varchar
 	 */
-	var $new_url = null;
+	public $new_url = null;
 	/**
 	 * @var varchar
 	 */
-	var $comment = null;
+	public $comment = null;
 	/**
 	 * @var int unsigned
 	 */
-	var $published = null;
+	public $published = null;
 	/**
 	 * @var int unsigned
 	 */
-	var $created_date = null;
+	public $created_date = null;
 	/**
 	 * @var int unsigned
 	 */
-	var $updated_date = null;
+	public $updated_date = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @access	protected
 	 * @param	object	Database object
 	 * @return	void
 	 * @since	1.0
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__redirect_links', 'id', $db);
 	}
@@ -65,7 +64,7 @@ class RedirectTableLink extends JTable
 	 *
 	 * @return boolean
 	 */
-	function check()
+	public function check()
 	{
 		// check for valid name
 		if((trim($this->old_url)) == '') {

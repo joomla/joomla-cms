@@ -29,7 +29,6 @@ class InstallerModelTemplates extends InstallerModel
 
 	/**
 	 * Overridden constructor
-	 * @access	protected
 	 */
 	function __construct()
 	{

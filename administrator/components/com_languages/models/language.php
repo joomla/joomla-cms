@@ -61,7 +61,6 @@ class LanguagesModelLanguage extends JModelForm
 	/**
 	 * Method to get a member item.
 	 *
-	 * @access	public
 	 * @param	integer	The id of the member to get.
 	 * @return	mixed	User data object on success, false on failure.
 	 * @since	1.0
@@ -91,7 +90,6 @@ class LanguagesModelLanguage extends JModelForm
 	/**
 	 * Method to get the group form.
 	 *
-	 * @access	public
 	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.0
 	 */

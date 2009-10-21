@@ -28,7 +28,6 @@ class InstallerModel extends JModel
 
 	/**
 	 * Overridden constructor
-	 * @access	protected
 	 */
 	function __construct()
 	{

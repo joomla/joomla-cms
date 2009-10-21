@@ -23,35 +23,35 @@ class TemplatesModelSource extends JModel
 	 *
 	 * @var int
 	 */
-	var $_id = null;
+	protected $_id = null;
 
 	/**
 	 * Template data
 	 *
 	 * @var array
 	 */
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * client object
 	 *
 	 * @var object
 	 */
-	var $_client = null;
+	protected $_client = null;
 
 	/**
 	 * Template name
 	 *
 	 * @var string
 	 */
-	var $_template = null;
+	protected $_template = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -60,11 +60,59 @@ class TemplatesModelSource extends JModel
 	}
 
 	/**
+	 * Method to load Template data
+	 *
+	 * @return	boolean	True on success
+	 * @since	1.6
+	 */
+	protected function _loadData()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_data))
+		{
+			$file		= $this->_client->path.DS.'templates'.DS.$this->_template.DS.'index.php';
+
+			// Read the source file
+			jimport('joomla.filesystem.file');
+			$content = JFile::read($file);
+
+			if ($content === false)
+			{
+				$this->setError(JText::sprintf('Operation Failed Could not open', $file));
+				return false;
+			}
+			$content = htmlspecialchars($content, ENT_COMPAT, 'UTF-8');
+
+			$this->_data = $content;
+			return (boolean) $this->_data;
+		}
+		return true;
+	}
+
+	/**
+	 * Method to initialise the Template data
+	 *
+	 * @return	boolean	True on success
+	 * @since	1.6
+	 */
+	protected function _initData()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_data))
+		{
+			$template = new stdClass();
+			$this->_data = $template;
+			return (boolean) $this->_data;
+		}
+		return true;
+	}
+
+	/**
 	 * Method to get a Template
 	 *
 	 * @since 1.6
 	 */
-	function &getData()
+	public function &getData()
 	{
 		// Load the data
 		if (!$this->_loadData())
@@ -78,12 +126,12 @@ class TemplatesModelSource extends JModel
 	 *
 	 * @since 1.6
 	 */
-	function &getClient()
+	public function &getClient()
 	{
 		return $this->_client;
 	}
 
-	function &getTemplate()
+	public function &getTemplate()
 	{
 		return $this->_template;
 	}
@@ -91,11 +139,10 @@ class TemplatesModelSource extends JModel
 	/**
 	 * Method to store the Template
 	 *
-	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function store($filecontent)
+	public function store($filecontent)
 	{
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -125,56 +172,6 @@ class TemplatesModelSource extends JModel
 			return false;
 		}
 
-		return true;
-	}
-
-	/**
-	 * Method to load Template data
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 * @since	1.6
-	 */
-	function _loadData()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			$file		= $this->_client->path.DS.'templates'.DS.$this->_template.DS.'index.php';
-
-			// Read the source file
-			jimport('joomla.filesystem.file');
-			$content = JFile::read($file);
-
-			if ($content === false)
-			{
-				$this->setError(JText::sprintf('Operation Failed Could not open', $file));
-				return false;
-			}
-			$content = htmlspecialchars($content, ENT_COMPAT, 'UTF-8');
-
-			$this->_data = $content;
-			return (boolean) $this->_data;
-		}
-		return true;
-	}
-
-	/**
-	 * Method to initialise the Template data
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 * @since	1.6
-	 */
-	function _initData()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			$template = new stdClass();
-			$this->_data = $template;
-			return (boolean) $this->_data;
-		}
 		return true;
 	}
 }

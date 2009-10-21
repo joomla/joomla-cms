@@ -85,7 +85,6 @@ class MenusHelper
 	/**
 	 * Get the menu list for create a menu module
 	 *
-	 * @access 		public
 	 * @return		array  	The menu array list
 	 * @since		1.6
 	 */

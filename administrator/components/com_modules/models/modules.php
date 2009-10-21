@@ -26,42 +26,42 @@ class ModulesModelModules extends JModel
 	 *
 	 * @var array
 	 */
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * Category total
 	 *
 	 * @var integer
 	 */
-	var $_total = null;
+	protected $_total = null;
 
 	/**
 	 * Pagination object
 	 *
 	 * @var object
 	 */
-	var $_pagination = null;
+	protected $_pagination = null;
 
 	/**
 	 * Filter object
 	 *
 	 * @var object
 	 */
-	var $_filter = null;
+	protected $_filter = null;
 
 	/**
 	 * Client object
 	 *
 	 * @var object
 	 */
-	var $_client = null;
+	protected $_client = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -94,10 +94,9 @@ class ModulesModelModules extends JModel
 	/**
 	 * Method to get Modules item data
 	 *
-	 * @access public
 	 * @return array
 	 */
-	function getData()
+	public function getData()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -112,10 +111,9 @@ class ModulesModelModules extends JModel
 	/**
 	 * Method to get the total number of Module items
 	 *
-	 * @access public
 	 * @return integer
 	 */
-	function getTotal()
+	public function getTotal()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
@@ -130,10 +128,9 @@ class ModulesModelModules extends JModel
 	/**
 	 * Method to get a pagination object for the Modules
 	 *
-	 * @access public
 	 * @return integer
 	 */
-	function getPagination()
+	public function getPagination()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_pagination))
@@ -148,10 +145,9 @@ class ModulesModelModules extends JModel
 	/**
 	 * Method to get filter object for the Modules
 	 *
-	 * @access public
 	 * @return object
 	 */
-	function getFilter()
+	public function getFilter()
 	{
 		return $this->_filter;
 	}
@@ -159,15 +155,14 @@ class ModulesModelModules extends JModel
 	/**
 	 * Method to get the client object
 	 *
-	 * @access public
 	 * @return object
 	 */
-	function getClient()
+	public function getClient()
 	{
 		return $this->_client;
 	}
 
-	function _buildQuery()
+	protected function _buildQuery()
 	{
 		// Get the WHERE and ORDER BY clauses for the query
 		$where		= $this->_buildContentWhere();
@@ -192,13 +187,13 @@ class ModulesModelModules extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	protected function _buildContentOrderBy()
 	{
 		$orderby 	= ' ORDER BY '. $this->_filter->order .' '. $this->_filter->order_Dir .', m.ordering ASC';
 		return $orderby;
 	}
 
-	function _buildContentWhere()
+	protected function _buildContentWhere()
 	{
 		$search				= JString::strtolower($this->_filter->search);
 

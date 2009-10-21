@@ -23,42 +23,42 @@ class TemplatesModelCssedit extends JModel
 	 *
 	 * @var int
 	 */
-	var $_id = null;
+	protected $_id = null;
 
 	/**
 	 * Template data
 	 *
 	 * @var array
 	 */
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * client object
 	 *
 	 * @var object
 	 */
-	var $_client = null;
+	protected $_client = null;
 
 	/**
 	 * filename
 	 *
 	 * @var string
 	 */
-	var $_filename = null;
+	protected $_filename = null;
 
 	/**
 	 * Template name
 	 *
 	 * @var string
 	 */
-	var $_template = null;
+	protected $_template = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -69,91 +69,12 @@ class TemplatesModelCssedit extends JModel
 	}
 
 	/**
-	 * Method to get a Template
-	 *
-	 * @since 1.6
-	 */
-	function &getData()
-	{
-		// Load the data
-		if (!$this->_loadData())
-			$this->_initData();
-
-		return $this->_data;
-	}
-
-	/**
-	 * Method to get the client object
-	 *
-	 * @since 1.6
-	 */
-	function &getClient()
-	{
-		return $this->_client;
-	}
-
-	function &getTemplate()
-	{
-		return $this->_template;
-	}
-
-	function &getId()
-	{
-		return $this->_id;
-	}
-
-	function &getFilename()
-	{
-		return $this->_filename;
-	}
-
-	/**
-	 * Method to store the Template
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 * @since	1.6
-	 */
-	function store($filecontent)
-	{
-		// Set FTP credentials, if given
-		jimport('joomla.client.helper');
-		JClientHelper::setCredentialsFromRequest('ftp');
-		$ftp = JClientHelper::getCredentials('ftp');
-
-		$file = $this->_client->path.DS.'templates'.DS.$this->_template.DS.'css'.DS.$this->_filename;
-
-		// Try to make the css file writeable
-		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
-			$this->setError(JText::_('Could not make the css file writable'));
-			return false;
-		}
-		jimport('joomla.filesystem.file');
-		$return = JFile::write($file, $filecontent);
-
-		// Try to make the css file unwriteable
-		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0555')) {
-			$this->setError(JText::_('Could not make the css file unwritable'));
-			return false;
-		}
-
-		if (!$return)
-		{
-			$this->setError(JText::_('Operation Failed').': '.JText::sprintf('Failed to open file for writing.', $file));
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Method to load Template data
 	 *
-	 * @access	private
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function _loadData()
+	protected function _loadData()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -183,11 +104,10 @@ class TemplatesModelCssedit extends JModel
 	/**
 	 * Method to initialise the Template data
 	 *
-	 * @access	private
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function _initData()
+	protected function _initData()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -196,6 +116,83 @@ class TemplatesModelCssedit extends JModel
 			$this->_data = $template;
 			return (boolean) $this->_data;
 		}
+		return true;
+	}
+
+	/**
+	 * Method to get a Template
+	 *
+	 * @since 1.6
+	 */
+	public function &getData()
+	{
+		// Load the data
+		if (!$this->_loadData())
+			$this->_initData();
+
+		return $this->_data;
+	}
+
+	/**
+	 * Method to get the client object
+	 *
+	 * @since 1.6
+	 */
+	public function &getClient()
+	{
+		return $this->_client;
+	}
+
+	public function &getTemplate()
+	{
+		return $this->_template;
+	}
+
+	public function &getId()
+	{
+		return $this->_id;
+	}
+
+	public function &getFilename()
+	{
+		return $this->_filename;
+	}
+
+	/**
+	 * Method to store the Template
+	 *
+	 * @return	boolean	True on success
+	 * @since	1.6
+	 */
+	public function store($filecontent)
+	{
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = JClientHelper::getCredentials('ftp');
+
+		$file = $this->_client->path.DS.'templates'.DS.$this->_template.DS.'css'.DS.$this->_filename;
+
+		// Try to make the css file writeable
+		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
+			$this->setError(JText::_('Could not make the css file writable'));
+			return false;
+		}
+		jimport('joomla.filesystem.file');
+		$return = JFile::write($file, $filecontent);
+
+		// Try to make the css file unwriteable
+		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0555')) {
+			$this->setError(JText::_('Could not make the css file unwritable'));
+			return false;
+		}
+
+		if (!$return)
+		{
+			$this->setError(JText::_('Operation Failed').': '.JText::sprintf('Failed to open file for writing.', $file));
+			return false;
+		}
+
 		return true;
 	}
 }

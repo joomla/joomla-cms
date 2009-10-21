@@ -23,7 +23,6 @@ class InstallerViewLibraries extends InstallerViewDefault
 {
 	/**
 	 * Display the view
-	 * @access public
 	 */
     function display($tpl = null)
     {
@@ -47,7 +46,6 @@ class InstallerViewLibraries extends InstallerViewDefault
 
     /**
      * Loads data for an individual item and sets some variables
-     * @access public
      */
 	function loadItem($index=0)
 	{

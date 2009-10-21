@@ -16,7 +16,7 @@ jimport('joomla.application.component.model');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_redirect
- * @version		1.6
+ * @since		1.6
  */
 class RedirectModelLink extends JModel
 {
@@ -37,12 +37,10 @@ class RedirectModelLink extends JModel
 	/**
 	 * Overridden method to get model state variables.
 	 *
-	 * @access	public
 	 * @param	string	$property	Optional parameter name.
 	 * @return	object	The property where specified, the state object where omitted.
-	 * @since	1.6
 	 */
-	function getState($property = null, $default = null)
+	public function getState($property = null, $default = null)
 	{
 		if (!$this->__state_set)
 		{
@@ -70,12 +68,10 @@ class RedirectModelLink extends JModel
 	/**
 	 * Method to get a link item.
 	 *
-	 * @access	public
 	 * @param	integer	The id of the link to get.
 	 * @return	mixed	Link data object on success, false on failure.
-	 * @since	1.6
 	 */
-	function & getItem($linkId = null)
+	public function &getItem($linkId = null)
 	{
 		// Initialize variables.
 		$linkId = (!empty($linkId)) ? $linkId : (int) $this->getState('link.id');
@@ -106,11 +102,9 @@ class RedirectModelLink extends JModel
 	/**
 	 * Method to get the link form.
 	 *
-	 * @access	public
 	 * @return	mixed	JForm object on success, false on failure.
-	 * @since	1.6
 	 */
-	function & getForm()
+	public function &getForm()
 	{
 		// Initialize variables.
 		$app	= & JFactory::getApplication();
@@ -141,12 +135,10 @@ class RedirectModelLink extends JModel
 	/**
 	 * Method to publish links.
 	 *
-	 * @access	public
 	 * @param	array	The ids of the items to publish.
 	 * @return	boolean	True on success.
-	 * @since	1.6
 	 */
-	function publish($linkId)
+	public function publish($linkId)
 	{
 		// Sanitize the ids.
 		$linkId = (array) $linkId;
@@ -170,12 +162,10 @@ class RedirectModelLink extends JModel
 	/**
 	 * Method to unpublish links.
 	 *
-	 * @access	public
 	 * @param	array	The ids of the items to unpublish.
 	 * @return	boolean	True on success.
-	 * @since	1.6
 	 */
-	function unpublish($linkId)
+	public function unpublish($linkId)
 	{
 		// Sanitize the ids.
 		$linkId = (array) $linkId;
@@ -199,12 +189,10 @@ class RedirectModelLink extends JModel
 	/**
 	 * Method to archive links.
 	 *
-	 * @access	public
 	 * @param	array	The ids of the items to unpublish.
 	 * @return	boolean	True on success.
-	 * @since	1.6
 	 */
-	function archive($linkId)
+	public function archive($linkId)
 	{
 		// Sanitize the ids.
 		$linkId = (array) $linkId;
@@ -228,12 +216,10 @@ class RedirectModelLink extends JModel
 	/**
 	 * Method to delete links.
 	 *
-	 * @access	public
 	 * @param	array	An array of link ids.
 	 * @return	boolean	Returns true on success, false on failure.
-	 * @since	1.6
 	 */
-	function delete($linkId)
+	public function delete($linkId)
 	{
 		// Sanitize the ids.
 		$linkId = (array) $linkId;
@@ -254,14 +240,12 @@ class RedirectModelLink extends JModel
 	/**
 	 * Method to activate links.
 	 *
-	 * @access	public
 	 * @param	array	An array of link ids.
 	 * @param	string	The new URL to set for the redirect.
 	 * @param	string	A comment for the redirect links.
 	 * @return	boolean	Returns true on success, false on failure.
-	 * @since	1.6
 	 */
-	function activate($linkId, $url, $comment=null)
+	public function activate($linkId, $url, $comment=null)
 	{
 		// Sanitize the ids.
 		$linkId = (array) $linkId;
@@ -295,12 +279,10 @@ class RedirectModelLink extends JModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @access	public
 	 * @param	array	The form data.
 	 * @return	mixed	Array of filtered data if valid, false otherwise.
-	 * @since	1.6
 	 */
-	function validate($data)
+	public function validate($data)
 	{
 		// Get the form.
 		$form = & $this->getForm();
@@ -337,12 +319,10 @@ class RedirectModelLink extends JModel
 	/**
 	 * Method to save the form data.
 	 *
-	 * @access	public
 	 * @param	array	The form data.
 	 * @return	boolean	True on success.
-	 * @since	1.6
 	 */
-	function save($data)
+	public function save($data)
 	{
 		$linkId = (!empty($data['id'])) ? $data['id'] : (int)$this->getState('link.id');
 		$isNew	= true;

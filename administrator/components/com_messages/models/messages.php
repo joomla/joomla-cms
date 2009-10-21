@@ -21,7 +21,6 @@ class MessagesModelMessages extends JModelList
 	/**
 	 * Model context string
 	 *
-	 * @access protected
 	 * @var string
 	 */
 	protected $_context = 'com_messages.list';

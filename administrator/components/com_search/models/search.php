@@ -19,25 +19,24 @@ jimport('joomla.application.component.model');
 class SearchModelSearch extends JModel
 {
 
-	var $lists = '';
+	protected $lists = '';
 
 	/**
 	 * Overridden constructor
-	 * @access	protected
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	function reset()
+	public function reset()
 	{
 		$db = &JFactory::getDbo();
 		$db->setQuery('DELETE FROM #__core_log_searches');
 		$db->query();
 	}
 
-	function getItems()
+	public function getItems()
 	{
 		$app	= &JFactory::getApplication();
 		$db		= &JFactory::getDbo();

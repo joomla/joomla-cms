@@ -23,11 +23,10 @@ class InstallerController extends JController
 	/**
 	 * Display the extension installer form
 	 *
-	 * @access	public
 	 * @return	void
 	 * @since	1.5
 	 */
-	function installform()
+	public function installform()
 	{
 		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('Install');
@@ -43,11 +42,10 @@ class InstallerController extends JController
 	/**
 	 * Install an extension
 	 *
-	 * @access	public
 	 * @return	void
 	 * @since	1.5
 	 */
-	function doInstall()
+	public function doInstall()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
@@ -70,11 +68,10 @@ class InstallerController extends JController
 	/**
 	 * Manage an extension type (List extensions of a given type)
 	 *
-	 * @access	public
 	 * @return	void
 	 * @since	1.5
 	 */
-	function manage()
+	public function manage()
 	{
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel($type);
@@ -89,7 +86,7 @@ class InstallerController extends JController
 	/**
 	 * Discover handler
 	 */
-	function discover()
+	public function discover()
 	{
 		$model	= &$this->getModel('discover');
 		$view	= &$this->getView('discover');
@@ -121,11 +118,10 @@ class InstallerController extends JController
 	/**
 	 * Enable an extension (If supported)
 	 *
-	 * @access	public
 	 * @return	void
 	 * @since	1.5
 	 */
-	function enable()
+	public function enable()
 	{
 		// Check for request forgeries
 		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
@@ -151,11 +147,10 @@ class InstallerController extends JController
 	/**
 	 * Disable an extension (If supported)
 	 *
-	 * @access	public
 	 * @return	void
 	 * @since	1.5
 	 */
-	function disable()
+	public function disable()
 	{
 		// Check for request forgeries
 		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
@@ -181,11 +176,10 @@ class InstallerController extends JController
 	/**
 	 * Remove an extension (Uninstall)
 	 *
-	 * @access	public
 	 * @return	void
 	 * @since	1.5
 	 */
-	function remove()
+	public function remove()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));

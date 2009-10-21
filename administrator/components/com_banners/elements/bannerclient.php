@@ -22,7 +22,6 @@ class JElementBannerclient extends JElement
 	/**
 	 * Element name
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	var	$_name = 'Bannerclient';

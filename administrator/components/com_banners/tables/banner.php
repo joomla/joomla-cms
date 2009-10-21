@@ -87,7 +87,6 @@ class TableBanner extends JTable
 	/**
 	 * Overloaded check function
 	 *
-	 * @access public
 	 * @return boolean
 	 * @see JTable::check
 	 * @since 1.5

@@ -23,9 +23,8 @@ class InstallerViewPackages extends InstallerViewDefault
 {
 	/**
 	 * Display the view
-	 * @access public
 	 */
-    function display($tpl = null)
+    public function display($tpl = null)
     {
     	/*
 		 * Set toolbar items for the page
@@ -47,9 +46,8 @@ class InstallerViewPackages extends InstallerViewDefault
 
     /**
      * Loads data for an individual item and sets some variables
-     * @access public
      */
-	function loadItem($index=0)
+	public function loadItem($index=0)
 	{
 		$item =& $this->items[$index];
 		$item->index	= $index;
