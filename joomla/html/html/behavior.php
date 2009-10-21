@@ -250,6 +250,9 @@ abstract class JHtmlBehavior
 		$opt['onFileComplete']			= (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
 		$opt['onComplete']		= (isset($params['onAllComplete'])) ? '\\'.$params['onAllComplete'] : null;
 
+		if(!isset($params['startButton'])) $params['startButton'] = 'upload-start';
+		if(!isset($params['clearButton'])) $params['clearButton'] = 'upload-clear';
+
 		$opt['onLoad'] = 			
 			'\\function() {
 				document.id(\''.$id.'\').removeClass(\'hide\'); // we show the actual UI
@@ -274,12 +277,12 @@ abstract class JHtmlBehavior
 
 				// Interactions for the 2 other buttons
 			
-				document.id(\'upload-clear\').addEvent(\'click\', function() {
+				document.id(\''.$params['clearButton'].'\').addEvent(\'click\', function() {
 					Uploader.remove(); // remove all files
 					return false;
 				});
 
-				document.id(\'action-upload\').addEvent(\'click\', function() {
+				document.id(\''.$params['startButton'].'\').addEvent(\'click\', function() {
 					Uploader.start(); // start upload
 					return false;
 				});
