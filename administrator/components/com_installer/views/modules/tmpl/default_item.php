@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 	</td>
 	<td class="center">
 		<span class="editlinktip hasTip" title="<?php echo (@$this->item->legacy ? JText::_('Not Compatible Extension') : JText::_('Compatible Extension'));?>">
-			<img src="images/<?php echo (@$this->item->legacy ? 'publish_x.png' : 'tick.png');?>"/>
+			<img src="templates/bluestork/admin/images/<?php echo (@$this->item->legacy ? 'publish_x.png' : 'tick.png');?>"/>
 		</span>
 	</td>
 </tr>

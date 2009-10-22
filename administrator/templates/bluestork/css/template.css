@@ -416,6 +416,54 @@ div.current dd {
 	margin: 0;
 }
 
+dl#content-pane.tabs {
+	margin: 1px 0 0 0;
+}
+
+div.current label {
+	display: block;
+	min-width: 150px;
+	float:left;
+	clear:left;
+	margin-top: 8px;
+}
+
+div.current fieldset {
+	border: none 0;
+}
+
+div.current fieldset.radio {
+	float:left;
+}
+
+div.current fieldset.radio input {
+	clear:none;
+	min-width: 15px;
+	float:left;
+	margin: 3px 0 0 2px;
+}
+
+div.current fieldset.radio label {
+	clear:none;
+	min-width: 45px;
+	float:left;
+	margin: 3px 0 0 5px;
+}
+
+div.current input.text_area,
+div.current select.inputbox {
+	clear:none;
+	float:left;
+	margin: 3px 0 0 2px;
+}
+div.current select.inputbox { margin-bottom: 15px;}
+
+div.current table#acl-config th.acl-groups {
+	text-align: left;
+}
+
+
+
 /* -- CONTROL PANEL STYLES ----------------------------- */
 
 #cpanel div.icon {
@@ -466,6 +514,7 @@ div.width-55 { width: 55%;}
 div.width-60 { width: 60%; }
 div.width-65 { width: 65%;}
 div.width-70 { width: 70%;}
+div.width-80 { width: 80%;}
 div.width-100 { width: 100%;}
 
 .clrlft { clear: left; }
@@ -483,6 +532,7 @@ div.width-55 fieldset,
 div.width-60 fieldset,
 div.width-65 fieldset,
 div.width-70 fieldset,
+div.width-80 fieldset,
 div.width-100 fieldset { 
 	background-color: #fff;
 	padding: 17px;
@@ -606,6 +656,7 @@ fieldset.batch {
 
 fieldset.batch {
 	margin: 20px 0px 10px 0px;
+	background: #fff;
 }
 
 label#jform_description-lbl {
@@ -621,7 +672,6 @@ label#paramsmulti-factor-physical-lbl,
 paramslang_mode-lbl {
 	min-width: 200px;
 }
-
 
 fieldset.adminform label,
 fieldset.panelform label,
@@ -770,7 +820,7 @@ table.adminform {
 	margin-bottom: 15px;
 	width: 100%;
 }
-/* table.adminform.nospace { margin-bottom: 0; } */
+
 table.adminform tr.row0 { background-color: #f9f9f9; }
 table.adminform tr.row1 { background-color: #eeeeee; }
 
@@ -792,6 +842,24 @@ input.text-area-order {
 	text-align:center;
 	margin-right: 5px;
 }
+
+fieldset.uploadform label {
+	clear:left;
+	min-width: 100px;
+}
+
+span.gi {
+	color: #ff6600;
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+ul#legend li {
+	float:left;
+	margin: 20px;
+	list-style-type: none;
+}
+
 
 /* TO DO: Fix lines in menu manager uploader */
 div#upload-flash ul li {

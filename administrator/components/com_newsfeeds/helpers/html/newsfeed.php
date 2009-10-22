@@ -28,7 +28,7 @@ class JHtmlNewsfeed
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-				. JHtml::_('image.administrator', $state[0], '/images/', null, '/images/', JText::_($state[2])).'</a>';
+				. JHtml::_('image.administrator', $state[0], '/templates/bluestork/admin/images/', null, '/templates/bluestork/admin/images/', JText::_($state[2])).'</a>';
 
 		return $html;
 	}

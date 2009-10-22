@@ -81,9 +81,9 @@ $user	= &JFactory::getUser();
 				<a href="index.php?option=com_messages&amp;view=message&amp;message_id=<?php echo $row->message_id; ?>">
 					<?php echo $row->subject; ?></a>
 			</td>
-			<td align="center">
+			<td class="center">
 				<a href="javascript: void(0);">
-					<img src="images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt; ?>" /></a>
+					<img src="templates/bluestork/admin/images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt; ?>" /></a>
 			</td>
 			<td>
 				<?php echo $author; ?>

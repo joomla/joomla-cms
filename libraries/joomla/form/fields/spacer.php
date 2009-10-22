@@ -33,6 +33,6 @@ class JFormFieldSpacer extends JFormField
 	 */
 	protected function _getInput()
 	{
-		return '<hr />';
+		return ' ';
 	}
 }

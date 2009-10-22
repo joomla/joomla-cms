@@ -110,7 +110,7 @@ foreach($this->rows as $template => $row) {
 				<?php
 				if ($row->assigned == 1) {
 				?>
-						<img src="images/tick.png" alt="<?php echo JText::_('Assigned'); ?>" />
+						<img src="templates/bluestork/admin/images/tick.png" alt="<?php echo JText::_('Assigned'); ?>" />
 				<?php
 				} else {
 				?>

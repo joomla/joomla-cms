@@ -39,7 +39,7 @@ abstract class JHtmlList
 		}
 
 		if (!$javascript) {
-			$javascript = "onchange=\"javascript:if (document.forms.adminForm." . $name . ".options[selectedIndex].value!='') {document.imagelib.src='..$directory' + document.forms.adminForm." . $name . ".options[selectedIndex].value} else {document.imagelib.src='../images/blank.png'}\"";
+			$javascript = "onchange=\"javascript:if (document.forms.adminForm." . $name . ".options[selectedIndex].value!='') {document.imagelib.src='..$directory' + document.forms.adminForm." . $name . ".options[selectedIndex].value} else {document.imagelib.src='templates/bluestork/images/admin/blank.png'}\"";
 		}
 
 		jimport('joomla.filesystem.folder');
