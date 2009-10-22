@@ -586,6 +586,8 @@ class JForm extends JObject
 			$groupControl = false;
 		} elseif ($groupControl == '_default' && $group !== '_default' && $this->_fieldsets[$group]['array'] == true) {
 			$groupControl = $group;
+		} elseif ($groupControl == '_default' && $group !== '_default' && is_string($this->_fieldsets[$group]['array']) && strlen($this->_fieldsets[$group]['array'])) {
+			$groupControl = $this->_fieldsets[$group]['array'];
 		}
 
 		// Render the field.
@@ -696,6 +698,8 @@ class JForm extends JObject
 			$groupControl = false;
 		} elseif ($groupControl == '_default' && $group !== '_default' && isset($this->_fieldsets[$group]) && $this->_fieldsets[$group]['array'] == true) {
 			$groupControl = $group;
+		} elseif ($groupControl == '_default' && $group !== '_default' && isset($this->_fieldsets[$group]) && is_string($this->_fieldsets[$group]['array']) && strlen($this->_fieldsets[$group]['array'])) {
+			$groupControl = $this->_fieldsets[$group]['array'];
 		}
 
 		// Check if the group exists.
@@ -904,10 +908,20 @@ class JForm extends JObject
 		}
 
 		// Get the fieldset array option.
-		if ($xml->attributes('array') == 'true') {
-			$this->_fieldsets[$group]['array'] = true;
-		} else {
-			$this->_fieldsets[$group]['array'] = false;
+		switch ($xml->attributes('array'))
+		{
+			case 'true':
+				$this->_fieldsets[$group]['array'] = true;
+				break;
+
+			case 'false':
+			case '':
+				$this->_fieldsets[$group]['array'] = false;
+				break;
+
+			default:
+				$this->_fieldsets[$group]['array'] = $xml->attributes('array');
+				break;
 		}
 
 		// Check if there is a field path to handle.
