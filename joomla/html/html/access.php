@@ -160,8 +160,8 @@ abstract class JHtmlAccess
 			$html[] = '	<li>';
 			$html[] = '		<input type="checkbox" name="'.$name.'[]" value="'.$item->id.'" id="'.$eid.'"';
 			$html[] = '				'.$checked.$rel.' />';
-			$html[] = '		'.str_repeat('- ', $item->level).$item->title;
 			$html[] = '		<label for="'.$eid.'">';
+			$html[] = '		'.str_repeat('<span class="gi">|&mdash;</span>', $item->level).$item->title;
 			$html[] = '		</label>';
 			$html[] = '	</li>';
 		}

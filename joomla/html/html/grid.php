@@ -167,7 +167,7 @@ abstract class JHtmlGrid
 
 		$href = '
 		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
-		<img src="images/'. $img .'" border="0" alt="'. $alt .'" /></a>'
+		<img src="templates/bluestork/admin/images/'. $img .'" border="0" alt="'. $alt .'" /></a>'
 		;
 
 		return $href;
