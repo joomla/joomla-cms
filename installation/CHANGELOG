@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Oct-2009 Ian MacLennan
+ # Finally found the problem with the progress bar, and fixed (com_media)
+ # Implemented Type Filtering in uploader
+
 21-Oct-2009 Andrew Eddie
  + Added language field to weblinks table.
  ^ Added permission checks to com_weblinks (with associated refactoring).

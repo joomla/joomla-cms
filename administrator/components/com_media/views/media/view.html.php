@@ -46,10 +46,29 @@ class MediaViewMedia extends JView
 		JHtml::stylesheet('mootree.css');
 
 		if ($config->get('enable_flash', 1)) {
+			$fileTypes = $config->get('image_extensions', 'bmp,gif,jpg,png,jpeg');
+			$types = explode(',', $fileTypes);
+			$displayTypes = '';		// this is what the user sees
+			$filterTypes = '';		// this is what controls the logic
+			$firstType = true;
+			foreach($types AS $type) {
+				if(!$firstType) {
+					$displayTypes .= ', ';
+					$filterTypes .= '; ';
+				} else {
+					$firstType = false;
+				}
+				$displayTypes .= '*.'.$type;
+				$filterTypes .= '*.'.$type;
+			}
+			$typeString = '{ \'Images ('.$displayTypes.')\': \''.$filterTypes.'\' }';
+
 			JHtml::_('behavior.uploader', 'upload-flash', 
 				array(
-					'onAllComplete' => 'function(){ MediaManager.refreshFrame(); }',
-					'targetURL' => '\\$(\'uploadForm\').action'
+					'onComplete' => 'function(){ MediaManager.refreshFrame(); }',
+					'onFileSuccess' => 'function(file, response) { alert(response); }',
+					'targetURL' => '\\$(\'uploadForm\').action',
+					'typeFilter' => $typeString
 				)
 			);
 		}

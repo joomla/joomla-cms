@@ -49,7 +49,7 @@
  */
 
 
-#uploader-flash .progress {
+#upload-flash .progress {
 	background: url(./progress-bar/progress.gif) no-repeat;
 	background-position: +50% 0;
 	margin-right: 0.5em;
