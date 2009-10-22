@@ -28,10 +28,10 @@ class MediaViewImages extends JView
 
 		$app = JFactory::getApplication();
 		$append = '';
-		if ($app->getClientId() == 1) $append = 'administrator/';
+		// if ($app->getClientId() == 1) $append = 'administrator/';
 
-		JHtml::_('script'    , 'popup-imagemanager.js', $append .'components/com_media/assets/');
-		JHtml::_('stylesheet', 'popup-imagemanager.css', $append .'components/com_media/assets/');
+		JHtml::_('script'    , 'popup-imagemanager.js', $append .'media/media/');
+		JHtml::_('stylesheet', 'popup-imagemanager.css', $append .'media/media/');
 		if ($config->get('enable_flash', 0)) {
 			JHtml::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ ImageManager.refreshFrame(); }'));
 		}

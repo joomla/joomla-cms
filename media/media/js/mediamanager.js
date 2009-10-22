@@ -1,5 +1,5 @@
 /**
- * @version		$Id$
+ * @version		$Id: mediamanager.js 12986 2009-10-01 14:07:56Z pentacle $
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -25,7 +25,7 @@ var MediaManager = this.MediaManager = {
         this.frameurl   = this.frame.location.href;
         //this.frameurl   = window.frames['folderframe'].location.href;
 
-        this.tree = new MooTreeControl({ div: 'media-tree_tree', mode: 'folders', grid: true, theme: 'components/com_media/assets/mootree.gif', onClick:
+        this.tree = new MooTreeControl({ div: 'media-tree_tree', mode: 'folders', grid: true, theme: '../media/media/images/mootree.gif', onClick:
                 function(node){
                     target = $chk(node.data.target) ? node.data.target : '_self';
 

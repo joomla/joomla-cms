@@ -5,7 +5,7 @@ echo $params->get('image_path', 'images/stories');?>/';
 </script>
 <form action="index.php" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
-		<span id="message"></span><img src="<?php echo JURI::base() ?>components/com_media/images/dots.gif" width="22" height="12" alt="..." />
+		<span id="message"></span><img src="<?php echo JURI::base() ?>media/media/images/dots.gif" width="22" height="12" alt="..." />
 	</div>
 	<fieldset>
 		<div class="fltlft">

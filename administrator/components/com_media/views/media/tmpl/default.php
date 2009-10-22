@@ -15,26 +15,11 @@
 	                <fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>">
 	                    <legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
 	                    <?php echo JText::_('DESCFTP'); ?>
-	                    <table class="adminform">
-	                        <tbody>
-	                            <tr>
-	                                <td width="120">
-	                                    <label for="username"><?php echo JText::_('Username'); ?>:</label>
-	                                </td>
-	                                <td>
-	                                    <input type="text" id="username" name="username" class="inputbox" size="70" value="" />
-	                                </td>
-	                            </tr>
-	                            <tr>
-	                                <td width="120">
-	                                    <label for="password"><?php echo JText::_('Password'); ?>:</label>
-	                                </td>
-	                                <td>
-	                                    <input type="password" id="password" name="password" class="inputbox" size="70" value="" />
-	                                </td>
-	                            </tr>
-	                        </tbody>
-	                    </table>
+						<label for="username"><?php echo JText::_('Username'); ?>:</label>
+						<input type="text" id="username" name="username" class="inputbox" size="70" value="" />
+	                              
+						<label for="password"><?php echo JText::_('Password'); ?>:</label>
+						<input type="password" id="password" name="password" class="inputbox" size="70" value="" />
 	                </fieldset>
 	            </form>
             <?php endif; ?>
@@ -64,7 +49,7 @@
 
             <!-- File Upload Form -->
             <form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JUtility::getToken();?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
-                <fieldset>
+                <fieldset id="uploadform">
                     <legend><?php echo JText::_('UPLOAD_FILE'); ?> (<?php echo JText::_('MAXIMUM_SIZE'); ?>:&nbsp;<?php echo ($this->config->get('upload_maxsize') / 1000000); ?>MB)</legend>
                     <fieldset id="upload-noflash" class="actions">
                     	<label for="upload-file" class="hidelabeltxt"><?php echo JText::_('UPLOAD_FILE'); ?></label>
@@ -79,16 +64,12 @@
 							<li><a href="#" id="upload-start">Start Upload</a></li>
 						</ul>
 						<div class="clr"> </div>
-						<div>
-							<strong class="overall-title"></strong><br />
-							<img src="components/com_media/assets/progress-bar/bar.gif" alt="<?php echo JText::_('OVERALL_PROGRESS'); ?>" class="progress overall-progress" />
-						</div>
+						<p class="overall-title"></p>
+						<img src="../media/media/images/bar.gif" alt="<?php echo JText::_('OVERALL_PROGRESS'); ?>" class="progress overall-progress" />
 						<div class="clr"> </div>
-						<div>
-							<strong class="current-title"></strong><br />
-							<img src="components/com_media/assets/progress-bar/bar.gif" alt="<?php echo JText::_('CURRENT_PROGRESS'); ?>" class="progress current-progress" />
-						</div>
-						<div class="current-text"></div>
+						<p class="current-title"></p>
+						<img src="../media/media/images/bar.gif" alt="<?php echo JText::_('CURRENT_PROGRESS'); ?>" class="progress current-progress" />
+						<p class="current-text"></p>
 					</div>
                     <ul class="upload-queue" id="upload-queue">
                         <li style="display:none;" />

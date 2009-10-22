@@ -29,10 +29,10 @@ class MediaViewImagesList extends JView
 
 		$app = JFactory::getApplication();
 		$append = '';
-		if ($app->getClientId() == 1) $append = 'administrator/';
+		// if ($app->getClientId() == 1) $append = 'administrator/';
 
 		JHtml::_('behavior.framework', true);
-		JHtml::_('stylesheet', 'popup-imagelist.css', $append .'components/com_media/assets/');
+		JHtml::_('stylesheet', 'popup-imagelist.css', $append .'media/media/');
 
 		$document = &JFactory::getDocument();
 		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");

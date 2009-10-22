@@ -33,8 +33,8 @@ class MediaViewMedia extends JView
 		$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
 
 		JHtml::_('behavior.framework', true);
-		$document->addScript('components/com_media/assets/mediamanager.js');
-		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
+		$document->addScript('../media/media/js/mediamanager.js');
+		$document->addStyleSheet('../media/media/css/mediamanager.css');
 
 		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("

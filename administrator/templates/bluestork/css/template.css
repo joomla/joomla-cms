@@ -552,9 +552,12 @@ fieldset.adminform {
 	margin: 10px;
 }
 
-fieldset.panelform {
-
+fieldset#folderview,
+fieldset#uploadform  {
+	background: #fff;
+	padding: 10px;
 }
+
 
 fieldset label {
 	float: left;
@@ -760,12 +763,6 @@ fieldset.adminform-legacy label {
 	float:left;
 	
 }
-fieldset.panelform-legacy hr {
-	display:none;
-	clear:both;
-}
-
-
 /* JParameter classes on radio button labels  */
 fieldset.panelform-legacy label.radiobtn_jno,
 fieldset.panelform-legacy label.radiobtn_jyes,
@@ -860,23 +857,17 @@ ul#legend li {
 	list-style-type: none;
 }
 
-
-/* TO DO: Fix lines in menu manager uploader */
-div#upload-flash ul li {
-	float:left;
-	clear:right;
-	margin-left: 10px;
-	/* border-right: 1px solid #ccc;*/
-}
-
-
-
 /* Hack until HRs are removed from panels  */
 div.paramrow hr,
 fieldset.panelform hr {
 	display:none;
 }
-
+/*
+fieldset.panelform-legacy hr {
+	display:none;
+	clear:both;
+}
+*/
 
 /* -- TABLE STYLES ----------------------------- */
 

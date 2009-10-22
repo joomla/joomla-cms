@@ -1,5 +1,5 @@
 /**
- * @version		$Id$
+ * @version		$Id: mediamanager.css 13271 2009-10-22 04:49:57Z ian $
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -48,6 +48,13 @@
  * Upload Widget CSS
  */
 
+#upload-flash {
+	font-size: 12px;
+	margin-left: 5px;	
+}
+#upload-flash ul {
+	margin-left: -15px;	
+}
 
 #upload-flash .progress {
 	background: url(./progress-bar/progress.gif) no-repeat;
@@ -115,7 +122,37 @@
 	line-height: 18px;
 }
 
+p.overall-title,
+p.current-title,
+p.current-text {
+	margin: 0;
+	padding: 0;
+	font-weight:bold;
+}
+p.overall-title { margin-top: 15px;}
 
+div#upload-flash ul li {
+	float:left;
+	clear:right;
+	margin-left: 10px;
+}
+
+li a#upload-browse,
+li a#upload-clear,
+li a#upload-start {
+	display:block;
+	padding: 3px;
+	border: 1px solid #ccc;
+	background-color: #efefef;
+}
+
+div#media-noimages {
+	width: 100%;
+	text-align:center;
+	font-size:14px;
+	font-weight:bold;
+	color:#CCCCCC;
+}
 
 /*.upload-queue {
 	list-style: none;

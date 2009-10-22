@@ -33,7 +33,7 @@ class MediaViewMediaList extends JView
 		JHtml::_('behavior.framework', true);
 
 		$document = &JFactory::getDocument();
-		$document->addStyleSheet('components/com_media/assets/medialist-'.$style.'.css');
+		$document->addStyleSheet('../media/media/css/medialist-'.$style.'.css');
 
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
