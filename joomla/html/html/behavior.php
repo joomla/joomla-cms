@@ -246,10 +246,11 @@ abstract class JHtmlBehavior
 
 
 		// Optional functions
-		$opt['createReplacement']	= (isset($params['createReplacement'])) ? '\\'.$params['createReplacement'] : null;
-		$opt['onFileComplete']			= (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
-		$opt['onComplete']		= (isset($params['onAllComplete'])) ? '\\'.$params['onAllComplete'] : null;
-
+		$opt['createReplacement'] = (isset($params['createReplacement'])) ? '\\'.$params['createReplacement'] : null;
+		$opt['onFileComplete'] = (isset($params['onFileComplete'])) ? '\\'.$params['onFileComplete'] : null;
+		$opt['onComplete'] = (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
+		$opt['onFileSuccess'] = (isset($params['onFileSuccess'])) ? '\\'.$params['onFileSuccess'] : null;
+		
 		if(!isset($params['startButton'])) $params['startButton'] = 'upload-start';
 		if(!isset($params['clearButton'])) $params['clearButton'] = 'upload-clear';
 
@@ -292,14 +293,10 @@ abstract class JHtmlBehavior
 
 		// Attach tooltips to document
 		$document = &JFactory::getDocument();
-		$uploaderInit = //'sBrowseCaption=\''.JText::_('Browse Files', true).'\';
-				//sRemoveToolTip=\''.JText::_('Remove from queue', true).'\';
+		$uploaderInit = 
 				'window.addEvent(\'domready\', function(){
-				var Uploader = new FancyUpload2($(\''.$id.'\'), $(\''.$upload_queue.'\'), '.$options.'
-
-
-				);
-			});';
+				var Uploader = new FancyUpload2($(\''.$id.'\'), $(\''.$upload_queue.'\'), '.$options.' );
+				});';
 		$document->addScriptDeclaration($uploaderInit);
 
 		// Set static array
