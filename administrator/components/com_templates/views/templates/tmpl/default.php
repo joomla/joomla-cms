@@ -70,7 +70,7 @@ foreach($this->rows as $template => $row) {
 			</td>
 			<td>
 				<span class="editlinktip hasTip" title="<?php echo $row->name;?>::
-<img border=&quot;1&quot; src=&quot;<?php echo $img_path; ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?php echo JText::_( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />">
+<img border=&quot;1&quot; src=&quot;<?php echo $img_path; ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?php echo JText::_( 'No preview available' ); ?>&quot; width=&quot;200&quot; height=&quot;145&quot; />">
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&template=' . $template . '&client=' . $this->client->id); ?>"><?php echo $row->name;?></a>
 				</span>
 			</td>

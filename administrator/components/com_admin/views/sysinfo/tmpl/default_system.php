@@ -25,13 +25,13 @@ defined('_JEXEC') or die;
 		</thead>
 		<tfoot>
 			<tr>
-				<th colspan="2">&nbsp;
-				</th>
+				<td colspan="2">&nbsp;
+				</td>
 			</tr>
 		</tfoot>
 		<tbody>
 			<tr>
-				<td valign="top">
+				<td>
 					<strong><?php echo JText::_('Admin_PHP_Built_On'); ?>:</strong>
 				</td>
 				<td>

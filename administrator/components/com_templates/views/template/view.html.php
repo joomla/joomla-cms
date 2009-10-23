@@ -51,7 +51,7 @@ class TemplatesViewTemplate extends JView
 		JToolBarHelper::custom('preview', 'preview.png', 'preview_f2.png', 'Preview', false, false);
 		JToolBarHelper::custom('edit_source', 'html.png', 'html_f2.png', 'Edit HTML', false, false);
 		// Needs to be connected to error.php editor--same as index.php editor
-		JToolBarHelper::custom('edit_error', 'html.png', 'html_f2.png', 'Edit Error Page', false, false);
+		JToolBarHelper::custom('edit_error', 'error.png', 'error_f2.png', 'Edit Error Page', false, false);
 		JToolBarHelper::custom('choose_css', 'css.png', 'css_f2.png', 'Edit CSS', false, false);
 	JToolBarHelper::divider();
 

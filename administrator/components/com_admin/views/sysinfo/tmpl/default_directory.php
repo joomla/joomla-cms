@@ -13,34 +13,32 @@ defined('_JEXEC') or die;
 <fieldset class="adminform">
 	<legend><?php echo JText::_('Admin_Directory_Permissions'); ?></legend>
 		<table class="adminlist">
-		<thead>
-			<tr>
-				<th width="650">
-					<?php echo JText::_('Admin_Directory'); ?>
-				</th>
-				<th>
-					<?php echo JText::_('Admin_Status'); ?>
-				</th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="2">
-					&nbsp;
-				</td>
-			</tr>
-		</tfoot>
-		<tbody>
-			<?php foreach($this->directory as $dir=>$info):?>
+			<thead>
 				<tr>
-					<td>
-						<?php echo JHtml::_('directory.message',$dir,$info['message']);?>
-					</td>
-					<td>
-						<?php echo JHtml::_('directory.writable',$info['writable']);?>
-					</td>
+					<th width="650">
+						<?php echo JText::_('Admin_Directory'); ?>
+					</th>
+					<th>
+						<?php echo JText::_('Admin_Status'); ?>
+					</th>
 				</tr>
-			<?php endforeach; ?>
-		</tbody>
+			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="2">&nbsp;</td>
+				</tr>
+			</tfoot>
+			<tbody>
+				<?php foreach($this->directory as $dir=>$info):?>
+					<tr>
+						<td>
+							<?php echo JHtml::_('directory.message',$dir,$info['message']);?>
+						</td>
+						<td>
+							<?php echo JHtml::_('directory.writable',$info['writable']);?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
 		</table>
 </fieldset>

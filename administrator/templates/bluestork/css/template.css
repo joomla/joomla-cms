@@ -505,6 +505,7 @@ div.cpanel-right { width:45%; float:right; }
 
 div.col { float: left; }
 
+div.width-20 { width: 20%;}
 div.width-30 { width: 30%;}
 div.width-35 { width: 35%; }
 div.width-40 { width: 40%;}
@@ -523,6 +524,7 @@ div.width-100 { width: 100%;}
 .fltrt { float: right; }
 .fltnone { float: none; }
 
+div.width-20 fieldset,
 div.width-30 fieldset,
 div.width-35 fieldset,
 div.width-40 fieldset,
@@ -829,11 +831,28 @@ table.adminform th {
 	color: #000;
 	background-repeat: repeat;
 }
+
 table.adminform td { padding: 5px; text-align: left; font-size: 12px;}
 
 table.adminform td.filter { text-align: left; }
 
 table.adminform td.helpMenu { text-align: right; }
+
+
+.helplinks {
+	/* background-color: #fff;
+	border: 1px solid #ccc; */
+	margin-top: 60px;
+}
+
+
+ul.helpmenu li { 
+	float:right;
+	margin: 10px;
+	padding: 0;
+	list-style-type: none;
+ }
+
 
 input.text-area-order {
 	text-align:center;
@@ -1514,6 +1533,10 @@ div.message {
 	padding: 0px 0px 0px 0px;
 	overflow: auto;
 }
+ul.subext li{
+	margin-left: 0;
+}
+
 .helpFrame {
 	border-left: 0px solid #222;
 	border-right: none;
@@ -1524,20 +1547,22 @@ div.message {
 	padding: 0px 5px 0px 10px;
 }
 #treecellhelp {
-	width: 25%;
+	/* width: 25%; 
+	padding: 2px; */
 	display: block;
 	position: relative;
 	float: left;
 	margin: 0;
-	padding: 2px;
 	overflow: hidden;
 }
 
 #datacellhelp {
-	width: 73%;
-	display: block;
+	/* width: 73%; 
 	float: left;
+	*/
+	display: block;
 	margin: 0;
+	margin-top: 10px;
 	padding: 2px 0px 0px 0px;
 }
 

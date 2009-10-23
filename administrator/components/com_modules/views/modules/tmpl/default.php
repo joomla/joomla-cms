@@ -9,7 +9,7 @@
 	JHtml::_('behavior.tooltip');
 ?>
 
-<form action=<?php echo JRoute::_('index.php?option=com_modules'); ?> method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm">
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
 			<label class="filter-search-lbl"><?php echo JText::_('Filter'); ?>:</label>
