@@ -4,7 +4,6 @@
  * @package		Joomla.Administrator
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 
+$canDo = UsersHelper::getActions();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm">
@@ -82,19 +82,21 @@ JHtml::_('behavior.tooltip');
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php
-			$i = 0;
-			foreach ($this->items as $item) : ?>
+		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
-					<?php echo JHtml::_('grid.id', $i++, $item->id); ?>
+					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
+					<?php if ($canDo->get('core.edit')) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&cid[]='.$item->id); ?>" title="<?php echo JText::sprintf('Users_Edit_User', $item->name); ?>">
-						<?php echo $item->name; ?></a>
+						<?php echo $this->escape($item->name); ?></a>
+					<?php else : ?>
+						<?php echo $this->escape($item->name); ?>
+					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo $item->username; ?>
+					<?php echo $this->escape($item->username); ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.unblock', 'users.block'); ?>
@@ -106,7 +108,7 @@ JHtml::_('behavior.tooltip');
 					<?php echo nl2br($item->group_names); ?>
 				</td>
 				<td class="center">
-					<?php echo $item->email; ?>
+					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::date($item->lastvisitDate); ?>
@@ -115,13 +117,10 @@ JHtml::_('behavior.tooltip');
 					<?php echo JHtml::date($item->registerDate); ?>
 				</td>
 				<td class="center">
-					<?php echo $item->id; ?>
+					<?php echo (int) $item->id; ?>
 				</td>
 			</tr>
-			<?php
-			$i++;
-			endforeach;
-		?>
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 

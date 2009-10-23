@@ -2,7 +2,6 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +50,7 @@ class UsersControllerLevel extends JController
 	public function add()
 	{
 		// Initialize variables.
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Clear the level edit information from the session.
 		$app->setUserState('com_users.edit.level.id', null);
@@ -69,7 +68,7 @@ class UsersControllerLevel extends JController
 	public function edit()
 	{
 		// Initialize variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
 
 		// Get the id of the access level to edit.
@@ -91,7 +90,7 @@ class UsersControllerLevel extends JController
 	public function cancel()
 	{
 		// Initialize variables.
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Clear the access level edit information from the session.
 		$app->setUserState('com_users.edit.level.id', null);
@@ -112,7 +111,7 @@ class UsersControllerLevel extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$model	= &$this->getModel('Level');
 
 		// Get the posted values from the request.

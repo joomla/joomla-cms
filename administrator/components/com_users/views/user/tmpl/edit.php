@@ -4,7 +4,6 @@
  * @package		Joomla.Administrator
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,7 +60,7 @@ JHtml::_('behavior.formvalidation');
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</fieldset>
-		
+
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_User_Profile'); ?></legend>
 			<?php foreach($this->form->getFields('profile') as $field): ?>

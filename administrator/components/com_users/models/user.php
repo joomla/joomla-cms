@@ -2,7 +2,6 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +29,7 @@ class UsersModelUser extends JModelForm
 	 */
 	protected function _populateState()
 	{
-		$app		= &JFactory::getApplication('administrator');
+		$app		= JFactory::getApplication('administrator');
 		$params		= &JComponentHelper::getParams('com_users');
 
 		// Load the User state.
@@ -105,7 +104,7 @@ class UsersModelUser extends JModelForm
 	public function getForm()
 	{
 		// Initialize variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 
 		// Get the form.
 		$form = parent::getForm('user', 'com_users.user', array('array' => 'jform', 'event' => 'onPrepareForm'));
@@ -177,7 +176,7 @@ class UsersModelUser extends JModelForm
 	{
 		// Initialize variables.
 		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
-		$user		= &JFactory::getUser();
+		$user		= JFactory::getUser();
 		$user_id	= (int) $user->get('id');
 
 		if (!$userId) {
@@ -209,7 +208,7 @@ class UsersModelUser extends JModelForm
 	{
 		// Initialize variables.
 		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
-		$user		= &JFactory::getUser();
+		$user		= JFactory::getUser();
 		$user_id	= (int) $user->get('id');
 
 		// Check for a new User id.
@@ -314,12 +313,11 @@ class UsersModelUser extends JModelForm
 	/**
 	 * Method to delete a user or list of users.
 	 *
-	 * @access	public
 	 * @param	array	An array of user ids.
 	 * @return	boolean	Returns true on success, false on failure.
 	 * @since	1.0
 	 */
-	function delete($userIds)
+	public function delete($userIds)
 	{
 		// Sanitize the ids.
 		$userIds = (array) $userIds;
@@ -380,7 +378,7 @@ class UsersModelUser extends JModelForm
 			}
 
 			// Get the system ACL object and set the mode to database driven.
-			$acl = &JFactory::getACL();
+			$acl = JFactory::getACL();
 			$oldAclMode = $acl->setCheckMode(1);
 
 			$groupLogic	= JArrayHelper::getValue($config, 'group_logic');

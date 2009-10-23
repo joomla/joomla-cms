@@ -2,16 +2,16 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 /**
- * Base controller class for Users.
+ * Users master display controller.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_users
@@ -21,13 +21,13 @@ class UsersController extends JController
 {
 	/**
 	 * Method to display a view.
-	 *
-	 * @return	void
 	 */
 	public function display()
 	{
+		require_once JPATH_COMPONENT.'/helpers/users.php';
+
 		// Get the document object.
-		$document = &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'users');
@@ -37,12 +37,8 @@ class UsersController extends JController
 		// Get and render the view.
 		if ($view = &$this->getView($vName, $vFormat))
 		{
-			switch ($vName)
-			{
-				default:
-					$model = &$this->getModel($vName);
-					break;
-			}
+			// Get the model for the view.
+			$model = &$this->getModel($vName);
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
@@ -54,7 +50,6 @@ class UsersController extends JController
 			$view->display();
 
 			// Load the submenu.
-			require_once JPATH_COMPONENT.DS.'helpers'.DS.'users.php';
 			UsersHelper::addSubmenu($vName);
 		}
 	}

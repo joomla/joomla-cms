@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Oct-2009 Andrew Eddie
+ ! Working commit of adding permissions checks to admin com_users.
+
 22-Oct-2009 Ron Severdia
 ^ Migrated Media Manager assets to main media directory.
 
@@ -37,6 +40,7 @@ $ -> Language fix or change
 21-Oct-2009 Andrew Eddie
  + Added language field to weblinks table.
  ^ Added permission checks to com_weblinks (with associated refactoring).
+ ! Cleanup @access in docblocks; PHP5-ise functions.
 
 21-Oct-2009 Ian MacLennan
  # Fixed start upload button to adjust to markup changes

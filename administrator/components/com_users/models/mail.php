@@ -22,11 +22,11 @@ class UsersModelMail extends JModelForm
 
 	public function send()
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
-		$db		= &JFactory::getDbo();
-		$user 	= &JFactory::getUser();
-		$acl 	= &JFactory::getACL();
+		$db		= JFactory::getDbo();
+		$user 	= JFactory::getUser();
+		$acl 	= JFactory::getACL();
 
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 		
@@ -78,7 +78,7 @@ class UsersModelMail extends JModelForm
 		}
 		
 		// Get the Mailer
-		$mailer = &JFactory::getMailer();
+		$mailer = JFactory::getMailer();
 		$params = &JComponentHelper::getParams('com_massmail');
 
 		// Build e-mail message format.
@@ -135,7 +135,7 @@ class UsersModelMail extends JModelForm
 	public function getForm()
 	{
 		// Initialize variables.
-		$app 	= &JFactory::getApplication();
+		$app 	= JFactory::getApplication();
 
 		// Get the form.
 		$form = parent::getForm('mail', 'com_users.mail', array('array' => 'jform', 'event' => 'onPrepareForm'));

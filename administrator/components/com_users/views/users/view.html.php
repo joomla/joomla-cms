@@ -2,16 +2,16 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 /**
- * The HTML Users users view.
+ * View class for a list of users.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_users
@@ -19,10 +19,12 @@ jimport('joomla.application.component.view');
  */
 class UsersViewUsers extends JView
 {
+	protected $state;
+	protected $items;
+	protected $pagination;
+
 	/**
 	 * Display the view
-	 *
-	 * @return	void
 	 */
 	public function display($tpl = null)
 	{
@@ -47,28 +49,40 @@ class UsersViewUsers extends JView
 		$this->assignRef('pagination',		$pagination);
 		$this->assignRef('filter_state',	$options);
 
-		parent::display($tpl);
 		$this->_setToolbar();
+		parent::display($tpl);
 	}
 
 	/**
-	 * Build the default toolbar.
-	 *
-	 * @return	void
+	 * Setup the Toolbar.
 	 */
 	protected function _setToolbar()
 	{
+		$canDo	= UsersHelper::getActions();
+
 		JToolBarHelper::title(JText::_('Users_View_Users_Title'), 'user');
 
-		//JToolBarHelper::custom('user.activate', 'publish.png', 'publish_f2.png', 'Activate', true);
-		//JToolBarHelper::custom('user.block', 'unpublish.png', 'unpublish_f2.png', 'Block', true);
+		if ($canDo->get('core.edit.state'))
+		{
+			//JToolBarHelper::custom('user.activate', 'publish.png', 'publish_f2.png', 'Activate', true);
+			//JToolBarHelper::custom('user.block', 'unpublish.png', 'unpublish_f2.png', 'Block', true);
+		}
 
-		JToolBarHelper::custom('user.add', 'new.png', 'new_f2.png', 'New', false);
-		JToolBarHelper::custom('user.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
-		JToolBarHelper::deleteList('', 'user.delete');
+		if ($canDo->get('core.create')) {
+			JToolBarHelper::custom('user.add', 'new.png', 'new_f2.png', 'New', false);
+		}
+		if ($canDo->get('core.edit')) {
+			JToolBarHelper::custom('user.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		}
+		if ($canDo->get('core.delete')) {
+			JToolBarHelper::deleteList('', 'user.delete');
+		}
 
-		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_users');
+		if ($canDo->get('core.admin'))
+		{
+			JToolBarHelper::divider();
+			JToolBarHelper::preferences('com_users');
+		}
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.users.users');
 	}

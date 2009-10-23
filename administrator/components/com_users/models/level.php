@@ -2,7 +2,6 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +33,7 @@ class UsersModelLevel extends JModelForm
 	 */
 	protected function _populateState()
 	{
-		$app		= &JFactory::getApplication('administrator');
+		$app		= JFactory::getApplication('administrator');
 		$params		= &JComponentHelper::getParams('com_users');
 
 		// Load the level state.
@@ -94,7 +93,7 @@ class UsersModelLevel extends JModelForm
 	public function getForm()
 	{
 		// Initialize variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 
 		// Get the form.
 		$form = parent::getForm('level', 'com_users.level', array('array' => 'jform', 'event' => 'onPrepareForm'));

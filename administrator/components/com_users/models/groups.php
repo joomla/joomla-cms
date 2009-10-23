@@ -2,7 +2,6 @@
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -120,9 +119,9 @@ class UsersModelGroups extends JModelList
 	protected function _populateState()
 	{
 		// Initialize variables.
-		$app		= &JFactory::getApplication('administrator');
-		$user		= &JFactory::getUser();
-		$config		= &JFactory::getConfig();
+		$app		= JFactory::getApplication('administrator');
+		$user		= JFactory::getUser();
+		$config		= JFactory::getConfig();
 		$params		= JComponentHelper::getParams('com_users');
 		$context	= 'com_users.groups.';
 
