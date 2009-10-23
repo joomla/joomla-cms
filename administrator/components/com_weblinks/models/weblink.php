@@ -129,7 +129,7 @@ class WeblinksModelWeblink extends JModelForm
 	public function getForm()
 	{
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 
 		// Get the form.
 		$form = parent::getForm('weblink', 'com_weblinks.weblink', array('array' => 'jform', 'event' => 'onPrepareForm'));
@@ -216,7 +216,7 @@ class WeblinksModelWeblink extends JModelForm
 		}
 
 		// Clean the cache.
-		$cache = &JFactory::getCache('com_weblinks');
+		$cache = JFactory::getCache('com_weblinks');
 		$cache->clean();
 
 		// Trigger the onAfterContentSave event.
@@ -233,8 +233,8 @@ class WeblinksModelWeblink extends JModelForm
 	protected function _prepareTable(&$table)
 	{
 		jimport('joomla.filter.output');
-		$date = &JFactory::getDate();
-		$user = &JFactory::getUser();
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
 
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
 		$table->alias		= JFilterOutput::stringURLSafe($table->alias);
@@ -249,7 +249,7 @@ class WeblinksModelWeblink extends JModelForm
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
-				$db = &JFactory::getDbo();
+				$db = JFactory::getDbo();
 				$db->setQuery('SELECT MAX(ordering) FROM #__weblinks');
 				$max = $db->loadResult();
 
@@ -481,7 +481,7 @@ class WeblinksModelWeblink extends JModelForm
 		}
 
 		// Clear the component's cache
-		$cache = &JFactory::getCache('com_weblinks');
+		$cache = JFactory::getCache('com_weblinks');
 		$cache->clean();
 
 		return true;

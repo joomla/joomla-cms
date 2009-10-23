@@ -32,7 +32,7 @@ class WeblinksModelWeblinks extends JModelList
 	protected function _populateState()
 	{
 		// Initialize variables.
-		$app		= &JFactory::getApplication('administrator');
+		$app		= JFactory::getApplication('administrator');
 		$params		= JComponentHelper::getParams('com_weblinks');
 
 		// Load the filter state.

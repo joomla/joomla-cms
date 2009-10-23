@@ -45,8 +45,6 @@ class ContentViewFeatured extends JView
 
 	/**
 	 * Display the toolbar
-	 *
-	 * @access	private
 	 */
 	protected function _setToolbar()
 	{

@@ -23,14 +23,13 @@ class JElementAuthor extends JElement
 	/**
 	 * The name of the element.
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	var	$_name = 'Author';
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$access	= &JFactory::getACL();
+		$access	= JFactory::getACL();
 
 		// Include user in groups that have access to edit their articles, other articles, or manage content.
 		$action = array('com_content.article.edit_own', 'com_content.article.edit_article', 'com_content.manage');
@@ -55,7 +54,7 @@ class JElementAuthor extends JElement
 		$query->where('m.group_id IN ('.$groups.')');
 
 		// Get the users.
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$db->setQuery((string) $query);
 		$users = $db->loadObjectList();
 

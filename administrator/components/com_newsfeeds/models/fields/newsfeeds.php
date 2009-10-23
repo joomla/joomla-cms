@@ -33,7 +33,7 @@ require_once JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'fields'.DS.'list.php';
 	 */
 	protected function _getOptions()
 	{
-		$db		= &JFactory::getDbo();
+		$db		= JFactory::getDbo();
 		$query	= new JQuery;
 
 		$query->select('id As value, name As text');

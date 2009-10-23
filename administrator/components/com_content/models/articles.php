@@ -34,7 +34,7 @@ class ContentModelArticles extends JModelList
 	protected function _populateState()
 	{
 		// Initialise variables.
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);

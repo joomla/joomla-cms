@@ -32,7 +32,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	protected function _populateState()
 	{
 		// Initialize variables.
-		$app		= &JFactory::getApplication('administrator');
+		$app		= JFactory::getApplication('administrator');
 		$params		= JComponentHelper::getParams('com_newsfeeds');
 
 		// Load the filter state.

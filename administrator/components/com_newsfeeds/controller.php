@@ -8,24 +8,26 @@
 // No direct access
 defined('_JEXEC') or die;
 
+jimport('joomla.application.component.controller');
+
 /**
- * Newsfeeds Newsfeed Controller
+ * Newsfeeds master display controller.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
- * @since		1.5
+ * @since		1.6
  */
 class NewsfeedsController extends JController
 {
 	/**
 	 * Method to display a view.
 	 */
-	function display()
+	public function display()
 	{
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'newsfeeds.php';
+		require_once JPATH_COMPONENT.'/helpers/newsfeeds.php';
 
 		// Get the document object.
-		$document = &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'newsfeeds');
@@ -46,6 +48,7 @@ class NewsfeedsController extends JController
 			$view->assignRef('document', $document);
 
 			$view->display();
+
 			// Load the submenu.
 			NewsfeedsHelper::addSubmenu($vName);
 		}

@@ -124,7 +124,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	public function getForm()
 	{
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 
 		// Get the form.
 		$form = parent::getForm('newsfeed', 'com_newsfeeds.newsfeed', array('array' => 'jform', 'event' => 'onPrepareForm'));
@@ -211,7 +211,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 		}
 
 		// Clean the cache.
-		$cache = &JFactory::getCache('com_newsfeeds');
+		$cache = JFactory::getCache('com_newsfeeds');
 		$cache->clean();
 
 		// Trigger the onAfterContentSave event.
@@ -228,8 +228,8 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	protected function _prepareTable(&$table)
 	{
 		jimport('joomla.filter.output');
-		$date = &JFactory::getDate();
-		$user = &JFactory::getUser();
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
 
 		$table->name		= htmlspecialchars_decode($table->name, ENT_QUOTES);
 		$table->alias		= JFilterOutput::stringURLSafe($table->alias);
@@ -244,7 +244,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
-				$db = &JFactory::getDbo();
+				$db = JFactory::getDbo();
 				$db->setQuery('SELECT MAX(ordering) FROM #__newsfeeds');
 				$max = $db->loadResult();
 
@@ -476,7 +476,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 		}
 
 		// Clear the component's cache
-		$cache = &JFactory::getCache('com_newsfeeds');
+		$cache = JFactory::getCache('com_newsfeeds');
 		$cache->clean();
 
 		return true;

@@ -135,7 +135,7 @@ class ContentModelArticle extends JModelForm
 	public function getForm()
 	{
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 
 		// Get the form.
 		$form = parent::getForm('article', 'com_content.article', array('array' => 'jform', 'event' => 'onPrepareForm'));
@@ -232,7 +232,7 @@ class ContentModelArticle extends JModelForm
 		}
 
 		// Clean the cache.
-		$cache = &JFactory::getCache('com_content');
+		$cache = JFactory::getCache('com_content');
 		$cache->clean();
 
 		// Trigger the onAfterContentSave event.
@@ -424,7 +424,7 @@ class ContentModelArticle extends JModelForm
 		}
 
 		// Clear the component's cache
-		$cache = &JFactory::getCache('com_content');
+		$cache = JFactory::getCache('com_content');
 		$cache->clean();
 
 		return true;

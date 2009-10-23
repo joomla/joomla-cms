@@ -22,14 +22,13 @@ class JElementNewsfeed extends JElement
 	/**
 	 * Element name
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
-	var	$_name = 'Newsfeed';
+	protected	$_name = 'Newsfeed';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$query = 'SELECT a.id, c.title, a.name'
 		. ' FROM #__newsfeeds AS a'

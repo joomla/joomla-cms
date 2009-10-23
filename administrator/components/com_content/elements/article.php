@@ -14,16 +14,15 @@ class JElementArticle extends JElement
 	/**
 	 * Element name
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	var	$_name = 'Article';
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$app		= &JFactory::getApplication();
-		$db			= &JFactory::getDbo();
-		$doc 		= &JFactory::getDocument();
+		$app		= JFactory::getApplication();
+		$db			= JFactory::getDbo();
+		$doc 		= JFactory::getDocument();
 		$template 	= $app->getTemplate();
 		$fieldName	= $control_name.'['.$name.']';
 		$article = &JTable::getInstance('content');
