@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Oct-2009 Ron Severdia
+^ Removed Austere template
+
 23-Oct-2009 Andrew Eddie
  ! Working commit of adding permissions checks to admin com_users.
  ^ Removed access check on com_cpanel (all can access).
