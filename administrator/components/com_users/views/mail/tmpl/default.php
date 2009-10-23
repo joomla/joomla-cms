@@ -20,43 +20,35 @@
 
 <form action="<?php echo(JRoute::_('index.php?option=com_users&view=mail')); ?>" name="adminForm" method="post">
 
-	<div class="col width-30">
+	<div class="width-30 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_Mail_Details'); ?></legend>
-			<table class="admintable">
-				<tr>
-					<td class="key"><?php echo $this->form->getLabel('recurse'); ?></td> 
-					<td><?php echo $this->form->getInput('recurse'); ?></td>
-				</tr>
-				<tr>
-					<td class="key"><?php echo $this->form->getLabel('mode'); ?></td>
-					<td><?php echo $this->form->getInput('mode'); ?></td>
-				</tr>
-				<tr>
-					<td class="key" valign="top"><?php echo $this->form->getLabel('group'); ?></td>
-					<td><?php echo $this->form->getInput('group'); ?></td>
-				</tr>
-				<tr>
-					<td class="key"><?php echo $this->form->getLabel('bcc'); ?></td>
-					<td><?php echo $this->form->getInput('bcc'); ?></td>
-				</tr>
-			</table>
+			
+			<?php echo $this->form->getLabel('recurse'); ?> 
+			<?php echo $this->form->getInput('recurse'); ?>
+			
+			<?php echo $this->form->getLabel('mode'); ?>
+			<?php echo $this->form->getInput('mode'); ?>
+			
+			<?php echo $this->form->getLabel('group'); ?>
+			<?php echo $this->form->getInput('group'); ?>
+			
+			<?php echo $this->form->getLabel('bcc'); ?>
+			<?php echo $this->form->getInput('bcc'); ?>
+			
 		</fieldset>
 	</div>
 
-	<div class="col width-70">
+	<div class="width-70 fltrt">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_Mail_Message'); ?></legend>
-			<table class="admintable">
-				<tr>
-					<td class="key"><?php echo $this->form->getLabel('subject'); ?></td>
-					<td><?php echo $this->form->getInput('subject'); ?></td>
-				</tr>
-				<tr>
-					<td class="key" valign="top"><?php echo $this->form->getLabel('message'); ?></td>
-					<td><?php echo $this->form->getInput('message'); ?></td>
-				</tr>
-			</table>
+			
+			<?php echo $this->form->getLabel('subject'); ?>
+			<?php echo $this->form->getInput('subject'); ?>
+				
+			<?php echo $this->form->getLabel('message'); ?>
+			<?php echo $this->form->getInput('message'); ?>
+				
 		</fieldset>
 	</div>
 	

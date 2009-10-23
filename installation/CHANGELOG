@@ -27,11 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+Validation errors fixed and cleanup of Help page.
 23-Oct-2009 Andrew Eddie
  ! Working commit of adding permissions checks to admin com_users.
 
 22-Oct-2009 Ron Severdia
 ^ Migrated Media Manager assets to main media directory.
+# Validation errors fixed and cleanup of Help page.
 
 22-Oct-2009 Ian MacLennan
  # Finally found the problem with the progress bar, and fixed (com_media)
