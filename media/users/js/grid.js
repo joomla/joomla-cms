@@ -1,5 +1,5 @@
 /**
- * @version		$Id$
+ * @version		$Id: grid.js 12113 2009-06-16 12:08:12Z eddieajau $
  * @package		Joomla.Administrator
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
