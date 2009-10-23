@@ -35,6 +35,7 @@ Validation errors fixed and cleanup of Help page.
 22-Oct-2009 Ron Severdia
 ^ Migrated Media Manager assets to main media directory.
 # Validation errors fixed and cleanup of Help page.
+^ Migrated User Manager assets to main media directory.
 
 22-Oct-2009 Ian MacLennan
  # Finally found the problem with the progress bar, and fixed (com_media)
