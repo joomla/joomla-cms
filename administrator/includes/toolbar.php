@@ -490,11 +490,6 @@ abstract class JToolBarHelper
 	 */
 	public static function preferences($component, $height = '450', $width = '800', $alt = 'JToolbar_Options', $path = '')
 	{
-		$user = &JFactory::getUser();
-		if (!$user->authorise('core.manage', 'com_config')) {
-			return;
-		}
-
 		$component = urlencode($component);
 		$path = urlencode($path);
 		$bar = &JToolBar::getInstance('toolbar');

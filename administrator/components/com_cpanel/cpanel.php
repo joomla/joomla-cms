@@ -10,10 +10,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-// Access check.
-if (!JFactory::getUser()->authorise('core.manage')) {
-	return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
-}
+// No access check.
 
 // Include dependancies
 jimport('joomla.application.component.controller');

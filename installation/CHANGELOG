@@ -27,10 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-
-Validation errors fixed and cleanup of Help page.
 23-Oct-2009 Andrew Eddie
  ! Working commit of adding permissions checks to admin com_users.
+ ^ Removed access check on com_cpanel (all can access).
+ ^ Removed access check on com_admin (all can access - still need to tune internal access to some data).
+ ^ Split core.login into core.login.site and core.login.admin.
+ ^ Reordered user groups back to the 1.5 way.
 
 22-Oct-2009 Ron Severdia
 ^ Migrated Media Manager assets to main media directory.

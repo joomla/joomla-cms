@@ -18,8 +18,8 @@ jimport('joomla.application.component.model');
  */
 class SearchModelSearch extends JModel
 {
-
-	protected $lists = '';
+	// TODO: This property should not be public.
+	public $lists = '';
 
 	/**
 	 * Overridden constructor

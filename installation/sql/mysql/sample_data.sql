@@ -7,20 +7,20 @@
 -- Dumping data for table `#__assets`
 --
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(27, 8, 29, 30, 2,'com_content.article.1','Welcome to Joomla!',''),
-(28, 8, 15, 16, 2,'com_content.category.11','News',''),
-(29, 8, 17, 28, 2,'com_content.category.12','Countries',''),
-(30, 29, 18, 27, 3,'com_content.category.23','Australia',''),
-(31, 30, 19, 20, 4,'com_content.category.24','Queensland',''),
-(32, 30, 21, 26, 4,'com_content.category.25','Tasmania',''),
-(33, 31, 22, 23, 5,'com_content.article.2','Great Barrier Reef',''),
-(34, 32, 24, 25, 5,'com_content.article.3','Cradle Mountain-Lake St Clair National Park',''),
-(35, 25, 67, 72, 2, 'com_weblinks.category.20', 'Weblinks', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(36, 35, 68, 71, 3, 'com_weblinks.category.21', 'Joomla! Project Sites', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(37, 36, 69, 70, 4, 'com_weblinks.category.22', 'Other Resources', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(38, 7, 13, 14, 2, 'com_contact.category.26', 'Contacts', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(39, 1, 76, 77, 1, 'com_contact.contact.1', 'Contact Name', '');
-
+	(27,8,31,32,2,'com_content.article.1','Welcome to Joomla!',''),
+	(28,8,17,18,2,'com_content.category.11','News',''),
+	(29,8,19,30,2,'com_content.category.12','Countries',''),
+	(30,29,20,29,3,'com_content.category.23','Australia',''),
+	(31,30,21,22,4,'com_content.category.24','Queensland',''),
+	(32,30,23,28,4,'com_content.category.25','Tasmania',''),
+	(33,31,24,25,5,'com_content.article.2','Great Barrier Reef',''),
+	(34,32,26,27,5,'com_content.article.3','Cradle Mountain-Lake St Clair National Park','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(35,25,69,74,2,'com_weblinks.category.20','Uncategorised Weblinks',''),
+	(36,35,70,73,3,'com_weblinks.category.21','Joomla! Specific Links',''),
+	(37,36,71,72,4,'com_weblinks.category.22','Other Resources',''),
+	(39,7,13,14,2,'com_contact.category.26','Contacts','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(40,1,78,79,1,'com_banner.category.27','Banners',''),
+	(41,19,55,56,2,'com_newsfeeds.category.28','News Feeds','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 
 --
 -- Dumping data for table `#__banner`

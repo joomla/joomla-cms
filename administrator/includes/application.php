@@ -195,7 +195,7 @@ class JAdministrator extends JApplication
 		}
 
 		// Set the access control action to check.
-		$options['action'] = 'core.login';
+		$options['action'] = 'core.login.admin';
 
 		$result = parent::login($credentials, $options);
 

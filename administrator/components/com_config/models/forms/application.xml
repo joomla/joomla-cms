@@ -734,13 +734,17 @@
 			class="inputbox"
 			filter="rules">
 			<action
+				name="core.login.site"
+				title="JAction_Login_Site"
+				description="JAction_Login_Site_Desc" />
+			<action
+				name="core.login.admin"
+				title="JAction_Login_Admin"
+				description="JAction_Login_Admin_Desc" />
+			<action
 				name="core.admin"
 				title="JAction_Admin"
 				description="JAction_Admin_Desc" />
-			<action
-				name="core.login"
-				title="JAction_Login"
-				description="JAction_Login_Desc" />
 			<action
 				name="core.manage"
 				title="JAction_Manage"

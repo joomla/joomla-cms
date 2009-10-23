@@ -65,7 +65,7 @@ class LoginController extends JController
 		$model = &$this->getModel('login');
 		$credentials = $model->getState('credentials');
 
-		$result = $app->login($credentials, array('action' => 'core.login'));
+		$result = $app->login($credentials, array('action' => 'core.login.admin'));
 
 		if (!JError::isError($result)) {
 			$app->redirect('index.php');
