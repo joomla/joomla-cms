@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Fixed bug in com_users registration controller.
  # Fixed bugs in com_users router.
  # Fixed [#18460] Login does not redirect correctly.
+ # Fixed [#18437] JFormFieldCalendar does not include JFormFieldText.
 
 23-Oct-2009 Ron Severdia
 ^ Removed Austere template
