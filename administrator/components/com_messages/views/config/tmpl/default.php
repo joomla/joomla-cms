@@ -22,17 +22,17 @@ function submitbutton(pressbutton) {
 </script>
 <form action="index.php" method="post" name="adminForm">
 	<div class="width-40">
-		<fieldset>
+		<fieldset class="adminform">
 			<legend><?php echo JText::_('CONFIGURATION_DETAILS'); ?></legend>
-			<?php echo JText::_('Lock Inbox'); ?>:
+			<label><?php echo JText::_('Lock Inbox'); ?>:</label>
 
 			<?php echo $this->vars['lock']; ?>
 
-			<?php echo JText::_('Mail me on new Message'); ?>:
+			<label><?php echo JText::_('Mail me on new Message'); ?>:</label>
 
 			<?php echo $this->vars['mail_on_new']; ?>
 
-			<?php echo JText::_('Auto Purge Messages'); ?>:
+			<label><?php echo JText::_('Auto Purge Messages'); ?>:</label>
 
 			<input type="text" name="vars[auto_purge]" size="5" value="<?php echo $this->vars['auto_purge']; ?>" class="inputbox" />
 			<?php echo JText::_('days old'); ?>

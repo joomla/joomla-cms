@@ -93,16 +93,6 @@ JHtml::_('behavior.formvalidation');
 		</fieldset>
 		<?php echo $pane->endPanel(); ?>
 
-		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Access'), 'access-rules'); ?>
-
-		<fieldset class="panelform">
-
-			<?php echo $this->form->getLabel('rules'); ?>
-			<?php echo $this->form->getInput('rules'); ?>
-
-		</fieldset>
-		<?php echo $pane->endPanel(); ?>
-
 		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Options'), 'basic-options'); ?>
 		<fieldset class="panelform">
 		<?php foreach($this->form->getFields('attribs') as $field): ?>
@@ -116,6 +106,15 @@ JHtml::_('behavior.formvalidation');
 		</fieldset>
 		<?php echo $pane->endPanel(); ?>
 
+	<?php echo $pane->startPanel(JText::_('Content_Fieldset_Access'), 'access-rules'); ?>
+
+		<fieldset class="panelform">
+
+			<?php echo $this->form->getLabel('rules'); ?>
+			<?php echo $this->form->getInput('rules'); ?>
+
+		</fieldset>
+		<?php echo $pane->endPanel(); ?>
 		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Metadata'), 'meta-options'); ?>
 		<fieldset class="panelform">
 

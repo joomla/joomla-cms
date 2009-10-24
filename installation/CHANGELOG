@@ -30,6 +30,8 @@ $ -> Language fix or change
 24-Oct-2009 Ron Severdia
 # Clean up views & modals
 - Remove com_users specific JS & CSS from media folder
+$ Language cleanup & new strings
+# CSS cleanup
 
 23-Oct-2009 Andrew Eddie
  ^ Fixed new registered type in User Options to be able to select any group.
