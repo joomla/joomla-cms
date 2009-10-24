@@ -26,7 +26,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 		 */
 		JToolBarHelper::custom('update', 'config', 'config', 'Update', true, false);
 		JToolBarHelper::custom('update_find', 'refresh', 'refresh','Find Updates',false,false);
-		JToolBarHelper::custom('update_purge', 'trash', 'trash', 'Purge Cache', false,false);
+		JToolBarHelper::custom('update_purge', 'purge', 'purge', 'Purge Cache', false,false);
 		JToolBarHelper::help('screen.installer');
 
 		// Get data from the model

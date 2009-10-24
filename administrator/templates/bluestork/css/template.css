@@ -1369,7 +1369,7 @@ input.system-openid, input.com-system-openid {
 .icon-32-error			{ background-image: url(../images/toolbar/icon-32-error.png); }
 .icon-32-new-style		{ background-image: url(../images/toolbar/icon-32-new-style.png); }
 .icon-32-delete-style	{ background-image: url(../images/toolbar/icon-32-delete-style.png); }
-
+.icon-32-purge 			{ background-image: url(../images/toolbar/icon-32-purge.png); }
 
 /* -- HEADER ICON STYLES ----------------------------- */
 .icon-48-generic 		{ background-image: url(../images/header/icon-48-generic.png); }
@@ -1579,6 +1579,26 @@ ul.subext li{
   border: 1px solid #cccccc;
   background: #ffffff;
   padding: 2px;
+}
+
+/* Modal styles */
+dl.menu_types {
+	padding: 0 0 0 30px;
+}
+dl.menu_types dt {
+	font-weight: bold;
+	font-size: 12px;
+}
+dl.menu_types dd {
+}
+dl.menu_types dd ul {
+	margin-left: -40px;
+}
+dl.menu_types dd ul li {
+	display:block;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 5px -30px;
 }
 
 /* -- ERROR STYLES relocated from error.css ----------- */
