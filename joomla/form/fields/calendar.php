@@ -9,7 +9,7 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
-jimport('joomla.form.field');
+require_once dirname(__FILE__).'/text.php';
 
 /**
  * Form Field class for the Joomla Framework.
