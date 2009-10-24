@@ -39,7 +39,10 @@ $ -> Language fix or change
  # Fixed [#18367] [patch] for tracker item [#16920] - issues with the admin template compnent.
 
 23-Oct-2009 Ron Severdia
-^ Removed Austere template
+- Removed Austere template
+# Style fixes
+# Toolbar fixes
++ New icons
 
 23-Oct-2009 Andrew Eddie
  ! Working commit of adding permissions checks to admin com_users.
