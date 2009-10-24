@@ -16,6 +16,7 @@ if (typeof(Install) === 'undefined') {
  */
 Install.sampleData = function(el) {
 	// make the ajax call
+	el = $(el);
 	var req = new Request({
 		method: 'get',
 		url: 'index.php?'+document.id(el.form).toQueryString(),
@@ -40,6 +41,7 @@ Install.sampleData = function(el) {
  */
 Install.detectFtpRoot = function(el) {
 	// make the ajax call
+	el = $(el);
 	var req = new Request({
 		method: 'get',
 		url: 'index.php?'+document.id(el.form).toQueryString(),
@@ -64,6 +66,7 @@ Install.detectFtpRoot = function(el) {
  */
 Install.verifyFtpSettings = function(el) {
 	// make the ajax call
+	el = $(el);
 	var req = new Request({
 		method: 'get',
 		url: 'index.php?'+document.id(el.form).toQueryString(),
