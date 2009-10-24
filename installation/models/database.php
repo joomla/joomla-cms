@@ -140,7 +140,7 @@ class JInstallationModelDatabase extends JModel
 
 			// Attempt to import the database schema.
 			if (!$this->populateDatabase($db, $schema)) {
-				$this->setError(JText::_('WARNPOPULATINGDB'));
+				$this->setError(JText::sprintf('Install_Error_DB', $this->getError()));
 				return false;
 			}
 
@@ -148,7 +148,7 @@ class JInstallationModelDatabase extends JModel
 			$dblocalise = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/localise.sql';
 			if (JFile::exists($dblocalise)) {
 				if (!$this->populateDatabase($db, $dblocalise)) {
-					$this->setError(JText::_('WARNPOPULATINGDB'));
+					$this->setError(JText::sprintf('Install_Error_DB', $this->getError()));
 					return false;
 				}
 			}

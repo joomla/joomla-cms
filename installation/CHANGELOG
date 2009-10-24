@@ -38,6 +38,7 @@ $ -> Language fix or change
  # Fixed [#18368] [patch] for tracker item [#16920] - issue with jtext keys in the user controller.
  # Fixed [#18367] [patch] for tracker item [#16920] - issues with the admin template component.
  # Fixed [#18366] [patch] for tracker item [#18079] defined or die; missing in core Lib.
+ # Fixed [#17489] Installation Language String Missing.
 
 23-Oct-2009 Ron Severdia
 - Removed Austere template
