@@ -17,6 +17,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHTML::_('behavior.modal');
 ?>
 
 <script type="text/javascript">
@@ -49,7 +50,7 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getLabel('link'); ?>
 				<?php echo $this->form->getInput('link'); ?>
 			<?php } ?>
-			
+
 			<?php if ($this->item->type !=='url'){ ?>
 				<?php echo $this->form->getLabel('link'); ?>
 				<?php echo $this->form->getInput('link'); ?>
@@ -86,12 +87,13 @@ JHtml::_('behavior.formvalidation');
 
 	<div class="clr"></div>
 
-	<?php //sliders for module selection
-		 echo $pane->startPanel(JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>
-			<fieldset>
-				<?php echo $this->loadTemplate('modules'); ?>
-			</fieldset>
-			<?php echo $pane->endPanel(); ?>
+	<?php if (!empty($this->modules)) : ?>
+		<?php echo $pane->startPanel(JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>
+		<fieldset>
+			<?php echo $this->loadTemplate('modules'); ?>
+		</fieldset>
+		<?php echo $pane->endPanel(); ?>
+	<?php endif; ?>
 
 	<?php echo $pane->endPane(); ?>
 </div>

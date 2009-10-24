@@ -9,11 +9,6 @@
 
 defined('_JEXEC') or die;
 ?>
-<p><?php echo JText::_('Menus_Item_Module_assignment_desc');?></p>
-
-<!-- TO DO: Remove options and replace with single Change button for modal. -->
-
-<?php if (!empty($this->modules)) : ?>
 	<table class="adminlist">
 		<thead>
 		<tr>
@@ -30,34 +25,25 @@ defined('_JEXEC') or die;
 		</thead>
 		<tbody>
 		<?php foreach ($this->modules as $i => &$module) : ?>
-				<tr class="row<?php echo $i % 2;?>">
-					<td>
-						<?php echo JText::sprintf('Menus_Item_Module_Access_Position', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
-					</td>
-					<td class="center">
-					<?php				if (is_null($module->menuid)) {
-						echo JText::_('Menus_Module_Show_None');
-					} else if ($module->menuid != 0) {
-						echo JText::_('Menus_Module_Show_Varies');
-					} else {
-						echo JText::_('Menus_Module_Show_All');
-					} ?>
-
-					</td>
-					<td class="center">
-					<?php $document = &JFactory::getDocument();
-						$document->addScriptDeclaration($js); ?>
-						<?php
-							$link = 'index.php?option=com_modules&client=0&task=edit&cid[]='. $module->id.'&tmpl=component' ;
-						 	JHTML::_('behavior.modal', 'a.modal');
-							$html = '    <a class="modal" title="'.JText::_('Edit').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('Edit_module_settings').'</a>';
-
-							echo  $html;
-
-							?>
-					</td>
-				</tr>
+			<tr class="row<?php echo $i % 2;?>">
+				<td>
+					<?php echo JText::sprintf('Menus_Item_Module_Access_Position', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
+				</td>
+				<td class="center">
+				<?php if (is_null($module->menuid)) : ?>
+					<?php echo JText::_('Menus_Module_Show_None'); ?>
+				<?php elseif ($module->menuid != 0) : ?>
+					<?php echo JText::_('Menus_Module_Show_Varies'); ?>
+				<?php else : ?>
+					<?php echo JText::_('Menus_Module_Show_All'); ?>
+				<?php endif; ?>
+				</td>
+				<td class="center">
+					<?php $link = 'index.php?option=com_modules&client=0&task=edit&cid[]='. $module->id.'&tmpl=component' ; ?>
+					<a class="modal" title="<?php echo JText::_('Edit'); ?>" href="<?php echo $link;?>" rel="{handler: 'iframe', size: {x: 900, y: 506}}">
+						<?php echo JText::_('Edit_module_settings');?></a>
+				</td>
+			</tr>
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-<?php endif; ?>

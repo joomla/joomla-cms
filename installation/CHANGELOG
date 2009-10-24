@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 25-Oct-2009 Andrew Eddie
  # Fixed [#17088] Error on loading demodata during installation IE.
+ # Fixed bug: PHP error in module assignment page of menu edit form.
 
 24-Oct-2009 Ron Severdia
 # Clean up views & modals
