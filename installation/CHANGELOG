@@ -32,6 +32,7 @@ $ -> Language fix or change
  ^ Added check to group delete to ensure that Public and Registered can't be removed.
  # Fixed bug in com_users registration controller.
  # Fixed bugs in com_users router.
+ # Fixed [#18460] Login does not redirect correctly.
 
 23-Oct-2009 Ron Severdia
 ^ Removed Austere template
