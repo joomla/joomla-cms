@@ -89,10 +89,16 @@ class UsersControllerRegistration extends UsersController
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Validate the posted data.
-		$return = $model->validate($data);
+		$form	= &$model->getForm();
+		if (!$form)
+		{
+			JError::raiseError(500, $model->getError());
+			return false;
+		}
+		$data	= $model->validate($form, $data);
 
-		// Check for errors.
-		if ($return === false)
+		// Check for validation errors.
+		if ($data === false)
 		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
@@ -116,7 +122,6 @@ class UsersControllerRegistration extends UsersController
 		}
 
 		// Attempt to save the data.
-		$data	= $return;
 		$return	= $model->register($data);
 
 		// Check for errors.
