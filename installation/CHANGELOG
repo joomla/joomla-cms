@@ -39,6 +39,7 @@ $ -> Language fix or change
  # Fixed [#18367] [patch] for tracker item [#16920] - issues with the admin template component.
  # Fixed [#18366] [patch] for tracker item [#18079] defined or die; missing in core Lib.
  # Fixed [#17489] Installation Language String Missing.
+ # Fixed [#17271] Sample Data Loaded Successfully - not localisable.
 
 23-Oct-2009 Ron Severdia
 - Removed Austere template
