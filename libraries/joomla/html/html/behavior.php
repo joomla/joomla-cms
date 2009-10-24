@@ -31,6 +31,7 @@ abstract class JHtmlBehavior
 	public static function framework($extras = false, $debug = null)
 	{
 		static $loaded = array();
+
 		$type = $extras ? 'more' : 'core';
 
 		// Only load once
@@ -41,15 +42,15 @@ abstract class JHtmlBehavior
 		JHtml::core($debug);
 
 		// If no debugging value is set, use the configuration setting
-		if ($debug === null) {
+		if ($debug === null)
+		{
 			$config = &JFactory::getConfig();
 			$debug = $config->getValue('config.debug');
 		}
 
 		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
-		$konkcheck = strpos(strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
-
-		$uncompressed = ($debug || $konkcheck) ? '-uncompressed' : '';
+		$konkcheck		= isset($_SERVER['HTTP_USER_AGENT']) ? strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'konqueror') : null;
+		$uncompressed	= ($debug || $konkcheck) ? '-uncompressed' : '';
 
 		if ($type != 'core' && empty($loaded['core'])) {
 			self::framework(false);
@@ -73,15 +74,18 @@ abstract class JHtmlBehavior
 		self::framework(true, $debug);
 	}
 
-	public static function caption() {
+	public static function caption()
+	{
 		JHtml::script('caption.js');
 	}
 
-	public static function formvalidation() {
+	public static function formvalidation()
+	{
 		JHtml::script('validate.js');
 	}
 
-	public static function switcher() {
+	public static function switcher()
+	{
 		JHtml::_('behavior.framework');
 		JHtml::script('switcher.js' );
 
@@ -98,7 +102,8 @@ abstract class JHtmlBehavior
 		JFactory::getDocument()->addScriptDeclaration($script);
 	}
 
-	public static function combobox() {
+	public static function combobox()
+	{
 		JHtml::script('combobox.js');
 	}
 
@@ -250,15 +255,15 @@ abstract class JHtmlBehavior
 		$opt['onFileComplete'] = (isset($params['onFileComplete'])) ? '\\'.$params['onFileComplete'] : null;
 		$opt['onComplete'] = (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
 		$opt['onFileSuccess'] = (isset($params['onFileSuccess'])) ? '\\'.$params['onFileSuccess'] : null;
-		
+
 		if(!isset($params['startButton'])) $params['startButton'] = 'upload-start';
 		if(!isset($params['clearButton'])) $params['clearButton'] = 'upload-clear';
 
-		$opt['onLoad'] = 			
+		$opt['onLoad'] =
 			'\\function() {
 				document.id(\''.$id.'\').removeClass(\'hide\'); // we show the actual UI
 				document.id(\'upload-noflash\').destroy(); // ... and hide the plain form
-			
+
 				// We relay the interactions with the overlayed flash to the link
 				this.target.addEvents({
 					click: function() {
@@ -277,7 +282,7 @@ abstract class JHtmlBehavior
 				});
 
 				// Interactions for the 2 other buttons
-			
+
 				document.id(\''.$params['clearButton'].'\').addEvent(\'click\', function() {
 					Uploader.remove(); // remove all files
 					return false;
@@ -293,7 +298,7 @@ abstract class JHtmlBehavior
 
 		// Attach tooltips to document
 		$document = &JFactory::getDocument();
-		$uploaderInit = 
+		$uploaderInit =
 				'window.addEvent(\'domready\', function(){
 				var Uploader = new FancyUpload2($(\''.$id.'\'), $(\''.$upload_queue.'\'), '.$options.' );
 				});';
@@ -416,11 +421,13 @@ abstract class JHtmlBehavior
 			if (is_null($v)) {
 				continue;
 			}
-			if (!is_array($v) && !is_object($v)) {
+			if (!is_array($v) && !is_object($v))
+			{
 				$object .= ' '.$k.': ';
 				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'".$v."'";
 				$object .= ',';
-			} else {
+			}
+			else {
 				$object .= ' '.$k.': '.JHtmlBehavior::_getJSObject($v).',';
 			}
 		}
@@ -464,7 +471,8 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 		Calendar._TT["PREV_YEAR"] = "'.JText::_('Prev. year (hold for menu)').'";Calendar._TT["PREV_MONTH"] = "'.JText::_('Prev. month (hold for menu)').'";	Calendar._TT["GO_TODAY"] = "'.JText::_('Go Today').'";Calendar._TT["NEXT_MONTH"] = "'.JText::_('Next month (hold for menu)').'";Calendar._TT["NEXT_YEAR"] = "'.JText::_('Next year (hold for menu)').'";Calendar._TT["SEL_DATE"] = "'.JText::_('Select date').'";Calendar._TT["DRAG_TO_MOVE"] = "'.JText::_('Drag to move').'";Calendar._TT["PART_TODAY"] = "'.JText::_('(Today)').'";Calendar._TT["DAY_FIRST"] = "'.JText::_('Display %s first').'";Calendar._TT["WEEKEND"] = "0,6";Calendar._TT["CLOSE"] = "'.JText::_('Close').'";Calendar._TT["TODAY"] = "'.JText::_('Today').'";Calendar._TT["TIME_PART"] = "'.JText::_('(Shift-)Click or drag to change value').'";Calendar._TT["DEF_DATE_FORMAT"] = "'.JText::_('%Y-%m-%d').'"; Calendar._TT["TT_DATE_FORMAT"] = "'.JText::_('%a, %b %e').'";Calendar._TT["WK"] = "'.JText::_('wk').'";Calendar._TT["TIME"] = "'.JText::_('Time:').'";';
 			$jsscript = 1;
 			return $return;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}

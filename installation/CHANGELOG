@@ -34,6 +34,7 @@ $ -> Language fix or change
  # Fixed bugs in com_users router.
  # Fixed [#18460] Login does not redirect correctly.
  # Fixed [#18437] JFormFieldCalendar does not include JFormFieldText.
+ # Fixed [#18398] [patch] Add Konqueror/undefined user agent patch from J1.5.
 
 23-Oct-2009 Ron Severdia
 ^ Removed Austere template
