@@ -35,6 +35,7 @@ $ -> Language fix or change
  # Fixed [#18460] Login does not redirect correctly.
  # Fixed [#18437] JFormFieldCalendar does not include JFormFieldText.
  # Fixed [#18398] [patch] Add Konqueror/undefined user agent patch from J1.5.
+ # Fixed [#18368] [patch] for tracker item [#16920] - issue with jtext keys in the user controller.
 
 23-Oct-2009 Ron Severdia
 ^ Removed Austere template

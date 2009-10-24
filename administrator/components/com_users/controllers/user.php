@@ -240,12 +240,12 @@ class UsersControllerUser extends JController
 		if (!$model->batch($vars, $cid))
 		{
 			// Batch operation failed, go back to the users list and display a notice.
-			$message = JText::sprintf('USERS_USERS_BATCH_FAILED', $model->getError());
+			$message = JText::sprintf('USERS_USER_BATCH_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_users&view=users', $message, 'error');
 			return false;
 		}
 
-		$message = JText::_('USERS_USERS_BATCH_SUCCESS');
+		$message = JText::_('USERS_USER_BATCH_SUCCESS');
 		$this->setRedirect('index.php?option=com_users&view=users', $message);
 		return true;
 	}
