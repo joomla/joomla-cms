@@ -59,7 +59,7 @@ $k = 0;
 $i = 0;
 foreach($this->rows as $template => $row) {
 	$author_info = @ $row->xmldata->authorEmail . '<br />' . @ $row->xmldata->authorUrl;
-	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$row->name.'/template_thumbnail.png';
+	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$row->directory.'/template_thumbnail.png';
 ?>
 		<tr class="<?php echo 'row'. $k; ?>">
 			<td>
