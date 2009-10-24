@@ -169,6 +169,12 @@ class UsersModelGroup extends JModelForm
 		$groupIds = (array) $groupIds;
 		JArrayHelper::toInteger($groupIds);
 
+		if (in_array(1, $groupIds) || in_array(2, $groupIds))
+		{
+			$this->setError(JText::sprintf('User_Error_Cannot_delete_core_group'));
+			return false;
+		}
+
 		// Get a group row instance.
 		$table = &$this->getTable('Usergroup', 'JTable');
 

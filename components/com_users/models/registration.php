@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
 jimport('joomla.plugin.helper');
 
@@ -20,7 +20,7 @@ jimport('joomla.plugin.helper');
  * @subpackage	com_users
  * @version		1.0
  */
-class UsersModelRegistration extends JModel
+class UsersModelRegistration extends JModelForm
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -100,10 +100,11 @@ class UsersModelRegistration extends JModel
 		// Get the groups the user should be added to after registration.
 		$data->groups = isset($data->groups) ? array_unique($data->groups) : array();
 
-		// Get the default new user group.
-		$system	= $params->get('new_usertype', 'Registered');
+		// Get the default new user group, Registered if not specified.
+		$system	= $params->get('new_usertype', 2);
 		$data->usertype = $system;
 
+		// TODO: Not sure we need all this stuff anymore. Just need to add the group to the list and we are golden.
 		// Handle the system default group.
 		if (!in_array($system, $data->groups)) {
 			// Add the system group to the first position.

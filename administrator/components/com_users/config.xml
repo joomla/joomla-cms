@@ -15,18 +15,10 @@
 
 		<field
 			name="new_usertype"
-			type="list"
-			default="Registered"
+			type="usergroups"
+			default="2"
 			label="New User Registration Type"
 			description="TIPNEWUSERTYPE">
-			<option
-				value="Registered">Registered</option>
-			<option
-				value="Author">Author</option>
-			<option
-				value="Editor">Editor</option>
-			<option
-				value="Publisher">Publisher</option>
 		</field>
 
 		<field

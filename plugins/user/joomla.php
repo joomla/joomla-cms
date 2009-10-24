@@ -166,7 +166,8 @@ class plgUserJoomla extends JPlugin
 		//TODO : move this out of the plugin
 		jimport('joomla.application.component.helper');
 		$config   = &JComponentHelper::getParams('com_users');
-		$usertype = $config->get('new_usertype', 'Registered');
+		// Default to Registered.
+		$usertype = $config->get('new_usertype', 2);
 
 		$acl = &JFactory::getACL();
 
