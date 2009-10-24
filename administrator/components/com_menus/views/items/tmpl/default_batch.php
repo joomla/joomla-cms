@@ -14,7 +14,7 @@ $options = array(
 	JHtml::_('select.option', 'c', JText::_('Menus_Batch_Copy')),
 	JHtml::_('select.option', 'm', JText::_('Menus_Batch_Move'))
 );
-$published = $this->state->get('filter.published');
+$published = (int) $this->state->get('filter.published');
 ?>
 	<fieldset class="batch">
 
@@ -25,7 +25,7 @@ $published = $this->state->get('filter.published');
 			</label>
 			<?php echo JHtml::_('access.assetgrouplist', 'batch[assetgroup_id]', '', 'class="inputbox"', array('title' => '', 'id' => 'batch_access'));?>
 
-		<?php if (is_numeric($published)) : ?>
+		<?php if ($published >= 0) : ?>
 
 			<label for="batch_access">
 				<?php echo JText::_('Menus_Batch_Menu_Label'); ?>
