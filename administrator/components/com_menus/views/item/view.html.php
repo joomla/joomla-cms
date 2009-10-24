@@ -73,7 +73,7 @@ class MenusViewItem extends JView
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew) {
-			JToolBarHelper::custom('item.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_copy', false)
+			JToolBarHelper::custom('item.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_copy', false)
 			;}
 		if ($isNew) {
 			JToolBarHelper::cancel('item.cancel','JToolbar_Cancel');

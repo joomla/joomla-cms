@@ -73,17 +73,19 @@ class ContentViewArticle extends JView
 
 		JToolBarHelper::title(JText::_('Content_Page_'.($checkedOut ? 'View_Article' : ($isNew ? 'Add_Article' : 'Edit_Article'))), 'article-add.png');
 
-		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('article.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_Copy', false);
-		}
+		
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && $canDo->get('core.edit'))
 		{
-			JToolBarHelper::save('article.save');
 			JToolBarHelper::apply('article.apply');
-			JToolBarHelper::custom('article.save2new', 'new.png', 'new_f2.png', 'JToolbar_Save_and_new', false);
+			JToolBarHelper::save('article.save');
+			JToolBarHelper::custom('article.save2new', 'save-new.png', 'save-new_f2.png', 'JToolbar_Save_and_new', false);
+		}
+		
+		// If an existing item, can save to a copy.
+		if (!$isNew && $canDo->get('core.create')) {
+			JToolBarHelper::custom('article.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_Copy', false);
 		}
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('article.cancel');

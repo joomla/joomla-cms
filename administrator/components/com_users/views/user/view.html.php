@@ -66,8 +66,8 @@ class UsersViewUser extends JView
 
 		$isNew	= ($this->item->id == 0);
 		JToolBarHelper::title(JText::_($isNew ? 'Users_View_New_User_Title' : 'Users_View_Edit_User_Title'), 'user-add');
-		JToolBarHelper::save('user.save');
 		JToolBarHelper::apply('user.apply');
+		JToolBarHelper::save('user.save');
 		JToolBarHelper::addNew('user.save2new', 'JToolbar_Save_and_new');
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('user.cancel');

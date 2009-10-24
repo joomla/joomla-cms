@@ -59,18 +59,20 @@ class CategoriesViewCategory extends JView
 
 		JToolBarHelper::title(JText::_($isNew ? 'Categories_Category_Add_Title' : 'Categories_Category_Edit_Title'), 'category-add');
 
-		// If an existing item, can save to a copy.
-		if (!$isNew) {
-			JToolBarHelper::custom('category.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_copy', false);
-		}
-
+		
 		// If not checked out, can save the item.
 		if ($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'))
 		{
-			JToolBarHelper::save('category.save');
 			JToolBarHelper::apply('category.apply');
+			JToolBarHelper::save('category.save');
 			JToolBarHelper::addNew('category.save2new', 'JToolbar_Save_and_new');
 		}
+		
+		// If an existing item, can save to a copy.
+		if (!$isNew) {
+			JToolBarHelper::custom('category.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_copy', false);
+		}
+		
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('category.cancel');
 		}

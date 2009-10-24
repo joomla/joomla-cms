@@ -16,15 +16,17 @@ defined('_JEXEC') or die;
 <?php if (!empty($this->modules)) : ?>
 	<table class="adminlist">
 		<thead>
-			<th>
+		<tr>
+			<th class="left">
 				<?php echo JText::_('Menus_Heading_Assign_Module');?>
 			</th>
-			<th width="120%">
+			<th>
 				<?php echo JText::_('Menus_Heading_Display');?>
 			</th>
-			<th width="20%">
+			<th>
 				<?php echo JText::_('Menus_Heading_Edit_Link'); ?>
 			</th>
+		</tr>
 		</thead>
 		<tbody>
 		<?php foreach ($this->modules as $i => &$module) : ?>
@@ -42,7 +44,7 @@ defined('_JEXEC') or die;
 					} ?>
 
 					</td>
-					<td class="left">
+					<td class="center">
 					<?php $document = &JFactory::getDocument();
 						$document->addScriptDeclaration($js); ?>
 						<?php

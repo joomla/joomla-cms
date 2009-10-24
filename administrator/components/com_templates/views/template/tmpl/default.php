@@ -8,11 +8,14 @@
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Styles'); ?></legend>
 		<table class="admintable">
+		<thead>
 		<tr>
-			<th width="180"><?php echo JText::_('Style'); ?></th>
-			<th width="70"><?php echo JText::_('Default'); ?></th>
-			<th width="70"><?php echo JText::_('Delete'); ?></th>
+			<th width="60%"><?php echo JText::_('Style'); ?></th>
+			<th width="25%" class="center"><?php echo JText::_('Default'); ?></th>
+			<th width="15%" class="center"><?php echo JText::_('Delete'); ?></th>
 		</tr>
+		</thead>
+		<tbody>
 		<?php
 		$i = 1;
 		foreach($this->paramsets as $set)
@@ -21,19 +24,20 @@
 			<td><a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&template='.$this->template.'&id='.$set->id.'&client='.$this->client->id); ?>">
 				<?php echo JText::_($this->template); ?> (<?php echo $set->description; ?>)
 				</a></td>
-			<td><?php
+			<td class="center"><?php
 			if($set->home)
 			{
 				echo '<img src="templates/'.$this->template.'/images/menu/icon-16-default.png" alt="'.JText::_('Default').'" />';
 			} else {
 				echo '<a href="'.JRoute::_('index.php?option=com_templates&task=setdefault&id='.$set->id).'">default</a>';
 			} ?></td>
-			<td><a href="<?php echo JRoute::_('index.php?option=com_templates&task=delete&template='.$this->template.'&id='.$set->id); ?>">
+			<td class="center"><a href="<?php echo JRoute::_('index.php?option=com_templates&task=delete&template='.$this->template.'&id='.$set->id); ?>">
 				<?php echo '<img src="templates/'.$this->template.'/images/menu/icon-16-delete.png"  alt="'.JText::_('Delete').'" />' ; ?>
 				</a>
 			</td>
 		</tr>
 		<?php } ?>
+		</tbody>
 		</table>
 	</fieldset>
 

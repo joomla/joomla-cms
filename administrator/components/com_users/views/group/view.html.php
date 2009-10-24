@@ -54,9 +54,9 @@ class UsersViewGroup extends JView
 		$isNew	= ($this->item->id == 0);
 		JToolBarHelper::title(JText::_($isNew ? 'Users_View_New_Group_Title' : 'Users_View_Edit_Group_Title'), 'groups-add');
 
-		JToolBarHelper::addNew('group.save2new', 'JToolbar_Save_and_new');
+		JToolBarHelper::apply('group.apply');	
 		JToolBarHelper::save('group.save');
-		JToolBarHelper::apply('group.apply');
+		JToolBarHelper::addNew('group.save2new', 'JToolbar_Save_and_new');
 		JToolBarHelper::cancel('group.cancel');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.users.group');

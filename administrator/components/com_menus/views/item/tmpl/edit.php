@@ -49,6 +49,11 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getLabel('link'); ?>
 				<?php echo $this->form->getInput('link'); ?>
 			<?php } ?>
+			
+			<?php if ($this->item->type !=='url'){ ?>
+				<?php echo $this->form->getLabel('link'); ?>
+				<?php echo $this->form->getInput('link'); ?>
+			<?php } ?>
 
 			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
@@ -61,11 +66,6 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('parent_id'); ?>
 			<?php echo $this->form->getInput('parent_id'); ?>
-
-			<?php if ($this->item->type !=='url'){ ?>
-				<?php echo $this->form->getLabel('link'); ?>
-				<?php echo $this->form->getInput('link'); ?>
-			<?php } ?>
 
 			<?php echo $this->form->getLabel('browserNav'); ?>
 			<?php echo $this->form->getInput('browserNav'); ?>

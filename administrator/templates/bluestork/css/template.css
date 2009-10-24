@@ -304,7 +304,7 @@ div.toolbar-list 				{ float: right; text-align: right; padding: 0; }
 div.toolbar-list ul 			{ margin:0; padding:0; }
 div.toolbar-list li 			{ padding: 1px 1px 3px 4px; text-align: center; color: #666; height: 48px; list-style:none; float:left; }
 div.toolbar-list li.spacer  	{ width: 10px; }
-div.toolbar-list li.divider 	{ border-right: 1px solid #eee; width: 5px; }
+div.toolbar-list li.divider 	{ border-right: 1px solid #c7c7c7; width: 2px; }
 div.toolbar-list span 			{ float: none; width: 32px; height: 32px; margin: 0 auto; display: block; }
 div.toolbar-list a 				{ display: block; float: left;white-space: nowrap;border: 1px solid #fbfbfb;padding: 1px 5px;cursor: pointer; }
 div.toolbar-list a:hover 		{ border-left: 1px solid #eee; border-top: 1px solid #eee; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; text-decoration: none; color: #0B55C4; }
@@ -907,6 +907,9 @@ table.adminlist thead th {
 	border-bottom: 1px solid #CCC;
 	border-left: 1px solid #fff;
 }
+table.adminlist thead th.left {
+	text-align: left;
+}
 
 table.adminlist thead a:hover { text-decoration: none; }
 table.adminlist thead th img { vertical-align: middle; padding-left: 3px;}
@@ -978,7 +981,8 @@ div.checkin-tick {
 }
 
 td.left, th.left { text-align: left; }
-td.center, th.center { text-align: center; }
+td.center, th.center { text-align: center; float:none;}
+td.center img, th.center img { float:none;}
 td.right, th.right { text-align: right; }
 td.nowrap, th.nowrap { white-space:nowrap; }
 
@@ -1360,6 +1364,11 @@ input.system-openid, input.com-system-openid {
 .icon-32-preview 		{ background-image: url(../images/toolbar/icon-32-preview.png); }
 .icon-32-default 		{ background-image: url(../images/toolbar/icon-32-default.png); }
 .icon-32-refresh		{ background-image: url(../images/toolbar/icon-32-refresh.png); }
+.icon-32-save-new		{ background-image: url(../images/toolbar/icon-32-save-new.png); }
+.icon-32-save-copy		{ background-image: url(../images/toolbar/icon-32-save-copy.png); }
+.icon-32-error			{ background-image: url(../images/toolbar/icon-32-error.png); }
+.icon-32-new-style		{ background-image: url(../images/toolbar/icon-32-new-style.png); }
+.icon-32-delete-style	{ background-image: url(../images/toolbar/icon-32-delete-style.png); }
 
 
 /* -- HEADER ICON STYLES ----------------------------- */

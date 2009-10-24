@@ -61,12 +61,12 @@ class ContactViewContact extends JView
 		JRequest::setVar('hidemainmenu', 1);
 
 		JToolBarHelper::title(JText::_('Contact_Manager_Contact'));
-		JToolBarHelper::save('contact.save');
 		JToolBarHelper::apply('contact.apply');
+		JToolBarHelper::save('contact.save');
 		JToolBarHelper::addNew('contact.save2new', 'JToolbar_Save_and_new');
 				// If an existing item, can save to a copy.
 		if (!$isNew) {
-			JToolBarHelper::custom('contact.save2copy','copy.png', 'new_f2.png', 'JToolbar_Save_as_copy',false );
+			JToolBarHelper::custom('contact.save2copy','save-new.png', 'save-new_f2.png', 'JToolbar_Save_as_copy',false );
 		}
 
 		if (empty($this->item->id))  {
