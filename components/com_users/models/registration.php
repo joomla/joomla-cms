@@ -148,8 +148,7 @@ class UsersModelRegistration extends JModelForm
 		$config = &JFactory::getConfig();
 		$params = &JComponentHelper::getParams('com_users');
 
-		// Add the table include path and then initialize the table with JUser.
-		JTable::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'system'.DS.'jxtended'.DS.'database'.DS.'table');
+		// Initialise the table with JUser.
 		JUser::getTable('User', 'JTable');
 		$user = new JUser();
 		$data = (array)$this->getData();

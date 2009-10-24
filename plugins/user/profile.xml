@@ -1,107 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: profile.xml 11567 2009-02-02 23:13:14Z eddieajau $ -->
-<install version="1.5" type="plugin" group="profile">
-	<name>Members - Profile</name>
-	<author>JXtended</author>
-	<creationDate>January 2009</creationDate>
-	<copyright>Copyright (C) 2007 - 2009 JXtended, LLC. All rights reserved.</copyright>
-	<license>GNU General Public License</license>
-	<authorEmail>info@jxtended.com</authorEmail>
-	<authorUrl>http://www.jxtended.com</authorUrl>
-	<version>1.0.0</version>
+	<!-- $Id: profile.xml 11567 2009-02-02 23:13:14Z eddieajau $ -->
+<install
+	version="1.5"
+	type="plugin"
+	group="profile">
+	<name>User - Profile</name>
+	<author>Joomla! Project</author>
+	<creationDate>January 2008</creationDate>
+	<copyright>(C) 2005 - 2009 Open Source Matters. All rights reserved.
+	</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt
+	</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.5</version>
 	<description>USER_PROFILE_PLUGIN_DESC</description>
 
 	<files>
-		<file plugin="profile">profile.php</file>
+		<file
+			plugin="profile">profile.php</file>
 		<file>profile.xml</file>
 		<folder>profile</folder>
 	</files>
 
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_members_profile.ini</language>
+		<language
+			tag="en-GB">language/en-GB/en-GB.plg_members_profile.ini</language>
 	</languages>
 
 	<params>
-		<param name="register-require_address1" type="radio" default="0" label="MEMBERS_REGISTRATION_TOGGLE_ADDRESS1_LABEL" description="MEMBERS_REGISTRATION_TOGGLE_ADDRESS1_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="register-require_address1"
+			type="radio"
+			default="0"
+			label="MEMBERS_REGISTRATION_TOGGLE_ADDRESS1_LABEL"
+			description="MEMBERS_REGISTRATION_TOGGLE_ADDRESS1_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="register-require_address2" type="radio" default="0" label="MEMBERS_REGISTRATION_TOGGLE_ADDRESS2_LABEL" description="MEMBERS_REGISTRATION_TOGGLE_ADDRESS2_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="register-require_address2"
+			type="radio"
+			default="0"
+			label="MEMBERS_REGISTRATION_TOGGLE_ADDRESS2_LABEL"
+			description="MEMBERS_REGISTRATION_TOGGLE_ADDRESS2_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="register-require_city" type="radio" default="0" label="MEMBERS_REGISTRATION_TOGGLE_CITY_LABEL" description="MEMBERS REGISTRATION_TOGGLE_CITY_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="register-require_city"
+			type="radio"
+			default="0"
+			label="MEMBERS_REGISTRATION_TOGGLE_CITY_LABEL"
+			description="MEMBERS REGISTRATION_TOGGLE_CITY_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="register-require_region" type="radio" default="0" label="MEMBERS_REGISTRATION_TOGGLE_REGION_LABEL" description="MEMBERS_REGISTRATION_TOGGLE_REGION_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="register-require_region"
+			type="radio"
+			default="0"
+			label="MEMBERS_REGISTRATION_TOGGLE_REGION_LABEL"
+			description="MEMBERS_REGISTRATION_TOGGLE_REGION_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="register-require_country" type="radio" default="0" label="MEMBERS_REGISTRATION_TOGGLE_COUNTRY_LABEL" description="MEMBERS_REGISTRATION_TOGGLE_COUNTRY_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="register-require_country"
+			type="radio"
+			default="0"
+			label="MEMBERS_REGISTRATION_TOGGLE_COUNTRY_LABEL"
+			description="MEMBERS_REGISTRATION_TOGGLE_COUNTRY_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="register-require_postal_code" type="radio" default="0" label="MEMBERS_REGISTRATION_TOGGLE_POSTAL_CODE_LABEL" description="MEMBERS_REGISTRATION_TOGGLE_POSTAL_CODE_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="register-require_postal_code"
+			type="radio"
+			default="0"
+			label="MEMBERS_REGISTRATION_TOGGLE_POSTAL_CODE_LABEL"
+			description="MEMBERS_REGISTRATION_TOGGLE_POSTAL_CODE_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="register-require_phone" type="radio" default="0" label="MEMBERS_PROFILE_TOGGLE_PHONE_LABEL" description="MEMBERS_REGISTRATION_TOGGLE_PHONE_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="register-require_phone"
+			type="radio"
+			default="0"
+			label="MEMBERS_PROFILE_TOGGLE_PHONE_LABEL"
+			description="MEMBERS_REGISTRATION_TOGGLE_PHONE_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="register-require_website" type="radio" default="0" label="MEMBERS_REGISTRATION_TOGGLE_WEB_SITE_LABEL" description="MEMBERS_REGISTRATION_TOGGLE_WEB_SITE_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="register-require_website"
+			type="radio"
+			default="0"
+			label="MEMBERS_REGISTRATION_TOGGLE_WEB_SITE_LABEL"
+			description="MEMBERS_REGISTRATION_TOGGLE_WEB_SITE_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param type="spacer" />
-		<param name="profile-require_address1" type="radio" default="1" label="MEMBERS_PROFILE_TOGGLE_ADDRESS1_LABEL" description="MEMBERS_PROFILE_TOGGLE_ADDRESS1_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			type="spacer" />
+		<param
+			name="profile-require_address1"
+			type="radio"
+			default="1"
+			label="MEMBERS_PROFILE_TOGGLE_ADDRESS1_LABEL"
+			description="MEMBERS_PROFILE_TOGGLE_ADDRESS1_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="profile-require_address2" type="radio" default="1" label="MEMBERS_PROFILE_TOGGLE_ADDRESS2_LABEL" description="MEMBERS_PROFILE_TOGGLE_ADDRESS2_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="profile-require_address2"
+			type="radio"
+			default="1"
+			label="MEMBERS_PROFILE_TOGGLE_ADDRESS2_LABEL"
+			description="MEMBERS_PROFILE_TOGGLE_ADDRESS2_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="profile-require_city" type="radio" default="1" label="MEMBERS_PROFILE_TOGGLE_CITY_LABEL" description="MEMBERS_PROFILE_TOGGLE_CITY_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="profile-require_city"
+			type="radio"
+			default="1"
+			label="MEMBERS_PROFILE_TOGGLE_CITY_LABEL"
+			description="MEMBERS_PROFILE_TOGGLE_CITY_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="profile-require_region" type="radio" default="1" label="MEMBERS_PROFILE_TOGGLE_REGION_LABEL" description="MEMBERS_PROFILE_TOGGLE_REGION_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="profile-require_region"
+			type="radio"
+			default="1"
+			label="MEMBERS_PROFILE_TOGGLE_REGION_LABEL"
+			description="MEMBERS_PROFILE_TOGGLE_REGION_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="profile-require_country" type="radio" default="1" label="MEMBERS_PROFILE_TOGGLE_COUNTRY_LABEL" description="MEMBERS_PROFILE_TOGGLE_COUNTRY_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="profile-require_country"
+			type="radio"
+			default="1"
+			label="MEMBERS_PROFILE_TOGGLE_COUNTRY_LABEL"
+			description="MEMBERS_PROFILE_TOGGLE_COUNTRY_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="profile-require_postal_code" type="radio" default="1" label="MEMBERS_PROFILE_TOGGLE_POSTAL_CODE_LABEL" description="MEMBERS_PROFILE_TOGGLE_POSTAL_CODE_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="profile-require_postal_code"
+			type="radio"
+			default="1"
+			label="MEMBERS_PROFILE_TOGGLE_POSTAL_CODE_LABEL"
+			description="MEMBERS_PROFILE_TOGGLE_POSTAL_CODE_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="profile-require_phone" type="radio" default="1" label="MEMBERS_PROFILE_TOGGLE_PHONE_LABEL" description="MEMBERS_PROFILE_TOGGLE_PHONE_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="profile-require_phone"
+			type="radio"
+			default="1"
+			label="MEMBERS_PROFILE_TOGGLE_PHONE_LABEL"
+			description="MEMBERS_PROFILE_TOGGLE_PHONE_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
-		<param name="profile-require_website" type="radio" default="1" label="MEMBERS_PROFILE_TOGGLE_WEB_SITE_LABEL" description="MEMBERS_PROFILE_TOGGLE_WEB_SITE_DESC">
-			<option value="2">JOPTION_REQUIRED</option>
-			<option value="1">JOPTION_OPTIONAL</option>
-			<option value="0">JOPTION_DISABLED</option>
+		<param
+			name="profile-require_website"
+			type="radio"
+			default="1"
+			label="MEMBERS_PROFILE_TOGGLE_WEB_SITE_LABEL"
+			description="MEMBERS_PROFILE_TOGGLE_WEB_SITE_DESC">
+			<option
+				value="2">JOPTION_REQUIRED</option>
+			<option
+				value="1">JOPTION_OPTIONAL</option>
+			<option
+				value="0">JOPTION_DISABLED</option>
 		</param>
 	</params>
 </install>

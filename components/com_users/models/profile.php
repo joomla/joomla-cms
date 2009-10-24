@@ -97,8 +97,7 @@ class UsersModelProfile extends JModelForm
 		$app	= &JFactory::getApplication();
 		$false	= false;
 
-		// Add the table include path and then initialize the table with JUser.
-		JTable::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'system'.DS.'jxtended'.DS.'database'.DS.'table');
+		// Initialise the table with JUser.
 		$table = &JUser::getTable('User', 'JTable');
 		$data = new JUser($this->getState('member.id'));
 
@@ -168,8 +167,7 @@ class UsersModelProfile extends JModelForm
 
 		if ($memberId)
 		{
-			// Add the table include path and then get the table with JUser.
-			JTable::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'system'.DS.'jxtended'.DS.'database'.DS.'table');
+			// Initialise the table with JUser.
 			$table = JUser::getTable('User', 'JTable');
 
 			// Get the current user object.
@@ -200,8 +198,7 @@ class UsersModelProfile extends JModelForm
 
 		if ($memberId)
 		{
-			// Add the table include path and then get the table with JUser.
-			JTable::addIncludePath(JPATH_SITE.DS.'plugins'.DS.'system'.DS.'jxtended'.DS.'database'.DS.'table');
+			// Initialise the table with JUser.
 			$table = JUser::getTable('User', 'JTable');
 
 			// Get the current user object.
