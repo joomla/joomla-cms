@@ -90,33 +90,58 @@ function UsersBuildRoute(&$query)
 		switch ($query['view'])
 		{
 			case 'reset':
-				unset ($query['view']);
-				$query['Itemid'] = ($reset) ? $reset : $default;
+				if ($query['Itemid'] = $reset) {
+					unset ($query['view']);
+				}
+				else {
+					$query['Itemid'] = $default;
+				}
 				break;
 
 			case 'resend':
-				unset ($query['view']);
-				$query['Itemid'] = ($resend) ? $resend : $default;
+				if ($query['Itemid'] = $resend) {
+					unset ($query['view']);
+				}
+				else {
+					$query['Itemid'] = $default;
+				}
 				break;
 
 			case 'remind':
-				unset ($query['view']);
-				$query['Itemid'] = ($remind) ? $remind : $default;
+				if ($query['Itemid'] = $remind) {
+					unset ($query['view']);
+				}
+				else {
+					$query['Itemid'] = $default;
+				}
 				break;
 
 			case 'login':
-				unset ($query['view']);
-				$query['Itemid'] = ($login) ? $login : $default;
+				if ($query['Itemid'] = $login) {
+					unset ($query['view']);
+				}
+				else {
+					$query['Itemid'] = $default;
+				}
 				break;
 
 			case 'registration':
-				unset ($query['view']);
-				$query['Itemid'] = ($registration) ? $registration : $default;
+				if ($query['Itemid'] = $registration) {
+					unset ($query['view']);
+				}
+				else {
+					$query['Itemid'] = $default;
+				}
 				break;
 
 			default:
 			case 'profile':
-				unset ($query['view']);
+				if ($query['Itemid'] = $profile) {
+					unset ($query['view']);
+				}
+				else {
+					$query['Itemid'] = $default;
+				}
 
 				// Only append the member id if not "me".
 				$user = & JFactory::getUser();
@@ -129,8 +154,6 @@ function UsersBuildRoute(&$query)
 					$segments[] = $query['layout'];
 				}
 				unset ($query['layout']);
-
-				$query['Itemid'] = ($profile) ? $profile : $default;
 				break;
 		}
 	}
