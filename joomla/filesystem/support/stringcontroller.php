@@ -15,6 +15,10 @@
  */
 
 
+// No direct access
+defined('JPATH_BASE') or die();
+
+
 class JStringController {
 
 	function &_getArray() {

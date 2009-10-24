@@ -19,7 +19,7 @@
  * @version SVN: $Id$
  */
 
-// Check to ensure this file is within the rest of the framework
+// No direct access.
 defined('JPATH_BASE') or die();
 
 jimport('joomla.filesystem.helper');
@@ -82,7 +82,8 @@ class JStream extends JObject
 	/**
 	 * Destructor
 	 */
-	function __destruct() {
+	function __destruct()
+	{
 		// attempt to close on destruction if there is a file handle
 		if($this->_fh) @$this->close();
 	}

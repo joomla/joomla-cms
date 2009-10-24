@@ -7,6 +7,9 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access
+defined('JPATH_BASE') or die;
+
 /**
  * JArrayHelper is an array utility class for doing all sorts of odds and ends with arrays.
  *

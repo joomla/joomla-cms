@@ -7,6 +7,9 @@
  * @license		GNU General Public License, see LICENSE.php
  */
 
+// No direct access
+defined('JPATH_BASE') or die;
+
 /**
  * Adapter Class
  * Retains common adapter pattern functions
