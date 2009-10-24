@@ -1,4 +1,8 @@
 <?php
+
+// No direct access
+defined('JPATH_BASE') or die();
+
 jimport('joomla.base.adapterinstance');
 
 class JUpdateAdapter extends JAdapterInstance {

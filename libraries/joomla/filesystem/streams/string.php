@@ -15,12 +15,14 @@
  * @version SVN: $Id$
  */
 
+// No direct access.
+defined('JPATH_BASE') or die();
+
 jimport('joomla.filesystem.support.stringcontroller');
 
-
-class JStreamString {
+class JStreamString
+{
 	private $_currentstring;
-
 	private $_path;
 	private $_mode;
 	private $_options;
@@ -30,73 +32,91 @@ class JStreamString {
 
 	private $_stat;
 
-	function stream_open($path, $mode, $options, &$opened_path) {
+	function stream_open($path, $mode, $options, &$opened_path)
+	{
 		$this->_currentstring =& JStringController::getRef(str_replace('string://','',$path));
-		if($this->_currentstring) {
+		if($this->_currentstring)
+		{
 			$this->_len = strlen(&$this->_currentstring);
 			$this->_pos = 0;
 			$this->_stat = $this->url_stat($path, 0);
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
 
-	function stream_stat() {
+	function stream_stat()
+	{
 		return $this->_stat;
 	}
 
-	function url_stat($path, $flags=0) {
+	function url_stat($path, $flags=0)
+	{
 		$now = time();
 		$string =& JStringController::getRef(str_replace('string://','',$path));
 		$stat = Array(
-						'dev'=> 0,
-						'ino'=> 0,
-						'mode'=>0,
-						'nlink'=>1,
-						'uid'=>0,
-						'gid'=>0,
-						'rdev'=>0,
-						'size'=>strlen(&$string),
-						'atime'=>$now,
-						'mtime'=>$now,
-						'ctime'=>$now,
-						'blksize'=>'512',
-						'blocks'=>ceil(strlen(&$string) / 512)
-						);
+			'dev'=> 0,
+			'ino'=> 0,
+			'mode'=>0,
+			'nlink'=>1,
+			'uid'=>0,
+			'gid'=>0,
+			'rdev'=>0,
+			'size'=>strlen(&$string),
+			'atime'=>$now,
+			'mtime'=>$now,
+			'ctime'=>$now,
+			'blksize'=>'512',
+			'blocks'=>ceil(strlen(&$string) / 512)
+		);
 		return $stat;
 	}
 
-	function stream_read($count) {
+	function stream_read($count)
+	{
 		$result = substr(&$this->_currentstring, $this->_pos, $count);
 		$this->_pos += $count;
 		return $result;
 	}
 
-	function stream_write($data) {
-		return false; // we don't support updating the string
+	function stream_write($data)
+	{
+		// We don't support updating the string.
+		return false;
 	}
 
-	function stream_tell() {
+	function stream_tell()
+	{
 		return $this->_pos;
 	}
 
-	function stream_eof() {
-		if($this->_pos > $this->_len) return true;
+	function stream_eof()
+	{
+		if ($this->_pos > $this->_len) {
+			return true;
+		}
 		return false;
 	}
 
 	function stream_seek($offset, $whence) {
 		//$whence: SEEK_SET, SEEK_CUR, SEEK_END
-		if($offset > $this->_len) return false; // we can't seek beyond our len
-		switch($whence) {
+		if($offset > $this->_len) {
+			return false; // we can't seek beyond our len
+		}
+		switch($whence)
+		{
 			case SEEK_SET:
 				$this->_pos = $offset;
 				break;
 			case SEEK_CUR:
-				if(($this->_pos + $offset) < $this->_len) {
+				if (($this->_pos + $offset) < $this->_len) {
 					$this->_pos += $offset;
-				} else return false;
+				}
+				else {
+					return false;
+				}
 				break;
 			case SEEK_END:
 				$this->_pos = $this->_len - $offset;
@@ -105,7 +125,8 @@ class JStreamString {
 		return true;
 	}
 
-	function stream_flush() {
+	function stream_flush()
+	{
 		return true; // we don't store data
 	}
 }

@@ -36,7 +36,8 @@ $ -> Language fix or change
  # Fixed [#18437] JFormFieldCalendar does not include JFormFieldText.
  # Fixed [#18398] [patch] Add Konqueror/undefined user agent patch from J1.5.
  # Fixed [#18368] [patch] for tracker item [#16920] - issue with jtext keys in the user controller.
- # Fixed [#18367] [patch] for tracker item [#16920] - issues with the admin template compnent.
+ # Fixed [#18367] [patch] for tracker item [#16920] - issues with the admin template component.
+ # Fixed [#18366] [patch] for tracker item [#18079] defined or die; missing in core Lib.
 
 23-Oct-2009 Ron Severdia
 - Removed Austere template

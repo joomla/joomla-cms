@@ -5,6 +5,9 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access
+defined('JPATH_BASE') or die;
+
 /**
  * Authorization helper class, provides static methods to perform various tasks relevant
  * to the Joomla user and authorization classes
