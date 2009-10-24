@@ -56,18 +56,18 @@ class MenusViewMenu extends JView
 
 		JToolBarHelper::apply('menu.apply');
 		JToolBarHelper::save('menu.save');
-		JToolBarHelper::addNew('item.save2new', 'JToolbar_Save_and_new');
+		JToolBarHelper::addNew('menu.save2new', 'JToolbar_Save_and_new');
 
 		// If an existing item, can save to a copy.
 		if (!$isNew) {
-			JToolBarHelper::custom('item.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_copy', false)
-			;}
+			JToolBarHelper::custom('menu.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_copy', false);
+		}
 		if ($isNew) {
-			JToolBarHelper::cancel('item.cancel'.'JToolbar_Cancel');
-			}
+			JToolBarHelper::cancel('menu.cancel', 'JToolbar_Cancel');
+		}
 		else {
-			JToolBarHelper::cancel('item.cancel', 'JToolbar_Close');
-			}
+			JToolBarHelper::cancel('menu.cancel', 'JToolbar_Close');
+		}
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.menus.menu');
 	}

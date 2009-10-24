@@ -45,6 +45,9 @@ $ -> Language fix or change
  # Fixed [#17489] Installation Language String Missing.
  # Fixed [#17271] Sample Data Loaded Successfully - not localisable.
  # Fixed [#16949] Remove obsolete file checks.
+ # Fixed bug: Default star not showing in template manager list.
+ # Added bandage fix to allow you to change frontend template.
+ # Fixed bug: Cancel not working in edit menu form.
 
 23-Oct-2009 Ron Severdia
 - Removed Austere template

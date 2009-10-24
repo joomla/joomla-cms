@@ -137,9 +137,10 @@ class TemplatesModelTemplates extends JModel
 			$this->_data = TemplatesHelper::parseXMLTemplateFiles($tBaseDir);
 
 			$total= $this->getTotal();
-			foreach($this->_data as $dir => $data) {
-				$this->_data[$dir]->assigned = TemplatesHelper::isTemplateNameAssigned($this->_data[$dir]->name,$this->_client->id);
-				$this->_data[$dir]->home = TemplatesHelper::isTemplateNameDefault($this->_data[$dir]->name,$this->_client->id);
+			foreach($this->_data as $dir => $data)
+			{
+				$this->_data[$dir]->assigned = TemplatesHelper::isTemplateNameAssigned($data->directory,$this->_client->id);
+				$this->_data[$dir]->home = TemplatesHelper::isTemplateNameDefault($data->directory, $this->_client->id);
 //				$this->_data[$dir]->xmldata = $rows[$this->_data[$dir]->name];
 			}
 		}

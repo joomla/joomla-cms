@@ -259,12 +259,13 @@ class TemplatesModelTemplate extends JModel
 		return true;
 	}
 
-	public function setDefault()
+	public function setDefault($id = 0, $clientId = 0)
 	{
-		$query = 'UPDATE #__menu_template SET home=0 WHERE client_id='.$this->_db->Quote($this->_client->id);
+		// TODO: Infer the client ID from the template id (just look it up).
+		$query = 'UPDATE #__menu_template SET home=0 WHERE client_id='.(int) $clientId;
 		$this->_db->setQuery($query);
 		$this->_db->query();
-		$query = 'UPDATE #__menu_template SET home=1 WHERE id='.$this->_db->Quote($this->_id);
+		$query = 'UPDATE #__menu_template SET home=1 WHERE id='.(int) $id;
 		$this->_db->setQuery($query);
 		$this->_db->query();
 		return true;
