@@ -158,7 +158,6 @@ class AdminModelSysInfo extends JModel
 			jimport('joomla.filesystem.folder');
 			$cparams = & JComponentHelper::getParams('com_media');
 			$this->directory = array();
-			$this->directory['administrator'.DS.'backups']		= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'backups'), 'message' => '');
 			$this->directory['administrator'.DS.'components']	= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'components'), 'message' => '');
 			$this->directory['administrator'.DS.'language']		= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'language'), 'message' => '');
 
@@ -191,7 +190,6 @@ class AdminModelSysInfo extends JModel
 			$this->directory['plugins'.DS.'search']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'search'), 'message' => '');
 			$this->directory['plugins'.DS.'system']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'system'), 'message' => '');
 			$this->directory['plugins'.DS.'user']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'user'), 'message' => '');
-			$this->directory['plugins'.DS.'xmlrpc']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'xmlrpc'), 'message' => '');
 			$this->directory['cache']						= array('writable' => is_writable(JPATH_SITE.DS.'cache'), 'message' => 'Admin_Cache_Directory');
 			$this->directory['administrator'.DS.'cache']	= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'cache'), 'message' => 'Admin_Cache_Directory');
 

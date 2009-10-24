@@ -40,6 +40,7 @@ $ -> Language fix or change
  # Fixed [#18366] [patch] for tracker item [#18079] defined or die; missing in core Lib.
  # Fixed [#17489] Installation Language String Missing.
  # Fixed [#17271] Sample Data Loaded Successfully - not localisable.
+ # Fixed [#16949] Remove obsolete file checks.
 
 23-Oct-2009 Ron Severdia
 - Removed Austere template
