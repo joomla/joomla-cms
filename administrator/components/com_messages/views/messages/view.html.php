@@ -38,8 +38,10 @@ class MessagesViewMessages extends JView
 	protected function _setToolbar()
 	{
 		JToolBarHelper::title(JText::_('PRIVATE_MESSAGES'), 'inbox.png');
-		JToolBarHelper::deleteList();
+		
 		JToolBarHelper::addNew();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::divider();
 		JToolBarHelper::custom('config', 'config.png', 'config_f2.png', 'Settings', false, false);
 		JToolBarHelper::preferences('com_redirect');
 		JToolBarHelper::divider();

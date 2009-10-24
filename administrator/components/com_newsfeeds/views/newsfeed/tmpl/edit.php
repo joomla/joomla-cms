@@ -42,30 +42,18 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
+			
+			<?php echo $this->form->getLabel('access'); ?>
+			<?php echo $this->form->getInput('access'); ?>
 
 			<?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?>
 
 			<?php echo $this->form->getLabel('link'); ?>
 			<?php echo $this->form->getInput('link'); ?>
-
-			<?php echo $this->form->getLabel('numarticles'); ?>
-			<?php echo $this->form->getInput('numarticles'); ?>
-
-			<?php echo $this->form->getLabel('cache_time'); ?>
-			<?php echo $this->form->getInput('cache_time'); ?>
-
+			
 			<?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?>
-
-			<?php echo $this->form->getLabel('rtl'); ?><br />
-			<?php echo $this->form->getInput('rtl'); ?>
-
-			<?php echo $this->form->getLabel('access'); ?><br />
-			<?php echo $this->form->getInput('access'); ?>
-
-			<?php echo $this->form->getLabel('language'); ?><br />
-			<?php echo $this->form->getInput('language'); ?>
 
 	</fieldset>
 </div>
@@ -73,7 +61,19 @@ JHtml::_('behavior.formvalidation');
 <div class="width-40 fltrt">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Newsfeeds_Options'); ?></legend>
+		
+			<?php echo $this->form->getLabel('numarticles'); ?>
+			<?php echo $this->form->getInput('numarticles'); ?>
 
+			<?php echo $this->form->getLabel('cache_time'); ?>
+			<?php echo $this->form->getInput('cache_time'); ?>
+
+			<?php echo $this->form->getLabel('rtl'); ?>
+			<?php echo $this->form->getInput('rtl'); ?>
+
+			<?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?>
+			
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>

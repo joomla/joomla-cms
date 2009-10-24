@@ -64,19 +64,21 @@ class NewsfeedsViewNewsfeed extends JView
 		$canDo		= NewsfeedsHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 
 		JToolBarHelper::title(JText::_('Newsfeeds_Manager_Newsfeed'));
-
-		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('newsfeed.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_Copy', false);
-		}
-
+		
 		// If not checked out, can save the item.
 		if (!$checkedOut && $canDo->get('core.edit'))
 		{
-			JToolBarHelper::save('newsfeed.save');
+			
 			JToolBarHelper::apply('newsfeed.apply');
+			JToolBarHelper::save('newsfeed.save');
 			JToolBarHelper::addNew('newsfeed.save2new', 'JToolbar_Save_and_new');
 		}
+		
+		// If an existing item, can save to a copy.
+		if (!$isNew && $canDo->get('core.create')) {
+			JToolBarHelper::custom('newsfeed.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_Copy', false);
+		}
+		
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('newsfeed.cancel');
 		}

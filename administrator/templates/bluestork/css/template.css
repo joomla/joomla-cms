@@ -73,7 +73,7 @@ fieldset {
 fieldset.batch {
 	margin: 25px 0 10px 0;
 }
-fieldset.batch label {  margin: 5px;  }
+fieldset.batch label {  margin: 5px; min-width: 110px; }
 fieldset.batch button {  margin: 3px;  }
 
 legend    {

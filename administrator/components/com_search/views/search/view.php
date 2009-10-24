@@ -28,6 +28,7 @@ class SearchViewSearch extends JView
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache')) {
 			JToolBarHelper::preferences('com_search');
 		}
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.stats.searches');
 
 		$document = & JFactory::getDocument();
