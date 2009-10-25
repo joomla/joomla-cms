@@ -17,28 +17,25 @@ $options = array(
 $published = (int) $this->state->get('filter.published');
 ?>
 	<fieldset class="batch">
-
-			<legend><?php echo JText::_('Menus_Batch_Options');?></legend>
-
-			<label for="batch_access">
-				<?php echo JText::_('Menus_Batch_Access_Label'); ?>
-			</label>
-			<?php echo JHtml::_('access.assetgrouplist', 'batch[assetgroup_id]', '', 'class="inputbox"', array('title' => '', 'id' => 'batch_access'));?>
+		<legend><?php echo JText::_('Menus_Batch_Options');?></legend>
+		<label id="batch-access-lbl" for="batch-access">
+			<?php echo JText::_('Menus_Batch_Access_Label'); ?>
+		</label>
+		<?php echo JHtml::_('access.assetgrouplist', 'batch[assetgroup_id]', '', 'class="inputbox"', array('title' => '', 'id' => 'batch-access'));?>
 
 		<?php if ($published >= 0) : ?>
-
-			<label for="batch_access">
+			<label id="batch-choose-action-lbl" for="batch-choose-action">
 				<?php echo JText::_('Menus_Batch_Menu_Label'); ?>
 			</label>
-			<select name="batch[menu_id]" class="inputbox" id="batch_menu_id">
-				<option></option>
-				<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published)));?>
-			</select>
-			<?php echo JHTML::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
-
+			<fieldset id="batch-choose-action" class="combo">
+				<select name="batch[menu_id]" class="inputbox" id="batch-menu-id">
+					<option></option>
+					<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published)));?>
+				</select>
+				<?php echo JHTML::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+			</fieldset>
 		<?php endif; ?>
-
 		<button type="submit" onclick="submitbutton('item.batch');">
-			<?php echo JText::_('Menus_Batch_Process'); ?></button>
-
+			<?php echo JText::_('Menus_Batch_Process'); ?>
+		</button>
 	</fieldset>

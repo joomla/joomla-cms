@@ -70,12 +70,6 @@ fieldset {
 	text-align: left;
 }
 
-fieldset.batch {
-	margin: 25px 0 10px 0;
-}
-fieldset.batch label {  margin: 5px; min-width: 110px; }
-fieldset.batch button {  margin: 3px;  }
-
 legend    {
 	color: #146295;
 	font-size: 13px;
@@ -622,10 +616,39 @@ div.panel fieldset {
 	border: 0;
 }
 
+/* Batch */
+
 fieldset.batch {
 	margin: 20px 0px 10px 0px;
 	background: #fff;
+padding:10px;
 }
+fieldset.batch label {  margin: 5px; min-width: 40px; }
+fieldset.batch button {  margin: 3px;  }
+
+fieldset#batch-choose-action {
+	clear:left;
+	border: 0 none;
+}
+
+fieldset.batch label {
+	float:left;
+	clear:none;
+}
+fieldset label#batch-choose-action-lbl {
+	clear:left;
+	margin-top: 15px;
+}
+select#batch-menu-id {
+	margin-right:30px;
+}
+
+label#batch-access-lbl {
+	margin-right:10px;
+}
+
+
+
 
 label#jform_description-lbl {
 	padding: 10px 0;
