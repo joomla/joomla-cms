@@ -31,8 +31,9 @@ class TemplatesViewCssedit extends JView
 	public function display($tpl = null)
 	{
 		JToolBarHelper::title(JText::_('Template Manager'), 'thememanager');
-		JToolBarHelper::save('save_css');
+		
 		JToolBarHelper::apply('apply_css');
+		JToolBarHelper::save('save_css');
 		JToolBarHelper::cancel('choose_css');
 		JToolBarHelper::help('screen.templates');
 

@@ -43,7 +43,9 @@
 
 		<h3><?php echo $template_path; ?></h3>
 		<div class="clr"></div>
-		<?php echo $editor->display('filecontent', $this->content, '100%', '300px', '30', '50', false); ?>
+		<div class="editor-border">
+			<?php echo $editor->display('filecontent', $this->content, '100%', '300px', '30', '50', false); ?>
+		</div>
 		<div class="clr"></div>
 
 <input type="hidden" name="template" value="<?php echo $this->template; ?>" />

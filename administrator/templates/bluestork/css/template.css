@@ -519,7 +519,8 @@ div.width-100 fieldset {
 }
 
 fieldset#user-groups,
-fieldset.adminform {
+fieldset.adminform,
+fieldset.adminform-legacy {
 	margin: 10px;
 }
 
@@ -682,10 +683,22 @@ div.jform_na {
 	margin-top: 5px;
 	float:left;
 }
-div.jform_template {
+div#jform_template,
+div#jform_template-desc {
 	float:left;
 	padding-right: 5px;
 	padding-top: 5px;
+	font-size:12px;
+}
+div#jform_template-desc {
+	padding-top: 3px;
+}
+input#description {
+	margin-top: 3px;
+}
+
+div.editor-border {
+	border: 1px solid #CCCCCC;
 }
 
 fieldset ul li {

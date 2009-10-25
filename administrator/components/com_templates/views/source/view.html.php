@@ -31,8 +31,8 @@ class TemplatesViewSource extends JView
 	public function display($tpl = null)
 	{
 		JToolBarHelper::title(JText::_('Template HTML Editor'), 'thememanager');
-		JToolBarHelper::save('save_source');
 		JToolBarHelper::apply('apply_source');
+		JToolBarHelper::save('save_source');
 		JToolBarHelper::cancel('edit');
 		JToolBarHelper::help('screen.templates');
 
