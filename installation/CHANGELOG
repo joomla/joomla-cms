@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Oct-2009 Ian MacLennan
+ # Fixed progress bar image
+
 25-Oct-2009 Andrew Eddie
  # Fixed [#17088] Error on loading demodata during installation IE.
  # Fixed bug: PHP error in module assignment page of menu edit form.
