@@ -57,7 +57,7 @@
 }
 
 #upload-flash .progress {
-	background: url(./progress-bar/progress.gif) no-repeat;
+	background: url(../images/progress.gif) no-repeat;
 	background-position: +50% 0;
 	margin-right: 0.5em;
 	vertical-align: middle;
@@ -72,22 +72,22 @@
 
 #upload-queue li.file {
 	border-bottom: 1px solid #eee;
-	background: url(upload.png) no-repeat 4px 6px;
+	background: url(../images/upload.png) no-repeat 4px 6px;
 	border:1px solid #ccc;
 	overflow: auto;
 }
 
 #upload-queue li.file.file-uploading {
-	background-image: url(uploading.png);
+	background-image: url(../images/uploading.png);
 	background-color: #D9DDE9;
 }
 
 #upload-queue li.file.file-success {
-	background-image: url(success.png);
+	background-image: url(../images/success.png);
 }
 
 #upload-queue li.file.file-failed {
-	background-image: url(failed.png);
+	background-image: url(../images/failed.png);
 }
 
 #upload-queue li.file .file-name {
@@ -154,53 +154,6 @@ div#media-noimages {
 	color:#CCCCCC;
 }
 
-/*.upload-queue {
-	list-style: none;
-}
-
-.upload-queue li {
-	background: url(upload.png) no-repeat 0 5px;
-	padding: 5px 0 5px 22px;
-}
-
-.upload-queue .queue-file {
-	font-weight: bold;
-}
-
-.upload-queue .queue-size {
-	color: #aaa;
-	margin-left: 1em;
-	font-size: 0.9em;
-}
-
-.upload-queue .queue-loader {
-	position: relative;
-	margin: 3px 15px;
-	font-size: 0.9em;
-	background-color: #ddd;
-	color: #fff;
-	border: 1px inset #ddd;
-}
-
-.upload-queue .queue-subloader {
-	text-align: center;
-	position: absolute;
-	background-color: #81B466;
-	height: 100%;
-	width: 0%;
-	left: 0;
-	top: 0;
-}
-
-.upload-queue .input-delete {
-	width: 16px;
-	height: 16px;
-	background: url(delete.png) no-repeat 0 0;
-	text-decoration: none;
-	border: none;
-	float: right;
-}
-*/
 .overall-title, .current-title {
 	font-size:12px;
 }
