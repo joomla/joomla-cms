@@ -64,10 +64,12 @@ class ContentViewArticles extends JView
 			JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 			JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
 			if ($state->get('filter.published') != -1) {
+				JToolBarHelper::divider();
 				JToolBarHelper::archiveList('articles.archive');
 			}
 		}
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+			
 			JToolBarHelper::deleteList('', 'articles.delete');
 		}
 		else if ($canDo->get('core.edit.state')) {

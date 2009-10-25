@@ -67,6 +67,7 @@ class WeblinksViewWeblinks extends JView
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::custom('weblinks.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 			JToolBarHelper::custom('weblinks.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
+			JToolBarHelper::divider();
 			if ($state->get('filter.published') != -1) {
 				JToolBarHelper::archiveList('weblinks.archive');
 			}

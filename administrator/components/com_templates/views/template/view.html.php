@@ -41,16 +41,16 @@ class TemplatesViewTemplate extends JView
 
 		JToolBarHelper::title(JText::_('TEMPLATE_MANAGER') . ': '. JText::_('EDIT_TEMPLATE') .' ', 'thememanager');
 		
-		JToolBarHelper::custom('add', 'new-style.png', 'new-style_f2.png', 'New Style', false, false);
-
-		JToolBarHelper::custom('delete', 'delete-style.png', 'delete-style_f2.png', 'Delete Style', false, false);
-		JToolBarHelper::divider();
+	
 		
 		JToolBarHelper::custom('edit_source', 'html.png', 'html_f2.png', 'Edit HTML', false, false);
 		// Needs to be connected to error.php editor--same as index.php editor
 		JToolBarHelper::custom('choose_css', 'css.png', 'css_f2.png', 'Edit CSS', false, false);
 		JToolBarHelper::custom('edit_error', 'error.png', 'error_f2.png', 'Edit Error Page', false, false);
 		
+		JToolBarHelper::divider();
+		JToolBarHelper::custom('add', 'new-style.png', 'new-style_f2.png', 'New Style', false, false);
+		JToolBarHelper::custom('delete', 'delete-style.png', 'delete-style_f2.png', 'Delete Style', false, false);
 		JToolBarHelper::divider();
 		if ($client->id == 1) {
 			JToolBarHelper::custom('admindefault', 'default.png', 'default_f2.png', 'Set as Default', false, false);

@@ -59,7 +59,7 @@ JHtml::_('behavior.tooltip');
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
 				</td>
-<!-- TO DO: UI system for representing levels and parent-child relationships -->
+<!-- TO DO: UI system for representing levels and parent-child relationships <span class="gi">|&mdash;</span> -->
 				<td class="indent-<?php echo intval(($item->level)*15)+4; ?>">
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&cid[]='.$item->id);?>">
 						<?php echo $item->title; ?></a>

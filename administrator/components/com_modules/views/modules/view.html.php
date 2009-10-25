@@ -63,10 +63,11 @@ class ModulesViewModules extends JView
 		JToolBarHelper::title(JText::_('Module Manager'), 'module.png');
 		JToolBarHelper::addNew();
 		JToolBarHelper::editList();
+		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
 		JToolBarHelper::divider();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+		JToolBarHelper::divider();
 		JToolBarHelper::deleteList();
 
 		JToolBarHelper::divider();

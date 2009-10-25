@@ -65,6 +65,7 @@ class NewsfeedsViewNewsfeeds extends JView
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::custom('newsfeeds.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 			JToolBarHelper::custom('newsfeeds.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
+			JToolBarHelper::divider();
 			if ($state->get('filter.published') != -1) {
 				JToolBarHelper::archiveList('newsfeeds.archive');
 			}

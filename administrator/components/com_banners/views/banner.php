@@ -21,12 +21,13 @@ class BannersViewBanner
 		JToolBarHelper::title(JText::_('Banner Manager'), 'banner.png');
 		JToolBarHelper::addNew();
 		JToolBarHelper::editList();
+		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy');
 		JToolBarHelper::divider();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::divider();
-		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy');
 		JToolBarHelper::deleteList();
+		JToolBarHelper::divider();
 		JToolBarHelper::preferences('com_banners');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.banners');

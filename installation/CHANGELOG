@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Oct-2009 Ron Severdia
+^ Toolbar UI tweaks
++ New icons
++ New Bluestork CSS
++ Various missing language strings
+
 25-Oct-2009 Ian MacLennan
  # Fixed progress bar image
  # Fixed media manager CSS image paths

@@ -79,6 +79,7 @@ class CategoriesViewCategories extends JView
 		JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 		JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
 		if ($state->get('filter.published') != -1) {
+			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('categories.archive');
 		}
 		if ($state->get('filter.published') == -2) {

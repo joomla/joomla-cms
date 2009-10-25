@@ -55,7 +55,7 @@ class CacheViewCache extends JView
 
 		JToolBarHelper::title(JText::_('Cache Manager - Clear Cache Admin'), 'clear.png');
 		JToolBarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'Delete', true);
-
+		JToolBarHelper::divider();
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache')) {
 			JToolBarHelper::preferences('com_cache');
 		}

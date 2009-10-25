@@ -75,6 +75,7 @@ class UsersViewUsers extends JView
 			JToolBarHelper::custom('user.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
 		}
 		if ($canDo->get('core.delete')) {
+			JToolBarHelper::divider();
 			JToolBarHelper::deleteList('', 'user.delete');
 		}
 

@@ -30,6 +30,7 @@ class ModulesViewSelecttype extends JView
 
 		JToolBarHelper::title(JText::_('Module_Manager') . ': '. JText::_('Add_New_Module') .'', 'module.png');
 		JToolBarHelper::cancel();
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.modules.new');
 
 		// path to search for modules

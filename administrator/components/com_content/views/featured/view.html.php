@@ -62,10 +62,11 @@ class ContentViewFeatured extends JView
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
 			JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
+			JToolBarHelper::custom('featured.delete','remove.png','remove_f2.png','JToolbar_Remove', true);
 			if ($this->state->get('filter.published') != -1) {
 				JToolBarHelper::archiveList('articles.archive');
 			}
-			JToolBarHelper::custom('featured.delete','delete.png','delete_f2.png','JToolbar_Remove', true);
+			
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();

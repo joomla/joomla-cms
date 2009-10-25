@@ -18,6 +18,7 @@ class BannersViewClients
 		JToolBarHelper::title(JText::_('Banner Client Manager'), 'bannerclients.png');
 		JToolBarHelper::addNew('add');
 		JToolBarHelper::editList('edit');
+		JToolBarHelper::divider();
 		JToolBarHelper::deleteList('', 'remove');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.banners.client');

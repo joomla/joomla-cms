@@ -1350,6 +1350,7 @@ input.system-openid, input.com-system-openid {
 .icon-32-new-style		{ background-image: url(../images/toolbar/icon-32-new-style.png); }
 .icon-32-delete-style	{ background-image: url(../images/toolbar/icon-32-delete-style.png); }
 .icon-32-purge 			{ background-image: url(../images/toolbar/icon-32-purge.png); }
+.icon-32-remove 		{ background-image: url(../images/toolbar/icon-32-remove.png); }
 
 /* -- HEADER ICON STYLES ----------------------------- */
 .icon-48-generic 		{ background-image: url(../images/header/icon-48-generic.png); }

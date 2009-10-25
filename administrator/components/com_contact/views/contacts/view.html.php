@@ -65,6 +65,7 @@ class ContactViewContacts extends JView
 		JToolBarHelper::divider();
 		JToolBarHelper::publish('contacts.publish');
 		JToolBarHelper::unpublish('contacts.unpublish');
+		JToolBarHelper::divider();
 		JToolBarHelper::archiveList('contacts.archive','JToolbar_Archive');
 		if ($state->get('filter.published') == -2) {
 			JToolBarHelper::deleteList('', 'contacts.delete');

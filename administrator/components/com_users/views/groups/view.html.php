@@ -52,6 +52,7 @@ class UsersViewGroups extends JView
 
 		JToolBarHelper::custom('group.add', 'new.png', 'new_f2.png', 'New', false);
 		JToolBarHelper::custom('group.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		JToolBarHelper::divider();
 		JToolBarHelper::deleteList('', 'group.delete');
 
 		JToolBarHelper::divider();

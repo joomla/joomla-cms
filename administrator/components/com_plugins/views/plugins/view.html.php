@@ -151,6 +151,7 @@ class PluginsViewPlugins extends JView
 	{
 		JToolBarHelper::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
 		JToolBarHelper::editList();
+		JToolBarHelper::divider();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::divider();

@@ -52,6 +52,7 @@ class UsersViewLevels extends JView
 
 		JToolBarHelper::custom('level.add', 'new.png', 'new_f2.png', 'New', false);
 		JToolBarHelper::custom('level.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		JToolBarHelper::divider();
 		JToolBarHelper::deleteList('', 'level.delete');
 
 		JToolBarHelper::divider();
