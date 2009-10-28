@@ -19,6 +19,36 @@ jimport('joomla.database.query');
  */
 class UsersModelMail extends JModelForm
 {
+	/**
+	 * Method to get the row form.
+	 *
+	 * @return	mixed	JForm object on success, false on failure.
+	 * @since	1.6
+	 */
+	public function getForm()
+	{
+		// Initialize variables.
+		$app 	= JFactory::getApplication();
+
+		// Get the form.
+		$form = parent::getForm('mail', 'com_users.mail', array('array' => 'jform', 'event' => 'onPrepareForm'));
+
+		// Check for an error.
+		if (JError::isError($form)) {
+			$this->setError($form->getMessage());
+			return false;
+		}
+
+		// Check the session for previously entered form data.
+		$data = $app->getUserState('com_users.display.mail.data', array());
+
+		// Bind the form data if present.
+		if (!empty($data)) {
+			$form->bind($data);
+		}
+
+		return $form;
+	}
 
 	public function send()
 	{
@@ -29,14 +59,14 @@ class UsersModelMail extends JModelForm
 		$acl 	= JFactory::getACL();
 
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
-		
+
 		$mode = array_key_exists('mode',$data) ? intval($data['mode']) : 0;
 		$subject = array_key_exists('subject',$data) ? $data['subject'] : '';
 		$grp = array_key_exists('group',$data) ? intval($data['group']) : 0;
-		$recurse = array_key_exists('recurse',$data) ? intval($data['recurse']) : 0;		
+		$recurse = array_key_exists('recurse',$data) ? intval($data['recurse']) : 0;
 		$bcc = array_key_exists('bcc',$data) ? intval($data['bcc']) : 0;
 		$message_body = array_key_exists('message',$data) ? $data['message'] : '';
-		
+
 		// automatically removes html formatting
 		if (!$mode)
 		{
@@ -53,7 +83,7 @@ class UsersModelMail extends JModelForm
 
 		// get users in the group out of the acl
 		$to = $acl->getUserMap($grp, $recurse);
-		
+
 		// Get all users email and group except for senders
 		$query = new JQuery;
 		$query->select('email');
@@ -76,7 +106,7 @@ class UsersModelMail extends JModelForm
 			$this->setError(JText::_('Users_Mail_No_users_could_be_found_in_this_group'));
 			return false;
 		}
-		
+
 		// Get the Mailer
 		$mailer = JFactory::getMailer();
 		$params = &JComponentHelper::getParams('com_massmail');
@@ -125,35 +155,5 @@ class UsersModelMail extends JModelForm
 			return true;
 		}
 	}
-	
-	/**
-	 * Method to get the row form.
-	 *
-	 * @return	mixed	JForm object on success, false on failure.
-	 * @since	1.6
-	 */
-	public function getForm()
-	{
-		// Initialize variables.
-		$app 	= JFactory::getApplication();
 
-		// Get the form.
-		$form = parent::getForm('mail', 'com_users.mail', array('array' => 'jform', 'event' => 'onPrepareForm'));
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
-			return false;
-		}
-
-		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_users.display.mail.data', array());
-
-		// Bind the form data if present.
-		if (!empty($data)) {
-			$form->bind($data);
-		}
-
-		return $form;
-	}
 }

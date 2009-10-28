@@ -3,7 +3,6 @@
 <form>
 	<fields>
 		<field
-			id="id"
 			name="id"
 			type="hidden"
 			default="0"
@@ -12,7 +11,6 @@
 		/>
 
 		<field
-			id="grouptitle"
 			name="title"
 			type="text"
 			class="inputbox"
@@ -23,7 +21,6 @@
 		/>
 
 		<field
-			id="parent_id"
 			name="parent_id"
 			type="UserGroups"
 			class="inputbox"

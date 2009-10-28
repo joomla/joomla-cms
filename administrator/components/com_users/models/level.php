@@ -5,13 +5,14 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
 jimport('joomla.access.helper');
 
 /**
- * Access Level model for Users.
+ * User view level model.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_users
@@ -20,79 +21,90 @@ jimport('joomla.access.helper');
 class UsersModelLevel extends JModelForm
 {
 	/**
-	 * Array of items for memory caching.
-	 *
-	 * @var		array
-	 */
-	protected $_items = array();
-
-	/**
 	 * Method to auto-populate the model state.
-	 *
-	 * @return	void
 	 */
 	protected function _populateState()
 	{
-		$app		= JFactory::getApplication('administrator');
-		$params		= &JComponentHelper::getParams('com_users');
+		$app = JFactory::getApplication('administrator');
 
-		// Load the level state.
-		if (!$levelId = (int)$app->getUserState('com_users.edit.level.id')) {
-			$levelId = (int)JRequest::getInt('level_id');
+		// Load the User state.
+		if (!($pk = (int) $app->getUserState('com_users.edit.level.id'))) {
+			$pk = (int) JRequest::getInt('id');
 		}
-		$this->setState('level.id', $levelId);
-
-		// Add the level id to the context to preserve sanity.
-		$context = 'com_users.level.'.$levelId.'.';
+		$this->setState('level.id', $pk);
 
 		// Load the parameters.
+		$params	= JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 	}
 
 	/**
-	 * Method to get a level item.
-	 *
-	 * @param	integer	The id of the level to get.
-	 * @return	mixed	Group data object on success, false on failure.
+	 * Prepare and sanitise the table prior to saving.
 	 */
-	public function &getItem($levelId = null)
+	protected function _prepareTable(&$table)
 	{
-		// Initialize variables.
-		$levelId = (!empty($levelId)) ? $levelId : (int)$this->getState('level.id');
+	}
+
+	/**
+	 * Returns a reference to the a Table object, always creating it.
+	 *
+	 * @param	type 	$type 	 The table type to instantiate
+	 * @param	string 	$prefix	 A prefix for the table class name. Optional.
+	 * @param	array	$options Configuration array for model. Optional.
+	 * @return	JTable	A database object
+	*/
+	public function &getTable($type = 'Viewlevel', $prefix = 'JTable', $config = array())
+	{
+		return JTable::getInstance($type, $prefix, $config);
+	}
+
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param	integer	The id of the primary key.
+	 *
+	 * @return	mixed	Object on success, false on failure.
+	 */
+	public function &getItem($pk = null)
+	{
+		// Initialise variables.
+		$pk = (!empty($pk)) ? $pk : (int)$this->getState('level.id');
 		$false	= false;
 
-		// Get a level row instance.
-		$table = &$this->getTable('Viewlevels', 'JTable');
+		// Get a row instance.
+		$table = &$this->getTable();
 
 		// Attempt to load the row.
-		$return = $table->load($levelId);
+		$return = $table->load($pk);
 
 		// Check for a table object error.
 		if ($return === false && $table->getError()) {
-			$this->serError($table->getError());
+			$this->setError($table->getError());
 			return $false;
 		}
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return $false;
+		// Prime required properties.
+		if (empty($table->id))
+		{
+			// Prepare data for a new record.
 		}
 
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
-		$value->groups = json_decode($value->rules);
+
+		// Convert the params field to an array.
+		$value->rules = json_decode($value->rules);
 
 		return $value;
 	}
 
 	/**
-	 * Method to get the group form.
+	 * Method to get the record form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
 	 */
 	public function getForm()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= JFactory::getApplication();
 
 		// Get the form.
@@ -123,42 +135,84 @@ class UsersModelLevel extends JModelForm
 	 */
 	public function save($data)
 	{
-		// Initialize variables.
-		$levelId = (!empty($data['id'])) ? $data['id'] : (int)$this->getState('level.id');
+		// Initialise variables;
+		$table		= $this->getTable();
+		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('level.id');
+		$isNew		= true;
 
-		// Are we dealing with a new access level?
-		if ($levelId) {
+		// Load the row if saving an existing record.
+		if ($pk > 0) {
+			$table->load($pk);
 			$isNew = false;
-		} else {
-			$isNew = true;
 		}
 
-		if ($isNew)
-		{
-			$table = JTable::getInstance('Viewlevels');
-			$table->title = $data['title'];
-			$table->rules = json_encode($data['groups']);
+		// Bind the data.
+		if (!$table->bind($data)) {
+			$this->setError(JText::sprintf('JTable_Error_Bind_failed', $table->getError()));
+			return false;
+		}
 
-			if (!$table->store())
+		// Prepare the row for saving
+		$this->_prepareTable($table);
+
+		// Check the data.
+		if (!$table->check()) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Store the data.
+		if (!$table->store()) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		$this->setState('level.id', $table->id);
+
+		return true;
+	}
+
+	/**
+	 * Method to delete rows.
+	 *
+	 * @param	array	An array of item ids.
+	 *
+	 * @return	boolean	Returns true on success, false on failure.
+	 */
+	public function delete(&$pks)
+	{
+		// Typecast variable.
+		$pks = (array) $pks;
+
+		// Get a row instance.
+		$table = &$this->getTable();
+
+		// Iterate the items to delete each one.
+		foreach ($pks as $i => $pk)
+		{
+			if ($table->load($pk))
+			{
+				// Access checks.
+				$allow = $user->authorise('core.edit.state', 'com_users');
+
+				if ($allow)
+				{
+					if (!$table->delete($pk))
+					{
+						$this->setError($table->getError());
+						return false;
+					}
+				}
+				else
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+				}
+			}
+			else
 			{
 				$this->setError($table->getError());
-				return false;
-			}
-
-			$this->setState('level.id', $table->id);
-		}
-		else
-		{
-			// Update the data as necessary and store the access level.
-			$item = & JTable::getInstance('Viewlevels');
-			$item->load($data['id']);
-
-			$item->title = $data['title'];
-			$item->rules = json_encode($data['groups']);
-
-			// Store the access level.
-			if (!$item->store()) {
-				$this->setError($item->getError());
 				return false;
 			}
 		}
@@ -167,26 +221,113 @@ class UsersModelLevel extends JModelForm
 	}
 
 	/**
-	 * Method to delete levels.
+	 * Method to adjust the ordering of a row.
 	 *
-	 * @param	array	An array of level ids.
-	 * @return	boolean	Returns true on success, false on failure.
+	 * @param	int		The ID of the primary key to move.
+	 * @param	integer	Increment, usually +1 or -1
+	 * @return	boolean	False on failure or error, true otherwise.
 	 */
-	public function delete($levelIds)
+	public function reorder($pk, $direction = 0)
 	{
-		// Sanitize the ids.
-		$levelIds = (array) $levelIds;
-		JArrayHelper::toInteger($levelIds);
+		// Sanitize the id and adjustment.
+		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('level.id');
 
-		// Get a database object.
-		$db = &$this->getDbo();
+		// Get an instance of the record's table.
+		$table = $this->getTable();
 
-		$db->setQuery(
-			'DELETE FROM `#__viewlevels`' .
-			' WHERE `id` IN ('.implode(',', $levelIds).')'
-		);
+		// Attempt to check-out and move the row.
+		if (!$this->checkout($pk)) {
+			return false;
+		}
 
-		$db->Query();
+		// Load the row.
+		if (!$table->load($pk)) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Access checks.
+		$allow = $user->authorise('core.edit.state', 'com_users');
+
+		if (!$allow)
+		{
+			$this->setError(JText::_('JError_Core_Edit_State_not_permitted'));
+			return false;
+		}
+
+		// Move the row.
+		// TODO: Where clause to restrict category.
+		$table->move($pk);
+
+		// Check-in the row.
+		if (!$this->checkin($pk)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Saves the manually set order of records.
+	 *
+	 * @param	array	An array of primary key ids.
+	 * @param	int		+/-1
+	 */
+	function saveorder($pks, $order)
+	{
+		// Initialize variables
+		$table		= $this->getTable();
+		$conditions	= array();
+
+		if (empty($pks)) {
+			return JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+		}
+
+		// update ordering values
+		foreach ($pks as $i => $pk)
+		{
+			$table->load((int) $pk);
+
+			// Access checks.
+			$allow = $user->authorise('core.edit.state', 'com_users');
+
+			if (!$allow)
+			{
+				// Prune items that you can't change.
+				unset($pks[$i]);
+				JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+			}
+			else if ($table->ordering != $order[$i])
+			{
+				$table->ordering = $order[$i];
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
+				// remember to reorder this category
+				$condition = 'catid = '.(int) $table->catid;
+				$found = false;
+				foreach ($conditions as $cond)
+				{
+					if ($cond[1] == $condition)
+					{
+						$found = true;
+						break;
+					}
+				}
+				if (!$found) {
+					$conditions[] = array ($table->id, $condition);
+				}
+			}
+		}
+
+		// Execute reorder for each category.
+		foreach ($conditions as $cond)
+		{
+			$table->load($cond[0]);
+			$table->reorder($cond[1]);
+		}
 
 		return true;
 	}

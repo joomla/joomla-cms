@@ -5,12 +5,13 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 /**
- * The HTML Users group view.
+ * View to edit a user group.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_users
@@ -18,6 +19,10 @@ jimport('joomla.application.component.view');
  */
 class UsersViewGroup extends JView
 {
+	protected $state;
+	protected $item;
+	protected $form;
+
 	/**
 	 * Display the view
 	 */
@@ -33,15 +38,15 @@ class UsersViewGroup extends JView
 			return false;
 		}
 
+		// Bind the record to the form.
 		$form->bind($item);
 
 		$this->assignRef('state',	$state);
 		$this->assignRef('item',	$item);
 		$this->assignRef('form',	$form);
 
-		parent::display($tpl);
 		$this->_setToolbar();
-		JRequest::setVar('hidemainmenu', 1);
+		parent::display($tpl);
 	}
 
 	/**
@@ -51,13 +56,32 @@ class UsersViewGroup extends JView
 	 */
 	protected function _setToolbar()
 	{
-		$isNew	= ($this->item->id == 0);
+		JRequest::setVar('hidemainmenu', 1);
+
+		$user		= JFactory::getUser();
+		$isNew		= ($this->item->id == 0);
+		$canDo		= UsersHelper::getActions();
+
 		JToolBarHelper::title(JText::_($isNew ? 'Users_View_New_Group_Title' : 'Users_View_Edit_Group_Title'), 'groups-add');
 
-		JToolBarHelper::apply('group.apply');	
-		JToolBarHelper::save('group.save');
-		JToolBarHelper::addNew('group.save2new', 'JToolbar_Save_and_new');
-		JToolBarHelper::cancel('group.cancel');
+		if ($canDo->get('core.edit'))
+		{
+			JToolBarHelper::apply('group.apply');
+			JToolBarHelper::save('group.save');
+			JToolBarHelper::addNew('group.save2new', 'JToolbar_Save_and_new');
+		}
+		// If an existing item, can save to a copy.
+		if (!$isNew && $canDo->get('core.create')) {
+			JToolBarHelper::custom('group.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_Copy', false);
+		}
+
+		if (empty($this->item->id))  {
+			JToolBarHelper::cancel('group.cancel');
+		}
+		else {
+			JToolBarHelper::cancel('group.cancel', 'JToolbar_Close');
+		}
+
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.users.group');
 	}

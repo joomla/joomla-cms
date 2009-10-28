@@ -10,40 +10,45 @@ defined('_JEXEC') or die;
 jimport('joomla.form.formfield');
 
 /**
- * Form Field Type Class for Users.
+ * Field to select a user id from a modal list.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_users
  * @since		1.6
  */
-class JFormFieldUser extends JFormField
+class JFormFieldModal_User extends JFormField
 {
 	/**
-	 * Method to generate the form field markup.
+	 * The field type.
 	 *
-	 * @param	string	The form field name.
-	 * @param	string	The form field value.
-	 * @param	object	The JFormField object.
-	 * @param	string	The form field control name.
-	 * @return	string	Form field markup.
+	 * @var		string
+	 */
+	public $type = 'Modal_User';
+
+	/**
+	 * Method to get a list of options for a list input.
+	 *
+	 * @return	array		An array of JHtml options.
 	 */
 	protected function _getInput()
 	{
+		// Initialise variables.
+		$document	= JFactory::getDocument();
+
 		// Load the modal behavior.
 		JHtml::_('behavior.modal', 'a.modal');
 
 		// Add the JavaScript select function to the document head.
-		$js = '
-		function jxSelectUser(id, title, el) {
-			console.log(el);
-			document.id(el + \'_id\').value = id;
-			document.id(el + \'_name\').value = title;
-			document.id(\'sbox-window\').close();
-		}';
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration($js);
+		$document->addScriptDeclaration(
+		"function jSelectUser_".$this->inputId."(id, title, el) {
+			document.id('".$this->inputId."_id').value = id;
+			document.id('".$this->inputId."_name').value = title;
+			SqueezeBox.close();
+		}"
+		);
 
 		// Setup variables for display.
+		$html	= array();
 		$link = 'index.php?option=com_users&amp;view=users&layout=modal&amp;tmpl=component&amp;field='.$this->inputId;
 
 		// Load the current username if available.
@@ -63,13 +68,12 @@ class JFormFieldUser extends JFormField
 		// The user select button.
 		$html[] = '<div class="button2-left">';
 		$html[] = '  <div class="blank">';
-		$html[] = '    <a class="modal" title="'.JText::_('Select a User').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('Select').'</a>';
+		$html[] = '    <a class="modal" title="'.JText::_('Users_Change_User').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('Users_Change_User_button').'</a>';
 		$html[] = '  </div>';
 		$html[] = '</div>';
 
 		// The active user id field.
 		$html[] = '<input type="hidden" id="'.$this->inputId.'_id" name="'.$this->inputName.'" value="'.(int)$this->value.'" />';
-
 
 		return implode("\n", $html);
 	}

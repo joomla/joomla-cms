@@ -3,7 +3,6 @@
 <form>
 	<fields>
 		<field
-			id="id"
 			name="id"
 			type="hidden"
 			default="0"
@@ -12,7 +11,6 @@
 		/>
 
 		<field
-			id="leveltitle"
 			name="title"
 			type="text"
 			default=""
@@ -23,43 +21,17 @@
 		/>
 
 		<field
-			id="parent_id"
-			name="parent_id"
-			type="hidden"
-			default="1"
-			required="true"
-			label="Users_Level_Parent"
-			description="Users_Level_Parent_Desc"
-		/>
-
-		<field
-			id="section_id"
-			name="section_id"
-			type="accesssections"
+			name="ordering"
+			type="text"
 			default="0"
-			label="Users_Level_Section"
-			description="Users_Level_Section_Desc"
+			label="JField_Ordering_Label"
+			description="JField_Ordering_Desc"
 		/>
 
 		<field
-			name="lft"
+			name="rules"
 			type="hidden"
-			filter="unset"
-		/>
-		<field
-			name="rgt"
-			type="hidden"
-			filter="unset"
-		/>
-		<field
-			name="section"
-			type="hidden"
-			filter="unset"
-		/>
-
-		<field
-			name="groups"
-			type="hidden"
+			filter="json_encode"
 		/>
 	</fields>
 </form>

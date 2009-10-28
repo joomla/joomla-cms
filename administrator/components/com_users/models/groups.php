@@ -46,7 +46,7 @@ class UsersModelGroups extends JModelList
 		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
 		$this->setState('list.limitstart', $limitstart);
 
-		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.name');
+		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.lft');
 		$this->setState('list.ordering', $orderCol);
 
 		$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');

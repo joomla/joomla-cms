@@ -209,7 +209,11 @@ class UsersModelUser extends JModelForm
 		$old = JUser::getInstance($table->id);
 
 		// Trigger the onBeforeStoreUser event.
-		$dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isNew, $table->getProperties()));
+		$result = $dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isNew, $table->getProperties()));
+		if (in_array(false, $result, true)) {
+			$this->setError($table->getError());
+			return false;
+		}
 
 		// Store the data.
 		if (!$table->store())
@@ -259,7 +263,7 @@ class UsersModelUser extends JModelForm
 					$user = & JFactory::getUser($pk);
 
 					// Fire the onBeforeDeleteUser event.
-					$dispatcher->trigger('onBeforeDeleteUser', array($user->getProperties()));
+					$dispatcher->trigger('onBeforeDeleteUser', array($table->getProperties()));
 
 					if (!$table->delete($pk))
 					{
