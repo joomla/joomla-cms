@@ -16,7 +16,7 @@ jimport('joomla.database.table');
  * @subpackage	Database
  * @version		1.0
  */
-class JTableViewlevels extends JTable
+class JTableViewlevel extends JTable
 {
 	/**
 	 * @var int unsigned
@@ -52,6 +52,23 @@ class JTableViewlevels extends JTable
 	}
 
 	/**
+	 * Overloaded bind method.
+	 *
+	 * @param	array		Named array.
+	 * @return	null|string	Null if operation was satisfactory, otherwise returns an error.
+	 * @see		JTable:bind
+	 */
+	public function bind($array, $ignore = '')
+	{
+		if (isset($array['rules']) && is_array($array['rules']))
+		{
+			//$array['rules'] = json_encode($array['rules']);
+		}
+
+		return parent::bind($array, $ignore);
+	}
+
+	/**
 	 * Method to check the current record to save
 	 *
 	 * @access	public
@@ -61,7 +78,8 @@ class JTableViewlevels extends JTable
 	function check()
 	{
 		// Validate the title.
-		if ((trim($this->title)) == '') {
+		if ((trim($this->title)) == '')
+		{
 			$this->setError(JText::_('Viewlevel must have a title'));
 			return false;
 		}
