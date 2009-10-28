@@ -16,7 +16,7 @@
 
 		<field
 			name="id"
-			type="modal_articles"
+			type="modal_article"
 			label="Select Article"
 			group="request"			
 			description="An article" />
