@@ -11,11 +11,11 @@ jimport('joomla.application.component.modellist');
 jimport('joomla.database.query');
 
 /**
- * Users Model for Users.
+ * Methods supporting a list of user records.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_users
- * @version		1.0
+ * @since		1.6
  */
 class UsersModelUsers extends JModelList
 {
@@ -24,23 +24,93 @@ class UsersModelUsers extends JModelList
 	 *
 	 * @var		string
 	 */
-	 protected $_context = 'users.users';
+	protected $_context = 'com_users.users';
 
 	/**
-	 * Method to build an SQL query to load the list data.
+	 * Method to auto-populate the model state.
+	 */
+	protected function _populateState()
+	{
+		// Initialize variables.
+		$app		= JFactory::getApplication('administrator');
+		$params		= JComponentHelper::getParams('com_users');
+
+		// Load the filter state.
+		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$active = $app->getUserStateFromRequest($this->_context.'.filter.active', 'filter_active');
+		$this->setState('filter.active', $active);
+
+		$state = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_state');
+		$this->setState('filter.state', $state);
+
+		$groupId = $app->getUserStateFromRequest($this->_context.'.filter.group', 'filter_group_id', null, 'int');
+		$this->setState('filter.group_id', $groupId);
+
+		// List state information.
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$this->setState('list.limit', $limit);
+
+		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
+		$this->setState('list.limitstart', $limitstart);
+
+		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.name');
+		$this->setState('list.ordering', $orderCol);
+
+		$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
+		$this->setState('list.direction', $orderDirn);
+
+		// Load the parameters.
+		$this->setState('params', $params);
+	}
+
+	/**
+	 * Method to get a store id based on model configuration state.
 	 *
-	 * @return	string	An SQL query
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param	string		$id	A prefix for the store id.
+	 *
+	 * @return	string		A store id.
+	 */
+	protected function _getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id	.= ':'.$this->getState('list.start');
+		$id	.= ':'.$this->getState('list.limit');
+		$id	.= ':'.$this->getState('list.ordering');
+		$id	.= ':'.$this->getState('list.direction');
+		$id	.= ':'.$this->getState('filter.search');
+		$id	.= ':'.$this->getState('filter.active');
+		$id	.= ':'.$this->getState('filter.state');
+		$id	.= ':'.$this->getState('filter.group_id');
+
+		return md5($id);
+	}
+
+	/**
+	 * Build an SQL query to load the list data.
+	 *
+	 * @return	JQuery
 	 */
 	protected function _getListQuery()
 	{
 		// Create a new query object.
 		$query = new JQuery;
 
-		// Select all fields from the users table.
-		$query->select($this->getState('list.select', 'a.*'));
+		// Select the required fields from the table.
+		$query->select(
+			$this->getState(
+				'list.select',
+				'a.*'
+			)
+		);
 		$query->from('`#__users` AS a');
 
-		// Join over the ARO mapping table.
+		// Join over the group mapping table.
 		$query->select('COUNT(map.group_id) AS group_count');
 		$query->join('LEFT', '#__user_usergroup_map AS map ON map.user_id = a.id');
 		$query->group('a.id');
@@ -50,25 +120,28 @@ class UsersModelUsers extends JModelList
 		$query->join('LEFT', '#__usergroups AS g2 ON g2.id = map.group_id');
 
 		// If the model is set to check item state, add to the query.
-		if ($this->getState('filter.state') !== '') {
-			$query->where('a.block = ' . (int)$this->getState('filter.state'));
+		$state = $this->getState('filter.state');
+		if (is_numeric($state)) {
+			$query->where('a.block = '.(int) $state);
 		}
 
 		// If the model is set to check the activated state, add to the query.
-		if ($this->getState('filter.active') !== '') {
-			$active = $this->getState('filter.active');
+		$active = $this->getState('filter.active');
+		if (is_numeric($active))
+		{
 			if ($active == '0') {
 				$query->where('a.activation = ""');
-			} elseif ($active == '1') {
+			}
+			else if ($active == '1') {
 				$query->where('LENGTH(a.activation) = 32');
 			}
 		}
 
 		// Filter the items over the group id if set.
-		$group_id = $this->getState('filter.group');
-		if ($group_id !== null && $group_id > 0) {
+		if ($groupId = $this->getState('filter.group_id'))
+		{
 			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
-			$query->where('map2.group_id = '.(int) $group_id);
+			$query->where('map2.group_id = '.(int) $groupId);
 		}
 
 		// Filter the items over the search string if set.
@@ -90,69 +163,7 @@ class UsersModelUsers extends JModelList
 		// Add the list ordering clause.
 		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.name')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query->toString())).'<hr/>';
+		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
-	}
-
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param	string		$context	A prefix for the store id.
-	 * @return	string		A store id.
-	 */
-	protected function _getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
-		$id	.= ':'.$this->getState('check.state');
-		$id	.= ':'.$this->getState('filter.state');
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.group_id');
-
-		return md5($id);
-	}
-
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * This method should only be called once per instantiation and is designed
-	 * to be called on the first call to the getState() method unless the model
-	 * configuration flag to ignore the request is set.
-	 *
-	 * @return	void
-	 */
-	protected function _populateState()
-	{
-		// Initialize variables.
-		$app		= JFactory::getApplication('administrator');
-		$user		= JFactory::getUser();
-		$params		= JComponentHelper::getParams('com_users');
-		$context	= 'com_users.users.';
-
-		// Load the filter state.
-		$this->setState('filter.search', $app->getUserStateFromRequest($context.'filter.search', 'filter_search', ''));
-		$this->setState('filter.state', $app->getUserStateFromRequest($context.'filter.state', 'filter_state', '', 'alnum'));
-		$this->setState('filter.active', $app->getUserStateFromRequest($context.'filter.active', 'filter_active', '', 'alnum'));
-		$this->setState('filter.group', $app->getUserStateFromRequest($context.'filter.group', 'filter_group', '', 'alnum'));
-
-		// Load the list state.
-		$this->setState('list.start', $app->getUserStateFromRequest($context.'list.start', 'limitstart', 0, 'int'));
-		$this->setState('list.limit', $app->getUserStateFromRequest($context.'list.limit', 'limit', $app->getCfg('list_limit', 25), 'int'));
-		$this->setState('list.ordering', $app->getUserStateFromRequest($context.'list.ordering', 'filter_order', 'a.name', 'cmd'));
-		$this->setState('list.direction', $app->getUserStateFromRequest($context.'list.direction', 'filter_order_Dir', 'ASC', 'word'));
-
-		// Load the user parameters.
-		$this->setState('user',	$user);
-		$this->setState('user.id', (int) $user->id);
-
-		// Load the parameters.
-		$this->setState('params', $params);
 	}
 }

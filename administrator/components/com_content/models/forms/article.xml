@@ -93,7 +93,7 @@
 			description="Content_Created_Desc"
 			class="inputbox"
 			size="16"
-			format="%Y-%m-%d %H-%M-%S"
+			format="%Y-%m-%d %H:%M:%S"
 			filter="server_utc" />
 
 		<field
@@ -146,7 +146,7 @@
 			label="Content_Publish_up_Label"
 			description="Content_Publish_up_Desc"
 			class="inputbox"
-			format="%Y-%m-%d %H-%M-%S"
+			format="%Y-%m-%d %H:%M:%S"
 			size="30"
 			default=""
 			filter="server_utc" />
@@ -158,7 +158,7 @@
 			label="Content_Publish_down_Label"
 			description="Content_Publish_down_Desc"
 			class="inputbox"
-			format="%Y-%m-%d %H-%M-%S"
+			format="%Y-%m-%d %H:%M:%S"
 			size="30"
 			default=""
 			filter="server_utc" />

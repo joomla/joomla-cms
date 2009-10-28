@@ -38,16 +38,16 @@ class ContentViewArticle extends JView
 		}
 
 		// Convert dates from UTC
-		$offset	= $app->getCfg('offset');
-		if (intval($item->created)) {
-			$item->created = JHtml::date($item->created, '%Y-%m-%d %H-%M-%S', $offset);
-		}
-		if (intval($item->publish_up)) {
-			$item->publish_up = JHtml::date($item->publish_up, '%Y-%m-%d %H-%M-%S', $offset);
-		}
-		if (intval($item->publish_down)) {
-			$item->publish_down = JHtml::date($item->publish_down, '%Y-%m-%d %H-%M-%S', $offset);
-		}
+//		$offset	= $app->getCfg('offset');
+//		if (intval($item->created)) {
+//			$item->created = JHtml::date($item->created, '%Y-%m-%d %H:%M:%S', $offset);
+//		}
+//		if (intval($item->publish_up)) {
+//			$item->publish_up = JHtml::date($item->publish_up, '%Y-%m-%d %H:%M:%S', $offset);
+//		}
+//		if (intval($item->publish_down)) {
+//			$item->publish_down = JHtml::date($item->publish_down, '%Y-%m-%d %H:%M:%S', $offset);
+//		}
 
 		$form->bind($item);
 

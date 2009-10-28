@@ -7,6 +7,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -30,11 +31,21 @@ $canDo = UsersHelper::getActions();
 			<label for="filter_state">
 				<?php echo JText::sprintf('Users_Filter_Label', 'Users'); ?>
 			</label>
-			<?php
-			echo JHtml::_('filter.state', $this->state->get('filter.state'));
-			echo JHtml::_('filter.active', $this->state->get('filter.active'));
-			echo JHtml::_('filter.usergroup', $this->state->get('filter.group'));
-			?>
+
+			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
+				<option value="*"><?php echo JText::_('Users_Filter_State');?></option>
+				<?php echo JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
+			</select>
+
+			<select name="filter_active" class="inputbox" onchange="this.form.submit()">
+				<option value="*"><?php echo JText::_('Users_Filter_Active');?></option>
+				<?php echo JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active'));?>
+			</select>
+
+			<select name="filter_group_id" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('Users_Filter_Usergroup');?></option>
+				<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
+			</select>
 		</div>
 	</fieldset>
 	<div class="clr"> </div>
@@ -89,7 +100,7 @@ $canDo = UsersHelper::getActions();
 				</td>
 				<td>
 					<?php if ($canDo->get('core.edit')) : ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&cid[]='.$item->id); ?>" title="<?php echo JText::sprintf('Users_Edit_User', $item->name); ?>">
+					<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.$item->id); ?>" title="<?php echo JText::sprintf('Users_Edit_User', $item->name); ?>">
 						<?php echo $this->escape($item->name); ?></a>
 					<?php else : ?>
 						<?php echo $this->escape($item->name); ?>

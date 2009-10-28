@@ -27,6 +27,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Oct-2009 Andrew Eddie
+ ! Fix block and activation methods to com_users backend list.
+ ^ Sync backend com_users MVC code structure.
+
+27-Oct-2009 Louis Landry
+# Fixed failure of JUser to load JSON based parameter strings.
+^ Changed default behavior of JHtml::date() to use user settings for time zones.
+^ Added transparent handling of time zone translation for JForm / JFormFieldCalendar.
+
 25-Oct-2009 Ron Severdia
 ^ Toolbar UI tweaks
 + New icons
@@ -83,6 +92,9 @@ $ Language cleanup & new strings
 ^ Migrated Media Manager assets to main media directory.
 # Validation errors fixed and cleanup of Help page.
 ^ Migrated User Manager assets to main media directory.
+
+22-Oct-2009 Louis Landry
+ ^ Refactored JDate to extend the native DateTime object.
 
 22-Oct-2009 Ian MacLennan
  # Finally found the problem with the progress bar, and fixed (com_media)

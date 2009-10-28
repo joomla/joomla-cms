@@ -5,12 +5,13 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
 
 /**
- * User model for Users.
+ * User model.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_users
@@ -20,51 +21,60 @@ class UsersModelUser extends JModelForm
 {
 	/**
 	 * Method to auto-populate the model state.
-	 *
-	 * This method should only be called once per instantiation and is designed
-	 * to be called on the first call to the getState() method unless the model
-	 * configuration flag to ignore the request is set.
-	 *
-	 * @return	void
 	 */
 	protected function _populateState()
 	{
-		$app		= JFactory::getApplication('administrator');
-		$params		= &JComponentHelper::getParams('com_users');
+		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		if (JRequest::getWord('layout') === 'edit') {
-			$user_id = (int)$app->getUserState('com_users.edit.user.id');
-			$this->setState('user.id', $user_id);
-		} else {
-			$user_id = (int)JRequest::getInt('user_id');
-			$this->setState('user.id', $user_id);
+		if (!($pk = (int) $app->getUserState('com_users.edit.user.id'))) {
+			$pk = (int) JRequest::getInt('id');
 		}
-
-		// Add the User id to the context to preserve sanity.
-		$context	= 'com_users.user.'.$user_id.'.';
+		$this->setState('user.id', $pk);
 
 		// Load the parameters.
+		$params	= JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 	}
 
 	/**
-	 * Method to get a user item.
-	 *
-	 * @param	integer	The id of the user to get.
-	 * @return	mixed	User data object on success, false on failure.
+	 * Prepare and sanitise the table prior to saving.
 	 */
-	public function &getItem($userId = null)
+	protected function _prepareTable(&$table)
 	{
-		// Initialize variables.
-		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
+	}
+
+	/**
+	 * Returns a reference to the a Table object, always creating it.
+	 *
+	 * @param	type 	$type 	 The table type to instantiate
+	 * @param	string 	$prefix	 A prefix for the table class name. Optional.
+	 * @param	array	$options Configuration array for model. Optional.
+	 * @return	JTable	A database object
+	*/
+	public function &getTable($type = 'User', $prefix = 'JTable', $config = array())
+	{
+		return JTable::getInstance($type, $prefix, $config);
+	}
+
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param	integer	The id of the primary key.
+	 *
+	 * @return	mixed	Object on success, false on failure.
+	 */
+	public function &getItem($pk = null)
+	{
+		// Initialise variables.
+		$pk = (!empty($pk)) ? $pk : (int)$this->getState('user.id');
 		$false	= false;
 
-		// Get a user row instance.
-		$table = &$this->getTable('User', 'JTable');
+		// Get a row instance.
+		$table = &$this->getTable();
 
 		// Attempt to load the row.
-		$return = $table->load($userId);
+		$return = $table->load($pk);
 
 		// Check for a table object error.
 		if ($return === false && $table->getError()) {
@@ -72,10 +82,10 @@ class UsersModelUser extends JModelForm
 			return $false;
 		}
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return $false;
+		// Prime required properties.
+		if (empty($table->id))
+		{
+			// Prepare data for a new record.
 		}
 
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
@@ -86,7 +96,7 @@ class UsersModelUser extends JModelForm
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersProfileData', array($userId, &$value));
+		$results = $dispatcher->trigger('onPrepareUsersProfileData', array($table->id, &$value));
 
 		// Convert the params field to an array.
 		$registry = new JRegistry;
@@ -97,13 +107,13 @@ class UsersModelUser extends JModelForm
 	}
 
 	/**
-	 * Method to get the group form.
+	 * Method to get the record form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
 	 */
 	public function getForm()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= JFactory::getApplication();
 
 		// Get the form.
@@ -140,104 +150,6 @@ class UsersModelUser extends JModelForm
 	}
 
 	/**
-	 * Gets the available groups.
-	 *
-	 * @return	array
-	 */
-	public function getGroups()
-	{
-		$model = JModel::getInstance('Groups', 'UsersModel');
-		return $model->getItems();
-	}
-
-	/**
-	 * Gets the groups this object is assigned to
-	 *
-	 * @return	array
-	 */
-	public function getAssignedGroups($userId = null)
-	{
-		// Initialize variables.
-		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
-
-		jimport('joomla.user.helper');
-		$result = JUserHelper::getUserGroups($userId);
-
-		return $result;
-	}
-
-	/**
-	 * Method to checkin a row.
-	 *
-	 * @param	integer	$id		The numeric id of a row
-	 * @return	boolean	True on success/false on failure
-	 */
-	public function checkin($userId = null)
-	{
-		// Initialize variables.
-		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
-		$user		= JFactory::getUser();
-		$user_id	= (int) $user->get('id');
-
-		if (!$userId) {
-			return true;
-		}
-
-		// Get a JTableUser instance.
-		$user = &JTable::getInstance('User', 'JTable');
-
-		// Attempt to check-in the row.
-		$return = $user->checkin($user_id, $userId);
-
-		// Check for a database error.
-		if ($return === false) {
-			$this->setError($user->getError());
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to check-out a User for editing.
-	 *
-	 * @param	int		$user_id	The numeric id of the User to check-out.
-	 * @return	bool	False on failure or error, success otherwise.
-	 */
-	public function checkout($userId)
-	{
-		// Initialize variables.
-		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
-		$user		= JFactory::getUser();
-		$user_id	= (int) $user->get('id');
-
-		// Check for a new User id.
-		if ($userId === -1) {
-			return true;
-		}
-
-		// Get a JTableUser instance.
-		$user = &JTable::getInstance('User', 'JTable');
-
-		// Attempt to check-out the row.
-		$return = $user->checkout($user_id, $userId);
-
-		// Check for a database error.
-		if ($return === false) {
-			$this->setError($user->getError());
-			return false;
-		}
-
-		// Check if the row is checked-out by someone else.
-		if ($return === null) {
-			$this->setError(JText::_('USERS_USER_CHECKED_OUT'));
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Method to save the form data.
 	 *
 	 * @param	array	The form data.
@@ -245,108 +157,275 @@ class UsersModelUser extends JModelForm
 	 */
 	public function save($data)
 	{
-		$userId = (!empty($data['id'])) ? $data['id'] : (int)$this->getState('user.id');
-		$isNew	= true;
+		// Initialise variables;
+		$dispatcher = JDispatcher::getInstance();
+		$table		= $this->getTable();
+		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
+		$isNew		= true;
 
-		// Get a JTableUser instance.
-		$user = &JTable::getInstance('User', 'JTable');
+		// Include the content plugins for events.
+		JPluginHelper::importPlugin('user');
 
-		// Load the row if saving an existing item.
-		if ($userId > 0) {
-			$user->load($userId);
+		// Load the row if saving an existing record.
+		if ($pk > 0)
+		{
+			$table->load($pk);
 			$isNew = false;
 		}
 
 		// The password field is a special case.
 		if (!empty($data['password']))
 		{
-			// If a password was sent, ensure that it was verified.
-			if ($data['password'] != $data['password2']) {
-				$this->setError('USERS_PASSWORD_MISMATCH');
-				return false;
-			}
-
 			// Generate a password hash.
 			jimport('joomla.user.helper');
 			$salt  = JUserHelper::genRandomPassword(32);
 			$crypt = JUserHelper::getCryptedPassword($data['password'], $salt);
 			$data['password'] = $crypt.':'.$salt;
 		}
-		else {
+		else
+		{
 			// Do nothing to the password field.
 			unset($data['password']);
 		}
 
 		// Bind the data.
-		if (!$user->bind($data)) {
-			$this->setError($user->getError());
+		if (!$table->bind($data))
+		{
+			$this->setError(JText::sprintf('JTable_Error_Bind_failed', $table->getError()));
 			return false;
 		}
 
-		if (!$result = $user->check()) {
-			$this->setError($user->getErrorMsg());
+		// Prepare the row for saving.
+		$this->_prepareTable($table);
+
+		// Check the data.
+		if (!$table->check())
+		{
+			$this->setError($table->getError());
 			return false;
 		}
 
-		// Get the old user
-		$old = JUser::getInstance($userId);
+		// Get the old user.
+		$old = JUser::getInstance($table->id);
 
-		// Fire the onBeforeStoreUser event.
-		JPluginHelper::importPlugin('user');
-		$dispatcher = &JDispatcher::getInstance();
-		$dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isNew, $user->getProperties()));
+		// Trigger the onBeforeStoreUser event.
+		$dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isNew, $table->getProperties()));
 
 		// Store the data.
-		if (!$result = $user->store()) {
-			$this->setError($user->getErrorMsg());
+		if (!$table->store())
+		{
+			$this->setError($table->getError());
 			return false;
 		}
 
-		// Fire the onAftereStoreUser event
-		$dispatcher->trigger('onAfterStoreUser', array($user->getProperties(), $isNew, $result, $this->getError()));
+		// Trigger the onAftereStoreUser event
+		$dispatcher->trigger('onAfterStoreUser', array($table->getProperties(), $isNew, true, null));
 
-		$this->setState('user.id', $user->id);
+		$this->setState('user.id', $table->id);
 
 		return true;
 	}
 
 	/**
-	 * Method to delete a user or list of users.
+	 * Method to delete rows.
 	 *
-	 * @param	array	An array of user ids.
+	 * @param	array	An array of item ids.
+	 *
 	 * @return	boolean	Returns true on success, false on failure.
-	 * @since	1.0
 	 */
-	public function delete($userIds)
+	public function delete(&$pks)
 	{
-		// Sanitize the ids.
-		$userIds = (array) $userIds;
-		JArrayHelper::toInteger($userIds);
+		// Typecast variable.
+		$pks = (array) $pks;
 
-		// Get a JTableUser instance.
-		$table = & JTable::getInstance('User', 'JTable');
+		// Get a row instance.
+		$table = &$this->getTable();
 
-		// Fire the onBeforeStoreUser event.
+		// Trigger the onBeforeStoreUser event.
 		JPluginHelper::importPlugin('user');
 		$dispatcher = &JDispatcher::getInstance();
 
 		// Iterate the items to delete each one.
-		foreach ($userIds as $userId)
+		foreach ($pks as $i => $pk)
 		{
-			// Get user data for the user to delete.
-			$user = & JFactory::getUser($userId);
+			if ($table->load($pk))
+			{
+				// Access checks.
+				$allow = $user->authorise('core.edit.state', 'com_users');
 
-			// Fire the onBeforeDeleteUser event.
-			$dispatcher->trigger('onBeforeDeleteUser', array($user->getProperties()));
+				if ($allow)
+				{
+					// Get user data for the user to delete.
+					$user = & JFactory::getUser($pk);
 
-			// Attempt to delete the user.
-			if (!$result = $table->delete($userId)) {
-				$this->setError($table->getErrorMsg());
+					// Fire the onBeforeDeleteUser event.
+					$dispatcher->trigger('onBeforeDeleteUser', array($user->getProperties()));
+
+					if (!$table->delete($pk))
+					{
+						$this->setError($table->getError());
+						return false;
+					}
+					else
+					{
+						// Trigger the onAfterDeleteUser event.
+						$dispatcher->trigger('onAfterDeleteUser', array($user->getProperties(), true, $this->getError()));
+					}
+				}
+				else
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JError_Core_Delete_not_permitted'));
+				}
+			}
+			else
+			{
+				$this->setError($table->getError());
 				return false;
 			}
+		}
 
-			// Fire the onAfterDeleteUser event.
-			$dispatcher->trigger('onAfterDeleteUser', array($user->getProperties(), $result, $this->getError()));
+		return true;
+	}
+
+	/**
+	 * Method to block user records.
+	 *
+	 * @param	array	The ids of the items to publish.
+	 * @param	int		The value of the published state
+	 *
+	 * @return	boolean	True on success.
+	 */
+	function block(&$pks, $value = 1)
+	{
+		// Initialise variables.
+		$app		= JFactory::getApplication();
+		$dispatcher	= JDispatcher::getInstance();
+		$user		= JFactory::getUser();
+		$table		= $this->getTable();
+		$pks		= (array) $pks;
+
+		JPluginHelper::importPlugin('user');
+
+		// Access checks.
+		foreach ($pks as $i => $pk)
+		{
+			if ($value == 1 && $pk == $user->get('id'))
+			{
+				// Cannot block yourself.
+				unset($pks[$i]);
+				JError::raiseWarning(403, JText::_('Users_Error_Cannot_block_self'));
+			}
+			else if ($table->load($pk))
+			{
+				$old	= $table->getProperties();
+				$allow	= $user->authorise('core.edit.state', 'com_users');
+
+				// Prepare the logout options.
+				$options = array(
+					'clientid' => array(0, 1)
+				);
+
+				if ($allow)
+				{
+					$table->block = (int) $value;
+
+					if (!$table->check())
+					{
+						$this->setError($table->getError());
+						return false;
+					}
+
+					// Trigger the onBeforeStoreUser event.
+					$dispatcher->trigger('onBeforeStoreUser', array($old, false));
+
+					// Store the table.
+					if (!$table->store())
+					{
+						$this->setError($table->getError());
+						return false;
+					}
+
+					// Trigger the onAftereStoreUser event
+					$dispatcher->trigger('onAfterStoreUser', array($table->getProperties(), false, true, null));
+
+					// Log the user out.
+					if ($value) {
+						$app->logout($table->id, $options);
+					}
+				}
+				else
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to activate user records.
+	 *
+	 * @param	array	The ids of the items to activate.
+	 *
+	 * @return	boolean	True on success.
+	 */
+	function activate(&$pks)
+	{
+		// Initialise variables.
+		$dispatcher	= JDispatcher::getInstance();
+		$user		= JFactory::getUser();
+		$table		= $this->getTable();
+		$pks		= (array) $pks;
+
+		// Access checks.
+		foreach ($pks as $i => $pk)
+		{
+			if ($table->load($pk))
+			{
+				$old	= $table->getProperties();
+				$allow	= $user->authorise('core.edit.state', 'com_users');
+
+				if (empty($table->activation))
+				{
+					// Ignore activated accounts.
+					unset($pks[$i]);
+				}
+				else if ($allow)
+				{
+					$table->block		= 0;
+					$table->activation	= '';
+
+					if (!$table->check())
+					{
+						$this->setError($table->getError());
+						return false;
+					}
+
+					// Trigger the onBeforeStoreUser event.
+					$dispatcher->trigger('onBeforeStoreUser', array($old, false));
+
+					// Store the table.
+					if (!$table->store())
+					{
+						$this->setError($table->getError());
+						return false;
+					}
+
+					// Fire the onAftereStoreUser event
+					$dispatcher->trigger('onAfterStoreUser', array($table->getProperties(), false, true, null));
+				}
+				else
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+				}
+			}
 		}
 
 		return true;
@@ -456,5 +535,32 @@ class UsersModelUser extends JModelForm
 		}
 
 		return true;
+	}
+
+	/**
+	 * Gets the available groups.
+	 *
+	 * @return	array
+	 */
+	public function getGroups()
+	{
+		$model = JModel::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
+		return $model->getItems();
+	}
+
+	/**
+	 * Gets the groups this object is assigned to
+	 *
+	 * @return	array
+	 */
+	public function getAssignedGroups($userId = null)
+	{
+		// Initialize variables.
+		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
+
+		jimport('joomla.user.helper');
+		$result = JUserHelper::getUserGroups($userId);
+
+		return $result;
 	}
 }

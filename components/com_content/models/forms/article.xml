@@ -122,7 +122,7 @@
 			label="Content_Publish_up_Label"
 			description="Content_Publish_up_Desc"
 			class="inputbox"
-			format="%Y-%m-%d %H-%M-%S"
+			format="%Y-%m-%d %H:%M:%S"
 			size="30"
 			default="" />
 
@@ -133,7 +133,7 @@
 			label="Content_Publish_down_Label"
 			description="Content_Publish_down_Desc"
 			class="inputbox"
-			format="%Y-%m-%d %H-%M-%S"
+			format="%Y-%m-%d %H:%M:%S"
 			size="30"
 			default="" />
 

@@ -72,4 +72,4 @@ window.addEvent('domready', function(){
 	});
 });
 </script>
-<?php echo JHtml::_('access.usergroups', 'groups', array_keys($this->groups)); ?>
+<?php echo JHtml::_('access.usergroups', 'jform[groups]', array_keys($this->groups)); ?>

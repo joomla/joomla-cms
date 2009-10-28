@@ -5,12 +5,13 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 /**
- * The HTML Users groups view.
+ * View class for a list of user groups.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_users
@@ -18,6 +19,10 @@ jimport('joomla.application.component.view');
  */
 class UsersViewGroups extends JView
 {
+	protected $state;
+	protected $items;
+	protected $pagination;
+
 	/**
 	 * Display the view
 	 */
@@ -37,27 +42,39 @@ class UsersViewGroups extends JView
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 
-		parent::display($tpl);
 		$this->_setToolbar();
+		parent::display($tpl);
 	}
 
 	/**
-	 * Build the default toolbar.
-	 *
-	 * @return	void
+	 * Setup the Toolbar.
 	 */
 	protected function _setToolbar()
 	{
+		$canDo	= UsersHelper::getActions();
+
 		JToolBarHelper::title(JText::_('Users_View_Groups_Title'), 'groups');
 
-		JToolBarHelper::custom('group.add', 'new.png', 'new_f2.png', 'New', false);
-		JToolBarHelper::custom('group.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
-		JToolBarHelper::divider();
-		JToolBarHelper::deleteList('', 'group.delete');
+		if ($canDo->get('core.create'))
+		{
+			JToolBarHelper::custom('group.add', 'new.png', 'new_f2.png', 'New', false);
+		}
+		if ($canDo->get('core.edit'))
+		{
+			JToolBarHelper::custom('group.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		}
+		if ($canDo->get('core.delete'))
+		{
+			JToolBarHelper::deleteList('', 'group.delete');
+		}
 
 		JToolBarHelper::divider();
 
-		JToolBarHelper::preferences('com_users');
+		if ($canDo->get('core.admin'))
+		{
+			JToolBarHelper::preferences('com_users');
+		}
+
 		JToolBarHelper::help('screen.users.groups');
 	}
 }

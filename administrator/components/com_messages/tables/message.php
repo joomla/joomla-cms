@@ -137,8 +137,7 @@ class TableMessage extends JTable
 			$this->user_id_to	= $toId;
 			$this->subject		= $subject;
 			$this->message		= $message;
-			$date = &JFactory::getDate();
-			$this->date_time	= $date->toMySQL();
+			$this->date_time	= JFactory::getDate()->toMySQL();
 
 			if ($this->store())
 			{

@@ -38,16 +38,9 @@ class UsersViewUsers extends JView
 			return false;
 		}
 
-		// Build the active state filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '*', 'Any');
-		$options[]	= JHtml::_('select.option', '0', 'Active');
-		$options[]	= JHtml::_('select.option', '1', 'Blocked');
-
-		$this->assignRef('state',			$state);
-		$this->assignRef('items',			$items);
-		$this->assignRef('pagination',		$pagination);
-		$this->assignRef('filter_state',	$options);
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
+		$this->assignRef('pagination',	$pagination);
 
 		$this->_setToolbar();
 		parent::display($tpl);
@@ -64,27 +57,31 @@ class UsersViewUsers extends JView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			//JToolBarHelper::custom('user.activate', 'publish.png', 'publish_f2.png', 'Activate', true);
-			//JToolBarHelper::custom('user.block', 'unpublish.png', 'unpublish_f2.png', 'Block', true);
+			JToolBarHelper::custom('users.activate', 'publish.png', 'publish_f2.png', 'Activate', true);
+			JToolBarHelper::custom('users.block', 'unpublish.png', 'unpublish_f2.png', 'Block', true);
+			JToolBarHelper::divider();
 		}
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolBarHelper::custom('user.add', 'new.png', 'new_f2.png', 'New', false);
 		}
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolBarHelper::custom('user.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
 		}
-		if ($canDo->get('core.delete')) {
-			JToolBarHelper::divider();
+		if ($canDo->get('core.delete'))
+		{
 			JToolBarHelper::deleteList('', 'user.delete');
 		}
 
+		JToolBarHelper::divider();
+
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_users');
 		}
-		JToolBarHelper::divider();
+
 		JToolBarHelper::help('screen.users.users');
 	}
 }

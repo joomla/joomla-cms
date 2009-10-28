@@ -122,15 +122,6 @@ class ContactTableContact extends JTable
 		}
 		// check for http on additional links
 
-		if (empty($this->alias)) {
-			$this->alias = $this->name;
-		}
-
-		$this->alias = JFilterOutput::stringURLSafe($this->alias);
-		if (trim(str_replace('-','',$this->alias)) == '') {
-			$datenow = &JFactory::getDate();
-			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
-		}
 		/** check for valid name */
 		if (trim($this->name) == '') {
 			$this->setError(JText::_('CONTACT_WARNING_NAME'));
@@ -151,8 +142,7 @@ class ContactTableContact extends JTable
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 		if (trim(str_replace('-','',$this->alias)) == '') {
-			$datenow = &JFactory::getDate();
-			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
+			$this->alias = JFactory::getDate()->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
 		/** check for valid category */
 		if (trim($this->catid) == '') {

@@ -691,8 +691,7 @@ abstract class JTable extends JObject
 		}
 
 		// Get the current time in MySQL format.
-		$date = &JFactory::getDate();
-		$time = $date->toMysql();
+		$time = JFactory::getDate()->toMysql();
 
 		// Check the row out by primary key.
 		$this->_db->setQuery(

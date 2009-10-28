@@ -69,9 +69,7 @@ class TableBanner extends JTable
 	{
 		parent::__construct('#__banner', 'bid', $_db);
 
-
-		$now = &JFactory::getDate();
-		$this->set('date', $now->toMySQL());
+		$this->set('date', JFactory::getDate()->toMySQL());
 	}
 
 	function clicks()

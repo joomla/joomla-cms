@@ -36,10 +36,10 @@ JHtml::_('behavior.tooltip');
 				<th class="left">
 					<?php echo JText::_('Users_Heading_Level_Name'); ?>
 				</th>
-				<th width="30%">
-					<?php // echo JText::_('Users_Heading_Level_User_Groups'); ?>
+				<th width="5%">
+					<?php echo JText::_('JGrid_Heading_ID'); ?>
 				</th>
-				<th width="30%">
+				<th width="50%">
 					&nbsp;
 				</th>
 			</tr>
@@ -52,10 +52,8 @@ JHtml::_('behavior.tooltip');
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php
-			$i = 0;
-			foreach ($this->items as $item) : ?>
-			<tr class="row<?php echo $i++ % 2; ?>">
+		<?php foreach ($this->items as $i => $item) : ?>
+			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
 				</td>
@@ -63,8 +61,8 @@ JHtml::_('behavior.tooltip');
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=level.edit&cid[]='.$item->id);?>">
 						<?php echo $item->title; ?></a>
 				</td>
-				<td>
-					<?php //echo nl2br(implode("\n", explode(',', $item->user_groups))); ?>
+				<td align="center">
+					<?php echo (int) $item->id; ?>
 				</td>
 				<td>
 					&nbsp;

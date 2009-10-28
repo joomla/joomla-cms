@@ -1,17 +1,13 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$config =& JFactory::getConfig();
-$publish_up =& JFactory::getDate($this->article->publish_up);
-$publish_up->setOffset($config->getValue('config.offset'));
-$publish_up = $publish_up->toFormat();
+$config = JFactory::getConfig();
+$publish_up = JHtml::date($this->article->publish_up);
 
 if (! isset($this->article->publish_down) || $this->article->publish_down == 'Never') {
 	$publish_down = JText::_('Never');
 } else {
-	$publish_down =& JFactory::getDate($this->article->publish_down);
-	$publish_down->setOffset($config->getValue('config.offset'));
-	$publish_down = $publish_down->toFormat();
+	$publish_down = JHtml::date($this->article->publish_down);
 }
 ?>
 

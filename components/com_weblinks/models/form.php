@@ -199,8 +199,8 @@ class WeblinksModelForm extends JModelForm
 	protected function _prepareTable(&$table)
 	{
 		jimport('joomla.filter.output');
-		$date = &JFactory::getDate();
-		$user = &JFactory::getUser();
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
 
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
 		$table->alias		= JFilterOutput::stringURLSafe($table->alias);
@@ -215,7 +215,7 @@ class WeblinksModelForm extends JModelForm
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
-				$db = &JFactory::getDbo();
+				$db = JFactory::getDbo();
 				$db->setQuery('SELECT MAX(ordering) FROM #__weblinks WHERE catid = '.(int)$table->catid);
 				$max = $db->loadResult();
 

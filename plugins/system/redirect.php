@@ -68,10 +68,9 @@ class plgSystemRedirect extends JPlugin
 				$app->redirect($link->new_url);
 			} else {
 				// If not, add the new url to the database.
-				$now = & JFactory::getDate();
 				$db->setQuery(
 					'INSERT IGNORE INTO `#__redirect_links` (`old_url`, `referer`, `published`, `created_date`)' .
-					' VALUES ('.$db->Quote($current).', '.$db->Quote($_SERVER["HTTP_REFERER"]).', 0, '.$now->toUNIX().')'
+					' VALUES ('.$db->Quote($current).', '.$db->Quote($_SERVER["HTTP_REFERER"]).', 0, '.JFactory::getDate()->toUNIX().')'
 				);
 				$db->query();
 

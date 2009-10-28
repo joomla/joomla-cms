@@ -166,9 +166,6 @@ class JLog extends JObject
 			return true;
 		}
 
-		$now = &JFactory::getDate();
-		$date = $now->toMySQL();
-
 		if (!file_exists($this->_path))
 		{
 			jimport("joomla.filesystem.folder");
@@ -177,7 +174,7 @@ class JLog extends JObject
 			}
 			$header[] = "#<?php die('Direct Access To Log Files Not Permitted'); ?>";
 			$header[] = "#Version: 1.0";
-			$header[] = "#Date: " . $date;
+			$header[] = "#Date: " . JFactory::getDate()->toMySQL();
 
 			// Prepare the fields string
 			$fields = str_replace("{", "", $this->_format);

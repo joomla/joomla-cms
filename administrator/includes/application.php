@@ -284,7 +284,7 @@ class JAdministrator extends JApplication
 		if ($purge > 0)
 		{
 			// purge old messages at day set in message configuration
-			$past = &JFactory::getDate(time() - $purge * 86400);
+			$past = JFactory::getDate(time() - $purge * 86400);
 			$pastStamp = $past->toMySQL();
 
 			$query = 'DELETE FROM #__messages'

@@ -52,10 +52,8 @@ JHtml::_('behavior.tooltip');
 			</tr>
 		</tfoot>
 		<tbody>
-			<?php
-			$n = 0;
-			foreach ($this->items as $item) : ?>
-			<tr class="row<?php echo $n++ % 2; ?>">
+		<?php foreach ($this->items as $i => $item) : ?>
+			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
 				</td>
@@ -68,12 +66,10 @@ JHtml::_('behavior.tooltip');
 					<?php echo $item->user_count ? $item->user_count : ''; ?>
 				</td>
 				<td class="center">
-					<?php echo $item->id; ?>
+					<?php echo (int) $item->id; ?>
 				</td>
 			</tr>
-			<?php
-			endforeach;
-			?>
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 

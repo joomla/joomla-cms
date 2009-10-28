@@ -292,7 +292,7 @@ class JTableContent extends JTable
 		{
 			list($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
 		}
-		
+
 		if (isset($array['attribs']) && is_array($array['attribs']))
 		{
 			$registry = new JRegistry();
@@ -338,8 +338,7 @@ class JTableContent extends JTable
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-','',$this->alias)) == '') {
-			$datenow = &JFactory::getDate();
-			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
+			$this->alias = JFactory::getDate()->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
 
 		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '') {
@@ -389,8 +388,8 @@ class JTableContent extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		$date	= &JFactory::getDate();
-		$user	= &JFactory::getUser();
+		$date	= JFactory::getDate();
+		$user	= JFactory::getUser();
 		if ($this->id)
 		{
 			// Existing item

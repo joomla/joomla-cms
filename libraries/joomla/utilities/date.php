@@ -11,201 +11,308 @@
 defined('JPATH_BASE') or die;
 
 /**
- * JDate is a class that stores a date
+ * JDate is a class that stores a date and provides logic to manipulate
+ * and render that date in a variety of formats.
  *
  * @package		Joomla.Framework
  * @subpackage	Utilities
  * @since		1.5
  */
-class JDate extends JObject
+class JDate extends DateTime
 {
-	/**
-	 * Unix timestamp
-	 *
-	 * @var     int|boolean
-	 * @access  protected
-	 */
-	var $_date = false;
+	const DAY_ABBR = "\x021\x03";
+	const DAY_NAME = "\x022\x03";
+	const MONTH_ABBR = "\x023\x03";
+	const MONTH_NAME = "\x024\x03";
 
 	/**
-	 * Time offset (in seconds)
+	 * The format string to be applied when using the __toString() magic method.
 	 *
-	 * @var     string
-	 * @access  protected
+	 * @var		string
+	 * @since	1.6
 	 */
-	var $_offset = 0;
+	public static $format = 'Y-m-d H:i:s';
 
 	/**
-	 * Creates a new instance of JDate representing a given date.
+	 * Placeholder for a DateTimeZone object with GMT as the time zone.
 	 *
-	 * Accepts RFC 822, ISO 8601 date formats as well as unix time stamps.
-	 * If not specified, the current date and time is used.
-	 *
-	 * @param mixed $date optional the date this JDate will represent.
-	 * @param int $tzOffset optional the timezone $date is from
+	 * @var		object
+	 * @since	1.6
 	 */
-	function __construct($date = 'now', $tzOffset = 0)
+	protected static $gmt;
+
+	/**
+	 * Placeholder for a DateTimeZone object with the default server
+	 * time zone as the time zone.
+	 *
+	 * @var		object
+	 * @since	1.6
+	 */
+	protected static $stz;
+
+	/**
+	 * An array of offsets and time zone strings representing the available
+	 * options from Joomla! 1.5 and below.
+	 *
+	 * @deprecated	Deprecated since 1.6
+	 *
+	 * @var		array
+	 * @since	1.6
+	 */
+	protected static $offsets = array(
+		-12 => 'Etc/GMT-12',
+		-11 => 'Pacific/Midway',
+		-10 => 'Pacific/Honolulu',
+		-9.5 => 'Pacific/Marquesas',
+		-9 => 'US/Alaska',
+		-8 => 'US/Pacific',
+		-7 => 'US/Mountain',
+		-6 => 'US/Central',
+		-5 => 'US/Eastern',
+		-4.5 => 'America/Caracas',
+		-4 => 'America/Barbados',
+		-3.5 => 'Canada/Newfoundland',
+		-3 => 'America/Buenos_Aires',
+		-2 => 'Atlantic/South_Georgia',
+		-1 => 'Atlantic/Azores',
+		0 => 'Europe/London',
+		1 => 'Europe/Amsterdam',
+		2 => 'Europe/Istanbul',
+		3 => 'Asia/Riyadh',
+		3.5 => 'Asia/Tehran',
+		4 => 'Asia/Muscat',
+		4.5 => 'Asia/Kabul',
+		5 => 'Asia/Karachi',
+		5.5 => 'Asia/Calcutta',
+		5.75 => 'Asia/Katmandu',
+		6 => 'Asia/Dhaka',
+		6.30 => 'Indian/Cocos',
+		7 => 'Asia/Bangkok',
+		8 => 'Australia/Perth',
+		8.75 => 'Australia/West',
+		9 => 'Asia/Tokyo',
+		9.5 => 'Australia/Adelaide',
+		10 => 'Australia/Brisbane',
+		10.5 => 'Australia/Lord_Howe',
+		11 => 'Pacific/Kosrae',
+		11.30 => 'Pacific/Norfolk',
+		12 => 'Pacific/Auckland',
+		12.75 => 'Pacific/Chatham',
+		13 => 'Pacific/Tongatapu',
+		14 => 'Pacific/Kiritimati'
+	);
+
+	/**
+	 * The DateTimeZone object for usage in rending dates as strings.
+	 *
+	 * @var		object
+	 * @since	1.6
+	 */
+	protected $_tz;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param	string	String in a format accepted by strtotime(), defaults to "now".
+	 * @param	mixed	Time zone to be used for the date.
+	 * @return	void
+	 * @since	1.5
+	 *
+	 * @throws	JException
+	 */
+	public function __construct($date = 'now', $tz = null)
 	{
-		if ($date == 'now' || empty($date))
+		// Create the base GMT and server time zone objects.
+		if (empty(self::$gmt) || empty(self::$stz))
 		{
-			$this->_date = strtotime(gmdate("M d Y H:i:s", time()));
-			return;
+			self::$gmt = new DateTimeZone('GMT');
+			self::$stz = new DateTimeZone(@date_default_timezone_get());
 		}
 
-		$tzOffset *= 3600;
-		if (is_numeric($date))
+		// If the time zone object is not set, attempt to build it.
+		if (!$tz instanceof DateTimeZone)
 		{
-			$this->_date = $date - $tzOffset;
-			return;
+			if($tz === null) {
+			    $tz = self::$gmt;
+			}
+			// Translate from offset.
+			elseif (is_numeric($tz)) {
+			    $tz = new DateTimeZone(self::$offsets[$tz]);
+			}
+			elseif (is_string($tz)) {
+			    $tz = new DateTimeZone($tz);
+			}
 		}
 
-		if (preg_match('~(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),\\s+)?(\\d{1,2})\\s+([a-zA-Z]{3})\\s+(\\d{4})\\s+(\\d{2}):(\\d{2}):(\\d{2})\\s+(.*)~i',$date,$matches))
-		{
-			$months = Array(
-				'jan' => 1, 'feb' => 2, 'mar' => 3, 'apr' => 4,
-				'may' => 5, 'jun' => 6, 'jul' => 7, 'aug' => 8,
-				'sep' => 9, 'oct' => 10, 'nov' => 11, 'dec' => 12
-			);
-			$matches[2] = strtolower($matches[2]);
-			if (! isset($months[$matches[2]])) {
-				return;
-			}
-			$this->_date = mktime(
-				$matches[4], $matches[5], $matches[6],
-				$months[$matches[2]], $matches[1], $matches[3]
-			);
-			if ($this->_date === false) {
-				return;
-			}
+		// If the date is numeric assume a unix timestamp and convert it.
+		$date = is_numeric($date) ? date('c', $date) : $date;
 
-			if ($matches[7][0] == '+') {
-				$tzOffset = 3600 * substr($matches[7], 1, 2)
-					+ 60 * substr($matches[7], -2);
-			} elseif ($matches[7][0] == '-') {
-				$tzOffset = -3600 * substr($matches[7], 1, 2)
-					- 60 * substr($matches[7], -2);
-			} else {
-				if (strlen($matches[7]) == 1) {
-					$oneHour = 3600;
-					$ord = ord($matches[7]);
-					if ($ord < ord('M')) {
-						$tzOffset = (ord('A') - $ord - 1) * $oneHour;
-					} elseif ($ord >= ord('M') && $matches[7] != 'Z') {
-						$tzOffset = ($ord - ord('M')) * $oneHour;
-					} elseif ($matches[7] == 'Z') {
-						$tzOffset = 0;
-					}
-				}
-				switch ($matches[7]) {
-					case 'UT':
-					case 'GMT': $tzOffset = 0;
-				}
-			}
-			$this->_date -= $tzOffset;
-			return;
-		}
-		if (preg_match('~(\\d{4})-(\\d{2})-(\\d{2})[T\s](\\d{2}):(\\d{2}):(\\d{2})(.*)~', $date, $matches))
-		{
-			$this->_date = mktime(
-				$matches[4], $matches[5], $matches[6],
-				$matches[2], $matches[3], $matches[1]
-			);
-			if ($this->_date == false) {
-				return;
-			}
-			if (isset($matches[7][0])) {
-				if ($matches[7][0] == '+' || $matches[7][0] == '-') {
-					$tzOffset = 60 * (
-						substr($matches[7], 0, 3) * 60 + substr($matches[7], -2)
-					);
-				} elseif ($matches[7] == 'Z') {
-					$tzOffset = 0;
-				}
-			}
-			$this->_date -= $tzOffset;
-			return;
-		}
-        $this->_date = (strtotime($date) == -1) ? false : strtotime($date);
-		if ($this->_date) {
-			$this->_date -= $tzOffset;
-		}
+		// Call the DateTime constructor.
+		parent::__construct($date, $tz);
+
+		// Set the timezone object for access later.
+		$this->_tz = $tz;
 	}
 
 	/**
-	 * Set the date offset (in hours)
+	 * Magic method to render the date object in the format specified in the public
+	 * static member JDate::$format.
 	 *
-	 * @access public
-	 * @param float The offset in hours
+	 * @return	string	The date as a formatted string.
+	 * @since	1.6
 	 */
-	function setOffset($offset) {
-		$this->_offset = 3600 * $offset;
-	}
-
-	/**
-	 * Get the date offset (in hours)
-	 *
-	 * @access public
-	 * @return integer
-	 */
-	function getOffset() {
-		return ((float) $this->_offset) / 3600.0;
-	}
-
-	/**
-	 * Gets the date as an RFC 822 date.
-	 *
-	 * @return a date in RFC 822 format
-	 * @link http://www.ietf.org/rfc/rfc2822.txt?number=2822 IETF RFC 2822
-	 * (replaces RFC 822)
-	 */
-	function toRFC822($local = false)
+	public function __toString()
 	{
-		$date = ($local) ? $this->_date + $this->_offset : $this->_date;
-		$date = ($this->_date !== false) ? date('D, d M Y H:i:s', $date).' +0000' : null;
-		return $date;
+		return (string) parent::format(self::$format);
 	}
 
 	/**
-	 * Gets the date as an ISO 8601 date.
+	 * Get the time offset from GMT in hours or seconds.
 	 *
-	 * @return a date in ISO 8601 (RFC 3339) format
-	 * @link http://www.ietf.org/rfc/rfc3339.txt?number=3339 IETF RFC 3339
+	 * @param	boolean	True to return the value in hours.
+	 * @return	float	The time offset from GMT either in hours in seconds.
+	 * @since	1.6
 	 */
-	function toISO8601($local = false)
+	public function getOffsetFromGMT($hours = false)
 	{
-		$date   = ($local) ? $this->_date + $this->_offset : $this->_date;
-		$offset = $this->getOffset();
-        $offset = ($local && $this->_offset) ? sprintf("%+03d:%02d", $offset, abs(($offset-intval($offset))*60)) : 'Z';
-        $date   = ($this->_date !== false) ? date('Y-m-d\TH:i:s', $date).$offset : null;
-		return $date;
+		return (float) $hours ? ($this->_tz->getOffset($this) / 3600) : $this->_tz->getOffset($this);
 	}
 
 	/**
-	 * Gets the date as in MySQL datetime format
+	 * Gets the date as a formatted string.
 	 *
-	 * @return a date in MySQL datetime format
-	 * @link http://dev.mysql.com/doc/refman/4.1/en/datetime.html MySQL DATETIME
-	 * format
+	 * @param	string	The date format specification string (see {@link PHP_MANUAL#date})
+	 * @param	boolean	True to return the date string in the local time zone, false to return it in GMT.
+	 * @return	string	The date string in the specified format format.
+	 * @since	1.6
 	 */
-	function toMySQL($local = false)
+	public function format($format, $local = true)
 	{
-		$date = ($local) ? $this->_date + $this->_offset : $this->_date;
-		$date = ($this->_date !== false) ? date('Y-m-d H:i:s', $date) : null;
-		return $date;
+		// Do string replacements for date format options that can be translated.
+		$format = preg_replace('/[^\\\]D/', self::DAY_ABBR, $format);
+		$format = preg_replace('/[^\\\]l/', self::DAY_NAME, $format);
+		$format = preg_replace('/[^\\\]F/', self::MONTH_ABBR, $format);
+		$format = preg_replace('/[^\\\]M/', self::MONTH_NAME, $format);
+
+		// If the returned time should not be local use GMT.
+		if (!$local) {
+			parent::setTimezone(self::$gmt);
+		}
+
+		// Format the date.
+		$return = parent::format($format);
+
+		// Manually modify the month and day strings in the formated time.
+		if (strpos($return, self::DAY_ABBR) !== false) {
+			$return = str_replace(self::DAY_ABBR, $this->_dayToString(parent::format('w'), true), $return);
+		}
+		if (strpos($return, self::DAY_NAME) !== false) {
+			$return = str_replace(self::DAY_NAME, $this->_dayToString(parent::format('w')), $return);
+		}
+		if (strpos($return, self::MONTH_ABBR) !== false) {
+			$return = str_replace(self::MONTH_ABBR, $this->_monthToString(parent::format('n'), true), $return);
+		}
+		if (strpos($return, self::MONTH_NAME) !== false) {
+			$return = str_replace(self::MONTH_NAME, $this->_monthToString(parent::format('n')), $return);
+		}
+
+		if (!$local) {
+			parent::setTimezone($this->_tz);
+		}
+
+
+		return $return;
+	}
+
+	/**
+	 * Gets the date as an RFC 822 string.  IETF RFC 2822 supercedes RFC 822 and its definition
+	 * can be found at the IETF Web site.
+	 *
+	 * @link http://www.ietf.org/rfc/rfc2822.txt
+	 *
+	 * @param	boolean	True to return the date string in the local time zone, false to return it in GMT.
+	 * @return	string	The date string in RFC 822 format.
+	 * @since	1.5
+	 */
+	public function toRFC822($local = false)
+	{
+		return $this->format(DATE_RFC822, $local);
+	}
+
+	/**
+	 * Gets the date as an ISO 8601 string.  IETF RFC 3339 defines the ISO 8601 format
+	 * and it can be found at the IETF Web site.
+	 *
+	 * @link http://www.ietf.org/rfc/rfc3339.txt
+	 *
+	 * @param	boolean	True to return the date string in the local time zone, false to return it in GMT.
+	 * @return	string	The date string in ISO 8601 format.
+	 * @since	1.5
+	 */
+	public function toISO8601($local = false)
+	{
+		return $this->format(DATE_ISO8601, $local);
+	}
+
+	/**
+	 * Gets the date as an MySQL datetime string.
+	 *
+	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
+	 *
+	 * @param	boolean	True to return the date string in the local time zone, false to return it in GMT.
+	 * @return	string	The date string in MySQL datetime format.
+	 * @since	1.5
+	 */
+	public function toMySQL($local = false)
+	{
+		return $this->format('Y-m-d H:i:s', $local);
 	}
 
 	/**
 	 * Gets the date as UNIX time stamp.
 	 *
-	 * @return a date as a unix time stamp
+	 * @return	integer	The date as a UNIX timestamp.
+	 * @since	1.5
 	 */
-	function toUnix($local = false)
+	public function toUnix()
 	{
-		$date = null;
-		if ($this->_date !== false) {
-			$date = ($local) ? $this->_date + $this->_offset : $this->_date;
+		return (int) parent::format('U');
+	}
+
+	/**
+	 * Method to wrap the setTimezone() function and set the internal
+	 * time zone object.
+	 *
+	 * @param	object	The new DateTimeZone object.
+	 * @return	object	The old DateTimeZone object.
+	 * @since	1.6
+	 */
+	public function setTimezone(DateTimeZone $tz)
+	{
+		$this->_tz = $tz;
+		return parent::setTimezone($tz);
+	}
+
+	/**
+	 * Set the date offset (in hours).
+	 *
+	 * @deprecated	Deprecated since 1.6
+	 *
+	 * @param	float	The offset in hours.
+	 * @return	boolean	True on success.
+	 * @since	1.5
+	 */
+	public function setOffset($offset)
+	{
+		// Only set the timezone if the offset exists.
+		if (isset(self::$offsets[$offset]))
+		{
+			$this->_tz = new DateTimeZone(self::$offsets[$offset]);
+			$this->setTimezone($this->_tz);
+			return true;
 		}
-		return $date;
+
+		return false;
 	}
 
 	/**
@@ -214,74 +321,79 @@ class JDate extends JObject
 	 * Returns a string formatted according to the given format. Month and weekday names and
 	 * other language dependent strings respect the current locale
 	 *
-	 * @param string $format  The date format specification string (see {@link PHP_MANUAL#strftime})
-	 * @return a date in a specific format
-	 */
-	function toFormat($format = '%Y-%m-%d %H:%M:%S')
-	{
-		$date = ($this->_date !== false) ? $this->_strftime($format, $this->_date + $this->_offset) : null;
-
-		return $date;
-	}
-
-	/**
-	 * Translates needed strings in for JDate::toFormat (see {@link PHP_MANUAL#strftime})
+	 * @deprecated	Deprecated since 1.6, use JDate::format() instead.
 	 *
-	 * @access protected
-	 * @param string $format The date format specification string (see {@link PHP_MANUAL#strftime})
-	 * @param int $time Unix timestamp
-	 * @return string a date in the specified format
+	 * @param	string	The date format specification string (see {@link PHP_MANUAL#strftime})
+	 * @param	boolean	True to return the date string in the local time zone, false to return it in GMT.
+	 * @return	string	The date as a formatted string.
+	 * @since	1.5
 	 */
-	function _strftime($format, $time)
+	public function toFormat($format = '%Y-%m-%d %H:%M:%S', $local = true)
 	{
-		if (strpos($format, '%a') !== false)
+		// Generate the timestamp.
+		$time = (int) parent::format('U');
+
+		// If the returned time should be local add the GMT offset.
+		if ($local) {
+			$time += $this->getOffsetFromGMT();
+		}
+
+		// Manually modify the month and day strings in the format.
+		if (strpos($format, '%a') !== false) {
 			$format = str_replace('%a', $this->_dayToString(date('w', $time), true), $format);
-		if (strpos($format, '%A') !== false)
+		}
+		if (strpos($format, '%A') !== false) {
 			$format = str_replace('%A', $this->_dayToString(date('w', $time)), $format);
-		if (strpos($format, '%b') !== false)
+		}
+		if (strpos($format, '%b') !== false) {
 			$format = str_replace('%b', $this->_monthToString(date('n', $time), true), $format);
-		if (strpos($format, '%B') !== false)
+		}
+		if (strpos($format, '%B') !== false) {
 			$format = str_replace('%B', $this->_monthToString(date('n', $time)), $format);
+		}
+
+		// Generate the formatted string.
 		$date = strftime($format, $time);
+
 		return $date;
 	}
 
 	/**
-	 * Translates month number to string
+	 * Translates month number to a string.
 	 *
-	 * @access protected
-	 * @param int $month The numeric month of the year
-	 * @param bool $abbr Return the abreviated month string?
-	 * @return string month string
+	 * @param	integer	The numeric month of the year.
+	 * @param	boolean	Return the abreviated month string?
+	 * @return	string	The month of the year.
+	 * @since	1.5
 	 */
-	function _monthToString($month, $abbr = false)
+	protected function _monthToString($month, $abbr = false)
 	{
 		switch ($month)
 		{
-			case 1:  return $abbr ? JText::_('JANUARY_SHORT')   : JText::_('JANUARY');
-			case 2:  return $abbr ? JText::_('FEBRUARY_SHORT')  : JText::_('FEBRUARY');
-			case 3:  return $abbr ? JText::_('MARCH_SHORT')     : JText::_('MARCH');
-			case 4:  return $abbr ? JText::_('APRIL_SHORT')     : JText::_('APRIL');
-			case 5:  return $abbr ? JText::_('MAY_SHORT')       : JText::_('MAY');
-			case 6:  return $abbr ? JText::_('JUNE_SHORT')      : JText::_('JUNE');
-			case 7:  return $abbr ? JText::_('JULY_SHORT')      : JText::_('JULY');
-			case 8:  return $abbr ? JText::_('AUGUST_SHORT')    : JText::_('AUGUST');
-			case 9:  return $abbr ? JText::_('SEPTEMBER_SHORT')  : JText::_('SEPTEMBER');
-			case 10: return $abbr ? JText::_('OCTOBER_SHORT')   : JText::_('OCTOBER');
-			case 11: return $abbr ? JText::_('NOVEMBER_SHORT')  : JText::_('NOVEMBER');
-			case 12: return $abbr ? JText::_('DECEMBER_SHORT')  : JText::_('DECEMBER');
+			case 1:  return $abbr ? JText::_('JANUARY_SHORT')	: JText::_('JANUARY');
+			case 2:  return $abbr ? JText::_('FEBRUARY_SHORT')	: JText::_('FEBRUARY');
+			case 3:  return $abbr ? JText::_('MARCH_SHORT')		: JText::_('MARCH');
+			case 4:  return $abbr ? JText::_('APRIL_SHORT')		: JText::_('APRIL');
+			case 5:  return $abbr ? JText::_('MAY_SHORT')		: JText::_('MAY');
+			case 6:  return $abbr ? JText::_('JUNE_SHORT')		: JText::_('JUNE');
+			case 7:  return $abbr ? JText::_('JULY_SHORT')		: JText::_('JULY');
+			case 8:  return $abbr ? JText::_('AUGUST_SHORT')	: JText::_('AUGUST');
+			case 9:  return $abbr ? JText::_('SEPTEMBER_SHORT')	: JText::_('SEPTEMBER');
+			case 10: return $abbr ? JText::_('OCTOBER_SHORT')	: JText::_('OCTOBER');
+			case 11: return $abbr ? JText::_('NOVEMBER_SHORT')	: JText::_('NOVEMBER');
+			case 12: return $abbr ? JText::_('DECEMBER_SHORT')	: JText::_('DECEMBER');
 		}
 	}
 
 	/**
-	 * Translates day of week number to string
+	 * Translates day of week number to a string.
 	 *
-	 * @access protected
-	 * @param int $day The numeric day of the week
-	 * @param bool $abbr Return the abreviated day string?
-	 * @return string day string
+	 * @param	integer	The numeric day of the week.
+	 * @param	boolean	Return the abreviated day string?
+	 * @return	string	The day of the week.
+	 * @since	1.5
 	 */
-	function _dayToString($day, $abbr = false)
+	protected function _dayToString($day, $abbr = false)
 	{
 		switch ($day)
 		{
@@ -294,5 +406,4 @@ class JDate extends JObject
 			case 6: return $abbr ? JText::_('SAT') : JText::_('SATURDAY');
 		}
 	}
-
 }

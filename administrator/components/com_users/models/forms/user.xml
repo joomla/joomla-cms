@@ -3,6 +3,13 @@
 <form>
 	<fields>
 		<field
+			name="id"
+			type="hidden"
+			default="0"
+			readonly="true"
+		/>
+
+		<field
 			name="name"
 			type="text"
 			id="name"
@@ -59,6 +66,11 @@
 			class="inputbox required validate-email"
 			label="Users_User_Email_Label"
 			description="Users_User_Email_Desc" />
+
+		<field
+			name="groups"
+			type="hidden"
+		/>
 	</fields>
 
 	<fields

@@ -34,14 +34,15 @@ class UsersViewUser extends JView
 		$groups		= $this->get('AssignedGroups');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		$form->bind($item);
-		$form->setValue('password', null);
-		$form->setValue('password2', null);
+		$form->setValue('password',		null);
+		$form->setValue('password2',	null);
 
 		$this->assignRef('state',		$state);
 		$this->assignRef('item',		$item);

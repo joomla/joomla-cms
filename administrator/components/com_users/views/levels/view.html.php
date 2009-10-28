@@ -48,16 +48,30 @@ class UsersViewLevels extends JView
 	 */
 	protected function _setToolbar()
 	{
+		$canDo	= UsersHelper::getActions();
+
 		JToolBarHelper::title(JText::_('Users_View_Levels_Title'), 'levels');
 
-		JToolBarHelper::custom('level.add', 'new.png', 'new_f2.png', 'New', false);
-		JToolBarHelper::custom('level.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
-		JToolBarHelper::divider();
-		JToolBarHelper::deleteList('', 'level.delete');
+		if ($canDo->get('core.create'))
+		{
+			JToolBarHelper::custom('level.add', 'new.png', 'new_f2.png', 'New', false);
+		}
+		if ($canDo->get('core.edit'))
+		{
+			JToolBarHelper::custom('level.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		}
+		if ($canDo->get('core.delete'))
+		{
+			JToolBarHelper::deleteList('', 'level.delete');
+		}
 
 		JToolBarHelper::divider();
 
-		JToolBarHelper::preferences('com_users');
+		if ($canDo->get('core.admin'))
+		{
+			JToolBarHelper::preferences('com_users');
+		}
+
 		JToolBarHelper::help('screen.users.levels');
 	}
 }

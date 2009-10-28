@@ -89,8 +89,7 @@ class BannersModelBanner extends JModel
 		$n		= count($list);
 
 		$trackImpressions = $config->get('track_impressions');
-		$date = &JFactory::getDate();
-		$trackDate = $date->toFormat('%Y-%m-%d');
+		$trackDate = JFactory::getDate()->toFormat('%Y-%m-%d');
 
 		// TODO: Change loop single sql with where bid = x OR bid = y format
 		for ($i = 0; $i < $n; $i++) {
@@ -139,8 +138,7 @@ class BannersModelBanner extends JModel
 		$db		= &$this->getDbo();
 
 		$trackClicks = $config->get('track_clicks');
-		$date = &JFactory::getDate();
-		$trackDate = $date->toFormat('%Y-%m-%d');
+		$trackDate = JFactory::getDate()->toFormat('%Y-%m-%d');
 
 		// update click count
 		$query = 'UPDATE #__banner' .
