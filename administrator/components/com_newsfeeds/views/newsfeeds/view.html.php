@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -47,7 +47,7 @@ class NewsfeedsViewNewsfeeds extends JView
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Setup the Toolbar.
 	 */
 	protected function _setToolbar()
 	{

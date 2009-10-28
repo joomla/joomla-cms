@@ -5,14 +5,14 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 /**
- * Weblinks helper.
+ * Newsfeeds component helper.
  *
  * @package		Joomla.Administrator
- * @subpackage	com_newsfeedss
+ * @subpackage	com_newsfeeds
  * @since		1.6
  */
 class NewsfeedsHelper

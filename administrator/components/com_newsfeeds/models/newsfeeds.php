@@ -42,8 +42,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$accessId = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', null, 'int');
 		$this->setState('filter.access', $accessId);
 
-		$published = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_published', '', 'string');
-		$this->setState('filter.state', $published);
+		$state = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_published', '', 'string');
+		$this->setState('filter.state', $state);
 
 		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.category_id', 'catid', null, 'int');
 		$this->setState('filter.category_id', $categoryId);

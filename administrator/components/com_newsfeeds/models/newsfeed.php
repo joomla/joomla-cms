@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
@@ -119,7 +119,6 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	 * Method to get the record form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
-	 * @since	1.6
 	 */
 	public function getForm()
 	{
@@ -163,7 +162,6 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	 *
 	 * @param	array	The form data.
 	 * @return	boolean	True on success.
-	 * @since	1.6
 	 */
 	public function save($data)
 	{
