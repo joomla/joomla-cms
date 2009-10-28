@@ -30,6 +30,8 @@ $ -> Language fix or change
 28-Oct-2009 Andrew Eddie
  ! Fix block and activation methods to com_users backend list.
  ^ Sync backend com_users MVC code structure.
+ ^ Renamed JTableViewlevels to JTableViewlevel.
+ ^ Renamed modal article selector field.
 
 27-Oct-2009 Louis Landry
 # Fixed failure of JUser to load JSON based parameter strings.
