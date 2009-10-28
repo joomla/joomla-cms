@@ -35,10 +35,44 @@ class JFormFieldCalendar extends JFormFieldText
 	protected function _getInput()
 	{
 		$format = $this->_element->attributes('format');
+		$filter = $this->_element->attributes('filter');
 		$time	= $this->_element->attributes('time');
 
 		if ($this->value == 'now') {
 			$this->value = strftime($format);
+		}
+
+		// Get some system objects.
+		$config = JFactory::getConfig();
+		$user	= JFactory::getUser();
+
+		switch (strtoupper($filter))
+		{
+			case 'SERVER_UTC':
+				// Convert a date to UTC based on the server timezone.
+				if (intval($this->value))
+				{
+					// Get a date object based on the correct timezone.
+					$date = JFactory::getDate($this->value, 'UTC');
+					$date->setOffset($config->getValue('config.offset'));
+
+					// Transform the date string.
+					$this->value = $date->toMySQL(true);
+				}
+				break;
+
+			case 'USER_UTC':
+				// Convert a date to UTC based on the user timezone.
+				if (intval($this->value))
+				{
+					// Get a date object based on the correct timezone.
+					$date = JFactory::getDate($this->value, 'UTC');
+					$date->setOffset($user->getParam('timezone', $config->getValue('config.offset')));
+
+					// Transform the date string.
+					$this->value = $date->toMySQL(true);
+				}
+				break;
 		}
 
 		return JHtml::_('calendar', $this->value, $this->inputName, $this->inputId, $format);

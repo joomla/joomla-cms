@@ -364,11 +364,11 @@ abstract class JFactory
 	 * Return a reference to the {@link JDate} object
 	 *
 	 * @param mixed $time The initial time for the JDate object
-	 * @param int $tzOffset The timezone offset.
+	 * @param mixed $tzOffset The timezone offset.
 	 * @return object JDate
 	 * @since 1.5
 	 */
-	public static function &getDate($time = 'now', $tzOffset = 0)
+	public static function &getDate($time = 'now', $tzOffset = null)
 	{
 		jimport('joomla.utilities.date');
 		static $instances;
@@ -400,15 +400,16 @@ abstract class JFactory
 		}
 		$key = $time . '-' . $tzOffset;
 
-		if (!isset($instances[$classname][$key])) {
+//		if (!isset($instances[$classname][$key])) {
 			$tmp = new $classname($time, $tzOffset);
 			//We need to serialize to break the reference
-			$instances[$classname][$key] = serialize($tmp);
-			unset($tmp);
-		}
+//			$instances[$classname][$key] = serialize($tmp);
+//			unset($tmp);
+//		}
 
-		$date = unserialize($instances[$classname][$key]);
-		return $date;
+//		$date = unserialize($instances[$classname][$key]);
+//		return $date;
+		return $tmp;
 	}
 
 

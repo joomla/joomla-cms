@@ -316,30 +316,61 @@ abstract class JHtml
 	}
 
 	/**
-	 * Returns formated date according to current local and adds time offset
+	 * Returns formated date according to a given format and time zone.
 	 *
-	 * @access	public
-	 * @param	string	date in an US English date format
+	 * @param	string	String in a format accepted by strtotime(), defaults to "now".
 	 * @param	string	format optional format for strftime
-	 * @returns	string	formated date
+	 * @param	mixed	Time zone to be used for the date.  Special cases: boolean true for user
+	 * 					setting, boolean false for server setting.
+	 * @return	string	A date translated by the given format and time zone.
 	 * @see		strftime
 	 * @since	1.5
 	 */
-	public static function date($date, $format = null, $offset = null)
+	public static function date($input = 'now', $format = null, $tz = true)
 	{
-		if (! $format) {
+		// Get some system objects.
+		$config = JFactory::getConfig();
+		$user	= JFactory::getUser();
+
+		// UTC date converted to user time zone.
+		if ($tz === true)
+		{
+			// Get a date object based on UTC.
+			$date = JFactory::getDate($input, 'UTC');
+
+			// Set the correct time zone based on the user configuration.
+			$date->setOffset($user->getParam('timezone', $config->getValue('config.offset')));
+		}
+		// UTC date converted to server time zone.
+		elseif ($tz === false)
+		{
+			// Get a date object based on UTC.
+			$date = JFactory::getDate($input, 'UTC');
+
+			// Set the correct time zone based on the server configuration.
+			$date->setOffset($config->getValue('config.offset'));
+		}
+		// No date conversion.
+		elseif ($tz === null)
+		{
+			$date = JFactory::getDate($input);
+		}
+		// UTC date converted to given time zone.
+		else
+		{
+			// Get a date object based on UTC.
+			$date = JFactory::getDate($input, 'UTC');
+
+			// Set the correct time zone based on the server configuration.
+			$date->setOffset($tz);
+		}
+
+		// If no format is given use the default locale based format.
+		if (!$format) {
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
 
-		if (is_null($offset))
-		{
-			$config = &JFactory::getConfig();
-			$offset = $config->getValue('config.offset');
-		}
-		$instance = &JFactory::getDate($date);
-		$instance->setOffset($offset);
-
-		return $instance->toFormat($format);
+		return $date->toFormat($format);
 	}
 
 	/**

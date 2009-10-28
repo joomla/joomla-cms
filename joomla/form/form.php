@@ -304,12 +304,17 @@ class JForm extends JObject
 	 */
 	public function filter($data, $limit = null)
 	{
+		// Initialize variables.
 		$return = array();
 
 		// The data must be an object or array.
 		if (!is_object($data) && !is_array($data)) {
 			return false;
 		}
+
+		// Get some system objects.
+		$config	= JFactory::getConfig();
+		$user	= JFactory::getUser();
 
 		// Convert objects to arrays.
 		if (is_object($data))
@@ -400,8 +405,8 @@ class JForm extends JObject
 									// Convert a date to UTC based on the server timezone offset.
 									if (intval($data[$name]))
 									{
-										$config = JFactory::getConfig();
 										$offset	= $config->getValue('config.offset');
+
 										$date	= JFactory::getDate($data[$name], $offset);
 										$return[$name] = $date->toMySQL();
 									}
@@ -411,11 +416,9 @@ class JForm extends JObject
 									// Convert a date to UTC based on the user timezone offset.
 									if (intval($data[$name]))
 									{
-										$user	= JFactory::getUser();
-										$config	= JFactory::getConfig();
 										$offset	= $user->getParam('timezone', $config->getValue('config.offset'));
-										$date   = JFactory::getDate($data[$name]);
-										$date->setOffset($offset);
+
+										$date   = JFactory::getDate($data[$name], $offset);
 										$return[$name] = $date->toMySQL();
 									}
 									break;
