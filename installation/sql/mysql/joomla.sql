@@ -859,10 +859,10 @@ CREATE TABLE `#__stats_agents` (
 #
 
 CREATE TABLE IF NOT EXISTS `#__template_styles` (
-  `id` unsigned integer NOT NULL AUTO_INCREMENT,
+  `id` integer unsigned NOT NULL AUTO_INCREMENT,
   `template` varchar(50) NOT NULL DEFAULT '',
-  `client_id` unsigned tinyint(1) NOT NULL DEFAULT 0,
-  `home` unsigned tinyint(1) NOT NULL DEFAULT 0,
+  `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `home` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL DEFAULT '',
   `params` varchar(2048) NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
