@@ -696,6 +696,9 @@ div#jform_template-desc {
 input#description {
 	margin-top: 3px;
 }
+th.col1template {
+	width: 210px;
+}
 
 div.editor-border {
 	border: 1px solid #CCCCCC;

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Oct-2009 ARon Severdia
+^ Template Manager change, new thumbnail preview
+
 29-Oct-2009 Andrew Eddie
  ! Reverted plugin edit form to last good state.
  ^ Renamed table jos_menu_template to jos_template_styles; refactored schema.

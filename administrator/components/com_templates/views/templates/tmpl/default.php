@@ -38,9 +38,11 @@ JHtml::_('behavior.modal');
 	<table class="adminlist">
 		<thead>
 			<tr>
+			<th class="col1template"> </th>
 				<th>
 					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Template', 'a.element', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
+				
 				<th width="10%" class="center">
 					<?php echo JText::_('Version'); ?>
 				</th>
@@ -62,19 +64,21 @@ JHtml::_('behavior.modal');
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
 			$img_path = ($item->client_id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$item->element.'/template_thumbnail.png';
+			$imgprev_path = ($item->client_id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$item->element.'/template_preview.png';
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<a href="<?php echo $img_path; ?>" class="modal">
-						<img height="25" src="<?php echo $img_path; ?>" alt="<?php echo JText::_('Templates_No_preview');?>" title="<?php echo JText::_('Templates_Click_to_enlarge');?>" /></a>
-
-						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->extension_id); ?>">
-							<?php echo $item->name;?></a>
+					<a href="<?php echo $imgprev_path; ?>" class="modal">
+						<img src="<?php echo $img_path; ?>" alt="<?php echo JText::_('Templates_No_preview');?>" title="<?php echo JText::_('Templates_Click_to_enlarge');?>" /></a>
+				</td>
+				<td>
+					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->extension_id); ?>">
+						<?php echo $item->name;?></a>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->xmldata->get('version')); ?>
 				</td>
-				<td>
+				<td class="center">
 					<?php echo $this->escape($item->xmldata->get('creationdate')); ?>
 				</td>
 				<td>
