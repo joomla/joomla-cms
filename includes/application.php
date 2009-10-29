@@ -316,7 +316,7 @@ final class JSite extends JApplication
 
 		$id = 0;
 		if (is_object($item)) { // valid item retrieved
-			$id = $item->template_id;
+			$id = $item->template_style_id;
 		}
 		$condition = '';
 
@@ -334,7 +334,7 @@ final class JSite extends JApplication
 		// Load template entries for the active menuid and the default template
 		$db = &JFactory::getDbo();
 		$query = 'SELECT template, params'
-			. ' FROM #__menu_template'
+			. ' FROM #__template_styles'
 			. ' WHERE client_id = 0 AND '.$condition
 			;
 		$db->setQuery($query, 0, 1);

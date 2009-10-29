@@ -101,7 +101,7 @@ class JTableMenu extends JTableNested
 	/**
 	 * @var int
 	 */
-	var $template_id = null;
+	var $template_style_id = null;
 
 	/**
 	 * @var string The full tree path

@@ -105,7 +105,7 @@ class InstallerModelTemplates extends InstallerModel
 
 		// Get a list of the currently active templates
 		$query = 'SELECT DISTINCT template' .
-				' FROM #__menu_template' .
+				' FROM #__template_styles' .
 				' WHERE 1';
 		$db->setQuery($query);
 		$activeList = $db->loadResultArray();

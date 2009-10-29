@@ -1,9 +1,18 @@
-<?php defined('_JEXEC') or die; ?>
-
 <?php
-	$user = & JFactory :: getUser();
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_templates
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-	JHtml::_('behavior.tooltip');
+// No direct access.
+defined('_JEXEC') or die;
+
+$user = & JFactory :: getUser();
+
+JHtml::_('behavior.tooltip');
 ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
@@ -17,18 +26,6 @@
 			<th colspan="2">
 				<?php echo JText::_('Template Name'); ?>
 			</th>
-			<?php if ($this->client->id == 1) : ?>
-				<th width="5%">
-					<?php echo JText::_('Default'); ?>
-				</th>
-			<?php else : ?>
-				<th width="5%">
-					<?php echo JText::_('Default'); ?>
-				</th>
-				<th width="5%">
-					<?php echo JText::_('Assigned'); ?>
-				</th>
-			<?php endif; ?>
 			<th width="10%" class="center">
 				<?php echo JText::_('Version'); ?>
 			</th>
@@ -68,30 +65,6 @@ foreach ($this->rows as $template => $row) :
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&template=' . $template . '&client=' . $this->client->id); ?>"><?php echo $row->name;?></a>
 				</span>
 			</td>
-			<?php if ($this->client->id == 1) : ?>
-				<td class="center">
-				<?php if ($row->home == 1) : ?>
-					<img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Published'); ?>" />
-				<?php else  : ?>
-						&nbsp;
-				<?php endif; ?>
-				</td>
-			<?php else : ?>
-				<td class="center">
-				<?php if ($row->home == 1) : ?>
-						<img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" />
-				<?php else  : ?>
-						&nbsp;
-				<?php endif; ?>
-				</td>
-				<td class="center">
-				<?php if ($row->assigned == 1) : ?>
-						<img src="templates/bluestork/admin/images/tick.png" alt="<?php echo JText::_('Assigned'); ?>" />
-				<?php else : ?>
-						&nbsp;
-				<?php endif; ?>
-				</td>
-			<?php endif; ?>
 			<td class="center">
 				<?php echo $row->version; ?>
 			</td>

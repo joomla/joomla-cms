@@ -204,7 +204,7 @@ class ModulesModelModule extends JModel
 
 		// template assignment filter
 		$query = 'SELECT DISTINCT template'.
-				' FROM #__menu_template' .
+				' FROM #__template_styles' .
 				' WHERE client_id = '.(int) $this->_client->id ;
 		$this->_db->setQuery($query);
 		$templates = $this->_db->loadObjectList();

@@ -201,7 +201,7 @@ class ModulesModelModules extends JModel
 		$where[] = 'm.client_id = '.(int) $this->_client->id;
 
 		if ($this->_filter->assigned) {
-			$where[] = 't.template_id = '.$this->_db->Quote($this->_filter->assigned);
+			$where[] = 't.template_style_id = '.$this->_db->Quote($this->_filter->assigned);
 		}
 		if ($this->_filter->position) {
 			$where[] = 'm.position = '.$this->_db->Quote($this->_filter->position);

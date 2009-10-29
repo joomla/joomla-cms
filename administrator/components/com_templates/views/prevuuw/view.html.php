@@ -31,7 +31,7 @@ class TemplatesViewPrevuuw extends JView
 		JToolBarHelper::title(JText::_('Template Manager'), 'thememanager');
 		JToolBarHelper::custom('edit', 'back.png', 'back_f2.png', 'Back', false, false);
 
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'templates.php';
 
 		// Initialize some variables
 		$option 	= JRequest::getCmd('option');

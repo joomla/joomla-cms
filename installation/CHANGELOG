@@ -29,6 +29,14 @@ $ -> Language fix or change
 
 29-Oct-2009 Andrew Eddie
  ! Reverted plugin edit form to last good state.
+ ^ Renamed table jos_menu_template to jos_template_styles; refactored schema.
+ ^ Renamed jos_menu.template_id to jos_menu.template_style_id.
+ ^ Update milkyway template language file.
+ ^ Update milkyway and bluestork manifest files.
+ ^ Separated template styles from template file management/customisation.
+ + Templates params now support multiple params groups (basic, advanced, etc).
+ + Added ability to copy/clone an existing template style.
+ ^ Fix JFormField::_getInputId so that it cleans out invalid characters in id's (like array brackets); fix getLabel to not recompute the id.
 
 28-Oct-2009 Andrew Eddie
  ! Fix block and activation methods to com_users backend list.

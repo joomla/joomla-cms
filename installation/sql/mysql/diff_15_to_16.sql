@@ -316,6 +316,9 @@ ALTER TABLE `jos_menu`
 ALTER TABLE `jos_menu`
  ADD COLUMN `path` VARCHAR(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.' AFTER `alias`;
 
+ALTER TABLE `jos_menu`
+ ADD COLUMN `template_style_id` int(11) UNSIGNED NOT NULL DEFAULT '0';
+
 INSERT INTO `jos_menu` VALUES 
  (0, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '', 0, 37, 0);
 
@@ -400,6 +403,33 @@ ALTER TABLE `jos_session`
 
 ALTER TABLE `jos_session`
  MODIFY COLUMN `data` VARCHAR(20480);
+
+-- ----------------------------------------------------------------
+-- jos_template_styles
+-- ----------------------------------------------------------------
+
+RENAME TABLE `jos_menu_template` TO `jos_template_styles`;
+
+ALTER TABLE `jos_template_styles`
+ CHANGE `id` `id` int(11) UNSIGNED NOT NULL auto_increment;
+
+ALTER TABLE `jos_template_styles`
+ CHANGE `template` `template` varchar(50) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_template_styles`
+ CHANGE `client_id` `client_id` tinyint(1) UNSIGNED NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_template_styles`
+ CHANGE `home` `home` tinyint(1) UNSIGNED NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_template_styles`
+ CHANGE `params` `params` varchar(2048) NOT NULL DEFAULT '';
+ 
+ALTER TABLE `jos_template_styles`
+ ADD INDEX `idx_template` (`template`);
+ 
+ALTER TABLE `jos_template_styles`
+ ADD INDEX `idx_home` (`home`);
 
 -- ----------------------------------------------------------------
 -- jos_updates (new)

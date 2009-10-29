@@ -23,7 +23,7 @@ class JHtmlFilter
 		$db		= &JFactory::getDbo();
 		// template assignment filter
 		$query = 'SELECT CONCAT(template," - ",description) AS text, id AS value'.
-				' FROM #__menu_template' .
+				' FROM #__template_styles' .
 				' WHERE client_id = '.(int) $client->id;
 		$db->setQuery($query);
 		$assigned[]		= JHtml::_('select.option',  '0', '- '. JText::_('Select Template') .' -');

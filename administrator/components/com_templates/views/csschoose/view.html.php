@@ -35,7 +35,7 @@ class TemplatesViewCsschoose extends JView
 		JToolBarHelper::cancel('edit');
 		JToolBarHelper::help('screen.templates');
 
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'templates.php';
 
 		// Initialize some variables
 		$option 	= JRequest::getCmd('option');

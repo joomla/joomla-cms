@@ -40,7 +40,7 @@ class JElementModuleLayouts extends JElementList
 		$db			=& JFactory::getDBO();
 		$query		= new JQuery;
 		$query->select('template');
-		$query->from('#__menu_template');
+		$query->from('#__template_styles');
 		$query->where('client_id = '.(int) $clientId);
 		$query->where('home = 1');
 		$db->setQuery($query);

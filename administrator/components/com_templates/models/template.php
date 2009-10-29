@@ -135,12 +135,12 @@ class TemplatesModelTemplate extends JModel
 	 */
 	public function store($params)
 	{
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'templates.php';
 		$menus		= JRequest::getVar('selections', array(), 'post', 'array');
 		$menutype		= JRequest::getVar('menus', '', 'post', 'string');
 		$description = JRequest::getVar('description', '', 'post', 'string');
 		JArrayHelper::toInteger($menus);
-		$query = 'UPDATE #__menu_template SET description='.$this->_db->Quote($description).
+		$query = 'UPDATE #__template_styles SET description='.$this->_db->Quote($description).
 					', params = '.$this->_db->Quote(json_encode($params)).
 					' WHERE id = '.$this->_db->Quote($this->_activerecord);
 		$this->_db->setQuery($query);
@@ -150,10 +150,10 @@ class TemplatesModelTemplate extends JModel
 		if ($this->_client->id==1)
 			return true;
 		if ($menutype=='default') {
-			$query = 'UPDATE #__menu_template SET home=0 WHERE client_id='.$this->_db->Quote($this->_client->id);
+			$query = 'UPDATE #__template_styles SET home=0 WHERE client_id='.$this->_db->Quote($this->_client->id);
 			$this->_db->setQuery($query);
 			$this->_db->query();
-			$query = 'UPDATE #__menu_template SET home=1 WHERE id='.$this->_db->Quote(JRequest::getInt('id'));
+			$query = 'UPDATE #__template_styles SET home=1 WHERE id='.$this->_db->Quote(JRequest::getInt('id'));
 			$this->_db->setQuery($query);
 			$this->_db->query();
 		}
@@ -161,7 +161,7 @@ class TemplatesModelTemplate extends JModel
 			return true;
 		}
 
-		$query = 'UPDATE #__menu SET template_id=0 WHERE template_id='.$this->_db->Quote($this->_id);
+		$query = 'UPDATE #__menu SET template_style_id=0 WHERE template_style_id='.$this->_db->Quote($this->_id);
 		$this->_db->setQuery($query);
 		if (!$this->_db->query()) {
 			return JError::raiseWarning(500, $this->_db->getError());
@@ -181,7 +181,7 @@ class TemplatesModelTemplate extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_paramsets) && empty($this->_data))
 		{
-			$query = 'SELECT * FROM #__menu_template WHERE template = '.$this->_db->Quote($this->_template);
+			$query = 'SELECT * FROM #__template_styles WHERE template = '.$this->_db->Quote($this->_template);
 			$this->_db->setQuery($query);
 			$this->_paramsets = $this->_db->loadObjectList('id');
 			if($this->_activerecord == 0)
@@ -193,7 +193,7 @@ class TemplatesModelTemplate extends JModel
 					$this->_activerecord = 0;
 				}
 			}
-			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
+			require_once JPATH_COMPONENT.DS.'helpers'.DS.'templates.php';
 			$tBaseDir	= JPath::clean($this->_client->path.DS.'templates');
 
 			if (!is_dir($tBaseDir . DS . $this->_template)) {
@@ -226,10 +226,10 @@ class TemplatesModelTemplate extends JModel
 
 	public function add()
 	{
-		$query = 'SELECT params FROM #__menu_template WHERE id = '.$this->_db->Quote($this->_id);
+		$query = 'SELECT params FROM #__template_styles WHERE id = '.$this->_db->Quote($this->_id);
 		$this->_db->setQuery($query);
 		$oldparams = $this->_db->loadResult();
-		$query = 'INSERT INTO #__menu_template (template,client_id,home,description,params) VALUE ('.
+		$query = 'INSERT INTO #__template_styles (template,client_id,home,description,params) VALUE ('.
 				$this->_db->Quote($this->_template).','.$this->_db->Quote($this->_client->id).',0,'.$this->_db->Quote(JText::_('New Style')).','.
 				$this->_db->Quote($oldparams).')';
 		$this->_db->setQuery($query);
@@ -239,8 +239,8 @@ class TemplatesModelTemplate extends JModel
 
 	public function delete()
 	{
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
-		$query = 'SELECT COUNT(*) FROM #__menu_template WHERE template = '.$this->_db->Quote($this->_template).
+		require_once JPATH_COMPONENT.DS.'helpers'.DS.'templates.php';
+		$query = 'SELECT COUNT(*) FROM #__template_styles WHERE template = '.$this->_db->Quote($this->_template).
 				' AND client_id = '.$this->_db->Quote($this->_client->id);
 		$this->_db->setQuery($query);
 		if ($this->_db->loadResult()==1)
@@ -253,19 +253,7 @@ class TemplatesModelTemplate extends JModel
 			JError::raiseWarning(500, JText::_('Can not delete default style'));
 			return false;
 		}
-		$query = 'DELETE FROM #__menu_template WHERE id = '.$this->_db->Quote(JRequest::getInt('id'));
-		$this->_db->setQuery($query);
-		$this->_db->query();
-		return true;
-	}
-
-	public function setDefault($id = 0, $clientId = 0)
-	{
-		// TODO: Infer the client ID from the template id (just look it up).
-		$query = 'UPDATE #__menu_template SET home=0 WHERE client_id='.(int) $clientId;
-		$this->_db->setQuery($query);
-		$this->_db->query();
-		$query = 'UPDATE #__menu_template SET home=1 WHERE id='.(int) $id;
+		$query = 'DELETE FROM #__template_styles WHERE id = '.$this->_db->Quote(JRequest::getInt('id'));
 		$this->_db->setQuery($query);
 		$this->_db->query();
 		return true;

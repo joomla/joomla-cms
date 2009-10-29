@@ -18,13 +18,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_templates')) {
 // Include dependancies
 jimport('joomla.application.component.controller');
 
-// TODO: Refactor to support latest MVC pattern.
-
-// Require the base controller
-require_once JPATH_COMPONENT.DS.'controller.php';
-
-$controller	= new TemplatesController();
-
-// Perform the Request task
+$controller	= JController::getInstance('Templates');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Templates
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,13 +14,88 @@ defined('_JEXEC') or die;
  */
 class TemplatesHelper
 {
+	/**
+	 * Configure the Linkbar.
+	 *
+	 * @param	string	The name of the active view.
+	 */
+	public static function addSubmenu($vName)
+	{
+		JSubMenuHelper::addEntry(
+			JText::_('Templates_Submenu_Styles'),
+			'index.php?option=com_templates&view=styles',
+			$vName == 'styles'
+		);
+		JSubMenuHelper::addEntry(
+			JText::_('Templates_Submenu_Templates'),
+			'index.php?option=com_templates&view=templates',
+			$vName == 'templates'
+		);
+	}
+
+	/**
+	 * Gets a list of the actions that can be performed.
+	 *
+	 * @return	JObject
+	 */
+	public static function getActions()
+	{
+		$user	= JFactory::getUser();
+		$result	= new JObject;
+
+		$actions = array(
+			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
+		);
+
+		foreach ($actions as $action) {
+			$result->set($action, $user->authorise($action, 'com_templates'));
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Get a list of filter options for the application clients.
+	 *
+	 * @return	array	An array of JHtmlOption elements.
+	 */
+	static function getClientOptions()
+	{
+		// Build the filter options.
+		$options	= array();
+		$options[]	= JHtml::_('select.option', '0', JText::_('Templates_Option_Site'));
+		$options[]	= JHtml::_('select.option', '1', JText::_('Templates_Option_Administrator'));
+
+		return $options;
+	}
+
+	/**
+	 * Get a list of filter options for the templates with styles.
+	 *
+	 * @return	array	An array of JHtmlOption elements.
+	 */
+	static function getTemplateOptions($clientId = 0)
+	{
+		// Build the filter options.
+		$db = JFactory::getDbo();
+
+		$db->setQuery(
+			'SELECT DISTINCT(template) AS value, template AS text' .
+			' FROM #__template_styles' .
+			' WHERE client_id = '.(int) $clientId .
+			' ORDER BY template'
+		);
+		$options = $db->loadObjectList();
+		return $options;
+	}
+
 	function isTemplateAssigned($id)
 	{
 		$db = &JFactory::getDbo();
 		// check if template is assigned
 		$query = 'SELECT COUNT(*)' .
 				' FROM #__menu' .
-				' WHERE template_id = '.$db->Quote($id);
+				' WHERE template_style_id = '.$db->Quote($id);
 		$db->setQuery($query);
 		return $db->loadResult() ? 1 : 0;
 	}
@@ -32,7 +105,7 @@ class TemplatesHelper
 		$db = &JFactory::getDbo();
 		// check if template is assigned
 		$query = 'SELECT home' .
-				' FROM #__menu_template' .
+				' FROM #__template_styles' .
 				' WHERE id = '.$db->Quote($id);
 		$db->setQuery($query);
 		return $db->loadResult() == 1 ;
@@ -45,9 +118,9 @@ class TemplatesHelper
 			return 0;
 		// check if template is assigned
 		$query = 'SELECT COUNT(*) FROM #__menu'.
-				' LEFT JOIN #__menu_template'.
-				' ON #__menu.template_id=#__menu_template.id'.
-				' WHERE #__menu_template.template = '.$db->Quote($template);
+				' LEFT JOIN #__template_styles'.
+				' ON #__menu.template_style_id=#__template_styles.id'.
+				' WHERE #__template_styles.template = '.$db->Quote($template);
 		$db->setQuery($query);
 		return $db->loadResult() ? 1 : 0;
 	}
@@ -57,7 +130,7 @@ class TemplatesHelper
 		$db = &JFactory::getDbo();
 
 		// check if template is assigned
-		$query = 'SELECT COUNT(*) FROM #__menu_template'.
+		$query = 'SELECT COUNT(*) FROM #__template_styles'.
 				' WHERE template = '.$db->Quote($template).
 				' AND client_id = '.$db->Quote($client_id).
 				' AND home = 1';
@@ -117,7 +190,7 @@ class TemplatesHelper
 		$db = &JFactory::getDbo();
 		// get selected pages for $menulist
 		$query = 'SELECT id AS value FROM #__menu'.
-				' WHERE template_id = '.$db->Quote($id);
+				' WHERE template_style_id = '.$db->Quote($id);
 		$db->setQuery($query);
 		$lookup = $db->loadObjectList();
 		if (empty($lookup)) {
@@ -141,7 +214,7 @@ class TemplatesHelper
 	function getTemplateName($id)
 	{
 		$db = &JFactory::getDbo();
-		$query = 'SELECT template FROM #__menu_template'.
+		$query = 'SELECT template FROM #__template_styles'.
 				' WHERE id = '.$db->Quote($id).'';
 		$db->setQuery($query);
 		$db->query();

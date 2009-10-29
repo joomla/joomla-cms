@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true" />
+
+		<field
+			name="template"
+			type="text"
+			label="Templates_Field_Template_Label"
+			description="Templates_Field_Template_Desc"
+			class="readonly"
+			size="30"
+			readonly="true"
+			filter="unset" />
+
+		<field
+			name="client_id"
+			type="client"
+			label="Templates_Field_Client_Label"
+			description="Templates_Field_Client_Desc"
+			class="readonly"
+			default="0"
+			readonly="true" />
+
+		<field
+			name="home"
+			type="list"
+			label="Templates_Field_Home_Label"
+			description="Templates_Field_Home_Desc"
+			class="inputbox"
+			default="0"
+			readonly="true">
+			<option
+				value="1">
+				JYes</option>
+			<option
+				value="0">
+				JNo</option>
+		</field>
+
+		<field
+			name="title"
+			type="text"
+			class="inputbox"
+			default=""
+			size="50"
+			label="Templates_Field_Title_Label"
+			description="Templates_Field_Title_Desc"
+			required="true" />
+
+		<field
+			name="params"
+			type="hidden" />
+	</fields>
+</form>

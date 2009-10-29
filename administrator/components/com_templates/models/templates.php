@@ -116,7 +116,7 @@ class TemplatesModelTemplates extends JModel
 
 	protected function _buildQuery()
 	{
-		$query = 'SELECT * FROM #__menu_template'.
+		$query = 'SELECT * FROM #__template_styles'.
 				' WHERE client_id='.$this->_client->id.
 				' GROUP BY template';
 		return $query;
@@ -132,7 +132,7 @@ class TemplatesModelTemplates extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			require_once JPATH_COMPONENT.DS.'helpers'.DS.'template.php';
+			require_once JPATH_COMPONENT.DS.'helpers'.DS.'templates.php';
 			$tBaseDir = $this->_client->path.DS.'templates';
 			$this->_data = TemplatesHelper::parseXMLTemplateFiles($tBaseDir);
 

@@ -3,7 +3,6 @@
 <form>
 	<fields>
 		<field
-			id="id"
 			name="id"
 			type="hidden"
 			default="0"
@@ -12,7 +11,6 @@
 			readonly="true"/>
 
 		<field
-			id="title"
 			name="title"
 			type="text"
 			label="MENUS_ITEM_TITLE_LABEL"
@@ -22,7 +20,6 @@
 			required="true"/>
 
 		<field
-			id="alias"
 			name="alias"
 			type="alias"
 			label="JField_Alias_Label"
@@ -32,7 +29,6 @@
 			size="40"/>
 
 		<field
-			id="link"
 			name="link"
 			type="link"
 			label="Menus_Item_Link_Label"
@@ -42,7 +38,6 @@
 			size="50"/>
 
 		<field
-			id="menutype"
 			name="menutype"
 			type="menus"
 			label="Menus_Menu_Assigned_Label"
@@ -52,7 +47,6 @@
 			required="true"
 			size="1" />
 		<field
-			id="type"
 			name="type"
 			type="menutype"
 			label="Menus_Item_Type_Label"
@@ -85,7 +79,6 @@
 		</field>
 
 		<field
-			id="parent_id"
 			name="parent_id"
 			type="menuparent"
 			label="Menus_Item_Parent_Label"
@@ -101,7 +94,6 @@
 			filter="int" />
 
 		<field
-			id="ordering"
 			name="ordering"
 			type="ordering"
 			label="JField_Ordering_Label"
@@ -111,7 +103,6 @@
 			class="inputbox"/>
 
 		<field
-			id="browserNav"
 			name="browserNav"
 			type="list"
 			label="Menus_Item_BrowserNav_Label"
@@ -136,17 +127,17 @@
 
 
 		<field
-			id="template_id"
-			name="template_id"
-			type="templates"
+			name="template_style_id"
+			type="templatestyle"
 			label="Menus_Item_Template_Label"
 			description="Menus_Item_Template_Desc"
 			default=""
 			filter="int"
-			class="inputbox"/>
+			class="inputbox">
+			<option value="0">JOPTION_USE_DEFAULT</option>
+		</field>
 
 		<field
-			id="params"
 			name="params"
 			type="textarea"
 			label="JCommon_params_Label"
@@ -157,7 +148,6 @@
 			class="inputbox"/>
 
 		<field
-			id="home"
 			name="home"
 			type="radio"
 			label="Menus_Item_Home_Label"

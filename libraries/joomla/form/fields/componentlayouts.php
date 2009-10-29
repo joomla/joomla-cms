@@ -38,7 +38,7 @@ class JFormFieldComponentLayouts extends JFormFieldList
 		// Load template entries for each menuid
 		$db			=& JFactory::getDBO();
 		$query		= 'SELECT template'
-			. ' FROM #__menu_template'
+			. ' FROM #__template_styles'
 			. ' WHERE client_id = 0 AND home = 1';
 		$db->setQuery($query);
 		$template	= $db->loadResult();

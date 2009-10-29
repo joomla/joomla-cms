@@ -1,31 +1,57 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Templates
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * Templates manager master display controller.
+ *
+ * @package		Joomla.Administrator
+ * @subpackage	com_templates
+ * @since		1.6
+ */
 class TemplatesController extends JController
 {
 	/**
-	 * Constructor
+	 * Method to display a view.
 	 */
-	function __construct($config = array())
+	public function display()
 	{
-		parent::__construct($config);
+		require_once JPATH_COMPONENT.'/helpers/templates.php';
 
-		// Register Extra tasks
-		$this->registerTask('apply', 			'save');
-		$this->registerTask('apply_source',	'save_source');
-		$this->registerTask('apply_css',		'save_css');
-		$this->registerTask('default', 		'publish');
+		// Get the document object.
+		$document	= JFactory::getDocument();
+
+		// Set the default view name and format from the Request.
+		$vName		= JRequest::getWord('view', 'styles');
+		$vFormat	= $document->getType();
+		$lName		= JRequest::getWord('layout', 'default');
+
+		// Get and render the view.
+		if ($view = &$this->getView($vName, $vFormat))
+		{
+			// Get the model for the view.
+			$model = &$this->getModel($vName);
+
+			// Push the model into the view (as default).
+			$view->setModel($model, true);
+			$view->setLayout($lName);
+
+			// Push document object into the view.
+			$view->assignRef('document', $document);
+
+			$view->display();
+
+			// Load the submenu.
+			TemplatesHelper::addSubmenu($vName);
+		}
 	}
 
 	/**
@@ -125,32 +151,6 @@ class TemplatesController extends JController
 		$this->setRedirect('index.php?option=com_templates&task=edit&template='.$template.'&client='.$client->id, $msg);
 	}
 
-	/*
-	 * Set Default for Admin Template
-	 */
-	function setdefault()
-	{
-		// Check for request forgeries
-//TODO: FIX TOKEN
-		//JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		$clientId	= JRequest::getInt('client_id');
-		$id			= JRequest::getInt('id');
-		$model 		= $this->getModel('template');
-
-		if (empty($id)) {
-			$this->setRedirect('index.php?option=com_templates&view=templates&client='.$clientId, JText::_('Operation Failed').': '.JText::_('No template specified.'));
-			return;
-		}
-
-		if ($model->setDefault($id, $clientId)) {
-			$msg = JText::_('Template Saved');
-		} else {
-			$msg = JText::_('Error Saving Template') . $model->getError();
-		}
-
-		$this->setRedirect('index.php?option=com_templates&view=templates&client='.$clientId, $msg);
-	}
 	/**
 	* Preview Template
 	*/

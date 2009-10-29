@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Newsfeeds
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,9 +10,9 @@ defined('_JEXEC') or die;
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	Newsfeeds
+ * @subpackage	com_templates
  */
-class NewsfeedsTableNewsfeed extends JTable
+class TemplatesTableStyle extends JTable
 {
 	/**
 	 * @var int Primary key
@@ -22,74 +20,29 @@ class NewsfeedsTableNewsfeed extends JTable
 	public $id = null;
 
 	/**
+	 * @var string
+	 */
+	public $template = null;
+
+	/**
 	 * @var int
 	 */
-	public $catid = null;
+	public $client_id = null;
+
+	/**
+	 * @var int
+	 */
+	public $home = null;
 
 	/**
 	 * @var string
 	 */
-	public $name = null;
+	public $title = null;
 
 	/**
 	 * @var string
 	 */
-	public $alias = null;
-
-	/**
-	 * @var string
-	 */
-	public $link = null;
-
-	/**
-	 * @var string
-	 */
-	public $filename = null;
-
-	/**
-	 * @var int
-	 */
-	public $published = null;
-
-	/**
-	 * @var int
-	 */
-	public $numarticles = null;
-
-	/**
-	 * @var int
-	 */
-	public $cache_time = null;
-
-	/**
-	 * @var int
-	 */
-	public $checked_out = 0;
-
-	/**
-	 * @var time
-	 */
-	public $checked_out_time = 0;
-
-	/**
-	 * @var int
-	 */
-	public $ordering = null;
-
-	/**
-	 * @var int
-	 */
-	public $rtl = 0;
-
-	/**
-	 * @var int
-	 */
-	public $access = 0;
-
-	/**
-	 * @var string
-	 */
-	public $language = 'en-GB';
+	public $params = null;
 
 	/**
 	 * Constructor
@@ -98,7 +51,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	 */
 	public function __construct(&$db)
 	{
-		parent::__construct('#__newsfeeds', 'id', $db);
+		parent::__construct('#__template_styles', 'id', $db);
 	}
 
 	/**
@@ -128,13 +81,10 @@ class NewsfeedsTableNewsfeed extends JTable
 	 */
 	function check()
 	{
-		if (empty($this->alias)) {
-			$this->alias = $this->name;
-		}
-		$this->alias = JFilterOutput::stringURLSafe($this->alias);
-		if (trim(str_replace('-','',$this->alias)) == '')
+		if (empty($this->title))
 		{
-			$this->alias = JFactory::getDate()->toFormat("%Y-%m-%d-%H-%M-%S");
+			$this->setError('Templates_Error_Style_requires_title');
+			return false;
 		}
 
 		return true;

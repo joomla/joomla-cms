@@ -563,7 +563,7 @@ CREATE TABLE `#__menu` (
   `checked_out_time` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
   `browserNav` tinyint(4) NOT NULL default '0' COMMENT 'The click behaviour of the link.',
   `access` tinyint(3) unsigned NOT NULL default '0' COMMENT 'The access level required to view the menu item.',
-  `template_id` integer default '0',
+  `template_style_id` unsigned integer NOT NULL default '0',
   `params` varchar(10240) NOT NULL COMMENT 'JSON encoded data for the menu item.',
   `lft` integer NOT NULL default '0' COMMENT 'Nested set lft.',
   `rgt` integer NOT NULL default '0' COMMENT 'Nested set rgt.',
@@ -580,26 +580,6 @@ CREATE TABLE `#__menu` (
 INSERT INTO `#__menu` VALUES 
 (1, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 0, 3, 0),
 (2, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 1, 2, 1);
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__menu_template`
-#
-
-CREATE TABLE IF NOT EXISTS `#__menu_template` (
-  `id` integer NOT NULL AUTO_INCREMENT,
-  `template` varchar(255) NOT NULL,
-  `client_id` integer NOT NULL,
-  `home` tinyint(1) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `params` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
-
-INSERT INTO `#__menu_template` VALUES (1, 'rhuk_milkyway', '0', '1', 'Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
-INSERT INTO `#__menu_template` VALUES (2, 'bluestork', '1', '1', 'Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
-INSERT INTO `#__menu_template` VALUES (3, 'atomic', '0', '0', '', '');
 
 # -------------------------------------------------------
 
@@ -874,6 +854,27 @@ CREATE TABLE `#__stats_agents` (
 
 # -------------------------------------------------------
 
+#
+# Table structure for table `#__template_styles`
+#
+
+CREATE TABLE IF NOT EXISTS `#__template_styles` (
+  `id` unsigned integer NOT NULL AUTO_INCREMENT,
+  `template` varchar(50) NOT NULL DEFAULT '',
+  `client_id` unsigned tinyint(1) NOT NULL DEFAULT 0,
+  `home` unsigned tinyint(1) NOT NULL DEFAULT 0,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `params` varchar(2048) NOT NULL DEFAULT '',
+  PRIMARY KEY  (`id`),
+  KEY `idx_template` (`template`),
+  KEY `idx_home` (`home`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+INSERT INTO `#__template_styles` VALUES (1, 'rhuk_milkyway', '0', '1', 'Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
+INSERT INTO `#__template_styles` VALUES (2, 'bluestork', '1', '1', 'Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
+INSERT INTO `#__template_styles` VALUES (3, 'atomic', '0', '0', 'Default', '{}');
+
+# -------------------------------------------------------
 #
 # Table structure for table `#__user_usergroup_map`
 #
