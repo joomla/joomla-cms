@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Oct-2009 Andrew Eddie
+ ! Reverted plugin edit form to last good state.
+
 28-Oct-2009 Andrew Eddie
  ! Fix block and activation methods to com_users backend list.
  ^ Sync backend com_users MVC code structure.
