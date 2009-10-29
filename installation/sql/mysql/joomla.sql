@@ -563,7 +563,7 @@ CREATE TABLE `#__menu` (
   `checked_out_time` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
   `browserNav` tinyint(4) NOT NULL default '0' COMMENT 'The click behaviour of the link.',
   `access` tinyint(3) unsigned NOT NULL default '0' COMMENT 'The access level required to view the menu item.',
-  `template_style_id` unsigned integer NOT NULL default '0',
+  `template_style_id` integer unsigned NOT NULL default '0',
   `params` varchar(10240) NOT NULL COMMENT 'JSON encoded data for the menu item.',
   `lft` integer NOT NULL default '0' COMMENT 'Nested set lft.',
   `rgt` integer NOT NULL default '0' COMMENT 'Nested set rgt.',
