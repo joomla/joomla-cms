@@ -31,8 +31,8 @@ class TemplatesModelStyles extends JModelList
 	 */
 	protected function _populateState()
 	{
-		// Initialize variables.
-		$app		= JFactory::getApplication('administrator');
+		// Initialise variables.
+		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
 		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
@@ -81,6 +81,7 @@ class TemplatesModelStyles extends JModelList
 		$id	.= ':'.$this->getState('list.ordering');
 		$id	.= ':'.$this->getState('list.direction');
 		$id	.= ':'.$this->getState('filter.search');
+		$id	.= ':'.$this->getState('filter.template');
 		$id	.= ':'.$this->getState('filter.client_id');
 
 		return md5($id);

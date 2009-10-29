@@ -15,7 +15,7 @@ jimport('joomla.application.component.view');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_templates
- * @since 1.0
+ * @since		1.6
  */
 class TemplatesViewStyles extends JView
 {

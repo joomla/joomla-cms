@@ -12,74 +12,74 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.tooltip');
 ?>
-<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template'); ?>" method="post" name="adminForm" id="adminForm">
+	<h1>This page is a mock, work in progress</h1>
 	<div class="width-50 fltlft">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('Details'); ?></legend>
-			<label id="jform_template-lbl" for="jform_template"><?php echo JText::_('Name'); ?>:</label>
-			<div id="jform_template"><?php echo JText::_($this->template); ?> - </div><input class="inputbox" type="text" name="description" id="description" size="40" maxlength="255" value="<?php echo $this->params->description; ?>" />
-			<div class="clr"></div>
-			<label id="jform_template-desc-lbl" for="jform_template-desc"><?php echo JText::_('Description'); ?>:</label>
-			<div id="jform_template-desc"><?php echo JText::_($this->data->description); ?></div>
+		<fieldset>
+			<legend><?php echo JText::_('Templates_Template_Master_files');?></legend>
+
+			<ul>
+				<li>
+					<a href="#">
+						<?php echo JText::_('Templates_Template_Edit_main');?></a>
+				</li>
+				<li>
+					<a href="#">
+						<?php echo JText::_('Templates_Template_Edit_error');?></a>
+				</li>
+				<li>
+					<a href="#">
+						<?php echo JText::_('Templates_Template_Edit_printview');?></a>
+				</li>
+			<ul>
 		</fieldset>
-	</div>
-	<div class="width-50 fltrt">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('Styles'); ?></legend>
-			<table class="admintable">
-			<thead>
-			<tr>
-				<th width="60%"><?php echo JText::_('Style'); ?></th>
-				<th width="25%" class="center"><?php echo JText::_('Default'); ?></th>
-				<th width="15%" class="center"><?php echo JText::_('Delete'); ?></th>
-			</tr>
-			</thead>
-			<tbody>
-			<?php
-			$i = 1;
-			foreach($this->paramsets as $set)
-			{ ?>
-			<tr>
-				<td><a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&template='.$this->template.'&id='.$set->id.'&client='.$this->client->id); ?>">
-					<?php echo JText::_($this->template); ?> (<?php echo $set->description; ?>)
-					</a></td>
-				<td class="center"><?php
-				if($set->home)
-				{
-					echo '<img src="templates/'.$this->template.'/images/menu/icon-16-default.png" alt="'.JText::_('Default').'" />';
-				} else {
-					echo '<a href="'.JRoute::_('index.php?option=com_templates&task=setdefault&id='.$set->id).'">default</a>';
-				} ?></td>
-				<td class="center"><a href="<?php echo JRoute::_('index.php?option=com_templates&task=delete&template='.$this->template.'&id='.$set->id); ?>">
-					<?php echo '<img src="templates/'.$this->template.'/images/menu/icon-16-delete.png"  alt="'.JText::_('Delete').'" />' ; ?>
-					</a>
-				</td>
-			</tr>
-			<?php } ?>
-			</tbody>
-			</table>
+
+		<fieldset>
+			<legend><?php echo JText::_('Templates_Template_CSS');?></legend>
+
+			<ul>
+				<li>
+					<a href="#">
+						<?php echo JText::sprintf('Templates_Template_Edit_css', 'template.css');?></a>
+				</li>
+			<ul>
+
+			<div>
+				<a href="#" class="modal">
+					<?php echo JText::sprintf('Templates_Template_Add_css');?></a>
+			</div>
+
 		</fieldset>
+
+		<br class="clr" />
 	</div>
-	<div class="clr"></div>
+
 	<div class="width-50 fltlft">
-		<fieldset class="adminform-legacy">
-			<legend><?php echo JText::_('Parameters'); ?></legend>
-				<?php
-				if (!is_null($this->params->params)) {
-					echo $this->params->params->render();
-				} else {
-					echo '<div class="noparams-notice">' . JText :: _('No Parameters') . '</div>';
-				}
-				?>
+
+		<fieldset>
+			<legend><?php echo JText::_('Templates_Template_Layout_overrides');?></legend>
+
+			<h3><?php echo JText::sprintf('Templates_Template_Override_Extension', 'Articles Manager'); ?></h3>
+			<ul>
+				<li>
+					<a href="#">
+						<?php echo JText::sprintf('Templates_Template_Edit_override', 'category/blog.php');?></a>
+				</li>
+				<li>
+					<a href="#">
+						<?php echo JText::sprintf('Templates_Template_Edit_override', 'article/default.php');?></a>
+				</li>
+			<ul>
+
+			<div>
+				<a href="#" class="modal">
+					<?php echo JText::sprintf('Templates_Template_Add_override');?></a>
+			</div>
 		</fieldset>
+
+		<div class="clr"></div>
 	</div>
-	<div class="clr"></div>
 
-	<input type="hidden" name="id" value="<?php echo $this->params->id; ?>" />
-	<input type="hidden" name="template" value="<?php echo $this->template; ?>" />
-
-	<input type="hidden" name="option" value="<?php echo $this->option;?>" />
 	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
-	<?php echo JHtml::_('form.token'); ?>
 </form>
+

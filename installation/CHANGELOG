@@ -37,6 +37,10 @@ $ -> Language fix or change
  + Templates params now support multiple params groups (basic, advanced, etc).
  + Added ability to copy/clone an existing template style.
  ^ Fix JFormField::_getInputId so that it cleans out invalid characters in id's (like array brackets); fix getLabel to not recompute the id.
+ ^ Refactored templates list.
+ ^ Templates thumb shown, added modal popup (allowing bigger preview).
+ ^ Replaced template edit form (now handled in styles) with mock control panel for editing files in the template.
+ ^ Replaced reference to Beez with Atomic in installation SQL.
 
 28-Oct-2009 Andrew Eddie
  ! Fix block and activation methods to com_users backend list.

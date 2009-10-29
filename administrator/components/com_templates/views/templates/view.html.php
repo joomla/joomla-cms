@@ -5,32 +5,32 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
+// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the Templates component
+ * View class for a list of template styles.
  *
- * @static
  * @package		Joomla.Administrator
- * @subpackage	Templates
- * @since 1.0
+ * @subpackage	com_templates
+ * @since		1.6
  */
 class TemplatesViewTemplates extends JView
 {
-	protected $rows;
+	protected $state;
+	protected $items;
 	protected $pagination;
-	protected $client;
 
+	/**
+	 * Display the view
+	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
-		$rows		= & $this->get('Data');
-		$total		= & $this->get('Total');
-		$pagination = & $this->get('Pagination');
-		$client		= & $this->get('Client');
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -39,9 +39,9 @@ class TemplatesViewTemplates extends JView
 			return false;
 		}
 
-		$this->assignRef('rows',		$rows);
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('client',		$client);
 
 		$this->_setToolbar();
 		parent::display($tpl);
@@ -56,9 +56,6 @@ class TemplatesViewTemplates extends JView
 		$canDo	= TemplatesHelper::getActions();
 
 		JToolBarHelper::title(JText::_('Templates_Manager_Templates'), 'thememanager');
-		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('style.edit');
-		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_templates');
 		}

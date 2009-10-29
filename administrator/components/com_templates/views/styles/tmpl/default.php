@@ -47,7 +47,7 @@ $user	= JFactory::getUser();
 		<thead>
 			<tr>
 				<th width="5">
-					<?php echo JText::_('Num'); ?>
+					&nbsp;
 				</th>
 				<th>
 					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Template', 'a.template', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -89,8 +89,12 @@ $user	= JFactory::getUser();
 					</label>
 				</td>
 				<td>
+					<?php if ($canCreate || $canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id='.(int) $item->id); ?>">
 						<?php echo $this->escape($item->title);?></a>
+					<?php else : ?>
+						<?php echo $this->escape($item->title);?>
+					<?php endif; ?>
 				</td>
 					<td class="center">
 					<?php if ($item->home == 1) : ?>

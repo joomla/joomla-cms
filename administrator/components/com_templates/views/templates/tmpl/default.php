@@ -13,79 +13,90 @@ defined('_JEXEC') or die;
 $user = & JFactory :: getUser();
 
 JHtml::_('behavior.tooltip');
+JHtml::_('behavior.modal');
 ?>
 
-<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSearch_Filter_Label'); ?></label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('Templates_Templates_Filter_Search_Desc'); ?>" />
+			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
+		</div>
+		<div class="filter-select fltrt">
+			<label for="filter_client_id">
+				<?php echo JText::_('Templates_Filter_Client'); ?>
+			</label>
+			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
+				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
+			</select>
+		</div>
+	</fieldset>
+	<div class="clr"> </div>
 
 	<table class="adminlist">
-	<thead>
-		<tr>
-			<th width="5">
-				<?php echo JText::_('Num'); ?>
-			</th>
-			<th colspan="2">
-				<?php echo JText::_('Template Name'); ?>
-			</th>
-			<th width="10%" class="center">
-				<?php echo JText::_('Version'); ?>
-			</th>
-			<th width="15%">
-				<?php echo JText::_('Date'); ?>
-			</th>
-			<th width="25%" >
-				<?php echo JText::_('Author'); ?>
-			</th>
-		</tr>
-	</thead>
-	<tfoot>
-		<tr>
-			<td colspan="8">
-				<?php echo $this->pagination->getListFooter(); ?>
-			</td>
-		</tr>
-	</tfoot>
-	<tbody>
-<?php
-$k = 0;
-$i = 0;
-foreach ($this->rows as $template => $row) :
-	$author_info = @ $row->xmldata->authorEmail . '<br />' . @ $row->xmldata->authorUrl;
-	$img_path = ($this->client->id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$row->directory.'/template_thumbnail.png';
-?>
-		<tr class="<?php echo 'row'. $k; ?>">
-			<td>
-				<?php echo $this->pagination->getRowOffset($i); ?>
-			</td>
-			<td width="5">
-				<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->name; ?>" onclick="isChecked(this.checked);" />
-			</td>
-			<td>
-				<span class="editlinktip hasTip" title="<?php echo $row->name;?>::
-<img border=&quot;1&quot; src=&quot;<?php echo $img_path; ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?php echo JText::_( 'No preview available' ); ?>&quot; width=&quot;200&quot; height=&quot;145&quot; />">
-					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=edit&template=' . $template . '&client=' . $this->client->id); ?>"><?php echo $row->name;?></a>
-				</span>
-			</td>
-			<td class="center">
-				<?php echo $row->version; ?>
-			</td>
-			<td>
-				<?php echo $row->creationdate; ?>
-			</td>
-			<td>
-				<span class="editlinktip hasTip" title="<?php echo JText::_('Author Information');?>::<?php echo $author_info; ?>">
-					<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
-				</span>
-			</td>
-		</tr>
-		<?php
-		$i++;
-		endforeach;
+		<thead>
+			<tr>
+				<th>
+					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Template', 'a.element', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="10%" class="center">
+					<?php echo JText::_('Version'); ?>
+				</th>
+				<th width="15%">
+					<?php echo JText::_('Date'); ?>
+				</th>
+				<th width="25%" >
+					<?php echo JText::_('Author'); ?>
+				</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="8">
+					<?php echo $this->pagination->getListFooter(); ?>
+				</td>
+			</tr>
+		</tfoot>
+		<tbody>
+		<?php foreach ($this->items as $i => $item) :
+			$img_path = ($item->client_id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$item->element.'/template_thumbnail.png';
 		?>
-	</tbody>
+			<tr class="row<?php echo $i % 2; ?>">
+				<td>
+					<a href="<?php echo $img_path; ?>" class="modal">
+						<img height="25" src="<?php echo $img_path; ?>" alt="<?php echo JText::_('Templates_No_preview');?>" title="<?php echo JText::_('Templates_Click_to_enlarge');?>" /></a>
+
+						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->extension_id); ?>">
+							<?php echo $item->name;?></a>
+				</td>
+				<td class="center">
+					<?php echo $this->escape($item->xmldata->get('version')); ?>
+				</td>
+				<td>
+					<?php echo $this->escape($item->xmldata->get('creationdate')); ?>
+				</td>
+				<td>
+					<?php if ($author = $item->xmldata->get('author')) : ?>
+						<?php echo $this->escape($author); ?>
+					<?php else : ?>
+						-
+					<?php endif; ?>
+					<?php if ($email = $item->xmldata->get('authorEmail')) : ?>
+						<br /><?php echo $this->escape($email); ?>
+					<?php endif; ?>
+					<?php if ($url = $item->xmldata->get('authorUrl')) : ?>
+						<br />
+						<a href="<?php echo $this->escape($url); ?>">
+							<?php echo $this->escape($url); ?></a>
+					<?php endif; ?>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
 	</table>
 
-<input type="hidden" name="option" value="com_templates" />
-<input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
 <?php echo JHtml::_('form.token'); ?>
