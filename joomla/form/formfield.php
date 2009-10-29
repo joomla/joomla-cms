@@ -117,18 +117,15 @@ abstract class JFormField extends JObject
 	 */
 	protected function _getLabel()
 	{
-		// Get the id of the input.
-		$id	= $this->_getInputId($this->id, $this->name, $this->formName, $this->groupName);
-
 		// Set the class for the label.
 		$class = !empty($this->descText) ? 'hasTip' : '';
 		$class = $this->required == true ? $class.' required' : $class;
 
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->descText)) {
-			$label = '<label id="'.$id.'-lbl" for="'.$id.'" class="'.$class.'" title="'.trim(JText::_($this->labelText, true), ':').'::'.JText::_($this->descText, true).'">';
+			$label = '<label id="'.$this->inputId.'-lbl" for="'.$this->inputId.'" class="'.$class.'" title="'.trim(JText::_($this->labelText, true), ':').'::'.JText::_($this->descText, true).'">';
 		} else {
-			$label = '<label id="'.$id.'-lbl" for="'.$id.'" class="'.$class.'">';
+			$label = '<label id="'.$this->inputId.'-lbl" for="'.$this->inputId.'" class="'.$class.'">';
 		}
 
 		$label .= JText::_($this->labelText);
@@ -215,6 +212,9 @@ abstract class JFormField extends JObject
 		else {
 			$return = $formName.'_'.$groupName.'_'.$fieldId;
 		}
+
+		// Clean up any invalid characters.
+		$return = preg_replace('#\W#', '_', $return);
 
 		return $return;
 	}
