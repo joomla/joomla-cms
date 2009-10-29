@@ -15,7 +15,7 @@ defined( '_JEXEC' ) or die( 'Access denied' );
  * @subpackage	Menus
  * @since		1.6
 **/
-class JElementTemplates extends JElement {
+class JElementTemplateStyle extends JElement {
 
 	/**
 	* Element name
@@ -23,13 +23,13 @@ class JElementTemplates extends JElement {
 	* @access	protected
 	* @var		string
 	**/
-	var	$_name = 'Paramsets';
+	var	$_name = 'TemplateStyle';
 
 	public function fetchElement( $name, $value, &$node, $control_name )
 	{
 		$db = JFactory::getDBO();
 
-		$query = 'SELECT * FROM #__menu_template '
+		$query = 'SELECT * FROM #__template_styles '
 			. 'WHERE client_id = 0 '
 			. 'AND home = 0';
 		$db->setQuery( $query );
@@ -47,7 +47,7 @@ class JElementTemplates extends JElement {
 	{
 		$id = JRequest::getVar( 'cid', 0 );
 		$db = JFactory::getDBO();
-		$query = 'SELECT `template_id` FROM `#__menu` '
+		$query = 'SELECT `template_style_id` FROM `#__menu` '
 			. 'WHERE id = '.$id[0];
 		$db->setQuery( $query );
 		$result = $db->loadResult();

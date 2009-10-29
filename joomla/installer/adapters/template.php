@@ -181,8 +181,8 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 
-		//insert record in #_menu_template
-		$query = 'INSERT INTO #__menu_template'.
+		//insert record in #__template_styles
+		$query = 'INSERT INTO #__template_styles'.
 				' (template,client_id,home,description,params)'.
 				' VALUE ('.$db->Quote($row->name).','.
 				$db->Quote($clientId).',0,'.
@@ -237,7 +237,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		// Deny remove default template
 		$db = &$this->parent->getDbo();
-		$query = 'SELECT COUNT(*) FROM #__menu_template'.
+		$query = 'SELECT COUNT(*) FROM #__template_styles'.
 				' WHERE home = 1 AND template = '.$db->Quote($name);
 		$db->setQuery($query);
 		if ($db->loadResult() != 0)
@@ -285,15 +285,15 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		//Set menu that assigned to the template back to default template
-		$query = 'UPDATE #__menu INNER JOIN #__menu_template'.
-				' ON #__menu_template.id = #__menu.template_id'.
-				' SET #__menu.template_id = 0'.
-				' WHERE #__menu_template.template = '.$db->Quote($name).
-				' AND #__menu_template.client_id = '.$db->Quote($clientId);
+		$query = 'UPDATE #__menu INNER JOIN #__template_styles'.
+				' ON #__template_styles.id = #__menu.template_style_id'.
+				' SET #__menu.template_style_id = 0'.
+				' WHERE #__template_styles.template = '.$db->Quote($name).
+				' AND #__template_styles.client_id = '.$db->Quote($clientId);
 		$db->setQuery($query);
 		$db->Query();
 
-		$query = 'DELETE FROM #__menu_template'.
+		$query = 'DELETE FROM #__template_styles'.
 				' WHERE template = '.$db->Quote($name).
 				' AND client_id = '.$db->Quote($clientId);
 		$db->setQuery($query);
