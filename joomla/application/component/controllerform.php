@@ -108,7 +108,6 @@ class JControllerForm extends JController
 	 * @param	string	The class prefix. Optional.
 	 * @param	array	Configuration array for model. Optional.
 	 * @return	object	The model.
-	 * @since	1.5
 	 */
 	public function &getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
 	{
@@ -241,7 +240,6 @@ class JControllerForm extends JController
 	 * Method to cancel an edit
 	 *
 	 * @return	void
-	 * @since	1.0
 	 */
 	public function cancel()
 	{
@@ -301,7 +299,6 @@ class JControllerForm extends JController
 	 * Method to save a record.
 	 *
 	 * @return	void
-	 * @since	1.0
 	 */
 	public function save()
 	{
