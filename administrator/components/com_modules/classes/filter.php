@@ -22,7 +22,7 @@ class JHtmlFilter
 	{
 		$db		= &JFactory::getDbo();
 		// template assignment filter
-		$query = 'SELECT CONCAT(template," - ",description) AS text, id AS value'.
+		$query = 'SELECT CONCAT(template," - ",title) AS text, id AS value'.
 				' FROM #__template_styles' .
 				' WHERE client_id = '.(int) $client->id;
 		$db->setQuery($query);
