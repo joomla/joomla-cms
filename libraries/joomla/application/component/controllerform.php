@@ -178,7 +178,7 @@ class JControllerForm extends JController
 	 */
 	protected function _allowEdit($data = array(), $key = 'id')
 	{
-		return JFactory::getUser()->authorise('core.create', $this->_option);
+		return JFactory::getUser()->authorise('core.edit', $this->_option);
 	}
 
 	/**
