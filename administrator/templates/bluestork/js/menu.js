@@ -50,12 +50,12 @@ Joomla.Menu = new Class({
 			.addEvents({
 				'mouseenter': function() {
 					var ul = this.getElement('ul');
-					if (ul) { ul.fireEvent('show'); };
+					if (ul) { ul.fireEvent('show'); }
 					this.addClass('hover');
 				},
 				'mouseleave': function() {
 					var ul = this.getElement('ul');
-					if (ul) { ul.fireEvent('hide'); };
+					if (ul) { ul.fireEvent('hide'); }
 					this.removeClass('hover');
 				}
 			});	
