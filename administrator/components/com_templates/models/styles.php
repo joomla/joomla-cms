@@ -41,7 +41,7 @@ class TemplatesModelStyles extends JModelList
 		$template = $app->getUserStateFromRequest($this->_context.'.filter.template', 'filter_template', '0', 'word');
 		$this->setState('filter.template', $template);
 
-		$clientId = $app->getUserStateFromRequest($this->_context.'.filter.client_id', 'filter_client_id', 0, 'int');
+		$clientId = $app->getUserStateFromRequest($this->_context.'.filter.client_id', 'filter_client_id', null);
 		$this->setState('filter.client_id', $clientId);
 
 		// List state information.
@@ -119,7 +119,9 @@ class TemplatesModelStyles extends JModelList
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
-		$query->where('a.client_id = '.(int) $clientId);
+		if (is_numeric($clientId)) {
+			$query->where('a.client_id = '.(int) $clientId);
+		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');

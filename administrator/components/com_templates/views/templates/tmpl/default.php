@@ -10,10 +10,12 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-$user = & JFactory :: getUser();
-
+// Include the component HTML helpers.
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal');
+
+$user = & JFactory::getUser();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
@@ -25,10 +27,8 @@ JHtml::_('behavior.modal');
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
-			<label for="filter_client_id">
-				<?php echo JText::_('Templates_Filter_Client'); ?>
-			</label>
 			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
+				<option value="*"><?php echo JText::_('Templates_Filter_Client'); ?></option>
 				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 		</div>
@@ -38,11 +38,15 @@ JHtml::_('behavior.modal');
 	<table class="adminlist">
 		<thead>
 			<tr>
-			<th class="col1template"> </th>
+				<th class="col1template">
+					&nbsp;
+				</th>
 				<th>
 					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Template', 'a.element', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				
+				<th width="10%">
+					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Client', 'a.client_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
 				<th width="10%" class="center">
 					<?php echo JText::_('Version'); ?>
 				</th>
@@ -62,18 +66,17 @@ JHtml::_('behavior.modal');
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach ($this->items as $i => $item) :
-			$img_path = ($item->client_id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$item->element.'/template_thumbnail.png';
-			$imgprev_path = ($item->client_id == 1 ? JURI::root().'administrator' : JURI::root()).'/templates/'.$item->element.'/template_preview.png';
-		?>
+		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<a href="<?php echo $imgprev_path; ?>" class="modal">
-						<img src="<?php echo $img_path; ?>" alt="<?php echo JText::_('Templates_No_preview');?>" title="<?php echo JText::_('Templates_Click_to_enlarge');?>" /></a>
+					<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
 				</td>
 				<td>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->extension_id); ?>">
 						<?php echo $item->name;?></a>
+				</td>
+				<td class="center">
+					<?php echo $item->client_id == 0 ? JText::_('Templates_Option_Site') : JText::_('Templates_Option_Administrator'); ?>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->xmldata->get('version')); ?>
@@ -101,7 +104,9 @@ JHtml::_('behavior.modal');
 		</tbody>
 	</table>
 
-<input type="hidden" name="task" value="" />
-<input type="hidden" name="boxchecked" value="0" />
-<?php echo JHtml::_('form.token'); ?>
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

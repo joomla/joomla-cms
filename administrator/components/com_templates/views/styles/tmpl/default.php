@@ -12,11 +12,9 @@ defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-
-// Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 
-$user	= JFactory::getUser();
+$user = JFactory::getUser();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
@@ -33,10 +31,8 @@ $user	= JFactory::getUser();
 			</select>
 		</div>
 		<div class="filter-select fltrt">
-			<label for="filter_client_id">
-				<?php echo JText::_('Templates_Filter_Client'); ?>
-			</label>
 			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
+				<option value="*"><?php echo JText::_('Templates_Filter_Client'); ?></option>
 				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 		</div>
@@ -54,6 +50,9 @@ $user	= JFactory::getUser();
 				</th>
 				<th>
 					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Style_Name', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="10%">
+					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Client', 'a.client_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Home', 'a.home', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -96,14 +95,17 @@ $user	= JFactory::getUser();
 						<?php echo $this->escape($item->title);?>
 					<?php endif; ?>
 				</td>
-					<td class="center">
+				<td class="center">
+					<?php echo $item->client_id == 0 ? JText::_('Templates_Option_Site') : JText::_('Templates_Option_Administrator'); ?>
+				</td>
+				<td class="center">
 					<?php if ($item->home == 1) : ?>
 							<img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" />
 					<?php else  : ?>
 							&nbsp;
 					<?php endif; ?>
-					</td>
-					<td class="center">
+				</td>
+				<td class="center">
 					<?php if ($item->assigned == 1) : ?>
 							<img src="templates/bluestork/admin/images/tick.png" alt="<?php echo JText::_('Assigned'); ?>" />
 					<?php else : ?>
@@ -114,7 +116,7 @@ $user	= JFactory::getUser();
 					<?php echo (int) $item->id; ?>
 				</td>
 			</tr>
-				<?php endforeach; ?>
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 
