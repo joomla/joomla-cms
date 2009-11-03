@@ -27,7 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-29-Oct-2009 ARon Severdia
+03-Nov-2009 Andrew Eddie
+ ^ Change dtd of template install files to 1.6.
+
+29-Oct-2009 Ron Severdia
 ^ Template Manager change, new thumbnail preview
 
 29-Oct-2009 Andrew Eddie

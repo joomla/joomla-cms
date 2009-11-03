@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://dev.joomla.org/xml/1.5/template-install.dtd">
-<install version="1.5" type="template">
+<!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
+<install
+	version="1.6"
+	type="template">
 	<name>Atomic</name>
 	<creationDate>10/10/09</creationDate>
 	<author>Ron Severdia</author>
@@ -9,7 +11,8 @@
 	<copyright></copyright>
 	<license>GPL</license>
 	<version>0.1</version>
-	<description>This simple template is just an example of how basic template elements look.</description>
+	<description>This simple template is just an example of how basic
+		template elements look.</description>
 	<files>
 		<filename>index.php</filename>
 		<filename>index.html</filename>
