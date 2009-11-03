@@ -31,6 +31,8 @@ $ -> Language fix or change
  ^ Change dtd of template install files to 1.6.
  ^ Add client columns to template style and templates list; adjust client filters to be able to display all templates.
  ^ Changed template preview handling into JHtml helper.
+ + Added file edit features to template detail page.
+ ^ Reconfigured template source edit functions.
 
 29-Oct-2009 Ron Severdia
 ^ Template Manager change, new thumbnail preview

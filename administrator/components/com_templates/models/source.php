@@ -10,131 +10,129 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modelform');
 
 /**
  * @package		Joomla.Administrator
  * @subpackage	Templates
  */
-class TemplatesModelSource extends JModel
+class TemplatesModelSource extends JModelForm
 {
 	/**
-	 * Template id
+	 * Cache for the template information.
 	 *
-	 * @var int
+	 * @var		object
 	 */
-	protected $_id = null;
+	private $_template = null;
 
 	/**
-	 * Template data
-	 *
-	 * @var array
+	 * Method to auto-populate the model state.
 	 */
-	protected $_data = null;
-
-	/**
-	 * client object
-	 *
-	 * @var object
-	 */
-	protected $_client = null;
-
-	/**
-	 * Template name
-	 *
-	 * @var string
-	 */
-	protected $_template = null;
-
-	/**
-	 * Constructor
-	 *
-	 * @since 1.5
-	 */
-	public function __construct()
+	protected function _populateState()
 	{
-		parent::__construct();
+		$app = JFactory::getApplication('administrator');
 
-		$this->_template = JRequest::getVar('template');
-		$this->_client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		// Load the User state.
+		$id = $app->getUserState('com_templates.edit.source.id');
+
+		// Parse the template id out of the compound reference.
+		$temp	= explode(':', base64_decode($id));
+		$this->setState('extension.id', (int) array_shift($temp));
+		$this->setState('filename', array_shift($temp));
+
+		// Load the parameters.
+		$params	= JComponentHelper::getParams('com_templates');
+		$this->setState('params', $params);
 	}
 
 	/**
-	 * Method to load Template data
+	 * Method to get the record form.
 	 *
-	 * @return	boolean	True on success
-	 * @since	1.6
+	 * @return	mixed	JForm object on success, false on failure.
 	 */
-	protected function _loadData()
+	public function getForm()
 	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			$file		= $this->_client->path.DS.'templates'.DS.$this->_template.DS.'index.php';
+		// Initialise variables.
+		$app = JFactory::getApplication();
 
-			// Read the source file
-			jimport('joomla.filesystem.file');
-			$content = JFile::read($file);
+		// Get the form.
+		$form = parent::getForm('source', 'com_templates.source', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
-			if ($content === false)
-			{
-				$this->setError(JText::sprintf('Operation Failed Could not open', $file));
-				return false;
-			}
-			$content = htmlspecialchars($content, ENT_COMPAT, 'UTF-8');
-
-			$this->_data = $content;
-			return (boolean) $this->_data;
+		// Check for an error.
+		if (JError::isError($form)) {
+			$this->setError($form->getMessage());
+			return false;
 		}
-		return true;
-	}
 
-	/**
-	 * Method to initialise the Template data
-	 *
-	 * @return	boolean	True on success
-	 * @since	1.6
-	 */
-	protected function _initData()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
-			$template = new stdClass();
-			$this->_data = $template;
-			return (boolean) $this->_data;
+		// Check the session for previously entered form data.
+		$data = $app->getUserState('com_templates.edit.source.data', array());
+
+		// Bind the form data if present.
+		if (!empty($data)) {
+			$form->bind($data);
 		}
-		return true;
+
+		return $form;
 	}
 
 	/**
-	 * Method to get a Template
+	 * Method to get a single record.
 	 *
-	 * @since 1.6
+	 * @return	mixed	Object on success, false on failure.
 	 */
-	public function &getData()
+	public function &getSource()
 	{
-		// Load the data
-		if (!$this->_loadData())
-			$this->_initData();
+		$item = new stdClass;
 
-		return $this->_data;
+		$item->extension_id	= $this->getState('extension.id');
+		$item->filename		= $this->getState('filename');
+		$item->source		= 'Todo';
+
+		return $item;
 	}
 
 	/**
-	 * Method to get the client object
+	 * Method to get the template information.
 	 *
-	 * @since 1.6
+	 * @return	mixed	Object if successful, false if not and internal error is set.
 	 */
-	public function &getClient()
-	{
-		return $this->_client;
-	}
-
 	public function &getTemplate()
 	{
+		// Initialise variables.
+		$pk		= $this->getState('extension.id');
+		$db		= $this->getDbo();
+		$result	= false;
+
+		// Get the template information.
+		$db->setQuery(
+			'SELECT extension_id, client_id, element' .
+			' FROM #__extensions' .
+			' WHERE extension_id = '.(int) $pk.
+			'  AND type = '.$db->quote('template')
+		);
+
+		$result = $db->loadObject();
+		if (empty($result))
+		{
+			if ($error = $db->getErrorMsg()) {
+				$this->setError($error);
+			}
+			else {
+				$this->setError(JText::_('Templates_Error_Extension_record_not_found'));
+			}
+			$this->_template = false;
+		}
+		else {
+			$this->_template = $result;
+		}
+
 		return $this->_template;
 	}
+
+
+
+
+
 
 	/**
 	 * Method to store the Template

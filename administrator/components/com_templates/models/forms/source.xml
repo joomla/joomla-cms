@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="extension_id"
+			type="hidden" />
+
+		<field
+			name="filename"
+			type="hidden" />
+
+		<field
+			name="source"
+			type="textarea"
+			label="Templates_Field_Source_Label"
+			description="Templates_Field_Source_Desc"
+			rows="20"
+			cols="80"
+			filter="raw" />
+	</fields>
+</form>

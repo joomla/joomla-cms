@@ -20,7 +20,7 @@ jimport('joomla.application.component.view');
 class TemplatesViewTemplate extends JView
 {
 	protected $state;
-	protected $item;
+	protected $files;
 
 	/**
 	 * Display the view
@@ -28,16 +28,19 @@ class TemplatesViewTemplate extends JView
 	public function display($tpl = null)
 	{
 		$state		= $this->get('State');
-		//$item		= $this->get('Item');
+		$template	= $this->get('Template');
+		$files		= $this->get('Files');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		$this->assignRef('state',		$state);
-		//$this->assignRef('item',		$item);
+		$this->assignRef('template',	$template);
+		$this->assignRef('files',		$files);
 
 		$this->_setToolbar();
 		parent::display($tpl);
@@ -45,13 +48,9 @@ class TemplatesViewTemplate extends JView
 
 	/**
 	 * Setup the Toolbar
-	 *
-	 * @since	1.6
 	 */
 	protected function _setToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
-
 		$user		= JFactory::getUser();
 		$canDo		= TemplatesHelper::getActions();
 
@@ -60,5 +59,19 @@ class TemplatesViewTemplate extends JView
 		JToolBarHelper::cancel('template.cancel', 'JToolbar_Close');
 
 		JToolBarHelper::help('screen.template.view');
+	}
+
+	/**
+	 * Helper method to route actions.
+	 *
+	 * A simple helper method to keep the line length down on many of the URL's in the layout.
+	 *
+	 * @param	string $suffix
+	 *
+	 * @return	string
+	 */
+	protected function route($suffix)
+	{
+		return JRoute::_('index.php?option=com_templates&'.$suffix);
 	}
 }

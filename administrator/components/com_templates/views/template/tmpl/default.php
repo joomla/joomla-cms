@@ -10,26 +10,45 @@
 // No direct access.
 defined('_JEXEC') or die;
 
+// Include the component HTML helpers.
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
+JHtml::_('behavior.modal');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template'); ?>" method="post" name="adminForm" id="adminForm">
-	<h1>This page is a mock, work in progress</h1>
+<form action="<?php echo $this->route('view=template'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="width-50 fltlft">
 		<fieldset>
 			<legend><?php echo JText::_('Templates_Template_Master_files');?></legend>
 
+			<?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
+
 			<ul>
 				<li>
-					<a href="#">
+					<?php $id = $this->files['main']['index']->id; ?>
+					<a href="<?php echo $this->route('task=source.edit&id='.$id);?>">
 						<?php echo JText::_('Templates_Template_Edit_main');?></a>
 				</li>
 				<li>
-					<a href="#">
+					<?php $id = $this->files['main']['error']->id; ?>
+					<?php if ($this->files['main']['error']->exists) : ?>
+					<a href="<?php echo $this->route('task=source.edit&id='.$id);?>">
 						<?php echo JText::_('Templates_Template_Edit_error');?></a>
+					| <a href="<?php echo $this->route('task=source.delete&id='.$id);?>">
+						<?php echo JText::_('Templates_Template_Delete_error');?></a>
+					<?php else : ?>
+					<a href="<?php echo $this->route('task=source.adderror&id='.$id);?>">
+						<?php echo JText::_('Templates_Template_Add_error');?></a>
+					<?php endif; ?>
 				</li>
 				<li>
-					<a href="#">
+					<?php $id = $this->files['main']['print']->id; ?>
+					<?php if ($this->files['main']['print']->exists) : ?>
+					<a href="<?php echo $this->route('task=source.edit&id='.$id);?>">
 						<?php echo JText::_('Templates_Template_Edit_printview');?></a>
+					<?php else : ?>
+					<a href="<?php echo $this->route('task=source.addprint&id='.$id);?>">
+						<?php echo JText::_('Templates_Template_Add_printview');?></a>
+					<?php endif; ?>
 				</li>
 			<ul>
 		</fieldset>
@@ -37,12 +56,16 @@ JHtml::_('behavior.tooltip');
 		<fieldset>
 			<legend><?php echo JText::_('Templates_Template_CSS');?></legend>
 
+			<?php if (!empty($this->files['css'])) : ?>
 			<ul>
+				<?php foreach ($this->files['css'] as $file) : ?>
 				<li>
-					<a href="#">
-						<?php echo JText::sprintf('Templates_Template_Edit_css', 'template.css');?></a>
+					<a href="<?php echo $this->route('task=source.edit&id='.$file->id);?>">
+						<?php echo JText::sprintf('Templates_Template_Edit_css', $file->name);?></a>
 				</li>
+				<?php endforeach; ?>
 			<ul>
+			<?php endif; ?>
 
 			<div>
 				<a href="#" class="modal">

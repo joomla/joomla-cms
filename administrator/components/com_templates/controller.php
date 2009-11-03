@@ -55,118 +55,11 @@ class TemplatesController extends JController
 	}
 
 	/**
-	* Edit Template
-	*/
-	function edit()
-	{
-		JRequest::setVar('hidemainmenu', 1);
-		JRequest::setVar('view', 'template');
-		parent::display();
-	}
-
-	/**
-	* Save Template
-	*/
-	function save()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		$params		= JRequest::getVar('params', array(), 'post', 'array');
-
-		$model = $this->getModel('template');
-		$client		= &$model->getClient();
-		$template	= &$model->getTemplate();
-		$id			= &$model->getId();
-
-		if (!$template) {
-			$this->setRedirect('index.php?option=com_templates&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
-			return;
-		}
-
-		if ($model->store($params)) {
-			$msg = JText::_('Template Saved');
-		} else {
-			$msg = JText::_('Error Saving Template') . $model->getError();
-		}
-
-		$this->setRedirect('index.php?option=com_templates&task=edit&template='.$template.'&id='.$id.'&client='.$client->id, $msg);
-	}
-
-	function cancel()
-	{
-		// Initialize some variables
-		$client	= &JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-
-		$this->setRedirect('index.php?option=com_templates&client='.$client->id);
-	}
-
-	/*
-	 * Add Template Style
-	 */
-	function add()
-	{
-
-		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		$model = $this->getModel('template');
-		$client		= &$model->getClient();
-		$template	= &$model->getTemplate();
-
-		if (!$template) {
-			$this->setRedirect('index.php?option=com_templates&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
-			return;
-		}
-		$msg = JText::_('Template Added');
-		$newid = $model->add();
-		$this->setRedirect('index.php?option=com_templates&task=edit&template='.$template.'&id='.$newid.'&client='.$client->id, $msg);
-
-	}
-
-	/*
-	 * Delete Template Style
-	 */
-	function delete()
-	{
-		// Check for request forgeries
-		//JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		$model = $this->getModel('template');
-		$client		= &$model->getClient();
-		$template	= &$model->getTemplate();
-		$id	= &$model->getId();
-
-
-		if (!$template) {
-			$this->setRedirect('index.php?option=com_templates&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
-			return;
-		}
-
-		if ($model->delete()) {
-			$msg = JText::_('Template Saved');
-		} else {
-			$msg = JText::_('Error Saving Template') . $model->getError();
-		}
-		$this->setRedirect('index.php?option=com_templates&task=edit&template='.$template.'&client='.$client->id, $msg);
-	}
-
-	/**
 	* Preview Template
 	*/
 	function preview()
 	{
 		JRequest::setVar('view', 'prevuuw');
-		parent::display();
-	}
-
-	/**
-	* Edit Template Source
-	*/
-	function edit_source()
-	{
-		JRequest::setVar('hidemainmenu', 1);
-		JRequest::setVar('view', 'source');
 		parent::display();
 	}
 
