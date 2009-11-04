@@ -127,7 +127,7 @@ class WeblinksModelCategory extends JModelList
 		$this->setState('list.limit', $limit);
 
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-		$this->setState('list.limitstart', $limitstart);
+		$this->setState('list.start', $limitstart);
 
 		$orderCol	= JRequest::getCmd('filter_order', 'ordering');
 		$this->setState('list.ordering', $orderCol);

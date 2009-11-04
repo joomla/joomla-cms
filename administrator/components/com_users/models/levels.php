@@ -44,7 +44,7 @@ class UsersModelLevels extends JModelList
 		$this->setState('list.limit', $limit);
 
 		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.limitstart', $limitstart);
+		$this->setState('list.start', $limitstart);
 
 		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
 		$this->setState('list.ordering', $orderCol);

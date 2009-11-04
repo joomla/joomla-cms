@@ -34,7 +34,7 @@ class NewsfeedsModelCategory extends JModelList
 	protected $_children = null;
 
 	protected $_parents = null;
-	
+
 	/**
 	 * Model context string.
 	 *
@@ -148,7 +148,7 @@ class NewsfeedsModelCategory extends JModelList
 		$this->setState('list.limit', $limit);
 
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-		$this->setState('list.limitstart', $limitstart);
+		$this->setState('list.start', $limitstart);
 
 		$orderCol	= JRequest::getCmd('filter_order', 'ordering');
 		$this->setState('list.ordering', $orderCol);
@@ -196,7 +196,7 @@ class NewsfeedsModelCategory extends JModelList
 
 		return $this->_category;
 	}
-	
+
 	/**
 	 * Get the sibling (adjacent) categories.
 	 *

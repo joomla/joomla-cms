@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Nov-2009 Andrew Eddie
+ # Fix bugs in list pagination (stepping to page 2+).
+
 03-Nov-2009 Andrew Eddie
  ^ Change dtd of template install files to 1.6.
  ^ Add client columns to template style and templates list; adjust client filters to be able to display all templates.

@@ -58,7 +58,7 @@ class MenusModelItems extends JModelList
 		$this->setState('list.limit', $limit);
 
 		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.limitstart', $limitstart);
+		$this->setState('list.start', $limitstart);
 
 		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.lft');
 		$this->setState('list.ordering', $orderCol);
@@ -118,9 +118,9 @@ class MenusModelItems extends JModelList
 		//Join over components
 		$query->select('c.name AS componentname');
 		$query->join('LEFT', '`#__components` AS c ON c.id = a.component_id');
-		
-		
-		
+
+
+
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');

@@ -55,7 +55,7 @@ class NewsfeedsModelCategories extends JModelList
 
 		//$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
 		$limitstart = JRequest::getInt('limitstart', 0);
-		$this->setState('list.limitstart', $limitstart);
+		$this->setState('list.start', $limitstart);
 
 		//$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.lft');
 		$orderCol = JRequest::getCmd('filter_order', 'a.lft');
