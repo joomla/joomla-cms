@@ -21,12 +21,12 @@ Joomla.Menu = new Class({
 	initialize: function(element, options) {
 		this.setOptions(options);
 		this.element = document.id(element);
-		
-		if (!this.options.disabled) {
-			this._addMouseEvents();
 
-			// equalize width of the child LI elements
-			this.element.getElements('li').filter('.node').getElement('ul').each(this._equalizeWidths);				
+		// equalize width of the child LI elements
+		this.element.getElements('li').filter('.node').getElement('ul').each(this._equalizeWidths);		
+
+		if (!this.options.disabled) {
+			this._addMouseEvents();			
 		}
 
 		this.element.store('menu', this);
