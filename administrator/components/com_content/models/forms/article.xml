@@ -46,6 +46,7 @@
 			label="Content_Articletext_Label"
 			description="Content_Articletext_Desc"
 			filter="safehtml"
+			buttons="true"
 			default="" />
 
 		<field
