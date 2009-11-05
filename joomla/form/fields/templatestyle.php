@@ -39,7 +39,6 @@ class JFormFieldTemplateStyle extends JFormFieldList {
 			'SELECT id, title, template' .
 			' FROM #__template_styles'.
 			' WHERE client_id = 0 '.
-			'  AND home = 0' .
 			' ORDER BY template, title'
 		);
 		$styles = $db->loadObjectList();
