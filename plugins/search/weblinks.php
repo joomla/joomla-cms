@@ -43,7 +43,7 @@ function plgSearchWeblinks($text, $phrase='', $ordering='', $areas=null)
 
 	$searchText = $text;
 
-	require_once JPATH_SITE.DS.'components'.DS.'com_weblinks'.DS.'helpers'.DS.'route.php';
+	require_once JPATH_SITE.'/components/com_weblinks/router.php';
 
 	if (is_array($areas)) {
 		if (!array_intersect($areas, array_keys(plgSearchWeblinksAreas()))) {
@@ -124,7 +124,7 @@ function plgSearchWeblinks($text, $phrase='', $ordering='', $areas=null)
 	. ' FROM #__weblinks AS a'
 	. ' INNER JOIN #__categories AS b ON b.id = a.catid'
 	. ' WHERE ('. $where .')'
-	. ' AND a.published = 1'
+	. ' AND a.state = 1'
 	. ' AND b.published = 1'
 	. ' AND b.access IN ('.$groups.')'
 	. ' ORDER BY '. $order
@@ -133,7 +133,7 @@ function plgSearchWeblinks($text, $phrase='', $ordering='', $areas=null)
 	$rows = $db->loadObjectList();
 
 	foreach($rows as $key => $row) {
-		$rows[$key]->href = WeblinksHelperRoute::getWeblinkRoute($row->slug, $row->catslug);
+		$rows[$key]->href = WeblinksRoute::weblink($row->slug, $row->catslug);
 	}
 
 	$return = array();

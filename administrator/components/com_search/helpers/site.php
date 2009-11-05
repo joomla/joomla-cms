@@ -1,15 +1,15 @@
 <?php
 /**
  * @version		$Id$
- * @package  Joomla
- * @subpackage	Search
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * source software licenses. See COPYRIGHT.php for copyright notices and details.
  */
 
 /**
- * False JSite class used to fool the frontend search plugins because they route the results
+ * Mock JSite class used to fool the frontend search plugins because they route the results.
+ *
+ * @package		Joomla.Administrator
+ * @subpackage	com_search
  */
 class JSite extends JObject
 {

@@ -134,21 +134,17 @@ function plgSearchContent($text, $phrase='', $ordering='', $areas=null)
 		$query = 'SELECT a.title AS title, a.metadesc, a.metakey,'
 		. ' a.created AS created,'
 		. ' CONCAT(a.introtext, a.fulltext) AS text,'
-		. ' CONCAT_WS("/", u.title, b.title) AS section,'
+		. ' b.title AS section,'
 		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
 		. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug,'
-		. ' u.id AS sectionid,'
 		. ' "2" AS browsernav'
 		. ' FROM #__content AS a'
 		. ' INNER JOIN #__categories AS b ON b.id=a.catid'
-		. ' INNER JOIN #__sections AS u ON u.id = a.sectionid'
 		. ' WHERE ('.$where.')'
 		. ' AND a.state = 1'
-		. ' AND u.published = 1'
 		. ' AND b.published = 1'
 		. ' AND a.access IN ('.$groups.')'
 		. ' AND b.access IN ('.$groups.')'
-		. ' AND u.access IN ('.$groups.')'
 		. ' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')'
 		. ' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'
 		. ' GROUP BY a.id'
@@ -162,7 +158,7 @@ function plgSearchContent($text, $phrase='', $ordering='', $areas=null)
 		{
 			foreach($list as $key => $item)
 			{
-				$list[$key]->href = ContentRoute::article($item->slug, $item->catslug, $item->sectionid);
+				$list[$key]->href = ContentRoute::article($item->slug, $item->catslug);
 			}
 		}
 		$rows[] = $list;
@@ -178,7 +174,6 @@ function plgSearchContent($text, $phrase='', $ordering='', $areas=null)
 		. ' WHERE ('.$where.')'
 		. ' AND a.state = 1'
 		. ' AND a.access IN ('.$groups.')'
-		. ' AND a.sectionid = 0'
 		. ' AND a.catid = 0'
 		. ' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')'
 		. ' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'
@@ -209,19 +204,15 @@ function plgSearchContent($text, $phrase='', $ordering='', $areas=null)
 		. ' CONCAT(a.introtext, a.fulltext) AS text,'
 		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
 		. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug,'
-		. ' u.id AS sectionid,'
-		. ' CONCAT_WS("/", u.title, b.title) AS section,'
+		. ' CONCAT_WS("/", b.title) AS section,'
 		. ' "2" AS browsernav'
 		. ' FROM #__content AS a'
 		. ' INNER JOIN #__categories AS b ON b.id=a.catid AND b.access IN ('.$groups.')'
-		. ' INNER JOIN #__sections AS u ON u.id = a.sectionid'
 		. ' WHERE ('.$where.')'
 		. ' AND a.state = -1'
-		. ' AND u.published = 1'
 		. ' AND b.published = 1'
 		. ' AND a.access IN ('.$groups.')'
 		. ' AND b.access IN ('.$groups.')'
-		. ' AND u.access IN ('.$groups.')'
 		. ' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')'
 		. ' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'
 		. ' ORDER BY '. $order
@@ -233,7 +224,7 @@ function plgSearchContent($text, $phrase='', $ordering='', $areas=null)
 		{
 			foreach($list3 as $key => $item)
 			{
-				$list3[$key]->href = ContentRoute::article($item->slug, $item->catslug, $item->sectionid);
+				$list3[$key]->href = ContentRoute::article($item->slug, $item->catslug);
 			}
 		}
 

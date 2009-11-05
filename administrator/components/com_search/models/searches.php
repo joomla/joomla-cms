@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Search
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,20 +14,20 @@ jimport('joomla.application.component.modellist');
 jimport('joomla.database.query');
 
 /**
- * Methods supporting a list of newsfeed records.
+ * Methods supporting a list of search terms.
  *
  * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
+ * @subpackage	com_search
  * @since		1.6
  */
-class NewsfeedsModelNewsfeeds extends JModelList
+class SearchModelSearches extends JModelList
 {
 	/**
 	 * Model context string.
 	 *
 	 * @var		string
 	 */
-	protected $_context = 'com_newsfeeds.newsfeeds';
+	protected $_context = 'com_searches.searches';
 
 	/**
 	 * Method to auto-populate the model state.
@@ -39,14 +41,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$accessId = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', null, 'int');
-		$this->setState('filter.access', $accessId);
-
-		$state = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_published', '', 'string');
-		$this->setState('filter.state', $state);
-
-		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.category_id', 'catid', null, 'int');
-		$this->setState('filter.category_id', $categoryId);
+		$showResults = $app->getUserStateFromRequest($this->_context.'.filter.results', 'filter_results', null, 'int');
+		$this->setState('filter.results', $showResults);
 
 		// List state information.
 		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
@@ -55,14 +51,14 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
 		$this->setState('list.start', $limitstart);
 
-		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.name');
+		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.hits');
 		$this->setState('list.ordering', $orderCol);
 
 		$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
 		$this->setState('list.direction', $orderDirn);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_newsfeeds');
+		$params = JComponentHelper::getParams('com_search');
 		$this->setState('params', $params);
 	}
 
@@ -85,9 +81,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$id	.= ':'.$this->getState('list.ordering');
 		$id	.= ':'.$this->getState('list.direction');
 		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.access');
-		$id	.= ':'.$this->getState('filter.state');
-		$id	.= ':'.$this->getState('filter.category_id');
+		$id	.= ':'.$this->getState('filter.results');
 
 		return md5($id);
 	}
@@ -106,63 +100,83 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid,' .
-				'a.numarticles, a.cache_time, ' .
-				' a.published, a.access, a.ordering, a.language'
+				'a.*'
 			)
 		);
-		$query->from('`#__newsfeeds` AS a');
-
-		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
-
-		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
-
-		// Join over the categories.
-		$query->select('c.title AS category_title');
-		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
+		$query->from('`#__core_log_searches` AS a');
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access')) {
 			$query->where('a.access = '.(int) $access);
 		}
 
-		// Filter by published state
-		$published = $this->getState('filter.state');
-		if (is_numeric($published)) {
-			$query->where('a.published = '.(int) $published);
-		}
-		else if ($published === '') {
-			$query->where('(a.published IN (0, 1))');
-		}
-
-		// Filter by category.
-		$categoryId = $this->getState('filter.category_id');
-		if (is_numeric($categoryId)) {
-			$query->where('a.catid = ' . (int) $categoryId);
-		}
-
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			if (stripos($search, 'id:') === 0) {
-				$query->where('a.id = '.(int) substr($search, 3));
-			}
-			else
-			{
-				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
-				$query->where('a.name LIKE '.$search.' OR a.alias LIKE '.$search);
-			}
+			$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+			$query->where('a.search_term LIKE '.$search);
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.name')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.hits')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
+	}
+
+	/**
+	 * Override the parnet getItems to inject optional data.
+	 *
+	 * @return	mixed	An array of objects on success, false on failure.
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		// Determine if number of results for search item should be calculated
+		// by default it is `off` as it is highly query intensive
+		if ($this->getState('filter.results'))
+		{
+			JPluginHelper::importPlugin('search');
+			$app = JFactory::getApplication();
+
+			if (!class_exists('JSite'))
+			{
+				// This fools the routers in the search plugins into thinking it's in the frontend
+				require_once JPATH_COMPONENT.'/helpers/site.php';
+			}
+
+			foreach ($items as &$item)
+			{
+				$results = $app->triggerEvent('onSearch', array($item->search_term));
+				$item->returns = 0;
+				foreach ($results as $result) {
+					$item->returns += count($result);
+				}
+			}
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Method to reset the seach log table.
+	 *
+	 * @return	boolean
+	 */
+	public function reset()
+	{
+		$db = $this->getDbo();
+		$db->setQuery(
+			'DELETE FROM #__core_log_searches'
+		);
+		if (!$db->query())
+		{
+			$this->setError($db->getErrorMsg());
+			return false;
+		}
+
+		return true;
 	}
 }
