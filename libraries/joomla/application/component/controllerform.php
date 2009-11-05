@@ -107,6 +107,7 @@ class JControllerForm extends JController
 	 * @param	string	The model name. Optional.
 	 * @param	string	The class prefix. Optional.
 	 * @param	array	Configuration array for model. Optional.
+	 *
 	 * @return	object	The model.
 	 */
 	public function &getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
@@ -120,8 +121,6 @@ class JControllerForm extends JController
 
 	/**
 	 * This controller does not have a display method. Redirect back to the list view of the component.
-	 *
-	 * @return	void
 	 */
 	public function display()
 	{
@@ -144,8 +143,6 @@ class JControllerForm extends JController
 
 	/**
 	 * Method to add a new record.
-	 *
-	 * @return	void
 	 */
 	public function add()
 	{
@@ -183,8 +180,6 @@ class JControllerForm extends JController
 
 	/**
 	 * Method to edit an existing record.
-	 *
-	 * @return	void
 	 */
 	public function edit()
 	{
@@ -238,8 +233,6 @@ class JControllerForm extends JController
 
 	/**
 	 * Method to cancel an edit
-	 *
-	 * @return	void
 	 */
 	public function cancel()
 	{
@@ -297,8 +290,6 @@ class JControllerForm extends JController
 
 	/**
 	 * Method to save a record.
-	 *
-	 * @return	void
 	 */
 	public function save()
 	{
@@ -321,7 +312,7 @@ class JControllerForm extends JController
 
 		// Access check.
 		if (!$this->_allowSave($data)) {
-			return JError::raiseWarning(403, 'JError_Save_not_permitted.');
+			return JError::raiseWarning(403, 'JError_Save_not_permitted');
 		}
 
 		// Validate the posted data.
