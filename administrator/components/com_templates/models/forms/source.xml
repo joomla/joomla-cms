@@ -12,7 +12,9 @@
 
 		<field
 			name="source"
-			type="textarea"
+			type="editor"
+			editor="codemirror|none"
+			buttons="no"
 			label="Templates_Field_Source_Label"
 			description="Templates_Field_Source_Desc"
 			rows="20"

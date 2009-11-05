@@ -60,18 +60,4 @@ class TemplatesViewTemplate extends JView
 
 		JToolBarHelper::help('screen.template.view');
 	}
-
-	/**
-	 * Helper method to route actions.
-	 *
-	 * A simple helper method to keep the line length down on many of the URL's in the layout.
-	 *
-	 * @param	string $suffix
-	 *
-	 * @return	string
-	 */
-	protected function route($suffix)
-	{
-		return JRoute::_('index.php?option=com_templates&'.$suffix);
-	}
 }

@@ -15,6 +15,7 @@ jimport('joomla.application.component.model');
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_templates
+ * @since		1.6
  */
 class TemplatesModelTemplate extends JModel
 {
@@ -138,7 +139,7 @@ class TemplatesModelTemplate extends JModel
 
 				foreach ($files as $file)
 				{
-					$result['css'][] = $this->_getFile($path.'/css/', $file);
+					$result['css'][] = $this->_getFile($path.'/css/', 'css/'.$file);
 				}
 			}
 			else

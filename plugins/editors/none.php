@@ -12,10 +12,11 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 /**
- * No WYSIWYG Editor Plugin
+ * Plain Textarea Editor Plugin
  *
- * @package Editors
- * @since 1.5
+ * @package		Joomla
+ * @subpackage	Editors
+ * @since		1.5
  */
 class plgEditorNone extends JPlugin
 {
@@ -52,45 +53,73 @@ class plgEditorNone extends JPlugin
 	}
 
 	/**
-	 * No WYSIWYG Editor - copy editor content to form field
+	 * Copy editor content to form field.
 	 *
-	 * @param string 	The name of the editor
+	 * Not applicable in this editor.
 	 */
-	function onSave($editor) {
+	function onSave()
+	{
 		return;
 	}
 
 	/**
-	 * No WYSIWYG Editor - get the editor content
+	 * Get the editor content.
 	 *
-	 * @param string 	The name of the editor
+	 * @param	string 	The id of the editor field.
 	 */
-	function onGetContent($editor) {
-		return "document.getElementById('$editor').value;\n";
-	}
-
-	/**
-	 * No WYSIWYG Editor - set the editor content
-	 *
-	 * @param string 	The name of the editor
-	 */
-	function onSetContent($editor, $html) {
-		return "document.getElementById('$editor').value = $html;\n";
-	}
-
-	/**
-	 * No WYSIWYG Editor - display the editor
-	 *
-	 * @param string The name of the editor area
-	 * @param string The content of the field
-	 * @param string The name of the form field
-	 * @param string The width of the editor area
-	 * @param string The height of the editor area
-	 * @param int The number of columns for the editor area
-	 * @param int The number of rows for the editor area
-	 */
-	function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true)
+	function onGetContent($id)
 	{
+		return "document.getElementById('$id').value;\n";
+	}
+
+	/**
+	 * Set the editor content.
+	 *
+	 * @param	string 	The id of the editor field.
+	 * @param	string	The content to set.
+	 */
+	function onSetContent($id, $html)
+	{
+		return "document.getElementById('$id').value = $html;\n";
+	}
+
+	/**
+	 */
+	function onGetInsertMethod($id)
+	{
+		static $done = false;
+
+		// Do this only once.
+		if (!$done)
+		{
+			$doc = JFactory::getDocument();
+			$js = "\tfunction jInsertEditorText(text, editor) {
+				insertAtCursor(document.getElementById(editor), text);
+			}";
+			$doc->addScriptDeclaration($js);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Display the editor area.
+	 *
+	 * @param	string	The name of the editor area.
+	 * @param	string	The content of the field.
+	 * @param	string	The width of the editor area.
+	 * @param	string	The height of the editor area.
+	 * @param	int		The number of columns for the editor area.
+	 * @param	int		The number of rows for the editor area.
+	 * @param	boolean	True and the editor buttons will be displayed.
+	 * @param	string	An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 */
+	function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null)
+	{
+		if (empty($id)) {
+			$id = $name;
+		}
+
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width)) {
 			$width .= 'px';
@@ -99,22 +128,10 @@ class plgEditorNone extends JPlugin
 			$height .= 'px';
 		}
 
-		$buttons = $this->_displayButtons($name, $buttons);
-		$editor  = "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>" . $buttons;
+		$buttons = $this->_displayButtons($id, $buttons);
+		$editor  = "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>" . $buttons;
 
 		return $editor;
-	}
-
-	function onGetInsertMethod($name)
-	{
-		$doc = & JFactory::getDocument();
-
-		$js= "\tfunction jInsertEditorText(text, editor) {
-			insertAtCursor(document.getElementById(editor), text);
-		}";
-		$doc->addScriptDeclaration($js);
-
-		return true;
 	}
 
 	function _displayButtons($name, $buttons)
@@ -127,7 +144,8 @@ class plgEditorNone extends JPlugin
 
 		$return = '';
 		$results[] = $this->update($args);
-		foreach ($results as $result) {
+		foreach ($results as $result)
+		{
 			if (is_string($result) && trim($result)) {
 				$return .= $result;
 			}
@@ -137,15 +155,11 @@ class plgEditorNone extends JPlugin
 		{
 			$results = $this->_subject->getButtons($name, $buttons);
 
-			/*
-			 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
-			 */
+			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
 			$return .= "\n<div id=\"editor-xtd-buttons\">\n";
 			foreach ($results as $button)
 			{
-				/*
-				 * Results should be an object
-				 */
+				// Results should be an object
 				if ($button->get('name'))
 				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;

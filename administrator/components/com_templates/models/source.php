@@ -15,6 +15,7 @@ jimport('joomla.application.component.modelform');
 /**
  * @package		Joomla.Administrator
  * @subpackage	Templates
+ * @since		1.5
  */
 class TemplatesModelSource extends JModelForm
 {
@@ -27,6 +28,8 @@ class TemplatesModelSource extends JModelForm
 
 	/**
 	 * Method to auto-populate the model state.
+	 *
+	 * @since	1.6
 	 */
 	protected function _populateState()
 	{
@@ -49,6 +52,7 @@ class TemplatesModelSource extends JModelForm
 	 * Method to get the record form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
+	 * @since	1.6
 	 */
 	public function getForm()
 	{
@@ -79,14 +83,30 @@ class TemplatesModelSource extends JModelForm
 	 * Method to get a single record.
 	 *
 	 * @return	mixed	Object on success, false on failure.
+	 * @since	1.6
 	 */
 	public function &getSource()
 	{
 		$item = new stdClass;
 
-		$item->extension_id	= $this->getState('extension.id');
-		$item->filename		= $this->getState('filename');
-		$item->source		= 'Todo';
+		if ($this->_template)
+		{
+			$fileName	= $this->getState('filename');
+			$client		= JApplicationHelper::getClientInfo($this->_template->client_id);
+			$filePath	= JPath::clean($client->path.'/templates/'.$this->_template->element.'/'.$fileName);
+
+			if (file_exists($filePath))
+			{
+				jimport('joomla.filesystem.file');
+
+				$item->extension_id	= $this->getState('extension.id');
+				$item->filename		= $this->getState('filename');
+				$item->source		= JFile::read($filePath);
+			}
+			else {
+				$this->setError(JText::_('Templates_Error_Source_file_not_found'));
+			}
+		}
 
 		return $item;
 	}
@@ -95,6 +115,7 @@ class TemplatesModelSource extends JModelForm
 	 * Method to get the template information.
 	 *
 	 * @return	mixed	Object if successful, false if not and internal error is set.
+	 * @since	1.6
 	 */
 	public function &getTemplate()
 	{
@@ -129,44 +150,51 @@ class TemplatesModelSource extends JModelForm
 		return $this->_template;
 	}
 
-
-
-
-
-
 	/**
-	 * Method to store the Template
+	 * Method to store the source file contents.
 	 *
-	 * @return	boolean	True on success
+	 * @param	array	The souce data to save.
+	 *
+	 * @return	boolean	True on success, false otherwise and internal error set.
 	 * @since	1.6
 	 */
-	public function store($filecontent)
+	public function save($data)
 	{
-		// Set FTP credentials, if given
+		jimport('joomla.filesystem.file');
 		jimport('joomla.client.helper');
+
+		// Get the template.
+		$template = $this->getTemplate();
+		if (empty($template)) {
+			return false;
+		}
+
+		$fileName	= $this->getState('filename');
+		$client		= JApplicationHelper::getClientInfo($template->client_id);
+		$filePath	= JPath::clean($client->path.'/templates/'.$template->element.'/'.$fileName);
+
+		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 		$ftp = JClientHelper::getCredentials('ftp');
 
-		$file = $this->_client->path.DS.'templates'.DS.$this->_template.DS.'index.php';
-
-		// Try to make the template file writeable
-		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
-			$this->setError(JText::_('Could not make the template file writable'));
-			return false;
-		}
-
-		jimport('joomla.filesystem.file');
-		$return = JFile::write($file, $filecontent);
-
-		// Try to make the template file unwriteable
-		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0555')) {
-			$this->setError(JText::_('Could not make the template file unwritable'));
-			return false;
-		}
-
-		if (!$return)
+		// Try to make the template file writeable.
+		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0755'))
 		{
-			$this->setError(JText::_('Operation Failed').': '.JText::sprintf('Failed to open file for writing.', $file));
+			$this->setError(JText::_('Template_Error_Source_file_not_writable'));
+			return false;
+		}
+
+		$return = JFile::write($filePath, $data['source']);
+
+		// Try to make the template file unwriteable.
+		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0555'))
+		{
+			$this->setError(JText::_('Template_Error_Source_file_not_unwritable'));
+			return false;
+		}
+		else if (!$return)
+		{
+			$this->setError(JText::sprintf('Template_Error_Failed_to_save_filename.', $fileName));
 			return false;
 		}
 

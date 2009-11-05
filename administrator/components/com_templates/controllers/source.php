@@ -49,15 +49,30 @@ class TemplatesControllerSource extends JController
 	}
 
 	/**
+	 * Method to check if you can save a new or existing record.
+	 *
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param	array	An array of input data.
+	 * @param	string	The name of the key for the primary key.
+	 *
+	 * @return 	boolean
+	 */
+	protected function _allowSave()
+	{
+		return $this->_allowEdit();
+	}
+
+	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param	string $name	The model name. Optional.
-	 * @param	string $prefix	The class prefix. Optional.
-	 * @param	array $config	Configuration array for model. Optional.
+	 * @param	string	The model name. Optional.
+	 * @param	string	The class prefix. Optional.
+	 * @param	array	Configuration array for model. Optional (note, the empty array is atypical compared to other models).
 	 *
-	 * @return	object			The model.
+	 * @return	object	The model.
 	 */
-	public function &getModel($name = 'Source', $prefix = 'TemplatesModel', $config = array('ignore_request' => true))
+	public function &getModel($name = 'Source', $prefix = 'TemplatesModel', $config = array())
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -104,58 +119,119 @@ class TemplatesControllerSource extends JController
 	 */
 	public function cancel()
 	{
+		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialize variables.
 		$app		= JFactory::getApplication();
-		$model		= &$this->getModel();
+		$model		= $this->getModel();
 		$context	= 'com_templates.edit.source';
-
-		// Get the record id.
-		$recordId	= $app->getUserState($context.'.id');
-
-		// Parse the template id out of the compound reference.
-		$temp	= explode(':', base64_decode($recordId));
-		$id		= (int) array_shift($temp);
+		$returnId	= (int) $model->getState('extension.id');
 
 		// Clean the session data and redirect.
 		$app->setUserState($context.'.id',		null);
 		$app->setUserState($context.'.data',	null);
-		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$id, false));
+		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$returnId, false));
 	}
 
-
-
-
-
 	/**
-	 * Override parent save method to deal with special template parameters.
-	 *
-	 * @return	void
+	 * Saves a template source file.
 	 */
 	public function save()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialise variables.
-		$iData	= JRequest::getVar('jform', array(), 'post', 'array');
-		$pData	= JRequest::getVar('jformparams', array(), 'post', 'array');
-		$model	= $this->getModel();
+		// Initialize variables.
+		$app		= JFactory::getApplication();
+		$data		= JRequest::getVar('jform', array(), 'post', 'array');
+		$context	= 'com_templates.edit.source';
+		$task		= $this->getTask();
+		$model		= $this->getModel();
 
-		// Get the template parameter form.
-		$paramsForm	= $model->getParamsForm($iData['template'], $iData['client_id']);
-		if (!$paramsForm) {
+		// Access check.
+		if (!$this->_allowSave()) {
+			return JError::raiseWarning(403, 'JError_Save_not_permitted.');
+		}
+
+		// Match the stored id's with the submitted.
+		if (empty($data['extension_id']) || empty($data['filename'])) {
+			return JError::raiseError(500, 'Template_Error_Source_id_filename_mismatch.');
+		}
+		else if ($data['extension_id'] != $model->getState('extension.id')) {
+			return JError::raiseError(500, 'Template_Error_Source_id_filename_mismatch.');
+		}
+		else if ($data['filename'] != $model->getState('filename')) {
+			return JError::raiseError(500, 'Template_Error_Source_id_filename_mismatch.');
+		}
+
+		// Validate the posted data.
+		$form	= &$model->getForm();
+		if (!$form)
+		{
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
+		$data = $model->validate($form, $data);
 
-		// Validate and inject back into the main form data.
-		$pData	= $model->validate($paramsForm, $pData);
-		$iData['params'] = $pData;
+		// Check for validation errors.
+		if ($data === false)
+		{
+			// Get the validation messages.
+			$errors	= $model->getErrors();
 
-		JRequest::setVar('jform', $iData, 'post');
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if (JError::isError($errors[$i])) {
+					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+				}
+				else {
+					$app->enqueueMessage($errors[$i], 'notice');
+				}
+			}
 
-		return parent::save();
+			// Save the data in the session.
+			$app->setUserState($context.'.data', $data);
+
+			// Redirect back to the edit screen.
+			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=source&layout=edit', false));
+			return false;
+		}
+
+		// Attempt to save the data.
+		if (!$model->save($data))
+		{
+			// Save the data in the session.
+			$app->setUserState($context.'.data', $data);
+
+			// Redirect back to the edit screen.
+			$this->setMessage(JText::sprintf('JError_Save_failed', $model->getError()), 'notice');
+			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=source&layout=edit', false));
+			return false;
+		}
+
+		$this->setMessage(JText::_('JController_Save_success'));
+
+		// Redirect the user and adjust session state based on the chosen task.
+		switch ($task)
+		{
+			case 'apply':
+				// Reset the record data in the session.
+				$app->setUserState($context.'.data',	null);
+
+				// Redirect back to the edit screen.
+				$this->setRedirect(JRoute::_('index.php?option=com_templates&view=source&layout=edit', false));
+				break;
+
+			default:
+				// Clear the record id and data from the session.
+				$app->setUserState($context.'.id', null);
+				$app->setUserState($context.'.data', null);
+
+				// Redirect to the list screen.
+				$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$model->getState('extension.id'), false));
+				break;
+		}
 	}
 }

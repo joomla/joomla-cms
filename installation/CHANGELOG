@@ -27,6 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Nov-2009 Andrew Eddie
+ ^ NOTE. Backward incomaptible change in the argument list for JEditor::display
+ + Added new argument in JEditor::display to take an optional 'id' for the field element (inserted before $params).
+ # Corrected bugs in CodeMirror plugin caused by array-based naming of JForm fields (hence addition of id arguments above).
+ ! Completed source editing in com_templates.
+ # Fixed php notice when editing an article.
+
 04-Nov-2009 Andrew Eddie
  # Fix bugs in list pagination (stepping to page 2+).
 

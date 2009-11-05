@@ -13,28 +13,36 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.keepalive');
 ?>
 <script type="text/javascript">
 <!--
 	function submitbutton(task)
 	{
-		// @todo Validation is currently busted
-		//if (task == 'source.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
-		if (task == 'source.cancel') {
+		if (task == 'source.cancel' || document.formvalidator.isValid(document.id('source-form'))) {
+			<?php echo $this->form->getField('source')->save(); ?>
 			submitform(task);
 		}
-		// @todo Deal with the editor methods
-		submitform(task);
+		else {
+			alert('<?php echo $this->escape(JText::_('JValidation_Form_failed'));?>');
+		}
 	}
 // -->
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_templates'); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
+<form action="<?php JRoute::_('index.php?option=com_templates'); ?>" method="post" name="adminForm" id="source-form" class="form-validate">
 	<fieldset class="adminform">
 		<legend><?php echo JText::sprintf('Templates_Template_Filename', $this->source->filename, $this->template->element); ?></legend>
 
+		<?php if ($this->ftp) : ?>
+		<?php $this->loadTemplate('ftp'); ?>
+		<?php endif; ?>
+
 		<?php echo $this->form->getLabel('source'); ?>
+		<div class="clr"></div>
+		<div class="editor-border">
 		<?php echo $this->form->getInput('source'); ?>
+		</div>
 	</fieldset>
 
 	<?php echo $this->form->getInput('extension_id'); ?>

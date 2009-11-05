@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,10 +11,11 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 /**
- * CodeMirror Editor Plugin
+ * CodeMirror Editor Plugin.
  *
- * @package Editors
- * @since 1.6
+ * @package		Joomla
+ * @subpackage	Editors
+ * @since		1.6
  */
 class plgEditorCodemirror extends JPlugin
 {
@@ -23,12 +23,11 @@ class plgEditorCodemirror extends JPlugin
 	 * Base path for editor files
 	 */
 	protected $_basePath = 'plugins/editors/codemirror/';
+
 	/**
-	 * Method to handle the onInitEditor event.
-	 *  - Initializes the Editor
+	 * Initialises the Editor.
 	 *
-	 * @access public
-	 * @return string JavaScript Initialization string
+	 * @return	string	Returns nothing.
 	 */
 	public function onInit()
 	{
@@ -40,60 +39,74 @@ class plgEditorCodemirror extends JPlugin
 	}
 
 	/**
-	 * Copy editor content to form field
+	 * Copy editor content to form field.
 	 *
-	 * @param string 	The name of the editor
+	 * @param	string 	The id of the editor field.
 	 */
-	public function onSave($editor)
+	public function onSave($id)
 	{
-		return "document.getElementById('$editor').value = Joomla.editors.instances['$editor'].getCode();\n";
+		return "document.getElementById('$id').value = Joomla.editors.instances['$id'].getCode();\n";
 	}
 
 	/**
-	 * Get the editor content
+	 * Get the editor content.
 	 *
-	 * @param string 	The name of the editor
+	 * @param	string 	The id of the editor field.
 	 */
-	public function onGetContent($editor)
+	public function onGetContent($id)
 	{
-		return "Joomla.editors.instances['$editor'].getCode();\n";
+		return "Joomla.editors.instances['$id'].getCode();\n";
 	}
 
 	/**
-	 * Set the editor content
+	 * Set the editor content.
 	 *
-	 * @param string 	The name of the editor
+	 * @param	string 	The id of the editor field.
+	 * @param	string	The content to set.
 	 */
-	public function onSetContent($editor, $html)
+	public function onSetContent($id, $content)
 	{
-		return "Joomla.editors.instances['$editor'].setCode($html);\n";
+		return "Joomla.editors.instances['$id'].setCode($content);\n";
 	}
 
-	public function onGetInsertMethod($name)
+	/**
+	 */
+	public function onGetInsertMethod()
 	{
-		$doc = &JFactory::getDocument();
+		static $done = false;
 
-		$js= "\tfunction jInsertEditorText(text, editor) {
-				Joomla.editors.instances[editor].replaceSelection(text);\n
-		}";
-		$doc->addScriptDeclaration($js);
+		// Do this only once.
+		if (!$done)
+		{
+			$done = true;
+			$doc = JFactory::getDocument();
+			$js = "\tfunction jInsertEditorText(text, editor) {
+					Joomla.editors.instances[editor].replaceSelection(text);\n
+			}";
+			$doc->addScriptDeclaration($js);
+		}
 
 		return true;
 	}
 
 	/**
-	 * No WYSIWYG Editor - display the editor
+	 * Display the editor area.
 	 *
-	 * @param string The name of the editor area
-	 * @param string The content of the field
-	 * @param string The name of the form field
-	 * @param string The width of the editor area
-	 * @param string The height of the editor area
-	 * @param int The number of columns for the editor area
-	 * @param int The number of rows for the editor area
+	 * @param	string	The name of the editor area.
+	 * @param	string	The content of the field.
+	 * @param	string	The width of the editor area.
+	 * @param	string	The height of the editor area.
+	 * @param	int		The number of columns for the editor area.
+	 * @param	int		The number of rows for the editor area.
+	 * @param	boolean	True and the editor buttons will be displayed.
+	 * @param	string	An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true)
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null)
 	{
+		if (empty($id)) {
+			$id = $name;
+		}
+
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width)) {
 			$width .= 'px';
@@ -102,35 +115,35 @@ class plgEditorCodemirror extends JPlugin
 			$height .= 'px';
 		}
 
-		$buttons = $this->_displayButtons($name, $buttons);
+		// Must pass the field id to the buttons in this editor.
+		$buttons	= $this->_displayButtons($id, $buttons);
 
-		$options = new stdClass();
+		$options	= new stdClass;
+		$compressed	= JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
 
-		$compressed = JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
-		$options->basefiles = array('basefiles'.$compressed.'.js');
-		$options->path = JURI::root(true).'/'.$this->_basePath;
-		$options->parserfile = 'parsexml.js';
-		$options->stylesheet = JURI::root(true).'/'.$this->_basePath.'css/xmlcolors.css';
-
-		$options->height = $height;
-		$options->width = $width;
+		$options->basefiles		= array('basefiles'.$compressed.'.js');
+		$options->path			= JURI::root(true).'/'.$this->_basePath;
+		$options->parserfile	= 'parsexml.js';
+		$options->stylesheet	= JURI::root(true).'/'.$this->_basePath.'css/xmlcolors.css';
+		$options->height		= $height;
+		$options->width			= $width;
 		$options->continuousScanning = 500;
-		if ($this->params->get('linenumbers', 0)) {
-			$options->lineNumbers = true;
-			$options->textWrapping = false;
+		if ($this->params->get('linenumbers', 0))
+		{
+			$options->lineNumbers	= true;
+			$options->textWrapping	= false;
 		}
 		if ($this->params->get('tabmode', '') == 'shift') {
 			$options->tabMode = 'shift';
 		}
 
 		$html = array();
-
-		$html[]	= "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\">$content</textarea>";
+		$html[]	= "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\">$content</textarea>";
 		$html[] = $buttons;
 		$html[] = '<script type="text/javascript">';
 		$html[] = '(function() {';
-		$html[] = 'var editor = CodeMirror.fromTextArea("'.$name.'", '.json_encode($options).');';
-		$html[] = 'Joomla.editors.instances[\''.$name.'\'] = editor;';
+		$html[] = 'var editor = CodeMirror.fromTextArea("'.$id.'", '.json_encode($options).');';
+		$html[] = 'Joomla.editors.instances[\''.$id.'\'] = editor;';
 		$html[] = '})()';
 		$html[] = '</script>';
 
@@ -147,7 +160,8 @@ class plgEditorCodemirror extends JPlugin
 
 		$return = '';
 		$results[] = $this->update($args);
-		foreach ($results as $result) {
+		foreach ($results as $result)
+		{
 			if (is_string($result) && trim($result)) {
 				$return .= $result;
 			}
@@ -157,15 +171,11 @@ class plgEditorCodemirror extends JPlugin
 		{
 			$results = $this->_subject->getButtons($name, $buttons);
 
-			/*
-			 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
-			 */
+			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
 			$return .= "\n<div id=\"editor-xtd-buttons\">\n";
 			foreach ($results as $button)
 			{
-				/*
-				 * Results should be an object
-				 */
+				// Results should be an object
 				if ($button->get('name'))
 				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;

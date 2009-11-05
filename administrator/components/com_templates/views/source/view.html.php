@@ -29,10 +29,14 @@ class TemplatesViewSource extends JView
 	 */
 	public function display($tpl = null)
 	{
+		jimport('joomla.client.helper');
+
+		// Initialise variables.
 		$state		= $this->get('State');
-		$source		= $this->get('Source');
 		$template	= $this->get('Template');
+		$source		= $this->get('Source');
 		$form		= $this->get('Form');
+		$ftp		= JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -47,6 +51,7 @@ class TemplatesViewSource extends JView
 		$this->assignRef('source',		$source);
 		$this->assignRef('template',	$template);
 		$this->assignRef('form',		$form);
+		$this->assignRef('ftp',			$ftp);
 
 		$this->_setToolbar();
 		parent::display($tpl);
