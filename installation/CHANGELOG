@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Corrected bugs in CodeMirror plugin caused by array-based naming of JForm fields (hence addition of id arguments above).
  ! Completed source editing in com_templates.
  # Fixed php notice when editing an article.
+ # Fixed some strangeness in the menu edit page with respect to the request variables.
 
 04-Nov-2009 Andrew Eddie
  # Fix bugs in list pagination (stepping to page 2+).

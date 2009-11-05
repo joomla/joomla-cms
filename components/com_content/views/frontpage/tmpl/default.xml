@@ -7,7 +7,10 @@
 		</message>
 	</layout>
 
-	<fields>
+	<fields
+		group="basic"
+		label="Menus_Layout_Basic_Options_Label"
+		description="">
 		<field
 			name="num_leading_articles"
 			type="text"
@@ -41,7 +44,10 @@
 			description="Number of Items to display as Links." />
 	</fields>
 
-	<fields>
+	<fields
+		group="advanced"
+		label="Menus_Layout_Advanced_Options_Label"
+		description="">
 		<field
 			name="orderby_pri"
 			type="list"

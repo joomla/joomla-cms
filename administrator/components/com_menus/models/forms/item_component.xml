@@ -22,11 +22,11 @@
 			default=""/>
 
 		<field
-			id="page_title"
-			name="page_title"
+			id="menu_image"
+			name="menu_image"
 			type="text"
-			label="Menus_Item_Page_Title_Label"
-			description="Menus_Item_Page_Title_Desc"
+			label="Menus_Item_Menu_Image_Label"
+			description="Menus_Item_Menu_Image_Desc"
 			default=""/>
 
 		<field
@@ -46,6 +46,14 @@
 		</field>
 
 		<field
+			id="page_title"
+			name="page_title"
+			type="text"
+			label="Menus_Item_Page_Title_Label"
+			description="Menus_Item_Page_Title_Desc"
+			default=""/>
+
+		<field
 			id="page_heading"
 			name="page_heading"
 			type="text"
@@ -60,39 +68,6 @@
 			label="Menus_Item_Page_Class_Label"
 			description="Menus_Item_Page_Class_Desc"
 			default=""/>
-
-		<field
-			id="menu_image"
-			name="menu_image"
-			type="text"
-			label="Menus_Item_Menu_Image_Label"
-			description="Menus_Item_Menu_Image_Desc"
-			default=""/>
-
-		<field
-			id="link_title"
-			name="link_title"
-			type="text"
-			label="Menus_Item_Link_Title_Label"
-			description="Menus_Item_Link_Title_Desc"
-			default=""/>
-
-		<field
-			id="secure"
-			name="secure"
-			type="radio"
-			label="Menus_Item_Secure_Label"
-			description="Menus_Item_Secure_Desc"
-			default="0"
-			filter="integer">
-			<option
-				value="-1">Off</option>
-			<option
-				value="1">On</option>
-			<option
-				value="0">Ignore</option>
-			
-		</field>
 
 		<field
 			id="menu-meta_description"
@@ -133,6 +108,24 @@
 			<option
 				value="4">Don't display robots tag</option>
 		</field>
+
+		<field
+			id="secure"
+			name="secure"
+			type="radio"
+			label="Menus_Item_Secure_Label"
+			description="Menus_Item_Secure_Desc"
+			default="0"
+			filter="integer">
+			<option
+				value="-1">Off</option>
+			<option
+				value="1">On</option>
+			<option
+				value="0">Ignore</option>
+			
+		</field>
+
 
 	</fields>
 
