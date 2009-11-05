@@ -25,8 +25,11 @@ JHtml::_('behavior.formvalidation');
 	function submitbutton(task)
 	{
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-			<?php //echo $this->form->fields['introtext']->editor->save('jform[introtext]'); ?>
+			<?php echo $this->form->getField('articletext')->save(); ?>
 			submitform(task);
+		}
+		else {
+			alert('<?php echo $this->escape(JText::_('JValidation_Form_failed'));?>');
 		}
 	}
 // -->
