@@ -98,18 +98,19 @@ class JEditor extends JObservable
 	}
 
 	/**
-	 * Present a text area
+	 * Display the editor area.
 	 *
-	 * @param	string	The control name
-	 * @param	string	The contents of the text area
-	 * @param	string	The width of the text area (px or %)
-	 * @param	string	The height of the text area (px or %)
-	 * @param	int		The number of columns for the textarea
-	 * @param	int		The number of rows for the textarea
-	 * @param	boolean	True and the editor buttons will be displayed
-	 * @param	array	Associative array of editor parameters
+	 * @param	string	The control name.
+	 * @param	string	The contents of the text area.
+	 * @param	string	The width of the text area (px or %).
+	 * @param	string	The height of the text area (px or %).
+	 * @param	int		The number of columns for the textarea.
+	 * @param	int		The number of rows for the textarea.
+	 * @param	boolean	True and the editor buttons will be displayed.
+	 * @param	string	An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param	array	Associative array of editor parameters.
 	 */
-	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $params = array())
+	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $params = array())
 	{
 		$this->_loadEditor($params);
 
@@ -126,14 +127,15 @@ class JEditor extends JObservable
 		// Initialize variables
 		$return = null;
 
-		$args['name'] 		 = $name;
-		$args['content']	 = $html;
-		$args['width'] 		 = $width;
-		$args['height'] 	 = $height;
-		$args['col'] 		 = $col;
-		$args['row'] 		 = $row;
-		$args['buttons']	 = $buttons;
-		$args['event'] 		 = 'onDisplay';
+		$args['name']		= $name;
+		$args['content']	= $html;
+		$args['width']		= $width;
+		$args['height']		= $height;
+		$args['col']		= $col;
+		$args['row']		= $row;
+		$args['buttons']	= $buttons;
+		$args['id']			= $id ? $id : $name;
+		$args['event']		= 'onDisplay';
 
 		$results[] = $this->_editor->update($args);
 
