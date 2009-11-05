@@ -29,30 +29,27 @@ JHtml::_('behavior.modal');
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
 						<?php echo JText::_('Templates_Template_Edit_main');?></a>
 				</li>
+				<?php if ($this->files['main']['error']->exists) : ?>
 				<li>
 					<?php $id = $this->files['main']['error']->id; ?>
-					<?php if ($this->files['main']['error']->exists) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
 						<?php echo JText::_('Templates_Template_Edit_error');?></a>
-					| <a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.delete&id='.$id);?>">
-						<?php echo JText::_('Templates_Template_Delete_error');?></a>
-					<?php else : ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.adderror&id='.$id);?>">
-						<?php echo JText::_('Templates_Template_Add_error');?></a>
-					<?php endif; ?>
 				</li>
+				<?php endif; ?>
+				<?php if ($this->files['main']['print']->exists) : ?>
 				<li>
 					<?php $id = $this->files['main']['print']->id; ?>
-					<?php if ($this->files['main']['print']->exists) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
 						<?php echo JText::_('Templates_Template_Edit_printview');?></a>
-					<?php else : ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.addprint&id='.$id);?>">
-						<?php echo JText::_('Templates_Template_Add_printview');?></a>
-					<?php endif; ?>
 				</li>
+				<?php endif; ?>
 			<ul>
 		</fieldset>
+
+		<div class="clr"></div>
+	</div>
+
+	<div class="width-50 fltlft">
 
 		<fieldset>
 			<legend><?php echo JText::_('Templates_Template_CSS');?></legend>
@@ -68,37 +65,11 @@ JHtml::_('behavior.modal');
 			<ul>
 			<?php endif; ?>
 
-			<div>
+			<!--<div>
 				<a href="#" class="modal">
 					<?php echo JText::sprintf('Templates_Template_Add_css');?></a>
-			</div>
+			</div>-->
 
-		</fieldset>
-
-		<br class="clr" />
-	</div>
-
-	<div class="width-50 fltlft">
-
-		<fieldset>
-			<legend><?php echo JText::_('Templates_Template_Layout_overrides');?></legend>
-
-			<h3><?php echo JText::sprintf('Templates_Template_Override_Extension', 'Articles Manager'); ?></h3>
-			<ul>
-				<li>
-					<a href="#">
-						<?php echo JText::sprintf('Templates_Template_Edit_override', 'category/blog.php');?></a>
-				</li>
-				<li>
-					<a href="#">
-						<?php echo JText::sprintf('Templates_Template_Edit_override', 'article/default.php');?></a>
-				</li>
-			<ul>
-
-			<div>
-				<a href="#" class="modal">
-					<?php echo JText::sprintf('Templates_Template_Add_override');?></a>
-			</div>
 		</fieldset>
 
 		<div class="clr"></div>
