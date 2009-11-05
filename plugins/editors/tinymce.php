@@ -636,9 +636,9 @@ class plgEditorTinymce extends JPlugin
 			$height .= 'px';
 		}
 
-		$editor  = "<textarea id=\"$name\" name=\"$id\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" class=\"mce_editable\">$content</textarea>\n" .
-		$this->_displayButtons($name, $buttons) .
-		$this->_toogleButton($name);
+		$editor  = "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" class=\"mce_editable\">$content</textarea>\n" .
+		$this->_displayButtons($id, $buttons) .
+		$this->_toogleButton($id);
 
 		return $editor;
 	}
