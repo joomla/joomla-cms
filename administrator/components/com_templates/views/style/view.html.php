@@ -89,7 +89,7 @@ class TemplatesViewStyle extends JView
 		else {
 			JToolBarHelper::cancel('style.cancel', 'JToolbar_Close');
 		}
-
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.style.edit');
 	}
 }

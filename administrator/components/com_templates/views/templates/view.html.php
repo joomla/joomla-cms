@@ -59,6 +59,7 @@ class TemplatesViewTemplates extends JView
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_templates');
 		}
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.templates');
 	}
 }

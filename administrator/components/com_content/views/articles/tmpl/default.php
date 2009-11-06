@@ -60,15 +60,15 @@ $user	= JFactory::getUser();
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Category', 'a.catid', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Created_by', 'a.created_by', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-				</th>
 				<th width="10%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Ordering', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 					<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'articles.saveorder'); ?>
 				</th>
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Access', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="10%">
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Created_by', 'a.created_by', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'Content_Heading_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -122,9 +122,6 @@ $user	= JFactory::getUser();
 				<td class="center">
 					<?php echo $this->escape($item->category_title); ?>
 				</td>
-				<td class="center">
-					<?php echo $this->escape($item->author_name); ?>
-				</td>
 				<td class="order">
 					<?php if ($canChange) : ?>
 						<span><?php echo $this->pagination->orderUpIcon($i, true, 'articles.orderup', 'JGrid_Move_Up', $ordering); ?></span>
@@ -137,6 +134,9 @@ $user	= JFactory::getUser();
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
+				</td>
+				<td class="center">
+					<?php echo $this->escape($item->author_name); ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::date($item->created, '%Y.%m.%d'); ?>

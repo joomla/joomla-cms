@@ -77,7 +77,7 @@ class TemplatesViewSource extends JView
 		}
 
 		JToolBarHelper::cancel('source.cancel');
-
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.source.edit');
 	}
 }

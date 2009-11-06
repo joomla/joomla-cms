@@ -530,6 +530,13 @@ fieldset#uploadform  {
 	padding: 10px;
 }
 
+fieldset#template-manager img {
+	margin-right: 20px;
+}
+fieldset#template-manager-css ul {
+	margin-left: 30px;
+}
+
 fieldset label {
 	float: left;
 	clear:left;
@@ -836,6 +843,15 @@ table.adminform td { padding: 5px; text-align: left; font-size: 12px;}
 table.adminform td.filter { text-align: left; }
 
 table.adminform td.helpMenu { text-align: right; }
+
+table#template-mgr td { padding: 15px 0; }
+
+table#template-mgr td p {margin: 3px;}
+
+td.template-name a {
+	padding-left: 15px;
+	font-weight:bold;
+}
 
 .helplinks {
 	margin-top: 60px;

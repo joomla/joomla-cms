@@ -27,8 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Nov-2009 Ron Severdia
+^ Template Manager UI cleanup, new images
+# Module Manager image fix
+
 05-Nov-2009 Andrew Eddie
- ^ NOTE. Backward incomaptible change in the argument list for JEditor::display
+ ^ NOTE. Backward incompatible change in the argument list for JEditor::display
  + Added new argument in JEditor::display to take an optional 'id' for the field element (inserted before $params).
  # Corrected bugs in CodeMirror plugin caused by array-based naming of JForm fields (hence addition of id arguments above).
  ! Completed source editing in com_templates.

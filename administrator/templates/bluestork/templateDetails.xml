@@ -11,7 +11,7 @@
 	<authorUrl>http://www.kontentdesign.com</authorUrl>
 	<copyright>2009</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>0.5</version>
+	<version>0.6</version>
 	<description>Administrator template for Joomla 1.6</description>
 	<files>
 		<filename>index.php</filename>

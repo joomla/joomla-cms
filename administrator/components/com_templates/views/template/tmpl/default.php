@@ -17,7 +17,7 @@ JHtml::_('behavior.modal');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="width-50 fltlft">
-		<fieldset>
+		<fieldset class="adminform" id="template-manager">
 			<legend><?php echo JText::_('Templates_Template_Master_files');?></legend>
 
 			<?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
@@ -49,9 +49,9 @@ JHtml::_('behavior.modal');
 		<div class="clr"></div>
 	</div>
 
-	<div class="width-50 fltlft">
+	<div class="width-50 fltrt">
 
-		<fieldset>
+		<fieldset class="adminform" id="template-manager-css">
 			<legend><?php echo JText::_('Templates_Template_CSS');?></legend>
 
 			<?php if (!empty($this->files['css'])) : ?>

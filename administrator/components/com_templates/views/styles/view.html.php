@@ -56,23 +56,24 @@ class TemplatesViewStyles extends JView
 		$canDo	= TemplatesHelper::getActions();
 		$isSite	= ($state->get('filter.client_id') == 0);
 
-		JToolBarHelper::title(JText::_('Templates_Manager_Styles'), 'thememanager');
-		if ($canDo->get('core.create') && $isSite) {
-			JToolBarHelper::addNew('styles.duplicate', 'Templates_Toolbar_Clone');
-		}
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::editList('style.edit');
 		}
-		JToolBarHelper::divider();
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('styles.sethome', 'publish.png', 'publish_f2.png', 'Templates_Toolbar_Set_Home', true);
+			JToolBarHelper::custom('styles.sethome', 'default.png', 'default_f2.png', 'Templates_Toolbar_Set_Home', true);
+		}
+		JToolBarHelper::title(JText::_('Templates_Manager_Styles'), 'thememanager');
+		if ($canDo->get('core.create') && $isSite) {
+			JToolBarHelper::addNew('styles.duplicate', 'Templates_Toolbar_Save_Copy');
 		}
 		if ($canDo->get('core.delete') && $isSite) {
 			JToolBarHelper::deleteList('', 'styles.delete');
 		}
 		if ($canDo->get('core.admin')) {
+			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_templates');
 		}
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.templates');
 	}
 }
