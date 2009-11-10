@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Nov-2009
+# Minor HTML validation issue in mod_login
+
 05-Nov-2009 Ron Severdia
 ^ Template Manager UI cleanup, new images
 # Module Manager image fix
