@@ -44,7 +44,7 @@ $difLevel = 0;
 	?>
 	
 	<li>
-		<span class="jitem-title"><a href="<?php echo WeblinksRoute::category('index.php?option=com_weblinks&view=category&id='.$this->escape($item->slug));?>">
+		<span class="jitem-title"><a href="<?php echo WeblinksRoute::category($this->escape($item->id));?>">
 			<?php echo $this->escape($item->title); ?></a>
 		</span>
 		<?php if ($item->description) : ?>

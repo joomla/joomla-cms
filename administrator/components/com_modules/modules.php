@@ -18,6 +18,10 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_modules')) {
 // Include dependancies
 jimport('joomla.application.component.controller');
 
+//Tables
+
+JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_modules'.DS.'tables');
+
 // TODO: Refactor to support the latest MVC pattern.
 
 // Helper classes

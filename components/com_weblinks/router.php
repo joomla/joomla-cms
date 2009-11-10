@@ -36,7 +36,7 @@ class WeblinksRoute
 		);
 
 		//Create the link
-		$link = 'index.php?option=com_weblinks&view=iteme&id='. $id;
+		$link = 'index.php?option=com_weblinks&view=weblink&id='. $id;
 
 		if ($categoryId) {
 			$link .= '&catid='.$categoryId;
@@ -251,10 +251,7 @@ function WeblinksParseRoute($segments)
 			if ($count > 1)
 			{
 				if (intval($segments[0]) && intval($segments[$count-1]))
-				{ //there is no weblink view
-					// 123-path/to/category/456-article
-				//	$vars['id']		= $segments[$count-1];
-				//	$vars['view']	= 'category';
+				{ 
 				}
 				else
 				{
@@ -275,6 +272,11 @@ function WeblinksParseRoute($segments)
 			$vars['id']		= $segments[$count-1];
 			$vars['view']	= 'weblink';
 			break;
+		case 'weblink':
+			$vars['id']		= $segments[$count-1];
+			$vars['view']	= 'weblink';
+			break;			
+			
 	}
 		return $vars;
 

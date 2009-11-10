@@ -80,12 +80,12 @@ JHTML::_('behavior.modal');
 </div>
 
 <div class="width-40 fltrt">
-<?php echo $pane->startPane('menu-pane'); ?>
+	<?php echo $pane->startPane('menu-pane'); ?>
 
-	<?php //get the menu parameters that are automatically set but may be modified.
-		echo $this->loadTemplate('options'); ?>
-
-	<div class="clr"></div>
+		<?php //Load  parameters.
+			echo $this->loadTemplate('options'); ?>
+			
+		<div class="clr"></div>
 
 	<?php if (!empty($this->modules)) : ?>
 		<?php echo $pane->startPanel(JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>

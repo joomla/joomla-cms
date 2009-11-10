@@ -41,9 +41,8 @@ class NewsfeedsViewNewsfeeds extends JView
 		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-
-		$this->_setToolbar();
 		parent::display($tpl);
+		$this->_setToolbar();
 	}
 
 	/**

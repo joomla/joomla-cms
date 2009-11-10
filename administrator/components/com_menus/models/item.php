@@ -167,6 +167,7 @@ class MenusModelItem extends JModelForm
 					}
 				}
 
+
 				break;
 		}
 
@@ -183,7 +184,6 @@ class MenusModelItem extends JModelForm
 			// Note that all request arguments become reserved parameter names.
 			$args = array();
 			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
-
 			$table->params = array_merge($table->params, $args);
 		}
 		if ($table->type == 'alias')

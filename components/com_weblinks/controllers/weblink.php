@@ -17,7 +17,17 @@ jimport('joomla.application.component.controllerform');
 class WeblinksControllerWeblink extends JControllerForm
 {
 	protected $_context = 'com_weblinks.edit.weblink';
+	/**
+	 * Constructor
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
 
+		$this->registerTask('apply',		'save');
+		$this->registerTask('save2new',		'save');
+		$this->registerTask('save2copy',	'save');
+	}
 	protected $_view_item = 'form';
 
 	protected $_view_list = 'categories';

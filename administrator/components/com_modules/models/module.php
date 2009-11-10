@@ -323,7 +323,7 @@ class ModulesModelModule extends JModel
 	{
 		$row = &JTable::getInstance('module');
 
-		// Bind the form fields to the web link table
+		// Bind the form fields to the module table
 		if (!$row->bind($data)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
@@ -341,7 +341,7 @@ class ModulesModelModule extends JModel
 			$row->ordering = $row->getNextOrder($where);
 		}
 
-		// Store the web link table to the database
+		// Store the module table to the database
 		if (!$row->store()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
@@ -572,7 +572,7 @@ class ModulesModelModule extends JModel
 	}
 
 	/**
-	 * Method to move a module
+	 * Method to save the order of a module
 	 *
 	 * @return	boolean	True on success
 	 * @since	1.6

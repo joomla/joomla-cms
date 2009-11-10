@@ -39,8 +39,8 @@ defined('_JEXEC') or die;
 				<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php $link = 'index.php?option=com_modules&client=0&task=edit&cid[]='. $module->id.'&tmpl=component' ; ?>
-					<a class="modal" title="<?php echo JText::_('Edit'); ?>" href="<?php echo $link;?>" rel="{handler: 'iframe', size: {x: 900, y: 506}}">
+					<?php $link = 'index.php?option=com_modules&client=0&task=edit&cid[]='. $module->id.'&tmpl=component&layout=modal' ; ?>
+					<a class="modal" title="<?php echo JText::_('Edit'); ?>" href="<?php echo $link;?>" rel="{handler: 'iframe', size: {x: 500, y: 506}}">
 						<?php echo JText::_('Edit_module_settings');?></a>
 				</td>
 			</tr>

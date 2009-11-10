@@ -75,7 +75,7 @@ defined('_JEXEC') or die;
 						// Compute the correct link
 
 						$menuclass = 'category'.$this->params->get('pageclass_sfx');
-						$link	= JRoute::_('index.php?task=weblink.go&catid='.$this->category->slug.'&id='. $item->slug);
+						$link	= JRoute::_('index.php?task=weblink.go&&id='. $item->id);
 						switch ($item->params->get('target', $this->params->get('target')))
 						{
 							case 1:
@@ -89,18 +89,23 @@ defined('_JEXEC') or die;
 								echo "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">".
 									$this->escape($item->title) ."</a>\n";
 								break;
-
+							case 3:
+								// TODO: open in a modal window 
+								JHtml::_('behavior.modal', 'a.modal'); ?>
+								
+								<a class="modal" title="<?php  echo $this->escape($item->title) ?> " href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x: 500, y: 506}}\">
+								<?php echo	$this->escape($item->title). ' </a>' ;
+								 	break; 
+								
 							default:
 								// open in parent window
-								echo '<a href="'. $link .'" class="'. $menuclass .'" rel="nofollow">'.
-									$this->escape($item->title) .'</a>';
+									echo '<a href="'.  $link . '\" class=\"'. $menuclass .'" rel="nofollow">'.
+										$this->escape($item->title) . ' </a>';
 								break;
 						}
 					?>
 					<?php if ($this->params->get('show_link_description')) : ?>
-					<p>
-						<?php echo nl2br($item->description); ?>
-					</p>
+							<?php echo nl2br($item->description); ?>
 					<?php endif; ?>
 				</td>
 				<?php if ($this->params->get('show_link_hits')) : ?>

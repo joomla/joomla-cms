@@ -13,10 +13,10 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
 /**
- * Weblinks Component Weblink Model
+ * Media Component Manager Model
  *
  * @package		Joomla.Administrator
- * @subpackage	Content
+ * @subpackage	Media
  * @since 1.5
  */
 class MediaModelManager extends JModel

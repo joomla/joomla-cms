@@ -40,10 +40,10 @@ function submitbutton(task) {
 		</div>
 		<div style="float: right;">
 			<button type="button" onclick="submitbutton('article.save')">
-				<?php echo JText::_('Save') ?>
+				<?php echo JText::_('JSave') ?>
 			</button>
 			<button type="button" onclick="submitbutton('article.cancel')">
-				<?php echo JText::_('Cancel') ?>
+				<?php echo JText::_('JCancel') ?>
 			</button>
 		</div>
 		<div style="clear: both">

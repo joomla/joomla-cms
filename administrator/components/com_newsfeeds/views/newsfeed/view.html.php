@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
+// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -28,9 +28,10 @@ class NewsfeedsViewNewsfeed extends JView
 	 */
 	public function display($tpl = null)
 	{
+		$app	= JFactory::getApplication();
 		$state	= $this->get('State');
 		$item	= $this->get('Item');
-		$form	= $this->get('Form');
+		$form 	= $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -64,21 +65,20 @@ class NewsfeedsViewNewsfeed extends JView
 		$canDo		= NewsfeedsHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 
 		JToolBarHelper::title(JText::_('Newsfeeds_Manager_Newsfeed'));
-		
+
 		// If not checked out, can save the item.
 		if (!$checkedOut && $canDo->get('core.edit'))
 		{
-			
-			JToolBarHelper::apply('newsfeed.apply');
+
 			JToolBarHelper::save('newsfeed.save');
-			JToolBarHelper::addNew('newsfeed.save2new', 'JToolbar_Save_and_new');
-		}
-		
+			JToolBarHelper::apply('newsfeed.apply');
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('newsfeed.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_Copy', false);
+			JToolBarHelper::custom('newsfeed.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_Copy', false);
 		}
-		
+
+			JToolBarHelper::addNew('newsfeed.save2new', 'JToolbar_Save_and_new');
+		}
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('newsfeed.cancel');
 		}

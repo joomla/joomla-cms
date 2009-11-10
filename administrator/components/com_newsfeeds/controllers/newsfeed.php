@@ -49,7 +49,7 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 	}
 
 	/**
-	 * Method to check if you can add a new record.
+	 * Method to check if you can edit a record.
 	 *
 	 * @param	array	An array of input data.
 	 * @param	string	The name of the key for the primary key.

@@ -17,6 +17,7 @@ defined('_JEXEC') or die;
  */
 class NewsfeedsHelper
 {
+	public static $extention = 'com_newsfeeds';	
 	/**
 	 * Configure the Linkbar.
 	 *
@@ -43,7 +44,7 @@ class NewsfeedsHelper
 	 *
 	 * @return	JObject
 	 */
-	public static function getActions($categoryId = 0)
+	public static function getActions($categoryId = 0, $newsfeedId = 0)
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;

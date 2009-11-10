@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * HTML Article View class for the Content component
+ * HTML Article View class for the Weblinks component
  *
  * @package		Joomla.Site
- * @subpackage	com_content
+ * @subpackage	com_weblinks
  * @since		1.5
  */
 class WeblinksViewForm extends JView

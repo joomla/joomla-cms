@@ -14,7 +14,7 @@ jimport('joomla.application.component.modelform');
 jimport('joomla.database.query');
 
 /**
- * Content Component Article Model
+ * Weblink Component Weblink Model
  *
  * @package		Joomla.Site
  * @subpackage	com_weblinks

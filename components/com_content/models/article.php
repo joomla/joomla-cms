@@ -80,7 +80,7 @@ class ContentModelArticle extends JModelItem
 				$query->from('#__content AS a');
 
 				// Join on category table.
-				$query->select('c.title AS category_title, a.alias AS category_alias, c.access AS category_access');
+				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access');
 				$query->join('LEFT', '#__categories AS c on c.id = a.catid');
 
 				// Join on user table.
