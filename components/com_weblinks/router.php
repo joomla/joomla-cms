@@ -63,7 +63,7 @@ class WeblinksRoute
 		);
 
 		//Create the link
-		$link = 'index.php?option=com_weblinks&view=category&catid='.$catid;
+		$link = 'index.php?option=com_weblinks&view=category&id='.$catid;
 
 		if ($itemId = self::_findItemId($needles)) {
 			// TODO: The following should work automatically??

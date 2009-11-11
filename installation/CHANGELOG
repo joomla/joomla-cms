@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Nov-2009 Elin Waring
+# Fix up comments and URL issues in com_weblinks
+
 10-Nov-2009 Elin Waring
 # Miscellaneous cleanup in weblinks, newsfeed, content, language strings
 # Tidy up com_menus, delete beez and khepri ini files
