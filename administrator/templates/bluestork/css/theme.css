@@ -274,7 +274,7 @@ tr.ThemeOfficeMainItem td.ThemeOfficeMainFolderRight {
 }
 
 /* inactive settings */
-div.inactive td.ThemeOfficeMainItemHover, 
+div.inactive td.ThemeOfficeMainItemHover,
 div.inactive td.ThemeOfficeMainItemActive {
 	border-top: 0px;
 	border-right:	1px solid #f1f3f5;
@@ -289,7 +289,7 @@ div.inactive span.ThemeOfficeMainItemText {
 	color: #aaa;
 }
 
-div.inactive .ThemeOfficeMainItemHover, 
+div.inactive .ThemeOfficeMainItemHover,
 div.inactive .ThemeOfficeMainItemActive {
 	background-color:	#f1f3f5;
 }

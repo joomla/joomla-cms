@@ -35,28 +35,28 @@ JHtml::_('behavior.formvalidation');
 <div class="width-50 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo empty($this->item->id) ? JText::_('Contact_New_Contact') : JText::sprintf('Contact_Edit_Contact', $this->item->id); ?></legend>
-			
+
 					<?php echo $this->form->getLabel('name'); ?>
 					<?php echo $this->form->getInput('name'); ?>
-				
+
 					<?php echo $this->form->getLabel('alias'); ?>
 					<?php echo $this->form->getInput('alias'); ?>
-				
+
 					<?php echo $this->form->getLabel('user_id'); ?>
 					<?php echo $this->form->getInput('user_id'); ?>
-				
+
 					<?php echo $this->form->getLabel('access'); ?>
 					<?php echo $this->form->getInput('access'); ?>
-				
+
 					<?php echo $this->form->getLabel('published'); ?>
 					<?php echo $this->form->getInput('published'); ?>
-				
+
 					<?php echo $this->form->getLabel('catid'); ?>
 					<?php echo $this->form->getInput('catid'); ?>
-				
+
 					<?php echo $this->form->getLabel('ordering'); ?>
 					<?php echo $this->form->getInput('ordering'); ?>
-					
+
 					<div class="clr"> </div>
 					<?php echo $this->form->getLabel('misc'); ?>
 					<div class="clr"> </div>
@@ -65,7 +65,7 @@ JHtml::_('behavior.formvalidation');
 		</fieldset>
 
 </div>
-	
+
 
 <div class="width-50 fltrt">
 		<?php echo $pane->startPane('contact-pane'); ?>
@@ -74,31 +74,31 @@ JHtml::_('behavior.formvalidation');
 			<p><?php echo empty($this->item->id) ? JText::_('Contact_Contact_Details') : JText::sprintf('Contact_Edit_Details', $this->item->id); ?></p>
 						<?php echo $this->form->getLabel('con_position'); ?>
 						<?php echo $this->form->getInput('con_position'); ?>
-				
+
 						<?php echo $this->form->getLabel('email_to'); ?>
 						<?php echo $this->form->getInput('email_to'); ?>
-					
+
 						<?php echo $this->form->getLabel('address'); ?>
 						<?php echo $this->form->getInput('address'); ?>
-					
+
 						<?php echo $this->form->getLabel('suburb'); ?>
 						<?php echo $this->form->getInput('suburb'); ?>
-					
+
 						<?php echo $this->form->getLabel('state'); ?>
 						<?php echo $this->form->getInput('state'); ?>
-					
+
 						<?php echo $this->form->getLabel('postcode'); ?>
 						<?php echo $this->form->getInput('postcode'); ?>
-					
+
 						<?php echo $this->form->getLabel('country'); ?>
 						<?php echo $this->form->getInput('country'); ?>
-					
+
 						<?php echo $this->form->getLabel('telephone'); ?>
 						<?php echo $this->form->getInput('telephone'); ?>
-					
+
 						<?php echo $this->form->getLabel('mobile'); ?>
 						<?php echo $this->form->getInput('mobile'); ?>
-					
+
 						<?php echo $this->form->getLabel('webpage'); ?>
 						<?php echo $this->form->getInput('webpage'); ?>
 			</fieldset>
@@ -119,22 +119,22 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $pane->endPanel(); ?>
 			<?php echo $pane->startPanel(JText::_('Contact_Fieldset_Contact_Form'), 'email-options'); ?>
 				<fieldset class="panelform">
-				
+
 						<?php echo $this->form->getLabel('show_email_form'); ?>
 						<?php echo $this->form->getInput('show_email_form'); ?>
-					
+
 						<?php echo $this->form->getLabel('email_description'); ?>
 						<?php echo $this->form->getInput('email_description'); ?>
-				
+
 						<?php echo $this->form->getLabel('show_email_copy'); ?>
 						<?php echo $this->form->getInput('show_email_copy'); ?>
-					
+
 						<?php echo $this->form->getLabel('banned_email'); ?>
 						<?php echo $this->form->getInput('banned_email'); ?>
-			
+
 						<?php echo $this->form->getLabel('banned_subject'); ?>
 						<?php echo $this->form->getInput('banned_subject'); ?>
-					
+
 						<?php echo $this->form->getLabel('banned_text'); ?>
 						<?php echo $this->form->getInput('banned_text'); ?>
 				</fieldset>

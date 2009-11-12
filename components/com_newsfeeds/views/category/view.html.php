@@ -29,7 +29,7 @@ class NewsfeedsViewCategory extends JView
 	protected $pagination;
 
 	function display($tpl = null)
-	{		
+	{
 		$app		= &JFactory::getApplication();
 		$params		= &$app->getParams();
 

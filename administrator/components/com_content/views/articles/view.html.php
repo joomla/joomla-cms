@@ -69,7 +69,7 @@ class ContentViewArticles extends JView
 			}
 		}
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-			
+
 			JToolBarHelper::deleteList('', 'articles.delete');
 		}
 		else if ($canDo->get('core.edit.state')) {

@@ -16,12 +16,12 @@ defined('_JEXEC') or die;
 	<h5>Sub Categories</h5>
 <?php
 	// Initialize the starting level
-	// starting level is the parent level coming in 	
+	// starting level is the parent level coming in
 	$curLevel = $this->item->level;
 	$difLevel = 0;
-	
+
 	// Loop through each of the children
-	foreach ($this->children as &$item) : 
+	foreach ($this->children as &$item) :
 	// Create an <ul> for every level going deeper
 	// and an </ul> for every level jumping back up
 	// set current level to the new level
@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
 			$curLevel = $item->level;
 		endif;
 ?>
-		
+
 		<li>
 			<a href="<?php echo JRoute::_(WeblinkRoute::category($item->slug)); ?>">
 				<?php echo $this->escape($item->title); ?></a>

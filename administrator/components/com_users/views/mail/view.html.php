@@ -24,7 +24,7 @@ class UsersViewMail extends JView
 	 * @var object form object
 	 */
 	public $form = null;
-	
+
 	/**
 	 * Display the view
 	 */
@@ -38,7 +38,7 @@ class UsersViewMail extends JView
 
 		// Set the toolbar
 		$this->_setToolBar();
-		
+
 		// Display the view
 		parent::display($tpl);
 	}
@@ -51,7 +51,7 @@ class UsersViewMail extends JView
 	protected function _setToolBar()
 	{
 		JRequest::setVar('hidemainmenu', 1);
-		
+
 		JToolBarHelper::title(JText::_('E-mail Groups'), 'massmail.png');
 		JToolBarHelper::custom('mail.send', 'send.png', 'send_f2.png', 'Users_Mail_Send_Mail', false);
 		JToolBarHelper::cancel('mail.cancel');

@@ -42,13 +42,13 @@ $fields	= $this->form->getFields();
 		<div class="width-40 fltrt">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_('Details'); ?></legend>
-				
+
 					<?php echo $fields['published']->label; ?>
 					<?php echo $fields['published']->input; ?>
-				
+
 					<?php echo $fields['created_date']->label; ?><br />
 					<?php echo $fields['created_date']->input; ?>
-					
+
 					<?php echo $fields['updated_date']->label; ?><br />
 					<?php echo $fields['updated_date']->input; ?>
 			</fieldset>

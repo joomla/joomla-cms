@@ -19,7 +19,7 @@ class modRelatedItemsHelper
 		$db			= &JFactory::getDbo();
 		$user		= &JFactory::getUser();
 		$userId		= (int) $user->get('id');
-		$count		= intval($params->get('count', 5));		
+		$count		= intval($params->get('count', 5));
 		$groups		= $user->authorisedLevels();
 		$groups	= implode(',', $groups);
 		$date		= &JFactory::getDate();

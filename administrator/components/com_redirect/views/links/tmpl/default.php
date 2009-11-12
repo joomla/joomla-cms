@@ -103,7 +103,7 @@ $this->buildDefaultToolBar();
 	<legend><?php echo JText::_('REDIRECT_LINK_ACTIVATION_VALUES'); ?></legend>
 	<label for="new_url"><?php echo JText::_('REDIRECT_LINK_NEW_URL'); ?>:</label>
 	<input type="text" name="new_url" id="new_url" value="" size="50" title="<?php echo JText::_('REDIRECT_LINK_NEW_URL_DESC'); ?>" />
-		
+
 	<label for="comment"><?php echo JText::_('REDIRECT_LINK_COMMENT'); ?>:</label>
 	<input type="text" name="comment" id="comment" value="" size="50" title="<?php echo JText::_('REDIRECT_LINK_COMMENT_DESC'); ?>" />
 </fieldset>

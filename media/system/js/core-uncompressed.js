@@ -236,7 +236,7 @@ function checkAll(checkbox, stub) {
 		// The old way of doing it
 		if (!stub) {
 			stub = 'cb';
-		}		
+		}
 		var f = document.adminForm;
 		var c = f.toggle.checked;
 		var n = checkbox;

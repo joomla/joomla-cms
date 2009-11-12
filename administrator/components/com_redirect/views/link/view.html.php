@@ -61,7 +61,7 @@ class RedirectViewLink extends JView
 
 		JToolBarHelper::title('Redirect: '.($isNew ? 'Add Link' : 'Edit Link'), 'generic');
 
-		
+
 		JToolBarHelper::apply('link.apply');
 		JToolBarHelper::save('link.save');
 		JToolBarHelper::custom('link.save2new', 'save-new.png', 'save-new_f2.png', 'Save & New', false);

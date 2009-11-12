@@ -300,7 +300,7 @@ description: The Browser Core. Contains Browser initialization, Window and Docum
 
 license: MIT-style license.
 
-requires: 
+requires:
 - /Native
 - /$util
 
@@ -549,7 +549,7 @@ Array.implement({
 		for (var i = 0, j = array.length; i < j; i++) this.push(array[i]);
 		return this;
 	},
-	
+
 	getLast: function(){
 		return (this.length) ? this[this.length - 1] : null;
 	},
@@ -1137,9 +1137,9 @@ provides: [Class]
 */
 
 function Class(params){
-	
+
 	if (params instanceof Function) params = {initialize: params};
-	
+
 	var newClass = function(){
 		Object.reset(this);
 		if (newClass._prototyping) return this;
@@ -1148,9 +1148,9 @@ function Class(params){
 		delete this._current; delete this.caller;
 		return value;
 	}.extend(this);
-	
+
 	newClass.implement(params);
-	
+
 	newClass.constructor = Class;
 	newClass.prototype.constructor = newClass;
 
@@ -1164,14 +1164,14 @@ Function.prototype.protect = function(){
 };
 
 Object.reset = function(object, key){
-		
+
 	if (key == null){
 		for (var p in object) Object.reset(object, p);
 		return object;
 	}
-	
+
 	delete object[key];
-	
+
 	switch ($type(object[key])){
 		case 'object':
 			var F = function(){};
@@ -1181,9 +1181,9 @@ Object.reset = function(object, key){
 		break;
 		case 'array': object[key] = $unlink(object[key]); break;
 	}
-	
+
 	return object;
-	
+
 };
 
 new Native({name: 'Class', initialize: Class}).extend({
@@ -1194,10 +1194,10 @@ new Native({name: 'Class', initialize: Class}).extend({
 		delete F._prototyping;
 		return proto;
 	},
-	
+
 	wrap: function(self, key, method){
 		if (method._origin) method = method._origin;
-		
+
 		return function(){
 			if (method._protected && this._current == null) throw new Error('The method "' + key + '" cannot be called.');
 			var caller = this.caller, current = this._current;
@@ -1208,56 +1208,56 @@ new Native({name: 'Class', initialize: Class}).extend({
 		}.extend({_owner: self, _origin: method, _name: key});
 
 	}
-	
+
 });
 
 Class.implement({
-	
+
 	implement: function(key, value){
-		
+
 		if ($type(key) == 'object'){
 			for (var p in key) this.implement(p, key[p]);
 			return this;
 		}
-		
+
 		var mutator = Class.Mutators[key];
-		
+
 		if (mutator){
 			value = mutator.call(this, value);
 			if (value == null) return this;
 		}
-		
+
 		var proto = this.prototype;
 
 		switch ($type(value)){
-			
+
 			case 'function':
 				if (value._hidden) return this;
 				proto[key] = Class.wrap(this, key, value);
 			break;
-			
+
 			case 'object':
 				var previous = proto[key];
 				if ($type(previous) == 'object') $mixin(previous, value);
 				else proto[key] = $unlink(value);
 			break;
-			
+
 			case 'array':
 				proto[key] = $unlink(value);
 			break;
-			
+
 			default: proto[key] = value;
 
 		}
-		
+
 		return this;
 
 	}
-	
+
 });
 
 Class.Mutators = {
-	
+
 	Extends: function(parent){
 
 		this.parent = parent;
@@ -1278,7 +1278,7 @@ Class.Mutators = {
 		}, this);
 
 	}
-	
+
 };
 
 
@@ -1541,16 +1541,16 @@ Document.implement({
 	getWindow: function(){
 		return this.window;
 	},
-	
+
 	id: (function(){
-		
+
 		var types = {
 
 			string: function(id, nocash, doc){
 				id = doc.getElementById(id);
 				return (id) ? types.element(id, nocash) : null;
 			},
-			
+
 			element: function(el, nocash){
 				$uid(el);
 				if (!nocash && !el.$family && !(/^object|embed$/i).test(el.tagName)){
@@ -1559,16 +1559,16 @@ Document.implement({
 				};
 				return el;
 			},
-			
+
 			object: function(obj, nocash, doc){
 				if (obj.toElement) return types.element(obj.toElement(doc), nocash);
 				return null;
 			}
-			
+
 		};
 
 		types.textnode = types.whitespace = types.window = types.document = $arguments(0);
-		
+
 		return function(el, nocash, doc){
 			if (el && el.$family && el.uid) return el;
 			var type = $type(el);
@@ -1656,7 +1656,7 @@ var clean = function(item, retain){
 			}
 			Element.dispose(item);
 		}
-	}	
+	}
 	if (!uid) return;
 	collected[uid] = storage[uid] = null;
 };
@@ -1879,7 +1879,7 @@ Element.implement({
 	getParents: function(match, nocash){
 		return walk(this, 'parentNode', null, match, true, nocash);
 	},
-	
+
 	getSiblings: function(match, nocash){
 		return this.getParent().getChildren(match, nocash).erase(this);
 	},
@@ -2113,7 +2113,7 @@ description: Contains Element methods for dealing with events. This file also in
 
 license: MIT-style license.
 
-requires: 
+requires:
 - /Element
 - /Event
 
@@ -2964,7 +2964,7 @@ Selectors.Pseudo = new Hash({
 	checked: function(){
 		return this.checked;
 	},
-	
+
 	empty: function(){
 		return !(this.innerText || this.textContent || '').length;
 	},
@@ -3041,11 +3041,11 @@ Selectors.Pseudo = new Hash({
 	odd: function(argument, local){
 		return Selectors.Pseudo['nth-child'].call(this, '2n', local);
 	},
-	
+
 	selected: function(){
 		return this.selected;
 	},
-	
+
 	enabled: function(){
 		return (this.disabled === false);
 	}
@@ -3086,7 +3086,7 @@ Element.Events.domready = {
 		window.fireEvent('domready');
 		document.fireEvent('domready');
 	};
-	
+
 	window.addEvent('load', domready);
 
 	if (Browser.Engine.trident){
@@ -3135,7 +3135,7 @@ var JSON = new Hash(this.JSON && {
 	stringify: JSON.stringify,
 	parse: JSON.parse
 }).extend({
-	
+
 	$specialChars: {'\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"' : '\\"', '\\': '\\\\'},
 
 	$replaceChars: function(chr){
@@ -3263,7 +3263,7 @@ description: Wrapper for embedding SWF movies. Supports External Interface Commu
 
 license: MIT-style license.
 
-credits: 
+credits:
 - Flash detection & Internet Explorer + Flash Player 9 fix inspired by SWFObject.
 
 requires:
@@ -3663,7 +3663,7 @@ description: Formerly Fx.Style, effect to transition any CSS property for an ele
 
 license: MIT-style license.
 
-requires: 
+requires:
 - /Fx.CSS
 
 provides: [Fx.Tween, Element.fade, Element.highlight]

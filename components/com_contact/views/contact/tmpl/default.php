@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $cparams = JComponentHelper::getParams ('com_media');
 ?>
 
-<div class="jcontact<?php echo $this->params->get('pageclass_sfx')?>"> 
+<div class="jcontact<?php echo $this->params->get('pageclass_sfx')?>">
 	<?php if ($this->params->get('show_page_title', 1) && !$this->contact->params->get('popup') && $this->params->get('page_title') != $this->contact->name) : ?>
 		<h2>
 			<?php echo $this->params->get('page_title'); ?>
@@ -44,9 +44,9 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php endif; ?>
 
 	<?php echo $this->loadTemplate('address'); ?>
-				
+
 	<?php echo $this->loadTemplate('links'); ?>
-				
+
 	<?php if ($this->contact->params->get('allow_vcard')) : 	//TODO either reimplement vcard or delete this.?>
 		<?php echo JText::_('Download information as a');?>
 			<a href="<?php echo JURI::base(); ?>index.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $this->contact->id; ?>&amp;format=raw&amp;tmpl=component">

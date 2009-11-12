@@ -50,7 +50,7 @@ class JFormFieldModal_Contacts extends JFormField
 				parse: 'rel'
 			});
 		});");
-		
+
 		// Get the title of the linked chart
 		$db->setQuery(
 			'SELECT name' .

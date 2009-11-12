@@ -251,7 +251,7 @@ function WeblinksParseRoute($segments)
 			if ($count > 1)
 			{
 				if (intval($segments[0]) && intval($segments[$count-1]))
-				{ 
+				{
 				}
 				else
 				{
@@ -275,8 +275,8 @@ function WeblinksParseRoute($segments)
 		case 'weblink':
 			$vars['id']		= $segments[$count-1];
 			$vars['view']	= 'weblink';
-			break;			
-			
+			break;
+
 	}
 		return $vars;
 

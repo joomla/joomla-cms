@@ -28,7 +28,7 @@ $lists = $this->lists;
 			<input type="text" name="filter" id="filter" value="<?php echo $lists['filter'];?>" class="text_area" title="<?php echo JText::_('Filter by name, element or enter extension ID');?>"/>
 			<button class="filter-go" onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 	<!--<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_sectionid').value='-1';this.form.getElementById('catid').value='0';this.form.getElementById('filter_authorid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>-->
-			
+
 			<input type="checkbox" name="hideprotected" id="filter-hide" <?php if ($lists['hideprotected']) echo 'CHECKED'; ?>/>
 			<label class="filter-hide-lbl" for="filter-hide"><?php echo JText::_('Hide Protected Extensions'); ?>:</label>
 		</div>
@@ -41,7 +41,7 @@ $lists = $this->lists;
 				?>
 		</div>
 	</fieldset>
-	<div class="clr"> </div>	
+	<div class="clr"> </div>
 
 	<?php if (count($this->items)) : ?>
 	<table class="adminlist">

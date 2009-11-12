@@ -41,7 +41,7 @@ abstract class JHtmlContent
 	function Legend()
 	{
 		?>
-		
+
 		<div class="center">
 			<ul id="legend articles">
 				<li><img src="templates/bluestork/images/admin/publish_y.png" width="16" height="16" border="0" alt="<?php echo JText::_('Pending'); ?>" /></li>

@@ -20,9 +20,9 @@ $params = $this->state->get('params');
 	<?php if ($params->get('show_page_title', 1) && $params->get('page_title') != $this->item->title) : ?>
 		<h2><?php echo $this->escape($params->get('page_title')); ?></h2>
 	<?php endif; ?>
-	
+
 	<?php if ($params->get('show_title') || $params->get('access-edit') || $params->get('show_title') ||  $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
-	
+
 		<?php if ($params->get('show_title')) : ?>
 			<h3>
 				<?php if ($params->get('link_titles') && !empty($this->item->rlink)) : ?>
@@ -33,7 +33,7 @@ $params = $this->state->get('params');
 				<?php endif; ?>
 			</h3>
 		<?php endif; ?>
-	
+
 		<?php if ($params->get('access-edit') || $params->get('show_title') ||  $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
 			<ul class="jactions">
 				<?php if (!$this->print) : ?>
@@ -42,13 +42,13 @@ $params = $this->state->get('params');
 							<?php echo JHtml::_('icon.print_popup',  $this->item, $params); ?>
 						</li>
 					<?php endif; ?>
-	
+
 					<?php if ($params->get('show_email_icon')) : ?>
 						<li class="jemail">
 							<?php echo JHtml::_('icon.email',  $this->item, $params); ?>
 						</li>
 					<?php endif; ?>
-	
+
 					<?php if ($this->user->authorise('core.edit', 'com_content.article.'.$this->item->id)) : ?>
 						<li class="jedit">
 							<?php echo JHtml::_('icon.edit', $this->item, $params); ?>
@@ -62,13 +62,13 @@ $params = $this->state->get('params');
 			</ul>
 		<?php endif; ?>
 	<?php endif; ?>
-	
+
 	<?php  if (!$params->get('show_intro')) :
 		echo $this->item->event->afterDisplayTitle;
 	endif; ?>
-	
+
 	<?php echo $this->item->event->beforeDisplayContent; ?>
-	
+
 	<div class="jiteminfo">
 		<?php if ($params->get('show_category') && $this->item->catid) : ?>
 			<span class="jcategory">
@@ -80,24 +80,24 @@ $params = $this->state->get('params');
 				<?php endif; ?>
 			</span>
 		<?php endif; ?>
-	
+
 		<?php if ($params->get('show_create_date')) : ?><span class="jcreated-date"><?php echo JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')) ?></span><?php endif; ?>
-	
+
 		<?php if (intval($this->item->modified) !=0 && $params->get('show_modify_date')) : ?>
 			<span class="jmodified-date"><?php echo JText::sprintf('LAST_UPDATED2', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?></span>
 		<?php endif; ?>
-	
+
 		<?php if (($params->get('show_author')) && ($this->item->author != "")) : ?>
 			<span class="jcreated-by"><?php JText::printf('Written by', ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author)); ?></span>
 		<?php endif; ?>
-	
+
 	</div>
-	
+
 	<?php if (isset ($this->item->toc)) : ?>
 		<?php echo $this->item->toc; ?>
 	<?php endif; ?>
-	
+
 	<?php echo $this->item->text; ?>
-	
+
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </div>

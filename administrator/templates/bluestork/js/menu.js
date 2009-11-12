@@ -23,10 +23,10 @@ Joomla.Menu = new Class({
 		this.element = document.id(element);
 
 		// equalize width of the child LI elements
-		this.element.getElements('li').filter('.node').getElement('ul').each(this._equalizeWidths);		
+		this.element.getElements('li').filter('.node').getElement('ul').each(this._equalizeWidths);
 
 		if (!this.options.disabled) {
-			this._addMouseEvents();			
+			this._addMouseEvents();
 		}
 
 		this.element.store('menu', this);
@@ -37,7 +37,7 @@ Joomla.Menu = new Class({
 		$$(this.element, elements).addClass('disabled');
 		elements.removeEvents('mouseenter').removeEvents('mouseleave');
 	},
-	
+
 	enable: function() {
 		$$(this.element, this.element.getElements('li')).removeClass('disabled');
 		this._addMouseEvents();
@@ -58,7 +58,7 @@ Joomla.Menu = new Class({
 					if (ul) { ul.fireEvent('hide'); }
 					this.removeClass('hover');
 				}
-			});	
+			});
 	},
 
 	_equalizeWidths: function(el) {
@@ -70,7 +70,7 @@ Joomla.Menu = new Class({
 			offsetWidth = (offsetWidth >= node.offsetWidth) ? offsetWidth :  node.offsetWidth;
 		});
 
-		$$(children, el).setStyle('width', offsetWidth);	
+		$$(children, el).setStyle('width', offsetWidth);
 	}
 });
 

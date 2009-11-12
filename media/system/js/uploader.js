@@ -1,6 +1,6 @@
 /**
  * FancyUpload - Flash meets Ajax for powerful and elegant uploads.
- * 
+ *
  * Updated to latest 3.0 API. Hopefully 100% compat!
  *
  * @version		3.0
@@ -14,7 +14,7 @@
 var FancyUpload2 = new Class({
 
 	Extends: Swiff.Uploader,
-	
+
 	options: {
 		queued: 1,
 		// compat
@@ -57,7 +57,7 @@ var FancyUpload2 = new Class({
 		this.currentProgress = new Fx.ProgressBar(progress, {
 			text: new Element('span', {'class': 'progress-text'}).inject(progress, 'after')
 		});
-				
+
 		this.updateOverall();
 	},
 
@@ -86,7 +86,7 @@ var FancyUpload2 = new Class({
 			this.overallProgress.set(0);
 			this.currentProgress.set(0);
 		}
-		
+
 	},
 
 	updateOverall: function() {
@@ -98,14 +98,14 @@ var FancyUpload2 = new Class({
 			this.currentText.set('html', '');
 		}
 	},
-	
+
 	/**
 	 * compat
 	 */
 	upload: function() {
 		this.start();
 	},
-	
+
 	removeFile: function() {
 		return this.remove();
 	}
@@ -113,7 +113,7 @@ var FancyUpload2 = new Class({
 });
 
 FancyUpload2.File = new Class({
-	
+
 	Extends: Swiff.Uploader.File,
 
 	render: function() {
@@ -132,7 +132,7 @@ FancyUpload2.File = new Class({
 			this.remove();
 			return;
 		}
-		
+
 		this.addEvents({
 			'start': this.onStart,
 			'progress': this.onProgress,
@@ -140,7 +140,7 @@ FancyUpload2.File = new Class({
 			'error': this.onError,
 			'remove': this.onRemove
 		});
-		
+
 		this.info = new Element('span', {'class': 'file-info'});
 		this.element = new Element('li', {'class': 'file'}).adopt(
 			new Element('span', {'class': 'file-size', 'html': Swiff.Uploader.formatUnit(this.size, 'b')}),
@@ -160,11 +160,11 @@ FancyUpload2.File = new Class({
 			this.info
 		).inject(this.base.list);
 	},
-	
+
 	validate: function() {
 		return (this.parent() && this.base.options.validateFile(this));
 	},
-	
+
 	onStart: function() {
 		this.element.addClass('file-uploading');
 		this.base.currentProgress.cancel().set(0);
@@ -180,13 +180,13 @@ FancyUpload2.File = new Class({
 		}));
 		this.base.currentProgress.start(this.progress.percentLoaded);
 	},
-	
+
 	onComplete: function() {
 		this.element.removeClass('file-uploading');
-		
+
 		this.base.currentText.set('html', 'Upload completed');
 		this.base.currentProgress.start(100);
-		
+
 		if (this.response.error) {
 			var msg = MooTools.lang.get('FancyUpload', 'errors')[this.response.error] || '{error} #{code}';
 			this.errorMessage = msg.substitute($extend({
@@ -194,7 +194,7 @@ FancyUpload2.File = new Class({
 				size: Swiff.Uploader.formatUnit(this.size, 'b')
 			}, this.response));
 			var args = [this, this.errorMessage, this.response];
-			
+
 			this.fireEvent('error', args).base.fireEvent('fileError', args);
 		} else {
 			this.base.fireEvent('fileSuccess', [this, this.response.text || '']);
@@ -211,7 +211,7 @@ FancyUpload2.File = new Class({
 		this.element.getElements('a').setStyle('visibility', 'hidden');
 		this.element.fade('out').retrieve('tween').chain(Element.destroy.bind(Element, this.element));
 	}
-	
+
 });
 
 // Avoiding MooTools.lang dependency
@@ -238,7 +238,7 @@ FancyUpload2.File = new Class({
 			'ioError': 'Error caused a send or load operation to fail ({text})'
 		}
 	};
-	
+
 	if (MooTools.lang) {
 		MooTools.lang.set('en-US', 'FancyUpload', phrases);
 	} else {

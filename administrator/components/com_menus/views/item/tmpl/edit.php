@@ -84,7 +84,7 @@ JHTML::_('behavior.modal');
 
 		<?php //Load  parameters.
 			echo $this->loadTemplate('options'); ?>
-			
+
 		<div class="clr"></div>
 
 	<?php if (!empty($this->modules)) : ?>

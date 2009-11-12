@@ -17,7 +17,7 @@
 			name="id"
 			type="newsfeed"
 			default="0"
-			required="true"			
+			required="true"
 			label="Feed"
 			description="A feed" />
 	</fields>

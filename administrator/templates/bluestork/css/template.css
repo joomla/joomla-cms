@@ -26,14 +26,14 @@ Border grey color:			#CCCCCC 		RGB: 204/204/204
 /* -- GENERAL STYLES ----------------------------- */
 
 body {
-	margin: 10px; 
+	margin: 10px;
 	padding: 0;
 	background: #fff;
 	padding-bottom: 1px;
 }
 
-body, td, th { 
-	font-family: Arial, Helvetica, sans-serif; 
+body, td, th {
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 11px;
 }
 
@@ -50,10 +50,10 @@ img { border: 0 none; }
 form { margin: 0; padding: 0; }
 
 h1 {
-	margin: 0; 
+	margin: 0;
 	padding-bottom: 8px;
-	color: #025A8D; 
-	font-size: 20px; 
+	color: #025A8D;
+	font-size: 20px;
 }
 
 h3 { font-size: 13px; }
@@ -115,9 +115,9 @@ p.error { color: red; font-weight: bold; }
 
 #border-top .title,
 #border-top .title a {
-	font-size: 22px; 
-	font-weight: bold; 
-	color: #fff; 
+	font-size: 22px;
+	font-weight: bold;
+	color: #fff;
 	line-height: 44px;
 	padding-left: 14px;
 }
@@ -163,12 +163,12 @@ p.error { color: red; font-weight: bold; }
 /* -- STATUS STYLES ----------------------------- */
 
 #module-status      { float: right; }
-#module-status span { 
-	display: block; 
-	float: left; 
-	line-height: 16px; 
-	padding: 4px 10px 0 22px; 
-	margin-bottom: 5px; 
+#module-status span {
+	display: block;
+	float: left;
+	line-height: 16px;
+	padding: 4px 10px 0 22px;
+	margin-bottom: 5px;
 }
 
 .legacy-mode { color: #c00;}
@@ -273,8 +273,8 @@ div.pagetitle {
 
 div.pagetitle h2 {
 	line-height: 48px;
-	font-size: 22px; 
-	font-weight: bold; 
+	font-size: 22px;
+	font-weight: bold;
 	color: #146295;
 	margin: 0;
 	padding: 0;
@@ -283,9 +283,9 @@ div.pagetitle h2 {
 div.pagetitle span { color: #666; }
 
 div.configuration {
-	font-size: 15px; 
-	font-weight: bold; 
-	color: #146295; 
+	font-size: 15px;
+	font-weight: bold;
+	color: #146295;
 	padding-left: 30px;
 	margin-left: 10px;
 	margin-top: 1px;
@@ -338,7 +338,7 @@ h3.jpane-toggler a:hover {
 
 .jpane-slider ol li {
 	list-style:none;
-	margin-left:-25px;	
+	margin-left:-25px;
 	margin-top: 10px;
 }
 
@@ -513,7 +513,7 @@ div.width-60 fieldset,
 div.width-65 fieldset,
 div.width-70 fieldset,
 div.width-80 fieldset,
-div.width-100 fieldset { 
+div.width-100 fieldset {
 	background-color: #fff;
 	padding: 17px;
 }
@@ -554,7 +554,7 @@ fieldset ul.checklist {
 
 fieldset ul.checklist input,
 fieldset ul.checklist label {
-	float:none; 
+	float:none;
 }
 
 form label {
@@ -581,7 +581,7 @@ label#jform_fulltext-lbl {
 	margin-top: 15px;
 	width: 100%;
 }
- 
+
 fieldset.adminform select,
 select#jform_catid.inputbox {
 	margin-right:20px;
@@ -769,7 +769,7 @@ fieldset.panelform-legacy label,
 fieldset.adminform-legacy label {
 	min-width: 150px;
 	float:left;
-	
+
 }
 /* JParameter classes on radio button labels  */
 fieldset.panelform-legacy label.radiobtn_jno,
@@ -790,7 +790,7 @@ fieldset.panelform-legacy label.radiobtn_on {
 	margin-top: 15px;
 }
 p.jform_desc {
-	clear:left;	
+	clear:left;
 }
 
 div#jform_ordering {
@@ -818,7 +818,7 @@ label.filter-published-lbl { clear:none; margin-left: 10px;}
 
 table.adminform {
 	background-color: #fff;
-	border: solid 1px #d5d5d5; 
+	border: solid 1px #d5d5d5;
 	width: 100%;
 	border-collapse: collapse;
 	margin: 8px 0 10px 0;
@@ -857,7 +857,7 @@ td.template-name a {
 	margin-top: 60px;
 }
 
-ul.helpmenu li { 
+ul.helpmenu li {
 	float:right;
 	margin: 10px;
 	padding: 0;
@@ -886,7 +886,7 @@ ul#legend li {
 	list-style-type: none;
 }
 
-/* Hacks until HRs are removed from panels  
+/* Hacks until HRs are removed from panels
 div.paramrow hr,
 fieldset.panelform hr {
 	display:none;
@@ -1168,11 +1168,11 @@ a img.calendar {
 
 
 /* -- LOGIN STYLES ----------------------------- */
-	
-.login { 
-	margin: 0 auto; 
-	width: 500px; 
-	margin-bottom: 100px; 
+
+.login {
+	margin: 0 auto;
+	width: 500px;
+	margin-bottom: 100px;
 	margin-top: 25px;
 }
 
@@ -1191,9 +1191,9 @@ p {
   font-size: 11px;
 }
 
-#section-box  { 
-	float: right; 
-	width: auto; 
+#section-box  {
+	float: right;
+	width: auto;
 	max-width: 300px;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -1203,7 +1203,7 @@ p {
 	padding: 5px;
 }
 #section-box .padding {
-	background: none; 
+	background: none;
 	padding: 0;
 }
 
@@ -1446,13 +1446,13 @@ input.system-openid, input.com-system-openid {
 	padding: 0.35em 1em 0.35em;
 	margin: 0 1px 0 1px;
 	color: #333333;
-	line-height: 1.6em; 
+	line-height: 1.6em;
 	vertical-align: middle;
-	font-size: 11px; 
-	font-weight: bold; 
+	font-size: 11px;
+	font-weight: bold;
 	text-decoration: none;
 	cursor: default;
-	background-repeat: no-repeat; 
+	background-repeat: no-repeat;
 	background-position: left 50%;
 }
 
@@ -1507,7 +1507,7 @@ a.icon-16-menu span img {
 	font-weight: bold;
 	color: #146295;
 	line-height: 14px;
-	height: 12px; 
+	height: 12px;
 }
 
 #submenu span.nolink {
@@ -1696,39 +1696,39 @@ table.aclmodify-table th.col2 {
 }
 
 /* Icons */
-label.icon-16-allow, 
-label.icon-16-deny, 
+label.icon-16-allow,
+label.icon-16-deny,
 a.icon-16-allow,
 a.icon-16-deny,
 a.icon-16-allowinactive,
 a.icon-16-denyinactive {
-	display:block; 
-	height: 16px; 
+	display:block;
+	height: 16px;
 	width: 16px;
 	margin: 0 auto;
 }
-label.icon-16-allow { 
-	background:url(../images/admin/icon-16-allow.png) no-repeat; 
+label.icon-16-allow {
+	background:url(../images/admin/icon-16-allow.png) no-repeat;
 	text-indent:-9999em;
 	position:relative;
 	left: 40%;
 }
-label.icon-16-deny { 
-	background:url(../images/admin/icon-16-deny.png) no-repeat; 
+label.icon-16-deny {
+	background:url(../images/admin/icon-16-deny.png) no-repeat;
 	text-indent:-9999em;
 	position:relative;
 	left: 40%;
 }
-a.icon-16-allow { 
+a.icon-16-allow {
 	background:url(../images/admin/icon-16-allow.png) no-repeat ;
  }
-a.icon-16-deny { 
+a.icon-16-deny {
 	background:url(../images/admin/icon-16-deny.png) no-repeat ;
  }
-a.icon-16-allowinactive { 
+a.icon-16-allowinactive {
 	background:url(../images/admin/icon-16-allowinactive.png) no-repeat ;
  }
-a.icon-16-denyinactive { 
+a.icon-16-denyinactive {
 	background:url(../images/admin/icon-16-denyinactive.png) no-repeat ;
  }
 

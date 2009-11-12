@@ -45,7 +45,7 @@ TODO fix images in com_categories ?>
 
 <div class="jcat-siblings">
 <?php /* echo $this->loadTemplate('siblings'); */?>
-</div> 
+</div>
 
 <div class="jcat-children">
 <?php echo $this->loadTemplate('children'); ?>
@@ -53,7 +53,7 @@ TODO fix images in com_categories ?>
 
 <div class="jcat-parents">
 <?php /* echo $this->loadTemplate('parents'); */ ?>
-</div> 
+</div>
 
 
 <?php if ($pageClass) : ?>

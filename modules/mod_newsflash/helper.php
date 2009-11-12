@@ -20,7 +20,7 @@ class modNewsFlashHelper
 		$user 	= &JFactory::getUser();
 		$groups	= $user->authorisedLevels();
 		$groups	= implode(',', $groups);
-		
+
 		$item->text		= $item->introtext;
 		$item->groups	= '';
 		$item->readmore = (trim($item->fulltext) != '');

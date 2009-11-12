@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 /* marker_class: Class based on the selection of text, none, or icons
  * jicon-text, jicon-none, jicon-icon
- */ 
+ */
 ?>
 <?php if (($this->contact->params->get('address_check') > 0) &&  ($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>
 <div class="jcontact-address">

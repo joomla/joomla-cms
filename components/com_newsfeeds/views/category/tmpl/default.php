@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die; 
+defined('_JEXEC') or die;
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
 
@@ -34,7 +34,7 @@ TODO fix images in com_categories ?>
 
 <div class="jcat-siblings">
 <?php  echo $this->loadTemplate('siblings');  ?>
-</div> 
+</div>
 
 <div class="jcat-children">
 <?php echo $this->loadTemplate('children'); ?>
@@ -42,7 +42,7 @@ TODO fix images in com_categories ?>
 
 <div class="jcat-parents">
 <?php  echo $this->loadTemplate('parents');  ?>
-</div> 
+</div>
 
 </div>
 

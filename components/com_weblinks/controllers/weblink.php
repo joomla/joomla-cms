@@ -100,5 +100,5 @@ class WeblinksControllerWeblink extends JControllerForm
 		else {
 			return JError::raiseWarning(404, JText::_('Weblinks_Error_Weblink_url_invalid'));
 		}
-	}	
+	}
 }

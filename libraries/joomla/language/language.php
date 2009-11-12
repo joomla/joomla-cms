@@ -110,7 +110,7 @@ class JLanguage extends JObject
 	 * @since	1.6
 	 */
 	protected $_override 	= array();
-	
+
 	/**
 	 * Name of the transliterator function for this language
 	 *
@@ -274,7 +274,7 @@ class JLanguage extends JObject
 	{
 		return $this->_transliterator;
 	}
-	
+
 	/**
 	 * Set the transliteration function
 	 *

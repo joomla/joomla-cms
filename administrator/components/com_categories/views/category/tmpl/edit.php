@@ -53,9 +53,9 @@ JHtml::_('behavior.formvalidation');
 
 					<?php echo $this->form->getLabel('access'); ?>
 					<?php echo $this->form->getInput('access'); ?>
-					
+
 					<?php echo $this->loadTemplate('options'); ?>
-					
+
 					<div class="clr"></div>
 					<?php echo $this->form->getLabel('description'); ?>
 					<div class="clr"></div>
@@ -70,7 +70,7 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getInput('rules'); ?>
 		</fieldset>
 	</div>
-	
+
 	<div class="width-40 fltrt">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>

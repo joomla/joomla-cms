@@ -61,7 +61,7 @@ defined('_JEXEC') or die;
 				<?php echo JText::_('Author').': '; echo $item->created_by_alias ? $item->created_by_alias : $item->author; ?>
 			</span>
 		<?php endif; ?>
-		
+
 		<div class="intro">
 			<?php echo substr($item->introtext, 0, 255); ?>...
 		</div>

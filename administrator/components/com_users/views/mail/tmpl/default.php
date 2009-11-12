@@ -23,35 +23,35 @@
 	<div class="width-30 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_Mail_Details'); ?></legend>
-			
-			<?php echo $this->form->getLabel('recurse'); ?> 
+
+			<?php echo $this->form->getLabel('recurse'); ?>
 			<?php echo $this->form->getInput('recurse'); ?>
-			
+
 			<?php echo $this->form->getLabel('mode'); ?>
 			<?php echo $this->form->getInput('mode'); ?>
-			
+
 			<?php echo $this->form->getLabel('group'); ?>
 			<?php echo $this->form->getInput('group'); ?>
-			
+
 			<?php echo $this->form->getLabel('bcc'); ?>
 			<?php echo $this->form->getInput('bcc'); ?>
-			
+
 		</fieldset>
 	</div>
 
 	<div class="width-70 fltrt">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_Mail_Message'); ?></legend>
-			
+
 			<?php echo $this->form->getLabel('subject'); ?>
 			<?php echo $this->form->getInput('subject'); ?>
-				
+
 			<?php echo $this->form->getLabel('message'); ?>
 			<?php echo $this->form->getInput('message'); ?>
-				
+
 		</fieldset>
 	</div>
-	
+
 	<div class="clr"></div>
 
 	<input type="hidden" name="task" value="" />

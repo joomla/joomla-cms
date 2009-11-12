@@ -16,5 +16,5 @@
 <?php } else { ?>
 	<div id="media-noimages">
 		<p><?php echo JText::_('No Images Found'); ?></p>
-	</div>	
+	</div>
 <?php } ?>

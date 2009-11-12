@@ -29,8 +29,8 @@ class UsersControllerMail extends JController
 		} else {
 			$type = 'error';
 		}
-		
-		$msg = &$model->getError();		
+
+		$msg = &$model->getError();
 		$this->setredirect('index.php?option=com_users&view=mail', $msg, $type);
 	}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version	
+ * @version
  * @package		Joomla.Administrator
  * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -55,12 +55,12 @@ foreach ($this->orders2 as $k=>$items) {
 
 			<label id="jform_type-lbl" class="hasTip" for="jform_type"><?php echo JText::_('Module Type'); ?>:</label>
 			<input id="jform_type" class="readonly" type="text" readonly="readonly" size="16" value="<?php echo JText::_($this->row->module); ?>" name="jform[type]"/>
-		
+
 			<label id="jform_showtitle-lbl" class="hasTip" for="jform_showtitle"><?php echo JText::_('Show title'); ?>:</label>
 			<fieldset id="jform_showtitle" class="radio">
 				<div class="jform_mod_title"><?php echo $this->lists['showtitle']; ?></div>
 			</fieldset>
-		
+
 			<label id="jform_published-lbl" class="hasTip" for="jform_published"><?php echo JText::_('Published'); ?>:</label>
 			<fieldset id="jform_published" class="radio">
 					<?php echo $this->lists['published']; ?>
@@ -68,7 +68,7 @@ foreach ($this->orders2 as $k=>$items) {
 			<label id="jform_position-lbl" class="hasTip" for="jform_position" title="<?php echo JText::_('MODULE_POSITION_TIP_TITLE', true); ?>::<?php echo JText::_('MODULE_POSITION_TIP_TEXT', true); ?>">
 						<?php echo JText::_('Position'); ?>:
 					</label>
-			
+
 			<select id="jform_position" class="inputbox" size="1" name="jform[position]">
 			<?php
 					foreach ($this->positions as $position) {
@@ -131,36 +131,36 @@ foreach ($this->orders2 as $k=>$items) {
 				var n = e.options.length;
 				for (i = 0; i < n; i++) {
 					e.options[i].disabled = false;
-					e.options[i].selected = true;				
+					e.options[i].selected = true;
 				}
 			}
 		</script>
 	<!-- TO DO: Need to rework UI for this section -->
 			<label id="jform_menus-lbl" class="hasTip" for="jform_menus"><?php echo JText::_('Menus'); ?>:</label>
 				<?php if ($this->row->client_id != 1) : ?>
-				
+
 			<fieldset id="jform_menus" class="radio">
 				<label id="jform_menus-all-lbl" for="menus-all"><?php echo JText::_('All'); ?></label>
 				<input id="menus-all" type="radio" name="menus" value="all" onclick="allselections();" <?php
 						echo ($this->row->pages == 'all') ? 'checked="checked"' : ''; ?> />
-			
-				<label id="jform_menus-none-lbl" for="menus-none"><?php echo JText::_('None'); ?></label>	
+
+				<label id="jform_menus-none-lbl" for="menus-none"><?php echo JText::_('None'); ?></label>
 				<input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" <?php
 						echo ($this->row->pages == 'none') ? 'checked="checked"' : ''; ?> />
-			
-				<label id="jform_menus-select-lbl" for="menus-select"><?php echo JText::_('Select From List'); ?></label>	
+
+				<label id="jform_menus-select-lbl" for="menus-select"><?php echo JText::_('Select From List'); ?></label>
 				<input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" <?php
 						echo ($this->row->pages == 'select') ? 'checked="checked"' : ''; ?> />
-						
+
 				<label id="jform_menus-deselect-lbl" for="menus-deselect"><?php echo JText::_('Deselect From List'); ?></label>
 				<input id="menus-deselect" type="radio" name="menus" value="deselect" onclick="enableselections();" <?php
 						echo ($this->row->pages == 'deselect') ? 'checked="checked"' : ''; ?> />
-			</fieldset>	
+			</fieldset>
 				<?php endif; ?>
-				
+
 			<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('Menu Selection'); ?>:</label>
 					<?php echo $this->lists['selections']; ?>
-			
+
 		<?php if ($this->row->client_id != 1) : ?>
 			<?php if ($this->row->pages == 'all') : ?>
 			<script type="text/javascript">allselections();</script>

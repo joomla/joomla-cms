@@ -17,7 +17,7 @@
 	                    <?php echo JText::_('DESCFTP'); ?>
 						<label for="username"><?php echo JText::_('Username'); ?>:</label>
 						<input type="text" id="username" name="username" class="inputbox" size="70" value="" />
-	                              
+
 						<label for="password"><?php echo JText::_('Password'); ?>:</label>
 						<input type="password" id="password" name="password" class="inputbox" size="70" value="" />
 	                </fieldset>

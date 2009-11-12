@@ -63,7 +63,7 @@ class MediaViewMedia extends JView
 			}
 			$typeString = '{ \'Images ('.$displayTypes.')\': \''.$filterTypes.'\' }';
 
-			JHtml::_('behavior.uploader', 'upload-flash', 
+			JHtml::_('behavior.uploader', 'upload-flash',
 				array(
 					'onComplete' => 'function(){ MediaManager.refreshFrame(); }',
 					'targetURL' => '\\$(\'uploadForm\').action',

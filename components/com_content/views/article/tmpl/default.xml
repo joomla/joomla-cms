@@ -18,7 +18,7 @@
 			name="id"
 			type="modal_article"
 			label="Select_Article_label"
-			group="request"			
+			group="request"
 			description="Select_article_desc" />
 	</fields>
 </metadata>

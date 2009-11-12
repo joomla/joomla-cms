@@ -39,7 +39,7 @@
 		}
 		container.style.width = width + "px";
 	};
-	
+
 	var JCaption = function(className) {
 		var els = document.getElementsByTagName('img');
 		var regexp = new RegExp('\\b'+className+'\\b', 'i');

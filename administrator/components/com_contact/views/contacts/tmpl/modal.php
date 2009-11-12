@@ -94,7 +94,7 @@ $function = JRequest::getVar('function', 'jSelectContact');
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<td align="center">
-				
+
 				</td>
 				<td align="center">
 					<?php echo (int) $item->id; ?>

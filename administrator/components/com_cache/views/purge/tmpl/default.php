@@ -12,7 +12,7 @@
 	<tbody>
 		<tr>
 			<td>
-			<p class="mod-purge-instruct"><?php echo JText::_('Click on the Purge expired icon in the toolbar to delete all expired cache files. Note: Cache files that are still current will not be deleted.'); ?></p> 
+			<p class="mod-purge-instruct"><?php echo JText::_('Click on the Purge expired icon in the toolbar to delete all expired cache files. Note: Cache files that are still current will not be deleted.'); ?></p>
 			<p class="warning"><?php echo JText::_('WARNING: This can be resource intensive on sites with large number of items!'); ?></p>
 			</td>
 		</tr>

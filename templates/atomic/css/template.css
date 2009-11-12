@@ -47,11 +47,11 @@ q:after {
 blockquote, q {
 	quotes: "" "";
 }
-abbr,acronym { 
-	border:0; 
-	} 
-	
-/* Structure styles */	
+abbr,acronym {
+	border:0;
+	}
+
+/* Structure styles */
 body {}
 div#main_container {}
 div#head {}

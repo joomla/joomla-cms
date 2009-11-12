@@ -4,7 +4,7 @@ defined('_JEXEC') or die; ?>
 		$lang = &JFactory::getLanguage();
 		$myrtl =$this->newsfeed->rtl;
 		$direction = " ";
-		
+
 		if ($lang->isRTL() && $myrtl==0){
 		   $direction= " jredirect-rtl";
 		   }

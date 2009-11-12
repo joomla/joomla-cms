@@ -281,7 +281,7 @@ function ContactParseRoute($segments)
 			$vars['view']	= 'contact';
 			break;
 
-	
+
 
 		case 'contact':
 			$vars['id']		= $segments[$count-1];

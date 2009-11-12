@@ -64,7 +64,7 @@ defined('_JEXEC') or die;
 				</label>
 				<textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox required"></textarea>
 			</div>
-			
+
 			<?php if ($this->contact->params->get('show_email_copy')) : ?>
 			<div>
 				<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
@@ -82,7 +82,7 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="view" value="contact" />
 	<input type="hidden" name="id" value="<?php echo $this->contact->id; ?>" />
 	<input type="hidden" name="task" value="submit" />
-	<input type="hidden" name="return" value="<?php echo $this->return; ?>" /> 
+	<input type="hidden" name="return" value="<?php echo $this->return; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 	</form>
-</div>	
+</div>

@@ -66,7 +66,7 @@ class WeblinksViewWeblink extends JView
 			return;
 		}
 		//get the weblink
-	
+
 		$weblink	= &$this->get('data');
 
 		$isNew	= ($weblink->id < 1);

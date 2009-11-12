@@ -281,7 +281,7 @@ function NewsfeedsParseRoute($segments)
 			$vars['view']	= 'newsfeed';
 			break;
 
-	
+
 
 		case 'newsfeed':
 			$vars['id']		= $segments[$count-1];

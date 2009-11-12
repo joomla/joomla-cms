@@ -1,6 +1,6 @@
 <?php
 /**
- * @version	
+ * @version
  * @package		Joomla.Administrator
  * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -26,7 +26,7 @@
 <div class="">
 <form action="<?php echo JRoute::_('index.php');?>" method="post" name="adminForm">
 
-	
+
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Module_Menu_Assignment_Legend'); ?></legend>
 	<div class="fltrt">
@@ -63,36 +63,36 @@
 				var n = e.options.length;
 				for (i = 0; i < n; i++) {
 					e.options[i].disabled = false;
-					
+
 				}
 			}
 		</script>
 	<!-- TO DO: Need to rework UI for this section -->
 			<label id="jform_menus-lbl" class="hasTip" for="jform_menus"><?php echo JText::_('Menus'); ?>:</label>
 				<?php if ($this->row->client_id != 1) : ?>
-				
+
 			<fieldset id="jform_menus" class="radio">
 				<label id="jform_menus-all-lbl" for="menus-all"><?php echo JText::_('All'); ?></label>
 				<input id="menus-all" type="radio" name="menus" value="all" onclick="allselections();" <?php
 						echo ($this->row->pages == 'all') ? 'checked="checked"' : ''; ?> />
-			
-				<label id="jform_menus-none-lbl" for="menus-none"><?php echo JText::_('None'); ?></label>	
+
+				<label id="jform_menus-none-lbl" for="menus-none"><?php echo JText::_('None'); ?></label>
 				<input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" <?php
 						echo ($this->row->pages == 'none') ? 'checked="checked"' : ''; ?> />
-			
-				<label id="jform_menus-select-lbl" for="menus-select"><?php echo JText::_('Select From List'); ?></label>	
+
+				<label id="jform_menus-select-lbl" for="menus-select"><?php echo JText::_('Select From List'); ?></label>
 				<input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" <?php
 						echo ($this->row->pages == 'select') ? 'checked="checked"' : ''; ?> />
-						
+
 				<label id="jform_menus-deselect-lbl" for="menus-deselect"><?php echo JText::_('Deselect From List'); ?></label>
 				<input id="menus-deselect" type="radio" name="menus" value="deselect" onclick="enableselections();" <?php
 						echo ($this->row->pages == 'deselect') ? 'checked="checked"' : ''; ?> />
-			</fieldset>	
+			</fieldset>
 				<?php endif; ?>
-				
+
 			<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('Menu Selection'); ?>:</label>
 					<?php echo $this->lists['selections']; ?>
-			
+
 		<?php if ($this->row->client_id != 1) : ?>
 			<?php if ($this->row->pages == 'all') : ?>
 			<script type="text/javascript">allselections();</script>
@@ -104,7 +104,7 @@
 
 
 
-	
+
 
 
 	<input type="hidden" name="option" value="com_modules" />

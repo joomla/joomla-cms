@@ -40,7 +40,7 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 		</div>
 	</fieldset>
 	<div class="clr"> </div>
-	
+
 	<table class="adminlist">
 		<thead>
 			<tr>

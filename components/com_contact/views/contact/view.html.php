@@ -56,7 +56,7 @@ class ContactViewContact extends JView
 
 		// check if access is registered/special
 		$groups	= $user->authorisedLevels();
-		
+
 		// Not sure what was intented here
 		// this was blowing up in default_form as undefined $result
 		// so added the assignRef to pass it

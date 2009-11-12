@@ -50,10 +50,10 @@
 
 #upload-flash {
 	font-size: 12px;
-	margin-left: 5px;	
+	margin-left: 5px;
 }
 #upload-flash ul {
-	margin-left: -15px;	
+	margin-left: -15px;
 }
 
 #upload-flash .progress {
@@ -101,7 +101,7 @@
 }
 
 #upload-queue li.file .file-remove {
-	font-size: 0.9em;	
+	font-size: 0.9em;
 	float: right;
 	line-height: 18px;
 	margin-right: 6px;

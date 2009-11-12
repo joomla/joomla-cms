@@ -16,66 +16,65 @@ defined('_JEXEC') or die; ?>
 			<?php echo JText::_('Display Num') .'&nbsp;'; ?>
 			<?php echo $this->pagination->getLimitBox(); ?>
 		</div>
-	
+
 		<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
 </form>
-	
+
 	<table class="jlist-table">
 		<?php if ($this->params->def('show_headings', 1)) : ?>
 		<thead>
 			<tr>
-			
+
 				<th class="item-num">
 					<?php echo JText::_('Num'); ?>
 				</th>
-				
+
 				<th class="item-title">
 					<?php echo JHtml::_('grid.sort',  'News Feed', 'title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				
+
 			</tr>
 		</thead>
 		<?php endif; ?>
-					
+
 		<tbody>
 			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="<?php echo $i % 2 ? 'odd' : 'even';?>">
-			
+
 					<?php if ($this->params->get('show_name')) : ?>
 						<td class="item-title">
 							<?php echo JText::_('Feed Name'); ?>
 						</td>
 					<?php endif; ?>
-					
+
 					<?php  if ($this->params->get('show_articles')) : ?>
 						<td class="item-num-art">
 							<?php echo JText::_('Num Articles'); ?>
 						</td>
 					<?php  endif; ?>
 				</tr>
-				
+
 				<tr>
 					<td class="item-title">
 						<a href="<?php echo $item->link; ?>">
 							<?php echo $item->name; ?></a>
 					</td>
-					
+
 					<?php  if ($this->params->get('show_articles')) : ?>
 						<td class="item-num-art">
 							<?php echo $item->numarticles; ?>
 						</td>
 					<?php  endif; ?>
-					
+
 				</tr>
 			<?php endforeach; ?>
-		</tbody>	
+		</tbody>
 	</table>
-	
+
 	<div class="jpagination">
-		<?php echo $this->pagination->getPagesLinks(); ?>	
+		<?php echo $this->pagination->getPagesLinks(); ?>
 		<div class="jpag-results">
 			<?php echo $this->pagination->getPagesCounter(); ?>
 		</div>
 	</div>
-				

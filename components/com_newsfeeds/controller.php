@@ -31,7 +31,7 @@ class NewsfeedsController extends JController
 	{
 		// Get the document object.
 		$document = &JFactory::getDocument();
-		
+
 
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'categories');
@@ -40,9 +40,9 @@ class NewsfeedsController extends JController
 
 			// Get and render the view.
 		if ($view = &$this->getView($vName, $vFormat))
-		{     		
+		{
 			$model = &$this->getModel($vName);
-			
+
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
 			$view->setLayout($lName);

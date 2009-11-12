@@ -43,7 +43,7 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
-			
+
 			<?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?>
 
@@ -52,7 +52,7 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('link'); ?>
 			<?php echo $this->form->getInput('link'); ?>
-			
+
 			<?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?>
 
@@ -62,7 +62,7 @@ JHtml::_('behavior.formvalidation');
 <div class="width-40 fltrt">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Newsfeeds_Options'); ?></legend>
-		
+
 			<?php echo $this->form->getLabel('numarticles'); ?>
 			<?php echo $this->form->getInput('numarticles'); ?>
 
@@ -74,7 +74,7 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?>
-			
+
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>

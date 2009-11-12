@@ -56,7 +56,7 @@ class BannersViewBanner
 			?>
 		</div>
 	</fieldset>
-	<div class="clr"> </div>	
+	<div class="clr"> </div>
 		<table class="adminlist">
 			<thead>
 				<tr>
@@ -111,20 +111,20 @@ class BannersViewBanner
 				$k = 0;
 				for ($i=0, $n=count($rows); $i < $n; $i++) {
 					$row = &$rows[$i];
-	
+
 					$row->id	= $row->bid;
 					$link		= JRoute::_('index.php?option=com_banners&task=edit&cid[]='. $row->id);
-	
+
 					if ($row->imptotal <= 0) {
 						$row->imptotal	=  JText::_('unlimited');
 					}
-	
+
 					if ($row->impmade != 0) {
 						$percentClicks = 100 * $row->clicks/$row->impmade;
 					} else {
 						$percentClicks = 0;
 					}
-	
+
 					$row->published = $row->showBanner;
 					$published		= JHtml::_('grid.published', $row, $i);
 					$checked		= JHtml::_('grid.checkedout',   $row, $i);
@@ -143,7 +143,7 @@ class BannersViewBanner
 								echo $row->name;
 							} else {
 								?>
-	
+
 								<a href="<?php echo $link; ?>">
 									<?php echo $row->name; ?></a>
 								<?php
@@ -256,29 +256,29 @@ class BannersViewBanner
 
 				<label for="name"><?php echo JText::_('Name'); ?>:</label>
 				<input class="inputbox" type="text" name="name" id="name" size="50" value="<?php echo $row->name;?>" />
-						
+
 				<label for="alias"><?php echo JText::_('Alias'); ?>:</label>
 				<input class="inputbox" type="text" name="alias" id="alias" size="50" value="<?php echo $row->alias;?>" />
-				
+
 				<label><?php echo JText::_('Show Banner'); ?>:</label>
 				<fieldset id="jform_showbanner" class="radio">
 				<?php echo $lists['showBanner']; ?>
-				</fieldset>	
-				
+				</fieldset>
+
 				<label><?php echo JText::_('Sticky'); ?>:</label>
 				<fieldset id="jform_sticky" class="radio">
 				<?php echo $lists['sticky']; ?>
 				</fieldset>
-				
+
 				<label for="ordering"><?php echo JText::_('Ordering'); ?>:</label>
 				<input class="inputbox" type="text" name="ordering" id="ordering" size="6" value="<?php echo $row->ordering;?>" />
-							
+
 				<label for="catid"><?php echo JText::_('Category'); ?>:</label>
 				<?php echo $lists['catid']; ?>
 
 				<label for="cid"><?php echo JText::_('Client Name'); ?>:</label>
 				<?php echo $lists['cid']; ?>
-					
+
 				<label for="imptotal"><?php echo JText::_('Impressions Purchased'); ?>:</label>
 						<?php
 						$unlimited = '';
@@ -287,15 +287,15 @@ class BannersViewBanner
 							$row->imptotal = '';
 						}
 						?>
-						
+
 							<input class="inputbox" type="text" name="imptotal" id="imptotal" size="12" maxlength="11" value="<?php echo $row->imptotal;?>" />
 							&nbsp;&nbsp;&nbsp;&nbsp;
 							<label for="unlimited">
 								<?php echo JText::_('Unlimited'); ?>
 							</label>
 							<input type="checkbox" name="unlimited" id="unlimited" <?php echo $unlimited;?> />
-						
-					
+
+
 				<label for="clickurl"><?php echo JText::_('Click URL'); ?>:</label>
 				<input class="inputbox" type="text" name="clickurl" id="clickurl" size="70" maxlength="200" value="<?php echo $row->clickurl;?>" />
 
@@ -305,16 +305,16 @@ class BannersViewBanner
 
 				<label for="custombannercode"><?php echo JText::_('Custom banner code'); ?>:</label>
 				<textarea class="inputbox" cols="70" rows="8" name="custombannercode" id="custombannercode"><?php echo $row->custombannercode;?></textarea>
-					
+
 				<label for="description"><?php echo JText::_('Description/Notes'); ?>:</label>
 				<textarea class="inputbox" cols="70" rows="3" name="description" id="description"><?php echo $row->description;?></textarea>
-					
+
 				<label for="imageurl"><?php echo JText::_('Banner Image Selector'); ?>:</label>
 				<?php echo $lists['imageurl']; ?>
-						
+
 				<label for="width"><?php echo JText::_('Width'); ?>:</label>
 				<input class="inputbox" type="text" name="width" id="width" size="6" value="<?php echo $lists['width'];?>" />
-						
+
 				<label for="height"><?php echo JText::_('Height'); ?>:</label>
 				<input class="inputbox" type="text" name="height" id="height" size="6" value="<?php echo $lists['height'];?>" />
 
@@ -336,10 +336,10 @@ class BannersViewBanner
 						<?php
 						}
 						?>
-					
+
 				<label for="tags"><?php echo JText::_('Tags'); ?>:</label>
 				<textarea class="inputbox" cols="70" rows="3" name="tags" id="tags"><?php echo $row->tags;?></textarea>
-						
+
 			</fieldset>
 		</div>
 		<div class="clr"></div>

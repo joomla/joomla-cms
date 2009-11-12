@@ -25,6 +25,6 @@ defined('_JEXEC') or die;
 
 		<label for="password"><?php echo JText::_('Password'); ?>:</label>
 		<input type="password" id="password" name="password" class="input_box" size="70" value="" />
-		
+
 	</fieldset>
 </div>

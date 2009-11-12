@@ -66,7 +66,7 @@ class ContentViewFeatured extends JView
 			if ($this->state->get('filter.published') != -1) {
 				JToolBarHelper::archiveList('articles.archive');
 			}
-			
+
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();

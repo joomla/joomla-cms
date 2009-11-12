@@ -7,7 +7,7 @@
 		</message>
 	</layout>
 
-	<fields  
+	<fields
 			group="basic">
 		<field
 			name="num_leading_articles"

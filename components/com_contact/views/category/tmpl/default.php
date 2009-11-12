@@ -21,16 +21,16 @@ $cparams = &JComponentHelper::getParams('com_media');
 			<?php elseif (!empty($this->category->image)) : ?>
 				<img src="<?php echo $this->baseurl .'/'. 'images/stories' . '/'. $this->category->image; ?>" class="jalign<?php echo $this->category->image_position; ?>" alt="<?php echo JText::_('Contacts'); ?>" />
 			<?php endif; ?>
-			
+
 			<?php echo $this->category->description; ?>
 		</div>
 	<?php endif; ?>
-	
+
 	<?php echo $this->loadTemplate('items'); ?>
-		
+
 	<div class="jcat-siblings">
 		<?php  echo $this->loadTemplate('siblings');  ?>
-	</div> 
+	</div>
 
 	<div class="jcat-children">
 		<?php echo $this->loadTemplate('children'); ?>
@@ -38,7 +38,7 @@ $cparams = &JComponentHelper::getParams('com_media');
 
 	<div class="jcat-parents">
 		<?php  echo $this->loadTemplate('parents');  ?>
-	</div> 
+	</div>
 
 </div>
 

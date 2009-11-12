@@ -23,7 +23,7 @@ class JFormFieldModal_Users extends JFormField
 	 * @var		string
 	 */
 	public $type = 'Modal_Users';
-	
+
 	/**
 	 * Method to generate the form field markup.
 	 *

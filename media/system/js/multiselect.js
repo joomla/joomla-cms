@@ -8,7 +8,7 @@
  * JavaScript behavior to allow shift select in administrator grids
  */
 (function() {
-	Joomla = Joomla || {}; 
+	Joomla = Joomla || {};
 
 	Joomla.JMultiSelect = new Class({
 		initialize : function(table) {

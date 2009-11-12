@@ -193,18 +193,18 @@ table.adminlist tfoot th { background-color: #000;  }
 div#element-box div.m,
 div#toolbar-box div.m,
 div#submenu-box div.m,
-form#weblink-form fieldset, 
-form#item-form fieldset, 
+form#weblink-form fieldset,
+form#item-form fieldset,
 fieldset.batch,
 tr.row1,
-div.width-30 fieldset, 	
-div.width-35 fieldset, 
-div.width-40 fieldset, 
-div.width-45 fieldset, 
-div.width-50 fieldset, 
-div.width-55 fieldset, 
-div.width-60 fieldset, 
-div.width-65 fieldset, 
+div.width-30 fieldset,
+div.width-35 fieldset,
+div.width-40 fieldset,
+div.width-45 fieldset,
+div.width-50 fieldset,
+div.width-55 fieldset,
+div.width-60 fieldset,
+div.width-65 fieldset,
 div.width-70 fieldset,
 div.width-100 fieldset {
 	background-color: #000;
@@ -297,7 +297,7 @@ div.pagetitle h2 {
 	color:#FFF;
 }
 
-.button2-left a, 
+.button2-left a,
 .button2-right a {
 	color:#000;
 

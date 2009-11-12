@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version		
+ * @version
  * @package		Joomla.Site
  * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -24,5 +24,5 @@ defined('_JEXEC') or die;
 			</li>
 		<?php endforeach; ?>
 	</ol>
-</div>	
-<?php endif; ?>	
+</div>
+<?php endif; ?>
