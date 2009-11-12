@@ -38,8 +38,29 @@ class ContentViewArticle extends JView
 		$item	= $this->get('Item');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
-			JError::raiseWarning(500, implode("\n", $errors));
+		// @TODO Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
+		if (count($errors = $this->get('Errors')))
+		{
+			foreach ($errors as &$error)
+			{
+				if ($error instanceof Exception)
+				{
+					if ($error->getCode() == 404)
+					{
+						// If there is a 404, throw a hard error.
+						JError::raiseError(404, $error->getMessage());
+						return false;
+					}
+					else
+					{
+						JError::raiseError(500, $error->getMessage());
+					}
+				}
+				else
+				{
+					JError::raiseWarning(500, $error);
+				}
+			}
 			return false;
 		}
 

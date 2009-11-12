@@ -113,12 +113,12 @@ class ContentModelArticle extends JModelItem
 				}
 
 				if (empty($data)) {
-					throw new Exception(JText::_('Content_Error_Article_not_found'));
+					throw new Exception(JText::_('Content_Error_Article_not_found'), 404);
 				}
 
 				// Check for published state if filter set.
 				if (is_numeric($published) && $data->state != $published) {
-					throw new Exception(JText::_('Content_Error_Article_not_found'));
+					throw new Exception(JText::_('Content_Error_Article_not_found'), 404);
 				}
 
 				// Convert parameter fields to objects.
@@ -156,7 +156,7 @@ class ContentModelArticle extends JModelItem
 			}
 			catch (Exception $e)
 			{
-				$this->setError($e->getMessage());
+				$this->setError($e);
 				$this->_item[$pk] = false;
 			}
 		}
