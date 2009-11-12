@@ -89,7 +89,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	public function &getItem($pk = null)
 	{
 		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int)$this->getState('newsfeed.id');
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('newsfeed.id');
 		$false	= false;
 
 		// Get a row instance.
@@ -165,10 +165,10 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	 */
 	public function save($data)
 	{
-		// Initialise variables;
+		// Initialise variables.
 		$dispatcher = JDispatcher::getInstance();
 		$table		= $this->getTable();
-		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('newsfeed.id');
+		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('newsfeed.id');
 		$isNew		= true;
 
 		// Include the content plugins for the onSave events.
