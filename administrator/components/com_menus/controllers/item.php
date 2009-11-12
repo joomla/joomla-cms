@@ -218,7 +218,7 @@ class MenusControllerItem extends JController
 
 			// Merge in the user supplied request arguments.
 			$args = array_merge($args, $pData['request']);
-			$iData['link'] = 'index.php?'.http_build_query($args);
+			$iData['link'] = 'index.php?'.http_build_query($args,'','&');
 			unset($pData['request']);
 		}
 

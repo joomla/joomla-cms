@@ -79,7 +79,7 @@ class MenusHelper
 
 		ksort($request);
 
-		return 'index.php?'.http_build_query($request);
+		return 'index.php?'.http_build_query($request,'','&');
 	}
 
 	/**

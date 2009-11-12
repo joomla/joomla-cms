@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Nov-2009 Mark Dexter
+# Fix bug showing current value of request parameters in menu items
+
 11-Nov-2009 Elin Waring
 # Fix up comments and URL issues in com_weblinks
 
