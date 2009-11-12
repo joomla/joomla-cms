@@ -1,18 +1,17 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+// No direct access.
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 /**
- * The HTML Redirect links view.
+ * View class for a list of redirection links.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_redirect
@@ -20,12 +19,15 @@ jimport('joomla.application.component.view');
  */
 class RedirectViewLinks extends JView
 {
+	protected $state;
+	protected $items;
+	protected $pagination;
+
 	/**
-	 * Display the view.
+	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model.
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
 		$pagination	= $this->get('Pagination');
@@ -36,42 +38,47 @@ class RedirectViewLinks extends JView
 			return false;
 		}
 
-		// Build the state filter options.
-		$poptions[] = JHtml::_('select.option','*', 'Any');
-		$poptions[] = JHtml::_('select.option', '0', 'Pending');
-		$poptions[] = JHtml::_('select.option', '1', 'Active');
-		$poptions[] = JHtml::_('select.option', '2', 'Archived');
-
 		// Assign data to the view.
 		$this->assignRef('state', $state);
 		$this->assignRef('items', $items);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('filter_state', $poptions);
+		$this->assign('enabled', RedirectHelper::isEnabled());
 
-		// Render the layout.
 		parent::display($tpl);
+		$this->_setToolbar();
 	}
 
 	/**
-	 * Build the default toolbar.
+	 * Setup the Toolbar.
 	 */
-	protected function buildDefaultToolBar()
+	protected function _setToolbar()
 	{
-		JToolBarHelper::title('Redirect', 'redirect');
-		JToolBarHelper::custom('link.add', 'new.png', 'new_f2.png', 'New', false);
-		JToolBarHelper::custom('link.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
-		JToolBarHelper::divider();
-		JToolBarHelper::custom('link.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
-		JToolBarHelper::custom('link.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
-		JToolBarHelper::custom('link.activate', 'default.png', 'default_f2.png', 'Activate', true);
-		JToolBarHelper::divider();
-		JToolBarHelper::custom('link.archive', 'archive.png', 'archive_f2.png', 'Archive', true);
-		JToolBarHelper::deleteList('','link.delete', 'delete');
-		// The live below was causing an error so replaced with line above.
-		//JToolBarHelper::deleteList('Are you sure you want to remove these links', 'link.delete', 'delete');
-		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_redirect');
-		JToolBarHelper::divider();
+		$state	= $this->get('State');
+		$canDo	= RedirectHelper::getActions();
+
+		JToolBarHelper::title(JText::_('Redir_Manager_Links'), 'redirect');
+		if ($canDo->get('core.create')) {
+			JToolBarHelper::addNew('link.add');
+		}
+		if ($canDo->get('core.edit')) {
+			JToolBarHelper::editList('link.edit');
+		}
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::custom('links.publish', 'publish.png', 'publish_f2.png', 'JToolbar_Enable', true);
+			JToolBarHelper::custom('links.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JToolbar_Disable', true);
+			if ($state->get('filter.published') != -1) {
+				JToolBarHelper::archiveList('links.archive');
+			}
+		}
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+			JToolBarHelper::deleteList('', 'links.delete');
+		}
+		else if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::trash('links.trash');
+		}
+		if ($canDo->get('core.admin')) {
+			JToolBarHelper::preferences('com_redirect');
+		}
 		JToolBarHelper::help('screen.redirect');
 	}
 }

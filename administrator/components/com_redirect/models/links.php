@@ -7,17 +7,18 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+// No direct access.
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
 jimport('joomla.database.query');
 
 /**
- * Links model for Redirect.
+ * Methods supporting a list of redirect links.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_redirect
- * @version		1.6
+ * @since		1.6
  */
 class RedirectModelLinks extends JModelList
 {
@@ -26,47 +27,41 @@ class RedirectModelLinks extends JModelList
 	 *
 	 * @var	string
 	 */
-	 protected $_context = 'redirect.links';
+	 protected $_context = 'com_redirect.links';
 
 	/**
-	 * Method to build an SQL query to load the list data.
-	 *
-	 * @return	string	An SQL query
-	 * @since	1.6
+	 * Method to auto-populate the model state.
 	 */
-	protected function _getListQuery()
+	protected function _populateState()
 	{
-		// Create a new query object.
-		$query = new JQuery;
+		// Initialize variables.
+		$app = JFactory::getApplication('administrator');
+		$user		= & JFactory::getUser();
+		$context	= 'com_redirect.links.';
 
-		// Select all fields from the table.
-		$query->select($this->getState('list.select', '*'));
-		$query->from('`#__redirect_links`');
+		// Load the filter state.
+		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
-		// Filter the items over the search string if set.
-		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			$query->where(
-				'(`old_url` LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%') .
-				' OR `new_url` LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%') .
-				' OR `comment` LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%') .
-				' OR `referer` LIKE '.$this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%').')'
-			);
-		}
+		$state = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_published', '', 'string');
+		$this->setState('filter.state', $state);
 
-		// Filter the items over the published state if set.
-		if ($this->getState('check.state')) {
-			$state_id = $this->getState('filter.state');
-			if ($state_id !== '*' and $state_id !== null) {
-				$query->where('`published` = '.(int)$state_id);
-			}
-		}
+		// List state information.
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$this->setState('list.limit', $limit);
 
-		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.name')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
+		$this->setState('list.start', $limitstart);
 
-		//echo nl2br(str_replace('#__','jos_',$query->toString())).'<hr/>';
-		return $query;
+		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.old_url');
+		$this->setState('list.ordering', $orderCol);
+
+		$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
+		$this->setState('list.direction', $orderDirn);
+
+		// Load the parameters.
+		$params = JComponentHelper::getParams('com_redirect');
+		$this->setState('params', $params);
 	}
 
 	/**
@@ -77,13 +72,12 @@ class RedirectModelLinks extends JModelList
 	 * ordering requirements.
 	 *
 	 * @param	string	A prefix for the store id.
+	 *
 	 * @return	string	A store id.
-	 * @since	1.0
 	 */
 	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('list.select');
 		$id	.= ':'.$this->getState('list.start');
 		$id	.= ':'.$this->getState('list.limit');
 		$id	.= ':'.$this->getState('list.ordering');
@@ -95,45 +89,56 @@ class RedirectModelLinks extends JModelList
 	}
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Build an SQL query to load the list data.
 	 *
-	 * This method should only be called once per instantiation and is designed
-	 * to be called on the first call to the getState() method unless the model
-	 * configuration flag to ignore the request is set.
-	 *
-	 * @return	void
-	 * @since	1.0
+	 * @return	JQuery
 	 */
-	protected function _populateState()
+	protected function _getListQuery()
 	{
-		$app		= & JFactory::getApplication('administrator');
-		$user		= & JFactory::getUser();
-		$params		= JComponentHelper::getParams('com_redirect');
-		$context	= 'com_redirect.links.';
+		// Create a new query object.
+		$query = new JQuery;
 
-		// Load the filter state.
-		$this->setState('filter.search', $app->getUserStateFromRequest($context.'filter.search', 'filter_search', ''));
-		$this->setState('filter.state', $app->getUserStateFromRequest($context.'filter.state', 'filter_state', '0', 'string'));
+		// Select the required fields from the table.
+		$query->select(
+			$this->getState(
+				'list.select',
+				'a.*'
+			)
+		);
+		$query->from('`#__redirect_links` AS a');
 
-
-		// Load the list state.
-		$this->setState('list.start', $app->getUserStateFromRequest($context.'list.start', 'limitstart', 0, 'int'));
-		$this->setState('list.limit', $app->getUserStateFromRequest($context.'list.limit', 'limit', $app->getCfg('list_limit', 25), 'int'));
-		$this->setState('list.ordering', $app->getUserStateFromRequest($context.'list.ordering', 'filter_order', 'updated_date', 'cmd'));
-		$this->setState('list.direction', $app->getUserStateFromRequest($context.'list.direction', 'filter_order_Dir', 'DESC', 'word'));
-
-		// Load the user parameters.
-		$this->setState('user',	$user);
-		$this->setState('user.id', (int)$user->id);
-
-		// Load the check parameters.
-		if ($this->_state->get('filter.state') === '*') {
-			$this->setState('check.state', false);
-		} else {
-			$this->setState('check.state', true);
+		// Filter by published state
+		$state = $this->getState('filter.state');
+		if (is_numeric($state)) {
+			$query->where('a.published = '.(int) $state);
+		}
+		else if ($state === '') {
+			$query->where('(a.published IN (0,1,2))');
 		}
 
-		// Load the parameters.
-		$this->setState('params', $params);
+		// Filter the items over the search string if set.
+		$search = $this->getState('filter.search');
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0) {
+				$query->where('a.id = '.(int) substr($search, 3));
+			}
+			else
+			{
+				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+				$query->where(
+					'(`old_url` LIKE '.$search .
+					' OR `new_url` LIKE '.$search .
+					' OR `comment` LIKE '.$search .
+					' OR `referer` LIKE '.$search.')'
+				);
+			}
+		}
+
+		// Add the list ordering clause.
+		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.old_url')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+
+		//echo nl2br(str_replace('#__','jos_',$query));
+		return $query;
 	}
 }

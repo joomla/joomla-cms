@@ -1,128 +1,142 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+// No direct access.
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modelform');
 
 /**
- * The Redirect Link Model
+ * Redirect link model.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_redirect
  * @since		1.6
  */
-class RedirectModelLink extends JModel
+class RedirectModelLink extends JModelForm
 {
 	/**
-	 * Flag to indicate model state initialization.
-	 *
-	 * @var	boolean
+	 * Method to auto-populate the model state.
 	 */
-	protected $__state_set = false;
-
-	/**
-	 * Array of items for memory caching.
-	 *
-	 * @var	array
-	 */
-	protected $_items = array();
-
-	/**
-	 * Overridden method to get model state variables.
-	 *
-	 * @param	string	$property	Optional parameter name.
-	 * @return	object	The property where specified, the state object where omitted.
-	 */
-	public function getState($property = null, $default = null)
+	protected function _populateState()
 	{
-		if (!$this->__state_set)
-		{
-			// Get the application object.
-			$app = & JFactory::getApplication();
+		// Get the application object.
+		$app = & JFactory::getApplication();
 
-			// Attempt to auto-load the link id.
-			if (!$linkId = (int) $app->getUserState('redirect.edit.link.id')) {
-				$linkId = (int) JRequest::getInt('l_id');
-			}
-
-			// Only set the link id if there is a value.
-			if ($linkId) {
-				$this->setState('link.id', $linkId);
-			}
-
-			// Set the model state set flat to true.
-			$this->__state_set = true;
+		// Load the User state.
+		if (!$pk = (int) $app->getUserState('com_redirect.edit.link.id')) {
+			$pk = (int) JRequest::getInt('id');
 		}
+		$this->setState('link.id', $pk);
 
-		$value = parent::getState($property);
-		return (is_null($value) ? $default : $value);
+		// Load the parameters.
+		$params	= JComponentHelper::getParams('com_redirect');
+		$this->setState('params', $params);
 	}
 
 	/**
-	 * Method to get a link item.
+	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param	integer	The id of the link to get.
-	 * @return	mixed	Link data object on success, false on failure.
+	 * @param	type 	$type 	 The table type to instantiate
+	 * @param	string 	$prefix	 A prefix for the table class name. Optional.
+	 * @param	array	$options Configuration array for model. Optional.
+	 * @return	JTable	A database object
+	*/
+	public function &getTable($type = 'Link', $prefix = 'RedirectTable', $config = array())
+	{
+		return JTable::getInstance($type, $prefix, $config);
+	}
+
+	/**
+	 * Method to override check-out a row for editing.
+	 *
+	 * @param	int		The ID of the primary key.
+	 * @return	boolean
 	 */
-	public function &getItem($linkId = null)
+	public function checkout($pk = null)
+	{
+		// Initialise variables.
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('link.id');
+
+		return parent::checkout($pk);
+	}
+
+	/**
+	 * Method to checkin a row.
+	 *
+	 * @param	integer	The ID of the primary key.
+	 *
+	 * @return	boolean
+	 */
+	public function checkin($pk = null)
+	{
+		// Initialise variables.
+		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('link.id');
+
+		return parent::checkin($pk);
+	}
+
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param	integer	The id of the primary key.
+	 *
+	 * @return	mixed	Object on success, false on failure.
+	 */
+	public function &getItem($pk = null)
 	{
 		// Initialize variables.
-		$linkId = (!empty($linkId)) ? $linkId : (int) $this->getState('link.id');
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('link.id');
 		$false	= false;
 
-		// Get a link row instance.
-		$table = & $this->getTable('Link', 'RedirectTable');
+		// Get a row instance.
+		$table = &$this->getTable();
 
 		// Attempt to load the row.
-		$return = $table->load($linkId);
+		$return = $table->load($pk);
 
 		// Check for a table object error.
 		if ($return === false && $table->getError()) {
-			$this->serError($table->getError());
+			$this->setError($table->getError());
 			return $false;
 		}
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
-			return $false;
+		// Prime required properties.
+		if (empty($table->id))
+		{
+			// Prepare data for a new record.
 		}
 
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+
 		return $value;
 	}
 
 	/**
-	 * Method to get the link form.
+	 * Method to get the record form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
 	 */
-	public function &getForm()
+	public function getForm()
 	{
-		// Initialize variables.
-		$app	= & JFactory::getApplication();
-		$false	= false;
+		// Initialise variables.
+		$app	= JFactory::getApplication();
 
 		// Get the form.
-		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
-		$form = & JForm::getInstance('link', 'com_redirect.link', true, array('array' => true));
+		$form = parent::getForm('link', 'com_redirect.link', array('array' => 'jform', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
 		if (JError::isError($form)) {
 			$this->setError($form->getMessage());
-			return $false;
+			return false;
 		}
 
 		// Check the session for previously entered form data.
-		$data = $app->getUserState('redirect.edit.link.data', array());
+		$data = $app->getUserState('com_redirect.edit.link.data', array());
 
 		// Bind the form data if present.
 		if (!empty($data)) {
@@ -133,84 +147,55 @@ class RedirectModelLink extends JModel
 	}
 
 	/**
-	 * Method to publish links.
+	 * Method to save the form data.
 	 *
-	 * @param	array	The ids of the items to publish.
+	 * @param	array	The form data.
 	 * @return	boolean	True on success.
 	 */
-	public function publish($linkId)
+	public function save($data)
 	{
-		// Sanitize the ids.
-		$linkId = (array) $linkId;
-		JArrayHelper::toInteger($linkId);
+		// Initialise variables.
+		$table		= $this->getTable();
+		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('link.id');
+		$isNew		= true;
 
-		// Get the current user object.
-		$user = & JFactory::getUser();
+		// Load the row if saving an existing record.
+		if ($pk > 0) {
+			$table->load($pk);
+			$isNew = false;
+		}
 
-		// Get a link row instance.
-		$table = & $this->getTable('Link', 'RedirectTable');
+		// Bind the data.
+		if (!$table->bind($data)) {
+			$this->setError(JText::sprintf('JTable_Error_Bind_failed', $table->getError()));
+			return false;
+		}
 
-		// Attempt to publish the items.
-		if (!$table->publish($linkId, 1, $user->get('id'))) {
+		// Prepare the row for saving
+		$this->_prepareTable($table);
+
+		// Check the data.
+		if (!$table->check()) {
 			$this->setError($table->getError());
 			return false;
 		}
+
+		// Store the data.
+		if (!$table->store()) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		$this->setState('link.id', $table->id);
 
 		return true;
 	}
 
 	/**
-	 * Method to unpublish links.
-	 *
-	 * @param	array	The ids of the items to unpublish.
-	 * @return	boolean	True on success.
+	 * Prepare and sanitise the table prior to saving.
 	 */
-	public function unpublish($linkId)
+	protected function _prepareTable(&$table)
 	{
-		// Sanitize the ids.
-		$linkId = (array) $linkId;
-		JArrayHelper::toInteger($linkId);
-
-		// Get the current user object.
-		$user = & JFactory::getUser();
-
-		// Get a link row instance.
-		$table = & $this->getTable('Link', 'RedirectTable');
-
-		// Attempt to unpublish the items.
-		if (!$table->publish($linkId, 0, $user->get('id'))) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to archive links.
-	 *
-	 * @param	array	The ids of the items to unpublish.
-	 * @return	boolean	True on success.
-	 */
-	public function archive($linkId)
-	{
-		// Sanitize the ids.
-		$linkId = (array) $linkId;
-		JArrayHelper::toInteger($linkId);
-
-		// Get the current user object.
-		$user = & JFactory::getUser();
-
-		// Get a link row instance.
-		$table = & $this->getTable('Link', 'RedirectTable');
-
-		// Attempt to unpublish the items.
-		if (!$table->publish($linkId, 2, $user->get('id'))) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -219,19 +204,82 @@ class RedirectModelLink extends JModel
 	 * @param	array	An array of link ids.
 	 * @return	boolean	Returns true on success, false on failure.
 	 */
-	public function delete($linkId)
+	public function delete(&$pks)
 	{
-		// Sanitize the ids.
-		$linkId = (array) $linkId;
-		JArrayHelper::toInteger($linkId);
+		// Typecast variable.
+		$pks = (array) $pks;
 
-		// Get a link row instance.
-		$table = & $this->getTable('Link', 'RedirectTable');
+		// Get a row instance.
+		$table = &$this->getTable();
 
-		// Iterate the links to delete each one.
-		foreach ($linkId as $id)
+		// Iterate the items to delete each one.
+		foreach ($pks as $i => $pk)
 		{
-			$table->delete($id);
+			if ($table->load($pk))
+			{
+				// Access checks.
+				$allow = $user->authorise('core.edit.state', 'com_redirect');
+
+				if ($allow)
+				{
+					if (!$table->delete($pk))
+					{
+						$this->setError($table->getError());
+						return false;
+					}
+				}
+				else
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+				}
+			}
+			else
+			{
+				$this->setError($table->getError());
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to publish links.
+	 *
+	 * @param	array	The ids of the items to publish.
+	 * @param	int		The value of the published state
+	 *
+	 * @return	boolean	True on success.
+	 */
+	function publish(&$pks, $value = 1)
+	{
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$table	= $this->getTable();
+		$pks	= (array) $pks;
+
+		// Access checks.
+		foreach ($pks as $i => $pk)
+		{
+			if ($table->load($pk))
+			{
+				$allow = $user->authorise('core.edit.state', 'com_redirect');
+
+				if (!$allow)
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+				}
+			}
+		}
+
+		// Attempt to change the state of the records.
+		if (!$table->publish($pks, $value, $user->get('id'))) {
+			$this->setError($table->getError());
+			return false;
 		}
 
 		return true;
@@ -245,115 +293,44 @@ class RedirectModelLink extends JModel
 	 * @param	string	A comment for the redirect links.
 	 * @return	boolean	Returns true on success, false on failure.
 	 */
-	public function activate($linkId, $url, $comment=null)
+	public function activate(&$pks, $url, $comment = null)
 	{
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$db		= $this->getDbo();
+
 		// Sanitize the ids.
-		$linkId = (array) $linkId;
-		JArrayHelper::toInteger($linkId);
+		$pks = (array) $pks;
+		JArrayHelper::toInteger($pks);
 
 		// Populate default comment if necessary.
-		$comment = (!empty($comment)) ? $comment : JText::sprintf('Redirect_Redirected_On', JHtml::date(time()));
+		$comment = (!empty($comment)) ? $comment : JText::sprintf('Redir_Redirected_On', JHtml::date(time()));
 
-		if (!empty($linkId)) {
+		// Access checks.
+		if (!$user->authorise('core.edit', 'com_redirect'))
+		{
+			$pks = array();
+			$this->setError(JText::_('JError_Core_Edit_not_permitted'));
+			return false;
+		}
 
-			// Implode the link ids.
-			$linkId = implode(' OR `id` = ', $linkId);
-
+		if (!empty($pks))
+		{
 			// Update the link rows.
-			$this->_db->setQuery(
+			$db->setQuery(
 				'UPDATE `#__redirect_links`' .
-				' SET `new_url` = '.$this->_db->Quote($url).', `published` = 1, `comment` = '.$this->_db->Quote($comment) .
-				' WHERE `id` ='.$linkId
+				' SET `new_url` = '.$db->Quote($url).', `published` = 1, `comment` = '.$db->Quote($comment) .
+				' WHERE `id` IN ('.implode(',', $pks).')'
 			);
-			$this->_db->query();
+			$db->query();
 
 			// Check for a database error.
-			if ($this->_db->getErrorNum()) {
-				$this->setError($this->_db->getErrorMsg());
+			if ($error = $this->_db->getErrorMsg())
+			{
+				$this->setError($error);
 				return false;
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * Method to validate the form data.
-	 *
-	 * @param	array	The form data.
-	 * @return	mixed	Array of filtered data if valid, false otherwise.
-	 */
-	public function validate($data)
-	{
-		// Get the form.
-		$form = & $this->getForm();
-
-		// Check for an error.
-		if ($form === false) {
-			return false;
-		}
-
-		// Filter and validate the form data.
-		$data	= $form->filter($data);
-		$return	= $form->validate($data);
-
-		// Check for an error.
-		if (JError::isError($return)) {
-			$this->setError($return->getMessage());
-			return false;
-		}
-
-		// Check the validation results.
-		if ($return === false)
-		{
-			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message) {
-				$this->setError($message);
-			}
-
-			return false;
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Method to save the form data.
-	 *
-	 * @param	array	The form data.
-	 * @return	boolean	True on success.
-	 */
-	public function save($data)
-	{
-		$linkId = (!empty($data['id'])) ? $data['id'] : (int)$this->getState('link.id');
-		$isNew	= true;
-
-		// Get a link row instance.
-		$table = & $this->getTable('Link', 'RedirectTable');
-
-		// Load the row if saving an existing item.
-		if ($linkId > 0) {
-			$table->load($linkId);
-			$isNew = false;
-		}
-
-		// Bind the data.
-		if (!$table->bind($data)) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Check the data.
-		if (!$table->check()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Store the data.
-		if (!$table->store()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-
-		return $table->id;
 	}
 }

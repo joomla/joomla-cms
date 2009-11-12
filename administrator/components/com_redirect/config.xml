@@ -16,7 +16,8 @@
 			<action
 				name="core.admin"
 				title="JAction_Admin"
-				description="JAction_Manage_Component_Desc" />
+				description="JAction_Admin_Component_Desc" />
+
 			<action
 				name="core.manage"
 				title="JAction_Manage"

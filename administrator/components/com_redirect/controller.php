@@ -1,63 +1,55 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Invalid Request.');
-
+// No direct access.
+defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 
 /**
- * Base controller class for Redirect.
+ * Redirect master display controller.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_redirect
- * @version		1.6
+ * @since		1.6
  */
 class RedirectController extends JController
 {
 	/**
 	 * Method to display a view.
-	 *
-	 * @return	void
-	 * @since	1.6
 	 */
 	public function display()
 	{
+		require_once JPATH_COMPONENT.'/helpers/redirect.php';
+
 		// Get the document object.
-		$document = &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'links');
 		$vFormat	= $document->getType();
 		$lName		= JRequest::getWord('layout', 'default');
 
-		// Instantiate the view and model.
+		// Get and render the view.
 		if ($view = &$this->getView($vName, $vFormat))
 		{
-			switch ($vName)
-			{
-				case 'link':
-					$model = &$this->getModel('link');
-					break;
+			// Get the model for the view.
+			$model = &$this->getModel($vName);
 
-				case 'links':
-				default:
-					$model = &$this->getModel('links');
-					break;
-			}
-
-			// Configure the view.
+			// Push the model into the view (as default).
 			$view->setModel($model, true);
 			$view->setLayout($lName);
+
+			// Push document object into the view.
 			$view->assignRef('document', $document);
 
-			// Display the view.
 			$view->display();
+
+			// Load the submenu.
+			RedirectHelper::addSubmenu($vName);
 		}
 	}
 }

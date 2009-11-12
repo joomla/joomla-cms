@@ -1,71 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
+	<!-- $Id$ -->
 <form>
 	<fields>
-		<field name="id" type="hidden" id="id" class="inputbox"
-			label="REDIRECT_LINK_ID"
-			size="10"
+		<field
+			id="id"
+			name="id"
+			type="hidden"
 			default="0"
 			required="true"
-			readonly="true"
-		/>
-		<field name="old_url" type="text" id="old_url" class="inputbox"
-			label="REDIRECT_LINK_OLD_URL"
-			description="REDIRECT_LINK_OLD_URL_DESC"
-			size="50"
-			default=""
-			required="true"
-		/>
-		<field name="new_url" type="text" id="new_url" class="inputbox"
-			label="REDIRECT_LINK_NEW_URL"
-			description="REDIRECT_LINK_NEW_URL_DESC"
-			size="50"
-			default=""
-		/>
-		<field name="comment" type="text" id="comment" class="inputbox"
-			label="REDIRECT_LINK_COMMENT"
-			description="REDIRECT_LINK_COMMENT_DESC"
-			size="40"
-			default=""
-			required="true"
-		/>
+			readonly="true" />
+		
 		<field
-			id="published"
+			name="old_url"
+			type="text"
+			class="inputbox"
+			label="Redir_Field_Old_URL_Label"
+			description="Redir_Field_Old_URL_Desc"
+			size="50"
+			default=""
+			required="true" />
+
+		<field
+			name="new_url"
+			type="text"
+			class="inputbox"
+			label="Redir_Field_New_URL_Label"
+			description="Redir_Field_New_URL_Desc"
+			size="50"
+			default="" />
+
+		<field
+			name="comment"
+			type="text"
+			class="inputbox"
+			label="Redir_Field_Comment_Label"
+			description="Redir_Field_Comment_Desc"
+			size="40"
+			default="" />
+			
+		<field
 			name="published"
 			type="list"
-			label="REDIRECT_LINK_STATE"
+			label="JField_Published_Label"
 			description="JField_Published_Desc"
 			class="inputbox"
 			size="1"
 			required="true"
 			default="1">
 			<option
-				value="0">
-				Pending</option>
-			<option
 				value="1">
-				Active</option>
+				JOption_Enabled</option>
+			<option
+				value="0">
+				JOption_Disabled</option>
 			<option
 				value="2">
-				Archived</option>
+				JOption_Archived</option>
+			<option
+				value="-2">
+				JOption_Trashed</option>
 		</field>
-		<field name="referer" type="text" id="referer" class="inputbox"
-			label="REDIRECT_LINK_REFERRER"
+
+		<field
+			name="referer"
+			type="text"
+			id="referer"
+			class="inputbox"
+			label="Redir_Field_REFERRER_Label"
 			size="50"
 			default=""
-			readonly="true"
-		/>
-		<field name="created_date" type="text" id="created_date" class="inputbox"
-			label="REDIRECT_LINK_CREATED_DATE"
+			readonly="true" />
+	
+		<field
+			name="created_date"
+			type="text"
+			id="created_date"
+			class="inputbox"
+			label="Redir_Field_CREATED_DATE_Label"
 			size="20"
 			default=""
-			readonly="true"
-		/>
-		<field name="updated_date" type="text" id="updated_date" class="inputbox"
-			label="REDIRECT_LINK_UPDATED_DATE"
+			readonly="true" />
+		
+		<field
+			name="updated_date"
+			type="text"
+			id="updated_date"
+			class="inputbox"
+			label="Redir_Field_UPDATED_DATE_Label"
 			size="20"
 			default=""
-			readonly="true"
-		/>
+			readonly="true" />
 	</fields>
 </form>

@@ -7,53 +7,58 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+// No direct access.
+defined('_JEXEC') or die;
 
-// Include the component HTML helpers.
+// Include the HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-
-// Load the behaviors.
+JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tooltip');
 
-
-// Build the toolbar.
-$this->buildDefaultToolBar();
-
-// Get the form fields.
-$fields	= $this->form->getFields();
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_redirect');?>" method="post" name="adminForm" class="form-validate">
-		<div class="width-60 fltlft">
-			<fieldset class="adminform">
-				<legend><?php echo JText::_('URLs'); ?></legend>
-				<?php echo $fields['old_url']->label; ?>
-				<?php echo $fields['old_url']->input; ?>
+<script type="text/javascript">
+<!--
+	function submitbutton(task)
+	{
+		if (task == 'link.cancel' || document.formvalidator.isValid(document.id('link-form'))) {
+			submitform(task);
+		}
+	}
+// -->
+</script>
 
-				<?php echo $fields['new_url']->label; ?>
-				<?php echo $fields['new_url']->input; ?>
+<form action="<?php echo JRoute::_('index.php?option=com_redirect'); ?>" method="post" name="adminForm" id="link-form" class="form-validate">
+	<div class="width-60 fltlft">
+		<fieldset class="adminform">
+			<legend><?php echo empty($this->item->id) ? JText::_('Redir_New_Link') : JText::sprintf('Redir_Edit_Link', $this->item->id); ?></legend>
 
-				<?php echo $fields['comment']->label; ?>
-				<?php echo $fields['comment']->input; ?>
-			</fieldset>
-		</div>
+			<?php echo $this->form->getLabel('old_url'); ?>
+			<?php echo $this->form->getInput('old_url'); ?>
 
-		<div class="width-40 fltrt">
-			<fieldset class="adminform">
-				<legend><?php echo JText::_('Details'); ?></legend>
+			<?php echo $this->form->getLabel('new_url'); ?>
+			<?php echo $this->form->getInput('new_url'); ?>
 
-					<?php echo $fields['published']->label; ?>
-					<?php echo $fields['published']->input; ?>
+			<?php echo $this->form->getLabel('comment'); ?>
+			<?php echo $this->form->getInput('comment'); ?>
+		</fieldset>
+	</div>
 
-					<?php echo $fields['created_date']->label; ?><br />
-					<?php echo $fields['created_date']->input; ?>
+	<div class="width-40 fltrt">
+		<fieldset class="adminform">
+			<legend><?php echo JText::_('Details'); ?></legend>
 
-					<?php echo $fields['updated_date']->label; ?><br />
-					<?php echo $fields['updated_date']->input; ?>
-			</fieldset>
-		</div>
-		<div class="clr"></div>
+				<?php echo $this->form->getLabel('published'); ?>
+				<?php echo $this->form->getInput('published'); ?>
+
+				<?php echo $this->form->getLabel('created_date'); ?>
+				<?php echo $this->form->getInput('created_date'); ?>
+
+				<?php echo $this->form->getLabel('updated_date'); ?>
+				<?php echo $this->form->getInput('updated_date'); ?>
+		</fieldset>
+	</div>
+	<div class="clr"></div>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
