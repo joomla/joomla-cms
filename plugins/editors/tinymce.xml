@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.5" type="plugin" group="editors" method="upgrade">
+<install
+	version="1.6"
+	type="plugin"
+	group="editors"
+	method="upgrade">
 	<name>Editor - TinyMCE 3</name>
 	<version>3.2.4.1</version>
 	<creationDate>2005-2009</creationDate>
@@ -9,194 +13,539 @@
 	<copyright>Moxiecode Systems AB</copyright>
 	<license>LGPL</license>
 	<description>DESCTINYMCE</description>
-  <files>
-    <filename plugin="tinymce">tinymce.php</filename>
-    <folder>tinymce</folder>
-  </files>
+	<files>
+		<filename
+			plugin="tinymce">tinymce.php</filename>
+		<folder>tinymce</folder>
+	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_editors_tinymce.ini</language>
+		<language
+			tag="en-GB">en-GB.plg_editors_tinymce.ini</language>
 	</languages>
-	<params>
-		<param name="mode" type="list" default="1" label="Functionality" description="Select functionality">
-			<option value="0">Simple</option>
-			<option value="1">Advanced</option>
-			<option value="2">Extended</option>
-		</param>
-		<param name="skin" type="list" default="0" label="Skin" description="Select skin">
-			<option value="0">Default</option>
-			<option value="1">Office2007 Blue</option>
-			<option value="2">Office2007 Silver</option>
-			<option value="3">Office2007 Black</option>
-		</param>
- 		<param name="compressed" type="radio" default="0" label="Compressed Version" description="PARAMCOMPRESSEDVERSION">
- 			<option value="0">Off</option>
- 			<option value="1">On</option>
- 		</param>
- 		<param name="@spacer" type="spacer" default="" label="" description="" />
- 		<param name="cleanup_startup" type="radio" default="0" label="Code Cleanup on startup" description="Cleans code on editor load">
- 			<option value="0">Off</option>
- 			<option value="1">On</option>
- 		</param>
-    <param name="cleanup_save" type="list" default="2" label="Code Cleanup on Save" description="Code Cleanup upon saving article">
-      <option value="0">Never</option>
-      <option value="1">Front Only</option>
-      <option value="2">Always</option>
-    </param>
-    <param name="entity_encoding" type="list" default="raw" label="Entity Encoding" description="Controls how entities get processed by editor">
-      <option value="named">named</option>
-      <option value="numeric">numeric</option>
-      <option value="raw">raw</option>
-    </param>
- 		<param name="@spacer" type="spacer" default="" label="" description="" />
-  		<param name="lang_mode" type="radio" default="0" label="Automatic Language Selection" description="DESCLANGMODE">
- 			<option value="0">JNo</option>
- 			<option value="1">JYes</option>
- 		</param>
- 		<param name="lang_code" type="text" default="en" size="2" label="Language Code" description="DESCLANGCODE"/>
- 		<param name="text_direction" type="list" default="ltr" label="Text Direction" description="Ability to change text direction">
- 			<option value="ltr">Left to Right</option>
- 			<option value="rtl">Right to Left</option>
- 		</param>
- 		<param name="@spacer" type="spacer" default="" label="" description="" />
-  	<param name="content_css" type="radio" default="1" label="Template CSS classes" description="PARAMTEMPLATECSS">
- 			<option value="0">JNo</option>
- 			<option value="1">JYes</option>
- 		</param>
- 		<param name="content_css_custom" type="text" size="30" default="" label="Custom CSS Classes" description="PARAMCUSTOMCSS"/>
- 		<param name="@spacer" type="spacer" default="" label="" description="" />
-  	<param name="relative_urls" type="list" default="1" label="Urls" description="URL behaviour">
- 			<option value="0">Absolute</option>
- 			<option value="1">Relative</option>
- 		</param>
- 		<param name="newlines" type="list" default="0" label="Newlines" description="Newlines will be made into the selected option">
- 			<option value="1">BR Elements</option>
- 			<option value="0">P Elements</option>
- 		</param>
- 		<param name="invalid_elements" type="textarea" rows="2" cols="30" default="script,applet,iframe" label="Prohibited Elements" description="Elements that will be cleaned from the text"/>
-  	<param name="extended_elements" type="textarea" rows="2" cols="30" default="" label="Extended Valid Elements" description="PARAMEXTVALIDELEMENTS"/>
-   	</params>
-   	<params group="advanced">
- 		<param name="toolbar" type="list" default="top" label="Toolbar" description="Position of the toolbar">
- 			<option value="top">Top</option>
- 			<option value="bottom">Bottom</option>
- 		</param>
- 		<param name="toolbar_align" type="list" default="left" label="Toolbar align" description="Alignment of the toolbar">
- 			<option value="left">Left</option>
- 			<option value="center">Center</option>
- 			<option value="right">Right</option>
- 		</param>
- 		<param name="html_height" type="text" default="550" label="HTML Height" description="PARAMHTMLHEIGHT"/>
- 		<param name="html_width" type="text" default="750" label="HTML Width" description="PARAMHTMLWIDTH"/>
- 		<param name="element_path" type="radio" default="1" label="Element Path" description="PARAMELEMENTPATH">
- 			<option value="0">Off</option>
- 			<option value="1">On</option>
- 		</param>
- 		<param name="@spacer" type="spacer" default="" label="" description="" />
- 		<param name="fonts" type="radio" default="1" label="Fonts" description="PARAMFONTS">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="paste" type="radio" default="1" label="Paste" description="PARAMPASTE">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="searchreplace" type="radio" default="1" label="Search-Replace" description="PARAMSEARCHREPLACE">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="insertdate" type="radio" default="1" label="Insert Date" description="PARAMINSERTDATE">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
-  	<param name="format_date" type="text" default="%Y-%m-%d" label="Date format" description="Format of inserted Date. Only works in Advanced mode"/>
-		<param name="inserttime" type="radio" default="1" label="Insert Time" description="PARAMINSERTTIME">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
-  	<param name="format_time" type="text" default="%H:%M:%S" label="Time format" description="Format of inserted Time. Only works in Advanced mode"/>
- 		<param name="colors" type="radio" default="1" label="Colors" description="PARAMCOLORS">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="table" type="radio" default="1" label="Table" description="PARAMTABLE">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="smilies" type="radio" default="1" label="Smilies" description="PARAMSMILIES">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="media" type="radio" default="1" label="Media" description="PARAMMEDIA">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="hr" type="radio" default="1" label="Horizontal Rule" description="Show/Hide the Horizontal Rule button">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="directionality" type="radio" default="1" label="Directionality" description="PARAMDIRECTIONALITY">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="fullscreen" type="radio" default="1" label="Fullscreen" description="PARAMFULLSCREEN">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="style" type="radio" default="1" label="Style" description="PARAMSTYLE">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="layer" type="radio" default="1" label="Layer" description="PARAMLAYER">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="xhtmlxtras" type="radio" default="1" label="XHTMLxtras" description="PARAMXHTMLXTRAS">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="visualchars" type="radio" default="1" label="Visualchars" description="Possibility to see invisible characters">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="nonbreaking" type="radio" default="1" label="Nonbreaking" description="Insert nonbreaking space entities">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="template" type="radio" default="1" label="Template" description="PARAMTEMPLATE">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
- 		<param name="@spacer" type="spacer" default="" label="" description="" />
- 		<param name="tinybrowser" type="radio" default="1" label="Tinybrowser" description="Turn on/off Tinybrowser for images/links">
- 			<option value="0">Off</option>
- 			<option value="1">On</option>
- 		</param>
- 		<param name="advimage" type="radio" default="1" label="Advanced image" description="Turn on/off a more advanced image dialog">
- 			<option value="0">Off</option>
- 			<option value="1">On</option>
- 		</param>
- 		<param name="advlink" type="radio" default="1" label="Advanced link" description="Turn on/off a more advanced link dialog">
- 			<option value="0">Off</option>
- 			<option value="1">On</option>
- 		</param>
- 		<param name="autosave" type="radio" default="1" label="Save Warning" description="Save warning - gives warning if you cancel without saving changes">
- 			<option value="0">Off</option>
- 			<option value="1">On</option>
- 		</param>
- 		<param name="contextmenu" type="radio" default="1" label="Context menu" description="Turn on/off Context menu">
- 			<option value="0">Off</option>
- 			<option value="1">On</option>
- 		</param>
- 		<param name="inlinepopups" type="radio" default="1" label="Inline popups" description="All dialogs to open as floating DIV layers instead of popup windows. This option can be very useful in order to get around popup blockers.">
- 			<option value="0">Off</option>
- 			<option value="1">On</option>
- 		</param>
- 		<param name="safari" type="radio" default="0" label="Safari compatibility" description="Turn on/off Safari compatibility plugin">
- 			<option value="0">Off</option>
- 			<option value="1">On</option>
- 		</param>
- 		<param name="@spacer" type="spacer" default="" label="" description="" />
- 		<param name="custom_plugin" type="text" default="" label="Custom plugin" description="Add custom plugin(s)"/>
- 		<param name="custom_button" type="text" default="" label="Custom button" description="Add custom button(s)"/>
-   	</params>
+	<fields>
+		<field
+			name="mode"
+			type="list"
+			default="1"
+			label="Functionality"
+			description="Select functionality">
+			<option
+				value="0">Simple</option>
+			<option
+				value="1">Advanced</option>
+			<option
+				value="2">Extended</option>
+		</field>
+		<field
+			name="skin"
+			type="list"
+			default="0"
+			label="Skin"
+			description="Select skin">
+			<option
+				value="0">Default</option>
+			<option
+				value="1">Office2007 Blue</option>
+			<option
+				value="2">Office2007 Silver</option>
+			<option
+				value="3">Office2007 Black</option>
+		</field>
+		<field
+			name="compressed"
+			type="radio"
+			default="0"
+			label="Compressed Version"
+			description="fieldCOMPRESSEDVERSION">
+			<option
+				value="0">Off</option>
+			<option
+				value="1">On</option>
+		</field>
+		<field
+			type="spacer" />
+		<field
+			name="cleanup_startup"
+			type="radio"
+			default="0"
+			label="Code Cleanup on startup"
+			description="Cleans code on editor load">
+			<option
+				value="0">Off</option>
+			<option
+				value="1">On</option>
+		</field>
+		<field
+			name="cleanup_save"
+			type="list"
+			default="2"
+			label="Code Cleanup on Save"
+			description="Code Cleanup upon saving article">
+			<option
+				value="0">Never</option>
+			<option
+				value="1">Front Only</option>
+			<option
+				value="2">Always</option>
+		</field>
+		<field
+			name="entity_encoding"
+			type="list"
+			default="raw"
+			label="Entity Encoding"
+			description="Controls how entities get processed by editor">
+			<option
+				value="named">named</option>
+			<option
+				value="numeric">numeric</option>
+			<option
+				value="raw">raw</option>
+		</field>
+		<field
+			type="spacer" />
+		<field
+			name="lang_mode"
+			type="radio"
+			default="0"
+			label="Automatic Language Selection"
+			description="DESCLANGMODE">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+		<field
+			name="lang_code"
+			type="text"
+			default="en"
+			size="2"
+			label="Language Code"
+			description="DESCLANGCODE" />
+		<field
+			name="text_direction"
+			type="list"
+			default="ltr"
+			label="Text Direction"
+			description="Ability to change text direction">
+			<option
+				value="ltr">Left to Right</option>
+			<option
+				value="rtl">Right to Left</option>
+		</field>
+		<field
+			type="spacer" />
+		<field
+			name="content_css"
+			type="radio"
+			default="1"
+			label="Template CSS classes"
+			description="fieldTEMPLATECSS">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+		<field
+			name="content_css_custom"
+			type="text"
+			size="30"
+			default=""
+			label="Custom CSS Classes"
+			description="fieldCUSTOMCSS" />
+		<field
+			type="spacer" />
+		<field
+			name="relative_urls"
+			type="list"
+			default="1"
+			label="Urls"
+			description="URL behaviour">
+			<option
+				value="0">Absolute</option>
+			<option
+				value="1">Relative</option>
+		</field>
+		<field
+			name="newlines"
+			type="list"
+			default="0"
+			label="Newlines"
+			description="Newlines will be made into the selected option">
+			<option
+				value="1">BR Elements</option>
+			<option
+				value="0">P Elements</option>
+		</field>
+		<field
+			name="invalid_elements"
+			type="textarea"
+			rows="2"
+			cols="30"
+			default="script,applet,iframe"
+			label="Prohibited Elements"
+			description="Elements that will be cleaned from the text" />
+		<field
+			name="extended_elements"
+			type="textarea"
+			rows="2"
+			cols="30"
+			default=""
+			label="Extended Valid Elements"
+			description="fieldEXTVALIDELEMENTS" />
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="toolbar"
+			type="list"
+			default="top"
+			label="Toolbar"
+			description="Position of the toolbar">
+			<option
+				value="top">Top</option>
+			<option
+				value="bottom">Bottom</option>
+		</field>
+		<field
+			name="toolbar_align"
+			type="list"
+			default="left"
+			label="Toolbar align"
+			description="Alignment of the toolbar">
+			<option
+				value="left">Left</option>
+			<option
+				value="center">Center</option>
+			<option
+				value="right">Right</option>
+		</field>
+		<field
+			name="html_height"
+			type="text"
+			default="550"
+			label="HTML Height"
+			description="fieldHTMLHEIGHT" />
+		<field
+			name="html_width"
+			type="text"
+			default="750"
+			label="HTML Width"
+			description="fieldHTMLWIDTH" />
+		<field
+			name="element_path"
+			type="radio"
+			default="1"
+			label="Element Path"
+			description="fieldELEMENTPATH">
+			<option
+				value="0">Off</option>
+			<option
+				value="1">On</option>
+		</field>
+		<field
+			type="spacer" />
+		<field
+			name="fonts"
+			type="radio"
+			default="1"
+			label="Fonts"
+			description="fieldFONTS">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="paste"
+			type="radio"
+			default="1"
+			label="Paste"
+			description="fieldPASTE">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="searchreplace"
+			type="radio"
+			default="1"
+			label="Search-Replace"
+			description="fieldSEARCHREPLACE">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="insertdate"
+			type="radio"
+			default="1"
+			label="Insert Date"
+			description="fieldINSERTDATE">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="format_date"
+			type="text"
+			default="%Y-%m-%d"
+			label="Date format"
+			description="Format of inserted Date. Only works in Advanced mode" />
+		<field
+			name="inserttime"
+			type="radio"
+			default="1"
+			label="Insert Time"
+			description="fieldINSERTTIME">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="format_time"
+			type="text"
+			default="%H:%M:%S"
+			label="Time format"
+			description="Format of inserted Time. Only works in Advanced mode" />
+		<field
+			name="colors"
+			type="radio"
+			default="1"
+			label="Colors"
+			description="fieldCOLORS">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="table"
+			type="radio"
+			default="1"
+			label="Table"
+			description="fieldTABLE">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="smilies"
+			type="radio"
+			default="1"
+			label="Smilies"
+			description="fieldSMILIES">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="media"
+			type="radio"
+			default="1"
+			label="Media"
+			description="fieldMEDIA">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="hr"
+			type="radio"
+			default="1"
+			label="Horizontal Rule"
+			description="Show/Hide the Horizontal Rule button">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="directionality"
+			type="radio"
+			default="1"
+			label="Directionality"
+			description="fieldDIRECTIONALITY">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="fullscreen"
+			type="radio"
+			default="1"
+			label="Fullscreen"
+			description="fieldFULLSCREEN">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="style"
+			type="radio"
+			default="1"
+			label="Style"
+			description="fieldSTYLE">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="layer"
+			type="radio"
+			default="1"
+			label="Layer"
+			description="fieldLAYER">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="xhtmlxtras"
+			type="radio"
+			default="1"
+			label="XHTMLxtras"
+			description="fieldXHTMLXTRAS">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="visualchars"
+			type="radio"
+			default="1"
+			label="Visualchars"
+			description="Possibility to see invisible characters">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="nonbreaking"
+			type="radio"
+			default="1"
+			label="Nonbreaking"
+			description="Insert nonbreaking space entities">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			name="template"
+			type="radio"
+			default="1"
+			label="Template"
+			description="fieldTEMPLATE">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		<field
+			type="spacer" />
+		<field
+			name="tinybrowser"
+			type="radio"
+			default="1"
+			label="Tinybrowser"
+			description="Turn on/off Tinybrowser for images/links">
+			<option
+				value="0">Off</option>
+			<option
+				value="1">On</option>
+		</field>
+		<field
+			name="advimage"
+			type="radio"
+			default="1"
+			label="Advanced image"
+			description="Turn on/off a more advanced image dialog">
+			<option
+				value="0">Off</option>
+			<option
+				value="1">On</option>
+		</field>
+		<field
+			name="advlink"
+			type="radio"
+			default="1"
+			label="Advanced link"
+			description="Turn on/off a more advanced link dialog">
+			<option
+				value="0">Off</option>
+			<option
+				value="1">On</option>
+		</field>
+		<field
+			name="autosave"
+			type="radio"
+			default="1"
+			label="Save Warning"
+			description="Save warning - gives warning if you cancel without saving changes">
+			<option
+				value="0">Off</option>
+			<option
+				value="1">On</option>
+		</field>
+		<field
+			name="contextmenu"
+			type="radio"
+			default="1"
+			label="Context menu"
+			description="Turn on/off Context menu">
+			<option
+				value="0">Off</option>
+			<option
+				value="1">On</option>
+		</field>
+		<field
+			name="inlinepopups"
+			type="radio"
+			default="1"
+			label="Inline popups"
+			description="All dialogs to open as floating DIV layers instead of popup windows. This option can be very useful in order to get around popup blockers.">
+			<option
+				value="0">Off</option>
+			<option
+				value="1">On</option>
+		</field>
+		<field
+			name="safari"
+			type="radio"
+			default="0"
+			label="Safari compatibility"
+			description="Turn on/off Safari compatibility plugin">
+			<option
+				value="0">Off</option>
+			<option
+				value="1">On</option>
+		</field>
+		<field
+			type="spacer" />
+		<field
+			name="custom_plugin"
+			type="text"
+			default=""
+			label="Custom plugin"
+			description="Add custom plugin(s)" />
+		<field
+			name="custom_button"
+			type="text"
+			default=""
+			label="Custom button"
+			description="Add custom button(s)" />
+	</fields>
 </install>

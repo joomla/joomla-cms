@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="system">
+<install
+	version="1.6"
+	type="plugin"
+	group="system">
 	<name>System - Cache</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2007</creationDate>
@@ -10,13 +13,26 @@
 	<version>1.5</version>
 	<description>Provides page caching</description>
 	<files>
-		<filename plugin="cache">cache.php</filename>
+		<filename
+			plugin="cache">cache.php</filename>
 	</files>
-	<params>
-		<param name="browsercache" type="radio" default="0" label="Use browser caching" description="If yes, use mechanism for storing page cache in the browser">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</param>
-  		<param name="cachetime" type="text" default="15" label="Cache Lifetime" description="Page cache lifetime in minutes"/>
-	</params>
+	<fields>
+		<field
+			name="browsercache"
+			type="radio"
+			default="0"
+			label="Use browser caching"
+			description="If yes, use mechanism for storing page cache in the browser">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+		<field
+			name="cachetime"
+			type="text"
+			default="15"
+			label="Cache Lifetime"
+			description="Page cache lifetime in minutes" />
+	</fields>
 </install>

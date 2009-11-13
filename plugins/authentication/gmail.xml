@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="1.6" type="plugin"  group="authentication">
+<extension
+	version="1.6"
+	type="plugin"
+	group="authentication">
 	<name>Authentication - GMail</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2006</creationDate>
@@ -10,19 +13,50 @@
 	<version>1.6</version>
 	<description>Handles user authentication with a GMail account</description>
 	<files>
-		<filename plugin="gmail">gmail.php</filename>
+		<filename
+			plugin="gmail">gmail.php</filename>
 	</files>
-	<params>
-		<param name="applysuffix" type="list" default="0" label="Apply Suffix" description="PARAMAPPLYSUFFIX" >
-			<option value="0">Dont apply suffix</option>
-			<option value="1">Apply suffix if missing</option>
-			<option value="2">Always use suffix</option>
-		</param>
-		<param name="suffix" type="text" size="20" default="" label="Username Suffix" description="PARAMUSERNAMESUFFIX" />
-		<param name="verifypeer" type="radio" default="1" label="Verify Peer" description="PARAMVERIFYPEER">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</param>
-		<param name="user_blacklist" type="text" size="20" default="" label="User blacklist" description="PARAMUSERBLACKLIST" />
-	</params>
+	<fields>
+		<field
+			name="applysuffix"
+			type="list"
+			default="0"
+			label="Apply Suffix"
+			description="fieldAPPLYSUFFIX">
+			<option
+				value="0">Dont apply suffix</option>
+			<option
+				value="1">Apply suffix if missing</option>
+			<option
+				value="2">Always use suffix</option>
+		</field>
+
+		<field
+			name="suffix"
+			type="text"
+			size="20"
+			default=""
+			label="Username Suffix"
+			description="fieldUSERNAMESUFFIX" />
+
+		<field
+			name="verifypeer"
+			type="radio"
+			default="1"
+			label="Verify Peer"
+			description="fieldVERIFYPEER">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="user_blacklist"
+			type="text"
+			size="20"
+			default=""
+			label="User blacklist"
+			description="fieldUSERBLACKLIST" />
+	</fields>
 </extension>

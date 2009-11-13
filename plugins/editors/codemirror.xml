@@ -1,5 +1,8 @@
 <?xml version="1.0" ?>
-<install version="1.6" type="plugin" group="editors">
+<install
+	version="1.6"
+	type="plugin"
+	group="editors">
 	<name>Editor - CodeMirror</name>
 	<version>1.0</version>
 	<creationDate>May 2009</creationDate>
@@ -10,16 +13,31 @@
 	<license></license>
 	<description></description>
 	<files>
-		<filename plugin="codemirror">codemirror.php</filename>
+		<filename
+			plugin="codemirror">codemirror.php</filename>
 	</files>
-	<params>
-		<param name="linenumbers" type="radio" default="0" label="CodeMirror_LineNumbers" description="CodeMirror_LineNumbers_Desc">
-			<option value="0">Off</option>
-			<option value="1">On</option>
-		</param>
-		<param name="tabmode" type="radio" default="indent" label="CodeMirror_TabMode" description="CodeMirror_TabMode_Desc">
-			<option value="indent">CodeMirror_TabMode_Indent</option>
-			<option value="shift">CodeMirror_TabMode_Shift</option>
-		</param>
-	</params>
+	<fields>
+		<field
+			name="linenumbers"
+			type="radio"
+			default="0"
+			label="CodeMirror_LineNumbers"
+			description="CodeMirror_LineNumbers_Desc">
+			<option
+				value="0">Off</option>
+			<option
+				value="1">On</option>
+		</field>
+		<field
+			name="tabmode"
+			type="radio"
+			default="indent"
+			label="CodeMirror_TabMode"
+			description="CodeMirror_TabMode_Desc">
+			<option
+				value="indent">CodeMirror_TabMode_Indent</option>
+			<option
+				value="shift">CodeMirror_TabMode_Shift</option>
+		</field>
+	</fields>
 </install>

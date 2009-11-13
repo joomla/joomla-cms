@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="authentication">
+<install
+	version="1.6"
+	type="plugin"
+	group="authentication">
 	<name>Authentication - Example</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
@@ -10,7 +13,30 @@
 	<version>1.5</version>
 	<description>An example of an authentication plugin</description>
 	<files>
-		<filename plugin="example">example.php</filename>
+		<filename
+			plugin="example">example.php</filename>
 	</files>
-	<params/>
+	<fields>
+		<field
+			name="field1"
+			type="text"
+			label="Example field 1"
+			description="Example field 1" />
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="field1"
+			type="text"
+			label="Example field 1"
+			description="Example field 1" />
+	</fields>
+	<fields
+		group="example">
+		<field
+			name="field2"
+			type="text"
+			label="Example field 2"
+			description="Example field 2" />
+	</fields>
 </install>

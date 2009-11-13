@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id: profile.xml 11567 2009-02-02 23:13:14Z eddieajau $ -->
 <install
-	version="1.5"
+	version="1.6"
 	type="plugin"
 	group="profile">
 	<name>User - Profile</name>
@@ -28,8 +28,8 @@
 			tag="en-GB">language/en-GB/en-GB.plg_members_profile.ini</language>
 	</languages>
 
-	<params>
-		<param
+	<fields>
+		<field
 			name="register-require_address1"
 			type="radio"
 			default="0"
@@ -41,8 +41,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="register-require_address2"
 			type="radio"
 			default="0"
@@ -54,8 +54,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="register-require_city"
 			type="radio"
 			default="0"
@@ -67,8 +67,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="register-require_region"
 			type="radio"
 			default="0"
@@ -80,8 +80,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="register-require_country"
 			type="radio"
 			default="0"
@@ -93,8 +93,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="register-require_postal_code"
 			type="radio"
 			default="0"
@@ -106,8 +106,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="register-require_phone"
 			type="radio"
 			default="0"
@@ -119,8 +119,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="register-require_website"
 			type="radio"
 			default="0"
@@ -132,10 +132,10 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			type="spacer" />
-		<param
+		<field
 			name="profile-require_address1"
 			type="radio"
 			default="1"
@@ -147,8 +147,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="profile-require_address2"
 			type="radio"
 			default="1"
@@ -160,8 +160,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="profile-require_city"
 			type="radio"
 			default="1"
@@ -173,8 +173,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="profile-require_region"
 			type="radio"
 			default="1"
@@ -186,8 +186,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="profile-require_country"
 			type="radio"
 			default="1"
@@ -199,8 +199,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="profile-require_postal_code"
 			type="radio"
 			default="1"
@@ -212,8 +212,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="profile-require_phone"
 			type="radio"
 			default="1"
@@ -225,8 +225,8 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="profile-require_website"
 			type="radio"
 			default="1"
@@ -238,6 +238,6 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</param>
-	</params>
+		</field>
+	</fields>
 </install>

@@ -12,5 +12,4 @@
 	<files>
 		<filename plugin="example">example.php</filename>
 	</files>
-	<params/>
 </install>

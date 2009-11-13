@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="system">
+<install
+	version="1.6"
+	type="plugin"
+	group="system">
 	<name>System - Redirect</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2009</creationDate>
@@ -9,10 +12,8 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6</version>
 	<description>Plg_System_Redirect_Desc</description>
-
 	<files>
-		<filename plugin="redirect">redirect.php</filename>
+		<filename
+			plugin="redirect">redirect.php</filename>
 	</files>
-
-	<params />
 </install>

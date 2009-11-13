@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="user">
+<install
+	version="1.6"
+	type="plugin"
+	group="user">
 	<name>User - Joomla!</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
@@ -10,12 +13,20 @@
 	<version>1.5</version>
 	<description>PLG_USER_JOOMLA</description>
 	<files>
-		<filename plugin="joomla">joomla.php</filename>
+		<filename
+			plugin="joomla">joomla.php</filename>
 	</files>
-	<params>
-		<param name="autoregister" type="radio" default="1" label="Auto Create Users" description="PARAMAUTOCREATEUSERS">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</param>
-	</params>
+	<fields>
+		<field
+			name="autoregister"
+			type="radio"
+			default="1"
+			label="Auto Create Users"
+			description="fieldAUTOCREATEUSERS">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+	</fields>
 </install>

@@ -1,5 +1,8 @@
 <?xml version="1.0" ?>
-<install version="1.6" type="plugin" group="editors">
+<install
+	version="1.6"
+	type="plugin"
+	group="editors">
 	<name>Editor - None</name>
 	<version>1.0</version>
 	<creationDate>August 2004</creationDate>
@@ -10,7 +13,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>This loads a basic text entry field</description>
 	<files>
-		<filename plugin="none">none.php</filename>
+		<filename
+			plugin="none">none.php</filename>
 	</files>
-	<params/>
 </install>

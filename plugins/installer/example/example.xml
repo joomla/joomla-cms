@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="1.6" type="plugin" group="installer">
+<extension
+	version="1.6"
+	type="plugin"
+	group="installer">
 	<name>Installer - Example</name>
 	<author>Joomla! Project</author>
 	<creationDate>September 2008</creationDate>
@@ -10,7 +13,7 @@
 	<version>1.0</version>
 	<description>An example installer plugin</description>
 	<files>
-		<filename plugin="example">example.php</filename>
+		<filename
+			plugin="example">example.php</filename>
 	</files>
-	<params/>
 </extension>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="editors-xtd">
+<install
+	version="1.6"
+	type="plugin"
+	group="editors-xtd">
 	<name>Button - Image</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2004</creationDate>
@@ -10,7 +13,7 @@
 	<version>1.0.0</version>
 	<description>DESCIMAGE</description>
 	<files>
-		<filename plugin="image">image.php</filename>
+		<filename
+			plugin="image">image.php</filename>
 	</files>
-	<params />
 </install>

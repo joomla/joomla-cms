@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="content">
+<install
+	version="1.6"
+	type="plugin"
+	group="content">
 	<name>Content - Pagebreak</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
@@ -10,24 +13,56 @@
 	<version>1.5</version>
 	<description>DESCCONTENTPAGEBREAK</description>
 	<files>
-		<filename plugin="pagebreak">pagebreak.php</filename>
+		<filename
+			plugin="pagebreak">pagebreak.php</filename>
 	</files>
-	<params>
-		<param name="enabled" type="radio" default="1" label="Enable Plugin" description="PARAMENABLED">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</param>
-		<param name="title" type="radio" default="1" label="Site Title" description="PARAMSITETITLE">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</param>
-		<param name="multipage_toc" type="radio" default="1" label="Table of Contents" description="PARAMSITETOC">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="showall" type="radio" default="1" label="Show All" description="PARAMSITESHOWALL">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-	</params>
+	<fields>
+		<field
+			name="enabled"
+			type="radio"
+			default="1"
+			label="Enable Plugin"
+			description="fieldENABLED">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="title"
+			type="radio"
+			default="1"
+			label="Site Title"
+			description="fieldSITETITLE">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="multipage_toc"
+			type="radio"
+			default="1"
+			label="Table of Contents"
+			description="fieldSITETOC">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="showall"
+			type="radio"
+			default="1"
+			label="Show All"
+			description="fieldSITESHOWALL">
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+	</fields>
 </install>

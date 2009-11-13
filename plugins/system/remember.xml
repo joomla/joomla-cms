@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="system">
+<install
+	version="1.6"
+	type="plugin"
+	group="system">
 	<name>System - Remember Me</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2007</creationDate>
@@ -10,8 +13,7 @@
 	<version>1.5</version>
 	<description>Provides remember me functionality</description>
 	<files>
-		<filename plugin="remember">remember.php</filename>
+		<filename
+			plugin="remember">remember.php</filename>
 	</files>
-	<params>
-	</params>
 </install>

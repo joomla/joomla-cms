@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
-
-<install version="1.6" type="plugin" group="content">
+	<!-- $Id$ -->
+<install
+	version="1.6"
+	type="plugin"
+	group="content">
 	<name>Content - Email Cloaking</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
@@ -12,12 +14,20 @@
 	<version>1.6</version>
 	<description>DESCMOSEMAILCLOAK</description>
 	<files>
-		<filename plugin="emailcloak">emailcloak.php</filename>
+		<filename
+			plugin="emailcloak">emailcloak.php</filename>
 	</files>
-	<params>
-		<param name="mode" type="list" default="1" label="Mode" description="Select how the emails will be displayed">
-			<option value="0">Nonlinkable Text</option>
-			<option value="1">As linkable mailto address</option>
-		</param>
-	</params>
+	<fields>
+		<field
+			name="mode"
+			type="list"
+			default="1"
+			label="Mode"
+			description="Select how the emails will be displayed">
+			<option
+				value="0">Nonlinkable Text</option>
+			<option
+				value="1">As linkable mailto address</option>
+		</field>
+	</fields>
 </install>

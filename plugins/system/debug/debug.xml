@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install
-	version="1.5"
+	version="1.6"
 	type="plugin"
 	group="system">
 	<name>System - Debug</name>
@@ -17,106 +17,106 @@
 		<filename
 			plugin="debug">debug.php</filename>
 	</files>
-	<params>
-		<param
+	<fields>
+		<field
 			name="filter_groups"
 			type="usergroup"
 			multiple="true"
 			size="10"
-			default=""
-			label="Debug_Param_Allowed_groups_Label"
-			description="Debug_Param_Allowed_groups_Desc" />
+			label="Debug_field_Allowed_groups_Label"
+			description="Debug_field_Allowed_groups_Desc" />
 
-		<param
+		<field
 			name="profile"
 			type="radio"
 			default="1"
-			label="Debug_Param_Profiling_Label"
-			description="Debug_Param_Profiling_Desc">
+			label="Debug_field_Profiling_Label"
+			description="Debug_field_Profiling_Desc">
 			<option
 				value="1">JYes</option>
 			<option
 				value="0">JNo</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="queries"
 			type="radio"
 			default="1"
-			label="Debug_Param_Queries_Label"
-			description="Debug_Param_Queries_Desc">
+			label="Debug_field_Queries_Label"
+			description="Debug_field_Queries_Desc">
 			<option
 				value="1">JYes</option>
 			<option
 				value="0">JNo</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="memory"
 			type="radio"
 			default="1"
-			label="Debug_Param_Memory_Label"
-			description="Debug_Param_Memory_Desc">
+			label="Debug_field_Memory_Label"
+			description="Debug_field_Memory_Desc">
 			<option
 				value="1">JYes</option>
 			<option
 				value="0">JNo</option>
-		</param>
+		</field>
 
-		<param
+	</fields>
+
+	<fields
+		group="language">
+
+		<field
 			name="language_files"
 			type="radio"
 			default="1"
-			label="Debug_Param_Language_files_Label"
-			description="Debug_Param_Language_files_Desc">
+			label="Debug_field_Language_files_Label"
+			description="Debug_field_Language_files_Desc">
 			<option
 				value="1">JYes</option>
 			<option
 				value="0">JNo</option>
-		</param>
-
-		<param
-			type="spacer" />
-
-		<param
+		</field>
+		<field
 			name="language_strings"
 			type="radio"
 			default="1"
-			label="Debug_Param_Language_string_Label"
-			description="Debug_Param_Language_string_Desc">
+			label="Debug_field_Language_string_Label"
+			description="Debug_field_Language_string_Desc">
 			<option
 				value="1">JYes</option>
 			<option
 				value="0">JNo</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="strip-first"
 			type="radio"
 			default="1"
-			label="Debug_Param_Strip_First_Label"
-			description="Debug_Param_Strip_First_Desc">
+			label="Debug_field_Strip_First_Label"
+			description="Debug_field_Strip_First_Desc">
 			<option
 				value="1">JYes</option>
 			<option
 				value="0">JNo</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="strip-prefix"
 			type="textarea"
-			label="Debug_Param_Strip_Prefix_Label"
-			description="Debug_Param_Strip_Prefix_Desc"
+			label="Debug_field_Strip_Prefix_Label"
+			description="Debug_field_Strip_Prefix_Desc"
 			rows="4"
 			cols="30" />
 
-		<param
+		<field
 			name="strip-suffix"
 			type="textarea"
-			label="Debug_Param_Strip_Suffix_Label"
-			description="Debug_Param_Strip_Suffix_Desc"
+			label="Debug_field_Strip_Suffix_Label"
+			description="Debug_field_Strip_Suffix_Desc"
 			default=""
 			rows="4"
 			cols="30" />
-	</params>
+	</fields>
 </install>
