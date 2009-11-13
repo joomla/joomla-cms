@@ -53,7 +53,6 @@ class JFormFieldList extends JFormField
 	{
 		$disabled	= $this->_element->attributes('disabled') == 'true' ? true : false;
 		$readonly	= $this->_element->attributes('readonly') == 'true' ? true : false;
-		$mult		= '';
 		$attributes	= ' ';
 
 		if ($v = $this->_element->attributes('size')) {
@@ -68,7 +67,6 @@ class JFormFieldList extends JFormField
 		if ($m = $this->_element->attributes('multiple'))
 		{
 			$attributes	.= 'multiple="multiple"';
-			$mult		= '[]';
 		}
 
 		if ($disabled || $readonly) {
@@ -81,7 +79,7 @@ class JFormFieldList extends JFormField
 		if ($disabled)
 		{
 			// Create a disabled list.
-			$return .= JHtml::_('select.genericlist', $options, $this->inputName.$mult, $attributes, 'value', 'text', $this->value, $this->inputId);
+			$return .= JHtml::_('select.genericlist', $options, $this->inputName, $attributes, 'value', 'text', $this->value, $this->inputId);
 		}
 		// Handle a read only list.
 		else if ($readonly)
@@ -94,7 +92,7 @@ class JFormFieldList extends JFormField
 		else
 		{
 			// Create a regular list.
-			$return = JHtml::_('select.genericlist', $options, $this->inputName.$mult, $attributes, 'value', 'text', $this->value, $this->inputId);
+			$return = JHtml::_('select.genericlist', $options, $this->inputName, $attributes, 'value', 'text', $this->value, $this->inputId);
 		}
 
 		return $return;
