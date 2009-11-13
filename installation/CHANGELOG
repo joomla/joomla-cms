@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Nov-2009 Ron Severdia
+^ Menu Manager UI fixes
+# Menu item modal fixes
++ Added missing language strings/keys
+
 13-Nov-2009 Andrew Eddie
  ^ Fixed inflection on JForm field names:
    - accesslevels -> accesslevel

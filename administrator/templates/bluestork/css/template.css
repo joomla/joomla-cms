@@ -1574,24 +1574,55 @@ ul.subext li{
 }
 
 /* -- MODAL STYLES ----------- */
-dl.menu_types {
-	padding: 0 0 0 30px;
+
+h2.modal-title {
+	margin-left: 15px;
+	margin-bottom:5px;
 }
-dl.menu_types dt {
+
+ul.menu_types {
+	padding: 0 0 0 15px;
+	width:95%;
+	margin: 0;
+}
+ul.menu_types li,
+dl.menu_type dd ul li {
+	width: 240px;
+	list-style: none;
+	display:block;
+	float:left;
+	margin-right: 10px;	
+}
+ul.menu_types li { width: 47%}
+
+dl.menu_type {
+	width: 240px;
+	margin: 0;
+	padding: 0;
+}
+dl.menu_type dt{
 	font-weight: bold;
 	font-size: 12px;
+	float:left;
+	margin: 13px 0 5px 0;
+	border-bottom: 1px solid #666;
+	width: 240px;
 }
-dl.menu_types dd {
+dl.menu_type dd {
+	clear:left;
+	margin: 0;
 }
-dl.menu_types dd ul {
+
+dl.menu_type dd ul li {
+	margin: 0;
+}
+dl.menu_type dd ul {
 	margin-left: -40px;
 }
-dl.menu_types dd ul li {
-	display:block;
-	list-style: none;
-	padding: 0;
-	margin: 0 0 5px -30px;
-}
+
+
+
+
 
 
 /* -- ACL STYLES relocated from com_users/media/default.css ----------- */

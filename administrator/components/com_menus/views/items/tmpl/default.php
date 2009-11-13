@@ -73,7 +73,7 @@ $userId	= $user->get('id');
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Access', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%">
-					<?php echo JText::_('JGrid_Heading_Menu_Type'); ?>
+					<?php echo JText::_('JGrid_Heading_Menu_Item_Type'); ?>
 				</th>
 				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.lft', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -109,17 +109,7 @@ $userId	= $user->get('id');
 					<?php endif; ?>
 
 					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
-								(<span><?php echo JText::_('JFIELD_ALIAS_LABEL') . ':</span> ' . $this->escape($item->alias)
-								.' | <span>'.JText::_('MENUS_ITEM_TYPE_LABEL'); ?>:</span>
-								<?php if ($item->component_id=='0'){
-											echo $this->escape($item->type);
-										}
-										else {
-											echo $this->escape($item->componentname);
-										}
-
-								;?>)
-								</p>
+								(<span><?php echo JText::_('JFIELD_ALIAS_LABEL') . ':</span> ' . $this->escape($item->alias) ;?>)</p>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'items.');?>
@@ -134,7 +124,13 @@ $userId	= $user->get('id');
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<td class="center">
-					Type
+						<?php if ($item->component_id=='0'){
+							echo $this->escape($item->type);
+							}
+							else {
+								echo $this->escape($item->componentname);
+								}
+						;?>
 				</td>
 				<td class="center">
 					<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt);?>">

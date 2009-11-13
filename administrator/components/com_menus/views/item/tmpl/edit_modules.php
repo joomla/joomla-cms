@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 				<?php echo JText::_('Menus_Heading_Display');?>
 			</th>
 			<th>
-				<?php echo JText::_('Menus_Heading_Edit_Link'); ?>
+				&nbsp;
 			</th>
 		</tr>
 		</thead>

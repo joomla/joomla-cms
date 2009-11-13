@@ -99,13 +99,16 @@ class JFormFieldMenuType extends JFormFieldList
 		// Initialize variables.
 		$html = array();
 		$types = $this->_getTypeOptions();
-
-		$html[] = '<dl class="menu_types">';
+		
+		$html[] = '<h2 class="modal-title">'.JText::_('Menus_Type_Choose').'</h2>';
+		$html[] = '<ul class="menu_types">';
 
 
 
 		foreach ($types as $name => $list)
 		{
+		$html[] = '<li>';
+		$html[] = '<dl class="menu_type">';
 		$html[] = '	<dt>'.$name.'</dt>';
 		$html[] = '	<dd>';
 		$html[] = '		<ul>';
@@ -117,11 +120,15 @@ class JFormFieldMenuType extends JFormFieldList
 			}
 		$html[] = '		</ul>';
 		$html[] = '	</dd>';
+		$html[] = '</dl>';
+		$html[] = '</li>';
 		}
-
+		
+		$html[] = '<li>';
+		$html[] = '<dl class="menu_type">';
 		$html[] = '	<dt>'.JText::_('Menus_Type_System').'</dt>';
 		$html[] = '	<dd>';
-		$html[] = '		'.JText::_('Menus_Type_System_Desc');
+		// $html[] = '		'.JText::_('Menus_Type_System_Desc');
 		$html[] = '		<ul>';
 		$html[] = '			<li>';
 		$html[] = '				<a class="choose_type" href="index.php?option=com_menus&amp;task=item.setType&amp;type='.base64_encode(json_encode(array('title'=>'url'))).'" title="'.JText::_('Menus_Type_External_URL_Desc').'">'.JText::_('Menus_Type_External_URL').'</a>';
@@ -135,6 +142,8 @@ class JFormFieldMenuType extends JFormFieldList
 		$html[] = '		</ul>';
 		$html[] = '	</dd>';
 		$html[] = '</dl>';
+		$html[] = '</li>';
+		$html[] = '</ul>';
 
 		return implode("\n", $html);
 	}

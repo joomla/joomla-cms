@@ -9,7 +9,7 @@
 
 	<fields
 		group="request"
-		label="Menus_Layout_Basic_Options_Label"
+		label="Menus_Layout_Menutype_Options_Label"
 		description="">
 
 		<field

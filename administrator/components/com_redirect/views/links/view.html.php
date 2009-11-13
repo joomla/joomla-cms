@@ -77,8 +77,10 @@ class RedirectViewLinks extends JView
 			JToolBarHelper::trash('links.trash');
 		}
 		if ($canDo->get('core.admin')) {
+			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_redirect');
 		}
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.redirect');
 	}
 }

@@ -76,24 +76,25 @@ JHTML::_('behavior.modal');
 
 			<?php echo $this->form->getLabel('template_style_id'); ?>
 			<?php echo $this->form->getInput('template_style_id'); ?>
+			
+			
 	</fieldset>
 </div>
 
 <div class="width-40 fltrt">
 	<?php echo $pane->startPane('menu-pane'); ?>
-
-		<?php //Load  parameters.
+	<?php //Load  parameters.
 			echo $this->loadTemplate('options'); ?>
 
 		<div class="clr"></div>
 
-	<?php if (!empty($this->modules)) : ?>
-		<?php echo $pane->startPanel(JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>
-		<fieldset>
-			<?php echo $this->loadTemplate('modules'); ?>
-		</fieldset>
-		<?php echo $pane->endPanel(); ?>
-	<?php endif; ?>
+		<?php if (!empty($this->modules)) : ?>
+			<?php echo $pane->startPanel(JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>
+			<fieldset>
+				<?php echo $this->loadTemplate('modules'); ?>
+			</fieldset>
+			<?php echo $pane->endPanel(); ?>
+		<?php endif; ?>
 
 	<?php echo $pane->endPane(); ?>
 </div>
@@ -101,5 +102,5 @@ JHTML::_('behavior.modal');
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-<div class="clr"></div>
+
 
