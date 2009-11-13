@@ -308,44 +308,44 @@ class PluginsModelPlugin extends JModelForm
 	 * @param	integer	Increment, usually +1 or -1
 	 * @return	boolean	False on failure or error, true otherwise.
 	 */
-	public function reorder($pk, $direction = 0)
+	public function reorder($pks, $delta = 0)
 	{
-		// Sanitize the id and adjustment.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('plugin.id');
-
-		// Get an instance of the record's table.
-		$table = $this->getTable();
-
-		// Attempt to check-out and move the row.
-		if (!$this->checkout($pk)) {
-			return false;
-		}
-
-		// Load the row.
-		if (!$table->load($pk)) {
-			$this->setError($table->getError());
-			return false;
-		}
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$table	= $this->getTable();
+		$pks	= (array) $pks;
+		$result	= true;
 
 		// Access checks.
 		$allow = $user->authorise('core.edit.state', 'com_plugins');
-
 		if (!$allow)
 		{
 			$this->setError(JText::_('JError_Core_Edit_State_not_permitted'));
 			return false;
 		}
 
-		// Move the row.
-		// TODO: Where clause to restrict category.
-		$table->move($pk);
-
-		// Check-in the row.
-		if (!$this->checkin($pk)) {
-			return false;
+		foreach ($pks as $i => $pk)
+		{
+			$table->reset();
+			if ($table->load($pk) && $this->checkout($pk))
+			{
+				$table->ordering += $delta;
+				if (!$table->store())
+				{
+					$this->setError($table->getError());
+					unset($pks[$i]);
+					$result = false;
+				}
+			}
+			else
+			{
+				$this->setError($table->getError());
+				unset($pks[$i]);
+				$result = false;
+			}
 		}
 
-		return true;
+		return $result;
 	}
 
 	/**
@@ -357,6 +357,7 @@ class PluginsModelPlugin extends JModelForm
 	function saveorder($pks, $order)
 	{
 		// Initialize variables
+		$user		= JFactory::getUser();
 		$table		= $this->getTable();
 		$conditions	= array();
 
@@ -384,28 +385,7 @@ class PluginsModelPlugin extends JModelForm
 					$this->setError($table->getError());
 					return false;
 				}
-				// remember to reorder this category
-				$condition = 'catid = '.(int) $table->catid;
-				$found = false;
-				foreach ($conditions as $cond)
-				{
-					if ($cond[1] == $condition)
-					{
-						$found = true;
-						break;
-					}
-				}
-				if (!$found) {
-					$conditions[] = array ($table->extension_id, $condition);
-				}
 			}
-		}
-
-		// Execute reorder for each category.
-		foreach ($conditions as $cond)
-		{
-			$table->load($cond[0]);
-			$table->reorder($cond[1]);
 		}
 
 		return true;

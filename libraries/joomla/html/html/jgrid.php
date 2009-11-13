@@ -77,4 +77,55 @@ abstract class JHtmlJGrid
 		return $checked;
 	}
 
+	/**
+	 * Create a order-up action icon.
+	 *
+	 * @param	integer	The row index.
+	 * @param	string	The task to fire.
+	 * @param	boolean	True to show the icon.
+	 * @param	string	The image alternate text string.
+	 *
+	 * @return	string	The HTML for the IMG tag.
+	 * @since	1.6
+	 */
+	public static function orderUp($i, $task, $enabled = true, $alt = 'JGrid_Move_Up')
+	{
+		// TODO: Deal with hardcoded links.
+		if ($enabled)
+		{
+			$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
+			$html	.= '   <img src="templates/bluestork/images/admin/uparrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+			$html	.= '</a>';
+		}
+		else {
+			$html	= '<img src="templates/bluestork/images/admin/uparrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+		}
+		return $html;
+	}
+
+	/**
+	 * Create a move-down action icon.
+	 *
+	 * @param	integer	The row index.
+	 * @param	string	The task to fire.
+	 * @param	boolean	True to show the icon.
+	 * @param	string	The image alternate text string.
+	 *
+	 * @return	string	The HTML for the IMG tag.
+	 * @since	1.6
+	 */
+	public static function orderDown($i, $task, $enabled = true, $alt = 'JGrid_Move_Up')
+	{
+		// TODO: Deal with hardcoded links.
+		if ($enabled)
+		{
+			$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
+			$html	.= '   <img src="templates/bluestork/images/admin/downarrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+			$html	.= '</a>';
+		}
+		else {
+			$html	= '<img src="templates/bluestork/images/admin/downarrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+		}
+		return $html;
+	}
 }
