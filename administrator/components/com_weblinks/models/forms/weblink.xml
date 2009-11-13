@@ -34,7 +34,7 @@
 		<field
 			id="catid"
 			name="catid"
-			type="Categories"
+			type="category"
 			extension="com_weblinks"
 			label="Weblinks_Category_Label"
 			description="Weblinks_Category_Desc"

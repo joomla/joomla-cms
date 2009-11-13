@@ -16,7 +16,7 @@
 
 		<field
 			name="catid"
-			type="categories"
+			type="category"
 			extension="com_contact"
 			default="0"
 			required="true"

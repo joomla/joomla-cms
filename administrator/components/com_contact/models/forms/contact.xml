@@ -67,7 +67,7 @@
 		<field
 			id="catid"
 			name="catid"
-			type="categories"
+			type="category"
 			extension="com_contact"
 			label="JField_Category_Label"
 			description="JField_Category_Desc"

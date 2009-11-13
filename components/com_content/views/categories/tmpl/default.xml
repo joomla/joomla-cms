@@ -14,7 +14,7 @@
 
 		<field
 			name="Category"
-			type="categories"
+			type="category"
 			label="Choose_Category_Label"
 			description="Choose_Category_Desc"
 			extension="com_content"

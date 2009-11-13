@@ -76,7 +76,7 @@
 		<field
 			id="catid"
 			name="catid"
-			type="Categories"
+			type="category"
 			extension="com_content"
 			label="JField_Category_Label"
 			description="JField_Category_Desc"

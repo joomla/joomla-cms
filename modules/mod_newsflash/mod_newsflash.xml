@@ -13,7 +13,7 @@
 		<filename module="mod_newsflash">mod_newsflash.php</filename>
 	</files>
 	<params>
-		<param name="catid" type="categories" default="0" label="Category" description="A content category" />
+		<param name="catid" type="category" default="0" label="Category" description="A content category" />
 		<param name="layout" type="list" default="random" label="Layout" description="The layout to display the category">
 			<option value="default">Randomly choose one at a time</option>
 			<option value="horiz">Horizontal</option>
