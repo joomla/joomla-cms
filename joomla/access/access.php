@@ -201,7 +201,6 @@ class JAccess
 
 		// Initialize the authorised array.
 		$authorised = array(1);
-		$config = new JConfig;
 
 		// Find the authorized levels.
 		foreach (self::$viewLevels as $level => $rule)
