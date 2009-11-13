@@ -16,7 +16,7 @@
 	<params>
 		<param
 			name="layout"
-			type="modulelayouts"
+			type="modulelayout"
 			label="JField_Alt_Layout_Label"
 			description="JField_Alt_Module_Layout_Desc"
 			module="mod_menu"
