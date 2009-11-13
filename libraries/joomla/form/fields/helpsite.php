@@ -18,14 +18,14 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldHelpsites extends JFormFieldList
+class JFormFieldHelpsite extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	public $type = 'Helpsites';
+	public $type = 'Helpsite';
 
 	/**
 	 * Method to get a list of options for a list input.

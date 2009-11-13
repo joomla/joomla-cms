@@ -112,7 +112,7 @@
 
 		<field
 			name="helpsite"
-			type="helpsites"
+			type="helpsite"
 			default=""
 			label="Users_Option_Helpsite_Label"
 			description="Users_Option_Helpsite_Desc">

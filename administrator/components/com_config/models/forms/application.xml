@@ -691,7 +691,7 @@
 
 		<field
 			name="helpurl"
-			type="helpsites"
+			type="helpsite"
 			default=""
 			label="Config_Help_Server_Label"
 			description="Config_Help_Server_Desc"
