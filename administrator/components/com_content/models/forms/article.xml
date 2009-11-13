@@ -431,7 +431,7 @@
 
 		<field
 			name="layout"
-			type="componentlayouts"
+			type="componentlayout"
 			label="JField_Alt_Layout_Label"
 			description="JField_Alt_Component_Layout_Desc"
 			extension="com_content"
