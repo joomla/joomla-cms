@@ -504,7 +504,7 @@
 
 		<field
 			name="session_handler"
-			type="sessionhandlers"
+			type="sessionhandler"
 			default="none"
 			label="Config_Session_Handler_Label"
 			description="Config_Session_Handler_Desc"
