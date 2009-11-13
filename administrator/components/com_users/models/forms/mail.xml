@@ -19,7 +19,7 @@
 
 		<field
 			name="group"
-			type="usergroups"
+			type="usergroup"
 			size="10"
 			default="0"
 			label="Users_Mail_Group"

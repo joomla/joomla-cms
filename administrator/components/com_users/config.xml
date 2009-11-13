@@ -15,7 +15,7 @@
 
 		<field
 			name="new_usertype"
-			type="usergroups"
+			type="usergroup"
 			default="2"
 			label="New User Registration Type"
 			description="TIPNEWUSERTYPE">

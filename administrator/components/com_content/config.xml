@@ -257,7 +257,7 @@
 
 		<field
 			name="filter_groups"
-			type="usergroups"
+			type="usergroup"
 			label="Content_Attribs_Filter_Groups_Label"
 			description="Content_Attribs_Filter_Groups_Desc"
 			multiple="true"
