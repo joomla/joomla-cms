@@ -71,6 +71,7 @@ class PluginsViewPlugin extends JView
 			JToolBarHelper::apply('plugin.apply');
 		}
 		JToolBarHelper::cancel('plugin.cancel', 'JToolbar_Close');
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.plugins.edit');
 	}
 }

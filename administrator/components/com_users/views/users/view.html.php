@@ -81,7 +81,7 @@ class UsersViewUsers extends JView
 		{
 			JToolBarHelper::preferences('com_users');
 		}
-
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.users.users');
 	}
 }

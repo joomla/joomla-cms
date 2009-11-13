@@ -64,6 +64,7 @@ class NewsfeedsViewNewsfeeds extends JView
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::custom('newsfeeds.publish', 'publish.png', 'publish_f2.png', 'JToolbar_Publish', true);
 			JToolBarHelper::custom('newsfeeds.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JToolbar_Unpublish', true);
+			JToolBarHelper::divider();
 			if ($state->get('filter.published') != -1) {
 				JToolBarHelper::archiveList('newsfeeds.archive');
 			}
@@ -75,8 +76,10 @@ class NewsfeedsViewNewsfeeds extends JView
 			JToolBarHelper::trash('newsfeeds.trash');
 		}
 		if ($canDo->get('core.admin')) {
+			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_newsfeeds');
 		}
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.newsfeed');
 	}
 }

@@ -31,6 +31,9 @@ $ -> Language fix or change
 ^ Menu Manager UI fixes
 # Menu item modal fixes
 + Added missing language strings/keys
++ Added missing User Menu language file
+$ More language string fixes
+
 
 13-Nov-2009 Andrew Eddie
  ^ Fixed inflection on JForm field names:

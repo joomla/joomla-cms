@@ -56,10 +56,12 @@ class SearchViewSearches extends JView
 
 		JToolBarHelper::title(JText::_('Search_Manager_Searches'), 'search.png');
 		JToolBarHelper::custom('searches.reset', 'refresh.png', 'refresh_f2.png', 'Reset', false);
-
+		
+		JToolBarHelper::divider();
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_search');
 		}
+		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.stats.searches');
 	}
 }
