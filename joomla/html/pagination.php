@@ -347,14 +347,14 @@ class JPagination extends JObject
 	/**
 	 * Return the icon to move an item UP.
 	 *
-	 * @param	integer	$i			The row index.
-	 * @param	boolean	$condition	True to show the icon.
-	 * @param	string	$task		The task to fire.
-	 * @param	string	$alt 		The image alternate text string.
+	 * @param	integer	The row index.
+	 * @param	boolean	True to show the icon.
+	 * @param	string	The task to fire.
+	 * @param	string	The image alternate text string.
 	 * @return	string	Either the icon to move an item up or a space.
 	 * @since	1.0
 	 */
-	public function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'Move Up', $enabled = true)
+	public function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'JGrid_Move_Up', $enabled = true)
 	{
 		$alt = JText::_($alt);
 
@@ -377,15 +377,15 @@ class JPagination extends JObject
 	/**
 	 * Return the icon to move an item DOWN.
 	 *
-	 * @param	int		$i			The row index.
-	 * @param	int		$n 			The number of items in the list.
-	 * @param	boolean	$condition 	True to show the icon.
-	 * @param	string	$task 		The task to fire.
-	 * @param	string	$alt 		The image alternate text string.
+	 * @param	int		The row index.
+	 * @param	int		The number of items in the list.
+	 * @param	boolean	True to show the icon.
+	 * @param	string	The task to fire.
+	 * @param	string	The image alternate text string.
 	 * @return	string	Either the icon to move an item down or a space.
 	 * @since	1.0
 	 */
-	public function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'Move Down', $enabled = true)
+	public function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'JGrid_Move_Down', $enabled = true)
 	{
 		$alt = JText::_($alt);
 

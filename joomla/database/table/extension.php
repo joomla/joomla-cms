@@ -201,5 +201,4 @@ class JTableExtension extends JTable
 		$this->setError('');
 		return true;
 	}
-
 }
