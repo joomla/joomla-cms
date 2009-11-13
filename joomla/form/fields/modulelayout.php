@@ -17,12 +17,12 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldModuleLayouts extends JFormFieldList
+class JFormFieldModuleLayout extends JFormFieldList
 {
 	/**
 	 * @var		string
 	 */
-	protected $_name = 'ModuleLayouts';
+	protected $_name = 'ModuleLayout';
 
 	/**
 	 * Method to get a list of options for a list input.
