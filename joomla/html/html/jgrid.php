@@ -90,6 +90,8 @@ abstract class JHtmlJGrid
 	 */
 	public static function orderUp($i, $task, $enabled = true, $alt = 'JGrid_Move_Up')
 	{
+		$alt = JText::_($alt);
+
 		// TODO: Deal with hardcoded links.
 		if ($enabled)
 		{
@@ -116,6 +118,8 @@ abstract class JHtmlJGrid
 	 */
 	public static function orderDown($i, $task, $enabled = true, $alt = 'JGrid_Move_Up')
 	{
+		$alt = JText::_($alt);
+
 		// TODO: Deal with hardcoded links.
 		if ($enabled)
 		{
