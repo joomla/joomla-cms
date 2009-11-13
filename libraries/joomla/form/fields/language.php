@@ -18,14 +18,14 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldLanguages extends JFormFieldList
+class JFormFieldLanguage extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	protected $type = 'Languages';
+	protected $type = 'Language';
 
 	/**
 	 * Method to get a list of options for a list input.

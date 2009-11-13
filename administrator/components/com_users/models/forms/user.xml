@@ -80,7 +80,7 @@
 
 		<field
 			name="admin_language"
-			type="languages"
+			type="language"
 			client="administrator"
 			default=""
 			label="Users_Option_Backend_Language_Label"
@@ -91,7 +91,7 @@
 
 		<field
 			name="language"
-			type="languages"
+			type="language"
 			client="site"
 			default=""
 			label="Users_Option_Frontend_Language_Label"
