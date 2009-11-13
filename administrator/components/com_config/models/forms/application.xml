@@ -578,7 +578,7 @@
 
 		<field
 			name="access"
-			type="accesslevels"
+			type="accesslevel"
 			default="1"
 			label="Config_Default_Access_Level_Label"
 			description="Config_Default_Access_Level_Desc"

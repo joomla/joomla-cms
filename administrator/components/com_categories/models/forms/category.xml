@@ -113,7 +113,7 @@
 
 		<field
 			name="access"
-			type="accesslevels"
+			type="accesslevel"
 			label="JField_Access_Label"
 			description="JField_Access_Desc"
 			class="inputbox"/>

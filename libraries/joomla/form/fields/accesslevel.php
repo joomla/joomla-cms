@@ -19,14 +19,14 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldAccessLevels extends JFormFieldList
+class JFormFieldAccessLevel extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	public $type = 'AccessLevels';
+	public $type = 'AccessLevel';
 
 	/**
 	 * Method to get a list of options for a list input.
