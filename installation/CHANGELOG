@@ -46,6 +46,7 @@ $ -> Language fix or change
  ^ Added access controls to com_plugins and refactored MVC.
  # Fixed bug in JFormFieldList adding double [] to multiple select lists.
  ^ Added JTableExtension::publish override.
+ ^ Added some of Arlen's tweeks to loader.php
 
 12-Nov-2009 Andrew Eddie
  # Fix missing language strings in permissions widget.

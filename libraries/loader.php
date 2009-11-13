@@ -24,10 +24,9 @@ abstract class JLoader
 	/**
 	 * Loads a class from specified directories.
 	 *
-	 * @param string $name	The class name to look for (dot notation).
-	 * @param string $base	Search this directory for the class.
-	 * @param string $key	String used as a prefix to denote the full path of the file (dot notation).
-	 * @return void
+	 * @param string	The class name to look for (dot notation).
+	 * @param string	Search this directory for the class.
+	 * @param string	String used as a prefix to denote the full path of the file (dot notation).
 	 * @since 1.5
 	 */
 	public static function import($filePath, $base = null, $key = 'libraries.')
@@ -43,7 +42,7 @@ abstract class JLoader
 			$parts = explode('.', $filePath);
 
 			$className = array_pop($parts);
-			switch($className)
+			switch ($className)
 			{
 				case 'helper' :
 					$className = ucfirst(array_pop($parts)).ucfirst($className);
@@ -58,34 +57,31 @@ abstract class JLoader
 
 			if (strpos($filePath, 'joomla') === 0)
 			{
-				/*
-				 * If we are loading a joomla class prepend the classname with a
-				 * capital J.
-				 */
+				// If we are loading a joomla class prepend the classname with a capital J.
 				$className = 'J'.$className;
 				$classes = JLoader::register($className, $base.DS.$path.'.php');
 				$rs = isset($classes[strtolower($className)]);
 			}
 			else
 			{
-				/*
-				 * If it is not in the joomla namespace then we have no idea if
-				 * it uses our pattern for class names/files so just include
-				 * if the file exists or set it to false if not
-				 */
+				// If it is not in the joomla namespace then we have no idea if
+				// it uses our pattern for class names/files so just include
+				// if the file exists or set it to false if not
+
 				$filename = $base.DS.$path.'.php';
-				if (is_file($filename)) {
-					$rs   = include $filename;
-				} else {
-					$rs   = false; // if the file doesn't exist fail
-					// note: JLoader::register does an is_file check itself
-					// se we don't need it above, we do it here because we
-					// try to load the file directly and it may not exist
-					// which could cause php to throw up nasty warning messages
-					// at us so we set it to false here and hope that if the
-					// programmer is good enough they'll check the return value
-					// instead of hoping it'll work. remmeber include only fires
-					// a warning, so $rs was going to be false with a nasty
+				if (is_file($filename))
+				{
+					$rs   = (bool) include $filename;
+				}
+				else
+				{
+					// if the file doesn't exist fail
+					$rs   = false;
+
+					// note: JLoader::register does an is_file check itself so we don't need it above, we do it here because we
+					// try to load the file directly and it may not exist which could cause php to throw up nasty warning messages
+					// at us so we set it to false here and hope that if the programmer is good enough they'll check the return value
+					// instead of hoping it'll work. remmeber include only fires a warning, so $rs was going to be false with a nasty
 					// warning message
 				}
 			}
@@ -97,11 +93,11 @@ abstract class JLoader
 	}
 
 	/**
-	 * Add a class to autoload
+	 * Add a class to autoload.
 	 *
-	 * @param	string $class	The class name
-	 * @param	string $file		Full path to the file that holds the class
-	 * @return	array|boolean  		Array of classes
+	 * @param	string			The class name
+	 * @param	string			Full path to the file that holds the class
+	 * @return	array|boolean  	Array of classes
 	 * @since 	1.5
 	 */
 	public static function &register($class = null, $file = null)
@@ -116,12 +112,10 @@ abstract class JLoader
 		return JLoader::$classes;
 	}
 
-
 	/**
 	 * Load the file for a class
 	 *
-	 * @access  public
-	 * @param   string  $class  The class that will be loaded
+	 * @param   string	The class that will be loaded
 	 * @return  boolean True on success
 	 * @since   1.5
 	 */
@@ -130,10 +124,11 @@ abstract class JLoader
 		$class = strtolower($class); //force to lower case
 
 		if (class_exists($class)) {
-			  return true;
+			return true;
 		}
 
-		if (array_key_exists(strtolower($class), JLoader::$classes)) {
+		if (array_key_exists(strtolower($class), JLoader::$classes))
+		{
 			include JLoader::$classes[$class];
 			return true;
 		}
@@ -146,7 +141,8 @@ abstract class JLoader
  *
  * This function provides a single exit point for the framework.
  *
- * @param mixed Exit code or string. Defaults to zero.
+ * @param	mixed	Exit code or string. Defaults to zero.
+ * @since	1.5
  */
 function jexit($message = 0)
 {
@@ -156,9 +152,8 @@ function jexit($message = 0)
 /**
  * Intelligent file importer
  *
- * @access public
- * @param string $path A dot syntax path
- * @since 1.5
+ * @param	string	A dot syntax path.
+ * @since	1.5
  */
 function jimport($path)
 {
