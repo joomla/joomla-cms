@@ -1,60 +1,58 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Config
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
- * Plugins Component Controller
+ * Plugins master display controller.
  *
  * @package		Joomla.Administrator
  * @subpackage	Plugins
- * @since 1.5
+ * @since		1.5
  */
 class PluginsController extends JController
 {
 	/**
-	 * Custom Constructor
+	 * Method to display a view.
+	 * @since 1.6
 	 */
-	function __construct( $default = array())
+	public function display()
 	{
-		parent::__construct( $default );
+		require_once JPATH_COMPONENT.'/helpers/plugins.php';
 
-		$this->registerTask( 'apply', 		'save');
-		$this->registerTask( 'unpublish', 	'publish');
-		$this->registerTask( 'edit' , 		'display' );
-		$this->registerTask( 'add' , 		'display' );
-		$this->registerTask( 'orderup'   , 	'order' );
-		$this->registerTask( 'orderdown' , 	'order' );
+		// Get the document object.
+		$document	= JFactory::getDocument();
 
-		$this->registerTask( 'accesspublic' 	, 	'access' );
-		$this->registerTask('accessregistered'  , 	'access');
-		$this->registerTask('accessspecial' 	, 	'access');
+		// Set the default view name and format from the Request.
+		$vName		= JRequest::getWord('view', 'plugins');
+		$vFormat	= $document->getType();
+		$lName		= JRequest::getWord('layout', 'default');
 
-	}
-
-	function display( )
-	{
-		switch($this->getTask())
+		// Get and render the view.
+		if ($view = &$this->getView($vName, $vFormat))
 		{
-			case 'add'     :
-			case 'edit'    :
-			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'layout', 'form'  );
-				JRequest::setVar( 'view', 'plugin' );
-			} break;
-		}
+			// Get the model for the view.
+			$model = &$this->getModel($vName);
 
-		parent::display();
+			// Push the model into the view (as default).
+			$view->setModel($model, true);
+			$view->setLayout($lName);
+
+			// Push document object into the view.
+			$view->assignRef('document', $document);
+
+			$view->display();
+
+			// Load the submenu.
+			PluginsHelper::addSubmenu($vName);
+		}
 	}
 
 	function save()
@@ -102,57 +100,6 @@ class PluginsController extends JController
 		}
 	}
 
-	function publish( )
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		$db		=& JFactory::getDBO();
-		$user	=& JFactory::getUser();
-		$cid     = JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		JArrayHelper::toInteger($cid, array(0));
-		$publish = ( $this->getTask() == 'publish' ? 1 : 0 );
-		$client  = JRequest::getWord( 'filter_client', 'site' );
-
-		if (count( $cid ) < 1) {
-			$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
-			JError::raiseError(500, JText::_( 'Select a plugin to '.$action ) );
-		}
-
-		$cids = implode( ',', $cid );
-
-		$query = 'UPDATE #__extensions SET enabled = '.(int) $publish
-			. ' WHERE extension_id IN ( '.$cids.' )'
-			. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ))'
-			;
-		$db->setQuery( $query );
-		if (!$db->query()) {
-			JError::raiseError(500, $db->getErrorMsg() );
-		}
-
-		if (count( $cid ) == 1) {
-			$row =& JTable::getInstance('extension');
-			$row->checkin( $cid[0] );
-		}
-
-		$this->setRedirect( 'index.php?option=com_plugins&client='. $client );
-	}
-
-	function cancel(  )
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		$client  = JRequest::getWord( 'filter_client', 'site' );
-
-		$db =& JFactory::getDBO();
-		$row =& JTable::getInstance('extension');
-		$row->bind(JRequest::get('post'));
-		$row->checkin();
-
-		$this->setRedirect( JRoute::_( 'index.php?option=com_plugins&client='. $client, false ) );
-	}
-
 	function order(  )
 	{
 		// Check for request forgeries
@@ -177,47 +124,6 @@ class PluginsController extends JController
 		$row =& JTable::getInstance('extension');
 		$row->load( $uid );
 		$row->move( $inc, 'type = "plugin" AND folder='.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND ('.$where.')' );
-
-		$this->setRedirect( 'index.php?option=com_plugins' );
-	}
-
-	function access( )
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		JArrayHelper::toInteger($cid, array(0));
-
-		$uid    = $cid[0];
-		$access = $this->getTask();
-
-		$db =& JFactory::getDBO();
-		switch ( $access )
-		{
-			case 'accesspublic':
-				$access = 0;
-				break;
-
-			case 'accessregistered':
-				$access = 1;
-				break;
-
-			case 'accessspecial':
-				$access = 2;
-				break;
-		}
-
-		$row =& JTable::getInstance('extension');
-		$row->load( $uid );
-		$row->access = $access;
-
-		if ( !$row->check() ) {
-			return $row->getError();
-		}
-		if ( !$row->store() ) {
-			return $row->getError();
-		}
 
 		$this->setRedirect( 'index.php?option=com_plugins' );
 	}

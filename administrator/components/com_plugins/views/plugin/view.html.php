@@ -1,131 +1,76 @@
 <?php
 /**
-* @version		$Id$
- * @package		Joomla.Administrator
-* @subpackage	Config
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
-*/
+ */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the Plugins component
+ * View to edit a plugin.
  *
- * @static
  * @package		Joomla.Administrator
  * @subpackage	Plugins
- * @since 1.0
+ * @since		1.5
  */
 class PluginsViewPlugin extends JView
 {
-	function display( $tpl = null )
+	protected $state;
+	protected $item;
+	protected $form;
+
+	/**
+	 * Display the view
+	 */
+	public function display($tpl = null)
 	{
-	JToolBarHelper::title( JText::_( 'Plugin_Manager' ), 'plugin.png' );
-	JToolBarHelper::save();
-	JToolBarHelper::apply();
-	JToolBarHelper::cancel( 'cancel', 'Close' );
-	JToolBarHelper::divider();
-	JToolBarHelper::help( 'screen.plugins.edit' );
-		//global $option;
+		$state		= $this->get('State');
+		$item		= $this->get('Item');
+		$itemForm	= $this->get('Form');
+		$paramsForm	= $this->get('ParamsForm');
 
-		$db		=& JFactory::getDBO();
-		$user 	=& JFactory::getUser();
-
-		$client = JRequest::getWord( 'client', 'site' );
-		$cid 	= JRequest::getVar( 'cid', array(0), '', 'array' );
-		JArrayHelper::toInteger($cid, array(0));
-
-		$lists 	= array();
-		$row 	=& JTable::getInstance('extension');
-
-		// load the row from the db table
-		$row->load( $cid[0] );
-
-		// fail if checked out not by 'me'
-
-		if ($row->isCheckedOut( $user->get('id') ))
-		{
-			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The plugin' ), $row->title );
-			$this->setRedirect( 'index.php?option='. $option .'&client='. $client, $msg, 'error' );
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		if ($client == 'admin') {
-			$where = "client_id='1'";
-		} else {
-			$where = "client_id='0'";
-		}
+		// Bind the record to the form.
+		$itemForm->bind($item);
+		$paramsForm->bind($item->params);
 
-		// get list of groups
-		if ($row->access == 99 || $row->client_id == 1) {
-			$lists['access'] = 'Administrator<input type="hidden" name="access" value="99" />';
-		} else {
-			// build the html select list for the group access
-			$lists['access'] = JHtml::_('access.assetgrouplist', 'access', $row->access);
-		}
+		$this->assignRef('state',		$state);
+		$this->assignRef('item',		$item);
+		$this->assignRef('form',		$itemForm);
+		$this->assignRef('paramsform',	$paramsForm);
 
-		if ($cid[0])
-		{
-			$row->checkout( $user->get('id') );
-
-			if ( $row->ordering > -10000 && $row->ordering < 10000 )
-			{
-				// TODO: This should really be in the model that doesn't exist...
-				// build the html select list for ordering
-				$query = 'SELECT ordering AS value, name AS text'
-					. ' FROM #__extensions'
-					. ' WHERE folder = '.$db->Quote($row->folder)
-					. ' AND enabled > 0'
-					. ' AND state > -1'
-					. ' AND '. $where
-					. ' AND ordering > -10000'
-					. ' AND ordering < 10000'
-					. ' AND type = "plugin"'
-					. ' ORDER BY ordering'
-				;
-				$order = JHTML::_('list.genericordering',  $query );
-				$lists['ordering'] = JHTML::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
-			} else {
-				$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
-			}
-
-			$lang =& JFactory::getLanguage();
-			// Core or 1.5
-			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_ADMINISTRATOR );
-			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_SITE ); // handle language files not in admin, mostly core
-			// 1.6 3PD Extension
-			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element);
-
-			// TODO: Rewrite this (and other instances of parseXMLInstallFile) to use the extensions table
-			$data = JApplicationHelper::parseXMLInstallFile(JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ));
-
-			$row->description = $data['description'];
-
-		} else {
-			// this area should never be hit in normal execution phase
-			// plugins can't be created so there should be no reason for a blank id
-			// however in the weird case it might happen (e.g. a dev doing naughty things)
-			// we've got this here
-			$row->folder 		= '';
-			$row->ordering 		= 999;
-			$row->enabled 	= 1;
-			$row->description 	= '';
-			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
-		}
-
-		$lists['enabled'] = JHTML::_('select.booleanlist',  'enabled', 'class="inputbox"', $row->enabled );
-
-		// get params definitions
-		$params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ));
-
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('plugin',		$row);
-		$this->assignRef('params',		$params);
-
+		$this->_setToolbar();
 		parent::display($tpl);
+	}
+
+	/**
+	 * Setup the Toolbar
+	 */
+	protected function _setToolbar()
+	{
+		JRequest::setVar('hidemainmenu', true);
+
+		$user		= JFactory::getUser();
+		$canDo		= PluginsHelper::getActions();
+
+		JToolBarHelper::title(JText::_('Plugn_Manager_Plugin'), 'plugin');
+
+		// If not checked out, can save the item.
+		if ($canDo->get('core.edit'))
+		{
+			JToolBarHelper::save('plugin.save');
+			JToolBarHelper::apply('plugin.apply');
+		}
+		JToolBarHelper::cancel('plugin.cancel', 'JToolbar_Close');
+		JToolBarHelper::help('screen.plugins.edit');
 	}
 }

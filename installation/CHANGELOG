@@ -27,6 +27,26 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Nov-2009 Andrew Eddie
+ ^ Fixed inflection on JForm field names:
+   - accesslevels -> accesslevel
+   - cachehandlers -> cachehandler
+   - categories -> category
+   - componentlayouts -> componentlayout
+   - contentlanguages -> contentlanguage
+   - helpsites -> helpsite
+   - integers -> integer
+   - languages -> language
+   - modulelayouts -> modulelayout
+   - sessionhandlers -> sessionhandler
+   - timezones -> timezone
+   - usergroups -> usergroup
+ ^ Changed system debug fields to show new field group capabilities.
+ ^ Updated plugin XML files from <params> to <fields>
+ ^ Added access controls to com_plugins and refactored MVC.
+ # Fixed bug in JFormFieldList adding double [] to multiple select lists.
+ ^ Added JTableExtension::publish override.
+
 12-Nov-2009 Andrew Eddie
  # Fix missing language strings in permissions widget.
  ^ Update MVC for com_redirect.

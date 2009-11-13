@@ -198,13 +198,15 @@ class TemplatesModelStyle extends JModelForm
 		JPluginHelper::importPlugin('content');
 
 		// Load the row if saving an existing record.
-		if ($pk > 0) {
+		if ($pk > 0)
+		{
 			$table->load($pk);
 			$isNew = false;
 		}
 
 		// Bind the data.
-		if (!$table->bind($data)) {
+		if (!$table->bind($data))
+		{
 			$this->setError(JText::sprintf('JTable_Error_Bind_failed', $table->getError()));
 			return false;
 		}
@@ -213,7 +215,8 @@ class TemplatesModelStyle extends JModelForm
 		$this->_prepareTable($table);
 
 		// Check the data.
-		if (!$table->check()) {
+		if (!$table->check())
+		{
 			$this->setError($table->getError());
 			return false;
 		}

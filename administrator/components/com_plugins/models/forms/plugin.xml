@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id: newsfeed.xml 13196 2009-10-14 07:47:07Z eddieajau $ -->
+<form>
+	<fields>
+		<field
+			name="extension_id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true" />
+
+		<field
+			name="name"
+			type="text"
+			label="Plugn_Field_Name_Label"
+			description="Plugn_Field_Name_Desc"
+			class="inputbox"
+			size="30"
+			required="true" />
+
+		<field
+			name="enabled"
+			type="list"
+			label="JField_Enabled_Label"
+			description="JField_Enabled_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option
+				value="1">
+				JOption_Enabled</option>
+			<option
+				value="0">
+				JOption_Disabled</option>
+		</field>
+
+		<field
+			name="folder"
+			type="text"
+			class="readonly"
+			size="20"
+			label="Plugn_Field_Folder_Label"
+			description="Plugn_Field_Folder_Desc"
+			readonly="true" />
+
+		<field
+			name="element"
+			type="text"
+			class="readonly"
+			size="20"
+			label="Plugn_Field_Element_Label"
+			description="Plugn_Field_Element_Desc"
+			readonly="true" />
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JField_Access_Label"
+			description="JField_Access_Desc"
+			class="inputbox"
+			size="1"
+			default="" />
+
+		<field
+			name="ordering"
+			type="Ordering"
+			class="inputbox"
+			default=""
+			label="JField_Ordering_Label"
+			description="JField_Ordering_Desc" />
+
+		<field
+			name="checked_out"
+			type="Text"
+			class="inputbox"
+			default=""
+			size="6"
+			label="Newsfeeds_Checkedout_Label"
+			description="Newsfeeds_Checkedout_Desc"
+			readonly="true"
+			filter="unset" />
+
+		<field
+			name="checked_out_time"
+			type="Text"
+			class="inputbox"
+			default=""
+			size="6"
+			label="Newsfeeds_Checkedout_Time_Label"
+			description="Newsfeeds_Checkedout_Time_Desc"
+			readonly="true"
+			filter="unset" />
+
+		<field
+			name="params"
+			type="hidden" />
+
+	</fields>
+</form>
