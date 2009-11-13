@@ -2,7 +2,8 @@
 	<!-- $Id$ -->
 <form>
 	<fields
-		label="Menus_Linktype_Options_Label"
+		group="hyperlinkoptions"
+		label="Menus_Link_Options_Label"
 		description="">
 
 		<field
@@ -28,6 +29,12 @@
 			label="Menus_Item_Menu_Image_Label"
 			description="Menus_Item_Menu_Image_Desc"
 			default=""/>
+			
+	</fields>
+	<fields
+		group="pageoptions"
+		label="Menus_Linktype_Options_Label"
+		description="">
 
 		<field
 			id="show_page_title"

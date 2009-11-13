@@ -174,9 +174,13 @@ class MenusModelItem extends JModelForm
 		// We have a valid type, inject it into the state for forms to use.
 		$this->setState('item.type', $table->type);
 
+		// Convert to the JObject before adding the params.
+		$result = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+
 		// Convert the params field to an array.
-		$params = new JParameter($table->params);
-		$table->params = $params->toArray();
+		$registry = new JRegistry;
+		$registry->loadJSON($table->params);
+		$result->params = $registry->toArray();
 
 		// Merge the request arguments in to the params for a component.
 		if ($table->type == 'component')
@@ -184,14 +188,14 @@ class MenusModelItem extends JModelForm
 			// Note that all request arguments become reserved parameter names.
 			$args = array();
 			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
-			$table->params = array_merge($table->params, $args);
+			$result->params = array_merge($result->params, $args);
 		}
 		if ($table->type == 'alias')
 		{
 			// Note that all request arguments become reserved parameter names.
 			$args = array();
 			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
-			$table->params = array_merge($table->params, $args);
+			$result->params = array_merge($result->params, $args);
 
 		}
 		if ($table->type == 'url')
@@ -199,11 +203,8 @@ class MenusModelItem extends JModelForm
 			// Note that all request arguments become reserved parameter names.
 			$args = array();
 			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
-			$table->params = array_merge($table->params, $args);
+			$result->params = array_merge($result->params, $args);
 		}
-
-
-		$result = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
 		return $result;
 	}
