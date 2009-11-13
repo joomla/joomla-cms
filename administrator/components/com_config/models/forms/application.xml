@@ -30,7 +30,7 @@
 
 		<field
 			name="cache_handler"
-			type="cachehandlers"
+			type="cachehandler"
 			default="file"
 			label="Config_Cache_Handler_Label"
 			description="Config_Cache_Handler_Desc"

@@ -18,14 +18,14 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldCacheHandlers extends JFormFieldList
+class JFormFieldCacheHandler extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	public $type = 'CacheHandlers';
+	public $type = 'CacheHandler';
 
 	/**
 	 * Method to get a list of options for a list input.
