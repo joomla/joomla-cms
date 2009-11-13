@@ -18,14 +18,14 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldTimezones extends JFormFieldList
+class JFormFieldTimezone extends JFormFieldList
 {
 	/**
 	 * The field type.
 	 *
 	 * @var		string
 	 */
-	protected $type = 'Timezones';
+	protected $type = 'Timezone';
 
 	/**
 	 * Method to get a list of options for a list input.

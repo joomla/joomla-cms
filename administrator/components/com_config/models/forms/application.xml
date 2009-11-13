@@ -205,7 +205,7 @@
 		label="Config_Locale_Settings_Label">
 		<field
 			name="offset"
-			type="timezones"
+			type="timezone"
 			default="0"
 			label="Config_Server_Timezone_Label"
 			description="Config_Server_Timezone_Desc"

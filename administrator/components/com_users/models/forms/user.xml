@@ -122,7 +122,7 @@
 
 		<field
 			name="timezone"
-			type="timezones"
+			type="timezone"
 			default=""
 			label="Users_Option_Timezone_Label"
 			description="Users_Option_Timezone_Desc">
