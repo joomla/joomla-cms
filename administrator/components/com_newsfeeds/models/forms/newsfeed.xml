@@ -160,7 +160,7 @@
 
 		<field
 			name="language"
-			type="contentlanguages"
+			type="contentlanguage"
 			label="JField_Language_Label"
 			description="JField_Language_Desc"
 			class="inputbox"
