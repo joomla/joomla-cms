@@ -120,6 +120,7 @@ class PluginsModelPlugin extends JModelForm
 				return $false;
 			}
 
+			// Convert to the JObject before adding other data.
 			$this->_cache[$pk] = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
 			// Convert the params field to an array.

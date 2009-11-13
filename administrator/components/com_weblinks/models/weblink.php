@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
@@ -110,12 +110,13 @@ class WeblinksModelWeblink extends JModelForm
 			// Prepare data for a new record.
 		}
 
+		// Convert to the JObject before adding other data.
+		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+
 		// Convert the params field to an array.
 		$registry = new JRegistry;
 		$registry->loadJSON($table->params);
-		$table->params = $registry->toArray();
-
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+		$value->params = $registry->toArray();
 
 		return $value;
 	}

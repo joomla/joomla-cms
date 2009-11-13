@@ -110,6 +110,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 			// Prepare data for a new record.
 		}
 
+		// Convert to the JObject before adding other data.
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
 		return $value;

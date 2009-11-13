@@ -109,17 +109,18 @@ class ContentModelArticle extends JModelForm
 			// Prepare data for a new record.
 		}
 
+		// Convert to the JObject before adding other data.
+		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+
 		// Convert the params field to an array.
 		$registry = new JRegistry;
 		$registry->loadJSON($table->attribs);
-		$table->attribs = $registry->toArray();
+		$value->attribs = $registry->toArray();
 
 		// Convert the params field to an array.
 		$registry = new JRegistry;
 		$registry->loadJSON($table->metadata);
-		$table->metadata = $registry->toArray();
-
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+		$value->metadata = $registry->toArray();
 
 		$value->articletext = $value->introtext . "<hr id=\"system-readmore\" />" . $value->fulltext;
 

@@ -91,12 +91,13 @@ class TemplatesModelStyle extends JModelForm
 				return $false;
 			}
 
+			// Convert to the JObject before adding other data.
+			$this->_cache[$pk] = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+
 			// Convert the params field to an array.
 			$registry = new JRegistry;
 			$registry->loadJSON($table->params);
-			$table->params = $registry->toArray();
-
-			$this->_cache[$pk] = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+			$this->_cache[$pk]->params = $registry->toArray();
 		}
 
 		return $this->_cache[$pk];
