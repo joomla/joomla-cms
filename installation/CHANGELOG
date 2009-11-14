@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Nov-2009 Ian MacLennan
+# Fixing atomic template to work with short tags on
+
 13-Nov-2009 Ron Severdia
 ^ Menu Manager UI fixes
 # Menu item modal fixes
