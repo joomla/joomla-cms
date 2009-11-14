@@ -76,7 +76,7 @@ class JForm extends JObject
 	 * @return	object		A JForm instance.
 	 * @since	1.6
 	 */
-	static public function &getInstance($data, $name = 'form', $file = true, $options = array())
+	public static function &getInstance($data, $name = 'form', $file = true, $options = array())
 	{
 		static $instances;
 
@@ -1021,7 +1021,7 @@ class JForm extends JObject
 	 * @since	1.6
 	 * @static
 	 */
-	static public function addFormPath($new = null)
+	public static function addFormPath($new = null)
 	{
 		static $paths;
 
@@ -1050,7 +1050,7 @@ class JForm extends JObject
 	 * @since	1.6
 	 * @static
 	 */
-	static public function addFieldPath($new = null)
+	public static function addFieldPath($new = null)
 	{
 		static $paths;
 

@@ -53,7 +53,6 @@ class JFormFieldEditor extends JFormField
 		}
 		else if ($buttons == 'false' || $buttons == 'no' || $buttons == 0) {
 			$buttons = false;
-
 		}
 		else {
 			$buttons = explode(',', $buttons);
