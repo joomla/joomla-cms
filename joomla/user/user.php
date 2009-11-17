@@ -107,7 +107,7 @@ class JUser extends JObject
 	 * @since	1.6
 	 * @var		array
 	 */
-	var $groups;
+	var $groups = array();
 
 	/**
 	 * Description
