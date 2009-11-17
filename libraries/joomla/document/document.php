@@ -76,7 +76,7 @@ class JDocument extends JObject
 	 * @var		string
 	 * @access	public
 	 */
-	 var $_generator = 'Joomla! 1.5 - Open Source Content Management';
+	 var $_generator = 'Joomla! 1.6 - Open Source Content Management';
 
 	/**
 	 * Document modified date

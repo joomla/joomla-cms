@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Nov-2009 Andrew Eddie
+ # Fixed [#18676] Generator meta tag is still 1.5
+ # Fixed bug in JUser class.  Initialised groups property to empty array.
+
 14-Nov-2009 Ian MacLennan
 # Fixing atomic template to work with short tags on
 
