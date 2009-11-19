@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Nov-2009 Andrew Eddie
+ ^ Change XML version tags to 1.6.0.
+
 19-Nov-2009 Ron Severdia
 ^ Restored missing CSS
 # Fixed new CSS issues
