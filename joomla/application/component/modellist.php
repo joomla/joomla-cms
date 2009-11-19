@@ -24,21 +24,21 @@ class JModelList extends JModel
 	 *
 	 * @var		array
 	 */
-	protected $_totals		= array();
+	protected $_totals = array();
 
 	/**
 	 * Array of lists containing items.
 	 *
 	 * @var		array
 	 */
-	protected $_lists			= array();
+	protected $_lists = array();
 
 	/**
 	 * Model context string.
 	 *
 	 * @var		string
 	 */
-	 protected $_context		= 'group.type';
+	protected $_context = null;
 
 	/**
 	 * Method to get a list of items.
@@ -97,10 +97,11 @@ class JModelList extends JModel
 
 		// Load the total.
 		$query = $this->_getListQuery();
-		$return = (int)$this->_getListCount((string) $query);
+		$return = (int) $this->_getListCount((string) $query);
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
+		if ($this->_db->getErrorNum())
+		{
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -118,7 +119,7 @@ class JModelList extends JModel
 	 */
 	protected function _getListQuery()
 	{
-		$query = new JQuery();
+		$query = new JQuery;
 
 		return $query;
 	}
@@ -151,10 +152,31 @@ class JModelList extends JModel
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 *
-	 * @return	void
+	 * @param	string	An optional ordering field.
+	 * @param	string	An optional direction (asc|desc).
 	 */
-	protected function _populateState()
+	protected function _populateState($ordering = null, $direction)
 	{
-		$this->setState('list.start', 0);
+		// If the context is set, assume that stateful lists are used.
+		if ($this->_context)
+		{
+			$app = JFactory::getApplication();
+
+			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+			$this->setState('list.limit', $limit);
+
+			$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
+			$this->setState('list.start', $limitstart);
+
+			$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', $ordering);
+			$this->setState('list.ordering', $orderCol);
+
+			$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', $direction);
+			$this->setState('list.direction', $orderDirn);
+		}
+		else
+		{
+			$this->setState('list.start', 0);
+		}
 	}
 }
