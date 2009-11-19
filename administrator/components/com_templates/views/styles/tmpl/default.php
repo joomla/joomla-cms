@@ -25,15 +25,15 @@ $user = JFactory::getUser();
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
-			<select name="filter_template" class="inputbox" onchange="this.form.submit()">
-				<option value="0"><?php echo JText::_('Templates_Filter_Template'); ?></option>
-				<?php echo JHtml::_('select.options', TemplatesHelper::getTemplateOptions($this->state->get('filter.template')), 'value', 'text', $this->state->get('filter.template'));?>
+			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
+				<option value="*"><?php echo JText::_('Templates_Filter_Type'); ?></option>
+				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 		</div>
 		<div class="filter-select fltrt">
-			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
-				<option value="*"><?php echo JText::_('Templates_Filter_Client'); ?></option>
-				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
+			<select name="filter_template" class="inputbox" onchange="this.form.submit()">
+				<option value="0"><?php echo JText::_('Templates_Filter_Template'); ?></option>
+				<?php echo JHtml::_('select.options', TemplatesHelper::getTemplateOptions($this->state->get('filter.template')), 'value', 'text', $this->state->get('filter.template'));?>
 			</select>
 		</div>
 	</fieldset>
@@ -46,16 +46,16 @@ $user = JFactory::getUser();
 					&nbsp;
 				</th>
 				<th>
-					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Template', 'a.template', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Style', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th>
-					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Style_Name', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Template', 'a.template', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%">
-					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Client', 'a.client_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Type', 'a.client_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Home', 'a.home', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Default', 'a.home', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
 					<?php echo JText::_('Templates_Heading_Assigned'); ?>
@@ -83,17 +83,17 @@ $user = JFactory::getUser();
 					<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo (int) $item->id; ?>" onclick="isChecked(this.checked);" />
 				</td>
 				<td>
-					<label for="cb<?php echo $i;?>">
-						<?php echo $this->escape($item->template);?>
-					</label>
-				</td>
-				<td>
 					<?php if ($canCreate || $canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id='.(int) $item->id); ?>">
 						<?php echo $this->escape($item->title);?></a>
 					<?php else : ?>
 						<?php echo $this->escape($item->title);?>
 					<?php endif; ?>
+				</td>
+				<td>
+					<label for="cb<?php echo $i;?>">
+						<?php echo $this->escape($item->template);?>
+					</label>
 				</td>
 				<td class="center">
 					<?php echo $item->client_id == 0 ? JText::_('Templates_Option_Site') : JText::_('Templates_Option_Administrator'); ?>

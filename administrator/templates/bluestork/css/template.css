@@ -99,6 +99,8 @@ p.error { color: red; font-weight: bold; }
 .warning { color: red; font-weight: bold; font-size: 12px;}
 .nowarning { color: #333; font-weight: bold; font-size: 12px;}
 
+.success {color: green; font-weight: bold;}
+
 .allow {color: green;}
 .deny {color: red;}
 .none {color: #aaa;}
@@ -299,7 +301,7 @@ div.toolbar-list li 			{ padding: 1px 1px 3px 4px; text-align: center; color: #6
 div.toolbar-list li.spacer  	{ width: 10px; }
 div.toolbar-list li.divider 	{ border-right: 1px solid #c7c7c7; width: 2px; }
 div.toolbar-list span 			{ float: none; width: 32px; height: 32px; margin: 0 auto; display: block; }
-div.toolbar-list a 				{ display: block; float: left;white-space: nowrap;border: 1px solid #fbfbfb;padding: 1px 5px;cursor: pointer; }
+div.toolbar-list a 				{ display: block; float: left;white-space: nowrap;border: 1px solid #F4F4F4; padding: 1px 5px; cursor: pointer; }
 div.toolbar-list a:hover 		{ border-left: 1px solid #eee; border-top: 1px solid #eee; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; text-decoration: none; color: #0B55C4; }
 
 
@@ -999,6 +1001,15 @@ table.admintable th,
 table.admintable td {
 	font-size: 12px;
 }
+
+table#global-checkin td {
+	font-size: 13px;
+}
+
+table#global-checkin td.active {
+	background-color:#E8F6FE;
+}
+
 
 
 /* -- BUTTON STYLES ----------------------------- */

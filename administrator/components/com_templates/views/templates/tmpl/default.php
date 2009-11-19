@@ -45,7 +45,7 @@ $user = & JFactory::getUser();
 					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Template', 'a.element', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%">
-					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Client', 'a.client_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Templates_Heading_Type', 'a.client_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" class="center">
 					<?php echo JText::_('Version'); ?>
