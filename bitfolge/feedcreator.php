@@ -870,7 +870,7 @@ class FeedCreator extends HtmlDescribable {
 
 			return true;
 		} else {
-			echo "<br /><b>Error creating feed file, please check write permissions.</b><br />";
+			echo "<p class='error'>Error creating feed file, please check write permissions.</p>";
 		}
 	}
 
