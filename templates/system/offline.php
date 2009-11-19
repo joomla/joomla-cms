@@ -35,11 +35,11 @@ $app = &JFactory::getApplication();
 	<form action="index.php" method="post" name="login" id="form-login">
 	<fieldset class="input">
 		<p id="form-login-username">
-			<label for="username"><?php echo JText::_('Username') ?></label><br />
+			<label for="username"><?php echo JText::_('Username') ?></label>
 			<input name="username" id="username" type="text" class="inputbox" alt="<?php echo JText::_('Username') ?>" size="18" />
 		</p>
 		<p id="form-login-password">
-			<label for="passwd"><?php echo JText::_('Password') ?></label><br />
+			<label for="passwd"><?php echo JText::_('Password') ?></label>
 			<input type="password" name="passwd" class="inputbox" size="18" alt="<?php echo JText::_('Password') ?>" id="passwd" />
 		</p>
 		<p id="form-login-remember">

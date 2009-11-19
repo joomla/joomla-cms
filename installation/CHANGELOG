@@ -31,6 +31,10 @@ $ -> Language fix or change
 ^ Restored missing CSS
 # Fixed new CSS issues
 ^ Cleaned up UI and language strings for Global Check-in
+- Remove unnecessary markup
+^ Update bluestork images
++ New CSS
+^ Fix language strings
  
 19-Nov-2009 Andrew Eddie
  ^ Refactor JModelList _getStoreId and _populateState implementations.

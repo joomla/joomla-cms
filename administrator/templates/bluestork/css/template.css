@@ -147,6 +147,10 @@ p.error { color: red; font-weight: bold; }
 
 #footer .version { margin: 10px; text-align: center; }
 
+p.footer-tip {
+	margin-top: 15px;
+}
+
 #header-box  { border: 1px solid #ccc; background: #f0f0f0; }
 
 #content-box {
@@ -1007,9 +1011,10 @@ table#global-checkin td {
 }
 
 table#global-checkin td.active {
-	background-color:#E8F6FE;
+	background-color:#E8F6FE!important;
 }
-
+table#global-checkin tbody tr.row0:hover td { background-color: #FFF; }
+table#global-checkin tbody tr.row1:hover td { background-color: #F0F0F0; }
 
 
 /* -- BUTTON STYLES ----------------------------- */
@@ -1302,7 +1307,7 @@ input.system-openid, input.com-system-openid {
 .icon-16-content 		{ background-image: url(../images/menu/icon-16-content.png); }
 .icon-16-cpanel 		{ background-image: url(../images/menu/icon-16-cpanel.png); }
 .icon-16-default 		{ background-image: url(../images/menu/icon-16-default.png); }
-.icon-16-featured 		{ background-image: url(../images/menu/icon-16-frontpage.png); }
+.icon-16-featured 		{ background-image: url(../images/menu/icon-16-featured.png); }
 .icon-16-groups			{ background-image: url(../images/menu/icon-16-groups.png); }
 .icon-16-help			{ background-image: url(../images/menu/icon-16-help.png); }
 .icon-16-help-this		{ background-image: url(../images/menu/icon-16-help-this.png); }
@@ -1411,7 +1416,7 @@ input.system-openid, input.com-system-openid {
 .icon-48-searchtext 	{ background-image: url(../images/header/icon-48-stats.png); }
 .icon-48-thememanager	{ background-image: url(../images/header/icon-48-themes.png); }
 .icon-48-writemess 		{ background-image: url(../images/header/icon-48-writemess.png); }
-.icon-48-frontpage 		{ background-image: url(../images/header/icon-48-frontpage.png); }
+.icon-48-featured 		{ background-image: url(../images/header/icon-48-featured.png); }
 .icon-48-sections 		{ background-image: url(../images/header/icon-48-section.png); }
 .icon-48-article-add 	{ background-image: url(../images/header/icon-48-article-add.png); }
 .icon-48-article-edit 	{ background-image: url(../images/header/icon-48-article-edit.png); }
@@ -1426,6 +1431,8 @@ input.system-openid, input.com-system-openid {
 .icon-48-massmail 		{ background-image: url(../images/header/icon-48-massmail.png); }
 .icon-48-redirect 		{ background-image: url(../images/header/icon-48-redirect.png); }
 .icon-48-search 		{ background-image: url(../images/header/icon-48-search.png); }
+.icon-48-newsfeeds 		{ background-image: url(../images/header/icon-48-newsfeeds.png); }
+.icon-48-newsfeeds-cat 	{ background-image: url(../images/header/icon-48-newsfeeds-cat.png); }
 
 /* -- BASIC MENU STYLES ----------------------------- */
 

@@ -110,8 +110,8 @@ $userId	= $user->get('id');
 					<?php else : ?>
 							<?php echo $this->escape($item->name); ?>
 					<?php endif; ?>
-					<br /><small>
-						(<?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>: <?php echo $this->escape($item->alias);?>)</small>
+					<p class="smallsub">
+						(<span><?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>:</span> <?php echo $this->escape($item->alias);?>)</p>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'newsfeeds.', $canChange); ?>

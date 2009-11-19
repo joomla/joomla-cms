@@ -50,7 +50,7 @@ class ContentViewFeatured extends JView
 	{
 		$canDo	= ContentHelper::getActions($this->state->get('filter.category_id'));
 
-		JToolBarHelper::title(JText::_('Content_Featured_Title'), 'frontpage.png');
+		JToolBarHelper::title(JText::_('Content_Featured_Title'), 'featured.png');
 
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('article.add', 'new.png', 'new_f2.png', 'New', false);

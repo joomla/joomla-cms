@@ -45,11 +45,11 @@ endif; ?>
 	<?php echo $params->get('pretext'); ?>
 	<fieldset class="input">
 	<p id="form-login-username">
-		<label for="modlgn_username"><?php echo JText::_('Username') ?></label><br />
+		<label for="modlgn_username"><?php echo JText::_('Username') ?></label>
 		<input id="modlgn_username" type="text" name="username" class="inputbox" alt="username" size="18" />
 	</p>
 	<p id="form-login-password">
-		<label for="modlgn_passwd"><?php echo JText::_('Password') ?></label><br />
+		<label for="modlgn_passwd"><?php echo JText::_('Password') ?></label>
 		<input id="modlgn_passwd" type="password" name="password" class="inputbox" size="18" alt="password" />
 	</p>
 	<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>

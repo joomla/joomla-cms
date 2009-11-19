@@ -55,7 +55,7 @@ $user	= JFactory::getUser();
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Published', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
+				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
@@ -64,12 +64,13 @@ $user	= JFactory::getUser();
 			<tr>
 				<td colspan="7">
 					<?php echo $this->pagination->getListFooter(); ?>
-					<br />
-					<?php if ($this->enabled) : ?>
-					<span class="enabled"><?php echo JText::_('Redir_Plugin_Enabled'); ?></span>
-					<?php else : ?>
-					<span class="disabled"><?php echo JText::_('Redir_Plugin_Disabled'); ?></span>
-					<?php endif; ?>
+					<p class="footer-tip">
+						<?php if ($this->enabled) : ?>
+							<span class="enabled"><?php echo JText::_('Redir_Plugin_Enabled'); ?></span>
+						<?php else : ?>
+							<span class="disabled"><?php echo JText::_('Redir_Plugin_Disabled'); ?></span>
+						<?php endif; ?>
+					</p>
 				</td>
 			</tr>
 		</tfoot>

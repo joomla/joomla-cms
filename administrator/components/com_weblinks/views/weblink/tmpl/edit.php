@@ -54,10 +54,10 @@ JHtml::_('behavior.formvalidation');
 			<div class="clr"></div>
 			<?php echo $this->form->getInput('description'); ?>
 
-			<?php echo $this->form->getLabel('access'); ?><br />
+			<?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?>
 
-			<?php echo $this->form->getLabel('language'); ?><br />
+			<?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?>
 	</fieldset>
 </div>

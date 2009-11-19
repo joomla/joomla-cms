@@ -54,7 +54,7 @@ class NewsfeedsViewNewsfeeds extends JView
 		$state	= $this->get('State');
 		$canDo	= NewsfeedsHelper::getActions($state->get('filter.category_id'));
 
-		JToolBarHelper::title(JText::_('Newsfeeds_Manager_Newsfeeds'), 'generic.png');
+		JToolBarHelper::title(JText::_('Newsfeeds_Manager_Newsfeeds'), 'newsfeeds.png');
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('newsfeed.add');
 		}
