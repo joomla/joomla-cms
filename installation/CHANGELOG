@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Nov-2009 Ron Severdia
+^ Restored missing CSS
+ 
 19-Nov-2009 Andrew Eddie
  ^ Refactor JModelList _getStoreId and _populateState implementations.
  ^ Applied [#18759] Bluestork template with a js independent top menu (by Stian Didriksen).
