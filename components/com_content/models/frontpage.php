@@ -54,10 +54,9 @@ class ContentModelFrontpage extends ContentModelArticles
 	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id = parent::_getStoreId($id);
-		$id	.= ':'.$this->getState('filter.frontpage');
+		$id	.= $this->getState('filter.frontpage');
 
-		return md5($id);
+		return parent::_getStoreId($id);
 	}
 
 	/**

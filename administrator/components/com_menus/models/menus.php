@@ -69,14 +69,11 @@ class MenusModelMenus extends JModelList
 	 */
 	protected function _populateState()
 	{
-		// Initialize variables.
-		$app	= &JFactory::getApplication('administrator');
+		// Initialise variables.
+		$app = JFactory::getApplication('administrator');
 
-		// Load the list state.
-		$this->setState('list.start',		$app->getUserStateFromRequest($this->_context.'.list.start', 'limitstart', 0, 'int'));
-		$this->setState('list.limit',		$app->getUserStateFromRequest($this->_context.'.list.limit', 'limit', $app->getCfg('list_limit', 25), 'int'));
-		$this->setState('list.ordering',	$app->getUserStateFromRequest($this->_context.'.list.ordering', 'filter_order', 'a.id', 'cmd'));
-		$this->setState('list.direction',	$app->getUserStateFromRequest($this->_context.'.list.direction', 'filter_order_Dir', 'ASC', 'word'));
+		// List state information.
+		parent::_populateState('a.id', 'asc');
 	}
 
 	/**

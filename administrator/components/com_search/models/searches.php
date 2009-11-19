@@ -44,22 +44,12 @@ class SearchModelSearches extends JModelList
 		$showResults = $app->getUserStateFromRequest($this->_context.'.filter.results', 'filter_results', null, 'int');
 		$this->setState('filter.results', $showResults);
 
-		// List state information.
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.start', $limitstart);
-
-		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.hits');
-		$this->setState('list.ordering', $orderCol);
-
-		$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
-		$this->setState('list.direction', $orderDirn);
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_search');
 		$this->setState('params', $params);
+
+		// List state information.
+		parent::_populateState('a.hits', 'asc');
 	}
 
 	/**
@@ -76,14 +66,10 @@ class SearchModelSearches extends JModelList
 	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.results');
 
-		return md5($id);
+		return parent::_getStoreId($id);
 	}
 
 	/**

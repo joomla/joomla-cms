@@ -33,7 +33,7 @@ class MenusModelItems extends JModelList
 	 */
 	protected function _populateState()
 	{
-		$app = &JFactory::getApplication('administrator');
+		$app = JFactory::getApplication('administrator');
 
 		$search = $app->getUserStateFromRequest($this->_context.'.search', 'search');
 		$this->setState('filter.search', $search);
@@ -53,22 +53,12 @@ class MenusModelItems extends JModelList
 		$menuType = $app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu');
 		$this->setState('filter.menutype', $menuType);
 
-		// List state information.
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.start', $limitstart);
-
-		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.lft');
-		$this->setState('list.ordering', $orderCol);
-
-		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
-		$this->setState('list.direction', $orderDirn);
-
 		// Component parameters.
-		$params	= &JComponentHelper::getParams('com_menus');
+		$params	= JComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
+
+		// List state information.
+		parent::_populateState('a.lft', 'asc');
 	}
 
 	/**
@@ -84,17 +74,13 @@ class MenusModelItems extends JModelList
 	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
 		$id	.= ':'.$this->getState('filter.access');
 		$id	.= ':'.$this->getState('filter.published');
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.parent_id');
 		$id	.= ':'.$this->getState('filter.menu_id');
 
-		return md5($id);
+		return parent::_getStoreId($id);
 	}
 
 	/**

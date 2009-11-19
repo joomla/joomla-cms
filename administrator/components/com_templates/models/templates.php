@@ -41,22 +41,12 @@ class TemplatesModelTemplates extends JModelList
 		$clientId = $app->getUserStateFromRequest($this->_context.'.filter.client_id', 'filter_client_id', null);
 		$this->setState('filter.client_id', $clientId);
 
-		// List state information.
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.start', $limitstart);
-
-		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.element');
-		$this->setState('list.ordering', $orderCol);
-
-		$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
-		$this->setState('list.direction', $orderDirn);
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_templates');
 		$this->setState('params', $params);
+
+		// List state information.
+		parent::_populateState('a.element', 'asc');
 	}
 
 	/**
@@ -73,14 +63,10 @@ class TemplatesModelTemplates extends JModelList
 	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.client_id');
 
-		return md5($id);
+		return parent::_getStoreId($id);
 	}
 
 	/**

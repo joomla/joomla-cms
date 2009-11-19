@@ -31,9 +31,8 @@ class UsersModelUsers extends JModelList
 	 */
 	protected function _populateState()
 	{
-		// Initialize variables.
-		$app		= JFactory::getApplication('administrator');
-		$params		= JComponentHelper::getParams('com_users');
+		// Initialise variables.
+		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
 		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
@@ -48,21 +47,12 @@ class UsersModelUsers extends JModelList
 		$groupId = $app->getUserStateFromRequest($this->_context.'.filter.group', 'filter_group_id', null, 'int');
 		$this->setState('filter.group_id', $groupId);
 
-		// List state information.
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.start', $limitstart);
-
-		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.name');
-		$this->setState('list.ordering', $orderCol);
-
-		$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
-		$this->setState('list.direction', $orderDirn);
-
 		// Load the parameters.
+		$params		= JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
+
+		// List state information.
+		parent::_populateState('a.name', 'asc');
 	}
 
 	/**
@@ -79,16 +69,12 @@ class UsersModelUsers extends JModelList
 	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.active');
 		$id	.= ':'.$this->getState('filter.state');
 		$id	.= ':'.$this->getState('filter.group_id');
 
-		return md5($id);
+		return parent::_getStoreId($id);
 	}
 
 	/**

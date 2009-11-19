@@ -39,9 +39,8 @@ class LanguagesModelLanguages extends JModelList
 	 */
 	protected function _populateState()
 	{
-		// Initialize variables.
-		$app		= &JFactory::getApplication('administrator');
-		$params		= JComponentHelper::getParams('com_languages');
+		// Initialise variables.
+		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
 		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');
@@ -50,21 +49,12 @@ class LanguagesModelLanguages extends JModelList
 		$published = $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		// List state information.
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.start', $limitstart);
-
-		$orderCol	= $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.title');
-		$this->setState('list.ordering', $orderCol);
-
-		$orderDirn	= $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
-		$this->setState('list.direction', $orderDirn);
-
 		// Load the parameters.
+		$params		= JComponentHelper::getParams('com_languages');
 		$this->setState('params', $params);
+
+		// List state information.
+		parent::_populateState('a.title', 'asc');
 	}
 
 	/**
@@ -81,14 +71,10 @@ class LanguagesModelLanguages extends JModelList
 	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.published');
 
-		return md5($id);
+		return parent::_getStoreId($id);
 	}
 
 	/**

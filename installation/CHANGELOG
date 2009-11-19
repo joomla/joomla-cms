@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Nov-2009 Andrew Eddie
+ ^ Refactor JModelList _getStoreId and _populateState implementations.
+
 17-Nov-2009 Andrew Eddie
  # Fixed [#18676] Generator meta tag is still 1.5
  # Fixed bug in JUser class.  Initialised groups property to empty array.

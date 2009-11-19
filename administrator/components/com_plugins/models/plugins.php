@@ -48,22 +48,12 @@ class PluginsModelPlugins extends JModelList
 		$folder = $app->getUserStateFromRequest($this->_context.'.filter.folder', 'filter_folder', null, 'alnum');
 		$this->setState('filter.folder', $folder);
 
-		// List state information.
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->getUserStateFromRequest($this->_context.'.limitstart', 'limitstart', 0);
-		$this->setState('list.start', $limitstart);
-
-		$orderCol = $app->getUserStateFromRequest($this->_context.'.ordercol', 'filter_order', 'a.folder');
-		$this->setState('list.ordering', $orderCol);
-
-		$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', 'asc');
-		$this->setState('list.direction', $orderDirn);
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_plugins');
 		$this->setState('params', $params);
+
+		// List state information.
+		parent::_populateState('a.folder', 'asc');
 	}
 
 	/**
@@ -80,16 +70,12 @@ class PluginsModelPlugins extends JModelList
 	protected function _getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.access');
 		$id	.= ':'.$this->getState('filter.state');
 		$id	.= ':'.$this->getState('filter.folder');
 
-		return md5($id);
+		return parent::_getStoreId($id);
 	}
 
 	/**
