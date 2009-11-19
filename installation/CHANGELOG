@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 19-Nov-2009 Andrew Eddie
  ^ Refactor JModelList _getStoreId and _populateState implementations.
+ ^ Applied [#18759] Bluestork template with a js independent top menu (by Stian Didriksen).
 
 17-Nov-2009 Andrew Eddie
  # Fixed [#18676] Generator meta tag is still 1.5

@@ -530,13 +530,6 @@ fieldset#uploadform  {
 	padding: 10px;
 }
 
-fieldset#template-manager img {
-	margin-right: 20px;
-}
-fieldset#template-manager-css ul {
-	margin-left: 30px;
-}
-
 fieldset label {
 	float: left;
 	clear:left;
@@ -703,9 +696,6 @@ div#jform_template-desc {
 input#description {
 	margin-top: 3px;
 }
-th.col1template {
-	width: 210px;
-}
 
 div.editor-border {
 	border: 1px solid #CCCCCC;
@@ -843,15 +833,6 @@ table.adminform td { padding: 5px; text-align: left; font-size: 12px;}
 table.adminform td.filter { text-align: left; }
 
 table.adminform td.helpMenu { text-align: right; }
-
-table#template-mgr td { padding: 15px 0; }
-
-table#template-mgr td p {margin: 3px;}
-
-td.template-name a {
-	padding-left: 15px;
-	font-weight:bold;
-}
 
 .helplinks {
 	margin-top: 60px;
@@ -1426,9 +1407,9 @@ input.system-openid, input.com-system-openid {
 #menu li li { /*width: 100%;*/ clear: both;  /*FF 1.0.7 needs this */  }
 #menu li ul { visibility: hidden; position:absolute; }
 #menu li li ul {  top: 0; left: 0; }
-#menu li.hover ul               {  visibility: visible; }
-#menu li.hover ul li ul 		{  visibility: hidden;  }
-#menu li.hover li.hover ul      {  visibility: visible;  left: 100%; }
+#menu li:hover ul               {  visibility: visible; }
+#menu li:hover ul li ul 		  {  visibility: hidden;  }
+#menu li:hover li:hover ul      {  visibility: visible;  left: 100%; }
 
 /* ---- Menu layout -------------------------- */
 
@@ -1436,7 +1417,7 @@ input.system-openid, input.com-system-openid {
 	border-left: 1px solid #fff;
 	border-right: 1px solid #d8d8d8;
 }
-#menu li li { border: 0;}
+#menu li li { border: 0; display: block; float: none; }
 
 #menu ul				{ border: 0.1em solid #ccc; background: #f6f6f6 url(../images/bg-menu.gif) repeat-y left;}
 #menu ul li.node 		{ background: transparent url(../images/j_arrow.png) no-repeat right 50%; }
@@ -1456,7 +1437,7 @@ input.system-openid, input.com-system-openid {
 	background-position: left 50%;
 }
 
-#menu li.disabled a { color: gray; }
+#menu li.disabled a, #menu li.disabled:hover a { color: gray; background-color: transparent; margin: 0 1px; border-left-width: 0; border-right-width: 0; }
 
 #menu ul a {
 	font-size: 11px;
@@ -1467,15 +1448,15 @@ input.system-openid, input.com-system-openid {
 }
 
 /* 1 level - hover */
-#menu li.hover a {  background-color: #dbe4e9; border-left: 1px solid #025a8d;  border-right:1px solid #025a8d; margin: 0; }
+#menu li:hover a {  background-color: #dbe4e9; border-left: 1px solid #025a8d;  border-right:1px solid #025a8d; margin: 0; }
 /* 2 level - normal */
-#menu li.hover li a { background-color: transparent; border: 0 none; margin: 2px;  }
+#menu li:hover li a { background-color: transparent; border: 1px solid transparent; margin: 1px; }
 /* 2 level - hover */
-#menu li.hover li.hover a { background-color: #dbe4e9; border: 1px solid #025a8d;  margin: 1px;   }
+#menu li:hover li:hover a { background-color: #dbe4e9; border-color: #025a8d; }
 /* 3 level - normal */
-#menu li.hover li.hover li a { background-color: transparent; border: 0 none;   margin: 2px;  }
+#menu li:hover li:hover li a { background-color: transparent; border-color: transparent; }
 /* 3 level - hover */
-#menu li.hover li.hover li a:hover { background-color: #dbe4e9; border: 1px solid #025a8d;  margin: 1px;  }
+#menu li:hover li:hover li a:hover { background-color: #dbe4e9; border-color: #025a8d; }
 
 a.icon-16-menu span img {
 	height: 16px;
@@ -1574,55 +1555,24 @@ ul.subext li{
 }
 
 /* -- MODAL STYLES ----------- */
-
-h2.modal-title {
-	margin-left: 15px;
-	margin-bottom:5px;
+dl.menu_types {
+	padding: 0 0 0 30px;
 }
-
-ul.menu_types {
-	padding: 0 0 0 15px;
-	width:95%;
-	margin: 0;
-}
-ul.menu_types li,
-dl.menu_type dd ul li {
-	width: 240px;
-	list-style: none;
-	display:block;
-	float:left;
-	margin-right: 10px;	
-}
-ul.menu_types li { width: 47%}
-
-dl.menu_type {
-	width: 240px;
-	margin: 0;
-	padding: 0;
-}
-dl.menu_type dt{
+dl.menu_types dt {
 	font-weight: bold;
 	font-size: 12px;
-	float:left;
-	margin: 13px 0 5px 0;
-	border-bottom: 1px solid #666;
-	width: 240px;
 }
-dl.menu_type dd {
-	clear:left;
-	margin: 0;
+dl.menu_types dd {
 }
-
-dl.menu_type dd ul li {
-	margin: 0;
-}
-dl.menu_type dd ul {
+dl.menu_types dd ul {
 	margin-left: -40px;
 }
-
-
-
-
+dl.menu_types dd ul li {
+	display:block;
+	list-style: none;
+	padding: 0;
+	margin: 0 0 5px -30px;
+}
 
 
 /* -- ACL STYLES relocated from com_users/media/default.css ----------- */
@@ -1828,5 +1778,3 @@ table#acl-config th{
 	font-size: 12px;
 	font-weight: normal;
 }
-
-

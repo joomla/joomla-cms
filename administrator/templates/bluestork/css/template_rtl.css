@@ -6,9 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-
-
-
 /* -- GENERAL STYLES RTL ------------------------------ */
 
 body{
@@ -251,11 +248,10 @@ form .inputbox {
 	float: right;
 }
 
-#menu li.hover li.hover ul { left: auto; right: 100%; }
+#menu li:hover li:hover ul { left: auto; right: 100%; }
 
 #menu a, #menu div{
 	background-position: right;
-	margin: 0 0 0 1px;
 }
 
 #menu ul{
@@ -284,4 +280,3 @@ form .inputbox {
 	border-left:1px solid #CCCCCC;
 	display: -moz-inline-box;
 }
-
