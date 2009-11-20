@@ -32,6 +32,7 @@ $ -> Language fix or change
  + Added JHtmlTabs
  ! JPane and child classes has been deprecated in favor of JHtml helpers.
  ! Big thanks to Christophe Demko for his work on this.
+ ^ [#17650] Remove hardcoded style in TinyMCE that prevents button alignment
 
 20-Nov-2009 Andrew Eddie
  ^ Change XML version tags to 1.6.0.

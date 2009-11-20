@@ -1113,6 +1113,10 @@ a.pointer {
 	cursor: pointer;
 }
 
+/* -- EDITOR STYLES ----------------------------- */
+
+div.toggle-editor { margin-top: -5px; }
+
 /* -- TOOLTIP STYLES ----------------------------- */
 
 .tip {
