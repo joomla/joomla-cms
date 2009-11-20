@@ -72,7 +72,7 @@ class UsersViewUsers extends JView
 		}
 		if ($canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList('', 'user.delete');
+			JToolBarHelper::deleteList('', 'users.delete');
 		}
 
 		JToolBarHelper::divider();

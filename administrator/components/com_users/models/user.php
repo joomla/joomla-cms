@@ -240,11 +240,10 @@ class UsersModelUser extends JModelForm
 	 */
 	public function delete(&$pks)
 	{
-		// Typecast variable.
-		$pks = (array) $pks;
-
-		// Get a row instance.
-		$table = &$this->getTable();
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$table	= $this->getTable();
+		$pks	= (array) $pks;
 
 		// Trigger the onBeforeStoreUser event.
 		JPluginHelper::importPlugin('user');

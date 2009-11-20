@@ -30,6 +30,7 @@ $ -> Language fix or change
 20-Nov-2009 Andrew Eddie
  ^ Change XML version tags to 1.6.0.
  # Fixed bug in Tooltip JS code where title attribute not found causes error.
+ # Fixed bug when trying to delete a user.
 
 19-Nov-2009 Ron Severdia
 ^ Restored missing CSS
