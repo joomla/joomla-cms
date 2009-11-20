@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 
 $template = JFactory::getApplication()->getTemplate();
 
-jimport('joomla.html.pane');
-$pane = &JPane::getInstance('tabs');
-
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
@@ -33,11 +30,11 @@ JHtml::_('behavior.formvalidation');
 	</fieldset>
 
 	<?php
-	echo $pane->startPane('content-pane');
+	echo JHtml::_('tabs.start','config-tabs-'.$this->component->option.'_configuration', array('useCookie'=>1));
 		$fieldSets = $this->form->getFieldsets();
 		foreach ($fieldSets as $name => $fieldSet) :
 			$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
-			echo $pane->startPanel(JText::_($label), 'publishing-details');
+			echo JHtml::_('tabs.panel',JText::_($label), 'publishing-details');
 			if (isset($fieldSet['description'])) :
 				echo '<p class="">'.JText::_($fieldSet['description']).'</p>';
 			endif;
@@ -56,9 +53,8 @@ JHtml::_('behavior.formvalidation');
 
 	<div class="clr"></div>
 	<?php
-			echo $pane->endPanel();
 		endforeach;
-	echo $pane->endPane();
+	echo JHtml::_('tabs.end');
 	?>
 
 	<input type="hidden" name="id" value="<?php echo $this->component->id;?>" />

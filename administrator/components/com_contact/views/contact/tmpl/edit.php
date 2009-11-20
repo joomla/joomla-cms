@@ -10,10 +10,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-
-jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders');
-
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
@@ -103,8 +99,7 @@ JHtml::_('behavior.formvalidation');
 						<?php echo $this->form->getInput('webpage'); ?>
 			</fieldset>
 
-			<?php echo $pane->endPanel(); ?>
-			<?php echo $pane->startPanel(JText::_('Contact_Fieldset_Options'), 'display-options'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('Contact_Fieldset_Options'), 'display-options'); ?>
 			<fieldset class="panelform">
 				<p><?php echo empty($this->item->id) ? JText::_('Contact_Display_Details') : JText::sprintf('Contact_Display_Details', $this->item->id); ?></p>
 					<?php foreach($this->form->getFields('params') as $field): ?>

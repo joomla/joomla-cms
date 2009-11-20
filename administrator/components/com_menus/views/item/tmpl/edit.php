@@ -8,8 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders');
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
@@ -76,27 +74,26 @@ JHTML::_('behavior.modal');
 
 			<?php echo $this->form->getLabel('template_style_id'); ?>
 			<?php echo $this->form->getInput('template_style_id'); ?>
-			
-			
+
+
 	</fieldset>
 </div>
 
 <div class="width-40 fltrt">
-	<?php echo $pane->startPane('menu-pane'); ?>
+	<?php echo JHtml::_('sliders.start','menu-sliders-'.$this->item->id); ?>
 	<?php //Load  parameters.
 			echo $this->loadTemplate('options'); ?>
 
 		<div class="clr"></div>
 
 		<?php if (!empty($this->modules)) : ?>
-			<?php echo $pane->startPanel(JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>
+			<?php echo JHtml::_('sliders.panel',JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>
 			<fieldset>
 				<?php echo $this->loadTemplate('modules'); ?>
 			</fieldset>
-			<?php echo $pane->endPanel(); ?>
 		<?php endif; ?>
 
-	<?php echo $pane->endPane(); ?>
+	<?php echo JHtml::_('sliders.end'); ?>
 </div>
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput('component_id'); ?>

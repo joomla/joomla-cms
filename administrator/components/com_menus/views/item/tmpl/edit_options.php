@@ -8,9 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders');
 ?>
 <?php
 	$fieldSets = $this->paramsform->getFieldsets();
@@ -19,7 +16,7 @@ $pane = &JPane::getInstance('sliders');
 			continue;
 		endif;
 		$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
-		echo $pane->startPanel(JText::_($label), 'publishing-details');
+		echo JHtml::_('sliders.panel',JText::_($label), $name.'-options');
 			if (isset($fieldSet['description'])) :
 				echo '<p class="tip">'.JText::_($fieldSet['description']).'</p>';
 			endif;
@@ -36,7 +33,4 @@ $pane = &JPane::getInstance('sliders');
 				endforeach;
 			?>
 		</fieldset>
-<?php
-	echo $pane->endPanel();
-	endforeach;
-?>
+<?php endforeach;?>

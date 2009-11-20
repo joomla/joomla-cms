@@ -12,8 +12,6 @@
 <?php
 	JHtml::_('behavior.combobox');
 
-	jimport('joomla.html.pane');
-	$pane = &JPane::getInstance('sliders');
 	$editor = &JFactory::getEditor();
 
 	JHtml::_('behavior.tooltip');
@@ -173,47 +171,43 @@ foreach ($this->orders2 as $k=>$items) {
 
 <div class="width-50 fltrt">
 		<?php
-			echo $pane->startPane("menu-pane");
-			echo $pane->startPanel(JText :: _('Module Parameters'), "param-page");
+			echo JHtml::_('sliders.start',"module-sliders-".$this->row->module."-".$this->row->id, array('useCookie'=>1));
+			echo JHtml::_('sliders.panel', JText :: _('Module Parameters'), "param-page");
 			$p = $this->params;
 			if ($this->params = $p->render('jform[params]')) :
 				echo "<fieldset class=\"panelform-legacy\">".$this->params."</fieldset>";
 			else :
 				echo "<div class=\"noparams-notice\">".JText::_('There are no parameters for this item')."</div>";
 			endif;
-			echo $pane->endPanel();
 
 			if ($p->getNumParams('advanced')) {
-				echo $pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
+				echo JHtml::_('sliders.panel', JText :: _('Advanced Parameters'), "advanced-page");
 				if ($this->params = $p->render('jform[params]', 'advanced')) :
 					echo "<fieldset class=\"panelform-legacy\">".$this->params."</fieldset>";
 				else :
 					echo "<div class=\"noparams-notice\">".JText::_('There are no advanced parameters for this item')."</div>";
 				endif;
-				echo $pane->endPanel();
 			}
 
 			if ($p->getNumParams('legacy')) {
-				echo $pane->startPanel(JText :: _('Legacy Parameters'), "legacy-page");
+				echo JHtml::_('sliders.panel', JText :: _('Legacy Parameters'), "legacy-page");
 				if ($this->params = $p->render('jform[params]', 'legacy')) :
 					echo "<fieldset class=\"panelform-legacy\">".$this->params."</fieldset>";
 				else :
 					echo "<div class=\"noparams-notice\">".JText::_('There are no legacy parameters for this item')."</div>";
 				endif;
-				echo $pane->endPanel();
 			}
 
 
-		if ($p->getNumParams('other')) {
-			echo $pane->startPanel(JText :: _('Other Parameters'), "other-page");
-			if ($this->params = $p->render('jform[params]', 'other')) :
-				echo "<fieldset class=\"panelform-legacy\">".$this->params."</fieldset>";
+			if ($p->getNumParams('other')) {
+				echo JHtml::_('sliders.panel', JText :: _('Other Parameters'), "other-page");
+				if ($this->params = $p->render('jform[params]', 'other')) :
+					echo "<fieldset class=\"panelform-legacy\">".$this->params."</fieldset>";
 				else :
-				echo "<div class=\"noparams-notice\">".JText::_('There are no other parameters for this item')."</div>";
+					echo "<div class=\"noparams-notice\">".JText::_('There are no other parameters for this item')."</div>";
 				endif;
-				echo $pane->endPanel();
 			}
-			echo $pane->endPane();
+			echo JHtml::_('sliders.end');
 		?>
 </div>
 <div class="clr"></div>

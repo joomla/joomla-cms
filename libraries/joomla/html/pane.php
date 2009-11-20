@@ -17,6 +17,7 @@ defined('JPATH_BASE') or die;
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
+ * @deprecated	in favour of JHtml::_ static helpers
  */
 abstract class JPane extends JObject
 {

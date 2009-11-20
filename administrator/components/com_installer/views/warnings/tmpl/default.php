@@ -16,18 +16,14 @@ defined('_JEXEC') or die;
 if (!count($this->messages)) {
 	echo '<p class="nowarning">'. JText::_('No warnings detected').'</p>';
 } else {
-	jimport('joomla.html.pane');
-	$pane =& JPane::getInstance('sliders');
-	echo $pane->startPane("warning-pane");
+	echo JHtml::_('sliders.start', 'warning-sliders', array('useCookie'=>1));
 	foreach($this->messages as $message) {
-		echo $pane->startPanel($message['message'], str_replace(' ','', $message['message']));
+		echo JHtml::_('sliders.panel', $message['message'], str_replace(' ','', $message['message']));
 		echo '<div style="padding: 5px;" >'.$message['description'].'</div>';
-		echo $pane->endPanel();
 	}
-	echo $pane->startPanel(JText::_('WARNINGFURTHERINFO'),'furtherinfo-pane');
+	echo JHtml::_('sliders.panel', JText::_('WARNINGFURTHERINFO'),'furtherinfo-pane');
 	echo '<div style="padding: 5px;" >'. JText::_('WARNINGFURTHERINFODESC') .'</div>';
-	echo $pane->endPanel();
-	echo $pane->endPane();
+	echo JHtml::_('sliders.end');
 }
 ?>
 <div class="clr"> </div>

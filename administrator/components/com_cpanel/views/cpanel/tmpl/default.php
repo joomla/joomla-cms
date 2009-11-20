@@ -1,14 +1,11 @@
 <?php defined('_JEXEC') or die; ?>
 
 <?php
-jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders');
-echo $pane->startPane('content-pane');
+echo JHtml::_('sliders.start','panel-sliders',array('useCookie'=>'1'));
 
 foreach ($this->modules as $module) {
-	echo $pane->startPanel($module->title, 'cpanel-panel-'.$module->name);
+	echo JHtml::_('sliders.panel', $module->title, 'cpanel-panel-'.$module->name);
 	echo JModuleHelper::renderModule($module);
-	echo $pane->endPanel();
 }
 
-echo $pane->endPane();
+echo JHtml::_('sliders.end');

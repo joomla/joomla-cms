@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders');
-
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
@@ -63,9 +60,9 @@ JHtml::_('behavior.formvalidation');
 	</div>
 
 	<div class="width-40 fltrt">
-		<?php echo $pane->startPane('content-pane'); ?>
+		<?php echo JHtml::_('sliders.start','content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Publishing'), 'publishing-details'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('Content_Fieldset_Publishing'), 'publishing-details'); ?>
 
 		<fieldset class="panelform">
 
@@ -94,9 +91,8 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getInput('hits'); ?>
 
 		</fieldset>
-		<?php echo $pane->endPanel(); ?>
 
-		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Options'), 'basic-options'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('Content_Fieldset_Options'), 'basic-options'); ?>
 		<fieldset class="panelform">
 		<?php foreach($this->form->getFields('attribs') as $field): ?>
 			<?php if ($field->hidden): ?>
@@ -107,9 +103,8 @@ JHtml::_('behavior.formvalidation');
 			<?php endif; ?>
 		<?php endforeach; ?>
 		</fieldset>
-		<?php echo $pane->endPanel(); ?>
 
-	<?php echo $pane->startPanel(JText::_('Content_Fieldset_Access'), 'access-rules'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('Content_Fieldset_Access'), 'access-rules'); ?>
 
 		<fieldset class="panelform">
 
@@ -117,8 +112,7 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getInput('rules'); ?>
 
 		</fieldset>
-		<?php echo $pane->endPanel(); ?>
-		<?php echo $pane->startPanel(JText::_('Content_Fieldset_Metadata'), 'meta-options'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('Content_Fieldset_Metadata'), 'meta-options'); ?>
 		<fieldset class="panelform">
 
 			<?php echo $this->form->getLabel('metadesc'); ?>
@@ -140,9 +134,7 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getInput('xreference'); ?>
 		</fieldset>
 
-		<?php echo $pane->endPanel(); ?>
-
-		<?php echo $pane->endPane(); ?>
+		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 
 	<input type="hidden" name="task" value="" />

@@ -13,10 +13,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHTML::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
-
-jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders');
-
 ?>
 <script type="text/javascript">
 <!--
@@ -58,13 +54,13 @@ $pane = &JPane::getInstance('sliders');
 	</div>
 
 	<div class="width-40 fltrt">
-	<?php echo $pane->startPane('options-pane'); ?>
+	<?php echo JHtml::_('sliders.start','plugin-sliders-'.$this->item->id); ?>
 
 		<?php echo $this->loadTemplate('options'); ?>
 
 		<div class="clr"></div>
 
-		<?php echo $pane->endPane(); ?>
+	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 
 	<div class="clr"></div>
