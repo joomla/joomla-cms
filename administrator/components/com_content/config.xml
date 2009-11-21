@@ -266,9 +266,11 @@
 
 		<field
 			name="filter_type"
-			type="radio"
+			type="list"
 			label="Content_Attribs_Filter_Type_Label"
 			description="Content_Attribs_Filter_Type_Desc"
+			class="inputbox"
+			size="1"
 			default="">
 			<option
 				value="BL">Content_Option_Black_List</option>

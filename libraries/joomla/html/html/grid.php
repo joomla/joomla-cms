@@ -98,13 +98,13 @@ abstract class JHtmlGrid
 	{
 		// TODO: This needs to be reworked to suit the new access levels
 		if ($row->access <= 1)  {
-			$color_access = 'style="color: green;"';
+			$color_access = 'class="allow"';
 			$task_access = 'accessregistered';
 		} else if ($row->access == 1) {
-			$color_access = 'style="color: red;"';
+			$color_access = 'class="deny"';
 			$task_access = 'accessspecial';
 		} else {
-			$color_access = 'style="color: black;"';
+			$color_access = 'class="none"';
 			$task_access = 'accesspublic';
 		}
 

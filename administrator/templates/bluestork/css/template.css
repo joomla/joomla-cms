@@ -30,33 +30,31 @@ body {
 	padding: 0;
 	background: #fff;
 	padding-bottom: 1px;
+	font-size: 68.8%; /* Set base to 11px */
 }
 
 body, td, th {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 11px;
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
-html, body { height: 95%; }
+html, body	{ height: 95%; }
 
-#minwidth { min-width: 960px; }
+#minwidth	{ min-width: 960px; }
+
+a, img 	{ padding: 0; margin: 0; }
+img 	{ border: 0 none; }
 
 .clr { clear: both; overflow:hidden; height: 0; }
-
-a, img { padding: 0; margin: 0; }
-
-img { border: 0 none; }
-
 form { margin: 0; padding: 0; }
 
 h1 {
 	margin: 0;
 	padding-bottom: 8px;
 	color: #025A8D;
-	font-size: 20px;
+	font-size: 1.818em;
 }
 
-h3 { font-size: 13px; }
+h3 { font-size: 1.182em; }
 
 * :focus, a:active { outline:none }
 a:link    { color: #025A8D; text-decoration: none; outline: none; }
@@ -72,41 +70,34 @@ fieldset {
 
 legend    {
 	color: #146295;
-	font-size: 13px;
+	font-size: 1.182em;
 	font-weight: bold;
 }
 
-input, select { font-size: 10px; border: 1px solid silver; background: #fff;}
-textarea      { font-size: 11px; border: 1px solid silver; }
-button        { font-size: 10px; margin-top:2px; margin-left:5px;}
+input, select 	{ font-size: 0.909em; border: 1px solid silver; background: #fff;}
+textarea      	{ font-size: 1.273em; border: 1px solid silver; }
+button        	{ font-size: 0.909em; margin-top:2px; margin-left:5px;}
 
-.invalid { color: red; font-weight: bold; }
-input.invalid { border: 1px solid red; }
-
-input.disabled { background-color: #F0F0F0; }
-
-input.button  { cursor: pointer; }
-
+.invalid 		{ color: red; font-weight: bold; }
+input.invalid 	{ border: 1px solid red; }
+input.disabled 	{ background-color: #F0F0F0; }
+input.button  	{ cursor: pointer; }
 input:focus,
 select:focus,
-textarea:focus { background-color: #ffd; }
+textarea:focus 	{ background-color: #ffd; }
 
-.enabled { color: green; font-weight: bold; }
-.disabled { color: red; font-weight: bold; }
+.enabled 	{ color: green; font-weight: bold; }
+.disabled 	{ color: red; font-weight: bold; }
+p.error 	{ color: red; font-weight: bold; }
+.warning 	{ color: red; font-weight: bold; font-size: 1.091em;}
+.nowarning 	{ color: #333; font-weight: bold; font-size: 1.091em;}
+.success 	{ color: green; font-weight: bold;}
+.allow 		{ color: green;}
+.deny 		{ color: red;}
+.none 		{ color: #aaa;}
 
-p.error { color: red; font-weight: bold; }
-
-.warning { color: red; font-weight: bold; font-size: 12px;}
-.nowarning { color: #333; font-weight: bold; font-size: 12px;}
-
-.success {color: green; font-weight: bold;}
-
-.allow {color: green;}
-.deny {color: red;}
-.none {color: #aaa;}
-
-.hide {display:none}
-.hidelabeltxt {text-indent:-9999em;}
+.hide 			{ display:none}
+.hidelabeltxt 	{ text-indent:-9999em;}
 
 
 /* -- OVERALL STYLES ----------------------------- */
@@ -117,7 +108,7 @@ p.error { color: red; font-weight: bold; }
 
 #border-top .title,
 #border-top .title a {
-	font-size: 22px;
+	font-size: 1.364em;
 	font-weight: bold;
 	color: #fff;
 	line-height: 44px;
@@ -251,13 +242,13 @@ textarea#message {
 
 .ol-textfont {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10px;
+	font-size: 0.909em;
 	color: #666;
 }
 
 .ol-captionfont {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 11px;
+	font-size: 1em;
 	color: #fff;
 	font-weight: bold;
 }
@@ -279,7 +270,7 @@ div.pagetitle {
 
 div.pagetitle h2 {
 	line-height: 48px;
-	font-size: 22px;
+	font-size: 2em;
 	font-weight: bold;
 	color: #146295;
 	margin: 0;
@@ -289,7 +280,7 @@ div.pagetitle h2 {
 div.pagetitle span { color: #666; }
 
 div.configuration {
-	font-size: 15px;
+	font-size: 1.364em;
 	font-weight: bold;
 	color: #146295;
 	padding-left: 30px;
@@ -330,7 +321,7 @@ textarea#mm_message { width: 100%; }
 .pane-sliders .panel   		{ border: 1px solid #ccc; margin-bottom: 3px;}
 .pane-sliders .panel h3 	{ background: #fafafa; color: #666}
 .pane-sliders .content 		{ background: #fff; }
-.pane-sliders .adminlist   	{ border: 0 none; font-size: 11px; }
+.pane-sliders .adminlist   	{ border: 0 none; font-size: 1em; }
 .pane-sliders .adminlist td { border: 0 none; }
 
 .jpane-toggler span     	{ background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; padding-left: 20px;}
@@ -449,6 +440,12 @@ div.current table#acl-config th.acl-groups {
 	text-align: left;
 }
 
+p.tab-description {
+	font-size: 1.091em;
+	margin-left: 0;
+	margin-top: 5px;
+}
+
 
 /* -- CONTROL PANEL STYLES ----------------------------- */
 
@@ -564,7 +561,7 @@ fieldset ul.checklist label {
 }
 
 form label {
-	font-size: 12px;
+	font-size: 1.091em;
 }
 
 fieldset input,
@@ -582,7 +579,7 @@ input#jform_title {
 
 label#jform_introtext-lbl,
 label#jform_fulltext-lbl {
-	font-size: 13px;
+	font-size: 1.182em;
 	padding-top: 15px;
 	margin-top: 15px;
 	width: 100%;
@@ -600,11 +597,11 @@ input#jform_extension {
 }
 
 input.readonly {
-	font-size: 12px;
+	font-size: 1em;
 	padding-top:1px;
 	border: 0;
 	font-weight:bold;
-	background-color: #F6F6F6;
+	background-color: #F7F7F7;
 }
 
 input.required { background-color: #d5eeff; }
@@ -612,7 +609,7 @@ input.required { background-color: #d5eeff; }
 input#jform_title.inputbox,
 input#jform_leveltitle.inputbox,
 input#jform_grouptitle.inputbox  {
-	font-size: 15px;
+	font-size: 1.364em;
 }
 
 label#jform_title-lbl,
@@ -701,7 +698,7 @@ div#jform_template-desc {
 	float:left;
 	padding-right: 5px;
 	padding-top: 5px;
-	font-size:12px;
+	font-size: 1.091em;
 }
 div#jform_template-desc {
 	padding-top: 3px;
@@ -723,13 +720,13 @@ fieldset ul li {
 
 fieldset p {
 	margin: 0 0 15px 0;
-	font-size: 12px;
+	font-size: 1.091em;
 }
 
 ul#overviewlist,
 ul#paramlist {
 	clear:both;
-	font-size: 12px;
+	font-size: 1.091em;
 	padding-top: 5px;
 }
 
@@ -800,7 +797,7 @@ p.jform_desc {
 }
 
 div#jform_ordering {
-	font-size: 12px;
+	font-size: 1.091em;
 	margin-top: 3px;
 }
 
@@ -836,7 +833,7 @@ table.adminform tr.row0 { background-color: #f9f9f9; }
 table.adminform tr.row1 { background-color: #eeeeee; }
 
 table.adminform th {
-	font-size: 12px;
+	font-size: 1.091em;
 	padding: 6px 2px 4px 4px;
 	text-align: left;
 	height: 25px;
@@ -844,7 +841,7 @@ table.adminform th {
 	background-repeat: repeat;
 }
 
-table.adminform td { padding: 5px; text-align: left; font-size: 12px;}
+table.adminform td { padding: 5px; text-align: left; font-size: 1.091em;}
 
 table.adminform td.filter { text-align: left; }
 
@@ -881,7 +878,7 @@ fieldset.uploadform label {
 }
 
 span.gi {
-	color: #ff6600;
+	color: #d7d7d7;
 	font-weight: bold;
 	margin-right: 5px;
 }
@@ -892,17 +889,6 @@ ul#legend li {
 	list-style-type: none;
 }
 
-/* Hacks until HRs are removed from panels
-div.paramrow hr,
-fieldset.panelform hr {
-	display:none;
-}
-
-fieldset.panelform-legacy hr {
-	display:none;
-	clear:both;
-}
-*/
 
 /* -- TABLE STYLES ----------------------------- */
 
@@ -964,7 +950,7 @@ table.adminlist td.indent-139 	{ padding-left:139px; }
 
 p.smallsub 	{ margin:3px 0 0; }
 p.smallsub 	span { color: #a0a0a0; }
-div#element-box div.m form table.adminlist tr td p.smallsub a { font-size:11px; }
+div#element-box div.m form table.adminlist tr td p.smallsub a { font-size: 1em; }
 
 table.adminlist tr td.btns a {
 	border: 1px solid #999;
@@ -1003,11 +989,11 @@ td.nowrap, th.nowrap { white-space:nowrap; }
 
 table.admintable th,
 table.admintable td {
-	font-size: 12px;
+	font-size: 1.091em;
 }
 
 table#global-checkin td {
-	font-size: 13px;
+	font-size: 1.182em;
 }
 
 table#global-checkin td.active {
@@ -1042,7 +1028,7 @@ table#global-checkin tbody tr.row1:hover td { background-color: #F0F0F0; }
 	height: 26px;
 	float: left;
 	line-height: 26px;
-	font-size: 12px;
+	font-size: 1.091em;
 	font-weight: bold;
 	color: #333;
 	cursor: pointer;
@@ -1059,7 +1045,7 @@ table#global-checkin tbody tr.row1:hover td { background-color: #F0F0F0; }
 	height: 22px;
 	float: left;
 	line-height: 22px;
-	font-size: 11px;
+	font-size: 1em;
 	color: #333;
 	cursor: pointer;
 }
@@ -1115,7 +1101,7 @@ a.pointer {
 
 /* -- EDITOR STYLES ----------------------------- */
 
-div.toggle-editor { margin-top: -5px; }
+
 
 /* -- TOOLTIP STYLES ----------------------------- */
 
@@ -1131,7 +1117,7 @@ div.toggle-editor { margin-top: -5px; }
 .tip-title {
 	padding: 0;
 	margin: 0;
-	font-size: 100%;
+	font-size: 1em;
 	font-weight: bold;
 	margin-top: -15px;
 	padding-top: 15px;
@@ -1140,7 +1126,7 @@ div.toggle-editor { margin-top: -5px; }
 }
 
 .tip-text {
-	font-size: 100%;
+	font-size: 1em;
 	margin: 0;
 }
 
@@ -1208,7 +1194,7 @@ h1 {
 p {
   margin: 0 0 15px 10px;
   padding: 0;
-  font-size: 11px;
+  font-size: 1em;
 }
 
 #section-box  {
@@ -1470,7 +1456,7 @@ input.system-openid, input.com-system-openid {
 	color: #333333;
 	line-height: 1.6em;
 	vertical-align: middle;
-	font-size: 11px;
+	font-size: 1em;
 	font-weight: bold;
 	text-decoration: none;
 	cursor: default;
@@ -1481,7 +1467,7 @@ input.system-openid, input.com-system-openid {
 #menu li.disabled a, #menu li.disabled:hover a { color: gray; background-color: transparent; margin: 0 1px; border-left-width: 0; border-right-width: 0; }
 
 #menu ul a {
-	font-size: 11px;
+	font-size: 1em;
 	font-weight: normal;
 	padding-left: 25px;
 	padding-right: 20px;
@@ -1546,7 +1532,7 @@ a.icon-16-menu span img {
 div.message {
 	text-align: center;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
+	font-size: 1.091em;
 	padding: 3px;
 	border: 1px solid #e0e0e0;
 	margin-bottom: 10px;
@@ -1599,7 +1585,8 @@ ul.subext li{
 
 h2.modal-title {
 	margin-left: 15px;
-	margin-bottom:5px;
+	margin-bottom:0;
+margin-top: 5px;
 }
 
 ul.menu_types {
@@ -1624,7 +1611,7 @@ dl.menu_type {
 }
 dl.menu_type dt{
 	font-weight: bold;
-	font-size: 12px;
+	font-size: 1.091em;
 	float:left;
 	margin: 13px 0 5px 0;
 	border-bottom: 1px solid #666;
@@ -1704,10 +1691,10 @@ table.aclsummary-table,
 table.aclmodify-table {
 	border-collapse: collapse;
 	width: 100%;
-	font-size: 12px;
+	font-size: 1.091em;
 }
 td.col1 {
-	font-size: 12px;
+	font-size: 1.091em;
 	text-align:left;
 	padding: 4px;
 }
@@ -1801,7 +1788,7 @@ table.aclmodify-table td label {
 /* ACL footer/legend */
 ul.acllegend {
 	list-style: none;
-	font-size: 12px;
+	font-size: 1.091em;
 	padding-bottom: 10px;
 }
 ul.acllegend li {
@@ -1829,8 +1816,7 @@ ul.acllegend li.acl-resetbtn {
 
 table#acl-config {
 	width: 100%;
-	font-size: 13px;
-	margin-top: 30px;
+	margin-top: 15px;
 }
 
 table#acl-config th{
@@ -1838,11 +1824,20 @@ table#acl-config th{
 }
 
 .acl-action {
-	font-size: 12px;
+	font-size: 1.091em;
 	margin: auto 0;
 }
 
 .acl-groups {
-	font-size: 12px;
+	font-size: 1.091em;
 	font-weight: normal;
 }
+
+/* Disabled until verified */
+label#jform_rules-lbl {display:none;}
+
+
+
+
+
+

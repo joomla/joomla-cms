@@ -36,7 +36,7 @@ JHtml::_('behavior.formvalidation');
 			$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
 			echo JHtml::_('tabs.panel',JText::_($label), 'publishing-details');
 			if (isset($fieldSet['description'])) :
-				echo '<p class="">'.JText::_($fieldSet['description']).'</p>';
+				echo '<p class="tab-description">'.JText::_($fieldSet['description']).'</p>';
 			endif;
 	?>
 
