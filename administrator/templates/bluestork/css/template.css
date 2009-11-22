@@ -76,7 +76,7 @@ legend    {
 
 input, select 	{ font-size: 0.909em; border: 1px solid silver; background: #fff;}
 textarea      	{ font-size: 1.273em; border: 1px solid silver; }
-button        	{ font-size: 0.909em; margin-top:2px; margin-left:5px;}
+/* button        	{ font-size: 0.909em; margin-top:2px; margin-left:5px;} */
 
 .invalid 		{ color: red; font-weight: bold; }
 input.invalid 	{ border: 1px solid red; }
@@ -558,6 +558,7 @@ fieldset ul.checklist {
 fieldset ul.checklist input,
 fieldset ul.checklist label {
 	float:none;
+	height: 22px;
 }
 
 form label {
@@ -811,7 +812,7 @@ fieldset.filter .right	{ float:right;}
 fieldset.filter .right select.inputbox { margin-left: 10px;}
 
 fieldset#filter-bar { height: 35px; border: 0; border-bottom: 1px solid #d5d5d5;}
-div.filter-search{}
+div.filter-search{ }
 label.filter-search-lbl {margin-left: 5px;}
 label.filter-hide-lbl {margin-left: 5px; clear:none;}
 div.filter-select .inputbox {margin-left: 5px; margin-right: 5px;}
@@ -1038,6 +1039,7 @@ table#global-checkin tbody tr.row1:hover td { background-color: #F0F0F0; }
 .button1 a:hover { text-decoration: none; color: #0B55C4; }
 
 .button2-left a,
+.button2-left button,
 .button2-right a,
 .button2-left span,
 .button2-right span {
@@ -1060,7 +1062,8 @@ table#global-checkin tbody tr.row1:hover td { background-color: #F0F0F0; }
 .button2-left .blank a,
 .button2-right .blank a,
 .button2-left .blank span,
-.button2-right .blank span { padding: 0 6px; }
+.button2-right .blank span,
+.button2-right .blank button { padding: 0 6px; }
 
 .page span,
 .blank span {
@@ -1069,7 +1072,8 @@ table#global-checkin tbody tr.row1:hover td { background-color: #F0F0F0; }
 }
 
 .button2-left a:hover,
-.button2-right a:hover { text-decoration: none; color: #0B55C4; }
+.button2-right a:hover,
+.button2-left button:hover { text-decoration: none; color: #0B55C4; }
 
 .button2-left a,
 .button2-left span { padding: 0 24px 0 6px; }
@@ -1098,6 +1102,20 @@ table#global-checkin tbody tr.row1:hover td { background-color: #F0F0F0; }
 a.pointer {
 	cursor: pointer;
 }
+
+button { 
+	margin-top: 4px;
+	background: #fff; 
+	border: 1px solid #ccc;
+	text-decoration:none;
+}
+button:hover { 
+	cursor: pointer;
+	background: #E8F6FE;
+	text-decoration:none;
+	border: 1px solid #aaa;
+}
+
 
 /* -- EDITOR STYLES ----------------------------- */
 
@@ -1513,18 +1531,21 @@ a.icon-16-menu span img {
 	border-right: 1px solid #ccc;
 	font-size: 1.1em;
 	font-weight: bold;
-	color: #146295;
+	color: #808080;
 	line-height: 14px;
 	height: 12px;
 }
+
+
 
 #submenu span.nolink {
 	color: #999;
 }
 
+#submenu a:hover,
 #submenu a.active,
 #submenu span.nolink.active {
-	color: #70ace4;
+	color: #146295
 }
 
 /* -- COMPONENT STYLES ------------------------------ */
@@ -1837,7 +1858,7 @@ table#acl-config th{
 label#jform_rules-lbl {display:none;}
 
 
-
+/* New buttons */
 
 
 

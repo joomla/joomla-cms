@@ -53,13 +53,13 @@ endif; ?>
 		<?php echo $langs; ?>
 	</p>
 	<div class="button-holder">
-	<div class="button1">
-		<div class="next">
-			<a href="#" onclick="login.submit();">
-				<?php echo JText::_('Log_in'); ?></a>
+		<div class="button1">
+			<div class="next">
+				<a href="#" onclick="login.submit();">
+					<?php echo JText::_('Log_in'); ?></a>
 
+			</div>
 		</div>
-	</div>
 	</div>
 	<div class="clr"></div>
 	<input type="submit" class="login-submit" value="<?php echo JText::_('Log_in'); ?>" />
