@@ -46,6 +46,10 @@ class ModulesViewModule extends JView
 		$itemForm->bind($item);
 		$paramsForm->bind($item->params);
 
+		// Add the module and client_id to the params form.
+		$paramsForm->set('module', $item->module);
+		$paramsForm->set('client_id', $item->client_id);
+
 		$this->assignRef('state',		$state);
 		$this->assignRef('item',		$item);
 		$this->assignRef('form',		$itemForm);
