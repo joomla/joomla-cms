@@ -68,27 +68,51 @@ JHtml::_('behavior.formvalidation');
 	
 		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Blog_Layouts'), 'bloglayouts'); ?>
 		<fieldset class="panelform">
-				<?php echo $this->form->getLabel('num_leading_articles'); ?>
-				<?php echo $this->form->getInput('num_leading_articles'); ?>
+			<?php foreach($this->form->getFields('bloglayouts') as $field): ?>
+				<?php if ($field->hidden): ?>
+				<?php echo $field->input; ?>
+			<?php else: ?>
+				<?php echo $field->label; ?>
+				<?php echo $field->input; ?>
+			<?php endif; ?>
+		<?php endforeach; ?>
 		</fieldset>
 		
 		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_List_Layouts'), 'listlayouts'); ?>
 		<fieldset class="panelform">
-				<?php echo $this->form->getLabel('listlayouts'); ?>
-				<?php echo $this->form->getInput('listlayouts'); ?>
+			<?php foreach($this->form->getFields('listlayouts') as $field): ?>
+				<?php if ($field->hidden): ?>
+				<?php echo $field->input; ?>
+			<?php else: ?>
+				<?php echo $field->label; ?>
+				<?php echo $field->input; ?>
+			<?php endif; ?>
+		<?php endforeach; ?>
 		</fieldset>
 		
 		
 		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_CatFeat_Layouts'), 'catfeatlayouts'); ?>
 		<fieldset class="panelform">
-				<?php echo $this->form->getLabel('catfeatlayouts'); ?>
-				<?php echo $this->form->getInput('catfeatlayouts'); ?>
+			<?php foreach($this->form->getFields('catfeatlayouts') as $field): ?>
+				<?php if ($field->hidden): ?>
+				<?php echo $field->input; ?>
+			<?php else: ?>
+				<?php echo $field->label; ?>
+				<?php echo $field->input; ?>
+			<?php endif; ?>
+		<?php endforeach; ?>
 		</fieldset>
 		
 		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Integration'), 'integration'); ?>
 		<fieldset class="panelform">
-				<?php echo $this->form->getLabel('show_feed_link'); ?>
-				<?php echo $this->form->getInput('show_feed_link'); ?>
+			<?php foreach($this->form->getFields('integration') as $field): ?>
+				<?php if ($field->hidden): ?>
+				<?php echo $field->input; ?>
+			<?php else: ?>
+				<?php echo $field->label; ?>
+				<?php echo $field->input; ?>
+			<?php endif; ?>
+		<?php endforeach; ?>
 		</fieldset>
 		
 		
