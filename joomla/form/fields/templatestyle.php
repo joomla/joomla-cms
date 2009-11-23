@@ -17,8 +17,8 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldTemplateStyle extends JFormFieldList {
-
+class JFormFieldTemplateStyle extends JFormFieldList
+{
 	/**
 	 * The field type.
 	 *

@@ -31,19 +31,30 @@ class JFormFieldModuleLayout extends JFormFieldList
 	 */
 	protected function _getOptions()
 	{
+		// Initialise variables.
 		$options	= array();
 		$path1		= null;
 		$path2		= null;
 
+		$module = $this->_element->attributes('module');
+		if (empty($module)) {
+			$module = $this->_form->getValue('module');
+		}
+
+		$clientId = $this->_element->attributes('client_id');
+		if (empty($clientId)) {
+			$clientId = $this->_form->getValue('client_id');
+		}
+
 		// Load template entries for each menuid
-		$db			=& JFactory::getDBO();
+		$db			= JFactory::getDBO();
 		$query		= 'SELECT template'
 			. ' FROM #__templates_menu'
-			. ' WHERE client_id = 0 AND menuid = 0';
+			. ' WHERE client_id = '.(int) $clientId.' AND menuid = 0';
 		$db->setQuery($query);
 		$template	= $db->loadResult();
 
-		if ($module = $this->_element->attributes('module'))
+		if ($module)
 		{
 			$module	= preg_replace('#\W#', '', $module);
 			$path1	= JPATH_SITE.DS.'modules'.DS.$module.DS.'tmpl';
