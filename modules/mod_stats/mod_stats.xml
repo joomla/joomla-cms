@@ -12,27 +12,47 @@
 	<files>
 		<filename module="mod_stats">mod_stats.php</filename>
 	</files>
-	<params>
-		<param name="serverinfo" type="radio" default="0" label="Server Info" description="Display server information">
+	<fields>
+		<field name="serverinfo" type="radio" default="0" label="Server Info" description="Display server information">
 			<option value="1">JYes</option>
 			<option value="0">JNo</option>
-		</param>
-		<param name="siteinfo" type="radio" default="0" label="Site Info" description="Display site information">
+		</field>
+		<field name="siteinfo" type="radio" default="0" label="Site Info" description="Display site information">
 			<option value="1">JYes</option>
 			<option value="0">JNo</option>
-		</param>
-		<param name="counter" type="radio" default="0" label="Hit Counter" description="Display hit counter">
+		</field>
+		<field name="counter" type="radio" default="0" label="Hit Counter" description="Display hit counter">
 			<option value="1">JYes</option>
 			<option value="0">JNo</option>
-		</param>
-		<param name="increase" type="text" default="0" label="Increase counter" description="Enter the amount of hits to increase counter by" />
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-	</params>
-	<params group="advanced">
-		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
-			<option value="1">Use global</option>
-			<option value="0">No caching</option>
-		</param>
-		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
-	</params>
+		</field>
+		<field name="increase" type="text" default="0" label="Increase counter" description="Enter the amount of hits to increase counter by" />
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+
+		<field
+			name="cache"
+			type="list"
+			default="1"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="1">Use global</option>
+			<option
+				value="0">No caching</option>
+		</field>
+
+		<field
+			name="cache_time"
+			type="text"
+			default="900"
+			label="Cache Time"
+			description="The time before the module is recached" />
+	</fields>
 </install>

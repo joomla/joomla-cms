@@ -12,16 +12,30 @@
 	<files>
 		<filename module="mod_syndicate">mod_syndicate.php</filename>
 	</files>
-	<params>
-		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
-			<option value="0">Never</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="text" type="text" default="Feed Entries" label="Text" description="PARAMTEXT" />
-		<param name="format" type="list" default="rss" label="Format" description="PARAMFEEDFORMAT">
+	<fields>
+		<field name="text" type="text" default="Feed Entries" label="Text" description="fieldTEXT" />
+		<field name="format" type="list" default="rss" label="Format" description="fieldFEEDFORMAT">
 			<option value="rss">RSS 2.0</option>
 			<option value="atom">Atom 1.0</option>
-		</param>
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-	</params>
+		</field>
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+
+		<field
+			name="cache"
+			type="list"
+			default="0"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="0">No caching</option>
+		</field>
+	</fields>
 </install>

@@ -151,7 +151,9 @@ class JControllerForm extends JController
 		$context	= "$this->_option.edit.$this->_context";
 
 		// Access check.
-		if (!$this->_allowAdd()) {
+		if (!$this->_allowAdd())
+		{
+			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_items, false));
 			return JError::raiseWarning(403, 'JError_Core_Create_not_permitted.');
 		}
 
@@ -419,5 +421,7 @@ class JControllerForm extends JController
 				$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false));
 				break;
 		}
+
+		return true;
 	}
 }

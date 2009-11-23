@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<install
+	type="module"
+	version="1.5.0">
 	<name>Feed Display</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2005</creationDate>
@@ -10,40 +12,112 @@
 	<version>1.6.0</version>
 	<description>This module allows the displaying of a syndicated feed</description>
 	<files>
-		<filename module="mod_feed">mod_feed.php</filename>
+		<filename
+			module="mod_feed">mod_feed.php</filename>
 	</files>
-	<params>
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="rssurl" type="text" size="50" default="" label="Feed URL" description="Enter the URL of the RSS/RDF feed" />
-		<param name="rssrtl" type="radio" default="0" label="RTL feed" description="Display feed in RTL direction">
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
-		</param>
-		<param name="rsstitle" type="radio" default="1" label="Feed Title" description="Display news feed title">
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
-		</param>
-		<param name="rssdesc" type="radio" default="1" label="Feed Description" description="Show the description text for the whole Feed">
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
-		</param>
-		<param name="rssimage" type="radio" default="1" label="Feed Image" description="Show the image associated with the whole Feed">
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
-		</param>
-		<param name="rssitems" type="text" default="3" label="Items" description="Enter number of RSS items to display" />
-		<param name="rssitemdesc" type="radio" default="1" label="Item Description" description="PARAMITEMDESC">
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
-		</param>
-		<param name="word_count" type="text" size="6" default="0" label="Word Count" description="PARAMWORDCOUNT" />
-	</params>
-	<params group="advanced">
-		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
-			<option value="1">Use global</option>
-			<option value="0">No caching</option>
-		</param>
-		<param name="cache_time" type="text" default="15" label="Cache Time" description="The time in seconds before the module is re-cached." />
-	</params>
+	<fields>
+		<field
+			name="rssurl"
+			type="text"
+			size="50"
+			default=""
+			label="Feed URL"
+			description="Enter the URL of the RSS/RDF feed" />
+		<field
+			name="rssrtl"
+			type="radio"
+			default="0"
+			label="RTL feed"
+			description="Display feed in RTL direction">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+		<field
+			name="rsstitle"
+			type="radio"
+			default="1"
+			label="Feed Title"
+			description="Display news feed title">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+		<field
+			name="rssdesc"
+			type="radio"
+			default="1"
+			label="Feed Description"
+			description="Show the description text for the whole Feed">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+		<field
+			name="rssimage"
+			type="radio"
+			default="1"
+			label="Feed Image"
+			description="Show the image associated with the whole Feed">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+		<field
+			name="rssitems"
+			type="text"
+			default="3"
+			label="Items"
+			description="Enter number of RSS items to display" />
+		<field
+			name="rssitemdesc"
+			type="radio"
+			default="1"
+			label="Item Description"
+			description="fieldITEMDESC">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+		<field
+			name="word_count"
+			type="text"
+			size="6"
+			default="0"
+			label="Word Count"
+			description="fieldWORDCOUNT" />
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+
+		<field
+			name="cache"
+			type="list"
+			default="1"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="1">Use global</option>
+			<option
+				value="0">No caching</option>
+		</field>
+
+		<field
+			name="cache_time"
+			type="text"
+			default="900"
+			label="Cache Time"
+			description="The time before the module is recached" />
+	</fields>
 </install>

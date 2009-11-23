@@ -33,15 +33,15 @@ class PluginsViewPlugins extends JView
 		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		// Assign data to the view.
-		$this->assignRef('state', $state);
-		$this->assignRef('items', $items);
-		$this->assignRef('pagination', $pagination);
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
+		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
 		$this->_setToolbar();
@@ -70,10 +70,8 @@ class PluginsViewPlugins extends JView
 		// }
 		
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_plugins');
 		}
-		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.plugins');
 	}
 }

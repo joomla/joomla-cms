@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<install
+	type="module"
+	version="1.5.0">
 	<name>Most Read Content</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
@@ -10,23 +12,60 @@
 	<version>1.6.0</version>
 	<description>DESCMOSTREAD</description>
 	<files>
-		<filename module="mod_articles_popular">mod_articles_popular.php</filename>
+		<filename
+			module="mod_articles_popular">mod_articles_popular.php</filename>
 	</files>
-	<params>
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="show_front" type="radio" default="1" label="Frontpage Items" description="PARAMFRONTPAGEITEMS">
-			<option value="1">show</option>
-			<option value="0">hide</option>
-		</param>
-		<param name="count" type="text" default="5" label="Count" description="The number of items to display (default is 5)" />
-		<param name="catid" type="text" default="" label="Category ID" description="PARAMCATEGORYID" />
-	</params>
-	<params group="advanced">
-		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
-			<option value="1">Use global</option>
-			<option value="0">No caching</option>
-		</param>
-		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
-	</params>
+	<fields>
+		<field
+			type="spacer" />
+		<field
+			name="show_front"
+			type="radio"
+			default="1"
+			label="Frontpage Items"
+			description="fieldFRONTPAGEITEMS">
+			<option
+				value="1">show</option>
+			<option
+				value="0">hide</option>
+		</field>
+		<field
+			name="count"
+			type="text"
+			default="5"
+			label="Count"
+			description="The number of items to display (default is 5)" />
+		<field
+			name="catid"
+			type="text"
+			default=""
+			label="Category ID"
+			description="fieldCATEGORYID" />
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+		<field
+			name="cache"
+			type="list"
+			default="1"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="1">Use global</option>
+			<option
+				value="0">No caching</option>
+		</field>
+		<field
+			name="cache_time"
+			type="text"
+			default="900"
+			label="Cache Time"
+			description="The time before the module is recached" />
+	</fields>
 </install>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<install
+	type="module"
+	version="1.5.0">
 	<name>Banner</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
@@ -10,37 +12,110 @@
 	<version>1.6.0</version>
 	<description>DESCBANNER</description>
 	<files>
-		<filename module="mod_banners">mod_banners.php</filename>
+		<filename
+			module="mod_banners">mod_banners.php</filename>
 	</files>
-	<params addpath="/administrator/components/com_banners/elements">
-		<param name="target" type="list" default="1" label="Target" description="PARAMTARGET">
-			<option value="0">Parent Window With Browser Navigation</option>
-			<option value="1">New Window With Browser Navigation</option>
-			<option value="2">New Window Without Browser Navigation</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="count" type="text" default="1" label="Count" description="PARAMNUMBERITEMS" />
-		<param name="cid" type="bannerclient" default="" label="Banner client" description="PARAMSINGLECLIENT" />
-		<param name="catid" type="category" section="com_banner" default="" label="Category" description="PARAMCATEGORY" />
-		<param name="tag_search" type="radio" default="0" label="Search By Tags" description="PARAMSEARCHBYTAG">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</param>
-		<param name="ordering" type="list" default="0" label="Randomise" description="PARAMRANDOMISE">
-			<option value="0">Sticky,Ordering</option>
-			<option value="random">Sticky,Randomise</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="header_text" type="textarea" rows="3" cols="40" default="" label="Header Text" description="PARAMHEADERTEXT" />
-		<param name="footer_text" type="textarea" rows="3" cols="40" default="" label="Footer Text" description="PARAMFOOTERTEXT" />
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-	</params>
-	<params group="advanced">
-		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
-			<option value="1">Use global</option>
-			<option value="0">No caching</option>
-		</param>
-		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
-	</params>
+	<fields
+		addpath="/administrator/components/com_banners/elements">
+		<field
+			name="target"
+			type="list"
+			default="1"
+			label="Target"
+			description="fieldTARGET">
+			<option
+				value="0">Parent Window With Browser Navigation</option>
+			<option
+				value="1">New Window With Browser Navigation</option>
+			<option
+				value="2">New Window Without Browser Navigation</option>
+		</field>
+		<field
+			type="spacer" />
+		<field
+			name="count"
+			type="text"
+			default="1"
+			label="Count"
+			description="fieldNUMBERITEMS" />
+		<field
+			name="cid"
+			type="bannerclient"
+			default=""
+			label="Banner client"
+			description="fieldSINGLECLIENT" />
+		<field
+			name="catid"
+			type="category"
+			section="com_banner"
+			default=""
+			label="Category"
+			description="fieldCATEGORY" />
+		<field
+			name="tag_search"
+			type="radio"
+			default="0"
+			label="Search By Tags"
+			description="fieldSEARCHBYTAG">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+		<field
+			name="ordering"
+			type="list"
+			default="0"
+			label="Randomise"
+			description="fieldRANDOMISE">
+			<option
+				value="0">Sticky,Ordering</option>
+			<option
+				value="random">Sticky,Randomise</option>
+		</field>
+		<field
+			type="spacer" />
+		<field
+			name="header_text"
+			type="textarea"
+			rows="3"
+			cols="40"
+			default=""
+			label="Header Text"
+			description="fieldHEADERTEXT" />
+		<field
+			name="footer_text"
+			type="textarea"
+			rows="3"
+			cols="40"
+			default=""
+			label="Footer Text"
+			description="fieldFOOTERTEXT" />
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+		<field
+			name="cache"
+			type="list"
+			default="1"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="1">Use global</option>
+			<option
+				value="0">No caching</option>
+		</field>
+		<field
+			name="cache_time"
+			type="text"
+			default="900"
+			label="Cache Time"
+			description="The time before the module is recached" />
+	</fields>
 </install>

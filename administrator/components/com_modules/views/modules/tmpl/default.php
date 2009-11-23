@@ -1,167 +1,165 @@
-<?php defined('_JEXEC') or die; ?>
-
 <?php
-	$user = &JFactory::getUser();
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_modules
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-	//Ordering allowed ?
-	$ordering = (($this->filter->order == 'm.position'));
+// No direct access.
+defined('_JEXEC') or die;
 
-	JHtml::_('behavior.tooltip');
+// Include the component HTML helpers.
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::_('behavior.tooltip');
+JHtml::_('script', 'multiselect.js');
+
+$user = JFactory::getUser();
 ?>
-
-<form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
-			<label class="filter-search-lbl"><?php echo JText::_('Filter'); ?>:</label>
-			<input type="text" name="search" id="search" value="<?php echo $this->filter->search;?>" class="text_area" onchange="document.adminForm.submit();" />
-			<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
-			<button onclick="document.getElementById('search').value=''; this.form.getElementById('filter_assigned').value='0'; this.form.getElementById('filter_position').value='0'; this.form.getElementById('filter_type').value='0'; this.form.getElementById('filter_state').value=''; this.form.submit();"><?php echo JText::_('Reset'); ?></button>
+			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSearch_Filter_Label'); ?></label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('Modules_Modules_Filter_Search_Desc'); ?>" />
+			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
-			<?php
-			echo JHtml::_('filter.assigned', $this->client, $this->filter->assigned);
-			echo JHtml::_('filter.position', $this->client, $this->filter->position);
-			echo JHtml::_('filter.type', $this->client, $this->filter->type);
-			echo JHtml::_('grid.state', $this->filter->state);
-			?>
+			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
+				<option value="*"><?php echo JText::_('Modules_Option_Select_Client'); ?></option>
+				<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
+			</select>
+
+			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JOption_Select_Published');?></option>
+				<?php echo JHtml::_('select.options', ModulesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'), true);?>
+			</select>
+
+			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JOption_Select_Access');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
+			</select>
+
+			<select name="filter_position" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('Modules_Option_Select_Position');?></option>
+				<?php echo JHtml::_('select.options', ModulesHelper::getPositions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.position'));?>
+			</select>
+
+			<select name="filter_module" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('Modules_Option_Select_Module');?></option>
+				<?php echo JHtml::_('select.options', ModulesHelper::getModules($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.module'));?>
+			</select>
 		</div>
 	</fieldset>
 	<div class="clr"> </div>
-	<table class="adminlist">
-	<thead>
-	<tr>
-		<th width="20">
-			<?php echo JText::_('NUM'); ?>
-		</th>
-		<th width="20">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->rows);?>);" />
-		</th>
-		<th>
-			<?php echo JHtml::_('grid.sort', 'Module Name', 'm.title', @$this->filter->order_Dir, @$this->filter->order); ?>
-		</th>
-		<th class="nowrap" width="7%">
-			<?php echo JHtml::_('grid.sort', 'Published', 'm.published', @$this->filter->order_Dir, @$this->filter->order); ?>
-		</th>
-		<th class="nowrap" width="80" >
-			<?php echo JHtml::_('grid.sort', 'Order', 'm.position', @$this->filter->order_Dir, @$this->filter->order); ?>
-		</th>
-		<th width="1%">
-			<?php echo JHtml::_('grid.order',  $this->rows); ?>
-		</th>
-		<?php
-		if ($this->client->id == 0) {
-			?>
-			<th class="nowrap" width="7%">
-				<?php echo JHtml::_('grid.sort', 'Access', 'groupname', @$this->filter->order_Dir, @$this->filter->order); ?>
-			</th>
-			<?php
-		}
-		?>
-		<th width="7%">
-			<?php echo JHtml::_('grid.sort', 'Position', 'm.position', @$this->filter->order_Dir, @$this->filter->order); ?>
-		</th>
-		<th class="nowrap" width="5%">
-			<?php echo JHtml::_('grid.sort', 'Pages', 'pages', @$this->filter->order_Dir, @$this->filter->order); ?>
-		</th>
-		<th class="center" width="10%" >
-			<?php echo JHtml::_('grid.sort', 'Type', 'm.module', @$this->filter->order_Dir, @$this->filter->order); ?>
-		</th>
-		<th class="nowrap" width="1%">
-			<?php echo JHtml::_('grid.sort',   'ID', 'm.id', @$this->filter->order_Dir, @$this->filter->order); ?>
-		</th>
-	</tr>
-	</thead>
-	<tfoot>
-	<tr>
-		<td colspan="12">
-			<?php echo $this->pagination->getListFooter(); ?>
-		</td>
-	</tr>
-	</tfoot>
-	<tbody>
-	<?php
-	$k = 0;
-	for ($i = 0, $n = count($this->rows); $i < $n; ++$i) {
-		$row = &$this->rows[$i];
 
-		$link = JRoute::_('index.php?option=com_modules&client='. $this->client->id .'&task=edit&cid[]='. $row->id);
-
-		$access		= JHtml::_('grid.access', $row, $i);
-		$checked	= JHtml::_('grid.checkedout', $row, $i);
-		$published  = JHtml::_('grid.published', $row, $i);
-		?>
-		<tr class="<?php echo 'row' . $k; ?>">
-			<td class="center">
-				<?php echo $this->pagination->getRowOffset($i); ?>
-			</td>
-			<td width="20">
-				<?php echo $checked; ?>
-			</td>
-			<td>
-			<?php
-			if (JTable::isCheckedOut($user->get('id'), $row->checked_out)) {
-				echo $row->title;
-			} else {
-				?>
-				<span class="editlinktip hasTip" title="<?php echo JText::_('Edit Module');?>::<?php echo $row->title; ?>">
-				<a href="<?php echo $link; ?>">
-					<?php echo $row->title; ?></a>
-				</span>
-				<?php
-			}
-			?>
-			</td>
-			<td class="center">
-				<?php echo $published;?>
-			</td>
-			<td class="order" colspan="2">
-				<span><?php echo $this->pagination->orderUpIcon($i, ($row->position == @$this->rows[$i-1]->position), 'orderup', 'Move Up', $ordering); ?></span>
-				<span><?php echo $this->pagination->orderDownIcon($i, $n, ($row->position == @$this->rows[$i+1]->position),'orderdown', 'Move Down', $ordering); ?></span>
-				<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
-				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text-area-order" />
-			</td>
-			<?php
-			if ($this->client->id == 0) {
-				?>
-				<td class="center">
-					<?php echo $access;?>
+	<table class="adminlist" id="modules-mgr">
+		<thead>
+			<tr>
+				<th width="20">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
+				</th>
+				<th class="title">
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Enabled', 'a.enabled', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="10%" nowrap="nowrap">
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Ordering', 'a.ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'modules.saveorder'); ?>
+				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Access', 'a.access', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="20%">
+					<?php echo JHtml::_('grid.sort',  'Modules_Heading_Position', 'a.position', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort',  'Modules_Heading_Pages', 'a.pages', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'Modules_Heading_Module', 'a.module', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="1%" nowrap="nowrap">
+					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="10">
+					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
-				<?php
-			}
-			?>
-			<td class="center">
-				<?php echo $row->position; ?>
-			</td>
-			<td class="center">
-				<?php
-				if (is_null($row->pages)) {
-					echo JText::_('None');
-				} else if ($row->pages != 0) {
-					echo JText::_('Varies');
-				} else {
-					echo JText::_('All');
-				}
-				?>
-			</td>
-			<td class="center">
-				<?php echo $row->module ? $row->module : JText::_('User');?>
-			</td>
-			<td class="center">
-				<?php echo $row->id;?>
-			</td>
-		</tr>
-		<?php
-		$k = 1 - $k;
-	}
-	?>
-	</tbody>
+			</tr>
+		</tfoot>
+		<tbody>
+		<?php foreach ($this->items as $i => $item) :
+			$ordering	= ($this->state->get('list.ordering') == 'a.ordering');
+			$canCreate	= $user->authorise('core.create',		'com_modules');
+			$canEdit	= $user->authorise('core.edit',			'com_modules');
+			$canChange	= $user->authorise('core.edit.state',	'com_modules');
+		?>
+			<tr class="row<?php echo $i % 2; ?>">
+				<td class="center">
+					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+				</td>
+				<td>
+					<?php if ($item->checked_out) : ?>
+						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
+					<?php endif; ?>
+					<?php if ($canCreate || $canEdit) : ?>
+						<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id='.(int) $item->id); ?>">
+							<?php echo $this->escape($item->title); ?></a>
+					<?php else : ?>
+							<?php echo $this->escape($item->title); ?>
+					<?php endif; ?>
+				</td>
+				<td class="center">
+					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange);?>
+				</td>
+				<td class="order">
+					<?php if ($canChange) : ?>
+						<span><?php echo $this->pagination->orderUpIcon($i, true, 'modules.orderup', 'JGrid_Move_Up', $ordering); ?></span>
+						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'modules.orderdown', 'JGrid_Move_Down', $ordering); ?></span>
+						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
+					<?php else : ?>
+						<?php echo $item->ordering; ?>
+					<?php endif; ?>
+				</td>
+				<td class="center">
+					<?php echo $this->escape($item->access_level); ?>
+				</td>
+				<td class="center">
+					<?php echo $item->position; ?>
+				</td>
+				<td class="center">
+					<?php
+						if (is_null($item->pages)) {
+							echo JText::_('None');
+						} else if ($item->pages != 0) {
+							echo JText::_('Varies');
+						} else {
+							echo JText::_('All');
+						}
+					?>
+				</td>
+				<td class="left">
+					<?php echo $item->module; ?>
+				</td>
+				<td class="center">
+					<?php echo (int) $item->id; ?>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
 	</table>
 
-<input type="hidden" name="option" value="com_modules" />
-<input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
-<input type="hidden" name="task" value="" />
-<input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="filter_order" value="<?php echo $this->filter->order; ?>" />
-<input type="hidden" name="filter_order_Dir" value="<?php echo $this->filter->order_Dir; ?>" />
-<?php echo JHtml::_('form.token'); ?>
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

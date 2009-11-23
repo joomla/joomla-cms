@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<install
+	type="module"
+	version="1.5.0">
 	<name>Archived Content</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
@@ -10,17 +12,49 @@
 	<version>1.6.0</version>
 	<description>DESCARCHIVE</description>
 	<files>
-		<filename module="mod_articles_archive">mod_articles_archive</filename>
+		<filename
+			module="mod_articles_archive">mod_articles_archive</filename>
 	</files>
-	<params>
-		<param name="count" type="text" default="10" label="Count" description="The number of items to display (default is 10)" />
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-	</params>
-	<params group="advanced">
-		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
-			<option value="1">Use global</option>
-			<option value="0">No caching</option>
-		</param>
-	</params>
+	<fields>
+		<field
+			name="count"
+			type="text"
+			default="10"
+			label="Count"
+			description="The number of items to display (default is 10)" />
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="layout"
+			type="modulelayout"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Module_Layout_Desc" />
+
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+
+		<field
+			name="cache"
+			type="list"
+			default="1"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="1">Use global</option>
+			<option
+				value="0">No caching</option>
+		</field>
+
+		<field
+			name="cache_time"
+			type="text"
+			default="900"
+			label="Cache Time"
+			description="The time before the module is recached" />
+	</fields>
 </install>

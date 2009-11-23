@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true" />
+
+		<field
+			name="title"
+			type="text"
+			class="inputbox"
+			default=""
+			size="35"
+			label="Modules_Field_Title_Label"
+			description="Modules_Field_Title_Desc"
+			required="true" />
+
+		<field
+			name="module"
+			type="text"
+			class="readonly"
+			readonly="readonly"
+			default=""
+			size="20"
+			label="Modules_Field_Module_Label"
+			description="Modules_Field_Module_Desc" />
+
+		<field
+			name="showtitle"
+			type="list"
+			label="Modules_Field_Showtitle_Label"
+			description="Modules_Field_Showtitle_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
+		</field>
+
+		<field
+			name="published"
+			type="list"
+			label="JField_Enabled_Label"
+			description="JField_Enabled_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option
+				value="1">
+				JOption_Enabled</option>
+			<option
+				value="0">
+				JOption_Disabled</option>
+		</field>
+
+		<field
+			name="client_id"
+			type="list"
+			label="Modules_Field_Client_Id_Label"
+			description="Modules_Field_Client_Id_Desc"
+			class="inputbox"
+			size="1"
+			default="0"
+			readonly="true">
+			<option
+				value="0">
+				Modules_Option_Site</option>
+			<option
+				value="1">
+				Modules_Option_Administrator</option>
+		</field>
+
+		<field
+			name="position"
+			type="moduleposition"
+			default="left"
+			label="Modules_Field_Position_Label"
+			description="Modules_Field_Position_Desc"
+			class="inputbox">
+		</field>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JField_Access_Label"
+			description="JField_Access_Desc"
+			class="inputbox"
+			size="1"
+			default="" />
+
+		<field
+			name="ordering"
+			type="moduleorder"
+			class="inputbox"
+			default=""
+			label="JField_Ordering_Label"
+			description="JField_Ordering_Desc" />
+
+		<field
+			name="content"
+			type="editor"
+			class="inputbox"
+			label="Module_Field_Content_Label"
+			description="Module_Field_Content_Desc"
+			filter="safehtml"
+			buttons="true" />
+
+		<field
+			name="params"
+			type="hidden" />
+
+		<field
+			name="assignment"
+			type="hidden" />
+
+		<field
+			name="assigned"
+			type="hidden" />
+	</fields>
+</form>

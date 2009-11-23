@@ -5,12 +5,15 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 /**
+ * Templates component helper.
+ *
  * @package		Joomla.Administrator
  * @subpackage	Templates
+ * @since		1.6
  */
 class TemplatesHelper
 {

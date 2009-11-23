@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.6.0">
+<install
+	type="module"
+	version="1.6.0">
 	<name>Menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -10,29 +12,86 @@
 	<version>1.6.0</version>
 	<description>DESCMENU</description>
 	<files>
-		<filename module="mod_menu">mod_menu.php</filename>
+		<filename
+			module="mod_menu">mod_menu.php</filename>
 	</files>
-	<params>
-		<param name="menutype" type="menu" default="" label="Menu Name" description="The name of the menu (default is mainmenu)" />
+	<fields>
+		<field
+			name="menutype"
+			type="menu"
+			default=""
+			label="Menu Name"
+			description="The name of the menu (default is mainmenu)" />
 
-		<param name="startLevel" type="text" default="0" size="5" label="Start Level" description="PARAMSTARTLEVEL" />
-		<param name="endLevel" type="text" default="0" size="5" label="End Level" description="PARAMSTOPLEVEL" />
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="showAllChildren" type="radio" default="0" label="Always show submenu items" description="PARAMSHOWSUBMENUITEMS">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="window_open" type="text" default="" label="Target Position" description="PARAMTARGETPOSITION" />
-	</params>
-	<params group="advanced">
-		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
-			<option value="1">Use global</option>
-			<option value="0">No caching</option>
-		</param>
-		<param name="tag_id" type="text" default="" label="Menu Tag ID" description="PARAMMENUTAGID" />
-		<param name="class_sfx" type="text" default="" label="Menu Class Suffix" description="PARAMMENUCLASSSUFFIX" />
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-		<param name="maxdepth" type="text" default="10" label="Maximum Menu Depth" description="PARAMMENUMAXDEPTH" />
-	</params>
+		<field
+			name="startLevel"
+			type="text"
+			default="0"
+			size="5"
+			label="Start Level"
+			description="fieldSTARTLEVEL" />
+		<field
+			name="endLevel"
+			type="text"
+			default="0"
+			size="5"
+			label="End Level"
+			description="fieldSTOPLEVEL" />
+		<field
+			type="spacer" />
+		<field
+			name="showAllChildren"
+			type="radio"
+			default="0"
+			label="Always show submenu items"
+			description="fieldSHOWSUBMENUITEMS">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="tag_id"
+			type="text"
+			default=""
+			label="Menu Tag ID"
+			description="fieldMENUTAGID" />
+		<field
+			name="class_sfx"
+			type="text"
+			default=""
+			label="Menu Class Suffix"
+			description="fieldMENUCLASSSUFFIX" />
+		<field
+			name="maxdepth"
+			type="text"
+			default="10"
+			label="Maximum Menu Depth"
+			description="fieldMENUMAXDEPTH" />
+		<field
+			name="window_open"
+			type="text"
+			default=""
+			label="Target Position"
+			description="fieldTARGETPOSITION" />
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+
+		<field
+			name="cache"
+			type="list"
+			default="0"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="0">No caching</option>
+		</field>
+	</fields>
 </install>

@@ -1,78 +1,86 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
+// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the Modules component
+ * View class for a list of modules.
  *
- * @static
  * @package		Joomla.Administrator
- * @subpackage	Modules
- * @since 1.0
+ * @subpackage	com_modules
+ * @since		1.6
  */
 class ModulesViewModules extends JView
 {
-	protected $client;
-	protected $filter;
+	protected $state;
+	protected $items;
 	protected $pagination;
-	protected $rows;
-	protected $user;
 
-	function display($tpl = null)
+	/**
+	 * Display the view
+	 */
+	public function display($tpl = null)
 	{
-		// Get data from the model
-		$rows		= & $this->get('Data');
-		$total		= & $this->get('Total');
-		$pagination = & $this->get('Pagination');
-		$filter		= & $this->get('Filter');
-		$client		= & $this->get('Client');
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
 
-		if ($client->id == 1) {
-			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_modules&client_id=0');
-			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_modules&client=1', true);
-		} else {
-			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_modules&client_id=0', true);
-			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_modules&client=1');
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
 		}
 
-		$this->assignRef('user',		JFactory::getUser());
-		$this->assignRef('rows',		$rows);
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('filter',		$filter);
-		$this->assignRef('client',		$client);
 
 		$this->_setToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Display the toolbar
+	 * Setup the Toolbar.
 	 */
 	protected function _setToolbar()
 	{
-		JToolBarHelper::title(JText::_('Module Manager'), 'module.png');
-		JToolBarHelper::addNew();
-		JToolBarHelper::editList();
-		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
-		JToolBarHelper::divider();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-		JToolBarHelper::divider();
-		JToolBarHelper::deleteList();
+		$state	= $this->get('State');
+		$canDo	= ModulesHelper::getActions();
 
-		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_modules');
-		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.modules');
+		JToolBarHelper::title(JText::_('Modules_Manager_Modules'), 'module.png');
+		if ($canDo->get('core.create')) {
+			//JToolBarHelper::addNew('module.add');
+			$bar = &JToolBar::getInstance('toolbar');
+			$bar->appendButton('Popup', 'new', 'New', 'index.php?option=com_modules&amp;view=select&amp;tmpl=component', 850, 400);
+		}
+		if ($canDo->get('core.edit')) {
+			JToolBarHelper::editList('module.edit');
+		}
+		if ($canDo->get('core.add')) {
+			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+		}
+		if ($canDo->get('core.edit')) {
+			JToolBarHelper::custom('modules.publish', 'publish.png', 'publish_f2.png', 'JToolbar_Enable', true);
+			JToolBarHelper::custom('modules.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JToolbar_Disable', true);
+		}
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+			JToolBarHelper::deleteList('', 'modules.delete');
+		}
+		else if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::trash('modules.trash');
+		}
+
+		if ($canDo->get('core.admin')) {
+			JToolBarHelper::preferences('com_modules');
+		}
+		JToolBarHelper::help('screen.module');
 	}
 }

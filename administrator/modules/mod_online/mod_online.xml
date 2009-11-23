@@ -12,9 +12,29 @@
 	<files>
 		<filename module="mod_online">mod_online.php</filename>
 	</files>
-	<params>
-		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
-			<option value="0">Never</option>
-	  	</param>
-	</params>
+	<fields
+		group="advanced">
+		<field
+			name="layout"
+			type="modulelayout"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Module_Layout_Desc" />
+
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+
+		<field
+			name="cache"
+			type="list"
+			default="0"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="0">No caching</option>
+		</field>
+	</fields>
 </install>

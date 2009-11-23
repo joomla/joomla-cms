@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module">
+<install
+	type="module">
 	<name>Latest News</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -10,20 +11,58 @@
 	<version>1.6.0</version>
 	<description>DESCLATESTNEWS</description>
 	<files>
-		<filename module="mod_latest">mod_latest.php</filename>
+		<filename
+			module="mod_latest">mod_latest.php</filename>
 	</files>
-	<params>
-		<param name="ordering" type="list" default="create_dsc" label="Ordering" description="Ordering options">
-			<option value="c_dsc">Recently Added First</option>
-			<option value="m_dsc">Recently Modified First</option>
-	  	</param>
-		<param name="user_id" type="list" default="0" label="Authors" description="A filter for the authors">
-			<option value="0">Anyone</option>
-			<option value="by_me">Added or modified by me</option>
-			<option value="not_me">Not added or modified by me</option>
-	  	</param>
-		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
-			<option value="0">Never</option>
-	  	</param>
-	</params>
+	<fields>
+		<field
+			name="ordering"
+			type="list"
+			default="create_dsc"
+			label="Ordering"
+			description="Ordering options">
+			<option
+				value="c_dsc">Recently Added First</option>
+			<option
+				value="m_dsc">Recently Modified First</option>
+		</field>
+		<field
+			name="user_id"
+			type="list"
+			default="0"
+			label="Authors"
+			description="A filter for the authors">
+			<option
+				value="0">Anyone</option>
+			<option
+				value="by_me">Added or modified by me</option>
+			<option
+				value="not_me">Not added or modified by me</option>
+		</field>
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="layout"
+			type="modulelayout"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Module_Layout_Desc" />
+
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+
+		<field
+			name="cache"
+			type="list"
+			default="0"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="0">No caching</option>
+		</field>
+	</fields>
 </install>

@@ -11,8 +11,8 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
 	<description>mod_custom_desc</description>
-	<params>
-		<param
+	<fields>
+		<field
 			name="prepare_content"
 			type="radio"
 			label="Mod_Custom_Prepare_Content_Label"
@@ -22,12 +22,40 @@
 				value="0">JNo</option>
 			<option
 				value="1">JYes</option>
-		</param>
+		</field>
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="layout"
+			type="modulelayout"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Module_Layout_Desc" />
 
-		<param
+		<field
 			name="moduleclass_sfx"
 			type="text"
-			label="Module Class Suffix"
-			description="PARAMMODULECLASSSUFFIX"/>
-	</params>
+			default=""
+			label="Module_Field_Moduleclass_sfx_Label"
+			description="Module_Field_Moduleclass_sfx_Desc" />
+
+		<field
+			name="cache"
+			type="list"
+			default="1"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="1">Use global</option>
+			<option
+				value="0">No caching</option>
+		</field>
+
+		<field
+			name="cache_time"
+			type="text"
+			default="900"
+			label="Cache Time"
+			description="The time before the module is recached" />
+	</fields>
 </install>

@@ -1,0 +1,40 @@
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_modules
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// No direct access.
+defined('_JEXEC') or die;
+
+// Include the component HTML helpers.
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::_('behavior.tooltip');
+?>
+
+<ul id="new-modules-list">
+<?php foreach ($this->items as &$item) : ?>
+	<li>
+		<?php
+		// Prepare variables for the link.
+
+		$link	= 'index.php?option=com_modules&task=module.add&eid='. $item->extension_id;
+		$name 	= $this->escape(JText::_($item->name));
+		$desc	= $this->escape(JText::_('Modules_No_description_available'));
+
+		if (isset($item->xml))
+		{
+			if ($text = (string) $item->xml->description)
+			{
+				$desc = $this->escape($text);
+			}
+		}
+		?>
+		<span class="editlinktip hasTip" title="<?php echo $name.' :: '.$desc; ?>">
+			<a href="<?php echo JRoute::_($link);?>" target="_top">
+				<?php echo $name; ?></a></span>
+	</li>
+<?php endforeach; ?>

@@ -1,0 +1,147 @@
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	Modules
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// No direct access.
+defined('_JEXEC') or die;
+
+jimport('joomla.application.component.modellist');
+
+/**
+ * Module model.
+ *
+ * @package		Joomla.Administrator
+ * @subpackage	com_modules
+ * @since		1.6
+ */
+class ModulesModelSelect extends JModelList
+{
+	/**
+	 * Model context string.
+	 *
+	 * @var	string
+	 */
+	protected $_context = 'com_modules.modules';
+
+	/**
+	 * Method to auto-populate the model state.
+	 */
+	protected function _populateState()
+	{
+		// Initialise variables.
+		$app = JFactory::getApplication('administrator');
+
+		// Load the filter state.
+		$clientId = $app->getUserState($this->_context.'.filter.client_id', 0);
+		$this->setState('filter.client_id', (int) $clientId);
+
+		// Load the parameters.
+		$params	= JComponentHelper::getParams('com_modules');
+		$this->setState('params', $params);
+
+		// Manually set limits to get all modules.
+		$this->setState('list.limit', 0);
+		$this->setState('list.start', 0);
+		$this->setState('list.ordering', 'a.name');
+		$this->setState('list.direction', 'ASC');
+	}
+
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param	string	A prefix for the store id.
+	 *
+	 * @return	string	A store id.
+	 */
+	protected function _getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id	.= ':'.$this->getState('filter.client_id');
+
+		return parent::_getStoreId($id);
+	}
+
+	/**
+	 * Build an SQL query to load the list data.
+	 *
+	 * @return	JQuery
+	 */
+	protected function _getListQuery()
+	{
+		// Create a new query object.
+		$query = new JQuery;
+
+		// Select the required fields from the table.
+		$query->select(
+			$this->getState(
+				'list.select',
+				'a.extension_id, a.name, a.element AS module'
+			)
+		);
+		$query->from('`#__extensions` AS a');
+
+		// Filter by module
+		$query->where('a.type = '.$this->_db->Quote('module'));
+
+		// Filter by client.
+		$clientId = $this->getState('filter.client_id');
+		$query->where('a.client_id = '.(int) $clientId);
+
+		// Add the list ordering clause.
+		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+
+		//echo nl2br(str_replace('#__','jos_',$query));
+		return $query;
+	}
+
+	/**
+	 * Method to get a list of items.
+	 *
+	 * @return	mixed	An array of objects on success, false on failure.
+	 */
+	public function &getItems()
+	{
+		// Get the list of items from the database.
+		$items = parent::getItems();
+
+		// Initialise variables.
+		$client = JApplicationHelper::getClientInfo($this->getState('filter.client_id', 0));
+		$lang	= JFactory::getLanguage();
+
+		// Loop through the results to add the XML metadata,
+		// and load language support.
+		foreach ($items as &$item)
+		{
+			$path = JPath::clean($client->path.'/modules/'.$item->module.'/'.$item->module.'.xml');
+			if (file_exists($path))
+			{
+				$item->xml = simplexml_load_file($path);
+			}
+			else
+			{
+				$item->xml = null;
+			}
+
+			// 1.5 Format; Core files or language packs
+			$lang->load($item->module, $client->path);
+			// 1.6 3PD Extension Support
+			$lang->load('joomla', $client->path.'/modules/'.$item->module);
+		}
+
+		// TODO: Use the cached XML from the extensions table?
+
+		return $items;
+	}
+
+
+
+}

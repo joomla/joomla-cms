@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Nov-2009 Ron Severdia
+ ^ Initial refactoring of com_modules.
+   - changed menu page selector to list of checkboxes.
+   - changed params to fields in module XML files.
+   - changed add module page to modal popup.
+
 23-Nov-2009 Ron Severdia
 ^ Added panels on Edit Category screen, new panels added for default params
 
