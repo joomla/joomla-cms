@@ -64,18 +64,46 @@ JHtml::_('behavior.formvalidation');
 	</div>
 
 	<div class="width-40 fltrt">
-		<fieldset>
-			<legend><?php echo JText::_('Categories_Fieldset_Rules');?></legend>
+	<?php echo JHtml::_('sliders.start','content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+	
+		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Blog_Layouts'), 'bloglayouts'); ?>
+		<fieldset class="panelform">
+				<?php echo $this->form->getLabel('num_leading_articles'); ?>
+				<?php echo $this->form->getInput('num_leading_articles'); ?>
+		</fieldset>
+		
+		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_List_Layouts'), 'listlayouts'); ?>
+		<fieldset class="panelform">
+				<?php echo $this->form->getLabel('listlayouts'); ?>
+				<?php echo $this->form->getInput('listlayouts'); ?>
+		</fieldset>
+		
+		
+		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_CatFeat_Layouts'), 'catfeatlayouts'); ?>
+		<fieldset class="panelform">
+				<?php echo $this->form->getLabel('catfeatlayouts'); ?>
+				<?php echo $this->form->getInput('catfeatlayouts'); ?>
+		</fieldset>
+		
+		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Integration'), 'integration'); ?>
+		<fieldset class="panelform">
+				<?php echo $this->form->getLabel('show_feed_link'); ?>
+				<?php echo $this->form->getInput('show_feed_link'); ?>
+		</fieldset>
+		
+		
+		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Rules'), 'rules'); ?>
+		<fieldset class="panelform">
 				<?php echo $this->form->getLabel('rules'); ?>
 				<?php echo $this->form->getInput('rules'); ?>
 		</fieldset>
-	</div>
-
-	<div class="width-40 fltrt">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
+	
+	<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Metadata'), 'metadata'); ?>
+		<fieldset class="panelform">
 			<?php echo $this->loadTemplate('metadata'); ?>
 		</fieldset>
+	
+	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 
 	<input type="hidden" name="task" value="" />

@@ -105,13 +105,11 @@ JHtml::_('behavior.formvalidation');
 		</fieldset>
 
 		<?php echo JHtml::_('sliders.panel',JText::_('Content_Fieldset_Access'), 'access-rules'); ?>
-
 		<fieldset class="panelform">
-
 			<?php echo $this->form->getLabel('rules'); ?>
 			<?php echo $this->form->getInput('rules'); ?>
-
 		</fieldset>
+		
 		<?php echo JHtml::_('sliders.panel',JText::_('Content_Fieldset_Metadata'), 'meta-options'); ?>
 		<fieldset class="panelform">
 
@@ -120,7 +118,6 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('metakey'); ?>
 			<?php echo $this->form->getInput('metakey'); ?>
-
 
 			<?php foreach($this->form->getFields('metadata') as $field): ?>
 				<?php echo $field->label; ?>
