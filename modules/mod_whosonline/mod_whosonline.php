@@ -23,4 +23,4 @@ if ($showmode > 0) {
     $names 	= modWhosonlineHelper::getOnlineUserNames();
 }
 
-require JModuleHelper::getLayoutPath('mod_whosonline');
+require JModuleHelper::getLayoutPath('mod_whosonline', $params->get('layout', 'default'));

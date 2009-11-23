@@ -23,4 +23,4 @@ $height = $params->get('height');
 $scroll = $params->get('scrolling');
 $class	= $params->get('moduleclass_sfx');
 
-require JModuleHelper::getLayoutPath('mod_wrapper');
+require JModuleHelper::getLayoutPath('mod_wrapper', $params->get('layout', 'default'));

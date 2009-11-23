@@ -16,4 +16,4 @@ if ($params->def('prepare_content', 1))
 	$module->content = JHtml::_('content.prepare', $module->content);
 }
 
-require JModuleHelper::getLayoutPath('mod_custom');
+require JModuleHelper::getLayoutPath('mod_custom', $params->get('layout', 'default'));

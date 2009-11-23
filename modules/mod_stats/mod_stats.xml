@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<install
+	type="module"
+	version="1.5.0">
 	<name>Statistics</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -10,25 +12,58 @@
 	<version>1.6.0</version>
 	<description>DESCSTATISTICS</description>
 	<files>
-		<filename module="mod_stats">mod_stats.php</filename>
+		<filename
+			module="mod_stats">mod_stats.php</filename>
 	</files>
 	<fields>
-		<field name="serverinfo" type="radio" default="0" label="Server Info" description="Display server information">
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+		<field
+			name="serverinfo"
+			type="radio"
+			default="0"
+			label="Server Info"
+			description="Display server information">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		<field name="siteinfo" type="radio" default="0" label="Site Info" description="Display site information">
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+		<field
+			name="siteinfo"
+			type="radio"
+			default="0"
+			label="Site Info"
+			description="Display site information">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		<field name="counter" type="radio" default="0" label="Hit Counter" description="Display hit counter">
-			<option value="1">JYes</option>
-			<option value="0">JNo</option>
+		<field
+			name="counter"
+			type="radio"
+			default="0"
+			label="Hit Counter"
+			description="Display hit counter">
+			<option
+				value="1">JYes</option>
+			<option
+				value="0">JNo</option>
 		</field>
-		<field name="increase" type="text" default="0" label="Increase counter" description="Enter the amount of hits to increase counter by" />
+		<field
+			name="increase"
+			type="text"
+			default="0"
+			label="Increase counter"
+			description="Enter the amount of hits to increase counter by" />
 	</fields>
 	<fields
 		group="advanced">
+		<field
+			name="layout"
+			type="modulelayout"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Module_Layout_Desc" />
+
 		<field
 			name="moduleclass_sfx"
 			type="text"

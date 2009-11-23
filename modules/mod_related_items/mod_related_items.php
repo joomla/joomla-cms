@@ -21,4 +21,4 @@ if (!count($list)) {
 
 $showDate = $params->get('showDate', 0);
 
-require JModuleHelper::getLayoutPath('mod_related_items');
+require JModuleHelper::getLayoutPath('mod_related_items', $params->get('layout', 'default'));

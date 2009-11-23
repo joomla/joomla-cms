@@ -20,4 +20,4 @@ $return	= modLoginHelper::getReturnURL($params, $type);
 
 $user = &JFactory::getUser();
 
-require JModuleHelper::getLayoutPath('mod_login');
+require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));

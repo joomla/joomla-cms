@@ -17,4 +17,4 @@ $headerText	= trim($params->get('header_text'));
 $footerText	= trim($params->get('footer_text'));
 
 $list = modBannersHelper::getList($params);
-require JModuleHelper::getLayoutPath('mod_banners');
+require JModuleHelper::getLayoutPath('mod_banners', $params->get('layout', 'default'));

@@ -77,6 +77,13 @@
 			default=""
 			label="Target Position"
 			description="fieldTARGETPOSITION" />
+
+		<field
+			name="layout"
+			type="modulelayout"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Module_Layout_Desc" />
+
 		<field
 			name="moduleclass_sfx"
 			type="text"

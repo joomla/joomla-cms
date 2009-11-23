@@ -33,9 +33,7 @@ if (!$items) {
 	return;
 }
 
-$layout = $params->get('layout', 'default');
-$layout = JFilterInput::clean($layout, 'word');
-$path = JModuleHelper::getLayoutPath('mod_newsflash', $layout);
+$path = JModuleHelper::getLayoutPath('mod_newsflash', $params->get('layout', 'default'));
 if (file_exists($path)) {
 	require $path;
 }

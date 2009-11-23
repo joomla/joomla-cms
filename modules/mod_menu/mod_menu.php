@@ -14,4 +14,4 @@ defined('_JEXEC') or die;
 require_once dirname(__FILE__).DS.'helper.php';
 
 $list = modMenuHelper::getList($params);
-require JModuleHelper::getLayoutPath('mod_menu', 'default');
+require JModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));

@@ -29,4 +29,4 @@ else {
 	$lineone = $line1;
 }
 
-require JModuleHelper::getLayoutPath('mod_footer');
+require JModuleHelper::getLayoutPath('mod_footer', $params->get('layout', 'default'));

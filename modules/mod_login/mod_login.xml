@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<install
+	type="module"
+	version="1.5.0">
 	<name>Login</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
@@ -10,32 +12,91 @@
 	<version>1.6.0</version>
 	<description>DESCLOGINFORM</description>
 	<files>
-		<filename module="mod_login">mod_login.php</filename>
+		<filename
+			module="mod_login">mod_login.php</filename>
 	</files>
 	<fields>
-		<field name="cache" type="list" default="1" label="Module_Field_Caching_Label" description="Module_Field_Caching_Desc">
-			<option value="0">Never</option>
+		<field
+			name="cache"
+			type="list"
+			default="1"
+			label="Module_Field_Caching_Label"
+			description="Module_Field_Caching_Desc">
+			<option
+				value="0">Never</option>
 		</field>
-		<field type="spacer" />
-		<field name="pretext" type="textarea" cols="30" rows="5" default="" label="Pre-text" description="fieldPRETEXT" />
-		<field name="posttext" type="textarea" cols="30" rows="5" label="Post-text" description="fieldPOSTTEXT" />
-		<field name="login" type="menuitem" default="" disable="separator" label="Login Redirection URL" description="fieldLOGINREDIRECTURL" />
-		<field name="logout" type="menuitem" default="" disable="separator" label="Logout Redirection URL" description="fieldLOGOUTREDIRECTURL" />
-		<field name="greeting" type="radio" default="1" label="Greeting" description="Show/Hide the simple greeting text">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
+		<field
+			type="spacer" />
+		<field
+			name="pretext"
+			type="textarea"
+			cols="30"
+			rows="5"
+			default=""
+			label="Pre-text"
+			description="fieldPRETEXT" />
+		<field
+			name="posttext"
+			type="textarea"
+			cols="30"
+			rows="5"
+			label="Post-text"
+			description="fieldPOSTTEXT" />
+		<field
+			name="login"
+			type="menuitem"
+			default=""
+			disable="separator"
+			label="Login Redirection URL"
+			description="fieldLOGINREDIRECTURL" />
+		<field
+			name="logout"
+			type="menuitem"
+			default=""
+			disable="separator"
+			label="Logout Redirection URL"
+			description="fieldLOGOUTREDIRECTURL" />
+		<field
+			name="greeting"
+			type="radio"
+			default="1"
+			label="Greeting"
+			description="Show/Hide the simple greeting text">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
 		</field>
-		<field name="name" type="list" default="0" label="Name/Username">
-			<option value="0">Username</option>
-			<option value="1">Name</option>
+		<field
+			name="name"
+			type="list"
+			default="0"
+			label="Name/Username">
+			<option
+				value="0">Username</option>
+			<option
+				value="1">Name</option>
 		</field>
-		<field name="usesecure" type="radio" default="0" label="Encrypt Login Form" description="Submit encrypted login data (requires SSL)">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
+		<field
+			name="usesecure"
+			type="radio"
+			default="0"
+			label="Encrypt Login Form"
+			description="Submit encrypted login data (requires SSL)">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
 		</field>
 	</fields>
 	<fields
 		group="advanced">
+		<field
+			name="layout"
+			type="modulelayout"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Module_Layout_Desc" />
+
 		<field
 			name="moduleclass_sfx"
 			type="text"

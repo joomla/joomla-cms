@@ -36,4 +36,4 @@ if (empty ($rssurl))
 }
 
 $feed = modFeedHelper::getFeed($params);
-require JModuleHelper::getLayoutPath('mod_feed');
+require JModuleHelper::getLayoutPath('mod_feed', $params->get('layout', 'default'));

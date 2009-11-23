@@ -22,4 +22,4 @@ if (is_null($link)) {
 	return;
 }
 
-require JModuleHelper::getLayoutPath('mod_syndicate');
+require JModuleHelper::getLayoutPath('mod_syndicate', $params->get('layout', 'default'));

@@ -26,4 +26,4 @@ $moduleclass_sfx = $params->get('moduleclass_sfx', '');
 if ($imagebutton) {
     $img = modSearchHelper::getSearchImage($button_text);
 }
-require JModuleHelper::getLayoutPath('mod_search');
+require JModuleHelper::getLayoutPath('mod_search', $params->get('layout', 'default'));

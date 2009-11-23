@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<install
+	type="module"
+	version="1.5.0">
 	<name>Random Image</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
@@ -10,17 +12,49 @@
 	<version>1.6.0</version>
 	<description>DESCRANDOMIMAGE</description>
 	<files>
-	<filename module="mod_random_image">mod_random_image.php</filename>
+		<filename
+			module="mod_random_image">mod_random_image.php</filename>
 	</files>
 	<fields>
-		<field name="type" type="text" default="jpg" label="Image Type" description="Type of image PNG/GIF/JPG etc. (default is JPG)" />
-		<field name="folder" type="text" default="" label="Image Folder" description="fieldIMAGEFOLDER" />
-		<field name="link" type="text" default="" label="Link" description="fieldLINK" />
-		<field name="width" type="text" default="" label="Width (px)" description="fieldWIDTHPX" />
-		<field name="height" type="text" default="" label="Height (px)" description="fieldHEIGHTPX" />
+		<field
+			name="type"
+			type="text"
+			default="jpg"
+			label="Image Type"
+			description="Type of image PNG/GIF/JPG etc. (default is JPG)" />
+		<field
+			name="folder"
+			type="text"
+			default=""
+			label="Image Folder"
+			description="fieldIMAGEFOLDER" />
+		<field
+			name="link"
+			type="text"
+			default=""
+			label="Link"
+			description="fieldLINK" />
+		<field
+			name="width"
+			type="text"
+			default=""
+			label="Width (px)"
+			description="fieldWIDTHPX" />
+		<field
+			name="height"
+			type="text"
+			default=""
+			label="Height (px)"
+			description="fieldHEIGHTPX" />
 	</fields>
 	<fields
 		group="advanced">
+		<field
+			name="layout"
+			type="modulelayout"
+			label="JField_Alt_Layout_Label"
+			description="JField_Alt_Module_Layout_Desc" />
+
 		<field
 			name="moduleclass_sfx"
 			type="text"

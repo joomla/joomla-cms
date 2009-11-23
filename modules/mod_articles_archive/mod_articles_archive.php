@@ -16,4 +16,4 @@ require_once dirname(__FILE__).DS.'helper.php';
 $params->def('count', 10);
 $list = modArchiveHelper::getList($params);
 
-require JModuleHelper::getLayoutPath('mod_archive');
+require JModuleHelper::getLayoutPath('mod_archive', $params->get('layout', 'default'));
