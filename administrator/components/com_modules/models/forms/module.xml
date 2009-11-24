@@ -15,6 +15,7 @@
 			class="inputbox"
 			default=""
 			size="35"
+			maxlength="100"
 			label="Modules_Field_Title_Label"
 			description="Modules_Field_Title_Desc"
 			required="true" />
@@ -79,6 +80,7 @@
 		<field
 			name="position"
 			type="moduleposition"
+			maxlength="50"
 			default="left"
 			label="Modules_Field_Position_Label"
 			description="Modules_Field_Position_Desc"

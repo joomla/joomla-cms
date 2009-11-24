@@ -34,6 +34,8 @@ $ -> Language fix or change
    - changed add module page to modal popup.
    - added layout override selector field to all modules
  ^ Remove control and numnews fields from jos_modules table.
+ ^ Change jos_modules.title to VARCHAR 100
+ ^ Change jos_modules.params to VARCHAR 5120
 
 23-Nov-2009 Ron Severdia
 ^ Added panels on Edit Category screen, new panels added for default params

@@ -346,6 +346,12 @@ ALTER TABLE `jos_modules`
 ALTER TABLE `jos_modules`
  DROP `control`;
 
+ALTER TABLE `jos_modules`
+ CHANGE `title` `title` varchar(100) NOT NULL DEFAULT '';
+
+ALTER TABLE `jos_modules`
+ CHANGE `params` `params` varchar(5120) NOT NULL DEFAULT '';
+
 UPDATE `#__modules`
  SET `menutype` = 'mod_menu'
  WHERE `menutype` = 'mod_mainmenu';
