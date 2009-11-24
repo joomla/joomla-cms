@@ -114,6 +114,16 @@
 			buttons="true" />
 
 		<field
+			name="language"
+			type="contentlanguage"
+			label="JField_Language_Label"
+			description="JField_Language_Desc"
+			class="inputbox"
+			default="">
+			<option value="">JOption_Default_Language</option>
+		</field>
+
+		<field
 			name="params"
 			type="hidden" />
 

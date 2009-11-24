@@ -648,29 +648,31 @@ CREATE TABLE `#__modules` (
   `showtitle` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `params` varchar(5120) NOT NULL DEFAULT '',
   `client_id` tinyint(4) NOT NULL DEFAULT '0',
+  `language` varchar(7) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `published` (`published`,`access`),
-  KEY `newsfeeds` (`module`,`published`)
+  KEY `newsfeeds` (`module`,`published`),
+  KEY `idx_language` (`language`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 INSERT INTO `#__modules` VALUES
-(1, 'Main Menu', '', 1, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, 'menutype=mainmenu\nmoduleclass_sfx=_menu\n', 0),
-(2, 'Login', '', 1, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '', 1),
-(3, 'Popular Articles','',3,'cpanel',0,'0000-00-00 00:00:00',1,'mod_popular',3,1,'',1),
-(4, 'Recently Added Articles','',4,'cpanel',0,'0000-00-00 00:00:00',1,'mod_latest',3,1,'ordering=c_dsc\nuser_id=0\ncache=0\n\n',1),
-(6, 'Unread Messages','',1,'header',0,'0000-00-00 00:00:00',1,'mod_unread',3,1,'',1),
-(7, 'Online Users','',2,'header',0,'0000-00-00 00:00:00',1,'mod_online',3,1,'',1),
-(8, 'Toolbar','',1,'toolbar',0,'0000-00-00 00:00:00',1,'mod_toolbar',3,1,'',1),
-(9, 'Quick Icons','',1,'icon',0,'0000-00-00 00:00:00',1,'mod_quickicon',3,1,'',1),
-(10, 'Logged-in Users','',2,'cpanel',0,'0000-00-00 00:00:00',1,'mod_logged',3,1,'',1),
-(12, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 3, 1, '', 1),
-(13, 'Admin Submenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 3, 1, '', 1),
-(14, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 3, 1, '', 1),
-(15, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 3, 1, '', 1),
-(16, 'User Menu', '', 4, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_menu', 2, 1, 'menutype=usermenu\nmoduleclass_sfx=_menu\ncache=1', 0),
-(17, 'Login Form', '', 8, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, 'greeting=1\nname=0', 0),
-(18, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 0);
+(1, 'Main Menu', '', 1, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, 'menutype=mainmenu\nmoduleclass_sfx=_menu\n', 0, ''),
+(2, 'Login', '', 1, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '', 1, ''),
+(3, 'Popular Articles','',3,'cpanel',0,'0000-00-00 00:00:00',1,'mod_popular',3,1,'',1, ''),
+(4, 'Recently Added Articles','',4,'cpanel',0,'0000-00-00 00:00:00',1,'mod_latest',3,1,'ordering=c_dsc\nuser_id=0\ncache=0\n\n',1, ''),
+(6, 'Unread Messages','',1,'header',0,'0000-00-00 00:00:00',1,'mod_unread',3,1,'',1, ''),
+(7, 'Online Users','',2,'header',0,'0000-00-00 00:00:00',1,'mod_online',3,1,'',1, ''),
+(8, 'Toolbar','',1,'toolbar',0,'0000-00-00 00:00:00',1,'mod_toolbar',3,1,'',1, ''),
+(9, 'Quick Icons','',1,'icon',0,'0000-00-00 00:00:00',1,'mod_quickicon',3,1,'',1, ''),
+(10, 'Logged-in Users','',2,'cpanel',0,'0000-00-00 00:00:00',1,'mod_logged',3,1,'',1, ''),
+(12, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 3, 1, '', 1, ''),
+(13, 'Admin Submenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 3, 1, '', 1, ''),
+(14, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 3, 1, '', 1, ''),
+(15, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 3, 1, '', 1, ''),
+(16, 'User Menu', '', 4, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_menu', 2, 1, 'menutype=usermenu\nmoduleclass_sfx=_menu\ncache=1', 0, ''),
+(17, 'Login Form', '', 8, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, 'greeting=1\nname=0', 0, ''),
+(18, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 0, '');
 
 # -------------------------------------------------------
 

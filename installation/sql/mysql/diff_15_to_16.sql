@@ -349,6 +349,12 @@ ALTER TABLE `jos_modules`
 ALTER TABLE `jos_modules`
  DROP `iscore`;
 
+ALTER TABLE `jos_modules` 
+ ADD COLUMN `language` CHAR(7) NOT NULL AFTER `client_id`;
+
+ALTER TABLE `jos_modules`
+ ADD INDEX `idx_language` (`language`);
+
 ALTER TABLE `jos_modules`
  CHANGE `title` `title` varchar(100) NOT NULL DEFAULT '';
 

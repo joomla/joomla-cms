@@ -63,6 +63,15 @@ $user = JFactory::getUser();
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
+				<th width="20%">
+					<?php echo JHtml::_('grid.sort',  'Modules_Heading_Position', 'a.position', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort',  'Modules_Heading_Pages', 'a.pages', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'Modules_Heading_Module', 'a.module', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Enabled', 'a.enabled', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
@@ -73,14 +82,8 @@ $user = JFactory::getUser();
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Access', 'a.access', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-				<th width="20%">
-					<?php echo JHtml::_('grid.sort',  'Modules_Heading_Position', 'a.position', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort',  'Modules_Heading_Pages', 'a.pages', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'Modules_Heading_Module', 'a.module', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Language', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -117,6 +120,23 @@ $user = JFactory::getUser();
 					<?php endif; ?>
 				</td>
 				<td class="center">
+					<?php echo $item->position; ?>
+				</td>
+				<td class="center">
+					<?php
+						if (is_null($item->pages)) {
+							echo JText::_('None');
+						} else if ($item->pages != 0) {
+							echo JText::_('Varies');
+						} else {
+							echo JText::_('All');
+						}
+					?>
+				</td>
+				<td class="left">
+					<?php echo $item->module; ?>
+				</td>
+				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange);?>
 				</td>
 				<td class="order">
@@ -133,21 +153,7 @@ $user = JFactory::getUser();
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<td class="center">
-					<?php echo $item->position; ?>
-				</td>
-				<td class="center">
-					<?php
-						if (is_null($item->pages)) {
-							echo JText::_('None');
-						} else if ($item->pages != 0) {
-							echo JText::_('Varies');
-						} else {
-							echo JText::_('All');
-						}
-					?>
-				</td>
-				<td class="left">
-					<?php echo $item->module; ?>
+					<?php echo $item->language ? $this->escape($item->language) : JText::_('JDefault'); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>

@@ -77,6 +77,10 @@ class JTableModule extends JTable
 	 * @var string
 	 */
 	public $client_id = null;
+	/**
+	 * @var string
+	 */
+	public $language = null;
 
 	/**
 	 * Contructor.

@@ -132,7 +132,7 @@ $userId	= $user->get('id');
 					<?php echo $item->hits; ?>
 				</td>
 				<td class="center">
-					<?php echo $this->escape($item->language); ?>
+					<?php echo $item->language ? $this->escape($item->language) : JText::_('JDefault'); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>

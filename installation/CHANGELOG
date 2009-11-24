@@ -36,6 +36,8 @@ $ -> Language fix or change
  ^ Remove iscore, control and numnews fields from jos_modules table.
  ^ Change jos_modules.title to VARCHAR 100
  ^ Change jos_modules.params to VARCHAR 5120
+ ^ Make allowance for default language in language form field of article, newsfeed and weblink.
+ ^ Added language field to jos_modules.
 
 23-Nov-2009 Ron Severdia
 ^ Added panels on Edit Category screen, new panels added for default params

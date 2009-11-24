@@ -46,30 +46,32 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<legend><?php echo JText::sprintf('JRecord_Number', $this->item->id); ?></legend>
 			<?php endif; ?>
 
-				<?php echo $this->form->getLabel('title'); ?>
-				<?php echo $this->form->getInput('title'); ?>
+			<?php echo $this->form->getLabel('title'); ?>
+			<?php echo $this->form->getInput('title'); ?>
 
-				<?php echo $this->form->getLabel('module'); ?>
-				<?php echo $this->form->getInput('module'); ?>
+			<?php echo $this->form->getLabel('module'); ?>
+			<?php echo $this->form->getInput('module'); ?>
 
-				<?php echo $this->form->getLabel('showtitle'); ?>
-				<?php echo $this->form->getInput('showtitle'); ?>
+			<?php echo $this->form->getLabel('showtitle'); ?>
+			<?php echo $this->form->getInput('showtitle'); ?>
 
-				<?php echo $this->form->getLabel('published'); ?>
-				<?php echo $this->form->getInput('published'); ?>
+			<?php echo $this->form->getLabel('published'); ?>
+			<?php echo $this->form->getInput('published'); ?>
 
-				<?php echo $this->form->getLabel('position'); ?>
-				<?php echo $this->form->getInput('position'); ?>
+			<?php echo $this->form->getLabel('position'); ?>
+			<?php echo $this->form->getInput('position'); ?>
 
-				<?php echo $this->form->getLabel('ordering'); ?>
-				<div id="jform_ordering" class="fltlft"><?php echo $this->form->getInput('ordering'); ?></div>
+			<?php echo $this->form->getLabel('ordering'); ?>
+			<div id="jform_ordering" class="fltlft"><?php echo $this->form->getInput('ordering'); ?></div>
 
-				<?php echo $this->form->getLabel('access'); ?><br />
-				<?php echo $this->form->getInput('access'); ?>
+			<?php echo $this->form->getLabel('access'); ?><br />
+			<?php echo $this->form->getInput('access'); ?>
 
-				<?php echo $this->form->getLabel('client_id'); ?>
-				<?php echo $this->form->getInput('client_id'); ?>
+			<?php echo $this->form->getLabel('client_id'); ?>
+			<?php echo $this->form->getInput('client_id'); ?>
 
+			<?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?>
 
 			<br class="clr" />
 			<!-- Module metadata -->
