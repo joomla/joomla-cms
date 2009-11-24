@@ -340,6 +340,12 @@ ALTER TABLE `jos_menu_types`
 -- jos_modules
 -- ----------------------------------------------------------------
 
+ALTER TABLE `jos_modules`
+ DROP `numnews`;
+
+ALTER TABLE `jos_modules`
+ DROP `control`;
+
 UPDATE `#__modules`
  SET `menutype` = 'mod_menu'
  WHERE `menutype` = 'mod_mainmenu';

@@ -142,7 +142,7 @@ abstract class JModuleHelper
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
-		$path = JPATH_BASE.DS.'modules'.DS.$module->module.DS.$module->module.'.php';
+		$path = JPATH_BASE.'/modules/'.$module->module.'/'.$module->module.'.php';
 
 		// Load the module
 		if (!$module->user && file_exists($path))
@@ -165,8 +165,8 @@ abstract class JModuleHelper
 			$chrome = array();
 		}
 
-		require_once JPATH_BASE.DS.'templates'.DS.'system'.DS.'html'.DS.'modules.php';
-		$chromePath = JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.'modules.php';
+		require_once JPATH_BASE.'/templates/system/html/modules.php';
+		$chromePath = JPATH_BASE.'/templates/'.$app->getTemplate().'/html/modules.php';
 		if (!isset($chrome[$chromePath]))
 		{
 			if (file_exists($chromePath)) {
@@ -220,8 +220,8 @@ abstract class JModuleHelper
 		$app = JFactory::getApplication();
 
 		// Build the template and base path for the layout
-		$tPath = JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.$module.DS.$layout.'.php';
-		$bPath = JPATH_BASE.DS.'modules'.DS.$module.DS.'tmpl'.DS.$layout.'.php';
+		$tPath = JPATH_BASE.'/templates/'.$app->getTemplate().'/html/'.$module.'/'.$layout.'.php';
+		$bPath = JPATH_BASE.'/modules/'.$module.'/tmpl/'.$layout.'.php';
 
 		// If the template has a layout override use it
 		if (file_exists($tPath)) {
@@ -253,7 +253,7 @@ abstract class JModuleHelper
 		$where	= isset($Itemid) ? ' AND (mm.menuid = '. (int) $Itemid .' OR mm.menuid <= 0)' : '';
 
 		$db->setQuery(
-			'SELECT id, title, module, position, content, showtitle, control, params, mm.menuid'
+			'SELECT id, title, module, position, content, showtitle, params, mm.menuid'
 			. ' FROM #__modules AS m'
 			. ' LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id'
 			. ' WHERE m.published = 1'
