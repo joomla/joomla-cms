@@ -33,7 +33,7 @@ $ -> Language fix or change
    - changed params to fields in module XML files.
    - changed add module page to modal popup.
    - added layout override selector field to all modules
- ^ Remove control and numnews fields from jos_modules table.
+ ^ Remove iscore, control and numnews fields from jos_modules table.
  ^ Change jos_modules.title to VARCHAR 100
  ^ Change jos_modules.params to VARCHAR 5120
 
