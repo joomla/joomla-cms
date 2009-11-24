@@ -125,11 +125,11 @@ $user = JFactory::getUser();
 				<td class="center">
 					<?php
 						if (is_null($item->pages)) {
-							echo JText::_('None');
+							echo JText::_('Modules_Assigned_None');
 						} else if ($item->pages != 0) {
-							echo JText::_('Varies');
+							echo JText::_('Modules_Assigned_Varies');
 						} else {
-							echo JText::_('All');
+							echo JText::_('Modules_Assigned_All');
 						}
 					?>
 				</td>
