@@ -18,54 +18,6 @@ defined('JPATH_BASE') or die;
 class JTableSession extends JTable
 {
 	/**
-	 *
-	 * @var int Primary key
-	 */
-	var $session_id			= null;
-
-	/**
-	 *
-	 * @var string
-	 */
-	var $time				= null;
-
-	/**
-	 *
-	 * @var string
-	 */
-	var $userid				= null;
-
-	/**
-	 *
-	 * @var string
-	 */
-	var $usertype			= null;
-
-	/**
-	 *
-	 * @var string
-	 */
-	var $username			= null;
-
-	/**
-	 *
-	 * @var int
-	 */
-	var $guest				= null;
-
-	/**
-	 *
-	 * @var int
-	 */
-	var $client_id			= null;
-
-	/**
-	 *
-	 * @var string
-	 */
-	var $data				= null;
-
-	/**
 	 * Constructor
 	 * @param database A database connector object
 	 */

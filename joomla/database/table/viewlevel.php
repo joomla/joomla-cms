@@ -19,26 +19,6 @@ jimport('joomla.database.table');
 class JTableViewlevel extends JTable
 {
 	/**
-	 * @var int unsigned
-	 */
-	var $id;
-
-	/**
-	 * @var varchar
-	 */
-	var $title;
-
-	/**
-	 * @var int unsigned
-	 */
-	var $ordering;
-
-	/**
-	 * @var varchar
-	 */
-	var $rules;
-
-	/**
 	 * Constructor
 	 *
 	 * @access	public
