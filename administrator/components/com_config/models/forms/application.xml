@@ -206,11 +206,10 @@
 		<field
 			name="offset"
 			type="timezone"
-			default="0"
+			default=""
 			label="Config_Server_Timezone_Label"
 			description="Config_Server_Timezone_Desc"
-			required="true"
-			filter="integer" />
+			required="true" />
 	</fields>
 
 	<fields
@@ -770,7 +769,7 @@
 	</fields>
 
 	<fields>
-			<field
+		<field
 			name="asset_id"
 			type="hidden" />
 	</fields>
