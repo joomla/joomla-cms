@@ -430,16 +430,16 @@ abstract class JTable extends JObject
 	 * Method to load a row from the database by primary key and bind the fields
 	 * to the JTable instance properties.
 	 *
-	 * @param	mixed	An optional primary key value to load the row by.  If not
+	 * @param	mixed	An optional primary key value to load the row by, or an array of fields to match.  If not
 	 * 					set the instance property value is used.
 	 * @param	boolean	True to reset the default values before loading the new row.
 	 * @return	boolean	True if successful. False if row not found or on error (internal error state set in that case).
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/load
 	 */
-	public function load($pk = null, $reset = true)
+	public function load($keys = null, $reset = true)
 	{
-		if (empty($pk))
+		if (empty($keys))
 		{
 			// If empty, use the value of the current key
 			$keyName = $this->getKeyName();
@@ -450,12 +450,13 @@ abstract class JTable extends JObject
 				$this->setError(JText::_('JTable_Error_Cannot_load_empty_key'));
 				return false;
 			}
+			$keys = array($keyName => $pk);
 		}
-		else if (!is_array($pk))
+		else if (!is_array($keys))
 		{
 			// Load by primary key.
 			$keyName = $this->getKeyName();
-			$pk = array($keyName => $pk);
+			$keys = array($keyName => $keys);
 		}
 
 		if ($reset)
@@ -472,7 +473,7 @@ abstract class JTable extends JObject
 		$query->from($this->getTableName());
 		$fields = array_keys($this->getProperties());
 
-		foreach ($pk as $field => $value)
+		foreach ($keys as $field => $value)
 		{
 			// Check that $field is in the table.
 			if (!in_array($field, $fields))
