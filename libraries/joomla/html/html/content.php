@@ -7,8 +7,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-JLoader::register('JTableContent', JPATH_LIBRARIES . DS . 'joomla' . DS . 'database' . DS . 'table' . DS . 'content.php');
-
 /**
  * Utility class to fire onPrepareContent for non-article based content.
  *
@@ -21,20 +19,16 @@ abstract class JHtmlContent
 	/**
 	 * Fire onPrepareContent for content that isn't part of an article.
 	 *
-	 * @param string The content to be transformed.
-	 * @param array The content params.
-	 * @return string The content after transformation.
+	 * @param	string	The content to be transformed.
+	 * @param	array	The content params.
+	 * @return	string	The content after transformation.
 	 */
 	public static function prepare($text, $params = null)
 	{
 		if ($params === null) {
 			$params = array();
 		}
-		/* TODO: Fix this hack
-		 * Create a skeleton of an article. This is a bit of a hack.
-		 */
-		$nodb = null;
-		$article = new JTableContent($nodb);
+		$article = new stdClass;
 		$article->text = $text;
 		JPluginHelper::importPlugin('content');
 		$dispatcher = &JDispatcher::getInstance();
@@ -44,5 +38,4 @@ abstract class JHtmlContent
 
 		return $article->text;
 	}
-
 }
