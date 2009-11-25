@@ -21,6 +21,14 @@
 			description="Menus_item_Anchor_CSS_Desc"
 			default=""/>
 
+		<field
+			id="menu_image"
+			name="menu_image"
+			type="text"
+			label="Menus_Item_Menu_Image_Label"
+			description="Menus_Item_Menu_Image_Desc"
+			default=""/>
+			
 	</fields>
 
 </form>

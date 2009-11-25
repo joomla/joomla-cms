@@ -2,6 +2,22 @@
 	<!-- $Id$ -->
 <form>
 	<fields
+		label="Menus_Required_Fields_Label"
+		description="Menus_Required_Fields_Desc"
+		group="request">
+
+		<field
+			id="aliasoptions"
+			name="aliasoptions"
+			type="aliasoptions"
+			label="JMenu_Alias_Menu_Label"
+			description="JMenu_Alias_Menu_Desc"
+			required="true"
+		/>
+
+	</fields>
+
+	<fields
 		label="Menus_Linktype_Options_Label"
 		description="">
 
@@ -21,20 +37,14 @@
 			description="Menus_item_Anchor_CSS_Desc"
 			default=""/>
 
-	</fields>
-	<fields
-		label="Menus_Required_Fields_Label"
-		description="Menus_Required_Fields_Desc"
-		group="request">
-
 		<field
-			id="aliasoptions"
-			name="aliasoptions"
-			type="aliasoptions"
-			label="JMenu_Alias_Menu_Label"
-			description="JMenu_Alias_Menu_Desc"
-			required="true"
-		/>
-
+			id="menu_image"
+			name="menu_image"
+			type="text"
+			label="Menus_Item_Menu_Image_Label"
+			description="Menus_Item_Menu_Image_Desc"
+			default=""/>
+			
 	</fields>
+
 </form>
