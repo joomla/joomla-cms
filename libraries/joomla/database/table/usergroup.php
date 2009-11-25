@@ -19,31 +19,6 @@ jimport('joomla.database.table');
 class JTableUsergroup extends JTable
 {
 	/**
-	 * @var int unsigned
-	 */
-	var $id;
-
-	/**
-	 * @var int unsigned
-	 */
-	var $parent_id;
-
-	/**
-	 * @var int unsigned
-	 */
-	var $lft;
-
-	/**
-	 * @var int unsigned
-	 */
-	var $rgt;
-
-	/**
-	 * @var varchar
-	 */
-	var $title;
-
-	/**
 	 * Constructor
 	 *
 	 * @access	public

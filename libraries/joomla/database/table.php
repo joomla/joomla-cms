@@ -95,6 +95,44 @@ abstract class JTable extends JObject
 			// TODO: Do we need the following line anymore?
 			//$this->access = (int) JFactory::getConfig()->getValue('access');
 		}
+
+		// Initialise the table properties.
+		if ($fields = $this->getFields())
+		{
+			foreach ($fields as $name => $type)
+			{
+				// Add the field if it is not already present.
+				if (!property_exists($this, $name)) {
+					$this->$name = null;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Get the columns from database table.
+	 *
+	 * @return	mixed	An array of the field names, or false if an error occurs.
+	 */
+	public function getFields()
+	{
+		static $cache = null;
+
+		if ($cache === null)
+		{
+			// Lookup the fields for this table only once.
+			$name	= $this->getTableName();
+			$fields	= $this->_db->getTableFields($name);
+
+			if (!isset($fields[$name]))
+			{
+				$this->setError(JText::_('JTable_Error_Columns_not_found'));
+				return false;
+			}
+			$cache = $fields[$name];
+		}
+
+		return $cache;
 	}
 
 	/**
@@ -142,7 +180,7 @@ abstract class JTable extends JObject
 		}
 
 		// If a database object was passed in the configuration array use it, otherwise get the global one from JFactory.
-		if (array_key_exists('dbo', $config))  {
+		if (array_key_exists('dbo', $config)) {
 			$db = &$config['dbo'];
 		}
 		else {
@@ -401,31 +439,58 @@ abstract class JTable extends JObject
 	 */
 	public function load($pk = null, $reset = true)
 	{
-		// Initialize variables.
-		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
-
-		// If no primary key is given, return false.
-		if ($pk === null) {
-			return false;
+		if (empty($pk))
+		{
+			// If empty, use the value of the current key
+			$keyName = $this->getKeyName();
+			$pk = $this->$keyName;
+			if (empty($pk))
+			{
+				// If still empty, fail.
+				$this->setError(JText::_('JTable_Error_Cannot_load_empty_key'));
+				return false;
+			}
+		}
+		else if (!is_array($pk))
+		{
+			// Load by primary key.
+			$keyName = $this->getKeyName();
+			$pk = array($keyName => $pk);
 		}
 
-		// Reset the object values if asked.
-		if ($reset) {
+		if ($reset)
+		{
 			$this->reset();
 		}
 
-		// Load the row by primary key.
-		$this->_db->setQuery(
-			'SELECT *' .
-			' FROM `'.$this->_tbl.'`' .
-			' WHERE `'.$this->_tbl_key.'` = '.$this->_db->quote($pk)
-		);
-		$row = $this->_db->loadAssoc();
+		// Initialise the query.
+		jimport('joomla.database.query');
+
+		$db		= $this->getDBO();
+		$query	= new JQuery;
+		$query->select('*');
+		$query->from($this->getTableName());
+		$fields = array_keys($this->getProperties());
+
+		foreach ($pk as $field => $value)
+		{
+			// Check that $field is in the table.
+			if (!in_array($field, $fields))
+			{
+				$this->setError(JText::sprintf('JTable_Error_Class_is_missing_field', get_class($this), $field));
+				return false;
+			}
+			// Add the search tuple to the query.
+			$query->where($db->nameQuote($field).' = '.$db->quote($value));
+		}
+
+		$db->setQuery($query);
+		$row = $db->loadAssoc();
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
+		if ($db->getErrorNum())
+		{
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 

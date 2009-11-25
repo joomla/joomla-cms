@@ -31,6 +31,9 @@ $ -> Language fix or change
  + Added menu_image param to alias and url menu link types.
  + Added support to JQuery for Insert, Update and Delete methods; added glue to having clause (thanks Rafael Diaz-Tushman).
  # Remove integer filter from timezone fields in global configuration.
+ ^ Added ability to load key=>value tuples in JTable::load (thanks Rafael Diaz-Tushman).
+ ^ Added ability to automatically set table fields in JTable::load (thanks Rafael Diaz-Tushman).
+ ^ Removed manual properties from core JTable classes.
 
 24-Nov-2009 Andrew Eddie
  ^ Initial refactoring of com_modules.

@@ -22,67 +22,6 @@ jimport('joomla.database.tableasset');
 class JTableModule extends JTable
 {
 	/**
-	 * @var int Primary key
-	 */
-	public $id = null;
-	/**
-	 * @var string
-	 */
-	public $title = null;
-	/**
-	 * @var string
-	 */
-	public $showtitle = null;
-	/**
-	 * @var int
-	 */
-	public $content = null;
-	/**
-	 * @var int
-	 */
-	public $ordering = null;
-	/**
-	 * @var string
-	 */
-	public $position = null;
-	/**
-	 * @var boolean
-	 */
-	public $checked_out = 0;
-	/**
-	 * @var time
-	 */
-	public $checked_out_time = 0;
-	/**
-	 * @var boolean
-	 */
-	public $published = null;
-	/**
-	 * @var string
-	 */
-	public $module = null;
-	/**
-	 * @var int
-	 */
-	public $access = null;
-	/**
-	 * @var string
-	 */
-	public $params = null;
-	/**
-	 * @var string
-	 */
-	public $iscore = null;
-	/**
-	 * @var string
-	 */
-	public $client_id = null;
-	/**
-	 * @var string
-	 */
-	public $language = null;
-
-	/**
 	 * Contructor.
 	 *
 	 * @param database A database connector object

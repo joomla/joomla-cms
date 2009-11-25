@@ -20,33 +20,6 @@ defined('JPATH_BASE') or die();
  */
 class JTableUpdate extends JTable
 {
-	/** @var int Primary key */
-	public $update_id				= null;
-	/** @var int Source update site ID */
-	public $update_site_id			= null;
-	/** @var int Linked extension ID */
-	public $extension_id			= null;
-	/** @var int Linked update category ID */
-	public $categoryid				= null;
-	/** @var string Friendly name of the extension */
-	public $name				= null;
-	/** @var string Description of Extension */
-	public $description			= null;
-	/** @var string Unique name of extension */
-	public $element			= null;
-	/** @var string Type of Extension */
-	public $type			= null;
-	/** @var string Folder/container/group of extension */
-	public $folder			= null;
-	/** @var int Client Unique Identifier (e.g. administrator=1, site=0) */
-	public $client_id			= null;
-	/** @var string Version string of extension */
-	public $version			= '';
-	/** @var string Generic extension data field; for Joomla! use */
-	public $data				= null;
-	/** @var string Extension details URL */
-	public $detailsurl			= null;
-
 	/**
 	 * Contructor
 	 *

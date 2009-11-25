@@ -18,25 +18,6 @@ defined('JPATH_BASE') or die;
 class JTableMenuType extends JTable
 {
 	/**
-	 * @var int Primary key
-	 */
-	public $id					= null;
-
-	/**
-	 * @var string
-	 */
-	public $menutype			= null;
-
-	/** @var string
-	 */
-	public $title				= null;
-
-	/**
-	 * @var string
-	 */
-	public $description		= null;
-
-	/**
 	 * Constructor
 	 *
 	 * @param database A database connector object
