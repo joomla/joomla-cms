@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 25-Nov-2009 Andrew Eddie
  + Added menu_image param to alias and url menu link types.
+ + Added support to JQuery for Insert, Update and Delete methods; added glue to having clause (thanks Rafael Diaz-Tushman).
 
 24-Nov-2009 Andrew Eddie
  ^ Initial refactoring of com_modules.

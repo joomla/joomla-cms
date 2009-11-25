@@ -76,12 +76,24 @@ class JQuery
 	/** @var object The select element */
 	protected $_select = null;
 
+    /** @var object The delete element */
+    protected $_delete = null;
+    
+    /** @var object The update element */
+    protected $_update = null;
+    
+    /** @var object The insert element */
+    protected $_insert = null;
+    
 	/** @var object The from element */
 	protected $_from = null;
 
 	/** @var object The join element */
 	protected $_join = null;
 
+    /** @var object The set element */
+    protected $_set = null;
+    
 	/** @var object The where element */
 	protected $_where = null;
 
@@ -108,6 +120,36 @@ class JQuery
 
 		return $this;
 	}
+	
+    /**
+     * @param   mixed   A string or an array of field names
+     */
+    public function delete()
+    {
+        $this->_type = 'delete';
+        $this->_delete = new JQueryElement('DELETE', array(), '');
+        return $this;
+    }
+    
+    /**
+     * @param   mixed   A string or array of table names
+     */
+    public function insert($tables)
+    {
+        $this->_type = 'insert';
+        $this->_insert = new JQueryElement('INSERT INTO', $tables);
+        return $this;
+    }
+    
+    /**
+     * @param   mixed   A string or array of table names
+     */    
+    public function update($tables)
+    {
+        $this->_type = 'update';
+        $this->_update = new JQueryElement('UPDATE', $tables);
+        return $this;
+    }
 
 	/**
 	 * @param	mixed	A string or array of table names
@@ -176,6 +218,22 @@ class JQuery
 
 		return $this;
 	}
+	
+    /**
+     * @param   mixed   A string or array of conditions
+     * @param   string
+     */
+    public function set($conditions, $glue=',')
+    {
+        if (is_null($this->_set)) {
+            $glue = strtoupper($glue);
+            $this->_set = new JQueryElement('SET', $conditions, "\n\t$glue ");
+        } else {
+            $this->_set->append($conditions);
+        }
+
+        return $this;
+    }
 
 	/**
 	 * @param	mixed	A string or array of where conditions
@@ -185,7 +243,7 @@ class JQuery
 	{
 		if (is_null($this->_where)) {
 			$glue = strtoupper($glue);
-			$this->_where = new JQueryElement('WHERE', $conditions, "\n\t$glue ");
+			$this->_where = new JQueryElement('WHERE', $conditions, " $glue ");
 		} else {
 			$this->_where->append($conditions);
 		}
@@ -208,14 +266,16 @@ class JQuery
 	}
 
 	/**
-	 * @param	mixed	A string or array of ordering columns
+	 * @param   mixed   A string or array of columns
+	 * @param   string
 	 */
-	public function having($columns)
+	public function having($conditions, $glue='AND')
 	{
 		if (is_null($this->_having)) {
-			$this->_having = new JQueryElement('HAVING', $columns);
+			$glue = strtoupper($glue);
+			$this->_having = new JQueryElement('HAVING', $conditions, " $glue ");
 		} else {
-			$this->_having->append($columns);
+			$this->_having->append($conditions);
 		}
 
 		return $this;
@@ -264,6 +324,30 @@ class JQuery
 				}
 				if ($this->_order) {
 					$query .= (string) $this->_order;
+				}
+				break;
+
+			case 'delete':
+				$query .= (string) $this->_delete;
+				$query .= (string) $this->_from;
+				if ($this->_where) {
+					$query .= (string) $this->_where;
+				}
+				break;
+
+			case 'update':
+				$query .= (string) $this->_update;
+				$query .= (string) $this->_set;
+				if ($this->_where) {
+					$query .= (string) $this->_where;
+				}
+				break;
+
+			case 'insert':
+				$query .= (string) $this->_insert;
+				$query .= (string) $this->_set;
+				if ($this->_where) {
+					$query .= (string) $this->_where;
 				}
 				break;
 		}
