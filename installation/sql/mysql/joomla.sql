@@ -296,7 +296,7 @@ CREATE TABLE `#__content` (
   `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
   `images` text NOT NULL,
   `urls` text NOT NULL,
-  `attribs` text NOT NULL,
+  `attribs` varchar(5120) NOT NULL,
   `version` integer unsigned NOT NULL default '1',
   `parentid` integer unsigned NOT NULL default '0',
   `ordering` integer NOT NULL default '0',
