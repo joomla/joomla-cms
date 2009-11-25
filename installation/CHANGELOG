@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Nov-2009 Mark Dexter
+^ Changed attribs column in jos_content from text to varchar(5120).
+
 25-Nov-2009 Andrew Eddie
  # Fixed bug in JHtmlContent improperly using JTableContent (/me shakes head).
 
