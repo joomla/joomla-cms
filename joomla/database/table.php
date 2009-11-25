@@ -443,14 +443,7 @@ abstract class JTable extends JObject
 		{
 			// If empty, use the value of the current key
 			$keyName = $this->getKeyName();
-			$pk = $this->$keyName;
-			if (empty($pk))
-			{
-				// If still empty, fail.
-				$this->setError(JText::_('JTable_Error_Cannot_load_empty_key'));
-				return false;
-			}
-			$keys = array($keyName => $pk);
+			$keys = array($keyName => $this->$keyName);
 		}
 		else if (!is_array($keys))
 		{
