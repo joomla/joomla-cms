@@ -22,7 +22,7 @@
 
 		<field
 			name="parent_id"
-			type="UserGroups"
+			type="usergroup"
 			class="inputbox"
 			default=""
 			label="Users_Group_Parent"
