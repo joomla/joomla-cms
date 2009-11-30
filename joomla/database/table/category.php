@@ -129,4 +129,30 @@ class JTableCategory extends JTableNested
 
 		return true;
 	}
+	/**
+	 * Overloaded bind function.
+	 *
+	 * @param	array		named array
+	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @see		JTable:bind
+	 * @since	1.5
+	 */
+	public function bind($array, $ignore = '')
+	{
+		if (isset($array['params']) && is_array($array['params']))
+		{
+			$registry = new JRegistry();
+			$registry->loadArray($array['params']);
+			$array['params'] = $registry->toString();
+		}
+		
+		if (isset($array['metadata']) && is_array($array['metadata']))
+		{
+			$registry = new JRegistry();
+			$registry->loadArray($array['metadata']);
+			$array['metadata'] = $registry->toString();
+		}
+
+		return parent::bind($array, $ignore);
+	}
 }
