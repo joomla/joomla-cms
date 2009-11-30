@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Nov-2009 Mark Dexter
+^ Remove Category level parameters for articles
+# Fix bug where category metadata wasn't saving to database
+# Replace eregi with stripos in contact and weblinks table check
+# Fix error when saving a contact with a link URL
+
 25-Nov-2009 Mark Dexter
 ^ Changed attribs column in jos_content from text to varchar(5120).
 

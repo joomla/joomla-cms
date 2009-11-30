@@ -221,7 +221,8 @@
 			type="text"
 			label="JField_Metadata_Author_Label"
 			description="JField_Metadata_Author_Desc"
-			size="30"/>
+			size="30"
+			default=""/>
 
 		<field
 			name="robots"
@@ -245,71 +246,4 @@
 
 	</fields>
 
-	<fields
-		group="bloglayouts"
-		array="true">
-
-		<field
-			name="num_leading_articles"
-			type="text"
-			size="3"
-			default="1"
-			label="Num Leading"
-			description="fieldLEADING" />
-
-		<field
-			name="num_intro_articles"
-			type="text"
-			size="3"
-			default="4"
-			label="Num Intro"
-			description="fieldINTRO" />
-
-		<field
-			name="num_columns"
-			type="text"
-			size="3"
-			default="2"
-			label="Columns"
-			description="fieldCOLUMNS" />
-
-		<field
-			name="num_links"
-			type="text"
-			size="3"
-			default="4"
-			label="Num Links"
-			description="Number of Items to display as Links." />
-
-	</fields>
-	<fields
-		group="listlayouts"
-		array="true">
-
-		
-	</fields>
-	<fields
-		group="catfeatlayouts"
-		array="true">
-
-		
-	</fields>
-	<fields
-		group="integration"
-		array="true">
-		<field
-			name="show_feed_link"
-			type="radio"
-			default="1"
-			label="Show a feed link"
-			description="fieldSHOWFEEDLINK">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-		
-	</fields>
-
-	
 </form>

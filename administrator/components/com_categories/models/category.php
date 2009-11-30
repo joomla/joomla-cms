@@ -106,9 +106,14 @@ class CategoriesModelCategory extends JModelForm
 		$registry = new JRegistry();
 		$registry->loadJSON($table->params);
 		$table->params = $registry->toArray();
+		
+		// Convert the metadata field to an array.
+		$registry = new JRegistry();
+		$registry->loadJSON($table->metadata);
+		$table->metadata = $registry->toArray();
 
 		$result = JArrayHelper::toObject($table->getProperties(1), 'JObject');
-
+		
 		return $result;
 	}
 

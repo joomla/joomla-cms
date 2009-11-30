@@ -116,9 +116,14 @@ class ContactTableContact extends JTable
 			$this->setError(JText::_('CONTACT_WARNING_PROVIDE_VALID_URL'));
 			return false;
 		}
-		// check for http on webpage
-		if (strlen($this->webpage) > 0 && (!(eregi('http://', $this->webpage) || (eregi('https://', $this->webpage)) || (eregi('ftp://', $this->webpage))))) {
-			$this->webpage = 'http://'.$this->contact->params->get('linka');
+		
+		// check for http, https, ftp on webpage
+		if ((strlen($this->webpage) > 0) 
+			&& (stripos($this->webpage, 'http://') === false) 
+			&& (stripos($this->webpage, 'https://') === false) 
+			&& (stripos($this->webpage, 'ftp://') === false)) 
+		{
+			$this->webpage = 'http://'.$this->webpage;
 		}
 		// check for http on additional links
 

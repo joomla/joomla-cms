@@ -64,70 +64,18 @@ JHtml::_('behavior.formvalidation');
 	</div>
 
 	<div class="width-40 fltrt">
-	<?php echo JHtml::_('sliders.start','content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
-	
-		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Blog_Layouts'), 'bloglayouts'); ?>
-		<fieldset class="panelform">
-			<?php foreach($this->form->getFields('bloglayouts') as $field): ?>
-				<?php if ($field->hidden): ?>
-				<?php echo $field->input; ?>
-			<?php else: ?>
-				<?php echo $field->label; ?>
-				<?php echo $field->input; ?>
-			<?php endif; ?>
-		<?php endforeach; ?>
-		</fieldset>
-		
-		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_List_Layouts'), 'listlayouts'); ?>
-		<fieldset class="panelform">
-			<?php foreach($this->form->getFields('listlayouts') as $field): ?>
-				<?php if ($field->hidden): ?>
-				<?php echo $field->input; ?>
-			<?php else: ?>
-				<?php echo $field->label; ?>
-				<?php echo $field->input; ?>
-			<?php endif; ?>
-		<?php endforeach; ?>
-		</fieldset>
-		
-		
-		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_CatFeat_Layouts'), 'catfeatlayouts'); ?>
-		<fieldset class="panelform">
-			<?php foreach($this->form->getFields('catfeatlayouts') as $field): ?>
-				<?php if ($field->hidden): ?>
-				<?php echo $field->input; ?>
-			<?php else: ?>
-				<?php echo $field->label; ?>
-				<?php echo $field->input; ?>
-			<?php endif; ?>
-		<?php endforeach; ?>
-		</fieldset>
-		
-		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Integration'), 'integration'); ?>
-		<fieldset class="panelform">
-			<?php foreach($this->form->getFields('integration') as $field): ?>
-				<?php if ($field->hidden): ?>
-				<?php echo $field->input; ?>
-			<?php else: ?>
-				<?php echo $field->label; ?>
-				<?php echo $field->input; ?>
-			<?php endif; ?>
-		<?php endforeach; ?>
-		</fieldset>
-		
-		
-		<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Rules'), 'rules'); ?>
-		<fieldset class="panelform">
+		<fieldset>
+			<legend><?php echo JText::_('Categories_Fieldset_Rules');?></legend>
 				<?php echo $this->form->getLabel('rules'); ?>
 				<?php echo $this->form->getInput('rules'); ?>
 		</fieldset>
+	</div>
 	
-	<?php echo JHtml::_('sliders.panel',JText::_('Categories_Fieldset_Metadata'), 'metadata'); ?>
-		<fieldset class="panelform">
+	<div class="width-40 fltrt">
+		<fieldset class="adminform">
+			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
 			<?php echo $this->loadTemplate('metadata'); ?>
 		</fieldset>
-	
-	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 
 	<input type="hidden" name="task" value="" />
