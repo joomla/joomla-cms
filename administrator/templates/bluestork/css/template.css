@@ -605,7 +605,14 @@ input.readonly {
 	background-color: #F7F7F7;
 }
 
-input.required { background-color: #d5eeff; }
+input.required { 
+	background-color: #d5eeff;
+}
+
+label.required:after { 
+	content:url(../images/required.png);
+	vertical-align: middle;
+}
 
 input#jform_title.inputbox,
 input#jform_leveltitle.inputbox,
@@ -633,7 +640,7 @@ div.panel fieldset {
 fieldset.batch {
 	margin: 20px 0px 10px 0px;
 	background: #fff;
-padding:10px;
+	padding:10px;
 }
 fieldset.batch label {  margin: 5px; min-width: 40px; }
 fieldset.batch button {  margin: 3px;  }

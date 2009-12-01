@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Dec-2009 Ron Severdia
++ Added CSS for required fields
 
 01-Dec-2009 Ron Severdia
 + Added Blueprint framework for Atomic template
