@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+01-Dec-2009 Ron Severdia
++ Added Blueprint framework for Atomic template
+
 30-Nov-2009 Mark Dexter
 ^ Remove Category level parameters for articles
 # Fix bug where category metadata wasn't saving to database
