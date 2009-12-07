@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Dec-2009 Andrea Tarr
+# Allow admin templates to install correctly
+
 01-Dec-2009 Ron Severdia
 + Added CSS for required fields
 
