@@ -170,7 +170,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$row->enabled = 1;
 		$row->protected = 0;
 		$row->access = 1;
-		$row->client_id = 0;
+		$row->client_id = $clientId;
 		$row->params = $this->parent->getParams();
 		$row->custom_data = ''; // custom data
 		$row->manifest_cache = $this->parent->generateManifestCache();
@@ -183,7 +183,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		//insert record in #__template_styles
 		$query = 'INSERT INTO #__template_styles'.
-				' (template,client_id,home,description,params)'.
+				' (template,client_id,home,title,params)'.
 				' VALUE ('.$db->Quote($row->name).','.
 				$db->Quote($clientId).',0,'.
 				$db->Quote(JText::_('Default')).','.
