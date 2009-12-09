@@ -251,23 +251,6 @@ class JInstallerModule extends JAdapterInstance
 		// Parse deprecated tags
 		$this->parent->parseFiles($this->manifest->getElementByPath('images'), -1);
 
-		// If there is a manifest script, lets copy it.
-		if ($this->get('manifest_script'))
-		{
-			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
-			$path['dest'] = $this->parent->getPath('extension_root').DS.$this->get('manifest_script');
-
-			if (!file_exists($path['dest']))
-			{
-				if (!$this->parent->copyFiles(array ($path)))
-				{
-					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('Could not copy PHP manifest file.'));
-					return false;
-				}
-			}
-		}
-
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Database Processing Section
@@ -375,7 +358,6 @@ class JInstallerModule extends JAdapterInstance
 	 */
 	function update()
 	{
-		die('running update');
 		// set the overwrite setting
 		$this->parent->setOverwrite(true);
 		$this->parent->setUpgrade(true);
@@ -439,7 +421,7 @@ class JInstallerModule extends JAdapterInstance
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
-		// TODO: Re-evaluate this
+		// TODO: Re-evaluate this; should we run installation triggers? postflight perhaps?
 		$this->parent->extension->manifest_cache = serialize($manifest_details);
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
@@ -533,6 +515,7 @@ class JInstallerModule extends JAdapterInstance
 				// load the file
 				include_once $manifestScriptFile;
 			}
+			
 			// Set the class name
 			$classname = $element.'InstallerScript';
 			if (class_exists($classname))
@@ -544,7 +527,7 @@ class JInstallerModule extends JAdapterInstance
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
-
+		
 		ob_start();
 		ob_implicit_flush(false);
 		// run uninstall if possible
