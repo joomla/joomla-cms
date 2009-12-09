@@ -12,6 +12,9 @@ jimport('joomla.application.component.model');
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 
+// Import library dependencies
+require_once dirname(__FILE__).DS.'extension.php';
+
 /**
  * Extension Manager Install Model
  *
@@ -19,7 +22,7 @@ jimport('joomla.installer.helper');
  * @subpackage	com_installer
  * @since		1.5
  */
-class InstallerModelInstall extends JModel
+class InstallerModelInstall extends InstallerModel
 {
 	/**
 	 * @var object JTable object
@@ -55,6 +58,7 @@ class InstallerModelInstall extends JModel
 		// Remember the 'Install from Directory' path.
 		$path = $app->getUserStateFromRequest($this->_context.'.install_directory', 'install_directory', $app->getCfg('config.tmp_path'));
 		$this->setState('install.directory', $path);
+		parent::_populateState();
 	}
 
 	function install()

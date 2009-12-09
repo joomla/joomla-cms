@@ -50,9 +50,9 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('ERRNODISCOVERED'); ?>
 	<?php endif; ?>
 
-	<input type="hidden" name="task" value="manage" />
+	<input type="hidden" name="view" value="discover" />
+	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="option" value="com_installer" />
-	<input type="hidden" name="type" value="discover" />
 	<?php echo JHTML::_('form.token'); ?>
 </form>

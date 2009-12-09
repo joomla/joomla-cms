@@ -67,7 +67,7 @@ defined('_JEXEC') or die;
 	</div>
 	<input type="hidden" name="type" value="" />
 	<input type="hidden" name="installtype" value="upload" />
-	<input type="hidden" name="task" value="doInstall" />
+	<input type="hidden" name="task" value="install.install" />
 	<input type="hidden" name="option" value="com_installer" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

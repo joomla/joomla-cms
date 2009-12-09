@@ -205,7 +205,7 @@ abstract class JModel extends JObject
 	 * Method to get the model name
 	 *
 	 * The model name by default parsed using the classname, or it can be set
-	 * by passing a $config['name�] in the class constructor
+	 * by passing a $config['name'] in the class constructor
 	 *
 	 * @return	string The name of the model
 	 */

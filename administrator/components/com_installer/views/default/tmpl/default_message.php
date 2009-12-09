@@ -18,7 +18,7 @@ $message2		= $state->get('extension_message');
 	<tbody>
 		<?php if ($message1) : ?>
 		<tr>
-			<th><?php echo JText::_($message1) ?></th>
+			<th><?php echo $message1 ?></th>
 		</tr>
 		<?php endif; ?>
 		<?php if ($message2) : ?>

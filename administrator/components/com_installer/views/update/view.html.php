@@ -24,9 +24,9 @@ class InstallerViewUpdate extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::custom('update', 'config', 'config', 'Update', true, false);
-		JToolBarHelper::custom('update_find', 'refresh', 'refresh','Find Updates',false,false);
-		JToolBarHelper::custom('update_purge', 'purge', 'purge', 'Purge Cache', false,false);
+		JToolBarHelper::custom('update.update', 'config', 'config', 'Update', true, false);
+		JToolBarHelper::custom('update.find', 'refresh', 'refresh','Find Updates',false,false);
+		JToolBarHelper::custom('update.purge', 'purge', 'purge', 'Purge Cache', false,false);
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.installer');
 
@@ -53,19 +53,6 @@ class InstallerViewUpdate extends InstallerViewDefault
 	{
 		$item =& $this->items[$index];
 		$item->index	= $index;
-/*		$item->img		= $item->enabled ? 'tick.png' : 'publish_x.png';
-		$item->task 	= $item->enabled ? 'disable' : 'enable';
-		$item->alt 		= $item->enabled ? JText::_('Enabled') : JText::_('Disabled');
-		$item->action	= $item->enabled ? JText::_('disable') : JText::_('enable');
-
-		if ($item->protected) {
-			$item->cbd		= 'disabled';
-			$item->style	= 'style="color:#999999;"';
-		} else {
-			$item->cbd		= null;
-			$item->style	= null;
-		}
-*/
 		$item->author_info = @$item->authorEmail .'<br />'. @$item->authorUrl;
 
 		$this->assignRef('item', $item);

@@ -65,7 +65,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
 		if ($description INSTANCEOF JSimpleXMLElement) {
-			$this->parent->set('message', $description->data());
+			$this->parent->set('message', JText::_($description->data()));
 		} else {
 			$this->parent->set('message', '');
 		}
@@ -448,7 +448,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
 		if (is_a($description, 'JSimpleXMLElement')) {
-			$this->parent->set('message', $description->data());
+			$this->parent->set('message', JText::_($description->data()));
 		}
 		else {
 			$this->parent->set('message', '');
@@ -1406,7 +1406,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
 		if (is_a($description, 'JSimpleXMLElement')) {
-			$this->parent->set('message', $description->data());
+			$this->parent->set('message', JText::_($description->data()));
 		}
 		else {
 			$this->parent->set('message', '');

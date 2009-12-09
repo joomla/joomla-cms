@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Dec-2009 Sam Moffatt
+ # Change to the installation SQL for the extensions table
+ ^ Start of refactoring for the extensions manager
+ # Minor fixes for modules updates and updates in general
+
 07-Dec-2009 Andrea Tarr
 # Allow admin templates to install correctly
 
