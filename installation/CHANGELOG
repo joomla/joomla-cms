@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 09-Dec-2009 Sam Moffatt
+ ^ Committed patch for JCache care of Roben Goethals
  # Change to the installation SQL for the extensions table
  ^ Start of refactoring for the extensions manager
  # Minor fixes for modules updates and updates in general
