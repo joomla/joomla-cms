@@ -35,37 +35,16 @@ class JUtility
  	 * @param mixed $replyto Reply to email address(es)
  	 * @param mixed $replytoname Reply to name(s)
  	 * @return boolean True on success
+	 *
+	 * @deprecated  1.6
+	 * @see                 JMail::sendMail()
   	 */
 	function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
 	{
 	 	// Get a JMail instance
 		$mail = &JFactory::getMailer();
-
-		$mail->setSender(array($from, $fromname));
-		$mail->setSubject($subject);
-		$mail->setBody($body);
-
-		// Are we sending the email as HTML?
-		if ($mode) {
-			$mail->IsHTML(true);
-		}
-
-		$mail->addRecipient($recipient);
-		$mail->addCC($cc);
-		$mail->addBCC($bcc);
-		$mail->addAttachment($attachment);
-
-		// Take care of reply email addresses
-		if (is_array($replyto)) {
-			$numReplyTo = count($replyto);
-			for ($i=0; $i < $numReplyTo; $i++){
-				$mail->addReplyTo(array($replyto[$i], $replytoname[$i]));
-			}
-		} elseif (isset($replyto)) {
-			$mail->addReplyTo(array($replyto, $replytoname));
-		}
-
-		return  $mail->Send();
+		return $mail->sendMail($from, $fromname, $recipient, $subject, $body, $mode, $cc,
+			$bcc, $attachment, $replyto, $replytoname);
 	}
 
 	/**
@@ -78,21 +57,15 @@ class JUtility
  	 * @param string $title Title of item to approve
  	 * @param string $author Author of item to approve
  	 * @return boolean True on success
+	 *
+	 * @deprecated  1.6
+	 * @see                 JMail::sendAdminMail()
  	 */
 	function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
-		$subject = JText::_('User Submitted') ." '". $type ."'";
-
-		$message = sprintf (JText::_('MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
-		$message .= JText::_('MAIL_MSG') ."\n";
-
 	 	// Get a JMail instance
 		$mail = &JFactory::getMailer();
-		$mail->addRecipient($adminEmail);
-		$mail->setSubject($subject);
-		$mail->setBody($message);
-
-		return  $mail->Send();
+		return $mail->sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url);
 	}
 
 	/**
@@ -100,11 +73,14 @@ class JUtility
  	 *
  	 * @param string Seed string
  	 * @return string
+	 *
+	 * @deprecated  1.6
+	 * @see                 JApplication:getHash()
  	 */
 	public static function getHash($seed)
 	{
-		$conf = &JFactory::getConfig();
-		return md5($conf->getValue('config.secret') .  $seed );
+		$app = &JFactory::getApplication();
+		return $app->getHash($seed);
 	}
 
 	/**
@@ -112,14 +88,14 @@ class JUtility
 	 *
 	 * @return	string	Hashed var name
 	 * @since	1.5
+	 * @deprecated  1.6
+	 * @see                 JSession::getFormToken()
 	 * @static
 	 */
 	public static function getToken($forceNew = false)
 	{
-		$user		= &JFactory::getUser();
-		$session	= &JFactory::getSession();
-		$hash		= JUtility::getHash($user->get('id', 0).$session->getToken($forceNew));
-		return $hash;
+		$session = &JFactory::getSession();
+		return $session->getFormToken($forceNew);
 	}
 
 	/**
@@ -154,10 +130,14 @@ class JUtility
 	 *
 	 * @return	true if Windows OS
 	 * @since	1.5
+	 * @deprecated  1.6
+	 * @see                 JApplication::isWinOS()
 	 * @static
 	 */
-	function isWinOS() {
-		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+	public static function isWinOS()
+	{
+		$application = JFactory::getApplication();
+		return $application->isWinOS();
 	}
 
 	/**
@@ -168,8 +148,10 @@ class JUtility
 	 * @return	string
 	 * @since	1.5
 	 * @static
+	 *
+	 * @deprecated  1.6
 	 */
-	function dump(&$var, $htmlSafe = true)
+	public static function dump(&$var, $htmlSafe = true)
 	{
 		$result = var_export($var, true);
 		return '<pre>'.($htmlSafe ? htmlspecialchars($result) : $result).'</pre>';
@@ -182,8 +164,9 @@ class JUtility
 	 * @param $value mixed
 	 * @return int
 	 * @see http://www.php.net/manual/en/function.array-unshift.php#40270
+	 * @deprecated  1.6
 	 */
-	function array_unshift_ref(&$array, &$value)
+	public static function array_unshift_ref(&$array, &$value)
 	{
 	   $return = array_unshift($array,'');
 	   $array[0] =& $value;
@@ -195,21 +178,23 @@ class JUtility
 	 * @param string String optionally with G, M or K suffix
 	 * @return int size in bytes
 	 * @since 1.6
+	 * @deprecated  1.6
+	 * @see                 InstallerModelWarnings::return_bytes()
 	 */
-	function return_bytes($val) {
-            $val = trim($val);
-            $last = strtolower($val{strlen($val)-1});
-            switch($last) {
-                // The 'G' modifier is available since PHP 5.1.0
-                case 'g':
-                    $val *= 1024;
-                case 'm':
-                    $val *= 1024;
-                case 'k':
-                    $val *= 1024;
-            }
+	public static function return_bytes($val)
+	{
+		$val = trim($val);
+		$last = strtolower($val{strlen($val)-1});
+		switch($last) {
+			// The 'G' modifier is available since PHP 5.1.0
+			case 'g':
+				$val *= 1024;
+			case 'm':
+				$val *= 1024;
+			case 'k':
+				$val *= 1024;
+		}
 
-            return $val;
-        }
-
+		return $val;
+	}
 }
