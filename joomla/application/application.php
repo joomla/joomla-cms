@@ -727,18 +727,6 @@ class JApplication extends JObject
 	}
 
 	/**
-  	 * Provides a secure hash based on a seed
- 	 *
- 	 * @param string Seed string
- 	 * @return string
- 	 */
-	public static function getHash($seed)
-	{
-		$conf = &JFactory::getConfig();
-		return md5($conf->getValue('config.secret') .  $seed );
-	}
-
-	/**
 	 * Create the configuration registry.
 	 *
 	 * @param	string	$file 	The path to the configuration file.
@@ -863,17 +851,6 @@ class JApplication extends JObject
 	public function isSite()
 	{
 		return ($this->_clientId == 0);
-	}
-
-	/**
-	 * Method to determine if the host OS is  Windows
-	 *
-	 * @return	true if Windows OS
-	 * @since	1.5
-	 * @static
-	 */
-	static function isWinOS() {
-		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 	}
 
 	/**

@@ -216,21 +216,6 @@ class JSession extends JObject
 		return true;
 	}
 
-	/**
-	 * Method to determine a hash for anti-spoofing variable names
-	 *
-	 * @return	string	Hashed var name
-	 * @since	1.5
-	 * @static
-	 */
-	public function getFormToken($forceNew = false)
-	{
-		$user		= &JFactory::getUser();
-		$session	= &JFactory::getSession(); echo get_class($session);
-		$hash		= JApplication::getHash($user->get('id', 0).$session->getToken($forceNew));
-		return $hash;
-	}
-
 
 	/**
 	 * Get session name
