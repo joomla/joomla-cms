@@ -27,9 +27,6 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-09-Dec-2009 Ian MacLennan
- ^ Committed patch for JUtility care of Arlen Walker
-
 09-Dec-2009 Sam Moffatt
  ^ Committed patch for JCache care of Roben Goethals
  # Change to the installation SQL for the extensions table

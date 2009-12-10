@@ -767,15 +767,8 @@ class JStream extends JObject
 			$track_errors = ini_get('track_errors');
 			ini_set('track_errors', true);
 			$res = @stream_filter_prepend($this->_fh, $filername, $read_write, $params);
-			if(!$res && $php_errormsg)
-			{
-				$this->setError($php_errormsg); // set the error msg
-			}
-			else
-			{
-			   array_unshift(&$res,'');
-			   $res[0] =&$this->filters;
-			}
+			if(!$res && $php_errormsg) $this->setError($php_errormsg); // set the error msg
+			else JUtility::array_unshift_ref($res, $this->filters); // push the new resource onto the filter stack
 			// restore error tracking to what it was before
 			ini_set('track_errors',$track_errors);
 		}
