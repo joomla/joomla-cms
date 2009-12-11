@@ -118,7 +118,7 @@ var JFormValidator = new Class({
 		}
 
 		// Run custom form validators if present
-		$A(this.custom).each(function(validator){
+		new Hash(this.custom).each(function(validator){
 			if (validator.exec() != true) {
 				valid = false;
 			}
