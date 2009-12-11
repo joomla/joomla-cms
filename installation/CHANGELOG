@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Dec-2009 Andrew Eddie
+ # Doc updates to JModelList, internal refuddling.
+
 09-Dec-2009 Sam Moffatt
  ^ Committed patch for JCache care of Roben Goethals
  # Change to the installation SQL for the extensions table

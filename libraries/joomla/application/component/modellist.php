@@ -11,7 +11,7 @@ jimport('joomla.application.component.model');
 jimport('joomla.database.query');
 
 /**
- * Prototype list model.
+ * Model class for handling lists of items.
  *
  * @package		Joomla.Framework
  * @subpackage	Application
@@ -27,77 +27,38 @@ class JModelList extends JModel
 	protected $_totals = array();
 
 	/**
-	 * Array of lists containing items.
+	 * Internal memory based cache array of data.
 	 *
 	 * @var		array
 	 */
-	protected $_lists = array();
+	protected $_cache = array();
 
 	/**
-	 * Model context string.
+	 * Context string for the model type.  This is used to handle uniqueness
+	 * when dealing with the _getStoreId() method and caching data structures.
 	 *
 	 * @var		string
 	 */
 	protected $_context = null;
 
 	/**
-	 * Method to get a list of items.
+	 * Method to get an array of data items.
 	 *
-	 * @return	mixed	An array of objects on success, false on failure.
+	 * @return	mixed	An array of data items on success, false on failure.
 	 */
 	public function &getItems()
 	{
-		// Get a unique key for the current list state.
-		$key = $this->_getStoreId($this->_context);
+		// Get a storage key.
+		$store = $this->_getStoreId();
 
-		// Try to load the value from internal storage.
-		if (!empty ($this->_lists[$key])) {
-			return $this->_lists[$key];
+		// Try to load the data from internal storage.
+		if (!empty($this->_cache[$store])) {
+			return $this->_cache[$store];
 		}
 
-		// Load the list.
+		// Load the list items.
 		$query	= $this->_getListQuery();
-		$rows	= $this->_getList((string) $query, $this->getState('list.start'), $this->getState('list.limit'));
-
-		// Add the rows to the internal storage.
-		$this->_lists[$key] = $rows;
-
-		return $this->_lists[$key];
-	}
-
-	/**
-	 * Method to get a list pagination object.
-	 *
-	 * @return	object	A JPagination object.
-	 */
-	public function &getPagination()
-	{
-		jimport('joomla.html.pagination');
-
-		// Create the pagination object.
-		$instance = new JPagination($this->getTotal(), (int)$this->getState('list.start'), (int)$this->getState('list.limit'));
-
-		return $instance;
-	}
-
-	/**
-	 * Method to get the total number of published items.
-	 *
-	 * @return	int		The number of published items.
-	 */
-	public function getTotal()
-	{
-		// Get a unique key for the current list state.
-		$key = $this->_getStoreId($this->_context);
-
-		// Try to load the value from internal storage.
-		if (!empty ($this->_totals[$key])) {
-			return $this->_totals[$key];
-		}
-
-		// Load the total.
-		$query = $this->_getListQuery();
-		$return = (int) $this->_getListCount((string) $query);
+		$items	= $this->_getList((string) $query, $this->getState('list.start'), $this->getState('list.limit'));
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
@@ -106,16 +67,73 @@ class JModelList extends JModel
 			return false;
 		}
 
-		// Push the value into internal storage.
-		$this->_totals[$key] = $return;
+		// Add the items to the internal cache.
+		$this->_cache[$store] = $items;
 
-		return $this->_totals[$key];
+		return $this->_cache[$store];
 	}
 
 	/**
-	 * Method to build an SQL query to load the list data.
+	 * Method to get a JPagination object for the data set.
 	 *
-	 * @return	string		An SQL query
+	 * @return	object	A JPagination object for the data set.
+	 */
+	public function &getPagination()
+	{
+		// Get a storage key.
+		$store = $this->_getStoreId('getPagination');
+
+		// Try to load the data from internal storage.
+		if (!empty($this->_cache[$store])) {
+			return $this->_cache[$store];
+		}
+
+		// Create the pagination object.
+		jimport('joomla.html.pagination');
+		$page = new JPagination($this->getTotal(), (int) $this->getState('list.start'), (int) $this->getState('list.limit'));
+
+		// Add the object to the internal cache.
+		$this->_cache[$store] = $page;
+
+		return $this->_cache[$store];
+	}
+
+	/**
+	 * Method to get the total number of items for the data set.
+	 *
+	 * @return	integer	The total number of items available in the data set.
+	 */
+	public function getTotal()
+	{
+		// Get a storage key.
+		$store = $this->_getStoreId('getTotal');
+
+		// Try to load the data from internal storage.
+		if (!empty($this->_cache[$store])) {
+			return $this->_cache[$store];
+		}
+
+		// Load the total.
+		$query = $this->_getListQuery();
+		$total = (int) $this->_getListCount((string) $query);
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum())
+		{
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+
+		// Add the total to the internal cache.
+		$this->_cache[$store] = $total;
+
+		return $this->_cache[$store];
+	}
+
+	/**
+	 * Method to get a JQuery object for retrieving the data set from a database.
+	 *
+	 * @return	object	A JQuery object to retrieve the data set.
 	 */
 	protected function _getListQuery()
 	{
@@ -125,24 +143,24 @@ class JModelList extends JModel
 	}
 
 	/**
-	 * Method to get a store id based on model configuration state.
+	 * Method to get a store id based on the model configuration state.
 	 *
 	 * This is necessary because the model is used by the component and
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$context	A prefix for the store id.
-	 * @return	string		A store id.
+	 * @param	string	An identifier string to generate the store id.
+	 * @return	string	A store id.
 	 */
 	protected function _getStoreId($id = '')
 	{
-		// Compile the store id.
+		// Add the list state to the store id.
 		$id	.= ':'.$this->getState('list.start');
 		$id	.= ':'.$this->getState('list.limit');
 		$id	.= ':'.$this->getState('list.ordering');
 		$id	.= ':'.$this->getState('list.direction');
 
-		return md5($id);
+		return md5($this->_context.':'.$id);
 	}
 
 	/**
@@ -177,6 +195,7 @@ class JModelList extends JModel
 		else
 		{
 			$this->setState('list.start', 0);
+			$this->_state->set('list.limit', 0);
 		}
 	}
 }
