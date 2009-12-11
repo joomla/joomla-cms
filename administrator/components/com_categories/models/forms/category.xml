@@ -197,7 +197,7 @@
 		<field
 			name="image"
 			type="imagelist"
-			directory="/images/stories"
+			directory="/images"
 			hide_default="1"
 			default=""
 			label="Image"

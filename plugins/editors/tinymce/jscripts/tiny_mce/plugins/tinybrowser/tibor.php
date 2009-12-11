@@ -15,19 +15,19 @@ var_dump($tbpath);
 	$cfg['main_dir']    = ereg_replace("//", "/", dirname($_SERVER['PHP_SELF']));
 	$cfg['scripts']  	= $cfg['main_dir'] . '/scripts/'; 								// scripts dir; e.g. '/home/domain/public_html/ibrowser/scripts/'
 	$cfg['pop_url']    	= $cfg['scripts'] . 'popup.php'; 								// popup dir; relative to 'script' dir
-	$cfg['temp']     	= realpath(dirname(__FILE__) . '/../../../../../../../images/stories'); 					// temp dir; e.g. 'D:/www/temp'
+	$cfg['temp']     	= realpath(dirname(__FILE__) . '/../../../../../../../images'); 					// temp dir; e.g. 'D:/www/temp'
 
 var_dump($cfg);
 
 $docroot = rtrim($_SERVER['DOCUMENT_ROOT'],'/');
 echo $docroot;
 echo "<br>";
-$img = realpath(dirname(__FILE__) . '/../../../../../../../images/stories');
+$img = realpath(dirname(__FILE__) . '/../../../../../../../images');
 echo $img;
 echo "<br>";
-echo preg_replace('[\\\]', '/', realpath(dirname(__FILE__) . '/../../../../../../../images/stories'));
+echo preg_replace('[\\\]', '/', realpath(dirname(__FILE__) . '/../../../../../../../images'));
 echo "<br>";
-echo str_replace($docroot,'', preg_replace('[\\\]', '/', realpath(dirname(__FILE__) . '/../../../../../../../images/stories'))) ."/";
+echo str_replace($docroot,'', preg_replace('[\\\]', '/', realpath(dirname(__FILE__) . '/../../../../../../../images'))) ."/";
 
 
 ?>

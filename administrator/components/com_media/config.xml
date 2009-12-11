@@ -29,7 +29,7 @@
 			name="image_path"
 			type="text"
 			size="50"
-			default="images/stories"
+			default="images"
 			label="PATH TO IMAGE FOLDER"
 			description="TIPIMAGEFOLDERWARN" />
 

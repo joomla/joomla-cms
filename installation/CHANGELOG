@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Dec-2009 Louis Landry
+^ [#18958] Administrator > Site > System Information > Directory Permissions (images/stories/) - Thanks Ryan Briscall
+
 11-Dec-2009 Andrew Eddie
  # Doc updates to JModelList, internal refuddling.
  # Fix bugs in JForm package dependency inclusions; code formatting.

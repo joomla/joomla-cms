@@ -49,7 +49,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<td rowspan="2" align="right" valign="top">
 			<?php if ( $this->contact->image && $this->contact->params->get( 'show_image' ) ) : ?>
 				<div style="float: right;">
-					<?php echo JHTML::_('image', 'images/stories' . '/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middle')); ?>
+					<?php echo JHTML::_('image', 'images' . '/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middle')); ?>
 				</div>
 			<?php endif; ?>
 			</td>

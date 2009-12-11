@@ -51,9 +51,9 @@ $tinybrowser['unixpermissions'] = 0777;
 //$tinybrowser['path']['media'] = '/useruploads/media/'; // Media files location
 //$tinybrowser['path']['file']  = '/useruploads/files/'; // Other files location
 
-$tinybrowser['path']['image'] = str_replace($tinybrowser['docroot'],'', preg_replace('[\\\]', '/', realpath(dirname(__FILE__) . '/../../../../../../../images/stories'))) . '/'; // Image files location - also creates a '_thumbs' subdirectory within this path to hold the image thumbnails
-$tinybrowser['path']['media'] = str_replace($tinybrowser['docroot'],'', preg_replace('[\\\]', '/', realpath(dirname(__FILE__) . '/../../../../../../../images/stories'))) . '/'; // Media files location
-$tinybrowser['path']['file']  = str_replace($tinybrowser['docroot'],'', preg_replace('[\\\]', '/', realpath(dirname(__FILE__) . '/../../../../../../../images/stories'))) . '/'; // Other files location
+$tinybrowser['path']['image'] = str_replace($tinybrowser['docroot'],'', preg_replace('[\\\]', '/', realpath(dirname(__FILE__) . '/../../../../../../../images'))) . '/'; // Image files location - also creates a '_thumbs' subdirectory within this path to hold the image thumbnails
+$tinybrowser['path']['media'] = str_replace($tinybrowser['docroot'],'', preg_replace('[\\\]', '/', realpath(dirname(__FILE__) . '/../../../../../../../images'))) . '/'; // Media files location
+$tinybrowser['path']['file']  = str_replace($tinybrowser['docroot'],'', preg_replace('[\\\]', '/', realpath(dirname(__FILE__) . '/../../../../../../../images'))) . '/'; // Other files location
 
 
 // File link paths - these are the paths that get passed back to TinyMCE or your application (set to equal the upload path by default)

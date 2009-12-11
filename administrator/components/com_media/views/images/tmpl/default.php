@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die; ?>
 <script type='text/javascript'>
 var image_base_path = '<?php $params = &JComponentHelper::getParams('com_media');
-echo $params->get('image_path', 'images/stories');?>/';
+echo $params->get('image_path', 'images');?>/';
 </script>
 <form action="index.php" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">

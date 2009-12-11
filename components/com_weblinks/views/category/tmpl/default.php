@@ -31,7 +31,7 @@ TODO fix images in com_categories ?>
 		$attribs['hspace']	= 6;
 
 		// Use the static HTML library to build the image tag
-		echo JHtml::_('image', 'images/stories/'.$this->category->image, JText::_('Weblinks_Image Label'), $attribs);
+		echo JHtml::_('image', 'images/'.$this->category->image, JText::_('Weblinks_Image Label'), $attribs);
 	?>
 <?php endif; ?>
 <?php  **/ ?>
