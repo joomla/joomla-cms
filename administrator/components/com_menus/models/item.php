@@ -1093,7 +1093,7 @@ class MenusModelItem extends JModelForm
 		}
 
 		// Rebuild the hierarchy.
-		if (!$table->rebuildTree()) {
+		if (!$table->rebuild()) {
 			$this->setError($table->getError());
 			return false;
 		}
