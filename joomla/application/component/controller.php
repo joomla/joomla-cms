@@ -7,7 +7,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('JPATH_BASE') or die;
 
 /**
@@ -143,8 +143,7 @@ class JController extends JObject
 		$command	= JRequest::getCmd('task', 'display');
 
 		// Check for a controller.task command.
-		if (strpos($command, '.') !== false)
-		{
+		if (strpos($command, '.') !== false) {
 			// Explode the controller.task command.
 			list($type, $task) = explode('.', $command);
 
@@ -154,9 +153,7 @@ class JController extends JObject
 
 			// Reset the task without the contoller context.
 			JRequest::setVar('task', $task);
-		}
-		else
-		{
+		} else {
 			// Base controller.
 			$type	= null;
 			$task	= $command;
@@ -170,8 +167,7 @@ class JController extends JObject
 		$class = ucfirst($prefix).'Controller'.ucfirst($type);
 
 		// Include the class if not present.
-		if (!class_exists($class))
-		{
+		if (!class_exists($class)) {
 			// If the controller file path exists, include it.
 			if (file_exists($path)) {
 				require_once $path;
@@ -219,8 +215,7 @@ class JController extends JObject
 		$methods[] = 'display';
 
 		// Iterate through methods and map tasks
-		foreach ($methods as $method)
-		{
+		foreach ($methods as $method) {
 			if (substr($method, 0, 1) != '_') {
 				$this->_methods[] = strtolower($method);
 				// auto register public methods as tasks
@@ -229,8 +224,7 @@ class JController extends JObject
 		}
 
 		//set the view name
-		if (empty($this->_name))
-		{
+		if (empty($this->_name)) {
 			if (array_key_exists('name', $config))  {
 				$this->_name = $config['name'];
 			} else {
@@ -296,13 +290,10 @@ class JController extends JObject
 		$this->_doTask = $doTask;
 
 		// Make sure we have access
-		if ($this->authorize($doTask))
-		{
+		if ($this->authorize($doTask)) {
 			$retval = $this->$doTask();
 			return $retval;
-		}
-		else
-		{
+		} else {
 			return JError::raiseError(403, JText::_('Access Forbidden'));
 		}
 
@@ -319,8 +310,7 @@ class JController extends JObject
 	function authorize($task)
 	{
 		// Only do access check if the aco section is set
-		if ($this->_acoSection)
-		{
+		if ($this->_acoSection) {
 			// If we have a section value set that trumps the passed task ???
 			if ($this->_acoSectionValue) {
 				// We have one, so set it and lets do the check
@@ -329,9 +319,7 @@ class JController extends JObject
 			// Get the JUser object for the current user and return the authorization boolean
 			$user = & JFactory::getUser();
 			return $user->authorize($this->_acoSection, $task);
-		}
-		else
-		{
+		} else {
 			// Nothing set, nothing to check... so obviously its ok :)
 			return true;
 		}
@@ -411,8 +399,7 @@ class JController extends JObject
 			$prefix = $this->getName() . 'Model';
 		}
 
-		if ($model = & $this->_createModel($name, $prefix, $config))
-		{
+		if ($model = & $this->_createModel($name, $prefix, $config)) {
 			// task is a reserved state
 			$model->setState('task', $this->_task);
 
@@ -483,8 +470,7 @@ class JController extends JObject
 	{
 		$name = $this->_name;
 
-		if (empty($name))
-		{
+		if (empty($name)) {
 			$r = null;
 			if (!preg_match('/(.*)Controller/i', get_class($this), $r)) {
 				JError::raiseError(500, "JController::getName() : Cannot get or parse class name.");
@@ -514,17 +500,13 @@ class JController extends JObject
 		if (!isset($views)) {
 			$views = array();
 		}
-
 		if (empty($name)) {
 			$name = $this->getName();
 		}
-
 		if (empty($prefix)) {
 			$prefix = $this->getName() . 'View';
 		}
-
-		if (empty($views[$name]))
-		{
+		if (empty($views[$name])) {
 			if ($view = & $this->_createView($name, $prefix, $type, $config)) {
 				$views[$name] = & $view;
 			} else {
@@ -685,8 +667,7 @@ class JController extends JObject
 		// Build the view class name
 		$viewClass = $classPrefix . $viewName;
 
-		if (!class_exists($viewClass))
-		{
+		if (!class_exists($viewClass)) {
 			jimport('joomla.filesystem.path');
 			$path = JPath::find(
 				$this->_path['view'],
@@ -741,8 +722,7 @@ class JController extends JObject
 		settype($path, 'array');
 
 		// loop through the path directories
-		foreach ($path as $dir)
-		{
+		foreach ($path as $dir) {
 			// no surrounding spaces allowed!
 			$dir = trim($dir);
 
