@@ -102,7 +102,7 @@ class JModelForm extends JModel
 	 * @param	boolean		$clear		Optional argument to force load a new form.
 	 * @return	mixed		JForm object on success, False on error.
 	 */
-	function &getForm($xml, $name = 'form', $options = array(), $clear = false)
+	function getForm($xml, $name = 'form', $options = array(), $clear = false)
 	{
 		// Handle the optional arguments.
 		$options['array']	= array_key_exists('array',	$options) ? $options['array'] : false;

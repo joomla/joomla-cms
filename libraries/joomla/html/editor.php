@@ -46,16 +46,13 @@ class JEditor extends JObservable
 	}
 
 	/**
-	 * Returns a reference to a global Editor object, only creating it
+	 * Returns the global Editor object, only creating it
 	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $editor = &JEditor::getInstance([$editor);</pre>
 	 *
 	 * @param	string	$editor  The editor to use.
 	 * @return	JEditor	The Editor object.
 	 */
-	public static function &getInstance($editor = 'none')
+	public static function getInstance($editor = 'none')
 	{
 		static $instances;
 

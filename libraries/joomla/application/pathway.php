@@ -45,10 +45,7 @@ class JPathway extends JObject
 	}
 
 	/**
-	 * Returns a reference a JPathway object
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $menu = &JPathway::getInstance();</pre>
+	 * Returns a JPathway object
 	 *
 	 * @access	public
 	 * @param   string  $client  The name of the client
@@ -56,7 +53,7 @@ class JPathway extends JObject
 	 * @return JPathway 	A pathway object.
 	 * @since	1.5
 	 */
-	static function &getInstance($client, $options = array())
+	static function getInstance($client, $options = array())
 	{
 		static $instances;
 

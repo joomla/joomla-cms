@@ -168,7 +168,7 @@ abstract class JDatabase extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global Database object, only creating it
+	 * Returns the global Database object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * The 'driver' entry in the parameters array specifies the database driver
@@ -179,7 +179,7 @@ abstract class JDatabase extends JObject
 	 * @return JDatabase A database object
 	 * @since 1.5
 	 */
-	public static function &getInstance($options = array())
+	public static function getInstance($options = array())
 	{
 		static $instances;
 
@@ -204,8 +204,7 @@ abstract class JDatabase extends JObject
 			else
 			{
 				JError::setErrorHandling(E_ERROR, 'die'); //force error type to die
-				$error = JError::raiseError(500, JTEXT::_('Unable to load Database Driver:') .$driver);
-				return $error;
+				return JError::raiseError(500, JTEXT::_('Unable to load Database Driver:') .$driver);
 			}
 
 			$adapter	= 'JDatabase'.$driver;
@@ -214,8 +213,7 @@ abstract class JDatabase extends JObject
 			if ($error = $instance->getErrorMsg())
 			{
 				JError::setErrorHandling(E_ERROR, 'ignore'); //force error type to die
-				$error = JError::raiseError(500, JTEXT::_('Unable to connect to the database:') .$error);
-				return $error;
+				return JError::raiseError(500, JTEXT::_('Unable to connect to the database:') .$error);
 			}
 
 			$instances[$signature] = & $instance;

@@ -33,7 +33,7 @@ class JComponentHelper
 	 * @param 	boolean	$string	If set and a component does not exist, the enabled attribue will be set to false
 	 * @return	object			An object with the fields for the component.
 	 */
-	public static function &getComponent($option, $strict = false)
+	public static function getComponent($option, $strict = false)
 	{
 		if (self::$_components === null) {
 			self::_load();
@@ -79,7 +79,7 @@ class JComponentHelper
 	 * @param 	boolean	$string	If set and a component does not exist, false will be returned
 	 * @return	JRegistry		As of 1.6, this method returns a JRegistry (previous versions returned JParameter).
 	 */
-	public static function &getParams($option, $strict = false)
+	public static function getParams($option, $strict = false)
 	{
 		$component = &self::getComponent($option, $strict);
 		return $component->params;

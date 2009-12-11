@@ -374,7 +374,7 @@ class JView extends JObject
 	 * @param	string	$name	The name of the model (optional)
 	 * @return	mixed			JModel object
 	 */
-	function &getModel($name = null)
+	function getModel($name = null)
 	{
 		if ($name === null) {
 			$name = $this->_defaultModel;
@@ -438,7 +438,7 @@ class JView extends JObject
 	 * @param	boolean	$default	Is this the default model?
 	 * @return	object				The added model
 	 */
-	function &setModel(&$model, $default = false)
+	function setModel(&$model, $default = false)
 	{
 		$name = strtolower($model->getName());
 		$this->_models[$name] = &$model;

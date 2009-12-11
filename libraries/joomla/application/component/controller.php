@@ -129,7 +129,7 @@ class JController extends JObject
 	 * @return	mixed		JController derivative class or JException on error.
 	 * @since	1.6
 	 */
-	public static function &getInstance($prefix, $config = array())
+	public static function getInstance($prefix, $config = array())
 	{
 		static $instance;
 
@@ -389,7 +389,7 @@ class JController extends JObject
 	 * @return	object	The model.
 	 * @since	1.5
 	 */
-	function &getModel($name = '', $prefix = '', $config = array())
+	function getModel($name = '', $prefix = '', $config = array())
 	{
 		if (empty($name)) {
 			$name = $this->getName();
@@ -493,7 +493,7 @@ class JController extends JObject
 	 * @return	object	Reference to the view or an error.
 	 * @since	1.5
 	 */
-	function &getView($name = '', $type = '', $prefix = '', $config = array())
+	function getView($name = '', $type = '', $prefix = '', $config = array())
 	{
 		static $views;
 
@@ -627,10 +627,8 @@ class JController extends JObject
 	 * failure.
 	 * @since	1.5
 	 */
-	function &_createModel($name, $prefix = '', $config = array())
+	function _createModel($name, $prefix = '', $config = array())
 	{
-		$result = null;
-
 		// Clean the model name
 		$modelName	 = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
@@ -655,10 +653,8 @@ class JController extends JObject
 	 * @return	mixed	View object on success; null or error result on failure.
 	 * @since	1.5
 	 */
-	function &_createView($name, $prefix = '', $type = '', $config = array())
+	function _createView($name, $prefix = '', $type = '', $config = array())
 	{
-		$result = null;
-
 		// Clean the view name
 		$viewName	 = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
@@ -680,15 +676,14 @@ class JController extends JObject
 					$result = JError::raiseError(
 						500, JText::_('View class not found [class, file]:')
 						. ' ' . $viewClass . ', ' . $path);
-					return $result;
+					return null;
 				}
 			} else {
-				return $result;
+				return null;
 			}
 		}
 
-		$result = new $viewClass($config);
-		return $result;
+		return new $viewClass($config);
 	}
 
 	/**

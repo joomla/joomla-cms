@@ -65,7 +65,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @access private
 	 * @return object memcache connection object
 	 */
-	function &getConnection() {
+	function getConnection() {
 		static $db = null;
 		if (is_null($db)) {
 			$params = &JCacheStorageMemcache::getConfig();
@@ -89,7 +89,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @access private
 	 * @return array options
 	 */
-	function &getConfig() {
+	function getConfig() {
 		static $params = null;
 		if (is_null($params)) {
 			$config = &JFactory::getConfig();

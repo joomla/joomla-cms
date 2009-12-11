@@ -26,19 +26,14 @@ jimport('joomla.base.observable');
 class JDispatcher extends JObservable
 {
 	/**
-	 * Returns a reference to the global Event Dispatcher object, only creating it
+	 * Returns the global Event Dispatcher object, only creating it
 	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * <pre>
-	 *		$dispatcher = &JDispatcher::getInstance();
-	 * </pre>
 	 *
 	 * @access	public
 	 * @return	JDispatcher		The EventDispatcher object.
 	 * @since	1.5
 	 */
-	public static function &getInstance()
+	public static function getInstance()
 	{
 		static $instance;
 

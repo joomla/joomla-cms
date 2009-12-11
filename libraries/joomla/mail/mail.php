@@ -33,11 +33,8 @@ abstract class JMail extends PHPMailer
 	}
 
 	/**
-	 * Returns a reference to a global e-mail object, only creating it
+	 * Returns the global e-mail object, only creating it
 	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $mail = &JMail::getInstance();</pre>
 	 *
 	 * NOTE: If you need an instance to use that does not have the global configuration
 	 * values, use an id string that is not 'Joomla'.
@@ -48,7 +45,7 @@ abstract class JMail extends PHPMailer
 	 * @return	object	The global JMail object
 	 * @since	1.5
 	 */
-	public static function &getInstance($id = 'Joomla')
+	public static function getInstance($id = 'Joomla')
 	{
 		static $instances;
 
@@ -68,7 +65,7 @@ abstract class JMail extends PHPMailer
 	 *
 	 * @return	mixed	True if successful, a JError object otherwise
 	 */
-	public function &Send()
+	public function Send()
 	{
 		if (($this->Mailer == 'mail') && ! function_exists('mail'))
 		{
@@ -80,7 +77,7 @@ abstract class JMail extends PHPMailer
 		if ($result == false)
 		{
 			// TODO: Set an appropriate error number
-			$result = &JError::raiseNotice(500, JText::_($this->ErrorInfo));
+			$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
 		}
 		return $result;
 	}

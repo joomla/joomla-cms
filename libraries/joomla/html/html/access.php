@@ -218,7 +218,7 @@ abstract class JHtmlAccess
 	 *
 	 * @return	mixed			An array or false if an error occurs
 	 */
-	public static function &assetgroups($config = array())
+	public static function assetgroups($config = array())
 	{
 		if (empty(JHtmlAccess::$asset_groups))
 		{

@@ -21,14 +21,14 @@ defined('JPATH_BASE') or die;
 abstract class JRegistryFormat extends JObject
 {
 	/**
-	 * Returns a reference to a Format object, only creating it
+	 * Returns a Format object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @param	string	$format	The format to load
 	 * @return	object	Registry format handler
 	 * @since	1.5
 	 */
-	public static function &getInstance($format)
+	public static function getInstance($format)
 	{
 		static $instances;
 

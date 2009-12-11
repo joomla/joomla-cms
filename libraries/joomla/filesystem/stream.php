@@ -734,7 +734,7 @@ class JStream extends JObject
 	 * @param
 	 * @see http://www.php.net/manual/en/function.stream-filter-append.php
 	 */
-	function &appendFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() )
+	function appendFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() )
 	{
 		$res = false;
 		if($this->_fh)
@@ -757,7 +757,7 @@ class JStream extends JObject
 		return $res;
 	}
 
-	function &prependFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() )
+	function prependFilter($filtername, $read_write=STREAM_FILTER_READ, $params=Array() )
 	{
 		$res = false;
 		if($this->_fh)

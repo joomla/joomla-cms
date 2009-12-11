@@ -67,18 +67,15 @@ class JRegistry extends JObject
 	}
 
 	/**
-	 * Returns a reference to a global JRegistry object, only creating it
+	 * Returns the global JRegistry object, only creating it
 	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>$registry = &JRegistry::getInstance($id[, $namespace]);</pre>
 	 *
 	 * @param	string	$id			An ID for the registry instance
 	 * @param	string	$namespace	The default namespace for the registry object [optional]
 	 * @return	object	The JRegistry object.
 	 * @since	1.5
 	 */
-	public static function &getInstance($id, $namespace = 'default')
+	public static function getInstance($id, $namespace = 'default')
 	{
 		static $instances;
 

@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 11-Dec-2009 Louis Landry
-^ [#18958] Administrator > Site > System Information > Directory Permissions (images/stories/) - Thanks Ryan Briscall
+ ^ [#18958] Administrator > Site > System Information > Directory Permissions (images/stories/) - Thanks Ryan Briscall
+ ^ Clean up of reference operators as they aren't needed in PHP5 - Thanks Joe LeBlanc
 
 11-Dec-2009 Andrew Eddie
  # Doc updates to JModelList, internal refuddling.

@@ -65,17 +65,14 @@ class JToolBar extends JObject
 	}
 
 	/**
-	 * Returns a reference to a global JToolBar object, only creating it if it
+	 * Returns the global JToolBar object, only creating it if it
 	 * doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $toolbar = & JToolBar::getInstance($name);</pre>
 	 *
 	 * @access	public
 	 * @param	string		$name  The name of the toolbar.
 	 * @return	JToolBar	The JToolBar object.
 	 */
-	public static function &getInstance($name = 'toolbar')
+	public static function getInstance($name = 'toolbar')
 	{
 		static $instances;
 
@@ -197,7 +194,7 @@ class JToolBar extends JObject
 	 * @return	object
 	 * @since	1.5
 	 */
-	public function &loadButtonType($type, $new = false)
+	public function loadButtonType($type, $new = false)
 	{
 		$signature = md5($type);
 		if (isset ($this->_buttons[$signature]) && $new === false) {

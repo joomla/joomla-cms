@@ -110,7 +110,7 @@ class JControllerForm extends JController
 	 *
 	 * @return	object	The model.
 	 */
-	public function &getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
 	{
 		if (empty($name)) {
 			$name = $this->_context;

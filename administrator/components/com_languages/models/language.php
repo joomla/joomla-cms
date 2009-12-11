@@ -22,7 +22,7 @@ class LanguagesModelLanguage extends JModelForm
 	/**
 	 * Override to get the table
 	 */
-	public function &getTable()
+	public function getTable()
 	{
 		return JTable::getInstance('Language');
 	}

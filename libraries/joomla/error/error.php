@@ -74,11 +74,10 @@ w
 	 * @return	mixed	Last exception object in the error stack or boolean false if none exist
 	 * @since	1.5
 	 */
-	public static function & getError($unset = false)
+	public static function getError($unset = false)
 	{
 		if (!isset(JError::$stack[0])) {
-			$false = false;
-			return $false;
+			return false;
 		}
 		if ($unset) {
 			$error = array_shift(JError::$stack[0]);
@@ -97,7 +96,7 @@ w
 	 * @return	array 	Chronological array of errors that have been stored during script execution
 	 * @since	1.5
 	 */
-	public static function & getErrors()
+	public static function getErrors()
 	{
 		return JError::$stack[0];
 	}
@@ -127,7 +126,7 @@ w
 	 *
 	 * @see		JException
 	 */
-	public static function &raise($level, $code, $msg, $info = null, $backtrace = false)
+	public static function raise($level, $code, $msg, $info = null, $backtrace = false)
 	{
 		jimport('joomla.error.exception');
 
@@ -136,7 +135,7 @@ w
 		return JError::throwError($exception);
 	}
 
-	public static function &throwError(&$exception)
+	public static function throwError(&$exception)
 	{
 		static $thrown = false;
 
@@ -182,10 +181,9 @@ w
 	 * @return	object	$error	The configured JError object
 	 * @since	1.5
 	 */
-	public static function & raiseError($code, $msg, $info = null)
+	public static function raiseError($code, $msg, $info = null)
 	{
-		$reference = & JError::raise(E_ERROR, $code, $msg, $info, true);
-		return $reference;
+		return JError::raise(E_ERROR, $code, $msg, $info, true);
 	}
 
 	/**
@@ -198,10 +196,9 @@ w
 	 * @return	object	$error	The configured JError object
 	 * @since	1.5
 	 */
-	public static function & raiseWarning($code, $msg, $info = null)
+	public static function raiseWarning($code, $msg, $info = null)
 	{
-		$reference = & JError::raise(E_WARNING, $code, $msg, $info);
-		return $reference;
+ 		return JError::raise(E_WARNING, $code, $msg, $info);
 	}
 
 	/**
@@ -214,10 +211,9 @@ w
 	 * @return	object	$error	The configured JError object
 	 * @since	1.5
 	 */
-	public static function & raiseNotice($code, $msg, $info = null)
+	public static function raiseNotice($code, $msg, $info = null)
 	{
-		$reference = & JError::raise(E_NOTICE, $code, $msg, $info);
-		return $reference;
+		return JError::raise(E_NOTICE, $code, $msg, $info);
 	}
 
 	/**
@@ -381,7 +377,7 @@ w
 	 *
 	 * @see	raise()
 	 */
-	public static function &handleIgnore(&$error, $options)
+	public static function handleIgnore(&$error, $options)
 	{
 		return $error;
 	}
@@ -398,7 +394,7 @@ w
 	 *
 	 * @see	raise()
 	 */
-	public static function &handleEcho(&$error, $options)
+	public static function handleEcho(&$error, $options)
 	{
 		$level_human = JError::translateErrorLevel($error->get('level'));
 
@@ -432,7 +428,7 @@ w
 	 *
 	 * @see	raise()
 	 */
-	public static function &handleVerbose(& $error, $options)
+	public static function handleVerbose(& $error, $options)
 	{
 		$level_human = JError::translateErrorLevel($error->get('level'));
 		$info = $error->get('info');
@@ -470,7 +466,7 @@ w
 	 *
 	 * @see	raise()
 	 */
-	public static function &handleDie(& $error, $options)
+	public static function handleDie(& $error, $options)
 	{
 		$level_human = JError::translateErrorLevel($error->get('level'));
 
@@ -504,7 +500,7 @@ w
 	 *
 	 * @see	raise()
 	 */
-	public static function &handleMessage(& $error, $options)
+	public static function handleMessage(& $error, $options)
 	{
 		$appl = JFactory::getApplication();
 		$type = ($error->get('level') == E_NOTICE) ? 'notice' : 'error';
@@ -524,7 +520,7 @@ w
 	 *
 	 * @see	raise()
 	 */
-	public static function &handleLog(& $error, $options)
+	public static function handleLog(& $error, $options)
 	{
 		static $log;
 
@@ -556,10 +552,9 @@ w
 	 *
 	 * @see	raise()
 	 */
-	public static function &handleCallback(&$error, $options)
+	public static function handleCallback(&$error, $options)
 	{
-		$result = call_user_func($options, $error);
-		return $result;
+		return call_user_func($options, $error);
 	}
 
 	/**

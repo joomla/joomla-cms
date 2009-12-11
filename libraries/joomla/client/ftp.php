@@ -182,11 +182,8 @@ class JFTP extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global FTP connector object, only creating it
+	 * Returns the global FTP connector object, only creating it
 	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $ftp = &JFTP::getInstance($host);</pre>
 	 *
 	 * You may optionally specify a username and password in the parameters. If you do so,
 	 * you may not login() again with different credentials using the same object.
@@ -201,7 +198,7 @@ class JFTP extends JObject
 	 * @return	JFTP	The FTP Client object.
 	 * @since 1.5
 	 */
-	function &getInstance($host = '127.0.0.1', $port = '21', $options = null, $user = null, $pass = null)
+	function getInstance($host = '127.0.0.1', $port = '21', $options = null, $user = null, $pass = null)
 	{
 		static $instances = array();
 

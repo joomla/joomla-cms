@@ -167,20 +167,15 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Returns a reference to a language object
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $browser = &JLanguage::getInstance([$lang);</pre>
+	 * Returns a language object
 	 *
 	 * @param	string $lang  The language to use.
 	 * @return	JLanguage  The Language object.
 	 * @since	1.5
 	 */
-	public static function &getInstance($lang)
+	public static function getInstance($lang)
 	{
-		$instance = new JLanguage($lang);
-		$reference = & $instance;
-		return $reference;
+		return new JLanguage($lang);
 	}
 
 	/**

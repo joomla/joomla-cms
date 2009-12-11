@@ -182,7 +182,7 @@ class JQuery
 	/**
 	 * @param	string
 	 */
-	public function &innerJoin($conditions)
+	public function innerJoin($conditions)
 	{
 		$this->join('INNER', $conditions);
 
@@ -192,7 +192,7 @@ class JQuery
 	/**
 	 * @param	string
 	 */
-	public function &outerJoin($conditions)
+	public function outerJoin($conditions)
 	{
 		$this->join('OUTER', $conditions);
 
@@ -202,7 +202,7 @@ class JQuery
 	/**
 	 * @param	string
 	 */
-	public function &leftJoin($conditions)
+	public function leftJoin($conditions)
 	{
 		$this->join('LEFT', $conditions);
 
@@ -212,7 +212,7 @@ class JQuery
 	/**
 	 * @param	string
 	 */
-	public function &rightJoin($conditions)
+	public function rightJoin($conditions)
 	{
 		$this->join('RIGHT', $conditions);
 

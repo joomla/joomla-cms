@@ -68,17 +68,14 @@ class JRouter extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global JRouter object, only creating it if it
+	 * Returns the global JRouter object, only creating it if it
 	 * doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $menu = &JRouter::getInstance();</pre>
 	 *
 	 * @param string  $client  The name of the client
 	 * @param array   $options An associative array of options
 	 * @return	JRouter	A router object.
 	 */
-	public static function &getInstance($client, $options = array())
+	public static function getInstance($client, $options = array())
 	{
 		static $instances;
 
@@ -141,7 +138,7 @@ class JRouter extends JObject
 	 * @param	string	$string	The internal URL
 	 * @return	string	The absolute search engine friendly URL
 	 */
-	function &build($url)
+	function build($url)
 	{
 		//Create the URI object
 		$uri = &$this->_createURI($url);
@@ -341,7 +338,7 @@ class JRouter extends JObject
 	 * @access	protected
 	 * @return  JURI  A JURI object
  	 */
-	function &_createURI($url)
+	function _createURI($url)
 	{
 		// Create full URL if we are only appending variables to it
 		if (substr($url, 0, 1) == '&')
@@ -367,9 +364,7 @@ class JRouter extends JObject
 		}
 
 		// Decompose link into url component parts
-		$uri = new JURI($url);
-
-		return $uri;
+		return new JURI($url);
 	}
 
 	/**

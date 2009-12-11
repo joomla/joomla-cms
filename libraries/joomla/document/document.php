@@ -239,16 +239,13 @@ class JDocument extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global JDocument object, only creating it
+	 * Returns the global JDocument object, only creating it
 	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $document = &JDocument::getInstance();</pre>
 	 *
 	 * @param type $type The document type to instantiate
 	 * @return object  The document object.
 	 */
-	public static function &getInstance($type = 'html', $attributes = array())
+	public static function getInstance($type = 'html', $attributes = array())
 	{
 		static $instances;
 
@@ -732,9 +729,8 @@ class JDocument extends JObject
 	* @return	object
 	* @since 1.5
 	*/
-	function &loadRenderer($type)
+	function loadRenderer($type)
 	{
-		$null	= null;
 		$class	= 'JDocumentRenderer'.$type;
 
 		if (!class_exists($class))
@@ -748,7 +744,7 @@ class JDocument extends JObject
 		}
 
 		if (!class_exists($class)) {
-			return $null;
+			return null;
 		}
 
 		$instance = new $class($this);
