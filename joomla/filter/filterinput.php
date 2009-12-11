@@ -58,10 +58,7 @@ class JFilterInput extends JObject
 	}
 
 	/**
-	 * Returns a reference to an input filter object, only creating it if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $filter = & JFilterInput::getInstance();</pre>
+	 * Returns an input filter object, only creating it if it doesn't already exist.
 	 *
 	 * @param	array	$tagsArray	list of user-defined tags
 	 * @param	array	$attrArray	list of user-defined attributes
@@ -71,7 +68,7 @@ class JFilterInput extends JObject
 	 * @return	object	The JFilterInput object.
 	 * @since	1.5
 	 */
-	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
+	public static function getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
 	{
 		static $instances;
 

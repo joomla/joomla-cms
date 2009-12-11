@@ -45,7 +45,7 @@ class JCacheStorage extends JObject
 	}
 
 	/**
-	 * Returns a reference to a cache storage hanlder object, only creating it
+	 * Returns a cache storage hanlder object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @static
@@ -53,7 +53,7 @@ class JCacheStorage extends JObject
 	 * @return	object	A JCacheStorageHandler object
 	 * @since	1.5
 	 */
-	function &getInstance($handler = 'file', $options = array())
+	function getInstance($handler = 'file', $options = array())
 	{
 		static $now = null;
 		if (is_null($now)) {
@@ -72,8 +72,8 @@ class JCacheStorage extends JObject
 				return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
 			}
 		}
-		$return = new $class($options);
-		return $return;
+
+		return new $class($options);
 	}
 
 	/**

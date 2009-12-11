@@ -342,7 +342,7 @@ abstract class JHtmlSelect
 	 * parameter is ignored if an options array is passed.
 	 * @return  object
 	 */
-	public static function &option(
+	public static function option(
 		$value, $text = '', $optKey = 'value', $optText = 'text', $disable = false
 	) {
 		$options = array(

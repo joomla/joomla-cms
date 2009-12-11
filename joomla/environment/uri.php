@@ -98,17 +98,14 @@ class JURI extends JObject
 	}
 
 	/**
-	 * Returns a reference to a global JURI object, only creating it
+	 * Returns the global JURI object, only creating it
 	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $uri = &JURI::getInstance([$uri]);</pre>
 	 *
 	 * @param	string $uri The URI to parse.  [optional: if null uses script URI]
 	 * @return	JURI  The URI object.
 	 * @since	1.5
 	 */
-	public static function &getInstance($uri = 'SERVER')
+	public static function getInstance($uri = 'SERVER')
 	{
 		static $instances = array();
 

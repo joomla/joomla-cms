@@ -70,7 +70,7 @@ class JForm extends JObject
 	 * @param	array		$options	An array of options to pass to the form.
 	 * @return	object		A JForm instance.
 	 */
-	public static function &getInstance($data, $name = 'form', $file = true, $options = array())
+	public static function getInstance($data, $name = 'form', $file = true, $options = array())
 	{
 		static $instances;
 
@@ -888,9 +888,8 @@ class JForm extends JObject
 	 * @param	boolean		$new		Flag to toggle whether we should get a new instance of the object.
 	 * @return	mixed		Field object on success, false otherwise.
 	 */
-	public function &loadFieldType($type, $new = true)
+	public function loadFieldType($type, $new = true)
 	{
-		$false	= false;
 		$key	= md5($type);
 		$class	= 'JFormField'.ucfirst($type);
 
@@ -932,12 +931,12 @@ class JForm extends JObject
 			if ($file = JPath::find($paths, strtolower($type).'.php')) {
 				require_once $file;
 			} else {
-				return $false;
+				return false;
 			}
 
 			// Check once and for all if the class exists.
 			if (!class_exists($class)) {
-				return $false;
+				return false;
 			}
 		}
 

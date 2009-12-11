@@ -86,14 +86,14 @@ class JInstaller extends JAdapter
 	}
 
 	/**
-	 * Returns a reference to the global Installer object, only creating it
+	 * Returns the global Installer object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @static
 	 * @return	object	An installer object
 	 * @since 1.5
 	 */
-	public static function &getInstance()
+	public static function getInstance()
 	{
 		static $instance;
 
@@ -174,7 +174,7 @@ class JInstaller extends JAdapter
 	 * @return	object	Manifest object
 	 * @since	1.5
 	 */
-	public function &getManifest()
+	public function getManifest()
 	{
 		if (!is_object($this->manifest)) {
 			$this->findManifest();
@@ -1434,10 +1434,9 @@ class JInstaller extends JAdapter
 	 * @return	mixed	A JSimpleXML document, or null if the file failed to parse
 	 * @since	1.5
 	 */
-	public function &isManifest($file)
+	public function isManifest($file)
 	{
 		// Initialize variables
-		$null	= null;
 		$xml	= &JFactory::getXMLParser('Simple');
 
 		// If we cannot load the xml file return null
@@ -1445,7 +1444,7 @@ class JInstaller extends JAdapter
 		{
 			// Free up xml parser memory and return null
 			unset ($xml);
-			return $null;
+			return null;
 		}
 
 		/*
@@ -1460,7 +1459,7 @@ class JInstaller extends JAdapter
 		{
 			// Free up xml parser memory and return null
 			unset ($xml);
-			return $null;
+			return null;
 		}
 
 		// Valid manifest file return the object

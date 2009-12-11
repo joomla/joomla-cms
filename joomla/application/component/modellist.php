@@ -46,7 +46,7 @@ class JModelList extends JModel
 	 *
 	 * @return	mixed	An array of data items on success, false on failure.
 	 */
-	public function &getItems()
+	public function getItems()
 	{
 		// Get a storage key.
 		$store = $this->_getStoreId();
@@ -78,7 +78,7 @@ class JModelList extends JModel
 	 *
 	 * @return	object	A JPagination object for the data set.
 	 */
-	public function &getPagination()
+	public function getPagination()
 	{
 		// Get a storage key.
 		$store = $this->_getStoreId('getPagination');

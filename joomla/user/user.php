@@ -165,18 +165,15 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global User object, only creating it if it
+	 * Returns the global User object, only creating it if it
 	 * doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $user = &JUser::getInstance($id);</pre>
 	 *
 	 * @access 	public
 	 * @param 	int 	$id 	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 * @return 	JUser  			The User object.
 	 * @since 	1.5
 	 */
-	static function &getInstance($id = 0)
+	static function getInstance($id = 0)
 	{
 		static $instances;
 
@@ -318,7 +315,7 @@ class JUser extends JObject
 	 * @return	object	The user parameters object
 	 * @since	1.5
 	 */
-	function &getParameters($loadsetupfile = false, $path = null)
+	function getParameters($loadsetupfile = false, $path = null)
 	{
 		static $parampath;
 
@@ -371,7 +368,7 @@ class JUser extends JObject
 	 * @return	object	The user table object
 	 * @since	1.5
 	 */
-	function &getTable($type = null, $prefix = 'JTable')
+	function getTable($type = null, $prefix = 'JTable')
 	{
 		static $tabletype;
 
@@ -388,8 +385,7 @@ class JUser extends JObject
 		}
 
 		// Create the user table object
-		$table 	= &JTable::getInstance($tabletype['name'], $tabletype['prefix']);
-		return $table;
+		return JTable::getInstance($tabletype['name'], $tabletype['prefix']);
 	}
 
 	/**

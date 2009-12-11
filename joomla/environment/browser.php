@@ -165,17 +165,14 @@ class JBrowser extends JObject
     }
 
     /**
-     * Returns a reference to the global Browser object, only creating it
+     * Returns the global Browser object, only creating it
      * if it doesn't already exist.
-     *
-     * This method must be invoked as:
-     *      <pre>  $browser = &JBrowser::getInstance([$userAgent[, $accept]]);</pre>
      *
      * @param string $userAgent  The browser string to parse.
      * @param string $accept     The HTTP_ACCEPT settings to use.
      * @return JBrowser  The Browser object.
      */
-	static public function &getInstance($userAgent = null, $accept = null)
+	static public function getInstance($userAgent = null, $accept = null)
     {
         static $instances;
 

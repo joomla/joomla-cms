@@ -63,17 +63,14 @@ class JMenu extends JObject
 	}
 
 	/**
-	 * Returns a reference to a JMenu object
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $menu = &JSite::getMenu();</pre>
+	 * Returns a JMenu object
 	 *
 	 * @param   string  $client  The name of the client
 	 * @param array     $options An associative array of options
 	 * @return JMenu 	A menu object.
 	 * @since	1.5
 	 */
-	public static function &getInstance($client, $options = array())
+	public static function getInstance($client, $options = array())
 	{
 		static $instances;
 
@@ -115,7 +112,7 @@ class JMenu extends JObject
 	 * @param int The item id
 	 * @return mixed The item object, or null if not found
 	 */
-	function &getItem($id)
+	function getItem($id)
 	{
 		$result = null;
 		if (isset($this->_items[$id])) {
@@ -149,10 +146,9 @@ class JMenu extends JObject
 	 *
 	 * @return object The item object
 	 */
-	function &getDefault()
+	function getDefault()
 	{
-		$item = &$this->_items[$this->_default];
-		return $item;
+		return $this->_items[$this->_default];
 	}
 
 	/**
@@ -162,7 +158,7 @@ class JMenu extends JObject
 	 * @access public
 	 * @return If successfull the active item, otherwise null
 	 */
-	function &setActive($id)
+	function setActive($id)
 	{
 		if (isset($this->_items[$id]))
 		{
@@ -171,8 +167,7 @@ class JMenu extends JObject
 			return $result;
 		}
 
-		$result = null;
-		return $result;
+		return null;
 	}
 
 	/**
@@ -182,15 +177,14 @@ class JMenu extends JObject
 	 *
 	 * @return object The item object
 	 */
-	function &getActive()
+	function getActive()
 	{
 		if ($this->_active) {
 			$item = &$this->_items[$this->_active];
 			return $item;
 		}
 
-		$result = null;
-		return $result;
+		return null;
 	}
 
 	/**
@@ -232,15 +226,14 @@ class JMenu extends JObject
 	 * @param int The item id
 	 * @return object A JParameter object
 	 */
-	function &getParams($id)
+	function getParams($id)
 	{
 		$ini = '';
 		if ($menu = &$this->getItem($id)) {
 			$ini = $menu->params;
 		}
-		$result = new JParameter($ini);
 
-		return $result;
+		return new JParameter($ini);
 	}
 
 	/**

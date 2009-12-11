@@ -72,14 +72,11 @@ class JCategories
 	/**
 	 * Returns a reference to a JCategories object
 	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $categories = &JCategories::getInstance();</pre>
-	 *
 	 * @param $extension Name of the categories extension
 	 * @param $options An array of options
 	 * @return object
 	 */
-	public static function &getInstance($extension, $options = array())
+	public static function getInstance($extension, $options = array())
 	{
 		if (isset(self::$instances[$extension]))
 		{
@@ -238,7 +235,7 @@ class JCategoryNode extends JObject
 	 * Returns the parent category of the current category
 	 * @return JCategoryNode
 	 */
-	public function &getParent()
+	public function getParent()
 	{
 		return $this->_parent;
 	}
@@ -266,7 +263,7 @@ class JCategoryNode extends JObject
 	 * Returns the children of the Category
 	 * @return array
 	 */
-	public function &getChildren()
+	public function getChildren()
 	{
 		return $this->_children;
 	}

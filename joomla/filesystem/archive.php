@@ -127,7 +127,7 @@ class JArchive
 		return true;
 	}
 
-	function &getAdapter($type)
+	function getAdapter($type)
 	{
 		static $adapters;
 

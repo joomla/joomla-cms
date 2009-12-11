@@ -126,16 +126,13 @@ class JSession extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global Session object, only creating it
+	 * Returns the global Session object, only creating it
 	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $session = &JSession::getInstance();</pre>
 	 *
 	 * @return	JSession	The Session object.
 	 * @since	1.5
 	 */
-	public static function &getInstance($handler, $options)
+	public static function getInstance($handler, $options)
 	{
 		static $instance;
 

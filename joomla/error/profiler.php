@@ -75,16 +75,13 @@ class JProfiler extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global Profiler object, only creating it
+	 * Returns the global Profiler object, only creating it
 	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $browser = & JProfiler::getInstance($prefix);</pre>
 	 *
 	 * @param	string		Prefix used to distinguish profiler objects.
 	 * @return	JProfiler	The Profiler object.
 	 */
-	public static function &getInstance($prefix = '')
+	public static function getInstance($prefix = '')
 	{
 		static $instances;
 

@@ -362,7 +362,7 @@ class JParameter extends JRegistry
 	 * @return	object
 	 * @since	1.5
 	 */
-	public function &loadElement($type, $new = false)
+	public function loadElement($type, $new = false)
 	{
 		$signature = md5($type);
 

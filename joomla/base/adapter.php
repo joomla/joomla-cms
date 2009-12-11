@@ -70,7 +70,7 @@ class JAdapter extends JObject {
 	 * @return	object	Database connector object
 	 * @since	1.5
 	 */
-	public function &getDBO()
+	public function getDBO()
 	{
 		return $this->_db;
 	}
@@ -105,7 +105,7 @@ class JAdapter extends JObject {
 	 * @param string name of adapter to return
 	 * @return object Adapter of type 'name' or false
 	 */
-	public function &getAdapter($name) {
+	public function getAdapter($name) {
 		if(!array_key_exists($name, $this->_adapters)) {
 			if(!$this->setAdapter($name)) {
 				$false = false;

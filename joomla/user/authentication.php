@@ -51,18 +51,15 @@ class JAuthentication extends JObservable
 	}
 
 	/**
-	 * Returns a reference to a global authentication object, only creating it
+	 * Returns the global authentication object, only creating it
 	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $auth = &JAuthentication::getInstance();</pre>
 	 *
 	 * @static
 	 * @access public
 	 * @return object The global JAuthentication object
 	 * @since 1.5
 	 */
-	public static function & getInstance()
+	public static function getInstance()
 	{
 		static $instances;
 

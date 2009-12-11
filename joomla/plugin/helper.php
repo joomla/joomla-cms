@@ -28,7 +28,7 @@ abstract class JPluginHelper
 	 * @param	string 		$plugin		The plugin name.
 	 * @return	mixed 		An array of plugin data objects, or a plugin data object.
 	 */
-	public static function &getPlugin($type, $plugin = null)
+	public static function getPlugin($type, $plugin = null)
 	{
 		$result		= array();
 		$plugins	= JPluginHelper::_load();

@@ -25,14 +25,14 @@ abstract class JPane extends JObject
 	public $useCookies = false;
 
 	/**
-	 * Returns a reference to a JPanel object.
+	 * Returns a JPanel object.
 	 *
 	 * @param	string 	$behavior   The behavior to use.
 	 * @param	boolean	$useCookies Use cookies to remember the state of the panel.
 	 * @param	array 	$params		Associative array of values.
 	 * @return	object
 	 */
-	public static function &getInstance($behavior = 'Tabs', $params = array())
+	public static function getInstance($behavior = 'Tabs', $params = array())
 	{
 		$classname = 'JPane'.$behavior;
 		$instance = new $classname($params);

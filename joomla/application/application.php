@@ -112,18 +112,15 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global JApplication object, only creating it if it
+	 * Returns the global JApplication object, only creating it if it
 	 * doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $menu = &JApplication::getInstance();</pre>
 	 *
 	 * @param	mixed	$id 		A client identifier or name.
 	 * @param	array	$config 	An optional associative array of configuration settings.
 	 * @return	JApplication	The appliction object.
 	 * @since	1.5
 	 */
-	public static function &getInstance($client, $config = array(), $prefix = 'J')
+	public static function getInstance($client, $config = array(), $prefix = 'J')
 	{
 		static $instances;
 
@@ -661,13 +658,13 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Return a reference to the application JRouter object.
+	 * Returns the application JRouter object.
 	 *
 	 * @param	array	$options 	An optional associative array of configuration settings.
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
-	static public function &getRouter($name = null, array $options = array())
+	static public function getRouter($name = null, array $options = array())
 	{
 		if (!isset($name)) {
 			$name = $this->_name;
@@ -676,20 +673,19 @@ class JApplication extends JObject
 		jimport('joomla.application.router');
 		$router = &JRouter::getInstance($name, $options);
 		if (JError::isError($router)) {
-			$null = null;
-			return $null;
+			return null;
 		}
 		return $router;
 	}
 
 	/**
-	 * Return a reference to the application JPathway object.
+	 * Returns the application JPathway object.
 	 *
 	 * @param	array	$options 	An optional associative array of configuration settings.
 	 * @return	object JPathway.
 	 * @since 1.5
 	 */
-	public function &getPathway($name = null, $options = array())
+	public function getPathway($name = null, $options = array())
 	{
 		if (!isset($name)) {
 			$name = $this->_name;
@@ -698,20 +694,19 @@ class JApplication extends JObject
 		jimport('joomla.application.pathway');
 		$pathway = &JPathway::getInstance($name, $options);
 		if (JError::isError($pathway)) {
-			$null = null;
-			return $null;
+			return null;
 		}
 		return $pathway;
 	}
 
 	/**
-	 * Return a reference to the application JPathway object.
+	 * Returns the application JPathway object.
 	 *
 	 * @param	array	$options 	An optional associative array of configuration settings.
 	 * @return	object	JMenu.
 	 * @since	1.5
 	 */
-	public function &getMenu($name = null, $options = array())
+	public function getMenu($name = null, $options = array())
 	{
 		if (!isset($name)) {
 			$name = $this->_name;
@@ -720,8 +715,7 @@ class JApplication extends JObject
 		jimport('joomla.application.menu');
 		$menu = &JMenu::getInstance($name, $options);
 		if (JError::isError($menu)) {
-			$null = null;
-			return $null;
+			return null;
 		}
 		return $menu;
 	}
@@ -732,7 +726,7 @@ class JApplication extends JObject
 	 * @param	string	$file 	The path to the configuration file.
 	 * return	JConfig
 	 */
-	protected function &_createConfiguration($file)
+	protected function _createConfiguration($file)
 	{
 		jimport('joomla.registry.registry');
 
@@ -762,7 +756,7 @@ class JApplication extends JObject
 	 * @return	object	JSession on success. May call exit() on database error.
 	 * @since	1.5
 	 */
-	protected function &_createSession($name)
+	protected function _createSession($name)
 	{
 		$options = array();
 		$options['name'] = $name;
