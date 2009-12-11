@@ -45,10 +45,8 @@ class JFormFieldRules extends JFormField
 		$actions = JAccess::getActions($component, $section);
 
 		// Iterate over the children and add to the actions.
-		foreach ($this->_element->children() as $e)
-		{
-			if ($e->name() == 'action')
-			{
+		foreach ($this->_element->children() as $e) {
+			if ($e->name() == 'action') {
 				$actions[] = (object) array(
 					'name' => (string) $e->attributes('name'),
 					'title' => (string) $e->attributes('title'),
@@ -58,8 +56,7 @@ class JFormFieldRules extends JFormField
 		}
 
 		// Get the rules for this asset.
-		if ($section == 'component')
-		{
+		if ($section == 'component') {
 			// Need to find the asset id by the name of the component.
 			$db = JFactory::getDbo();
 			$db->setQuery('SELECT id FROM #__assets WHERE name = '.$db->quote($component));
@@ -67,8 +64,7 @@ class JFormFieldRules extends JFormField
 			if ($error = $db->getErrorMsg()) {
 				JError::raiseNotice(500, $error);
 			}
-		}
-		else {
+		} else {
 			$assetId = $this->_form->getValue($assetField);
 		}
 
@@ -93,8 +89,7 @@ class JFormFieldRules extends JFormField
 		$html[] = '		<th>';
 		$html[] = '			<span class="acl-action">'.JText::_('JAction_User_Group').'</span>';
 		$html[] = '		</th>';
-		foreach ($actions as $action)
-		{
+		foreach ($actions as $action) {
 			$html[] = '		<th>';
 			$html[] = '			<span class="acl-action" title="'.JText::_($action->description).'">'.JText::_($action->title).'</span>';
 			$html[] = '		</th>';
@@ -104,14 +99,12 @@ class JFormFieldRules extends JFormField
 
 		// The table body.
 		$html[] = '	<tbody>';
-		foreach ($groups as $group)
-		{
+		foreach ($groups as $group) {
 			$html[] = '	<tr>';
 			$html[] = '		<th class="acl-groups">';
 			$html[] = '			'.$group->text;
 			$html[] = '		</th>';
-			foreach ($actions as $action)
-			{
+			foreach ($actions as $action) {
 				$html[] = '		<td>';
 				// TODO: Fix this inline style stuff...
 				//$html[] = '			<fieldset class="access_rule">';

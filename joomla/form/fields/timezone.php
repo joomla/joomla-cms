@@ -41,8 +41,7 @@ class JFormFieldTimezone extends JFormFieldList
 
 		$options = array();
 		$group = '';
-		foreach (DateTimeZone::listIdentifiers() as $tz)
-		{
+		foreach (DateTimeZone::listIdentifiers() as $tz) {
 			if ($group != substr($tz, 0, strpos($tz, '/'))) {
 				$group = substr($tz, 0, strpos($tz, '/'));
 				$options[] = JHtml::_('select.optgroup', $group);

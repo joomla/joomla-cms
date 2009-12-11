@@ -50,8 +50,7 @@ class JFormFieldCalendar extends JFormFieldText
 		{
 			case 'SERVER_UTC':
 				// Convert a date to UTC based on the server timezone.
-				if (intval($this->value))
-				{
+				if (intval($this->value)) {
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
 					$date->setOffset($config->getValue('config.offset'));
@@ -63,8 +62,7 @@ class JFormFieldCalendar extends JFormFieldText
 
 			case 'USER_UTC':
 				// Convert a date to UTC based on the user timezone.
-				if (intval($this->value))
-				{
+				if (intval($this->value)) {
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
 					$date->setOffset($user->getParam('timezone', $config->getValue('config.offset')));

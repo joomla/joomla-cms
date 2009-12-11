@@ -8,7 +8,7 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Framework.

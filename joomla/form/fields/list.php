@@ -9,7 +9,7 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -60,12 +60,10 @@ class JFormFieldList extends JFormField
 		}
 		if ($v = $this->_element->attributes('class')) {
 			$attributes	.= 'class="'.$v.'"';
-		}
-		else {
+		} else {
 			$attributes	.= 'class="inputbox"';
 		}
-		if ($m = $this->_element->attributes('multiple'))
-		{
+		if ($m = $this->_element->attributes('multiple')) {
 			$attributes	.= 'multiple="multiple"';
 		}
 
@@ -76,8 +74,7 @@ class JFormFieldList extends JFormField
 		$return		= null;
 
 		// Handle a disabled list.
-		if ($disabled)
-		{
+		if ($disabled) {
 			// Create a disabled list.
 			$return .= JHtml::_('select.genericlist', $options, $this->inputName, $attributes, 'value', 'text', $this->value, $this->inputId);
 		}
@@ -89,8 +86,7 @@ class JFormFieldList extends JFormField
 			$return	.= '<input type="hidden" name="'.$this->inputName.'" value="'.$this->value.'" />';
 		}
 		// Handle a regular list.
-		else
-		{
+		else {
 			// Create a regular list.
 			$return = JHtml::_('select.genericlist', $options, $this->inputName, $attributes, 'value', 'text', $this->value, $this->inputId);
 		}

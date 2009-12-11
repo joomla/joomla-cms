@@ -4,7 +4,6 @@
  * @package		Joomla.Framework
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +24,6 @@ abstract class JFormField extends JObject
 	 * The field type.
 	 *
 	 * @var		string
-	 * @since	1.6
 	 */
 	protected $type;
 
@@ -33,7 +31,6 @@ abstract class JFormField extends JObject
 	* A reference to the form object that the field belongs to.
 	*
 	* @var		object
-	* @since	1.6
 	*/
 	protected $_form;
 
@@ -42,7 +39,6 @@ abstract class JFormField extends JObject
 	 *
 	 * @param	object		$form		A reference to the form that the field belongs to.
 	 * @return	void
-	 * @since	1.6
 	 */
 	public function __construct($form = null)
 	{
@@ -53,7 +49,6 @@ abstract class JFormField extends JObject
 	* Method to get the form field type.
 	*
 	* @return	string		The field type.
-	* @since	1.6
 	*/
 	public function getType()
 	{
@@ -113,7 +108,6 @@ abstract class JFormField extends JObject
 	 * Method to get the field label.
 	 *
 	 * @return	string		The field label.
-	 * @since	1.6
 	 */
 	protected function _getLabel()
 	{
@@ -138,7 +132,6 @@ abstract class JFormField extends JObject
 	 * Method to get the field input.
 	 *
 	 * @return	string		The field input.
-	 * @since	1.6
 	 */
 	abstract protected function _getInput();
 
@@ -150,7 +143,6 @@ abstract class JFormField extends JObject
 	 * @param	string		$groupName		The group name.
 	 * @param	boolean		$multiple		Whether the input should support multiple values.
 	 * @return	string		The input field id.
-	 * @since	1.6
 	 */
 	protected function _getInputName($fieldName, $formName = false, $groupName = false, $multiple = false)
 	{
@@ -187,7 +179,6 @@ abstract class JFormField extends JObject
 	 * @param	string		$formName		The form name.
 	 * @param	string		$groupName		The group name.
 	 * @return	string		The input field id.
-	 * @since	1.6
 	 */
 	protected function _getInputId($fieldId, $fieldName, $formName = false, $groupName = false)
 	{

@@ -25,7 +25,6 @@ class JFormRuleBoolean extends JFormRule
 	 * The regular expression.
 	 *
 	 * @var		string
-	 * @since	1.6
 	 */
 	protected $_regex = '^0|1|true|false$';
 
@@ -33,7 +32,6 @@ class JFormRuleBoolean extends JFormRule
 	 * The regular expression modifiers.
 	 *
 	 * @var		string
-	 * @since	1.6
 	 */
 	protected $_modifiers = 'i';
 }

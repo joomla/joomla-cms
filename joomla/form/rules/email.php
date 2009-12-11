@@ -4,7 +4,6 @@
  * @package		Joomla.Framework
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +24,6 @@ class JFormRuleEmail extends JFormRule
 	 * The regular expression.
 	 *
 	 * @var		string
-	 * @since	1.6
 	 */
 	protected $_regex = '[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}';
 
@@ -44,8 +42,7 @@ class JFormRuleEmail extends JFormRule
 		$check	= ($field->attributes('unique') == 'true' || $field->attributes('unique') == 'unique');
 
 		// If the field is empty and not required, the field is valid.
-		if ($field->attributes('required') != 'true')
-		{
+		if ($field->attributes('required') != 'true') {
 			// Get the data for the field.
 			$value = array_key_exists($name, $values) ? $values[$name] : null;
 
@@ -56,8 +53,7 @@ class JFormRuleEmail extends JFormRule
 		}
 
 		// Check if we should test for uniqueness.
-		if ($check)
-		{
+		if ($check) {
 			$key	= $field->attributes('field');
 			$value	= isset($values[$key]) ? $values[$key] : 0;
 
@@ -84,9 +80,7 @@ class JFormRuleEmail extends JFormRule
 			if (parent::test($field, $values) && !$duplicate) {
 				$return = true;
 			}
-		}
-		else
-		{
+		} else {
 			// Test the value against the regular expression.
 			if (parent::test($field, $values)) {
 				$return = true;

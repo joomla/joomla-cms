@@ -22,14 +22,13 @@ jimport('joomla.form.formfield');
  *
  * @package		Joomla.Framework
  * @subpackage	Forms
- * @version		1.6
+ * @since		1.6
  */
 class JForm extends JObject
 {
 	/**
 	 * The form name.
 	 *
-	 * @since	1.6
 	 * @var		string
 	 */
 	protected $_name;
@@ -37,7 +36,6 @@ class JForm extends JObject
 	/**
 	 * An array of options for form groups.
 	 *
-	 * @since	1.6
 	 * @var		array
 	 */
 	protected $_fieldsets	= array();
@@ -45,7 +43,6 @@ class JForm extends JObject
 	/**
 	 * Form groups containing field objects.
 	 *
-	 * @since	1.6
 	 * @var		array
 	 */
 	protected $_groups		= array();
@@ -53,7 +50,6 @@ class JForm extends JObject
 	/**
 	 * Form data containing field values.
 	 *
-	 * @since	1.6
 	 * @var		array
 	 */
 	protected $_data		= array();
@@ -61,7 +57,6 @@ class JForm extends JObject
 	/**
 	 * Form options.
 	 *
-	 * @since	1.6
 	 * @var		array
 	 */
 	protected $_options		= array();
@@ -74,7 +69,6 @@ class JForm extends JObject
 	 * @param	string		$file		Flag to toggle whether the $data is a file path or a string.
 	 * @param	array		$options	An array of options to pass to the form.
 	 * @return	object		A JForm instance.
-	 * @since	1.6
 	 */
 	public static function &getInstance($data, $name = 'form', $file = true, $options = array())
 	{
@@ -85,8 +79,7 @@ class JForm extends JObject
 		}
 
 		// Only load the form once.
-		if (!isset($instances[$name]))
-		{
+		if (!isset($instances[$name])) {
 			// Instantiate the form.
 			$instances[$name] = new JForm($options);
 
@@ -110,7 +103,6 @@ class JForm extends JObject
 	 *
 	 * @param	array		$options	An array of form options.
 	 * @return	void
-	 * @since	1.6
 	 */
 	public function __construct($options = array())
 	{
@@ -122,7 +114,6 @@ class JForm extends JObject
 	 * Method to get the form name.
 	 *
 	 * @return	string		The name of the form.
-	 * @since	1.6
 	 */
 	public function getName()
 	{
@@ -134,7 +125,6 @@ class JForm extends JObject
 	 *
 	 * @param	string		$name	The new name of the form.
 	 * @return	void
-	 * @since	1.6
 	 */
 	public function setName($name)
 	{
@@ -147,7 +137,6 @@ class JForm extends JObject
 	 * @param	mixed		$data	An array or object of form values.
 	 * @param	string		$group	The group to bind the fields to.
 	 * @return	boolean		True on success, false otherwise.
-	 * @since	1.6
 	 */
 	public function bind($data, $limit = null)
 	{
@@ -157,8 +146,7 @@ class JForm extends JObject
 		}
 
 		// Convert objects to arrays.
-		if (is_object($data))
-		{
+		if (is_object($data)) {
 			// Handle a JRegistry/JParameter object.
 			if ($data instanceof JRegistry) {
 				$data = $data->toArray();
@@ -174,19 +162,15 @@ class JForm extends JObject
 		}
 
 		// Iterate through the groups.
-		foreach ($this->_groups as $group => $fields)
-		{
+		foreach ($this->_groups as $group => $fields) {
 			// Bind if no group is specified or if the group matches the current group.
-			if ($limit === null || ($limit !== null && $group === $limit))
-			{
+			if ($limit === null || ($limit !== null && $group === $limit)) {
 				// Iterate through the values.
-				foreach ($data as $k => $v)
-				{
+				foreach ($data as $k => $v) {
 					// If the field name matches the name of the group and the value is not scalar, recurse.
 					if ($k == $group && !is_scalar($v) && !is_resource($v)) {
 						$this->bind($v, $group);
-					}
-					else {
+					} else {
 						// Bind the value to the field if it exists.
 						if (isset($this->_groups[$group][$k]) && is_object($this->_groups[$group][$k])) {
 							$this->_data[$group][$k] = $v;
@@ -211,7 +195,6 @@ class JForm extends JObject
 	 * @param	string		$file		Flag to toggle whether the $data is a file path or a string.
 	 * @param	string		$reset		Flag to toggle whether the form description should be reset.
 	 * @return	boolean		True on success, false otherwise.
-	 * @since	1.6
 	 */
 	public function load($data, $file = true, $reset = true)
 	{
@@ -224,8 +207,7 @@ class JForm extends JObject
 			$parser	= &JFactory::getXMLParser('Simple');
 
 			// If the data is a file, load the XML from the file.
-			if ($file)
-			{
+			if ($file) {
 				// If we were not given the absolute path of a form file, attempt to find one.
 				if (!is_file($data)) {
 					jimport('joomla.filesystem.path');
@@ -240,11 +222,9 @@ class JForm extends JObject
 				$loaded	= $parser->loadString($data);
 			}
 			// Make sure the XML was loaded.
-			if ($loaded)
-			{
+			if ($loaded) {
 				// Check if any groups exist.
-				if (isset($parser->document->fields))
-				{
+				if (isset($parser->document->fields)) {
 					// Load the form groups.
 					foreach ($parser->document->fields as $group)
 					{
@@ -279,15 +259,11 @@ class JForm extends JObject
 
 		jimport('joomla.filesystem.folder');
 		$files = JFolder::files($this->addFormPath(), $name, false, true);
-		if (count($files))
-		{
-			foreach($files as $file)
-			{
+		if (count($files)) {
+			foreach($files as $file) {
 				$result = $this->load($file, true, true);
 			}
-		}
-		else
-		{
+		} else {
 			$result = true;
 		}
 
@@ -300,11 +276,10 @@ class JForm extends JObject
 	 * @param	array		$data		The data to filter.
 	 * @param	string		$limit		An optional group to limit the filtering to.
 	 * @return	array		An array of filtered data.
-	 * @since	1.6
 	 */
 	public function filter($data, $limit = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$return = array();
 
 		// The data must be an object or array.
@@ -317,8 +292,7 @@ class JForm extends JObject
 		$user	= JFactory::getUser();
 
 		// Convert objects to arrays.
-		if (is_object($data))
-		{
+		if (is_object($data)) {
 			// Handle a JRegistry/JParameter object.
 			if ($data instanceof JRegistry) {
 				$data = $data->toArray();
@@ -348,18 +322,14 @@ class JForm extends JObject
 		}
 
 		// Iterate through the groups.
-		foreach ($this->_groups as $group => $fields)
-		{
+		foreach ($this->_groups as $group => $fields) {
 			// Filter if no group is specified or if the group matches the current group.
-			if ($limit === null || ($limit !== null && $group === $limit))
-			{
+			if ($limit === null || ($limit !== null && $group === $limit)) {
 				// If the group name matches the name of a group in the data and the value is not scalar, recurse.
 				if (isset($data[$group]) && !is_scalar($data[$group]) && !is_resource($data[$group]))
 				{
 					$return[$group] = $this->filter($data[$group], $group);
-				}
-				else
-				{
+				} else {
 					// Filter the fields.
 					foreach ($fields as $name => $field)
 					{
@@ -367,19 +337,16 @@ class JForm extends JObject
 						$filter	= $field->attributes('filter');
 
 						// Check for a value to filter.
-						if (isset($data[$name]))
-						{
+						if (isset($data[$name])) {
 							// Handle the different filter options.
 							switch (strtoupper($filter))
 							{
 								case 'RULES':
 									$return[$name] = array();
-									foreach ((array) $data[$name] as $action => $ids)
-									{
+									foreach ((array) $data[$name] as $action => $ids) {
 										// Build the rules array.
 										$return[$name][$action] = array();
-										foreach ($ids as $id => $p)
-										{
+										foreach ($ids as $id => $p) {
 											if ($p !== '') {
 												$return[$name][$action][$id] = ($p == '1' || $p == 'true') ? true : false;
 											}
@@ -403,8 +370,7 @@ class JForm extends JObject
 
 								case 'SERVER_UTC':
 									// Convert a date to UTC based on the server timezone offset.
-									if (intval($data[$name]))
-									{
+									if (intval($data[$name])) {
 										$offset	= $config->getValue('config.offset');
 
 										$date	= JFactory::getDate($data[$name], $offset);
@@ -414,8 +380,7 @@ class JForm extends JObject
 
 								case 'USER_UTC':
 									// Convert a date to UTC based on the user timezone offset.
-									if (intval($data[$name]))
-									{
+									if (intval($data[$name])) {
 										$offset	= $user->getParam('timezone', $config->getValue('config.offset'));
 
 										$date   = JFactory::getDate($data[$name], $offset);
@@ -424,22 +389,18 @@ class JForm extends JObject
 									break;
 
 								default:
-									if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
-									{
+									// Check for a callback filter.
+									if (strpos($filter, '::') !== false && is_callable(explode('::', $filter))) {
 										// Filter using the callback method.
 										$return[$name] = call_user_func(explode('::', $filter), $data[$name]);
-									}
-									else if (function_exists($filter))
-									{
+									} else if (function_exists($filter)) {
 										// Filter using the callback function.
 										$return[$name] = call_user_func($filter, $data[$name]);
-									}
-									else {
+									} else {
 										// Filter using JFilterInput. All HTML code is filtered by default.
 										$return[$name] = $noHtmlFilter->clean($data[$name], $filter);
 									}
 									break;
-
 							}
 						}
 					}
@@ -459,7 +420,6 @@ class JForm extends JObject
 	 * @param	array		$data		An array of field values to validate.
 	 * @param	string		$limit		An option group to limit the validation to.
 	 * @return	mixed		Boolean on success, JException on error.
-	 * @since	1.6
 	 */
 	public function validate($data, $limit = null)
 	{
@@ -477,11 +437,9 @@ class JForm extends JObject
 		$validator = new JFormValidator();
 
 		// Iterate through the groups.
-		foreach ($this->_groups as $group => $fields)
-		{
+		foreach ($this->_groups as $group => $fields) {
 			// Filter if no group is specified or if the group matches the current group.
-			if ($limit === null || ($limit !== null && $group === $limit))
-			{
+			if ($limit === null || ($limit !== null && $group === $limit)) {
 				// If the group name matches the name of a group in the data and the value is not scalar, pass the group.
 				if (isset($data[$group]) && !is_scalar($data[$group]) && !is_resource($data[$group])) {
 					$results = $validator->validate($this->_groups[$group], $data[$group]);
@@ -496,8 +454,7 @@ class JForm extends JObject
 				}
 
 				// Check the validation results.
-				if (count($results))
-				{
+				if (count($results)) {
 					// Get the validation messages.
 					foreach ($results as $result) {
 						if (JError::isError($result) && $result->get('level') === E_WARNING) {
@@ -518,7 +475,6 @@ class JForm extends JObject
 	 * @param	object		$field		The field object to add.
 	 * @param	string		$group		The group to add the field to.
 	 * @return	void
-	 * @since	1.6
 	 */
 	public function addField(&$field, $group = '_default')
 	{
@@ -532,7 +488,6 @@ class JForm extends JObject
 	 * @param	array		$fields	An array of field objects to add.
 	 * @param	string		$group	The group to add the fields to.
 	 * @return	void
-	 * @since	1.6
 	 */
 	public function addFields(&$fields, $group = '_default')
 	{
@@ -551,7 +506,6 @@ class JForm extends JObject
 	 * @param	mixed		$groupControl	The optional group control. Set to false to disable.
 	 * @param	mixed		$value			The optional value to render as the default for the field.
 	 * @return	object		Rendered Form Field object
-	 * @since	1.6
 	 */
 	public function getField($name, $group = '_default', $formControl = '_default', $groupControl = '_default', $value = null)
 	{
@@ -605,7 +559,6 @@ class JForm extends JObject
 	 * @param	mixed		$default		The default value of the attribute.
 	 * @param	string		$group			The optional group of the field.
 	 * @return	mixed		The value of the attribute if set, otherwise the default value.
-	 * @since	1.6
 	 */
 	public function getFieldAttribute($field, $attribute, $default, $group = '_default')
 	{
@@ -625,7 +578,6 @@ class JForm extends JObject
 	 * @param	object		$field		The field object to replace.
 	 * @param	string		$group		The group to replace the field in.
 	 * @return	boolean		True on success, false when field does not exist.
-	 * @since	1.6
 	 */
 	public function setField(&$field, $group = '_default')
 	{
@@ -646,7 +598,6 @@ class JForm extends JObject
 	 * @param	string		$field		The field to remove.
 	 * @param	string		$group		The group to remove.
 	 * @return	void
-	 * @since	1.6
 	 */
 	public function removeField($field, $group = '_default')
 	{
@@ -661,7 +612,6 @@ class JForm extends JObject
 	 * @param	mixed		$value			The value to set the attribute to.
 	 * @param	string		$group			The optional group of the field.
 	 * @return	boolean		True on success, false when field does not exist.
-	 * @since	1.6
 	 */
 	public function setFieldAttribute($field, $attribute, $value, $group = '_default')
 	{
@@ -683,7 +633,6 @@ class JForm extends JObject
 	 * @param	mixed		$formControl	The optional form control. Set to false to disable.
 	 * @param	mixed		$groupControl	The optional group control. Set to false to disable.
 	 * @return	array		Associative array of rendered Form Field object by field name
-	 * @since	1.6
 	 */
 	public function getFields($group = '_default', $formControl = '_default', $groupControl = '_default')
 	{
@@ -706,11 +655,9 @@ class JForm extends JObject
 		}
 
 		// Check if the group exists.
-		if (isset($this->_groups[$group]))
-		{
+		if (isset($this->_groups[$group])) {
 			// Get the fields in the group.
-			foreach ($this->_groups[$group] as $name => $node)
-			{
+			foreach ($this->_groups[$group] as $name => $node) {
 				// Get the field info.
 				$type	= $node->attributes('type');
 				$value	= (isset($this->_data[$group]) && array_key_exists($name, $this->_data[$group]) && ($this->_data[$group][$name] !== null)) ? $this->_data[$group][$name] : $node->attributes('default');
@@ -737,7 +684,6 @@ class JForm extends JObject
 	 * @param	array		$fields		An array of field objects to assign.
 	 * @param	string		$group		The group to assign the fields to.
 	 * @return	void
-	 * @since	1.6
 	 */
 	public function setFields(&$fields, $group = '_default')
 	{
@@ -759,7 +705,6 @@ class JForm extends JObject
 	 * Method to get a list of groups.
 	 *
 	 * @return	array	An array of groups.
-	 * @since	1.6
 	 */
 	public function getGroups()
 	{
@@ -771,7 +716,6 @@ class JForm extends JObject
 	 *
 	 * @param	string		$group		The group to remove.
 	 * @return	void
-	 * @since	1.6
 	 */
 	public function removeGroup($group)
 	{
@@ -787,7 +731,6 @@ class JForm extends JObject
 	 * @param	mixed		$groupControl	The optional group control. Set to false to disable.
 	 * @param	mixed		$value			The optional value to render as the default for the field.
 	 * @return	string		The form field input control.
-	 * @since	1.6
 	 */
 	public function getInput($name, $group = '_default', $formControl = '_default', $groupControl = '_default', $value = null)
 	{
@@ -806,7 +749,6 @@ class JForm extends JObject
 	 * @param	mixed		$groupControl	The optional group control. Set to false to disable.
 	 * @param	mixed		$value			The optional value to render as the default for the field.
 	 * @return	string		The form field label.
-	 * @since	1.6
 	 */
 	public function getLabel($name, $group = '_default', $formControl = '_default', $groupControl = '_default', $value = null)
 	{
@@ -823,7 +765,6 @@ class JForm extends JObject
 	 * @param	mixed		$default	The default value of the field if empty.
 	 * @param	string		$group		The group the field is in.
 	 * @return	boolean		The value of the field or the default value if empty.
-	 * @since	1.6
 	 */
 	public function getValue($field, $default = null, $group = '_default')
 	{
@@ -844,7 +785,6 @@ class JForm extends JObject
 	 * @param	mixed		$value		The value to set the field to.
 	 * @param	string		$group		The group the field is in.
 	 * @return	boolean		True if field exists, false otherwise.
-	 * @since	1.6
 	 */
 	public function setValue($field, $value, $group = '_default')
 	{
@@ -863,7 +803,6 @@ class JForm extends JObject
 	 * @param	object		$xml		The XML fields object.
 	 * @param	boolean		$reset		Flag to toggle whether the form groups should be reset.
 	 * @return	boolean		True on success, false otherwise.
-	 * @since	1.6
 	 */
 	public function loadFieldsXML(&$xml, $reset = true)
 	{
@@ -928,8 +867,7 @@ class JForm extends JObject
 		}
 
 		// Check if there is a field path to handle.
-		if ($xml->attributes('addfieldpath'))
-		{
+		if ($xml->attributes('addfieldpath')) {
 			jimport('joomla.filesystem.folder');
 			jimport('joomla.filesystem.path');
 			$path = JPath::clean(JPATH_ROOT.DS.$xml->attributes('addfieldpath'));
@@ -949,7 +887,6 @@ class JForm extends JObject
 	 * @param	string		$type		The field type.
 	 * @param	boolean		$new		Flag to toggle whether we should get a new instance of the object.
 	 * @return	mixed		Field object on success, false otherwise.
-	 * @since	1.6
 	 */
 	public function &loadFieldType($type, $new = true)
 	{
@@ -963,23 +900,20 @@ class JForm extends JObject
 		}
 
 		if (!class_exists('JFormField')) {
-			jimport('joomla.form.field');
+			jimport('joomla.form.formfield');
 		}
 
 		if (!class_exists('JFormFieldList')) {
-			require_once dirname(__FILE__).DS.'fields'.DS.'list.php';
+			require_once dirname(__FILE__).'/fields/list.php';
 		}
 
-		if (!class_exists($class))
-		{
+		if (!class_exists($class)) {
 			$paths = JForm::addFieldPath();
 
 			// If the type is complex, add the base type to the paths.
-			if ($pos = strpos($type, '_'))
-			{
+			if ($pos = strpos($type, '_')) {
 				// Add the complex type prefix to the paths.
-				for ($i = 0, $n = count($paths); $i < $n; $i++)
-				{
+				for ($i = 0, $n = count($paths); $i < $n; $i++) {
 					// Derive the new path.
 					$path = $paths[$i].DS.strtolower(substr($type, 0, $pos));
 
@@ -1018,7 +952,6 @@ class JForm extends JObject
 	 *
 	 * @param	mixed		$new		A path or array of paths to add.
 	 * @return	array		The list of paths that have been added.
-	 * @since	1.6
 	 * @static
 	 */
 	public static function addFormPath($new = null)
@@ -1047,7 +980,6 @@ class JForm extends JObject
 	 *
 	 * @param	mixed		$new		A path or array of paths to add.
 	 * @return	array		The list of paths that have been added.
-	 * @since	1.6
 	 * @static
 	 */
 	public static function addFieldPath($new = null)

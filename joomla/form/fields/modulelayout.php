@@ -54,8 +54,7 @@ class JFormFieldModuleLayout extends JFormFieldList
 		$db->setQuery($query);
 		$template	= $db->loadResult();
 
-		if ($module)
-		{
+		if ($module) {
 			$module	= preg_replace('#\W#', '', $module);
 			$client	= JApplicationHelper::getClientInfo($clientId);
 			$path1	= $client->path.'/modules/'.$module.'/tmpl';
@@ -63,22 +62,19 @@ class JFormFieldModuleLayout extends JFormFieldList
 			$options[]	= JHTML::_('select.option', '', '');
 		}
 
-		if ($path1 && $path2)
-		{
+		if ($path1 && $path2) {
 			jimport('joomla.filesystem.file');
 			$path1 = JPath::clean($path1);
 			$path2 = JPath::clean($path2);
 
-			if (is_dir($path1))
-			{
+			if (is_dir($path1)) {
 				$files	= JFolder::files($path1, '^[^_]*\.php$');
 				foreach ($files as $file) {
 					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
 				}
 			}
 
-			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$'))
-			{
+			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$')) {
 				$options[]	= JHTML::_('select.optgroup', JText::_('JOption_From_Default'));
 				foreach ($files as $file) {
 					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
