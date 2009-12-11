@@ -30,6 +30,7 @@
 			size="5"
 			label="Start Level"
 			description="fieldSTARTLEVEL" />
+
 		<field
 			name="endLevel"
 			type="text"
@@ -37,8 +38,10 @@
 			size="5"
 			label="End Level"
 			description="fieldSTOPLEVEL" />
+
 		<field
 			type="spacer" />
+
 		<field
 			name="showAllChildren"
 			type="radio"
@@ -51,6 +54,7 @@
 				value="1">JYes</option>
 		</field>
 	</fields>
+
 	<fields
 		group="advanced">
 		<field
@@ -59,24 +63,30 @@
 			default=""
 			label="Menu Tag ID"
 			description="fieldMENUTAGID" />
+
 		<field
 			name="class_sfx"
 			type="text"
 			default=""
 			label="Menu Class Suffix"
 			description="fieldMENUCLASSSUFFIX" />
+
 		<field
 			name="maxdepth"
 			type="text"
 			default="10"
 			label="Maximum Menu Depth"
 			description="fieldMENUMAXDEPTH" />
+
 		<field
 			name="window_open"
 			type="text"
 			default=""
 			label="Target Position"
 			description="fieldTARGETPOSITION" />
+
+		<field
+			type="spacer" />
 
 		<field
 			name="layout"

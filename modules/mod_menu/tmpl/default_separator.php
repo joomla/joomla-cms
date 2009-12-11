@@ -7,7 +7,9 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
-?>
-	<span class="separator"><?php echo $item->title;?></span>
+
+// Note. It is important to remove spaces between elements.
+
+?><span class="separator"><?php echo $item->title;?></span>

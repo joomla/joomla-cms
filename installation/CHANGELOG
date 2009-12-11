@@ -34,6 +34,8 @@ $ -> Language fix or change
  # Doc updates to JModelList, internal refuddling.
  # Fix bugs in JForm package dependency inclusions; code formatting.
  # Fix bug in menu item model (rebuildTree not a valid method).
+ ^ Removed spaces from mod_menu frontend to help with inline styling.
+ ^ Added support back into mod_menu for start and end level.
 
 09-Dec-2009 Sam Moffatt
  ^ Committed patch for JCache care of Roben Goethals
