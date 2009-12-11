@@ -409,6 +409,9 @@ class ModulesModelModule extends JModelForm
 		// If the assignment is numeric, then something is selected (otherwise it's none).
 		if (is_numeric($assignment))
 		{
+			// Variable is numeric, but could be a string.
+			$assignment = (int) $assignment;
+
 			// Check needed to stop a module being assigned to `All`
 			// and other menu items resulting in a module being displayed twice.
 			if ($assignment === 0)
