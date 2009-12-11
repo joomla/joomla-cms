@@ -8,7 +8,7 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -36,8 +36,7 @@ class JFormFieldMedia extends JFormField
 		static $init = false;
 		$html = '';
 
-		if (!$init)
-		{
+		if (!$init) {
 			JHtml::_('behavior.modal');
 			$js = "
 			function jInsertFieldValue(value,id) {

@@ -4,7 +4,6 @@
  * @package		Joomla.Framework
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +19,7 @@ if (!defined('JCOMPAT_UNICODE_PROPERTIES')) {
  *
  * @package		Joomla.Framework
  * @subpackage	Form
- * @version		1.6
+ * @since		1.6
  */
 class JFormRule
 {
@@ -28,7 +27,6 @@ class JFormRule
 	 * The regular expression.
 	 *
 	 * @var		string
-	 * @since	1.6
 	 */
 	protected $_regex;
 
@@ -36,7 +34,6 @@ class JFormRule
 	 * The regular expression modifiers.
 	 *
 	 * @var		string
-	 * @since	1.6
 	 */
 	protected $_modifiers;
 
@@ -46,7 +43,6 @@ class JFormRule
 	 * @param	object		$field		A reference to the form field.
 	 * @param	mixed		$values		The values to test for validiaty.
 	 * @return	boolean		True if the value is valid, false otherwise.
-	 * @since	1.6
 	 * @throws	JException on invalid rule.
 	 */
 	public function test(&$field, &$values)

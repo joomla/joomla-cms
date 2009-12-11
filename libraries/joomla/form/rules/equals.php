@@ -4,7 +4,6 @@
  * @package		Joomla.Framework
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @copyright	Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +28,6 @@ class JFormRuleEquals extends JFormRule
 	 * @param	object		$field		A reference to the form field.
 	 * @param	mixed		$values		The values to test for validiaty.
 	 * @return	mixed		JException on invalid rule, true if the value is valid, false otherwise.
-	 * @since	1.6
 	 */
 	public function test(&$field, &$values)
 	{

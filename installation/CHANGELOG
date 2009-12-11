@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 11-Dec-2009 Andrew Eddie
  # Doc updates to JModelList, internal refuddling.
+ # Fix bugs in JForm package dependency inclusions; code formatting.
 
 09-Dec-2009 Sam Moffatt
  ^ Committed patch for JCache care of Roben Goethals
