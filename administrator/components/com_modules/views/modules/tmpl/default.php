@@ -27,7 +27,6 @@ $user = JFactory::getUser();
 		</div>
 		<div class="filter-select fltrt">
 			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
-				<option value="*"><?php echo JText::_('Modules_Option_Select_Client'); ?></option>
 				<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 
