@@ -1,8 +1,8 @@
-/* -------------------------------------------------------------- 
-  
+/* --------------------------------------------------------------
+
    reset.css
    * Resets default browser CSS.
-   
+
 -------------------------------------------------------------- */
 
 html, body, div, span, object, iframe,
@@ -21,8 +21,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   vertical-align: baseline;
 }
 
-body { 
-  line-height: 1.5; 
+body {
+  line-height: 1.5;
 }
 
 /* Tables still need 'cellspacing="0"' in the markup. */

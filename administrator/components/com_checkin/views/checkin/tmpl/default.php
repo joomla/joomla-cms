@@ -14,8 +14,8 @@
 			<td>
 				<?php echo JText::_('Checking').' <em>'.$table.'</em> '.JText::_('table'); ?>
 			</td>
-			
-			<?php if ($count > 0): ?> 
+
+			<?php if ($count > 0): ?>
 				<td width="100" class="active center">
 					<span class="success"><?php echo $count; ?></span>
 				</td>
@@ -24,7 +24,7 @@
 					<?php echo $count; ?>
 				</td>
 			<?php endif; ?>
-			
+
 			<td width="50">
 				<?php if ($count > 0): ?>
 				<div class="checkin-tick"><?php echo JText::_('tick'); ?></div>

@@ -56,7 +56,7 @@ function modChrome_tabs($module, &$params, &$attribs)
 {
 	// Initialize variables
 	$user	= &JFactory::getUser();
-	
+
 	$editAllComponents 	= $user->authorize('core.manage', 'com_installer');
 
 	// special handling for components module

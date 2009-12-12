@@ -70,7 +70,7 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getInput('rules'); ?>
 		</fieldset>
 	</div>
-	
+
 	<div class="width-40 fltrt">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>

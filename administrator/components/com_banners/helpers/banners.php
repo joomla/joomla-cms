@@ -1,15 +1,13 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Banners
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	Banners
+ * @subpackage	com_banners
  */
 class BannersHelper
 {
@@ -31,69 +29,119 @@ class BannersHelper
 			$vName == 'clients'
 		);
 		JSubMenuHelper::addEntry(
+			JText::_('Banners_Submenu_Tracks'),
+			'index.php?option=com_banners&view=tracks',
+			$vName == 'tracks'
+		);
+		JSubMenuHelper::addEntry(
 			JText::_('Banners_Submenu_Categories'),
 			'index.php?option=com_categories&extension=com_banners',
 			$vName == 'categories'
 		);
+		if ($vName=='categories') {
+			JToolBarHelper::title(JText::_('Banners_Manager_Categories'), 'categories');
+		}
 	}
 
 	/**
-	 * Returns a list of valid keywords based on the prefix in banner
-	 * configuration
-	 * @param mixed An array of keywords, or comma delimited string
-	 * @return array
-	 * @static
+	 * Gets a list of the actions that can be performed.
+	 *
+	 * @param	int		The category ID.
+	 *
+	 * @return	JObject
 	 */
-	function &getKeywords($keywords)
+	public static function getActions($categoryId = 0)
 	{
-		static $instance;
+		$user	= JFactory::getUser();
+		$result	= new JObject;
 
-		if (!$instance)
+		if (empty($categoryId)) {
+			$assetName = 'com_banners';
+		}
+		else {
+			$assetName = 'com_banners.category.'.(int) $categoryId;
+		}
+
+		$actions = array(
+			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
+		);
+
+		foreach ($actions as $action) {
+			$result->set($action,	$user->authorise($action, $assetName));
+		}
+
+		return $result;
+	}
+	public static function updateReset()
+	{
+		$user = JFactory::getUser();
+		$db = JFactory::getDBO();
+		$query = new JQuery;
+		$query->select('*');
+		$query->from("#__banners");
+		$query->where("NOW()>=`reset`");
+		$query->where("`reset`!='0000-00-00 00:00:00' AND `reset`!=NULL");
+		$query->where("(`checked_out`=0 OR `checked_out`=".$db->Quote($user->id).")");
+		$db->setQuery((string)$query);
+		$rows = $db->loadObjectList();
+
+		// Check for a database error.
+		if ($db->getErrorNum()) {
+			JError::raiseWarning(500, $db->getErrorMsg());
+			return false;
+		}
+
+		JTable::addIncludePath(JPATH_ROOT . '/administrator/components/com_banners/tables');
+		foreach ($rows as $row)
 		{
-			$config = &JComponentHelper::getParams('com_banners');
-			$prefix = $config->get('tag_prefix');
-
-			$instance = array();
-
-			if (!is_array($keywords))
+			$purchase_type = $row->purchase_type;
+			if ($purchase_type < 0 && $row->cid)
 			{
-				$keywords = explode(',', $keywords);
+				$client = JTable::getInstance('Client','BannersTable');
+				$client->load($row->cid);
+				$purchase_type = $client->purchase_type;
+			}
+			if ($purchase_type < 0)
+			{
+				$params = JComponentHelper::getParams('com_banners');
+				$purchase_type = $params->get('purchase_type');
 			}
 
-			foreach ($keywords as $keyword)
+			switch($purchase_type)
 			{
-				$keyword = trim($keyword);
-				$regex = '#^' . $prefix . '#';
-				if (preg_match($regex, $keyword))
-				{
-					$instance[] = $keyword;
-				}
+			case 1:
+				$reset='0000-00-00 00:00:00';
+			break;
+			case 2:
+				$reset = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')))->toMySQL();
+			break;
+			case 3:
+				$reset = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')))->toMySQL();
+			break;
+			case 4:
+				$reset = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')))->toMySQL();
+			break;
+			case 5:
+				$reset = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')))->toMySQL();
+			break;
+			}
+
+			// Update the row ordering field.
+			$query = new JQuery;
+			$query->update('`#__banners`');
+			$query->set('`reset` = '.$db->quote($reset));
+			$query->set('`impmade` = '.$db->quote(0));
+			$query->set('`clicks` = '.$db->quote(0));
+			$query->where('`id` = '.$db->quote($row->id));
+			$db->setQuery((string)$query);
+			$db->query();
+
+			// Check for a database error.
+			if ($db->getErrorNum()) {
+				JError::raiseWarning(500, $db->getErrorMsg());
+				return false;
 			}
 		}
-		return $instance;
-	}
-
-	/**
-	 * Checks if a URL is an image
-	 *
-	 * @param string
-	 * @return URL
-	 */
-	function isImage($url)
-	{
-		$result = preg_match('#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#i', $url);
-		return $result;
-	}
-
-	/**
-	 * Checks if a URL is a Flash file
-	 *
-	 * @param string
-	 * @return URL
-	 */
-	function isFlash($url)
-	{
-		$result = preg_match('#\.swf$#i', $url);
-		return $result;
+		return true;
 	}
 }

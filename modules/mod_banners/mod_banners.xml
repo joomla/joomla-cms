@@ -10,25 +10,25 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCBANNER</description>
+	<description>mod_banners_Desc</description>
 	<files>
 		<filename
 			module="mod_banners">mod_banners.php</filename>
 	</files>
 	<fields
-		addpath="/administrator/components/com_banners/elements">
+		addfieldpath="/administrator/components/com_banners/models/fields">
 		<field
 			name="target"
 			type="list"
 			default="1"
-			label="Target"
-			description="fieldTARGET">
+			label="mod_banners_Target_Label"
+			description="mod_banners_Target_Desc">
 			<option
-				value="0">Parent Window With Browser Navigation</option>
+				value="0">mod_banners_Parent</option>
 			<option
-				value="1">New Window With Browser Navigation</option>
+				value="1">mod_banners_NewWindowWithBrowserNavigation</option>
 			<option
-				value="2">New Window Without Browser Navigation</option>
+				value="2">mod_banners_NewWindowWithoutBrowserNavigation</option>
 		</field>
 		<field
 			type="spacer" />
@@ -36,27 +36,27 @@
 			name="count"
 			type="text"
 			default="1"
-			label="Count"
-			description="fieldNUMBERITEMS" />
+			label="mod_banners_Count_Label"
+			description="mod_banners_Count_Desc" />
 		<field
 			name="cid"
 			type="bannerclient"
 			default=""
-			label="Banner client"
-			description="fieldSINGLECLIENT" />
+			label="mod_banners_BannerClient_Label"
+			description="mod_banners_BannerClient_Label" />
 		<field
 			name="catid"
 			type="category"
-			section="com_banner"
+			extension="com_banners"
 			default=""
-			label="Category"
-			description="fieldCATEGORY" />
+			label="mod_banners_Category_Label"
+			description="mod_banners_Category_Desc" />
 		<field
 			name="tag_search"
 			type="radio"
 			default="0"
-			label="Search By Tags"
-			description="fieldSEARCHBYTAG">
+			label="mod_banners_Tag_Label"
+			description="mod_banners_Tag_Desc">
 			<option
 				value="0">JNo</option>
 			<option
@@ -66,12 +66,12 @@
 			name="ordering"
 			type="list"
 			default="0"
-			label="Randomise"
-			description="fieldRANDOMISE">
+			label="mod_banners_Randomise_Label"
+			description="mod_banners_Randomise_Desc">
 			<option
-				value="0">Sticky,Ordering</option>
+				value="0">mod_banners_StickyOrdering</option>
 			<option
-				value="random">Sticky,Randomise</option>
+				value="random">mod_banners_StickyRandomise</option>
 		</field>
 		<field
 			type="spacer" />
@@ -81,16 +81,16 @@
 			rows="3"
 			cols="40"
 			default=""
-			label="Header Text"
-			description="fieldHEADERTEXT" />
+			label="mod_banners_Header_Label"
+			description="mod_banners_Header_Desc" />
 		<field
 			name="footer_text"
 			type="textarea"
 			rows="3"
 			cols="40"
 			default=""
-			label="Footer Text"
-			description="fieldFOOTERTEXT" />
+			label="mod_banners_Footer_Label"
+			description="mod_banners_Header_Desc" />
 	</fields>
 	<fields
 		group="advanced">
@@ -121,7 +121,7 @@
 			name="cache_time"
 			type="text"
 			default="900"
-			label="Cache Time"
-			description="The time before the module is recached" />
+			label="mod_banners_CacheTime_Label"
+			description="mod_banners_CacheTime_Desc" />
 	</fields>
 </install>

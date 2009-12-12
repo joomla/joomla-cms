@@ -47,7 +47,7 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla</a>
-			<?php echo JText::_('ISFREESOFTWARE') ?> 
+			<?php echo JText::_('ISFREESOFTWARE') ?>
 		</div>
 	</body>
 </html>

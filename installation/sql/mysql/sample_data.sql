@@ -19,22 +19,22 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 	(36,35,70,73,3,'com_weblinks.category.21','Joomla! Specific Links',''),
 	(37,36,71,72,4,'com_weblinks.category.22','Other Resources',''),
 	(39,7,13,14,2,'com_contact.category.26','Contacts','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(40,1,78,79,1,'com_banner.category.27','Banners',''),
+	(40,1,78,79,1,'com_banners.category.27','Banners',''),
 	(41,19,55,56,2,'com_newsfeeds.category.28','News Feeds','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 
 --
--- Dumping data for table `#__banner`
+-- Dumping data for table `#__banners`
 --
 
-INSERT IGNORE INTO `#__banner` VALUES
-(1, 1, '', 'OSM 1', 'osm-1', 0, 43, 0, 'osmbanner1.png', 'http://www.opensourcematters.org', '2009-10-10 13:52:59', 1, 0, '0000-00-00 00:00:00', '', '', 27, '', 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'width=0\nheight=0');
+INSERT IGNORE INTO `#__banners` VALUES
+(1, 1, 0, 'OSM 1', 'osm-1', 0, 43, 0, 'http://www.opensourcematters.org', 1, 27, '', 0, 1, '', '{"custom":{"bannercode":""},"alt":{"alt":"Open Source Matters"},"flash":{"width":"0","height":"0"},"image":{"url":"osmbanner1.png"}}',0 ,'' ,-1 ,-1 ,-1 , 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00','2009-10-10 13:52:59' );
 
 --
--- Dumping data for table `#__bannerclient`
+-- Dumping data for table `#__banner_clients`
 --
 
-INSERT IGNORE INTO `#__bannerclient` VALUES
-(1, 'Open Source Matters', 'Administrator', 'email@email.com', '', 0, '00:00:00', '');
+INSERT IGNORE INTO `#__banner_clients` VALUES
+(1, 'Open Source Matters', 'Administrator', 'email@email.com', '', 1, 0, '0000-00-00 00:00:00','',0,'',-1,-1,-1);
 
 --
 -- Dumping data for table `#__categories` (remove existing rows first)
@@ -53,7 +53,7 @@ INSERT IGNORE INTO `#__categories` VALUES
 (24, 31, 23, 11, 12, 3, 'countries/australia/queensland', 'com_content', 'Queensland', 'queensland', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:17', 0, '0000-00-00 00:00:00', 0, ''),
 (25, 32, 23, 13, 14, 3, 'countries/australia/tasmania', 'com_content', 'Tasmania', 'tasmania', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-06-22 20:25:17', 0, '0000-00-00 00:00:00', 0, ''),
 (26, 38, 1, 17, 18, 1, 'contacts', 'com_contact', 'Contacts', 'contacts', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-10-10 05:52:59', 0, '0000-00-00 00:00:00', 0, ''),
-(27, 40, 1, 19, 20, 1, 'banners', 'com_banner', 'Banners', 'banners', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-10-10 09:50:46', 0, '0000-00-00 00:00:00', 0, ''),
+(27, 40, 1, 19, 20, 1, 'banners', 'com_banners', 'Banners', 'banners', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-10-10 09:50:46', 0, '0000-00-00 00:00:00', 0, ''),
 (28, 41, 1, 21, 22, 1, 'news-feeds', 'com_newsfeeds', 'News Feeds', 'news-feeds', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 0, '2009-10-10 10:17:32', 0, '0000-00-00 00:00:00', 0, '');
 
 --

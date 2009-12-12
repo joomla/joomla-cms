@@ -63,7 +63,7 @@ class RedirectViewLinks extends JView
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::editList('link.edit');
 		}
-		
+
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::custom('links.publish', 'publish.png', 'publish_f2.png', 'JToolbar_Enable', true);
 			JToolBarHelper::custom('links.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JToolbar_Disable', true);

@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 class InstallerControllerManage extends JController {
-	
+
 	/**
 	 * Enable an extension (If supported)
 	 *

@@ -1,16 +1,16 @@
-/* -------------------------------------------------------------- 
+/* --------------------------------------------------------------
 
    typography.css
    * Sets up some sensible default typography.
-   
+
 -------------------------------------------------------------- */
 
-/* Default font settings. 
+/* Default font settings.
    The font-size percentage is of 16px. (0.75 * 16px = 12px) */
 html { font-size:100.01%; }
-body { 
+body {
   font-size: 75%;
-  color: #222; 
+  color: #222;
   background: #fff;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
@@ -28,7 +28,7 @@ h4 { font-size: 1.2em; line-height: 1.25; margin-bottom: 1.25em; }
 h5 { font-size: 1em; font-weight: bold; margin-bottom: 1.5em; }
 h6 { font-size: 1em; font-weight: bold; }
 
-h1 img, h2 img, h3 img, 
+h1 img, h2 img, h3 img,
 h4 img, h5 img, h6 img {
   margin: 0;
 }
@@ -41,7 +41,7 @@ p           { margin: 0 0 1.5em; }
 p img.left  { float: left; margin: 1.5em 1.5em 1.5em 0; padding: 0; }
 p img.right { float: right; margin: 1.5em 0 1.5em 1.5em; }
 
-a:focus, 
+a:focus,
 a:hover     { color: #000; }
 a           { color: #009; text-decoration: underline; }
 
@@ -51,7 +51,7 @@ em,dfn      { font-style: italic; }
 dfn         { font-weight: bold; }
 sup, sub    { line-height: 0; }
 
-abbr, 
+abbr,
 acronym     { border-bottom: 1px dotted #666; }
 address     { margin: 0 0 1.5em; font-style: italic; }
 del         { color:#666; }

@@ -145,7 +145,7 @@ class JTableCategory extends JTableNested
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
-		
+
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
 			$registry = new JRegistry();

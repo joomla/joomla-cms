@@ -39,7 +39,7 @@ class InstallerController extends JController
 		{
 			$ftp	= &JClientHelper::setCredentialsFromRequest('ftp');
 			$view->assignRef('ftp', $ftp);
-			
+
 			// Get the model for the view.
 			$model = &$this->getModel($vName);
 

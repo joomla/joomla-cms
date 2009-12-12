@@ -1,8 +1,8 @@
 <?php
 /**
  * @version		$Id$
- * @package  	Joomla
- * @subpackage	Banners
+ * @package		Joomla.Site
+ * @subpackage	com_banners
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -23,12 +23,13 @@ class BannersController extends JController
 {
 	function click()
 	{
-		$bid = JRequest::getInt('bid', 0);
-		if ($bid)
+		$id = JRequest::getInt('id', 0);
+		if ($id)
 		{
-			$model = &$this->getModel('Banner');
-			$model->click($bid);
-			$this->setRedirect($model->getUrl($bid));
+			$model = &$this->getModel('Banner','BannersModel',array('ignore_request'=>true));
+			$model->setState('banner.id',$id);
+			$model->click();
+			$this->setRedirect($model->getUrl());
 		}
 	}
 }

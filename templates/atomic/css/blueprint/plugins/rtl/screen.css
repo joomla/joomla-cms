@@ -2,9 +2,9 @@
 
    rtl.css
    * Mirrors Blueprint for left-to-right languages
-   
+
    By Ran Yaniv Hartstein [ranh.co.il]
-   
+
 -------------------------------------------------------------- */
 
 body .container { direction: rtl; }
@@ -12,13 +12,13 @@ body .column, body div.span-1, body div.span-2, body div.span-3, body div.span-4
   float: right;
   margin-right: 0;
   margin-left: 10px;
-  text-align:right; 
+  text-align:right;
 }
 
 body div.last { margin-left: 0; }
 body table .last { padding-left: 0; }
 
-body .append-1   { padding-right: 0; padding-left: 40px; }  
+body .append-1   { padding-right: 0; padding-left: 40px; }
 body .append-2   { padding-right: 0; padding-left: 80px; }
 body .append-3   { padding-right: 0; padding-left: 120px; }
 body .append-4   { padding-right: 0; padding-left: 160px; }
@@ -42,7 +42,7 @@ body .append-21  { padding-right: 0; padding-left: 840px; }
 body .append-22  { padding-right: 0; padding-left: 880px; }
 body .append-23  { padding-right: 0; padding-left: 920px; }
 
-body .prepend-1   { padding-left: 0; padding-right: 40px; }  
+body .prepend-1   { padding-left: 0; padding-right: 40px; }
 body .prepend-2   { padding-left: 0; padding-right: 80px; }
 body .prepend-3   { padding-left: 0; padding-right: 120px; }
 body .prepend-4   { padding-left: 0; padding-right: 160px; }

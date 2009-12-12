@@ -9,7 +9,7 @@
 			default="0"
 			required="true"
 			readonly="true" />
-		
+
 		<field
 			name="old_url"
 			type="text"
@@ -37,7 +37,7 @@
 			description="Redir_Field_Comment_Desc"
 			size="40"
 			default="" />
-			
+
 		<field
 			name="published"
 			type="list"
@@ -70,7 +70,7 @@
 			size="50"
 			default=""
 			readonly="true" />
-	
+
 		<field
 			name="created_date"
 			type="text"
@@ -80,7 +80,7 @@
 			size="20"
 			default=""
 			readonly="true" />
-		
+
 		<field
 			name="updated_date"
 			type="text"

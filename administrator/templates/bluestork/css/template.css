@@ -605,11 +605,11 @@ input.readonly {
 	background-color: #F7F7F7;
 }
 
-input.required { 
+input.required {
 	background-color: #d5eeff;
 }
 
-label.required:after { 
+label.required:after {
 	content:url(../images/required.png);
 	vertical-align: middle;
 }
@@ -1110,13 +1110,13 @@ a.pointer {
 	cursor: pointer;
 }
 
-button { 
+button {
 	margin-top: 4px;
-	background: #fff; 
+	background: #fff;
 	border: 1px solid #ccc;
 	text-decoration:none;
 }
-button:hover { 
+button:hover {
 	cursor: pointer;
 	background: #E8F6FE;
 	text-decoration:none;
@@ -1628,7 +1628,7 @@ dl.menu_type dd ul li {
 	list-style: none;
 	display:block;
 	float:left;
-	margin-right: 10px;	
+	margin-right: 10px;
 }
 ul.menu_types li { width: 47%}
 

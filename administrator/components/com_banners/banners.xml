@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
 <install type="component" version="1.5.0">
   <name>Banners</name>
   <author>Joomla! Project</author>

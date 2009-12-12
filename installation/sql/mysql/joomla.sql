@@ -56,67 +56,85 @@ VALUES
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__banner`
+# Table structure for table `#__banners`
 #
 
-CREATE TABLE `#__banner` (
-  `bid` integer NOT NULL auto_increment,
-  `cid` integer NOT NULL default '0',
-  `type` varchar(30) NOT NULL default 'banner',
-  `name` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `imptotal` integer NOT NULL default '0',
-  `impmade` integer NOT NULL default '0',
-  `clicks` integer NOT NULL default '0',
-  `imageurl` varchar(100) NOT NULL default '',
-  `clickurl` varchar(200) NOT NULL default '',
-  `date` datetime default NULL,
-  `showBanner` tinyint(1) NOT NULL default '0',
-  `checked_out` tinyint(1) NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `editor` varchar(50) default NULL,
-  `custombannercode` text,
+CREATE TABLE `#__banners` (
+  `id` INTEGER NOT NULL auto_increment,
+  `cid` INTEGER NOT NULL DEFAULT '0',
+  `type` INTEGER NOT NULL DEFAULT '0',
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
+  `alias` VARCHAR(255) NOT NULL DEFAULT '',
+  `imptotal` INTEGER NOT NULL DEFAULT '0',
+  `impmade` INTEGER NOT NULL DEFAULT '0',
+  `clicks` INTEGER NOT NULL DEFAULT '0',
+  `clickurl` VARCHAR(200) NOT NULL DEFAULT '',
+  `state` TINYINT(3) NOT NULL DEFAULT '0',
   `catid` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-  `description` TEXT NOT NULL,
+  `description` TEXT NOT NULL DEFAULT '',
   `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   `ordering` INTEGER NOT NULL DEFAULT 0,
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-  `tags` TEXT NOT NULL,
-  `params` TEXT NOT NULL,
-  PRIMARY KEY  (`bid`),
-  KEY `viewbanner` (`showBanner`),
+  `metakey` TEXT NOT NULL DEFAULT '',
+  `params` TEXT NOT NULL DEFAULT '',
+  `own_prefix` TINYINT(1) NOT NULL DEFAULT '0',
+  `metakey_prefix` VARCHAR(255) NOT NULL DEFAULT '',
+  `purchase_type` TINYINT NOT NULL DEFAULT '-1',
+  `track_clicks` TINYINT NOT NULL DEFAULT '-1',
+  `track_impressions` TINYINT NOT NULL DEFAULT '-1',
+  `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT '0',
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `reset` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY  (`id`),
+  INDEX `idx_state` (`state`),
+  INDEX `idx_own_prefix` (`own_prefix`),
+  INDEX `idx_metakey_prefix` (`metakey_prefix`),
   INDEX `idx_banner_catid`(`catid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__bannerclient`
+# Table structure for table `#__banner_clients`
 #
 
-CREATE TABLE `#__bannerclient` (
-  `cid` integer NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `contact` varchar(255) NOT NULL default '',
-  `email` varchar(255) NOT NULL default '',
-  `extrainfo` text NOT NULL,
-  `checked_out` tinyint(1) NOT NULL default '0',
-  `checked_out_time` time default NULL,
-  `editor` varchar(50) default NULL,
-  PRIMARY KEY  (`cid`)
+CREATE TABLE `#__banner_clients` (
+  `id` INTEGER NOT NULL auto_increment,
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
+  `contact` VARCHAR(255) NOT NULL DEFAULT '',
+  `email` VARCHAR(255) NOT NULL DEFAULT '',
+  `extrainfo` TEXT NOT NULL,
+  `state` TINYINT(3) NOT NULL DEFAULT '0',
+  `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT '0',
+  `checked_out_time` DATETIME NOT NULL default '0000-00-00 00:00:00',
+  `metakey` TEXT NOT NULL DEFAULT '',
+  `own_prefix` TINYINT NOT NULL DEFAULT '0',
+  `metakey_prefix` VARCHAR(255) NOT NULL default '',
+  `purchase_type` TINYINT NOT NULL DEFAULT '-1',
+  `track_clicks` TINYINT NOT NULL DEFAULT '-1',
+  `track_impressions` TINYINT NOT NULL DEFAULT '-1',
+  PRIMARY KEY  (`id`),
+  INDEX `idx_own_prefix` (`own_prefix`),
+  INDEX `idx_metakey_prefix` (`metakey_prefix`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__bannertrack`
+# Table structure for table `#__banner_tracks`
 #
 
-CREATE TABLE  `#__bannertrack` (
-  `track_date` date NOT NULL,
-  `track_type` integer unsigned NOT NULL,
-  `banner_id` integer unsigned NOT NULL
+CREATE TABLE  `#__banner_tracks` (
+  `track_date` DATE NOT NULL,
+  `track_type` INTEGER UNSIGNED NOT NULL,
+  `banner_id` INTEGER UNSIGNED NOT NULL,
+  `count` INTEGER UNSIGNED NOT NULL DEFAULT '0',
+  PRIMARY KEY (`track_date`, `track_type`, `banner_id`),
+  INDEX `idx_track_date` (`track_date`),
+  INDEX `idx_track_type` (`track_type`),
+  INDEX `idx_banner_id` (`banner_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
@@ -160,7 +178,7 @@ CREATE TABLE `#__categories` (
   KEY `idx_alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__categories` VALUES 
+INSERT INTO `#__categories` VALUES
 (1, 0, 0, 0, 1, 0, '', 'system', 'ROOT', 'root', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '0000-00-00 00:00:00', 0, '');
 
 # -------------------------------------------------------
@@ -191,9 +209,9 @@ CREATE TABLE `#__components` (
 # Dumping data for table `#__components`
 #
 
-INSERT INTO `#__components` VALUES (1, 'Banners', '', 0, 0, '', 'Banner Management', 'com_banners', 0, 'js/ThemeOffice/component.png', 0, 'track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n', 1);
+INSERT INTO `#__components` VALUES (1, 'Banners', '', 0, 0, '', 'Banner Management', 'com_banners', 0, 'js/ThemeOffice/component.png', 0, '{"track_impressions":"0","track_clicks":"0","metakey_prefix":"","purchase_type":"1"}', 1);
 INSERT INTO `#__components` VALUES (2, 'Banners', '', 0, 1, 'option=com_banners', 'Active Banners', 'com_banners', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (3, 'Clients', '', 0, 1, 'option=com_banners&c=client', 'Manage Clients', 'com_banners', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
+INSERT INTO `#__components` VALUES (3, 'Clients', '', 0, 1, 'option=com_banners&view=clients', 'Manage Clients', 'com_banners', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (4, 'Web Links', 'option=com_weblinks', 0, 0, '', 'Manage Weblinks', 'com_weblinks', 0, 'js/ThemeOffice/component.png', 0, 'show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', 1);
 INSERT INTO `#__components` VALUES (5, 'Links', '', 0, 4, 'option=com_weblinks', 'View existing weblinks', 'com_weblinks', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (6, 'Categories', '', 0, 4, 'option=com_categories&extension=com_weblinks', 'Manage weblink categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
@@ -205,7 +223,7 @@ INSERT INTO `#__components` VALUES (12, 'Feeds', '', 0, 11, 'option=com_newsfeed
 INSERT INTO `#__components` VALUES (13, 'Categories', '', 0, 11, 'option=com_categories&extension=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/newsfeeds-cat.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (14, 'Users', 'option=com_users', 0, 0, '', '', 'com_users', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (15, 'Search', 'option=com_search', 0, 0, 'option=com_search', 'Search Statistics', 'com_search', 0, 'js/ThemeOffice/search.png', 1, 'enabled=0\n\n', 1);
-INSERT INTO `#__components` VALUES (16, 'Categories', '', 0, 1, 'option=com_categories&extension=com_banner', 'Categories', '', 3, '', 1, '', 1);
+INSERT INTO `#__components` VALUES (16, 'Categories', '', 0, 1, 'option=com_categories&extension=com_banners', 'Categories', '', 4, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (17, 'Wrapper', 'option=com_wrapper', 0, 0, '', 'Wrapper', 'com_wrapper', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (18, 'Mail To', '', 0, 0, '', '', 'com_mailto', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (19, 'Media Manager', '', 0, 0, 'option=com_media', 'Media Manager', 'com_media', 0, '', 1, 'upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nfile_path=images\nimage_path=images\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html', 1);
@@ -229,6 +247,7 @@ INSERT INTO `#__components` VALUES (38, 'Redirects', '', 0, 0, 'option=com_redir
 INSERT INTO `#__components` VALUES (39, 'Checkin', '', 0, 0, 'option=com_checkin', 'Checkin', 'com_checkin', 0, 'js/ThemeOffice/component.png', 1, '{}', 1);
 INSERT INTO `#__components` VALUES (40, 'New Private Message', '', 0, 27, 'option=com_messages&task=add', '', '', 0, '', 0, '', 1);
 INSERT INTO `#__components` VALUES (41, 'Read Private Messages', '', 0, 27, 'option=com_messages', '', '', 0, '', 0, '', 1);
+INSERT INTO `#__components` VALUES (42, 'Tracks', '', 0, 1, 'option=com_banners&view=tracks', 'Manage Tracks', 'com_banners', 3, 'js/ThemeOffice/categories.png', 0, '', 1);
 
 # -------------------------------------------------------
 
@@ -402,9 +421,9 @@ CREATE TABLE `#__extensions` (
 
 # Components
 
-INSERT INTO `#__extensions` VALUES 
+INSERT INTO `#__extensions` VALUES
 (0, 'com_admin', 'component', 'com_admin', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(0, 'Banners', 'component', 'com_banners', '', 1, 1, 0, 0, '', 'track_impressions=0\ntrack_clicks=0\ntag_prefix=\n\n', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'Banners', 'component', 'com_banners', '', 1, 1, 0, 0, '', '{"track_impressions":"0","track_clicks":"0","metakey_prefix":"","purchase_type":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Cache Manager', 'component', 'com_cache', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'com_categories', 'component', 'com_categories', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'com_checkin', 'component', 'com_checkin', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
@@ -433,20 +452,20 @@ INSERT INTO `#__extensions` VALUES
 
 # Languages
 
-INSERT INTO `#__extensions` VALUES 
+INSERT INTO `#__extensions` VALUES
 (0, 'en-GB', 'language', 'en-GB', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'en-GB', 'language', 'en-GB', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
 # Libraries
 
-INSERT INTO `#__extensions` VALUES 
+INSERT INTO `#__extensions` VALUES
 (0, 'phpmailer', 'library', 'phpmailer', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'phpxmlrpc', 'library', 'phpxmlrpc', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'simplepie', 'library', 'simplepie', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
 # Modules
 
-INSERT INTO `#__extensions` VALUES 
+INSERT INTO `#__extensions` VALUES
 (0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_banners', 'module', 'mod_banners', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'mod_breadcrumbs', 'module', 'mod_breadcrumbs', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
@@ -480,7 +499,7 @@ INSERT INTO `#__extensions` VALUES
 
 # Plug-ins
 
-INSERT INTO `#__extensions` VALUES 
+INSERT INTO `#__extensions` VALUES
 (0, 'System - Cache', 'plugin', 'cache', 'system', 0, 0, 1, 0, '', '{"browsercache":"0","cachetime":"15"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Search - Categories', 'plugin', 'categories', 'search', 1, 1, 0, 0, '', '{"search_limit":"50"}', '', '', 0, '0000-00-00 00:00:00', 4, 0),
 (0, 'Editor - CodeMirror', 'plugin', 'codemirror', 'editors', 1, 1, 1, 1, '', '{"linenumbers":"0"}', '', '', 0, '0000-00-00 00:00:00', 7, 0),
@@ -516,7 +535,7 @@ INSERT INTO `#__extensions` VALUES
 
 # Templates
 
-INSERT INTO `#__extensions` VALUES 
+INSERT INTO `#__extensions` VALUES
 (0, 'Atomic', 'template', 'atomic', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'Bluestork', 'template', 'bluestork', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
 (0, 'Milky Way', 'template', 'rhuk_milkyway', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
@@ -577,7 +596,7 @@ CREATE TABLE `#__menu` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 
-INSERT INTO `#__menu` VALUES 
+INSERT INTO `#__menu` VALUES
 (1, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 0, 3, 0),
 (2, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 1, 2, 1);
 
@@ -672,7 +691,8 @@ INSERT INTO `#__modules` VALUES
 (15, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 3, 1, '', 1, ''),
 (16, 'User Menu', '', 4, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_menu', 2, 1, 'menutype=usermenu\nmoduleclass_sfx=_menu\ncache=1', 0, ''),
 (17, 'Login Form', '', 8, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, 'greeting=1\nname=0', 0, ''),
-(18, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 0, '');
+(18, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 0, ''),
+(19, 'Banners', '', 1, 'top', 0, '0000-00-00 00:00:00', 1, 'mod_banners', 1, 1, '{"target":"1","count":"1","cid":"1","catid":"27","tag_search":"0","ordering":"0","header_text":"","footer_text":"","layout":"","moduleclass_sfx":"","cache":"1","cache_time":"0"}', 0, '');
 
 # -------------------------------------------------------
 
@@ -708,7 +728,8 @@ INSERT INTO `#__modules_menu` VALUES
 (15,0),
 (16,0),
 (17,0),
-(18,0);
+(18,0),
+(19,0);
 
 # -------------------------------------------------------
 

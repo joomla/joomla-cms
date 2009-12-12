@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
 <access component="com_banners">
 	<section name="component">
 		<action name="core.admin" title="JAction_Admin" description="JAction_Admin_Component_Desc" />

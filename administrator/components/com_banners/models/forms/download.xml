@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+
+		<field
+			id="compressed"
+			name="compressed"
+			type="radio"
+			label="Banners_Compressed_Label"
+			description="Banners_Compressed_Desc"
+			class="inputbox"
+			default="0">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			id="basename"
+			name="basename"
+			type="text"
+			class="inputbox"
+			default=""
+			size="40"
+			label="Banners_BaseName_Label"
+			description="Banners_BaseName_Desc"/>
+
+	</fields>
+<form>
+

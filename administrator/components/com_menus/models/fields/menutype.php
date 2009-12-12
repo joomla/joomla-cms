@@ -99,7 +99,7 @@ class JFormFieldMenuType extends JFormFieldList
 		// Initialize variables.
 		$html = array();
 		$types = $this->_getTypeOptions();
-		
+
 		$html[] = '<h2 class="modal-title">'.JText::_('Menus_Type_Choose').'</h2>';
 		$html[] = '<ul class="menu_types">';
 
@@ -123,7 +123,7 @@ class JFormFieldMenuType extends JFormFieldList
 		$html[] = '</dl>';
 		$html[] = '</li>';
 		}
-		
+
 		$html[] = '<li>';
 		$html[] = '<dl class="menu_type">';
 		$html[] = '	<dt>'.JText::_('Menus_Type_System').'</dt>';

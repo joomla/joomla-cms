@@ -51,11 +51,11 @@ class JConfig {
 	public $log_path = '/var/logs';
 	public $live_site = ''; 					// Optional, Full url to Joomla install.
 	public $force_ssl = 0;						// Force areas of the site to be SSL ONLY.  0 = None, 1 = Administrator, 2 = Both Site and Administrator
-	
+
 	/* Locale Settings */
 	public $offset = '0';
 	public $offset_user = '0';
-	
+
 	/* Session settings */
 	public $lifetime = '15';					// Session time
 	public $session_handler = 'database';

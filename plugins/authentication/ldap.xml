@@ -24,7 +24,7 @@
 			default=""
 			label="Host"
 			description="fieldLDAPHOST" />
-	
+
 		<field
 			name="port"
 			type="text"
@@ -32,7 +32,7 @@
 			default="389"
 			label="Port"
 			description="fieldLDAPPORT" />
-	
+
 		<field
 			name="use_ldapV3"
 			type="radio"
@@ -44,7 +44,7 @@
 			<option
 				value="1">JYes</option>
 		</field>
-	
+
 		<field
 			name="negotiate_tls"
 			type="radio"
@@ -56,7 +56,7 @@
 			<option
 				value="1">JYes</option>
 		</field>
-	
+
 		<field
 			name="no_referrals"
 			type="radio"
@@ -68,7 +68,7 @@
 			<option
 				value="1">JYes</option>
 		</field>
-	
+
 		<field
 			name="auth_method"
 			default="bind"
@@ -80,7 +80,7 @@
 			<option
 				value="bind">Bind Directly As User</option>
 		</field>
-	
+
 		<field
 			name="base_dn"
 			type="text"
@@ -88,7 +88,7 @@
 			default=""
 			label="Base DN"
 			description="fieldBASEDN" />
-	
+
 		<field
 			name="search_string"
 			type="text"
@@ -96,7 +96,7 @@
 			default=""
 			label="Search string"
 			description="fieldSEARCHSTRING" />
-	
+
 		<field
 			name="users_dn"
 			type="text"
@@ -104,10 +104,10 @@
 			default=""
 			label="Users DN"
 			description="fieldUSERSDN" />
-	
+
 		<field
 			type="spacer" />
-	
+
 		<field
 			name="username"
 			type="text"
@@ -115,7 +115,7 @@
 			default=""
 			label="Connect username"
 			description="fieldCONNECTSTRING" />
-	
+
 		<field
 			name="password"
 			type="password"
@@ -123,10 +123,10 @@
 			default=""
 			label="Connect password"
 			description="fieldCONNECTPASSWORD" />
-	
+
 		<field
 			type="spacer" />
-	
+
 		<field
 			name="ldap_fullname"
 			type="text"
@@ -134,7 +134,7 @@
 			default="fullName"
 			label="Map FullName"
 			description="fieldMAPFN" />
-	
+
 		<field
 			name="ldap_email"
 			type="text"
@@ -142,7 +142,7 @@
 			default="mail"
 			label="Map Email"
 			description="fieldMAPEMAIL" />
-	
+
 		<field
 			name="ldap_uid"
 			type="text"

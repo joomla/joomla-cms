@@ -109,7 +109,7 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getLabel('rules'); ?>
 			<?php echo $this->form->getInput('rules'); ?>
 		</fieldset>
-		
+
 		<?php echo JHtml::_('sliders.panel',JText::_('Content_Fieldset_Metadata'), 'meta-options'); ?>
 		<fieldset class="panelform">
 

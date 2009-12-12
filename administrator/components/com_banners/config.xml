@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
 <config>
 	<fields>
+		<field
+			id="purchase_type"
+			name="purchase_type"
+			type="list"
+			label="Banners_PurchaseType_Label"
+			description="Banners_PurchaseType_Desc"
+			default="0"
+			class="inputbox">
+			<option
+				value="1">Banners_1</option>
+			<option
+				value="2">Banners_2</option>
+			<option
+				value="3">Banners_3</option>
+			<option
+				value="4">Banners_4</option>
+			<option
+				value="5">Banners_5</option>
+		</field>
+
 		<field
 			name="track_impressions"
 			type="radio"
 			default="0"
-			label="TRACK BANNER IMPRESSION LABEL"
-			description="TRACK BANNER IMPRESSION DESC">
+			label="Banners_TrackImpression_Label"
+			description="Banners_TrackImpression_Desc">
 			<option
 				value="0">JNO</option>
 			<option
@@ -17,8 +38,8 @@
 			name="track_clicks"
 			type="radio"
 			default="0"
-			label="TRACK BANNER CLICK LABEL"
-			description="TRACK BANNER CLICK DESC">
+			label="Banners_TrackClick_Label"
+			description="Banners_TrackClick_Desc">
 			<option
 				value="0">JNO</option>
 			<option
@@ -26,11 +47,12 @@
 		</field>
 
 		<field
-			name="tag_prefix"
+			name="metakey_prefix"
 			type="text"
 			default=""
-			label="TAG PREFIX LABEL"
-			description="TAG PREFIX DESC" />
+			label="Banners_MetaKeywordPrefix_Label"
+			description="Banners_MetaKeywordPrefix_Desc" />
+
 	</fields>
 
 	<fields

@@ -31,7 +31,7 @@ TinyBrowser Features:
 
 - File display order customisable e.g. by name, type, size, date
 
-- Find function to filter results by search string 
+- Find function to filter results by search string
 
 - Display detailed file information such as type, size and dimensions (images
   only)
@@ -40,7 +40,7 @@ TinyBrowser Features:
 
 - File edit facility (permission based) - rename, resize and rotate (last two
   images only)
-  
+
 - Folder browsing and creation
 
 - File storage location user definable for each file type
@@ -100,9 +100,9 @@ delayed, preventing uploaded files being processed correctly.
 Added width and height config values for the TinyBrowser pop up window size.
 Added 'cleanfilename' flag to config file, to remove disallowed characters
 from filenames on upload (set to true by default).
-  
+
 Changes:
-Added recursive flag to createfolder function, to allow TinyBrowser to 
+Added recursive flag to createfolder function, to allow TinyBrowser to
 create full upload path.
 Changed default window size to 770px x 480px.
 Minor code optimisation.
@@ -116,8 +116,8 @@ Remember current folder after upload.
 Bug Fixes:
 Fixed minor bug causing elementid to be lost after file upload in
 stand-alone mode.
-Fixed stand-alone javascript selectURL function bug that prevented 
-TinyBrowser window close on selection. 
+Fixed stand-alone javascript selectURL function bug that prevented
+TinyBrowser window close on selection.
 Fixed bug in Flash upload that prevented folder permission error reporting.
 Fixed bug in image resize and rotate functions that converted all types
 to jpeg.
@@ -143,7 +143,7 @@ Added 'HTTP/1.1 200' response to upload_file.php script, to address
 Flash bug in some Mac setups.
 Added check for valid images in Browse and Edit tabs - non-image files
 are still listed but error producing image properties code is bypassed.
-	
+
 
 TinyBrowser 1.32 - released 17/09/2008
 --------------------------------------
@@ -166,7 +166,7 @@ submit files to the upload_file.php script. Due to the Flash session bug,
 normal session control does not work. Instead, a hash string check has been
 added to the upload_file.php script and the installation instructions
 amended.
-   
+
 TinyBrowser 1.31 - released 16/09/2008
 --------------------------------------
 New Features:
@@ -191,8 +191,8 @@ be different to the upload path.
 Added automatic creation of upload directories (with definable chmod for Unix
 servers).
 Added alert messages for errors and actions.
-Multi-lingual support - credit to Francis Rebouças 
-(francisreboucas[at]gmail[dot]com) for idea, design, implementation and 
+Multi-lingual support - credit to Francis Rebouças
+(francisreboucas[at]gmail[dot]com) for idea, design, implementation and
 Portugese language file.
 Experimental support for FCKeditor.
 
@@ -202,10 +202,10 @@ with TinyMCE plugin specification).
 Revised documentation.
 After file upload user is now directed back to upload tab instead of the
 browse tab.
-   
+
 Bug Fixes:
 Fixed security hole - prohibited file extensions not obeyed due to error in
-inherited code. 
+inherited code.
 Fixed small issue with edit / delete permissions (not consistently hiding
 edit tab).
 
@@ -235,7 +235,7 @@ Fixed silly bug with thumbnail urls that could prevent generation and viewing
 under some server setups.
 Fixed various other minor bugs and tidied code.
 
-TinyBrowser 1.10 
+TinyBrowser 1.10
 ----------------
 Adjusted layout of file upload.
 Added facility to limit permitted file upload size (separate values for each
@@ -332,7 +332,7 @@ file browseer with TinyMCE.
    your server by TinyBrowser if they do not exist) and also the 'obfuscate'
    property, which should be set to a random value.
 
-   ***NOTE:*** If your server is Unix-based. you may wish to modify the 
+   ***NOTE:*** If your server is Unix-based. you may wish to modify the
    $tinybrowser['unixpermissions'] config value, which decides permissions.
 
 5) All done! Now you will see a browse button in the TinyMCE dialog windows for
@@ -377,7 +377,7 @@ integration with any web application.
    immediately display the image then create an <img> tag with the same element
    id, only suffixed with img - e.g. elementidimg.
 
-   
+
 TinyBrowser Installation Method 3
 =================================
 

@@ -159,9 +159,9 @@ class WeblinksTableWeblink extends JTable
 		}
 
 		// check for http, https, ftp on webpage
-		if ((stripos($this->url, 'http://') === false) 
-			&& (stripos($this->url, 'https://') === false) 
-			&& (stripos($this->url, 'ftp://') === false)) 
+		if ((stripos($this->url, 'http://') === false)
+			&& (stripos($this->url, 'https://') === false)
+			&& (stripos($this->url, 'ftp://') === false))
 		{
 			$this->url = 'http://'.$this->url;
 		}

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields
+		addfieldpath="/administrator/components/com_banners/models/fields"
+	>
+		<field
+			id="id"
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"/>
+
+		<field
+			id="name"
+			name="name"
+			type="text"
+			class="inputbox"
+			default=""
+			size="40"
+			label="Banners_Name_Label"
+			description="Banners_Name_Desc"
+			required="true"/>
+
+		<field
+			id="contact"
+			name="contact"
+			type="text"
+			class="inputbox"
+			default=""
+			size="40"
+			label="Banners_Contact_Label"
+			description="Banners_Contact_Desc"
+			required="true"/>
+
+		<field
+			id="email"
+			name="email"
+			type="text"
+			class="inputbox validate-email"
+			default=""
+			size="40"
+			label="Banners_Email_Label"
+			description="Banners_Email_Desc"
+			validate="email"
+			required="true"/>
+
+		<field
+			id="state"
+			name="state"
+			type="list"
+			label="Banners_State_Label"
+			description="Banners_State_Desc"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option
+				value="1">JOption_Published</option>
+			<option
+				value="0">JOption_Unpublished</option>
+			<option
+				value="-1">JOption_Archived</option>
+			<option
+				value="-2">JOption_Trash</option>
+		</field>
+
+		<field
+			id="purchase_type"
+			name="purchase_type"
+			type="list"
+			label="Banners_PurchaseType_Label"
+			description="Banners_PurchaseType_Desc"
+			default="0"
+			class="inputbox">
+			<option
+				value="-1">Banners_UseComponentDefault</option>
+			<option
+				value="1">Banners_1</option>
+			<option
+				value="2">Banners_2</option>
+			<option
+				value="3">Banners_3</option>
+			<option
+				value="4">Banners_4</option>
+			<option
+				value="5">Banners_5</option>
+		</field>
+
+		<field
+			name="track_impressions"
+			type="list"
+			default="0"
+			label="Banners_TrackImpression_Label"
+			description="Banners_TrackImpression_Desc">
+			<option
+				value="-1">Banners_UseComponentDefault</option>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+
+		<field
+			name="track_clicks"
+			type="list"
+			default="0"
+			label="Banners_TrackClick_Label"
+			description="Banners_TrackClick_Desc">
+			<option
+				value="-1">Banners_UseComponentDefault</option>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+
+	</fields>
+
+	<fields
+		group="metadata"
+		label="Banners_Metadata_Options">
+
+		<field
+			id="metakey"
+			name="metakey"
+			type="textarea"
+			class="inputbox"
+			default=""
+			rows="3"
+			cols="30"
+			label="JField_Meta_Keywords_Label"
+			description="Banners_MetaKeywords_Desc"/>
+
+		<field
+			id="own_prefix"
+			name="own_prefix"
+			type="radio"
+			label="Banners_ClientOwnPrefix_Label"
+			description="Banners_ClientOwnPrefix_Desc"
+			default="0"
+			class="inputbox">
+			<option
+				value="0">Jno</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="metakey_prefix"
+			type="text"
+			default=""
+			label="Banners_MetaKeywordPrefix_Label"
+			description="Banners_MetaKeywordPrefix_Desc" />
+
+	</fields>
+
+	<fields
+		group="extra"
+		label="Banners_Extra">
+
+		<field
+			id="extrainfo"
+			name="extrainfo"
+			type="textarea"
+			class="inputbox"
+			default=""
+			rows="10"
+			cols="40"
+			label="Banners_ExtraInfo_Label"
+			description="Banners_ExtraInfo_Desc"/>
+
+	</fields>
+</form>

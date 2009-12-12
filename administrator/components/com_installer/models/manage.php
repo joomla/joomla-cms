@@ -92,14 +92,14 @@ class InstallerModelManage extends InstallerModel
 
 		return $result;
 	}
-	
+
 	/**
 	 * Refreshes the cached manifest information for an extension
 	 * @param int extension identifier (key in #__extensions)
 	 * @return boolean result of refresh
 	 * @since 1.6
 	 */
-	function refresh($eid) 
+	function refresh($eid)
 	{
 		if (!is_array($eid)) {
 			$eid = array($eid => 0);
@@ -119,7 +119,7 @@ class InstallerModelManage extends InstallerModel
 			$result	|= $installer->refreshManifestCache($id);
 		}
 		return $result;
-	}	
+	}
 
 	/**
 	 * Remove (uninstall) an extension
@@ -155,7 +155,7 @@ class InstallerModelManage extends InstallerModel
 		{
 			$id		= trim($id);
 			$row->load($id);
-			if ($row->type) 
+			if ($row->type)
 			{
 				$result	= $installer->uninstall($row->type, $id);
 
@@ -169,13 +169,13 @@ class InstallerModelManage extends InstallerModel
 			}
 		}
 
-		if (count($failed)) 
+		if (count($failed))
 		{
 			// There was an error in uninstalling the package
 			$msg = JText::sprintf('UNINSTALLEXT', JText::_($row->type), JText::_('Error'));
 			$result = false;
-		} 
-		else 
+		}
+		else
 		{
 			// Package uninstalled sucessfully
 			$msg = JText::sprintf('UNINSTALLEXT', JText::_($row->type), JText::_('Success'));
@@ -196,11 +196,11 @@ class InstallerModelManage extends InstallerModel
 	 * Builds the where query
 	 * @return The where clause
 	 */
-	function _buildWhere() 
+	function _buildWhere()
 	{
 		$retval = Array();
 		$filter = JRequest::getVar('filter','');
-		if ($filter) 
+		if ($filter)
 		{
 			$string = '(name LIKE "%'. $filter.'%" OR element LIKE "%'. $filter .'%"';
 			if (intval($filter)) {
@@ -223,9 +223,9 @@ class InstallerModelManage extends InstallerModel
 
 		$folder = JRequest::getVar('folder','All');
 		$valid_folders = Array('plugin','library','All'); // only plugins and libraries have folders
-		if (in_array($type, $valid_folders)) 
+		if (in_array($type, $valid_folders))
 		{ // if the type supports folders, look for that
-			if ($folder != 'All') 
+			if ($folder != 'All')
 			{
 				if ($folder == 'N/A') {
 					$folder = '';
@@ -241,7 +241,7 @@ class InstallerModelManage extends InstallerModel
 			return ' AND '. implode(' AND ', $retval);
 		} else return '';
 	}
-	
+
 	/**
 	 * Loads the list of extensions
 	 */
@@ -266,15 +266,15 @@ class InstallerModelManage extends InstallerModel
 		for($i=0;$i < $numRows; $i++)
 		{
 			$row =& $rows[$i];
-			if (strlen($row->manifest_cache)) 
+			if (strlen($row->manifest_cache))
 			{
 				$data = unserialize($row->manifest_cache);
-				if ($data) 
+				if ($data)
 				{
-					foreach($data as $key => $value) 
+					foreach($data as $key => $value)
 					{
 						if ($key == 'type') {
-							continue; // ignore the type field	
+							continue; // ignore the type field
 						}
 						$row->$key = $value;
 					}

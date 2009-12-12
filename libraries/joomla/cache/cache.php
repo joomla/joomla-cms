@@ -53,7 +53,7 @@ class JCache extends JObject
 			'storage'=>'file');
 
 		// Overwrite default options with given options
-		$this->_options = array_merge($this->_options,$options); 
+		$this->_options = array_merge($this->_options,$options);
 		//@todo:or with the ampersand here? Like "...& $options);" for speed if array_merge or this construct would make a deep copy otherwise
 
 		// Fix to detect if template positions are enabled...

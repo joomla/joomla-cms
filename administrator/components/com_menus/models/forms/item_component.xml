@@ -29,7 +29,7 @@
 			label="Menus_Item_Menu_Image_Label"
 			description="Menus_Item_Menu_Image_Desc"
 			default=""/>
-			
+
 		<field
 			id="show_page_title"
 			name="show_page_title"
