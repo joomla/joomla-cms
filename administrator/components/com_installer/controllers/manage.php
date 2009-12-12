@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: controller.php 13265 2009-10-21 10:08:19Z eddieajau $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 class InstallerControllerManage extends JController {
+	
 	/**
 	 * Enable an extension (If supported)
 	 *
@@ -64,6 +65,10 @@ class InstallerControllerManage extends JController {
 		$this->setRedirect('index.php?option=com_installer&view=manage');
 	}
 
+	/**
+	 * Refreshes the cached metadata about an extension
+	 * Useful for debugging and testing purposes when the XML file might change
+	 */
 	function refresh()
 	{
 		// Check for request forgeries

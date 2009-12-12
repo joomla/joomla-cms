@@ -61,6 +61,10 @@ class InstallerModelInstall extends InstallerModel
 		parent::_populateState();
 	}
 
+	/**
+	 * Install an extension from either folder, url or upload
+	 * @return boolean result of install
+	 */
 	function install()
 	{
 		$this->setState('action', 'install');
@@ -128,7 +132,8 @@ class InstallerModelInstall extends InstallerModel
 	}
 
 	/**
-	 * @param string The class name for the installer
+	 * Works out an installation package from a HTTP upload
+	 * @return package definition or false on failure
 	 */
 	function _getPackageFromUpload()
 	{
@@ -179,7 +184,7 @@ class InstallerModelInstall extends InstallerModel
 	 * Install an extension from a directory
 	 *
 	 * @static
-	 * @return boolean True on success
+	 * @return Package details or false on failure
 	 * @since 1.0
 	 */
 	function _getPackageFromFolder()
@@ -215,7 +220,7 @@ class InstallerModelInstall extends InstallerModel
 	 * Install an extension from a URL
 	 *
 	 * @static
-	 * @return boolean True on success
+	 * @return Package details or false on failure
 	 * @since 1.5
 	 */
 	function _getPackageFromUrl()

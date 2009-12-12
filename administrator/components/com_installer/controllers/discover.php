@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: controller.php 13265 2009-10-21 10:08:19Z eddieajau $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 class InstallerControllerDiscover extends JController {
 	/**
-	 * Discover handler
+	 * Refreshes the cache of discovered extensions
 	 */
 	public function refresh()
 	{
@@ -19,6 +19,9 @@ class InstallerControllerDiscover extends JController {
 		$this->setRedirect('index.php?option=com_installer&view=discover');
 	}
 
+	/**
+	 * Install a discovered extension
+	 */
 	function install()
 	{
 		$model	= &$this->getModel('discover');
@@ -27,6 +30,9 @@ class InstallerControllerDiscover extends JController {
 		$this->setRedirect('index.php?option=com_installer&view=discover');
 	}
 
+	/**
+	 * Clean out the discovered extension cache
+	 */
 	function purge()
 	{
 		$model = &$this->getModel('discover');

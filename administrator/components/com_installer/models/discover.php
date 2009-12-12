@@ -30,9 +30,8 @@ class InstallerModelDiscover extends InstallerModel
 	var $_message = '';
 
 	/**
-	 * Current extension list
+	 * Current discovered extension list
 	 */
-
 	function _loadItems()
 	{
 		jimport('joomla.filesystem.folder');
@@ -76,6 +75,10 @@ class InstallerModelDiscover extends InstallerModel
 		}
 	}
 
+	/**
+	 * Discover extensions
+	 * Finds uninstalled extensions
+	 */
 	function discover() {
 		$installer =& JInstaller::getInstance();
 		$results = $installer->discover();
@@ -89,15 +92,16 @@ class InstallerModelDiscover extends InstallerModel
 			if (!array_key_exists($result->get('element'), $installed)) {
 				// since the element doesn't exist, its definitely new
 				$result->store(); // put it into the table
-				//echo '<p>Added: <pre>'.print_r($result,1).'</pre></p>';
 			} else {
 				// TODO: Add extra checks here to add entries that have conflicting elements
 				// an element exists that matches this
-				//echo '<p>Ignored: '. $result->name .'</p>';
 			}
 		}
 	}
 
+	/**
+	 * Installs a discovered extension
+	 */
 	function discover_install() {
 		$installer =& JInstaller::getInstance();
 		$eid = JRequest::getVar('eid',0);
@@ -126,6 +130,9 @@ class InstallerModelDiscover extends InstallerModel
 		}
 	}
 
+	/**
+	 * Cleans out the list of discovered extensions
+	 */
 	function purge() {
 		$db =& JFactory::getDBO();
 		$db->setQuery('DELETE FROM #__extensions WHERE state = -1');

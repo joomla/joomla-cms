@@ -192,6 +192,10 @@ class InstallerModelManage extends InstallerModel
 		return $result;
 	}
 
+	/**
+	 * Builds the where query
+	 * @return The where clause
+	 */
 	function _buildWhere() 
 	{
 		$retval = Array();
@@ -238,6 +242,9 @@ class InstallerModelManage extends InstallerModel
 		} else return '';
 	}
 	
+	/**
+	 * Loads the list of extensions
+	 */
 	function _loadItems()
 	{
 		jimport('joomla.filesystem.folder');

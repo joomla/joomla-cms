@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: installer.php 13262 2009-10-21 09:27:27Z eddieajau $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */

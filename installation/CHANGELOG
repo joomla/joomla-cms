@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Dec-2009 Sam Moffatt
+ ! First commit from 32,000 feet
+ # Alteration to JError:getErrors to fix an error temporarily
+ ^ propset svn:keywords Id on a few files
+ ^ General documentation clean up
+
 11-Dec-2009 Louis Landry
  ^ [#18958] Administrator > Site > System Information > Directory Permissions (images/stories/) - Thanks Ryan Briscall
  ^ Clean up of reference operators as they aren't needed in PHP5 - Thanks Joe LeBlanc

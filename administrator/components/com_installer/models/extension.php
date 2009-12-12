@@ -39,12 +39,16 @@ class InstallerModel extends JModel
 		
 		// Force populate state
 		$this->_populateState();
+		
 		// Set state variables from the request
 		$this->setState('pagination.limit',	$app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int'));
 		$this->setState('pagination.offset',$app->getUserStateFromRequest('com_installer.limitstart.'.$this->getName(), 'limitstart', 0, 'int'));
 		$this->setState('pagination.total',	0);
 	}
 
+	/**
+	 * Returns a list of items
+	 */
 	public function &getItems()
 	{
 		if (empty($this->_items)) {
@@ -130,6 +134,9 @@ class InstallerModel extends JModel
 		return $result;
 	}
 
+	/** 
+	 * Loads items
+	 */
 	protected function _loadItems()
 	{
 		return JError::raiseError(500, JText::_('Method Not Implemented'));
@@ -151,6 +158,9 @@ class InstallerModel extends JModel
 		$session->clear('installer_state');
 	}
 	
+	/**
+	 * Stores a copy of the state in the session
+	 */
 	public function saveState()
 	{
 		$session = JFactory::getSession();

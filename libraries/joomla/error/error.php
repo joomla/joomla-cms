@@ -98,7 +98,7 @@ w
 	 */
 	public static function getErrors()
 	{
-		return JError::$stack[0];
+		return JError::$stack;
 	}
 
 	/**
