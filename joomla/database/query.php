@@ -78,13 +78,13 @@ class JQuery
 
     /** @var object The delete element */
     protected $_delete = null;
-    
+
     /** @var object The update element */
     protected $_update = null;
-    
+
     /** @var object The insert element */
     protected $_insert = null;
-    
+
 	/** @var object The from element */
 	protected $_from = null;
 
@@ -93,7 +93,7 @@ class JQuery
 
     /** @var object The set element */
     protected $_set = null;
-    
+
 	/** @var object The where element */
 	protected $_where = null;
 
@@ -120,7 +120,7 @@ class JQuery
 
 		return $this;
 	}
-	
+
     /**
      * @param   mixed   A string or an array of field names
      */
@@ -130,7 +130,7 @@ class JQuery
         $this->_delete = new JQueryElement('DELETE', array(), '');
         return $this;
     }
-    
+
     /**
      * @param   mixed   A string or array of table names
      */
@@ -140,10 +140,10 @@ class JQuery
         $this->_insert = new JQueryElement('INSERT INTO', $tables);
         return $this;
     }
-    
+
     /**
      * @param   mixed   A string or array of table names
-     */    
+     */
     public function update($tables)
     {
         $this->_type = 'update';
@@ -218,7 +218,7 @@ class JQuery
 
 		return $this;
 	}
-	
+
     /**
      * @param   mixed   A string or array of conditions
      * @param   string

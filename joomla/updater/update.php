@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Update
  * @since		1.6
  */
-class JUpdate extends JObject 
+class JUpdate extends JObject
 {
 	protected $name;
 	protected $description;
@@ -54,7 +54,7 @@ class JUpdate extends JObject
      *
      * @return string
      */
-    protected function _getLastTag() 
+    protected function _getLastTag()
     {
     	return $this->_stack[count($this->_stack) - 1];
     }
@@ -67,7 +67,7 @@ class JUpdate extends JObject
      * @param string name of the tag found
      * @param array attributes of the tag
      */
-	public function _startElement($parser, $name, $attrs = Array()) 
+	public function _startElement($parser, $name, $attrs = Array())
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
@@ -98,23 +98,23 @@ class JUpdate extends JObject
 	 * @param object parser object
 	 * @param string name of element that was closed
 	 */
-	public function _endElement($parser, $name) 
+	public function _endElement($parser, $name)
 	{
 		array_pop($this->_stack);
-		switch($name) 
+		switch($name)
 		{
 			case 'UPDATE': // closing update, find the latest version and check
 				$ver = new JVersion();
 				$filter =& JFilterInput::getInstance();
 				$product = strtolower($filter->clean($ver->PRODUCT, 'cmd'));
-				if($product == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version) 
+				if($product == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version)
 				{
-					if(isset($this->_latest)) 
+					if(isset($this->_latest))
 					{
 						if(version_compare($this->_current_update->version->_data, $this->_latest->version->_data, '>') == 1) {
 							$this->_latest = $this->_current_update;
 						}
-					} 
+					}
 					else {
 						$this->_latest = $this->_current_update;
 					}
@@ -122,15 +122,15 @@ class JUpdate extends JObject
 				break;
 			case 'UPDATES':
 				// If the latest item is set then we transfer it to where we want to
-				if(isset($this->_latest)) 
+				if(isset($this->_latest))
 				{
 					foreach(get_object_vars($this->_latest) as $key=>$val) {
 						$this->$key = $val;
 					}
 					unset($this->_latest);
 					unset($this->_current_update);
-				} 
-				else if(isset($this->_current_update)) 
+				}
+				else if(isset($this->_current_update))
 				{
 					// the update might be for an older version of j!
 					unset($this->_current_update);
@@ -152,9 +152,9 @@ class JUpdate extends JObject
 		$this->_current_update->$tag->_data .= $data;
 	}
 
-	public function loadFromXML($url) 
+	public function loadFromXML($url)
 	{
-		if (!($fp = @fopen($url, "r"))) 
+		if (!($fp = @fopen($url, "r")))
 		{
 			// TODO: Add a 'mark bad' setting here somehow
 		    JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Extension') .': '. JText::_('Could not open').' '. $url);
@@ -166,9 +166,9 @@ class JUpdate extends JObject
 		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
 		xml_set_character_data_handler($this->xml_parser, '_characterData');
 
-		while ($data = fread($fp, 8192)) 
+		while ($data = fread($fp, 8192))
 		{
-		    if (!xml_parse($this->xml_parser, $data, feof($fp))) 
+		    if (!xml_parse($this->xml_parser, $data, feof($fp)))
 		    {
 		        die(sprintf("XML error: %s at line %d",
 		                    xml_error_string(xml_get_error_code($this->xml_parser)),
