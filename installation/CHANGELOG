@@ -30,6 +30,8 @@ $ -> Language fix or change
 13-Dec-2009 Andrew Eddie
  # Fixed JHtmlSelect::options so that empy labels would not be translated.
  # Fixed duplicate support for com_modules.
+ # Changed JApplcation::redirect to default to 303 and added $moved argument to allow for permanent redirects.
+ ^ Adjust redirect plugin to use permanent redirect.
 
 12-Dec-2009 Louis Landry
  ^ Merged in refactored banners component thanks to Christophe Demko.
