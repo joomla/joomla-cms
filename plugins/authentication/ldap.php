@@ -34,7 +34,7 @@ class plgAuthenticationLdap extends JPlugin
 	 */
 	function onAuthenticate($credentials, $options, &$response)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$userdetails = null;
 		$success = 0;
 		$userdetails = Array();

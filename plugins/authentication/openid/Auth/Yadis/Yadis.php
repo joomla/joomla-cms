@@ -70,7 +70,7 @@ class Auth_Yadis_DiscoveryResult {
 
     function Auth_Yadis_DiscoveryResult($request_uri)
     {
-        // Initialize the state of the object
+        // Initialise the state of the object
         // sets all attributes to None except the request_uri
         $this->request_uri = $request_uri;
     }

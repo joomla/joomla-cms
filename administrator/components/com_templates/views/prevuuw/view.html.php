@@ -33,7 +33,7 @@ class TemplatesViewPrevuuw extends JView
 
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'templates.php';
 
-		// Initialize some variables
+		// Initialise some variables
 		$option 	= JRequest::getCmd('option');
 		$id 		= JRequest::getVar('id', '', 'method', 'int');
 		$template	= TemplatesHelper::getTemplateName($id);

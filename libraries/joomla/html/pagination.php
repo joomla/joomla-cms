@@ -147,7 +147,7 @@ class JPagination extends JObject
 	 */
 	public function getPagesCounter()
 	{
-		// Initialize variables
+		// Initialise variables.
 		$html = null;
 		if ($this->get('pages.total') > 1) {
 			$html .= JText::sprintf('JPAGE_CURRENT_OF_TOTAL', $this->get('pages.current'), $this->get('pages.total'));
@@ -163,7 +163,7 @@ class JPagination extends JObject
 	 */
 	public function getResultsCounter()
 	{
-		// Initialize variables
+		// Initialise variables.
 		$html = null;
 		$fromResult = $this->limitstart + 1;
 
@@ -321,7 +321,7 @@ class JPagination extends JObject
 	{
 		$app = JFactory::getApplication();
 
-		// Initialize variables.
+		// Initialise variables.
 		$limits = array ();
 
 		// Make the option list.
@@ -472,7 +472,7 @@ class JPagination extends JObject
 	 */
 	protected function _buildDataObject()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$data = new stdClass();
 
 		$data->all = new JPaginationObject(JText::_('View All'), $this->prefix);

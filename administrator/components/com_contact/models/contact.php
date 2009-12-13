@@ -71,7 +71,7 @@ class ContactModelContact extends JModelForm
 	 */
 	public function &getItem($itemId = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$itemId = (!empty($itemId)) ? $itemId : (int)$this->getState('contact.id');
 		$false	= false;
 
@@ -118,7 +118,7 @@ class ContactModelContact extends JModelForm
 	 */
 	public function getForm()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		JImport('joomla.form.form');
 		JForm::addFieldPath('JPATH_ADMINISTRATOR/components/com_users/models/fields');
@@ -300,7 +300,7 @@ class ContactModelContact extends JModelForm
 
 	public function checkin($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 		// Only attempt to check the row in if it exists.
 		if ($pk)
@@ -335,7 +335,7 @@ class ContactModelContact extends JModelForm
 	 */
 	public function checkout($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk		= (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
 		// Only attempt to check the row in if it exists.

@@ -127,7 +127,7 @@ class MenusControllerItems extends JController
 	{
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$pks	= JRequest::getVar('cid', null, 'post', 'array');
 		$model	= &$this->getModel();
 

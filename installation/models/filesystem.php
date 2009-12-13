@@ -400,7 +400,7 @@ class JInstallationModelFilesystem extends JModel
 		// Get the options as a JObject for easier handling.
 		$options = JArrayHelper::toObject($options, 'JObject');
 
-		// Initialize variables.
+		// Initialise variables.
 		$ftpFlag = false;
 		$ftpRoot = $options->ftpRoot;
 
@@ -476,7 +476,7 @@ class JInstallationModelFilesystem extends JModel
 		$app	= &JFactory::getApplication();
 		$ret = false;
 
-		// Initialize variables
+		// Initialise variables.
 		$ftpFlag = true;
 		$ftpRoot = $app->getCfg('ftp_root');
 

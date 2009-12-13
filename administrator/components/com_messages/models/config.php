@@ -41,7 +41,7 @@ class MessagesModelConfig extends JModel
 		$this->_db->setQuery($query);
 		$data = $this->_db->loadObjectList('cfg_name');
 
-		// initialize values if they do not exist
+		// Initialise values if they do not exist
 		if (!isset($data['lock']->cfg_value)) {
 			$data['lock']->cfg_value 		= 0;
 		}

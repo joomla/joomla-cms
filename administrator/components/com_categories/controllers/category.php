@@ -51,7 +51,7 @@ class CategoriesControllerCategory extends JController
 	 */
 	public function add()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 
 		// Clear the row edit information from the session.
@@ -73,7 +73,7 @@ class CategoriesControllerCategory extends JController
 	 */
 	public function edit()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$pks	= JRequest::getVar('cid', array(), '', 'array');
 
@@ -125,7 +125,7 @@ class CategoriesControllerCategory extends JController
 	{
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('Category');
 
@@ -161,7 +161,7 @@ class CategoriesControllerCategory extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('Category');
 		$task	= $this->getTask();
@@ -289,7 +289,7 @@ class CategoriesControllerCategory extends JController
 	{
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('Category');
 		$vars	= JRequest::getVar('batch', array(), 'post', 'array');

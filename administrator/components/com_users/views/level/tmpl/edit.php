@@ -78,7 +78,7 @@ window.addEvent('domready', function(){
 			}.bind(this));
 		}.bind(i));
 
-		// Initialize the widget.
+		// Initialise the widget.
 		if (i.getProperty('checked')) {
 			i.fireEvent('click');
 		}

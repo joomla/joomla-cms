@@ -81,7 +81,7 @@ class ContactController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize some variables
+		// Initialise some variables
 		$app		= &JFactory::getApplication();
 		$db			= & JFactory::getDbo();
 		$SiteName	= $app->getCfg('sitename');
@@ -210,7 +210,7 @@ class ContactController extends JController
 	 */
 	function vcard()
 	{
-		// Initialize some variables
+		// Initialise some variables
 		$app	= &JFactory::getApplication();
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();

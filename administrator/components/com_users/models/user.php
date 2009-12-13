@@ -559,7 +559,7 @@ class UsersModelUser extends JModelForm
 	 */
 	public function getAssignedGroups($userId = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
 
 		jimport('joomla.user.helper');

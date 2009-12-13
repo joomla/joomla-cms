@@ -39,7 +39,7 @@ class JFormFieldMenuType extends JFormFieldList
 	 */
 	protected function _getInput()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$html = array();
 		$types = $this->_getTypeList();
 
@@ -96,7 +96,7 @@ class JFormFieldMenuType extends JFormFieldList
 
 	protected function _getTypeList()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$html = array();
 		$types = $this->_getTypeOptions();
 
@@ -157,7 +157,7 @@ class JFormFieldMenuType extends JFormFieldList
 	{
 		jimport('joomla.filesystem.file');
 
-		// Initialize variables.
+		// Initialise variables.
 		$lang = &JFactory::getLanguage();
 		$list = array();
 
@@ -199,7 +199,7 @@ class JFormFieldMenuType extends JFormFieldList
 
 	protected function _getTypeOptionsByComponent($component)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$options = array();
 
 		$mainXML = JPATH_SITE.'/components/'.$component.'/metadata.xml';
@@ -216,7 +216,7 @@ class JFormFieldMenuType extends JFormFieldList
 
 	protected function _getTypeOptionsFromXML($file, $component)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$options = array();
 
 		// Attempt to load the xml file.
@@ -290,7 +290,7 @@ class JFormFieldMenuType extends JFormFieldList
 
 	protected function _getTypeOptionsFromMVC($component)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$options = array();
 
 		// Get the views for this component.
@@ -377,7 +377,7 @@ class JFormFieldMenuType extends JFormFieldList
 
 	protected function _getTypeOptionsFromLayouts($component, $view)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$options = array();
 		$layouts = array();
 		$layoutNames = array();

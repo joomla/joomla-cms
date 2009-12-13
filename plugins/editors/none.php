@@ -22,7 +22,7 @@ class plgEditorNone extends JPlugin
 {
 	/**
 	 * Method to handle the onInitEditor event.
-	 *  - Initializes the Editor
+	 *  - Initialises the Editor
 	 *
 	 * @access public
 	 * @return string JavaScript Initialization string

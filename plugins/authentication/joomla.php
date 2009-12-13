@@ -44,7 +44,7 @@ class plgAuthenticationJoomla extends JPlugin
 			return false;
 		}
 
-		// Initialize variables
+		// Initialise variables.
 		$conditions = '';
 
 		// Get a database object

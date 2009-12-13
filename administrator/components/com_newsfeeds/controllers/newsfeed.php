@@ -28,7 +28,7 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 	 */
 	protected function _allowAdd($data = array())
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$user		= JFactory::getUser();
 		$categoryId	= JArrayHelper::getValue($data, 'catid', JRequest::getInt('filter_category_id'), 'int');
 		$allow		= null;
@@ -58,7 +58,7 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 	 */
 	protected function _allowEdit($data = array(), $key = 'id')
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$categoryId	= (int) isset($data['catid']) ? $data['catid'] : 0;
 		$user		= JFactory::getUser();
 		if ($categoryId)

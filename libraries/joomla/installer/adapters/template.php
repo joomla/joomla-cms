@@ -205,7 +205,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$retval	= true;
 
 		// First order of business will be to load the module object table from the database.

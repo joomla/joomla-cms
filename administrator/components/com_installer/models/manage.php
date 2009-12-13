@@ -29,7 +29,7 @@ class InstallerModelManage extends InstallerModel
 	 */
 	function enable($eid=array())
 	{
-		// Initialize variables
+		// Initialise variables.
 		$result	= false;
 
 		/*
@@ -65,7 +65,7 @@ class InstallerModelManage extends InstallerModel
 	 */
 	function disable($eid=array())
 	{
-		// Initialize variables
+		// Initialise variables.
 		$result		= false;
 
 		/*
@@ -131,7 +131,7 @@ class InstallerModelManage extends InstallerModel
 	 */
 	function remove($eid=array())
 	{
-		// Initialize variables
+		// Initialise variables.
 		$failed = array ();
 
 		/*

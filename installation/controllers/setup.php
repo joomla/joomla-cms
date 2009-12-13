@@ -108,8 +108,8 @@ class JInstallationControllerSetup extends JController
 		// Get the database model.
 		$database = & $this->getModel('Database', 'JInstallationModel', array('dbo' => null));
 
-		// Attempt to initialize the database.
-		$return = $database->initialize($vars);
+		// Attempt to initialise the database.
+		$return = $database->initialise($vars);
 
 		// Ensure a language was set.
 		if (!$return) {

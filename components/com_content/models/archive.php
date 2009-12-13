@@ -155,7 +155,7 @@ class ContentModelArchive extends JModel
 	{
 		$app = JFactory::getApplication();
 
-		// Initialize some variables
+		// Initialise some variables
 		$user	= &JFactory::getUser();
 		$db		= &JFactory::getDbo();
 		$groups	= implode(',', $user->authorisedLevels());

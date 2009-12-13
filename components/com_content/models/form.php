@@ -89,7 +89,7 @@ class ContentModelForm extends JModelForm
 	 */
 	public function getItem($itemId = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('article.id');
 
 		// Get a row instance.
@@ -221,7 +221,7 @@ class ContentModelForm extends JModelForm
 	 */
 	public function checkin($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 		// Only attempt to check the row in if it exists.
@@ -260,7 +260,7 @@ class ContentModelForm extends JModelForm
 	 */
 	public function checkout($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk		= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 		// Only attempt to check the row in if it exists.

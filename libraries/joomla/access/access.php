@@ -199,7 +199,7 @@ class JAccess
 			}
 		}
 
-		// Initialize the authorised array.
+		// Initialise the authorised array.
 		$authorised = array(1);
 
 		// Find the authorized levels.

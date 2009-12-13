@@ -822,7 +822,7 @@ class JForm extends JObject
 			$this->addFields($xml->children(), $group);
 		}
 
-		// Initialize the data group.
+		// Initialise the data group.
 		if ($reset) {
 			$this->_data[$group] = array();
 		} else {

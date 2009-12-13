@@ -75,7 +75,7 @@ class JURI extends JObject
 
 	/**
 	 * Constructor.
-	 * You can pass a URI string to the constructor to initialize a specific URI.
+	 * You can pass a URI string to the constructor to initialise a specific URI.
 	 *
 	 * @param	string $uri The optional URI string
 	 */
@@ -273,7 +273,7 @@ class JURI extends JObject
 	 */
 	public function parse($uri)
 	{
-		//Initialize variables
+		// Initialise variables
 		$retval = false;
 
 		// Set the original URI to fall back on

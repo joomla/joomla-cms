@@ -78,7 +78,7 @@ function pagination_list_footer($list)
 
 function pagination_list_render($list)
 {
-	// Initialize variables
+	// Initialise variables.
 	$html = "<span class=\"pagination\">";
 	$html .= '<span>&laquo;</span>'.$list['start']['data'];
 	$html .= $list['previous']['data'];

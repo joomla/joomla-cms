@@ -33,7 +33,7 @@ class JFormFieldLanguage extends JFormFieldList
 	 */
 	protected function _getOptions()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = & JFactory::getApplication();
 
 		// Detect the native language.

@@ -226,7 +226,7 @@ class UsersModelProfile extends JModelForm
 	{
 		$memberId = (!empty($data['id'])) ? $data['id'] : (int)$this->getState('member.id');
 
-		// initialize the table with JUser.
+		// Initialise the table with JUser.
 		JUser::getTable('User', 'JTable');
 		$user = new JUser($memberId);
 

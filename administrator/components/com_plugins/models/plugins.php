@@ -32,7 +32,7 @@ class PluginsModelPlugins extends JModelList
 	 */
 	protected function _populateState()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.

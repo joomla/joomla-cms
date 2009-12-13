@@ -86,7 +86,7 @@ class JAuthentication extends JObservable
 	 */
 	public function authenticate($credentials, $options)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$auth = false;
 
 		// Get plugins

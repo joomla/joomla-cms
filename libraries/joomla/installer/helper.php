@@ -73,7 +73,7 @@ class JInstallerHelper
 			$target = $config->getValue('config.tmp_path').DS.basename($target);
 		}
 
-		// Initialize contents buffer
+		// Initialise contents buffer
 		$contents = null;
 
 		while (!feof($inputHandle))

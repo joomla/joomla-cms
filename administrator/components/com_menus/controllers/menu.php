@@ -46,7 +46,7 @@ class MenusControllerMenu extends JController
 	 */
 	public function add()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 
 		// Clear the menu item edit information from the session.
@@ -64,7 +64,7 @@ class MenusControllerMenu extends JController
 	 */
 	public function edit()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
@@ -87,7 +87,7 @@ class MenusControllerMenu extends JController
 	 */
 	public function cancel()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 
 		// Clear the menu item edit information from the session.
@@ -108,7 +108,7 @@ class MenusControllerMenu extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$task	= $this->getTask();
 

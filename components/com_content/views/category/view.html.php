@@ -37,7 +37,7 @@ class ContentViewCategory extends JView
 	 */
 	function display($tpl = null)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$user		= &JFactory::getUser();
 		$app		= &JFactory::getApplication();
 

@@ -81,7 +81,7 @@ class MediaModelList extends JModel
 			$current = '';
 		}
 
-		// Initialize variables
+		// Initialise variables.
 		if (strlen($current) > 0) {
 			$basePath = COM_MEDIA_BASE.DS.$current;
 		} else {

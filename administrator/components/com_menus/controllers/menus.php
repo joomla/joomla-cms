@@ -76,7 +76,7 @@ class MenusControllerMenus extends JController
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 
-		// Initialize variables.
+		// Initialise variables.
 		$model = &$this->getModel('Item');
 
 		if ($model->rebuild())

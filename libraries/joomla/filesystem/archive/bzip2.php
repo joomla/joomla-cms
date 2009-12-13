@@ -58,7 +58,7 @@ class JArchiveBzip2 extends JObject
 	*/
 	function extract($archive, $destination, $options = array ())
 	{
-		// Initialize variables
+		// Initialise variables.
 		$this->_data = null;
 
 		if (!extension_loaded('bz2')) {

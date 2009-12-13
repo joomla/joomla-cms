@@ -27,7 +27,7 @@ class UsersModelMail extends JModelForm
 	 */
 	public function getForm()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app 	= JFactory::getApplication();
 
 		// Get the form.

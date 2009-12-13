@@ -101,7 +101,7 @@ class ContentModelCategory extends JModelItem
 	 */
 	public function &getItem($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 		if ($this->_item === null) {
@@ -256,7 +256,7 @@ class ContentModelCategory extends JModelItem
 	 */
 	function &getChildren($categoryId = 0)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$categoryId = (!empty($categoryId)) ? $categoryId : $this->getState('category.id');
 
 		if ($this->_children === null)
@@ -288,7 +288,7 @@ class ContentModelCategory extends JModelItem
 	 */
 	function &getParents($categoryId = 0)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$categoryId = (!empty($categoryId)) ? $categoryId : $this->getState('category.id');
 
 		if ($this->_parents === null)

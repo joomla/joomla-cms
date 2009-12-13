@@ -390,7 +390,7 @@ class Auth_Yadis_Discovery {
     function Auth_Yadis_Discovery(&$session, $url,
                                       $session_key_suffix = null)
     {
-        /// Initialize a discovery object
+        /// Initialise a discovery object
         $this->session = &$session;
         $this->url = $url;
         if ($session_key_suffix === null) {

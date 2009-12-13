@@ -141,7 +141,7 @@ class MediaControllerFile extends MediaController
 		$paths	= JRequest::getVar('rm', array(), '', 'array');
 		$folder = JRequest::getVar('folder', '', '', 'path');
 
-		// Initialize variables
+		// Initialise variables.
 		$msg = array();
 		$ret = true;
 

@@ -161,7 +161,7 @@ class JProfiler extends JObject
 		}
 		else
 		{
-			// Initialize variables
+			// Initialise variables.
 			$output	= array();
 			$pid	= getmypid();
 

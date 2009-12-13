@@ -369,7 +369,7 @@ class ContentModelArticle extends JModelForm
 	 */
 	function saveorder(&$pks, $order)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$table		= $this->getTable();
 		$conditions	= array();
 

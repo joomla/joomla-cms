@@ -112,7 +112,7 @@ class plgUserExample extends JPlugin
 	 */
 	function onLoginUser($user, $options)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$success = false;
 
 		// Here you would do whatever you need for a login routine with the credentials
@@ -139,7 +139,7 @@ class plgUserExample extends JPlugin
 	 */
 	function onLogoutUser($user)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$success = false;
 
 		// Here you would do whatever you need for a logout routine with the credentials

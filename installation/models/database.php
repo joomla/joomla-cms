@@ -22,7 +22,7 @@ require_once JPATH_INSTALLATION.'/helpers/database.php';
 class JInstallationModelDatabase extends JModel
 {
 
-	function initialize($options)
+	function initialise($options)
 	{
 		// Get the options as a JObject for easier handling.
 		$options = JArrayHelper::toObject($options, 'JObject');
@@ -271,7 +271,7 @@ class JInstallationModelDatabase extends JModel
 	 */
 	function backupDatabase(& $db, $name, $prefix)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$return = true;
 		$backup = 'bak_';
 
@@ -364,7 +364,7 @@ class JInstallationModelDatabase extends JModel
 	 */
 	function deleteDatabase(& $db, $name, $prefix)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$return = true;
 
 		// Get the tables in the database.
@@ -407,7 +407,7 @@ class JInstallationModelDatabase extends JModel
 	 */
 	function populateDatabase(& $db, $schema)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$return = true;
 
 		// Get the contents of the schema file.
@@ -481,7 +481,7 @@ class JInstallationModelDatabase extends JModel
 	 */
 	function _splitQueries($sql)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$buffer		= array();
 		$queries	= array();
 		$in_string	= false;

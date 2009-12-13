@@ -118,7 +118,7 @@ class WeblinksModelCategory extends JModelList
 	 */
 	protected function _populateState()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$params	= JComponentHelper::getParams('com_weblinks');
 
@@ -211,7 +211,7 @@ class WeblinksModelCategory extends JModelList
 	 */
 	function &getChildren($categoryId = 0)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$categoryId = (!empty($categoryId)) ? $categoryId : $this->getState('category.id');
 
 		if ($this->_children === null)
@@ -243,7 +243,7 @@ class WeblinksModelCategory extends JModelList
 	 */
 	function &getParents($categoryId = 0)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$categoryId = (!empty($categoryId)) ? $categoryId : $this->getState('category.id');
 
 		if ($this->_parents === null)

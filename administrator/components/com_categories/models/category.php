@@ -78,7 +78,7 @@ class CategoriesModelCategory extends JModelForm
 	 */
 	public function &getItem($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int)$this->getState('category.id');
 
 		// Get a level row instance.
@@ -125,7 +125,7 @@ class CategoriesModelCategory extends JModelForm
 	 */
 	public function getForm()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 
 		// Get the form.
@@ -159,7 +159,7 @@ class CategoriesModelCategory extends JModelForm
 	 */
 	public function checkin($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 		// Only attempt to check the row in if it exists.
@@ -199,7 +199,7 @@ class CategoriesModelCategory extends JModelForm
 	 */
 	public function checkout($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 		// Only attempt to check the row in if it exists.

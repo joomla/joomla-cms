@@ -60,7 +60,7 @@ class JTableCategory extends JTableNested
 	 */
 	protected function _getAssetParentId()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$assetId = null;
 
 		// This is a category under a category.

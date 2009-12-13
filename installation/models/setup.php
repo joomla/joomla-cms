@@ -62,7 +62,7 @@ class JInstallationModelSetup extends JModel
 	 */
 	public function &getForm($view = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$false = false;
 
 		if (!$view) {
@@ -94,7 +94,7 @@ class JInstallationModelSetup extends JModel
 
 	public function getDboptions()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$options = array();
 
 		// Create an array of known database connect functions.
@@ -137,7 +137,7 @@ class JInstallationModelSetup extends JModel
 	 */
 	public function getLanguages()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 
 		// Detect the native language.
@@ -166,7 +166,7 @@ class JInstallationModelSetup extends JModel
 	 */
 	public function getPhpOptions()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$options = array();
 
 		// Check the PHP Version.
@@ -232,7 +232,7 @@ class JInstallationModelSetup extends JModel
 	 */
 	public function getPhpSettings()
 	{
-		// Initialize variables
+		// Initialise variables.
 		$settings = array();
 
 		// Check for safe mode.

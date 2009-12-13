@@ -365,7 +365,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$row	= null;
 		$retval = true;
 		$db		= &$this->parent->getDbo();

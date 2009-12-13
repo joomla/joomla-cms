@@ -32,7 +32,7 @@ class JCacheView extends JCache
 	 */
 	function get(&$view, $method, $id=false)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 		$data = false;
 

@@ -65,7 +65,7 @@ defined('_JEXEC') or die;
 
 function pagination_list_footer($list)
 {
-	// Initialize variables
+	// Initialise variables.
 	$lang = &JFactory::getLanguage();
 	$html = "<del class=\"container\"><div class=\"pagination\">\n";
 
@@ -81,7 +81,7 @@ function pagination_list_footer($list)
 
 function pagination_list_render($list)
 {
-	// Initialize variables
+	// Initialise variables.
 	$lang = &JFactory::getLanguage();
 	$html = null;
 

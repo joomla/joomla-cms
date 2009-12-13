@@ -67,7 +67,7 @@ class LanguagesModelLanguage extends JModelForm
 	 */
 	public function &getItem($langId = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$langId	= (!empty($langId)) ? $langId : (int) $this->getState('language.id');
 		$false		= false;
 
@@ -95,7 +95,7 @@ class LanguagesModelLanguage extends JModelForm
 	 */
 	public function getForm()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 
 		// Get the form.

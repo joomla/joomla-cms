@@ -30,7 +30,7 @@ class JCachePage extends JCache
 	 */
 	function get($id=false, $group='page')
 	{
-		// Initialize variables
+		// Initialise variables.
 		$data = false;
 
 		// If an id is not given generate it from the request

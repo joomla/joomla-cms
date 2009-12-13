@@ -136,7 +136,7 @@ class JAdminCssMenu extends JTree
 	{
 		static $classes;
 
-		// Initialize the known classes array if it does not exist
+		// Initialise the known classes array if it does not exist
 		if (!is_array($classes)) {
 			$classes = array();
 		}

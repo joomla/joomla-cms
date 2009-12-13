@@ -234,7 +234,7 @@ class JInstaller extends JAdapter
 	 */
 	public function abort($msg=null, $type=null)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$retval = true;
 		$step = array_pop($this->_stepStack);
 
@@ -660,7 +660,7 @@ class JInstaller extends JAdapter
 	 */
 	public function parseSQLFiles($element)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$queries = array();
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->get('name'));
@@ -752,7 +752,7 @@ class JInstaller extends JAdapter
 	 */
 	public function parseFiles($element, $cid=0, $oldFiles=null, $oldMD5=null)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$copyfiles = array ();
 
 		// Get the client info
@@ -867,7 +867,7 @@ class JInstaller extends JAdapter
 	 */
 	public function parseLanguages($element, $cid=0)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$copyfiles = array ();
 
 		// Get the client info
@@ -984,7 +984,7 @@ class JInstaller extends JAdapter
 	 */
 	public function parseMedia($element, $cid=0)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$copyfiles = array ();
 
 		// Get the client info
@@ -1218,7 +1218,7 @@ class JInstaller extends JAdapter
 	 */
 	public function removeFiles($element, $cid=0)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$removefiles = array ();
 		$retval = true;
 
@@ -1436,7 +1436,7 @@ class JInstaller extends JAdapter
 	 */
 	public function isManifest($file)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$xml	= &JFactory::getXMLParser('Simple');
 
 		// If we cannot load the xml file return null

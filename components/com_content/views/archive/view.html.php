@@ -30,7 +30,7 @@ class ContentViewArchive extends JView
 			$layout = 'list';
 		}
 
-		// Initialize some variables
+		// Initialise some variables
 		$user		= &JFactory::getUser();
 		$pathway	= &$app->getPathway();
 		$document	= &JFactory::getDocument();

@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 <?php else : ?>
 	<h5>Sub Categories</h5>
 <?php
-	// Initialize the starting level
+	// Initialise the starting level
 	// starting level is the parent level coming in
 	$curLevel = $this->item->level;
 	$difLevel = 0;

@@ -51,7 +51,7 @@ class MenusControllerItem extends JController
 	 */
 	public function add()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 
 		// Clear the row edit information from the session.
@@ -74,7 +74,7 @@ class MenusControllerItem extends JController
 	 */
 	public function edit()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$pks	= JRequest::getVar('cid', array(), '', 'array');
 
@@ -124,7 +124,7 @@ class MenusControllerItem extends JController
 	{
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 
 		$app	= &JFactory::getApplication();
 		// Get the previous menu item id (if any) and the current menu item id.
@@ -163,7 +163,7 @@ class MenusControllerItem extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('Item');
 		$task	= $this->getTask();
@@ -316,7 +316,7 @@ class MenusControllerItem extends JController
 
 	function setType()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 
 		// Get the type.
@@ -374,7 +374,7 @@ class MenusControllerItem extends JController
 	{
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('Item');
 		$vars	= JRequest::getVar('batch', array(), 'post', 'array');

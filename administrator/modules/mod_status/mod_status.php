@@ -10,7 +10,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-// Initialize variables.
+// Initialise variables.
 $config = &JFactory::getConfig();
 $user = &JFactory::getUser();
 $db = &JFactory::getDbo();

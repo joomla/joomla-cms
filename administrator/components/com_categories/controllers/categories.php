@@ -127,7 +127,7 @@ class CategoriesControllerCategories extends JController
 	{
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$pks	= JRequest::getVar('cid', null, 'post', 'array');
 		$model	= &$this->getModel();
 
@@ -159,7 +159,7 @@ class CategoriesControllerCategories extends JController
 
 		$this->setRedirect('index.php?option=com_categories&view=categories');
 
-		// Initialize variables.
+		// Initialise variables.
 		$model = &$this->getModel();
 
 		if ($model->rebuild())

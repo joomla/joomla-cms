@@ -356,7 +356,7 @@ class PluginsModelPlugin extends JModelForm
 	 */
 	function saveorder($pks, $order)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$user		= JFactory::getUser();
 		$table		= $this->getTable();
 		$conditions	= array();

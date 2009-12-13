@@ -117,7 +117,7 @@ class WeblinksViewWeblink extends JView
 			/*
 			 * The web link does not already exist so we are creating a new one.  Here
 			 * we want to manipulate the pathway and pagetitle to indicate this.  Also,
-			 * we need to initialize some values.
+			 * we need to initialise some values.
 			 */
 			$weblink->published = 0;
 			$weblink->approved = 1;

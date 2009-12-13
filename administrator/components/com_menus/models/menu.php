@@ -68,7 +68,7 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function &getItem($itemId = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$itemId = (!empty($itemId)) ? $itemId : (int)$this->getState('menu.id');
 		$false	= false;
 
@@ -95,7 +95,7 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function getForm()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication();
 
 		// Get the form.

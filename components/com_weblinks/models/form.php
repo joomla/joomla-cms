@@ -89,7 +89,7 @@ class WeblinksModelForm extends JModelForm
 	 */
 	public function getItem($itemId = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('weblink.id');
 
 		// Get a row instance.

@@ -89,7 +89,7 @@ class RedirectModelLink extends JModelForm
 	 */
 	public function &getItem($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('link.id');
 		$false	= false;
 

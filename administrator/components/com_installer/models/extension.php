@@ -84,7 +84,7 @@ class InstallerModel extends JModel
 	public function remove($eid=array())
 	{
 
-		// Initialize variables
+		// Initialise variables.
 		$app	= &JFactory::getApplication();
 		$failed = array ();
 

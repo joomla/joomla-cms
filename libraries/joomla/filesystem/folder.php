@@ -34,7 +34,7 @@ class JFolder
 	 */
 	function copy($src, $dest, $path = '', $force = false, $use_streams=false)
 	{
-		// Initialize variables
+		// Initialise variables.
 		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
@@ -141,7 +141,7 @@ class JFolder
 	 */
 	function create($path = '', $mode = 0755)
 	{
-		// Initialize variables
+		// Initialise variables.
 		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 		static $nested = 0;
@@ -262,7 +262,7 @@ class JFolder
 			return false;
 		}
 
-		// Initialize variables
+		// Initialise variables.
 		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
@@ -341,7 +341,7 @@ class JFolder
 	 */
 	function move($src, $dest, $path = '', $use_streams=false)
 	{
-		// Initialize variables
+		// Initialise variables.
 		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
@@ -418,7 +418,7 @@ class JFolder
 	 */
 	public static function files($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*','.*~'))
 	{
-		// Initialize variables
+		// Initialise variables.
 		$arr = array();
 
 		// Check to make sure the path valid and clean
@@ -486,7 +486,7 @@ class JFolder
 	 */
 	public static function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*'))
 	{
-		// Initialize variables
+		// Initialise variables.
 		$arr = array();
 
 		// Check to make sure the path valid and clean

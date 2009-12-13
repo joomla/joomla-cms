@@ -29,7 +29,7 @@ function UsersBuildRoute(&$query)
 	static $resend;
 	static $reset;
 
-	// Initialize variables.
+	// Initialise variables.
 	$segments = array();
 
 	// Get the relevant menu items if not loaded.
@@ -170,7 +170,7 @@ function UsersBuildRoute(&$query)
  */
 function UsersParseRoute($segments)
 {
-	// Initialize variables.
+	// Initialise variables.
 	$vars = array();
 
 	// Only run routine if there are segments to parse.

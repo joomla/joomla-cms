@@ -30,7 +30,7 @@ class JMenuSite extends JMenu
 		{
 			jimport('joomla.database.query');
 
-			// Initialize some variables.
+			// Initialise some variables.
 			$db = &JFactory::getDbo();
 			$query = new JQuery;
 

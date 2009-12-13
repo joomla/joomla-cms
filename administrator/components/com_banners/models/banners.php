@@ -371,7 +371,7 @@ class BannersModelBanners extends JModelList
 		// Get the user
 		$user = JFactory::getUser();
 
-		// Initialize variables
+		// Initialise variables.
 		$table		= $this->getTable();
 		$conditions	= array();
 

@@ -94,7 +94,7 @@ class TemplatesControllerSource extends JController
 	 */
 	public function edit()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
 		$recordId	= JRequest::getVar('id');
@@ -122,7 +122,7 @@ class TemplatesControllerSource extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
 		$context	= 'com_templates.edit.source';
@@ -142,7 +142,7 @@ class TemplatesControllerSource extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$data		= JRequest::getVar('jform', array(), 'post', 'array');
 		$context	= 'com_templates.edit.source';

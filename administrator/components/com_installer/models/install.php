@@ -52,7 +52,7 @@ class InstallerModelInstall extends InstallerModel
 	 */
 	protected function _populateState()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app = &JFactory::getApplication('administrator');
 
 		// Remember the 'Install from Directory' path.

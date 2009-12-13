@@ -21,7 +21,7 @@ class modMenuHelper
 	 */
 	static function getList(&$params)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$list		= array();
 		$db			= JFactory::getDbo();
 		$user		= JFactory::getUser();

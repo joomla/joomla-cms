@@ -65,7 +65,7 @@ jimport('joomla.utilities.string');
 // Create the application object.
 $app = &JFactory::getApplication('installation');
 
-// Initialize the application.
+// Initialise the application.
 $app->initialise();
 
 // Render the document.
