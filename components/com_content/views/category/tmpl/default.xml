@@ -26,164 +26,424 @@
 		label="Menus_Layout_Basic_Options_Label"
 		description="">
 
+	 	<field 
+	 		name="show_description" 
+	 		type="list" 
+	 		default="" 
+	 		label="Content_Attribs_Show_Category_Description_Label" 
+	 		description="Content_Attribs_Show_Category_Description_Desc">
+	 			<option value="">JCOMMON_USE_GLOBAL</option>
+	 			<option value="0">JCommon_Hide</option>
+	 			<option value="1">JCommon_Show</option>
+	 	</field>
+		
+		<field 
+			name="show_description_image" 
+			type="list" 
+			default="" 
+			label="Content_Attribs_Show_Category_Image_Label" 
+			description="Content_Attribs_Show_Category_Image_Desc">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+	 			<option value="0">JCommon_Hide</option>
+	 			<option value="1">JCommon_Show</option>
+	 	</field>
+
 		<field
 			name="display_num"
 			type="list"
 			default="10"
-			label="Num Links"
-			description="Number of Items to display as links.">
-			<option
-				value="5">5</option>
-			<option
-				value="10">10</option>
-			<option
-				value="15">15</option>
-			<option
-				value="20">20</option>
-			<option
-				value="25">25</option>
-			<option
-				value="30">30</option>
-			<option
-				value="50">50</option>
-			<option
-				value="100">100</option>
-			<option
-				value="0">All</option>
+			label="Content_Attribs_Number_Items_List_Label"
+			description="Content_Attribs_Number_Items_List_Desc">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="5">J5</option>
+				<option value="10">J10</option>
+				<option value="15">J15</option>
+				<option value="20">J20</option>
+				<option value="25">J25</option>
+				<option value="30">J30</option>
+				<option value="50">J50</option>
+				<option value="100">J100</option>
+				<option value="0">JALL</option>
 		</field>
 
 		<field
 			name="show_headings"
-			type="radio"
-			default="1"
-			label="Table Headings"
-			description="Show/Hide the Table Headings">
-			<option
-				value="0">Hide</option>
-			<option
-				value="1">Show</option>
+			type="list"
+			default=""
+			label="Content_Attribs_Show_Headings_Label"
+			description="Content_Attribs_Show_Headings_Desc">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JCommon_Hide</option>
+				<option value="1">JCommon_Show</option>
 		</field>
-
+		
 		<field
 			name="show_date"
 			type="list"
 			default=""
-			label="Date Column"
-			description="Show/Hide the Date column">
-			<option
-				value="0">Hide</option>
-			<option
-				value="1">Show</option>
+			label="Content_Attribs_Show_Date_Label"
+			description="Content_Attribs_Show_Date_Desc">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="hide">JCommon_Hide</option>
+				<option value="created">Created</option>
+				<option value="modified">Modified</option>
+				<option value="published">Published</option>
 		</field>
 
-		<field
-			name="date_format"
-			type="text"
-			size="15"
-			default=""
-			label="Date Format"
-			description="fieldDATEFORMAT" />
+		<field name="date_format" 
+			type="text" 
+			size="15" 
+			default="" 
+			label="Content_Attribs_Date_Format_Label" 
+			description="Content_Attribs_Date_Format_Desc" />
 
 		<field
-			type="spacer" />
-
-		<field
-			name="filter"
-			type="radio"
-			default="1"
-			label="Filter"
-			description="Show/Hide the Filter ability">
-			<option
-				value="0">Hide</option>
-			<option
-				value="1">Show</option>
-		</field>
-
-		<field
-			name="filter_type"
+			name="filter_field"
 			type="list"
-			default="title"
-			label="Filter Field"
-			description="Which field shall the filter apply to">
-			<option
-				value="title">Title</option>
-			<option
-				value="author">Author</option>
-			<option
-				value="hits">Hits</option>
+			default=""
+			label="Content_Attribs_Filter_Field_Label"
+			description="Content_Attribs_Filter_Field_Desc">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="hide">JCommon_Hide</option>
+				<option value="title">Title</option>
+				<option value="author">Author</option>
+				<option value="hits">Hits</option>
 		</field>
+
 	</fields>
 
 	<fields
 		group="advanced"
 		label="Menus_Layout_Advanced_Options_Label"
 		description="">
+		
+		<field 
+			name="article_orderby" 
+			type="list" 
+			default="" 
+			label="Content_Attribs_Article_Order_Label" 
+			description="Content_Attribs_Article_Order_Desc">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="date">Oldest_first</option>
+				<option value="rdate">Most_recent_first</option>
+				<option value="alpha">Title_Alphabetical</option>
+				<option value="ralpha">Title_Reverse_Alphabetical</option>
+				<option value="author">Author_Alphabetical</option>
+				<option value="rauthor">Author_Reverse_Alphabetical</option>
+				<option value="hits">Most_Hits</option>
+				<option value="rhits">Least_Hits</option>
+				<option value="order">Article_Manager_Order</option>
+		</field>		
+
+		<field 
+			name="order_date" 
+			type="list" 
+			default="" 
+			label="Content_Attribs_Ordering_Date_Label" 
+			description="Content_Attribs_Ordering_Date_Desc">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="created">Created</option>
+				<option value="modified">Modified</option>
+				<option value="published">Published</option>
+		</field>
+
+	 	<field 
+			name="all_subcategories" 
+			type="list" 
+			default="" 
+			label="Content_Attribs_All_Subcategories_Label" 
+			description="Content_Attribs_All_Subcategories_Desc">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+	 			<option value="all">All_Levels</option>
+	 			<option value="next_level">Next_Level_Only</option>
+	 	</field>
+	 	
+		<field 
+			name="show_pagination_limit" 
+			type="list" 
+			default="" 
+			label="Content_Attribs_Display_Select_Label" 
+			description="Content_Attribs_Display_Select_Desc">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JCommon_Hide</option>
+				<option value="1">JCommon_Show</option>
+		</field>
+
+
+		<field 
+			name="show_pagination" 
+			type="list" 
+			default="" 
+			label="Content_Attribs_Pagination_Label" 
+			description="Content_Attribs_Pagination_Desc">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JCommon_Hide</option>
+				<option value="1">JCommon_Show</option>
+		</field>
 
 		<field
-			name="orderby_sec"
+			name="show_noauth"
 			type="list"
 			default=""
-			label="Primary Order"
-			description="Order that the items will be displayed in.">
-			<option
-				value="">Default</option>
-			<option
-				value="date">Oldest first</option>
-			<option
-				value="rdate">Most recent first</option>
-			<option
-				value="alpha">Title Alphabetical</option>
-			<option
-				value="ralpha">Title Reverse-Alphabetical</option>
-			<option
-				value="author">Author Alphabetical</option>
-			<option
-				value="rauthor">Author Reverse-Alphabetical</option>
-			<option
-				value="hits">Most Hits</option>
-			<option
-				value="rhits">Least Hits</option>
-			<option
-				value="order">Ordering</option>
+			label="Content_Attribs_Show_Unauth_Links_Label"
+			description="Content_Attribs_Show_Unauth_Links_Desc">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
 		</field>
-
+		
+	</fields>
+	
+	<fields
+		group="integration"
+		label="Menus_Layout_Integration_Options_Label"
+		description="">
+		
 		<field
-			type="spacer" />
-
-		<field
-			name="show_pagination"
+			name="article-allow_ratings"
 			type="list"
-			default="1"
-			label="Pagination"
-			description="Show/Hide Pagination support">
-			<option
-				value="0">Hide</option>
-			<option
-				value="1">Show</option>
-		</field>
-
-		<field
-			name="show_pagination_limit"
-			type="radio"
-			default="1"
-			label="Display Select"
-			description="Show/Hide the Display Select dropdown">
-			<option
-				value="0">Hide</option>
-			<option
-				value="1">Show</option>
-		</field>
-
-		<field
-			name="show_feed_link"
-			type="radio"
-			default="1"
-			label="Show a feed link"
-			description="fieldSHOWFEEDLINK">
+			label="Content_Attribs_Allow_Ratings_Label"
+			description="Content_Attribs_Allow_Ratings_Desc"
+			default="">
+			<option 
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
 			<option
 				value="1">JYes</option>
 		</field>
+
+		<field
+			name="article-allow_comments"
+			type="list"
+			label="Content_Attribs_Allow_Comments_Label"
+			description="Content_Attribs_Allow_Comments_Desc"
+			default="">
+			<option 
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+		
+		<field
+			name="show_feed_link"
+			type="list"
+			default=""
+			label="Content_Attribs_Show_Feed_Link_Label"
+			description="Content_Attribs_Show_Feed_Link_Desc">
+			<option 
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+		
+		<field
+			name="feed_summary"
+			type="list"
+			label="Content_Attribs_Feed_Summary_Label"
+			description="Content_Attribs_Feed_Summary_Desc"
+			default="">
+			<option 
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">JCOMMON_INTRO_TEXT</option>
+			<option
+				value="1">JCOMMON_FULL_TEXT</option>
+		</field>
+		
+	</fields>	
+	
+	<fields
+		group="articles"
+		label="Content_Attribs_Article_Settings_Label"
+		description="">
+
+		<field
+			name="show_category"
+			type="list"
+			label="Content_Attribs_Show_Category_Label"
+			description="Content_Attribs_Show_Category_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="link_category"
+			type="list"
+			label="Content_Attribs_Link_Category_Label"
+			description="Content_Attribs_Link_Category_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="show_title"
+			type="list"
+			default=""
+			label="Content_Attribs_Show_Title_Label"
+			description="Content_Attribs_Show_Title_Desc">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">JCOMMON_HIDE</option>
+			<option
+				value="1">JCOMMON_SHOW</option>
+		</field>
+
+		<field
+			name="link_titles"
+			type="list"
+			default=""
+			label="Content_Attribs_Linked_Titles_Label"
+			description="Content_Attribs_Linked_Titles_Desc">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="show_intro"
+			type="list"
+			default=""
+			label="Content_Attribs_Show_Intro_Label"
+			description="Content_Attribs_Show_Intro_Desc">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_author"
+			type="list"
+			label="Content_Attribs_Show_Author_Label"
+			description="Content_Attribs_Show_Author_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_create_date"
+			type="list"
+			label="Content_Attribs_Show_Create_Date_Label"
+			description="Content_Attribs_Show_Create_Date_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_modify_date"
+			type="list"
+			label="Content_Attribs_Show_Modify_Date_Label"
+			description="Content_Attribs_Show_Modify_Date_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_item_navigation"
+			type="list"
+			label="Content_Attribs_Show_Navigation_Label"
+			description="Content_Attribs_Show_Navigation_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_icons"
+			type="list"
+			label="Content_Attribs_Show_Icons_Label"
+			description="Content_Attribs_Show_Icons_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_print_icon"
+			type="list"
+			label="Content_Attribs_Show_Print_Icon_Label"
+			description="Content_Attribs_Show_Print_Icon_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_email_icon"
+			type="list"
+			label="Content_Attribs_Show_Email_Icon_Label"
+			description="Content_Attribs_Show_Email_Icon_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_hits"
+			type="list"
+			label="Content_Attribs_Show_Hits_Label"
+			description="Content_Attribs_Show_Hits_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
 	</fields>
+	
 </metadata>

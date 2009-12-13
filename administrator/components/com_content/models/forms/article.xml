@@ -388,12 +388,32 @@
 		</field>
 
 		<field
+			name="show_publish_date"
+			type="list"
+			label="Content_Attribs_Show_Publish_Date_Label"
+			description="Content_Attribs_Show_Publish_Date_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
 			name="show_readmore"
-			type="text"
+			type="list"
 			label="Content_Attribs_Show_Readmore_Label"
 			description="Content_Attribs_Show_Readmore_Desc"
-			size="25"
-			default="" />
+			default="" >
+			<option
+				value="">Use Global</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>	
 
 		<field
 			name="show_print_icon"

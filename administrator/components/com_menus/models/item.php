@@ -308,26 +308,32 @@ class MenusModelItem extends JModelForm
 					}
 
 					$formFile = false;
-					$folders = JFolder::folders(JPATH_SITE.DS.'templates','',false,true);
-					foreach($folders as $folder)
+					
+					// Check for the layout XML file. Use standard xml file if it exists.
+					$path = JPath::clean($base.DS.'views'.DS.$view.DS.'tmpl'.DS.$layout.'.xml');
+					if (JFile::exists($path)) {
+						$formFile = $path;
+					}
+					
+					// if custom layout, get the xml file from the template folder
+					// TODO: only look in the template folder for the menu item's template
+					if(!$formFile)
 					{
-						if (JFile::exists($folder.DS.'html'.DS.$option.DS.$view.DS.$layout.'.xml')) {
-							$formFile = $folder.DS.'html'.DS.$option.DS.$view.DS.$layout.'.xml';
-							break;
+						$folders = JFolder::folders(JPATH_SITE.DS.'templates','',false,true);
+						foreach($folders as $folder)
+						{
+							if (JFile::exists($folder.DS.'html'.DS.$option.DS.$view.DS.$layout.'.xml')) {
+								$formFile = $folder.DS.'html'.DS.$option.DS.$view.DS.$layout.'.xml';
+								break;
+							}
 						}
 					}
 
-					if(!$formFile)
-					{
-					// Check for the layout XML file.
-						$path = JPath::clean($base.DS.'views'.DS.$view.DS.'tmpl'.DS.$layout.'.xml');
-						if (JFile::exists($path)) {
-							$formFile = $path;
-						}
+
 				//	}
 					// TODO: Now check for a view manifest file
 					// TODO: Now check for a component manifest file
-					}
+					
 				}
 
 			if ($formFile)

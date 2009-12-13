@@ -24,9 +24,12 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<h3>
 		<?php echo $this->escape($this->item->title); ?>
 	</h3>
-	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
+	<?php if ($this->params->get('show_description') && $this->item->description) : ?>
 		<?php echo $this->item->description; ?>
 	<?php endif; ?>
+	<?php if ($this->params->get('show_description_image') && $this->item->category_params->get('image')) : ?>
+		<img hspace="6" align="left" alt="" src="<?php echo $this->item->category_params->get('image'); ?>"/>
+	<?php endif; ?>	
 
 	<div class="jcat-articles">
 		<?php echo $this->loadTemplate('articles'); ?>

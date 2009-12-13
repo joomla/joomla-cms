@@ -7,7 +7,12 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 ?>
-<?php defined('_JEXEC') or die; ?>
+<?php defined('_JEXEC') or die;
+
+// Initiasile related data.
+require_once JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php';
+$menuTypes = MenusHelper::getMenuLinks();
+?>
 
 <?php
 
@@ -30,11 +35,12 @@
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Module_Menu_Assignment_Legend'); ?></legend>
 	<div class="fltrt">
-			<button type="button" onclick="Joomla.submitform('module.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 700);">
+			<button type="button" onclick="Joomla.submitform('module.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 1400);">
 				<?php echo JText::_('Save');?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();">
 				<?php echo JText::_('Cancel');?></button>
 		</div>
+		
 		<script type="text/javascript">
 			function allselections() {
 				var e = document.getElementById('selections');
@@ -69,51 +75,54 @@
 		</script>
 	<!-- TO DO: Need to rework UI for this section -->
 			<label id="jform_menus-lbl" class="hasTip" for="jform_menus"><?php echo JText::_('Menus'); ?>:</label>
-				<?php if ($this->row->client_id != 1) : ?>
 
 			<fieldset id="jform_menus" class="radio">
-				<label id="jform_menus-all-lbl" for="menus-all"><?php echo JText::_('All'); ?></label>
-				<input id="menus-all" type="radio" name="menus" value="all" onclick="allselections();" <?php
-						echo ($this->row->pages == 'all') ? 'checked="checked"' : ''; ?> />
+					<select name="jform[assignment]">
+						<?php echo JHtml::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true);?>
+					</select>
 
-				<label id="jform_menus-none-lbl" for="menus-none"><?php echo JText::_('None'); ?></label>
-				<input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" <?php
-						echo ($this->row->pages == 'none') ? 'checked="checked"' : ''; ?> />
+				</fieldset>
 
-				<label id="jform_menus-select-lbl" for="menus-select"><?php echo JText::_('Select From List'); ?></label>
-				<input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" <?php
-						echo ($this->row->pages == 'select') ? 'checked="checked"' : ''; ?> />
+				<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('Menu Selection'); ?>:</label>
 
-				<label id="jform_menus-deselect-lbl" for="menus-deselect"><?php echo JText::_('Deselect From List'); ?></label>
-				<input id="menus-deselect" type="radio" name="menus" value="deselect" onclick="enableselections();" <?php
-						echo ($this->row->pages == 'deselect') ? 'checked="checked"' : ''; ?> />
-			</fieldset>
-				<?php endif; ?>
+				<div class="clr"></div>
 
-			<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('Menu Selection'); ?>:</label>
-					<?php echo $this->lists['selections']; ?>
+				<img src="" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });" alt="<?php echo JText::_('JCheckInvert'); ?>" title="<?php echo JText::_('JCheckInvert'); ?>">
 
-		<?php if ($this->row->client_id != 1) : ?>
-			<?php if ($this->row->pages == 'all') : ?>
-			<script type="text/javascript">allselections();</script>
-			<?php elseif ($this->row->pages == 'none') : ?>
-			<script type="text/javascript">disableselections();</script>
-			<?php endif; ?>
-		<?php endif; ?>
-	</fieldset>
+				<div id="menu-assignment" style="height: 300px; overflow: auto;">
 
+				<?php foreach ($menuTypes as &$type) : ?>
+					<div class="menu-links">
+						<h3><?php echo $type->title ? $type->title : $type->menutype; ?></h3>
+						<?php
+						foreach ($type->links as $link) :
+							if ($this->item->assignment < 0) :
+								$checked = in_array(-$link->value, $this->item->assigned) ? ' checked="checked"' : '';
+							else :
+								$checked = in_array($link->value, $this->item->assigned) ? ' checked="checked"' : '';
+							endif;
+						?>
+						<div class="menu-link">
+							<input type="checkbox" class="chk-menulink" name="jform[assigned][]" value="<?php echo (int) $link->value;?>" id="link<?php echo (int) $link->value;?>"<?php echo $checked;?>/>
+							<label for="link<?php echo (int) $link->value;?>">
+								<?php echo $link->text; ?>
+							</label>
+						</div>
+						<div class="clr"></div>
+						<?php endforeach; ?>
+					</div>
+				<?php endforeach; ?>
+				</div>
 
-
-
-
+		</fieldset>
 
 	<input type="hidden" name="option" value="com_modules" />
-	<input type="hidden" name="jform[id]" value="<?php echo $this->row->id; ?>" />
-	<input type="hidden" name="cid[]" value="<?php echo $this->row->id; ?>" />
-	<input type="hidden" name="original" value="<?php echo $this->row->ordering; ?>" />
-	<input type="hidden" name="jform[module]" value="<?php echo $this->row->module; ?>" />
+	<input type="hidden" name="jform[id]" value="<?php echo $this->item->id; ?>" />
+	<input type="hidden" name="cid[]" value="<?php echo $this->item->id; ?>" />
+	<input type="hidden" name="original" value="<?php echo $this->item->ordering; ?>" />
+	<input type="hidden" name="jform[module]" value="<?php echo $this->item->module; ?>" />
 	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="jform[client_id]" value="<?php echo $this->client->id ?>" />
+	<input type="hidden" name="jform[client_id]" value="<?php echo $this->item->client_id ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 </div>

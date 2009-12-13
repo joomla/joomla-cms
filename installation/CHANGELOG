@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Dec-2009 Mark Dexter
+^ Merged in com_content changes. Implement some params for Category List layout.
+# Fixed read more param for articles.
+# Fixed problem with reading params for custom layouts. Always load standard params for standard layouts.
+# Fixes to module modal on menu assignments (thanks to Andrea Tarr).
+
 13-Dec-2009 Andrew Eddie
  # Fixed JHtmlSelect::options so that empy labels would not be translated.
  # Fixed duplicate support for com_modules.

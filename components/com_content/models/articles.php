@@ -164,7 +164,7 @@ class ContentModelArticles extends JModelList
 		$query->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

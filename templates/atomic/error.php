@@ -30,11 +30,11 @@ defined('_JEXEC') or die;
 					<li><?php echo JText::_('An error has occurred while processing your request.'); ?></li>
 				</ol>
 			<p><strong><?php echo JText::_('Please try one of the following pages:'); ?></strong></p>
-			<p>
+			
 				<ul>
 					<li><a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('Go to the home page'); ?>"><?php echo JText::_('Home Page'); ?></a></li>
 				</ul>
-			</p>
+				
 			<p><?php echo JText::_('If difficulties persist, please contact the system administrator of this site.'); ?></p>
 			<div id="techinfo">
 			<p><?php echo $this->error->getMessage(); ?></p>
