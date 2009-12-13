@@ -604,7 +604,7 @@ class JApplication extends JObject
 	 */
 	public function logout($userid = null, $options = array())
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$retval = false;
 
 		// Get a user object from the JApplication.
@@ -791,7 +791,7 @@ class JApplication extends JObject
 		);
 		$exists = $db->loadResult();
 
-		// If the session doesn't exist initialize it.
+		// If the session doesn't exist initialise it.
 		if (!$exists) {
 			$db->setQuery(
 				'INSERT INTO `#__session` (`session_id`, `client_id`, `time`)' .

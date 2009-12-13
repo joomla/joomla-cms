@@ -198,7 +198,7 @@ class JController extends JObject
 	 */
 	function __construct($config = array())
 	{
-		//Initialize private variables
+		// Initialize variables.
 		$this->_redirect	= null;
 		$this->_message		= null;
 		$this->_messageType = 'message';

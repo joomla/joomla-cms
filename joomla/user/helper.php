@@ -220,7 +220,7 @@ class JUserHelper
 	 */
 	public static function activateUser($activation)
 	{
-		//Initialize some variables
+		// Initialize some variables.
 		$db = & JFactory::getDbo();
 
 		// Lets get the id of the user we want to activate
@@ -265,7 +265,7 @@ class JUserHelper
 	 */
 	public static function getUserId($username)
 	{
-		// Initialize some variables
+		// Initialise some variables
 		$db = & JFactory::getDbo();
 
 		$query = 'SELECT id FROM #__users WHERE username = ' . $db->Quote($username);

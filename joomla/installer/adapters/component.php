@@ -804,7 +804,7 @@ class JInstallerComponent extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$db = &$this->parent->getDbo();
 		$row	= null;
 		$retval	= true;
@@ -1031,7 +1031,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Get database connector object
 		$db = &$this->parent->getDbo();
 
-		// Initialize variables
+		// Initialise variables.
 		$option = $this->get('element');
 
 		// If a component exists with this option in the table then we don't need to add menus
@@ -1189,7 +1189,7 @@ class JInstallerComponent extends JAdapterInstance
 		 * Process SubMenus
 		 */
 
-		// Initialize submenu ordering value
+		// Initialise submenu ordering value
 		$ordering = 0;
 		$submenu = $this->adminElement->getElementByPath('submenu');
 		if (!($submenu INSTANCEOF JSimpleXMLElement) || !count($submenu->children())) {

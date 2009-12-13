@@ -414,7 +414,7 @@ abstract class JHtmlBehavior
 	 */
 	protected static function _getJSObject($array=array())
 	{
-		// Initialize variables
+		// Initialise variables.
 		$object = '{';
 
 		// Iterate over array to build objects

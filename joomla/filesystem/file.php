@@ -88,7 +88,7 @@ class JFile
 			}
 			return true;
 		} else {
-			// Initialize variables
+			// Initialise variables.
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
@@ -130,7 +130,7 @@ class JFile
 	 */
 	function delete($file)
 	{
-		// Initialize variables
+		// Initialise variables.
 		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
@@ -206,7 +206,7 @@ class JFile
 			}
 			return true;
 		} else {
-			// Initialize variables
+			// Initialise variables.
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
@@ -247,7 +247,7 @@ class JFile
 	 */
 	function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$data = null;
 		if ($amount && $chunksize > $amount) { $chunksize = $amount; }
 		if (false === $fh = fopen($filename, 'rb', $incpath)) {
@@ -304,7 +304,7 @@ class JFile
 			}
 			return true;
 		} else {
-			// Initialize variables
+			// Initialise variables.
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
@@ -353,7 +353,7 @@ class JFile
 			}
 			return true;
 		} else {
-			// Initialize variables
+			// Initialise variables.
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$ret		= false;

@@ -567,7 +567,7 @@ w
 	 */
 	public static function customErrorPage(& $error)
 	{
-		// Initialize variables
+		// Initialise variables.
 		jimport('joomla.document.document');
 		$app		= & JFactory::getApplication();
 		$document	= & JDocument::getInstance('error');

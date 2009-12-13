@@ -64,7 +64,7 @@ abstract class JButton extends JObject
 	public function render(&$definition)
 	{
 		/*
-		 * Initialize some variables
+		 * Initialise some variables
 		 */
 		$html	= null;
 		$id		= call_user_func_array(array(&$this, 'fetchId'), $definition);

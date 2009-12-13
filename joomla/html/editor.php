@@ -70,7 +70,7 @@ class JEditor extends JObservable
 	}
 
 	/**
-	 * Initialize the editor
+	 * Initialise the editor
 	 */
 	public function initialise()
 	{
@@ -121,7 +121,7 @@ class JEditor extends JObservable
 		$width	= str_replace(';', '', $width);
 		$height	= str_replace(';', '', $height);
 
-		// Initialize variables
+		// Initialise variables.
 		$return = null;
 
 		$args['name']		= $name;

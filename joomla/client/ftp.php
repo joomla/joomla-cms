@@ -250,7 +250,7 @@ class JFTP extends JObject
 	 */
 	function connect($host = '127.0.0.1', $port = 21) {
 
-		// Initialize variables
+		// Initialise variables.
 		$errno = null;
 		$err = null;
 
@@ -379,7 +379,7 @@ class JFTP extends JObject
 			return $ret;
 		}
 
-		// Initialize variables
+		// Initialise variables.
 		$match = array (null);
 
 		// Send print working directory command and verify success
@@ -459,7 +459,7 @@ class JFTP extends JObject
 	}
 
 	/**
-	 * Method to reinitialize the server, ie. need to login again
+	 * Method to reinitialise the server, ie. need to login again
 	 *
 	 * NOTE: This command not available on all servers
 	 *
@@ -477,7 +477,7 @@ class JFTP extends JObject
 			return true;
 		}
 
-		// Send reinitialize command to the server
+		// Send reinitialise command to the server
 		if (!$this->_putCmd('REIN', 220)) {
 			JError::raiseWarning('35', 'JFTP::reinit: Bad response', 'Server response: '.$this->_response.' [Expected: 220]');
 			return false;
@@ -1002,7 +1002,7 @@ class JFTP extends JObject
 	 */
 	function listNames($path = null) {
 
-		// Initialize variables
+		// Initialise variables.
 		$data = null;
 
 		// If native FTP support is enabled lets use it...
@@ -1086,7 +1086,7 @@ class JFTP extends JObject
 	 */
 	function listDetails($path = null, $type = 'all') {
 
-		// Initialize variables
+		// Initialise variables.
 		$dir_list = array();
 		$data = null;
 		$regs = null;
@@ -1306,7 +1306,7 @@ class JFTP extends JObject
 	 */
 	function _verifyResponse($expected) {
 
-		// Initialize variables
+		// Initialise variables.
 		$parts = null;
 
 		// Wait for a response from the server, but timeout after the set time limit
@@ -1351,7 +1351,7 @@ class JFTP extends JObject
 	 */
 	function _passive() {
 
-		//Initialize variables
+		// Initialize variables.
 		$match = array();
 		$parts = array();
 		$errno = null;

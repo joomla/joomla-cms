@@ -85,7 +85,7 @@ class JDispatcher extends JObservable
 	 */
 	public function trigger($event, $args = array())
 	{
-		// Initialize variables
+		// Initialise variables.
 		$result = array();
 
 		/*

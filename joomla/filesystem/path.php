@@ -64,7 +64,7 @@ class JPath
 	 */
 	function setPermissions($path, $filemode = '0644', $foldermode = '0755') {
 
-		// Initialize return value
+		// Initialise return value
 		$ret = true;
 
 		if (is_dir($path))

@@ -95,7 +95,7 @@ class JTableNested extends JTable
 	 */
 	public function getPath($pk = null, $diagnostic = false)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -130,7 +130,7 @@ class JTableNested extends JTable
 	 */
 	public function getTree($pk = null, $diagnostic = false)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -164,7 +164,7 @@ class JTableNested extends JTable
 	 */
 	public function isLeaf($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -220,7 +220,7 @@ class JTableNested extends JTable
 			echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -483,7 +483,7 @@ class JTableNested extends JTable
 	 */
 	public function delete($pk = null, $children = true)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -681,7 +681,7 @@ class JTableNested extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		if ($this->_debug) {
@@ -855,7 +855,7 @@ class JTableNested extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -978,7 +978,7 @@ class JTableNested extends JTable
 	 */
 	public function orderUp($pk)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1064,7 +1064,7 @@ class JTableNested extends JTable
 	 */
 	public function orderDown($pk)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1320,7 +1320,7 @@ class JTableNested extends JTable
 			return true;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1434,7 +1434,7 @@ class JTableNested extends JTable
 			return false;
 		}
 
-		// Initialize variables
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$data = new stdClass;
 

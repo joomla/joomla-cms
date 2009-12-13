@@ -33,7 +33,7 @@ class JRegistryFormatINI extends JRegistryFormat
 	public function objectToString(&$object, $params)
 	{
 
-		// Initialize variables
+		// Initialise variables.
 		$retval = '';
 		$prepend = '';
 

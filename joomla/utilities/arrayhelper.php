@@ -182,7 +182,7 @@ class JArrayHelper
 	 */
 	function getValue(&$array, $name, $default=null, $type='')
 	{
-		// Initialize variables
+		// Initialise variables.
 		$result = null;
 
 		if (isset ($array[$name])) {

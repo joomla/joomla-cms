@@ -132,7 +132,7 @@ class JObservable extends JObject
 	 */
 	public function detach($observer)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$retval = false;
 
 		$key = array_search($observer, $this->_observers);

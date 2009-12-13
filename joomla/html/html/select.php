@@ -369,7 +369,7 @@ abstract class JHtmlSelect
 
 		/*
 		 * If a label is provided, save it. If no label is provided and there is
-		 * a label name, initialize to an empty string.
+		 * a label name, initialise to an empty string.
 		 */
 		$hasProperty = $options['option.label'] !== null;
 		if (isset($options['label'])) {

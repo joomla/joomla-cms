@@ -192,7 +192,7 @@ class JInstallerFile extends JAdapterInstance
 	 */
 	function uninstall($id)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$row	= JTable::getInstance('extension');
 		if(!$row->load($id)) {
 			JError::raiseWarning(100, JText::_('File').' '.JText::_('Uninstall').': '.JText::_('Could not load extension entry'));
@@ -341,7 +341,7 @@ class JInstallerFile extends JAdapterInstance
 	private function populateFilesAndFolderList()
 	{
 
-		// Initialize variable
+		// Initialise variable
 		$this->folderList = array();
 		$this->fileList = array();
 

@@ -420,7 +420,7 @@ class JFilterInput extends JObject
 	 */
 	protected function _cleanAttributes($attrSet)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$newSet = array();
 
 		// Iterate through attribute pairs

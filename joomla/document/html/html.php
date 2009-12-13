@@ -344,7 +344,7 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
-	 * Fetch the template, and initialize the params
+	 * Fetch the template, and initialise the params
 	 *
 	 * @param array parameters to determine the template
 	 */

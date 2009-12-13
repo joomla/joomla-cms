@@ -130,7 +130,7 @@ class JPathway extends JObject
 	 */
 	function getPathwayNames()
 	{
-		// Initialize variables
+		// Initialise variables.
 		$names = array (null);
 
 		// Build the names array using just the names of each pathway item

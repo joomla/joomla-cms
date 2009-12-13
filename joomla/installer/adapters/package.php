@@ -187,7 +187,7 @@ class JInstallerPackage extends JAdapterInstance
 	 */
 	function uninstall($id)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$row	= null;
 		$retval = true;
 

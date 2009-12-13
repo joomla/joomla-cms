@@ -77,7 +77,7 @@ class JArchiveTar extends JObject
 	*/
 	function extract($archive, $destination, $options = array ())
 	{
-		// Initialize variables
+		// Initialise variables.
 		$this->_data = null;
 		$this->_metadata = null;
 

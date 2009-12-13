@@ -95,7 +95,7 @@ class JArchiveZip extends JObject
 	 */
 	function create($archive, $files, $options = array ())
 	{
-		// Initialize variables
+		// Initialise variables.
 		$contents = array();
 		$ctrldir  = array();
 
@@ -171,7 +171,7 @@ class JArchiveZip extends JObject
 	 */
 	function _extract($archive, $destination, $options)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$this->_data = null;
 		$this->_metadata = null;
 
@@ -274,7 +274,7 @@ class JArchiveZip extends JObject
 	 */
 	function _getZipInfo(& $data)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$entries = array ();
 
 		// Find the last central directory header entry

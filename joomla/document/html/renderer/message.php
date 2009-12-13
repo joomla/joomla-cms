@@ -26,7 +26,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	 */
 	public function render($name = null, $params = array (), $content = null)
 	{
-		// Initialize variables
+		// Initialise variables.
 		$buffer	= null;
 		$lists	= null;
 

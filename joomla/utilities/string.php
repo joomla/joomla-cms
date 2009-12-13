@@ -672,7 +672,7 @@ abstract class JString
 								return FALSE;
 							}
 
-						//initialize UTF8 cache
+						// Initialize UTF8 cache.
 						$mState = 0;
 						$mUcs4  = 0;
 						$mBytes = 1;

@@ -146,7 +146,7 @@ class JControllerForm extends JController
 	 */
 	public function add()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$context	= "$this->_option.edit.$this->_context";
 
@@ -185,7 +185,7 @@ class JControllerForm extends JController
 	 */
 	public function edit()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
@@ -240,7 +240,7 @@ class JControllerForm extends JController
 	{
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= &$this->getModel();
 		$checkin	= method_exists($model, 'checkin');
@@ -279,7 +279,7 @@ class JControllerForm extends JController
 	 */
 	protected function _allowSave($data, $key = 'id')
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$recordId	= isset($data[$key]) ? $data[$key] : '0';
 
 		if ($recordId) {
@@ -298,7 +298,7 @@ class JControllerForm extends JController
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialize variables.
+		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
 		$table		= $model->getTable();

@@ -521,7 +521,7 @@ abstract class JTable extends JObject
 	 */
 	public function store($updateNulls = false)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// If a primary key exists update the object, otherwise insert it.
@@ -666,7 +666,7 @@ abstract class JTable extends JObject
 	 */
 	public function delete($pk = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -735,7 +735,7 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -786,7 +786,7 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -833,7 +833,7 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -957,7 +957,7 @@ abstract class JTable extends JObject
 			return false;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Setup the extra where and ordering clause data.
@@ -1033,7 +1033,7 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$row = null;
 
@@ -1133,7 +1133,7 @@ abstract class JTable extends JObject
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -1215,7 +1215,7 @@ abstract class JTable extends JObject
 	 */
 	public function canDelete($pk = null, $joins = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1287,7 +1287,7 @@ abstract class JTable extends JObject
 	 */
 	public function toXML($mapKeysToText=false)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$xml = array();
 		$map = $mapKeysToText ? ' mapkeystotext="true"' : '';
 
