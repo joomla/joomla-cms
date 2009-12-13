@@ -64,8 +64,8 @@ class ModulesViewModules extends JView
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::editList('module.edit');
 		}
-		if ($canDo->get('core.add')) {
-			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+		if ($canDo->get('core.create')) {
+			JToolBarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JToolbar_Duplicate', true);
 		}
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::custom('modules.publish', 'publish.png', 'publish_f2.png', 'JToolbar_Enable', true);

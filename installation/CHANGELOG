@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 13-Dec-2009 Andrew Eddie
  # Fixed JHtmlSelect::options so that empy labels would not be translated.
+ # Fixed duplicate support for com_modules.
 
 12-Dec-2009 Louis Landry
  ^ Merged in refactored banners component thanks to Christophe Demko.

@@ -83,7 +83,7 @@ class ModulesModelModule extends JModelForm
 	 * @param	array	$options Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
-	public function &getTable($type = 'Module', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'Module', $prefix = 'JTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -594,7 +594,7 @@ class ModulesModelModule extends JModelForm
 					$rows = $this->_db->loadResultArray();
 
 					foreach ($rows as $menuid) {
-						$tuples[] = '('.(int) $pk.','.(int) $menuid.')';
+						$tuples[] = '('.(int) $table->id.','.(int) $menuid.')';
 					}
 			}
 			else
