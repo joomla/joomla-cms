@@ -528,7 +528,7 @@ abstract class JHtmlSelect
 					$text .= ' - ' . $splitText[1];
 				}
 
-				if ($options['list.translate']) {
+				if ($options['list.translate'] && !empty($label)) {
 					$label = JText::_($label);
 				}
 				if ($options['option.label.toHtml']) {
