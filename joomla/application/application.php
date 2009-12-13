@@ -283,14 +283,15 @@ class JApplication extends JObject
 	 * code in the header pointing to the new location. If the headers have already been
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
-	 * @param	string	$url	The URL to redirect to. Can only be http/https URL
-	 * @param	string	$msg	An optional message to display on redirect.
-	 * @param	string  $msgType An optional message type.
+	 * @param	string	The URL to redirect to. Can only be http/https URL
+	 * @param	string	An optional message to display on redirect.
+	 * @param	string  An optional message type.
+	 * @param	boolean	True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
 	 * @return	none; calls exit().
 	 * @since	1.5
 	 * @see		JApplication::enqueueMessage()
 	 */
-	public function redirect($url, $msg='', $msgType='message')
+	public function redirect($url, $msg='', $msgType='message', $moved = false)
 	{
 		// Check for relative internal links.
 		if (preg_match('#^index[2]?.php#', $url)) {
@@ -326,21 +327,18 @@ class JApplication extends JObject
 		}
 
 		// Persist messages if they exist.
-		if (count($this->_messageQueue))
-		{
+		if (count($this->_messageQueue)) {
 			$session = &JFactory::getSession();
 			$session->set('application.queue', $this->_messageQueue);
 		}
 
-		/*
-		 * If the headers have been sent, then we cannot send an additional location header
-		 * so we will output a javascript redirect statement.
-		 */
+		// If the headers have been sent, then we cannot send an additional location header
+		// so we will output a javascript redirect statement.
 		if (headers_sent()) {
 			echo "<script>document.location.href='$url';</script>\n";
 		} else {
-			header('HTTP/1.1 301 Moved Permanently');
-			header('Location: ' . $url);
+			header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
+			header('Location: '.$url);
 		}
 		$this->close();
 	}
