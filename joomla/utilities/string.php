@@ -7,7 +7,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die;
 
 /**
@@ -31,7 +31,7 @@ if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' &&
 
 /**
  * String handling class for utf-8 data
- * Wraps the mb library
+ * Wraps the phputf8 library
  * All functions assume the validity of utf-8 strings.
  *
  * @static
@@ -55,14 +55,11 @@ abstract class JString
 	 */
 	public static function strpos($str, $search, $offset = FALSE)
 	{
-		if (strlen($str) && strlen($search))
-		{
-			if ($offset === FALSE) {
-				return mb_strpos($str, $search);
-			} else {
-				return mb_strpos($str, $search, $offset);
-			}
-		} else return FALSE;
+		if ( $offset === FALSE ) {
+			return utf8_strpos($str, $search);
+		} else {
+			return utf8_strpos($str, $search, $offset);
+		}
 	}
 
 	/**
@@ -78,29 +75,7 @@ abstract class JString
 	 */
 	public static function strrpos($str, $search, $offset = false)
 	{
-		if ($offset === FALSE)
-		{
-			# Emulate behaviour of strrpos rather than raising warning
-			if (empty($str)) {
-				return FALSE;
-			}
-			return mb_strrpos($str, $search);
-		}
-		else
-		{
-			if (!is_int($offset)) {
-				trigger_error('strrpos expects parameter 3 to be long',E_USER_WARNING);
-				return FALSE;
-			}
-
-			$str = mb_substr($str, $offset);
-
-			if (FALSE !== ($pos = mb_strrpos($str, $search))) {
-				return $pos + $offset;
-			}
-
-			return FALSE;
-		}
+		return utf8_strrpos($str, $search);
 	}
 
 	/**
@@ -118,9 +93,9 @@ abstract class JString
 	public static function substr($str, $offset, $length = FALSE)
 	{
 	 	if ($length === FALSE) {
-			return mb_substr($str, $offset);
+			return utf8_substr($str, $offset);
 		} else {
-			return mb_substr($str, $offset, $length);
+			return utf8_substr($str, $offset, $length);
 		}
 	}
 
@@ -138,7 +113,7 @@ abstract class JString
 	 * @see http://www.php.net/strtolower
 	 */
 	public static function strtolower($str){
-		return mb_strtolower($str);
+		return utf8_strtolower($str);
 	}
 
 	/**
@@ -155,7 +130,7 @@ abstract class JString
 	 * @see http://www.php.net/strtoupper
 	 */
 	public static function strtoupper($str){
-		return mb_strtoupper($str);
+		return utf8_strtoupper($str);
 	}
 
 	/**
@@ -168,7 +143,7 @@ abstract class JString
 	 * @see http://www.php.net/strlen
 	 */
 	public static function strlen($str){
-		return mb_strlen($str);
+		return utf8_strlen($str);
 	}
 
 	/**
@@ -185,48 +160,11 @@ abstract class JString
 	*/
 	public static function str_ireplace($search, $replace, $str, $count = NULL)
 	{
-		if (!is_array($search))
-		{
-			$slen = strlen($search);
-			$lendif = strlen($replace) - $slen;
-			if ($slen == 0) {
-				return $str;
-			}
-
-			$search = JString::strtolower($search);
-
-			$search = preg_quote($search, '/');
-			$lstr = JString::strtolower($str);
-			$i = 0;
-			$matched = 0;
-	 	 	while (preg_match('/(.*)'.$search.'/Us',$lstr, $matches)) {
-				if ($i === $count) {
-					break;
-				}
-				$mlen = strlen($matches[0]);
-				$lstr = substr($lstr, $mlen);
-				$str = substr_replace($str, $replace, $matched+strlen($matches[1]), $slen);
-				$matched += $mlen + $lendif;
-				$i++;
-			}
-			return $str;
-
+		jimport('phputf8.str_ireplace');
+		if ( $count === FALSE ) {
+			return utf8_ireplace($search, $replace, $str);
 		} else {
-
-			foreach (array_keys($search) as $k)
-			{
-				if (is_array($replace))
-				{
-					if (array_key_exists($k,$replace)) {
-						$str = JString::str_ireplace($search[$k], $replace[$k], $str, $count);
-					} else {
-						$str = JString::str_ireplace($search[$k], '', $str, $count);
-					}
-				} else {
-					$str = JString::str_ireplace($search[$k], $replace, $str, $count);
-				}
-			}
-			return $str;
+			return utf8_ireplace($search, $replace, $str, $count);
 		}
 	}
 
@@ -243,17 +181,8 @@ abstract class JString
 	*/
 	public static function str_split($str, $split_len = 1)
 	{
-		 if (!preg_match('/^[0-9]+$/',$split_len) || $split_len < 1) {
-	 		return FALSE;
-		}
-
-		$len = JString::strlen($str);
-   	 	if ($len <= $split_len) {
-			return array($str);
-		}
-
-		preg_match_all('/.{'.$split_len.'}|[^\x00]{1,'.$split_len.'}$/us', $str, $ar);
-		return $ar[0];
+		jimport('phputf8.str_split');
+		return utf8_str_split($str, $split_len);
 	}
 
 	/**
@@ -269,9 +198,8 @@ abstract class JString
 	*/
 	public static function strcasecmp($str1, $str2)
 	{
-		 $strX = JString::strtolower($strX);
-  	 	 $strY = JString::strtolower($strY);
-		return strcmp($strX, $strY);
+		jimport('phputf8.strcasecmp');
+		return utf8_strcasecmp($str1, $str2);
 	}
 
 	/**
@@ -289,23 +217,14 @@ abstract class JString
 	*/
 	public static function strcspn($str, $mask, $start = NULL, $length = NULL)
 	{
-		if (empty($mask) || strlen($mask) == 0) {
-			return NULL;
+		jimport('phputf8.strcspn');
+		if ( $start === FALSE && $length === FALSE ) {
+			return utf8_strcspn($str, $mask);
+		} else if ( $length === FALSE ) {
+			return utf8_strcspn($str, $mask, $start);
+		} else {
+			return utf8_strcspn($str, $mask, $start, $length);
 		}
-
-		$mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
-
-		if ($start !== NULL || $length !== NULL) {
-			$str = JString::substr($str, $start, $length);
-		}
-
-		preg_match('/^[^'.$mask.']+/u',$str, $matches);
-
-		if (isset($matches[0])) {
-			return mb_strlen($matches[0]);
-		}
-
-		return 0;
 	}
 
 	/**
@@ -323,19 +242,8 @@ abstract class JString
 	*/
 	public static function stristr($str, $search)
 	{
-		if (strlen($search) == 0) {
-			return $str;
-		}
-
-		$lstr = JString::strtolower($str);
-		$lsearch = JString::strtolower($search);
-		preg_match('|^(.*)'.preg_quote($lsearch).'|Us',$lstr, $matches);
-
-		if (count($matches) == 2) {
-			return substr($str, strlen($matches[1]));
-		}
-
-		return FALSE;
+		jimport('phputf8.stristr');
+		return utf8_stristr($str, $search);
 	}
 
 	/**
@@ -350,8 +258,8 @@ abstract class JString
 	*/
 	public static function strrev($str)
 	{
-		 preg_match_all('/./us', $str, $ar);
-   	 	 return join('',array_reverse($ar[0]));
+		jimport('phputf8.strrev');
+		return utf8_strrev($str);
 	}
 
 	/**
@@ -368,19 +276,14 @@ abstract class JString
 	*/
 	public static function strspn($str, $mask, $start = NULL, $length = NULL)
 	{
-		$mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
-
-		if ($start !== NULL || $length !== NULL) {
-			$str = JString::substr($str, $start, $length);
+		jimport('phputf8.strspn');
+		if ( $start === FALSE && $length === FALSE ) {
+			return utf8_strspn($str, $mask);
+		} else if ( $length === FALSE ) {
+			return utf8_strspn($str, $mask, $start);
+		} else {
+			return utf8_strspn($str, $mask, $start, $length);
 		}
-
-		preg_match('/^['.$mask.']+/u',$str, $matches);
-
-		if (isset($matches[0])) {
-			return JString::strlen($matches[0]);
-		}
-
-		return 0;
 	}
 
 	/**
@@ -397,13 +300,12 @@ abstract class JString
 	*/
 	public static function substr_replace($str, $repl, $start, $length = NULL)
 	{
-		preg_match_all('/./us', $str, $ar);
-		preg_match_all('/./us', $repl, $rar);
-		if ($length === NULL) {
-			$length = JString::strlen($str);
+		// loaded by library loader
+		if ( $length === FALSE ) {
+			return utf8_substr_replace($str, $repl, $start);
+		} else {
+			return utf8_substr_replace($str, $repl, $start, $length);
 		}
-		array_splice($ar[0], $start, $length, $rar[0]);
-		return join('',$ar[0]);
 	}
 
 	/**
@@ -422,12 +324,12 @@ abstract class JString
 	*/
 	public static function ltrim($str, $charlist = FALSE)
 	{
-		if ($charlist === FALSE) return ltrim($str);
-
-		//quote charlist for use in a characterclass
-		$charlist = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$charlist);
-
-		return preg_replace('/^['.$charlist.']+/u','',$str);
+		jimport('phputf8.trim');
+		if ( $charlist === FALSE ) {
+			return utf8_ltrim( $str );
+		} else {
+			return utf8_ltrim( $str, $charlist );
+		}
 	}
 
 	/**
@@ -446,14 +348,12 @@ abstract class JString
 	*/
 	public static function rtrim($str, $charlist = FALSE)
 	{
-		 if ($charlist === FALSE) {
-		 	return rtrim($str);
-		 }
-
-   	 	//quote charlist for use in a characterclass
-		$charlist = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$charlist);
-
-		return preg_replace('/['.$charlist.']+$/u','',$str);
+		jimport('phputf8.trim');
+		if ( $charlist === FALSE ) {
+			return utf8_rtrim($str);
+		} else {
+			return utf8_rtrim( $str, $charlist );
+		}
 	}
 
 	/**
@@ -472,11 +372,12 @@ abstract class JString
 	*/
 	public static function trim($str, $charlist = FALSE)
 	{
-		if ($charlist === FALSE) {
-			return trim($str);
+		jimport('phputf8.trim');
+		if ( $charlist === FALSE ) {
+			return utf8_trim( $str );
+		} else {
+			return utf8_trim( $str, $charlist );
 		}
-
-		return JString::ltrim(JString::rtrim($str, $charlist), $charlist);
 	}
 
 	/**
@@ -491,18 +392,8 @@ abstract class JString
 	*/
 	public static function ucfirst($str)
 	{
-		switch (JString::strlen($str)) {
-			case 0:
-				return '';
-			break;
-			case 1:
-				return JString::strtoupper($str);
-			break;
-			default:
-				preg_match('/^(.{1})(.*)$/us', $str, $matches);
-				return JString::strtoupper($matches[1]).$matches[2];
-			break;
-		}
+		jimport('phputf8.ucfirst');
+		return utf8_ucfirst($str);
 	}
 
 	/**
@@ -517,28 +408,8 @@ abstract class JString
 	*/
 	public static function ucwords($str)
 	{
-		 // Note: [\x0c\x09\x0b\x0a\x0d\x20] matches;
-		// form feeds, horizontal tabs, vertical tabs, linefeeds and carriage returns
-		// This corresponds to the definition of a "word" defined at http://www.php.net/ucwords
-		$pattern = '/(^|([\x0c\x09\x0b\x0a\x0d\x20]+))([^\x0c\x09\x0b\x0a\x0d\x20]{1})[^\x0c\x09\x0b\x0a\x0d\x20]*/u';
-		return preg_replace_callback($pattern, 'JString::ucwords_callback',$str);
-	}
-
-
-	/**
-	 * Callback function for preg_replace_callback call in JString::ucwords
-	 * You don't need to call this yourself
-	 * @param array of matches corresponding to a single word
-	 * @return string with first char of the word in uppercase
-	 * @see ucwords
-	 * @see strtoupper
-	 */
-	public static function ucwords_callback($matches)
-	{
-		$leadingws = $matches[2];
-		$ucfirst = JString::strtoupper($matches[3]);
-		$ucword = JString::substr_replace(ltrim($matches[0]),$ucfirst,0,1);
-		return $leadingws . $ucword;
+		jimport('phputf8.ucwords');
+		return utf8_ucwords($str);
 	}
 
 	/**
@@ -553,8 +424,7 @@ abstract class JString
 	 */
 	public static function transcode($source, $from_encoding, $to_encoding)
 	{
-		if (is_string($source))
-		{
+		if (is_string($source)) {
 			/*
 			 * "//TRANSLIT" is appendd to the $to_encoding to ensure that when iconv comes
 			 * across a character that cannot be represented in the target charset, it can
@@ -571,6 +441,7 @@ abstract class JString
 	 * @author <hsivonen@iki.fi>
 	 * @param string UTF-8 encoded string
 	 * @return boolean true if valid
+	 * @since 1.6
 	 * @see http://hsivonen.iki.fi/php-utf8/
 	 * @see compliant
 	 */
@@ -705,6 +576,7 @@ abstract class JString
 	 * @see http://www.php.net/manual/en/reference.pcre.pattern.modifiers.php#54805
 	 * @param string UTF-8 string to check
 	 * @return boolean TRUE if string is valid UTF-8
+ 	 * @since 1.6
 	 */
 	public static function compliant($str)
 	{
