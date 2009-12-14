@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+14-Dec-2009 Ian MacLennan
+^ Modified JString to use phputf8 to support systems without mb_string
+
 14-Dec-2009 Andrew Eddie
  # Fixed bug in installation and diff SQL. TEXT fields can't have defaults.
 
