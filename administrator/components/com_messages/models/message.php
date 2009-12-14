@@ -4,7 +4,9 @@
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined( '_JEXEC' ) or die;
+
+// No direct access.
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
@@ -71,10 +73,13 @@ class MessagesModelMessage extends JModel
 		$userid = JRequest::getInt('userid', 0);
 
 		// Include user in groups that have access to log in to the administrator.
+		/*
+		TODO: Fix this
 		$return = $access->getAuthorisedUsergroups('core.manageistrator.login', true);
 		if (count($return)) {
 			$groups = array_merge($groups, $return);
 		}
+		 */
 
 		// Remove duplicate entries and serialize.
 		JArrayHelper::toInteger($groups);
@@ -87,7 +92,9 @@ class MessagesModelMessage extends JModel
 		$query->from('#__users AS u');
 		$query->join('INNER', '#__user_usergroup_map AS m ON m.user_id = u.id');
 		$query->where('u.block = 0');
-		$query->where('m.group_id IN ('.$groups.')');
+		if ($groups) {
+			$query->where('m.group_id IN ('.$groups.')');
+		}
 
 		// Get the users.
 		$this->_db->setQuery((string) $query);

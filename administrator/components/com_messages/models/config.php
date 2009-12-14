@@ -4,80 +4,131 @@
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined( '_JEXEC' ) or die;
 
-jimport('joomla.application.component.model');
+// No direct access.
+defined('_JEXEC') or die;
+
+jimport('joomla.application.component.modelform');
 
 /**
- * Messages Component Config Model
+ * Message configuration model.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_messages
  * @since		1.6
  */
-class MessagesModelConfig extends JModel
+class MessagesModelConfig extends JModelForm
 {
 	/**
-	 * The id of the current user.
-	 *
-	 * @var int
+	 * Method to auto-populate the model state.
 	 */
-	public $user_id;
-
-	public function __construct($config = array())
+	protected function _populateState()
 	{
-		parent::__construct($config);
+		$app	= JFactory::getApplication('administrator');
+		$user	= JFactory::getUser();
 
-		$user			= &JFactory::getUser();
-		$this->user_id	= (int) $user->get('id');
+		$this->setState('user.id', $user->get('id'));
+
+		// Load the parameters.
+		$params	= JComponentHelper::getParams('com_newsfeeds');
+		$this->setState('params', $params);
 	}
 
-	public function getVars()
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param	integer	The id of the primary key.
+	 *
+	 * @return	mixed	Object on success, false on failure.
+	 */
+	public function &getItem()
 	{
-		$query = 'SELECT cfg_name, cfg_value'
-		. ' FROM #__messages_cfg'
-		. ' WHERE user_id = '. $this->user_id
-		;
+		// Initialise variables.
+		$item = new JObject;
+
+		$query = new JQuery;
+		$query->select('cfg_name, cfg_value');
+		$query->from('#__messages_cfg');
+		$query->where('user_id = '.(int) $this->getState('user.id'));
+
 		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectList('cfg_name');
+		$rows = $this->_db->loadObjectList();
 
-		// Initialise values if they do not exist
-		if (!isset($data['lock']->cfg_value)) {
-			$data['lock']->cfg_value 		= 0;
-		}
-		if (!isset($data['mail_on_new']->cfg_value)) {
-			$data['mail_on_new']->cfg_value = 0;
-		}
-		if (!isset($data['auto_purge']->cfg_value)) {
-			$data['auto_purge']->cfg_value 	= 7;
+		if ($error = $this->_db->getErrorMsg()) {
+			$this->setErrur($error);
+			return false;
 		}
 
-		$vars 					= array();
-		$vars['lock'] 			= JHtml::_('select.booleanlist',  "vars[lock]", '', $data['lock']->cfg_value, 'yes', 'no', 'varslock');
-		$vars['mail_on_new'] 	= JHtml::_('select.booleanlist',  "vars[mail_on_new]", '', $data['mail_on_new']->cfg_value, 'yes', 'no', 'varsmail_on_new');
-		$vars['auto_purge'] 	= $data['auto_purge']->cfg_value;
+		foreach ($rows as $row) {
+			$item->set($row->cfg_name, $row->cfg_value);
+		}
 
-		return $vars;
+		return $item;
 	}
 
+	/**
+	 * Method to get the record form.
+	 *
+	 * @return	mixed	JForm object on success, false on failure.
+	 */
+	public function getForm()
+	{
+		// Initialise variables.
+		$app	= JFactory::getApplication();
+
+		// Get the form.
+		$form = parent::getForm('config', 'com_messages.config', array('array' => 'jform', 'event' => 'onPrepareForm'));
+
+		// Check for an error.
+		if (JError::isError($form)) {
+			$this->setError($form->getMessage());
+			return false;
+		}
+
+		return $form;
+	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param	array	The form data.
+	 * @return	boolean	True on success.
+	 */
 	public function save($data)
 	{
-		$user =& JFactory::getUser();
-
-		$query = 'DELETE FROM #__messages_cfg'
-		. ' WHERE user_id = '. $this->user_id
-		;
-		$this->_db->setQuery($query);
-		$this->_db->query();
-
-		foreach ($data as $k=>$v) {
-			$v = $this->_db->getEscaped($v);
-			$query = 'INSERT INTO #__messages_cfg'
-			. ' (user_id, cfg_name, cfg_value)'
-			. ' VALUES ('.(int) $user->get('id').', '.$this->_db->Quote($k).', '.$this->_db->Quote($v).')'
-			;
-			$this->_db->setQuery($query);
+		if ($userId = (int) $this->getState('user.id'))
+		{
+			$this->_db->setQuery(
+				'DELETE FROM #__messages_cfg'.
+				' WHERE user_id = '. $userId
+			);
 			$this->_db->query();
+			if ($error = $this->_db->getErrorMsg()) {
+				$this->setError($error);
+				return false;
+			}
+
+			$tuples = array();
+			foreach ($data as $k => $v) {
+				$tuples[] =  '('.$userId.', '.$this->_db->Quote($k).', '.$this->_db->Quote($v).')';
+			}
+
+			if ($tuples) {
+				$this->_db->setQuery(
+					'INSERT INTO #__messages_cfg'.
+					' (user_id, cfg_name, cfg_value)'.
+					' VALUES '.implode(',', $tuples)
+				);
+				$this->_db->query();
+				if ($error = $this->_db->getErrorMsg()) {
+					$this->setError($error);
+					return false;
+				}
+			}
+			return true;
+		} else {
+			$this->setError('Messages_Invalid_user');
+			return false;
 		}
 	}
 }

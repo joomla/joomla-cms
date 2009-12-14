@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="lock"
+			type="radio"
+			label="Messages_Field_Lock_Label"
+			description="Messages_Field_Lock_Desc"
+			default="0">
+			<option
+				value="1">
+				JYes</option>
+			<option
+				value="0">
+				JNo</option>
+		</field>
+
+		<field
+			name="mail_on_new"
+			type="radio"
+			label="Messages_Field_Mail_on_New_Label"
+			description="Messages_Field_Mail_on_New_Desc"
+			default="1">
+			<option
+				value="1">
+				JYes</option>
+			<option
+				value="0">
+				JNo</option>
+		</field>
+
+		<field
+			name="auto_purge"
+			type="text"
+			class="inputbox"
+			size="6"
+			default="7"
+			label="Messages_Field_Auto_Purge_Label"
+			description="Messages_Field_Auto_Purge_Desc" />
+	</fields>
+</form>
