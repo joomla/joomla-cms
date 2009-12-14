@@ -38,7 +38,7 @@ ALTER TABLE `jos_banners`
  CHANGE COLUMN `showBanner` `state` TINYINT(3) NOT NULL DEFAULT '0';
 
 ALTER TABLE `jos_banners`
- CHANGE COLUMN `tags` `metakey` TEXT NOT NULL DEFAULT '' AFTER `state`;
+ CHANGE COLUMN `tags` `metakey` TEXT NOT NULL AFTER `state`;
 
 ALTER TABLE `jos_banners`
  CHANGE COLUMN `date` `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `params`;
@@ -50,7 +50,7 @@ ALTER TABLE `jos_banners`
  MODIFY COLUMN `catid` INTEGER UNSIGNED NOT NULL DEFAULT 0 AFTER `state`;
 
 ALTER TABLE `jos_banners`
- MODIFY COLUMN `description` TEXT NOT NULL DEFAULT '' AFTER `catid`;
+ MODIFY COLUMN `description` TEXT NOT NULL AFTER `catid`;
 
 ALTER TABLE `jos_banners`
  MODIFY COLUMN `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 AFTER `description`;
@@ -59,7 +59,7 @@ ALTER TABLE `jos_banners`
  MODIFY COLUMN `ordering` INTEGER NOT NULL DEFAULT 0 AFTER `sticky`;
 
 ALTER TABLE `jos_banners`
- MODIFY COLUMN `params` TEXT NOT NULL DEFAULT '' AFTER `metakey`;
+ MODIFY COLUMN `params` TEXT NOT NULL AFTER `metakey`;
 
 ALTER TABLE `jos_banners`
  ADD COLUMN `own_prefix` TINYINT(1) NOT NULL DEFAULT '0' AFTER `params`;
@@ -123,7 +123,7 @@ ALTER TABLE `jos_banner_clients`
  ADD COLUMN `state` TINYINT(3) NOT NULL DEFAULT '0' AFTER `extrainfo`;
 
 ALTER TABLE `jos_banner_clients`
- ADD COLUMN `metakey` TEXT NOT NULL DEFAULT '';
+ ADD COLUMN `metakey` TEXT NOT NULL;
 
 ALTER TABLE `jos_banner_clients`
  ADD COLUMN `own_prefix` TINYINT NOT NULL DEFAULT '0';

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Dec-2009 Andrew Eddie
+ # Fixed bug in installation and diff SQL. TEXT fields can't have defaults.
+
 13-Dec-2009 Mark Dexter
 ^ Merged in com_content changes. Implement some params for Category List layout.
 # Fixed read more param for articles.
