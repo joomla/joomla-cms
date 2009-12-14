@@ -37,7 +37,7 @@ class JFormFieldRadio extends JFormField
 		// Get the options for the radio list.
 		$options = array();
 		foreach ($this->_element->children() as $option) {
-			$tmp = JHtml::_('select.option', $option->attributes('value'), $option->data());
+			$tmp = JHtml::_('select.option', $option->attributes('value'), trim($option->data()));
 			$tmp->class = $option->attributes('class');
 			$options[] = $tmp;
 		}
