@@ -30,6 +30,11 @@ if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' &&
 }
 
 /**
+ * Include the utf8 package
+ */
+jimport('phputf8.utf8');
+
+/**
  * String handling class for utf-8 data
  * Wraps the phputf8 library
  * All functions assume the validity of utf-8 strings.
