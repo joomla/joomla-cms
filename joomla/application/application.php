@@ -675,6 +675,27 @@ class JApplication extends JObject
 		}
 		return $router;
 	}
+	
+	/**
+	 * This method transliterates a string into an URL
+	 * safe string or returns a URL safe UTF-8 string
+	 * based on the global configuration
+	 * 
+	 * @param string	$input	String to process
+	 * @return	string	Processed string
+	 * @since	1.6 
+	 */
+	static public function stringURLSafe($string)
+	{
+		$app = &JFactory::getApplication();
+		if (self::getCfg('unicodeslugs') == 1)
+		{
+			$output = JFilterOutput::stringURLUnicodeSlug($string);
+		} else {
+ 			$output = JFilterOutput::stringURLSafe($string);
+		}
+		return $output;
+	}
 
 	/**
 	 * Returns the application JPathway object.

@@ -93,6 +93,39 @@ class JFilterOutput
 		return $str;
 	}
 
+ 	/**
+	 * This method implements unicode slugs instead of transliteration.
+	 *
+	 * @static
+	 * @param	string	$input	String to process
+	 * @return	string	Processed string
+	 * @since	1.6
+	*/
+	function stringURLUnicodeSlug($string)
+	{
+		//replace double byte whitespaces by single byte (Far-East languages)
+		$str = preg_replace('/\xE3\x80\x80/', ' ', $string);
+
+
+		// remove any '-' from the string as they will be used as concatenator.
+		// Would be great to let the spaces in but only Firefox is friendly with this
+
+		$str = str_replace('-', ' ', $str);
+
+		// replace forbidden characters by whitespaces
+		$str = preg_replace( '#[:\#\*"@+=;!&%()\]\/\'\\\\|\[]#',"\x20", $str );
+
+		//delete all '?'
+		$str = str_replace('?', '', $str);
+
+		//trim white spaces at beginning and end of alias
+		$str = trim( $str );
+
+		// remove any duplicate whitespace and replace whitespaces by hyphens
+		$str =preg_replace('#\x20+#','-', $str);
+		return $str;
+	}
+
 	/**
 	* Replaces &amp; with & for xhtml compliance
 	*

@@ -32,7 +32,7 @@ class JTableMenuType extends JTable
 	 */
 	function check()
 	{
-		$this->menutype = JFilterOutput::stringURLSafe($this->menutype);
+		$this->menutype = JApplication::stringURLSafe($this->menutype);
 		if (empty($this->menutype)) {
 			$this->setError(JText::_('Menu_Error_Menutype_empty'));
 			return false;
