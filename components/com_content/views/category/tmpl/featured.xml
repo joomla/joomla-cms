@@ -6,7 +6,19 @@
 			<![CDATA[com_content_category_view_featured_desc]]>
 		</message>
 	</layout>
-
+	<fields
+		group="request"
+		array="true"
+		label="Menus_Layout_Request_Variables_Label"
+		description="Menus_Layout_Request_Variables_Desc">
+		<field
+			name="id"
+			type="category"
+			extension="com_content"
+			required="true"
+			label="Category"
+			description="Choose a category..." />
+	</fields>
 	<fields
 			group="basic">
 		<field

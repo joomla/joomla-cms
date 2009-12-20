@@ -51,9 +51,11 @@ class ContentHelperQuery
 			case 'modifed' :
 				$queryDate = 'a.modified';
 				break;
-				
+
+			// use created if publish_up is not set	
 			case 'published' : 
-				$queryDate = 'a.publish_up';
+				$queryDate = 'CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END';
+				break;
 				
 			case 'created' : 
 			default : 

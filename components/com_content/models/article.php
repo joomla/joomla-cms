@@ -51,6 +51,7 @@ class ContentModelArticle extends JModelItem
 
 		// TODO: Tune these values based on other permissions.
 		$this->setState('filter.published',	1);
+		$this->setState('filter.archived',	-1);		
 		$this->setState('filter.access',		true);
 	}
 
@@ -91,10 +92,12 @@ class ContentModelArticle extends JModelItem
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
+				$archived = $this->getState('filter.archived');			
 				if (is_numeric($published)) {
-					$query->where('a.state = '.(int) $published);
+					$query->where('a.state = '.(int) $published.' OR a.state ='.(int) $archived);
 				}
 
+				
 				// Filter by access level.
 				if ($access = $this->getState('filter.access'))
 				{
@@ -117,7 +120,9 @@ class ContentModelArticle extends JModelItem
 				}
 
 				// Check for published state if filter set.
-				if (is_numeric($published) && $data->state != $published) {
+				if (((is_numeric($published))||(is_numeric($archived))) && 
+					(($data->state != $published ) && ( $data->state != $archived )))
+				  {
 					throw new Exception(JText::_('Content_Error_Article_not_found'), 404);
 				}
 

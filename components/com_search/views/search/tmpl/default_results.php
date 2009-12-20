@@ -13,16 +13,15 @@
 					<?php if ($result->href) :
 						if ($result->browsernav == 1) : ?>
 							<a href="<?php echo JRoute::_($result->href); ?>" target="_blank">
+							<?php echo $this->escape($result->title); ?>
+							</a>						
 						<?php else : ?>
 							<a href="<?php echo JRoute::_($result->href); ?>">
-						<?php endif;
-
-						echo $this->escape($result->title);
-
-						if ($result->href) : ?>
+							<?php echo $this->escape($result->title); ?>
 							</a>
-						<?php endif;
-						if ($result->section) : ?>
+						<?php endif;?>
+							
+						<?php if ($result->section) : ?>
 							<br />
 							<span class="small<?php echo $this->params->get('pageclass_sfx'); ?>">
 								(<?php echo $this->escape($result->section); ?>)

@@ -164,7 +164,7 @@ class ContentModelArchive extends JModel
 		$where .= ' AND cc.access IN ('.$groups.')';
 		$where .= ' AND cc.published = 1';
 
-		$where .= ' AND a.state = \'-1\'';
+		$where .= ' AND a.state = -1';
 		$year	= JRequest::getInt('year');
 		if ($year) {
 			$where .= ' AND YEAR(a.created) = \''.$year.'\'';

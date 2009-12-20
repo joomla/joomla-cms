@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Dec-2009 Mark Dexter
++ Partial implementation of Category List in com_content (thanks to Andrea Tarr, Elin Waring, Angie Radtke)
++ Implement global and menu item parameters
+# Fix 404 error in archive view (thanks to Elin Waring)
 
 14-Dec-2009 Ian MacLennan
 ^ Modified JString to use phputf8 to support systems without mb_string

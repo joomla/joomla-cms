@@ -29,7 +29,11 @@ defined('_JEXEC') or die; ?>
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
 	<h2 class="<?php echo $direction; ?>">
-		<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php if ($this->escape($this->params->get('page_heading'))) :?>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		<?php else : ?>
+			<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php endif; ?>
 	</h2>
 <?php endif; ?>
 

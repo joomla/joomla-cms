@@ -94,8 +94,9 @@ defined('_JEXEC') or die;
 								JHtml::_('behavior.modal', 'a.modal'); ?>
 
 								<a class="modal" title="<?php  echo $this->escape($item->title) ?> " href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x: 500, y: 506}}\">
-								<?php echo	$this->escape($item->title). ' </a>' ;
-								 	break;
+								<?php echo	$this->escape($item->title); ?>
+								</a>
+								<?php break;
 
 							default:
 								// open in parent window

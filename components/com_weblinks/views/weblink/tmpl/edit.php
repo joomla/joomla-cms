@@ -32,11 +32,16 @@ function submitbutton(pressbutton)
 }
 </script>
 
+<div class="<?php echo $this->params->get('pageclass_sfx'); ?>">
 <form action="<?php echo $this->action ?>" method="post" name="adminForm" id="adminForm">
 <?php if ($this->params->def('show_page_title', 1)) : ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
-		<?php echo $this->escape($this->params->get('page_title')); ?>
-	</div>
+	<h1>
+		<?php if ($this->escape($this->params->get('page_heading'))) :?>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		<?php else : ?>
+			<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php endif; ?>
+	</h1>
 <?php endif; ?>
 <table cellpadding="4" cellspacing="1" border="0" width="100%">
 <tr>
@@ -118,3 +123,4 @@ function submitbutton(pressbutton)
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+</div>

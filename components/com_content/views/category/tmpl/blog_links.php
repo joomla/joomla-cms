@@ -12,11 +12,11 @@ defined('_JEXEC') or die;
 ?>
 <h3><?php echo JText::_('More Articles...'); ?></h3>
 
-<ul class="jlinks">
+<ol class="jlinks">
 <?php foreach ($this->link_items as &$item) : ?>
 	<li>
 		<a href="<?php echo JRoute::_(ContentRoute::article($item->slug, $item->catslug)); ?>">
 			<?php echo $item->title; ?></a>
 	</li>
 <?php endforeach; ?>
-</ul>
+</ol>

@@ -14,13 +14,22 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 ?>
 <form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">
 	<?php if ($this->params->get('show_page_title', 1)) : ?>
-		<h2 class="<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_title')); ?></h2>
+	<h1>
+		<?php if ($this->escape($this->params->get('page_heading'))) :?>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		<?php else : ?>
+			<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php endif; ?>
+	</h1>
 	<?php endif; ?>
+	<p>// need ids for the form elements to add the lable</p>
 	<p>
 		<?php if ($this->params->get('filter')) : ?>
-		<?php echo JText::_('Filter').'&nbsp;'; ?>
-		<input type="text" name="filter" value="<?php echo $this->escape($this->filter); ?>" class="inputbox" onchange="document.jForm.submit();" />
+		<label for="filter_box"><?php echo JText::_('Filter'); ?></label>
+		<input id="filter_box" type="text" name="filter" value="<?php echo $this->escape($this->filter); ?>" class="inputbox" onchange="document.jForm.submit();" />
 		<?php endif; ?>
+
+
 		<?php echo $this->form->monthField; ?>
 		<?php echo $this->form->yearField; ?>
 		<?php echo $this->form->limitField; ?>

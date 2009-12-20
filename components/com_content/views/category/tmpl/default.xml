@@ -146,17 +146,17 @@
 				<option value="modified">Modified</option>
 				<option value="published">Published</option>
 		</field>
-
-	 	<field 
-			name="all_subcategories" 
+		
+		<field 
+			name="list_type" 
 			type="list" 
-			default="" 
-			label="Content_Attribs_All_Subcategories_Label" 
-			description="Content_Attribs_All_Subcategories_Desc">
+			default="single" 
+			label="Content_Attribs_List_Type_Label" 
+			description="Content_Attribs_List_Type_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
-	 			<option value="all">All_Levels</option>
-	 			<option value="next_level">Next_Level_Only</option>
-	 	</field>
+				<option value="single">Single_Level</option>
+				<option value="mutliple">Multi_Level</option>
+		</field>
 	 	
 		<field 
 			name="show_pagination_limit" 
@@ -169,6 +169,25 @@
 				<option value="1">JCommon_Show</option>
 		</field>
 
+		<field 
+			name="list_hits" 
+			type="list" default="" 
+			label="CONTENT_ATTRIBS_LIST_HITS_LABEL" 
+			description="CONTENT_ATTRIBS_LIST_HITS_DESC">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JCommon_Hide</option>
+				<option value="1">JCommon_Show</option>
+		</field>
+		
+		<field 
+			name="list_author" 
+			type="list" default="" 
+			label="CONTENT_ATTRIBS_LIST_AUTHOR_LABEL" 
+			description="CONTENT_ATTRIBS_LIST_AUTHOR_DESC">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JCommon_Hide</option>
+				<option value="1">JCommon_Show</option>
+		</field>	
 
 		<field 
 			name="show_pagination" 
@@ -365,6 +384,20 @@
 			type="list"
 			label="Content_Attribs_Show_Modify_Date_Label"
 			description="Content_Attribs_Show_Modify_Date_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		
+		<field
+			name="show_publish_date"
+			type="list"
+			label="Content_Attribs_Show_Publish_Date_Label"
+			description="Content_Attribs_Show_Publish_Date_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>

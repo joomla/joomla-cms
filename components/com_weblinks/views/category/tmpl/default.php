@@ -19,7 +19,11 @@ $pageClass = $this->params->get('pageclass_sfx');
 
 <?php if ($this->params->def('show_page_title', 1)) : ?>
 	<h2>
-		<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php if ($this->escape($this->params->get('page_heading'))) :?>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		<?php else : ?>
+			<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php endif; ?>
 	</h2>
 <?php endif; ?>
 <?php  /**

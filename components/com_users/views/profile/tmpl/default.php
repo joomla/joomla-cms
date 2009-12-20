@@ -8,14 +8,18 @@
  */
 
 defined('_JEXEC') or die;
-
-// Check if we need to show the page title.
-if ($this->params->get('show_page_title', 1)):
-	?>
-	<h2><?php echo $this->params->get('page_title'); ?></h2>
-	<?php
-endif;
 ?>
+
+<?php if ($this->params->get('show_page_title', 1)): ?>
+	<h2>
+		<?php if ($this->escape($this->params->get('page_heading'))) :?>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		<?php else : ?>
+			<?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php endif; ?>
+	</h2>
+<?php endif; ?>
+
 <?php echo $this->loadTemplate('core'); ?>
 
 <?php echo $this->loadTemplate('custom'); ?>

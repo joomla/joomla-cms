@@ -70,10 +70,11 @@ class ContentModelCategory extends JModelItem
 		$this->setState('filter.access',	true);
 		
 		// filter.order
+		$this->setState('list.direction', JRequest::getWord('filter_order_Dir', 'asc'));
 		$this->setState('list.ordering', $this->_buildContentOrderBy());
 		$this->setState('list.start', 0);
 		$this->setState('list.limit', $mergedParams->get('display_num'));
-	}
+}
 
 	/**
 	 * Method to get a store id based on model configuration state.
@@ -210,6 +211,7 @@ class ContentModelCategory extends JModelItem
 			$model->setState('list.ordering', 		$this->getState('list.ordering'));
 			$model->setState('list.start', 			$this->getState('list.start'));
 			$model->setState('list.limit', 			$this->getState('list.limit'));
+			$model->setState('list.direction', 		$this->getState('list.direction'));
 
 			$this->_articles  = $model->getItems();
 
@@ -337,11 +339,12 @@ class ContentModelCategory extends JModelItem
 		}
 		
 		$articleOrderby	= $params->get('article_orderby', 'rdate');
+		$articleOrderDate = $params->get('order_date');
 		$categoryOrderby	= $params->def('category_orderby', '');
-		$secondary		= ContentHelperQuery::orderbySecondary($articleOrderby).', ';
+		$secondary		= ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate).', ';
 		$primary		= ContentHelperQuery::orderbyPrimary($categoryOrderby);
 		
-		$orderby .= $primary . ' ' . $secondary . 'a.created DESC';
+		$orderby .= $primary . ' ' . $secondary . ' a.created DESC';
 		return $orderby;
 	}
 	

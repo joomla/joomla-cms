@@ -22,7 +22,6 @@ class ContentViewCategory extends JView
 	protected $state = null;
 	protected $item = null;
 	protected $articles = null;
-	// Note: pagination works in frontpage view, but not set up in this view yet
 	protected $pagination = null;
 
 	protected $lead_items = array();
@@ -40,6 +39,7 @@ class ContentViewCategory extends JView
 		// Initialise variables.
 		$user		= &JFactory::getUser();
 		$app		= &JFactory::getApplication();
+		$uri 		=& JFactory::getURI();
 
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
@@ -47,8 +47,9 @@ class ContentViewCategory extends JView
 		$siblings	= $this->get('Siblings');
 		$children	= $this->get('Children');
 		$parents	= $this->get('Parents');
-		$pagination	= $this->get('Pagination');
-
+		// $pagination	= $this->get('Pagination');
+		
+		
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));
@@ -154,7 +155,8 @@ class ContentViewCategory extends JView
 		 {
 			$parent->slug = $parent->route ? ($parent->id.':'.$parent->route) : $parent->id;
 		 }
-
+		$this->assign('action', 	str_replace('&', '&amp;', $uri->toString()));
+		
 		$this->assignRef('params',		$params);
 		$this->assignRef('item',		$item);
 		$this->assignRef('articles',	$articles);
@@ -163,6 +165,7 @@ class ContentViewCategory extends JView
 		$this->assignRef('parents',		$parents);
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('user',		$user);
+		$this->assignRef('state',		$state);
 
 		$this->_prepareDocument();
 

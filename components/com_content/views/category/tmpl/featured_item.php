@@ -15,14 +15,14 @@ $params = &$this->item->params;
 ?>
 
 <?php if ($params->get('show_title')) : ?>
-	<h3>
+	<h2>
 		<?php if ($params->get('link_titles')) : ?>
 		<a href="<?php echo $this->item->readmore_link; ?>">
 			<?php echo $this->escape($this->item->title); ?></a>
 		<?php else : ?>
 			<?php echo $this->escape($this->item->title); ?>
 		<?php endif; ?>
-	</h3>
+	</h2>
 <?php endif; ?>
 
 <?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $params->get('access-edit')) : ?>
@@ -50,38 +50,37 @@ $params = &$this->item->params;
 <?php endif; ?>
 
 <?php echo $this->item->event->beforeDisplayContent; ?>
-
-<div class="jiteminfo">
-	<?php if ($params->get('show_category')) : ?>
-		<span class="jcategory">
-			<?php if ($params->get('link_category')) : ?>
-				<a href="<?php echo JRoute::_(ContentRoute::category($this->item->catslug)); ?>">
-					<?php echo $this->escape($this->item->category); ?> </a>
-			<?php else : ?>
-				<?php echo $this->escape($this->item->category); ?>
-			<?php endif; ?>
-		</span>
+<?php // to do not that elegant ?>
+<?php if (($params->get('show_author')) or ($params->get('link_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date'))) : ?>
+ <dl class="article_info">
+<?php endif; ?>
+<?php if ($params->get('show_category')) : ?>
+<dt class="category_term"><?php  echo JText::_('CATEGORY'); ?></dt>
+<dd class="category">
+		<?php if ($params->get('link_category')) : ?>
+			<a href="<?php echo JRoute::_(ContentRoute::category($this->item->catslug)); ?>">
+            <?php echo $this->escape($this->item->category_title); ?>
+            </a>
+        <?php else : ?>
+			<?php echo $this->escape($this->item->category_title); ?>
+        <?php endif; ?>
+</dd>
+<?php endif; ?>
+<?php if ($params->get('show_create_date')) : ?>
+        <dt class="create_term"> <?php echo JText::_('CREATION_DATE'); ?> </dt>
+        <dd class="create_date">
+                <?php echo JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
+        </dd>
+<?php endif; ?>
+<?php if ($params->get('show_author') && !empty($this->item->author_name)) : ?>
+		<dt class="createdby_term"> <?php echo JText::_('WRITTEN_BY'); ?></dt>
+		<dd class="createdby">
+			<?php echo ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author_name); ?>
+		</dd>
 	<?php endif; ?>
-
-	<?php if ($params->get('show_create_date')) : ?>
-		<span class="jcreated-date">
-			<?php echo JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
-		</span>
-	<?php endif; ?>
-
-	<?php if (intval($this->item->modified) && $params->get('show_modify_date')) : ?>
-		<span class="jmodified-date">
-			<?php echo JText::sprintf('LAST_UPDATED2', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
-		</span>
-	<?php endif; ?>
-
-	<?php if ($params->get('show_author') && !empty($this->item->author)) : ?>
-		<span class="jcreated-by">
-			<?php echo JText::sprintf('Written by', ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author)); ?>
-		</span>
-	<?php endif; ?>
-
-</div>
+<?php if (($params->get('show_author')) or ($params->get('link_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date'))) : ?>
+ </dl>
+<?php endif; ?>
 
 <?php echo $this->item->introtext; ?>
 
@@ -92,17 +91,18 @@ $params = &$this->item->params;
 		$link = JRoute::_("index.php?option=com_users&view=login");
 	endif;
 ?>
-	<div class="jreadmore">
-		<a href="<?php echo $link; ?>" >
-			<?php if (!$params->get('access-view')) :
-				echo JText::_('Register to read more...');
-			elseif ($readmore = $params->get('readmore')) :
-				echo $readmore;
-			else :
-				echo JText::sprintf('Read more...');
-			endif; ?></a>
-	</div>
+	<p class="jreadmore">
+                <a href="<?php echo $link; ?>" class="readon">
+                        <?php if (!$params->get('access-view')) :
+                                echo JText::_('Register to read more...');
+                        elseif ($readmore = $params->get('readmore')) :
+                                echo $readmore;
+                        else :
+                             echo JText::sprintf('Read more', $this->escape($this->item->title));
+                        endif; ?></a>
+        </p>
 <?php endif; ?>
+
 
 <div class="jseparator"></div>
 <?php echo $this->item->event->afterDisplayContent; ?>

@@ -25,68 +25,89 @@ function submitbutton(task) {
 }
 </script>
 
+<div class="page<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-<h2 class="<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-	<?php echo $this->escape($this->params->get('page_title')); ?>
-</h2>
+<h1>
+	<?php if ($this->escape($this->params->get('page_heading'))) :?>
+		<?php echo $this->escape($this->params->get('page_heading')); ?>
+	<?php else : ?>
+		<?php echo $this->escape($this->params->get('page_title')); ?>
+	<?php endif; ?>
+</h1>
 <?php endif; ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 	<fieldset>
 		<legend><?php echo JText::_('Editor'); ?></legend>
-		<div style="float: left;">
+
+			<div class="formelm">
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
-		</div>
-		<div style="float: right;">
+			</div>
+
+           	<div class="formelm_buttons">
 			<button type="button" onclick="submitbutton('article.save')">
 				<?php echo JText::_('JSave') ?>
 			</button>
 			<button type="button" onclick="submitbutton('article.cancel')">
 				<?php echo JText::_('JCancel') ?>
 			</button>
-		</div>
-		<div style="clear: both">
+			</div>
+
+
 			<?php echo $this->form->getInput('text'); ?>
-		</div>
+
 	</fieldset>
 
 	<fieldset>
 		<legend><?php echo JText::_('Publishing'); ?></legend>
+		<div class="formelm">
 		<?php echo $this->form->getLabel('catid'); ?>
 		<?php echo $this->form->getInput('catid'); ?>
-	<br />
+		</div>
+        <div class="formelm">
 		<?php echo $this->form->getLabel('created_by_alias'); ?>
 		<?php echo $this->form->getInput('created_by_alias'); ?>
-	<br />
+		</div>
+
 	<?php if ($this->user->authorise('core.edit.state', 'com_content.article.'.$this->item->id)): ?>
+	    <div class="formelm">
 		<?php echo $this->form->getLabel('state'); ?>
 		<?php echo $this->form->getInput('state'); ?>
-	<br />
+		</div>
+        <div class="formelm">
 		<?php echo $this->form->getLabel('publish_up'); ?>
 		<?php echo $this->form->getInput('publish_up'); ?>
-	<br />
+        </div>
+        <div class="formelm">
 		<?php echo $this->form->getLabel('publish_down'); ?>
 		<?php echo $this->form->getInput('publish_down'); ?>
-	<br />
+		</div>
+
 	<?php endif; ?>
+	    <div class="formelm">
 		<?php echo $this->form->getLabel('access'); ?>
 		<?php echo $this->form->getInput('access'); ?>
-	<br />
+		</div>
+        <div class="formelm">
 		<?php echo $this->form->getLabel('ordering'); ?>
 		<?php echo $this->form->getInput('ordering'); ?>
+		</div>
 	</fieldset>
 
 	<fieldset>
 		<legend><?php echo JText::_('Metadata'); ?></legend>
-
+        <div class="formelm_area">
 		<?php echo $this->form->getLabel('metadesc'); ?>
 		<?php echo $this->form->getInput('metadesc'); ?>
-	<br />
+	    </div>
+	    <div class="formelm_area">
 		<?php echo $this->form->getLabel('metakey'); ?>
 		<?php echo $this->form->getInput('metakey'); ?>
+		</div>
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
+</div>

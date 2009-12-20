@@ -9,8 +9,8 @@
 
 // No direct access.
 defined('_JEXEC') or die;
-
-	$fieldSets = $this->paramsform->getFieldsets();
+if ($paramsform){
+	$fieldSets = $this->$paramsform->getFieldsets();
 	foreach ($fieldSets as $name => $fieldSet) :
 		if (isset($fieldSet['hidden']) && $fieldSet['hidden'] == true || $name == 'request') :
 			continue;
@@ -33,4 +33,5 @@ defined('_JEXEC') or die;
 				endforeach;
 			?>
 		</fieldset>
-<?php endforeach; ?>
+	<?php endforeach;  ?>
+<?php } ?>

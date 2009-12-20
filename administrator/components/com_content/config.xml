@@ -281,11 +281,11 @@
 	 	<field 
 			name="list_type" 
 			type="radio" 
-			default="hierarchy" 
+			default="single" 
 			label="Content_Attribs_List_Type_Label" 
 			description="Content_Attribs_List_Type_Desc">
-	 			<option value="hierarchy">Multi_Level</option>
-	 			<option value="flat">Single_Level</option>
+				<option value="flat">Single_Level</option>
+	 			<option value="multiple">Multi_Level</option>
 	 	</field>
 
 		<field
@@ -339,6 +339,24 @@
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
+		
+		<field 
+			name="list_hits" 
+			type="radio" default="1" 
+			label="CONTENT_ATTRIBS_LIST_HITS_LABEL" 
+			description="CONTENT_ATTRIBS_LIST_HITS_DESC">
+				<option value="0">JCommon_Hide</option>
+				<option value="1">JCommon_Show</option>
+		</field>
+		
+		<field 
+			name="list_author" 
+			type="radio" default="1" 
+			label="CONTENT_ATTRIBS_LIST_AUTHOR_LABEL" 
+			description="CONTENT_ATTRIBS_LIST_AUTHOR_DESC">
+				<option value="0">JCommon_Hide</option>
+				<option value="1">JCommon_Show</option>
+		</field>		
 		
 	</fields>
 

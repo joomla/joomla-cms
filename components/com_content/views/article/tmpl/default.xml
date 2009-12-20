@@ -21,4 +21,243 @@
 			group="request"
 			description="Select_article_desc" />
 	</fields>
+
+	<fields
+		group="integration"
+		label="Menus_Layout_Integration_Options_Label"
+		description="">
+		
+		<field
+			name="article-allow_ratings"
+			type="list"
+			label="Content_Attribs_Allow_Ratings_Label"
+			description="Content_Attribs_Allow_Ratings_Desc"
+			default="">
+			<option 
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="article-allow_comments"
+			type="list"
+			label="Content_Attribs_Allow_Comments_Label"
+			description="Content_Attribs_Allow_Comments_Desc"
+			default="">
+			<option 
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+	</fields>
+	
+	<fields
+		group="articles"
+		label="Content_Attribs_Article_Settings_Label"
+		description="">
+
+		<field
+			name="show_category"
+			type="list"
+			label="Content_Attribs_Show_Category_Label"
+			description="Content_Attribs_Show_Category_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="link_category"
+			type="list"
+			label="Content_Attribs_Link_Category_Label"
+			description="Content_Attribs_Link_Category_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="show_title"
+			type="list"
+			default=""
+			label="Content_Attribs_Show_Title_Label"
+			description="Content_Attribs_Show_Title_Desc">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">JCOMMON_HIDE</option>
+			<option
+				value="1">JCOMMON_SHOW</option>
+		</field>
+
+		<field
+			name="link_titles"
+			type="list"
+			default=""
+			label="Content_Attribs_Linked_Titles_Label"
+			description="Content_Attribs_Linked_Titles_Desc">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
+			name="show_intro"
+			type="list"
+			default=""
+			label="Content_Attribs_Show_Intro_Label"
+			description="Content_Attribs_Show_Intro_Desc">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_author"
+			type="list"
+			label="Content_Attribs_Show_Author_Label"
+			description="Content_Attribs_Show_Author_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_create_date"
+			type="list"
+			label="Content_Attribs_Show_Create_Date_Label"
+			description="Content_Attribs_Show_Create_Date_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_modify_date"
+			type="list"
+			label="Content_Attribs_Show_Modify_Date_Label"
+			description="Content_Attribs_Show_Modify_Date_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+		
+		<field
+			name="show_publish_date"
+			type="list"
+			label="Content_Attribs_Show_Publish_Date_Label"
+			description="Content_Attribs_Show_Publish_Date_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_item_navigation"
+			type="list"
+			label="Content_Attribs_Show_Navigation_Label"
+			description="Content_Attribs_Show_Navigation_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_icons"
+			type="list"
+			label="Content_Attribs_Show_Icons_Label"
+			description="Content_Attribs_Show_Icons_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_print_icon"
+			type="list"
+			label="Content_Attribs_Show_Print_Icon_Label"
+			description="Content_Attribs_Show_Print_Icon_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_email_icon"
+			type="list"
+			label="Content_Attribs_Show_Email_Icon_Label"
+			description="Content_Attribs_Show_Email_Icon_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+		<field
+			name="show_hits"
+			type="list"
+			label="Content_Attribs_Show_Hits_Label"
+			description="Content_Attribs_Show_Hits_Desc"
+			default="">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">Hide</option>
+			<option
+				value="1">Show</option>
+		</field>
+
+	</fields>
+	
 </metadata>
