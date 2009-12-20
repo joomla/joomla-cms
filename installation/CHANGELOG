@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Dec-2009 Hannes Papenberg
++ Added unicode-slug ability. See JApplication::stringURLSafe() for usage
+
 20-Dec-2009 Mark Dexter
 + Partial implementation of Category List in com_content (thanks to Andrea Tarr, Elin Waring, Angie Radtke)
 + Implement global and menu item parameters

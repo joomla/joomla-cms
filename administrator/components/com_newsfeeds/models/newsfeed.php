@@ -231,10 +231,10 @@ class NewsfeedsModelNewsfeed extends JModelForm
 		$user = JFactory::getUser();
 
 		$table->name		= htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias		= JFilterOutput::stringURLSafe($table->alias);
+		$table->alias		= JApplication::stringURLSafe($table->alias);
 
 		if (empty($table->alias)) {
-			$table->alias = JFilterOutput::stringURLSafe($table->name);
+			$table->alias = JApplication::stringURLSafe($table->name);
 		}
 
 		if (empty($table->id)) {

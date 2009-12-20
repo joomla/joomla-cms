@@ -103,9 +103,9 @@ class BannersTableBanner extends JTable
 		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
 
 		// Set alias
-		$this->alias = JFilterOutput::stringURLSafe($this->alias);
+		$this->alias = JApplication::stringURLSafe($this->alias);
 		if (empty($this->alias)) {
-			$this->alias = JFilterOutput::stringURLSafe($this->name);
+			$this->alias = JApplication::stringURLSafe($this->name);
 		}
 
 		// Set ordering

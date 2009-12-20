@@ -90,6 +90,7 @@ class JConfig {
 	public $sef = '0';
 	public $sef_rewrite = '0';
 	public $sef_suffix = '';
+	public $unicodeslugs = '0';
 
 	/* Feed Settings */
 	public $feed_limit = 10;

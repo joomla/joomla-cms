@@ -112,6 +112,7 @@ class JInstallationModelConfiguration extends JModel
 		$registry->setValue('sef', 1);
 		$registry->setValue('sef_rewrite', 0);
 		$registry->setValue('sef_suffix', 1);
+		$registry->setValue('unicodeslugs', 0);
 
 		/* Feed Settings */
 		$registry->setValue('feed_limit', 10);
