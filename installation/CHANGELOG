@@ -29,6 +29,8 @@ $ -> Language fix or change
 
 21-Dec-2009 Hannes Papenberg
 + Added unicode-slug ability. See JApplication::stringURLSafe() for usage
+^ Standardized user plugin events. All events are now with "User" instead of "Users"
+# Fixed reference notice in backend com_users user model
 
 20-Dec-2009 Mark Dexter
 + Partial implementation of Category List in com_content (thanks to Andrea Tarr, Elin Waring, Angie Radtke)

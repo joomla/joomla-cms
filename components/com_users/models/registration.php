@@ -63,7 +63,7 @@ class UsersModelRegistration extends JModelForm
 		JPluginHelper::importPlugin('users');
 
 		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersRegistrationForm', array(&$form));
+		$results = $dispatcher->trigger('onPrepareUserRegistrationForm', array(&$form));
 
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true)) {
@@ -124,7 +124,7 @@ class UsersModelRegistration extends JModelForm
 		JPluginHelper::importPlugin('users');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersRegistrationData', array(&$data));
+		$results = $dispatcher->trigger('onPrepareUserRegistrationData', array(&$data));
 
 		// Check for errors encountered while preparing the data.
 		if (count($results) && in_array(false, $results, true)) {

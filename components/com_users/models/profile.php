@@ -71,7 +71,7 @@ class UsersModelProfile extends JModelForm
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersProfileForm', array($this->getState('member.id'), &$form));
+		$results = $dispatcher->trigger('onPrepareUserProfileForm', array($this->getState('member.id'), &$form));
 
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true)) {
@@ -120,7 +120,7 @@ class UsersModelProfile extends JModelForm
 		JPluginHelper::importPlugin('users');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersProfileData', array($this->getState('member.id'), &$data));
+		$results = $dispatcher->trigger('onPrepareUserProfileData', array($this->getState('member.id'), &$data));
 
 		// Check for errors encountered while preparing the data.
 		if (count($results) && in_array(false, $results, true)) {
@@ -141,7 +141,7 @@ class UsersModelProfile extends JModelForm
 		JPluginHelper::importPlugin('users');
 
 		// Trigger the profile preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersProfile', array($this->getState('member.id'), &$data));
+		$results = $dispatcher->trigger('onPrepareUserProfile', array($this->getState('member.id'), &$data));
 
 		// Check for errors encountered while preparing the profile.
 		if (count($results) && in_array(false, $results, true)) {

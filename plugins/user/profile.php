@@ -25,7 +25,7 @@ class plgUserProfile extends JPlugin
 	 *
 	 * @return	boolean
 	 */
-	function onPrepareUsersProfileForm($userId, &$form)
+	function onPrepareUserProfileForm($userId, &$form)
 	{
 		// Add the profile fields to the form.
 		JForm::addFormPath(dirname(__FILE__).DS.'profiles');

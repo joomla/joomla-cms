@@ -206,7 +206,7 @@ class JUserHelper
 		$data = new JObject;
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersProfileData', array($userId, &$data));
+		$results = $dispatcher->trigger('onPrepareUserProfileData', array($userId, &$data));
 
 		return $data;
 	}
