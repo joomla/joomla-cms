@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Dec-2009 Louis Landry
++ Added setAdditionalUrlParam and getAdditionalUrlParam to JPagination to allow better URL manipulation for GET requests.  (thanks to Robert Deutz)
+
 21-Dec-2009 Hannes Papenberg
 + Added unicode-slug ability. See JApplication::stringURLSafe() for usage
 ^ Standardized user plugin events. All events are now with "User" instead of "Users"
