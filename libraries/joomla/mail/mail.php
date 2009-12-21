@@ -20,7 +20,7 @@ jimport('joomla.mail.helper');
  * @subpackage	Mail
  * @since		1.5
  */
-abstract class JMail extends PHPMailer
+class JMail extends PHPMailer
 {
 	/**
 	 * Constructor
