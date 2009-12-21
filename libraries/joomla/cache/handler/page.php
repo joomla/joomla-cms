@@ -20,6 +20,22 @@ defined('JPATH_BASE') or die;
 class JCachePage extends JCache
 {
 	/**
+	 * ID property for the cache page object.
+	 *
+	 * @var		integer
+	 * @since	1.6
+	 */
+	protected $id;
+
+	/**
+	 * Cache group
+	 *
+	 * @var		string
+	 * @since	1.6
+	 */
+	protected $group;
+
+	/**
 	 * Get the cached page data
 	 *
 	 * @access	public
@@ -58,8 +74,8 @@ class JCachePage extends JCache
 		}
 
 		// Set id and group placeholders
-		$this->_id		= $id;
-		$this->_group	= $group;
+		$this->id		= $id;
+		$this->group	= $group;
 		return false;
 	}
 
@@ -76,10 +92,10 @@ class JCachePage extends JCache
 		$data = JResponse::getBody();
 
 		// Get id and group and reset them placeholders
-		$id		= $this->_id;
-		$group	= $this->_group;
-		$this->_id		= null;
-		$this->_group	= null;
+		$id		= $this->id;
+		$group	= $this->group;
+		$this->id		= null;
+		$this->group	= null;
 
 		// Only attempt to store if page data exists
 		if ($data) {
