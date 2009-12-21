@@ -50,7 +50,7 @@
 
 			// Only store selection if the type is a normal window
 			if (!f.type)
-				t.bookmark = ed.selection.getBookmark('simple');
+				t.bookmark = ed.selection.getBookmark(1);
 
 			id = DOM.uniqueId();
 			vp = DOM.getViewPort();
@@ -103,17 +103,17 @@
 				opt += ' mceMovable';
 
 			// Create DOM objects
-			t._addAll(DOM.doc.body,
-				['div', {id : id, 'class' : ed.settings.inlinepopups_skin || 'clearlooks2', style : 'width:100px;height:100px'},
+			t._addAll(DOM.doc.body, 
+				['div', {id : id, 'class' : ed.settings.inlinepopups_skin || 'clearlooks2', style : 'width:100px;height:100px'}, 
 					['div', {id : id + '_wrapper', 'class' : 'mceWrapper' + opt},
-						['div', {id : id + '_top', 'class' : 'mceTop'},
+						['div', {id : id + '_top', 'class' : 'mceTop'}, 
 							['div', {'class' : 'mceLeft'}],
 							['div', {'class' : 'mceCenter'}],
 							['div', {'class' : 'mceRight'}],
 							['span', {id : id + '_title'}, f.title || '']
 						],
 
-						['div', {id : id + '_middle', 'class' : 'mceMiddle'},
+						['div', {id : id + '_middle', 'class' : 'mceMiddle'}, 
 							['div', {id : id + '_left', 'class' : 'mceLeft'}],
 							['span', {id : id + '_content'}],
 							['div', {id : id + '_right', 'class' : 'mceRight'}]
@@ -429,7 +429,7 @@
 
 					dw = v;
 				}
-
+	
 				if (dh < (v = w.features.min_height - sz.h)) {
 					if (dy !== 0)
 						dy += dh - v;
@@ -448,7 +448,7 @@
 				if (dx + dy !== 0) {
 					if (sx + dx < 0)
 						dx = 0;
-
+	
 					if (sy + dy < 0)
 						dy = 0;
 

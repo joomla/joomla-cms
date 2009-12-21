@@ -18,7 +18,7 @@ var AnchorDialog = {
 
 	update : function() {
 		var ed = this.editor;
-
+		
 		tinyMCEPopup.restoreSelection();
 
 		if (this.action != 'update')

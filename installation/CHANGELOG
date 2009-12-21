@@ -35,6 +35,7 @@ $ -> Language fix or change
 ^ Standardized user plugin events. All events are now with "User" instead of "Users"
 # Fixed reference notice in backend com_users user model
 ^ Changed JMail from an abstract to a normal class
+^ Updated TinyMCE to 3.2.7
 
 20-Dec-2009 Mark Dexter
 + Partial implementation of Category List in com_content (thanks to Andrea Tarr, Elin Waring, Angie Radtke)

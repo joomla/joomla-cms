@@ -5,7 +5,7 @@
 	group="editors"
 	method="upgrade">
 	<name>Editor - TinyMCE 3</name>
-	<version>3.2.4.1</version>
+	<version>3.2.7</version>
 	<creationDate>2005-2009</creationDate>
 	<author>Moxiecode Systems AB</author>
 	<authorEmail>N/A</authorEmail>

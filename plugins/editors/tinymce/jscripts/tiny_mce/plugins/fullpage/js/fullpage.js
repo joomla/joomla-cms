@@ -2,7 +2,7 @@ tinyMCEPopup.requireLangPack();
 
 var doc;
 
-var defaultDocTypes =
+var defaultDocTypes = 
 	'XHTML 1.0 Transitional=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">,' +
 	'XHTML 1.0 Frameset=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">,' +
 	'XHTML 1.0 Strict=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">,' +
@@ -11,7 +11,7 @@ var defaultDocTypes =
 	'HTML 4.01 Strict=<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">,' +
 	'HTML 4.01 Frameset=<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">';
 
-var defaultEncodings =
+var defaultEncodings = 
 	'Western european (iso-8859-1)=iso-8859-1,' +
 	'Central European (iso-8859-2)=iso-8859-2,' +
 	'Unicode (UTF-8)=utf-8,' +
@@ -22,7 +22,7 @@ var defaultEncodings =
 	'Korean (iso-2022-kr)=iso-2022-kr,' +
 	'ASCII (us-ascii)=us-ascii';
 
-var defaultMediaTypes =
+var defaultMediaTypes = 
 	'all=all,' +
 	'screen=screen,' +
 	'print=print,' +
@@ -123,7 +123,7 @@ function init() {
 	// Parse xml and doctype
 	xmlVer = getReItem(/<\?\s*?xml.*?version\s*?=\s*?"(.*?)".*?\?>/gi, h, 1);
 	xmlEnc = getReItem(/<\?\s*?xml.*?encoding\s*?=\s*?"(.*?)".*?\?>/gi, h, 1);
-	docType = getReItem(/<\!DOCTYPE.*?>/gi, h, 0);
+	docType = getReItem(/<\!DOCTYPE.*?>/gi, h.replace(/\n/g, ''), 0).replace(/ +/g, ' ');
 	f.langcode.value = getReItem(/lang="(.*?)"/gi, h, 1);
 
 	// Parse title

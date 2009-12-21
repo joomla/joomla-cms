@@ -34,8 +34,8 @@
 			});
 
 			// This function executes the process handlers and inserts the contents
-			function process(h) {
-				var dom = ed.dom, o = {content : h};
+			function process(o) {
+				var dom = ed.dom;
 
 				// Execute pre process handlers
 				t.onPreProcess.dispatch(t, o);
@@ -57,8 +57,8 @@
 			};
 
 			// Add command for external usage
-			ed.addCommand('mceInsertClipboardContent', function(u, v) {
-				process(v);
+			ed.addCommand('mceInsertClipboardContent', function(u, o) {
+				process(o);
 			});
 
 			// This function grabs the contents from the clipboard by adding a
@@ -71,7 +71,7 @@
 					return;
 
 				// Create container to paste into
-				n = dom.add(body, 'div', {id : '_mcePaste'}, '&nbsp;');
+				n = dom.add(body, 'div', {id : '_mcePaste'}, '\uFEFF');
 
 				// If contentEditable mode we need to find out the position of the closest element
 				if (body != ed.getDoc().body)
@@ -98,9 +98,18 @@
 					// Remove container
 					dom.remove(n);
 
-					// Process contents
-					process(n.innerHTML);
+					// Check if the contents was changed, if it wasn't then clipboard extraction failed probably due
+					// to IE security settings so we pass the junk though better than nothing right
+					if (n.innerHTML === '\uFEFF') {
+						ed.execCommand('mcePasteWord');
+						e.preventDefault();
+						return;
+					}
 
+					// Process contents
+					process({content : n.innerHTML});
+
+					// Block the real paste event
 					return tinymce.dom.Event.cancel(e);
 				} else {
 					or = ed.selection.getRng();
@@ -114,31 +123,28 @@
 
 					// Wait a while and grab the pasted contents
 					window.setTimeout(function() {
-						var n = dom.get('_mcePaste'), h;
+						var h = '', nl = dom.select('div[id=_mcePaste]');
 
-						// Webkit clones the _mcePaste div for some odd reason so this will ensure that we get the real new div not the old empty one
-						n.id = '_mceRemoved';
-						dom.remove(n);
-						n = dom.get('_mcePaste') || n;
+						// WebKit will split the div into multiple ones so this will loop through then all and join them to get the whole HTML string
+						each(nl, function(n) {
+							h += (dom.select('> span.Apple-style-span div', n)[0] || dom.select('> span.Apple-style-span', n)[0] || n).innerHTML;
+						});
 
-						// Grab the HTML contents
-						// We need to look for a apple style wrapper on webkit it also adds a div wrapper if you copy/paste the body of the editor
-						// It's amazing how strange the contentEditable mode works in WebKit
-						h = (dom.select('> span.Apple-style-span div', n)[0] || dom.select('> span.Apple-style-span', n)[0] || n).innerHTML;
-
-						// Remove hidden div and restore selection
-						dom.remove(n);
+						// Remove the nodes
+						each(nl, function(n) {
+							dom.remove(n);
+						});
 
 						// Restore the old selection
 						if (or)
 							sel.setRng(or);
 
-						process(h);
+						process({content : h});
 					}, 0);
 				}
 			};
 
-			// Check if we should use the new auto process method
+			// Check if we should use the new auto process method			
 			if (ed.getParam('paste_auto_cleanup_on_paste', true)) {
 				// Is it's Opera or older FF use key handler
 				if (tinymce.isOpera || /Firefox\/2/.test(navigator.userAgent)) {
@@ -195,16 +201,16 @@
 				});
 			};
 
-			// Process away some basic content
-			process([
-				/^\s*(&nbsp;)+/g,											// nbsp entities at the start of contents
-				/(&nbsp;|<br[^>]*>)+\s*$/g									// nbsp entities at the end of contents
-			]);
-
 			// Detect Word content and process it more aggressive
-			if (/(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/.test(h)) {
+			if (/(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/.test(h) || o.wordContent) {
 				o.wordContent = true; // Mark the pasted contents as word specific content
 				//console.log('Word contents detected.');
+
+				// Process away some basic content
+				process([
+					/^\s*(&nbsp;)+/g,											// nbsp entities at the start of contents
+					/(&nbsp;|<br[^>]*>)+\s*$/g									// nbsp entities at the end of contents
+				]);
 
 				if (ed.getParam('paste_convert_middot_lists', true)) {
 					process([
@@ -236,19 +242,31 @@
 
 			// Allow for class names to be retained if desired; either all, or just the ones from Word
 			// Note that the paste_strip_class_attributes: 'none, verify_css_classes: true is also a good variation.
-			stripClass = ed.getParam('paste_strip_class_attributes', 'all');
+			stripClass = ed.getParam('paste_strip_class_attributes');
 			if (stripClass != 'none') {
-				if (stripClass == 'all') {
-					process([
-						/ class=\"([^\"]*)\"/gi,	// class attributes with quotes
-						/ class=(\w+)/gi			// class attributes without quotes (IE)
-					]);
-				} else { // Only strip the 'mso*' classes
-					process([
-						/ class=\"(mso[^\"]*)\"/gi,	// class attributes with quotes
-						/ class=(mso\w+)/gi			// class attributes without quotes (IE)
-					]);
-				}
+				// Cleans everything but mceItem... classes
+				function cleanClasses(str, cls) {
+					var i, out = '';
+
+					// Remove all classes
+					if (stripClass == 'all')
+						return '';
+
+					cls = tinymce.explode(cls, ' ');
+
+					for (i = cls.length - 1; i >= 0; i--) {
+						// Remove Mso classes
+						if (!/^(Mso)/i.test(cls[i]))
+							out += (!out ? '' : ' ') + cls[i];
+					}
+
+					return ' class="' + out + '"';
+				};
+
+				process([
+					[/ class=\"([^\"]*)\"/gi, cleanClasses],	// class attributes with quotes
+					[/ class=(\w+)/gi, cleanClasses]			// class attributes without quotes (IE)
+				]);
 			}
 
 			// Remove spans option
@@ -436,9 +454,10 @@
 			// Insert a marker for the caret position
 			this._insert('<span id="_marker">&nbsp;</span>', 1);
 			marker = dom.get('_marker');
-			parentBlock = dom.getParent(marker, 'p,h1,h2,h3,h4,h5,h6,ul,ol');
+			parentBlock = dom.getParent(marker, 'p,h1,h2,h3,h4,h5,h6,ul,ol,th,td');
 
-			if (parentBlock) {
+			// If it's a parent block but not a table cell
+			if (parentBlock && !/TD|TH/.test(parentBlock.nodeName)) {
 				// Split parent block
 				marker = dom.split(parentBlock, marker);
 
