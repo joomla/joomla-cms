@@ -36,36 +36,13 @@ class JUtility
  	 * @param mixed $replytoname Reply to name(s)
  	 * @return boolean True on success
   	 */
-	function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
+	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
 	{
-	 	// Get a JMail instance
+		// Get a JMail instance
 		$mail = &JFactory::getMailer();
 
-		$mail->setSender(array($from, $fromname));
-		$mail->setSubject($subject);
-		$mail->setBody($body);
-
-		// Are we sending the email as HTML?
-		if ($mode) {
-			$mail->IsHTML(true);
-	}
-
-		$mail->addRecipient($recipient);
-		$mail->addCC($cc);
-		$mail->addBCC($bcc);
-		$mail->addAttachment($attachment);
-
-		// Take care of reply email addresses
-		if (is_array($replyto)) {
-			$numReplyTo = count($replyto);
-			for ($i=0; $i < $numReplyTo; $i++){
-				$mail->addReplyTo(array($replyto[$i], $replytoname[$i]));
-			}
-		} elseif (isset($replyto)) {
-			$mail->addReplyTo(array($replyto, $replytoname));
-		}
-
-		return  $mail->Send();
+		return $mail->sendMail($from, $fromname, $recipient, $subject, $body, $mode, $cc,
+			$bcc, $attachment, $replyto, $replytoname);
 	}
 
 	/**
@@ -79,20 +56,11 @@ class JUtility
  	 * @param string $author Author of item to approve
  	 * @return boolean True on success
  	 */
-	function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
+	public static function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
-		$subject = JText::_('User Submitted') ." '". $type ."'";
-
-		$message = sprintf (JText::_('MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
-		$message .= JText::_('MAIL_MSG') ."\n";
-
-	 	// Get a JMail instance
+		// Get a JMail instance
 		$mail = &JFactory::getMailer();
-		$mail->addRecipient($adminEmail);
-		$mail->setSubject($subject);
-		$mail->setBody($message);
-
-		return  $mail->Send();
+		return $mail->sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url);
 	}
 
 	/**

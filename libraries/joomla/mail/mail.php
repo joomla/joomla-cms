@@ -304,4 +304,78 @@ class JMail extends PHPMailer
 			return false;
 		}
 	}
+
+	/**
+ 	 * Function to send an e-mail
+ 	 *
+ 	 * @param string $from From e-mail address
+ 	 * @param string $fromName From name
+ 	 * @param mixed $recipient Recipient e-mail address(es)
+ 	 * @param string $subject E-mail subject
+ 	 * @param string $body Message body
+ 	 * @param boolean $mode false = plain text, true = HTML
+ 	 * @param mixed $cc CC e-mail address(es)
+ 	 * @param mixed $bcc BCC e-mail address(es)
+ 	 * @param mixed $attachment Attachment file name(s)
+ 	 * @param mixed $replyto Reply to email address(es)
+ 	 * @param mixed $replytoname Reply to name(s)
+ 	 * @return boolean True on success
+ 	 * @since: 1.6
+  	 */	
+	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode=0,
+		$cc=null, $bcc=null, $attachment=null, $replyTo=null, $replyToName=null)
+	{
+		$this->setSender(array($from, $fromName));
+		$this->setSubject($subject);
+		$this->setBody($body);
+
+		// Are we sending the email as HTML?
+		if ($mode) {
+			$this->IsHTML(true);
+		}
+
+		$this->addRecipient($recipient);
+		$this->addCC($cc);
+		$this->addBCC($bcc);
+		$this->addAttachment($attachment);
+
+		// Take care of reply email addresses
+		if (is_array($replyTo)) {
+			$numReplyTo = count($replyTo);
+			for ($i=0; $i < $numReplyTo; $i++){
+				$this->addReplyTo(array($replyTo[$i], $replyToName[$i]));
+			}
+		} elseif (isset($replyTo)) {
+			$this->addReplyTo(array($replyTo, $replyToName));
+		}
+
+		return  $this->Send();
+	}
+
+	/**
+	 * Sends mail to administrator for approval of a user submission
+ 	 *
+ 	 * @param string $adminName Name of administrator
+ 	 * @param string $adminEmail Email address of administrator
+ 	 * @param string $email [NOT USED TODO: Deprecate?]
+ 	 * @param string $type Type of item to approve
+ 	 * @param string $title Title of item to approve
+ 	 * @param string $author Author of item to approve
+ 	 * @return boolean True on success
+ 	 * @since: 1.6
+ 	 */
+	public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
+	{
+		$subject = JText::_('User Submitted') ." '". $type ."'";
+
+		$message = sprintf (JText::_('MAIL_MSG_ADMIN'), $adminName, $type, $title, $author,
+			$url, $url, 'administrator', $type);
+		$message .= JText::_('MAIL_MSG') ."\n";
+
+		$this->addRecipient($adminEmail);
+		$this->setSubject($subject);
+		$this->setBody($message);
+
+		return $this->Send();
+	}
 }

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Dev-2009 Ian MacLennan
+ ^ Moved JUtility::sendMail and sendAdminMail to JMail and added appropriate proxy methods (thanks Arlen Walker)
+
 23-Dec-2009 Andrew Eddie
  ^ Minor changes to jos_messages table schema.
 
