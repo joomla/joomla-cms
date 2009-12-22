@@ -30,7 +30,7 @@ class MessagesModelConfig extends JModelForm
 		$this->setState('user.id', $user->get('id'));
 
 		// Load the parameters.
-		$params	= JComponentHelper::getParams('com_newsfeeds');
+		$params	= JComponentHelper::getParams('com_messages');
 		$this->setState('params', $params);
 	}
 

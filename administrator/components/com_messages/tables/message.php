@@ -18,7 +18,7 @@ jimport('joomla.database.table');
  * @subpackage	com_messages
  * @since		1.5
  */
-class TableMessage extends JTable
+class MessagesTableMessage extends JTable
 {
 	/**
 	 * Primary Key
@@ -92,8 +92,8 @@ class TableMessage extends JTable
 	}
 
 	/**
-	* Validation and filtering
-	*/
+	 * Validation and filtering
+	 */
 	function check()
 	{
 		return true;
@@ -102,11 +102,11 @@ class TableMessage extends JTable
 	/**
 	 * Method to send a private message
 	 *
-	 * @param	int		$fromId		Sender's userid
-	 * @param	int		$toId		Recipient's userid
-	 * @param	string	$subject	The message subject
-	 * @param	string	$message	The message body
-	 * @return	boolean	True on success
+	 * @param	int		Sender's userid.
+	 * @param	int		Recipient's userid.
+	 * @param	string	The message subject.
+	 * @param	string	The message body.
+	 * @return	boolean	True on success.
 	 * @since	1.5
 	 */
 	public function send($fromId = null, $toId = null, $subject = null, $message = null, $mailfrom = null, $fromname = null)

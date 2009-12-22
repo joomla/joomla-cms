@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="user_id_to"
+			type="messageuserto"
+			label="Messages_Field_User_id_to_Label"
+			description="Messages_Field_User_id_to_Desc"
+			default="0"
+			required="true">
+		</field>
+
+		<field
+			name="subject"
+			type="text"
+			label="Messages_Field_Subject_Label"
+			description="Messages_Field_Subect_Desc"
+			required="true" />
+
+		<field
+			name="message"
+			type="textarea"
+			rows="10"
+			cols="80"
+			label="Messages_Field_Message_Label"
+			description="Messages_Field_Message_Desc"
+			required="true">
+		</field>
+	</fields>
+</form>

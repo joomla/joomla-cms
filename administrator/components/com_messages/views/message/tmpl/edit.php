@@ -10,46 +10,36 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-$user = &JFactory::getUser();
+// Include the HTML helpers.
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.keepalive');
 ?>
-<script language="javascript" type="text/javascript">
-function submitbutton(pressbutton) {
-	var form = document.adminForm;
-	if (pressbutton == 'cancel') {
-		submitform(pressbutton);
-		return;
+<script type="text/javascript">
+<!--
+	function submitbutton(task) {
+		if (task == 'config.cancel' || document.formvalidator.isValid(document.id('config-form'))) {
+			submitform(task);
+		}
 	}
-
-	// do field validation
-	if (form.subject.value == "") {
-		alert("<?php echo JText::_('You must provide a subject.'); ?>");
-	} else if (form.message.value == "") {
-		alert("<?php echo JText::_('You must provide a message.'); ?>");
-	} else if (getSelectedValue('adminForm','user_id_to') < 1) {
-		alert("<?php echo JText::_('You must select a recipient.'); ?>");
-	} else {
-		submitform(pressbutton);
-	}
-}
+// -->
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm">
-<div class="width-100">
+<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
+	<div class="width-100">
 		<fieldset class="adminform">
-		<legend><?php echo JText::_('NEW_PRIVATE_MESSAGE'); ?></legend>
-		<?php echo JText::_('To'); ?>:
 
-		<?php echo $this->recipientslist; ?>
+			<?php echo $this->form->getLabel('user_id_to'); ?>
+			<?php echo $this->form->getInput('user_id_to'); ?>
 
-		<?php echo JText::_('Subject'); ?>:
+			<?php echo $this->form->getLabel('subject'); ?>
+			<?php echo $this->form->getInput('subject'); ?>
 
-		<input type="text" name="subject" size="50" maxlength="100" class="inputbox" value="<?php echo $this->subject; ?>"/>
+			<?php echo $this->form->getLabel('message'); ?>
+			<?php echo $this->form->getInput('message'); ?>
 
-		<?php echo JText::_('Message'); ?>:
-
-		<textarea name="message" id="message" rows="30" class="inputbox"></textarea>
-	</fieldset>
-</div>
-<input type="hidden" name="user_id_from" value="<?php echo $user->get('id'); ?>">
-<input type="hidden" name="task" value="">
-<?php echo JHtml::_('form.token'); ?>
+		</fieldset>
+	</div>
+	<input type="hidden" name="task" value="">
+	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -8,34 +8,128 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modelform');
 
 /**
- * Messages Component Message Model
+ * Private Message model.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_messages
  * @since		1.6
  */
-class MessagesModelMessage extends JModel
+class MessagesModelMessage extends JModelForm
 {
-
 	/**
 	 * Method to auto-populate the model state.
-	 *
-	 * This method should only be called once per instantiation and is designed
-	 * to be called on the first call to the getState() method unless the model
-	 * configuration flag to ignore the request is set.
-	 *
-	 * @return	void
-	 * @since	1.6
 	 */
 	protected function _populateState()
 	{
-		$app		= &JFactory::getApplication('administrator');
+		$user = JFactory::getUser();
+		$this->setState('user.id', $user->get('id'));
 
 		$messageId = (int) JRequest::getInt('message_id');
 		$this->setState('message.id', $messageId);
+
+		// Load the parameters.
+		$params	= JComponentHelper::getParams('com_messages');
+		$this->setState('params', $params);
+	}
+
+	/**
+	 * Returns a Table object, always creating it.
+	 *
+	 * @param	type 	$type 	 The table type to instantiate
+	 * @param	string 	$prefix	 A prefix for the table class name. Optional.
+	 * @param	array	$options Configuration array for model. Optional.
+	 * @return	JTable	A database object
+	*/
+	public function getTable($type = 'Message', $prefix = 'MessagesTable', $config = array())
+	{
+		return JTable::getInstance($type, $prefix, $config);
+	}
+
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param	integer	The id of the primary key.
+	 *
+	 * @return	mixed	Object on success, false on failure.
+	 */
+	public function &getItem($pk = null)
+	{
+		// Initialise variables.
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('message.id');
+		$false	= false;
+
+		// Get a row instance.
+		$table = $this->getTable();
+
+		// Attempt to load the row.
+		$return = $table->load($pk);
+
+		// Check for a table object error.
+		if ($return === false && $table->getError()) {
+			$this->setError($table->getError());
+			return $false;
+		}
+
+		// Prime required properties.
+		if (empty($table->id)) {
+			// Prepare data for a new record.
+		} else {
+			// Get the user names
+			$query = new JQuery;
+			$query->select('name, username');
+			$query->from('#__users');
+			$query->where('id = '.(int) $this->user_id_from);
+		}
+
+		// Convert to the JObject before adding other data.
+		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+
+		return $value;
+	}
+
+	/**
+	 * Method to get the record form.
+	 *
+	 * @return	mixed	JForm object on success, false on failure.
+	 */
+	public function getForm()
+	{
+		// Initialise variables.
+		$app	= JFactory::getApplication();
+
+		// Get the form.
+		$form = parent::getForm('message', 'com_messages.message', array('array' => 'jform', 'event' => 'onPrepareForm'));
+
+		// Check for an error.
+		if (JError::isError($form)) {
+			$this->setError($form->getMessage());
+			return false;
+		}
+
+		// Determine correct permissions to check.
+		if ($this->getState('newsfeed.id'))
+		{
+			// Existing record. Can only edit in selected categories.
+			$form->setFieldAttribute('catid', 'action', 'core.edit');
+		}
+		else
+		{
+			// New record. Can only create in selected categories.
+			$form->setFieldAttribute('catid', 'action', 'core.create');
+		}
+
+		// Check the session for previously entered form data.
+		$data = $app->getUserState('com_newsfeeds.edit.newsfeed.data', array());
+
+		// Bind the form data if present.
+		if (!empty($data)) {
+			$form->bind($data);
+		}
+
+		return $form;
 	}
 
 	public function save($data)
@@ -114,28 +208,6 @@ class MessagesModelMessage extends JModel
 		}
 
 		return JHtml::_('select.genericlist', $options, 'user_id_to', 'class="inputbox" size="1"', 'value', 'text', $userid);
-	}
-
-	/**
-	 * Returns a member item for the current message_id
-	 *
-	 * @return mixed	An object representing a database table row
-	 */
-	public function getItem()
-	{
-		$id = (int) $this->getState('message.id');
-
-		$query = new JQuery();
-		$query->select('a.*');
-		$query->select('u.name AS user_from');
-		$query->from('#__messages AS a');
-		$query->join('INNER', '#__users AS u ON u.id = a.user_id_from');
-		$query->where('a.message_id = '.$id);
-
-		$this->_db->setQuery($query);
-		$row = $this->_db->loadObject();
-
-		return $row;
 	}
 
 	/**

@@ -19,46 +19,50 @@ jimport( 'joomla.application.component.view');
  */
 class MessagesViewMessage extends JView
 {
-	public $recipientslist;
-	public $subject;
-	public $item;
+	protected $state;
+	protected $item;
+	protected $form;
 
 	public function display($tpl = null)
 	{
-		$recipientslist = $this->get('RecipientsList');
-		$subject = $this->get('Subject');
-		$item = $this->get('Item');
+		$app	= JFactory::getApplication();
+		$state	= $this->get('State');
+		$item	= $this->get('Item');
+		$form 	= $this->get('Form');
 
-		$model = $this->getModel();
-		$model->markAsRead();
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
 
-		$this->assignRef('recipientslist', $recipientslist);
-		$this->assignRef('subject', $subject);
-		$this->assignRef('item', $item);
+		// Bind the record to the form.
+		$form->bind($item);
+
+		$this->assignRef('state',	$state);
+		$this->assignRef('item',	$item);
+		$this->assignRef('form',	$form);
 
 		parent::display($tpl);
+		$this->_setToolbar();
+	}
 
+	/**
+	 * Setup the Toolbar.
+	 */
+	protected function _setToolbar()
+	{
 		if ($this->getLayout() == 'edit') {
-			$this->_setFormToolbar();
+			JToolBarHelper::title(JText::_('Messages_Write_Private_Message'), 'inbox.png');
+			JToolBarHelper::save('message.save', 'Messages_Toolbar_Send');
+			JToolBarHelper::cancel();
+			JToolBarHelper::help('screen.messages.edit');
 		} else {
-			$this->_setDefaultToolbar();
+			JToolBarHelper::title(JText::_('Messages_View_Private_Message'), 'inbox.png');
+			JToolBarHelper::custom('message.reply', 'restore.png', 'restore_f2.png', 'Messages_Toolbar_Reply', false);
+			JToolBarHelper::deleteList();
+			JToolBarHelper::cancel();
+			JToolBarHelper::help('screen.messages.read');
 		}
-	}
-
-	protected function _setFormToolbar()
-	{
-		JToolBarHelper::title(JText::_('Write Private Message'), 'inbox.png');
-		JToolBarHelper::save('save', 'Send');
-		JToolBarHelper::cancel();
-		JToolBarHelper::help('screen.messages.edit');
-	}
-
-	protected function _setDefaultToolbar()
-	{
-		JToolBarHelper::title(JText::_('View Private Message'), 'inbox.png');
-		JToolBarHelper::custom('reply', 'restore.png', 'restore_f2.png', 'Reply', false);
-		JToolBarHelper::deleteList();
-		JToolBarHelper::cancel();
-		JToolBarHelper::help('screen.messages.read');
 	}
 }
