@@ -497,6 +497,22 @@ ALTER TABLE `jos_menu_types`
  DROP INDEX `menutype`;
 
 -- ----------------------------------------------------------------
+-- jos_messages
+-- ----------------------------------------------------------------
+
+ALTER TABLE `jos_messages`
+ CHANGE `subject` `subject` varchar(255) NOT NULL DEFAULT '';
+ 
+ALTER TABLE `jos_messages`
+ CHANGE `state` `state` tinyint(1) NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_messages`
+ CHANGE `priority` `priority` tinyint(1) UNSIGNED NOT NULL DEFAULT '0';
+
+ALTER TABLE `jos_messages`
+ CHANGE `folder_id` `folder_id` tinyint(3) UNSIGNED NOT NULL DEFAULT '0';
+
+-- ----------------------------------------------------------------
 -- jos_modules
 -- ----------------------------------------------------------------
 
