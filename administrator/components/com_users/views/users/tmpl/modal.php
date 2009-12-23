@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
-$function = JRequest::getVar('function', 'jSelectArticle');
+$function = 'jSelectUser_'.JRequest::getVar('field');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm">
 	<fieldset class="filter">
@@ -60,7 +60,7 @@ $function = JRequest::getVar('function', 'jSelectArticle');
 			foreach ($this->items as $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-							<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->name); ?>');">
+					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->name); ?>');">
 						<?php echo $item->name; ?></a>
 				</td>
 				<td align="center">
