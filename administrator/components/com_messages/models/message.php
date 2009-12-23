@@ -87,6 +87,10 @@ class MessagesModelMessage extends JModelForm
 		// Convert to the JObject before adding other data.
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
+		if ($fromUser = new JUser($table->user_id_from)) {
+			$value->set('from_user_name', $fromUser->name);
+		}
+
 		return $value;
 	}
 

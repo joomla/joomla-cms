@@ -70,7 +70,7 @@ $user	= JFactory::getUser();
 					<?php echo JHtml::_('grid.id', $i, $item->message_id); ?>
 				</td>
 				<td>
-					<a href="<?php echo JRoute::_('index.php?option=com_messages&view=message&id='.(int) $item->message_id); ?>">
+					<a href="<?php echo JRoute::_('index.php?option=com_messages&view=message&message_id='.(int) $item->message_id); ?>">
 						<?php echo $this->escape($item->subject); ?></a>
 				</td>
 				<td class="center">
