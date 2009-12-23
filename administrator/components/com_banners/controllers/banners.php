@@ -49,7 +49,8 @@ class BannersControllerBanners extends JController
 	 */
 	public function &getModel($name = 'Banners', $prefix = 'BannersModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**
