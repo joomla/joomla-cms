@@ -43,7 +43,8 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	public function &getModel($name = 'form', $prefix = '', $config = array())
 	{
-		return parent::getModel($name, $prefix, $config);
+		$model = parent::getModel($name, $prefix, $config);
+		return $model;
 	}
 
 	/**
