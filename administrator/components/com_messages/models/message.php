@@ -132,18 +132,6 @@ class MessagesModelMessage extends JModelForm
 			return false;
 		}
 
-		// Determine correct permissions to check.
-		if ($this->getState('newsfeed.id'))
-		{
-			// Existing record. Can only edit in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit');
-		}
-		else
-		{
-			// New record. Can only create in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.create');
-		}
-
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_newsfeeds.edit.newsfeed.data', array());
 
@@ -223,62 +211,11 @@ class MessagesModelMessage extends JModelForm
 		return true;
 	}
 
-	public function getRecipientsList()
-	{
-		$access	= &JFactory::getACL();
-		$groups	= array();
-
-		$userid = JRequest::getInt('userid', 0);
-
-		// Include user in groups that have access to log in to the administrator.
-		/*
-		TODO: Fix this
-		$return = $access->getAuthorisedUsergroups('core.manageistrator.login', true);
-		if (count($return)) {
-			$groups = array_merge($groups, $return);
-		}
-		 */
-
-		// Remove duplicate entries and serialize.
-		JArrayHelper::toInteger($groups);
-		$groups = implode(',', array_unique($groups));
-
-		// Build the query to get the users.
-		$query = new JQuery();
-		$query->select('u.id AS value');
-		$query->select('u.name AS text');
-		$query->from('#__users AS u');
-		$query->join('INNER', '#__user_usergroup_map AS m ON m.user_id = u.id');
-		$query->where('u.block = 0');
-		if ($groups) {
-			$query->where('m.group_id IN ('.$groups.')');
-		}
-
-		// Get the users.
-		$this->_db->setQuery((string) $query);
-		$users = $this->_db->loadObjectList();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			JError::raiseNotice(500, $this->_db->getErrorMsg());
-			return false;
-		}
-
-		// Build the options.
-		$options = array(JHtml::_('select.option',  '0', '- '. JText::_('Select User') .' -'));
-
-		if (count($users)) {
-			$options = array_merge($options, $users);
-		}
-
-		return JHtml::_('select.genericlist', $options, 'user_id_to', 'class="inputbox" size="1"', 'value', 'text', $userid);
-	}
-
 	/**
 	 * Method to delete messages from the database
 	 *
-	 * @param integer $cid 		An array of numeric ids for the rows
-	 * @return boolean 			True on success / false on failure
+	 * @param   integer  An array of numeric ids for the rows
+	 * @return  boolean  True on success / false on failure
 	 */
 	public function delete($cid)
 	{
@@ -324,14 +261,11 @@ class MessagesModelMessage extends JModelForm
 		$pks	= (array) $pks;
 
 		// Access checks.
-		foreach ($pks as $i => $pk)
-		{
-			if ($table->load($pk))
-			{
+		foreach ($pks as $i => $pk) {
+			if ($table->load($pk)) {
 				$allow = $user->authorise('core.edit.state', 'com_messages');
 
-				if (!$allow)
-				{
+				if (!$allow) {
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));

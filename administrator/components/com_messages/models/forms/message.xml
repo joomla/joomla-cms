@@ -4,12 +4,11 @@
 	<fields>
 		<field
 			name="user_id_to"
-			type="messageuserto"
+			type="user"
 			label="Messages_Field_User_id_to_Label"
 			description="Messages_Field_User_id_to_Desc"
 			default="0"
-			required="true">
-		</field>
+			required="true" />
 
 		<field
 			name="subject"
