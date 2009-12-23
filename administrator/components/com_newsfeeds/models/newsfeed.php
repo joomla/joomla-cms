@@ -162,6 +162,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	 * Method to save the form data.
 	 *
 	 * @param	array	The form data.
+	 *
 	 * @return	boolean	True on success.
 	 */
 	public function save($data)

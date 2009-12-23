@@ -48,7 +48,8 @@ class NewsfeedsControllerNewsfeeds extends JController
 	 */
 	public function &getModel($name = 'Newsfeed', $prefix = 'NewsfeedsModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**

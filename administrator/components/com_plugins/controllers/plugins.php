@@ -46,7 +46,8 @@ class PluginsControllerPlugins extends JController
 	 */
 	public function &getModel($name = 'Plugin', $prefix = 'PluginsModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**
