@@ -83,7 +83,6 @@ class MessagesModelMessage extends JModelForm
 		if (empty($table->id)) {
 			// Prepare data for a new record.
 			if ($replyId = $this->getState('reply.id')) {
-
 				// If replying to a message, preload some data.
 				$db		= $this->getDbo();
 				$query	= new JQuery;
