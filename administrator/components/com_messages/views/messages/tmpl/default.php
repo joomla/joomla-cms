@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 
 $user	= JFactory::getUser();
@@ -62,8 +63,7 @@ $user	= JFactory::getUser();
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$img = $item->state ? 'tick.png' : 'publish_x.png';
-			$alt = $item->state ? JText::_('Mesages_Option_Read') : JText::_('Messages_Option_UnRead');
+			$canChange	= $user->authorise('core.edit.state', 'com_messages');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
@@ -74,8 +74,7 @@ $user	= JFactory::getUser();
 						<?php echo $this->escape($item->subject); ?></a>
 				</td>
 				<td class="center">
-					<a href="javascript: void(0);">
-						<img src="templates/bluestork/admin/images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt; ?>" /></a>
+					<?php echo JHtml::_('messages.state', $item->state, $i, $canChange); ?>
 				</td>
 				<td>
 					<?php echo $item->user_from; ?>

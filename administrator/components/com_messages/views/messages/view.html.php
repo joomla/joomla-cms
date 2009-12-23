@@ -53,24 +53,27 @@ class MessagesViewMessages extends JView
 	protected function _setToolbar()
 	{
 		$state	= $this->get('State');
-		$canDo	= MessagesHelper::getActions($state->get('filter.category_id'));
+		$canDo	= MessagesHelper::getActions();
 
 		JToolBarHelper::title(JText::_('Messages_Manager_Messages'), 'inbox.png');
 
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('message.add');
 		}
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::custom('messages.publish', 'publish.png', 'publish_f2.png', 'Messages_Toolbar_Publish', true);
+			JToolBarHelper::custom('messages.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Messages_Toolbar_UnPublish', true);
+		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'message.delete');
+			JToolBarHelper::deleteList('', 'messages.delete');
 		}
 		else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('message.trash');
+			JToolBarHelper::trash('messages.trash');
 		}
 
 		//JToolBarHelper::addNew('module.add');
 		$bar = &JToolBar::getInstance('toolbar');
 		$bar->appendButton('Popup', 'config', 'Messages_Toolbar_My_Settings', 'index.php?option=com_messages&amp;view=config&amp;tmpl=component', 850, 400);
-
 
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_messages');

@@ -166,6 +166,7 @@ class MessagesModelMessage extends JModelForm
 	{
 		$table = $this->getTable();
 
+		// Bind the data.
 		if (!$table->bind($data)) {
 			$this->setError($table->getError());
 			return false;
@@ -179,6 +180,7 @@ class MessagesModelMessage extends JModelForm
 			$table->date_time = JFactory::getDate()->toMySQL();
 		}
 
+		// Check the data.
 		if (!$table->check()) {
 			$this->setError($table->getError());
 			return false;
@@ -198,6 +200,7 @@ class MessagesModelMessage extends JModelForm
 			return false;
 		}
 
+		// Store the data.
 		if (!$table->store()) {
 			$this->setError($table->getError());
 			return false;
@@ -272,25 +275,6 @@ class MessagesModelMessage extends JModelForm
 	}
 
 	/**
-	 * When messages are displayed through com_messages, it is necessary
-	 * to mark them as 'read' so they do not appear as new messages.
-	 *
-	 * @return boolean		True on success / false on failure
-	 */
-	public function markAsRead()
-	{
-		$query = 'UPDATE #__messages'
-		. ' SET state = 1'
-		. ' WHERE message_id = ' . (int) $this->getState('message.id')
-		;
-
-		$this->_db->setQuery($query);
-		$this->_db->query();
-
-		return true;
-	}
-
-	/**
 	 * Method to delete messages from the database
 	 *
 	 * @param integer $cid 		An array of numeric ids for the rows
@@ -319,6 +303,46 @@ class MessagesModelMessage extends JModelForm
 				$this->setError($table->getError());
 				return false;
 			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to publish records.
+	 *
+	 * @param	array	The ids of the items to publish.
+	 * @param	int		The value of the published state
+	 *
+	 * @return	boolean	True on success.
+	 */
+	function publish(&$pks, $value = 1)
+	{
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$table	= $this->getTable();
+		$pks	= (array) $pks;
+
+		// Access checks.
+		foreach ($pks as $i => $pk)
+		{
+			if ($table->load($pk))
+			{
+				$allow = $user->authorise('core.edit.state', 'com_messages');
+
+				if (!$allow)
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+				}
+			}
+		}
+
+		// Attempt to change the state of the records.
+		if (!$table->publish($pks, $value, $user->get('id'))) {
+			$this->setError($table->getError());
+			return false;
 		}
 
 		return true;

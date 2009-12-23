@@ -17,7 +17,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_messages
  * @since		1.6
  */
-class MessagesControllerMessage extends JController
+class MessagesControllerMessages extends JController
 {
 	/**
 	 * Constructor.
@@ -45,7 +45,8 @@ class MessagesControllerMessage extends JController
 	 */
 	public function &getModel($name = 'Message', $prefix = 'MessagesModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**
@@ -106,8 +107,6 @@ class MessagesControllerMessage extends JController
 					$text = 'JSuccess_N_Items_published';
 				} else if ($value == 0) {
 					$text = 'JSuccess_N_Items_unpublished';
-				} else if ($value == -1) {
-					$text = 'JSuccess_N_Items_archived';
 				} else {
 					$text = 'JSuccess_N_Items_trashed';
 				}
