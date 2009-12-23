@@ -35,6 +35,9 @@ class JUtility
  	 * @param mixed $replyto Reply to email address(es)
  	 * @param mixed $replytoname Reply to name(s)
  	 * @return boolean True on success
+	 *
+	 * @deprecated  1.6
+	 * @see                 JMail::sendMail()
   	 */
 	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
 	{
@@ -55,6 +58,9 @@ class JUtility
  	 * @param string $title Title of item to approve
  	 * @param string $author Author of item to approve
  	 * @return boolean True on success
+	 *
+	 * @deprecated  1.6
+	 * @see                 JMail::sendAdminMail()
  	 */
 	public static function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
@@ -68,6 +74,9 @@ class JUtility
  	 *
  	 * @param string Seed string
  	 * @return string
+	 *
+	 * @deprecated  1.6
+	 * @see                 JApplication:getHash()
  	 */
 	public static function getHash($seed)
 	{
@@ -80,14 +89,14 @@ class JUtility
 	 *
 	 * @return	string	Hashed var name
 	 * @since	1.5
+	 * @deprecated  1.6
+	 * @see                 JApplication:getHash()
 	 * @static
 	 */
 	public static function getToken($forceNew = false)
 	{
-		$user		= &JFactory::getUser();
 		$session = &JFactory::getSession();
-		$hash		= JUtility::getHash($user->get('id', 0).$session->getToken($forceNew));
-		return $hash;
+		return $session->getFormToken($forceNew);
 	}
 
 	/**
@@ -122,10 +131,13 @@ class JUtility
 	 *
 	 * @return	true if Windows OS
 	 * @since	1.5
+	 * @deprecated  1.6
+	 * @see                 JApplication::isWinOS()
 	 * @static
 	 */
 	function isWinOS() {
-		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+		$application = JFactory::getApplication();
+		return $application->isWinOS();
 	}
 
 	/**
@@ -136,6 +148,8 @@ class JUtility
 	 * @return	string
 	 * @since	1.5
 	 * @static
+	 *
+	 * @deprecated  1.6
 	 */
 	function dump(&$var, $htmlSafe = true)
 	{
@@ -150,6 +164,7 @@ class JUtility
 	 * @param $value mixed
 	 * @return int
 	 * @see http://www.php.net/manual/en/function.array-unshift.php#40270
+	 * @deprecated  1.6
 	 */
 	function array_unshift_ref(&$array, &$value)
 	{
@@ -163,6 +178,8 @@ class JUtility
 	 * @param string String optionally with G, M or K suffix
 	 * @return int size in bytes
 	 * @since 1.6
+	 * @deprecated  1.6
+	 * @see                 InstallerModelWarnings::return_bytes()
 	 */
 	function return_bytes($val) {
 		$val = trim($val);

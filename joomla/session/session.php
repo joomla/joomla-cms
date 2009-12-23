@@ -103,7 +103,7 @@ class JSession extends JObject
 		$this->_setCookieParams();
 
 		//load the session
-		$this->_start();
+		//$this->_start();
 
 		//initialise the session
 		$this->_setCounter();
@@ -213,6 +213,21 @@ class JSession extends JObject
 		return true;
 	}
 
+
+	/**
+	 * Method to determine a hash for anti-spoofing variable names
+	 *
+	 * @return      string  Hashed var name
+	 * @since       1.5
+	 * @static
+	 */
+	public static function getFormToken($forceNew = false)
+	{
+		$user           = &JFactory::getUser();
+		$session        = &JFactory::getSession();
+		$hash           = JApplication::getHash($user->get('id', 0).$session->getToken($forceNew));
+		return $hash;
+	}
 
 	/**
 	 * Get session name
