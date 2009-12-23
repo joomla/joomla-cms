@@ -43,7 +43,8 @@ class ContactControllerContacts extends JController
 	 */
 	function &getModel($name = 'Contacts', $prefix = 'ContactModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**

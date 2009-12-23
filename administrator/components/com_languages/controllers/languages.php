@@ -41,7 +41,8 @@ class LanguagesControllerLanguages extends JController
 	 */
 	function &getModel($name = 'Languages', $prefix = 'LanguagesModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**
