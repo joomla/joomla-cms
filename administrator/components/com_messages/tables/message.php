@@ -92,87 +92,35 @@ class MessagesTableMessage extends JTable
 	}
 
 	/**
-	 * Validation and filtering
+	 * Validation and filtering.
+	 *
+	 * @return boolean
 	 */
 	function check()
 	{
+		// Check the to and from users.
+		$user = new JUser($table->user_id_from);
+		if (empty($user->id)) {
+			$this->setError('Messages_Error_Invalid_from_user');
+			return false;
+		}
+
+		$user = new JUser($table->user_id_to);
+		if (empty($user->id)) {
+			$this->setError('Messages_Error_Invalid_to_user');
+			return false;
+		}
+
+		if (empty($this->subject)) {
+			$this->setError('Messages_Error_Invalid_subject');
+			return false;
+		}
+
+		if (empty($this->message)) {
+			$this->setError('Messages_Error_Invalid_message');
+			return false;
+		}
+
 		return true;
-	}
-
-	/**
-	 * Method to send a private message
-	 *
-	 * @param	int		Sender's userid.
-	 * @param	int		Recipient's userid.
-	 * @param	string	The message subject.
-	 * @param	string	The message body.
-	 * @return	boolean	True on success.
-	 * @since	1.5
-	 */
-	public function send($fromId = null, $toId = null, $subject = null, $message = null, $mailfrom = null, $fromname = null)
-	{
-		$app	= &JFactory::getApplication();
-		$db		= &JFactory::getDbo();
-
-		if (is_object($this))
-		{
-			$fromId		= $fromId	? $fromId	: $this->user_id_from;
-			$toId		= $toId		? $toId		: $this->user_id_to;
-			$subject	= $subject	? $subject	: $this->subject;
-			$message	= $message	? $message	: $this->message;
-		}
-
-		$query = 'SELECT cfg_name, cfg_value' .
-				' FROM #__messages_cfg' .
-				' WHERE user_id = '.(int) $toId;
-		$db->setQuery($query);
-
-		$config = $db->loadObjectList('cfg_name');
-		$locked = @ $config['lock']->cfg_value;
-		$domail = @ $config['mail_on_new']->cfg_value;
-
-		if (!$locked)
-		{
-			$this->user_id_from	= $fromId;
-			$this->user_id_to	= $toId;
-			$this->subject		= $subject;
-			$this->message		= $message;
-			$this->date_time	= JFactory::getDate()->toMySQL();
-
-			if ($this->store())
-			{
-				if ($domail)
-				{
-					$query = 'SELECT name, email' .
-							' FROM #__users' .
-							' WHERE id = '.(int) $fromId;
-					$db->setQuery($query);
-					$fromObject = $db->loadObject();
-					$fromname	= $fromObject->name;
-					$mailfrom	= $fromObject->email;
-					$siteURL		= JURI::base();
-					$sitename 		= $app->getCfg('sitename');
-
-					$query = 'SELECT email' .
-							' FROM #__users' .
-							' WHERE id = '.(int) $toId;
-					$db->setQuery($query);
-					$recipient	= $db->loadResult();
-
-					$subject	= sprintf (JText::_('A new private message has arrived'), $sitename);
-					$msg		= sprintf (JText::_('Please login to read your message'), $siteURL);
-
-					JUtility::sendMail($mailfrom, $fromname, $recipient, $subject, $msg);
-				}
-				return true;
-			}
-		}
-		else
-		{
-			if (is_object($this)) {
-				$this->setError(JText::_('MESSAGE_FAILED'));
-			}
-		}
-		return false;
 	}
 }

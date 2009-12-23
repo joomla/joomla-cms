@@ -55,7 +55,7 @@ class MessagesModelConfig extends JModelForm
 		$rows = $this->_db->loadObjectList();
 
 		if ($error = $this->_db->getErrorMsg()) {
-			$this->setErrur($error);
+			$this->setError($error);
 			return false;
 		}
 

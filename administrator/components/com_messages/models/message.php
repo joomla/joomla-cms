@@ -132,6 +132,13 @@ class MessagesModelMessage extends JModelForm
 		return $form;
 	}
 
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param	array	The form data.
+	 *
+	 * @return	boolean	True on success.
+	 */
 	public function save($data)
 	{
 		$table = $this->getTable();
@@ -141,22 +148,53 @@ class MessagesModelMessage extends JModelForm
 			return false;
 		}
 
+		// Assign empty values.
+		if (empty($table->user_id_from)) {
+			$table->user_id_from = JFactory::getUser()->get('id');
+		}
+		if (intval($table->date_time) == 0) {
+			$table->date_time = JFactory::getDate()->toMySQL();
+		}
+
 		if (!$table->check()) {
 			$this->setError($table->getError());
 			return false;
 		}
 
-		if (!$table->send()) {
+		// Load the recipient user configuration.
+		$model = JModel::getInstance('Config', 'MessagesModel', array('ignore_request' => true));
+		$model->setState('user.id', $table->user_id_to);
+		$config = $model->getItem();
+		if (empty($config)) {
+			$this->setError($model->getError());
+			return false;
+		}
+
+		if ($config->get('locked')) {
+			$this->setError(JText::_('MESSAGE_FAILED'));
+			return false;
+		}
+
+		if (!$table->store()) {
 			$this->setError($table->getError());
 			return false;
 		}
 
-		return true;
-	}
+		if ($config->get('mail_on_new')) {
+			// Load the user details (already valid from table check).
+			$fromUser	= new JUser($table->user_id_from);
+			$toUser		= new JUser($table->user_id_to);
 
-	public function getSubject()
-	{
-		return JRequest::getString('subject');
+			$siteURL	= JURI::base();
+			$sitename 	= JFactory::getApplication()->getCfg('sitename');
+
+			$subject	= sprintf (JText::_('A new private message has arrived'), $sitename);
+			$msg		= sprintf (JText::_('Please login to read your message'), $siteURL);
+
+			JUtility::sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
+		}
+
+		return true;
 	}
 
 	public function getRecipientsList()
