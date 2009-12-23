@@ -47,7 +47,8 @@ class MenusControllerItems extends JController
 	 */
 	function &getModel($name = 'Item', $prefix = 'MenusModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**

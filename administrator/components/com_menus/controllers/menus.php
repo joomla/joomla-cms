@@ -30,7 +30,8 @@ class MenusControllerMenus extends JController
 	 */
 	function &getModel($name = 'Menu', $prefix = 'MenusModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**
