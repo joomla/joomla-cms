@@ -32,6 +32,7 @@ $ -> Language fix or change
 
 23-Dec-2009 Andrew Eddie
  ^ Minor changes to jos_messages table schema.
+ ^ Added chaining support to JDatabase::setQuery method.
 
 21-Dec-2009 Louis Landry
 + Added setAdditionalUrlParam and getAdditionalUrlParam to JPagination to allow better URL manipulation for GET requests.  (thanks to Robert Deutz)

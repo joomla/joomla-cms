@@ -504,12 +504,16 @@ abstract class JDatabase extends JObject
 	 * @param	string	The offset to start selection
 	 * @param	string	The number of results to return
 	 * @param	string	The common table prefix
+	 *
+	 * @return	object	This object to support chaining.
 	 */
 	public function setQuery($sql, $offset = 0, $limit = 0, $prefix='#__')
 	{
 		$this->_sql		= $this->replacePrefix((string)$sql, $prefix);
 		$this->_limit	= (int) $limit;
 		$this->_offset	= (int) $offset;
+
+		return $this;
 	}
 
 	/**
