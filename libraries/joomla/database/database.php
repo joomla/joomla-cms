@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Database
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -189,8 +187,7 @@ abstract class JDatabase extends JObject
 
 		$signature = serialize($options);
 
-		if (empty($instances[$signature]))
-		{
+		if (empty($instances[$signature])) {
 			$driver		= array_key_exists('driver', $options) 		? $options['driver']	: 'mysql';
 			$select		= array_key_exists('select', $options)		? $options['select']	: true;
 			$database	= array_key_exists('database', $options)	? $options['database']	: null;
@@ -200,9 +197,7 @@ abstract class JDatabase extends JObject
 
 			if (file_exists($path)) {
 				require_once $path;
-			}
-			else
-			{
+			} else {
 				JError::setErrorHandling(E_ERROR, 'die'); //force error type to die
 				return JError::raiseError(500, JTEXT::_('Unable to load Database Driver:') .$driver);
 			}
@@ -210,8 +205,7 @@ abstract class JDatabase extends JObject
 			$adapter	= 'JDatabase'.$driver;
 			$instance	= new $adapter($options);
 
-			if ($error = $instance->getErrorMsg())
-			{
+			if ($error = $instance->getErrorMsg()) {
 				JError::setErrorHandling(E_ERROR, 'ignore'); //force error type to die
 				return JError::raiseError(500, JTEXT::_('Unable to connect to the database:') .$error);
 			}
@@ -244,8 +238,7 @@ abstract class JDatabase extends JObject
 		$handlers = JFolder::files(dirname(__FILE__).DS.'database', '.php$');
 
 		$names = array();
-		foreach($handlers as $handler)
-		{
+		foreach($handlers as $handler) {
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			$class = 'JDatabase'.ucfirst($name);
 
@@ -301,8 +294,7 @@ abstract class JDatabase extends JObject
 	{
 		if (is_string($quoted)) {
 			$this->_quoted[] = $quoted;
-		}
-		else {
+		} else {
 			$this->_quoted = array_merge($this->_quoted, (array)$quoted);
 		}
 		$this->_hasQuoted = true;
@@ -321,34 +313,30 @@ abstract class JDatabase extends JObject
 		$open_char = '';
 		$end = strlen($queries);
 		$query_split = array();
-		for ($i=0;$i<$end;$i++)
-		{
+
+		for ($i = 0; $i < $end; $i++) {
 			$current = substr($queries,$i,1);
-			if (($current == '"' || $current == '\''))
-			{
+			if (($current == '"' || $current == '\'')) {
 				$n = 2;
+
 				while(substr($queries,$i - $n + 1, 1) == '\\' && $n < $i) {
 					$n ++;
 				}
-				if ($n%2==0)
-				{
-					if ($open)
-					{
-						if ($current == $open_char)
-						{
+
+				if ($n%2==0) {
+					if ($open) {
+						if ($current == $open_char) {
 							$open = false;
 							$open_char = '';
 						}
-					}
-					else
-					{
+					} else {
 						$open = true;
 						$open_char = $current;
 					}
 				}
 			}
-			if (($current == ';' && !$open)|| $i == $end - 1)
-			{
+
+			if (($current == ';' && !$open)|| $i == $end - 1) {
 				$query_split[] = substr($queries, $start, ($i - $start + 1));
 				$start = $i + 1;
 			}
@@ -369,8 +357,7 @@ abstract class JDatabase extends JObject
 	{
 		if ($this->_hasQuoted) {
 			return in_array($fieldName, $this->_quoted);
-		}
-		else {
+		} else {
 			return true;
 		}
 	}
@@ -406,7 +393,6 @@ abstract class JDatabase extends JObject
 		return $this->_errorNum;
 	}
 
-
 	/**
 	 * Get the error message
 	 *
@@ -416,8 +402,7 @@ abstract class JDatabase extends JObject
 	{
 		if ($escaped) {
 			return addslashes($this->_errorMsg);
-		}
-		else {
+		} else {
 			return $this->_errorMsg;
 		}
 	}
@@ -460,17 +445,14 @@ abstract class JDatabase extends JObject
 	public function nameQuote($s)
 	{
 		// Only quote if the name is not using dot-notation
-		if (strpos($s, '.') === false)
-		{
+		if (strpos($s, '.') === false) {
 			$q = $this->_nameQuote;
 			if (strlen($q) == 1) {
 				return $q . $s . $q;
-			}
-			else {
+			} else {
 				return $q{0} . $s . $q{1};
 			}
-		}
-		else {
+		} else {
 			return $s;
 		}
 	}
@@ -482,6 +464,19 @@ abstract class JDatabase extends JObject
 	public function getPrefix()
 	{
 		return $this->_table_prefix;
+	}
+
+	/**
+	 * Get the connection
+	 *
+	 * Provides access to the underlying database connection. Useful for when
+	 * you need to call a proprietary method such as postgresql's lo_* methods
+	 *
+	 * @return resource
+	 */
+	public function getConnection()
+	{
+		return $this->_connection;
 	}
 
 	/**
@@ -534,8 +529,7 @@ abstract class JDatabase extends JObject
 
 		$startPos = 0;
 		$literal = '';
-		while ($startPos < $n)
-		{
+		while ($startPos < $n) {
 			$ip = strpos($sql, $prefix, $startPos);
 			if ($ip === false) {
 				break;
@@ -543,12 +537,10 @@ abstract class JDatabase extends JObject
 
 			$j = strpos($sql, "'", $startPos);
 			$k = strpos($sql, '"', $startPos);
-			if (($k !== FALSE) && (($k < $j) || ($j === FALSE)))
-			{
+			if (($k !== FALSE) && (($k < $j) || ($j === FALSE))) {
 				$quoteChar	= '"';
 				$j			= $k;
-			}
-			else {
+			} else {
 				$quoteChar	= "'";
 			}
 
@@ -566,34 +558,34 @@ abstract class JDatabase extends JObject
 			}
 
 			// quote comes first, find end of quote
-			while (TRUE)
-			{
+			while (TRUE) {
 				$k = strpos($sql, $quoteChar, $j);
 				$escaped = false;
 				if ($k === false) {
 					break;
 				}
 				$l = $k - 1;
-				while ($l >= 0 && $sql{$l} == '\\')
-				{
+
+				while ($l >= 0 && $sql{$l} == '\\') {
 					$l--;
 					$escaped = !$escaped;
 				}
-				if ($escaped)
-				{
+
+				if ($escaped) {
 					$j	= $k+1;
 					continue;
 				}
 				break;
 			}
-			if ($k === FALSE)
-			{
+
+			if ($k === FALSE) {
 				// error in the query - no end quote; ignore it
 				break;
 			}
 			$literal .= substr($sql, $startPos, $k - $startPos + 1);
 			$startPos = $k+1;
 		}
+
 		if ($startPos < $n) {
 			$literal .= substr($sql, $startPos, $n - $startPos);
 		}
@@ -750,13 +742,11 @@ abstract class JDatabase extends JObject
 	 */
 	public function stderr($showSQL = false)
 	{
-		if ($this->_errorNum != 0)
-		{
+		if ($this->_errorNum != 0) {
 			return "DB function failed with error number $this->_errorNum"
 			."<br /><font color=\"red\">$this->_errorMsg</font>"
 			.($showSQL ? "<br />SQL = <pre>$this->_sql</pre>" : '');
-		}
-		else {
+		} else {
 			return "DB function reports no errors";
 		}
 	}

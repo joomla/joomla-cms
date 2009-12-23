@@ -30,6 +30,8 @@ $ -> Language fix or change
 24-Dev-2009 Andrew Eddie
  ^ Moved modal user field from com_users to jform library; fixed occurances in com_contacts.
  # Fixed bug in modal users list.
+ ^ Complete MVC refactor of com_messages.
+ ^ Applied patch [#19046] JDatabase::$_connection inaccessible, proposing a getConnection() method as the solution
 
 23-Dev-2009 Ian MacLennan
  ^ Moved JUtility::sendMail and sendAdminMail to JMail and added appropriate proxy methods (thanks Arlen Walker)
