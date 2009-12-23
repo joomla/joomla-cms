@@ -31,4 +31,19 @@ class MessagesControllerMessage extends JControllerForm
 	{
 		return parent::_allowSave($data, $key);
 	}
+
+	/**
+	 * Reply to an existing message.
+	 *
+	 * This is a simple redirect to the compose form.
+	 */
+	public function reply()
+	{
+		if ($replyId = JRequest::getInt('reply_id')) {
+			$this->setRedirect('index.php?option=com_messages&view=message&layout=edit&reply_id='.$replyId);
+		} else {
+			$this->setMessage(JText::_('Messages_Invalid_reply_id'));
+			$this->setRedirect('index.php?option=com_messages&view=messages');
+		}
+	}
 }

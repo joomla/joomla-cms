@@ -30,6 +30,9 @@ class MessagesModelMessage extends JModelForm
 		$messageId = (int) JRequest::getInt('message_id');
 		$this->setState('message.id', $messageId);
 
+		$replyId = (int) JRequest::getInt('reply_id');
+		$this->setState('reply.id', $replyId);
+
 		// Load the parameters.
 		$params	= JComponentHelper::getParams('com_messages');
 		$this->setState('params', $params);
@@ -73,22 +76,39 @@ class MessagesModelMessage extends JModelForm
 			return $false;
 		}
 
-		// Prime required properties.
-		if (empty($table->id)) {
-			// Prepare data for a new record.
-		} else {
-			// Get the user names
-			$query = new JQuery;
-			$query->select('name, username');
-			$query->from('#__users');
-			$query->where('id = '.(int) $this->user_id_from);
-		}
-
 		// Convert to the JObject before adding other data.
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
-		if ($fromUser = new JUser($table->user_id_from)) {
-			$value->set('from_user_name', $fromUser->name);
+		// Prime required properties.
+		if (empty($table->id)) {
+			// Prepare data for a new record.
+			if ($replyId = $this->getState('reply.id')) {
+
+				// If replying to a message, preload some data.
+				$db		= $this->getDbo();
+				$query	= new JQuery;
+
+				$query->select('subject, user_id_from');
+				$query->from('#__messages');
+				$query->where('message_id = '.(int) $replyId);
+				$message = $db->setQuery($query)->loadObject();
+
+				if ($error = $db->getErrorMsg()) {
+					$this->setError($error);
+					return false;
+				}
+
+				$value->set('user_id_to', $message->user_id_from);
+				$re = JText::_('Messages_Re');
+				if (stripos($message->subject, $re) !== 0) {
+					$value->set('subject', $re.$message->subject);
+				}
+			}
+		} else {
+			// Get the user name for an existing messasge.
+			if ($table->user_id_from && $fromUser = new JUser($table->user_id_from)) {
+				$value->set('from_user_name', $fromUser->name);
+			}
 		}
 
 		return $value;
