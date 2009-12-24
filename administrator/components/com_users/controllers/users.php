@@ -45,7 +45,8 @@ class UsersControllerUsers extends JController
 	 */
 	public function &getModel($name = 'User', $prefix = 'UsersModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**

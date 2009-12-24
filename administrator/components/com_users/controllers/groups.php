@@ -31,7 +31,8 @@ class UsersControllerGroups extends JController
 	 */
 	public function &getModel($name = 'Group', $prefix = 'UsersModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**

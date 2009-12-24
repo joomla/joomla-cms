@@ -31,7 +31,8 @@ class TemplatesControllerStyles extends JController
 	 */
 	public function &getModel($name = 'Style', $prefix = 'TemplatesModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**

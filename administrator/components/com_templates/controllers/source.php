@@ -74,7 +74,8 @@ class TemplatesControllerSource extends JController
 	 */
 	public function &getModel($name = 'Source', $prefix = 'TemplatesModel', $config = array())
 	{
-		return parent::getModel($name, $prefix, $config);
+		$model = parent::getModel($name, $prefix, $config);
+		return $model;
 	}
 
 	/**

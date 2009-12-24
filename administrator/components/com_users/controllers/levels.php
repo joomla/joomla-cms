@@ -45,7 +45,8 @@ class UsersControllerLevels extends JController
 	 */
 	public function &getModel($name = 'Levels', $prefix = 'UserModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**

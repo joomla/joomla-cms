@@ -48,7 +48,8 @@ class WeblinksControllerWeblinks extends JController
 	 */
 	public function &getModel($name = 'Weblink', $prefix = 'WeblinksModel')
 	{
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 
 	/**
