@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 
 /**
  * Impressions Field class for the Joomla Framework.

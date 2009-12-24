@@ -7,7 +7,7 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 
 /**
  * Supports a modal article picker.

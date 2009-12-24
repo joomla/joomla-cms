@@ -7,7 +7,7 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 require_once dirname(__FILE__).DS.'list.php';
 
 /**

@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 jimport('joomla.database.query');
 
 /**

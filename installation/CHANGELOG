@@ -32,6 +32,7 @@ $ -> Language fix or change
  # Fixed bug in modal users list.
  ^ Complete MVC refactor of com_messages.
  ^ Applied patch [#19046] JDatabase::$_connection inaccessible, proposing a getConnection() method as the solution
+ # Fixed [#18641] JForm Field elements do not include correct jimport commands
 
 23-Dev-2009 Ian MacLennan
  ^ Moved JUtility::sendMail and sendAdminMail to JMail and added appropriate proxy methods (thanks Arlen Walker)

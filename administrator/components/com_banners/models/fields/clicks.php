@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.form.field');
+jimport('joomla.form.formfield');
 
 /**
  * Clicks Field class for the Joomla Framework.
