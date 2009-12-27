@@ -405,7 +405,7 @@ CREATE TABLE `#__extensions` (
   `enabled` TINYINT(3) NOT NULL DEFAULT '1',
   `access` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1',
   `protected` TINYINT(3) NOT NULL DEFAULT '0',
-  `manifest_cache` TEXT  NOT NULL DEFAULT '',
+  `manifest_cache` TEXT  NOT NULL,
   `params` TEXT NOT NULL,
   `custom_data` text NOT NULL,
   `system_data` text NOT NULL,
