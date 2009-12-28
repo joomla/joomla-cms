@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Dec-2009 Sam Moffatt
+ + Added semicolon after access in configuration.php-dist
+
 27-Dec-2009 Sam Moffatt
  # Removed the default for the #__extensions manifest_cache field
 
