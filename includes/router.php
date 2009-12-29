@@ -317,7 +317,7 @@ class JRouterSite extends JRouter
 			}
 
 			$result = implode('/', $parts);
-			$tmp	= ($result != "") ? '/'.$result : '';
+			$tmp	= ($result != "") ? $result : '';
 		}
 
 		/*

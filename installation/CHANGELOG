@@ -30,6 +30,7 @@ $ -> Language fix or change
 29-Dec-2009 Hannes Papenberg
  # Fixed reference bug in JCategories
  # Fixed UTF-8 bug in dropdown selects
+ # Fixed cosmetic bug in includes/router.php
 
 29-Dec-2009 Sam Moffatt
  + Added semicolon after access in configuration.php-dist
