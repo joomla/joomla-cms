@@ -213,7 +213,7 @@ class JCategoryNode extends JObject
 			{
 				$categoryTree = JCategories::getInstance($this->extension);
 				$parentNode = &$categoryTree->get($this->parent_id);
-				$parentNode->addChild(&$this);
+				$parentNode->addChild($this);
 			}
 			return true;
 		}
