@@ -26,7 +26,10 @@ class modMenuHelper
 		$db			= JFactory::getDbo();
 		$user		= JFactory::getUser();
 		$menu		= JSite::getMenu();
-		$active		= $menu->getActive();
+		
+		// If no active menu, use default
+		$active = ($menu->getActive()) ? $menu->getActive() : $menu->getDefault();
+		
 		$rlu		= array();
 		$start		= (int) $params->get('startLevel');
 		$end		= (int) $params->get('endLevel');

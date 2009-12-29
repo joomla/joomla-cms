@@ -20,10 +20,10 @@ class modWhosonlineHelper
 		$result      = array();
 		$user_array  = 0;
 		$guest_array = 0;
-
-		$query = 'SELECT guest, usertype, client_id' .
-					' FROM #__session' .
-					' WHERE client_id = 0';
+		$query = new JQuery;
+		$query->select('guest, usertype, client_id');
+		$query->from('#__session');
+		$query->where('client_id = 0');
 		$db->setQuery($query);
 		$sessions = $db->loadObjectList();
 
@@ -54,14 +54,13 @@ class modWhosonlineHelper
 	function getOnlineUserNames() {
 	    $db		= &JFactory::getDbo();
 		$result	= null;
-
-		$query = 'SELECT DISTINCT a.username' .
-				 ' FROM #__session AS a' .
-				 ' WHERE client_id = 0' .
-				 ' AND a.guest = 0';
+		$query = new JQuery;
+		$query->select('a.username, a.time, a.userid, a.usertype, a.client_id');
+		$query->from('#__session AS a');
+		$query->where('a.userid != 0');
+		$query->group('a.userid');
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
-
 		if ($db->getErrorNum()) {
 			JError::raiseWarning(500, $db->stderr());
 		}

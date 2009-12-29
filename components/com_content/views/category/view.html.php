@@ -44,10 +44,10 @@ class ContentViewCategory extends JView
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
 		$articles	= $this->get('Articles');
-		$siblings	= $this->get('Siblings');
+//		$siblings	= $this->get('Siblings');
 		$children	= $this->get('Children');
-		$parents	= $this->get('Parents');
-		// $pagination	= $this->get('Pagination');
+//		$parents	= $this->get('Parents');
+		$pagination	= $this->get('Pagination');
 		
 		
 		// Check for errors.
@@ -136,13 +136,6 @@ class ContentViewCategory extends JView
 			$this->link_items[$i] = &$articles[$i];
 		}
 
-		// Compute the sibling category slugs and prepare description (runs content plugins).
-		foreach ($siblings as $i => &$sibling)
-		{
-			$sibling->slug			= $sibling->route ? ($sibling->id.':'.$sibling->route) : $item->id;
-			$sibling->description	= JHtml::_('content.prepare', $sibling->description);
-		}
-
 		// Compute the children category slugs and prepare description (runs content plugins).
 		foreach ($children as $i => &$child)
 		{
@@ -150,11 +143,6 @@ class ContentViewCategory extends JView
 			$child->description	= JHtml::_('content.prepare', $child->description);
 		}
 
-		// Compute the parent category slugs.
-		 foreach ($parents as $i => &$parent)
-		 {
-			$parent->slug = $parent->route ? ($parent->id.':'.$parent->route) : $parent->id;
-		 }
 		$this->assign('action', 	str_replace('&', '&amp;', $uri->toString()));
 		
 		$this->assignRef('params',		$params);

@@ -94,7 +94,7 @@ class ContentModelArticle extends JModelItem
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');			
 				if (is_numeric($published)) {
-					$query->where('a.state = '.(int) $published.' OR a.state ='.(int) $archived);
+					$query->where('(a.state = '.(int) $published.' OR a.state ='.(int) $archived.')');
 				}
 
 				

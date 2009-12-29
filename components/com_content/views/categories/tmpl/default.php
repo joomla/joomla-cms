@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
-// If the page class is defined, wrap the whole output in a div.
 $pageClass = $this->params->get('pageclass_sfx');
 $curLevel = 0;
 $difLevel = 0;
@@ -63,11 +62,11 @@ $difLevel = 0;
 			echo "<li>";
 		}
 ?>
-  	    <span class="jitem-title"><a href="<?php echo ContentRoute::category('index.php?option=com_content&view=category&id='.$this->escape($item->slug));?>">
+  	    <span class="item-title"><a href="<?php echo ContentRoute::category('index.php?option=com_content&view=category&id='.$this->escape($item->slug));?>">
 			<?php echo $this->escape($item->title); ?></a>
 		</span>
 		<?php if ($item->description) : ?>
-			<div class="jdescription">
+			<div class="category-desc">
 				<?php echo $item->description; ?>
 			</div>
 		<?php endif; ?>

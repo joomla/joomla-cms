@@ -12,14 +12,12 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 ?>
-<ul id="jarchive-list">
-<?php foreach ($this->items as $item) : ?>
-	<li class="row<?php echo ($item->odd +1); ?>">
-
+<ul id="archive-items">
+<?php foreach ($this->items as $i => $item) : ?>
+	<li class="row<?php echo $i % 2; ?>">
 
 		<h2>
 			<a href="<?php echo JRoute::_(ContentRoute::article($item->slug)); ?>">
-
 
 				<?php echo $this->escape($item->title); ?></a>
 		</h2>
@@ -39,13 +37,13 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 			</div>
 
 		<?php if ($this->params->get('show_create_date')) : ?>
-			<span class="jcreated-date">
-				<?php echo JText::_('Created').': '.$item->created; ?>
+			<span class="created-date">
+				<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC2')); ?>
 			</span>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_author')) : ?>
-			<span class="jcreated-by">
-				<?php echo JText::_('Author').': '; echo $item->created_by_alias ? $item->created_by_alias : $item->author; ?>
+			<span class="created-by">
+				<?php echo JText::sprintf('Written_by', ($item->created_by_alias ? $item->created_by_alias : $item->author)); ?>
 			</span>
 		<?php endif; ?>
 

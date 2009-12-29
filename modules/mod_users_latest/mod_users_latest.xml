@@ -2,39 +2,33 @@
 <install
 	type="module"
 	version="1.0.0">
-	<name>Who\'s Online</name>
+	<name>Latest Users</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2004</creationDate>
+	<creationDate>December 2009</creationDate>
 	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>DESCWHOSONLINE</description>
+	<description>DESCUSERSLATEST</description>
 	<files>
 		<filename
-			module="mod_whosonline">mod_whosonline.php</filename>
+			module="mod_users_latest">mod_users_latest.php</filename>
 	</files>
 	<fields>
 		<field
-			name="showmode"
-			type="list"
-			default="0"
-			label="Whosonline_Display_Label"
-			description="Whosonline_Display_Desc">
-			<option
-				value="0">Number of Guests/Users</option>
-			<option
-				value="1">User Names</option>
-			<option
-				value="2">Both</option>
+			name="shownumber"
+			type="text"
+			default="5"
+			label="Users_Latest_number_Label"
+			description="Unsers_Latest_number_Desc">
 			</field>	
 		<field
 			name="linknames"
 			type="list"
 			default="0"
-			label="Whosonline_Link_label"
-			description="Whosonlin_Link_desc"	>
+			label="Users_Latest_Link_label"
+			description="Users_Latest_Link_desc"	>
 			<option
 				value="0">JNo</option>
 			<option
@@ -44,8 +38,8 @@
 			name="linktowhat"
 			type="list"
 			default="0"
-			label="Whosonline_Linktowhat_label"
-			description="Whosonlin_Linktowhat_desc"	>
+			label="Users_Latest_Linktowhat_label"
+			description="Users_Latest_Linktowhat_desc"	>
 			<option
 				value="0">Profile</option>
 			<option

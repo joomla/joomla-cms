@@ -77,11 +77,19 @@ class UsersModelUser extends JModelForm
 		$app = &JFactory::getApplication();
 		$data = $app->getUserState('users.login.form.data', array());
 
+		// check for return URL from the request first
+		if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
+			$data['return'] = base64_decode($return);
+			if (!JURI::isInternal($data['return'])) {
+				$data['return'] = '';  
+			}
+		}
+		
 		// Set the return URL if empty.
 		if (!isset($data['return']) || empty($data['return'])) {
 			$data['return'] = 'index.php?option=com_users&view=profile';
-			$app->setUserState('users.login.form.data', $data);
 		}
+		$app->setUserState('users.login.form.data', $data);
 
 		// Bind the form data if present.
 		if (!empty($data)) {

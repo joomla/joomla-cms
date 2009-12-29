@@ -49,17 +49,17 @@ class ContentHelperQuery
 		switch ($orderDate)
 		{
 			case 'modifed' :
-				$queryDate = 'a.modified';
+				$queryDate = ' a.modified ';
 				break;
 
 			// use created if publish_up is not set	
 			case 'published' : 
-				$queryDate = 'CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END';
+				$queryDate = ' CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END ';
 				break;
 				
 			case 'created' : 
 			default : 
-				$queryDate = 'a.created';
+				$queryDate = ' a.created ';
 				break;
 		}
 
@@ -70,7 +70,7 @@ class ContentHelperQuery
 				break;
 
 			case 'rdate' :
-				$orderby = $queryDate . ' DESC';
+				$orderby = $queryDate . ' DESC ';
 				break;
 
 			case 'alpha' :
@@ -94,11 +94,11 @@ class ContentHelperQuery
 				break;
 
 			case 'author' :
-				$orderby = 'a.created_by_alias, u.name';
+				$orderby = 'author_name';
 				break;
 
 			case 'rauthor' :
-				$orderby = 'a.created_by_alias DESC, u.name DESC';
+				$orderby = 'author_name DESC';
 				break;
 
 			case 'front' :

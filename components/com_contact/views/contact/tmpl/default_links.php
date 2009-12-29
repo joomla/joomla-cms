@@ -11,11 +11,9 @@
 defined('_JEXEC') or die;
 ?>
 
-<?php if ($this->contact->params->get('show_links')) : ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('Contact_Links'), 'display-links'); ?>
 <div class="jcontact-links">
-	<h4>
-		<?php echo JText::_('Com_Contact_Contact_Links_Heading') ; ?>
-	</h4>
+
 	<ul>
 		<?php if ($this->contact->params->get('linka')) : ?>
 			<li><a href="<?php echo $this->contact->params->get('linka') ?>"><?php echo $this->contact->params->get('linka_name')  ?></a></li>
@@ -34,4 +32,4 @@ defined('_JEXEC') or die;
 		<?php endif; ?>
 	</ul>
 </div>
-<?php endif;
+

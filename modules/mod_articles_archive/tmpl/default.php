@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<ul>
+<ul class="archive-module<?php echo $params->get('moduleclass_sfx'); ?>">
 	<?php foreach ($list as $item) : ?>
 	<li>
 		<a href="<?php echo $item->link; ?>">

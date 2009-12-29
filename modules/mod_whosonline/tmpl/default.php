@@ -37,9 +37,18 @@ if ($showmode == 0 || $showmode == 2) :
 endif;
 
 if (($showmode > 0) && count($names)) : ?>
-    <ul>
+    <ul  class="whosonline" >
 <?php foreach($names as $name) : ?>
-	    <li><strong><?php echo $name->username; ?></strong></li>
+
+	    <li>
+	    <?php if ($linknames==1) { ?>     
+	    <a href="index.php?option=com_users&view=profile&id=<?php echo $name->userid; ?> ">
+	   <?php } ?>
+	    <?php echo $name->username; ?>
+	       <?php if ($linknames==1) : ?> 
+	            </a>
+	       <?php endif; ?> 
+	    </li>
 <?php endforeach;  ?>
 	</ul>
 <?php endif;

@@ -21,17 +21,17 @@ $pageClass = $this->params->get('pageclass_sfx');
 <div class="blog<?php echo $pageClass;?>">
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-<h2>
+<h1>
 	<?php if ($this->escape($this->params->get('page_heading'))) :?>
 		<?php echo $this->escape($this->params->get('page_heading')); ?>
 	<?php else : ?>
 		<?php echo $this->escape($this->params->get('page_title')); ?>
 	<?php endif; ?>
-</h2>
+</h1>
 <?php endif; ?>
 
 <?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) :?>
-<div class="category_description">
+<div class="category-desc">
         <?php if ($this->params->get('show_description_image') && $this->category->image) : ?>
                 <img src="<?php echo $this->baseurl . '/' . $cparams->get('image_path') . '/'. $this->category->image;?>"   alt="" />
         <?php endif; ?>
@@ -42,7 +42,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif; ?>
 
 <?php if ($this->children): ?>
-	<ul class="jsubcategories">
+	<ul class="subcategories">
 		<?php foreach($this->children as $child) : ?>
 				<li><a href="<?php /* @TODO class not found echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); */ ?>">
 					<?php echo $child->title; ?></a> (<?php /* echo @TODO numitems not loaded $child->numitems; */?>)</li>
@@ -51,22 +51,22 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif;?>
 
 <?php if (!empty($this->lead_items)) : ?>
-<div class="jarticles-lead">
+<div class="items-leading">
 	<?php foreach ($this->lead_items as &$item) : ?>
-	<div<?php echo $item->state == 0 ? ' class="system-unpublished"' : null; ?>>
-		<?php
-			$this->item = &$item;
-			echo $this->loadTemplate('item');
-		?>
-	</div>
+		<div <?php echo $item->state == 0 ? 'class="system-unpublished"' : null; ?>>
+			<?php
+				$this->item = &$item;
+				echo $this->loadTemplate('item');
+			?>
+		</div>
 	<?php endforeach; ?>
 </div>
 <?php endif; ?>
 
 <?php if (!empty($this->intro_items)) : ?>
-<div class="jarticles-intro jcols-<?php echo (int) $this->columns;?>">
+<div class="items-intro cols-<?php echo (int) $this->columns;?>">
 	<?php foreach ($this->intro_items as $key => &$item) : ?>
-	<div class="jcolumn-<?php echo (((int)$key - 1) % (int) $this->columns)+1;?><?php echo $item->state == 0 ? ' system-unpublished"' : null; ?>">
+	<div class="column-<?php echo (((int)$key - 1) % (int) $this->columns)+1;?><?php echo $item->state == 0 ? ' system-unpublished"' : null; ?>">
 		<?php
 			$this->item = &$item;
 			echo $this->loadTemplate('item');
@@ -78,14 +78,14 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif; ?>
 
 <?php if (!empty($this->link_items)) : ?>
-	<div class="jarticles-more">
+	<div class="items-more">
 	<?php echo $this->loadTemplate('links'); ?>
 	</div>
 <?php endif; ?>
 
 
 <?php  // if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
-        <div class="jpagination">
+        <div class="pagination">
                 <?php // echo $this->pagination->getPagesLinks(); ?>
                 <?php // if ($this->params->def('show_pagination_results', 1)) : ?>
                         <p class="counter">

@@ -104,7 +104,8 @@ class ContentModelArticles extends JModelList
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author.
-		$query->select('ua.name AS author_name');
+		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author_name");
+		
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Filter by access level.
@@ -163,6 +164,33 @@ class ContentModelArticles extends JModelList
 
 		$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')');
 		$query->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
+		
+		// process the filter for list views with user-entered filters
+		$params = $this->getState('params');
+		if ((is_object($params)) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter')))
+		{
+			// clean filter variable
+			$filter = JString::strtolower($filter);
+			$hitsFilter = intval($filter);
+			$filter	= $this->_db->Quote( '%'.$this->_db->getEscaped( $filter, true ).'%', false );
+
+			switch ($params->get('filter_field'))
+			{
+				case 'author' :
+					$query->where('LOWER( CASE WHEN a.created_by_alias > " " THEN a.created_by_alias ELSE ua.name END ) LIKE '.$filter.' ');
+					break;
+
+				case 'hits' :
+					$query->where('a.hits >= '.$hitsFilter. ' ');
+					break;
+
+				case 'title' :
+				default : // default to 'title' if parameter is not valid
+					$query->where('LOWER( a.title ) LIKE '.$filter);
+					break;
+			}
+		}
+
 
 		// Add the list ordering clause.
 		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')));
@@ -214,7 +242,7 @@ class ContentModelArticles extends JModelList
 			$item->params->set('access-edit', false);
 
 			$access = $this->getState('filter.access');
-			if ($access = $this->getState('filter.access'))
+			if ($access)
 			{
 				// If the access filter has been set, we already have only the articles this user can view.
 				$item->params->set('access-view', true);

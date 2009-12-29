@@ -286,8 +286,9 @@ class MenusModelItem extends JModelForm
 			// Parse the link arguments.
 			$args = array();
 			parse_str(parse_url(htmlspecialchars_decode($link), PHP_URL_QUERY), $args);
-
+		
 			// Confirm that the option is defined.
+			$option = '';
 			if (isset($args['option']))
 			{
 				// The option determines the base path to work with.
@@ -350,9 +351,7 @@ class MenusModelItem extends JModelForm
 			}
 
 			// Now load the component params.
-			if ($isNew=false){
-			$path = JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS. $option.DS.'config.xml');}
-			else $path='null';
+			$path = JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'config.xml');
 			if (JFile::exists($path))
 			{
 				if (empty($form))

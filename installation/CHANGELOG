@@ -27,6 +27,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Dec-2009 Mark Dexter
+# Add correct initial Article parameters in joomla.sql
++ Partial implementation of Category List Layout
+^ Standarize CSS class names in com_content - thanks Andrea Tarr
+# Fixes in user modules - thanks Elin Waring
+^ Improvements to Contact layout - thanks Elin Waring
+# Fix but in mod_menu when there is no Itemid. Use default if no active.
+# Fix PHP warning messages in New User Groups and new Access Levels.
+
 29-Dec-2009 Hannes Papenberg
  # Fixed reference bug in JCategories
  # Fixed UTF-8 bug in dropdown selects

@@ -54,7 +54,8 @@ class UsersModelGroup extends JModelForm
 	*/
 	public function &getTable($type = 'Usergroup', $prefix = 'JTable', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		$return = JTable::getInstance($type, $prefix, $config);
+		return $return;
 	}
 
 	/**

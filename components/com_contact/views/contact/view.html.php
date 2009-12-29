@@ -162,8 +162,7 @@ class ContactViewContact extends JView
 				$contact->params->set('marker_class', 		'jicons-icons');
 				break;
 		}
-
-		JHtml::_('behavior.formvalidation');
+	JHtml::_('behavior.formvalidation');
 
 		$this->assignRef('contact',		$contact);
 		$this->assignRef('contacts',	$contacts);
@@ -173,3 +172,4 @@ class ContactViewContact extends JView
 		parent::display($tpl);
 	}
 }
+		

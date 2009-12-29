@@ -95,13 +95,5 @@ defined('_JEXEC') or die;
 </div>
 
 
-<?php if ($this->contact->misc && $this->contact->params->get('show_misc')) : ?>
-<div class="jcontact-miscinfo">
-	<span class="<?php echo $this->contact->params->get('marker_class'); ?>">
-		<?php echo $this->contact->params->get('marker_misc'); ?>
-	</span>
-	<span class="jcontact-misc">
-		<?php echo $this->contact->misc; ?>
-	</span>
-</div>
-<?php endif; ?>
+
+

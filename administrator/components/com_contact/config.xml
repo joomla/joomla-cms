@@ -160,17 +160,6 @@
 				value="1">Jcommon_Show</option>
 		</field>
 		<field
-			name="show_links"
-			type="radio"
-			default="1"
-			label="Contact_Params_Image_Label"
-			description="Contact_Params_Name_Desc">
-			<option
-				value="0">Jcommon_Hide</option>
-			<option
-				value="1">Jcommon_Show</option>
-		</field>
-		<field
 			name="allow_vcard"
 			type="radio"
 			default="0"
@@ -181,6 +170,18 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
+		<field
+			name="show_links"
+			type="radio"
+			default="1"
+			label="Contact_Params_Image_Label"
+			description="Contact_Params_Name_Desc">
+			<option
+				value="0">Jcommon_Hide</option>
+			<option
+				value="1">Jcommon_Show</option>
+		</field>
+
 		<field
 			id="show_links"
 			name="show_links"
@@ -199,7 +200,7 @@
 			id="linka_name"
 			name="linka_name"
 			type="text"
-			label="Contact_LInka_Name_Label"
+			label="Contact_Linka_Name_Label"
 			description="Contact_Linka_Name_Desc"
 			class="inputbox"
 			size="30"
@@ -403,7 +404,14 @@
 				value="1">Jcommon_Show</option>
 
 		</field>
-
+		<field name="show_profile"
+				type="radio"
+				default="1"
+				label="Contact_Profile_Show_Label"
+				description="Contact_Profile_Show_Desc">
+					<option value="0">Jcommon_Hide</option>
+					<option value="1">Jcommon_Show</option>
+		</field>
 	</fields>
 	<fields
 		group="Contact_Form"
@@ -556,4 +564,5 @@
 			component="com_contact"
 			section="component" />
 	</fields>
+
 </config>

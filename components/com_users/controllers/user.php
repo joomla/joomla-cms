@@ -148,9 +148,7 @@ class UsersControllerUser extends UsersController
 
 		// Flush the data from the session.
 		$app->setUserState('users.registration.form.data', null);
-
-
-		var_dump($return);
+	
 		exit;
 	}
 

@@ -35,6 +35,8 @@ class ContentModelCategory extends JModelItem
 	protected $_children = null;
 
 	protected $_parents = null;
+	
+	protected $_pagination = null;
 
 	/**
 	 * Model context string.
@@ -56,7 +58,7 @@ class ContentModelCategory extends JModelItem
 		$pk = JRequest::getInt('id');
 		$this->setState('category.id', $pk);
 
-		// TODO: Add pagination for children , siblings and articles??
+		// TODO: Add pagination for children , siblings??
 
 		// Load the parameters. Merge Global and Menu Item params
 		$params	= $app->getParams();
@@ -65,15 +67,27 @@ class ContentModelCategory extends JModelItem
 		$mergedParams->merge($params);
 		$this->setState('params', $mergedParams);
 
-		// TODO: Tune these values based on other permissions.
+		// limit to published
 		$this->setState('filter.published',	1);
-		$this->setState('filter.access',	true);
+		
+		// process show_noauth parameter
+		if (!$mergedParams->get('show_noauth')){
+			$this->setState('filter.access',	true);
+		}
+		else {
+			$this->setState('filter.access',	false);
+		}
+		
+		// Optional filter text
+		$this->setState('list.filter', JRequest::getString('filter-search'));
 		
 		// filter.order
-		$this->setState('list.direction', JRequest::getWord('filter_order_Dir', 'asc'));
-		$this->setState('list.ordering', $this->_buildContentOrderBy());
-		$this->setState('list.start', 0);
-		$this->setState('list.limit', $mergedParams->get('display_num'));
+		$itemid = JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
+		$this->setState('list.ordering', $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string'));
+		$this->setState('list.direction',$app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd'));
+	
+		$this->setState('list.start', JRequest::getVar('limitstart', 0, '', 'int'));
+		$this->setState('list.limit', JRequest::getVar('limit', $mergedParams->get('display_num'), '', 'int'));	
 }
 
 	/**
@@ -178,7 +192,7 @@ class ContentModelCategory extends JModelItem
 					$user	= &JFactory::getUser();
 					$groups	= $user->authorisedLevels();
 
-					$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+					$data->params->set('access-view', in_array($data->access, $groups));
 				}
 				// TODO: Type 2 permission checks?
 
@@ -208,12 +222,14 @@ class ContentModelCategory extends JModelItem
 			$model->setState('filter.category_id',	$category->id);
 			$model->setState('filter.published',	$this->getState('filter.published'));
 			$model->setState('filter.access',		$this->getState('filter.access'));
-			$model->setState('list.ordering', 		$this->getState('list.ordering'));
+			$model->setState('list.ordering', 		$this->_buildContentOrderBy());
 			$model->setState('list.start', 			$this->getState('list.start'));
 			$model->setState('list.limit', 			$this->getState('list.limit'));
 			$model->setState('list.direction', 		$this->getState('list.direction'));
+			$model->setState('list.filter', 		$this->getState('list.filter'));
 
 			$this->_articles  = $model->getItems();
+			$this->_pagination = $model->getPagination();
 
 			if ($this->_articles === false) {
 				$this->setError($model->getError());
@@ -221,6 +237,16 @@ class ContentModelCategory extends JModelItem
 		}
 
 		return $this->_articles;
+	}
+	
+	/**
+	 * Get the pagination for the articles
+	 * 
+	 * @return JPagination
+	 */
+	function &getPagination()
+	{
+		return $this->_pagination;
 	}
 
 	/**
@@ -324,18 +350,13 @@ class ContentModelCategory extends JModelItem
 		$app = &JFactory::getApplication('site');
 		$params = $this->_state->params;
 		$itemid = JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
-		$filter_order  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'cmd');
+		$filter_order  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 		$filter_order_Dir = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
 		$orderby = ' ';	
 
 		if ($filter_order && $filter_order_Dir)
 		{
 			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
-		}
-
-		if ($filter_order == 'author')
-		{
-			$orderby .= 'created_by_alias '. $filter_order_Dir.', ';
 		}
 		
 		$articleOrderby	= $params->get('article_orderby', 'rdate');
@@ -344,7 +365,7 @@ class ContentModelCategory extends JModelItem
 		$secondary		= ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate).', ';
 		$primary		= ContentHelperQuery::orderbyPrimary($categoryOrderby);
 		
-		$orderby .= $primary . ' ' . $secondary . ' a.created DESC';
+		$orderby .= $primary . ' ' . $secondary . ' a.created DESC ';
 		return $orderby;
 	}
 	

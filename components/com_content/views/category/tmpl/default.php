@@ -15,9 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
 
-
-
-<div class="jcategory <?php echo $pageClass;?>">
+<div class="category-list <?php echo $pageClass;?>">
 	<?php if ($this->params->get('show_page_title', 1)) : ?>
 		<h1>
 			<?php if ($this->escape($this->params->get('page_heading'))) :?>
@@ -31,7 +29,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		<?php echo $this->escape($this->item->title); ?>
 	</h2>
 	<?php if ($this->params->def('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
-		<div class="category_description">
+		<div class="category_desc">
 			<!-- @TODO Verify image path defaults/overrides/positions -->
 			<?php if ($this->params->get('show_description_image') && $this->item->category_params->get('image')) : ?>
 				<img src="<?php echo $this->item->category_params->get('image'); ?>"/>
@@ -43,7 +41,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		</div>
 	<?php endif; ?>
 
-	<div class="jcat-articles <?php echo $pageClass;?>">
+	<div class="cat-items">
 		<?php echo $this->loadTemplate('articles'); ?>
 	</div>
 
