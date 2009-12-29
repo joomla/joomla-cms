@@ -566,7 +566,7 @@ abstract class JHtmlSelect
 				$html .= $baseIndent . '<option value="'
 					. ($options['option.key.toHtml'] ? htmlspecialchars($key) : $key) . '"'
 					. $extra . '>'
-					. ($options['option.text.toHtml'] ? htmlentities(html_entity_decode($text)) : $text)
+					. ($options['option.text.toHtml'] ? htmlentities(html_entity_decode($text), ENT_COMPAT, 'UTF-8') : $text)
 					. '</option>'
 					. $options['format.eol']
 				;
