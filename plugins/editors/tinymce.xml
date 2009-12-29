@@ -455,18 +455,29 @@
 				value="1">Show</option>
 		</field>
 		<field
-			type="spacer" />
-		<field
-			name="tinybrowser"
+			name="blockquote"
 			type="radio"
 			default="1"
-			label="Tinybrowser"
-			description="Turn on/off Tinybrowser for images/links">
+			label="Blockquote"
+			description="Turn on/off Blockquotes">
 			<option
 				value="0">Off</option>
 			<option
 				value="1">On</option>
 		</field>
+		<field
+			name="wordcount"
+			type="radio"
+			default="1"
+			label="Wordcount"
+			description="Turn on/off Wordcount">
+			<option
+				value="0">Off</option>
+			<option
+				value="1">On</option>
+		</field>
+		<field
+			type="spacer" />
 		<field
 			name="advimage"
 			type="radio"

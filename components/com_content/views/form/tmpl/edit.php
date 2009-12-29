@@ -45,6 +45,13 @@ function submitbutton(task) {
 			<?php echo $this->form->getInput('title'); ?>
 			</div>
 
+		<?php if (is_null($this->item->id)):?>
+			<div class="formelm">
+			<?php echo $this->form->getLabel('alias'); ?>
+			<?php echo $this->form->getInput('alias'); ?>
+			</div>
+		<?php endif; ?>
+
            	<div class="formelm_buttons">
 			<button type="button" onclick="submitbutton('article.save')">
 				<?php echo JText::_('JSave') ?>
@@ -93,6 +100,14 @@ function submitbutton(task) {
 		<?php echo $this->form->getLabel('ordering'); ?>
 		<?php echo $this->form->getInput('ordering'); ?>
 		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend><?php echo JText::_('Language'); ?></legend>
+        <div class="formelm_area">
+		<?php echo $this->form->getLabel('language'); ?>
+		<?php echo $this->form->getInput('language'); ?>
+	    </div>
 	</fieldset>
 
 	<fieldset>

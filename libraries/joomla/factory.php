@@ -274,7 +274,8 @@ abstract class JFactory
 			$cache_time = 0;
 		}
 		$simplepie = new SimplePie($url, JPATH_CACHE, $cache_time);
-		if ($simplepie->data) {
+		$simplepie->force_feed(true);
+		if ($simplepie->init()) {
 			return $simplepie;
 		} else {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('ERROR LOADING FEED DATA'));

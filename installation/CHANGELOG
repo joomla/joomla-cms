@@ -31,6 +31,10 @@ $ -> Language fix or change
  # Fixed reference bug in JCategories
  # Fixed UTF-8 bug in dropdown selects
  # Fixed cosmetic bug in includes/router.php
+ # refactored TinyMCE - thanks Jean-Marie
+ # fixed SimplePie library - thanks Jean-Marie
+ # improved frontend article editing - thanks Jean-Marie
+ # fixed reference bug and spelling mistake in com_plugins
 
 29-Dec-2009 Sam Moffatt
  + Added semicolon after access in configuration.php-dist

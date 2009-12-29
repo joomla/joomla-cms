@@ -148,6 +148,16 @@
 			default="0" />
 
 		<field
+			name="language"
+			type="contentlanguage"
+			label="JField_Language_Label"
+			description="JField_Language_Desc"
+			class="inputbox"
+			default="">
+			<option value="">JOption_Default_Language</option>
+		</field>
+
+		<field
 			id="metakey"
 			name="metakey"
 			type="textarea"
