@@ -351,7 +351,9 @@ class MenusModelItem extends JModelForm
 			}
 
 			// Now load the component params.
-			$path = JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'config.xml');
+			if ($isNew=false){
+				$path = JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS. $option.DS.'config.xml');}
+			else $path='null';
 			if (JFile::exists($path))
 			{
 				if (empty($form))

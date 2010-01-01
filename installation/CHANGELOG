@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jan-2009 Mark Dexter
+# Fix bug where article global parameters were not showing 
+
 29-Dec-2009 Mark Dexter
 # Add correct initial Article parameters in joomla.sql
 + Partial implementation of Category List Layout
