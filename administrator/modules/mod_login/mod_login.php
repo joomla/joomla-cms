@@ -31,27 +31,22 @@ $langs = JHtml::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 		$document->addScriptDeclaration($langScript);
 		JHtml::_('script', 'openid.js');
 endif; ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" style="clear:both">
-	<p id="form-login-username">
-		<label for="mod-login-username"><?php echo JText::_('Username'); ?></label>
+<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login">
+	<fieldset class="loginform">
+		<label id="mod-login-username-lbl" for="mod-login-username"><?php echo JText::_('Username'); ?></label>
 		<input name="username" id="mod-login-username" type="text" class="inputbox" size="15" />
-	</p>
-
-	<p id="form-login-password">
-		<label for="mod-login-password"><?php echo JText::_('Password'); ?></label>
+		<label id="mod-login-password-lbl" for="mod-login-password"><?php echo JText::_('Password'); ?></label>
 		<input name="passwd" id="mod-login-password" type="password" class="inputbox" size="15" />
-	</p>
 	<?php
-	if ($error = JError::getError(true)) {
-		echo '<p id="login-error-message">';
-		echo $error->get('message');
-		echo '<p>';
-	}
+	// Remove this since sys error messge in effect?
+	//if ($error = JError::getError(true)) {
+	//	echo '<p id="login-error-message">';
+	//	echo $error->get('message');
+	//	echo '<p>';
+	// }
 	?>
-	<p id="form-login-language">
 		<label for="lang"><?php echo JText::_('Language'); ?></label>
 		<?php echo $langs; ?>
-	</p>
 	<div class="button-holder">
 		<div class="button1">
 			<div class="next">
@@ -66,4 +61,5 @@ endif; ?>
 	<input type="hidden" name="option" value="com_login" />
 	<input type="hidden" name="task" value="login" />
 	<?php echo JHtml::_('form.token'); ?>
+	</fieldset>
 </form>

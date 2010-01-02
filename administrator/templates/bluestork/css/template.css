@@ -210,7 +210,8 @@ p.error {
 	height: 54px;
 }
 
-#border-top .title,#border-top .title a {
+#border-top .title,
+#border-top .title a {
 	font-size: 1.364em;
 	font-weight: bold;
 	color: #fff;
@@ -280,7 +281,7 @@ p.footer-tip {
 }
 
 #submenu-box {
-	background: #f6f6f6;
+	background: #f4f4f4;
 	margin-bottom: 10px;
 }
 
@@ -1857,6 +1858,7 @@ p {
 	max-width: 300px;
 	margin-left: 10px;
 	margin-right: 10px;
+	background-color: #fff;
 }
 
 #section-box .m {
@@ -1868,12 +1870,51 @@ p {
 	padding: 0;
 }
 
+/* Login page */
 #lock {
 	background: url(../images/j_login_lock.png) 50% 0 no-repeat;
 	width: 150px;
 	height: 137px;
 }
 
+fieldset.loginform {
+	border: 0 none;
+	width: 210px;
+}
+
+label#mod-login-password-lbl,
+label#mod-login-username-lbl {
+	display:block;
+	margin:5px 5px 15px 0;
+}
+
+input#mod-login-username,
+input#mod-login-password,
+select#lang {
+	float:right;
+	width: 100px;
+}
+
+.login-submit {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	width: 0px;
+	height: 0px;
+}
+
+#form-login .button-holder {
+	float: right;
+	padding-right: 5px;
+	clear:right;
+	margin-top: 10px;
+}
+
+p#login-error-message {
+	
+}
+
+/*
 .button {
 	text-align: right;
 }
@@ -1912,10 +1953,7 @@ p {
 	font-weight: bold;
 }
 
-#form-login .button-holder {
-	float: right;
-	padding-right: 15px;
-}
+
 
 #form-login div.button1,
 #form-login div.button1 div.next {
@@ -1941,13 +1979,8 @@ p#login-error-message {
 	
 }
 
-.login-submit {
-	border: 0;
-	padding: 0;
-	margin: 0;
-	width: 0px;
-	height: 0px;
-}
+
+*/
 
 /* OpenID icon style */
 input.system-openid,input.com-system-openid {

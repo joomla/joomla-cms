@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 02-Jan-2009 Ron Severdia
 # Fixed bug in CSS for ACL, general CSS cleanup & reformat
+# Visual cleanup on borders and login page
 
 01-Jan-2009 Mark Dexter
 # Fix bug where article global parameters were not showing 

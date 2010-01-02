@@ -49,7 +49,7 @@ $app = &JFactory::getApplication();
 	<div id="border-top" class="h_blue">
 		<div>
 			<div>
-				<span class="title"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') : JText::_('Administration'); ?></span>
+				<span class="title"><a href="index.php"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') : JText::_('Administration'); ?></a></span>
 			</div>
 		</div>
 	</div>
