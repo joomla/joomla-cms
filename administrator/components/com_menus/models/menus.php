@@ -83,7 +83,7 @@ class MenusModelMenus extends JModelList
 	 */
 	function &getModules()
 	{
-		$model	= &JModel::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
+		$model	= JModel::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
 		$result	= &$model->getModules();
 
 		return $result;

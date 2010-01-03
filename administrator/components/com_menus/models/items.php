@@ -105,8 +105,6 @@ class MenusModelItems extends JModelList
 		$query->select('c.name AS componentname');
 		$query->join('LEFT', '`#__components` AS c ON c.id = a.component_id');
 
-
-
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
@@ -123,25 +121,20 @@ class MenusModelItems extends JModelList
 		$published = $this->getState('filter.published');
 		if (is_numeric($published)) {
 			$query->where('a.published = '.(int) $published);
-		}
-		else if ($published === '') {
+		} else if ($published === '') {
 			$query->where('(a.published IN (0, 1))');
 		}
 
 		// Filter by search in title, alias or id
-		if ($search = trim($this->getState('filter.search')))
-		{
+		if ($search = trim($this->getState('filter.search'))) {
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
-			}
-			else if (stripos($search, 'link:') === 0)
-			{
+			} else if (stripos($search, 'link:') === 0) {
 				if ($search = substr($search, 5)) {
 					$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
 					$query->where('a.link LIKE '.$search);
 				}
-			}
-			else {
+			} else {
 				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
 				$query->where('a.title LIKE '.$search.' OR a.alias LIKE '.$search);
 			}

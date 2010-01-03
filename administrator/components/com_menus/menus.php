@@ -7,6 +7,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access.
 defined('_JEXEC') or die;
 
 // Access check.
@@ -18,6 +19,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_menus')) {
 jimport('joomla.application.component.controller');
 
 // Execute the task.
-$controller	= &JController::getInstance('Menus');
+$controller	= JController::getInstance('Menus');
 $controller->execute(JRequest::getVar('task'));
 $controller->redirect();

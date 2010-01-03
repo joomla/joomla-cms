@@ -46,8 +46,7 @@ class MenusModelMenu extends JModelForm
 	 */
 	protected function _populateState()
 	{
-		$app	= &JFactory::getApplication('administrator');
-		$params	= &JComponentHelper::getParams('com_menus');
+		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
 		if (!($id = (int)$app->getUserState('com_menus.edit.menu.id'))) {
@@ -56,6 +55,7 @@ class MenusModelMenu extends JModelForm
 		$this->setState('menu.id', $id);
 
 		// Load the parameters.
+		$params = JComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
 	}
 
@@ -177,8 +177,7 @@ class MenusModelMenu extends JModelForm
 		$table = &$this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($itemIds as $itemId)
-		{
+		foreach ($itemIds as $itemId) {
 			// TODO: Delete the menu associations - Menu items and Modules
 
 			if (!$table->delete($itemId))
@@ -209,12 +208,10 @@ class MenusModelMenu extends JModelForm
 
 		$result = array();
 
-		foreach ($modules as &$module)
-		{
+		foreach ($modules as &$module) {
 			if ($module->params[0] == '{') {
 				$params = JArrayHelper::toObject(json_decode($module->params, true), 'JObject');
-			}
-			else {
+			} else {
 				$params = new JParameter($module->params);
 			}
 
