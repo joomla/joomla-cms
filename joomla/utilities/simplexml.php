@@ -73,6 +73,7 @@ defined('JPATH_BASE') or die;
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since 1.5
+ * @deprecated
  */
 class JSimpleXML extends JObject
 {
@@ -349,6 +350,7 @@ class JSimpleXML extends JObject
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since 1.5
+ * @deprecated
  */
 class JSimpleXMLElement extends JObject
 {
