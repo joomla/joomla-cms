@@ -65,6 +65,9 @@ class JFormFieldList extends JFormField
 		if ($m = $this->_element->attributes('multiple')) {
 			$attributes	.= 'multiple="multiple"';
 		}
+		if ($v = $this->_element->attributes('onchange')) {
+			$attributes	.= 'onchange="'.$v.'"';
+		}
 
 		if ($disabled || $readonly) {
 			$attributes .= ' disabled="disabled"';
