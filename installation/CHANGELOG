@@ -29,7 +29,11 @@ $ -> Language fix or change
 
 03-Jan-2009 Hannes Papenberg
 ^ Deprecated JSimpleXML - Due to time restraints, this does unfortunately
- not mean that we are removing it from use in core code in 1.6 yet. 
+ not mean that we are removing it from use in core code in 1.6 yet.
+- Removed JElementAssetgroups JParameter Element. This is a leftover from earlier ACL tests.
+^ Set a default date format for JFormFieldCalendar
+# Fixed JElementComponentLayouts. Its now using the new #__template_styles table
+ 
 
 02-Jan-2009 Ron Severdia
 # Fixed bug in CSS for ACL, general CSS cleanup & reformat
