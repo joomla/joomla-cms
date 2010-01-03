@@ -294,8 +294,8 @@ class ModulesModelModule extends JModelForm
 		$formFile		= JPath::clean($client->path.'/modules/'.$module.'/'.$module.'.xml');
 
 		// Load the core and/or local language file(s).
-		$lang->load('tpl_'.$module, JPATH_ADMINISTRATOR);
-		$lang->load('joomla', $client->path.DS.'modules'.DS.$module);
+		$lang->load($module, $client->path);
+		$lang->load('joomla', $client->path.'/modules/'.$module);
 
 		if (file_exists($formFile))
 		{
