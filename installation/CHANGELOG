@@ -27,19 +27,21 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-03-Jan-2009 Hannes Papenberg
+04-Jan-2010 Andrew Eddie
+ ^ Applied [#19231] JFormFieldList and onchange behavior.
+
+03-Jan-2010 Hannes Papenberg
 ^ Deprecated JSimpleXML - Due to time restraints, this does unfortunately
  not mean that we are removing it from use in core code in 1.6 yet.
 - Removed JElementAssetgroups JParameter Element. This is a leftover from earlier ACL tests.
 ^ Set a default date format for JFormFieldCalendar
 # Fixed JElementComponentLayouts. Its now using the new #__template_styles table
  
-
-02-Jan-2009 Ron Severdia
+02-Jan-2010 Ron Severdia
 # Fixed bug in CSS for ACL, general CSS cleanup & reformat
 # Visual cleanup on borders and login page
 
-01-Jan-2009 Mark Dexter
+01-Jan-2010 Mark Dexter
 # Fix bug where article global parameters were not showing 
 
 29-Dec-2009 Mark Dexter
