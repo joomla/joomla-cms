@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Jan-2009 Hannes Papenberg
+^ Deprecated JSimpleXML - Due to time restraints, this does unfortunately
+ not mean that we are removing it from use in core code in 1.6 yet. 
+
 02-Jan-2009 Ron Severdia
 # Fixed bug in CSS for ACL, general CSS cleanup & reformat
 # Visual cleanup on borders and login page
