@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module">
+<install
+	type="module">
 	<name>Popular Items</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -10,7 +11,8 @@
 	<version>1.6.0</version>
 	<description>DESCPOPULARITEMS</description>
 	<files>
-		<filename module="mod_popular">mod_popular.php</filename>
+		<filename
+			module="mod_popular">mod_popular.php</filename>
 	</files>
 	<fields
 		group="advanced">
@@ -19,6 +21,13 @@
 			type="modulelayout"
 			label="JField_Alt_Layout_Label"
 			description="JField_Alt_Module_Layout_Desc" />
+
+		<field
+			name="limit"
+			type="text"
+			default="10"
+			label="Module_Field_Limit_Label"
+			description="Module_Field_Limit_Desc" />
 
 		<field
 			name="moduleclass_sfx"
