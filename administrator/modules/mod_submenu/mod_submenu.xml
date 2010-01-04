@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0" client="administrator">
+<install
+	type="module"
+	version="1.6.0"
+	client="administrator">
 	<name>Admin Submenu</name>
 	<author>Joomla! Project</author>
 	<creationDate>Feb 2006</creationDate>
@@ -10,7 +13,8 @@
 	<version>1.6.0</version>
 	<description>This module shows the submenu navigation module</description>
 	<files>
-		<filename module="mod_submenu">mod_submenu.php</filename>
+		<filename
+			module="mod_submenu">mod_submenu.php</filename>
 	</files>
 	<fields
 		group="advanced">
