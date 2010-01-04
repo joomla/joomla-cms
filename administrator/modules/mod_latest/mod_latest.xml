@@ -11,35 +11,55 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCLATESTNEWS</description>
+	<description>MOD_LATEST_DESC</description>
 	<files>
 		<filename
 			module="mod_latest">mod_latest.php</filename>
 	</files>
 	<fields>
 		<field
+			name="count"
+			type="text"
+			default="5"
+			label="Mod_Latest_Count_label"
+			description="Mod_Latest_Count_Desc" />
+		<field
 			name="ordering"
 			type="list"
-			default="create_dsc"
-			label="Ordering"
-			description="Ordering options">
+			default="c_dsc"
+			label="Mod_Latest_Ordering_label"
+			description="Mod_Latest_Ordering_Desc">
 			<option
-				value="c_dsc">Recently Added First</option>
+				value="c_dsc">Mod_Latest_Recently_Added_First</option>
 			<option
-				value="m_dsc">Recently Modified First</option>
+				value="m_dsc">Mod_Latest_Recently_Modified_First</option>
+		</field>
+		<field
+			id="catid"
+			name="catid"
+			type="category"
+			default=""
+			extension="mod_latest"
+			label="Mod_Latest_Field_Category_Label"
+			description="Mod_Latest_Field_Category_Desc"
+			class="inputbox">
+			<option
+				value="">JOption_Any_Category</option>
+			<option
+				value="0">JOption_No_Category</option>
 		</field>
 		<field
 			name="user_id"
 			type="list"
 			default="0"
-			label="Authors"
-			description="A filter for the authors">
+			label="Mod_Latest_Authors_Label"
+			description="Mod_Latest_Authors_Desc">
 			<option
-				value="0">Anyone</option>
+				value="0">Mod_Latest_Anyone</option>
 			<option
-				value="by_me">Added or modified by me</option>
+				value="by_me">Mod_Latest_Added_or_modified_by_me</option>
 			<option
-				value="not_me">Not added or modified by me</option>
+				value="not_me">Mod_Latest_Not_added_or_modified_by_me</option>
 		</field>
 	</fields>
 	<fields
@@ -64,7 +84,7 @@
 			label="Module_Field_Caching_Label"
 			description="Module_Field_Caching_Desc">
 			<option
-				value="0">No caching</option>
+				value="0">No_Caching</option>
 		</field>
 	</fields>
 </install>

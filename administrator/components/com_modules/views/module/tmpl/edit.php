@@ -80,7 +80,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 					<label>
 						<?php echo JText::_('Modules_Module_Description'); ?>
 					</label>
-					<?php echo $this->escape($text); ?>
+					<?php echo $this->escape(JText::_($text)); ?>
 				<?php endif; ?>
 			<?php else : ?>
 				<?php echo JText::_('Modules_XML_data_not_available'); ?>
