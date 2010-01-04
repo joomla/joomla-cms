@@ -36,30 +36,30 @@ JHtml::_('behavior.formvalidation');
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('Categories_Fieldset_Details');?></legend>
 
-					<?php echo $this->form->getLabel('title'); ?>
-					<?php echo $this->form->getInput('title'); ?>
+			<?php echo $this->form->getLabel('title'); ?>
+			<?php echo $this->form->getInput('title'); ?>
 
-					<?php echo $this->form->getLabel('alias'); ?>
-					<?php echo $this->form->getInput('alias'); ?>
+			<?php echo $this->form->getLabel('alias'); ?>
+			<?php echo $this->form->getInput('alias'); ?>
 
-					<?php echo $this->form->getLabel('extension'); ?>
-					<?php echo $this->form->getInput('extension'); ?>
+			<?php echo $this->form->getLabel('extension'); ?>
+			<?php echo $this->form->getInput('extension'); ?>
 
-					<?php echo $this->form->getLabel('parent_id'); ?>
-					<?php echo $this->form->getInput('parent_id'); ?>
+			<?php echo $this->form->getLabel('parent_id'); ?>
+			<?php echo $this->form->getInput('parent_id'); ?>
 
-					<?php echo $this->form->getLabel('published'); ?>
-					<?php echo $this->form->getInput('published'); ?>
+			<?php echo $this->form->getLabel('published'); ?>
+			<?php echo $this->form->getInput('published'); ?>
 
-					<?php echo $this->form->getLabel('access'); ?>
-					<?php echo $this->form->getInput('access'); ?>
+			<?php echo $this->form->getLabel('access'); ?>
+			<?php echo $this->form->getInput('access'); ?>
 
-					<?php echo $this->loadTemplate('options'); ?>
+			<?php echo $this->loadTemplate('options'); ?>
 
-					<div class="clr"></div>
-					<?php echo $this->form->getLabel('description'); ?>
-					<div class="clr"></div>
-					<?php echo $this->form->getInput('description'); ?>
+			<div class="clr"></div>
+			<?php echo $this->form->getLabel('description'); ?>
+			<div class="clr"></div>
+			<?php echo $this->form->getInput('description'); ?>
 		</fieldset>
 	</div>
 
