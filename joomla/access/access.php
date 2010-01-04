@@ -167,6 +167,39 @@ class JAccess
 	}
 
 	/**
+	 * Method to return a list of user Ids contained in a Group
+	 *
+	 * @param	int		The group Id
+	 * @param	boolean	Recursively include all child groups (optional)
+	 *
+	 * @return	array
+	 * @todo	This method should move somewhere else.
+	 */
+	public function getUsersByGroup($groupId, $recursive = false)
+	{
+		// Get a database object.
+		$db	= &JFactory::getDbo();
+
+		$test = $recursive ? '>=' : '=';
+		// First find the users contained in the group
+		$query = new JQuery;
+		$query->select('DISTINCT(user_id)');
+		$query->from('#__usergroups as ug1');
+		$query->join('INNER','#__usergroups AS ug2 ON ug2.lft'.$test.'ug1.lft AND ug1.rgt'.$test.'ug2.rgt');
+		$query->join('INNER','#__user_usergroup_map AS m ON ug2.id=m.group_id');
+		$query->where('ug1.id='.$db->Quote($groupId));
+
+		$db->setQuery($query);
+
+		$result = $db->loadResultArray();
+
+		// Clean up any NULL values, just in case
+		JArrayHelper::toInteger($result);
+
+		return $result;
+	}
+
+	/**
 	 * Method to return a list of view levels for which the user is authorised.
 	 *
 	 * @param	integer	Id of the user for which to get the list of authorised view levels.
