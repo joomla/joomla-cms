@@ -22,40 +22,34 @@ class JMenu extends JObject
 	/**
 	 * Array to hold the menu items
 	 *
-	 * @access private
 	 * @param array
 	 */
-	var $_items = array ();
+	protected $_items = array ();
 
 	/**
 	 * Identifier of the default menu item
 	 *
-	 * @access private
 	 * @param integer
 	 */
-	var $_default = 0;
+	protected $_default = 0;
 
 	/**
 	 * Identifier of the active menu item
 	 *
-	 * @access private
 	 * @param integer
 	 */
-	var $_active = 0;
-
+	protected $_active = 0;
 
 	/**
 	 * Class constructor
 	 *
-	 * @access public
 	 * @return boolean True on success
 	 */
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		$this->load(); //load the menu items
 
-		foreach ($this->_items as $k => $item)
-		{
+		foreach ($this->_items as $k => $item) {
 			if ($item->home) {
 				$this->_default = $item->id;
 			}
@@ -65,9 +59,9 @@ class JMenu extends JObject
 	/**
 	 * Returns a JMenu object
 	 *
-	 * @param   string  $client  The name of the client
-	 * @param array     $options An associative array of options
-	 * @return JMenu 	A menu object.
+	 * @param   string	The name of the client
+	 * @param	array	An associative array of options
+	 * @return	JMenu	A menu object.
 	 * @since	1.5
 	 */
 	public static function getInstance($client, $options = array())
@@ -78,22 +72,18 @@ class JMenu extends JObject
 			$instances = array();
 		}
 
-		if (empty($instances[$client]))
-		{
+		if (empty($instances[$client])) {
 			//Load the router object
 			$info = &JApplicationHelper::getClientInfo($client, true);
 
-			$path = $info->path.DS.'includes'.DS.'menu.php';
-			if (file_exists($path))
-			{
+			$path = $info->path.'/includes/menu.php';
+			if (file_exists($path)) {
 				require_once $path;
 
 				// Create a JPathway object
 				$classname = 'JMenu'.ucfirst($client);
 				$instance = new $classname($options);
-			}
-			else
-			{
+			} else {
 				//$error = JError::raiseError(500, 'Unable to load menu: '.$client);
 				$error = null; //Jinx : need to fix this
 				return $error;
@@ -126,10 +116,9 @@ class JMenu extends JObject
 	 * Set the default item by id
 	 *
 	 * @param int The item id
-	 * @access public
 	 * @return True, if succesfull
 	 */
-	function setDefault($id)
+	public function setDefault($id)
 	{
 		if (isset($this->_items[$id])) {
 			$this->_default = $id;
@@ -155,13 +144,11 @@ class JMenu extends JObject
 	 * Set the default item by id
 	 *
 	 * @param int The item id
-	 * @access public
 	 * @return If successfull the active item, otherwise null
 	 */
-	function setActive($id)
+	public function setActive($id)
 	{
-		if (isset($this->_items[$id]))
-		{
+		if (isset($this->_items[$id])) {
 			$this->_active = $id;
 			$result = &$this->_items[$id];
 			return $result;
@@ -173,11 +160,9 @@ class JMenu extends JObject
 	/**
 	 * Get menu item by id
 	 *
-	 * @access public
-	 *
 	 * @return object The item object
 	 */
-	function getActive()
+	public function getActive()
 	{
 		if ($this->_active) {
 			$item = &$this->_items[$this->_active];
@@ -200,14 +185,12 @@ class JMenu extends JObject
 	{
 		$items = null;
 
-		foreach ($this->_items as  $item)
-		{
+		foreach ($this->_items as $item) {
 			if (!is_object($item)) {
 				continue;
 			}
 
-			if ($item->$attribute == $value)
-			{
+			if ($item->$attribute == $value) {
 				if ($firstonly) {
 					return $item;
 				}
@@ -222,11 +205,10 @@ class JMenu extends JObject
 	/**
 	 * Gets the parameter object for a certain menu item
 	 *
-	 * @access public
-	 * @param int The item id
-	 * @return object A JParameter object
+	 * @param	int		The item id
+	 * @return	object	A JParameter object
 	 */
-	function getParams($id)
+	public function getParams($id)
 	{
 		$ini = '';
 		if ($menu = &$this->getItem($id)) {
@@ -239,10 +221,10 @@ class JMenu extends JObject
 	/**
 	 * Getter for the menu array
 	 *
-	 * @access public
 	 * @return array
 	 */
-	function getMenu() {
+	public function getMenu()
+	{
 		return $this->_items;
 	}
 
@@ -250,11 +232,10 @@ class JMenu extends JObject
 	 * Method to check JMenu object authorization against an access control
 	 * object and optionally an access extension object
 	 *
-	 * @access 	public
 	 * @param	integer	$id			The menu id
 	 * @return	boolean	True if authorized
 	 */
-	function authorise($id)
+	public function authorise($id)
 	{
 		$menu	= &$this->getItem($id);
 		$user	= &JFactory::getUser();
@@ -270,10 +251,9 @@ class JMenu extends JObject
 	 * Loads the menu items
 	 *
 	 * @abstract
-	 * @access public
 	 * @return array
 	 */
-	function load()
+	public function load()
 	{
 		return array();
 	}
