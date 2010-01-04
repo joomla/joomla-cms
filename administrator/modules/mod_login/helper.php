@@ -36,7 +36,7 @@ abstract class modLoginHelper
 	 */
 	public static function getReturnURI()
 	{
-		$uri = &JFactory::getURI();
+		$uri = JFactory::getURI();
 		$return = 'index.php'.$uri->toString(array('query'));
 		if($return != 'index.php?option=com_login'){
 			return base64_encode($return);

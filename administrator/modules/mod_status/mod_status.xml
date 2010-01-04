@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.5.0">
+<install
+	type="module"
+	version="1.6.0"
+	client="administrator">
 	<name>User Status</name>
 	<author>Joomla! Project</author>
 	<creationDate>Feb 2006</creationDate>
@@ -10,7 +13,8 @@
 	<version>1.6.0</version>
 	<description>MOD_STATUS_DESC</description>
 	<files>
-		<filename module="mod_status">mod_status.php</filename>
+		<filename
+			module="mod_status">mod_status.php</filename>
 	</files>
 	<fields
 		group="advanced">

@@ -11,15 +11,16 @@ defined('_JEXEC') or die;
 /**
  * @package		Joomla.Site
  * @subpackage	mod_unread
+ * @since		1.6
  */
-class ModUnreadHelper
+abstract class ModUnreadHelper
 {
 	/**
 	 * Count the number of unread messages.
 	 *
 	 * @return	mixed	The number of unread messages, or false on error.
 	 */
-	function getCount()
+	public static function getCount()
 	{
 		jimport('joomla.database.query');
 

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="module" version="1.0.0">
+<install
+	type="module"
+	version="1.6.0"
+	client="administrator">
 	<name>Quick Icons</name>
 	<author>Joomla! Project</author>
 	<creationDate>Nov 2005</creationDate>
@@ -10,7 +13,8 @@
 	<version>1.6.0</version>
 	<description>This module shows Quick Icons that are visible on the admin area home page</description>
 	<files>
-		<filename module="mod_quickicon">mod_quickicon.php</filename>
+		<filename
+			module="mod_quickicon">mod_quickicon.php</filename>
 	</files>
 	<fields
 		group="advanced">

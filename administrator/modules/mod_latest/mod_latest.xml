@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install
-	type="module">
+	type="module"
+	version="1.6.0"
+	client="administrator">
 	<name>Latest News</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>

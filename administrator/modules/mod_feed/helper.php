@@ -1,28 +1,31 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Administrator
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/** ensure this file is being included by a parent file */
+// No direct access.
 defined('_JEXEC') or die;
 
-class modFeedHelper
+/**
+ * @package		Joomla.Administrator
+ * @subpackage	mod_feed
+ */
+abstract class modFeedHelper
 {
-	function render($params)
+	public static function render($params)
 	{
 		// module params
 		$rssurl				= $params->get('rssurl', '');
 		$rssitems			= $params->get('rssitems', 5);
-		$rssdesc				= $params->get('rssdesc', 1);
+		$rssdesc			= $params->get('rssdesc', 1);
 		$rssimage			= $params->get('rssimage', 1);
-		$rssitemdesc			= $params->get('rssitemdesc', 1);
+		$rssitemdesc		= $params->get('rssitemdesc', 1);
 		$words				= $params->def('word_count', 0);
 		$rsstitle			= $params->get('rsstitle', 1);
 		$rssrtl				= $params->get('rssrtl', 0);
-		$moduleclass_sfx		= $params->get('moduleclass_sfx', '');
+		$moduleclass_sfx	= $params->get('moduleclass_sfx', '');
 
 		//  get RSS parsed object
 		$options = array();

@@ -11,15 +11,16 @@ defined('_JEXEC') or die;
 /**
  * @package		Joomla.Site
  * @subpackage	mod_online
+ * @since		1.6
  */
-class modOnlineHelper
+abstract class modOnlineHelper
 {
 	/**
 	 * Count the number of users online.
 	 *
 	 * @return	mixed	The number of users online, or false on error.
 	 */
-	function getOnlineCount()
+	public static function getOnlineCount()
 	{
 		jimport('joomla.database.query');
 		$db			= JFactory::getDbo();

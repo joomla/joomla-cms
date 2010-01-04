@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 /**
  * @package		Joomla.Administrator
  * @subpackage	mod_popular
+ * @since		1.6
  */
-class modPopularHelper
+abstract class modPopularHelper
 {
 	/**
 	 * Get a list of the most popular articles
@@ -21,7 +22,7 @@ class modPopularHelper
 	 *
 	 * @return	array
 	 */
-	function getList($params)
+	public static function getList($params)
 	{
 		jimport('joomla.database.query');
 

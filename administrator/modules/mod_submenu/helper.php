@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 /**
  * @package		Joomla.Administrator
  * @subpackage	mod_submenu
+ * @since		1.6
  */
 abstract class modSubmenuHelper
 {
@@ -19,7 +20,7 @@ abstract class modSubmenuHelper
 	 *
 	 * @return	mixed	An arry of menu items, or false on error.
 	 */
-	static function getItems()
+	public static function getItems()
 	{
 		// Initialise variables.
 		$menu = JToolBar::getInstance('submenu');
