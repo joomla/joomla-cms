@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 class modPopularHelper
 {
 	/**
-	 * Get a list of the logged in users
+	 * Get a list of the most popular articles
 	 *
 	 * @param	JObject		The module parameters.
 	 *

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the mod_online functions only once.
 require_once dirname(__FILE__).'/helper.php';
 
-// Get the logged-in users.
+// Get module data.
 if ($rows = modPopularHelper::getList($params)) {
 	// Render the module
 	require JModuleHelper::getLayoutPath('mod_popular', $params->get('layout', 'default'));

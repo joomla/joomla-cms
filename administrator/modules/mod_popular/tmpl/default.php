@@ -7,7 +7,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
 ?>
 <table class="adminlist" summary="<?php echo JText::_('MOD_POPULAR_TABLE_SUMMARY'); ?>">
