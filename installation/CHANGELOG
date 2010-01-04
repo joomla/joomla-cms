@@ -31,6 +31,7 @@ $ -> Language fix or change
  ^ Accepted [#19268] Refactoring mod_popular in the BackEnd.
  ^ Added support for layout and modal forms in JControllerForm::edit method.
  ^ Fixes to modal module edit form.
+ ^ Accepted [#19263] Refactoring mod_online in the BackEnd.
 
 04-Jan-2010 Andrew Eddie
  ^ Applied [#19231] JFormFieldList and onchange behavior.
