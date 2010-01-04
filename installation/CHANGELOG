@@ -34,6 +34,7 @@ $ -> Language fix or change
  ^ Accepted [#19263] Refactoring mod_online in the BackEnd.
  ^ Accepted [#19279] Refactored mod_title, mod_toolbar and mod_unread admin modules to MVC.
  ^ Accepted [#19275] Refactoring Administrator/mod_submenu
+ ^ Accepted [#19274] Refactoring Administrator/mod_login; fixed return URL on login/logout.
 
 04-Jan-2010 Andrew Eddie
  ^ Applied [#19231] JFormFieldList and onchange behavior.

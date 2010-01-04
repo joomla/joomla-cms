@@ -2,6 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
+ * @subpackage	mod_login
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -9,57 +10,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.language.helper');
-//$browserLang = JLanguageHelper::detectLanguage();
-// forced to default
-$browserLang = null;
-$lang = &JFactory::getLanguage();
+// Include the syndicate functions only once
+require_once dirname(__FILE__).'/helper.php';
 
-$languages = array();
-$languages = JLanguageHelper::createLanguageList($browserLang);
-array_unshift($languages, JHtml::_('select.option',  '', JText::_('Default')));
-$langs = JHtml::_('select.genericlist',   $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang);
-?>
-<?php if (JPluginHelper::isEnabled('authentication', 'openid')) :
-		$lang->load('plg_authentication_openid', JPATH_ADMINISTRATOR);
-		$langScript = 	'var JLanguage = {};'.
-						' JLanguage.WHAT_IS_OPENID = \''.JText::_('WHAT_IS_OPENID').'\';'.
-						' JLanguage.LOGIN_WITH_OPENID = \''.JText::_('LOGIN_WITH_OPENID').'\';'.
-						' JLanguage.NORMAL_LOGIN = \''.JText::_('NORMAL_LOGIN').'\';'.
-						' var modlogin = 1;';
-		$document = &JFactory::getDocument();
-		$document->addScriptDeclaration($langScript);
-		JHtml::_('script', 'openid.js');
-endif; ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login">
-	<fieldset class="loginform">
-		<label id="mod-login-username-lbl" for="mod-login-username"><?php echo JText::_('Username'); ?></label>
-		<input name="username" id="mod-login-username" type="text" class="inputbox" size="15" />
-		<label id="mod-login-password-lbl" for="mod-login-password"><?php echo JText::_('Password'); ?></label>
-		<input name="passwd" id="mod-login-password" type="password" class="inputbox" size="15" />
-	<?php
-	// Remove this since sys error messge in effect?
-	//if ($error = JError::getError(true)) {
-	//	echo '<p id="login-error-message">';
-	//	echo $error->get('message');
-	//	echo '<p>';
-	// }
-	?>
-		<label for="lang"><?php echo JText::_('Language'); ?></label>
-		<?php echo $langs; ?>
-	<div class="button-holder">
-		<div class="button1">
-			<div class="next">
-				<a href="#" onclick="login.submit();">
-					<?php echo JText::_('Log_in'); ?></a>
-
-			</div>
-		</div>
-	</div>
-	<div class="clr"></div>
-	<input type="submit" class="login-submit" value="<?php echo JText::_('Log_in'); ?>" />
-	<input type="hidden" name="option" value="com_login" />
-	<input type="hidden" name="task" value="login" />
-	<?php echo JHtml::_('form.token'); ?>
-	</fieldset>
-</form>
+$langs	= modLoginHelper::getLanguageList();
+$return	= modLoginHelper::getReturnURI();
+require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));

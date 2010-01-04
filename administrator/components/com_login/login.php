@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 // Require the base controller
 jimport('joomla.application.component.controller');
 
-// Might be cool at some point to cache this input URL and redirect there after successful login.
 $task = JRequest::getCmd('task');
 if ($task != 'login' && $task != 'logout')
 {

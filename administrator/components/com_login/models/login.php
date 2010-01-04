@@ -34,5 +34,8 @@ class LoginModelLogin extends JModel
 		$credentials['username'] = JRequest::getVar('username', '', 'method', 'username');
 		$credentials['password'] = JRequest::getVar('passwd', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$this->setState('credentials',$credentials);
+		
+		$return = base64_decode(JRequest::getString('return', 'index.php'));
+		$this->setState('return', $return);
 	}
 }
