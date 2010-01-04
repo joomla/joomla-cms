@@ -9,8 +9,7 @@
 
 // No direct access.
 defined('_JEXEC') or die;
-
-// Get the component title div
-$title = JFactory::getApplication()->get('JComponentTitle');
-
-require JModuleHelper::getLayoutPath('mod_title', $params->get('layout', 'default'));
+?>
+<?php if (!empty($title)) : ?>
+    <?php echo $title; ?>
+<?php endif; ?>

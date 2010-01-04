@@ -32,6 +32,7 @@ $ -> Language fix or change
  ^ Added support for layout and modal forms in JControllerForm::edit method.
  ^ Fixes to modal module edit form.
  ^ Accepted [#19263] Refactoring mod_online in the BackEnd.
+ ^ Accepted [#19279] Refactored mod_title, mod_toolbar and mod_unread admin modules to MVC.
 
 04-Jan-2010 Andrew Eddie
  ^ Applied [#19231] JFormFieldList and onchange behavior.

@@ -2,6 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
+ * @subpackage	mod_unread
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -9,19 +10,14 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$db = &JFactory::getDbo();
-$user = &JFactory::getUser();
+// Include dependancies.
+require_once dirname(__FILE__).'/helper.php';
 
-$query = 'SELECT COUNT(*)'
-. ' FROM #__messages'
-. ' WHERE state = 0'
-. ' AND user_id_to = '.(int) $user->get('id')
-;
-$db->setQuery($query);
-$unread = $db->loadResult();
+$unread = ModUnreadHelper::getCount();
 
-if ($unread) {
-	echo "<div id=\"module-unread-new\"><a href=\"index.php?option=com_messages\">$unread <img src=\"images/mail.png\" alt=\"". JText::_('Mail') ."\" /></a></div>";
-} else {
-	echo "<div id=\"module-unread\"><a href=\"index.php?option=com_messages\">$unread <img src=\"images/nomail.png\" alt=\"". JText::_('Mail') ."\" /></a></div>";
+if ($unread !== false) {
+	// Set the inbox link.
+	$inboxLink = JRequest::getInt('hidemainmenu') ? null : JRoute::_('index.php?option=com_messages');
+
+	require JModuleHelper::getLayoutPath('mod_unread', $params->get('layout', 'default'));
 }

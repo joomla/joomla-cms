@@ -2,18 +2,18 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
+ * @subpackage	mod_toolbar
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
 
-//Import the JToolBar library
+// Import dependancies.
 jimport('joomla.html.toolbar');
 
-// Get the JComponent instance of JToolBar
-$bar = & JToolBar::getInstance('toolbar');
+// Get the toolbar.
+$toolbar = JToolBar::getInstance('toolbar')->render('toolbar');
 
-// Render the toolbar
-echo $bar->render('toolbar');
+require JModuleHelper::getLayoutPath('mod_toolbar', $params->get('layout', 'default'));
