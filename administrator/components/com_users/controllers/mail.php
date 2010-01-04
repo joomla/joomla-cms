@@ -14,7 +14,7 @@ jimport('joomla.application.component.controller');
  * Users mail controller.
  *
  * @package		Joomla.Administrator
- * @subpackage	com_massmail
+ * @subpackage	com_users
  */
 class UsersControllerMail extends JController
 {

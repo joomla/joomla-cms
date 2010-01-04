@@ -46,6 +46,31 @@
 		</field>
 	</fields>
 
+ 	<fields
+		group="massmail"
+		label="Users_Mail"
+		description="Users_Mail_Desc">
+
+		<field
+ 			name="mailSubjectPrefix"
+ 			type="text"
+ 			default=""
+			label="Users_Mail_Subject_Prefix"
+			description="Users_Mail_Subject_Prefix_Desc"
+		/>
+ 
+ 		<field
+ 			name="mailBodySuffix"
+			type="textarea"
+ 			default=""
+ 			rows="5"
+ 			cols="30"
+			label="Users_Mail_Mailbody_Suffix"
+			description="Users_Mail_Mailbody_Suffix_Desc"
+		/>
+
+	</fields>
+
 	<fields
 		group="permissions"
 		label="JConfig_Permissions_Label"

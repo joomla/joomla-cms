@@ -15,7 +15,7 @@ jimport('joomla.database.query');
  * Users mail model.
  *
  * @package		Joomla.Administrator
- * @subpackage	com_massmail
+ * @subpackage	com_users
  */
 class UsersModelMail extends JModelForm
 {
@@ -82,7 +82,7 @@ class UsersModelMail extends JModelForm
 		}
 
 		// get users in the group out of the acl
-		$to = $acl->getUserMap($grp, $recurse);
+		$to = $acl->getUsersByGroup($grp, $recurse);
 
 		// Get all users email and group except for senders
 		$query = new JQuery;
@@ -98,7 +98,7 @@ class UsersModelMail extends JModelForm
 		}
 
 		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$rows = $db->loadResultArray();
 
 		// Check to see if there are any users in this group before we continue
 		if (!count($rows))
@@ -109,7 +109,7 @@ class UsersModelMail extends JModelForm
 
 		// Get the Mailer
 		$mailer = JFactory::getMailer();
-		$params = &JComponentHelper::getParams('com_massmail');
+		$params = &JComponentHelper::getParams('com_users');
 
 		// Build e-mail message format.
 		$mailer->setSender(array($app->getCfg('mailfrom'), $app->getCfg('fromname')));
@@ -120,18 +120,12 @@ class UsersModelMail extends JModelForm
 		// Add recipients
 		if ($bcc)
 		{
-			foreach ($rows as $row)
-			{
-				$mailer->addBCC($row->email);
-			}
+			$mailer->addBCC($rows);
 			$mailer->addRecipient($app->getCfg('mailfrom'));
 		}
 		else
 		{
-			foreach ($rows as $row)
-			{
-	 			$mailer->addRecipient($row->email);
-	 		}
+			$mailer->addRecipient($rows);
 		}
 
 		// Send the Mail
@@ -150,8 +144,17 @@ class UsersModelMail extends JModelForm
 		}
 		else
 		{
-			$this->setError(JText::sprintf('MassMail_Email_sent_to', count($rows)));
-			$app->setUserState('com_massmail.data', $data);
+			// Fill the data (specially for the 'mode', 'group' and 'bcc': they could not exist in the array
+			// when the box is not checked and in this case, the default value would be used instead of the '0' 
+			// one)
+			$data['mode']=$mode;
+			$data['subject']=$subject;
+			$data['group']=$grp;
+			$data['recurse']=$recurse;
+			$data['bcc']=$bcc;
+			$data['message']=$message_body;
+			$app->enqueueMessage(JText::sprintf('Users_Mail_Email_Sent_To', count($rows)),'message');
+			$app->setUserState('com_users.display.mail.data', $data);
 			return true;
 		}
 	}

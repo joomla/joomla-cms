@@ -26,7 +26,7 @@
 			description="Users_Mail_Group_Desc">
 
 			<option
-				value="0">MassMail_All_Users_Groups</option>
+				value="0">Users_Mail_All_Users_Groups</option>
 		</field>
 
 		<field

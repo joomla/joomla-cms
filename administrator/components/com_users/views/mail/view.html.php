@@ -16,7 +16,7 @@ jimport('joomla.application.component.view');
  * Users mail view.
  *
  * @package		Joomla.Administrator
- * @subpackage	Massmail
+ * @subpackage	com_users
  */
 class UsersViewMail extends JView
 {
@@ -56,7 +56,7 @@ class UsersViewMail extends JView
 		JToolBarHelper::custom('mail.send', 'send.png', 'send_f2.png', 'Users_Mail_Send_Mail', false);
 		JToolBarHelper::cancel('mail.cancel');
 		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_users', '200');
+		JToolBarHelper::preferences('com_users');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.users');
 	}

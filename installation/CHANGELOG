@@ -30,6 +30,7 @@ $ -> Language fix or change
 04-Jan-2010 Andrew Eddie
  ^ Applied [#19231] JFormFieldList and onchange behavior.
  ^ Applied [#19143] Loading data into specified objects via database layer.
+ ^ Applied [#17818] Refactoring administrator/com_massmail
 
 03-Jan-2010 Hannes Papenberg
 ^ Deprecated JSimpleXML - Due to time restraints, this does unfortunately
