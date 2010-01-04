@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 // Include the syndicate functions only once
-require_once dirname(__FILE__).DS.'helper.php';
+require_once dirname(__FILE__).'/helper.php';
 
 $rssurl	= $params->get('rssurl', '');
 $rssrtl	= $params->get('rssrtl', 0);
 
 //check if cache diretory is writable as cache files will be created for the feed
-$cacheDir = JPATH_BASE.DS.'cache';
+$cacheDir = JPATH_BASE.'/cache';
 if (!is_writable($cacheDir))
 {
 	echo '<div>';

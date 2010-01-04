@@ -131,7 +131,7 @@ abstract class ModMenuHelper
 			$lang->load($langName);
 
 			// Load extension-local file.
-			$lang->load('menu', JPATH_ADMINISTRATOR.DS.'components'.DS.str_replace('.menu', '', $langName));
+			$lang->load('menu', JPATH_ADMINISTRATOR.'/components/'.str_replace('.menu', '', $langName));
 		}
 
 		return $result;
