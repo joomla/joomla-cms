@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install
+<extension
 	type="module"
-	version="1.6.0">
+	version="1.6.0"
+	client="site"
+	method="upgrade">
 	<name>Menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -14,6 +16,10 @@
 	<files>
 		<filename
 			module="mod_menu">mod_menu.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.php</filename>
+		<filename>mod_menu.xml</filename>
 	</files>
 	<fields>
 		<field
@@ -22,7 +28,6 @@
 			default=""
 			label="Menu Name"
 			description="The name of the menu (default is mainmenu)" />
-
 		<field
 			name="startLevel"
 			type="text"
@@ -111,4 +116,4 @@
 				value="0">No caching</option>
 		</field>
 	</fields>
-</install>
+</extension>

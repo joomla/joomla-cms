@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install
+<extension
 	type="module"
-	version="1.5.0">
-	<name>Banner</name>
+	version="1.6.0"
+	client="site"
+	method="upgrade">
+	<name>Banners</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
 	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
@@ -14,7 +16,15 @@
 	<files>
 		<filename
 			module="mod_banners">mod_banners.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.php</filename>
+		<filename>mod_banners.xml</filename>
 	</files>
+	<languages>
+		<language
+			tag="en-GB">en-GB.mod_banners.ini</language>
+	</languages>
 	<fields
 		addfieldpath="/administrator/components/com_banners/models/fields">
 		<field
@@ -30,20 +40,24 @@
 			<option
 				value="2">mod_banners_NewWindowWithoutBrowserNavigation</option>
 		</field>
+
 		<field
 			type="spacer" />
+
 		<field
 			name="count"
 			type="text"
 			default="1"
 			label="mod_banners_Count_Label"
 			description="mod_banners_Count_Desc" />
+
 		<field
 			name="cid"
 			type="bannerclient"
 			default=""
 			label="mod_banners_BannerClient_Label"
 			description="mod_banners_BannerClient_Label" />
+
 		<field
 			name="catid"
 			type="category"
@@ -51,6 +65,7 @@
 			default=""
 			label="mod_banners_Category_Label"
 			description="mod_banners_Category_Desc" />
+
 		<field
 			name="tag_search"
 			type="radio"
@@ -73,8 +88,10 @@
 			<option
 				value="random">mod_banners_StickyRandomise</option>
 		</field>
+
 		<field
 			type="spacer" />
+
 		<field
 			name="header_text"
 			type="textarea"
@@ -83,6 +100,7 @@
 			default=""
 			label="mod_banners_Header_Label"
 			description="mod_banners_Header_Desc" />
+
 		<field
 			name="footer_text"
 			type="textarea"
@@ -106,6 +124,7 @@
 			default=""
 			label="Module_Field_Moduleclass_sfx_Label"
 			description="Module_Field_Moduleclass_sfx_Desc" />
+
 		<field
 			name="cache"
 			type="list"
@@ -117,6 +136,7 @@
 			<option
 				value="0">No caching</option>
 		</field>
+
 		<field
 			name="cache_time"
 			type="text"

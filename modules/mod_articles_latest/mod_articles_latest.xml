@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install
+<extension
 	type="module"
-	version="1.5.0">
+	version="1.6.0"
+	client="site"
+	method="upgrade">
 	<name>Latest News</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -13,8 +15,16 @@
 	<description>DESCLATESTNEWS</description>
 	<files>
 		<filename
-			module="mod_articles_latest">mod_articles_latest</filename>
+			module="mod_articles_latest">mod_articles_latest.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.php</filename>
+		<filename>mod_articles_latest.xml</filename>
 	</files>
+	<languages>
+		<language
+			tag="en-GB">en-GB.latestnews.ini</language>
+	</languages>
 	<fields>
 		<field
 			name="count"
@@ -77,7 +87,6 @@
 			type="modulelayout"
 			label="JField_Alt_Layout_Label"
 			description="JField_Alt_Module_Layout_Desc" />
-
 		<field
 			name="moduleclass_sfx"
 			type="text"
@@ -102,4 +111,4 @@
 			label="Cache Time"
 			description="The time before the module is recached" />
 	</fields>
-</install>
+</extension>

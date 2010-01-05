@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install
+<extension
 	type="module"
-	version="1.6.0">
+	version="1.6.0"
+	client="site"
+	method="upgrade">
 	<name>mod_custom</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -10,7 +12,18 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>mod_custom_desc</description>
+	<description>DESCCUSTOM</description>
+	<files>
+		<filename
+			module="mod_custom">mod_custom.php</filename>
+		<folder>tmpl</folder>
+		<filename>index.php</filename>
+		<filename>mod_custom.xml</filename>
+	</files>
+	<languages>
+		<language
+			tag="en-GB">en-GB.mod_custom.ini</language>
+	</languages>
 	<fields>
 		<field
 			name="prepare_content"
@@ -31,14 +44,12 @@
 			type="modulelayout"
 			label="JField_Alt_Layout_Label"
 			description="JField_Alt_Module_Layout_Desc" />
-
 		<field
 			name="moduleclass_sfx"
 			type="text"
 			default=""
 			label="Module_Field_Moduleclass_sfx_Label"
 			description="Module_Field_Moduleclass_sfx_Desc" />
-
 		<field
 			name="cache"
 			type="list"
@@ -50,7 +61,6 @@
 			<option
 				value="0">No caching</option>
 		</field>
-
 		<field
 			name="cache_time"
 			type="text"
@@ -58,4 +68,4 @@
 			label="Cache Time"
 			description="The time before the module is recached" />
 	</fields>
-</install>
+</extension>

@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install
+<extension
 	type="module"
-	version="1.0.0">
-	<name>Who\'s Online</name>
+	version="1.6.0"
+	client="site"
+	method="upgrade">
+	<name>Who's Online</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
 	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.0.0</version>
+	<version>1.6.0</version>
 	<description>DESCWHOSONLINE</description>
 	<files>
 		<filename
 			module="mod_whosonline">mod_whosonline.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.php</filename>
+		<filename>mod_whosonline.xml</filename>
 	</files>
+	<languages>
+		<language
+			tag="en-GB">en-GB.mod_whosonline.ini</language>
+	</languages>
 	<fields>
 		<field
 			name="showmode"
@@ -28,28 +38,28 @@
 				value="1">User Names</option>
 			<option
 				value="2">Both</option>
-			</field>	
+		</field>
 		<field
 			name="linknames"
 			type="list"
 			default="0"
 			label="Whosonline_Link_label"
-			description="Whosonlin_Link_desc"	>
+			description="Whosonlin_Link_desc">
 			<option
 				value="0">JNo</option>
 			<option
-				value="1">JYes</option>	
+				value="1">JYes</option>
 		</field>
 		<field
 			name="linktowhat"
 			type="list"
 			default="0"
 			label="Whosonline_Linktowhat_label"
-			description="Whosonlin_Linktowhat_desc"	>
+			description="Whosonlin_Linktowhat_desc">
 			<option
 				value="0">Profile</option>
 			<option
-				value="1">Contact</option>	
+				value="1">Contact</option>
 		</field>
 	</fields>
 	<fields
@@ -59,14 +69,12 @@
 			type="modulelayout"
 			label="JField_Alt_Layout_Label"
 			description="JField_Alt_Module_Layout_Desc" />
-
 		<field
 			name="moduleclass_sfx"
 			type="text"
 			default=""
 			label="Module_Field_Moduleclass_sfx_Label"
 			description="Module_Field_Moduleclass_sfx_Desc" />
-
 		<field
 			name="cache"
 			type="list"
@@ -77,4 +85,4 @@
 				value="0">No caching</option>
 		</field>
 	</fields>
-</install>
+</extension>

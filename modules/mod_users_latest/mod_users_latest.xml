@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install
+<extension
 	type="module"
-	version="1.0.0">
+	version="1.6.0"
+	client="site"
+	method="upgrade">
 	<name>Latest Users</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2009</creationDate>
@@ -9,11 +11,15 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.0.0</version>
+	<version>1.6.0</version>
 	<description>DESCUSERSLATEST</description>
 	<files>
 		<filename
 			module="mod_users_latest">mod_users_latest.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.php</filename>
+		<filename>mod_users_latest.xml</filename>
 	</files>
 	<fields>
 		<field
@@ -22,28 +28,28 @@
 			default="5"
 			label="Users_Latest_number_Label"
 			description="Unsers_Latest_number_Desc">
-			</field>	
+		</field>
 		<field
 			name="linknames"
 			type="list"
 			default="0"
 			label="Users_Latest_Link_label"
-			description="Users_Latest_Link_desc"	>
+			description="Users_Latest_Link_desc">
 			<option
 				value="0">JNo</option>
 			<option
-				value="1">JYes</option>	
+				value="1">JYes</option>
 		</field>
 		<field
 			name="linktowhat"
 			type="list"
 			default="0"
 			label="Users_Latest_Linktowhat_label"
-			description="Users_Latest_Linktowhat_desc"	>
+			description="Users_Latest_Linktowhat_desc">
 			<option
 				value="0">Profile</option>
 			<option
-				value="1">Contact</option>	
+				value="1">Contact</option>
 		</field>
 	</fields>
 	<fields
@@ -71,4 +77,4 @@
 				value="0">No caching</option>
 		</field>
 	</fields>
-</install>
+</extension>

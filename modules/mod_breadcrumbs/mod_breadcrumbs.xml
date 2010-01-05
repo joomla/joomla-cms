@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install
+<extension
 	type="module"
-	version="1.5.0">
+	version="1.6.0"
+	client="site"
+	method="upgrade">
 	<name>Breadcrumbs</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
@@ -10,11 +12,19 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>This module displays the breadcrumbs</description>
+	<description>DESCBREADCRUMBS</description>
 	<files>
 		<filename
 			module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.php</filename>
+		<filename>mod_breadcrumbs.xml</filename>
 	</files>
+	<languages>
+		<language
+			tag="en-GB">en-GB.mod_breadcrumbs.ini</language>
+	</languages>
 	<fields>
 		<field
 			name="showHome"
@@ -26,16 +36,13 @@
 				value="0">JNo</option>
 			<option
 				value="1">JYes</option>
-
 		</field>
-
 		<field
 			name="homeText"
 			type="text"
 			default="Home"
 			label="Text for Home entry"
 			description="fieldHOMETEXT" />
-
 		<field
 			name="showLast"
 			type="radio"
@@ -47,16 +54,13 @@
 			<option
 				value="1">JYes</option>
 		</field>
-
 		<field
 			name="separator"
 			type="text"
 			default=""
 			label="Text Separator"
 			description="A text separator" />
-
 	</fields>
-
 	<fields
 		group="advanced">
 		<field
@@ -64,14 +68,12 @@
 			type="modulelayout"
 			label="JField_Alt_Layout_Label"
 			description="JField_Alt_Module_Layout_Desc" />
-
 		<field
 			name="moduleclass_sfx"
 			type="text"
 			default=""
 			label="Module_Field_Moduleclass_sfx_Label"
 			description="Module_Field_Moduleclass_sfx_Desc" />
-
 		<field
 			name="cache"
 			type="list"
@@ -82,4 +84,4 @@
 				value="0">No caching</option>
 		</field>
 	</fields>
-</install>
+</extension>
