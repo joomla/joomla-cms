@@ -87,7 +87,7 @@ abstract class JHtmlGrid
 		if ($checkedOut) {
 			return '';
 		} else {
-			return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" />';
+			return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" title="'.JText::sprintf('JGrid_Checkbox_Row_N', ($rowNum + 1)).'" />';
 		}
 	}
 
