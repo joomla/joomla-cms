@@ -210,8 +210,11 @@ class UsersModelUser extends JModelForm
 		// Get the old user.
 		$old = JUser::getInstance($table->id);
 
+		// Merge the table back into the raw data for plugin processing.
+		$data = array_merge($data, $table->getProperties(true));
+
 		// Trigger the onBeforeStoreUser event.
-		$result = $dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isNew, $table->getProperties()));
+		$result = $dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(true), $isNew, $data));
 		if (in_array(false, $result, true)) {
 			$this->setError($table->getError());
 			return false;
@@ -225,7 +228,7 @@ class UsersModelUser extends JModelForm
 		}
 
 		// Trigger the onAftereStoreUser event
-		$dispatcher->trigger('onAfterStoreUser', array($table->getProperties(), $isNew, true, null));
+		$dispatcher->trigger('onAfterStoreUser', array($data, $isNew, true, null));
 
 		$this->setState('user.id', $table->id);
 
