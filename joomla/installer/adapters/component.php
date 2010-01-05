@@ -310,9 +310,6 @@ class JInstallerComponent extends JAdapterInstance
 			return false;
 		}
 
-		// Time to build the admin menus
-		$this->_buildAdminMenus();
-
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Custom Installation Script Section
@@ -380,6 +377,9 @@ class JInstallerComponent extends JAdapterInstance
 			return false;
 		}
 
+		// Time to build the admin menus
+		$this->_buildAdminMenus();
+		
 		// Clobber any possible pending updates
 		$update = &JTable::getInstance('update');
 		$uid = $update->find(Array('element'=>$this->get('element'),
@@ -1028,37 +1028,26 @@ class JInstallerComponent extends JAdapterInstance
 	 */
 	protected function _buildAdminMenus()
 	{
-		// Get database connector object
-		$db = &$this->parent->getDbo();
-
 		// Initialise variables.
+		$db = &$this->parent->getDbo();
+		$table = &JTable::getInstance('menu');
 		$option = $this->get('element');
 
 		// If a component exists with this option in the table then we don't need to add menus
-		// Grab the params for later
-		$query = 'SELECT id, params, enabled' .
-				' FROM #__components' .
-				' WHERE `option` = '.$db->Quote($option) .
-				' ORDER BY `parent` ASC';
+		$query = new JQuery();
+		$query->select('m.id, e.extension_id');
+		$query->from('#__menu AS m');
+		$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
+		$query->where('m.parent_id = 1');
+		$query->where('e.element = '.$option);
 
 		$db->setQuery($query);
-		try {
-			$componentrow = $db->loadAssoc(); // will return null on error
-		}
-		catch(JException $e) {
-			$componentrow = null;
-		}
-		$exists = 0;
-		$oldparams = '';
+		
+		$componentrow = $db->loadObject();
+		
 		// Check if menu items exist
 		if ($componentrow)
 		{
-			// set the value of exists to be the value of the old id
-			$exists = $componentrow['id'];
-			// and set the old params
-			$oldparams = $componentrow['params'];
-			// and old enabled
-			$oldenabled = $componentrow['enabled'];
 
 			// Don't do anything if overwrite has not been enabled
 			if (! $this->parent->getOverwrite()) {
@@ -1068,129 +1057,83 @@ class JInstallerComponent extends JAdapterInstance
 			// Remove existing menu items if overwrite has been enabled
 			if ($option)
 			{
-				$sql = 'DELETE FROM #__components WHERE `option` = '.$db->Quote($option);
-
-				$db->setQuery($sql);
-				try {
-					$db->query();
-				}
-				catch(JException $e) {
-					JError::raiseWarning(100, JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
-				}
+				$this->_removeAdminMenus($componentrow);// If something goes wrong, theres no way to rollback TODO: Search for better solution
 			}
+		} else {
+			// Lets Find the extension id
+			$query = new JQuery();
+			$query->select('e.extension_id');
+			$query->from('#__extensions AS e');
+			$query->where('e.element = '.$option);
+
+			$db->setQuery($query);
+
+			$component_id = $db->loadResult(); // TODO Find Some better way to discover the component_id
 		}
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		$menuElement = & $this->adminElement->getElementByPath('menu');
 		if ($menuElement INSTANCEOF JSimpleXMLElement)
 		{
-			$db_name = $menuElement->data();
-			$db_link = "option=".$option;
-			$db_menuid = 0;
-			$db_parent = 0;
-			$db_admin_menu_link = "option=".$option;
-			$db_admin_menu_alt = $menuElement->data();
-			$db_option = $option;
-			$db_ordering = 0;
-			$db_admin_menu_img = ($menuElement->attributes('img')) ? $menuElement->attributes('img') : 'js/ThemeOffice/component.png';
-			$db_iscore = 0;
-			// use the old params if a previous entry exists
-			$db_params = $exists ? $oldparams : $this->parent->getParams();
-			// use the old enabled field if a previous entry exists
-			$db_enabled = $exists ? $oldenabled : 1;
-
-			// This works because exists will be zero (autoincr)
-			// or the old component id
-			$query = 'INSERT INTO #__components' .
-				' VALUES('.$exists .', '.$db->Quote($db_name).', '.$db->Quote($db_link).', '.(int) $db_menuid.',' .
-				' '.(int) $db_parent.', '.$db->Quote($db_admin_menu_link).', '.$db->Quote($db_admin_menu_alt).',' .
-				' '.$db->Quote($db_option).', '.(int) $db_ordering.', '.$db->Quote($db_admin_menu_img).',' .
-				' '.(int) $db_iscore.', '.$db->Quote($db_params).', '.(int) $db_enabled.')';
-			$db->setQuery($query);
-			try {
-				$db->query();
-			}
-			catch(JException $e)
+			$data = array();
+			$data['menutype'] = '_adminmenu';
+			$data['title'] = $option;
+			$data['alias'] = $menuElement->data();
+			$data['link'] = 'index.php?option='.$option;
+			$data['type'] = 'component';
+			$data['published'] = 0;
+			$data['parent_id'] = 1;
+			$data['component_id'] = $component_id;
+			$data['img'] = ($menuElement->attributes('img')) ? $menuElement->attributes('img') : 'class:component';
+			$data['home'] = 0;
+			
+			if(!$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
 			}
-			// save ourselves a call if we don't need it
-			$menuid = $exists ? $exists : $db->insertid(); // if there was an existing value, reuse
 
 			/*
 			 * Since we have created a menu item, we add it to the installation step stack
 			 * so that if we have to rollback the changes we can undo it.
 			 */
-			$this->parent->pushStep(array ('type' => 'menu', 'id' => $menuid));
+			$this->parent->pushStep(array ('type' => 'menu'));
 		}
 		else
 		{
 
-			/*
-			 * No menu element was specified so lets first see if we have an admin menu entry for this component
-			 * if we do.. then we obviously don't want to create one -- we'll just attach sub menus to that one.
-			 */
-			$query = 'SELECT id' .
-					' FROM #__components' .
-					' WHERE `option` = '.$db->Quote($option) .
-					' AND parent = 0';
-			$db->setQuery($query);
-			try {
-				$menuid = $db->loadResult();
-			}
-			catch(JException $e) {
-				$menuid = null;
-			}
-
-			if (!$menuid)
+			// No menu element was specified, Let's make a generic menu item
+			$data = array();
+			$data['menutype'] = '_adminmenu';
+			$data['title'] = $option;
+			$data['alias'] = $option;
+			$data['link'] = 'index.php?option='.$option;
+			$data['type'] = 'component';
+			$data['published'] = 0;
+			$data['parent_id'] = 1;
+			$data['component_id'] = $component_id;
+			$data['img'] = 'class:component';
+			$data['home'] = 0;
+			
+			if(!$table->bind($data) || !$table->check() || !$table->store())
 			{
-				// No menu entry, lets just enter a component entry to the table.
-				$db_name = $this->get('name');
-				$db_link = "";
-				$db_menuid = 0;
-				$db_parent = 0;
-				$db_admin_menu_link = "";
-				$db_admin_menu_alt = $this->get('name');
-				$db_option = $option;
-				$db_ordering = 0;
-				$db_admin_menu_img = "";
-				$db_iscore = 0;
-				$db_params = $this->parent->getParams();
-				$db_enabled = 1;
-
-				$query = 'INSERT INTO #__components' .
-					' VALUES("", '.$db->Quote($db_name).', '.$db->Quote($db_link).', '.(int) $db_menuid.',' .
-					' '.(int) $db_parent.', '.$db->Quote($db_admin_menu_link).', '.$db->Quote($db_admin_menu_alt).',' .
-					' '.$db->Quote($db_option).', '.(int) $db_ordering.', '.$db->Quote($db_admin_menu_img).',' .
-					' '.(int) $db_iscore.', '.$db->Quote($db_params).', '.(int) $db_enabled.')';
-				$db->setQuery($query);
-				try {
-					$db->query();
-				}
-				catch (JException $e)
-				{
-					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
-					return false;
-				}
-				$menuid = $db->insertid();
-
-				/*
-				 * Since we have created a menu item, we add it to the installation step stack
-				 * so that if we have to rollback the changes we can undo it.
-				 */
-				$this->parent->pushStep(array ('type' => 'menu', 'id' => $menuid));
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
+				return false;
 			}
+
+			/*
+			 * Since we have created a menu item, we add it to the installation step stack
+			 * so that if we have to rollback the changes we can undo it.
+			 */
+			$this->parent->pushStep(array ('type' => 'menu'));
 		}
 
 		/*
 		 * Process SubMenus
 		 */
 
-		// Initialise submenu ordering value
-		$ordering = 0;
 		$submenu = $this->adminElement->getElementByPath('submenu');
 		if (!($submenu INSTANCEOF JSimpleXMLElement) || !count($submenu->children())) {
 			return true;
@@ -1199,19 +1142,20 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if ($child INSTANCEOF JSimpleXMLElement && $child->name() == 'menu')
 			{
-				$com = &JTable::getInstance('component');
-				$com->name = $child->data();
-				$com->link = '';
-				$com->menuid = 0;
-				$com->parent = $menuid;
-				$com->iscore = 0;
-				$com->admin_menu_alt = $child->data();
-				$com->option = $option;
-				$com->ordering = $ordering ++;
-
+				$data = array();
+				$data['menutype'] = '_adminmenu';
+				$data['title'] = $child->attributes('view')? $option.'_'.$child->attributes('view') : $option;
+				$data['alias'] = $child->data();
+				$data['type'] = 'component';
+				$data['published'] = 0;
+				$data['parent_id'] = 1;
+				$data['component_id'] = $component_id;
+				$data['img'] = ($child->attributes('img')) ? $child->attributes('img') : 'class:component';
+				$data['home'] = 0;
+				
 				// Set the sub menu link
 				if ($child->attributes("link")) {
-					$com->admin_menu_link = str_replace('&amp;', '&', $child->attributes("link"));
+					$data['link'] = $child->attributes("link");
 				}
 				else
 				{
@@ -1235,22 +1179,14 @@ class JInstallerComponent extends JAdapterInstance
 						$request[] = 'sub='.$child->attributes('sub');
 					}
 					$qstring = (count($request)) ? '&'.implode('&',$request) : '';
-					$com->admin_menu_link = "option=".$option.$qstring;
+					$data['link'] = "index.php?option=".$option.$qstring;
 				}
 
-				// Set the sub menu image
-				if ($child->attributes("img")) {
-					$com->admin_menu_img = $child->attributes("img");
-				}
-				else {
-					$com->admin_menu_img = "js/ThemeOffice/component.png";
-				}
 
-				// Store the submenu
-				if (!$com->store())
+				if(!$table->bind($data) || !$table->check() || !$table->store())
 				{
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('SQL Error')." ".$db->stderr(true));
+					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 					return false;
 				}
 
@@ -1258,7 +1194,7 @@ class JInstallerComponent extends JAdapterInstance
 				 * Since we have created a menu item, we add it to the installation step stack
 				 * so that if we have to rollback the changes we can undo it.
 				 */
-				$this->parent->pushStep(array ('type' => 'menu', 'id' => $com->id));
+				$this->parent->pushStep(array ('type' => 'menu'));
 			}
 		}
 	}
@@ -1273,52 +1209,56 @@ class JInstallerComponent extends JAdapterInstance
 	 */
 	protected function _removeAdminMenus(&$row)
 	{
-		// Get database connector object
+		// Initialise Variables
 		$db = &$this->parent->getDbo();
-		$retval = true;
-
-		// Delete the items
-		$sql = 'DELETE ' .
-				' FROM #__components ' .
-				'WHERE `option` = '.$db->Quote($row->element);
-
-		$db->setQuery($sql);
-		try {
-			$db->query();
+		$table = &JTable::getInstance('menu');
+		$id = $row->extension_id;
+		
+		// Get the ids of the menu items
+		$query = new JQuery();
+		$query->select('id');
+		$query->from('#__menu');
+		$query->where('`menutype` = "_adminmenu"');
+		$query->where('`component_id` = "'.$id.'"');
+		
+		$ids = $db->loadResultArray();
+		
+		// Check for error
+		if($error = $db->getErrorMsg() || empty($ids)){
+			
+			JError::raiseWarning('Some_code_here', 'Some_message_here');
+			return false;
+			
+		} else {
+			// Iterate the items to delete each one.
+			foreach($ids as $menuid){
+				
+				if (!$table->delete((int) $menuid))
+				{
+					$this->setError($table->getError());
+					return false;
+				}
+				
+			}
+			// Rebuild the whole tree
+			$table->rebuild();
+			
 		}
-		catch(JException $e)
-		{
-			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.$db->stderr(true));
-			$retval = false;
-		}
-		return $retval;
+		return true;
 	}
 
 	/**
 	 * Custom rollback method
-	 * 	- Roll back the component menu item
+	 * - Roll back the component menu item
 	 *
 	 * @access	public
 	 * @param	array	$arg	Installation step to rollback
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	protected function _rollback_menu($arg)
+	protected function _rollback_menu()
 	{
-		// Get database connector object
-		$db = &$this->parent->getDbo();
-
-		// Remove the entry from the #__components table
-		$query = 'DELETE ' .
-				' FROM `#__components` ' .
-				' WHERE id='.(int)$arg['id'];
-		$db->setQuery($query);
-		try {
-			return $db->query();
-		}
-		catch(JException $e) {
-			return false;
-		}
+		return true;
 	}
 
 	function discover()
