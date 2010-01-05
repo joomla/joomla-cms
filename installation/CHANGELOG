@@ -37,6 +37,7 @@ $ -> Language fix or change
  ^ Accepted [#19274] Refactoring Administrator/mod_login; fixed return URL on login/logout.
  ^ Accepted [#19271] Refactored Administrator/mod_latest
  ^ Accepted [#18890] XML Installer for Front End Modules
+ ^ Accepted [#17634] [patch] Add title to grid.id checkboxes to allieviate the need for a label
 
 04-Jan-2010 Andrew Eddie
  ^ Applied [#19231] JFormFieldList and onchange behavior.
