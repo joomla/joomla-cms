@@ -114,6 +114,14 @@ class MenusControllerMenu extends JController
 
 		// Get the posted values from the request.
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		
+		// Check the menutype
+		if($data['menutype'] == '_adminmenu'){
+			JError::raiseNotice(0, JText::_('MENUS_MENU_TYPE_NOT_ALLOWED'));
+			// Redirect back to the edit screen.
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
+			return false;
+		}
 
 		// Populate the row id from the session.
 		$data['id'] = (int) $app->getUserState('com_menus.edit.menu.id');

@@ -151,25 +151,18 @@ class JAdminCssMenu extends JTree
 				$class = substr($identifier, 6);
 				$classes[$identifier] = "icon-16-$class";
 			} else {
-				// We were passed an image path... is it a themeoffice one?
-				if (substr($identifier, 0, 15) == 'js/ThemeOffice/') {
-					// Strip the filename without extension and use that for the classname
-					$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
-					$classes[$identifier] = "icon-16-$class";
-				} else {
-					if ($identifier == null) {
-						return null;
-					}
-					// Build the CSS class for the icon
-					$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
-					$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
-
-					$this->_css  .= "\n.icon-16-$class {\n" .
-							"\tbackground: url($identifier) no-repeat;\n" .
-							"}\n";
-
-					$classes[$identifier] = "icon-16-$class";
+				if ($identifier == null) {
+					return null;
 				}
+				// Build the CSS class for the icon
+				$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
+				$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
+
+				$this->_css  .= "\n.icon-16-$class {\n" .
+						"\tbackground: url($identifier) no-repeat;\n" .
+						"}\n";
+
+				$classes[$identifier] = "icon-16-$class";
 			}
 		}
 		return $classes[$identifier];

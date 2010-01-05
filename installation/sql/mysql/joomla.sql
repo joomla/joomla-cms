@@ -574,7 +574,7 @@ CREATE TABLE `#__menu` (
   `link` varchar(1024) NOT NULL COMMENT 'The actually link the menu item refers to.',
   `type` varchar(16) NOT NULL COMMENT 'The type of link: Component, URL, Alias, Separator',
   `published` tinyint(4) NOT NULL default '0' COMMENT 'The published state of the menu link.',
-  `parent_id` integer unsigned NOT NULL default '0' COMMENT 'The parent menu item in the menu tree.',
+  `parent_id` integer unsigned NOT NULL default '1' COMMENT 'The parent menu item in the menu tree.',
   `level` integer unsigned NOT NULL default '0' COMMENT 'The relative level in the tree.',
   `component_id` integer unsigned NOT NULL default '0' COMMENT 'FK to #__components.id',
   `ordering` integer NOT NULL default '0' COMMENT 'The relative ordering of the menu item in the tree.',
@@ -582,6 +582,7 @@ CREATE TABLE `#__menu` (
   `checked_out_time` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
   `browserNav` tinyint(4) NOT NULL default '0' COMMENT 'The click behaviour of the link.',
   `access` tinyint(3) unsigned NOT NULL default '0' COMMENT 'The access level required to view the menu item.',
+  `img` varchar(255) NOT NULL COMMENT 'The image of the menu item.',
   `template_style_id` integer unsigned NOT NULL default '0',
   `params` varchar(10240) NOT NULL COMMENT 'JSON encoded data for the menu item.',
   `lft` integer NOT NULL default '0' COMMENT 'Nested set lft.',
@@ -597,8 +598,27 @@ CREATE TABLE `#__menu` (
 
 
 INSERT INTO `#__menu` VALUES
-(1, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 0, 3, 0),
-(2, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 1, 20, 0, 0, '0000-00-00 00:00:00', 0, 1, 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 1, 2, 1);
+(1, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, '', 0, '', 0, 40, 0),
+(2, '_adminmenu', 'com_banners', 'Banners', '', 'index.php?option=com_banners', 'component', 0, 1, 0, 2, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners', 0, '', 1, 10, 0),
+(3, '_adminmenu', 'com_banners', 'Banners', '', 'index.php?option=com_banners', 'component', 0, 2, 0, 2, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners', 0, '', 2, 3, 0),
+(4, '_adminmenu', 'com_banners_clients', 'Clients', '', 'index.php?option=com_banners&view=clients', 'component', 0, 2, 0, 2, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners-clients', 0, '', 4, 5, 0),
+(5, '_adminmenu', 'com_banners_tracks', 'Tracks', '', 'index.php?option=com_banners&view=tracks', 'component', 0, 2, 0, 2, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners-tracks', 0, '', 6, 7, 0),
+(6, '_adminmenu', 'com_banners_categories', 'Categories', '', 'index.php?option=com_categories&extension=com_banners', 'component', 0, 2, 0, 2, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners-cat', 0, '', 8, 9, 0),
+(7, '_adminmenu', 'com_contact', 'Contacts', '', 'index.php?option=com_contact', 'component', 0, 1, 0, 7, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:contact', 0, '', 11, 16, 0),
+(8, '_adminmenu', 'com_contact', 'Contacts', '', 'index.php?option=com_contact', 'component', 0, 7, 0, 7, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:contact', 0, '', 12, 13, 0),
+(9, '_adminmenu', 'com_contact_categories', 'Categories', '', 'index.php?option=com_categories&extension=com_contact', 'component', 0, 7, 0, 7, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:contact-cat', 0, '', 14, 15, 0),
+(10, '_adminmenu', 'com_messages', 'Messaging', '', 'index.php?option=com_messages', 'component', 0, 1, 0, 17, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:messages', 0, '', 17, 22, 0),
+(11, '_adminmenu', 'com_messages_add', 'New Private Message', '', 'index.php?option=com_messages&task=message.add', 'component', 0, 10, 0, 17, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:messages-add', 0, '', 18, 19, 0),
+(12, '_adminmenu', 'com_messages_read', 'Read Private Message', '', 'index.php?option=com_messages', 'component', 0, 10, 0, 17, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:messages-read', 0, '', 20, 21, 0),
+(13, '_adminmenu', 'com_newsfeeds', 'News Feeds', '', 'index.php?option=com_newsfeeds', 'component', 0, 1, 0, 19, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 23, 28, 0),
+(14, '_adminmenu', 'com_newsfeeds_feeds', 'Feeds', '', 'index.php?option=com_newsfeeds', 'component', 0, 13, 0, 19, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 24, 25, 0),
+(15, '_adminmenu', 'com_newsfeeds_categories', 'Categories', '', 'index.php?option=com_categories&extension=com_newsfeeds', 'component', 0, 13, 0, 19, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:newsfeeds-cat', 0, '', 26, 27, 0),
+(16, '_adminmenu', 'com_redirect', 'Redirect', '', 'index.php?option=com_redirect', 'component', 0, 1, 0, 21, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:redirect', 0, '', 29, 30, 0),
+(17, '_adminmenu', 'com_search', 'Search', '', 'index.php?option=com_search', 'component', 0, 1, 0, 22, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:search', 0, '', 31, 32, 0),
+(18, '_adminmenu', 'com_weblinks', 'Weblinks', '', 'index.php?option=com_weblinks', 'component', 0, 1, 0, 26, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:weblinks', 0, '', 33, 38, 0),
+(19, '_adminmenu', 'com_weblinks_links', 'Links', '', 'index.php?option=com_weblinks', 'component', 0, 18, 0, 26, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:weblinks', 0, '', 34, 35, 0),
+(20, '_adminmenu', 'com_weblinks_categories', 'Categories', '', 'index.php?option=com_categories&extension=com_weblinks', 'component', 0, 18, 0, 26, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:weblinks-cat', 0, '', 36, 37, 0),
+(21, 'mainmenu', 'Home', 'home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 1, 1, 8, 0, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"show_page_title":"1","page_title":"Welcome to the Frontpage","show_description":"0","show_description_image":"0","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","show_title":"1","pageclass_sfx":"","menu_image":"-1","secure":"0","orderby_pri":"","orderby_sec":"front","show_pagination":"2","show_pagination_results":"1","show_noauth":"0","link_titles":"0","show_intro":"1","show_section":"0","link_section":"0","show_category":"0","link_category":"0","show_author":"1","show_create_date":"1","show_modify_date":"1","show_item_navigation":"0","show_readmore":"1","show_vote":"0","show_icons":"1","show_pdf_icon":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1"}', 38, 39, 1);
 
 # -------------------------------------------------------
 

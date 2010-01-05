@@ -47,7 +47,7 @@ abstract class ModMenuHelper
 	 *
 	 * @return	array	A nest array of component objects and submenus
 	 */
-	public static function getComponents($exclude = array(), $authCheck = true)
+	function getComponents($authCheck = true)
 	{
 		// Initialise variables.
 		$lang	= &JFactory::getLanguage();
@@ -57,25 +57,18 @@ abstract class ModMenuHelper
 		$result	= array();
 		$langs	= array();
 
-		// SQL quote the excluded 'option' values.
-		$exclude = array_map(array($db, 'quote'), $exclude);
-
 		// Prepare the query.
-		$query->select('c.id, c.parent, c.name, c.option, c.admin_menu_link, c.admin_menu_img');
-		$query->from('#__components AS c');
+		$query->select('m.id, m.title, m.alias, m.link, m.parent_id, m.img, e.element');
+		$query->from('#__menu AS m');
 
 		// Filter on the enabled states.
-		$query->leftJoin('#__extensions e ON c.option = e.element');
-		$query->where('((c.parent = 0 AND e.enabled = 1) OR c.parent > 0)');
-		$query->where('((c.parent = 0 AND e.state > -1) OR c.parent > 0)');
+		$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
+		$query->where('m.menutype = "_adminmenu"');
+		$query->where('e.enabled = 1');
+		$query->where('m.id > 1');
 
-		// Filter on the exclusions.
-		if (is_array($exclude) && !empty($exclude)) {
-			$query->where('c.option NOT IN ('.implode(',', $exclude).')');
-		}
-
-		// Order by parent (group top level first), then ordering, then name.
-		$query->order('c.parent, c.ordering, c.name');
+		// Order by lft.
+		$query->order('m.lft');
 
 		$db->setQuery($query);
 		$components	= $db->loadObjectList(); // component list
@@ -83,12 +76,12 @@ abstract class ModMenuHelper
 		foreach ($components as &$component)
 		{
 			// Trim the menu link.
-			$component->admin_menu_link = trim($component->admin_menu_link);
+			$component->link = trim($component->link);
 
-			if ($component->parent == 0)
+			if ($component->parent_id == 1)
 			{
 				// Only add this top level if it is authorised and enabled.
-				if ($authCheck == false || ($authCheck && $user->authorize('core.manage', $component->option)))
+				if ($authCheck == false || ($authCheck && $user->authorize('core.manage', $component->element)))
 				{
 					// Root level.
 					$result[$component->id] = $component;
@@ -97,31 +90,27 @@ abstract class ModMenuHelper
 					}
 
 					// If the root menu link is empty, add it in.
-					if (empty($component->admin_menu_link)) {
-						$component->admin_menu_link = 'index.php?option='.$component->option;
+					if (empty($component->link)) {
+						$component->link = 'index.php?option='.$component->element;
 					}
 
-					if (!empty($component->option)) {
-						$langs[$component->option.'.menu'] = true;
+					if (!empty($component->element)) {
+						$langs[$component->element.'.menu'] = true;
 					}
 				}
 			}
 			else
 			{
 				// Sub-menu level.
-				if (isset($result[$component->parent]))
+				if (isset($result[$component->parent_id]))
 				{
 					// Add the submenu link if it is defined.
-					if (isset($result[$component->parent]->submenu) && !empty($component->admin_menu_link)) {
-						$result[$component->parent]->submenu[] = &$component;
+					if (isset($result[$component->parent_id]->submenu) && !empty($component->link)) {
+						$result[$component->parent_id]->submenu[] = &$component;
 					}
 				}
 			}
 
-			// Check that index.php prefixes the link.
-			if (strpos($component->admin_menu_link, 'index.php') === false && strpos($component->admin_menu_link, 'http') === false) {
-				$component->admin_menu_link = 'index.php?'.$component->admin_menu_link;
-			}
 		}
 
 		// Load additional language files.

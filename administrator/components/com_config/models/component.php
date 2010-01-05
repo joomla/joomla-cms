@@ -47,11 +47,16 @@ class ConfigModelComponent extends JModelForm
 	public function getForm()
 	{
 		$option = $this->getState('component.option');
-
+		$path 	= $this->getState('component.path', '');
 		jimport('joomla.form.form');
 
-		// Add the search path for the admin component config.xml file.
-		JForm::addFormPath(JPATH_ADMINISTRATOR.'/components/'.$option);
+		if ($path){
+			// Add the search path for the admin component config.xml file.
+			JForm::addFormPath($path);
+		} else {
+			// Add the search path for the admin component config.xml file.
+			JForm::addFormPath(JPATH_ADMINISTRATOR.DS.'components'.DS.$option);
+		}
 
 		// Get the form.
 		$form = parent::getForm('config', 'com_config.component', array('array' => 'jform', 'event' => 'onPrepareForm'));
@@ -95,8 +100,39 @@ class ConfigModelComponent extends JModelForm
 	 */
 	public function save($data)
 	{
-		$table = &JTable::getInstance('component');
+		$table 	= &JTable::getInstance('extension');
 
+		// Save the rules.
+		if (isset($data['params']) && isset($data['params']['rules']))
+		{
+			jimport('joomla.access.rules');
+			$rules	= new JRules($data['params']['rules']);
+			$asset	= JTable::getInstance('asset');
+			if ($asset->loadByName($data['option']))
+			{
+				$asset->rules = (string) $rules;
+				if (!$asset->check() || !$asset->store())
+				{
+					$this->setError($asset->getError());
+					return false;
+				}
+				unset($data['option']);// We don't need this anymore
+			}
+			else
+			{
+				$this->setError('Config_Error_Component_asset_not_found');
+				return false;
+			}
+		}
+
+		// Load the previous Data
+		if (!$table->load($data['id']))
+		{
+			$this->setError($table->getError());
+			return false;
+		}
+		unset($data['id']);		
+		
 		// Bind the data.
 		if (!$table->bind($data))
 		{
@@ -119,35 +155,8 @@ class ConfigModelComponent extends JModelForm
 		}
 
 		// Clean the cache.
-		$cache = &JFactory::getCache('com_content');
+		$cache = &JFactory::getCache('com_config');
 		$cache->clean();
-
-		// Save the rules.
-		if (isset($data['params']) && isset($data['params']['rules']))
-		{
-			// TODO: Access access check. Possible to spoof the ACL from another extension.
-
-			// Load the complete table data to get the option.
-			$table->load();
-
-			jimport('joomla.access.rules');
-			$rules	= new JRules($data['params']['rules']);
-			$asset	= JTable::getInstance('asset');
-			if ($asset->loadByName($table->option))
-			{
-				$asset->rules = (string) $rules;
-				if (!$asset->check() || !$asset->store())
-				{
-					$this->setError($asset->getError());
-					return false;
-				}
-			}
-			else
-			{
-				$this->setError('Config_Error_Component_asset_not_found');
-				return false;
-			}
-		}
 
 		return true;
 	}

@@ -84,7 +84,8 @@ class ConfigControllerComponent extends JController
 		// Attempt to save the configuration.
 		$data	= array(
 					'params'	=> $return,
-					'id'		=> $id
+					'id'		=> $id,
+					'option' 	=> $option
 					);
 		$return = $model->save($data);
 

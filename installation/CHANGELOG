@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jan-2010 Hannes Papenberg
+ ^ Removed #__components and moved the admin menu information to #__menu. Thanks jonnsl!
+
 05-Jan-2010 Andrew Eddie
  ^ Accepted [#19268] Refactoring mod_popular in the BackEnd.
  ^ Added support for layout and modal forms in JControllerForm::edit method.

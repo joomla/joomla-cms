@@ -24,7 +24,7 @@ class JComponentHelper
 	 *
 	 * @var	array
 	 */
-	protected static $_components = null;
+	protected static $_components = array();
 
 	/**
 	 * Get the component information.
@@ -35,26 +35,26 @@ class JComponentHelper
 	 */
 	public static function getComponent($option, $strict = false)
 	{
-		if (self::$_components === null) {
-			self::_load();
-		}
-
-		if (isset(self::$_components[$option]))
-		{
-			// Convert the params to an object.
-			if (is_string(self::$_components[$option]->params))
-			{
-				$temp = new JParameter(self::$_components[$option]->params);
-				self::$_components[$option]->params = $temp;
-			}
-			$result = &self::$_components[$option];
-		}
-		else
-		{
+		if (!isset(self::$_components[$option])) {
+			
+			if(self::_load($option)){
+				
+				$result = &self::$_components[$option];
+				
+			} else {
+				
 			$result				= new stdClass;
 			$result->enabled	= $strict ? false : true;
 			$result->params		= new JParameter;
+			
+			}
+			
+		} else{
+			
+			$result = &self::$_components[$option];
+			
 		}
+		
 
 		return $result;
 	}
@@ -162,23 +162,31 @@ class JComponentHelper
 	 *
 	 * @return	boolean
 	 */
-	protected static function _load()
+	protected static function _load($option)
 	{
 		jimport('joomla.database.query');
 		$db		= &JFactory::getDbo();
 		$query	= new JQuery;
-		$query->select('*');
-		$query->from('#__components');
-		$query->where('parent = 0');
+		$query->select('extension_id AS "id", element AS "option", params, enabled');
+		$query->from('#__extensions');
+		$query->where('`type` = "component"');
+		$query->where('`element` = "'.$option.'"');
 		$db->setQuery($query);
 
-		self::$_components = $db->loadObjectList('option');
+		self::$_components[$option] = $db->loadObject();
 
-		if ($error = $db->getErrorMsg())
+		if ($error = $db->getErrorMsg() || empty(self::$_components[$option]))
 		{
 			// Fatal error.
-			JError::raiseWarning(500, 'Error loading components: '.$error);
+			JError::raiseWarning(500, 'Error loading component: "'.$option.'" '.$error);
 			return false;
+		}
+		
+		// Convert the params to an object.
+		if (is_string(self::$_components[$option]->params))
+		{
+			$temp = new JParameter(self::$_components[$option]->params);
+			self::$_components[$option]->params = $temp;
 		}
 
 		return true;

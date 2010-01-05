@@ -165,34 +165,25 @@ if ($user->authorise('core.manage', 'com_content'))
 $menu->addChild(new JMenuNode(JText::_('Mod_Menu_Components'), '#'), true);
 
 // Get the authorised components and sub-menus.
-$components = ModMenuHelper::getComponents(
-		array(
-			// Ignore the core components.
-			'com_content','com_config','com_modules','com_user','com_users','com_cache','com_cpanel','com_installer',
-			'com_massmail','com_plugins','com_templates','com_languages','com_mailto','com_media',
-			'com_wrapper','com_menus'
-		),
-		true
-	);
+$components = ModMenuHelper::getComponents( true );
 
 foreach ($components as &$component)
 {
-	$text = $lang->hasKey($component->option) ? JText::_($component->option) : $component->name;
+	$text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
 
 	if (!empty($component->submenu))
 	{
 		// This component has a db driven submenu.
-		$menu->addChild(new JMenuNode($text, $component->admin_menu_link, $component->admin_menu_img), true);
+		$menu->addChild(new JMenuNode($text, $component->link, $component->img), true);
 		foreach ($component->submenu as $sub)
 		{
-			$key  = $component->option.'_'.str_replace(' ', '_', $sub->name);
-			$text = $lang->hasKey($key) ? JText::_($key) : $sub->name;
-			$menu->addChild(new JMenuNode($text, $sub->admin_menu_link, $sub->admin_menu_img));
+			$text = $lang->hasKey($sub->title) ? JText::_($sub->title) : $sub->alias;
+			$menu->addChild(new JMenuNode($text, $sub->link, $sub->img));
 		}
 		$menu->getParent();
 	}
 	else {
-		$menu->addChild(new JMenuNode($text, $component->admin_menu_link, $component->admin_menu_img));
+		$menu->addChild(new JMenuNode($text, $component->link, $component->img));
 	}
 }
 $menu->getParent();

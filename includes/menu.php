@@ -35,10 +35,10 @@ class JMenuSite extends JMenu
 			$query = new JQuery;
 
 			$query->select('m.id, m.menutype, m.title, m.alias, m.path AS route, m.link, m.type, m.level');
-			$query->select('m.browserNav, m.access, m.params, m.home, m.template_style_id, m.component_id, m.parent_id');
-			$query->select('c.option as component');
+			$query->select('m.browserNav, m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id');
+			$query->select('e.element as component');
 			$query->from('#__menu AS m');
-			$query->leftJoin('#__components AS c ON m.component_id = c.id');
+			$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
 			$query->where('m.published = 1');
 			$query->where('m.parent_id > 0');
 			$query->order('m.lft');

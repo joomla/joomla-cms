@@ -262,20 +262,18 @@ class JInstallerPackage extends JAdapterInstance
 
 	function _getExtensionID($type, $id, $client, $group)
 	{
-		// TODO: Rewrite this to handle #__extensions for more than just plugins
-		// TODO-UPDATE
 		$db		= &$this->parent->getDbo();
 		$result = $id;
 
 		switch($type)
 		{
 			case 'plugin':
-				$db->setQuery("SELECT id FROM #__extensions WHERE type = 'plugin' AND folder = '$group' AND element = '$id'");
+				$db->setQuery("SELECT extension_id FROM #__extensions WHERE `type` = 'plugin' AND `folder` = '$group' AND `element` = '$id'");
 				$result = $db->loadResult();
 				break;
 
 			case 'component':
-				$db->setQuery("SELECT id FROM #__components WHERE parent = 0 AND `option` = '$id'");
+				$db->setQuery("SELECT extension_id FROM #__extensions WHERE `type` = 'component' AND `element` = '$id'");
 				$result = $db->loadResult();
 				break;
 
