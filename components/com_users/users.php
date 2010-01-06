@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.DS.'controller.php';
-require_once JPATH_COMPONENT.DS.'helpers'.DS.'route.php';
+require_once JPATH_COMPONENT.'/controller.php';
+require_once JPATH_COMPONENT.'/helpers/route.php';
 
 // Launch the controller.
 $controller = &JController::getInstance('Users');

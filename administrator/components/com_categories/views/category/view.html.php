@@ -63,8 +63,8 @@ class CategoriesViewCategory extends JView
 		// If not checked out, can save the item.
 		if ($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'))
 		{
-			JToolBarHelper::apply('category.apply');
-			JToolBarHelper::save('category.save');
+			JToolBarHelper::apply('category.apply', 'JToolbar_Apply');
+			JToolBarHelper::save('category.save', 'JToolbar_Save');
 			JToolBarHelper::addNew('category.save2new', 'JToolbar_Save_and_new');
 		}
 

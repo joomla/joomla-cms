@@ -25,7 +25,7 @@
 
 	<languages>
 		<language
-			tag="en-GB">language/en-GB/en-GB.plg_members_profile.ini</language>
+			tag="en-GB">language/en-GB/en-GB.plg_user_profile.ini</language>
 	</languages>
 
 	<fields>

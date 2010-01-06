@@ -374,10 +374,18 @@ class ModulesModelModule extends JModelForm
 		$assignment = isset($data['assignment']) ? $data['assignment'] : 0;
 
 		// Delete old module to menu item associations
-		$this->_db->setQuery(
-			'DELETE FROM #__modules_menu'.
-			' WHERE moduleid = '.(int) $table->id
-		);
+		// $this->_db->setQuery(
+		//	'DELETE FROM #__modules_menu'.
+		//	' WHERE moduleid = '.(int) $table->id
+		// );
+		
+		$query = new JQuery;
+			$query->delete();
+			$query->from('#__modules_menu');
+			$query->where('moduleid='.(int)$table->id);
+		$this->_db->setQuery((string)$query);
+		$this->_db->query();
+		
 		if (!$this->_db->query())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -395,10 +403,16 @@ class ModulesModelModule extends JModelForm
 			if ($assignment === 0)
 			{
 				// assign new module to `all` menu item associations
-				$this->_db->setQuery(
-					'INSERT INTO #__modules_menu'.
-					' SET moduleid = '.(int) $table->id.', menuid = 0'
-				);
+				// $this->_db->setQuery(
+				//	'INSERT INTO #__modules_menu'.
+				//	' SET moduleid = '.(int) $table->id.', menuid = 0'
+				// );
+				
+				$query = new JQuery;
+					$query->insert('#__modules_menu');
+					$query->set('moduleid='.(int)$table->id);
+					$query->set('menuid=0');
+				$this->_db->setQuery((string)$query);
 				if (!$this->_db->query())
 				{
 					$this->setError($this->_db->getErrorMsg());
@@ -469,6 +483,14 @@ class ModulesModelModule extends JModelForm
 				if (!$table->delete($pk))
 				{
 					throw new Exception($table->getError());
+				} else {
+					// Delete the menu assignments
+					$query = new JQuery;
+						$query->delete();
+						$query->from('#__modules_menu');
+						$query->where('moduleid='.(int)$pk);
+					$this->_db->setQuery((string)$query);
+					$this->_db->query();
 				}
 			}
 			else
@@ -564,11 +586,17 @@ class ModulesModelModule extends JModelForm
 					throw new Exception($table->getError());
 				}
 
-				$query = 'SELECT menuid'
-					. ' FROM #__modules_menu'
-					. ' WHERE moduleid = '.(int) $pk
-					;
-					$this->_db->setQuery($query);
+				// $query = 'SELECT menuid'
+				//	. ' FROM #__modules_menu'
+				//	. ' WHERE moduleid = '.(int) $pk
+				//	;
+					
+					$query = new JQuery;
+						$query->select('menuid');
+						$query->from('#__modules_menu');
+						$query->where('moduleid='.(int)$pk);
+					
+					$this->_db->setQuery((string)$query);	
 					$rows = $this->_db->loadResultArray();
 
 					foreach ($rows as $menuid) {

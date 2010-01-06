@@ -45,7 +45,7 @@ class WeblinksModelWeblink extends JModelForm
 	 * @param	array	$options Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
-	public function &getTable($type = 'Weblink', $prefix = 'WeblinksTable', $config = array())
+	public function getTable($type = 'Weblink', $prefix = 'WeblinksTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}

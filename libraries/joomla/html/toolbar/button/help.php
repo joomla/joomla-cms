@@ -34,7 +34,7 @@ class JButtonHelp extends JButton
 		$doTask	= $this->_getCommand($ref, $com);
 
 		$html	= "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
-		$html .= "<span class=\"$class\" title=\"$text\">\n";
+		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
  		$html	.= "$text\n";
 		$html	.= "</a>\n";

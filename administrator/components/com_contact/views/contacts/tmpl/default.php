@@ -52,7 +52,7 @@ $userId	= $user->get('id');
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 				</th>
 				<th>
-					<?php echo JHtml::_('grid.sort',  'Contact_Title_Heading', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'Contact_Title_Heading', 'a.name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'Contact_State_Heading', 'a.state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -97,7 +97,7 @@ $userId	= $user->get('id');
 				</td>
 				<td>
 					<?php if (JTable::isCheckedOut($userId, $item->checked_out)) : ?>
-						<?php echo $item->title; ?>
+						<?php echo $item->name; ?>
 					<?php else : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_contact&task=contact.edit&cid[]='.(int) $item->id); ?>">
 							<?php echo $this->escape($item->name) ?></a>

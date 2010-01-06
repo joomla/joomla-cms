@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<params>
-		<param
+	<fields>
+		<field
 			name="show_comp_description"
 			type="radio"
 			default="1"
@@ -11,9 +11,9 @@
 				value="0">Hide</option>
 			<option
 				value="1">Show</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="comp_description"
 			type="textarea"
 			default=""
@@ -22,10 +22,10 @@
 			cols="50"
 			description="WEBLINKS_INTRO_DESC" />
 
-		<param
+		<field
 			type="spacer" />
 
-		<param
+		<field
 			name="show_link_hits"
 			type="radio"
 			default="1"
@@ -35,9 +35,9 @@
 				value="0">Hide</option>
 			<option
 				value="1">Show</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="show_link_description"
 			type="radio"
 			default="1"
@@ -47,9 +47,9 @@
 				value="0">Hide</option>
 			<option
 				value="1">Show</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="show_other_cats"
 			type="radio"
 			default="1"
@@ -59,9 +59,9 @@
 				value="0">Hide</option>
 			<option
 				value="1">Show</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="show_headings"
 			type="radio"
 			default="1"
@@ -71,9 +71,9 @@
 				value="0">Hide</option>
 			<option
 				value="1">Show</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="show_numbers"
 			type="radio"
 			default="1"
@@ -83,9 +83,9 @@
 				value="0">Hide</option>
 			<option
 				value="1">Show</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			name="show_report"
 			type="radio"
 			default="1"
@@ -95,12 +95,12 @@
 				value="0">Hide</option>
 			<option
 				value="1">Show</option>
-		</param>
+		</field>
 
-		<param
+		<field
 			type="spacer" />
 
-		<param
+		<field
 			name="target"
 			type="list"
 			default="0"
@@ -112,15 +112,15 @@
 				value="1">New Window With Browser Navigation</option>
 			<option
 				value="2">New Window Without Browser Navigation</option>
-		</param>
-		<param
+		</field>
+		<field
 			name="link_icons"
 			type="imagelist"
 			directory="/images/system"
 			default=""
 			label="Icon"
 			description="PARAMICONIMG" />
-	</params>
+	</fields>
 
 	<fields
 		group="permissions"

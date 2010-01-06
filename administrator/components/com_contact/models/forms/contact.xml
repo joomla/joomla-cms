@@ -85,7 +85,42 @@
 			class="inputbox"
 			size="1"
 			default="" />
-
+			<field
+			id="sortname1"
+			name="sortname1"
+			type="text"
+			label="Contact_SortName1_Label"
+			description="Contact_SortName1_Desc"
+			class="inputbox"
+			size="30"
+			required="" />
+		<field
+			id="sortname2"
+			name="sortname2"
+			type="text"
+			label="Contact_sortName2_Label"
+			description="Contact_sortName3_Desc"
+			class="inputbox"
+			size="30"
+			required="" />
+		<field
+			id="sortname3"
+			name="sortname3"
+			type="text"
+			label="Contact_SortName3_Label"
+			description="Contact_SortName3_Desc"
+			class="inputbox"
+			size="30"
+			required="" />			
+		<field
+			id="language"
+			name="language"
+			type="text"
+			label="Contact_Language_Label"
+			description="Contact_Language_Desc"
+			class="inputbox"
+			size="30"
+			required="" />
 		<field
 			id="con_position"
 			name="con_position"
@@ -772,4 +807,6 @@
 			size="30"
 			default="" />
 	</fields>
+
+						
 </form>

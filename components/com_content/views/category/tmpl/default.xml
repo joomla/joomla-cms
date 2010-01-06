@@ -51,7 +51,7 @@
 		<field
 			name="display_num"
 			type="list"
-			default="10"
+			default=""
 			label="Content_Attribs_Number_Items_List_Label"
 			description="Content_Attribs_Number_Items_List_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
@@ -150,7 +150,7 @@
 		<field 
 			name="list_type" 
 			type="list" 
-			default="single" 
+			default="" 
 			label="Content_Attribs_List_Type_Label" 
 			description="Content_Attribs_List_Type_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>

@@ -9,11 +9,11 @@
 
 // no direct access
 defined('_JEXEC') or die;
-
+ 
 // Include the latest functions only once
 require_once dirname(__FILE__).'/helper.php';
-
-	$names 	= moduserslatestHelper::getUsers();
-	$linknames = $params->get('linknames', 0);
 	$shownumber = $params->get('shownumber', 5);
+	$names 	= moduserslatestHelper::getUsers($params);
+	$linknames = $params->get('linknames', 0);
+
 require JModuleHelper::getLayoutPath('mod_users_latest', $params->get('layout', 'default'));

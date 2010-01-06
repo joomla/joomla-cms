@@ -47,7 +47,8 @@
 			description="The number of items to display (default is 5)" />
 		<field
 			name="catid"
-			type="text"
+			type="category"
+			extension="com_content"
 			default=""
 			label="Category ID"
 			description="fieldCATEGORYID" />

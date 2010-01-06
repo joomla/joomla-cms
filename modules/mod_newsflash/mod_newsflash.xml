@@ -29,6 +29,7 @@
 		<field
 			name="catid"
 			type="category"
+			extension="com_content"
 			default="0"
 			label="Category"
 			description="A content category" />

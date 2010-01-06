@@ -45,7 +45,7 @@ class BannersModelBanner extends JModelForm
 	 * @param	array	$options Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
-	public function &getTable($type = 'Banner', $prefix = 'BannersTable', $config = array())
+	public function getTable($type = 'Banner', $prefix = 'BannersTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}

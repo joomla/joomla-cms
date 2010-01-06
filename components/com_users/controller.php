@@ -65,6 +65,7 @@ class UsersController extends JController
 				case 'reset':
 				case 'remind':
 				case 'resend':
+				case 'profile':					
 				default:
 					$model = &$this->getModel('User');
 					break;

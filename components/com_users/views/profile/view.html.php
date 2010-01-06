@@ -56,6 +56,7 @@ class UsersViewProfile extends JView
 		// Configure the pathway and page title.
 		$app		= &JFactory::getApplication();
 		$config		= &JFactory::getConfig();
+		$user		= &JFactory::getUser();
 		$pathway	= &$app->getPathway();
 		$menus		= &$app->getMenu();
 		$menu		= &$menus->getActive();

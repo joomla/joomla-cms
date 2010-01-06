@@ -41,7 +41,7 @@ class TemplatesViewStyle extends JView
 
 		// Bind the record to the form.
 		$itemForm->bind($item);
-		$paramsForm->$item->params;
+		$paramsForm->bind($item->params);
 
 		$this->assignRef('state',		$state);
 		$this->assignRef('item',		$item);

@@ -14,15 +14,16 @@ class modUsersLatestHelper
 {
 	// get users sorted by activation date
 	
-	function getUsers() {
+	function getUsers($params) { 
 
-	    $db		= &JFactory::getDbo();
+	    $db = &JFactory::getDbo();
+
 		$result	= null;
 		$query = new JQuery;
 		$query->select('a.id, a.name, a.username, a.activation');
 		$query->order('a.activation DESC');
 		$query->from('#__users AS a');	
-		$db->setQuery($query,0,$shownumber);
+		$db->setQuery($query,0,$params->get('shownumber'));;
 		$result = $db->loadObjectList();
 		if ($db->getErrorNum()) {
 			JError::raiseWarning(500, $db->stderr());

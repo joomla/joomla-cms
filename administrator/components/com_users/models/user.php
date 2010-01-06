@@ -52,7 +52,7 @@ class UsersModelUser extends JModelForm
 	 * @param	array	$options Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
-	public function &getTable($type = 'User', $prefix = 'JTable', $config = array())
+	public function getTable($type = 'User', $prefix = 'JTable', $config = array())
 	{
 		$table = JTable::getInstance($type, $prefix, $config);
 		return $table;

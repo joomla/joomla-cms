@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.6" type="plugin"  group="user">
+	<name>User - Contact Creator</name>
+	<author>Joomla! Project</author>
+	<creationDate>August 2009</creationDate>
+	<copyright>(C) 2005 - 2009 Open Source Matters. All rights reserved.
+	</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt
+	</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.5</version>
+	<description>PLG_USER_CONTACTCREATOR</description>
+	<files>
+		<filename plugin="contactcreator">contactcreator.php</filename>
+	</files>
+		<languages>
+		<language
+			tag="en-GB">administrator/language/en-GB/en-GB.plg_user_contactcreator.ini</language>
+	</languages>
+	<fields>
+		<field 
+			name="autowebpage" 
+			default="" 
+			type="text" 
+			label="PLG_CONTACTCREATOR_Automatic_Contact_Label" 
+			description="PLG_CONTACTCREATOR_Automatic_Contact_DESC" />
+		<field 
+			name="category" 
+			default="" 
+			type="category"
+			extension="com_contact"
+			label="PLG_CONTACTCREATOR_Category_label" 
+			description="PLG_CONTACTCREATOR_Category_Desc"/>
+		<field 
+			name="autopublish" 
+			type="radio" 
+			default="0" 
+			label="PLG_CONTACTCREATOR_Autopublish_Label" 
+			description="PLG_CONTACTCREATOR_Autopublish_DESC">
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
+			</field>
+	</fields>
+</install>

@@ -73,7 +73,8 @@
 		</field>
 		<field
 			name="catid"
-			type="text"
+			type="category"
+			extension="com_content"
 			default=""
 			label="Category ID"
 			description="fieldCATEGORYID" />

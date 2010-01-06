@@ -62,7 +62,7 @@ class AdminModelSysInfo extends JModel
 			$this->php_settings['file_uploads']			= ini_get('file_uploads') == '1';
 			$this->php_settings['magic_quotes_gpc']		= ini_get('magic_quotes_gpc') == '1';
 			$this->php_settings['register_globals']		= ini_get('register_globals') == '1';
-			$this->php_settings['output_buffering']		= ini_get('output_buffering') == '1';
+			$this->php_settings['output_buffering']		= (bool) ini_get('output_buffering');
 			$this->php_settings['open_basedir']			= ini_get('open_basedir');
 			$this->php_settings['session.save_path']	= ini_get('session.save_path');
 			$this->php_settings['session.auto_start']	= ini_get('session.auto_start');

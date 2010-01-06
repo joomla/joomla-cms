@@ -66,8 +66,8 @@ class RedirectViewLink extends JView
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			JToolBarHelper::save('link.save');
-			JToolBarHelper::apply('link.apply');
+			JToolBarHelper::apply('link.apply', 'JToolbar_Apply');
+			JToolBarHelper::save('link.save', 'JToolbar_Save');
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
@@ -78,7 +78,7 @@ class RedirectViewLink extends JView
 			JToolBarHelper::addNew('link.save2new', 'JToolbar_Save_and_new');
 		}
 		if (empty($this->item->id)) {
-			JToolBarHelper::cancel('link.cancel');
+			JToolBarHelper::cancel('link.cancel', 'JToolbar_Cancel');
 		}
 		else {
 			JToolBarHelper::cancel('link.cancel', 'JToolbar_Close');

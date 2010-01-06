@@ -78,8 +78,8 @@ class ContentViewArticle extends JView
 		// If not checked out, can save the item.
 		if (!$checkedOut && $canDo->get('core.edit'))
 		{
-			JToolBarHelper::apply('article.apply');
-			JToolBarHelper::save('article.save');
+			JToolBarHelper::apply('article.apply', 'JToolbar_Apply');
+			JToolBarHelper::save('article.save', 'JToolbar_Save');
 			JToolBarHelper::custom('article.save2new', 'save-new.png', 'save-new_f2.png', 'JToolbar_Save_and_new', false);
 		}
 
@@ -88,7 +88,7 @@ class ContentViewArticle extends JView
 			JToolBarHelper::custom('article.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_Copy', false);
 		}
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('article.cancel');
+			JToolBarHelper::cancel('article.cancel', 'JToolbar_Cancel');
 		}
 		else {
 			JToolBarHelper::cancel('article.cancel', 'JToolbar_Close');

@@ -57,7 +57,7 @@ class TemplatesModelStyle extends JModelForm
 	 * @param	array	$options Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
-	public function &getTable($type = 'Style', $prefix = 'TemplatesTable', $config = array())
+	public function getTable($type = 'Style', $prefix = 'TemplatesTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}

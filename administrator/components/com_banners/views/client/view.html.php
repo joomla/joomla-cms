@@ -65,18 +65,18 @@ class BannersViewClient extends JView
 
 		JToolBarHelper::title($isNew ? JText::_('Banners_Manager_Client_New') : JText::_('Banners_Manager_Client_Edit'));
 
+		// If not checked out, can save the item.
+		if (!$checkedOut && $canDo->get('core.edit'))
+		{
+			JToolBarHelper::apply('client.apply', 'JToolbar_Apply');
+			JToolBarHelper::save('client.save', 'JToolbar_Save');			
+			JToolBarHelper::addNew('client.save2new', 'JToolbar_Save_and_new');
+		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
 			JToolBarHelper::custom('client.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_Copy', false);
 		}
-
-		// If not checked out, can save the item.
-		if (!$checkedOut && $canDo->get('core.edit'))
-		{
-			JToolBarHelper::save('client.save');
-			JToolBarHelper::apply('client.apply');
-			JToolBarHelper::addNew('client.save2new', 'JToolbar_Save_and_new');
-		}
+		
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('client.cancel');
 		}

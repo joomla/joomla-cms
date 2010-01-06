@@ -52,7 +52,19 @@ JHtml::_('behavior.formvalidation');
 
 					<?php echo $this->form->getLabel('ordering'); ?>
 					<?php echo $this->form->getInput('ordering'); ?>
+					
+					<?php echo $this->form->getLabel('sortname1'); ?>
+					<?php echo $this->form->getInput('sortname1'); ?>
+					
+					<?php echo $this->form->getLabel('sortname2'); ?>
+					<?php echo $this->form->getInput('sortname2'); ?>
+					
+					<?php echo $this->form->getLabel('sortname3'); ?>
+					<?php echo $this->form->getInput('sortname3'); ?>
 
+					<?php echo $this->form->getLabel('language'); ?>
+					<?php echo $this->form->getInput('language'); ?>
+				
 					<div class="clr"> </div>
 					<?php echo $this->form->getLabel('misc'); ?>
 					<div class="clr"> </div>

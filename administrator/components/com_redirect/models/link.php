@@ -46,7 +46,7 @@ class RedirectModelLink extends JModelForm
 	 * @param	array	$options Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
-	public function &getTable($type = 'Link', $prefix = 'RedirectTable', $config = array())
+	public function getTable($type = 'Link', $prefix = 'RedirectTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}

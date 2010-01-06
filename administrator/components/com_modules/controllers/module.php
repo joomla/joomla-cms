@@ -89,7 +89,6 @@ class ModulesControllerModule extends JControllerForm
 		{
 			$app->setUserState('com_modules.add.module.extension_id', null);
 		}
-
-		return result;
+		return $result;
 	}
 }

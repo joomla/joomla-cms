@@ -531,15 +531,7 @@
 			label="JField_Metadata_Rights_Label"
 			description="JField_Metadata_Rights_Desc"
 			size="20" />
-		<field
-			id="language"
-			name="language"
-			type="text"
-			label="JField_Language_Label"
-			description="JField_Language_Desc"
-			class="inputbox"
-			size="10"
-			default="" />
+	
 		<field
 			id="xreference"
 			name="xreference"
