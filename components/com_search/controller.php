@@ -55,7 +55,7 @@ class SearchController extends JController
 		if ($areas) {
 			foreach($areas as $area)
 			{
-				$post['areas'][] = JFilterInput::clean($area, 'cmd');
+				$post['areas'][] = JFilterInput::getInstance()->clean($area, 'cmd');
 			}
 		}
 

@@ -54,7 +54,7 @@ class ContentControllerArticle extends JController
 			$return = JRequest::getVar('return', base64_encode(JURI::base()));
 		}
 
-		$return = JFilterInput::clean($return, 'base64');
+		$return = JFilterInput::getInstance()->clean($return, 'base64');
 		$return = base64_decode($return);
 
 		if (!JURI::isInternal($return)) {
