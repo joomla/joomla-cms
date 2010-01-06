@@ -105,7 +105,7 @@ class JUpdate extends JObject
 		{
 			case 'UPDATE': // closing update, find the latest version and check
 				$ver = new JVersion();
-				$product = strtolower(JFilterInput::clean($ver->PRODUCT, 'cmd'));
+				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
 				if($product == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version)
 				{
 					if(isset($this->_latest))

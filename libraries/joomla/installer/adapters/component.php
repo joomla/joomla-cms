@@ -56,7 +56,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Set the extensions name
 		$name = &$this->manifest->getElementByPath('name');
-		$element = strtolower('com_'.JFilterInput::clean($name->data(), 'cmd'));
+		$element = strtolower('com_'.JFilterInput::getInstance()->clean($name->data(), 'cmd'));
 		$name = $name->data();
 
 		$this->set('element', $element);
@@ -379,7 +379,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Time to build the admin menus
 		$this->_buildAdminMenus();
-		
+
 		// Clobber any possible pending updates
 		$update = &JTable::getInstance('update');
 		$uid = $update->find(Array('element'=>$this->get('element'),
@@ -440,7 +440,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Set the extensions name
 		$name = &$this->manifest->getElementByPath('name');
-		$element = strtolower('com_'.JFilterInput::clean($name->data(), 'cmd'));
+		$element = strtolower('com_'.JFilterInput::getInstance()->clean($name->data(), 'cmd'));
 		$name = $name->data();
 		$this->set('element', $element);
 		$this->set('name', $name);
@@ -868,7 +868,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Set the extensions name
 		$name = &$this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'cmd');
+		$name = JFilterInput::getInstance()->clean($name->data(), 'cmd');
 		$this->set('name', $name);
 
 		/**
@@ -1042,9 +1042,9 @@ class JInstallerComponent extends JAdapterInstance
 		$query->where('e.element = '.$option);
 
 		$db->setQuery($query);
-		
+
 		$componentrow = $db->loadObject();
-		
+
 		// Check if menu items exist
 		if ($componentrow)
 		{
@@ -1086,7 +1086,7 @@ class JInstallerComponent extends JAdapterInstance
 			$data['component_id'] = $component_id;
 			$data['img'] = ($menuElement->attributes('img')) ? $menuElement->attributes('img') : 'class:component';
 			$data['home'] = 0;
-			
+
 			if(!$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// Install failed, rollback changes
@@ -1115,7 +1115,7 @@ class JInstallerComponent extends JAdapterInstance
 			$data['component_id'] = $component_id;
 			$data['img'] = 'class:component';
 			$data['home'] = 0;
-			
+
 			if(!$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// Install failed, rollback changes
@@ -1152,7 +1152,7 @@ class JInstallerComponent extends JAdapterInstance
 				$data['component_id'] = $component_id;
 				$data['img'] = ($child->attributes('img')) ? $child->attributes('img') : 'class:component';
 				$data['home'] = 0;
-				
+
 				// Set the sub menu link
 				if ($child->attributes("link")) {
 					$data['link'] = $child->attributes("link");
@@ -1213,36 +1213,36 @@ class JInstallerComponent extends JAdapterInstance
 		$db = &$this->parent->getDbo();
 		$table = &JTable::getInstance('menu');
 		$id = $row->extension_id;
-		
+
 		// Get the ids of the menu items
 		$query = new JQuery();
 		$query->select('id');
 		$query->from('#__menu');
 		$query->where('`menutype` = "_adminmenu"');
 		$query->where('`component_id` = "'.$id.'"');
-		
+
 		$ids = $db->loadResultArray();
-		
+
 		// Check for error
 		if($error = $db->getErrorMsg() || empty($ids)){
-			
+
 			JError::raiseWarning('Some_code_here', 'Some_message_here');
 			return false;
-			
+
 		} else {
 			// Iterate the items to delete each one.
 			foreach($ids as $menuid){
-				
+
 				if (!$table->delete((int) $menuid))
 				{
 					$this->setError($table->getError());
 					return false;
 				}
-				
+
 			}
 			// Rebuild the whole tree
 			$table->rebuild();
-			
+
 		}
 		return true;
 	}
@@ -1338,7 +1338,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Set the extensions name
 		$name = &$this->manifest->getElementByPath('name');
-		$element = strtolower('com_'.JFilterInput::clean($name->data(), 'cmd'));
+		$element = strtolower('com_'.JFilterInput::getInstance()->clean($name->data(), 'cmd'));
 		$name = $name->data();
 		$this->set('element', $element);
 		$this->set('name', $name);

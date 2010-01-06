@@ -45,7 +45,7 @@ class JInstallerFile extends JAdapterInstance
 
 		// Set the extensions name
 		$name =& $this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'string');
+		$name = JFilterInput::getInstance()->clean($name->data(), 'string');
 		$this->set('name', $name);
 
 		// Set element
@@ -174,7 +174,7 @@ class JInstallerFile extends JAdapterInstance
 
 		// Set the extensions name
 		$name =& $this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'string');
+		$name = JFilterInput::getInstance()->clean($name->data(), 'string');
 		$installer = new JInstaller(); // we don't want to compromise this instance!
 		$installer->uninstall('file', $name, 0);
 		// ...and adds new files

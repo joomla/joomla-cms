@@ -99,7 +99,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Get the language name
 		// Set the extensions name
 		$name = &$this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'cmd');
+		$name = JFilterInput::getInstance()->clean($name->data(), 'cmd');
 		$this->set('name', $name);
 
 		// Get the Language tag [ISO tag, eg. en-GB]
@@ -271,7 +271,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Get the language name
 		// Set the extensions name
 		$name = &$this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'cmd');
+		$name = JFilterInput::getInstance()->clean($name->data(), 'cmd');
 		$this->set('name', $name);
 
 		// Get the Language tag [ISO tag, eg. en-GB]

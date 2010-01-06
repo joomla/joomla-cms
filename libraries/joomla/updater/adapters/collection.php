@@ -92,7 +92,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 
 				// only add the update if it is on the same platform and release as we are
 				$ver = new JVersion();
-				$product = strtolower(JFilterInput::clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
+				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
 				// set defaults, the extension file should clarify in case but it may be only available in one version
 				// this allows an update site to specify a targetplatform
 				// targetplatformversion can be a regexp, so 1.[56] would be valid for an extension that supports 1.5 and 1.6

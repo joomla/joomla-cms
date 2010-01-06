@@ -58,7 +58,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		// Set the extensions name
 		$name = &$root->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'cmd');
+		$name = JFilterInput::getInstance()->clean($name->data(), 'cmd');
 
 		$element = strtolower(str_replace(" ", "_", $name));
 		$this->set('name', $name);
