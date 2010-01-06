@@ -233,7 +233,7 @@ class JAdministrator extends JApplication
 			$db->setQuery($query);
 			$template = $db->loadObject();
 
-			$template->template = JFilterInput::clean($template->template, 'cmd');
+			$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');
 
 			if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php'))
 			{
