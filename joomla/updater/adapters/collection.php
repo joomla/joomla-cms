@@ -45,7 +45,8 @@ class JUpdaterCollection extends JUpdateAdapter {
 	 * Get the parent tag
 	 * @return string parent
 	 */
-    protected function _getParent() {
+    protected function _getParent()
+    {
     	return end($this->parent);
     }
 
@@ -55,7 +56,8 @@ class JUpdaterCollection extends JUpdateAdapter {
 	 * @param string name of element that is opened
 	 * @param array array of attributes for the element
 	 */
-	public function _startElement($parser, $name, $attrs = Array()) {
+	public function _startElement($parser, $name, $attrs = Array())
+	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
 		// reset the data
@@ -90,8 +92,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 
 				// only add the update if it is on the same platform and release as we are
 				$ver = new JVersion();
-				$filter =& JFilterInput::getInstance();
-				$product = strtolower($filter->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
+				$product = strtolower(JFilterInput::clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
 				// set defaults, the extension file should clarify in case but it may be only available in one version
 				// this allows an update site to specify a targetplatform
 				// targetplatformversion can be a regexp, so 1.[56] would be valid for an extension that supports 1.5 and 1.6
@@ -135,7 +136,8 @@ class JUpdaterCollection extends JUpdateAdapter {
 	 * @param array options to use; update_site_id: the unique ID of the update site to look at
 	 * @return array update_sites and updates discovered
 	 */
-	public function findUpdate($options) {
+	public function findUpdate($options)
+	{
 		$url = $options['location'];
 		$this->_update_site_id = $options['update_site_id'];
 		if(substr($url, -4) != '.xml') {
