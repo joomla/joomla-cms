@@ -64,11 +64,18 @@ abstract class JHtmlGrid
 		$images		= array('sort_asc.png', 'sort_desc.png');
 		$index		= intval($direction == 'desc');
 		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
+		$app = &JFactory::getApplication();
+		$cur_template = $app->getTemplate();
+		$clientId = $app->getClientId();
 
 		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_('Click to sort this column').'">';
 		$html .= JText::_($title);
 		if ($order == $selected) {
-			$html .= JHtml::_('image.administrator',  $images[$index], '/templates/bluestork/images/admin/', NULL, NULL);
+			if ($clientId) {
+				$html .= JHtml::_('image.administrator',  $images[$index], '/templates/'.$cur_template.'/images/admin/', NULL, NULL);
+			} else {
+				$html .= JHtml::_('image.site',  $images[$index], '/templates/system/images/', NULL, NULL);
+			}
 		}
 		$html .= '</a>';
 		return $html;

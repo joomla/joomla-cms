@@ -36,7 +36,7 @@ class JButtonPopup extends JButton
 		$doTask	= $this->_getCommand($name, $url, $width, $height, $top, $left);
 
 		$html	= "<a class=\"modal\" href=\"$doTask\" rel=\"{handler: 'iframe', size: {x: $width, y: $height}}\">\n";
-		$html .= "<span class=\"$class\" title=\"$text\">\n";
+		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
 		$html	.= "$text\n";
 		$html	.= "</a>\n";
