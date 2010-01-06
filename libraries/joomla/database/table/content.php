@@ -151,14 +151,6 @@ class JTableContent extends JTable
 	 */
 	public function check()
 	{
-		/*
-		TODO: This filter is too rigorous,need to implement more configurable solution
-		// specific filters
-		$filter = & JFilterInput::getInstance(null, null, 1, 1);
-		$this->introtext = trim($filter->clean($this->introtext));
-		$this->fulltext =  trim($filter->clean($this->fulltext));
-		*/
-
 		if (empty($this->title)) {
 			$this->setError(JText::_('Article must have a title'));
 			return false;
