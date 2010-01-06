@@ -16,6 +16,7 @@ jimport('joomla.database.query');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_users
+ * @since	1.6
  */
 class UsersModelMail extends JModelForm
 {
@@ -23,7 +24,6 @@ class UsersModelMail extends JModelForm
 	 * Method to get the row form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
-	 * @since	1.6
 	 */
 	public function getForm()
 	{
@@ -68,15 +68,12 @@ class UsersModelMail extends JModelForm
 		$message_body = array_key_exists('message',$data) ? $data['message'] : '';
 
 		// automatically removes html formatting
-		if (!$mode)
-		{
-			$noHtmlFilter = &JFilterInput::getInstance();
-			$message_body = $noHtmlFilter->clean($message_body, 'string');
+		if (!$mode) {
+			$message_body = JFilterInput::clean($message_body, 'string');
 		}
 
 		// Check for a message body and subject
-		if (!$message_body || !$subject)
-		{
+		if (!$message_body || !$subject) {
 			$this->setError(JText::_('Users_Mail_Please_fill_in_the_form_correctly'));
 			return false;
 		}
@@ -89,20 +86,19 @@ class UsersModelMail extends JModelForm
 		$query->select('email');
 		$query->from('#__users');
 		$query->where('id != '.(int) $user->get('id'));
-		if ($grp !== 0)
-		{
-			if (empty($to))
+		if ($grp !== 0) {
+			if (empty($to)) {
 				$query->where('0');
-			else
+			} else {
 				$query->where('id IN (' . implode(',', $to) . ')');
+			}
 		}
 
 		$db->setQuery($query);
 		$rows = $db->loadResultArray();
 
 		// Check to see if there are any users in this group before we continue
-		if (!count($rows))
-		{
+		if (!count($rows)) {
 			$this->setError(JText::_('Users_Mail_No_users_could_be_found_in_this_group'));
 			return false;
 		}
@@ -118,13 +114,10 @@ class UsersModelMail extends JModelForm
 		$mailer->IsHTML($mode);
 
 		// Add recipients
-		if ($bcc)
-		{
+		if ($bcc) {
 			$mailer->addBCC($rows);
 			$mailer->addRecipient($app->getCfg('mailfrom'));
-		}
-		else
-		{
+		} else {
 			$mailer->addRecipient($rows);
 		}
 
@@ -132,20 +125,15 @@ class UsersModelMail extends JModelForm
 		$rs	= $mailer->Send();
 
 		// Check for an error
-		if (JError::isError($rs))
-		{
+		if (JError::isError($rs)) {
 			$this->setError($rs->getError());
 			return false;
-		}
-		elseif (empty($rs))
-		{
+		} elseif (empty($rs)) {
 			$this->setError(JText::_('Users_Mail_The_mail_could_not_be_sent'));
 			return false;
-		}
-		else
-		{
+		} else {
 			// Fill the data (specially for the 'mode', 'group' and 'bcc': they could not exist in the array
-			// when the box is not checked and in this case, the default value would be used instead of the '0' 
+			// when the box is not checked and in this case, the default value would be used instead of the '0'
 			// one)
 			$data['mode']=$mode;
 			$data['subject']=$subject;
@@ -158,5 +146,4 @@ class UsersModelMail extends JModelForm
 			return true;
 		}
 	}
-
 }
