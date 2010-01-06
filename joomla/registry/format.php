@@ -36,7 +36,7 @@ abstract class JRegistryFormat extends JObject
 			$instances = array ();
 		}
 
-		$format = strtolower(JFilterInput::clean($format, 'word'));
+		$format = strtolower(JFilterInput::getInstance()->clean($format, 'word'));
 		if (empty ($instances[$format]))
 		{
 			$class = 'JRegistryFormat'.$format;

@@ -41,7 +41,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// Set the extensions name
 		$name = &$this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'string');
+		$name = JFilterInput::getInstance()->clean($name->data(), 'string');
 		$element = str_replace('.xml','',basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
@@ -187,7 +187,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// Set the extensions name
 		$name = &$this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'string');
+		$name = JFilterInput::getInstance()->clean($name->data(), 'string');
 		$element = str_replace('.xml','',basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
 		$this->set('element', $element);
