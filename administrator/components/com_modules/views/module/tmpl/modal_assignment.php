@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: edit_assignment.php 13563 2009-11-23 18:53:57Z eddieajau $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_modules
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
