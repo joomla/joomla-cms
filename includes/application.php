@@ -342,7 +342,7 @@ final class JSite extends JApplication
 
 		// Allows for overriding the active template from the request
 		$template->template = JRequest::getCmd('template', $template->template);
-		$template->template = JFilterInput::clean($template->template, 'cmd'); // need to filter the default value as well
+		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd'); // need to filter the default value as well
 
 		// Fallback template
 		if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php')) {
