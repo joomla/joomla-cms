@@ -30,6 +30,7 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 		<div class="clr"></div>
+		<input type="submit" style="border: 0; padding: 0; margin: 0; width: 0px; height: 0px;" value="<?php echo JText::_( 'Login' ); ?>" />
 		<input type="hidden" name="option" value="com_login" />
 		<input type="hidden" name="task" value="login" />
 		<input type="hidden" name="return" value="<?php echo $return; ?>" />
