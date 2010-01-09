@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Jan-2010 Mark Dexter
+# During install, default to English if Joomla! language uses 3-letter ISO code (Jean-Marie Simonet).
+
 07-Jan-2010 Andrew Eddie
  ^ Removed ability to call JFilterInput statically.
  # Fixed buggy DB error string in installation.
