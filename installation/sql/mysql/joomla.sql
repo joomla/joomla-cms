@@ -303,19 +303,6 @@ CREATE TABLE `#__content_rating` (
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__core_log_items`
-#
-
-CREATE TABLE `#__core_log_items` (
-  `time_stamp` date NOT NULL default '0000-00-00',
-  `item_table` varchar(50) NOT NULL default '',
-  `item_id` integer unsigned NOT NULL default '0',
-  `hits` integer unsigned NOT NULL default '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
-
-#
 # Table structure for table `#__core_log_searches`
 #
 
@@ -822,18 +809,6 @@ CREATE TABLE  `#__update_categories` (
   PRIMARY KEY  (`categoryid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Categories';
 
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__stats_agents`
-#
-
-CREATE TABLE `#__stats_agents` (
-  `agent` varchar(255) NOT NULL default '',
-  `type` tinyint(1) unsigned NOT NULL default '0',
-  `hits` integer unsigned NOT NULL default '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 

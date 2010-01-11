@@ -749,6 +749,7 @@ INSERT INTO #__schema VALUES(LAST_INSERT_ID()), '20090622');
 
 # com_content show_vote -> article-allow_ratings
 
-
+DROP TABLE `#__core_log_items`;
+DROP TABLE `#__stats_agents`;
 
 

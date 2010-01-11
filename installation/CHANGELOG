@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jan-2010 Hannes Papenberg
+- Removed obsolete #__core_log_items table
+- Removed obsolete #__stats_agents table
+
 09-Jan-2010 Mark Dexter
 # During install, default to English if Joomla! language uses 3-letter ISO code (Jean-Marie Simonet).
 
