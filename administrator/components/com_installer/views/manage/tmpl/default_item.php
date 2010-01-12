@@ -31,7 +31,7 @@ defined('_JEXEC') or die;
 	<td class="center"><?php echo @$this->item->folder != '' ? $this->item->folder : 'N/A'; ?></td>
 	<td class="center"><?php echo @$this->item->client != '' ? $this->item->client : 'N/A'; ?></td>
 	<td>
-		<span class="editlinktip hasTip" title="<?php echo JText::_('Author Information');?>::<?php echo $this->item->author_info; ?>">
+		<span class="editlinktip hasTip" title="<?php echo JText::_('AUTHOR_INFORMATION');?>::<?php echo $this->item->author_info; ?>">
 			<?php echo @$this->item->author != '' ? $this->item->author : '&nbsp;'; ?>
 		</span>
 	</td>

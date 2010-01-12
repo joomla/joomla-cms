@@ -93,12 +93,12 @@ class InstallerModelUpdate extends InstallerModel
 		$db->setQuery('TRUNCATE TABLE #__updates');
 		if ($db->Query())
 		{
-			$this->_message = JText::_('Purged updates');
+			$this->_message = JText::_('PURGED_UPDATES');
 			return true;
 		}
 		else
 		{
-			$this->_message = JText::_('Failed to purge updates');
+			$this->_message = JText::_('FAILED_TO_PURGE_UPDATES');
 			return false;
 		}
 	}

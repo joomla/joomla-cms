@@ -25,8 +25,8 @@ class InstallerViewUpdate extends InstallerViewDefault
 		 * Set toolbar items for the page
 		 */
 		JToolBarHelper::custom('update.update', 'config', 'config', 'Update', true, false);
-		JToolBarHelper::custom('update.find', 'refresh', 'refresh','Find Updates',false,false);
-		JToolBarHelper::custom('update.purge', 'purge', 'purge', 'Purge Cache', false,false);
+		JToolBarHelper::custom('update.find', 'refresh', 'refresh','FIND_UPDATES',false,false);
+		JToolBarHelper::custom('update.purge', 'purge', 'purge', 'PURGE_CACHE', false,false);
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.installer');
 

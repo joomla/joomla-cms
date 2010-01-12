@@ -116,14 +116,14 @@ class InstallerModelDiscover extends InstallerModel
 				$result = $installer->discover_install($id);
 				if (!$result) {
 					$failed = true;
-					$app->enqueueMessage(JText::_('Discover install failed').': '. $id);
+					$app->enqueueMessage(JText::_('DISCOVER_INSTALL_FAILED').': '. $id);
 				}
 			}
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
 			$this->setState('message', $installer->message);
 			$this->setState('extension_message', $installer->get('extension_message'));
-			if (!$failed) $app->enqueueMessage(JText::_('Discover install successful'));
+			if (!$failed) $app->enqueueMessage(JText::_('DISCOVER_INSTALL_SUCCESSFUL'));
 		} else {
 			$app =& JFactory::getApplication();
 			$app->enqueueMessage(JText::_('No_extension_selected'));
@@ -137,10 +137,10 @@ class InstallerModelDiscover extends InstallerModel
 		$db =& JFactory::getDBO();
 		$db->setQuery('DELETE FROM #__extensions WHERE state = -1');
 		if ($db->Query()) {
-			$this->_message = JText::_('Purged discovered extensions');
+			$this->_message = JText::_('PURGED_DISCOVERED_EXTENSIONS');
 			return true;
 		} else {
-			$this->_message = JText::_('Failed to purge extensions');
+			$this->_message = JText::_('FAILED_TO_PURGE_EXTENSIONS');
 			return false;
 		}
 	}

@@ -30,11 +30,11 @@ class InstallerViewDefault extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title(JText::_('Extension Manager'), 'install.png');
+		JToolBarHelper::title(JText::_('EXTENSION_MANAGER'), 'install.png');
 
 		// Document
 		$document = & JFactory::getDocument();
-		$document->setTitle(JText::_('Extension Manager').' : '.JText::_($this->getName()));
+		$document->setTitle(JText::_('EXTENSION_MANAGER').' : '.JText::_($this->getName()));
 
 		// Get data from the model
 		$state		= &$this->get('State');

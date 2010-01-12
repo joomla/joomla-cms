@@ -91,7 +91,7 @@ class InstallerModelInstall extends InstallerModel
 
 		// Was the package unpacked?
 		if (!$package) {
-			$this->setState('message', 'Unable to find install package');
+			$this->setState('message', 'UNABLE_TO_FIND_INSTALL_PACKAGE');
 			return false;
 		}
 
@@ -195,7 +195,7 @@ class InstallerModelInstall extends InstallerModel
 
 		// Did you give us a valid directory?
 		if (!is_dir($p_dir)) {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Please enter a package directory'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('PLEASE_ENTER_A_PACKAGE_DIRECTORY'));
 			return false;
 		}
 
@@ -204,7 +204,7 @@ class InstallerModelInstall extends InstallerModel
 
 		// Did you give us a valid package?
 		if (!$type) {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Path does not have a valid package'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'));
 			return false;
 		}
 
@@ -233,7 +233,7 @@ class InstallerModelInstall extends InstallerModel
 
 		// Did you give us a URL?
 		if (!$url) {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Please enter a URL'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('PLEASE_ENTER_A_URL'));
 			return false;
 		}
 
@@ -242,7 +242,7 @@ class InstallerModelInstall extends InstallerModel
 
 		// Was the package downloaded?
 		if (!$p_file) {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Invalid URL'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('INVALID_URL'));
 			return false;
 		}
 

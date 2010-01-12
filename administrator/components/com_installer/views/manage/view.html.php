@@ -24,7 +24,7 @@ class InstallerViewManage extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::custom('manage.refresh', 'refresh', 'refresh','Refresh Cache',false,false);
+		JToolBarHelper::custom('manage.refresh', 'refresh', 'refresh','REFRESH_CACHE',false,false);
 		JToolBarHelper::deleteList('', 'manage.remove', 'Uninstall');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.installer2');
