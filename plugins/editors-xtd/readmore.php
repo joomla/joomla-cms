@@ -33,7 +33,7 @@ class plgButtonReadmore extends JPlugin
 		// button is not active in specific content components
 
 		$getContent = $this->_subject->getContent($name);
-		$present = JText::_('ALREADY EXISTS', true) ;
+		$present = JText::_('ALREADY_EXISTS', true) ;
 		$js = "
 			function insertReadmore(editor) {
 				var content = $getContent

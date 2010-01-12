@@ -21,7 +21,7 @@
 			name="enabled"
 			type="radio"
 			default="1"
-			label="Enable Plugin"
+			label="ENABLE_PLUGIN"
 			description="fieldENABLED">
 			<option
 				value="0">JNo</option>

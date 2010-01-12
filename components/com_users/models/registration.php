@@ -249,7 +249,7 @@ class UsersModelRegistration extends JModelForm
 
 		// Check for a valid user id.
 		if (!$userId) {
-			$this->setError(JText::_('USERS ACTIVATION TOKEN NOT FOUND'));
+			$this->setError(JText::_('USERS_ACTIVATION_TOKEN_NOT_FOUND'));
 			return false;
 		}
 

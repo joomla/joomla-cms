@@ -38,7 +38,7 @@ class UsersControllerRegistration extends UsersController
 
 		// If user registration or account activation is disabled, throw a 403.
 		if ($uParams->get('useractivation', 1) == 0 || $uParams->get('allowUserRegistration', 1) == 0) {
-			JError::raiseError(403, JText::_('ACCESS FORBIDDEN'));
+			JError::raiseError(403, JText::_('ACCESS_FORBIDDEN'));
 			return false;
 		}
 

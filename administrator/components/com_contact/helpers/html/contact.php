@@ -46,25 +46,25 @@ abstract class JHtmlContact
 			<img src="templates/bluestork/admin/publish_y.png" width="16" height="16" border="0" alt="<?php echo JText::_('Pending'); ?>" />
 			</td>
 			<td>
-			<?php echo JText::_('Published, but is'); ?> <u><?php echo JText::_('Pending'); ?></u> |
+			<?php echo JText::_('PUBLISHED_BUT_IS'); ?> <u><?php echo JText::_('Pending'); ?></u> |
 			</td>
 			<td>
 			<img src="templates/bluestork/admin/publish_g.png" width="16" height="16" border="0" alt="<?php echo JText::_('Visible'); ?>" />
 			</td>
 			<td>
-			<?php echo JText::_('Published and is'); ?> <u><?php echo JText::_('Current'); ?></u> |
+			<?php echo JText::_('PUBLISHED_AND_IS'); ?> <u><?php echo JText::_('Current'); ?></u> |
 			</td>
 			<td>
 			<img src="templates/bluestork/admin/publish_r.png" width="16" height="16" border="0" alt="<?php echo JText::_('Finished'); ?>" />
 			</td>
 			<td>
-			<?php echo JText::_('Published, but has'); ?> <u><?php echo JText::_('Expired'); ?></u> |
+			<?php echo JText::_('PUBLISHED_BUT_HAS'); ?> <u><?php echo JText::_('Expired'); ?></u> |
 			</td>
 			<td>
 			<img src="templates/bluestork/admin/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_('Finished'); ?>" />
 			</td>
 			<td>
-			<?php echo JText::_('Not Published'); ?> |
+			<?php echo JText::_('NOT_PUBLISHED'); ?> |
 			</td>
 			<td>
 			<img src="templates/bluestork/admin/disabled.png" width="16" height="16" border="0" alt="<?php echo JText::_('Archived'); ?>" />
@@ -75,7 +75,7 @@ abstract class JHtmlContact
 		</tr>
 		<tr>
 			<td colspan="10" align="center">
-			<?php echo JText::_('Click on icon to toggle state.'); ?>
+			<?php echo JText::_('CLICK_ON_ICON_TO_TOGGLE_STATE'); ?>
 			</td>
 		</tr>
 		</table>

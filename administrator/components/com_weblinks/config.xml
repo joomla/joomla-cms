@@ -107,11 +107,11 @@
 			label="Target"
 			description="Target window when the link is clicked">
 			<option
-				value="0">Parent Window With Browser Navigation</option>
+				value="0">PARENT_WINDOW_WITH_BROWSER_NAVIGATION</option>
 			<option
-				value="1">New Window With Browser Navigation</option>
+				value="1">NEW_WINDOW_WITH_BROWSER_NAVIGATION</option>
 			<option
-				value="2">New Window Without Browser Navigation</option>
+				value="2">NEW_WINDOW_WITHOUT_BROWSER_NAVIGATION</option>
 		</field>
 		<field
 			name="link_icons"

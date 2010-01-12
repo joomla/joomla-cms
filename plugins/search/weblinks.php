@@ -61,7 +61,7 @@ function plgSearchWeblinks($text, $phrase='', $ordering='', $areas=null)
 	if ($text == '') {
 		return array();
 	}
-	$section 	= JText::_('Web Links');
+	$section 	= JText::_('WEB_LINKS');
 
 	$wheres 	= array();
 	switch ($phrase)

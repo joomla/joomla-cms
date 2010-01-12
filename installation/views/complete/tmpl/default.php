@@ -97,7 +97,7 @@ JHtml::_('behavior.formvalidation');
 								<tr>
 									<td align="center">
 										<h3>
-										<?php echo JText::_('Administration Login Details'); ?>
+										<?php echo JText::_('ADMINISTRATION_LOGIN_DETAILS'); ?>
 										</h3>
 									</td>
 								</tr>

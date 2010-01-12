@@ -45,17 +45,17 @@ abstract class JHtmlContent
 		<div class="center">
 			<ul id="legend articles">
 				<li><img src="templates/bluestork/images/admin/publish_y.png" width="16" height="16" border="0" alt="<?php echo JText::_('Pending'); ?>" /></li>
-				<li><?php echo JText::_('Published, but is'); ?> <u><?php echo JText::_('Pending'); ?></u></li>
+				<li><?php echo JText::_('PUBLISHED_BUT_IS'); ?> <u><?php echo JText::_('Pending'); ?></u></li>
 				<li><img src="templates/bluestork/images/admin/publish_g.png" width="16" height="16" border="0" alt="<?php echo JText::_('Visible'); ?>" /></li>
-				<li><?php echo JText::_('Published and is'); ?> <u><?php echo JText::_('Current'); ?></u></li>
+				<li><?php echo JText::_('PUBLISHED_AND_IS'); ?> <u><?php echo JText::_('Current'); ?></u></li>
 				<li><img src="templates/bluestork/images/admin/publish_r.png" width="16" height="16" border="0" alt="<?php echo JText::_('Finished'); ?>" /></li>
-				<li><?php echo JText::_('Published, but has'); ?> <u><?php echo JText::_('Expired'); ?></u></li>
+				<li><?php echo JText::_('PUBLISHED_BUT_HAS'); ?> <u><?php echo JText::_('Expired'); ?></u></li>
 				<li><img src="templates/bluestork/images/admin/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_('Finished'); ?>" /></li>
-				<li><?php echo JText::_('Not Published'); ?></li>
+				<li><?php echo JText::_('NOT_PUBLISHED'); ?></li>
 				<li><img src="templates/bluestork/images/admin/disabled.png" width="16" height="16" border="0" alt="<?php echo JText::_('Archived'); ?>" /></li>
 				<li><?php echo JText::_('Archived'); ?></li>
 			</ul>
-			<p class="center"><?php echo JText::_('Click on icon to toggle state.'); ?></p>
+			<p class="center"><?php echo JText::_('CLICK_ON_ICON_TO_TOGGLE_STATE'); ?></p>
 		</div>
 		<?php
 	}

@@ -25,7 +25,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 
 				</fieldset>
 
-				<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('Menu Selection'); ?>:</label>
+				<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('MENU_SELECTION'); ?>:</label>
 
 				<div class="clr"></div>
 

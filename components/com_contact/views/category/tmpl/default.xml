@@ -20,7 +20,7 @@
 			extension="com_contact"
 			default="0"
 			required="true"
-			label="Select Category"
+			label="SELECT_CATEGORY"
 			description="A contacts category" />
 	</fields>
 	<fields>
@@ -28,7 +28,7 @@
 			name="display_num"
 			type="list"
 			default="20"
-			label="Num Links"
+			label="NUM_LINKS"
 			description="Number of Contacts to display as list.">
 			<option
 				value="5">5</option>

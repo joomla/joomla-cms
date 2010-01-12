@@ -94,7 +94,7 @@ class JInstallerTemplate extends JAdapterInstance
 		 */
 		if (file_exists($this->parent->getPath('extension_root')) && !$this->parent->getOverwrite())
 		{
-			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Install').': '.JText::_('Another template is already using directory').': "'.$this->parent->getPath('extension_root').'"');
+			JError::raiseWarning(100, JText::_('Template').' '.JText::_('Install').': '.JText::_('ANOTHER_TEMPLATE_IS_ALREADY_USING_DIRECTORY').': "'.$this->parent->getPath('extension_root').'"');
 			return false;
 		}
 
@@ -104,7 +104,7 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
 			{
-				$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.JText::_('Failed to create directory').' "'.$this->parent->getPath('extension_root').'"');
+				$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.JText::_('FAILED_TO_CREATE_DIRECTORY').' "'.$this->parent->getPath('extension_root').'"');
 				return false;
 			}
 		}
@@ -153,7 +153,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if (!$this->parent->copyManifest(-1))
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
+			$this->parent->abort(JText::_('Template').' '.JText::_('Install').': '.JText::_('COULD_NOT_COPY_SETUP_FILE'));
 			return false;
 		}
 

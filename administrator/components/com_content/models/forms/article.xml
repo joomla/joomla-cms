@@ -283,7 +283,7 @@
 			label="Content_Attribs_Show_Title_Label"
 			description="Content_Attribs_Show_Title_Desc">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
 			<option
@@ -297,7 +297,7 @@
 			description="Content_Attribs_Linked_Titles_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
 			<option
@@ -310,7 +310,7 @@
 			description="Content_Attribs_Show_Intro_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -324,7 +324,7 @@
 			description="Content_Attribs_Show_Category_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -338,7 +338,7 @@
 			description="Content_Attribs_Link_Category_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
 			<option
@@ -352,7 +352,7 @@
 			description="Content_Attribs_Show_Author_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -366,7 +366,7 @@
 			description="Content_Attribs_Show_Create_Date_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -380,7 +380,7 @@
 			description="Content_Attribs_Show_Modify_Date_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -408,7 +408,7 @@
 			description="Content_Attribs_Show_Readmore_Desc"
 			default="" >
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -422,7 +422,7 @@
 			description="Content_Attribs_Show_Print_Icon_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -436,7 +436,7 @@
 			description="Content_Attribs_Show_Email_Icon_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -466,7 +466,7 @@
 			description="Content_Attribs_Allow_Ratings_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -480,7 +480,7 @@
 			description="Content_Attribs_Allow_Comments_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -501,7 +501,7 @@
 			description="JField_Metadata_Robots_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">index, follow</option>
 			<option

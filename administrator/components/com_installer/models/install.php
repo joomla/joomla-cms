@@ -84,7 +84,7 @@ class InstallerModelInstall extends InstallerModel
 				break;
 
 			default:
-				$this->setState('message', 'No Install Type Found');
+				$this->setState('message', 'JNo_Install_Type_Found');
 				return false;
 				break;
 		}
@@ -154,7 +154,7 @@ class InstallerModelInstall extends InstallerModel
 
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile)) {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('No file selected'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JNo_file_selected'));
 			return false;
 		}
 

@@ -20,7 +20,7 @@ $cacheDir = JPATH_BASE.'/cache';
 if (!is_writable($cacheDir))
 {
 	echo '<div>';
-	echo JText::_('Please make cache directory writable.');
+	echo JText::_('PLEASE_MAKE_CACHE_DIRECTORY_WRITABLE');
 	echo '</div>';
 	return;
 }

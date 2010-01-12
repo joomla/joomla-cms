@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 
 		<?php if ($this->params->get('show_limit')) : ?>
 			<div class="limit-box">
-				<?php echo JText::_('Display Num') .'&nbsp;'; ?>
+				<?php echo JText::_('DISPLAY_NUM') .'&nbsp;'; ?>
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
 		<?php endif; ?>

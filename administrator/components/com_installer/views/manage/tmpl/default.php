@@ -74,7 +74,7 @@ $lists = $this->lists;
 		</tbody>
 	</table>
 	<?php else : ?>
-		<p class="nowarning"><?php echo JText::_('There are no extensions installed matching your query'); ?></p>
+		<p class="nowarning"><?php echo JText::_('There_are_no_extensions_installed_matching_your_query'); ?></p>
 	<?php endif; ?>
 
 	<input type="hidden" name="view" value="manage" />

@@ -73,7 +73,7 @@
 			label="Module_Field_Caching_Label"
 			description="Module_Field_Caching_Desc">
 			<option
-				value="1">Use global</option>
+				value="1">USE_GLOBAL</option>
 			<option
 				value="0">No caching</option>
 		</field>

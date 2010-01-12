@@ -71,7 +71,7 @@
 			type="radio"
 			default="1"
 			label="Greeting"
-			description="Show/Hide the simple greeting text">
+			description="Show_Hide the simple greeting text">
 			<option
 				value="0">JNo</option>
 			<option
@@ -81,7 +81,7 @@
 			name="name"
 			type="list"
 			default="0"
-			label="Name/Username">
+			label="Name_Username">
 			<option
 				value="0">Username</option>
 			<option
@@ -92,7 +92,7 @@
 			type="radio"
 			default="0"
 			label="Encrypt Login Form"
-			description="Submit encrypted login data (requires SSL)">
+			description="Submit encrypted login data requires SSL">
 			<option
 				value="0">JNo</option>
 			<option
@@ -119,7 +119,7 @@
 			label="Module_Field_Caching_Label"
 			description="Module_Field_Caching_Desc">
 			<option
-				value="1">Use global</option>
+				value="1">USE_GLOBAL</option>
 			<option
 				value="0">No caching</option>
 		</field>

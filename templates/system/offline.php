@@ -43,8 +43,8 @@ $app = &JFactory::getApplication();
 			<input type="password" name="passwd" class="inputbox" size="18" alt="<?php echo JText::_('Password') ?>" id="passwd" />
 		</p>
 		<p id="form-login-remember">
-			<label for="remember"><?php echo JText::_('Remember me') ?></label>
-			<input type="checkbox" name="remember" class="inputbox" value="yes" alt="<?php echo JText::_('Remember me') ?>" id="remember" />
+			<label for="remember"><?php echo JText::_('REMEMBER_ME') ?></label>
+			<input type="checkbox" name="remember" class="inputbox" value="yes" alt="<?php echo JText::_('REMEMBER_ME') ?>" id="remember" />
 		</p>
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
 	</fieldset>

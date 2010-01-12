@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Jan-2010 Hannes Papenberg
+^ changed JLanguage to use parse_ini_file() to handle translations - big performance improvement!
+^ changed all language files to adhere to the standards required by parse_ini_file() - the files still need to be changed to the new language strings!
+^ changed language strings in the code to adhere to the strings required by parse_ini_file()
+# fixed XML file of mod_banners
+
 11-Jan-2010 Hannes Papenberg
 - Removed obsolete #__core_log_items table
 - Removed obsolete #__stats_agents table

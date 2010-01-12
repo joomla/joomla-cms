@@ -94,7 +94,7 @@
 			type="text"
 			size="3"
 			default="4"
-			label="Num Links"
+			label="NUM_LINKS"
 			description="Number of Items to display as Links." />
 	</fields>
 

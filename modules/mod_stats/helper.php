@@ -81,7 +81,7 @@ class modStatsHelper
 			}
 
 			if ($links) {
-				$rows[$i]->title 	= JText::_('Web Links');
+				$rows[$i]->title 	= JText::_('WEB_LINKS');
 				$rows[$i]->data 	= $links;
 				$i++;
 			}

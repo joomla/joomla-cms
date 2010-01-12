@@ -231,7 +231,7 @@ class plgContentPagebreak extends JPlugin
 	protected function _createNavigation(&$row, $page, $n)
 	{
 		$pnSpace = "";
-		if (JText::_('&lt') || JText::_('&gt')) $pnSpace = " ";
+		if (JText::_('LT') || JText::_('GT')) $pnSpace = " ";
 
 		if ($page < $n-1)
 		{
@@ -239,7 +239,7 @@ class plgContentPagebreak extends JPlugin
 
 			$link_next = JRoute::_('&limitstart='. ($page_next));
 			// Next >>
-			$next = '<a href="'. $link_next .'">' . JText::_('Next') . $pnSpace . JText::_('&gt') . JText::_('&gt') .'</a>';
+			$next = '<a href="'. $link_next .'">' . JText::_('Next') . $pnSpace . JText::_('GT') . JText::_('GT') .'</a>';
 		}
 		else {
 			$next = JText::_('Next');
@@ -251,7 +251,7 @@ class plgContentPagebreak extends JPlugin
 
 			$link_prev = JRoute::_( '&limitstart='. ($page_prev));
 			// << Prev
-			$prev = '<a href="'. $link_prev .'">'. JText::_('&lt') . JText::_('&lt') . $pnSpace . JText::_('Prev') .'</a>';
+			$prev = '<a href="'. $link_prev .'">'. JText::_('LT') . JText::_('LT') . $pnSpace . JText::_('Prev') .'</a>';
 		}
 		else {
 			$prev = JText::_('Prev');

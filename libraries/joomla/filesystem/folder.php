@@ -90,7 +90,7 @@ class JFolder
 						// Translate path for the FTP account
 						$dfid = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
 						if (! $ftp->store($sfid, $dfid)) {
-							return JError::raiseError(-1, JText::_('Copy failed'));
+							return JError::raiseError(-1, JText::_('COPY_FAILED'));
 						}
 						break;
 				}
@@ -117,11 +117,11 @@ class JFolder
 						if($use_streams) {
 							$stream =& JFactory::getStream();
 							if(!$stream->copy($sfid, $dfid)) {
-								return JError::raiseError(-1, JText::_('Copy failed').': '. $stream->getError());
+								return JError::raiseError(-1, JText::_('COPY_FAILED').': '. $stream->getError());
 							}
 						} else {
 						if (!@copy($sfid, $dfid)) {
-							return JError::raiseError(-1, JText::_('Copy failed'));
+							return JError::raiseError(-1, JText::_('COPY_FAILED'));
 						}
 						}
 						break;
@@ -234,7 +234,7 @@ class JFolder
 				@umask($origmask);
 				JError::raiseWarning(
 					'SOME_ERROR_CODE',
-					'JFolder::create: ' . JText::_('Could not create directory'),
+					'JFolder::create: ' . JText::_('COULD_NOT_CREATE_DIRECTORY'),
 					'Path: ' . $path
 				);
 				return false;
@@ -258,7 +258,7 @@ class JFolder
 		// Sanity check
 		if (!$path) {
 			// Bad programmer! Bad Bad programmer!
-			JError::raiseWarning(500, 'JFolder::delete: ' . JText::_('Attempt to delete base directory'));
+			JError::raiseWarning(500, 'JFolder::delete: ' . JText::_('ATTEMPT_TO_DELETE_BASE_DIRECTORY'));
 			return false;
 		}
 
@@ -271,7 +271,7 @@ class JFolder
 
 		// Is this really a folder?
 		if (!is_dir($path)) {
-			JError::raiseWarning(21, 'JFolder::delete: ' . JText::_('Path is not a folder'), 'Path: ' . $path);
+			JError::raiseWarning(21, 'JFolder::delete: ' . JText::_('PATH_IS_NOT_A_FOLDER'), 'Path: ' . $path);
 			return false;
 		}
 
@@ -322,7 +322,7 @@ class JFolder
 		} else {
 			JError::raiseWarning(
 				'SOME_ERROR_CODE',
-				'JFolder::delete: ' . JText::_('Could not delete folder'),
+				'JFolder::delete: ' . JText::_('COULD_NOT_DELETE_FOLDER'),
 				'Path: ' . $path
 			);
 			$ret = false;
@@ -426,7 +426,7 @@ class JFolder
 
 		// Is the path a folder?
 		if (!is_dir($path)) {
-			JError::raiseWarning(21, 'JFolder::files: ' . JText::_('Path is not a folder'), 'Path: ' . $path);
+			JError::raiseWarning(21, 'JFolder::files: ' . JText::_('PATH_IS_NOT_A_FOLDER'), 'Path: ' . $path);
 			return false;
 		}
 
@@ -494,7 +494,7 @@ class JFolder
 
 		// Is the path a folder?
 		if (!is_dir($path)) {
-			JError::raiseWarning(21, 'JFolder::folder: ' . JText::_('Path is not a folder'), 'Path: ' . $path);
+			JError::raiseWarning(21, 'JFolder::folder: ' . JText::_('PATH_IS_NOT_A_FOLDER'), 'Path: ' . $path);
 			return false;
 		}
 

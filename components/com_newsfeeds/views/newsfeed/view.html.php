@@ -30,7 +30,7 @@ class NewsfeedsViewNewsfeed extends JView
 		// check if cache directory is writeable
 		$cacheDir = JPATH_BASE.DS.'cache'.DS;
 		if (!is_writable($cacheDir)) {
-			echo JText::_('Cache Directory Unwritable');
+			echo JText::_('CACHE_DIRECTORY_UNWRITABLE');
 			return;
 		}
 

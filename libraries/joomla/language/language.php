@@ -10,6 +10,8 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
+DEFINE('_QQ_', '"');
+
 /**
  * Languages/translation handler class
  *
@@ -136,12 +138,12 @@ class JLanguage extends JObject
 		$this->setLanguage($lang);
 
 		$filename = JPATH_BASE.DS.'language'.DS.'overrides'.DS.$lang.'.override.ini';
-		if ($contents = @file_get_contents( $filename ))
+		if ($contents = @parse_ini_file( $filename ))
 		{
-			$registry	= new JRegistry();
-			$registry->loadINI($contents);
-			$this->_override = $registry->toArray( );
-			unset($registry);
+			if(is_array($contents))
+			{
+				$this->_override = $contents;
+			}
 			unset($contents);
 		}
 
@@ -191,8 +193,6 @@ class JLanguage extends JObject
 	{
 		//$key = str_replace(' ', '_', strtoupper(trim($string)));echo '<br />'.$key;
 		$key = strtoupper($string);
-		$key = substr($key, 0, 1) == '_' ? substr($key, 1) : $key;
-
 		if (isset ($this->_strings[$key]))
 		{
 			$string = $this->_debug ? '**'.$this->_strings[$key].'**' : $this->_strings[$key];
@@ -384,26 +384,15 @@ class JLanguage extends JObject
 
 		$result	= false;
 
-		if ($content = @file_get_contents($filename))
+		if ($strings = @parse_ini_file($filename))
 		{
-
-			//Take off BOM if present in the ini file
-			if ($content[0] == "\xEF" && $content[1] == "\xBB" && $content[2] == "\xBF")
+			if(is_array($strings))
 			{
-				$content = substr($content, 3);
+				$this->_strings = array_merge($this->_strings, $strings);
 			}
-
-			$registry	= new JRegistry();
-			$registry->loadINI($content);
-			$newStrings	= $registry->toArray();
-
-			if (is_array($newStrings))
+			if(is_array($strings) && count($strings))
 			{
-				$this->_strings = $overwrite ? array_merge($this->_strings, $newStrings)
-				: array_merge($newStrings, $this->_strings);
-
-				$this->_strings = array_merge( $this->_strings, $this->_override); // add overrides
-
+				$this->_strings = array_merge($this->_strings, $this->_override);
 				$result = true;
 			}
 		}
@@ -613,7 +602,13 @@ class JLanguage extends JObject
 	 * @since	1.5
 	 */
 	function hasKey($key) {
-		return isset ($this->_strings[strtoupper($key)]);
+		@list($extension, $key) = explode('.', strtoupper($string), 2);
+		if(!isset($key))
+		{
+			$key = $extension;
+			$extension = 'J';
+		}
+		return isset ($this->_strings[$extension][$key]);
 	}
 
 	/**

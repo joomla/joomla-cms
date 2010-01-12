@@ -90,9 +90,9 @@ class MediaControllerFile extends MediaController
 					$log = &JLog::getInstance('upload.error.php');
 					$log->addEntry(array('comment' => 'Cannot upload: '.$filepath));
 					header('HTTP/1.0 400 Bad Request');
-					jexit('Error. Unable to upload file');
+					jexit('Error Unable to upload file');
 				} else {
-					JError::raiseWarning(100, JText::_('Error. Unable to upload file'));
+					JError::raiseWarning(100, JText::_('Error Unable to upload file'));
 					// REDIRECT
 					if ($return) {
 						$app->redirect(base64_decode($return).'&folder='.$folder);

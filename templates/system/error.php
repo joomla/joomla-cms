@@ -20,22 +20,22 @@ defined('_JEXEC') or die;
 		<div id="errorboxoutline">
 			<div id="errorboxheader"><?php echo $this->error->getCode(); ?> - <?php echo $this->error->getMessage(); ?></div>
 			<div id="errorboxbody">
-			<p><strong><?php echo JText::_('You may not be able to visit this page because of:'); ?></strong></p>
+			<p><strong><?php echo JText::_('YOU_MAY_NOT_BE_ABLE_TO_VISIT_THIS_PAGE_BECAUSE_OF'); ?>:</strong></p>
 				<ol>
-					<li><?php echo JText::_('An out-of-date bookmark/favourite'); ?></li>
-					<li><?php echo JText::_('A search engine that has an out-of-date listing for this site'); ?></li>
-					<li><?php echo JText::_('A mis-typed address'); ?></li>
-					<li><?php echo JText::_('You have no access to this page'); ?></li>
+					<li><?php echo JText::_('AN_OUT_OF_DATE_BOOKMARK_FAVOURITE'); ?></li>
+					<li><?php echo JText::_('A_SEARCH_ENGINE_THAT_HAS_AN_OUT_OF_DATE_LISTING_FOR_THIS_SITE'); ?></li>
+					<li><?php echo JText::_('A_MIS_TYPED_ADDRESS'); ?></li>
+					<li><?php echo JText::_('YOU_HAVE_NO_ACCESS_TO_THIS_PAGE'); ?></li>
 					<li><?php echo JText::_('The requested resource was not found'); ?></li>
 					<li><?php echo JText::_('An error has occurred while processing your request.'); ?></li>
 				</ol>
-			<p><strong><?php echo JText::_('Please try one of the following pages:'); ?></strong></p>
+			<p><strong><?php echo JText::_('PLEASE_TRY_ONE_OF_THE_FOLLOWING_PAGES'); ?>:</strong></p>
 			
 				<ul>
-					<li><a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('Go to the home page'); ?>"><?php echo JText::_('Home Page'); ?></a></li>
+					<li><a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('GO_TO_THE_HOME_PAGE'); ?>"><?php echo JText::_('HOME_PAGE'); ?></a></li>
 				</ul>
 			
-			<p><?php echo JText::_('If difficulties persist, please contact the system administrator of this site.'); ?></p>
+			<p><?php echo JText::_('IF_DIFFICULTIES_PERSIST__PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR_OF_THIS_SITE'); ?>.</p>
 			<div id="techinfo">
 			<p><?php echo $this->error->getMessage(); ?></p>
 			<p>

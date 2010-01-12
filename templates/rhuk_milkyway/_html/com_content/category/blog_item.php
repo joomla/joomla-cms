@@ -85,7 +85,7 @@ endif; ?>
 <tr>
 	<td width="70%"  valign="top" colspan="2">
 		<span class="small">
-			<?php JText::printf( 'Written by', ($this->escape($this->item->created_by_alias) ? $this->escape($this->item->created_by_alias) : $this->escape($this->item->author)) ); ?>
+			<?php JText::printf( 'WRITTEN_BY', ($this->escape($this->item->created_by_alias) ? $this->escape($this->item->created_by_alias) : $this->escape($this->item->author)) ); ?>
 		</span>
 		&nbsp;&nbsp;
 	</td>
@@ -135,7 +135,7 @@ endif; ?>
 			elseif ($readmore = $this->item->params->get('readmore')) :
 				echo $readmore;
 			else :
-				echo JText::sprintf('Read more...');
+				echo JText::sprintf('READ_MORE');
 			endif; ?></a>
 	</td>
 </tr>

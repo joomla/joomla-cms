@@ -1,7 +1,7 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div>
-	<strong><?php echo JText::_( 'More Articles...' ); ?></strong>
+	<strong><?php echo JText::_( 'MORE_ARTICLES' ); ?></strong>
 </div>
 <ul>
 <?php foreach ($this->links as $link) : ?>

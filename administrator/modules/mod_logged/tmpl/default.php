@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
 			$auth = $user->authorize('core.manage', 'com_users');
 			if ($auth) :
 				$link 	= 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $row->userid;
-				$name 	= '<a href="'. $link .'" title="'. JText::_('Edit User') .'">'. $row->username .'</a>';
+				$name 	= '<a href="'. $link .'" title="'. JText::_('EDIT_USER') .'">'. $row->username .'</a>';
 			else :
 				$name 	= $row->username;
 			endif;

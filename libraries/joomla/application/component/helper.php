@@ -96,7 +96,7 @@ class JComponentHelper
 
 		if (empty($option)) {
 			// Throw 404 if no component
-			JError::raiseError(404, JText::_("Component Not Found"));
+			JError::raiseError(404, JText::_("COMPONENT_NOT_FOUND"));
 			return;
 		}
 
@@ -122,7 +122,7 @@ class JComponentHelper
 
 		// If component disabled throw error
 		if (!self::isEnabled($option) || !file_exists($path)) {
-			JError::raiseError(404, JText::_('Component Not Found'));
+			JError::raiseError(404, JText::_('COMPONENT_NOT_FOUND'));
 		}
 
 		$task = JRequest::getString('task');

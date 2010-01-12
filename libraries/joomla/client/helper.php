@@ -227,7 +227,7 @@ class JClientHelper
 			if (JClientHelper::setCredentials($client, $user, $pass)) {
 				$return = false;
 			} else {
-				$return = &JError::raiseWarning('SOME_ERROR_CODE', 'JClientHelper::setCredentialsFromRequest failed');
+				$return = &JError::raiseWarning('SOME_ERROR_CODE', 'JClientHelper_setCredentialsFromRequest_failed');
 			}
 		}
 		else

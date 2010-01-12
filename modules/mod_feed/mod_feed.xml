@@ -70,7 +70,7 @@
 			name="rssimage"
 			type="radio"
 			default="1"
-			label="Feed Image"
+			label="FEED_IMAGE"
 			description="Show the image associated with the whole Feed">
 			<option
 				value="1">JYes</option>
@@ -122,7 +122,7 @@
 			label="Module_Field_Caching_Label"
 			description="Module_Field_Caching_Desc">
 			<option
-				value="1">Use global</option>
+				value="1">USE_GLOBAL</option>
 			<option
 				value="0">No caching</option>
 		</field>

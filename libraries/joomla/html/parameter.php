@@ -209,7 +209,7 @@ class JParameter extends JRegistry
 		}
 
 		if (count($params) < 1) {
-			$html[] = "<p class=\"noparams\">".JText::_('There are no Parameters for this item')."</p>";
+			$html[] = "<p class=\"noparams\">".JText::_('THERE_ARE_NO_PARAMETERS_FOR_THIS_ITEM')."</p>";
 		}
 
 

@@ -126,7 +126,7 @@ class InstallerModelDiscover extends InstallerModel
 			if (!$failed) $app->enqueueMessage(JText::_('Discover install successful'));
 		} else {
 			$app =& JFactory::getApplication();
-			$app->enqueueMessage(JText::_('No extension selected'));
+			$app->enqueueMessage(JText::_('No_extension_selected'));
 		}
 	}
 

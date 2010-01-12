@@ -196,7 +196,7 @@ class plgSystemDebug extends JPlugin
 				}
 			}
 			else {
-				echo JText::_('None');
+				echo JText::_('JNone');
 			}
 			echo '</pre>';
 		}

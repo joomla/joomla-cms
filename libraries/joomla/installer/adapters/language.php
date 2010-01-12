@@ -438,7 +438,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		if (!JFolder::delete($path))
 		{
-			JError::raiseWarning(100, JText::_('Language').' '.JText::_('Uninstall').': '.JText::_('Unable to remove language directory'));
+			JError::raiseWarning(100, JText::_('Language').' '.JText::_('Uninstall').': '.JText::_('UNABLE_TO_REMOVE_LANGUAGE_DIRECTORY'));
 			return false;
 		}
 

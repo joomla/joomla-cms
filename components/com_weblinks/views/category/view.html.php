@@ -110,7 +110,7 @@ class WeblinksViewCategory extends JView
 				$this->document->setTitle($title);
 			}
 			else {
-				$this->document->setTitle(JText::_('Web Links'));
+				$this->document->setTitle(JText::_('WEB_LINKS'));
 			}
 
 			// Set breadcrumbs.
@@ -119,7 +119,7 @@ class WeblinksViewCategory extends JView
 			}
 		}
 		else {
-			$this->document->setTitle(JText::_('Web Links'));
+			$this->document->setTitle(JText::_('WEB_LINKS'));
 		}
 
 		// Add alternate feed link

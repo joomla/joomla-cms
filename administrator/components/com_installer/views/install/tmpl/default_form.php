@@ -46,7 +46,7 @@ defined('_JEXEC') or die;
 	<div class="width-70 fltlft">
 		<fieldset class="uploadform">
 			<legend><?php echo JText::_('Upload Package File'); ?></legend>
-			<label for="install_package"><?php echo JText::_('Package File'); ?>:</label>
+			<label for="install_package"><?php echo JText::_('PACKAGE_FILE'); ?>:</label>
 			<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
 			<input class="button" type="button" value="<?php echo JText::_('Upload File'); ?> &amp; <?php echo JText::_('Install'); ?>" onclick="submitbutton()" />
 		</fieldset>

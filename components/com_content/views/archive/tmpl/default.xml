@@ -16,7 +16,7 @@
 			name="orderby"
 			type="list"
 			default=""
-			label="Order by"
+			label="ORDER_BY"
 			description="fieldORDERBY">
 			<option
 				value="">Default</option>

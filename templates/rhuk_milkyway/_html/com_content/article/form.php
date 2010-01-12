@@ -50,7 +50,7 @@ function submitbutton(pressbutton) {
 	} else if (parseInt('<?php echo $this->article->sectionid;?>')) {
 		// for articles
 		if (form.catid && getSelectedValue('adminForm','catid') < 1) {
-			return alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
+			return alert ( "<?php echo JText::_( 'PLEASE_SELECT_A_CATEGORY', true ); ?>" );
 		}
 	}
 	<?php echo $this->editor->save( 'text' ); ?>
@@ -138,7 +138,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td class="key">
 		<label for="created_by_alias">
-			<?php echo JText::_( 'Author Alias' ); ?>:
+			<?php echo JText::_( 'AUTHOR_ALIAS' ); ?>:
 		</label>
 	</td>
 	<td>
@@ -148,7 +148,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td class="key">
 		<label for="publish_up">
-			<?php echo JText::_( 'Start Publishing' ); ?>:
+			<?php echo JText::_( 'START_PUBLISHING' ); ?>:
 		</label>
 	</td>
 	<td>
@@ -158,7 +158,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td class="key">
 		<label for="publish_down">
-			<?php echo JText::_( 'Finish Publishing' ); ?>:
+			<?php echo JText::_( 'FINISH_PUBLISHING' ); ?>:
 		</label>
 	</td>
 	<td>
@@ -168,7 +168,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <tr>
 	<td valign="top" class="key">
 		<label for="access">
-			<?php echo JText::_( 'Access Level' ); ?>:
+			<?php echo JText::_( 'ACCESS_LEVEL' ); ?>:
 		</label>
 	</td>
 	<td>

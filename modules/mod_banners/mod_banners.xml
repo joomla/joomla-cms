@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="1.6.0"
-	client="site"
+<extension 
+	type="module" 
+	version="1.6.0" 
+	client="site" 
 	method="upgrade">
 	<name>Banners</name>
 	<author>Joomla! Project</author>
@@ -132,7 +132,7 @@
 			label="Module_Field_Caching_Label"
 			description="Module_Field_Caching_Desc">
 			<option
-				value="1">Use global</option>
+				value="1">USE_GLOBAL</option>
 			<option
 				value="0">No caching</option>
 		</field>
@@ -144,4 +144,4 @@
 			label="mod_banners_CacheTime_Label"
 			description="mod_banners_CacheTime_Desc" />
 	</fields>
-</install>
+</extension>

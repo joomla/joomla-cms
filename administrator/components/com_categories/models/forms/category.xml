@@ -231,7 +231,7 @@
 			description="JField_Metadata_Robots_Desc"
 			default="">
 			<option
-				value="">Use Global</option>
+				value="">USE_GLOBAL</option>
 			<option
 				value="0">index, follow</option>
 			<option

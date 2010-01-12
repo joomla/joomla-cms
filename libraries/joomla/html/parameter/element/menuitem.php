@@ -90,7 +90,7 @@ class JElementMenuItem extends JElement
 
 		// assemble menu items to the array
 		$options 	= array();
-		$options[]	= JHtml::_('select.option', '', '- '.JText::_('Select Item').' -');
+		$options[]	= JHtml::_('select.option', '', '- '.JText::_('SELECT_ITEM').' -');
 
 		foreach ($menuTypes as $type)
 		{

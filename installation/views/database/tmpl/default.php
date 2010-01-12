@@ -60,7 +60,7 @@ JHtml::_('behavior.formvalidation');
 					<div class="button1-left"><div class="next"><a href="index.php?view=license" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
 <?php endif; ?>
 				</div>
-				<span class="step"><?php echo JText::_('Database Configuration'); ?></span>
+				<span class="step"><?php echo JText::_('DATABASE_CONFIGURATION'); ?></span>
 			</div>
 			<div class="b">
 				<div class="b">
@@ -75,7 +75,7 @@ JHtml::_('behavior.formvalidation');
 				</div>
 			</div>
 			<div class="m">
-				<h2><?php echo JText::_('Connection Settings'); ?>:</h2>
+				<h2><?php echo JText::_('CONNECTION_SETTINGS'); ?>:</h2>
 				<div class="install-text">
 						<?php echo JText::_('
 							<p>Setting up Joomla! to run on your server involves 4 simple steps...</p>
@@ -93,7 +93,7 @@ JHtml::_('behavior.formvalidation');
 					</div>
 					<div class="m">
 						<h3 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
-							<?php echo JText::_('Basic Settings'); ?>
+							<?php echo JText::_('BASIC_SETTINGS'); ?>
 						</h3>
 						<div class="section-smenu">
 							<table class="content2">
@@ -167,7 +167,7 @@ JHtml::_('behavior.formvalidation');
 						</div>
 
 						<h3 class="title-smenu moofx-toggler" title="<?php echo JText::_('Advanced'); ?>">
-							<?php echo JText::_('Advanced settings'); ?>
+							<?php echo JText::_('ADVANCED_SETTINGS'); ?>
 						</h3>
 						<div class="section-smenu moofx-slider">
 							<table class="content2">
