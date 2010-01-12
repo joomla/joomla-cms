@@ -170,18 +170,7 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-		<field
-			name="show_links"
-			type="radio"
-			default="1"
-			label="Contact_Params_Image_Label"
-			description="Contact_Params_Name_Desc">
-			<option
-				value="0">Jcommon_Hide</option>
-			<option
-				value="1">Jcommon_Show</option>
-		</field>
-
+		
 		<field
 			id="show_links"
 			name="show_links"
@@ -193,8 +182,7 @@
 				value="0">Jcommon_Hide</option>
 			<option
 				value="1">Jcommon_Show</option>
-			<option
-				value="1">Jcommon_Use_Global</option>
+
 		</field>
 		<field
 			id="linka_name"
@@ -202,7 +190,6 @@
 			type="text"
 			label="Contact_Linka_Name_Label"
 			description="Contact_Linka_Name_Desc"
-			class="inputbox"
 			size="30"
 			default="Contact_Default_Link_Name" />
 		<field
@@ -211,7 +198,6 @@
 			type="text"
 			label="Contact_LInkb_Name_Label"
 			description="Contact_Linkb_Name_Desc"
-			class="inputbox"
 			size="30"
 			default="Contact_Default_Link_Name" />
 		<field
@@ -220,7 +206,6 @@
 			type="text"
 			label="Contact_LInkc_Name_Label"
 			description="Contact_Linkc_Name_Desc"
-			class="inputbox"
 			size="30"
 			default="Contact_Default_Link_Name" />
 		<field
@@ -229,7 +214,6 @@
 			type="text"
 			label="Contact_LInkd_Name_Label"
 			description="Contact_Linkd_Name_Desc"
-			class="inputbox"
 			size="30"
 			default="Contact_Default_Link_Name" />
 		<field
@@ -238,7 +222,6 @@
 			type="text"
 			label="Contact_LInke_Name_Label"
 			description="Contact_Linke_Name_Desc"
-			class="inputbox"
 			size="30"
 			default="Contact_Default_Link_Name" />
 	</fields>
@@ -497,7 +480,6 @@
 			type="textarea"
 			label="JField_Meta_Keywords_Label"
 			description="JField_Meta_Keywords_Desc"
-			class="inputbox"
 			rows="3"
 			cols="30"
 			default="" />
@@ -508,7 +490,6 @@
 			type="textarea"
 			label="JField_Meta_Description_Label"
 			description="JField_Meta_Description_Desc"
-			class="inputbox"
 			rows="3"
 			cols="30"
 			default="" />
@@ -538,7 +519,6 @@
 			type="hidden"
 			label="JField_Metadata_XReference_Label"
 			description="JField_Metadata_XReference_Desc"
-			class="inputbox"
 			size="30"
 			default="" />
 	</fields>

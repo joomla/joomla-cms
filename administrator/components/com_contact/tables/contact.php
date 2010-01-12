@@ -151,7 +151,7 @@ class ContactTableContact extends JTable
 		}
 
 		if (empty($this->alias)) {
-			$this->alias = $this->title;
+			$this->alias = $this->name;
 		}
 		$this->alias = JApplication::stringURLSafe($this->alias);
 		if (trim(str_replace('-','',$this->alias)) == '') {

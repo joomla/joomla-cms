@@ -113,6 +113,11 @@ class NewsfeedsModelNewsfeed extends JModelForm
 		// Convert to the JObject before adding other data.
 		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
 
+		// Convert the params field to an array.
+		$registry = new JRegistry;
+		$registry->loadJSON($table->params);
+		$value->params = $registry->toArray();
+		
 		return $value;
 	}
 

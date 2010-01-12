@@ -1,5 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+
+<fields
+		group="newsfeed"
+		label="Newsfeeds_Config_Newsfeed_Settings_Label"
+		description="Newsfeeds_Config_Newsfeed_Settings_Desc">
+
+		<field
+			id="show_headings"
+			name="show_headings"
+			type="radio"
+			default="1"
+			label="Newsfeeds_Table_Headings_Label"
+			description="Newsfeeds_Table_Headings_Desc">
+			<option
+				value="0">JCOMMON_HIDE</option>
+			<option
+				value="1">JCOMMON_SHOW</option>
+		</field>
+
+		<field
+			id="show_name"
+			name="show_name"
+			type="radio"
+			default="1"
+			label="Newsfeeds_Name_Column_Label"
+			description="Newsfeeds_Name_Column_Desc">
+			<option
+				value="0">JCOMMON_HIDE</option>
+			<option
+				value="1">JCOMMON_SHOW</option>
+		</field>
+
+		<field
+			id="show_articles"
+			name="show_articles"
+			type="radio"
+			default="1"
+			label="Newsfeeds_Num_Articles_Column_Label"
+			description="Newsfeeds_Num_Articles_Column_Desc">
+			<option
+				value="0">JCOMMON_HIDE</option>
+			<option
+				value="1">JCOMMON_SHOW</option>
+		</field>
+
+		<field
+			id="show_link"
+			name="show_link"
+			type="radio"
+			default="1"
+			label="Newsfeeds_Show_Links_Label"
+			description="Newsfeeds_Show_Links_Desc">
+			<option
+				value="0">JCOMMON_HIDE</option>
+			<option
+				value="1">JCOMMON_SHOW</option>
+		</field>
+
+		<!-- Spacer -->
+
+		<field
+			id="show_cat_description"
+			name="show_cat_description"
+			type="radio"
+			default="1"
+			label="Newsfeeds_Show_Cat_Label"
+			description="Newsfeeds_Show_Cat_Desc">
+			<option
+				value="0">JCOMMON_HIDE</option>
+			<option
+				value="1">JCOMMON_SHOW</option>
+		</field>
+
+		<field
+			id="show_cat_items"
+			name="show_cat_items"
+			type="radio"
+			default="1"
+			label="Newsfeeds_Show_Cat_Items_Label"
+			description="Newsfeeds_Show_Cat_Items_Desc">
+			<option
+				value="0">JCOMMON_HIDE</option>
+			<option
+				value="1">JCOMMON_SHOW</option>
+		</field>
+
+		<!-- Spacer -->
+
+		<field
+			id="show_feed_image"
+			name="show_feed_image"
+			type="radio"
+			default="1"
+			label="Newsfeeds_Show_Feed_Image_Label"
+			description="Newsfeeds_Show_Feed_Image_Desc">
+			<option
+				value="0">JCOMMON_HIDE</option>
+			<option
+				value="1">JCOMMON_SHOW</option>
+		</field>
+
+		<field
+			id="show_feed_description"
+			name="show_feed_description"
+			type="radio"
+			default="1"
+			label="Newsfeeds_Show_Feed_Description_Label"
+			description="Newsfeeds_Show_Feed_Description_Desc">
+			<option
+				value="0">JCOMMON_HIDE</option>
+			<option
+				value="1">JCOMMON_SHOW</option>
+		</field>
+
+		<field
+			id="show_item_description"
+			name="show_item_description"
+			type="radio"
+			default="1"
+			label="Newsfeeds_Show_Item_Description_Label"
+			description="Newsfeeds_Show_Item_Description_Desc">
+			<option
+				value="0">JCOMMON_HIDE</option>
+			<option
+				value="1">JCOMMON_SHOW</option>
+		</field>
+
+		<field
+			id="feed_word_count"
+			name="feed_word_count"
+			type="text"
+			size="6"
+			default="0"
+			label="Newsfeeds_Word_Count_Label"
+			description="Newsfeeds_Word_Count_Desc" />
+	</fields>
+
 	<fields
 		group="permissions"
 		label="JConfig_Permissions_Label"

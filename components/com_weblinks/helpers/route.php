@@ -22,47 +22,108 @@ jimport('joomla.application.categorytree');
  * @subpackage	Weblinks
  * @since 1.5
  */
-class WeblinksHelperRoute
+abstract class WeblinksHelperRoute
 {
-	function getWeblinksRoute($id, $catid) {
+	/**
+	 * @param	int	The route of the weblink item
+	 */
+	public static function getWeblinkRoute($id, $catid)
+	{
+		if ($catid)
+		{
+			jimport('joomla.application.categories');
+			$categoryTree = JCategories::getInstance('com_weblinks');
+			$category = $categoryTree->get($catid);
+			$catids = array();
+			$catids[] = $category->id;
+			while($category->getParent() instanceof JCategoryNode)
+			{
+				$category = $category->getParent();
+				$catids[] = $category->id;
+			}
+			$catids = array_reverse($catids);
+		} else {
+			$catids = array();
+		}
 		$needles = array(
-			'category' => (int) $catid,
-			'categories' => null
+			'weblink'  => (int) $id,
+			'category' => $catids
 		);
 
-		//Find the itemid
-		$itemid = WeblinksHelperRoute::_findItem($needles);
-		$itemid = $itemid ? '&Itemid='.$itemid : '';
-
 		//Create the link
-		$link = 'index.php?option=com_weblinks&view=submit&id='. $id . '&catid='.$catid . $itemid;
+		$link = 'index.php?option=com_weblinks&view=weblink&id='. $id;
+
+		if (is_array($catids)) {
+			$link .= '&catid='.array_pop($catids);
+		}
+
+		if ($item = WeblinksHelperRoute::_findItem($needles)) {
+			$link .= '&Itemid='.$item->id;
+		};
 
 		return $link;
 	}
 
-	function _findItem($needles)
+	public static function getCategoryRoute($catid)
 	{
-		static $items;
-
-		if (!$items)
+		jimport('joomla.application.categories');
+		$categoryTree = JCategories::getInstance('com_weblinks');
+		$category = $categoryTree->get($catid);
+		$catids = array();
+		$catids[] = $category->id;
+		while($category->getParent() instanceof JCategoryNode)
 		{
-			$component = &JComponentHelper::getComponent('com_weblinks');
-			$menu = &JSite::getMenu();
-			$items = $menu->getItems('component_id', $component->id);
+			$category = $category->getParent();
+			$catids[] = $category->id;
 		}
+		$catids = array_reverse($catids);
+		$needles = array(
+			'category' => $catids
+		);
+		$category = $categoryTree->get($catid);
+		//Create the link
+		$link = 'index.php?option=com_weblinks&view=category&id='.$category->slug;
 
-		if (!is_array($items)) {
-			return null;
-		}
+		if ($item = WeblinksHelperRoute::_findItem($needles)) {
+			if (isset($item->query['layout'])) {
+				$link .= '&layout='.$item->query['layout'];
+			}
+			$link .= '&Itemid='.$item->id;
+		};
+
+		return $link;
+	}
+
+	protected static function _findItem($needles)
+	{
+		$component = &JComponentHelper::getComponent('com_weblinks');
+		$app = JFactory::getApplication();
+		$menus	= & $app->getMenu();
+		$items	= $menus->getItems('component_id', $component->id);
 
 		$match = null;
 		foreach($needles as $needle => $id)
 		{
-			foreach($items as $item)
+			if (is_array($id))
 			{
-				if ((@$item->query['view'] == $needle) && (@$item->query['id'] == $id)) {
-					$match = $item->id;
-					break;
+				foreach($id as $tempid)
+				{
+					foreach($items as $item)
+					{
+						if ((@$item->query['view'] == $needle) && (@$item->query['id'] == $tempid)) {
+							$match = $item;
+							break;
+						}
+					}
+
+				}
+			} else {
+				foreach($items as $item)
+				{
+					if ((@$item->query['view'] == $needle) && (@$item->query['id'] == $id)) {
+						$match = $item;
+						break;
+					}
 				}
 			}
 

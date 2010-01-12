@@ -19,6 +19,7 @@
 			type="modal_article"
 			label="Select_Article_label"
 			group="request"
+			required="true"
 			description="Select_article_desc" />
 	</fields>
 

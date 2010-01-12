@@ -40,7 +40,8 @@ $params = &$this->item->params;
 			<?php echo JHtml::_('icon.email', $this->item, $params); ?>
 		</li>
 		<?php endif; ?>
-		<?php if ($params->get('access-edit')) : ?>
+
+		<?php if ($this->user->authorise('core.edit', 'com_content.frontpage.'.$this->item->id)) : ?>
 		<li class="edit-icon">
 			<?php echo JHtml::_('icon.edit', $this->item, $params); ?>
 		</li>
@@ -65,25 +66,25 @@ $params = &$this->item->params;
 			<?php endif; ?>
 		</span>
 	<?php endif; ?>
-	
+
 	<?php if ($params->get('show_create_date')) : ?>
 		<span class="created-date">
 			<?php echo JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
 		</span>
 	<?php endif; ?>
-	
+
 	<?php if (intval($this->item->modified) && $params->get('show_modify_date')) : ?>
 		<span class="modified-date">
 			<?php echo JText::sprintf('LAST_UPDATED2', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
 		</span>
 	<?php endif; ?>
-	
+
 	<?php if ($params->get('show_author') && !empty($this->item->author)) : ?>
 		<span class="created-by">
 			<?php echo JText::sprintf('Written_by', ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author)); ?>
 		</span>
 	<?php endif; ?>
-	
+
 </div>
 
 <?php echo $this->item->introtext; ?>

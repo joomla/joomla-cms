@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important">
+
 <?php
 if ($feed != false)
 {
@@ -18,37 +18,33 @@ if ($feed != false)
 	$iUrl 	= isset($feed->image->url)   ? $feed->image->url   : null;
 	$iTitle = isset($feed->image->title) ? $feed->image->title : null;
 	?>
-	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
+	<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $params->get('moduleclass_sfx'); ?>">
 	<?php
 	// feed description
 	if (!is_null($feed->title) && $params->get('rsstitle', 1)) {
 		?>
-		<tr>
-			<td>
-				<strong>
+
+				<h4>
 					<a href="<?php echo str_replace('&', '&amp', $feed->link); ?>" target="_blank">
-						<?php echo $feed->title; ?></a>
-				</strong>
-			</td>
-		</tr>
+					<?php echo $feed->title; ?></a>
+				</h4>
+
 		<?php
 	}
 
 	// feed description
 	if ($params->get('rssdesc', 1)) {
 	?>
-		<tr>
-			<td><?php echo $feed->description; ?></td>
-		</tr>
+		<?php echo $feed->description; ?>
+
 		<?php
 	}
 
 	// feed image
 	if ($params->get('rssimage', 1) && $iUrl) {
 	?>
-		<tr>
-			<td><img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/></td>
-		</tr>
+		<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
+
 	<?php
 	}
 
@@ -61,9 +57,8 @@ if ($feed != false)
 		$totalItems = $setItems;
 	}
 	?>
-	<tr>
-		<td>
-			<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>"  >
+
+			<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
 			<?php
 			$words = $params->def('word_count', 0);
 			for ($j = 0; $j < $totalItems; $j ++)
@@ -71,12 +66,26 @@ if ($feed != false)
 				$currItem = & $feed->items[$j];
 				// item title
 				?>
-				<li>
-				<?php
-				if (!is_null($currItem->get_link())) {
-				?>
-					<a href="<?php echo $currItem->get_link(); ?>" target="_blank">
+				<li class="newsfeed-item">
+					<?php	if (!is_null($currItem->get_link())) {
+				    ?>
+			    <?php if (!is_null($feed->title) && $params->get('rsstitle', 1))
+
+			    	{ echo '<h5 class="feed-link">';}
+			    else
+			    {
+			    echo '<h4 class="feed-link">';
+			    }
+			     ?>
+
+				<a href="<?php echo $currItem->get_link(); ?>" target="_blank">
 					<?php echo $currItem->get_title(); ?></a>
+					<?php if (!is_null($feed->title) && $params->get('rsstitle', 1))
+
+			    	{ echo '</h5>';}
+			   		 else
+			   		{ echo '</h4>';}
+			     ?>
 				<?php
 				}
 
@@ -86,7 +95,7 @@ if ($feed != false)
 					// item description
 					$text = $currItem->get_description();
 					$text = str_replace('&apos;', "'", $text);
-
+                    $text=strip_tags($text);
 					// word limit check
 					if ($words)
 					{
@@ -102,9 +111,9 @@ if ($feed != false)
 						}
 					}
 					?>
-					<div style="text-align: <?php echo $params->get('rssrtl', 0) ? 'right': 'left'; ?> ! important" class="newsfeed_item<?php echo $params->get('moduleclass_sfx'); ?>"  >
-						<?php echo $text; ?>
-					</div>
+
+						<p><?php echo $text; ?></p>
+
 					<?php
 				}
 				?>
@@ -113,8 +122,7 @@ if ($feed != false)
 			}
 			?>
 			</ul>
-		</td>
-		</tr>
-	</table>
+
+	</div>
 <?php } ?>
-</div>
+

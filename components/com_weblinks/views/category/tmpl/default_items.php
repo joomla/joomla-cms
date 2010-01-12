@@ -98,7 +98,7 @@ defined('_JEXEC') or die;
 								</a>
 								<?php break;
 
-							default:
+							default: 
 								// open in parent window
 									echo '<a href="'.  $link . '\" class=\"'. $menuclass .'" rel="nofollow">'.
 										$this->escape($item->title) . ' </a>';

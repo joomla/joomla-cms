@@ -266,6 +266,16 @@ UPDATE `jos_components` AS a
  WHERE a.link = ''
   AND a.option = 'com_content';
 
+
+-- ----------------------------------------------------------------
+-- jos_contact_details
+-- ----------------------------------------------------------------  
+ ALTER TABLE `#__contact_details`
+  ADD COLUMN `sortname1` varchar(255) NOT NULL,
+  ADD COLUMN `sortname2` varchar(255) NOT NULL,
+  ADD COLUMN `sortname3` varchar(255) NOT NULL,
+  ADD COLUMN `language` varchar(10) NOT NULL;  
+  
 -- ----------------------------------------------------------------
 -- jos_content
 -- ----------------------------------------------------------------
@@ -568,6 +578,9 @@ ALTER TABLE `jos_newsfeeds`
 
 ALTER TABLE `jos_newsfeeds`
  ADD INDEX `idx_language` (`language`);
+ 
+ALTER TABLE `jos_newsfeeds` 
+ADD `params` TEXT NOT NULL; 
 
 -- ----------------------------------------------------------------
 -- jos_plugins

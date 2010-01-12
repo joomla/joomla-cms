@@ -27,6 +27,20 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Jan-2010 Mark Dexter
+# Improvements to contact parameters (Elin Waring)
+# Fixes in weblinks router (Elin Waring)
+# Newsfeed parameters fixes (Andrea Tarr)
+# Banners module parameter fixes (Andrea Tarr)
+# Newsfeed layout fixes (Angie Radtke)
+^ Working commit of new sample data (Elin Waring)
+# Frontpage layout fixes (Angie Radtke)
+# Bug fix in contact alias field
+# Fix bug when there is no active menu during drill down
+
+12-Jan-2010 Mark Dexter
+# Fix bug creating new article category (Christophe Demko)
+
 12-Jan-2010 Hannes Papenberg
 ^ changed JLanguage to use parse_ini_file() to handle translations - big performance improvement!
 ^ changed all language files to adhere to the standards required by parse_ini_file() - the files still need to be changed to the new language strings!

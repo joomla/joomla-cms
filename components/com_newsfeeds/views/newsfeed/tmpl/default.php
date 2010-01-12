@@ -6,26 +6,26 @@ defined('_JEXEC') or die; ?>
 		$direction = " ";
 
 		if ($lang->isRTL() && $myrtl==0){
-		   $direction= " jredirect-rtl";
+		   $direction= " redirect-rtl";
 		   }
 		else if ($lang->isRTL() && $myrtl==1){
-		   $direction= " jredirect-ltr";
+		   $direction= " redirect-ltr";
 		   }
 		else if ($lang->isRTL() && $myrtl==2){
-		   $direction= " jredirect-rtl";
+		   $direction= " redirect-rtl";
 		   }
 		else if ($myrtl==0) {
-			$direction= " jredirect-ltr";
+			$direction= " redirect-ltr";
 		   }
 		else if ($myrtl==1) {
-			$direction= " jredirect-ltr";
+			$direction= " redirect-ltr";
 		   }
 		else if ($myrtl==2) {
-		   $direction= " jredirect-rtl";
+		   $direction= " redirect-rtl";
 		   }
 ?>
 
-<div class="jnewsfeed<?php echo $this->params->get('pageclass_sfx')?><?php echo $direction; ?>">
+<div class="newsfeed<?php echo $this->params->get('pageclass_sfx')?><?php echo $direction; ?>">
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
 	<h2 class="<?php echo $direction; ?>">
@@ -65,12 +65,11 @@ defined('_JEXEC') or die; ?>
 					<?php echo $item->get_title(); ?></a>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_item_description') && $item->get_description()) : ?>
-				<br />
+				<div>
 				<?php $text = $this->limitText($item->get_description(), $this->params->get('feed_word_count'));
 					echo str_replace('&apos;', "'", $text);
 				?>
-				<br />
-				<br />
+				</div>
 			<?php endif; ?>
 			</li>
 		<?php endforeach; ?>

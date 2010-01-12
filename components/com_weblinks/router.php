@@ -125,10 +125,10 @@ class WeblinksRoute
  *
  * @return	array	The URL arguments to use to assemble the subsequent URL.
  */
-function WeblinksBuildRoute(&$query){
-	static $items;
+function WeblinksBuildRoute(&$query)
+{
+	$segments = array();
 
-	$segments	= array();
 	// get a menu item based on Itemid or currently active
 	$menu = &JSite::getMenu();
 
@@ -151,6 +151,12 @@ function WeblinksBuildRoute(&$query){
 		unset($query['view']);
 	};
 
+	// are we dealing with an weblink that is attached to a menu item?
+	if (($mView == 'weblink') and (isset($query['id'])) and ($mId == intval($query['id']))) {
+		unset($query['view']);
+		unset($query['catid']);
+		unset($query['id']);
+	}
 
 	if (isset($view) and $view == 'category') {
 		if ($mId != intval($query['id']) || $mView != $view) {
@@ -159,7 +165,13 @@ function WeblinksBuildRoute(&$query){
 		unset($query['id']);
 	}
 
-
+	if (isset($query['catid'])) {
+		// if we are routing a weblink or category where the category id matches the menu catid, don't include the category segment
+		if ((($view == 'weblink') and ($mView != 'category') and ($mView != 'weblink') and ($mCatid != intval($query['catid'])))) {
+			$segments[] = $query['catid'];
+		}
+		unset($query['catid']);
+	};
 
 	if (isset($query['id']))
 	{
@@ -227,9 +239,9 @@ function WeblinksParseRoute($segments)
 {
 	$vars = array();
 
-	// Get the active menu item.
-	$menu	= &JSite::getMenu();
-	$item	= &$menu->getActive();
+	//Get the active menu item.
+	$menu = &JSite::getMenu();
+	$item = &$menu->getActive();
 
 	// Count route segments
 	$count = count($segments);
@@ -252,6 +264,9 @@ function WeblinksParseRoute($segments)
 			{
 				if (intval($segments[0]) && intval($segments[$count-1]))
 				{
+					// 123-path/to/category/456-article
+					$vars['id']		= $segments[$count-1];
+					$vars['view']	= 'weblink';
 				}
 				else
 				{
