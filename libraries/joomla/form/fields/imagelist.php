@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 jimport('joomla.html.html');
 
 // Import joomla field list class
-require_once dirname(__FILE__) . DS . 'list.php';
+require_once dirname(__FILE__) . DS . 'filelist.php';
 
 /**
  * Supports an HTML select list of image
