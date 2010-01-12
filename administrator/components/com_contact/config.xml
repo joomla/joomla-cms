@@ -31,7 +31,7 @@
 			name="show_email"
 			type="radio"
 			default="0"
-			label="Contact_Params_Contact_Position_E-mail_Label"
+			label="CONTACT_PARAMS_CONTACT_POSITION_E_MAIL_LABEL"
 			description="Contact_Params_Name_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
@@ -53,7 +53,7 @@
 			name="show_suburb"
 			type="radio"
 			default="1"
-			label="Contact_Params_Town/Suburb_Label"
+			label="CONTACT_PARAMS_TOWN_SUBURB_LABEL"
 			description="Contact_Params_Name_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
@@ -64,7 +64,7 @@
 			name="show_state"
 			type="radio"
 			default="1"
-			label="Contact_Params_State/County_Label"
+			label="CONTACT_PARAMS_STATE_COUNTY_LABEL"
 			description="Contact_Params_Name_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
@@ -75,7 +75,7 @@
 			name="show_postcode"
 			type="radio"
 			default="1"
-			label="Contact_Params_Post/Zip_Code_Label"
+			label="CONTACT_PARAMS_POST_ZIP_CODE_LABEL"
 			description="Contact_Params_Name_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
@@ -141,7 +141,7 @@
 			name="show_misc"
 			type="radio"
 			default="1"
-			label="Contact_Params_Misc Info_Label"
+			label="CONTACT_PARAMS_MISC_INFO_LABEL"
 			description="Contact_Params_Name_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
