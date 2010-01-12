@@ -59,7 +59,7 @@ class MediaModelManager extends JModel
 		$lang->load(JRequest::getCmd('option'), JPATH_ADMINISTRATOR);
 
 		$document = &JFactory::getDocument();
-		$document->setTitle(JText::_('Insert Image'));
+		$document->setTitle(JText::_('INSERT_IMAGE'));
 
 		// Build the array of select options for the folder list
 		$options[] = JHtml::_('select.option', "","/");

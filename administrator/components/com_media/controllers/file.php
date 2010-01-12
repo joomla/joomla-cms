@@ -92,7 +92,7 @@ class MediaControllerFile extends MediaController
 					header('HTTP/1.0 400 Bad Request');
 					jexit('Error Unable to upload file');
 				} else {
-					JError::raiseWarning(100, JText::_('Error Unable to upload file'));
+					JError::raiseWarning(100, JText::_('ERROR_UNABLE_TO_UPLOAD_FILE'));
 					// REDIRECT
 					if ($return) {
 						$app->redirect(base64_decode($return).'&folder='.$folder);
@@ -106,7 +106,7 @@ class MediaControllerFile extends MediaController
 					$log->addEntry(array('comment' => $folder));
 					jexit('Upload complete');
 				} else {
-					$app->enqueueMessage(JText::_('Upload complete'));
+					$app->enqueueMessage(JText::_('UPLOAD_COMPLETE'));
 					// REDIRECT
 					if ($return) {
 						$app->redirect(base64_decode($return).'&folder='.$folder);

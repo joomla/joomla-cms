@@ -6,16 +6,16 @@
 			type="text"
 			size="50"
 			default="bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS"
-			label="LEGAL EXTENSIONS LABEL"
-			description="LEGAL EXTENSIONS DESC" />
+			label="LEGAL_EXTENSIONS_LABEL"
+			description="LEGAL_EXTENSIONS_DESC" />
 
 		<field
 			name="upload_maxsize"
 			type="text"
 			size="50"
 			default="10000000"
-			label="MAXIMUM SIZE LABEL"
-			description="MAXIMUM SIZE DESC" />
+			label="MAXIMUM_SIZE_LABEL"
+			description="MAXIMUM_SIZE_DESC" />
 
 		<field
 			name="file_path"
@@ -37,8 +37,8 @@
 			name="restrict_uploads"
 			type="radio"
 			default="1"
-			label="RESTRICT UPLOADS"
-			description="RESTRICT UPLOADS DESC">
+			label="RESTRICT_UPLOADS"
+			description="RESTRICT_UPLOADS_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -65,8 +65,8 @@
 			name="check_mime"
 			type="radio"
 			default="1"
-			label="CHECK MIME"
-			description="CHECK MIME DESC">
+			label="CHECK_MIME"
+			description="CHECK_MIME_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -78,32 +78,32 @@
 			type="text"
 			size="50"
 			default="bmp,gif,jpg,png"
-			label="LEGAL IMAGE EXTENSIONS LABEL"
-			description="LEGAL IMAGE EXTENSIONS DESC" />
+			label="LEGAL_IMAGE_EXTENSIONS_LABEL"
+			description="LEGAL_IMAGE_EXTENSIONS_DESC" />
 
 		<field
 			name="ignore_extensions"
 			type="text"
 			size="50"
 			default=""
-			label="IGNORED EXTENSIONS LABEL"
-			description="IGNORED EXTENSIONS DESC" />
+			label="IGNORED_EXTENSIONS_LABEL"
+			description="IGNORED_EXTENSIONS_DESC" />
 
 		<field
 			name="upload_mime"
 			type="text"
 			size="50"
 			default="image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
-			label="LEGAL MIME TYPES LABEL"
-			description="LEGAL MIME TYPES DESC" />
+			label="LEGAL_MIME_TYPES_LABEL"
+			description="LEGAL_MIME_TYPES_DESC" />
 
 		<field
 			name="upload_mime_illegal"
 			type="text"
 			size="50"
 			default="text/html"
-			label="ILLEGAL MIME TYPES"
-			description="ILLEGAL MIME TYPES DESC" />
+			label="ILLEGAL_MIME_TYPES"
+			description="ILLEGAL_MIME_TYPES_DESC" />
 
 		<field
 			name="enable_flash"

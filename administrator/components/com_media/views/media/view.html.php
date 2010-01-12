@@ -109,7 +109,7 @@ class MediaViewMedia extends JView
 		$bar = &JToolBar::getInstance('toolbar');
 
 		// Set the titlebar text
-		JToolBarHelper::title(JText::_('Media Manager'), 'mediamanager.png');
+		JToolBarHelper::title(JText::_('MEDIA_MANAGER'), 'mediamanager.png');
 
 		// Add a delete button
 		$title = JText::_('Delete');

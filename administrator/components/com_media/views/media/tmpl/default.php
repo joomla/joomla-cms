@@ -50,7 +50,7 @@ defined('_JEXEC') or die;
                         <input class="inputbox" type="text" id="folderpath" readonly="readonly" />/
                         <input class="inputbox" type="text" id="foldername" name="foldername"  />
                         <input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
-                        <button type="submit"><?php echo JText::_('Create Folder'); ?></button>
+                        <button type="submit"><?php echo JText::_('CREATE_FOLDER'); ?></button>
                     </div>
 
                 </fieldset>
@@ -69,7 +69,7 @@ defined('_JEXEC') or die;
                     </fieldset>
                     <div id="upload-flash" class="hide">
 						<ul>
-							<li><a href="#" id="upload-browse">Browse Files</a></li>
+							<li><a href="#" id="upload-browse"><?php echo JText::_('BROWSE_FILES'); ?></a></li>
 							<li><a href="#" id="upload-clear">Clear List</a></li>
 							<li><a href="#" id="upload-start">Start Upload</a></li>
 						</ul>

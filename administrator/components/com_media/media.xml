@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0">
-  <name>Media Manager</name>
+  <name>MEDIA_MANAGER</name>
   <author>Joomla! Project</author>
   <creationDate>April 2006</creationDate>
   <copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
@@ -8,5 +8,5 @@
   <authorEmail>admin@joomla.org</authorEmail>
   <authorUrl>www.joomla.org</authorUrl>
   <version>1.6.0</version>
-  <description>This component manages site media</description>
+  <description>THIS_COMPONENT_MANAGES_SITE_MEDIA</description>
 </install>
