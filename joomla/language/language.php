@@ -10,7 +10,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-DEFINE('_QQ_', '"');
+define('_QQ_', '"');
 
 /**
  * Languages/translation handler class
@@ -601,7 +601,7 @@ class JLanguage extends JObject
 	 * @return	boolean True, if the key exists
 	 * @since	1.5
 	 */
-	function hasKey($key) {
+	function hasKey($string) {
 		@list($extension, $key) = explode('.', strtoupper($string), 2);
 		if(!isset($key))
 		{
