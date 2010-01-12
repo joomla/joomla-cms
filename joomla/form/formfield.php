@@ -55,7 +55,7 @@ abstract class JFormField extends JObject
 		return $this->type;
 	}
 
-	public function render(&$xml, $value, $formName, $groupName)
+	public function render(&$xml, $value, $formName, $groupName, $prefix)
 	{
 		// Set the xml element object.
 		$this->_element		= $xml;
@@ -92,6 +92,9 @@ abstract class JFormField extends JObject
 		// Set the form and group names.
 		$this->formName		= $formName;
 		$this->groupName	= $groupName;
+		
+		// Set the prefix
+		$this->prefix		= $prefix;
 
 		// Set the input name and id.
 		$this->inputName	= $this->_getInputName($this->name, $formName, $groupName, $this->multiple);
@@ -127,7 +130,29 @@ abstract class JFormField extends JObject
 
 		return $label;
 	}
-
+	/**
+	 * This function replaces the string identifier prefix with the
+	 * string held is the <var>formName</var> class variable.
+	 *
+	 * @param	string	The javascript code
+	 * @return 	string	The replaced javascript code
+	 */
+	protected function _replacePrefix($javascript)
+	{
+		$formName = $this->formName;
+		
+		// No form, just use the field name.
+		if ($formName === false)
+		{
+			return str_replace($this->prefix, '', $javascript);
+		}
+		// Use the form name
+		else
+		{
+			return str_replace($this->prefix, preg_replace('#\W#', '_',$formName).'_', $javascript);
+		}
+	}
+	
 	/**
 	 * Method to get the field input.
 	 *

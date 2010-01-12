@@ -107,6 +107,7 @@ class JForm extends JObject
 	{
 		// Set the options if specified.
 		$this->_options['array'] = array_key_exists('array', $options) ? $options['array'] : false;
+		$this->_options['prefix'] = array_key_exists('prefix', $options) ? $options['prefix'] : '%__';
 	}
 
 	/**
@@ -546,8 +547,11 @@ class JForm extends JObject
 			$groupControl = $this->_fieldsets[$group]['array'];
 		}
 
+		// Set the prefix
+		$prefix = $this->_options['prefix'];
+
 		// Render the field.
-		return $field->render($node, $value, $formControl, $groupControl);
+		return $field->render($node, $value, $formControl, $groupControl, $prefix);
 	}
 
 	/**
@@ -652,6 +656,8 @@ class JForm extends JObject
 		} elseif ($groupControl == '_default' && $group !== '_default' && isset($this->_fieldsets[$group]) && is_string($this->_fieldsets[$group]['array']) && strlen($this->_fieldsets[$group]['array'])) {
 			$groupControl = $this->_fieldsets[$group]['array'];
 		}
+		// Set the prefix
+		$prefix = $this->_options['prefix'];
 
 		// Check if the group exists.
 		if (isset($this->_groups[$group])) {
@@ -670,7 +676,7 @@ class JForm extends JObject
 				}
 
 				// Render the field.
-				$results[$name] = $field->render($node, $value, $formControl, $groupControl);
+				$results[$name] = $field->render($node, $value, $formControl, $groupControl, $prefix);
 			}
 		}
 

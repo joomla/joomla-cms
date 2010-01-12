@@ -33,9 +33,9 @@ class JFormFieldFile extends JFormField
 	protected function _getInput()
 	{
 		$size		= $this->_element->attributes('size') ? ' size="'.$this->_element->attributes('size').'"' : '';
-		$class		= $this->_element->attributes('class') ? 'class="'.$this->_element->attributes('class').'"' : 'class="text_area"';
-		$onchange	= $this->_element->attributes('onchange') ? ' onchange="'.$this->_element->attributes('onchange').'"' : '';
+		$class		= $this->_element->attributes('class') ? ' class="'.$this->_element->attributes('class').'"' : ' class="text_area"';
+		$onchange	= $this->_element->attributes('onchange') ? ' onchange="'.$this->_replacePrefix($this->_element->attributes('onchange')).'"' : '';
 
-		return '<input type="file" name="'.$this->inputName.'" id="'.$this->inputId.'" value="" '.$class.$size.$onchange.' />';
+		return '<input type="file" name="'.$this->inputName.'" id="'.$this->inputId.'" value=""'.$class.$size.$onchange.' />';
 	}
 }

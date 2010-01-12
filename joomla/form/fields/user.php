@@ -33,16 +33,22 @@ class JFormFieldUser extends JFormField
 	protected function _getInput()
 	{
 		// Initialise variables.
+		$onchange	= $this->_element->attributes('onchange') ? $this->_replacePrefix($this->_element->attributes('onchange')) : '';
 		$document	= JFactory::getDocument();
 
 		// Load the modal behavior.
-		JHtml::_('behavior.modal', 'a.modal');
+		JHtml::_('behavior.modal', 'a.modal_'.$this->inputId);
 
 		// Add the JavaScript select function to the document head.
 		$document->addScriptDeclaration(
 		"function jSelectUser_".$this->inputId."(id, title, el) {
-			document.id('".$this->inputId."_id').value = id;
-			document.id('".$this->inputId."_name').value = title;
+			var old_id = document.getElementById('".$this->inputId."_id').value;
+			if (old_id != id)
+			{
+				document.getElementById('".$this->inputId."_id').value = id;
+				document.getElementById('".$this->inputId."_name').value = title;
+				".$onchange."
+			}
 			SqueezeBox.close();
 		}"
 		);
@@ -68,7 +74,7 @@ class JFormFieldUser extends JFormField
 		// The user select button.
 		$html[] = '<div class="button2-left">';
 		$html[] = '  <div class="blank">';
-		$html[] = '    <a class="modal" title="'.JText::_('JForm_Change_User').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('JForm_Change_User_button').'</a>';
+		$html[] = '    <a class="modal_'.$this->inputId.'" title="'.JText::_('JForm_Change_User').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('JForm_Change_User_button').'</a>';
 		$html[] = '  </div>';
 		$html[] = '</div>';
 
