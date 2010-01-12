@@ -173,17 +173,23 @@ abstract class JHtmlSelect
 			$options
 		);
 		// Apply option rules
-		if ($options['group.items'] === null) {
+		if ($options['group.items'] === null)
+		{
 			$options['group.label'] = null;
 		}
 		$attribs = '';
-		if (isset($options['list.attr'])) {
-			if (is_array($options['list.attr'])) {
+		if (isset($options['list.attr']))
+		{
+			if (is_array($options['list.attr']))
+			{
 				$attribs = JArrayHelper::toString($options['list.attr']);
-			} else {
+			}
+			else
+			{
 				$attribs = $options['list.attr'];
 			}
-			if ($attribs != '') {
+			if ($attribs != '')
+			{
 				$attribs = ' ' . $attribs;
 			}
 		}
@@ -201,43 +207,65 @@ abstract class JHtmlSelect
 			. $options['format.eol']
 		;
 		$groupIndent = str_repeat($options['format.indent'], $options['format.depth']++);
-		foreach($data as $dataKey => $group) {
+		foreach($data as $dataKey => $group)
+		{
 			$label = $dataKey;
 			$id = '';
-			if ($options['group.items'] == null) {
+			if ($options['group.items'] == null)
+			{
 				// Sub-list is an associative array
 				$subList = $group;
-			} elseif (is_array($group)) {
+				$noGroup = is_int($dataKey);
+			}
+			elseif (is_array($group))
+			{
 				// Sub-list is in an element of an array.
 				$subList = $group[$options['group.items']];
-				if (isset($group[$options['group.label']])) {
+				$noGroup = false;
+				if (isset($group[$options['group.label']]))
+				{
 					$label = $group[$options['group.label']];
 				}
-				if (isset($options['group.id']) && isset($group[$options['group.id']])) {
+				if (isset($options['group.id']) && isset($group[$options['group.id']]))
+				{
 					$id = $group[$options['group.id']];
 				}
-			} elseif (is_object($group)) {
+			}
+			elseif (is_object($group))
+			{
 				// Sub-list is in a property of an object
 				$subList = $group->$options['group.items'];
-				if (isset($group->$options['group.label'])) {
+				$noGroup = false;
+				if (isset($group->$options['group.label']))
+				{
 					$label = $group->$options['group.label'];
 				}
-				if (isset($options['group.id']) && isset($group->$options['group.id'])) {
+				if (isset($options['group.id']) && isset($group->$options['group.id']))
+				{
 					$id = $group->$options['group.id'];
 				}
-			} else {
+			}
+			else
+			{
 				throw new JException('Invalid group contents.', 1, E_WARNING);
 			}
-			$html .= $groupIndent
-				. '<optgroup' . (empty($id) ? '' : ' id="' . $id . '"')
-				. ' label="'
-				. ($options['group.label.toHtml'] ? htmlspecialchars($label) : $label)
-				. '">'
-				. $options['format.eol']
-				. JHtmlSelect::options($subList, $options)
-				. $groupIndent . '</optgroup>'
-				. $options['format.eol']
-			;
+			if($noGroup)
+			{
+				$html.=JHtmlSelect::options($subList, $options);
+			}
+			else
+			{
+				$html .= $groupIndent
+					. '<optgroup' . (empty($id) ? '' : ' id="' . $id . '"')
+					. ' label="'
+					. ($options['group.label.toHtml'] ? htmlspecialchars($label) : $label)
+					. '">'
+					. $options['format.eol']
+					. JHtmlSelect::options($subList, $options)
+					. $groupIndent . '</optgroup>'
+					. $options['format.eol']
+				;
+			}
 		}
 		$html .= $baseIndent . '</select>' . $options['format.eol'];
 

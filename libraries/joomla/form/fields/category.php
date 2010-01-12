@@ -1,14 +1,17 @@
 <?php
+
 /**
  * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('JPATH_BASE') or die;
 
+// Import html library
 jimport('joomla.html.html');
-require_once dirname(__FILE__).DS.'list.php';
+
+// Import joomla field list class
+require_once dirname(__FILE__) . DS . 'list.php';
 
 /**
  * Supports an HTML select list of categories
@@ -19,6 +22,7 @@ require_once dirname(__FILE__).DS.'list.php';
  */
 class JFormFieldCategory extends JFormFieldList
 {
+
 	/**
 	 * The field type.
 	 *
@@ -31,42 +35,52 @@ class JFormFieldCategory extends JFormFieldList
 	 *
 	 * @return	array		An array of JHtml options.
 	 */
-	protected function _getOptions()
+	protected function _getOptions() 
 	{
-		$db			= JFactory::getDbo();
-		$extension	= $this->_element->attributes('extension');
-		$published	= $this->_element->attributes('published');
-		$options	= array();
-
-		if ($published === '') {
+		$db = JFactory::getDbo();
+		$extension = $this->_element->attributes('extension') ? $this->_element->attributes('extension') : $this->_element->attributes('scope');
+		$published = $this->_element->attributes('published');
+		$options = array();
+		if ($published === '') 
+		{
 			$published = null;
 		}
-
-		if (!empty($extension)) {
-			if ($published) {
+		if (!empty($extension)) 
+		{
+			if ($published) 
+			{
 				$options = JHtml::_('category.options', $extension, array('filter.published' => implode(',', $published)));
-			} else {
+			}
+			else
+			{
 				$options = JHtml::_('category.options', $extension);
 			}
 
 			// Verify permissions.  If the action attribute is set, then we scan the options.
-			if ($action	= $this->_element->attributes('action')) {
+			if ($action = $this->_element->attributes('action')) 
+			{
 				$user = JFactory::getUser();
+
 				// TODO: Add a preload method to JAccess so that we can get all the asset rules in one query and cache them.
 				// eg JAccess::preload('core.create', 'com_content.category')
-				foreach ($options as $i => $option) {
-					if (!$user->authorise($action, $extension.'.category.'.$option->value)) {
+
+				foreach($options as $i => $option) 
+				{
+					if (!$user->authorise($action, $extension . '.category.' . $option->value)) 
+					{
 						unset($options[$i]);
 					}
 				}
 			}
-		} else {
+		}
+		else
+		{
 			JError::raiseWarning(500, JText::_('JFramework_Form_Fields_Category_Error_extension_empty'));
 		}
 
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::_getOptions(), $options);
-
 		return $options;
 	}
 }
+

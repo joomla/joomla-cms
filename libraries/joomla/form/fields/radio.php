@@ -38,15 +38,16 @@ class JFormFieldRadio extends JFormField
 		foreach ($this->_element->children() as $option) {
 			$tmp = JHtml::_('select.option', $option->attributes('value'), trim($option->data()));
 			$tmp->class = $option->attributes('class');
+			$tmp->onclick = $option->attributes('onclick') ? ' onclick="'.$this->_replacePrefix($option->attributes('onclick')).'"' : '';
 			$options[] = $tmp;
 		}
 		reset($options);
 
 		// Get the fieldset class.
-		$class = $this->_element->attributes('class') ? 'class="radio '.$this->_element->attributes('class').'"': 'class="radio"';
+		$class = $this->_element->attributes('class') ? ' class="radio '.$this->_element->attributes('class').'"': ' class="radio"';
 
 		$html = array();
-		$html[] = '<fieldset id="'.$this->inputId.'" '.$class.'>';
+		$html[] = '<fieldset id="'.$this->inputId.'"'.$class.'>';
 
 		foreach ($options as $i => $option) {
 			if (is_array($this->value)) {
@@ -65,7 +66,7 @@ class JFormFieldRadio extends JFormField
 			$class = isset($option->class) ? ' class="'.$option->class.'"' : null;
 
 
-			$html[] = '<input id="'.$this->inputId.$i.'" type="radio" name="'.$this->inputName.'" value="'.htmlspecialchars($option->value).'"'.$bool.' />';
+			$html[] = '<input id="'.$this->inputId.$i.'" type="radio" name="'.$this->inputName.'" value="'.htmlspecialchars($option->value).'"'.$bool.$option->onclick.' />';
 			$html[] = '<label for="'.$this->inputId.$i.'"'.$class.'>'.JText::_($option->text).'</label>';
 		}
 

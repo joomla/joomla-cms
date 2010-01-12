@@ -66,7 +66,7 @@ class JFormFieldList extends JFormField
 			$attributes	.= ' multiple="multiple"';
 		}
 		if ($v = $this->_element->attributes('onchange')) {
-			$attributes	.= ' onchange="'.$v.'"';
+			$attributes	.= ' onchange="'.$this->_replacePrefix($v).'"';
 		}
 
 		if ($disabled || $readonly) {

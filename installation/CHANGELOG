@@ -32,6 +32,10 @@ $ -> Language fix or change
 ^ changed all language files to adhere to the standards required by parse_ini_file() - the files still need to be changed to the new language strings!
 ^ changed language strings in the code to adhere to the strings required by parse_ini_file()
 # fixed XML file of mod_banners
++ Added missing JForm Fields present in JParameter - thank you Christopher Demko!
+# Fixed JParameter Element named incorrectly - thank you Christopher Demko!
++ Added Javascript onchange option in JForm - thank you Christopher Demko!
+# Fixed JForm Fields to act like the old JParameter Elements  - thank you Christopher Demko!
 
 11-Jan-2010 Hannes Papenberg
 - Removed obsolete #__core_log_items table

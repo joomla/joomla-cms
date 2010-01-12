@@ -34,9 +34,10 @@ class JFormFieldTextarea extends JFormField
 	{
 		$rows	= $this->_element->attributes('rows');
 		$cols	= $this->_element->attributes('cols');
-		$class	= $this->_element->attributes('class') ? 'class="'.$this->_element->attributes('class').'"' : 'class="text_area"';
+		$class	= $this->_element->attributes('class') ? ' class="'.$this->_element->attributes('class').'"' : 'class="text_area"';
 		$readonly	= $this->_element->attributes('readonly') == 'true' ? ' readonly="readonly"' : '';
+		$onchange	= $this->_element->attributes('onchange') ? ' onchange="'.$this->_replacePrefix($this->_element->attributes('onchange')).'"' : '';
 
-		return '<textarea name="'.$this->inputName.'" cols="'.$cols.'" rows="'.$rows.'" '.$class.$readonly.' id="'.$this->inputId.'" >'.htmlspecialchars($this->value).'</textarea>';
+		return '<textarea name="'.$this->inputName.'" cols="'.$cols.'" rows="'.$rows.'"'.$class.$readonly.$onchange.' id="'.$this->inputId.'" >'.htmlspecialchars($this->value).'</textarea>';
 	}
 }

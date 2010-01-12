@@ -101,13 +101,14 @@ class MenusHelper
 	 * @param	string	An option menu to filter the list on, otherwise all menu links are returned as a grouped array.
 	 * @param	int		An optional parent ID to pivot results around.
 	 * @param	int		An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
+	 * @param	array	An optional array of states
 	 */
-	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0)
+	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published=array())
 	{
 		$db		= JFactory::getDbo();
 		$query	= new JQuery;
 
-		$query->select('a.id AS value, a.title AS text, a.level, a.menutype');
+		$query->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type');
 		$query->from('#__menu AS a');
 		$query->join('LEFT', '`#__menu` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
@@ -125,6 +126,12 @@ class MenusHelper
 				$query->join('LEFT', '`#__menu` AS p ON p.id = '.(int) $parentId);
 				$query->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
 			}
+		}
+		
+		if(!empty($published))
+		{
+			if (is_array($published)) $published = '(' . implode(',',$published) .')';
+			$query->where('a.published IN ' . $published);
 		}
 
 		$query->group('a.id');

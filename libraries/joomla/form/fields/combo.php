@@ -53,7 +53,7 @@ class JFormFieldCombo extends JFormField
 	{
 		$size		= $this->_element->attributes('size') ? ' size="'.$this->_element->attributes('size').'"' : '';
 		$readonly	= $this->_element->attributes('readonly') == 'true' ? ' readonly="readonly"' : '';
-		$onchange	= $this->_element->attributes('onchange') ? ' onchange="'.$this->_element->attributes('onchange').'"' : '';
+		$onchange	= $this->_element->attributes('onchange') ? ' onchange="'.$this->_replacePrefix($this->_element->attributes('onchange')).'"' : '';
 		$class		= $this->_element->attributes('class') ? ' class="'.$this->_element->attributes('class').'"' : ' class="combobox"';
 		$options	= $this->_getOptions();
 		$return		= null;

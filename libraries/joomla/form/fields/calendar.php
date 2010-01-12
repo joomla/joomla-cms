@@ -36,6 +36,7 @@ class JFormFieldCalendar extends JFormFieldText
 		$format = ($this->_element->attributes('format') ? $this->_element->attributes('format') : '%Y-%m-%d');
 		$filter = $this->_element->attributes('filter');
 		$time	= $this->_element->attributes('time');
+		$onchange	= $this->_element->attributes('onchange') ? ' onchange="'.$this->_replacePrefix($this->_element->attributes('onchange')).'"' : '';
 
 		if ($this->value == 'now') {
 			$this->value = strftime($format);
@@ -72,6 +73,6 @@ class JFormFieldCalendar extends JFormFieldText
 				break;
 		}
 
-		return JHtml::_('calendar', $this->value, $this->inputName, $this->inputId, $format);
+		return JHtml::_('calendar', $this->value, $this->inputName, $this->inputId, $format, $onchange);
 	}
 }

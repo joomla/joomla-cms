@@ -35,11 +35,17 @@ class JFormFieldMedia extends JFormField
 		static $init = false;
 		$html = '';
 
+		$onchange	= $this->_element->attributes('onchange') ? $this->_replacePrefix($this->_element->attributes('onchange')) : '';
 		if (!$init) {
 			JHtml::_('behavior.modal');
 			$js = "
 			function jInsertFieldValue(value,id) {
-				document.getElementById(id).value = value;
+				var old_id = document.getElementById(id).value;
+				if (old_id != id)
+				{
+					document.getElementById(id).value = value;
+					".$onchange."
+				}
 			}";
 			$doc = &JFactory::getDocument();
 			$doc->addScriptDeclaration($js);
