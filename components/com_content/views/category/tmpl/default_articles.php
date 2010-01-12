@@ -104,7 +104,7 @@ $n = count($this->articles);
 						$link = $fullURL->toString();
 					?>
 					<a href="<?php echo $link; ?>">
-					<?php echo JText::_( 'Register to read more...' ); ?></a>
+					<?php echo JText::_( 'REGISTER_TO_READ_MORE' ); ?></a>
 				</td>
 				<?php endif; ?>
 			</tr>

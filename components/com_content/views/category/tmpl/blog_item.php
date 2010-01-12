@@ -98,11 +98,11 @@ $params = &$this->item->params;
         <p class="readmore">
                 <a href="<?php echo $link; ?>">
                         <?php if (!$params->get('access-view')) :
-                                echo JText::_('Register to read more...');
+                                echo JText::_('REGISTER_TO_READ_MORE');
                         elseif ($readmore = $params->get('readmore')) :
                                 echo $readmore;
                         else :
-                                echo JText::sprintf('Read more', $this->escape($this->item->title));
+                                echo JText::sprintf('READ_MORE', $this->escape($this->item->title));
                         endif; ?></a>
         </p>
 <?php endif; ?>

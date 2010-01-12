@@ -98,7 +98,7 @@ class JHTMLIcon
 
 		$button = JHtml::_('link', JRoute::_($url), $text);
 
-		$output = '<span class="hasTip" title="'.JText::_('Edit Item').' :: '.$overlib.'">'.$button.'</span>';
+		$output = '<span class="hasTip" title="'.JText::_('EDIT_ITEM').' :: '.$overlib.'">'.$button.'</span>';
 		return $output;
 	}
 
