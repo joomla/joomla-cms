@@ -188,7 +188,7 @@ class JInstallerPlugin extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
 			{
-				$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_root').'"');
+				$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('FAILED_TO_CREATE_DIRECTORY').': "'.$this->parent->getPath('extension_root').'"');
 				return false;
 			}
 		}
@@ -244,7 +244,7 @@ class JInstallerPlugin extends JAdapterInstance
 			if (!$this->parent->getOverwrite())
 			{
 				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('Plugin').' "'. $this->get('name') .'" '.JText::_('already exists!'));
+				$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('Plugin').' "'. $this->get('name') .'" '.JText::_('ALREADY_EXISTS'));
 				return false;
 			}
 
@@ -319,7 +319,7 @@ class JInstallerPlugin extends JAdapterInstance
 		if (!$this->parent->copyManifest(-1))
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('Could not copy setup file'));
+			$this->parent->abort(JText::_('Plugin').' '.JText::_($this->route).': '.JText::_('COULD_NOT_COPY_SETUP_FILE'));
 			return false;
 		}
 		// And now we run the postflight

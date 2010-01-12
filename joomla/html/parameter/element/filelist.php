@@ -44,12 +44,12 @@ class JElementFilelist extends JElement
 
 		if (!$node->attributes('hide_none'))
 		{
-			$options[] = JHtml::_('select.option', '-1', '- '.JText::_('Do not use').' -');
+			$options[] = JHtml::_('select.option', '-1', '- '.JText::_('DO_NOT_USE').' -');
 		}
 
 		if (!$node->attributes('hide_default'))
 		{
-			$options[] = JHtml::_('select.option', '', '- '.JText::_('Use default').' -');
+			$options[] = JHtml::_('select.option', '', '- '.JText::_('USE_DEFAULT').' -');
 		}
 
 		if (is_array($files))

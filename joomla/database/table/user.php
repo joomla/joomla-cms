@@ -172,12 +172,12 @@ class JTableUser extends JTable
 
 		// Validate user information
 		if (trim($this->name) == '') {
-			$this->setError(JText::_('Please enter your name.'));
+			$this->setError(JText::_('PLEASE_ENTER_YOUR_NAME'));
 			return false;
 		}
 
 		if (trim($this->username) == '') {
-			$this->setError(JText::_('Please enter a user name.'));
+			$this->setError(JText::_('PLEASE_ENTER_A_USER_NAME'));
 			return false;
 		}
 

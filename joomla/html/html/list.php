@@ -44,7 +44,7 @@ abstract class JHtmlList
 
 		jimport('joomla.filesystem.folder');
 		$imageFiles	= JFolder::files(JPATH_SITE.DS.$directory);
-		$images		= array(JHtml::_('select.option',  '', '- '. JText::_('Select Image') .' -'));
+		$images		= array(JHtml::_('select.option',  '', '- '. JText::_('SELECT_IMAGE') .' -'));
 		foreach ($imageFiles as $file) {
 			if (preg_match('#('.$extensions.')$#', $file)) {
 				$images[] = JHtml::_('select.option', $file);
@@ -190,7 +190,7 @@ abstract class JHtmlList
 		;
 		$db->setQuery($query);
 		if ($nouser) {
-			$users[] = JHtml::_('select.option',  '0', '- '. JText::_('No User') .' -');
+			$users[] = JHtml::_('select.option',  '0', '- '. JText::_('No_User') .' -');
 			$users = array_merge($users, $db->loadObjectList());
 		} else {
 			$users = $db->loadObjectList();
@@ -221,7 +221,7 @@ abstract class JHtmlList
 	{
 		$pos = array();
 		if ($none) {
-			$pos[''] = JText::_('None');
+			$pos[''] = JText::_('JNone');
 		}
 		if ($center) {
 			$pos['center'] = JText::_('Center');

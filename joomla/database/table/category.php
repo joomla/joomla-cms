@@ -114,7 +114,7 @@ class JTableCategory extends JTableNested
 	{
 		// Check for a title.
 		if (trim($this->title) == '') {
-			$this->setError(JText::sprintf('must contain a title', JText::_('Category')));
+			$this->setError(JText::sprintf('MUST_CONTAIN_A_TITLE', JText::_('Category')));
 			return false;
 		}
 

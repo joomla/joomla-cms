@@ -642,7 +642,7 @@ class JInstaller extends JAdapter
 			$db->setQuery($query->data());
 			if (!$db->query())
 			{
-				JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL Error')." ".$db->stderr(true));
+				JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL_ERROR')." ".$db->stderr(true));
 				return false;
 			}
 		}
@@ -843,7 +843,7 @@ class JInstaller extends JAdapter
 
 				if (!JFolder::create($newdir))
 				{
-					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$newdir.'"');
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('FAILED_TO_CREATE_DIRECTORY').' "'.$newdir.'"');
 					return false;
 				}
 			}
@@ -960,7 +960,7 @@ class JInstaller extends JAdapter
 
 				if (!JFolder::create($newdir))
 				{
-					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$newdir.'"');
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('FAILED_TO_CREATE_DIRECTORY').' "'.$newdir.'"');
 					return false;
 				}
 			}
@@ -1049,7 +1049,7 @@ class JInstaller extends JAdapter
 
 				if (!JFolder::create($newdir))
 				{
-					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$newdir.'"');
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('FAILED_TO_CREATE_DIRECTORY').' "'.$newdir.'"');
 					return false;
 				}
 			}

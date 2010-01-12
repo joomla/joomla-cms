@@ -294,7 +294,7 @@ class JController extends JObject
 			$retval = $this->$doTask();
 			return $retval;
 		} else {
-			return JError::raiseError(403, JText::_('Access Forbidden'));
+			return JError::raiseError(403, JText::_('ACCESS_FORBIDDEN'));
 		}
 
 	}

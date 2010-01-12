@@ -47,7 +47,7 @@ class JElementUserGroup extends JElement
 			$ctrl		.= '[]';
 			//$value		= implode('|',)
 		}
-		//array_unshift($editors, JHtml::_('select.option',  '', '- '. JText::_('Select Editor') .' -'));
+		//array_unshift($editors, JHtml::_('select.option',  '', '- '. JText::_('SELECT_EDITOR') .' -'));
 
 		return JHtml::_('access.usergroup', $ctrl, $value, $attribs, false);
 	}

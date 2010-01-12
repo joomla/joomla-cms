@@ -366,7 +366,7 @@ class JMail extends PHPMailer
  	 */
 	public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
-		$subject = JText::_('User Submitted') ." '". $type ."'";
+		$subject = JText::_('USER_SUBMITTED') ." '". $type ."'";
 
 		$message = sprintf (JText::_('MAIL_MSG_ADMIN'), $adminName, $type, $title, $author,
 			$url, $url, 'administrator', $type);

@@ -265,7 +265,7 @@ abstract class JModuleHelper
 
 		if (null === ($modules = $db->loadObjectList()))
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Error Loading Modules') . $db->getErrorMsg());
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('ERROR_LOADING_MODULES') . $db->getErrorMsg());
 			return false;
 		}
 

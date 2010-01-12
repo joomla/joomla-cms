@@ -199,7 +199,7 @@ abstract class JDatabase extends JObject
 				require_once $path;
 			} else {
 				JError::setErrorHandling(E_ERROR, 'die'); //force error type to die
-				return JError::raiseError(500, JTEXT::_('Unable to load Database Driver:') .$driver);
+				return JError::raiseError(500, JTEXT::_('UNABLE_TO_LOAD_DATABASE_DRIVER:') .$driver);
 			}
 
 			$adapter	= 'JDatabase'.$driver;
@@ -207,7 +207,7 @@ abstract class JDatabase extends JObject
 
 			if ($error = $instance->getErrorMsg()) {
 				JError::setErrorHandling(E_ERROR, 'ignore'); //force error type to die
-				return JError::raiseError(500, JTEXT::_('Unable to connect to the database:') .$error);
+				return JError::raiseError(500, JTEXT::_('UNABLE_TO_CONNECT_TO_THE_DATABASE') .$error);
 			}
 
 			$instances[$signature] = & $instance;
