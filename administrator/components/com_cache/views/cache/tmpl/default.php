@@ -11,10 +11,10 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->data);?>);" />
 			</th>
 			<th class="title" nowrap="nowrap">
-				<?php echo JText::_('Cache Group'); ?>
+				<?php echo JText::_('CACHE_GROUP'); ?>
 			</th>
 			<th width="5%" align="center" nowrap="nowrap">
-				<?php echo JText::_('Number of Files'); ?>
+				<?php echo JText::_('NUMBER_OF_FILES'); ?>
 			</th>
 			<th width="10%" align="center">
 				<?php echo JText::_('Size'); ?>

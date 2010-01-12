@@ -5,15 +5,15 @@
 	<thead>
 		<tr>
 			<th>
-				<?php echo JText::_('Purge expired items'); ?>
+				<?php echo JText::_('PURGE_EXPIRED_ITEMS'); ?>
 			</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td>
-			<p class="mod-purge-instruct"><?php echo JText::_('Click on the Purge expired icon in the toolbar to delete all expired cache files. Note: Cache files that are still current will not be deleted.'); ?></p>
-			<p class="warning"><?php echo JText::_('WARNING This can be resource intensive on sites with large number of items'); ?></p>
+			<p class="mod-purge-instruct"><?php echo JText::_('CACHE_PURGE_INSTRUCTIONS'); ?></p>
+			<p class="warning"><?php echo JText::_('CACHE_RESOURCE_INTENSIVE_WARNING'); ?></p>
 			</td>
 		</tr>
 	</tbody>
