@@ -8,7 +8,6 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
-require_once dirname(__FILE__).DS.'list.php';
 
 /**
  * Form Field class for the Joomla Framework.
@@ -17,7 +16,7 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldUserGroup extends JFormFieldList
+class JFormFieldUserGroup extends JFormField
 {
 	/**
 	 * The field type.
@@ -31,29 +30,30 @@ class JFormFieldUserGroup extends JFormFieldList
 	 *
 	 * @return	array		An array of JHtml options.
 	 */
-	protected function _getOptions()
+	protected function _getInput()
 	{
-		// Get a database object.
-		$db = &JFactory::getDbo();
+		$attribs	= '';
 
-		// Get the user groups from the database.
-		$db->setQuery(
-			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
-			' FROM #__usergroups AS a' .
-			' LEFT JOIN `#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
-			' GROUP BY a.id' .
-			' ORDER BY a.lft ASC'
-		);
-		$options = $db->loadObjectList();
-
-		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i=0,$n=count($options); $i < $n; $i++) {
-			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
+		if ($v = $this->_element->attributes('size')) {
+			$attribs	.= ' size="'.$v.'"';
+		}
+		if ($v = $this->_element->attributes('class')) {
+			$attribs	.= ' class="'.$v.'"';
+		} else {
+			$attribs	.= ' class="inputbox"';
+		}
+		if ($m = $this->_element->attributes('multiple'))
+		{
+			$attribs	.= ' multiple="multiple"';
 		}
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::_getOptions(), $options);
+		$options = array();
 
-		return $options;
+		// Iterate through the children and build an array of options.
+		foreach ($this->_element->children() as $option) {
+			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_(trim($option->data())));
+		}
+
+		return JHtml::_('access.usergroup', $this->inputName, $this->value, $attribs, $options, $this->inputId);
 	}
 }
