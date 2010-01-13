@@ -35,12 +35,12 @@ class JFormFieldModuleLayout extends JFormFieldList
 		$path1		= null;
 		$path2		= null;
 
-		$module = $this->_element->attributes('module');
+		$module = (string)$this->_element->attributes()->module;
 		if (empty($module)) {
 			$module = $this->_form->get('module');
 		}
 
-		$clientId = $this->_element->attributes('client_id');
+		$clientId = (string)$this->_element->attributes()->client_id;
 		if (empty($clientId)) {
 			$clientId = $this->_form->get('client_id');
 		}

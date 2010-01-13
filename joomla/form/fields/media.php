@@ -35,7 +35,7 @@ class JFormFieldMedia extends JFormField
 		static $init = false;
 		$html = '';
 
-		$onchange	= $this->_element->attributes('onchange') ? $this->_replacePrefix($this->_element->attributes('onchange')) : '';
+		$onchange = (string)$this->_element->attributes()->onchange ? $this->_replacePrefix((string)$this->_element->attributes()->onchange) : '';
 		if (!$init) {
 			JHtml::_('behavior.modal');
 			$js = "
@@ -52,12 +52,12 @@ class JFormFieldMedia extends JFormField
 			$init = true;
 		}
 
-		$link	= $this->_element->attributes('link').$this->inputId;
-		$size	= $this->_element->attributes('size') ? 'size="'.$this->_element->attributes('size').'"' : '';
-		$class	= $this->_element->attributes('class') ? 'class="'.$this->_element->attributes('class').'"' : '';
+		$link	= (string)$this->_element->attributes()->link.$this->inputId;
+		$size	= (string)$this->_element->attributes()->size ? ' size="'.$this->_element->attributes()->size.'"' : '';
+		$class	= (string)$this->_element->attributes()->class ? ' class="'.$this->_element->attributes()->class.'"' : '';
 
 		$html .= '<div style="float: left;">';
-		$html .= '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value).'" '.$class.$size.' />';
+		$html .= '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value).'"'.$class.$size.' />';
 		$html .= '</div>';
 		$html .= '<div class="button2-left">';
 		$html .= '<div class="blank">';

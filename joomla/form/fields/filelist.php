@@ -35,44 +35,44 @@ class JFormFieldFileList extends JFormFieldList
 	 *
 	 * @return	array		An array of JHtml options.
 	 */
-	protected function _getOptions() 
+	protected function _getOptions()
 	{
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
 
 		// path to files directory
-		$path = JPATH_ROOT . '/' . $this->_element->attributes('directory');
-		$filter = $this->_element->attributes('filter');
-		$exclude = $this->_element->attributes('exclude');
-		$stripExt = $this->_element->attributes('stripext');
+		$path = JPATH_ROOT . '/' . $this->_element->attributes()->directory;
+		$filter = (string)$this->_element->attributes()->filter;
+		$exclude = (string)$this->_element->attributes()->exclude;
+		$stripExt = (string)$this->_element->attributes()->stripext;
 		$files = JFolder::files($path, $filter);
 
 		// Prepare return value
 		$options = array();
 
 		// Add basic options
-		if (!$this->_element->attributes('hide_none')) 
+		if (!(string)$this->_element->attributes()->hide_none)
 		{
 			$options[] = JHtml::_('select.option', '-1', JText::_('JOption_Do_Not_Use'));
 		}
-		if (!$this->_element->attributes('hide_default')) 
+		if (!(string)$this->_element->attributes()->hide_default)
 		{
 			$options[] = JHtml::_('select.option', '', JText::_('JOption_Use_Default'));
 		}
 
 		// Iterate over files
-		if (is_array($files)) 
+		if (is_array($files))
 		{
-			foreach($files as $file) 
+			foreach($files as $file)
 			{
-				if ($exclude) 
+				if ($exclude)
 				{
-					if (preg_match(chr(1) . $exclude . chr(1), $file)) 
+					if (preg_match(chr(1) . $exclude . chr(1), $file))
 					{
 						continue;
 					}
 				}
-				if ($stripExt) 
+				if ($stripExt)
 				{
 					$file = JFile::stripExt($file);
 				}
@@ -85,4 +85,3 @@ class JFormFieldFileList extends JFormFieldList
 		return $options;
 	}
 }
-

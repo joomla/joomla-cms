@@ -32,8 +32,8 @@ class JFormRuleEquals extends JFormRule
 	public function test(&$field, &$values)
 	{
 		$return = false;
-		$field1	= $field->attributes('name');
-		$field2	= $field->attributes('field');
+		$field1	= (string)$field->attributes()->name;
+		$field2	= (string)$field->attributes()->field;
 
 		// Check the rule.
 		if (!$field2) {

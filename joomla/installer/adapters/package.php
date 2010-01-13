@@ -30,8 +30,7 @@ class JInstallerPackage extends JAdapterInstance
 	function install()
 	{
 		// Get the extension manifest object
-		$manifest = &$this->parent->getManifest();
-		$this->manifest = &$manifest->document;
+		$this->manifest = $this->parent->getManifest();
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -40,23 +39,21 @@ class JInstallerPackage extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name = &$this->manifest->getElementByPath('packagename');
-		$name = JFilterInput::getInstance()->clean($name->data(), 'cmd');
+		$name = (string)$this->manifest->packagename;
+		$name = JFilterInput::getInstance()->clean($name, 'cmd');
 		$this->set('name', $name);
 
 		// Get the component description
-		$description = & $this->manifest->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
-			$this->parent->set('message', $description->data());
+		$description = (string)$this->manifest->description;
+		if ($description) {
+			$this->parent->set('message', $description);
 		}
 		else {
 			$this->parent->set('message', '');
 		}
 
 		// Set the installation path
-		$element = &$this->manifest->getElementByPath('files');
-		$group = $this->manifest->getElementByPath('packagename');
-		$group = $group->data();
+		$group = (string)$this->manifest->packagename;
 		if (!empty($group))
 		{
 			// TODO: Remark this location
@@ -94,7 +91,7 @@ class JInstallerPackage extends JAdapterInstance
 			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_root')));
 		}
 
-		if ($folder = $element->attributes('folder')) {
+		if ($folder = (string)$this->manifest->files->attributes()->folder) {
 			$source = $this->parent->getPath('source').DS.$folder;
 		}
 		else {
@@ -102,11 +99,11 @@ class JInstallerPackage extends JAdapterInstance
 		}
 
 		// Install all necessary files
-		if (is_a($element, 'JSimpleXMLElement') && count($element->children()))
+		if (count($this->manifest->files->children()))
 		{
-			foreach ($element->children() as $child)
+			foreach ($this->manifest->files->children() as $child)
 			{
-				$file = $source . DS . $child->data();
+				$file = $source.DS.$child;
 				jimport('joomla.installer.helper');
 				if (is_dir($file))
 				{
@@ -128,7 +125,7 @@ class JInstallerPackage extends JAdapterInstance
 		}
 		else
 		{
-			$this->parent->abort(JText::_('Package').' '.JText::_('Install').': '.JText::_('There were no files to install!').print_r($element,1));
+			$this->parent->abort(JText::_('Package').' '.JText::_('Install').': '.JText::_('There were no files to install!').print_r($this->manifest->files->children(), true));
 			return false;
 		}
 
@@ -203,10 +200,10 @@ class JInstallerPackage extends JAdapterInstance
 		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
 		{
-			$xml = &JFactory::getXMLParser('Simple');
+			$xml =JFactory::getXML($manifestFile);
 
-			// If we cannot load the xml file return null
-			if (!$xml->loadFile($manifestFile))
+			// If we cannot load the xml file return false
+			if (!$xml)
 			{
 				JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '.JText::_('Could not load manifest file'));
 				return false;
@@ -217,8 +214,7 @@ class JInstallerPackage extends JAdapterInstance
 			 * @todo: Remove backwards compatability in a future version
 			 * Should be 'extension', but for backward compatability we will accept 'install'.
 			 */
-			$root = &$xml->document;
-			if ($root->name() != 'install' && $root->name() != 'extension')
+			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
 			{
 				JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;

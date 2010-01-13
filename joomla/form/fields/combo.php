@@ -37,7 +37,7 @@ class JFormFieldCombo extends JFormField
 
 		// Iterate through the children and build an array of options.
 		foreach ($this->_element->children() as $option) {
-			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_($option->data()));
+			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_((string)$option));
 		}
 
 		return $options;
@@ -51,10 +51,10 @@ class JFormFieldCombo extends JFormField
 	 */
 	protected function _getInput()
 	{
-		$size		= $this->_element->attributes('size') ? ' size="'.$this->_element->attributes('size').'"' : '';
-		$readonly	= $this->_element->attributes('readonly') == 'true' ? ' readonly="readonly"' : '';
-		$onchange	= $this->_element->attributes('onchange') ? ' onchange="'.$this->_replacePrefix($this->_element->attributes('onchange')).'"' : '';
-		$class		= $this->_element->attributes('class') ? ' class="'.$this->_element->attributes('class').'"' : ' class="combobox"';
+		$size		= (string)$this->_element->attributes()->size ? ' size="'.$this->_element->attributes()->size.'"' : '';
+		$readonly	= (string)$this->_element->attributes()->readonly == 'true' ? ' readonly="readonly"' : '';
+		$onchange	= (string)$this->_element->attributes()->onchange ? ' onchange="'.$this->_replacePrefix((string)$this->_element->attributes()->onchange).'"' : '';
+		$class		= (string)$this->_element->attributes()->class ? ' class="'.$this->_element->attributes()->class.'"' : ' class="combobox"';
 		$options	= $this->_getOptions();
 		$return		= null;
 

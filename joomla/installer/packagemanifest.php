@@ -41,30 +41,31 @@ class JPackageManifest extends JObject
 	function loadManifestFromXML($xmlfile)
 	{
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
-		$xml = JFactory::getXMLParser('Simple');
 
-		if (!$xml->loadFile($xmlfile))
+		$xml = JFactory::getXML($xmlfile);
+
+		if( ! $xml)
 		{
-			$this->_errors[] = 'Failed to load XML File: ' . $xmlfile;
+			$this->_errors[] = 'Failed to load XML File: '.$xmlfile;
 			return false;
 		}
 		else
 		{
 			$xml = $xml->document;
-			$this->name = isset($xml->name[0]) ? $xml->name[0]->data() : '';
-			$this->packagename = isset($xml->packagename[0]) ? $xml->packagename[0]->data() : '';
-			$this->update = isset($xml->update[0]) ? $xml->update[0]->data() : '';
-			$this->authorurl = isset($xml->authorUrl[0]) ? $xml->authorUrl[0]->data() : '';
-			$this->author = isset($xml->author[0]) ? $xml->author[0]->data() : '';
-			$this->authoremail = isset($xml->authorEmail[0]) ? $xml->authorEmail[0]->data() : '';
-			$this->description = isset($xml->description[0]) ? $xml->description[0]->data() : '';
-			$this->packager = isset($xml->packager[0]) ? $xml->packager[0]->data() : '';
-			$this->packagerurl = isset($xml->packagerurl[0]) ? $xml->packagerurl[0]->data() : '';
-			$this->version = isset($xml->version[0]) ? $xml->version[0]->data() : '';
-			if (isset($xml->files[0]->file) && count($xml->files[0]->file))
+			$this->name = (string)$xml->name;
+			$this->packagename = (string)$xml->packagename;
+			$this->update = (string)$xml->update;
+			$this->authorurl = (string)$xml->authorUrl;
+			$this->author = (string)$xml->author;
+			$this->authoremail = (string)$xml->authorEmail;
+			$this->description = (string)$xml->description;
+			$this->packager = (string)$xml->packager;
+			$this->packagerurl = (string)$xml->packagerurl;
+			$this->version = (string)$xml->version;
+			if (isset($xml->files->file) && count($xml->files->file))
 			{
-				foreach ($xml->files[0]->file as $file) {
-					$this->filelist[] = new JExtension($file);
+				foreach ($xml->files->file as $file) {
+					$this->filelist[] = new JExtension((string)$file);
 				}
 			}
 			return true;

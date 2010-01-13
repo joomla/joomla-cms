@@ -44,31 +44,31 @@ class JLibraryManifest extends JObject
 	function loadManifestFromXML($xmlfile)
 	{
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
-		$xml = JFactory::getXMLParser('Simple');
-		if (!$xml->loadFile($xmlfile))
+
+		$xml =JFactory::getXML($xmlfile);
+		if( ! $xml)
 		{
 			$this->_errors[] = 'Failed to load XML File: ' . $xmlfile;
 			return false;
 		}
 		else
 		{
-			$xml = $xml->document;
-			$this->name = isset($xml->name[0]) ? $xml->name[0]->data() : '';
-			$this->libraryname = isset($xml->libraryname[0]) ? $xml->libraryname[0]->data() : '';
-			$this->version = isset($xml->version[0]) ? $xml->version[0]->data() : '';
-			$this->description = isset($xml->description[0]) ? $xml->description[0]->data() : '';
-			$this->creationdate = isset($xml->creationdate) ? $xml->creationDate[0]->data() : '';
-			$this->author = isset($xml->author[0]) ? $xml->author[0]->data() : '';
-			$this->authoremail = isset($xml->authorEmail[0]) ? $xml->authorEmail[0]->data() : '';
-			$this->authorurl = isset($xml->authorUrl[0]) ? $xml->authorUrl[0]->data() : '';
-			$this->packager = isset($xml->packager[0]) ? $xml->packager[0]->data() : '';
-			$this->packagerurl = isset($xml->packagerurl[0]) ? $xml->packagerurl[0]->data() : '';
-			$this->update = isset($xml->update[0]) ? $xml->update[0]->data() : '';
+			$this->name = (string)$xml->name;
+			$this->libraryname = (string)$xml->libraryname;
+			$this->version = (string)$xml->version;
+			$this->description = (string)$xml->description;
+			$this->creationdate = (string)$xml->creationdate;
+			$this->author = (string)$xml->author;
+			$this->authoremail = (string)$xml->authorEmail;
+			$this->authorurl = (string)$xml->authorUrl;
+			$this->packager = (string)$xml->packager;
+			$this->packagerurl = (string)$xml->packagerurl;
+			$this->update = (string)$xml->update;
 
-			if (isset($xml->files[0]) && isset($xml->files[0]->file) && count($xml->files[0]->file))
+			if(isset($xml->files) && isset($xml->files->file) && count($xml->files->file))
 			{
-				foreach ($xml->files[0]->file as $file) {
-					$this->filelist[] = $file->data();
+				foreach ($xml->files->file as $file) {
+					$this->filelist[] = (string)$file;
 				}
 			}
 			return true;

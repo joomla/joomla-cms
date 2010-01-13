@@ -736,33 +736,34 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Parse XML file for language information
+	 * Parse XML file for language information.
 	 *
-	 * @access	public
 	 * @param	string	$path	 Path to the xml files
 	 * @return	array	Array holding the found metadata as a key => value pair
 	 * @since	1.5
 	 */
 	public static function _parseXMLLanguageFile($path)
 	{
-		$xml = & JFactory::getXMLParser('Simple');
-
-		// Load the file
-		if (!$xml || !$xml->loadFile($path)) {
+		// Try to load the file
+		if( ! $xml = JFactory::getXML($path))
+		{
 			return null;
 		}
 
-		// Check that it's am metadata file
-		if (!$xml->document || $xml->document->name() != 'metafile') {
+		// Check that it's a metadata file
+		if((string)$xml->getName() != 'metafile')
+		{
 			return null;
 		}
 
 		$metadata = array();
 
-		foreach ($xml->document->metadata[0]->children() as $child) {
-			$metadata[$child->name()] = $child->data();
+		foreach ($xml->metadata->children() as $child)
+		{
+			$metadata[$child->getName()] = (string)$child;
 		}
 
 		return $metadata;
-	}
+	}//function
+
 }

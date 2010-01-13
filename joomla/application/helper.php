@@ -254,13 +254,17 @@ class JApplicationHelper
 		return $result;
 	}
 
+	/**
+	 * Parse a XML install manifest file.
+	 *
+	 * @param string $path Full path to xml file.
+	 * @return array XML metadata.
+	 */
 	public static function parseXMLInstallFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
-		$xml = & JFactory::getXMLParser('Simple');
-
-		if (!$xml->loadFile($path)) {
-			unset($xml);
+		if( ! $xml = JFactory::getXML($path))
+		{
 			return false;
 		}
 
@@ -270,97 +274,72 @@ class JApplicationHelper
 		 * Should be 'install', but for backward compatability we will accept 'extension'.
 		 * Languages are annoying and use 'metafile' instead
 		 */
-		if (!is_object($xml->document) || ($xml->document->name() != 'install' && $xml->document->name() != 'extension' && $xml->document->name() != 'metafile')) {
+		if($xml->getName() != 'install'
+		&& $xml->getName() != 'extension'
+		&& $xml->getName() != 'metafile')
+		{
 			unset($xml);
 			return false;
 		}
 
 		$data = array();
-		$data['legacy'] = ($xml->document->name() == 'mosinstall' || $xml->document->name() == 'install');
 
-		$element = & $xml->document->name[0];
-		$data['name'] = $element ? $element->data() : '';
+		$data['legacy'] = ($xml->getName() == 'mosinstall' || $xml->getName() == 'install');
+
+		$data['name'] = (string)$xml->name;
+
 		// check if we're a language if so use that
-		$data['type'] = $xml->document->name() == 'metafile' ? 'language' : ($element ? $xml->document->attributes("type") : '');
+		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string)$xml->attributes()->type;
 
-		$element = & $xml->document->creationDate[0];
-		$data['creationdate'] = $element ? $element->data() : JText::_('Unknown');
+		$data['creationDate'] =((string)$xml->creationDate) ? (string)$xml->creationDate : JText::_('Unknown');
+		$data['author'] =((string)$xml->author) ? (string)$xml->author : JText::_('Unknown');
 
-		$element = & $xml->document->author[0];
-		$data['author'] = $element ? $element->data() : JText::_('Unknown');
-
-		$element = & $xml->document->copyright[0];
-		$data['copyright'] = $element ? $element->data() : '';
-
-		$element = & $xml->document->authorEmail[0];
-		$data['authorEmail'] = $element ? $element->data() : '';
-
-		$element = & $xml->document->authorUrl[0];
-		$data['authorUrl'] = $element ? $element->data() : '';
-
-		$element = & $xml->document->version[0];
-		$data['version'] = $element ? $element->data() : '';
-
-		$element = & $xml->document->description[0];
-		$data['description'] = $element ? $element->data() : '';
-
-		$element = & $xml->document->group[0];
-		$data['group'] = $element ? $element->data() : '';
+		$data['copyright'] = (string)$xml->copyright;
+		$data['authorEmail'] = (string)$xml->authorEmail;
+		$data['authorUrl'] = (string)$xml->authorUrl;
+		$data['version'] = (string)$xml->version;
+		$data['description'] = (string)$xml->description;
+		$data['group'] = (string)$xml->group;
 
 		return $data;
 	}
 
-	public static function parseXMLLangMetaFile($path)
+    public static function parseXMLLangMetaFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
-		$xml = & JFactory::getXMLParser('Simple');
+        $xml = JFactory::getXML($path);
 
-		if (!$xml->loadFile($path)) {
-			unset($xml);
-			return false;
-		}
+        if( ! $xml)
+        {
+            return false;
+        }
 
 		/*
 		 * Check for a valid XML root tag.
 		 *
 		 * Should be 'langMetaData'.
 		 */
-		if ($xml->document->name() != 'metafile') {
+		if ($xml->getName() != 'metafile') {
 			unset($xml);
 			return false;
 		}
 
 		$data = array();
 
-		$element = & $xml->document->name[0];
-		$data['name'] = $element ? $element->data() : '';
-		$data['type'] = $element ? $xml->document->attributes("type") : '';
+        $data['name'] = (string)$xml->name;
+		$data['type'] = $xml->attributes()->type;
 
-		$element = & $xml->document->creationDate[0];
-		$data['creationdate'] = $element ? $element->data() : JText::_('Unknown');
+        $data['creationDate'] =((string)$xml->creationDate) ? (string)$xml->creationDate : JText::_('Unknown');
+        $data['author'] =((string)$xml->author) ? (string)$xml->author : JText::_('Unknown');
 
-		$element = & $xml->document->author[0];
+        $data['copyright'] = (string)$xml->copyright;
+        $data['authorEmail'] = (string)$xml->authorEmail;
+        $data['authorUrl'] = (string)$xml->authorUrl;
+        $data['version'] = (string)$xml->version;
+        $data['description'] = (string)$xml->description;
+        $data['group'] = (string)$xml->group;
 
-		$data['author'] = $element ? $element->data() : JText::_('Unknown');
-
-		$element = & $xml->document->copyright[0];
-		$data['copyright'] = $element ? $element->data() : '';
-
-		$element = & $xml->document->authorEmail[0];
-		$data['authorEmail'] = $element ? $element->data() : '';
-
-		$element = & $xml->document->authorUrl[0];
-		$data['authorUrl'] = $element ? $element->data() : '';
-
-		$element = & $xml->document->version[0];
-		$data['version'] = $element ? $element->data() : '';
-
-		$element = & $xml->document->description[0];
-		$data['description'] = $element ? $element->data() : '';
-
-		$element = & $xml->document->group[0];
-		$data['group'] = $element ? $element->group() : '';
-		return $data;
+        return $data;
 	}
 
 	/**

@@ -183,41 +183,35 @@ class JInstallerHelper
 		// Search the install dir for an xml file
 		$files = JFolder::files($p_dir, '\.xml$', 1, true);
 
-		if (count($files) > 0)
-		{
-			foreach ($files as $file)
-			{
-				$xmlDoc = & JFactory::getXMLParser('Simple');
-
-				if (!$xmlDoc->loadFile($file))
-				{
-					// Free up memory
-					unset ($xmlDoc);
-					continue;
-				}
-				$root = & $xmlDoc->document;
-				if (!is_object($root) || ($root->name() != "install" && $root->name() != 'extension'))
-				{
-					unset($xmlDoc);
-					continue;
-				}
-
-				$type = $root->attributes('type');
-				// Free up memory
-				unset ($xmlDoc);
-				return $type;
-			}
-
-			JError::raiseWarning(1, JText::_('ERRORNOTFINDJOOMLAXMLSETUPFILE'));
-			// Free up memory.
-			unset ($xmlDoc);
-			return false;
-		}
-		else
+		if ( ! count($files))
 		{
 			JError::raiseWarning(1, JText::_('ERRORNOTFINDXMLSETUPFILE'));
 			return false;
 		}
+
+		foreach ($files as $file)
+		{
+			if( ! $xml = JFactory::getXML($file))
+			{
+				continue;
+			}
+
+			if($xml->getName() != 'install' && $xml->getName() != 'extension')
+			{
+				unset($xml);
+				continue;
+			}
+
+			$type = (string)$xml->attributes()->type;
+			// Free up memory
+			unset ($xml);
+			return $type;
+		}
+
+		JError::raiseWarning(1, JText::_('ERRORNOTFINDJOOMLAXMLSETUPFILE'));
+		// Free up memory.
+		unset ($xml);
+		return false;
 	}
 
 	/**

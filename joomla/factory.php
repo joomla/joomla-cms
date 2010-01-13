@@ -295,19 +295,20 @@ abstract class JFactory
 	 * @deprecated
 	 */
 	public static function getXMLParser($type = '', $options = array())
-	 {
+	{
 		$doc = null;
 
 		switch (strtolower($type))
 		{
 			case 'rss' :
 			case 'atom' :
-			{
-				$cache_time = isset($options['cache_time']) ? $options['cache_time'] : 0;
-				$doc = JFactory::getFeedParser($options['rssUrl'], $cache_time);
-			}	break;
+				{
+					$cache_time = isset($options['cache_time']) ? $options['cache_time'] : 0;
+					$doc = JFactory::getFeedParser($options['rssUrl'], $cache_time);
+				}	break;
 
 			case 'simple':
+				// JError::raiseWarning('SOME_ERROR_CODE', 'JSimpleXML is deprecated. Use JFactory::getXML instead');
 				jimport('joomla.utilities.simplexml');
 				$doc = new JSimpleXML();
 				break;
@@ -326,11 +327,58 @@ abstract class JFactory
 	}
 
 	/**
-	* Get an editor object
-	*
-	* @param string $editor The editor to load, depends on the editor plugins that are installed
-	* @return object JEditor
-	*/
+	 * Reads a XML file.
+	 *
+	 * @todo This may go in a separate class - error reporting may be improved.
+	 *
+	 * @param string $path Full path and file name.
+	 * @param boolean $isFile true to load a file | false to load a string.
+	 *
+	 * @return mixed JXMLElement on success | false on error.
+	 */
+	public static function getXML($path, $isFile = true)
+	{
+		jimport('joomla.utilities.xmlelement');
+
+		// Disable libxml errors and allow to fetch error information as needed
+		libxml_use_internal_errors(true);
+
+		if($isFile)
+		{
+			// Try to load the xml file
+			$xml = simplexml_load_file($path, 'JXMLElement');
+		}
+		else
+		{
+			// Try to load the xml string
+			$xml = simplexml_load_string($data, 'JXMLElement');
+		}
+
+		if( ! $xml)
+		{
+			// There was an error
+			JError::raiseWarning(100, JText::_('Failed loading XML file'));
+
+			if($isFile)
+			{
+				JError::raiseWarning(100, $path);
+			}
+
+			foreach(libxml_get_errors() as $error)
+			{
+				JError::raiseWarning(100, 'XML: '.$error->message);
+			}
+		}
+
+		return $xml ;
+	}
+
+	/**
+	 * Get an editor object
+	 *
+	 * @param string $editor The editor to load, depends on the editor plugins that are installed
+	 * @return object JEditor
+	 */
 	public static function getEditor($editor = null)
 	{
 		jimport('joomla.html.editor');
@@ -398,15 +446,15 @@ abstract class JFactory
 		}
 		$key = $time . '-' . $tzOffset;
 
-//		if (!isset($instances[$classname][$key])) {
-			$tmp = new $classname($time, $tzOffset);
-			//We need to serialize to break the reference
-//			$instances[$classname][$key] = serialize($tmp);
-//			unset($tmp);
-//		}
+		//		if (!isset($instances[$classname][$key])) {
+		$tmp = new $classname($time, $tzOffset);
+		//We need to serialize to break the reference
+		//			$instances[$classname][$key] = serialize($tmp);
+		//			unset($tmp);
+		//		}
 
-//		$date = unserialize($instances[$classname][$key]);
-//		return $date;
+		//		$date = unserialize($instances[$classname][$key]);
+		//		return $date;
 		return $tmp;
 	}
 

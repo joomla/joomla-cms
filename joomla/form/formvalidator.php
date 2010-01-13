@@ -34,14 +34,14 @@ class JFormValidator extends JObject
 			$value = array_key_exists($name, $data) ? $data[$name] : null;
 
 			// Check if the field is required.
-			if ($field->attributes('required') == 'true') {
+			if ((string)$field->attributes()->required == 'true') {
 				// Check if the field value is empty.
 				if ($value === '') {
 					// The required field is empty!
-					if ($message = $field->attributes('message')) {
+					if ($message = (string)$field->attributes()->message) {
 						$results[] = new JException(JText::_($message), 0, E_WARNING);
 					} else {
-						$results[] = new JException(JText::sprintf('Libraries_Form_Validator_Field_Required', JText::_($field->attributes('name'))), 0, E_WARNING);
+						$results[] = new JException(JText::sprintf('Libraries_Form_Validator_Field_Required', JText::_((string)$field->attributes()->name)), 0, E_WARNING);
 					}
 
 					// We don't want to display more than one message per field so continue to the next one.
@@ -60,10 +60,10 @@ class JFormValidator extends JObject
 			// Check if the field is valid.
 			if ($return === false) {
 				// The field failed validation.
-				if ($message = $field->attributes('message')) {
+				if ($message = (string)$field->attributes()->message) {
 					$results[] = new JException(JText::_($message), 0, E_WARNING);
 				} else {
-					$results[] = new JException(JText::sprintf('Libraries_Form_Validator_Field_Invalid', $field->attributes('name')), 0, E_WARNING);
+					$results[] = new JException(JText::sprintf('Libraries_Form_Validator_Field_Invalid', (string)$field->attributes()->name), 0, E_WARNING);
 				}
 			}
 		}
@@ -83,7 +83,7 @@ class JFormValidator extends JObject
 		$result = true;
 
 		// Get the validator type.
-		if ($type = $field->attributes('validate')) {
+		if ($type = (string)$field->attributes()->validate) {
 			// Get the validator class.
 			$class = 'JFormRule'.$type;
 

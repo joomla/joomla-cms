@@ -32,7 +32,7 @@ class JFormRuleRules extends JFormRule
 	 */
 	public function test(&$field, &$values)
 	{
-		$name = $field->attributes('name');
+		$name = (string)$field->attributes()->name;
 
 		// TODO: probably should check to see if the action is even available for this field.
 //		$values[$name];

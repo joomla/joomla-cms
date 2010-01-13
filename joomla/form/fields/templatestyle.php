@@ -31,7 +31,7 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 	 *
 	 * @return	string		The field input.
 	 */
-	protected function _getGroups() 
+	protected function _getGroups()
 	{
 		$client = $this->_element->attributes('client');
 		$client_id = ($client == 'administrator') ? 1 : 0;
@@ -50,9 +50,9 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 		// Pre-process into groups.
 		$last = null;
 		$groups = array();
-		foreach($styles as $style) 
+		foreach($styles as $style)
 		{
-			if ($style->template != $last) 
+			if ($style->template != $last)
 			{
 				$last = $style->template;
 				$groups[$last] = array();

@@ -30,8 +30,8 @@ class JFormRuleUsername extends JFormRule
 	public function test(&$field, &$values)
 	{
 		$return = false;
-		$name	= $field->attributes('name');
-		$key	= $field->attributes('field');
+		$name	= (string)$field->attributes()->name;
+		$key	= (string)$field->attributes()->field;
 		$value	= isset($values[$key]) ? $values[$key] : 0;
 
 		// Check the rule.
