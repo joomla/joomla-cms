@@ -28,7 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 13-Jan-2010 Hannes Papenberg
-# Fixed JFormFieldAccesslevel and JFormFieldUsergroup - Thanks Christopher Demko!
+# Fixed JFormFieldUsergroup - Thanks Christopher Demko!
 
 12-Jan-2010 Mark Dexter
 # Improvements to contact parameters (Elin Waring)
