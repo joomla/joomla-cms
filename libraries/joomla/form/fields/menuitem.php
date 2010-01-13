@@ -35,13 +35,13 @@ class JFormFieldMenuItem extends JFormFieldGroupedList
 	 *
 	 * @return	array		An array of JHtml options.
 	 */
-	protected function _getGroups() 
+	protected function _getGroups()
 	{
 
 		// Get the attributes
-		$menuType = $this->_element->attributes('menu_type');
-		$published = $this->_element->attributes('published') ? explode(',', $this->_element->attributes('published')) : array();
-		$disable = $this->_element->attributes('disable') ? explode(',', $this->_element->attributes('disable')) : array();
+		$menuType = (string)$this->_element->attributes()->menu_type;
+		$published = (string)$this->_element->attributes()->published ? explode(',', (string)$this->_element->attributes()->published) : array();
+		$disable = (string)$this->_element->attributes()->disable ? explode(',', (string)$this->_element->attributes()->disable) : array();
 
 		// Get the com_menus helper
 		require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
@@ -53,12 +53,12 @@ class JFormFieldMenuItem extends JFormFieldGroupedList
 		$groups = array();
 
 		// If a menu type was set
-		if ($menuType) 
+		if ($menuType)
 		{
 			$groups[$menuType] = array();
 
 			// Loop over links
-			foreach($items as $link) 
+			foreach($items as $link)
 			{
 
 				// Generate an option disabling it if it's the case
@@ -67,16 +67,16 @@ class JFormFieldMenuItem extends JFormFieldGroupedList
 		}
 
 		// else all menu types have to be displayed
-		else 
+		else
 		{
 
 			// Loop over types
-			foreach($items as $menu) 
+			foreach($items as $menu)
 			{
 				$groups[$menu->menutype] = array();
 
 				// Loop over links
-				foreach($menu->links as $link) 
+				foreach($menu->links as $link)
 				{
 
 					// Generate an option disabling it if it's the case
@@ -89,4 +89,3 @@ class JFormFieldMenuItem extends JFormFieldGroupedList
 		return $groups;
 	}
 }
-

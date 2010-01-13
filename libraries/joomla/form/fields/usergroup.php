@@ -34,15 +34,15 @@ class JFormFieldUserGroup extends JFormField
 	{
 		$attribs	= '';
 
-		if ($v = $this->_element->attributes('size')) {
+		if ($v = $this->_element->attributes()->size) {
 			$attribs	.= ' size="'.$v.'"';
 		}
-		if ($v = $this->_element->attributes('class')) {
+		if ($v = $this->_element->attributes()->class) {
 			$attribs	.= ' class="'.$v.'"';
 		} else {
 			$attribs	.= ' class="inputbox"';
 		}
-		if ($m = $this->_element->attributes('multiple'))
+		if ($m = $this->_element->attributes()->multiple)
 		{
 			$attribs	.= ' multiple="multiple"';
 		}
@@ -51,7 +51,7 @@ class JFormFieldUserGroup extends JFormField
 
 		// Iterate through the children and build an array of options.
 		foreach ($this->_element->children() as $option) {
-			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_(trim($option->data())));
+			$options[] = JHtml::_('select.option', $option->attributes()->value, JText::_(trim($option->data())));
 		}
 
 		return JHtml::_('access.usergroup', $this->inputName, $this->value, $attribs, $options, $this->inputId);

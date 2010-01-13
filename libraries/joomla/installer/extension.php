@@ -27,12 +27,12 @@ class JExtension extends JObject
 	var $manifest_cache = null; // manifest cache; stored metadata
 	var $params = null;	// extension params
 
-	function __construct($element=null)
+	function __construct(JXMLElement $element = null)
 	{
-		if ($element && is_a($element, 'JSimpleXMLElement'))
+		if ($element && is_a($element, 'JXMLElement'))
 		{
-			$this->type = $element->attributes('type');
-			$this->id = $element->attributes('id');
+			$this->type = (string)$element->attributes()->type;
+			$this->id = (string)$element->attributes()->id;
 
 			switch($this->type)
 			{
@@ -43,29 +43,29 @@ class JExtension extends JObject
 				case 'module':
 				case 'template':
 				case 'language':
-					$this->client = $element->attributes('client');
-					$this->client_id = JApplicationHelper::getClientInfo($this->client,1);
+					$this->client = (string)$element->attributes()->client;
+					$this->client_id = JApplicationHelper::getClientInfo($this->client, 1);
 					$this->client_id = $this->client_id->id;
 					break;
 
 				case 'plugin':
-					$this->group = $element->attributes('group');
+					$this->group = (string)$element->attributes()->group;
 					break;
 
 				default:
 					// catch all
 					// get and set client and group if we don't recognise the extension
-					if ($client = $element->attributes('client'))
+					if ($client = (string)$element->attributes()->client)
 					{
-						$this->client_id = JApplicationHelper::getClientInfo($this->client,1);
+						$this->client_id = JApplicationHelper::getClientInfo($this->client, 1);
 						$this->client_id = $this->client_id->id;
 					}
-					if ($group = $element->attributes('group')) {
-						$this->group = $element->attributes('group');
+					if ($group = (string)$element->attributes()->group) {
+						$this->group = (string)$element->attributes()->group;
 					}
 					break;
 			}
-			$this->filename = $element->data();
+			$this->filename = (string)$element;
 		}
 	}
 }

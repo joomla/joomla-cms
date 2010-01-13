@@ -35,16 +35,16 @@ class JFormFieldSQL extends JFormFieldList
 	 *
 	 * @return	array		An array of JHtml options.
 	 */
-	protected function _getOptions() 
+	protected function _getOptions()
 	{
 		$db = JFactory::getDbo();
-		$db->setQuery($this->_element->attributes('query'));
-		$key = ($this->_element->attributes('key_field') ? $this->_element->attributes('key_field') : 'value');
-		$value = ($this->_element->attributes('value_field') ? $this->_element->attributes('value_field') : $this->name);
+		$db->setQuery((string)$this->_element->attributes()->query);
+		$key = ((string)$this->_element->attributes()->key_field) ? (string)$this->_element->attributes()->key_field : 'value';
+		$value = ((string)$this->_element->attributes()->value_field) ? (string)$this->_element->attributes()->value_field : $this->name;
 		$items = $db->loadObjectlist();
 
 		// Check for an error.
-		if ($db->getErrorNum()) 
+		if ($db->getErrorNum())
 		{
 			JError::raiseWarning(500, $db->getErrorMsg());
 			return false;
@@ -52,11 +52,11 @@ class JFormFieldSQL extends JFormFieldList
 
 		// Prepare return value
 		$options = array();
-		if (!empty($items)) 
+		if (!empty($items))
 		{
 
 			// Iterate over items
-			foreach($items as $item) 
+			foreach($items as $item)
 			{
 				$options[] = JHtml::_('select.option', $item->$key, $item->$value);
 			}
@@ -67,4 +67,3 @@ class JFormFieldSQL extends JFormFieldList
 		return $options;
 	}
 }
-

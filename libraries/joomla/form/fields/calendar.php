@@ -19,7 +19,7 @@ require_once dirname(__FILE__).'/text.php';
  */
 class JFormFieldCalendar extends JFormFieldText
 {
-   /**
+	/**
 	 * The field type.
 	 *
 	 * @var		string
@@ -33,10 +33,10 @@ class JFormFieldCalendar extends JFormFieldText
 	 */
 	protected function _getInput()
 	{
-		$format = ($this->_element->attributes('format') ? $this->_element->attributes('format') : '%Y-%m-%d');
-		$filter = $this->_element->attributes('filter');
-		$time	= $this->_element->attributes('time');
-		$onchange	= $this->_element->attributes('onchange') ? ' onchange="'.$this->_replacePrefix($this->_element->attributes('onchange')).'"' : '';
+		$format = ((string)$this->_element->attributes()->format) ? (string)$this->_element->attributes()->format : '%Y-%m-%d';
+		$filter = (string)$this->_element->attributes()->filter;
+		$time = (string)$this->_element->attributes()->time;
+		$onchange = (string)$this->_element->attributes()->onchange ? ' onchange="'.$this->_replacePrefix((string)$this->_element->attributes()->onchange).'"' : '';
 
 		if ($this->value == 'now') {
 			$this->value = strftime($format);

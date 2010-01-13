@@ -40,8 +40,9 @@ class JInstallerPlugin extends JAdapterInstance
 		$db = &$this->parent->getDbo();
 
 		// Get the extension manifest object
-		$manifest = &$this->parent->getManifest();
-		$this->manifest = &$manifest->document;
+		$this->manifest = $this->parent->getManifest();
+
+		$xml = $this->manifest;
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -50,14 +51,14 @@ class JInstallerPlugin extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name = &$this->manifest->getElementByPath('name');
-		$name = JFilterInput::getInstance()->clean($name->data(), 'string');
+		$name = (string)$xml->name;
+		$name = JFilterInput::getInstance()->clean($name, 'string');
 		$this->set('name', $name);
 
 		// Get the component description
-		$description = & $this->manifest->getElementByPath('description');
-		if ($description INSTANCEOF JSimpleXMLElement) {
-			$this->parent->set('message', $description->data());
+		$description = (string)$xml->description;
+		if ($description) {
+			$this->parent->set('message', $description);
 		}
 		else {
 			$this->parent->set('message', '');
@@ -67,23 +68,21 @@ class JInstallerPlugin extends JAdapterInstance
 		 * Backward Compatability
 		 * @todo Deprecate in future version
 		 */
-		$type = $this->manifest->attributes('type');
+		$type = (string)$xml->attributes()->type;
 
 		// Set the installation path
-		$plugin_files = &$this->manifest->getElementByPath('files');
-		if ($plugin_files INSTANCEOF JSimpleXMLElement && count($plugin_files->children()))
+		if (count($xml->files->children()))
 		{
-			$files = &$plugin_files->children();
-			foreach ($files as $file)
+			foreach ($xml->files->children() as $file)
 			{
-				if ($file->attributes($type))
+				if ((string)$file->attributes()->$type)
 				{
-					$element = $file->attributes($type);
+					$element = (string)$file->attributes()->$type;
 					break;
 				}
 			}
 		}
-		$group = $this->manifest->attributes('group');
+		$group = (string)$xml->attributes()->group;
 		if (!empty ($element) && !empty($group)) {
 			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$group.DS.$element);
 		}
@@ -117,11 +116,11 @@ class JInstallerPlugin extends JAdapterInstance
 		// if its on the fs...
 		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade()))
 		{
-			$updateElement = $this->manifest->getElementByPath('update');
+			$updateElement = $xml->update;
 			// upgrade manually set
 			// update function available
 			// update tag detected
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JSimpleXMLElement'))
+			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JXMLElement'))
 			{
 				// force these one
 				$this->parent->setOverwrite(true);
@@ -145,10 +144,9 @@ class JInstallerPlugin extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
-		$this->scriptElement = &$this->manifest->getElementByPath('scriptfile');
-		if (is_a($this->scriptElement, 'JSimpleXMLElement'))
+		if ((string)$xml->scriptfile)
 		{
-			$manifestScript = $this->scriptElement->data();
+			$manifestScript = (string)$xml->scriptfile;
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
 			if (is_file($manifestScriptFile))
 			{
@@ -203,7 +201,7 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 
 		// Copy all necessary files
-		if ($this->parent->parseFiles($plugin_files, -1) === false)
+		if ($this->parent->parseFiles($xml->files, -1) === false)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort();
@@ -211,9 +209,9 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 
 		// Parse optional tags -- media and language files for plugins go in admin app
-		$this->parent->parseMedia($this->manifest->getElementByPath('media'), 1);
-		$this->parent->parseLanguages($this->manifest->getElementByPath('languages'));
-		$this->parent->parseLanguages($this->manifest->getElementByPath('administration/languages'), 1);
+		$this->parent->parseMedia($xml->media, 1);
+		$this->parent->parseLanguages($xml->languages);
+		$this->parent->parseLanguages($xml->administration->languages, 1);
 
 		// If there is a manifest script, lets copy it.
 		if ($this->get('manifest_script'))
@@ -292,7 +290,7 @@ class JInstallerPlugin extends JAdapterInstance
 		 */
 		// try for Joomla 1.5 type queries
 		// second argument is the utf compatible version attribute
-		$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath(strtolower($this->route).'/sql'));
+		$utfresult = $this->parent->parseSQLFiles($xml->{strtolower($this->route)}->sql);
 		if ($utfresult === false)
 		{
 			// Install failed, rollback changes
@@ -408,106 +406,104 @@ class JInstallerPlugin extends JAdapterInstance
 		// Since 1.6 they do, however until we move to 1.7 and remove 1.6 legacy we still need to use this method
 		// when we get there it'll be something like "$manifest = &$this->parent->getManifest();"
 		$manifestFile = $this->parent->getPath('extension_root').DS.$row->element.'.xml';
-		if (file_exists($manifestFile))
-		{
-			$xml = &JFactory::getXMLParser('Simple');
 
-			// If we cannot load the xml file return null
-			if (!$xml->loadFile($manifestFile))
-			{
-				JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('Could not load manifest file'));
-				return false;
-			}
-
-			/*
-			 * Check for a valid XML root tag.
-			 * @todo: Remove backwards compatability in a future version
-			 * Should be 'extension', but for backward compatability we will accept 'install'.
-			 */
-			$root = &$xml->document;
-			$this->manifest = &$xml->document;
-			if ($root->name() != 'install' && $root->name() != 'extension')
-			{
-				JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
-				return false;
-			}
-
-			/**
-			 * ---------------------------------------------------------------------------------------------
-			 * Installer Trigger Loading
-			 * ---------------------------------------------------------------------------------------------
-			 */
-			// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
-			$this->scriptElement = &$this->manifest->getElementByPath('scriptfile');
-			if (is_a($this->scriptElement, 'JSimpleXMLElement'))
-			{
-				$manifestScript = $this->scriptElement->data();
-				$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
-				if (is_file($manifestScriptFile)) {
-					// load the file
-					include_once $manifestScriptFile;
-				}
-				// Set the class name
-				$classname = 'plg'.$row->folder.$row->element.'InstallerScript';
-				if (class_exists($classname))
-				{
-					// create a new instance
-					$this->parent->manifestClass = new $classname($this);
-					// and set this so we can copy it later
-					$this->set('manifest_script', $manifestScript);
-					// Note: if we don't find the class, don't bother to copy the file
-				}
-			}
-
-			// run preflight if possible (since we know we're not an update)
-			ob_start();
-			ob_implicit_flush(false);
-			if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
-				$this->parent->manifestClass->preflight($this->route, $this);
-			}
-			$msg = ob_get_contents(); // create msg object; first use here
-			ob_end_clean();
-
-			/*
-			 * Let's run the queries for the module
-			 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-			 *	file for utf-8 support or non-utf-8 support
-			 */
-			// try for Joomla 1.5 type queries
-			// second argument is the utf compatible version attribute
-			$utfresult = $this->parent->parseSQLFiles($this->manifest->getElementByPath(strtolower($this->route).'/sql'));
-			if ($utfresult === false)
-			{
-				// Install failed, rollback changes
-				$this->parent->abort(JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
-				return false;
-			}
-
-			// Start Joomla! 1.6
-			ob_start();
-			ob_implicit_flush(false);
-			if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) {
-				$this->parent->manifestClass->uninstall($this);
-			}
-			$msg = ob_get_contents(); // append messages
-			ob_end_clean();
-
-
-			// Remove the plugin files
-			$this->parent->removeFiles($root->getElementByPath('images'), -1);
-			$this->parent->removeFiles($root->getElementByPath('files'), -1);
-			JFile::delete($manifestFile);
-
-			// Remove all media and languages as well
-			$this->parent->removeFiles($root->getElementByPath('media'));
-			$this->parent->parseLanguages($this->manifest->getElementByPath('languages'));
-			$this->parent->parseLanguages($this->manifest->getElementByPath('administration/languages'), 1);
-		}
-		else
+		if ( ! file_exists($manifestFile))
 		{
 			JError::raiseWarning(100, 'Plugin Uninstall: Manifest File invalid or not found');
 			return false;
 		}
+
+		$xml = JFactory::getXML($manifestFile);
+
+		$this->manifest = $xml;
+
+		// If we cannot load the xml file return null
+		if (!$xml)
+		{
+			JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('Could not load manifest file'));
+			return false;
+		}
+
+		/*
+		 * Check for a valid XML root tag.
+		 * @todo: Remove backwards compatability in a future version
+		 * Should be 'extension', but for backward compatability we will accept 'install'.
+		 */
+		if ($xml->getName() != 'install' && $xml->getName() != 'extension')
+		{
+			JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
+			return false;
+		}
+
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Installer Trigger Loading
+		 * ---------------------------------------------------------------------------------------------
+		 */
+		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
+		$manifestScript = (string)$xml->scriptfile;
+		if ($manifestScript)
+		{
+			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
+			if (is_file($manifestScriptFile)) {
+				// load the file
+				include_once $manifestScriptFile;
+			}
+			// Set the class name
+			$classname = 'plg'.$row->folder.$row->element.'InstallerScript';
+			if (class_exists($classname))
+			{
+				// create a new instance
+				$this->parent->manifestClass = new $classname($this);
+				// and set this so we can copy it later
+				$this->set('manifest_script', $manifestScript);
+				// Note: if we don't find the class, don't bother to copy the file
+			}
+		}
+
+		// run preflight if possible (since we know we're not an update)
+		ob_start();
+		ob_implicit_flush(false);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
+			$this->parent->manifestClass->preflight($this->route, $this);
+		}
+		$msg = ob_get_contents(); // create msg object; first use here
+		ob_end_clean();
+
+		/*
+		 * Let's run the queries for the module
+		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+		 *	file for utf-8 support or non-utf-8 support
+		 */
+		// try for Joomla 1.5 type queries
+		// second argument is the utf compatible version attribute
+		$utfresult = $this->parent->parseSQLFiles($xml->{strtolower($this->route)}->sql);
+		if ($utfresult === false)
+		{
+			// Install failed, rollback changes
+			$this->parent->abort(JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
+			return false;
+		}
+
+		// Start Joomla! 1.6
+		ob_start();
+		ob_implicit_flush(false);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) {
+			$this->parent->manifestClass->uninstall($this);
+		}
+		$msg = ob_get_contents(); // append messages
+		ob_end_clean();
+
+
+		// Remove the plugin files
+		$this->parent->removeFiles($xml->images, -1);
+		$this->parent->removeFiles($xml->files, -1);
+		JFile::delete($manifestFile);
+
+		// Remove all media and languages as well
+		$this->parent->removeFiles($xml->media);
+		$this->parent->parseLanguages($xml->languages);
+		$this->parent->parseLanguages($xml->administration->languages, 1);
 
 		// Now we will no longer need the plugin object, so lets delete it
 		$row->delete($row->extension_id);

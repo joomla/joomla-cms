@@ -34,8 +34,7 @@ class JInstallerFile extends JAdapterInstance
 	function install()
 	{
 		// Get the extension manifest object
-		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
+		$this->manifest = $this->parent->getManifest();
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -44,8 +43,7 @@ class JInstallerFile extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('name');
-		$name = JFilterInput::getInstance()->clean($name->data(), 'string');
+		$name = JFilterInput::getInstance()->clean((string)$this->manifest->name, 'string');
 		$this->set('name', $name);
 
 		// Set element
@@ -56,9 +54,9 @@ class JInstallerFile extends JAdapterInstance
 		$this->set('element', $element);
 
 		// Get the component description
-		$description = & $this->manifest->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
-			$this->parent->set('message', $description->data());
+		$description = (string)$this->manifest->description;
+		if ($description) {
+			$this->parent->set('message', $description);
 		} else {
 			$this->parent->set('message', '');
 		}
@@ -163,7 +161,7 @@ class JInstallerFile extends JAdapterInstance
 		// since this is just files, an update removes old files
 		// Get the extension manifest object
 		$manifest =& $this->parent->getManifest();
-		$this->manifest =& $manifest->document;
+		$this->manifest = $this->parent->getManifest();
 		$this->route = 'update';
 
 		/**
@@ -173,8 +171,7 @@ class JInstallerFile extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('name');
-		$name = JFilterInput::getInstance()->clean($name->data(), 'string');
+		$name = JFilterInput::getInstance()->clean((string)$this->manifest->name, 'string');
 		$installer = new JInstaller(); // we don't want to compromise this instance!
 		$installer->uninstall('file', $name, 0);
 		// ...and adds new files
@@ -208,10 +205,10 @@ class JInstallerFile extends JAdapterInstance
 			// Set the plugin root path
 			$this->parent->setPath('extension_root', JPATH_ROOT); //.DS.'files'.DS.$manifest->filename);
 
-			$xml =& JFactory::getXMLParser('Simple');
+			$xml =JFactory::getXML($manifestFile);
 
 			// If we cannot load the xml file return null
-			if (!$xml->loadFile($manifestFile)) {
+			if( ! $xml) {
 				JError::raiseWarning(100, JText::_('File').' '.JText::_('Uninstall').': '.JText::_('Could not load manifest file'));
 				return false;
 			}
@@ -219,28 +216,22 @@ class JInstallerFile extends JAdapterInstance
 			/*
 			 * Check for a valid XML root tag.
 			 */
-			$root =& $xml->document;
-			if ($root->name() != 'extension') {
+			if ($xml->getName() != 'extension') {
 				JError::raiseWarning(100, JText::_('File').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
 			}
 
-			$this->manifest = $root;
-
-			// Get fileset
-			$eFileset = $root->getElementByPath('fileset');
+			$this->manifest = $xml;
 
 			// Set root folder names
 			$packagePath = $this->parent->getPath('source');
 			$jRootPath = JPath::clean(JPATH_ROOT);
 
 			// loop through all elements and get list of files and folders
-			foreach ($eFileset->children() as $eFiles)
+			foreach ($xml->fileset->files as $eFiles)
 			{
-				if ($eFiles INSTANCEOF JSimpleXMLElement && $eFiles->name() == 'files')
-				{
-					$folder = $eFiles->attributes("folder");
-					$target = $eFiles->attributes("target");
+					$folder = (string)$eFiles->attributes()->folder;
+					$target = (string)$eFiles->attributes()->target;
 					//Create folder path
 					if(empty($target))
 					{
@@ -258,11 +249,11 @@ class JInstallerFile extends JAdapterInstance
 						// loop through all filenames elements
 						foreach ($eFiles->children() as $eFileName)
 						{
-							if ($eFileName->name() == 'folder') {
-								$folderList[] = $targetFolder . DS . $eFileName->data();
+							if ($eFileName->getName() == 'folder') {
+								$folderList[] = $targetFolder.DS.$eFileName;
 
 							} else {
-								$fileName = $targetFolder . DS . $eFileName->data();
+								$fileName = $targetFolder.DS.$eFileName;
 								JFile::delete($fileName);
 							}
 						}
@@ -276,7 +267,6 @@ class JInstallerFile extends JAdapterInstance
 							JFolder::delete($folder);
 						}
 					}
-				}
 			}
 
 			JFile::delete($manifestFile);
@@ -346,75 +336,73 @@ class JInstallerFile extends JAdapterInstance
 		$this->fileList = array();
 
 		// Get fileset
-		$eFileset =& $this->manifest->getElementByPath('fileset');
+		$eFileset = $this->manifest->fileset->files;
 
 		// Set root folder names
 		$packagePath = $this->parent->getPath('source');
 		$jRootPath = JPath::clean(JPATH_ROOT);
 
 		// loop through all elements and get list of files and folders
-		foreach ($eFileset->children() as $eFiles)
+		foreach ($this->manifest->fileset->files as $eFiles)
 		{
 			// Check if the element is files element
-			if ($eFiles INSTANCEOF JSimpleXMLElement && $eFiles->name() == 'files') {
-				$folder = $eFiles->attributes("folder");
-				$target = $eFiles->attributes("target");
+			$folder = (string)$eFiles->attributes()->folder;
+			$target = (string)$eFiles->attributes()->target;
 
-				//Split folder names into array to get folder names. This will
-				// help in creating folders
-				$arrList = split("/|\\/", $target);
+			//Split folder names into array to get folder names. This will
+			// help in creating folders
+			$arrList = split("/|\\/", $target);
 
-				$folderName = $jRootPath;
-				foreach ($arrList as $dir)
+			$folderName = $jRootPath;
+			foreach ($arrList as $dir)
+			{
+				if(empty($dir)) continue ;
+
+				$folderName .= DS.$dir;
+				// Check if folder exists, if not then add to the array for folder creation
+				if (!JFolder::exists($folderName)) {
+					array_push($this->folderList, $folderName);
+				}
+			}
+
+
+			//Create folder path
+			$sourceFolder = empty($folder)?$packagePath:$packagePath.DS.$folder;
+			$targetFolder = empty($target)?$jRootPath:$jRootPath.DS.$target;
+
+			//Check if source folder exists
+			if (! JFolder::exists($sourceFolder)) {
+				JError::raiseWarning(1, JText::_('Files').' '.JText::_('Install').': '.JText::_('Failed to find source directory').': "'.$sourceFolder.'"');
+				// if installation fails, rollback
+				$this->parent->abort();
+				return false;
+			}
+
+			// Check if all children exists
+			if (count($eFiles->children()))
+			{
+				// loop through all filenames elements
+				foreach ($eFiles->children() as $eFileName)
 				{
-					if(empty($dir)) continue ;
-
-					$folderName .= DS.$dir;
-					// Check if folder exists, if not then add to the array for folder creation
-					if (!JFolder::exists($folderName)) {
+					if ($eFileName->getName() == 'folder') {
+						$folderName = $targetFolder.DS.$eFileName;
 						array_push($this->folderList, $folderName);
-					}
-				}
-
-
-				//Create folder path
-				$sourceFolder = empty($folder)?$packagePath:$packagePath.DS.$folder;
-				$targetFolder = empty($target)?$jRootPath:$jRootPath.DS.$target;
-
-				//Check if source folder exists
-				if (! JFolder::exists($sourceFolder)) {
-					JError::raiseWarning(1, JText::_('Files').' '.JText::_('Install').': '.JText::_('Failed to find source directory').': "'.$sourceFolder.'"');
-					// if installation fails, rollback
-					$this->parent->abort();
-					return false;
-				}
-
-				// Check if all children exists
-				if (count($eFiles->children()) > 0)
-				{
-					// loop through all filenames elements
-					foreach ($eFiles->children() as $eFileName)
-					{
-						if ($eFileName->name() == 'folder') {
-							$folderName = $targetFolder . DS . $eFileName->data();
-							array_push($this->folderList, $folderName);
-						} else {
-							$path['src'] = $sourceFolder . DS . $eFileName->data();
-							$path['dest'] = $targetFolder . DS . $eFileName->data();
-
-							array_push($this->fileList, $path);
-						}
-					}
-				} else {
-					$files = JFolder::files($sourceFolder);
-					foreach ($files as $file) {
-						$path['src'] = $sourceFolder . DS . $file;
-						$path['dest'] = $targetFolder . DS . $file;
+					} else {
+						$path['src'] = $sourceFolder.DS.$eFileName;
+						$path['dest'] = $targetFolder.DS.$eFileName;
 
 						array_push($this->fileList, $path);
 					}
-
 				}
+			} else {
+				$files = JFolder::files($sourceFolder);
+				foreach ($files as $file) {
+					$path['src'] = $sourceFolder.DS.$file;
+					$path['dest'] = $targetFolder.DS.$file;
+
+					array_push($this->fileList, $path);
+				}
+
 			}
 		}
 	}

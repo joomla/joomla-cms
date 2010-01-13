@@ -35,9 +35,9 @@ class JFormFieldRules extends JFormField
 		// TODO: Add access check.
 
 		// Get relevant attributes from the field definition.
-		$section = $this->_element->attributes('section') !== null ? $this->_element->attributes('section') : '';
-		$component = $this->_element->attributes('component') !== null ? $this->_element->attributes('component') : '';
-		$assetField = $this->_element->attributes('asset_field') !== null ? $this->_element->attributes('asset_field') : 'asset_id';
+		$section = (string)$this->_element->attributes()->section ? (string)$this->_element->attributes()->section : '';
+		$component = (string)$this->_element->attributes()->component ? (string)$this->_element->attributes()->component : '';
+		$assetField = (string)$this->_element->attributes()->asset_field ? (string)$this->_element->attributes()->asset_field : 'asset_id';
 
 		// Get the actions for the asset.
 		$access = JFactory::getACL();
@@ -45,11 +45,11 @@ class JFormFieldRules extends JFormField
 
 		// Iterate over the children and add to the actions.
 		foreach ($this->_element->children() as $e) {
-			if ($e->name() == 'action') {
+			if ($e->getName() == 'action') {
 				$actions[] = (object) array(
-					'name' => (string) $e->attributes('name'),
-					'title' => (string) $e->attributes('title'),
-					'description' => (string) $e->attributes('description')
+					'name' => (string)$e->attributes()->name,
+					'title' => (string)$e->attributes()->title,
+					'description' => (string)$e->attributes()->description
 				);
 			}
 		}

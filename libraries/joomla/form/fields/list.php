@@ -37,7 +37,7 @@ class JFormFieldList extends JFormField
 
 		// Iterate through the children and build an array of options.
 		foreach ($this->_element->children() as $option) {
-			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_(trim($option->data())));
+			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_(trim((string)$option)));
 		}
 
 		return $options;
@@ -50,22 +50,22 @@ class JFormFieldList extends JFormField
 	 */
 	protected function _getInput()
 	{
-		$disabled	= $this->_element->attributes('disabled') == 'true' ? true : false;
-		$readonly	= $this->_element->attributes('readonly') == 'true' ? true : false;
+		$disabled	= (string)$this->_element->attributes()->disabled == 'true' ? true : false;
+		$readonly	= (string)$this->_element->attributes()->readonly == 'true' ? true : false;
 		$attributes	= '';
 
-		if ($v = $this->_element->attributes('size')) {
+		if ($v = (string)$this->_element->attributes()->size) {
 			$attributes	.= ' size="'.$v.'"';
 		}
-		if ($v = $this->_element->attributes('class')) {
+		if ($v = (string)$this->_element->attributes()->class) {
 			$attributes	.= ' class="'.$v.'"';
 		} else {
 			$attributes	.= ' class="inputbox"';
 		}
-		if ($m = $this->_element->attributes('multiple')) {
+		if ((string)$this->_element->attributes()->multiple) {
 			$attributes	.= ' multiple="multiple"';
 		}
-		if ($v = $this->_element->attributes('onchange')) {
+		if ($v = (string)$this->_element->attributes()->onchange) {
 			$attributes	.= ' onchange="'.$this->_replacePrefix($v).'"';
 		}
 

@@ -48,7 +48,7 @@ class JFormRule
 	public function test(&$field, &$values)
 	{
 		$return = false;
-		$name	= $field->attributes('name');
+		$name	= (string)$field->attributes()->name;
 
 		// Check for a valid regex.
 		if (empty($this->_regex)) {

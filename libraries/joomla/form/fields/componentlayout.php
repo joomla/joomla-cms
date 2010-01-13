@@ -42,12 +42,12 @@ class JFormFieldComponentLayout extends JFormFieldList
 		$db->setQuery($query);
 		$template	= $db->loadResult();
 
-		$extn = $this->_element->attributes('extension');
+		$extn = (string)$this->_element->attributes()->extension;
 		if (empty($extn)) {
 			$extn = $this->_form->getValue('extension');
 		}
 
-		if (($view = $this->_element->attributes('view')) && $extn) {
+		if (($view = (string)$this->_element->attributes()->view) && $extn) {
 			$view	= preg_replace('#\W#', '', $view);
 			$extn	= preg_replace('#\W#', '', $extn);
 			$path1	= JPATH_SITE.DS.'components'.DS.$extn.DS.'views'.DS.$view.DS.'tmpl';

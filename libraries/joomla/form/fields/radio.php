@@ -36,15 +36,15 @@ class JFormFieldRadio extends JFormField
 		// Get the options for the radio list.
 		$options = array();
 		foreach ($this->_element->children() as $option) {
-			$tmp = JHtml::_('select.option', $option->attributes('value'), trim($option->data()));
-			$tmp->class = $option->attributes('class');
-			$tmp->onclick = $option->attributes('onclick') ? ' onclick="'.$this->_replacePrefix($option->attributes('onclick')).'"' : '';
+			$tmp = JHtml::_('select.option', (string)$option->attributes()->value, trim((string)$option));
+			$tmp->class = (string)$option->attributes()->class;
+			$tmp->onclick = (string)$option->attributes()->onclick ? ' onclick="'.$this->_replacePrefix((string)$option->attributes()->onclick).'"' : '';
 			$options[] = $tmp;
 		}
 		reset($options);
 
 		// Get the fieldset class.
-		$class = $this->_element->attributes('class') ? ' class="radio '.$this->_element->attributes('class').'"': ' class="radio"';
+		$class = (string)$this->_element->attributes()->class ? ' class="radio '.$this->_element->attributes()->class.'"': ' class="radio"';
 
 		$html = array();
 		$html[] = '<fieldset id="'.$this->inputId.'"'.$class.'>';

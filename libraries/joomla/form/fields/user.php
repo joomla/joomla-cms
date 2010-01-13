@@ -33,7 +33,7 @@ class JFormFieldUser extends JFormField
 	protected function _getInput()
 	{
 		// Initialise variables.
-		$onchange	= $this->_element->attributes('onchange') ? $this->_replacePrefix($this->_element->attributes('onchange')) : '';
+		$onchange	= (string)$this->_element->attributes()->onchange ? $this->_replacePrefix((string)$this->_element->attributes()->onchange) : '';
 		$document	= JFactory::getDocument();
 
 		// Load the modal behavior.

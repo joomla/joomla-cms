@@ -18,11 +18,11 @@ class JHelp
 {
 
 	/**
-	* Create an URL for a giving help file reference
-	*
-	* @param string The name of the popup file (excluding the file extension for an xml file)
-	* @param boolean Use the help file in the component directory
-	*/
+	 * Create an URL for a giving help file reference
+	 *
+	 * @param string The name of the popup file (excluding the file extension for an xml file)
+	 * @param boolean Use the help file in the component directory
+	 */
 	static function createURL($ref, $useComponent = false)
 	{
 		$component		= JApplicationHelper::getComponentName();
@@ -99,13 +99,14 @@ class JHelp
 	static function createSiteList($pathToXml, $selected = null)
 	{
 		$list	= array ();
-		$xml	= &JFactory::getXMLParser('Simple');
 		$data	= null;
+		$xml = false;
+
 		if (!empty($pathToXml)) {
-			$data = file_get_contents($pathToXml);
+			$xml = JFactory::getXML($pathToXml);
 		}
 
-		if (empty($data))
+		if( ! $xml)
 		{
 			$option['text'] = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
@@ -113,24 +114,14 @@ class JHelp
 		}
 		else
 		{
-			if ($xml->loadString($data))
+			$option = array ();
+
+			foreach ($xml->sites->site as $site)
 			{
-				// Are there any languages??
-				$elmSites = & $xml->document->sites[0];
+				$option['text'] = (string)$site;
+				$option['value'] = (string)$site->attributes()->url;
 
-				if (is_object($elmSites)) {
-
-					$option = array ();
-					$sites = $elmSites->children();
-					foreach ($sites as $site)
-					{
-						$text				= $site->data();
-						$url				= $site->attributes('url');
-						$option['text']		= $text;
-						$option['value']	= $url;
-						$list[]				= $option;
-					}
-				}
+				$list[] = $option;
 			}
 		}
 

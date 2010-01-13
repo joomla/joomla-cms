@@ -27,11 +27,11 @@ abstract class JFormField extends JObject
 	 */
 	protected $type;
 
-   /**
-	* A reference to the form object that the field belongs to.
-	*
-	* @var		object
-	*/
+	/**
+	 * A reference to the form object that the field belongs to.
+	 *
+	 * @var		object
+	 */
 	protected $_form;
 
 	/**
@@ -45,11 +45,11 @@ abstract class JFormField extends JObject
 		$this->_form = $form;
 	}
 
-   /**
-	* Method to get the form field type.
-	*
-	* @return	string		The field type.
-	*/
+	/**
+	 * Method to get the form field type.
+	 *
+	 * @return	string		The field type.
+	 */
 	public function getType()
 	{
 		return $this->type;
@@ -61,33 +61,41 @@ abstract class JFormField extends JObject
 		$this->_element		= $xml;
 
 		// Set the id, name, and value.
-		$this->id			= $xml->attributes('id');
-		$this->name			= $xml->attributes('name');
+		$this->id			= (string)$xml->attributes()->id;
+		$this->name			= (string)$xml->attributes()->name;
 		$this->value		= $value;
 
 		// Set the label and description text.
-		$this->labelText	= $xml->attributes('label') ? $xml->attributes('label') : $this->name;
-		$this->descText		= $xml->attributes('description');
+		$this->labelText	= (string)$xml->attributes()->label ? (string)$xml->attributes()->label : $this->name;
+		$this->descText		= (string)$xml->attributes()->description;
 
 		// Set the required and validate options.
-		$this->required		= ($xml->attributes('required') == 'true' || $xml->attributes('required') == 'required');
-		$this->validate		= $xml->attributes('validate');
+		$this->required		= ((string)$xml->attributes()->required == 'true' || (string)$xml->attributes()->required == 'required');
+		$this->validate		= (string)$xml->attributes()->validate;
 
 		// Add the required class if the field is required.
-		if ($this->required) {
-			if (strpos($xml->attributes('class'), 'required') === false) {
-				$xml->addAttribute('class', $xml->attributes('class').' required');
+		if ($this->required)
+		{
+			if($xml->attributes()->class)
+			{
+				if (strpos((string)$xml->attributes()->class, 'required') === false) {
+					$xml->attributes()->class = $xml->attributes()->class.' required';
+				}
+			}
+			else
+			{
+				$xml->addAttribute('class', 'required');
 			}
 		}
 
 		// Set the field decorator.
-		$this->decorator	= $xml->attributes('decorator');
+		$this->decorator	= (string)$xml->attributes()->decorator;
 
 		// Set the visibility.
-		$this->hidden		= ($xml->attributes('type') == 'hidden' || $xml->attributes('hidden'));
+		$this->hidden		= ((string)$xml->attributes()->type == 'hidden' || (string)$xml->attributes()->hidden);
 
 		// Set the multiple values option.
-		$this->multiple		= ($xml->attributes('multiple') == 'true' || $xml->attributes('multiple') == 'multiple');
+		$this->multiple		= ((string)$xml->attributes()->multiple == 'true' || (string)$xml->attributes()->multiple == 'multiple');
 
 		// Set the form and group names.
 		$this->formName		= $formName;
