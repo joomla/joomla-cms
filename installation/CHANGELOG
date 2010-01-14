@@ -28,11 +28,11 @@ $ -> Language fix or change
 ! -> Note
 
 13-Jan-2010 Mark Dexter
-^ More sample data changes (Elin Waring)
+^ More sample data changes (Elin Waring) 
 
 13-Jan-2010 Hannes Papenberg
 # Fixed JFormFieldUsergroup - Thanks Christopher Demko!
-^ Using PHPs built in SimpleXML instead of JSimpleXML to read XML files. Exception: JParameter. - Thanks Nikolai (elkuku)!
+^ Using PHPs built in SimpleXML instead of JSimpleXML to read XML files. Exception: JParameter. - Thanks Nikolai (elkuku)! 
 
 12-Jan-2010 Mark Dexter
 # Improvements to contact parameters (Elin Waring)
