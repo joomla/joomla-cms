@@ -231,7 +231,7 @@ class JControllerForm extends JController
 		{
 			// Check-out failed, go back to the list and display a notice.
 			$message = JText::sprintf('JError_Checkout_failed', $model->getError());
-			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.'&id='.$recordId, $message, 'error');
+			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append.'&id='.$recordId, $message, 'error');
 			return false;
 		}
 		else
@@ -263,7 +263,7 @@ class JControllerForm extends JController
 		// Attempt to check-in the current record.
 		if ($checkin && $recordId)
 		{
-			if (!$model->checkin($recordId))
+			if(!$model->checkin($recordId))
 			{
 				// Check-in failed, go back to the record and display a notice.
 				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
@@ -327,7 +327,7 @@ class JControllerForm extends JController
 		if ($task == 'save2copy')
 		{
 			// Check-in the original row.
-			if (!$model->checkin($data[$key]))
+			if ($checkin  && !$model->checkin($data[$key]))
 			{
 				// Check-in failed, go back to the item and display a notice.
 				$message = JText::sprintf('JError_Checkin_saved', $model->getError());
@@ -392,7 +392,7 @@ class JControllerForm extends JController
 		}
 
 		// Save succeeded, check-in the record.
-		if ($checkin && !$model->checkin())
+		if ($checkin && !$model->checkin($data[$key]))
 		{
 			// Check-in failed, go back to the record and display a notice.
 			$message = JText::sprintf('JError_Checkin_saved', $model->getError());
