@@ -84,7 +84,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 					<?php echo $row->version; ?>
 				</td>
 				<td align="center">
-					<?php echo $row->creationdate; ?>
+					<?php echo $row->creationDate; ?>
 				</td>
 				<td align="center">
 					<?php echo $row->author; ?>
