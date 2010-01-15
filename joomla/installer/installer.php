@@ -614,7 +614,7 @@ class JInstaller extends JAdapter
 	 * @return	mixed	Number of queries processed or False on error
 	 * @since	1.5
 	 */
-	public function parseQueries(JXMLElement $element)
+	public function parseQueries($element)
 	{
 		// Get the database connector object
 		$db = & $this->_db;
@@ -655,7 +655,7 @@ class JInstaller extends JAdapter
 	 * @return	mixed	Number of queries processed or False on error
 	 * @since	1.5
 	 */
-	public function parseSQLFiles(JXMLElement $element)
+	public function parseSQLFiles($element)
 	{
 		if ( ! $element instanceof JXMLElement || ! count($element->children())) {
 			// The tag does not exist.
@@ -740,7 +740,7 @@ class JInstaller extends JAdapter
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function parseFiles(JXMLElement $element, $cid=0, $oldFiles=null, $oldMD5=null)
+	public function parseFiles($element, $cid=0, $oldFiles=null, $oldMD5=null)
 	{
 		// Get the array of file nodes to process; we checked this had children above
 		if ( ! is_a($element, 'JXMLElement') || ! count($element->children()))
@@ -855,7 +855,7 @@ class JInstaller extends JAdapter
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function parseLanguages(JXMLElement $element, $cid=0)
+	public function parseLanguages($element, $cid=0)
 	{
 		if ( ! $element instanceof JXMLElement || ! count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -965,7 +965,7 @@ class JInstaller extends JAdapter
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function parseMedia(JXMLElement $element, $cid=0)
+	public function parseMedia($element, $cid=0)
 	{
 		if (!($element instanceof JXMLElement) || !count($element->children()))
 		{
@@ -1183,7 +1183,7 @@ class JInstaller extends JAdapter
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function removeFiles(JXMLElement $element, $cid=0)
+	public function removeFiles($element, $cid=0)
 	{
 		// Initialise variables.
 		$removefiles = array ();
