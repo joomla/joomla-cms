@@ -8,8 +8,6 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
-jimport('joomla.database.query');
-require_once dirname(__FILE__).DS.'list.php';
 
 /**
  * Form Field class for the Joomla Framework.
@@ -18,7 +16,7 @@ require_once dirname(__FILE__).DS.'list.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldAccessLevel extends JFormFieldList
+class JFormFieldAccessLevel extends JFormField
 {
 	/**
 	 * The field type.
@@ -32,28 +30,30 @@ class JFormFieldAccessLevel extends JFormFieldList
 	 *
 	 * @return	array		An array of JHtml options.
 	 */
-	protected function _getOptions()
+	protected function _getInput()
 	{
-		$db		= &JFactory::getDbo();
-		$query	= new JQuery;
+		$attribs	= '';
 
-		$query->select('a.id AS value, a.title AS text');
-		$query->from('#__viewlevels AS a');
-		$query->group('a.id');
-		$query->order('a.ordering ASC');
-
-		// Get the options.
-		$db->setQuery((string) $query);
-		$options = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->getErrorMsg());
+		if ($v = $this->_element->attributes('size')) {
+			$attribs	.= ' size="'.$v.'"';
+		}
+		if ($v = $this->_element->attributes('class')) {
+			$attribs	.= ' class="'.$v.'"';
+		} else {
+			$attribs	.= ' class="inputbox"';
+		}
+		if ($m = $this->_element->attributes('multiple'))
+		{
+			$attribs	.= ' multiple="multiple"';
 		}
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::_getOptions(), $options);
+		$options = array();
 
-		return $options;
+		// Iterate through the children and build an array of options.
+		foreach ($this->_element->children() as $option) {
+			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_(trim($option->data())));
+		}
+
+		return JHtml::_('access.level', $this->inputName, $this->value, $attribs, $options, $this->inputId);
 	}
 }

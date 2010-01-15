@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jan-2010 Christophe Demko
+^ Change the JHtmlAccess::section function to a JHtmlAccess::level function. Add the possibility to give extraoptions and to give an id
+^ Change the JFormFieldAccessLevel class to use JHtmlAccess::level function.
+$ Change the language string JOption_Access_Show_All_Sections to JOption_Access_Show_All_Levels
+
 15-Jan-2010 Mark Dexter
 ^ Add language field to category, contact, article, module, newsfeed, weblink (Jean-Marie Simonet)
 ^ Fix sample data article (Elin Waring)
