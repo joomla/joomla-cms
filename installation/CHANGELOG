@@ -34,6 +34,8 @@ $ -> Language fix or change
 # Correct the output of JFormFieldRules (change JHtmlRules::assetFormWidget function)
 # Correct the code of JFormFieldEditor (due to the use of SimpleXML)
 # Correct the code of JForm::setFieldAttribute (due to the use of SimpleXML)
+# Correct the code of JInstaller (due to the use of SimpleXML)
+# Correct the code of JStream::prependFilter (Call-time pass-by-reference has been deprecated)
 $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_Show_All_Levels
 
 15-Jan-2010 Mark Dexter
