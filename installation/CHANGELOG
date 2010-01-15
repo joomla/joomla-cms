@@ -36,6 +36,8 @@ $ -> Language fix or change
 # Correct the code of JForm::setFieldAttribute (due to the use of SimpleXML)
 # Correct the code of JInstaller (due to the use of SimpleXML)
 # Correct the code of JStream::prependFilter (Call-time pass-by-reference has been deprecated)
+# Correct the code of JModelForm and JControllerForm to handle without errors checkin and checkout
+$ Add the Content_Page_View_article in administrator/language/en-GB/en-GB.com_content.ini
 $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_Show_All_Levels
 
 15-Jan-2010 Mark Dexter

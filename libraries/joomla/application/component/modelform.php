@@ -38,11 +38,21 @@ class JModelForm extends JModel
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			// Get a row instance.
-			$table = &$this->getTable();
+			$user = JFactory::getUser();
 
-			// Get the current user object.
-			$user = &JFactory::getUser();
+			// Get an instance of the row to checkout.
+			$table = $this->getTable();
+			if (!$table->load($pk)) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Check if this is the user having previously checked out the row.
+			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
+			{
+				$this->setError(JText::_('JError_Checkout_user_mismatch'));
+				return false;
+			}
 
 			// Attempt to check the row out.
 			if (!$table->checkout($user->get('id'), $pk))
