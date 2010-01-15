@@ -87,15 +87,6 @@ abstract class JTable extends JObject
 		$this->_tbl_key	= $key;
 		$this->_db		= &$db;
 
-		// If we are tracking assets, make sure an access field exists and initially set the default.
-		if (property_exists($this, 'asset_id'))
-		{
-			jimport('joomla.access.rules');
-			$this->_trackAssets = true;
-			// TODO: Do we need the following line anymore?
-			//$this->access = (int) JFactory::getConfig()->getValue('access');
-		}
-
 		// Initialise the table properties.
 		if ($fields = $this->getFields())
 		{
@@ -106,6 +97,19 @@ abstract class JTable extends JObject
 					$this->$name = null;
 				}
 			}
+		}
+		// If we are tracking assets, make sure an access field exists and initially set the default.
+		if (property_exists($this, 'asset_id'))
+		{
+			jimport('joomla.access.rules');
+			$this->_trackAssets = true;
+			// TODO: Do we need the following line anymore?
+			//$this->access = (int) JFactory::getConfig()->getValue('access');
+		}
+		// If the acess property exists, set the default.
+		if (property_exists($this, 'access'))
+		{
+			$this->access = (int) JFactory::getConfig()->getValue('access');
 		}
 	}
 
