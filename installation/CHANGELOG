@@ -31,6 +31,7 @@ $ -> Language fix or change
 ^ Change the JHtmlAccess::section function to a JHtmlAccess::level function. Add the possibility to give extraoptions and to give an id
 + Add loading JFormField class in some fields
 # Change the JFormFieldAccessLevel class to use JHtmlAccess::level function.
+# Correct the output of JFormFieldRules (change JHtmlRules::assetFormWidget function)
 $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_Show_All_Levels
 
 15-Jan-2010 Mark Dexter
