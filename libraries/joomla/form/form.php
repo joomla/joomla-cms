@@ -623,7 +623,7 @@ class JForm extends JObject
 
 		// Set the field attribute if it exists.
 		if (isset($this->_groups[$group][$field])) {
-			$this->_groups[$group][$field]->addAttribute($attribute, $value);
+			$this->_groups[$group][$field]->attributes()->$attribute = $value;
 			$return = true;
 		}
 

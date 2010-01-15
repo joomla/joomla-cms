@@ -87,7 +87,7 @@ class JFormFieldEditor extends JFormField
 					$editorName	= '';
 				}
 
-				$this->_element->addAttribute('editor', $editorName);
+				$this->_element->attributes()->editor = $editorName;
 			}
 			$this->_editor = JFactory::getEditor($editorName ? $editorName : null);
 		}

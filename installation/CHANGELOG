@@ -32,6 +32,8 @@ $ -> Language fix or change
 + Add loading JFormField class in some fields
 # Change the JFormFieldAccessLevel class to use JHtmlAccess::level function.
 # Correct the output of JFormFieldRules (change JHtmlRules::assetFormWidget function)
+# Correct the code of JFormFieldEditor (due to the use of SimpleXML)
+# Correct the code of JForm::setFieldAttribute (due to the use of SimpleXML)
 $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_Show_All_Levels
 
 15-Jan-2010 Mark Dexter
