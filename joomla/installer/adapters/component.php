@@ -1044,7 +1044,7 @@ class JInstallerComponent extends JAdapterInstance
 			$data['img'] = ((string)$menuElement->attributes()->img) ? (string)$menuElement->attributes()->img : 'class:component';
 			$data['home'] = 0;
 
-			if(!$table->bind($data) || !$table->check() || !$table->store())
+			if(!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
