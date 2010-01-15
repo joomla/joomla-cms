@@ -135,6 +135,25 @@
 			default=""
 			label="Weblinks_Ordering_Label"
 			description="Weblinks_Ordering_Desc"/>
+			
+			<field
+			name="access"
+			type="accesslevel"
+			label="JField_Access_Label"
+			description="JField_Access_Desc"
+			class="inputbox"
+			size="1"
+			default="" />
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JField_Language_Label"
+			description="JField_Weblinks_Language_Desc"
+			class="inputbox"
+			default="">
+			<option value="">JOption_Default_Language</option>
+		</field>
 
 		<field
 			id="approved"
@@ -148,25 +167,6 @@
 				value="0">JNo</option>
 			<option
 				value="1">JYes</option>
-		</field>
-
-		<field
-			name="access"
-			type="accesslevel"
-			label="JField_Access_Label"
-			description="JField_Access_Desc"
-			class="inputbox"
-			size="1"
-			default="" />
-
-		<field
-			name="language"
-			type="contentlanguage"
-			label="JField_Language_Label"
-			description="JField_Language_Desc"
-			class="inputbox"
-			default="">
-			<option value="">JOption_Default_Language</option>
 		</field>
 
 	</fields>

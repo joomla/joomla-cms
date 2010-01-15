@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Jan-2010 Mark Dexter
+^ Add language field to category, contact, article, module, newsfeed, weblink (Jean-Marie Simonet)
+^ Fix sample data article (Elin Waring)
+
 13-Jan-2010 Mark Dexter
 ^ More sample data changes (Elin Waring)
 

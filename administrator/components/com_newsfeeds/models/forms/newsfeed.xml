@@ -162,7 +162,7 @@
 			name="language"
 			type="contentlanguage"
 			label="JField_Language_Label"
-			description="JField_Language_Desc"
+			description="JField_Newsfeed_Language_Desc"
 			class="inputbox"
 			default="">
 			<option value="">JOption_Default_Language</option>

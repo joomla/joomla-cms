@@ -57,6 +57,9 @@ JHtml::_('behavior.keepalive');
 
 			<?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?>
+			
+			<?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?>
 
 	</fieldset>
 </div>
@@ -73,9 +76,6 @@ JHtml::_('behavior.keepalive');
 
 			<?php echo $this->form->getLabel('rtl'); ?>
 			<?php echo $this->form->getInput('rtl'); ?>
-
-			<?php echo $this->form->getLabel('language'); ?>
-			<?php echo $this->form->getInput('language'); ?>
 
 		<?php foreach($this->form->getFields('params') as $field): ?>
 			<?php if ($field->hidden): ?>

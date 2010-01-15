@@ -55,6 +55,9 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getInput('access'); ?>
 
 			<?php echo $this->loadTemplate('options'); ?>
+			
+			<?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?>
 
 			<div class="clr"></div>
 			<?php echo $this->form->getLabel('description'); ?>

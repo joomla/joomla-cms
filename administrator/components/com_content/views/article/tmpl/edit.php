@@ -51,6 +51,9 @@ JHtml::_('behavior.formvalidation');
 
 		<?php echo $this->form->getLabel('access'); ?>
 		<?php echo $this->form->getInput('access'); ?>
+		
+		<?php echo $this->form->getLabel('language'); ?>
+		<?php echo $this->form->getInput('language'); ?>
 
 		<div class="clr"></div>
 		<?php echo $this->form->getLabel('articletext'); ?>
@@ -123,9 +126,6 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
 			<?php endforeach; ?>
-
-			<?php echo $this->form->getLabel('language'); ?>
-			<?php echo $this->form->getInput('language'); ?>
 
 			<?php echo $this->form->getLabel('xreference'); ?>
 			<?php echo $this->form->getInput('xreference'); ?>

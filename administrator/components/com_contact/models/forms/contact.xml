@@ -275,14 +275,14 @@
 			default="" />
 
 		<field
-			id="language"
 			name="language"
-			type="text"
+			type="contentlanguage"
 			label="JField_Language_Label"
-			description="JField_Language_Desc"
+			description="JField_Contact_Language_Desc"
 			class="inputbox"
-			size="10"
-			 />
+			default="">
+			<option value="">JOption_Default_Language</option>
+		</field>
 
 		<field
 			name="show_email_form"
