@@ -25,40 +25,51 @@ abstract class JHtmlAccess
 	protected static $asset_groups = null;
 
 	/**
-	 * Displays a list of the available access sections
+	 * Displays a list of the available access view levels
 	 *
 	 * @param	string	The form field name.
 	 * @param	string	The name of the selected section.
 	 * @param	string	Additional attributes to add to the select field.
-	 * @param	boolean	True to add "All Sections" option.
+	 * @param	mixed	True to add "All Sections" option or and array of option
+	 * @param	string	The form field id
 	 *
 	 * @return	string	The required HTML for the SELECT tag.
 	 */
-	public static function section($name, $selected, $attribs = '', $allowAll = true)
+	public static function level($name, $selected, $attribs = '', $params = true, $id = false)
 	{
-		$db = &JFactory::getDbo();
-		$db->setQuery(
-			'SELECT `id` AS value, `title` AS text'
-			.' FROM #__access_sections'
-			.' ORDER BY `ordering`, `title`'
-		);
+		$db		= &JFactory::getDbo();
+		$query	= new JQuery;
+
+		$query->select('a.id AS value, a.title AS text');
+		$query->from('#__viewlevels AS a');
+		$query->group('a.id');
+		$query->order('a.ordering ASC');
+		$query->order('`title` ASC');
+
+		// Get the options.
+		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
 		// Check for a database error.
 		if ($db->getErrorNum()) {
-			JError::raiseNotice(500, $db->getErrorMsg());
+			JError::raiseWarning(500, $db->getErrorMsg());
 			return null;
 		}
 
-		// If all usergroups is allowed, push it into the array.
-		if ($allowAll) {
-			array_unshift($options, JHtml::_('select.option', '', JText::_('JOption_Access_Show_All_Sections')));
+		// If params is an array, push these options to the array
+		if (is_array($params)) {
+			$options = array_merge($params,$options);
+		}
+		// If all levels is allowed, push it into the array.
+		elseif ($params) {
+			array_unshift($options, JHtml::_('select.option', '', JText::_('JOption_Access_Show_All_Levels')));
 		}
 
 		return JHtml::_('select.genericlist', $options, $name,
 			array(
 				'list.attr' => $attribs,
-				'list.select' => $selected
+				'list.select' => $selected,
+				'id' => $id
 			)
 		);
 	}
