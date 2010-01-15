@@ -69,7 +69,7 @@ abstract class JHtmlRules
 			$html[] = ' 				<td class="col1">'.$group->text.'</td>';
 			foreach ($actions as $i => $action)
 			{
-				$html[] = ' 				<td class="col'.($i+2).'">'.($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny']).'</td>';
+				$html[] = ' 				<td class="col'.($i+2).'">'.($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny']) : ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])).'</td>';
 			}
 			$html[] = ' 			</tr>';
 		}
@@ -105,7 +105,7 @@ abstract class JHtmlRules
 				$html[] = ' 						<option value="0"'.($selected === false ? ' selected="selected"' : '').'>'.JText::_('JDENY').'</option>';
 				$html[] = ' 					</select>';
 				$html[] = ' 				</td>';
-				$html[] = ' 				<td class="col4">'.($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny']).'</td>';
+				$html[] = ' 				<td class="col4">'.($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny']) : ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])).'</td>';
 				$html[] = ' 			</tr>';
 			}
 
