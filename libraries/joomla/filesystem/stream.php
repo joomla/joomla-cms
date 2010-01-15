@@ -773,7 +773,7 @@ class JStream extends JObject
 			}
 			else
 			{
-				array_unshift(&$res,'');
+				array_unshift($res,'');
 				$res[0] =&$this->filters;
 			}
 			// restore error tracking to what it was before
