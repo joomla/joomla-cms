@@ -39,6 +39,7 @@ $ -> Language fix or change
 # Correct the code of JModelForm and JControllerForm to handle without errors checkin and checkout
 # Correct the code of JTable::__construct to handle asset_id and access correctly
 # Correct the code of JInstallerComponent to create admin menu
+# Correct the code of JFormFieldTimeZone (#19441)
 $ Add the Content_Page_View_article in administrator/language/en-GB/en-GB.com_content.ini
 $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_Show_All_Levels
 
