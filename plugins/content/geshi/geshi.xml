@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install
+	version="1.6"
+	type="plugin"
+	group="content">
+	<name>Content - Code Highlighter (GeSHi)</name>
+	<author>Joomla! Project</author>
+	<creationDate>November 2005</creationDate>
+	<copyright>Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorUrl>qbnz.com/highlighter</authorUrl>
+	<version>1.6</version>
+	<description>DESCGESHI</description>
+	<files>
+		<filename
+			plugin="geshi">geshi.php</filename>
+	</files>
+</install>
