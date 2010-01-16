@@ -32,6 +32,7 @@ $ -> Language fix or change
  ^ Hard coded extension_id's in jos_extensions.
  ^ JDatabase::loadAssocList takes a second argument to return just the value of a column, not the whole row.
  + Added (temporarily) menus.resync in menus sub-controller to help repair incorrect component_id values in the jos_menu table.
+ ^ Added Mark's patch for presenting errors in language .ini file parsing.
 
 16-Jan-2010 Christophe Demko
 ^ Change the JHtmlAccess::section function to a JHtmlAccess::level function. Add the possibility to give extraoptions and to give an id
