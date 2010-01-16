@@ -201,16 +201,14 @@ class JForm extends JObject
 		$return = false;
 
 		// Make sure we have data.
-		if (!empty($data))
-		{
+		if (!empty($data)) {
 			// If the data is a file, load the XML from the file.
 			if ($file) {
 				// If we were not given the absolute path of a form file, attempt to find one.
 				if (!is_file($data)) {
 					jimport('joomla.filesystem.path');
-					$data = JPath::find(JForm::addFormPath(), strtolower($data).'.xml');
-					if( ! $data)
-					{
+					$data = JPath::find(self::addFormPath(), strtolower($data).'.xml');
+					if (!$data) {
 						return false;
 					}
 				}
@@ -227,8 +225,7 @@ class JForm extends JObject
 				// Check if any groups exist.
 				if (isset($xml->fields)) {
 					// Load the form groups.
-					foreach ($xml->fields as $group)
-					{
+					foreach ($xml->fields as $group) {
 						$this->loadFieldsXML($group, $reset);
 						$return = true;
 					}
@@ -340,8 +337,7 @@ class JForm extends JObject
 						// Check for a value to filter.
 						if (isset($data[$name])) {
 							// Handle the different filter options.
-							switch (strtoupper($filter))
-							{
+							switch (strtoupper($filter)) {
 								case 'RULES':
 									$return[$name] = array();
 									foreach ((array) $data[$name] as $action => $ids) {
@@ -856,8 +852,7 @@ class JForm extends JObject
 		}
 
 		// Get the fieldset array option.
-		switch ((string)$xml->attributes()->array)
-		{
+		switch ((string)$xml->attributes()->array) {
 			case 'true':
 				$this->_fieldsets[$group]['array'] = true;
 				break;
@@ -880,7 +875,7 @@ class JForm extends JObject
 
 			// Add the field path to the list if it exists.
 			if (JFolder::exists($path)) {
-				JForm::addFieldPath($path);
+				self::addFieldPath($path);
 			}
 		}
 
@@ -913,7 +908,7 @@ class JForm extends JObject
 		}
 
 		if (!class_exists($class)) {
-			$paths = JForm::addFieldPath();
+			$paths = self::addFieldPath();
 
 			// If the type is complex, add the base type to the paths.
 			if ($pos = strpos($type, '_')) {
