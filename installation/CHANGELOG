@@ -28,6 +28,11 @@ $ -> Language fix or change
 ! -> Note
 
 16-Jan-2010 Mark Dexter
+^ Partial refactoring of com_contact
+^ Work on com_content layouts (Angie Radtke)
+^ Work on com_menus (Elin Waring)
+
+16-Jan-2010 Mark Dexter
 # Fix invalid language files in login.
 
 16-Jan-2010 Andrew Eddie

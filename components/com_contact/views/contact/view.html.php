@@ -18,51 +18,30 @@ jimport('joomla.application.component.view');
  */
 class ContactViewContact extends JView
 {
+	protected $state = null;
+	protected $contact = null;
+	
 	function display($tpl = null)
 	{
 		$app		= &JFactory::getApplication();
 		$user		= &JFactory::getUser();
 		$pathway	= &$app->getPathway();
 		$document	= & JFactory::getDocument();
-		$model		= &$this->getModel();
-
+		$state 		= $this->get('State');
+		$contact 	= $this->get('Contact');
+		
+		// report any errors and exit if they exist
+		$this->reportErrors($this->get('Errors'));
+		
 		// Get the parameters of the active menu item
 		$menus	= &JSite::getMenu();
 		$menu    = $menus->getActive();
 
 		$pparams = &$app->getParams('com_contact');
 
-		// Push a model into the view
-		$model		= &$this->getModel();
-		$modelCat	= &$this->getModel('Category');
-
-		// Selected Request vars
-		// ID may come from the contact switcher
-		if (!($contactId	= JRequest::getInt('contact_id',	0))) {
-			$contactId	= JRequest::getInt('id',			$contactId);
-		}
-
-		// query options
-		$options['id']	= $contactId;
-
-		$contact	= $model->getContact($options);
-
-
-		// check if we have a contact
-		if (!is_object($contact)) {
-			JError::raiseError(404, 'Contact not found');
-			return;
-		}
-
 		// check if access is registered/special
 		$groups	= $user->authorisedLevels();
 
-		// Not sure what was intented here
-		// this was blowing up in default_form as undefined $result
-		// so added the assignRef to pass it
-		// I'm initializing it here since I'm always passing it
-		// but I don't know if this is actually coming from somewhere else
-		// and so shouldn't be cleared (Andy T 10.6.9)
 		$return ="";
 		if ((!in_array($contact->access, $groups)) || (!in_array($contact->category_access, $groups))) {
 			$uri		= JFactory::getURI();
@@ -78,7 +57,7 @@ class ContactViewContact extends JView
 		$options['category_id']	= $contact->catid;
 		$options['order by']	= 'cd.default_con DESC, cd.ordering ASC';
 
-		$contacts = $modelCat->getContacts($options);
+		$contacts = &$this->getModel('Category')->getContacts($options);
 
 		// Set the document page title
 		// because the application sets a default page title, we need to get it
@@ -170,6 +149,39 @@ class ContactViewContact extends JView
 		$this->assignRef('return',		$return);
 
 		parent::display($tpl);
+	}
+	/**
+	 * Checks for errors and exits with messages if found
+	 * @param	Array of errors
+	 * @return	null
+	 */
+	function reportErrors($errors)
+	{
+		if (!$errors || !is_array($errors)) {
+			return;
+		}
+		foreach ($errors as &$error)
+		{
+			if ($error instanceof Exception)
+			{
+				if ($error->getCode() == 404)
+				{
+					// If there is a 404, throw a hard error.
+					JError::raiseError(404, $error->getMessage());
+					return false;
+				}
+				else
+				{
+					JError::raiseError(500, $error->getMessage());
+				}
+			}
+			else
+			{
+				JError::raiseWarning(500, $error);
+			}
+		}
+		return false;
+
 	}
 }
 		

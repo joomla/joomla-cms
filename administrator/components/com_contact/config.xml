@@ -245,8 +245,8 @@
 
 		<field
 			name="icon_address"
-			type="media"
-			link="images/system"
+			type="imagelist"
+			link="images"
 			hide_none="1"
 			default=""
 			label="Contact_Icons_Address_Label"
@@ -254,8 +254,8 @@
 
 		<field
 			name="icon_email"
-			type="media"
-			directory="/images/system"
+			type="imagelist"
+			directory="/images"
 			hide_none="1"
 			default=""
 			label="Contact_Icons_Email_Label"
@@ -263,8 +263,8 @@
 
 		<field
 			name="icon_telephone"
-			type="media"
-			directory="/images/system"
+			type="imagelist"
+			directory="/images"
 			hide_none="1"
 			default=""
 			label="Contact_Icons_Telephone_Label"
@@ -272,8 +272,8 @@
 
 		<field
 			name="icon_mobile"
-			type="media"
-			directory="/images/system"
+			type="imagelist"
+			directory="/images"
 			hide_none="1"
 			default=""
 			label="Contact_Icons_Mobile_Label"
@@ -281,8 +281,8 @@
 
 		<field
 			name="icon_fax"
-			type="media"
-			directory="/images/system"
+			type="imagelist"
+			directory="/images"
 			hide_none="1"
 			default=""
 			label="Contact_Icons_Fax_Label"
@@ -290,8 +290,8 @@
 
 		<field
 			name="icon_misc"
-			type="media"
-			directory="/images/system"
+			type="imagelist"
+			directory="/images"
 			hide_none="1"
 			default=""
 			label="Contact_Icons_Misc_Label"

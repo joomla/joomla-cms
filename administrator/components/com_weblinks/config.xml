@@ -116,7 +116,7 @@
 		<field
 			name="link_icons"
 			type="imagelist"
-			directory="/images/system"
+			directory="/images"
 			default=""
 			label="Icon"
 			description="PARAMICONIMG" />

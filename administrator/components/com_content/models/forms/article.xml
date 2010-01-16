@@ -413,7 +413,7 @@
 				value="0">Hide</option>
 			<option
 				value="1">Show</option>
-		</field>	
+		</field>
 
 		<field
 			name="show_print_icon"
@@ -450,7 +450,15 @@
 			description="JField_Alt_Page_title_Desc"
 			size="25"
 			default="" />
-
+		<field
+			id="alternative_readmore"
+			name="alternative_readmore"
+			type="inputbox"
+			label="JField_Readmore_Label"
+			description="JField_Readmore_Desc"
+			class="inputbox"
+			size="25"
+			default="" />
 		<field
 			name="layout"
 			type="componentlayout"

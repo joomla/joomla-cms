@@ -12,7 +12,7 @@
 	<copyright>2009</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>0.6</version>
-	<description>Administrator template for Joomla 1.6</description>
+	<description>BLUESTORK_DESC</description>
 	<files>
 		<filename>index.php</filename>
 		<filename>login.php</filename>
@@ -44,8 +44,8 @@
 			name="useRoundedCorners"
 			type="list"
 			default="1"
-			label="Use Rounded Corners"
-			description="Enable/Disable Rounded Corner Effect">
+			label="Use_Rounded_Corners"
+			description="Enable/Disable_Rounded_Corner_Effect">
 			<option
 				value="0">JDISABLED</option>
 			<option
@@ -55,8 +55,8 @@
 			name="showSiteName"
 			type="list"
 			default="0"
-			label="Show Site Name"
-			description="Show the site name in the template header">
+			label="Show_Site_Name"
+			description="Show_Site_Name_Desc">
 			<option
 				value="0">JDISABLED</option>
 			<option
@@ -67,8 +67,8 @@
 			name="textBig"
 			type="list"
 			default="0"
-			label="Bigger Text"
-			description="Turn on to increase size of text">
+			label="Bigger_Text"
+			description="BIGGER_TEXT_DESC">
 			<option
 				value="0">JDISABLED</option>
 			<option
@@ -79,8 +79,8 @@
 			name="highContrast"
 			type="list"
 			default="0"
-			label="High Contrast"
-			description="Turn on for high-contrast version">
+			label="High_Contrast"
+			description="High_Contrast_Desc">
 			<option
 				value="0">JDISABLED</option>
 			<option

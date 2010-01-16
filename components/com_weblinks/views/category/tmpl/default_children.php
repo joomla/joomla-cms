@@ -11,9 +11,9 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (empty($this->children)) : ?>
-
+<p><?php  echo JText::_('JContent_No_Children'); ?></p>
 <?php else : ?>
-	<h5>Sub Categories</h5>
+	<h3><?php  echo JText::_('JContent_Children'); ?></h3>
 <?php
 	// Initialise the starting level
 	// starting level is the parent level coming in

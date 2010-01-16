@@ -17,8 +17,8 @@
 			name="id"
 			type="modal_contacts"
 			default=""
-			label="Select Contact"
-			description="The contact to link to"
+			label="COM_CONTACT_SELECT_CONTACT_LABEL"
+			description="COM_CONTACT_SELECT_CONTACT_DESC"
 			required="true"
 			/>
 	</fields>
@@ -84,7 +84,7 @@
 	<fields
 		group="params"
 		label="Contact_Contact_Settings_Label"
-		description="Contact_Contact_Settings_Desc">
+		description="">
 		<field
 			name="show_name"
 			type="list"
@@ -104,7 +104,7 @@
 			type="list"
 			default="1"
 			label="Contact_Params_Contact_Position_Label"
-			description="Contact_Params_Name_Desc">
+			description="Contact_Params_Contact_Position_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -117,8 +117,8 @@
 			name="show_email"
 			type="list"
 			default="0"
-			label="Contact_Params_Contact_Position_E-mail_Label"
-			description="Contact_Params_Name_Desc">
+			label="Contact_Params_Contact_E-mail_Label"
+			description="Contact_Params_Contact_E-mail_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -132,7 +132,7 @@
 			type="list"
 			default="1"
 			label="Contact_Params_Street_Address_Label"
-			description="Contact_Params_Name_Desc">
+			description="Contact_Params_Street_Address_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -146,7 +146,7 @@
 			type="list"
 			default="1"
 			label="Contact_Params_Town/Suburb_Label"
-			description="Contact_Params_Name_Desc">
+			description="Contact_Params_Town/Suburb_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -160,7 +160,7 @@
 			type="list"
 			default="1"
 			label="Contact_Params_State/County_Label"
-			description="Contact_Params_Name_Desc">
+			description="Contact_Params_State/County_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -174,7 +174,7 @@
 			type="list"
 			default="1"
 			label="Contact_Params_Post/Zip_Code_Label"
-			description="Contact_Params_Name_Desc">
+			description="Contact_Params_Post/Zip_Code_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -188,7 +188,7 @@
 			type="list"
 			default="1"
 			label="Contact_Params_Country_Label"
-			description="Contact_Params_Name_Desc">
+			description="Contact_Params_Country_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -202,7 +202,7 @@
 			type="list"
 			default="1"
 			label="Contact_Params_Telephone_Label"
-			description="Contact_Params_Name_Desc">
+			description="Contact_Params_Telephone_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -216,7 +216,7 @@
 			type="list"
 			default="1"
 			label="Contact_Params_Mobile_Label"
-			description="Contact_Params_Name_Desc">
+			description="Contact_Params_Mobile_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -230,7 +230,7 @@
 			type="list"
 			default="1"
 			label="Contact_Params_Fax_Label"
-			description="Contact_Params_Name_Desc">
+			description="Contact_Params_Fax_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -244,7 +244,7 @@
 			type="list"
 			default="1"
 			label="Contact_Params_Webpage_Label"
-			description="Contact_Params_Name_Desc">
+			description="Contact_Params_Webpage_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -257,8 +257,8 @@
 			name="show_misc"
 			type="list"
 			default="1"
-			label="Contact_Params_Misc Info_Label"
-			description="Contact_Params_Name_Desc">
+			label="Contact_Params_Misc_Info_Label"
+			description="Contact_Params_Misc_Info_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -272,7 +272,7 @@
 			type="list"
 			default="1"
 			label="Contact_Params_Image_Label"
-			description="Contact_Params_Name_Desc">
+			description="Contact_Params_Image_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -286,7 +286,7 @@
 			type="list"
 			default="0"
 			label="Contact_Params_vCard_Label"
-			description="Contact_Params_vCard_Label">
+			description="Contact_Params_vCard_Desc">
 			<option
 				value="0">Jcommon_Hide</option>
 			<option

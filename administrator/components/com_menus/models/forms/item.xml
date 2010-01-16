@@ -39,7 +39,7 @@
 
 		<field
 			name="menutype"
-			type="menus"
+			type="menu"
 			label="Menus_Menu_Assigned_Label"
 			description="Menus_Menu_Assigned_Desc"
 			class="inputbox"
