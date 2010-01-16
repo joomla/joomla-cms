@@ -216,7 +216,7 @@ class JToolBar extends JObject
 				$dirs = array ();
 			}
 
-			$file = JFilterInput::clean(str_replace('_', DS, strtolower($type)).'.php', 'path');
+			$file = JFilterInput::getInstance()->clean(str_replace('_', DS, strtolower($type)).'.php', 'path');
 
 			jimport('joomla.filesystem.path');
 			if ($buttonFile = JPath::find($dirs, $file)) {
