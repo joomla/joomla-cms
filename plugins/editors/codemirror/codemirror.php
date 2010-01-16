@@ -22,7 +22,7 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Base path for editor files
 	 */
-	protected $_basePath = 'plugins/editors/codemirror/';
+	protected $_basePath = 'plugins/editors/codemirror/codemirror/';
 
 	/**
 	 * Initialises the Editor.
