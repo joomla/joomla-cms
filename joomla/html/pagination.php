@@ -95,7 +95,7 @@ class JPagination extends JObject
 		 * then set limitstart to display the last natural page of results
 		 */
 		if ($this->limitstart > $this->total - $this->limit) {
-			$this->limitstart = (int)(ceil($this->total / $this->limit) - 1) * $this->limit;
+			$this->limitstart = max(0, (int)(ceil($this->total / $this->limit) - 1) * $this->limit);
 		}
 
 		// Set the total pages and current page values.
