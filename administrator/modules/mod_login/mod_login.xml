@@ -22,7 +22,7 @@
 			type="radio"
 			default="0"
 			label="Encrypt Login Form"
-			description="Submit encrypted login data requires SSL">
+			description="SUBMIT_ENCRYPTED_LOGIN_DATA_DESC">
 			<option
 				value="0">JNo</option>
 			<option

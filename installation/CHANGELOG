@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jan-2010 Mark Dexter
+# Fix invalid language files in login.
+
 16-Jan-2010 Andrew Eddie
  # Fixed integrity of component_id's in jos_menu core and sample data.
  ^ Hard coded extension_id's in jos_extensions.
