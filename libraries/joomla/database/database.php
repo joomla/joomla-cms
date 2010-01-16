@@ -658,9 +658,10 @@ abstract class JDatabase extends JObject
 	 * Load a associactive list of database rows
 	 *
 	 * @param	string	The field name of a primary key
+	 * @param	string	An optional column name. Instead of the whole row, only this column value will be in the return array.
 	 * @return	array	If key is empty as sequential list of returned records.
 	 */
-	abstract public function loadAssocList($key='');
+	abstract public function loadAssocList($key = null, $column = null);
 
 	/**
 	 * This global function loads the first row of a query into an object

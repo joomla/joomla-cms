@@ -397,19 +397,21 @@ class JDatabaseMySQLi extends JDatabase
 	 * Load a assoc list of database rows
 	 *
 	 * @param	string	The field name of a primary key
+	 * @param	string	An optional column name. Instead of the whole row, only this column value will be in the return array.
 	 * @return	array	If <var>key</var> is empty as sequential list of returned records.
 	 */
-	public function loadAssocList($key='')
+	public function loadAssocList($key = null, $column = null)
 	{
 		if (!($cur = $this->query())) {
 			return null;
 		}
 		$array = array();
 		while ($row = mysqli_fetch_assoc($cur)) {
+			$value = ($column) ? (isset($row[$column]) ? $row[$column] : $row) : $row;
 			if ($key) {
-				$array[$row[$key]] = $row;
+				$array[$row[$key]] = $value;
 			} else {
-				$array[] = $row;
+				$array[] = $value;
 			}
 		}
 		mysqli_free_result($cur);
