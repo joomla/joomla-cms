@@ -53,6 +53,7 @@ $ -> Language fix or change
 # Load third party translation when stored in extension folder for CategoriesHelper (#18595)
 # Correct of bug #18458 in JPagination class
 # Correct the JControllerForm class: method_exists return true even for inherited method. Use of property_exists instead
+# Correct the _context property in CategoriesControllerCategory and CategoriesModelCategories
 $ Add the Content_Page_View_article in administrator/language/en-GB/en-GB.com_content.ini
 $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_Show_All_Levels
 

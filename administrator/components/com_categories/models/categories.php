@@ -24,7 +24,7 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @var		string
 	 */
-	public $_context = 'com_categories.articles';
+	public $_context = 'com_categories';
 
 	/**
 	 * Method to auto-populate the model state.
@@ -35,11 +35,12 @@ class CategoriesModelCategories extends JModelList
 	{
 		$app = JFactory::getApplication();
 
-		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
 		$extension = $app->getUserStateFromRequest($this->_context.'.filter.extension', 'extension');
 		$this->setState('filter.extension', $extension);
+		if (!empty($extension)) $this->_context.=".$extension";
+
+		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
 		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
@@ -133,12 +134,12 @@ class CategoriesModelCategories extends JModelList
 			else if (stripos($search, 'author:') === 0)
 			{
 				$search = $this->_db->Quote('%'.$this->_db->getEscaped(substr($search, 7), true).'%');
-				$query->where('ua.name LIKE '.$search.' OR ua.username LIKE '.$search);
+				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			}
 			else
 			{
 				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
-				$query->where('a.title LIKE '.$search.' OR a.alias LIKE '.$search);
+				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
 
