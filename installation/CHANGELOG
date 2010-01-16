@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jan-2010 Andrew Eddie
+ # Fixed integrity of component_id's in jos_menu core and sample data.
+ ^ Hard coded extension_id's in jos_extensions.
+
 16-Jan-2010 Christophe Demko
 ^ Change the JHtmlAccess::section function to a JHtmlAccess::level function. Add the possibility to give extraoptions and to give an id
 + Add loading JFormField class in some fields
