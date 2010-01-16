@@ -206,7 +206,7 @@ class JControllerForm extends JController
 		// Get the previous record id (if any) and the current record id.
 		$previousId	= (int) $app->getUserState($context.'.id');
 		$recordId	= (int) (count($cid) ? $cid[0] : JRequest::getInt('id'));
-		$checkin	= method_exists($model, 'checkin');
+		$checkin	= property_exists($table, 'checked_out');
 
 		// Access check.
 		$key		= $table->getKeyName();
@@ -254,7 +254,8 @@ class JControllerForm extends JController
 		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= &$this->getModel();
-		$checkin	= method_exists($model, 'checkin');
+		$table		= $model->getTable();
+		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->_option.edit.$this->_context";
 
 		// Get the record id.
@@ -314,7 +315,7 @@ class JControllerForm extends JController
 		$model		= $this->getModel();
 		$table		= $model->getTable();
 		$data		= JRequest::getVar('jform', array(), 'post', 'array');
-		$checkin	= method_exists($model, 'checkin');
+		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->_option.edit.$this->_context";
 		$task		= $this->getTask();
 		$recordId	= (int) $app->getUserState($context.'.id');
