@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Jan-2010 Jean-Marie Simonet
+^ Improve default alias transliteration
+
 18-Jan-2010 Andrew Eddie
  # Fixed PHP notice when invalid itemid processed by JRouterSite; JRouter* code-formatting.
 
