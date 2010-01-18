@@ -2,12 +2,12 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	Massmail
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+ * @subpackage	com_users
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
+// no direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');

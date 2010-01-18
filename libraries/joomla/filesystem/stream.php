@@ -1,22 +1,10 @@
 <?php
 /**
- * Joomla! Stream Interface
- *
- * The Joomla! stream interface is designed to handle files as streams
- * where as the legacy JFile static class treated files in a rather
- * atomic manner.
- *
- * This class adheres to the stream wrapper operations:
- * http://www.php.net/manual/en/function.stream-get-wrappers.php
- *
- * PHP5
- *
- * Created on Sep 17, 2008
- *
- * @package Joomla!
- * @license GNU General Public License version 2 or later; see LICENSE.txt
- * @copyright 2008 OpenSourceMatters.org
- * @version SVN: $Id$
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	FileSystem
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access.
@@ -26,7 +14,15 @@ jimport('joomla.filesystem.helper');
 jimport('joomla.utilities.utility');
 
 /**
- * Joomla! Stream Class
+ * Joomla! Stream Interface
+ *
+ * The Joomla! stream interface is designed to handle files as streams
+ * where as the legacy JFile static class treated files in a rather
+ * atomic manner.
+ *
+ * This class adheres to the stream wrapper operations:
+ * http://www.php.net/manual/en/function.stream-get-wrappers.php
+ *
  * @see http://au.php.net/manual/en/intro.stream.php PHP Stream Manual
  * @see http://au.php.net/manual/en/wrappers.php Stream Wrappers
  * @see http://au.php.net/manual/en/filters.php Stream Filters

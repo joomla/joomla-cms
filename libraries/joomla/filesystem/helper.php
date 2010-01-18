@@ -1,26 +1,23 @@
 <?php
 /**
- * File system helper
- *
- * Holds support functions for the filesystem, particularly the stream
- *
- * PHP5
- *
- * Created on Sep 22, 2008
- *
- * @package Joomla
- * @subpackage Filesystem
- * @license GNU General Public License version 2 or later; see LICENSE.txt
- * @copyright 2008 OpenSourceMatters
- * @version SVN: $Id$
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	FileSystem
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+// No direct access
+defined('JPATH_BASE') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
+/**
+ * File system helper
+ *
+ * Holds support functions for the filesystem, particularly the stream
+ */
 class JFilesystemHelper {
 	// ----------------------------
 	// Support Functions; should probably live in a helper?
