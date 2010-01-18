@@ -44,7 +44,7 @@ class JRegistry extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	public function __construct($namespace = 'default')
+	public function __construct($namespace = '_default')
 	{
 		$this->_defaultNameSpace = $namespace;
 		$this->makeNameSpace($namespace);
@@ -75,7 +75,7 @@ class JRegistry extends JObject
 	 * @return	object	The JRegistry object.
 	 * @since	1.5
 	 */
-	public static function getInstance($id, $namespace = 'default')
+	public static function getInstance($id, $namespace = '_default')
 	{
 		static $instances;
 
