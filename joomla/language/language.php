@@ -241,7 +241,7 @@ class JLanguage extends JObject
 	 * @return	string|function Function name or the actual function for PHP 5.3
 	 * @since 	1.6
 	 */
-	public public function getTransliterator()
+	public function getTransliterator()
 	{
 		return $this->_transliterator;
 	}
