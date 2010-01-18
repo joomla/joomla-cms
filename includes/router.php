@@ -24,15 +24,14 @@ class JRouterSite extends JRouter
 	 *
 	 * @return	array
 	 */
-	public function parse(&$uri)
+	public public function parse(&$uri)
 	{
 		$vars = array();
 
 		// Get the application
 		$app = &JFactory::getApplication();
 
-		if ($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https')
-		{
+		if ($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https') {
 			//forward to https
 			$uri->setScheme('https');
 			$app->redirect($uri->toString());
@@ -43,13 +42,9 @@ class JRouterSite extends JRouter
 		$path = $uri->getPath();
 
 		//Remove the suffix
-		if ($this->_mode == JROUTER_MODE_SEF)
-		{
-
-			if ($app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
-			{
-				if ($suffix = pathinfo($path, PATHINFO_EXTENSION))
-				{
+		if ($this->_mode == JROUTER_MODE_SEF) {
+			if ($app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/')) {
+				if ($suffix = pathinfo($path, PATHINFO_EXTENSION)) {
 					$path = str_replace('.'.$suffix, '', $path);
 					$vars['format'] = $suffix;
 				}
@@ -70,7 +65,7 @@ class JRouterSite extends JRouter
 		return $vars;
 	}
 
-	function &build($url)
+	public function &build($url)
 	{
 		$uri = &parent::build($url);
 
@@ -78,21 +73,17 @@ class JRouterSite extends JRouter
 		$route = $uri->getPath();
 
 		//Add the suffix to the uri
-		if ($this->_mode == JROUTER_MODE_SEF && $route)
-		{
+		if ($this->_mode == JROUTER_MODE_SEF && $route) {
 			$app = &JFactory::getApplication();
 
-			if ($app->getCfg('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
-			{
-				if ($format = $uri->getVar('format', 'html'))
-				{
+			if ($app->getCfg('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/')) {
+				if ($format = $uri->getVar('format', 'html')) {
 					$route .= '.'.$format;
 					$uri->delVar('format');
 				}
 			}
 
-			if ($app->getCfg('sef_rewrite'))
-			{
+			if ($app->getCfg('sef_rewrite')) {
 				//Transform the route
 				$route = str_replace('index.php/', '', $route);
 			}
@@ -104,17 +95,19 @@ class JRouterSite extends JRouter
 		return $uri;
 	}
 
-	function _parseRawRoute(&$uri)
+	protected function _parseRawRoute(&$uri)
 	{
 		$vars   = array();
 
 		$menu = &JSite::getMenu(true);
 
 		//Handle an empty URL (special case)
-		if (!$uri->getVar('Itemid') && !$uri->getVar('option'))
-		{
+		if (!$uri->getVar('Itemid') && !$uri->getVar('option')) {
 			$item = $menu->getDefault();
-			if (!is_object($item)) return $vars; // No default item set
+			if (!is_object($item)) {
+				// No default item set
+				return $vars;
+			}
 
 			//Set the information in the request
 			$vars = $item->query;
@@ -135,8 +128,7 @@ class JRouterSite extends JRouter
 		$this->setVar('Itemid', JRequest::getInt('Itemid', null));
 
 		//Only an Itemid ? Get the full information from the itemid
-		if (count($this->getVars()) == 1)
-		{
+		if (count($this->getVars()) == 1) {
 			$item = $menu->getItem($this->getVar('Itemid'));
 			$vars = $vars + $item->query;
 		}
@@ -147,21 +139,19 @@ class JRouterSite extends JRouter
 		return $vars;
 	}
 
-	function _parseSefRoute(&$uri)
+	protected function _parseSefRoute(&$uri)
 	{
 		$vars   = array();
 
 		$menu  = &JSite::getMenu(true);
 		$route = $uri->getPath();
 
-		//Get the variables from the uri
+		// Get the variables from the uri
 		$vars = $uri->getQuery(true);
 
-		//Handle an empty URL (special case)
-		if (empty($route))
-		{
-
-			//If route is empty AND option is set in the query, assume it's non-sef url, and parse apropriately
+		// Handle an empty URL (special case)
+		if (empty($route)) {
+			// If route is empty AND option is set in the query, assume it's non-sef url, and parse apropriately
 			if (isset($vars['option']) || isset($vars['Itemid'])) {
 				return $this->_parseRawRoute($uri);
 			}
@@ -183,25 +173,20 @@ class JRouterSite extends JRouter
 		/*
 		 * Parse the application route
 		 */
-		if (substr($route, 0, 9) == 'component')
-		{
+		if (substr($route, 0, 9) == 'component') {
 			$segments	= explode('/', $route);
 			$route      = str_replace('component/'.$segments[1], '', $route);
 
 			$vars['option'] = 'com_'.$segments[1];
 			$vars['Itemid'] = null;
-		}
-		else
-		{
+		} else {
 			//Need to reverse the array (highest sublevels first)
 			$items = array_reverse($menu->getMenu());
 
-			foreach ($items as $item)
-			{
+			foreach ($items as $item) {
 				$lenght = strlen($item->route); //get the lenght of the route
 
-				if ($lenght > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink')
-				{
+				if ($lenght > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
 					$route   = substr($route, $lenght);
 
 					$vars['Itemid'] = $item->id;
@@ -222,8 +207,7 @@ class JRouterSite extends JRouter
 		/*
 		 * Parse the component route
 		 */
-		if (!empty($route) && isset($this->_vars['option']))
-		{
+		if (!empty($route) && isset($this->_vars['option'])) {
 			$segments = explode('/', $route);
 			array_shift($segments);
 
@@ -233,13 +217,12 @@ class JRouterSite extends JRouter
 			// Use the component routing handler if it exists
 			$path = JPATH_SITE.DS.'components'.DS.$component.DS.'router.php';
 
-			if (file_exists($path) && count($segments))
-			{
+			if (file_exists($path) && count($segments)) {
 				if ($component != "com_search") { // Cheap fix on searches
 					//decode the route segments
 					$segments = $this->_decodeSegments($segments);
-				}
-				else { // fix up search for URL
+				} else {
+					// fix up search for URL
 					$total = count($segments);
 					for ($i=0; $i<$total; $i++) {
 						// urldecode twice because it is encoded twice
@@ -253,9 +236,7 @@ class JRouterSite extends JRouter
 
 				$this->setVars($vars);
 			}
-		}
-		else
-		{
+		} else {
 			//Set active menu item
 			if ($item = &$menu->getActive()) {
 				$vars = $item->query;
@@ -265,11 +246,11 @@ class JRouterSite extends JRouter
 		return $vars;
 	}
 
-	function _buildRawRoute(&$uri)
+	protected function _buildRawRoute(&$uri)
 	{
 	}
 
-	function _buildSefRoute(&$uri)
+	protected function _buildSefRoute(&$uri)
 	{
 		// Get the route
 		$route = $uri->getPath();
@@ -293,20 +274,16 @@ class JRouterSite extends JRouter
 		$path = JPATH_SITE.DS.'components'.DS.$component.DS.'router.php';
 
 		// Use the custom routing handler if it exists
-		if (file_exists($path) && !empty($query))
-		{
+		if (file_exists($path) && !empty($query)) {
 			require_once $path;
 			$function	= substr($component, 4).'BuildRoute';
 			$parts		= $function($query);
 
 			// encode the route segments
-			if ($component != 'com_search')
-			{
+			if ($component != 'com_search') {
 				// Cheep fix on searches
 				$parts = $this->_encodeSegments($parts);
-			}
-			else
-			{
+			} else {
 				// fix up search for URL
 				$total = count($parts);
 				for ($i = 0; $i < $total; $i++)
@@ -324,11 +301,9 @@ class JRouterSite extends JRouter
 		 * Build the application route
 		 */
 		$built = false;
-		if (isset($query['Itemid']) && !empty($query['Itemid']))
-		{
+		if (isset($query['Itemid']) && !empty($query['Itemid'])) {
 			$item = $menu->getItem($query['Itemid']);
-			if (is_object($item) && $query['option'] == $item->component)
-			{
+			if (is_object($item) && $query['option'] == $item->component) {
 				$tmp = !empty($tmp) ? $item->route.'/'.$tmp : $item->route;
 				$built = true;
 			}
@@ -349,18 +324,16 @@ class JRouterSite extends JRouter
 		$uri->setPath($route);
 	}
 
-	function _processParseRules(&$uri)
+	protected function _processParseRules(&$uri)
 	{
 		// Process the attached parse rules
 		$vars = parent::_processParseRules($uri);
 
 		// Process the pagination support
-		if ($this->_mode == JROUTER_MODE_SEF)
-		{
+		if ($this->_mode == JROUTER_MODE_SEF) {
 			$app = &JFactory::getApplication();
 
-			if ($start = $uri->getVar('start'))
-			{
+			if ($start = $uri->getVar('start')) {
 				$uri->delVar('start');
 				$vars['limitstart'] = $start;
 			}
@@ -369,11 +342,10 @@ class JRouterSite extends JRouter
 		return $vars;
 	}
 
-	function _processBuildRules(&$uri)
+	protected function _processBuildRules(&$uri)
 	{
 		// Make sure any menu vars are used if no others are specified
-		if (($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
-		{
+		if (($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2) {
 			$menu = &JSite::getMenu();
 
 			// Get the active menu item
@@ -390,12 +362,10 @@ class JRouterSite extends JRouter
 		// Get the path data
 		$route = $uri->getPath();
 
-		if ($this->_mode == JROUTER_MODE_SEF && $route)
-		{
+		if ($this->_mode == JROUTER_MODE_SEF && $route) {
 			$app = &JFactory::getApplication();
 
-			if ($limitstart = $uri->getVar('limitstart'))
-			{
+			if ($limitstart = $uri->getVar('limitstart')) {
 				$uri->setVar('start', (int) $limitstart);
 				$uri->delVar('limitstart');
 			}
@@ -404,7 +374,7 @@ class JRouterSite extends JRouter
 		$uri->setPath($route);
 	}
 
-	function &_createURI($url)
+	protected function &_createURI($url)
 	{
 		//Create the URI
 		$uri = &parent::_createURI($url);
@@ -415,17 +385,13 @@ class JRouterSite extends JRouter
 		// Get the itemid form the URI
 		$itemid = $uri->getVar('Itemid');
 
-		if (is_null($itemid))
-		{
-			if ($option = $uri->getVar('option'))
-			{
+		if (is_null($itemid)) {
+			if ($option = $uri->getVar('option')) {
 				$item  = $menu->getItem($this->getVar('Itemid'));
 				if (isset($item) && $item->component == $option) {
 					$uri->setVar('Itemid', $item->id);
 				}
-			}
-			else
-			{
+			} else {
 				if ($option = $this->getVar('option')) {
 					$uri->setVar('option', $option);
 				}
@@ -434,13 +400,11 @@ class JRouterSite extends JRouter
 					$uri->setVar('Itemid', $itemid);
 				}
 			}
-		}
-		else
-		{
-			if (!$uri->getVar('option'))
-			{
-				$item  = $menu->getItem($itemid);
-				$uri->setVar('option', $item->component);
+		} else {
+			if (!$uri->getVar('option')) {
+				if ($item = $menu->getItem($itemid)) {
+					$uri->setVar('option', $item->component);
+				}
 			}
 		}
 

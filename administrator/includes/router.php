@@ -29,7 +29,7 @@ class JRouterAdministrator extends JRouter
 	/**
 	 * Function to convert an internal URI to a route
 	 *
-	 * @param	string	$string	The internal URL
+	 * @param	string	The internal URL
 	 * @return	string	The absolute search engine friendly URL
 	 * @since	1.5
 	 */
