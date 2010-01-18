@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id$ -->
+<form>
+	<fields>
+		<field
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true" />
+
+		<field
+			name="name"
+			type="text"
+			label="Comments_Field_Name_Label"
+			description="Comments_Field_Name_Desc"
+			class="inputbox"
+			size="30"
+			required="true" />
+
+		<field
+			name="url"
+			type="text"
+			label="Comments_Field_URL_Label"
+			description="Comments_Field_URL_Desc"
+			class="inputbox"
+			size="30"
+			filter="uri" />
+
+		<field
+			name="email"
+			type="text"
+			label="Comments_Field_Email_Label"
+			description="Comments_Field_Email_Desc"
+			class="inputbox"
+			size="30"
+			readonly="true" />
+
+		<field
+			name="subject"
+			type="text"
+			label="Comments_Field_Subject_Label"
+			description="Comments_Field_Subject_Desc"
+			class="inputbox"
+			size="30"
+			required="true" />
+
+		<field
+			name="body"
+			type="textarea"
+			label="Comments_Field_Body_Label"
+			description="Comments_Field_Body_Desc"
+			class="inputbox"
+			rows="10"
+			cols="80"
+			required="true" />
+
+		<field
+			name="created_date"
+			type="text"
+			label="Comments_Field_Created_Date_Label"
+			description="Comments_Field_Created_Date_Desc"
+			class="readonly"
+			size="16"
+			readonly="true" />
+
+		<field
+			name="published"
+			type="list"
+			label="JField_Published_Label"
+			description="JField_Published_Desc"
+			class="inputbox"
+			size="1"
+			default="0">
+			<option
+				value="0">
+				COMMENTS_DEFER</option>
+			<option
+				value="1">
+				COMMENTS_PUBLISHED</option>
+			<option
+				value="-1">
+				COMMENTS_SPAM</option>
+			<option
+				value="-2">
+				JOption_Trashed</option>
+		</field>
+
+
+		<field
+			name="address"
+			type="text"
+			label="Comments_Field_Address_Label"
+			description="Comments_Field_Address_Desc"
+			class="inputbox"
+			size="30"
+			readonly="true" />
+	</fields>
+</form>
