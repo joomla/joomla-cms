@@ -86,14 +86,14 @@ class JRegistryFormatINI extends JRegistryFormat
 
 		if (is_string($data)) {
 			$lines = explode("\n", $data);
-			$hash = md5($data);
+			$hash = md5(intval($process_sections).$data);
 		} else {
 			if (is_array($data)) {
 				$lines = $data;
 			} else {
 				$lines = array ();
 			}
-			$hash = md5(implode("\n",$lines));
+			$hash = md5(intval($process_sections).implode("\n",$lines));
 		}
 
 		if (array_key_exists($hash, $inistocache)) {
