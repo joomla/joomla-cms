@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Jan-2010 Jean-Marie Simonet
+^ Added Description metadata in plugins edit screen
+
 18-Jan-2010 Hannes Papenberg
 # Changed default namespace of JRegistry from 'default' to '_default' - Thanks Robert Deutz!
 

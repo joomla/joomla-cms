@@ -49,6 +49,20 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('element'); ?>
 			<?php echo $this->form->getInput('element'); ?>
+			
+			<br class="clr" />
+			
+			<!-- Plugin metadata -->
+			<?php if ($this->item->xml) : ?>
+				<?php if ($text = (string) $this->item->xml->description) : ?>
+					<label>
+						<?php echo JText::_('PLUGN_XML_DESC'); ?>
+					</label>
+					<?php echo $this->escape(JText::_($text)); ?>
+				<?php endif; ?>
+			<?php else : ?>
+				<?php echo JText::_('PLUGN_XML_ERR'); ?>
+			<?php endif; ?>
 
 		</fieldset>
 	</div>
