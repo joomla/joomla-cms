@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Jan-2010 Andrew Eddie
+ + Added JHtmlImage::system helper.
+ ^ Changed JHtmlGrid::sort to use new system images check.
+
 18-Jan-2010 Louis Landry
 ^ Adjust copyright notices for 2010
 
