@@ -24,7 +24,7 @@ class JRouterSite extends JRouter
 	 *
 	 * @return	array
 	 */
-	public public function parse(&$uri)
+	public function parse(&$uri)
 	{
 		$vars = array();
 
