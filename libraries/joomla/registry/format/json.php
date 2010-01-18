@@ -7,11 +7,11 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('JPATH_BASE') or die;
 
 /**
- * JSON format handler for JRegistry
+ * JSON format handler for JRegistry.
  *
  * @package 	Joomla.Framework
  * @subpackage	Registry
@@ -20,29 +20,28 @@ defined('JPATH_BASE') or die;
 class JRegistryFormatJSON extends JRegistryFormat
 {
 	/**
-	 * Converts an object into an INI formatted string
+	 * Converts an object into a JSON formatted string.
 	 * 	-	Unfortunately, there is no way to have ini values nested further than two
 	 * 		levels deep.  Therefore we will only go through the first two levels of
 	 * 		the object.
 	 *
-	 * @access public
-	 * @param object $object Data Source Object
-	 * @param array  $param  Parameters used by the formatter
-	 * @return string INI Formatted String
+	 * @param	object	Data source object.
+	 * @param	array	Options used by the formatter.
+	 * @return	string	JSON formatted string.
 	 */
-	public function objectToString(&$object, $params)
+	public function objectToString($object, $params)
 	{
-		$string = json_encode($object);
-		return $string;
+		return json_encode($object);
 	}
 
 	/**
-	 * Parse an .ini string, based on phpDocumentor phpDocumentor_parse_ini_file function
+	 * Parse a JSON formatted string and convert it into an object.
 	 *
-	 * @access public
-	 * @param mixed The INI string or array of lines
-	 * @param boolean add an associative index for each section [in brackets]
-	 * @return object Data Object
+	 * If the string is not in JSON format, this method will attempt to parse it as INI format.
+	 *
+	 * @param	string	JSON formatted string to convert.
+	 * @param	array	Options used by the formatter.
+	 * @return	object	Data object.
 	 */
 	public function stringToObject($data, $process_sections = false)
 	{
@@ -50,8 +49,7 @@ class JRegistryFormatJSON extends JRegistryFormat
 		if ((substr($data, 0, 1) != '{') && (substr($data, -1, 1) != '}')) {
 			$ini = & JRegistryFormat::getInstance('INI');
 			$obj = $ini->stringToObject($data, $process_sections);
-		}
-		else {
+		} else {
 			$obj = json_decode($data);
 		}
 		return $obj;

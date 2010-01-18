@@ -11,44 +11,29 @@
 defined('JPATH_BASE') or die;
 
 /**
- * XML Format for JRegistry
+ * XML format handler for JRegistry.
  *
  * @package 	Joomla.Framework
- * @subpackage		Registry
+ * @subpackage	Registry
  * @since		1.5
  */
-class JRegistryFormatXML extends JRegistryFormat {
-
+class JRegistryFormatXML extends JRegistryFormat
+{
 	/**
-	 * Converts an XML formatted string into an object
-	 *
-	 * @access public
-	 * @param string  XML Formatted String
-	 * @return object Data Object
-	 */
-	function stringToObject($data, $namespace='')
-	{
-		return true;
-	}
-
-	/**
-	 * Converts an object into an XML formatted string
+	 * Converts an object into an XML formatted string.
 	 * 	-	If more than two levels of nested groups are necessary, since INI is not
 	 * 		useful, XML or another format should be used.
 	 *
-	 * @access public
-	 * @param object $object Data Source Object
-	 * @param array  $param  Parameters used by the formatter
-	 * @return string XML Formatted String
+	 * @param	object	Data source object.
+	 * @param	array	Options used by the formatter.
+	 * @return	string	XML formatted string.
 	 */
-	public function objectToString(&$object, $params)
+	public function objectToString($object, $params)
 	{
 		$depth = 1;
 		$retval = "<?xml version=\"1.0\" ?>\n<config>\n";
-		foreach (get_object_vars($object) as $key=>$item)
-		{
-			if (is_object($item))
-			{
+		foreach (get_object_vars($object) as $key=>$item) {
+			if (is_object($item)) {
 				$retval .= "\t<group name=\"".$key."\">\n";
 				$retval .= $this->_buildXMLstringLevel($item, $depth+1);
 				$retval .= "\t</group>\n";
@@ -63,24 +48,21 @@ class JRegistryFormatXML extends JRegistryFormat {
 	/**
 	 * Method to build a level of the XML string -- called recursively
 	 *
-	 * @access private
-	 * @param object $object Object that represents a node of the xml document
-	 * @param int $depth The depth in the XML tree of the $object node
-	 * @return string XML string
+	 * @param	object	Object that represents a node of the xml document
+	 * @param	int		The depth in the XML tree of the $object node
+	 * @return	string	XML string
 	 */
 	protected function _buildXMLstringLevel($object, $depth)
 	{
 		// Initialise variables.
 		$retval = '';
 		$tab	= '';
-		for ($i=1;$i <= $depth; $i++) {
+		for ($i = 1;$i <= $depth; $i++) {
 			$tab .= "\t";
 		}
 
-		foreach (get_object_vars($object) as $key=>$item)
-		{
-			if (is_object($item))
-			{
+		foreach (get_object_vars($object) as $key=>$item) {
+			if (is_object($item)) {
 				$retval .= $tab."<group name=\"".$key."\">\n";
 				$retval .= $this->_buildXMLstringLevel($item, $depth+1);
 				$retval .= $tab."</group>\n";
@@ -89,5 +71,16 @@ class JRegistryFormatXML extends JRegistryFormat {
 			}
 		}
 		return $retval;
+	}
+
+	/**
+	 * Parse a XML formatted string and convert it into an object.
+	 *
+	 * @param	string	XML Formatted String
+	 * @return	object	Data object.
+	 */
+	public function stringToObject($data, $namespace='')
+	{
+		return true;
 	}
 }
