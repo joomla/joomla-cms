@@ -24,9 +24,8 @@ abstract class JRegistryFormat extends JObject
 	 * Returns a Format object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param	string	$format	The format to load
+	 * @param	string	The format to load
 	 * @return	object	Registry format handler
-	 * @since	1.5
 	 */
 	public static function getInstance($format)
 	{
@@ -71,5 +70,5 @@ abstract class JRegistryFormat extends JObject
 	 * @return	string	Formatted string
 	 * @since	1.5
 	 */
-	abstract public function objectToString(&$object, $params);
+	abstract public function objectToString($object, $params);
 }
