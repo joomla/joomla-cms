@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Jan-2010 Hannes Papenberg
+# Renamed the folder for the profile plugin to profile from profiles
+
 19-Jan-2010 Jean-Marie Simonet
 ^ Modified example content plugin xml. Added a language folder with a sample ini file
 
