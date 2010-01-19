@@ -104,7 +104,7 @@ class JParameter extends JRegistry
 	 * @return	string
 	 * @since	1.5
 	 */
-	public function get($key, $default = '', $group = 'default')
+	public function get($key, $default = '', $group = '_default')
 	{
 		$value = $this->getValue($group.'.'.$key);
 		$result = (empty($value) && ($value !== 0) && ($value !== '0')) ? $default : $value;
