@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Jan-2010 Jean-Marie Simonet
+^ Modified example content plugin xml. Added a language folder with a sample ini file
+
 19-Jan-2010 Andrew Eddie
  + Added JHtmlImage::system helper.
  ^ Changed JHtmlGrid::sort to use new system images check.

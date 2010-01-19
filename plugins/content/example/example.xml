@@ -2,14 +2,26 @@
 <install version="1.6" type="plugin" group="content">
 	<name>Content - Example</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2007</creationDate>
+	<creationDate>July 2010</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0</version>
-	<description>An example content plugin</description>
+	<description>PLG_CONT_EXAMPLE_DESC</description>
+
 	<files>
 		<filename plugin="example">example.php</filename>
+		<folder>language</folder> // if you want to install the language files in the plugin folder. Create a "language" folder at the root of the pack i.e language/en-GB/en-GB.plg_content_example.ini
 	</files>
+	<languages> // if you want to install the language files in the Site language folder.
+		<language tag="en-GB">en-GB.plg_content_example.ini</language>
+	</languages>
+	<administration> // if you want to install the language files in the Administrator language folder. As of 1.6, plugins language files can be installed in Site and Administrator folders. Create an "admin" folder at the root of the pack i.e admin/en-GB.plg_content_example.ini
+		<languages>
+			<language tag="en-GB">admin/en-GB.plg_content_example.ini</language>
+		</languages>
+	</administration>
+	<params>
+	</params>
 </install>
