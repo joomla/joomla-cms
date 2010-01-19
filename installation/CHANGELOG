@@ -29,6 +29,11 @@ $ -> Language fix or change
 
 19-Jan-2010 Hannes Papenberg
 # Renamed the folder for the profile plugin to profile from profiles
+# Improved performance of JArchiveZip by about 30% - Thanks Omar Ramos!
+# Fixed type of the created_by field in the article edit screen - Thanks Omar Ramos!
+# Fixed filter of type selector in plugin manager - Thanks Omar Ramos!
+# Removed obsolete , in media/system/js/rules.js, fixes category saving issue in IE8 - Thanks Omar Ramos!
+
 
 19-Jan-2010 Jean-Marie Simonet
 ^ Modified example content plugin xml. Added a language folder with a sample ini file

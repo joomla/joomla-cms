@@ -100,7 +100,7 @@
 		<field
 			id="created_by"
 			name="created_by"
-			type="text"
+			type="user"
 			label="Content_Created_by_Label"
 			description="Content_Created_by_Desc" />
 

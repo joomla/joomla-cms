@@ -45,7 +45,7 @@ class PluginsModelPlugins extends JModelList
 		$state = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$folder = $app->getUserStateFromRequest($this->_context.'.filter.folder', 'filter_folder', null, 'alnum');
+		$folder = $app->getUserStateFromRequest($this->_context.'.filter.folder', 'filter_folder', null, 'cmd');
 		$this->setState('filter.folder', $folder);
 
 		// Load the parameters.
