@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Parameter
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -13,13 +11,13 @@ defined('JPATH_BASE') or die;
 jimport('joomla.registry.registry');
 
 //Register the element class with the loader.
-JLoader::register('JElement', dirname(__FILE__).DS.'parameter'.DS.'element.php');
+JLoader::register('JElement', dirname(__FILE__).'/parameter/element.php');
 
 /**
  * Parameter handler
  *
  * @package 	Joomla.Framework
- * @subpackage		Parameter
+ * @subpackage	Parameter
  * @since		1.5
  */
 class JParameter extends JRegistry
@@ -70,12 +68,10 @@ class JParameter extends JRegistry
 		// Set base path.
 		$this->_elementPath[] = dirname(__FILE__).DS.'parameter'.DS.'element';
 
-		if ($data = trim($data))
-		{
+		if ($data = trim($data)) {
 			if (strpos($data, '{') === 0) {
 				$this->loadJSON($data);
-			}
-			else {
+			} else {
 				$this->loadINI($data);
 			}
 		}
@@ -138,12 +134,10 @@ class JParameter extends JRegistry
 	 */
 	public function setXML(&$xml)
 	{
-		if (is_object($xml))
-		{
+		if (is_object($xml)) {
 			if ($group = $xml->attributes('group')) {
 				$this->_xml[$group] = $xml;
-			}
-			else {
+			} else {
 				$this->_xml['_default'] = $xml;
 			}
 
@@ -164,11 +158,9 @@ class JParameter extends JRegistry
 	{
 		if (is_array($data)) {
 			return $this->loadArray($data, $group);
-		}
-		elseif (is_object($data)) {
+		} elseif (is_object($data)) {
 			return $this->loadObject($data, $group);
-		}
-		else {
+		} else {
 			return $this->loadJSON($data, $group);
 		}
 	}
@@ -195,23 +187,18 @@ class JParameter extends JRegistry
 			$html[]	= '<p class="paramrow_desc">'.$desc.'</p>';
 		}
 
-		foreach ($params as $param)
-		{
-
-
+		foreach ($params as $param) {
 			if ($param[0]) {
 				$html[] = $param[0];
 				$html[] = $param[1];
 			} else {
 				$html[] = $param[1];
 			}
-
 		}
 
 		if (count($params) < 1) {
 			$html[] = "<p class=\"noparams\">".JText::_('THERE_ARE_NO_PARAMETERS_FOR_THIS_ITEM')."</p>";
 		}
-
 
 		return implode(PHP_EOL, $html);
 	}
@@ -246,8 +233,7 @@ class JParameter extends JRegistry
 	{
 		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children())) {
 			return false;
-		}
-		else {
+		} else {
 			return count($this->_xml[$group]->children());
 		}
 	}
@@ -307,8 +293,7 @@ class JParameter extends JRegistry
 		$element = &$this->loadElement($type);
 
 		// Check for an error.
-		if ($element === false)
-		{
+		if ($element === false) {
 			$result = array();
 			$result[0] = $node->attributes('name');
 			$result[1] = JText::_('Element not defined for type').' = '.$type;
@@ -333,22 +318,18 @@ class JParameter extends JRegistry
 	{
 		$result = false;
 
-		if ($path)
-		{
+		if ($path) {
 			$xml = &JFactory::getXMLParser('Simple');
 
-			if ($xml->loadFile($path))
-			{
+			if ($xml->loadFile($path)) {
 				if ($params = &$xml->document->params) {
-					foreach ($params as $param)
-					{
+					foreach ($params as $param) {
 						$this->setXML($param);
 						$result = true;
 					}
 				}
 			}
-		}
-		else {
+		} else {
 			$result = true;
 		}
 
@@ -371,8 +352,7 @@ class JParameter extends JRegistry
 		}
 
 		$elementClass	=	'JElement'.$type;
-		if (!class_exists($elementClass))
-		{
+		if (!class_exists($elementClass)) {
 			if (isset($this->_elementPath)) {
 				$dirs = $this->_elementPath;
 			} else {
@@ -384,16 +364,13 @@ class JParameter extends JRegistry
 			jimport('joomla.filesystem.path');
 			if ($elementFile = JPath::find($dirs, $file)) {
 				include_once $elementFile;
-			}
-			else
-			{
+			} else {
 				$false = false;
 				return $false;
 			}
 		}
 
-		if (!class_exists($elementClass))
-		{
+		if (!class_exists($elementClass)) {
 			$false = false;
 			return $false;
 		}
@@ -422,8 +399,7 @@ class JParameter extends JRegistry
 		settype($path, 'array');
 
 		// Loop through the path directories.
-		foreach ($path as $dir)
-		{
+		foreach ($path as $dir) {
 			// No surrounding spaces allowed!
 			$dir = trim($dir);
 
