@@ -531,7 +531,7 @@ class JForm extends JObject
 		// Check the form control.
 		if ($formControl == '_default' && $this->_options['array'] === false) {
 			$formControl = false;
-		} elseif ($formControl == '_default' && $this->_options['array'] === true) {
+		} elseif ($formControl == '_default' && $this->_options['array'] == true) {
 			$formControl = $this->_options['array'];
 		}
 
@@ -641,7 +641,7 @@ class JForm extends JObject
 		// Check the form control.
 		if ($formControl == '_default' && $this->_options['array'] === false) {
 			$formControl = false;
-		} elseif ($formControl == '_default' && $this->_options['array'] === true) {
+		} elseif ($formControl == '_default' && $this->_options['array'] == true) {
 			$formControl = $this->_options['array'];
 		}
 
