@@ -135,17 +135,26 @@ class JLanguage extends JObject
 			unset($contents);
 		}
 
-		// Look for a special transliterate function for this language
+	// Look for a special transliterate function for this language
 		$function = str_replace('-', '', $lang.'Transliterate');
 		if (function_exists($function)) {
 			$this->_transliterator = $function;
 		} else {
-			// Function does not exist. Try to find it
-			$transFile = JPATH_ROOT.DS.'language'.DS.$lang.DS.$lang.'.transliterate.php';
+			// Function does not exist. Try to find it in the Site language folder
+			$transFile = JPATH_SITE.DS.'language'.DS.$lang.DS.$lang.'.transliterate.php';
 			if (file_exists($transFile)) {
 				require_once $transFile;
 				if (function_exists($function)) {
 					$this->_transliterator = $function;
+				}
+			} else {
+			// Function does not exist. Try to find it in the Administrator language folder
+				$transFile = JPATH_ADMINISTRATOR.DS.'language'.DS.$lang.DS.$lang.'.transliterate.php';
+				if (file_exists($transFile)) {
+					require_once $transFile;
+					if (function_exists($function)) {
+						$this->_transliterator = $function;
+					}
 				}
 			}
 		}

@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jan-2010 Jean-Marie Simonet
++ Added xx-XX administrator language for testing purposes. Included an xx-XX.override.ini and a custom transliteration.php.
+^ Modified language.php to look first for site then admin language folders for the custom transliterate function
+
 19-Jan-2010 Hannes Papenberg
 # Renamed the folder for the profile plugin to profile from profiles
 # Improved performance of JArchiveZip by about 30% - Thanks Omar Ramos!

@@ -371,13 +371,14 @@ INSERT INTO `#__extensions` VALUES
 (24, 'Template Manager', 'component', 'com_templates', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (25, 'User Manager', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUserRegistration":"1","new_usertype":"2","useractivation":"1","frontend_userparams":"1","mailSubjectPrefix":"","mailBodySuffix":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (26, 'Web Links', 'component', 'com_weblinks', '', 1, 1, 0, 0, '', '{"show_comp_description":"1","comp_description":"","show_link_hits":"1","show_link_description":"1","show_other_cats":"1","show_headings":"1","show_numbers":"1","show_report":"1","target":"0","link_icons":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(27, 'Wrapper', 'component', 'com_wrapper', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
-
+(27, 'Wrapper', 'component', 'com_wrapper', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(28, 'Language Manager', 'component', 'com_languages', '', 1, 1, 0, 1, '', 'administrator=xx-XX', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 # Languages
 
 INSERT INTO `#__extensions` VALUES
 (51, 'en-GB', 'language', 'en-GB', '', 0, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
-(52, 'en-GB', 'language', 'en-GB', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
+(52, 'en-GB', 'language', 'en-GB', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1),
+(53, 'xx-XX', 'language', 'xx-XX', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, -1);
 
 # Libraries
 
@@ -486,8 +487,9 @@ CREATE TABLE `#__languages` (
 
 INSERT INTO `#__languages` (`lang_id`,`lang_code`,`title`,`title_native`,`description`,`published`)
 VALUES
-	(1,'en_GB','English (UK)','English (UK)','',1),
-	(2,'en_US','English (US)','English (US)','',1);
+	(1,'en-GB','English (UK)','English (UK)','',1),
+	(2,'en-US','English (US)','English (US)','',1),
+	(3,'xx-XX','xx (Test)','xx (Test)','',1);
 
 #
 # Table structure for table `#__menu`

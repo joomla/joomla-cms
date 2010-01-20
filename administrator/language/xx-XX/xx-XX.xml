@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: xx-XX.xml 14276 2010-01-18 14:20:28Z louis $ -->
+<metafile version="1.6" client="administrator">
+	<name>XXTestLang</name>
+	<version>1.6.0</version>
+	<creationDate>2008-03-15</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>Administrator test language</description>
+	<metadata>
+		<name>XXTestLang</name>
+		<tag>xx-XX</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>
