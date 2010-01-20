@@ -95,6 +95,6 @@ abstract class JPlugin extends JEvent
 		}
 
 		$lang = &JFactory::getLanguage();
-		return $lang->load(strtolower($extension), $basePath) || $lang->load (strtolower($extension), $basePath.DS.'plugins'.DS.$this->_type.DS.$this->_name);
+		return $lang->load (strtolower($extension), $basePath.DS.'plugins'.DS.$this->_type.DS.$this->_name) || $lang->load(strtolower($extension), $basePath);
 	}
 }

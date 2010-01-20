@@ -129,8 +129,8 @@ class JComponentHelper
 
 		// Load common and local language files.
 		$lang = &JFactory::getLanguage();
-		$lang->load($option);
 		$lang->load($option, JPATH_COMPONENT);
+		$lang->load($option);
 
 		// Handle template preview outlining.
 		$contents = null;

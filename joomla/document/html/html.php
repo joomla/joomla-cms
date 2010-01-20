@@ -362,10 +362,10 @@ class JDocumentHTML extends JDocument
 
 		// Load the language file for the template
 		$lang = &JFactory::getLanguage();
-		// 1.5 or core
-		$lang->load('tpl_'.$template);
 		// 1.6
 		$lang->load('tpl_'.$template, $directory.DS.$template);
+		// 1.5 or core
+		$lang->load('tpl_'.$template);
 
 		// Assign the variables
 		$this->template = $template;
