@@ -58,7 +58,7 @@ JHtml::_('behavior.formvalidation');
 					<label>
 						<?php echo JText::_('PLUGN_XML_DESC'); ?>
 					</label>
-					<?php echo $this->escape(JText::_($text)); ?>
+					<?php echo JText::_($text); ?>
 				<?php endif; ?>
 			<?php else : ?>
 				<?php echo JText::_('PLUGN_XML_ERR'); ?>
