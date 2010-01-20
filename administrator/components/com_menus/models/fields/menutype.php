@@ -187,8 +187,8 @@ class JFormFieldMenuType extends JFormFieldList
 						$this->_rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
 
 						if (isset($option->request['option'])) {
-							$lang->load($option->request['option'].'.menu');
 							$lang->load($option->request['option'].'.menu', JPATH_ADMINISTRATOR.'/components/'.$option->request['option']);
+							$lang->load($option->request['option'].'.menu');
 						}
 					}
 				}

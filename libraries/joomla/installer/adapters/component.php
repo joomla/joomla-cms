@@ -793,10 +793,10 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Attempt to load the admin language file; might have uninstall strings
 		$lang = &JFactory::getLanguage();
-		// 1.5 or Core
-		$lang->load($row->element);
 		// 1.6
 		$lang->load($row->element, $this->parent->getPath('extension_administrator'));
+		// 1.5 or Core
+		$lang->load($row->element);
 
 		/**
 		 * ---------------------------------------------------------------------------------------------

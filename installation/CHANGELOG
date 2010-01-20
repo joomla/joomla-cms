@@ -30,6 +30,7 @@ $ -> Language fix or change
 20-jan-2010 Christophe Demko
 # Correcting bugs in JForm
 # Correcting bad display in module and plugin edit
+^ Give priority to language file located in joomla folder versus those located in extension folder
 
 20-Jan-2010 Jean-Marie Simonet
 + Added xx-XX administrator language for testing purposes. Included an xx-XX.override.ini and a custom transliteration.php.
