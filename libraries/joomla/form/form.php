@@ -529,16 +529,16 @@ class JForm extends JObject
 		}
 
 		// Check the form control.
-		if ($formControl == '_default' && $this->_options['array'] == false) {
+		if ($formControl == '_default' && $this->_options['array'] === false) {
 			$formControl = false;
-		} elseif ($formControl == '_default' && $this->_options['array'] == true) {
+		} elseif ($formControl == '_default' && $this->_options['array'] === true) {
 			$formControl = $this->_options['array'];
 		}
 
 		// Check the group control.
-		if ($groupControl == '_default' && $this->_fieldsets[$group]['array'] == false) {
+		if ($groupControl == '_default' && $this->_fieldsets[$group]['array'] === false) {
 			$groupControl = false;
-		} elseif ($groupControl == '_default' && $group !== '_default' && $this->_fieldsets[$group]['array'] == true) {
+		} elseif ($groupControl == '_default' && $group !== '_default' && $this->_fieldsets[$group]['array'] === true) {
 			$groupControl = $group;
 		} elseif ($groupControl == '_default' && $group !== '_default' && is_string($this->_fieldsets[$group]['array']) && strlen($this->_fieldsets[$group]['array'])) {
 			$groupControl = $this->_fieldsets[$group]['array'];
@@ -639,16 +639,16 @@ class JForm extends JObject
 		$results = array();
 
 		// Check the form control.
-		if ($formControl == '_default' && $this->_options['array'] == false) {
+		if ($formControl == '_default' && $this->_options['array'] === false) {
 			$formControl = false;
-		} elseif ($formControl == '_default' && $this->_options['array'] == true) {
+		} elseif ($formControl == '_default' && $this->_options['array'] === true) {
 			$formControl = $this->_options['array'];
 		}
 
 		// Check the group control.
-		if ($groupControl == '_default' && (empty($this->_fieldsets[$group]) || $this->_fieldsets[$group]['array'] == false)) {
+		if ($groupControl == '_default' && (empty($this->_fieldsets[$group]) || $this->_fieldsets[$group]['array'] === false)) {
 			$groupControl = false;
-		} elseif ($groupControl == '_default' && $group !== '_default' && isset($this->_fieldsets[$group]) && $this->_fieldsets[$group]['array'] == true) {
+		} elseif ($groupControl == '_default' && $group !== '_default' && isset($this->_fieldsets[$group]) && $this->_fieldsets[$group]['array'] === true) {
 			$groupControl = $group;
 		} elseif ($groupControl == '_default' && $group !== '_default' && isset($this->_fieldsets[$group]) && is_string($this->_fieldsets[$group]['array']) && strlen($this->_fieldsets[$group]['array'])) {
 			$groupControl = $this->_fieldsets[$group]['array'];
@@ -834,7 +834,9 @@ class JForm extends JObject
 		}
 
 		// Get the fieldset attributes.
-		$this->_fieldsets[$group] = array();
+		if (!isset($this->_fieldsets[$group])) {
+			$this->_fieldsets[$group] = array();
+		}
 
 		// Get the fieldset label.
 		if ($value = (string)$xml->attributes()->label) {
