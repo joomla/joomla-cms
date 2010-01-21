@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-jan-2010 Christophe Demko
+^ Rename language loading in the extension folder
+
 20-jan-2010 Christophe Demko
 # Correcting bugs in JForm
 # Correcting bad display in module and plugin edit

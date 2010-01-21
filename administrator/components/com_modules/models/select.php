@@ -132,7 +132,7 @@ class ModulesModelSelect extends JModelList
 			}
 
 			// 1.6 3PD Extension Support
-			$lang->load('joomla', $client->path.'/modules/'.$item->module);
+			$lang->load($item->module, $client->path.'/modules/'.$item->module);
 			// 1.5 Format; Core files or language packs
 			$lang->load($item->module, $client->path);
 		}
