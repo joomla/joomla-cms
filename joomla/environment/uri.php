@@ -395,17 +395,15 @@ class JURI extends JObject
 	 */
 	public function setQuery($query)
 	{
-		if (!is_array($query))
+		if (is_array($query))
 		{
+			$this->_vars = $query;
+		} else {
 			if (strpos($query, '&amp;') !== false)
 			{
-			   $query = str_replace('&amp;','&',$query);
+				$query = str_replace('&amp;','&',$query);
 			}
 			parse_str($query, $this->_vars);
-		}
-
-		if (is_array($query)) {
-			$this->_vars = $query;
 		}
 
 		//empty the query
