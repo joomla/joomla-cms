@@ -30,7 +30,7 @@ abstract class JHtmlJGrid
 			-2	=> array('trash.png',		$taskPrefix.'publish',		'JState_Trashed',		'JState_Publish_Item'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= JHtml::_('image.administrator', $state[0], '/templates/bluestork/images/admin/', null, '/templates/bluestork/admin/images/', JText::_($state[2]));
+		$html	= JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), NULL, true);
 		if ($canChange) {
 			$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
 					. $html.'</a>';
@@ -72,7 +72,7 @@ abstract class JHtmlJGrid
 		$time	= JHTML::_('date',  $time, '%H:%M');
 
 		$hover = '<span class="editlinktip hasTip" title="'. JText::_('CHECKED_OUT') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
-		$checked = $hover .'<img src="templates/bluestork/images/admin/checked_out.png" alt="'.JText::_('CHECKED_OUT').'" /></span>';
+		$checked = $hover .JHTML::_('image', 'admin/checked_out.png', JText::_('CHECKED_OUT'), NULL, true).'</span>';
 
 		return $checked;
 	}
@@ -96,11 +96,11 @@ abstract class JHtmlJGrid
 		if ($enabled)
 		{
 			$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-			$html	.= '   <img src="templates/bluestork/images/admin/uparrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+			$html	.= JHTML::_('image', 'admin/uparrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 			$html	.= '</a>';
 		}
 		else {
-			$html	= '<img src="templates/bluestork/images/admin/uparrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+			$html	= JHTML::_('image', 'admin/uparrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 		}
 		return $html;
 	}
@@ -124,11 +124,11 @@ abstract class JHtmlJGrid
 		if ($enabled)
 		{
 			$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-			$html	.= '   <img src="templates/bluestork/images/admin/downarrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+			$html	.= JHTML::_('image', 'admin/downarrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 			$html	.= '</a>';
 		}
 		else {
-			$html	= '<img src="templates/bluestork/images/admin/downarrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+			$html	= JHTML::_('image', 'admin/downarrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 		}
 		return $html;
 	}

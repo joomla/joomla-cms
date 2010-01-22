@@ -20,52 +20,6 @@ defined('_JEXEC') or die;
 abstract class JHtmlImage
 {
 	/**
-	 * Display a system image, or a template override.
-	 *
-	 * @param	string	The relative file path (after /images/) and file name.
-	 * @param	mixed	A string or array of attributes.
-	 *
-	 * @return	string	The image tag HTML.
-	 */
-	public static function system($file, $attribs)
-	{
-		static $paths;
-		$app = JFactory::getApplication();
-
-		if (!$paths) {
-			$paths = array();
-		}
-
-		// Clean the incoming image path.
-		$file = ltrim(JPath::clean($file, '/'), './');
-
-		// Convert the attributes to a string.
-		if (is_array($attribs)) {
-			$attribs = JArrayHelper::toString($attribs);
-		}
-
-		if (!isset($paths[$file])) {
-			// Get the current template.
-			$template	= $app->getTemplate();
-			$altBase	= ($app->isSite() ? JPATH_SITE : JPATH_ADMINISTRATOR).'/templates/'.$template;
-
-			if (file_exists($altBase.'/images/'.$file)) {
-				// Template override.
-				$paths[$file] = 'templates/'.$template.'/images/'.$file;
-			} else {
-				// The stock system image.
-				$paths[$file] = 'media/system/images/'.$file;
-			}
-		}
-
-		// Prepend the base path.
-		$src = JURI::root(true).'/'.$paths[$file];
-
-		// Outputs actual html <img> tag.
-		return '<img src="'.$src.'" '.$attribs.' />';
-	}
-
-	/**
 	 * Checks to see if an image exists in the current templates image directory.
  	 * If it does it loads this image.  Otherwise the default image is loaded.
 	 * Also can be used in conjunction with the menulist param to create the chosen image
@@ -78,6 +32,7 @@ abstract class JHtmlImage
 	 * @param	string	$alt		Alternative text.
 	 * @param	array	$attribs	An associative array of attributes to add.
 	 * @param	bool	$asTag		True (default) to display full tag, false to return just the path.
+	 * @deprecated since 1.6
 	 */
 	public static function site($file, $folder = '/images/system/', $altFile = null, $altFolder = '/images/system/', $alt = null, $attribs = null, $asTag = true)
 	{
@@ -148,6 +103,7 @@ abstract class JHtmlImage
 	 * @param	string	$alt		Alternative text.
 	 * @param	array	$attribs	An associative array of attributes to add.
 	 * @param	bool	$asTag		True (default) to display full tag, false to return just the path.
+	 * @deprecated since 1.6
 	 */
 	public static function administrator($file, $folder = '/images/', $altFile = null, $altFolder = '/images/', $alt = null, $attribs = null, $asTag = true)
 	{

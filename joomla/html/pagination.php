@@ -416,11 +416,11 @@ class JPagination extends JObject
 		{
 			if ($enabled) {
 				$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-				$html	.= '   <img src="templates/bluestork/images/admin/uparrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+				$html	.= JHTML::_('image', 'admin/uparrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 				$html	.= '</a>';
 			}
 			else {
-				$html	= '<img src="templates/bluestork/images/admin/uparrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+				$html	= JHTML::_('image', 'admin/uparrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 			}
 		}
 
@@ -447,10 +447,10 @@ class JPagination extends JObject
 		{
 			if ($enabled) {
 				$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-				$html	.= '  <img src="templates/bluestork/images/admin/downarrow.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+				$html	.= JHTML::_('image', 'admin/downarrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' =>0), true);
 				$html	.= '</a>';
 			} else {
-				$html	= '<img src="templates/bluestork/images/admin/downarrow0.png" width="16" height="16" border="0" alt="'.$alt.'" />';
+				$html	= JHTML::_('image', 'admin/downarrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 			}
 		}
 
