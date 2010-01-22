@@ -26,8 +26,7 @@ abstract class JHtmlLanguages {
 	public static function published($published)
 	{
 		if ($published) {
-			$app = & JFactory::getApplication();
-			return '<img src="templates/'.$app->getTemplate().'/images/menu/icon-16-default.png" alt="'.JText::_('Langs_Default').'" />';
+			return JHTML::_('image', 'menu/icon-16-default.png', JText::_('Langs_Default'), NULL, true);
 		}
 		else {
 			return '&nbsp;';

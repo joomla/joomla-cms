@@ -219,17 +219,27 @@ abstract class JHtml
 	 * @param	string 	The relative or absolute URL to use for the src attribute
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
+	 * @param	boolean	If set to true, it tries to find an override for the file in the template
 	 * @since	1.5
 	 */
-	public static function image($url, $alt, $attribs = null)
+	public static function image($url, $alt, $attribs = null, $relative = false)
 	{
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		if (strpos($url, 'http') !== 0) {
-			$url = JURI::root(true).'/'.$url;
-		};
+		if($relative)
+		{
+			$app = JFactory::getApplication();
+			$cur_template = $app->getTemplate();
+			if (file_exists(JPATH_THEMES .'/'. $cur_template .'/images/'. $url)) {
+				$url = JURI::base(true).'/templates/'. $cur_template .'/images/'. $url;
+			} else {
+				$url = JURI::root(true).'/media/images/'.$url;
+			}
+		} elseif (strpos($url, 'http') !== 0) {
+			$url = JURI::base(true).'/'.$url;
+		}
 
 		return '<img src="'.$url.'" alt="'.$alt.'" '.$attribs.' />';
 	}
@@ -458,7 +468,7 @@ abstract class JHtml
 		}
 
 		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
-				 '<img class="calendar" src="'.JURI::root(true).'/administrator/templates/bluestork/images/system/calendar.png" alt="calendar" id="'.$id.'_img" />';
+				 JHTML::_('image', 'system/calendar.png', JText::_('calendar'), array( 'class' => 'calendar', 'id' => $id.'_img'), true);
 	}
 
 	/**

@@ -26,7 +26,7 @@ abstract class JHtmlContent
 			1	=> array('tick.png',		'articles.unfeatured',	'Content_Featured',		'Content_Toggle_To_Unfeature'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
-		$html	= JHtml::_('image.administrator', $state[0], '/templates/bluestork/images/admin/', null, '/templates/bluestork/admin/images/', JText::_($state[2]));
+		$html	= JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), NULL, true);
 		if ($canChange) {
 			$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
 					. $html.'</a>';
@@ -44,15 +44,15 @@ abstract class JHtmlContent
 
 		<div class="center">
 			<ul id="legend articles">
-				<li><img src="templates/bluestork/images/admin/publish_y.png" width="16" height="16" border="0" alt="<?php echo JText::_('Pending'); ?>" /></li>
+				<li><?php echo JHTML::_('image', 'admin/publish_y.png', JText::_('Pending'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
 				<li><?php echo JText::_('PUBLISHED_BUT_IS'); ?> <u><?php echo JText::_('Pending'); ?></u></li>
-				<li><img src="templates/bluestork/images/admin/publish_g.png" width="16" height="16" border="0" alt="<?php echo JText::_('Visible'); ?>" /></li>
+				<li><?php echo JHTML::_('image', 'admin/publish_g.png', JText::_('Visible'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
 				<li><?php echo JText::_('PUBLISHED_AND_IS'); ?> <u><?php echo JText::_('Current'); ?></u></li>
-				<li><img src="templates/bluestork/images/admin/publish_r.png" width="16" height="16" border="0" alt="<?php echo JText::_('Finished'); ?>" /></li>
+				<li><?php echo JHTML::_('image', 'admin/publish_r.png', JText::_('Finished'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
 				<li><?php echo JText::_('PUBLISHED_BUT_HAS'); ?> <u><?php echo JText::_('Expired'); ?></u></li>
-				<li><img src="templates/bluestork/images/admin/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_('Finished'); ?>" /></li>
+				<li><?php echo JHTML::_('image', 'admin/publish_x.png', JText::_('Finished'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
 				<li><?php echo JText::_('NOT_PUBLISHED'); ?></li>
-				<li><img src="templates/bluestork/images/admin/disabled.png" width="16" height="16" border="0" alt="<?php echo JText::_('Archived'); ?>" /></li>
+				<li><?php echo JHTML::_('image', 'admin/disabled.png', JText::_('Archived'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
 				<li><?php echo JText::_('Archived'); ?></li>
 			</ul>
 			<p class="center"><?php echo JText::_('CLICK_ON_ICON_TO_TOGGLE_STATE'); ?></p>

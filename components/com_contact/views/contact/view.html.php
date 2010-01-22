@@ -125,12 +125,12 @@ class ContactViewContact extends JView
 
 			default :
 				// icons
-				$image1 = JHtml::_('image.site', 'con_address.png', 	'/images/system/', $contact->params->get('icon_address'), 	'/images/system/', JText::_('Address').": ");
-				$image2 = JHtml::_('image.site', 'emailButton.png', 	'/images/system/', $contact->params->get('icon_email'), 		'/images/system/', JText::_('Email').": ");
-				$image3 = JHtml::_('image.site', 'con_tel.png', 		'/images/system/', $contact->params->get('icon_telephone'), 	'/images/system/', JText::_('Telephone').": ");
-				$image4 = JHtml::_('image.site', 'con_fax.png', 		'/images/system/', $contact->params->get('icon_fax'), 		'/images/system/', JText::_('Fax').": ");
-				$image5 = JHtml::_('image.site', 'con_info.png', 		'/images/system/', $contact->params->get('icon_misc'), 		'/images/system/', JText::_('Information').": ");
-				$image6 = JHtml::_('image.site', 'con_mobile.png', 		'/images/system/', $contact->params->get('icon_mobile'), 	'/images/system/', JText::_('Mobile').": ");
+				$image1 = JHtml::_('image', 'contacts/'.$contact->params->get('icon_address','con_address.png'), JText::_('Address').": ", NULL, true);
+				$image2 = JHtml::_('image', 'contacts/'.$contact->params->get('icon_email','emailButton.png'), JText::_('Email').": ", NULL, true);
+				$image3 = JHtml::_('image', 'contacts/'.$contact->params->get('icon_telephone','con_tel.png'), JText::_('Telephone').": ", NULL, true);
+				$image4 = JHtml::_('image', 'contacts/'.$contact->params->get('icon_fax','con_fax.png'), JText::_('Fax').": ", NULL, true);
+				$image5 = JHtml::_('image', 'contacts/'.$contact->params->get('icon_misc','con_info.png'), JText::_('Information').": ", NULL, true);
+				$image6 = JHtml::_('image', 'contacts/'.$contact->params->get('icon_mobile','con_mobile.png'), JText::_('Mobile').": ", NULL, true);
 
 				$contact->params->set('marker_address', 	$image1);
 				$contact->params->set('marker_email', 		$image2);

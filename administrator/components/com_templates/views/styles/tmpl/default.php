@@ -100,14 +100,14 @@ $user = JFactory::getUser();
 				</td>
 				<td class="center">
 					<?php if ($item->home == 1) : ?>
-							<img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" />
+							<?php echo JHTML::_('image', 'menu/icon-16-default.png', JText::_('Default'), NULL, true); ?>
 					<?php else  : ?>
 							&nbsp;
 					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php if ($item->assigned == 1) : ?>
-							<img src="templates/bluestork/admin/images/tick.png" alt="<?php echo JText::_('Assigned'); ?>" />
+							<?php echo JHTML::_('image', 'admin/tick.png', JText::_('Assigned'), NULL, true); ?>
 					<?php else : ?>
 							&nbsp;
 					<?php endif; ?>

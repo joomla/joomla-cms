@@ -74,10 +74,4 @@ class ConfigViewApplication extends JView
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.config');
 	}
-
-	protected function warningIcon()
-	{
-		$tip = '<img src="'.JURI::root().'includes/js/ThemeOffice/warning.png" border="0"  alt="" />';
-		return $tip;
-	}
 }

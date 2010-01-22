@@ -28,7 +28,7 @@ class JHTMLIcon
 		$url = 'index.php?option=com_contenttask=article.add&return='.base64_encode($ret).'&id=0&sectionid='.$article->sectionid;
 
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image.site', 'new.png', '/images/system/', NULL, NULL, JText::_('New'));
+			$text = JHtml::_('image', 'system/new.png', JText::_('New'), NULL, true);
 		} else {
 			$text = JText::_('New').'&nbsp;';
 		}
@@ -47,7 +47,7 @@ class JHTMLIcon
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
 
 		if ($params->get('show_icons')) 	{
-			$text = JHtml::_('image.site', 'emailButton.png', '/images/system/', NULL, NULL, JText::_('Email'));
+			$text = JHtml::_('image', 'system/emailButton.png', JText::_('Email'), NULL, true);
 		} else {
 			$text = '&nbsp;'.JText::_('Email');
 		}
@@ -81,7 +81,7 @@ class JHTMLIcon
 
 		$url = 'index.php?task=article.edit&id='.$article->id.'&return='.base64_encode($ret);
 		$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
-		$text = JHtml::_('image.site', $icon, '/images/system/', NULL, NULL, JText::_('Edit'));
+		$text = JHtml::_('image', 'system/'.$icon, JText::_('Edit'), NULL, true);
 
 		if ($article->state == 0) {
 			$overlib = JText::_('Unpublished');
@@ -113,7 +113,7 @@ class JHTMLIcon
 
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image.site',  'printButton.png', '/images/system/', NULL, NULL, JText::_('Print'));
+			$text = JHtml::_('image',  'system/printButton.png', JText::_('Print'), NULL, true);
 		} else {
 			$text = JText::_('ICON_SEP') .'&nbsp;'. JText::_('Print') .'&nbsp;'. JText::_('ICON_SEP');
 		}
@@ -129,7 +129,7 @@ class JHTMLIcon
 	{
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image.site',  'printButton.png', '/images/system/', NULL, NULL, JText::_('Print'));
+			$text = JHtml::_('image',  'system/printButton.png', JText::_('Print'), NULL, true);
 		} else {
 			$text = JText::_('ICON_SEP') .'&nbsp;'. JText::_('Print') .'&nbsp;'. JText::_('ICON_SEP');
 		}

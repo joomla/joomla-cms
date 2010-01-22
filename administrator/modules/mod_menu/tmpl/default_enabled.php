@@ -117,7 +117,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 	{
 		$menu->addChild(
 			new JMenuNode(
-				$menuType->title.($menuType->home ? ' <span><img src="templates/bluestork/images/menu/icon-16-default.png" alt="" /></span>' : ''),
+				$menuType->title.($menuType->home ? ' <span>'.JHTML::_('image', 'menu/icon-16-default.png', NULL, NULL, true).'</span>' : ''),
 				'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu'
 			)
 		);
