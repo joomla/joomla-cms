@@ -11,10 +11,19 @@ if (version_compare(PHP_VERSION, '5.2.0', '<')) {
 	die('Your host needs to use PHP 5.2.0 or higher to run Joomla 1.6.');
 }
 
+/**
+ * Constant that is checked in included files to prevent direct access.
+ */
 define('_JEXEC', 1);
 
+/**
+ * Constant that defines the base path of the installed Joomla site.
+ */
 define('JPATH_BASE', dirname(__FILE__));
 
+/**
+ * Shortcut for the directory separator character.
+ */
 define('DS', DIRECTORY_SEPARATOR);
 
 // Set path constants.
