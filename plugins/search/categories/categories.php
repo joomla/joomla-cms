@@ -20,17 +20,12 @@ jimport('joomla.plugin.plugin');
  */
 class plgSearchCategories extends JPlugin
 {
-
-	function __construct()
-	{
-		$this->loadLanguage('plg_search_categories');
-	}
-
 	/**
 	 * @return array An array of search areas
 	 */
 	function onSearchAreas()
 	{
+		$this->loadLanguage('plg_search_categories');
 		static $areas = array(
 		'categories' => 'Categories'
 		);
@@ -50,6 +45,7 @@ class plgSearchCategories extends JPlugin
 	 */
 	function onSearch($text, $phrase='', $ordering='', $areas=null)
 	{
+		$this->loadLanguage('plg_search_categories');
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
@@ -76,7 +72,7 @@ class plgSearchCategories extends JPlugin
 
 		switch ($ordering) {
 			case 'alpha':
-				$order = 'a.name ASC';
+				$order = 'a.title ASC';
 				break;
 
 			case 'category':
@@ -84,23 +80,17 @@ class plgSearchCategories extends JPlugin
 			case 'newest':
 			case 'oldest':
 			default:
-				$order = 'a.name DESC';
+				$order = 'a.title DESC';
 		}
 
 		$text	= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
-		$query	= 'SELECT a.title, a.description AS text, "" AS created, a.name,'
-		. ' "2" AS browsernav,'
-		. ' s.id AS secid, a.id AS catid,'
+		$query	= 'SELECT a.title, a.description AS text, "" AS created, "2" AS browsernav, a.id AS catid,'
 		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug'
 		. ' FROM #__categories AS a'
-		. ' INNER JOIN #__sections AS s ON s.id = a.section'
-		. ' WHERE (a.name LIKE '.$text
-		. ' OR a.title LIKE '.$text
+		. ' WHERE (a.title LIKE '.$text
 		. ' OR a.description LIKE '.$text.')'
 		. ' AND a.published = 1'
-		. ' AND s.published = 1'
 		. ' AND a.access IN ('.$groups.')'
-		. ' AND s.access IN ('.$groups.')'
 		. ' GROUP BY a.id'
 		. ' ORDER BY '. $order
 		;
@@ -109,7 +99,7 @@ class plgSearchCategories extends JPlugin
 
 		$count = count($rows);
 		for ($i = 0; $i < $count; $i++) {
-			$rows[$i]->href = ContentRoute::category($rows[$i]->slug, $rows[$i]->secid);
+			$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);
 			$rows[$i]->section 	= JText::_('Category');
 		}
 

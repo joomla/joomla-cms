@@ -20,34 +20,30 @@ jimport('joomla.plugin.plugin');
  */
 class plgSearchContent extends JPlugin
 {
-	
-	function __construct()
-	{
-		$this->loadLanguage('plg_search_content');
-	}
-	
 	/**
- 	* @return array An array of search areas
- 	*/
+	 * @return array An array of search areas
+	 */
 	function onSearchAreas()
 	{
+		$this->loadLanguage('plg_search_content');
 		static $areas = array(
 			'content' => 'Articles'
-		);
-		return $areas;
+			);
+			return $areas;
 	}
-	
+
 	/**
- * Content Search method
- * The sql must return the following fields that are used in a common display
- * routine: href, title, section, created, text, browsernav
- * @param string Target search string
- * @param string mathcing option, exact|any|all
- * @param string ordering option, newest|oldest|popular|alpha|category
- * @param mixed An array if the search it to be restricted to areas, null if search all
- */
+	 * Content Search method
+	 * The sql must return the following fields that are used in a common display
+	 * routine: href, title, section, created, text, browsernav
+	 * @param string Target search string
+	 * @param string mathcing option, exact|any|all
+	 * @param string ordering option, newest|oldest|popular|alpha|category
+	 * @param mixed An array if the search it to be restricted to areas, null if search all
+	 */
 	function onSearch($text, $phrase='', $ordering='', $areas=null)
 	{
+		$this->loadLanguage('plg_search_content');
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
@@ -63,8 +59,8 @@ class plgSearchContent extends JPlugin
 		}
 
 		// load plugin params info
- 		$plugin			= &JPluginHelper::getPlugin('search', 'content');
-	 	$pluginParams	= new JParameter($plugin->params);
+		$plugin			= &JPluginHelper::getPlugin('search', 'content');
+		$pluginParams	= new JParameter($plugin->params);
 
 		$sContent 		= $pluginParams->get('search_content', 		1);
 		$sUncategorised = $pluginParams->get('search_uncategorised', 	1);
@@ -132,7 +128,7 @@ class plgSearchContent extends JPlugin
 				break;
 
 			case 'newest':
-				default:
+			default:
 				$order = 'a.created DESC';
 				break;
 		}
@@ -169,7 +165,7 @@ class plgSearchContent extends JPlugin
 			{
 				foreach($list as $key => $item)
 				{
-					$list[$key]->href = ContentRoute::article($item->slug, $item->catslug);
+					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
 				}
 			}
 			$rows[] = $list;
@@ -198,7 +194,7 @@ class plgSearchContent extends JPlugin
 			{
 				foreach($list2 as $key => $item)
 				{
-					$list2[$key]->href = ContentRoute::article($item->id);
+					$list2[$key]->href = ContentHelperRoute::getArticleRoute($item->id);
 				}
 			}
 
@@ -235,7 +231,7 @@ class plgSearchContent extends JPlugin
 			{
 				foreach($list3 as $key => $item)
 				{
-					$list3[$key]->href = ContentRoute::article($item->slug, $item->catslug);
+					$list3[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
 				}
 			}
 
@@ -256,7 +252,7 @@ class plgSearchContent extends JPlugin
 				$results = array_merge($results, (array) $new_row);
 			}
 		}
-
+		var_dump($results);die;
 		return $results;
 	}
 }
