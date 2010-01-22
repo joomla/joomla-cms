@@ -27,10 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-21-jan-2010 Christophe Demko
+22-Jan-2010 Hannes Papenberg
+^ refactored search plugins to new plugin format
+
+21-Jan-2010 Christophe Demko
 ^ Rename language loading in the extension folder
 
-20-jan-2010 Christophe Demko
+20-Jan-2010 Christophe Demko
 # Correcting bugs in JForm
 # Correcting bad display in module and plugin edit
 ^ Give priority to language file located in joomla folder versus those located in extension folder
