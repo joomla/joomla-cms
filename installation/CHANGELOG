@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Jan-2010 Hannes Papenberg
+^ Little performance improvement for JDocument::getTemplate()
+
 22-Jan-2010 Hannes Papenberg
 ^ refactored search plugins to new plugin format
 # Fixed XML manifest of profile plugin

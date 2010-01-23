@@ -184,7 +184,7 @@ class JInstallation extends JApplication
 		{
 			$template = new stdClass();
 			$template->template = 'template';
-			$template->params = '{}';
+			$template->params = new JParameter();
 			return $template;
 		}
 		return 'template';

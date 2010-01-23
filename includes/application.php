@@ -349,6 +349,8 @@ final class JSite extends JApplication
 			$template->template = 'rhuk_milkyway';
 		}
 
+		$template->params = new JParameter($template->params);
+		
 		// Cache the result
 		$this->template = $template;
 		if ($params) {

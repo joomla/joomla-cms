@@ -238,7 +238,9 @@ class JAdministrator extends JApplication
 			if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php'))
 			{
 				$template->template = 'bluestork';
-				$template->params = '{}';
+				$template->params = new JParameter();
+			} else {
+				$template->params = new JParameter($template->params);
 			}
 		}
 		if ($params) {

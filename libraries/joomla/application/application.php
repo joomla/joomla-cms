@@ -650,8 +650,14 @@ class JApplication extends JObject
 	 *
 	 * @return	string
 	 */
-	public function getTemplate()
+	public function getTemplate($params = false)
 	{
+		if($params)
+		{
+			$template = new stdClass();
+			$template->template = 'system';
+			$template->params = new JParameter();
+		}
 		return 'system';
 	}
 
