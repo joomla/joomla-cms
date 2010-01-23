@@ -25,7 +25,6 @@ class plgSearchContacts extends JPlugin
  	*/
 	function onSearchAreas()
 	{
-		$this->loadLanguage('plg_search_contacts');
 		static $areas = array(
 			'contacts' => 'Contacts'
 		);
@@ -43,7 +42,6 @@ class plgSearchContacts extends JPlugin
 	 */
 	function onSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		$this->loadLanguage('plg_search_contacts');
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());

@@ -25,7 +25,6 @@ class plgSearchCategories extends JPlugin
 	 */
 	function onSearchAreas()
 	{
-		$this->loadLanguage('plg_search_categories');
 		static $areas = array(
 		'categories' => 'Categories'
 		);
@@ -45,7 +44,6 @@ class plgSearchCategories extends JPlugin
 	 */
 	function onSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		$this->loadLanguage('plg_search_categories');
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());

@@ -31,8 +31,6 @@ class plgSystemDebug extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		//load the translation
-		$this->loadLanguage();
 	}
 
 	/**
@@ -64,9 +62,6 @@ class plgSystemDebug extends JPlugin
 				return;
 			}
 		}
-
-		$lang = &JFactory::getLanguage();
-		$lang->load('plg_system_debug', JPATH_SITE);
 
 		$profiler	= &$_PROFILER;
 

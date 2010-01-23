@@ -24,7 +24,6 @@ class plgSearchWeblinks extends JPlugin
 	 * @return array An array of search areas
 	 */
 	function onSearchAreas() {
-		$this->loadLanguage('plg_search_weblinks');
 		static $areas = array(
 			'weblinks' => 'Weblinks'
 			);
@@ -43,7 +42,6 @@ class plgSearchWeblinks extends JPlugin
 	 */
 	function onSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		$this->loadLanguage('plg_search_weblinks');
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());

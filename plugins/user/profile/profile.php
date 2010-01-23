@@ -7,8 +7,6 @@
 
 defined('JPATH_BASE') or die;
 
-$lang = &JFactory::getLanguage();
-$lang->load('plg_user_profile');
 
 /**
  * An example custom profile plugin.

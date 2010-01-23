@@ -25,7 +25,6 @@ class plgSearchContent extends JPlugin
 	 */
 	function onSearchAreas()
 	{
-		$this->loadLanguage('plg_search_content');
 		static $areas = array(
 			'content' => 'Articles'
 			);
@@ -43,7 +42,6 @@ class plgSearchContent extends JPlugin
 	 */
 	function onSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		$this->loadLanguage('plg_search_content');
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());

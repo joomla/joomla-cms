@@ -25,7 +25,6 @@ class plgSearchNewsfeeds extends JPlugin
 	 */
 	function onSearchAreas()
 	{
-		$this->loadLanguage('plg_search_newsfeeds');
 		static $areas = array(
 		'newsfeeds' => 'Newsfeeds'
 		);
@@ -44,7 +43,6 @@ class plgSearchNewsfeeds extends JPlugin
 	 */
 	function onSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		$this->loadLanguage('plg_search_newsfeeds');
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());

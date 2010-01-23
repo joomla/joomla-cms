@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Jan-2010 Christophe Demko & Jean-Marie Simonet 
+^ Refactored plugins language load
+
 23-Jan-2010 Hannes Papenberg
 ^ Little performance improvement for JDocument::getTemplate()
 

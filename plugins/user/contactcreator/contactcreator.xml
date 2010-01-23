@@ -10,7 +10,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>PLG_USER_CONTACTCREATOR</description>
+	<description>PLG_USER_CONTACTCREATOR_DESC</description>
 	<files>
 		<filename plugin="contactcreator">contactcreator.php</filename>
 	</files>

@@ -20,7 +20,6 @@ class plgContentVote extends JPlugin
 {
 	public function __construct(&$subject, $options = array()) {
 		parent::__construct($subject, $options);
-		$this->loadLanguage();
 	}
 
 	public function onBeforeDisplayContent(&$row, &$params, $page=0)
