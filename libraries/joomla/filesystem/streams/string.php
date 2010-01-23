@@ -37,7 +37,7 @@ class JStreamString
 		$this->_currentstring =& JStringController::getRef(str_replace('string://','',$path));
 		if($this->_currentstring)
 		{
-			$this->_len = strlen(&$this->_currentstring);
+			$this->_len = strlen($this->_currentstring);
 			$this->_pos = 0;
 			$this->_stat = $this->url_stat($path, 0);
 			return true;
@@ -64,19 +64,19 @@ class JStreamString
 			'uid'=>0,
 			'gid'=>0,
 			'rdev'=>0,
-			'size'=>strlen(&$string),
+			'size'=>strlen($string),
 			'atime'=>$now,
 			'mtime'=>$now,
 			'ctime'=>$now,
 			'blksize'=>'512',
-			'blocks'=>ceil(strlen(&$string) / 512)
+			'blocks'=>ceil(strlen($string) / 512)
 		);
 		return $stat;
 	}
 
 	function stream_read($count)
 	{
-		$result = substr(&$this->_currentstring, $this->_pos, $count);
+		$result = substr($this->_currentstring, $this->_pos, $count);
 		$this->_pos += $count;
 		return $result;
 	}
