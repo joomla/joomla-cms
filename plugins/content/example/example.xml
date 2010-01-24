@@ -14,14 +14,31 @@
 		<filename plugin="example">example.php</filename>
 		<folder>language</folder> // if you want to install the language files in the plugin folder. Create a "language" folder at the root of the pack i.e language/en-GB/en-GB.plg_content_example.ini
 	</files>
-	<languages> // if you want to install the language files in the Site language folder.
+	<languages> // these files will be installed in the administrator/language folder.
 		<language tag="en-GB">en-GB.plg_content_example.ini</language>
 	</languages>
-	<administration> // if you want to install the language files in the Administrator language folder. As of 1.6, plugins language files can be installed in Site and Administrator folders. Create an "admin" folder at the root of the pack i.e admin/en-GB.plg_content_example.ini
-		<languages>
-			<language tag="en-GB">admin/en-GB.plg_content_example.ini</language>
-		</languages>
-	</administration>
-	<params>
-	</params>
+	
+	<fields>
+		<field
+			name="field1"
+			type="text"
+			label="Example field 1"
+			description="Example field 1" />
+	</fields>
+	<fields
+		group="advanced">
+		<field
+			name="field1"
+			type="text"
+			label="Example field 1"
+			description="Example field 1" />
+	</fields>
+	<fields
+		group="example">
+		<field
+			name="field2"
+			type="text"
+			label="Example field 2"
+			description="Example field 2" />
+	</fields>
 </install>
