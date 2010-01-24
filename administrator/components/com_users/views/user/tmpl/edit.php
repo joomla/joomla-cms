@@ -49,9 +49,17 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getInput('email'); ?>
 		</fieldset>
 
+		<?php
+		$groups = $this->form->getGroups();
+		$fieldsets = $this->form->getFieldsets();
+		foreach($groups as $group)
+		{
+			if($group != 'params' && $group != '_default' && !isset($fieldsets[$group]['parent']))
+			{
+				?>
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('Users_User_Options'); ?></legend>
-			<?php foreach($this->form->getFields('params') as $field): ?>
+			<legend><?php echo JText::_($fieldsets[$group]['label']); ?></legend>
+			<?php foreach($this->form->getFields($group) as $field): ?>
 				<?php if ($field->hidden): ?>
 					<?php echo $field->input; ?>
 				<?php else: ?>
@@ -59,22 +67,33 @@ JHtml::_('behavior.formvalidation');
 					<?php echo $field->input; ?>
 				<?php endif; ?>
 			<?php endforeach; ?>
-		</fieldset>
-
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('Users_User_Profile'); ?></legend>
-			<?php foreach($this->form->getFields('profile') as $field): ?>
-				<?php if ($field->hidden): ?>
-					<?php echo $field->input; ?>
-				<?php else: ?>
-					<?php echo $field->label; ?>
-					<?php echo $field->input; ?>
-				<?php endif; ?>
-			<?php endforeach; ?>
-		</fieldset>
+		</fieldset>				
+				<?php
+			}
+		}
+		?>
 	</div>
 
 	<div class="width-40 fltrt">
+			<?php echo JHTML::_('sliders.start'); 
+			$groups = $this->form->getGroups('params');
+			$fieldsets = $this->form->getFieldsets();
+			array_unshift($groups, 'params');
+			foreach($groups as $group) { 
+				echo JHTML::_('sliders.panel', $fieldsets[$group]['label'], $group);
+				?><fieldset class="panelform"><?php
+				foreach($this->form->getFields($group) as $field): ?>
+				<?php if ($field->hidden): ?>
+					<?php echo $field->input; ?>
+				<?php else: ?>
+					<?php echo $field->label; ?>
+					<?php echo $field->input; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			</fieldset>
+			<?php } ?>
+			<?php echo JHTML::_('sliders.end'); ?>
+	
 		<fieldset id="user-groups">
 			<legend><?php echo JText::_('Users_Assigned_Groups'); ?></legend>
 				<?php if ($this->grouplist) :

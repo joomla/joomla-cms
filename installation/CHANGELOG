@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Jan-2010 Hannes Papenberg
+# changed com_contacts parameters to not use arrays in the XML
++ Added subgroup support for JForm forms
++ Added ability to extend user edit screen with parameters and additional fields
+
 23-Jan-2010 Christophe Demko & Jean-Marie Simonet 
 ^ Refactored plugins language load
 
