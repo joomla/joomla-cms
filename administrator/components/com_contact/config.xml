@@ -3,7 +3,6 @@
 
 	<fields
 		group="contact"
-		array="true"
 		label="Contact_Config_Individual_Contact_Display">
 		<field
 			name="show_name"
@@ -300,7 +299,6 @@
 
 	<fields
 		group="contacts"
-		array="true"
 		label="Contact_Config_Table_of_Contacts">
 		<field
 			name="show_headings"
@@ -398,7 +396,6 @@
 	</fields>
 	<fields
 		group="Contact_Form"
-		array="true"
 		label="Contact_Config_Contact_Form">
 
 		<field
@@ -472,7 +469,6 @@
 	</fields>
 	<fields
 		group="Contact_Config_Meta_Data"
-		array="true"
 		label="Contact_Fieldset_Meta_Data">
 		<field
 			id="metakey"
