@@ -29,7 +29,7 @@ class InstallerViewDiscover extends InstallerViewDefault
 		JToolBarHelper::custom('discover.refresh', 'refresh', 'refresh','Discover',false,false);
 		JToolBarHelper::custom('discover.purge', 'purge', 'purge', 'PURGE_CACHE', false,false);
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.installer');
+		JToolBarHelper::help('screen.installer','JTOOLBAR_HELP');
 
 		// Get data from the model
 		$state		= &$this->get('State');

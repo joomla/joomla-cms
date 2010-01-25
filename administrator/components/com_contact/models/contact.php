@@ -165,6 +165,12 @@ class ContactModelContact extends JModelForm
 		}
 
 		// Bind the data.
+		// Load email_form params into params array
+		foreach ($data['email_form'] as $key => $value) {
+			$data['params'][$key] = $value;
+		}
+		$data['email_form'] = array();
+
 		if (!$table->bind($data)) {
 			$this->setError(JText::sprintf('JTable_Error_Bind_failed', $table->getError()));
 			return false;

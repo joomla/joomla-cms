@@ -89,6 +89,6 @@ class CommentsViewComments extends JView
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_comments');
 		}
-		JToolBarHelper::help('screen.comments');
+		JToolBarHelper::help('screen.comments','JTOOLBAR_HELP');
 	}
 }

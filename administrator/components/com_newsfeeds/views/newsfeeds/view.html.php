@@ -57,30 +57,30 @@ class NewsfeedsViewNewsfeeds extends JView
 
 		JToolBarHelper::title(JText::_('Newsfeeds_Manager_Newsfeeds'), 'newsfeeds.png');
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('newsfeed.add');
+			JToolBarHelper::addNew('newsfeed.add','JTOOLBAR_NEW');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('newsfeed.edit');
+			JToolBarHelper::editList('newsfeed.edit','JTOOLBAR_EDIT');
 		}
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::custom('newsfeeds.publish', 'publish.png', 'publish_f2.png', 'JToolbar_Publish', true);
 			JToolBarHelper::custom('newsfeeds.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JToolbar_Unpublish', true);
 			JToolBarHelper::divider();
 			if ($state->get('filter.published') != -1) {
-				JToolBarHelper::archiveList('newsfeeds.archive');
+				JToolBarHelper::archiveList('newsfeeds.archive','JTOOLBAR_ARCHIVE');
 			}
 		}
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'newsfeeds.delete');
+			JToolBarHelper::deleteList('', 'newsfeeds.delete','JTOOLBAR_EMPTY_TRASH');
 		}
 		else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('newsfeeds.trash');
+			JToolBarHelper::trash('newsfeeds.trash','JTOOLBAR_TRASH');
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_newsfeeds');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.newsfeed');
+		JToolBarHelper::help('screen.newsfeed','JTOOLBAR_HELP');
 	}
 }

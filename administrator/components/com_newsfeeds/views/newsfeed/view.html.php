@@ -81,13 +81,13 @@ class NewsfeedsViewNewsfeed extends JView
 
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('newsfeed.cancel');
+			JToolBarHelper::cancel('newsfeed.cancel','JTOOLBAR_CANCEL');
 		}
 		else {
 			JToolBarHelper::cancel('newsfeed.cancel', 'JToolbar_Close');
 		}
 
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.newsfeed.edit');
+		JToolBarHelper::help('screen.newsfeed.edit','JTOOLBAR_HELP');
 	}
 }

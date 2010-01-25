@@ -88,6 +88,6 @@ class BannersViewBanners extends JView
 			JToolBarHelper::preferences('com_banners');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.banners.banners');
+		JToolBarHelper::help('screen.banners.banners','JTOOLBAR_HELP');
 	}
 }
