@@ -23,6 +23,7 @@
 		<filename>en-GB.com_users.ini</filename>
 		<filename>en-GB.com_weblinks.ini</filename>
 		<filename>en-GB.com_wrapper.ini</filename>
+		<filename>en-GB.ignore.php</filename>
 		<filename>en-GB.ini</filename>
 		<filename>en-GB.mod_archive.ini</filename>
 		<filename>en-GB.mod_banners.ini</filename>
@@ -43,14 +44,6 @@
 		<filename>en-GB.mod_syndicate.ini</filename>
 		<filename>en-GB.mod_whosonline.ini</filename>
 		<filename>en-GB.mod_wrapper.ini</filename>
-		<filename>en-GB.plg_content_vote.ini</filename>
-		<filename>en-GB.plg_search_categories.ini</filename>
-		<filename>en-GB.plg_search_contacts.ini</filename>
-		<filename>en-GB.plg_search_content.ini</filename>
-		<filename>en-GB.plg_search_newsfeeds.ini</filename>
-		<filename>en-GB.plg_search_weblinks.ini</filename>
-		<filename>en-GB.plg_system_debug.ini</filename>
-		<filename>en-GB.tpl_beez.ini</filename>
 		<filename>en-GB.tpl_rhuk_milkyway.ini</filename>
 	</files>
 	<metadata>

@@ -17,16 +17,16 @@
 		<filename>en-GB.com_cache.ini</filename>
 		<filename>en-GB.com_categories.ini</filename>
 		<filename>en-GB.com_checkin.ini</filename>
+		<filename>en-GB.com_comments.ini</filename>
 		<filename>en-GB.com_config.ini</filename>
 		<filename>en-GB.com_contact.ini</filename>
 		<filename>en-GB.com_contact.menu.ini</filename>
 		<filename>en-GB.com_content.ini</filename>
+		<filename>en-GB.com_content.menu.ini</filename>
 		<filename>en-GB.com_cpanel.ini</filename>
-		<filename>en-GB.com_frontpage.ini</filename>
 		<filename>en-GB.com_installer.ini</filename>
 		<filename>en-GB.com_languages.ini</filename>
 		<filename>en-GB.com_login.ini</filename>
-		<filename>en-GB.com_massmail.ini</filename>
 		<filename>en-GB.com_media.ini</filename>
 		<filename>en-GB.com_menus.ini</filename>
 		<filename>en-GB.com_menus.menu.ini</filename>
@@ -36,16 +36,18 @@
 		<filename>en-GB.com_newsfeeds.menu.ini</filename>
 		<filename>en-GB.com_plugins.ini</filename>
 		<filename>en-GB.com_redirect.ini</filename>
+		<filename>en-GB.com_redirect.menu.ini</filename>
 		<filename>en-GB.com_search.ini</filename>
 		<filename>en-GB.com_search.menu.ini</filename>
-		<filename>en-GB.com_statistics.ini</filename>
 		<filename>en-GB.com_templates.ini</filename>
-		<filename>en-GB.com_trash.ini</filename>
 		<filename>en-GB.com_users.ini</filename>
+		<filename>en-GB.com_users.menu.ini</filename>
 		<filename>en-GB.com_weblinks.ini</filename>
 		<filename>en-GB.com_weblinks.menu.ini</filename>
 		<filename>en-GB.com_wrapper.ini</filename>
+		<filename>en-GB.com_wrapper.menu.ini</filename>
 		<filename>en-GB.ini</filename>
+		<filename>en-GB.mod_comments_summary.ini</filename>
 		<filename>en-GB.mod_components.ini</filename>
 		<filename>en-GB.mod_custom.ini</filename>
 		<filename>en-GB.mod_feed.ini</filename>
@@ -69,6 +71,7 @@
 		<filename>en-GB.plg_authentication_ldap.ini</filename>
 		<filename>en-GB.plg_authentication_openid.ini</filename>
 		<filename>en-GB.plg_content_code.ini</filename>
+		<filename>en-GB.plg_content_comments.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.ini</filename>
 		<filename>en-GB.plg_content_geshi.ini</filename>
 		<filename>en-GB.plg_content_image.ini</filename>
@@ -85,17 +88,16 @@
 		<filename>en-GB.plg_search_contacts.ini</filename>
 		<filename>en-GB.plg_search_content.ini</filename>
 		<filename>en-GB.plg_search_newsfeeds.ini</filename>
-		<filename>en-GB.plg_search_sections.ini</filename>
 		<filename>en-GB.plg_search_weblinks.ini</filename>
 		<filename>en-GB.plg_system_cache.ini</filename>
 		<filename>en-GB.plg_system_debug.ini</filename>
 		<filename>en-GB.plg_system_redirect.ini</filename>
 		<filename>en-GB.plg_system_sef.ini</filename>
+		<filename>en-GB.plg_user_contactcreator.ini</filename>
 		<filename>en-GB.plg_user_joomla.ini</filename>
+		<filename>en-GB.plg_user_profile.ini</filename>
 		<filename>en-GB.plg_xmlrpc_blogger.ini</filename>
 		<filename>en-GB.plg_xmlrpc_joomla.ini</filename>
-		<filename>en-GB.tpl_beez.ini</filename>
-		<filename>en-GB.tpl_khepri.ini</filename>
 		<filename>en-GB.tpl_bluestork.ini</filename>
 		<filename>en-GB.tpl_rhuk_milkyway.ini</filename>
 	</files>
