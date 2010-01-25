@@ -1,0 +1,100 @@
+0. Metadata
+-----------
+File version:	$Id$
+Copyright:		Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+License:		GNU General Public License version 2 or later; see LICENSE.txt
+
+1. Copyright and disclaimer
+---------------------------
+This application is opensource software released under the GPL.  Please
+see source code and the LICENSE file
+
+
+2. Changelog
+------------
+This is a non-exhaustive (but still near complete) changelog for
+Joomla! 1.6 automated tests, including alpha and beta versions.
+Our thanks to all those people who've contributed bug reports and
+code fixes.
+
+Legend:
+
+* -> Security Fix
+# -> Bug Fix
+$ -> Language fix or change
++ -> Addition
+^ -> Change
+- -> Removed
+! -> Note
+
+25-Jan-2010 Louis Landry
+ ^ Moved testing infrastructure from the /testing/ folder into the trunk.
+
+19-Jan-2010 Andrew Eddie
+ ^ Completed tests for INI, JSON, XML and PHP registry formatters.
+ ^ Completed tests for JRegistryFormat.
+
+22-Dec-2009 Ian MacLennan
+# Modified mock expect calls
+
+20-Nov-2009 Ian MacLennan
+# Added @runTestsInSeparateProcesses annotations to JUtilityTest and JAuthenticationTest so that test suite would run.
+
+06-Nov-2009 Ed Stafford
++ Added library/joomla/error skeletons in unittest
+
+05-Nov-2009 Ed Stafford
++ Added all library/joomla/event, library/joomla/environment skeletons in unittest.
+
+02-Nov-2009 Ed Stafford
++ Added all library/joomla/cache, library/joomla/client, library/joomla/document, and library/joomla/database skeletons
+
+28-Oct-2009 Ed Stafford
++ Added all library/joomla/application, library/joomla/access skeletons
+
+27-Oct-2009 Ed Stafford
++ Added all library/joomla/base skeletons
+
+15-Oct-2009 Ian MacLennan
++ Added JPaginationTest and JPaginationTestHelper - at this point only the constructor is done
+
+09-Oct-2009 Ian MacLennan
++ Added test skeletons for JFactory, JFrameworkConfig, JRoute, JText and JVersion
+
+08-Oct-2009 Andrew Eddie
+^ Added checks for new UTC date filters in testFilter test.
+^ Changed JControllerForm tests to Hamcrest style.
++ Add skeleton for JDate tests.
+
+07-Oct-2009 Andrew Eddie
++ Added JForm tests.
+
+06-Oct-2009 Andrew Eddie
+^ Update JActions, JAction name changes to JRules, JRule
++ Added test for JRules::getAllowed.
+^ Changed some JRules tests to Hamcrest format.
+
+02-Oct-2009 Ian MacLennan
++ Added cache tests from 1.5 unit tests
++ Added environment tests from 1.5 unit tests
++ Added filesystem tests from 1.5 unit tests
++ Added filter tests from 1.5 unit tests
++ Added Mail and Registry tests from 1.5 unit tests
+
+25-Sep-2009 Andrew Eddie
++ Added test for JComponentForm constructor.
+
+25-Sep-2009
+^ Move control panel functional tests to folder
+^ Add article basic functional test
+
+25-Sep-2009 Andrew Eddie
+ ^ bootstrap.php can include optional config.php to set custom variables (such as JPATH_BASE).
+ + Added example test.
+ + Added tests for JActions and JAction.
+
+24-Sep-2009 Andrew Eddie
+ + Added 1.6 unittest scaffolding.
+ 
+24-Sep-2009 Mark Dexter
+ ^ Added basic functional tests to test admin menu choices

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Jan-2010 Louis Landry
+ ^ Moved testing infrastructure from the /testing/ folder into the trunk.
+
 25-Jan-2010 Jean-Marie Simonet 
 ^ Refactored TinyMCE ini keys
 

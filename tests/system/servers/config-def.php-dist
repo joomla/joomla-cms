@@ -1,0 +1,26 @@
+<?php
+/*
+ * This is an example of a config class. To run tests,  
+ * copy this file to a file called "configdef.php" and set the
+ * variables according to the values in your test system.
+ *  
+ * You can select the desired config class at runtime with the following command:
+ * phpunit --bootstrap servers\configtest.php tests\control_panel_menu.php
+ * In this way, you can create multiple configurations and run them separately 
+ * using a batch file or shell script. 
+ */
+
+class SeleniumConfig
+{
+    // these variables are used to login and connect to Joomla!
+	var $host = 'http://localhost';
+	var $path = '/j1513/';
+	var $username = 'admin';
+	var $password = 'password';
+	
+	// used to specify the browser. Note that *chrome specifies Firefox
+	var $browser = '*chrome';
+	
+	// $baseURI is used in some tests to rename or copy files in the file system
+	var $baseURI = "c:/xampp/htdocs/joomla_development/Joomla_1.5.11_plus/";
+}

@@ -1,0 +1,150 @@
+<?php
+/**
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+class JControllerFormTest extends PHPUnit_Framework_TestCase
+{
+	public function setUp()
+	{
+		jimport('joomla.application.component.controllerform');
+		require_once 'controller_classes.php';
+	}
+
+	/**
+	 * Returns an array of the structure of the object
+	 *
+	 * @return mixed	Boolean false on parsing error, array if successful.
+	 */
+	private function getStructure($object)
+	{
+		$m = array();
+		preg_match('#(.*)__set_state\((.*)\)$#s', var_export($object, true), $m);
+		if (empty($m[2])) {
+			return false;
+		}
+		else
+		{
+			$structure = null;
+			eval('$structure = '.$m[2].';');
+			return $structure;
+		}
+	}
+
+	public function testConstructor()
+	{
+		//
+		// Test the auto-naming of the _option, _context, _view_item and _view_list
+		//
+
+		$object = new MincesControllerMince(
+			array(
+				// Neutralise a JPATH_COMPONENT not defined error.
+				'base_path'	=> 'null'
+			)
+		);
+		if ($structure = $this->getStructure($object))
+		{
+			// Check the _option variable was created properly.
+			$this->assertThat(
+				$structure['_option'],
+				$this->equalTo('com_minces')
+			);
+
+			// Check the _context variable was created properly.
+			$this->assertThat(
+				$structure['_context'],
+				$this->equalTo('mince')
+			);
+
+			// Check the _view_item variable was created properly.
+			$this->assertThat(
+				$structure['_view_item'],
+				$this->equalTo('mince')
+			);
+
+			// Check the _view_list variable was created properly.
+			$this->assertThat(
+				$structure['_view_list'],
+				$this->equalTo('minces')
+			);
+
+			// Check the _view_list variable was created properly.
+			$this->assertThat(
+				$structure,
+				$this->arrayHasKey('_asset_name'),
+				'_asset_name has not been defined for structure'
+			);
+			$this->assertThat(
+				$structure['_asset_name'],
+				$this->equalTo('com_minces.mince.%d')
+			);
+		}
+		else {
+			$this->fail('Could not parse '.get_class($object));
+		}
+
+		//
+		// Test for correct pluralisation.
+		//
+
+		$object = new MiniesControllerMiny(
+			array(
+				// Neutralise a JPATH_COMPONENT not defined error.
+				'base_path'	=> 'null'
+			)
+		);
+		if ($structure = $this->getStructure($object))
+		{
+			// Check the _view_list variable was created properly.
+			$this->assertThat(
+				$structure['_view_list'],
+				$this->equalTo('minies')
+			);
+		}
+		else {
+			$this->fail('Could not parse '.get_class($object));
+		}
+
+		$object = new MintsControllerMint(
+			array(
+				// Neutralise a JPATH_COMPONENT not defined error.
+				'base_path'	=> 'null'
+			)
+		);
+		if ($structure = $this->getStructure($object))
+		{
+			// Check the _view_list variable was created properly.
+			$this->assertThat(
+				$structure['_view_list'],
+				$this->equalTo('mints')
+			);
+		}
+		else {
+			$this->fail('Could not parse '.get_class($object));
+		}
+	}
+
+	public function testDisplay()
+	{
+		$object = new MintsControllerMint(
+			array(
+				// Neutralise a JPATH_COMPONENT not defined error.
+				'base_path'	=> 'null'
+			)
+		);
+		/*
+		Need to mock JRoute!!!
+		$object->display();
+		if ($structure = $this->getStructure($object))
+		{
+			print_r($structure);
+		}
+		else {
+			$this->fail('Could not parse '.get_class($object));
+		}
+		*/
+	}
+}
