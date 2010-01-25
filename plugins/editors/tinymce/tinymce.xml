@@ -12,7 +12,7 @@
 	<authorUrl>tinymce.moxiecode.com/</authorUrl>
 	<copyright>Moxiecode Systems AB</copyright>
 	<license>LGPL</license>
-	<description>DESCTINYMCE</description>
+	<description>PLG_TINY_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="tinymce">tinymce.php</filename>
@@ -27,40 +27,40 @@
 			name="mode"
 			type="list"
 			default="1"
-			label="Functionality"
-			description="Select functionality">
+			label="PLG_TINY_FIELD_LABEL_FUNCTIONALITY"
+			description="PLG_TINY_FIELD_DESC_FUNCTIONALITY">
 			<option
-				value="0">Simple</option>
+				value="0">PLG_TINY_FIELD_VALUE_SIMPLE</option>
 			<option
-				value="1">Advanced</option>
+				value="1">PLG_TINY_FIELD_VALUE_ADVANCED</option>
 			<option
-				value="2">Extended</option>
+				value="2">PLG_TINY_FIELD_VALUE_EXTENDED</option>
 		</field>
 		<field
 			name="skin"
 			type="list"
 			default="0"
-			label="Skin"
-			description="Select skin">
+			label="PLG_TINY_FIELD_LABEL_SKIN"
+			description="PLG_TINY_FIELD_DESC_SKIN">
 			<option
-				value="0">Default</option>
+				value="0">PLG_TINY_FIELD_VALUE_DEFAULT</option>
 			<option
-				value="1">Office2007 Blue</option>
+				value="1">PLG_TINY_FIELD_VALUE_BLUE</option>
 			<option
-				value="2">Office2007 Silver</option>
+				value="2">PLG_TINY_FIELD_VALUE_SILVER</option>
 			<option
-				value="3">Office2007 Black</option>
+				value="3">PLG_TINY_FIELD_VALUE_BLACK</option>
 		</field>
 		<field
 			name="compressed"
 			type="radio"
 			default="0"
-			label="Compressed Version"
-			description="fieldCOMPRESSEDVERSION">
+			label="PLG_TINY_FIELD_LABEL_COMPRESSED"
+			description="PLG_TINY_FIELD_DESC_COMPRESSED">
 			<option
-				value="0">Off</option>
+				value="0">JOFF</option>
 			<option
-				value="1">On</option>
+				value="1">JON</option>
 		</field>
 		<field
 			type="spacer" />
@@ -68,38 +68,38 @@
 			name="cleanup_startup"
 			type="radio"
 			default="0"
-			label="Code Cleanup on startup"
-			description="Cleans code on editor load">
+			label="PLG_TINY_FIELD_LABEL_CLEANUPSTARTUP"
+			description="PLG_TINY_FIELD_DESC_CLEANUPSTARTUP">
 			<option
-				value="0">Off</option>
+				value="0">JOFF</option>
 			<option
-				value="1">On</option>
+				value="1">JON</option>
 		</field>
 		<field
 			name="cleanup_save"
 			type="list"
 			default="2"
-			label="Code Cleanup on Save"
-			description="Code Cleanup upon saving article">
+			label="PLG_TINY_FIELD_LABEL_CLEANUPSAVE"
+			description="PLG_TINY_FIELD_DESC_CLEANUPSAVE">
 			<option
-				value="0">Never</option>
+				value="0">PLG_TINY_FIELD_VALUE_NEVER</option>
 			<option
-				value="1">Front Only</option>
+				value="1">PLG_TINY_FIELD_VALUE_FRONT</option>
 			<option
-				value="2">Always</option>
+				value="2">PLG_TINY_FIELD_VALUE_ALWAYS</option>
 		</field>
 		<field
 			name="entity_encoding"
 			type="list"
 			default="raw"
-			label="Entity Encoding"
-			description="Controls how entities get processed by editor">
+			label="PLG_TINY_FIELD_LABEL_ENCODING"
+			description="PLG_TINY_FIELD_DESC_ENCODING">
 			<option
-				value="named">named</option>
+				value="named">PLG_TINY_FIELD_VALUE_NAMED</option>
 			<option
-				value="numeric">numeric</option>
+				value="numeric">PLG_TINY_FIELD_VALUE_NUMERIC</option>
 			<option
-				value="raw">raw</option>
+				value="raw">PLG_TINY_FIELD_VALUE_RAW</option>
 		</field>
 		<field
 			type="spacer" />
@@ -107,8 +107,8 @@
 			name="lang_mode"
 			type="radio"
 			default="0"
-			label="Automatic Language Selection"
-			description="DESCLANGMODE">
+			label="PLG_TINY_FIELD_LABEL_LANGSELECT"
+			description="PLG_TINY_FIELD_DESC_LANGSELECT">
 			<option
 				value="0">JNo</option>
 			<option
@@ -119,18 +119,18 @@
 			type="text"
 			default="en"
 			size="2"
-			label="Language Code"
-			description="DESCLANGCODE" />
+			label="PLG_TINY_FIELD_LABEL_LANGCODE"
+			description="PLG_TINY_FIELD_DESC_LANGCODE" />
 		<field
 			name="text_direction"
 			type="list"
 			default="ltr"
-			label="Text Direction"
-			description="Ability to change text direction">
+			label="PLG_TINY_FIELD_LABEL_DIRECTION"
+			description="PLG_TINY_FIELD_DESC_DIRECTION">
 			<option
-				value="ltr">Left to Right</option>
+				value="ltr">PLG_TINY_FIELD_VALUE_LTR</option>
 			<option
-				value="rtl">Right to Left</option>
+				value="rtl">PLG_TINY_FIELD_VALUE_RTL</option>
 		</field>
 		<field
 			type="spacer" />
@@ -138,8 +138,8 @@
 			name="content_css"
 			type="radio"
 			default="1"
-			label="Template CSS classes"
-			description="fieldTEMPLATECSS">
+			label="PLG_TINY_FIELD_LABEL_CSS"
+			description="PLG_TINY_FIELD_DESC_CSS">
 			<option
 				value="0">JNo</option>
 			<option
@@ -150,31 +150,31 @@
 			type="text"
 			size="30"
 			default=""
-			label="Custom CSS Classes"
-			description="fieldCUSTOMCSS" />
+			label="PLG_TINY_FIELD_LABEL_CUSTOM_CSS"
+			description="PLG_TINY_FIELD_DESC_CUSTOM_CSS" />
 		<field
 			type="spacer" />
 		<field
 			name="relative_urls"
 			type="list"
 			default="1"
-			label="Urls"
-			description="URL behaviour">
+			label="PLG_TINY_FIELD_LABEL_URLS"
+			description="PLG_TINY_FIELD_DESC_URLS">
 			<option
-				value="0">Absolute</option>
+				value="0">PLG_TINY_FIELD_VALUE_ABSOLUTE</option>
 			<option
-				value="1">Relative</option>
+				value="1">PLG_TINY_FIELD_VALUE_RELATIVE</option>
 		</field>
 		<field
 			name="newlines"
 			type="list"
 			default="0"
-			label="Newlines"
-			description="Newlines will be made into the selected option">
+			label="PLG_TINY_FIELD_LABEL_NEWLINES"
+			description="PLG_TINY_FIELD_DESC_NEWLINES">
 			<option
-				value="1">BR Elements</option>
+				value="1">PLG_TINY_FIELD_VALUE_BR</option>
 			<option
-				value="0">P Elements</option>
+				value="0">PLG_TINY_FIELD_VALUE_P</option>
 		</field>
 		<field
 			name="invalid_elements"
@@ -182,16 +182,16 @@
 			rows="2"
 			cols="30"
 			default="script,applet,iframe"
-			label="Prohibited Elements"
-			description="Elements that will be cleaned from the text" />
+			label="PLG_TINY_FIELD_LABEL_PROHIBITED"
+			description="PLG_TINY_FIELD_DESC_PROHIBITED" />
 		<field
 			name="extended_elements"
 			type="textarea"
 			rows="2"
 			cols="30"
 			default=""
-			label="Extended Valid Elements"
-			description="fieldEXTVALIDELEMENTS" />
+			label="PLG_TINY_FIELD_LABEL_ELEMENTS"
+			description="PLG_TINY_FIELD_DESC_ELEMENTS" />
 	</fields>
 	<fields
 		group="advanced">
@@ -199,48 +199,48 @@
 			name="toolbar"
 			type="list"
 			default="top"
-			label="Toolbar"
-			description="Position of the toolbar">
+			label="PLG_TINY_FIELD_LABEL_TOOLBAR"
+			description="PLG_TINY_FIELD_DESC_TOOLBAR">
 			<option
-				value="top">Top</option>
+				value="top">PLG_TINY_FIELD_VALUE_TOP</option>
 			<option
-				value="bottom">Bottom</option>
+				value="bottom">PLG_TINY_FIELD_VALUE_BOTTOM</option>
 		</field>
 		<field
 			name="toolbar_align"
 			type="list"
 			default="left"
-			label="Toolbar align"
-			description="Alignment of the toolbar">
+			label="PLG_TINY_FIELD_LABEL_TOOLBAR_ALIGN"
+			description="PLG_TINY_FIELD_DESC_TOOLBAR_ALIGN">
 			<option
-				value="left">Left</option>
+				value="left">PLG_TINY_FIELD_VALUE_LEFT</option>
 			<option
-				value="center">Center</option>
+				value="center">PLG_TINY_FIELD_VALUE_CENTER</option>
 			<option
-				value="right">Right</option>
+				value="right">PLG_TINY_FIELD_VALUE_RIGHT</option>
 		</field>
 		<field
 			name="html_height"
 			type="text"
 			default="550"
-			label="HTML Height"
-			description="fieldHTMLHEIGHT" />
+			label="PLG_TINY_FIELD_LABEL_HTMLHEIGHT"
+			description="PLG_TINY_FIELD_DESC_HTMLHEIGHT" />
 		<field
 			name="html_width"
 			type="text"
 			default="750"
-			label="HTML Width"
-			description="fieldHTMLWIDTH" />
+			label="PLG_TINY_FIELD_LABEL_HTMLWIDTH"
+			description="PLG_TINY_FIELD_DESC_HTMLWIDTH" />
 		<field
 			name="element_path"
 			type="radio"
 			default="1"
-			label="Element Path"
-			description="fieldELEMENTPATH">
+			label="PLG_TINY_FIELD_LABEL_PATH"
+			description="PLG_TINY_FIELD_DESC_PATH">
 			<option
-				value="0">Off</option>
+				value="0">JOFF</option>
 			<option
-				value="1">On</option>
+				value="1">JON</option>
 		</field>
 		<field
 			type="spacer" />
@@ -248,233 +248,233 @@
 			name="fonts"
 			type="radio"
 			default="1"
-			label="Fonts"
-			description="fieldFONTS">
+			label="PLG_TINY_FIELD_LABEL_FONTS"
+			description="PLG_TINY_FIELD_DESC_FONTS">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="paste"
 			type="radio"
 			default="1"
-			label="Paste"
-			description="fieldPASTE">
+			label="PLG_TINY_FIELD_LABEL_PASTE"
+			description="PLG_TINY_FIELD_DESC_PASTE">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="searchreplace"
 			type="radio"
 			default="1"
-			label="Search-Replace"
-			description="fieldSEARCHREPLACE">
+			label="PLG_TINY_FIELD_LABEL_SEARCH-REPLACE"
+			description="PLG_TINY_FIELD_DESC_SEARCH-REPLACE">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="insertdate"
 			type="radio"
 			default="1"
-			label="Insert Date"
-			description="fieldINSERTDATE">
+			label="PLG_TINY_FIELD_LABEL_DATE"
+			description="PLG_TINY_FIELD_DESC_DATE">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="format_date"
 			type="text"
 			default="%Y-%m-%d"
-			label="Date format"
-			description="Format of inserted Date. Only works in Advanced mode" />
+			label="PLG_TINY_FIELD_LABEL_DATEFORMAT"
+			description="PLG_TINY_FIELD_DESC_DATEFORMAT" />
 		<field
 			name="inserttime"
 			type="radio"
 			default="1"
-			label="Insert Time"
-			description="fieldINSERTTIME">
+			label="PLG_TINY_FIELD_LABEL_TIME"
+			description="PLG_TINY_FIELD_DESC_TIME">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="format_time"
 			type="text"
 			default="%H:%M:%S"
-			label="Time format"
-			description="Format of inserted Time. Only works in Advanced mode" />
+			label="PLG_TINY_FIELD_LABEL_TIMEFORMAT"
+			description="PLG_TINY_FIELD_DESC_TIMEFORMAT" />
 		<field
 			name="colors"
 			type="radio"
 			default="1"
-			label="Colors"
-			description="fieldCOLORS">
+			label="PLG_TINY_FIELD_LABEL_COLORS"
+			description="PLG_TINY_FIELD_DESC_COLORS">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="table"
 			type="radio"
 			default="1"
-			label="Table"
-			description="fieldTABLE">
+			label="PLG_TINY_FIELD_LABEL_TABLE"
+			description="PLG_TINY_FIELD_DESC_TABLE">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="smilies"
 			type="radio"
 			default="1"
-			label="Smilies"
-			description="fieldSMILIES">
+			label="PLG_TINY_FIELD_LABEL_SMILIES"
+			description="PLG_TINY_FIELD_DESC_SMILIES">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="media"
 			type="radio"
 			default="1"
-			label="Media"
-			description="fieldMEDIA">
+			label="PLG_TINY_FIELD_LABEL_MEDIA"
+			description="PLG_TINY_FIELD_DESC_MEDIA">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="hr"
 			type="radio"
 			default="1"
-			label="Horizontal Rule"
-			description="Show/Hide the Horizontal Rule button">
+			label="PLG_TINY_FIELD_LABEL_HR"
+			description="PLG_TINY_FIELD_DESC_HR">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="directionality"
 			type="radio"
 			default="1"
-			label="Directionality"
-			description="fieldDIRECTIONALITY">
+			label="PLG_TINY_FIELD_LABEL_RTL"
+			description="PLG_TINY_FIELD_DESC_RTL">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="fullscreen"
 			type="radio"
 			default="1"
-			label="Fullscreen"
-			description="fieldFULLSCREEN">
+			label="PLG_TINY_FIELD_LABEL_FULLSCREEN"
+			description="PLG_TINY_FIELD_DESC_FULLSCREEN">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="style"
 			type="radio"
 			default="1"
-			label="Style"
-			description="fieldSTYLE">
+			label="PLG_TINY_FIELD_LABEL_STYLE"
+			description="PLG_TINY_FIELD_DESC_STYLE">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="layer"
 			type="radio"
 			default="1"
-			label="Layer"
-			description="fieldLAYER">
+			label="PLG_TINY_FIELD_LABEL_LAYER"
+			description="PLG_TINY_FIELD_DESC_LAYER">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="xhtmlxtras"
 			type="radio"
 			default="1"
-			label="XHTMLxtras"
-			description="fieldXHTMLXTRAS">
+			label="PLG_TINY_FIELD_LABEL_XHTMLXTRAS"
+			description="PLG_TINY_FIELD_DESC_XHTMLXTRAS">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="visualchars"
 			type="radio"
 			default="1"
-			label="Visualchars"
-			description="Possibility to see invisible characters">
+			label="PLG_TINY_FIELD_LABEL_VISUALCHARS"
+			description="PLG_TINY_FIELD_DESC_VISUALCHARS">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="nonbreaking"
 			type="radio"
 			default="1"
-			label="Nonbreaking"
-			description="Insert nonbreaking space entities">
+			label="PLG_TINY_FIELD_LABEL_NONBREAKING"
+			description="PLG_TINY_FIELD_DESC_NONBREAKING">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="template"
 			type="radio"
 			default="1"
-			label="Template"
-			description="fieldTEMPLATE">
+			label="PLG_TINY_FIELD_LABEL_TEMPLATE"
+			description="PLG_TINY_FIELD_DESC_TEMPLATE">
 			<option
-				value="0">Hide</option>
+				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
 		</field>
 		<field
 			name="blockquote"
 			type="radio"
 			default="1"
-			label="Blockquote"
-			description="Turn on/off Blockquotes">
+			label="PLG_TINY_FIELD_LABEL_BLOCKQUOTE"
+			description="PLG_TINY_FIELD_DESC_BLOCKQUOTE">
 			<option
-				value="0">Off</option>
+				value="0">JOFF</option>
 			<option
-				value="1">On</option>
+				value="1">JON</option>
 		</field>
 		<field
 			name="wordcount"
 			type="radio"
 			default="1"
-			label="Wordcount"
-			description="Turn on/off Wordcount">
+			label="PLG_TINY_FIELD_LABEL_WORDCOUNT"
+			description="PLG_TINY_FIELD_DESC_WORDCOUNT">
 			<option
-				value="0">Off</option>
+				value="0">JOFF</option>
 			<option
-				value="1">On</option>
+				value="1">JON</option>
 		</field>
 		<field
 			type="spacer" />
@@ -482,67 +482,67 @@
 			name="advimage"
 			type="radio"
 			default="1"
-			label="Advanced image"
-			description="Turn on/off a more advanced image dialog">
+			label="PLG_TINY_FIELD_LABEL_ADVIMAGE"
+			description="PLG_TINY_FIELD_DESC_ADVIMAGE">
 			<option
-				value="0">Off</option>
+				value="0">JOFF</option>
 			<option
-				value="1">On</option>
+				value="1">JON</option>
 		</field>
 		<field
 			name="advlink"
 			type="radio"
 			default="1"
-			label="Advanced link"
-			description="Turn on/off a more advanced link dialog">
+			label="PLG_TINY_FIELD_LABEL_ADVLINK"
+			description="PLG_TINY_FIELD_DESC_ADVLINK">
 			<option
-				value="0">Off</option>
+				value="0">JOFF</option>
 			<option
-				value="1">On</option>
+				value="1">JON</option>
 		</field>
 		<field
 			name="autosave"
 			type="radio"
 			default="1"
-			label="Save Warning"
-			description="Save warning - gives warning if you cancel without saving changes">
+			label="PLG_TINY_FIELD_LABEL_SAVEWARNING"
+			description="PLG_TINY_FIELD_DESC_SAVEWARNING">
 			<option
-				value="0">Off</option>
+				value="0">JOFF</option>
 			<option
-				value="1">On</option>
+				value="1">JON</option>
 		</field>
 		<field
 			name="contextmenu"
 			type="radio"
 			default="1"
-			label="Context menu"
-			description="Turn on/off Context menu">
+			label="PLG_TINY_FIELD_LABEL_CONTEXTMENU"
+			description="PLG_TINY_FIELD_DESC_CONTEXTMENU">
 			<option
-				value="0">Off</option>
+				value="0">JOFF</option>
 			<option
-				value="1">On</option>
+				value="1">JON</option>
 		</field>
 		<field
 			name="inlinepopups"
 			type="radio"
 			default="1"
-			label="Inline popups"
-			description="All dialogs to open as floating DIV layers instead of popup windows. This option can be very useful in order to get around popup blockers.">
+			label="PLG_TINY_FIELD_LABEL_INLINEPOPUPS"
+			description="PLG_TINY_FIELD_DESC_INLINEPOPUPS">
 			<option
-				value="0">Off</option>
+				value="0">JOFF</option>
 			<option
-				value="1">On</option>
+				value="1">JON</option>
 		</field>
 		<field
 			name="safari"
 			type="radio"
 			default="0"
-			label="Safari compatibility"
-			description="Turn on/off Safari compatibility plugin">
+			label="PLG_TINY_FIELD_LABEL_SAFARI"
+			description="PLG_TINY_FIELD_DESC_SAFARI">
 			<option
-				value="0">Off</option>
+				value="0">JOFF</option>
 			<option
-				value="1">On</option>
+				value="1">JON</option>
 		</field>
 		<field
 			type="spacer" />
@@ -550,13 +550,13 @@
 			name="custom_plugin"
 			type="text"
 			default=""
-			label="Custom plugin"
-			description="Add custom plugin(s)" />
+			label="PLG_TINY_FIELD_LABEL_CUSTOMPLUGIN"
+			description="PLG_TINY_FIELD_DESC_CUSTOMPLUGIN" />
 		<field
 			name="custom_button"
 			type="text"
 			default=""
-			label="Custom button"
-			description="Add custom button(s)" />
+			label="PLG_TINY_FIELD_LABEL_CUSTOMBUTTON"
+			description="PLG_TINY_FIELD_DESC_CUSTOMBUTTON" />
 	</fields>
 </install>
