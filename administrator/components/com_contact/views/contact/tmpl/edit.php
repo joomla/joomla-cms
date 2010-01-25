@@ -126,16 +126,26 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo JHtml::_('sliders.panel',JText::_('Contact_Fieldset_Contact_Form'), 'email-options'); ?>
 				<fieldset class="panelform">
-				<p><?php echo JText::_('Contact_Email_Form_Details'); ?></p>
-					<?php foreach($this->form->getFields('email_form') as $field): ?>
-						<?php if ($field->hidden): ?>
-							<?php echo $field->input; ?>
-						<?php else: ?>
-							<?php echo $field->label; ?>
-							<?php echo $field->input; ?>
-						<?php endif; ?>
-					<?php endforeach; ?>
+
+						<?php echo $this->form->getLabel('show_email_form'); ?>
+						<?php echo $this->form->getInput('show_email_form'); ?>
+
+						<?php echo $this->form->getLabel('email_description'); ?>
+						<?php echo $this->form->getInput('email_description'); ?>
+
+						<?php echo $this->form->getLabel('show_email_copy'); ?>
+						<?php echo $this->form->getInput('show_email_copy'); ?>
+
+						<?php echo $this->form->getLabel('banned_email'); ?>
+						<?php echo $this->form->getInput('banned_email'); ?>
+
+						<?php echo $this->form->getLabel('banned_subject'); ?>
+						<?php echo $this->form->getInput('banned_subject'); ?>
+
+						<?php echo $this->form->getLabel('banned_text'); ?>
+						<?php echo $this->form->getInput('banned_text'); ?>
 				</fieldset>
+
 
 			<?php echo 	 JHtml::_('sliders.end'); ?>
 </div>

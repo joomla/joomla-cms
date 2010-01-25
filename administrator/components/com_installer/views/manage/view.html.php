@@ -27,7 +27,7 @@ class InstallerViewManage extends InstallerViewDefault
 		JToolBarHelper::custom('manage.refresh', 'refresh', 'refresh','REFRESH_CACHE',false,false);
 		JToolBarHelper::deleteList('', 'manage.remove', 'Uninstall');
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.installer2','JTOOLBAR_HELP');
+		JToolBarHelper::help('screen.installer2');
 
 		$dbo =& JFactory::getDBO();
 

@@ -37,13 +37,6 @@ class ContactViewContact extends JView
 		}
 
 		// Bind the label to the form.
-		// First, unpack the email_form options from the params
-		$item->set('email_form', new JObject());
-		foreach ($form->getFields('email_form') as $thisField) {
-			$item->email_form->set($thisField->name, $item->params->get($thisField->name));
-			$item->params->set($thisField->name, null);
-		}
-		
 		$form->bind($item);
 
 		$this->assignRef('state',	$state);

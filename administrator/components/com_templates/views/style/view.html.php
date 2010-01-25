@@ -73,8 +73,8 @@ class TemplatesViewStyle extends JView
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			JToolBarHelper::apply('style.apply','JTOOLBAR_APPLY');
-			JToolBarHelper::save('style.save','JTOOLBAR_SAVE');
+			JToolBarHelper::apply('style.apply');
+			JToolBarHelper::save('style.save');
 			JToolBarHelper::addNew('style.save2new', 'JToolbar_Save_and_new');
 		}
 
@@ -84,12 +84,12 @@ class TemplatesViewStyle extends JView
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('style.cancel','JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel('style.cancel');
 		}
 		else {
 			JToolBarHelper::cancel('style.cancel', 'JToolbar_Close');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.style.edit','JTOOLBAR_HELP');
+		JToolBarHelper::help('screen.style.edit');
 	}
 }

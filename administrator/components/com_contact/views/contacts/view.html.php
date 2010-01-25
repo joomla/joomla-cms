@@ -63,21 +63,21 @@ class ContactViewContacts extends JView
 		JToolBarHelper::addNew('contact.edit', 'JToolbar_New');
 		JToolBarHelper::editList('contact.edit','JToolbar_Edit');
 		JToolBarHelper::divider();
-		JToolBarHelper::publish('contacts.publish','JTOOLBAR_PUBLISH');
-		JToolBarHelper::unpublish('contacts.unpublish','JTOOLBAR_UNPUBLISH');
+		JToolBarHelper::publish('contacts.publish');
+		JToolBarHelper::unpublish('contacts.unpublish');
 		JToolBarHelper::divider();
 		JToolBarHelper::archiveList('contacts.archive','JToolbar_Archive');
 		if ($state->get('filter.published') == -2) {
-			JToolBarHelper::deleteList('', 'contacts.delete','JTOOLBAR_TRASH');
+			JToolBarHelper::deleteList('', 'contacts.delete');
 		}
 		else {
-			JToolBarHelper::trash('contacts.trash','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::trash('contacts.trash');
 		}
 		JToolBarHelper::divider();
 
 		JToolBarHelper::preferences('com_contact');
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.contact','JTOOLBAR_HELP');
+		JToolBarHelper::help('screen.contact');
 	}
 }
 

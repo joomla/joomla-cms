@@ -50,7 +50,7 @@ class ContactTableContact extends JTable
 	/** @var int */
 	public $default_con 		= null;
 	/** @var int */
-	public $published 			= null;
+	public $published 			= 0;
 	/** @var int */
 	public $checked_out 		= 0;
 	/** @var datetime */

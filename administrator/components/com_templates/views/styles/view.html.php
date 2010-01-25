@@ -67,13 +67,13 @@ class TemplatesViewStyles extends JView
 			JToolBarHelper::addNew('styles.duplicate', 'Templates_Toolbar_Save_Copy');
 		}
 		if ($canDo->get('core.delete') && $isSite) {
-			JToolBarHelper::deleteList('', 'styles.delete','JTOOLBAR_TRASH');
+			JToolBarHelper::deleteList('', 'styles.delete');
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_templates');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.templates','JTOOLBAR_HELP');
+		JToolBarHelper::help('screen.templates');
 	}
 }

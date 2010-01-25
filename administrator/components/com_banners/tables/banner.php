@@ -36,7 +36,7 @@ class BannersTableBanner extends JTable
 	/** @var string */
 	var $clickurl			= '';
 	/** @var int */
-	var $state				= null;
+	var $state				= 0;
 	/** @var int */
 	var $catid				= null;
 	/** @var string */

@@ -5,17 +5,6 @@
 		group="contact"
 		label="Contact_Config_Individual_Contact_Display">
 		<field
-			name="show_contact_list"
-			type="radio"
-			default="0"
-			label="Com_Contact_Contact_Contact_Show_List_Label"
-			description="Com_Contact_Contact_Contact_Show_List_Desc">
-			<option
-				value="0">JHide</option>
-			<option
-				value="1">JShow</option>
-		</field>		
-		<field
 			name="show_name"
 			type="radio"
 			default="1"
@@ -180,22 +169,7 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-			<field name="show_articles"
-				type="radio"
-				default="1"
-				label="Contact_Articles_Show_Label"
-				description="Contact_Articles_Show_Desc">
-					<option value="0">Jcommon_Hide</option>
-					<option value="1">Jcommon_Show</option>
-		</field>
-		<field name="show_profile"
-				type="radio"
-				default="1"
-				label="Contact_Profile_Show_Label"
-				description="Contact_Profile_Show_Desc">
-					<option value="0">Jcommon_Hide</option>
-					<option value="1">Jcommon_Show</option>
-		</field>	
+		
 		<field
 			id="show_links"
 			name="show_links"
@@ -216,7 +190,7 @@
 			label="Contact_Linka_Name_Label"
 			description="Contact_Linka_Name_Desc"
 			size="30"
-			default="" />
+			default="Contact_Default_Link_Name" />
 		<field
 			id="linkb_name"
 			name="linkb_name"
@@ -224,7 +198,7 @@
 			label="Contact_LInkb_Name_Label"
 			description="Contact_Linkb_Name_Desc"
 			size="30"
-			default="" />
+			default="Contact_Default_Link_Name" />
 		<field
 			id="linkc_name"
 			name="linkc_name"
@@ -232,7 +206,7 @@
 			label="Contact_LInkc_Name_Label"
 			description="Contact_Linkc_Name_Desc"
 			size="30"
-			default="" />
+			default="Contact_Default_Link_Name" />
 		<field
 			id="linkd_name"
 			name="linkd_name"
@@ -240,7 +214,7 @@
 			label="Contact_LInkd_Name_Label"
 			description="Contact_Linkd_Name_Desc"
 			size="30"
-			default="" />
+			default="Contact_Default_Link_Name" />
 		<field
 			id="linke_name"
 			name="linke_name"
@@ -248,7 +222,7 @@
 			label="Contact_LInke_Name_Label"
 			description="Contact_Linke_Name_Desc"
 			size="30"
-			default="" />
+			default="Contact_Default_Link_Name" />
 	</fields>
 	<fields
 		group="Icons"
@@ -339,7 +313,7 @@
 		</field>
 
 		<field
-			name="show_position_headings"
+			name="show_position"
 			type="radio"
 			default="1"
 			label="Contact_Config_Position_Label"
@@ -351,7 +325,7 @@
 		</field>
 
 		<field
-			name="show_email_headings"
+			name="show_email"
 			type="radio"
 			default="0"
 			label="Contact_Show_Email_Address_Label"
@@ -363,7 +337,7 @@
 		</field>
 
 		<field
-			name="show_telephone_headings"
+			name="show_telephone"
 			type="radio"
 			default="1"
 			label="Contact_Config_Phone_Label"
@@ -375,7 +349,7 @@
 		</field>
 
 		<field
-			name="show_mobile_headings"
+			name="show_mobile"
 			type="radio"
 			default="1"
 			label="Contact_Config_Mobile_Label"
@@ -387,7 +361,7 @@
 		</field>
 
 		<field
-			name="show_fax_headings"
+			name="show_fax"
 			type="radio"
 			default="1"
 			label="Contact_Config_Mobile_Label"
@@ -400,7 +374,7 @@
 
 
 		<field
-			name="allow_vcard_headings"
+			name="allow_vcard"
 			type="radio"
 			default="0"
 			label="Contact_Config_vCard_Label"
@@ -411,7 +385,14 @@
 				value="1">Jcommon_Show</option>
 
 		</field>
-
+		<field name="show_profile"
+				type="radio"
+				default="1"
+				label="Contact_Profile_Show_Label"
+				description="Contact_Profile_Show_Desc">
+					<option value="0">Jcommon_Hide</option>
+					<option value="1">Jcommon_Show</option>
+		</field>
 	</fields>
 	<fields
 		group="Contact_Form"
@@ -428,27 +409,6 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-	
-		<field
-			name="email_description"
-			type="text"
-			size="30"
-			default=""
-			label="Contact_Email_Description_Text_Label"
-			description="Contact_Email_Description_Text_Desc" />
-
-		<field
-			name="show_email_copy"
-			type="radio"
-			default="1"
-			label="Contact_Email_Email_Copy_Label"
-			description="Contact_Email_Email_Copy_Desc">
-			<option
-				value="0">Jcommon_Hide</option>
-			<option
-				value="1">Jcommon_Show</option>
-		</field>
-		
 		<field
 			name="banned_email"
 			type="textarea"
@@ -507,50 +467,6 @@
 			label="Contact_Config_Redirect_LABEL"
 			description="Contact_Config_Redirect_DESC" />
 	</fields>
-	
-		<fields
-		group="integration"
-		label="Menus_Layout_Integration_Options_Label"
-		description="">
-
-		<field
-			name="show_category_crumb"
-			type="radio"
-			default="0"
-			label="Com_Contact_Contact_Breadcrumbs_Label"
-			description="Com_Contact_Contact_Breadcrumbs_Desc">
-			<option
-				value="0">JHide</option>
-			<option
-				value="1">JShow</option>
-		</field>
-		
-		<field
-			name="article_allow_ratings"
-			type="radio"
-			label="Content_Attribs_Allow_Ratings_Label"
-			description="Content_Attribs_Allow_Ratings_Desc"
-			default="0">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-		<field
-			name="article_allow_comments"
-			type="radio"
-			label="Content_Attribs_Allow_Comments_Label"
-			description="Content_Attribs_Allow_Comments_Desc"
-			default="0">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-	</fields>
-	
 	<fields
 		group="Contact_Config_Meta_Data"
 		label="Contact_Fieldset_Meta_Data">

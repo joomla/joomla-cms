@@ -72,22 +72,22 @@ class MenusViewItems extends JView
 	protected function _setToolbar()
 	{
 		JToolBarHelper::title(JText::_('Menus_View_Items_Title'), 'menumgr.png');
-		JToolBarHelper::custom('item.add', 'new.png', 'new_f2.png','JTOOLBAR_NEW', false);
-		JToolBarHelper::custom('item.edit', 'edit.png', 'edit_f2.png','JTOOLBAR_EDIT', true);
+		JToolBarHelper::custom('item.add', 'new.png', 'new_f2.png', 'New', false);
+		JToolBarHelper::custom('item.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
 
 		JToolBarHelper::divider();
 
-		JToolBarHelper::custom('items.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
-		JToolBarHelper::custom('items.unpublish', 'unpublish.png', 'unpublish_f2.png','JTOOLBAR_UNPUBLISH', true);
+		JToolBarHelper::custom('items.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
+		JToolBarHelper::custom('items.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
 		if ($this->state->get('filter.published') == -2) {
-			JToolBarHelper::deleteList('', 'items.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::deleteList('', 'items.delete');
 		}
 		else {
-			JToolBarHelper::trash('items.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::trash('items.trash');
 		}
 		JToolBarHelper::divider();
 
 
-		JToolBarHelper::help('screen.menus.items','JTOOLBAR_HELP');
+		JToolBarHelper::help('screen.menus.items');
 	}
 }
