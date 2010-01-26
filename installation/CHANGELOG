@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 26-Jan-2010 Louis Landry
  # [#19552] [patch] Error loading xml from string in JFactory::getXML (Thanks to Christopher Garvis)
+ # [#19542] Wrong field name in libraries/joomla/html/parameter/element/menuitem.php (Thanks to Jeff Channell)
 
 26-Jan-2010 Christophe Demko
  ^ Readding the possibility of setting the array parameter for a group different from true and false
