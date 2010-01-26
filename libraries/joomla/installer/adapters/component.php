@@ -1073,7 +1073,7 @@ class JInstallerComponent extends JAdapterInstance
 			$data['img'] = 'class:component';
 			$data['home'] = 0;
 
-			if(!$table->bind($data) || !$table->check() || !$table->store())
+			if(!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
@@ -1086,6 +1086,7 @@ class JInstallerComponent extends JAdapterInstance
 			 */
 			$this->parent->pushStep(array ('type' => 'menu'));
 		}
+		$parent_id = $table->id;;
 
 		/*
 		 * Process SubMenus
@@ -1102,7 +1103,7 @@ class JInstallerComponent extends JAdapterInstance
 			$data['alias'] = (string)$child;
 			$data['type'] = 'component';
 			$data['published'] = 0;
-			$data['parent_id'] = 1;
+			$data['parent_id'] = $parent_id;
 			$data['component_id'] = $component_id;
 			$data['img'] = ((string)$child->attributes()->img) ? (string)$child->attributes()->img : 'class:component';
 			$data['home'] = 0;
@@ -1136,7 +1137,8 @@ class JInstallerComponent extends JAdapterInstance
 				$data['link'] = "index.php?option=".$option.$qstring;
 			}
 
-			if(!$table->bind($data) || !$table->check() || !$table->store())
+			$table = &JTable::getInstance('menu');
+			if(!$table->setLocation($parent_id, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
