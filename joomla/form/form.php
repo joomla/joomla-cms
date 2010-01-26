@@ -163,12 +163,22 @@ class JForm extends JObject
 
 		// Iterate through the groups.
 		foreach ($this->_groups as $group => $fields) {
+			$array = $this->_fieldsets[$group]['array'];
+			if ($array === true) {
+				if(isset($this->_fieldsets[$group]['parent'])) {
+					$groupControl = $this->_fieldsets[$group]['parent'];
+				} else {
+					$groupControl = $group;
+				}
+			} else {
+				$groupControl = $array;
+			}
 			// Bind if no group is specified or if the group matches the current group.
 			if ($limit === null || ($limit !== null && $group === $limit)) {
 				// Iterate through the values.
 				foreach ($data as $k => $v) {
 					// If the field name matches the name of the group and the value is not scalar, recurse.
-					if ($k == $group && !is_scalar($v) && !is_resource($v)) {
+					if ($k == $groupControl && !is_scalar($v) && !is_resource($v)) {
 						if(isset($this->_fieldsets[$group]['children']))
 						{
 							$childgroups = $this->_fieldsets[$group]['children'];
@@ -347,12 +357,26 @@ class JForm extends JObject
 		
 		// Iterate through the groups.
 		foreach ($this->_groups as $group => $fields) {
+			$array = $this->_fieldsets[$group]['array'];
+			if ($array === true) {
+				if(isset($this->_fieldsets[$group]['parent'])) {
+					$groupControl = $this->_fieldsets[$group]['parent'];
+				} else {
+					$groupControl = $group;
+				}
+			} else {
+				$groupControl = $array;
+			}
 			// Filter if no group is specified or if the group matches the current group.
 			if ($limit === null || ($limit !== null && $group === $limit)) {
 				// If the group name matches the name of a group in the data and the value is not scalar, recurse.
-				if (isset($data[$group]) && !is_scalar($data[$group]) && !is_resource($data[$group]))
+				if (isset($data[$groupControl]) && !is_scalar($data[$groupControl]) && !is_resource($data[$groupControl]))
 				{
-					$return[$group] = $this->filter($data[$group], $group);
+					if (isset($return[$groupControl])) {
+						$return[$groupControl] = array_merge($return[$groupControl], $this->filter($data[$groupControl], $group));
+					} else {
+						$return[$groupControl] = $this->filter($data[$groupControl], $group);
+					}
 				} else {
 					// Filter the fields.
 					foreach ($fields as $name => $field)
