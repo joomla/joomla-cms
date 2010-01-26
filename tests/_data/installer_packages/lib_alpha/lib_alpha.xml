@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="library" version="1.6" method="upgrade">
+	<name>Alpha</name>
+	<libraryname>alpha</libraryname>
+	<description>Alpha Demonstration Library</description>
+	<creationDate>July 2008</creationDate>
+	<author>John Doe</author>
+	<authorEmail>john.doe@example.org</authorEmail>
+	<authorUrl>http://www.example.org</authorUrl>
+	<copyright>(C) 2008 Copyright Info</copyright>
+	<license>License Info</license>
+	<version>1.6</version>
+	<packager>Joomla!</packager>
+	<packagerurl>http://www.joomla.org</packagerurl>
+	<update>http://update.joomla.org/libraries/alpha</update>
+	<files folder="files">
+		<file>alpha.php</file>
+	</files>
+</extension>
