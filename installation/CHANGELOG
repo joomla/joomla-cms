@@ -27,13 +27,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-26-jan-2010 Christophe Demko
-^ Readding the possibility of setting the array parameter for a group different from true and false
-# Correcting bugs in installer adapters
-# Loading JDocument class in inherited classes
+26-Jan-2010 Louis Landry
+ # [#19552] [patch] Error loading xml from string in JFactory::getXML (Thanks to Christopher Garvis)
+
+26-Jan-2010 Christophe Demko
+ ^ Readding the possibility of setting the array parameter for a group different from true and false
+ # Correcting bugs in installer adapters
+ # Loading JDocument class in inherited classes
 
 26-Jan-2010 Hannes Papenberg
-# Improved performance of JPluginHelper - Thanks Omar!
+ # Improved performance of JPluginHelper - Thanks Omar!
 
 25-Jan-2010 Louis Landry
  ^ Moved testing infrastructure from the /testing/ folder into the trunk.

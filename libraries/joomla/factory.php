@@ -331,12 +331,12 @@ abstract class JFactory
 	 *
 	 * @todo This may go in a separate class - error reporting may be improved.
 	 *
-	 * @param string $path Full path and file name.
+	 * @param string $data Full path and file name.
 	 * @param boolean $isFile true to load a file | false to load a string.
 	 *
 	 * @return mixed JXMLElement on success | false on error.
 	 */
-	public static function getXML($path, $isFile = true)
+	public static function getXML($data, $isFile = true)
 	{
 		jimport('joomla.utilities.xmlelement');
 
@@ -346,7 +346,7 @@ abstract class JFactory
 		if($isFile)
 		{
 			// Try to load the xml file
-			$xml = simplexml_load_file($path, 'JXMLElement');
+			$xml = simplexml_load_file($data, 'JXMLElement');
 		}
 		else
 		{
@@ -361,7 +361,7 @@ abstract class JFactory
 
 			if($isFile)
 			{
-				JError::raiseWarning(100, $path);
+				JError::raiseWarning(100, $data);
 			}
 
 			foreach(libxml_get_errors() as $error)
