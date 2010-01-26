@@ -17,6 +17,9 @@ defined('JPATH_BASE') or die();
  * @subpackage	Document
  * @since		1.6
  */
+
+jimport('joomla.document.document');
+
 class JDocumentJSON extends JDocument
 {
 	/**

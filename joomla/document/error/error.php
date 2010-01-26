@@ -17,6 +17,9 @@ defined('JPATH_BASE') or die;
  * @subpackage	Document
  * @since		1.5
  */
+
+jimport('joomla.document.document');
+
 class JDocumentError extends JDocument
 {
 	/**

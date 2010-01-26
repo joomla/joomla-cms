@@ -19,6 +19,8 @@ jimport('joomla.application.module.helper');
  * @since		1.5
  */
 
+jimport('joomla.document.document');
+
 class JDocumentHTML extends JDocument
 {
 	 /**
