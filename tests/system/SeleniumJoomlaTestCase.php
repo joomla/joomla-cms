@@ -10,7 +10,7 @@ require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
 
 class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
-	var $cfg; // configuration so tests can get at the fields
+	public $cfg; // configuration so tests can get at the fields
 
 	public function setUp()
 	{
