@@ -53,10 +53,10 @@ class JElementMenuItem extends JElement
 
 		// load the list of menu items
 		// TODO: move query to model
-		$query = 'SELECT id, parent, name, menutype, type' .
+		$query = 'SELECT id, parent_id, name, menutype, type' .
 				' FROM #__menu' .
 				$where .
-				' ORDER BY menutype, parent, ordering'
+				' ORDER BY menutype, parent_id, ordering'
 				;
 
 		$db->setQuery($query);
@@ -71,7 +71,7 @@ class JElementMenuItem extends JElement
 			// first pass - collect children
 			foreach ($menuItems as $v)
 			{
-				$pt 	= $v->parent;
+				$pt 	= $v->parent_id;
 				$list 	= @$children[$pt] ? $children[$pt] : array();
 				array_push($list, $v);
 				$children[$pt] = $list;
