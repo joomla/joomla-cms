@@ -156,7 +156,7 @@ class ContentModelForm extends JModelForm
 		$isNew		= true;
 
 		if (!$form) {
-			JError::raiseError(500, $model->getError());
+			JError::raiseError(500, $this->getError());
 			return false;
 		}
 
@@ -192,7 +192,7 @@ class ContentModelForm extends JModelForm
 
 		$result = $dispatcher->trigger('onBeforeContentSave', array(&$table, $isNew));
 		if (in_array(false, $result, true)) {
-			JError::raiseError(500, $row->getError());
+			JError::raiseError(500, $table->getError());
 			return false;
 		}
 
