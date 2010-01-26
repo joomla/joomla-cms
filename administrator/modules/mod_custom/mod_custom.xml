@@ -12,6 +12,12 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
 	<description>mod_custom_desc</description>
+	<files>
+		<filename
+			module="mod_custom">mod_custom.php</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
+	</files>
 	<fields>
 		<field
 			name="prepare_content"

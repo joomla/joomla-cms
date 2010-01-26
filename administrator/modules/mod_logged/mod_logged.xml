@@ -13,8 +13,9 @@
 	<version>1.6.0</version>
 	<description>This module shows a list of the currently logged in users</description>
 	<files>
-		<filename
-			module="mod_logged">mod_logged.php</filename>
+		<filename module="mod_logged">mod_logged.php</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
 	</files>
 	<fields
 		group="advanced">

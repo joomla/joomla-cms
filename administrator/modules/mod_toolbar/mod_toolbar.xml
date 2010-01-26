@@ -14,8 +14,9 @@
 	<description>This module shows the toolbar icons used to control actions throughout the administrator area
 	</description>
 	<files>
-		<filename
-			module="mod_toolbar">mod_toolbar.php</filename>
+		<filename module="mod_toolbar">mod_toolbar.php</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
 	</files>
 	<fields
 		group="advanced">

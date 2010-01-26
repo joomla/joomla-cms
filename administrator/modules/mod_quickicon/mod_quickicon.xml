@@ -13,8 +13,10 @@
 	<version>1.6.0</version>
 	<description>This module shows Quick Icons that are visible on the admin area home page</description>
 	<files>
-		<filename
-			module="mod_quickicon">mod_quickicon.php</filename>
+		<filename module="mod_quickicon">mod_quickicon.php</filename>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
 	</files>
 	<fields
 		group="advanced">

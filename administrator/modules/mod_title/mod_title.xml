@@ -13,8 +13,9 @@
 	<version>1.6.0</version>
 	<description>This module shows the toolbar component title</description>
 	<files>
-		<filename
-			module="mod_toolbar">mod_toolbar.php</filename>
+		<filename module="mod_title">mod_title.php</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
 	</files>
 	<fields
 		group="advanced">

@@ -13,8 +13,9 @@
 	<version>1.6.0</version>
 	<description>MOD_STATUS_DESC</description>
 	<files>
-		<filename
-			module="mod_status">mod_status.php</filename>
+		<filename module="mod_status">mod_status.php</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
 	</files>
 	<fields
 		group="advanced">
