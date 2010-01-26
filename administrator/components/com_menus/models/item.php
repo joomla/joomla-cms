@@ -724,7 +724,7 @@ class MenusModelItem extends JModelForm
 		foreach ($items as &$item) {
 			$registry = new JRegistry;
 			$registry->loadJSON($item->params);
-			$params = $registry->toString();
+			$params = (string)$registry;
 
 			$this->_db->setQuery(
 				'UPDATE #__menu' .

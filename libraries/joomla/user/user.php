@@ -470,7 +470,7 @@ class JUser extends JObject
 			$params	= '';
 			$this->_params->bind($array['params']);
 			if (is_array($array['params'])) {
-				$params	= $this->_params->toString();
+				$params	= (string)$this->_params;
 			} else {
 				$params = $array['params'];
 			}
@@ -502,7 +502,7 @@ class JUser extends JObject
 	{
 		// Create the user table object
 		$table 	= &$this->getTable();
-		$this->params = $this->_params->toString();
+		$this->params = (string)$this->_params;
 		$table->bind($this->getProperties());
 
 		// Check and store the object.

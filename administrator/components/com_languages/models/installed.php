@@ -261,7 +261,7 @@ class LanguagesModelInstalled extends JModelList
 				$this->setError($table->getError());
 				return false;
 			}
-			$table->params = $params->toString();
+			$table->params = (string)$params;
 			// pre-save checks
 			if (!$table->check()) {
 				$this->setError($table->getError());

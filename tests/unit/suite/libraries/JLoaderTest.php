@@ -8,7 +8,7 @@
  * @license   GNU General Public License
  */
 require_once 'PHPUnit/Framework.php';
-require_once JPATH_BASE. DS . 'libraries' . DS . 'loader.php';
+require_once JPATH_BASE . '/libraries/loader.php';
 
 /**
  * Test class for JLoader.

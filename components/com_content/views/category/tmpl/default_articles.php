@@ -102,9 +102,8 @@ $n = count($this->articles);
 						$returnURL = JRoute::_(ContentRoute::article($article->slug));
 						$fullURL = new JURI($link);
 						$fullURL->setVar('return', base64_encode($returnURL));
-						$link = $fullURL->toString();
 					?>
-					<a href="<?php echo $link; ?>" class="register">
+					<a href="<?php echo $fullURL; ?>" class="register">
 					<?php echo JText::_( 'Register to read more...' ); ?></a>
 				</td>
 				<?php endif; ?>

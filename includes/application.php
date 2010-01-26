@@ -223,7 +223,7 @@ final class JSite extends JApplication
 			{
 				// Redirect to login
 				$uri		= JFactory::getURI();
-				$return		= $uri->toString();
+				$return		= (string)$uri;
 
 				$this->setUserState('users.login.form.data',array( 'return' => $return ) );
 

@@ -102,7 +102,7 @@ class ContactTableContact extends JTable
 		if (is_array($this->params)) {
 			$registry = new JRegistry();
 			$registry->loadArray($this->params);
-			$this->params = $registry->toString();
+			$this->params = (string)$registry;
 		}
 
 		// Attempt to store the data.

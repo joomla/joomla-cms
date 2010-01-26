@@ -79,7 +79,7 @@ class UsersControllerConfig extends JController
 		// Get the component configuration values.
 		$app	= JFactory::getApplication();
 		$config = &JComponentHelper::getParams('com_users');
-		$string	= $config->toString();
+		$string	= (string)$config;
 
 		// Send file headers.
 		header('Content-type: application/force-download');

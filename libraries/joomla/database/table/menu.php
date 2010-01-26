@@ -46,7 +46,7 @@ class JTableMenu extends JTableNested
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
+			$array['params'] = (string)$registry;
 		}
 
 		return parent::bind($array, $ignore);

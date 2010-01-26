@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 27-jan-2010 Christophe Demko
 # Correcting bugs in JForm
+^ Call to $object->toString() changed to (string)$object
 
 26-Jan-2010 Mark Dexter
 ^ Add sprintf, alternative readmore to com_content, newsflash views (Angie Radtke)

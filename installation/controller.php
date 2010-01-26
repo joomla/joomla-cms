@@ -29,8 +29,7 @@ class JInstallationController extends JController
 	{
 		// Get the current URI to redirect to.
 		$uri		= &JURI::getInstance();
-		$redirect	= $uri->toString();
-		$redirect	= base64_encode($redirect);
+		$redirect	= base64_encode($uri);
 
 		// Get the document object.
 		$document = &JFactory::getDocument();

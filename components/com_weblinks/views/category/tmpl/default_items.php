@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
 
 
 
- <form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()->toString()); ?>" method="post" name="adminForm">
+ <form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()); ?>" method="post" name="adminForm">
  <div class="filter">
          <?php echo JText::_('Display Num'); ?>
          <?php echo $this->pagination->getLimitBox(); ?>

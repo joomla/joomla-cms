@@ -139,7 +139,7 @@ class ContactViewCategory extends JView
 		$this->assignRef('category',	$category);
 		$this->assignRef('params',		$pparams);
 
-		$this->assign('action',		str_replace('&', '&amp;', $uri->toString()));
+		$this->assign('action',		str_replace('&', '&amp;', $uri));
 
 		parent::display($tpl);
 	}

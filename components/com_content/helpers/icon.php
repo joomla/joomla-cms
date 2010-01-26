@@ -23,9 +23,8 @@ class JHTMLIcon
 	static function create($article, $params)
 	{
 		$uri = &JFactory::getURI();
-		$ret = $uri->toString();
 
-		$url = 'index.php?option=com_contenttask=article.add&return='.base64_encode($ret).'&id=0&sectionid='.$article->sectionid;
+		$url = 'index.php?option=com_contenttask=article.add&return='.base64_encode($uri).'&id=0&sectionid='.$article->sectionid;
 
 		if ($params->get('show_icons')) {
 			$text = JHtml::_('image', 'system/new.png', JText::_('New'), NULL, true);
@@ -63,7 +62,6 @@ class JHTMLIcon
 	{
 		$user = &JFactory::getUser();
 		$uri = &JFactory::getURI();
-		$ret = $uri->toString();
 
 		if ($params->get('popup')) {
 			return;
@@ -79,7 +77,7 @@ class JHTMLIcon
 
 		JHtml::_('behavior.tooltip');
 
-		$url = 'index.php?task=article.edit&id='.$article->id.'&return='.base64_encode($ret);
+		$url = 'index.php?task=article.edit&id='.$article->id.'&return='.base64_encode($uri);
 		$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
 		$text = JHtml::_('image', 'system/'.$icon, JText::_('Edit'), NULL, true);
 

@@ -75,7 +75,7 @@ class CommentsModelConfig extends JModel
 					// remove duplicates and set the blocked addresses in the configuration object
 					$list = array_unique($list);
 					$params->set('blockips', implode(', ', $list));
-					$table->set('params', $params->toString());
+					$table->set('params', (string)$params);
 
 					// check the row.
 					if (!$table->check()) {

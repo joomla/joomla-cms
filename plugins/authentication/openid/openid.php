@@ -119,7 +119,7 @@ class plgAuthenticationOpenID extends JPlugin
 			$options['return'] = isset($options['return']) ? base64_encode($options['return']) : base64_encode(JURI::base());
 			$options[JUtility::getToken()] = 1;
 
-			$process_url  = sprintf($entry_url->toString()."?option=com_users&task=user.login&username=%s", $credentials['username']);
+			$process_url  = sprintf($entry_url."?option=com_users&task=user.login&username=%s", $credentials['username']);
 			$process_url .= '&'.JURI::buildQuery($options);
 
 			$session->set('return_url', $process_url);

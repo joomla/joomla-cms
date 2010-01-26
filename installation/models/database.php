@@ -71,7 +71,7 @@ class JInstallationModelDatabase extends JModel
 
 			// Check for errors.
 			if (JError::isError($db)) {
-				$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->toString()));
+				$this->setError(JText::sprintf('WARNNOTCONNECTDB', (string)$db));
 				return false;
 			}
 
@@ -196,7 +196,7 @@ class JInstallationModelDatabase extends JModel
 
 		// Check for errors.
 		if (JError::isError($db)) {
-			$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->toString()));
+			$this->setError(JText::sprintf('WARNNOTCONNECTDB', (string)$db));
 			return false;
 		}
 

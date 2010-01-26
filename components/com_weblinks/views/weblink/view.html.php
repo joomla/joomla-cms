@@ -161,7 +161,7 @@ class WeblinksViewWeblink extends JView
 
 		JFilterOutput::objectHTMLSafe($weblink, ENT_QUOTES, 'description');
 
-		$this->assign('action', 	$uri->toString());
+		$this->assign('action', 	$uri);
 
 		$this->assignRef('lists'   , $lists);
 		$this->assignRef('weblink' , $weblink);

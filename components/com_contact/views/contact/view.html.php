@@ -45,7 +45,7 @@ class ContactViewContact extends JView
 		$return ="";
 		if ((!in_array($contact->access, $groups)) || (!in_array($contact->category_access, $groups))) {
 			$uri		= JFactory::getURI();
-			$return		= $uri->toString();
+			$return		= (string)$uri;
 
 			$url  = 'index.php?option=com_users&view=login';
 			$url .= '&return='.base64_encode($return);

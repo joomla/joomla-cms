@@ -153,7 +153,7 @@ class BannersTableBanner extends JTable
 			}
 			// encode params to JSON
 			$parameter->loadArray($params);
-			$array['params'] = $parameter->toString();
+			$array['params'] = (string)$parameter;
 		}
 		return parent::bind($array, $ignore);
 	}

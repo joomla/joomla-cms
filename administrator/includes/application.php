@@ -90,7 +90,7 @@ class JAdministrator extends JApplication
 		{
 			//forward to https
 			$uri->setScheme('https');
-			$this->redirect($uri->toString());
+			$this->redirect((string)$uri);
 		}
 
 		// Trigger the onAfterRoute event.

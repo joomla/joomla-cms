@@ -62,14 +62,14 @@ class JTableExtension extends JTable
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
+			$array['params'] = (string)$registry;
 		}
 
 		if (isset($array['control']) && is_array($array['control']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['control']);
-			$array['control'] = $registry->toString();
+			$array['control'] = (string)$registry;
 		}
 
 		return parent::bind($array, $ignore);

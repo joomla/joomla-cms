@@ -143,7 +143,7 @@ class ContentViewCategory extends JView
 			$child->description	= JHtml::_('content.prepare', $child->description);
 		}
 
-		$this->assign('action', 	str_replace('&', '&amp;', $uri->toString()));
+		$this->assign('action', 	str_replace('&', '&amp;', $uri));
 		
 		$this->assignRef('params',		$params);
 		$this->assignRef('item',		$item);

@@ -133,7 +133,7 @@ class WeblinksTableWeblink extends JTable
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($this->params);
-			$this->params = $registry->toString();
+			$this->params = (string)$registry;
 		}
 
 		// Attempt to store the user data.

@@ -34,7 +34,7 @@ class JRouterSite extends JRouter
 		if ($app->getCfg('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https') {
 			//forward to https
 			$uri->setScheme('https');
-			$app->redirect($uri->toString());
+			$app->redirect((string)$uri);
 		}
 
 
