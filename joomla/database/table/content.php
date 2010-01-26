@@ -129,14 +129,14 @@ class JTableContent extends JTable
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['attribs']);
-			$array['attribs'] = $registry->toString();
+			$array['attribs'] = (string)$registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['metadata']);
-			$array['metadata'] = $registry->toString();
+			$array['metadata'] = (string)$registry;
 		}
 
 		return parent::bind($array, $ignore);
