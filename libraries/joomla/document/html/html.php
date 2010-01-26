@@ -262,7 +262,8 @@ class JDocumentHTML extends JDocument
 	{
 		$result = '';
 
-		$words = explode(' ', $condition);
+        $operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<\=|\>\=|and|or|xor) ';
+		$words = preg_split('# '.$operators.' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
 		for ($i = 0, $n = count($words); $i < $n; $i+=2)
 		{
 			// odd parts (modules)
