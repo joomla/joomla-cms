@@ -50,6 +50,7 @@ $ -> Language fix or change
  # [#19286] [patch] ContentModelForm has problems with error reporting (Thanks to Christopher Garvis)
  ^ [#19509] JDocumentHTML::countModules supports position names with spaces, other characters (Thanks to Jeff Fendley)
  ^ [#19453] Files tags in XML files of FO/BO modules (Thanks to Nabyl Sadki)
+ # [#18611] JDate occasionally returns wrong date format (Thanks to Arlen Walker)
 
 26-Jan-2010 Christophe Demko
  ^ Readding the possibility of setting the array parameter for a group different from true and false
