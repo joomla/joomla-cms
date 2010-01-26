@@ -27,6 +27,23 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Jan-2010 Mark Dexter
+^ Add sprintf, alternative readmore to com_content, newsflash views (Angie Radtke)
+# Fix bug so you can load a category (Robert Deutz)
+# Bug fixes in com_search, newsflash (Angi Radtke)
+^ Work on com_contact layouts (Elin Waring)
+# Language strings work (Elin Waring)
+# Make view and config labels consistent (Elin Waring)
+# Fix bug in Save & New for non-article categories
+^ Work on com_contact component and model
+# Fix menu assignments in sample data (Elin Waring)
+# Fix routing for subcategories in com_content (Elin Waring)
+# Fix problems saving data in Contact Edit form
+^ Allow for hierarchical params in com_contact
+# Fix default value of published state in contacts and banners
+^ Improvements to sample data (Elin Waring)
+# Make toolbars consistent (Elin Waring)
+
 26-Jan-2010 Louis Landry
  # [#19552] [patch] Error loading xml from string in JFactory::getXML (Thanks to Christopher Garvis)
  # [#19542] Wrong field name in libraries/joomla/html/parameter/element/menuitem.php (Thanks to Jeff Channell)
