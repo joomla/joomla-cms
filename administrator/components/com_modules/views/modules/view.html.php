@@ -62,7 +62,7 @@ class ModulesViewModules extends JView
 			$bar->appendButton('Popup', 'new', 'New', 'index.php?option=com_modules&amp;view=select&amp;tmpl=component', 850, 400);
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('module.edit');
+			JToolBarHelper::editList('module.edit','JTOOLBAR_EDIT');
 		}
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JToolbar_Duplicate', true);
@@ -72,15 +72,15 @@ class ModulesViewModules extends JView
 			JToolBarHelper::custom('modules.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JToolbar_Disable', true);
 		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'modules.delete');
+			JToolBarHelper::deleteList('', 'modules.delete','JTOOLBAR_EMPTY_TRASH');
 		}
 		else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('modules.trash');
+			JToolBarHelper::trash('modules.trash','JTOOLBAR_TRASH');
 		}
 
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_modules');
 		}
-		JToolBarHelper::help('screen.module');
+		JToolBarHelper::help('screen.module','JTOOLBAR_HELP');
 	}
 }

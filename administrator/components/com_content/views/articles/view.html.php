@@ -54,32 +54,32 @@ class ContentViewArticles extends JView
 
 		JToolBarHelper::title(JText::_('Content_Articles_Title'), 'article.png');
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('article.add', 'new.png', 'new_f2.png', 'New', false);
+			JToolBarHelper::custom('article.add', 'new.png', 'new_f2.png','JTOOLBAR_NEW', false);
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+			JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png','JTOOLBAR_EDIT', true);
 		}
 		JToolBarHelper::divider();
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png', 'Publish', true);
-			JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Unpublish', true);
+			JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 			if ($state->get('filter.published') != -1) {
 				JToolBarHelper::divider();
-				JToolBarHelper::archiveList('articles.archive');
+				JToolBarHelper::archiveList('articles.archive','JTOOLBAR_ARCHIVE');
 			}
 		}
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 
-			JToolBarHelper::deleteList('', 'articles.delete');
+			JToolBarHelper::deleteList('', 'articles.delete','JTOOLBAR_EMPTY_TRASH');
 		}
 		else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('articles.trash');
+			JToolBarHelper::trash('articles.trash','JTOOLBAR_TRASH');
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_content');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.content.articles');
+		JToolBarHelper::help('screen.content.articles','JTOOLBAR_HELP');
 	}
 }

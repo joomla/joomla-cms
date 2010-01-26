@@ -60,16 +60,16 @@ class LanguagesViewLanguage extends JView
 		$isNew = empty($this->item->lang_id);
 
 		JToolBarHelper::title(JText::_($isNew ? 'Langs_View_Language_Edit_New_Title' : 'Langs_View_Language_Edit_Edit_Title'));
-		JToolBarHelper::save('language.save');
-		JToolBarHelper::apply('language.apply');
+		JToolBarHelper::save('language.save','JTOOLBAR_SAVE');
+		JToolBarHelper::apply('language.apply','JTOOLBAR_APPLY');
 		JToolBarHelper::addNew('language.save2new', 'JToolbar_Save_and_new');
 		if ($isNew)  {
-			JToolBarHelper::cancel('language.cancel');
+			JToolBarHelper::cancel('language.cancel','JTOOLBAR_CANCEL');
 		}
 		else {
 			JToolBarHelper::cancel('language.cancel', 'JToolbar_Close');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.language.edit');
+		JToolBarHelper::help('screen.language.edit','JTOOLBAR_HELP');
 	}
 }

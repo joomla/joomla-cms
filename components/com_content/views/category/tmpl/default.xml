@@ -17,8 +17,8 @@
 			type="category"
 			extension="com_content"
 			required="true"
-			label="Category"
-			description="Choose a category..." />
+			label="CHOOSE_CATEGORY_LABEL"
+			description="CHOOSE_CATEGORY_DESC" />
 	</fields>
 
 	<fields

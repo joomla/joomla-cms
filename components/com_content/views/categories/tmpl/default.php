@@ -39,6 +39,7 @@ $difLevel = 0;
 		$item->deeper		= (isset($this->items[$i+1]) && ($item->level < $this->items[$i+1]->level));
 		$item->shallower	= (isset($this->items[$i+1]) && ($item->level > $this->items[$i+1]->level));
 		$item->level_diff	= (isset($this->items[$i+1])) ? ($item->level - $this->items[$i+1]->level) : 0;
+
 	endfor;
 	echo '<ul>';
 	for ($i=0;$i<$itemcount;$i++) :

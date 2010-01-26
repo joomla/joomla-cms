@@ -13,4 +13,10 @@ defined('_JEXEC') or die;
 srand((double) microtime() * 1000000);
 $flashnum	= rand(0, $items -1);
 $item		= $list[$flashnum];
-modNewsFlashHelper::renderItem($item, $params, $access);
+
+?>
+
+<div class="newsflash<?php echo $params->get('moduleclass_sfx'); ?>">
+<?php modNewsFlashHelper::renderItem($item, $params, $access); ?>
+
+</div>

@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 $cparams =& JComponentHelper::getParams('com_media');
 
 // If the page class is defined, add to class as suffix.
@@ -44,8 +44,8 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php if ($this->children): ?>
 	<ul class="subcategories">
 		<?php foreach($this->children as $child) : ?>
-				<li><a href="<?php /* @TODO class not found echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id)); */ ?>">
-					<?php echo $child->title; ?></a> (<?php /* echo @TODO numitems not loaded $child->numitems; */?>)</li>
+				<li><a href="<?php /*TODO  Needs a class */  echo ContentRoute::category($child->id); ?>">
+					<?php echo $child->title; ?></a> <?php /* echo @TODO numitems not loaded $child->numitems; */?></li>
 		<?php endforeach; ?>
 	</ul>
 <?php endif;?>
@@ -80,7 +80,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		if($rowcount==1) : ?>
 	<div class="items-row cols-<?php echo (int) $this->columns;?> <? echo 'row-'.$row ; ?>">
 	<?php endif; ?>
-	<div class="column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
+	<div class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
 		<?php
 			$this->item = &$item;
 			echo $this->loadTemplate('item');
@@ -104,17 +104,16 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif; ?>
 
 
-<?php  // if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
+<?php   if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
         <div class="pagination">
-                <?php // echo $this->pagination->getPagesLinks(); ?>
-                <?php // if ($this->params->def('show_pagination_results', 1)) : ?>
+                       <?php  if ($this->params->def('show_pagination_results', 1)) : ?>
                         <p class="counter">
-                                <?php // echo $this->pagination->getPagesCounter(); ?>
+                                <?php echo $this->pagination->getPagesCounter(); ?>
                         </p>
 
-                <?php // endif; ?>
-                   <?php // echo $this->pagination->getPagesLinks(); ?>
+                <?php  endif; ?>
+                   <?php  echo $this->pagination->getPagesLinks(); ?>
         </div>
-<?php //  endif;   ?>
+<?php  endif;   ?>
 
 </div>

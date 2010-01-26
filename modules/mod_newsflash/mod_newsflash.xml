@@ -33,19 +33,7 @@
 			default="0"
 			label="Category"
 			description="A content category" />
-		<field
-			name="layout"
-			type="list"
-			default="random"
-			label="Layout"
-			description="The layout to display the category">
-			<option
-				value="default">Randomly choose one at a time</option>
-			<option
-				value="horiz">Horizontal</option>
-			<option
-				value="vert">Vertical</option>
-		</field>
+
 		<field
 			name="image"
 			type="radio"

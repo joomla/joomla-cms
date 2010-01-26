@@ -54,12 +54,12 @@ class CacheViewCache extends JView
 		JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1', !$condition);
 
 		JToolBarHelper::title(JText::_('CACHE_MANAGER').' - '.JText::_('CLEAR_CACHE_ADMIN'), 'clear.png');
-		JToolBarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'Delete', true);
+		JToolBarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_TRASH', true);
 		JToolBarHelper::divider();
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache')) {
 			JToolBarHelper::preferences('com_cache');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.cache');
+		JToolBarHelper::help('screen.cache','JTOOLBAR_HELP');
 	}
 }

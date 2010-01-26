@@ -265,7 +265,8 @@ class CategoriesControllerCategory extends JController
 				$app->setUserState('com_categories.edit.category.type',	null);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit', false));
+				$extension = JRequest::getString('extension');
+				$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit&extension='.$extension, false));
 				break;
 
 			default:

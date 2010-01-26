@@ -66,8 +66,8 @@ class UsersViewLevel extends JView
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolBarHelper::apply('level.apply');
-			JToolBarHelper::save('level.save');
+			JToolBarHelper::apply('level.apply','JTOOLBAR_APPLY');
+			JToolBarHelper::save('level.save','JTOOLBAR_SAVE');
 			JToolBarHelper::addNew('level.save2new', 'JToolbar_Save_and_new');
 		}
 		// If an existing item, can save to a copy.
@@ -76,13 +76,13 @@ class UsersViewLevel extends JView
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('level.cancel');
+			JToolBarHelper::cancel('level.cancel','JTOOLBAR_CANCEL');
 		}
 		else {
 			JToolBarHelper::cancel('level.cancel', 'JToolbar_Close');
 		}
 
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.users.level');
+		JToolBarHelper::help('screen.users.level','JTOOLBAR_HELP');
 	}
 }

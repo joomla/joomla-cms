@@ -71,7 +71,7 @@ class RedirectViewLink extends JView
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('link.save2copy§', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_Copy', false);
+			JToolBarHelper::custom('link.save2copyï¿½', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_Copy', false);
 		}
 		if ($canDo->get('core.edit') && $canDo->get('core.create'))
 		{
@@ -83,6 +83,6 @@ class RedirectViewLink extends JView
 		else {
 			JToolBarHelper::cancel('link.cancel', 'JToolbar_Close');
 		}
-		JToolBarHelper::help('screen.redirect.link');
+		JToolBarHelper::help('screen.redirect.link','JTOOLBAR_HELP');
 	}
 }

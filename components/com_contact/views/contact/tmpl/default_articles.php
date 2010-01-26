@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<?php if ($this->contact->params->get('show_articles')) : ?>
+<?php if ($this->params->get('show_articles')) : ?>
 <div class="jcontact-articles">
 	<h4>
 		<?php echo JText::_('Com_Contact_Contact_Articles_Heading'); ?>

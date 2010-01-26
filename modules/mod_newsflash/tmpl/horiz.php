@@ -10,12 +10,19 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<table class="moduletable<?php echo $params->get('moduleclass_sfx') ?>">
-	<tr>
-	<?php foreach ($list as $item) : ?>
-		<td>
-			<?php modNewsFlashHelper::renderItem($item, $params, $access); ?>
-		</td>
-	<?php endforeach; ?>
-	</tr>
-</table>
+
+<ul class="newsflash-horiz<?php echo $params->get('moduleclass_sfx'); ?>">
+<?php for ($i = 0, $n = count($list); $i < $n; $i ++) :
+
+	echo '<li>';
+	modNewsFlashHelper::renderItem($list[$i], $params, $access);
+
+	if ($n > 1 && (($i < $n - 1) || $params->get('showLastSeparator'))) : ?>
+
+	<span class="article_separator">&nbsp;</span>
+
+ 	<?php endif; ?>
+ 	</li>
+<?php endfor; ?>
+
+</ul>

@@ -16,8 +16,8 @@
 			type="category"
 			extension="com_content"
 			required="true"
-			label="Category"
-			description="Choose a category..." />
+			label="CHOOSE_CATEGORY_LABEL"
+			description="CHOOSE_CATEGORY_DESC" />
 	</fields>
 	<fields
 			group="basic">
@@ -26,32 +26,32 @@
 			type="text"
 			size="3"
 			default="1"
-			label="Num Leading"
-			description="fieldLEADING" />
+			label="Content_Attribs_Num_Leading_Articles_Label"
+			description="Content_Attribs_Num_Leading_Articles_Desc" />
 
 		<field
 			name="num_intro_articles"
 			type="text"
 			size="3"
 			default="4"
-			label="Num Intro"
-			description="fieldINTRO" />
+			label="CONTENT_ATTRIBS_NUM_INTRO_ARTICLES_LABEL"
+			description="CONTENT_ATTRIBS_NUM_INTRO_ARTICLES_DESC" />
 
 		<field
 			name="num_columns"
 			type="text"
 			size="3"
 			default="2"
-			label="Columns"
-			description="fieldCOLUMNS" />
+			label="CONTENT_ATTRIBS_NUM_COLUMNS_LABEL"
+			description="CONTENT_ATTRIBS_NUM_COLUMNS_DESC" />
 
 		<field
 			name="num_links"
 			type="text"
 			size="3"
 			default="4"
-			label="NUM_LINKS"
-			description="Number of Items to display as Links." />
+			label="CONTENT_ATTRIBS_NUM_LINKS_LABEL"
+			description="CONTENT_ATTRIBS_NUM_LINKS_DESC" />
 	</fields>
 
 	<fields>

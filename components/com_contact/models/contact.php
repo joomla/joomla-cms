@@ -32,8 +32,20 @@ class ContactModelContact extends JModel
 		$this->setState('contact.id',$pk);
 
 		// Load the parameters.
-		$params	= $app->getParams('com_contact');
-		$this->setState('params', $params);
+		$globalParams	= $app->getParams('com_contact');
+		$this->setState('global_params', $globalParams);
+		
+		$menu = JSite::getMenu()->getActive();
+		if (is_object($menu)) {
+			$menuParams = new JParameter($menu->params);
+			$this->setState('menu_params', $menuParams);
+		}
+		
+		// merge the global and menu item params (menu item take priority)
+		$mergedParams = clone $globalParams;
+		$mergedParams->merge($menuParams);
+		$this->setState('params', $mergedParams);
+		
 	}	
 	
 	/**
@@ -90,11 +102,13 @@ class ContactModelContact extends JModel
 				throw new Exception(JText::_('Contact_Error_Contact_not_found'), 404);
 			}
 			
-			// Convert parameter fields to object and merge with menu item params
-			$registry = new JRegistry;
-			$registry->loadJSON($result->params);
-			$result->mergedParams = clone $this->getState('params');
-			$result->mergedParams->merge($registry);
+			// If we are showing a contact list, then the contact parameters take priority
+			// So merge the contact parameters with the merged parameters
+			if ($this->getState('params')->get('show_contact_list')) {
+				$registry = new JRegistry;
+				$registry->loadJSON($result->params);
+				$this->getState('params')->merge($registry);
+			}
 			
 		}
 		catch (Exception $e)
@@ -115,6 +129,17 @@ class ContactModelContact extends JModel
 			$this->_db->setQuery($query, 0, 10);
 			$articles = $this->_db->loadObjectList();
 			$contact->articles=$articles;
+
+			//get the profile information for the linked user
+						$query = 'SELECT user_id, profile_key, profile_value, ordering' .
+				' FROM #__user_profiles' .
+				' WHERE user_id = '.(int)$result->user_id .
+
+				' ORDER BY ordering ASC' ;
+			$this->_db->setQuery($query, 0, 10);
+			$profile = $this->_db->loadObjectList();
+			$contact->profile=$profile;
+			
 		}
 		return $result;
 	}

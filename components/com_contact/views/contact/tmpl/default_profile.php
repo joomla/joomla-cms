@@ -9,21 +9,19 @@
 
 defined('_JEXEC') or die;
 ?>
-<?php jimport('components.com_users.models.profile'); ?>
-<fieldset id="users-profile-custom">
+<?php if ($this->params->get('show_profile')) : ?>
+<div class="jcontact-profile">
+	<h4>
+		<?php echo JText::_('Com_Contact_Profile_Heading'); ?>
+	</h4>
+	<ol>
+		<?php foreach ($this->contact->profile as $profile) :	?>
+			<li>
 
-	<dl>
-	<?php
-//	foreach($this->form->getFields('profile') as $field):
-	//	if (!$field->hidden) :
-	?>
-		<dt><?php echo $field->label; ?></dt>
-		<dd>
-			<?php echo isset($this->profile[$field->name]) ? $this->profile[$field->name] : JText::_('Users_Profile_Value_Not_Found'); ?>
-		</dd>
-	<?php
-	//	endif;
-	//endforeach;
-	?>
-	</dl>
-</fieldset>
+				<?php echo $profile->text = htmlspecialchars($profile->profile); ?>
+				
+			</li>
+		<?php endforeach; ?>
+	</ol>
+</div>
+<?php endif; ?>

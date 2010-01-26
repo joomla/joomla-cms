@@ -54,15 +54,15 @@ class UsersViewLevels extends JView
 
 		if ($canDo->get('core.create'))
 		{
-			JToolBarHelper::custom('level.add', 'new.png', 'new_f2.png', 'New', false);
+			JToolBarHelper::custom('level.add', 'new.png', 'new_f2.png','JTOOLBAR_NEW', false);
 		}
 		if ($canDo->get('core.edit'))
 		{
-			JToolBarHelper::custom('level.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+			JToolBarHelper::custom('level.edit', 'edit.png', 'edit_f2.png','JTOOLBAR_EDIT', true);
 		}
 		if ($canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList('', 'level.delete');
+			JToolBarHelper::deleteList('', 'level.delete','JTOOLBAR_TRASH');
 		}
 
 		JToolBarHelper::divider();
@@ -72,6 +72,6 @@ class UsersViewLevels extends JView
 			JToolBarHelper::preferences('com_users');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.users.levels');
+		JToolBarHelper::help('screen.users.levels','JTOOLBAR_HELP');
 	}
 }

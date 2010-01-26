@@ -217,9 +217,13 @@ class ContentModelArticles extends JModelList
 		foreach ($items as &$item)
 		{
 			$registry = new JRegistry;
-			 $registry->loadJSON($item->attribs);
+			/*
+			 *  TODO: investigate if it is better to sync the namespace usage in JRegistry and JParameter, if we let it unsync the we need to know what namespace are the Objects are using before we merge
+			 */
+			//$registry->loadJSON($item->attribs,'_default');
+			$registry->loadJSON($item->attribs);
 			$item->params = clone $this->getState('params');
-			 $item->params->merge($registry);
+			$item->params->merge($registry);
 
 			// get display date
 			switch ($item->params->get('show_date'))

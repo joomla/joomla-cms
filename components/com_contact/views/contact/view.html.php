@@ -37,7 +37,7 @@ class ContactViewContact extends JView
 		$menus	= &JSite::getMenu();
 		$menu    = $menus->getActive();
 
-		$pparams = &$app->getParams('com_contact');
+		$pparams = $this->getModel('contact')->getState()->params;
 
 		// check if access is registered/special
 		$groups	= $user->authorisedLevels();
@@ -77,71 +77,82 @@ class ContactViewContact extends JView
 			$pathway->addItem($contact->name, '');
 		}
 
-		// Adds parameter handling
+		// Make contact parameters available to views
 		$contact->params = new JParameter($contact->params);
 
-		$pparams->merge($contact->params);
-
-
-
 		// Handle email cloaking
-		if ($contact->email_to && $contact->params->get('show_email')) {
+		if ($contact->email_to && $pparams->get('show_email')) {
 			$contact->email_to = JHtml::_('email.cloak', $contact->email_to);
 		}
 
-		if ($contact->params->get('show_street_address') || $contact->params->get('show_suburb') || $contact->params->get('show_state') || $contact->params->get('show_postcode') || $contact->params->get('show_country'))
+		if ($pparams->get('show_street_address') || $pparams->get('show_suburb') || $pparams->get('show_state') || $pparams->get('show_postcode') || $pparams->get('show_country'))
 		{
 			if (!empty ($contact->address) || !empty ($contact->suburb) || !empty ($contact->state) || !empty ($contact->country) || !empty ($contact->postcode)) {
-				$contact->params->set('address_check', 1);
+				$pparams->set('address_check', 1);
 			}
 		} else {
-			$contact->params->set('address_check', 0);
+			$pparams->set('address_check', 0);
 		}
 
 		 // Manage the display mode for contact detail groups
-		switch ($contact->params->get('contact_icons'))
+		switch ($pparams->get('contact_icons'))
 		{
 			case 1 :
 				// text
-				$contact->params->set('marker_address', 	JText::_('Address').": ");
-				$contact->params->set('marker_email', 		JText::_('Email').": ");
-				$contact->params->set('marker_telephone', 	JText::_('Telephone').": ");
-				$contact->params->set('marker_fax', 		JText::_('Fax').": ");
-				$contact->params->set('marker_mobile',		JText::_('Mobile').": ");
-				$contact->params->set('marker_misc', 		JText::_('Information').": ");
-				$contact->params->set('marker_class', 		'jicons-text');
+				$pparams->set('marker_address', 	JText::_('Address').": ");
+				$pparams->set('marker_email', 		JText::_('Email').": ");
+				$pparams->set('marker_telephone', 	JText::_('Telephone').": ");
+				$pparams->set('marker_fax', 		JText::_('Fax').": ");
+				$pparams->set('marker_mobile',		JText::_('Mobile').": ");
+				$pparams->set('marker_misc', 		JText::_('Information').": ");
+				$pparams->set('marker_class', 		'jicons-text');
 				break;
 
 			case 2 :
 				// none
-				$contact->params->set('marker_address', 	'');
-				$contact->params->set('marker_email', 		'');
-				$contact->params->set('marker_telephone', 	'');
-				$contact->params->set('marker_mobile', 	'');
-				$contact->params->set('marker_fax', 		'');
-				$contact->params->set('marker_misc', 		'');
-				$contact->params->set('marker_class', 		'jicons-none');
+				$pparams->set('marker_address', 	'');
+				$pparams->set('marker_email', 		'');
+				$pparams->set('marker_telephone', 	'');
+				$pparams->set('marker_mobile', 	'');
+				$pparams->set('marker_fax', 		'');
+				$pparams->set('marker_misc', 		'');
+				$pparams->set('marker_class', 		'jicons-none');
 				break;
 
 			default :
 				// icons
-				$image1 = JHtml::_('image', 'contacts/'.$contact->params->get('icon_address','con_address.png'), JText::_('Address').": ", NULL, true);
-				$image2 = JHtml::_('image', 'contacts/'.$contact->params->get('icon_email','emailButton.png'), JText::_('Email').": ", NULL, true);
-				$image3 = JHtml::_('image', 'contacts/'.$contact->params->get('icon_telephone','con_tel.png'), JText::_('Telephone').": ", NULL, true);
-				$image4 = JHtml::_('image', 'contacts/'.$contact->params->get('icon_fax','con_fax.png'), JText::_('Fax').": ", NULL, true);
-				$image5 = JHtml::_('image', 'contacts/'.$contact->params->get('icon_misc','con_info.png'), JText::_('Information').": ", NULL, true);
-				$image6 = JHtml::_('image', 'contacts/'.$contact->params->get('icon_mobile','con_mobile.png'), JText::_('Mobile').": ", NULL, true);
+				$image1 = JHtml::_('image', 'contacts/'.$pparams->get('icon_address','con_address.png'), JText::_('Address').": ", NULL, true);
+				$image2 = JHtml::_('image', 'contacts/'.$pparams->get('icon_email','emailButton.png'), JText::_('Email').": ", NULL, true);
+				$image3 = JHtml::_('image', 'contacts/'.$pparams->get('icon_telephone','con_tel.png'), JText::_('Telephone').": ", NULL, true);
+				$image4 = JHtml::_('image', 'contacts/'.$pparams->get('icon_fax','con_fax.png'), JText::_('Fax').": ", NULL, true);
+				$image5 = JHtml::_('image', 'contacts/'.$pparams->get('icon_misc','con_info.png'), JText::_('Information').": ", NULL, true);
+				$image6 = JHtml::_('image', 'contacts/'.$pparams->get('icon_mobile','con_mobile.png'), JText::_('Mobile').": ", NULL, true);
 
-				$contact->params->set('marker_address', 	$image1);
-				$contact->params->set('marker_email', 		$image2);
-				$contact->params->set('marker_telephone', 	$image3);
-				$contact->params->set('marker_fax', 		$image4);
-				$contact->params->set('marker_misc',		$image5);
-				$contact->params->set('marker_mobile', 		$image6);
-				$contact->params->set('marker_class', 		'jicons-icons');
+				$pparams->set('marker_address', 	$image1);
+				$pparams->set('marker_email', 		$image2);
+				$pparams->set('marker_telephone', 	$image3);
+				$pparams->set('marker_fax', 		$image4);
+				$pparams->set('marker_misc',		$image5);
+				$pparams->set('marker_mobile', 		$image6);
+				$pparams->set('marker_class', 		'jicons-icons');
 				break;
 		}
-	JHtml::_('behavior.formvalidation');
+		
+		// Use link labels from contact if blank in params
+		$loopArray = array('a','b','c','d','e');
+		foreach ($loopArray as $letter) {
+			$thisLable = 'link'.$letter.'_name';
+			$thisLink = 'link'.$letter;
+			if (!$pparams->get($thisLable)) {
+				if ($contact->params->get($thisLable)) {
+					$pparams->set($thisLable, $contact->params->get($thisLable));
+				} else {
+					$pparams->set($thisLable, $contact->params->get($thisLink));
+				}
+			}
+		}
+		
+		JHtml::_('behavior.formvalidation');
 
 		$this->assignRef('contact',		$contact);
 		$this->assignRef('contacts',	$contacts);

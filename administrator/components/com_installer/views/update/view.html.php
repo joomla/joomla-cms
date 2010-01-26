@@ -28,7 +28,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 		JToolBarHelper::custom('update.find', 'refresh', 'refresh','FIND_UPDATES',false,false);
 		JToolBarHelper::custom('update.purge', 'purge', 'purge', 'PURGE_CACHE', false,false);
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.installer');
+		JToolBarHelper::help('screen.installer','JTOOLBAR_HELP');
 
 		// Get data from the model
 		$state		= &$this->get('State');

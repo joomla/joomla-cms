@@ -11,10 +11,8 @@
 defined('_JEXEC') or die;
 ?>
 
-<table class="searchintro<?php echo $this->params->get('pageclass_sfx'); ?>">
-	<tr>
-		<td colspan="3" >
+<?php if($this->error): ?>
+<div class="error">
 			<?php echo $this->escape($this->error); ?>
-		</td>
-	</tr>
-</table>
+</div>
+<?php endif; ?>

@@ -58,10 +58,10 @@ class RedirectViewLinks extends JView
 
 		JToolBarHelper::title(JText::_('Redir_Manager_Links'), 'redirect');
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('link.add');
+			JToolBarHelper::addNew('link.add','JTOOLBAR_NEW');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('link.edit');
+			JToolBarHelper::editList('link.edit','JTOOLBAR_EDIT');
 		}
 
 		if ($canDo->get('core.edit.state')) {
@@ -69,20 +69,20 @@ class RedirectViewLinks extends JView
 			JToolBarHelper::custom('links.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JToolbar_Disable', true);
 			JToolBarHelper::divider();
 			if ($state->get('filter.published') != -1) {
-				JToolBarHelper::archiveList('links.archive');
+				JToolBarHelper::archiveList('links.archive','JTOOLBAR_ARCHIVE');
 			}
 		}
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'links.delete');
+			JToolBarHelper::deleteList('', 'links.delete','JTOOLBAR_EMPTY_TRASH');
 		}
 		else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('links.trash');
+			JToolBarHelper::trash('links.trash','JTOOLBAR_TRASH');
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_redirect');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.redirect');
+		JToolBarHelper::help('screen.redirect','JTOOLBAR_HELP');
 	}
 }

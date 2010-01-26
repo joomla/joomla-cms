@@ -58,6 +58,6 @@ class UsersViewMail extends JView
 		JToolBarHelper::divider();
 		JToolBarHelper::preferences('com_users');
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.users');
+		JToolBarHelper::help('screen.users','JTOOLBAR_HELP');
 	}
 }

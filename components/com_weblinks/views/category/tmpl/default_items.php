@@ -86,7 +86,7 @@ defined('_JEXEC') or die;
                                                                 // TODO: open in a modal window
                                                                 JHtml::_('behavior.modal', 'a.modal'); ?>
 
-                                                                <a class="modal" title="<?php  echo $this->escape($item->title) ?> " href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x: 500, y: 506}}\">
+                                                                <a class="modal" title="<?php  echo $this->escape($item->title) ?> " href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x: 500, y: 506}}\"></a>
                                                                 <?php echo        $this->escape($item->title). ' </a>' ;
                                                                          break;
 
@@ -116,15 +116,13 @@ defined('_JEXEC') or die;
                         <?php endforeach; ?>
                </tbody>
                   </table>
-                  <? if($this->pagination->get('pages.total')>1): ?>
-               <div class="pagination">
-
-                                        <p><?php echo $this->pagination->getPagesCounter(); ?></p>
-
-
-                                <?php echo $this->pagination->getPagesLinks(); ?>
-
-                </div>
+                  <?php if($this->pagination->get('pages.total')>1): ?>
+			               <div class="pagination">
+			
+			                                <p><?php echo $this->pagination->getPagesCounter(); ?></p>		
+			                                <?php echo $this->pagination->getPagesLinks(); ?>
+			
+			                </div>
                   <?php endif; ?>
 
 

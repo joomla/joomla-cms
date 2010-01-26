@@ -11,53 +11,64 @@
 defined('_JEXEC') or die;
 ?>
 
-<table class="contentpaneopen<?php echo $this->params->get('pageclass_sfx'); ?>">
-	<tr>
-		<td>
+<dl class="search_results<?php echo $this->params->get('pageclass_sfx'); ?>">
+
 		<?php
 		foreach($this->results as $result) : ?>
-			<fieldset>
-				<div>
-					<span class="small<?php echo $this->params->get('pageclass_sfx'); ?>">
-						<?php echo $this->pagination->limitstart + $result->count.'. ';?>
-					</span>
+
+
 					<?php if ($result->href) :
+					    echo '<dt class="result-title">';
 						if ($result->browsernav == 1) : ?>
+								<?php echo $this->pagination->limitstart + $result->count.'. ';?>
 							<a href="<?php echo JRoute::_($result->href); ?>" target="_blank">
+<<<<<<< .working
+=======
 							<?php echo $this->escape($result->title); ?>
 							</a>
+>>>>>>> .merge-right.r14383
 						<?php else : ?>
 							<a href="<?php echo JRoute::_($result->href); ?>">
-							<?php echo $this->escape($result->title); ?>
+
+						<?php endif;
+
+						echo $this->escape($result->title);
+
+						if ($result->href) : ?>
 							</a>
+<<<<<<< .working
+							</dt>
+						<?php endif;
+						if ($result->section) : ?>
+						<dd class="result-category">
+
+=======
 						<?php endif;?>
 
 						<?php if ($result->section) : ?>
 							<br />
+>>>>>>> .merge-right.r14383
 							<span class="small<?php echo $this->params->get('pageclass_sfx'); ?>">
 								(<?php echo $this->escape($result->section); ?>)
 							</span>
+							</dd>
 						<?php endif; ?>
 					<?php endif; ?>
-				</div>
-				<div>
+
+				<dd class="result-text">
 					<?php echo $result->text; ?>
-				</div>
+				</dd>
 				<?php
 					if ($this->params->get('show_date')) : ?>
-				<div class="small<?php echo $this->params->get('pageclass_sfx'); ?>">
+				<dd class="result-created<?php echo $this->params->get('pageclass_sfx'); ?>">
 					<?php echo $result->created; ?>
-				</div>
+				</dd>
 				<?php endif; ?>
-			</fieldset>
+
+
 		<?php endforeach; ?>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="3">
-			<div align="center">
+</dl>
+
+<div class="pagination">
 				<?php echo $this->pagination->getPagesLinks(); ?>
-			</div>
-		</td>
-	</tr>
-</table>
+				</div>

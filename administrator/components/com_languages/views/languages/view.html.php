@@ -81,20 +81,20 @@ class LanguagesViewLanguages extends JView
 	protected function _setToolBar()
 	{
 		JToolBarHelper::title(JText::_('Langs_View_Languages_Title'), 'generic.png');
-		JToolBarHelper::addNew('language.add');
-				JToolBarHelper::editList('language.edit');
+		JToolBarHelper::addNew('language.add','JTOOLBAR_NEW');
+				JToolBarHelper::editList('language.edit','JTOOLBAR_EDIT');
 				JToolBarHelper::divider();
-		JToolBarHelper::publishList('languages.publish');
-		JToolBarHelper::unpublishList('languages.unpublish');
+		JToolBarHelper::publishList('languages.publish','JTOOLBAR_PUBLISH');
+		JToolBarHelper::unpublishList('languages.unpublish','JTOOLBAR_UNPUBLISH');
 		if ($this->state->get('filter.published') == -2) {
 			JToolBarHelper::deleteList('', 'languages.delete', 'JToolbar_Empty_trash');
 		}
 		else {
-			JToolBarHelper::trash('languages.trash');
+			JToolBarHelper::trash('languages.trash','JTOOLBAR_TRASH');
 		}
 		JToolBarHelper::divider();
 		JToolBarHelper::preferences('com_languagaes');
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.languages');
+		JToolBarHelper::help('screen.languages','JTOOLBAR_HELP');
 	}
 }

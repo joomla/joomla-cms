@@ -61,14 +61,14 @@ class MessagesViewMessages extends JView
 			JToolBarHelper::addNew('message.add');
 		}
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('messages.publish', 'publish.png', 'publish_f2.png', 'Messages_Toolbar_Publish', true);
-			JToolBarHelper::custom('messages.unpublish', 'unpublish.png', 'unpublish_f2.png', 'Messages_Toolbar_UnPublish', true);
+			JToolBarHelper::custom('messages.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::custom('messages.unpublish', 'unpublish.png', 'unpublish_f2.png','JTOOLBAR_UNPUBLISH', true);
 		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'messages.delete');
+			JToolBarHelper::deleteList('', 'messages.delete','JTOOLBAR_EMPTY_TRASH');
 		}
 		else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('messages.trash');
+			JToolBarHelper::trash('messages.trash','JTOOLBAR_TRASH');
 		}
 
 		//JToolBarHelper::addNew('module.add');
@@ -78,6 +78,6 @@ class MessagesViewMessages extends JView
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_messages');
 		}
-		JToolBarHelper::help('screen.messages.inbox');
+		JToolBarHelper::help('screen.messages.inbox','JTOOLBAR_HELP');
 	}
 }

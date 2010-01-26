@@ -88,6 +88,6 @@ class LanguagesViewInstalled extends JView
 		JToolBarHelper::divider();
 		JToolBarHelper::preferences('com_languages');
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.languages');
+		JToolBarHelper::help('screen.languages','JTOOLBAR_HELP');
 	}
 }

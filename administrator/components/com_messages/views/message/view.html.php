@@ -55,8 +55,8 @@ class MessagesViewMessage extends JView
 		if ($this->getLayout() == 'edit') {
 			JToolBarHelper::title(JText::_('Messages_Write_Private_Message'), 'inbox.png');
 			JToolBarHelper::save('message.save', 'Messages_Toolbar_Send');
-			JToolBarHelper::cancel('message.cancel');
-			JToolBarHelper::help('screen.messages.edit');
+			JToolBarHelper::cancel('message.cancel','JTOOLBAR_CANCEL');
+			JToolBarHelper::help('screen.messages.edit','JTOOLBAR_HELP');
 		} else {
 			JToolBarHelper::title(JText::_('Messages_View_Private_Message'), 'inbox.png');
 			JToolBarHelper::custom('message.reply', 'restore.png', 'restore_f2.png', 'Messages_Toolbar_Reply', false);
