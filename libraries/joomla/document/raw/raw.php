@@ -18,6 +18,8 @@ defined('JPATH_BASE') or die;
  * @since		1.5
  */
 
+jimport('joomla.document.document');
+
 class JDocumentRAW extends JDocument
 {
 
