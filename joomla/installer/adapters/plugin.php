@@ -58,7 +58,7 @@ class JInstallerPlugin extends JAdapterInstance
 		// Get the component description
 		$description = (string)$xml->description;
 		if ($description) {
-			$this->parent->set('message', $description);
+			$this->parent->set('message', JText::_($description));
 		}
 		else {
 			$this->parent->set('message', '');
@@ -210,8 +210,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Parse optional tags -- media and language files for plugins go in admin app
 		$this->parent->parseMedia($xml->media, 1);
-		$this->parent->parseLanguages($xml->languages);
-		$this->parent->parseLanguages($xml->administration->languages, 1);
+		$this->parent->parseLanguages($xml->languages, 1);
 
 		// If there is a manifest script, lets copy it.
 		if ($this->get('manifest_script'))
@@ -502,8 +501,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Remove all media and languages as well
 		$this->parent->removeFiles($xml->media);
-		$this->parent->parseLanguages($xml->languages);
-		$this->parent->parseLanguages($xml->administration->languages, 1);
+		$this->parent->removeFiles($xml->languages,1);
 
 		// Now we will no longer need the plugin object, so lets delete it
 		$row->delete($row->extension_id);
@@ -511,9 +509,8 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// If the folder is empty, let's delete it
 		$files = JFolder::files($this->parent->getPath('extension_root'));
-		if (!count($files)) {
-			JFolder::delete($this->parent->getPath('extension_root'));
-		}
+		JFolder::delete($this->parent->getPath('extension_root'));
+
 
 		if ($msg) {
 			$this->parent->set('extension_message',$msg);

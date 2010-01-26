@@ -46,7 +46,7 @@ class JInstallerPackage extends JAdapterInstance
 		// Get the component description
 		$description = (string)$this->manifest->description;
 		if ($description) {
-			$this->parent->set('message', $description);
+			$this->parent->set('message', JText::_($description));
 		}
 		else {
 			$this->parent->set('message', '');
