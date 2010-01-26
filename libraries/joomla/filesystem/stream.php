@@ -762,7 +762,7 @@ class JStream extends JObject
 			$php_errormsg = '';
 			$track_errors = ini_get('track_errors');
 			ini_set('track_errors', true);
-			$res = @stream_filter_prepend($this->_fh, $filername, $read_write, $params);
+			$res = @stream_filter_prepend($this->_fh, $filtername, $read_write, $params);
 			if(!$res && $php_errormsg)
 			{
 				$this->setError($php_errormsg); // set the error msg
