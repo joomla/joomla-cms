@@ -7,7 +7,7 @@
  *
  * @version		$Id$
  * @package		Joomla.UnitTest
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
  * @license		GNU General Public License
  */
 require_once 'PHPUnit/Framework.php';
