@@ -561,7 +561,7 @@ class JForm extends JObject
 
 
 		// Check the group control.
-		if ($groupControl == '_default') {
+		if ($groupControl == '_default'&& isset($this->_fieldsets[$group])) {
 			$array = $this->_fieldsets[$group]['array'];
 			if ($array === true) {
 				if(isset($this->_fieldsets[$group]['parent'])) {
@@ -675,7 +675,7 @@ class JForm extends JObject
 
 
 		// Check the group control.
-		if ($groupControl == '_default') {
+		if ($groupControl == '_default'&& isset($this->_fieldsets[$group])) {
 			$array = $this->_fieldsets[$group]['array'];
 			if ($array === true) {
 				if(isset($this->_fieldsets[$group]['parent'])) {
@@ -868,38 +868,38 @@ class JForm extends JObject
 		{
 			// Get the fieldset attributes.
 			$this->_fieldsets[$group] = array();
-
-			if($parent && $value = (string) $xml->attributes()->group) {
-				$this->_fieldsets[$parent]['children'][] = $value;
-				$this->_fieldsets[$group]['parent'] = $parent;
-			}
-		
-		
-			// Get the fieldset label.
-			if ($value = (string)$xml->attributes()->label) {
-				$this->_fieldsets[$group]['label'] = $value;
-			}
-
-			// Get the fieldset description.
-			if ($value = (string)$xml->attributes()->description) {
-				$this->_fieldsets[$group]['description'] = $value;
-			}
-
-			// Get an optional hidden setting (at the discretion of the renderer to honour).
-			if ($value = (string)$xml->attributes()->hidden) {
-				$this->_fieldsets[$group]['hidden'] = ($value == 'true' || $value == 1) ? true : false;
-			}
-
-			// Get the fieldset array option.
-			$array = (string)$xml->attributes()->array;
-			if ($array=='true') {
-				$this->_fieldsets[$group]['array'] = true;
-			} elseif($array=='false' || empty($array)) {
-				$this->_fieldsets[$group]['array'] = false;
-			} else {
-				$this->_fieldsets[$group]['array'] = $array;
-			}
 		}
+
+		if($parent && $value = (string) $xml->attributes()->group) {
+			$this->_fieldsets[$parent]['children'][] = $value;
+			$this->_fieldsets[$group]['parent'] = $parent;
+		}
+
+		// Get the fieldset label.
+		if ($value = (string)$xml->attributes()->label) {
+			$this->_fieldsets[$group]['label'] = $value;
+		}
+
+		// Get the fieldset description.
+		if ($value = (string)$xml->attributes()->description) {
+			$this->_fieldsets[$group]['description'] = $value;
+		}
+
+		// Get an optional hidden setting (at the discretion of the renderer to honour).
+		if ($value = (string)$xml->attributes()->hidden) {
+			$this->_fieldsets[$group]['hidden'] = ($value == 'true' || $value == 1) ? true : false;
+		}
+
+		// Get the fieldset array option.
+		$array = (string)$xml->attributes()->array;
+		if ($array=='true') {
+			$this->_fieldsets[$group]['array'] = true;
+		} elseif($array=='false' || empty($array)) {
+			$this->_fieldsets[$group]['array'] = false;
+		} else {
+			$this->_fieldsets[$group]['array'] = $array;
+		}
+
 		// Check if there is a field path to handle.
 		if ((string)$xml->attributes()->addfieldpath) {
 			jimport('joomla.filesystem.folder');
