@@ -555,17 +555,23 @@ class JForm extends JObject
 		}
 
 		// Check the form control.
-		if ($formControl == '_default' && $this->_options['array'] === false) {
-			$formControl = false;
-		} elseif ($formControl == '_default' && $this->_options['array'] == true) {
+		if ($formControl == '_default') {
 			$formControl = $this->_options['array'];
 		}
 
+
 		// Check the group control.
-		if ($groupControl == '_default' && $this->_fieldsets[$group]['array'] === false) {
-			$groupControl = false;
-		} elseif ($groupControl == '_default' && $group !== '_default' && ($this->_fieldsets[$group]['array'] == true || $this->_fieldsets[$group]['parent'])) {
-			$groupControl = (isset($this->_fieldsets[$group]['parent'])) ? $this->_fieldsets[$group]['parent'] : $group;
+		if ($groupControl == '_default') {
+			$array = $this->_fieldsets[$group]['array'];
+			if ($array === true) {
+				if(isset($this->_fieldsets[$group]['parent'])) {
+					$groupControl = $this->_fieldsets[$group]['parent'];
+				} else {
+					$groupControl = $group;
+				}
+			} else {
+				$groupControl = $array;
+			}
 		}
 
 		// Set the prefix
@@ -663,18 +669,25 @@ class JForm extends JObject
 		$results = array();
 
 		// Check the form control.
-		if ($formControl == '_default' && $this->_options['array'] === false) {
-			$formControl = false;
-		} elseif ($formControl == '_default' && $this->_options['array'] == true) {
+		if ($formControl == '_default') {
 			$formControl = $this->_options['array'];
 		}
 
+
 		// Check the group control.
-		if ($groupControl == '_default' && (empty($this->_fieldsets[$group]) || $this->_fieldsets[$group]['array'] === false)) {
-			$groupControl = false;
-		} elseif ($groupControl == '_default' && $group !== '_default' && ($this->_fieldsets[$group]['array'] == true || $this->_fieldsets[$group]['parent'])) {
-			$groupControl = (isset($this->_fieldsets[$group]['parent'])) ? $this->_fieldsets[$group]['parent'] : $group;
+		if ($groupControl == '_default') {
+			$array = $this->_fieldsets[$group]['array'];
+			if ($array === true) {
+				if(isset($this->_fieldsets[$group]['parent'])) {
+					$groupControl = $this->_fieldsets[$group]['parent'];
+				} else {
+					$groupControl = $group;
+				}
+			} else {
+				$groupControl = $array;
+			}
 		}
+
 		// Set the prefix
 		$prefix = $this->_options['prefix'];
 
@@ -878,10 +891,13 @@ class JForm extends JObject
 			}
 
 			// Get the fieldset array option.
-			if($xml->attributes()->array == true) {
+			$array = (string)$xml->attributes()->array;
+			if ($array=='true') {
 				$this->_fieldsets[$group]['array'] = true;
-			} else {
+			} elseif($array=='false' || empty($array)) {
 				$this->_fieldsets[$group]['array'] = false;
+			} else {
+				$this->_fieldsets[$group]['array'] = $array;
 			}
 		}
 		// Check if there is a field path to handle.

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-jan-2010 Christophe Demko
+^ Readding the possibility of setting the array parameter for a group different from true and false
+
 26-Jan-2010 Hannes Papenberg
 # Improved performance of JPluginHelper - Thanks Omar!
 
