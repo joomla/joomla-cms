@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Jan-2010 Mark Dexter
+# Fix bugs in functional tests. Add back TestSuite.php.
+# Add new test to test front-end sample data.
+
 25-Jan-2010 Louis Landry
  ^ Moved testing infrastructure from the /testing/ folder into the trunk.
 

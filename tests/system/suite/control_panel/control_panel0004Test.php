@@ -44,7 +44,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
     print("Open for editing and change parent from ROOT to News and save" . "\n");
     $this->click("link=Functional Test Category");
     $this->waitForPageToLoad("30000");
-    $this->select("jform_parent_id", "label=- News");
+    $this->select("jform_parent_id", "label=- - News");
     $this->click("//li[@id='toolbar-save']/a/span");
     $this->waitForPageToLoad("30000");
     print("Check that category is there." . "\n");
