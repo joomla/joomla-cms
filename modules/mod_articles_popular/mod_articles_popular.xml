@@ -27,7 +27,10 @@
 	</languages>
 	<fields>
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="show_front"
 			type="radio"

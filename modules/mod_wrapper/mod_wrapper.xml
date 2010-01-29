@@ -34,7 +34,10 @@
 			label="Url"
 			description="URL TO SITE/FILE YOU WISH TO DISPLAY WITHIN THE IFRAME" />
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="scrolling"
 			type="radio"
@@ -74,7 +77,10 @@
 				value="1">JYes</option>
 		</field>
 		<field
-			type="spacer" />
+			name="spacer2"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="add"
 			type="radio"

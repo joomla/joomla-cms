@@ -23,8 +23,10 @@
 			description="WEBLINKS_INTRO_DESC" />
 
 		<field
-			type="spacer" />
-
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="show_link_hits"
 			type="radio"
@@ -98,8 +100,10 @@
 		</field>
 
 		<field
-			type="spacer" />
-
+			name="spacer2"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="target"
 			type="list"

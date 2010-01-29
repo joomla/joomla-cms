@@ -1019,7 +1019,10 @@
 		</field>
 
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="notify_comments"
 			type="radio"
@@ -1042,7 +1045,10 @@
 			description="COMMENTS_COMMENT_NOTIFY_ADDRESS_DESC" />
 
 		<field
-			type="spacer" />
+			name="spacer2"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="moderate_comments"
 			type="radio"
@@ -1093,7 +1099,10 @@
 		</field>
 
 		<field
-			type="spacer" />
+			name="spacer3"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="enable_recaptcha"
 			type="radio"
@@ -1120,7 +1129,10 @@
 			description="COMMENTS_SPAM_RECAPTCHA_PRIVATE_DESC" />
 
 		<field
-			type="spacer" />
+			name="spacer4"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="enable_akismet"
 			type="radio"

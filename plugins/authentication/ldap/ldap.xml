@@ -106,7 +106,10 @@
 			description="fieldUSERSDN" />
 
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 
 		<field
 			name="username"
@@ -125,7 +128,10 @@
 			description="fieldCONNECTPASSWORD" />
 
 		<field
-			type="spacer" />
+			name="spacer2"
+			type="spacer"
+			hr="true" 
+			/>
 
 		<field
 			name="ldap_fullname"

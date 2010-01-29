@@ -66,7 +66,10 @@
 		</field>
 
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 
 		<field
 			name="show_author"
@@ -141,8 +144,10 @@
 		</field>
 
 		<field
-			type="spacer" />
-
+			name="spacer2"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="show_icons"
 			type="radio"

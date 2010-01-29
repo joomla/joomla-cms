@@ -34,4 +34,18 @@ class JFormFieldSpacer extends JFormField
 	{
 		return ' ';
 	}
+	
+	/**
+	 * Method to get the field label
+	 *
+	 * @return	string		The field label
+	 */
+	protected function _getLabel()
+	{
+		if((string)$this->_element->attributes()->hr=='true') {
+			$this->labelText = "JFIELD_SPACER_LABEL";
+		}
+		return parent::_getLabel();
+	}	
+	
 }

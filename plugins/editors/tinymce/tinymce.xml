@@ -18,10 +18,7 @@
 			plugin="tinymce">tinymce.php</filename>
 		<folder>tinymce</folder>
 	</files>
-	<languages>
-		<language
-			tag="en-GB">en-GB.plg_editors_tinymce.ini</language>
-	</languages>
+	
 	<fields>
 		<field
 			name="mode"
@@ -63,7 +60,10 @@
 				value="1">JON</option>
 		</field>
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true"
+			/>
 		<field
 			name="cleanup_startup"
 			type="radio"
@@ -102,7 +102,10 @@
 				value="raw">PLG_TINY_FIELD_VALUE_RAW</option>
 		</field>
 		<field
-			type="spacer" />
+			name="spacer2"
+			type="spacer"
+			hr="true"
+			/>
 		<field
 			name="lang_mode"
 			type="radio"
@@ -133,7 +136,10 @@
 				value="rtl">PLG_TINY_FIELD_VALUE_RTL</option>
 		</field>
 		<field
-			type="spacer" />
+			name="spacer3"
+			type="spacer"
+			hr="true"
+			/>
 		<field
 			name="content_css"
 			type="radio"
@@ -153,7 +159,10 @@
 			label="PLG_TINY_FIELD_LABEL_CUSTOM_CSS"
 			description="PLG_TINY_FIELD_DESC_CUSTOM_CSS" />
 		<field
-			type="spacer" />
+			name="spacer4"
+			type="spacer"
+			hr="true"
+			/>
 		<field
 			name="relative_urls"
 			type="list"
@@ -194,7 +203,8 @@
 			description="PLG_TINY_FIELD_DESC_ELEMENTS" />
 	</fields>
 	<fields
-		group="advanced">
+		group="advanced"
+		label="PLG_TINY_FIELD_LABEL_ADVANCEDPARAMS">
 		<field
 			name="toolbar"
 			type="list"
@@ -243,7 +253,10 @@
 				value="1">JON</option>
 		</field>
 		<field
-			type="spacer" />
+			name="extended"
+			type="spacer"
+			label="PLG_TINY_FIELD_NAME_EXTENDED"
+			/>
 		<field
 			name="fonts"
 			type="radio"
@@ -477,7 +490,10 @@
 				value="1">JON</option>
 		</field>
 		<field
-			type="spacer" />
+			name="spacer5"
+			type="spacer"
+			hr="true"
+			/>
 		<field
 			name="advimage"
 			type="radio"
@@ -545,7 +561,10 @@
 				value="1">JON</option>
 		</field>
 		<field
-			type="spacer" />
+			name="spacer6"
+			type="spacer"
+			hr="true"
+			/>
 		<field
 			name="custom_plugin"
 			type="text"

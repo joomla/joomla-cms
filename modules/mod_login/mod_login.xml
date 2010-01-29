@@ -36,7 +36,10 @@
 				value="0">Never</option>
 		</field>
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="pretext"
 			type="textarea"

@@ -27,8 +27,11 @@
 
 
 		<field
-			type="spacer" />
-
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
+			
 		<field
 			name="scrolling"
 			type="radio"
@@ -59,8 +62,11 @@
 			label="Height"
 			description="fieldHEIGHT" />
 		<field
-			type="spacer" />
-	</fields>
+			name="spacer2"
+			type="spacer"
+			hr="true" 
+			/>
+		</fields>
 
 	<fields
 		group="advanced"

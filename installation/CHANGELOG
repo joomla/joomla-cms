@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-jan-2010 Jean-Marie Simonet
+# Fixed Form field Spacer display
+
 28-jan-2010 Ron Severdia
 # Fixed CSS bug (missing CSS for new form element)
 

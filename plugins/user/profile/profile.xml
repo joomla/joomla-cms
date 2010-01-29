@@ -134,7 +134,10 @@
 				value="0">JOPTION_DISABLED</option>
 		</field>
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="profile-require_address1"
 			type="radio"

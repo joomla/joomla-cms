@@ -59,7 +59,10 @@
 				value="not_me">Not added or modified by me</option>
 		</field>
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="show_front"
 			type="radio"
@@ -79,7 +82,10 @@
 			label="Category ID"
 			description="fieldCATEGORYID" />
 		<field
-			type="spacer" />
+			name="spacer2"
+			type="spacer"
+			hr="true" 
+			/>
 	</fields>
 	<fields
 		group="advanced">

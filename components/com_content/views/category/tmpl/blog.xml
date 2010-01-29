@@ -63,8 +63,10 @@
 		</field>
 
 		<field
-			type="spacer" />
-
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="num_leading_articles"
 			type="text"
@@ -148,8 +150,11 @@
 		</field>
 
 		<field
-			type="spacer" />
-
+			name="spacer2"
+			type="spacer"
+			hr="true" 
+			/>
+			
 		<field
 			name="show_pagination"
 			type="list"

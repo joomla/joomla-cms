@@ -45,7 +45,10 @@
 			description="fieldSTOPLEVEL" />
 
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 
 		<field
 			name="showAllChildren"
@@ -91,7 +94,10 @@
 			description="fieldTARGETPOSITION" />
 
 		<field
-			type="spacer" />
+			name="spacer2"
+			type="spacer"
+			hr="true" 
+			/>
 
 		<field
 			name="layout"

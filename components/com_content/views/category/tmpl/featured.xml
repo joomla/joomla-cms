@@ -112,8 +112,11 @@
 		</field>
 
 		<field
-			type="spacer" />
-
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
+			
 		<field
 			name="show_pagination"
 			type="list"

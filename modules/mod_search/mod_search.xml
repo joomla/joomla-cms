@@ -39,7 +39,10 @@
 			label="Text"
 			description="fieldTEXT" />
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="button"
 			type="radio"

@@ -42,7 +42,10 @@
 		</field>
 
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 
 		<field
 			name="count"
@@ -90,7 +93,10 @@
 		</field>
 
 		<field
-			type="spacer" />
+			name="spacer2"
+			type="spacer"
+			hr="true" 
+			/>
 
 		<field
 			name="header_text"

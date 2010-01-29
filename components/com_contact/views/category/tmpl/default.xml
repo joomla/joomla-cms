@@ -69,7 +69,10 @@
 				value="right">Right</option>
 		</field>
 		<field
-			type="spacer" />
+			name="spacer1"
+			type="spacer"
+			hr="true" 
+			/>
 		<field
 			name="show_limit"
 			type="radio"
