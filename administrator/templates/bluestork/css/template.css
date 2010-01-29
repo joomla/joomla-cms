@@ -689,6 +689,7 @@ div.current fieldset.radio label {
 }
 
 div.current input.text_area,
+div.current textarea.text_area,
 div.current select.inputbox {
 	clear: none;
 	float: left;

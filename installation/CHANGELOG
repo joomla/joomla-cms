@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-jan-2010 Ron Severdia
+# Fixed CSS bug (missing CSS for new form element)
+
 27-jan-2010 Christophe Demko
 # Correcting bugs in JForm
 ^ Call to $object->toString() changed to (string)$object
