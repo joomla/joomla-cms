@@ -463,7 +463,7 @@ class JFormTest extends PHPUnit_Framework_TestCase
 		$xml = '<form><fields>';
 		foreach ($groups['_default'] as $elem)
 		{
-			$xml .= $elem->toString();
+			$xml .= $elem->asXML();
 		}
 		$xml .= '</fields></form>';
 

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jan-2010 Ian MacLennan
+# Fixed JFormTest::testLoad to sync with changes to trunk
+
 27-Jan-2010 Mark Dexter
 # Fix bugs in functional tests. Add back TestSuite.php.
 # Add new test to test front-end sample data.
