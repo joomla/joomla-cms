@@ -12,6 +12,6 @@ defined('_JEXEC') or die;
 ?>
 <div class="item">
 	<a href="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>">
-		<img src="<?php echo JURI::base() ?>media/media/images/folder.gif" width="80" height="80" alt="<?php echo $this->_tmp_folder->name; ?>" />
+		<?php echo JHTML::_('image', 'media/folder.gif', $this->_tmp_folder->name, array('height' => 80, 'width' => 80), true); ?>
 		<span><?php echo $this->_tmp_folder->name; ?></span></a>
 </div>

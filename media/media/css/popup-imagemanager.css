@@ -57,7 +57,7 @@ a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighligh
 }
 
 .upload-queue li {
-	background: url(upload.png) no-repeat 0 5px;
+	background: url(../../images/media/upload.png) no-repeat 0 5px;
 	padding: 5px 0 5px 5px;
 }
 
@@ -93,7 +93,7 @@ a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighligh
 .upload-queue .input-delete {
 	width: 16px;
 	height: 16px;
-	background: url(delete.png) no-repeat 0 0;
+	background: url(../../images/media/delete.png) no-repeat 0 0;
 	text-decoration: none;
 	border: none;
 	float: right;
