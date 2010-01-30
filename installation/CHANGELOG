@@ -31,6 +31,7 @@ $ -> Language fix or change
 # Fixed translation of parameter labels in com_users
 + Added ability to add a category.xml file to a component to add parameters to com_categories
 + Added mod_weblinks Weblink Module - Thanks Amy Stephen!
+# Finished making images overrideable
 
 29-jan-2010 Jean-Marie Simonet
 # Fixed Form field Spacer display
