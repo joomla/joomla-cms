@@ -53,8 +53,6 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?>
-
-			<?php echo $this->loadTemplate('options'); ?>
 			
 			<?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?>
@@ -67,17 +65,38 @@ JHtml::_('behavior.formvalidation');
 	</div>
 
 	<div class="width-40 fltrt">
+	<?php
+		if(in_array('params', $this->form->getGroups()))
+		{
+			echo JHTML::_('sliders.start'); 
+			$groups = $this->form->getGroups('params');
+			$fieldsets = $this->form->getFieldsets();
+			array_unshift($groups, 'params');
+			foreach($groups as $group) { 
+				echo JHTML::_('sliders.panel', JText::_($fieldsets[$group]['label']), $group);
+				echo '<fieldset class="panelform">';
+				foreach($this->form->getFields($group) as $field)
+				{
+					if ($field->hidden)
+					{
+						echo $field->input;
+					} else {
+						echo $field->label;
+						echo $field->input;
+					}
+				}
+				echo '</fieldset>';
+			}
+			echo JHTML::_('sliders.end');
+		} ?>
+		<fieldset class="adminform">
+			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
+			<?php echo $this->loadTemplate('metadata'); ?>
+		</fieldset>
 		<fieldset>
 			<legend><?php echo JText::_('Categories_Fieldset_Rules');?></legend>
 				<?php echo $this->form->getLabel('rules'); ?>
 				<?php echo $this->form->getInput('rules'); ?>
-		</fieldset>
-	</div>
-
-	<div class="width-40 fltrt">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
-			<?php echo $this->loadTemplate('metadata'); ?>
 		</fieldset>
 	</div>
 

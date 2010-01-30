@@ -80,7 +80,7 @@ JHtml::_('behavior.formvalidation');
 			$fieldsets = $this->form->getFieldsets();
 			array_unshift($groups, 'params');
 			foreach($groups as $group) { 
-				echo JHTML::_('sliders.panel', $fieldsets[$group]['label'], $group);
+				echo JHTML::_('sliders.panel', JText::_($fieldsets[$group]['label']), $group);
 				?><fieldset class="panelform"><?php
 				foreach($this->form->getFields($group) as $field): ?>
 				<?php if ($field->hidden): ?>

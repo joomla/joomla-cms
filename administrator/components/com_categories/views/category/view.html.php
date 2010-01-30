@@ -27,7 +27,6 @@ class CategoriesViewCategory extends JView
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
 		$form		= $this->get('Form');
-		$modules	= $this->get('Modules');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {

@@ -187,7 +187,7 @@
 	<fields
 		group="params"
 		array="true"
-		label="Categories_Options">
+		label="Category_Options">
 
 		<field
 			name="target"
