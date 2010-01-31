@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 			<div class="imgTotal">
 				<div class="imgBorder center">
 					<a class="img-preview" href="<?php echo COM_MEDIA_BASEURL.'/'.$this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>" style="display: block; width: 100%; height: 100%">
-						<?php echo JHTML::_('image', $this->_tmp_img->path_relative, $this->_tmp_img->name.' - '.MediaHelper::parseSize($this->_tmp_img->size), array('width' => $this->_tmp_img->width_60, 'height' => $this->_tmp_img->height_60, 'border' => 0)); ?>
+						<?php echo JHTML::_('image', COM_MEDIA_BASEURL.'/'.$this->_tmp_img->path_relative, $this->_tmp_img->name.' - '.MediaHelper::parseSize($this->_tmp_img->size), array('width' => $this->_tmp_img->width_60, 'height' => $this->_tmp_img->height_60, 'border' => 0)); ?>
 					</a>
 				</div>
 			</div>
