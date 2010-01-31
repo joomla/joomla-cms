@@ -72,12 +72,13 @@ class ModulesViewModule extends JView
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= ModulesHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
-		$client		= $this->get('client');
+		$item		= $this->get('Item');
+		$client		= $item->client_id;
 
 		JToolBarHelper::title(JText::_('Modules_Manager_Module'));
 
 		if ($this->item->module == 'mod_custom') {
-			JToolBarHelper::Preview('index.php?option=com_modules&tmpl=component&client='.$client->id.'&pollid='.$this->item->id);
+			JToolBarHelper::Preview('index.php?option=com_modules&tmpl=component&client='.$client.'&pollid='.$this->item->id);
 		}
 
 

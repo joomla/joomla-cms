@@ -47,7 +47,7 @@
 			type="text"
 			default="5"
 			label="Count"
-			description="The number of items to display (default is 5)" />
+			description="The number of items to display default is 5" />
 		<field
 			name="catid"
 			type="category"

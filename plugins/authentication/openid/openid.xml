@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>Handles user authentication with an OpenID (Requires PHP5)</description>
+	<description>Handles user authentication with an OpenID Requires PHP5</description>
 	<files>
 		<filename
 			plugin="openid">openid.php</filename>

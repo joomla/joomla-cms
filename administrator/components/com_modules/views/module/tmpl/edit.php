@@ -27,7 +27,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 		if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {
 			<?php
 			if ($hasContent) :
-				echo $this->form->getField('articletext')->save();
+				echo $this->form->getField('content')->save();
 			endif;
 			?>
 			submitform(task);

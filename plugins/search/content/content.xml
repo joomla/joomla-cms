@@ -3,7 +3,7 @@
 	version="1.6"
 	type="plugin"
 	group="auth">
-	<name>Authentication - LDAP</name>
+	<name>Search - Content</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

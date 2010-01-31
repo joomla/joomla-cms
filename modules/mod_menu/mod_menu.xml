@@ -27,7 +27,7 @@
 			type="menu"
 			default=""
 			label="Menu Name"
-			description="The name of the menu (default is mainmenu)" />
+			description="The name of the menu default is mainmenu" />
 		<field
 			name="startLevel"
 			type="text"

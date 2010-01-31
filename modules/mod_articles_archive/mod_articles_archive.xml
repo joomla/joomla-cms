@@ -31,7 +31,7 @@
 			type="text"
 			default="10"
 			label="Count"
-			description="The number of items to display (default is 10)" />
+			description="The number of items to display default is 10" />
 	</fields>
 	<fields
 		group="advanced">

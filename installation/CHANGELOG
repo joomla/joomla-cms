@@ -34,6 +34,11 @@ $ -> Language fix or change
 # Fixed notice in com_content router
 + Added $path_only option to JHTML::image()
 # Fixed bug in how com_languages saves the configuration options - Thanks Jonnathan!
+# When module were renamed, the translation files weren't renamed, too.
+# Fixed frontend translation files for modules
+# Fixed plugin translation files
+# Fixed custom module handling in module manager
+# Fixed entries in #__extensions. This fixes a few bugs like the selection list for new modules in the module manager
 
 30-Jan-2010 Hannes Papenberg
 # Fixed translation of parameter labels in com_users

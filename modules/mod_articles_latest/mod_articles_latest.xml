@@ -31,7 +31,7 @@
 			type="text"
 			default="5"
 			label="Count"
-			description="The number of items to display (default 5)" />
+			description="The number of items to display default 5" />
 		<field
 			name="ordering"
 			type="list"
