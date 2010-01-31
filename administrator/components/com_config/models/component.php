@@ -116,7 +116,9 @@ class ConfigModelComponent extends JModelForm
 					$this->setError($asset->getError());
 					return false;
 				}
-				unset($data['option']);// We don't need this anymore
+				// We don't need this anymore
+					unset($data['option']);
+					unset($data['params']['rules']);
 			}
 			else
 			{

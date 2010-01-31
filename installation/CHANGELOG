@@ -33,6 +33,7 @@ $ -> Language fix or change
 # Fixing routing of JHTML::image()
 # Fixed notice in com_content router
 + Added $path_only option to JHTML::image()
+# Fixed bug in how com_languages saves the configuration options - Thanks Jonnathan!
 
 30-Jan-2010 Hannes Papenberg
 # Fixed translation of parameter labels in com_users
@@ -268,7 +269,7 @@ $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_
 
 
 05-Jan-2010 Hannes Papenberg
- ^ Removed #__components and moved the admin menu information to #__menu. Thanks jonnsl!
+ ^ Removed #__components and moved the admin menu information to #__menu. Thanks Jonnathan!
 
 >>>>>>> .r14052
 05-Jan-2010 Andrew Eddie

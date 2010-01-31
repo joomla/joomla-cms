@@ -93,7 +93,7 @@ class LanguagesViewLanguages extends JView
 			JToolBarHelper::trash('languages.trash','JTOOLBAR_TRASH');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_languagaes');
+		JToolBarHelper::preferences('com_languages');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.languages','JTOOLBAR_HELP');
 	}

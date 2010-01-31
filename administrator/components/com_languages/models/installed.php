@@ -244,14 +244,13 @@ class LanguagesModelInstalled extends JModelList
 	 *
 	 * return boolean
 	 */
-	public function publish()
+	public function publish($cid)
 	{
-		$cid = $this->getState('cid');
-		if (count($cid)>0) {
+		if ($cid) {
 			$client	= & $this->getClient();
 
 			$params = & JComponentHelper::getParams('com_languages');
-			$params->set($client->name, $cid[0]);
+			$params->set($client->name, $cid);
 
 			$table = & JTable::getInstance('extension');
 			$id = $table->find(array('element' => 'com_languages'));
