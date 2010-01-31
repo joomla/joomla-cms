@@ -33,6 +33,6 @@ class JFormFieldImpTotal extends JFormField
 		$value		= empty($this->value) ? '' : $this->value;
 		$checked	= empty($this->value) ? ' checked="checked"' : '';
 
-		return '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($value).'" '.$class.$onchange.' /><input id="'.$this->inputId.'_unlimited" type="checkbox"'.$checked.$onclick.' /><input style="border:0;" type="text" value="'.JText::_('Banners_Unlimited').'" readonly="readonly"/>';
+		return '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$class.$onchange.' /><input id="'.$this->inputId.'_unlimited" type="checkbox"'.$checked.$onclick.' /><input style="border:0;" type="text" value="'.JText::_('Banners_Unlimited').'" readonly="readonly"/>';
 	}
 }

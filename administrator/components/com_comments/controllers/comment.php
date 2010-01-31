@@ -41,7 +41,7 @@ class CommentsControllerComment extends JControllerForm
 		// make sure that html special characters are encoded in code tags
 		function codeEscape($matches)
 		{
-			return htmlspecialchars($matches[0]);
+			return htmlspecialchars($matches[0], ENT_COMPAT, 'UTF-8');
 		}
 		$body = preg_replace_callback('/\[code=(.+?)\](.+?)\[\/code\]/is', 'codeEscape', $body);
 

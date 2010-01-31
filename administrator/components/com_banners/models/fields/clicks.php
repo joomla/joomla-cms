@@ -29,6 +29,6 @@ class JFormFieldClicks extends JFormField
 	{
 		$onclick	= ' onclick="document.id(\''.$this->inputId.'\').value=\'0\';"';
 
-		return '<input style="border:0;" type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value).'" readonly="readonly" /><input type="button"'.$onclick.' value="'.JText::_('Banners_Reset_Clicks').'" class="button"/>';
+		return '<input style="border:0;" type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'" readonly="readonly" /><input type="button"'.$onclick.' value="'.JText::_('Banners_Reset_Clicks').'" class="button"/>';
 	}
 }

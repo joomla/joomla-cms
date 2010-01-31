@@ -129,7 +129,7 @@ abstract class modFeedHelper
 					if ($rssitemdesc)
 					{
 						// item description
-						$text = html_entity_decode($currItem->get_description());
+						$text = html_entity_decode($currItem->get_description(), ENT_COMPAT, 'UTF-8');
 						$text = str_replace('&apos;', "'", $text);
 
 						// word limit check

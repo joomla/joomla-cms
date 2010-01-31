@@ -625,7 +625,7 @@ class JSimpleXMLElement extends JObject
 
 		//For each attribute, add attr="value"
 		foreach($this->_attributes as $attr => $value) {
-			$out .= ' '.$attr.'="'.htmlspecialchars($value).'"';
+			$out .= ' '.$attr.'="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'"';
 		}
 
 		//If there are no children and it contains no data, end it off with a />
@@ -652,7 +652,7 @@ class JSimpleXMLElement extends JObject
 
 			//If there is data, close off the start tag and add the data
 			elseif (!empty($this->_data))
-				$out .= '>'.htmlspecialchars($this->_data);
+				$out .= '>'.htmlspecialchars($this->_data, ENT_COMPAT, 'UTF-8');
 
 			//Add the end tag
 			$out .= '</'.$this->_name.'>';

@@ -173,7 +173,7 @@ class JFilterOutput
 		$text = preg_replace('/&amp;/', ' ', $text);
 		$text = preg_replace('/&quot;/', ' ', $text);
 		$text = strip_tags($text);
-		$text = htmlspecialchars($text);
+		$text = htmlspecialchars($text, ENT_COMPAT, 'UTF-8');
 		return $text;
 	}
 }
