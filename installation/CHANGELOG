@@ -29,6 +29,10 @@ $ -> Language fix or change
 
 31-Jan-2010 Hannes Papenberg
 # Fixed group bug in JParameter - Thanks James Kennard
+- Removing unused images from administrator, including the /images folder
+# Fixing routing of JHTML::image()
+# Fixed notice in com_content router
++ Added $path_only option to JHTML::image()
 
 30-Jan-2010 Hannes Papenberg
 # Fixed translation of parameter labels in com_users
