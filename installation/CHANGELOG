@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Jan-2010 Hannes Papenberg
+# Fixed group bug in JParameter - Thanks James Kennard
+
 30-Jan-2010 Hannes Papenberg
 # Fixed translation of parameter labels in com_users
 + Added ability to add a category.xml file to a component to add parameters to com_categories
