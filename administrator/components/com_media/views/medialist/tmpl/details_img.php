@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 ?>
 		<tr>
 			<td>
-				<a class="img-preview" href="<?php echo COM_MEDIA_BASEURL.'/'.$this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>"><img src="<?php echo COM_MEDIA_BASEURL.'/'.$this->_tmp_img->path_relative; ?>" width="<?php echo $this->_tmp_img->width_16; ?>" height="<?php echo $this->_tmp_img->height_16; ?>" alt="<?php echo $this->_tmp_img->name; ?> - <?php echo MediaHelper::parseSize($this->_tmp_img->size); ?>" border="0" /></a>
+				<a class="img-preview" href="<?php echo COM_MEDIA_BASEURL.'/'.$this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>"><?php echo JHTML::_('image', $this->_tmp_img->path_relative, $this->_tmp_img->name.' - '.MediaHelper::parseSize($this->_tmp_img->size), array('width' => $this->_tmp_img->width_16, 'height' => $this->_tmp_img->height_16, 'border' => 0)); ?></a>
 			</td>
 			<td class="description">
 				<a href="<?php echo  COM_MEDIA_BASEURL.'/'.$this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>" rel="preview"><?php echo $this->escape($this->_tmp_img->name); ?></a>

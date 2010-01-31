@@ -165,7 +165,7 @@ function ContentBuildRoute(&$query)
 
 	if (isset($query['catid'])) {
 		// if we are routing an article or category where the category id matches the menu catid, don't include the category segment
-		if ((($view == 'article') and ($mView != 'category') and ($mView != 'article') and ($mCatid != intval($query['catid'])))) {
+		if ((isset($view) && ($view == 'article') and ($mView != 'category') and ($mView != 'article') and ($mCatid != intval($query['catid'])))) {
 			$segments[] = $query['catid'];
 		}
 		unset($query['catid']);

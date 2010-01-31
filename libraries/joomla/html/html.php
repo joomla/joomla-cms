@@ -186,7 +186,7 @@ abstract class JHtml
 			$debug = JFactory::getConfig()->getValue('config.debug');
 		}
 
-		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
+		// TODO NOTE: Here we are checking for Konqueror - If they fix their issue with compressed, we will need to update this
 		$konkcheck		= strpos(strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
 		$uncompressed	= ($debug || $konkcheck) ? '-uncompressed' : '';
 
@@ -222,7 +222,7 @@ abstract class JHtml
 	 * @param	boolean	If set to true, it tries to find an override for the file in the template
 	 * @since	1.5
 	 */
-	public static function image($url, $alt, $attribs = null, $relative = false)
+	public static function image($url, $alt, $attribs = null, $relative = false, $path_only = false)
 	{
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
@@ -236,6 +236,10 @@ abstract class JHtml
 				$url = JURI::base(true).'/templates/'. $cur_template .'/images/'. $url;
 			} else {
 				$url = JURI::root(true).'/media/images/'.$url;
+			}
+			if($path_only)
+			{
+				return $url;
 			}
 		} elseif (strpos($url, 'http') !== 0) {
 			$url = JURI::base(true).'/'.$url;

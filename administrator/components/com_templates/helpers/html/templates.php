@@ -30,8 +30,8 @@ class JHtmlTemplates
 
 		if (file_exists($thumb))
 		{
-			$thumb	= $baseUrl.'/templates/'.$template.'/template_thumbnail.png';
-			$html	= '<img src="'.$thumb.'" alt="'.JText::_('Templates_Preview').'" />';
+			$thumb	= 'templates/'.$template.'/template_thumbnail.png';
+			$html	= JHTML::_('image', $thumb,JText::_('Templates_Preview'));
 			if (file_exists($preview))
 			{
 				$preview	= $baseUrl.'/templates/'.$template.'/template_preview.png';
