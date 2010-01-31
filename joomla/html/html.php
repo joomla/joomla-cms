@@ -242,7 +242,7 @@ abstract class JHtml
 				return $url;
 			}
 		} elseif (strpos($url, 'http') !== 0) {
-			$url = JURI::base(true).'/'.$url;
+			$url = JURI::root(true).'/'.$url;
 		}
 
 		return '<img src="'.$url.'" alt="'.$alt.'" '.$attribs.' />';
