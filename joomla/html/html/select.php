@@ -258,7 +258,7 @@ abstract class JHtmlSelect
 				$html .= $groupIndent
 					. '<optgroup' . (empty($id) ? '' : ' id="' . $id . '"')
 					. ' label="'
-					. ($options['group.label.toHtml'] ? htmlspecialchars($label) : $label)
+					. ($options['group.label.toHtml'] ? htmlspecialchars($label, ENT_COMPAT, 'UTF-8') : $label)
 					. '">'
 					. $options['format.eol']
 					. JHtmlSelect::options($subList, $options)
@@ -592,7 +592,7 @@ abstract class JHtmlSelect
 
 				// Generate the option, encoding as required
 				$html .= $baseIndent . '<option value="'
-					. ($options['option.key.toHtml'] ? htmlspecialchars($key) : $key) . '"'
+					. ($options['option.key.toHtml'] ? htmlspecialchars($key, ENT_COMPAT, 'UTF-8') : $key) . '"'
 					. $extra . '>'
 					. ($options['option.text.toHtml'] ? htmlentities(html_entity_decode($text), ENT_COMPAT, 'UTF-8') : $text)
 					. '</option>'

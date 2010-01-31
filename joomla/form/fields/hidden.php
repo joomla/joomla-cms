@@ -34,6 +34,6 @@ class JFormFieldHidden extends JFormField
 	{
 		$class	= (string)$this->_element->attributes()->class ? 'class="'.$this->_element->attributes()->class.'"' : '';
 
-		return '<input type="hidden" name="'.$this->inputName.'" value="'.htmlspecialchars($this->value).'" '.$class.' />';
+		return '<input type="hidden" name="'.$this->inputName.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'" '.$class.' />';
 	}
 }

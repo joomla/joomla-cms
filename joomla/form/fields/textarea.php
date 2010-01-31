@@ -45,7 +45,7 @@ class JFormFieldTextarea extends JFormField
         . $readonly
         . $onchange
         .' >'
-        . htmlspecialchars($this->value)
+        . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8')
         . '</textarea>';
     }
 }

@@ -50,7 +50,7 @@ abstract class JHtmlImage
 		$cur_template = $app->getTemplate();
 
 		// Strip HTML.
-		$alt = html_entity_decode($alt);
+		$alt = html_entity_decode($alt, ENT_COMPAT, 'UTF-8');
 
 		if ($altFile) {
 			$src = $altFolder . $altFile;
@@ -84,7 +84,7 @@ abstract class JHtmlImage
 
 		// Outputs actual html <img> tag.
 		if ($asTag) {
-			return '<img src="'. $src .'" alt="'. html_entity_decode($alt) .'" '.$attribs.' />';
+			return '<img src="'. $src .'" alt="'. html_entity_decode($alt, ENT_COMPAT, 'UTF-8') .'" '.$attribs.' />';
 		}
 
 		return $src;
@@ -116,7 +116,7 @@ abstract class JHtmlImage
 		$cur_template = $app->getTemplate();
 
 		// Strip HTML.
-		$alt = html_entity_decode($alt);
+		$alt = html_entity_decode($alt, ENT_COMPAT, 'UTF-8');
 
 		if ($altFile) {
 			$image = $altFolder . $altFile;

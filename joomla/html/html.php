@@ -404,8 +404,8 @@ abstract class JHtml
 		$tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $link = 1
 	)
 	{
-		$tooltip	= addslashes(htmlspecialchars($tooltip));
-		$title		= addslashes(htmlspecialchars($title));
+		$tooltip	= addslashes(htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8'));
+		$title		= addslashes(htmlspecialchars($title, ENT_COMPAT, 'UTF-8'));
 
 		if (!$text) {
 			$image 	= JURI::root(true).'/includes/js/ThemeOffice/'. $image;

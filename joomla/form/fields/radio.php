@@ -66,7 +66,7 @@ class JFormFieldRadio extends JFormField
 			$class = isset($option->class) ? ' class="'.$option->class.'"' : null;
 
 
-			$html[] = '<input id="'.$this->inputId.$i.'" type="radio" name="'.$this->inputName.'" value="'.htmlspecialchars($option->value).'"'.$bool.$option->onclick.' />';
+			$html[] = '<input id="'.$this->inputId.$i.'" type="radio" name="'.$this->inputName.'" value="'.htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8').'"'.$bool.$option->onclick.' />';
 			$html[] = '<label for="'.$this->inputId.$i.'"'.$class.'>'.JText::_($option->text).'</label>';
 		}
 

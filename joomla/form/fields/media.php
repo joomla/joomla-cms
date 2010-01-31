@@ -57,7 +57,7 @@ class JFormFieldMedia extends JFormField
 		$class	= (string)$this->_element->attributes()->class ? ' class="'.$this->_element->attributes()->class.'"' : '';
 
 		$html .= '<div style="float: left;">';
-		$html .= '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value).'"'.$class.$size.' />';
+		$html .= '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"'.$class.$size.' />';
 		$html .= '</div>';
 		$html .= '<div class="button2-left">';
 		$html .= '<div class="blank">';

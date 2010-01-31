@@ -36,6 +36,6 @@ class JFormFieldPassword extends JFormField
 		$class = (string)$this->_element->attributes()->class ? ' class="'.$this->_element->attributes()->class.'"' : ' class="text_area"';
 		$auto = (string)$this->_element->attributes()->autocomplete == 'off' ? 'autocomplete="off"' : '';
 
-		return '<input type="password" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value).'"'.$auto.$class.$size.'/>';
+		return '<input type="password" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"'.$auto.$class.$size.'/>';
 	}
 }

@@ -57,7 +57,7 @@ class JFormFieldEditor extends JFormField
 
 		$editor = $this->_getEditor();
 
-		return $editor->display($this->inputName, htmlspecialchars($this->value), $width, $height, $cols, $rows, $buttons, $this->inputId);
+		return $editor->display($this->inputName, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows, $buttons, $this->inputId);
 	}
 
 	/**

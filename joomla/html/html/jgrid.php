@@ -67,7 +67,7 @@ abstract class JHtmlJGrid
 	 */
 	public static function checkedout($editorName, $time)
 	{
-		$text	= addslashes(htmlspecialchars($editorName));
+		$text	= addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
 		$date 	= JHTML::_('date',  $time, '%A, %d %B %Y');
 		$time	= JHTML::_('date',  $time, '%H:%M');
 

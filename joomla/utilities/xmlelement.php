@@ -77,7 +77,7 @@ class JXMLElement extends SimpleXMLElement
 
 		//-- For each attribute, add attr="value"
 		foreach($this->attributes() as $attr) {
-			$out .= ' '.$attr->getName().'="'.htmlspecialchars((string)$attr).'"';
+			$out .= ' '.$attr->getName().'="'.htmlspecialchars((string)$attr, ENT_COMPAT, 'UTF-8').'"';
 		}
 
 		//-- If there are no children and it contains no data, end it off with a />
@@ -110,7 +110,7 @@ class JXMLElement extends SimpleXMLElement
 			elseif((string)$this)
 			{
 				//-- If there is data, close off the start tag and add the data
-				$out .= '>'.htmlspecialchars((string)$this);
+				$out .= '>'.htmlspecialchars((string)$this, ENT_COMPAT, 'UTF-8');
 			}
 
 			//-- Add the end tag

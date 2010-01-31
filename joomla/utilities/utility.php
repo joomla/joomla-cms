@@ -154,7 +154,7 @@ class JUtility
 	function dump(&$var, $htmlSafe = true)
 	{
 		$result = var_export($var, true);
-		return '<pre>'.($htmlSafe ? htmlspecialchars($result) : $result).'</pre>';
+		return '<pre>'.($htmlSafe ? htmlspecialchars($result, ENT_COMPAT, 'UTF-8') : $result).'</pre>';
 	}
 
 	/**

@@ -219,7 +219,7 @@ abstract class JHtmlGrid
 		$hover = '';
 		if ($overlib)
 		{
-			$text = addslashes(htmlspecialchars($row->editor));
+			$text = addslashes(htmlspecialchars($row->editor, ENT_COMPAT, 'UTF-8'));
 
 			$date 	= JHtml::_('date',  $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
 			$time	= JHtml::_('date',  $row->checked_out_time, '%H:%M');
