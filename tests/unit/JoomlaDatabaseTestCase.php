@@ -159,7 +159,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 */
     protected function getDataSet()
     {
-    	return $this->createXMLDataSet(JPATH_BASE . '/unittest/stubs/test.xml');
+    	return $this->createXMLDataSet(JPATH_BASE . '/tests/unit/stubs/test.xml');
     }
 
 }
