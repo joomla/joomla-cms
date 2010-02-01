@@ -515,7 +515,7 @@ CREATE TABLE `#__menu` (
   `access` tinyint(3) unsigned NOT NULL default '0' COMMENT 'The access level required to view the menu item.',
   `img` varchar(255) NOT NULL COMMENT 'The image of the menu item.',
   `template_style_id` integer unsigned NOT NULL default '0',
-  `params` varchar(10240) NOT NULL COMMENT 'JSON encoded data for the menu item.',
+  `params` varchar(1024 NOT NULL COMMENT 'JSON encoded data for the menu item.',
   `lft` integer NOT NULL default '0' COMMENT 'Nested set lft.',
   `rgt` integer NOT NULL default '0' COMMENT 'Nested set rgt.',
   `home` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Indicates if this menu item is the home or default page.',
