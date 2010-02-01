@@ -34,6 +34,8 @@ $ -> Language fix or change
 
 01-Feb-2010 Hannes Papenberg
 # Fixed com_search router and model
+# Fixed com_search view
+# Fixed routing in content search plugins
 
 1-Feb-2010 Jean-Marie Simonet 
 ^ Refactored com_plugins ini keys + some

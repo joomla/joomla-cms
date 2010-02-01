@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
+require_once(JPATH_SITE.'/components/com_content/router.php');
+
 /**
  * Categories Search plugin
  *
@@ -97,7 +99,7 @@ class plgSearchCategories extends JPlugin
 
 		$count = count($rows);
 		for ($i = 0; $i < $count; $i++) {
-			$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);
+			$rows[$i]->href = ContentRoute::category($rows[$i]->slug);
 			$rows[$i]->section 	= JText::_('Category');
 		}
 

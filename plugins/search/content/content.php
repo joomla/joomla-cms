@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
+require_once(JPATH_SITE.'/components/com_content/router.php');
+
 /**
  * Content Search plugin
  *
@@ -163,7 +165,7 @@ class plgSearchContent extends JPlugin
 			{
 				foreach($list as $key => $item)
 				{
-					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
+					$list[$key]->href = ContentRoute::article($item->slug, $item->catslug);
 				}
 			}
 			$rows[] = $list;
@@ -192,7 +194,7 @@ class plgSearchContent extends JPlugin
 			{
 				foreach($list2 as $key => $item)
 				{
-					$list2[$key]->href = ContentHelperRoute::getArticleRoute($item->id);
+					$list2[$key]->href = ContentRoute::article($item->id);
 				}
 			}
 
@@ -229,7 +231,7 @@ class plgSearchContent extends JPlugin
 			{
 				foreach($list3 as $key => $item)
 				{
-					$list3[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
+					$list3[$key]->href = ContentRoute::article($item->slug, $item->catslug);
 				}
 			}
 
@@ -250,7 +252,7 @@ class plgSearchContent extends JPlugin
 				$results = array_merge($results, (array) $new_row);
 			}
 		}
-		var_dump($results);die;
+
 		return $results;
 	}
 }
