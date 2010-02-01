@@ -31,7 +31,7 @@ $ -> Language fix or change
 ^ Refactored ini keys in content plugins + some
 
 01-Feb-2010 Mark Dexter
-# Fix menu settings in sample data
+# Fix menu settings in sample data (Elin Waring)
 
 01-Feb-2010 Christophe Demko
 ^ Save the featured state in the article edit view
