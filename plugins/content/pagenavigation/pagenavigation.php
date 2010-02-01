@@ -182,7 +182,7 @@ class plgContentPagenavigation extends JPlugin
 					$html .= '
 					<th class="pagenav_next">
 						<a href="'. $row->next .'">'
-							. JText::_('Next') . $pnSpace . JText::_('GT') .'</a>
+							. JText::_('JNEXT') . $pnSpace . JText::_('GT') .'</a>
 					</th>'
 					;
 				}

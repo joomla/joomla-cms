@@ -119,10 +119,6 @@ class plgContentPagebreak extends JPlugin
 				$row->toc = '';
 			}
 
-			// Traditional mos page navigation.
-			jimport('joomla.html.pagination');
-			$pageNav = new JPagination($n, $page, 1);
-
 			// Page counter.
 			$row->text .= '<div class="pagenavcounter">';
 			$row->text .= $pageNav->getPagesCounter();
@@ -161,7 +157,7 @@ class plgContentPagebreak extends JPlugin
 		<table cellpadding="0" cellspacing="0" class="contenttoc" align="right">
 		<tr>
 			<th>'
-			. JText::_('Article Index') .
+			. JText::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX') .
 			'</th>
 		</tr>
 		';
@@ -219,7 +215,7 @@ class plgContentPagebreak extends JPlugin
 			<tr>
 				<td>
 					<a href="'. $link .'" class="toclink">'
-					. JText::_('All Pages') .
+					. JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES') .
 					'</a>
 				</td>
 			</tr>
@@ -231,7 +227,7 @@ class plgContentPagebreak extends JPlugin
 	protected function _createNavigation(&$row, $page, $n)
 	{
 		$pnSpace = "";
-		if (JText::_('LT') || JText::_('GT')) $pnSpace = " ";
+		if (JText::_('JCOMMON_LT') || JText::_('JCOMMON_LT')) $pnSpace = " ";
 
 		if ($page < $n-1)
 		{
@@ -239,10 +235,10 @@ class plgContentPagebreak extends JPlugin
 
 			$link_next = JRoute::_('&limitstart='. ($page_next));
 			// Next >>
-			$next = '<a href="'. $link_next .'">' . JText::_('Next') . $pnSpace . JText::_('GT') . JText::_('GT') .'</a>';
+			$next = '<a href="'. $link_next .'">' . JText::_('JNEXT') . $pnSpace . JText::_('JCOMMON_GT') . JText::_('JCOMMON_GT') .'</a>';
 		}
 		else {
-			$next = JText::_('Next');
+			$next = JText::_('JNEXT');
 		}
 
 		if ($page > 0)
@@ -251,7 +247,7 @@ class plgContentPagebreak extends JPlugin
 
 			$link_prev = JRoute::_( '&limitstart='. ($page_prev));
 			// << Prev
-			$prev = '<a href="'. $link_prev .'">'. JText::_('LT') . JText::_('LT') . $pnSpace . JText::_('Prev') .'</a>';
+			$prev = '<a href="'. $link_prev .'">'. JText::_('JCOMMON_LT') . JText::_('JCOMMON_LT') . $pnSpace . JText::_('Prev') .'</a>';
 		}
 		else {
 			$prev = JText::_('Prev');

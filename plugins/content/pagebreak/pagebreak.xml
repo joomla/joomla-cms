@@ -11,30 +11,18 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>DESCCONTENTPAGEBREAK</description>
+	<description>PLG_CONTENT_PAGEBREAK_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="pagebreak">pagebreak.php</filename>
 	</files>
 	<fields>
 		<field
-			name="enabled"
-			type="radio"
-			default="1"
-			label="ENABLE_PLUGIN"
-			description="fieldENABLED">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-		<field
 			name="title"
 			type="radio"
 			default="1"
-			label="Site Title"
-			description="fieldSITETITLE">
+			label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL"
+			description="PLG_CONTENT_PAGEBREAK_SITE_TITLE_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -45,24 +33,24 @@
 			name="multipage_toc"
 			type="radio"
 			default="1"
-			label="Table of Contents"
-			description="fieldSITETOC">
+			label="PLG_CONTENT_PAGEBREAK_TABLE_OF_CONTENTS_LABEL"
+			description="PLG_CONTENT_PAGEBREAK_TABLE_OF_CONTENTS_DESC">
 			<option
-				value="0">Hide</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 
 		<field
 			name="showall"
 			type="radio"
 			default="1"
-			label="Show All"
-			description="fieldSITESHOWALL">
+			label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"
+			description="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL_DESC">
 			<option
-				value="0">Hide</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 	</fields>
 </install>

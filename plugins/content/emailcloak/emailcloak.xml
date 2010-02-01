@@ -4,7 +4,7 @@
 	version="1.6"
 	type="plugin"
 	group="content">
-	<name>Content - Email Cloaking</name>
+	<name>Content - E-Mail Cloaking</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6</version>
-	<description>DESCMOSEMAILCLOAK</description>
+	<description>PLG_CONTENT_EMAILCLOAK_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="emailcloak">emailcloak.php</filename>
@@ -22,12 +22,12 @@
 			name="mode"
 			type="list"
 			default="1"
-			label="Mode"
-			description="Select how the emails will be displayed">
+			label="PLG_CONTENT_EMAILCLOAK_MODE_LABEL"
+			description="PLG_CONTENT_EMAILCLOAK_MODE_DESC">
 			<option
-				value="0">Nonlinkable Text</option>
+				value="0">PLG_CONTENT_EMAILCLOAK_NONLINKABLE</option>
 			<option
-				value="1">As linkable mailto address</option>
+				value="1">PLG_CONTENT_EMAILCLOAK_LINKABLE</option>
 		</field>
 	</fields>
 </install>

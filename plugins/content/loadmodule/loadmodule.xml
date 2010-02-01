@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>DESCLOADPOSITION</description>
+	<description>PLG_LOADMODULE_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="loadmodule">loadmodule.php</filename>
@@ -21,18 +21,18 @@
 			name="style"
 			type="list"
 			default="none"
-			label="Style"
-			description="Code that will wrap modules">
+			label="PLG_LOADMODULE_FIELD_STYLE_LABEL"
+			description="PLG_LOADMODULE_FIELD_STYLE_DESC">
 			<option
-				value="table">Wrapped by Table - Column</option>
+				value="table">PLG_LOADMODULE_FIELD_VALUE_TABLE</option>
 			<option
-				value="horz">Wrapped by Table - Horizontal</option>
+				value="horz">PLG_LOADMODULE_FIELD_VALUE_HORIZONTAL</option>
 			<option
-				value="xhtml">Wrapped by Divs</option>
+				value="xhtml">PLG_LOADMODULE_FIELD_VALUE_DIVS</option>
 			<option
-				value="rounded">Wrapped by Multiple Divs</option>
+				value="rounded">PLG_LOADMODULE_FIELD_VALUE_MULTIPLEDIVS</option>
 			<option
-				value="none">No wrapping - raw output</option>
+				value="none">PLG_LOADMODULE_FIELD_VALUE_RAW</option>
 		</field>
 	</fields>
 </install>

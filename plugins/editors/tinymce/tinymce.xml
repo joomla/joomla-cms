@@ -264,9 +264,9 @@
 			label="PLG_TINY_FIELD_FONTS_LABEL"
 			description="PLG_TINY_FIELD_FONTS_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="paste"
@@ -275,9 +275,9 @@
 			label="PLG_TINY_FIELD_PASTE_LABEL"
 			description="PLG_TINY_FIELD_PASTE_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="searchreplace"
@@ -286,9 +286,9 @@
 			label="PLG_TINY_FIELD_SEARCH-REPLACE_LABEL"
 			description="PLG_TINY_FIELD_SEARCH-REPLACE_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="insertdate"
@@ -297,9 +297,9 @@
 			label="PLG_TINY_FIELD_DATE_LABEL"
 			description="PLG_TINY_FIELD_DATE_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="format_date"
@@ -314,9 +314,9 @@
 			label="PLG_TINY_FIELD_TIME_LABEL"
 			description="PLG_TINY_FIELD_TIME_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="format_time"
@@ -331,9 +331,9 @@
 			label="PLG_TINY_FIELD_COLORS_LABEL"
 			description="PLG_TINY_FIELD_COLORS_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="table"
@@ -342,9 +342,9 @@
 			label="PLG_TINY_FIELD_TABLE_LABEL"
 			description="PLG_TINY_FIELD_TABLE_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="smilies"
@@ -353,9 +353,9 @@
 			label="PLG_TINY_FIELD_SMILIES_LABEL"
 			description="PLG_TINY_FIELD_SMILIES_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="media"
@@ -364,9 +364,9 @@
 			label="PLG_TINY_FIELD_MEDIA_LABEL"
 			description="PLG_TINY_FIELD_MEDIA_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="hr"
@@ -375,9 +375,9 @@
 			label="PLG_TINY_FIELD_HR_LABEL"
 			description="PLG_TINY_FIELD_HR_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="directionality"
@@ -386,9 +386,9 @@
 			label="PLG_TINY_FIELD_RTL_LABEL"
 			description="PLG_TINY_FIELD_RTL_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="fullscreen"
@@ -397,9 +397,9 @@
 			label="PLG_TINY_FIELD_FULLSCREEN_LABEL"
 			description="PLG_TINY_FIELD_FULLSCREEN_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="style"
@@ -408,9 +408,9 @@
 			label="PLG_TINY_FIELD_STYLE_LABEL"
 			description="PLG_TINY_FIELD_STYLE_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="layer"
@@ -419,9 +419,9 @@
 			label="PLG_TINY_FIELD_LAYER_LABEL"
 			description="PLG_TINY_FIELD_LAYER_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="xhtmlxtras"
@@ -430,9 +430,9 @@
 			label="PLG_TINY_FIELD_XHTMLXTRAS_LABEL"
 			description="PLG_TINY_FIELD_XHTMLXTRAS_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="visualchars"
@@ -441,9 +441,9 @@
 			label="PLG_TINY_FIELD_VISUALCHARS_LABEL"
 			description="PLG_TINY_FIELD_VISUALCHARS_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="nonbreaking"
@@ -452,9 +452,9 @@
 			label="PLG_TINY_FIELD_NONBREAKING_LABEL"
 			description="PLG_TINY_FIELD_NONBREAKING_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="template"
@@ -463,9 +463,9 @@
 			label="PLG_TINY_FIELD_TEMPLATE_LABEL"
 			description="PLG_TINY_FIELD_TEMPLATE_DESC">
 			<option
-				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
+				value="0">JCOMMON_HIDE</option>
 			<option
-				value="1">PLG_TINY_FIELD_VALUE_SHOW</option>
+				value="1">JCOMMON_SHOW</option>
 		</field>
 		<field
 			name="blockquote"

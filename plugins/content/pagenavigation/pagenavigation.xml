@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>DESCPAGENAVIGATION</description>
+	<description>PLG_PAGENAVIGATION_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="pagenavigation">pagenavigation.php</filename>
@@ -21,12 +21,12 @@
 			name="position"
 			type="list"
 			default="1"
-			label="Position"
-			description="Position of page navigation in relation to text">
+			label="PLG_PAGENAVIGATION_FIELD_POSITION_LABEL"
+			description="PLG_PAGENAVIGATION_FIELD_POSITION_DESC">
 			<option
-				value="1">Below</option>
+				value="1">PLG_PAGENAVIGATION_FIELD_VALUE_BELOW</option>
 			<option
-				value="0">Above</option>
+				value="0">PLG_PAGENAVIGATION_FIELD_VALUE_ABOVE</option>
 		</field>
 	</fields>
 </install>

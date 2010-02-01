@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+1-Feb-2010 Jean-Marie Simonet 
+^ Refactored ini keys in content plugins + some
+
 01-Feb-2010 Mark Dexter
 # Fix menu settings in sample data
 
@@ -43,6 +46,7 @@ $ -> Language fix or change
 1-Feb-2010 Jean-Marie Simonet 
 ^ Refactored com_plugins ini keys + some
 ^ Refactored (again ;) ) tinymce ini keys to standard
+
 
 31-Jan-2010 Hannes Papenberg
 # Fixed group bug in JParameter - Thanks James Kennard
