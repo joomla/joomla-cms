@@ -196,7 +196,10 @@ class SearchModelSearch extends JModel
 			$searchareas = $dispatcher->trigger('onSearchAreas');
 
 			foreach ($searchareas as $area) {
-				$areas = array_merge($areas, $area);
+				if(is_array($area))
+				{
+					$areas = array_merge($areas, $area);
+				}
 			}
 
 			$this->_areas['search'] = $areas;
