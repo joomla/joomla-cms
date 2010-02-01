@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Feb-2010 Mark Dexter
+# Fix menu settings in sample data
+
 01-Feb-2010 Christophe Demko
 ^ Save the featured state in the article edit view
 # Corrected a bug in installation joomla.sql file
