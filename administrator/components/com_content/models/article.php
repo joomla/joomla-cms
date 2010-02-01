@@ -232,6 +232,8 @@ class ContentModelArticle extends JModelForm
 			return false;
 		}
 
+		$this->featured($table->id, $data['featured']);
+		
 		// Clean the cache.
 		$cache = JFactory::getCache('com_content');
 		$cache->clean();
