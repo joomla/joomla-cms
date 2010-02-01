@@ -340,7 +340,7 @@ INSERT IGNORE INTO `#__modules` VALUES
 (43, 'Extension List', '', 1, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"aboutjoomla","startLevel":"03","endLevel":"04","showAllChildren":"0","tag_id":"","class_sfx":"","maxdepth":"10","window_open":"","layout":"","moduleclass_sfx":"","cache":"0"}', 0, ''),
 (44, 'Login', '', 0, 'syndicate', 0, '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '{"cache":"1","pretext":"","posttext":"","login":"","logout":"","greeting":"1","name":"0","usesecure":"0","layout":"","moduleclass_sfx":"","cache_time":"900"}', 0, ''),
 (45, 'Australian Parks  (2)', '', 1, 'syndicate', 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"parks","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","maxdepth":"10","window_open":"","layout":"","moduleclass_sfx":"","cache":"0"}', 0, ''),
-(46, 'Australia', '', 1, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_random_image', 1, 1, '{"type":"jpg","folder":"images\\/sampledata\\/parks","link":"","width":"180","height":"","layout":"","moduleclass_sfx":"","cache":"0"}', 0, ''),
+(46, 'Australia', '', 1, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_random_image', 1, 1, '{"type":"jpg","folder":"images\/sampledata\/parks","link":"","width":"180","height":"","layout":"","moduleclass_sfx":"","cache":"0"}', 0, ''),
 (47, 'Latest Park Blogs', '', 1, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_articles_latest', 1, 1, '{"count":"5","ordering":"c_dsc","user_id":"0","show_front":"1","catid":"35","layout":"","moduleclass_sfx":"","cache":"1","cache_time":"900"}', 0, '');
 
 
