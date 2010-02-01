@@ -127,7 +127,7 @@ class plgEditorTinymce extends JPlugin
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
 				if (!file_exists($templates_path.DS.$template.DS.'css'.DS.$content_css_custom)) {
-					$msg = sprintf (JText::_('PLG_TINY_ERR_TEMPLATECSSFILENOTPRESENT'), $content_css_custom);
+					$msg = sprintf (JText::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
 					JError::raiseNotice('SOME_ERROR_CODE', $msg);
 				}
 			}

@@ -24,8 +24,8 @@
 			name="mode"
 			type="list"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_FUNCTIONALITY"
-			description="PLG_TINY_FIELD_DESC_FUNCTIONALITY">
+			label="PLG_TINY_FIELD_FUNCTIONALITY_LABEL"
+			description="PLG_TINY_FIELD_FUNCTIONALITY_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_SIMPLE</option>
 			<option
@@ -37,8 +37,8 @@
 			name="skin"
 			type="list"
 			default="0"
-			label="PLG_TINY_FIELD_LABEL_SKIN"
-			description="PLG_TINY_FIELD_DESC_SKIN">
+			label="PLG_TINY_FIELD_SKIN_LABEL"
+			description="PLG_TINY_FIELD_SKIN_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_DEFAULT</option>
 			<option
@@ -52,8 +52,8 @@
 			name="compressed"
 			type="radio"
 			default="0"
-			label="PLG_TINY_FIELD_LABEL_COMPRESSED"
-			description="PLG_TINY_FIELD_DESC_COMPRESSED">
+			label="PLG_TINY_FIELD_COMPRESSED_LABEL"
+			description="PLG_TINY_FIELD_COMPRESSED_DESC">
 			<option
 				value="0">JOFF</option>
 			<option
@@ -68,8 +68,8 @@
 			name="cleanup_startup"
 			type="radio"
 			default="0"
-			label="PLG_TINY_FIELD_LABEL_CLEANUPSTARTUP"
-			description="PLG_TINY_FIELD_DESC_CLEANUPSTARTUP">
+			label="PLG_TINY_FIELD_CLEANUPSTARTUP_LABEL"
+			description="PLG_TINY_FIELD_CLEANUPSTARTUP_DESC">
 			<option
 				value="0">JOFF</option>
 			<option
@@ -79,8 +79,8 @@
 			name="cleanup_save"
 			type="list"
 			default="2"
-			label="PLG_TINY_FIELD_LABEL_CLEANUPSAVE"
-			description="PLG_TINY_FIELD_DESC_CLEANUPSAVE">
+			label="PLG_TINY_FIELD_CLEANUPSAVE_LABEL"
+			description="PLG_TINY_FIELD_CLEANUPSAVE_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_NEVER</option>
 			<option
@@ -92,8 +92,8 @@
 			name="entity_encoding"
 			type="list"
 			default="raw"
-			label="PLG_TINY_FIELD_LABEL_ENCODING"
-			description="PLG_TINY_FIELD_DESC_ENCODING">
+			label="PLG_TINY_FIELD_ENCODING_LABEL"
+			description="PLG_TINY_FIELD_ENCODING_DESC">
 			<option
 				value="named">PLG_TINY_FIELD_VALUE_NAMED</option>
 			<option
@@ -110,8 +110,8 @@
 			name="lang_mode"
 			type="radio"
 			default="0"
-			label="PLG_TINY_FIELD_LABEL_LANGSELECT"
-			description="PLG_TINY_FIELD_DESC_LANGSELECT">
+			label="PLG_TINY_FIELD_LANGSELECT_LABEL"
+			description="PLG_TINY_FIELD_LANGSELECT_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -122,14 +122,14 @@
 			type="text"
 			default="en"
 			size="2"
-			label="PLG_TINY_FIELD_LABEL_LANGCODE"
-			description="PLG_TINY_FIELD_DESC_LANGCODE" />
+			label="PLG_TINY_FIELD_LANGCODE_LABEL"
+			description="PLG_TINY_FIELD_LANGCODE_DESC" />
 		<field
 			name="text_direction"
 			type="list"
 			default="ltr"
-			label="PLG_TINY_FIELD_LABEL_DIRECTION"
-			description="PLG_TINY_FIELD_DESC_DIRECTION">
+			label="PLG_TINY_FIELD_DIRECTION_LABEL"
+			description="PLG_TINY_FIELD_DIRECTION_DESC">
 			<option
 				value="ltr">PLG_TINY_FIELD_VALUE_LTR</option>
 			<option
@@ -144,8 +144,8 @@
 			name="content_css"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_CSS"
-			description="PLG_TINY_FIELD_DESC_CSS">
+			label="PLG_TINY_FIELD_CSS_LABEL"
+			description="PLG_TINY_FIELD_CSS_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -156,8 +156,8 @@
 			type="text"
 			size="30"
 			default=""
-			label="PLG_TINY_FIELD_LABEL_CUSTOM_CSS"
-			description="PLG_TINY_FIELD_DESC_CUSTOM_CSS" />
+			label="PLG_TINY_FIELD_CUSTOM_CSS_LABEL"
+			description="PLG_TINY_FIELD_CUSTOM_CSS_DESC" />
 		<field
 			name="spacer4"
 			type="spacer"
@@ -167,8 +167,8 @@
 			name="relative_urls"
 			type="list"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_URLS"
-			description="PLG_TINY_FIELD_DESC_URLS">
+			label="PLG_TINY_FIELD_URLS_LABEL"
+			description="PLG_TINY_FIELD_URLS_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_ABSOLUTE</option>
 			<option
@@ -178,8 +178,8 @@
 			name="newlines"
 			type="list"
 			default="0"
-			label="PLG_TINY_FIELD_LABEL_NEWLINES"
-			description="PLG_TINY_FIELD_DESC_NEWLINES">
+			label="PLG_TINY_FIELD_NEWLINES_LABEL"
+			description="PLG_TINY_FIELD_NEWLINES_DESC">
 			<option
 				value="1">PLG_TINY_FIELD_VALUE_BR</option>
 			<option
@@ -191,16 +191,16 @@
 			rows="2"
 			cols="30"
 			default="script,applet,iframe"
-			label="PLG_TINY_FIELD_LABEL_PROHIBITED"
-			description="PLG_TINY_FIELD_DESC_PROHIBITED" />
+			label="PLG_TINY_FIELD_PROHIBITED_LABEL"
+			description="PLG_TINY_FIELD_PROHIBITED_DESC" />
 		<field
 			name="extended_elements"
 			type="textarea"
 			rows="2"
 			cols="30"
 			default=""
-			label="PLG_TINY_FIELD_LABEL_ELEMENTS"
-			description="PLG_TINY_FIELD_DESC_ELEMENTS" />
+			label="PLG_TINY_FIELD_ELEMENTS_LABEL"
+			description="PLG_TINY_FIELD_ELEMENTS_DESC" />
 	</fields>
 	<fields
 		group="advanced"
@@ -209,8 +209,8 @@
 			name="toolbar"
 			type="list"
 			default="top"
-			label="PLG_TINY_FIELD_LABEL_TOOLBAR"
-			description="PLG_TINY_FIELD_DESC_TOOLBAR">
+			label="PLG_TINY_FIELD_TOOLBAR_LABEL"
+			description="PLG_TINY_FIELD_TOOLBAR_DESC">
 			<option
 				value="top">PLG_TINY_FIELD_VALUE_TOP</option>
 			<option
@@ -220,8 +220,8 @@
 			name="toolbar_align"
 			type="list"
 			default="left"
-			label="PLG_TINY_FIELD_LABEL_TOOLBAR_ALIGN"
-			description="PLG_TINY_FIELD_DESC_TOOLBAR_ALIGN">
+			label="PLG_TINY_FIELD_TOOLBAR_ALIGN_LABEL"
+			description="PLG_TINY_FIELD_TOOLBAR_ALIGN_DESC">
 			<option
 				value="left">PLG_TINY_FIELD_VALUE_LEFT</option>
 			<option
@@ -233,20 +233,20 @@
 			name="html_height"
 			type="text"
 			default="550"
-			label="PLG_TINY_FIELD_LABEL_HTMLHEIGHT"
-			description="PLG_TINY_FIELD_DESC_HTMLHEIGHT" />
+			label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"
+			description="PLG_TINY_FIELD_HTMLHEIGHT_DESC" />
 		<field
 			name="html_width"
 			type="text"
 			default="750"
-			label="PLG_TINY_FIELD_LABEL_HTMLWIDTH"
-			description="PLG_TINY_FIELD_DESC_HTMLWIDTH" />
+			label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
+			description="PLG_TINY_FIELD_HTMLWIDTH_DESC" />
 		<field
 			name="element_path"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_PATH"
-			description="PLG_TINY_FIELD_DESC_PATH">
+			label="PLG_TINY_FIELD_PATH_LABEL"
+			description="PLG_TINY_FIELD_PATH_DESC">
 			<option
 				value="0">JOFF</option>
 			<option
@@ -255,14 +255,14 @@
 		<field
 			name="extended"
 			type="spacer"
-			label="PLG_TINY_FIELD_NAME_EXTENDED"
+			label="PLG_TINY_FIELD_NAME_EXTENDED_LABEL"
 			/>
 		<field
 			name="fonts"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_FONTS"
-			description="PLG_TINY_FIELD_DESC_FONTS">
+			label="PLG_TINY_FIELD_FONTS_LABEL"
+			description="PLG_TINY_FIELD_FONTS_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -272,8 +272,8 @@
 			name="paste"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_PASTE"
-			description="PLG_TINY_FIELD_DESC_PASTE">
+			label="PLG_TINY_FIELD_PASTE_LABEL"
+			description="PLG_TINY_FIELD_PASTE_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -283,8 +283,8 @@
 			name="searchreplace"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_SEARCH-REPLACE"
-			description="PLG_TINY_FIELD_DESC_SEARCH-REPLACE">
+			label="PLG_TINY_FIELD_SEARCH-REPLACE_LABEL"
+			description="PLG_TINY_FIELD_SEARCH-REPLACE_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -294,8 +294,8 @@
 			name="insertdate"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_DATE"
-			description="PLG_TINY_FIELD_DESC_DATE">
+			label="PLG_TINY_FIELD_DATE_LABEL"
+			description="PLG_TINY_FIELD_DATE_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -305,14 +305,14 @@
 			name="format_date"
 			type="text"
 			default="%Y-%m-%d"
-			label="PLG_TINY_FIELD_LABEL_DATEFORMAT"
-			description="PLG_TINY_FIELD_DESC_DATEFORMAT" />
+			label="PLG_TINY_FIELD_DATEFORMAT_LABEL"
+			description="PLG_TINY_FIELD_DATEFORMAT_DESC" />
 		<field
 			name="inserttime"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_TIME"
-			description="PLG_TINY_FIELD_DESC_TIME">
+			label="PLG_TINY_FIELD_TIME_LABEL"
+			description="PLG_TINY_FIELD_TIME_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -322,14 +322,14 @@
 			name="format_time"
 			type="text"
 			default="%H:%M:%S"
-			label="PLG_TINY_FIELD_LABEL_TIMEFORMAT"
-			description="PLG_TINY_FIELD_DESC_TIMEFORMAT" />
+			label="PLG_TINY_FIELD_TIMEFORMAT_LABEL"
+			description="PLG_TINY_FIELD_TIMEFORMAT_DESC" />
 		<field
 			name="colors"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_COLORS"
-			description="PLG_TINY_FIELD_DESC_COLORS">
+			label="PLG_TINY_FIELD_COLORS_LABEL"
+			description="PLG_TINY_FIELD_COLORS_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -339,8 +339,8 @@
 			name="table"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_TABLE"
-			description="PLG_TINY_FIELD_DESC_TABLE">
+			label="PLG_TINY_FIELD_TABLE_LABEL"
+			description="PLG_TINY_FIELD_TABLE_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -350,8 +350,8 @@
 			name="smilies"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_SMILIES"
-			description="PLG_TINY_FIELD_DESC_SMILIES">
+			label="PLG_TINY_FIELD_SMILIES_LABEL"
+			description="PLG_TINY_FIELD_SMILIES_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -361,8 +361,8 @@
 			name="media"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_MEDIA"
-			description="PLG_TINY_FIELD_DESC_MEDIA">
+			label="PLG_TINY_FIELD_MEDIA_LABEL"
+			description="PLG_TINY_FIELD_MEDIA_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -372,8 +372,8 @@
 			name="hr"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_HR"
-			description="PLG_TINY_FIELD_DESC_HR">
+			label="PLG_TINY_FIELD_HR_LABEL"
+			description="PLG_TINY_FIELD_HR_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -383,8 +383,8 @@
 			name="directionality"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_RTL"
-			description="PLG_TINY_FIELD_DESC_RTL">
+			label="PLG_TINY_FIELD_RTL_LABEL"
+			description="PLG_TINY_FIELD_RTL_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -394,8 +394,8 @@
 			name="fullscreen"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_FULLSCREEN"
-			description="PLG_TINY_FIELD_DESC_FULLSCREEN">
+			label="PLG_TINY_FIELD_FULLSCREEN_LABEL"
+			description="PLG_TINY_FIELD_FULLSCREEN_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -405,8 +405,8 @@
 			name="style"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_STYLE"
-			description="PLG_TINY_FIELD_DESC_STYLE">
+			label="PLG_TINY_FIELD_STYLE_LABEL"
+			description="PLG_TINY_FIELD_STYLE_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -416,8 +416,8 @@
 			name="layer"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_LAYER"
-			description="PLG_TINY_FIELD_DESC_LAYER">
+			label="PLG_TINY_FIELD_LAYER_LABEL"
+			description="PLG_TINY_FIELD_LAYER_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -427,8 +427,8 @@
 			name="xhtmlxtras"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_XHTMLXTRAS"
-			description="PLG_TINY_FIELD_DESC_XHTMLXTRAS">
+			label="PLG_TINY_FIELD_XHTMLXTRAS_LABEL"
+			description="PLG_TINY_FIELD_XHTMLXTRAS_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -438,8 +438,8 @@
 			name="visualchars"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_VISUALCHARS"
-			description="PLG_TINY_FIELD_DESC_VISUALCHARS">
+			label="PLG_TINY_FIELD_VISUALCHARS_LABEL"
+			description="PLG_TINY_FIELD_VISUALCHARS_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -449,8 +449,8 @@
 			name="nonbreaking"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_NONBREAKING"
-			description="PLG_TINY_FIELD_DESC_NONBREAKING">
+			label="PLG_TINY_FIELD_NONBREAKING_LABEL"
+			description="PLG_TINY_FIELD_NONBREAKING_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -460,8 +460,8 @@
 			name="template"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_TEMPLATE"
-			description="PLG_TINY_FIELD_DESC_TEMPLATE">
+			label="PLG_TINY_FIELD_TEMPLATE_LABEL"
+			description="PLG_TINY_FIELD_TEMPLATE_DESC">
 			<option
 				value="0">PLG_TINY_FIELD_VALUE_HIDE</option>
 			<option
@@ -471,8 +471,8 @@
 			name="blockquote"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_BLOCKQUOTE"
-			description="PLG_TINY_FIELD_DESC_BLOCKQUOTE">
+			label="PLG_TINY_FIELD_BLOCKQUOTE_LABEL"
+			description="PLG_TINY_FIELD_BLOCKQUOTE_DESC">
 			<option
 				value="0">JOFF</option>
 			<option
@@ -482,8 +482,8 @@
 			name="wordcount"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_WORDCOUNT"
-			description="PLG_TINY_FIELD_DESC_WORDCOUNT">
+			label="PLG_TINY_FIELD_WORDCOUNT_LABEL"
+			description="PLG_TINY_FIELD_WORDCOUNT_DESC">
 			<option
 				value="0">JOFF</option>
 			<option
@@ -498,8 +498,8 @@
 			name="advimage"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_ADVIMAGE"
-			description="PLG_TINY_FIELD_DESC_ADVIMAGE">
+			label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
+			description="PLG_TINY_FIELD_ADVIMAGE_DESC">
 			<option
 				value="0">JOFF</option>
 			<option
@@ -509,8 +509,8 @@
 			name="advlink"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_ADVLINK"
-			description="PLG_TINY_FIELD_DESC_ADVLINK">
+			label="PLG_TINY_FIELD_ADVLINK_LABEL"
+			description="PLG_TINY_FIELD_ADVLINK_DESC">
 			<option
 				value="0">JOFF</option>
 			<option
@@ -520,8 +520,8 @@
 			name="autosave"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_SAVEWARNING"
-			description="PLG_TINY_FIELD_DESC_SAVEWARNING">
+			label="PLG_TINY_FIELD_SAVEWARNING_LABEL"
+			description="PLG_TINY_FIELD_SAVEWARNING_DESC">
 			<option
 				value="0">JOFF</option>
 			<option
@@ -531,8 +531,8 @@
 			name="contextmenu"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_CONTEXTMENU"
-			description="PLG_TINY_FIELD_DESC_CONTEXTMENU">
+			label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
+			description="PLG_TINY_FIELD_CONTEXTMENU_DESC">
 			<option
 				value="0">JOFF</option>
 			<option
@@ -542,8 +542,8 @@
 			name="inlinepopups"
 			type="radio"
 			default="1"
-			label="PLG_TINY_FIELD_LABEL_INLINEPOPUPS"
-			description="PLG_TINY_FIELD_DESC_INLINEPOPUPS">
+			label="PLG_TINY_FIELD_INLINEPOPUPS_LABEL"
+			description="PLG_TINY_FIELD_INLINEPOPUPS_DESC">
 			<option
 				value="0">JOFF</option>
 			<option
@@ -553,8 +553,8 @@
 			name="safari"
 			type="radio"
 			default="0"
-			label="PLG_TINY_FIELD_LABEL_SAFARI"
-			description="PLG_TINY_FIELD_DESC_SAFARI">
+			label="PLG_TINY_FIELD_SAFARI_LABEL"
+			description="PLG_TINY_FIELD_SAFARI_DESC">
 			<option
 				value="0">JOFF</option>
 			<option
@@ -569,13 +569,13 @@
 			name="custom_plugin"
 			type="text"
 			default=""
-			label="PLG_TINY_FIELD_LABEL_CUSTOMPLUGIN"
-			description="PLG_TINY_FIELD_DESC_CUSTOMPLUGIN" />
+			label="PLG_TINY_FIELD_CUSTOMPLUGIN_LABEL"
+			description="PLG_TINY_FIELD_CUSTOMPLUGIN_DESC" />
 		<field
 			name="custom_button"
 			type="text"
 			default=""
-			label="PLG_TINY_FIELD_LABEL_CUSTOMBUTTON"
-			description="PLG_TINY_FIELD_DESC_CUSTOMBUTTON" />
+			label="PLG_TINY_FIELD_CUSTOMBUTTON_LABEL"
+			description="PLG_TINY_FIELD_CUSTOMBUTTON_DESC" />
 	</fields>
 </install>
