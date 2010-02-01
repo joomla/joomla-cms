@@ -20,7 +20,7 @@ $user = JFactory::getUser();
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSearch_Filter_Label'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('Plugn_Search_in_title'); ?>" />
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('COM_PLUGINS_SEARCH_IN_TITLE'); ?>" />
 			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
@@ -36,7 +36,7 @@ $user = JFactory::getUser();
 			</select>
 
 			<select name="filter_folder" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('Plugn_Option_Folder');?></option>
+				<option value=""><?php echo JText::_('COM_PLUGINS_OPTION_FOLDER');?></option>
 				<?php echo JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'));?>
 			</select>
 		</div>
@@ -50,7 +50,7 @@ $user = JFactory::getUser();
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
 				<th class="title">
-					<?php echo JHTML::_('grid.sort', 'Plugn_Name_Heading', 'a.name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_PLUGINS_NAME_HEADING', 'a.name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Enabled', 'a.enabled', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -63,10 +63,10 @@ $user = JFactory::getUser();
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Access', 'a.access', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th class="nowrap" width="10%">
-					<?php echo JHTML::_('grid.sort', 'Plugn_Folder_Heading', 'a.folder', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_PLUGINS_FOLDER_HEADING', 'a.folder', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th class="nowrap" width="10%">
-					<?php echo JHTML::_('grid.sort', 'Plugn_Element_Heading', 'a.element', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'a.element', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>

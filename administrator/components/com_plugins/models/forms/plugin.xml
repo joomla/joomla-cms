@@ -12,8 +12,8 @@
 		<field
 			name="name"
 			type="text"
-			label="Plugn_Field_Name_Label"
-			description="Plugn_Field_Name_Desc"
+			label="COM_PLUGINS_FIELD_NAME_LABEL"
+			description="COM_PLUGINS_FIELD_NAME_DESC"
 			class="inputbox"
 			size="30"
 			required="true" />
@@ -39,8 +39,8 @@
 			type="text"
 			class="readonly"
 			size="20"
-			label="Plugn_Field_Folder_Label"
-			description="Plugn_Field_Folder_Desc"
+			label="COM_PLUGINS_FIELD_FOLDER_LABEL"
+			description="COM_PLUGINS_FIELD_FOLDER_DESC"
 			readonly="true" />
 
 		<field
@@ -48,8 +48,8 @@
 			type="text"
 			class="readonly"
 			size="20"
-			label="Plugn_Field_Element_Label"
-			description="Plugn_Field_Element_Desc"
+			label="COM_PLUGINS_FIELD_ELEMENT_LABEL"
+			description="COM_PLUGINS_FIELD_ELEMENT_DESC"
 			readonly="true" />
 
 		<field

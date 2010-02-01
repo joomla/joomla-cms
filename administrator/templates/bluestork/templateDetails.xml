@@ -45,7 +45,7 @@
 			type="list"
 			default="1"
 			label="Use_Rounded_Corners"
-			description="Enable/Disable_Rounded_Corner_Effect">
+			description="Enable_Disable_Rounded_Corner_Effect">
 			<option
 				value="0">JDISABLED</option>
 			<option

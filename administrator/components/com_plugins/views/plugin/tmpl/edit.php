@@ -56,12 +56,12 @@ JHtml::_('behavior.formvalidation');
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = (string) $this->item->xml->description) : ?>
 					<label>
-						<?php echo JText::_('PLUGN_XML_DESC'); ?>
+						<?php echo JText::_('COM_PLUGINS_XML_DESCRIPTION'); ?>
 					</label>
 					<?php echo JText::_($text); ?>
 				<?php endif; ?>
 			<?php else : ?>
-				<?php echo JText::_('PLUGN_XML_ERR'); ?>
+				<?php echo JText::_('COM_PLUGINS_XML_ERR'); ?>
 			<?php endif; ?>
 
 		</fieldset>

@@ -248,6 +248,19 @@
 			default="">
 			<option value="">JOption_Default_Language</option>
 		</field>
+		<field
+			id="featured"
+			name="featured"
+			type="radio"
+			label="Content_Featured_Label"
+			description="Content_Featured_Desc"
+			default="0">
+			<option
+				value="0">JOFF</option>
+			<option
+				value="1">JON</option>
+		</field>
+			
 
 		<field
 			id="xreference"
