@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>Handles Joomlas default user authentication</description>
+	<description>PLG_AUTH_JOOMLA_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="joomla">joomla.php</filename>

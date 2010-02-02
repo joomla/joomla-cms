@@ -36,6 +36,7 @@ $ - Fixed languages strings for mod_popular - Thanks Jonnathan!
 
 02-Feb-2010 Jean-Marie Simonet 
 ^ Customized enabled/published ini keys/values for modules and plugins
+^ Refactored ini keys in authentication plugins
 
 01-Feb-2010 Mark Dexter
 # Fix menu settings in sample data (Elin Waring)

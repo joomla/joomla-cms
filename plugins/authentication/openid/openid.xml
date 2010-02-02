@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>Handles user authentication with an OpenID Requires PHP5</description>
+	<description>PLG_OPENID_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="openid">openid.php</filename>
@@ -21,8 +21,8 @@
 			name="usermode"
 			type="radio"
 			default="2"
-			label="Convert old usernames"
-			description="OPENID_USERMODE_DESC">
+			label="PLG_LDAP_FIELD_USERMODE_LABEL"
+			description="PLG_LDAP_FIELD_USERMODE_DESC">
 			<option
 				value="2">JYes</option>
 			<option
@@ -33,8 +33,8 @@
 			name="phishing-resistant"
 			type="radio"
 			default="0"
-			label="Require Policy phishing resistant"
-			description="PHISHING_RESISTANT_DESC">
+			label="PLG_LDAP_FIELD_PHISHING_RESISTANT_LABEL"
+			description="PLG_LDAP_FIELD_PHISHING_RESISTANT_DESC">
 			<option
 				value="1">JYes</option>
 			<option
@@ -45,8 +45,8 @@
 			name="multi-factor"
 			type="radio"
 			default="0"
-			label="Require Policy multi factor"
-			description="MULTI_FACTOR_DESC">
+			label="PLG_LDAP_FIELD_MULTIFACTOR_LABEL"
+			description="PLG_LDAP_FIELD_MULTIFACTOR_DESC">
 			<option
 				value="1">JYes</option>
 			<option
@@ -57,8 +57,8 @@
 			name="multi-factor-physical"
 			type="radio"
 			default="0"
-			label="Require Policy multi factor physical"
-			description="MULTI_FACTOR_PHYSICAL_DESC">
+			label="PLG_LDAP_FIELD_MULTIFACTOR_PHYSICAL_LABEL"
+			description="PLG_LDAP_FIELD_MULTIFACTOR_PHYSICAL_DESC">
 			<option
 				value="1">JYes</option>
 			<option

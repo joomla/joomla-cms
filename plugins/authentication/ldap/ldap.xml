@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>Handles user authentication against an LDAP server</description>
+	<description>PLG_LDAP_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="ldap">ldap.php</filename>
@@ -22,23 +22,23 @@
 			type="text"
 			size="20"
 			default=""
-			label="Host"
-			description="fieldLDAPHOST" />
+			label="PLG_LDAP_FIELD_HOST_LABEL"
+			description="PLG_LDAP_FIELD_HOST_DESC" />
 
 		<field
 			name="port"
 			type="text"
 			size="20"
 			default="389"
-			label="Port"
-			description="fieldLDAPPORT" />
+			label="PLG_LDAP_FIELD_PORT_LABEL"
+			description="PLG_LDAP_FIELD_PORT_DESC" />
 
 		<field
 			name="use_ldapV3"
 			type="radio"
 			default="0"
-			label="LDAP V3"
-			description="fieldLDAPV3">
+			label="PLG_LDAP_FIELD_V3_LABEL"
+			description="PLG_LDAP_FIELD_V3_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -49,8 +49,8 @@
 			name="negotiate_tls"
 			type="radio"
 			default="0"
-			label="Negotiate TLS"
-			description="fieldNEGOCIATETLS">
+			label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
+			description="PLG_LDAP_FIELD_NEGOCIATE_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -61,8 +61,8 @@
 			name="no_referrals"
 			type="radio"
 			default="0"
-			label="Follow referrals"
-			description="fieldFOLLOW">
+			label="PLG_LDAP_FIELD_REFERRALS_LABEL"
+			description="PLG_LDAP_FIELD_REFERRALS_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -73,12 +73,12 @@
 			name="auth_method"
 			default="bind"
 			type="list"
-			label="Authorization Method"
-			description="fieldAUTHMETHOD">
+			label="PLG_LDAP_FIELD_AUTHMETHOD_LABEL"
+			description="PLG_LDAP_FIELD_AUTHMETHOD_DESC">
 			<option
-				value="search">Bind and Search</option>
+				value="search">PLG_LDAP_FIELD_VALUE_BINDSEARCH</option>
 			<option
-				value="bind">Bind Directly As User</option>
+				value="bind">PLG_LDAP_FIELD_VALUE_BINDUSER</option>
 		</field>
 
 		<field
@@ -86,24 +86,24 @@
 			type="text"
 			size="20"
 			default=""
-			label="Base DN"
-			description="fieldBASEDN" />
+			label="PLG_LDAP_FIELD_BASEDN_LABEL"
+			description="PLG_LDAP_FIELD_BASEDN_DESC" />
 
 		<field
 			name="search_string"
 			type="text"
 			size="20"
 			default=""
-			label="Search string"
-			description="fieldSEARCHSTRING" />
+			label="PLG_LDAP_FIELD_SEARCHSTRING_LABEL"
+			description="PLG_LDAP_FIELD_SEARCHSTRING_DESC" />
 
 		<field
 			name="users_dn"
 			type="text"
 			size="20"
 			default=""
-			label="Users DN"
-			description="fieldUSERSDN" />
+			label="PLG_LDAP_FIELD_USERSDN_LABEL"
+			description="PLG_LDAP_FIELD_USERSDN_DESC" />
 
 		<field
 			name="spacer1"
@@ -116,16 +116,16 @@
 			type="text"
 			size="20"
 			default=""
-			label="Connect username"
-			description="fieldCONNECTSTRING" />
+			label="PLG_LDAP_FIELD_USERNAME_LABEL"
+			description="PLG_LDAP_FIELD_USERNAME_DESC" />
 
 		<field
 			name="password"
 			type="password"
 			size="20"
 			default=""
-			label="Connect password"
-			description="fieldCONNECTPASSWORD" />
+			label="PLG_LDAP_FIELD_PASSWORD_LABEL"
+			description="PLG_LDAP_FIELD_PASSWORD_DESC" />
 
 		<field
 			name="spacer2"
@@ -138,23 +138,23 @@
 			type="text"
 			size="20"
 			default="fullName"
-			label="Map FullName"
-			description="fieldMAPFN" />
+			label="PLG_LDAP_FIELD_FULLNAME_LABEL"
+			description="PLG_LDAP_FIELD_FULLNAME_DESC" />
 
 		<field
 			name="ldap_email"
 			type="text"
 			size="20"
 			default="mail"
-			label="Map Email"
-			description="fieldMAPEMAIL" />
+			label="PLG_LDAP_FIELD_EMAIL_LABEL"
+			description="PLG_LDAP_FIELD_EMAIL_DESC" />
 
 		<field
 			name="ldap_uid"
 			type="text"
 			size="20"
 			default="uid"
-			label="Map User ID"
-			description="fieldMAPUID" />
+			label="PLG_LDAP_FIELD_UID_LABEL"
+			description="PLG_LDAP_FIELD_UID_DESC" />
 	</fields>
 </install>
