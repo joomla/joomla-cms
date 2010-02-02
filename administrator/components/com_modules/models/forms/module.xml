@@ -47,17 +47,17 @@
 		<field
 			name="published"
 			type="list"
-			label="JField_Enabled_Label"
-			description="JField_Enabled_Desc"
+			label="COM_MODULES_FIELD_PUBLISHED_LABEL"
+			description="COM_MODULES_FIELD_PUBLISHED_DESC"
 			class="inputbox"
 			size="1"
 			default="1">
 			<option
 				value="1">
-				JOption_Enabled</option>
+				COM_MODULES_FIELD_VALUE_PUBLISHED</option>
 			<option
 				value="0">
-				JOption_Disabled</option>
+				COM_MODULES_FIELD_VALUE_UNPUBLISHED</option>
 		</field>
 
 		<field

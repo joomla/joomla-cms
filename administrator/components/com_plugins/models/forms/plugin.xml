@@ -21,8 +21,8 @@
 		<field
 			name="enabled"
 			type="list"
-			label="JField_Enabled_Label"
-			description="JField_Enabled_Desc"
+			label="COM_PLUGINS_FIELD_ENABLED_LABEL"
+			description="COM_PLUGINS_FIELD_ENABLED_DESC"
 			class="inputbox"
 			size="1"
 			default="1">

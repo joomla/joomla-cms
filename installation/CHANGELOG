@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+2-Feb-2010 Jean-Marie Simonet 
+^ Customized enabled/published ini keys/values for modules and plugins
+
 1-Feb-2010 Jean-Marie Simonet 
 ^ Refactored ini keys in content plugins + some
 
