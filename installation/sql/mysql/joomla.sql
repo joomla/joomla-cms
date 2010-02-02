@@ -630,7 +630,7 @@ CREATE TABLE `#__modules` (
 INSERT INTO `#__modules` VALUES
 (1, 'Main Menu', '', 1, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, 'menutype=mainmenu\nmoduleclass_sfx=_menu\n', 0, ''),
 (2, 'Login', '', 1, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '', 1, ''),
-(3, 'Popular Articles','',3,'cpanel',0,'0000-00-00 00:00:00',1,'mod_popular',3,1,'',1, ''),
+(3, 'Popular Articles','',3,'cpanel',0,'0000-00-00 00:00:00',1,'mod_popular',3,1,'{"count":"5","catid":"","user_id":"0","layout":"","moduleclass_sfx":"","cache":"0"}',1, ''),
 (4, 'Recently Added Articles','',4,'cpanel',0,'0000-00-00 00:00:00',1,'mod_latest',3,1,'ordering=c_dsc\nuser_id=0\ncache=0\n\n',1, ''),
 (6, 'Unread Messages','',1,'header',0,'0000-00-00 00:00:00',1,'mod_unread',3,1,'',1, ''),
 (7, 'Online Users','',2,'header',0,'0000-00-00 00:00:00',1,'mod_online',3,1,'',1, ''),

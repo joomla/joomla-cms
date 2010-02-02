@@ -41,7 +41,7 @@
 			name="catid"
 			type="category"
 			default=""
-			extension="mod_latest"
+			extension="com_content"
 			label="Mod_Latest_Field_Category_Label"
 			description="Mod_Latest_Field_Category_Desc"
 			class="inputbox">

@@ -3,7 +3,7 @@
 	type="module"
 	version="1.6.0"
 	client="administrator">
-	<name>Popular Items</name>
+	<name>Popular News</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
@@ -11,13 +11,48 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCPOPULARITEMS</description>
+	<description>MOD_POPULAR_DESC</description>
 	<files>
 		<filename module="mod_popular">mod_popular.php</filename>
 		<filename>helper.php</filename>
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
+	<fields>
+		<field
+			name="count"
+			type="text"
+			default="5"
+			label="Mod_Popular_Count_label"
+			description="Mod_Popular_Count_Desc" />
+		<field
+			id="catid"
+			name="catid"
+			type="category"
+			default=""
+			extension="com_content"
+			label="Mod_Popular_Field_Category_Label"
+			description="Mod_Popular_Field_Category_Desc"
+			class="inputbox">
+			<option
+				value="">JOption_Any_Category</option>
+			<option
+				value="0">JOption_No_Category</option>
+		</field>
+		<field
+			name="user_id"
+			type="list"
+			default="0"
+			label="Mod_Popular_Authors_Label"
+			description="Mod_Popular_Authors_Desc">
+			<option
+				value="0">Mod_Popular_Anyone</option>
+			<option
+				value="by_me">Mod_Popular_Added_or_modified_by_me</option>
+			<option
+				value="not_me">Mod_Popular_Not_added_or_modified_by_me</option>
+		</field>
+	</fields>
 	<fields
 		group="advanced">
 		<field
@@ -25,13 +60,6 @@
 			type="modulelayout"
 			label="JField_Alt_Layout_Label"
 			description="JField_Alt_Module_Layout_Desc" />
-
-		<field
-			name="limit"
-			type="text"
-			default="10"
-			label="Module_Field_Limit_Label"
-			description="Module_Field_Limit_Desc" />
 
 		<field
 			name="moduleclass_sfx"
@@ -47,7 +75,7 @@
 			label="Module_Field_Caching_Label"
 			description="Module_Field_Caching_Desc">
 			<option
-				value="0">No caching</option>
+				value="0">No_Caching</option>
 		</field>
 	</fields>
 </install>

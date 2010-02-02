@@ -7,37 +7,56 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
+// no direct access
 defined('_JEXEC') or die;
 ?>
-<table class="adminlist" summary="<?php echo JText::_('MOD_POPULAR_TABLE_SUMMARY'); ?>">
+<table class="adminlist">
 	<thead>
 		<tr>
 			<th>
-				<?php echo JText::_('Most Popular Items'); ?>
+				<?php echo JText::_('Mod_Popular_Items'); ?>
 			</th>
 			<th>
-				<?php echo JText::_('Created'); ?>
+				<strong><?php echo JText::_('Mod_Popular_Created'); ?></strong>
 			</th>
 			<th>
-				<?php echo JText::_('Hits'); ?>
+				<strong><?php echo JText::_('Mod_Popular_Hits');?>
+				</strong>
 			</th>
 		</tr>
 	</thead>
+<?php if (count($list)) : ?>
 	<tbody>
-		<?php foreach ($rows as $row) : ?>
+	<?php foreach ($list as $item) : ?>
 		<tr>
 			<td>
-				<a href="<?php echo JRoute::_('index.php?option=com_content&amp;task=edit&amp;id='.(int) $row->id); ?>">
-					<?php echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');?></a>
+				<?php if ($item->checked_out) : ?>
+						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
+				<?php endif; ?>
+
+				<?php if ($item->link) :?>
+					<a href="<?php echo $item->link; ?>">
+						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');?></a>
+				<?php else :
+					echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
+				endif; ?>
 			</td>
 			<td class="center">
-				<?php echo JHtml::_('date', $row->created, '%Y-%m-%d %H:%M:%S'); ?>
+				<?php echo JHtml::_('date', $item->created, '%Y-%m-%d %H:%M:%S'); ?>
 			</td>
 			<td class="center">
-				<?php echo $row->hits;?>
+				<?php echo $item->hits;?>
 			</td>
 		</tr>
 		<?php endforeach; ?>
 	</tbody>
+<?php else : ?>
+	<tbody>
+		<tr>
+			<td colspan="3">
+				<p class="noresults"><?php echo JText::_('Mod_Popular_No_Matching_Results');?></p>
+			</td>
+		</tr>
+	</tbody>
+<?php endif; ?>
 </table>

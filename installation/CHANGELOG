@@ -27,11 +27,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-2-Feb-2010 Jean-Marie Simonet 
-^ Customized enabled/published ini keys/values for modules and plugins
+02-Feb-2010 Hannes Papenberg
+# - fixed category parameter in mod_latest - Thanks Jonnathan!
+^ - Changed mod_popular to use the contentModelArticles - Thanks Jonnathan!
+# - Fixed the link to edit an article in mod_popular - Thanks Jonnathan!
++ - Added parameters to mod_popular - Thanks Jonnathan!
+$ - Fixed languages strings for mod_popular - Thanks Jonnathan!
 
-1-Feb-2010 Jean-Marie Simonet 
-^ Refactored ini keys in content plugins + some
+02-Feb-2010 Jean-Marie Simonet 
+^ Customized enabled/published ini keys/values for modules and plugins
 
 01-Feb-2010 Mark Dexter
 # Fix menu settings in sample data (Elin Waring)
@@ -46,10 +50,10 @@ $ -> Language fix or change
 # Fixed com_search view
 # Fixed routing in content search plugins
 
-1-Feb-2010 Jean-Marie Simonet 
+01-Feb-2010 Jean-Marie Simonet 
 ^ Refactored com_plugins ini keys + some
 ^ Refactored (again ;) ) tinymce ini keys to standard
-
+^ Refactored ini keys in content plugins + some
 
 31-Jan-2010 Hannes Papenberg
 # Fixed group bug in JParameter - Thanks James Kennard

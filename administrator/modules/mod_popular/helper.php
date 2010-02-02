@@ -8,6 +8,8 @@
 // No direct access.
 defined('_JEXEC') or die;
 
+JModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_content/models');
+
 /**
  * @package		Joomla.Administrator
  * @subpackage	mod_popular
@@ -24,26 +26,59 @@ abstract class modPopularHelper
 	 */
 	public static function getList($params)
 	{
-		jimport('joomla.database.query');
+		// Initialise variables
+		$user = JFactory::getuser();
 
-		$db		= JFactory::getDbo();
-		$limit	= $params->get('limit', 10);
-		$result	= null;
-		$query	= new JQuery;
-		$query->select('a.hits, a.id, a.sectionid, a.title, a.created, u.name');
-		$query->from('#__content AS a');
-		$query->join('LEFT', '#__users AS u ON u.id=a.created_by');
-		$query->where('a.state <> -2');
-		$query->order('hits');
+		// Get an instance of the generic articles model
+		$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
-		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
+		// Set List SELECT
+		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
+				' a.created, a.hits');
 
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+		// Set Ordering filter
+		$model->setState('list.ordering', 'a.hits');
+		$model->setState('list.direction', 'DESC');
+
+		// Set Category Filter
+		$categoryId = $params->get('catid');
+		if (is_numeric($categoryId)){
+			$model->setState('filter.category_id', $categoryId);
+		}
+
+		// Set User Filter.
+		$userId = $user->get('id');
+		switch ($params->get('user_id')) {
+			case 'by_me':
+				$model->setState('filter.author_id', $userId);
+				break;
+
+			case 'not_me':
+				$model->setState('filter.author_id', $userId);
+				$model->setState('filter.author_id.include', false);
+				break;
+		}
+
+		// Set the Start and Limit
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', $params->get('count', 5));
+
+		$items = $model->getItems();
+
+		if ($error = $model->getError()) {
+			JError::raiseError(500, $error);
 			return false;
 		}
 
-		return $rows;
+		// Set the links
+		foreach ($items as &$item) {
+			if ($user->authorise('core.edit','com_content.article.'.$item->id)){
+				$item->link = JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);
+			} else {
+				$item->link = '';
+			}
+		}
+
+		return $items;
 	}
 }
