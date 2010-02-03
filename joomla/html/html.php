@@ -179,21 +179,6 @@ abstract class JHtml
 		}
 	}
 
-	public static function core($debug = null)
-	{
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null) {
-			$debug = JFactory::getConfig()->getValue('config.debug');
-		}
-
-		// TODO NOTE: Here we are checking for Konqueror - If they fix their issue with compressed, we will need to update this
-		$konkcheck		= strpos(strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
-		$uncompressed	= ($debug || $konkcheck) ? '-uncompressed' : '';
-
-		$document = &JFactory::getDocument();
-		$document->addScript(JURI::root(true).'/media/system/js/core'.$uncompressed.'.js');
-	}
-
 	/**
 	 * Write a <a></a> element
 	 *
@@ -212,6 +197,25 @@ abstract class JHtml
 		return '<a href="'.$url.'" '.$attribs.'>'.$text.'</a>';
 	}
 
+	/**
+	 * Write a <iframe></iframe> element
+	 *
+	 * @access	public
+	 * @param	string 	The relative URL to use for the src attribute
+	 * @param	string	The target attribute to use
+	 * @param	array	An associative array of attributes to add
+	 * @param	string	The message to display if the iframe tag is not supported
+	 * @since	1.5
+	 */
+	public static function iframe($url, $name, $attribs = null, $noFrames = '')
+	{
+		if (is_array($attribs)) {
+			$attribs = JArrayHelper::toString($attribs);
+		}
+
+		return '<iframe src="'.$url.'" '.$attribs.' name="'.$name.'">'.$noFrames.'</iframe>';
+	}
+	
 	/**
 	 * Write a <img></img> element
 	 *
@@ -235,7 +239,8 @@ abstract class JHtml
 			if (file_exists(JPATH_THEMES .'/'. $cur_template .'/images/'. $url)) {
 				$url = JURI::base(true).'/templates/'. $cur_template .'/images/'. $url;
 			} else {
-				$url = JURI::root(true).'/media/images/'.$url;
+				list($extension, $url) = explode('/', $url, 2);
+				$url = JURI::root(true).'/media/'.$extension.'/images/'.$url;
 			}
 			if($path_only)
 			{
@@ -249,24 +254,43 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <iframe></iframe> element
-	 *
-	 * @access	public
-	 * @param	string 	The relative URL to use for the src attribute
-	 * @param	string	The target attribute to use
-	 * @param	array	An associative array of attributes to add
-	 * @param	string	The message to display if the iframe tag is not supported
-	 * @since	1.5
+	 * Write a <link rel="stylesheet" style="text/css" /> element
+	 * 
+	 * @param 	string		path to file
+	 * @param 	array		attributes to be added to the stylesheet
+	 * @param 	boolean		path to file is relative to /media folder
+	 * @param 	boolean 	return the path to the file only
+	 * @since	1.6
 	 */
-	public static function iframe($url, $name, $attribs = null, $noFrames = '')
+	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false)
 	{
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		return '<iframe src="'.$url.'" '.$attribs.' name="'.$name.'">'.$noFrames.'</iframe>';
-	}
+		if($relative)
+		{
+			$app = JFactory::getApplication();
+			$cur_template = $app->getTemplate();
+			if (file_exists(JPATH_THEMES .'/'. $cur_template .'/css/'. $file)) {
+				$file = JURI::base(true).'/templates/'. $cur_template .'/css/'. $file;
+			} else {
+				list($extension, $file) = explode('/', $file, 2);
+				$file = JURI::root(true).'/media/'.$extension.'/css/'.$file;
+			}
+			if($path_only)
+			{
+				return $file;
+			}
+		} elseif (strpos($file, 'http') !== 0) {
+			$file = JURI::root(true).'/'.$file;
+		}
 
+		$document = &JFactory::getDocument();
+		$document->addStylesheet($file, 'text/css', null, $attribs);
+		return;
+	}
+	
 	/**
 	 * Write a <script></script> element
 	 * @param 	string		path to file
@@ -291,7 +315,8 @@ abstract class JHtml
 			if (file_exists(JPATH_THEMES .'/'. $cur_template .'/js/'. $file)) {
 				$file = JURI::base(true).'/templates/'. $cur_template .'/js/'. $file;
 			} else {
-				$file = JURI::root(true).'/media/js/'.$file;
+				list($extension, $file) = explode('/', $file, 2);
+				$file = JURI::root(true).'/media/'.$extension.'/js/'.$file;
 			}
 			if($path_only)
 			{
@@ -305,7 +330,22 @@ abstract class JHtml
 		$document->addScript($file);
 		return;
 	}
+	
+	public static function core($debug = null)
+	{
+		// If no debugging value is set, use the configuration setting
+		if ($debug === null) {
+			$debug = JFactory::getConfig()->getValue('config.debug');
+		}
 
+		// TODO NOTE: Here we are checking for Konqueror - If they fix their issue with compressed, we will need to update this
+		$konkcheck		= strpos(strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
+		$uncompressed	= ($debug || $konkcheck) ? '-uncompressed' : '';
+
+		$document = &JFactory::getDocument();
+		$document->addScript(JURI::root(true).'/media/system/js/core'.$uncompressed.'.js');
+	}
+	
     /**
      * Set format related options.
      *
@@ -323,42 +363,7 @@ abstract class JHtml
         }
     }
 
-	/**
-	 * Write a <link rel="stylesheet" style="text/css" /> element
-	 * 
-	 * @param 	string		path to file
-	 * @param 	array		attributes to be added to the stylesheet
-	 * @param 	boolean		path to file is relative to /media folder
-	 * @param 	boolean 	return the path to the file only
-	 * @since	1.6
-	 */
-	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false)
-	{
-		if (is_array($attribs)) {
-			$attribs = JArrayHelper::toString($attribs);
-		}
 
-		if($relative)
-		{
-			$app = JFactory::getApplication();
-			$cur_template = $app->getTemplate();
-			if (file_exists(JPATH_THEMES .'/'. $cur_template .'/css/'. $file)) {
-				$file = JURI::base(true).'/templates/'. $cur_template .'/css/'. $file;
-			} else {
-				$file = JURI::root(true).'/media/css/'.$file;
-			}
-			if($path_only)
-			{
-				return $file;
-			}
-		} elseif (strpos($file, 'http') !== 0) {
-			$file = JURI::root(true).'/'.$file;
-		}
-
-		$document = &JFactory::getDocument();
-		$document->addStylesheet($file, 'text/css', null, $attribs);
-		return;
-	}
 
 	/**
 	 * Returns formated date according to a given format and time zone.
