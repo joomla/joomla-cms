@@ -613,6 +613,105 @@ ALTER TABLE `jos_session`
 
 ALTER TABLE `jos_session`
  MODIFY COLUMN `data` VARCHAR(20480);
+ 
+ -- ----------------------------------------------------------------
+-- Table structure for table `jos_social_comments`
+-- ----------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `jos_social_comments` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `thread_id` int(11) unsigned NOT NULL COMMENT 'The comments thread id - Foreign Key',
+  `user_id` int(10) unsigned NOT NULL default '0' COMMENT 'Map to the user id',
+  `context` varchar(50) NOT NULL COMMENT 'The context of the comment',
+  `context_id` int(11) NOT NULL default '0' COMMENT 'The id of the item in context',
+  `trackback` int(2) NOT NULL default '0' COMMENT 'Is the comment a trackback',
+  `notify` int(2) NOT NULL default '0' COMMENT 'Notify the user on further comments',
+  `score` int(2) NOT NULL default '0' COMMENT 'The rating score of the commentor',
+  `referer` varchar(255) NOT NULL COMMENT 'The referring URL',
+  `page` varchar(255) NOT NULL COMMENT 'Custom page field',
+  `name` varchar(255) NOT NULL COMMENT 'Name of the commentor',
+  `url` varchar(255) NOT NULL COMMENT 'Website for the commentor',
+  `email` varchar(255) NOT NULL COMMENT 'Email address for the commentor',
+  `subject` varchar(255) NOT NULL COMMENT 'The subject of the comment',
+  `body` text NOT NULL COMMENT 'Body of the comment',
+  `created_date` datetime NOT NULL COMMENT 'When the comment was created',
+  `published` int(10) unsigned NOT NULL default '0' COMMENT 'Published state, allows for moderation',
+  `address` varchar(50) NOT NULL COMMENT 'Address of the commentor (IP, Mac, etc)',
+  `link` varchar(255) NOT NULL COMMENT 'The link to the page the comment was made on',
+  PRIMARY KEY  (`id`),
+  KEY `idx_context` (`context`,`context_id`,`published`),
+  KEY `idx_user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- ----------------------------------------------------------------
+-- Table structure for table `jos_social_ratings`
+-- ----------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `jos_social_ratings` (
+  `thread_id` int(11) unsigned NOT NULL,
+  `context` varchar(50) NOT NULL COMMENT 'The context of the rating',
+  `context_id` int(11) NOT NULL default '0' COMMENT 'The id of the item in context',
+  `referer` varchar(255) NOT NULL default '' COMMENT 'The referring URL',
+  `page` varchar(255) NOT NULL COMMENT 'Custom page field',
+  `pscore_total` double NOT NULL default '0' COMMENT 'Cummulative public score',
+  `pscore_count` int(10) NOT NULL default '0' COMMENT 'Total number of public ratings',
+  `pscore` double NOT NULL default '0' COMMENT 'Actual public score',
+  `mscore_total` double NOT NULL default '0' COMMENT 'Cummulative member score',
+  `mscore_count` int(10) NOT NULL default '0' COMMENT 'Total number of member ratings',
+  `mscore` double NOT NULL default '0' COMMENT 'Actual score',
+  `used_ips` longtext COMMENT 'The ips used to vote',
+  `updated_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`thread_id`),
+  KEY `idx_updated` (`updated_date`,`pscore`),
+  KEY `idx_pscore` (`pscore`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Aggregate scores for public and member ratings';
+
+-- --------------------------------------------------------
+
+-- ----------------------------------------------------------------
+-- Table structure for table `jos_social_threads`
+-- ----------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `jos_social_threads` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `context` varchar(50) NOT NULL COMMENT 'The context of the comment thread',
+  `context_id` int(11) NOT NULL default '0' COMMENT 'The id of the item in context',
+  `page_url` varchar(255) NOT NULL COMMENT 'The URL of the page for which the thread is attached',
+  `page_route` varchar(255) NOT NULL COMMENT 'The route of the page for which the thread is attached',
+  `page_title` varchar(255) NOT NULL COMMENT 'The title of the page for which the thread is attached',
+  `created_date` datetime NOT NULL COMMENT 'The created date for the comment thread',
+  `status` int(10) unsigned NOT NULL default '0' COMMENT 'Thread status',
+  `pings`  mediumtext NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `idx_context` (`context`,`context_id`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------------------------------------------
+-- Table structure for table `jos_social_blocked_ips`
+-- ----------------------------------------------------------------
+
+CREATE TABLE `jos_social_blocked_ips` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `start_ip` int(11) NOT NULL,
+  `end_ip` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_ip` (`start_ip`, `end_ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------------------------------------------
+-- Table structure for table `jos_social_blocked_users`
+-- ----------------------------------------------------------------
+
+CREATE TABLE `jos_social_blocked_users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `email` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_email` (`email`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------------------------------------------
 -- jos_template_styles
