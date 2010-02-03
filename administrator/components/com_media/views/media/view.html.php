@@ -39,8 +39,8 @@ class MediaViewMedia extends JView
 			document.preview = SqueezeBox;
 		});");
 
-		JHtml::script('mootree.js');
-		JHtml::stylesheet('mootree.css');
+		JHtml::script('media/system/js/mootree.js');
+		JHtml::stylesheet('media/system/css/mootree.css');
 
 		if ($config->get('enable_flash', 1)) {
 			$fileTypes = $config->get('image_extensions', 'bmp,gif,jpg,png,jpeg');

@@ -32,6 +32,9 @@ $ -> Language fix or change
 ^ Changed JTable::__construct() to create the properties with their default values from the table - Thanks Jonnathan!
 ^ Changed queries of all plugins to use JQuery - Thanks Dejan Acman!
 ^ Changed queries of all modules to use JQuery - Thanks Omar!
+^ Changed JHTML::script and JHTML::stylesheet to new scheme
+^ Removed unnecessary comment in module
+^ Removed com_poll layout from rhuk_milkyway overrides
 
 02-Feb-2010 Hannes Papenberg
 # - fixed category parameter in mod_latest - Thanks Jonnathan!

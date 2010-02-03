@@ -56,7 +56,7 @@ abstract class JHtmlBehavior
 			self::framework(false);
 		}
 
-		JHtml::script('mootools-'.$type.$uncompressed.'.js', 'media/system/js/', false);
+		JHtml::script('media/system/js/mootools-'.$type.$uncompressed.'.js');
 		$loaded[$type] = true;
 		return;
 	}
@@ -76,18 +76,18 @@ abstract class JHtmlBehavior
 
 	public static function caption()
 	{
-		JHtml::script('caption.js');
+		JHtml::script('media/system/js/caption.js');
 	}
 
 	public static function formvalidation()
 	{
-		JHtml::script('validate.js');
+		JHtml::script('media/system/js/validate.js');
 	}
 
 	public static function switcher()
 	{
 		JHtml::_('behavior.framework');
-		JHtml::script('switcher.js' );
+		JHtml::script('media/system/js/switcher.js' );
 
 		$script = "
 			document.switcher = null;
@@ -104,7 +104,7 @@ abstract class JHtmlBehavior
 
 	public static function combobox()
 	{
-		JHtml::script('combobox.js');
+		JHtml::script('media/system/js/combobox.js');
 	}
 
 	public static function tooltip($selector='.hasTip', $params = array())
@@ -167,8 +167,8 @@ abstract class JHtmlBehavior
 		if (!isset($included)) {
 			// Load the javascript and css
 			JHtml::_('behavior.framework');
-			JHtml::script('modal.js');
-			JHtml::stylesheet('modal.css');
+			JHtml::script('media/system/js/modal.js');
+			JHtml::stylesheet('media/system/css/modal.css');
 
 			$included = true;
 		}
@@ -213,9 +213,9 @@ abstract class JHtmlBehavior
 
 	public static function uploader($id='file-upload', $params = array(), $upload_queue='upload-queue')
 	{
-		JHtml::script('swf.js');
-		JHtml::script('progressbar.js');
-		JHtml::script('uploader.js');
+		JHtml::script('media/system/js/swf.js');
+		JHtml::script('media/system/js/progressbar.js');
+		JHtml::script('media/system/js/uploader.js');
 
 		static $uploaders;
 
@@ -321,8 +321,8 @@ abstract class JHtmlBehavior
 
 		// Include mootools framework
 		JHtml::_('behavior.framework');
-		JHtml::script('mootree.js');
-		JHtml::stylesheet('mootree.css');
+		JHtml::script('media/system/js/mootree.js');
+		JHtml::stylesheet('media/system/css/mootree.css');
 
 		if (isset($trees[$id]) && ($trees[$id])) {
 			return;
@@ -368,9 +368,9 @@ abstract class JHtmlBehavior
 	public static function calendar()
 	{
 		$document = &JFactory::getDocument();
-		JHtml::stylesheet('calendar-jos.css', 'media/system/css/', array(' title' => JText::_('green') ,' media' => 'all'));
-		JHtml::script('calendar.js', 'media/system/js/');
-		JHtml::script('calendar-setup.js', 'media/system/js/');
+		JHtml::stylesheet('media/system/css/calendar-jos.css', array(' title' => JText::_('green') ,' media' => 'all'));
+		JHtml::script('media/system/js/calendar.js');
+		JHtml::script('media/system/js/calendar-setup.js');
 
 		$translation = JHtmlBehavior::_calendartranslation();
 		if ($translation) {

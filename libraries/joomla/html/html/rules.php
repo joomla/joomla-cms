@@ -174,7 +174,7 @@ abstract class JHtmlRules
 
 	protected static function _loadBehavior()
 	{
-		JHtml::script('rules.js');
+		JHtml::script('media/system/js/rules.js');
 	}
 
 	protected static function _getImagesArray()

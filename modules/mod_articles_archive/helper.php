@@ -23,10 +23,6 @@ class modArchiveHelper
 		$query->where('state = -1 AND checked_out = 0');
 		$query->group('created_year DESC, created_month DESC');
 		
-		// $query = 'SELECT MONTH(created) AS created_month, created, id, title, YEAR(created) AS created_year' .
-		//	' FROM #__content' .
-		//	' WHERE (state = -1 AND checked_out = 0)' .
-		//	' GROUP BY created_year DESC, created_month DESC';
 		$db->setQuery($query, 0, intval($params->get('count')));
 		$rows = $db->loadObjectList();
 

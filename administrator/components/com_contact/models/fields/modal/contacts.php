@@ -36,8 +36,8 @@ class JFormFieldModal_Contacts extends JFormField
 		$doc 		=& JFactory::getDocument();
 		// Load the javascript and css
 		JHtml::_('behavior.framework');
-		JHtml::script('modal.js');
-		JHtml::stylesheet('modal.css');
+		JHtml::script('media/system/js/modal.js');
+		JHtml::stylesheet('media/system/css/modal.css');
 
 		// Attach modal behavior to document
 		$document = JFactory::getDocument();

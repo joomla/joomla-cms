@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 // Include HTML helpers.
 JHTML::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHTML::stylesheet('default.css', 'administrator/components/com_comments/media/css/');
-JHTML::script('checkall.js', 'administrator/components/com_catalog/media/js/');
+JHTML::script('administrator/components/com_catalog/media/js/checkall.js');
 JHTML::_('behavior.tooltip');
 
 $lDirection = $this->state->get('list.direction');

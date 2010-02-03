@@ -269,14 +269,13 @@ abstract class JHtml
 
 	/**
 	 * Write a <script></script> element
-	 *
-	 * @access	public
-	 * @param	string 	The name of the script file
-	 * * @param	string 	The relative or absolute path of the script file
-	 * @param	boolean If true, the mootools library will be loaded
-	 * @since	1.5
+	 * @param 	string		path to file
+	 * @param 	boolean		load the JS framework
+	 * @param 	boolean		path to file is relative to /media folder
+	 * @param 	boolean 	return the path to the file only
+	 * @since 	1.6
 	 */
-	public static function script($filename, $path = 'media/system/js/', $framework = false)
+	public static function script($file, $framework = false, $relative = false, $path_only = false)
 	{
 		JHtml::core();
 
@@ -285,12 +284,25 @@ abstract class JHtml
 			JHtml::_('behavior.framework');
 		}
 
-		if (strpos($path, 'http') !== 0) {
-			$path =  JURI::root(true).'/'.$path;
-		};
+		if($relative)
+		{
+			$app = JFactory::getApplication();
+			$cur_template = $app->getTemplate();
+			if (file_exists(JPATH_THEMES .'/'. $cur_template .'/js/'. $file)) {
+				$file = JURI::base(true).'/templates/'. $cur_template .'/js/'. $file;
+			} else {
+				$file = JURI::root(true).'/media/js/'.$file;
+			}
+			if($path_only)
+			{
+				return $file;
+			}
+		} elseif (strpos($file, 'http') !== 0) {
+			$file = JURI::root(true).'/'.$file;
+		}
 
 		$document = &JFactory::getDocument();
-		$document->addScript($path.$filename);
+		$document->addScript($file);
 		return;
 	}
 
@@ -313,19 +325,38 @@ abstract class JHtml
 
 	/**
 	 * Write a <link rel="stylesheet" style="text/css" /> element
-	 *
-	 * @access	public
-	 * @param	string 	The relative URL to use for the href attribute
-	 * @since	1.5
+	 * 
+	 * @param 	string		path to file
+	 * @param 	array		attributes to be added to the stylesheet
+	 * @param 	boolean		path to file is relative to /media folder
+	 * @param 	boolean 	return the path to the file only
+	 * @since	1.6
 	 */
-	public static function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
+	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false)
 	{
-		if (strpos($path, 'http') !== 0) {
-			$path = JURI::root(true).'/'.$path;
-		};
+		if (is_array($attribs)) {
+			$attribs = JArrayHelper::toString($attribs);
+		}
+
+		if($relative)
+		{
+			$app = JFactory::getApplication();
+			$cur_template = $app->getTemplate();
+			if (file_exists(JPATH_THEMES .'/'. $cur_template .'/css/'. $file)) {
+				$file = JURI::base(true).'/templates/'. $cur_template .'/css/'. $file;
+			} else {
+				$file = JURI::root(true).'/media/css/'.$file;
+			}
+			if($path_only)
+			{
+				return $file;
+			}
+		} elseif (strpos($file, 'http') !== 0) {
+			$file = JURI::root(true).'/'.$file;
+		}
 
 		$document = &JFactory::getDocument();
-		$document->addStylesheet($path.$filename, 'text/css', null, $attribs);
+		$document->addStylesheet($file, 'text/css', null, $attribs);
 		return;
 	}
 
