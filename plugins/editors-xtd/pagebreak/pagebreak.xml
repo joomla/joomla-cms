@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>DESCPAGEBREAK</description>
+	<description>PLG_EDITORSXTD_PAGEBREAK_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="pagebreak">pagebreak.php</filename>
