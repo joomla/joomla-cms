@@ -24,26 +24,35 @@ class modWeblinksHelper
 
 		$limit = $params->get('count', 5);
 		$ordering = $params->get('ordering', 'title');		
-		$direction = $params->get('direction', 'asc');
-				
-		$query = 'SELECT a.id, a.title, DATE_FORMAT(a.date, "%Y-%m-%d") AS created, '. 
-					' a.catid, cc.access AS cat_access, cc.published AS cat_state,' .
-				  ' a.url, a.description, a.hits, a.ordering, '.
-					' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
-					' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug'.					
-					' FROM #__weblinks AS a' .
-					' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-					' WHERE a.state = 1 ' .
-					' 	AND cc.published = 1' .												
-					' 	AND a.archived = 0' .
-					' 	AND a.approved = 1' .
-					' 	AND (a.checked_out = 0 OR a.checked_out = '.$user->id.')' .								
-					'		AND a.access IN (' . $groups . ')' .
-					'		AND cc.access IN (' . $groups . ')' . 
-					' AND cc.id = '. (int) $catid .
-					' AND cc.published = 1' .
-					' ORDER BY ' . $ordering . ' ' . $direction;					
-		
+		$direction = $params->get('direction', 'asc');				
+	    
+        $query = new JQuery();
+
+        $query->select('a.id');
+        $query->select('a.title');
+        $query->select('DATE_FORMAT(a.date, "%Y-%m-%d") AS created');
+        $query->select('a.catid');
+        $query->select('cc.access AS cat_access');
+        $query->select('cc.published AS cat_state');
+        $query->select('a.url');
+        $query->select('a.description');
+        $query->select('a.hits');
+        $query->select('a.ordering');
+        $query->select('CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
+        $query->select('CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug');
+        $query->from('#__weblinks AS a');
+        $query->innerJoin('#__categories AS cc ON cc.id = a.catid');
+        $query->where('a.state = 1');
+        $query->where('cc.published = 1');
+        $query->where('a.archived = 0');
+        $query->where('a.approved = 1');
+        $query->where('(a.checked_out = 0 OR a.checked_out = '.$user->id.')');
+        $query->where('a.access IN (' . $groups . ')');
+        $query->where('cc.access IN (' . $groups . ')');
+        $query->where('cc.id = '. (int) $catid);
+        $query->where('cc.published = 1');
+        $query->order($ordering . ' ' . $direction);
+        
 		$db->setQuery($query, 0, $limit);		
 		$rows = $db->loadObjectList();
 

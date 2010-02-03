@@ -48,23 +48,26 @@ class modStatsHelper
 
 		if ($siteinfo)
 		{
-			$query = 'SELECT COUNT(id) AS count_users'
-			. ' FROM #__users'
-			;
+            $query = new JQuery();
+            
+            $query->select('COUNT(id) AS count_users');
+            $query->from('#__users');
 			$db->setQuery($query);
 			$users = $db->loadResult();
 
-			$query = 'SELECT COUNT(id) AS count_items'
-			. ' FROM #__content'
-			. ' WHERE state = "1"'
-			;
+            $query = new JQuery();
+            
+            $query->select('COUNT(id) AS count_items');
+            $query->from('#__content');
+            $query->where('state = "1"');
 			$db->setQuery($query);
 			$items = $db->loadResult();
-
-			$query = 'SELECT COUNT(id) AS count_links'
-			. ' FROM #__weblinks'
-			. ' WHERE published = "1"'
-			;
+            
+            $query = new JQuery();
+            
+            $query->select('COUNT(id) AS count_links ');
+            $query->from('#__weblinks');
+            $query->where('state = "1"');
 			$db->setQuery($query);
 			$links = $db->loadResult();
 
@@ -90,10 +93,11 @@ class modStatsHelper
 
 		if ($counter)
 		{
-			$query = 'SELECT SUM(hits) AS count_hits'
-			. ' FROM #__content'
-			. ' WHERE state = "1"'
-			;
+            $query = new JQuery();
+            
+            $query->select('SUM(hits) AS count_hits');
+            $query->from('#__content');
+            $query->where('state = "1"');
 			$db->setQuery($query);
 			$hits = $db->loadResult();
 

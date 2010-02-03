@@ -31,6 +31,7 @@ $ -> Language fix or change
 # Fixed bug in JTable::reset() that don't properly reset the values - Thanks Jonnathan!
 ^ Changed JTable::__construct() to create the properties with their default values from the table - Thanks Jonnathan!
 ^ Changed queries of all plugins to use JQuery - Thanks Dejan Acman!
+^ Changed queries of all modules to use JQuery - Thanks Omar!
 
 02-Feb-2010 Hannes Papenberg
 # - fixed category parameter in mod_latest - Thanks Jonnathan!
