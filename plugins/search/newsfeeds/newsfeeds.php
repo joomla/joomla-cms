@@ -109,19 +109,17 @@ class plgSearchNewsfeeds extends JPlugin
 
 		$searchNewsfeeds = JText::_('Newsfeeds');
 
-		$query = 'SELECT a.name AS title, "" AS created, a.link AS text,'
-		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
-		. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END as catslug, '
-		. ' CONCAT_WS(" / ", '. $db->Quote($searchNewsfeeds) .', b.title)AS section,'
-		. ' "1" AS browsernav'
-		. ' FROM #__newsfeeds AS a'
-		. ' INNER JOIN #__categories AS b ON b.id = a.catid'
-		. ' WHERE ('. $where .')'
-		. ' AND a.published = 1'
-		. ' AND b.published = 1'
-		. ' AND b.access IN ('.$groups.')'
-		. ' ORDER BY '. $order
-		;
+		$query = new JQuery();
+		$query->select('a.name AS title, "" AS created, a.link AS text, '
+					  .'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+				      .'CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END as catslug, '
+				      .'CONCAT_WS(" / ", '. $db->Quote($searchNewsfeeds) .', b.title) AS section,'
+				      .'"1" AS browsernav');
+		$query->from('#__newsfeeds AS a');
+		$query->innerJoin('#__categories AS b ON b.id = a.catid');
+		$query->where('('. $where .')' . 'AND a.published = 1 AND b.published = 1 AND b.access IN ('. $groups .')');
+		$query->order($order);
+	
 		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
 

@@ -90,14 +90,15 @@ abstract class JTable extends JObject
 		// Initialise the table properties.
 		if ($fields = $this->getFields())
 		{
-			foreach ($fields as $name => $type)
+			foreach ($fields as $name => $v)
 			{
 				// Add the field if it is not already present.
 				if (!property_exists($this, $name)) {
-					$this->$name = null;
+					$this->$name = $v->Default;
 				}
 			}
 		}
+
 		// If we are tracking assets, make sure an access field exists and initially set the default.
 		if (property_exists($this, 'asset_id'))
 		{
@@ -126,7 +127,7 @@ abstract class JTable extends JObject
 		{
 			// Lookup the fields for this table only once.
 			$name	= $this->getTableName();
-			$fields	= $this->_db->getTableFields($name);
+			$fields	= $this->_db->getTableFields($name, false);
 
 			if (!isset($fields[$name]))
 			{
@@ -369,13 +370,13 @@ abstract class JTable extends JObject
 	 */
 	public function reset()
 	{
-		// Get the default values for the class from the class definition.
-		foreach (get_class_vars(get_class($this)) as $k => $v)
+		// Get the default values for the class from the table.
+		foreach ($this->getFields() as $k => $v)
 		{
 			// If the property is not the primary key or private, reset it.
 			if ($k != $this->_tbl_key && (strpos($k, '_') !== 0))
 			{
-				$this->$k = $v;
+				$this->$k = $v->Default;
 			}
 		}
 	}

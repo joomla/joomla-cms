@@ -138,25 +138,21 @@ class plgSearchContent extends JPlugin
 		// search articles
 		if ($sContent && $limit > 0)
 		{
-			$query = 'SELECT a.title AS title, a.metadesc, a.metakey,'
-			. ' a.created AS created,'
-			. ' CONCAT(a.introtext, a.fulltext) AS text,'
-			. ' b.title AS section,'
-			. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
-			. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug,'
-			. ' "2" AS browsernav'
-			. ' FROM #__content AS a'
-			. ' INNER JOIN #__categories AS b ON b.id=a.catid'
-			. ' WHERE ('.$where.')'
-			. ' AND a.state = 1'
-			. ' AND b.published = 1'
-			. ' AND a.access IN ('.$groups.')'
-			. ' AND b.access IN ('.$groups.')'
-			. ' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')'
-			. ' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'
-			. ' GROUP BY a.id'
-			. ' ORDER BY '. $order
-			;
+			$query = new JQuery();
+			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, '
+						  .'CONCAT(a.introtext, a.fulltext) AS text, b.title AS section, '
+						  .'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug, '
+						  .'CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug, '
+						  .'"2" AS browsernav');
+			$query->from('#__content AS a');
+			$query->innerJoin('#__categories AS b ON b.id=a.catid');
+			$query->where('('. $where .')' . 'AND a.state=1 AND b.published = 1 AND a.access IN ('.$groups.') ' 
+						 .'AND b.access IN ('.$groups.') '
+						 .'AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') '
+						 .'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
+			$query->group('a.id');
+			$query->order($order);
+			
 			$db->setQuery($query, 0, $limit);
 			$list = $db->loadObjectList();
 			$limit -= count($list);
@@ -170,22 +166,20 @@ class plgSearchContent extends JPlugin
 			}
 			$rows[] = $list;
 		}
-
+	
 		// search uncategorised content
 		if ($sUncategorised && $limit > 0)
 		{
-			$query = 'SELECT id, a.title AS title, a.created AS created, a.metadesc, a.metakey, '
-			. ' CONCAT(a.introtext, a.fulltext) AS text,'
-			. ' "2" as browsernav, "'. $db->Quote(JText::_('Uncategorised Content')) .'" AS section'
-			. ' FROM #__content AS a'
-			. ' WHERE ('.$where.')'
-			. ' AND a.state = 1'
-			. ' AND a.access IN ('.$groups.')'
-			. ' AND a.catid = 0'
-			. ' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')'
-			. ' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'
-			. ' ORDER BY '. ($morder ? $morder : $order)
-			;
+			$query = new JQuery();
+			$query->select('id, a.title AS title, a.created AS created, a.metadesc, a.metakey, '
+						  .'CONCAT(a.introtext, a.fulltext) AS text, '
+						  .'"2" as browsernav, "'. $db->Quote(JText::_('Uncategorised Content')) .'" AS section');
+			$query->from('#__content AS a');
+			$query->where('('. $where .') AND a.state = 1 AND a.access IN ('. $groups. ') AND a.catid=0 '
+						 .'AND (a.publish_up = '. $db->Quote($nullDate) .' OR a.publish_up <= '. $db->Quote($now) .') '
+						 .'AND (a.publish_down = '. $db->Quote($nullDate) .' OR a.publish_down >= '. $db->Quote($now) .')');
+			$query->order(($morder ? $morder : $order));
+					
 			$db->setQuery($query, 0, $limit);
 			$list2 = $db->loadObjectList();
 			$limit -= count($list2);
@@ -205,25 +199,22 @@ class plgSearchContent extends JPlugin
 		if ($sArchived && $limit > 0)
 		{
 			$searchArchived = JText::_('Archived');
+			
+			$query = new JQuery();
+			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, '
+						  .'CONCAT(a.introtext, a.fulltext) AS text, '
+						  .'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug, '
+						  .'CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug, '
+						  .'CONCAT_WS("/", b.title) AS section, "2" AS browsernav' );
+			$query->from('#__content AS a');
+			$query->innerJoin('#__categories AS b ON b.id=a.catid AND b.access IN ('. $groups .')');
+			$query->where('('. $where .') AND a.state = -1 AND b.published = 1 AND a.access IN ('. $groups
+				.') AND b.access IN ('. $groups .') '
+				.'AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') '
+				.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
+			$query->order($order);
 
-			$query = 'SELECT a.title AS title, a.metadesc, a.metakey,'
-			. ' a.created AS created,'
-			. ' CONCAT(a.introtext, a.fulltext) AS text,'
-			. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
-			. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug,'
-			. ' CONCAT_WS("/", b.title) AS section,'
-			. ' "2" AS browsernav'
-			. ' FROM #__content AS a'
-			. ' INNER JOIN #__categories AS b ON b.id=a.catid AND b.access IN ('.$groups.')'
-			. ' WHERE ('.$where.')'
-			. ' AND a.state = -1'
-			. ' AND b.published = 1'
-			. ' AND a.access IN ('.$groups.')'
-			. ' AND b.access IN ('.$groups.')'
-			. ' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')'
-			. ' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')'
-			. ' ORDER BY '. $order
-			;
+			
 			$db->setQuery($query, 0, $limit);
 			$list3 = $db->loadObjectList();
 

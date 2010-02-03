@@ -84,16 +84,16 @@ class plgSearchCategories extends JPlugin
 		}
 
 		$text	= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
-		$query	= 'SELECT a.title, a.description AS text, "" AS created, "2" AS browsernav, a.id AS catid,'
-		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug'
-		. ' FROM #__categories AS a'
-		. ' WHERE (a.title LIKE '.$text
-		. ' OR a.description LIKE '.$text.')'
-		. ' AND a.published = 1'
-		. ' AND a.access IN ('.$groups.')'
-		. ' GROUP BY a.id'
-		. ' ORDER BY '. $order
-		;
+		$query = new JQuery();
+
+		$query->select('a.title, a.description AS text, "" AS created, "2" AS browsernav, a.id AS catid, '
+					  .'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
+		$query->from('#__categories AS a');
+		$query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .') AND a.published = 1 '
+					 .'AND a.access IN ('. $groups .')' );
+		$query->group('a.id');
+		$query->order($order);
+	
 		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
 

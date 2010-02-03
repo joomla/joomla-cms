@@ -95,16 +95,16 @@ class plgContentPagenavigation extends JPlugin
 			' AND (publish_down = '.$db->Quote($nullDate).' OR publish_down >= '.$db->Quote($now).')';
 
 			// Array of articles in same category correctly ordered.
-			$query = 'SELECT a.id,'
-			. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
-			. ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug'
-			. ' FROM #__content AS a'
-			. ' LEFT JOIN #__categories AS cc ON cc.id = a.catid'
-			. ' WHERE a.catid = ' . (int) $row->catid
-			. ' AND a.state = '. (int) $row->state
-			. ($canPublish ? '' : ' AND a.access <= ' .(int) $user->get('aid', 0))
-			. $xwhere
-			. ' ORDER BY '. $orderby;
+			$query = new JQuery();
+			$query->select('a.id, '
+					.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug, '
+					.'CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug');
+			$query->from('#__content AS a');
+			$query->leftJoin('#__categories AS cc ON cc.id = a.catid');
+			$query->where('a.catid = '. (int)$row->catid .' AND a.state = '. (int)$row->state
+						  . ($canPublish ? '' : ' AND a.access <= ' .(int)$user->get('aid', 0)) . $xwhere);
+	  	    $query->order($orderby);
+
 			$db->setQuery($query);
 			$list = $db->loadObjectList('id');
 

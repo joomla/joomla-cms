@@ -190,27 +190,37 @@ class plgAuthenticationOpenID extends JPlugin
 					} else {
 						// first, check if the provider provided username exists in the database
 						$db = &JFactory::getDbo();
-						$query = 'SELECT username FROM #__users'.
-							' WHERE username='.$db->Quote($result->getDisplayIdentifier()).
-							' AND password=\'\'';
+						$query = new JQuery();
+
+						$query->select('username');
+						$query->from('#__users');
+						$query->where('username=' . $db->Quote($result->getDisplayIdentifier()) . 'AND password=\'\'');
+						
 						$db->setQuery($query);
 						$dbresult = $db->loadObject();
+						
 						if ($dbresult) {
 							// if so, we set our username value to the provided value
 							$response->username = $result->getDisplayIdentifier();
 						} else {
 							// if it doesn't, we check if the username from the from exists in the database
-							$query = 'SELECT username FROM #__users'.
-								' WHERE username='.$db->Quote($credentials['username']).
-								' AND password=\'\'';
+							 $query = new JQuery();
+							 $query->select('username');
+							 $query->from('#__users');
+							 $query->where('username=' . $db->Quote($credentials['username']) . 'AND password=\'\'');
+
 							$db->setQuery($query);
 							$dbresult = $db->loadObject();
 							if ($dbresult) {
 								// if it does, we update the database
-								$query = 'UPDATE #__users SET username='.$db->Quote($result->getDisplayIdentifier()).
-									' WHERE username='.$db->Quote($credentials['username']);
+								$query = new JQuery();
+								$query->update('#__users');
+								$query->set('username=' . $db->Quote($result->getDisplayIdentifier()));
+								$query->where('username=' . $db->Quote($credentials['username']));
+
 								$db->setQuery($query);
-								$db->query();
+								//$db->query();
+								
 								if (!$db->query()) {
 									$response->status = JAUTHENTICATE_STATUS_FAILURE;
 									$response->error_message = $db->getErrorMsg();

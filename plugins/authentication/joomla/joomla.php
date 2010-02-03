@@ -49,14 +49,14 @@ class plgAuthenticationJoomla extends JPlugin
 
 		// Get a database object
 		$db = &JFactory::getDbo();
-
-		$query = 'SELECT `id`, `password`'
-			. ' FROM `#__users`'
-			. ' WHERE username=' . $db->Quote($credentials['username'])
-			;
+		$query = new JQuery();
+		
+		$query->select('id, password');
+		$query->from('#__users');
+		$query->where('username=' . $db->Quote($credentials['username']));
+		
 		$db->setQuery($query);
 		$result = $db->loadObject();
-
 
 		if ($result)
 		{
