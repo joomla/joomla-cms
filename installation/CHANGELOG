@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Feb-2010 Andrew Eddie
+ + Added JHtmlString
+
 03-Feb-2010 Jean-Marie Simonet
 ^ Refactored editors-xtd plugins ini keys.
 
