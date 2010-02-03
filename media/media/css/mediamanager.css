@@ -57,7 +57,7 @@
 }
 
 #upload-flash .progress {
-	background: url(../../images/media/progress.gif) no-repeat;
+	background: url(../images/progress.gif) no-repeat;
 	background-position: +50% 0;
 	margin-right: 0.5em;
 	vertical-align: middle;
@@ -72,22 +72,22 @@
 
 #upload-queue li.file {
 	border-bottom: 1px solid #eee;
-	background: url(../../images/media/upload.png) no-repeat 4px 6px;
+	background: url(../images/upload.png) no-repeat 4px 6px;
 	border:1px solid #ccc;
 	overflow: auto;
 }
 
 #upload-queue li.file.file-uploading {
-	background-image: url(../../images/media/uploading.png);
+	background-image: url(../images/uploading.png);
 	background-color: #D9DDE9;
 }
 
 #upload-queue li.file.file-success {
-	background-image: url(../../images/media/success.png);
+	background-image: url(../images/success.png);
 }
 
 #upload-queue li.file.file-failed {
-	background-image: url(../../images/media/failed.png);
+	background-image: url(../images/failed.png);
 }
 
 #upload-queue li.file .file-name {

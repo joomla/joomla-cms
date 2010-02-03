@@ -56,7 +56,7 @@ abstract class JHtmlBehavior
 			self::framework(false);
 		}
 
-		JHtml::script('media/system/js/mootools-'.$type.$uncompressed.'.js');
+		JHtml::script('system/mootools-'.$type.$uncompressed.'.js', false, true);
 		$loaded[$type] = true;
 		return;
 	}
@@ -76,18 +76,18 @@ abstract class JHtmlBehavior
 
 	public static function caption()
 	{
-		JHtml::script('media/system/js/caption.js');
+		JHtml::script('system/caption.js', false, true);
 	}
 
 	public static function formvalidation()
 	{
-		JHtml::script('media/system/js/validate.js');
+		JHtml::script('system/validate.js', false, true);
 	}
 
 	public static function switcher()
 	{
 		JHtml::_('behavior.framework');
-		JHtml::script('media/system/js/switcher.js' );
+		JHtml::script('system/switcher.js', false, true);
 
 		$script = "
 			document.switcher = null;
@@ -104,7 +104,7 @@ abstract class JHtmlBehavior
 
 	public static function combobox()
 	{
-		JHtml::script('media/system/js/combobox.js');
+		JHtml::script('system/combobox.js', false, true);
 	}
 
 	public static function tooltip($selector='.hasTip', $params = array())
@@ -167,8 +167,8 @@ abstract class JHtmlBehavior
 		if (!isset($included)) {
 			// Load the javascript and css
 			JHtml::_('behavior.framework');
-			JHtml::script('media/system/js/modal.js');
-			JHtml::stylesheet('media/system/css/modal.css');
+			JHtml::script('system/modal.js', false, true);
+			JHtml::stylesheet('system/modal.css', array(), true);
 
 			$included = true;
 		}
@@ -213,9 +213,9 @@ abstract class JHtmlBehavior
 
 	public static function uploader($id='file-upload', $params = array(), $upload_queue='upload-queue')
 	{
-		JHtml::script('media/system/js/swf.js');
-		JHtml::script('media/system/js/progressbar.js');
-		JHtml::script('media/system/js/uploader.js');
+		JHtml::script('system/swf.js', false, true);
+		JHtml::script('system/progressbar.js', false, true);
+		JHtml::script('system/uploader.js', false, true);
 
 		static $uploaders;
 
@@ -321,8 +321,8 @@ abstract class JHtmlBehavior
 
 		// Include mootools framework
 		JHtml::_('behavior.framework');
-		JHtml::script('media/system/js/mootree.js');
-		JHtml::stylesheet('media/system/css/mootree.css');
+		JHtml::script('system/mootree.js', false, true);
+		JHtml::stylesheet('system/mootree.css', array(), true);
 
 		if (isset($trees[$id]) && ($trees[$id])) {
 			return;
@@ -332,7 +332,7 @@ abstract class JHtmlBehavior
 		$opt['div']		= (array_key_exists('div', $params)) ? $params['div'] : $id.'_tree';
 		$opt['mode']	= (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
 		$opt['grid']	= (array_key_exists('grid', $params)) ? '\\'.$params['grid'] : '\\true';
-		$opt['theme']	= (array_key_exists('theme', $params)) ? $params['theme'] : JURI::root(true).'/media/system/images/mootree.gif';
+		$opt['theme']	= (array_key_exists('theme', $params)) ? $params['theme'] : JHTML::_('image', 'system/mootree.gif', '', array(), true, true);
 
 		// Event handlers
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\'.$params['onExpand'] : null;
@@ -368,9 +368,9 @@ abstract class JHtmlBehavior
 	public static function calendar()
 	{
 		$document = &JFactory::getDocument();
-		JHtml::stylesheet('media/system/css/calendar-jos.css', array(' title' => JText::_('green') ,' media' => 'all'));
-		JHtml::script('media/system/js/calendar.js');
-		JHtml::script('media/system/js/calendar-setup.js');
+		JHtml::stylesheet('system/calendar-jos.css', array(' title' => JText::_('green') ,' media' => 'all'), true);
+		JHtml::script('system/calendar.js', false, true);
+		JHtml::script('system/calendar-setup.js', false, true);
 
 		$translation = JHtmlBehavior::_calendartranslation();
 		if ($translation) {
