@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+04-Feb-2010 Christophe Demko
+# Correcting a bug in JForm: setFieldAttribute was incorrect when the attribute does not exist 
+
 04-Feb-2010 Jean-Marie Simonet
 ^ Refactored user plugins ini keys.
 ^ Refactored system plugins ini keys
