@@ -113,7 +113,7 @@ class JUser extends JObject
 	 * Description
 	 * @var boolean
 	 */
-	var $guest     = null;
+	var $guest = null;
 
 	/**
 	 * User parameters

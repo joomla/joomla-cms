@@ -37,7 +37,7 @@ class JUtility
  	 * @return boolean True on success
 	 *
 	 * @deprecated  1.6
-	 * @see                 JMail::sendMail()
+	 * @see				 JMail::sendMail()
   	 */
 	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
 	{
@@ -60,7 +60,7 @@ class JUtility
  	 * @return boolean True on success
 	 *
 	 * @deprecated  1.6
-	 * @see                 JMail::sendAdminMail()
+	 * @see				 JMail::sendAdminMail()
  	 */
 	public static function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
@@ -76,7 +76,7 @@ class JUtility
  	 * @return string
 	 *
 	 * @deprecated  1.6
-	 * @see                 JApplication:getHash()
+	 * @see				 JApplication:getHash()
  	 */
 	public static function getHash($seed)
 	{
@@ -90,7 +90,7 @@ class JUtility
 	 * @return	string	Hashed var name
 	 * @since	1.5
 	 * @deprecated  1.6
-	 * @see                 JApplication:getHash()
+	 * @see				 JApplication:getHash()
 	 * @static
 	 */
 	public static function getToken($forceNew = false)
@@ -132,7 +132,7 @@ class JUtility
 	 * @return	true if Windows OS
 	 * @since	1.5
 	 * @deprecated  1.6
-	 * @see                 JApplication::isWinOS()
+	 * @see				 JApplication::isWinOS()
 	 * @static
 	 */
 	function isWinOS() {
@@ -179,7 +179,7 @@ class JUtility
 	 * @return int size in bytes
 	 * @since 1.6
 	 * @deprecated  1.6
-	 * @see                 InstallerModelWarnings::return_bytes()
+	 * @see				 InstallerModelWarnings::return_bytes()
 	 */
 	function return_bytes($val) {
 		$val = trim($val);

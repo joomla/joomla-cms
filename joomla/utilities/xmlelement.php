@@ -1,10 +1,10 @@
 <?php
 /**
- * @version     $Id$
- * @package     Joomla.Framework
+ * @version		$Id$
+ * @package		Joomla.Framework
  * @subpackage  Utilities
  * @copyright   Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
@@ -13,9 +13,9 @@ defined('JPATH_BASE') or die;
 /**
  * Wrapper class for php SimpleXMLElement.
  *
- * @package     Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage  Utilities
- * @since       1.6
+ * @since		1.6
  */
 class JXMLElement extends SimpleXMLElement
 {

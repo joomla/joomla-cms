@@ -89,8 +89,8 @@ class JUpdaterExtension extends JUpdateAdapter
 
 		if (!($fp = @fopen($url, "r"))) {
 			// TODO: Add a 'mark bad' setting here somehow
-		    JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Extension') .': '. JText::_('Could not open').' '. $url);
-		    return false;
+			JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Extension') .': '. JText::_('Could not open').' '. $url);
+			return false;
 		}
 
 		$this->xml_parser = xml_parser_create('');
@@ -99,11 +99,11 @@ class JUpdaterExtension extends JUpdateAdapter
 		xml_set_character_data_handler($this->xml_parser, '_characterData');
 
 		while ($data = fread($fp, 8192)) {
-		    if (!xml_parse($this->xml_parser, $data, feof($fp))) {
-		        die(sprintf("XML error: %s at line %d",
-		                    xml_error_string(xml_get_error_code($this->xml_parser)),
-		                    xml_get_current_line_number($this->xml_parser)));
-		    }
+			if (!xml_parse($this->xml_parser, $data, feof($fp))) {
+				die(sprintf("XML error: %s at line %d",
+							xml_error_string(xml_get_error_code($this->xml_parser)),
+							xml_get_current_line_number($this->xml_parser)));
+			}
 		}
 		xml_parser_free($this->xml_parser);
 		if(isset($this->latest)) {

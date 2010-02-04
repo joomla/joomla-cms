@@ -130,20 +130,20 @@ class JUpdater extends JAdapter {
 	 */
 	public function arrayUnique($myArray)
 	{
-	    if(!is_array($myArray))
-	           return $myArray;
+		if(!is_array($myArray))
+			   return $myArray;
 
-	    foreach ($myArray as &$myvalue){
-	        $myvalue=serialize($myvalue);
-	    }
+		foreach ($myArray as &$myvalue){
+			$myvalue=serialize($myvalue);
+		}
 
-	    $myArray=array_unique($myArray);
+		$myArray=array_unique($myArray);
 
-	    foreach ($myArray as &$myvalue){
-	        $myvalue=unserialize($myvalue);
-	    }
+		foreach ($myArray as &$myvalue){
+			$myvalue=unserialize($myvalue);
+		}
 
-	    return $myArray;
+		return $myArray;
 	}
 
 	public function update($id) {
