@@ -42,9 +42,9 @@ jimport('joomla.user.helper');
 		<?php if ($this->data->lastvisitDate != '0000-00-00 00:00:00'){?>
 			<?php echo JHtml::date($this->data->lastvisitDate); ?>
 		<?php }
-		 else {
+		else {
 			echo JText::_('Users_Profile_Never_Visited');
-			 } ?>
+		} ?>
 		</dd>
 	</dl>
 </fieldset>

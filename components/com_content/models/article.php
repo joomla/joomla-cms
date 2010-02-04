@@ -26,7 +26,7 @@ class ContentModelArticle extends JModelItem
 	 *
 	 * @var		string
 	 */
-	 protected $_context = 'com_content.article';
+	protected $_context = 'com_content.article';
 
 	/**
 	 * Method to auto-populate the model state.
@@ -120,7 +120,7 @@ class ContentModelArticle extends JModelItem
 				// Check for published state if filter set.
 				if (((is_numeric($published))||(is_numeric($archived))) &&
 					(($data->state != $published ) && ( $data->state != $archived )))
-				  {
+				{
 					throw new Exception(JText::_('Content_Error_Article_not_found'), 404);
 				}
 

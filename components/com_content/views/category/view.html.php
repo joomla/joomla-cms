@@ -39,7 +39,7 @@ class ContentViewCategory extends JView
 		// Initialise variables.
 		$user		= &JFactory::getUser();
 		$app		= &JFactory::getApplication();
-		$uri 		=& JFactory::getURI();
+		$uri		=& JFactory::getURI();
 
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
@@ -63,11 +63,11 @@ class ContentViewCategory extends JView
 		// Get the metrics for the structural page layout.
 		$numLeading	= $params->def('num_leading_articles',	1);
 		$numIntro	= $params->def('num_intro_articles',	4);
-		$numLinks	= $params->def('num_links', 			4);
+		$numLinks	= $params->def('num_links',			4);
 
 		// Compute the category slug and prepare description (runs content plugins).
-		 $item->slug			= $item->path ? ($item->id.':'.$item->path) : $item->id;
-		 $item->description	= JHtml::_('content.prepare', $item->description);
+		$item->slug			= $item->path ? ($item->id.':'.$item->path) : $item->id;
+		$item->description	= JHtml::_('content.prepare', $item->description);
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($articles as $i => &$article)
@@ -143,7 +143,7 @@ class ContentViewCategory extends JView
 			$child->description	= JHtml::_('content.prepare', $child->description);
 		}
 
-		$this->assign('action', 	str_replace('&', '&amp;', $uri));
+		$this->assign('action',	str_replace('&', '&amp;', $uri));
 
 		$this->assignRef('params',		$params);
 		$this->assignRef('item',		$item);

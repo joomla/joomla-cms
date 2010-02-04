@@ -56,13 +56,13 @@ class WeblinksViewWeblink extends JView
 		$document	= &JFactory::getDocument();
 		$model		= &$this->getModel();
 		$user		= &JFactory::getUser();
-		$uri	 	= &JFactory::getURI();
+		$uri		= &JFactory::getURI();
 		$params = &$app->getParams();
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->authorise('com_weblinks.edit')) {
-			  JResponse::setHeader('HTTP/1.0 403',true);
-			  JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
+			JResponse::setHeader('HTTP/1.0 403',true);
+			JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
 			return;
 		}
 		//get the weblink
@@ -154,18 +154,17 @@ class WeblinksViewWeblink extends JView
 			. ' WHERE catid = ' . (int) $weblink->catid
 			. ' ORDER BY ordering';
 
-		$lists['ordering'] 			= JHtml::_('list.specificordering',  $weblink, $weblink->id, $query);
+		$lists['ordering']		= JHtml::_('list.specificordering',  $weblink, $weblink->id, $query);
 
 		// Radio Buttons: Should the article be published
-		$lists['published'] 		= JHtml::_('select.booleanlist',  'jform[published]', 'class="inputbox"', $weblink->published);
+		$lists['published']		= JHtml::_('select.booleanlist',  'jform[published]', 'class="inputbox"', $weblink->published);
 
 		JFilterOutput::objectHTMLSafe($weblink, ENT_QUOTES, 'description');
 
-		$this->assign('action', 	$uri);
-
-		$this->assignRef('lists'   , $lists);
-		$this->assignRef('weblink' , $weblink);
-		$this->assignRef('params' ,	 $params);
+		$this->assign('action',		$uri);
+		$this->assignRef('lists',	$lists);
+		$this->assignRef('weblink',	$weblink);
+		$this->assignRef('params',	$params);
 		parent::display($tpl);
 	}
 }

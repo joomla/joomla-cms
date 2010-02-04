@@ -82,8 +82,8 @@ class SearchModelSearch extends JModel
 	 *
 	 * @access	public
 	 * @param string search string
- 	 * @param string mathcing option, exact|any|all
- 	 * @param string ordering option, newest|oldest|popular|alpha|category
+	 * @param string mathcing option, exact|any|all
+	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 */
 	function setSearch($keyword, $match = 'all', $ordering = 'newest')
 	{

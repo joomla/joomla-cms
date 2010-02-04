@@ -92,9 +92,9 @@ class ContactController extends JController
 		$email		= JRequest::getVar('email',			'',			'post');
 		$subject	= JRequest::getVar('subject',		$default,	'post');
 		$body		= JRequest::getVar('text',			'',			'post');
-		$emailCopy	= JRequest::getInt('email_copy', 	0,			'post');
+		$emailCopy	= JRequest::getInt('email_copy',	0,			'post');
 
-		 // load the contact details
+		// load the contact details
 		$model		= &$this->getModel('contact');
 
 		// query options
@@ -146,12 +146,12 @@ class ContactController extends JController
 		$pparams = &$app->getParams('com_contact');
 		if (!$pparams->get('custom_reply'))
 		{
-			$MailFrom 	= $app->getCfg('mailfrom');
-			$FromName 	= $app->getCfg('fromname');
+			$MailFrom	= $app->getCfg('mailfrom');
+			$FromName	= $app->getCfg('fromname');
 
 			// Prepare email body
 			$prefix = JText::sprintf('ENQUIRY_TEXT', JURI::base());
-			$body 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
+			$body	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
 
 			$mail = JFactory::getMailer();
 
@@ -172,9 +172,9 @@ class ContactController extends JController
 			// check whether email copy function activated
 			if ($emailCopy && $emailcopyCheck)
 			{
-				$copyText 		= JText::sprintf('Copy of:', $contact->name, $SiteName);
-				$copyText 		.= "\r\n\r\n".$body;
-				$copySubject 	= JText::_('Copy of:')." ".$subject;
+				$copyText		= JText::sprintf('Copy of:', $contact->name, $SiteName);
+				$copyText		.= "\r\n\r\n".$body;
+				$copySubject	= JText::_('Copy of:')." ".$subject;
 
 				$mail = JFactory::getMailer();
 
@@ -231,9 +231,9 @@ class ContactController extends JController
 		if (($params->get('allow_vcard', 0)) && (in_array($contact->access, $groups)))
 		{
 			// Parse the contact name field and build the nam information for the vcard.
-			$firstname 	= null;
+			$firstname	= null;
 			$middlename = null;
-			$surname 	= null;
+			$surname	= null;
 
 			// How many parts do we have?
 			$parts = explode(' ', $contact->name);
@@ -319,7 +319,7 @@ class ContactController extends JController
 		$pparams	= &$app->getParams('com_contact');
 
 		// check for session cookie
-		$sessionCheck 	= $pparams->get('validate_session', 1);
+		$sessionCheck	= $pparams->get('validate_session', 1);
 		$sessionName	= $session->getName();
 		if  ($sessionCheck) {
 			if (!isset($_COOKIE[$sessionName])) {
@@ -331,7 +331,7 @@ class ContactController extends JController
 		// Determine banned e-mails
 		$configEmail	= $pparams->get('banned_email', '');
 		$paramsEmail	= $params->get('banned_mail', '');
-		$bannedEmail 	= $configEmail . ($paramsEmail ? ';'.$paramsEmail : '');
+		$bannedEmail	= $configEmail . ($paramsEmail ? ';'.$paramsEmail : '');
 
 		// Prevent form submission if one of the banned text is discovered in the email field
 		if (false === $this->_checkText($email, $bannedEmail)) {
@@ -342,7 +342,7 @@ class ContactController extends JController
 		// Determine banned subjects
 		$configSubject	= $pparams->get('banned_subject', '');
 		$paramsSubject	= $params->get('banned_subject', '');
-		$bannedSubject 	= $configSubject . ($paramsSubject ? ';'.$paramsSubject : '');
+		$bannedSubject	= $configSubject . ($paramsSubject ? ';'.$paramsSubject : '');
 
 		// Prevent form submission if one of the banned text is discovered in the subject field
 		if (false === $this->_checkText($subject, $bannedSubject)) {
@@ -353,7 +353,7 @@ class ContactController extends JController
 		// Determine banned Text
 		$configText		= $pparams->get('banned_text', '');
 		$paramsText		= $params->get('banned_text', '');
-		$bannedText 	= $configText . ($paramsText ? ';'.$paramsText : '');
+		$bannedText	= $configText . ($paramsText ? ';'.$paramsText : '');
 
 		// Prevent form submission if one of the banned text is discovered in the text field
 		if (false === $this->_checkText($body, $bannedText)) {

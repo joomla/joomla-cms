@@ -60,7 +60,7 @@ class WrapperViewWrapper extends JView
 			$wrapper->url = $url;
 		}
 
-		$this->assignRef('params', 	$params);
+		$this->assignRef('params',	$params);
 		$this->assignRef('wrapper', $wrapper);
 
 		parent::display($tpl);

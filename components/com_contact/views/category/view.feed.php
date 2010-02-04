@@ -31,9 +31,9 @@ class ContactViewCategory extends JView
 		$document->editor = $fromName;
 		$document->editorEmail = $siteEmail;
 
-		$limit 		= JRequest::getVar('limit', $app->getCfg('feed_limit'), '', 'int');
+		$limit		= JRequest::getVar('limit', $app->getCfg('feed_limit'), '', 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-		$catid  	= JRequest::getVar('catid', 0, '', 'int');
+		$catid		= JRequest::getVar('catid', 0, '', 'int');
 
 		$where		= ' WHERE a.published = 1';
 
@@ -71,11 +71,11 @@ class ContactViewCategory extends JView
 
 			// load individual item creator class
 			$item = new JFeedItem();
-			$item->title 		= $title;
-			$item->link 		= $link;
-			$item->description 	= $description;
+			$item->title		= $title;
+			$item->link			= $link;
+			$item->description	= $description;
 			$item->date			= $date;
-			$item->category   	= $row->category;
+			$item->category		= $row->category;
 
 			// loads item info into rss array
 			$document->addItem($item);

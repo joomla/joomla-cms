@@ -32,7 +32,7 @@ class ContentViewFrontpage extends JView
 
 		// Get some data from the model
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
-		$rows 		= & $this->get('Data');
+		$rows		= & $this->get('Data');
 		foreach ($rows as $row)
 		{
 			// strip html from feed item title
@@ -49,11 +49,11 @@ class ContentViewFrontpage extends JView
 
 			// load individual item creator class
 			$item = new JFeedItem();
-			$item->title 		= $title;
-			$item->link 		= $link;
-			$item->description 	= $description;
+			$item->title		= $title;
+			$item->link			= $link;
+			$item->description	= $description;
 			$item->date			= $row->created;
-			$item->category   	= 'frontpage';
+			$item->category		= 'frontpage';
 			$item->author		= $author;
 			if ($feedEmail == 'site') {
 				$item->authorEmail = $siteEmail;

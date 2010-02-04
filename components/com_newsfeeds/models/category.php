@@ -39,7 +39,7 @@ class NewsfeedsModelCategory extends JModelList
 	 *
 	 * @var		string
 	 */
-	 protected $_context = 'com_newfeeds.category';
+	protected $_context = 'com_newfeeds.category';
 
 	/**
 	 * Method to auto-populate the model state.
@@ -52,7 +52,7 @@ class NewsfeedsModelCategory extends JModelList
 	 * @access	protected
 	 * @var		object
 	 */
-	 protected $_category = null;
+	protected $_category = null;
 
 	/**
 	 * The list of other newfeed categories.
@@ -60,7 +60,7 @@ class NewsfeedsModelCategory extends JModelList
 	 * @access	protected
 	 * @var		array
 	 */
-	 protected $_categories = null;
+	protected $_categories = null;
 
 
 	/**
@@ -141,7 +141,7 @@ class NewsfeedsModelCategory extends JModelList
 		$params	= JComponentHelper::getParams('com_newsfeeds');
 
 		// List state information
-		$limit 		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 		$this->setState('list.limit', $limit);
 
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');

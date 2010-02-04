@@ -16,23 +16,18 @@ defined('_JEXEC') or die;
 		$direction = " ";
 
 		if ($lang->isRTL() && $myrtl==0){
-		   $direction= " redirect-rtl";
-		   }
-		else if ($lang->isRTL() && $myrtl==1){
-		   $direction= " redirect-ltr";
-		   }
-		else if ($lang->isRTL() && $myrtl==2){
-		   $direction= " redirect-rtl";
-		   }
-		else if ($myrtl==0) {
+			$direction= " redirect-rtl";
+		} else if ($lang->isRTL() && $myrtl==1){
 			$direction= " redirect-ltr";
-		   }
-		else if ($myrtl==1) {
+		} else if ($lang->isRTL() && $myrtl==2){
+			$direction= " redirect-rtl";
+		} else if ($myrtl==0) {
 			$direction= " redirect-ltr";
-		   }
-		else if ($myrtl==2) {
-		   $direction= " redirect-rtl";
-		   }
+		} else if ($myrtl==1) {
+			$direction= " redirect-ltr";
+		} else if ($myrtl==2) {
+			$direction= " redirect-rtl";
+		}
 ?>
 
 <div class="newsfeed<?php echo $this->params->get('pageclass_sfx')?><?php echo $direction; ?>">

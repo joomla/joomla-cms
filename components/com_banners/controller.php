@@ -15,7 +15,7 @@ jimport('joomla.application.component.controller');
 /**
  * Banners Controller
  *
- * @package  	Joomla
+ * @package		Joomla
  * @subpackage	Banners
  * @since		1.5
  */

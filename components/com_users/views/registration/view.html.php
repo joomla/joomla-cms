@@ -48,7 +48,7 @@ class UsersViewRegistration extends JView
 
 		// Push the data into the view.
 		$this->assignRef('form',	$form);
-		$this->assignRef('data', 	$data);
+		$this->assignRef('data',	$data);
 		$this->assignRef('params',	$params);
 
 		parent::display($tpl);

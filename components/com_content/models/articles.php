@@ -138,7 +138,7 @@ class ContentModelArticles extends JModelList
 			$query->where('a.catid '.$type.' ('.$categoryId.')');
 		}
 
-		$authorId 	= $this->getState('filter.author_id');
+		$authorId	= $this->getState('filter.author_id');
 
 		if (is_numeric($authorId)) {
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';

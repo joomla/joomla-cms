@@ -42,7 +42,7 @@ class ContentModelCategory extends JModelItem
 	 *
 	 * @var		string
 	 */
-	 protected $_context = 'com_content.article';
+	protected $_context = 'com_content.article';
 
 	/**
 	 * Method to auto-populate the model state.
@@ -217,11 +217,11 @@ class ContentModelCategory extends JModelItem
 			$model->setState('filter.category_id',	$category->id);
 			$model->setState('filter.published',	$this->getState('filter.published'));
 			$model->setState('filter.access',		$this->getState('filter.access'));
-			$model->setState('list.ordering', 		$this->_buildContentOrderBy());
-			$model->setState('list.start', 			$this->getState('list.start'));
-			$model->setState('list.limit', 			$this->getState('list.limit'));
-			$model->setState('list.direction', 		$this->getState('list.direction'));
-			$model->setState('list.filter', 		$this->getState('list.filter'));
+			$model->setState('list.ordering',		$this->_buildContentOrderBy());
+			$model->setState('list.start',			$this->getState('list.start'));
+			$model->setState('list.limit',			$this->getState('list.limit'));
+			$model->setState('list.direction',		$this->getState('list.direction'));
+			$model->setState('list.filter',			$this->getState('list.filter'));
 
 			$this->_articles  = $model->getItems();
 			$this->_pagination = $model->getPagination();

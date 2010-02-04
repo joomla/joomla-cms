@@ -25,7 +25,7 @@ class WeblinksModelCategory extends JModelList
 	 * @access	protected
 	 * @var		string
 	 */
-	 protected $_context = 'com_weblinks.category';
+	protected $_context = 'com_weblinks.category';
 
 	/**
 	 * The category that applies.
@@ -33,7 +33,7 @@ class WeblinksModelCategory extends JModelList
 	 * @access	protected
 	 * @var		object
 	 */
-	 protected $_category = null;
+	protected $_category = null;
 
 	/**
 	 * The list of other weblink categories.
@@ -41,7 +41,7 @@ class WeblinksModelCategory extends JModelList
 	 * @access	protected
 	 * @var		array
 	 */
-	 protected $_categories = null;
+	protected $_categories = null;
 
 	/**
 	 * Method to get a list of items.
@@ -123,7 +123,7 @@ class WeblinksModelCategory extends JModelList
 		$params	= JComponentHelper::getParams('com_weblinks');
 
 		// List state information
-		$limit 		= $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 		$this->setState('list.limit', $limit);
 
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');

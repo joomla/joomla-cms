@@ -47,7 +47,7 @@ class ContactViewCategory extends JView
 
 		$categories	= $model->getCategories($options);
 		$contacts	= $model->getContacts($options);
-		$total 		= $model->getContactCount($options);
+		$total		= $model->getContactCount($options);
 
 				// Validate the category.
 

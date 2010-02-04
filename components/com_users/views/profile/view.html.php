@@ -87,8 +87,8 @@ class UsersViewProfile extends JView
 		$this->document->setTitle($params->get('page_title'));
 
 		// Push the data into the view.
-		$this->assignRef('form', 	$form);
-		$this->assignRef('data', 	$data);
+		$this->assignRef('form',	$form);
+		$this->assignRef('data',	$data);
 		$this->assignRef('profile',	$profile);
 		$this->assignRef('params',	$params);
 

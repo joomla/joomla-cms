@@ -55,7 +55,7 @@ function submitbutton(task) {
 			</div>
 		<?php endif; ?>
 
-		   	<div class="formelm_buttons">
+			<div class="formelm_buttons">
 			<button type="button" onclick="submitbutton('article.save')">
 				<?php echo JText::_('JSave') ?>
 			</button>

@@ -25,7 +25,7 @@ class WeblinksModelWeblink extends JModelItem
 	 * @access	protected
 	 * @var		string
 	 */
-	 protected $_context = 'com_weblinks.weblink';
+	protected $_context = 'com_weblinks.weblink';
 
 	/**
 	 * Method to auto-populate the model state.

@@ -56,11 +56,11 @@ class MailtoController extends JController
 
 		jimport('joomla.mail.helper');
 
-		$SiteName 	= $app->getCfg('sitename');
-		$MailFrom 	= $app->getCfg('mailfrom');
-		$FromName 	= $app->getCfg('fromname');
+		$SiteName	= $app->getCfg('sitename');
+		$MailFrom	= $app->getCfg('mailfrom');
+		$FromName	= $app->getCfg('fromname');
 
-		$link 		= base64_decode(JRequest::getVar('link', '', 'post', 'base64'));
+		$link		= base64_decode(JRequest::getVar('link', '', 'post', 'base64'));
 
 		// Verify that this is a local link
 		if (!JURI::isInternal($link)) {
@@ -77,11 +77,12 @@ class MailtoController extends JController
 							'cc:');
 
 		// An array of the input fields to scan for injected headers
-		$fields = array ('mailto',
-						 'sender',
-						 'from',
-						 'subject',
-						);
+		$fields = array(
+			'mailto',
+			'sender',
+			'from',
+			'subject',
+		);
 
 		/*
 		 * Here is the meat and potatoes of the header injection test.  We
@@ -104,11 +105,11 @@ class MailtoController extends JController
 		 */
 		unset ($headers, $fields);
 
-		$email 				= JRequest::getString('mailto', '', 'post');
-		$sender 			= JRequest::getString('sender', '', 'post');
-		$from 				= JRequest::getString('from', '', 'post');
-		$subject_default 	= JText::sprintf('Item sent by', $sender);
-		$subject 			= JRequest::getString('subject', $subject_default, 'post');
+		$email				= JRequest::getString('mailto', '', 'post');
+		$sender				= JRequest::getString('sender', '', 'post');
+		$from				= JRequest::getString('from', '', 'post');
+		$subject_default	= JText::sprintf('Item sent by', $sender);
+		$subject			= JRequest::getString('subject', $subject_default, 'post');
 
 		// Check for a valid to address
 		$error	= false;

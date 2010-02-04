@@ -39,7 +39,7 @@ class ContentViewArchive extends JView
 		$params = &$app->getParams('com_content');
 
 		// Request variables
-		$task 		= JRequest::getCmd('task');
+		$task		= JRequest::getCmd('task');
 		$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 		$month		= JRequest::getInt('month');

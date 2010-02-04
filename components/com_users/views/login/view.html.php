@@ -69,7 +69,7 @@ class UsersViewLogin extends JView
 
 		// Push the data into the view.
 		$this->assignRef('user',	$user);
-		$this->assignRef('form', 	$form);
+		$this->assignRef('form',	$form);
 		$this->assignRef('params',	$params);
 
 		parent::display($tpl);

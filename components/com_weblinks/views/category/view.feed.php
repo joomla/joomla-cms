@@ -54,11 +54,11 @@ class WeblinksViewCategory extends JView
 
 			// load individual item creator class
 			$feeditem = new JFeedItem();
-			$feeditem->title 		= $title;
-			$feeditem->link 		= $link;
-			$feeditem->description 	= $description;
+			$feeditem->title		= $title;
+			$feeditem->link			= $link;
+			$feeditem->description	= $description;
 			$feeditem->date			= $date;
-			$feeditem->category   	= 'Weblinks';
+			$feeditem->category		= 'Weblinks';
 
 			// loads item info into rss array
 			$document->addItem($feeditem);

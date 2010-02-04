@@ -54,7 +54,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 
 
 
-	<?php if ($this->params->get('allow_vcard')) : 	//TODO either reimplement vcard or delete this.?>
+	<?php if ($this->params->get('allow_vcard')) :	//TODO either reimplement vcard or delete this.?>
 		<?php echo JText::_('Download information as a');?>
 			<a href="<?php echo JURI::base(); ?>index.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $this->contact->id; ?>&amp;format=raw&amp;tmpl=component">
 				<?php echo JText::_('VCard');?></a>
@@ -87,5 +87,5 @@ $cparams = JComponentHelper::getParams ('com_media');
 				</div>
 	<?php endif; ?>
 
-			<?php echo 	 JHtml::_('sliders.end'); ?>
+			<?php echo JHtml::_('sliders.end'); ?>
 </div>
