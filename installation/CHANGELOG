@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 
+05-Feb-2010 Christophe Demko
+^ Adding readonly attribute on some jform fields
+
 04-Feb-2010 Christophe Demko
 # Correcting a bug in JForm: setFieldAttribute was incorrect when the attribute does not exist 
 

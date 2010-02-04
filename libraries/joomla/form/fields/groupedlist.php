@@ -45,7 +45,7 @@ class JFormFieldGroupedList extends JFormField
 			{
 				case 'option':
 					if (!isset($groups[$label])) $groups[$label] = array();
-					$groups[$label][] = JHtml::_('select.option', (string)$element->attributes()->value, JText::_(trim((string)$element)));
+					$groups[$label][] = JHtml::_('select.option', (string)$element->attributes()->value, JText::_(trim((string)$element)),'value','text',(string)$option->attributes()->disabled=='true');
 					break;
 				case 'group':
 					$groupLabel = (string)$element->attributes()->label;
@@ -55,7 +55,7 @@ class JFormFieldGroupedList extends JFormField
 					// Iterate through the children and build an array of options.
 					foreach($element->children() as $option)
 					{
-						$groups[$label][] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_(trim((string)$option)));
+						$groups[$label][] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_(trim((string)$option)), 'value', 'text', (string)$option->attributes('disabled')=='true');
 					}
 					if ($groupLabel) $label = count($groups);
 					break;
@@ -73,7 +73,7 @@ class JFormFieldGroupedList extends JFormField
 	 */
 	protected function _getInput()
 	{
-		$disabled = (string)$this->_element->attributes()->disabled == 'true' ? true : false;
+		$disabled = (string)$this->_element->attributes()->readonly == 'true' ? true : false;
 		$attributes = '';
 		if ($v = (string)$this->_element->attributes()->size)
 		{

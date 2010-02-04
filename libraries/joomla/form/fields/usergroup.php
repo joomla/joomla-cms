@@ -47,12 +47,16 @@ class JFormFieldUserGroup extends JFormField
 		{
 			$attribs	.= ' multiple="multiple"';
 		}
+		if((string)$this->_element->attributes()->readonly == 'true')
+		{
+			$attribs	.= ' disabled="disabled"';
+		}
 
 		$options = array();
 
 		// Iterate through the children and build an array of options.
 		foreach ($this->_element->children() as $option) {
-			$options[] = JHtml::_('select.option', $option->attributes()->value, JText::_(trim($option->data())));
+			$options[] = JHtml::_('select.option', $option->attributes()->value, JText::_(trim($option->data())),'value','text',(string)$option->attributes()->disabled=='true');
 		}
 
 		return JHtml::_('access.usergroup', $this->inputName, $this->value, $attribs, $options, $this->inputId);
