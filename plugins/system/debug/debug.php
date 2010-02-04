@@ -76,14 +76,14 @@ class plgSystemDebug extends JPlugin
 			echo '</ol>';
 		}
 		if ($this->params->get('profile', 1)) {
-			echo '<h4>'.JText::_('Debug_Profile_Information').'</h4>';
+			echo '<h4>'.JText::_('PLG_DEBUG_PROFILE_INFORMATION').'</h4>';
 			foreach ($profiler->getBuffer() as $mark) {
 				echo '<div>'.$mark.'</div>';
 			}
 		}
 
 		if ($this->params->get('memory', 1)) {
-			echo '<h4>'.JText::_('Debug_Memory_Usage').'</h4>';
+			echo '<h4>'.JText::_('PLG_DEBUG_MEMORY_USAGE').'</h4>';
 			echo number_format($profiler->getMemory());
 		}
 
@@ -92,7 +92,7 @@ class plgSystemDebug extends JPlugin
 
 			$db	= &JFactory::getDbo();
 
-			echo '<h4>'.JText::sprintf('Debug_Queries_logged',  $db->getTicker()).'</h4>';
+			echo '<h4>'.JText::sprintf('PLG_DEBUG_QUERIES_LOGGED',  $db->getTicker()).'</h4>';
 
 			if ($log = $db->getLog()) {
 				echo '<ol>';
@@ -107,7 +107,7 @@ class plgSystemDebug extends JPlugin
 		$lang = &JFactory::getLanguage();
 		if ($this->params->get('language_files', 1))
 		{
-			echo '<h4>'.JText::_('Debug_Language_Files_Loaded').'</h4>';
+			echo '<h4>'.JText::_('PLG_DEBUG_LANGUAGE_FILES_LOADED').'</h4>';
 			echo '<ul>';
 			$extensions	= $lang->getPaths();
 			foreach ($extensions as $extension => $files)
@@ -126,7 +126,7 @@ class plgSystemDebug extends JPlugin
 			$stripPref	= $this->params->get('strip-prefix');
 			$stripSuff	= $this->params->get('strip-suffix');
 
-			echo '<h4>'.JText::_('Debug_Untranslated_Strings').'</h4>';
+			echo '<h4>'.JText::_('PLG_DEBUG_UNTRANSLATED_STRINGS').'</h4>';
 			echo '<pre>';
 			$orphans = $lang->getOrphans();
 			if (count($orphans))
@@ -186,7 +186,7 @@ class plgSystemDebug extends JPlugin
 				}
 				foreach ($guesses as $file => $keys)
 				{
-					echo "\n\n# ".($file ? $file : JText::_('Debug_Unknown_file'))."\n\n";
+					echo "\n\n# ".($file ? $file : JText::_('PLG_DEBUG_UNKNOWN_FILE'))."\n\n";
 					echo implode("\n", $keys);
 				}
 			}

@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>Provides remember me functionality</description>
+	<description>PLG_REMEMBER_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="remember">remember.php</filename>
