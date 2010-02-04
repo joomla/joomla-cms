@@ -3,32 +3,30 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php
 		$lang = &JFactory::getLanguage();
 		$myrtl =$this->newsfeed->rtl;
-		 if ($lang->isRTL() && $myrtl==0){
-		   $direction= "direction:rtl !important;";
-		   $align= "text-align:right !important;";
-		   }
-		 else if ($lang->isRTL() && $myrtl==1){
-		   $direction= "direction:ltr !important;";
-		   $align= "text-align:left !important;";
-		   }
-		  else if ($lang->isRTL() && $myrtl==2){
-		   $direction= "direction:rtl !important;";
-		   $align= "text-align:right !important;";
-		   }
-
+		if ($lang->isRTL() && $myrtl==0){
+			$direction= "direction:rtl !important;";
+			$align= "text-align:right !important;";
+		}
+		else if ($lang->isRTL() && $myrtl==1){
+			$direction= "direction:ltr !important;";
+			$align= "text-align:left !important;";
+		}
+		else if ($lang->isRTL() && $myrtl==2){
+			$direction= "direction:rtl !important;";
+			$align= "text-align:right !important;";
+		}
 		else if ($myrtl==0) {
-		$direction= "direction:ltr !important;";
-		   $align= "text-align:left !important;";
-		   }
+			$direction= "direction:ltr !important;";
+			$align= "text-align:left !important;";
+		}
 		else if ($myrtl==1) {
-		$direction= "direction:ltr !important;";
-		   $align= "text-align:left !important;";
-		   }
+			$direction= "direction:ltr !important;";
+			$align= "text-align:left !important;";
+		}
 		else if ($myrtl==2) {
-		   $direction= "direction:rtl !important;";
-		   $align= "text-align:right !important;";
-		   }
-
+			$direction= "direction:rtl !important;";
+			$align= "text-align:right !important;";
+		}
 ?>
 <div style="<?php echo $direction; ?><?php echo $align; ?>">
 <?php if ($this->params->get('show_page_title', 1)) : ?>

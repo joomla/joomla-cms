@@ -27,9 +27,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php echo JText::_( 'Name' ); ?>:
 		</label>
 	</td>
-  	<td>
-  		<input type="text" name="name" id="name" size="40" value="<?php echo $this->escape($this->user->get( 'name' ));?>" class="inputbox required" maxlength="50" /> *
-  	</td>
+	<td>
+		<input type="text" name="name" id="name" size="40" value="<?php echo $this->escape($this->user->get( 'name' ));?>" class="inputbox required" maxlength="50" /> *
+	</td>
 </tr>
 <tr>
 	<td height="40">
@@ -57,9 +57,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php echo JText::_( 'Password' ); ?>:
 		</label>
 	</td>
-  	<td>
-  		<input class="inputbox required validate-password" type="password" id="password" name="password" size="40" value="" /> *
-  	</td>
+	<td>
+		<input class="inputbox required validate-password" type="password" id="password" name="password" size="40" value="" /> *
+	</td>
 </tr>
 <tr>
 	<td height="40">
