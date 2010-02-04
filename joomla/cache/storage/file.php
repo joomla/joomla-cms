@@ -208,8 +208,8 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @access private
 	 *
-	 * @param string  $id   Cache key to expire.
-	 * @param string  $group The cache data group.
+	 * @param string  $id		Cache key to expire.
+	 * @param string  $group	The cache data group.
 	 */
 	function _setExpire($id, $group)
 	{
