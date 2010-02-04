@@ -51,11 +51,11 @@ class JAuthenticationTest extends JoomlaDatabaseTestCase
 
 		parent::setUp();
 
- 		$this->saveErrorHandlers();
- 		$this->setErrorCallback('JAuthenticationTest');
- 		JAuthenticationTest::$actualError = array();
+		$this->saveErrorHandlers();
+		$this->setErrorCallback('JAuthenticationTest');
+		JAuthenticationTest::$actualError = array();
 
-	 	$this->saveFactoryState();
+		$this->saveFactoryState();
 	}
 
 	/**
@@ -66,8 +66,8 @@ class JAuthenticationTest extends JoomlaDatabaseTestCase
 	 */
 	protected function tearDown()
 	{
-	 	$this->restoreFactoryState();
-	 	$this->setErrorhandlers($this->savedErrorState);
+		$this->restoreFactoryState();
+		$this->setErrorhandlers($this->savedErrorState);
 	}
 
 	/**
@@ -77,7 +77,7 @@ class JAuthenticationTest extends JoomlaDatabaseTestCase
 	 */
 	public function testGetInstance()
 	{
-	 	include_once JPATH_BASE . '/libraries/joomla/plugin/helper.php';
+		include_once JPATH_BASE . '/libraries/joomla/plugin/helper.php';
 		include_once JPATH_BASE . '/libraries/joomla/user/user.php';
 		include_once JPATH_BASE . '/libraries/joomla/session/session.php';
 
@@ -118,7 +118,7 @@ class JAuthenticationTest extends JoomlaDatabaseTestCase
 	 */
 	public function testAuthenticate()
 	{
-	 	include_once JPATH_BASE . '/libraries/joomla/plugin/helper.php';
+		include_once JPATH_BASE . '/libraries/joomla/plugin/helper.php';
 		include_once JPATH_BASE . '/libraries/joomla/user/user.php';
 		include_once JPATH_BASE . '/libraries/joomla/session/session.php';
 

@@ -477,13 +477,13 @@ class JUserTest extends JoomlaDatabaseTestCase
 		);
 
 		$testUser->email = "sally@harry.com";
-	 	$this->assertThat(
+		$this->assertThat(
 			$testUser->save(),
 			$this->isTrue(),
 			'Should update existing user.'
 		);
 
-   		$testUser1 = JUser::getInstance('Floyd');
+		$testUser1 = JUser::getInstance('Floyd');
 		$this->assertThat(
 			$testUser1->id,
 			$this->equalTo($testUser1->id),
