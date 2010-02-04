@@ -15,7 +15,7 @@ require_once dirname(__FILE__).DS.'list.php';
 /**
  * Renders a select list of Asset Groups
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Parameter
  * @since		1.6
  */

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Renders a calendar element
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Parameter
  * @since		1.5
  */
@@ -32,9 +32,8 @@ class JElementCalendar extends JElement
 
 		$format	= ($node->attributes('format') ? $node->attributes('format') : '%Y-%m-%d');
 		$class	= $node->attributes('class') ? $node->attributes('class') : 'inputbox';
-
-		$id   = $control_name.$name;
-		$name = $control_name.'['.$name.']';
+		$id		= $control_name.$name;
+		$name	= $control_name.'['.$name.']';
 
 		return JHtml::_('calendar', $value, $name, $id, $format, array('class' => $class));
 	}
