@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <install
 	version="1.6"
 	type="plugin"
@@ -11,7 +11,7 @@
 	<authorUrl></authorUrl>
 	<copyright></copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>This loads a basic text entry field</description>
+	<description>PLG_NONE_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="none">none.php</filename>

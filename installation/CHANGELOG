@@ -30,6 +30,7 @@ $ -> Language fix or change
 04-Feb-2010 Jean-Marie Simonet
 ^ Refactored user plugins ini keys.
 ^ Refactored system plugins ini keys
+^ Refactored editors plugins ini keys.
 
 04-Feb-2010 Hannes Papenberg
 ^ Changed behaviour of JHTML::image, JHTML::script and JHTML::stylesheet and moved images back into the respective folder
