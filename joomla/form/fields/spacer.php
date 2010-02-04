@@ -34,7 +34,7 @@ class JFormFieldSpacer extends JFormField
 	{
 		return ' ';
 	}
-	
+
 	/**
 	 * Method to get the field label
 	 *
@@ -46,6 +46,6 @@ class JFormFieldSpacer extends JFormField
 			$this->labelText = "JFIELD_SPACER_LABEL";
 		}
 		return parent::_getLabel();
-	}	
-	
+	}
+
 }

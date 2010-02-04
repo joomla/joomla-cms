@@ -12,7 +12,7 @@
 
 //--------------------------------------------------------------------
 /**
-* Used internally. Builds a PCRE pattern from the $UTF8_SPECIAL_CHARS 
+* Used internally. Builds a PCRE pattern from the $UTF8_SPECIAL_CHARS
 * array defined in this file
 * The $UTF8_SPECIAL_CHARS should contain all special characters (non-letter/non-digit)
 * defined in the various local charsets - it's not a complete list of
@@ -29,7 +29,7 @@
 */
 function utf8_specials_pattern() {
     static $pattern = NULL;
-    
+
     if ( !$pattern ) {
         $UTF8_SPECIAL_CHARS = array(
     0x001a, 0x001b, 0x001c, 0x001d, 0x001e, 0x001f, 0x0020, 0x0021, 0x0022, 0x0023,
@@ -86,7 +86,7 @@ function utf8_specials_pattern() {
         $pattern = preg_quote(utf8_from_unicode($UTF8_SPECIAL_CHARS), '/');
         $pattern = '/[\x00-\x19'.$pattern.']/u';
     }
-    
+
     return $pattern;
 }
 
@@ -110,7 +110,7 @@ function utf8_is_word_chars($str) {
 //--------------------------------------------------------------------
 /**
 * Removes special characters (nonalphanumeric) from a UTF-8 string
-* 
+*
 * This can be useful as a helper for sanitizing a string for use as
 * something like a file name or a unique identifier. Be warned though
 * it does not handle all possible non-alphanumeric characters and is

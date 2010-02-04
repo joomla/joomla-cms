@@ -121,9 +121,9 @@ abstract class JPluginHelper
 			{
 				$path = $pathExists ? $path : $legacypath;
 
-				jimport('joomla.plugin.plugin');  
+				jimport('joomla.plugin.plugin');
 				if (!isset($paths[$path])) {
-                    require_once $path;    
+                    require_once $path;
                 }
 				$paths[$path] = true;
 

@@ -89,7 +89,7 @@ abstract class JPlugin extends JEvent
 	{
 		$this->loadLanguage(null, JPATH_ADMINISTRATOR);
 	}
-	
+
 	/**
 	 * Loads the plugin language file
 	 *

@@ -35,7 +35,7 @@ class JFormFieldImageList extends JFormFieldFileList
 	 *
 	 * @return	array		An array of JHtml options.
 	 */
-	protected function _getOptions() 
+	protected function _getOptions()
 	{
 		$filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$';
 		$this->_element->addAttribute('filter', $filter);

@@ -215,7 +215,7 @@ abstract class JHtml
 
 		return '<iframe src="'.$url.'" '.$attribs.' name="'.$name.'">'.$noFrames.'</iframe>';
 	}
-	
+
 	/**
 	 * Write a <img></img> element
 	 *
@@ -255,7 +255,7 @@ abstract class JHtml
 
 	/**
 	 * Write a <link rel="stylesheet" style="text/css" /> element
-	 * 
+	 *
 	 * @param 	string		path to file
 	 * @param 	array		attributes to be added to the stylesheet
 	 * @param 	boolean		path to file is relative to /media folder
@@ -290,7 +290,7 @@ abstract class JHtml
 		$document->addStylesheet($file, 'text/css', null, $attribs);
 		return;
 	}
-	
+
 	/**
 	 * Write a <script></script> element
 	 * @param 	string		path to file
@@ -330,7 +330,7 @@ abstract class JHtml
 		$document->addScript($file);
 		return;
 	}
-	
+
 	public static function core($debug = null)
 	{
 		// If no debugging value is set, use the configuration setting
@@ -345,7 +345,7 @@ abstract class JHtml
 		$document = &JFactory::getDocument();
 		$document->addScript(JURI::root(true).'/media/system/js/core'.$uncompressed.'.js');
 	}
-	
+
     /**
      * Set format related options.
      *

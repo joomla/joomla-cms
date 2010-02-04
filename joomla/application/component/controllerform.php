@@ -340,7 +340,7 @@ class JControllerForm extends JController
 			$data['id']	= 0;
 			$task		= 'apply';
 		}
-		
+
 		// Access check.
 		if (!$this->_allowSave($data)) {
 			return JError::raiseWarning(403, 'JError_Save_not_permitted');
