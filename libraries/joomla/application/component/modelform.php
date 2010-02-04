@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-jimport('joomla.database.query');
 
 /**
  * Prototype form model.

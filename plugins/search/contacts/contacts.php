@@ -19,7 +19,7 @@ jimport('joomla.plugin.plugin');
  * @since 		1.6
  */
 class plgSearchContacts extends JPlugin
-{	
+{
 	/**
  	* @return array An array of search areas
  	*/
@@ -30,7 +30,7 @@ class plgSearchContacts extends JPlugin
 		);
 		return $areas;
 	}
-	
+
 	/**
 	* Contacts Search method
 	*
@@ -83,7 +83,7 @@ class plgSearchContacts extends JPlugin
 
 		$text	= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
 
-		$query = new JQuery();
+		$query	= $db->getQuery(true);
 		$query->select('a.name AS title, "" AS created, '
 				.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 				.'CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END AS catslug, '
@@ -98,8 +98,8 @@ class plgSearchContacts extends JPlugin
 					 .'AND a.access IN ('. $groups. ') AND b.access IN ('. $groups. ')' );
 		$query->group('a.id');
 		$query->order($order);
-	
-	
+
+
 		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
 

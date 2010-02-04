@@ -60,12 +60,12 @@ class JTableContent extends JTable
 	{
 		// Initialise variables.
 		$assetId = null;
+		$db		= $this->getDbo();
 
 		// This is a article under a category.
-		if ($this->catid)
-		{
+		if ($this->catid) {
 			// Build the query to get the asset id for the parent category.
-			$query = new JQuery;
+			$query	= $db->getQuery(true);
 			$query->select('asset_id');
 			$query->from('#__categories');
 			$query->where('id = '.(int) $this->catid);
@@ -77,10 +77,9 @@ class JTableContent extends JTable
 			}
 		}
 		// This is an uncategorized article that needs to parent with the extension.
-		elseif ($assetId === null)
-		{
+		elseif ($assetId === null) {
 			// Build the query to get the asset id for the parent category.
-			$query = new JQuery;
+			$query	= $db->getQuery(true);
 			$query->select('id');
 			$query->from('#__assets');
 			$query->where('name = "com_content"');
@@ -95,8 +94,7 @@ class JTableContent extends JTable
 		// Return the asset id.
 		if ($assetId) {
 			return $assetId;
-		}
-		else {
+		} else {
 			return parent::_getAssetParentId();
 		}
 	}
@@ -112,28 +110,24 @@ class JTableContent extends JTable
 	public function bind($array, $ignore = '')
 	{
 		// Search for the {readmore} tag and split the text up accordingly.
-		if (isset($array['articletext']))
-		{
+		if (isset($array['articletext'])) {
 			$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
 			$tagPos	= preg_match($pattern, $array['articletext']);
 
 			if ($tagPos == 0) {
 				$this->introtext	= $array['articletext'];
-			}
-			else {
+			} else {
 				list($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
 			}
 		}
 
-		if (isset($array['attribs']) && is_array($array['attribs']))
-		{
+		if (isset($array['attribs']) && is_array($array['attribs'])) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['attribs']);
 			$array['attribs'] = (string)$registry;
 		}
 
-		if (isset($array['metadata']) && is_array($array['metadata']))
-		{
+		if (isset($array['metadata']) && is_array($array['metadata'])) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string)$registry;
@@ -176,15 +170,13 @@ class JTableContent extends JTable
 
 		// clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
-		if (!empty($this->metakey))
-		{
+		if (!empty($this->metakey)) {
 			// only process if not empty
 			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
 			$keys = explode(',', $after_clean); // create array using commas as delimiter
 			$clean_keys = array();
-			foreach($keys as $key)
-			{
+			foreach($keys as $key) {
 				if (trim($key)) {  // ignore blank keywords
 					$clean_keys[] = trim($key);
 				}
@@ -193,8 +185,7 @@ class JTableContent extends JTable
 		}
 
 		// clean up description -- eliminate quotes and <> brackets
-		if (!empty($this->metadesc))
-		{
+		if (!empty($this->metadesc)) {
 			// only process if not empty
 			$bad_characters = array("\"", "<", ">");
 			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
@@ -214,14 +205,11 @@ class JTableContent extends JTable
 	{
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
-		if ($this->id)
-		{
+		if ($this->id) {
 			// Existing item
 			$this->modified		= $date->toMySQL();
 			$this->modified_by	= $user->get('id');
-		}
-		else
-		{
+		} else {
 			// New article. An article created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
 			if (!intval($this->created)) {
@@ -258,8 +246,7 @@ class JTableContent extends JTable
 		$state  = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
-		if (empty($pks))
-		{
+		if (empty($pks)) {
 			if ($this->$k) {
 				$pks = array($this->$k);
 			}
@@ -276,8 +263,7 @@ class JTableContent extends JTable
 		// Determine if there is checkin support for the table.
 		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time')) {
 			$checkin = '';
-		}
-		else {
+		} else {
 			$checkin = ' AND (checked_out = 0 OR checked_out = '.(int) $userId.')';
 		}
 
@@ -297,11 +283,9 @@ class JTableContent extends JTable
 		}
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
-		{
+		if ($checkin && (count($pks) == $this->_db->getAffectedRows())) {
 			// Checkin the rows.
-			foreach($pks as $pk)
-			{
+			foreach($pks as $pk) {
 				$this->checkin($pk);
 			}
 		}

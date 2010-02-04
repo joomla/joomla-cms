@@ -8,8 +8,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.database.query');
-
 /**
  * @package		Joomla.Site
  * @subpackage	mod_menu
@@ -26,19 +24,19 @@ class modMenuHelper
 		$db			= JFactory::getDbo();
 		$user		= JFactory::getUser();
 		$menu		= JSite::getMenu();
-		
+
 		// If no active menu, use default
 		$active = ($menu->getActive()) ? $menu->getActive() : $menu->getDefault();
-		
+
 		$rlu		= array();
 		$start		= (int) $params->get('startLevel');
 		$end		= (int) $params->get('endLevel');
 		$showAll	= $params->get('showAllChildren');
+		$query		= $db->getQuery(true);
 
 		// Deal with start level.
 		if ($start) {
 			// Need a second query to backtrace.
-			$query = new JQuery;
 			$query->select('m.id');
 			$query->from('#__menu AS m');
 			$query->join('LEFT', '#__menu AS p ON p.id = '.(int) $active->id);
@@ -61,7 +59,7 @@ class modMenuHelper
 		}
 
 		// Get the menu items as a tree.
-		$query = new JQuery;
+		$query->clear();
 		$query->select('n.id, n.parent_id, n.title, n.alias, n.path, n.level, n.link, n.type, n.browserNav, n.params, n.home');
 		$query->from('#__menu AS n');
 

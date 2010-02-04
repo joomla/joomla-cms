@@ -81,10 +81,10 @@ class UsersModelUser extends JModelForm
 		if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
 			$data['return'] = base64_decode($return);
 			if (!JURI::isInternal($data['return'])) {
-				$data['return'] = '';  
+				$data['return'] = '';
 			}
 		}
-		
+
 		// Set the return URL if empty.
 		if (!isset($data['return']) || empty($data['return'])) {
 			$data['return'] = 'index.php?option=com_users&view=profile';
@@ -198,18 +198,19 @@ class UsersModelUser extends JModelForm
 		}
 
 		// Find the user id for the given e-mail address.
-		$query = new JQuery();
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 		$query->select('*');
 		$query->from('`#__users`');
-		$query->where('`email` = '.$this->_db->Quote($data['email']));
+		$query->where('`email` = '.$db->Quote($data['email']));
 
 		// Get the user id.
-		$this->_db->setQuery((string) $query);
-		$user = $this->_db->loadObject();
+		$db->setQuery((string) $query);
+		$user = $db->loadObject();
 
 		// Check for an error.
-		if ($this->_db->getErrorNum()) {
-			return new JException(JText::sprintf('USERS_DATABASE_ERROR', $this->_db->getErrorMsg()), 500);
+		if ($db->getErrorNum()) {
+			return new JException(JText::sprintf('USERS_DATABASE_ERROR', $db->getErrorMsg()), 500);
 		}
 
 		// Check for a user.
@@ -292,8 +293,7 @@ class UsersModelUser extends JModelForm
 		}
 
 		// Check the validation results.
-		if ($return === false)
-		{
+		if ($return === false) {
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message) {
 				$this->setError($message);
@@ -389,8 +389,7 @@ class UsersModelUser extends JModelForm
 		}
 
 		// Check the validation results.
-		if ($return === false)
-		{
+		if ($return === false) {
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message) {
 				$this->setError($message);
@@ -399,18 +398,19 @@ class UsersModelUser extends JModelForm
 		}
 
 		// Find the user id for the given token.
-		$query = new JQuery();
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 		$query->select('*');
 		$query->from('`#__users`');
-		$query->where('`activation` = '.$this->_db->Quote($data['token']));
+		$query->where('`activation` = '.$db->Quote($data['token']));
 
 		// Get the user id.
-		$this->_db->setQuery((string) $query);
-		$user = $this->_db->loadObject();
+		$db->setQuery((string) $query);
+		$user = $db->loadObject();
 
 		// Check for an error.
-		if ($this->_db->getErrorNum()) {
-			return new JException(JText::sprintf('USERS_DATABASE_ERROR', $this->_db->getErrorMsg()), 500);
+		if ($db->getErrorNum()) {
+			return new JException(JText::sprintf('USERS_DATABASE_ERROR', $db->getErrorMsg()), 500);
 		}
 
 		// Check for a user.
@@ -453,8 +453,7 @@ class UsersModelUser extends JModelForm
 		}
 
 		// Check the validation results.
-		if ($return === false)
-		{
+		if ($return === false) {
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message) {
 				$this->setError($message);

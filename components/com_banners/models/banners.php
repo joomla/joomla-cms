@@ -55,9 +55,9 @@ class BannersModelBanners extends JModelList
 	function _getListQuery()
 	{
 		static $query;
-		if (!isset($query))
-		{
-			$query = new JQuery;
+		if (!isset($query)) {
+			$db		= $this->getDbo();
+			$query	= $db->getQuery(true);
 			$ordering	= $this->getState('filter.ordering');
 			$tagSearch	= $this->getState('filter.tag_search');
 			$cid		= $this->getState('filter.client_id');
@@ -79,42 +79,37 @@ class BannersModelBanners extends JModelList
 			$query->where("(NOW() >= a.publish_up OR a.publish_up='0000-00-00 00:00:00')");
 			$query->where("(NOW() <= a.publish_down OR a.publish_down='0000-00-00 00:00:00')");
 			$query->where('(a.imptotal = 0 OR a.impmade = a.imptotal)');
-			if ($cid)
-			{
+
+			if ($cid) {
 				$query->where('a.cid = ' . (int) $cid);
 				$query->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
 				$query->select('cl.track_impressions as client_track_impressions');
 				$query->where('cl.state = 1');
 			}
-			if ($catid)
-			{
+
+			if ($catid) {
 				$query->where('a.catid = ' . (int) $catid);
 				$query->join('LEFT', '#__categories AS cat ON cat.id = a.catid');
 				$query->where('cat.published = 1');
 			}
-			if ($tagSearch)
-			{
-				if (count($keywords) == 0)
-				{
+
+			if ($tagSearch) {
+				if (count($keywords) == 0) {
 					$query->where('0');
-				}
-				else
-				{
+				} else {
 					$temp = array();
 					$config = &JComponentHelper::getParams('com_banners');
 					$prefix = $config->get('metakey_prefix');
-					foreach ($keywords as $keyword)
-					{
+
+					foreach ($keywords as $keyword) {
 						$keyword=trim($keyword);
 						$condition1 = "a.own_prefix=1 AND  a.metakey_prefix=SUBSTRING('".$keyword."',1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING('".$keyword."',1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND ".($prefix==substr($keyword,0,strlen($prefix))?'1':'0');
 
 						$condition2="a.metakey REGEXP '[[:<:]]".$this->_db->getEscaped($keyword) . "[[:>:]]'";
-						if ($cid)
-						{
+						if ($cid) {
 							$condition2.=" OR cl.metakey REGEXP '[[:<:]]".$this->_db->getEscaped($keyword) . "[[:>:]]'";
 						}
-						if ($catid)
-						{
+						if ($catid) {
 							$condition2.=" OR cat.metakey REGEXP '[[:<:]]".$this->_db->getEscaped($keyword) . "[[:>:]]'";
 						}
 						$temp[]="($condition1) AND ($condition2)";
@@ -129,11 +124,10 @@ class BannersModelBanners extends JModelList
 
 	function &getItems()
 	{
-		if (!isset($this->_items))
-		{
+		if (!isset($this->_items)) {
 			$this->_items = &parent::getItems();
-			foreach ($this->_items as &$item)
-			{
+
+			foreach ($this->_items as &$item) {
 				$parameters = new JRegistry;
 				$parameters->loadJSON($item->params);
 				$item->params = $parameters->toObject();
@@ -147,15 +141,17 @@ class BannersModelBanners extends JModelList
 	function impress()
 	{
 		$trackDate = JFactory::getDate()->toFormat('%Y-%m-%d');
-		$items = &$this->getItems();
-		foreach ($items as $item)
-		{
+		$items	= &$this->getItems();
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
+
+		foreach ($items as $item) {
 			// Increment impression made
-			$id=$item->id;
-			$query = new JQuery;
+			$id = $item->id;
+			$query->clear();
 			$query->update('#__banners');
 			$query->set('impmade = (impmade + 1)');
-			$query->where('id='.(int)$id);
+			$query->where('id = '.(int)$id);
 			$this->_db->setQuery((string)$query);
 			if (!$this->_db->query()) {
 				JError::raiseError(500, $this->_db->getErrorMsg());
@@ -163,44 +159,39 @@ class BannersModelBanners extends JModelList
 
 			// track impressions
 			$trackImpressions = $item->track_impressions;
-			if ($trackImpressions < 0 && $item->cid)
-			{
+			if ($trackImpressions < 0 && $item->cid) {
 				$trackImpressions = $item->client_track_impressions;
 			}
-			if ($trackImpressions < 0)
-			{
+
+			if ($trackImpressions < 0) {
 				$config = &JComponentHelper::getParams('com_banners');
 				$trackImpressions = $config->get('track_impressions');
 			}
 
-			if ($trackImpressions > 0)
-			{
+			if ($trackImpressions > 0) {
 				// is track already created ?
-				$query = new JQuery;
+				$query->clear();
 				$query->select('`count`');
 				$query->from('#__banner_tracks');
 				$query->where('track_type=1');
-				$query->where('banner_id='.(int)$id);
+				$query->where('banner_id='.(int) $id);
 				$query->where('track_date='.$this->_db->Quote($trackDate));
+
 				$this->_db->setQuery((string)$query);
-				if (!$this->_db->query())
-				{
+				if (!$this->_db->query()) {
 					JError::raiseError(500, $this->_db->getErrorMsg());
 				}
 				$count = $this->_db->loadResult();
 
-				$query = new JQuery;
-				if ($count)
-				{
+				$query->clear();
+				if ($count) {
 					// update count
 					$query->update('#__banner_tracks');
 					$query->set('`count` = (`count` + 1)');
 					$query->where('track_type=1');
 					$query->where('banner_id='.(int)$id);
 					$query->where('track_date='.$this->_db->Quote($trackDate));
-				}
-				else
-				{
+				} else {
 					// insert new count
 					$query->insert('#__banner_tracks');
 					$query->set('`count` = 1');
@@ -217,4 +208,3 @@ class BannersModelBanners extends JModelList
 		}
 	}
 }
-

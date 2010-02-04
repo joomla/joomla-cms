@@ -60,8 +60,8 @@ class modNewsFlashHelper
 
 	function getList(&$params, &$access)
 	{
-		$db 	= &JFactory::getDbo();
-		$user 	= &JFactory::getUser();
+		$db 	= JFactory::getDbo();
+		$user 	= JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
 
 		$catid 	= (int) $params->get('catid', 0);
@@ -69,14 +69,13 @@ class modNewsFlashHelper
 
 		$contentConfig	= &JComponentHelper::getParams('com_content');
 		$noauth			= !$contentConfig->get('show_noauth');
-		$date = &JFactory::getDate();
+		$date = JFactory::getDate();
 		$now = $date->toMySQL();
 
 		$nullDate = $db->getNullDate();
 
-		// query to determine article count      
-        $query = new JQuery();
-        
+		// query to determine article count
+		$query	= $db->getQuery(true);
         $query->select('a.*');
         $query->select('CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
         $query->select('CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug');
@@ -90,7 +89,7 @@ class modNewsFlashHelper
         $query->where('cc.id = '. (int) $catid);
         $query->where('cc.published = 1');
         $query->order('a.ordering');
-        
+
 		$db->setQuery($query, 0, $items);
 		$rows = $db->loadObjectList();
 

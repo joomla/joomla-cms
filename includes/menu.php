@@ -26,13 +26,10 @@ class JMenuSite extends JMenu
 	{
 		$cache = &JFactory::getCache('_system', 'output');
 
-		if (!$data = $cache->get('menu_items'))
-		{
-			jimport('joomla.database.query');
-
-			// Initialise some variables.
-			$db = &JFactory::getDbo();
-			$query = new JQuery;
+		if (!$data = $cache->get('menu_items')) {
+			// Initialise variables.
+			$db		= JFactory::getDbo();
+			$query	= $db->getQuery(true);
 
 			$query->select('m.id, m.menutype, m.title, m.alias, m.path AS route, m.link, m.type, m.level');
 			$query->select('m.browserNav, m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id');
@@ -44,14 +41,12 @@ class JMenuSite extends JMenu
 			$query->order('m.lft');
 
 			$db->setQuery($query);
-			if (!($menus = $db->loadObjectList('id')))
-			{
+			if (!($menus = $db->loadObjectList('id'))) {
 				JError::raiseWarning(500, "Error loading Menus: ".$db->getErrorMsg());
 				return false;
 			}
 
-			foreach ($menus as &$menu)
-			{
+			foreach ($menus as &$menu) {
 				// Get parent information.
 				$parent_tree = array();
 				if (($parent = $menu->parent_id) && (isset($menus[$parent])) &&
@@ -75,8 +70,7 @@ class JMenuSite extends JMenu
 			$cache->store(serialize($menus), 'menu_items');
 
 			$this->_items = $menus;
-		}
-		else {
+		} else {
 			$this->_items = unserialize($data);
 		}
 	}

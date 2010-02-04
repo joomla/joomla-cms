@@ -84,7 +84,7 @@ class plgSearchCategories extends JPlugin
 		}
 
 		$text	= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
-		$query = new JQuery();
+		$query	= $db->getQuery(true);
 
 		$query->select('a.title, a.description AS text, "" AS created, "2" AS browsernav, a.id AS catid, '
 					  .'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
@@ -93,7 +93,7 @@ class plgSearchCategories extends JPlugin
 					 .'AND a.access IN ('. $groups .')' );
 		$query->group('a.id');
 		$query->order($order);
-	
+
 		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
 

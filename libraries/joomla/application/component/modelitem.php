@@ -8,7 +8,6 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.application.component.model');
-jimport('joomla.database.query');
 
 /**
  * Prototype item model.

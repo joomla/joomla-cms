@@ -36,25 +36,16 @@ class JComponentHelper
 	public static function getComponent($option, $strict = false)
 	{
 		if (!isset(self::$_components[$option])) {
-			
-			if(self::_load($option)){
-				
+			if (self::_load($option)){
 				$result = &self::$_components[$option];
-				
 			} else {
-				
-			$result				= new stdClass;
-			$result->enabled	= $strict ? false : true;
-			$result->params		= new JParameter;
-			
+				$result				= new stdClass;
+				$result->enabled	= $strict ? false : true;
+				$result->params		= new JParameter;
 			}
-			
-		} else{
-			
+		} else {
 			$result = &self::$_components[$option];
-			
 		}
-		
 
 		return $result;
 	}
@@ -92,7 +83,7 @@ class JComponentHelper
 	public static function renderComponent($option, $params = array())
 	{
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 
 		if (empty($option)) {
 			// Throw 404 if no component
@@ -115,8 +106,7 @@ class JComponentHelper
 		// get component path
 		if ($app->isAdmin() && file_exists(JPATH_COMPONENT.DS.'admin.'.$file.'.php')) {
 			$path = JPATH_COMPONENT.DS.'admin.'.$file.'.php';
-		}
-		else {
+		} else {
 			$path = JPATH_COMPONENT.DS.$file.'.php';
 		}
 
@@ -143,8 +133,7 @@ class JComponentHelper
 
 		// Build the component toolbar
 		jimport('joomla.application.helper');
-		if (($path = JApplicationHelper::getPath('toolbar')) && $app->isAdmin())
-		{
+		if (($path = JApplicationHelper::getPath('toolbar')) && $app->isAdmin()) {
 			// Get the task again, in case it has changed
 			$task = JRequest::getString('task');
 
@@ -164,9 +153,8 @@ class JComponentHelper
 	 */
 	protected static function _load($option)
 	{
-		jimport('joomla.database.query');
-		$db		= &JFactory::getDbo();
-		$query	= new JQuery;
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
 		$query->select('extension_id AS "id", element AS "option", params, enabled');
 		$query->from('#__extensions');
 		$query->where('`type` = "component"');
@@ -175,16 +163,14 @@ class JComponentHelper
 
 		self::$_components[$option] = $db->loadObject();
 
-		if ($error = $db->getErrorMsg() || empty(self::$_components[$option]))
-		{
+		if ($error = $db->getErrorMsg() || empty(self::$_components[$option])) {
 			// Fatal error.
 			JError::raiseWarning(500, 'Error loading component: "'.$option.'" '.$error);
 			return false;
 		}
-		
+
 		// Convert the params to an object.
-		if (is_string(self::$_components[$option]->params))
-		{
+		if (is_string(self::$_components[$option]->params)) {
 			$temp = new JParameter(self::$_components[$option]->params);
 			self::$_components[$option]->params = $temp;
 		}

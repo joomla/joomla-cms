@@ -20,7 +20,7 @@ class modWhosonlineHelper
 		$result      = array();
 		$user_array  = 0;
 		$guest_array = 0;
-		$query = new JQuery;
+		$query	= $db->getQuery(true);
 		$query->select('guest, usertype, client_id');
 		$query->from('#__session');
 		$query->where('client_id = 0');
@@ -52,9 +52,9 @@ class modWhosonlineHelper
 
 	// show online member names
 	function getOnlineUserNames() {
-	    $db		= &JFactory::getDbo();
+	    $db		= JFactory::getDbo();
 		$result	= null;
-		$query = new JQuery;
+		$query	= $db->getQuery(true);
 		$query->select('a.username, a.time, a.userid, a.usertype, a.client_id');
 		$query->from('#__session AS a');
 		$query->where('a.userid != 0');

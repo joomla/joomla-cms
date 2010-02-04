@@ -15,14 +15,13 @@ class modArchiveHelper
 	function getList(&$params)
 	{
 		//get database
-		$db = &JFactory::getDbo();
-
-		$query = new JQuery;
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
 		$query->select('MONTH(created) AS created_month, created, id, title, YEAR(created) AS created_year');
 		$query->from('#__content');
 		$query->where('state = -1 AND checked_out = 0');
 		$query->group('created_year DESC, created_month DESC');
-		
+
 		$db->setQuery($query, 0, intval($params->get('count')));
 		$rows = $db->loadObjectList();
 
@@ -32,8 +31,7 @@ class modArchiveHelper
 
 		$i		= 0;
 		$lists	= array();
-		foreach ($rows as $row)
-		{
+		foreach ($rows as $row) {
 			$date = &JFactory::getDate($row->created);
 
 			$created_month	= $date->toFormat("%m");

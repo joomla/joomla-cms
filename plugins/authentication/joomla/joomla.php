@@ -37,8 +37,7 @@ class plgAuthenticationJoomla extends JPlugin
 
 		$response->type = 'Joomla';
 		// Joomla does not like blank passwords
-		if (empty($credentials['password']))
-		{
+		if (empty($credentials['password'])) {
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = 'Empty password not allowed';
 			return false;
@@ -48,18 +47,17 @@ class plgAuthenticationJoomla extends JPlugin
 		$conditions = '';
 
 		// Get a database object
-		$db = &JFactory::getDbo();
-		$query = new JQuery();
-		
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
+
 		$query->select('id, password');
 		$query->from('#__users');
 		$query->where('username=' . $db->Quote($credentials['username']));
-		
+
 		$db->setQuery($query);
 		$result = $db->loadObject();
 
-		if ($result)
-		{
+		if ($result) {
 			$parts	= explode(':', $result->password);
 			$crypt	= $parts[0];
 			$salt	= @$parts[1];
@@ -75,9 +73,7 @@ class plgAuthenticationJoomla extends JPlugin
 				$response->status = JAUTHENTICATE_STATUS_FAILURE;
 				$response->error_message = 'Invalid password';
 			}
-		}
-		else
-		{
+		} else {
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = 'User does not exist';
 		}

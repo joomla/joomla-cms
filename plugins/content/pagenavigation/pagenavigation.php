@@ -22,20 +22,18 @@ class plgContentPagenavigation extends JPlugin
 	{
 		$view = JRequest::getCmd('view');
 
-		if ($params->get('show_item_navigation') && ($view == 'article'))
-		{
-
+		if ($params->get('show_item_navigation') && ($view == 'article')) {
 			$html = '';
-			$db = &JFactory::getDbo();
-			$user = &JFactory::getUser();
+			$db		= JFactory::getDbo();
+			$user	= JFactory::getUser();
 			$nullDate = $db->getNullDate();
 
-			$date = &JFactory::getDate();
-			$config = &JFactory::getConfig();
-			$now = $date->toMySQL();
+			$date	= JFactory::getDate();
+			$config	= JFactory::getConfig();
+			$now	= $date->toMySQL();
 
-			$uid = $row->id;
-			$option = 'com_content';
+			$uid	= $row->id;
+			$option	= 'com_content';
 			$canPublish = $user->authorize('core.edit.state', $option.'.'.$view.'.'.$row->id);
 
 			// The following is needed as different menu items types utilise a different param to control ordering.
@@ -53,8 +51,7 @@ class plgContentPagenavigation extends JPlugin
 			}
 
 			// Determine sort order.
-			switch ($order_method)
-			{
+			switch ($order_method) {
 				case 'date' :
 					$orderby = 'a.created';
 					break;
@@ -95,7 +92,7 @@ class plgContentPagenavigation extends JPlugin
 			' AND (publish_down = '.$db->Quote($nullDate).' OR publish_down >= '.$db->Quote($now).')';
 
 			// Array of articles in same category correctly ordered.
-			$query = new JQuery();
+			$query	= $db->getQuery(true);
 			$query->select('a.id, '
 					.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug, '
 					.'CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug');
@@ -150,16 +147,13 @@ class plgContentPagenavigation extends JPlugin
 				$row->next = '';
 			}
 
-
 			// Output.
-			if ($row->prev || $row->next)
-			{
+			if ($row->prev || $row->next) {
 				$html = '
 				<table align="center" class="pagenav">
 				<tr>'
 				;
-				if ($row->prev)
-				{
+				if ($row->prev) {
 					$html .= '
 					<th class="pagenav_prev">
 						<a href="'. $row->prev .'">'
@@ -168,8 +162,7 @@ class plgContentPagenavigation extends JPlugin
 					;
 				}
 
-				if ($row->prev && $row->next)
-				{
+				if ($row->prev && $row->next) {
 					$html .= '
 					<td width="50">
 						&nbsp;
@@ -177,8 +170,7 @@ class plgContentPagenavigation extends JPlugin
 					;
 				}
 
-				if ($row->next)
-				{
+				if ($row->next) {
 					$html .= '
 					<th class="pagenav_next">
 						<a href="'. $row->next .'">'

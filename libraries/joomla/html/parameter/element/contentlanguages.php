@@ -37,8 +37,8 @@ class JElementContentLanguages extends JElementList
 	 */
 	protected function _getOptions(&$node)
 	{
-		$db		= &JFactory::getDbo();
-		$query	= new JQuery;
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
 
 		$query->select('a.lang_code AS value, a.title AS text, a.title_native');
 		$query->from('#__languages AS a');

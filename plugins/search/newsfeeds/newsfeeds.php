@@ -43,8 +43,8 @@ class plgSearchNewsfeeds extends JPlugin
 	 */
 	function onSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		$db		= &JFactory::getDbo();
-		$user	= &JFactory::getUser();
+		$db		= JFactory::getDbo();
+		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
 
 		if (is_array($areas)) {
@@ -109,7 +109,7 @@ class plgSearchNewsfeeds extends JPlugin
 
 		$searchNewsfeeds = JText::_('Newsfeeds');
 
-		$query = new JQuery();
+		$query	= $db->getQuery(true);
 		$query->select('a.name AS title, "" AS created, a.link AS text, '
 					  .'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 				      .'CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END as catslug, '
@@ -119,7 +119,7 @@ class plgSearchNewsfeeds extends JPlugin
 		$query->innerJoin('#__categories AS b ON b.id = a.catid');
 		$query->where('('. $where .')' . 'AND a.published = 1 AND b.published = 1 AND b.access IN ('. $groups .')');
 		$query->order($order);
-	
+
 		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
 

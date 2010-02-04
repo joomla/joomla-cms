@@ -121,7 +121,7 @@ class plgSearchWeblinks extends JPlugin
 				$order = 'a.date DESC';
 		}
 
-		$query = new JQuery();
+		$query	= $db->getQuery(true);
 		$query->select('a.title AS title, a.description AS text, a.date AS created, a.url, '
 					  .'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 					  .'CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END as catslug, '

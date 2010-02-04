@@ -63,7 +63,7 @@ abstract class JHtmlMenu
 	{
 		if (empty(self::$items))
 		{
-			$db = &JFactory::getDbo();
+			$db = JFactory::getDbo();
 			$db->setQuery(
 				'SELECT menutype As value, title As text' .
 				' FROM #__menu_types' .
@@ -71,7 +71,7 @@ abstract class JHtmlMenu
 			);
 			$menus = $db->loadObjectList();
 
-			$query = new JQuery;
+			$query	= $db->getQuery(true);
 			$query->select('a.id AS value, a.title As text, a.level, a.menutype');
 			$query->from('#__menu AS a');
 			$query->where('a.parent_id > 0');
@@ -89,8 +89,7 @@ abstract class JHtmlMenu
 
 			// Collate menu items based on menutype
 			$lookup = array();
-			foreach ($items as &$item)
-			{
+			foreach ($items as &$item) {
 				if (!isset($lookup[$item->menutype])) {
 					$lookup[$item->menutype] = array();
 				}
@@ -100,13 +99,11 @@ abstract class JHtmlMenu
 			}
 			self::$items = array();
 
-			foreach ($menus as &$menu)
-			{
+			foreach ($menus as &$menu) {
 				self::$items[] = JHtml::_('select.optgroup',	$menu->text);
 				self::$items[] = JHtml::_('select.option', $menu->value.'.0', JText::_('Menus_Add_to_this_menu'));
 
-				if (isset($lookup[$menu->value]))
-				{
+				if (isset($lookup[$menu->value])) {
 					foreach ($lookup[$menu->value] as &$item) {
 						self::$items[] = JHtml::_('select.option', $menu->value.'.'.$item->value, $item->text);
 					}

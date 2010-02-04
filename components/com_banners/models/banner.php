@@ -32,70 +32,66 @@ class BannersModelBanner extends JModel
 	{
 		$id = $this->getState('banner.id');
 		// update click count
-		$query = new JQuery;
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 		$query->update('#__banners');
 		$query->set('clicks = (clicks + 1)');
 		$query->where('id = ' . (int)$id);
 
-		$this->_db->setQuery((string)$query);
-		if (!$this->_db->query()) {
-			JError::raiseError(500, $this->_db->getErrorMsg());
+		$db->setQuery((string)$query);
+		if (!$db->query()) {
+			JError::raiseError(500, $db->getErrorMsg());
 		}
 
 		// track clicks
 		$item = &$this->getItem();
 		$trackClicks = $item->track_clicks;
-		if ($trackClicks < 0 && $item->cid)
-		{
+
+		if ($trackClicks < 0 && $item->cid) {
 			$trackClicks = $item->client_track_clicks;
 		}
-		if ($trackClicks < 0)
-		{
+
+		if ($trackClicks < 0) {
 			$config = &JComponentHelper::getParams('com_banners');
 			$trackClicks = $config->get('track_clicks');
 		}
 
-		if ($trackClicks > 0)
-		{
+		if ($trackClicks > 0) {
 			$trackDate = JFactory::getDate()->toFormat('%Y-%m-%d');
 
-			$query = new JQuery;
+			$query->clear();
 			$query->select('`count`');
 			$query->from('#__banner_tracks');
 			$query->where('track_type=2');
 			$query->where('banner_id='.(int)$id);
-			$query->where('track_date='.$this->_db->Quote($trackDate));
+			$query->where('track_date='.$db->Quote($trackDate));
 
-			$this->_db->setQuery((string)$query);
-			if (!$this->_db->query())
-			{
-				JError::raiseError(500, $this->_db->getErrorMsg());
+			$db->setQuery((string)$query);
+			if (!$db->query()) {
+				JError::raiseError(500, $db->getErrorMsg());
 			}
-			$count = $this->_db->loadResult();
+			$count = $db->loadResult();
 
-			$query = new JQuery;
-			if ($count)
-			{
+			$query->clear();
+			if ($count) {
 				// update count
 				$query->update('#__banner_tracks');
 				$query->set('`count` = (`count` + 1)');
 				$query->where('track_type=2');
 				$query->where('banner_id='.(int)$id);
-				$query->where('track_date='.$this->_db->Quote($trackDate));
-			}
-			else
-			{
+				$query->where('track_date='.$db->Quote($trackDate));
+			} else {
 				// insert new count
 				$query->insert('#__banner_tracks');
 				$query->set('`count` = 1');
 				$query->set('track_type=2');
 				$query->set('banner_id='.(int)$id);
-				$query->set('track_date='.$this->_db->Quote($trackDate));
+				$query->set('track_date='.$db->Quote($trackDate));
 			}
 
-			$this->_db->setQuery((string)$query);
-			if (!$this->_db->query()) {
-				JError::raiseError(500, $this->_db->getErrorMsg());
+			$db->setQuery((string)$query);
+			if (!$db->query()) {
+				JError::raiseError(500, $db->getErrorMsg());
 			}
 		}
 	}
@@ -109,7 +105,8 @@ class BannersModelBanner extends JModel
 		{
 			$id = $this->getState('banner.id');
 			// redirect to banner url
-			$query = new JQuery;
+			$db		= $this->getDbo();
+			$query	= $db->getQuery(true);
 			$query->select(
 				'a.clickurl as clickurl,'.
 				'a.cid as cid,'.
@@ -121,13 +118,12 @@ class BannersModelBanner extends JModel
 			$query->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
 			$query->select('cl.track_clicks as client_track_clicks');
 
-			$this->_db->setQuery((string)$query);
-			if (!$this->_db->query())
-			{
-				JError::raiseError(500, $this->_db->getErrorMsg());
+			$db->setQuery((string)$query);
+			if (!$db->query()) {
+				JError::raiseError(500, $db->getErrorMsg());
 			}
 
-			$this->_item = $this->_db->loadObject();
+			$this->_item = $db->loadObject();
 		}
 		return $this->_item;
 	}
@@ -140,8 +136,7 @@ class BannersModelBanner extends JModel
 		$item = &$this->getItem();
 		$url = $item->clickurl;
 		// check for links
-		if (!preg_match('#http[s]?://|index[2]?\.php#', $url))
-		{
+		if (!preg_match('#http[s]?://|index[2]?\.php#', $url)) {
 			$url = "http://$url";
 		}
 		return $url;

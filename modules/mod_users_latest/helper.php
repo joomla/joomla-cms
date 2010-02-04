@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_users_latest
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -13,16 +13,15 @@ defined('_JEXEC') or die;
 class modUsersLatestHelper
 {
 	// get users sorted by activation date
-	
-	function getUsers($params) { 
 
-	    $db = &JFactory::getDbo();
-
+	function getUsers($params)
+	{
+	    $db		= &JFactory::getDbo();
 		$result	= null;
-		$query = new JQuery;
+		$query	= $db->getQuery(true);
 		$query->select('a.id, a.name, a.username, a.activation');
 		$query->order('a.activation DESC');
-		$query->from('#__users AS a');	
+		$query->from('#__users AS a');
 		$db->setQuery($query,0,$params->get('shownumber'));;
 		$result = $db->loadObjectList();
 		if ($db->getErrorNum()) {

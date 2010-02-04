@@ -986,12 +986,12 @@ class JInstallerComponent extends JAdapterInstance
 	protected function _buildAdminMenus()
 	{
 		// Initialise variables.
-		$db = &$this->parent->getDbo();
-		$table = &JTable::getInstance('menu');
-		$option = $this->get('element');
+		$db		= &$this->parent->getDbo();
+		$table	= &JTable::getInstance('menu');
+		$option	= $this->get('element');
 
 		// If a component exists with this option in the table then we don't need to add menus
-		$query = new JQuery();
+		$query	= $db->getQuery(true);
 		$query->select('m.id, e.extension_id');
 		$query->from('#__menu AS m');
 		$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
@@ -1003,8 +1003,7 @@ class JInstallerComponent extends JAdapterInstance
 		$componentrow = $db->loadObject();
 
 		// Check if menu items exist
-		if ($componentrow)
-		{
+		if ($componentrow) {
 
 			// Don't do anything if overwrite has not been enabled
 			if (! $this->parent->getOverwrite()) {
@@ -1018,7 +1017,7 @@ class JInstallerComponent extends JAdapterInstance
 			}
 		} else {
 			// Lets Find the extension id
-			$query = new JQuery();
+			$query->clear();
 			$query->select('e.extension_id');
 			$query->from('#__extensions AS e');
 			$query->where('e.element = '.$db->quote($option));
@@ -1030,8 +1029,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		$menuElement = $this->manifest->administration->menu;
-		if ($menuElement)
-		{
+		if ($menuElement) {
 			$data = array();
 			$data['menutype'] = '_adminmenu';
 			$data['title'] = $option;
@@ -1044,8 +1042,7 @@ class JInstallerComponent extends JAdapterInstance
 			$data['img'] = ((string)$menuElement->attributes()->img) ? (string)$menuElement->attributes()->img : 'class:component';
 			$data['home'] = 0;
 
-			if(!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
-			{
+			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store()) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
@@ -1056,9 +1053,7 @@ class JInstallerComponent extends JAdapterInstance
 			 * so that if we have to rollback the changes we can undo it.
 			 */
 			$this->parent->pushStep(array ('type' => 'menu'));
-		}
-		else
-		{
+		} else {
 
 			// No menu element was specified, Let's make a generic menu item
 			$data = array();
@@ -1073,8 +1068,7 @@ class JInstallerComponent extends JAdapterInstance
 			$data['img'] = 'class:component';
 			$data['home'] = 0;
 
-			if(!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
-			{
+			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store()) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
@@ -1095,8 +1089,8 @@ class JInstallerComponent extends JAdapterInstance
 		if ( ! $this->manifest->administration->submenu) {
 			return true;
 		}
-		foreach ($this->manifest->administration->submenu->menu as $child)
-		{
+
+		foreach ($this->manifest->administration->submenu->menu as $child) {
 			$data = array();
 			$data['menutype'] = '_adminmenu';
 			$data['title'] = ((string)$child->attributes()->view) ? $option.'_'.$child->attributes()->view : $option;
@@ -1111,9 +1105,7 @@ class JInstallerComponent extends JAdapterInstance
 			// Set the sub menu link
 			if ((string)$child->attributes()->link) {
 				$data['link'] = (string)$child->attributes()->link;
-			}
-			else
-			{
+			} else {
 				$request = array();
 				if ((string)$child->attributes()->act) {
 					$request[] = 'act='.$child->attributes()->act;
@@ -1138,8 +1130,7 @@ class JInstallerComponent extends JAdapterInstance
 			}
 
 			$table = &JTable::getInstance('menu');
-			if(!$table->setLocation($parent_id, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
-			{
+			if (!$table->setLocation($parent_id, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store()) {
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
@@ -1164,12 +1155,12 @@ class JInstallerComponent extends JAdapterInstance
 	protected function _removeAdminMenus(&$row)
 	{
 		// Initialise Variables
-		$db = &$this->parent->getDbo();
-		$table = &JTable::getInstance('menu');
-		$id = $row->extension_id;
+		$db		= &$this->parent->getDbo();
+		$table	= &JTable::getInstance('menu');
+		$id		= $row->extension_id;
 
 		// Get the ids of the menu items
-		$query = new JQuery();
+		$query	= $db->getQuery(true);
 		$query->select('id');
 		$query->from('#__menu');
 		$query->where('`menutype` = "_adminmenu"');
@@ -1180,21 +1171,16 @@ class JInstallerComponent extends JAdapterInstance
 		$ids = $db->loadResultArray();
 
 		// Check for error
-		if($error = $db->getErrorMsg() || empty($ids)){
-
+		if ($error = $db->getErrorMsg() || empty($ids)){
 			JError::raiseWarning('Some_code_here', 'Some_message_here');
 			return false;
-
 		} else {
 			// Iterate the items to delete each one.
 			foreach($ids as $menuid){
-
-				if (!$table->delete((int) $menuid))
-				{
+				if (!$table->delete((int) $menuid)) {
 					$this->setError($table->getError());
 					return false;
 				}
-
 			}
 			// Rebuild the whole tree
 			$table->rebuild();
@@ -1222,10 +1208,9 @@ class JInstallerComponent extends JAdapterInstance
 		$results = Array();
 		$site_components = JFolder::folders(JPATH_SITE.DS.'components');
 		$admin_components = JFolder::folders(JPATH_ADMINISTRATOR.DS.'components');
-		foreach ($site_components as $component)
-		{
-			if (file_exists(JPATH_SITE.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml'))
-			{
+
+		foreach ($site_components as $component) {
+			if (file_exists(JPATH_SITE.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml')) {
 				$extension = &JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 0);
@@ -1235,10 +1220,9 @@ class JInstallerComponent extends JAdapterInstance
 				$results[] = $extension;
 			}
 		}
-		foreach ($admin_components as $component)
-		{
-			if (file_exists(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml'))
-			{
+
+		foreach ($admin_components as $component) {
+			if (file_exists(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml')) {
 				$extension = &JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 1);
@@ -1270,9 +1254,7 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->extension->params = $this->parent->getParams();
 		try {
 			$this->parent->extension->store();
-		}
-		catch(JException $e)
-		{
+		} catch(JException $e) {
 			JError::raiseWarning(101, JText::_('Component').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
 			return false;
 		}
@@ -1301,8 +1283,7 @@ class JInstallerComponent extends JAdapterInstance
 		$description = (string)$this->manifest->description;
 		if ($description) {
 			$this->parent->set('message', JText::_((string)$description));
-		}
-		else {
+		} else {
 			$this->parent->set('message', '');
 		}
 
@@ -1318,8 +1299,7 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 
 		// Make sure that we have an admin element
-		if ( ! $this->manifest->administration)
-		{
+		if ( ! $this->manifest->administration) {
 			JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('The XML file did not contain an administration element'));
 			return false;
 		}
@@ -1331,18 +1311,16 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string)$this->manifest->scriptfile;
-		if ($manifestScript)
-		{
+		if ($manifestScript) {
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
-			if (is_file($manifestScriptFile))
-			{
+			if (is_file($manifestScriptFile)) {
 				// load the file
 				include_once $manifestScriptFile;
 			}
+
 			// Set the class name
 			$classname = $element.'InstallerScript';
-			if (class_exists($classname))
-			{
+			if (class_exists($classname)) {
 				// create a new instance
 				$this->parent->manifestClass = new $classname($this);
 				// and set this so we can copy it later
@@ -1382,8 +1360,7 @@ class JInstallerComponent extends JAdapterInstance
 		// try for Joomla 1.5 type queries
 		// second argument is the utf compatible version attribute
 		$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
-		if ($utfresult === false)
-		{
+		if ($utfresult === false) {
 			// Install failed, rollback changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
 			return false;
@@ -1404,17 +1381,13 @@ class JInstallerComponent extends JAdapterInstance
 		 * method to the installation message.
 		 */
 		// start legacy support
-		if ($this->get('install_script'))
-		{
-			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script')))
-			{
+		if ($this->get('install_script')) {
+			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script'))) {
 				ob_start();
 				ob_implicit_flush(false);
 				require_once $this->parent->getPath('extension_administrator').DS.$this->get('install_script');
-				if (function_exists('com_install'))
-				{
-					if (com_install() === false)
-					{
+				if (function_exists('com_install')) {
+					if (com_install() === false) {
 						$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Custom install routine failure'));
 						return false;
 					}
@@ -1428,8 +1401,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'discover_install'))
-		{
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'discover_install')) {
 			$this->parent->manifestClass->install($this);
 		}
 		$msg .= ob_get_contents(); // append messages
@@ -1454,8 +1426,7 @@ class JInstallerComponent extends JAdapterInstance
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight'))
-		{
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) {
 			$this->parent->manifestClass->postflight('discover_install', $this);
 		}
 		$msg .= ob_get_contents(); // append messages
@@ -1480,9 +1451,7 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->extension->name = $manifest_details['name'];
 		try {
 			return $this->parent->extension->store();
-		}
-		catch(JException $e)
-		{
+		} catch(JException $e) {
 			JError::raiseWarning(101, JText::_('Component').' '.JText::_('Refresh Manifest Cache').': '.JText::_('Failed to store extension details'));
 			return false;
 		}

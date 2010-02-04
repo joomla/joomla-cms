@@ -23,10 +23,10 @@ class modWeblinksHelper
 		$catid 	= (int) $params->get('catid', 0);
 
 		$limit = $params->get('count', 5);
-		$ordering = $params->get('ordering', 'title');		
-		$direction = $params->get('direction', 'asc');				
-	    
-        $query = new JQuery();
+		$ordering = $params->get('ordering', 'title');
+		$direction = $params->get('direction', 'asc');
+
+		$query	= $db->getQuery(true);
 
         $query->select('a.id');
         $query->select('a.title');
@@ -52,8 +52,8 @@ class modWeblinksHelper
         $query->where('cc.id = '. (int) $catid);
         $query->where('cc.published = 1');
         $query->order($ordering . ' ' . $direction);
-        
-		$db->setQuery($query, 0, $limit);		
+
+		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
 
 		return $rows;

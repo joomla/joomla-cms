@@ -8,9 +8,8 @@
 // No direct access
 defined('_JEXEC') or die;
 
-
 jimport('joomla.application.component.modellist');
-jimport('joomla.database.query');
+
 /**
  * Newsfeeds Component Category Model
  *
@@ -75,11 +74,9 @@ class NewsfeedsModelCategory extends JModelList
 		$items = &parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++)
-		{
+		for ($i = 0, $n = count($items); $i < $n; $i++) {
 			$item = &$items[$i];
-			if (!isset($this->_params))
-			{
+			if (!isset($this->_params)) {
 			//	$item->_params	= $item->params;
 			//	$item->params	= new JParameter($item->_params);
 			}
@@ -100,7 +97,8 @@ class NewsfeedsModelCategory extends JModelList
 		$groups	= implode(',', $user->authorisedLevels());
 
 		// Create a new query object.
-		$query = new JQuery;
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'));
@@ -108,8 +106,7 @@ class NewsfeedsModelCategory extends JModelList
 		$query->where('a.access IN ('.$groups.')');
 
 		// Filter by category.
-		if ($categoryId = $this->getState('category.id'))
-		{
+		if ($categoryId = $this->getState('category.id')) {
 			$query->where('a.catid = '.(int) $categoryId);
 			$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 			$query->where('c.access IN ('.$groups.')');
@@ -122,7 +119,7 @@ class NewsfeedsModelCategory extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -178,19 +175,19 @@ class NewsfeedsModelCategory extends JModelList
 			$id = $this->getState('category.id');
 		}
 
-		if (empty($this->_category))
-		{
-			$this->_db->setQuery(
+		if (empty($this->_category)) {
+			$db = $this->getDbo();
+			$db->setQuery(
 				'SELECT a.*' .
 				' FROM #__categories AS a' .
 				' WHERE id = '.(int) $id .
 				'  AND a.published = '.$this->getState('filter.published').
-				'  AND a.extension = '.$this->_db->quote('com_newsfeeds')
+				'  AND a.extension = '.$db->quote('com_newsfeeds')
 			);
-			$this->_category = $this->_db->loadObject();
+			$this->_category = $db->loadObject();
 
-			if ($this->_db->getErrorNum()) {
-				$this->setError($this->_db->getErrorMsg());
+			if ($db->getErrorNum()) {
+				$this->setError($db->getErrorMsg());
 			}
 		}
 
@@ -204,8 +201,7 @@ class NewsfeedsModelCategory extends JModelList
 	 */
 	function &getSiblings()
 	{
-		if ($this->_siblings === null && $category = &$this->getItem())
-		{
+		if ($this->_siblings === null && $category = &$this->getItem()) {
 			$model = &JModel::getInstance('Categories', 'NewsfeedsModel', array('ignore_request' => true));
 			$model->setState('params',				JFactory::getApplication()->getParams());
 			$model->setState('filter.parent_id',	$category->parent_id);
@@ -235,8 +231,7 @@ class NewsfeedsModelCategory extends JModelList
 		// Initialise variables.
 		$categoryId = (!empty($categoryId)) ? $categoryId : $this->getState('category.id');
 
-		if ($this->_children === null)
-		{
+		if ($this->_children === null) {
 			$model = &JModel::getInstance('Categories', 'NewsfeedsModel', array('ignore_request' => true));
 			$model->setState('params',				JFactory::getApplication()->getParams());
 			$model->setState('filter.parent_id',	$categoryId);
@@ -267,8 +262,7 @@ class NewsfeedsModelCategory extends JModelList
 		// Initialise variables.
 		$categoryId = (!empty($categoryId)) ? $categoryId : $this->getState('category.id');
 
-		if ($this->_parents === null)
-		{
+		if ($this->_parents === null) {
 			$model = &JModel::getInstance('Categories', 'NewsfeedsModel', array('ignore_request' => true));
 			$model->setState('params',				JFactory::getApplication()->getParams());
 			$model->setState('list.select',			'a.id, a.title, a.level, a.path AS route');

@@ -101,7 +101,8 @@ class ContactModelCategories extends JModelList
 	function _getListQuery($resolveFKs = true)
 	{
 		// Create a new query object.
-		$query = new JQuery;
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -115,8 +116,7 @@ class ContactModelCategories extends JModelList
 		$query->from('#__categories AS a');
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
-		{
+		if ($access = $this->getState('filter.access')) {
 			$user	= &JFactory::getUser();
 			$groups	= implode(',', $user->authorisedLevels());
 			$query->where('a.access IN ('.$groups.')');
@@ -126,39 +126,31 @@ class ContactModelCategories extends JModelList
 		$published = $this->getState('filter.published');
 		if (is_numeric($published)) {
 			$query->where('a.published = ' . (int) $published);
-		}
-		else if (is_array($published))
-		{
+		} else if (is_array($published)) {
 			JArrayHelper::toInteger($published);
 			$published = implode(',', $published);
 			$query->where('a.published IN ('.$published.')');
 		}
 
 		// Filter by extension.
-		$query->where('a.extension = '.$this->_db->quote($this->_extension));
+		$query->where('a.extension = '.$db->quote($this->_extension));
 
 		// Retrieve a sub tree or lineage.
-		if ($parentId = $this->getState('filter.parent_id'))
-		{
-			if ($levels = $this->getState('filter.get_children'))
-			{
+		if ($parentId = $this->getState('filter.parent_id')) {
+			if ($levels = $this->getState('filter.get_children')) {
 				// Optionally get all the child categories for given parent.
 				$query->leftJoin('#__categories AS p ON p.id = '.(int) $parentId);
 				$query->where('a.lft > p.lft AND a.rgt < p.rgt');
-				if ((int) $levels > 0)
-				{
+
+				if ((int) $levels > 0) {
 					// Only go to a certain depth.
 					$query->where('a.level <= p.level + '.(int) $levels);
 				}
-			}
-			else if ($this->getState('filter.get_parents'))
-			{
+			} else if ($this->getState('filter.get_parents')) {
 				// Optionally get all the parents to the category.
 				$query->leftJoin('#__categories AS p ON p.id = '.(int) $parentId);
 				$query->where('a.lft < p.lft AND a.rgt > p.rgt');
-			}
-			else
-			{
+			} else {
 				// Only looking for categories with this parent.
 				$query->where('a.parent_id = '.(int) $parentId);
 			}
@@ -166,44 +158,37 @@ class ContactModelCategories extends JModelList
 
 		// Inclusive/exclusive filters (-ve id's are to be excluded).
 		$categoryId = $this->getState('filter.category_id');
-		if (is_numeric($categoryId))
-		{
+		if (is_numeric($categoryId)) {
 			if ($categoryId > 0) {
 				$query->where('a.id = ' . (int) $categoryId);
-			}
-			else {
+			} else {
 				$query->where('a.id <> ' . -(int) $categoryId);
 			}
-		}
-		else if (is_array($categoryId))
-		{
+		} else if (is_array($categoryId)) {
 			JArrayHelper::toInteger($categoryId);
 			// Find the include/excludes
 			$include = array();
 			$exclude = array();
-			foreach ($categoryId as $id)
-			{
+
+			foreach ($categoryId as $id) {
 				if ($id > 0) {
 					$include[] = $id;
-				}
-				else {
+				} else {
 					$exclude[] = $id;
 				}
 			}
-			if (!empty($include))
-			{
+
+			if (!empty($include)) {
 				$include = implode(',', $include);
 				$query->where('a.id IN ('.$include.')');
-			}
-			else
-			{
+			} else {
 				$include = implode(',', $include);
 				$query->where('a.id NOT IN ('.$include.')');
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.lft')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->getEscaped($this->getState('list.ordering', 'a.lft')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

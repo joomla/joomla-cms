@@ -7,8 +7,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.database.query');
-
 /**
  * Extended Utility class for all HTML drawing classes.
  *

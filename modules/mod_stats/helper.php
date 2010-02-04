@@ -14,9 +14,10 @@ class modStatsHelper
 {
 	function &getList(&$params)
 	{
-		$app	= &JFactory::getApplication();
-		$db		= &JFactory::getDbo();
+		$app	= JFactory::getApplication();
+		$db		= JFactory::getDbo();
 		$rows	= array();
+		$query	= $db->getQuery(true);
 
 		$serverinfo = $params->get('serverinfo');
 		$siteinfo 	= $params->get('siteinfo');
@@ -48,23 +49,19 @@ class modStatsHelper
 
 		if ($siteinfo)
 		{
-            $query = new JQuery();
-            
             $query->select('COUNT(id) AS count_users');
             $query->from('#__users');
 			$db->setQuery($query);
 			$users = $db->loadResult();
 
-            $query = new JQuery();
-            
+            $query->clear();
             $query->select('COUNT(id) AS count_items');
             $query->from('#__content');
             $query->where('state = "1"');
 			$db->setQuery($query);
 			$items = $db->loadResult();
-            
-            $query = new JQuery();
-            
+
+            $query->clear();
             $query->select('COUNT(id) AS count_links ');
             $query->from('#__weblinks');
             $query->where('state = "1"');
@@ -93,8 +90,7 @@ class modStatsHelper
 
 		if ($counter)
 		{
-            $query = new JQuery();
-            
+            $query->clear();
             $query->select('SUM(hits) AS count_hits');
             $query->from('#__content');
             $query->where('state = "1"');

@@ -8,7 +8,6 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.application.component.model');
-jimport('joomla.database.query');
 
 /**
  * Model class for handling lists of items.
@@ -61,8 +60,7 @@ class JModelList extends JModel
 		$items	= $this->_getList((string) $query, $this->getState('list.start'), $this->getState('list.limit'));
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
+		if ($this->_db->getErrorNum()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -118,8 +116,7 @@ class JModelList extends JModel
 		$total = (int) $this->_getListCount((string) $query);
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
+		if ($this->_db->getErrorNum()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -137,7 +134,8 @@ class JModelList extends JModel
 	 */
 	protected function _getListQuery()
 	{
-		$query = new JQuery;
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 
 		return $query;
 	}
@@ -176,8 +174,7 @@ class JModelList extends JModel
 	protected function _populateState($ordering = null, $direction)
 	{
 		// If the context is set, assume that stateful lists are used.
-		if ($this->_context)
-		{
+		if ($this->_context) {
 			$app = JFactory::getApplication();
 
 			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
@@ -191,9 +188,7 @@ class JModelList extends JModel
 
 			$orderDirn = $app->getUserStateFromRequest($this->_context.'.orderdirn', 'filter_order_Dir', $direction);
 			$this->setState('list.direction', $orderDirn);
-		}
-		else
-		{
+		} else {
 			$this->setState('list.start', 0);
 			$this->_state->set('list.limit', 0);
 		}

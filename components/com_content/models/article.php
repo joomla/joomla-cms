@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelitem');
-jimport('joomla.database.query');
 
 /**
  * Content Component Article Model
@@ -51,7 +50,7 @@ class ContentModelArticle extends JModelItem
 
 		// TODO: Tune these values based on other permissions.
 		$this->setState('filter.published',	1);
-		$this->setState('filter.archived',	-1);		
+		$this->setState('filter.archived',	-1);
 		$this->setState('filter.access',		true);
 	}
 
@@ -71,11 +70,10 @@ class ContentModelArticle extends JModelItem
 			$this->_item = array();
 		}
 
-		if (!isset($this->_item[$pk]))
-		{
-			try
-			{
-				$query = new JQuery;
+		if (!isset($this->_item[$pk])) {
+			try {
+				$db		= $this->getDbo();
+				$query	= $db->getQuery(true);
 
 				$query->select($this->getState('item.select', 'a.*'));
 				$query->from('#__content AS a');
@@ -92,12 +90,12 @@ class ContentModelArticle extends JModelItem
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
-				$archived = $this->getState('filter.archived');			
+				$archived = $this->getState('filter.archived');
 				if (is_numeric($published)) {
 					$query->where('(a.state = '.(int) $published.' OR a.state ='.(int) $archived.')');
 				}
 
-				
+
 				// Filter by access level.
 				if ($access = $this->getState('filter.access'))
 				{
@@ -107,11 +105,11 @@ class ContentModelArticle extends JModelItem
 					$query->where('(c.access IS NULL OR c.access IN ('.$groups.'))');
 				}
 
-				$this->_db->setQuery($query);
+				$db->setQuery($query);
 
-				$data = $this->_db->loadObject();
+				$data = $db->loadObject();
 
-				if ($error = $this->_db->getErrorMsg()) {
+				if ($error = $db->getErrorMsg()) {
 					throw new Exception($error);
 				}
 
@@ -120,7 +118,7 @@ class ContentModelArticle extends JModelItem
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published))||(is_numeric($archived))) && 
+				if (((is_numeric($published))||(is_numeric($archived))) &&
 					(($data->state != $published ) && ( $data->state != $archived )))
 				  {
 					throw new Exception(JText::_('Content_Error_Article_not_found'), 404);
@@ -137,13 +135,10 @@ class ContentModelArticle extends JModelItem
 				$data->metadata = $registry;
 
 				// Compute access permissions.
-				if ($access)
-				{
+				if ($access) {
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
-				}
-				else
-				{
+				} else {
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
 					$user	= &JFactory::getUser();
 					$groups	= $user->authorisedLevels();
@@ -155,12 +150,9 @@ class ContentModelArticle extends JModelItem
 						$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
 					}
 				}
-				// TODO: Type 2 permission checks?
 
 				$this->_item[$pk] = $data;
-			}
-			catch (Exception $e)
-			{
+			} catch (Exception $e) {
 				$this->setError($e);
 				$this->_item[$pk] = false;
 			}
@@ -180,16 +172,16 @@ class ContentModelArticle extends JModelItem
 	{
 		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
+		$db	= $this->getDbo();
 
-		$this->_db->setQuery(
+		$db->setQuery(
 			'UPDATE #__content' .
 			' SET hits = hits + 1' .
 			' WHERE id = '.(int) $pk
 		);
 
-		if (!$this->_db->query())
-		{
-			$this->setError($this->_db->getErrorMsg());
+		if (!$db->query()) {
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 

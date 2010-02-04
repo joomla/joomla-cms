@@ -134,11 +134,12 @@ class plgSearchContent extends JPlugin
 		}
 
 		$rows = array();
+		$query	= $db->getQuery(true);
 
 		// search articles
 		if ($sContent && $limit > 0)
 		{
-			$query = new JQuery();
+			$query->clear();
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, '
 						  .'CONCAT(a.introtext, a.fulltext) AS text, b.title AS section, '
 						  .'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug, '
@@ -146,13 +147,13 @@ class plgSearchContent extends JPlugin
 						  .'"2" AS browsernav');
 			$query->from('#__content AS a');
 			$query->innerJoin('#__categories AS b ON b.id=a.catid');
-			$query->where('('. $where .')' . 'AND a.state=1 AND b.published = 1 AND a.access IN ('.$groups.') ' 
+			$query->where('('. $where .')' . 'AND a.state=1 AND b.published = 1 AND a.access IN ('.$groups.') '
 						 .'AND b.access IN ('.$groups.') '
 						 .'AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') '
 						 .'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
 			$query->group('a.id');
 			$query->order($order);
-			
+
 			$db->setQuery($query, 0, $limit);
 			$list = $db->loadObjectList();
 			$limit -= count($list);
@@ -166,11 +167,11 @@ class plgSearchContent extends JPlugin
 			}
 			$rows[] = $list;
 		}
-	
+
 		// search uncategorised content
 		if ($sUncategorised && $limit > 0)
 		{
-			$query = new JQuery();
+			$query->clear();
 			$query->select('id, a.title AS title, a.created AS created, a.metadesc, a.metakey, '
 						  .'CONCAT(a.introtext, a.fulltext) AS text, '
 						  .'"2" as browsernav, "'. $db->Quote(JText::_('Uncategorised Content')) .'" AS section');
@@ -179,7 +180,7 @@ class plgSearchContent extends JPlugin
 						 .'AND (a.publish_up = '. $db->Quote($nullDate) .' OR a.publish_up <= '. $db->Quote($now) .') '
 						 .'AND (a.publish_down = '. $db->Quote($nullDate) .' OR a.publish_down >= '. $db->Quote($now) .')');
 			$query->order(($morder ? $morder : $order));
-					
+
 			$db->setQuery($query, 0, $limit);
 			$list2 = $db->loadObjectList();
 			$limit -= count($list2);
@@ -199,8 +200,8 @@ class plgSearchContent extends JPlugin
 		if ($sArchived && $limit > 0)
 		{
 			$searchArchived = JText::_('Archived');
-			
-			$query = new JQuery();
+
+			$query->clear();
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, '
 						  .'CONCAT(a.introtext, a.fulltext) AS text, '
 						  .'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug, '
@@ -214,7 +215,7 @@ class plgSearchContent extends JPlugin
 				.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
 			$query->order($order);
 
-			
+
 			$db->setQuery($query, 0, $limit);
 			$list3 = $db->loadObjectList();
 
