@@ -43,11 +43,11 @@ if (($showmode > 0) && count($names)) : ?>
 		<li>
 		<?php if ($linknames==1) { ?>
 		<a href="index.php?option=com_users&view=profile&member_id=<?php echo (int) $name->userid; ?>">
-	   <?php } ?>
+		<?php } ?>
 		<?php echo $name->username; ?>
-		   <?php if ($linknames==1) : ?>
+			<?php if ($linknames==1) : ?>
 				</a>
-		   <?php endif; ?>
+			<?php endif; ?>
 		</li>
 <?php endforeach;  ?>
 	</ul>

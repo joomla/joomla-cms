@@ -14,13 +14,13 @@ class modRandomImageHelper
 {
 	function getRandomImage(&$params, $images)
 	{
-		$width 		= $params->get('width');
-		$height 	= $params->get('height');
+		$width		= $params->get('width');
+		$height	= $params->get('height');
 
-		$i 				= count($images);
-		$random 		= mt_rand(0, $i - 1);
-		$image 			= $images[$random];
-		$size 			= getimagesize (JPATH_BASE.DS.$image->folder .DS. $image->name);
+		$i				= count($images);
+		$random		= mt_rand(0, $i - 1);
+		$image			= $images[$random];
+		$size			= getimagesize (JPATH_BASE.DS.$image->folder .DS. $image->name);
 
 
 		if ($width == '') {
@@ -43,7 +43,7 @@ class modRandomImageHelper
 			}
 		}
 
-		$image->width 	= $width;
+		$image->width	= $width;
 		$image->height	= $height;
 		$image->folder	= str_replace('\\', '/', $image->folder);
 
@@ -52,7 +52,7 @@ class modRandomImageHelper
 
 	function getImages(&$params, $folder)
 	{
-		$type 		= $params->get('type', 'jpg');
+		$type		= $params->get('type', 'jpg');
 
 		$files	= array();
 		$images	= array();
@@ -77,7 +77,7 @@ class modRandomImageHelper
 				if (!is_dir($dir .DS. $img))
 				{
 					if (eregi($type, $img)) {
-						$images[$i]->name 	= $img;
+						$images[$i]->name	= $img;
 						$images[$i]->folder	= $folder;
 						++$i;
 					}
@@ -90,9 +90,9 @@ class modRandomImageHelper
 
 	function getFolder(&$params)
 	{
-		$folder 	= $params->get('folder');
+		$folder	= $params->get('folder');
 
-		$LiveSite 	= JURI::base();
+		$LiveSite	= JURI::base();
 
 		// if folder includes livesite info, remove
 		if (JString::strpos($folder, $LiveSite) === 0) {

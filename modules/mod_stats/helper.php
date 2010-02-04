@@ -20,9 +20,9 @@ class modStatsHelper
 		$query	= $db->getQuery(true);
 
 		$serverinfo = $params->get('serverinfo');
-		$siteinfo 	= $params->get('siteinfo');
-		$counter 	= $params->get('counter');
-		$increase 	= $params->get('increase');
+		$siteinfo	= $params->get('siteinfo');
+		$counter	= $params->get('counter');
+		$increase	= $params->get('increase');
 
 		$i = 0;
 		if ($serverinfo)
@@ -31,19 +31,19 @@ class modStatsHelper
 			$rows[$i]->data		= substr(php_uname(), 0, 7);
 			$i++;
 			$rows[$i]->title	= JText::_('PHP');
-			$rows[$i]->data 	= phpversion();
+			$rows[$i]->data	= phpversion();
 			$i++;
-			$rows[$i]->title 	= JText::_('MySQL');
-			$rows[$i]->data 	= $db->getVersion();
+			$rows[$i]->title	= JText::_('MySQL');
+			$rows[$i]->data	= $db->getVersion();
 			$i++;
-			$rows[$i]->title 	= JText::_('Time');
-			$rows[$i]->data 	= JHtml::_('date', 'now', '%H:%M');
+			$rows[$i]->title	= JText::_('Time');
+			$rows[$i]->data	= JHtml::_('date', 'now', '%H:%M');
 			$i++;
-			$rows[$i]->title 	= JText::_('Caching');
-			$rows[$i]->data 	= $app->getCfg('caching') ? JText::_('Enabled'):JText::_('Disabled');
+			$rows[$i]->title	= JText::_('Caching');
+			$rows[$i]->data	= $app->getCfg('caching') ? JText::_('Enabled'):JText::_('Disabled');
 			$i++;
-			$rows[$i]->title 	= JText::_('GZip');
-			$rows[$i]->data 	= $app->getCfg('gzip') ? JText::_('Enabled'):JText::_('Disabled');
+			$rows[$i]->title	= JText::_('GZip');
+			$rows[$i]->data	= $app->getCfg('gzip') ? JText::_('Enabled'):JText::_('Disabled');
 			$i++;
 		}
 
@@ -69,20 +69,20 @@ class modStatsHelper
 			$links = $db->loadResult();
 
 			if ($users) {
-				$rows[$i]->title 	= JText::_('Users');
-				$rows[$i]->data 	= $users;
+				$rows[$i]->title	= JText::_('Users');
+				$rows[$i]->data	= $users;
 				$i++;
 			}
 
 			if ($items) {
-				$rows[$i]->title 	= JText::_('Content');
-				$rows[$i]->data 	= $items;
+				$rows[$i]->title	= JText::_('Content');
+				$rows[$i]->data	= $items;
 				$i++;
 			}
 
 			if ($links) {
-				$rows[$i]->title 	= JText::_('WEB_LINKS');
-				$rows[$i]->data 	= $links;
+				$rows[$i]->title	= JText::_('WEB_LINKS');
+				$rows[$i]->data	= $links;
 				$i++;
 			}
 
@@ -98,8 +98,8 @@ class modStatsHelper
 			$hits = $db->loadResult();
 
 			if ($hits) {
-				$rows[$i]->title 	= JText::_('Content View Hits');
-				$rows[$i]->data 	= $hits + $increase;
+				$rows[$i]->title	= JText::_('Content View Hits');
+				$rows[$i]->data	= $hits + $increase;
 				$i++;
 			}
 		}

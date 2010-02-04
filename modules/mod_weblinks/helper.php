@@ -16,11 +16,11 @@ class modWeblinksHelper
 {
 	function getList($params)
 	{
-		$db 	= &JFactory::getDbo();
-		$user 	= &JFactory::getUser();
+		$db	= &JFactory::getDbo();
+		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
 
-		$catid 	= (int) $params->get('catid', 0);
+		$catid	= (int) $params->get('catid', 0);
 
 		$limit = $params->get('count', 5);
 		$ordering = $params->get('ordering', 'title');

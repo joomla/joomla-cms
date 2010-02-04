@@ -21,8 +21,8 @@ defined('_JEXEC') or die;
 
 	<span class="article_separator">&nbsp;</span>
 
- 	<?php endif; ?>
- 	</li>
+	<?php endif; ?>
+	</li>
 <?php endfor; ?>
 
 </ul>

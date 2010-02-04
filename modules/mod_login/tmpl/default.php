@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 <?php else : ?>
 <?php if (JPluginHelper::isEnabled('authentication', 'openid')) :
 		$lang->load('plg_authentication_openid', JPATH_ADMINISTRATOR);
-		$langScript = 	'var JLanguage = {};'.
+		$langScript =	'var JLanguage = {};'.
 						' JLanguage.WHAT_IS_OPENID = \''.JText::_('WHAT_IS_OPENID').'\';'.
 						' JLanguage.LOGIN_WITH_OPENID = \''.JText::_('LOGIN_WITH_OPENID').'\';'.
 						' JLanguage.NORMAL_LOGIN = \''.JText::_('NORMAL_LOGIN').'\';'.

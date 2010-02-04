@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 if ($feed != false)
 {
 	//image handling
-	$iUrl 	= isset($feed->image->url)   ? $feed->image->url   : null;
+	$iUrl	= isset($feed->image->url)	? $feed->image->url	: null;
 	$iTitle = isset($feed->image->title) ? $feed->image->title : null;
 	?>
 	<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $params->get('moduleclass_sfx'); ?>">
@@ -76,16 +76,16 @@ if ($feed != false)
 				{
 				echo '<h4 class="feed-link">';
 				}
-				 ?>
+				?>
 
 				<a href="<?php echo $currItem->get_link(); ?>" target="_blank">
 					<?php echo $currItem->get_title(); ?></a>
 					<?php if (!is_null($feed->title) && $params->get('rsstitle', 1))
 
 					{ echo '</h5>';}
-			   		 else
-			   		{ echo '</h4>';}
-				 ?>
+						else
+						{ echo '</h4>';}
+				?>
 				<?php
 				}
 

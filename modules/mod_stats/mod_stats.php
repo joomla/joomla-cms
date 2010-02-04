@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 require_once dirname(__FILE__).DS.'helper.php';
 
 $serverinfo = $params->get('serverinfo');
-$siteinfo 	= $params->get('siteinfo');
+$siteinfo	= $params->get('siteinfo');
 
 $list = modStatsHelper::getList($params);
 require JModuleHelper::getLayoutPath('mod_stats', $params->get('layout', 'default'));

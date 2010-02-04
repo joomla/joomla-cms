@@ -17,7 +17,7 @@ class modNewsFlashHelper
 	function renderItem(&$item, &$params, &$access)
 	{
 		$app	= &JFactory::getApplication();
-		$user 	= &JFactory::getUser();
+		$user	= &JFactory::getUser();
 		$groups	= $user->authorisedLevels();
 		// $groups	= implode(',', $groups);
 
@@ -25,8 +25,8 @@ class modNewsFlashHelper
 		$item->groups	= '';
 		$item->readmore = (trim($item->fulltext) != '');
 		$item->metadesc = '';
-		$item->metakey 	= '';
-		$item->created 	= '';
+		$item->metakey	= '';
+		$item->created	= '';
 		$item->modified = '';
 
 		if ($params->get('readmore') || $params->get('link_titles'))
@@ -60,12 +60,12 @@ class modNewsFlashHelper
 
 	function getList(&$params, &$access)
 	{
-		$db 	= JFactory::getDbo();
-		$user 	= JFactory::getUser();
+		$db	= JFactory::getDbo();
+		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
 
-		$catid 	= (int) $params->get('catid', 0);
-		$items 	= (int) $params->get('items', 0);
+		$catid	= (int) $params->get('catid', 0);
+		$items	= (int) $params->get('items', 0);
 
 		$contentConfig	= &JComponentHelper::getParams('com_content');
 		$noauth			= !$contentConfig->get('show_noauth');

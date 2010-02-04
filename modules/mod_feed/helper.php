@@ -19,7 +19,7 @@ class modFeedHelper
 
 		//  get RSS parsed object
 		$options = array();
-		$options['rssUrl'] 		= $rssurl;
+		$options['rssUrl']		= $rssurl;
 		if ($params->get('cache')) {
 			$options['cache_time']  = $params->get('cache_time', 15) ;
 			$options['cache_time']	*= 60;

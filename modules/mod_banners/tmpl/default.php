@@ -47,8 +47,8 @@ $baseurl = JURI::base();
 						<?php // open in a popup window?>
 						<a
 							href="javascript:void window.open('<?php echo $link;?>', '',
-								  'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550');
-								  return false"
+								'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550');
+								return false"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8');?>">
 							<img
 								src="<?php echo $baseurl;?>images/banners/<?php echo $imageurl;?>"
@@ -58,7 +58,7 @@ $baseurl = JURI::base();
 						<?php // open in parent window?>
 						<a
 							href="<?php echo $link;?>"
-					 		title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8');?>">
+							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8');?>">
 							<img
 								src="<?php echo $baseurl;?>images/banners/<?php echo $imageurl;?>"
 								alt="<?php echo $alt;?>" />
@@ -96,7 +96,7 @@ $baseurl = JURI::base();
 
 <?php if ($footerText) : ?>
 	<div class="bannerfooter">
-		 <?php echo $footerText; ?>
+		<?php echo $footerText; ?>
 	</div>
 <?php endif; ?>
 </div>
