@@ -21,8 +21,8 @@
 			name="autoregister"
 			type="radio"
 			default="1"
-			label="PLG_USER_JOOMLA_AUTOREGISTER_LABEL"
-			description="PLG_USER_JOOMLA_AUTOREGISTER_DESC">
+			label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
+			description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC">
 			<option
 				value="0">JNo</option>
 			<option

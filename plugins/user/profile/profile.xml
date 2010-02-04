@@ -137,10 +137,7 @@
 				value="1">JOPTION_OPTIONAL</option>
 			<option
 				value="0">JOPTION_DISABLED</option>
-		</field>
-		
------------------------------------------------------------------------------------		
-		
+		</field>		
 		<field
 			name="profile-require-user"
 			type="spacer"

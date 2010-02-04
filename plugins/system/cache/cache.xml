@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>Provides page caching</description>
+	<description>PLG_CACHE_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="cache">cache.php</filename>
@@ -21,8 +21,8 @@
 			name="browsercache"
 			type="radio"
 			default="0"
-			label="Use browser caching"
-			description="If yes, use mechanism for storing page cache in the browser">
+			label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
+			description="PLG_CACHE_FIELD_BROWSERCACHE_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -32,7 +32,7 @@
 			name="cachetime"
 			type="text"
 			default="15"
-			label="Cache Lifetime"
-			description="Page cache lifetime in minutes" />
+			label="PLG_CACHE_FIELD_LIFETIME_LABEL"
+			description="PLG_CACHE_FIELD_LIFETIME_DESC" />
 	</fields>
 </install>
