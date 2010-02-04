@@ -635,7 +635,7 @@ class JInstallerModule extends JAdapterInstance
 
 	/**
 	 * Custom rollback method
-	 * 	- Roll back the menu item
+	 *	- Roll back the menu item
 	 *
 	 * @access	public
 	 * @param	array	$arg	Installation step to rollback
@@ -662,7 +662,7 @@ class JInstallerModule extends JAdapterInstance
 
 	/**
 	 * Custom rollback method
-	 * 	- Roll back the module item
+	 *	- Roll back the module item
 	 *
 	 * @access	public
 	 * @param	array	$arg	Installation step to rollback
