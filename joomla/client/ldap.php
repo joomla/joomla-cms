@@ -405,14 +405,14 @@ class JLDAP extends JObject
 	 *  Novell Docs, see: http://developer.novell.com/ndk/doc/ndslib/schm_enu/data/sdk5624.html#sdk5624
 	 *  for Address types: http://developer.novell.com/ndk/doc/ndslib/index.html?page=/ndk/doc/ndslib/schm_enu/data/sdk4170.html
 	 *  LDAP Format, String:
-	 *	 taggedData = uint32String "#" octetstring
-	 *	 byte 0 = uint32String = Address Type: 0= IPX Address; 1 = IP Address
-	 *	 byte 1 = char = "#" - separator
-	 *	 byte 2+ = octetstring - the ordinal value of the address
-	 *   Note: with eDirectory 8.6.2, the IP address (type 1) returns
-	 *				 correctly, however, an IPX address does not seem to.  eDir 8.7 may correct this.
+	 *	taggedData = uint32String "#" octetstring
+	 *	byte 0 = uint32String = Address Type: 0= IPX Address; 1 = IP Address
+	 *	byte 1 = char = "#" - separator
+	 *	byte 2+ = octetstring - the ordinal value of the address
+	 *	Note: with eDirectory 8.6.2, the IP address (type 1) returns
+	 *				correctly, however, an IPX address does not seem to.  eDir 8.7 may correct this.
 	 *  Enhancement made by Merijn van de Schoot:
-	 *	 If addresstype is 8 (UDP) or 9 (TCP) do some additional parsing like still returning the IP address
+	 *	If addresstype is 8 (UDP) or 9 (TCP) do some additional parsing like still returning the IP address
 	 */
 	function LDAPNetAddr($networkaddress)
 	{

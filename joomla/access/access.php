@@ -14,7 +14,7 @@ jimport('joomla.access.rules');
 /**
  * Class that handles all access authorization routines.
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	User
  * @since		1.6
  */

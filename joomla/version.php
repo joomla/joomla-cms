@@ -18,27 +18,27 @@ defined('JPATH_BASE') or die;
 class JVersion
 {
 	/** @public string Product */
-	public $PRODUCT 	= 'Joomla!';
+	public $PRODUCT	= 'Joomla!';
 	/** @public int Main Release Level */
-	public $RELEASE 	= '1.6';
+	public $RELEASE	= '1.6';
 	/** @public string Development Status */
-	public $DEV_STATUS 	= 'Alpha';
+	public $DEV_STATUS	= 'Alpha';
 	/** @public int Sub Release Level */
-	public $DEV_LEVEL 	= '0';
+	public $DEV_LEVEL	= '0';
 	/** @public int build Number */
 	public $BUILD		= '';
 	/** @public string Codename */
-	public $CODENAME 	= 'Hope';
+	public $CODENAME	= 'Hope';
 	/** @public string Date */
-	public $RELDATE 	= '22-June-2009';
+	public $RELDATE	= '22-June-2009';
 	/** @public string Time */
-	public $RELTIME 	= '23:00';
+	public $RELTIME	= '23:00';
 	/** @public string Timezone */
-	public $RELTZ 		= 'GMT';
+	public $RELTZ		= 'GMT';
 	/** @public string Copyright Text */
-	public $COPYRIGHT 	= 'Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.';
+	public $COPYRIGHT	= 'Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.';
 	/** @public string URL */
-	public $URL 		= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	public $URL		= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * Method to get the long version information.

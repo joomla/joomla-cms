@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
  * Utility class to assist in the process of benchmarking the execution
  * of sections of code to understand where time is being spent.
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Error
  * @since		1.0
  */

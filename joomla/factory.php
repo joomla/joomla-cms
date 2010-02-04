@@ -33,8 +33,8 @@ abstract class JFactory
 	 * Returns the global {@link JApplication} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param	mixed	$id 		A client identifier or name.
-	 * @param	array	$config 	An optional associative array of configuration settings.
+	 * @param	mixed	$id		A client identifier or name.
+	 * @param	array	$config	An optional associative array of configuration settings.
 	 * @return object JApplication
 	 */
 	public static function getApplication($id = null, $config = array(), $prefix='J')
@@ -141,7 +141,7 @@ abstract class JFactory
 	 * Returns the global {@link JUser} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param 	int 	$id 	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
+	 * @param	int	$id	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 *
 	 * @return object JUser
 	 */
@@ -289,8 +289,8 @@ abstract class JFactory
 	 *
 	 * @param string The type of xml parser needed 'DOM', 'RSS' or 'Simple'
 	 * @param array:
-	 * 		string  ['rssUrl'] the rss url to parse when using "RSS"
-	 * 		string	['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
+	 *		string  ['rssUrl'] the rss url to parse when using "RSS"
+	 *		string	['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
 	 * @return object Parsed XML document object
 	 * @deprecated
 	 */
@@ -525,13 +525,13 @@ abstract class JFactory
 
 		$conf = &JFactory::getConfig();
 
-		$host 		= $conf->getValue('config.host');
-		$user 		= $conf->getValue('config.user');
-		$password 	= $conf->getValue('config.password');
+		$host		= $conf->getValue('config.host');
+		$user		= $conf->getValue('config.user');
+		$password	= $conf->getValue('config.password');
 		$database	= $conf->getValue('config.db');
-		$prefix 	= $conf->getValue('config.dbprefix');
-		$driver 	= $conf->getValue('config.dbtype');
-		$debug 		= $conf->getValue('config.debug');
+		$prefix	= $conf->getValue('config.dbprefix');
+		$driver	= $conf->getValue('config.dbtype');
+		$debug		= $conf->getValue('config.debug');
 
 		$options	= array ('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
@@ -562,19 +562,19 @@ abstract class JFactory
 
 		$conf	= &JFactory::getConfig();
 
-		$sendmail 	= $conf->getValue('config.sendmail');
-		$smtpauth 	= $conf->getValue('config.smtpauth');
-		$smtpuser 	= $conf->getValue('config.smtpuser');
-		$smtppass  	= $conf->getValue('config.smtppass');
-		$smtphost 	= $conf->getValue('config.smtphost');
+		$sendmail	= $conf->getValue('config.sendmail');
+		$smtpauth	= $conf->getValue('config.smtpauth');
+		$smtpuser	= $conf->getValue('config.smtpuser');
+		$smtppass	= $conf->getValue('config.smtppass');
+		$smtphost	= $conf->getValue('config.smtphost');
 		$smtpsecure	= $conf->getValue('config.smtpsecure');
 		$smtpport	= $conf->getValue('config.smtpport');
-		$mailfrom 	= $conf->getValue('config.mailfrom');
-		$fromname 	= $conf->getValue('config.fromname');
-		$mailer 	= $conf->getValue('config.mailer');
+		$mailfrom	= $conf->getValue('config.mailfrom');
+		$fromname	= $conf->getValue('config.fromname');
+		$mailer		= $conf->getValue('config.mailer');
 
 		// Create a JMail object
-		$mail 		= &JMail::getInstance();
+		$mail		= &JMail::getInstance();
 
 		// Set default sender
 		$mail->setSender(array ($mailfrom, $fromname));

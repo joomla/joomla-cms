@@ -11,7 +11,7 @@
 defined('JPATH_BASE') or die;
 
 /**
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Language
  * @static
  * @since 1.5
@@ -49,11 +49,11 @@ class JLanguageHelper
 	}
 
 	/**
- 	 * Tries to detect the language.
- 	 *
- 	 * @return	string locale
- 	 * @since	1.5
- 	 */
+	 * Tries to detect the language.
+	 *
+	 * @return	string locale
+	 * @since	1.5
+	 */
 	public static function detectLanguage()
 	{
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))

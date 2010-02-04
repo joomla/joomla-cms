@@ -16,8 +16,8 @@ defined('JPATH_BASE') or die;
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
  *
- * @package 	Joomla.Framework
- * @subpackage		Filter
+ * @package		Joomla.Framework
+ * @subpackage	Filter
  * @since		1.5
  */
 class JFilterInput extends JObject
@@ -255,7 +255,7 @@ class JFilterInput extends JObject
 		$preTag		= null;
 		$postTag	= $source;
 		$currentSpace = false;
-		$attr = '';	 // moffats: setting to null due to issues in migration system - undefined variable errors
+		$attr = '';	// moffats: setting to null due to issues in migration system - undefined variable errors
 
 		// Is there a tag? If so it will certainly start with a '<'
 		$tagOpen_start	= strpos($source, '<');

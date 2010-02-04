@@ -16,7 +16,7 @@ defined('JPATH_BASE') or die;
  * This class is designed to build log files based on the
  * W3C specification at: http://www.w3.org/TR/WD-logfile.html
  *
- * @package 	Joomla.Framework
+ * @package	Joomla.Framework
  * @subpackage	Error
  * @since		1.5
  */
@@ -152,8 +152,8 @@ class JLog extends JObject
 	/**
 	 * Open the log file pointer and create the file if it doesn't exist
 	 *
-	 * @access 	public
-	 * @return 	boolean	True on success
+	 * @access	public
+	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
 	function _openLog()
@@ -206,8 +206,8 @@ class JLog extends JObject
 	/**
 	 * Close the log file pointer
 	 *
-	 * @access 	public
-	 * @return 	boolean	True on success
+	 * @access	public
+	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
 	function _closeLog()

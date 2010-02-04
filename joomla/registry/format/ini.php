@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
 /**
  * INI format handler for JRegistry
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Registry
  * @since		1.5
  */
@@ -21,9 +21,9 @@ class JRegistryFormatINI extends JRegistryFormat
 {
 	/**
 	 * Converts an object into an INI formatted string
-	 * 	-	Unfortunately, there is no way to have ini values nested further than two
-	 * 		levels deep.  Therefore we will only go through the first two levels of
-	 * 		the object.
+	 *	-	Unfortunately, there is no way to have ini values nested further than two
+	 *		levels deep.  Therefore we will only go through the first two levels of
+	 *		the object.
 	 *
 	 * @param	object	Data Source Object
 	 * @param	array	Parameters used by the formatter

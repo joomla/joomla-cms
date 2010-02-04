@@ -16,9 +16,9 @@ JLoader::register('JRegistryFormat', dirname(__FILE__).DS.'format.php');
 /**
  * JRegistry class
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Registry
- * @since 		1.5
+ * @since		1.5
  */
 class JRegistry extends JObject
 {
@@ -54,7 +54,7 @@ class JRegistry extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>$registry = JRegistry::getInstance($id);</pre>
+	 *		<pre>$registry = JRegistry::getInstance($id);</pre>
 	 *
 	 * @param	string	An ID for the registry instance
 	 * @param	string	The default namespace for the registry object [optional]
@@ -479,8 +479,8 @@ class JRegistry extends JObject
 	 * Set a registry value
 	 *
 	 * @param	string	Registry Path (e.g. joomla.content.showauthor)
-	 * @param 	mixed	Value of entry
-	 * @return 	mixed	The old value prior to setting, or null if no previous value is available.
+	 * @param	mixed	Value of entry
+	 * @return	mixed	The old value prior to setting, or null if no previous value is available.
 	 * @deprecated 1.6 - Jan 19, 2010
 	 */
 	public function setValue($regpath, $value)

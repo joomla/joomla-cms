@@ -430,7 +430,7 @@ class JForm extends JObject
 									if (intval($data[$name])) {
 										$offset	= $user->getParam('timezone', $config->getValue('config.offset'));
 
-										$date   = JFactory::getDate($data[$name], $offset);
+										$date = JFactory::getDate($data[$name], $offset);
 										$return[$name] = $date->toMySQL();
 									}
 									break;

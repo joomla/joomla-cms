@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die();
  * JFilterOutput
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Filter
  * @since		1.5
  */
@@ -30,7 +30,7 @@ class JFilterOutput
 	* @param object An object to be parsed
 	* @param int The optional quote style for the htmlspecialchars function
 	* @param string|array An optional single field name or array of field names not
-	*					 to be parsed (eg, for a textarea)
+	*					to be parsed (eg, for a textarea)
 	* @since 1.5
 	*/
 	function objectHTMLSafe(&$mixed, $quote_style=ENT_QUOTES, $exclude_keys='')
@@ -93,7 +93,7 @@ class JFilterOutput
 		return $str;
 	}
 
- 	/**
+	/**
 	 * This method implements unicode slugs instead of transliteration.
 	 *
 	 * @static
@@ -156,8 +156,8 @@ class JFilterOutput
 	 */
 	function _ampReplaceCallback($m)
 	{
-		 $rx = '&(?!amp;)';
-		 return preg_replace('#'.$rx.'#', '&amp;', $m[0]);
+		$rx = '&(?!amp;)';
+		return preg_replace('#'.$rx.'#', '&amp;', $m[0]);
 	}
 
 	/**
