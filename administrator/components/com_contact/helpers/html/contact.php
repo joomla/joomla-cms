@@ -1,6 +1,6 @@
 <?php
 /**
- * @version
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -61,7 +61,7 @@ abstract class JHtmlContact
 			<?php echo JText::_('PUBLISHED_BUT_HAS'); ?> <u><?php echo JText::_('Expired'); ?></u> |
 			</td>
 			<td>
-			<?php echo JHTML::_('image', 'admin/publish_x.png', JText::_('Finished'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?> 
+			<?php echo JHTML::_('image', 'admin/publish_x.png', JText::_('Finished'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
 			</td>
 			<td>
 			<?php echo JText::_('NOT_PUBLISHED'); ?> |

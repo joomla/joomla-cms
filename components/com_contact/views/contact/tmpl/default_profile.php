@@ -1,6 +1,6 @@
 <?php
 /**
- * @version
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 			<li>
 
 				<?php echo $profile->text = htmlspecialchars($profile->profile, ENT_COMPAT, 'UTF-8'); ?>
-				
+
 			</li>
 		<?php endforeach; ?>
 	</ol>

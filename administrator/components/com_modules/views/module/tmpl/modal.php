@@ -1,6 +1,6 @@
 <?php
 /**
- * @version
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Modules
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -46,7 +46,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<button type="button" onclick="window.parent.SqueezeBox.close();">
 				<?php echo JText::_('Cancel');?></button>
 		</div>
-		
+
 				<script type="text/javascript">
 			function allselections() {
 				var e = document.getElementById('selections');
@@ -79,9 +79,9 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 				}
 			}
 		</script>
-		
+
 		<div class="clr"></div>
-		
+
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<?php if ($this->item->id) : ?>
