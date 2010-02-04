@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
 /**
  * Renders a textarea element
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
  */

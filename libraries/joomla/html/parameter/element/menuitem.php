@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
 /**
  * Renders a menu item element
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Parameter
  * @since		1.5
  */
@@ -71,8 +71,8 @@ class JElementMenuItem extends JElement
 			// first pass - collect children
 			foreach ($menuItems as $v)
 			{
-				$pt 	= $v->parent_id;
-				$list 	= @$children[$pt] ? $children[$pt] : array();
+				$pt	= $v->parent_id;
+				$list	= @$children[$pt] ? $children[$pt] : array();
 				array_push($list, $v);
 				$children[$pt] = $list;
 			}
@@ -89,7 +89,7 @@ class JElementMenuItem extends JElement
 		}
 
 		// assemble menu items to the array
-		$options 	= array();
+		$options	= array();
 		$options[]	= JHtml::_('select.option', '', '- '.JText::_('SELECT_ITEM').' -');
 
 		foreach ($menuTypes as $type)

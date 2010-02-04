@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
 /**
  * Renders a timezones element
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
  */
