@@ -16,11 +16,11 @@ require_once dirname(__FILE__).DS.'helper.php';
 $showmode = $params->get('showmode', 0);
 
 if ($showmode == 0 || $showmode == 2) {
-    $count 	= modWhosonlineHelper::getOnlineCount();
+	$count 	= modWhosonlineHelper::getOnlineCount();
 }
 
 if ($showmode > 0) {
-    $names 	= modWhosonlineHelper::getOnlineUserNames();
+	$names 	= modWhosonlineHelper::getOnlineUserNames();
 }
 $linknames = $params->get('linknames', 0);
 require JModuleHelper::getLayoutPath('mod_whosonline', $params->get('layout', 'default'));

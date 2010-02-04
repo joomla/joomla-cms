@@ -24,6 +24,6 @@ $set_Itemid		 = intval($params->get('set_itemid', 0));
 $moduleclass_sfx = $params->get('moduleclass_sfx', '');
 
 if ($imagebutton) {
-    $img = modSearchHelper::getSearchImage($button_text);
+	$img = modSearchHelper::getSearchImage($button_text);
 }
 require JModuleHelper::getLayoutPath('mod_search', $params->get('layout', 'default'));

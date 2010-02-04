@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 		}
 		echo ' '.$separator.' ';
 	}  else if ($params->get('showLast', 1)) { // when $i == $count -1 and 'showLast' is true
-	    echo $list[$i]->name;
+		echo $list[$i]->name;
 	}
 endfor; ?>
 </span>

@@ -34,7 +34,7 @@ endif; ?>
 <?php echo $item->text; ?>
 
 
-       <?php if (isset($item->linkOn) && $item->readmore && $params->get('readmore')) :
-	      echo '<a class="readmore" href="'.$item->linkOn.'">'.$item->linkText.'</a>';
-        endif; ?>
+	   <?php if (isset($item->linkOn) && $item->readmore && $params->get('readmore')) :
+		  echo '<a class="readmore" href="'.$item->linkOn.'">'.$item->linkText.'</a>';
+		endif; ?>
 

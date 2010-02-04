@@ -76,19 +76,19 @@ class modNewsFlashHelper
 
 		// query to determine article count
 		$query	= $db->getQuery(true);
-        $query->select('a.*');
-        $query->select('CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
-        $query->select('CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug');
-        $query->from('#__content as a');
-        $query->innerJoin('#__categories AS cc ON cc.id = a.catid');
-        $query->where('a.state = 1');
-        $query->where($noauth ? 'a.access IN ('.$groups.')' : '');
-        $query->where($noauth ? 'cc.access IN ('.$groups.')' : '');
-        $query->where('(a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')');
-        $query->where('(a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')');
-        $query->where('cc.id = '. (int) $catid);
-        $query->where('cc.published = 1');
-        $query->order('a.ordering');
+		$query->select('a.*');
+		$query->select('CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
+		$query->select('CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug');
+		$query->from('#__content as a');
+		$query->innerJoin('#__categories AS cc ON cc.id = a.catid');
+		$query->where('a.state = 1');
+		$query->where($noauth ? 'a.access IN ('.$groups.')' : '');
+		$query->where($noauth ? 'cc.access IN ('.$groups.')' : '');
+		$query->where('(a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')');
+		$query->where('(a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')');
+		$query->where('cc.id = '. (int) $catid);
+		$query->where('cc.published = 1');
+		$query->order('a.ordering');
 
 		$db->setQuery($query, 0, $items);
 		$rows = $db->loadObjectList();

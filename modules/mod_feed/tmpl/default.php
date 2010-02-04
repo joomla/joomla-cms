@@ -49,7 +49,7 @@ if ($feed != false)
 	}
 
 	$actualItems = count($feed->items);
-	$setItems    = $params->get('rssitems', 5);
+	$setItems	= $params->get('rssitems', 5);
 
 	if ($setItems > $actualItems) {
 		$totalItems = $actualItems;
@@ -68,24 +68,24 @@ if ($feed != false)
 				?>
 				<li class="newsfeed-item">
 					<?php	if (!is_null($currItem->get_link())) {
-				    ?>
-			    <?php if (!is_null($feed->title) && $params->get('rsstitle', 1))
+					?>
+				<?php if (!is_null($feed->title) && $params->get('rsstitle', 1))
 
-			    	{ echo '<h5 class="feed-link">';}
-			    else
-			    {
-			    echo '<h4 class="feed-link">';
-			    }
-			     ?>
+					{ echo '<h5 class="feed-link">';}
+				else
+				{
+				echo '<h4 class="feed-link">';
+				}
+				 ?>
 
 				<a href="<?php echo $currItem->get_link(); ?>" target="_blank">
 					<?php echo $currItem->get_title(); ?></a>
 					<?php if (!is_null($feed->title) && $params->get('rsstitle', 1))
 
-			    	{ echo '</h5>';}
+					{ echo '</h5>';}
 			   		 else
 			   		{ echo '</h4>';}
-			     ?>
+				 ?>
 				<?php
 				}
 
@@ -95,7 +95,7 @@ if ($feed != false)
 					// item description
 					$text = $currItem->get_description();
 					$text = str_replace('&apos;', "'", $text);
-                    $text=strip_tags($text);
+					$text=strip_tags($text);
 					// word limit check
 					if ($words)
 					{
