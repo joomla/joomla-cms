@@ -3,14 +3,12 @@
 	<name>User - Contact Creator</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2009</creationDate>
-	<copyright>(C) 2005 - 2009 Open Source Matters. All rights reserved.
-	</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt
-	</license>
+	<copyright>(C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>PLG_USER_CONTACTCREATOR_DESC</description>
+	<description>PLG_CONTACTCREATOR_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="contactcreator">contactcreator.php</filename>
 	</files>
@@ -23,21 +21,21 @@
 			name="autowebpage"
 			default=""
 			type="text"
-			label="PLG_CONTACTCREATOR_Automatic_Contact_Label"
-			description="PLG_CONTACTCREATOR_Automatic_Contact_DESC" />
+			label="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_CONTACT_LABEL"
+			description="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_CONTACT_DESC"/>
 		<field
 			name="category"
 			default=""
 			type="category"
 			extension="com_contact"
-			label="PLG_CONTACTCREATOR_Category_label"
-			description="PLG_CONTACTCREATOR_Category_Desc"/>
-		<field
+			label="PLG_CONTACTCREATOR_FIELD_CATEGORY_LABEL"
+			description="PLG_CONTACTCREATOR_FIELD_CATEGORY_DESC"/>
+		<field 
 			name="autopublish"
 			type="radio"
 			default="0"
-			label="PLG_CONTACTCREATOR_Autopublish_Label"
-			description="PLG_CONTACTCREATOR_Autopublish_DESC">
+			label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL"
+			description="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_DESC">
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>

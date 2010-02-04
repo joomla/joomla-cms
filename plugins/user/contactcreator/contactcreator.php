@@ -37,7 +37,7 @@ class plgUserContactCreator extends JPlugin
 		$category = $this->params->get('category', 0);
 		if(empty($category))
 		{
-			JError::raiseWarning(41, JText::_('PLG_CONTACTCREATOR_NO_CATEGORY'));
+			JError::raiseWarning(41, JText::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'));
 			return false; // bail out if we don't have a category
 		}
 

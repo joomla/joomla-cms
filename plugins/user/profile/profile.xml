@@ -14,7 +14,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>USER_PROFILE_PLUGIN_DESC</description>
+	<description>PLG_USER_PROFILE_XML_DESCRIPTION</description>
 
 	<files>
 		<file
@@ -30,11 +30,16 @@
 
 	<fields>
 		<field
+			name="register-require-user"
+			type="spacer"
+			label="PLG_USER_PROFILE_FIELD_NAME_REGISTER_REQUIRE_USER"
+			/>
+		<field
 			name="register-require_address1"
 			type="radio"
 			default="0"
-			label="MEMBERS_REGISTRATION_TOGGLE_ADDRESS1_LABEL"
-			description="MEMBERS_REGISTRATION_TOGGLE_ADDRESS1_DESC">
+			label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
+			description="PLG_USER_PROFILE_FIELD_ADDRESS1_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -46,8 +51,8 @@
 			name="register-require_address2"
 			type="radio"
 			default="0"
-			label="MEMBERS_REGISTRATION_TOGGLE_ADDRESS2_LABEL"
-			description="MEMBERS_REGISTRATION_TOGGLE_ADDRESS2_DESC">
+			label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
+			description="PLG_USER_PROFILE_FIELD_ADDRESS2_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -59,8 +64,8 @@
 			name="register-require_city"
 			type="radio"
 			default="0"
-			label="MEMBERS_REGISTRATION_TOGGLE_CITY_LABEL"
-			description="MEMBERS REGISTRATION_TOGGLE_CITY_DESC">
+			label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
+			description="PLG_USER_PROFILE_FIELD_CITY_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -72,8 +77,8 @@
 			name="register-require_region"
 			type="radio"
 			default="0"
-			label="MEMBERS_REGISTRATION_TOGGLE_REGION_LABEL"
-			description="MEMBERS_REGISTRATION_TOGGLE_REGION_DESC">
+			label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
+			description="PLG_USER_PROFILE_FIELD_REGION_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -85,8 +90,8 @@
 			name="register-require_country"
 			type="radio"
 			default="0"
-			label="MEMBERS_REGISTRATION_TOGGLE_COUNTRY_LABEL"
-			description="MEMBERS_REGISTRATION_TOGGLE_COUNTRY_DESC">
+			label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
+			description="PLG_USER_PROFILE_FIELD_PHONE_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -98,8 +103,8 @@
 			name="register-require_postal_code"
 			type="radio"
 			default="0"
-			label="MEMBERS_REGISTRATION_TOGGLE_POSTAL_CODE_LABEL"
-			description="MEMBERS_REGISTRATION_TOGGLE_POSTAL_CODE_DESC">
+			label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
+			description="PLG_USER_PROFILE_FIELD_POSTAL_CODE_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -111,8 +116,8 @@
 			name="register-require_phone"
 			type="radio"
 			default="0"
-			label="MEMBERS_PROFILE_TOGGLE_PHONE_LABEL"
-			description="MEMBERS_REGISTRATION_TOGGLE_PHONE_DESC">
+			label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
+			description="PLG_USER_PROFILE_FIELD_PHONE_LABEL">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -124,8 +129,8 @@
 			name="register-require_website"
 			type="radio"
 			default="0"
-			label="MEMBERS_REGISTRATION_TOGGLE_WEB_SITE_LABEL"
-			description="MEMBERS_REGISTRATION_TOGGLE_WEB_SITE_DESC">
+			label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
+			description="PLG_USER_PROFILE_FIELD_WEB_SITE_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -133,17 +138,20 @@
 			<option
 				value="0">JOPTION_DISABLED</option>
 		</field>
+		
+-----------------------------------------------------------------------------------		
+		
 		<field
-			name="spacer1"
+			name="profile-require-user"
 			type="spacer"
-			hr="true"
+			label="PLG_USER_PROFILE_FIELD_NAME_PROFILE_REQUIRE_USER" 
 			/>
 		<field
 			name="profile-require_address1"
 			type="radio"
 			default="1"
-			label="MEMBERS_PROFILE_TOGGLE_ADDRESS1_LABEL"
-			description="MEMBERS_PROFILE_TOGGLE_ADDRESS1_DESC">
+			label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
+			description="PLG_USER_PROFILE_FIELD_ADDRESS1_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -155,8 +163,8 @@
 			name="profile-require_address2"
 			type="radio"
 			default="1"
-			label="MEMBERS_PROFILE_TOGGLE_ADDRESS2_LABEL"
-			description="MEMBERS_PROFILE_TOGGLE_ADDRESS2_DESC">
+			label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
+			description="PLG_USER_PROFILE_FIELD_ADDRESS2_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -168,8 +176,8 @@
 			name="profile-require_city"
 			type="radio"
 			default="1"
-			label="MEMBERS_PROFILE_TOGGLE_CITY_LABEL"
-			description="MEMBERS_PROFILE_TOGGLE_CITY_DESC">
+			label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
+			description="PLG_USER_PROFILE_FIELD_CITY_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -181,8 +189,8 @@
 			name="profile-require_region"
 			type="radio"
 			default="1"
-			label="MEMBERS_PROFILE_TOGGLE_REGION_LABEL"
-			description="MEMBERS_PROFILE_TOGGLE_REGION_DESC">
+			label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
+			description="PLG_USER_PROFILE_FIELD_REGION_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -194,8 +202,8 @@
 			name="profile-require_country"
 			type="radio"
 			default="1"
-			label="MEMBERS_PROFILE_TOGGLE_COUNTRY_LABEL"
-			description="MEMBERS_PROFILE_TOGGLE_COUNTRY_DESC">
+			label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
+			description="PLG_USER_PROFILE_FIELD_COUNTRY_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -207,8 +215,8 @@
 			name="profile-require_postal_code"
 			type="radio"
 			default="1"
-			label="MEMBERS_PROFILE_TOGGLE_POSTAL_CODE_LABEL"
-			description="MEMBERS_PROFILE_TOGGLE_POSTAL_CODE_DESC">
+			label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
+			description="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -220,8 +228,8 @@
 			name="profile-require_phone"
 			type="radio"
 			default="1"
-			label="MEMBERS_PROFILE_TOGGLE_PHONE_LABEL"
-			description="MEMBERS_PROFILE_TOGGLE_PHONE_DESC">
+			label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
+			description="PLG_USER_PROFILE_FIELD_PHONE_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
@@ -233,8 +241,8 @@
 			name="profile-require_website"
 			type="radio"
 			default="1"
-			label="MEMBERS_PROFILE_TOGGLE_WEB_SITE_LABEL"
-			description="MEMBERS_PROFILE_TOGGLE_WEB_SITE_DESC">
+			label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
+			description="PLG_USER_PROFILE_FIELD_WEB_SITE_DESC">
 			<option
 				value="2">JOPTION_REQUIRED</option>
 			<option
