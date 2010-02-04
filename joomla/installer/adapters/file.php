@@ -3,7 +3,7 @@
  * @version		$Id:plugin.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		JLibMan
  * @subpackage	Installer
- * @copyright 	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 

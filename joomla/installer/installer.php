@@ -49,7 +49,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * Stack of installation steps
-	 * 	- Used for installation rollback
+	 *	- Used for installation rollback
 	 * @var array
 	 */
 	protected $_stepStack = array();
@@ -610,7 +610,7 @@ class JInstaller extends JAdapter
 	 * installation manifest file and take appropriate action.
 	 *
 	 * @access	public
-	 * @param	object	$element 	The xml node to process
+	 * @param	object	$element	The xml node to process
 	 * @return	mixed	Number of queries processed or False on error
 	 * @since	1.5
 	 */
@@ -650,7 +650,7 @@ class JInstaller extends JAdapter
 	 * Method to extract the name of a discreet installation sql file from the installation manifest file.
 	 *
 	 * @access	public
-	 * @param	object	$element 	The xml node to process
+	 * @param	object	$element	The xml node to process
 	 * @param	string	$version	The database connector to use
 	 * @return	mixed	Number of queries processed or False on error
 	 * @since	1.5
@@ -733,9 +733,9 @@ class JInstaller extends JAdapter
 	 * action.
 	 *
 	 * @access	public
-	 * @param	object	$element 	The xml node to process
+	 * @param	object	$element	The xml node to process
 	 * @param	int		$cid		Application ID of application to install to
-	 * @param 	Array	List of old files (JXMLElement's)
+	 * @param	Array	List of old files (JXMLElement's)
 	 * @param	Array	List of old MD5 sums (indexed by filename with value as MD5)
 	 * @return	boolean	True on success
 	 * @since	1.5
@@ -850,7 +850,7 @@ class JInstaller extends JAdapter
 	 * action.
 	 *
 	 * @access	public
-	 * @param	object	$element 	The xml node to process
+	 * @param	object	$element	The xml node to process
 	 * @param	int		$cid		Application ID of application to install to
 	 * @return	boolean	True on success
 	 * @since	1.5
@@ -899,7 +899,7 @@ class JInstaller extends JAdapter
 			/*
 			 * Language files go in a subfolder based on the language code, ie.
 			 *
-			 * 		<language tag="en-US">en-US.mycomponent.ini</language>
+			 *		<language tag="en-US">en-US.mycomponent.ini</language>
 			 *
 			 * would go in the en-US subdirectory of the language folder.
 			 *
@@ -960,7 +960,7 @@ class JInstaller extends JAdapter
 	 * action.
 	 *
 	 * @access	public
-	 * @param	object	$element 	The xml node to process
+	 * @param	object	$element	The xml node to process
 	 * @param	int		$cid		Application ID of application to install to
 	 * @return	boolean	True on success
 	 * @since	1.5
@@ -982,7 +982,7 @@ class JInstaller extends JAdapter
 
 		/*
 		 * Here we set the folder we are going to copy the files to.
-		 * 	Default 'media' Files are copied to the JPATH_BASE/media folder
+		 *	Default 'media' Files are copied to the JPATH_BASE/media folder
 		 */
 		$folder = ((string)$element->attributes()->destination) ? DS.$element->attributes()->destination : null;
 		$destination = JPath::clean(JPATH_ROOT.DS.'media'.$folder);
@@ -1178,7 +1178,7 @@ class JInstaller extends JAdapter
 	 * the files that were installed
 	 *
 	 * @access	public
-	 * @param	object	$element 	The xml node to process
+	 * @param	object	$element	The xml node to process
 	 * @param	int		$cid		Application ID of application to remove from
 	 * @return	boolean	True on success
 	 * @since	1.5
@@ -1259,7 +1259,7 @@ class JInstaller extends JAdapter
 			 * If the file is a language, we must handle it differently.  Language files
 			 * go in a subdirectory based on the language code, ie.
 			 *
-			 * 		<language tag="en_US">en_US.mycomponent.ini</language>
+			 *		<language tag="en_US">en_US.mycomponent.ini</language>
 			 *
 			 * would go in the en_US subdirectory of the languages directory.
 			 */
