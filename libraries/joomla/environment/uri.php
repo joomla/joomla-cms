@@ -198,7 +198,7 @@ class JURI extends JObject
 			}
 			else
 			{
-				$uri			 = &JURI::getInstance();
+				$uri			= &JURI::getInstance();
 				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI']))
@@ -233,7 +233,7 @@ class JURI extends JObject
 		{
 			$uri			= &JURI::getInstance(JURI::base());
 			$root['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
-			$root['path']   = rtrim($uri->toString(array('path')), '/\\');
+			$root['path']	= rtrim($uri->toString(array('path')), '/\\');
 		}
 
 		// Get the scheme
@@ -257,7 +257,7 @@ class JURI extends JObject
 		// Get the current URL.
 		if (!isset($current))
 		{
-			$uri	 = &JURI::getInstance();
+			$uri	= &JURI::getInstance();
 			$current = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		}
 
@@ -388,7 +388,7 @@ class JURI extends JObject
 
 	/**
 	 * Sets the query to a supplied string in format:
-	 * 		foo=bar&x=y
+	 *		foo=bar&x=y
 	 *
 	 * @param	mixed (array|string) $query The query string.
 	 * @since	1.5
@@ -468,7 +468,7 @@ class JURI extends JObject
 
 	/**
 	 * Get URI scheme (protocol)
-	 * 		ie. http, https, ftp, etc...
+	 *		ie. http, https, ftp, etc...
 	 *
 	 * @return	string The URI scheme.
 	 * @since	1.5
@@ -480,7 +480,7 @@ class JURI extends JObject
 
 	/**
 	 * Set URI scheme (protocol)
-	 * 		ie. http, https, ftp, etc...
+	 *		ie. http, https, ftp, etc...
 	 *
 	 * @param	string $scheme The URI scheme.
 	 * @since	1.5
@@ -492,7 +492,7 @@ class JURI extends JObject
 
 	/**
 	 * Get URI username
-	 * 		returns the username, or null if no username was specified.
+	 *		returns the username, or null if no username was specified.
 	 *
 	 * @return	string The URI username.
 	 * @since	1.5
@@ -515,7 +515,7 @@ class JURI extends JObject
 
 	/**
 	 * Get URI password
-	 * 		returns the password, or null if no password was specified.
+	 *		returns the password, or null if no password was specified.
 	 *
 	 * @return	string The URI password.
 	 * @since	1.5
@@ -538,7 +538,7 @@ class JURI extends JObject
 
 	/**
 	 * Get URI host
-	 * 		returns the hostname/ip, or null if no hostname/ip was specified.
+	 *		returns the hostname/ip, or null if no hostname/ip was specified.
 	 *
 	 * @return	string The URI host.
 	 * @since	1.5
@@ -561,7 +561,7 @@ class JURI extends JObject
 
 	/**
 	 * Get URI port
-	 * 		returns the port number, or null if no port was specified.
+	 *		returns the port number, or null if no port was specified.
 	 *
 	 * @return	int The URI port number.
 	 */
@@ -605,7 +605,7 @@ class JURI extends JObject
 
 	/**
 	 * Get the URI archor string
-	 * 		everything after the "#".
+	 *		everything after the "#".
 	 *
 	 * @return	string The URI anchor string.
 	 * @since	1.5
@@ -617,7 +617,7 @@ class JURI extends JObject
 
 	/**
 	 * Set the URI anchor string
-	 * 		everything after the "#".
+	 *		everything after the "#".
 	 *
 	 * @param	string $anchor The URI anchor string.
 	 * @since	1.5
@@ -641,7 +641,7 @@ class JURI extends JObject
 	/**
 	 * Checks if the supplied URL is internal
 	 *
-	 * @param 	string $url The URL to check.
+	 * @param	string $url The URL to check.
 	 * @return	boolean True if Internal.
 	 * @since	1.5
 	 */

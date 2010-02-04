@@ -43,7 +43,7 @@ class JBrowser extends JObject
 	/** @var string HTTP_ACCEPT string. */
 	protected $_accept = '';
 
-	 /** @var string Platform the browser is running on. */
+	/** @var string Platform the browser is running on. */
 	protected $_platform = '';
 
 	/** @var array Known robots. */
@@ -95,54 +95,54 @@ class JBrowser extends JObject
 		'webbandit',
 		'www.almaden.ibm.com/cs/crawler',
 		'ZyBorg',
-   );
+	);
 
 	/** @var boolean Is this a mobile browser? */
 	protected $_mobile = false;
 
 	/** @var array Features. */
 	protected $_features = array(
-		'html'		  => true,
-		'hdml'		  => false,
-		'wml'		   => false,
+		'html'			=> true,
+		'hdml'			=> false,
+		'wml'			=> false,
 		'images'		=> true,
-		'iframes'	   => false,
+		'iframes'		=> false,
 		'frames'		=> true,
 		'tables'		=> true,
-		'java'		  => true,
+		'java'			=> true,
 		'javascript'	=> true,
-		'dom'		   => false,
-		'utf'		   => false,
-		'rte'		   => false,
-		'homepage'	  => false,
-		'accesskey'	 => false,
-		'optgroup'	  => false,
+		'dom'			=> false,
+		'utf'			=> false,
+		'rte'			=> false,
+		'homepage'		=> false,
+		'accesskey'		=> false,
+		'optgroup'		=> false,
 		'xmlhttpreq'	=> false,
-		'cite'		  => false,
-		'xhtml+xml'	 => false,
+		'cite'			=> false,
+		'xhtml+xml'		=> false,
 		'mathml'		=> false,
-		'svg'		   => false
-   );
+		'svg'			=> false
+	);
 
 	/** @var array Quirks. */
 	protected $_quirks = array(
-		'avoid_popup_windows'		   => false,
-		'break_disposition_header'	  => false,
+		'avoid_popup_windows'			=> false,
+		'break_disposition_header'		=> false,
 		'break_disposition_filename'	=> false,
-		'broken_multipart_form'		 => false,
+		'broken_multipart_form'			=> false,
 		'cache_same_url'				=> false,
-		'cache_ssl_downloads'		   => false,
-		'double_linebreak_textarea'	 => false,
+		'cache_ssl_downloads'			=> false,
+		'double_linebreak_textarea'		=> false,
 		'empty_file_input_value'		=> false,
-		'must_cache_forms'			  => false,
+		'must_cache_forms'				=> false,
 		'no_filename_spaces'			=> false,
-		'no_hidden_overflow_tables'	 => false,
+		'no_hidden_overflow_tables'		=> false,
 		'ow_gui_1.3'					=> false,
-		'png_transparency'			  => false,
-		'scrollbar_in_way'			  => false,
+		'png_transparency'				=> false,
+		'scrollbar_in_way'				=> false,
 		'scroll_tds'					=> false,
-		'windowed_controls'			 => false,
-   );
+		'windowed_controls'				=> false,
+	);
 
 	/**
 	 * List of viewable image MIME subtypes.
@@ -157,7 +157,7 @@ class JBrowser extends JObject
 	 * Create a browser instance (constructor).
 	 *
 	 * @param string $userAgent  The browser string to parse.
-	 * @param string $accept	 The HTTP_ACCEPT settings to use.
+	 * @param string $accept	The HTTP_ACCEPT settings to use.
 	 */
 	public function __construct($userAgent = null, $accept = null)
 	{
@@ -169,7 +169,7 @@ class JBrowser extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * @param string $userAgent  The browser string to parse.
-	 * @param string $accept	 The HTTP_ACCEPT settings to use.
+	 * @param string $accept	The HTTP_ACCEPT settings to use.
 	 * @return JBrowser  The Browser object.
 	 */
 	static public function getInstance($userAgent = null, $accept = null)
@@ -194,7 +194,7 @@ class JBrowser extends JObject
 	 * all the known features and quirks for the given browser.
 	 *
 	 * @param string $userAgent  The browser string to parse.
-	 * @param string $accept	 The HTTP_ACCEPT settings to use.
+	 * @param string $accept	The HTTP_ACCEPT settings to use.
 	 */
 	public function match($userAgent = null, $accept = null)
 	{
@@ -404,7 +404,7 @@ class JBrowser extends JObject
 					$this->setFeature('iframes');
 					if ($this->_majorVersion > 125 ||
 						($this->_majorVersion == 125 &&
-						 $this->_minorVersion >= 1)) {
+						$this->_minorVersion >= 1)) {
 						$this->setFeature('accesskey');
 						$this->setFeature('xmlhttpreq');
 					}
@@ -575,7 +575,8 @@ class JBrowser extends JObject
 	 *
 	 * @return string  The user's platform.
 	 */
-	public function getPlatform()   {
+	public function getPlatform()
+	{
 		return $this->_platform;
 	}
 
@@ -584,7 +585,8 @@ class JBrowser extends JObject
 	 *
 	 * @param string $browser  The browser to set as current.
 	 */
-	public function setBrowser($browser) {
+	public function setBrowser($browser)
+	{
 		$this->_browser = $browser;
 	}
 
@@ -593,7 +595,8 @@ class JBrowser extends JObject
 	 *
 	 * @return string  The current browser.
 	 */
-	public function getBrowser()	{
+	public function getBrowser()
+	{
 		return $this->_browser;
 	}
 
@@ -602,7 +605,8 @@ class JBrowser extends JObject
 	 *
 	 * @return integer  The current browser's major version.
 	 */
-	public function getMajor()  {
+	public function getMajor()
+	{
 		return $this->_majorVersion;
 	}
 
@@ -610,7 +614,8 @@ class JBrowser extends JObject
 	 * Retrieve the current browser's minor version.
 	 * @return integer  The current browser's minor version.
 	 */
-	public function getMinor()  {
+	public function getMinor()
+	{
 		return $this->_minorVersion;
 	}
 
@@ -618,7 +623,8 @@ class JBrowser extends JObject
 	 * Retrieve the current browser's version.
 	 * @return string  The current browser's version.
 	 */
-	public function getVersion()	{
+	public function getVersion()
+	{
 		return $this->_majorVersion . '.' . $this->_minorVersion;
 	}
 
@@ -627,7 +633,8 @@ class JBrowser extends JObject
 	 *
 	 * @return string  The browser agent string.
 	 */
-	public function getAgentString()	{
+	public function getAgentString()
+	{
 		return $this->_agent;
 	}
 
@@ -652,7 +659,8 @@ class JBrowser extends JObject
 	 * @param string $quirk  The behavior to set.
 	 * @param string $value  Special behavior parameter.
 	 */
-	public function setQuirk($quirk, $value = true) {
+	public function setQuirk($quirk, $value = true)
+	{
 		$this->_quirks[$quirk] = $value;
 	}
 
@@ -662,11 +670,12 @@ class JBrowser extends JObject
 	 * @param string $quirk  The behavior to check.
 	 * @return boolean  Does the browser have the behavior set?
 	 */
-	public function hasQuirk($quirk) {
+	public function hasQuirk($quirk)
+	{
 		return !empty($this->_quirks[$quirk]);
 	}
 
-	 /**
+	/**
 	 * Retrieve unique behavior for the current browser.
 	 *
 	 * @param string $quirk  The behavior to retrieve.
@@ -685,7 +694,8 @@ class JBrowser extends JObject
 	 * @param string $feature  The capability to set.
 	 * @param string $value Special capability parameter.
 	 */
-	public function setFeature($feature, $value = true) {
+	public function setFeature($feature, $value = true)
+	{
 		$this->_features[$feature] = $value;
 	}
 
@@ -696,7 +706,8 @@ class JBrowser extends JObject
 	 * @param string $feature  The capability to check.
 	 * @return boolean  Does the browser have the capability set?
 	 */
-	public function hasFeature($feature)	{
+	public function hasFeature($feature)
+	{
 		return !empty($this->_features[$feature]);
 	}
 
@@ -706,8 +717,9 @@ class JBrowser extends JObject
 	 * @param string $feature  The capability to retrieve.
 	 * @return string  The value of the requested capability.
 	 */
-	public function getFeature($feature)	{
-		 return isset($this->_features[$feature])
+	public function getFeature($feature)
+	{
+		return isset($this->_features[$feature])
 				? $this->_features[$feature]
 				: null;
 	}
@@ -735,7 +747,7 @@ class JBrowser extends JObject
 				if ($type != 'image') {
 					return true;
 				}
-			 }
+			}
 
 			/* image/jpeg and image/pjpeg *appear* to be the same
 			* entity, but Mozilla doesn't seem to want to accept the
@@ -778,9 +790,9 @@ class JBrowser extends JObject
 	 */
 	public function isRobot()
 	{
-		 foreach ($this->_robots as $robot) {
-			 if (strpos($this->_agent, $robot) !== false) {
-				 return true;
+		foreach ($this->_robots as $robot) {
+			if (strpos($this->_agent, $robot) !== false) {
+				return true;
 			}
 		}
 		return false;
