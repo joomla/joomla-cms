@@ -33,7 +33,7 @@ JHtml::_('behavior.formvalidation');
 	<div class="m">
 		<?php echo JHtml::_('installation.stepbar', 1); ?>
 		<div class="box"></div>
-  	</div>
+	</div>
 	<div class="b">
 		<div class="b">
 			<div class="b"></div>

@@ -216,8 +216,8 @@ class JInstallationModelConfiguration extends JModel
 		$cryptpass = $crypt.':'.$salt;
 
 		// create the admin user
-		$installdate 	= date('Y-m-d H:i:s');
-		$nullDate 		= $db->getNullDate();
+		$installdate	= date('Y-m-d H:i:s');
+		$nullDate		= $db->getNullDate();
 		$query	= 'INSERT INTO #__users SET'
 				. ' id = 42'
 				. ', name = '.$db->quote('Super User')

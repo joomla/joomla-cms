@@ -85,7 +85,7 @@ class JInstallation extends JApplication
 		ob_end_clean();
 
 		$params = array(
-			'template' 	=> 'template',
+			'template'	=> 'template',
 			'file'		=> 'index.php',
 			'directory' => JPATH_THEMES,
 			'params'	=> '{}'
@@ -154,8 +154,8 @@ class JInstallation extends JApplication
 	/**
 	 * Set configuration values
 	 *
-	 * @param	array 	Array of configuration values
-	 * @param 	string 	The namespace
+	 * @param	array	Array of configuration values
+	 * @param	string	The namespace
 	 */
 	public function setCfg(array $vars = array(), $namespace = 'config')
 	{
@@ -246,7 +246,7 @@ class JInstallation extends JApplication
 	 * Returns the installed admin language files in the administrative and
 	 * front-end area.
 	 *
-	 * @return	array 	Array with installed language packs in admin area
+	 * @return	array	Array with installed language packs in admin area
 	 */
 	public function getLocaliseAdmin()
 	{

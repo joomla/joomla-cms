@@ -37,10 +37,10 @@ class JInstallationViewPreinstall extends JView
 			return false;
 		}
 
-		$this->assignRef('state',	 $state);
-		$this->assignRef('settings', $settings);
-		$this->assignRef('options',	 $options);
-		$this->assignRef('version',  $version);
+		$this->assignRef('state',		$state);
+		$this->assignRef('settings',	$settings);
+		$this->assignRef('options',		$options);
+		$this->assignRef('version',		$version);
 
 		parent::display($tpl);
 	}
