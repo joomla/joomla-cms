@@ -11,7 +11,7 @@
  * Utility class for javascript behaviors
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	HTML
  * @version		1.5
  */
@@ -92,11 +92,11 @@ abstract class JHtmlBehavior
 		$script = "
 			document.switcher = null;
 			window.addEvent('domready', function(){
-			 	toggler = document.id('submenu')
-			  	element = document.id('config-document')
-			  	if(element) {
-			  		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
-			  	}
+				toggler = document.id('submenu')
+				element = document.id('config-document')
+				if(element) {
+					document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
+				}
 			});";
 
 		JFactory::getDocument()->addScriptDeclaration($script);
@@ -386,8 +386,8 @@ abstract class JHtmlBehavior
 		// Include mootools framework
 		JHtmlBehavior::mootools();
 
-		$config 	 = &JFactory::getConfig();
-		$lifetime 	 = ($config->getValue('lifetime') * 60000);
+		$config	= &JFactory::getConfig();
+		$lifetime	= ($config->getValue('lifetime') * 60000);
 		$refreshTime =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
 
@@ -396,8 +396,8 @@ abstract class JHtmlBehavior
 		$script .= 'function keepAlive() {';
 		$script .=  '	var myAjax = new Ajax("index.php", { method: "get" }).request();';
 		$script .=  '}';
-		$script .= 	' window.addEvent("domready", function()';
-		$script .= 	'{ keepAlive.periodical('.$refreshTime.'); }';
+		$script .=	' window.addEvent("domready", function()';
+		$script .=	'{ keepAlive.periodical('.$refreshTime.'); }';
 		$script .=  ');';
 
 		$document->addScriptDeclaration($script);
@@ -454,7 +454,7 @@ abstract class JHtmlBehavior
 		if ($jsscript == 0)
 		{
 			$return = 'Calendar._DN = new Array ("'.JText::_('Sunday').'", "'.JText::_('Monday').'", "'.JText::_('Tuesday').'", "'.JText::_('Wednesday').'", "'.JText::_('Thursday').'", "'.JText::_('Friday').'", "'.JText::_('Saturday').'", "'.JText::_('Sunday').'");Calendar._SDN = new Array ("'.JText::_('Sun').'", "'.JText::_('Mon').'", "'.JText::_('Tue').'", "'.JText::_('Wed').'", "'.JText::_('Thu').'", "'.JText::_('Fri').'", "'.JText::_('Sat').'", "'.JText::_('Sun').'"); Calendar._FD = 0;	Calendar._MN = new Array ("'.JText::_('January').'", "'.JText::_('February').'", "'.JText::_('March').'", "'.JText::_('April').'", "'.JText::_('May').'", "'.JText::_('June').'", "'.JText::_('July').'", "'.JText::_('August').'", "'.JText::_('September').'", "'.JText::_('October').'", "'.JText::_('November').'", "'.JText::_('December').'");	Calendar._SMN = new Array ("'.JText::_('January_short').'", "'.JText::_('February_short').'", "'.JText::_('March_short').'", "'.JText::_('April_short').'", "'.JText::_('May_short').'", "'.JText::_('June_short').'", "'.JText::_('July_short').'", "'.JText::_('August_short').'", "'.JText::_('September_short').'", "'.JText::_('October_short').'", "'.JText::_('November_short').'", "'.JText::_('December_short').'");Calendar._TT = {};Calendar._TT["INFO"] = "'.JText::_('ABOUT_THE_CALENDAR').'";
- 		Calendar._TT["ABOUT"] =
+		Calendar._TT["ABOUT"] =
  "DHTML Date/Time Selector\n" +
  "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" +
 "For latest version visit: http://www.dynarch.com/projects/calendar/\n" +

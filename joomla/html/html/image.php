@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Utility class working with images.
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Html
  * @since		1.5
  */
@@ -21,7 +21,7 @@ abstract class JHtmlImage
 {
 	/**
 	 * Checks to see if an image exists in the current templates image directory.
- 	 * If it does it loads this image.  Otherwise the default image is loaded.
+	 * If it does it loads this image.  Otherwise the default image is loaded.
 	 * Also can be used in conjunction with the menulist param to create the chosen image
 	 * load the default or use no image.
 	 *

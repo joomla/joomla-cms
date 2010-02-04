@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * Utility class working with menu select lists
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
  */
@@ -217,7 +217,7 @@ abstract class JHtmlMenu
 		$list = JHtmlMenu::TreeRecurse(intval($mitems[0]->parent_id), '', array(), $children, 9999, 0, 0);
 
 		// Code that adds menu name to Display of Page(s)
-		$mitems_spacer 	= $mitems_temp[0]->menutype;
+		$mitems_spacer	= $mitems_temp[0]->menutype;
 
 		$mitems = array();
 		if ($all | $unassigned) {
@@ -265,17 +265,17 @@ abstract class JHtmlMenu
 				$id = $v->id;
 
 				if ($type) {
-					$pre 	= '<sup>|_</sup>&nbsp;';
+					$pre	= '<sup>|_</sup>&nbsp;';
 					$spacer = '.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				} else {
-					$pre 	= '- ';
+					$pre	= '- ';
 					$spacer = '&nbsp;&nbsp;';
 				}
 
 				if ($v->parent_id == 0) {
-					$txt 	= $v->title;
+					$txt	= $v->title;
 				} else {
-					$txt 	= $pre . $v->title;
+					$txt	= $pre . $v->title;
 				}
 				$pt = $v->parent_id;
 				$list[$id] = $v;

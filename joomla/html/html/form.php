@@ -11,7 +11,7 @@
  * Utility class for form elements
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	HTML
  * @version		1.5
  */

@@ -8,7 +8,7 @@
 /**
  * Utility class for creating HTML Grids
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	HTML
  * @since		1.6
  */
@@ -68,7 +68,7 @@ abstract class JHtmlJGrid
 	public static function checkedout($editorName, $time)
 	{
 		$text	= addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
-		$date 	= JHTML::_('date',  $time, '%A, %d %B %Y');
+		$date	= JHTML::_('date',  $time, '%A, %d %B %Y');
 		$time	= JHTML::_('date',  $time, '%H:%M');
 
 		$hover = '<span class="editlinktip hasTip" title="'. JText::_('CHECKED_OUT') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * Utility class for categories
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
  */
