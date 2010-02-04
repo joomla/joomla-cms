@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die();
 /**
  * Update class.
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Update
  * @since		1.6
  */

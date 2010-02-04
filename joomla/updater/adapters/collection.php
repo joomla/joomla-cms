@@ -97,8 +97,8 @@ class JUpdaterCollection extends JUpdateAdapter {
 				// this allows an update site to specify a targetplatform
 				// targetplatformversion can be a regexp, so 1.[56] would be valid for an extension that supports 1.5 and 1.6
 				// Note: whilst the version is a regexp here, the targetplatform is not (new extension per platform)
-				//	   Additionally, the version is a regexp here and it may also be in an extension file if the extension is
-				//	   compatible against multiple versions of the same platform (e.g. a library)
+				//		Additionally, the version is a regexp here and it may also be in an extension file if the extension is
+				//		compatible against multiple versions of the same platform (e.g. a library)
 				if(!isset($values['targetplatform'])) $values['targetplatform'] = $product; // set this to ourself as a default
 				if(!isset($values['targetplatformversion'])) $values['targetplatformversion'] = $ver->RELEASE; // set this to ourself as a default
 				// validate that we can install the extension
