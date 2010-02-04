@@ -101,7 +101,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToIntegerByCallingMember( $input, $default, $expect, $message )
 	{
-	   	$this->object->toInteger($input, $default);
+			$this->object->toInteger($input, $default);
 		$this->assertEquals($expect, $input, "Called as member - " . $message);
 	}
 
@@ -118,7 +118,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToIntegerByCallingStatic( $input, $default, $expect, $message )
 	{
-	   	JArrayHelper::toInteger($input, $default);
+			JArrayHelper::toInteger($input, $default);
 		$this->assertEquals($expect, $input, "Called as static - " . $message);
 	}
 
@@ -176,7 +176,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test using member call to convert array to object.
 	 *
-	 * @param string $input	 The array being input
+	 * @param string $input	The array being input
 	 * @param string $className The class name to build
 	 * @param string $expect	The expected return value
 	 * @param string $message   The failure message
@@ -196,7 +196,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test using static call to convert array to object.
 	 *
-	 * @param string $input	 The array being input
+	 * @param string $input	The array being input
 	 * @param string $className The class name to build
 	 * @param string $expect	The expected return value
 	 * @param string $message   The failure message
@@ -710,7 +710,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @param array  $input	Input array
 	 * @param mixed  $index	Element to pull, either by association or number
 	 * @param mixed  $default  The defualt value, if element not present
-	 * @param $type  $type	 The type of value returned
+	 * @param $type  $type	The type of value returned
 	 * @param array  $expect   The expected results
 	 * @param string $message  The failure message
 	 * @param bool   $defaults Use the defaults (true) or full argument list
@@ -739,7 +739,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @param array  $input	Input array
 	 * @param mixed  $index	Element to pull, either by association or number
 	 * @param mixed  $default  The defualt value, if element not present
-	 * @param $type  $type	 The type of value returned
+	 * @param $type  $type	The type of value returned
 	 * @param array  $expect   The expected results
 	 * @param string $message  The failure message
 	 * @param bool   $defaults Use the defaults (true) or full argument list
@@ -872,8 +872,8 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	/**
 	 * test sorting an array of objects called as static function.
 	 *
-	 * @param array  $input	 Input array of objects
-	 * @param mixed  $key	   Key to sort on
+	 * @param array  $input	Input array of objects
+	 * @param mixed  $key		Key to sort on
 	 * @param mixed  $direction Ascending (1) or Descending(-1)
 	 * @param array  $expect	The expected results
 	 * @param string $message   The failure message
@@ -900,8 +900,8 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	/**
 	 * test sorting an array of objects called as member function.
 	 *
-	 * @param array  $input	 Input array of objects
-	 * @param mixed  $key	   Key to sort on
+	 * @param array  $input		Input array of objects
+	 * @param mixed  $key		Key to sort on
 	 * @param mixed  $direction Ascending (1) or Descending(-1)
 	 * @param array  $expect	The expected results
 	 * @param string $message   The failure message
@@ -911,7 +911,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider sortObjectInputs
 	 */
 	public function testSortObjectsByCallingMember( $input, $key, $direction, $expect,
-	$message, $defaults ) {
+		$message, $defaults ) {
 		if ( $defaults ) {
 			$output = $this->object->sortObjects($input, $key);
 		} else {

@@ -89,8 +89,8 @@ class JSimpleCryptTest extends PHPUnit_Framework_TestCase
 	 * Testing testDecrypt().
 	 *
 	 * @param string $expected The expected result of decryption
-	 * @param string $key	  The key to use
-	 * @param string $text	 The decrypted text
+	 * @param string $key	The key to use
+	 * @param string $text	The decrypted text
 	 *
 	 * @return void
 	 * @dataProvider casesEncryption
@@ -108,8 +108,8 @@ class JSimpleCryptTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing testEncrypt().
 	 *
-	 * @param string $text	 The text to be encrypted
-	 * @param string $key	  The key to use
+	 * @param string $text	The text to be encrypted
+	 * @param string $key	The key to use
 	 * @param string $expected The expected result of encryption
 	 *
 	 * @return void

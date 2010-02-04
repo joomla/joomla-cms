@@ -68,7 +68,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @param string $path		The path to buffer
 	 * @param string $mode		The mode of the buffer
-	 * @param string $options	 The options
+	 * @param string $options	The options
 	 * @param string $opened_path The path
 	 * @param string $expected	The expected test return
 	 *
@@ -106,7 +106,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	 * testing stream_read().
 	 *
 	 * @param string $buffer   The buffer to perform the operation upon
-	 * @param string $name	 The name of the buffer
+	 * @param string $name	The name of the buffer
 	 * @param int	$position The position in the buffer of the current pointer
 	 * @param int	$count	The movement of the pointer
 	 * @param bool   $expected The expected test return
@@ -148,7 +148,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	 * testing stream_write().
 	 *
 	 * @param string $buffer   The buffer to perform the operation upon
-	 * @param string $name	 The name of the buffer
+	 * @param string $name	The name of the buffer
 	 * @param int	$position The position in the buffer of the current pointer
 	 * @param string $write	The data to write
 	 * @param bool   $expected The expected test return
@@ -212,7 +212,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	 * Testing stream_eof.
 	 *
 	 * @param string $buffer   The buffer to perform the operation upon
-	 * @param string $name	 The name of the buffer
+	 * @param string $name	The name of the buffer
 	 * @param int	$position The position in the buffer of the current pointer
 	 * @param bool   $expected The expected test return
 	 *
@@ -317,11 +317,11 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing stream_seek.
 	 *
-	 * @param string $buffer	  The buffer to perform the operation upon
+	 * @param string $buffer	The buffer to perform the operation upon
 	 * @param string $name		The name of the buffer
 	 * @param int	$position	The position in the buffer of the current pointer
-	 * @param int	$offset	  The movement of the pointer
-	 * @param int	$whence	  The buffer seek op code
+	 * @param int	$offset	The movement of the pointer
+	 * @param int	$whence	The buffer seek op code
 	 * @param bool   $expected	The expected test return
 	 * @param int	$expectedPos The new buffer position pointer
 	 *

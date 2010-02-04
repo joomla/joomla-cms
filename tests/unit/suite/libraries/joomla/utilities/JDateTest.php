@@ -121,7 +121,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 *	Testing toString
 	 *
-	 * @param string $format	   How should the time be formatted?
+	 * @param string $format		How should the time be formatted?
 	 * @param string $expectedTime What should the resulting time string look like?
 	 *
 	 * @return void
@@ -208,7 +208,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 *	Testing getOffsetFromGMT
 	 *
-	 * @param mixed  $tz	   Which time zone? (can be string or numeric
+	 * @param mixed  $tz		Which time zone? (can be string or numeric
 	 * @param string $setTime  What time should be set?
 	 * @param bool   $hours	Return offset in hours (true) or seconds?
 	 * @param string $expected What should the resulting time string look like?
@@ -387,7 +387,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing toRFC822
 	 *
-	 * @param mixed  $tz	   Which time zone? (can be string or numeric
+	 * @param mixed  $tz		Which time zone? (can be string or numeric
 	 * @param string $setTime  What time should be set?
 	 * @param bool   $local	Local (true) or GMT?
 	 * @param string $expected What should the resulting time string look like?
@@ -480,7 +480,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing toISO8601
 	 *
-	 * @param mixed  $tz	   Which time zone? (can be string or numeric
+	 * @param mixed  $tz		Which time zone? (can be string or numeric
 	 * @param string $setTime  What time should be set?
 	 * @param bool   $local	Local (true) or GMT?
 	 * @param string $expected What should the resulting time string look like?
@@ -573,7 +573,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing toMySQL
 	 *
-	 * @param mixed  $tz	   Which time zone? (can be string or numeric
+	 * @param mixed  $tz		Which time zone? (can be string or numeric
 	 * @param string $setTime  What time should be set?
 	 * @param bool   $local	Local (true) or GMT?
 	 * @param string $expected What should the resulting time string look like?
@@ -657,7 +657,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing toUnix
 	 *
-	 * @param mixed  $tz	   Which time zone? (can be string or numeric
+	 * @param mixed  $tz		Which time zone? (can be string or numeric
 	 * @param string $setTime  What time should be set?
 	 * @param string $expected What should the resulting time string look like?
 	 *
@@ -719,7 +719,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing setTimezone
 	 *
-	 * @param string $tz	   Which Time Zone should it be?
+	 * @param string $tz		Which Time Zone should it be?
 	 * @param string $expected What should the resulting time string look like?
 	 *
 	 * @return void

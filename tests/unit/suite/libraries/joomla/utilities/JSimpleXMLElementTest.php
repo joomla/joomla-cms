@@ -16,7 +16,7 @@ require_once JPATH_BASE. '/libraries/joomla/utilities/simplexml.php';
  * method to check after the run.
  *
  * @param JSimpleXMLElement The object that is calling
- * @param array			 An array of passed arguments
+ * @param array			An array of passed arguments
  *
  * @return void
  */
@@ -194,13 +194,13 @@ class JSimpleXMLElementTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(null)
 		);
 
-   		$this->object->addAttribute($attName, $attValue);
+		$this->object->addAttribute($attName, $attValue);
 		$this->assertThat(
 			$this->object->attributes($attName),
 			$this->equalTo($attValue)
 		);
 
-   		$this->object->removeAttribute($attName);
+		$this->object->removeAttribute($attName);
 		$this->assertThat(
 			$this->object->attributes($attName),
 			$this->equalTo(null)
@@ -236,7 +236,7 @@ class JSimpleXMLElementTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(null)
 		);
 
-   		$this->object->setData($data);
+		$this->object->setData($data);
 		$this->assertThat(
 			$this->object->data(),
 			$this->equalTo($data)
