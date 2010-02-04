@@ -45,7 +45,7 @@ class JStream extends JObject
 	protected $readprefix;
 	/** @var Read Processing method: gz, bz, f
 	 *			If a scheme is detected, fopen will be defaulted
-	 * 			To use compression with a network stream use a filter
+	 *			To use compression with a network stream use a filter
 	 */
 	protected $processingmethod = 'f';
 	/** @var array Filters applied to the current stream */
@@ -127,13 +127,13 @@ class JStream extends JObject
 			$ext = strtolower(JFile::getExt($this->filename));
 			switch ($ext)
 			{
-				case 'tgz'  :
-				case 'gz'   :
-				case 'gzip' :
+				case 'tgz':
+				case 'gz':
+				case 'gzip':
 					$this->processingmethod = 'gz';
 					break;
-				case 'tbz2' :
-				case 'bz2'  :
+				case 'tbz2':
+				case 'bz2':
 				case 'bzip2':
 					$this->processingmethod = 'bz';
 					break;
@@ -157,11 +157,11 @@ class JStream extends JObject
 				break;
 			case 'f': // fopen can handle streams
 			default:
-				if($context) { 					//  one supplied at open; overrides everything
+				if($context) {					//  one supplied at open; overrides everything
 					$this->_fh = fopen($filename, $mode, $use_include_path, $context);
-				} else if ($this->_context) { 	// one provided at initialisation
+				} else if ($this->_context) {	// one provided at initialisation
 					$this->_fh = fopen($filename, $mode, $use_include_path, $this->_context);
-				} else { 						// no context; all defaults
+				} else {						// no context; all defaults
 					$this->_fh = fopen($filename, $mode, $use_include_path);
 				}
 				break;
