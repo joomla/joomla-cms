@@ -13,8 +13,8 @@ defined('JPATH_BASE') or die;
 /**
  * Renders a custom button
  *
- * @package 	Joomla.Framework
- * @subpackage	 HTML
+ * @package		Joomla.Framework
+ * @subpackage	HTML
  * @since		1.5
  */
 class JButtonCustom extends JButton

@@ -27,9 +27,9 @@ abstract class JPane extends JObject
 	/**
 	 * Returns a JPanel object.
 	 *
-	 * @param	string 	$behavior   The behavior to use.
+	 * @param	string	$behavior	The behavior to use.
 	 * @param	boolean	$useCookies Use cookies to remember the state of the panel.
-	 * @param	array 	$params		Associative array of values.
+	 * @param	array	$params		Associative array of values.
 	 * @return	object
 	 */
 	public static function getInstance($behavior = 'Tabs', $params = array())
@@ -91,7 +91,7 @@ class JPaneTabs extends JPane
 	/**
 	 * Constructor.
 	 *
-	 * @param	array 	$params		Associative array of values.
+	 * @param	array	$params		Associative array of values.
 	 */
 	function __construct($params = array())
 	{
@@ -145,7 +145,7 @@ class JPaneTabs extends JPane
 	/**
 	 * Load the javascript behavior and attach it to the document.
 	 *
-	 * @param	array 	$params		Associative array of values
+	 * @param	array	$params		Associative array of values
 	 */
 	protected function _loadBehavior($params = array())
 	{
@@ -155,9 +155,9 @@ class JPaneTabs extends JPane
 		$document = &JFactory::getDocument();
 
 		$options = '{';
-		$opt['onActive']	 = (isset($params['onActive'])) ? $params['onActive'] : null ;
+		$opt['onActive']	= (isset($params['onActive'])) ? $params['onActive'] : null ;
 		$opt['onBackground'] = (isset($params['onBackground'])) ? $params['onBackground'] : null ;
-		$opt['display']		 = (isset($params['startOffset'])) ? (int)$params['startOffset'] : null ;
+		$opt['display']		= (isset($params['startOffset'])) ? (int)$params['startOffset'] : null ;
 		foreach ($opt as $k => $v)
 		{
 			if ($v) {
@@ -244,7 +244,7 @@ class JPaneSliders extends JPane
 	/**
 	 * Load the javascript behavior and attach it to the document.
 	 *
-	 * @param	array 	$params		Associative array of values.
+	 * @param	array	$params		Associative array of values.
 	 */
 	protected function _loadBehavior($params = array())
 	{
@@ -254,13 +254,13 @@ class JPaneSliders extends JPane
 		$document = &JFactory::getDocument();
 
 		$options = '{';
-		$opt['onActive']	 = 'function(toggler, i) { toggler.addClass(\'jpane-toggler-down\'); toggler.removeClass(\'jpane-toggler\'); }';
+		$opt['onActive']	= 'function(toggler, i) { toggler.addClass(\'jpane-toggler-down\'); toggler.removeClass(\'jpane-toggler\'); }';
 		$opt['onBackground'] = 'function(toggler, i) { toggler.addClass(\'jpane-toggler\'); toggler.removeClass(\'jpane-toggler-down\'); }';
-		$opt['duration']	 = (isset($params['duration'])) ? (int)$params['duration'] : 300;
-		$opt['display']		 = (isset($params['startOffset']) && ($params['startTransition'])) ? (int)$params['startOffset'] : null ;
-		$opt['show']		 = (isset($params['startOffset']) && (!$params['startTransition'])) ? (int)$params['startOffset'] : null ;
-		$opt['opacity']		 = (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false' ;
-		$opt['alwaysHide']	 = (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
+		$opt['duration']	= (isset($params['duration'])) ? (int)$params['duration'] : 300;
+		$opt['display']		= (isset($params['startOffset']) && ($params['startTransition'])) ? (int)$params['startOffset'] : null ;
+		$opt['show']		= (isset($params['startOffset']) && (!$params['startTransition'])) ? (int)$params['startOffset'] : null ;
+		$opt['opacity']		= (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false' ;
+		$opt['alwaysHide']	= (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
 		foreach ($opt as $k => $v)
 		{
 			if ($v) {

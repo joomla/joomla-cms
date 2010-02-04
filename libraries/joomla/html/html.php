@@ -13,7 +13,7 @@ JHtml::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html');
  * Utility class for all HTML drawing classes
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
  */
@@ -63,8 +63,8 @@ abstract class JHtml
 		$parts = explode('.', $type);
 
 		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
-		$file 	= (count($parts) == 2 ? array_shift($parts) : '');
-		$func 	= array_shift($parts);
+		$file	= (count($parts) == 2 ? array_shift($parts) : '');
+		$func	= array_shift($parts);
 
 		$key = strtolower($prefix.'.'.$file.'.'.$func);
 
@@ -126,8 +126,8 @@ abstract class JHtml
 		$parts = explode('.', $key);
 
 		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
-		$file 	= (count($parts) == 2 ? array_shift($parts) : '');
-		$func 	= array_shift($parts);
+		$file	= (count($parts) == 2 ? array_shift($parts) : '');
+		$func	= array_shift($parts);
 
 		$key = strtolower($prefix.'.'.$file.'.'.$func);
 
@@ -159,7 +159,7 @@ abstract class JHtml
 	/**
 	 * Function caller method
 	 *
-	 * @param	string 	Function or method to call
+	 * @param	string	Function or method to call
 	 * @param	array	Arguments to be passed to function
 	 */
 	private static function call($function, $args)
@@ -183,7 +183,7 @@ abstract class JHtml
 	 * Write a <a></a> element
 	 *
 	 * @access	public
-	 * @param	string 	The relative URL to use for the href attribute
+	 * @param	string	The relative URL to use for the href attribute
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
 	 * @since	1.5
@@ -201,7 +201,7 @@ abstract class JHtml
 	 * Write a <iframe></iframe> element
 	 *
 	 * @access	public
-	 * @param	string 	The relative URL to use for the src attribute
+	 * @param	string	The relative URL to use for the src attribute
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
 	 * @param	string	The message to display if the iframe tag is not supported
@@ -220,7 +220,7 @@ abstract class JHtml
 	 * Write a <img></img> element
 	 *
 	 * @access	public
-	 * @param	string 	The relative or absolute URL to use for the src attribute
+	 * @param	string	The relative or absolute URL to use for the src attribute
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
 	 * @param	boolean	If set to true, it tries to find an override for the file in the template
@@ -256,10 +256,10 @@ abstract class JHtml
 	/**
 	 * Write a <link rel="stylesheet" style="text/css" /> element
 	 *
-	 * @param 	string		path to file
-	 * @param 	array		attributes to be added to the stylesheet
-	 * @param 	boolean		path to file is relative to /media folder
-	 * @param 	boolean 	return the path to the file only
+	 * @param	string		path to file
+	 * @param	array		attributes to be added to the stylesheet
+	 * @param	boolean		path to file is relative to /media folder
+	 * @param	boolean	return the path to the file only
 	 * @since	1.6
 	 */
 	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false)
@@ -293,11 +293,11 @@ abstract class JHtml
 
 	/**
 	 * Write a <script></script> element
-	 * @param 	string		path to file
-	 * @param 	boolean		load the JS framework
-	 * @param 	boolean		path to file is relative to /media folder
-	 * @param 	boolean 	return the path to the file only
-	 * @since 	1.6
+	 * @param	string		path to file
+	 * @param	boolean		load the JS framework
+	 * @param	boolean		path to file is relative to /media folder
+	 * @param	boolean	return the path to the file only
+	 * @since	1.6
 	 */
 	public static function script($file, $framework = false, $relative = false, $path_only = false)
 	{
@@ -371,7 +371,7 @@ abstract class JHtml
 	 * @param	string	String in a format accepted by strtotime(), defaults to "now".
 	 * @param	string	format optional format for strftime
 	 * @param	mixed	Time zone to be used for the date.  Special cases: boolean true for user
-	 * 					setting, boolean false for server setting.
+	 *					setting, boolean false for server setting.
 	 * @return	string	A date translated by the given format and time zone.
 	 * @see		strftime
 	 * @since	1.5
@@ -444,10 +444,10 @@ abstract class JHtml
 		$title		= addslashes(htmlspecialchars($title, ENT_COMPAT, 'UTF-8'));
 
 		if (!$text) {
-			$image 	= JURI::root(true).'/includes/js/ThemeOffice/'. $image;
-			$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_('Tooltip') .'"/>';
+			$image	= JURI::root(true).'/includes/js/ThemeOffice/'. $image;
+			$text	= '<img src="'. $image .'" border="0" alt="'. JText::_('Tooltip') .'"/>';
 		} else {
-			$text 	= JText::_($text, true);
+			$text	= JText::_($text, true);
 		}
 
 		if ($title) {
@@ -498,17 +498,17 @@ abstract class JHtml
 		{
 			$document = &JFactory::getDocument();
 			$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
-			inputField	 :	"'.$id.'",	 // id of the input field
-			ifFormat	   :	"'.$format.'",	  // format of the input field
-			button		 :	"'.$id.'_img",  // trigger for the calendar (button ID)
-			align		  :	"Tl",		   // alignment (defaults to "Bl")
-			singleClick	:	true
+			inputField: "'.$id.'",		// id of the input field
+			ifFormat: "'.$format.'",	// format of the input field
+			button: "'.$id.'_img",		// trigger for the calendar (button ID)
+			align: "Tl",				// alignment (defaults to "Bl")
+			singleClick: true
 		});});');
 			$done[] = $id;
 		}
 
 		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
-				 JHTML::_('image', 'system/calendar.png', JText::_('calendar'), array( 'class' => 'calendar', 'id' => $id.'_img'), true);
+				JHTML::_('image', 'system/calendar.png', JText::_('calendar'), array( 'class' => 'calendar', 'id' => $id.'_img'), true);
 	}
 
 	/**
