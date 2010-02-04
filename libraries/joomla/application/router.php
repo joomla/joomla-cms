@@ -19,7 +19,7 @@ define('JROUTER_MODE_SEF', 1);
 /**
  * Class to create and parse routes
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Application
  * @since		1.5
  */
@@ -119,7 +119,7 @@ class JRouter extends JObject
 			$vars += $vars + $this->_parseSefRoute($uri);
 		}
 
-	 	return  array_merge($this->getVars(), $vars);
+		return  array_merge($this->getVars(), $vars);
 	}
 
 	/**
@@ -171,7 +171,7 @@ class JRouter extends JObject
 	 * @param	string	The name of the variable
 	 * @param	mixed	The value of the variable
 	 * @param	boolean	If True, the variable will be created if it doesn't exist yet
- 	 */
+	 */
 	public function setVar($key, $value, $create = true)
 	{
 		if (!$create && array_key_exists($key, $this->_vars)) {
@@ -186,7 +186,7 @@ class JRouter extends JObject
 	 *
 	 * @param	array	An associative array with variables
 	 * @param	boolean	If True, the array will be merged instead of overwritten
- 	 */
+	 */
 	public function setVars($vars = array(), $merge = true)
 	{
 		if ($merge) {
@@ -201,7 +201,7 @@ class JRouter extends JObject
 	 *
 	 * @param	string	The name of the variable
 	 * @return  mixed	Value of the variable
- 	 */
+	 */
 	public function getVar($key)
 	{
 		$result = null;
@@ -215,7 +215,7 @@ class JRouter extends JObject
 	 * Get the router variable array
 	 *
 	 * @return  array An associative array of router variables
- 	 */
+	 */
 	public function getVars()
 	{
 		return $this->_vars;
@@ -224,8 +224,8 @@ class JRouter extends JObject
 	/**
 	 * Attach a build rule
 	 *
-	 * @param   callback	The function to be called.
- 	 */
+	 * @param	callback	The function to be called.
+	 */
 	public function attachBuildRule($callback)
 	{
 		$this->_rules['build'][] = $callback;
@@ -234,8 +234,8 @@ class JRouter extends JObject
 	/**
 	 * Attach a parse rule
 	 *
-	 * @param   callback	The function to be called.
- 	 */
+	 * @param	callback	The function to be called.
+	 */
 	public function attachParseRule($callback)
 	{
 		$this->_rules['parse'][] = $callback;
@@ -298,14 +298,14 @@ class JRouter extends JObject
 	/**
 	 * Create a uri based on a full or partial url string
 	 * @return  JURI  A JURI object
- 	 */
+	 */
 	protected function _createURI($url)
 	{
 		// Create full URL if we are only appending variables to it
 		if (substr($url, 0, 1) == '&') {
 			$vars = array();
 			if (strpos($url, '&amp;') !== false) {
-			   $url = str_replace('&amp;','&',$url);
+				$url = str_replace('&amp;','&',$url);
 			}
 
 			parse_str($url, $vars);
@@ -328,9 +328,9 @@ class JRouter extends JObject
 	/**
 	 * Encode route segments
 	 *
-	 * @param   array 	An array of route segments
+	 * @param	array	An array of route segments
 	 * @return  array
- 	 */
+	 */
 	protected function _encodeSegments($segments)
 	{
 		$total = count($segments);
@@ -344,9 +344,9 @@ class JRouter extends JObject
 	/**
 	 * Decode route segments
 	 *
-	 * @param   array 	An array of route segments
+	 * @param	array	An array of route segments
 	 * @return  array
- 	 */
+	 */
 	protected function _decodeSegments($segments)
 	{
 		$total = count($segments);

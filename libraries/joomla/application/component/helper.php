@@ -29,8 +29,8 @@ class JComponentHelper
 	/**
 	 * Get the component information.
 	 *
-	 * @param	string $option 	The component option.
-	 * @param 	boolean	$string	If set and a component does not exist, the enabled attribue will be set to false
+	 * @param	string $option	The component option.
+	 * @param	boolean	$string	If set and a component does not exist, the enabled attribue will be set to false
 	 * @return	object			An object with the fields for the component.
 	 */
 	public static function getComponent($option, $strict = false)
@@ -54,7 +54,7 @@ class JComponentHelper
 	 * Checks if the component is enabled
 	 *
 	 * @param	string	$option		The component option.
-	 * @param 	boolean	$string		If set and a component does not exist, false will be returned
+	 * @param	boolean	$string		If set and a component does not exist, false will be returned
 	 * @return	boolean
 	 */
 	public static function isEnabled($option, $strict = false)
@@ -66,9 +66,9 @@ class JComponentHelper
 	/**
 	 * Gets the parameter object for the component
 	 *
-	 * @param	string $option	The option for the component.
-	 * @param 	boolean	$string	If set and a component does not exist, false will be returned
-	 * @return	JRegistry		As of 1.6, this method returns a JRegistry (previous versions returned JParameter).
+	 * @param	string		The option for the component.
+	 * @param	boolean		If set and a component does not exist, false will be returned
+	 * @return	JRegistry	As of 1.6, this method returns a JRegistry (previous versions returned JParameter).
 	 */
 	public static function getParams($option, $strict = false)
 	{

@@ -148,7 +148,7 @@ abstract class JModel extends JObject
 	 * Method to get model state variables
 	 *
 	 * @param	string	Optional parameter name
-	 * @param   mixed	Optional default value
+	 * @param	mixed	Optional default value
 	 * @return	object	The property where specified, the state object where omitted
 	 */
 	public function getState($property = null, $default = null)
@@ -314,7 +314,7 @@ abstract class JModel extends JObject
 	 * Method to load and return a model object.
 	 *
 	 * @param	string	The name of the view
-	 * @param   string  The class prefix. Optional.
+	 * @param	string  The class prefix. Optional.
 	 * @return	mixed	Model object or boolean false if failed
 	 */
 	private function _createTable($name, $prefix = 'Table', $config = array())
@@ -334,9 +334,9 @@ abstract class JModel extends JObject
 	/**
 	 * Create the filename for a resource
 	 *
-	 * @param	string 	$type  The resource type to create the filename for
-	 * @param	array 	$parts An associative array of filename information
-	 * @return	string The filename
+	 * @param	string	The resource type to create the filename for
+	 * @param	array	An associative array of filename information
+	 * @return	string	The filename
 	 */
 	private static function _createFileName($type, $parts = array())
 	{

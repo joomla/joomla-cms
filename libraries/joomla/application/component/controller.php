@@ -27,7 +27,7 @@ class JController extends JObject
 	 * The base path of the controller
 	 *
 	 * @var		string
-	 * @access 	protected
+	 * @access	protected
 	 */
 	var $_basePath = null;
 
@@ -45,7 +45,7 @@ class JController extends JObject
 	 * @var	array
 	 * @access	protected
 	 */
-	var $_methods 	= null;
+	var $_methods	= null;
 
 	/**
 	 * Array of class methods to call for a given task.
@@ -53,7 +53,7 @@ class JController extends JObject
 	 * @var	array
 	 * @access	protected
 	 */
-	var $_taskMap 	= null;
+	var $_taskMap	= null;
 
 	/**
 	 * Current or most recent task to be performed.
@@ -61,7 +61,7 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_task 		= null;
+	var $_task		= null;
 
 	/**
 	 * The mapped task that was performed.
@@ -69,7 +69,7 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_doTask 	= null;
+	var $_doTask	= null;
 
 	/**
 	 * The set of search directories for resources (views).
@@ -87,7 +87,7 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_redirect 	= null;
+	var $_redirect	= null;
 
 	/**
 	 * Redirect message.
@@ -95,7 +95,7 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_message 	= null;
+	var $_message	= null;
 
 	/**
 	 * Redirect message type.
@@ -103,7 +103,7 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_messageType 	= null;
+	var $_messageType	= null;
 
 	/**
 	 * ACO Section for the controller.
@@ -111,7 +111,7 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_acoSection 		= null;
+	var $_acoSection		= null;
 
 	/**
 	 * Default ACO Section value for the controller.
@@ -119,7 +119,7 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_acoSectionValue 	= null;
+	var $_acoSectionValue	= null;
 
 	/**
 	 * Method to get a singleton controller instance.
@@ -447,7 +447,7 @@ class JController extends JObject
 	 * Get the last task that is or was to be performed.
 	 *
 	 * @access	public
-	 * @return	 string The task that was or is being performed.
+	 * @return	string The task that was or is being performed.
 	 * @since	1.5
 	 */
 	function getTask()
@@ -584,7 +584,7 @@ class JController extends JObject
 	 * @access	public
 	 * @param	string URL to redirect to.
 	 * @param	string	Message to display on redirect. Optional, defaults to
-	 * 			value set internally by controller, if any.
+	 *			value set internally by controller, if any.
 	 * @param	string	Message type. Optional, defaults to 'message'.
 	 * @return	void
 	 * @since	1.5
@@ -628,8 +628,8 @@ class JController extends JObject
 	function _createModel($name, $prefix = '', $config = array())
 	{
 		// Clean the model name
-		$modelName	 = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$modelName		= preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$classPrefix	= preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		$result = &JModel::getInstance($modelName, $classPrefix, $config);
 		return $result;
@@ -654,9 +654,9 @@ class JController extends JObject
 	function _createView($name, $prefix = '', $type = '', $config = array())
 	{
 		// Clean the view name
-		$viewName	 = preg_replace('/[^A-Z0-9_]/i', '', $name);
-		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-		$viewType	 = preg_replace('/[^A-Z0-9_]/i', '', $type);
+		$viewName		= preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$classPrefix	= preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+		$viewType		= preg_replace('/[^A-Z0-9_]/i', '', $type);
 
 		// Build the view class name
 		$viewClass = $classPrefix . $viewName;
