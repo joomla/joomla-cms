@@ -16,7 +16,7 @@ jimport('joomla.plugin.plugin');
  *
  * @package		Joomla
  * @subpackage	Search
- * @since 		1.6
+ * @since		1.6
  */
 class plgSearchNewsfeeds extends JPlugin
 {
@@ -68,24 +68,24 @@ class plgSearchNewsfeeds extends JPlugin
 		switch ($phrase) {
 			case 'exact':
 				$text		= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
-				$wheres2 	= array();
-				$wheres2[] 	= 'a.name LIKE '.$text;
-				$wheres2[] 	= 'a.link LIKE '.$text;
-				$where 		= '(' . implode(') OR (', $wheres2) . ')';
+				$wheres2	= array();
+				$wheres2[]	= 'a.name LIKE '.$text;
+				$wheres2[]	= 'a.link LIKE '.$text;
+				$where		= '(' . implode(') OR (', $wheres2) . ')';
 				break;
 
 			case 'all':
 			case 'any':
 			default:
-				$words 	= explode(' ', $text);
+				$words	= explode(' ', $text);
 				$wheres = array();
 				foreach ($words as $word)
 				{
 					$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
-					$wheres2 	= array();
-					$wheres2[] 	= 'a.name LIKE '.$word;
-					$wheres2[] 	= 'a.link LIKE '.$word;
-					$wheres[] 	= implode(' OR ', $wheres2);
+					$wheres2	= array();
+					$wheres2[]	= 'a.name LIKE '.$word;
+					$wheres2[]	= 'a.link LIKE '.$word;
+					$wheres[]	= implode(' OR ', $wheres2);
 				}
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
@@ -111,10 +111,10 @@ class plgSearchNewsfeeds extends JPlugin
 
 		$query	= $db->getQuery(true);
 		$query->select('a.name AS title, "" AS created, a.link AS text, '
-					  .'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
-					  .'CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END as catslug, '
-					  .'CONCAT_WS(" / ", '. $db->Quote($searchNewsfeeds) .', b.title) AS section,'
-					  .'"1" AS browsernav');
+					.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+					.'CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END as catslug, '
+					.'CONCAT_WS(" / ", '. $db->Quote($searchNewsfeeds) .', b.title) AS section,'
+					.'"1" AS browsernav');
 		$query->from('#__newsfeeds AS a');
 		$query->innerJoin('#__categories AS b ON b.id = a.catid');
 		$query->where('('. $where .')' . 'AND a.published = 1 AND b.published = 1 AND b.access IN ('. $groups .')');

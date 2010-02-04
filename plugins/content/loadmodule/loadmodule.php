@@ -23,12 +23,12 @@ class plgContentLoadmodule extends JPlugin
 			return true;
 		}
 
-	 	// expression to search for
-	 	$regex 		= '/{loadposition\s+(.*?)}/i';
-		$matches 	= array();
-		$style 		= $this->params->def('style', 'none');
+		// expression to search for
+		$regex		= '/{loadposition\s+(.*?)}/i';
+		$matches	= array();
+		$style		= $this->params->def('style', 'none');
 
-	 	// find all instances of plugin and put in $matches
+		// find all instances of plugin and put in $matches
 		preg_match_all($regex, $article->text, $matches, PREG_SET_ORDER);
 
 		foreach ($matches as $match) {
@@ -42,7 +42,7 @@ class plgContentLoadmodule extends JPlugin
 	{
 		$document	= &JFactory::getDocument();
 		$renderer	= $document->loadRenderer('module');
-		$modules 	= JModuleHelper::getModules($position);
+		$modules	= JModuleHelper::getModules($position);
 		$params		= array('style' => $style);
 
 		ob_start();

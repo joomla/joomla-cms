@@ -26,8 +26,8 @@ class plgAuthenticationLdap extends JPlugin
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param   array 	$credentials Array holding the user credentials
-	 * @param 	array   $options	 Array of extra options
+	 * @param   array	$credentials Array holding the user credentials
+	 * @param	array   $options	Array of extra options
 	 * @param	object	$response	Authentication response object
 	 * @return	object	boolean
 	 * @since 1.5
@@ -50,7 +50,7 @@ class plgAuthenticationLdap extends JPlugin
 		}
 
 		// load plugin params info
-		$ldap_email 	= $this->params->get('ldap_email');
+		$ldap_email		= $this->params->get('ldap_email');
 		$ldap_fullname	= $this->params->get('ldap_fullname');
 		$ldap_uid		= $this->params->get('ldap_uid');
 		$auth_method	= $this->params->get('auth_method');

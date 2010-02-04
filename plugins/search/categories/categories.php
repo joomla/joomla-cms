@@ -18,7 +18,7 @@ require_once(JPATH_SITE.'/components/com_content/router.php');
  *
  * @package		Joomla
  * @subpackage	Search
- * @since 		1.6
+ * @since		1.6
  */
 class plgSearchCategories extends JPlugin
 {
@@ -87,10 +87,10 @@ class plgSearchCategories extends JPlugin
 		$query	= $db->getQuery(true);
 
 		$query->select('a.title, a.description AS text, "" AS created, "2" AS browsernav, a.id AS catid, '
-					  .'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
+					.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
 		$query->from('#__categories AS a');
 		$query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .') AND a.published = 1 '
-					 .'AND a.access IN ('. $groups .')' );
+					.'AND a.access IN ('. $groups .')' );
 		$query->group('a.id');
 		$query->order($order);
 
@@ -100,7 +100,7 @@ class plgSearchCategories extends JPlugin
 		$count = count($rows);
 		for ($i = 0; $i < $count; $i++) {
 			$rows[$i]->href = ContentRoute::category($rows[$i]->slug);
-			$rows[$i]->section 	= JText::_('Category');
+			$rows[$i]->section	= JText::_('Category');
 		}
 
 		$return = array();

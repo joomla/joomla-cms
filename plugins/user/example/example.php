@@ -17,7 +17,7 @@ jimport('joomla.plugin.plugin');
  *
  * @package		Joomla
  * @subpackage	JFramework
- * @since 		1.5
+ * @since		1.5
  */
 class plgUserExample extends JPlugin
 {
@@ -26,9 +26,9 @@ class plgUserExample extends JPlugin
 	 *
 	 * Method is called before user data is stored in the database
 	 *
-	 * @param 	array		holds the old user data
-	 * @param 	boolean		true if a new user is stored
-	 * @param 	array		holds the new user data
+	 * @param	array		holds the old user data
+	 * @param	boolean		true if a new user is stored
+	 * @param	array		holds the new user data
 	 */
 	function onBeforeStoreUser($user, $isnew, $new)
 	{
@@ -40,8 +40,8 @@ class plgUserExample extends JPlugin
 	 *
 	 * Method is called after user data is stored in the database
 	 *
-	 * @param 	array		holds the new user data
-	 * @param 	boolean		true if a new user is stored
+	 * @param	array		holds the new user data
+	 * @param	boolean		true if a new user is stored
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
@@ -54,7 +54,7 @@ class plgUserExample extends JPlugin
 
 		$args = array();
 		$args['username']	= $user['username'];
-		$args['email'] 		= $user['email'];
+		$args['email']		= $user['email'];
 		$args['fullname']	= $user['name'];
 		$args['password']	= $user['password'];
 
@@ -75,7 +75,7 @@ class plgUserExample extends JPlugin
 	 *
 	 * Method is called before user data is deleted from the database
 	 *
-	 * @param 	array		holds the user data
+	 * @param	array		holds the user data
 	 */
 	function onBeforeDeleteUser($user)
 	{
@@ -87,7 +87,7 @@ class plgUserExample extends JPlugin
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param 	array		holds the user data
+	 * @param	array		holds the user data
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
@@ -95,7 +95,7 @@ class plgUserExample extends JPlugin
 	{
 		$app = &JFactory::getApplication();
 
-	 	// only the $user['id'] exists and carries valid information
+		// only the $user['id'] exists and carries valid information
 
 		// Call a function in the external app to delete the user
 		// ThirdPartyApp::deleteUser($user['id']);
@@ -105,8 +105,8 @@ class plgUserExample extends JPlugin
 	 * This method should handle any login logic and report back to the subject
 	 *
 	 * @access	public
-	 * @param 	array 	holds the user data
-	 * @param 	array	extra options
+	 * @param	array	holds the user data
+	 * @param	array	extra options
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */

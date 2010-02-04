@@ -44,8 +44,8 @@ class plgButtonImage extends JPlugin
 		if (!$user->authorize('com_media.popup')) {
 			//return;
 		}
-		$doc 		= &JFactory::getDocument();
-		$template 	= $app->getTemplate();
+		$doc		= &JFactory::getDocument();
+		$template	= $app->getTemplate();
 
 		$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name='.$name;
 

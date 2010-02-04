@@ -27,8 +27,8 @@ class plgButtonReadmore extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		$doc 		= &JFactory::getDocument();
-		$template 	= $app->getTemplate();
+		$doc		= &JFactory::getDocument();
+		$template	= $app->getTemplate();
 
 		// button is not active in specific content components
 

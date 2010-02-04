@@ -17,7 +17,7 @@ jimport('joomla.plugin.plugin');
  *
  * @package		Joomla
  * @subpackage	Content
- * @since 		1.5
+ * @since		1.5
  */
 class plgContentExample extends JPlugin
 {
@@ -26,9 +26,9 @@ class plgContentExample extends JPlugin
 	 *
 	 * Method is called by the view
 	 *
-	 * @param 	object		The article object.  Note $article->text is also available
-	 * @param 	object		The article params
-	 * @param 	int			The 'page' number
+	 * @param	object		The article object.  Note $article->text is also available
+	 * @param	object		The article params
+	 * @param	int			The 'page' number
 	 */
 	function onPrepareContent(&$article, &$params, $limitstart)
 	{
@@ -40,9 +40,9 @@ class plgContentExample extends JPlugin
 	 *
 	 * Method is called by the view and the results are imploded and displayed in a placeholder
 	 *
-	 * @param 	object		The article object.  Note $article->text is also available
-	 * @param 	object		The article params
-	 * @param 	int			The 'page' number
+	 * @param	object		The article object.  Note $article->text is also available
+	 * @param	object		The article params
+	 * @param	int			The 'page' number
 	 * @return	string
 	 */
 	function onAfterDisplayTitle(&$article, &$params, $limitstart)
@@ -57,9 +57,9 @@ class plgContentExample extends JPlugin
 	 *
 	 * Method is called by the view and the results are imploded and displayed in a placeholder
 	 *
-	 * @param 	object		The article object.  Note $article->text is also available
-	 * @param 	object		The article params
-	 * @param 	int			The 'page' number
+	 * @param	object		The article object.  Note $article->text is also available
+	 * @param	object		The article params
+	 * @param	int			The 'page' number
 	 * @return	string
 	 */
 	function onBeforeDisplayContent(&$article, &$params, $limitstart)
@@ -74,9 +74,9 @@ class plgContentExample extends JPlugin
 	 *
 	 * Method is called by the view and the results are imploded and displayed in a placeholder
 	 *
-	 * @param 	object		The article object.  Note $article->text is also available
-	 * @param 	object		The article params
-	 * @param 	int			The 'page' number
+	 * @param	object		The article object.  Note $article->text is also available
+	 * @param	object		The article params
+	 * @param	int			The 'page' number
 	 * @return	string
 	 */
 	function onAfterDisplayContent(&$article, &$params, $limitstart)
@@ -92,10 +92,10 @@ class plgContentExample extends JPlugin
 	 * Method is called right before content is saved into the database.
 	 * Article object is passed by reference, so any changes will be saved!
 	 * NOTE:  Returning false will abort the save with an error.
-	 * 	You can set the error by calling $article->setError($message)
+	 *	You can set the error by calling $article->setError($message)
 	 *
-	 * @param 	object		A JTableContent object
-	 * @param 	bool		If the content is just about to be created
+	 * @param	object		A JTableContent object
+	 * @param	bool		If the content is just about to be created
 	 * @return	bool		If false, abort the save
 	 */
 	function onBeforeContentSave(&$article, $isNew)
@@ -111,8 +111,8 @@ class plgContentExample extends JPlugin
 	 * Method is called right after the content is saved
 	 *
 	 *
-	 * @param 	object		A JTableContent object
-	 * @param 	bool		If the content is just about to be created
+	 * @param	object		A JTableContent object
+	 * @param	bool		If the content is just about to be created
 	 * @return	void
 	 */
 	function onAfterContentSave(&$article, $isNew)

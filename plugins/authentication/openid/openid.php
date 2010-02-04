@@ -26,8 +26,8 @@ class plgAuthenticationOpenID extends JPlugin
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param   array 	$credentials Array holding the user credentials
-	 * @param 	array   $options     Array of extra options (return, entry_url)
+	 * @param   array	$credentials Array holding the user credentials
+	 * @param	array   $options     Array of extra options (return, entry_url)
 	 * @param	object	$response	Authentication response object
 	 * @return	boolean
 	 * @since 1.5
@@ -166,7 +166,7 @@ class plgAuthenticationOpenID extends JPlugin
 		$result = $consumer->complete($session->get('return_url'));
 		switch ($result->status) {
 			case Auth_OpenID_SUCCESS :
-		        $sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($result);
+				$sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($result);
 
 				$sreg = $sreg_resp->contents();
 				$usermode = $this->params->get('usermode', 2);
@@ -203,10 +203,10 @@ class plgAuthenticationOpenID extends JPlugin
 						$response->username = $result->getDisplayIdentifier();
 					} else {
 						// if it doesn't, we check if the username from the from exists in the database
-						 $query->clear();
-						 $query->select('username');
-						 $query->from('#__users');
-						 $query->where('username=' . $db->Quote($credentials['username']) . 'AND password=\'\'');
+						$query->clear();
+						$query->select('username');
+						$query->from('#__users');
+						$query->where('username=' . $db->Quote($credentials['username']) . 'AND password=\'\'');
 
 						$db->setQuery($query);
 						$dbresult = $db->loadObject();

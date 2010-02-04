@@ -16,13 +16,13 @@ jimport('joomla.plugin.plugin');
  *
  * @package		Joomla
  * @subpackage	Search
- * @since 		1.6
+ * @since		1.6
  */
 class plgSearchContacts extends JPlugin
 {
 	/**
- 	* @return array An array of search areas
- 	*/
+	* @return array An array of search areas
+	*/
 	function onSearchAreas()
 	{
 		static $areas = array(
@@ -53,8 +53,8 @@ class plgSearchContacts extends JPlugin
 		}
 
 		// load plugin params info
- 		$plugin = &JPluginHelper::getPlugin('search', 'contacts');
-	 	$pluginParams = new JParameter($plugin->params);
+		$plugin = &JPluginHelper::getPlugin('search', 'contacts');
+		$pluginParams = new JParameter($plugin->params);
 
 		$limit = $pluginParams->def('search_limit', 50);
 
@@ -92,10 +92,10 @@ class plgSearchContacts extends JPlugin
 		$query->from('#__contact_details AS a');
 		$query->innerJoin('#__categories AS b ON b.id = a.catid');
 		$query->where('(a.name LIKE '. $text .'OR a.misc LIKE '. $text .'OR a.con_position LIKE '. $text
-					 .'OR a.address LIKE '. $text .'OR a.suburb LIKE '. $text .'OR a.state LIKE '. $text
-					 .'OR a.country LIKE '. $text .'OR a.postcode LIKE '. $text .'OR a.telephone LIKE '. $text
-					 .'OR a.fax LIKE '. $text .') AND a.published=1 AND b.published=1 '
-					 .'AND a.access IN ('. $groups. ') AND b.access IN ('. $groups. ')' );
+					.'OR a.address LIKE '. $text .'OR a.suburb LIKE '. $text .'OR a.state LIKE '. $text
+					.'OR a.country LIKE '. $text .'OR a.postcode LIKE '. $text .'OR a.telephone LIKE '. $text
+					.'OR a.fax LIKE '. $text .') AND a.published=1 AND b.published=1 '
+					.'AND a.access IN ('. $groups. ') AND b.access IN ('. $groups. ')' );
 		$query->group('a.id');
 		$query->order($order);
 

@@ -41,7 +41,7 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Copy editor content to form field.
 	 *
-	 * @param	string 	The id of the editor field.
+	 * @param	string	The id of the editor field.
 	 */
 	public function onSave($id)
 	{
@@ -51,7 +51,7 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Get the editor content.
 	 *
-	 * @param	string 	The id of the editor field.
+	 * @param	string	The id of the editor field.
 	 */
 	public function onGetContent($id)
 	{
@@ -61,7 +61,7 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Set the editor content.
 	 *
-	 * @param	string 	The id of the editor field.
+	 * @param	string	The id of the editor field.
 	 * @param	string	The content to set.
 	 */
 	public function onSetContent($id, $content)

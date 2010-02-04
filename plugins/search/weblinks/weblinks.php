@@ -16,7 +16,7 @@ jimport('joomla.plugin.plugin');
  *
  * @package		Joomla
  * @subpackage	Search
- * @since 		1.6
+ * @since		1.6
  */
 class plgSearchWeblinks extends JPlugin
 {
@@ -66,35 +66,35 @@ class plgSearchWeblinks extends JPlugin
 		if ($text == '') {
 			return array();
 		}
-		$section 	= JText::_('WEB_LINKS');
+		$section	= JText::_('WEB_LINKS');
 
-		$wheres 	= array();
+		$wheres	= array();
 		switch ($phrase)
 		{
 			case 'exact':
 				$text		= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
-				$wheres2 	= array();
-				$wheres2[] 	= 'a.url LIKE '.$text;
-				$wheres2[] 	= 'a.description LIKE '.$text;
-				$wheres2[] 	= 'a.title LIKE '.$text;
-				$where 		= '(' . implode(') OR (', $wheres2) . ')';
+				$wheres2	= array();
+				$wheres2[]	= 'a.url LIKE '.$text;
+				$wheres2[]	= 'a.description LIKE '.$text;
+				$wheres2[]	= 'a.title LIKE '.$text;
+				$where		= '(' . implode(') OR (', $wheres2) . ')';
 				break;
 
 			case 'all':
 			case 'any':
 			default:
-				$words 	= explode(' ', $text);
+				$words	= explode(' ', $text);
 				$wheres = array();
 				foreach ($words as $word)
 				{
 					$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
-					$wheres2 	= array();
-					$wheres2[] 	= 'a.url LIKE '.$word;
-					$wheres2[] 	= 'a.description LIKE '.$word;
-					$wheres2[] 	= 'a.title LIKE '.$word;
-					$wheres[] 	= implode(' OR ', $wheres2);
+					$wheres2	= array();
+					$wheres2[]	= 'a.url LIKE '.$word;
+					$wheres2[]	= 'a.description LIKE '.$word;
+					$wheres2[]	= 'a.title LIKE '.$word;
+					$wheres[]	= implode(' OR ', $wheres2);
 				}
-				$where 	= '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				$where	= '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 
@@ -123,9 +123,9 @@ class plgSearchWeblinks extends JPlugin
 
 		$query	= $db->getQuery(true);
 		$query->select('a.title AS title, a.description AS text, a.date AS created, a.url, '
-					  .'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
-					  .'CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END as catslug, '
-					  .'CONCAT_WS(" / ", '.$db->Quote($section).', b.title) AS section, "1" AS browsernav');
+					.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+					.'CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END as catslug, '
+					.'CONCAT_WS(" / ", '.$db->Quote($section).', b.title) AS section, "1" AS browsernav');
 		$query->from('#__weblinks AS a');
 		$query->innerJoin('#__categories AS b ON b.id = a.catid');
 		$query->where('('.$where.')' . ' AND a.state=1 AND  b.published=1 AND  b.access IN ('.$groups.')');

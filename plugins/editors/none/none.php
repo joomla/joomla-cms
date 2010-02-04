@@ -65,7 +65,7 @@ class plgEditorNone extends JPlugin
 	/**
 	 * Get the editor content.
 	 *
-	 * @param	string 	The id of the editor field.
+	 * @param	string	The id of the editor field.
 	 */
 	function onGetContent($id)
 	{
@@ -75,7 +75,7 @@ class plgEditorNone extends JPlugin
 	/**
 	 * Set the editor content.
 	 *
-	 * @param	string 	The id of the editor field.
+	 * @param	string	The id of the editor field.
 	 * @param	string	The content to set.
 	 */
 	function onSetContent($id, $html)

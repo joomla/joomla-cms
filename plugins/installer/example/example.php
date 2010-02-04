@@ -22,7 +22,7 @@ jimport('joomla.plugin.plugin');
  *
  * @package		Joomla
  * @subpackage	JFramework
- * @since 		1.5
+ * @since		1.5
  */
 class plgInstallerExample extends JPlugin
 {
@@ -51,8 +51,8 @@ class plgInstallerExample extends JPlugin
 	 *
 	 * Method is called before user data is stored in the database
 	 *
-	 * @param 	array		holds the old user data
-	 * @param 	boolean		true if a new user is stored
+	 * @param	array		holds the old user data
+	 * @param	boolean		true if a new user is stored
 	 */
 	function onBeforeExtensionUninstall($eid)
 	{

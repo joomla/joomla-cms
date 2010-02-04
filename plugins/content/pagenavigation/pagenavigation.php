@@ -99,8 +99,8 @@ class plgContentPagenavigation extends JPlugin
 			$query->from('#__content AS a');
 			$query->leftJoin('#__categories AS cc ON cc.id = a.catid');
 			$query->where('a.catid = '. (int)$row->catid .' AND a.state = '. (int)$row->state
-						  . ($canPublish ? '' : ' AND a.access <= ' .(int)$user->get('aid', 0)) . $xwhere);
-	  		$query->order($orderby);
+						. ($canPublish ? '' : ' AND a.access <= ' .(int)$user->get('aid', 0)) . $xwhere);
+			$query->order($orderby);
 
 			$db->setQuery($query);
 			$list = $db->loadObjectList('id');
@@ -120,7 +120,7 @@ class plgContentPagenavigation extends JPlugin
 			$row->prev = null;
 			$row->next = null;
 
-			if ($location -1 >= 0) 	{
+			if ($location -1 >= 0)	{
 				// The previous content item cannot be in the array position -1.
 				$row->prev = $rows[$location -1];
 			}
@@ -183,7 +183,7 @@ class plgContentPagenavigation extends JPlugin
 				</table>'
 				;
 
-				$position 	 = $this->params->get('position', 1);
+				$position	= $this->params->get('position', 1);
 
 				if ($position) {
 					// Display after content.

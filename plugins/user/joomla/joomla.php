@@ -17,7 +17,7 @@ jimport('joomla.plugin.plugin');
  *
  * @package		Joomla
  * @subpackage	JFramework
- * @since 		1.5
+ * @since		1.5
  */
 class plgUserJoomla extends JPlugin
 {
@@ -26,7 +26,7 @@ class plgUserJoomla extends JPlugin
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param 	array		holds the user data
+	 * @param	array		holds the user data
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
@@ -50,8 +50,8 @@ class plgUserJoomla extends JPlugin
 	 * This method should handle any login logic and report back to the subject
 	 *
 	 * @access	public
-	 * @param   array   holds the user data
-	 * @param 	array   array holding options (remember, autoregister, group)
+	 * @param	array	holds the user data
+	 * @param	array	array holding options (remember, autoregister, group)
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
@@ -95,8 +95,8 @@ class plgUserJoomla extends JPlugin
 		$db->setQuery(
 			'UPDATE `#__session`' .
 			' SET `guest` = '.$db->quote($instance->get('guest')).',' .
-			'	  `username` = '.$db->quote($instance->get('username')).',' .
-			'	  `userid` = '.(int) $instance->get('id') .
+			'	`username` = '.$db->quote($instance->get('username')).',' .
+			'	`userid` = '.(int) $instance->get('id') .
 			' WHERE `session_id` = '.$db->quote($session->getId())
 		);
 		$db->query();
@@ -112,8 +112,8 @@ class plgUserJoomla extends JPlugin
 	 *
 	 * @access public
 	 * @param  array	holds the user data
-	 * @param 	array   array holding options (client, ...)
-	 * @return object   True on success
+	 * @param	array	array holding options (client, ...)
+	 * @return object	True on success
 	 * @since 1.5
 	 */
 	function onLogoutUser($user, $options = array())
@@ -150,8 +150,8 @@ class plgUserJoomla extends JPlugin
 	 * If options['autoregister'] is true, if the user doesn't exist yet he will be created
 	 *
 	 * @access	public
-	 * @param   array   holds the user data
-	 * @param 	array   array holding options (remember, autoregister, group)
+	 * @param	array	holds the user data
+	 * @param	array	array holding options (remember, autoregister, group)
 	 * @return	object	A JUser object
 	 * @since	1.5
 	 */
@@ -165,7 +165,7 @@ class plgUserJoomla extends JPlugin
 
 		//TODO : move this out of the plugin
 		jimport('joomla.application.component.helper');
-		$config   = &JComponentHelper::getParams('com_users');
+		$config	= &JComponentHelper::getParams('com_users');
 		// Default to Registered.
 		$usertype = $config->get('new_usertype', 2);
 

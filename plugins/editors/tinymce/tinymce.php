@@ -35,7 +35,7 @@ class plgEditorTinymce extends JPlugin
 		$theme	= array('simple','advanced','advanced');
 		$skin	= $this->params->get('skin', '0');
 		switch ($skin)
-    	{
+  	{
 			case '3':
 				$skin = "skin : \"o2k7\", skin_variant : \"black\",";
 				break;
@@ -175,7 +175,7 @@ class plgEditorTinymce extends JPlugin
 
 
 		// theme_advanced_* settings
-		$toolbar 			= $this->params->def('toolbar', 'top');
+		$toolbar			= $this->params->def('toolbar', 'top');
 		$toolbar_align	= $this->params->def('toolbar_align', 'left');
 		$html_height		= $this->params->def('html_height', '550');
 		$html_width			= $this->params->def('html_width', '750');
@@ -190,7 +190,7 @@ class plgEditorTinymce extends JPlugin
 		$buttons2_add_before = $buttons2_add = array();
 		$buttons3_add_before = $buttons3_add = array();
 		$buttons4 = array();
-		$plugins 	= array();
+		$plugins	= array();
 		if ($extended_elements != "") {
 			$elements	= explode(',', $extended_elements);
 		}
@@ -356,7 +356,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// advlink
-		$advlink 	= $this->params->def('advlink', 1);
+		$advlink	= $this->params->def('advlink', 1);
 		if ($advlink) {
 			$plugins[]	= 'advlink';
 			$elements[]	= 'a[id|class|name|href|target|title|onclick|rel|style]';
@@ -510,19 +510,19 @@ class plgEditorTinymce extends JPlugin
 					$load = "\t<script type=\"text/javascript\" src=\"".
 							JURI::root().
 							"plugins/editors/tinymce/tinymce/jscripts/tiny_mce/tiny_mce_gzip.js\"></script>\n";
-				  	$load .= "\t<script type=\"text/javascript\">
+					$load .= "\t<script type=\"text/javascript\">
 				tinyMCE_GZ.init({
 					themes : \"$theme[$mode]\",
 					plugins : \"$plugins\",
 					languages : \"". $langPrefix . "\"
 				});
 				</script>";
-		  } else {
+				} else {
 				$load = "\t<script type=\"text/javascript\" src=\"".
 						JURI::root().
 						"plugins/editors/tinymce/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
-		  }
-		  $return = $load .
+				}
+				$return = $load .
 				"\t<script type=\"text/javascript\">
 				tinyMCE.init({
 					// General
@@ -571,7 +571,7 @@ class plgEditorTinymce extends JPlugin
 					}
 				});
 				</script>";
-		  break;
+				break;
 		}
 
 		return $return;
@@ -580,7 +580,7 @@ class plgEditorTinymce extends JPlugin
 	/**
 	 * TinyMCE WYSIWYG Editor - get the editor content
 	 *
-	 * @param string 	The name of the editor
+	 * @param string	The name of the editor
 	 */
 	function onGetContent( $editor ) {
 		return 'tinyMCE.get(\''.$editor.'\').getContent();';
@@ -589,7 +589,7 @@ class plgEditorTinymce extends JPlugin
 	/**
 	 * TinyMCE WYSIWYG Editor - set the editor content
 	 *
-	 * @param string 	The name of the editor
+	 * @param string	The name of the editor
 	 */
 	function onSetContent($editor, $html) {
 		return 'tinyMCE.get(\''.$editor.'\').setContent('.$html.');';
@@ -598,10 +598,10 @@ class plgEditorTinymce extends JPlugin
 	/**
 	 * TinyMCE WYSIWYG Editor - copy editor content to form field
 	 *
-	 * @param string 	The name of the editor
+	 * @param string	The name of the editor
 	 */
 	function onSave($editor) {
- 		return 'if (tinyMCE.get("'.$editor.'").isHidden()) {tinyMCE.get("'.$editor.'").show()}; tinyMCE.get("'.$editor.'").save();';
+		return 'if (tinyMCE.get("'.$editor.'").isHidden()) {tinyMCE.get("'.$editor.'").show()}; tinyMCE.get("'.$editor.'").save();';
 	}
 
 	function onGetInsertMethod($name)
