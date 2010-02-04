@@ -133,14 +133,14 @@ class JDate extends DateTime
 		if (!$tz instanceof DateTimeZone)
 		{
 			if($tz === null) {
-			    $tz = self::$gmt;
+				$tz = self::$gmt;
 			}
 			// Translate from offset.
 			elseif (is_numeric($tz)) {
-			    $tz = new DateTimeZone(self::$offsets[$tz]);
+				$tz = new DateTimeZone(self::$offsets[$tz]);
 			}
 			elseif (is_string($tz)) {
-			    $tz = new DateTimeZone($tz);
+				$tz = new DateTimeZone($tz);
 			}
 		}
 

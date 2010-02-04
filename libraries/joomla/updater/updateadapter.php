@@ -12,17 +12,17 @@ class JUpdateAdapter extends JAdapterInstance {
 	protected $_updatecols = Array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION');
 
 	/**
-     * Gets the reference to the current direct parent
-     *
-     * @return object
-     */
+	 * Gets the reference to the current direct parent
+	 *
+	 * @return object
+	 */
 	private function _getStackLocation()
-    {
-            return implode('->', $this->_stack);
-    }
+	{
+			return implode('->', $this->_stack);
+	}
 
-    function _getLastTag() {
-    	return $this->_stack[count($this->_stack) - 1];
-    }
+	function _getLastTag() {
+		return $this->_stack[count($this->_stack) - 1];
+	}
 
 }

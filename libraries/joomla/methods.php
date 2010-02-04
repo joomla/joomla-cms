@@ -41,7 +41,7 @@ class JRoute
 		}
 
 		if ((strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0)) {
-            return $url;
+			return $url;
  		}
 
 		// Build route.

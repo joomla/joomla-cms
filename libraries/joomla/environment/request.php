@@ -373,11 +373,11 @@ class JRequest
 				$input = $_COOKIE;
 				break;
 
-			case 'ENV'    :
+			case 'ENV':
 				$input = &$_ENV;
 				break;
 
-			case 'SERVER'    :
+			case 'SERVER':
 				$input = &$_SERVER;
 				break;
 

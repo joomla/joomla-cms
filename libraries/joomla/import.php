@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Load the loader class.
  */
 if (!class_exists('JLoader')) {
-    require_once JPATH_LIBRARIES.DS.'loader.php';
+	require_once JPATH_LIBRARIES.DS.'loader.php';
 }
 
 /*
