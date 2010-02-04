@@ -22,8 +22,8 @@ class JElementArticle extends JElement
 	{
 		$app		= JFactory::getApplication();
 		$db			= JFactory::getDbo();
-		$doc 		= JFactory::getDocument();
-		$template 	= $app->getTemplate();
+		$doc		= JFactory::getDocument();
+		$template	= $app->getTemplate();
 		$fieldName	= $control_name.'['.$name.']';
 		$article = &JTable::getInstance('content');
 		if ($value) {

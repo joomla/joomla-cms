@@ -23,7 +23,7 @@ class UsersModelLevels extends JModelList
 	 *
 	 * @var		string
 	 */
-	 protected $_context = 'com_users.levels';
+	protected $_context = 'com_users.levels';
 
 	/**
 	 * Method to auto-populate the model state.

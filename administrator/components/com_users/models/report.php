@@ -21,7 +21,7 @@ class UsersModelReport extends JModel
 	 *
 	 * @var		string
 	 */
-	 protected $_context = 'users.report';
+	protected $_context = 'users.report';
 
 	/**
 	 * Method to auto-populate the model state.

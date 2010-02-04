@@ -74,7 +74,7 @@ class ContactControllerContacts extends JController
 	}
 
 	/**
-	 *   Method to publish a list of contacts
+	 * Method to publish a list of contacts
 	 *
 	 * @return	void
 	 * @since	1.0

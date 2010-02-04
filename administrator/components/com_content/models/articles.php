@@ -134,7 +134,7 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by author
-		$authorId 	= $this->getState('filter.author_id');
+		$authorId = $this->getState('filter.author_id');
 		if (is_numeric($authorId)) {
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
 			$query->where('a.created_by '.$type.(int) $authorId);

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Renders a newsfeed selection element
  *
- * @package 	Newsfeeds
+ * @package		Newsfeeds
  * @subpackage	Parameter
  * @since		1.5
  */

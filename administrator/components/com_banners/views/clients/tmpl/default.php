@@ -42,16 +42,16 @@ $userId	= $user->get('id');
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
 				<th>
-					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Client', 'name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Banners_Heading_Client', 'name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="30%">
-					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Contact', 'contact', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Banners_Heading_Contact', 'contact', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Published', 'state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Active', 'nbanners', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Banners_Heading_Active', 'nbanners', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%" class="nowrap">
 					<?php echo JText::_('Banners_Heading_MetaKeywords'); ?>
@@ -60,7 +60,7 @@ $userId	= $user->get('id');
 					<?php echo JText::_('Banners_Heading_PurchaseType'); ?>
 				</th>
 				<th width="1%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',   'JGrid_Heading_ID', 'id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_ID', 'id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>

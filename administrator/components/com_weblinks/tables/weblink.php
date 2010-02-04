@@ -193,7 +193,7 @@ class WeblinksTableWeblink extends JTable
 	 * to checkin rows that it can after adjustments are made.
 	 *
 	 * @param	mixed	An optional array of primary key values to update.  If not
-	 * 					set the instance property value is used.
+	 *					set the instance property value is used.
 	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param	integer The user id of the user performing the operation.
 	 * @return	boolean	True on success.

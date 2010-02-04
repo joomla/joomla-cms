@@ -33,7 +33,7 @@ class MediaControllerFile extends MediaController
 		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
 
 		$app	= &JFactory::getApplication();
-		$file 	= JRequest::getVar('Filedata', '', 'files', 'array');
+		$file	= JRequest::getVar('Filedata', '', 'files', 'array');
 		$folder	= JRequest::getVar('folder', '', '', 'path');
 		$format	= JRequest::getVar('format', 'html', '', 'cmd');
 		$return	= JRequest::getVar('return-url', null, 'post', 'base64');

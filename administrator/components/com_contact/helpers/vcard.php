@@ -22,7 +22,7 @@ class JvCard extends vCard
 {
 	// needed to fix bug in vcard class
 	function setName($family='', $first='', $additional='', $prefix='', $suffix='') {
-		$this->properties["N"] 	= "$family;$first;$additional;$prefix;$suffix";
+		$this->properties["N"]	= "$family;$first;$additional;$prefix;$suffix";
 		$this->setFormattedName(trim("$prefix $first $additional $family $suffix"));
 	}
 
@@ -31,7 +31,7 @@ class JvCard extends vCard
 		// $type may be DOM | INTL | POSTAL | PARCEL | HOME | WORK or any combination of these: e.g. "WORK;PARCEL;POSTAL"
 		$separator = ';';
 
-		$key 		= 'ADR';
+		$key		= 'ADR';
 		if ($type != '') {
 			$key	.= $separator . $type;
 		}
@@ -55,22 +55,22 @@ class JvCard extends vCard
 
 	// added ability to set position/title
 	function setTitle($title) {
-		$title 	= trim($title);
+		$title	= trim($title);
 
-		$this->properties['TITLE'] 	= $title;
+		$this->properties['TITLE']	= $title;
 	}
 
 	// added ability to set organisation/company
 	function setOrg($org) {
-		$org 	= trim($org);
+		$org	= trim($org);
 
 		$this->properties['ORG'] = $org;
 	}
 
 	function getVCard($sitename) {
-		$text 	= 'BEGIN:VCARD';
+		$text	= 'BEGIN:VCARD';
 		$text	.= "\r\n";
-		$text 	.= 'VERSION:2.1';
+		$text	.= 'VERSION:2.1';
 		$text	.= "\r\n";
 
 		foreach($this->properties as $key => $value) {

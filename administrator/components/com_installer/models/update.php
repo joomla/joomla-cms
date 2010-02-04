@@ -153,7 +153,7 @@ class InstallerModelUpdate extends InstallerModel
 		}
 
 		$config =& JFactory::getConfig();
-		$tmp_dest 	= $config->getValue('config.tmp_path');
+		$tmp_dest	= $config->getValue('config.tmp_path');
 
 		// Unpack the downloaded package file
 		$package = JInstallerHelper::unpack($tmp_dest.DS.$p_file);

@@ -32,10 +32,10 @@ class CacheViewCache extends JView
 
 	public function display($tpl = null)
 	{
-		$data 		= $this->get('Data');
-		$client 	= $this->get('Client');
+		$data		= $this->get('Data');
+		$client		= $this->get('Client');
 		$pagination = $this->get('Pagination');
-		$state	 	= $this->get('State');
+		$state		= $this->get('State');
 
 		$this->assignRef('data',		$data);
 		$this->assignRef('client',		$client);

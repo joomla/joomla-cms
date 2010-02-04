@@ -23,7 +23,7 @@ class UsersModelGroups extends JModelList
 	 *
 	 * @var		string
 	 */
-	 protected $_context = 'com_users.groups';
+	protected $_context = 'com_users.groups';
 
 	/**
 	 * Method to auto-populate the model state.

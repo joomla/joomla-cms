@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 		<div class="imgOutline">
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
-				 	<a style="display: block; width: 100%; height: 100%">
+					<a style="display: block; width: 100%; height: 100%">
 						<?php echo JHTML::_('image', $this->_tmp_doc->icon_32, $this->_tmp_doc->name, array('border' => 0), true); ?></a>
 				</div>
 			</div>

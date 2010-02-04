@@ -87,12 +87,12 @@ class MediaModelList extends JModel
 		}
 		$mediaBase = str_replace(DS, '/', COM_MEDIA_BASE.'/');
 
-		$images 	= array ();
-		$folders 	= array ();
-		$docs 		= array ();
+		$images		= array ();
+		$folders	= array ();
+		$docs		= array ();
 
 		// Get the list of files and folders from the given folder
-		$fileList 	= JFolder::files($basePath);
+		$fileList	= JFolder::files($basePath);
 		$folderList = JFolder::folders($basePath);
 
 		// Iterate over the files if they exist

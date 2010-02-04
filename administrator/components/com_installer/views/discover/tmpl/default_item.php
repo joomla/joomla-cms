@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<td><?php echo $this->pagination->getRowOffset($this->item->index); ?></td>
 	<td>
 			<input type="checkbox" id="cb<?php echo $this->item->index;?>" name="eid[]" value="<?php echo $this->item->extension_id; ?>" onclick="isChecked(this.checked);" <?php echo $this->item->cbd; ?> />
-<!-- 		<input type="checkbox" id="cb<?php echo $this->item->index;?>" name="eid" value="<?php echo $this->item->extension_id; ?>" onclick="isChecked(this.checked);" <?php echo $this->item->cbd; ?> />-->
+<!--		<input type="checkbox" id="cb<?php echo $this->item->index;?>" name="eid" value="<?php echo $this->item->extension_id; ?>" onclick="isChecked(this.checked);" <?php echo $this->item->cbd; ?> />-->
 		<span class="bold"><?php echo $this->item->name; ?></span>
 	</td>
 	<td>

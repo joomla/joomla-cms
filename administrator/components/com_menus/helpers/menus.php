@@ -85,7 +85,7 @@ class MenusHelper
 	/**
 	 * Get the menu list for create a menu module
 	 *
-	 * @return		array  	The menu array list
+	 * @return		array	The menu array list
 	 * @since		1.6
 	 */
 	public static function getMenuTypes()

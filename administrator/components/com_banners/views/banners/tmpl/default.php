@@ -55,13 +55,13 @@ $userId	= $user->get('id');
 					<?php echo JHtml::_('grid.sort',  'Banners_Heading_Name', 'name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Client', 'client_name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Banners_Heading_Client', 'client_name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Published', 'state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Published', 'state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="20%">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Category', 'category_title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Category', 'category_title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Ordering', 'ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -70,13 +70,13 @@ $userId	= $user->get('id');
 					<?php endif;?>
 				</th>
 				<th width="5%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Sticky', 'sticky', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Banners_Heading_Sticky', 'sticky', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Impressions', 'impmade', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Banners_Heading_Impressions', 'impmade', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="80">
-					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Clicks', 'clicks', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Banners_Heading_Clicks', 'clicks', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%" class="nowrap">
 					<?php echo JText::_('Banners_Heading_MetaKeywords'); ?>
@@ -85,7 +85,7 @@ $userId	= $user->get('id');
 					<?php echo JText::_('Banners_Heading_PurchaseType'); ?>
 				</th>
 				<th width="1%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',   'JGrid_Heading_ID', 'id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_ID', 'id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>
@@ -99,7 +99,7 @@ $userId	= $user->get('id');
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
 			$ordering	= ($this->state->get('list.ordering') == 'ordering');
-			$item->cat_link 	= JRoute::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]='. $item->catid);
+			$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]='. $item->catid);
 			$canCreate	= $user->authorise('core.create',		'com_banners.category.'.$item->catid);
 			$canEdit	= $user->authorise('core.edit',			'com_banners.category.'.$item->catid);
 			$canChange	= $user->authorise('core.edit.state',	'com_banners.category.'.$item->catid);

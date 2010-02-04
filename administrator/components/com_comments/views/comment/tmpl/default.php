@@ -63,7 +63,7 @@ $pane = JPane::getInstance('sliders');
 					<li class="email" title="<?php echo JText::_('COMMENTS_EMAIL'); ?>"><?php echo $this->item->email; ?></li>
 
 					<li class="ip" title="<?php echo JText::_('COMMENTS_IP_ADDRESS'); ?>"><a href="http://ip-lookup.net/index.php?ip=<?php echo $this->item->address; ?>" target="_new"><?php echo $this->item->address; ?></a>
-						 <a href="index.php?option=com_comments&amp;task=config.block&amp;block=address&amp;cid[]=<?php echo $this->item->id;?>">[ <?php echo JText::_('COMMENTS_BLOCK');?> ]</a></li>
+						<a href="index.php?option=com_comments&amp;task=config.block&amp;block=address&amp;cid[]=<?php echo $this->item->id;?>">[ <?php echo JText::_('COMMENTS_BLOCK');?> ]</a></li>
 
 					<li class="url" title="<?php echo JText::_('COMMENTS_WEBSITE_URL'); ?>"><?php echo ($this->item->url) ? $this->item->url : JText::_('COMMENTS_NOT_AVAILABLE'); ?></li>
 				</ul>

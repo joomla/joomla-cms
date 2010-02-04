@@ -52,22 +52,22 @@ $userId	= $user->get('id');
 		<thead>
 			<tr>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort',  'Banners_Heading_Name', 'name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Banners_Heading_Name', 'name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="20%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Client', 'client_name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Banners_Heading_Client', 'client_name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="20%">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Category', 'category_title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Category', 'category_title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Type', 'track_type', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Banners_Heading_Type', 'track_type', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Count', 'count', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Banners_Heading_Count', 'count', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',   'Banners_Heading_Date', 'track_date', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Banners_Heading_Date', 'track_date', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>

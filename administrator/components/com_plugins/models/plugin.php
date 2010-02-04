@@ -52,9 +52,9 @@ class PluginsModelPlugin extends JModelForm
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param	type 	$type 	 The table type to instantiate
-	 * @param	string 	$prefix	 A prefix for the table class name. Optional.
-	 * @param	array	$options Configuration array for model. Optional.
+	 * @param	type	The table type to instantiate
+	 * @param	string	A prefix for the table class name. Optional.
+	 * @param	array	Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
 	public function getTable($type = 'Extension', $prefix = 'JTable', $config = array())

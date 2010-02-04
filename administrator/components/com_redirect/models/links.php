@@ -26,7 +26,7 @@ class RedirectModelLinks extends JModelList
 	 *
 	 * @var	string
 	 */
-	 protected $_context = 'com_redirect.links';
+	protected $_context = 'com_redirect.links';
 
 	/**
 	 * Method to auto-populate the model state.

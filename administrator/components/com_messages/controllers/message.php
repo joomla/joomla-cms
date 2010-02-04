@@ -25,7 +25,7 @@ class MessagesControllerMessage extends JControllerForm
 	 * @param	array	An array of input data.
 	 * @param	string	The name of the key for the primary key.
 	 *
-	 * @return 	boolean
+	 * @return	boolean
 	 */
 	protected function _allowSave($data, $key = 'message_id')
 	{

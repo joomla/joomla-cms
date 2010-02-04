@@ -85,7 +85,7 @@ class ConfigControllerComponent extends JController
 		$data	= array(
 					'params'	=> $return,
 					'id'		=> $id,
-					'option' 	=> $option
+					'option'	=> $option
 					);
 		$return = $model->save($data);
 

@@ -22,8 +22,8 @@ class JElementContact extends JElement
 	{
 		$app		= &JFactory::getApplication();
 		$db			= &JFactory::getDbo();
-		$doc 		= &JFactory::getDocument();
-		$template 	= $app->getTemplate();
+		$doc		= &JFactory::getDocument();
+		$template	= $app->getTemplate();
 		$fieldName	= $control_name.'['.$name.']';
 		$contact	= &JTable::getInstance('contact');
 		if ($value) {

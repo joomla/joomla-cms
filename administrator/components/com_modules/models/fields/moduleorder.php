@@ -65,7 +65,7 @@ class JFormFieldModuleOrder extends JFormField
 			return false;
 		}
 
-		$orders2 	= array();
+		$orders2 = array();
 		for ($i = 0, $n = count($orders); $i < $n; $i++) {
 			if (!isset($orders2[$orders[$i]->position])) {
 				$orders2[$orders[$i]->position] = 0;

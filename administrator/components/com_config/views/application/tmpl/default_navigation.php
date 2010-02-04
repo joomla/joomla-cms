@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<div class="t">
 		<div class="t">
 			<div class="t"></div>
- 		</div>
+		</div>
 	</div>
 	<div class="m">
 		<div class="submenu-box">
@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 	</div>
 	<div class="b">
 		<div class="b">
- 			<div class="b"></div>
+			<div class="b"></div>
 		</div>
 	</div>
 </div>

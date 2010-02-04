@@ -64,10 +64,10 @@ class MediaModelManager extends JModel
 		// Build the array of select options for the folder list
 		$options[] = JHtml::_('select.option', "","/");
 		foreach ($folders as $folder) {
-			$folder 	= str_replace(COM_MEDIA_BASE, "", $folder);
+			$folder		= str_replace(COM_MEDIA_BASE, "", $folder);
 			$value		= substr($folder, 1);
-			$text	 	= str_replace(DS, "/", $folder);
-			$options[] 	= JHtml::_('select.option', $value, $text);
+			$text		= str_replace(DS, "/", $folder);
+			$options[]	= JHtml::_('select.option', $value, $text);
 		}
 
 		// Sort the folder list array

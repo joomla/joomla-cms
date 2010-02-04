@@ -29,7 +29,7 @@ JHtml::_('behavior.tooltip');
 			</select>
 
 			<select name="filter_context" id="context" class="inputbox" onchange="this.form.submit()">
- 				<?php echo JHtml::_('comments.commentContextOptions', $this->state->get('filter.context')); ?>
+				<?php echo JHtml::_('comments.commentContextOptions', $this->state->get('filter.context')); ?>
 			</select>
 		</div>
 	</fieldset>

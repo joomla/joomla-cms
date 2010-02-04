@@ -64,7 +64,7 @@ class LanguagesModelInstalled extends JModelList
 	 *
 	 * @var		string
 	 */
-	 protected $_context = 'com_languages.installed';
+	protected $_context = 'com_languages.installed';
 
 	/**
 	 * Method to auto-populate the model state.
@@ -172,7 +172,7 @@ class LanguagesModelInstalled extends JModelList
 				$file = $path.DS.$folder.DS.$folder.'.xml';
 				$info = & JApplicationHelper::parseXMLLangMetaFile($file);
 				$row = new JObject();
-				$row->language 	= $folder;
+				$row->language = $folder;
 
 				if (!is_array($info)) {
 					continue;

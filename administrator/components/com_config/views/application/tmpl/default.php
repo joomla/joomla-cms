@@ -19,11 +19,11 @@ $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submen
 $this->document->addScriptDeclaration("
 	document.switcher = null;
 	window.addEvent('domready', function(){
-	 	var toggler = document.id('submenu')
-	  	var element = document.id('config-document')
-	  	if (element) {
-	  		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
-	  	}
+		var toggler = document.id('submenu')
+		var element = document.id('config-document')
+		if (element) {
+			document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
+		}
 	});
 ");
 

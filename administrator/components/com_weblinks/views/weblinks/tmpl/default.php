@@ -87,7 +87,7 @@ $userId	= $user->get('id');
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
 			$ordering	= ($this->state->get('list.ordering') == 'a.ordering');
-			$item->cat_link 	= JRoute::_('index.php?option=com_categories&extension=com_weblinks&task=edit&type=other&cid[]='. $item->catid);
+			$item->cat_link	= JRoute::_('index.php?option=com_categories&extension=com_weblinks&task=edit&type=other&cid[]='. $item->catid);
 			$canCreate	= $user->authorise('core.create',		'com_weblinks.category.'.$item->catid);
 			$canEdit	= $user->authorise('core.edit',			'com_weblinks.category.'.$item->catid);
 			$canChange	= $user->authorise('core.edit.state',	'com_weblinks.category.'.$item->catid);

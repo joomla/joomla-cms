@@ -30,7 +30,7 @@ class BannersViewClient extends JView
 	{
 		$state	= $this->get('State');
 		$item	= $this->get('Item');
-		$form 	= $this->get('Form');
+		$form	= $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {

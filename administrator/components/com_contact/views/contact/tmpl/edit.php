@@ -137,7 +137,7 @@ JHtml::_('behavior.formvalidation');
 					<?php endforeach; ?>
 				</fieldset>
 
-			<?php echo 	 JHtml::_('sliders.end'); ?>
+			<?php echo JHtml::_('sliders.end'); ?>
 </div>
 
 	<input type="hidden" name="task" value="" />

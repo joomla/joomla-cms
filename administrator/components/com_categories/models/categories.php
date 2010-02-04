@@ -45,7 +45,7 @@ class CategoriesModelCategories extends JModelList
 		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
 
-		$published 	= $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$published = $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
 		// List state information.

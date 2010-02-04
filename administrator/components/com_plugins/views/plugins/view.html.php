@@ -63,8 +63,8 @@ class PluginsViewPlugins extends JView
 		}
 
 		/**
-	 	* Don't think we need an Edit button if names are clickable.
-	 	*/
+		* Don't think we need an Edit button if names are clickable.
+		*/
 		//if ($canDo->get('core.edit')) {
 		//	JToolBarHelper::editList('plugin.edit');
 		// }

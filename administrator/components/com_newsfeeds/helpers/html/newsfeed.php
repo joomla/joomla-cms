@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
  * Utility class for creating HTML Grids
  *
  * @static
- * @package 	Joomla.Administrator
+ * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
  * @since		1.5
  */

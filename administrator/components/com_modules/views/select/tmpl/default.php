@@ -22,7 +22,7 @@ JHtml::_('behavior.tooltip');
 		// Prepare variables for the link.
 
 		$link	= 'index.php?option=com_modules&task=module.add&eid='. $item->extension_id;
-		$name 	= $this->escape(JText::_($item->name));
+		$name	= $this->escape(JText::_($item->name));
 		$desc	= $this->escape(JText::_('Modules_No_description_available'));
 
 		if (isset($item->xml))

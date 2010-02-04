@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Renders a author element
  *
- * @package 	Joomla
+ * @package		Joomla
  * @subpackage	Articles
  * @since		1.5
  */

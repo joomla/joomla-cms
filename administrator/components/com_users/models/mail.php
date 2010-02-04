@@ -27,7 +27,7 @@ class UsersModelMail extends JModelForm
 	public function getForm()
 	{
 		// Initialise variables.
-		$app 	= JFactory::getApplication();
+		$app	= JFactory::getApplication();
 
 		// Get the form.
 		$form = parent::getForm('mail', 'com_users.mail', array('array' => 'jform', 'event' => 'onPrepareForm'));
@@ -54,8 +54,8 @@ class UsersModelMail extends JModelForm
 		// Initialise variables.
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 		$app	= JFactory::getApplication();
-		$user 	= JFactory::getUser();
-		$acl 	= JFactory::getACL();
+		$user	= JFactory::getUser();
+		$acl	= JFactory::getACL();
 		$db		= $this->getDbo();
 
 		$mode		= array_key_exists('mode',$data) ? intval($data['mode']) : 0;

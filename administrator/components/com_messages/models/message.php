@@ -41,9 +41,9 @@ class MessagesModelMessage extends JModelForm
 	/**
 	 * Returns a Table object, always creating it.
 	 *
-	 * @param	type 	$type 	 The table type to instantiate
-	 * @param	string 	$prefix	 A prefix for the table class name. Optional.
-	 * @param	array	$options Configuration array for model. Optional.
+	 * @param	type	The table type to instantiate
+	 * @param	string	A prefix for the table class name. Optional.
+	 * @param	array	Configuration array for model. Optional.
 	 * @return	JTable	A database object
 	*/
 	public function getTable($type = 'Message', $prefix = 'MessagesTable', $config = array())
@@ -200,7 +200,7 @@ class MessagesModelMessage extends JModelForm
 			$toUser		= new JUser($table->user_id_to);
 
 			$siteURL	= JURI::base();
-			$sitename 	= JFactory::getApplication()->getCfg('sitename');
+			$sitename	= JFactory::getApplication()->getCfg('sitename');
 
 			$subject	= sprintf (JText::_('A new private message has arrived'), $sitename);
 			$msg		= sprintf (JText::_('Please login to read your message'), $siteURL);
@@ -214,8 +214,8 @@ class MessagesModelMessage extends JModelForm
 	/**
 	 * Method to delete messages from the database
 	 *
-	 * @param   integer  An array of numeric ids for the rows
-	 * @return  boolean  True on success / false on failure
+	 * @param	integer	An array of numeric ids for the rows
+	 * @return	boolean	True on success / false on failure
 	 */
 	public function delete($cid)
 	{
