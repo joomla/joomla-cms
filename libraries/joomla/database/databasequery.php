@@ -187,7 +187,7 @@ class JDatabaseQuery
 	}
 
 	/**
-	 * @param   mixed   A string or an array of field names
+	 * @param	mixed	A string or an array of field names
 	 */
 	public function delete()
 	{
@@ -197,7 +197,7 @@ class JDatabaseQuery
 	}
 
 	/**
-	 * @param   mixed   A string or array of table names
+	 * @param	mixed	A string or array of table names
 	 */
 	public function insert($tables)
 	{
@@ -207,7 +207,7 @@ class JDatabaseQuery
 	}
 
 	/**
-	 * @param   mixed   A string or array of table names
+	 * @param	mixed	A string or array of table names
 	 */
 	public function update($tables)
 	{
@@ -285,8 +285,8 @@ class JDatabaseQuery
 	}
 
 	/**
-	 * @param   mixed   A string or array of conditions
-	 * @param   string
+	 * @param	mixed	A string or array of conditions
+	 * @param	string
 	 */
 	public function set($conditions, $glue=',')
 	{
@@ -331,8 +331,8 @@ class JDatabaseQuery
 	}
 
 	/**
-	 * @param   mixed   A string or array of columns
-	 * @param   string
+	 * @param	mixed	A string or array of columns
+	 * @param	string
 	 */
 	public function having($conditions, $glue='AND')
 	{

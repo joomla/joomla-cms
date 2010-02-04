@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 /**
  * Menu Types table
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Table
  * @since		1.5
  */

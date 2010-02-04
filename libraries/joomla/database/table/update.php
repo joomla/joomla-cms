@@ -14,9 +14,9 @@ defined('JPATH_BASE') or die();
  * Update table
  * Stores updates temporarily
  *
- * @package 	Joomla.Framework
- * @subpackage		Table
- * @since	1.6
+ * @package		Joomla.Framework
+ * @subpackage	Table
+ * @since		1.6
  */
 class JTableUpdate extends JTable
 {

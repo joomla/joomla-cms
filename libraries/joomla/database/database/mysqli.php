@@ -675,8 +675,8 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Shows the CREATE TABLE statement that creates the given tables
 	 *
-	 * @param 	array|string 	A table name or a list of table names
-	 * @return 	array A list the create SQL for the tables
+	 * @param	array|string	A table name or a list of table names
+	 * @return	array A list the create SQL for the tables
 	 */
 	public function getTableCreate($tables)
 	{
@@ -697,7 +697,7 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Retrieves information about the given tables
 	 *
-	 * @param 	array|string 	A table name or a list of table names
+	 * @param	array|string	A table name or a list of table names
 	 * @param	boolean			Only return field types, default true
 	 * @return	array	An array of fields by table
 	 */

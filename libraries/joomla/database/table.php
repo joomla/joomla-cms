@@ -15,7 +15,7 @@ defined('JPATH_BASE') or die;
  * Parent class to all tables.
  *
  * @abstract
- * @package 	Joomla.Framework
+ * @package	Joomla.Framework
  * @subpackage	Table
  * @since		1.0
  * @tutorial	Joomla.Framework/jtable.cls
@@ -143,7 +143,7 @@ abstract class JTable extends JObject
 	 * classes @see JTable::addIncludePath().
 	 *
 	 * @param	string	The type (name) of the JTable class to get an instance of.
-	 * @param	string 	An optional prefix for the table class name.
+	 * @param	string	An optional prefix for the table class name.
 	 * @param	array	An optional array of configuration values for the JTable object.
 	 * @return	mixed	A JTable object if found or boolean false if one could not be found.
 	 * @since	1.5
@@ -376,7 +376,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param	mixed	An associative array or object to bind to the JTable instance.
 	 * @param	mixed	An optional array or space separated list of properties
-	 * 					to ignore while binding.
+	 *					to ignore while binding.
 	 * @return	boolean	True on success.
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/bind
@@ -417,7 +417,7 @@ abstract class JTable extends JObject
 	 * to the JTable instance properties.
 	 *
 	 * @param	mixed	An optional primary key value to load the row by, or an array of fields to match.  If not
-	 * 					set the instance property value is used.
+	 *					set the instance property value is used.
 	 * @param	boolean	True to reset the default values before loading the new row.
 	 * @return	boolean	True if successful. False if row not found or on error (internal error state set in that case).
 	 * @since	1.0
@@ -594,7 +594,7 @@ abstract class JTable extends JObject
 	 * @param	mixed	An associative array or object to bind to the JTable instance.
 	 * @param	string	Filter for the order updating
 	 * @param	mixed	An optional array or space separated list of properties
-	 * 					to ignore while binding.
+	 *					to ignore while binding.
 	 * @return	boolean	True on success.
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/save
@@ -636,7 +636,7 @@ abstract class JTable extends JObject
 	 * Method to delete a row from the database table by primary key value.
 	 *
 	 * @param	mixed	An optional primary key value to delete.  If not set the
-	 * 					instance property value is used.
+	 *					instance property value is used.
 	 * @return	boolean	True on success.
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/delete
@@ -695,7 +695,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param	integer	The Id of the user checking out the row.
 	 * @param	mixed	An optional primary key value to check out.  If not set
-	 * 					the instance property value is used.
+	 *					the instance property value is used.
 	 * @return	boolean	True on success.
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/checkOut
@@ -723,7 +723,7 @@ abstract class JTable extends JObject
 		$this->_db->setQuery(
 			'UPDATE `'.$this->_tbl.'`' .
 			' SET `checked_out` = '.(int) $userId.',' .
-			'	  `checked_out_time` = '.$this->_db->quote($time) .
+			'	`checked_out_time` = '.$this->_db->quote($time) .
 			' WHERE `'.$this->_tbl_key.'` = '.$this->_db->quote($pk)
 		);
 		$this->_db->query();
@@ -746,7 +746,7 @@ abstract class JTable extends JObject
 	 * a row in will allow other users the ability to edit the row.
 	 *
 	 * @param	mixed	An optional primary key value to check out.  If not set
-	 * 					the instance property value is used.
+	 *					the instance property value is used.
 	 * @return	boolean	True on success.
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/checkIn
@@ -771,7 +771,7 @@ abstract class JTable extends JObject
 		$this->_db->setQuery(
 			'UPDATE `'.$this->_tbl.'`' .
 			' SET `checked_out` = 0,' .
-			'	  `checked_out_time` = '.$this->_db->quote($this->_db->getNullDate()) .
+			'	`checked_out_time` = '.$this->_db->quote($this->_db->getNullDate()) .
 			' WHERE `'.$this->_tbl_key.'` = '.$this->_db->quote($pk)
 		);
 		$this->_db->query();
@@ -793,7 +793,7 @@ abstract class JTable extends JObject
 	 * Method to increment the hits for a row if the necessary property/field exists.
 	 *
 	 * @param	mixed	An optional primary key value to increment.  If not set
-	 * 					the instance property value is used.
+	 *					the instance property value is used.
 	 * @return	boolean	True on success.
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/hit
@@ -842,9 +842,9 @@ abstract class JTable extends JObject
 	 * not checked out -- as the user can still edit it.
 	 *
 	 * @param	integer	The userid to preform the match with, if an item is checked
-	 * 					out by this user the function will return false.
+	 *					out by this user the function will return false.
 	 * @param	integer	The userid to perform the match against when the function
-	 * 					is used as a static function.
+	 *					is used as a static function.
 	 * @return	boolean	True if checked out.
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/isCheckedOut
@@ -916,7 +916,7 @@ abstract class JTable extends JObject
 	 * defined by an SQL WHERE clause.
 	 *
 	 * @param	string	WHERE clause to use for limiting the selection of rows to
-	 * 					compact the ordering values.
+	 *					compact the ordering values.
 	 * @return	mixed	Boolean true on success.
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/reorder
@@ -984,7 +984,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param	integer	The direction and magnitude to move the row in the ordering sequence.
 	 * @param	string	WHERE clause to use for limiting the selection of rows to compact the
-	 * 					ordering values.
+	 *					ordering values.
 	 * @return	mixed	Boolean true on success.
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/move
@@ -1089,7 +1089,7 @@ abstract class JTable extends JObject
 	 * to checkin rows that it can after adjustments are made.
 	 *
 	 * @param	mixed	An optional array of primary key values to update.  If not
-	 * 					set the instance property value is used.
+	 *					set the instance property value is used.
 	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param	integer The user id of the user performing the operation.
 	 * @return	boolean	True on success.
@@ -1167,9 +1167,9 @@ abstract class JTable extends JObject
 	 *
 	 * @deprecated
 	 * @param	mixed	An optional primary key value check the row for.  If not
-	 * 					set the instance property value is used.
+	 *					set the instance property value is used.
 	 * @param	array	An optional array to compiles standard joins formatted like:
-	 * 					[label => 'Label', name => 'table name' , idfield => 'field', joinfield => 'field']
+	 *					[label => 'Label', name => 'table name' , idfield => 'field', joinfield => 'field']
 	 * @return	boolean	True on success.
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/canDelete
