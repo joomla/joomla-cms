@@ -15,7 +15,7 @@ defined('JPATH_BASE') or die;
  * This class has influences and some method logic from the Horde Auth package
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	User
  * @since		1.5
  */
@@ -215,7 +215,7 @@ class JUserHelper
 	 * Method to activate a user
 	 *
 	 * @param	string	$activation	Activation string
-	 * @return 	boolean 			True on success
+	 * @return	boolean			True on success
 	 * @since	1.5
 	 */
 	public static function activateUser($activation)
@@ -379,7 +379,7 @@ class JUserHelper
 	 * @param string $seed		The seed to get the salt from (probably a
 	 *							previously generated password). Defaults to
 	 *							generating a new seed.
-	 * @param string $plaintext   The plaintext password that we're generating
+	 * @param string $plaintext	The plaintext password that we're generating
 	 *							a salt for. Defaults to none.
 	 *
 	 * @return string  The generated or extracted salt.

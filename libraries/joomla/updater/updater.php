@@ -130,8 +130,9 @@ class JUpdater extends JAdapter {
 	 */
 	public function arrayUnique($myArray)
 	{
-		if(!is_array($myArray))
-			   return $myArray;
+		if (!is_array($myArray)) {
+			return $myArray;
+		}
 
 		foreach ($myArray as &$myvalue){
 			$myvalue=serialize($myvalue);
