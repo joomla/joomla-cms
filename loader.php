@@ -127,7 +127,7 @@ abstract class JLoader
 			return true;
 		}
 
-		if (array_key_exists(strtolower($class), JLoader::$classes))
+		if (array_key_exists($class, JLoader::$classes))
 		{
 			include JLoader::$classes[$class];
 			return true;
