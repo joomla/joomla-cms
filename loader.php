@@ -97,8 +97,8 @@ abstract class JLoader
 	 *
 	 * @param	string			The class name
 	 * @param	string			Full path to the file that holds the class
-	 * @return	array|boolean  	Array of classes
-	 * @since 	1.5
+	 * @return	array|boolean	Array of classes
+	 * @since	1.5
 	 */
 	public static function &register($class = null, $file = null)
 	{
