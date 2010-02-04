@@ -153,14 +153,14 @@ class JAdministrator extends JApplication
 	{
 		$component	= JRequest::getCmd('option', 'com_login');
 		$template	= $this->getTemplate(true);
-		$file 		= JRequest::getCmd('tmpl', 'index');
+		$file		= JRequest::getCmd('tmpl', 'index');
 
 		if ($component == 'com_login') {
 			$file = 'login';
 		}
 
 		$params = array(
-			'template' 	=> $template->template,
+			'template'	=> $template->template,
 			'file'		=> $file.'.php',
 			'directory'	=> JPATH_THEMES,
 			'params'	=> $template->params
@@ -177,8 +177,8 @@ class JAdministrator extends JApplication
 	/**
 	 * Login authentication function
 	 *
-	 * @param	array 	Array('username' => string, 'password' => string)
-	 * @param	array 	Array('remember' => boolean)
+	 * @param	array	Array('username' => string, 'password' => string)
+	 * @param	array	Array('remember' => boolean)
 	 * @see		JApplication::login
 	 */
 	public function login($credentials, $options = array())
@@ -186,7 +186,7 @@ class JAdministrator extends JApplication
 		//The minimum group
 		$options['group'] = 'Public Backend';
 
-		 //Make sure users are not autoregistered
+		//Make sure users are not autoregistered
 		$options['autoregister'] = false;
 
 		//Set the application login entry point
@@ -273,12 +273,12 @@ class JAdministrator extends JApplication
 		// check if auto_purge value set
 		if (is_object($config) and $config->cfg_name == 'auto_purge')
 		{
-			$purge 	= $config->cfg_value;
+			$purge	= $config->cfg_value;
 		}
 		else
 		{
 			// if no value set, default is 7 days
-			$purge 	= 7;
+			$purge	= 7;
 		}
 		// calculation of past date
 

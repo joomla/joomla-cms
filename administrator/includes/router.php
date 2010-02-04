@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
 /**
  * Class to create and parse routes
  *
- * @package 	Joomla
+ * @package		Joomla
  * @since		1.5
  */
 class JRouterAdministrator extends JRouter
