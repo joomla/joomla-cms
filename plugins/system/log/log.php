@@ -27,7 +27,7 @@ class  plgSystemLog extends JPlugin
 		$errorlog = array();
 
 		switch($response['status'])
-	    {
+		{
 			case JAUTHENTICATE_STATUS_CANCEL :
 			{
 				$errorlog['status']  = $response['type'] . " CANCELED: ";
