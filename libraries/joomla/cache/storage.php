@@ -62,7 +62,7 @@ class JCacheStorage extends JObject
 		$options['now'] = $now;
 		//We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
-		$class   = 'JCacheStorage'.ucfirst($handler);
+		$class = 'JCacheStorage'.ucfirst($handler);
 		if (!class_exists($class))
 		{
 			$path = dirname(__FILE__).DS.'storage'.DS.$handler.'.php';
