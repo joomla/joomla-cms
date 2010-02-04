@@ -578,7 +578,7 @@ class UniversalFeedCreator extends FeedCreator {
 	* (web fetching, for example).
 	*
 	* @param   string   format   format the feed should comply to. Valid values are:
-	*	   "PIE0.1" (deprecated), "mbox", "RSS0.91", "RSS1.0", "RSS2.0", "OPML", "ATOM0.3".
+	*		"PIE0.1" (deprecated), "mbox", "RSS0.91", "RSS1.0", "RSS2.0", "OPML", "ATOM0.3".
 	* @param filename   string   optional the filename where a recent version of the feed is saved. If not specified, the filename is $_SERVER["PHP_SELF"] with the extension changed to .xml (see _generateFilename()).
 	* @param timeout int	  optional the timeout in seconds before a cached version is refreshed (defaults to 3600 = 1 hour)
 	*/
@@ -1016,7 +1016,7 @@ class RSSCreator10 extends FeedCreator {
 			$feed.= "		<image rdf:resource=\"".$this->image->url."\" />\n";
 		}
 		$now = new FeedDate();
-		$feed.= "	   <dc:date>".htmlspecialchars($now->iso8601())."</dc:date>\n";
+		$feed.= "	<dc:date>".htmlspecialchars($now->iso8601())."</dc:date>\n";
 		$feed.= "		<items>\n";
 		$feed.= "			<rdf:Seq>\n";
 		for ($i=0;$i<count($this->items);$i++) {
