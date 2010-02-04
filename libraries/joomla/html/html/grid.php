@@ -11,7 +11,7 @@
  * Utility class for creating HTML Grids
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
  */
@@ -125,7 +125,7 @@ abstract class JHtmlGrid
 
 	public static function checkedOut(&$row, $i, $identifier = 'id')
 	{
-		$user   = &JFactory::getUser();
+		$user	= &JFactory::getUser();
 		$userid = $user->get('id');
 
 		$result = false;
@@ -160,9 +160,9 @@ abstract class JHtmlGrid
 		if (is_object($value)) {
 			$value = $value->published;
 		}
-		$img 	= $value ? $img1 : $img0;
-		$task 	= $value ? 'unpublish' : 'publish';
-		$alt 	= $value ? JText::_('Published') : JText::_('Unpublished');
+		$img	= $value ? $img1 : $img0;
+		$task	= $value ? 'unpublish' : 'publish';
+		$alt	= $value ? JText::_('Published') : JText::_('Unpublished');
 		$action = $value ? JText::_('UNPUBLISH_ITEM') : JText::_('PUBLISH_ITEM');
 
 		$href = '
@@ -221,7 +221,7 @@ abstract class JHtmlGrid
 		{
 			$text = addslashes(htmlspecialchars($row->editor, ENT_COMPAT, 'UTF-8'));
 
-			$date 	= JHtml::_('date',  $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
+			$date	= JHtml::_('date',  $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
 			$time	= JHtml::_('date',  $row->checked_out_time, '%H:%M');
 
 			$hover = '<span class="editlinktip hasTip" title="'. JText::_('CHECKED_OUT') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';

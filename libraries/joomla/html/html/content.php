@@ -10,7 +10,7 @@
 /**
  * Utility class to fire onPrepareContent for non-article based content.
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
  */

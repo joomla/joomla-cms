@@ -11,7 +11,7 @@
  * Utility class for Tabs elements.
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	HTML
  * @version		1.6
  */
@@ -97,9 +97,9 @@ abstract class JHtmlTabs
 
 			$display = (isset($params['startOffset'])) ? (int)$params['startOffset'] : null ;
 			$options = '{';
-			$opt['onActive']	 = (isset($params['onActive'])) ? $params['onActive'] : null ;
-			$opt['onBackground'] = (isset($params['onBackground'])) ? $params['onBackground'] : null ;
-			$opt['display']		 = (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanetabs_' . $group, $display, 'cookie') : $display ;
+			$opt['onActive']		= (isset($params['onActive'])) ? $params['onActive'] : null ;
+			$opt['onBackground']	= (isset($params['onBackground'])) ? $params['onBackground'] : null ;
+			$opt['display']			= (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanetabs_' . $group, $display, 'cookie') : $display ;
 			foreach ($opt as $k => $v)
 			{
 				if ($v) {

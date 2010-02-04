@@ -11,7 +11,7 @@
  * Utility class for Sliders elements
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	HTML
  * @since		1.6
  */
@@ -100,13 +100,13 @@ abstract class JHtmlSliders
 			$display = (isset($params['startOffset']) && ($params['startTransition'])) ? (int)$params['startOffset'] : null;
 			$show = (isset($params['startOffset']) && (!$params['startTransition'])) ? (int)$params['startOffset'] : null;
 			$options = '{';
-			$opt['onActive']	 = 'function(toggler, i) {toggler.addClass(\'jpane-toggler-down\');toggler.removeClass(\'jpane-toggler\');Cookie.write(\'jpanesliders_'.$group.'\',$$(\'div#'.$group.'.pane-sliders .panel h3\').indexOf(toggler));}';
-			$opt['onBackground']	 = "function(toggler, i) {toggler.addClass('jpane-toggler');toggler.removeClass('jpane-toggler-down');if($$('div#".$group.".pane-sliders .panel h3').length==$$('div#".$group.".pane-sliders .panel h3.jpane-toggler').length) Cookie.write('jpanesliders_".$group."',-1);}";
-			$opt['duration']	 = (isset($params['duration'])) ? (int)$params['duration'] : 300;
-			$opt['display']		 = (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanesliders_' . $group, $display, 'cookie') : $display ;
-			$opt['show']		 = (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanesliders_' . $group, $show, 'cookie') : $show ;
-			$opt['opacity']		 = (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false' ;
-			$opt['alwaysHide']	 = (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
+			$opt['onActive']		= 'function(toggler, i) {toggler.addClass(\'jpane-toggler-down\');toggler.removeClass(\'jpane-toggler\');Cookie.write(\'jpanesliders_'.$group.'\',$$(\'div#'.$group.'.pane-sliders .panel h3\').indexOf(toggler));}';
+			$opt['onBackground']	= "function(toggler, i) {toggler.addClass('jpane-toggler');toggler.removeClass('jpane-toggler-down');if($$('div#".$group.".pane-sliders .panel h3').length==$$('div#".$group.".pane-sliders .panel h3.jpane-toggler').length) Cookie.write('jpanesliders_".$group."',-1);}";
+			$opt['duration']		= (isset($params['duration'])) ? (int)$params['duration'] : 300;
+			$opt['display']			= (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanesliders_' . $group, $display, 'cookie') : $display ;
+			$opt['show']			= (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanesliders_' . $group, $show, 'cookie') : $show ;
+			$opt['opacity']			= (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false' ;
+			$opt['alwaysHide']		= (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
 			foreach ($opt as $k => $v)
 			{
 				if ($v) {
