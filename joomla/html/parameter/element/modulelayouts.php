@@ -28,8 +28,6 @@ class JElementModuleLayouts extends JElementList
 	 */
 	protected function _getOptions(&$node)
 	{
-		jimport('joomla.database.query');
-
 		$clientId = ($v = $node->attributes('client_id')) ? $v : 0;
 
 		$options	= array();
@@ -37,8 +35,8 @@ class JElementModuleLayouts extends JElementList
 		$path2		= null;
 
 		// Load template entries for each menuid
-		$db			=& JFactory::getDBO();
-		$query		= new JQuery;
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
 		$query->select('template');
 		$query->from('#__template_styles');
 		$query->where('client_id = '.(int) $clientId);
@@ -46,8 +44,7 @@ class JElementModuleLayouts extends JElementList
 		$db->setQuery($query);
 		$template	= $db->loadResult();
 
-		if ($module = $node->attributes('module'))
-		{
+		if ($module = $node->attributes('module')) {
 			$base	= ($clientId == 1) ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$module	= preg_replace('#\W#', '', $module);
 			$path1	= $base.DS.'modules'.DS.$module.DS.'tmpl';
@@ -55,8 +52,7 @@ class JElementModuleLayouts extends JElementList
 			$options[]	= JHTML::_('select.option', '', '');
 		}
 
-		if ($path1 && $path2)
-		{
+		if ($path1 && $path2) {
 			jimport('joomla.filesystem.file');
 			$path1 = JPath::clean($path1);
 			$path2 = JPath::clean($path2);
@@ -66,8 +62,7 @@ class JElementModuleLayouts extends JElementList
 				$options[]	= JHTML::_('select.option', JFile::stripExt($file));
 			}
 
-			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$'))
-			{
+			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$')) {
 				$options[]	= JHTML::_('select.optgroup', JText::_('JOption_From_Default'));
 				foreach ($files as $file) {
 					$options[]	= JHTML::_('select.option', JFile::stripExt($file));

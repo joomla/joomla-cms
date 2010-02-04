@@ -7,8 +7,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.database.query');
-
 /**
  * Extended Utility class for all HTML drawing classes.
  *
@@ -37,8 +35,8 @@ abstract class JHtmlAccess
 	 */
 	public static function level($name, $selected, $attribs = '', $params = true, $id = false)
 	{
-		$db		= &JFactory::getDbo();
-		$query	= new JQuery;
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
 
 		$query->select('a.id AS value, a.title AS text');
 		$query->from('#__viewlevels AS a');
@@ -101,8 +99,7 @@ abstract class JHtmlAccess
 			return null;
 		}
 
-		for ($i=0,$n=count($options); $i < $n; $i++)
-		{
+		for ($i=0,$n=count($options); $i < $n; $i++) {
 			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
 		}
 
@@ -153,8 +150,7 @@ abstract class JHtmlAccess
 
 		$html[] = '<ul class="checklist usergroups">';
 
-		for ($i=0, $n=count($groups); $i < $n; $i++)
-		{
+		for ($i=0, $n=count($groups); $i < $n; $i++) {
 			$item = &$groups[$i];
 
 			// Setup  the variable attributes.
@@ -199,8 +195,7 @@ abstract class JHtmlAccess
 		$html		= array();
 		$html[]		= '<ul class="checklist access-actions">';
 
-		for ($i=0, $n=count($actions); $i < $n; $i++)
-		{
+		for ($i=0, $n=count($actions); $i < $n; $i++) {
 			$item = &$actions[$i];
 
 			// Setup  the variable attributes.
@@ -230,10 +225,9 @@ abstract class JHtmlAccess
 	 */
 	public static function assetgroups($config = array())
 	{
-		if (empty(JHtmlAccess::$asset_groups))
-		{
+		if (empty(JHtmlAccess::$asset_groups)) {
 			$db		= &JFactory::getDbo();
-			$query	= new JQuery;
+			$query	= $db->getQuery(true);
 
 			$query->select('a.id AS value, a.title AS text');
 			$query->from('#__viewlevels AS a');

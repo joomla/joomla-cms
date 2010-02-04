@@ -185,7 +185,7 @@ class JDatabaseMySQL extends JDatabase
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
-		$sql = $this->_sql;
+		$sql = $this->replacePrefix((string) $this->_sql);
 		if ($this->_limit > 0 || $this->_offset > 0) {
 			$sql .= ' LIMIT '.$this->_offset.', '.$this->_limit;
 		}
@@ -225,22 +225,23 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function queryBatch($abort_on_error=true, $p_transaction_safe = false)
 	{
+		$sql = $this->replacePrefix((string) $this->_sql);
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
 
 		if ($p_transaction_safe) {
-			$this->_sql = rtrim($this->_sql, "; \t\r\n\0");
+			$sql = rtrim($sql, "; \t\r\n\0");
 			$si = $this->getVersion();
 			preg_match_all("/(\d+)\.(\d+)\.(\d+)/i", $si, $m);
 			if ($m[1] >= 4) {
-				$this->_sql = 'START TRANSACTION;' . $this->_sql . '; COMMIT;';
+				$sql = 'START TRANSACTION;' . $sql . '; COMMIT;';
 			} else if ($m[2] >= 23 && $m[3] >= 19) {
-				$this->_sql = 'BEGIN WORK;' . $this->_sql . '; COMMIT;';
+				$sql = 'BEGIN WORK;' . $sql . '; COMMIT;';
 			} else if ($m[2] >= 23 && $m[3] >= 17) {
-				$this->_sql = 'BEGIN;' . $this->_sql . '; COMMIT;';
+				$sql = 'BEGIN;' . $sql . '; COMMIT;';
 			}
 		}
-		$query_split = $this->splitSql($this->_sql);
+		$query_split = $this->splitSql($sql);
 		$error = 0;
 		foreach ($query_split as $command_line) {
 			$command_line = trim($command_line);

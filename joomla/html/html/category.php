@@ -39,10 +39,8 @@ abstract class JHtmlCategory
 		if (!isset(self::$items[$hash]))
 		{
 			$config	= (array) $config;
-			$db		= &JFactory::getDbo();
-
-			jimport('joomla.database.query');
-			$query	= new JQuery;
+			$db		= JFactory::getDbo();
+			$query	= $db->getQuery(true);
 
 			$query->select('a.id, a.title, a.level');
 			$query->from('#__categories AS a');
@@ -52,13 +50,10 @@ abstract class JHtmlCategory
 			$query->where('extension = '.$db->quote($extension));
 
 			// Filter on the published state
-			if (isset($config['filter.published']))
-			{
+			if (isset($config['filter.published'])) {
 				if (is_numeric($config['filter.published'])) {
 					$query->where('a.published = '.(int) $config['filter.published']);
-				}
-				else if (is_array($config['filter.published']))
-				{
+				} else if (is_array($config['filter.published'])) {
 					JArrayHelper::toInteger($config['filter.published']);
 					$query->where('a.published IN ('.implode(',', $config['filter.published']).')');
 				}
@@ -71,8 +66,7 @@ abstract class JHtmlCategory
 
 			// Assemble the list options.
 			self::$items[$hash] = array();
-			foreach ($items as &$item)
-			{
+			foreach ($items as &$item) {
 				$item->title = str_repeat('- ', $item->level - 1).$item->title;
 				self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}

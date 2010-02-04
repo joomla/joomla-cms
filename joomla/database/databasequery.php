@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
  * @subpackage	Database
  * @since		1.6
  */
-class JQueryElement
+class JDatabaseQueryElement
 {
 	/** @var string The name of the element */
 	protected $_name = null;
@@ -68,7 +68,7 @@ class JQueryElement
  * @subpackage	Database
  * @since		1.6
  */
-class JQuery
+class JDatabaseQuery
 {
 	/** @var string The query type */
 	protected $_type = '';
@@ -107,13 +107,78 @@ class JQuery
 	protected $_order = null;
 
 	/**
+	 * Clear data from the query or a specific clause of the query.
+	 *
+	 * @param	string	Optionally, the name of the clause to clear, or nothing to clear the whole query.
+	 */
+	public function clear($clause = null)
+	{
+		switch ($clause) {
+			case 'select':
+				$this->_select = null;
+				$this->_type = null;
+				break;
+			case 'delete':
+				$this->_delete = null;
+				$this->_type = null;
+				break;
+			case 'update':
+				$this->_update = null;
+				$this->_type = null;
+				break;
+			case 'insert':
+				$this->_insert = null;
+				$this->_type = null;
+				break;
+			case 'from':
+				$this->_from = null;
+				break;
+			case 'join':
+				$this->_join = null;
+				break;
+			case 'set':
+				$this->_set = null;
+				break;
+			case 'where':
+				$this->_where = null;
+				break;
+			case 'group':
+				$this->_group = null;
+				break;
+			case 'having':
+				$this->_having = null;
+				break;
+			case 'order':
+				$this->_order = null;
+				break;
+			default:
+				$this->_type = null;
+				$this->_select = null;
+				$this->_delete = null;
+				$this->_udpate = null;
+				$this->_insert = null;
+				$this->_from = null;
+				$this->_join = null;
+				$this->_set = null;
+				$this->_where = null;
+				$this->_group = null;
+				$this->_having = null;
+				$this->_order = null;
+				break;
+		}
+
+		return $this;
+	}
+
+
+	/**
 	 * @param	mixed	A string or an array of field names
 	 */
 	public function select($columns)
 	{
 		$this->_type = 'select';
 		if (is_null($this->_select)) {
-			$this->_select = new JQueryElement('SELECT', $columns);
+			$this->_select = new JDatabaseQueryElement('SELECT', $columns);
 		} else {
 			$this->_select->append($columns);
 		}
@@ -127,7 +192,7 @@ class JQuery
     public function delete()
     {
         $this->_type = 'delete';
-        $this->_delete = new JQueryElement('DELETE', array(), '');
+        $this->_delete = new JDatabaseQueryElement('DELETE', array(), '');
         return $this;
     }
 
@@ -137,7 +202,7 @@ class JQuery
     public function insert($tables)
     {
         $this->_type = 'insert';
-        $this->_insert = new JQueryElement('INSERT INTO', $tables);
+        $this->_insert = new JDatabaseQueryElement('INSERT INTO', $tables);
         return $this;
     }
 
@@ -147,7 +212,7 @@ class JQuery
     public function update($tables)
     {
         $this->_type = 'update';
-        $this->_update = new JQueryElement('UPDATE', $tables);
+        $this->_update = new JDatabaseQueryElement('UPDATE', $tables);
         return $this;
     }
 
@@ -157,7 +222,7 @@ class JQuery
 	public function from($tables)
 	{
 		if (is_null($this->_from)) {
-			$this->_from = new JQueryElement('FROM', $tables);
+			$this->_from = new JDatabaseQueryElement('FROM', $tables);
 		} else {
 			$this->_from->append($tables);
 		}
@@ -174,7 +239,7 @@ class JQuery
 		if (is_null($this->_join)) {
 			$this->_join = array();
 		}
-		$this->_join[] = new JQueryElement(strtoupper($type) . ' JOIN', $conditions);
+		$this->_join[] = new JDatabaseQueryElement(strtoupper($type) . ' JOIN', $conditions);
 
 		return $this;
 	}
@@ -227,7 +292,7 @@ class JQuery
     {
         if (is_null($this->_set)) {
             $glue = strtoupper($glue);
-            $this->_set = new JQueryElement('SET', $conditions, "\n\t$glue ");
+            $this->_set = new JDatabaseQueryElement('SET', $conditions, "\n\t$glue ");
         } else {
             $this->_set->append($conditions);
         }
@@ -243,7 +308,7 @@ class JQuery
 	{
 		if (is_null($this->_where)) {
 			$glue = strtoupper($glue);
-			$this->_where = new JQueryElement('WHERE', $conditions, " $glue ");
+			$this->_where = new JDatabaseQueryElement('WHERE', $conditions, " $glue ");
 		} else {
 			$this->_where->append($conditions);
 		}
@@ -257,7 +322,7 @@ class JQuery
 	public function group($columns)
 	{
 		if (is_null($this->_group)) {
-			$this->_group = new JQueryElement('GROUP BY', $columns);
+			$this->_group = new JDatabaseQueryElement('GROUP BY', $columns);
 		} else {
 			$this->_group->append($columns);
 		}
@@ -273,7 +338,7 @@ class JQuery
 	{
 		if (is_null($this->_having)) {
 			$glue = strtoupper($glue);
-			$this->_having = new JQueryElement('HAVING', $conditions, " $glue ");
+			$this->_having = new JDatabaseQueryElement('HAVING', $conditions, " $glue ");
 		} else {
 			$this->_having->append($conditions);
 		}
@@ -287,7 +352,7 @@ class JQuery
 	public function order($columns)
 	{
 		if (is_null($this->_order)) {
-			$this->_order = new JQueryElement('ORDER BY', $columns);
+			$this->_order = new JDatabaseQueryElement('ORDER BY', $columns);
 		} else {
 			$this->_order->append($columns);
 		}
@@ -302,8 +367,7 @@ class JQuery
 	{
 		$query = '';
 
-		switch ($this->_type)
-		{
+		switch ($this->_type) {
 			case 'select':
 				$query .= (string) $this->_select;
 				$query .= (string) $this->_from;

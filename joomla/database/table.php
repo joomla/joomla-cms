@@ -88,10 +88,8 @@ abstract class JTable extends JObject
 		$this->_db		= &$db;
 
 		// Initialise the table properties.
-		if ($fields = $this->getFields())
-		{
-			foreach ($fields as $name => $v)
-			{
+		if ($fields = $this->getFields()) {
+			foreach ($fields as $name => $v) {
 				// Add the field if it is not already present.
 				if (!property_exists($this, $name)) {
 					$this->$name = $v->Default;
@@ -100,13 +98,13 @@ abstract class JTable extends JObject
 		}
 
 		// If we are tracking assets, make sure an access field exists and initially set the default.
-		if (property_exists($this, 'asset_id'))
-		{
+		if (property_exists($this, 'asset_id')) {
 			jimport('joomla.access.rules');
 			$this->_trackAssets = true;
 			// TODO: Do we need the following line anymore?
 			//$this->access = (int) JFactory::getConfig()->getValue('access');
 		}
+
 		// If the acess property exists, set the default.
 		if (property_exists($this, 'access'))
 		{
@@ -129,8 +127,7 @@ abstract class JTable extends JObject
 			$name	= $this->getTableName();
 			$fields	= $this->_db->getTableFields($name, false);
 
-			if (!isset($fields[$name]))
-			{
+			if (!isset($fields[$name])) {
 				$this->setError(JText::_('JTable_Error_Columns_not_found'));
 				return false;
 			}
@@ -159,12 +156,10 @@ abstract class JTable extends JObject
 		$tableClass = $prefix.ucfirst($type);
 
 		// Only try to load the class if it doesn't already exist.
-		if (!class_exists($tableClass))
-		{
+		if (!class_exists($tableClass)) {
 			// Search for the class file in the JTable include paths.
 			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JTable::addIncludePath(), strtolower($type).'.php'))
-			{
+			if ($path = JPath::find(JTable::addIncludePath(), strtolower($type).'.php')) {
 				// Import the class file.
 				require_once $path;
 
@@ -173,8 +168,7 @@ abstract class JTable extends JObject
 					JError::raiseWarning(0, 'Table class ' . $tableClass . ' not found in file.');
 					return false;
 				}
-			}
-			else {
+			} else {
 				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
 				JError::raiseWarning(0, 'Table ' . $type . ' not supported. File not found.');
 				return false;
@@ -184,8 +178,7 @@ abstract class JTable extends JObject
 		// If a database object was passed in the configuration array use it, otherwise get the global one from JFactory.
 		if (array_key_exists('dbo', $config)) {
 			$db = &$config['dbo'];
-		}
-		else {
+		} else {
 			$db = & JFactory::getDbo();
 		}
 
@@ -216,11 +209,9 @@ abstract class JTable extends JObject
 		settype($path, 'array');
 
 		// If we have new paths to add, do so.
-		if (!empty($path) && !in_array($path, $_paths))
-		{
+		if (!empty($path) && !in_array($path, $_paths)) {
 			// Check and add each individual new path.
-			foreach ($path as $dir)
-			{
+			foreach ($path as $dir) {
 				// Sanitize path.
 				$dir = trim($dir);
 
@@ -311,7 +302,7 @@ abstract class JTable extends JObject
 	 * @return	object	The internal database connector object.
 	 * @link	http://docs.joomla.org/JTable/getDBO
 	 */
-	public function getDBO()
+	public function getDbo()
 	{
 		return $this->_db;
 	}
@@ -343,8 +334,7 @@ abstract class JTable extends JObject
 	{
 		if ($input instanceof JRules) {
 			$this->_rules = $input;
-		}
-		else {
+		} else {
 			$this->_rules = new JRules($input);
 		}
 	}
@@ -371,11 +361,9 @@ abstract class JTable extends JObject
 	public function reset()
 	{
 		// Get the default values for the class from the table.
-		foreach ($this->getFields() as $k => $v)
-		{
+		foreach ($this->getFields() as $k => $v) {
 			// If the property is not the primary key or private, reset it.
-			if ($k != $this->_tbl_key && (strpos($k, '_') !== 0))
-			{
+			if ($k != $this->_tbl_key && (strpos($k, '_') !== 0)) {
 				$this->$k = $v->Default;
 			}
 		}
@@ -412,11 +400,9 @@ abstract class JTable extends JObject
 		}
 
 		// Bind the source value, excluding the ignored fields.
-		foreach ($this->getProperties() as $k => $v)
-		{
+		foreach ($this->getProperties() as $k => $v) {
 			// Only process fields not in the ignore array.
-			if (!in_array($k, $ignore))
-			{
+			if (!in_array($k, $ignore)) {
 				if (isset($src[$k])) {
 					$this->$k = $src[$k];
 				}
@@ -444,33 +430,26 @@ abstract class JTable extends JObject
 			// If empty, use the value of the current key
 			$keyName = $this->getKeyName();
 			$keys = array($keyName => $this->$keyName);
-		}
-		else if (!is_array($keys))
-		{
+		} else if (!is_array($keys)) {
 			// Load by primary key.
 			$keyName = $this->getKeyName();
 			$keys = array($keyName => $keys);
 		}
 
-		if ($reset)
-		{
+		if ($reset) {
 			$this->reset();
 		}
 
 		// Initialise the query.
-		jimport('joomla.database.query');
-
 		$db		= $this->getDBO();
-		$query	= new JQuery;
+		$query	= $db->getQuery(true);
 		$query->select('*');
 		$query->from($this->getTableName());
 		$fields = array_keys($this->getProperties());
 
-		foreach ($keys as $field => $value)
-		{
+		foreach ($keys as $field => $value) {
 			// Check that $field is in the table.
-			if (!in_array($field, $fields))
-			{
+			if (!in_array($field, $fields)) {
 				$this->setError(JText::sprintf('JTable_Error_Class_is_missing_field', get_class($this), $field));
 				return false;
 			}
@@ -482,8 +461,7 @@ abstract class JTable extends JObject
 		$row = $db->loadAssoc();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			$this->setError($db->getErrorMsg());
 			return false;
 		}
@@ -532,8 +510,7 @@ abstract class JTable extends JObject
 		// If a primary key exists update the object, otherwise insert it.
 		if ($this->$k) {
 			$stored = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
-		}
-		else {
+		} else {
 			$stored = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 		}
 
@@ -564,8 +541,7 @@ abstract class JTable extends JObject
 		$asset->loadByName($name);
 
 		// Check for an error.
-		if ($error = $asset->getError())
-		{
+		if ($error = $asset->getError()) {
 			$this->setError($error);
 			return false;
 		}
@@ -583,14 +559,12 @@ abstract class JTable extends JObject
 			$asset->rules = (string) $this->_rules;
 		}
 
-		if (!$asset->check() || !$asset->store($updateNulls))
-		{
+		if (!$asset->check() || !$asset->store($updateNulls)) {
 			$this->setError($asset->getError());
 			return false;
 		}
 
-		if (empty($this->asset_id))
-		{
+		if (empty($this->asset_id)) {
 			// Update the asset_id field in this table.
 			$this->asset_id = (int) $asset->id;
 
@@ -600,8 +574,7 @@ abstract class JTable extends JObject
 				' WHERE '.$this->_db->nameQuote($k).' = '.(int) $this->$k
 			);
 
-			if (!$this->_db->query())
-			{
+			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
@@ -649,8 +622,7 @@ abstract class JTable extends JObject
 		}
 
 		// If an ordering filter is set, attempt reorder the rows in the table based on the filter and value.
-		if ($orderingFilter)
-		{
+		if ($orderingFilter) {
 			$filterValue = $this->$orderingFilter;
 			$this->reorder($orderingFilter ? $this->_db->nameQuote($orderingFilter).' = '.$this->_db->Quote($filterValue) : '');
 		}
@@ -681,22 +653,17 @@ abstract class JTable extends JObject
 		}
 
 		// If tracking assets, remove the asset first.
-		if ($this->_trackAssets)
-		{
+		if ($this->_trackAssets) {
 			// Get and the asset name.
 			$this->$k	= $pk;
 			$name		= $this->_getAssetName();
 			$asset		= JTable::getInstance('Asset');
-			if ($asset->loadByName($name))
-			{
-				if (!$asset->delete())
-				{
+			if ($asset->loadByName($name)) {
+				if (!$asset->delete()) {
 					$this->setError($asset->getError());
 					return false;
 				}
-			}
-			else
-			{
+			} else {
 				$this->setError($asset->getError());
 				return false;
 			}
@@ -986,14 +953,11 @@ abstract class JTable extends JObject
 		}
 
 		// Compact the ordering values.
-		for ($i=0, $n=count($rows); $i < $n; $i++)
-		{
+		for ($i=0, $n=count($rows); $i < $n; $i++) {
 			// Make sure the ordering is a positive integer.
-			if ($rows[$i]->ordering >= 0)
-			{
+			if ($rows[$i]->ordering >= 0) {
 				// Only update rows that are necessary.
-				if ($rows[$i]->ordering != $i+1)
-				{
+				if ($rows[$i]->ordering != $i+1) {
 					// Update the row ordering field.
 					$this->_db->setQuery(
 						'UPDATE `'.$this->_tbl.'`' .
@@ -1042,8 +1006,7 @@ abstract class JTable extends JObject
 		$k = $this->_tbl_key;
 		$row = null;
 
-		jimport('joomla.database.query');
-		$query = new JQuery();
+		$query	= $this->_db->getQuery(true);
 
 		// Select the primary key and ordering values from the table.
 		$query->select('`'.$this->_tbl_key.'`, `ordering`');
@@ -1070,8 +1033,7 @@ abstract class JTable extends JObject
 		$row = $this->_db->loadObject();
 
 		// If a row is found, move the item.
-		if (!empty($row))
-		{
+		if (!empty($row)) {
 			// Update the ordering field for this instance to the row's ordering value.
 			$this->_db->setQuery(
 				'UPDATE `'.$this->_tbl.'`' .
@@ -1102,9 +1064,7 @@ abstract class JTable extends JObject
 
 			// Update the instance value.
 			$this->ordering = $row->ordering;
-		}
-		else
-		{
+		} else {
 			// Update the ordering field for this instance.
 			$this->_db->setQuery(
 				'UPDATE `'.$this->_tbl.'`' .
@@ -1147,8 +1107,7 @@ abstract class JTable extends JObject
 		$state  = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
-		if (empty($pks))
-		{
+		if (empty($pks)) {
 			if ($this->$k) {
 				$pks = array($this->$k);
 			}
@@ -1165,8 +1124,7 @@ abstract class JTable extends JObject
 		// Determine if there is checkin support for the table.
 		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time')) {
 			$checkin = '';
-		}
-		else {
+		} else {
 			$checkin = ' AND (checked_out = 0 OR checked_out = '.(int) $userId.')';
 		}
 
@@ -1186,11 +1144,9 @@ abstract class JTable extends JObject
 		}
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
-		{
+		if ($checkin && (count($pks) == $this->_db->getAffectedRows())) {
 			// Checkin the rows.
-			foreach($pks as $pk)
-			{
+			foreach($pks as $pk) {
 				$this->checkin($pk);
 			}
 		}
@@ -1229,11 +1185,9 @@ abstract class JTable extends JObject
 			return false;
 		}
 
-		if (is_array($joins))
-		{
+		if (is_array($joins)) {
 			// Get a query object.
-			jimport('joomla.database.query');
-			$query = new JQuery();
+			$query	= $this->_db->getQuery(true);
 
 			// Setup the basic query.
 			$query->select('`'.$this->_tbl_key.'`');
@@ -1242,8 +1196,7 @@ abstract class JTable extends JObject
 			$query->group('`'.$this->_tbl_key.'`');
 
 			// For each join add the select and join clauses to the query object.
-			foreach($joins as $table)
-			{
+			foreach($joins as $table) {
 				$query->select('COUNT(DISTINCT '.$table['idfield'].') AS '.$table['idfield']);
 				$query->join('LEFT', $table['name'].' ON '.$table['joinfield'].' = '.$k);
 			}
@@ -1260,8 +1213,7 @@ abstract class JTable extends JObject
 
 			$msg = array();
 			$i = 0;
-			foreach($joins as $table)
-			{
+			foreach($joins as $table) {
 				$k = $table['idfield'] . $i;
 				if ($obj->$k) {
 					$msg[] = JText::_($table['label']);
@@ -1272,8 +1224,7 @@ abstract class JTable extends JObject
 			if (count($msg)) {
 				$this->setError("noDeleteRecord" . ": " . implode(', ', $msg));
 				return false;
-			}
-			else {
+			} else {
 				return true;
 			}
 		}
@@ -1300,8 +1251,7 @@ abstract class JTable extends JObject
 		$xml[] = '<record table="'.$this->_tbl.'"'.$map.'>';
 
 		// Get the publicly accessible instance properties.
-		foreach (get_object_vars($this) as $k => $v)
-		{
+		foreach (get_object_vars($this) as $k => $v) {
 			// If the value is null or non-scalar, or the field is internal ignore it.
 			if (!is_scalar($v) || ($v === null) || ($k[0] == '_')) {
 				continue;
