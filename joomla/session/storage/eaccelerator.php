@@ -39,7 +39,7 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	 * Open the SessionHandler backend.
 	 *
 	 * @access public
-	 * @param string $save_path	 The path to the session object.
+	 * @param string $save_path	The path to the session object.
 	 * @param string $session_name  The name of the session.
 	 * @return boolean  True on success, false otherwise.
 	 */
@@ -59,14 +59,14 @@ class JSessionStorageEaccelerator extends JSessionStorage
 		return true;
 	}
 
- 	/**
- 	 * Read the data for a particular session identifier from the
- 	 * SessionHandler backend.
- 	 *
- 	 * @access public
- 	 * @param string $id  The session identifier.
- 	 * @return string  The session data.
- 	 */
+	/**
+	 * Read the data for a particular session identifier from the
+	 * SessionHandler backend.
+	 *
+	 * @access public
+	 * @param string $id  The session identifier.
+	 * @return string  The session data.
+	 */
 	function read($id)
 	{
 		$sess_id = 'sess_'.$id;
@@ -88,13 +88,13 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	}
 
 	/**
-	  * Destroy the data for a particular session identifier in the
-	  * SessionHandler backend.
-	  *
-	  * @access public
-	  * @param string $id  The session identifier.
-	  * @return boolean  True on success, false otherwise.
-	  */
+	 * Destroy the data for a particular session identifier in the
+	 * SessionHandler backend.
+	 *
+	 * @access public
+	 * @param string $id  The session identifier.
+	 * @return boolean  True on success, false otherwise.
+	 */
 	function destroy($id)
 	{
 		$sess_id = 'sess_'.$id;
