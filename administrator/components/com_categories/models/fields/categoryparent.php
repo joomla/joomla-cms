@@ -33,8 +33,8 @@ class JFormFieldCategoryParent extends JFormFieldList
 	 */
 	protected function _getOptions()
 	{
-		$db		= &JFactory::getDbo();
-		$query	= new JQuery;
+		$db = &JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		$query->select('a.id AS value, a.title AS text, a.level');
 		$query->from('#__categories AS a');
@@ -69,10 +69,10 @@ class JFormFieldCategoryParent extends JFormFieldList
 			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
 		}
 
-		$options	= array_merge(
-						parent::_getOptions(),
-						$options
-					);
+		$options = array_merge(
+			parent::_getOptions(),
+			$options
+		);
 
 		return $options;
 	}

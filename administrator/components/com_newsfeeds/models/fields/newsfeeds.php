@@ -34,7 +34,7 @@ require_once JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'fields'.DS.'list.php';
 	protected function _getOptions()
 	{
 		$db		= JFactory::getDbo();
-		$query	= new JQuery;
+		$query	= $db->getQuery(true);
 
 		$query->select('id As value, name As text');
 		$query->from('#__newsfeeds AS a');
@@ -50,10 +50,10 @@ require_once JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'fields'.DS.'list.php';
 			JError::raiseWarning(500, $db->getErrorMsg());
 		}
 
-		$options	= array_merge(
-						parent::_getOptions(),
-						$options
-					);
+		$options = array_merge(
+			parent::_getOptions(),
+			$options
+		);
 		return $options;
 	}
 }

@@ -80,10 +80,9 @@ class ModulesHelper
 	static function getPositions($clientId)
 	{
 		jimport('joomla.filesystem.folder');
-		jimport('joomla.database.query');
 
-		$db = JFactory::getDbo();
-		$query = new JQuery;
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
 
 		$query->select('DISTINCT(position)');
 		$query->from('#__modules');
@@ -94,8 +93,7 @@ class ModulesHelper
 		$positions = $db->loadResultArray();
 		$positions = (is_array($positions)) ? $positions : array();
 
-		if ($error = $db->getErrorMsg())
-		{
+		if ($error = $db->getErrorMsg()) {
 			JError::raiseWarning(500, $error);
 			return;
 		}
@@ -117,10 +115,8 @@ class ModulesHelper
 	 */
 	public static function getModules($clientId)
 	{
-		jimport('joomla.database.query');
-
 		$db		= JFactory::getDbo();
-		$query	= new JQuery;
+		$query	= $db->getQuery(true);
 
 		$query->select('DISTINCT(module) AS value, module AS text');
 		$query->from('#__modules');
@@ -145,8 +141,7 @@ class ModulesHelper
 		$options[] = JHtml::_('select.option', '0', 'Modules_Option_Menu_All');
 		$options[] = JHtml::_('select.option', '-', 'Modules_Option_Menu_None');
 
-		if ($clientId == 0)
-		{
+		if ($clientId == 0) {
 			$options[] = JHtml::_('select.option', '1', 'Modules_Option_Menu_Include');
 			$options[] = JHtml::_('select.option', '-1', 'Modules_Option_Menu_Exclude');
 		}

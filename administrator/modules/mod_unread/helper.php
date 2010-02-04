@@ -22,14 +22,12 @@ abstract class ModUnreadHelper
 	 */
 	public static function getCount()
 	{
-		jimport('joomla.database.query');
-
 		// Initialise variables.
 		$db		= JFactory::getDbo();
 		$user	= JFactory::getUser();
 
 		// Get the number of unread messages in your inbox.
-		$query = new JQuery;
+		$query	= $db->getQuery(true);
 		$query->select('COUNT(*)');
 		$query->from('#__messages');
 		$query->where('state = 0 AND user_id_to = '.(int) $user->get('id'));

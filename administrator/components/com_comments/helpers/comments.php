@@ -71,7 +71,7 @@ class CommentsHelper
 	function getContextOptions()
 	{
 		$db		= JFactory::getDbo();
-		$query	= new JQuery;
+		$query	= $db->getQuery(true);
 
 		$query->select('DISTINCT(context) AS value, context AS text');
 		$query->from('#__social_threads');
@@ -80,8 +80,7 @@ class CommentsHelper
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
 
-		if ($error = $db->getErrorMsg())
-		{
+		if ($error = $db->getErrorMsg()) {
 			$this->setError($error);
 			return false;
 		}

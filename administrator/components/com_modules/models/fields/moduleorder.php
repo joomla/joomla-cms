@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 defined('JPATH_BASE') or die;
 
 jimport('joomla.form.formfield');
-jimport('joomla.database.query');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -53,7 +52,7 @@ class JFormFieldModuleOrder extends JFormField
 		$html	.= "\nvar orders = new Array();";
 
 		$db		= JFactory::getDbo();
-		$query	= new JQuery;
+		$query	= $db->getQuery(true);
 		$query->select('position, ordering, title');
 		$query->from('#__modules');
 		$query->where('client_id = '.(int) $clientId);
@@ -61,15 +60,13 @@ class JFormFieldModuleOrder extends JFormField
 
 		$db->setQuery($query);
 		$orders = $db->loadObjectList();
-		if ($error = $db->getErrorMsg())
-		{
+		if ($error = $db->getErrorMsg()) {
 			JError::raiseWarning(500, $error);
 			return false;
 		}
 
 		$orders2 	= array();
-		for ($i = 0, $n = count($orders); $i < $n; $i++)
-		{
+		for ($i = 0, $n = count($orders); $i < $n; $i++) {
 			if (!isset($orders2[$orders[$i]->position])) {
 				$orders2[$orders[$i]->position] = 0;
 			}

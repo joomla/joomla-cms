@@ -76,12 +76,12 @@ class BannersHelper
 	{
 		$user = JFactory::getUser();
 		$db = JFactory::getDBO();
-		$query = new JQuery;
+		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from("#__banners");
-		$query->where("NOW()>=`reset`");
-		$query->where("`reset`!='0000-00-00 00:00:00' AND `reset`!=NULL");
-		$query->where("(`checked_out`=0 OR `checked_out`=".$db->Quote($user->id).")");
+		$query->where("NOW() >= `reset`");
+		$query->where("`reset` != '0000-00-00 00:00:00' AND `reset`!=NULL");
+		$query->where("(`checked_out` = 0 OR `checked_out` = ".$db->Quote($user->id).")");
 		$db->setQuery((string)$query);
 		$rows = $db->loadObjectList();
 
@@ -91,43 +91,39 @@ class BannersHelper
 			return false;
 		}
 
-		JTable::addIncludePath(JPATH_ROOT . '/administrator/components/com_banners/tables');
-		foreach ($rows as $row)
-		{
+		JTable::addIncludePath(JPATH_ROOT.'/administrator/components/com_banners/tables');
+		foreach ($rows as $row) {
 			$purchase_type = $row->purchase_type;
-			if ($purchase_type < 0 && $row->cid)
-			{
+			if ($purchase_type < 0 && $row->cid) {
 				$client = JTable::getInstance('Client','BannersTable');
 				$client->load($row->cid);
 				$purchase_type = $client->purchase_type;
 			}
-			if ($purchase_type < 0)
-			{
+			if ($purchase_type < 0) {
 				$params = JComponentHelper::getParams('com_banners');
 				$purchase_type = $params->get('purchase_type');
 			}
 
-			switch($purchase_type)
-			{
-			case 1:
-				$reset='0000-00-00 00:00:00';
-			break;
-			case 2:
-				$reset = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')))->toMySQL();
-			break;
-			case 3:
-				$reset = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')))->toMySQL();
-			break;
-			case 4:
-				$reset = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')))->toMySQL();
-			break;
-			case 5:
-				$reset = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')))->toMySQL();
-			break;
+			switch($purchase_type) {
+				case 1:
+					$reset='0000-00-00 00:00:00';
+					break;
+				case 2:
+					$reset = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')))->toMySQL();
+					break;
+				case 3:
+					$reset = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')))->toMySQL();
+					break;
+				case 4:
+					$reset = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')))->toMySQL();
+					break;
+				case 5:
+					$reset = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')))->toMySQL();
+					break;
 			}
 
 			// Update the row ordering field.
-			$query = new JQuery;
+			$query->clear();
 			$query->update('`#__banners`');
 			$query->set('`reset` = '.$db->quote($reset));
 			$query->set('`impmade` = '.$db->quote(0));

@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
-jimport('joomla.database.query');
 
 /**
  * Modules Component Module Model
@@ -94,7 +93,8 @@ class ModulesModelModules extends JModelList
 	protected function _getListQuery()
 	{
 		// Create a new query object.
-		$query = new JQuery;
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -136,13 +136,13 @@ class ModulesModelModules extends JModelList
 		// Filter by position
 		$position = $this->getState('filter.position');
 		if ($position) {
-			$query->where('a.position = '.$this->_db->Quote($position));
+			$query->where('a.position = '.$db->Quote($position));
 		}
 
 		// Filter by module
 		$module = $this->getState('filter.module');
 		if ($module) {
-			$query->where('a.module = '.$this->_db->Quote($module));
+			$query->where('a.module = '.$db->Quote($module));
 		}
 
 		// Filter by client.
@@ -160,13 +160,13 @@ class ModulesModelModules extends JModelList
 			}
 			else
 			{
-				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('a.title LIKE '.$search);
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

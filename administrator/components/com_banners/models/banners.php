@@ -8,7 +8,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
-jimport('joomla.database.query');
 
 /**
  * Methods supporting a list of banner records.
@@ -106,7 +105,8 @@ class BannersModelBanners extends JModelList
 		$app = &JFactory::getApplication();
 
 		// Create a new query object.
-		$query = new JQuery;
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -164,7 +164,7 @@ class BannersModelBanners extends JModelList
 			}
 			else
 			{
-				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('(a.name LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
@@ -173,13 +173,13 @@ class BannersModelBanners extends JModelList
 		$orderCol = $this->getState('list.ordering', 'ordering');
 		$app->setUserState($this->_context . '.'.$orderCol.'.orderdirn',$this->getState('list.direction', 'ASC'));
 		if ($orderCol=='ordering') {
-			$query->order($this->_db->getEscaped('category_title').' '.$this->_db->getEscaped($app->getUserState($this->_context . '.category_title.orderdirn','ASC')));
+			$query->order($db->getEscaped('category_title').' '.$db->getEscaped($app->getUserState($this->_context . '.category_title.orderdirn','ASC')));
 		}
-		$query->order($this->_db->getEscaped($orderCol).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->getEscaped($orderCol).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 		if ($orderCol=='category_title') {
-			$query->order($this->_db->getEscaped('ordering').' '.$this->_db->getEscaped($app->getUserState($this->_context . '.ordering.orderdirn','ASC')));
+			$query->order($db->getEscaped('ordering').' '.$db->getEscaped($app->getUserState($this->_context . '.ordering.orderdirn','ASC')));
 		}
-		$query->order($this->_db->getEscaped('state').' '.$this->_db->getEscaped($app->getUserState($this->_context . '.state.orderdirn','ASC')));
+		$query->order($db->getEscaped('state').' '.$db->getEscaped($app->getUserState($this->_context . '.state.orderdirn','ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -191,14 +191,15 @@ class BannersModelBanners extends JModelList
 	{
 		if (!isset($this->_categories))
 		{
-			$query = new JQuery;
+			$db = $this->getDbo();
+			$query = $db->getQuery(true);
 			$query->select('MAX(ordering) as `max`');
 			$query->select('catid');
 			$query->from('#__banners');
 			$query->where('state>=0');
 			$query->group('catid');
-			$this->_db->setQuery((string)$query);
-			$this->_categories = $this->_db->loadObjectList('catid');
+			$db->setQuery((string)$query);
+			$this->_categories = $db->loadObjectList('catid');
 		}
 		return $this->_categories;
 	}
@@ -223,47 +224,40 @@ class BannersModelBanners extends JModelList
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{
-			if ($table->load($pk))
-			{
+			if ($table->load($pk)) {
 				// Access checks.
 				if ($table->catid) {
 					$allow = $user->authorise('core.delete', 'com_banners.category.'.(int) $table->catid);
-				}
-				else {
+				} else {
 					$allow = $user->authorise('core.delete', 'com_banners');
 				}
 
-				if ($allow)
-				{
-					if (!$table->delete($pk))
-					{
+				if ($allow) {
+					if (!$table->delete($pk)) {
 						$this->setError($table->getError());
 						return false;
 					}
 
 					// Delete tracks from this banner
-					$query = new JQuery;
+					$db = $this->getDbo();
+					$query = $db->getQuery(true);
 					$query->delete();
 					$query->from('#__banner_tracks');
 					$query->where('banner_id='.(int)$pk);
-					$this->_db->setQuery((string)$query);
-					$this->_db->query();
+					$db->setQuery((string)$query);
+					$db->query();
 
 					// Check for a database error.
-					if ($this->_db->getErrorNum()) {
-						$this->setError($this->_db->getErrorMsg());
+					if ($db->getErrorNum()) {
+						$this->setError($db->getErrorMsg());
 						return false;
 					}
-				}
-				else
-				{
+				} else {
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JError::raiseWarning(403, JText::_('JError_Core_Delete_not_permitted'));
 				}
-			}
-			else
-			{
+			} else {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -288,19 +282,15 @@ class BannersModelBanners extends JModelList
 		$pks	= (array) $pks;
 
 		// Access checks.
-		foreach ($pks as $i => $pk)
-		{
-			if ($table->load($pk))
-			{
+		foreach ($pks as $i => $pk) {
+			if ($table->load($pk)) {
 				if ($table->catid) {
 					$allow = $user->authorise('core.edit.state', 'com_banners.category.'.(int) $table->catid);
-				}
-				else {
+				} else {
 					$allow = $user->authorise('core.edit.state', 'com_banners');
 				}
 
-				if (!$allow)
-				{
+				if (!$allow) {
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
@@ -332,19 +322,15 @@ class BannersModelBanners extends JModelList
 		$pks	= (array) $pks;
 
 		// Access checks.
-		foreach ($pks as $i => $pk)
-		{
-			if ($table->load($pk))
-			{
+		foreach ($pks as $i => $pk) {
+			if ($table->load($pk)) {
 				if ($table->catid) {
 					$allow = $user->authorise('core.edit.state', 'com_banners.category.'.(int) $table->catid);
-				}
-				else {
+				} else {
 					$allow = $user->authorise('core.edit.state', 'com_banners');
 				}
 
-				if (!$allow)
-				{
+				if (!$allow) {
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
@@ -380,41 +366,32 @@ class BannersModelBanners extends JModelList
 		}
 
 		// update ordering values
-		foreach ($pks as $i => $pk)
-		{
+		foreach ($pks as $i => $pk) {
 			$table->load((int) $pk);
 
-			if ($table->state>=0)
-			{
+			if ($table->state>=0) {
 				// Access checks.
 				if ($table->catid) {
 					$allow = $user->authorise('core.edit.state', 'com_banners.category.'.(int) $table->catid);
-				}
-				else {
+				} else {
 					$allow = $user->authorise('core.edit.state', 'com_banners');
 				}
 
-				if (!$allow)
-				{
+				if (!$allow) {
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
-				}
-				else if ($table->ordering != $order[$i])
-				{
+				} else if ($table->ordering != $order[$i]) {
 					$table->ordering = $order[$i];
-					if (!$table->store())
-					{
+					if (!$table->store()) {
 						$this->setError($table->getError());
 						return false;
 					}
 					// remember to reorder this category
 					$condition = 'catid = '.(int) $table->catid.' AND state>=0';
 					$found = false;
-					foreach ($conditions as $cond)
-					{
-						if ($cond[1] == $condition)
-						{
+					foreach ($conditions as $cond) {
+						if ($cond[1] == $condition) {
 							$found = true;
 							break;
 						}
@@ -427,8 +404,7 @@ class BannersModelBanners extends JModelList
 		}
 
 		// Execute reorder for each category.
-		foreach ($conditions as $cond)
-		{
+		foreach ($conditions as $cond) {
 			$table->reorder($cond[1]);
 		}
 

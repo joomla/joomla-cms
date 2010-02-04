@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
-jimport('joomla.database.query');
 
 /**
  * Methods supporting a list of search terms.
@@ -80,7 +79,8 @@ class SearchModelSearches extends JModelList
 	protected function _getListQuery()
 	{
 		// Create a new query object.
-		$query = new JQuery;
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -100,12 +100,12 @@ class SearchModelSearches extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+			$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 			$query->where('a.search_term LIKE '.$search);
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.hits')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->getEscaped($this->getState('list.ordering', 'a.hits')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -122,19 +122,16 @@ class SearchModelSearches extends JModelList
 
 		// Determine if number of results for search item should be calculated
 		// by default it is `off` as it is highly query intensive
-		if ($this->getState('filter.results'))
-		{
+		if ($this->getState('filter.results')) {
 			JPluginHelper::importPlugin('search');
 			$app = JFactory::getApplication();
 
-			if (!class_exists('JSite'))
-			{
+			if (!class_exists('JSite')) {
 				// This fools the routers in the search plugins into thinking it's in the frontend
 				require_once JPATH_COMPONENT.'/helpers/site.php';
 			}
 
-			foreach ($items as &$item)
-			{
+			foreach ($items as &$item) {
 				$results = $app->triggerEvent('onSearch', array($item->search_term));
 				$item->returns = 0;
 				foreach ($results as $result) {
@@ -157,8 +154,7 @@ class SearchModelSearches extends JModelList
 		$db->setQuery(
 			'DELETE FROM #__core_log_searches'
 		);
-		if (!$db->query())
-		{
+		if (!$db->query()) {
 			$this->setError($db->getErrorMsg());
 			return false;
 		}

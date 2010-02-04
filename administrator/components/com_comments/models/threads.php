@@ -79,7 +79,8 @@ class CommentsModelThreads extends JModelList
 	 */
 	function _getListQuery()
 	{
-		$query = new JQuery;
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -102,7 +103,7 @@ class CommentsModelThreads extends JModelList
 
 		// Filter the items over the context if set.
 		if ($context = $this->getState('filter.context')) {
-			$query->where('a.context = '.$this->_db->Quote($context));
+			$query->where('a.context = '.$db->Quote($context));
 		}
 
 		// Filter by search string.
@@ -113,13 +114,13 @@ class CommentsModelThreads extends JModelList
 			}
 			else
 			{
-				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('a.page_title LIKE '.$search);
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.id').' '.$this->getState('list.direction', 'asc')));
+		$query->order($db->getEscaped($this->getState('list.ordering', 'a.id').' '.$this->getState('list.direction', 'asc')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

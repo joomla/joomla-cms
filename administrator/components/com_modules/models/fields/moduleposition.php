@@ -8,7 +8,6 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.database.query');
 require_once JPATH_LIBRARIES.'/joomla/form/fields/list.php';
 
 /**
@@ -37,51 +36,44 @@ class JFormFieldModulePosition extends JFormFieldList
 	protected function _getOptions()
 	{
 		$db			= JFactory::getDbo();
-		$query		= new JQuery;
+		$query		= $db->getQuery(true);
 		$clientId	= (int) $this->_form->getValue('client_id');
 		$client		= JApplicationHelper::getClientInfo($clientId);
 
 		jimport('joomla.filesystem.folder');
 
 		// template assignment filter
-		$query = new JQuery;
 		$query->select('DISTINCT(template)');
 		$query->from('#__template_styles');
 		$query->where('client_id = '.(int) $clientId);
 
 		$db->setQuery($query);
 		$templates = $db->loadResultArray();
-		if ($error = $db->getErrorMsg())
-		{
+		if ($error = $db->getErrorMsg()) {
 			JError::raiseWarning(500, $error);
 			return false;
 		}
 
-		$query = new JQuery;
+		$query->clear();
 		$query->select('DISTINCT(position)');
 		$query->from('#__modules');
 		$query->where('`client_id` = '.(int) $clientId);
 
 		$db->setQuery($query);
 		$positions = $db->loadResultArray();
-		if ($error = $db->getErrorMsg())
-		{
+		if ($error = $db->getErrorMsg()) {
 			JError::raiseWarning(500, $error);
 			return false;
 		}
 
 		// Load the positions from the installed templates.
-		foreach ($templates as $template)
-		{
+		foreach ($templates as $template) {
 			$path = JPath::clean($client->path.'/templates/'.$template.'/templateDetails.xml');
 
-			if (file_exists($path))
-			{
+			if (file_exists($path)) {
     			$xml = simplexml_load_file($path);
-    			if (isset($xml->positions[0]))
-    			{
-					foreach ($xml->positions[0] as $position)
-					{
+    			if (isset($xml->positions[0])) {
+					foreach ($xml->positions[0] as $position) {
 						$positions[] = (string) $position;
 					}
     			}
@@ -91,8 +83,7 @@ class JFormFieldModulePosition extends JFormFieldList
 		sort($positions);
 
 		$options = array();
-		foreach ($positions as $position)
-		{
+		foreach ($positions as $position) {
 			$options[]	= JHtml::_('select.option', $position, $position);
 		}
 

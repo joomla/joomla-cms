@@ -34,14 +34,10 @@ class ModulesModelModule extends JModelForm
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		if (!($pk = (int) $app->getUserState('com_modules.edit.module.id')))
-		{
-			if ($extensionId = (int) $app->getUserState('com_modules.add.module.extension_id'))
-			{
+		if (!($pk = (int) $app->getUserState('com_modules.edit.module.id'))) {
+			if ($extensionId = (int) $app->getUserState('com_modules.add.module.extension_id')) {
 				$this->setState('extension.id', $extensionId);
-			}
-			else
-			{
+			} else {
 				$pk = (int) JRequest::getInt('id');
 			}
 		}
@@ -66,8 +62,7 @@ class ModulesModelModule extends JModelForm
 		if (empty($table->id)) {
 			// Set the values
 			//$table->created	= $date->toMySQL();
-		}
-		else {
+		} else {
 			// Set the values
 			//$table->modified	= $date->toMySQL();
 			//$table->modified_by	= $user->get('id');
@@ -127,7 +122,8 @@ class ModulesModelModule extends JModelForm
 	public function &getItem($pk = null)
 	{
 		// Initialise variables.
-		$pk = (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
+		$pk	= (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
+		$db	= $this->getDbo();
 
 		if (!isset($this->_cache[$pk])) {
 			$false	= false;
@@ -147,17 +143,16 @@ class ModulesModelModule extends JModelForm
 			// Check if we are creating a new extension.
 			if (empty($pk)) {
 				if ($extensionId = (int) $this->getState('extension.id')) {
-					jimport('joomla.database.query');
-					$query = new JQuery;
+					$query	= $db->getQuery(true);
 					$query->select('element, client_id');
 					$query->from('#__extensions');
 					$query->where('extension_id = '.$extensionId);
-					$query->where('type = '.$this->_db->quote('module'));
-					$this->_db->setQuery($query);
+					$query->where('type = '.$db->quote('module'));
+					$db->setQuery($query);
 
-					$extension = $this->_db->loadObject();
+					$extension = $db->loadObject();
 					if (empty($extension)) {
-						if ($error = $this->_db->getErrorMsg()) {
+						if ($error = $db->getErrorMsg()) {
 							$this->setError($error);
 						} else {
 							$this->setError('Modules_Error_Cannot_find_extension');
@@ -183,12 +178,12 @@ class ModulesModelModule extends JModelForm
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Determine the page assignment mode.
-			$this->_db->setQuery(
+			$db->setQuery(
 				'SELECT menuid' .
 				' FROM #__modules_menu' .
 				' WHERE moduleid = '.$pk
 			);
-			$assigned = $this->_db->loadResultArray();
+			$assigned = $db->loadResultArray();
 
 			if (empty($pk)) {
 				// If this is a new module, assign to all pages.
@@ -196,8 +191,7 @@ class ModulesModelModule extends JModelForm
 			} else if (empty($assigned)) {
 				// For an existing module it is assigned to none.
 				$assignment = '-';
-			}
-			else {
+			} else {
 				if ($assigned[0] > 0) {
 					$assignment = +1;
 				} else if ($assigned[0] < 0) {
@@ -374,27 +368,26 @@ class ModulesModelModule extends JModelForm
 		$assignment = isset($data['assignment']) ? $data['assignment'] : 0;
 
 		// Delete old module to menu item associations
-		// $this->_db->setQuery(
+		// $db->setQuery(
 		//	'DELETE FROM #__modules_menu'.
 		//	' WHERE moduleid = '.(int) $table->id
 		// );
-		
-		$query = new JQuery;
-			$query->delete();
-			$query->from('#__modules_menu');
-			$query->where('moduleid='.(int)$table->id);
-		$this->_db->setQuery((string)$query);
-		$this->_db->query();
-		
-		if (!$this->_db->query())
-		{
-			$this->setError($this->_db->getErrorMsg());
+
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
+		$query->delete();
+		$query->from('#__modules_menu');
+		$query->where('moduleid='.(int)$table->id);
+		$db->setQuery((string)$query);
+		$db->query();
+
+		if (!$db->query()) {
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 
 		// If the assignment is numeric, then something is selected (otherwise it's none).
-		if (is_numeric($assignment))
-		{
+		if (is_numeric($assignment)) {
 			// Variable is numeric, but could be a string.
 			$assignment = (int) $assignment;
 
@@ -407,27 +400,23 @@ class ModulesModelModule extends JModelForm
 				//	'INSERT INTO #__modules_menu'.
 				//	' SET moduleid = '.(int) $table->id.', menuid = 0'
 				// );
-				
-				$query = new JQuery;
-					$query->insert('#__modules_menu');
-					$query->set('moduleid='.(int)$table->id);
-					$query->set('menuid=0');
-				$this->_db->setQuery((string)$query);
-				if (!$this->_db->query())
-				{
-					$this->setError($this->_db->getErrorMsg());
+
+				$query->clear();
+				$query->insert('#__modules_menu');
+				$query->set('moduleid='.(int)$table->id);
+				$query->set('menuid=0');
+				$db->setQuery((string)$query);
+				if (!$db->query()) {
+					$this->setError($db->getErrorMsg());
 					return false;
 				}
-			}
-			else if (!empty($data['assigned']))
-			{
+			} else if (!empty($data['assigned'])) {
 				// Get the sign of the number.
 				$sign = $assignment < 0 ? -1 : +1;
 
 				// Preprocess the assigned array.
 				$tuples = array();
-				foreach ($data['assigned'] as &$pk)
-				{
+				foreach ($data['assigned'] as &$pk) {
 					$tuples[] = '('.(int) $table->id.','.(int) $pk * $sign.')';
 				}
 
@@ -435,9 +424,8 @@ class ModulesModelModule extends JModelForm
 					'INSERT INTO #__modules_menu (moduleid, menuid) VALUES '.
 					implode(',', $tuples)
 				);
-				if (!$this->_db->query())
-				{
-					$this->setError($this->_db->getErrorMsg());
+				if (!$this->_db->query()) {
+					$this->setError($db->getErrorMsg());
 					return false;
 				}
 			}
@@ -485,12 +473,13 @@ class ModulesModelModule extends JModelForm
 					throw new Exception($table->getError());
 				} else {
 					// Delete the menu assignments
-					$query = new JQuery;
-						$query->delete();
-						$query->from('#__modules_menu');
-						$query->where('moduleid='.(int)$pk);
-					$this->_db->setQuery((string)$query);
-					$this->_db->query();
+					$db		= $this->getDbo();
+					$query	= $db->getQuery(true);
+					$query->delete();
+					$query->from('#__modules_menu');
+					$query->where('moduleid='.(int)$pk);
+					$db->setQuery((string)$query);
+					$db->query();
 				}
 			}
 			else
@@ -566,19 +555,15 @@ class ModulesModelModule extends JModelForm
 
 		foreach ($pks as $pk)
 		{
-			if ($table->load($pk, true))
-			{
+			if ($table->load($pk, true)) {
 				// Reset the id to create a new record.
 				$table->id = 0;
 
 				// Alter the title.
 				$m = null;
-				if (preg_match('#\((\d+)\)$#', $table->title, $m))
-				{
+				if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
 					$table->title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $table->title);
-				}
-				else
-				{
+				} else {
 					$table->title .= ' (2)';
 				}
 
@@ -590,27 +575,24 @@ class ModulesModelModule extends JModelForm
 				//	. ' FROM #__modules_menu'
 				//	. ' WHERE moduleid = '.(int) $pk
 				//	;
-					
-					$query = new JQuery;
-						$query->select('menuid');
-						$query->from('#__modules_menu');
-						$query->where('moduleid='.(int)$pk);
-					
-					$this->_db->setQuery((string)$query);	
-					$rows = $this->_db->loadResultArray();
 
-					foreach ($rows as $menuid) {
-						$tuples[] = '('.(int) $table->id.','.(int) $menuid.')';
-					}
-			}
-			else
-			{
+				$query	= $db->getQuery(true);
+				$query->select('menuid');
+				$query->from('#__modules_menu');
+				$query->where('moduleid='.(int)$pk);
+
+				$this->_db->setQuery((string)$query);
+				$rows = $this->_db->loadResultArray();
+
+				foreach ($rows as $menuid) {
+					$tuples[] = '('.(int) $table->id.','.(int) $menuid.')';
+				}
+			} else {
 				throw new Exception($table->getError());
 			}
 		}
 
-		if (!empty($tuples))
-		{
+		if (!empty($tuples)) {
 			// Module-Menu Mapping: Do it in one query
 			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES '.implode(',', $tuples);
 			$this->_db->setQuery($query);
@@ -639,27 +621,21 @@ class ModulesModelModule extends JModelForm
 
 		// Access checks.
 		$allow = $user->authorise('core.edit', 'com_modules');
-		if (!$allow)
-		{
+		if (!$allow) {
 			$this->setError(JText::_('JError_Core_Edit_not_permitted'));
 			return false;
 		}
 
-		foreach ($pks as $i => $pk)
-		{
+		foreach ($pks as $i => $pk) {
 			$table->reset();
-			if ($table->load($pk) && $this->checkout($pk))
-			{
+			if ($table->load($pk) && $this->checkout($pk)) {
 				$table->ordering += $delta;
-				if (!$table->store())
-				{
+				if (!$table->store()) {
 					$this->setError($table->getError());
 					unset($pks[$i]);
 					$result = false;
 				}
-			}
-			else
-			{
+			} else {
 				$this->setError($table->getError());
 				unset($pks[$i]);
 				$result = false;
@@ -686,24 +662,19 @@ class ModulesModelModule extends JModelForm
 		}
 
 		// update ordering values
-		foreach ($pks as $i => $pk)
-		{
+		foreach ($pks as $i => $pk) {
 			$table->load((int) $pk);
 
 			// Access checks.
 			$allow = $user->authorise('core.edit.state', 'com_modules');
 
-			if (!$allow)
-			{
+			if (!$allow) {
 				// Prune items that you can't change.
 				unset($pks[$i]);
 				JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
-			}
-			else if ($table->ordering != $order[$i])
-			{
+			} else if ($table->ordering != $order[$i]) {
 				$table->ordering = $order[$i];
-				if (!$table->store())
-				{
+				if (!$table->store()) {
 					$this->setError($table->getError());
 					return false;
 				}
@@ -711,10 +682,8 @@ class ModulesModelModule extends JModelForm
 				$condition[] = 'client_id = '.(int) $table->client_id;
 				$condition[] = 'position = '.(int) $table->position;
 				$found = false;
-				foreach ($conditions as $cond)
-				{
-					if ($cond[1] == $condition)
-					{
+				foreach ($conditions as $cond) {
+					if ($cond[1] == $condition) {
 						$found = true;
 						break;
 					}
@@ -726,8 +695,7 @@ class ModulesModelModule extends JModelForm
 		}
 
 		// Execute reorder for each category.
-		foreach ($conditions as $cond)
-		{
+		foreach ($conditions as $cond) {
 			$table->load($cond[0]);
 			$table->reorder($cond[1]);
 		}

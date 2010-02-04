@@ -105,31 +105,27 @@ class MenusHelper
 	 */
 	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published=array())
 	{
-		$db		= JFactory::getDbo();
-		$query	= new JQuery;
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		$query->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type');
 		$query->from('#__menu AS a');
 		$query->join('LEFT', '`#__menu` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter by the type
-		if ($menuType)
-		{
+		if ($menuType) {
 			$query->where('(a.menutype = '.$db->quote($menuType).' OR a.parent_id = 0)');
 		}
 
-		if ($parentId)
-		{
-			if ($mode == 2)
-			{
+		if ($parentId) {
+			if ($mode == 2) {
 				// Prevent the parent and children from showing.
 				$query->join('LEFT', '`#__menu` AS p ON p.id = '.(int) $parentId);
 				$query->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
 			}
 		}
-		
-		if(!empty($published))
-		{
+
+		if (!empty($published)) {
 			if (is_array($published)) $published = '(' . implode(',',$published) .')';
 			$query->where('a.published IN ' . $published);
 		}
@@ -143,22 +139,19 @@ class MenusHelper
 		$links = $db->loadObjectList();
 
 		// Check for a database error.
-		if ($error = $db->getErrorMsg())
-		{
+		if ($error = $db->getErrorMsg()) {
 			JError::raiseWarning(500, $error);
 			return false;
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
-		foreach ($links as &$link)
-		{
+		foreach ($links as &$link) {
 			$link->text = str_repeat('- ',$link->level).$link->text;
 		}
 
-		if (empty($menuType))
-		{
+		if (empty($menuType)) {
 			// If the menutype is empty, group the items by menutype.
-			$query	= new JQuery;
+			$query->clear();
 			$query->select('*');
 			$query->from('#__menu_types');
 			$query->where('menutype <> '.$db->quote(''));
@@ -168,25 +161,21 @@ class MenusHelper
 			$menuTypes = $db->loadObjectList();
 
 			// Check for a database error.
-			if ($error = $db->getErrorMsg())
-			{
+			if ($error = $db->getErrorMsg()) {
 				JError::raiseWarning(500, $error);
 				return false;
 			}
 
 			// Create a reverse lookup and aggregate the links.
 			$rlu = array();
-			foreach ($menuTypes as &$type)
-			{
+			foreach ($menuTypes as &$type) {
 				$rlu[$type->menutype] = &$type;
 				$type->links = array();
 			}
 
 			// Loop through the list of menu links.
-			foreach ($links as &$link)
-			{
-				if (isset($rlu[$link->menutype]))
-				{
+			foreach ($links as &$link) {
+				if (isset($rlu[$link->menutype])) {
 					$rlu[$link->menutype]->links[] = &$link;
 
 					// Cleanup garbage.
@@ -195,11 +184,8 @@ class MenusHelper
 			}
 
 			return $menuTypes;
-		}
-		else
-		{
+		} else {
 			return $links;
 		}
-
 	}
 }

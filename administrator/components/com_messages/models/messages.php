@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
-jimport('joomla.database.query');
 
 /**
  * Messages Component Messages Model
@@ -74,7 +73,8 @@ class MessagesModelMessages extends JModelList
 	protected function _getListQuery()
 	{
 		// Create a new query object.
-		$query	= new JQuery;
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
 
 		// Select the required fields from the table.
@@ -104,12 +104,12 @@ class MessagesModelMessages extends JModelList
 		$search = $this->getState('filter.search');
 
 		if (!empty($search)) {
-			$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%', false);
+			$search = $db->Quote('%'.$db->getEscaped($search, true).'%', false);
 			$query->where('a.subject LIKE '.$search.' OR a.message LIKE '.$search.')');
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.date_time')).' '.$this->_db->getEscaped($this->getState('list.direction', 'DESC')));
+		$query->order($db->getEscaped($this->getState('list.ordering', 'a.date_time')).' '.$db->getEscaped($this->getState('list.direction', 'DESC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

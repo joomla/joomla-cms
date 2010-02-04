@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.database.query');
-
 /**
  * Renders a author element
  *
@@ -45,7 +43,8 @@ class JElementAuthor extends JElement
 		$groups = implode(',', $groups);
 
 		// Build the query to get the users.
-		$query = new JQuery();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 		$query->select('u.id AS value');
 		$query->select('u.name AS text');
 		$query->from('#__users AS u');
@@ -54,7 +53,6 @@ class JElementAuthor extends JElement
 		$query->where('m.group_id IN ('.$groups.')');
 
 		// Get the users.
-		$db = JFactory::getDbo();
 		$db->setQuery((string) $query);
 		$users = $db->loadObjectList();
 

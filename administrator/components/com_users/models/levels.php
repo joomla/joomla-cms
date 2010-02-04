@@ -8,7 +8,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
-jimport('joomla.database.query');
 
 /**
  * Methods supporting a list of user access level records.
@@ -73,7 +72,8 @@ class UsersModelLevels extends JModelList
 	protected function _getListQuery()
 	{
 		// Create a new query object.
-		$query = new JQuery;
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -89,14 +89,11 @@ class UsersModelLevels extends JModelList
 
 		// Filter the items over the search string if set.
 		$search = $this->getState('filter.search');
-		if (!empty($search))
-		{
+		if (!empty($search)) {
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
-			}
-			else
-			{
-				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+			} else {
+				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('a.title LIKE '.$search);
 			}
 		}
@@ -104,7 +101,7 @@ class UsersModelLevels extends JModelList
 		$query->group('a.id');
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.lft')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->getEscaped($this->getState('list.ordering', 'a.lft')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

@@ -85,7 +85,7 @@ class MessagesModelMessage extends JModelForm
 			if ($replyId = $this->getState('reply.id')) {
 				// If replying to a message, preload some data.
 				$db		= $this->getDbo();
-				$query	= new JQuery;
+				$query	= $db->getQuery(true);
 
 				$query->select('subject, user_id_from');
 				$query->from('#__messages');

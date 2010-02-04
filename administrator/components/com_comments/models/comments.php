@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
-jimport('joomla.database.query');
 
 /**
  * Methods supporting a list of comment records.
@@ -86,7 +85,8 @@ class CommentsModelComments extends JModelList
 	protected function _getListQuery()
 	{
 		// Create a new query object.
-		$query = new JQuery;
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -119,7 +119,7 @@ class CommentsModelComments extends JModelList
 		// Filter the items over the context if set.
 		$context = $this->getState('filter.context');
 		if (!empty($context)) {
-			$query->where('b.context = '.$this->_db->Quote($context));
+			$query->where('b.context = '.$db->Quote($context));
 		}
 
 		// Filter over the search string if set.
@@ -128,13 +128,13 @@ class CommentsModelComments extends JModelList
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
-				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('a.name LIKE '.$search);
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering').' '.$this->getState('list.direction')));
+		$query->order($db->getEscaped($this->getState('list.ordering').' '.$this->getState('list.direction')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -145,8 +145,8 @@ class CommentsModelComments extends JModelList
 	 */
 	function getContexts()
 	{
-		$db		= $this->getDbo();
-		$query	= new JQuery;
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		$query->select('DISTINCT(context) AS value');
 		$query->from('#__social_threads');

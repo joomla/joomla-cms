@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
-jimport('joomla.database.query');
 
 /**
  * Methods supporting a list of plugin records.
@@ -86,7 +85,8 @@ class PluginsModelPlugins extends JModelList
 	protected function _getListQuery()
 	{
 		// Create a new query object.
-		$query = new JQuery;
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -98,7 +98,7 @@ class PluginsModelPlugins extends JModelList
 		);
 		$query->from('`#__extensions` AS a');
 
-		$query->where('`type` = '.$this->_db->quote('plugin'));
+		$query->where('`type` = '.$db->quote('plugin'));
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -117,32 +117,28 @@ class PluginsModelPlugins extends JModelList
 		$published = $this->getState('filter.state');
 		if (is_numeric($published)) {
 			$query->where('a.enabled = '.(int) $published);
-		}
-		else if ($published === '') {
+		} else if ($published === '') {
 			$query->where('(a.enabled IN (0, 1))');
 		}
 
 		// Filter by folder.
 		if ($folder = $this->getState('filter.folder')) {
-			$query->where('a.folder = '.$this->_db->quote($folder));
+			$query->where('a.folder = '.$db->quote($folder));
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
-		if (!empty($search))
-		{
+		if (!empty($search)) {
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
-			}
-			else
-			{
-				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+			} else {
+				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('a.name LIKE '.$search);
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.name')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->getEscaped($this->getState('list.ordering', 'a.name')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

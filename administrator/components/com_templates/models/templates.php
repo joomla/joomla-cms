@@ -8,7 +8,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
-jimport('joomla.database.query');
 
 /**
  * Methods supporting a list of template extension records.
@@ -77,7 +76,8 @@ class TemplatesModelTemplates extends JModelList
 	protected function _getListQuery()
 	{
 		// Create a new query object.
-		$query = new JQuery;
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -89,7 +89,7 @@ class TemplatesModelTemplates extends JModelList
 		$query->from('`#__extensions` AS a');
 
 		// Filter by extension type.
-		$query->where('`type` = '.$this->_db->quote('template'));
+		$query->where('`type` = '.$db->quote('template'));
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
@@ -99,20 +99,17 @@ class TemplatesModelTemplates extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
-		if (!empty($search))
-		{
+		if (!empty($search)) {
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
-			}
-			else
-			{
-				$search = $this->_db->Quote('%'.$this->_db->getEscaped($search, true).'%');
+			} else {
+				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('a.element LIKE '.$search.' OR a.name LIKE '.$search);
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.folder')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->getEscaped($this->getState('list.ordering', 'a.folder')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -125,8 +122,7 @@ class TemplatesModelTemplates extends JModelList
 	{
 		$items = parent::getItems();
 
-		foreach ($items as &$item)
-		{
+		foreach ($items as &$item) {
 			$client = JApplicationHelper::getClientInfo($item->client_id);
 			$item->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $item->element);
 		}

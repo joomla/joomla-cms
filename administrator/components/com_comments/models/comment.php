@@ -335,7 +335,7 @@ class CommentsModelComment extends JModelForm
 
 		if ($threadId = (int) $comment->thread_id) {
 			$db = $this->getDbo();
-			$query = new JQuery;
+			$query = $db->getQuery(true);
 			$query->select('b.id AS thread_id, b.context, b.context_id, b.page_title, b.page_route, b.page_url')
 				->from('#__social_threads AS b')
 				->where('b.id = '.$threadId);

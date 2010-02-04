@@ -78,7 +78,8 @@ class ModulesModelSelect extends JModelList
 	protected function _getListQuery()
 	{
 		// Create a new query object.
-		$query = new JQuery;
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -90,14 +91,14 @@ class ModulesModelSelect extends JModelList
 		$query->from('`#__extensions` AS a');
 
 		// Filter by module
-		$query->where('a.type = '.$this->_db->Quote('module'));
+		$query->where('a.type = '.$db->Quote('module'));
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
 		$query->where('a.client_id = '.(int) $clientId);
 
 		// Add the list ordering clause.
-		$query->order($this->_db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$this->_db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -119,15 +120,11 @@ class ModulesModelSelect extends JModelList
 
 		// Loop through the results to add the XML metadata,
 		// and load language support.
-		foreach ($items as &$item)
-		{
+		foreach ($items as &$item) {
 			$path = JPath::clean($client->path.'/modules/'.$item->module.'/'.$item->module.'.xml');
-			if (file_exists($path))
-			{
+			if (file_exists($path)) {
 				$item->xml = simplexml_load_file($path);
-			}
-			else
-			{
+			} else {
 				$item->xml = null;
 			}
 
@@ -141,7 +138,4 @@ class ModulesModelSelect extends JModelList
 
 		return $items;
 	}
-
-
-
 }

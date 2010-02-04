@@ -8,9 +8,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// Include dependancies.
-jimport('joomla.database.query');
-
 /**
  * @package		Joomla.Administrator
  * @subpackage	mod_menu
@@ -25,7 +22,7 @@ abstract class ModMenuHelper
 	public static function getMenus()
 	{
 		$db		= &JFactory::getDbo();
-		$query	= new JQuery;
+		$query	= $db->getQuery(true);
 
 		$query->select('a.*, SUM(b.home) AS home');
 		$query->from('#__menu_types AS a');
@@ -50,10 +47,10 @@ abstract class ModMenuHelper
 	function getComponents($authCheck = true)
 	{
 		// Initialise variables.
-		$lang	= &JFactory::getLanguage();
-		$user	= &JFactory::getUser();
-		$db		= &JFactory::getDbo();
-		$query	= new JQuery;
+		$lang	= JFactory::getLanguage();
+		$user	= JFactory::getUser();
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
 		$result	= array();
 		$langs	= array();
 
@@ -73,16 +70,13 @@ abstract class ModMenuHelper
 		$db->setQuery($query);
 		$components	= $db->loadObjectList(); // component list
 		// Parse the list of extensions.
-		foreach ($components as &$component)
-		{
+		foreach ($components as &$component) {
 			// Trim the menu link.
 			$component->link = trim($component->link);
 
-			if ($component->parent_id == 1)
-			{
+			if ($component->parent_id == 1) {
 				// Only add this top level if it is authorised and enabled.
-				if ($authCheck == false || ($authCheck && $user->authorize('core.manage', $component->element)))
-				{
+				if ($authCheck == false || ($authCheck && $user->authorize('core.manage', $component->element))) {
 					// Root level.
 					$result[$component->id] = $component;
 					if (!isset($result[$component->id]->submenu)) {
@@ -98,19 +92,15 @@ abstract class ModMenuHelper
 						$langs[$component->element.'.menu'] = true;
 					}
 				}
-			}
-			else
-			{
+			} else {
 				// Sub-menu level.
-				if (isset($result[$component->parent_id]))
-				{
+				if (isset($result[$component->parent_id])) {
 					// Add the submenu link if it is defined.
 					if (isset($result[$component->parent_id]->submenu) && !empty($component->link)) {
 						$result[$component->parent_id]->submenu[] = &$component;
 					}
 				}
 			}
-
 		}
 
 		// Load additional language files.

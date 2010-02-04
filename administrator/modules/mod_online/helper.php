@@ -22,12 +22,11 @@ abstract class modOnlineHelper
 	 */
 	public static function getOnlineCount()
 	{
-		jimport('joomla.database.query');
 		$db			= JFactory::getDbo();
 		$session    = JFactory::getSession();
 		$sessionId	= $session->getId();
 
-		$query = new JQuery;
+		$query	= $db->getQuery(true);
 		$query->select('COUNT(a.session_id)');
 		$query->from('#__session AS a');
 		$query->where('a.session_id <> '.$db->Quote($sessionId));
