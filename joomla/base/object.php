@@ -95,7 +95,7 @@ class JObject
 	public function getProperties($public = true)
 	{
 		$vars  = get_object_vars($this);
-        if ($public)
+		if ($public)
 		{
 			foreach ($vars as $key => $value)
 			{
@@ -105,7 +105,7 @@ class JObject
 			}
 		}
 
-        return $vars;
+		return $vars;
 	}
 
 	/**
