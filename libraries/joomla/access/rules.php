@@ -10,7 +10,7 @@ defined('JPATH_BASE') or die;
 jimport('joomla.access.rule');
 
 /**
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Access
  * @since		1.6
  */

@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die;
  * TODO: Test these methods as the regex work is first run and not tested thoroughly
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Mail
  * @since		1.5
  */

@@ -94,8 +94,8 @@ abstract class JPlugin extends JEvent
 	 * Loads the plugin language file
 	 *
 	 * @access	public
-	 * @param	string 	$extension 	The extension for which a language file should be loaded
-	 * @param	string 	$basePath  	The basepath to use
+	 * @param	string	$extension	The extension for which a language file should be loaded
+	 * @param	string	$basePath	The basepath to use
 	 * @return	boolean	True, if the file has successfully loaded.
 	 * @since	1.5
 	 */

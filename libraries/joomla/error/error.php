@@ -24,12 +24,12 @@ define('JERROR_ILLEGAL_MODE', 3);
  * This class is inspired in design and concept by patErrorManager <http://www.php-tools.net>
  *
  * patErrorManager contributors include:
- * 	- gERD Schaufelberger	<gerd@php-tools.net>
- * 	- Sebastian Mordziol	<argh@php-tools.net>
- * 	- Stephan Schmidt		<scst@php-tools.net>
+ *	- gERD Schaufelberger	<gerd@php-tools.net>
+ *	- Sebastian Mordziol	<argh@php-tools.net>
+ *	- Stephan Schmidt		<scst@php-tools.net>
  *
  * @static
- * @package 	Joomla.Framework
+ * @package	Joomla.Framework
  * @subpackage	Error
  * @since		1.5
  */
@@ -41,9 +41,9 @@ abstract class JError
 		E_ERROR => 'Error'
 	);
 	protected static $handlers = array(
-		E_NOTICE 	=> array('mode' => 'message'),
-		E_WARNING 	=> array('mode' => 'message'),
-		E_ERROR 	=> array('mode' => 'callback', 'options' => array('JError','customErrorPage'))
+		E_NOTICE	=> array('mode' => 'message'),
+		E_WARNING	=> array('mode' => 'message'),
+		E_ERROR	=> array('mode' => 'callback', 'options' => array('JError','customErrorPage'))
 	);
 	protected static $stack = array();
 
@@ -93,7 +93,7 @@ w
 	 *
 	 * @static
 	 * @access	public
-	 * @return	array 	Chronological array of errors that have been stored during script execution
+	 * @return	array	Chronological array of errors that have been stored during script execution
 	 * @since	1.5
 	 */
 	public static function getErrors()
@@ -104,10 +104,10 @@ w
 	/**
 	 * Method to add non-JError thrown JExceptions to the JError stack for debugging purposes
 	 *
-	 * @access 	public
-	 * @param 	object JException
-	 * @return 	void
-	 * @since 	1.6
+	 * @access	public
+	 * @param	object JException
+	 * @return	void
+	 * @since	1.6
 	 */
 	public static function addToStack(JException &$e) {
 		JError::$stack[0][] = &$e;
@@ -198,7 +198,7 @@ w
 	 */
 	public static function raiseWarning($code, $msg, $info = null)
 	{
- 		return JError::raise(E_WARNING, $code, $msg, $info);
+		return JError::raise(E_WARNING, $code, $msg, $info);
 	}
 
 	/**
@@ -302,22 +302,22 @@ w
 	}
 
 	/**
-  	 * Method that attaches the error handler to JError
-  	 *
-  	 * @access public
-  	 * @see set_error_handler
-  	 */
+	 * Method that attaches the error handler to JError
+	 *
+	 * @access public
+	 * @see set_error_handler
+	 */
 	public static function attachHandler()
 	{
 		set_error_handler(array('JError', 'customErrorHandler'));
 	}
 
 	/**
-  	 * Method that dettaches the error handler from JError
-  	 *
-  	 * @access public
-  	 * @see restore_error_handler
-  	 */
+	 * Method that dettaches the error handler from JError
+	 *
+	 * @access public
+	 * @see restore_error_handler
+	 */
 	public static function detachHandler()
 	{
 		restore_error_handler();
@@ -367,7 +367,7 @@ w
 
 	/**
 	 * Ignore error handler
-	 * 	- Ignores the error
+	 *	- Ignores the error
 	 *
 	 * @static
 	 * @param	object	$error		Exception object to handle
@@ -384,7 +384,7 @@ w
 
 	/**
 	 * Echo error handler
-	 * 	- Echos the error message to output
+	 *	- Echos the error message to output
 	 *
 	 * @static
 	 * @param	object	$error		Exception object to handle
@@ -418,7 +418,7 @@ w
 
 	/**
 	 * Verbose error handler
-	 * 	- Echos the error message to output as well as related info
+	 *	- Echos the error message to output as well as related info
 	 *
 	 * @static
 	 * @param	object	$error		Exception object to handle
@@ -456,7 +456,7 @@ w
 
 	/**
 	 * Die error handler
-	 * 	- Echos the error message to output and then dies
+	 *	- Echos the error message to output and then dies
 	 *
 	 * @static
 	 * @param	object	$error		Exception object to handle
@@ -490,7 +490,7 @@ w
 
 	/**
 	 * Message error handler
-	 * 	- Enqueues the error message into the system queue
+	 *	- Enqueues the error message into the system queue
 	 *
 	 * @static
 	 * @param	object	$error		Exception object to handle
@@ -510,7 +510,7 @@ w
 
 	/**
 	 * Log error handler
-	 * 	- Logs the error message to a system log file
+	 *	- Logs the error message to a system log file
 	 *
 	 * @static
 	 * @param	object	$error		Exception object to handle
@@ -540,9 +540,9 @@ w
 		return $error;
 	}
 
- 	/**
+	/**
 	 * Callback error handler
-	 * 	- Send the error object to a callback method for error handling
+	 *	- Send the error object to a callback method for error handling
 	 *
 	 * @static
 	 * @param	object	$error		Exception object to handle
@@ -599,36 +599,36 @@ w
 
 	public static function renderBacktrace($error)
 	{
-		$contents	   = null;
-		$backtrace	  = $error->getTrace();
+		$contents	= null;
+		$backtrace	= $error->getTrace();
 		if (is_array($backtrace))
 		{
 			ob_start();
-			$j	  =	   1;
+			$j = 1;
 			echo '<table border="0" cellpadding="0" cellspacing="0" class="Table">';
-			echo '	   <tr>';
-			echo '			   <td colspan="3" align="left" class="TD"><strong>Call stack</strong></td>';
-			echo '	   </tr>';
-			echo '	   <tr>';
-			echo '			   <td class="TD"><strong>#</strong></td>';
-			echo '			   <td class="TD"><strong>Function</strong></td>';
-			echo '			   <td class="TD"><strong>Location</strong></td>';
-			echo '	   </tr>';
+			echo '		<tr>';
+			echo '				<td colspan="3" align="left" class="TD"><strong>Call stack</strong></td>';
+			echo '		</tr>';
+			echo '		<tr>';
+			echo '				<td class="TD"><strong>#</strong></td>';
+			echo '				<td class="TD"><strong>Function</strong></td>';
+			echo '				<td class="TD"><strong>Location</strong></td>';
+			echo '		</tr>';
 			for ($i = count($backtrace)-1; $i >= 0 ; $i--)
 			{
-				echo	'	   <tr>';
-				echo	'			   <td class="TD">'.$j.'</td>';
+				echo	'		<tr>';
+				echo	'				<td class="TD">'.$j.'</td>';
 				if (isset($backtrace[$i]['class'])) {
-						echo	'	   <td class="TD">'.$backtrace[$i]['class'].$backtrace[$i]['type'].$backtrace[$i]['function'].'()</td>';
+						echo	'		<td class="TD">'.$backtrace[$i]['class'].$backtrace[$i]['type'].$backtrace[$i]['function'].'()</td>';
 				} else {
-						echo	'	   <td class="TD">'.$backtrace[$i]['function'].'()</td>';
+						echo	'		<td class="TD">'.$backtrace[$i]['function'].'()</td>';
 				}
 				if (isset($backtrace[$i]['file'])) {
-						echo	'			   <td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
+						echo	'				<td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
 				} else {
-						echo	'			   <td class="TD">&nbsp;</td>';
+						echo	'				<td class="TD">&nbsp;</td>';
 				}
-				echo	'	   </tr>';
+				echo	'		</tr>';
 				$j++;
 			}
 			echo '</table>';

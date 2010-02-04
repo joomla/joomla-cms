@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
 /**
  * XML format handler for JRegistry.
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Registry
  * @since		1.5
  */
@@ -21,8 +21,8 @@ class JRegistryFormatXML extends JRegistryFormat
 {
 	/**
 	 * Converts an object into an XML formatted string.
-	 * 	-	If more than two levels of nested groups are necessary, since INI is not
-	 * 		useful, XML or another format should be used.
+	 *	-	If more than two levels of nested groups are necessary, since INI is not
+	 *		useful, XML or another format should be used.
 	 *
 	 * @param	object	Data source object.
 	 * @param	array	Options used by the formatter.

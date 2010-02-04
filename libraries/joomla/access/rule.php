@@ -8,7 +8,7 @@
 defined('JPATH_BASE') or die;
 
 /**
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Access
  * @since		1.6
  */

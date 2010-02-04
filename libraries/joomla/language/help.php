@@ -10,7 +10,7 @@
 /**
  * Help system class
  *
- * @package 		Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Language
  * @since		1.5
  */
@@ -29,7 +29,7 @@ class JHelp
 		$app			= &JFactory::getApplication();
 		$user			= &JFactory::getUser();
 		$userHelpUrl	= $user->getParam('helpsite');
-		$globalHelpUrl 	= $app->getCfg('helpurl');
+		$globalHelpUrl	= $app->getCfg('helpurl');
 		$lang			= &JFactory::getLanguage();
 
 		if ($useComponent) {

@@ -143,7 +143,7 @@ abstract class JFormField extends JObject
 	 * string held is the <var>formName</var> class variable.
 	 *
 	 * @param	string	The javascript code
-	 * @return 	string	The replaced javascript code
+	 * @return	string	The replaced javascript code
 	 */
 	protected function _replacePrefix($javascript)
 	{

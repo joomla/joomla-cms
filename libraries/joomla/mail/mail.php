@@ -16,7 +16,7 @@ jimport('joomla.mail.helper');
 /**
  * E-Mail Class.  Provides a common interface to send e-mail from the Joomla! Framework
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Mail
  * @since		1.5
  */
@@ -28,8 +28,8 @@ class JMail extends PHPMailer
 	 */
 	public function __construct()
 	{
-		 // PHPMailer has an issue using the relative path for it's language files
-		 $this->SetLanguage('joomla', JPATH_LIBRARIES.DS.'phpmailer'.DS.'language'.DS);
+		// PHPMailer has an issue using the relative path for it's language files
+		$this->SetLanguage('joomla', JPATH_LIBRARIES.DS.'phpmailer'.DS.'language'.DS);
 	}
 
 	/**
@@ -86,9 +86,9 @@ class JMail extends PHPMailer
 	 * Set the E-Mail sender
 	 *
 	 * @param	array	$from	E-Mail address and Name of sender
-	 * 		<pre>
-	 * 			array([0] => E-Mail Address [1] => Name)
-	 * 		</pre>
+	 *		<pre>
+	 *			array([0] => E-Mail Address [1] => Name)
+	 *		</pre>
 	 * @return	void
 	 * @since	1.5
 	 */
@@ -97,7 +97,7 @@ class JMail extends PHPMailer
 		// If $from is an array we assume it has an address and a name
 		if (is_array($from))
 		{
-			$this->From 	= JMailHelper::cleanLine($from[0]);
+			$this->From	= JMailHelper::cleanLine($from[0]);
 			$this->FromName = JMailHelper::cleanLine($from[1]);
 		// If it is a string we assume it is just the address
 		} elseif (is_string($from)) {
@@ -231,9 +231,9 @@ class JMail extends PHPMailer
 	 * Add Reply to e-mail address(es) to the e-mail
 	 *
 	 * @param	array	$reply	Either an array or multi-array of form
-	 * 		<pre>
-	 * 			array([0] => E-Mail Address [1] => Name)
-	 * 		</pre>
+	 *		<pre>
+	 *			array([0] => E-Mail Address [1] => Name)
+	 *		</pre>
 	 * @return	void
 	 * @since	1.5
 	 */
@@ -306,22 +306,22 @@ class JMail extends PHPMailer
 	}
 
 	/**
- 	 * Function to send an e-mail
- 	 *
- 	 * @param string $from From e-mail address
- 	 * @param string $fromName From name
- 	 * @param mixed $recipient Recipient e-mail address(es)
- 	 * @param string $subject E-mail subject
- 	 * @param string $body Message body
- 	 * @param boolean $mode false = plain text, true = HTML
- 	 * @param mixed $cc CC e-mail address(es)
- 	 * @param mixed $bcc BCC e-mail address(es)
- 	 * @param mixed $attachment Attachment file name(s)
- 	 * @param mixed $replyto Reply to email address(es)
- 	 * @param mixed $replytoname Reply to name(s)
- 	 * @return boolean True on success
- 	 * @since: 1.6
-  	 */
+	 * Function to send an e-mail
+	 *
+	 * @param string $from From e-mail address
+	 * @param string $fromName From name
+	 * @param mixed $recipient Recipient e-mail address(es)
+	 * @param string $subject E-mail subject
+	 * @param string $body Message body
+	 * @param boolean $mode false = plain text, true = HTML
+	 * @param mixed $cc CC e-mail address(es)
+	 * @param mixed $bcc BCC e-mail address(es)
+	 * @param mixed $attachment Attachment file name(s)
+	 * @param mixed $replyto Reply to email address(es)
+	 * @param mixed $replytoname Reply to name(s)
+	 * @return boolean True on success
+	 * @since: 1.6
+	 */
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode=0,
 		$cc=null, $bcc=null, $attachment=null, $replyTo=null, $replyToName=null)
 	{
@@ -354,16 +354,16 @@ class JMail extends PHPMailer
 
 	/**
 	 * Sends mail to administrator for approval of a user submission
- 	 *
- 	 * @param string $adminName Name of administrator
- 	 * @param string $adminEmail Email address of administrator
- 	 * @param string $email [NOT USED TODO: Deprecate?]
- 	 * @param string $type Type of item to approve
- 	 * @param string $title Title of item to approve
- 	 * @param string $author Author of item to approve
- 	 * @return boolean True on success
- 	 * @since: 1.6
- 	 */
+	 *
+	 * @param string $adminName Name of administrator
+	 * @param string $adminEmail Email address of administrator
+	 * @param string $email [NOT USED TODO: Deprecate?]
+	 * @param string $type Type of item to approve
+	 * @param string $title Title of item to approve
+	 * @param string $author Author of item to approve
+	 * @return boolean True on success
+	 * @since: 1.6
+	 */
 	public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
 		$subject = JText::_('USER_SUBMITTED') ." '". $type ."'";
