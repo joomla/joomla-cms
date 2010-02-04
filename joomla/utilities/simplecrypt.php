@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
  * JSimpleCrypt is a very simple encryption algorithm for encyrpting/decrypting strings
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Utilities
  * @since		1.5
  */

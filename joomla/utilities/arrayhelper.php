@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
  * JArrayHelper is an array utility class for doing all sorts of odds and ends with arrays.
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Utilities
  * @since		1.5
  */
@@ -51,7 +51,7 @@ class JArrayHelper
 	 *
 	 * @static
 	 * @param	array	$array		The array to map.
-	 * @param	string	$calss 		Name of the class to create
+	 * @param	string	$calss		Name of the class to create
 	 * @return	object	The object mapped from the given array
 	 * @since	1.5
 	 */

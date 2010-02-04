@@ -23,7 +23,7 @@ if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN
 
 // same for iconv
 if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('iconv.so')))) {
-   	// these are settings that can be set inside code
+	// these are settings that can be set inside code
 	iconv_set_encoding("internal_encoding", "UTF-8");
 	iconv_set_encoding("input_encoding", "UTF-8");
 	iconv_set_encoding("output_encoding", "UTF-8");
@@ -40,7 +40,7 @@ jimport('phputf8.utf8');
  * All functions assume the validity of utf-8 strings.
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Utilities
  * @since		1.5
  */
@@ -97,7 +97,7 @@ abstract class JString
 	 */
 	public static function substr($str, $offset, $length = FALSE)
 	{
-	 	if ($length === FALSE) {
+		if ($length === FALSE) {
 			return utf8_substr($str, $offset);
 		} else {
 			return utf8_substr($str, $offset, $length);
@@ -452,10 +452,10 @@ abstract class JString
 	 */
 	public static function valid($str)
 	{
-		$mState = 0;	 // cached expected number of octets after the current octet
-						 // until the beginning of the next UTF8 character sequence
-		$mUcs4  = 0;	 // cached Unicode character
-   	 	$mBytes = 1;	 // cached expected number of octets in the current sequence
+		$mState = 0;	// cached expected number of octets after the current octet
+						// until the beginning of the next UTF8 character sequence
+		$mUcs4  = 0;	// cached Unicode character
+		$mBytes = 1;	// cached expected number of octets in the current sequence
 
 		$len = strlen($str);
 
@@ -467,11 +467,11 @@ abstract class JString
 			{
 				// When mState is zero we expect either a US-ASCII character or a
 				// multi-octet sequence.
-		 	 	if (0 == (0x80 & ($in))) {
+				if (0 == (0x80 & ($in))) {
 					// US-ASCII, pass straight through.
 					$mBytes = 1;
 				} else if (0xC0 == (0xE0 & ($in))) {
-			 	 	// First octet of 2 octet sequence
+					// First octet of 2 octet sequence
 					$mUcs4 = ($in);
 					$mUcs4 = ($mUcs4 & 0x1F) << 6;
 					$mState = 1;
@@ -510,15 +510,15 @@ abstract class JString
 
 				} else {
 					/* Current octet is neither in the US-ASCII range nor a legal first
-				 	 * octet of a multi-octet sequence.
-				 	 */
+					 * octet of a multi-octet sequence.
+					 */
 					return FALSE;
 				}
 			}
 			else
 			{
 				// When mState is non-zero, we expect a continuation of the multi-octet
-		 	 	// sequence
+				// sequence
 				if (0x80 == (0xC0 & ($in)))
 				{
 					// Legal continuation.
@@ -539,10 +539,10 @@ abstract class JString
 						// From Unicode 3.1, non-shortest form is illegal
 						if (((2 == $mBytes) && ($mUcs4 < 0x0080)) ||
 							((3 == $mBytes) && ($mUcs4 < 0x0800)) ||
-					 		((4 == $mBytes) && ($mUcs4 < 0x10000)) ||
+							((4 == $mBytes) && ($mUcs4 < 0x10000)) ||
 							(4 < $mBytes) ||
 							// From Unicode 3.2, surrogate characters are illegal
-					 	 	(($mUcs4 & 0xFFFFF800) == 0xD800) ||
+							(($mUcs4 & 0xFFFFF800) == 0xD800) ||
 							// Codepoints outside the Unicode range are illegal
 							($mUcs4 > 0x10FFFF)) {
 								return FALSE;
@@ -581,7 +581,7 @@ abstract class JString
 	 * @see http://www.php.net/manual/en/reference.pcre.pattern.modifiers.php#54805
 	 * @param string UTF-8 string to check
 	 * @return boolean TRUE if string is valid UTF-8
- 	 * @since 1.6
+	 * @since 1.6
 	 */
 	public static function compliant($str)
 	{
