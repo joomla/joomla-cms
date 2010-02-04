@@ -14,7 +14,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/database/mysqli.php';
  */
 class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDatabaseMySQLi
+	 * @var	JDatabaseMySQLi
 	 * @access protected
 	 */
 	protected $object;

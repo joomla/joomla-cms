@@ -14,7 +14,7 @@ require_once JPATH_BASE.'/libraries/joomla/document/error/error.php';
  */
 class JDocumentErrorTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDocumentError
+	 * @var	JDocumentError
 	 * @access protected
 	 */
 	protected $object;

@@ -9,59 +9,59 @@ require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . '
  */
 class JHtmlJGridTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var JHtmlJGrid
-     */
-    protected $object;
+	/**
+	 * @var JHtmlJGrid
+	 */
+	protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-//        $this->object = new JHtmlJGrid;
-    }
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+//		$this->object = new JHtmlJGrid;
+	}
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+	}
 
-    /**
-     * @todo Implement testPublished().
-     */
-    public function testPublished()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testPublished().
+	 */
+	public function testPublished()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testPublishedOptions().
-     */
-    public function testPublishedOptions()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testPublishedOptions().
+	 */
+	public function testPublishedOptions()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testCheckedout().
-     */
-    public function testCheckedout()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testCheckedout().
+	 */
+	public function testCheckedout()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 }
 ?>

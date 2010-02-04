@@ -9,158 +9,158 @@ require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . '
  */
 class JHtmlBehaviorTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var JHtmlBehavior
-     */
-    protected $object;
+	/**
+	 * @var JHtmlBehavior
+	 */
+	protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-//        $this->object = new JHtmlBehavior;
-    }
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+//		$this->object = new JHtmlBehavior;
+	}
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+	}
 
-    /**
-     * @todo Implement testFramework().
-     */
-    public function testFramework()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testFramework().
+	 */
+	public function testFramework()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testMootools().
-     */
-    public function testMootools()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testMootools().
+	 */
+	public function testMootools()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testCaption().
-     */
-    public function testCaption()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testCaption().
+	 */
+	public function testCaption()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testFormvalidation().
-     */
-    public function testFormvalidation()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testFormvalidation().
+	 */
+	public function testFormvalidation()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testSwitcher().
-     */
-    public function testSwitcher()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testSwitcher().
+	 */
+	public function testSwitcher()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testCombobox().
-     */
-    public function testCombobox()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testCombobox().
+	 */
+	public function testCombobox()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testTooltip().
-     */
-    public function testTooltip()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testTooltip().
+	 */
+	public function testTooltip()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testModal().
-     */
-    public function testModal()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testModal().
+	 */
+	public function testModal()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testUploader().
-     */
-    public function testUploader()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testUploader().
+	 */
+	public function testUploader()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testTree().
-     */
-    public function testTree()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testTree().
+	 */
+	public function testTree()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testCalendar().
-     */
-    public function testCalendar()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testCalendar().
+	 */
+	public function testCalendar()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testKeepalive().
-     */
-    public function testKeepalive()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testKeepalive().
+	 */
+	public function testKeepalive()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 }
 ?>

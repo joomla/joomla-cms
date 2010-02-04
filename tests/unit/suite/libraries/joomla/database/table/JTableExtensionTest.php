@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/table/extension.php';
  */
 class JTableExtensionTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JTableExtension
+	 * @var	JTableExtension
 	 * @access protected
 	 */
 	protected $object;

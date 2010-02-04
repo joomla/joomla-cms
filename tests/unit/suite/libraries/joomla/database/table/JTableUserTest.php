@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/table/user.php';
  */
 class JTableUserTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JTableUser
+	 * @var	JTableUser
 	 * @access protected
 	 */
 	protected $object;

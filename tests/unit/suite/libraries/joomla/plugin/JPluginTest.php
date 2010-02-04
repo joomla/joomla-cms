@@ -9,37 +9,37 @@ require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'plugin' . DS .
  */
 class JPluginTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var JPlugin
-     */
-    protected $object;
+	/**
+	 * @var JPlugin
+	 */
+	protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-//        $this->object = new JPlugin;
-    }
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+//		$this->object = new JPlugin;
+	}
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+	}
 
-    /**
-     * @todo Implement testLoadLanguage().
-     */
-    public function testLoadLanguage()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testLoadLanguage().
+	 */
+	public function testLoadLanguage()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 }
 ?>

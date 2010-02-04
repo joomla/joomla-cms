@@ -18,7 +18,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/component/controllerform.
  */
 class JControllerFormTest2 extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JControllerForm
+	 * @var	JControllerForm
 	 * @access protected
 	 */
 	protected $object;

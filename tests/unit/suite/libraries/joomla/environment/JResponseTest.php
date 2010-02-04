@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/environment/response.php';
  */
 class JResponseTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JResponse
+	 * @var	JResponse
 	 * @access protected
 	 */
 	protected $object;

@@ -18,7 +18,7 @@
  */
 class JErrorTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JError
+	 * @var	JError
 	 * @access protected
 	 */
 	protected $object;

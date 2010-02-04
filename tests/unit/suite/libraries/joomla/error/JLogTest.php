@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/error/log.php';
  */
 class JLogTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JLog
+	 * @var	JLog
 	 * @access protected
 	 */
 	protected $object;

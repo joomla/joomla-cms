@@ -9,27 +9,27 @@ require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . '
  */
 class JToolbarTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var JToolbar
-     */
-    protected $object;
+	/**
+	 * @var JToolbar
+	 */
+	protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new JToolbar;
-    }
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+		$this->object = new JToolbar;
+	}
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+	}
 
 	/**
 	 * @todo Decide how to Implement.

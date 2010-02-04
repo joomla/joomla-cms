@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/categories.php';
  */
 class JCategoriesTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JCategories
+	 * @var	JCategories
 	 * @access protected
 	 */
 	protected $object;
@@ -52,4 +52,3 @@ class JCategoriesTest extends PHPUnit_Framework_TestCase {
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
-?>

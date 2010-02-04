@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/tablenested.php';
  */
 class JTableNestedTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JTableNested
+	 * @var	JTableNested
 	 * @access protected
 	 */
 	protected $object;

@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/database/mysql.php';
  */
 class JDatabaseMySQLTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDatabaseMySQL
+	 * @var	JDatabaseMySQL
 	 * @access protected
 	 */
 	protected $object;

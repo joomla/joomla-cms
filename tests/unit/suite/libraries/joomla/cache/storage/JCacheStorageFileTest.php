@@ -12,7 +12,7 @@
  */
 class JCacheStorageFileTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JCacheStorageFile
+	 * @var	JCacheStorageFile
 	 * @access protected
 	 */
 	protected $object;

@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/component/controller.php'
  */
 class JControllerTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JController
+	 * @var	JController
 	 * @access protected
 	 */
 	protected $object;

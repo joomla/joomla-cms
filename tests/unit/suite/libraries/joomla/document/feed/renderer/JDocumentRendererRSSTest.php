@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/document/feed/renderer/rss.php';
  */
 class JDocumentRendererRSSTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDocumentRendererRSS
+	 * @var	JDocumentRendererRSS
 	 * @access protected
 	 */
 	protected $object;

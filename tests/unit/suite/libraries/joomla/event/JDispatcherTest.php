@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/event/dispatcher.php';
  */
 class JDispatcherTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDispatcher
+	 * @var	JDispatcher
 	 * @access protected
 	 */
 	protected $object;

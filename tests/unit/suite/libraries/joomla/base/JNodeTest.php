@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/base/tree.php';
  */
 class JNodeTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JNode
+	 * @var	JNode
 	 * @access protected
 	 */
 	protected $object;

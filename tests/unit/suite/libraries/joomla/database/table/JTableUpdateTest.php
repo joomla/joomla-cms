@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/table/update.php';
  */
 class JTableUpdateTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JTableUpdate
+	 * @var	JTableUpdate
 	 * @access protected
 	 */
 	protected $object;

@@ -9,334 +9,334 @@ require_once JPATH_BASE . '/libraries/joomla/language/language.php';
  */
 class JLanguageTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var JLanguage
-     */
-    protected $object;
+	/**
+	 * @var JLanguage
+	 */
+	protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-//        $this->object = new JLanguage;
-    }
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+//		$this->object = new JLanguage;
+	}
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+	}
 
-    /**
-     * @todo Implement testGetInstance().
-     */
-    public function testGetInstance()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGetInstance().
+	 */
+	public function testGetInstance()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement test_().
-     */
-    public function test_()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement test_().
+	 */
+	public function test_()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testTransliterate().
-     */
-    public function testTransliterate()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testTransliterate().
+	 */
+	public function testTransliterate()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testGetTransliterator().
-     */
-    public function testGetTransliterator()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGetTransliterator().
+	 */
+	public function testGetTransliterator()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testSetTransliterator().
-     */
-    public function testSetTransliterator()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testSetTransliterator().
+	 */
+	public function testSetTransliterator()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testExists().
-     */
-    public function testExists()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testExists().
+	 */
+	public function testExists()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testLoad().
-     */
-    public function testLoad()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testLoad().
+	 */
+	public function testLoad()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement test_load().
-     */
-    public function test_load()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement test_load().
+	 */
+	public function test_load()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testGet().
-     */
-    public function testGet()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGet().
+	 */
+	public function testGet()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement test_getCallerInfo().
-     */
-    public function test_getCallerInfo()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement test_getCallerInfo().
+	 */
+	public function test_getCallerInfo()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testGetName().
-     */
-    public function testGetName()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGetName().
+	 */
+	public function testGetName()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testGetPaths().
-     */
-    public function testGetPaths()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGetPaths().
+	 */
+	public function testGetPaths()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testGetTag().
-     */
-    public function testGetTag()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGetTag().
+	 */
+	public function testGetTag()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testIsRTL().
-     */
-    public function testIsRTL()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testIsRTL().
+	 */
+	public function testIsRTL()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testSetDebug().
-     */
-    public function testSetDebug()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testSetDebug().
+	 */
+	public function testSetDebug()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testGetDebug().
-     */
-    public function testGetDebug()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGetDebug().
+	 */
+	public function testGetDebug()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testGetDefault().
-     */
-    public function testGetDefault()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGetDefault().
+	 */
+	public function testGetDefault()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testSetDefault().
-     */
-    public function testSetDefault()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testSetDefault().
+	 */
+	public function testSetDefault()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testGetOrphans().
-     */
-    public function testGetOrphans()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGetOrphans().
+	 */
+	public function testGetOrphans()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testGetUsed().
-     */
-    public function testGetUsed()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGetUsed().
+	 */
+	public function testGetUsed()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testHasKey().
-     */
-    public function testHasKey()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testHasKey().
+	 */
+	public function testHasKey()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testGetMetadata().
-     */
-    public function testGetMetadata()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGetMetadata().
+	 */
+	public function testGetMetadata()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testGetKnownLanguages().
-     */
-    public function testGetKnownLanguages()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGetKnownLanguages().
+	 */
+	public function testGetKnownLanguages()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testGetLanguagePath().
-     */
-    public function testGetLanguagePath()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testGetLanguagePath().
+	 */
+	public function testGetLanguagePath()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testSetLanguage().
-     */
-    public function testSetLanguage()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testSetLanguage().
+	 */
+	public function testSetLanguage()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement test_parseLanguageFiles().
-     */
-    public function test_parseLanguageFiles()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement test_parseLanguageFiles().
+	 */
+	public function test_parseLanguageFiles()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement test_parseXMLLanguageFiles().
-     */
-    public function test_parseXMLLanguageFiles()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement test_parseXMLLanguageFiles().
+	 */
+	public function test_parseXMLLanguageFiles()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement test_parseXMLLanguageFile().
-     */
-    public function test_parseXMLLanguageFile()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement test_parseXMLLanguageFile().
+	 */
+	public function test_parseXMLLanguageFile()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 }
 ?>

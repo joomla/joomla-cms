@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/component/modelform.php';
  */
 class JModelFormTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JModelForm
+	 * @var	JModelForm
 	 * @access protected
 	 */
 	protected $object;

@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/menu.php';
  */
 class JMenuTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JMenu
+	 * @var	JMenu
 	 * @access protected
 	 */
 	protected $object;

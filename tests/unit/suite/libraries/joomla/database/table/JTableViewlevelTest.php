@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/table/viewlevel.php';
  */
 class JTableViewlevelTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JTableViewlevel
+	 * @var	JTableViewlevel
 	 * @access protected
 	 */
 	protected $object;

@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/client/ftp.php';
  */
 class JFTPTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JFTP
+	 * @var	JFTP
 	 * @access protected
 	 */
 	protected $object;

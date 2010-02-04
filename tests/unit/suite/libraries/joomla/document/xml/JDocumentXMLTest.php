@@ -14,7 +14,7 @@ require_once JPATH_BASE.'/libraries/joomla/document/xml/xml.php';
  */
 class JDocumentXMLTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDocumentXML
+	 * @var	JDocumentXML
 	 * @access protected
 	 */
 	protected $object;

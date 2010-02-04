@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/document/raw/raw.php';
  */
 class JDocumentRAWTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDocumentRAW
+	 * @var	JDocumentRAW
 	 * @access protected
 	 */
 	protected $object;

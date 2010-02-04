@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/error/exception.php';
  */
 class JExceptionTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JException
+	 * @var	JException
 	 * @access protected
 	 */
 	protected $object;

@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/table/asset.php';
  */
 class JTableAssetTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JTableAsset
+	 * @var	JTableAsset
 	 * @access protected
 	 */
 	protected $object;

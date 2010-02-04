@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/environment/uri.php';
  */
 class JURITest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JURI
+	 * @var	JURI
 	 * @access protected
 	 */
 	protected $object;

@@ -9,48 +9,48 @@ require_once JPATH_BASE . '/libraries/joomla/language/helper.php';
  */
 class JLanguageHelperTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var JLanguageHelper
-     */
-    protected $object;
+	/**
+	 * @var JLanguageHelper
+	 */
+	protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        $this->object = new JLanguageHelper;
-    }
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+		$this->object = new JLanguageHelper;
+	}
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+	}
 
-    /**
-     * @todo Implement testCreateLanguageList().
-     */
-    public function testCreateLanguageList()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testCreateLanguageList().
+	 */
+	public function testCreateLanguageList()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @todo Implement testDetectLanguage().
-     */
-    public function testDetectLanguage()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @todo Implement testDetectLanguage().
+	 */
+	public function testDetectLanguage()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+		  'This test has not been implemented yet.'
+		);
+	}
 }
 ?>

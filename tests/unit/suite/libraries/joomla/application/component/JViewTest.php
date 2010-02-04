@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/component/view.php';
  */
 class JViewTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JView
+	 * @var	JView
 	 * @access protected
 	 */
 	protected $object;

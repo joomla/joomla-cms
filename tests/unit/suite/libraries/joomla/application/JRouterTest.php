@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/router.php';
  */
 class JRouterTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JRouter
+	 * @var	JRouter
 	 * @access protected
 	 */
 	protected $object;

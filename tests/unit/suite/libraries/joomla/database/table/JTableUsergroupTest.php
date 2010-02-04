@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/table/usergroup.php';
  */
 class JTableUsergroupTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JTableUsergroup
+	 * @var	JTableUsergroup
 	 * @access protected
 	 */
 	protected $object;

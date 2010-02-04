@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/document/renderer.php';
  */
 class JDocumentRendererTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDocumentRenderer
+	 * @var	JDocumentRenderer
 	 * @access protected
 	 */
 	protected $object;

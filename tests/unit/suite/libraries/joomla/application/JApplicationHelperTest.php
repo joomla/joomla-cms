@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/helper.php';
  */
 class JApplicationHelperTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JApplicationHelper
+	 * @var	JApplicationHelper
 	 * @access protected
 	 */
 	protected $object;

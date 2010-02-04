@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/component/model.php';
  */
 class JModelTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JModel
+	 * @var	JModel
 	 * @access protected
 	 */
 	protected $object;

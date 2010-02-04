@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/query.php';
  */
 class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDatabaseQueryElement
+	 * @var	JDatabaseQueryElement
 	 * @access protected
 	 */
 	protected $object;

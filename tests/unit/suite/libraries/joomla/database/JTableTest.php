@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/table.php';
  */
 class JTableTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JTable
+	 * @var	JTable
 	 * @access protected
 	 */
 	protected $object;

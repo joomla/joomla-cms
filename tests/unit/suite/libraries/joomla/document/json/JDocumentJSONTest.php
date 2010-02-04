@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/document/json/json.php';
  */
 class JDocumentJSONTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDocumentJSON
+	 * @var	JDocumentJSON
 	 * @access protected
 	 */
 	protected $object;

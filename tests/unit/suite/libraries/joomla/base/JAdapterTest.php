@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/base/adapter.php';
  */
 class JAdapterTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JAdapter
+	 * @var	JAdapter
 	 * @access protected
 	 */
 	protected $object;

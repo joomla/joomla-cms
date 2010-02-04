@@ -3,7 +3,7 @@
  * JDateTest.php -- unit testing file for JDate
  *
  * @version		$Id$
- * @package    Joomla.UnitTest
+ * @package	Joomla.UnitTest
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -14,7 +14,7 @@ require_once JPATH_BASE . '/libraries/joomla/utilities/date.php';
  *
  * Test class for Jdate.
  *
- * @package    Joomla.UnitTest
+ * @package	Joomla.UnitTest
  * @subpackage Utilities
  */
 class JDateTest extends PHPUnit_Framework_TestCase
@@ -121,7 +121,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 *	Testing toString
 	 *
-	 * @param string $format       How should the time be formatted?
+	 * @param string $format	   How should the time be formatted?
 	 * @param string $expectedTime What should the resulting time string look like?
 	 *
 	 * @return void
@@ -208,9 +208,9 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 *	Testing getOffsetFromGMT
 	 *
-	 * @param mixed  $tz       Which time zone? (can be string or numeric
+	 * @param mixed  $tz	   Which time zone? (can be string or numeric
 	 * @param string $setTime  What time should be set?
-	 * @param bool   $hours    Return offset in hours (true) or seconds?
+	 * @param bool   $hours	Return offset in hours (true) or seconds?
 	 * @param string $expected What should the resulting time string look like?
 	 *
 	 * @return void
@@ -299,7 +299,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	 *	Testing format
 	 *
 	 * @param string $format   How should the time be formatted?
-	 * @param bool   $local    Local (true) or GMT?
+	 * @param bool   $local	Local (true) or GMT?
 	 * @param string $expected What should the resulting time string look like?
 	 *
 	 * @return void
@@ -387,9 +387,9 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing toRFC822
 	 *
-	 * @param mixed  $tz       Which time zone? (can be string or numeric
+	 * @param mixed  $tz	   Which time zone? (can be string or numeric
 	 * @param string $setTime  What time should be set?
-	 * @param bool   $local    Local (true) or GMT?
+	 * @param bool   $local	Local (true) or GMT?
 	 * @param string $expected What should the resulting time string look like?
 	 *
 	 * @return void
@@ -480,9 +480,9 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing toISO8601
 	 *
-	 * @param mixed  $tz       Which time zone? (can be string or numeric
+	 * @param mixed  $tz	   Which time zone? (can be string or numeric
 	 * @param string $setTime  What time should be set?
-	 * @param bool   $local    Local (true) or GMT?
+	 * @param bool   $local	Local (true) or GMT?
 	 * @param string $expected What should the resulting time string look like?
 	 *
 	 * @return void
@@ -573,9 +573,9 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing toMySQL
 	 *
-	 * @param mixed  $tz       Which time zone? (can be string or numeric
+	 * @param mixed  $tz	   Which time zone? (can be string or numeric
 	 * @param string $setTime  What time should be set?
-	 * @param bool   $local    Local (true) or GMT?
+	 * @param bool   $local	Local (true) or GMT?
 	 * @param string $expected What should the resulting time string look like?
 	 *
 	 * @return void
@@ -657,7 +657,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing toUnix
 	 *
-	 * @param mixed  $tz       Which time zone? (can be string or numeric
+	 * @param mixed  $tz	   Which time zone? (can be string or numeric
 	 * @param string $setTime  What time should be set?
 	 * @param string $expected What should the resulting time string look like?
 	 *
@@ -719,7 +719,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Testing setTimezone
 	 *
-	 * @param string $tz       Which Time Zone should it be?
+	 * @param string $tz	   Which Time Zone should it be?
 	 * @param string $expected What should the resulting time string look like?
 	 *
 	 * @return void
@@ -846,7 +846,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	 *	Testing toFormat
 	 *
 	 * @param string $format   How should the time be formatted?
-	 * @param bool   $local    Local (true) or GMT?
+	 * @param bool   $local	Local (true) or GMT?
 	 * @param string $expected What should the resulting time string look like?
 	 *
 	 * @return void

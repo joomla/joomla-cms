@@ -12,7 +12,7 @@
  */
 class JTableSessionTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JTableSession
+	 * @var	JTableSession
 	 * @access protected
 	 */
 	protected $object;

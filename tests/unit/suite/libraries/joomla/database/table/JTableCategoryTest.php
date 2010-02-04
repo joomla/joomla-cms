@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/table/category.php';
  */
 class JTableCategoryTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JTableCategory
+	 * @var	JTableCategory
 	 * @access protected
 	 */
 	protected $object;

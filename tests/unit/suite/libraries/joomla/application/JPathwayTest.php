@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/pathway.php';
  */
 class JPathwayTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JPathway
+	 * @var	JPathway
 	 * @access protected
 	 */
 	protected $object;

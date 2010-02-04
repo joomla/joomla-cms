@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/table/content.php';
  */
 class JTableContentTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JTableContent
+	 * @var	JTableContent
 	 * @access protected
 	 */
 	protected $object;

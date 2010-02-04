@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/base/observable.php';
  */
 class JObservableTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JObservable
+	 * @var	JObservable
 	 * @access protected
 	 */
 	protected $object;

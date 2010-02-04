@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/event/event.php';
  */
 class JEventTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JEvent
+	 * @var	JEvent
 	 * @access protected
 	 */
 	protected $object;

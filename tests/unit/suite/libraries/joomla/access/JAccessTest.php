@@ -14,8 +14,8 @@ require_once JPATH_BASE.'/libraries/joomla/access/access.php';
  */
 class JAccessTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JAccess
-	 * @access protected
+	 * @var		JAccess
+	 * @access	protected
 	 */
 	protected $object;
 

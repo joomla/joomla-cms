@@ -3,7 +3,7 @@
  * JFormTest.php -- unit testing file for JForm
  *
  * @version		$Id$
- * @package    Joomla.UnitTest
+ * @package	Joomla.UnitTest
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -11,7 +11,7 @@
 /**
  * Test class for JForm.
  *
- * @package    Joomla.UnitTest
+ * @package	Joomla.UnitTest
  * @subpackage Utilities
  *
  */
@@ -201,11 +201,11 @@ class JFormTest extends PHPUnit_Framework_TestCase
 		include_once JPATH_BASE . '/libraries/joomla/user/user.php';
 
 		$user = new JUser;
-    	$mockSession = $this->getMock('JSession', array('_start', 'get'));
-    	$mockSession->expects($this->once())->method('get')->will(
-    		$this->returnValue($user)
-    	);
-    	JFactory::$session = $mockSession;
+		$mockSession = $this->getMock('JSession', array('_start', 'get'));
+		$mockSession->expects($this->once())->method('get')->will(
+			$this->returnValue($user)
+		);
+		JFactory::$session = $mockSession;
 		// Adjust the timezone offset to a known value.
 		$config = JFactory::getConfig();
 		$config->setValue('config.offset', 10);

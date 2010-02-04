@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/categories.php';
  */
 class JCategoryNodeTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JCategoryNode
+	 * @var	JCategoryNode
 	 * @access protected
 	 */
 	protected $object;

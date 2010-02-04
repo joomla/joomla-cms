@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/component/modelitem.php';
  */
 class JModelItemTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JModelItem
+	 * @var	JModelItem
 	 * @access protected
 	 */
 	protected $object;
@@ -48,4 +48,3 @@ class JModelItemTest extends PHPUnit_Framework_TestCase {
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
-?>

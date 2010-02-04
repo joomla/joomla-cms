@@ -48,9 +48,9 @@ class JPathway extends JObject
 	 * Returns a JPathway object
 	 *
 	 * @access	public
-	 * @param   string  $client  The name of the client
-	 * @param array     $options An associative array of options
-	 * @return JPathway 	A pathway object.
+	 * @param   string  	$client  The name of the client
+	 * @param	array		$options An associative array of options
+	 * @return	JPathway 	A pathway object.
 	 * @since	1.5
 	 */
 	static function getInstance($client, $options = array())

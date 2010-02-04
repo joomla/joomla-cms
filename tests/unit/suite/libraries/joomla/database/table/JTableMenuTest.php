@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/table/menu.php';
  */
 class JTableMenuTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JTableMenu
+	 * @var	JTableMenu
 	 * @access protected
 	 */
 	protected $object;

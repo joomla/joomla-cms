@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/client/helper.php';
  */
 class JClientHelperTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JClientHelper
+	 * @var	JClientHelper
 	 * @access protected
 	 */
 	protected $object;

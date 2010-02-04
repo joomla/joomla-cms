@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/error/profiler.php';
  */
 class JProfilerTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JProfiler
+	 * @var	JProfiler
 	 * @access protected
 	 */
 	protected $object;

@@ -558,8 +558,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a test case on clean() called as member with default filter settings (whitelist - no html).
 	 *
-	 * @param string $type    The type of input
-	 * @param string $data    The input
+	 * @param string $type	The type of input
+	 * @param string $data	The input
 	 * @param string $expect  The expected result for this test.
 	 * @param string $message The failure message identifying source of test case.
 	 *
@@ -666,8 +666,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a test case on clean() called as member with custom filter settings (whitelist).
 	 *
-	 * @param string $type    The type of input
-	 * @param string $data    The input
+	 * @param string $type	The type of input
+	 * @param string $data	The input
 	 * @param string $expect  The expected result for this test.
 	 * @param string $message The failure message identifying the source of the test case.
 	 *
@@ -774,8 +774,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a test case on clean() called as member with custom filter settings (whitelist).
 	 *
-	 * @param string $type    The type of input
-	 * @param string $data    The input
+	 * @param string $type	The type of input
+	 * @param string $data	The input
 	 * @param string $expect  The expected result for this test.
 	 * @param string $message The failure message identifying the source of the test case.
 	 *
@@ -882,8 +882,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a test case on clean() called as member with custom filter settings (whitelist).
 	 *
-	 * @param string $type    The type of input
-	 * @param string $data    The input
+	 * @param string $type	The type of input
+	 * @param string $data	The input
 	 * @param string $expect  The expected result for this test.
 	 * @param string $message The failure message identifying the source of the test case.
 	 *
@@ -923,8 +923,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a test case with clean() default blacklist filter settings (strips bad tags).
 	 *
-	 * @param string $type    The type of input
-	 * @param string $data    The input
+	 * @param string $type	The type of input
+	 * @param string $data	The input
 	 * @param string $expect  The expected result for this test.
 	 * @param string $message The failure message identifying the source of the test case.
 	 *
@@ -1013,8 +1013,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a test case with clean() using custom img blacklist filter settings (strips bad tags).
 	 *
-	 * @param string $type    The type of input
-	 * @param string $data    The input
+	 * @param string $type	The type of input
+	 * @param string $data	The input
 	 * @param string $expect  The expected result for this test.
 	 * @param string $message The failure message identifying the source of the test case.
 	 *
@@ -1061,8 +1061,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a test case with clean() using custom class blacklist filter settings (strips bad tags).
 	 *
-	 * @param string $type    The type of input
-	 * @param string $data    The input
+	 * @param string $type	The type of input
+	 * @param string $data	The input
 	 * @param string $expect  The expected result for this test.
 	 * @param string $message The failure message identifying the source of the test case.
 	 *

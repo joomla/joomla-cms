@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/base/object.php';
  */
 class JObjectTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JObject
+	 * @var	JObject
 	 * @access protected
 	 */
 	protected $object;

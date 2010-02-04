@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/document/feed/renderer/atom.php';
  */
 class JDocumentRendererAtomTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDocumentRendererAtom
+	 * @var	JDocumentRendererAtom
 	 * @access protected
 	 */
 	protected $object;

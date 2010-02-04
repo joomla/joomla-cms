@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/environment/browser.php';
  */
 class JBrowserTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JBrowser
+	 * @var	JBrowser
 	 * @access protected
 	 */
 	protected $object;

@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/document/document.php';
  */
 class JDocumentTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDocument
+	 * @var	JDocument
 	 * @access protected
 	 */
 	protected $object;

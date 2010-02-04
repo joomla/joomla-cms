@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/client/ldap.php';
  */
 class JLDAPTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JLDAP
+	 * @var	JLDAP
 	 * @access protected
 	 */
 	protected $object;

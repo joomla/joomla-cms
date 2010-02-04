@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/document/html/renderer/message.php';
  */
 class JDocumentRendererMessageTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDocumentRendererMessage
+	 * @var	JDocumentRendererMessage
 	 * @access protected
 	 */
 	protected $object;

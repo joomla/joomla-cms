@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/application/application.php';
  */
 class JApplicationTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JApplication
+	 * @var	JApplication
 	 * @access protected
 	 */
 	protected $object;

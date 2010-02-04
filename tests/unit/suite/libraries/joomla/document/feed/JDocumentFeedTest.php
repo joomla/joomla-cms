@@ -14,7 +14,7 @@ require_once JPATH_BASE.'/libraries/joomla/document/feed/feed.php';
  */
 class JDocumentFeedTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDocumentFeed
+	 * @var	JDocumentFeed
 	 * @access protected
 	 */
 	protected $object;

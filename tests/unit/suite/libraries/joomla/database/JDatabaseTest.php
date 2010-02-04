@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/database/database.php';
  */
 class JDatabaseTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDatabase
+	 * @var	JDatabase
 	 * @access protected
 	 */
 	protected $object;

@@ -887,8 +887,8 @@ class JApplication extends JObject
 	/**
 	 * Method to determine if the host OS is  Windows
 	 *
-	 * @return      true if Windows OS
-	 * @since       1.5
+	 * @return	true if Windows OS
+	 * @since	1.5
 	 * @static
 	 */
 	static function isWinOS() {

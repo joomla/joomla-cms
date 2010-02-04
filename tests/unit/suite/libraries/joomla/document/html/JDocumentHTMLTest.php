@@ -14,7 +14,7 @@ require_once JPATH_BASE.'/libraries/joomla/document/html/html.php';
  */
 class JDocumentHTMLTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JDocumentHTML
+	 * @var	JDocumentHTML
 	 * @access protected
 	 */
 	protected $object;

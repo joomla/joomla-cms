@@ -13,7 +13,7 @@ require_once JPATH_BASE.'/libraries/joomla/environment/request.php';
  */
 class JRequestTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JRequest
+	 * @var	JRequest
 	 * @access protected
 	 */
 	protected $object;

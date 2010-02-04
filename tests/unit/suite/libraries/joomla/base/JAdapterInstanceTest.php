@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/base/adapterinstance.php';
  */
 class JAdapterInstanceTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JAdapterInstance
+	 * @var	JAdapterInstance
 	 * @access protected
 	 */
 	protected $object;
@@ -44,4 +44,3 @@ class JAdapterInstanceTest extends PHPUnit_Framework_TestCase {
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
-?>

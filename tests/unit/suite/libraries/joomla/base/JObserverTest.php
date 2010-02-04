@@ -12,7 +12,7 @@ require_once JPATH_BASE.'/libraries/joomla/base/observer.php';
  */
 class JObserverTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var    JObserver
+	 * @var	JObserver
 	 * @access protected
 	 */
 	protected $object;
@@ -44,4 +44,3 @@ class JObserverTest extends PHPUnit_Framework_TestCase {
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
-?>
