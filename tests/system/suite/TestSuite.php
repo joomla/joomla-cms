@@ -7,7 +7,7 @@
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'TestSuite::main');
+	define('PHPUnit_MAIN_METHOD', 'TestSuite::main');
 }
 set_include_path(get_include_path() . PATH_SEPARATOR . './PEAR/' . PATH_SEPARATOR . '../');
 
@@ -24,30 +24,30 @@ require_once 'sample_data/sample_data0001Test.php';
 
 class TestSuite
 {
-    public static function main()
-    {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
+	public static function main()
+	{
+		PHPUnit_TextUI_TestRunner::run(self::suite());
+	}
 
-    public static function suite()
-    {
-        $suite = new PHPUnit_Framework_TestSuite('PHPUnit Framework');
-        $suite->addTestSuite('ControlPanel0001');
-        $suite->addTestSuite('ControlPanel0002');
-        $suite->addTestSuite('ControlPanel0003');
-        $suite->addTestSuite('ControlPanel0004');
-        $suite->addTestSuite('Article0001');
-        $suite->addTestSuite('User0001Test');
-        $suite->addTestSuite('Module0001');
-        $suite->addTestSuite('SampleData0001');
+	public static function suite()
+	{
+		$suite = new PHPUnit_Framework_TestSuite('PHPUnit Framework');
+		$suite->addTestSuite('ControlPanel0001');
+		$suite->addTestSuite('ControlPanel0002');
+		$suite->addTestSuite('ControlPanel0003');
+		$suite->addTestSuite('ControlPanel0004');
+		$suite->addTestSuite('Article0001');
+		$suite->addTestSuite('User0001Test');
+		$suite->addTestSuite('Module0001');
+		$suite->addTestSuite('SampleData0001');
 
-        return $suite;
-    }
+		return $suite;
+	}
 }
 
 if (PHPUnit_MAIN_METHOD == 'Framework_AllTests::main') {
 	print "running Framework_AllTests::main()";
-    Framework_AllTests::main();
+	Framework_AllTests::main();
 }
 // the following section allows you to run this either from phpunit as
 // phpunit.bat --bootstrap servers\configdef.php tests\testsuite.php

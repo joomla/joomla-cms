@@ -26,7 +26,7 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("link=Components"));
 		$this->assertTrue($this->isElementPresent("link=Extensions"));
 		$this->assertTrue($this->isElementPresent("link=Help"));
-	    $this->doAdminLogout();
+		$this->doAdminLogout();
 	}
 }
 
