@@ -19,7 +19,7 @@ defined('JPATH_BASE') or die;
  * produce valid atom files. For example, you have to specify either an editor
  * for the feed or an author for every single feed item.
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Document
  * @see http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  * @since	1.5
@@ -33,7 +33,7 @@ defined('JPATH_BASE') or die;
 	 * @var		string
 	 * @access	private
 	 */
-	 var $_mime = "application/atom+xml";
+	var $_mime = "application/atom+xml";
 
 	/**
 	 * Render the feed

@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
 /**
  * JDocumentRenderer_RSS is a feed that implements RSS 2.0 Specification
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Document
  * @see			http://www.rssboard.org/rss-specification
  * @since		1.5
@@ -166,7 +166,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	function _relToAbs($text)
 	{
 		$base = JURI::base();
-  		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
+		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
 
 		return $text;
 	}

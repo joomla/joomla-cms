@@ -30,9 +30,9 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $syndicationURL = "";
+	var $syndicationURL = "";
 
-	 /**
+	/**
 	 * Image feed element
 	 *
 	 * optional
@@ -40,7 +40,7 @@ class JDocumentFeed extends JDocument
 	 * @var		object
 	 * @access	public
 	 */
-	 var $image = null;
+	var $image = null;
 
 	/**
 	 * Copyright feed elememnt
@@ -50,9 +50,9 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $copyright = "";
+	var $copyright = "";
 
-	 /**
+	/**
 	 * Published date feed element
 	 *
 	 *  optional
@@ -60,9 +60,9 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $pubDate = "";
+	var $pubDate = "";
 
-	 /**
+	/**
 	 * Lastbuild date feed element
 	 *
 	 * optional
@@ -70,9 +70,9 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $lastBuildDate = "";
+	var $lastBuildDate = "";
 
-	 /**
+	/**
 	 * Editor feed element
 	 *
 	 * optional
@@ -80,7 +80,7 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $editor = "";
+	var $editor = "";
 
 	/**
 	 * Docs feed element
@@ -88,9 +88,9 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $docs = "";
+	var $docs = "";
 
-	 /**
+	/**
 	 * Editor email feed element
 	 *
 	 * optional
@@ -98,7 +98,7 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $editorEmail = "";
+	var $editorEmail = "";
 
 	/**
 	 * Webmaster email feed element
@@ -108,7 +108,7 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $webmaster = "";
+	var $webmaster = "";
 
 	/**
 	 * Category feed element
@@ -118,7 +118,7 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $category = "";
+	var $category = "";
 
 	/**
 	 * TTL feed attribute
@@ -128,7 +128,7 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $ttl = "";
+	var $ttl = "";
 
 	/**
 	 * Rating feed element
@@ -138,7 +138,7 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $rating = "";
+	var $rating = "";
 
 	/**
 	 * Skiphours feed element
@@ -148,7 +148,7 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $skipHours = "";
+	var $skipHours = "";
 
 	/**
 	 * Skipdays feed element
@@ -158,7 +158,7 @@ class JDocumentFeed extends JDocument
 	 * @var		string
 	 * @access	public
 	 */
-	 var $skipDays = "";
+	var $skipDays = "";
 
 	/**
 	 * The feed items collection
@@ -186,9 +186,9 @@ class JDocumentFeed extends JDocument
 	 * Render the document
 	 *
 	 * @access public
-	 * @param boolean 	$cache		If true, cache the output
+	 * @param boolean	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
-	 * @return 	The rendered data
+	 * @return	The rendered data
 	 */
 	function render($cache = false, $params = array())
 	{
@@ -249,7 +249,7 @@ class JDocumentFeed extends JDocument
 /**
  * JFeedItem is an internal class that stores feed item information
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage		Document
  * @since	1.5
  */
@@ -391,9 +391,9 @@ class JFeedItem extends JObject
 /**
  * JFeedEnclosure is an internal class that stores feed enclosure information
  *
- * @package 	Joomla.Framework
- * @subpackage		Document
- * @since	1.5
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @since		1.5
  */
 class JFeedEnclosure extends JObject
 {
@@ -431,9 +431,9 @@ class JFeedEnclosure extends JObject
 /**
  * JFeedImage is an internal class that stores feed image information
  *
- * @package 	Joomla.Framework
- * @subpackage		Document
- * @since	1.5
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @since		1.5
  */
 class JFeedImage extends JObject
 {
