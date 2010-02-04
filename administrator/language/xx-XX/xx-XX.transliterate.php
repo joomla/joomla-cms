@@ -23,9 +23,9 @@ function xxXXTransliterate($string) //change xxXX to fit language prefix
 	//This one is for latin 1, latin supplement , extended A, Cyrillic, Greek
 
 	$glyph_array = array(
-	'a' 	=>	'à,á,â,ã,ä,å,ā,ă,ą,ḁ,α,ά',
-	'ae' 	=>	'æ',
-	'b' 	=>	'β,б',
+	'a'		=>	'à,á,â,ã,ä,å,ā,ă,ą,ḁ,α,ά',
+	'ae'	=>	'æ',
+	'b'		=>	'β,б',
 	'c'		=>	'ç,ć,ĉ,ċ,č,ч,ћ,ц',
 	'ch'	=>	'ч',
 	'd'		=>	'ď,đ,Ð,д,ђ,δ,ð',
@@ -42,7 +42,7 @@ function xxXXTransliterate($string) //change xxXX to fit language prefix
 	'k'		=>	'ķ,ĸ,κ',
 	'l'		=>	'ĺ,ļ,ľ,ŀ,ł,л,λ',
 	'lj'	=>	'љ',
-	'm' 	=>	'μ',
+	'm'		=>	'μ',
 	'n'		=>	'ñ,ņ,ň,ŉ,ŋ,н,ν',
 	'nj'	=>	'њ',
 	'o'		=>	'ò,ó,ô,õ,ø,ō,ŏ,ő,ο,ό,ω,ώ',

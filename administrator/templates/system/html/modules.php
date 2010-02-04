@@ -40,7 +40,7 @@ function modChrome_sliders($module, &$params, &$attribs)
 	// Initialise variables.
 	$user = &JFactory::getUser();
 
-	$editAllComponents 	= $user->authorize('core.manage', 'com_installer');
+	$editAllComponents	= $user->authorize('core.manage', 'com_installer');
 
 	// special handling for components module
 	if ($module->module != 'mod_components' || ($module->module == 'mod_components' && $editAllComponents)) {
@@ -57,7 +57,7 @@ function modChrome_tabs($module, &$params, &$attribs)
 	// Initialise variables.
 	$user	= &JFactory::getUser();
 
-	$editAllComponents 	= $user->authorize('core.manage', 'com_installer');
+	$editAllComponents	= $user->authorize('core.manage', 'com_installer');
 
 	// special handling for components module
 	if ($module->module != 'mod_components' || ($module->module == 'mod_components' && $editAllComponents)) {
