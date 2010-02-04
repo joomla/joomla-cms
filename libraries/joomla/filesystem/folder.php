@@ -16,7 +16,7 @@ jimport('joomla.filesystem.path');
  * A Folder handling class
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @since		1.5
  */

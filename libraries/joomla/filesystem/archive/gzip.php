@@ -19,7 +19,7 @@ defined('JPATH_BASE') or die;
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @since		1.5
  */

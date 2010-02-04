@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die();
  * An Archive handling class
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @since		1.5
  */
@@ -51,10 +51,10 @@ class JArchive
 					$result = $adapter->extract($archivename, $extractdir);
 				}
 				break;
-			case 'tgz'  :
+			case 'tgz':
 				$untar = true;	// This format is a tarball gzip'd
-			case 'gz'   :	// This may just be an individual file (e.g. sql script)
-			case 'gzip' :
+			case 'gz':	// This may just be an individual file (e.g. sql script)
+			case 'gzip':
 				$adapter = &JArchive::getAdapter('gzip');
 				if ($adapter)
 				{
