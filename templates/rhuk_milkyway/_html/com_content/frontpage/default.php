@@ -36,8 +36,8 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 			for ($z = 0; $z < $this->params->def('num_columns', 2); $z ++) :
 				if ($z > 0) : $divider = " column_separator"; endif; ?>
 				<?php
-				    $rows = (int) ($this->params->get('num_intro_articles', 4) / $this->params->get('num_columns'));
-				    $cols = ($this->params->get('num_intro_articles', 4) % $this->params->get('num_columns'));
+					$rows = (int) ($this->params->get('num_intro_articles', 4) / $this->params->get('num_columns'));
+					$cols = ($this->params->get('num_intro_articles', 4) % $this->params->get('num_columns'));
 				?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
 				<?php

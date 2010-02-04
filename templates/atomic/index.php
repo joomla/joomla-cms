@@ -23,7 +23,7 @@ $app = JFactory::getApplication();
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template.css" type="text/css" />
 
 		<!--[if lt IE 8]>
-    		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/ie.css" type="text/css" media="screen, projection">
+			<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/ie.css" type="text/css" media="screen, projection">
   		<![endif]-->
 		<!--[if IE]>
 			<link type="text/css" rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template_ie.css" />
