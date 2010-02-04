@@ -63,8 +63,8 @@ class JApplication extends JObject
 	/**
 	 * The time the request was made as Unix timestamp.
 	 *
-	 * @var 	integer
-	 * @since 	1.6
+	 * @var	integer
+	 * @since	1.6
 	 */
 	public $startTime = null;
 
@@ -89,7 +89,7 @@ class JApplication extends JObject
 
 		// Set the session default name.
 		if (!isset($config['session_name'])) {
-			 $config['session_name'] = $this->_name;
+			$config['session_name'] = $this->_name;
 		}
 
 		// Set the default configuration file.
@@ -115,8 +115,8 @@ class JApplication extends JObject
 	 * Returns the global JApplication object, only creating it if it
 	 * doesn't already exist.
 	 *
-	 * @param	mixed	$id 		A client identifier or name.
-	 * @param	array	$config 	An optional associative array of configuration settings.
+	 * @param	mixed	$id		A client identifier or name.
+	 * @param	array	$config	An optional associative array of configuration settings.
 	 * @return	JApplication	The appliction object.
 	 * @since	1.5
 	 */
@@ -194,7 +194,7 @@ class JApplication extends JObject
 	 * @abstract
 	 */
 	public function route()
- 	{
+	{
 		// Get the full request URI.
 		$uri	= clone JURI::getInstance();
 
@@ -206,9 +206,9 @@ class JApplication extends JObject
 		// Trigger the onAfterRoute event.
 		JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
- 	}
+	}
 
- 	/**
+	/**
 	 * Dispatch the applicaiton.
 	 *
 	 * Dispatching is the process of pulling the option from the request object and
@@ -217,8 +217,8 @@ class JApplication extends JObject
 	 *
 	 * @abstract
 	 */
- 	public function dispatch($component)
- 	{
+	public function dispatch($component)
+	{
 		$document = &JFactory::getDocument();
 
 		$document->setTitle($this->getCfg('sitename'). ' - ' .JText::_('Administration'));
@@ -230,7 +230,7 @@ class JApplication extends JObject
 		// Trigger the onAfterDispatch event.
 		JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterDispatch');
- 	}
+	}
 
 	/**
 	 * Render the application.
@@ -244,7 +244,7 @@ class JApplication extends JObject
 	public function render()
 	{
 		$params = array(
-			'template' 	=> $this->getTemplate(),
+			'template'	=> $this->getTemplate(),
 			'file'		=> 'index.php',
 			'directory'	=> JPATH_THEMES,
 			'params'	=> $template->params
@@ -346,7 +346,7 @@ class JApplication extends JObject
 	/**
 	 * Enqueue a system message.
 	 *
-	 * @param	string 	$msg 	The message to enqueue.
+	 * @param	string	$msg	The message to enqueue.
 	 * @param	string	$type	The message type.
 	 * @return	void
 	 * @since	1.5
@@ -388,7 +388,7 @@ class JApplication extends JObject
 		return $this->_messageQueue;
 	}
 
-	 /**
+	/**
 	 * Gets a configuration value.
 	 *
 	 * @param	string	The name of the value to get.
@@ -527,8 +527,8 @@ class JApplication extends JObject
 	 * validation.  Successful validation will update the current session with
 	 * the user details.
 	 *
-	 * @param	array 	Array('username' => string, 'password' => string)
-	 * @param	array 	Array('remember' => boolean)
+	 * @param	array	Array('username' => string, 'password' => string)
+	 * @param	array	Array('remember' => boolean)
 	 * @return	boolean True on success.
 	 * @since	1.5
 	 */
@@ -538,7 +538,7 @@ class JApplication extends JObject
 		jimport('joomla.user.authentication');
 
 		$authenticate = & JAuthentication::getInstance();
-		$response	  = $authenticate->authenticate($credentials, $options);
+		$response	= $authenticate->authenticate($credentials, $options);
 
 		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 		{
@@ -599,8 +599,8 @@ class JApplication extends JObject
 	 * Passed the current user information to the onLogoutUser event and reverts the current
 	 * session record back to 'anonymous' parameters.
 	 *
-	 * @param 	int 	$userid   The user to load - Can be an integer or string - If string, it is converted to ID automatically
-	 * @param	array 	$options  Array('clientid' => array of client id's)
+	 * @param	int	$userid		The user to load - Can be an integer or string - If string, it is converted to ID automatically
+	 * @param	array	$options	Array('clientid' => array of client id's)
 	 */
 	public function logout($userid = null, $options = array())
 	{
@@ -664,7 +664,7 @@ class JApplication extends JObject
 	/**
 	 * Returns the application JRouter object.
 	 *
-	 * @param	array	$options 	An optional associative array of configuration settings.
+	 * @param	array	$options	An optional associative array of configuration settings.
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
@@ -698,7 +698,7 @@ class JApplication extends JObject
 		{
 			$output = JFilterOutput::stringURLUnicodeSlug($string);
 		} else {
- 			$output = JFilterOutput::stringURLSafe($string);
+			$output = JFilterOutput::stringURLSafe($string);
 		}
 		return $output;
 	}
@@ -706,7 +706,7 @@ class JApplication extends JObject
 	/**
 	 * Returns the application JPathway object.
 	 *
-	 * @param	array	$options 	An optional associative array of configuration settings.
+	 * @param	array	$options	An optional associative array of configuration settings.
 	 * @return	object JPathway.
 	 * @since 1.5
 	 */
@@ -727,7 +727,7 @@ class JApplication extends JObject
 	/**
 	 * Returns the application JPathway object.
 	 *
-	 * @param	array	$options 	An optional associative array of configuration settings.
+	 * @param	array	$options	An optional associative array of configuration settings.
 	 * @return	object	JMenu.
 	 * @since	1.5
 	 */
@@ -760,7 +760,7 @@ class JApplication extends JObject
 	/**
 	 * Create the configuration registry.
 	 *
-	 * @param	string	$file 	The path to the configuration file.
+	 * @param	string	The path to the configuration file.
 	 * return	JConfig
 	 */
 	protected function _createConfiguration($file)

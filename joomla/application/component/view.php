@@ -42,7 +42,7 @@ class JView extends JObject
 	 * The base path of the view
 	 *
 	 * @var		string
-	 * @access 	protected
+	 * @access	protected
 	 */
 	var $_basePath = null;
 
@@ -58,7 +58,7 @@ class JView extends JObject
 	 * Layout name
 	 *
 	 * @var		string
-	 * @access 	protected
+	 * @access	protected
 	 */
 	var $_layout = 'default';
 
@@ -66,7 +66,7 @@ class JView extends JObject
 	 * Layout extension
 	 *
 	 * @var		string
-	 * @access 	protected
+	 * @access	protected
 	 */
 	var $_layoutExt = 'php';
 
@@ -105,7 +105,7 @@ class JView extends JObject
 	 */
 	var $_escape = 'htmlspecialchars';
 
-	 /**
+	/**
 	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
 	 *
 	 * @var string
@@ -130,12 +130,12 @@ class JView extends JObject
 			}
 		}
 
-		 // set the charset (used by the variable escaping functions)
+		// set the charset (used by the variable escaping functions)
 		if (array_key_exists('charset', $config)) {
 			$this->_charset = $config['charset'];
 		}
 
-		 // user-defined escaping callback
+		// user-defined escaping callback
 		if (array_key_exists('escape', $config)) {
 			$this->setEscape($config['escape']);
 		}
@@ -482,7 +482,7 @@ class JView extends JObject
 		return $previous;
 	}
 
-	 /**
+	/**
 	 * Sets the _escape() callback.
 	 *
 	 * @param mixed $spec The callback for _escape() to use.
@@ -658,9 +658,9 @@ class JView extends JObject
 	 * Create the filename for a resource
 	 *
 	 * @access private
-	 * @param string 	$type  The resource type to create the filename for
-	 * @param array 	$parts An associative array of filename information
-	 * @return string The filename
+	 * @param string	The resource type to create the filename for
+	 * @param array		An associative array of filename information
+	 * @return string	The filename
 	 * @since 1.5
 	 */
 	function _createFileName($type, $parts = array())

@@ -30,7 +30,7 @@ abstract class JModelItem extends JModel
 	 *
 	 * @var		string
 	 */
-	 protected $_context = 'group.type';
+	protected $_context = 'group.type';
 
 	/**
 	 * Method to get a store id based on model configuration state.

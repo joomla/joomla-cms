@@ -17,7 +17,7 @@ require_once JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'base'.DS.'tree.php';
 /**
  * JCategories Class.
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Application
  * @since		1.6
  */
@@ -74,7 +74,7 @@ class JCategories
 	 */
 	public function __construct($options)
 	{
-		$this->_extension 	= $options['extension'];
+		$this->_extension	= $options['extension'];
 		$this->_table		= $options['table'];
 		$this->_treeloaded  = false;
 		$this->_options		= $options;
