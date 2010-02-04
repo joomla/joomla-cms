@@ -22,18 +22,18 @@ abstract class JHtml
 	/**
 	 * Option values related to the generation of HTML output. Recognized
 	 * options are:
-     * <ul><li>fmtDepth, integer. The current indent depth.
-     * </li><li>fmtEol, string. The end of line string, default is linefeed.
-     * </li><li>fmtIndent, string. The string to use for indentation, default is
-     * tab.
-     * </ul>
+	 * <ul><li>fmtDepth, integer. The current indent depth.
+	 * </li><li>fmtEol, string. The end of line string, default is linefeed.
+	 * </li><li>fmtIndent, string. The string to use for indentation, default is
+	 * tab.
+	 * </ul>
 	 *
 	 * @var array
 	 */
 	static $formatOptions = array(
-        'format.depth' => 0,
-        'format.eol' => "\n",
-        'format.indent' => "\t"
+		'format.depth' => 0,
+		'format.eol' => "\n",
+		'format.indent' => "\t"
  );
 
 	private static $includePaths = array();
@@ -346,22 +346,22 @@ abstract class JHtml
 		$document->addScript(JURI::root(true).'/media/system/js/core'.$uncompressed.'.js');
 	}
 
-    /**
-     * Set format related options.
-     *
-     * Updates the formatOptions array with all valid values in the passed
-     * array. See {@see JHtml::$formatOptions} for details.
-     *
-     * @param array Option key/value pairs.
-     */
-    public static function setFormatOptions($options)
+	/**
+	 * Set format related options.
+	 *
+	 * Updates the formatOptions array with all valid values in the passed
+	 * array. See {@see JHtml::$formatOptions} for details.
+	 *
+	 * @param array Option key/value pairs.
+	 */
+	public static function setFormatOptions($options)
 	{
-        foreach ($options as $key => $val) {
-            if (isset(self::$formatOptions[$key])) {
-                self::$formatOptions[$key] = $val;
-            }
-        }
-    }
+		foreach ($options as $key => $val) {
+			if (isset(self::$formatOptions[$key])) {
+				self::$formatOptions[$key] = $val;
+			}
+		}
+	}
 
 
 
@@ -498,12 +498,12 @@ abstract class JHtml
 		{
 			$document = &JFactory::getDocument();
 			$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
-	        inputField     :    "'.$id.'",     // id of the input field
-	        ifFormat       :    "'.$format.'",      // format of the input field
-	        button         :    "'.$id.'_img",  // trigger for the calendar (button ID)
-	        align          :    "Tl",           // alignment (defaults to "Bl")
-	        singleClick    :    true
-	    });});');
+			inputField	 :	"'.$id.'",	 // id of the input field
+			ifFormat	   :	"'.$format.'",	  // format of the input field
+			button		 :	"'.$id.'_img",  // trigger for the calendar (button ID)
+			align		  :	"Tl",		   // alignment (defaults to "Bl")
+			singleClick	:	true
+		});});');
 			$done[] = $id;
 		}
 

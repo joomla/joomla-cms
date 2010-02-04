@@ -32,8 +32,8 @@ class JTableUser extends JTable
 	{
 		parent::__construct('#__users', 'id', $db);
 
-		//initialise
-		$this->id        = 0;
+		// Initialise.
+		$this->id = 0;
 		$this->sendEmail = 0;
 	}
 

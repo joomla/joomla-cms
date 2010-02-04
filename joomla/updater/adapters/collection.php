@@ -25,30 +25,30 @@ class JUpdaterCollection extends JUpdateAdapter {
 	protected $updates;
 
 	/**
-     * Gets the reference to the current direct parent
-     *
-     * @return object
-     */
-    protected function _getStackLocation()
-    {
-            /*$return = '';
+	 * Gets the reference to the current direct parent
+	 *
+	 * @return object
+	 */
+	protected function _getStackLocation()
+	{
+			/*$return = '';
 
-            foreach($this->_stack as $stack) {
-                    $return .= $stack.'->';
-            }
+			foreach($this->_stack as $stack) {
+					$return .= $stack.'->';
+			}
 
-            return rtrim($return, '->');*/
-            return implode('->', $this->_stack);
-    }
+			return rtrim($return, '->');*/
+			return implode('->', $this->_stack);
+	}
 
 	/**
 	 * Get the parent tag
 	 * @return string parent
 	 */
-    protected function _getParent()
-    {
-    	return end($this->parent);
-    }
+	protected function _getParent()
+	{
+		return end($this->parent);
+	}
 
 	/**
 	 * Opening an XML element
@@ -97,8 +97,8 @@ class JUpdaterCollection extends JUpdateAdapter {
 				// this allows an update site to specify a targetplatform
 				// targetplatformversion can be a regexp, so 1.[56] would be valid for an extension that supports 1.5 and 1.6
 				// Note: whilst the version is a regexp here, the targetplatform is not (new extension per platform)
-				//       Additionally, the version is a regexp here and it may also be in an extension file if the extension is
-				//       compatible against multiple versions of the same platform (e.g. a library)
+				//	   Additionally, the version is a regexp here and it may also be in an extension file if the extension is
+				//	   compatible against multiple versions of the same platform (e.g. a library)
 				if(!isset($values['targetplatform'])) $values['targetplatform'] = $product; // set this to ourself as a default
 				if(!isset($values['targetplatformversion'])) $values['targetplatformversion'] = $ver->RELEASE; // set this to ourself as a default
 				// validate that we can install the extension
@@ -154,8 +154,8 @@ class JUpdaterCollection extends JUpdateAdapter {
 
 		if (!($fp = @fopen($url, "r"))) {
 			// TODO: Add a 'mark bad' setting here somehow
-		    JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Collection') .': '. JText::_('Could not open').' '. $url);
-		    return false;
+			JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Collection') .': '. JText::_('Could not open').' '. $url);
+			return false;
 		}
 
 		$this->xml_parser = xml_parser_create('');
@@ -164,11 +164,11 @@ class JUpdaterCollection extends JUpdateAdapter {
 		//xml_set_character_data_handler($this->xml_parser, '_characterData');
 
 		while ($data = fread($fp, 8192)) {
-		    if (!xml_parse($this->xml_parser, $data, feof($fp))) {
-		        die(sprintf("XML error: %s at line %d",
-		                    xml_error_string(xml_get_error_code($this->xml_parser)),
-		                    xml_get_current_line_number($this->xml_parser)));
-		    }
+			if (!xml_parse($this->xml_parser, $data, feof($fp))) {
+				die(sprintf("XML error: %s at line %d",
+							xml_error_string(xml_get_error_code($this->xml_parser)),
+							xml_get_current_line_number($this->xml_parser)));
+			}
 		}
 		// TODO: Decrement the bad counter if non-zero
 		return Array('update_sites'=>$this->update_sites,'updates'=>$this->updates);

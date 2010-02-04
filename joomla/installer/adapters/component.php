@@ -199,12 +199,12 @@ class JInstallerComponent extends JAdapterInstance
 		// Copy admin files
 		if($this->manifest->administration->files)
 		{
-    		if ($this->parent->parseFiles($this->manifest->administration->files, 1) === false)
-    		{
-    			// Install failed, rollback any changes
-    			$this->parent->abort();
-    			return false;
-    		}
+			if ($this->parent->parseFiles($this->manifest->administration->files, 1) === false)
+			{
+				// Install failed, rollback any changes
+				$this->parent->abort();
+				return false;
+			}
 		}
 
 		// Parse optional tags

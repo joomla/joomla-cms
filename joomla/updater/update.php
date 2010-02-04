@@ -40,33 +40,33 @@ class JUpdate extends JObject
 	private $_state_store = Array();
 
 	/**
-     * Gets the reference to the current direct parent
-     *
-     * @return object
-     */
+	 * Gets the reference to the current direct parent
+	 *
+	 * @return object
+	 */
 	protected function _getStackLocation()
-    {
-            return implode('->', $this->_stack);
-    }
+	{
+			return implode('->', $this->_stack);
+	}
 
-    /**
-     * Get the last position in stack count
-     *
-     * @return string
-     */
-    protected function _getLastTag()
-    {
-    	return $this->_stack[count($this->_stack) - 1];
-    }
+	/**
+	 * Get the last position in stack count
+	 *
+	 * @return string
+	 */
+	protected function _getLastTag()
+	{
+		return $this->_stack[count($this->_stack) - 1];
+	}
 
 
-    /**
-     * XML Start Element callback
-     * Note: This is public because it is called externally
-     * @param object parser object
-     * @param string name of the tag found
-     * @param array attributes of the tag
-     */
+	/**
+	 * XML Start Element callback
+	 * Note: This is public because it is called externally
+	 * @param object parser object
+	 * @param string name of the tag found
+	 * @param array attributes of the tag
+	 */
 	public function _startElement($parser, $name, $attrs = Array())
 	{
 		array_push($this->_stack, $name);
@@ -156,8 +156,8 @@ class JUpdate extends JObject
 		if (!($fp = @fopen($url, "r")))
 		{
 			// TODO: Add a 'mark bad' setting here somehow
-		    JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Extension') .': '. JText::_('Could not open').' '. $url);
-		    return false;
+			JError::raiseWarning('101', JText::_('Update') .'::'. JText::_('Extension') .': '. JText::_('Could not open').' '. $url);
+			return false;
 		}
 
 		$this->xml_parser = xml_parser_create('');
@@ -167,12 +167,12 @@ class JUpdate extends JObject
 
 		while ($data = fread($fp, 8192))
 		{
-		    if (!xml_parse($this->xml_parser, $data, feof($fp)))
-		    {
-		        die(sprintf("XML error: %s at line %d",
-		                    xml_error_string(xml_get_error_code($this->xml_parser)),
-		                    xml_get_current_line_number($this->xml_parser)));
-		    }
+			if (!xml_parse($this->xml_parser, $data, feof($fp)))
+			{
+				die(sprintf("XML error: %s at line %d",
+							xml_error_string(xml_get_error_code($this->xml_parser)),
+							xml_get_current_line_number($this->xml_parser)));
+			}
 		}
 		xml_parser_free($this->xml_parser);
 		return true;

@@ -7,7 +7,7 @@
  * @license		GNU General Public License, see LICENSE.php
 **/
 
-//    Basic Access Verification
+// No direct access.
 defined( '_JEXEC' ) or die( 'Access denied' );
 
 /**
@@ -36,7 +36,7 @@ class JElementTemplateStyle extends JElement {
 		$data = $db->loadObjectList();
 
 		$default = JHtml::_( 'select.option', 0, JText::_( 'JOPTION_USE_DEFAULT' ), 'id', 'description' );
-        	array_unshift( $data, $default );
+		array_unshift( $data, $default );
 
 		$selected = $this->_getSelected();
 		$html = JHTML::_( 'select.genericlist', $data, $control_name.'['.$name.']', 'class="inputbox" size="6"', 'id', 'description', $selected );

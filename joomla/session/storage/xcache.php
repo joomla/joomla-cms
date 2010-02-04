@@ -28,8 +28,8 @@ class JSessionStorageXcache extends JSessionStorage
 	function __construct($options = array())
 	{
 		if (!$this->test()) {
-            return JError::raiseError(404, "The xcache extension isn't available");
-        }
+			return JError::raiseError(404, "The xcache extension isn't available");
+		}
 
 		parent::__construct($options);
 	}
@@ -38,7 +38,7 @@ class JSessionStorageXcache extends JSessionStorage
 	 * Open the SessionHandler backend.
 	 *
 	 * @access public
-	 * @param string $save_path     The path to the session object.
+	 * @param string $save_path	 The path to the session object.
 	 * @param string $session_name  The name of the session.
 	 * @return boolean  True on success, false otherwise.
 	 */
@@ -82,7 +82,7 @@ class JSessionStorageXcache extends JSessionStorage
 	 * Write session data to the SessionHandler backend.
 	 *
 	 * @access public
-	 * @param string $id            The session identifier.
+	 * @param string $id			The session identifier.
 	 * @param string $session_data  The session data.
 	 * @return boolean  True on success, false otherwise.
 	 */

@@ -191,7 +191,7 @@ class JArchiveZip extends JObject
 		}
 
 		for ($i=0,$n=count($this->_metadata);$i<$n;$i++) {
-            $lastPathCharacter = substr($this->_metadata[$i]['name'], -1, 1);
+			$lastPathCharacter = substr($this->_metadata[$i]['name'], -1, 1);
 			if ($lastPathCharacter !== '/' && $lastPathCharacter !== '\\') {
 				$buffer = $this->_getFileData($i);
 				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name']);
@@ -262,14 +262,14 @@ class JArchiveZip extends JObject
 	 * @return	array	Archive metadata array
 	 * <pre>
 	 * KEY: Position in zipfile
-	 * VALUES: 'attr'    --  File attributes
-	 *         'crc'     --  CRC checksum
-	 *         'csize'   --  Compressed file size
-	 *         'date'    --  File modification time
-	 *         'name'    --  Filename
-	 *         'method'  --  Compression method
-	 *         'size'    --  Original file size
-	 *         'type'    --  File type
+	 * VALUES: 'attr'	--  File attributes
+	 *		 'crc'	 --  CRC checksum
+	 *		 'csize'   --  Compressed file size
+	 *		 'date'	--  File modification time
+	 *		 'name'	--  Filename
+	 *		 'method'  --  Compression method
+	 *		 'size'	--  Original file size
+	 *		 'type'	--  File type
 	 * </pre>
 	 * @since	1.5
 	 */
@@ -294,7 +294,7 @@ class JArchiveZip extends JObject
 
 		// Get details from Central directory structure.
 		$fhStart = strpos($data, $this->_ctrlDirHeader, $offset);
-        $dataLength = strlen($data);
+		$dataLength = strlen($data);
 		do {
 			if ($dataLength < $fhStart +31) {
 				$this->set('error.message', 'Invalid ZIP data');
@@ -345,7 +345,7 @@ class JArchiveZip extends JObject
 	 */
 	function _getFileData($key) {
 		if ($this->_metadata[$key]['_method'] == 0x8) {
-		    return gzinflate(substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']));
+			return gzinflate(substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']));
 		}
 		elseif ($this->_metadata[$key]['_method'] == 0x0) {
 			/* Files that aren't compressed. */
@@ -463,9 +463,9 @@ class JArchiveZip extends JObject
 		$cdrec .= pack('v', 0); /* Disk number start. */
 		$cdrec .= pack('v', 0); /* Internal file attributes. */
 		$cdrec .= pack('V', 32); /* External file attributes -
-		                                   'archive' bit set. */
+										   'archive' bit set. */
 		$cdrec .= pack('V', $old_offset); /* Relative offset of local
-		                                            header. */
+													header. */
 		$cdrec .= $name; /* File name. */
 		/* Optional extra field, file comment goes here. */
 

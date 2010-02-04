@@ -304,15 +304,15 @@ class JApplicationHelper
 		return $data;
 	}
 
-    public static function parseXMLLangMetaFile($path)
+	public static function parseXMLLangMetaFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
-        $xml = JFactory::getXML($path);
+		$xml = JFactory::getXML($path);
 
-        if( ! $xml)
-        {
-            return false;
-        }
+		if( ! $xml)
+		{
+			return false;
+		}
 
 		/*
 		 * Check for a valid XML root tag.
@@ -326,20 +326,20 @@ class JApplicationHelper
 
 		$data = array();
 
-        $data['name'] = (string)$xml->name;
+		$data['name'] = (string)$xml->name;
 		$data['type'] = $xml->attributes()->type;
 
-        $data['creationDate'] =((string)$xml->creationDate) ? (string)$xml->creationDate : JText::_('Unknown');
-        $data['author'] =((string)$xml->author) ? (string)$xml->author : JText::_('Unknown');
+		$data['creationDate'] =((string)$xml->creationDate) ? (string)$xml->creationDate : JText::_('Unknown');
+		$data['author'] =((string)$xml->author) ? (string)$xml->author : JText::_('Unknown');
 
-        $data['copyright'] = (string)$xml->copyright;
-        $data['authorEmail'] = (string)$xml->authorEmail;
-        $data['authorUrl'] = (string)$xml->authorUrl;
-        $data['version'] = (string)$xml->version;
-        $data['description'] = (string)$xml->description;
-        $data['group'] = (string)$xml->group;
+		$data['copyright'] = (string)$xml->copyright;
+		$data['authorEmail'] = (string)$xml->authorEmail;
+		$data['authorUrl'] = (string)$xml->authorUrl;
+		$data['version'] = (string)$xml->version;
+		$data['description'] = (string)$xml->description;
+		$data['group'] = (string)$xml->group;
 
-        return $data;
+		return $data;
 	}
 
 	/**

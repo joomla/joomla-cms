@@ -41,7 +41,7 @@ abstract class JRegistryFormat extends JObject
 			$class = 'JRegistryFormat'.$format;
 			if (!class_exists($class))
 			{
-				$path    = dirname(__FILE__).DS.'format'.DS.$format.'.php';
+				$path	= dirname(__FILE__).DS.'format'.DS.$format.'.php';
 				if (file_exists($path)) {
 					require_once $path;
 				} else {

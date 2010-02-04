@@ -76,23 +76,23 @@ class JControllerForm extends JController
 
 			// Simple pluralisation based on public domain snippet by Paul Osman
 			// For more complex types, just manually set the variable in your class.
-	        $plural = array(
-			    array( '/(x|ch|ss|sh)$/i',         "$1es"    ),
-			    array( '/([^aeiouy]|qu)y$/i',      "$1ies"   ),
-			    array( '/([^aeiouy]|qu)ies$/i',    "$1y"     ),
-	            array( '/(bu)s$/i',                "$1ses"   ),
-	    	    array( '/s$/i',                    "s"       ),
-	    	    array( '/$/',                      "s"       )
-	        );
+			$plural = array(
+				array( '/(x|ch|ss|sh)$/i',		"$1es"),
+				array( '/([^aeiouy]|qu)y$/i',	"$1ies"),
+				array( '/([^aeiouy]|qu)ies$/i',	"$1y"),
+				array( '/(bu)s$/i',				"$1ses"),
+				array( '/s$/i',					"s"),
+				array( '/$/',					"s")
+			);
 
-		    // check for matches using regular expressions
-		    foreach ($plural as $pattern)
-		    {
-		    	if (preg_match($pattern[0], $this->_view_item)) {
+			// check for matches using regular expressions
+			foreach ($plural as $pattern)
+			{
+				if (preg_match($pattern[0], $this->_view_item)) {
 					$this->_view_list = preg_replace( $pattern[0], $pattern[1], $this->_view_item);
 					break;
-		    	}
-		    }
+				}
+			}
 		}
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
