@@ -71,12 +71,12 @@ class JFormFieldModulePosition extends JFormFieldList
 			$path = JPath::clean($client->path.'/templates/'.$template.'/templateDetails.xml');
 
 			if (file_exists($path)) {
-    			$xml = simplexml_load_file($path);
-    			if (isset($xml->positions[0])) {
+				$xml = simplexml_load_file($path);
+				if (isset($xml->positions[0])) {
 					foreach ($xml->positions[0] as $position) {
 						$positions[] = (string) $position;
 					}
-    			}
+				}
 			}
 		}
 		$positions = array_unique($positions);

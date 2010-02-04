@@ -83,15 +83,15 @@ class UsersControllerConfig extends JController
 
 		// Send file headers.
 		header('Content-type: application/force-download');
-	    header('Content-Transfer-Encoding: Binary');
-	    header('Content-length: '.strlen($string));
-	    header('Content-disposition: attachment; filename="users.config.ini"');
+		header('Content-Transfer-Encoding: Binary');
+		header('Content-length: '.strlen($string));
+		header('Content-disposition: attachment; filename="users.config.ini"');
 		header('Pragma: no-cache');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Expires: 0');
 
 		// Print the configuration values.
-	    echo $string;
+		echo $string;
 
 		$app->close();
 	}

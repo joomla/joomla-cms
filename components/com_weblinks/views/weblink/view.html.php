@@ -56,13 +56,13 @@ class WeblinksViewWeblink extends JView
 		$document	= &JFactory::getDocument();
 		$model		= &$this->getModel();
 		$user		= &JFactory::getUser();
-		$uri     	= &JFactory::getURI();
+		$uri	 	= &JFactory::getURI();
 		$params = &$app->getParams();
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->authorise('com_weblinks.edit')) {
 			  JResponse::setHeader('HTTP/1.0 403',true);
-              JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
+			  JError::raiseWarning(403, JText::_('ALERTNOTAUTH'));
 			return;
 		}
 		//get the weblink

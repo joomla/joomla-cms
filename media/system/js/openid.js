@@ -47,7 +47,7 @@ var JOpenID = new Class({
 		link.inject(this.form);
 
 		this.switcher = switcher;
-		this.state    = Cookie.read('login-openid');
+		this.state	= Cookie.read('login-openid');
 		this.length   = this.passwordContainer.getSize().y;
 		if (this.state) {
 			this.switch(0);
@@ -60,16 +60,16 @@ var JOpenID = new Class({
 			this.username.removeClass('system-openid');
 			var text = Joomla.JText._('LOGIN_WITH_OPENID');
 			effect.start({
-			    'height': [0, this.length],
-			    'opacity': [this.state, 1-this.state]
+				'height': [0, this.length],
+				'opacity': [this.state, 1-this.state]
 			});
 		}
 		else {
 			this.username.addClass('system-openid');
 			var text = Joomla.JText._('NORMAL_LOGIN');
 			effect.start({
-			    'height': [this.length, 0],
-			    'opacity': [this.state, 1-this.state]
+				'height': [this.length, 0],
+				'opacity': [this.state, 1-this.state]
 			});
 		}
 		this.switcher.set('html', text);

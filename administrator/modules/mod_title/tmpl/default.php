@@ -11,5 +11,5 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($title)) : ?>
-    <?php echo $title; ?>
+	<?php echo $title; ?>
 <?php endif; ?>

@@ -22,7 +22,7 @@ $difLevel = 0;
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
 <h1>
-        <?php echo $this->escape($this->params->get('page_title')); ?>
+		<?php echo $this->escape($this->params->get('page_title')); ?>
 </h1>
 <?php endif; ?>
 
@@ -57,14 +57,14 @@ $difLevel = 0;
 			echo "<li>";
 		}
 ?>
-  	    <span class="jitem-title"><a href="<?php echo WeblinksRoute::category($this->escape($item->slug));?>">
-        	<?php echo $this->escape($item->title); ?></a>
-        </span>
-        <?php if ($item->description) : ?>
-        	<div class="jdescription">
-            	<?php echo $item->description; ?>
-            </div>
-        <?php endif; ?>
+  		<span class="jitem-title"><a href="<?php echo WeblinksRoute::category($this->escape($item->slug));?>">
+			<?php echo $this->escape($item->title); ?></a>
+		</span>
+		<?php if ($item->description) : ?>
+			<div class="jdescription">
+				<?php echo $item->description; ?>
+			</div>
+		<?php endif; ?>
 
 <?php
 		// The next item is deeper.

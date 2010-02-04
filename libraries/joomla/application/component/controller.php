@@ -423,8 +423,7 @@ class JController extends JObject
 	 * Adds to the stack of model paths in LIFO order.
 	 *
 	 * @static
-	 * @param	string|array The directory (string), or list of directories
-	 *                       (array) to add.
+	 * @param	string|array The directory (string), or list of directories (array) to add.
 	 * @return	void
 	 */
 	function addModelPath($path)
@@ -539,8 +538,7 @@ class JController extends JObject
 	 *
 	 * @access	public
 	 * @param	string	The task.
-	 * @param	string	The name of the method in the derived class to perform
-	 *                  for this task.
+	 * @param	string	The name of the method in the derived class to perform for this task.
 	 * @return	void
 	 * @since	1.5
 	 */

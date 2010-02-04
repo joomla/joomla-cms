@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 <script language="javascript" type="text/javascript">
 <!--
 	function submitbutton(pressbutton) {
-	    var form = document.mailtoForm;
+		var form = document.mailtoForm;
 
 		// do field validation
 		if (form.mailto.value == "" || form.from.value == "") {

@@ -29,8 +29,8 @@ class JSessionStorageApc extends JSessionStorage
 	function __construct($options = array())
 	{
 		if (!$this->test()) {
-            return JError::raiseError(404, "THE_APC_EXTENSION_IS_NOT_AVAILABLE");
-        }
+			return JError::raiseError(404, "THE_APC_EXTENSION_IS_NOT_AVAILABLE");
+		}
 
 		parent::__construct($options);
 	}
@@ -39,7 +39,7 @@ class JSessionStorageApc extends JSessionStorage
 	 * Open the SessionHandler backend.
 	 *
 	 * @access public
-	 * @param string $save_path     The path to the session object.
+	 * @param string $save_path	 The path to the session object.
 	 * @param string $session_name  The name of the session.
 	 * @return boolean  True on success, false otherwise.
 	 */
@@ -77,7 +77,7 @@ class JSessionStorageApc extends JSessionStorage
 	 * Write session data to the SessionHandler backend.
 	 *
 	 * @access public
-	 * @param string $id            The session identifier.
+	 * @param string $id			The session identifier.
 	 * @param string $session_data  The session data.
 	 * @return boolean  True on success, false otherwise.
 	 */

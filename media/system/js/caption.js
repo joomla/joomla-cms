@@ -11,15 +11,15 @@
  *
  * @package		Joomla
  * @since		1.5
- * @version     1.0
+ * @version	 1.0
  */
 (function() {
-	var _createCaption = function(element, selector) {
-		var caption   = document.createTextNode(element.title);
-		var container = document.createElement("div");
-		var text      = document.createElement("p");
-		var width     = element.getAttribute("width");
-		var align     = element.getAttribute("align");
+	var _createCaption	= function(element, selector) {
+		var caption		= document.createTextNode(element.title);
+		var container	= document.createElement("div");
+		var text		= document.createElement("p");
+		var width		= element.getAttribute("width");
+		var align		= element.getAttribute("align");
 
 		if(!width) {
 			width = element.width;

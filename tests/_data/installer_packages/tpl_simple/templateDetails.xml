@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://dev.joomla.org/xml/1.5/template-install.dtd">
-<extension version="1.6" type="template" method="upgrade">
-        <name>simple_template</name>
-        <creationDate>July 2008</creationDate>
-        <author>John Doe</author>
-		<authorEmail>john.doe@example.org</authorEmail>
-		<authorUrl>http://www.example.org</authorUrl>
-		<copyright>(C) 2008 Copyright Info</copyright>
-		<license>License Info</license>
-		<version>1.6</version>
-        <description>TPL_SIMPLE_TEMPLATE</description>
-        <files>
-        	<filename>index.php</filename>
-        </files>
+<extension
+	version="1.6"
+	type="template"
+	method="upgrade">
+	<name>simple_template</name>
+	<creationDate>July 2008</creationDate>
+	<author>John Doe</author>
+	<authorEmail>john.doe@example.org</authorEmail>
+	<authorUrl>http://www.example.org</authorUrl>
+	<copyright>(C) 2008 Copyright Info</copyright>
+	<license>License Info</license>
+	<version>1.6</version>
+	<description>TPL_SIMPLE_TEMPLATE</description>
+	<files>
+		<filename>index.php</filename>
+	</files>
 </extension>

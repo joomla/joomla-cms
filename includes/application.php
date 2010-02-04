@@ -106,8 +106,8 @@ final class JSite extends JApplication
 
 		$document	= &JFactory::getDocument();
 		$user		= &JFactory::getUser();
-		$router     = &$this->getRouter();
-		$params     = &$this->getParams();
+		$router		= &$this->getRouter();
+		$params		= &$this->getParams();
 
 		switch($document->getType())
 		{
@@ -142,7 +142,7 @@ final class JSite extends JApplication
 	public function render()
 	{
 		$document = &JFactory::getDocument();
-		$user     = &JFactory::getUser();
+		$user	 = &JFactory::getUser();
 
 		// get the format to render
 		$format = $document->getType();
@@ -265,7 +265,7 @@ final class JSite extends JApplication
 			$menus	= &JSite::getMenu();
 			$menu	= $menus->getActive();
 
-			$title       = htmlspecialchars_decode($this->getCfg('sitename'));
+			$title = htmlspecialchars_decode($this->getCfg('sitename'));
 			$description = $this->getCfg('MetaDesc');
 
 			// Lets cascade the parameters if we have menu item parameters
@@ -275,7 +275,7 @@ final class JSite extends JApplication
 				$title = $menu->title;
 			}
 
-			$params[$hash]->def('page_title'      , $title);
+			$params[$hash]->def('page_title', $title);
 			$params[$hash]->def('page_description', $description);
 		}
 

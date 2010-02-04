@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="1.6" client="installation">
+<metafile
+	version="1.6"
+	client="installation">
 	<name>English (United States)</name>
-    <version>1.6.0</version>
-    <creationDate>March 2009</creationDate>
+	<version>1.6.0</version>
+	<creationDate>March 2009</creationDate>
 	<author>Joomla! Project</author>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>

@@ -63,7 +63,7 @@ $difLevel = 0;
 			echo "<li>";
 		}
 ?>
-  	    <span class="item-title"><a href="<?php echo ContentRoute::category('index.php?option=com_content&view=category&id='.$this->escape($item->slug));?>">
+  		<span class="item-title"><a href="<?php echo ContentRoute::category('index.php?option=com_content&view=category&id='.$this->escape($item->slug));?>">
 			<?php echo $this->escape($item->title); ?></a>
 		</span>
 		<?php if ($item->description) : ?>

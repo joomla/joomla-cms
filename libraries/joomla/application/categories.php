@@ -151,7 +151,7 @@ class JCategories
 			' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug'.
 			' FROM #__categories AS c' .
 			' LEFT JOIN '.$this->_table.' AS b ON b.catid = c.id AND b.access IN ('.implode(',', $user->authorisedLevels()).')'.
-		    ' WHERE c.id IN  ('.
+			' WHERE c.id IN  ('.
 					'SELECT distinct n.id' .
 					' FROM `#__categories` AS n, `#__categories` AS p' .
 					' WHERE n.lft BETWEEN p.lft AND p.rgt' .

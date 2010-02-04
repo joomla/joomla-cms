@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
-<metafile version="1.6" client="installation">
+	<!-- $Id$ -->
+<metafile
+	version="1.6"
+	client="installation">
 	<name>English (United Kingdom)</name>
-    <version>1.6.0</version>
-    <creationDate>March 2009</creationDate>
+	<version>1.6.0</version>
+	<creationDate>March 2009</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>

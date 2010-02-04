@@ -118,7 +118,7 @@ class JHTMLIcon
 
 		$attribs['title']	= JText::_('Print');
 		$attribs['onclick'] = "window.open(this.href,'win2','".$status."'); return false;";
-		$attribs['rel']     = 'nofollow';
+		$attribs['rel']		= 'nofollow';
 
 		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}

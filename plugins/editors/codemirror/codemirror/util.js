@@ -17,22 +17,22 @@ function iter(seq) {
   var i = 0;
   if (seq.next) return seq;
   else return {
-    next: function() {
-      if (i >= seq.length) throw StopIteration;
-      else return seq[i++];
-    }
+	next: function() {
+	  if (i >= seq.length) throw StopIteration;
+	  else return seq[i++];
+	}
   };
 }
 
 // Apply a function to each element in a sequence.
 function forEach(iter, f) {
   if (iter.next) {
-    try {while (true) f(iter.next());}
-    catch (e) {if (e != StopIteration) throw e;}
+	try {while (true) f(iter.next());}
+	catch (e) {if (e != StopIteration) throw e;}
   }
   else {
-    for (var i = 0; i < iter.length; i++)
-      f(iter[i]);
+	for (var i = 0; i < iter.length; i++)
+	  f(iter[i]);
   }
 }
 
@@ -65,19 +65,19 @@ function insertAfter(newNode, oldNode) {
 
 function removeElement(node) {
   if (node.parentNode)
-    node.parentNode.removeChild(node);
+	node.parentNode.removeChild(node);
 }
 
 function clearElement(node) {
   while (node.firstChild)
-    node.removeChild(node.firstChild);
+	node.removeChild(node.firstChild);
 }
 
 // Check whether a node is contained in another one.
 function isAncestor(node, child) {
   while (child = child.parentNode) {
-    if (node == child)
-      return true;
+	if (node == child)
+	  return true;
   }
   return false;
 }
@@ -85,24 +85,24 @@ function isAncestor(node, child) {
 // The non-breaking space character.
 var nbsp = "\u00a0";
 var matching = {"{": "}", "[": "]", "(": ")",
-                "}": "{", "]": "[", ")": "("};
+				"}": "{", "]": "[", ")": "("};
 
 // Standardize a few unportable event properties.
 function normalizeEvent(event) {
   if (!event.stopPropagation) {
-    event.stopPropagation = function() {this.cancelBubble = true;};
-    event.preventDefault = function() {this.returnValue = false;};
+	event.stopPropagation = function() {this.cancelBubble = true;};
+	event.preventDefault = function() {this.returnValue = false;};
   }
   if (!event.stop) {
-    event.stop = function() {
-      this.stopPropagation();
-      this.preventDefault();
-    };
+	event.stop = function() {
+	  this.stopPropagation();
+	  this.preventDefault();
+	};
   }
 
   if (event.type == "keypress") {
-    event.code = (event.charCode == null) ? event.keyCode : event.charCode;
-    event.character = String.fromCharCode(event.code);
+	event.code = (event.charCode == null) ? event.keyCode : event.charCode;
+	event.character = String.fromCharCode(event.code);
   }
   return event;
 }
@@ -110,15 +110,15 @@ function normalizeEvent(event) {
 // Portably register event handlers.
 function addEventHandler(node, type, handler, removeFunc) {
   function wrapHandler(event) {
-    handler(normalizeEvent(event || window.event));
+	handler(normalizeEvent(event || window.event));
   }
   if (typeof node.addEventListener == "function") {
-    node.addEventListener(type, wrapHandler, false);
-    if (removeFunc) return function() {node.removeEventListener(type, wrapHandler, false);};
+	node.addEventListener(type, wrapHandler, false);
+	if (removeFunc) return function() {node.removeEventListener(type, wrapHandler, false);};
   }
   else {
-    node.attachEvent("on" + type, wrapHandler);
-    if (removeFunc) return function() {node.detachEvent("on" + type, wrapHandler);};
+	node.attachEvent("on" + type, wrapHandler);
+	if (removeFunc) return function() {node.detachEvent("on" + type, wrapHandler);};
   }
 }
 

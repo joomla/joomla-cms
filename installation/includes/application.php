@@ -219,9 +219,9 @@ class JInstallation extends JApplication
 	 */
 	public function getLocalise()
 	{
-        $xml = JFactory::getXML(JPATH_SITE.DS.'installation'.DS.'localise.xml');
+		$xml = JFactory::getXML(JPATH_SITE.DS.'installation'.DS.'localise.xml');
 
-        if( ! $xml)
+		if( ! $xml)
 		{
 			return false;
 		}
@@ -234,9 +234,9 @@ class JInstallation extends JApplication
 
 		$ret = array();
 
-        $ret['language'] = (string)$xml->forceLang;
-        $ret['helpurl'] = (string)$xml->helpurl;
-        $ret['debug'] = (string)$xml->debug;
+		$ret['language'] = (string)$xml->forceLang;
+		$ret['helpurl'] = (string)$xml->helpurl;
+		$ret['debug'] = (string)$xml->debug;
 
 		return $ret;
 

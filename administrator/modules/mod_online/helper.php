@@ -23,7 +23,7 @@ abstract class modOnlineHelper
 	public static function getOnlineCount()
 	{
 		$db			= JFactory::getDbo();
-		$session    = JFactory::getSession();
+		$session	= JFactory::getSession();
 		$sessionId	= $session->getId();
 
 		$query	= $db->getQuery(true);

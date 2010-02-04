@@ -76,14 +76,14 @@ class JDatabaseQuery
 	/** @var object The select element */
 	protected $_select = null;
 
-    /** @var object The delete element */
-    protected $_delete = null;
+	/** @var object The delete element */
+	protected $_delete = null;
 
-    /** @var object The update element */
-    protected $_update = null;
+	/** @var object The update element */
+	protected $_update = null;
 
-    /** @var object The insert element */
-    protected $_insert = null;
+	/** @var object The insert element */
+	protected $_insert = null;
 
 	/** @var object The from element */
 	protected $_from = null;
@@ -91,8 +91,8 @@ class JDatabaseQuery
 	/** @var object The join element */
 	protected $_join = null;
 
-    /** @var object The set element */
-    protected $_set = null;
+	/** @var object The set element */
+	protected $_set = null;
 
 	/** @var object The where element */
 	protected $_where = null;
@@ -186,35 +186,35 @@ class JDatabaseQuery
 		return $this;
 	}
 
-    /**
-     * @param   mixed   A string or an array of field names
-     */
-    public function delete()
-    {
-        $this->_type = 'delete';
-        $this->_delete = new JDatabaseQueryElement('DELETE', array(), '');
-        return $this;
-    }
+	/**
+	 * @param   mixed   A string or an array of field names
+	 */
+	public function delete()
+	{
+		$this->_type = 'delete';
+		$this->_delete = new JDatabaseQueryElement('DELETE', array(), '');
+		return $this;
+	}
 
-    /**
-     * @param   mixed   A string or array of table names
-     */
-    public function insert($tables)
-    {
-        $this->_type = 'insert';
-        $this->_insert = new JDatabaseQueryElement('INSERT INTO', $tables);
-        return $this;
-    }
+	/**
+	 * @param   mixed   A string or array of table names
+	 */
+	public function insert($tables)
+	{
+		$this->_type = 'insert';
+		$this->_insert = new JDatabaseQueryElement('INSERT INTO', $tables);
+		return $this;
+	}
 
-    /**
-     * @param   mixed   A string or array of table names
-     */
-    public function update($tables)
-    {
-        $this->_type = 'update';
-        $this->_update = new JDatabaseQueryElement('UPDATE', $tables);
-        return $this;
-    }
+	/**
+	 * @param   mixed   A string or array of table names
+	 */
+	public function update($tables)
+	{
+		$this->_type = 'update';
+		$this->_update = new JDatabaseQueryElement('UPDATE', $tables);
+		return $this;
+	}
 
 	/**
 	 * @param	mixed	A string or array of table names
@@ -284,21 +284,21 @@ class JDatabaseQuery
 		return $this;
 	}
 
-    /**
-     * @param   mixed   A string or array of conditions
-     * @param   string
-     */
-    public function set($conditions, $glue=',')
-    {
-        if (is_null($this->_set)) {
-            $glue = strtoupper($glue);
-            $this->_set = new JDatabaseQueryElement('SET', $conditions, "\n\t$glue ");
-        } else {
-            $this->_set->append($conditions);
-        }
+	/**
+	 * @param   mixed   A string or array of conditions
+	 * @param   string
+	 */
+	public function set($conditions, $glue=',')
+	{
+		if (is_null($this->_set)) {
+			$glue = strtoupper($glue);
+			$this->_set = new JDatabaseQueryElement('SET', $conditions, "\n\t$glue ");
+		} else {
+			$this->_set->append($conditions);
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 
 	/**
 	 * @param	mixed	A string or array of where conditions

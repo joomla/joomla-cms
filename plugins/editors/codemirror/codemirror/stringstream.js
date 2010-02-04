@@ -26,106 +26,106 @@ window.stringStream = function(source){
   // Make sure there are more characters ready, or throw
   // StopIteration.
   function ensureChars() {
-    while (pos == current.length) {
-      accum += current;
-      current = ""; // In case source.next() throws
-      pos = 0;
-      try {current = source.next();}
-      catch (e) {
-        if (e != StopIteration) throw e;
-        else return false;
-      }
-    }
-    return true;
+	while (pos == current.length) {
+	  accum += current;
+	  current = ""; // In case source.next() throws
+	  pos = 0;
+	  try {current = source.next();}
+	  catch (e) {
+		if (e != StopIteration) throw e;
+		else return false;
+	  }
+	}
+	return true;
   }
 
   return {
-    // Return the next character in the stream.
-    peek: function() {
-      if (!ensureChars()) return null;
-      return current.charAt(pos);
-    },
-    // Get the next character, throw StopIteration if at end, check
-    // for unused content.
-    next: function() {
-      if (!ensureChars()) {
-        if (accum.length > 0)
-          throw "End of stringstream reached without emptying buffer ('" + accum + "').";
-        else
-          throw StopIteration;
-      }
-      return current.charAt(pos++);
-    },
-    // Return the characters iterated over since the last call to
-    // .get().
-    get: function() {
-      var temp = accum;
-      accum = "";
-      if (pos > 0){
-        temp += current.slice(0, pos);
-        current = current.slice(pos);
-        pos = 0;
-      }
-      return temp;
-    },
-    // Push a string back into the stream.
-    push: function(str) {
-      current = current.slice(0, pos) + str + current.slice(pos);
-    },
-    lookAhead: function(str, consume, skipSpaces, caseInsensitive) {
-      function cased(str) {return caseInsensitive ? str.toLowerCase() : str;}
-      str = cased(str);
-      var found = false;
+	// Return the next character in the stream.
+	peek: function() {
+	  if (!ensureChars()) return null;
+	  return current.charAt(pos);
+	},
+	// Get the next character, throw StopIteration if at end, check
+	// for unused content.
+	next: function() {
+	  if (!ensureChars()) {
+		if (accum.length > 0)
+		  throw "End of stringstream reached without emptying buffer ('" + accum + "').";
+		else
+		  throw StopIteration;
+	  }
+	  return current.charAt(pos++);
+	},
+	// Return the characters iterated over since the last call to
+	// .get().
+	get: function() {
+	  var temp = accum;
+	  accum = "";
+	  if (pos > 0){
+		temp += current.slice(0, pos);
+		current = current.slice(pos);
+		pos = 0;
+	  }
+	  return temp;
+	},
+	// Push a string back into the stream.
+	push: function(str) {
+	  current = current.slice(0, pos) + str + current.slice(pos);
+	},
+	lookAhead: function(str, consume, skipSpaces, caseInsensitive) {
+	  function cased(str) {return caseInsensitive ? str.toLowerCase() : str;}
+	  str = cased(str);
+	  var found = false;
 
-      var _accum = accum, _pos = pos;
-      if (skipSpaces) this.nextWhile(matcher(/[\s\u00a0]/));
+	  var _accum = accum, _pos = pos;
+	  if (skipSpaces) this.nextWhile(matcher(/[\s\u00a0]/));
 
-      while (true) {
-        var end = pos + str.length, left = current.length - pos;
-        if (end <= current.length) {
-          found = str == cased(current.slice(pos, end));
-          pos = end;
-          break;
-        }
-        else if (str.slice(0, left) == cased(current.slice(pos))) {
-          accum += current; current = "";
-          try {current = source.next();}
-          catch (e) {break;}
-          pos = 0;
-          str = str.slice(left);
-        }
-        else {
-          break;
-        }
-      }
+	  while (true) {
+		var end = pos + str.length, left = current.length - pos;
+		if (end <= current.length) {
+		  found = str == cased(current.slice(pos, end));
+		  pos = end;
+		  break;
+		}
+		else if (str.slice(0, left) == cased(current.slice(pos))) {
+		  accum += current; current = "";
+		  try {current = source.next();}
+		  catch (e) {break;}
+		  pos = 0;
+		  str = str.slice(left);
+		}
+		else {
+		  break;
+		}
+	  }
 
-      if (!(found && consume)) {
-        current = accum.slice(_accum.length) + current;
-        pos = _pos;
-        accum = _accum;
-      }
+	  if (!(found && consume)) {
+		current = accum.slice(_accum.length) + current;
+		pos = _pos;
+		accum = _accum;
+	  }
 
-      return found;
-    },
+	  return found;
+	},
 
-    // Utils built on top of the above
-    more: function() {
-      return this.peek() !== null;
-    },
-    applies: function(test) {
-      var next = this.peek();
-      return (next !== null && test(next));
-    },
-    nextWhile: function(test) {
-      while (this.applies(test))
-        this.next();
-    },
-    equals: function(ch) {
-      return ch === this.peek();
-    },
-    endOfLine: function() {
-      var next = this.peek();
-      return next == null || next == "\n";
-    }
+	// Utils built on top of the above
+	more: function() {
+	  return this.peek() !== null;
+	},
+	applies: function(test) {
+	  var next = this.peek();
+	  return (next !== null && test(next));
+	},
+	nextWhile: function(test) {
+	  while (this.applies(test))
+		this.next();
+	},
+	equals: function(ch) {
+	  return ch === this.peek();
+	},
+	endOfLine: function() {
+	  var next = this.peek();
+	  return next == null || next == "\n";
+	}
   };
 };

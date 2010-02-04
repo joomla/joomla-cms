@@ -78,15 +78,15 @@ Joomla.isEmail = function(text) {
  * Writes a dynamically generated list
  *
  * @param string
- *            The parameters to insert into the <select> tag
+ *			The parameters to insert into the <select> tag
  * @param array
- *            A javascript array of list options in the form [key,value,text]
+ *			A javascript array of list options in the form [key,value,text]
  * @param string
- *            The key to display for the initial state of the list
+ *			The key to display for the initial state of the list
  * @param string
- *            The original key that was selected
+ *			The original key that was selected
  * @param string
- *            The original item value that was selected
+ *			The original item value that was selected
  */
 function writeDynaList(selectParams, source, key, orig_key, orig_val) {
 	var html = '\n	<select ' + selectParams + '>';
@@ -114,15 +114,15 @@ function writeDynaList(selectParams, source, key, orig_key, orig_val) {
  * Changes a dynamically generated list
  *
  * @param string
- *            The name of the list to change
+ *			The name of the list to change
  * @param array
- *            A javascript array of list options in the form [key,value,text]
+ *			A javascript array of list options in the form [key,value,text]
  * @param string
- *            The key to display
+ *			The key to display
  * @param string
- *            The original key that was selected
+ *			The original key that was selected
  * @param string
- *            The original item value that was selected
+ *			The original item value that was selected
  */
 function changeDynaList(listname, source, key, orig_key, orig_val) {
 	var list = document.adminForm[listname];

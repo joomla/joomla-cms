@@ -116,15 +116,15 @@ abstract class JPluginHelper
 
 		if (!isset( $paths[$path] ) || !isset($paths[$legacypath]))
 		{
-            $pathExists = file_exists($path);
+			$pathExists = file_exists($path);
 			if ($pathExists || file_exists($legacypath))
 			{
 				$path = $pathExists ? $path : $legacypath;
 
 				jimport('joomla.plugin.plugin');
 				if (!isset($paths[$path])) {
-                    require_once $path;
-                }
+					require_once $path;
+				}
 				$paths[$path] = true;
 
 				if ($autocreate)
@@ -141,7 +141,7 @@ abstract class JPluginHelper
 						$plugin = &self::getPlugin($plugin->type, $plugin->name);
 
 						// Instantiate and register the plugin.
-                        new $className($dispatcher, (array)($plugin));
+						new $className($dispatcher, (array)($plugin));
 					}
 				}
 			}

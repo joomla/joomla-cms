@@ -141,7 +141,7 @@ class SearchModelSearch extends JModel
 
 			$this->_total	= count($rows);
 			if ($this->getState('limit') > 0) {
-				$this->_data    = array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
+				$this->_data	= array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
 			} else {
 				$this->_data = $rows;
 			}

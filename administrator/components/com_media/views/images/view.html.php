@@ -27,7 +27,7 @@ class MediaViewImages extends JView
 		$append = '';
 		// if ($app->getClientId() == 1) $append = 'administrator/';
 
-		JHtml::_('script'    , 'popup-imagemanager.js', $append .'media/media/');
+		JHtml::_('script', 'popup-imagemanager.js', $append .'media/media/');
 		JHtml::_('stylesheet', 'popup-imagemanager.css', $append .'media/media/');
 		if ($config->get('enable_flash', 0)) {
 			JHtml::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ ImageManager.refreshFrame(); }'));
