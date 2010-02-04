@@ -76,7 +76,7 @@ class JCacheStorageTest extends PHPUnit_Framework_TestCase
 					'now'		=> time(),
 				),
 				'JCacheStorageEaccelerator',
- 			),
+			),
 			'defaultfile' => array(
 				'file',
 				array(
@@ -89,17 +89,17 @@ class JCacheStorageTest extends PHPUnit_Framework_TestCase
 				),
 				'JCacheStorageFile',
 			),
-// 			'defaultmemcache' => array(
-// 				'memcache',
-// 				array(
-// 					'application'	=> null,
-// 					'language'		=> 'en-GB',
-// 					'locking'		=> true,
-// 					'lifetime'		=> null,
-// 					'now'		=> time(),
-// 				),
-// 				'JCacheMemcache',
-// 			),
+//			'defaultmemcache' => array(
+//				'memcache',
+//				array(
+//					'application'	=> null,
+//					'language'		=> 'en-GB',
+//					'locking'		=> true,
+//					'lifetime'		=> null,
+//					'now'		=> time(),
+//				),
+//				'JCacheMemcache',
+//			),
 			'defaultxcache' => array(
 				'xcache',
 				array(

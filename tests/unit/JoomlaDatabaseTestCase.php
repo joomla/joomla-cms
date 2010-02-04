@@ -41,9 +41,9 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	protected function saveErrorHandlers()
 	{
 		$this->savedErrorState = array();
-	 	$this->savedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
-	 	$this->savedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
-	 	$this->savedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
+		$this->savedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
+		$this->savedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
+		$this->savedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
 	}
 
 	/**
@@ -63,12 +63,12 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 			$mode = $params['mode'];
 			if (isset($params['options']))
 			{
- 				JError::setErrorHandling($type, $mode, $params['options']);
+				JError::setErrorHandling($type, $mode, $params['options']);
 			}
 			else
 			{
- 				JError::setErrorHandling($type, $mode);
- 			}
+				JError::setErrorHandling($type, $mode);
+			}
 		}
 	}
 

@@ -3,7 +3,7 @@
  * JStringControllerTest.php
  *
  * @version		$Id$
- * @package   	Joomla.UnitTest
+ * @package		Joomla.UnitTest
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */

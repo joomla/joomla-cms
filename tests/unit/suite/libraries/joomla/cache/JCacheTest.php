@@ -578,26 +578,26 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				),
 				'JCacheXCache',
 			),
-// 			'memcache' => array(
-// 				'output',
-// 				array(
-// 					'defaultgroup'	=> '',
-// 					'cachebase'		=> JPATH_BASE . '/unittest/cache',
-// 					'lifetime'		=> 15 * 60,	// minutes to seconds
-// 					'storage'		=> 'memcache',
-// 				),
-// 				'JCacheView',
-// 			),
-// 			'eaccelerator' => array(
-// 				'output',
-// 				array(
-// 					'defaultgroup'	=> '',
-// 					'cachebase'		=> JPATH_BASE . '/unittest/cache',
-// 					'lifetime'		=> 15 * 60,	// minutes to seconds
-// 					'storage'		=> 'eaccelerator',
-// 				),
-// 				'JCacheCallback',
-// 			),
+//			'memcache' => array(
+//				'output',
+//				array(
+//					'defaultgroup'	=> '',
+//					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+//					'lifetime'		=> 15 * 60,	// minutes to seconds
+//					'storage'		=> 'memcache',
+//				),
+//				'JCacheView',
+//			),
+//			'eaccelerator' => array(
+//				'output',
+//				array(
+//					'defaultgroup'	=> '',
+//					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+//					'lifetime'		=> 15 * 60,	// minutes to seconds
+//					'storage'		=> 'eaccelerator',
+//				),
+//				'JCacheCallback',
+//			),
 		);
 	}
 

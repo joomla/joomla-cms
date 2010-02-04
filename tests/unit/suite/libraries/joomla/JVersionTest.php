@@ -23,17 +23,17 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 * @var	JVersion
 	 */
 	protected $object;
-	protected $PRODUCT 	= 'Joomla!';
-	protected $RELEASE 	= '12.23';
-	protected $DEV_STATUS 	= 'Testing';
-	protected $DEV_LEVEL 	= '999';
+	protected $PRODUCT	= 'Joomla!';
+	protected $RELEASE	= '12.23';
+	protected $DEV_STATUS	= 'Testing';
+	protected $DEV_LEVEL	= '999';
 	protected $BUILD		= '99999';
-	protected $CODENAME 	= 'Desperation';
-	protected $RELDATE 	= '22-June-3109';
-	protected $RELTIME 	= '13:13';
-	protected $RELTZ 		= 'CDT';
-	protected $COPYRIGHT 	= 'Copyright (C) 2005 - 3109 Open Source Matters. All rights reserved.';
-	protected $URL 		= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	protected $CODENAME	= 'Desperation';
+	protected $RELDATE	= '22-June-3109';
+	protected $RELTIME	= '13:13';
+	protected $RELTZ		= 'CDT';
+	protected $COPYRIGHT	= 'Copyright (C) 2005 - 3109 Open Source Matters. All rights reserved.';
+	protected $URL		= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -44,7 +44,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->object = new JVersion;
-		$this->object->PRODUCT 	= $this->PRODUCT;
+		$this->object->PRODUCT	= $this->PRODUCT;
 		$this->object->RELEASE = $this->RELEASE;
 		$this->object->DEV_STATUS = $this->DEV_STATUS;
 		$this->object->DEV_LEVEL = $this->DEV_LEVEL;
@@ -104,18 +104,18 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	function casesHelp()
 	{
-	 	return array(
-	 		'AsSet' => array(
-	 			null,
-	 			'.1223',
-	 			'Should get the correct Help version',
-	 		),
-	 		'1.0' => array(
-	 			'',
-	 			'',
-	 			'Should get an empty Help version',
-	 		),
-	 	);
+		return array(
+			'AsSet' => array(
+				null,
+				'.1223',
+				'Should get the correct Help version',
+			),
+			'1.0' => array(
+				'',
+				'',
+				'Should get an empty Help version',
+			),
+		);
 
 	}
 
@@ -137,7 +137,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 		}
 		else
 		{
-			$this->object->RELEASE 	= '1.0';
+			$this->object->RELEASE	= '1.0';
 			$output = $this->object->getHelpVersion();
 		}
 
@@ -155,27 +155,27 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	function casesCompatibility()
 	{
-	 	return array(
-	 		'wrong' => array(
-	 			'0.3',
-	 			false,
-	 			'Should not be compatible with 0.3',
-	 		),
-	 		'empty' => array(
-	 			'',
-	 			false,
-	 			'Should not be compatible with empty string',
-	 		),
-	 		'null' => array(
-	 			null,
-	 			false,
-	 			'Should not be compatible with null',
-	 		),
-	 		'itself' => array(
-	 			JVERSION,
-	 			true,
-	 			'Should be compatible with itself',
-	 		),
+		return array(
+			'wrong' => array(
+				'0.3',
+				false,
+				'Should not be compatible with 0.3',
+			),
+			'empty' => array(
+				'',
+				false,
+				'Should not be compatible with empty string',
+			),
+			'null' => array(
+				null,
+				false,
+				'Should not be compatible with null',
+			),
+			'itself' => array(
+				JVERSION,
+				true,
+				'Should be compatible with itself',
+			),
 		);
 
 	}
@@ -206,96 +206,96 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	function casesUserAgent()
 	{
-	 	return array(
-	 		'defaults' => array(
-	 			'',
-	 			false,
-	 			true,
-	 			'Joomla!/12.23.999 Framework/12.23',
-	 			'Should get the default Framework User Agent',
-	 			true
-	 		),
-	 		'Def/Null/Ver' => array(
-	 			null,
-	 			null,
-	 			true,
-	 			'Joomla!/12.23.999 Framework/12.23',
-	 			'Should get the default Framework User Agent with version',
-	 			false
-	 		),
-	 		'Def/Def/Ver' => array(
-	 			null,
-	 			false,
-	 			true,
-	 			'Joomla!/12.23.999 Framework/12.23',
-	 			'Should get the default Framework User Agent with version',
-	 			false
-	 		),
-	 		'Def/Def/noVer' => array(
-	 			null,
-	 			false,
-	 			false,
-	 			'Joomla!/12.23.999 Framework',
-	 			'Should get the default Framework User Agent without version',
-	 			false
-	 		),
-	 		'Def/Moz/noVer' => array(
-	 			null,
-	 			true,
-	 			false,
-	 			'Mozilla/5.0 Joomla!/12.23.999 Framework',
-	 			'Should get the Mozilla Framework User Agent without version',
-	 			false
-	 		),
-	 		'Def/Moz/Ver' => array(
-	 			null,
-	 			true,
-	 			true,
-	 			'Mozilla/5.0 Joomla!/12.23.999 Framework/12.23',
-	 			'Should get the Mozilla Framework User Agent with version',
-	 			false
-	 		),
-	 		'CMS/Nulls' => array(
-	 			'CMS',
-	 			null,
-	 			null,
-	 			'Joomla!/12.23.999 CMS/12.23',
-	 			'Should get the default CMS User Agent with version',
-	 			false
-	 		),
-	 		'CMS/Def/Ver' => array(
-	 			'CMS',
-	 			false,
-	 			true,
-	 			'Joomla!/12.23.999 CMS/12.23',
-	 			'Should get the default CMS User Agent with version',
-	 			false
-	 		),
-	 		'CMS/Def/noVer' => array(
-	 			'CMS',
-	 			false,
-	 			false,
-	 			'Joomla!/12.23.999 CMS',
-	 			'Should get the default CMS User Agent without version',
-	 			false
-	 		),
-	 		'CMS/Moz/Ver' => array(
-	 			'CMS',
-	 			true,
-	 			true,
-	 			'Mozilla/5.0 Joomla!/12.23.999 CMS/12.23',
-	 			'Should get the Mozilla CMS User Agent',
-	 			false
-	 		),
-	 		'CMS/Moz/noVer' => array(
-	 			'CMS',
-	 			true,
-	 			false,
-	 			'Mozilla/5.0 Joomla!/12.23.999 CMS',
-	 			'Should get the Mozilla CMS User Agent without version',
-	 			false
-	 		),
-	 	);
+		return array(
+			'defaults' => array(
+				'',
+				false,
+				true,
+				'Joomla!/12.23.999 Framework/12.23',
+				'Should get the default Framework User Agent',
+				true
+			),
+			'Def/Null/Ver' => array(
+				null,
+				null,
+				true,
+				'Joomla!/12.23.999 Framework/12.23',
+				'Should get the default Framework User Agent with version',
+				false
+			),
+			'Def/Def/Ver' => array(
+				null,
+				false,
+				true,
+				'Joomla!/12.23.999 Framework/12.23',
+				'Should get the default Framework User Agent with version',
+				false
+			),
+			'Def/Def/noVer' => array(
+				null,
+				false,
+				false,
+				'Joomla!/12.23.999 Framework',
+				'Should get the default Framework User Agent without version',
+				false
+			),
+			'Def/Moz/noVer' => array(
+				null,
+				true,
+				false,
+				'Mozilla/5.0 Joomla!/12.23.999 Framework',
+				'Should get the Mozilla Framework User Agent without version',
+				false
+			),
+			'Def/Moz/Ver' => array(
+				null,
+				true,
+				true,
+				'Mozilla/5.0 Joomla!/12.23.999 Framework/12.23',
+				'Should get the Mozilla Framework User Agent with version',
+				false
+			),
+			'CMS/Nulls' => array(
+				'CMS',
+				null,
+				null,
+				'Joomla!/12.23.999 CMS/12.23',
+				'Should get the default CMS User Agent with version',
+				false
+			),
+			'CMS/Def/Ver' => array(
+				'CMS',
+				false,
+				true,
+				'Joomla!/12.23.999 CMS/12.23',
+				'Should get the default CMS User Agent with version',
+				false
+			),
+			'CMS/Def/noVer' => array(
+				'CMS',
+				false,
+				false,
+				'Joomla!/12.23.999 CMS',
+				'Should get the default CMS User Agent without version',
+				false
+			),
+			'CMS/Moz/Ver' => array(
+				'CMS',
+				true,
+				true,
+				'Mozilla/5.0 Joomla!/12.23.999 CMS/12.23',
+				'Should get the Mozilla CMS User Agent',
+				false
+			),
+			'CMS/Moz/noVer' => array(
+				'CMS',
+				true,
+				false,
+				'Mozilla/5.0 Joomla!/12.23.999 CMS',
+				'Should get the Mozilla CMS User Agent without version',
+				false
+			),
+		);
 
 	}
 

@@ -27,7 +27,7 @@ class JRequestTest_DataSet {
 		 * Default values tests
 		 */
 		array(
-			'missing',	null,	   'default',  'none', 0, null, array(),
+			'missing',	null,		'default',  'none', 0, null, array(),
 		),
 		array(
 			'missing',	'absent',   'default',  'none', 0, 'absent',
@@ -40,55 +40,55 @@ class JRequestTest_DataSet {
 		 * Data source tests
 		 */
 		array(
-			'tag',  null,	   'default',  'none', 0, 'from _REQUEST',
+			'tag',  null,		'default',  'none', 0, 'from _REQUEST',
 			array(
 				array('from _REQUEST', 'NONE', 'from _REQUEST', 1),
 			),
 		),
 		array(
-			'tag',  null,	   'post',	 'none', 0, 'from _POST',
+			'tag',  null,		'post',	'none', 0, 'from _POST',
 			array(
 				array('from _POST', 'NONE', 'from _POST', 1),
 			),
 		),
 		array(
-			'tag',  null,	   'method',   'none', 0, 'from _POST',
+			'tag',  null,		'method',   'none', 0, 'from _POST',
 			array(
 				array('from _POST', 'NONE', 'from _POST', 1),
 			),
 		),
 		array(
-			'tag',  null,	   'request',  'none', 0, 'from _REQUEST',
+			'tag',  null,		'request',  'none', 0, 'from _REQUEST',
 			array(
 				array('from _REQUEST', 'NONE', 'from _REQUEST', 1),
 			),
 		),
 		array(
-			'tag',  null,	   'invalid',  'none', 0, 'from _REQUEST',
+			'tag',  null,		'invalid',  'none', 0, 'from _REQUEST',
 			array(
 				array('from _REQUEST', 'NONE', 'from _REQUEST', 1),
 			),
 		),
 		array(
-			'tag',  null,	   'cookie',   'none', 0, 'from _COOKIE',
+			'tag',  null,		'cookie',   'none', 0, 'from _COOKIE',
 			array(
 				array('from _COOKIE', 'NONE', 'from _COOKIE', 1),
 			),
 		),
 		array(
-			'tag',  null,	   'files',	'none', 0, 'from _FILES',
+			'tag',  null,		'files',	'none', 0, 'from _FILES',
 			array(
 				array('from _FILES', 'NONE', 'from _FILES', 1),
 			),
 		),
 		array(
-			'tag',  null,	   'env',	  'none', 0, 'from _ENV',
+			'tag',  null,		'env',	'none', 0, 'from _ENV',
 			array(
 				array('from _ENV', 'NONE', 'from _ENV', 1),
 			),
 		),
 		array(
-			'tag',  null,	   'server',   'none', 0, 'from _SERVER',
+			'tag',  null,		'server',   'none', 0, 'from _SERVER',
 			array(
 				array('from _SERVER', 'NONE', 'from _SERVER', 1),
 			),
@@ -97,23 +97,23 @@ class JRequestTest_DataSet {
 		 * Test flags
 		 */
 		array(
-			'trim_test',  null,	   'default',  'none', 0, 'has  whitespace',
+			'trim_test',  null,		'default',  'none', 0, 'has  whitespace',
 			array(
 				array('has  whitespace', 'NONE', 'has  whitespace', 1),
 			),
 		),
 		array(
-			'trim_test',  null,	   'default',  'none', JREQUEST_NOTRIM, ' has  whitespace ',
+			'trim_test',  null,		'default',  'none', JREQUEST_NOTRIM, ' has  whitespace ',
 			array(
 				array(' has  whitespace ', 'NONE', ' has  whitespace ', 1),
 			),
 		),
 		array(
-			'raw_test',  null,	   'default',  'none', JREQUEST_ALLOWRAW, '<body>stuff</body>',
+			'raw_test',  null,		'default',  'none', JREQUEST_ALLOWRAW, '<body>stuff</body>',
 			array(),
 		),
 		array(
-			'raw_test',  null,	   'default',  'none', JREQUEST_ALLOWHTML, '<body>stuff</body>',
+			'raw_test',  null,		'default',  'none', JREQUEST_ALLOWHTML, '<body>stuff</body>',
 			array(
 				array('<body>stuff</body>', 'NONE', '<body>stuff</body>', 1),
 			),

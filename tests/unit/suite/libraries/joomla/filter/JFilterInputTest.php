@@ -22,9 +22,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases common to all test runs.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				 The first is the type of input data, the second is the actual input data,
-	 *				 the third is the expected result of filtering, and the fourth is
-	 *				 the failure message identifying the source of the data.
+	 *				The first is the type of input data, the second is the actual input data,
+	 *				the third is the expected result of filtering, and the fourth is
+	 *				the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -431,8 +431,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the Clean Text test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of two values
-	 *				 The first is the input data for the test run,
-	 *				 and the second is the expected result of filtering.
+	 *				The first is the input data for the test run,
+	 *				and the second is the expected result of filtering.
 	 */
 	function casesCleanText()
 	{
@@ -473,9 +473,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for plain Whitelist test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				 The first is the type of input data, the second is the actual input data,
-	 *				 the third is the expected result of filtering, and the fourth is
-	 *				 the failure message identifying the source of the data.
+	 *				The first is the type of input data, the second is the actual input data,
+	 *				the third is the expected result of filtering, and the fourth is
+	 *				the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -581,9 +581,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the Whitelist img tag test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				 The first is the type of input data, the second is the actual input data,
-	 *				 the third is the expected result of filtering, and the fourth is
-	 *				 the failure message identifying the source of the data.
+	 *				The first is the type of input data, the second is the actual input data,
+	 *				the third is the expected result of filtering, and the fourth is
+	 *				the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -689,9 +689,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the Whitelist class attribute test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				 The first is the type of input data, the second is the actual input data,
-	 *				 the third is the expected result of filtering, and the fourth is
-	 *				 the failure message identifying the source of the data.
+	 *				The first is the type of input data, the second is the actual input data,
+	 *				the third is the expected result of filtering, and the fourth is
+	 *				the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -797,9 +797,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the Whitelist class attribute img tag test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				 The first is the type of input data, the second is the actual input data,
-	 *				 the third is the expected result of filtering, and the fourth is
-	 *				 the failure message identifying the source of the data.
+	 *				The first is the type of input data, the second is the actual input data,
+	 *				the third is the expected result of filtering, and the fourth is
+	 *				the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -905,9 +905,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the plain Blacklist test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				 The first is the type of input data, the second is the actual input data,
-	 *				 the third is the expected result of filtering, and the fourth is
-	 *				 the failure message identifying the source of the data.
+	 *				The first is the type of input data, the second is the actual input data,
+	 *				the third is the expected result of filtering, and the fourth is
+	 *				the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -946,9 +946,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the Blacklist img tag test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				 The first is the type of input data, the second is the actual input data,
-	 *				 the third is the expected result of filtering, and the fourth is
-	 *				 the failure message identifying the source of the data.
+	 *				The first is the type of input data, the second is the actual input data,
+	 *				the third is the expected result of filtering, and the fourth is
+	 *				the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -1036,9 +1036,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the Blacklist class attribute test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				 The first is the type of input data, the second is the actual input data,
-	 *				 the third is the expected result of filtering, and the fourth is
-	 *				 the failure message identifying the source of the data.
+	 *				The first is the type of input data, the second is the actual input data,
+	 *				the third is the expected result of filtering, and the fourth is
+	 *				the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */

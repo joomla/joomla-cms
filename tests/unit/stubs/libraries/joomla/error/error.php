@@ -19,9 +19,9 @@ abstract class JError
 		E_ERROR => 'Error'
 	);
 	protected static $handlers = array(
-		E_NOTICE 	=> array('mode' => 'message'),
-		E_WARNING 	=> array('mode' => 'message'),
-		E_ERROR 	=> array('mode' => 'callback', 'options' => array('JError','customErrorPage'))
+		E_NOTICE	=> array('mode' => 'message'),
+		E_WARNING	=> array('mode' => 'message'),
+		E_ERROR		=> array('mode' => 'callback', 'options' => array('JError','customErrorPage'))
 	);
 	protected static $stack = array();
 	public static function isError(& $object)
