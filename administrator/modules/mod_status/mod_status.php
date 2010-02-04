@@ -51,7 +51,7 @@ $online_num = (int) $db->loadResult();
 // Set the logout link.
 $task = JRequest::getCmd('task');
 if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
-	 $logoutLink = '';
+	$logoutLink = '';
 } else {
 	$logoutLink = JRoute::_('index.php?option=com_login&task=logout');
 }

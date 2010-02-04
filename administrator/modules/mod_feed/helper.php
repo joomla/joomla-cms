@@ -29,7 +29,7 @@ abstract class modFeedHelper
 
 		//  get RSS parsed object
 		$options = array();
-		$options['rssUrl'] 		= $rssurl;
+		$options['rssUrl']		= $rssurl;
 		if ($params->get('cache')) {
 			$options['cache_time']  = $params->get('cache_time', 15) ;
 			$options['cache_time']	*= 60;
@@ -51,7 +51,7 @@ abstract class modFeedHelper
 			$image['title'] = $rssDoc->get_image_title();
 
 			//image handling
-			$iUrl 	= isset($image['url']) ? $image['url'] : null;
+			$iUrl	= isset($image['url']) ? $image['url'] : null;
 			$iTitle = isset($image['title']) ? $image['title'] : null;
 
 			// items
