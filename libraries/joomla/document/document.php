@@ -25,7 +25,7 @@ class JDocument extends JObject
 	/**
 	 * Document title
 	 *
-	 * @var	 string
+	 * @var	string
 	 * @access  public
 	 */
 	var $title = '';
@@ -33,7 +33,7 @@ class JDocument extends JObject
 	/**
 	 * Document description
 	 *
-	 * @var	 string
+	 * @var	string
 	 * @access  public
 	 */
 	var $description = '';
@@ -41,7 +41,7 @@ class JDocument extends JObject
 	/**
 	 * Document full URL
 	 *
-	 * @var	 string
+	 * @var	string
 	 * @access  public
 	 */
 	var $link = '';
@@ -49,15 +49,15 @@ class JDocument extends JObject
 	/**
 	 * Document base URL
 	 *
-	 * @var	 string
+	 * @var	string
 	 * @access  public
 	 */
 	var $base = '';
 
-	 /**
+	/**
 	 * Contains the document language setting
 	 *
-	 * @var	 string
+	 * @var	string
 	 * @access  public
 	 */
 	var $language = 'en-gb';
@@ -65,7 +65,7 @@ class JDocument extends JObject
 	/**
 	 * Contains the document direction setting
 	 *
-	 * @var	 string
+	 * @var	string
 	 * @access  public
 	 */
 	var $direction = 'ltr';
@@ -76,13 +76,13 @@ class JDocument extends JObject
 	 * @var		string
 	 * @access	public
 	 */
-	 var $_generator = 'Joomla! 1.6 - Open Source Content Management';
+	var $_generator = 'Joomla! 1.6 - Open Source Content Management';
 
 	/**
 	 * Document modified date
 	 *
 	 * @var		string
-	 * @access   private
+	 * @access	private
 	 */
 	var $_mdate = '';
 
@@ -105,7 +105,7 @@ class JDocument extends JObject
 	/**
 	 * Contains the character encoding string
 	 *
-	 * @var	 string
+	 * @var	string
 	 * @access  private
 	 */
 	var $_charset = 'utf-8';
@@ -122,7 +122,7 @@ class JDocument extends JObject
 	 * Document namespace
 	 *
 	 * @var		string
-	 * @access   private
+	 * @access	private
 	 */
 	var $_namespace = '';
 
@@ -130,7 +130,7 @@ class JDocument extends JObject
 	 * Document profile
 	 *
 	 * @var		string
-	 * @access   private
+	 * @access	private
 	 */
 	var $_profile = '';
 
@@ -138,7 +138,7 @@ class JDocument extends JObject
 	 * Array of linked scripts
 	 *
 	 * @var		array
-	 * @access   private
+	 * @access	private
 	 */
 	var $_scripts = array();
 
@@ -146,14 +146,14 @@ class JDocument extends JObject
 	 * Array of scripts placed in the header
 	 *
 	 * @var  array
-	 * @access   private
+	 * @access	private
 	 */
 	var $_script = array();
 
-	 /**
+	/**
 	 * Array of linked style sheets
 	 *
-	 * @var	 array
+	 * @var	array
 	 * @access  private
 	 */
 	var $_styleSheets = array();
@@ -161,7 +161,7 @@ class JDocument extends JObject
 	/**
 	 * Array of included style declarations
 	 *
-	 * @var	 array
+	 * @var	array
 	 * @access  private
 	 */
 	var $_style = array();
@@ -169,7 +169,7 @@ class JDocument extends JObject
 	/**
 	 * Array of meta tags
 	 *
-	 * @var	 array
+	 * @var	array
 	 * @access  private
 	 */
 	var $_metaTags = array();
@@ -177,7 +177,7 @@ class JDocument extends JObject
 	/**
 	 * The rendering engine
 	 *
-	 * @var	 object
+	 * @var	object
 	 * @access  private
 	 */
 	var $_engine = null;
@@ -185,7 +185,7 @@ class JDocument extends JObject
 	/**
 	 * The document type
 	 *
-	 * @var	 string
+	 * @var	string
 	 * @access  private
 	 */
 	var $_type = null;
@@ -221,7 +221,7 @@ class JDocument extends JObject
 			$this->setLanguage($options['language']);
 		}
 
-		 if (array_key_exists('direction', $options)) {
+		if (array_key_exists('direction', $options)) {
 			$this->setDirection($options['direction']);
 		}
 
@@ -304,7 +304,7 @@ class JDocument extends JObject
 		$this->_type = $type;
 	}
 
-	 /**
+	/**
 	 * Returns the document type
 	 *
 	 * @access	public
@@ -338,7 +338,7 @@ class JDocument extends JObject
 	 * Get the contents of the document buffer
 	 *
 	 * @access public
-	 * @return 	The contents of the document buffer
+	 * @return	The contents of the document buffer
 	 */
 	function getBuffer() {
 		return $this->_buffer;
@@ -347,7 +347,7 @@ class JDocument extends JObject
 	/**
 	 * Set the contents of the document buffer
 	 *
-	 * @param	string 	$content	The content to be set in the buffer.
+	 * @param	string	$content	The content to be set in the buffer.
 	 * @param	array	$options	Array of optional elements.
 	 */
 	public function setBuffer($content, $options = array()) {
@@ -358,7 +358,7 @@ class JDocument extends JObject
 	 * Gets a meta tag.
 	 *
 	 * @param	string	$name			Value of name or http-equiv tag
-	 * @param	bool	$http_equiv	 META type "http-equiv" defaults to null
+	 * @param	bool	$http_equiv	META type "http-equiv" defaults to null
 	 * @return	string
 	 * @access	public
 	 */
@@ -385,7 +385,7 @@ class JDocument extends JObject
 	 *
 	 * @param string  $name			Value of name or http-equiv tag
 	 * @param string  $content		Value of the content tag
-	 * @param bool	$http_equiv	 META type "http-equiv" defaults to null
+	 * @param bool	$http_equiv	META type "http-equiv" defaults to null
 	 * @return void
 	 * @access public
 	 */
@@ -405,12 +405,12 @@ class JDocument extends JObject
 		}
 	}
 
-	 /**
+	/**
 	 * Adds a linked script to the page
 	 *
 	 * @param	string  $url		URL to the linked script
 	 * @param	string  $type		Type of script. Defaults to 'text/javascript'
-	 * @access   public
+	 * @access	public
 	 */
 	function addScript($url, $type="text/javascript") {
 		$this->_scripts[$url] = $type;
@@ -419,10 +419,10 @@ class JDocument extends JObject
 	/**
 	 * Adds a script to the page
 	 *
-	 * @access   public
-	 * @param	string  $content   Script
+	 * @access	public
+	 * @param	string  $content	Script
 	 * @param	string  $type	Scripting mime (defaults to 'text/javascript')
-	 * @return   void
+	 * @return	void
 	 */
 	function addScriptDeclaration($content, $type = 'text/javascript')
 	{
@@ -437,9 +437,9 @@ class JDocument extends JObject
 	 * Adds a linked stylesheet to the page
 	 *
 	 * @param	string  $url	URL to the linked style sheet
-	 * @param	string  $type   Mime encoding type
+	 * @param	string  $type	Mime encoding type
 	 * @param	string  $media  Media type that this stylesheet applies to
-	 * @access   public
+	 * @access	public
 	 */
 	function addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array())
 	{
@@ -448,13 +448,13 @@ class JDocument extends JObject
 		$this->_styleSheets[$url]['attribs']	= $attribs;
 	}
 
-	 /**
+	/**
 	 * Adds a stylesheet declaration to the page
 	 *
-	 * @param	string  $content   Style declarations
+	 * @param	string  $content	Style declarations
 	 * @param	string  $type		Type of stylesheet (defaults to 'text/css')
-	 * @access   public
-	 * @return   void
+	 * @access	public
+	 * @return	void
 	 */
 	function addStyleDeclaration($content, $type = 'text/css')
 	{
@@ -465,10 +465,10 @@ class JDocument extends JObject
 		}
 	}
 
-	 /**
+	/**
 	 * Sets the document charset
 	 *
-	 * @param   string   $type  Charset encoding string
+	 * @param	string	$type  Charset encoding string
 	 * @access  public
 	 * @return  void
 	 */
@@ -490,7 +490,7 @@ class JDocument extends JObject
 	 * Sets the global document language declaration. Default is English (en-gb).
 	 *
 	 * @access public
-	 * @param   string   $lang
+	 * @param	string	$lang
 	 */
 	function setLanguage($lang = "en-gb") {
 		$this->language = strtolower($lang);
@@ -510,7 +510,7 @@ class JDocument extends JObject
 	 * Sets the global document direction declaration. Default is left-to-right (ltr).
 	 *
 	 * @access public
-	 * @param   string   $lang
+	 * @param	string	$lang
 	 */
 	function setDirection($dir = "ltr") {
 		$this->direction = strtolower($dir);
@@ -530,7 +530,7 @@ class JDocument extends JObject
 	 * Sets the title of the document
 	 *
 	 * @param	string	$title
-	 * @access   public
+	 * @access	public
 	 */
 	function setTitle($title) {
 		$this->title = $title;
@@ -539,8 +539,8 @@ class JDocument extends JObject
 	/**
 	 * Return the title of the document.
 	 *
-	 * @return   string
-	 * @access   public
+	 * @return	string
+	 * @access	public
 	 */
 	function getTitle() {
 		return $this->title;
@@ -550,7 +550,7 @@ class JDocument extends JObject
 	 * Sets the base URI of the document
 	 *
 	 * @param	string	$base
-	 * @access   public
+	 * @access	public
 	 */
 	function setBase($base) {
 		$this->base = $base;
@@ -559,8 +559,8 @@ class JDocument extends JObject
 	/**
 	 * Return the base URI of the document.
 	 *
-	 * @return   string
-	 * @access   public
+	 * @return	string
+	 * @access	public
 	 */
 	function getBase() {
 		return $this->base;
@@ -570,7 +570,7 @@ class JDocument extends JObject
 	 * Sets the description of the document
 	 *
 	 * @param	string	$title
-	 * @access   public
+	 * @access	public
 	 */
 	function setDescription($description) {
 		$this->description = $description;
@@ -579,17 +579,17 @@ class JDocument extends JObject
 	/**
 	 * Return the title of the page.
 	 *
-	 * @return   string
-	 * @access   public
+	 * @return	string
+	 * @access	public
 	 */
 	function getDescription() {
 		return $this->description;
 	}
 
-	 /**
+	/**
 	 * Sets the document link
 	 *
-	 * @param   string   $url  A url
+	 * @param	string	$url  A url
 	 * @access  public
 	 * @return  void
 	 */
@@ -607,10 +607,10 @@ class JDocument extends JObject
 		return $this->link;
 	}
 
-	 /**
+	/**
 	 * Sets the document generator
 	 *
-	 * @param   string
+	 * @param	string
 	 * @access  public
 	 * @return  void
 	 */
@@ -628,10 +628,10 @@ class JDocument extends JObject
 		return $this->_generator;
 	}
 
-	 /**
+	/**
 	 * Sets the document modified date
 	 *
-	 * @param   string
+	 * @param	string
 	 * @access  public
 	 * @return  void
 	 */
@@ -649,7 +649,7 @@ class JDocument extends JObject
 		return $this->_mdate;
 	}
 
-	 /**
+	/**
 	 * Sets the document MIME encoding that is sent to the browser.
 	 *
 	 * <p>This usually will be text/html because most browsers cannot yet
@@ -659,17 +659,17 @@ class JDocument extends JObject
 	 * http://www.w3.org/TR/xhtml-media-types/}) for more details.</p>
 	 *
 	 * @param	string	$type
-	 * @access   public
-	 * @return   void
+	 * @access	public
+	 * @return	void
 	 */
 	function setMimeEncoding($type = 'text/html') {
 		$this->_mime = strtolower($type);
 	}
 
-	 /**
+	/**
 	 * Sets the line end style to Windows, Mac, Unix or a custom string.
 	 *
-	 * @param   string  $style  "win", "mac", "unix" or custom string.
+	 * @param	string  $style  "win", "mac", "unix" or custom string.
 	 * @access  public
 	 * @return  void
 	 */
@@ -703,7 +703,7 @@ class JDocument extends JObject
 	/**
 	 * Sets the string used to indent HTML
 	 *
-	 * @param	 string	$string	 String used to indent ("\11", "\t", '  ', etc.).
+	 * @param	string	$string	String used to indent ("\11", "\t", '  ', etc.).
 	 * @access	public
 	 * @return	void
 	 */
@@ -711,7 +711,7 @@ class JDocument extends JObject
 		$this->_tab = $string;
 	}
 
-	 /**
+	/**
 	 * Returns a string containing the unit for indenting HTML
 	 *
 	 * @access	private
@@ -757,18 +757,18 @@ class JDocument extends JObject
 	 * @access public
 	 * @return null
 	 */
-	 public function parse($params = array()) {
-	 	return null;
-	 }
+	public function parse($params = array()) {
+		return null;
+	}
 
 	/**
 	 * Outputs the document
 	 *
 	 * @access public
-	 * @param boolean 	$cache		If true, cache the output
-	 * @param boolean 	$compress	If true, compress the output
+	 * @param boolean	$cache		If true, cache the output
+	 * @param boolean	$compress	If true, compress the output
 	 * @param array		$params		Associative array of attributes
-	 * @return 	The rendered data
+	 * @return	The rendered data
 	 */
 	function render($cache = false, $params = array())
 	{

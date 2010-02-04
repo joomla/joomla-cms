@@ -34,7 +34,7 @@ class JDocumentRenderer extends JObject
 	 * @var		string
 	 * @access	private
 	 */
-	 var $_mime = "text/html";
+	var $_mime = "text/html";
 
 	/**
 	* Class constructor
@@ -51,9 +51,9 @@ class JDocumentRenderer extends JObject
 	 *
 	 * @abstract
 	 * @access public
-	 * @param string 	$name		The name of the element to render
-	 * @param array 	$array		Array of values
-	 * @param string 	$content	Override the output of the renderer
+	 * @param string	$name		The name of the element to render
+	 * @param array		$array		Array of values
+	 * @param string	$content	Override the output of the renderer
 	 * @return string	The output of the script
 	 */
 	function render($name, $params = array(), $content = null)

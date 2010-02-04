@@ -32,7 +32,7 @@ class JDocumentError extends JDocument
 	 * Class constructor
 	 *
 	 * @access protected
-	 * @param	string	$type 		(either html or tex)
+	 * @param	string	$type		(either html or tex)
 	 * @param	array	$attributes Associative array of attributes
 	 */
 	function __construct($options = array())
@@ -68,7 +68,7 @@ class JDocumentError extends JDocument
 	 * Render the document
 	 *
 	 * @access public
-	 * @param boolean 	$cache		If true, cache the output
+	 * @param boolean	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
 	 */
 	function render($cache = false, $params = array())
@@ -106,8 +106,8 @@ class JDocumentError extends JDocument
 	/**
 	 * Load a template file
 	 *
-	 * @param string 	$template	The name of the template
-	 * @param string 	$filename	The actual filename
+	 * @param string	$template	The name of the template
+	 * @param string	$filename	The actual filename
 	 * @return string The contents of the template
 	 */
 	function _loadTemplate($directory, $filename)
@@ -138,33 +138,33 @@ class JDocumentError extends JDocument
 		{
 			ob_start();
 			$j	=	1;
-			echo  	'<table border="0" cellpadding="0" cellspacing="0" class="Table">';
-			echo  	'	<tr>';
-			echo  	'		<td colspan="3" align="left" class="TD"><strong>Call stack</strong></td>';
-			echo  	'	</tr>';
-			echo  	'	<tr>';
-			echo  	'		<td class="TD"><strong>#</strong></td>';
-			echo  	'		<td class="TD"><strong>Function</strong></td>';
-			echo  	'		<td class="TD"><strong>Location</strong></td>';
-			echo  	'	</tr>';
+			echo	'<table border="0" cellpadding="0" cellspacing="0" class="Table">';
+			echo	'	<tr>';
+			echo	'		<td colspan="3" align="left" class="TD"><strong>Call stack</strong></td>';
+			echo	'	</tr>';
+			echo	'	<tr>';
+			echo	'		<td class="TD"><strong>#</strong></td>';
+			echo	'		<td class="TD"><strong>Function</strong></td>';
+			echo	'		<td class="TD"><strong>Location</strong></td>';
+			echo	'	</tr>';
 			for ($i = count($backtrace)-1; $i >= 0 ; $i--)
 			{
-				echo  	'	<tr>';
-				echo  	'		<td class="TD">'.$j.'</td>';
+				echo	'	<tr>';
+				echo	'		<td class="TD">'.$j.'</td>';
 				if (isset($backtrace[$i]['class'])) {
-					echo  	'	<td class="TD">'.$backtrace[$i]['class'].$backtrace[$i]['type'].$backtrace[$i]['function'].'()</td>';
+					echo	'	<td class="TD">'.$backtrace[$i]['class'].$backtrace[$i]['type'].$backtrace[$i]['function'].'()</td>';
 				} else {
-					echo  	'	<td class="TD">'.$backtrace[$i]['function'].'()</td>';
+					echo	'	<td class="TD">'.$backtrace[$i]['function'].'()</td>';
 				}
 				if (isset($backtrace[$i]['file'])) {
-					echo  	'		<td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
+					echo	'		<td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
 				} else {
-					echo  	'		<td class="TD">&nbsp;</td>';
+					echo	'		<td class="TD">&nbsp;</td>';
 				}
-				echo  	'	</tr>';
+				echo	'	</tr>';
 				$j++;
 			}
-			echo  	'</table>';
+			echo	'</table>';
 			$contents = ob_get_contents();
 			ob_end_clean();
 		}

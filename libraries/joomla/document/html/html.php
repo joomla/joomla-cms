@@ -23,10 +23,10 @@ jimport('joomla.document.document');
 
 class JDocumentHTML extends JDocument
 {
-	 /**
+	/**
 	 * Array of Header <link> tags
 	 *
-	 * @var	 array
+	 * @var		array
 	 * @access  private
 	 */
 	var $_links = array();
@@ -34,7 +34,7 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Array of custom tags
 	 *
-	 * @var	 string
+	 * @var		string
 	 * @access  private
 	 */
 	var $_custom = array();
@@ -71,8 +71,8 @@ class JDocumentHTML extends JDocument
 		$this->_mime = 'text/html';
 
 		//set default document metadata
-		 $this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true);
-		 $this->setMetaData('robots', 'index, follow');
+		$this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true);
+		$this->setMetaData('robots', 'index, follow');
 	}
 
 	/**
@@ -117,19 +117,19 @@ class JDocumentHTML extends JDocument
 		$this->_custom		= (isset($data['custom'])) ? $data['custom'] : $this->_custom;
 	}
 
-	 /**
+	/**
 	 * Adds <link> tags to the head of the document
 	 *
 	 * <p>$relType defaults to 'rel' as it is the most common relation type used.
 	 * ('rev' refers to reverse relation, 'rel' indicates normal, forward relation.)
 	 * Typical tag: <link href="index.php" rel="Start"></p>
 	 *
-	 * @access   public
+	 * @access	public
 	 * @param	string  $href		The link that is being related.
-	 * @param	string  $relation   Relation of link.
+	 * @param	string  $relation	Relation of link.
 	 * @param	string  $relType	Relation type attribute.  Either rel or rev (default: 'rel').
-	 * @param	array   $attributes Associative array of remaining attributes.
-	 * @return   void
+	 * @param	array	$attributes Associative array of remaining attributes.
+	 * @return	void
 	 */
 	function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
 	{
@@ -138,16 +138,16 @@ class JDocumentHTML extends JDocument
 		$this->_links[] = $generatedTag;
 	}
 
-	 /**
+	/**
 	 * Adds a shortcut icon (favicon)
 	 *
 	 * <p>This adds a link to the icon shown in the favorites list or on
 	 * the left of the url in the address bar. Some browsers display
 	 * it on the tab, as well.</p>
 	 *
-	 * @param	 string  $href		The link that is being related.
-	 * @param	 string  $type		File type
-	 * @param	 string  $relation	Relation of link
+	 * @param	string  $href		The link that is being related.
+	 * @param	string  $type		File type
+	 * @param	string  $relation	Relation of link
 	 * @access	public
 	 */
 	function addFavicon($href, $type = 'image/x-icon', $relation = 'shortcut icon')
@@ -160,8 +160,8 @@ class JDocumentHTML extends JDocument
 	 * Adds a custom html string to the head block
 	 *
 	 * @param string The html to add to the head
-	 * @access   public
-	 * @return   void
+	 * @access	public
+	 * @return	void
 	 */
 
 	function addCustomTag($html)
@@ -173,10 +173,10 @@ class JDocumentHTML extends JDocument
 	 * Get the contents of a document include
 	 *
 	 * @access public
-	 * @param string 	$type	The type of renderer
-	 * @param string 	$name	 The name of the element to render
-	 * @param array   	$attribs Associative array of remaining attributes.
-	 * @return 	The output of the renderer
+	 * @param string	$type	The type of renderer
+	 * @param string	$name	The name of the element to render
+	 * @param array		$attribs Associative array of remaining attributes.
+	 * @return	The output of the renderer
 	 */
 	function getBuffer($type = null, $name = null, $attribs = array())
 	{
@@ -234,9 +234,9 @@ class JDocumentHTML extends JDocument
 	 * Outputs the template to the browser.
 	 *
 	 * @access public
-	 * @param boolean 	$cache		If true, cache the output
+	 * @param boolean	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
-	 * @return 	The rendered data
+	 * @return	The rendered data
 	 */
 	function render($caching = false, $params = array())
 	{
@@ -255,7 +255,7 @@ class JDocumentHTML extends JDocument
 	 * Count the modules based on the given condition
 	 *
 	 * @access public
-	 * @param  string 	$condition	The condition to use
+	 * @param  string	$condition	The condition to use
 	 * @return integer  Number of modules found
 	 */
 	function countModules($condition)
@@ -305,8 +305,8 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Load a template file
 	 *
-	 * @param string 	$template	The name of the template
-	 * @param string 	$filename	The actual filename
+	 * @param string	$template	The name of the template
+	 * @param string	$filename	The actual filename
 	 * @return string The contents of the template
 	 */
 	function _loadTemplate($directory, $filename)
@@ -351,8 +351,8 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param array parameters to determine the template
 	 */
-	 protected function _fetchTemplate($params = array())
-	 {
+	protected function _fetchTemplate($params = array())
+	{
 		// check
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
 		$filter		= JFilterInput::getInstance();
@@ -373,7 +373,7 @@ class JDocumentHTML extends JDocument
 		// Assign the variables
 		$this->template = $template;
 		$this->baseurl  = JURI::base(true);
-		$this->params   = isset($params['params']) ? $params['params'] : new JParameter;
+		$this->params	= isset($params['params']) ? $params['params'] : new JParameter;
 
 		// load
 		$this->_template = $this->_loadTemplate($directory.DS.$template, $file);

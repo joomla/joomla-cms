@@ -25,7 +25,7 @@ class JDocumentXML extends JDocument
 	/**
 	 * Document name
 	 *
-	 * @var	 string
+	 * @var		string
 	 * @access  protected
 	 */
 	protected $_name = 'joomla';
@@ -51,9 +51,9 @@ class JDocumentXML extends JDocument
 	 * Render the document.
 	 *
 	 * @access public
-	 * @param boolean 	$cache		If true, cache the output
+	 * @param boolean	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
-	 * @return 	The rendered data
+	 * @return	The rendered data
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -96,7 +96,7 @@ class JDocumentXML extends JDocument
 	/**
 	 * Sets the document name
 	 *
-	 * @param   string   $name	Document name
+	 * @param	string	$name	Document name
 	 * @access  public
 	 * @return  void
 	 */
