@@ -97,8 +97,7 @@ class JRouterSite extends JRouter
 
 	protected function _parseRawRoute(&$uri)
 	{
-		$vars   = array();
-
+		$vars = array();
 		$menu = &JSite::getMenu(true);
 
 		//Handle an empty URL (special case)
@@ -141,7 +140,7 @@ class JRouterSite extends JRouter
 
 	protected function _parseSefRoute(&$uri)
 	{
-		$vars   = array();
+		$vars = array();
 
 		$menu  = &JSite::getMenu(true);
 		$route = $uri->getPath();
@@ -187,7 +186,7 @@ class JRouterSite extends JRouter
 				$lenght = strlen($item->route); //get the lenght of the route
 
 				if ($lenght > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
-					$route   = substr($route, $lenght);
+					$route = substr($route, $lenght);
 
 					$vars['Itemid'] = $item->id;
 					$vars['option'] = $item->component;
@@ -268,7 +267,7 @@ class JRouterSite extends JRouter
 		 * Build the component route
 		 */
 		$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-		$tmp 		= '';
+		$tmp		= '';
 
 		// Use the component routing handler if it exists
 		$path = JPATH_SITE.DS.'components'.DS.$component.DS.'router.php';
@@ -350,7 +349,7 @@ class JRouterSite extends JRouter
 
 			// Get the active menu item
 			$itemid = $uri->getVar('Itemid');
-			$item   = $menu->getItem($itemid);
+			$item = $menu->getItem($itemid);
 
 			$uri->setQuery($item->query);
 			$uri->setVar('Itemid', $itemid);
