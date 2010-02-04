@@ -80,7 +80,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * Open the SessionHandler backend.
 	 *
 	 * @access public
-	 * @param string $save_path	 The path to the session object.
+	 * @param string $save_path	The path to the session object.
 	 * @param string $session_name  The name of the session.
 	 * @return boolean  True on success, false otherwise.
 	 */
@@ -106,14 +106,14 @@ class JSessionStorageMemcache extends JSessionStorage
 		return $this->_db->close();
 	}
 
- 	/**
- 	 * Read the data for a particular session identifier from the
- 	 * SessionHandler backend.
- 	 *
- 	 * @access public
- 	 * @param string $id  The session identifier.
- 	 * @return string  The session data.
- 	 */
+	/**
+	 * Read the data for a particular session identifier from the
+	 * SessionHandler backend.
+	 *
+	 * @access public
+	 * @param string $id  The session identifier.
+	 * @return string  The session data.
+	 */
 	function read($id)
 	{
 		$sess_id = 'sess_'.$id;
@@ -146,13 +146,13 @@ class JSessionStorageMemcache extends JSessionStorage
 	}
 
 	/**
-	  * Destroy the data for a particular session identifier in the
-	  * SessionHandler backend.
-	  *
-	  * @access public
-	  * @param string $id  The session identifier.
-	  * @return boolean  True on success, false otherwise.
-	  */
+	 * Destroy the data for a particular session identifier in the
+	 * SessionHandler backend.
+	 *
+	 * @access public
+	 * @param string $id  The session identifier.
+	 * @return boolean  True on success, false otherwise.
+	 */
 	function destroy($id)
 	{
 		$sess_id = 'sess_'.$id;
@@ -191,7 +191,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 *
 	 * @access private
 	 *
-	 * @param string  $key   Cache key to expire.
+	 * @param string  $key		Cache key to expire.
 	 * @param integer $lifetime  Lifetime of the data in seconds.
 	 */
 	function _setExpire($key)

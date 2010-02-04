@@ -36,7 +36,7 @@ class JSessionStorage extends JObject
 	 * Returns a session storage handler object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param name 	$name The session store to instantiate
+	 * @param name	$name The session store to instantiate
 	 * @return database A JSessionStorage object
 	 * @since 1.5
 	 */
@@ -93,7 +93,7 @@ class JSessionStorage extends JObject
 	 *
 	 * @abstract
 	 * @access public
-	 * @param string $save_path	 The path to the session object.
+	 * @param string $save_path	The path to the session object.
 	 * @param string $session_name  The name of the session.
 	 * @return boolean  True on success, false otherwise.
 	 */
@@ -114,15 +114,15 @@ class JSessionStorage extends JObject
 		return true;
 	}
 
- 	/**
- 	 * Read the data for a particular session identifier from the
- 	 * SessionHandler backend.
- 	 *
- 	 * @abstract
- 	 * @access public
- 	 * @param string $id  The session identifier.
- 	 * @return string  The session data.
- 	 */
+	/**
+	 * Read the data for a particular session identifier from the
+	 * SessionHandler backend.
+	 *
+	 * @abstract
+	 * @access public
+	 * @param string $id  The session identifier.
+	 * @return string  The session data.
+	 */
 	function read($id)
 	{
 		return;
@@ -143,14 +143,14 @@ class JSessionStorage extends JObject
 	}
 
 	/**
-	  * Destroy the data for a particular session identifier in the
-	  * SessionHandler backend.
-	  *
-	  * @abstract
-	  * @access public
-	  * @param string $id  The session identifier.
-	  * @return boolean  True on success, false otherwise.
-	  */
+	 * Destroy the data for a particular session identifier in the
+	 * SessionHandler backend.
+	 *
+	 * @abstract
+	 * @access public
+	 * @param string $id  The session identifier.
+	 * @return boolean  True on success, false otherwise.
+	 */
 	function destroy($id)
 	{
 		return true;

@@ -70,7 +70,7 @@ class JSession extends JObject
 	 * Constructor
 	 *
 	 * @param string $storage
-	 * @param array 	$options 	optional parameters
+	 * @param array	$options	optional parameters
 	 */
 	public function __construct($store = 'none', $options = array())
 	{
@@ -163,8 +163,8 @@ class JSession extends JObject
 	 * has been generated the system will check the post request to see if
 	 * it is present, if not it will invalidate the session.
 	 *
-	 * @param   boolean  If true, force a new token to be created
-	 * @return  string   The session token
+	 * @param	boolean  If true, force a new token to be created
+	 * @return  string	The session token
 	 */
 	public function getToken($forceNew = false)
 	{
@@ -183,7 +183,7 @@ class JSession extends JObject
 	 * Method to determine if a token exists in the session. If not the
 	 * session will be set to expired
 	 *
-	 * @param  string   Hashed token to be verified
+	 * @param  string	Hashed token to be verified
 	 * @param  boolean  If true, expires the session
 	 * @since  1.5
 	 */
@@ -206,15 +206,15 @@ class JSession extends JObject
 	/**
 	 * Method to determine a hash for anti-spoofing variable names
 	 *
-	 * @return	  string  Hashed var name
-	 * @since	   1.5
+	 * @return	string  Hashed var name
+	 * @since		1.5
 	 * @static
 	 */
 	public static function getFormToken($forceNew = false)
 	{
-		$user		   = &JFactory::getUser();
+		$user			= &JFactory::getUser();
 		$session		= &JFactory::getSession();
-		$hash		   = JApplication::getHash($user->get('id', 0).$session->getToken($forceNew));
+		$hash			= JApplication::getHash($user->get('id', 0).$session->getToken($forceNew));
 		return $hash;
 	}
 
@@ -291,10 +291,10 @@ class JSession extends JObject
 	/**
 	 * Get data from the session store
 	 *
-	 * @param   string  Name of a variable
-	 * @param   mixed   Default value of a variable if not set
-	 * @param   string  Namespace to use, default to 'default'
-	 * @return  mixed   Value of a variable
+	 * @param	string  Name of a variable
+	 * @param	mixed	Default value of a variable if not set
+	 * @param	string  Namespace to use, default to 'default'
+	 * @return  mixed	Value of a variable
 	 */
 	public function get($name, $default = null, $namespace = 'default')
 	{
@@ -315,10 +315,10 @@ class JSession extends JObject
 	/**
 	 * Set data into the session store.
 	 *
-	 * @param   string  Name of a variable.
-	 * @param   mixed   Value of a variable.
-	 * @param   string  Namespace to use, default to 'default'.
-	 * @return  mixed   Old value of a variable.
+	 * @param	string  Name of a variable.
+	 * @param	mixed	Value of a variable.
+	 * @param	string  Namespace to use, default to 'default'.
+	 * @return  mixed	Old value of a variable.
 	 */
 	public function set($name, $value = null, $namespace = 'default')
 	{
@@ -343,8 +343,8 @@ class JSession extends JObject
 	/**
 	 * Check wheter data exists in the session store
 	 *
-	 * @param   string   Name of variable
-	 * @param   string   Namespace to use, default to 'default'
+	 * @param	string	Name of variable
+	 * @param	string	Namespace to use, default to 'default'
 	 * @return  boolean  True if the variable exists
 	 */
 	public function has($name, $namespace = 'default')
@@ -364,7 +364,7 @@ class JSession extends JObject
 	 *
 	 * @param  string  Name of variable
 	 * @param  string  Namespace to use, default to 'default'
-	 * @return mixed   The value from session or NULL if not set
+	 * @return mixed	The value from session or NULL if not set
 	 */
 	public function clear($name, $namespace = 'default')
 	{
@@ -388,7 +388,7 @@ class JSession extends JObject
 	 * Start a session.
 	 *
 	 * Creates a session (or resumes the current one based on the state of the session)
- 	 *
+	 *
 	 * @return  boolean  true on success
 	 */
 	protected function _start()
@@ -415,8 +415,8 @@ class JSession extends JObject
 	 * started after this method is called. It does not unset the session cookie.
 	 *
 	 * @return  void
-	 * @see	 session_unset()
-	 * @see	 session_destroy()
+	 * @see	session_unset()
+	 * @see	session_destroy()
 	 */
 	public function destroy()
 	{
@@ -446,7 +446,7 @@ class JSession extends JObject
 	 * Restart an expired or locked session.
 	 *
 	 * @return  boolean  true on success
-	 * @see	 destroy
+	 * @see	destroy
 	 */
 	public function restart()
 	{
@@ -459,7 +459,7 @@ class JSession extends JObject
 		// Re-register the session handler after a session has been destroyed, to avoid PHP bug
 		$this->_store->register();
 
-		$this->_state	=   'restart';
+		$this->_state	=	'restart';
 		//regenerate session id
 		$id	=	$this->_createId(strlen($this->getId()));
 		session_id($id);
@@ -573,7 +573,7 @@ class JSession extends JObject
 	/**
 	 * Create a token-string
 	 *
-	 * @param   int	 length of string
+	 * @param	int	length of string
 	 * @return  string  generated token
 	 */
 	protected function _createToken($length = 32)
@@ -581,7 +581,7 @@ class JSession extends JObject
 		static $chars	=	'0123456789abcdef';
 		$max			=	strlen($chars) - 1;
 		$token			=	'';
-		$name 			=  session_name();
+		$name			=  session_name();
 		for ($i = 0; $i < $length; ++$i) {
 			$token .=	$chars[ (rand(0, $max)) ];
 		}
@@ -615,7 +615,7 @@ class JSession extends JObject
 
 			$this->set('session.timer.start' , $start);
 			$this->set('session.timer.last'  , $start);
-			$this->set('session.timer.now'   , $start);
+			$this->set('session.timer.now'	, $start);
 		}
 
 		$this->set('session.timer.last', $this->get('session.timer.now'));
@@ -627,7 +627,7 @@ class JSession extends JObject
 	/**
 	 * set additional session options
 	 *
-	 * @param   array	list of parameter
+	 * @param	array	list of parameter
 	 * @return  boolean  true on success
 	 */
 	protected function _setOptions(&$options)
@@ -671,9 +671,9 @@ class JSession extends JObject
 	 *
 	 * If one check failed, session data has to be cleaned.
 	 *
-	 * @param   boolean  reactivate session
+	 * @param	boolean  reactivate session
 	 * @return  boolean  true on success
-	 * @see	 http://shiflett.org/articles/the-truth-about-sessions
+	 * @see		http://shiflett.org/articles/the-truth-about-sessions
 	 */
 	protected function _validate($restart = false)
 	{
