@@ -15,7 +15,7 @@ jimport('joomla.database.tableasset');
 /**
  * Module table
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Table
  * @since		1.0
  */

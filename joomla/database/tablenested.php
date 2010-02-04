@@ -421,8 +421,8 @@ class JTableNested extends JTable
 		$this->_db->setQuery(
 			'UPDATE `'.$this->_tbl.'`' .
 			' SET `rgt` = '.(int) $offset.' - `rgt`,' .
-			'	  `lft` = '.(int) $offset.' - `lft`,' .
-			'	  `level` = `level` + '.(int) $levelOffset .
+			'	`lft` = '.(int) $offset.' - `lft`,' .
+			'	`level` = `level` + '.(int) $levelOffset .
 			' WHERE `lft` < 0'
 		);
 		$this->_db->query();
@@ -564,8 +564,8 @@ class JTableNested extends JTable
 			$this->_db->setQuery(
 				'UPDATE `'.$this->_tbl.'`' .
 				' SET `lft` = `lft` - 1,' .
-				'	  `rgt` = `rgt` - 1,' .
-				'	  `level` = `level` - 1' .
+				'	`rgt` = `rgt` - 1,' .
+				'	`level` = `level` - 1' .
 				' WHERE `lft` BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt
 			);
 			$this->_db->query();
@@ -828,7 +828,7 @@ class JTableNested extends JTable
 	 * not allow you to set a publishing state on a node with a checked out child.
 	 *
 	 * @param	mixed	An optional array of primary key values to update.  If not
-	 * 					set the instance property value is used.
+	 *					set the instance property value is used.
 	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param	integer The user id of the user performing the operation.
 	 * @return	boolean	True on success.
@@ -1375,10 +1375,10 @@ class JTableNested extends JTable
 	 * the node as well as the new left and right ids for the node.
 	 *
 	 * @param	object	A node object with at least a 'lft' and 'rgt' with
-	 * 					which to make room in the tree around for a new node.
+	 *					which to make room in the tree around for a new node.
 	 * @param	integer	The width of the node for which to make room in the tree.
 	 * @param	string	The position relative to the reference node where the room
-	 * 					should be made.
+	 *					should be made.
 	 * @return	mixed	Boolean false on failure or data object on success.
 	 * @since	1.6
 	 */
@@ -1404,7 +1404,7 @@ class JTableNested extends JTable
 				$data->left_where		= 'lft > '.$referenceNode->lft;
 				$data->right_where		= 'rgt >= '.$referenceNode->lft;
 
-				$data->new_lft 			= $referenceNode->lft + 1;
+				$data->new_lft			= $referenceNode->lft + 1;
 				$data->new_rgt			= $referenceNode->lft + $nodeWidth;
 				$data->new_parent_id	= $referenceNode->$k;
 				$data->new_level		= $referenceNode->level + 1;
@@ -1435,7 +1435,7 @@ class JTableNested extends JTable
 				$data->left_where		= 'lft > '.$referenceNode->lft;
 				$data->right_where		= 'rgt > '.$referenceNode->rgt;
 
-				$data->new_lft 			= $referenceNode->rgt + 1;
+				$data->new_lft			= $referenceNode->rgt + 1;
 				$data->new_rgt			= $referenceNode->rgt + $nodeWidth;
 				$data->new_parent_id	= $referenceNode->parent_id;
 				$data->new_level		= $referenceNode->level;

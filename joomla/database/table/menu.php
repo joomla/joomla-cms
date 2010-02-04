@@ -13,7 +13,7 @@ jimport('joomla.database.tablenested');
 /**
  * Menu table
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Table
  * @since		1.0
  */

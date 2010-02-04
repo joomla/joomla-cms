@@ -10,7 +10,7 @@ defined('JPATH_BASE') or die;
 /**
  * Users table
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Table
  * @since		1.0
  */

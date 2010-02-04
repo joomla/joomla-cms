@@ -188,7 +188,7 @@ abstract class JDatabase extends JObject
 		$signature = serialize($options);
 
 		if (empty($instances[$signature])) {
-			$driver		= array_key_exists('driver', $options) 		? $options['driver']	: 'mysql';
+			$driver		= array_key_exists('driver', $options)		? $options['driver']	: 'mysql';
 			$select		= array_key_exists('select', $options)		? $options['select']	: true;
 			$database	= array_key_exists('database', $options)	? $options['database']	: null;
 
@@ -790,15 +790,15 @@ abstract class JDatabase extends JObject
 	/**
 	 * Shows the CREATE TABLE statement that creates the given tables
 	 *
-	 * @param 	array|string 	A table name or a list of table names
-	 * @return 	array A list the create SQL for the tables
+	 * @param	array|string	A table name or a list of table names
+	 * @return	array A list the create SQL for the tables
 	 */
 	abstract public function getTableCreate($tables);
 
 	/**
 	 * Retrieves information about the given tables
 	 *
-	 * @param 	array|string 	A table name or a list of table names
+	 * @param	array|string	A table name or a list of table names
 	 * @param	boolean			Only return field types, default true
 	 * @return	array An array of fields by table
 	 */
