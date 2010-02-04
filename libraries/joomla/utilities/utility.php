@@ -14,31 +14,31 @@ defined('JPATH_BASE') or die;
  * JUtility is a utility functions class
  *
  * @static
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Utilities
  * @since	1.5
  */
 class JUtility
 {
 	/**
- 	 * Mail function (uses phpMailer)
- 	 *
- 	 * @param string $from From e-mail address
- 	 * @param string $fromname From name
- 	 * @param mixed $recipient Recipient e-mail address(es)
- 	 * @param string $subject E-mail subject
- 	 * @param string $body Message body
- 	 * @param boolean $mode false = plain text, true = HTML
- 	 * @param mixed $cc CC e-mail address(es)
- 	 * @param mixed $bcc BCC e-mail address(es)
- 	 * @param mixed $attachment Attachment file name(s)
- 	 * @param mixed $replyto Reply to email address(es)
- 	 * @param mixed $replytoname Reply to name(s)
- 	 * @return boolean True on success
+	 * Mail function (uses phpMailer)
+	 *
+	 * @param string $from From e-mail address
+	 * @param string $fromname From name
+	 * @param mixed $recipient Recipient e-mail address(es)
+	 * @param string $subject E-mail subject
+	 * @param string $body Message body
+	 * @param boolean $mode false = plain text, true = HTML
+	 * @param mixed $cc CC e-mail address(es)
+	 * @param mixed $bcc BCC e-mail address(es)
+	 * @param mixed $attachment Attachment file name(s)
+	 * @param mixed $replyto Reply to email address(es)
+	 * @param mixed $replytoname Reply to name(s)
+	 * @return boolean True on success
 	 *
 	 * @deprecated  1.6
-	 * @see				 JMail::sendMail()
-  	 */
+	 * @see				JMail::sendMail()
+	 */
 	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
 	{
 		// Get a JMail instance
@@ -50,18 +50,18 @@ class JUtility
 
 	/**
 	 * Sends mail to administrator for approval of a user submission
- 	 *
- 	 * @param string $adminName Name of administrator
- 	 * @param string $adminEmail Email address of administrator
- 	 * @param string $email [NOT USED TODO: Deprecate?]
- 	 * @param string $type Type of item to approve
- 	 * @param string $title Title of item to approve
- 	 * @param string $author Author of item to approve
- 	 * @return boolean True on success
+	 *
+	 * @param string $adminName Name of administrator
+	 * @param string $adminEmail Email address of administrator
+	 * @param string $email [NOT USED TODO: Deprecate?]
+	 * @param string $type Type of item to approve
+	 * @param string $title Title of item to approve
+	 * @param string $author Author of item to approve
+	 * @return boolean True on success
 	 *
 	 * @deprecated  1.6
-	 * @see				 JMail::sendAdminMail()
- 	 */
+	 * @see				JMail::sendAdminMail()
+	 */
 	public static function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
 		// Get a JMail instance
@@ -70,14 +70,14 @@ class JUtility
 	}
 
 	/**
-  	 * Provides a secure hash based on a seed
- 	 *
- 	 * @param string Seed string
- 	 * @return string
+	 * Provides a secure hash based on a seed
+	 *
+	 * @param string Seed string
+	 * @return string
 	 *
 	 * @deprecated  1.6
-	 * @see				 JApplication:getHash()
- 	 */
+	 * @see				JApplication:getHash()
+	 */
 	public static function getHash($seed)
 	{
 		$conf = &JFactory::getConfig();
@@ -90,7 +90,7 @@ class JUtility
 	 * @return	string	Hashed var name
 	 * @since	1.5
 	 * @deprecated  1.6
-	 * @see				 JApplication:getHash()
+	 * @see				JApplication:getHash()
 	 * @static
 	 */
 	public static function getToken($forceNew = false)
@@ -100,15 +100,15 @@ class JUtility
 	}
 
 	/**
- 	 * Method to extract key/value pairs out of a string with xml style attributes
- 	 *
- 	 * @param	string	$string	String containing xml style attributes
- 	 * @return	array	Key/Value pairs for the attributes
- 	 * @since	1.5
- 	 */
+	 * Method to extract key/value pairs out of a string with xml style attributes
+	 *
+	 * @param	string	$string	String containing xml style attributes
+	 * @return	array	Key/Value pairs for the attributes
+	 * @since	1.5
+	 */
 	public static function parseAttributes($string)
 	{
-	 	// Initialise variables.
+		// Initialise variables.
 		$attr		= array();
 		$retarray	= array();
 
@@ -132,7 +132,7 @@ class JUtility
 	 * @return	true if Windows OS
 	 * @since	1.5
 	 * @deprecated  1.6
-	 * @see				 JApplication::isWinOS()
+	 * @see				JApplication::isWinOS()
 	 * @static
 	 */
 	function isWinOS() {
@@ -168,9 +168,9 @@ class JUtility
 	 */
 	function array_unshift_ref(&$array, &$value)
 	{
-	   $return = array_unshift($array,'');
-	   $array[0] =& $value;
-	   return $return;
+		$return = array_unshift($array,'');
+		$array[0] =& $value;
+		return $return;
 	}
 
 	/**
@@ -179,7 +179,7 @@ class JUtility
 	 * @return int size in bytes
 	 * @since 1.6
 	 * @deprecated  1.6
-	 * @see				 InstallerModelWarnings::return_bytes()
+	 * @see				InstallerModelWarnings::return_bytes()
 	 */
 	function return_bytes($val) {
 		$val = trim($val);

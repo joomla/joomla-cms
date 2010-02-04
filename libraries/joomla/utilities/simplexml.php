@@ -41,8 +41,8 @@ defined('JPATH_BASE') or die;
  * <?xml version="1.0" encoding="utf-8" standalone="yes"?>
  * <document>
  *   <node>
- *	 <child gender="m">Tom Foo</child>
- *	 <child gender="f">Tamara Bar</child>
+ *	<child gender="m">Tom Foo</child>
+ *	<child gender="f">Tamara Bar</child>
  *   <node>
  * </document>
  *
@@ -70,7 +70,7 @@ defined('JPATH_BASE') or die;
  * using datatype ANY (e.g. XHTML). With a DOM implementation you can
  * handle this.
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Utilities
  * @since 1.5
  * @deprecated
@@ -135,7 +135,7 @@ class JSimpleXML extends JObject
 		xml_set_character_data_handler($this->_parser, '_characterData');
 	}
 
-	 /**
+	/**
 	 * Interprets a string of XML into an object
 	 *
 	 * This function will take the well-formed xml string data and return an object of class
@@ -151,7 +151,7 @@ class JSimpleXML extends JObject
 		return true;
 	}
 
-	 /**
+	/**
 	 * Interprets an XML file into an object
 	 *
 	 * This function will convert the well-formed XML document in the file specified by filename
@@ -190,8 +190,8 @@ class JSimpleXML extends JObject
 	 * it returns FALSE.
 	 *
 	 * @param string	DOM  document
-	 * @param string   	currently ignored
-	 * @return object 	JSimpleXMLElement
+	 * @param string	currently ignored
+	 * @return object	JSimpleXMLElement
 	 */
 	function importDOM($node, $classname = null) {
 		return false;
@@ -222,7 +222,7 @@ class JSimpleXML extends JObject
 	 *
 	 * Parses an XML document. The handlers for the configured events are called as many times as necessary.
 	 *
-	 * @param $xml 	string 	data to parse
+	 * @param $xml	string	data to parse
 	 */
 	function _parse($data = '')
 	{
@@ -291,7 +291,7 @@ class JSimpleXML extends JObject
 		//If it isn't root level, use the stack to find the parent
 		else
 		{
-			 //Get the name which points to the current direct parent, relative to $this
+			//Get the name which points to the current direct parent, relative to $this
 			$parent = $this->_getStackLocation();
 
 			//Add the child
@@ -347,7 +347,7 @@ class JSimpleXML extends JObject
  * To loop through all of the direct children of a specific tag for this object, it
  * is probably easier to use the arrays of the specific tag names, as explained above.
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Utilities
  * @since 1.5
  * @deprecated
@@ -422,11 +422,11 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Get the an attribute of the element
 	 *
-	 * @param string $attribute 	The name of the attribute
+	 * @param string $attribute	The name of the attribute
 	 *
 	 * @access public
 	 * @return mixed If an attribute is given will return the attribute if it exist.
-	 * 				 If no attribute is given will return the complete attributes array
+	 *				If no attribute is given will return the complete attributes array
 	 */
 	function attributes($attribute = null)
 	{
@@ -478,7 +478,7 @@ class JSimpleXMLElement extends JObject
 		return $this->_level;
 	}
 
-	 /**
+	/**
 	 * Adds an attribute to the element
 	 *
 	 * @param string $name
@@ -490,7 +490,7 @@ class JSimpleXMLElement extends JObject
 		$this->_attributes[$name] = $value;
 	}
 
-	 /**
+	/**
 	 * Removes an attribute from the element
 	 *
 	 * @param string $name
@@ -503,10 +503,10 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Adds a direct child to the element
 	 *
-	 * @param string $name
-	 * @param array  $attrs
-	 * @param int 	 $level
-	 * @return JSimpleXMLElement 	The added child object
+	 * @param string	$name
+	 * @param array		$attrs
+	 * @param int		$level
+	 * @return JSimpleXMLElement	The added child object
 	 */
 	function addChild($name, $attrs = array(), $level = null)
 	{
