@@ -43,7 +43,7 @@ class ContactViewContact extends JView
 			$item->email_form->set($thisField->name, $item->params->get($thisField->name));
 			$item->params->set($thisField->name, null);
 		}
-		
+
 		$form->bind($item);
 
 		$this->assignRef('state',	$state);

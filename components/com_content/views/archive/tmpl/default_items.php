@@ -22,7 +22,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 				<?php echo $this->escape($item->title); ?></a>
 		</h2>
 			<div>
-	
+
 				<?php if ($this->params->get('show_category') && $item->catid) : ?>
 					<span>
 					<?php if ($this->params->get('link_category')) : ?>

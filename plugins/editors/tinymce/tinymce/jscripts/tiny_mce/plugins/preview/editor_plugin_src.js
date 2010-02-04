@@ -12,7 +12,7 @@
 
 			t.editor = ed;
 
-			// Force absolute CSS urls	
+			// Force absolute CSS urls
 			tinymce.each(css, function(u, k) {
 				css[k] = ed.documentBaseURI.toAbsolute(u);
 			});

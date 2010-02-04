@@ -581,7 +581,7 @@ tinymce.create('tinymce.util.Dispatcher', {
 
 			return o;
 		},
-	
+
 		toAbsolute : function(u, nh) {
 			var u = new tinymce.util.URI(u, {base_uri : this});
 
@@ -988,7 +988,7 @@ tinymce.create('static tinymce.util.XHR', {
 			t.files = {};
 			t.cssFlicker = false;
 			t.counter = 0;
-			t.boxModel = !tinymce.isIE || d.compatMode == "CSS1Compat"; 
+			t.boxModel = !tinymce.isIE || d.compatMode == "CSS1Compat";
 			t.stdMode = d.documentMode === 8;
 
 			t.settings = s = tinymce.extend({
@@ -1254,7 +1254,7 @@ tinymce.create('static tinymce.util.XHR', {
 					case 'float':
 						isIE ? s.styleFloat = v : s.cssFloat = v;
 						break;
-					
+
 					default:
 						s[na] = v || '';
 				}
@@ -1366,7 +1366,7 @@ tinymce.create('static tinymce.util.XHR', {
 						}
 
 						break;
-					
+
 					case "shape":
 						e.setAttribute('mce_style', v);
 						break;
@@ -2028,7 +2028,7 @@ tinymce.create('static tinymce.util.XHR', {
 
 			function setHTML(e, h, d) {
 				var n, tp;
-				
+
 				tp = d.createElement("body");
 				tp.innerHTML = h;
 
@@ -2698,9 +2698,9 @@ tinymce.create('static tinymce.util.XHR', {
 		_compareBoundaryPoints : function (containerA, offsetA, containerB, offsetB) {
 			var c, offsetC, n, cmnRoot, childA, childB;
 
-			// In the first case the boundary-points have the same container. A is before B 
-			// if its offset is less than the offset of B, A is equal to B if its offset is 
-			// equal to the offset of B, and A is after B if its offset is greater than the 
+			// In the first case the boundary-points have the same container. A is before B
+			// if its offset is less than the offset of B, A is equal to B if its offset is
+			// equal to the offset of B, and A is after B if its offset is greater than the
 			// offset of B.
 			if (containerA == containerB) {
 				if (offsetA == offsetB) {
@@ -2712,8 +2712,8 @@ tinymce.create('static tinymce.util.XHR', {
 				}
 			}
 
-			// In the second case a child node C of the container of A is an ancestor 
-			// container of B. In this case, A is before B if the offset of A is less than or 
+			// In the second case a child node C of the container of A is an ancestor
+			// container of B. In this case, A is before B if the offset of A is less than or
 			// equal to the index of the child node C and A is after B otherwise.
 			c = containerB;
 			while (c && c.parentNode != containerA) {
@@ -2735,8 +2735,8 @@ tinymce.create('static tinymce.util.XHR', {
 				}
 			}
 
-			// In the third case a child node C of the container of B is an ancestor container 
-			// of A. In this case, A is before B if the index of the child node C is less than 
+			// In the third case a child node C of the container of B is an ancestor container
+			// of A. In this case, A is before B if the index of the child node C is less than
 			// the offset of B and A is after B otherwise.
 			c = containerA;
 			while (c && c.parentNode != containerB) {
@@ -2759,15 +2759,15 @@ tinymce.create('static tinymce.util.XHR', {
 				}
 			}
 
-			// In the fourth case, none of three other cases hold: the containers of A and B 
-			// are siblings or descendants of sibling nodes. In this case, A is before B if 
+			// In the fourth case, none of three other cases hold: the containers of A and B
+			// are siblings or descendants of sibling nodes. In this case, A is before B if
 			// the container of A is before the container of B in a pre-order traversal of the
 			// Ranges' context tree and A is after B otherwise.
 			cmnRoot = this.dom.findCommonAncestor(containerA, containerB);
 			childA = containerA;
 
 			while (childA && childA.parentNode != cmnRoot) {
-				childA = childA.parentNode;  
+				childA = childA.parentNode;
 			}
 
 			if (!childA) {
@@ -2812,8 +2812,8 @@ tinymce.create('static tinymce.util.XHR', {
 				t.endOffset = o;
 			}
 
-			// If one boundary-point of a Range is set to have a root container 
-			// other than the current one for the Range, the Range is collapsed to 
+			// If one boundary-point of a Range is set to have a root container
+			// other than the current one for the Range, the Range is collapsed to
 			// the new position. This enforces the restriction that both boundary-
 			// points of a Range must have the same root container.
 			ec = t.endContainer;
@@ -2827,9 +2827,9 @@ tinymce.create('static tinymce.util.XHR', {
 			if (sc != ec) {
 				t.collapse(st);
 			} else {
-				// The start position of a Range is guaranteed to never be after the 
-				// end position. To enforce this restriction, if the start is set to 
-				// be at a position after the end, the Range is collapsed to that 
+				// The start position of a Range is guaranteed to never be after the
+				// end position. To enforce this restriction, if the start is set to
+				// be at a position after the end, the Range is collapsed to that
 				// position.
 				if (t._compareBoundaryPoints(t.startContainer, t.startOffset, t.endContainer, t.endOffset) > 0)
 					t.collapse(st);
@@ -2952,7 +2952,7 @@ tinymce.create('static tinymce.util.XHR', {
 			cnt = endIdx - t.startOffset;
 
 			if (cnt <= 0) {
-				// Collapse to just before the endAncestor, which 
+				// Collapse to just before the endAncestor, which
 				// is partially selected.
 				if (how != CLONE) {
 					t.setEndBefore(endAncestor);
@@ -2974,7 +2974,7 @@ tinymce.create('static tinymce.util.XHR', {
 				n = sibling;
 			}
 
-			// Collapse to just before the endAncestor, which 
+			// Collapse to just before the endAncestor, which
 			// is partially selected.
 			if (how != CLONE) {
 				t.setEndBefore(endAncestor);
@@ -3478,19 +3478,19 @@ var Sizzle = function(selector, context, results, seed) {
 	if ( context.nodeType !== 1 && context.nodeType !== 9 ) {
 		return [];
 	}
-	
+
 	if ( !selector || typeof selector !== "string" ) {
 		return results;
 	}
 
 	var parts = [], m, set, checkSet, check, mode, extra, prune = true, contextXML = isXML(context);
-	
+
 	// Reset the position of the chunker regexp (start from head)
 	chunker.lastIndex = 0;
-	
+
 	while ( (m = chunker.exec(selector)) !== null ) {
 		parts.push( m[1] );
-		
+
 		if ( m[2] ) {
 			extra = RegExp.rightContext;
 			break;
@@ -3619,7 +3619,7 @@ Sizzle.find = function(expr, context, isXML){
 
 	for ( var i = 0, l = Expr.order.length; i < l; i++ ) {
 		var type = Expr.order[i], match;
-		
+
 		if ( (match = Expr.match[ type ].exec( expr )) ) {
 			var left = RegExp.leftContext;
 
@@ -3881,7 +3881,7 @@ var Expr = Sizzle.selectors = {
 		},
 		ATTR: function(match, curLoop, inplace, result, not, isXML){
 			var name = match[1].replace(/\\/g, "");
-			
+
 			if ( !isXML && Expr.attrMap[name] ) {
 				match[1] = Expr.attrMap[name];
 			}
@@ -3907,7 +3907,7 @@ var Expr = Sizzle.selectors = {
 			} else if ( Expr.match.POS.test( match[0] ) || Expr.match.CHILD.test( match[0] ) ) {
 				return true;
 			}
-			
+
 			return match;
 		},
 		POS: function(match){
@@ -4041,20 +4041,20 @@ var Expr = Sizzle.selectors = {
 					if ( first == 1 && last == 0 ) {
 						return true;
 					}
-					
+
 					var doneName = match[0],
 						parent = elem.parentNode;
-	
+
 					if ( parent && (parent.sizcache !== doneName || !elem.nodeIndex) ) {
 						var count = 0;
 						for ( node = parent.firstChild; node; node = node.nextSibling ) {
 							if ( node.nodeType === 1 ) {
 								node.nodeIndex = ++count;
 							}
-						} 
+						}
 						parent.sizcache = doneName;
 					}
-					
+
 					var diff = elem.nodeIndex - last;
 					if ( first == 0 ) {
 						return diff == 0;
@@ -4127,7 +4127,7 @@ var makeArray = function(array, results) {
 		results.push.apply( results, array );
 		return results;
 	}
-	
+
 	return array;
 };
 
@@ -4272,7 +4272,7 @@ if ( document.querySelectorAll ) (function(){
 	if ( div.querySelectorAll && div.querySelectorAll(".TEST").length === 0 ) {
 		return;
 	}
-	
+
 	Sizzle = function(query, context, extra, seed){
 		context = context || document;
 
@@ -4283,7 +4283,7 @@ if ( document.querySelectorAll ) (function(){
 				return makeArray( context.querySelectorAll(query), extra );
 			} catch(e){}
 		}
-		
+
 		return oldSizzle(query, context, extra, seed);
 	};
 
@@ -5424,8 +5424,8 @@ window.tinymce.dom.Sizzle = Sizzle;
 				// Handle selection a image or other control like element such as anchors
 				if (!r.collapsed) {
 					// If the anchor node is a element instead of a text node then return this element
-					if (tinymce.isWebKit && s.anchorNode && s.anchorNode.nodeType == 1) 
-						return s.anchorNode.childNodes[s.anchorOffset]; 
+					if (tinymce.isWebKit && s.anchorNode && s.anchorNode.nodeType == 1)
+						return s.anchorNode.childNodes[s.anchorOffset];
 
 					if (r.startContainer == r.endContainer) {
 						if (r.startOffset - r.endOffset < 2) {
@@ -5497,7 +5497,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 			};
 
 			this.doc = getXML();
-			
+
 			// Since Opera and WebKit doesn't escape > into &gt; we need to do it our self to normalize the output for all browsers
 			this.valid = tinymce.isOpera || tinymce.isWebKit;
 
@@ -7056,7 +7056,7 @@ tinymce.create('tinymce.ui.Separator:tinymce.ui.Control', {
 
 		postRender : function() {
 			var t = this;
-			
+
 			t.parent();
 
 			// Set pending state
@@ -8016,7 +8016,7 @@ tinymce.create('tinymce.ui.Separator:tinymce.ui.Control', {
 				h1 = DOM.createHTML('span', {'class' : 'mceAction ' + s['class']}, '');
 
 			h += '<td>' + DOM.createHTML('a', {id : t.id + '_action', href : 'javascript:;', 'class' : 'mceAction ' + s['class'], onclick : "return false;", onmousedown : 'return false;', title : s.title}, h1) + '</td>';
-	
+
 			h1 = DOM.createHTML('span', {'class' : 'mceOpen ' + s['class']});
 			h += '<td>' + DOM.createHTML('a', {id : t.id + '_open', href : 'javascript:;', 'class' : 'mceOpen ' + s['class'], onclick : "return false;", onmousedown : 'return false;', title : s.title}, h1) + '</td>';
 
@@ -8351,7 +8351,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 		editors : {},
 
 		i18n : {},
-	
+
 		activeEditor : null,
 
 		preInit : function() {
@@ -8552,7 +8552,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 						// All done
 						if (l == co)
-							execCallback(s, 'oninit');					
+							execCallback(s, 'oninit');
 					});
 				}
 			});
@@ -9138,7 +9138,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 				if (isIE || (tinymce.isOpera && parseFloat(opera.version()) >= 9.5))
 					u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";var ed = window.parent.tinyMCE.get("' + t.id + '");document.write(ed.iframeHTML);document.close();ed.setupIframe();})()';
 				else if (tinymce.isOpera)
-					u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";document.close();ed.setupIframe();})()';					
+					u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";document.close();ed.setupIframe();})()';
 			}
 
 			// Create iframe
@@ -9360,7 +9360,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 					if (o.set)
 						o.content = t.execCallback('cleanup_callback', 'insert_to_editor', o.content, o);
 
-					if (o.get)						
+					if (o.get)
 						o.content = t.execCallback('cleanup_callback', 'get_from_editor', o.content, o);
 				});
 			}
@@ -9457,7 +9457,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 					}, 100);
 				}
 			}, 1);
-	
+
 			e = null;
 		},
 
@@ -12707,7 +12707,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 		setControlType : function(n, c) {
 			return this._cls[n.toLowerCase()] = c;
 		},
-	
+
 		destroy : function() {
 			each(this.controls, function(c) {
 				c.destroy();

@@ -120,7 +120,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 			$this->object,
 			$this->isInstanceOf($expClass)
 		);
-		
+
 		//$state = $this->object->__set_state((array)$this->object);
 		//$this->assertThat(
 		//	$state,
@@ -191,7 +191,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	public function testSetCaching( $handler, $options )
 	{
 		$this->object = JCache::getInstance($handler, $options);
-		
+
 		$caching = $this->object->_options['caching'];
 		$this->object->setCaching(!$caching);
 		$this->assertThat(
@@ -412,7 +412,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	public function testStoreAndGet( $handler, $options, $id, $group, $data, $expected )
 	{
 		$this->object = JCache::getInstance($handler, $options);
-		
+
 		$this->assertThat(
 			$this->object->store($data, $id, $group),
 			$this->equalTo($data),
@@ -444,7 +444,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 			43,
 			''
 		);
-		
+
 		$this->assertThat(
 			$this->object->get(43, ''),
 			$this->equalTo('And this is the cache that tries men\'s souls'),
@@ -485,7 +485,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 			43,
 			''
 		);
-		
+
 		$this->assertThat(
 			$this->object->get(43, ''),
 			$this->equalTo('And this is the cache that tries men\'s souls'),
@@ -615,7 +615,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	public function testGetStorage( $handler, $options, $expected )
 	{
 		$this->object = JCache::getInstance($handler, $options);
-		
+
 		$this->assertThat(
 			$this->object->_getStorage(),
 			$this->isInstanceOf($expected)

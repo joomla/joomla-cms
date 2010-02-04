@@ -107,9 +107,9 @@
 		<field
 			name="spacer1"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
-			
+
 		<field
 			name="show_pagination"
 			type="list"

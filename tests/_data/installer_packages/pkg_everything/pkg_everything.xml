@@ -2,7 +2,7 @@
 <install type="package" version="1.5">
 	<name>Everything Demonstration</name>
 	<packagename>everything</packagename>
-	<version>1.6</version>		
+	<version>1.6</version>
 	<url>http://www.joomla.org</url>
 	<packager>Sam Moffatt</packager>
 	<packagerurl>http://www.sammoffatt.com.au</packagerurl>

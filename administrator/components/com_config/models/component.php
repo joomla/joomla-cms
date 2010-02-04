@@ -133,8 +133,8 @@ class ConfigModelComponent extends JModelForm
 			$this->setError($table->getError());
 			return false;
 		}
-		unset($data['id']);		
-		
+		unset($data['id']);
+
 		// Bind the data.
 		if (!$table->bind($data))
 		{

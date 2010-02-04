@@ -118,10 +118,10 @@ defined('_JEXEC') or die;
                   </table>
                   <?php if($this->pagination->get('pages.total')>1): ?>
 			               <div class="pagination">
-			
-			                                <p><?php echo $this->pagination->getPagesCounter(); ?></p>		
+
+			                                <p><?php echo $this->pagination->getPagesCounter(); ?></p>
 			                                <?php echo $this->pagination->getPagesLinks(); ?>
-			
+
 			                </div>
                   <?php endif; ?>
 

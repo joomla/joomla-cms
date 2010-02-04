@@ -71,8 +71,8 @@ class JLanguageHelper
 				{
 				// take off 3 letters iso code languages as they can't match browsers' languages and default them to en
 					$Jinstall_lang = $metadata['tag'];
-					
-					if (strlen($Jinstall_lang) < 6) 
+
+					if (strlen($Jinstall_lang) < 6)
 					{
 						if (strtolower($browserLang) == strtolower(substr($metadata['tag'], 0, strlen($browserLang)))) {
 							return $systemLang;
@@ -80,7 +80,7 @@ class JLanguageHelper
 						else if ($primary_browserLang == substr($metadata['tag'], 0, 2)) {
 							$primaryDetectedLang = $systemLang;
 						}
-					}	
+					}
 				}
 
 				if (isset($primaryDetectedLang)) {

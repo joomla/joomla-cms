@@ -52,13 +52,13 @@ class ContentHelperQuery
 				$queryDate = ' a.modified ';
 				break;
 
-			// use created if publish_up is not set	
-			case 'published' : 
+			// use created if publish_up is not set
+			case 'published' :
 				$queryDate = ' CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END ';
 				break;
-				
-			case 'created' : 
-			default : 
+
+			case 'created' :
+			default :
 				$queryDate = ' a.created ';
 				break;
 		}

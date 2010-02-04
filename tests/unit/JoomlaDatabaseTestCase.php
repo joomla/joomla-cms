@@ -32,7 +32,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
      * @var actualError
      */
     protected static $actualError;
-    
+
     /**
      * Saves the current state of the JError error handlers.
      *
@@ -57,7 +57,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
     {
     	$mode = null;
     	$options = null;
-    	
+
     	foreach ($errorHandlers as $type => $params)
     	{
     		$mode = $params['mode'];

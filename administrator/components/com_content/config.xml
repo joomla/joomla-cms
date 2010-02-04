@@ -68,7 +68,7 @@
 		<field
 			name="spacer1"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 
 		<field
@@ -106,7 +106,7 @@
 			<option
 				value="1">Show</option>
 		</field>
-		
+
 		<field
 			name="show_publish_date"
 			type="radio"
@@ -146,7 +146,7 @@
 		<field
 			name="spacer2"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 		<field
 			name="show_icons"
@@ -211,7 +211,7 @@
 			label="Content_Attribs_Num_Leading_Articles_Label"
 			description="Content_Attribs_Num_Leading_Articles_Desc">
 		</field>
-		
+
 		<field
 			name="num_intro_articles"
 			type="text"
@@ -219,7 +219,7 @@
 			label="CONTENT_ATTRIBS_NUM_INTRO_ARTICLES_LABEL"
 			description="CONTENT_ATTRIBS_NUM_INTRO_ARTICLES_DESC">
 		</field>
-		
+
 		<field
 			name="num_columns"
 			type="text"
@@ -227,7 +227,7 @@
 			label="CONTENT_ATTRIBS_NUM_COLUMNS_LABEL"
 			description="CONTENT_ATTRIBS_NUM_COLUMNS_DESC">
 		</field>
-		
+
 		<field
 			name="num_links"
 			type="text"
@@ -247,17 +247,17 @@
 			<option
 				value="1">Across</option>
 		</field>
-		
-		<field 
-			name="show_pagination_results" 
-			type="radio" 
-			default="1" 
-			label="CONTENT_ATTRIBS_PAGINATION_RESULTS_LABEL" 
+
+		<field
+			name="show_pagination_results"
+			type="radio"
+			default="1"
+			label="CONTENT_ATTRIBS_PAGINATION_RESULTS_LABEL"
 			description="CONTENT_ATTRIBS_PAGINATION_RESULTS_DESC">
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
-		
+
 		</fields>
 
 	<fields
@@ -265,7 +265,7 @@
 		label="Content_Config_List_Settings_Label"
 		description="Content_Config_List_Settings_Desc"
 		hidden="true">
-		
+
 		<field
 			name="display_num"
 			type="list"
@@ -282,12 +282,12 @@
 				<option value="100">J100</option>
 				<option value="0">JALL</option>
 		</field>
-		
-	 	<field 
-			name="list_type" 
-			type="radio" 
-			default="single" 
-			label="Content_Attribs_List_Type_Label" 
+
+	 	<field
+			name="list_type"
+			type="radio"
+			default="single"
+			label="Content_Attribs_List_Type_Label"
 			description="Content_Attribs_List_Type_Desc">
 				<option value="single">Single_Level</option>
 	 			<option value="multiple">Multi_Level</option>
@@ -304,7 +304,7 @@
 			<option
 				value="1">JCommon_Show</option>
 		</field>
-		
+
 		<field
 			name="show_date"
 			type="list"
@@ -316,14 +316,14 @@
 				<option value="modified">Modified</option>
 				<option value="published">Published</option>
 		</field>
-		
-		<field name="date_format" 
-			type="text" 
-			size="15" 
-			default="" 
-			label="CONTENT_ATTRIBS_DATE_FORMAT_LABEL" 
+
+		<field name="date_format"
+			type="text"
+			size="15"
+			default=""
+			label="CONTENT_ATTRIBS_DATE_FORMAT_LABEL"
 			description="CONTENT_ATTRIBS_DATE_FORMAT_DESC" />
-			
+
 		<field
 			name="filter_field"
 			type="list"
@@ -335,34 +335,34 @@
 				<option value="author">Author</option>
 				<option value="hits">Hits</option>
 		</field>
-		
-		<field 
-			name="show_pagination_limit" 
-			type="radio" default="1" 
-			label="CONTENT_ATTRIBS_DISPLAY_SELECT_LABEL" 
+
+		<field
+			name="show_pagination_limit"
+			type="radio" default="1"
+			label="CONTENT_ATTRIBS_DISPLAY_SELECT_LABEL"
 			description="CONTENT_ATTRIBS_DISPLAY_SELECT_DESC">
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
-		
-		<field 
-			name="list_hits" 
-			type="radio" default="1" 
-			label="CONTENT_ATTRIBS_LIST_HITS_LABEL" 
+
+		<field
+			name="list_hits"
+			type="radio" default="1"
+			label="CONTENT_ATTRIBS_LIST_HITS_LABEL"
 			description="CONTENT_ATTRIBS_LIST_HITS_DESC">
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
-		
-		<field 
-			name="list_author" 
-			type="radio" default="1" 
-			label="CONTENT_ATTRIBS_LIST_AUTHOR_LABEL" 
+
+		<field
+			name="list_author"
+			type="radio" default="1"
+			label="CONTENT_ATTRIBS_LIST_AUTHOR_LABEL"
 			description="CONTENT_ATTRIBS_LIST_AUTHOR_DESC">
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
-		</field>		
-		
+		</field>
+
 	</fields>
 
 	<fields
@@ -371,83 +371,83 @@
 		description="Content_Config_Category_Settings_Desc"
 		hidden="true">
 
-	 	<field 
-	 		name="show_description" 
-	 		type="radio" 
-	 		default="0" 
-	 		label="Content_Attribs_Show_Category_Description_Label" 
+	 	<field
+	 		name="show_description"
+	 		type="radio"
+	 		default="0"
+	 		label="Content_Attribs_Show_Category_Description_Label"
 	 		description="Content_Attribs_Show_Category_Description_Desc">
 	 			<option value="0">JCommon_Hide</option>
 	 			<option value="1">JCommon_Show</option>
 	 	</field>
-		
-		<field 
-			name="show_description_image" 
-			type="radio" 
-			default="0" 
-			label="Content_Attribs_Show_Category_Image_Label" 
+
+		<field
+			name="show_description_image"
+			type="radio"
+			default="0"
+			label="Content_Attribs_Show_Category_Image_Label"
 			description="Content_Attribs_Show_Category_Image_Desc">
 	 			<option value="0">JCommon_Hide</option>
 	 			<option value="1">JCommon_Show</option>
 	 	</field>
-	 	
-	 	<field 
-			name="drill_down_layout" 
-			type="radio" 
-			default="0" 
-			label="Content_Attribs_Drill_Down_Layout_Label" 
+
+	 	<field
+			name="drill_down_layout"
+			type="radio"
+			default="0"
+			label="Content_Attribs_Drill_Down_Layout_Label"
 			description="Content_Attribs_Drill_Down_Layout_Desc">
 	 			<option value="0">List</option>
 	 			<option value="1">Blog</option>
 	 	</field>
 
-	 	<field 
-			name="all_subcategories" 
-			type="radio" 
-			default="all" 
-			label="Content_Attribs_All_Subcategories_Label" 
+	 	<field
+			name="all_subcategories"
+			type="radio"
+			default="all"
+			label="Content_Attribs_All_Subcategories_Label"
 			description="Content_Attribs_All_Subcategories_Desc">
 	 			<option value="all">All_Levels</option>
 	 			<option value="next_level">Next_Level_Only</option>
 	 	</field>
-	 	 	
-	 	<field 
-			name="empty_categories" 
-			type="radio" 
-			default="1" 
-			label="Content_Attribs_Empty_Categories_Label" 
+
+	 	<field
+			name="empty_categories"
+			type="radio"
+			default="1"
+			label="Content_Attribs_Empty_Categories_Label"
 			description="Content_Attribs_Empty_Categories_Desc">
 	 			<option value="0">JCommon_Hide</option>
 	 			<option value="1">JCommon_Show</option>
 	 	</field>
-	 	
-	 	<field 
-			name="article_count" 
-			type="radio" 
-			default="0" 
-			label="Content_Attribs_Article_Count_Label" 
+
+	 	<field
+			name="article_count"
+			type="radio"
+			default="0"
+			label="Content_Attribs_Article_Count_Label"
 			description="Content_Attribs_Article_Count_Desc">
 	 			<option value="0">JCommon_Hide</option>
 	 			<option value="1">JCommon_Show</option>
 	 	</field>
-	 	
-		<field 
-			name="category_orderby" 
-			type="list" 
-			default="alpha" 
-			label="Content_Attribs_Category_Order_Label" 
+
+		<field
+			name="category_orderby"
+			type="list"
+			default="alpha"
+			label="Content_Attribs_Category_Order_Label"
 			description="Content_Attribs_Category_Order_Desc">
 				<option value="">No_Order</option>
 				<option value="alpha">Title_Alphabetical</option>
 				<option value="ralpha">Title_Reverse_Alphabetical</option>
 				<option value="order">Category_Manager_Order</option>
 		</field>
-		
-		<field 
-			name="article_orderby" 
-			type="list" 
-			default="rdate" 
-			label="Content_Attribs_Article_Order_Label" 
+
+		<field
+			name="article_orderby"
+			type="list"
+			default="rdate"
+			label="Content_Attribs_Article_Order_Label"
 			description="Content_Attribs_Article_Order_Desc">
 				<option value="date">Oldest_first</option>
 				<option value="rdate">Most_recent_first</option>
@@ -458,29 +458,29 @@
 				<option value="hits">Most_Hits</option>
 				<option value="rhits">Least_Hits</option>
 				<option value="order">Article_Manager_Order</option>
-		</field>		
+		</field>
 
-		<field 
-			name="order_date" 
-			type="list" 
-			default="created" 
-			label="Content_Attribs_Ordering_Date_Label" 
+		<field
+			name="order_date"
+			type="list"
+			default="created"
+			label="Content_Attribs_Ordering_Date_Label"
 			description="Content_Attribs_Ordering_Date_Desc">
 				<option value="created">Created</option>
 				<option value="modified">Modified</option>
 				<option value="published">Published</option>
 		</field>
-		
-		<field 
-			name="show_pagination" 
-			type="radio" 
-			default="1" 
-			label="Content_Attribs_Pagination_Label" 
+
+		<field
+			name="show_pagination"
+			type="radio"
+			default="1"
+			label="Content_Attribs_Pagination_Label"
 			description="Content_Attribs_Pagination_Desc">
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
-		
+
 		<field
 			name="show_noauth"
 			type="radio"
@@ -525,16 +525,16 @@
 				value="1">JYes</option>
 		</field>
 
-		<field 
-			name="show_feed_link" 
-			type="radio" 
-			default="1" 
-			label="Content_Attribs_Show_Feed_Link_Label" 
+		<field
+			name="show_feed_link"
+			type="radio"
+			default="1"
+			label="Content_Attribs_Show_Feed_Link_Label"
 			description="Content_Attribs_Show_Feed_Link_Desc">
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
-		
+
 		<field
 			name="feed_summary"
 			type="radio"

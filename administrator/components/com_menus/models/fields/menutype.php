@@ -383,7 +383,7 @@ class JFormFieldMenuType extends JFormFieldList
 		$layouts = array();
 		$layoutNames = array();
 		$templateLayouts = array();
-		
+
 		// Get the layouts from the view folder.
 		$path = JPATH_SITE.'/components/'.$component.'/views/'.$view.'/tmpl';
 		if (JFolder::exists($path)) {
@@ -392,7 +392,7 @@ class JFormFieldMenuType extends JFormFieldList
 		else {
 			return $options;
 		}
-		
+
 		// build list of standard layout names
 		foreach ($layouts as $layout)
 		{
@@ -401,10 +401,10 @@ class JFormFieldMenuType extends JFormFieldList
 			{
 				$file = $layout;
 				// Get the layout name.
-				$layoutNames[] = JFile::stripext(JFile::getName($layout));			
+				$layoutNames[] = JFile::stripext(JFile::getName($layout));
 			}
 		}
-			
+
 		// get the template layouts
 		// TODO: This should only search one template -- the current template for this item (default of specified)
 		$folders = JFolder::folders(JPATH_SITE.DS.'templates','',false,true);
@@ -412,7 +412,7 @@ class JFormFieldMenuType extends JFormFieldList
 		{
 			if (JFolder::exists($folder.DS.'html'.DS.$component.DS.$view)) {
 				$templateLayouts = JFolder::files($folder.DS.'html'.DS.$component.DS.$view, '.xml$', false, true);
-					
+
 				foreach ($templateLayouts as $layout)
 				{
 					$file = $layout;

@@ -135,7 +135,7 @@
 			default=""
 			label="Weblinks_Ordering_Label"
 			description="Weblinks_Ordering_Desc"/>
-			
+
 			<field
 			name="access"
 			type="accesslevel"

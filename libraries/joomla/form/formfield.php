@@ -100,7 +100,7 @@ abstract class JFormField extends JObject
 		// Set the form and group names.
 		$this->formName		= $formName;
 		$this->groupName	= $groupName;
-		
+
 		// Set the prefix
 		$this->prefix		= $prefix;
 
@@ -148,7 +148,7 @@ abstract class JFormField extends JObject
 	protected function _replacePrefix($javascript)
 	{
 		$formName = $this->formName;
-		
+
 		// No form, just use the field name.
 		if ($formName === false)
 		{
@@ -160,7 +160,7 @@ abstract class JFormField extends JObject
 			return str_replace($this->prefix, preg_replace('#\W#', '_',$formName).'_', $javascript);
 		}
 	}
-	
+
 	/**
 	 * Method to get the field input.
 	 *

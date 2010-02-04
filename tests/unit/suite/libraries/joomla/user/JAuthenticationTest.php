@@ -22,7 +22,7 @@ class JAuthenticationTest extends JoomlaDatabaseTestCase
      * @var JAuthentication
      */
     protected $object;
-    
+
     /**
      * Receives the callback from JError and logs the required error information for the test.
      *
@@ -54,7 +54,7 @@ class JAuthenticationTest extends JoomlaDatabaseTestCase
  		$this->saveErrorHandlers();
  		$this->setErrorCallback('JAuthenticationTest');
  		JAuthenticationTest::$actualError = array();
- 		
+
      	$this->saveFactoryState();
     }
 
@@ -82,7 +82,7 @@ class JAuthenticationTest extends JoomlaDatabaseTestCase
     	include_once JPATH_BASE . '/libraries/joomla/session/session.php';
 
 		$user = new JUser;
-		
+
     	$mockSession = $this->getMock('JSession', array( '_start', 'get'));
     	$mockSession->expects($this->any())->method('get')->with($this->equalTo('user'))->will(
     		$this->returnValue($user)
@@ -141,7 +141,7 @@ class JAuthenticationTest extends JoomlaDatabaseTestCase
     	$credentials['password'] = 'testing';
     	$options = array();
     	$response = $this->object->authenticate($credentials, $options);
-    	
+
         $this->assertThat(
         	true,
         	$this->equalTo((bool)$response->status)
@@ -156,7 +156,7 @@ class JAuthenticationTest extends JoomlaDatabaseTestCase
     public function testAuthenticationResponse()
     {
     	$response = new JAuthenticationResponse;
-    	
+
         $this->assertThat(
         	$response,
         	$this->isInstanceOf('JAuthenticationResponse')

@@ -350,7 +350,7 @@ final class JSite extends JApplication
 		}
 
 		$template->params = new JParameter($template->params);
-		
+
 		// Cache the result
 		$this->template = $template;
 		if ($params) {

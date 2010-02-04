@@ -49,7 +49,7 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->click("//img[@alt='Unpublished']");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
-	}	
+	}
 
 	function testPublishModule()
 	{
@@ -87,7 +87,7 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isTextPresent("Login Form"));
 
 		$this->doAdminLogout();
-	}	
+	}
 
 }
 

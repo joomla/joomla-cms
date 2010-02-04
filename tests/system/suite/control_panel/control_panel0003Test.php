@@ -15,7 +15,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 class ControlPanel0003 extends SeleniumJoomlaTestCase
 {
 
- 
+
   function testCreateRemoveArticle()
   {
   	$this->setUp();
@@ -29,10 +29,10 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 
     $this->click("//li[@id='toolbar-new']/a/span");
     $this->waitForPageToLoad("30000");
-    
+
     print("Enter article title" . "\n");
     $this->type("jform_title", "Com_Content001 Test Article");
-    
+
     print("Enter some text" . "\n");
     $this->typeKeys("tinymce", "This is test text for an article");
     print("Save the article" . "\n");
@@ -62,7 +62,7 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
     print("Check that article is no longer shown in article manager" . "\n");
     $this->assertFalse($this->isTextPresent("Com_Content001 Test Article"));
-    
+
     print("Delete article from trash" . "\n");
     $this->select("filter_published", "label=Trash");
     $this->waitForPageToLoad("30000");
@@ -71,14 +71,14 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
     $this->select("filter_published", "label=- Select State -");
     $this->waitForPageToLoad("30000");
-    
-    print("Clear Article manager filter" . "\n");    
+
+    print("Clear Article manager filter" . "\n");
     $this->click("//button[@type='button']");
     $this->waitForPageToLoad("30000");
     $this->doAdminLogout();
-    
+
     print("Finished control_panel0003Test.php." . "\n");
-    
+
   }
 }
 ?>

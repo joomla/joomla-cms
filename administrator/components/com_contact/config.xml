@@ -14,7 +14,7 @@
 				value="0">JHide</option>
 			<option
 				value="1">JShow</option>
-		</field>		
+		</field>
 		<field
 			name="show_name"
 			type="radio"
@@ -195,7 +195,7 @@
 				description="Contact_Profile_Show_Desc">
 					<option value="0">Jcommon_Hide</option>
 					<option value="1">Jcommon_Show</option>
-		</field>	
+		</field>
 		<field
 			id="show_links"
 			name="show_links"
@@ -428,7 +428,7 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-	
+
 		<field
 			name="email_description"
 			type="text"
@@ -448,7 +448,7 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-		
+
 		<field
 			name="banned_email"
 			type="textarea"
@@ -507,7 +507,7 @@
 			label="Contact_Config_Redirect_LABEL"
 			description="Contact_Config_Redirect_DESC" />
 	</fields>
-	
+
 		<fields
 		group="integration"
 		label="Menus_Layout_Integration_Options_Label"
@@ -524,7 +524,7 @@
 			<option
 				value="1">JShow</option>
 		</field>
-		
+
 		<field
 			name="article_allow_ratings"
 			type="radio"
@@ -550,7 +550,7 @@
 		</field>
 
 	</fields>
-	
+
 	<fields
 		group="Contact_Config_Meta_Data"
 		label="Contact_Fieldset_Meta_Data">
@@ -592,7 +592,7 @@
 			label="JField_Metadata_Rights_Label"
 			description="JField_Metadata_Rights_Desc"
 			size="20" />
-	
+
 		<field
 			id="xreference"
 			name="xreference"

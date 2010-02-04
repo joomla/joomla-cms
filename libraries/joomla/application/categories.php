@@ -59,13 +59,13 @@ class JCategories
 	protected $_options = null;
 
 	/**
-	 * Save the information, if a tree is loaded 
-	 * 
+	 * Save the information, if a tree is loaded
+	 *
 	 * @var boolean
 	 */
-	protected $_treeloaded = false;	
-	
-	
+	protected $_treeloaded = false;
+
+
 	/**
 	 * Class constructor
 	 *
@@ -172,10 +172,10 @@ class JCategories
 		} else {
 			$this->_nodes[$id] = false;
 		}
-						
+
 		$this->_treeloaded = true;
 	}
-	
+
 }
 
 /**

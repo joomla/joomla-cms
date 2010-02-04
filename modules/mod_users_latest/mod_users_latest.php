@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: 
+ * @version		$Id:
  * @package		Joomla.Site
  * @subpackage	mod_users_latest
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -9,7 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
- 
+
 // Include the latest functions only once
 require_once dirname(__FILE__).'/helper.php';
 	$shownumber = $params->get('shownumber', 5);

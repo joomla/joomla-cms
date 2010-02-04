@@ -321,7 +321,7 @@ class JMail extends PHPMailer
  	 * @param mixed $replytoname Reply to name(s)
  	 * @return boolean True on success
  	 * @since: 1.6
-  	 */	
+  	 */
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode=0,
 		$cc=null, $bcc=null, $attachment=null, $replyTo=null, $replyToName=null)
 	{

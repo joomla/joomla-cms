@@ -108,7 +108,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("//li[@id='toolbar-popup-Popup']/a/span");
 		sleep(2);
-		$this->click("//button[@type='button' and @onclick='window.parent.SqueezeBox.close();']");	
+		$this->click("//button[@type='button' and @onclick='window.parent.SqueezeBox.close();']");
 		sleep(2);
 		echo "Navigate to Menu Manager.\n";
 		$this->click("link=Menu Manager");
@@ -207,7 +207,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-popup-Popup']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-Banners_Delete_Msg']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-help']/a/span"));
-				
+
 		echo "Navigate to Banner Categories.\n";
 		$this->click("link=Categories");
 		$this->waitForPageToLoad("30000");

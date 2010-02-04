@@ -6,8 +6,8 @@
  * @subpackage	templates.bluestork
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * 
- */ 
+ *
+ */
 
 /* ------------------------- COLOR PALETTE FOR BLUE STORK
 
@@ -437,7 +437,7 @@ textarea#message {
 }
 
 .ol-closefont {
-	
+
 }
 
 /* -- TOOLBAR STYLES ----------------------------- */
@@ -1187,7 +1187,7 @@ fieldset#filter-bar {
 }
 
 div.filter-search {
-	
+
 }
 
 label.filter-search-lbl {
@@ -1803,7 +1803,7 @@ a img.calendar {
 }
 
 #system-message dd.message {
-	
+
 }
 
 /* System Error Messages */
@@ -1912,7 +1912,7 @@ select#lang {
 }
 
 p#login-error-message {
-	
+
 }
 
 /*
@@ -1977,7 +1977,7 @@ p#login-language {
 }
 
 p#login-error-message {
-	
+
 }
 
 

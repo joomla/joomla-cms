@@ -36,7 +36,7 @@
 		<field
 			name="spacer1"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 		<field
 			name="scrolling"
@@ -79,7 +79,7 @@
 		<field
 			name="spacer2"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 		<field
 			name="add"

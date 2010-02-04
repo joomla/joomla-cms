@@ -20,11 +20,11 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->setUp();
 		echo "Starting testUnpublishArticle.\n";
 		$this->doAdminLogin();
-		
+
 		echo "Go to front end and check that Designers and Developers is shown"."\n";
 		$this->gotoSite();
 		$this->assertTrue($this->isTextPresent("Designers and Developers"));
-		
+
 		echo "Go to back end and unpublish"."\n";
 		$this->gotoAdmin();
 		$this->click("link=Article Manager");
@@ -47,7 +47,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->click("//img[@alt='Unpublished']");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
-	}	
+	}
 
 	function testPublishArticle()
 	{
@@ -82,7 +82,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isTextPresent("Designers and Developers"));
 
 		$this->doAdminLogout();
-	}	
+	}
 
 }
 

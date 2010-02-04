@@ -17,7 +17,7 @@
 	<languages> // these files will be installed in the administrator/language folder.
 		<language tag="en-GB">en-GB.plg_content_example.ini</language>
 	</languages>
-	
+
 	<fields>
 		<field
 			name="field1"

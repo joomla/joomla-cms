@@ -199,7 +199,7 @@ function UsersParseRoute($segments)
 	if ($memberId)
 	{
 		// Set the package id.
-		$vars['member_id'] = (int)$memberId; 
+		$vars['member_id'] = (int)$memberId;
 
 		// Set the view to package if not already set.
 		if (empty($vars['view'])) {

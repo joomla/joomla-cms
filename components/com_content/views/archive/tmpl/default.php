@@ -24,8 +24,8 @@ $pageClass = $this->params->get('pageclass_sfx');
 		<?php endif; ?>
 	</h1>
 	<?php endif; ?>
-	
-<form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">	
+
+<form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">
 	<fieldset class="filters">
 	<legend class="element-invisible"><?php echo JText::_('JContent_Filter_Label'); ?></legend>
 	<div class="filter-search">

@@ -29,9 +29,9 @@
 		<field
 			name="spacer1"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
-			
+
 		<field
 			name="scrolling"
 			type="radio"
@@ -64,7 +64,7 @@
 		<field
 			name="spacer2"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 		</fields>
 

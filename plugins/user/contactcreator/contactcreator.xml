@@ -19,24 +19,24 @@
 			tag="en-GB">administrator/language/en-GB/en-GB.plg_user_contactcreator.ini</language>
 	</languages>
 	<fields>
-		<field 
-			name="autowebpage" 
-			default="" 
-			type="text" 
-			label="PLG_CONTACTCREATOR_Automatic_Contact_Label" 
+		<field
+			name="autowebpage"
+			default=""
+			type="text"
+			label="PLG_CONTACTCREATOR_Automatic_Contact_Label"
 			description="PLG_CONTACTCREATOR_Automatic_Contact_DESC" />
-		<field 
-			name="category" 
-			default="" 
+		<field
+			name="category"
+			default=""
 			type="category"
 			extension="com_contact"
-			label="PLG_CONTACTCREATOR_Category_label" 
+			label="PLG_CONTACTCREATOR_Category_label"
 			description="PLG_CONTACTCREATOR_Category_Desc"/>
-		<field 
-			name="autopublish" 
-			type="radio" 
-			default="0" 
-			label="PLG_CONTACTCREATOR_Autopublish_Label" 
+		<field
+			name="autopublish"
+			type="radio"
+			default="0"
+			label="PLG_CONTACTCREATOR_Autopublish_Label"
 			description="PLG_CONTACTCREATOR_Autopublish_DESC">
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>

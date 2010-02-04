@@ -33,21 +33,21 @@
 			default=""
 			label="Com_Contact_Contact_Breadcrumbs_Label"
 			description="Com_Contact_Contact_Breadcrumbs_Desc">
-			<option 
+			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JHide</option>
 			<option
 				value="1">JShow</option>
 		</field>
-		
+
 		<field
 			name="article_allow_ratings"
 			type="list"
 			label="Content_Attribs_Allow_Ratings_Label"
 			description="Content_Attribs_Allow_Ratings_Desc"
 			default="">
-			<option 
+			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
@@ -61,7 +61,7 @@
 			label="Content_Attribs_Allow_Comments_Label"
 			description="Content_Attribs_Allow_Comments_Desc"
 			default="">
-			<option 
+			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
@@ -70,26 +70,26 @@
 		</field>
 
 	</fields>
-	
+
 	<fields
 		group="params"
 		label="Contact_Contact_Settings_Label"
 		description="">
-		
+
 		<field
 			name="show_contact_list"
 			type="list"
 			default=""
 			label="Com_Contact_Contact_Contact_Show_List_Label"
 			description="Com_Contact_Contact_Contact_Show_List_Desc">
-			<option 
+			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JHide</option>
 			<option
 				value="1">JShow</option>
 		</field>
-		
+
 		<field
 			name="show_name"
 			type="list"
@@ -324,7 +324,7 @@
 			type="list"
 			default="1">
 			<option
-				value="">Jcommon_Use_Global</option>			
+				value="">Jcommon_Use_Global</option>
 			<option
 				value="0">Jcommon_Hide</option>
 			<option
@@ -377,7 +377,7 @@
 			default="" />
 
 	</fields>
-	
+
 	<fields
 		group="Contact_Form"
 		label="Contact_Config_Contact_Form">
@@ -395,7 +395,7 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-		
+
 		<field
 			name="email_description"
 			type="text"
@@ -417,7 +417,7 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-		
+
 		<field
 			name="banned_email"
 			type="textarea"
@@ -481,5 +481,5 @@
 			description="Contact_Config_Redirect_DESC" />
 
 	</fields>
-		
+
 </metadata>

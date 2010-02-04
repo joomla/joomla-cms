@@ -31,7 +31,7 @@ class JCacheViewTest extends PHPUnit_Framework_TestCase {
 	{
 		include_once JPATH_BASE.'/libraries/joomla/cache/cache.php';
 		include_once JPATH_BASE.'/libraries/joomla/cache/handler/view.php';
-		
+
 		$this->object = JCache::getInstance('view', array());
 	}
 

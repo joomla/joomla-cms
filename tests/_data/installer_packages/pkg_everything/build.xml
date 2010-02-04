@@ -4,7 +4,7 @@
 		<echo msg="Cleaning directories" />
 		<delete dir="packages" includeemptydirs="true" />
 	</target>
-	
+
 	<target name="build">
 		<echo msg="Building package" />
 		<mkdir dir="packages" />
@@ -15,7 +15,7 @@
 		<zip destfile="packages/mod_alpha.zip" basedir="../mod_alpha" />
 		<zip destfile="packages/mod_alpha_admin.zip" basedir="../mod_alpha.admin" />
 		<zip destfile="packages/plg_system_alpha.zip" basedir="../plg_system_alpha" />
-		<zip destfile="packages/tpl_simple.zip" basedir="../tpl_simple" />	
+		<zip destfile="packages/tpl_simple.zip" basedir="../tpl_simple" />
 		<zip destfile="pkg_everything.zip">
 			<fileset dir=".">
 				<include name="packages/**" />

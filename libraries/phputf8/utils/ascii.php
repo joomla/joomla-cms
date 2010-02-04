@@ -21,7 +21,7 @@
 *     $someString = utf8_strtolower($someString);
 * }
 * </code>
-* 
+*
 * @param string
 * @return boolean TRUE if it's all ASCII
 * @package utf8
@@ -38,7 +38,7 @@ function utf8_is_ascii($str) {
 * Tests whether a string contains only 7bit ASCII bytes with device
 * control codes omitted. The device control codes can be found on the
 * second table here: http://www.w3schools.com/tags/ref_ascii.asp
-* 
+*
 * @param string
 * @return boolean TRUE if it's all ASCII without device control codes
 * @package utf8
@@ -110,7 +110,7 @@ function utf8_strip_ascii_ctrl($str) {
 * Strip out all non 7bit ASCII bytes and ASCII device control codes.
 * For a list of ASCII device control codes see the 2nd table here:
 * http://www.w3schools.com/tags/ref_ascii.asp
-* 
+*
 * @param string
 * @return boolean TRUE if it's all ASCII
 * @package utf8
@@ -155,12 +155,12 @@ function utf8_strip_non_ascii_ctrl($str) {
 * @subpackage ascii
 */
 function utf8_accents_to_ascii( $str, $case=0 ){
-    
+
     static $UTF8_LOWER_ACCENTS = NULL;
     static $UTF8_UPPER_ACCENTS = NULL;
-    
+
     if($case <= 0){
-        
+
         if ( is_null($UTF8_LOWER_ACCENTS) ) {
             $UTF8_LOWER_ACCENTS = array(
   'à' => 'a', 'ô' => 'o', 'ď' => 'd', 'ḟ' => 'f', 'ë' => 'e', 'š' => 's', 'ơ' => 'o',
@@ -177,17 +177,17 @@ function utf8_accents_to_ascii( $str, $case=0 ){
   'ÿ' => 'y', 'ũ' => 'u', 'ŭ' => 'u', 'ư' => 'u', 'ţ' => 't', 'ý' => 'y', 'ő' => 'o',
   'â' => 'a', 'ľ' => 'l', 'ẅ' => 'w', 'ż' => 'z', 'ī' => 'i', 'ã' => 'a', 'ġ' => 'g',
   'ṁ' => 'm', 'ō' => 'o', 'ĩ' => 'i', 'ù' => 'u', 'į' => 'i', 'ź' => 'z', 'á' => 'a',
-  'û' => 'u', 'þ' => 'th', 'ð' => 'dh', 'æ' => 'ae', 'µ' => 'u', 'ĕ' => 'e', 
+  'û' => 'u', 'þ' => 'th', 'ð' => 'dh', 'æ' => 'ae', 'µ' => 'u', 'ĕ' => 'e',
             );
         }
-        
+
         $str = str_replace(
                 array_keys($UTF8_LOWER_ACCENTS),
                 array_values($UTF8_LOWER_ACCENTS),
                 $str
             );
     }
-    
+
     if($case >= 0){
         if ( is_null($UTF8_UPPER_ACCENTS) ) {
             $UTF8_UPPER_ACCENTS = array(
@@ -214,7 +214,7 @@ function utf8_accents_to_ascii( $str, $case=0 ){
                 $str
             );
     }
-    
+
     return $str;
-    
+
 }

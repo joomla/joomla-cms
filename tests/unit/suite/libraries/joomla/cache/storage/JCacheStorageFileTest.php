@@ -26,7 +26,7 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		include_once JPATH_BASE.'/libraries/joomla/cache/storage.php';
 		include_once JPATH_BASE.'/libraries/joomla/cache/storage/file.php';
-		
+
 		$this->object = JCacheStorage::getInstance('file', array('cachebase' => JPATH_BASE.'/cache'));
 	}
 
@@ -95,7 +95,7 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testRemove() {
 		$this->object->store(42, 'testing', 'And this is the cache that tries men\'s souls');
-		
+
 		$this->assertThat(
 			$this->object->get(42, 'testing', true),
 			$this->equalTo('And this is the cache that tries men\'s souls')
@@ -118,7 +118,7 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase {
 		$this->object->store(43, 'testing', 'The summer coder and the sunshine developer.');
 		$this->object->store(44, 'nottesting', 'Now is the time for all good developers to cry');
 		$this->object->store(45, 'testing', 'Do not go gentle into that good night');
-		
+
 		$this->assertThat(
 			$this->object->get(42, 'testing', true),
 			$this->equalTo('And this is the cache that tries men\'s souls')

@@ -49,9 +49,9 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('element'); ?>
 			<?php echo $this->form->getInput('element'); ?>
-			
+
 			<br class="clr" />
-			
+
 			<!-- Plugin metadata -->
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = (string) $this->item->xml->description) : ?>

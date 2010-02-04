@@ -17,54 +17,54 @@ jimport('joomla.plugins.plugin');
  * @subpackage	user.contactcreator
  * @version		1.6
  */
-class plgUserContactCreator extends JPlugin 
+class plgUserContactCreator extends JPlugin
 {
-	
-	function onAfterStoreUser($user, $isnew, $success, $msg) 
+
+	function onAfterStoreUser($user, $isnew, $success, $msg)
 	{
 		if(!$success) {
 			return false; // if the user wasn't stored we don't resync
 		}
-		
+
 		// ensure the user id is really an int
 		$user_id = (int)$user['id'];
-		
+
 		if(empty($user_id)) {
 			die('invalid userid');
 			return false; // if the user id appears invalid then bail out just in case
 		}
-		
+
 		$category = $this->params->get('category', 0);
-		if(empty($category)) 
+		if(empty($category))
 		{
 			JError::raiseWarning(41, JText::_('PLG_CONTACTCREATOR_NO_CATEGORY'));
-			return false; // bail out if we don't have a category	
+			return false; // bail out if we don't have a category
 		}
-		
+
 		$dbo =& JFactory::getDBO();
 		// grab the contact ID for this user; note $user_id is cleaned above
 		$dbo->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id );
 		$id = $dbo->loadResult();
-		
+
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/tables');
 		$contact =& JTable::getInstance('contact', 'ContactTable');
 		if(!$contact) {
 			return false;
 		}
-		
+
 		if($id) {
 			$contact->load($id);
 		} else if($this->params->get('autopublish', 0)) {
 			$contact->published = 1;
 		}
-		
+
 		$contact->name = $user['name'];
 		$contact->user_id = $user_id;
 		$contact->email_to = $user['email'];
-		$contact->catid = $category; 
-		
+		$contact->catid = $category;
+
 		$autowebpage = $this->params->get('autowebpage', '');
-		if(!empty($autowebpage)) 
+		if(!empty($autowebpage))
 		{
 			// search terms
 			$search_array = Array('[name]', '[username]','[userid]','[email]');
@@ -75,10 +75,10 @@ class plgUserContactCreator extends JPlugin
 		}
 
 		$result = $contact->store();
-		if(!$result) 
+		if(!$result)
 		{
 			JError::raiseError(42, JText::sprintf('Failed to update contact: %s', $contact->getErrorMsg()));
 		}
 	}
-	
+
 }

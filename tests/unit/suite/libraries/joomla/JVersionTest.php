@@ -319,7 +319,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 			$output = $this->object->getUserAgent();
 		}
 		else if (is_null($mask))
-		{ 
+		{
 			$output = $this->object->getUserAgent($component);
 		}
 		else if (is_null($addVersion))
@@ -329,7 +329,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 		else
 		{
 			$output = $this->object->getUserAgent($component, $mask, $addVersion);
-		} 
+		}
 		$this->assertEquals(
 			$expect,
 			$output,
@@ -359,7 +359,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 				'COPYRIGHT' => 'Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.',
 				'URL' => '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.'
 			);
-			
+
 			$testInstance = $this->object->__set_state($testData);
 			foreach ($testData as $key => $value)
 			{

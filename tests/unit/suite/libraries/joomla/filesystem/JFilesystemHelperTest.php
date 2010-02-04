@@ -15,7 +15,7 @@ class JFilesystemHelperTest extends PHPUnit_Framework_TestCase {
 	 * @var JFilesystemHelper
 	 */
 	protected $object;
-	
+
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -23,14 +23,14 @@ class JFilesystemHelperTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		$this->object = new JFilesystemHelper;
 	}
-	
+
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 */
 	protected function tearDown() {
 	}
-	
+
 	/**
 	 * @todo Implement testRemotefsize().
 	 */
@@ -38,7 +38,7 @@ class JFilesystemHelperTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testFtpChmod().
 	 */
@@ -46,7 +46,7 @@ class JFilesystemHelperTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testGetWriteModes().
 	 */
@@ -54,7 +54,7 @@ class JFilesystemHelperTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testGetSupported().
 	 */
@@ -62,7 +62,7 @@ class JFilesystemHelperTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testGetTransports().
 	 */
@@ -70,7 +70,7 @@ class JFilesystemHelperTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testGetFilters().
 	 */
@@ -78,7 +78,7 @@ class JFilesystemHelperTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testGetJStreams().
 	 */
@@ -86,7 +86,7 @@ class JFilesystemHelperTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testIsJoomlaStream().
 	 */

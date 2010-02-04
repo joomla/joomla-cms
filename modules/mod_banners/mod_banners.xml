@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension 
-	type="module" 
-	version="1.6.0" 
-	client="site" 
+<extension
+	type="module"
+	version="1.6.0"
+	client="site"
 	method="upgrade">
 	<name>Banners</name>
 	<author>Joomla! Project</author>
@@ -44,7 +44,7 @@
 		<field
 			name="spacer1"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 
 		<field
@@ -95,7 +95,7 @@
 		<field
 			name="spacer2"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 
 		<field

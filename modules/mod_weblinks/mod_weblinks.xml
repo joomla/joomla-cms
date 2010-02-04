@@ -16,7 +16,7 @@
 	<files>
 	<filename module="mod_weblinks">mod_weblinks.php</filename>
 	</files>
-	<fields>	
+	<fields>
 		<field name="catid" type="category" extension="com_weblinks" default="0" label="Category" description="fieldCATSELECT" />
 		<field name="count" type="text" default="5" label="Count" description="Desc_Count" />
 		<field name="ordering" type="list" default="title" label="Ordering" description="fieldORDERING">
@@ -31,11 +31,11 @@
 		<field name="target" type="list" default="3" label="Target Window" description="PARAMTARGETWINDOW">
 			<option value="1">New Window</option>
 			<option value="2">Popup Window</option>
-			<option value="3">Same Window</option>			
-		</field>					
+			<option value="3">Same Window</option>
+		</field>
 		<field name="follow" type="radio" default="0" label="Follow/No Follow" description="PARAMFOLLOWNOFOLLOW">
 			<option value="follow">Follow</option>
-			<option value="no follow">No Follow</option>			
+			<option value="no follow">No Follow</option>
 		</field>
 		<field name="description" type="radio" default="0" label="Show Description" description="PARAMSHOWDESCRIPTION">
 			<option value="1">Yes</option>

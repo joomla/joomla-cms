@@ -111,7 +111,7 @@
 			description="Contact_SortName3_Desc"
 			class="inputbox"
 			size="30"
-			required="" />			
+			required="" />
 		<field
 			id="language"
 			name="language"
@@ -614,7 +614,7 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-		<field 
+		<field
 				id="show_profile"
 				name="show_profile"
 				type="list"
@@ -737,12 +737,12 @@
 			size="30"
 			default="" />
 	</fields>
-	<fields 
+	<fields
 		group="email_form"
 		label="Contact_Email_Form_Label"
 		array="true"
 		>
-	
+
 		<field
 			name="show_email_form"
 			type="list"
@@ -843,5 +843,5 @@
 			description="Contact_Email_Redirect_DESC" />
 
 </fields>
-						
+
 </form>

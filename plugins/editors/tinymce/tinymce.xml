@@ -18,7 +18,7 @@
 			plugin="tinymce">tinymce.php</filename>
 		<folder>tinymce</folder>
 	</files>
-	
+
 	<fields>
 		<field
 			name="mode"

@@ -15,14 +15,14 @@ require_once 'SeleniumJoomlaTestCase.php';
 class ControlPanel0004 extends SeleniumJoomlaTestCase
 {
 
- 
+
   function testCreateRemoveCategory()
   {
   	$this->setUp();
   	$this->doAdminLogin();
     $this->click("link=Control Panel");
     $this->waitForPageToLoad("30000");
-    
+
     print("Navigate to Category Manager." . "\n");
     $this->click("link=Category Manager");
     $this->waitForPageToLoad("30000");
@@ -35,11 +35,11 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
     $this->click("//li[@id='toolbar-save']/a/span");
     $this->waitForPageToLoad("30000");
     print("Check that Category is there." . "\n");
-    
+
     $this->type("filter_search", "Functional Test");
     $this->click("//button[@type='submit']");
     $this->waitForPageToLoad("30000");
-    
+
     $this->assertEquals("Functional Test Category", $this->getText("link=Functional Test Category"));
     print("Open for editing and change parent from ROOT to News and save" . "\n");
     $this->click("link=Functional Test Category");
@@ -77,7 +77,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
     $this->assertFalse($this->isTextPresent("Functional Test Category"));
     $this->doAdminLogout();
     print("Finished control_panel0004Test.php." . "\n");
-    
+
   }
 }
 ?>

@@ -47,7 +47,7 @@
 		<field
 			name="spacer1"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 
 		<field
@@ -96,7 +96,7 @@
 		<field
 			name="spacer2"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 
 		<field

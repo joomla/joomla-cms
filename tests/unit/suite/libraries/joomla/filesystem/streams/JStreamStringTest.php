@@ -15,7 +15,7 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase {
 	 * @var JStreamString
 	 */
 	protected $object;
-	
+
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -23,14 +23,14 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		$this->object = new JStreamString;
 	}
-	
+
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 */
 	protected function tearDown() {
 	}
-	
+
 	/**
 	 * @todo Implement testStream_open().
 	 */
@@ -38,7 +38,7 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testStream_stat().
 	 */
@@ -46,7 +46,7 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testUrl_stat().
 	 */
@@ -54,7 +54,7 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testStream_read().
 	 */
@@ -62,7 +62,7 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testStream_write().
 	 */
@@ -70,7 +70,7 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testStream_tell().
 	 */
@@ -78,7 +78,7 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testStream_eof().
 	 */
@@ -86,7 +86,7 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testStream_seek().
 	 */
@@ -94,7 +94,7 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testStream_flush().
 	 */

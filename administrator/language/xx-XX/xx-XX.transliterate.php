@@ -18,8 +18,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 function xxXXTransliterate($string) //change xxXX to fit language prefix
 {
 	$str = JString::strtolower($string);
-	
-	//Specific language transliteration. 
+
+	//Specific language transliteration.
 	//This one is for latin 1, latin supplement , extended A, Cyrillic, Greek
 
 	$glyph_array = array(
@@ -64,7 +64,7 @@ function xxXXTransliterate($string) //change xxXX to fit language prefix
 	'y'		=>	'ý,þ,ÿ,ŷ',
 	'z'		=>	'ź,ż,ž,з,ж,ζ'
 	);
-	
+
 	foreach( $glyph_array as $letter => $glyphs ) {
 	$glyphs = explode( ',', $glyphs );
 	$str = str_replace( $glyphs, $letter, $str );

@@ -47,9 +47,9 @@ class JUserTest extends JoomlaDatabaseTestCase
     {
 		include_once JPATH_BASE . '/libraries/joomla/database/table.php';
 		include_once JPATH_BASE . '/libraries/joomla/user/user.php';
-		
+
     	parent::setUp();
-				
+
     	$this->saveFactoryState();
 		$this->saveErrorHandlers();
 		$this->setErrorCallback('JUserTest');
@@ -110,7 +110,7 @@ class JUserTest extends JoomlaDatabaseTestCase
      *
      * @return void
      * @dataProvider casesGetInstance
-     * @group breaks     
+     * @group breaks
      */
     public function testGetInstance( $userid, $expected, $error )
     {
@@ -130,7 +130,7 @@ class JUserTest extends JoomlaDatabaseTestCase
      * Testing individual parameter control.
      *
      * @return void
-     * @group breaks     
+     * @group breaks
      */
     public function testParameters()
     {
@@ -138,13 +138,13 @@ class JUserTest extends JoomlaDatabaseTestCase
     		$this->object->getParam('holy', 'fred'),
     		$this->equalTo('fred')
     	);
-    	
+
     	$this->object->defParam('holy', 'batman');
     	$this->assertThat(
     		$this->object->getParam('holy', 'fred'),
     		$this->equalTo('batman')
     	);
-    	
+
     	$this->object->setParam('holy', 'batman');
     	$this->assertThat(
     		$this->object->getParam('holy', 'fred'),
@@ -191,14 +191,14 @@ class JUserTest extends JoomlaDatabaseTestCase
      *
      * @return void
      * @dataProvider casesAuthorize
-     * @group breaks     
+     * @group breaks
      */
     public function testAuthorize( $action, $asset, $expected )
     {
     	$users[0] = $this->object;
     	$users[1] = new JUser(0);
     	$users[2] = new JUser(100);
-    	
+
     	foreach ($users as $user)
     	{
 			$this->assertThat(
@@ -218,14 +218,14 @@ class JUserTest extends JoomlaDatabaseTestCase
      *
      * @return void
      * @dataProvider casesAuthorize
-     * @group breaks     
+     * @group breaks
      */
     public function testAuthorise( $action, $asset, $expected )
     {
     	$users[0] = $this->object;
     	$users[1] = new JUser(0);
     	$users[2] = new JUser(100);
-    	
+
     	foreach ($users as $user)
     	{
 			$this->assertThat(
@@ -267,7 +267,7 @@ class JUserTest extends JoomlaDatabaseTestCase
      *
      * @return void
      * @dataProvider	casesAuthorizedLevels
-     * @group breaks     
+     * @group breaks
      */
     public function testAuthorisedLevels( $user, $expected )
     {
@@ -279,7 +279,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 		{
 			$user = $this->object;
 		}
-		
+
 		$this->assertThat(
 			$user->authorisedLevels(),
 			$this->equalTo($expected),
@@ -291,12 +291,12 @@ class JUserTest extends JoomlaDatabaseTestCase
      * Testing setLastVisit().
      *
      * @return void
-     * @group breaks     
+     * @group breaks
      */
     public function testSetLastVisit()
     {
     	$timestamp = '2006-12-23 12:12:14';
-    	
+
     	$this->object->setLastVisit($timestamp);
     	$testUser = new JUser(42);
     	$this->assertThat(
@@ -310,7 +310,7 @@ class JUserTest extends JoomlaDatabaseTestCase
      *
      * @return void
      * @todo Implement testGetParameters().
-     * @group breaks     
+     * @group breaks
      */
     public function testGetParameters()
     {
@@ -325,7 +325,7 @@ class JUserTest extends JoomlaDatabaseTestCase
      *
      * @return void
      * @todo Implement testSetParameters().
-     * @group breaks     
+     * @group breaks
      */
     public function testSetParameters()
     {
@@ -381,7 +381,7 @@ class JUserTest extends JoomlaDatabaseTestCase
      * @return void
      *
      * @dataProvider casesGetTable
-     * @group breaks     
+     * @group breaks
      */
     public function testGetTable( $type, $prefix, $expClass, $expName )
     {
@@ -407,7 +407,7 @@ class JUserTest extends JoomlaDatabaseTestCase
      *
      * @return void
      * @todo Implement testBind().
-     * @group breaks     
+     * @group breaks
      */
     public function testBind()
     {
@@ -421,29 +421,29 @@ class JUserTest extends JoomlaDatabaseTestCase
      * Testing creation and deletion of users
      *
      * @return void
-     * @group breaks     
+     * @group breaks
      */
     public function testCreateDeleteUser()
     {
     	include_once JPATH_BASE . '/libraries/joomla/event/dispatcher.php';
     	include_once JPATH_BASE . '/libraries/joomla/plugin/helper.php';
-    	
+
     	$mockSession = $this->getMock('JSession', array('_start', 'get'));
     	$mockSession->expects($this->any())->method('get')->will(
     		$this->returnValue($this->object)
     	);
     	JFactory::$session = $mockSession;
-    	
+
     	$testUser = new JUser();
     	$testUser->name = "Floyd Smoot";
     	$testUser->username = "Floyd";
-    	
+
     	$this->assertThat(
     		$testUser->id,
     		$this->equalTo(0),
     		"Newly created id should be zero"
     	);
-    	
+
     	$this->assertThat(
     		$testUser->save(),
     		$this->isFalse(),
@@ -456,7 +456,7 @@ class JUserTest extends JoomlaDatabaseTestCase
     		),
     		'Should have caused valid email error'
     	);
-    	
+
     	$testUser->email = "harry@sally.com";
     	$this->assertThat(
     		$testUser->save(true),
@@ -464,37 +464,37 @@ class JUserTest extends JoomlaDatabaseTestCase
     		$this->isTrue(),
     		'Should not create new user when update only flag is set'
     	);
-    	
+
     	$this->assertThat(
     		$testUser->save(),
     		$this->isTrue()
     	);
-    	
+
     	$this->assertThat(
     		$testUser->id,
     		$this->greaterThan(0),
     		"Newly saved id should not be zero"
     	);
-    	
+
     	$testUser->email = "sally@harry.com";
      	$this->assertThat(
     		$testUser->save(),
     		$this->isTrue(),
     		'Should update existing user.'
     	);
-    	
+
    		$testUser1 = JUser::getInstance('Floyd');
     	$this->assertThat(
     		$testUser1->id,
     		$this->equalTo($testUser1->id),
     		"Id's should be the same"
     	);
-    	
+
     	$this->assertThat(
     		$testUser->delete(),
     		$this->isTrue()
     	);
-    	
+
     	$testUser2 = JUser::getInstance('Floyd');
     	$this->assertThat(
     		$testUser2,
@@ -531,12 +531,12 @@ class JUserTest extends JoomlaDatabaseTestCase
      * @return void
      *
      * @dataProvider casesLoad
-     * @group breaks     
+     * @group breaks
      */
     public function testLoad( $id, $expected )
     {
     	$testUser = new JUser($id);
-    	
+
     	$this->assertThat(
     		$testUser->load($id),
     		$this->equalTo($expected)

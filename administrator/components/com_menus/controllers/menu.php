@@ -114,7 +114,7 @@ class MenusControllerMenu extends JController
 
 		// Get the posted values from the request.
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
-		
+
 		// Check the menutype
 		if($data['menutype'] == '_adminmenu'){
 			JError::raiseNotice(0, JText::_('MENUS_MENU_TYPE_NOT_ALLOWED'));

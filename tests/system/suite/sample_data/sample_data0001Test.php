@@ -33,8 +33,8 @@ class SampleData0001 extends SeleniumJoomlaTestCase
     $this->doAdminLogout();
     print("Finish testModuleOrder" . "\n");
   }
-  
-  function testMenuItems() 
+
+  function testMenuItems()
   {
   	$this->setUp();
 	$this->doAdminLogin();
@@ -59,7 +59,7 @@ class SampleData0001 extends SeleniumJoomlaTestCase
     print("Load search" . "\n");
     $this->click("link=Search");
     $this->waitForPageToLoad("30000");
- 
+
     $this->click("link=Home");
     $this->waitForPageToLoad("30000");
 
@@ -83,12 +83,12 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 	$this->assertTrue($this->isElementPresent("link=Templates"));
 	$this->assertTrue($this->isElementPresent("link=Modules"));
 	$this->assertTrue($this->isElementPresent("link=Components"));
-	
+
 	print("Go to The Joomla! Community" . "\n");
 	$this->click("link=The Joomla! Community");
 	$this->waitForPageToLoad("30000");
 	$this->assertTrue($this->isTextPresent("The Joomla! Community"));
-	
+
 	print("Go to The Joomla! Project" . "\n");
 	$this->click("link=The Joomla! Project");
 	$this->waitForPageToLoad("30000");
@@ -113,6 +113,6 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 	$this->doAdminLogout();
 	print("Finish testMenuItems" . "\n");
   }
-  
+
 }
 ?>

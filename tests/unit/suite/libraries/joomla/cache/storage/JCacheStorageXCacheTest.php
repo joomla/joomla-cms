@@ -38,7 +38,7 @@ class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 	{
 		include_once JPATH_BASE.'/libraries/joomla/cache/storage.php';
 		include_once JPATH_BASE.'/libraries/joomla/cache/storage/xcache.php';
-		
+
 		$this->xcacheAvailable = extension_loaded('xcache');
 		$this->object = JCacheStorage::getInstance('xcache');
 	}

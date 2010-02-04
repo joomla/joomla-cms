@@ -26,22 +26,22 @@
 		label="Menus_Layout_Basic_Options_Label"
 		description="">
 
-	 	<field 
-	 		name="show_description" 
-	 		type="list" 
-	 		default="" 
-	 		label="Content_Attribs_Show_Category_Description_Label" 
+	 	<field
+	 		name="show_description"
+	 		type="list"
+	 		default=""
+	 		label="Content_Attribs_Show_Category_Description_Label"
 	 		description="Content_Attribs_Show_Category_Description_Desc">
 	 			<option value="">JCOMMON_USE_GLOBAL</option>
 	 			<option value="0">JCommon_Hide</option>
 	 			<option value="1">JCommon_Show</option>
 	 	</field>
-		
-		<field 
-			name="show_description_image" 
-			type="list" 
-			default="" 
-			label="Content_Attribs_Show_Category_Image_Label" 
+
+		<field
+			name="show_description_image"
+			type="list"
+			default=""
+			label="Content_Attribs_Show_Category_Image_Label"
 			description="Content_Attribs_Show_Category_Image_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 	 			<option value="0">JCommon_Hide</option>
@@ -76,7 +76,7 @@
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
-		
+
 		<field
 			name="show_date"
 			type="list"
@@ -90,11 +90,11 @@
 				<option value="published">Published</option>
 		</field>
 
-		<field name="date_format" 
-			type="text" 
-			size="15" 
-			default="" 
-			label="Content_Attribs_Date_Format_Label" 
+		<field name="date_format"
+			type="text"
+			size="15"
+			default=""
+			label="Content_Attribs_Date_Format_Label"
 			description="Content_Attribs_Date_Format_Desc" />
 
 		<field
@@ -116,12 +116,12 @@
 		group="advanced"
 		label="Menus_Layout_Advanced_Options_Label"
 		description="">
-		
-		<field 
-			name="article_orderby" 
-			type="list" 
-			default="" 
-			label="Content_Attribs_Article_Order_Label" 
+
+		<field
+			name="article_orderby"
+			type="list"
+			default=""
+			label="Content_Attribs_Article_Order_Label"
 			description="Content_Attribs_Article_Order_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="date">Oldest_first</option>
@@ -133,67 +133,67 @@
 				<option value="hits">Most_Hits</option>
 				<option value="rhits">Least_Hits</option>
 				<option value="order">Article_Manager_Order</option>
-		</field>		
+		</field>
 
-		<field 
-			name="order_date" 
-			type="list" 
-			default="" 
-			label="Content_Attribs_Ordering_Date_Label" 
+		<field
+			name="order_date"
+			type="list"
+			default=""
+			label="Content_Attribs_Ordering_Date_Label"
 			description="Content_Attribs_Ordering_Date_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="created">Created</option>
 				<option value="modified">Modified</option>
 				<option value="published">Published</option>
 		</field>
-		
-		<field 
-			name="list_type" 
-			type="list" 
-			default="" 
-			label="Content_Attribs_List_Type_Label" 
+
+		<field
+			name="list_type"
+			type="list"
+			default=""
+			label="Content_Attribs_List_Type_Label"
 			description="Content_Attribs_List_Type_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="single">Single_Level</option>
 				<option value="mutliple">Multi_Level</option>
 		</field>
-	 	
-		<field 
-			name="show_pagination_limit" 
-			type="list" 
-			default="" 
-			label="Content_Attribs_Display_Select_Label" 
+
+		<field
+			name="show_pagination_limit"
+			type="list"
+			default=""
+			label="Content_Attribs_Display_Select_Label"
 			description="Content_Attribs_Display_Select_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
 
-		<field 
-			name="list_hits" 
-			type="list" default="" 
-			label="CONTENT_ATTRIBS_LIST_HITS_LABEL" 
+		<field
+			name="list_hits"
+			type="list" default=""
+			label="CONTENT_ATTRIBS_LIST_HITS_LABEL"
 			description="CONTENT_ATTRIBS_LIST_HITS_DESC">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
-		
-		<field 
-			name="list_author" 
-			type="list" default="" 
-			label="CONTENT_ATTRIBS_LIST_AUTHOR_LABEL" 
+
+		<field
+			name="list_author"
+			type="list" default=""
+			label="CONTENT_ATTRIBS_LIST_AUTHOR_LABEL"
 			description="CONTENT_ATTRIBS_LIST_AUTHOR_DESC">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
-		</field>	
+		</field>
 
-		<field 
-			name="show_pagination" 
-			type="list" 
-			default="" 
-			label="Content_Attribs_Pagination_Label" 
+		<field
+			name="show_pagination"
+			type="list"
+			default=""
+			label="Content_Attribs_Pagination_Label"
 			description="Content_Attribs_Pagination_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="0">JCommon_Hide</option>
@@ -210,21 +210,21 @@
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 		</field>
-		
+
 	</fields>
-	
+
 	<fields
 		group="integration"
 		label="Menus_Layout_Integration_Options_Label"
 		description="">
-		
+
 		<field
 			name="article-allow_ratings"
 			type="list"
 			label="Content_Attribs_Allow_Ratings_Label"
 			description="Content_Attribs_Allow_Ratings_Desc"
 			default="">
-			<option 
+			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
@@ -238,44 +238,44 @@
 			label="Content_Attribs_Allow_Comments_Label"
 			description="Content_Attribs_Allow_Comments_Desc"
 			default="">
-			<option 
+			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
 			<option
 				value="1">JYes</option>
 		</field>
-		
+
 		<field
 			name="show_feed_link"
 			type="list"
 			default=""
 			label="Content_Attribs_Show_Feed_Link_Label"
 			description="Content_Attribs_Show_Feed_Link_Desc">
-			<option 
+			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
 			<option
 				value="1">JYes</option>
 		</field>
-		
+
 		<field
 			name="feed_summary"
 			type="list"
 			label="Content_Attribs_Feed_Summary_Label"
 			description="Content_Attribs_Feed_Summary_Desc"
 			default="">
-			<option 
+			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JCOMMON_INTRO_TEXT</option>
 			<option
 				value="1">JCOMMON_FULL_TEXT</option>
 		</field>
-		
-	</fields>	
-	
+
+	</fields>
+
 	<fields
 		group="articles"
 		label="Content_Attribs_Article_Settings_Label"
@@ -392,7 +392,7 @@
 			<option
 				value="1">Show</option>
 		</field>
-		
+
 		<field
 			name="show_publish_date"
 			type="list"
@@ -478,5 +478,5 @@
 		</field>
 
 	</fields>
-	
+
 </metadata>

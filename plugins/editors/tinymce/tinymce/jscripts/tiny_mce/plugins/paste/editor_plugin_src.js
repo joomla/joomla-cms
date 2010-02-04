@@ -144,7 +144,7 @@
 				}
 			};
 
-			// Check if we should use the new auto process method			
+			// Check if we should use the new auto process method
 			if (ed.getParam('paste_auto_cleanup_on_paste', true)) {
 				// Is it's Opera or older FF use key handler
 				if (tinymce.isOpera || /Firefox\/2/.test(navigator.userAgent)) {

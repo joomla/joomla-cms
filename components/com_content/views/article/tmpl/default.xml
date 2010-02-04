@@ -27,14 +27,14 @@
 		group="integration"
 		label="Menus_Layout_Integration_Options_Label"
 		description="">
-		
+
 		<field
 			name="article-allow_ratings"
 			type="list"
 			label="Content_Attribs_Allow_Ratings_Label"
 			description="Content_Attribs_Allow_Ratings_Desc"
 			default="">
-			<option 
+			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
@@ -48,7 +48,7 @@
 			label="Content_Attribs_Allow_Comments_Label"
 			description="Content_Attribs_Allow_Comments_Desc"
 			default="">
-			<option 
+			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
@@ -57,7 +57,7 @@
 		</field>
 
 	</fields>
-	
+
 	<fields
 		group="articles"
 		label="Content_Attribs_Article_Settings_Label"
@@ -174,7 +174,7 @@
 			<option
 				value="1">Show</option>
 		</field>
-		
+
 		<field
 			name="show_publish_date"
 			type="list"
@@ -260,5 +260,5 @@
 		</field>
 
 	</fields>
-	
+
 </metadata>

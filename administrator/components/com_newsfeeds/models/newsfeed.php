@@ -117,7 +117,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 		$registry = new JRegistry;
 		$registry->loadJSON($table->params);
 		$value->params = $registry->toArray();
-		
+
 		return $value;
 	}
 

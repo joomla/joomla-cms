@@ -21,7 +21,7 @@
 			label="Feed"
 			description="A feed" />
 	</fields>
-	
+
 	<fields
 		group="params"
 		label="Newsfeeds_Options">

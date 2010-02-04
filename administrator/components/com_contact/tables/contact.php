@@ -70,13 +70,13 @@ class ContactTableContact extends JTable
 	/** @var string */
 	public $webpage 			= null;
 	/** @var string */
-	public $sortname1 			= null;	
+	public $sortname1 			= null;
 	/** @var string */
 	public $sortname2 			= null;
 	/** @var string */
 	public $sortname3 			= null;
 	/** @var string */
-	public $language 			= null;	
+	public $language 			= null;
 	/**
 	 * Constructor
 	 *

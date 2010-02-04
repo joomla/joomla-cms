@@ -91,12 +91,12 @@ class UsersHelperRoute
 		// Search for a suitable menu id.
 		//Menu link can only go to users own profile.
 
-		foreach ($items as $item) { 
+		foreach ($items as $item) {
 			if (isset($item->query['view']) && $item->query['view'] === 'profile') {
 				$itemid = $item->id;
 				break;
 			}
-		
+
 		}
 		return $itemid;
 	}

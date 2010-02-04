@@ -25,7 +25,7 @@
 		<field
 			name="spacer1"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 		<field
 			name="show_link_hits"
@@ -102,7 +102,7 @@
 		<field
 			name="spacer2"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 		<field
 			name="target"

@@ -10,7 +10,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'TestSuite::main');
 }
 set_include_path(get_include_path() . PATH_SEPARATOR . './PEAR/' . PATH_SEPARATOR . '../');
- 
+
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'control_panel/control_panel0001Test.php';
@@ -21,14 +21,14 @@ require_once 'articles/article0001Test.php';
 require_once 'com_users/user0001Test.php';
 require_once 'modules/module0001Test.php';
 require_once 'sample_data/sample_data0001Test.php';
- 
+
 class TestSuite
 {
     public static function main()
     {
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
- 
+
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit Framework');
@@ -44,7 +44,7 @@ class TestSuite
         return $suite;
     }
 }
- 
+
 if (PHPUnit_MAIN_METHOD == 'Framework_AllTests::main') {
 	print "running Framework_AllTests::main()";
     Framework_AllTests::main();

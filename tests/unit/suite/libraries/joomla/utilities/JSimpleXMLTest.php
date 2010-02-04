@@ -36,7 +36,7 @@ class JSimpleXMLTest extends JoomlaTestCase
 		$this->saveErrorHandlers();
 		$this->setErrorCallback('JSimpleXMLTest');
 		JSimpleXMLTest::$actualError = array();
-		
+
         $this->object = new JSimpleXML( array(XML_OPTION_SKIP_WHITE => true) );
     }
 

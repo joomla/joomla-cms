@@ -67,7 +67,7 @@ JHtml::_('behavior.formvalidation');
 					<?php echo $field->input; ?>
 				<?php endif; ?>
 			<?php endforeach; ?>
-		</fieldset>				
+		</fieldset>
 				<?php
 			}
 		}
@@ -75,11 +75,11 @@ JHtml::_('behavior.formvalidation');
 	</div>
 
 	<div class="width-40 fltrt">
-			<?php echo JHTML::_('sliders.start'); 
+			<?php echo JHTML::_('sliders.start');
 			$groups = $this->form->getGroups('params');
 			$fieldsets = $this->form->getFieldsets();
 			array_unshift($groups, 'params');
-			foreach($groups as $group) { 
+			foreach($groups as $group) {
 				echo JHTML::_('sliders.panel', JText::_($fieldsets[$group]['label']), $group);
 				?><fieldset class="panelform"><?php
 				foreach($this->form->getFields($group) as $field): ?>
@@ -93,7 +93,7 @@ JHtml::_('behavior.formvalidation');
 			</fieldset>
 			<?php } ?>
 			<?php echo JHTML::_('sliders.end'); ?>
-	
+
 		<fieldset id="user-groups">
 			<legend><?php echo JText::_('Users_Assigned_Groups'); ?></legend>
 				<?php if ($this->grouplist) :

@@ -22,11 +22,11 @@ $menuTypes = MenusHelper::getMenuLinks();
 				</select>
 
 				<div class="clr"></div>
-			
+
 				<button type="button" class="button2" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
 					<?php echo JText::_('JCheckInvert'); ?>
 				</button>
-				
+
 				<div id="menu-assignment" style="height: 300px; overflow: auto;">
 
 				<?php foreach ($menuTypes as &$type) : ?>

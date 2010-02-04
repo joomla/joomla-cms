@@ -94,7 +94,7 @@ class UsersControllerProfile extends UsersController
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
-		
+
 		// Validate the posted data.
 		$data = $model->validate($form,$data);
 

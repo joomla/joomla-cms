@@ -32,7 +32,7 @@ class JUtilityTest extends JoomlaTestCase
     protected function setUp()
     {
 		include_once JPATH_BASE . '/libraries/joomla/utilities/utility.php';
-		
+
     	$this->saveFactoryState();
     }
 
@@ -296,7 +296,7 @@ class JUtilityTest extends JoomlaTestCase
     		)
     	);
     	JFactory::$session = $mockSession;
-    	
+
     	$this->assertThat(
     		is_null($data)?JUtility::getToken():JUtility::getToken($data),
     		$this->equalTo($expResult)
@@ -437,7 +437,7 @@ class JUtilityTest extends JoomlaTestCase
     	$input = array( 3, 5, 7 );
     	$expected = array( "fred", 3, 5, 7 );
     	$value = "fred";
-    	
+
     	$this->assertThat(
     		JUtility::array_unshift_ref($input, $value),
     		$this->equalTo(4)
@@ -470,7 +470,7 @@ class JUtilityTest extends JoomlaTestCase
 			),
 		);
 	}
-	
+
     /**
      * Test return_bytes
      *

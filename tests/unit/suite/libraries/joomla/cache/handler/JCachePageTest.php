@@ -32,7 +32,7 @@ class JCachePageTest extends PHPUnit_Framework_TestCase
 	{
 		include_once JPATH_BASE.'/libraries/joomla/cache/cache.php';
 		include_once JPATH_BASE.'/libraries/joomla/cache/handler/page.php';
-		
+
 		$this->object = JCache::getInstance('page', array());
 	}
 

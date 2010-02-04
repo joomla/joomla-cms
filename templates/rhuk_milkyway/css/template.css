@@ -811,7 +811,7 @@ td.key {
  * User Accessibility
  */
 
-	/* For elements that aren't to be seen by users unless the user does something  
+	/* For elements that aren't to be seen by users unless the user does something
 	 * like clicking on a header to see the collapsed section. */
 .element-hidden, .hide {
 	display: none;
@@ -825,10 +825,10 @@ td.key {
 	position: absolute;
 }
 
-	/* Firefox has issues styling legend so this is a universal fix 
+	/* Firefox has issues styling legend so this is a universal fix
 	for making the legend invisible (i.e. visually it's not there, but screen readers see it */
 
-legend.element-invisible { 
+legend.element-invisible {
 	position: absolute !important;
 	margin: 0;
 	padding: 0;
@@ -841,5 +841,5 @@ legend.element-invisible {
 fieldset.filters {
 	border: none;
 	margins: 0;
-	
+
 }

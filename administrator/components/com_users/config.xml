@@ -58,7 +58,7 @@
 			label="Users_Mail_Subject_Prefix"
 			description="Users_Mail_Subject_Prefix_Desc"
 		/>
- 
+
  		<field
  			name="mailBodySuffix"
 			type="textarea"

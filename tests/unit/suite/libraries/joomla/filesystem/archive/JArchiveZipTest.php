@@ -15,7 +15,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase {
 	 * @var JArchiveZip
 	 */
 	protected $object;
-	
+
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -23,14 +23,14 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		$this->object = new JArchiveZip;
 	}
-	
+
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 */
 	protected function tearDown() {
 	}
-	
+
 	/**
 	 * @todo Implement testCreate().
 	 */
@@ -38,7 +38,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testExtract().
 	 */
@@ -46,7 +46,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testHasNativeSupport().
 	 */
@@ -54,7 +54,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement testCheckZipData().
 	 */
@@ -62,7 +62,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement test_extract().
 	 */
@@ -70,7 +70,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement test_extractNative().
 	 */
@@ -78,7 +78,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement test_getZipInfo().
 	 */
@@ -86,7 +86,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement test_getFileData().
 	 */
@@ -94,7 +94,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement test_unix2DOSTime().
 	 */
@@ -102,7 +102,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement test_addToZIPFile().
 	 */
@@ -110,7 +110,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
-	
+
 	/**
 	 * @todo Implement test_createZIPFile().
 	 */

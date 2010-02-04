@@ -30,7 +30,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
      * @var actualError
      */
     protected static $actualError;
-    
+
     /**
      * Saves the current state of the JError error handlers.
      *
@@ -55,7 +55,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
     {
     	$mode = null;
     	$options = null;
-    	
+
     	foreach ($errorHandlers as $type => $params)
     	{
     		$mode = $params['mode'];

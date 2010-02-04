@@ -1021,7 +1021,7 @@
 		<field
 			name="spacer1"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 		<field
 			name="notify_comments"
@@ -1047,7 +1047,7 @@
 		<field
 			name="spacer2"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 		<field
 			name="moderate_comments"
@@ -1101,7 +1101,7 @@
 		<field
 			name="spacer3"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 		<field
 			name="enable_recaptcha"
@@ -1131,7 +1131,7 @@
 		<field
 			name="spacer4"
 			type="spacer"
-			hr="true" 
+			hr="true"
 			/>
 		<field
 			name="enable_akismet"

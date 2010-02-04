@@ -48,8 +48,8 @@ class ContentViewCategory extends JView
 		$children	= $this->get('Children');
 //		$parents	= $this->get('Parents');
 		$pagination	= $this->get('Pagination');
-		
-		
+
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));
@@ -144,7 +144,7 @@ class ContentViewCategory extends JView
 		}
 
 		$this->assign('action', 	str_replace('&', '&amp;', $uri));
-		
+
 		$this->assignRef('params',		$params);
 		$this->assignRef('item',		$item);
 		$this->assignRef('articles',	$articles);

@@ -32,7 +32,7 @@ class JCacheOutputTest extends PHPUnit_Framework_TestCase
 	{
 		include_once JPATH_BASE.'/libraries/joomla/cache/cache.php';
 		include_once JPATH_BASE.'/libraries/joomla/cache/handler/output.php';
-		
+
 		$this->object = JCache::getInstance('output', array());
 	}
 
