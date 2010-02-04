@@ -16,7 +16,7 @@ defined('JPATH_BASE') or die;
  * The JButton is the base class for all JButton types
  *
  * @abstract
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage		HTML
  * @since		1.5
  */

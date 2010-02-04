@@ -16,7 +16,7 @@ JLoader::register('JElement', dirname(__FILE__).'/parameter/element.php');
 /**
  * Parameter handler
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	Parameter
  * @since		1.5
  */

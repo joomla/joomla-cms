@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
 /**
  * Renders a standard button
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage		HTML
  * @since		1.5
  */

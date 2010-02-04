@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
 /**
  * Renders a help popup window button
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage		HTML
  * @since		1.5
  */
@@ -36,7 +36,7 @@ class JButtonHelp extends JButton
 		$html	= "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
 		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
- 		$html	.= "$text\n";
+		$html	.= "$text\n";
 		$html	.= "</a>\n";
 
 		return $html;

@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
 /**
  * Renders a standard button with a confirm dialog
  *
- * @package 	Joomla.Framework
+ * @package		Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
  */
@@ -65,9 +65,9 @@ class JButtonConfirm extends JButton
 	 */
 	protected function _getCommand($msg, $name, $task, $list)
 	{
-		$todo	 = JString::strtolower(JText::_($name));
-		$message = JText::sprintf('PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO', $todo);
-		$message = addslashes($message);
+		$todo		= JString::strtolower(JText::_($name));
+		$message	= JText::sprintf('PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO', $todo);
+		$message	= addslashes($message);
 
 		if ($list) {
 			$cmd = "javascript:if (document.adminForm.boxchecked.value==0){alert('$message');}else{if (confirm('$msg')){submitbutton('$task');}}";
