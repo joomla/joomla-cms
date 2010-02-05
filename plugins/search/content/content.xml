@@ -11,150 +11,56 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>Handles user authentication against an LDAP server</description>
+		<description>PLG_SEARCH_CONTENT_XML_DESCRIPTION</description>
 	<files>
 		<filename
-			plugin="ldap">ldap.php</filename>
+			plugin="content">content.php</filename>
 	</files>
 	<fields>
 		<field
-			name="host"
+			name="search_limit"
 			type="text"
-			size="20"
-			default=""
-			label="Host"
-			description="fieldLDAPHOST" />
-
-		<field
-			name="port"
-			type="text"
-			size="20"
-			default="389"
-			label="Port"
-			description="fieldLDAPPORT" />
-
-		<field
-			name="use_ldapV3"
-			type="radio"
-			default="0"
-			label="LDAP V3"
-			description="fieldLDAPV3">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-		<field
-			name="negotiate_tls"
-			type="radio"
-			default="0"
-			label="Negotiate TLS"
-			description="fieldNEGOCIATETLS">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-		<field
-			name="no_referrals"
-			type="radio"
-			default="0"
-			label="Follow referrals"
-			description="fieldFOLLOW">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-		<field
-			name="auth_method"
-			default="bind"
-			type="list"
-			label="Authorization Method"
-			description="fieldAUTHMETHOD">
-			<option
-				value="search">Bind and Search</option>
-			<option
-				value="bind">Bind Directly As User</option>
-		</field>
-
-		<field
-			name="base_dn"
-			type="text"
-			size="20"
-			default=""
-			label="Base DN"
-			description="fieldBASEDN" />
-
-		<field
-			name="search_string"
-			type="text"
-			size="20"
-			default=""
-			label="Search string"
-			description="fieldSEARCHSTRING" />
-
-		<field
-			name="users_dn"
-			type="text"
-			size="20"
-			default=""
-			label="Users DN"
-			description="fieldUSERSDN" />
-
+			size="5"
+			default="50"
+			label="PLG_SEARCH_CONTENT_FIELD_SEARCHLIMIT_LABEL"
+			description="PLG_SEARCH_CONTENT_FIELD_SEARCHLIMIT_DESC" />
 		<field
 			name="spacer1"
 			type="spacer"
 			hr="true"
 			/>
-
 		<field
-			name="username"
-			type="text"
-			size="20"
-			default=""
-			label="Connect username"
-			description="fieldCONNECTSTRING" />
-
+			name="search_content"
+			type="radio"
+			default="0"
+			label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL"
+			description="PLG_SEARCH_CONTENT_FIELD_CONTENT_DESC">
+			<option
+				value="0">JOFF</option>
+			<option
+				value="1">JON</option>
+		</field>
 		<field
-			name="password"
-			type="password"
-			size="20"
-			default=""
-			label="Connect password"
-			description="fieldCONNECTPASSWORD" />
-
+			name="search_uncategorised"
+			type="radio"
+			default="0"
+			label="PLG_SEARCH_CONTENT_FIELD_UNCATEGORISED_LABEL"
+			description="PLG_SEARCH_CONTENT_FIELD_UNCATEGORISED_DESC">
+			<option
+				value="0">JOFF</option>
+			<option
+				value="1">JON</option>
+		</field>
 		<field
-			name="spacer2"
-			type="spacer"
-			hr="true"
-			/>
-
-		<field
-			name="ldap_fullname"
-			type="text"
-			size="20"
-			default="fullName"
-			label="Map FullName"
-			description="fieldMAPFN" />
-
-		<field
-			name="ldap_email"
-			type="text"
-			size="20"
-			default="mail"
-			label="Map Email"
-			description="fieldMAPEMAIL" />
-
-		<field
-			name="ldap_uid"
-			type="text"
-			size="20"
-			default="uid"
-			label="Map User ID"
-			description="fieldMAPUID" />
+			name="search_archived"
+			type="radio"
+			default="0"
+			label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL"
+			description="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_DESC">
+			<option
+				value="0">JOFF</option>
+			<option
+				value="1">JON</option>
+		</field>
 	</fields>
 </install>

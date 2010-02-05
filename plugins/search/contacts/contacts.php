@@ -63,7 +63,7 @@ class plgSearchContacts extends JPlugin
 			return array();
 		}
 
-		$section = JText::_('Contact');
+		$section = JText::_('PLG_SEARCH_CONTACTS_CONTACT');
 
 		switch ($ordering) {
 			case 'alpha':

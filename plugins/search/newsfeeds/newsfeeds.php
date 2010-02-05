@@ -107,7 +107,7 @@ class plgSearchNewsfeeds extends JPlugin
 				$order = 'a.name ASC';
 		}
 
-		$searchNewsfeeds = JText::_('Newsfeeds');
+		$searchNewsfeeds = JText::_('PLG_SEARCH_NEWSFEEDS_NEWSFEEDS');
 
 		$query	= $db->getQuery(true);
 		$query->select('a.name AS title, "" AS created, a.link AS text, '

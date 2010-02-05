@@ -66,7 +66,7 @@ class plgSearchWeblinks extends JPlugin
 		if ($text == '') {
 			return array();
 		}
-		$section	= JText::_('WEB_LINKS');
+		$section	= JText::_('PLG_SEARCH_WEBLINKS');
 
 		$wheres	= array();
 		switch ($phrase)

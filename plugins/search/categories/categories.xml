@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5</version>
-	<description>Allows Searching of Categories information</description>
+	<description>PLG_SEARCH_CATEGORIES_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			plugin="categories">categories.php</filename>
@@ -22,7 +22,7 @@
 			type="text"
 			size="5"
 			default="50"
-			label="Search Limit"
-			description="Number of Search items to return" />
+			label="PLG_SEARCH_CATEGORIES_FIELD_SEARCHLIMIT_LABEL"
+			description="PLG_SEARCH_CATEGORIES_FIELD_SEARCHLIMIT_DESC" />
 	</fields>
 </install>
