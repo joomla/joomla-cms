@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 05-Feb-2010 Mark Dexter
+^ Improve documentation for SeleniumConfig sample file
+
+05-Feb-2010 Mark Dexter
 # Revert revision 14595 (caused errors in user and menu item edit)
 
 05-Feb-2010 Jean-Marie Simonet
@@ -351,7 +354,6 @@ $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_
 05-Jan-2010 Hannes Papenberg
  ^ Removed #__components and moved the admin menu information to #__menu. Thanks Jonnathan!
 
->>>>>>> .r14052
 05-Jan-2010 Andrew Eddie
  ^ Accepted [#19268] Refactoring mod_popular in the BackEnd.
  ^ Added support for layout and modal forms in JControllerForm::edit method.

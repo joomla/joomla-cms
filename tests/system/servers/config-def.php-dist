@@ -1,9 +1,11 @@
 <?php
 /*
  * This is an example of a config class. To run tests,  
- * copy this file to a file called "configdef.php" and set the
- * variables according to the values in your test system.
+ * copy this file to a file called "configdef.php" (in tests/system/server)
+ * and set the variables according to the values in your test system.
  *  
+ * You can create more than one configuration file.
+ *
  * You can select the desired config class at runtime with the following command:
  * phpunit --bootstrap servers\configtest.php tests\control_panel_menu.php
  * In this way, you can create multiple configurations and run them separately 
@@ -12,15 +14,28 @@
 
 class SeleniumConfig
 {
-    // these variables are used to login and connect to Joomla!
+
+	// $folder is the path to the apache root folder
+	var $folder = 'c:/xampp/htdocs'; // typical windows example with XAMPP
+//	var $folder = '/usr/local/apache/htdocs'; // typical linux example
+
+	// $host is normally 'http://localhost'
 	var $host = 'http://localhost';
-	var $path = '/j1513/';
+	
+	// $path is the rest of the URL to the Joomla! home page 
+	// Example: Your full URL to Joomla! is http://localhost/joomla_16/index.php
+	// then $path would be '/joomla_16/'
+	var $path = '/your_joomla_root/';
+
+	// set the admin login and password
 	var $username = 'admin';
 	var $password = 'password';
 	
-	// used to specify the browser. Note that *chrome specifies Firefox
+	// this setting will use the default browser for your system
 	var $browser = '*chrome';
-	
-	// $baseURI is used in some tests to rename or copy files in the file system
-	var $baseURI = "c:/xampp/htdocs/joomla_development/Joomla_1.5.11_plus/";
+
+	public function __construct() {
+		$this->baseURI = $this->folder . $this->path;
+	}
+
 }
