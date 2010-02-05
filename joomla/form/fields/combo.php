@@ -37,7 +37,7 @@ class JFormFieldCombo extends JFormField
 
 		// Iterate through the children and build an array of options.
 		foreach ($this->_element->children() as $option) {
-			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_((string)$option),'value','text',(string)$option->attributes()->disabled=='true');
+			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_((string)$option));
 		}
 
 		return $options;

@@ -36,7 +36,6 @@ class JFormFieldMedia extends JFormField
 		$html = '';
 
 		$onchange = (string)$this->_element->attributes()->onchange ? $this->_replacePrefix((string)$this->_element->attributes()->onchange) : '';
-		$readonly = (string)$this->_element->attributes()->readonly == 'true';
 		if (!$init) {
 			JHtml::_('behavior.modal');
 			$js = "
@@ -58,11 +57,11 @@ class JFormFieldMedia extends JFormField
 		$class	= (string)$this->_element->attributes()->class ? ' class="'.$this->_element->attributes()->class.'"' : '';
 
 		$html .= '<div style="float: left;">';
-		$html .= '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'" disabled="disabled"'.$class.$size.' />';
+		$html .= '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"'.$class.$size.' />';
 		$html .= '</div>';
 		$html .= '<div class="button2-left">';
 		$html .= '<div class="blank">';
-		$html .= '<a class="modal" title="'.JText::_('SELECT').'" href="'.($readonly?'':$link).'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">';
+		$html .= '<a class="modal" title="'.JText::_('SELECT').'" href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">';
 		$html .= JText::_('SELECT');
 		$html .= '</a>';
 		$html .= '</div>';
