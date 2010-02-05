@@ -146,7 +146,7 @@ class plgEditorTinymce extends JPlugin
 					// if no editor.css file in system folder, show alert
 					if (!file_exists($templates_path.DS.'system'.DS.'css'.DS.'editor.css'))
 					{
-						JError::raiseNotice('SOME_ERROR_CODE', JText::_('TEMPLATECSSFILENOTPRESENT'));
+						JError::raiseNotice('SOME_ERROR_CODE', JText::_('PLG_TINY_ERR_EDITORCSSFILENOTPRESENT'));
 					} else {
 						$content_css = 'content_css : "' . JURI::root() .'templates/system/css/editor.css",';
 					}

@@ -288,8 +288,14 @@ class JEditor extends JObservable
 		require_once $path;
 
 		// Get the plugin
-		$plugin	= &JPluginHelper::getPlugin('editors', $this->_name);
-		$params	= new JParameter($plugin->params);
+		$plugin = &JPluginHelper::getPlugin('editors', $this->_name);
+		$className = 'plgEditor'.$plugin->name;
+		if (class_exists($className)) {
+			$plugin = new $className($this, (array)$plugin);
+			$plugin->loadLanguage();
+		}
+		
+		$params = new JParameter($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;
 

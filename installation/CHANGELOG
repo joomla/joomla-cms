@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Feb-2010 Jean-Marie Simonet
+# Translating Toggle Editor button. Correcting Error Key in tiny.
 
 05-Feb-2010 Christophe Demko
 ^ Having only one translation file per template (in administrator/language for admin ones and language for site ones)
