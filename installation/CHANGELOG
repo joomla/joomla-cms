@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Feb-2010 Jean-Marie Simonet
+^ Refactored mod_custom site and admin ini/keys
+
 05-Feb-2010 Christophe Demko
 ^ Adding the possibility to have more than one category tree in an extension.
 ^ Consolidating the JCategories class

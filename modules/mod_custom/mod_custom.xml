@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
+<install
 	type="module"
 	version="1.6.0"
-	client="site"
-	method="upgrade">
+	client="administrator">
 	<name>mod_custom</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -12,24 +11,19 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCCUSTOM</description>
+	<description>MOD_CUSTOM_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_custom">mod_custom.php</filename>
+		<filename>index.html</filename>
 		<folder>tmpl</folder>
-		<filename>index.php</filename>
-		<filename>mod_custom.xml</filename>
 	</files>
-	<languages>
-		<language
-			tag="en-GB">en-GB.mod_custom.ini</language>
-	</languages>
 	<fields>
 		<field
 			name="prepare_content"
 			type="radio"
-			label="Mod_Custom_Prepare_Content_Label"
-			description="Mod_Custom_Prepare_Content_Desc"
+			label="MOD_CUSTOM_FIELD_PREPARE_CONTENT_LABEL"
+			description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
 			default="1">
 			<option
 				value="0">JNo</option>
@@ -42,30 +36,33 @@
 		<field
 			name="layout"
 			type="modulelayout"
-			label="JField_Alt_Layout_Label"
-			description="JField_Alt_Module_Layout_Desc" />
+			label="JFIELD_ALT_LAYOUT_LABEL"
+			description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
 		<field
 			name="moduleclass_sfx"
 			type="text"
 			default=""
-			label="Module_Field_Moduleclass_sfx_Label"
-			description="Module_Field_Moduleclass_sfx_Desc" />
+			label="MODULE_FIELD_MODULECLASS_SFX_LABEL"
+			description="MODULE_FIELD_MODULECLASS_SFX_DESC" />
+
 		<field
 			name="cache"
 			type="list"
 			default="1"
-			label="Module_Field_Caching_Label"
-			description="Module_Field_Caching_Desc">
+			label="MODULE_FIELD_CACHING_LABEL"
+			description="MODULE_FIELD_CACHING_DESC">
 			<option
 				value="1">USE_GLOBAL</option>
 			<option
-				value="0">No caching</option>
+				value="0">MODULE_FIELD_VALUE_NOCACHING</option>
 		</field>
+
 		<field
 			name="cache_time"
 			type="text"
 			default="900"
-			label="Cache Time"
-			description="The time before the module is recached" />
+			label="MODULE_FIELD_CACHE_TIME_LABEL"
+			description="MODULE_FIELD_CACHE_TIME_DESC" />
 	</fields>
-</extension>
+</install>
