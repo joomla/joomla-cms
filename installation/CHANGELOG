@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Feb-2010 Christophe Demko
+^ Adding the possibility to have more than one category tree in an extension.
+^ Consolidating the JCategories class
+
 05-Feb-2010 Jean-Marie Simonet
 # Translating Toggle Editor button. Correcting Error Key in tiny.
 ^ Refactored search plugins ini/keys

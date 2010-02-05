@@ -60,17 +60,18 @@ class CategoriesViewCategories extends JView
 	protected function _setToolbar()
 	{
 		$state = $this->get('State');
-		$extension	= $state->get('filter.extension');
+		$component	= $state->get('filter.component');
+		$section	= $state->get('filter.section');
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = &JFactory::getLanguage();
-		$lang->load($extension.'.menu',JPATH_ADMINISTRATOR.'/components/'.$extension);
-		$lang->load($extension.'.menu');
+		$lang->load($component.'.menu',JPATH_ADMINISTRATOR.'/components/'.$component);
+		$lang->load($component.'.menu');
 
 		JToolBarHelper::title(
 			JText::sprintf(
 				'Categories_Categories_Title',
-				$this->escape(JText::_($extension))
+				$this->escape(JText::_($component.($section?"_$section":'')))
 			),
 			'categories.png'
 		);

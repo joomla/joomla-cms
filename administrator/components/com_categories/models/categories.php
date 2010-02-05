@@ -37,6 +37,12 @@ class CategoriesModelCategories extends JModelList
 
 		$extension = $app->getUserStateFromRequest($this->_context.'.filter.extension', 'extension');
 		$this->setState('filter.extension', $extension);
+		$parts = explode('.',$extension);
+		// extract the component name
+		$this->setState('filter.component', $parts[0]);
+		// extract the optional section name
+		$this->setState('filter.section', (count($parts)>1)?$parts[1]:null);
+
 		if (!empty($extension)) $this->_context.=".$extension";
 
 		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');

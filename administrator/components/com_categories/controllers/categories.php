@@ -62,15 +62,13 @@ class CategoriesControllerCategories extends JController
 		// Get items to remove from the request.
 		$pks	= JRequest::getVar('cid', array(), 'post', 'array');
 		$n		= count($pks);
-
 		if (empty($pks)) {
 			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
 		}
 		else
 		{
 			// Get the model.
-			$model = $this->getModel();
-
+			$model = $this->getModel('category');
 			// Remove the items.
 			if ($model->delete($pks)) {
 				$this->setMessage(JText::sprintf('JSuccess_N_items_deleted', $n));
