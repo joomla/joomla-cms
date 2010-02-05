@@ -34,8 +34,6 @@ class JFormFieldUser extends JFormField
 	{
 		// Initialise variables.
 		$onchange	= (string)$this->_element->attributes()->onchange ? $this->_replacePrefix((string)$this->_element->attributes()->onchange) : '';
-		$readonly = (string)$this->_element->attributes()->readonly == 'true';
-
 		$document	= JFactory::getDocument();
 
 		// Load the modal behavior.
@@ -76,7 +74,7 @@ class JFormFieldUser extends JFormField
 		// The user select button.
 		$html[] = '<div class="button2-left">';
 		$html[] = '  <div class="blank">';
-		$html[] = '	<a class="modal_'.$this->inputId.'" title="'.JText::_('JForm_Change_User').'"  href="'.($readonly?'':$link).'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('JForm_Change_User_button').'</a>';
+		$html[] = '	<a class="modal_'.$this->inputId.'" title="'.JText::_('JForm_Change_User').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('JForm_Change_User_button').'</a>';
 		$html[] = '  </div>';
 		$html[] = '</div>';
 

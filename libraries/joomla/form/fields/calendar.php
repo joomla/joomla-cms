@@ -41,7 +41,6 @@ class JFormFieldCalendar extends JFormFieldText
 		if ($this->value == 'now') {
 			$this->value = strftime($format);
 		}
-		$readonly = (string)$this->_element->attributes()->readonly == 'true';
 
 		// Get some system objects.
 		$config = JFactory::getConfig();
@@ -74,6 +73,6 @@ class JFormFieldCalendar extends JFormFieldText
 				break;
 		}
 
-		return JHtml::_('calendar', $this->value, $this->inputName, $this->inputId, $format, $readonly ? array($onchange,'readonly'=>'readonly'):$onchange);
+		return JHtml::_('calendar', $this->value, $this->inputName, $this->inputId, $format, $onchange);
 	}
 }

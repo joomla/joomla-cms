@@ -34,11 +34,9 @@ class JFormFieldRadio extends JFormField
 	protected function _getInput()
 	{
 		// Get the options for the radio list.
-		$readonly = (string)$this->_element->attributes()->readonly == 'true';
-
 		$options = array();
 		foreach ($this->_element->children() as $option) {
-			$tmp = JHtml::_('select.option', (string)$option->attributes()->value, trim((string)$option),'value','text',(string)$option->attributes()->disabled=='true');
+			$tmp = JHtml::_('select.option', (string)$option->attributes()->value, trim((string)$option));
 			$tmp->class = (string)$option->attributes()->class;
 			$tmp->onclick = (string)$option->attributes()->onclick ? ' onclick="'.$this->_replacePrefix((string)$option->attributes()->onclick).'"' : '';
 			$options[] = $tmp;
@@ -68,7 +66,7 @@ class JFormFieldRadio extends JFormField
 			$class = isset($option->class) ? ' class="'.$option->class.'"' : null;
 
 
-			$html[] = '<input id="'.$this->inputId.$i.'" type="radio" name="'.$this->inputName.'" value="'.htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8').'"'.$bool.$option->onclick.' '.($option->disable?' disabled="disabled"':'').'/>';
+			$html[] = '<input id="'.$this->inputId.$i.'" type="radio" name="'.$this->inputName.'" value="'.htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8').'"'.$bool.$option->onclick.' />';
 			$html[] = '<label for="'.$this->inputId.$i.'"'.$class.'>'.JText::_($option->text).'</label>';
 		}
 
