@@ -3,7 +3,7 @@
 	type="module"
 	version="1.6.0"
 	client="administrator">
-	<name>mod_custom</name>
+	<name>Custom HTML</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
