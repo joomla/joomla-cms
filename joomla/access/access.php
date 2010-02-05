@@ -95,12 +95,15 @@ class JAccess
 		$query	= $db->getQuery(true);
 		$query->select($recursive ? 'b.rules' : 'a.rules');
 		$query->from('#__assets AS a');
+		$query->group($recursive ? 'b.id' : 'a.id');
 
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
 		if (is_numeric($asset)) {
-			$query->where('a.id = '.(int) $asset);
+			// Get the root even if the asset is not found
+			$query->where('(a.id = '.(int) $asset.($recursive ? ' OR a.parent_id=0':'').')');
 		} else {
-			$query->where('a.name = '.$db->quote($asset));
+			// Get the root even if the asset is not found
+			$query->where('(a.name = '.$db->quote($asset).($recursive ? ' OR a.parent_id=0':'').')');
 		}
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
