@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: profile.xml 11567 2009-02-02 23:13:14Z eddieajau $ -->
-
+	<!-- $Id: profile.xml 11567 2009-02-02 23:13:14Z eddieajau $ -->
 <form>
 	<fields group="profile" array="true" label="PLG_USER_PROFILE_SLIDER_LABEL">
 		<field
