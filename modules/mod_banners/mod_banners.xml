@@ -121,8 +121,8 @@
 		<field
 			name="layout"
 			type="modulelayout"
-			label="JField_Alt_Layout_Label"
-			description="JField_Alt_Module_Layout_Desc" />
+			label="JFIELD_ALT_LAYOUT_LABEL"
+			description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 
 		<field
 			name="moduleclass_sfx"
@@ -140,14 +140,14 @@
 			<option
 				value="1">USE_GLOBAL</option>
 			<option
-				value="0">No caching</option>
+				value="0">MODULES_FIELD_VALUE_NOCACHING</option>
 		</field>
 
 		<field
 			name="cache_time"
 			type="text"
 			default="900"
-			label="mod_banners_CacheTime_Label"
-			description="mod_banners_CacheTime_Desc" />
+			label="MODULES_FIELD_CACHE_TIME_LABEL"
+			description="MODULES_FIELD_CACHE_TIME_DESC" />
 	</fields>
 </extension>

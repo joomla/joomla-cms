@@ -475,7 +475,7 @@
 		<field
 			name="layout"
 			type="componentlayout"
-			label="JField_Alt_Layout_Label"
+			label="JFIELD_ALT_LAYOUT_LABEL"
 			description="JField_Alt_Component_Layout_Desc"
 			extension="com_content"
 			view="article" />
