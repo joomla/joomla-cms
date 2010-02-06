@@ -75,7 +75,7 @@ class ModulesViewModule extends JView
 		$item		= $this->get('Item');
 		$client		= $item->client_id;
 
-		JToolBarHelper::title(JText::_('Modules_Manager_Module'));
+		JToolBarHelper::title(JText::_('COM_MODULES_MANAGER_MODULE'));
 
 		if ($this->item->module == 'mod_custom') {
 			JToolBarHelper::Preview('index.php?option=com_modules&tmpl=component&client='.$client.'&pollid='.$this->item->id);

@@ -109,15 +109,15 @@
 			name="moduleclass_sfx"
 			type="text"
 			default=""
-			label="Module_Field_Moduleclass_sfx_Label"
-			description="Module_Field_Moduleclass_sfx_Desc" />
+			label="MODULES_FIELD_MODULECLASS_SFX_LABEL"
+			description="MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
 		<field
 			name="cache"
 			type="list"
 			default="0"
-			label="Module_Field_Caching_Label"
-			description="Module_Field_Caching_Desc">
+			label="MODULES_FIELD_CACHING_LABEL"
+			description="MODULES_FIELD_CACHING_DESC">
 			<option
 				value="0">No caching</option>
 		</field>

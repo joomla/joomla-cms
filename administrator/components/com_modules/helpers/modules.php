@@ -72,8 +72,8 @@ class ModulesHelper
 	{
 		// Build the filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option', '0', JText::_('Modules_Option_Site'));
-		$options[]	= JHtml::_('select.option', '1', JText::_('Modules_Option_Administrator'));
+		$options[]	= JHtml::_('select.option', '0', JText::_('COM_MODULES_OPTION_SITE'));
+		$options[]	= JHtml::_('select.option', '1', JText::_('COM_MODULES_OPTION_ADMINISTRATOR'));
 		return $options;
 	}
 

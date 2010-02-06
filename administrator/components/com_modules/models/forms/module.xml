@@ -47,34 +47,34 @@
 		<field
 			name="published"
 			type="list"
-			label="COM_MODULES_FIELD_PUBLISHED_LABEL"
-			description="COM_MODULES_FIELD_PUBLISHED_DESC"
+			label="MODULES_FIELD_PUBLISHED_LABEL"
+			description="MODULES_FIELD_PUBLISHED_DESC"
 			class="inputbox"
 			size="1"
 			default="1">
 			<option
 				value="1">
-				COM_MODULES_FIELD_VALUE_PUBLISHED</option>
+				MODULES_FIELD_VALUE_PUBLISHED</option>
 			<option
 				value="0">
-				COM_MODULES_FIELD_VALUE_UNPUBLISHED</option>
+				MODULES_FIELD_VALUE_UNPUBLISHED</option>
 		</field>
 
 		<field
 			name="client_id"
 			type="list"
-			label="Modules_Field_Client_Id_Label"
-			description="Modules_Field_Client_Id_Desc"
+			label="MODULES_FIELD_CLIENT_ID_LABEL"
+			description="MODULES_FIELD_CLIENT_ID_DESC"
 			class="inputbox"
 			size="1"
 			default="0"
 			readonly="true">
 			<option
 				value="0">
-				Modules_Option_Site</option>
+				COM_MODULES_OPTION_SITE</option>
 			<option
 				value="1">
-				Modules_Option_Administrator</option>
+				COM_MODULES_OPTION_ADMINISTRATOR</option>
 		</field>
 
 		<field
@@ -82,8 +82,8 @@
 			type="moduleposition"
 			maxlength="50"
 			default="left"
-			label="Modules_Field_Position_Label"
-			description="Modules_Field_Position_Desc"
+			label="MODULES_FIELD_POSITION_LABEL"
+			description="MODULES_FIELD_POSITION_DESC"
 			class="inputbox">
 		</field>
 
@@ -108,8 +108,8 @@
 			name="content"
 			type="editor"
 			class="inputbox"
-			label="Module_Field_Content_Label"
-			description="Module_Field_Content_Desc"
+			label="MODULES_FIELD_CONTENT_LABEL"
+			description="MODULES_FIELD_CONTENT_DESC"
 			filter="safehtml"
 			buttons="true" />
 

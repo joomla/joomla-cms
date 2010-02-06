@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Feb-2010 Jean-Marie Simonet
+^ Refactored com_modules inis/keys
+
 06-Feb-2010 Hannes Papenberg
 # Partially fixed the login when site is offline
 

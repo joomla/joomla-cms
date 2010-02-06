@@ -55,7 +55,7 @@ class ModulesViewModules extends JView
 		$state	= $this->get('State');
 		$canDo	= ModulesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('Modules_Manager_Modules'), 'module.png');
+		JToolBarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'module.png');
 		if ($canDo->get('core.create')) {
 			//JToolBarHelper::addNew('module.add');
 			$bar = &JToolBar::getInstance('toolbar');

@@ -43,26 +43,26 @@
 			name="moduleclass_sfx"
 			type="text"
 			default=""
-			label="MODULE_FIELD_MODULECLASS_SFX_LABEL"
-			description="MODULE_FIELD_MODULECLASS_SFX_DESC" />
+			label="MODULES_FIELD_MODULECLASS_SFX_LABEL"
+			description="MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
 		<field
 			name="cache"
 			type="list"
 			default="1"
-			label="MODULE_FIELD_CACHING_LABEL"
-			description="MODULE_FIELD_CACHING_DESC">
+			label="MODULES_FIELD_CACHING_LABEL"
+			description="MODULES_FIELD_CACHING_DESC">
 			<option
 				value="1">USE_GLOBAL</option>
 			<option
-				value="0">MODULE_FIELD_VALUE_NOCACHING</option>
+				value="0">MODULES_FIELD_VALUE_NOCACHING</option>
 		</field>
 
 		<field
 			name="cache_time"
 			type="text"
 			default="900"
-			label="MODULE_FIELD_CACHE_TIME_LABEL"
-			description="MODULE_FIELD_CACHE_TIME_DESC" />
+			label="MODULES_FIELD_CACHE_TIME_LABEL"
+			description="MODULES_FIELD_CACHE_TIME_DESC" />
 	</fields>
 </install>
