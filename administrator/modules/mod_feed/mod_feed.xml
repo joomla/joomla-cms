@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>This module allows the displaying of a syndicated feed</description>
+	<description>MOD_FEED_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_feed">mod_feed.php</filename>
 		<filename>helper.php</filename>
@@ -24,76 +24,76 @@
 			type="text"
 			size="50"
 			default=""
-			label="Feed URL"
-			description="Enter the URL of the RSS/RDF feed" />
+			label="MOD_FEED_FIELD_RSSURL_LABEL"
+			description="MOD_FEED_FIELD_RSSURL_DESC" />
 		<field
 			name="rssrtl"
 			type="radio"
 			default="0"
-			label="RTL feed"
-			description="Display feed in RTL direction">
+			label="MOD_FEED_FIELD_RTL_LABEL"
+			description="MOD_FEED_FIELD_RTL_DESC">
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 		</field>
 		<field
 			name="rsstitle"
 			type="radio"
 			default="1"
-			label="Feed Title"
-			description="Display news feed title">
+			label="MOD_FEED_FIELD_RSSTITLE_LABEL"
+			description="MOD_FEED_FIELD_RSSTITLE_DESC">
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 		</field>
 		<field
 			name="rssdesc"
 			type="radio"
 			default="1"
-			label="Feed Description"
-			description="Show the description text for the whole Feed">
+			label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
+			description="MOD_FEED_FIELD_DESCRIPTION_DESC">
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 		</field>
 		<field
 			name="rssimage"
 			type="radio"
 			default="1"
-			label="FEED_IMAGE"
-			description="Show the image associated with the whole Feed">
+			label="MOD_FEED_FIELD_IMAGE_LABEL"
+			description="MOD_FEED_FIELD_IMAGE_DESC">
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 		</field>
 		<field
 			name="rssitems"
 			type="text"
 			default="3"
-			label="Items"
-			description="Enter number of RSS items to display" />
+			label="MOD_FEED_FIELD_ITEMS_LABEL"
+			description="MOD_FEED_FIELD_ITEMS_DESC" />
 		<field
 			name="rssitemdesc"
 			type="radio"
 			default="1"
-			label="Item Description"
-			description="fieldITEMDESC">
+			label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
+			description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC">
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 		</field>
 		<field
 			name="word_count"
 			type="text"
 			size="6"
 			default="0"
-			label="Word Count"
-			description="fieldWORDCOUNT" />
+			label="MOD_FEED_FIELD_WORDCOUNT_LABEL"
+			description="MOD_FEED_FIELD_WORDCOUNT_DESC" />
 	</fields>
 	<fields
 		group="advanced">

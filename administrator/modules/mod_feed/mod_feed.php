@@ -20,7 +20,7 @@ $cacheDir = JPATH_BASE.'/cache';
 if (!is_writable($cacheDir))
 {
 	echo '<div>';
-	echo JText::_('PLEASE_MAKE_CACHE_DIRECTORY_WRITABLE');
+	echo JText::_('MOD_FEED_ERR_CACHE');
 	echo '</div>';
 	return;
 }
@@ -29,7 +29,7 @@ if (!is_writable($cacheDir))
 if (empty ($rssurl))
 {
 	echo '<div>';
-	echo JText::_('No feed URL specified.');
+	echo JText::_('MOD_FEED_ERR_NO_URL');
 	echo '</div>';
 	return;
 }

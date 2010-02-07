@@ -278,7 +278,7 @@ abstract class JFactory
 		if ($simplepie->init()) {
 			return $simplepie;
 		} else {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('ERROR_LOADING_FEED_DATA'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JERROR_LOADING_FEED_DATA'));
 		}
 
 		return false;
