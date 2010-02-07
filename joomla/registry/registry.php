@@ -480,7 +480,7 @@ class JRegistry extends JObject
 	 *
 	 * @param	string	Registry Path (e.g. joomla.content.showauthor)
 	 * @param	mixed	Value of entry
-	 * @return	mixed	The old value prior to setting, or null if no previous value is available.
+	 * @return	mixed	The value after to setting.
 	 * @deprecated 1.6 - Jan 19, 2010
 	 */
 	public function setValue($regpath, $value)
@@ -518,12 +518,9 @@ class JRegistry extends JObject
 			$ns = &$ns->$nodes[$i];
 		}
 
-		// Get the old value if exists so we can return it.
-		$oldValue = isset($ns->$nodes[$i]) ? $ns->$nodes[$i] : null;
-
 		// Set the new value.
 		$ns->$nodes[$i] =& $value;
 
-		return $oldValue;
+		return $ns->$nodes[$i];
 	}
 }
