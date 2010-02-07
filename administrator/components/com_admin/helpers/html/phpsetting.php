@@ -27,10 +27,10 @@ abstract class JHtmlPhpSetting
 	public static function boolean($val)
 	{
 		if ($val) {
-			return JText::_('Admin_On');
+			return JText::_('JON');
 		}
 		else {
-			return JText::_('Admin_Off');
+			return JText::_('JOFF');
 		}
 	}
 
@@ -44,9 +44,9 @@ abstract class JHtmlPhpSetting
 	public static function set($val)
 	{
 		if ($val) {
-			return JText::_('Admin_Yes');
+			return JText::_('JYES');
 		} else {
-			return JText::_('Admin_No');
+			return JText::_('JNO');
 		}
 	}
 
@@ -60,7 +60,7 @@ abstract class JHtmlPhpSetting
 	public static function string($val)
 	{
 		if (empty($val)) {
-			return JText::_('Admin_None');
+			return JText::_('JNONE');
 		} else {
 			return $val;
 		}
