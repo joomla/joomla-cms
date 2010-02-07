@@ -184,7 +184,6 @@ class JLanguage extends JObject
 	 */
 	public function _($string, $jsSafe = false)
 	{
-		//$key = str_replace(' ', '_', strtoupper(trim($string)));echo '<br />'.$key;
 		$key = strtoupper($string);
 		if (isset ($this->_strings[$key])) {
 			$string = $this->_debug ? '**'.$this->_strings[$key].'**' : $this->_strings[$key];
@@ -614,12 +613,8 @@ class JLanguage extends JObject
 	 */
 	function hasKey($string)
 	{
-		@list($extension, $key) = explode('.', strtoupper($string), 2);
-		if (!isset($key)) {
-			$key = $extension;
-			$extension = 'J';
-		}
-		return isset ($this->_strings[$extension][$key]);
+		$key = strtoupper($string);
+		return isset ($this->_strings[$key]);
 	}
 
 	/**
