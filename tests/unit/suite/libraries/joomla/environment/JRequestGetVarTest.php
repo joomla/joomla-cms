@@ -17,7 +17,6 @@ require_once 'JRequest-helper-dataset.php';
 /**
  * A unit test class for SubjectClass
  * @runTestsInSeparateProcesses enabled
- * @preserveGlobalState	disabled
  */
 class JRequestTest_GetVar extends PHPUnit_Framework_TestCase
 {
@@ -37,7 +36,6 @@ class JRequestTest_GetVar extends PHPUnit_Framework_TestCase
 	/**
 	 * @dataProvider getVarData
 	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
 	public function testGetVarFromDataSet(
 		$name, $default, $hash, $type, $mask, $expect, $filterCalls
