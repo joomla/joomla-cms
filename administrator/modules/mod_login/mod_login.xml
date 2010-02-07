@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCLOGINFORM</description>
+	<description>MOD_LOGIN_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_login">mod_login.php</filename>
 		<filename>helper.php</filename>
@@ -23,8 +23,8 @@
 			name="usesecure"
 			type="radio"
 			default="0"
-			label="Encrypt Login Form"
-			description="SUBMIT_ENCRYPTED_LOGIN_DATA_DESC">
+			label="MOD_LOGIN_FIELD_USESECURE_LABEL"
+			description="MOD_LOGIN_FIELD_USESECURE_DESC">
 			<option
 				value="0">JNo</option>
 			<option

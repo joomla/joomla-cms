@@ -35,6 +35,7 @@ $ -> Language fix or change
 ^ Refactored mod_feed site and admin modules ini/keys. Enabled desc translation in com_modules select.
 ^ Refactored mod_latest ini/keys
 ^ Refactored mod_logged ini/keys + added some
+^ Refactored mod_login (admin) ini/keys. Prevented it from being unpublished.
 
 06-Feb-2010 Mark Dexter
 + Test Commit (remove later)

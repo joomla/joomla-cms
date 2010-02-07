@@ -54,10 +54,12 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 
 			<?php echo $this->form->getLabel('showtitle'); ?>
 			<?php echo $this->form->getInput('showtitle'); ?>
-
+			
+			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
 			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
-
+			<?php endif; ?>
+			
 			<?php echo $this->form->getLabel('position'); ?>
 			<?php echo $this->form->getInput('position'); ?>
 
