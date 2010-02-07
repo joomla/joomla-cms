@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>This module shows a list of the Backend Users logged in</description>
+	<description>MOD_ONLINE_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_online">mod_online.php</filename>
 		<filename>helper.php</filename>

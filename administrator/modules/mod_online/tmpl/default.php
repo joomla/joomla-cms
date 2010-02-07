@@ -10,4 +10,4 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<?php echo $online_num; ?> <img src="images/users.png" alt="<?php echo JText::_('Users Online');?>" />
+<?php echo $count; ?> <img src="images/users.png" alt="<?php echo JText::_('MOD_ONLINE_USERS_ONLINE');?>" />

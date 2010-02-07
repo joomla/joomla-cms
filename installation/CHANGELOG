@@ -38,6 +38,7 @@ $ -> Language fix or change
 ^ Refactored mod_logged ini/keys + added some
 ^ Refactored mod_login (admin) ini/keys. Prevented it from being unpublished.
 ^ Completed refactoring of mod_menu (admin) ini/keys.
+^ Refactored mod_online ini/keys + bug
 
 06-Feb-2010 Mark Dexter
 + Test Commit (remove later)
