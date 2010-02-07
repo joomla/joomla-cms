@@ -31,6 +31,7 @@ $ -> Language fix or change
 ^ Consolidated a few translation strings in en-GB.ini and removed the en-GB.ini.old.ini in frontend
 # Fixed required fields in profile plugin - Thanks Matrikular!
 # Fixed backend menu translation - JLanguage::hasKey() was broken. - Thanks Matrikular!
+# Fixed bug in discover function. When two plugins have the same name, but are in different folders, they were not discovered
 
 07-Feb-2010 Jean-Marie Simonet
 ^ Refactored mod_feed site and admin modules ini/keys. Enabled desc translation in com_modules select.
