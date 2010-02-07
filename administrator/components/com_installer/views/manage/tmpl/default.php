@@ -54,7 +54,7 @@ $lists = $this->lists;
 				<th width="10%" class="center"><?php echo JText::_('Version'); ?></th>
 				<th width="10%"><?php echo JText::_('Date'); ?></th>
 				<th><?php echo JText::_('Folder') ?></th>
-				<th><?php echo JText::_('Client') ?></th>
+				<th><?php echo JText::_('JClient') ?></th>
 				<th width="15%"><?php echo JText::_('Author'); ?></th>
 				<th width="10"><?php echo JText::_('Id') ?></th>
 			</tr>

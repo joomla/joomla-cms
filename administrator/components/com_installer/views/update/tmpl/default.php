@@ -29,7 +29,7 @@ defined('_JEXEC') or die;
 				<th><?php echo JText::_('EXTENSION_TYPE') ?></th>
 				<th width="10%" class="center"><?php echo JText::_('Version'); ?></th>
 				<th><?php echo JText::_('Folder') ?></th>
-				<th><?php echo JText::_('Client') ?></th>
+				<th><?php echo JText::_('JClient') ?></th>
 				<th width="25%"><?php echo JText::_('DETAILS_URL'); ?></th>
 			</tr>
 		</thead>

@@ -19,19 +19,19 @@ defined('_JEXEC') or die;
 					<?php echo '#' ?>
 				</th>
 				<th class="left">
-					<?php echo JText::_('Name'); ?>
+					<?php echo JText::_('MOD_LOGGED_USERNAME'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('Group'); ?>
+					<?php echo JText::_('MOD_LOGGED_GROUP'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('Client'); ?>
+					<?php echo JText::_('JCLIENT'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('Last Activity'); ?>
+					<?php echo JText::_('MOD_LOGGED_LAST_ACTIVITY'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('Logout'); ?>
+					<?php echo JText::_('MOD_LOGGED_LOGOUT'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
 			$auth = $user->authorize('core.manage', 'com_users');
 			if ($auth) :
 				$link	= 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $row->userid;
-				$name	= '<a href="'. $link .'" title="'. JText::_('EDIT_USER') .'">'. $row->username .'</a>';
+				$name	= '<a href="'. $link .'" title="'. JText::_('MOD_LOGGED_EDIT_USER') .'">'. $row->username .'</a>';
 			else :
 				$name	= $row->username;
 			endif;
@@ -64,11 +64,11 @@ defined('_JEXEC') or die;
 					<?php echo $clientInfo->name;?>
 				</td>
 				<td class="center">
-					<?php echo JText::sprintf('activity hours', ($now - $row->time)/3600.0);?>
+					<?php echo JText::sprintf('MOD_LOGGED_LAST_ACTIVITY_HOURS', ($now - $row->time)/3600.0);?>
 				</td>
 				<td class="center">
 				<?php if ($auth && $row->userid != $user->get('id')) : ?>
-					<input type="image" src="images/publish_x.png" onclick="f=this.form;f.task.value='flogout';f.client.value=<?php echo (int) $row->client_id; ?>;f.cid_value.value=<?php echo (int) $row->userid ?>" />
+					<input type="image" src="templates/bluestork/images/admin/publish_x.png" onclick="f=this.form;f.task.value='flogout';f.client.value=<?php echo (int) $row->client_id; ?>;f.cid_value.value=<?php echo (int) $row->userid ?>" />
 				<?php endif; ?>
 				</td>
 			</tr>
