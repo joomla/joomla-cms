@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 07-Feb-2010 Jean-Marie Simonet
 ^ Refactored mod_feed site and admin modules ini/keys. Enabled desc translation in com_modules select.
+^ Refactored mod_latest ini/keys
 
 06-Feb-2010 Mark Dexter
 + Test Commit (remove later)

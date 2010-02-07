@@ -14,14 +14,13 @@ defined('_JEXEC') or die;
 	<thead>
 		<tr>
 			<th>
-				<?php echo JText::_('Mod_Latest_Latest_Items'); ?>
+				<?php echo JText::_('MOD_LATEST_LATEST_ITEMS'); ?>
 			</th>
 			<th>
-				<strong><?php echo JText::_('Mod_Latest_Created'); ?></strong>
+				<strong><?php echo JText::_('MOD_LATEST_CREATED'); ?></strong>
 			</th>
 			<th>
-				<strong><?php echo JText::_('Mod_Latest_Created_By');?>
-				</strong>
+				<strong><?php echo JText::_('MOD_LATEST_CREATED_BY');?></strong>
 			</th>
 		</tr>
 	</thead>
@@ -54,7 +53,7 @@ defined('_JEXEC') or die;
 	<tbody>
 		<tr>
 			<td colspan="3">
-				<p class="noresults"><?php echo JText::_('Mod_Latest_No_Matching_Results');?></p>
+				<p class="noresults"><?php echo JText::_('MOD_LATEST_NO_MATCHING_RESULTS');?></p>
 			</td>
 		</tr>
 	</tbody>

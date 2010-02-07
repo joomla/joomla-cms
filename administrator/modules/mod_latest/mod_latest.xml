@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>MOD_LATEST_DESC</description>
+	<description>MOD_LATEST_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_latest">mod_latest.php</filename>
 		<filename>helper.php</filename>
@@ -23,18 +23,18 @@
 			name="count"
 			type="text"
 			default="5"
-			label="Mod_Latest_Count_label"
-			description="Mod_Latest_Count_Desc" />
+			label="MOD_LATEST_FIELD_COUNT_LABEL"
+			description="MOD_LATEST_FIELD_COUNT_DESC" />
 		<field
 			name="ordering"
 			type="list"
 			default="c_dsc"
-			label="Mod_Latest_Ordering_label"
-			description="Mod_Latest_Ordering_Desc">
+			label="MOD_LATEST_FIELD_ORDERING_LABEL"
+			description="MOD_LATEST_FIELD_ORDERING_DESC">
 			<option
-				value="c_dsc">Mod_Latest_Recently_Added_First</option>
+				value="c_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_ADDED</option>
 			<option
-				value="m_dsc">Mod_Latest_Recently_Modified_First</option>
+				value="m_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_MODIFIED</option>
 		</field>
 		<field
 			id="catid"
@@ -42,26 +42,26 @@
 			type="category"
 			default=""
 			extension="com_content"
-			label="Mod_Latest_Field_Category_Label"
-			description="Mod_Latest_Field_Category_Desc"
+			label="MOD_LATEST_FIELD_CATEGORY_LABEL"
+			description="MOD_LATEST_FIELD_CATEGORY_DESC"
 			class="inputbox">
 			<option
-				value="">JOption_Any_Category</option>
+				value="">JOPTION_ANY_CATEGORY</option>
 			<option
-				value="0">JOption_No_Category</option>
+				value="0">JOPTION_NO_CATEGORY</option>
 		</field>
 		<field
 			name="user_id"
 			type="list"
 			default="0"
-			label="Mod_Latest_Authors_Label"
-			description="Mod_Latest_Authors_Desc">
+			label="MOD_LATEST_FIELD_AUTHORS_LABEL"
+			description="MOD_LATEST_FIELD_AUTHORS_DESC">
 			<option
-				value="0">Mod_Latest_Anyone</option>
+				value="0">MOD_LATEST_FIELD_VALUE_AUTHORS_ANYONE</option>
 			<option
-				value="by_me">Mod_Latest_Added_or_modified_by_me</option>
+				value="by_me">MOD_LATEST_FIELD_VALUE_AUTHORS_BY_ME</option>
 			<option
-				value="not_me">Mod_Latest_Not_added_or_modified_by_me</option>
+				value="not_me">MOD_LATEST_FIELD_VALUE_AUTHORS_NOT_BY_ME</option>
 		</field>
 	</fields>
 	<fields
