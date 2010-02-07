@@ -45,42 +45,42 @@ class plgUserProfile extends JPlugin
 
 		// Toggle whether the city field is required.
 		if ($this->params->get('profile-require_city', 1) > 0) {
-			$form->setFieldAttribute('city', 'required', $this->params->get('profile-require_address1') == 2, 'profile');
+			$form->setFieldAttribute('city', 'required', $this->params->get('profile-require_city') == 2, 'profile');
 		} else {
 			$form->removeField('city', 'profile');
 		}
 
 		// Toggle whether the region field is required.
 		if ($this->params->get('profile-require_region', 1) > 0) {
-			$form->setFieldAttribute('region', 'required', $this->params->get('profile-require_address1') == 2, 'profile');
+			$form->setFieldAttribute('region', 'required', $this->params->get('profile-require_region') == 2, 'profile');
 		} else {
 			$form->removeField('region', 'profile');
 		}
 
 		// Toggle whether the country field is required.
 		if ($this->params->get('profile-require_country', 1) > 0) {
-			$form->setFieldAttribute('country', 'required', $this->params->get('profile-require_address1') == 2, 'profile');
+			$form->setFieldAttribute('country', 'required', $this->params->get('profile-require_country') == 2, 'profile');
 		} else {
 			$form->removeField('country', 'profile');
 		}
 
 		// Toggle whether the postal code field is required.
 		if ($this->params->get('profile-require_postal_code', 1) > 0) {
-			$form->setFieldAttribute('postal_code', 'required', $this->params->get('profile-require_address1') == 2, 'profile');
+			$form->setFieldAttribute('postal_code', 'required', $this->params->get('profile-require_postal_code') == 2, 'profile');
 		} else {
 			$form->removeField('postal_code', 'profile');
 		}
 
 		// Toggle whether the phone field is required.
 		if ($this->params->get('profile-require_phone', 1) > 0) {
-			$form->setFieldAttribute('phone', 'required', $this->params->get('profile-require_address1') == 2, 'profile');
+			$form->setFieldAttribute('phone', 'required', $this->params->get('profile-require_phone') == 2, 'profile');
 		} else {
 			$form->removeField('phone', 'profile');
 		}
 
 		// Toggle whether the website field is required.
 		if ($this->params->get('profile-require_website', 1) > 0) {
-			$form->setFieldAttribute('website', 'required', $this->params->get('profile-require_address1') == 2, 'profile');
+			$form->setFieldAttribute('website', 'required', $this->params->get('profile-require_website') == 2, 'profile');
 		} else {
 			$form->removeField('website', 'profile');
 		}

@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 07-Feb-2010 Hannes Papenberg
 ^ Consolidated a few translation strings in en-GB.ini and removed the en-GB.ini.old.ini in frontend
+# Fixed required fields in profile plugin - Thanks Matrikular!
 
 07-Feb-2010 Jean-Marie Simonet
 ^ Refactored mod_feed site and admin modules ini/keys. Enabled desc translation in com_modules select.
