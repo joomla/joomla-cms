@@ -131,7 +131,7 @@ class plgContentPagenavigation extends JPlugin
 			}
 
 			$pnSpace = "";
-			if (JText::_('LT') || JText::_('GT')) {
+			if (JText::_('JCOMMON_LT') || JText::_('JCOMMON_GT')) {
 				$pnSpace = " ";
 			}
 
@@ -157,7 +157,7 @@ class plgContentPagenavigation extends JPlugin
 					$html .= '
 					<th class="pagenav_prev">
 						<a href="'. $row->prev .'">'
-							. JText::_('LT') . $pnSpace . JText::_('Prev') . '</a>
+							. JText::_('JCOMMON_LT') . $pnSpace . JText::_('Prev') . '</a>
 					</th>'
 					;
 				}
@@ -174,7 +174,7 @@ class plgContentPagenavigation extends JPlugin
 					$html .= '
 					<th class="pagenav_next">
 						<a href="'. $row->next .'">'
-							. JText::_('JNEXT') . $pnSpace . JText::_('GT') .'</a>
+							. JText::_('JNEXT') . $pnSpace . JText::_('JCOMMON_GT') .'</a>
 					</th>'
 					;
 				}
