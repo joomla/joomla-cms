@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 //
 // Site SubMenu
 //
-$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Site'), null, 'disabled'));
+$menu->addChild(new JMenuNode(JText::_('MOD_MENU_SITE'), null, 'disabled'));
 
 //
 // Users Submenu
@@ -28,7 +28,7 @@ if ($user->authorise('core.manage', 'com_users'))
 //
 if ($user->authorise('core.manage', 'com_menus'))
 {
-	$menu->addChild(new JMenuNode(JText::_('Menus'), null, 'disabled'));
+	$menu->addChild(new JMenuNode(JText::_('MENUS'), null, 'disabled'));
 }
 
 //
@@ -36,13 +36,13 @@ if ($user->authorise('core.manage', 'com_menus'))
 //
 if ($user->authorise('core.manage', 'com_content'))
 {
-	$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Com_Content'), null, 'disabled'));
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), null, 'disabled'));
 }
 
 //
 // Components Submenu
 //
-$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Components'),  null, 'disabled'));
+$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'),  null, 'disabled'));
 
 //
 // Extensions Submenu
@@ -55,10 +55,10 @@ $lm = $user->authorise('core.manage', 'com_languages');
 
 if ($im || $mm || $pm || $tm || $lm)
 {
-	$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Extensions_Extensions'), null, 'disabled'));
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), null, 'disabled'));
 }
 
 //
 // Help Submenu
 //
-$menu->addChild(new JMenuNode(JText::_('Mod_Menu_Help'),  null, 'disabled'));
+$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'),  null, 'disabled'));
