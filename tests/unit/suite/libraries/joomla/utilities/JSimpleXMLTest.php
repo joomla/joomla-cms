@@ -24,6 +24,21 @@ class JSimpleXMLTest extends JoomlaTestCase
 	protected $object;
 
 	/**
+	 * Receives the callback from JError and logs the required error information for the test.
+	 *
+	 * @param	JException	The JException object from JError
+	 *
+	 * @return	bool	To not continue with JError processing
+	 */
+	static function errorCallback( $error )
+	{
+		JSimpleXMLTest::$actualError['code'] = $error->get('code');
+		JSimpleXMLTest::$actualError['msg'] = $error->get('message');
+		JSimpleXMLTest::$actualError['info'] = $error->get('info');
+		return false;
+	}
+	
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -32,6 +47,8 @@ class JSimpleXMLTest extends JoomlaTestCase
 	protected function setUp()
 	{
 		include_once JPATH_BASE . '/libraries/joomla/utilities/simplexml.php';
+
+		parent::setUp();
 
 		$this->saveErrorHandlers();
 		$this->setErrorCallback('JSimpleXMLTest');
@@ -50,7 +67,7 @@ class JSimpleXMLTest extends JoomlaTestCase
 	{
 		$this->setErrorhandlers($this->savedErrorState);
 	}
-
+	
 	/**
 	 * Test cases for loadString
 	 *
@@ -70,7 +87,7 @@ class JSimpleXMLTest extends JoomlaTestCase
 				true,
 				array(
 					'code' => 'SOME_ERROR_CODE',
-					'msg' => 'XML Parsing Error at 1:17. Error 76: Mismatched tag',
+					'msg' => 'XML Parsing Error at 1:21. Error 76: Mismatched tag',
 					'info' => '',
 				),
 			),
@@ -113,17 +130,17 @@ class JSimpleXMLTest extends JoomlaTestCase
 	{
 		return array(
 			'good' => array(
-				JPATH_BASE. '/unittest/stubs/xmlFile.xml',
+				JPATH_BASE. '/tests/unit/stubs/xmlFile.xml',
 				true,
 				'JSimpleXMLElement',
 			),
 			'bad' => array(
-				JPATH_BASE. '/unittest/stubs/fred.xml',
+				JPATH_BASE. '/tests/unit/stubs/fred.xml',
 				false,
 				null,
 			),
 			'empty' => array(
-				JPATH_BASE. '/unittest/stubs/empty.xml',
+				JPATH_BASE. '/tests/unit/stubs/empty.xml',
 				false,
 				null,
 			),

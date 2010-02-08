@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Feb-2010 Hannes Papenberg
+# Fixed JSimpleXML tests
+
 30-Jan-2010 Ian MacLennan
 # Fixed JFormTest::testLoad to sync with changes to trunk
 
