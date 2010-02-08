@@ -30,6 +30,48 @@ class JInstallerModule extends JAdapterInstance
 	protected $scriptElement = null;
 
 	/**
+	 * Custom loadLanguage method
+	 *
+	 * @access	public
+	 * @param	string	$path the path where to find language files
+	 * @since	1.6
+	 */
+	public function loadLanguage($path)
+	{
+		$this->manifest = &$this->parent->getManifest();
+		if ($this->manifest->files)
+		{
+			$element = $this->manifest->files;
+			$extension = '';
+			if (count($element->children()))
+			{
+				foreach ($element->children() as $file)
+				{
+					if ((string)$file->attributes()->module)
+					{
+						$extension = strtolower((string)$file->attributes()->module);
+						break;
+					}
+				}
+			}
+			if ($extension)
+			{
+				$lang =& JFactory::getLanguage();
+				$source = $path;
+				$folder = (string)$element->attributes()->folder;
+				if ($folder && file_exists("$path/$folder"))
+				{
+					$source = "$path/$folder";
+				}
+				$client = (string)$this->manifest->attributes()->client;
+				$lang->load($extension, constant('JPATH_' . strtoupper($client)));
+				$lang->load($extension . '.manage', constant('JPATH_' . strtoupper($client)));		
+				$lang->load($extension, $source);
+				$lang->load($extension . '.manage',$source);
+			}
+		}
+	}
+	/**
 	 * Custom install method
 	 *
 	 * @access	public

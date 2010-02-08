@@ -333,8 +333,10 @@ class JInstaller extends JAdapter
 		if (is_object($this->_adapters[$type]))
 		{
 			// Add the languages from the package itself
-			$lang =& JFactory::getLanguage();
-			$lang->load('joomla',$path);
+			if (method_exists($this->_adapters[$type], 'loadLanguage'))
+			{
+				$this->_adapters[$type]->loadLanguage($path);
+			}
 
 			// Fire the onBeforeExtensionInstall event.
 			JPluginHelper::importPlugin('installer');
@@ -472,8 +474,10 @@ class JInstaller extends JAdapter
 		if (is_object($this->_adapters[$type]))
 		{
 			// Add the languages from the package itself
-			$lang =& JFactory::getLanguage();
-			$lang->load('joomla',$path);
+			if (method_exists($this->_adapters[$type], 'loadLanguage'))
+			{
+				$this->_adapters[$type]->loadLanguage($path);
+			}
 			// Fire the onBeforeExtensionUpdate event.
 			JPluginHelper::importPlugin('installer');
 			$dispatcher =& JDispatcher::getInstance();

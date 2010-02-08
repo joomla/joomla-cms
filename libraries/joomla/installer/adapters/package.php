@@ -20,6 +20,16 @@ jimport('joomla.base.adapterinstance');
 class JInstallerPackage extends JAdapterInstance
 {
 
+	public function loadLanguage($path)
+	{
+		$this->manifest = &$this->parent->getManifest();
+		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
+		$extension = "pkg_$name";
+		$lang =& JFactory::getLanguage();
+		$source = $path;
+		$lang->load($extension . '.manage', JPATH_SITE);		
+		$lang->load($extension . '.manage', $source);
+	}
 	/**
 	 * Custom install method
 	 *
@@ -129,6 +139,9 @@ class JInstallerPackage extends JAdapterInstance
 			return false;
 		}
 
+		// Parse optional tags
+		$this->parent->parseLanguages($this->manifest->languages);
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Extension Registration
@@ -237,6 +250,7 @@ class JInstallerPackage extends JAdapterInstance
 					//return false;
 				}
 			}
+			$this->parent->removeFiles($xml->languages);
 			// clean up manifest file after we're done if there were no errors
 			if (!$error) {
 				JFile::delete($manifestFile);

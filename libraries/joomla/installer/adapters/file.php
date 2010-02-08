@@ -25,6 +25,23 @@ class JInstallerFile extends JAdapterInstance
 	private $route = 'install';
 
 	/**
+	 * Custom loadLanguage method
+	 *
+	 * @access	public
+	 * @param	string	$path the path where to find language files
+	 * @since	1.6
+	 */
+	public function loadLanguage($path)
+	{
+		$this->manifest = &$this->parent->getManifest();
+		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
+		$extension = "fil_$name";
+		$lang =& JFactory::getLanguage();
+		$source = $path;
+		$lang->load($extension . '.manage', JPATH_SITE);		
+		$lang->load($extension . '.manage', $source);
+	}
+	/**
 	 * Custom install method
 	 *
 	 * @access	public
@@ -56,7 +73,7 @@ class JInstallerFile extends JAdapterInstance
 		// Get the component description
 		$description = (string)$this->manifest->description;
 		if ($description) {
-			$this->parent->set('message', $description);
+			$this->parent->set('message', JText::_($description));
 		} else {
 			$this->parent->set('message', '');
 		}
@@ -108,7 +125,8 @@ class JInstallerFile extends JAdapterInstance
 		//Now that we have file list , lets start copying them
 		$this->parent->copyFiles($this->fileList);
 
-
+		// Parse optional tags
+		$this->parent->parseLanguages($this->manifest->languages);
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -277,6 +295,8 @@ class JInstallerFile extends JAdapterInstance
 			$row->delete();
 			return false;
 		}
+
+		$this->parent->removeFiles($xml->languages);
 
 		$row->delete();
 

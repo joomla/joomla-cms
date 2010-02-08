@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Feb-2010 Christophe Demko
+^ Changing the way languages are loaded at install and update phase
+
 08-Feb-2010 Jean-Marie Simonet
 ^ Refactored mod_popular ini/keys
 ^ Refactored mod_quickicon ini/keys. Added Language manager icon.
