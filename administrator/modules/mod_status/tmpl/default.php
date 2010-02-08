@@ -13,17 +13,20 @@ defined('_JEXEC') or die;
 $output = array();
 
 // Print the logged in users.
-	$output[] = "<span class=\"loggedin-users\">".$online_num. " " . JText::_('mod_status_users') . "</span>";
+	$output[] = "<span class=\"loggedin-users\">".$online_num. " " . JText::_('MOD_STATUS_USERS') . "</span>";
 
 //  Print the inbox message.
-	$output[] = "<span class=\"$inboxClass\"><a href=\"$inboxLink\">". $unread . " " . JText::_('mod_status_Messages'). "</a></span>";
+	$output[] = "<span class=\"$inboxClass\"><a href=\"$inboxLink\">". $unread . " " . JText::_('MOD_STATUS_MESSAGES'). "</a></span>";
 
 // Print the Preview link to Main site.
-	$output[] = "<span class=\"viewsite\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('mod_status_View_site')."</a></span>";
+	$output[] = "<span class=\"viewsite\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('MOD_STATUS_VIEW_SITE')."</a></span>";
 
 // Print the logout link.
-	$output[] = "<span class=\"logout\"><a href=\"$logoutLink\">".JText::_('mod_status_Log_out')."</a></span>";
+	$output[] = "<span class=\"logout\"><a href=\"$logoutLink\">".JText::_('MOD_STATUS_LOG_OUT')."</a></span>";
 
+// Print the back-end logged in users.
+	$output[] = "<span class=\"loggedin-users\">".$count. " " . JText::_('MOD_STATUS_BACKEND_USERS') . "</span>";
+	
 // Reverse rendering order for rtl display.
 if ($lang->isRTL()) {
 	$output = array_reverse($output);

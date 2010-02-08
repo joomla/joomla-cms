@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>MOD_STATUS_DESC</description>
+	<description>MOD_STATUS_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_status">mod_status.php</filename>
 		<filename>index.html</filename>

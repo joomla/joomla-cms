@@ -25,6 +25,15 @@ $query->where('state = 0 AND user_id_to = '.(int) $user->get('id'));
 $db->setQuery($query);
 $unread = (int) $db->loadResult();
 
+// Get the number of back-end logged in users.
+$query->clear();
+$query->select('COUNT(session_id)');
+$query->from('#__session');
+$query->where('guest = 0 AND client_id = 1');
+
+$db->setQuery($query);
+$count = (int) $db->loadResult();
+
 // Set the inbox link.
 if (JRequest::getInt('hidemainmenu')) {
 	$inboxLink = '';
