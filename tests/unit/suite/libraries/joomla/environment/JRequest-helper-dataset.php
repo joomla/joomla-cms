@@ -27,14 +27,14 @@ class JRequestTest_DataSet {
 		 * Default values tests
 		 */
 		array(
-			'missing',	null,		'default',  'none', 0, null, array(),
+			'missing',	null,		'default',  'none', 0, null, array()
 		),
 		array(
 			'missing',	'absent',   'default',  'none', 0, 'absent',
 			array(
 				// Note count is 2 because default values are not cached.
-				array('absent', 'NONE', 'absent', 2),
-			),
+				array('absent', 'NONE', 'absent', 2)
+			)
 		),
 		/*
 		 * Data source tests
@@ -42,56 +42,56 @@ class JRequestTest_DataSet {
 		array(
 			'tag',  null,		'default',  'none', 0, 'from _REQUEST',
 			array(
-				array('from _REQUEST', 'NONE', 'from _REQUEST', 1),
-			),
+				array('from _REQUEST', 'NONE', 'from _REQUEST', 1)
+			)
 		),
 		array(
 			'tag',  null,		'post',	'none', 0, 'from _POST',
 			array(
-				array('from _POST', 'NONE', 'from _POST', 1),
-			),
+				array('from _POST', 'NONE', 'from _POST', 1)
+			)
 		),
 		array(
 			'tag',  null,		'method',   'none', 0, 'from _POST',
 			array(
-				array('from _POST', 'NONE', 'from _POST', 1),
-			),
+				array('from _POST', 'NONE', 'from _POST', 1)
+			)
 		),
 		array(
 			'tag',  null,		'request',  'none', 0, 'from _REQUEST',
 			array(
-				array('from _REQUEST', 'NONE', 'from _REQUEST', 1),
-			),
+				array('from _REQUEST', 'NONE', 'from _REQUEST', 1)
+			)
 		),
 		array(
 			'tag',  null,		'invalid',  'none', 0, 'from _REQUEST',
 			array(
-				array('from _REQUEST', 'NONE', 'from _REQUEST', 1),
-			),
+				array('from _REQUEST', 'NONE', 'from _REQUEST', 1)
+			)
 		),
 		array(
 			'tag',  null,		'cookie',   'none', 0, 'from _COOKIE',
 			array(
-				array('from _COOKIE', 'NONE', 'from _COOKIE', 1),
-			),
+				array('from _COOKIE', 'NONE', 'from _COOKIE', 1)
+			)
 		),
 		array(
 			'tag',  null,		'files',	'none', 0, 'from _FILES',
 			array(
-				array('from _FILES', 'NONE', 'from _FILES', 1),
-			),
+				array('from _FILES', 'NONE', 'from _FILES', 1)
+			)
 		),
 		array(
 			'tag',  null,		'env',	'none', 0, 'from _ENV',
 			array(
-				array('from _ENV', 'NONE', 'from _ENV', 1),
-			),
+				array('from _ENV', 'NONE', 'from _ENV', 1)
+			)
 		),
 		array(
 			'tag',  null,		'server',   'none', 0, 'from _SERVER',
 			array(
-				array('from _SERVER', 'NONE', 'from _SERVER', 1),
-			),
+				array('from _SERVER', 'NONE', 'from _SERVER', 1)
+			)
 		),
 		/*
 		 * Test flags
@@ -99,14 +99,14 @@ class JRequestTest_DataSet {
 		array(
 			'trim_test',  null,		'default',  'none', 0, 'has  whitespace',
 			array(
-				array('has  whitespace', 'NONE', 'has  whitespace', 1),
-			),
+				array('has  whitespace', 'NONE', 'has  whitespace', 1)
+			)
 		),
 		array(
 			'trim_test',  null,		'default',  'none', JREQUEST_NOTRIM, ' has  whitespace ',
 			array(
-				array(' has  whitespace ', 'NONE', ' has  whitespace ', 1),
-			),
+				array(' has  whitespace ', 'NONE', ' has  whitespace ', 1)
+			)
 		),
 		array(
 			'raw_test',  null,		'default',  'none', JREQUEST_ALLOWRAW, '<body>stuff</body>',
@@ -115,30 +115,30 @@ class JRequestTest_DataSet {
 		array(
 			'raw_test',  null,		'default',  'none', JREQUEST_ALLOWHTML, '<body>stuff</body>',
 			array(
-				array('<body>stuff</body>', 'NONE', '<body>stuff</body>', 1),
-			),
-		),
+				array('<body>stuff</body>', 'NONE', '<body>stuff</body>', 1)
+			)
+		)
 	);
 
 	static function initSuperGlobals() {
 		$_GET = array(
-			'tag' => 'from _GET',
+			'tag' => 'from _GET'
 		);
 		$_COOKIE = array(
-			'tag' => 'from _COOKIE',
+			'tag' => 'from _COOKIE'
 		);
 		$_ENV = array(
-			'tag' => 'from _ENV',
+			'tag' => 'from _ENV'
 		);
 		$_FILES = array(
-			'tag' => 'from _FILES',
+			'tag' => 'from _FILES'
 		);
 		$_POST = array(
-			'tag' => 'from _POST',
+			'tag' => 'from _POST'
 		);
 		$_SERVER = array(
 			'tag' => 'from _SERVER',
-			'REQUEST_METHOD' => 'POST',
+			'REQUEST_METHOD' => 'POST'
 		);
 		/**
 		 * Merge get and post into request.

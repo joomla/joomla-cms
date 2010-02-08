@@ -25,4 +25,3 @@ class JFactory
 		return $config;
 	}
 }
-

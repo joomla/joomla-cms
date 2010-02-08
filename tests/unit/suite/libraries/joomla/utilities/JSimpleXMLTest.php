@@ -48,7 +48,7 @@ class JSimpleXMLTest extends JoomlaTestCase
 	{
 		include_once JPATH_BASE . '/libraries/joomla/utilities/simplexml.php';
 
-		parent::setUp();
+		//parent::setUp();
 
 		$this->saveErrorHandlers();
 		$this->setErrorCallback('JSimpleXMLTest');
