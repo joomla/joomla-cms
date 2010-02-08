@@ -30,6 +30,55 @@ $ -> Language fix or change
 08-Feb-2010 Andrew Eddie
  # Fix bug in JRegistry::setValue - documented as returning the old value, however, the behaviour is to return the set value. Changing this kills JParameter::def.
  
+07-Feb-2010 Hannes Papenberg
+^ Consolidated a few translation strings in en-GB.ini and removed the en-GB.ini.old.ini in frontend
+# Fixed required fields in profile plugin - Thanks Matrikular!
+# Fixed backend menu translation - JLanguage::hasKey() was broken. - Thanks Matrikular!
+# Fixed bug in discover function. When two plugins have the same name, but are in different folders, they were not discovered
+
+07-Feb-2010 Jean-Marie Simonet
+^ Refactored mod_feed site and admin modules ini/keys. Enabled desc translation in com_modules select.
+^ Refactored mod_latest ini/keys
+^ Refactored mod_logged ini/keys + added some
+^ Refactored mod_login (admin) ini/keys. Prevented it from being unpublished.
+^ Completed refactoring of mod_menu (admin) ini/keys.
+^ Refactored mod_online ini/keys + bug
+
+06-Feb-2010 Mark Dexter
++ Test Commit (remove later)
+
+06-Feb-2010 Jean-Marie Simonet
+^ Refactored com_modules inis/keys
+^ Refactored globally modules cache and cache-time keys
+
+06-Feb-2010 Hannes Papenberg
+# Partially fixed the login when site is offline
+
+05-Feb-2010 Mark Dexter
+^ Improve documentation for SeleniumConfig sample file
+
+05-Feb-2010 Mark Dexter
+# Revert revision 14595 (caused errors in user and menu item edit)
+
+05-Feb-2010 Jean-Marie Simonet
+^ Refactored mod_custom site and admin ini/keys
+
+05-Feb-2010 Christophe Demko
+^ Adding the possibility to have more than one category tree in an extension.
+^ Consolidating the JCategories class
+
+05-Feb-2010 Jean-Marie Simonet
+# Translating Toggle Editor button. Correcting Error Key in tiny.
+^ Refactored search plugins ini/keys
+
+05-Feb-2010 Christophe Demko
+^ Having only one translation file per template (in administrator/language for admin ones and language for site ones)
+# Translating buttons in the editor
+^ Adding readonly attribute on some jform fields
+
+04-Feb-2010 Christophe Demko
+# Correcting a bug in JForm: setFieldAttribute was incorrect when the attribute does not exist 
+
 04-Feb-2010 Jean-Marie Simonet
 ^ Refactored user plugins ini keys.
 ^ Refactored system plugins ini keys
