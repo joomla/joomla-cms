@@ -100,7 +100,12 @@ abstract class QuickIconHelper
 					'link' => JRoute::_('index.php?option=com_installer'),
 					'image' => 'icon-48-extension.png',
 					'text' => JText::_('MOD_QUICKICON_EXTENSION_MANAGER'),
+				),array(
+					'link' => JRoute::_('index.php?option=com_languages'),
+					'image' => 'icon-48-language.png',
+					'text' => JText::_('MOD_QUICKICON_LANGUAGE_MANAGER'),
 				)
+				
 			);
 		}
 
