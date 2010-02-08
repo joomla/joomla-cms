@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>MOD_POPULAR_DESC</description>
+	<description>MOD_POPULAR_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_popular">mod_popular.php</filename>
 		<filename>helper.php</filename>
@@ -23,34 +23,34 @@
 			name="count"
 			type="text"
 			default="5"
-			label="Mod_Popular_Count_label"
-			description="Mod_Popular_Count_Desc" />
+			label="MOD_POPULAR_FIELD_COUNT_LABEL"
+			description="MOD_POPULAR_FIELD_COUNT_DESC" />
 		<field
 			id="catid"
 			name="catid"
 			type="category"
 			default=""
 			extension="com_content"
-			label="Mod_Popular_Field_Category_Label"
-			description="Mod_Popular_Field_Category_Desc"
+			label="MOD_POPULAR_FIELD_CATEGORY_LABEL"
+			description="MOD_POPULAR_FIELD_CATEGORY_DESC"
 			class="inputbox">
 			<option
-				value="">JOption_Any_Category</option>
+				value="">JOPTION_ANY_CATEGORY</option>
 			<option
-				value="0">JOption_No_Category</option>
+				value="0">JOPTION_NO_CATEGORY</option>
 		</field>
 		<field
 			name="user_id"
 			type="list"
 			default="0"
-			label="Mod_Popular_Authors_Label"
-			description="Mod_Popular_Authors_Desc">
+			label="MOD_POPULAR_FIELD_AUTHORS_LABEL"
+			description="MOD_POPULAR_FIELD_AUTHORS_DESC">
 			<option
-				value="0">Mod_Popular_Anyone</option>
+				value="0">MOD_POPULAR_FIELD_VALUE_ANYONE</option>
 			<option
-				value="by_me">Mod_Popular_Added_or_modified_by_me</option>
+				value="by_me">MOD_POPULAR_FIELD_VALUE_ADDED_OR_MODIFIED_BY_ME</option>
 			<option
-				value="not_me">Mod_Popular_Not_added_or_modified_by_me</option>
+				value="not_me">MOD_POPULAR_FIELD_VALUE_NOT_ADDED_OR_MODIFIED_BY_ME</option>
 		</field>
 	</fields>
 	<fields

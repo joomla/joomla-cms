@@ -14,13 +14,13 @@ defined('_JEXEC') or die;
 	<thead>
 		<tr>
 			<th>
-				<?php echo JText::_('Mod_Popular_Items'); ?>
+				<?php echo JText::_('MOD_POPULAR_ITEMS'); ?>
 			</th>
 			<th>
-				<strong><?php echo JText::_('Mod_Popular_Created'); ?></strong>
+				<strong><?php echo JText::_('MOD_POPULAR_CREATED'); ?></strong>
 			</th>
 			<th>
-				<strong><?php echo JText::_('Mod_Popular_Hits');?>
+				<strong><?php echo JText::_('MOD_POPULAR_HITS');?>
 				</strong>
 			</th>
 		</tr>
@@ -54,7 +54,7 @@ defined('_JEXEC') or die;
 	<tbody>
 		<tr>
 			<td colspan="3">
-				<p class="noresults"><?php echo JText::_('Mod_Popular_No_Matching_Results');?></p>
+				<p class="noresults"><?php echo JText::_('MOD_POPULAR_NO_MATCHING_RESULTS');?></p>
 			</td>
 		</tr>
 	</tbody>
