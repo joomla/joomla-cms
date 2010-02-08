@@ -24,6 +24,26 @@ class JInstallerTemplate extends JAdapterInstance
 	protected $element = null;
 
 	/**
+	 * Custom loadLanguage method
+	 *
+	 * @access	public
+	 * @param	string	$path the path where to find language files
+	 * @since	1.6
+	 */
+	public function loadLanguage($path)
+	{
+		$this->manifest = &$this->parent->getManifest();
+		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
+		$client = (string)$xml->attributes()->client;
+		$extension = "tpl_$name";
+		$lang =& JFactory::getLanguage();
+		$source = $path;
+		$lang->load($extension, constant('JPATH_'.strtoupper($client));
+		$lang->load($extension . '.manage', constant('JPATH_'.strtoupper($client));		
+		$lang->load($extension, $source);
+		$lang->load($extension . '.manage', $source);
+	}
+	/**
 	 * Custom install method
 	 *
 	 * @access	public
@@ -135,8 +155,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		// Parse optional tags
 		$this->parent->parseFiles($xml->media, $clientId);
-		$this->parent->parseLanguages($xml->languages);
-		$this->parent->parseLanguages($xml->administration->languages, 1);
+		$this->parent->parseLanguages($xml->languages, $clientId);
 
 		// Get the template description
 		$this->parent->set('message', JText::_((string)$xml->description));
@@ -263,8 +282,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		// Remove files
 		$this->parent->removeFiles($xml->media, $clientId);
-		$this->parent->removeFiles($xml->languages);
-		$this->parent->removeFiles($xml->administration->languages, 1);
+		$this->parent->removeFiles($xml->languages, $clientId);
 
 		// Delete the template directory
 		if (JFolder::exists($this->parent->getPath('extension_root'))) {
