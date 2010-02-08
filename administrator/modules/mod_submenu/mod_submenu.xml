@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>This module shows the submenu navigation module</description>
+	<description>MOD_SUBMENU_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_submenu">mod_submenu.php</filename>
 		<filename>helper.php</filename>
