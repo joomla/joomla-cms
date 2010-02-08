@@ -62,44 +62,44 @@ abstract class QuickIconHelper
 				array(
 					'link' => JRoute::_('index.php?option=com_content&task=article.add'),
 					'image' => 'icon-48-article-add.png',
-					'text' => JText::_('Add_New_Article')
+					'text' => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE')
 				),
 				array(
 					'link' => JRoute::_('index.php?option=com_content'),
 					'image' => 'icon-48-article.png',
-					'text' => JText::_('Article_Manager')
+					'text' => JText::_('MOD_QUICKICON_ARTICLE_MANAGER')
 				),
 				array(
 					'link' => JRoute::_('index.php?option=com_categories&extension=com_content'),
 					'image' => 'icon-48-category.png',
-					'text' => JText::_('Category_Manager')
+					'text' => JText::_('MOD_QUICKICON_CATEGORY_MANAGER')
 				),
 				array(
 					'link' => JRoute::_('index.php?option=com_media'),
 					'image' => 'icon-48-media.png',
-					'text' => JText::_('Media_Manager')
+					'text' => JText::_('MOD_QUICKICON_MEDIA_MANAGER')
 				),
 				array(
 					'link' => JRoute::_('index.php?option=com_menus'),
 					'image' => 'icon-48-menumgr.png',
-					'text' => JText::_('Menu_Manager'),
+					'text' => JText::_('MOD_QUICKICON_MENU_MANAGER'),
 					'access' => 'core.menus.manage'
 				),
 				array(
 					'link' => JRoute::_('index.php?option=com_users'),
 					'image' => 'icon-48-user.png',
-					'text' => JText::_('User_Manager'),
+					'text' => JText::_('MOD_QUICKICON_USER_MANAGER'),
 					'access' => 'core.users.manage'
 				),
 				array(
 					'link' => JRoute::_('index.php?option=com_modules'),
 					'image' => 'icon-48-module.png',
-					'text' => JText::_('Module_Manager'),
+					'text' => JText::_('MOD_QUICKICON_MODULE_MANAGER'),
 				),
 				array(
 					'link' => JRoute::_('index.php?option=com_installer'),
 					'image' => 'icon-48-extension.png',
-					'text' => JText::_('Extension_Manager'),
+					'text' => JText::_('MOD_QUICKICON_EXTENSION_MANAGER'),
 				)
 			);
 		}

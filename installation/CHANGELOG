@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 08-Feb-2010 Jean-Marie Simonet
 ^ Refactored mod_popular ini/keys
+^ Refactored mod_quickicon ini/keys
 
 08-Feb-2010 Andrew Eddie
  # Fix bug in JRegistry::setValue - documented as returning the old value, however, the behaviour is to return the set value. Changing this kills JParameter::def.

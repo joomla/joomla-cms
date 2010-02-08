@@ -11,7 +11,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>This module shows Quick Icons that are visible on the admin area home page</description>
+	<description>MOD_QUICKICON_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_quickicon">mod_quickicon.php</filename>
 		<filename>helper.php</filename>
