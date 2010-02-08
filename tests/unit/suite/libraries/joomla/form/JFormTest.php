@@ -85,7 +85,7 @@ class JFormTest extends PHPUnit_Framework_TestCase
 
 		// The default path is the class file folder/forms
 		$valid = array(
-			JPATH_LIBRARIES.'/joomla/form/forms'
+			JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'forms'
 		);
 
 		$this->assertThat(
