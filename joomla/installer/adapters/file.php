@@ -40,6 +40,7 @@ class JInstallerFile extends JAdapterInstance
 		$source = $path;
 		$lang->load($extension . '.manage', JPATH_SITE);		
 		$lang->load($extension . '.manage', $source);
+		var_dump($extension.'manage');exit();
 	}
 	/**
 	 * Custom install method
