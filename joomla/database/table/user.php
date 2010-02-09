@@ -136,7 +136,7 @@ class JTableUser extends JTable
 		{
 			// Set the group ids.
 			JArrayHelper::toInteger($this->groups);
-			$this->groups = array_fill_keys(array_values($this->groups), null);
+//			$this->groups = array_fill_keys(array_values($this->groups), null);
 
 			// Get the titles for the user groups.
 			$this->_db->setQuery(
