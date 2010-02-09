@@ -13,28 +13,14 @@ defined('_JEXEC') or die;
 jimport('joomla.language.helper');
 class modLanguagesHelper
 {
-	function &getSelected()
+	function &getTag(&$params)
 	{
-		$user = JFactory::getUser();
-		if (empty($user->id))
-		{
-			jimport('joomla.utilities.utility');
-			$selected = JRequest::getString(JUtility::getHash('com_languages.tag'), null ,'cookie');
-			if (empty($selected))
-			{
-				$config = &JFactory::getConfig();
-				$selected = $config->getValue('config.language', 'en-GB');
-			}
-		}
-		else
-		{
-			$selected = $user->getParam('language','en-GB');
-		}
-		return $selected;
+		$tag = JFactory::getLanguage()->getTag();
+		return $tag;
 	}
 	function &getList(&$params)
 	{
-		$selected = self::getSelected($params);
+		$selected = self::getTag($params);
 		$result = JLanguageHelper::createLanguageList($selected , JPATH_SITE, true);
 		return $result;
 	}

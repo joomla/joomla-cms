@@ -17,7 +17,7 @@ $uri = JFactory::getURI();
 	<?php if ($headerText) : ?>
 		<div class="mod_languages_header"><?php echo $headerText; ?></div>
 	<?php endif; ?>
-	<?php echo JHtml::_('select.genericlist', $list, 'tag', ' onchange="this.form.submit();"','value','text',$selected);?>
+	<?php echo JHtml::_('select.genericlist', $list, 'tag', ' onchange="this.form.submit();"','value','text',$tag);?>
 	<?php if ($footerText) : ?>
 		<div class="mod_languages_footer"><?php echo $footerText; ?></div>
 	<?php endif; ?>

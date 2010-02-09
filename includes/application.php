@@ -59,9 +59,14 @@ final class JSite extends JApplication
 			}
 			else
 			{
-				$params =  JComponentHelper::getParams('com_languages');
-				$client	= &JApplicationHelper::getClientInfo($this->getClientId());
-				$options['language'] = $params->get($client->name, $config->getValue('config.language','en-GB'));
+				jimport('joomla.utilities.utility');
+				$options['language'] = JRequest::getString(JUtility::getHash('com_languages.tag'), null ,'cookie');
+				if (empty($options['language']))
+				{
+					$params =  JComponentHelper::getParams('com_languages');
+					$client	= &JApplicationHelper::getClientInfo($this->getClientId());
+					$options['language'] = $params->get($client->name, $config->getValue('config.language','en-GB'));
+				}
 			}
 		}
 
@@ -76,7 +81,6 @@ final class JSite extends JApplication
 				$options['language'] = 'en-GB'; // as a last ditch fail to english
 			}
 		}
-
 		parent::initialise($options);
 	}
 
