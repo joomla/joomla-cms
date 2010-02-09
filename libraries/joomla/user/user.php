@@ -557,6 +557,11 @@ class JUser extends JObject
 			$this->id = $table->get('id');
 		}
 
+		if ($my->id == $table->id)
+		{
+			$registry = new JParameter($table->params);
+			$my->setParameters($registry);
+		}
 		// Fire the onAftereStoreUser event
 		$dispatcher->trigger('onAfterStoreUser', array($this->getProperties(), $isnew, $result, $this->getError()));
 

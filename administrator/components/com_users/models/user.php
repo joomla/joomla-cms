@@ -227,6 +227,12 @@ class UsersModelUser extends JModelForm
 			return false;
 		}
 
+		$user = &JFactory::getUser();
+		if ($user->id == $table->id)
+		{
+			$registry = new JParameter($table->params);
+			$user->setParameters($registry);
+		}
 		// Trigger the onAftereStoreUser event
 		$dispatcher->trigger('onAfterStoreUser', array($data, $isNew, true, null));
 

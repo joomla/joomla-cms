@@ -31,6 +31,7 @@ $ -> Language fix or change
 ^ Refactored mod_articles_archived ini/keys. Updated sql.
 
 09-Feb-2010 Christophe Demko
+# Loading the user parameters when he changes them (llow the admin to change its own language for example)
 # Removing unused keys in tpl_bluestork.ini which contains the NO keyword
 # Adding the manifest files directory
 ^ Changing the way languages are loaded at install and update phase
