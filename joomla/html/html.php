@@ -489,12 +489,13 @@ abstract class JHtml
 		// Load the calendar behavior
 		JHtml::_('behavior.calendar');
 
+		$readonly=isset($attribs['readonly']) && $attribs['readonly']=='readonly';
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
 		// Only display the triggers once for each control.
-		if (!in_array($id, $done))
+		if (!in_array($id, $done) && !$readonly)
 		{
 			$document = &JFactory::getDocument();
 			$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({

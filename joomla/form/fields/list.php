@@ -37,7 +37,7 @@ class JFormFieldList extends JFormField
 
 		// Iterate through the children and build an array of options.
 		foreach ($this->_element->children() as $option) {
-			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_(trim((string)$option)));
+			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_(trim((string)$option)),'value','text',(string)$option->attributes()->disabled=='true');
 		}
 
 		return $options;
