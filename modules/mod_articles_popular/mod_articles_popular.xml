@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCMOSTREAD</description>
+	<description>MOD_POPULAR_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_articles_popular">mod_articles_popular.php</filename>
@@ -27,34 +27,29 @@
 	</languages>
 	<fields>
 		<field
-			name="spacer1"
-			type="spacer"
-			hr="true"
-			/>
-		<field
 			name="show_front"
 			type="radio"
 			default="1"
-			label="Frontpage Items"
-			description="fieldFRONTPAGEITEMS">
+			label="MOD_POPULAR_FIELD_FEATURED_LABEL"
+			description="MOD_POPULAR_FIELD_FEATURED_DESC">
 			<option
-				value="1">show</option>
+				value="1">JSHOW</option>
 			<option
-				value="0">hide</option>
+				value="0">JHIDE</option>
 		</field>
 		<field
 			name="count"
 			type="text"
 			default="5"
-			label="Count"
-			description="The number of items to display default is 5" />
+			label="MOD_POPULAR_FIELD_COUNT_LABEL"
+			description="MOD_POPULAR_FIELD_COUNT_DESC" />
 		<field
 			name="catid"
 			type="category"
 			extension="com_content"
 			default=""
-			label="Category ID"
-			description="fieldCATEGORYID" />
+			label="MOD_POPULAR_FIELD_CATEGORY_LABEL"
+			description="MOD_POPULAR_FIELD_CATEGORY_DESC" />
 	</fields>
 	<fields
 		group="advanced">
