@@ -33,7 +33,7 @@ JHtml::_('behavior.formvalidation');
 			<?php endif; ?>
 
 			<?php echo $this->form->getLabel('name'); ?>
-			<?php echo $this->form->getInput('name'); ?>
+			<?php echo JText::_($this->form->getInput('name')); ?>
 
 			<?php echo $this->form->getLabel('enabled'); ?>
 			<?php echo $this->form->getInput('enabled'); ?>

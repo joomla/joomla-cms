@@ -14,8 +14,9 @@
 			type="text"
 			label="COM_PLUGINS_FIELD_NAME_LABEL"
 			description="COM_PLUGINS_FIELD_NAME_DESC"
-			class="inputbox"
+			class="readonly"
 			size="30"
+			readonly="true"
 			required="true" />
 
 		<field

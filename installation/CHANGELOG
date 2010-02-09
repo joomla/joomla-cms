@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 09-Feb-2010 Christophe Demko
+# Removing unused keys in tpl_bluestork.ini which contains the NO keyword
 # Adding the manifest files directory
 ^ Changing the way languages are loaded at install and update phase
 ^ Correcting revision 14595 (caused errors in user and menu item edit)
