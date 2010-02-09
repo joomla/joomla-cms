@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCLATESTNEWS</description>
+	<description>MOD_LATEST_NEWS_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_articles_latest">mod_articles_latest.php</filename>
@@ -30,33 +30,33 @@
 			name="count"
 			type="text"
 			default="5"
-			label="Count"
-			description="The number of items to display default 5" />
+			label="MOD_LATEST_NEWS_FIELD_COUNT_LABEL"
+			description="MOD_LATEST_NEWS_FIELD_COUNT_DESC" />
 		<field
 			name="ordering"
 			type="list"
 			default="create_dsc"
-			label="Ordering"
-			description="Ordering options">
+			label="MOD_LATEST_NEWS_FIELD_ORDERING_LABEL"
+			description="MOD_LATEST_NEWS_FIELD_ORDERING_DESC">
 			<option
-				value="c_dsc">Recently Added First</option>
+				value="c_dsc">MOD_LATEST_NEWS_VALUE_RECENT_ADDED</option>
 			<option
-				value="m_dsc">Recently Modified First</option>
+				value="m_dsc">MOD_LATEST_NEWS_VALUE_RECENT_MODIFIED</option>
 			<option
-				value="mc_dsc">Recently Touched First</option>
+				value="mc_dsc">MOD_LATEST_NEWS_VALUE_RECENT_TOUCHED</option>
 		</field>
 		<field
 			name="user_id"
 			type="list"
 			default="0"
-			label="Authors"
-			description="A filter for the authors">
+			label="MOD_LATEST_NEWS_FIELD_USER_LABEL"
+			description="MOD_LATEST_NEWS_FIELD_USER_DESC">
 			<option
-				value="0">Anyone</option>
+				value="0">MOD_LATEST_NEWS_VALUE_ANYONE</option>
 			<option
-				value="by_me">Added or modified by me</option>
+				value="by_me">MOD_LATEST_NEWS_VALUE_ADDED_BY_ME</option>
 			<option
-				value="not_me">Not added or modified by me</option>
+				value="not_me">MOD_LATEST_NEWS_VALUE_NOTADDED_BY_ME</option>
 		</field>
 		<field
 			name="spacer1"
@@ -67,25 +67,20 @@
 			name="show_front"
 			type="radio"
 			default="1"
-			label="Frontpage Items"
-			description="fieldFRONTPAGEITEMS">
+			label="MOD_LATEST_NEWS_FIELD_FEATURED_LABEL"
+			description="MOD_LATEST_NEWS_FIELD_FEATURED_DESC">
 			<option
-				value="1">show</option>
+				value="1">JSHOW</option>
 			<option
-				value="0">hide</option>
+				value="0">JHIDE</option>
 		</field>
 		<field
 			name="catid"
 			type="category"
 			extension="com_content"
 			default=""
-			label="Category ID"
-			description="fieldCATEGORYID" />
-		<field
-			name="spacer2"
-			type="spacer"
-			hr="true"
-			/>
+			label="MOD_LATEST_NEWS_FIELD_CATEGORY_LABEL"
+			description="MOD_LATEST_NEWS_FIELD_CATEGORY_DESC" />
 	</fields>
 	<fields
 		group="advanced">

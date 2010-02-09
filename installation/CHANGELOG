@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 09-Feb-2010 Jean-Marie Simonet
 ^ Refactored mod_articles_archived ini/keys. Updated sql.
+^ Refactored mod_articles_latest ini/keys.
 
 09-Feb-2010 Christophe Demko
 # Loading the user parameters when he changes them (llow the admin to change its own language for example)
