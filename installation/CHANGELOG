@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Feb-2010 Jean-Marie Simonet
+^ Refactored mod_articles_archived ini/keys. Updated sql.
+
 09-Feb-2010 Christophe Demko
 # Removing unused keys in tpl_bluestork.ini which contains the NO keyword
 # Adding the manifest files directory
