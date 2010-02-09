@@ -252,8 +252,8 @@
 			id="featured"
 			name="featured"
 			type="radio"
-			label="Content_Featured_Label"
-			description="Content_Featured_Desc"
+			label="COM_CONTENT_FEATURED_LABEL"
+			description="COM_CONTENT_FEATURED_DESC"
 			default="0">
 			<option
 				value="0">JOFF</option>

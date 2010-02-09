@@ -27,11 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Feb-2010 Jean-Marie Simonet
++ Added strings for the featured tagging
+
 09-Feb-2010 Jean-Marie Simonet
 ^ Refactored mod_articles_archived ini/keys. Updated sql.
 ^ Refactored mod_articles_latest ini/keys.
 ^ Refactored mod_popular ini/keys.
--> Deleted admin mod_stats and mod_footer in files
+- Deleted admin mod_stats and mod_footer in files
 
 09-Feb-2010 Christophe Demko
 + Adding a frontend language switcher module
