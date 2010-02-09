@@ -96,9 +96,9 @@ $user = JFactory::getUser();
 					<?php endif; ?>
 					<?php if ($canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_plugins&task=plugin.edit&id='.(int) $item->extension_id); ?>">
-							<?php echo JText::_($item->name); ?></a>
+							<?php echo $this->escape($item->name); ?></a>
 					<?php else : ?>
-							<?php echo JText::_($item->name); ?>
+							<?php echo $this->escape($item->name); ?>
 					<?php endif; ?>
 				</td>
 				<td class="center">

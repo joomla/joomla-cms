@@ -43,12 +43,6 @@ class JFormFieldEditors extends JFormFieldList
 		$db->setQuery($query);
 
 		$options = $db->loadObjectList();
-		
-		// Translate editors name
-		foreach ($options as $i => $option)
-		{
-			$options[$i]->text = JText::_($options[$i]->text);
-		}
 
 		// @todo: Check for an error msg.
 
