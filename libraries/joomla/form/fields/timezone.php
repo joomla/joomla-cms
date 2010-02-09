@@ -63,7 +63,7 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 		ksort($groups);
 		foreach($groups as $zone => $location)
 		{
-			sort($location);
+			sort($groups[$zone]);
 		}
 
 		// Merge any additional options in the XML definition.

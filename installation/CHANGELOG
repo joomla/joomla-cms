@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 09-Feb-2010 Christophe Demko
 ^ Changing the way languages are loaded at install and update phase
+^ Correcting revision 14595 (caused errors in user and menu item edit)
 
 08-Feb-2010 Jean-Marie Simonet
 ^ Refactored mod_popular ini/keys
