@@ -57,7 +57,7 @@ class ControlPanel0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("link=Add New Article"));
 		$this->assertTrue($this->isElementPresent("link=Add New Category"));
 		echo "Check that Component menu options are visible\n";
-		$this->assertTrue($this->isElementPresent("link=Banners"));
+		$this->assertTrue($this->isElementPresent("link=Banner"));
 		$this->assertTrue($this->isElementPresent("link=Clients"));
 		$this->assertTrue($this->isElementPresent("link=Categories"));
 		$this->assertTrue($this->isElementPresent("link=Contacts"));
@@ -68,9 +68,9 @@ class ControlPanel0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//ul[@id='menu-news-feeds']/li[2]/a"));
 		$this->assertTrue($this->isElementPresent("link=Redirect"));
 		$this->assertTrue($this->isElementPresent("link=Search"));
-		$this->assertTrue($this->isElementPresent("link=Weblinks"));
+		$this->assertTrue($this->isElementPresent("link=Web Links"));
 		$this->assertTrue($this->isElementPresent("link=Links"));
-		$this->assertTrue($this->isElementPresent("//ul[@id='menu-weblinks']/li[2]/a"));
+		$this->assertTrue($this->isElementPresent("//ul[@id='menu-web-links']/li[2]/a"));
 		echo "Check that Extensions menu options are visible\n";
 		$this->assertTrue($this->isElementPresent("link=Extension Manager"));
 		$this->assertTrue($this->isElementPresent("link=Module Manager"));

@@ -17,6 +17,8 @@ require_once 'control_panel/control_panel0001Test.php';
 require_once 'control_panel/control_panel0002Test.php';
 require_once 'control_panel/control_panel0003Test.php';
 require_once 'control_panel/control_panel0004Test.php';
+require_once 'control_panel/control_panel0005Test.php';
+require_once 'menus/menu0001Test.php';
 require_once 'articles/article0001Test.php';
 require_once 'com_users/user0001Test.php';
 require_once 'modules/module0001Test.php';
@@ -36,6 +38,8 @@ class TestSuite
 		$suite->addTestSuite('ControlPanel0002');
 		$suite->addTestSuite('ControlPanel0003');
 		$suite->addTestSuite('ControlPanel0004');
+		$suite->addTestSuite('ControlPanel0005');
+		$suite->addTestSuite('Menu0001');
 		$suite->addTestSuite('Article0001');
 		$suite->addTestSuite('User0001Test');
 		$suite->addTestSuite('Module0001');
