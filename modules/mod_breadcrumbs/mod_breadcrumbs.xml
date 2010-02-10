@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCBREADCRUMBS</description>
+	<description>MOD_BREADCRUMBS_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
@@ -30,8 +30,8 @@
 			name="showHome"
 			type="radio"
 			default="1"
-			label="Show Home"
-			description="fieldSHOWHOME">
+			label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
+			description="MOD_BREADCRUMBS_FIELD_SHOWHOME_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -41,14 +41,14 @@
 			name="homeText"
 			type="text"
 			default="Home"
-			label="Text for Home entry"
-			description="fieldHOMETEXT" />
+			label="MOD_BREADCRUMBS_FIELD_HOMETEXT_LABEL"
+			description="MOD_BREADCRUMBS_FIELD_HOMETEXT_DESC" />
 		<field
 			name="showLast"
 			type="radio"
 			default="1"
-			label="Show Last"
-			description="fieldSHOWLAST">
+			label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
+			description="MOD_BREADCRUMBS_FIELD_SHOWLAST_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -58,8 +58,8 @@
 			name="separator"
 			type="text"
 			default=""
-			label="Text Separator"
-			description="A text separator" />
+			label="MOD_BREADCRUMBS_FIELD_SEPARATOR_LABEL"
+			description="MOD_BREADCRUMBS_FIELD_SEPARATOR_DESC" />
 	</fields>
 	<fields
 		group="advanced">

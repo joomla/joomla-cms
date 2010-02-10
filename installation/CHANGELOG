@@ -34,6 +34,7 @@ $ -> Language fix or change
 + Added strings for the featured tagging
 + Translated components admin submenus
 ^ Refactored mod_banners ini/keys
+^ Refactored mod_breadcrumbs ini/keys
 
 09-Feb-2010 Jean-Marie Simonet
 ^ Refactored mod_articles_archived ini/keys. Updated sql.
