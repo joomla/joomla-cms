@@ -38,10 +38,14 @@ class JInstallerTemplate extends JAdapterInstance
 		$extension = "tpl_$name";
 		$lang =& JFactory::getLanguage();
 		$source = $path;
-		$lang->load($extension, constant('JPATH_'.strtoupper($client)));
-		$lang->load($extension . '.manage', constant('JPATH_'.strtoupper($client)));
-		$lang->load($extension, $source);
-		$lang->load($extension . '.manage', $source);
+			$lang->load($extension . '.manage', $source, null, false, false)
+		||	$lang->load($extension, $source, null, false, false)
+		||	$lang->load($extension . '.manage', constant('JPATH_'.strtoupper($client)), null, false, false)
+		||	$lang->load($extension, constant('JPATH_'.strtoupper($client)), null, false, false)
+		||	$lang->load($extension . '.manage', $source, $lang->getDefault(), false, false)
+		||	$lang->load($extension, $source, $lang->getDefault(), false, false)
+		||	$lang->load($extension . '.manage', constant('JPATH_'.strtoupper($client)), $lang->getDefault(), false, false)
+		||	$lang->load($extension, constant('JPATH_'.strtoupper($client)), $lang->getDefault(), false, false);
 	}
 	/**
 	 * Custom install method

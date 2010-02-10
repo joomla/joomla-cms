@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 10-Feb-2010 Christophe Demko
++ Speed up language management by loading the first one (and only this one) found
 + Detecting browser language in frontend
 
 10-Feb-2010 Hannes Papenberg

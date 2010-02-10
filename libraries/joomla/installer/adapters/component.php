@@ -61,10 +61,14 @@ class JInstallerComponent extends JAdapterInstance
 				$source = "$path/$folder";
 			}
 		}
-		$lang->load($extension, JPATH_ADMINISTRATOR);
-		$lang->load($extension . '.manage', JPATH_ADMINISTRATOR);		
-		$lang->load($extension, $source);
-		$lang->load($extension . '.manage', $source);
+			$lang->load($extension . '.manage', $source, null, false, false)
+		||	$lang->load($extension, $source, null, false, false)
+		||	$lang->load($extension . '.manage', JPATH_ADMINISTRATOR, null, false, false)
+		||	$lang->load($extension, JPATH_ADMINISTRATOR, null, false, false)
+		||	$lang->load($extension . '.manage', $source, $lang->getDefault(), false, false)
+		||	$lang->load($extension, $source, $lang->getDefault(), false, false)
+		||	$lang->load($extension . '.manage', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+		||	$lang->load($extension, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
 	}
 	/**
 	 * Custom install method for components
