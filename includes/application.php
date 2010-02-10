@@ -50,6 +50,7 @@ final class JSite extends JApplication
 		// otherwise use user or default language settings
 		if (empty($options['language']))
 		{
+			// Detect user language
 			$user = & JFactory::getUser();
 			$lang	= $user->getParam('language');
 
@@ -57,18 +58,31 @@ final class JSite extends JApplication
 			if ($lang && JLanguage::exists($lang)) {
 				$options['language'] = $lang;
 			}
-			else
-			{
-				jimport('joomla.utilities.utility');
-				$options['language'] = JRequest::getString(JUtility::getHash('com_languages.tag'), null ,'cookie');
-				if (empty($options['language']))
-				{
-					$params =  JComponentHelper::getParams('com_languages');
-					$client	= &JApplicationHelper::getClientInfo($this->getClientId());
-					$options['language'] = $params->get($client->name, $config->getValue('config.language','en-GB'));
-				}
+		}
+		if (empty($options['language']))
+		{
+			// Detect cookie language
+			jimport('joomla.utilities.utility');
+			$lang = JRequest::getString(JUtility::getHash('com_languages.tag'), null ,'cookie');
+
+			// Make sure that the user's language exists
+			if ($lang && JLanguage::exists($lang)) {
+				$options['language'] = $lang;
 			}
 		}
+		if (empty($options['language']))
+		{
+			// Detect browser language
+			$options['language'] = JLanguageHelper::detectLanguage();
+		}
+		if (empty($options['language']))
+		{
+			// Detect default language
+			$params =  JComponentHelper::getParams('com_languages');
+			$client	= &JApplicationHelper::getClientInfo($this->getClientId());
+			$options['language'] = $params->get($client->name, $config->getValue('config.language','en-GB'));
+		}
+		
 
 		// One last check to make sure we have something
 		if (!JLanguage::exists($options['language']))

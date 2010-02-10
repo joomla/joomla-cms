@@ -143,6 +143,9 @@ class JInstallationModelSetup extends JModel
 		// Detect the native language.
 		jimport('joomla.language.helper');
 		$native = JLanguageHelper::detectLanguage();
+		if(empty($native)) {
+			$native = 'en-GB';
+		}
 
 		// Get a forced language if it exists.
 		$forced = $app->getLocalise();
