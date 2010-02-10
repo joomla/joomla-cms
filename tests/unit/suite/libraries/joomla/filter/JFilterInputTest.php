@@ -444,7 +444,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 			'script_0' => array(
 				'<script>alert(\'hi!\');</script>',
 				''
-			),
+			)
 		);
 		$tests = $cases;
 
@@ -486,69 +486,69 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'',
 				'<img src="javascript:alert();" />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Nested tags' => array(
 				'',
 				'<em><strong>Fred</strong></em>',
 				'Fred',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
 				'strongFred',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Unquoted Attribute Without Space' => array(
 				'',
 				'<img height=300>',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Unquoted Attribute' => array(
 				'',
 				'<img height=300 />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Single quoted Attribute' => array(
 				'',
 				'<img height=\'300\' />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute is zero' => array(
 				'',
 				'<img height=0 />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute value missing' => array(
 				'',
 				'<img height= />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute without =' => array(
 				'',
 				'<img height="300" ismap />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Bad Attribute Name' => array(
 				'',
 				'<br 300 />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'tracker9725' => array(
 				// Test for recursion with single tags
 				'string',
 				'<img class="one two" />',
 				'',
-				'From specific cases',
-			),
+				'From specific cases'
+			)
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
@@ -594,69 +594,69 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'',
 				'<img src="javascript:alert();" />',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Nested tags' => array(
 				'',
 				'<em><strong>Fred</strong></em>',
 				'Fred',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
 				'strongFred',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Unquoted Attribute Without Space' => array(
 				'',
 				'<img height=300>',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Unquoted Attribute' => array(
 				'',
 				'<img height=300 />',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Single quoted Attribute' => array(
 				'',
 				'<img height=\'300\' />',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute is zero' => array(
 				'',
 				'<img height=0 />',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute value missing' => array(
 				'',
 				'<img height= />',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute without =' => array(
 				'',
 				'<img height="300" ismap />',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Bad Attribute Name' => array(
 				'',
 				'<br 300 />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'tracker9725' => array(
 				// Test for recursion with single tags
 				'string',
 				'<img class="one two" />',
 				'<img />',
-				'From specific cases',
-			),
+				'From specific cases'
+			)
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
@@ -702,69 +702,69 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'',
 				'<img src="javascript:alert();" />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Nested tags' => array(
 				'',
 				'<em><strong>Fred</strong></em>',
 				'Fred',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
 				'strongFred',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Unquoted Attribute Without Space' => array(
 				'',
 				'<img height=300>',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Unquoted Attribute' => array(
 				'',
 				'<img height=300 />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Single quoted Attribute' => array(
 				'',
 				'<img height=\'300\' />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute is zero' => array(
 				'',
 				'<img height=0 />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute value missing' => array(
 				'',
 				'<img height= />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute without =' => array(
 				'',
 				'<img height="300" ismap />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Bad Attribute Name' => array(
 				'',
 				'<br 300 />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'tracker9725' => array(
 				// Test for recursion with single tags
 				'string',
 				'<img class="one two" />',
 				'',
-				'From specific cases',
-			),
+				'From specific cases'
+			)
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
@@ -810,69 +810,69 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'',
 				'<img src="javascript:alert();" />',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Nested tags' => array(
 				'',
 				'<em><strong>Fred</strong></em>',
 				'Fred',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
 				'strongFred',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Unquoted Attribute Without Space' => array(
 				'',
 				'<img height=300>',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Unquoted Attribute' => array(
 				'',
 				'<img height=300 />',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Single quoted Attribute' => array(
 				'',
 				'<img height=\'300\' />',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute is zero' => array(
 				'',
 				'<img height=0 />',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute value missing' => array(
 				'',
 				'<img height= />',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute without =' => array(
 				'',
 				'<img height="300" ismap />',
 				'<img />',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Bad Attribute Name' => array(
 				'',
 				'<br 300 />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'tracker9725' => array(
 				// Test for recursion with single tags
 				'string',
 				'<img class="one two" />',
 				'<img class="one two" />',
-				'From specific cases',
-			),
+				'From specific cases'
+			)
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
@@ -959,51 +959,51 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'',
 				'<img src="javascript:alert();" />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Unquoted Attribute Without Space' => array(
 				'',
 				'<img height=300>',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Unquoted Attribute' => array(
 				'',
 				'<img height=300 />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Single quoted Attribute' => array(
 				'',
 				'<img height=\'300\' />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute is zero' => array(
 				'',
 				'<img height=0 />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute value missing' => array(
 				'',
 				'<img height= />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'Attribute without =' => array(
 				'',
 				'<img height="300" ismap />',
 				'',
-				'From specific cases',
+				'From specific cases'
 			),
 			'tracker9725' => array(
 				// Test for recursion with single tags
 				'string',
 				'<img class="one two" />',
 				'',
-				'From specific cases',
-			),
+				'From specific cases'
+			)
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
@@ -1050,8 +1050,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'string',
 				'<img class="one two" />',
 				'<img />',
-				'From specific cases',
-			),
+				'From specific cases'
+			)
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 

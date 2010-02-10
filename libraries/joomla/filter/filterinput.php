@@ -412,8 +412,9 @@ class JFilterInput extends JObject
 		// Initialise variables.
 		$newSet = array();
 
+		$count = count($attrSet);
 		// Iterate through attribute pairs
-		for ($i = 0; $i < count($attrSet); $i ++) {
+		for ($i = 0; $i < $count; $i ++) {
 			// Skip blank spaces
 			if (!$attrSet[$i]) {
 				continue;
@@ -432,7 +433,7 @@ class JFilterInput extends JObject
 			}
 
 			// XSS attribute value filtering
-			if ($attrSubSet[1]) {
+			if (isset($attrSubSet[1])) {
 				// strips unicode, hex, etc
 				$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
 				// strip normal newline within attr value
@@ -445,6 +446,8 @@ class JFilterInput extends JObject
 				}
 				// strip slashes
 				$attrSubSet[1] = stripslashes($attrSubSet[1]);
+			} else {
+				$attrSubSet[1] = NULL;
 			}
 
 			// Autostrip script tags
@@ -458,9 +461,9 @@ class JFilterInput extends JObject
 			// If the tag is allowed lets keep it
 			if ((!$attrFound && $this->attrMethod) || ($attrFound && !$this->attrMethod)) {
 				// Does the attribute have a value?
-				if ($attrSubSet[1]) {
+				if ($attrSubSet[1] !== NULL) {
 					$newSet[] = $attrSubSet[0].'="'.$attrSubSet[1].'"';
-				} else if ($attrSubSet[1] == "0") {
+				} else if ($attrSubSet[1] === "0") {
 					/*
 					 * Special Case
 					 * Is the value 0?

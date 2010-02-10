@@ -37,9 +37,8 @@ class JRequestTest_GetVar extends PHPUnit_Framework_TestCase
 	 * @dataProvider getVarData
 	 * @runInSeparateProcess
 	 */
-	public function testGetVarFromDataSet(
-		$name, $default, $hash, $type, $mask, $expect, $filterCalls
-	) {
+	public function testGetVarFromDataSet($name, $default, $hash, $type, $mask, $expect, $filterCalls)
+	{
 
 		require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/bootstrap.php');
 		require_once dirname(__FILE__).DS.'JFilterInput-mock-general.php';

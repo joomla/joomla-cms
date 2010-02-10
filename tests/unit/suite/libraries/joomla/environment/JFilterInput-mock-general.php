@@ -51,20 +51,20 @@ class JFilterInput
 				'source' => $source,
 				'type' => $type,
 				'result' => null,
-				'count' => 0,
+				'count' => 0
 			);
 		}
-		--$this -> _expectations[$hash]['count'];
-		return $this -> _expectations[$hash]['result'];
+		--$this->_expectations[$hash]['count'];
+		return $this->_expectations[$hash]['result'];
 	}
 
 	function mockReset() {
-		$this -> _expectations = array();
+		$this->_expectations = array();
 	}
 
 	function mockSetUp($source, $type, $result, $count = 1) {
 		$hash = md5($source . '|' . strtoupper($type));
-		$this -> _expectations[$hash] = array(
+		$this->_expectations[$hash] = array(
 			'source' => $source,
 			'type' => $type,
 			'result' => $result,
