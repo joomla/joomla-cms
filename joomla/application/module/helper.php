@@ -252,8 +252,28 @@ abstract class JModuleHelper
 		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
 		$db		= &JFactory::getDbo();
-		$where	= isset($Itemid) ? ' AND (mm.menuid = '. (int) $Itemid .' OR mm.menuid <= 0)' : '';
 
+		$query = new JDatabaseQuery;
+		$query->select('id, title, module, position, content, showtitle, params, mm.menuid');
+		$query->from('#__modules AS m');
+		$query->join('LEFT','#__modules_menu AS mm ON mm.moduleid = m.id');
+		$query->where('m.published = 1');
+
+		$date = JFactory::getDate();
+		$now = $date->toMySQL();
+		$nullDate = $db->getNullDate();
+		$query->where('(m.publish_up = '.$db->Quote($nullDate).' OR m.publish_up <= '.$db->Quote($now).')');
+		$query->where('(m.publish_down = '.$db->Quote($nullDate).' OR m.publish_down >= '.$db->Quote($now).')');
+
+		$query->where('m.access IN ('.$groups.')');
+		$query->where('m.client_id = '. (int) $app->getClientId());
+		if (isset($Itemid)) {
+			$query->where('(mm.menuid = '. (int) $Itemid .' OR mm.menuid <= 0)');
+		}
+		$query->order('position, ordering');
+		$db->setQuery($query);
+		
+/*		$where	= isset($Itemid) ? ' AND (mm.menuid = '. (int) $Itemid .' OR mm.menuid <= 0)' : '';
 		$db->setQuery(
 			'SELECT id, title, module, position, content, showtitle, params, mm.menuid'
 			. ' FROM #__modules AS m'
@@ -263,7 +283,7 @@ abstract class JModuleHelper
 			. ' AND m.client_id = '. (int) $app->getClientId()
 			. $where
 			. ' ORDER BY position, ordering'
-		);
+		);*/
 
 		if (null === ($modules = $db->loadObjectList()))
 		{
