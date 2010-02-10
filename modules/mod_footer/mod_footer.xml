@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCFOOTER</description>
+	<description>MOD_FOOTER_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_footer">mod_footer.php</filename>
