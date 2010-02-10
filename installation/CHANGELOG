@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 10-Feb-2010 Christophe Demko
+^ Cleanup code in mod_languages
 + Speed up language management by loading the first one (and only this one) found
 + Detecting browser language in frontend
 

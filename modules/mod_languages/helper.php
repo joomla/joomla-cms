@@ -11,17 +11,17 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.language.helper');
-class modLanguagesHelper
+abstract class modLanguagesHelper
 {
-	function &getTag(&$params)
+	public static function &getTag(&$params)
 	{
 		$tag = JFactory::getLanguage()->getTag();
 		return $tag;
 	}
-	function &getList(&$params)
+	public static function &getList(&$params)
 	{
 		$selected = self::getTag($params);
-		$result = JLanguageHelper::createLanguageList($selected , JPATH_SITE, true);
+		$result = JLanguageHelper::createLanguageList($selected, JPATH_SITE, true);
 		return $result;
 	}
 }
