@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>mod_languages_Desc</description>
+	<description>MOD_LANGUAGES_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_languages">mod_languages.php</filename>
@@ -32,8 +32,8 @@
 			rows="3"
 			cols="40"
 			default=""
-			label="mod_languages_Header_Label"
-			description="mod_languages_Header_Desc" />
+			label="MOD_LANGUAGES_FIELD_HEADER_LABEL"
+			description="MOD_LANGUAGES_FIELD_HEADER_DESC" />
 
 		<field
 			name="footer_text"
@@ -41,8 +41,8 @@
 			rows="3"
 			cols="40"
 			default=""
-			label="mod_languages_Footer_Label"
-			description="mod_languages_Header_Desc" />
+			label="MOD_LANGUAGES_FIELD_FOOTER_LABEL"
+			description="MOD_LANGUAGES_FIELD_FOOTER_DESC" />
 	</fields>
 	<fields
 		group="advanced">
