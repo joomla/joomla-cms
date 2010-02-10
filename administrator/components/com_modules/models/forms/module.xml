@@ -61,6 +61,28 @@
 		</field>
 
 		<field
+			id="publish_up"
+			name="publish_up"
+			type="calendar"
+			label="MODULES_FIELD_PUBLISH_UP_LABEL"
+			description="MODULES_FIELD_PUBLISH_UP_DESC"
+			class="inputbox"
+			size="16"
+			format="%Y-%m-%d %H:%M:%S"
+			filter="server_utc" />
+
+		<field
+			id="publish_down"
+			name="publish_down"
+			type="calendar"
+			label="MODULES_FIELD_PUBLISH_DOWN_LABEL"
+			description="MODULES_FIELD_PUBLISH_DOWN_DESC"
+			class="inputbox"
+			size="16"
+			format="%Y-%m-%d %H:%M:%S"
+			filter="server_utc" />
+
+		<field
 			name="client_id"
 			type="list"
 			label="MODULES_FIELD_CLIENT_ID_LABEL"

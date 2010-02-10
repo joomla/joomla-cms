@@ -58,6 +58,10 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
 			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
+			<?php echo $this->form->getLabel('publish_up'); ?>
+			<?php echo $this->form->getInput('publish_up'); ?>
+			<?php echo $this->form->getLabel('publish_down'); ?>
+			<?php echo $this->form->getInput('publish_down'); ?>
 			<?php endif; ?>
 			
 			<?php echo $this->form->getLabel('position'); ?>

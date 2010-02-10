@@ -547,6 +547,12 @@ ALTER TABLE `jos_modules`
 ALTER TABLE `jos_modules`
  CHANGE `params` `params` varchar(5120) NOT NULL DEFAULT '';
 
+ALTER TABLE `jos_modules`
+ ADD COLUMN `publish_up` datetime NOT NULL default '0000-00-00 00:00:00' AFTER `checked_out_time`;
+
+ALTER TABLE `jos_modules`
+ ADD COLUMN `publish_down` datetime NOT NULL default '0000-00-00 00:00:00' AFTER `publish_up`;
+
 UPDATE `#__modules`
  SET `menutype` = 'mod_menu'
  WHERE `menutype` = 'mod_mainmenu';

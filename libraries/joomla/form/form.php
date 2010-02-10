@@ -422,6 +422,8 @@ class JForm extends JObject
 
 										$date	= JFactory::getDate($data[$name], $offset);
 										$return[$name] = $date->toMySQL();
+									} else {
+										$return[$name]='0000-00-00 00:00:00';
 									}
 									break;
 
