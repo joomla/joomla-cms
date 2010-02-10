@@ -35,12 +35,12 @@ class modNewsFlashHelper
 			{
 				// Check to see if the user has access to view the full article
 				if (in_array($item->access, $groups)) {
-					$item->linkOn = JRoute::_(ContentRoute::article($item->slug, $item->catslug, $item->sectionid));
-					$item->linkText = JText::_('Read more text');
+					$item->linkOn = JRoute::_(ContentRoute::article($item->slug, $item->catslug));
+					$item->linkText = JText::_('MOD_NEWSFLASH_READMORE');
 				}
 				else {
 					$item->linkOn = JRoute::_('index.php?option=com_users&view=login');
-					$item->linkText = JText::_('Login To Read More');
+					$item->linkText = JText::_('MOD_NEWSFLASH_READMORE_REGISTER');
 				}
 			}
 		}

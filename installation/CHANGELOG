@@ -44,6 +44,7 @@ $ -> Language fix or change
 ^ Refactored mod_footer ini/keys
 ^ Refactored mod_languages ini/keys
 ^ Refactored mod_login (site) ini/keys + bug
+^ Refactored mod_newsflash ini/keys
 
 09-Feb-2010 Jean-Marie Simonet
 ^ Refactored mod_articles_archived ini/keys. Updated sql.

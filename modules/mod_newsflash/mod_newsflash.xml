@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCNEWSFLASH</description>
+	<description>MOD_NEWSFLASH_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_newsflash">mod_newsflash.php</filename>
@@ -31,72 +31,72 @@
 			type="category"
 			extension="com_content"
 			default="0"
-			label="Category"
-			description="A content category" />
+			label="MOD_NEWSFLASH_FIELD_CATEGORY_LABEL"
+			description="MOD_NEWSFLASH_FIELD_CATEGORY_DESC" />
 
 		<field
 			name="image"
 			type="radio"
 			default="0"
-			label="Show images"
-			description="Display Article images">
+			label="MOD_NEWSFLASH_FIELD_IMAGES_LABEL"
+			description="MOD_NEWSFLASH_FIELD_IMAGES_DESC">
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
+			<option
+				value="0">JNO</option>
+		</field>	
+		<field
+			name="item_title"
+			type="list"
+			default="0"
+			label="MOD_NEWSFLASH_FIELD_TITLE_LABEL"
+			description="MOD_NEWSFLASH_FIELD_TITLE_DESC">
 			<option
 				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
 		</field>
 		<field
 			name="link_titles"
 			type="list"
 			default=""
-			label="Linked Titles"
-			description="Make the Item titles linkable">
+			label="MOD_NEWSFLASH_FIELD_LINKTITLE_LABEL"
+			description="MOD_NEWSFLASH_FIELD_LINKTITLE_DESC">
 			<option
 				value="">USE_GLOBAL</option>
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 		<field
 			name="showLastSeparator"
 			type="radio"
 			default="1"
-			label="Show last separator"
-			description="Show separator after last article">
+			label="MOD_NEWSFLASH_FIELD_SEPARATOR_LABEL"
+			description="MOD_NEWSFLASH_FIELD_SEPARATOR_DESC">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 		<field
 			name="readmore"
 			type="radio"
 			default="0"
-			label="Read More"
-			description="Show/Hide the Read More button">
+			label="MOD_NEWSFLASH_FIELD_READMORE_LABEL"
+			description="MOD_NEWSFLASH_FIELD_READMORE_DESC">
 			<option
 				value="0">Hide</option>
 			<option
 				value="1">Show</option>
 		</field>
 		<field
-			name="item_title"
-			type="list"
-			default="0"
-			label="Article Title"
-			description="Show article title">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-		<field
 			name="items"
 			type="text"
 			default=""
-			label="No. of Items"
-			description="No of items to display" />
+			label="MOD_NEWSFLASH_FIELD_ITEMS_LABEL"
+			description="MOD_NEWSFLASH_FIELD_ITEMS_DESC" />
 	</fields>
 	<fields
 		group="advanced">
