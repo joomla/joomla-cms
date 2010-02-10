@@ -51,7 +51,7 @@ class JLanguageHelper
 	/**
 	 * Tries to detect the language.
 	 *
-	 * @return	string locale or null if not found
+	 * @return	string locale
 	 * @since	1.5
 	 */
 	public static function detectLanguage()
@@ -89,6 +89,6 @@ class JLanguageHelper
 			}
 		}
 
-		return null;
+		return 'en-GB';
 	}
 }

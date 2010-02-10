@@ -136,9 +136,6 @@ class JInstallation extends JApplication
 			} else {
 				jimport('joomla.language.helper');
 				$options['language'] = JLanguageHelper::detectLanguage();
-				if (empty($options['language'])) {
-					$options['language'] = 'en-GB';
-				}
 			}
 		}
 

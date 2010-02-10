@@ -309,11 +309,10 @@ class JLanguage extends JObject
 	 * @param	string	$basePath	The basepath to use
 	 * @param	string	$lang		The language to load, default null for the current language
 	 * @param	boolean $reload		Flag that will force a language to be reloaded if set to true
-	 * @param	boolean	$default	Flag that force the default language to be loaded if the current does not exist
 	 * @return	boolean	True, if the file has successfully loaded.
 	 * @since	1.5
 	 */
-	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
+	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false)
 	{
 		if (! $lang) {
 			$lang = $this->_lang;
@@ -334,7 +333,7 @@ class JLanguage extends JObject
 			$result = $this->_load($filename, $extension);
 
 			// Check if there was a problem with loading the file
-			if ($result === false && $default) {
+			if ($result === false) {
 				// No strings, so either file doesn't exist or the file is invalid
 				$oldFilename = $filename;
 

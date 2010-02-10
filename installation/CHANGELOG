@@ -29,9 +29,6 @@ $ -> Language fix or change
 
 10-Feb-2010 Christophe Demko
 + Adding publish_up and publish_down for modules
-^ Cleanup code in mod_languages
-+ Speed up language management by loading the first one (and only this one) found
-+ Detecting browser language in frontend
 
 10-Feb-2010 Hannes Papenberg
 # Fixed bug in JFilterInput
@@ -57,7 +54,6 @@ $ -> Language fix or change
 - Deleted admin mod_stats and mod_footer in files
 
 09-Feb-2010 Christophe Demko
-+ Adding a frontend language switcher module
 # Loading the user parameters when he changes them (llow the admin to change its own language for example)
 # Removing unused keys in tpl_bluestork.ini which contains the NO keyword
 # Adding the manifest files directory
