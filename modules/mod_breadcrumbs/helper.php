@@ -29,7 +29,7 @@ class modBreadCrumbsHelper
 		if ($params->get('showHome', 1))
 		{
 			$item = new stdClass();
-			$item->name = $params->get('homeText', JText::_('Home'));
+			$item->name = $params->get('homeText', JText::_('MOD_BREADCRUMBS_HOME'));
 			$item->link = JURI::base();
 			array_unshift($items, $item);
 		}
