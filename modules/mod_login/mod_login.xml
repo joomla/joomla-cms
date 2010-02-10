@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCLOGINFORM</description>
+	<description>MOD_LOGIN_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_login">mod_login.php</filename>
@@ -27,54 +27,40 @@
 	</languages>
 	<fields>
 		<field
-			name="cache"
-			type="list"
-			default="1"
-			label="MODULES_FIELD_CACHING_LABEL"
-			description="MODULES_FIELD_CACHING_DESC">
-			<option
-				value="0">Never</option>
-		</field>
-		<field
-			name="spacer1"
-			type="spacer"
-			hr="true"
-			/>
-		<field
 			name="pretext"
 			type="textarea"
 			cols="30"
 			rows="5"
 			default=""
-			label="Pre-text"
-			description="fieldPRETEXT" />
+			label="MOD_LOGIN_FIELD_PRE_TEXT_LABEL"
+			description="MOD_LOGIN_FIELD_PRE_TEXT_DESC" />
 		<field
 			name="posttext"
 			type="textarea"
 			cols="30"
 			rows="5"
-			label="Post-text"
-			description="fieldPOSTTEXT" />
+			label="MOD_LOGIN_FIELD_POST_TEXT_LABEL"
+			description="MOD_LOGIN_FIELD_POST_TEXT_DESC" />
 		<field
 			name="login"
 			type="menuitem"
 			default=""
 			disable="separator"
-			label="Login Redirection URL"
-			description="fieldLOGINREDIRECTURL" />
+			label="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
+			description="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC" />
 		<field
 			name="logout"
 			type="menuitem"
 			default=""
 			disable="separator"
-			label="Logout Redirection URL"
-			description="fieldLOGOUTREDIRECTURL" />
+			label="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
+			description="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC" />
 		<field
 			name="greeting"
 			type="radio"
 			default="1"
-			label="Greeting"
-			description="Show_Hide the simple greeting text">
+			label="MOD_LOGIN_FIELD_GREETING_LABEL"
+			description="MOD_LOGIN_FIELD_GREETING_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -84,18 +70,19 @@
 			name="name"
 			type="list"
 			default="0"
-			label="Name_Username">
+			label="MOD_LOGIN_FIELD_NAME_LABEL"
+			description="MOD_LOGIN_FIELD_NAME_DESC">
 			<option
-				value="0">Username</option>
+				value="0">MOD_LOGIN_VALUE_NAME</option>
 			<option
-				value="1">Name</option>
+				value="1">MOD_LOGIN_VALUE_USERNAME</option>
 		</field>
 		<field
 			name="usesecure"
 			type="radio"
 			default="0"
-			label="Encrypt Login Form"
-			description="SUBMIT_ENCRYPTED_LOGIN_DATA_DESC">
+			label="MOD_LOGIN_FIELD_USESECURE_LABEL"
+			description="MOD_LOGIN_FIELD_USESECURE_DESC">
 			<option
 				value="0">JNo</option>
 			<option
