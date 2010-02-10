@@ -19,7 +19,7 @@ $folder	= modRandomImageHelper::getFolder($params);
 $images	= modRandomImageHelper::getImages($params, $folder);
 
 if (!count($images)) {
-	echo JText::_('No images ');
+	echo JText::_('MOD_RANDOMIMAGE_NO_IMAGES');
 	return;
 }
 
