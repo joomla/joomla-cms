@@ -73,6 +73,7 @@ final class JSite extends JApplication
 		if (empty($options['language']))
 		{
 			// Detect browser language
+			jimport('joomla.language.helper');
 			$options['language'] = JLanguageHelper::detectLanguage();
 		}
 		if (empty($options['language']))
