@@ -26,7 +26,9 @@ class JInstallerPackage extends JAdapterInstance
 		$extension = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		$lang =& JFactory::getLanguage();
 		$source = $path;
+		$lang->load($extension , JPATH_SITE);		
 		$lang->load($extension . '.manage', JPATH_SITE);		
+		$lang->load($extension, $source);
 		$lang->load($extension . '.manage', $source);
 	}
 	/**

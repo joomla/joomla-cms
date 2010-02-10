@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Feb-2010 Christophe Demko
++ Adding language files facility to package, files and library
+
 10-Feb-2010 Jean-Marie Simonet
 + Added strings for the featured tagging
 + Translated components admin submenus
