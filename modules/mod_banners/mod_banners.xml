@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>mod_banners_Desc</description>
+	<description>MOD_BANNERS_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_banners">mod_banners.php</filename>
@@ -31,14 +31,14 @@
 			name="target"
 			type="list"
 			default="1"
-			label="mod_banners_Target_Label"
-			description="mod_banners_Target_Desc">
+			label="MOD_BANNERS_FIELD_TARGET_LABEL"
+			description="MOD_BANNERS_FIELD_TARGET_DESC">
 			<option
-				value="0">mod_banners_Parent</option>
+				value="0">MOD_BANNERS_VALUE_PARENT</option>
 			<option
-				value="1">mod_banners_NewWindowWithBrowserNavigation</option>
+				value="1">MOD_BANNERS_VALUE_NEWWINDOWWITHBROWSERNAVIGATION</option>
 			<option
-				value="2">mod_banners_NewWindowWithoutBrowserNavigation</option>
+				value="2">MOD_BANNERS_VALUE_NEWWINDOWWITHOUTBROWSERNAVIGATION</option>
 		</field>
 
 		<field
@@ -51,30 +51,30 @@
 			name="count"
 			type="text"
 			default="1"
-			label="mod_banners_Count_Label"
-			description="mod_banners_Count_Desc" />
+			label="MOD_BANNERS_FIELD_COUNT_LABEL"
+			description="MOD_BANNERS_FIELD_COUNT_DESC" />
 
 		<field
 			name="cid"
 			type="bannerclient"
 			default=""
-			label="mod_banners_BannerClient_Label"
-			description="mod_banners_BannerClient_Label" />
+			label="MOD_BANNERS_FIELD_BANNERCLIENT_LABEL"
+			description="MOD_BANNERS_FIELD_BANNERCLIENT_DESC" />
 
 		<field
 			name="catid"
 			type="category"
 			extension="com_banners"
 			default=""
-			label="mod_banners_Category_Label"
-			description="mod_banners_Category_Desc" />
+			label="MOD_BANNERS_FIELD_CATEGORY_LABEL"
+			description="MOD_BANNERS_FIELD_CATEGORY_DESC" />
 
 		<field
 			name="tag_search"
 			type="radio"
 			default="0"
-			label="mod_banners_Tag_Label"
-			description="mod_banners_Tag_Desc">
+			label="MOD_BANNERS_FIELD_TAG_LABEL"
+			description="MOD_BANNERS_FIELD_TAG_DESC">
 			<option
 				value="0">JNo</option>
 			<option
@@ -84,12 +84,12 @@
 			name="ordering"
 			type="list"
 			default="0"
-			label="mod_banners_Randomise_Label"
-			description="mod_banners_Randomise_Desc">
+			label="MOD_BANNERS_FIELD_RANDOMISE_LABEL"
+			description="MOD_BANNERS_FIELD_RANDOMISE_DESC">
 			<option
-				value="0">mod_banners_StickyOrdering</option>
+				value="0">MOD_BANNERS_VALUE_STICKYORDERING</option>
 			<option
-				value="random">mod_banners_StickyRandomise</option>
+				value="random">MOD_BANNERS_VALUE_STICKYRANDOMISE</option>
 		</field>
 
 		<field
@@ -104,8 +104,8 @@
 			rows="3"
 			cols="40"
 			default=""
-			label="mod_banners_Header_Label"
-			description="mod_banners_Header_Desc" />
+			label="MOD_BANNERS_FIELD_HEADER_LABEL"
+			description="MOD_BANNERS_FIELD_HEADER_DESC" />
 
 		<field
 			name="footer_text"
@@ -113,8 +113,8 @@
 			rows="3"
 			cols="40"
 			default=""
-			label="mod_banners_Footer_Label"
-			description="mod_banners_Header_Desc" />
+			label="MOD_BANNERS_FIELD_FOOTER_LABEL"
+			description="MOD_BANNERS_FIELD_HEADER_DESC" />
 	</fields>
 	<fields
 		group="advanced">

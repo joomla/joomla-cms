@@ -30,7 +30,7 @@ $baseurl = JURI::base();
 				<?php // Image based banner ?>
 				<?php $alt = $item->params->alt->alt;?>
 				<?php $alt = $alt ? $alt : $item->name ;?>
-				<?php $alt = $alt ? $alt : JText::_('mod_banners_Banner') ;?>
+				<?php $alt = $alt ? $alt : JText::_('MOD_BANNERS_BANNER') ;?>
 				<?php if ($item->clickurl) :?>
 					<?php // Wrap the banner in a link?>
 					<?php $target = $params->get('target', 1);?>
