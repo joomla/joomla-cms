@@ -64,10 +64,14 @@ class JInstallerModule extends JAdapterInstance
 					$source = "$path/$folder";
 				}
 				$client = (string)$this->manifest->attributes()->client;
-				$lang->load($extension, constant('JPATH_' . strtoupper($client)));
-				$lang->load($extension . '.manage', constant('JPATH_' . strtoupper($client)));		
-				$lang->load($extension, $source);
-				$lang->load($extension . '.manage',$source);
+					$lang->load($extension . '.manage', $source, null, false, false)
+				||	$lang->load($extension, $source, null, false, false)
+				||	$lang->load($extension . '.manage', constant('JPATH_' . strtoupper($client)), null, false, false)
+				||	$lang->load($extension, constant('JPATH_' . strtoupper($client)), null, false, false)
+				||	$lang->load($extension . '.manage', $source, $lang->getDefault(), false, false)
+				||	$lang->load($extension, $source, $lang->getDefault(), false, false)
+				||	$lang->load($extension . '.manage', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false)
+				||	$lang->load($extension, constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
 			}
 		}
 	}

@@ -106,11 +106,12 @@ abstract class ModMenuHelper
 		// Load additional language files.
 		foreach (array_keys($langs) as $langName)
 		{
+			// Load the core file then
 			// Load extension-local file.
-			$lang->load($langName, JPATH_ADMINISTRATOR.'/components/'.str_replace('.menu', '', $langName));
-
-			// Load the core file.
-			$lang->load($langName);
+				$lang->load($langName, JPATH_BASE, null, false, false)
+			||	$lang->load($langName, JPATH_ADMINISTRATOR.'/components/'.str_replace('.menu', '', $langName), null, false, false)
+			||	$lang->load($langName, JPATH_BASE, $lang->getDefault(), false, false)
+			||	$lang->load($langName, JPATH_ADMINISTRATOR.'/components/'.str_replace('.menu', '', $langName), $lang->getDefault(), false, false);
 		}
 
 		return $result;

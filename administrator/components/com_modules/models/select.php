@@ -128,10 +128,12 @@ class ModulesModelSelect extends JModelList
 				$item->xml = null;
 			}
 
+			// 1.5 Format; Core files or language packs then
 			// 1.6 3PD Extension Support
-			$lang->load($item->module, $client->path.'/modules/'.$item->module);
-			// 1.5 Format; Core files or language packs
-			$lang->load($item->module, $client->path);
+				$lang->load($item->module, $client->path, null, false, false)
+			||	$lang->load($item->module, $client->path.'/modules/'.$item->module, null, false, false)
+			||	$lang->load($item->module, $client->path, $lang->getDefault(), false, false)
+			||	$lang->load($item->module, $client->path.'/modules/'.$item->module, $lang->getDefault(), false, false);
 		}
 
 		// TODO: Use the cached XML from the extensions table?

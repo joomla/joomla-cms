@@ -162,10 +162,12 @@ class TemplatesModelStyle extends JModelForm
 		$formFile		= JPath::clean($client->path.'/templates/'.$template.'/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
-		$lang->load('tpl_'.$template, $client->path.DS.'templates'.DS.$template);
+			$lang->load('tpl_'.$template, $client->path, null, false, false)
+		||	$lang->load('tpl_'.$template, $client->path.DS.'templates'.DS.$template, null, false, false)
+		||	$lang->load('tpl_'.$template, $client->path, $lang->getDefault(), false, false)
+		||	$lang->load('tpl_'.$template, $client->path.DS.'templates'.DS.$template, $lang->getDefault(), false, false);
 		//$lang->load('tpl_'.$template, JPATH_SITE);
 		//$lang->load('tpl_'.$template, JPATH_ADMINISTRATOR);
-		$lang->load('tpl_'.$template, $client->path);
 
 		if (file_exists($formFile))
 		{

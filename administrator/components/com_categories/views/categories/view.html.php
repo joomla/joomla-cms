@@ -65,8 +65,10 @@ class CategoriesViewCategories extends JView
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = &JFactory::getLanguage();
-		$lang->load($component.'.menu',JPATH_ADMINISTRATOR.'/components/'.$component);
-		$lang->load($component.'.menu');
+			$lang->load($component.'.menu', JPATH_BASE, null, false, false)
+		||	$lang->load($component.'.menu', JPATH_ADMINISTRATOR.'/components/'.$component, null, false, false)
+		||	$lang->load($component.'.menu', JPATH_BASE, $lang->getDefault(), false, false)
+		||	$lang->load($component.'.menu', JPATH_ADMINISTRATOR.'/components/'.$component, $lang->getDefault(), false, false);
 
 		JToolBarHelper::title(
 			JText::sprintf(
