@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 11-Feb-2010 jean-Marie Simonet
 ^ Refactored mod_related_items ini/keys
+^ Translating Menu Items Titles in Select view
 
 11-Feb-2010 Christophe Demko
 ^ Use $db->getNullDate for calendar fields which are empty

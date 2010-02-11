@@ -109,7 +109,7 @@ class JFormFieldMenuType extends JFormFieldList
 		{
 		$html[] = '<li>';
 		$html[] = '<dl class="menu_type">';
-		$html[] = '	<dt>'.$name.'</dt>';
+		$html[] = '	<dt>'.JText::_($name).'</dt>';
 		$html[] = '	<dd>';
 		$html[] = '		<ul>';
 			foreach ($list as $item)
