@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 11-Feb-2010 Christophe Demko
+^ Use $db->getNullDate for calendar fields which are empty
 ^ Recommit patch 14775
 
 10-Feb-2010 Christophe Demko
