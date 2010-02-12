@@ -27,23 +27,23 @@ class modStatsHelper
 		$i = 0;
 		if ($serverinfo)
 		{
-			$rows[$i]->title	= JText::_('OS');
+			$rows[$i]->title	= JText::_('MOD_STATS_OS');
 			$rows[$i]->data		= substr(php_uname(), 0, 7);
 			$i++;
-			$rows[$i]->title	= JText::_('PHP');
+			$rows[$i]->title	= JText::_('MOD_STATS_PHP');
 			$rows[$i]->data	= phpversion();
 			$i++;
-			$rows[$i]->title	= JText::_('MySQL');
+			$rows[$i]->title	= JText::_('MOD_STATS_MYSQL');
 			$rows[$i]->data	= $db->getVersion();
 			$i++;
-			$rows[$i]->title	= JText::_('Time');
+			$rows[$i]->title	= JTEXT::_('MOD_STATS_TIME');
 			$rows[$i]->data	= JHtml::_('date', 'now', '%H:%M');
 			$i++;
-			$rows[$i]->title	= JText::_('Caching');
-			$rows[$i]->data	= $app->getCfg('caching') ? JText::_('Enabled'):JText::_('Disabled');
+			$rows[$i]->title	= JText::_('MOD_STATS_CACHING');
+			$rows[$i]->data	= $app->getCfg('caching') ? JText::_('MOD_STATS_ENABLED'):JText::_('MOD_STATS_DISABLED');
 			$i++;
-			$rows[$i]->title	= JText::_('GZip');
-			$rows[$i]->data	= $app->getCfg('gzip') ? JText::_('Enabled'):JText::_('Disabled');
+			$rows[$i]->title	= JText::_('MOD_STATS_GZIP');
+			$rows[$i]->data	= $app->getCfg('gzip') ? JText::_('MOD_STATS_ENABLED'):JText::_('MOD_STATS_DISABLED');
 			$i++;
 		}
 
@@ -69,19 +69,19 @@ class modStatsHelper
 			$links = $db->loadResult();
 
 			if ($users) {
-				$rows[$i]->title	= JText::_('Users');
+				$rows[$i]->title	= JText::_('MOD_STATS_USERS');
 				$rows[$i]->data	= $users;
 				$i++;
 			}
 
 			if ($items) {
-				$rows[$i]->title	= JText::_('Content');
+				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES');
 				$rows[$i]->data	= $items;
 				$i++;
 			}
 
 			if ($links) {
-				$rows[$i]->title	= JText::_('WEB_LINKS');
+				$rows[$i]->title	= JText::_('MOD_STATS_WEBLINKS');
 				$rows[$i]->data	= $links;
 				$i++;
 			}
@@ -98,7 +98,7 @@ class modStatsHelper
 			$hits = $db->loadResult();
 
 			if ($hits) {
-				$rows[$i]->title	= JText::_('Content View Hits');
+				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->data	= $hits + $increase;
 				$i++;
 			}
