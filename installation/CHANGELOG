@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Feb-2010 Mark Dexter
++ New system test for create user - thanks Matt Thomas!
++ New method for create user in system test
+
 12-Feb-2010 Jean-Marie Simonet
 ^ Refactored mod_search ini/keys
 ^ Refactored mod_stats ini/keys + bugs

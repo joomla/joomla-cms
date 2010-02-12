@@ -21,6 +21,7 @@ require_once 'control_panel/control_panel0005Test.php';
 require_once 'menus/menu0001Test.php';
 require_once 'articles/article0001Test.php';
 require_once 'com_users/user0001Test.php';
+require_once 'com_users/user0002Test.php';
 require_once 'modules/module0001Test.php';
 require_once 'sample_data/sample_data0001Test.php';
 
@@ -42,6 +43,7 @@ class TestSuite
 		$suite->addTestSuite('Menu0001');
 		$suite->addTestSuite('Article0001');
 		$suite->addTestSuite('User0001Test');
+		$suite->addTestSuite('User0002Test');
 		$suite->addTestSuite('Module0001');
 		$suite->addTestSuite('SampleData0001');
 

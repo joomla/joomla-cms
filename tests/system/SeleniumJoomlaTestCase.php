@@ -82,5 +82,64 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->click("Submit");
 		$this->waitForPageToLoad("30000");
 	}
+	
+	function createUser($name, $userName, $password = 'password', $email = 'testuser@test.com', $group = 'Manager') {
+		$this->gotoAdmin();
+		$this->click("link=User Manager");
+		$this->waitForPageToLoad("30000");
+		echo("Add new user named " . $name . " in Group=" . $group . "\n");
+		$this->click("//li[@id='toolbar-new']/a/span");
+		$this->waitForPageToLoad("30000");
+		$this->type("jform_name", $name);
+		$this->type("jform_username", $userName);
+		$this->type("jform_password", $password);
+		$this->type("jform_password2", $password);
+		$this->type("jform_email", $email);
+		
+		// Set group 
+		switch ($group)
+		{
+			case 'Manager' :
+				$this->click("1group_6");
+				break;
+
+			case 'Administrator' :
+				$this->click("1group_7");
+				break;
+
+			case 'Super Users' :
+				$this->click("1group_8");
+				break;
+
+			case 'Park Rangers' :
+				$this->click("1group_9");
+				break;
+
+			case 'Registered' :
+				$this->click("1group_2");
+				break;
+
+			case 'Author' :
+				$this->click("1group_3");
+				break;
+
+			case 'Editor' :
+				$this->click("1group_4");
+				break;
+				
+			case 'Publisher' :
+				$this->click("1group_5");
+				break;
+
+			default:
+				$this->click("1group_6");
+				break;
+		}
+		
+		$this->click("link=Save & Close");
+		$this->waitForPageToLoad("30000");
+		echo "New user created\n";
+				
+	}
 
 }
