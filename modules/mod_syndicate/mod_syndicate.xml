@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCSYNDICATE</description>
+	<description>MOD_SYNDICATE_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_syndicate">mod_syndicate.php</filename>
@@ -30,18 +30,18 @@
 			name="text"
 			type="text"
 			default="Feed Entries"
-			label="Text"
-			description="fieldTEXT" />
+			label="MOD_SYNDICATE_FIELD_TEXT_LABEL"
+			description="MOD_SYNDICATE_FIELD_TEXT_DESC" />
 		<field
 			name="format"
 			type="list"
 			default="rss"
-			label="Format"
-			description="fieldFEEDFORMAT">
+			label="MOD_SYNDICATE_FIELD_FORMAT_LABEL"
+			description="MOD_SYNDICATE_FIELD_FORMAT_DESC">
 			<option
-				value="rss">RSS 2.0</option>
+				value="rss">MOD_SYNDICATE_FIELD_VALUE_RSS</option>
 			<option
-				value="atom">Atom 1.0</option>
+				value="atom">MOD_SYNDICATE_FIELD_VALUE_ATOM</option>
 		</field>
 	</fields>
 	<fields
