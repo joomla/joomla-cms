@@ -31,6 +31,7 @@ $ -> Language fix or change
 ^ Refactored mod_search ini/keys
 ^ Refactored mod_stats ini/keys + bugs
 ^ Refactored mod_syndicate ini/keys
+^ Refactored mod_users_latest ini/keys
 
 11-Feb-2010 jean-Marie Simonet
 ^ Refactored mod_related_items ini/keys
