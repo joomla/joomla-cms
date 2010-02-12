@@ -85,4 +85,3 @@ class User0002Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
   }
 }
-?>

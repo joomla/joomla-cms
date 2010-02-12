@@ -18,6 +18,11 @@ require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
  */
 abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCase
 {
+
+	public static $database;
+
+	public static $dbo;
+
 	/**
 	 * @var factoryState
 	 */
@@ -45,6 +50,32 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		$this->savedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
 		$this->savedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
 	}
+
+	public static function setUpBeforeClass() {
+		jimport('joomla.database.database');
+		jimport('joomla.database.table');
+
+		if(!is_object(self::$dbo)) {
+			$options	= array ('driver' => 'mysql', 'host' => '127.0.0.1', 'user' => 'utuser', 'password' => 'ut1234', 'database' => 'joomla_ut', 'prefix' => 'jos_');
+
+			self::$dbo = &JDatabase::getInstance($options);
+
+			if (JError::isError(self::$dbo)) {
+				//ignore errors
+			}
+
+			if (self::$dbo->getErrorNum() > 0) {
+				//ignore errors
+			}
+		}
+		self::$database = JFactory::$database;
+		JFactory::$database = self::$dbo;
+	}
+
+	public static function tearDownAfterClass() {
+		//JFactory::$database = self::$database;
+	}
+
 
 	/**
 	 * Sets the JError error handlers.
@@ -122,7 +153,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		$this->savedFactoryState['language'] = JFactory::$language;
 		$this->savedFactoryState['document'] = JFactory::$document;
 		$this->savedFactoryState['acl'] = JFactory::$acl;
-		$this->savedFactoryState['database'] = JFactory::$database;
+		//$this->savedFactoryState['database'] = JFactory::$database;
 		$this->savedFactoryState['mailer'] = JFactory::$mailer;
 	}
 
@@ -139,7 +170,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		JFactory::$language = $this->savedFactoryState['language'];
 		JFactory::$document = $this->savedFactoryState['document'];
 		JFactory::$acl = $this->savedFactoryState['acl'];
-		JFactory::$database = $this->savedFactoryState['database'];
+		//JFactory::$database = $this->savedFactoryState['database'];
 		JFactory::$mailer = $this->savedFactoryState['mailer'];
 	}
 	/**
@@ -149,7 +180,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 */
 	protected function getConnection()
 	{
-		$pdo = new PDO('mysql:host=localhost;dbname=joomla_ut', 'utuser', 'ut1234');
+		$pdo = new PDO('mysql:host=127.0.0.1;dbname=joomla_ut', 'utuser', 'ut1234');
 		return $this->createDefaultDBConnection($pdo, 'joomla_ut');
 	}
 	/**

@@ -16,10 +16,11 @@ require_once 'JRequest-helper-dataset.php';
 
 /**
  * A unit test class for SubjectClass
- * @runTestsInSeparateProcesses enabled
  */
 class JRequestTest_GetVar extends PHPUnit_Framework_TestCase
 {
+	public static $filter;
+
 	public function getVarData() {
 		return JRequestTest_DataSet::$getVarTests;
 	}
@@ -33,16 +34,23 @@ class JRequestTest_GetVar extends PHPUnit_Framework_TestCase
 		$GLOBALS['_JREQUEST'] = array();
 	}
 
+	public static function setUpBeforeClass() {
+		require_once dirname(__FILE__).DS.'JFilterInput-mock-general.php';
+		$filter = &JFilterInput::getInstance();
+		self::$filter = JFilterInput::getInstance();
+		$filter = new JFilterInputJRequest;
+	}
+
+	public static function tearDownAfterClass() {
+		$filter = &JFilterInput::getInstance();
+		$filter = self::$filter;
+	}
+
 	/**
 	 * @dataProvider getVarData
-	 * @runInSeparateProcess
 	 */
 	public function testGetVarFromDataSet($name, $default, $hash, $type, $mask, $expect, $filterCalls)
 	{
-
-		require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/bootstrap.php');
-		require_once dirname(__FILE__).DS.'JFilterInput-mock-general.php';
-
 		jimport( 'joomla.environment.request' );
 
 		$filter = JFilterInput::getInstance();
@@ -54,11 +62,15 @@ class JRequestTest_GetVar extends PHPUnit_Framework_TestCase
 				);
 			}
 		}
+
+		
 		/*
 		 * Get the variable and check the value.
 		 */
 		$actual = JRequest::getVar($name, $default, $hash, $type, $mask);
 		$this -> assertEquals($expect, $actual, 'Non-cached getVar');
+
+
 		/*
 		 * Repeat the process to check caching (the JFilterInput mock should not
 		 * get called unless the default is being used).

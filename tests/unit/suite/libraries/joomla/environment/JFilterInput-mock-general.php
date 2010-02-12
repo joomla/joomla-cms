@@ -12,7 +12,7 @@
 /**
  * Mock of JFilterInput for JRequest testing
  */
-class JFilterInput
+class JFilterInputJRequest
 {
 	/**
 	 * Information on the calls expected to the mock object.
@@ -22,19 +22,6 @@ class JFilterInput
 	 * expected calls.
 	 */
 	static private $_expectations = array();
-
-	/**
-	 * Returns a reference to a mock input filter singleton
-	 */
-	function & getInstance()
-	{
-		static $instance;
-
-		if (! $instance) {
-			$instance = new JFilterInput();
-		}
-		return $instance;
-	}
 
 	/**
 	 * Stub for the clean method.

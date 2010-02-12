@@ -18,10 +18,11 @@ require_once 'JRequest-helper-dataset.php';
 
 /**
  * A unit test class for SubjectClass
- * @runTestsInSeparateProcesses
  */
 class JRequestTest_Clean extends PHPUnit_Framework_TestCase
 {
+	public static $filter;
+
 	/**
 	 * Define some sample data
 	 */
@@ -32,16 +33,20 @@ class JRequestTest_Clean extends PHPUnit_Framework_TestCase
 		$GLOBALS['_JREQUEST'] = array();
 	}
 
-	public function loadFramework()
-	{
-		require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/bootstrap.php');
-		require_once dirname(__FILE__) . DS . 'JFilterInput-mock-general.php';
-		jimport('joomla.environment.request');
+	public static function setUpBeforeClass() {
+		require_once dirname(__FILE__).DS.'JFilterInput-mock-general.php';
+		$filter = &JFilterInput::getInstance();
+		self::$filter = JFilterInput::getInstance();
+		$filter = new JFilterInputJRequest;
+	}
+
+	public static function tearDownAfterClass() {
+		$filter = &JFilterInput::getInstance();
+		$filter = self::$filter;
 	}
 
 	function testRequestClean()
 	{
-		$this->loadFramework();
 
 		/*
 		 * Call the method.
@@ -54,7 +59,6 @@ class JRequestTest_Clean extends PHPUnit_Framework_TestCase
 	function testRequestCleanWithBanned()
 	{
 		$this->markTestIncomplete('This test needs work.');
-		$this->loadFramework();
 		try {
 			$passed = false;
 			$_POST['_post'] = 'This is banned.';
@@ -73,7 +77,6 @@ class JRequestTest_Clean extends PHPUnit_Framework_TestCase
 	function testRequestCleanWithNumeric()
 	{
 		$this->markTestIncomplete('This test needs work.');
-		$this->loadFramework();
 		try {
 			$passed = false;
 			$_POST[0] = 'This is invalid.';
@@ -92,7 +95,6 @@ class JRequestTest_Clean extends PHPUnit_Framework_TestCase
 	function testRequestCleanWithNumericString()
 	{
 		$this->markTestIncomplete('This test needs work.');
-		$this->loadFramework();
 		try {
 			$passed = false;
 			$_POST['0'] = 'This is invalid.';
