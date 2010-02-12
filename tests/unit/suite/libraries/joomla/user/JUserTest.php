@@ -110,7 +110,6 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return void
 	 * @dataProvider casesGetInstance
-	 * @group breaks
 	 */
 	public function testGetInstance( $userid, $expected, $error )
 	{
@@ -130,7 +129,6 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 * Testing individual parameter control.
 	 *
 	 * @return void
-	 * @group breaks
 	 */
 	public function testParameters()
 	{
@@ -191,7 +189,6 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return void
 	 * @dataProvider casesAuthorize
-	 * @group breaks
 	 */
 	public function testAuthorize( $action, $asset, $expected )
 	{
@@ -218,7 +215,6 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return void
 	 * @dataProvider casesAuthorize
-	 * @group breaks
 	 */
 	public function testAuthorise( $action, $asset, $expected )
 	{
@@ -267,7 +263,6 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return void
 	 * @dataProvider	casesAuthorizedLevels
-	 * @group breaks
 	 */
 	public function testAuthorisedLevels( $user, $expected )
 	{
@@ -291,7 +286,6 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 * Testing setLastVisit().
 	 *
 	 * @return void
-	 * @group breaks
 	 */
 	public function testSetLastVisit()
 	{
@@ -310,7 +304,6 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return void
 	 * @todo Implement testGetParameters().
-	 * @group breaks
 	 */
 	public function testGetParameters()
 	{
@@ -325,7 +318,6 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return void
 	 * @todo Implement testSetParameters().
-	 * @group breaks
 	 */
 	public function testSetParameters()
 	{
@@ -381,7 +373,6 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 * @return void
 	 *
 	 * @dataProvider casesGetTable
-	 * @group breaks
 	 */
 	public function testGetTable( $type, $prefix, $expClass, $expName )
 	{
@@ -407,7 +398,6 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 *
 	 * @return void
 	 * @todo Implement testBind().
-	 * @group breaks
 	 */
 	public function testBind()
 	{
@@ -421,7 +411,6 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 * Testing creation and deletion of users
 	 *
 	 * @return void
-	 * @group breaks
 	 */
 	public function testCreateDeleteUser()
 	{
@@ -531,7 +520,6 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 * @return void
 	 *
 	 * @dataProvider casesLoad
-	 * @group breaks
 	 */
 	public function testLoad( $id, $expected )
 	{
