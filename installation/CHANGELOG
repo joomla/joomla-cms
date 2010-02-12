@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Feb-2010 Jean-Marie Simonet
+^ Refactored mod_search ini/keys
+
 11-Feb-2010 jean-Marie Simonet
 ^ Refactored mod_related_items ini/keys
 ^ Translating Menu Items Titles in Select view

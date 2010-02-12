@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 class modSearchHelper
 {
 	function getSearchImage($button_text) {
-		$img = JHtml::_('image', 'system/searchButton.gif', $button_text, NULL, true);
+		$img = JHtml::_('image', 'searchButton.gif', $button_text, NULL, true);
 		return $img;
 	}
 }

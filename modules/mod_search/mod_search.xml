@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCSEARCH</description>
+	<description>MOD_SEARCH_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_search">mod_search.php</filename>
@@ -30,14 +30,14 @@
 			name="width"
 			type="text"
 			default="20"
-			label="Box Width"
-			description="Size of the search text box in characters" />
+			label="MOD_SEARCH_FIELD_BOXWIDTH_LABEL"
+			description="MOD_SEARCH_FIELD_BOXWIDTH_DESC" />
 		<field
 			name="text"
 			type="text"
 			default=""
-			label="Text"
-			description="fieldTEXT" />
+			label="MOD_SEARCH_FIELD_TEXT_LABEL"
+			description="MOD_SEARCH_FIELD_TEXT_DESC" />
 		<field
 			name="spacer1"
 			type="spacer"
@@ -47,45 +47,56 @@
 			name="button"
 			type="radio"
 			default=""
-			label="Search Button"
-			description="Display a Search Button">
+			label="MOD_SEARCH_FIELD_BUTTON_LABEL"
+			description="MOD_SEARCH_FIELD_BUTTON_DESC">
 			<option
-				value="">JNo</option>
+				value="">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 		<field
 			name="button_pos"
 			type="list"
 			default="right"
-			label="Button Position"
-			description="Position of the button relative to the search box">
+			label="MOD_SEARCH_FIELD_BUTTONPOS_LABEL"
+			description="MOD_SEARCH_FIELD_BUTTONPOS_DESC">
 			<option
-				value="right">Right</option>
+				value="right">MOD_SEARCH_FIELD_VALUE_RIGHT</option>
 			<option
-				value="left">Left</option>
+				value="left">MOD_SEARCH_FIELD_VALUE_LEFT</option>
 			<option
-				value="top">Top</option>
+				value="top">MOD_SEARCH_FIELD_VALUE_TOP</option>
 			<option
-				value="bottom">Bottom</option>
+				value="bottom">MOD_SEARCH_FIELD_VALUE_BOTTOM</option>
 		</field>
 		<field
 			name="imagebutton"
 			type="radio"
 			default=""
-			label="Search button as image"
-			description="Use an image as button">
+			label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
+			description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC">
 			<option
-				value="">JNo</option>
+				value="">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 		<field
 			name="button_text"
 			type="text"
 			default=""
-			label="Button Text"
-			description="fieldBUTTONTEXT" />
+			label="MOD_SEARCH_FIELD_BUTTONTEXT_LABEL"
+			description="MOD_SEARCH_FIELD_BUTTONTEXT_DESC" />
+		<field
+			name="spacer2"
+			type="spacer"
+			hr="true"
+			/>
+		<field
+			name="set_itemid"
+			type="text"
+			default=""
+			label="MOD_SEARCH_FIELD_SETITEMID_LABEL"
+			description="MOD_SEARCH_FIELD_SETITEMID_DESC" />
 	</fields>
 	<fields
 		group="advanced">
