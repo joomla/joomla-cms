@@ -44,3 +44,6 @@ session_start();
 require_once JPATH_BASE.DS.'includes'.DS.'defines.php';
 require_once JPATH_LIBRARIES.DS.'joomla'.DS.'import.php';
 require_once JPATH_BASE . '/libraries/joomla/session/session.php';
+
+// Exclude all of the tests from code coverage reports
+PHPUnit_Util_Filter::addDirectoryToFilter(JPATH_BASE . '/tests');
