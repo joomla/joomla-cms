@@ -12,47 +12,132 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>DESCWEBLINKS</description>
+	<description>MOD_WEBLINKS_XML_DESCRIPTION</description>
 	<files>
 	<filename module="mod_weblinks">mod_weblinks.php</filename>
+	<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>mod_wrapper.xml</filename>
 	</files>
+	<languages>
+		<language
+			tag="en-GB">en-GB.mod_weblinks.ini</language>
+	</languages>
 	<fields>
-		<field name="catid" type="category" extension="com_weblinks" default="0" label="Category" description="fieldCATSELECT" />
-		<field name="count" type="text" default="5" label="Count" description="Desc_Count" />
-		<field name="ordering" type="list" default="title" label="Ordering" description="fieldORDERING">
-			<option value="title">Title</option>
-			<option value="order">Order</option>
-			<option value="hits">Hits</option>
+		<field
+			name="catid"
+			type="category"
+			extension="com_weblinks"
+			default="0"
+			label="MOD_WEBLINKS_FIELD_CATEGORY_LABEL"
+			description="MOD_WEBLINKS_FIELD_CATEGORY_DESC" />
+		<field 
+			name="count"
+			type="text"
+			default="5"
+			label="MOD_WEBLINKS_FIELD_COUNT_LABEL"
+			description="MOD_WEBLINKS_FIELD_COUNT_DESC" />
+		<field
+			name="ordering"
+			type="list"
+			default="title"
+			label="MOD_WEBLINKS_FIELD_ORDERING_LABEL"
+			description="MOD_WEBLINKS_FIELD_ORDERING_DESC">
+			<option
+				value="title">MOD_WEBLINKS_FIELD_VALUE_TITLE</option>
+			<option
+				value="order">MOD_WEBLINKS_FIELD_VALUE_ORDER</option>
+			<option
+				value="hits">MOD_WEBLINKS_FIELD_VALUE_HITS</option>
 		</field>
-		<field name="direction" type="list" default="asc" label="Order Direction" description="fieldORDERINGDIRECTION">
-			<option value="asc">Ascending</option>
-			<option value="desc">Descending</option>
+		<field
+			name="direction"
+			type="list"
+			default="asc"
+			label="MOD_WEBLINKS_FIELD_ORDERDIRECTION_LABEL"
+			description="MOD_WEBLINKS_FIELD_ORDERDIRECTION_DESC">
+			<option
+				value="asc">MOD_WEBLINKS_FIELD_VALUE_ASCENDING</option>
+			<option
+				value="desc">MOD_WEBLINKS_FIELD_VALUE_DESCENDING</option>
 		</field>
-		<field name="target" type="list" default="3" label="Target Window" description="PARAMTARGETWINDOW">
-			<option value="1">New Window</option>
-			<option value="2">Popup Window</option>
-			<option value="3">Same Window</option>
+		<field
+			name="target"
+			type="list"
+			default="3"
+			label="MOD_WEBLINKS_FIELD_TARGET_LABEL"
+			description="MOD_WEBLINKS_FIELD_TARGET_DESC">
+			<option
+				value="1">MOD_WEBLINKS_FIELD_VALUE_NEW_WINDOW</option>
+			<option
+				value="2">MOD_WEBLINKS_FIELD_VALUE_POPUP_WINDOW</option>
+			<option
+				value="3">MOD_WEBLINKS_FIELD_VALUE_SAME_WINDOW</option>
 		</field>
-		<field name="follow" type="radio" default="0" label="Follow/No Follow" description="PARAMFOLLOWNOFOLLOW">
-			<option value="follow">Follow</option>
-			<option value="no follow">No Follow</option>
+		<field
+			name="follow"
+			type="radio"
+			default="0"
+			label="MOD_WEBLINKS_FIELD_FOLLOW_LABEL"
+			description="MOD_WEBLINKS_FIELD_FOLLOW_DESC">
+			<option
+				value="follow">MOD_WEBLINKS_FIELD_VALUE_FOLLOW</option>
+			<option
+				value="no follow">MOD_WEBLINKS_FIELD_VALUE_NOFOLLOW</option>
 		</field>
-		<field name="description" type="radio" default="0" label="Show Description" description="PARAMSHOWDESCRIPTION">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+		<field
+			name="description"
+			type="radio"
+			default="0"
+			label="MOD_WEBLINKS_FIELD_DESCRIPTION_LABEL"
+			description="MOD_WEBLINKS_FIELD_DESCRIPTION_DESC">
+			<option
+				value="1">JYES</option>
+			<option
+				value="0">JNO</option>
 		</field>
-		<field name="hits" type="radio" default="0" label="Show Hits" description="PARAMSHOWHITS">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+		<field
+			name="hits"
+			type="radio"
+			default="0"
+			label="MOD_WEBLINKS_FIELD_HITS_LABEL"
+			description="MOD_WEBLINKS_FIELD_HITS_DESC">
+			<option
+				value="1">JYES</option>
+			<option
+				value="0">JNO</option>
 		</field>
-		<field name="@spacer" type="spacer" default="" label="" description="" />
-		<field name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</fields>
-	<fields group="advanced">
-		<field name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
-			<option value="1">USE_GLOBAL</option>
-			<option value="0">MODULES_FIELD_VALUE_NOCACHING</option>
+	<fields
+		group="advanced">
+		<field
+			name="layout"
+			type="modulelayout"
+			label="JFIELD_ALT_LAYOUT_LABEL"
+			description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			default=""
+			label="MODULES_FIELD_MODULECLASS_SFX_LABEL"
+			description="MODULES_FIELD_MODULECLASS_SFX_DESC" />
+		<field
+			name="cache"
+			type="list"
+			default="1"
+			label="MODULES_FIELD_CACHING_LABEL"
+			description="MODULES_FIELD_CACHING_DESC">
+			<option
+				value="1">USE_GLOBAL</option>
+			<option
+				value="0">MODULES_FIELD_VALUE_NOCACHING</option>
 		</field>
-		<field name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
+		<field
+			name="cache_time"
+			type="text"
+			default="900"
+			label="MODULES_FIELD_CACHE_TIME_LABEL"
+			description="MODULES_FIELD_CACHE_TIME_DESC" />
 	</fields>
 </extension>
