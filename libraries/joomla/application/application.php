@@ -115,8 +115,8 @@ class JApplication extends JObject
 	 * Returns the global JApplication object, only creating it if it
 	 * doesn't already exist.
 	 *
-	 * @param	mixed	$id		A client identifier or name.
-	 * @param	array	$config	An optional associative array of configuration settings.
+	 * @param	mixed		A client identifier or name.
+	 * @param	array		An optional associative array of configuration settings.
 	 * @return	JApplication	The appliction object.
 	 * @since	1.5
 	 */
