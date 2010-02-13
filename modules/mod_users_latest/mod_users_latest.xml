@@ -27,14 +27,14 @@
 			type="text"
 			default="5"
 			label="MOD_USERS_LATEST_FIELD_NUMBER_LABEL"
-			description="Unsers_Latest_number_Desc">
+			description="MOD_USERS_LATEST_FIELD_NUMBER_DESC">
 		</field>
 		<field
 			name="linknames"
 			type="list"
 			default="0"
-			label="Users_Latest_Link_label"
-			description="Users_Latest_Link_desc">
+			label="MOD_USERS_LATEST_FIELD_LINK_LABEL"
+			description="MOD_USERS_LATEST_FIELD_LINK_DESC">
 			<option
 				value="0">JNO</option>
 			<option
