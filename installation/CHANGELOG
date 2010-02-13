@@ -34,6 +34,7 @@ $ -> Language fix or change
 13-Feb-2010 Ian MacLennan
 # Eliminating errors in unit tests
 # Fixed some doc blocks
+# Changed JTableUser to use preg_match instead of eregi
 
 12-Feb-2010 Mark Dexter
 + New system test for create user - thanks Matt Thomas!
