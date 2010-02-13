@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Feb-2010 Ian MacLennan
++ Added tests for JEvent
+
 13-Feb-2010 Ian MacLennan
 ^ Removing @group breaks annotation because tests no longer break the run
 
