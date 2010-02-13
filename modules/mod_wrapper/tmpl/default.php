@@ -33,5 +33,5 @@ defined('_JEXEC') or die;
 	align="top"
 	frameborder="0"
 	class="wrapper<?php echo $class ?>">
-	<?php echo JText::_('NO_IFRAMES'); ?>
+	<?php echo JText::_('MOD_WRAPPER_NO_IFRAMES'); ?>
 </iframe>

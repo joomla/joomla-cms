@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Feb-2010 Jean-Marie Simonet
+^ Refactoring mod_wrapper ini/keys
+
 13-Feb-2010 Ian MacLennan
 # Eliminating errors in unit tests
 

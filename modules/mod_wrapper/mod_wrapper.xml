@@ -4,7 +4,7 @@
 	version="1.6.0"
 	client="site"
 	method="upgrade">
-	<name>Wrapper</name>
+	<name>MOD_WRAPPER</name>
 	<author>Joomla! Project</author>
 	<creationDate>October 2004</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCWRAPPER</description>
+	<description>MOD_WRAPPER_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_wrapper">mod_wrapper.php</filename>
@@ -31,8 +31,19 @@
 			type="text"
 			size="30"
 			default=""
-			label="Url"
-			description="URL TO SITE/FILE YOU WISH TO DISPLAY WITHIN THE IFRAME" />
+			label="MOD_WRAPPER_FIELD_URL_LABEL"
+			description="MOD_WRAPPER_FIELD_URL_DESC" />
+		<field
+			name="add"
+			type="radio"
+			default="1"
+			label="MOD_WRAPPER_FIELD_ADD_LABEL"
+			description="MOD_WRAPPER_FIELD_ADD_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
 		<field
 			name="spacer1"
 			type="spacer"
@@ -42,39 +53,39 @@
 			name="scrolling"
 			type="radio"
 			default="auto"
-			label="Scroll Bars"
-			description="SHOW/HIDE HORIZONTAL AND VERTICAL SCROLL BARS.">
+			label="MOD_WRAPPER_FIELD_SCROLL_LABEL"
+			description="MOD_WRAPPER_FIELD_SCROLL_DESC">
 			<option
-				value="no">JNo</option>
+				value="no">JNO</option>
 			<option
-				value="yes">JYes</option>
+				value="yes">JYES</option>
 			<option
-				value="auto">Auto</option>
+				value="auto">MOD_WRAPPER_FIELD_VALUE_AUTO</option>
 		</field>
 		<field
 			name="width"
 			type="text"
 			size="5"
 			default="100%"
-			label="Width"
-			description="fieldWIDTH" />
+			label="MOD_WRAPPER_FIELD_WIDTH_LABEL"
+			description="MOD_WRAPPER_FIELD_WIDTH_DESC" />
 		<field
 			name="height"
 			type="text"
 			size="5"
 			default="200"
-			label="Height"
-			description="HEIGHT OF THE IFRAME WINDOW" />
+			label="MOD_WRAPPER_FIELD_HEIGHT_LABEL"
+			description="MOD_WRAPPER_FIELD_HEIGHT_DESC" />
 		<field
 			name="height_auto"
 			type="radio"
 			default="1"
-			label="Auto Height"
-			description="fieldAUTOHEIGHT">
+			label="MOD_WRAPPER_FIELD_AUTOHEIGHT_LABEL"
+			description="MOD_WRAPPER_FIELD_AUTOHEIGHT_DESC">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 		<field
 			name="spacer2"
@@ -82,23 +93,12 @@
 			hr="true"
 			/>
 		<field
-			name="add"
-			type="radio"
-			default="1"
-			label="Auto Add"
-			description="fieldAUTOADD">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-		<field
 			name="target"
 			type="text"
 			size="30"
 			default=""
-			label="Target Name"
-			description="Name of the IFrame when used as Target" />
+			label="MOD_WRAPPER_FIELD_TARGET_LABEL"
+			description="MOD_WRAPPER_FIELD_TARGET_DESC" />
 	</fields>
 	<fields
 		group="advanced">
