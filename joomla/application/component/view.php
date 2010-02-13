@@ -176,7 +176,7 @@ class JView extends JObject
 	/**
 	* Execute and display a template script.
 	*
-	* @param string $tpl The name of the template file to parse;
+	* @param string The name of the template file to parse;
 	* automatically searches through the template paths.
 	*
 	* @throws object An JError object.
@@ -293,12 +293,11 @@ class JView extends JObject
 	*
 	* @access public
 	*
-	* @param string $key The name for the reference in the view.
-	* @param mixed &$val The referenced variable.
+	* @param string The name for the reference in the view.
+	* @param mixed The referenced variable.
 	*
 	* @return bool True on success, false on failure.
 	*/
-
 	function assignRef($key, &$val)
 	{
 		if (is_string($key) && substr($key, 0, 1) != '_')
@@ -316,7 +315,7 @@ class JView extends JObject
 	 * If escaping mechanism is one of htmlspecialchars or htmlentities, uses
 	 * {@link $_encoding} setting.
 	 *
-	 * @param  mixed $var The output to escape.
+	 * @param  mixed The output to escape.
 	 * @return mixed The escaped value.
 	 */
 	function escape($var)
@@ -371,8 +370,8 @@ class JView extends JObject
 	 * Method to get the model object
 	 *
 	 * @access	public
-	 * @param	string	$name	The name of the model (optional)
-	 * @return	mixed			JModel object
+	 * @param	string	The name of the model (optional)
+	 * @return	mixed	JModel object
 	 */
 	function getModel($name = null)
 	{
@@ -388,7 +387,6 @@ class JView extends JObject
 	* @access public
 	* @return string The layout name
 	*/
-
 	function getLayout()
 	{
 		return $this->_layout;
@@ -434,9 +432,9 @@ class JView extends JObject
 	 * Category.
 	 *
 	 * @access	public
-	 * @param	object	$model		The model to add to the view.
-	 * @param	boolean	$default	Is this the default model?
-	 * @return	object				The added model
+	 * @param	object		The model to add to the view.
+	 * @param	boolean		Is this the default model?
+	 * @return	object		The added model
 	 */
 	function setModel(&$model, $default = false)
 	{
@@ -453,7 +451,7 @@ class JView extends JObject
 	* Sets the layout name to use
 	*
 	* @access	public
-	* @param	string $template The template name.
+	* @param	string The layout name.
 	* @return	string Previous value
 	* @since	1.5
 	*/
@@ -485,7 +483,7 @@ class JView extends JObject
 	/**
 	 * Sets the _escape() callback.
 	 *
-	 * @param mixed $spec The callback for _escape() to use.
+	 * @param mixed The callback for _escape() to use.
 	 */
 	function setEscape($spec)
 	{
@@ -518,7 +516,7 @@ class JView extends JObject
 	 * Load a template file -- first look in the templates folder for an override
 	 *
 	 * @access	public
-	 * @param string $tpl The name of the template source file ...
+	 * @param string The name of the template source file ...
 	 * automatically searches the template paths and compiles as needed.
 	 * @return string The output of the the template script.
 	 */
@@ -571,7 +569,7 @@ class JView extends JObject
 	 * Load a helper file
 	 *
 	 * @access	public
-	 * @param string $tpl The name of the helper source file ...
+	 * @param string The name of the helper source file ...
 	 * automatically searches the helper paths and compiles as needed.
 	 * @return boolean Returns true if the file was loaded
 	 */
@@ -595,9 +593,8 @@ class JView extends JObject
 	* Sets an entire array of search paths for templates or resources.
 	*
 	* @access protected
-	* @param string $type The type of path to set, typically 'template'.
-	* @param string|array $path The new set of search paths.  If null or
-	* false, resets to the current directory only.
+	* @param string 		The type of path to set, typically 'template'.
+	* @param string|array	The new set of search paths.  If null or false, resets to the current directory only.
 	*/
 	function _setPath($type, $path)
 	{
@@ -630,7 +627,7 @@ class JView extends JObject
 	* Adds to the search path for templates and resources.
 	*
 	* @access protected
-	* @param string|array $path The directory or stream to search.
+	* @param string|array The directory or stream to search.
 	*/
 	function _addPath($type, $path)
 	{
