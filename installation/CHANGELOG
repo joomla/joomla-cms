@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Feb-2010 Mark Dexter
+^ Change "Apply" to "Save" in back end edit screens
+
 13-Feb-2010 Jean-Marie Simonet
 ^ Refactoring mod_wrapper ini/keys
 ^ Refactoring mod_weblinks ini/keys
