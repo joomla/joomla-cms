@@ -3,7 +3,7 @@
 	version="1.6"
 	type="plugin"
 	group="content">
-	<name>Content - Code Hightlighter (GeSHi)</name>
+	<name>plg_content_geshi</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

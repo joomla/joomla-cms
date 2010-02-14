@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id$ -->
 <install type="component" version="1.5.0">
-  <name>Banners</name>
+  <name>com_banners</name>
   <author>Joomla! Project</author>
   <creationDate>April 2006</creationDate>
   <copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

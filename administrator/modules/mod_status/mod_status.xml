@@ -3,7 +3,7 @@
 	type="module"
 	version="1.6.0"
 	client="administrator">
-	<name>User Status</name>
+	<name>mod_status</name>
 	<author>Joomla! Project</author>
 	<creationDate>Feb 2006</creationDate>
 	<copyright>(C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

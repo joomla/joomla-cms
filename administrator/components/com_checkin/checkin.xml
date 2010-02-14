@@ -1,7 +1,7 @@
 <extension
 	type="component"
 	version="1.6">
-	<name>Checkin</name>
+	<name>com_checkin</name>
 	<author>Joomla! Project</author>
 	<copyright>(C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>

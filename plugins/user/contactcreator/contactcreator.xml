@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.6" type="plugin"  group="user">
-	<name>User - Contact Creator</name>
+	<name>plg_user_contactcreator</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2009</creationDate>
 	<copyright>(C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>

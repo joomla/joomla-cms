@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$and = JText::_('MOD_WHOSONLINE_AND');
+
 if ($count['guest'] <= 1) {
 $guest = JText::_('MOD_WHOSONLINE_GUEST');
 } else if ($count['guest'] > 1) {
@@ -23,7 +23,7 @@ $member = JText::_('MOD_WHOSONLINE_MEMBERS');}
 
 
 if ($showmode == 0 || $showmode == 2) :
-	echo JText::sprintf('MOD_WHOSONLINE_WE_HAVE', $guest, $count['guest'], $and, $member, $count['user']);
+	echo JText::sprintf('MOD_WHOSONLINE_WE_HAVE', $guest, $count['guest'], $member, $count['user']);
 endif;
 
 if (($showmode > 0) && count($names)) : ?>

@@ -3,7 +3,7 @@
 	type="module"
 	version="1.6.0"
 	client="administrator">
-	<name>Toolbar</name>
+	<name>mod_toolbar</name>
 	<author>Joomla! Project</author>
 	<creationDate>Nov 2005</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

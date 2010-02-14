@@ -2,7 +2,7 @@
 <!-- $Id$ -->
 
 <install type="component" version="1.6.0">
-	<name>Login</name>
+	<name>com_login</name>
 	<author>Joomla! Project</author>
 	<copyright>(C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>

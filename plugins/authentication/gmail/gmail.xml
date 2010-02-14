@@ -3,7 +3,7 @@
 	version="1.6"
 	type="plugin"
 	group="authentication">
-	<name>Authentication - GMail</name>
+	<name>plg_authentication_gmail</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2006</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

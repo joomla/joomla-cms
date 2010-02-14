@@ -3,7 +3,7 @@
 	version="1.6"
 	type="plugin"
 	group="editors-xtd">
-	<name>Button - Pagebreak</name>
+	<name>plg_editorsxtd_pagebreak</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2004</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

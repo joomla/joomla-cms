@@ -3,7 +3,7 @@
 <install
 	version="1.6"
 	type="template">
-	<name>Milky Way</name>
+	<name>tpl_rhuk_milkyway</name>
 	<creationDate>11/20/06</creationDate>
 	<author>Andy Miller</author>
 	<authorEmail>rhuk@rockettheme.com</authorEmail>
@@ -11,7 +11,7 @@
 	<copyright></copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>1.0.2</version>
-	<description>TPL_RHUK_MILKYWAY</description>
+	<description>TPL_RHUK_MILKYWAY_XML_DESCRIPTION</description>
 	<files>
 		<filename>index.php</filename>
 		<filename>templateDetails.xml</filename>

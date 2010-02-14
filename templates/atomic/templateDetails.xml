@@ -3,7 +3,7 @@
 <install
 	version="1.6"
 	type="template">
-	<name>Atomic</name>
+	<name>tpl_atomic</name>
 	<creationDate>10/10/09</creationDate>
 	<author>Ron Severdia</author>
 	<authorEmail>contact@kontentdesign.com</authorEmail>

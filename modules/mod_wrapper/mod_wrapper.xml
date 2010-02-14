@@ -4,7 +4,7 @@
 	version="1.6.0"
 	client="site"
 	method="upgrade">
-	<name>MOD_WRAPPER</name>
+	<name>mod_wrapper</name>
 	<author>Joomla! Project</author>
 	<creationDate>October 2004</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

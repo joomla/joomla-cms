@@ -2,7 +2,7 @@
 <install
 	type="component"
 	version="1.0.0">
-	<name>Installation Manager</name>
+	<name>com_installer</name>
 	<author>Joomla! Project</author>
 	<creationDate>2006</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

@@ -4,7 +4,7 @@
 	version="1.6.0"
 	client="site"
 	method="upgrade">
-	<name>Random Image</name>
+	<name>mod_random_image</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

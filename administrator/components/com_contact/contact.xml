@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.5.0">
-	<name>Contact</name>
+	<name>com_contact</name>
 	<author>Joomla! Project</author>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
 	<creationDate>April 2006</creationDate>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.6" type="plugin" group="content">
-	<name>Content - Example</name>
+	<name>plg_content_example</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2010</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

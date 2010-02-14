@@ -3,7 +3,7 @@
 <install
 	type="component"
 	version="1.6.0">
-	<name>Redirect</name>
+	<name>com_redirect</name>
 	<version>1.6.0</version>
 	<creationDate>April 2009</creationDate>
 	<author>Joomla! Project</author>

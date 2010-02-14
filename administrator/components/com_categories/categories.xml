@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="1.6">
-	<name>Categories</name>
+	<name>com_categories</name>
 		<author>Joomla! Project</author>
 	<creationDate>December 2007</creationDate>
 		<copyright>(C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

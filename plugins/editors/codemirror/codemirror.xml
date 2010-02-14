@@ -3,7 +3,7 @@
 	version="1.6"
 	type="plugin"
 	group="editors">
-	<name>Editor - CodeMirror</name>
+	<name>plg_editors_codemirror</name>
 	<version>1.0</version>
 	<creationDate>May 2009</creationDate>
 	<author></author>

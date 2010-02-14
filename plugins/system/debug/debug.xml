@@ -3,7 +3,7 @@
 	version="1.6"
 	type="plugin"
 	group="system">
-	<name>System - Debug</name>
+	<name>plg_system_debug</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

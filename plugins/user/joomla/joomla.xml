@@ -3,7 +3,7 @@
 	version="1.6"
 	type="plugin"
 	group="user">
-	<name>User - Joomla!</name>
+	<name>plg_user_joomla</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
 	<copyright>(C) 2005 - 2009 Open Source Matters. All rights reserved.</copyright>

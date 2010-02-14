@@ -3,7 +3,7 @@
 	type="module"
 	version="1.6.0"
 	client="administrator">
-	<name>Online Users</name>
+	<name>mod_online</name>
 	<author>Joomla! Project</author>
 	<creationDate>Jan 2006</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

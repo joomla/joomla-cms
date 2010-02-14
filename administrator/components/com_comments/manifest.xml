@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id$ -->
 <install type="component" version="1.5.0" method="upgrade">
-	<name>Comments</name>
+	<name>com_comments</name>
 	<version>1.2.1 Beta 1</version>
 	<creationDate>9 May 2009</creationDate>
 	<author>JXtended</author>

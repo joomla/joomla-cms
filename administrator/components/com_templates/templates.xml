@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="1.0.0">
-	<name>Template Manager</name>
+	<name>com_templates</name>
 	<author>Joomla! Project</author>
 	<creationDate>2006</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

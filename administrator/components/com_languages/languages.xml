@@ -3,7 +3,7 @@
 <extension
 	type="component"
 	version="1.6">
-	<name>Language Manager</name>
+	<name>com_languages</name>
 	<author>Joomla! Project</author>
 	<creationDate>2006</creationDate>
 	<copyright>(C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

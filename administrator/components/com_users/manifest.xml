@@ -4,7 +4,7 @@
 	type="component"
 	version="1.5.0"
 	method="upgrade">
-	<name>Users</name>
+	<name>com_users</name>
 	<version>1.0.0</version>
 	<creationDate>3 Feb 2009</creationDate>
 	<author>Joomla!</author>

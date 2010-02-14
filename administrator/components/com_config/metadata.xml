@@ -2,7 +2,7 @@
 <install
 	type="component"
 	version="1.6.0">
-	<name>Configuration Manager</name>
+	<name>com_config</name>
 	<author>Joomla! Project</author>
 	<creationDate>2009</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

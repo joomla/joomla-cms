@@ -3,7 +3,7 @@
 	version="1.6"
 	type="plugin"
 	group="system">
-	<name>System - Remember Me</name>
+	<name>plg_system_remember</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2007</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>

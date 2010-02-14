@@ -4,7 +4,7 @@
 	version="1.6.0"
 	client="site"
 	method="upgrade">
-	<name>Latest Users</name>
+	<name>mod_users_latest</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2009</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
