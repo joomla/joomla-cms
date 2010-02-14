@@ -9,12 +9,15 @@
 
 // no direct access
 defined('_JEXEC') or die;
+$lang = &JFactory::getLanguage();
+$lang->load($this->item->name, JPATH_ADMINISTRATOR);
+$lang->load($this->item->name, JPATH_SITE);
 ?>
 <tr class="<?php echo "row".$this->item->index % 2; ?>" <?php echo $this->item->style; ?>>
 	<td><?php echo $this->pagination->getRowOffset($this->item->index); ?></td>
 	<td>
 		<input type="checkbox" id="cb<?php echo $this->item->index;?>" name="eid[]" value="<?php echo $this->item->extension_id; ?>" onclick="isChecked(this.checked);" <?php echo $this->item->cbd; ?> />
-		<span class="bold"><?php echo stripslashes($this->item->name); ?></span>
+		<span class="bold"><?php echo stripslashes(JText::_($this->item->name)); ?></span>
 	</td>
 	<td>
 		<?php echo $this->item->type ?>

@@ -29,7 +29,7 @@ $ -> Language fix or change
 
 14-Feb-2010 Jean-Marie Simonet
 ^ $ Refactored extensions names in sql extension table and xmls to fit INI standards. Updated ini keys. 
-! TODO: Translate Manage view.
+^ Changing editors-xtd name. Updating more ini keys. Loading translation in Manage View.
 
 13-Feb-2010 Mark Dexter
 ^ Change "Apply" to "Save" in back end edit screens
