@@ -6,6 +6,8 @@
  */
 
 require_once JPATH_BASE.'/libraries/joomla/event/dispatcher.php';
+require_once dirname(__FILE__).'/dispatcherSamples.php';
+require_once dirname(__FILE__).'/JDispatcherStub.php';
 
 /**
  * Test class for JDispatcher.
@@ -38,27 +40,96 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testGetInstance().
+	 * Tests that we get a JDispatcher object
 	 */
 	public function testGetInstance() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$dispatcher = JDispatcher::getInstance();
+
+		$this->assertThat(
+			$dispatcher,
+			$this->isInstanceOf('JDispatcher')
+		);
 	}
 
 	/**
-	 * @todo Implement testRegister().
+	 * Test register when used with a function to handle an event
 	 */
-	public function testRegister() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+	public function testRegisterWithFunction() {
+		$dispatcher = $this->getMock('JDispatcher', array('attach'));
+		$dispatcher->expects($this->once())
+			->method('attach')
+			->with($this->equalTo(array('event' => 'testEvent', 'handler' => 'myTestHandler')));
+		
+		$dispatcher->register('testEvent', 'myTestHandler');
 	}
 
 	/**
-	 * @todo Implement testTrigger().
+	 * Test register when used with a class to handle an event
+	 */
+	public function testRegisterWithClass() {
+		$dispatcher = $this->getMock('JDispatcher', array('attach'));
+		
+		// attach should get called once with an object of our observer class
+		$dispatcher->expects($this->once())
+			->method('attach')
+			->with($this->isInstanceOf('myTestClassHandler'));
+
+		// we reset $observables so we have a known state
+		myTestClassHandler::$observables = array();
+		
+		// we perform out register
+		$dispatcher->register('testEvent', 'myTestClassHandler');
+		
+		// we assert that we were registered with a JDispatcher
+		$this->assertThat(
+			myTestClassHandler::$observables[0],
+			$this->isInstanceOf('JDispatcher')
+		);
+		
+		// and that we were instantiated only once
+		$this->assertThat(
+			count(myTestClassHandler::$observables[0]),
+			$this->equalTo(1)
+		);
+	}
+
+
+	/**
+	 * Trigger an event that will be handled by a function
 	 */
 	public function testTrigger() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		// instantiate our dispatcher
+		$dispatcher = new JDispatcherStub;
+
+		// setup our state
+		$methods = array('myevent' => array(0));
+		$observers = array(array('event' => 'myEvent', 'handler' => 'myTestHandler'));
+
+		$dispatcher->setMethods($methods);
+		$dispatcher->setObservers($observers);
+		
+		// perform our trigger
+		$this->assertThat(
+			$dispatcher->trigger('myEvent'),
+			$this->equalTo(array(12345))
+		);
+
+		$this->assertThat(
+			myTestHandler(true),
+			$this->equalTo(array(array()))
+		);
+
+		// perform our trigger with parameters
+		$this->assertThat(
+			$dispatcher->trigger('myEvent', array('hello', 'goodbye')),
+			$this->equalTo(array('goodbye'))
+		);
+
+		$this->assertThat(
+			myTestHandler(true),
+			$this->equalTo(array(array('hello', 'goodbye')))
+		);
+
 	}
 }
 ?>

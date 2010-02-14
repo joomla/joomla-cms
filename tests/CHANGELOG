@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 14-Feb-2010 Ian MacLennan
 + Added tests for JEvent
++ Added tests for JDispatcher
 
 13-Feb-2010 Ian MacLennan
 ^ Removing @group breaks annotation because tests no longer break the run
