@@ -65,7 +65,7 @@ class UsersViewGroups extends JView
 		}
 		if ($canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList('', 'group.delete','JTOOLBAR_TRASH');
+			JToolBarHelper::deleteList('', 'groups.delete','JTOOLBAR_TRASH');
 		}
 
 		JToolBarHelper::divider();

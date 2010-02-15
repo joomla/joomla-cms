@@ -198,6 +198,7 @@ class UsersModelGroup extends JModelForm
 	{
 		// Typecast variable.
 		$pks = (array) $pks;
+		$user	= JFactory::getUser();
 
 		// Get a row instance.
 		$table = &$this->getTable();

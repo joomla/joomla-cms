@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Feb-2010
+# Allow Groups to be deleted correctly
+
 15-Feb-2010 Jean-Marie Simonet
 $ Translating Menu Item Type in Menu Manager: Menu items.
 ^ Updated en-GB.xml back
