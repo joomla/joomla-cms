@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 15-Feb-2010 Jean-Marie Simonet
 $ Translating Menu Item Type in Menu Manager: Menu items.
+^ Updated en-GB.xml back
 
 14-Feb-2010 Jean-Marie Simonet
 ^ $ Refactored extensions names in sql extension table and xmls to fit INI standards. Updated ini keys. 
