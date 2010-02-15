@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Feb-2010 Jean-Marie Simonet
+$ Translating Menu Item Type in Menu Manager: Menu items.
+
 14-Feb-2010 Jean-Marie Simonet
 ^ $ Refactored extensions names in sql extension table and xmls to fit INI standards. Updated ini keys. 
 ^ Changing editors-xtd name. Updating more ini keys. Loading translation in Manage View.

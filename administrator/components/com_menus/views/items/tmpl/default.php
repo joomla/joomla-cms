@@ -90,6 +90,8 @@ $userId	= $user->get('id');
 		<tbody>
 		<?php
 		foreach ($this->items as $i => $item) :
+			$lang = &JFactory::getLanguage();
+			$lang->load($item->componentname, JPATH_ADMINISTRATOR);
 			$ordering = ($this->state->get('list.ordering') == 'a.lft');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
@@ -128,8 +130,8 @@ $userId	= $user->get('id');
 							echo $this->escape($item->type);
 							}
 							else {
-								echo $this->escape($item->componentname);
-								}
+								echo $this->escape(JText::_($item->componentname).'» ');
+							}
 						;?>
 				</td>
 				<td class="center">
