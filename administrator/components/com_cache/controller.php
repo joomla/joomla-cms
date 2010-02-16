@@ -75,7 +75,7 @@ class CacheController extends JController
 		$model = $this->getModel('cache');
 		$ret = $model->purge();
 
-		$msg = JText::_('EXPIRED_ITEMS_HAVE_BEEN_PURGED');
+		$msg = JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED');
 		$msgType = 'message';
 
 		if ($ret === false) {

@@ -16,19 +16,19 @@ defined('_JEXEC') or die;
 	<thead>
 		<tr>
 			<th class="title" width="10">
-				<?php echo JText::_('Num'); ?>
+				<?php echo JText::_('COM_CACHE_NUM'); ?>
 			</th>
 			<th width="20">
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->data);?>);" />
 			</th>
 			<th class="title" nowrap="nowrap">
-				<?php echo JText::_('CACHE_GROUP'); ?>
+				<?php echo JText::_('COM_CACHE_GROUP'); ?>
 			</th>
 			<th width="5%" align="center" nowrap="nowrap">
-				<?php echo JText::_('NUMBER_OF_FILES'); ?>
+				<?php echo JText::_('COM_CACHE_NUMBER_OF_FILES'); ?>
 			</th>
 			<th width="10%" align="center">
-				<?php echo JText::_('Size'); ?>
+				<?php echo JText::_('COM_CACHE_SIZE'); ?>
 			</th>
 		</tr>
 	</thead>

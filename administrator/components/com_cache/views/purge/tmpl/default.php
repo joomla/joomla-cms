@@ -16,15 +16,15 @@ defined('_JEXEC') or die;
 	<thead>
 		<tr>
 			<th>
-				<?php echo JText::_('PURGE_EXPIRED_ITEMS'); ?>
+				<?php echo JText::_('COM_CACHE_PURGE_EXPIRED_ITEMS'); ?>
 			</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td>
-			<p class="mod-purge-instruct"><?php echo JText::_('CACHE_PURGE_INSTRUCTIONS'); ?></p>
-			<p class="warning"><?php echo JText::_('CACHE_RESOURCE_INTENSIVE_WARNING'); ?></p>
+			<p class="mod-purge-instruct"><?php echo JText::_('COM_CACHE_PURGE_INSTRUCTIONS'); ?></p>
+			<p class="warning"><?php echo JText::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'); ?></p>
 			</td>
 		</tr>
 	</tbody>
