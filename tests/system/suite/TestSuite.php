@@ -22,8 +22,10 @@ require_once 'menus/menu0001Test.php';
 require_once 'articles/article0001Test.php';
 require_once 'com_users/user0001Test.php';
 require_once 'com_users/user0002Test.php';
+require_once 'com_users/group0001Test.php';
 require_once 'modules/module0001Test.php';
 require_once 'sample_data/sample_data0001Test.php';
+require_once 'acl/acl0001Test.php';
 
 class TestSuite
 {
@@ -44,8 +46,10 @@ class TestSuite
 		$suite->addTestSuite('Article0001');
 		$suite->addTestSuite('User0001Test');
 		$suite->addTestSuite('User0002Test');
+		$suite->addTestSuite('Group0001Test');
 		$suite->addTestSuite('Module0001');
 		$suite->addTestSuite('SampleData0001');
+		$suite->addTestSuite('Acl0001Test');
 
 		return $suite;
 	}

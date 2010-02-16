@@ -141,5 +141,28 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		echo "New user created\n";
 				
 	}
+	
+	function deleteTestUsers($partialName = 'My Test User')
+	{
+		echo "Back to User Manager.\n";
+	    $this->click("//img[@alt='User Manager']");
+	    $this->waitForPageToLoad("30000");
+	    
+	    echo "Filter on user name\n";
+	    $this->type("search", $partialName);
+	    $this->click("//button[@type='submit']");
+	    $this->waitForPageToLoad("30000");
+	  
+	    echo "Delete all users in view\n";
+	    $this->click("toggle");
+	    echo("Delete new user.\n");    
+	    $this->click("link=Delete");
+	    $this->waitForPageToLoad("30000");
+	    try {
+	    	$this->assertTrue($this->isTextPresent("item(s) successfully deleted."));
+	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
+	    	array_push($this->verificationErrors, $e->toString());
+	    }
+	}
 
 }
