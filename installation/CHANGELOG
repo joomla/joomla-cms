@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Feb-2010 Jean-Marie Simonet
+^ Refactoring com_checkin inis/keys. $ sprintf. Thanks Omar.
+
 15-Feb-2010
 # Allow Groups to be deleted correctly
 
