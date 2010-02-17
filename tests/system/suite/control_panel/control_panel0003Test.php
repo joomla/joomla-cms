@@ -64,11 +64,13 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 
 		print("Delete article from trash" . "\n");
 		$this->select("filter_published", "label=Trash");
+		$this->clickGo();
 		$this->waitForPageToLoad("30000");
 		$this->click("toggle");
 		$this->click("//li[@id='toolbar-delete']/a/span");
 		$this->waitForPageToLoad("30000");
 		$this->select("filter_published", "label=- Select State -");
+		$this->clickGo();
 		$this->waitForPageToLoad("30000");
 
 		print("Clear Article manager filter" . "\n");

@@ -164,5 +164,16 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	    	array_push($this->verificationErrors, $e->toString());
 	    }
 	}
+	/**
+	 * Tests for the presence of a Go button and clicks it if present.
+	 * Used for the hathor accessible template when filtering on lists in back end.
+	 *
+	 * @since	1.6
+	 */
+	function clickGo() {
+		if ($this->isElementPresent("filter-go")) {
+			$this->click("filter-go");
+		}
+	}
 
 }

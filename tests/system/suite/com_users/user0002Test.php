@@ -63,7 +63,7 @@ class User0002Test extends SeleniumJoomlaTestCase
 	$this->doAdminLogin();
 	
 	echo "Back to User Manager.\n";
-    $this->click("//img[@alt='User Manager']");
+    $this->click("link=User Manager");
     $this->waitForPageToLoad("30000");
     
     echo "Filter on user name\n";
