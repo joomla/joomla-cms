@@ -26,10 +26,20 @@ class SeleniumConfig
 	// Example: Your full URL to Joomla! is http://localhost/joomla_16/index.php
 	// then $path would be '/joomla_16/'
 	var $path = '/your_joomla_root/';
-
-	// set the admin login and password
+	
+	// set the database host, database username, database pasword, and database name
+	var $db_host = 'localhost';
+	var $db_user = 'root';
+	var $db_pass = 'password';
+	var $db_name = 'joomla-1-6_source';
+	
+	// set the site name
+	var $site_name = 'Joomla! 1.6 Source';
+	
+	// set the admin login, admin password, and admin email address
 	var $username = 'admin';
 	var $password = 'password';
+	var $admin_email = 'you@yourdomain.com';
 	
 	// this setting will use the default browser for your system
 	var $browser = '*chrome';

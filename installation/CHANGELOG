@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Feb-2010 Mark Dexter
 # Fix tests to work with hathor accessible admin template
++ New system test to install Joomla. Thanks Matt Thomas.
 
 17-Feb-2010 Jean-Marie Simonet
 ^ Refactored tpl_bluestork ini/keys
