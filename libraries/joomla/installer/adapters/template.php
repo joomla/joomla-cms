@@ -34,7 +34,7 @@ class JInstallerTemplate extends JAdapterInstance
 	{
 		$this->manifest = &$this->parent->getManifest();
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
-		$client = (string)$xml->attributes()->client;
+		$client = (string)$this->manifest->attributes()->client;
 		$extension = "tpl_$name";
 		$lang =& JFactory::getLanguage();
 		$source = $path;

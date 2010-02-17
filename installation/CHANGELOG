@@ -30,6 +30,7 @@ $ -> Language fix or change
 17-Feb-2010 Jean-Marie Simonet
 ^ Refactored tpl_bluestork ini/keys
 ^ Shortening code in mod_whosonline. Thanks Dennis.
+# Correcting bug in template installer adapter
 
 16-Feb-2010 Mark Dexter
 ^ New system tests for groups, ACL
