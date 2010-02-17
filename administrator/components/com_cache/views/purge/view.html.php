@@ -40,6 +40,6 @@ class CacheViewPurge extends JView
 			JToolBarHelper::preferences('com_cache');
 			JToolBarHelper::divider();
 		}
-		JToolBarHelper::help('screen.cache');
+		JToolBarHelper::help('screen.cache','JTOOLBAR_HELP');
 	}
 }

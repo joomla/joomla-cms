@@ -80,11 +80,11 @@ class MenusControllerMenus extends JController
 
 		if ($model->rebuild()) {
 			// Reorder succeeded.
-			$this->setMessage(JText::_('Menus_Rebuild_success'));
+			$this->setMessage(JText::_('JTOOLBAR_REBUILD_SUCCESS'));
 			return true;
 		} else {
 			// Rebuild failed.
-			$this->setMessage(JText::sprintf('Menus_Rebuild_failed', $model->getMessage()));
+			$this->setMessage(JText::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getMessage()));
 			return false;
 		}
 	}

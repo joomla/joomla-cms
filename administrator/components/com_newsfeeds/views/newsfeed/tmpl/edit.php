@@ -65,8 +65,11 @@ JHtml::_('behavior.keepalive');
 </div>
 
 <div class="width-40 fltrt">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('Newsfeeds_Options'); ?></legend>
+		<?php echo JHtml::_('sliders.start','newsfeed-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+
+		<?php echo JHtml::_('sliders.panel',JText::_('Newsfeeds_Options'), 'newsfeeds-options'); ?>
+
+	<fieldset class="panelform">
 
 			<?php echo $this->form->getLabel('numarticles'); ?>
 			<?php echo $this->form->getInput('numarticles'); ?>
@@ -89,6 +92,8 @@ JHtml::_('behavior.keepalive');
 		<?php endforeach; ?>
 
 	</fieldset>
+	
+	<?php echo JHtml::_('sliders.end'); ?>
 </div>
 
 <div class="clr"></div>

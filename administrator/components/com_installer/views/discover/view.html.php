@@ -25,9 +25,9 @@ class InstallerViewDiscover extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::custom('discover.install', 'config', 'config', 'Install', true, false);
-		JToolBarHelper::custom('discover.refresh', 'refresh', 'refresh','Discover',false,false);
-		JToolBarHelper::custom('discover.purge', 'purge', 'purge', 'PURGE_CACHE', false,false);
+		JToolBarHelper::custom('discover.install', 'config', 'config', 'JTOOLBAR_INSTALL', true, false);
+		JToolBarHelper::custom('discover.refresh', 'refresh', 'refresh','INSTALLER_TOOLBAR_DISCOVER',false,false);
+		JToolBarHelper::custom('discover.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false,false);
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.installer','JTOOLBAR_HELP');
 

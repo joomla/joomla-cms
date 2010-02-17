@@ -15,9 +15,9 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_content')) {
 	return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
 }
 
-// Include dependancies
+// Include dependencies
 jimport('joomla.application.component.controller');
 
 $controller = JController::getInstance('Content');
-$controller->execute(JRequest::getVar('task'));
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

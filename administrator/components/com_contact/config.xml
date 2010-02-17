@@ -5,6 +5,19 @@
 		group="contact"
 		label="Contact_Config_Individual_Contact_Display">
 		<field
+			name="show_contact_category"
+			type="list"
+			default="hide"
+			label="Com_Contact_Contact_Contact_Show_Category_Label"
+			description="Com_Contact_Contact_Contact_Show_Category_Desc">
+			<option
+				value="hide">JHide</option>
+			<option
+				value="show_no_link">COM_CONTACT_SHOW_CATEGORY_NO_LINK</option>
+			<option
+				value="show_with_link">COM_CONTACT_SHOW_CATEGORY_WITH_LINK</option>
+		</field>
+		<field
 			name="show_contact_list"
 			type="radio"
 			default="0"
@@ -411,7 +424,39 @@
 				value="1">Jcommon_Show</option>
 
 		</field>
-
+		<field
+			name="show_suburb_headings"
+			type="radio"
+			default="1"
+			label="Contact_Config_Suburb_Label"
+			description="Contact_Config_Suburb_Desc">
+			<option
+				value="0">Jcommon_Hide</option>
+			<option
+				value="1">Jcommon_Show</option>
+		</field>
+		<field
+			name="show_state_headings"
+			type="radio"
+			default="1"
+			label="Contact_Config_State_Label"
+			description="Contact_Config_State_Desc">
+			<option
+				value="0">Jcommon_Hide</option>
+			<option
+				value="1">Jcommon_Show</option>
+		</field>
+		<field
+			name="show_country_headings"
+			type="radio"
+			default="1"
+			label="Contact_Config_Country_Label"
+			description="Contact_Config_Country_Desc">
+			<option
+				value="0">Jcommon_Hide</option>
+			<option
+				value="1">Jcommon_Show</option>
+		</field>
 	</fields>
 	<fields
 		group="Contact_Form"
@@ -428,14 +473,6 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-
-		<field
-			name="email_description"
-			type="text"
-			size="30"
-			default=""
-			label="Contact_Email_Description_Text_Label"
-			description="Contact_Email_Description_Text_Desc" />
 
 		<field
 			name="show_email_copy"

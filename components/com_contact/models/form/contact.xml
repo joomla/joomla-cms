@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields>
 		<field
@@ -99,7 +99,7 @@
 			name="sortname2"
 			type="text"
 			label="Contact_sortName2_Label"
-			description="Contact_sortName2_Desc"
+			description="Contact_sortName3_Desc"
 			class="inputbox"
 			size="30"
 			required="" />
@@ -111,7 +111,7 @@
 			description="Contact_SortName3_Desc"
 			class="inputbox"
 			size="30"
-			required="" />
+			required="" />			
 		<field
 			id="language"
 			name="language"
@@ -391,22 +391,6 @@
 		label="Contact_Parameters">
 
 		<field
-			name="show_contact_category"
-			type="list"
-			default=""
-			label="COM_CONTACT_CONTACT_CONTACT_SHOW_CATEGORY_LABEL"
-			description="COM_CONTACT_CONTACT_CONTACT_SHOW_CATEGORY_DESC">
-			<option 
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="hide">JHide</option>
-			<option
-				value="show_no_link">COM_CONTACT_SHOW_CATEGORY_NO_LINK</option>
-			<option
-				value="show_with_link">COM_CONTACT_SHOW_CATEGORY_WITH_LINK</option>
-		</field>
-
-		<field
 			name="show_name"
 			type="list"
 			default=""
@@ -419,7 +403,7 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-		
+
 		<field
 			name="show_position"
 			type="list"
@@ -630,7 +614,7 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-		<field
+		<field 
 				id="show_profile"
 				name="show_profile"
 				type="list"
@@ -753,12 +737,12 @@
 			size="30"
 			default="" />
 	</fields>
-	<fields
+	<fields 
 		group="email_form"
 		label="Contact_Email_Form_Label"
 		array="true"
 		>
-
+	
 		<field
 			name="show_email_form"
 			type="list"
@@ -772,6 +756,14 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
+
+		<field
+			name="email_description"
+			type="text"
+			size="30"
+			default=""
+			label="Contact_Email_Description_Text_Label"
+			description="Contact_Email_Description_Text_Desc" />
 
 		<field
 			name="show_email_copy"
@@ -848,8 +840,7 @@
 			default=""
 			size="30"
 			label="Contact_Email_Redirect_LABEL"
-			description="Contact_Email_Redirect_DESC" />
-
-</fields>
-
+			description="Contact_Email_Redirect_DESC" />	
+	</fields>
 </form>
+	

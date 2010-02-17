@@ -28,7 +28,7 @@ if ($user->authorise('core.manage', 'com_users'))
 //
 if ($user->authorise('core.manage', 'com_menus'))
 {
-	$menu->addChild(new JMenuNode(JText::_('MENUS'), null, 'disabled'));
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), null, 'disabled'));
 }
 
 //

@@ -33,13 +33,16 @@ JHTML::_('behavior.modal');
 
 <div class="width-60 fltlft">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('Menus_Item_Details');?></legend>
+		<legend><?php echo JText::_('MENUS_ITEM_DETAILS');?></legend>
 
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
 
 			<?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?>
+
+			<?php echo $this->form->getLabel('note'); ?>
+			<?php echo $this->form->getInput('note'); ?>
 
 			<?php echo $this->form->getLabel('type'); ?>
 			<?php echo $this->form->getInput('type'); ?>
@@ -87,7 +90,7 @@ JHTML::_('behavior.modal');
 		<div class="clr"></div>
 
 		<?php if (!empty($this->modules)) : ?>
-			<?php echo JHtml::_('sliders.panel',JText::_('Menu_Item_Module_Assignment'), 'module-options'); ?>
+			<?php echo JHtml::_('sliders.panel',JText::_('MENU_ITEM_MODULE_ASSIGNMENT'), 'module-options'); ?>
 			<fieldset>
 				<?php echo $this->loadTemplate('modules'); ?>
 			</fieldset>

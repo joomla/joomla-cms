@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * Remind view class for Users.
+ * Registration view class for Users.
  *
  * @package		Joomla.Site
  * @subpackage	com_users
@@ -29,19 +29,11 @@ class UsersViewRemind extends JView
 	 */
 	function display($tpl = null)
 	{
-		$app	= &JFactory::getApplication();
-		$user	= &JFactory::getUser();
-
-		// If the user is logged in, send them to their profile.
-		if (!$user->get('guest')) {
-			$itemid = UsersHelperRoute::getProfileRoute();
-			$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
-			$app->redirect(JRoute::_('index.php?option=com_users&view=profile'.$itemid, false));
-			return false;
-		}
-
 		// Get the view data.
-		$form = &$this->get('RemindForm');
+		$form	= &$this->get('Form');
+		$data	= &$this->get('Data');
+		$state	= $this->get('State');
+		$params	= $state->get('params');
 
 		// Check for errors.
 		if (count($errors = &$this->get('Errors'))) {
@@ -49,8 +41,15 @@ class UsersViewRemind extends JView
 			return false;
 		}
 
+		// Bind the data to the form.
+		if ($form) {
+			$form->bind($data);
+		}
+
 		// Push the data into the view.
-		$this->assignRef('form', $form);
+		$this->assignRef('form',	$form);
+		$this->assignRef('data',	$data);
+		$this->assignRef('params',	$params);
 
 		parent::display($tpl);
 	}

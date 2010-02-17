@@ -17,6 +17,7 @@ JHtml::_('behavior.tooltip');
 $user	= &JFactory::getUser();
 $userId	= $user->get('id');
 ?>
+<?php //Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm">
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
@@ -33,7 +34,7 @@ $userId	= $user->get('id');
 
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Published');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.all'), true);?>
 			</select>
 
 			<select name="menutype" class="inputbox" onchange="this.form.submit()">
@@ -45,14 +46,10 @@ $userId	= $user->get('id');
 				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
 			</select>
 
-			<select name="filter_menutype" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JMenu_Option_Select_Menutype');?></option>
-				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
-			</select>
 		</div>
 	</fieldset>
 	<div class="clr"> </div>
-
+<?php //Set up the grid heading. ?>
 	<table class="adminlist">
 		<thead>
 			<tr>
@@ -60,23 +57,23 @@ $userId	= $user->get('id');
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_TITLE', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Published', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_PUBLISHED', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" class="nowrap">
-					<?php echo JText::_('JGrid_Heading_Ordering'); ?>
+					<?php echo JText::_('JGRID_HEADING_ORDERING'); ?>
 					<?php echo JHtml::_('grid.order',  $this->items); ?>
 				</th>
 				<th width="10%">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Access', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%">
-					<?php echo JText::_('JGrid_Heading_Menu_Item_Type'); ?>
+					<?php echo JText::_('JGRID_HEADING_MENU_ITEM_TYPE'); ?>
 				</th>
 				<th width="1%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.lft', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.lft', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>
@@ -87,6 +84,7 @@ $userId	= $user->get('id');
 				</td>
 			</tr>
 		</tfoot>
+		<?php // Grid layout ?>
 		<tbody>
 		<?php
 		foreach ($this->items as $i => $item) :
@@ -107,11 +105,12 @@ $userId	= $user->get('id');
 						<?php echo $this->escape($item->title); ?></a>
 
 					<?php if ($item->home == 1) : ?>
-						<span><?php echo JHTML::_('image', 'menu/icon-16-default.png', JText::_('Default'), array( 'title' => JText::_('Default')), true); ?></span>
+						<span><?php echo JHTML::_('image', 'menu/icon-16-default.png', JText::_('DEFAULT'), array( 'title' => JText::_('DEFAULT')), true); ?></span>
 					<?php endif; ?>
 
 					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
 								(<?php echo '<span>'.JText::_('JFIELD_ALIAS_LABEL') . ':</span> ' . $this->escape($item->alias) ;?>)</p>
+								
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'items.');?>
@@ -142,7 +141,7 @@ $userId	= $user->get('id');
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-
+<?php //Load the batch processing form. ?>
 	<?php echo $this->loadTemplate('batch'); ?>
 
 	<input type="hidden" name="task" value="" />

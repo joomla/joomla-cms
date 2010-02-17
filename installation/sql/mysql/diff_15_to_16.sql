@@ -202,6 +202,9 @@ ALTER TABLE `jos_categories`
  ADD COLUMN `path` VARCHAR(1024) NOT NULL DEFAULT '' AFTER `level`;
 
 ALTER TABLE `jos_categories`
+ ADD COLUMN `note` VARCHAR(255) NOT NULL DEFAULT '' AFTER `alias`;
+
+ALTER TABLE `jos_categories`
  ADD COLUMN `metadesc` VARCHAR(1024) NOT NULL COMMENT 'The meta description for the page.' AFTER `params`;
 
 ALTER TABLE `jos_categories`
@@ -269,13 +272,13 @@ UPDATE `jos_components` AS a
 
 -- ----------------------------------------------------------------
 -- jos_contact_details
--- ----------------------------------------------------------------  
+-- ----------------------------------------------------------------
  ALTER TABLE `#__contact_details`
   ADD COLUMN `sortname1` varchar(255) NOT NULL,
   ADD COLUMN `sortname2` varchar(255) NOT NULL,
   ADD COLUMN `sortname3` varchar(255) NOT NULL,
-  ADD COLUMN `language` varchar(10) NOT NULL;  
-  
+  ADD COLUMN `language` varchar(10) NOT NULL;
+
 -- ----------------------------------------------------------------
 -- jos_content
 -- ----------------------------------------------------------------
@@ -439,6 +442,9 @@ ALTER TABLE `jos_menu`
  MODIFY COLUMN `alias` VARCHAR(255) NOT NULL COMMENT 'The SEF alias of the menu item.';
 
 ALTER TABLE `jos_menu`
+ ADD COLUMN `note` VARCHAR(255) NOT NULL DEFAULT '' AFTER `alias`;
+
+ALTER TABLE `jos_menu`
  MODIFY COLUMN `link` VARCHAR(1024) NOT NULL COMMENT 'The actually link the menu item refers to.';
 
 ALTER TABLE `jos_menu`
@@ -512,7 +518,7 @@ ALTER TABLE `jos_menu_types`
 
 ALTER TABLE `jos_messages`
  CHANGE `subject` `subject` varchar(255) NOT NULL DEFAULT '';
- 
+
 ALTER TABLE `jos_messages`
  CHANGE `state` `state` tinyint(1) NOT NULL DEFAULT '0';
 
@@ -534,6 +540,9 @@ ALTER TABLE `jos_modules`
 
 ALTER TABLE `jos_modules`
  DROP `iscore`;
+
+ALTER TABLE `jos_modules`
+ ADD COLUMN `note` VARCHAR(255) NOT NULL DEFAULT '' AFTER `title`;
 
 ALTER TABLE `jos_modules`
  ADD COLUMN `language` CHAR(7) NOT NULL AFTER `client_id`;
@@ -584,9 +593,9 @@ ALTER TABLE `jos_newsfeeds`
 
 ALTER TABLE `jos_newsfeeds`
  ADD INDEX `idx_language` (`language`);
- 
-ALTER TABLE `jos_newsfeeds` 
-ADD `params` TEXT NOT NULL; 
+
+ALTER TABLE `jos_newsfeeds`
+ADD `params` TEXT NOT NULL;
 
 -- ----------------------------------------------------------------
 -- jos_plugins
@@ -619,7 +628,7 @@ ALTER TABLE `jos_session`
 
 ALTER TABLE `jos_session`
  MODIFY COLUMN `data` VARCHAR(20480);
- 
+
  -- ----------------------------------------------------------------
 -- Table structure for table `jos_social_comments`
 -- ----------------------------------------------------------------

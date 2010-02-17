@@ -16,9 +16,19 @@
 			default=""
 			size="35"
 			maxlength="100"
-			label="Modules_Field_Title_Label"
-			description="Modules_Field_Title_Desc"
+			label="MODULES_FIELD_TITLE_LABEL"
+			description="MODULES_FIELD_TITLE_DESC"
 			required="true" />
+
+		<field
+			name="note"
+			type="text"
+			class="inputbox"
+			default=""
+			size="35"
+			maxlength="100"
+			label="MODULES_FIELD_NOTE_LABEL"
+			description="MODULES_FIELD_NOTE_DESC" />
 
 		<field
 			name="module"
@@ -27,21 +37,21 @@
 			readonly="readonly"
 			default=""
 			size="20"
-			label="Modules_Field_Module_Label"
-			description="Modules_Field_Module_Desc" />
+			label="MODULES_FIELD_MODULE_LABEL"
+			description="MODULES_FIELD_MODULE_DESC" />
 
 		<field
 			name="showtitle"
 			type="list"
-			label="Modules_Field_Showtitle_Label"
-			description="Modules_Field_Showtitle_Desc"
+			label="MODULES_FIELD_SHOWTITLE_LABEL"
+			description="MODULES_FIELD_SHOWTITLE_DESC"
 			class="inputbox"
 			size="1"
 			default="1">
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 		</field>
 
 		<field
@@ -112,8 +122,8 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JField_Access_Label"
-			description="JField_Access_Desc"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
 			class="inputbox"
 			size="1"
 			default="" />
@@ -123,8 +133,8 @@
 			type="moduleorder"
 			class="inputbox"
 			default=""
-			label="JField_Ordering_Label"
-			description="JField_Ordering_Desc" />
+			label="JFIELD_ORDERING_LABEL"
+			description="JFIELD_ORDERING_DESC" />
 
 		<field
 			name="content"
@@ -138,11 +148,11 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JField_Language_Label"
-			description="JField_Module_Language_Desc"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="JFIELD_MODULE_LANGUAGE_DESC"
 			class="inputbox"
 			default="">
-			<option value="">JOption_Default_Language</option>
+			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
 		</field>
 
 		<field

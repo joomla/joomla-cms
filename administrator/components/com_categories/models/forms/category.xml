@@ -28,8 +28,8 @@
 		<field
 			name="parent_id"
 			type="categoryparent"
-			label="Categories_Parent_Label"
-			description="Categories_Parent_Desc"
+			label="CATEGORIES_PARENT_LABEL"
+			description="CATEGORIES_PARENT_DESC"
 			class="inputbox"/>
 
 		<field
@@ -50,8 +50,8 @@
 		<field
 			name="path"
 			type="text"
-			label="Categories_Path_Label"
-			description="Categories_Path_Desc"
+			label="CATEGORIES_PATH_LABEL"
+			description="CATEGORIES_PATH_DESC"
 			class="readonly"
 			size="40"
 			readonly="true"/>
@@ -59,8 +59,8 @@
 		<field
 			name="extension"
 			type="text"
-			label="Categories_Extension_Label"
-			description="Categories_Extension_Desc"
+			label="CATEGORIES_EXTENSION_LABEL"
+			description="CATEGORIES_EXTENSION_DESC"
 			class="readonly"
 			size="40"
 			readonly="true"/>
@@ -68,8 +68,8 @@
 		<field
 			name="title"
 			type="text"
-			label="JField_Title_Label"
-			description="JField_Title_Desc"
+			label="JFIELD_TITLE_LABEL"
+			description="JFIELD_TITLE_DESC"
 			class="inputbox"
 			size="40"
 			required="true"/>
@@ -77,16 +77,24 @@
 		<field
 			name="alias"
 			type="text"
-			label="JField_Alias_Label"
-			description="JField_Alias_Desc"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			class="inputbox"
+			size="40"/>
+
+		<field
+			name="note"
+			type="text"
+			label="JFIELD_NOTE_LABEL"
+			description="JFIELD_NOTE_DESC"
 			class="inputbox"
 			size="40"/>
 
 		<field
 			name="description"
 			type="editor"
-			label="Categories_Description_Label"
-			description="Categories_Description_Desc"
+			label="CATEGORIES_DESCRIPTION_LABEL"
+			description="CATEGORIES_DESCRIPTION_DESC"
 			class="inputbox"
 			buttons="readmore,pagebreak"/>
 
@@ -96,20 +104,20 @@
 			class="inputbox"
 			default="1"
 			size="1"
-			label="JField_Published_Label"
-			description="JField_Published_Desc">
+			label="JFIELD_PUBLISHED_LABEL"
+			description="JFIELD_PUBLISHED_DESC">
 			<option
 				value="1">
-				JOption_Published</option>
+				JOPTION_PUBLISHED</option>
 			<option
 				value="0">
-				JOption_UnPublished</option>
+				JOPTION_UNPUBLISHED</option>
 			<option
 				value="-1">
-				JOption_Archived</option>
+				JOPTION_ARCHIVED</option>
 			<option
 				value="-2">
-				JOption_Trashed</option>
+				JOPTION_TRASHED</option>
 		</field>
 
 		<field
@@ -125,15 +133,15 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JField_Access_Label"
-			description="JField_Access_Desc"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
 			class="inputbox"/>
 
 		<field
 			name="metadesc"
 			type="textarea"
-			label="JField_Meta_Description_Label"
-			description="JField_Meta_Description_Desc"
+			label="JFIELD_META_DESCRIPTION_LABEL"
+			description="JFIELD_META_DESCRIPTION_DESC"
 			default=""
 			rows="3"
 			cols="40"/>
@@ -141,8 +149,8 @@
 		<field
 			name="metakey"
 			type="textarea"
-			label="JField_Meta_Keywords_Label"
-			description="JField_Meta_Keywords_Desc"
+			label="JFIELD_META_KEYWORDS_LABEL"
+			description="JFIELD_META_KEYWORDS_DESC"
 			default=""
 			rows="3"
 			cols="40"/>
@@ -175,19 +183,19 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JField_Language_Label"
-			description="JField_Category_Language_Desc"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="JFIELD_CATEGORY_LANGUAGE_DESC"
 			class="inputbox"
 			default="">
-			<option value="">JOption_Default_Language</option>
+			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
 		</field>
 
 		<field
 			id="rules"
 			name="rules"
 			type="rules"
-			label="JField_Rules_Label"
-			description="JField_Rules_Desc"
+			label="JFIELD_RULES_LABEL"
+			description="JFIELD_RULES_DESC"
 			filter="rules"
 			class="inputbox"
 			component="com_content"

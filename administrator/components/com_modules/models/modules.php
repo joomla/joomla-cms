@@ -100,7 +100,7 @@ class ModulesModelModules extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.position, a.module, ' .
+				'a.id, a.title, a.note, a.position, a.module, ' .
 				'a.checked_out, a.checked_out_time, a.published, a.access, a.ordering, a.language'
 			)
 		);
@@ -161,7 +161,7 @@ class ModulesModelModules extends JModelList
 			else
 			{
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('a.title LIKE '.$search);
+				$query->where('('.'a.title LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
 		}
 

@@ -94,7 +94,7 @@ class CategoriesModelCategories extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.published, a.access' .
+				'a.id, a.title, a.alias, a.note, a.published, a.access' .
 				', a.checked_out, a.checked_out_time, a.created_user_id' .
 				', a.path, a.parent_id, a.level, a.lft, a.rgt'
 			)
@@ -141,7 +141,7 @@ class CategoriesModelCategories extends JModelList
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			} else {
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.')');
+				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
 		}
 

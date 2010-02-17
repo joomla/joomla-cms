@@ -193,4 +193,26 @@ class ContactModelCategories extends JModelList
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
+	
+	
+	public function getItems()
+	{
+		$items = parent::getItems();
+		if (!empty($items))
+		{
+			//$level = $items[0]->level;		
+			$itemcount = count($items);
+			for ($i=0;$i<$itemcount;$i++)
+			{
+				$item = &$items[$i];
+				$item->sclass		= ($i == 0) ? 'first' : '';
+				$item->sclass		= ($i == ($itemcount - 1)) ? 'last' : $item->sclass;
+ 				$item->deeper		= (isset($items[$i+1]) && ($item->level < $items[$i+1]->level));
+				$item->shallower	= (isset($items[$i+1]) && ($item->level > $items[$i+1]->level));
+				$item->level_diff	= (isset($items[$i+1])) ? ($item->level - $items[$i+1]->level) : 0;
+			}
+		}
+		return $items;
+	}
+	
 }

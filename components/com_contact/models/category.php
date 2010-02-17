@@ -112,7 +112,24 @@ class ContactModelCategory extends JModel
 	function getCategories($options=array())
 	{
 		$query	= $this->_getCategoriesQuery($options);
-		return $this->_getList($query, @$options['limitstart'], @$options['limit']);
+		try 
+		{
+			$result = $this->_getList($query, @$options['limitstart'], @$options['limit']);
+			
+			if ($error = $this->_db->getErrorMsg()) {
+				throw new Exception($error);
+			}
+			
+			if (empty($result)) {
+				throw new Exception(JText::_('Contact_Error_Contact_not_found'), 404);
+			}
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e);
+			return false;
+		}
+		return $result;
 	}
 
 	/**

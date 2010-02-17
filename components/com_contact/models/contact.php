@@ -124,7 +124,7 @@ class ContactModelContact extends JModel
 				' ORDER BY state DESC, created DESC' ;
 			$db->setQuery($query, 0, 10);
 			$articles = $db->loadObjectList();
-			$contact->articles=$articles;
+			$result->articles = $articles;
 
 			//get the profile information for the linked user
 			$query = 'SELECT user_id, profile_key, profile_value, ordering' .
@@ -134,7 +134,7 @@ class ContactModelContact extends JModel
 
 			$db->setQuery($query, 0, 10);
 			$profile = $db->loadObjectList();
-			$contact->profile=$profile;
+			$result->profile = $profile;
 		}
 
 		return $result;

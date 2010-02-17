@@ -73,7 +73,7 @@ class MenusControllerItems extends JController
 
 			// Remove the items.
 			if ($model->delete($pks)) {
-				$this->setMessage(JText::sprintf('JSuccess_N_items_deleted', $n));
+				$this->setMessage(JText::sprintf('JController_N_Items_deleted', count($pks)));
 			}
 			else {
 				$this->setMessage($model->getError());
@@ -107,18 +107,30 @@ class MenusControllerItems extends JController
 			// Get the model.
 			$model	= $this->getModel();
 
-			// Publish the items.
-			if ($model->publish($pks, $value)) {
-				$this->setMessage($value ? JText::_('JSuccess_N_items_published') : JText::_('JSuccess_N_items_unpublished'));
+					// Change the state of the records.
+			if (!$model->publish($pks, $value)) {
+				JError::raiseWarning(500, $model->getError());
 			}
-			else {
-				$this->setMessage($model->getError());
+
+			else
+			{
+				if ($value == 1) {
+					$text = 'JCONTROLLER_N_Items_published';
+				}
+				else if ($value == 0) {
+					$text = 'JController_N_Items_unpublished';
+				}
+				else {
+					$text = 'JController_N_Items_trashed';
+				}
+				$this->setMessage(JText::sprintf($text, count($pks)));
 			}
 		}
 
 		$this->setRedirect('index.php?option=com_menus&view=items');
+	
 	}
-
+	
 	/**
 	 * Method to reorder selected rows.
 	 *

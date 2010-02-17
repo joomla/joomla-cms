@@ -39,6 +39,6 @@ class InstallerViewInstall extends InstallerViewDefault
 	{
 		JToolBarHelper::preferences('com_installer');
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.installer');
+		JToolBarHelper::help('screen.installer','JTOOLBAR_HELP');
 	}
 }

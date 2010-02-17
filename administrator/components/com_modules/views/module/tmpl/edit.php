@@ -33,7 +33,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			submitform(task);
 		}
 		else {
-			alert('<?php echo $this->escape(JText::_('JValidation_Form_failed'));?>');
+			alert('<?php echo $this->escape(JText::_('JVALIDATION_FORM_FAILED'));?>');
 		}
 	}
 // -->
@@ -43,11 +43,14 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<?php if ($this->item->id) : ?>
-			<legend><?php echo JText::sprintf('JRecord_Number', $this->item->id); ?></legend>
+			<legend><?php echo JText::sprintf('JRECORD_NUMBER', $this->item->id); ?></legend>
 			<?php endif; ?>
 
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
+
+			<?php echo $this->form->getLabel('note'); ?>
+			<?php echo $this->form->getInput('note'); ?>
 
 			<?php echo $this->form->getLabel('module'); ?>
 			<?php echo $this->form->getInput('module'); ?>

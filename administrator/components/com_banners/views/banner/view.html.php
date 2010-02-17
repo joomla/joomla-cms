@@ -78,7 +78,7 @@ class BannersViewBanner extends JView
 			JToolBarHelper::custom('banner.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_Copy', false);
 		}
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('banner.cancel');
+			JToolBarHelper::cancel('banner.cancel','JTOOLBAR_CANCEL');
 		}
 		else {
 			JToolBarHelper::cancel('banner.cancel', 'JToolbar_Close');

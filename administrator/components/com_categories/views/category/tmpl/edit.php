@@ -34,13 +34,16 @@ JHtml::_('behavior.formvalidation');
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('Categories_Fieldset_Details');?></legend>
+			<legend><?php echo JText::_('CATEGORIES_FIELDSET_DETAILS');?></legend>
 
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
 
 			<?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?>
+
+			<?php echo $this->form->getLabel('note'); ?>
+			<?php echo $this->form->getInput('note'); ?>
 
 			<?php echo $this->form->getLabel('extension'); ?>
 			<?php echo $this->form->getInput('extension'); ?>
@@ -90,11 +93,11 @@ JHtml::_('behavior.formvalidation');
 			echo JHTML::_('sliders.end');
 		} ?>
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('Categories_Fieldset_Metadata'); ?></legend>
+			<legend><?php echo JText::_('CATEGORIES_FIELDSET_METADATA'); ?></legend>
 			<?php echo $this->loadTemplate('metadata'); ?>
 		</fieldset>
 		<fieldset>
-			<legend><?php echo JText::_('Categories_Fieldset_Rules');?></legend>
+			<legend><?php echo JText::_('CATEGORIES_FIELDSET_RULES');?></legend>
 				<?php echo $this->form->getLabel('rules'); ?>
 				<?php echo $this->form->getInput('rules'); ?>
 		</fieldset>

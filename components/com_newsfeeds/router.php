@@ -56,7 +56,7 @@ class NewsfeedsRoute
 		);
 
 		//Create the link
-		$link = 'index.php?option=com_newsfeeds&view=category&catid='.$catid;
+		$link = 'index.php?option=com_newsfeeds&view=category&id='.$catid;
 
 		if ($itemId = self::_findItemId($needles)) {
 			// TODO: The following should work automatically??

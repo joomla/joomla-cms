@@ -54,7 +54,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$rssDoc = &JFactory::getXMLparser('RSS', $options);
 
 		if ($rssDoc == false) {
-			$msg = JText::_('Error: Feed not retrieved');
+			$msg = JText::_('Error_Feed_not_retrieved');
 			$app->redirect('index.php?option=com_newsfeeds&view=category&id='. $newsfeed->catslug, $msg);
 			return;
 		}

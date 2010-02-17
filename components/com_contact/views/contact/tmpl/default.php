@@ -27,6 +27,19 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<span class="jcontact-name"><?php echo $this->contact->name; ?></span>
 		</h3>
 	<?php endif; ?>
+	<?php if ($this->params->get('show_contact_category') == 'show_no_link') : ?>
+		<h4>
+			<span class="jcontact-category"><?php echo $this->contact->category_name; ?></span>
+		</h4>
+	<?php endif; ?>
+	<?php if ($this->params->get('show_contact_category') == 'show_with_link') : ?>
+		<?php $contactLink = ContactRoute::category('index.php?option=com_contact&view=category&catid='.$this->escape($this->contact->catslug));?>
+		<h4>
+			<span class="jcontact-category"><a href="<?php echo $contactLink; ?>">
+				<?php echo $this->escape($this->contact->category_name); ?></a>
+			</span>
+		</h4>
+	<?php endif; ?>
 	<?php if ($this->contact->image && $this->params->get('show_image')) : ?>
 		<span class="jcontact-image">
 			<?php echo JHtml::_('image', 'images/'.$this->contact->image, JText::_('Contact'), array('align' => 'middle')); ?>
@@ -42,17 +55,11 @@ $cparams = JComponentHelper::getParams ('com_media');
 		</form>
 	<?php endif; ?>
 
-
-
 	<?php if ($this->contact->con_position && $this->params->get('show_position')) : ?>
 		<span class="jcontact-position"><?php echo $this->contact->con_position; ?></span>
 	<?php endif; ?>
 
-
-
 	<?php echo $this->loadTemplate('address'); ?>
-
-
 
 	<?php if ($this->params->get('allow_vcard')) :	//TODO either reimplement vcard or delete this.?>
 		<?php echo JText::_('Download information as a');?>

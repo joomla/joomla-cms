@@ -29,44 +29,11 @@ class UsersViewReset extends JView
 	 */
 	function display($tpl = null)
 	{
-		$app	= &JFactory::getApplication();
-		$user	= &JFactory::getUser();
-
-		// If the user is logged in, send them to their profile.
-		if (!$user->get('guest')) {
-			$itemid = UsersHelperRoute::getProfileRoute();
-			$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
-			$app->redirect(JRoute::_('index.php?option=com_users&view=profile'.$itemid, false));
-			return false;
-		}
-
-		// Get the appropriate form.
-		if ($this->_layout === 'confirm') {
-			$form = &$this->get('ResetConfirmForm');
-		}
-		elseif ($this->_layout === 'complete')
-		{
-			// Get the token and user id from the confirmation process.
-			$token	= $app->getUserState('com_users.reset.token', null);
-			$userId	= $app->getUserState('com_users.reset.user', null);
-
-			// Check the token and user id.
-			if (empty($token) || empty($userId)) {
-				JError::raiseError(403, JText::_('ALERTNOTAUTH'));
-				return false;
-			}
-
-			$form = &$this->get('ResetCompleteForm');
-		}
-		else {
-			$form = &$this->get('ResetRequestForm');
-		}
-
-		// Check the form.
-		if (JError::isError($form)) {
-			JError::raiseError(500, $form->getMessage());
-			return false;
-		}
+		// Get the view data.
+		$form	= &$this->get('Form');
+		$data	= &$this->get('Data');
+		$state	= $this->get('State');
+		$params	= $state->get('params');
 
 		// Check for errors.
 		if (count($errors = &$this->get('Errors'))) {
@@ -74,8 +41,15 @@ class UsersViewReset extends JView
 			return false;
 		}
 
+		// Bind the data to the form.
+		if ($form) {
+			$form->bind($data);
+		}
+
 		// Push the data into the view.
-		$this->assignRef('form', $form);
+		$this->assignRef('form',	$form);
+		$this->assignRef('data',	$data);
+		$this->assignRef('params',	$params);
 
 		parent::display($tpl);
 	}

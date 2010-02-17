@@ -8,11 +8,18 @@
  */
 
 defined('_JEXEC') or die;
+
+JHtml::_('behavior.mootools');
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.formvalidation');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&task=member.remind'); ?>" method="post" class="form-validate">
+<form id="member-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=remind.remind'); ?>" method="post" class="form-validate">
 
-<?php foreach ($this->form->getGroups() as $group): ?>
+	<?php
+	// Iterate through the form fieldsets and display each one.
+	foreach ($this->form->getFieldsets() as $group => $fieldset):
+	?>
 	<fieldset>
 		<dl>
 		<?php foreach ($this->form->getFields($group, $group) as $name => $field): ?>

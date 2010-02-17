@@ -63,7 +63,6 @@ class WeblinksViewForm extends JView
 		$this->assignRef('item',	$item);
 		$this->assignRef('form',	$form);
 		$this->assignRef('user',	$user);
-
 		$this->_prepareDocument();
 		parent::display($tpl);
 	}

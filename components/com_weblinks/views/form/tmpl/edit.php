@@ -17,8 +17,7 @@ JHtml::_('behavior.formvalidation');
 
 <script language="javascript" type="text/javascript">
 function submitbutton(task) {
-	if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
-		<?php //echo $this->form->fields['introtext']->editor->save('jform[introtext]'); ?>
+	if (task == 'weblink.cancel' OR document.formvalidator.isValid(document.id('adminForm'))) {
 		submitform(task);
 	}
 }
@@ -49,8 +48,9 @@ function submitbutton(task) {
 			<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink.'.$this->item->id)): ?>
 				<?php echo $this->form->getLabel('state'); ?>
 				<?php echo $this->form->getInput('state'); ?>
+				<br />				
 			<?php endif; ?>
-			<br />
+
 			<?php echo $this->form->getLabel('description'); ?>
 			<?php echo $this->form->getInput('description'); ?>
 	</fieldset>

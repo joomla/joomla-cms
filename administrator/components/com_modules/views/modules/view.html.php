@@ -59,17 +59,17 @@ class ModulesViewModules extends JView
 		if ($canDo->get('core.create')) {
 			//JToolBarHelper::addNew('module.add');
 			$bar = &JToolBar::getInstance('toolbar');
-			$bar->appendButton('Popup', 'new', 'New', 'index.php?option=com_modules&amp;view=select&amp;tmpl=component', 850, 400);
+			$bar->appendButton('Popup', 'new', 'JTOOLBAR_NEW', 'index.php?option=com_modules&amp;view=select&amp;tmpl=component', 850, 400);
 		}
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::editList('module.edit','JTOOLBAR_EDIT');
 		}
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JToolbar_Duplicate', true);
+			JToolBarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png','JTOOLBAR_DUPLICATE', true);
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::custom('modules.publish', 'publish.png', 'publish_f2.png', 'JToolbar_Enable', true);
-			JToolBarHelper::custom('modules.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JToolbar_Disable', true);
+			JToolBarHelper::custom('modules.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_ENABLE', true);
+			JToolBarHelper::custom('modules.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_DISABLE', true);
 		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'modules.delete','JTOOLBAR_EMPTY_TRASH');

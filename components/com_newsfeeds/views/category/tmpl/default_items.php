@@ -9,41 +9,48 @@
 
 // no direct access
 defined('_JEXEC') or die;
+
+JHtml::core();
+
+$n = count($this->items);
 ?>
-<script language="javascript" type="text/javascript">
-	function tableOrdering(order, dir, task) {
-	var form = document.adminForm;
 
-	form.filter_order.value = order;
-	form.filter_order_Dir.value	= dir;
-	document.adminForm.submit(task);
-}
-</script>
+<?php if (empty($this->items)) : ?>
+	<p> <?php echo JText::_('Newsfeed_No_Articles'); ?>	 </p>
+<?php else : ?>
 
-<form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()); ?>" method="post" name="adminForm">
-
-		<div class="limit-box">
-			<?php echo JText::_('DISPLAY_NUM') .'&nbsp;'; ?>
+<form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()->toString()); ?>" method="post" name="adminForm">
+	<fieldset class="filters">
+	<legend class="element-invisible"><?php echo JText::_('JContent_Filter_Label'); ?></legend>
+	<?php if ($this->params->get('show_pagination_limit')) : ?>
+		<div class="display-limit">
+			<?php echo JText::_('Display_Num'); ?>&nbsp;
 			<?php echo $this->pagination->getLimitBox(); ?>
 		</div>
+	<?php endif; ?>
+	</fieldset>
 
-		<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
-</form>
-
-	<table class="jlist-table">
-		<?php if ($this->params->def('show_headings', 1)) : ?>
-		<thead>
-			<tr>
-
-				<th class="item-num">
-					<?php echo JText::_('Num'); ?>
+	<table class="category">
+		<?php if ($this->params->get('show_headings')) : ?>
+		<thead><tr>
+				<?php if ($this->params->get('show_name')) : ?>
+				<th class="item-title" id="tableOrdering">
+					<?php echo JHtml::_('grid.sort',  JText::_('Feed_Name'), 'a.name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-
-				<th class="item-title">
-					<?php echo JHtml::_('grid.sort',  'News Feed', 'title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<?php endif; ?>
+				
+				<?php if ($this->params->get('show_articles')) : ?>
+				<th class="item-num-art" id="tableOrdering2">
+					<?php echo JHtml::_('grid.sort',  JText::_('Num_Articles'), 'a.numarticles', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
-
+				<?php endif; ?>
+				
+				<?php if ($this->params->get('show_link')) : ?>
+				<th class="item-link" id="tableOrdering3">
+					<?php echo JHtml::_('grid.sort',  JText::_('Feed_Link'), 'a.link', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				</th>
+				<?php endif; ?>
+				
 			</tr>
 		</thead>
 		<?php endif; ?>
@@ -52,22 +59,8 @@ defined('_JEXEC') or die;
 			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="<?php echo $i % 2 ? 'odd' : 'even';?>">
 
-					<?php if ($this->params->get('show_name')) : ?>
-						<td class="item-title">
-							<?php echo JText::_('Feed Name'); ?>
-						</td>
-					<?php endif; ?>
-
-					<?php  if ($this->params->get('show_articles')) : ?>
-						<td class="item-num-art">
-							<?php echo JText::_('Num Articles'); ?>
-						</td>
-					<?php  endif; ?>
-				</tr>
-
-				<tr>
 					<td class="item-title">
-						<a href="<?php echo $item->link; ?>">
+						<a href="<?php echo JRoute::_('index.php?option=com_newsfeeds&view=newsfeed&id='. $item->id); ?>">
 							<?php echo $item->name; ?></a>
 					</td>
 
@@ -76,15 +69,30 @@ defined('_JEXEC') or die;
 							<?php echo $item->numarticles; ?>
 						</td>
 					<?php  endif; ?>
+					
+					<?php  if ($this->params->get('show_link')) : ?>
+						<td class="item-link">
+							<a href="<?php echo $item->link; ?>"><?php echo $item->link; ?></a>
+						</td>
+					<?php  endif; ?>
 
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
 
-	<div class="jpagination">
-		<?php echo $this->pagination->getPagesLinks(); ?>
-		<div class="jpag-results">
-			<?php echo $this->pagination->getPagesCounter(); ?>
+	<?php if ($this->params->get('show_pagination')) : ?>
+	 <div class="pagination">
+	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
+						<p class="counter">
+							<?php echo $this->pagination->getPagesCounter(); ?>
+						</p>
+   <?php endif; ?>
+			<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
-	</div>
+	<?php endif; ?>
+	
+		<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
+</form>
+<?php endif; ?>

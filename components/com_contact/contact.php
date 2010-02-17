@@ -14,5 +14,5 @@ jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT.DS.'router.php';
 
 $controller = JController::getInstance('Contact');
-$controller->execute(JRequest::getVar('task'));
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

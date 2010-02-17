@@ -12,9 +12,9 @@
 			description="Content_Attribs_Show_Category_Desc"
 			default="1">
 			<option
-				value="0">Hide</option>
+				value="0">JCommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">JCommon_Show</option>
 		</field>
 
 		<field
@@ -60,9 +60,9 @@
 			label="Content_Attribs_Show_Intro_Label"
 			description="Content_Attribs_Show_Intro_Desc">
 			<option
-				value="0">Hide</option>
+				value="0">JCommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">JCommon_Show</option>
 		</field>
 
 		<field
@@ -78,9 +78,9 @@
 			description="Content_Attribs_Show_Author_Desc"
 			default="1">
 			<option
-				value="0">Hide</option>
+				value="0">JCommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">JCommon_Show</option>
 		</field>
 
 		<field
@@ -90,9 +90,9 @@
 			description="Content_Attribs_Show_Create_Date_Desc"
 			default="1">
 			<option
-				value="0">Hide</option>
+				value="0">JCommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">JCommon_Show</option>
 		</field>
 
 		<field
@@ -102,9 +102,9 @@
 			description="Content_Attribs_Show_Modify_Date_Desc"
 			default="1">
 			<option
-				value="0">Hide</option>
+				value="0">JCommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">JCommon_Show</option>
 		</field>
 
 		<field
@@ -114,9 +114,9 @@
 			description="Content_Attribs_Show_Publish_Date_Desc"
 			default="1">
 			<option
-				value="0">Hide</option>
+				value="0">JCommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">JCommon_Show</option>
 		</field>
 
 		<field
@@ -126,9 +126,9 @@
 			description="Content_Attribs_Show_Navigation_Desc"
 			default="1">
 			<option
-				value="0">Hide</option>
+				value="0">JCommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">JCommon_Show</option>
 		</field>
 
 		<field
@@ -138,9 +138,9 @@
 			description="Content_Attribs_Show_Readmore_Desc"
 			default="1">
 			<option
-				value="0">Hide</option>
+				value="0">JCommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">JCommon_Show</option>
 		</field>
 
 		<field
@@ -155,9 +155,9 @@
 			description="Content_Attribs_Show_Icons_Desc"
 			default="1">
 			<option
-				value="0">Hide</option>
+				value="0">JCommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">JCommon_Show</option>
 		</field>
 
 		<field
@@ -167,9 +167,9 @@
 			description="Content_Attribs_Show_Print_Icon_Desc"
 			default="1">
 			<option
-				value="0">Hide</option>
+				value="0">JCommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">JCommon_Show</option>
 		</field>
 
 		<field
@@ -179,9 +179,9 @@
 			description="Content_Attribs_Show_Email_Icon_Desc"
 			default="1">
 			<option
-				value="0">Hide</option>
+				value="0">JCommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">JCommon_Show</option>
 		</field>
 
 		<field
@@ -191,9 +191,9 @@
 			description="Content_Attribs_Show_Hits_Desc"
 			default="1">
 			<option
-				value="0">Hide</option>
+				value="0">JCommon_Hide</option>
 			<option
-				value="1">Show</option>
+				value="1">JCommon_Show</option>
 		</field>
 
 	</fields>
@@ -246,6 +246,17 @@
 				value="0">Down</option>
 			<option
 				value="1">Across</option>
+		</field>
+		
+		<field
+			name="show_pagination"
+			type="list"
+			default="2"
+			label="Content_Attribs_Pagination_Label"
+			description="Content_Attribs_Pagination_Desc">
+				<option value="0">JCommon_Hide</option>
+				<option value="1">JCommon_Show</option>
+				<option value="2">JCommon_Auto</option>
 		</field>
 
 		<field
@@ -469,16 +480,6 @@
 				<option value="created">Created</option>
 				<option value="modified">Modified</option>
 				<option value="published">Published</option>
-		</field>
-
-		<field
-			name="show_pagination"
-			type="radio"
-			default="1"
-			label="Content_Attribs_Pagination_Label"
-			description="Content_Attribs_Pagination_Desc">
-				<option value="0">JCommon_Hide</option>
-				<option value="1">JCommon_Show</option>
 		</field>
 
 		<field

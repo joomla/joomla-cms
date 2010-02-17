@@ -45,6 +45,6 @@ class CheckinViewCheckin extends JView
 			JToolBarHelper::preferences('com_checkin');
 			JToolBarHelper::divider();
 		}
-		JToolBarHelper::help('screen.checkin');
+		JToolBarHelper::help('screen.checkin','JTOOLBAR_HELP');
 	}
 }

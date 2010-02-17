@@ -57,14 +57,14 @@ class TemplatesViewStyles extends JView
 		$isSite	= ($state->get('filter.client_id') == 0);
 
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('style.edit');
+			JToolBarHelper::editList('style.edit','JTOOLBAR_EDIT');
 		}
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::custom('styles.sethome', 'default.png', 'default_f2.png', 'Templates_Toolbar_Set_Home', true);
 		}
 		JToolBarHelper::title(JText::_('Templates_Manager_Styles'), 'thememanager');
 		if ($canDo->get('core.create') && $isSite) {
-			JToolBarHelper::addNew('styles.duplicate', 'Templates_Toolbar_Save_Copy');
+			JToolBarHelper::addNew('styles.duplicate', 'JTOOLBAR_DUPLICATE');
 		}
 		if ($canDo->get('core.delete') && $isSite) {
 			JToolBarHelper::deleteList('', 'styles.delete','JTOOLBAR_TRASH');

@@ -77,6 +77,22 @@
 		description="">
 
 		<field
+			name="show_contact_category"
+			type="list"
+			default=""
+			label="Com_Contact_Contact_Contact_Show_Category_Label"
+			description="Com_Contact_Contact_Contact_Show_Category_Desc">
+			<option 
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="hide">JHide</option>
+			<option
+				value="show_no_link">COM_CONTACT_SHOW_CATEGORY_NO_LINK</option>
+			<option
+				value="show_with_link">COM_CONTACT_SHOW_CATEGORY_WITH_LINK</option>
+		</field>
+		
+		<field
 			name="show_contact_list"
 			type="list"
 			default=""
@@ -395,15 +411,7 @@
 			<option
 				value="1">Jcommon_Show</option>
 		</field>
-
-		<field
-			name="email_description"
-			type="text"
-			size="30"
-			default=""
-			label="Contact_Email_Description_Text_Label"
-			description="Contact_Email_Description_Text_Desc" />
-
+		
 		<field
 			name="show_email_copy"
 			type="list"

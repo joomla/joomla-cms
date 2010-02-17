@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		
  * @package		Joomla.Site
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -11,132 +11,57 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
-jimport('joomla.plugin.helper');
-
 /**
- * User model class for Users.
+ * Rest model class for Users.
  *
  * @package		Joomla.Site
  * @subpackage	com_users
  * @version		1.0
  */
-class UsersModelUser extends JModelForm
+
+class UsersModelReset extends JModelForm
 {
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * @since	1.6
-	 */
-	protected function _populateState($property = null, $default = null)
+	protected function _populateState()
 	{
 		// Get the application object.
 		$app	= &JFactory::getApplication();
-		$user	= &JFactory::getUser();
 		$params	= &$app->getParams('com_users');
-
-		// Get the member id.
-		$memberId = JRequest::getInt('member_id', $app->getUserState('com_users.edit.profile.id'));
-		$memberId = !empty($memberId) ? $memberId : (int)$user->get('id');
-
-		// Set the member id.
-		$this->setState('member.id', $memberId);
 
 		// Load the parameters.
 		$this->setState('params', $params);
-	}
-
-	/**
-	 * Method to get the login form.
-	 *
-	 * The base form is loaded from XML and then an event is fired
-	 * for users plugins to extend the form with extra fields.
-	 *
-	 * @access	public
-	 * @param	string	$type	The type of form to load (view, model);
-	 * @return	mixed	JForm object on success, false on failure.
-	 * @since	1.0
-	 */
-	function &getLoginForm()
-	{
-		// Set the form loading options.
-		$options = array(
-			'array' => false,
-			'event' => 'onPrepareUsersLoginForm',
-			'group' => 'users'
-		);
-
-		// Get the form.
-		$form = $this->getForm('login', 'com_users.login', $options);
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			return $form;
-		}
-
-		// Check the session for previously entered login form data.
-		$app = &JFactory::getApplication();
-		$data = $app->getUserState('users.login.form.data', array());
-
-		// check for return URL from the request first
-		if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
-			$data['return'] = base64_decode($return);
-			if (!JURI::isInternal($data['return'])) {
-				$data['return'] = '';
-			}
-		}
-
-		// Set the return URL if empty.
-		if (!isset($data['return']) || empty($data['return'])) {
-			$data['return'] = 'index.php?option=com_users&view=profile';
-		}
-		$app->setUserState('users.login.form.data', $data);
-
-		// Bind the form data if present.
-		if (!empty($data)) {
-			$form->bind($data);
-		}
-
-		return $form;
-	}
-
-	/**
-	 * Method to get the username remind request form.
-	 *
-	 * @access	public
-	 * @return	object	JForm object on success, JException on failure.
-	 * @since	1.0
-	 */
-	function &getRemindForm()
-	{
-		// Set the form loading options.
-		$options = array(
-			'array' => true,
-			'event' => 'onPrepareUsersRemindForm',
-			'group' => 'users'
-		);
-
-		// Get the form.
-		return $this->getForm('remind', 'com_users.remind', $options);
-	}
-
-	/**
+	}	
+		/**
 	 * Method to get the password reset request form.
 	 *
 	 * @access	public
 	 * @return	object	JForm object on success, JException on failure.
 	 * @since	1.0
 	 */
-	function &getResetRequestForm()
+	function &getForm()
 	{
-		// Set the form loading options.
-		$options = array(
-			'array' => true,
-			'event' => 'onPrepareUsersResetRequestForm',
-			'group' => 'users'
-		);
-
 		// Get the form.
-		return $this->getForm('reset_request', 'com_users.reset_request', $options);
+		$form = parent::getForm('reset_request', 'com_users.reset_request', array('array' => 'jform', 'event' => 'onPrepareForm'));
+
+		// Check for an error.
+		if (JError::isError($form)) {
+			$this->setError($form->getMessage());
+			return false;
+		}
+
+		// Get the dispatcher and load the users plugins.
+		$dispatcher	= &JDispatcher::getInstance();
+		JPluginHelper::importPlugin('users');
+
+		// Trigger the form preparation event.
+		$results = $dispatcher->trigger('onPrepareUserResetRequestForm', array(&$form));
+
+		// Check for errors encountered while preparing the form.
+		if (count($results) && in_array(false, $results, true)) {
+			$this->setError($dispatcher->getError());
+			return false;
+		}
+
+		return $form;
 	}
 
 	/**
@@ -178,96 +103,6 @@ class UsersModelUser extends JModelForm
 		// Get the form.
 		return $this->getForm('reset_complete', 'com_users.reset_complete', $options);
 	}
-
-	function processRemindRequest($data)
-	{
-		// Get the form.
-		$form = &$this->getRemindForm();
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			return $form;
-		}
-
-		// Validate the data.
-		$data = $this->validate($form, $data);
-
-		// Check the validator results.
-		if (JError::isError($data) || $data === false) {
-			return $data;
-		}
-
-		// Find the user id for the given e-mail address.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
-		$query->select('*');
-		$query->from('`#__users`');
-		$query->where('`email` = '.$db->Quote($data['email']));
-
-		// Get the user id.
-		$db->setQuery((string) $query);
-		$user = $db->loadObject();
-
-		// Check for an error.
-		if ($db->getErrorNum()) {
-			return new JException(JText::sprintf('USERS_DATABASE_ERROR', $db->getErrorMsg()), 500);
-		}
-
-		// Check for a user.
-		if (empty($user)) {
-			$this->setError(JText::_('USERS_USER_NOT_FOUND'));
-			return false;
-		}
-
-		// Make sure the user isn't blocked.
-		if ($user->block) {
-			$this->setError(JText::_('USERS_USER_BLOCKED'));
-			return false;
-		}
-
-		$config	= &JFactory::getConfig();
-
-		// Assemble the login link.
-		$itemid = UsersHelperRoute::getLoginRoute();
-		$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
-		$link	= 'index.php?option=com_users&view=login'.$itemid;
-		$mode	= $config->getValue('force_ssl', 0) == 2 ? 1 : -1;
-
-		// Put together the e-mail template data.
-		$data = JArrayHelper::fromObject($user);
-		$data['fromname']	= $config->getValue('fromname');
-		$data['mailfrom']	= $config->getValue('mailfrom');
-		$data['sitename']	= $config->getValue('sitename');
-		$data['link_text']	= JRoute::_($link, false, $mode);
-		$data['link_html']	= JRoute::_($link, true, $mode);
-
-		// Load the mail template.
-		jimport('joomla.utilities.simpletemplate');
-		$template = new JSimpleTemplate();
-
-		if (!$template->load('users.username.remind.request')) {
-			return new JException(JText::_('USERS_REMIND_MAIL_TEMPLATE_NOT_FOUND'), 500);
-		}
-
-		// Push in the email template variables.
-		$template->bind($data);
-
-		// Get the email information.
-		$toEmail	= $user->email;
-		$subject	= $template->getTitle();
-		$message	= $template->getHtml();
-
-		// Send the password reset request e-mail.
-		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $toEmail, $subject, $message);
-
-		// Check for an error.
-		if ($return !== true) {
-			return new JException(JText::_('USERS_MAIL_FAILED'), 500);
-		}
-
-		return true;
-	}
-
 	/**
 	 * Method to start the password reset process.
 	 */

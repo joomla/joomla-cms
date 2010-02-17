@@ -47,7 +47,7 @@ class UsersControllerRegistration extends UsersController
 
 		// Check that the token is in a valid format.
 		if ($token === null || strlen($token) !== 32) {
-			JError::raiseError(403, JText::_('USERS ACTIVATION INVALID TOKEN'));
+			JError::raiseError(403, JText::_('JInvalid_TOKEN'));
 			return false;
 		}
 
@@ -58,13 +58,13 @@ class UsersControllerRegistration extends UsersController
 		if ($return === false)
 		{
 			// Redirect back to the homepage.
-			$this->setMessage(JText::sprintf('USERS ACTIVATION SAVE FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'notice');
 			$this->setRedirect('index.php');
 			return false;
 		}
 
 		// Redirect to the login screen.
-		$this->setMessage(JText::_('USERS ACTIVATION SAVE SUCCESS'));
+		$this->setMessage(JText::_('USERS_REGISTRATION_SAVE_SUCCESS'));
 		$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
 		return true;
 	}
@@ -131,7 +131,7 @@ class UsersControllerRegistration extends UsersController
 			$app->setUserState('com_users.registration.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('USERS REGISTRATION SAVE FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('USERS_REGISTRATION_SAVE_SUCCESS', $model->getError()), 'notice');
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
 			return false;
 		}
@@ -140,7 +140,7 @@ class UsersControllerRegistration extends UsersController
 		$app->setUserState('com_users.registration.data', null);
 
 		// Redirect to the profile screen.
-		$this->setMessage(JText::_('USERS REGISTRATION SAVE SUCCESS'));
+		$this->setMessage(JText::_('USERS_REGISTRATION_SAVE_SUCCESS'));
 		$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
 
 		return true;

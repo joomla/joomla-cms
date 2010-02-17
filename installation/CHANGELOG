@@ -29,7 +29,19 @@ $ -> Language fix or change
 
 17-Feb-2010 Mark Dexter
 # Fix tests to work with hathor accessible admin template
-+ New system test to install Joomla. Thanks Matt Thomas.
++ New system test to install Joomla (Matt Thomas)
+# Fixes to sample data (Elin Waring)
+# Misc. language file fixes
+^ Newsfeed fixes (Andrea Tarr)
+^ MediaManager fixes (Elin Waring)
+^ Delete unused files and unused code (Elin Waring)
+# Misc. com_contact fixes
+# Toolbar fixes (Elin Waring)
+# Fix routing problems in com_contact (Elin Waring)
+# Admin approval language strings (Airton Torres)
+^ Refactor com_users layouts and models (Elin Waring)
+^ Added properties to contact categories for nested set output (Robert Deutz)
+^ Change JRequest::getVar to getCmd in misc. places (Elin Waring)
 
 17-Feb-2010 Jean-Marie Simonet
 ^ Refactored tpl_bluestork ini/keys

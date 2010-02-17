@@ -16,5 +16,5 @@ require_once JPATH_COMPONENT.DS.'router.php';
 require_once(JPATH_COMPONENT.DS.'helpers'.DS.'query.php');
 
 $controller = JController::getInstance('Content');
-$controller->execute(JRequest::getVar('task'));
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

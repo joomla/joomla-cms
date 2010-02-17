@@ -23,7 +23,7 @@ $menu->addChild(
 $menu->addSeparator();
 
 if ($user->authorise('core.admin')) {
-	$menu->addChild(new JMenuNode(JText::_('CONFIGURATION'), 'index.php?option=com_config', 'class:config'));
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_CONFIGURATION'), 'index.php?option=com_config', 'class:config'));
 	$menu->addSeparator();
 }
 

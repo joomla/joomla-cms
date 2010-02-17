@@ -14,7 +14,7 @@
 			name="title"
 			type="text"
 			label="MENUS_ITEM_TITLE_LABEL"
-			description="Menus_Item_Title_Desc"
+			description="MENUS_ITEM_TITLE_DESC"
 			class="inputbox"
 			size="40"
 			required="true"/>
@@ -22,8 +22,17 @@
 		<field
 			name="alias"
 			type="alias"
-			label="JField_Alias_Label"
-			description="Menus_Item_Alias_Desc"
+			label="JFIELD_ALIAS_LABEL"
+			description="MENUS_ITEM_ALIAS_DESC"
+			default=""
+			class="inputbox"
+			size="40"/>
+
+		<field
+			name="note"
+			type="text"
+			label="JFIELD_NOTE_LABEL"
+			description="MENUS_ITEM_NOTE_DESC"
 			default=""
 			class="inputbox"
 			size="40"/>
@@ -31,8 +40,8 @@
 		<field
 			name="link"
 			type="link"
-			label="Menus_Item_Link_Label"
-			description="Menus_Item_Link_Desc"
+			label="MENUS_ITEM_LINK_LABEL"
+			description="MENUS_ITEM_LINK_DESC"
 			default=""
 			class="inputbox"
 			size="50"/>
@@ -40,8 +49,8 @@
 		<field
 			name="menutype"
 			type="menu"
-			label="Menus_Menu_Assigned_Label"
-			description="Menus_Menu_Assigned_Desc"
+			label="MENUS_MENU_ASSIGNED_LABEL"
+			description="MENUS_MENU_ASSIGNED_DESC"
 			class="inputbox"
 			default=""
 			required="true"
@@ -49,8 +58,8 @@
 		<field
 			name="type"
 			type="menutype"
-			label="Menus_Item_Type_Label"
-			description="Menus_Item_Type_Desc"
+			label="MENUS_ITEM_TYPE_LABEL"
+			description="MENUS_ITEM_TYPE_DESC"
 			default=""
 			class="inputbox"
 			required="true"
@@ -61,29 +70,29 @@
 			type="list"
 			id="published"
 			class="inputbox"
-			label="JField_Published_Label"
-			description="JField_Published_Desc"
+			label="JFIELD_PUBLISHED_LABEL"
+			description="JFIELD_PUBLISHED_DESC"
 			size="1"
 			default="1"
 			filter="integer">
 			<option
 				value="1">
-				JOption_Published</option>
+				JOPTION_PUBLISHED</option>
 			<option
 				value="0">
-				JOption_UnPublished</option>
+				JOPTION_UNPUBLISHED</option>
 
 			<option
 				value="-2">
-				JOption_Trashed</option>
+				JOPTION_TRASHED</option>
 		</field>
 
 		<field
 			name="parent_id"
 			type="menuparent"
-			label="Menus_Item_Parent_Label"
-			description="Menus_Item_Parent_Desc"
-			default="Menu_Item_Root"
+			label="MENUS_ITEM_PARENT_LABEL"
+			description="MENUS_ITEM_PARENT_DESC"
+			default="MENU_ITEM_ROOT"
 			filter="int"
 			class="inputbox"
 			size="1"/>
@@ -96,8 +105,8 @@
 		<field
 			name="ordering"
 			type="ordering"
-			label="JField_Ordering_Label"
-			description="JField_Ordering_Desc"
+			label="JFIELD_ORDERING_LABEL"
+			description="JFIELD_ORDERING_DESC"
 			default=""
 			filter="int"
 			class="inputbox"/>
@@ -105,14 +114,14 @@
 		<field
 			name="browserNav"
 			type="list"
-			label="Menus_Item_BrowserNav_Label"
-			description="Menus_Item_BrowserNav_Desc"
+			label="MENUS_ITEM_BROWSERNAV_LABEL"
+			description="MENUS_ITEM_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
 			class="inputbox">
-				<option value="0">Menus_BrowserNav_Option_Parent</option>
-				<option value="1">Menus_BrowserNav_Option_New_With_Nav</option>
-				<option value="2">Menus_BrowserNav_Option_New_Without_Nav</option>
+				<option value="0">MENUS_BROWSERNAV_OPTION_PARENT</option>
+				<option value="1">MENUS_BROWSERNAV_OPTION_NEW_WITH_NAV</option>
+				<option value="2">MENUS_BROWSERNAV_OPTION_NEW_WITHOUT_NAV</option>
 			</field>
 
 		<field
@@ -120,8 +129,8 @@
 			type="accesslevel"
 			id="access"
 			class="inputbox"
-			label="JField_Access_Label"
-			description="JField_Access_Desc"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
 			default="1"
 			filter="integer"/>
 
@@ -129,8 +138,8 @@
 		<field
 			name="template_style_id"
 			type="templatestyle"
-			label="Menus_Item_Template_Label"
-			description="Menus_Item_Template_Desc"
+			label="MENUS_ITEM_TEMPLATE_LABEL"
+			description="MENUS_ITEM_TEMPLATE_DESC"
 			default=""
 			filter="int"
 			class="inputbox">
@@ -140,8 +149,8 @@
 		<field
 			name="params"
 			type="textarea"
-			label="JCommon_params_Label"
-			description="Menus_Item_Params_Desc"
+			label="JCOMMON_PARAMS_LABEL"
+			description="MENUS_ITEM_PARAMS_DESC"
 			default=""
 			rows="3"
 			cols="60"
@@ -150,15 +159,15 @@
 		<field
 			name="home"
 			type="radio"
-			label="Menus_Item_Home_Label"
-			description="Menus_Item_Home_Desc"
+			label="MENUS_ITEM_HOME_LABEL"
+			description="MENUS_ITEM_HOME_DESC"
 			default="0"
 			class="inputbox"
 			filter="integer">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 
 		<field

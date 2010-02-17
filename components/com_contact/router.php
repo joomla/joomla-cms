@@ -151,16 +151,21 @@ function ContactBuildRoute(&$query){
 		unset($query['id']);
 	}
 
-	if (isset($view) and $view == 'category') {
+	if (isset($view) and $view == 'category' and JRequest::getCmd('view')=='categories') {
+		if ($mId != intval($query['catid']) || $mView != $view) {
+			$segments[] = $query['catid'];
+		}
+		unset($query['catid']);
+	}
+	if (isset($view) and $view == 'category' and JRequest::getCmd('view') !='categories' ) {
 		if ($mId != intval($query['id']) || $mView != $view) {
 			$segments[] = $query['id'];
 		}
 		unset($query['id']);
 	}
-
 	if (isset($query['catid'])) {
 		// if we are routing a contact or category where the category id matches the menu catid, don't include the category segment
-		if ((($view == 'article') and ($mView != 'category') and ($mView != 'article') and ($mCatid != intval($query['catid'])))) {
+		if ((($view == 'contact') and ($mView != 'category') and ($mView != 'article') and ($mCatid != intval($query['catid'])))) {
 			$segments[] = $query['catid'];
 		}
 		unset($query['catid']);
