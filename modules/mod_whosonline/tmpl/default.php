@@ -11,19 +11,11 @@
 defined('_JEXEC') or die;
 
 
-if ($count['guest'] <= 1) {
-$guest = JText::_('MOD_WHOSONLINE_GUEST');
-} else if ($count['guest'] > 1) {
-$guest = JText::_('MOD_WHOSONLINE_GUESTS');}
-
-if ($count['user'] <= 1) {
-$member = JText::_('MOD_WHOSONLINE_MEMBER');
-} else if ($count['user'] > 1) {
-$member = JText::_('MOD_WHOSONLINE_MEMBERS');}
-
+$guest = JText::sprintf(($count['guest'] == 1) ? 'MOD_WHOSONLINE_GUEST' : 'MOD_WHOSONLINE_GUESTS', $count['guest']);
+$member = JText::sprintf(($count['user'] == 1) ? 'MOD_WHOSONLINE_MEMBER' : 'MOD_WHOSONLINE_MEMBERS', $count['user']);
 
 if ($showmode == 0 || $showmode == 2) :
-	echo JText::sprintf('MOD_WHOSONLINE_WE_HAVE', $guest, $count['guest'], $member, $count['user']);
+	echo JText::sprintf('MOD_WHOSONLINE_WE_HAVE', $guest, $member);
 endif;
 
 if (($showmode > 0) && count($names)) : ?>
