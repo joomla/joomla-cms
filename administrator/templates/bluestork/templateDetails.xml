@@ -12,7 +12,7 @@
 	<copyright>2009 - 2010</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>0.6</version>
-	<description>BLUESTORK_DESC</description>
+	<description>TPL_BLUESTORK_XML_DESCRIPTION</description>
 	<files>
 		<filename>index.php</filename>
 		<filename>login.php</filename>
@@ -44,8 +44,8 @@
 			name="useRoundedCorners"
 			type="list"
 			default="1"
-			label="Use_Rounded_Corners"
-			description="Enable_Disable_Rounded_Corner_Effect">
+			label="TPL_BLUESTORK_FIELD_ROUNDED_LABEL"
+			description="TPL_BLUESTORK_FIELD_ROUNDED_DESC">
 			<option
 				value="0">JDISABLED</option>
 			<option
@@ -55,8 +55,8 @@
 			name="showSiteName"
 			type="list"
 			default="0"
-			label="Show_Site_Name"
-			description="Show_Site_Name_Desc">
+			label="TPL_BLUESTORK_FIELD_SITENAME_LABEL"
+			description="TPL_BLUESTORK_FIELD_SITENAME_DESC">
 			<option
 				value="0">JDISABLED</option>
 			<option
@@ -67,8 +67,8 @@
 			name="textBig"
 			type="list"
 			default="0"
-			label="Bigger_Text"
-			description="BIGGER_TEXT_DESC">
+			label="TPL_BLUESTORK_FIELD_TEXTBIG_LABEL"
+			description="TPL_BLUESTORK_FIELD_TEXTBIG_DESC">
 			<option
 				value="0">JDISABLED</option>
 			<option
@@ -79,8 +79,8 @@
 			name="highContrast"
 			type="list"
 			default="0"
-			label="High_Contrast"
-			description="High_Contrast_Desc">
+			label="TPL_BLUESTORK_FIELD_CONTRAST_LABEL"
+			description="TPL_BLUESTORK_FIELD_CONTRAST_DESC">
 			<option
 				value="0">JDISABLED</option>
 			<option

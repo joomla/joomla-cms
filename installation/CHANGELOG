@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Feb-2010 Jean-Marie Simonet
+^ Refactored tpl_bluestork ini/keys
 
 16-Feb-2010 Mark Dexter
 ^ New system tests for groups, ACL
