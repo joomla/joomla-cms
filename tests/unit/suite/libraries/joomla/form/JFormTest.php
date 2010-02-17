@@ -570,14 +570,13 @@ class JFormTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetFields()
 	{
-		jimport('joomla.utilities.simplexml');
+		jimport('joomla.utilities.xmlelement');
 
 		// Prepare a sample XML document.
-		$xml = new JSimpleXML;
-		$xml->loadString('<fields><field name="field_name" /></fields>');
+		$xml = simplexml_load_string('<form><fields><field name="field_name" /><field name="field_name2" /></fields></form>', 'JXMLElement');
 		$form = new JFormInspector;
-
-		$fields = $xml->document->children();
+		
+		$fields = $xml->fields->field;
 
 		// Check the default group.
 		$form->setFields($fields);
