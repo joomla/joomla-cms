@@ -57,7 +57,7 @@ class LanguagesControllerLanguages extends JController
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('Select an item to delete'));
+			JError::raiseWarning(500, JText::_('COM_LANGS_ERR_DELETE'));
 		}
 		else {
 			// Get the model.
@@ -89,7 +89,7 @@ class LanguagesControllerLanguages extends JController
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('Select an item to publish'));
+			JError::raiseWarning(500, JText::_('COM_LANGS_ERR_PUBLISH'));
 		}
 		else
 		{

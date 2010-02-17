@@ -21,7 +21,7 @@ $n = count($this->items);
 			<label for="search">
 				<?php echo JText::_('JSearch_Filter'); ?>
 			</label>
-			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Langs_Search_in_title'); ?>" />
+			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('COM_LANGS_SEARCH_IN_TITLE'); ?>" />
 
 			<button type="submit">
 				<?php echo JText::_('JSearch_Filter_Submit'); ?></button>
@@ -46,16 +46,16 @@ $n = count($this->items);
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 				</th>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort',  'Langs_Title_Heading', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'COM_LANGS_HEADING_TITLE', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort',  'Langs_Title_Native_Heading', 'a.title_native', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'COM_LANGS_HEADING_TITLE_NATIVE', 'a.title_native', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'Langs_Lang_Code_Heading', 'a.lang_code', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'COM_LANGS_HEADING_LANG_CODE', 'a.lang_code', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort',  'Langs_Published_Heading', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'COM_LANGS_HEADING_PUBLISHED', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>

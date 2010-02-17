@@ -77,7 +77,7 @@ class JTableLanguage extends JTable
 	public function check()
 	{
 		if (trim($this->title) == '') {
-			$this->setError(JText::_('Langs_Error_No_title'));
+			$this->setError(JText::_('COM_LANGS_ERROR_NO_TITLE'));
 			return false;
 		}
 

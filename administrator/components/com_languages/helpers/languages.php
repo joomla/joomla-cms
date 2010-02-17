@@ -25,12 +25,12 @@ class LanguagesHelper
 	public static function addSubmenu($vName)
 	{
 		JSubMenuHelper::addEntry(
-			JText::_('Langs_Submenu_Installed'),
+			JText::_('COM_LANGS_SUBMENU_INSTALLED'),
 			'index.php?option=com_languages&view=installed',
 			$vName == 'installed'
 		);
 		JSubMenuHelper::addEntry(
-			JText::_('Langs_Submenu_Content'),
+			JText::_('COM_LANGS_SUBMENU_CONTENT'),
 			'index.php?option=com_languages&view=languages',
 			$vName == 'languages'
 		);

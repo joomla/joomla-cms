@@ -61,7 +61,7 @@ class LanguagesController extends JController
 		$model = & $this->getModel('languages');
 		if ($model->publish())
 		{
-			$msg = JText::_('Langs_Default_Language_Saved');
+			$msg = JText::_('COM_LANGS_MSG_DEFAULT_LANGUAGE_SAVED');
 			$type = 'message';
 		}
 		else

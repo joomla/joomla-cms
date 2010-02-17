@@ -16,8 +16,8 @@
 			default=""
 			size="10"
 			maxlength="7"
-			label="Langs_Field_Lang_Code_Label"
-			description="Langs_Field_Lang_Code_Desc"
+			label="COM_LANGS_FIELD_LANG_CODE_LABEL"
+			description="COM_LANGS_FIELD_LANG_CODE_DESC"
 			required="true" />
 
 		<field
@@ -27,8 +27,8 @@
 			default=""
 			size="40"
 			maxlength="50"
-			label="Langs_Field_Title_Label"
-			description="Langs_Field_Title_Desc"
+			label="COM_LANGS_FIELD_TITLE_LABEL"
+			description="COM_LANGS_FIELD_TITLE_DESC"
 			required="true" />
 
 		<field
@@ -38,8 +38,8 @@
 			default=""
 			size="40"
 			maxlength="50"
-			label="Langs_Field_Title_Native_Label"
-			description="Langs_Field_Title_Native_Desc" />
+			label="COM_LANGS_FIELD_TITLE_NATIVE_LABEL"
+			description="COM_LANGS_FIELD_TITLE_NATIVE_DESC" />
 
 		<field
 			name="alias"
@@ -47,8 +47,8 @@
 			class="inputbox"
 			default=""
 			size="40"
-			label="Langs_Field_Alias_Label"
-			description="Langs_Field_Alias_Desc" />
+			label="COM_LANGS_FIELD_ALIAS_LABEL"
+			description="COM_LANGS_FIELD_ALIAS_DESC" />
 
 		<field
 			id="description"
@@ -58,29 +58,29 @@
 			rows="5"
 			cols="80"
 			default=""
-			label="Langs_Field_Description_Label"
-			description="Langs_Field_Description_Desc" />
+			label="COM_LANGS_FIELD_DESCRIPTION_LABEL"
+			description="COM_LANGS_FIELD_DESCRIPTION_DESC" />
 
 		<field
 			name="published"
 			type="list"
-			label="Langs_Field_Published_Label"
-			description="Langs_Field_Published_Desc"
+			label="COM_LANGS_FIELD_PUBLISHED_LABEL"
+			description="COM_LANGS_FIELD_PUBLISHED_DESC"
 			class="inputbox"
 			size="1"
 			default="1">
 			<option
 				value="1">
-				JOption_Published</option>
+				JOPTION_PUBLISHED</option>
 			<option
 				value="0">
-				JOption_UnPublished</option>
+				JOPTION_UNPUBLISHED</option>
 			<option
 				value="-1">
-				Langs_Option_Disabled</option>
+				COM_LANGS_FIELD_VALUE_DISABLED</option>
 			<option
 				value="-2">
-				JOption_Trash</option>
+				JOPTION_TRASH</option>
 		</field>
 	</fields>
 </form>

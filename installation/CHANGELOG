@@ -31,6 +31,7 @@ $ -> Language fix or change
 ^ Refactored tpl_bluestork ini/keys
 ^ Shortening code in mod_whosonline. Thanks Dennis.
 # Correcting bug in template installer adapter
+^ Refactored com_languages ini/keys
 
 16-Feb-2010 Mark Dexter
 ^ New system tests for groups, ACL

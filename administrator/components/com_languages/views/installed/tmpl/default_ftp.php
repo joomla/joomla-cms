@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 ?>
-	<fieldset title="<?php echo JText::_('Langs_Desc_FTP_Title'); ?>">
-		<legend><?php echo JText::_('Langs_Desc_FTP_Title'); ?></legend>
+	<fieldset title="<?php echo JText::_('COM_LANGS_FTP_TITLE'); ?>">
+		<legend><?php echo JText::_('COM_LANGS_FTP_TITLE'); ?></legend>
 
-		<?php echo JText::_('Langs_Desc_FTP'); ?>
+		<?php echo JText::_('COM_LANGS_FTP_DESC'); ?>
 
 		<?php if (JError::isError($ftp)): ?>
 			<p class="warning"><?php echo JText::_($ftp->message); ?></p>
@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 			<tbody>
 				<tr>
 					<td width="120">
-						<label for="username"><?php echo JText::_('Langs_Username'); ?>:</label>
+						<label for="username"><?php echo JText::_('COM_LANGS_USERNAME'); ?>:</label>
 					</td>
 					<td>
 						<input type="text" id="username" name="username" class="inputbox" size="70" value="" />
@@ -30,7 +30,7 @@ defined('_JEXEC') or die;
 				</tr>
 				<tr>
 					<td width="120">
-						<label for="password"><?php echo JText::_('Langs_Password'); ?>:</label>
+						<label for="password"><?php echo JText::_('COM_LANGS_PASSWORD'); ?>:</label>
 					</td>
 					<td>
 						<input type="password" id="password" name="password" class="inputbox" size="70" value="" />

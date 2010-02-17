@@ -26,7 +26,7 @@ abstract class JHtmlLanguages {
 	public static function published($published)
 	{
 		if ($published) {
-			return JHTML::_('image', 'menu/icon-16-default.png', JText::_('Langs_Default'), NULL, true);
+			return JHTML::_('image', 'menu/icon-16-default.png', JText::_('COM_LANGS_DEFAULT'), NULL, true);
 		}
 		else {
 			return '&nbsp;';
@@ -49,8 +49,8 @@ abstract class JHtmlLanguages {
 	public static function clients()
 	{
 		return array(
-			JHtml::_('select.option', 0, JText::_('Langs_Option_Client_Site')),
-			JHtml::_('select.option', 1, JText::_('Langs_Option_Client_Administrator'))
+			JHtml::_('select.option', 0, JText::_('COM_LANGS_OPTION_CLIENT_SITE')),
+			JHtml::_('select.option', 1, JText::_('COM_LANGS_OPTION_CLIENT_ADMINISTRATOR'))
 		);
 	}
 
@@ -66,7 +66,7 @@ abstract class JHtmlLanguages {
 		$options	= array();
 		$options[]	= JHtml::_('select.option', '1', 'JOption_Published');
 		$options[]	= JHtml::_('select.option', '0', 'JOption_Unpublished');
-		$options[]	= JHtml::_('select.option', '-1', 'Langs_Option_Disabled');
+		$options[]	= JHtml::_('select.option', '-1', 'COM_LANGS_FIELD_VALUE_DISABLED');
 		$options[]	= JHtml::_('select.option', '-2', 'JOption_Trash');
 		$options[]	= JHtml::_('select.option', '*', 'JOption_All');
 

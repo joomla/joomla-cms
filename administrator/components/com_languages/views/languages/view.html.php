@@ -80,7 +80,7 @@ class LanguagesViewLanguages extends JView
 	 */
 	protected function _setToolBar()
 	{
-		JToolBarHelper::title(JText::_('Langs_View_Languages_Title'), 'generic.png');
+		JToolBarHelper::title(JText::_('COM_LANGS_VIEW_LANGUAGES_TITLE'), 'generic.png');
 		JToolBarHelper::addNew('language.add','JTOOLBAR_NEW');
 				JToolBarHelper::editList('language.edit','JTOOLBAR_EDIT');
 				JToolBarHelper::divider();

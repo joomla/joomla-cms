@@ -21,7 +21,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 	<fieldset class="filter clearfix">
 		<div class="right">
 			<label for="filter_client_id">
-				<?php echo JText::_('Langs_Filter_Client_Label'); ?>
+				<?php echo JText::_('COM_LANGS_FILTER_CLIENT_LABEL'); ?>
 			</label>
 			<select id="filter_client_id" name="filter_client_id" class="inputbox" onchange="this.form.submit()">
 				<?php echo JHtml::_('select.options', JHtml::_('languages.clients'), 'value', 'text', $this->state->get('filter.client_id'));?>
@@ -33,28 +33,28 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 		<thead>
 			<tr>
 				<th width="20">
-					<?php echo JText::_('Langs_Num'); ?>
+					<?php echo JText::_('COM_LANGS_HEADING_NUM'); ?>
 				</th>
 				<th width="30">
 					&nbsp;
 				</th>
 				<th width="25%" class="title">
-					<?php echo JText::_('Langs_Language'); ?>
+					<?php echo JText::_('COM_LANGS_HEADING_LANGUAGE'); ?>
 				</th>
 				<th width="5%">
-					<?php echo JText::_('Langs_Default'); ?>
+					<?php echo JText::_('COM_LANGS_HEADING_DEFAULT'); ?>
 				</th>
 				<th width="10%">
-					<?php echo JText::_('Langs_Version'); ?>
+					<?php echo JText::_('COM_LANGS_HEADING_VERSION'); ?>
 				</th>
 				<th width="10%">
-					<?php echo JText::_('Langs_Date'); ?>
+					<?php echo JText::_('COM_LANGS_HEADING_DATE'); ?>
 				</th>
 				<th width="20%">
-					<?php echo JText::_('Langs_Author'); ?>
+					<?php echo JText::_('COM_LANGS_HEADING_AUTHOR'); ?>
 				</th>
 				<th width="25%">
-					<?php echo JText::_('Langs_Author_Email'); ?>
+					<?php echo JText::_('COM_LANGS_HEADING_AUTHOR_EMAIL'); ?>
 				</th>
 			</tr>
 		</thead>

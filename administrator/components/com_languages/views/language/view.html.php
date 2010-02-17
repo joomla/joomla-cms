@@ -59,7 +59,7 @@ class LanguagesViewLanguage extends JView
 		JRequest::setVar('hidemainmenu', 1);
 		$isNew = empty($this->item->lang_id);
 
-		JToolBarHelper::title(JText::_($isNew ? 'Langs_View_Language_Edit_New_Title' : 'Langs_View_Language_Edit_Edit_Title'));
+		JToolBarHelper::title(JText::_($isNew ? 'COM_LANGS_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGS_VIEW_LANGUAGE_EDIT_EDIT_TITLE'));
 		JToolBarHelper::save('language.save','JTOOLBAR_SAVE');
 		JToolBarHelper::apply('language.apply','JTOOLBAR_APPLY');
 		JToolBarHelper::addNew('language.save2new', 'JToolbar_Save_and_new');
