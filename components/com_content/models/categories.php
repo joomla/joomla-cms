@@ -89,6 +89,10 @@ class ContentModelCategories extends JModelList
 		$id	.= ':'.$this->getState('filter.extension');
 		$id	.= ':'.$this->getState('filter.published');
 		$id	.= ':'.$this->getState('filter.access');
+		$id	.= ':'.$this->getState('filter.parent_id');
+		$id	.= ':'.$this->getState('filter.get_children');
+		$id	.= ':'.$this->getState('filter.get_parents');
+		$id	.= ':'.$this->getState('filter.category_id');
 
 		return parent::_getStoreId($id);
 	}

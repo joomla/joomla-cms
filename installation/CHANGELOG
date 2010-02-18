@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Feb-2010 Hannes Papenberg
+^ Adding mod_articles_category module - Thanks Omar Ramos!
 
 18-Feb-2010 Christophe Demko
 # Correcting some inis

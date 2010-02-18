@@ -75,6 +75,20 @@ class ContentModelArticles extends JModelList
 		// Compile the store id.
 		$id	.= ':'.$this->getState('filter.published');
 		$id	.= ':'.$this->getState('filter.access');
+		$id	.= ':'.$this->getState('filter.featured');
+		$id	.= ':'.$this->getState('filter.article_id');
+		$id	.= ':'.$this->getState('filter.article_id.include');
+		$id	.= ':'.$this->getState('filter.category_id');
+		$id	.= ':'.$this->getState('filter.category_id.include');
+		$id	.= ':'.$this->getState('filter.author_id');
+		$id	.= ':'.$this->getState('filter.author_id.include');
+		$id	.= ':'.$this->getState('filter.author_alias');
+		$id	.= ':'.$this->getState('filter.author_alias.include');
+		$id	.= ':'.$this->getState('filter.date_filtering');
+		$id	.= ':'.$this->getState('filter.date_field');
+		$id	.= ':'.$this->getState('filter.start_date_range');
+		$id	.= ':'.$this->getState('filter.end_date_range');
+		$id	.= ':'.$this->getState('filter.relative_date');
 
 		return parent::_getStoreId($id);
 	}
@@ -95,7 +109,7 @@ class ContentModelArticles extends JModelList
 			'list.select',
 			'a.id, a.title, a.alias, a.title_alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
 			' a.modified, a.modified_by,a.publish_up, a.publish_down, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,' .
-			' a.hits,' .
+			' a.hits, a.featured,' .
 			' LENGTH(a.fulltext) AS readmore'
 		));
 		$query->from('#__content AS a');
@@ -126,10 +140,39 @@ class ContentModelArticles extends JModelList
 			$query->where('a.state IN ('.$published.')');
 		}
 
+		// Filter by featured state
+		$featured = $this->getState('filter.featured');
+		switch($featured)
+		{
+			case 'hide':
+				$query->where('a.featured = 0');
+				break;
+			case 'only':
+				$query->where('a.featured = 1');
+				break;
+			case 'show':
+			default:
+				// Normally we do not discriminate
+				// between featured/unfeatured items.
+				break;
+		}
+
+		// Filter by a single or group of articles.
+		$articleId = $this->getState('filter.article_id');
+		if (is_numeric($articleId)) {
+			$type = $this->getState('filter.article_id.include', true) ? '= ' : '<> ';
+			$query->where('a.id '.$type.(int) $articleId);
+		} else if (is_array($articleId)) {
+			JArrayHelper::toInteger($articleId);
+			$articleId = implode(',', $articleId);
+			$type = $this->getState('filter.article_id.include', true) ? 'IN' : 'NOT IN';
+			$query->where('a.id '.$type.' ('.$articleId.')');
+		}
+
 		// Filter by a single or group of categories.
 		$categoryId = $this->getState('filter.category_id');
 		if (is_numeric($categoryId)) {
-			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<>';
+			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';
 			$query->where('a.catid '.$type.(int) $categoryId);
 		} else if (is_array($categoryId)) {
 			JArrayHelper::toInteger($categoryId);
@@ -138,16 +181,49 @@ class ContentModelArticles extends JModelList
 			$query->where('a.catid '.$type.' ('.$categoryId.')');
 		}
 
+		// Filter by author
 		$authorId	= $this->getState('filter.author_id');
-
+		$authorWhere = '';
 		if (is_numeric($authorId)) {
-			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
-			$query->where('a.created_by '.$type.(int) $authorId);
+			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<> ';
+			$authorWhere = 'a.created_by '.$type.(int) $authorId;
 		} else if (is_array($authorId)) {
 			JArrayHelper::toInteger($authorId);
 			$authorId = implode(',', $authorId);
-			$type = $this->getState('filter.author_id.include', true) ? 'IN' : 'NOT IN';
-			$query->where('a.created '.$type.' ('.$authorId.')');
+			if ($authorId) {
+				$type = $this->getState('filter.author_id.include', true) ? 'IN' : 'NOT IN';
+				$authorWhere = 'a.created_by '.$type.' ('.$authorId.')';
+			}
+		}
+
+		// Filter by author alias
+		$authorAlias	= $this->getState('filter.author_alias');
+		$authorAliasWhere = '';
+		if (is_string($authorAlias)) {
+			$type = $this->getState('filter.author_alias.include', true) ? '= ' : '<> ';
+			$authorAliasWhere = 'a.created_by_alias '.$type . $db->Quote($authorAlias);
+		} else if (is_array($authorAlias)) {
+			$first = current($authorAlias);
+			if (!empty($first)) {
+				JArrayHelper::toString($authorAlias);
+				foreach($authorAlias as $key => $alias) {
+					$authorAlias[$key] = $db->Quote($alias);
+				}
+				$authorAlias = implode(',', $authorAlias);
+				if ($authorAlias) {
+					$type = $this->getState('filter.author_alias.include', true) ? 'IN' : 'NOT IN';
+					$authorAliasWhere = 'a.created_by_alias '.$type.' ('.$authorAlias.')';
+				}
+			}
+		}
+
+		if (!empty($authorWhere) && !empty($authorAliasWhere)) {
+			$query->where('('.$authorWhere.' OR '.$authorAliasWhere.')');
+		} else if (empty($authorWhere) && empty($authorAliasWhere)){
+			// If both are empty we don't want to add to the query
+		} else {
+			// One of these is empty, the other is not so we just add both
+			$query->where($authorWhere.$authorAliasWhere);
 		}
 
 		// Filter by start and end dates.
@@ -156,6 +232,25 @@ class ContentModelArticles extends JModelList
 
 		$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')');
 		$query->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
+
+		// Filter by Date Range or Relative Date
+		$dateFiltering = $this->getState('filter.date_filtering', 'off');
+		$dateField = $this->getState('filter.date_field', 'a.created');
+		switch($dateFiltering)
+		{
+			case 'range':
+				$startDateRange = $db->Quote($this->getState('filter.start_date_range', $nullDate));
+				$endDateRange = $db->Quote($this->getState('filter.end_date_range', $nullDate));
+				$query->where('('.$dateField.' >= '.$startDateRange.' AND '.$dateField.' <= '.$endDateRange.')');
+				break;
+			case 'relative':
+				$relativeDate = (int) $this->getState('filter.relative_date', 0);
+				$query->where($dateField.' >= DATE_SUB('.$nowDate.', INTERVAL '.$relativeDate.' DAY)');
+				break;
+			case 'off':
+			default:
+				break;
+		}
 
 		// process the filter for list views with user-entered filters
 		$params = $this->getState('params');
@@ -183,7 +278,7 @@ class ContentModelArticles extends JModelList
 
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')));
+		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')) .' ' . $this->getState('list.direction', 'ASC'));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
