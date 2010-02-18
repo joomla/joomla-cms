@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Feb-2010 Jean-Marie Simonet
+# Correcting some inis
+
 17-Feb-2010 Mark Dexter
 # Fix tests to work with hathor accessible admin template
 + New system test to install Joomla (Matt Thomas)
