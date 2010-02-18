@@ -409,15 +409,16 @@ class JInstallerFile extends JAdapterInstance
 				// loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)
 				{
+					$path['src'] = $sourceFolder.DS.$eFileName;
+					$path['dest'] = $targetFolder.DS.$eFileName;
+					$path['type'] = 'file';
 					if ($eFileName->getName() == 'folder') {
 						$folderName = $targetFolder.DS.$eFileName;
 						array_push($this->folderList, $folderName);
-					} else {
-						$path['src'] = $sourceFolder.DS.$eFileName;
-						$path['dest'] = $targetFolder.DS.$eFileName;
-
-						array_push($this->fileList, $path);
+						$path['type'] = 'folder';
 					}
+
+					array_push($this->fileList, $path);
 				}
 			} else {
 				$files = JFolder::files($sourceFolder);
