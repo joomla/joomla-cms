@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+18-Feb-2010 Christophe Demko
+# Correcting some inis
+# Correcting bugs in file adapter installer
+
 18-Feb-2010 Jean-Marie Simonet
 # Correcting some inis
 ^ Refactoring com_wrapper ini/keys + some
