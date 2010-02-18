@@ -42,6 +42,6 @@ function iFrameHeight() {
 	align="top"
 	frameborder="0"
 	class="wrapper<?php echo $this->params->get('pageclass_sfx'); ?>">
-	<?php echo JText::_('NO_IFRAMES'); ?>
+	<?php echo JText::_('COM_WRAPPER_NO_IFRAMES'); ?>
 </iframe>
 </div>

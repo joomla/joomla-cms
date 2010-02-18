@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout
-		title="com_wrapper_wrapper_view_default_title">
+		title="COM_WRAPPER_WRAPPER_VIEW_DEFAULT_TITLE">
 		<message>
-			<![CDATA[com_wrapper_wrapper_view_default_desc]]>
+			<![CDATA[COM_WRAPPER_WRAPPER_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 	<fields
 		group="request"
-		label="Menus_Layout_Basic_Options_Label"
+		label="MENUS_LAYOUT_BASIC_OPTIONS_LABEL"
 		description="">
 
 	<field
@@ -16,34 +16,24 @@
 			type="text"
 			size="30"
 			default=""
-			label="Wrapper URL"
-			description="URL to open in an IFRAME" />
+			label="COM_WRAPPER_FIELD_URL_LABEL"
+			description="COM_WRAPPER_FIELD_URL_DESC" />
 	</fields>
 
 	<fields
 		group="basic"
-		label="Menus_Layout_Basic_Options_Label"
+		label="COM_WRAPPER_FIELD_LABEL_SCROLLBARSPARAMS"
 		description="">
-
-
-		<field
-			name="spacer1"
-			type="spacer"
-			hr="true"
-			/>
 
 		<field
 			name="scrolling"
 			type="radio"
 			default="auto"
-			label="Scroll Bars"
-			description="fieldHORIVERT">
-			<option
-				value="no">JNo</option>
-			<option
-				value="yes">JYes</option>
-			<option
-				value="auto">Auto</option>
+			label="COM_WRAPPER_FIELD_SCROLLBARS_LABEL"
+			description="COM_WRAPPER_FIELD_SCROLLBARS_DESC" >
+			<option value="no">JNO</option>
+			<option value="yes">JYES</option>
+			<option value="auto">COM_WRAPPER_FIELD_VALUE_AUTO</option>
 		</field>
 
 		<field
@@ -51,50 +41,45 @@
 			type="text"
 			size="5"
 			default="100%"
-			label="Width"
-			description="fieldWIDTH" />
+			label="COM_WRAPPER_FIELD_WIDTH_LABEL"
+			description="COM_WRAPPER_FIELD_WIDTH_DESC" />
 
 		<field
 			name="height"
 			type="text"
 			size="5"
 			default="500"
-			label="Height"
-			description="fieldHEIGHT" />
-		<field
-			name="spacer2"
-			type="spacer"
-			hr="true"
-			/>
-		</fields>
+			label="COM_WRAPPER_FIELD_HEIGHT_LABEL"
+			description="COM_WRAPPER_FIELD_HEIGHT_DESC" />
+	</fields>
 
 	<fields
 		group="advanced"
-		label="Menus_Layout_Advanced_Options_Label"
+		label="MENUS_LAYOUT_ADVANCED_OPTIONS_LABEL"
 		description="">
 
 		<field
 			name="height_auto"
 			type="radio"
 			default="0"
-			label="Auto Height"
-			description="fieldHEIGHTAUTO">
+			label="COM_WRAPPER_FIELD_HEIGHTAUTO_LABEL"
+			description="COM_WRAPPER_FIELD_HEIGHTAUTO_DESC">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 
 		<field
 			name="add_scheme"
 			type="radio"
 			default="1"
-			label="Auto Add"
-			description="fieldADD">
+			label="COM_WRAPPER_FIELD_ADD_LABEL"
+			description="COM_WRAPPER_FIELD_ADD_DESC">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 	</fields>
 </metadata>

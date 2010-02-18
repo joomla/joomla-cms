@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 18-Feb-2010 Jean-Marie Simonet
 # Correcting some inis
+^ Refactoring com_wrapper ini/keys + some
 
 17-Feb-2010 Mark Dexter
 # Fix tests to work with hathor accessible admin template

@@ -90,7 +90,7 @@ JHTML::_('behavior.modal');
 		<div class="clr"></div>
 
 		<?php if (!empty($this->modules)) : ?>
-			<?php echo JHtml::_('sliders.panel',JText::_('MENU_ITEM_MODULE_ASSIGNMENT'), 'module-options'); ?>
+			<?php echo JHtml::_('sliders.panel',JText::_('COM_MENU_ITEM_MODULE_ASSIGNMENT'), 'module-options'); ?>
 			<fieldset>
 				<?php echo $this->loadTemplate('modules'); ?>
 			</fieldset>

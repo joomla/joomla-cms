@@ -119,9 +119,9 @@
 			default="0"
 			filter="integer">
 			<option
-				value="-1">Off</option>
+				value="-1">JOFF</option>
 			<option
-				value="1">On</option>
+				value="1">JON</option>
 			<option
 				value="0">Ignore</option>
 
