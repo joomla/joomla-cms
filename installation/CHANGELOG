@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Feb-2010 Mark Dexter
+^ Remove redundant alt attributes for Control Panel icons (Andrea Tarr)
+
 18-Feb-2010 Hannes Papenberg
 ^ Adding mod_articles_category module - Thanks Omar Ramos!
 
