@@ -4,7 +4,7 @@
     version="1.6.0"
     client="site"
     method="upgrade">
-    <name>Content - Articles Module</name>
+    <name>mod_articles_category</name>
     <author>Joomla! Project</author>
     <creationDate>February 2010</creationDate>
     <copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
