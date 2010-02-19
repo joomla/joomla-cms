@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 19-Feb-2010 Christophe Demko
+# Correcting a bug in the codemirror plugin
 +$ Adding a language string
 + Adding an background icon in bluestork css
 
