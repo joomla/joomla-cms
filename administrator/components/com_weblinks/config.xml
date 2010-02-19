@@ -5,22 +5,22 @@
 			name="show_comp_description"
 			type="radio"
 			default="1"
-			label="Description"
-			description="Show/Hide the Description below">
+			label="COM_WEBLINKS_FIELD_CONFIG_DESCRIPTION_LABEL"
+			description="COM_WEBLINKS_FIELD_CONFIG_DESCRIPTION_DESC">
 			<option
-				value="0">Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="comp_description"
 			type="textarea"
 			default=""
-			label="Weblinks Intro"
 			rows="3"
 			cols="50"
-			description="WEBLINKS_INTRO_DESC" />
+			label="COM_WEBLINKS_FIELD_CONFIG_INTRO_LABEL"
+			description="COM_WEBLINKS_FIELD_CONFIG_INTRO_DESC" />
 
 		<field
 			name="spacer1"
@@ -31,72 +31,72 @@
 			name="show_link_hits"
 			type="radio"
 			default="1"
-			label="Hits"
-			description="TIPIFSETTOSHOWHITS">
+			label="COM_WEBLINKS_FIELD_CONFIG_HITS_LABEL"
+			description="COM_WEBLINKS_FIELD_CONFIG_HITS_DESC">
 			<option
-				value="0">Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_link_description"
 			type="radio"
 			default="1"
-			label="Link Descriptions"
-			description="PARAMSHOWHIDELINKS">
+			label="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_LABEL"
+			description="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_DESC">
 			<option
-				value="0">Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_other_cats"
 			type="radio"
 			default="1"
-			label="Other Categories"
-			description="PARAMWHENVIEWCAT">
+			label="COM_WEBLINKS_FIELD_CONFIG_OTHERCATS_LABEL"
+			description="COM_WEBLINKS_FIELD_CONFIG_OTHERCATS_DESC">
 			<option
-				value="0">Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_headings"
 			type="radio"
 			default="1"
-			label="Table Headings"
-			description="Show/Hide the Table Headings">
+			label="COM_WEBLINKS_FIELD_CONFIG_SHOWHEADINGS_LABEL"
+			description="COM_WEBLINKS_FIELD_CONFIG_SHOWHEADINGS_DESC">
 			<option
-				value="0">Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_numbers"
 			type="radio"
 			default="1"
-			label="Item Numbers"
-			description="Show/Hide the Item Numbers">
+			label="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_LABEL"
+			description="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_DESC">
 			<option
-				value="0">Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_report"
 			type="radio"
 			default="1"
-			label="Report Link"
-			description="Show/Hide the Report Bad Link option">
+			label="COM_WEBLINKS_FIELD_CONFIG_SHOWREPORT_LABEL"
+			description="COM_WEBLINKS_FIELD_CONFIG_SHOWREPORT_DESC">
 			<option
-				value="0">Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -108,8 +108,8 @@
 			name="target"
 			type="list"
 			default="0"
-			label="Target"
-			description="Target window when the link is clicked">
+			label="COM_WEBLINKS_FIELD_TARGET_LABEL"
+			description="COM_WEBLINKS_FIELD_TARGET_DESC">
 			<option
 				value="0">PARENT_WINDOW_WITH_BROWSER_NAVIGATION</option>
 			<option
@@ -122,20 +122,20 @@
 			type="imagelist"
 			directory="/images"
 			default=""
-			label="Icon"
-			description="PARAMICONIMG" />
+			label="COM_WEBLINKS_FIELD_CONFIG_ICON_LABEL"
+			description="COM_WEBLINKS_FIELD_CONFIG_ICON_DESC" />
 	</fields>
 
 	<fields
 		group="permissions"
-		label="JConfig_Permissions_Label"
-		description="JConfig_Permissions_Desc"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
 		hidden="true">
 
 		<field
 			name="rules"
 			type="rules"
-			label="JConfig_Permissions_Label"
+			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"
 			component="com_weblinks"
 			section="component" />

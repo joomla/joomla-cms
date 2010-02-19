@@ -56,7 +56,7 @@ class WeblinksViewWeblinks extends JView
 		$state	= $this->get('State');
 		$canDo	= WeblinksHelper::getActions($state->get('filter.category_id'));
 
-		JToolBarHelper::title(JText::_('Weblinks_Manager_Weblinks'), 'generic.png');
+		JToolBarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'generic.png');
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('weblink.add','JTOOLBAR_NEW');
 		}

@@ -63,7 +63,7 @@ class WeblinksViewWeblink extends JView
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= WeblinksHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 
-		JToolBarHelper::title(JText::_('Weblinks_Manager_Weblink'));
+		JToolBarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINK'));
 
 
 

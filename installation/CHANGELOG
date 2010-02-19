@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 19-Feb-2010 Jean-Marie Simonet
 $^ Refactored display of content Category:title to cope with various languages
+^ Refactored com_weblinks admin ini/keys + some
 
 18-Feb-2010 Mark Dexter
 ^ Remove redundant alt attributes for Control Panel icons (Andrea Tarr)

@@ -190,7 +190,7 @@ class WeblinksModelWeblink extends JModelForm
 
 		// Bind the data.
 		if (!$table->bind($data)) {
-			$this->setError(JText::sprintf('JTable_Error_Bind_failed', $table->getError()));
+			$this->setError(JText::sprintf('JTABLE_ERROR_BIND_FAILED', $table->getError()));
 			return false;
 		}
 
@@ -304,7 +304,7 @@ class WeblinksModelWeblink extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 			else
@@ -348,7 +348,7 @@ class WeblinksModelWeblink extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 		}
@@ -398,7 +398,7 @@ class WeblinksModelWeblink extends JModelForm
 
 		if (!$allow)
 		{
-			$this->setError(JText::_('JError_Core_Edit_State_not_permitted'));
+			$this->setError(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 			return false;
 		}
 
@@ -447,7 +447,7 @@ class WeblinksModelWeblink extends JModelForm
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+				JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 			}
 			else if ($table->ordering != $order[$i])
 			{

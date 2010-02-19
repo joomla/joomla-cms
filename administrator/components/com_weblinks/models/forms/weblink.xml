@@ -17,8 +17,8 @@
 			class="inputbox"
 			default=""
 			size="40"
-			label="Weblinks_Title_Label"
-			description="Weblinks_Title_Desc"
+			label="COM_WEBLINKS_FIELD_TITLE_LABEL"
+			description="COM_WEBLINKS_FIELD_TITLE_DESC"
 			required="true"/>
 
 		<field
@@ -28,18 +28,18 @@
 			class="inputbox"
 			default=""
 			size="40"
-			label="Weblinks_Alias_Label"
-			description="Weblinks_Alias_Desc"/>
+			label="COM_WEBLINKS_FIELD_ALIAS_LABEL"
+			description="COM_WEBLINKS_FIELD_ALIAS_DESC"/>
 
 		<field
 			id="catid"
 			name="catid"
 			type="category"
 			extension="com_weblinks"
-			label="Weblinks_Category_Label"
-			description="Weblinks_Category_Desc"
+			label="COM_WEBLINKS_FIELD_CATEGORY_LABEL"
+			description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
 			class="inputbox">
-			<option>JOption_No_Category</option>
+			<option>JOPTION_NO_CATEGORY</option>
 		</field>
 
 		<field
@@ -49,8 +49,8 @@
 			class="inputbox"
 			default=""
 			size="40"
-			label="Weblinks_Url_Label"
-			description="Weblinks_Url_Desc"/>
+			label="COM_WEBLINKS_FIELD_URL_LABEL"
+			description="COM_WEBLINKS_FIELD_URL_DESC"/>
 
 		<field
 			id="description"
@@ -59,8 +59,8 @@
 			buttons="readmore,pagebreak"
 			class="inputbox"
 			default=""
-			label="Weblinks_Description_Label"
-			description="Weblinks_Description_Desc"/>
+			label="COM_WEBLINKS_FIELD_DESCRIPTION_LABEL"
+			description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC"/>
 
 		<field
 			id="date"
@@ -79,8 +79,8 @@
 			class="inputbox"
 			default=""
 			size="6"
-			label="Weblinks_Date_Label"
-			description="Weblinks_Date_Desc"
+			label="Weblinks_Hits_Label"
+			description="Weblinks_HITS_Desc"
 			readonly="true"
 			filter="unset"/>
 
@@ -88,19 +88,19 @@
 			id="state"
 			name="state"
 			type="list"
-			label="Weblinks_State_Label"
-			description="Weblinks_State_Desc"
+			label="COM_WEBLINKS_FIELD_STATE_LABEL"
+			description="COM_WEBLINKS_FIELD_STATE_DESC"
 			class="inputbox"
 			size="1"
 			default="1">
 			<option
-				value="1">JOption_Published</option>
+				value="1">JOPTION_PUBLISHED</option>
 			<option
-				value="0">JOption_Unpublished</option>
+				value="0">JOPTION_UNPUBLISHED</option>
 			<option
-				value="-1">Weblinks_Reported</option>
+				value="-1">COM_WEBLINKS_FIELD_VALUE_REPORTED</option>
 			<option
-				value="-2">JOption_Trash</option>
+				value="-2">JOPTION_TRASH</option>
 		</field>
 
 		<field
@@ -133,14 +133,14 @@
 			type="Ordering"
 			class="inputbox"
 			default=""
-			label="Weblinks_Ordering_Label"
-			description="Weblinks_Ordering_Desc"/>
+			label="COM_WEBLINKS_FIELD_ORDERING_LABEL"
+			description="COM_WEBLINKS_FIELD_ORDERING_DESC"/>
 
 			<field
 			name="access"
 			type="accesslevel"
-			label="JField_Access_Label"
-			description="JField_Access_Desc"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
 			class="inputbox"
 			size="1"
 			default="" />
@@ -148,11 +148,11 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JField_Language_Label"
-			description="JField_Weblinks_Language_Desc"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="COM_WEBLINKS_FIELD_LANGUAGE_DESC"
 			class="inputbox"
 			default="">
-			<option value="">JOption_Default_Language</option>
+			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
 		</field>
 
 		<field
@@ -161,12 +161,12 @@
 			type="radio"
 			class="inputbox"
 			default=""
-			label="Weblinks_Approved_Label"
+			label="WEBLINKS_APPROVED_LABEL"
 			description="Weblinks_Approved_Desc">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 
 	</fields>
@@ -174,15 +174,15 @@
 	<fields
 		group="params"
 		array="true"
-		label="Weblinks_Options">
+		label="COM_WEBLINKS_OPTIONS">
 
 		<field
 			id="target"
 			name="target"
 			type="List"
 			default="0"
-			label="Weblinks_Target_Label"
-			description="Weblinks_Target_Desc">
+			label="COM_WEBLINKS_FIELD_TARGET_LABEL"
+			description="COM_WEBLINKS_FIELD_TARGET_DESC">
 			<option
 				value="0">JBrowserTarget_Parent</option>
 			<option
