@@ -61,14 +61,15 @@ $params = &$this->item->params;
  <dt class="article-info-term"><?php  echo JText::_('JContent_Article_Infos'); ?></dt>
 <?php endif; ?>
 <?php if ($params->get('show_category')) : ?>
-<dd class="category-name"><?php  echo JText::_('JContent_Category'); ?>
-				<?php if ($params->get('link_category')) : ?>
-					<?php echo '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'; ?>
-					<?php echo $this->escape($this->item->category_title); ?></a>
-					<?php else : ?>
-					<?php echo $this->escape($this->item->category_title); ?>
-				<?php endif; ?>
-	</dd>
+		<dd class="category-name">
+			<?php 	$title = $this->escape($this->item->category_title);
+					$url = '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'.$title.'</a>';?>
+			<?php if ($params->get('link_category')) : ?>
+				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
+				<?php else : ?>
+				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
+			<?php endif; ?>
+		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_create_date')) : ?>
 		<dd class="create">
