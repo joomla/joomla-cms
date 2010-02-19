@@ -3,7 +3,7 @@
 <install
 	version="1.6"
 	type="template">
-	<name>tpl_rhuk_milkyway</name>
+	<name>rhuk_milkyway</name>
 	<creationDate>11/20/06</creationDate>
 	<author>Andy Miller</author>
 	<authorEmail>rhuk@rockettheme.com</authorEmail>
