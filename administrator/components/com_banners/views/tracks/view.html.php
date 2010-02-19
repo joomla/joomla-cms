@@ -64,8 +64,6 @@ class BannersViewTracks extends JView
 
 		$document = &JFactory::getDocument();
 		$app = &JFactory::getApplication();
-		// TODO: must be written in the bluestork template
-		$document->addStyleDeclaration('.icon-32-export { background-image: url(templates/'.$app->getTemplate().'/images/toolbar/icon-32-export.png); }');
 		if ($canDo->get('core.delete')) {
 			$bar->appendButton('Confirm','Banners_Delete_Msg', 'delete', 'JTOOLBAR_EMPTY_TRASH', 'tracks.delete',false);
 		}

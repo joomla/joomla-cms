@@ -2234,6 +2234,10 @@ input.system-openid,input.com-system-openid {
 	background-image: url(../images/toolbar/icon-32-back.png);
 }
 
+.icon-32-export {
+	background-image: url(../images/toolbar/icon-32-export.png);
+}
+
 .icon-32-forward {
 	background-image: url(../images/toolbar/icon-32-forward.png);
 }

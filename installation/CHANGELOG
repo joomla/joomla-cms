@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Feb-2010 Christophe Demko
++$ Adding a language string
++ Adding an background icon in bluestork css
+
 19-Feb-2010 Jean-Marie Simonet
 $^ Refactored display of content Category:title to cope with various languages
 ^ Refactored com_weblinks admin ini/keys + some
