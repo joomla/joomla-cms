@@ -124,7 +124,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
     	if ($this->assertEquals("Menu Manager", $this->getText("//div[@id='cpanel']/div[5]/div/a"))) echo "Menu Manager test failed!\n";
 		if ($this->assertEquals("User Manager", $this->getText("//div[@id='cpanel']/div[6]/div/a/span"))) echo "User Manager test failed!\n";    	    	    	
     		} catch (Exception $e) {}
-		sleep(1);		
+		sleep(3);		
 	$this->click("link=Module Manager");
     $this->waitForPageToLoad("30000");
     try {
@@ -134,7 +134,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
     }
     $this->click("link=Control Panel");
     $this->waitForPageToLoad("30000");
-	$this->click("//img[@alt='Article Manager']");
+	$this->click("link=Article Manager");
     $this->waitForPageToLoad("30000");
     try {
         $this->assertTrue($this->isTextPresent("Article Manager: Articles"));

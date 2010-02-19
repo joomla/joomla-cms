@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Feb-2010 Mark Dexter
+# Fixed problems in system tests due to admin template change
+
 17-Feb-2010 Hannes Papenberg
 # Fixed JForm::setFields() test
 
