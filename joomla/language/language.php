@@ -232,7 +232,7 @@ class JLanguage extends JObject
 	 */
 	public function transliterate($string)
 	{
-		include_once (JPATH_SITE.DS.'libraries'.DS.'phputf8'.DS.'utils'.DS.'ascii.php');
+		include_once (JPATH_LIBRARIES.DS.'phputf8'.DS.'utils'.DS.'ascii.php');
 
 		if ($this->_transliterator !== null) {
 			return call_user_func($this->_transliterator, $string);
