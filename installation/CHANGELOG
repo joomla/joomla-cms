@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Feb-2010 Jean-Marie Simonet
+^ Changed path to transliteration ascii.php. Thanks Wojtek.
+
 19-Feb-2010 Christophe Demko
 # Correcting a bug in the codemirror plugin
 +$ Adding a language string
