@@ -30,6 +30,7 @@ $ -> Language fix or change
 20-Feb-2010 Jean-Marie Simonet
 ^ Changed path to transliteration ascii.php. Thanks Wojtek.
 $ Made com_comments.ini back-end parse ini compatible
+# Correcting bug in installer template adpater uninstall
 
 19-Feb-2010 Christophe Demko
 # Correcting a bug in the codemirror plugin

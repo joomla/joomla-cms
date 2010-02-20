@@ -282,11 +282,10 @@ class JInstallerTemplate extends JAdapterInstance
 			JError::raiseWarning(100, JTEXT::_('Template').' '.JTEXT::_('Uninstall').': '.JTEXT::_('Package manifest file invalid or not found'));
 			return false;
 		}
-		$xml = &$manifest->document;
 
 		// Remove files
-		$this->parent->removeFiles($xml->media, $clientId);
-		$this->parent->removeFiles($xml->languages, $clientId);
+		$this->parent->removeFiles($manifest->media, $clientId);
+		$this->parent->removeFiles($manifest->languages, $clientId);
 
 		// Delete the template directory
 		if (JFolder::exists($this->parent->getPath('extension_root'))) {
