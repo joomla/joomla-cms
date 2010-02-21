@@ -162,6 +162,14 @@ class JApplication extends JObject
 	 */
 	public function initialise($options = array())
 	{
+		// Load the language file for the template
+		$lang = &JFactory::getLanguage();
+		$template	= $this->getTemplate(true)->template;
+			$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
+		||	$lang->load('tpl_'.$template, JPATH_THEMESy."/$template", null, false, false)
+		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
+		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", $lang->getDefault(), false, false);
+
 		jimport('joomla.plugin.helper');
 
 		// Set the language in the class.
