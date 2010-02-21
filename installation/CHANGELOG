@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Feb-2010 Christophe Demko
++ Adding administrator/manifests/files/index.html
+
 20-Feb-2010 Jean-Marie Simonet
 ^ Changed path to transliteration ascii.php. Thanks Wojtek.
 $ Made com_comments.ini back-end parse ini compatible
