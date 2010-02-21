@@ -21,11 +21,11 @@ function submitbutton(pressbutton)
 
 	// do field validation
 	if (document.getElementById('jformtitle').value == ""){
-		alert("<?php echo JText::_('Weblink item must have a title', true); ?>");
+		alert("<?php echo JText::_('COM_WEBLINKS_FIELD_TITLE_DESC', true); ?>");
 	} else if (document.getElementById('jformcatid').value < 1) {
-		alert("<?php echo JText::_('You must select a category.', true); ?>");
+		alert("<?php echo JText::_('COM_WEBLINKS_FIELD_CATEGORY_DESC', true); ?>");
 	} else if (document.getElementById('jformurl').value == ""){
-		alert("<?php echo JText::_('You must have a url.', true); ?>");
+		alert("<?php echo JText::_('COM_WEBLINKS_FIELD_URL_DESC', true); ?>");
 	} else {
 		submitform(pressbutton);
 	}
@@ -47,7 +47,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td width="10%">
 		<label for="jformtitle">
-			<?php echo JText::_('Name'); ?>:
+			<?php echo JText::_('COM_WEBLINKS_NAME'); ?>:
 		</label>
 	</td>
 	<td width="80%">
@@ -57,7 +57,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td valign="top">
 		<label for="jformcatid">
-			<?php echo JText::_('Category'); ?>:
+			<?php echo JText::_('COM_WEBLINKS_FIELD_CATEGORY_LABEL'); ?>:
 		</label>
 	</td>
 	<td>
@@ -67,7 +67,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td valign="top">
 		<label for="jformurl">
-			<?php echo JText::_('URL'); ?>:
+			<?php echo JText::_('COM_WEBLINKS_FIELD_URL_LABEL'); ?>:
 		</label>
 	</td>
 	<td>
@@ -77,7 +77,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td valign="top">
 		<label for="jformpublished">
-			<?php echo JText::_('Published'); ?>:
+			<?php echo JText::_('JOPTION_PUBLISHED'); ?>:
 		</label>
 	</td>
 	<td>
@@ -87,7 +87,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td valign="top">
 		<label for="jformdescription">
-			<?php echo JText::_('Description'); ?>:
+			<?php echo JText::_('COM_WEBLINKS_FIELD_DESCRIPTION_LABEL'); ?>:
 		</label>
 	</td>
 	<td>
@@ -97,7 +97,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td class="key">
 		<label for="jformordering">
-			<?php echo JText::_('Ordering'); ?>:
+			<?php echo JText::_('JFIELD_ORDERING_LABEL'); ?>:
 		</label>
 	</td>
 	<td>
@@ -108,10 +108,10 @@ function submitbutton(pressbutton)
 
 <div>
 	<button type="button" onclick="submitbutton('save')">
-		<?php echo JText::_('Save') ?>
+		<?php echo JText::_('JSAVE') ?>
 	</button>
 	<button type="button" onclick="submitbutton('cancel')">
-		<?php echo JText::_('Cancel') ?>
+		<?php echo JText::_('JCANCEL') ?>
 	</button>
 </div>
 

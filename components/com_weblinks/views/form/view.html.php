@@ -41,7 +41,7 @@ class WeblinksViewForm extends JView
 		}
 
 		if ($authorised !== true) {
-			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
+			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return false;
 		}
 
@@ -89,7 +89,7 @@ class WeblinksViewForm extends JView
 		}
 
 		if (empty($title)) {
-			$title	= JText::_('Weblinks_Form_Edit_Weblink');
+			$title	= JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK');
 		}
 		$this->document->setTitle($title);
 		$this->params->set('page_title', $title);

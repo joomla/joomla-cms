@@ -41,7 +41,7 @@ class ContentViewForm extends JView
 		}
 
 		if ($authorised !== true) {
-			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
+			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return false;
 		}
 

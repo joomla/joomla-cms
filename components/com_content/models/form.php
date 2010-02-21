@@ -173,7 +173,7 @@ class ContentModelForm extends JModelForm
 
 		// Bind the data.
 		if (!$table->bind($data)) {
-			$this->setError(JText::sprintf('JTable_Error_Bind_failed', $table->getError()));
+			$this->setError(JText::sprintf('JERROR_TABLE_BIND_FAILED', $table->getError()));
 			return false;
 		}
 

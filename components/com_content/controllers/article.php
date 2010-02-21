@@ -86,7 +86,7 @@ class ContentControllerArticle extends JController
 
 		// Access check
 		if (!JFactory::getUser()->authorise('core.create', 'com_content')) {
-			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
+			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return false;
 		}
 
@@ -119,7 +119,7 @@ class ContentControllerArticle extends JController
 
 		// Access check
 		if (!JFactory::getUser()->authorise('core.edit', 'com_content.article.'.$id)) {
-			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
+			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return false;
 		}
 

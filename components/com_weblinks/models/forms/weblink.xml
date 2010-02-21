@@ -7,7 +7,7 @@
 			name="id"
 			type="hidden"
 			class="inputbox"
-			label="Weblink_Id_Label"
+			label="WEBLINK_ID_LABEL"
 			size="10"
 			default="0"
 			required="true"
@@ -17,8 +17,8 @@
 			id="title"
 			name="title"
 			type="text"
-			label="JField_Title_Label"
-			description="JField_Title_Desc"
+			label="COM_WEBLINKS_FIELD_TITLE_LABEL"
+			description="COM_WEBLINKS_FIELD_TITLE_DESC"
 			class="inputbox"
 			size="30"
 			required="true" />
@@ -27,8 +27,8 @@
 			id="alias"
 			name="alias"
 			type="text"
-			label="JField_Alias_Label"
-			description="JField_Alias_Desc"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
 			class="inputbox"
 			size="45"
 			default=""
@@ -38,8 +38,8 @@
 			id="description"
 			name="description"
 			type="editor"
-			label="Weblink_Description_Label"
-			description="Weblink_Description_Desc"
+			label="COM_WEBLINKS_FIELD_DESCRIPTION_LABEL"
+			description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC"
 			class="inputbox"
 			filter="safehtml" />
 
@@ -47,17 +47,17 @@
 			id="state"
 			name="state"
 			type="list"
-			label="JField_Published_Label"
-			description="JField_Published_Desc"
+			label="JFIELD_PUBLISHED_LABEL"
+			description="JFIELD_PUBLISHED_DESC"
 			class="inputbox"
 			size="1"
 			default="1">
 			<option
 				value="1">
-				JOption_Published</option>
+				JOPTION_PUBLISHED</option>
 			<option
 				value="0">
-				JOption_UnPublished</option>
+				JOPTION_UNPUBLISHED</option>
 		</field>
 
 		<field
@@ -65,8 +65,8 @@
 			name="catid"
 			type="category"
 			extension="com_weblinks"
-			label="JField_Category_Label"
-			description="JField_Category_Desc"
+			label="COM_WEBLINKS_FIELD_CATEGORY_LABEL"
+			description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
 			class="inputbox"
 			required="true" />
 
@@ -74,8 +74,8 @@
 			id="url"
 			name="url"
 			type="text"
-			label="Weblinks_Url_Label"
-			description="Weblinks_Url_Desc"
+			label="COM_WEBLINKS_FIELD_URL_LABEL"
+			description="COM_WEBLINKS_FIELD_URL_DESC"
 			class="inputbox"
 			size="45"
 			required="true" />

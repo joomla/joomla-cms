@@ -65,7 +65,7 @@ abstract class JHtmlGrid
 		$index		= intval($direction == 'desc');
 		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
 
-		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_('CLICK_TO_SORT_THIS_COLUMN').'">';
+		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_('JCOMMON_CLICK_TO_SORT_THIS_COLUMN').'">';
 		$html .= JText::_($title);
 		if ($order == $selected) {
 			$html .= JHtml::_('image', 'system/'.$images[$index], '', NULL, true);

@@ -47,14 +47,14 @@ class WeblinksViewCategory extends JView
 
 		// Make sure the category was found.
 		if (empty($category)) {
-			return JError::raiseWarning(404, JText::_('Weblinks_Error_Category_not_found'));
+			return JError::raiseWarning(404, JText::_('COM_WEBLINKS_ERROR_CATEGORY_NOT_FOUND'));
 		}
 
 		// Check whether category access level allows access.
 		$user	= &JFactory::getUser();
 		$groups	= $user->authorisedLevels();
 		if (!in_array($category->access, $groups)) {
-			return JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+			return JError::raiseError(403, JText::_("JERROR_ALERTNOAUTHOR"));
 		}
 
 		// Prepare the data.
@@ -110,7 +110,7 @@ class WeblinksViewCategory extends JView
 				$this->document->setTitle($title);
 			}
 			else {
-				$this->document->setTitle(JText::_('WEB_LINKS'));
+				$this->document->setTitle(JText::_('COM_WEBLINKS_WEB_LINKS'));
 			}
 
 			// Set breadcrumbs.
@@ -119,7 +119,7 @@ class WeblinksViewCategory extends JView
 			}
 		}
 		else {
-			$this->document->setTitle(JText::_('WEB_LINKS'));
+			$this->document->setTitle(JText::_('COM_WEBLINKS_WEB_LINKS'));
 		}
 
 		// Add alternate feed link

@@ -46,7 +46,7 @@ class ConfigController extends JController
 
 				// Access check.
 				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option'))) {
-					return JError::raiseWarning(404, JText::_('ALERTNOTAUTH'));
+					return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 				}
 
 				// Push the model into the view (as default).

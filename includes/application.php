@@ -233,7 +233,7 @@ final class JSite extends JApplication
 				$this->redirect($url, JText::_('YOU_MUST_LOGIN_FIRST'));
 			}
 			else {
-				JError::raiseError(403, JText::_('ALERTNOTAUTH'));
+				JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			}
 		}
 	}

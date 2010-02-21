@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 
  <form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()); ?>" method="post" name="adminForm">
 	 <div class="filter">
-		<?php echo JText::_('Display Num'); ?>
+		<?php echo JText::_('COM_WEBLINKS_DISPLAY_NUM'); ?>
 		<?php echo $this->pagination->getLimitBox(); ?>
 	 </div>
 	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
@@ -37,10 +37,10 @@ defined('_JEXEC') or die;
 	<thead>
 		<tr>
 			<th class="num">
-				<?php echo JText::_('Num'); ?>
+				<?php echo JText::_('COM_WEBLINKS_NUM'); ?>
 			</th>
 			<th class="title">
-					<?php echo JHtml::_('grid.sort',  'Web Link', 'title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'COM_WEBLINKS_GRID_SORT', 'title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 			<?php if ($this->params->get('show_link_hits')) : ?>
 			<th class="hits">
@@ -59,7 +59,7 @@ defined('_JEXEC') or die;
 						<td class="title">
 						<p>
 								<?php if ($this->params->get('link_icons') <> -1) : ?>
-										<?php echo JHtml::_('image',  'system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('Link'), NULL, true);?>
+										<?php echo JHtml::_('image',  'system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), NULL, true);?>
 								<?php endif; ?>
 
 								<?php

@@ -21,7 +21,7 @@ for($i = 0; $i < $params->get('allowed_media_usergroup', 3); $i++)
 $user = & JFactory::getUser();
 $app	= &JFactory::getApplication();
 if (!$user->authorize('com_media', 'popup')) {
-	$app->redirect('index.php', JText::_('ALERTNOTAUTH'));
+	$app->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
 // Set the path definitions

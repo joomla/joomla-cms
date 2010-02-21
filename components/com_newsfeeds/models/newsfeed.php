@@ -86,7 +86,7 @@ class NewsfeedsModelNewsfeed extends JModel
 
 			// Check whether category access level allows access
 			if (!in_array($this->_data->cat_access, $user->authorisedLevels())) {
-				JError::raiseError(403, JText::_('ALERTNOTAUTH'));
+				JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 				return;
 			}
 

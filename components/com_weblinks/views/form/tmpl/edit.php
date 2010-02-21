@@ -35,7 +35,7 @@ function submitbutton(task) {
 
 <form action="<?php echo JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 	<fieldset>
-		<legend><?php echo JText::_('Weblink'); ?></legend>
+		<legend><?php echo JText::_('COM_WEBLINKS_LINK'); ?></legend>
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
 			<br />
@@ -56,10 +56,10 @@ function submitbutton(task) {
 	</fieldset>
 	<fieldset>
 		<button type="button" onclick="submitbutton('weblink.save')">
-			<?php echo JText::_('Save') ?>
+			<?php echo JText::_('JSAVE') ?>
 		</button>
 		<button type="button" onclick="submitbutton('weblink.cancel')">
-			<?php echo JText::_('Cancel') ?>
+			<?php echo JText::_('JCANCEL') ?>
 		</button>
 	</fieldset>
 

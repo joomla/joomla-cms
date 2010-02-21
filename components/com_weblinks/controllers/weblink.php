@@ -64,14 +64,14 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		// Make sure the item was found.
 		if (empty($link)) {
-			return JError::raiseWarning(404, JText::_('Weblinks_Error_Weblink_not_found'));
+			return JError::raiseWarning(404, JText::_('COM_WEBLINKS_ERROR_WEBLINK_NOT_FOUND'));
 		}
 
 		// Check whether item access level allows access.
 		$user	= &JFactory::getUser();
 		$groups	= $user->authorisedLevels();
 		if (!in_array($link->access, $groups)) {
-			return JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+			return JError::raiseError(403, JText::_("JERROR_ALERTNOAUTHOR"));
 		}
 
 		// Check whether category access level allows access.
@@ -83,12 +83,12 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		// Make sure the category was found.
 		if (empty($category)) {
-			return JError::raiseWarning(404, JText::_('Weblinks_Error_Weblink_not_found'));
+			return JError::raiseWarning(404, JText::_('COM_WEBLINKS_ERROR_WEBLINK_NOT_FOUND'));
 		}
 
 		// Check whether item access level allows access.
 		if (!in_array($category->access, $groups)) {
-			return JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		// Redirect to the URL
@@ -99,7 +99,7 @@ class WeblinksControllerWeblink extends JControllerForm
 			JFactory::getApplication()->redirect($link->url);
 		}
 		else {
-			return JError::raiseWarning(404, JText::_('Weblinks_Error_Weblink_url_invalid'));
+			return JError::raiseWarning(404, JText::_('COM_WEBLINKS_ERROR_WEBLINK_URL_INVALID'));
 		}
 	}
 }

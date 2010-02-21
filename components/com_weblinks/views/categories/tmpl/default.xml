@@ -3,20 +3,20 @@
 	<layout
 		title="com_weblinks_categories_view_default_title">
 		<message>
-			<![CDATA[com_contact_categories_view_default_desc]]>
+			<![CDATA[com_weblinks_categories_view_default_desc]]>
 		</message>
 	</layout>
 
 	<fields
 		group="request"
-		label="Menus_Layout_Basic_Options_Label"
+		label="MENUS_LAYOUT_BASIC_OPTIONS_LABEL"
 		description="">
 
 		<field
 			name="Category"
 			type="category"
-			label="Choose_Category_Label"
-			description="Choose_Category_Desc"
+			label="COM_WEBLINKS_FIELD_CATEGORY_LABEL"
+			description="COM_WEBLINKS_FIELD_CATEGORYCHOOSE_DESC"
 			required="true"
 			extension="com_weblinks"
 			default="" />

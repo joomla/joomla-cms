@@ -37,7 +37,7 @@ class UsersControllerProfile extends UsersController
 
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $memberId) {
-			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
+			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return false;
 		}
 
@@ -84,7 +84,7 @@ class UsersControllerProfile extends UsersController
 
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $data['id']) {
-			JError::raiseError(403, JText::_('ALERTNOTAUTH'));
+			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return false;
 		}
 

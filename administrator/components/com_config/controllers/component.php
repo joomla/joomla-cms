@@ -52,7 +52,7 @@ class ConfigControllerComponent extends JController
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorize('core.admin', $option))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('ALERTNOTAUTH'));
+			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 			return;
 		}
 

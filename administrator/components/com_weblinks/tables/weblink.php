@@ -148,13 +148,13 @@ class WeblinksTableWeblink extends JTable
 	public function check()
 	{
 		if (JFilterInput::checkAttribute(array ('href', $this->url))) {
-			$this->setError(JText::_('Please provide a valid URL'));
+			$this->setError(JText::_('COM_WEBLINKS_ERR_TABLES_PROVIDE_URL'));
 			return false;
 		}
 
 		/** check for valid name */
 		if (trim($this->title) == '') {
-			$this->setError(JText::_('Your Weblink must contain a title.'));
+			$this->setError(JText::_('COM_WEBLINKS_ERR_TABLES_TITLE'));
 			return false;
 		}
 
@@ -172,7 +172,7 @@ class WeblinksTableWeblink extends JTable
 
 		$xid = intval($this->_db->loadResult());
 		if ($xid && $xid != intval($this->id)) {
-			$this->setError(JText::sprintf('WARNNAMETRYAGAIN', JText::_('Web Link')));
+			$this->setError(JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_WEBLINKS_ERR_TABLES_NAME')));
 			return false;
 		}
 

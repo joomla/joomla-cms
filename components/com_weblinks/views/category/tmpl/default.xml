@@ -10,29 +10,29 @@
 	<fields
 		group="request"
 		array="true"
-		label="Menus_Layout_Request_Variables_Label"
-		description="Menus_Layout_Request_Variables_Desc">
+		label="MENUS_LAYOUT_REQUEST_VARIABLES_LABEL"
+		description="MENUS_LAYOUT_REQUEST_VARIABLES_DESC">
 		<field
 			name="id"
 			type="category"
 			extension="com_weblinks"
 			default="0"
-			label="Category"
+			label="COM_WEBLINKS_FIELD_CATEGORY_LABEL"
 			required="true"
-			description="fieldCATSELECT" />
+			description="COM_WEBLINKS_FIELD_CATEGORYCHOOSE_DESC" />
 	</fields>
 
 	<fields
 		group="basic"
-		label="Menus_Layout_Basic_Options_Label"
+		label="MENUS_LAYOUT_BASIC_OPTIONS_LABEL"
 		description="">
 
 		<field
 			name="show_feed_link"
 			type="radio"
 			default="1"
-			label="Show a feed link"
-			description="fieldSHOWFEEDLINK">
+			label="COM_MENUS_FIELD_FEEDLINK_LABEL"
+			description="COM_MENUS_FIELD_FEEDLINK_DESC">
 			<option
 				value="0">JNo</option>
 			<option

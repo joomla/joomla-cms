@@ -293,7 +293,7 @@ class ContactController extends JController
 
 			print $output;
 		} else {
-			JError::raiseWarning('SOME_ERROR_CODE', 'ContactController::vCard: '.JText::_('ALERTNOTAUTH'));
+			JError::raiseWarning('SOME_ERROR_CODE', 'ContactController::vCard: '.JText::_('JERROR_ALERTNOAUTHOR'));
 			return false;
 		}
 	}
@@ -323,7 +323,7 @@ class ContactController extends JController
 		$sessionName	= $session->getName();
 		if  ($sessionCheck) {
 			if (!isset($_COOKIE[$sessionName])) {
-				$this->setError(JText::_('ALERTNOTAUTH'));
+				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
 				return false;
 			}
 		}

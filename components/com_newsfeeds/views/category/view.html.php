@@ -58,7 +58,7 @@ class NewsfeedsViewCategory extends JView
 		$user	= &JFactory::getUser();
 		$groups	= $user->authorisedLevels();
 		if (!in_array($category->access, $groups)) {
-			return JError::raiseError(403, JText::_("ALERTNOTAUTH"));
+			return JError::raiseError(403, JText::_("JERROR_ALERTNOAUTHOR"));
 		}
 
 		// Prepare the data.
