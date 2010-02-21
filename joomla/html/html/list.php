@@ -161,7 +161,7 @@ abstract class JHtmlList
 				$text = JText::_('descNewItemsFirst');
 			}
 			else if ($neworder <= 0) {
-				$text = JText::_('descNewItemsLast');
+				$text = JText::_('JCOMMON_NEWITEMSLAST_DESC');
 			}
 			$html = '<input type="hidden" name="'.$name.'" value="'. (int) $selected .'" />'. $text;
 		}
