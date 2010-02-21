@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 21-Feb-2010 Christophe Demko
+# Correcting a bug in component update
 # Enabling ftp for installation extension
 + Adding administrator/manifests/files/index.html
 
