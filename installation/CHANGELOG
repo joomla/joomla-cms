@@ -35,6 +35,7 @@ $ -> Language fix or change
 ^$ Refactored com_weblinks ini/keys + some
 
 21-Feb-2010 Christophe Demko
+# Loading language template at application init
 # Correcting a bug in component update
 # Enabling ftp for installation extension
 + Adding administrator/manifests/files/index.html
