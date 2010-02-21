@@ -29,7 +29,7 @@ class User0001Test extends SeleniumJoomlaTestCase
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("60000");
 		print("Save and check that it exists"."\n");
-		$this->type("search", "username1");
+		$this->type("filter_search", "username1");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 

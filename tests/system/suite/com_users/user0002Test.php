@@ -30,7 +30,7 @@ class User0002Test extends SeleniumJoomlaTestCase
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
         array_push($this->verificationErrors, $e->toString());
     }
-    $this->type("search", "TestUser");
+    $this->type("filter_search", "TestUser");
     $this->click("//button[@type='submit']");
     $this->waitForPageToLoad("30000");
     try {
@@ -67,7 +67,7 @@ class User0002Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
     
     echo "Filter on user name\n";
-    $this->type("search", $userName);
+    $this->type("filter_search", $userName);
     $this->click("//button[@type='submit']");
     $this->waitForPageToLoad("30000");
   

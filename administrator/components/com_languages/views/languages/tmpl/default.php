@@ -18,14 +18,14 @@ $n = count($this->items);
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter">
 		<div class="left">
-			<label for="search">
+			<label for="filter_search">
 				<?php echo JText::_('JSearch_Filter'); ?>
 			</label>
-			<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('COM_LANGS_SEARCH_IN_TITLE'); ?>" />
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('COM_LANGS_SEARCH_IN_TITLE'); ?>" />
 
 			<button type="submit">
 				<?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="document.id('search').value='';this.form.submit();">
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
 				<?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 		<div class="right">

@@ -149,7 +149,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	    $this->waitForPageToLoad("30000");
 	    
 	    echo "Filter on user name\n";
-	    $this->type("search", $partialName);
+	    $this->type("filter_search", $partialName);
 	    $this->click("//button[@type='submit']");
 	    $this->waitForPageToLoad("30000");
 	  

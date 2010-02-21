@@ -18,7 +18,7 @@ $function = JRequest::getVar('function', 'jSelectContact');
 <form action="<?php echo JRoute::_('index.php?option=com_contact&view=contacts');?>" method="post" name="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="left">
-			<label for="search">
+			<label for="filter_search">
 				<?php echo JText::_('JSearch_Filter_Label'); ?>
 			</label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" size="30" title="<?php echo JText::_('Content_Filter_Search_Desc'); ?>" />

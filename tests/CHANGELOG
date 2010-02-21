@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Feb-2010 Mark Dexter
+^ Change system tests to use filter_search
+
 19-Feb-2010 Mark Dexter
 # Fixed problems in system tests due to admin template change
 ^ Change doInstall.php to delete configuration.php file

@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Feb-2010 Mark Dexter
+^ Make filter HTML consistent for back-end screens (Andrea Tarr)
+^ Fix system tests to reflect HTML changes
+
 21-Feb-2010 Jean-Marie Simonet
 ^$ Refactored com_weblinks ini/keys + some
 

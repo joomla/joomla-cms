@@ -23,10 +23,10 @@ $lOrdering	= $this->state->get('list.ordering');
 <form action="<?php echo JRoute::_('index.php?option=com_comments&view=threads');?>" method="post" name="adminForm">
 
 	<div class="form-filter" style="float: left;">
-		<label for="search"><?php echo JText::_('COMMENTS_SEARCH_LABEL'); ?></label>
-		<input type="text" name="filter_search" id="search" value="<?php echo $this->state->get('filter.search'); ?>" class="text_area" onchange="document.adminForm.submit();" title="<?php echo JText::_('COMMENTS_SEARCH_TITLE');?>"/>
+		<label for="filter_search"><?php echo JText::_('COMMENTS_SEARCH_LABEL'); ?></label>
+		<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" class="text_area" onchange="document.adminForm.submit();" title="<?php echo JText::_('COMMENTS_SEARCH_TITLE');?>"/>
 		<button onclick="this.form.submit();"><?php echo JText::_('COMMENTS_SEARCH_GO'); ?></button>
-		<button onclick="document.getElementById('search').value='';document.getElementById('published').value='0';this.form.submit();"><?php echo JText::_('COMMENTS_SEARCH_RESET'); ?></button>
+		<button onclick="document.getElementById('filter_search').value='';document.getElementById('published').value='0';this.form.submit();"><?php echo JText::_('COMMENTS_SEARCH_RESET'); ?></button>
 	</div>
 
 	<div class="form-filter" style="float: right;">
