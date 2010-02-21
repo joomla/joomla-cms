@@ -1140,7 +1140,7 @@ class JInstaller extends JAdapter
 					// Copy the folder or file to the new location.
 					if ($filetype == 'folder')
 					{
-						if (!(JFolder::copy($filesource, $filedest, null, $overwrite,1)))
+						if (!(JFolder::copy($filesource, $filedest, null, $overwrite)))
 						{
 							JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy folder to', $filesource, $filedest));
 							return false;
@@ -1150,7 +1150,7 @@ class JInstaller extends JAdapter
 					}
 					else
 					{
-						if (!(JFile::copy($filesource, $filedest,null,1)))
+						if (!(JFile::copy($filesource, $filedest,null)))
 						{
 							JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy file to', $filesource, $filedest));
 							return false;
