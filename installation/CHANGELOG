@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 22-Feb-2010 Christophe Demko
+^ Changing call JLanguage::* to self::* in JLanguage class
 # Adding the ability to specify a layout and a tmpl in the JControllerForm
 
 21-Feb-2010 Mark Dexter
