@@ -166,7 +166,7 @@ class JApplication extends JObject
 		$lang = &JFactory::getLanguage();
 		$template	= $this->getTemplate(true)->template;
 			$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
-		||	$lang->load('tpl_'.$template, JPATH_THEMESy."/$template", null, false, false)
+		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", null, false, false)
 		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
 		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", $lang->getDefault(), false, false);
 
