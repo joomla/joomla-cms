@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Feb-2010 Christophe Demko
+# Adding the ability to specify a layout and a tmpl in the JControllerForm
+
 21-Feb-2010 Mark Dexter
 ^ Make filter HTML consistent for back-end screens (Andrea Tarr)
 ^ Fix system tests to reflect HTML changes
