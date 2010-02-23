@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Feb-2010 Sam Moffatt
+# Fix for minor HTML bug in mysql and mysqli drivers
+
 22-Feb-2010 Christophe Demko
 # Reverting patch 14969 (introduce a bug). Change the way to load the template language ini
 ^ Changing call JLanguage::* to self::* in JLanguage class
