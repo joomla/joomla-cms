@@ -401,6 +401,9 @@ INSERT INTO #__extensions SELECT
      FROM #__modules			# #__extensions provides the install/uninstall control for modules
      WHERE id IN (SELECT id FROM #__modules GROUP BY module ORDER BY id)
 
+-- rename mod_newsflash to mod_articles_news
+UPDATE `#__extensions` SET `name` = 'mod_articles_news', `element` = 'mod_articles_news' WHERE `name` = 'mod_newsflash'
+
 -- New extensions
 INSERT INTO `#__extensions` VALUES(0, 'Editor - CodeMirror', 'plugin', 'codemirror', 'editors', 1, 0, 1, 1, '', 'linenumbers=0\n\n', '', '', 0, '0000-00-00 00:00:00', 7, 0);
 
