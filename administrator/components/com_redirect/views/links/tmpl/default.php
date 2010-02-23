@@ -99,7 +99,7 @@ $user	= JFactory::getUser();
 					<?php echo $this->escape($item->referer); ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('date', $item->created_date); ?>
+					<?php echo JHtml::date($item->created_date); ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('redirect.published', $item->published, $i); ?>

@@ -77,7 +77,7 @@ $n = count($this->articles);
 				</td>
 				<?php if ($this->params->get('show_date') != 'hide') : ?>
 					<td class="list-date">
-						<?php echo JHTML::_('date', $article->displayDate, $this->escape(
+						<?php echo JHtml::date($article->displayDate, $this->escape(
 						$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
 					</td>
 				<?php endif; ?>

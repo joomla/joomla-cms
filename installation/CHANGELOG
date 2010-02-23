@@ -33,6 +33,7 @@ $ Small corrections for mod_article_news
 23-Feb-2010 Hannes Papenberg
 ^ refactored mod_newsflash to mod_articles_news - Thanks Rob Clayburn!
 + Added option to enable/disable the weblink click-tracking - Thanks Rob Clayburn!
+# Made usage of JHTML functions consistent - Thanks Jonnathan Lima!
 
 23-Feb-2010 Christophe Demko
 ^ Changing call JHtmlSelect::* to self::* in JHtmlSelect class

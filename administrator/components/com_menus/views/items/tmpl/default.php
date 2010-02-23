@@ -105,7 +105,7 @@ $userId	= $user->get('id');
 						<?php echo $this->escape($item->title); ?></a>
 
 					<?php if ($item->home == 1) : ?>
-						<span><?php echo JHTML::_('image', 'menu/icon-16-default.png', JText::_('DEFAULT'), array( 'title' => JText::_('DEFAULT')), true); ?></span>
+						<span><?php echo JHtml::image('menu/icon-16-default.png', JText::_('DEFAULT'), array( 'title' => JText::_('DEFAULT')), true); ?></span>
 					<?php endif; ?>
 
 					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">

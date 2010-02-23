@@ -117,7 +117,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 	{
 		$menu->addChild(
 			new JMenuNode(
-				$menuType->title.($menuType->home ? ' <span>'.JHTML::_('image', 'menu/icon-16-default.png', NULL, NULL, true).'</span>' : ''),
+				$menuType->title.($menuType->home ? ' <span>'.JHtml::image('menu/icon-16-default.png', NULL, NULL, true).'</span>' : ''),
 				'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu'
 			)
 		);

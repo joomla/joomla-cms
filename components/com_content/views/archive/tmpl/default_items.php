@@ -38,7 +38,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
 		<?php if ($this->params->get('show_create_date')) : ?>
 			<span class="created-date">
-				<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC2')); ?>
+				<?php echo JHtml::date($item->created, JText::_('DATE_FORMAT_LC2')); ?>
 			</span>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_author')) : ?>

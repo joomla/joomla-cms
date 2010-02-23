@@ -32,8 +32,8 @@ class plgEditorCodemirror extends JPlugin
 	public function onInit()
 	{
 		JHtml::_('core');
-		JHtml::_('script', $this->_basePath . 'codemirror.js');
-		JHtml::_('stylesheet', $this->_basePath . 'css/codemirror.css');
+		JHtml::script($this->_basePath . 'codemirror.js');
+		JHtml::stylesheet($this->_basePath . 'css/codemirror.css');
 
 		return '';
 	}

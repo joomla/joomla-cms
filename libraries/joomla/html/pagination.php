@@ -416,11 +416,11 @@ class JPagination extends JObject
 		{
 			if ($enabled) {
 				$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-				$html	.= JHTML::_('image', 'admin/uparrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
+				$html	.= JHtml::image('admin/uparrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 				$html	.= '</a>';
 			}
 			else {
-				$html	= JHTML::_('image', 'admin/uparrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
+				$html	= JHtml::image('admin/uparrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 			}
 		}
 
@@ -447,10 +447,10 @@ class JPagination extends JObject
 		{
 			if ($enabled) {
 				$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-				$html	.= JHTML::_('image', 'admin/downarrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' =>0), true);
+				$html	.= JHtml::image('admin/downarrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' =>0), true);
 				$html	.= '</a>';
 			} else {
-				$html	= JHTML::_('image', 'admin/downarrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
+				$html	= JHtml::image('admin/downarrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 			}
 		}
 

@@ -509,7 +509,7 @@ abstract class JHtml
 		}
 
 		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
-				JHTML::_('image', 'system/calendar.png', JText::_('calendar'), array( 'class' => 'calendar', 'id' => $id.'_img'), true);
+				JHtml::image('system/calendar.png', JText::_('calendar'), array( 'class' => 'calendar', 'id' => $id.'_img'), true);
 	}
 
 	/**
