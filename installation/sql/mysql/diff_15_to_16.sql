@@ -405,7 +405,7 @@ INSERT INTO #__extensions SELECT
 UPDATE `#__extensions` SET `name` = 'mod_articles_news', `element` = 'mod_articles_news' WHERE `name` = 'mod_newsflash'
 
 -- New extensions
-INSERT INTO `#__extensions` VALUES(0, 'Editor - CodeMirror', 'plugin', 'codemirror', 'editors', 1, 0, 1, 1, '', 'linenumbers=0\n\n', '', '', 0, '0000-00-00 00:00:00', 7, 0);
+INSERT INTO `#__extensions` VALUES(0, 'plg_editors_codemirror', 'plugin', 'codemirror', 'editors', 1, 0, 1, 1, '', 'linenumbers=0\n\n', '', '', 0, '0000-00-00 00:00:00', 7, 0);
 
 -- ----------------------------------------------------------------
 -- jos_languages (new)
