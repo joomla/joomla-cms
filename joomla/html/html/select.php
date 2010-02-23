@@ -121,7 +121,7 @@ abstract class JHtmlSelect
 			. ' name="' . $name . '"'
 			. $attribs . '>'
 			. $options['format.eol']
-			. JHtmlSelect::options($data, $options)
+			. self::options($data, $options)
 			. $baseIndent . '</select>'
 			. $options['format.eol']
 		;
@@ -251,7 +251,7 @@ abstract class JHtmlSelect
 			}
 			if($noGroup)
 			{
-				$html.=JHtmlSelect::options($subList, $options);
+				$html.=self::options($subList, $options);
 			}
 			else
 			{
@@ -261,7 +261,7 @@ abstract class JHtmlSelect
 					. ($options['group.label.toHtml'] ? htmlspecialchars($label, ENT_COMPAT, 'UTF-8') : $label)
 					. '">'
 					. $options['format.eol']
-					. JHtmlSelect::options($subList, $options)
+					. self::options($subList, $options)
 					. $groupIndent . '</optgroup>'
 					. $options['format.eol']
 				;
