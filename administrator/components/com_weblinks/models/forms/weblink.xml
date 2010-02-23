@@ -192,5 +192,19 @@
 			<option
 				value="3">JBrowserTarget_Modal</option>
 		</field>
+		
+		<field
+			name="count_clicks"
+			type="List"
+			default="0"
+			label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
+			description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC">
+				<option
+				value="">USE_GLOBAL</option>
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
 	</fields>
 </form>
