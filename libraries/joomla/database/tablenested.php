@@ -82,7 +82,17 @@ class JTableNested extends JTable
 	 */
 	protected $_cache = array();
 
-	protected $_debug = true;
+	protected $_debug = 0;
+
+	/**
+	 * Sets the debug level on or off
+	 *
+	 * @param	int	0 = off, 1 = on
+	 */
+	public function debug($level)
+	{
+		$this->_debug = intval($level);
+	}
 
 	/**
 	 * Method to get an array of nodes from a given node to its root.

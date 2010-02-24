@@ -111,23 +111,23 @@ class ConfigModelComponent extends JModelForm
 			jimport('joomla.access.rules');
 			$rules	= new JRules($data['params']['rules']);
 			$asset	= JTable::getInstance('asset');
-			if ($asset->loadByName($data['option']))
+			if (!$asset->loadByName($data['option']))
 			{
-				$asset->rules = (string) $rules;
-				if (!$asset->check() || !$asset->store())
-				{
-					$this->setError($asset->getError());
-					return false;
-				}
-				// We don't need this anymore
-					unset($data['option']);
-					unset($data['params']['rules']);
+				$root	= JTable::getInstance('asset');
+				$root->loadByName('root.1');
+				$asset->name = $data['option'];
+				$asset->title = $data['option'];
+				$asset->setLocation($root->id,'last-child');
 			}
-			else
+			$asset->rules = (string) $rules;
+			if (!$asset->check() || !$asset->store())
 			{
-				$this->setError('Config_Error_Component_asset_not_found');
+				$this->setError($asset->getError());
 				return false;
 			}
+			// We don't need this anymore
+			unset($data['option']);
+			unset($data['params']['rules']);
 		}
 
 		// Load the previous Data

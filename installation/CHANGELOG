@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 24-Feb-2010 Christophe Demko
+# Correcting some bugs in ConfigModelComponent
 # Correcting some bugs in JControllerForm
 
 21-Feb-2010 Jean-Marie Simonet
