@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Feb-2010 Hannes Papenberg
+^ Changed weblinks module to use weblinks category model and allowed enable/disable click tracking - Thanks Rob Clayburn!
+
 24-Feb-2010 Christophe Demko
 # Correcting some bugs in ConfigModelComponent
 # Correcting some bugs in JControllerForm

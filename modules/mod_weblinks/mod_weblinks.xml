@@ -108,6 +108,20 @@
 			<option
 				value="0">JNO</option>
 		</field>
+		
+		<field
+			name="count_clicks"
+			type="List"
+			default="0"
+			label="MOD_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
+			description="MOD_WEBLINKS_FIELD_COUNTCLICKS_DESC">
+				<option
+				value="">USE_GLOBAL</option>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
 	</fields>
 	<fields
 		group="advanced">

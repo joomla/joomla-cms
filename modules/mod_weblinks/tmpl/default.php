@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 <?php foreach ($list as $item) :	?>
 <li>
 		<?php
-					$link	= JRoute::_('index.php?task=weblink.go&catid='.$item->catslug.'&id='. $item->slug);
+					$link = $item->link;
 					switch ($params->get('target', 3))
 					{
 						case 1:

@@ -92,6 +92,12 @@ class WeblinksModelCategory extends JModelList
 			$query->where('a.catid = '.(int) $categoryId);
 			$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 			$query->where('c.access IN ('.$groups.')');
+
+			//Filter by published category
+			$cpublished = $this->getState('filter.c.published');
+			if (is_numeric($cpublished)) {
+				$query->where('c.published = '.(int) $cpublished);
+			}
 		}
 
 		// Filter by state
@@ -102,7 +108,6 @@ class WeblinksModelCategory extends JModelList
 
 		// Add the list ordering clause.
 		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
-
 		return $query;
 	}
 
