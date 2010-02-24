@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Feb-2010 Christophe Demko
+# Correcting some bugs in JControllerForm
+
 21-Feb-2010 Jean-Marie Simonet
 $ Small corrections for mod_article_news
 

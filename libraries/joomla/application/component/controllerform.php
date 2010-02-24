@@ -223,6 +223,7 @@ class JControllerForm extends JController
 		// Access check.
 		$key		= $table->getKeyName();
 		if (!$this->_allowEdit(array($key => $recordId), $key)) {
+			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_items, false));
 			return JError::raiseWarning(403, 'JError_Core_Edit_not_permitted.');
 		}
 
@@ -377,6 +378,7 @@ class JControllerForm extends JController
 
 		// Access check.
 		if (!$this->_allowSave($data)) {
+			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_items, false));
 			return JError::raiseWarning(403, 'JError_Save_not_permitted');
 		}
 
