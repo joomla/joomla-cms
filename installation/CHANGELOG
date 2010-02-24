@@ -34,6 +34,7 @@ $ Allowing translation of plugin names in Plugin Manager
 ^ Changed weblinks module to use weblinks category model and allowed enable/disable click tracking - Thanks Rob Clayburn!
 
 24-Feb-2010 Christophe Demko
+# Loading correctly language in com_config component
 # Correcting some bugs in ConfigModelComponent
 # Correcting some bugs in JControllerForm
 
