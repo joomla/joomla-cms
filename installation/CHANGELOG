@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Feb-2010 Christophe Demko
+# Correcting integrity of #__asset table
+
 24-Feb-2010 Jean-Marie Simonet
 $ Allowing translation of plugin names in Plugin Manager
 
