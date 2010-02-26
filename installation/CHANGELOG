@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Feb-2010 Mark Dexter
+# Add CSS for multi-column blog display (Angie Radtke)
+^ Fix up ordering and other parameters for category blog menu item 
+
 26-Feb-2010 Jean-Marie Simonet
 ^ Integrating default latin transliteration in framework
 

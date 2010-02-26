@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Create a shortcut for params.
-$params = &$this->item->params;
+$params =& $this->item->params;
 ?>
 
 <?php if ($this->item->state == 0) : ?>
@@ -40,7 +40,7 @@ $params = &$this->item->params;
 			<?php echo JHtml::_('icon.email', $this->item, $params); ?>
 		</li>
 		<?php endif; ?>
-		<?php if ($this->user->authorise('core.edit', 'com_content.category.'.$this->item->id)) : ?>
+		<?php if ($this->user->authorise('core.edit', 'com_content.category.' . $this->item->id)) : ?>
 		<li class="edit-icon">
 			<?php echo JHtml::_('icon.edit', $this->item, $params); ?>
 		</li>
@@ -56,18 +56,31 @@ $params = &$this->item->params;
 
 <?php // to do not that elegant would be nice to group the params ?>
 
-<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))) : ?>
+<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date'))
+	or ($params->get('show_publish_date'))) :
+?>
  <dl class="article-info">
- <dt class="article-info-term"><?php  echo JText::_('JContent_Article_Infos'); ?></dt>
+ <dt class="article-info-term"><?php echo JText::_('CONTENT_ARTICLE_INFO'); ?></dt>
+<?php endif; ?>
+<?php if ($params->get('show_parent_category')) : ?>
+		<dd class="parent-category-name">
+			<?php $title = $this->escape($this->item->parent_title);
+				$url = '<a href="' . JRoute::_(ContentRoute::category($this->item->parent_slug)) . '">' . $title . '</a>'; ?>
+			<?php if ($params->get('link_parent_category')) : ?>
+				<?php echo JText::sprintf('CONTENT_PARENT', $url); ?>
+				<?php else : ?>
+				<?php echo JText::sprintf('CONTENT_PARENT', $title); ?>
+			<?php endif; ?>
+		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_category')) : ?>
 		<dd class="category-name">
-			<?php 	$title = $this->escape($this->item->category_title);
-					$url = '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'.$title.'</a>';?>
+			<?php $title = $this->escape($this->item->category_title);
+					$url = '<a href="' . JRoute::_(ContentRoute::category($this->item->catslug)) . '">' . $title . '</a>'; ?>
 			<?php if ($params->get('link_category')) : ?>
-				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
+				<?php echo JText::sprintf('CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
-				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
+				<?php echo JText::sprintf('CONTENT_CATEGORY', $title); ?>
 			<?php endif; ?>
 		</dd>
 <?php endif; ?>
@@ -88,32 +101,44 @@ $params = &$this->item->params;
 <?php endif; ?>
 <?php if ($params->get('show_author') && !empty($this->item->author_name)) : ?>
 	<dd class="createdby">
-		<?php $author=($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author_name);?>
+		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author_name); ?>
 	<?php echo JText::sprintf('Written_by', $author); ?>
 		</dd>
 	<?php endif; ?>
-<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))) : ?>
- </dl>
+<?php if ($params->get('show_hits')) : ?>
+		<dd class="hits">
+		<?php echo JText::sprintf('CONTENT_ARTICLE_HITS', $this->item->hits); ?>
+		</dd>
+<?php endif; ?>
+<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date'))
+			or ($params->get('show_publish_date'))) :?>
+ 	</dl>
 <?php endif; ?>
 
 <?php echo $this->item->introtext; ?>
 
-<?php if ($params->get('show_readmore')  && $this->item->readmore) :
+<?php if ($params->get('show_readmore') && $this->item->readmore) :
 	if ($params->get('access-view')) :
 		$link = JRoute::_(ContentRoute::article($this->item->slug, $this->item->catslug));
 	else :
-		$link = JRoute::_("index.php?option=com_users&view=login");
+		$menu = JSite::getMenu();
+		$active = $menu->getActive();
+		$itemId = $active->id;
+		$link1 = JRoute::_('index.php?option=com_users&view=login&&Itemid=' . $itemId);
+		$returnURL = JRoute::_(ContentRoute::article($this->item->slug));
+		$link = new JURI($link1);
+		$link->setVar('return', base64_encode($returnURL));
 	endif;
 ?>
 		<p class="readmore">
 				<a href="<?php echo $link; ?>">
-						<?php if (!$params->get('access-view')) :
-								echo JText::_('REGISTER_TO_READ_MORE');
-						elseif ($readmore = $params->get('alternative_readmore')) :
-								echo $readmore;
-						else :
-								echo JText::sprintf('READ_MORE', $this->escape($this->item->title));
-						endif; ?></a>
+					<?php if (!$params->get('access-view')) :
+						echo JText::_('REGISTER_TO_READ_MORE');
+					elseif ($readmore = $params->get('alternative_readmore')) :
+						echo $readmore;
+					else :
+						echo JText::sprintf('READ_MORE', $this->escape($this->item->title));
+					endif; ?></a>
 		</p>
 <?php endif; ?>
 

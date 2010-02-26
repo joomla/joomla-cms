@@ -44,9 +44,7 @@ class ContentViewCategory extends JView
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
 		$articles	= $this->get('Articles');
-//		$siblings	= $this->get('Siblings');
 		$children	= $this->get('Children');
-//		$parents	= $this->get('Parents');
 		$pagination	= $this->get('Pagination');
 
 
@@ -74,6 +72,7 @@ class ContentViewCategory extends JView
 		{
 			$article->slug		= $article->alias ? ($article->id.':'.$article->alias) : $article->id;
 			$article->catslug	= $article->category_route ? ($article->catid.':'.$article->category_route) : $article->catid;
+			$article->parent_slug	= $article->parent_route ? ($article->parent_id.':'.$article->parent_route) : $article->parent_id;
 			$article->event		= new stdClass();
 
 			$dispatcher	= &JDispatcher::getInstance();
@@ -107,28 +106,18 @@ class ContentViewCategory extends JView
 
 		// The second group is the intro articles.
 		$limit		= $numLeading + $numIntro;
+		// Order articles across, then down (or single column mode)
+		for ($i = $numLeading; $i < $limit &&$i < $max; $i++) {
+			$this->intro_items[$i] = &$articles[$i];
+		}
+		
 		$this->columns	= max(1, $params->def('num_columns', 1));
 		$order		= $params->def('multi_column_order', 1);
 
-		if ($order !== 1 || $this->columns == 1)
+		if ($order == 0 && $this->columns > 1)
 		{
-			// Order articles across, then down (or single column mode)
-			for ($i = $numLeading; $i < $limit &&$i < $max; $i++) {
-				$this->intro_items[$i] = &$articles[$i];
-			}
-		}
-		else
-		{
-			// Order articles down, then across
-			$k = $numLeading;
-
-			// Pass over the second group by the number of columns
-			for ($j = 0; $j < $this->columns; $j++)
-			{
-				for ($i = $numLeading + $j; $i < $limit &&$i < $max; $i += $this->columns, $k++) {
-					$this->intro_items[$k] = &$articles[$i];
-				}
-			}
+			// call order down helper
+			$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
 		}
 
 		// The remainder are the links.
@@ -206,13 +195,6 @@ class ContentViewCategory extends JView
 
 			if ($view != 'category' || ($view == 'category' && $id != $this->item->id))
 			{
-				// foreach($this->parents as $parent)
-				// {
-					// $pathway->addItem(
-					//	$parent->title,
-					//	ContentRoute::category($parent->slug)
-					// );
-				//}
 				$pathway->addItem($this->item->title);
 			}
 		}

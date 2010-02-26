@@ -48,8 +48,8 @@ class ContentHelperQuery
 	{
 		switch ($orderDate)
 		{
-			case 'modifed' :
-				$queryDate = ' a.modified ';
+			case 'modified' :
+				$queryDate = ' CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END';
 				break;
 
 			// use created if publish_up is not set
@@ -132,5 +132,54 @@ class ContentHelperQuery
 		$results = array ('select' => $select, 'join' => $join);
 
 		return $results;
+	}
+
+	/**
+	 * Method to order the intro articles array for ordering
+	 * down the columns instead of across. 
+	 * The layout always lays the introtext articles out across columns. 
+	 * Array is reordered so that, when articles are displayed in index order
+	 * across columns in the layout, the result is that the
+	 * desired article ordering is achieved down the columns.
+	 * 
+	 * @access	public
+	 * @param	array	$articles	Array of intro text articles
+	 * @param	integer	$numColumns	Number of columns in the layout
+	 * @return	array	Reordered array to achieve desired ordering down columns
+	 * @since	1.6
+	 */
+	function orderDownColumns(&$articles, $numColumns = 1)
+	{
+		$count = count($articles);
+		// just return the same array if there is nothing to change
+		if ($numColumns == 1 || !is_array($articles) || $count  <= $numColumns) 
+		{
+			$return = $articles;
+		}
+		// we need to re-order the intro articles array
+		else 
+		{
+			// layout the articles in column order
+			$maxRows = ceil($count / $numColumns);
+			$index = array();
+			$i = 1;
+			for ($col = 1; ($col <= $numColumns) && ($i <= $count); $col++) {
+				for ($row = 1; ($row <= $maxRows) && ($i <= $count); $row++) {
+					$index[$row][$col] = $i;
+					$i++;
+				}
+			}
+			// now read the $index back row by row to get articles in right row/col
+			// so that they will actually be ordered down the columns
+			$return = array();
+			$i = 1;
+			for ($row = 1; ($row <= $maxRows) && ($i <= $count); $row++) {
+				for ($col = 1; ($col <= $numColumns) && ($i <= $count); $col++) {
+					$return[$i] = &$articles[$index[$row][$col]];
+					$i++;
+				}
+			}
+		}
+		return $return;
 	}
 }

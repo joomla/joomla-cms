@@ -89,7 +89,15 @@ class ContentModelCategory extends JModelItem
 		$this->setState('list.direction',$app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd'));
 
 		$this->setState('list.start', JRequest::getVar('limitstart', 0, '', 'int'));
-		$this->setState('list.limit', JRequest::getVar('limit', $mergedParams->get('display_num'), '', 'int'));
+		
+		// set limit for query. If list, use parameter. If blog, add blog parameters for limit.
+		if (JRequest::getString('layout') == 'blog') {
+			$limit = $mergedParams->get('num_leading_articles') + $mergedParams->get('num_intro_articles') + $mergedParams->get('num_links');
+		}
+		else {
+			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $mergedParams->get('display_num'));
+		}
+		$this->setState('list.limit', $limit);
 }
 
 	/**
@@ -350,9 +358,9 @@ class ContentModelCategory extends JModelItem
 			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
 		}
 
-		$articleOrderby	= $params->get('article_orderby', 'rdate');
+		$articleOrderby	= $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
-		$categoryOrderby	= $params->def('category_orderby', '');
+		$categoryOrderby	= $params->def('orderby_pri', '');
 		$secondary		= ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate).', ';
 		$primary		= ContentHelperQuery::orderbyPrimary($categoryOrderby);
 
