@@ -100,7 +100,7 @@ class ContentViewFrontpage extends JView
 		$this->columns	= max(1, $params->def('num_columns', 1));
 		$order		= $params->def('multi_column_order', 1);
 
-		if ($order !== 1 || $this->columns == 1)
+		if ($order == 1 || $this->columns == 1)
 		{
 			// Order articles across, then down (or single column mode)
 			for ($i = $numLeading; $i < $limit &&$i < $max; $i++) {

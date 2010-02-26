@@ -6,35 +6,11 @@
 		description="Content_Config_Article_Settings_Desc">
 
 		<field
-			name="show_category"
-			type="radio"
-			label="Content_Attribs_Show_Category_Label"
-			description="Content_Attribs_Show_Category_Desc"
-			default="1">
-			<option
-				value="0">JCommon_Hide</option>
-			<option
-				value="1">JCommon_Show</option>
-		</field>
-
-		<field
-			name="link_category"
-			type="radio"
-			label="Content_Attribs_Link_Category_Label"
-			description="Content_Attribs_Link_Category_Desc"
-			default="1">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-		<field
 			name="show_title"
 			type="radio"
 			default="1"
-			label="Content_Attribs_Show_Title_Label"
-			description="Content_Attribs_Show_Title_Desc">
+			label="JGLOBAL_Show_Title_Label"
+			description="JGLOBAL_Show_Title_Desc">
 			<option
 				value="0">JCOMMON_HIDE</option>
 			<option
@@ -45,8 +21,8 @@
 			name="link_titles"
 			type="radio"
 			default="1"
-			label="Content_Attribs_Linked_Titles_Label"
-			description="Content_Attribs_Linked_Titles_Desc">
+			label="JGLOBAL_Linked_Titles_Label"
+			description="JGLOBAL_Linked_Titles_Desc">
 			<option
 				value="0">JNo</option>
 			<option
@@ -57,13 +33,62 @@
 			name="show_intro"
 			type="radio"
 			default="1"
-			label="Content_Attribs_Show_Intro_Label"
-			description="Content_Attribs_Show_Intro_Desc">
+			label="JGLOBAL_Show_Intro_Label"
+			description="JGLOBAL_Show_Intro_Desc">
 			<option
 				value="0">JCommon_Hide</option>
 			<option
 				value="1">JCommon_Show</option>
 		</field>
+
+		<field
+			name="show_category"
+			type="radio"
+			label="JGLOBAL_Show_Category_Label"
+			description="JGLOBAL_Show_Category_Desc"
+			default="1">
+			<option
+				value="0">JCommon_Hide</option>
+			<option
+				value="1">JCommon_Show</option>
+		</field>
+
+		<field
+			name="link_category"
+			type="radio"
+			label="JGLOBAL_Link_Category_Label"
+			description="JGLOBAL_Link_Category_Desc"
+			default="1">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+		
+		<field
+			name="show_parent_category"
+			type="radio"
+			label="JGLOBAL_Show_Parent_Category_Label"
+			description="JGLOBAL_Show_Parent_Category_Desc"
+			default="1">
+			<option
+				value="0">JCommon_Hide</option>
+			<option
+				value="1">JCommon_Show</option>
+		</field>
+
+		<field
+			name="link_parent_category"
+			type="radio"
+			label="JGLOBAL_Link_Parent_Category_Label"
+			description="JGLOBAL_Link_Parent_Category_Desc"
+			default="1">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
 
 		<field
 			name="spacer1"
@@ -74,8 +99,8 @@
 		<field
 			name="show_author"
 			type="radio"
-			label="Content_Attribs_Show_Author_Label"
-			description="Content_Attribs_Show_Author_Desc"
+			label="JGLOBAL_Show_Author_Label"
+			description="JGLOBAL_Show_Author_Desc"
 			default="1">
 			<option
 				value="0">JCommon_Hide</option>
@@ -86,8 +111,8 @@
 		<field
 			name="show_create_date"
 			type="radio"
-			label="Content_Attribs_Show_Create_Date_Label"
-			description="Content_Attribs_Show_Create_Date_Desc"
+			label="JGLOBAL_Show_Create_Date_Label"
+			description="JGLOBAL_Show_Create_Date_Desc"
 			default="1">
 			<option
 				value="0">JCommon_Hide</option>
@@ -98,8 +123,8 @@
 		<field
 			name="show_modify_date"
 			type="radio"
-			label="Content_Attribs_Show_Modify_Date_Label"
-			description="Content_Attribs_Show_Modify_Date_Desc"
+			label="JGLOBAL_Show_Modify_Date_Label"
+			description="JGLOBAL_Show_Modify_Date_Desc"
 			default="1">
 			<option
 				value="0">JCommon_Hide</option>
@@ -110,8 +135,8 @@
 		<field
 			name="show_publish_date"
 			type="radio"
-			label="Content_Attribs_Show_Publish_Date_Label"
-			description="Content_Attribs_Show_Publish_Date_Desc"
+			label="JGLOBAL_Show_Publish_Date_Label"
+			description="JGLOBAL_Show_Publish_Date_Desc"
 			default="1">
 			<option
 				value="0">JCommon_Hide</option>
@@ -122,8 +147,8 @@
 		<field
 			name="show_item_navigation"
 			type="radio"
-			label="Content_Attribs_Show_Navigation_Label"
-			description="Content_Attribs_Show_Navigation_Desc"
+			label="JGLOBAL_Show_Navigation_Label"
+			description="JGLOBAL_Show_Navigation_Desc"
 			default="1">
 			<option
 				value="0">JCommon_Hide</option>
@@ -134,8 +159,8 @@
 		<field
 			name="show_readmore"
 			type="radio"
-			label="Content_Attribs_Show_Readmore_Label"
-			description="Content_Attribs_Show_Readmore_Desc"
+			label="JGLOBAL_Show_Readmore_Label"
+			description="JGLOBAL_Show_Readmore_Desc"
 			default="1">
 			<option
 				value="0">JCommon_Hide</option>
@@ -151,8 +176,8 @@
 		<field
 			name="show_icons"
 			type="radio"
-			label="Content_Attribs_Show_Icons_Label"
-			description="Content_Attribs_Show_Icons_Desc"
+			label="JGLOBAL_Show_Icons_Label"
+			description="JGLOBAL_Show_Icons_Desc"
 			default="1">
 			<option
 				value="0">JCommon_Hide</option>
@@ -163,8 +188,8 @@
 		<field
 			name="show_print_icon"
 			type="radio"
-			label="Content_Attribs_Show_Print_Icon_Label"
-			description="Content_Attribs_Show_Print_Icon_Desc"
+			label="JGLOBAL_Show_Print_Icon_Label"
+			description="JGLOBAL_Show_Print_Icon_Desc"
 			default="1">
 			<option
 				value="0">JCommon_Hide</option>
@@ -175,8 +200,8 @@
 		<field
 			name="show_email_icon"
 			type="radio"
-			label="Content_Attribs_Show_Email_Icon_Label"
-			description="Content_Attribs_Show_Email_Icon_Desc"
+			label="JGLOBAL_Show_Email_Icon_Label"
+			description="JGLOBAL_Show_Email_Icon_Desc"
 			default="1">
 			<option
 				value="0">JCommon_Hide</option>
@@ -187,8 +212,8 @@
 		<field
 			name="show_hits"
 			type="radio"
-			label="Content_Attribs_Show_Hits_Label"
-			description="Content_Attribs_Show_Hits_Desc"
+			label="JGLOBAL_Show_Hits_Label"
+			description="JGLOBAL_Show_Hits_Desc"
 			default="1">
 			<option
 				value="0">JCommon_Hide</option>
@@ -205,55 +230,69 @@
 		hidden="true">
 
 		<field
+			name="show_subcategory_content"
+			type="list"
+			default="0"
+			label="JGLOBAL_Show_Subcategory_Content_Label"
+			description="JGLOBAL_Show_Subcategory_Content_Desc">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
 			name="num_leading_articles"
 			type="text"
 			default="1"
-			label="Content_Attribs_Num_Leading_Articles_Label"
-			description="Content_Attribs_Num_Leading_Articles_Desc">
+			label="JGLOBAL_Num_Leading_Articles_Label"
+			description="JGLOBAL_Num_Leading_Articles_Desc">
 		</field>
 
 		<field
 			name="num_intro_articles"
 			type="text"
 			default="4"
-			label="CONTENT_ATTRIBS_NUM_INTRO_ARTICLES_LABEL"
-			description="CONTENT_ATTRIBS_NUM_INTRO_ARTICLES_DESC">
+			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
+			description="JGLOBAL_NUM_INTRO_ARTICLES_DESC">
 		</field>
 
 		<field
 			name="num_columns"
 			type="text"
 			default="2"
-			label="CONTENT_ATTRIBS_NUM_COLUMNS_LABEL"
-			description="CONTENT_ATTRIBS_NUM_COLUMNS_DESC">
+			label="JGLOBAL_NUM_COLUMNS_LABEL"
+			description="JGLOBAL_NUM_COLUMNS_DESC">
 		</field>
 
 		<field
 			name="num_links"
 			type="text"
 			default="4"
-			label="CONTENT_ATTRIBS_NUM_LINKS_LABEL"
-			description="CONTENT_ATTRIBS_NUM_LINKS_DESC">
+			label="JGLOBAL_NUM_LINKS_LABEL"
+			description="JGLOBAL_NUM_LINKS_DESC">
 		</field>
+
+
 
 		<field
 			name="multi_column_order"
 			type="radio"
 			default="0"
-			label="CONTENT_ATTRIBS_MULTI_COLUMN_ORDER_LABEL"
-			description="CONTENT_ATTRIBS_MULTI_COLUMN_ORDER_DESC">
+			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
+			description="JGLOBAL_MULTI_COLUMN_ORDER_DESC">
 			<option
-				value="0">Down</option>
+				value="0">JGLOBAL_Down</option>
 			<option
-				value="1">Across</option>
+				value="1">JGLOBAL_Across</option>
 		</field>
 		
 		<field
 			name="show_pagination"
 			type="list"
 			default="2"
-			label="Content_Attribs_Pagination_Label"
-			description="Content_Attribs_Pagination_Desc">
+			label="JGLOBAL_Pagination_Label"
+			description="JGLOBAL_Pagination_Desc">
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 				<option value="2">JCommon_Auto</option>
@@ -263,8 +302,8 @@
 			name="show_pagination_results"
 			type="radio"
 			default="1"
-			label="CONTENT_ATTRIBS_PAGINATION_RESULTS_LABEL"
-			description="CONTENT_ATTRIBS_PAGINATION_RESULTS_DESC">
+			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+			description="JGLOBAL_PAGINATION_RESULTS_DESC">
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
@@ -281,8 +320,8 @@
 			name="display_num"
 			type="list"
 			default="10"
-			label="CONTENT_ATTRIBS_NUMBER_ITEMS_LIST_LABEL"
-			description="CONTENT_ATTRIBS_NUMBER_ITEMS_LIST_DESC">
+			label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
+			description="JGLOBAL_NUMBER_ITEMS_LIST_DESC">
 				<option value="5">J5</option>
 				<option value="10">J10</option>
 				<option value="15">J15</option>
@@ -298,18 +337,18 @@
 			name="list_type"
 			type="radio"
 			default="single"
-			label="Content_Attribs_List_Type_Label"
-			description="Content_Attribs_List_Type_Desc">
-				<option value="single">Single_Level</option>
-	 			<option value="multiple">Multi_Level</option>
+			label="JGLOBAL_List_Type_Label"
+			description="JGLOBAL_List_Type_Desc">
+				<option value="single">JGLOBAL_Single_Level</option>
+	 			<option value="multiple">JGLOBAL_Multi_Level</option>
 	 	</field>
 
 		<field
 			name="show_headings"
 			type="radio"
 			default="1"
-			label="CONTENT_ATTRIBS_SHOW_HEADINGS_LABEL"
-			description="CONTENT_ATTRIBS_SHOW_HEADINGS_DESC">
+			label="JGLOBAL_SHOW_HEADINGS_LABEL"
+			description="JGLOBAL_SHOW_HEADINGS_DESC">
 			<option
 				value="0">JCommon_Hide</option>
 			<option
@@ -320,8 +359,8 @@
 			name="show_date"
 			type="list"
 			default="hide"
-			label="CONTENT_ATTRIBS_SHOW_DATE_LABEL"
-			description="CONTENT_ATTRIBS_SHOW_DATE_DESC">
+			label="JGLOBAL_SHOW_DATE_LABEL"
+			description="JGLOBAL_SHOW_DATE_DESC">
 				<option value="hide">JCommon_Hide</option>
 				<option value="created">Created</option>
 				<option value="modified">Modified</option>
@@ -332,15 +371,15 @@
 			type="text"
 			size="15"
 			default=""
-			label="CONTENT_ATTRIBS_DATE_FORMAT_LABEL"
-			description="CONTENT_ATTRIBS_DATE_FORMAT_DESC" />
+			label="JGLOBAL_DATE_FORMAT_LABEL"
+			description="JGLOBAL_DATE_FORMAT_DESC" />
 
 		<field
 			name="filter_field"
 			type="list"
 			default="hide"
-			label="CONTENT_ATTRIBS_FILTER_FIELD_LABEL"
-			description="CONTENT_ATTRIBS_FILTER_FIELD_DESC">
+			label="JGLOBAL_FILTER_FIELD_LABEL"
+			description="JGLOBAL_FILTER_FIELD_DESC">
 				<option value="hide">JCommon_Hide</option>
 				<option value="title">Title</option>
 				<option value="author">Author</option>
@@ -350,8 +389,8 @@
 		<field
 			name="show_pagination_limit"
 			type="radio" default="1"
-			label="CONTENT_ATTRIBS_DISPLAY_SELECT_LABEL"
-			description="CONTENT_ATTRIBS_DISPLAY_SELECT_DESC">
+			label="JGLOBAL_DISPLAY_SELECT_LABEL"
+			description="JGLOBAL_DISPLAY_SELECT_DESC">
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
@@ -359,8 +398,8 @@
 		<field
 			name="list_hits"
 			type="radio" default="1"
-			label="CONTENT_ATTRIBS_LIST_HITS_LABEL"
-			description="CONTENT_ATTRIBS_LIST_HITS_DESC">
+			label="JGLOBAL_LIST_HITS_LABEL"
+			description="JGLOBAL_LIST_HITS_DESC">
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
@@ -368,8 +407,8 @@
 		<field
 			name="list_author"
 			type="radio" default="1"
-			label="CONTENT_ATTRIBS_LIST_AUTHOR_LABEL"
-			description="CONTENT_ATTRIBS_LIST_AUTHOR_DESC">
+			label="JGLOBAL_LIST_AUTHOR_LABEL"
+			description="JGLOBAL_LIST_AUTHOR_DESC">
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
@@ -386,8 +425,8 @@
 	 		name="show_description"
 	 		type="radio"
 	 		default="0"
-	 		label="Content_Attribs_Show_Category_Description_Label"
-	 		description="Content_Attribs_Show_Category_Description_Desc">
+	 		label="JGLOBAL_Show_Category_Description_Label"
+	 		description="JGLOBAL_Show_Category_Description_Desc">
 	 			<option value="0">JCommon_Hide</option>
 	 			<option value="1">JCommon_Show</option>
 	 	</field>
@@ -396,8 +435,8 @@
 			name="show_description_image"
 			type="radio"
 			default="0"
-			label="Content_Attribs_Show_Category_Image_Label"
-			description="Content_Attribs_Show_Category_Image_Desc">
+			label="JGLOBAL_Show_Category_Image_Label"
+			description="JGLOBAL_Show_Category_Image_Desc">
 	 			<option value="0">JCommon_Hide</option>
 	 			<option value="1">JCommon_Show</option>
 	 	</field>
@@ -406,8 +445,8 @@
 			name="drill_down_layout"
 			type="radio"
 			default="0"
-			label="Content_Attribs_Drill_Down_Layout_Label"
-			description="Content_Attribs_Drill_Down_Layout_Desc">
+			label="JGLOBAL_Drill_Down_Layout_Label"
+			description="JGLOBAL_Drill_Down_Layout_Desc">
 	 			<option value="0">List</option>
 	 			<option value="1">Blog</option>
 	 	</field>
@@ -416,8 +455,8 @@
 			name="all_subcategories"
 			type="radio"
 			default="all"
-			label="Content_Attribs_All_Subcategories_Label"
-			description="Content_Attribs_All_Subcategories_Desc">
+			label="JGLOBAL_All_Subcategories_Label"
+			description="JGLOBAL_All_Subcategories_Desc">
 	 			<option value="all">All_Levels</option>
 	 			<option value="next_level">Next_Level_Only</option>
 	 	</field>
@@ -426,8 +465,8 @@
 			name="empty_categories"
 			type="radio"
 			default="1"
-			label="Content_Attribs_Empty_Categories_Label"
-			description="Content_Attribs_Empty_Categories_Desc">
+			label="JGLOBAL_Empty_Categories_Label"
+			description="JGLOBAL_Empty_Categories_Desc">
 	 			<option value="0">JCommon_Hide</option>
 	 			<option value="1">JCommon_Show</option>
 	 	</field>
@@ -436,58 +475,60 @@
 			name="article_count"
 			type="radio"
 			default="0"
-			label="Content_Attribs_Article_Count_Label"
-			description="Content_Attribs_Article_Count_Desc">
+			label="JGLOBAL_Article_Count_Label"
+			description="JGLOBAL_Article_Count_Desc">
 	 			<option value="0">JCommon_Hide</option>
 	 			<option value="1">JCommon_Show</option>
 	 	</field>
 
 		<field
-			name="category_orderby"
+			name="orderby_pri"
 			type="list"
-			default="alpha"
-			label="Content_Attribs_Category_Order_Label"
-			description="Content_Attribs_Category_Order_Desc">
-				<option value="">No_Order</option>
-				<option value="alpha">Title_Alphabetical</option>
-				<option value="ralpha">Title_Reverse_Alphabetical</option>
-				<option value="order">Category_Manager_Order</option>
+			default="none"
+			label="JGLOBAL_Category_Order_Label"
+			description="JGLOBAL_Category_Order_Desc">
+			<option
+				value="none">JGLOBAL_No_Order</option>
+			<option
+				value="alpha">JGLOBAL_Title_Alphabetical</option>
+			<option
+				value="ralpha">JGLOBAL_Title_Reverse_Alphabetical</option>
+			<option
+				value="order">JGLOBAL_Category_Manager_Ordering</option>
 		</field>
 
 		<field
-			name="article_orderby"
+			name="orderby_sec"
 			type="list"
 			default="rdate"
-			label="Content_Attribs_Article_Order_Label"
-			description="Content_Attribs_Article_Order_Desc">
-				<option value="date">Oldest_first</option>
-				<option value="rdate">Most_recent_first</option>
-				<option value="alpha">Title_Alphabetical</option>
-				<option value="ralpha">Title_Reverse_Alphabetical</option>
-				<option value="author">Author_Alphabetical</option>
-				<option value="rauthor">Author_Reverse_Alphabetical</option>
-				<option value="hits">Most_Hits</option>
-				<option value="rhits">Least_Hits</option>
-				<option value="order">Article_Manager_Order</option>
-		</field>
-
-		<field
-			name="order_date"
-			type="list"
-			default="created"
-			label="Content_Attribs_Ordering_Date_Label"
-			description="Content_Attribs_Ordering_Date_Desc">
-				<option value="created">Created</option>
-				<option value="modified">Modified</option>
-				<option value="published">Published</option>
+			label="JGLOBAL_Article_Order_Label"
+			description="JGLOBAL_Article_Order_Desc">
+			<option
+				value="rdate">JGLOBAL_Most_recent_first</option>
+			<option
+				value="date">JGLOBAL_Oldest_first</option>
+			<option
+				value="alpha">JGLOBAL_Title_Alphabetical</option>
+			<option
+				value="ralpha">JGLOBAL_Title_Reverse_Alphabetical</option>
+			<option
+				value="author">JGLOBAL_Author_Alphabetical</option>
+			<option
+				value="rauthor">JGLOBAL_Author_Reverse_Alphabetical</option>
+			<option
+				value="hits">JGLOBAL_Most_Hits</option>
+			<option
+				value="rhits">JGLOBAL_Least_Hits</option>
+			<option
+				value="order">JGLOBAL_Article_Manager_Order</option>
 		</field>
 
 		<field
 			name="show_noauth"
 			type="radio"
 			default="0"
-			label="Content_Attribs_Show_Unauth_Links_Label"
-			description="Content_Attribs_Show_Unauth_Links_Desc">
+			label="JGLOBAL_Show_Unauth_Links_Label"
+			description="JGLOBAL_Show_Unauth_Links_Desc">
 			<option
 				value="0">JNo</option>
 			<option
@@ -505,8 +546,8 @@
 		<field
 			name="article-allow_ratings"
 			type="radio"
-			label="Content_Attribs_Allow_Ratings_Label"
-			description="Content_Attribs_Allow_Ratings_Desc"
+			label="JGLOBAL_Allow_Ratings_Label"
+			description="JGLOBAL_Allow_Ratings_Desc"
 			default="">
 			<option
 				value="0">JNo</option>
@@ -517,8 +558,8 @@
 		<field
 			name="article-allow_comments"
 			type="radio"
-			label="Content_Attribs_Allow_Comments_Label"
-			description="Content_Attribs_Allow_Comments_Desc"
+			label="JGLOBAL_Allow_Comments_Label"
+			description="JGLOBAL_Allow_Comments_Desc"
 			default="">
 			<option
 				value="0">JNo</option>
@@ -530,8 +571,8 @@
 			name="show_feed_link"
 			type="radio"
 			default="1"
-			label="Content_Attribs_Show_Feed_Link_Label"
-			description="Content_Attribs_Show_Feed_Link_Desc">
+			label="JGLOBAL_Show_Feed_Link_Label"
+			description="JGLOBAL_Show_Feed_Link_Desc">
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
 		</field>
@@ -539,8 +580,8 @@
 		<field
 			name="feed_summary"
 			type="radio"
-			label="Content_Attribs_Feed_Summary_Label"
-			description="Content_Attribs_Feed_Summary_Desc"
+			label="JGLOBAL_Feed_Summary_Label"
+			description="JGLOBAL_Feed_Summary_Desc"
 			default="0">
 			<option
 				value="0">JCommon_Intro_text</option>
@@ -559,8 +600,8 @@
 		<field
 			name="filter_groups"
 			type="usergroup"
-			label="Content_Attribs_Filter_Groups_Label"
-			description="Content_Attribs_Filter_Groups_Desc"
+			label="JGLOBAL_Filter_Groups_Label"
+			description="JGLOBAL_Filter_Groups_Desc"
 			multiple="true"
 			size="10"
 			default="" />
@@ -568,8 +609,8 @@
 		<field
 			name="filter_type"
 			type="list"
-			label="Content_Attribs_Filter_Type_Label"
-			description="Content_Attribs_Filter_Type_Desc"
+			label="JGLOBAL_Filter_Type_Label"
+			description="JGLOBAL_Filter_Type_Desc"
 			class="inputbox"
 			size="1"
 			default="">
@@ -584,15 +625,15 @@
 		<field
 			name="filter_tags"
 			type="text"
-			label="Content_Attribs_Filter_Tags_Label"
-			description="Content_Attribs_Filter_Tags_Desc"
+			label="JGLOBAL_Filter_Tags_Label"
+			description="JGLOBAL_Filter_Tags_Desc"
 			default="" />
 
 		<field
 			name="filter_attritbutes"
 			type="text"
-			label="Content_Attribs_Filter_Attributes_Label"
-			description="Content_Attribs_Filter_Attributes_Desc"
+			label="JGLOBAL_Filter_Attributes_Label"
+			description="JGLOBAL_Filter_Attributes_Desc"
 			default="" />
 	</fields>
 

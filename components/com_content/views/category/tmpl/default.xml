@@ -30,8 +30,8 @@
 	 		name="show_description"
 	 		type="list"
 	 		default=""
-	 		label="Content_Attribs_Show_Category_Description_Label"
-	 		description="Content_Attribs_Show_Category_Description_Desc">
+	 		label="JGLOBAL_Show_Category_Description_Label"
+	 		description="JGLOBAL_Show_Category_Description_Desc">
 	 			<option value="">JCOMMON_USE_GLOBAL</option>
 	 			<option value="0">JCommon_Hide</option>
 	 			<option value="1">JCommon_Show</option>
@@ -41,8 +41,8 @@
 			name="show_description_image"
 			type="list"
 			default=""
-			label="Content_Attribs_Show_Category_Image_Label"
-			description="Content_Attribs_Show_Category_Image_Desc">
+			label="JGLOBAL_Show_Category_Image_Label"
+			description="JGLOBAL_Show_Category_Image_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 	 			<option value="0">JCommon_Hide</option>
 	 			<option value="1">JCommon_Show</option>
@@ -52,8 +52,8 @@
 			name="display_num"
 			type="list"
 			default=""
-			label="Content_Attribs_Number_Items_List_Label"
-			description="Content_Attribs_Number_Items_List_Desc">
+			label="JGLOBAL_Number_Items_List_Label"
+			description="JGLOBAL_Number_Items_List_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="5">J5</option>
 				<option value="10">J10</option>
@@ -70,8 +70,8 @@
 			name="show_headings"
 			type="list"
 			default=""
-			label="Content_Attribs_Show_Headings_Label"
-			description="Content_Attribs_Show_Headings_Desc">
+			label="JGLOBAL_Show_Headings_Label"
+			description="JGLOBAL_Show_Headings_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
@@ -81,8 +81,8 @@
 			name="show_date"
 			type="list"
 			default=""
-			label="Content_Attribs_Show_Date_Label"
-			description="Content_Attribs_Show_Date_Desc">
+			label="JGLOBAL_Show_Date_Label"
+			description="JGLOBAL_Show_Date_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="hide">JCommon_Hide</option>
 				<option value="created">Created</option>
@@ -94,15 +94,15 @@
 			type="text"
 			size="15"
 			default=""
-			label="Content_Attribs_Date_Format_Label"
-			description="Content_Attribs_Date_Format_Desc" />
+			label="JGLOBAL_Date_Format_Label"
+			description="JGLOBAL_Date_Format_Desc" />
 
 		<field
 			name="filter_field"
 			type="list"
 			default=""
-			label="Content_Attribs_Filter_Field_Label"
-			description="Content_Attribs_Filter_Field_Desc">
+			label="JGLOBAL_Filter_Field_Label"
+			description="JGLOBAL_Filter_Field_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="hide">JCommon_Hide</option>
 				<option value="title">Title</option>
@@ -118,52 +118,52 @@
 		description="">
 
 		<field
-			name="article_orderby"
+			name="orderby_sec"
 			type="list"
 			default=""
-			label="Content_Attribs_Article_Order_Label"
-			description="Content_Attribs_Article_Order_Desc">
+			label="JGLOBAL_Article_Order_Label"
+			description="JGLOBAL_Article_Order_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="date">Oldest_first</option>
-				<option value="rdate">Most_recent_first</option>
-				<option value="alpha">Title_Alphabetical</option>
-				<option value="ralpha">Title_Reverse_Alphabetical</option>
-				<option value="author">Author_Alphabetical</option>
-				<option value="rauthor">Author_Reverse_Alphabetical</option>
-				<option value="hits">Most_Hits</option>
-				<option value="rhits">Least_Hits</option>
-				<option value="order">Article_Manager_Order</option>
+				<option value="date">JGLOBAL_Oldest_first</option>
+				<option value="rdate">JGLOBAL_Most_recent_first</option>
+				<option value="alpha">JGLOBAL_Title_Alphabetical</option>
+				<option value="ralpha">JGLOBAL_Title_Reverse_Alphabetical</option>
+				<option value="author">JGLOBAL_Author_Alphabetical</option>
+				<option value="rauthor">JGLOBAL_Author_Reverse_Alphabetical</option>
+				<option value="hits">JGLOBAL_Most_Hits</option>
+				<option value="rhits">JGLOBAL_Least_Hits</option>
+				<option value="order">JGLOBAL_Article_Manager_Order</option>
 		</field>
 
 		<field
 			name="order_date"
 			type="list"
 			default=""
-			label="Content_Attribs_Ordering_Date_Label"
-			description="Content_Attribs_Ordering_Date_Desc">
+			label="JGLOBAL_Ordering_Date_Label"
+			description="JGLOBAL_Ordering_Date_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="created">Created</option>
-				<option value="modified">Modified</option>
-				<option value="published">Published</option>
+				<option value="created">JGLOBAL_Created</option>
+				<option value="modified">JGLOBAL_Modified</option>
+				<option value="published">JGLOBAL_Published</option>
 		</field>
 
 		<field
 			name="list_type"
 			type="list"
 			default=""
-			label="Content_Attribs_List_Type_Label"
-			description="Content_Attribs_List_Type_Desc">
+			label="JGLOBAL_List_Type_Label"
+			description="JGLOBAL_List_Type_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="single">Single_Level</option>
-				<option value="mutliple">Multi_Level</option>
+				<option value="single">JGLOBAL_Single_Level</option>
+				<option value="mutliple">JGLOBAL_Multi_Level</option>
 		</field>
 
 		<field
 			name="show_pagination_limit"
 			type="list"
 			default=""
-			label="Content_Attribs_Display_Select_Label"
-			description="Content_Attribs_Display_Select_Desc">
+			label="JGLOBAL_Display_Select_Label"
+			description="JGLOBAL_Display_Select_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
@@ -172,8 +172,8 @@
 		<field
 			name="list_hits"
 			type="list" default=""
-			label="CONTENT_ATTRIBS_LIST_HITS_LABEL"
-			description="CONTENT_ATTRIBS_LIST_HITS_DESC">
+			label="JGLOBAL_LIST_HITS_LABEL"
+			description="JGLOBAL_LIST_HITS_DESC">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
@@ -182,8 +182,8 @@
 		<field
 			name="list_author"
 			type="list" default=""
-			label="CONTENT_ATTRIBS_LIST_AUTHOR_LABEL"
-			description="CONTENT_ATTRIBS_LIST_AUTHOR_DESC">
+			label="JGLOBAL_LIST_AUTHOR_LABEL"
+			description="JGLOBAL_LIST_AUTHOR_DESC">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
@@ -193,8 +193,8 @@
 			name="show_pagination"
 			type="list"
 			default=""
-			label="Content_Attribs_Pagination_Label"
-			description="Content_Attribs_Pagination_Desc">
+			label="JGLOBAL_Pagination_Label"
+			description="JGLOBAL_Pagination_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="0">JCommon_Hide</option>
 				<option value="1">JCommon_Show</option>
@@ -204,8 +204,8 @@
 			name="show_noauth"
 			type="list"
 			default=""
-			label="Content_Attribs_Show_Unauth_Links_Label"
-			description="Content_Attribs_Show_Unauth_Links_Desc">
+			label="JGLOBAL_Show_Unauth_Links_Label"
+			description="JGLOBAL_Show_Unauth_Links_Desc">
 				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
@@ -221,8 +221,8 @@
 		<field
 			name="article-allow_ratings"
 			type="list"
-			label="Content_Attribs_Allow_Ratings_Label"
-			description="Content_Attribs_Allow_Ratings_Desc"
+			label="JGLOBAL_Allow_Ratings_Label"
+			description="JGLOBAL_Allow_Ratings_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -235,8 +235,8 @@
 		<field
 			name="article-allow_comments"
 			type="list"
-			label="Content_Attribs_Allow_Comments_Label"
-			description="Content_Attribs_Allow_Comments_Desc"
+			label="JGLOBAL_Allow_Comments_Label"
+			description="JGLOBAL_Allow_Comments_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -250,8 +250,8 @@
 			name="show_feed_link"
 			type="list"
 			default=""
-			label="Content_Attribs_Show_Feed_Link_Label"
-			description="Content_Attribs_Show_Feed_Link_Desc">
+			label="JGLOBAL_Show_Feed_Link_Label"
+			description="JGLOBAL_Show_Feed_Link_Desc">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
@@ -263,8 +263,8 @@
 		<field
 			name="feed_summary"
 			type="list"
-			label="Content_Attribs_Feed_Summary_Label"
-			description="Content_Attribs_Feed_Summary_Desc"
+			label="JGLOBAL_Feed_Summary_Label"
+			description="JGLOBAL_Feed_Summary_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -284,8 +284,8 @@
 		<field
 			name="show_category"
 			type="list"
-			label="Content_Attribs_Show_Category_Label"
-			description="Content_Attribs_Show_Category_Desc"
+			label="JGLOBAL_Show_Category_Label"
+			description="JGLOBAL_Show_Category_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -298,8 +298,8 @@
 		<field
 			name="link_category"
 			type="list"
-			label="Content_Attribs_Link_Category_Label"
-			description="Content_Attribs_Link_Category_Desc"
+			label="JGLOBAL_Link_Category_Label"
+			description="JGLOBAL_Link_Category_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -313,8 +313,8 @@
 			name="show_title"
 			type="list"
 			default=""
-			label="Content_Attribs_Show_Title_Label"
-			description="Content_Attribs_Show_Title_Desc">
+			label="JGLOBAL_Show_Title_Label"
+			description="JGLOBAL_Show_Title_Desc">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
@@ -327,8 +327,8 @@
 			name="link_titles"
 			type="list"
 			default=""
-			label="Content_Attribs_Linked_Titles_Label"
-			description="Content_Attribs_Linked_Titles_Desc">
+			label="JGLOBAL_Linked_Titles_Label"
+			description="JGLOBAL_Linked_Titles_Desc">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
@@ -341,8 +341,8 @@
 			name="show_intro"
 			type="list"
 			default=""
-			label="Content_Attribs_Show_Intro_Label"
-			description="Content_Attribs_Show_Intro_Desc">
+			label="JGLOBAL_Show_Intro_Label"
+			description="JGLOBAL_Show_Intro_Desc">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
@@ -354,8 +354,8 @@
 		<field
 			name="show_author"
 			type="list"
-			label="Content_Attribs_Show_Author_Label"
-			description="Content_Attribs_Show_Author_Desc"
+			label="JGLOBAL_Show_Author_Label"
+			description="JGLOBAL_Show_Author_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -368,8 +368,8 @@
 		<field
 			name="show_create_date"
 			type="list"
-			label="Content_Attribs_Show_Create_Date_Label"
-			description="Content_Attribs_Show_Create_Date_Desc"
+			label="JGLOBAL_Show_Create_Date_Label"
+			description="JGLOBAL_Show_Create_Date_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -382,8 +382,8 @@
 		<field
 			name="show_modify_date"
 			type="list"
-			label="Content_Attribs_Show_Modify_Date_Label"
-			description="Content_Attribs_Show_Modify_Date_Desc"
+			label="JGLOBAL_Show_Modify_Date_Label"
+			description="JGLOBAL_Show_Modify_Date_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -396,8 +396,8 @@
 		<field
 			name="show_publish_date"
 			type="list"
-			label="Content_Attribs_Show_Publish_Date_Label"
-			description="Content_Attribs_Show_Publish_Date_Desc"
+			label="JGLOBAL_Show_Publish_Date_Label"
+			description="JGLOBAL_Show_Publish_Date_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -410,8 +410,8 @@
 		<field
 			name="show_item_navigation"
 			type="list"
-			label="Content_Attribs_Show_Navigation_Label"
-			description="Content_Attribs_Show_Navigation_Desc"
+			label="JGLOBAL_Show_Navigation_Label"
+			description="JGLOBAL_Show_Navigation_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -424,8 +424,8 @@
 		<field
 			name="show_icons"
 			type="list"
-			label="Content_Attribs_Show_Icons_Label"
-			description="Content_Attribs_Show_Icons_Desc"
+			label="JGLOBAL_Show_Icons_Label"
+			description="JGLOBAL_Show_Icons_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -438,8 +438,8 @@
 		<field
 			name="show_print_icon"
 			type="list"
-			label="Content_Attribs_Show_Print_Icon_Label"
-			description="Content_Attribs_Show_Print_Icon_Desc"
+			label="JGLOBAL_Show_Print_Icon_Label"
+			description="JGLOBAL_Show_Print_Icon_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -452,8 +452,8 @@
 		<field
 			name="show_email_icon"
 			type="list"
-			label="Content_Attribs_Show_Email_Icon_Label"
-			description="Content_Attribs_Show_Email_Icon_Desc"
+			label="JGLOBAL_Show_Email_Icon_Label"
+			description="JGLOBAL_Show_Email_Icon_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
@@ -466,8 +466,8 @@
 		<field
 			name="show_hits"
 			type="list"
-			label="Content_Attribs_Show_Hits_Label"
-			description="Content_Attribs_Show_Hits_Desc"
+			label="JGLOBAL_Show_Hits_Label"
+			description="JGLOBAL_Show_Hits_Desc"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
