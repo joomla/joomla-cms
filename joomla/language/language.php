@@ -232,14 +232,15 @@ class JLanguage extends JObject
 	 */
 	public function transliterate($string)
 	{
-		include_once (JPATH_LIBRARIES.DS.'phputf8'.DS.'utils'.DS.'ascii.php');
+		include_once(dirname(__FILE__).DS.'latin_transliterate.php');
 
 		if ($this->_transliterator !== null) {
 			return call_user_func($this->_transliterator, $string);
 		}
-
-		$string = utf8_accents_to_ascii($string);
+		
+		$string = JLanguageTransliterate::utf8_latin_to_ascii($string);
 		$string = JString::strtolower($string);
+		
 		return $string;
 	}
 
