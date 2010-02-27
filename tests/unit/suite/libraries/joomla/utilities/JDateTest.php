@@ -28,7 +28,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->object = new JDate('12/20/2007 11:44:56', 'US/Central');
+		$this->object = new JDate('12/20/2007 11:44:56', 'America/New_York');
 	}
 
 	/**
@@ -249,7 +249,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 		return array(
 			"basic" => array(
 				'd/m/Y H:i:s',
-				null,
+				true,
 				'20/12/2007 11:44:56',
 			),
 			"mmddyy" => array(
@@ -260,37 +260,37 @@ class JDateTest extends PHPUnit_Framework_TestCase
 			"mmddyyGMT" => array(
 				'mdy His',
 				false,
-				'122007 174456',
+				'122007 164456',
 			),
 			"Long" => array(
 				'D F j, Y H:i:s',
 				true,
 				'Thu December 20, 2007 11:44:56',
 			),
-			"Long" => array(
+			"LongGMT" => array(
 				'D F j, Y H:i:s',
 				false,
-				'Thu December 20, 2007 17:44:56',
+				'Thu December 20, 2007 16:44:56',
 			),
 			"Long2" => array(
 				'H:i:s D F j, Y',
 				false,
-				'17:44:56 Thu December 20, 2007',
+				'16:44:56 Thu December 20, 2007',
 			),
 			"Long3" => array(
 				'H:i:s l F j, Y',
 				false,
-				'17:44:56 Thursday December 20, 2007',
+				'16:44:56 Thursday December 20, 2007',
 			),
 			"Long4" => array(
 				'H:i:s l M j, Y',
 				false,
-				'17:44:56 Thursday Dec 20, 2007',
+				'16:44:56 Thursday Dec 20, 2007',
 			),
 			"RFC822" => array(
 				'r',
 				false,
-				'Thu, 20 Dec 2007 17:44:56 +0000',
+				'Thu, 20 Dec 2007 16:44:56 +0000',
 			),
 		);
 	}
@@ -307,14 +307,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFormat( $format, $local, $expected )
 	{
-		if( is_null($local) )
-		{
-			$formatted = $this->object->format($format);
-		}
-		else
-		{
-			$formatted = $this->object->format($format, $local);
-		}
+		$formatted = $this->object->format($format, $local);
 
 		$this->assertThat($formatted, $this->equalTo($expected));
 	}
@@ -689,29 +682,29 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	function casesSetTimezone()
 	{
 		return array(
-			"Central" => array(
-				'US/Central',
-				'Thu, 20 Dec 2007 11:44:56 -0600',
+			"New_York" => array(
+				'America/New_York',
+				'Thu, 20 Dec 2007 11:44:56 -0500',
 			),
-			"eastern" => array(
-				'US/Eastern',
-				'Thu, 20 Dec 2007 12:44:56 -0500',
+			"Chicago" => array(
+				'America/Chicago',
+				'Thu, 20 Dec 2007 10:44:56 -0600',
 			),
-			"Pacific" => array(
-				'US/Pacific',
-				'Thu, 20 Dec 2007 09:44:56 -0800',
+			"Los_Angeles" => array(
+				'America/Los_Angeles',
+				'Thu, 20 Dec 2007 08:44:56 -0800',
 			),
 			"Isle of Man" => array(
 				'Europe/Isle_of_Man',
-				'Thu, 20 Dec 2007 17:44:56 +0000',
+				'Thu, 20 Dec 2007 16:44:56 +0000',
 			),
 			"Berlin" => array(
 				'Europe/Berlin',
-				'Thu, 20 Dec 2007 18:44:56 +0100',
+				'Thu, 20 Dec 2007 17:44:56 +0100',
 			),
 			"Pacific/Port_Moresby" => array(
 				'Pacific/Port_Moresby',
-				'Fri, 21 Dec 2007 03:44:56 +1000',
+				'Fri, 21 Dec 2007 02:44:56 +1000',
 			),
 		);
 	}
@@ -744,31 +737,31 @@ class JDateTest extends PHPUnit_Framework_TestCase
 		return array(
 			"Central" => array(
 				-6,
-				'Thu, 20 Dec 2007 11:44:56 -0600',
+				'Thu, 20 Dec 2007 10:44:56 -0600',
 			),
 			"eastern" => array(
 				-5,
-				'Thu, 20 Dec 2007 12:44:56 -0500',
+				'Thu, 20 Dec 2007 11:44:56 -0500',
 			),
 			"Pacific" => array(
 				-8,
-				'Thu, 20 Dec 2007 09:44:56 -0800',
+				'Thu, 20 Dec 2007 08:44:56 -0800',
 			),
 			"Isle of Man" => array(
 				0,
-				'Thu, 20 Dec 2007 17:44:56 +0000',
+				'Thu, 20 Dec 2007 16:44:56 +0000',
 			),
 			"Berlin" => array(
 				1,
-				'Thu, 20 Dec 2007 18:44:56 +0100',
+				'Thu, 20 Dec 2007 17:44:56 +0100',
 			),
 			"Pacific/Tongatapu" => array(
 				13,
-				'Fri, 21 Dec 2007 06:44:56 +1300',
+				'Fri, 21 Dec 2007 05:44:56 +1300',
 			),
 			"Nonesuch" => array(
 				100,
-				'Thu, 20 Dec 2007 11:44:56 -0600',
+				'Thu, 20 Dec 2007 11:44:56 -0500',
 			),
 		);
 	}
@@ -801,43 +794,43 @@ class JDateTest extends PHPUnit_Framework_TestCase
 		return array(
 			"basic" => array(
 				'%d/%m/%Y %H:%M:%S',
-				null,
-				'20/12/2007 05:44:56',
+				true,
+				'20/12/2007 11:44:56',
 			),
 			"mmddyy" => array(
 				'%m%d%y %H%M%S',
 				true,
-				'122007 054456',
+				'122007 114456',
 			),
 			"mmddyyGMT" => array(
 				'%m%d%y %H%M%S',
 				false,
-				'122007 114456',
+				'122007 164456',
 			),
 			"Long" => array(
 				'%a %b %d, %Y %H:%M:%S',
 				true,
-				'Thu Dec 20, 2007 05:44:56',
+				'Thu Dec 20, 2007 11:44:56',
 			),
 			"LongGMT" => array(
 				'%A %B %d, %Y %H:%M:%S',
 				false,
-				'Thursday December 20, 2007 11:44:56',
+				'Thursday December 20, 2007 16:44:56',
 			),
 			"Long2" => array(
 				'%H:%M:%S %a %B %d, %Y',
 				false,
-				'11:44:56 Thu December 20, 2007',
+				'16:44:56 Thu December 20, 2007',
 			),
 			"Long3" => array(
 				'%H:%M:%S %A %B %d, %Y',
 				false,
-				'11:44:56 Thursday December 20, 2007',
+				'16:44:56 Thursday December 20, 2007',
 			),
 			"Long4" => array(
 				'%H:%M:%S %A %b %d, %Y',
 				false,
-				'11:44:56 Thursday Dec 20, 2007',
+				'16:44:56 Thursday Dec 20, 2007',
 			),
 		);
 	}
@@ -854,14 +847,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToFormat( $format, $local, $expected )
 	{
-		if ( is_null($local) )
-		{
-			$formatted = $this->object->toFormat($format);
-		}
-		else
-		{
-			$formatted = $this->object->toFormat($format, $local);
-		}
+		$formatted = $this->object->toFormat($format, $local);
 
 		$this->assertThat($formatted, $this->equalTo($expected));
 	}
