@@ -29,6 +29,8 @@ $ -> Language fix or change
 
 27-Feb-2010 Hannes Papenberg
 # Fixing JDate::toFormat() - Thanks Edgars Piruška!
+# Missed some files when uploading the new mod_articles_news
+# Fixed bug in loading user in JUser
 
 26-Feb-2010 Mark Dexter
 # Add CSS for multi-column blog display (Angie Radtke)
