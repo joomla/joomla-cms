@@ -330,6 +330,9 @@ class JDate extends DateTime
 	 */
 	public function toFormat($format = '%Y-%m-%d %H:%M:%S', $local = true)
 	{
+		// Set time zone to GMT as strftime formats according locale setting.
+		date_default_timezone_set('GMT');
+
 		// Generate the timestamp.
 		$time = (int) parent::format('U');
 
