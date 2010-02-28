@@ -94,7 +94,7 @@ $function = JRequest::getVar('function', 'jSelectArticle');
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<td class="center">
-					<?php echo JTHML::_('date',$item->created, '%Y.%m.%d'); ?>
+					<?php echo JHTML::_('date',$item->created, '%Y.%m.%d'); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>

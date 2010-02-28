@@ -115,7 +115,7 @@ abstract class JHtmlTabs
 
 			$document = JFactory::getDocument();
 			$document->addScriptDeclaration($js);
-			JTHML::_('script','system/tabs.js', false, true);
+			JHTML::_('script','system/tabs.js', false, true);
 
 			$loaded[$group] = true;
 		}

@@ -140,7 +140,7 @@ class SearchViewSearch extends JView
 
 				$result = &$results[$i];
 				if ($result->created) {
-					$created = JTHML::_('date',$result->created);
+					$created = JHTML::_('date',$result->created);
 				}
 				else {
 					$created = '';

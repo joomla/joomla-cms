@@ -30,7 +30,7 @@ $app = &JFactory::getApplication();
 		<?php echo $app->getCfg('offline_message'); ?>
 	</p>
 	<?php if (JPluginHelper::isEnabled('authentication', 'openid')) : ?>
-	<?php JTHML::_('script','openid.js'); ?>
+	<?php JHTML::_('script','openid.js'); ?>
 <?php endif; ?>
 	<form action="index.php" method="post" name="login" id="form-login">
 	<fieldset class="input">

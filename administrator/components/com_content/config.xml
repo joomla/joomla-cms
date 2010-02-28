@@ -109,6 +109,18 @@
 		</field>
 
 		<field
+			name="link_author"
+			type="radio"
+			label="JGLOBAL_Link_Author_Label"
+			description="JGLOBAL_Link_Author_Desc"
+			default="0">
+			<option
+				value="0">JCommon_No</option>
+			<option
+				value="1">JCommon_Yes</option>
+		</field>
+		
+		<field
 			name="show_create_date"
 			type="radio"
 			label="JGLOBAL_Show_Create_Date_Label"

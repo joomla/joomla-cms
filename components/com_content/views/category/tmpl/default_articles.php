@@ -77,13 +77,13 @@ $n = count($this->articles);
 				</td>
 				<?php if ($this->params->get('show_date') != 'hide') : ?>
 					<td class="list-date">
-						<?php echo JTHML::_('date',$article->displayDate, $this->escape(
+						<?php echo JHTML::_('date',$article->displayDate, $this->escape(
 						$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_author')) : ?>
 					<td class="list-author">
-						<?php echo $article->author_name; ?>
+						<?php echo $this->params->get('link_author', 0) ? JHTML::_('link',JRoute::_('index.php?option=com_users&view=profile&member_id='.$article->created_by),$article->author_name) : $article->author_name; ?>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_hits')) : ?>

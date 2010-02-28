@@ -2,12 +2,12 @@
 defined('_JEXEC') or die('Restricted access');
 
 $config = JFactory::getConfig();
-$publish_up = JTHML::_('date',$this->article->publish_up);
+$publish_up = JHTML::_('date',$this->article->publish_up);
 
 if (! isset($this->article->publish_down) || $this->article->publish_down == 'Never') {
 	$publish_down = JText::_('Never');
 } else {
-	$publish_down = JTHML::_('date',$this->article->publish_down);
+	$publish_down = JHTML::_('date',$this->article->publish_down);
 }
 ?>
 
@@ -152,7 +152,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 		</label>
 	</td>
 	<td>
-		<?php echo JTHML::_('calendar',$publish_up, 'publish_up', 'publish_up', '%Y-%m-%d %H:%M:%S', array('class'=>'inputbox', 'size'=>'25',  'maxlength'=>'19')); ?>
+		<?php echo JHTML::_('calendar',$publish_up, 'publish_up', 'publish_up', '%Y-%m-%d %H:%M:%S', array('class'=>'inputbox', 'size'=>'25',  'maxlength'=>'19')); ?>
 	</td>
 </tr>
 <tr>
@@ -162,7 +162,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 		</label>
 	</td>
 	<td>
-		<?php echo JTHML::_('calendar',$publish_down, 'publish_down', 'publish_down', '%Y-%m-%d %H:%M:%S', array('class'=>'inputbox', 'size'=>'25',  'maxlength'=>'19')); ?>
+		<?php echo JHTML::_('calendar',$publish_down, 'publish_down', 'publish_down', '%Y-%m-%d %H:%M:%S', array('class'=>'inputbox', 'size'=>'25',  'maxlength'=>'19')); ?>
 	</td>
 </tr>
 <tr>

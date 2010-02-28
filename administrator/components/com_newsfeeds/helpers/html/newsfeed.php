@@ -31,7 +31,7 @@ class JHtmlNewsfeed
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-				. JTHML::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true).'</a>';
+				. JHTML::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true).'</a>';
 
 		return $html;
 	}

@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
-JTHML::_('script','multiselect.js');
+JHTML::_('script','multiselect.js');
 JHtml::_('behavior.modal', 'a.modal');
 $user	= JFactory::getUser();
 $userId	= $user->get('id');
@@ -21,10 +21,10 @@ $userId	= $user->get('id');
 		<div class="filter-search fltlft">
 
 			<label class="filter-hide-lbl"><?php echo JText::_('Banners_Begin_Label'); ?></label>
-			<?php echo JTHML::_('calendar',$this->state->get('filter.begin'), 'filter_begin','filter_begin','%Y-%m-%d' , array('size'=>10,'onchange'=>'this.form.submit()'));?>
+			<?php echo JHTML::_('calendar',$this->state->get('filter.begin'), 'filter_begin','filter_begin','%Y-%m-%d' , array('size'=>10,'onchange'=>'this.form.submit()'));?>
 
 			<label class="filter-hide-lbl"><?php echo JText::_('Banners_End_Label'); ?></label>
-			<?php echo JTHML::_('calendar',$this->state->get('filter.end'), 'filter_end', 'filter_end','%Y-%m-%d' ,array('size'=>10,'onchange'=>'this.form.submit()'));?>
+			<?php echo JHTML::_('calendar',$this->state->get('filter.end'), 'filter_end', 'filter_end','%Y-%m-%d' ,array('size'=>10,'onchange'=>'this.form.submit()'));?>
 
 		</div>
 		<div class="filter-select fltrt">

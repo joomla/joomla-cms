@@ -16,7 +16,7 @@ echo $params->get('image_path', 'images');?>/';
 </script>
 <form action="index.php" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
-		<span id="message"></span><?php echo JTHML::_('image','media/dots.gif', '...', array('width' =>22, 'height' => 12), true)?>
+		<span id="message"></span><?php echo JHTML::_('image','media/dots.gif', '...', array('width' =>22, 'height' => 12), true)?>
 	</div>
 	<fieldset>
 		<div class="fltlft">

@@ -38,12 +38,13 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
 		<?php if ($this->params->get('show_create_date')) : ?>
 			<span class="created-date">
-				<?php echo JTHML::_('date',$item->created, JText::_('DATE_FORMAT_LC2')); ?>
+				<?php echo JHTML::_('date',$item->created, JText::_('DATE_FORMAT_LC2')); ?>
 			</span>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_author')) : ?>
 			<span class="created-by">
-				<?php echo JText::sprintf('Written_by', ($item->created_by_alias ? $item->created_by_alias : $item->author)); ?>
+				<?php $author = $this->params->get('link_author', 0) ? JHTML::_('link',JRoute::_('index.php?option=com_users&view=profile&member_id='.$item->created_by),$item->author) : $item->author; ?>
+				<?php echo JText::sprintf('Written_by', ($item->created_by_alias ? $item->created_by_alias : $author)); ?>
 			</span>
 		<?php endif; ?>
 

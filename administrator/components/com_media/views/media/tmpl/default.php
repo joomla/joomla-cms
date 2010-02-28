@@ -75,10 +75,10 @@ defined('_JEXEC') or die;
 						</ul>
 						<div class="clr"> </div>
 						<p class="overall-title"></p>
-						<?php echo JTHML::_('image','media/bar.gif', JText::_('OVERALL_PROGRESS'), array('class' => 'progress overall-progress'), true); ?>
+						<?php echo JHTML::_('image','media/bar.gif', JText::_('OVERALL_PROGRESS'), array('class' => 'progress overall-progress'), true); ?>
 						<div class="clr"> </div>
 						<p class="current-title"></p>
-						<?php echo JTHML::_('image','media/bar.gif', JText::_('CURRENT_PROGRESS'), array('class' => 'progress current-progress'), true); ?>
+						<?php echo JHTML::_('image','media/bar.gif', JText::_('CURRENT_PROGRESS'), array('class' => 'progress current-progress'), true); ?>
 						<p class="current-text"></p>
 					</div>
 					<ul class="upload-queue" id="upload-queue">

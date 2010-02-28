@@ -42,7 +42,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php endif; ?>
 	<?php if ($this->contact->image && $this->params->get('show_image')) : ?>
 		<span class="jcontact-image">
-			<?php echo JTHML::_('image','images/'.$this->contact->image, JText::_('Contact'), array('align' => 'middle')); ?>
+			<?php echo JHTML::_('image','images/'.$this->contact->image, JText::_('Contact'), array('align' => 'middle')); ?>
 		</span>
 	<?php endif; ?>
 <?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>

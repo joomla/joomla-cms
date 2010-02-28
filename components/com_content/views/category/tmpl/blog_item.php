@@ -86,22 +86,23 @@ $params =& $this->item->params;
 <?php endif; ?>
 <?php if ($params->get('show_create_date')) : ?>
 		<dd class="create">
-		<?php echo JText::sprintf('CONTENT_CREATED_DATE', JTHML::_('date',$this->item->created, JText::_('DATE_FORMAT_LC2'))); ?>
+		<?php echo JText::sprintf('CONTENT_CREATED_DATE', JHTML::_('date',$this->item->created, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_modify_date')) : ?>
 		<dd class="modified">
-		<?php echo JText::sprintf('LAST_UPDATED2', JTHML::_('date',$this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
+		<?php echo JText::sprintf('LAST_UPDATED2', JHTML::_('date',$this->item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_publish_date')) : ?>
 		<dd class="published">
-		<?php echo JText::sprintf('PUBLISHED_DATE', JTHML::_('date',$this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
+		<?php echo JText::sprintf('PUBLISHED_DATE', JHTML::_('date',$this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_author') && !empty($this->item->author_name)) : ?>
 	<dd class="createdby">
-		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author_name); ?>
+		<?php $author = $this->params->get('link_author', 0) ? JHTML::_('link',JRoute::_('index.php?option=com_users&view=profile&member_id='.$this->item->created_by),$this->item->author_name) : $this->item->author_name; ?>
+		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author); ?>
 	<?php echo JText::sprintf('Written_by', $author); ?>
 		</dd>
 	<?php endif; ?>
