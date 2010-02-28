@@ -22,7 +22,7 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Base path for editor files
 	 */
-	protected $_basePath = 'plugins/editors/codemirror/codemirror/';
+	protected $_basePath = 'media/editors/codemirror/';
 
 	/**
 	 * Initialises the Editor.
@@ -32,7 +32,7 @@ class plgEditorCodemirror extends JPlugin
 	public function onInit()
 	{
 		JHtml::_('core');
-		JHTML::_('script',$this->_basePath . 'codemirror.js');
+		JHTML::_('script',$this->_basePath . 'js/codemirror.js');
 		JHTML::_('stylesheet',$this->_basePath . 'css/codemirror.css');
 
 		return '';
@@ -122,7 +122,7 @@ class plgEditorCodemirror extends JPlugin
 		$compressed	= JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
 
 		$options->basefiles		= array('basefiles'.$compressed.'.js');
-		$options->path			= JURI::root(true).'/'.$this->_basePath;
+		$options->path			= JURI::root(true).'/'.$this->_basePath.'js/';
 		$options->parserfile	= 'parsexml.js';
 		$options->stylesheet	= JURI::root(true).'/'.$this->_basePath.'css/xmlcolors.css';
 		$options->height		= $height;
@@ -146,7 +146,6 @@ class plgEditorCodemirror extends JPlugin
 		$html[] = 'Joomla.editors.instances[\''.$id.'\'] = editor;';
 		$html[] = '})()';
 		$html[] = '</script>';
-
 		return implode("\n", $html);
 	}
 

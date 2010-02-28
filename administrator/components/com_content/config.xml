@@ -115,9 +115,9 @@
 			description="JGLOBAL_Link_Author_Desc"
 			default="0">
 			<option
-				value="0">JCommon_No</option>
+				value="0">JNo</option>
 			<option
-				value="1">JCommon_Yes</option>
+				value="1">JYes</option>
 		</field>
 		
 		<field

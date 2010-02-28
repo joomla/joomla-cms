@@ -20,6 +20,12 @@ jimport('joomla.plugin.plugin');
  */
 class plgEditorTinymce extends JPlugin
 {
+
+	/**
+	 * Base path for editor files
+	 */
+	protected $_basePath = 'media/editors/tinymce/jscripts/tiny_mce';
+
 	/**
 	 * Initialises the Editor.
 	 *
@@ -414,8 +420,8 @@ class plgEditorTinymce extends JPlugin
 			case 0: /* Simple mode*/
 				if ($compressed) {
 					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().
-							"plugins/editors/tinymce/tinymce/jscripts/tiny_mce/tiny_mce_gzip.js\"></script>\n";
+							JURI::root().$this->_basePath.
+							"/tiny_mce_gzip.js\"></script>\n";
 					$load .= "\t<script type=\"text/javascript\">
 					tinyMCE_GZ.init({
 					themes : \"$theme[$mode]\",
@@ -424,8 +430,8 @@ class plgEditorTinymce extends JPlugin
 				</script>";
 				} else {
 					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().
-							"plugins/editors/tinymce/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
+							JURI::root().$this->_basePath.
+							"/tiny_mce.js\"></script>\n";
 				}
 				$return = $load .
 				"\t<script type=\"text/javascript\">
@@ -457,8 +463,8 @@ class plgEditorTinymce extends JPlugin
 			case 1: /* Advanced mode*/
 				if ($compressed) {
 					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().
-							"plugins/editors/tinymce/tinymce/jscripts/tiny_mce/tiny_mce_gzip.js\"></script>\n";
+							JURI::root().$this->_basePath.
+							"/tiny_mce_gzip.js\"></script>\n";
 					$load .= "\t<script type=\"text/javascript\">
 						tinyMCE_GZ.init({
 						themes : \"$theme[$mode]\",
@@ -467,8 +473,8 @@ class plgEditorTinymce extends JPlugin
 				</script>";
 				} else {
 					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().
-							"plugins/editors/tinymce/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
+							JURI::root().$this->_basePath.
+							"/tiny_mce.js\"></script>\n";
 				}
 				$return = $load .
 				"\t<script type=\"text/javascript\">
@@ -508,8 +514,8 @@ class plgEditorTinymce extends JPlugin
 			case 2: /* Extended mode*/
 				if ($compressed) {
 					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().
-							"plugins/editors/tinymce/tinymce/jscripts/tiny_mce/tiny_mce_gzip.js\"></script>\n";
+							JURI::root().$this->_basePath.
+							"/tiny_mce_gzip.js\"></script>\n";
 					$load .= "\t<script type=\"text/javascript\">
 				tinyMCE_GZ.init({
 					themes : \"$theme[$mode]\",
@@ -519,8 +525,8 @@ class plgEditorTinymce extends JPlugin
 				</script>";
 				} else {
 				$load = "\t<script type=\"text/javascript\" src=\"".
-						JURI::root().
-						"plugins/editors/tinymce/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
+						JURI::root().$this->_basePath.
+						"/tiny_mce.js\"></script>\n";
 				}
 				$return = $load .
 				"\t<script type=\"text/javascript\">
@@ -548,7 +554,7 @@ class plgEditorTinymce extends JPlugin
 					remove_script_host : false,
 					document_base_url : \"". JURI::root() ."\",
 					//Templates
-					template_external_list_url :  \"". JURI::root() ."plugins/editors/tinymce/tinymce/templates/template_list.js\",
+					template_external_list_url :  \"". JURI::root() ."media/editors/tinymce/templates/template_list.js\",
 					// Layout
 					$content_css
 					// Advanced theme
