@@ -172,7 +172,7 @@ class JPaneTabs extends JPane
 		$js = '	window.addEvent(\'domready\', function(){ $$(\'dl.tabs\').each(function(tabs){ new JTabs(tabs, '.$options.'); }); });';
 
 		$document->addScriptDeclaration($js);
-		JHTML::script('system/tabs.js', false, true);
+		JTHML::_('script','system/tabs.js', false, true);
 	}
 }
 

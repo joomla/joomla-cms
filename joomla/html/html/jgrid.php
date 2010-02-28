@@ -30,7 +30,7 @@ abstract class JHtmlJGrid
 			-2	=> array('trash.png',		$taskPrefix.'publish',		'JState_Trashed',		'JState_Publish_Item'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= JHtml::image('admin/'.$state[0], JText::_($state[2]), NULL, true);
+		$html	= JTHML::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true);
 		if ($canChange) {
 			$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
 					. $html.'</a>';
@@ -68,11 +68,11 @@ abstract class JHtmlJGrid
 	public static function checkedout($editorName, $time)
 	{
 		$text	= addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
-		$date	= JHtml::date($time, '%A, %d %B %Y');
-		$time	= JHtml::date($time, '%H:%M');
+		$date	= JTHML::_('date',$time, '%A, %d %B %Y');
+		$time	= JTHML::_('date',$time, '%H:%M');
 
 		$hover = '<span class="editlinktip hasTip" title="'. JText::_('CHECKED_OUT') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
-		$checked = $hover .JHtml::image('admin/checked_out.png', JText::_('CHECKED_OUT'), NULL, true).'</span>';
+		$checked = $hover .JTHML::_('image','admin/checked_out.png', JText::_('CHECKED_OUT'), NULL, true).'</span>';
 
 		return $checked;
 	}
@@ -96,11 +96,11 @@ abstract class JHtmlJGrid
 		if ($enabled)
 		{
 			$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-			$html	.= JHtml::image('admin/uparrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
+			$html	.= JTHML::_('image','admin/uparrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 			$html	.= '</a>';
 		}
 		else {
-			$html	= JHtml::image('admin/uparrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
+			$html	= JTHML::_('image','admin/uparrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 		}
 		return $html;
 	}
@@ -124,11 +124,11 @@ abstract class JHtmlJGrid
 		if ($enabled)
 		{
 			$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-			$html	.= JHtml::image('admin/downarrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
+			$html	.= JTHML::_('image','admin/downarrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 			$html	.= '</a>';
 		}
 		else {
-			$html	= JHtml::image('admin/downarrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
+			$html	= JTHML::_('image','admin/downarrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
 		}
 		return $html;
 	}
