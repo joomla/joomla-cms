@@ -74,6 +74,6 @@ class JFormFieldCalendar extends JFormFieldText
 				break;
 		}
 
-		return JHtml::calendar($this->value, $this->inputName, $this->inputId, $format, $readonly ? array($onchange,'readonly'=>'readonly'):$onchange);
+		return JTHML::_('calendar',$this->value, $this->inputName, $this->inputId, $format, $readonly ? array($onchange,'readonly'=>'readonly'):$onchange);
 	}
 }

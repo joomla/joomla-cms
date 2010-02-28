@@ -9,7 +9,7 @@
 						' var comlogin = 1;';
 		$document = &JFactory::getDocument();
 		$document->addScriptDeclaration( $langScript );
-		JHtml::script('openid.js');
+		JTHML::_('script','openid.js');
 endif; ?>
 <form action="<?php echo JRoute::_( 'index.php', true, $this->params->get('usesecure')); ?>" method="post" name="com-login" id="com-form-login">
 <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">

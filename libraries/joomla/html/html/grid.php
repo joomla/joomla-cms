@@ -68,7 +68,7 @@ abstract class JHtmlGrid
 		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_('JCOMMON_CLICK_TO_SORT_THIS_COLUMN').'">';
 		$html .= JText::_($title);
 		if ($order == $selected) {
-			$html .= JHtml::image('system/'.$images[$index], '', NULL, true);
+			$html .= JTHML::_('image','system/'.$images[$index], '', NULL, true);
 		}
 		$html .= '</a>';
 		return $html;
@@ -167,7 +167,7 @@ abstract class JHtmlGrid
 
 		$href = '
 		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">'.
-		JHtml::image('admin/'.$img, $alt, array('border' => 0), true).'</a>'
+		JTHML::_('image','admin/'.$img, $alt, array('border' => 0), true).'</a>'
 		;
 
 		return $href;
@@ -208,7 +208,7 @@ abstract class JHtmlGrid
 
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
-		$image = JHtml::image('admin/'.$image, JText::_('SAVE_ORDER'), NULL, true);
+		$image = JTHML::_('image','admin/'.$image, JText::_('SAVE_ORDER'), NULL, true);
 		$href = '<a href="javascript:saveorder('.(count($rows)-1).', \''.$task.'\')" title="'.JText::_('SAVE_ORDER').'">'.$image.'</a>';
 		return $href;
 	}
@@ -221,12 +221,12 @@ abstract class JHtmlGrid
 		{
 			$text = addslashes(htmlspecialchars($row->editor, ENT_COMPAT, 'UTF-8'));
 
-			$date	= JHtml::date($row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
-			$time	= JHtml::date($row->checked_out_time, '%H:%M');
+			$date	= JTHML::_('date',$row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
+			$time	= JTHML::_('date',$row->checked_out_time, '%H:%M');
 
 			$hover = '<span class="editlinktip hasTip" title="'. JText::_('CHECKED_OUT') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
 		}
-		$checked = $hover .JHtml::image('admin/checked_out.png', NULL, NULL, true).'</span>';
+		$checked = $hover .JTHML::_('image','admin/checked_out.png', NULL, NULL, true).'</span>';
 
 		return $checked;
 	}

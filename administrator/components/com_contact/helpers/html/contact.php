@@ -28,7 +28,7 @@ abstract class JHtmlContact
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
 		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-				. JHtml::image('admin/'.$state[0], JText::_($state[2]), NULL, true).'</a>';
+				. JTHML::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true).'</a>';
 
 		return $html;
 	}
@@ -43,31 +43,31 @@ abstract class JHtmlContact
 		<table cellspacing="0" cellpadding="4" border="0" align="center">
 		<tr align="center">
 			<td>
-			<?php echo JHtml::image('admin/publish_y.png', JText::_('Pending'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
+			<?php echo JTHML::_('image','admin/publish_y.png', JText::_('Pending'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
 			</td>
 			<td>
 			<?php echo JText::_('PUBLISHED_BUT_IS'); ?> <u><?php echo JText::_('Pending'); ?></u> |
 			</td>
 			<td>
-			<?php echo JHtml::image('admin/publish_g.png', JText::_('Visible'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
+			<?php echo JTHML::_('image','admin/publish_g.png', JText::_('Visible'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
 			</td>
 			<td>
 			<?php echo JText::_('PUBLISHED_AND_IS'); ?> <u><?php echo JText::_('Current'); ?></u> |
 			</td>
 			<td>
-			<?php echo JHtml::image('admin/publish_r.png', JText::_('Finished'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
+			<?php echo JTHML::_('image','admin/publish_r.png', JText::_('Finished'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
 			</td>
 			<td>
 			<?php echo JText::_('PUBLISHED_BUT_HAS'); ?> <u><?php echo JText::_('Expired'); ?></u> |
 			</td>
 			<td>
-			<?php echo JHtml::image('admin/publish_x.png', JText::_('Finished'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
+			<?php echo JTHML::_('image','admin/publish_x.png', JText::_('Finished'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
 			</td>
 			<td>
 			<?php echo JText::_('NOT_PUBLISHED'); ?> |
 			</td>
 			<td>
-			<?php echo JHtml::image('admin/disabled.png', JText::_('Archived'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
+			<?php echo JTHML::_('image','admin/disabled.png', JText::_('Archived'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
 			</td>
 			<td>
 			<?php echo JText::_('Archived'); ?>

@@ -29,7 +29,7 @@ class MediaViewImagesList extends JView
 		// if ($app->getClientId() == 1) $append = 'administrator/';
 
 		JHtml::_('behavior.framework', true);
-		JHtml::stylesheet('popup-imagelist.css', $append .'media/media/');
+		JTHML::_('stylesheet','popup-imagelist.css', $append .'media/media/');
 
 		$document = &JFactory::getDocument();
 		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");

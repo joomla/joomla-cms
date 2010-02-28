@@ -304,7 +304,7 @@ class RedirectModelLink extends JModelForm
 		JArrayHelper::toInteger($pks);
 
 		// Populate default comment if necessary.
-		$comment = (!empty($comment)) ? $comment : JText::sprintf('Redir_Redirected_On', JHtml::date(time()));
+		$comment = (!empty($comment)) ? $comment : JText::sprintf('Redir_Redirected_On', JTHML::_('date',time()));
 
 		// Access checks.
 		if (!$user->authorise('core.edit', 'com_redirect'))

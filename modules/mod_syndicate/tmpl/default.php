@@ -11,4 +11,4 @@
 defined('_JEXEC') or die;
 ?>
 <a href="<?php echo $link ?>">
-	<?php echo JHtml::image('system/livemarks.png', 'feed-image', NULL, true); ?> <span><?php echo $params->get('text') ?></span></a>
+	<?php echo JTHML::_('image','system/livemarks.png', 'feed-image', NULL, true); ?> <span><?php echo $params->get('text') ?></span></a>

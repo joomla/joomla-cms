@@ -100,14 +100,14 @@ $user = JFactory::getUser();
 				</td>
 				<td class="center">
 					<?php if ($item->home == 1) : ?>
-							<?php echo JHtml::image('menu/icon-16-default.png', JText::_('Default'), NULL, true); ?>
+							<?php echo JTHML::_('image','menu/icon-16-default.png', JText::_('Default'), NULL, true); ?>
 					<?php else  : ?>
 							&nbsp;
 					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php if ($item->assigned == 1) : ?>
-							<?php echo JHtml::image('admin/tick.png', JText::_('Assigned'), NULL, true); ?>
+							<?php echo JTHML::_('image','admin/tick.png', JText::_('Assigned'), NULL, true); ?>
 					<?php else : ?>
 							&nbsp;
 					<?php endif; ?>

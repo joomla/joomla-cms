@@ -121,12 +121,12 @@ class ContactViewContact extends JView
 
 			default :
 				// icons
-				$image1 = JHtml::image('contacts/'.$pparams->get('icon_address','con_address.png'), JText::_('Address').": ", NULL, true);
-				$image2 = JHtml::image('contacts/'.$pparams->get('icon_email','emailButton.png'), JText::_('Email').": ", NULL, true);
-				$image3 = JHtml::image('contacts/'.$pparams->get('icon_telephone','con_tel.png'), JText::_('Telephone').": ", NULL, true);
-				$image4 = JHtml::image('contacts/'.$pparams->get('icon_fax','con_fax.png'), JText::_('Fax').": ", NULL, true);
-				$image5 = JHtml::image('contacts/'.$pparams->get('icon_misc','con_info.png'), JText::_('Information').": ", NULL, true);
-				$image6 = JHtml::image('contacts/'.$pparams->get('icon_mobile','con_mobile.png'), JText::_('Mobile').": ", NULL, true);
+				$image1 = JTHML::_('image','contacts/'.$pparams->get('icon_address','con_address.png'), JText::_('Address').": ", NULL, true);
+				$image2 = JTHML::_('image','contacts/'.$pparams->get('icon_email','emailButton.png'), JText::_('Email').": ", NULL, true);
+				$image3 = JTHML::_('image','contacts/'.$pparams->get('icon_telephone','con_tel.png'), JText::_('Telephone').": ", NULL, true);
+				$image4 = JTHML::_('image','contacts/'.$pparams->get('icon_fax','con_fax.png'), JText::_('Fax').": ", NULL, true);
+				$image5 = JTHML::_('image','contacts/'.$pparams->get('icon_misc','con_info.png'), JText::_('Information').": ", NULL, true);
+				$image6 = JTHML::_('image','contacts/'.$pparams->get('icon_mobile','con_mobile.png'), JText::_('Mobile').": ", NULL, true);
 
 				$pparams->set('marker_address',	$image1);
 				$pparams->set('marker_email',		$image2);

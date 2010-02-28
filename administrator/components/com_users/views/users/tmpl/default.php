@@ -122,10 +122,10 @@ $canDo = UsersHelper::getActions();
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::date($item->lastvisitDate); ?>
+					<?php echo JTHML::_('date',$item->lastvisitDate); ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::date($item->registerDate); ?>
+					<?php echo JTHML::_('date',$item->registerDate); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>

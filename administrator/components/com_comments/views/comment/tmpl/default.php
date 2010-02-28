@@ -70,7 +70,7 @@ $pane = JPane::getInstance('sliders');
 			</dd>
 
 			<dt class="date"><?php echo JText::_('COMMENTS_DATE'); ?></dt>
-			<dd class="date"><?php echo JHtml::date($this->item->created_date, JText::_('DATE_FORMAT_LC2')); ?></dd>
+			<dd class="date"><?php echo JTHML::_('date',$this->item->created_date, JText::_('DATE_FORMAT_LC2')); ?></dd>
 
 			<dt class="subject"><?php echo JText::_('COMMENTS_SUBJECT'); ?></dt>
 			<dd class="subject"><?php echo ($this->item->subject) ? $this->item->subject : JText::_('COMMENTS_NOT_AVAILABLE'); ?></dd>
@@ -97,7 +97,7 @@ $pane = JPane::getInstance('sliders');
 					<dd class="author"><?php echo $item->name; ?></dd>
 
 					<dt class="date"><?php echo JText::_('COMMENTS_DATE'); ?></dt>
-					<dd class="date"><?php echo JHtml::date($item->created_date, JText::_('DATE_FORMAT_LC2')); ?></dd>
+					<dd class="date"><?php echo JTHML::_('date',$item->created_date, JText::_('DATE_FORMAT_LC2')); ?></dd>
 
 					<dt class="subject"><?php echo JText::_('COMMENTS_SUBJECT'); ?></dt>
 					<dd class="subject"><?php echo ($item->subject) ? $item->subject : JText::_('COMMENTS_NOT_AVAILABLE'); ?></dd>
@@ -125,7 +125,7 @@ $pane = JPane::getInstance('sliders');
 					<dd class="author"><?php echo $item->name; ?></dd>
 
 					<dt class="date"><?php echo JText::_('COMMENTS_DATE'); ?></dt>
-					<dd class="date"><?php echo JHtml::date($item->created_date, JText::_('DATE_FORMAT_LC2')); ?></dd>
+					<dd class="date"><?php echo JTHML::_('date',$item->created_date, JText::_('DATE_FORMAT_LC2')); ?></dd>
 
 					<dt class="subject"><?php echo JText::_('COMMENTS_SUBJECT'); ?></dt>
 					<dd class="subject"><?php echo ($item->subject) ? $item->subject : JText::_('COMMENTS_NOT_AVAILABLE'); ?></dd>
@@ -153,7 +153,7 @@ $pane = JPane::getInstance('sliders');
 					<dd class="author"><?php echo $item->name; ?></dd>
 
 					<dt class="date"><?php echo JText::_('COMMENTS_DATE'); ?></dt>
-					<dd class="date"><?php echo JHtml::date($item->created_date, JText::_('DATE_FORMAT_LC2')); ?></dd>
+					<dd class="date"><?php echo JTHML::_('date',$item->created_date, JText::_('DATE_FORMAT_LC2')); ?></dd>
 
 					<dt class="subject"><?php echo JText::_('COMMENTS_SUBJECT'); ?></dt>
 					<dd class="subject"><?php echo ($item->subject) ? $item->subject : JText::_('COMMENTS_NOT_AVAILABLE'); ?></dd>

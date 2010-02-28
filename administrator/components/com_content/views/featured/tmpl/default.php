@@ -129,7 +129,7 @@ $user	= JFactory::getUser();
 					<?php echo $this->escape($item->author_name); ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::date($item->created, '%Y.%m.%d'); ?>
+					<?php echo JTHML::_('date',$item->created, '%Y.%m.%d'); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->hits; ?>

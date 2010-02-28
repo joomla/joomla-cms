@@ -39,7 +39,7 @@ defined('_JEXEC') or die;
 						' var modlogin = 1;';
 		$document = &JFactory::getDocument();
 		$document->addScriptDeclaration($langScript);
-		JHtml::script('openid.js');
+		JTHML::_('script','openid.js');
 endif; ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" name="form-login" id="form-login" >
 	<?php echo $params->get('pretext'); ?>

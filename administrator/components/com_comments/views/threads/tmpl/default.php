@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 
 // Include HTML helpers.
 JHTML::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHTML::stylesheet('comments/default.css', array(), true);
-JHTML::script('comments/checkall.js', false, true);
+JTHML::_('stylesheet','comments/default.css', array(), true);
+JTHML::_('script','comments/checkall.js', false, true);
 JHTML::_('behavior.tooltip');
 
 $lDirection = $this->state->get('list.direction');
@@ -82,7 +82,7 @@ $lOrdering	= $this->state->get('list.ordering');
 					<?php echo $this->escape($item->page_title); ?>
 				</td>
 				<td align="center">
-					<?php echo JHtml::date($item->created_date, JText::_('DATE_FORMAT_LC3')); ?>
+					<?php echo JTHML::_('date',$item->created_date, JText::_('DATE_FORMAT_LC3')); ?>
 				</td>
 				<td align="center">
 					<?php if ($item->comment_count) : ?>

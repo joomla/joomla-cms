@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 		<?php echo $this->item->get('from_user_name');?>
 
 		<?php echo JText::_('Messages_Field_Date_time_Label'); ?>
-		<?php echo JHtml::date($this->item->date_time);?>
+		<?php echo JTHML::_('date',$this->item->date_time);?>
 
 		<?php echo JText::_('Messages_Field_Subject_Label'); ?>
 		<?php echo $this->item->subject;?>

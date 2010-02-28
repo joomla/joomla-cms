@@ -14,11 +14,11 @@ defined('_JEXEC') or die;
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
 					<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe">
-						<?php echo JHtml::image('media/folder.png', JText::_('Folder'), array('width' => 80, 'height' => 80, 'border' => 0), true); ?></a>
+						<?php echo JTHML::_('image','media/folder.png', JText::_('Folder'), array('width' => 80, 'height' => 80, 'border' => 0), true); ?></a>
 				</div>
 			</div>
 			<div class="controls">
-				<a class="delete-item" href="index.php?option=com_media&amp;task=folder.delete&amp;tmpl=component&amp;<?php echo JUtility::getToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_folder->name; ?>" rel="<?php echo $this->_tmp_folder->name; ?>' :: <?php echo $this->_tmp_folder->files+$this->_tmp_folder->folders; ?>"><?php echo JHtml::image('media/remove.png', JText::_('Delete'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?></a>
+				<a class="delete-item" href="index.php?option=com_media&amp;task=folder.delete&amp;tmpl=component&amp;<?php echo JUtility::getToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_folder->name; ?>" rel="<?php echo $this->_tmp_folder->name; ?>' :: <?php echo $this->_tmp_folder->files+$this->_tmp_folder->folders; ?>"><?php echo JTHML::_('image','media/remove.png', JText::_('Delete'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?></a>
 				<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_folder->name; ?>" />
 			</div>
 			<div class="imginfoBorder">

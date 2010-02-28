@@ -103,7 +103,7 @@ endif; ?>
 <?php if ($this->params->get('show_create_date')) : ?>
 <tr>
 	<td valign="top" class="createdate">
-		<?php echo JHtml::date($this->article->created, JText::_('DATE_FORMAT_LC2')) ?>
+		<?php echo JTHML::_('date',$this->article->created, JText::_('DATE_FORMAT_LC2')) ?>
 	</td>
 </tr>
 <?php endif; ?>
@@ -129,7 +129,7 @@ endif; ?>
 <?php if ( intval($this->article->modified) !=0 && $this->params->get('show_modify_date')) : ?>
 <tr>
 	<td class="modifydate">
-		<?php echo JText::sprintf('LAST_UPDATED2', JHtml::date($this->article->modified, JText::_('DATE_FORMAT_LC2'))); ?>
+		<?php echo JText::sprintf('LAST_UPDATED2', JTHML::_('date',$this->article->modified, JText::_('DATE_FORMAT_LC2'))); ?>
 	</td>
 </tr>
 <?php endif; ?>
