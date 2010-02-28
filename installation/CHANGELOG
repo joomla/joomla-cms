@@ -33,6 +33,7 @@ $ -> Language fix or change
 + Implemented linked author profile in com_content
 ^ Moved JS, CSS and image files of the editors to /media folder - Thanks Rob Clayburn!
 # Created correct manifest file for com_weblinks - Thanks Edgars Piruška!
+# Fixed usage of COM_CONTENT_CATEGORY to CONTENT_CATEGORY
 
 27-Feb-2010 Hannes Papenberg
 # Fixing JDate::toFormat() - Thanks Edgars Piruška!

@@ -65,9 +65,9 @@ $params = &$this->item->params;
 			<?php 	$title = $this->escape($this->item->category_title);
 					$url = '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'.$title.'</a>';?>
 			<?php if ($params->get('link_category')) : ?>
-				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
+				<?php echo JText::sprintf('CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
-				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
+				<?php echo JText::sprintf('CONTENT_CATEGORY', $title); ?>
 			<?php endif; ?>
 		</dd>
 <?php endif; ?>
