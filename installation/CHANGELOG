@@ -30,6 +30,7 @@ $ -> Language fix or change
 28-Feb-2010 Hannes Papenberg
 # Reverting consistency commit from 23-feb-2010
 # Made all calls to functions in JHTML class consistent throughout the system. All use JHTML::_() now.
++ Implemented linked author profile in com_content
 
 27-Feb-2010 Hannes Papenberg
 # Fixing JDate::toFormat() - Thanks Edgars Piruška!
