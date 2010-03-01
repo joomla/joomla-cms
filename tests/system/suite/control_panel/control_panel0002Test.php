@@ -18,8 +18,8 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 	function testMenuCheck()
 	{
 		$this->setUp();
-		$this->doAdminLogin();
 		$this->gotoAdmin();
+		$this->doAdminLogin();
 		echo "Navigate to Control Panel.\n";
 		$this->click("link=Control Panel");
 		$this->waitForPageToLoad("30000");

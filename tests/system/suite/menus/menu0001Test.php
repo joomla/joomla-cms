@@ -19,8 +19,8 @@ class Menu0001 extends SeleniumJoomlaTestCase
 	function testMenuItemAdd()
 	{
 		echo "Starting testMenuItemAdd()\n";
-		$this->doAdminLogin();
 		$this->gotoAdmin();
+		$this->doAdminLogin();
 		echo "Navigate to Menu Manager and add new menu\n";
 		$this->click("link=Menu Manager");
 		$this->waitForPageToLoad("30000");
@@ -148,8 +148,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->assertFalse($this->isTextPresent("Functional Test Menu"));
 		$this->assertFalse($this->isElementPresent("link=Functional Test Menu Item"));
 		
-		$this->click("link=Site Administrator");
-		$this->waitForPageToLoad("30000");
+		$this->gotoAdmin();
 		$this->doAdminLogout();
 		echo "Finished testMenuItemAdd()\n";
 	}

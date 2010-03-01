@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Mar-2010 Mark Dexter
+^ Refactored SeleniumJoomlaTestCase methods and fixed test cases for new methods (from Matt Thomas)
+
 21-Feb-2010 Mark Dexter
 ^ Change system tests to use filter_search
 
