@@ -145,7 +145,10 @@ class WeblinksControllerWeblinks extends JController
 		$inc	= ($this->getTask() == 'orderup') ? -1 : +1;
 
 		$model = $this->getModel();
-		$model->reorder($ids, $inc);
+		foreach($ids as $id)
+		{
+			$model->reorder($id, $inc);
+		}
 		// TODO: Add error checks.
 
 		$this->setRedirect('index.php?option=com_weblinks&view=weblinks');

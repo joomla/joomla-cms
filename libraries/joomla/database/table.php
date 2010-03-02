@@ -1020,7 +1020,7 @@ abstract class JTable extends JObject
 		// If the movement delta is positive move the row down.
 		elseif ($delta > 0) {
 			$query->where('`ordering` > '.(int) $this->ordering);
-			$query->order('`ordering`');
+			$query->order('`ordering` ASC');
 		}
 
 		// Add the custom WHERE clause if set.

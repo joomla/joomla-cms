@@ -370,6 +370,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	 */
 	public function reorder($pk, $direction = 0)
 	{
+		$user = JFactory::getUser();
 		// Sanitize the id and adjustment.
 		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('newsfeed.id');
 
@@ -402,8 +403,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 		}
 
 		// Move the row.
-		// TODO: Where clause to restrict category.
-		$table->move($pk);
+		$table->move($direction, 'catid = '.$table->catid);
 
 		// Check-in the row.
 		if (!$this->checkin($pk)) {
@@ -421,6 +421,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 	 */
 	function saveorder($pks, $order)
 	{
+		$user = JFactory::getUser();
 		// Initialise variables.
 		$table		= $this->getTable();
 		$conditions	= array();
