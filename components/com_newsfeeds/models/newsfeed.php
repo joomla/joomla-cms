@@ -74,13 +74,13 @@ class NewsfeedsModelNewsfeed extends JModel
 
 			// Make sure the category is published
 			if (!$this->_data->published) {
-				JError::raiseError(404, JText::_("Resource Not Found"));
+				JError::raiseError(404, JText::_("JCOMMON_RESOURCE_NOT_FOUND"));
 				return false;
 			}
 
 			// Check to see if the category is published
 			if (!$this->_data->cat_pub) {
-				JError::raiseError(404, JText::_("Resource Not Found"));
+				JError::raiseError(404, JText::_("JCOMMON_RESOURCE_NOT_FOUND"));
 				return;
 			}
 

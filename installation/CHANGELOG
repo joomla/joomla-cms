@@ -27,16 +27,19 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-March-2010 Jean-Marie Simonet
+$^ Refactored com_newsfeeds ini/keys + some JCommon.
+
 28-Feb-2010 Hannes Papenberg
 # Reverting consistency commit from 23-feb-2010
 # Made all calls to functions in JHTML class consistent throughout the system. All use JHTML::_() now.
 + Implemented linked author profile in com_content
 ^ Moved JS, CSS and image files of the editors to /media folder - Thanks Rob Clayburn!
-# Created correct manifest file for com_weblinks - Thanks Edgars Piruška!
+# Created correct manifest file for com_weblinks - Thanks Edgars Piruï¿½ka!
 # Fixed usage of COM_CONTENT_CATEGORY to CONTENT_CATEGORY
 
 27-Feb-2010 Hannes Papenberg
-# Fixing JDate::toFormat() - Thanks Edgars Piruška!
+# Fixing JDate::toFormat() - Thanks Edgars Piruï¿½ka!
 # Missed some files when uploading the new mod_articles_news
 # Fixed bug in loading user in JUser
 

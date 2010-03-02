@@ -53,15 +53,15 @@
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
-				value="0">INDEX_FOLLOW</option>
+				value="0">JCOMMON_INDEX_FOLLOW</option>
 			<option
-				value="1">NOINDEX_FOLLOW</option>
+				value="1">JCOMMON_NOINDEX_FOLLOW</option>
 			<option
-				value="2">INDEX_NOFOLLOW</option>
+				value="2">JCOMMON_INDEX_NOFOLLOW</option>
 			<option
-				value="3">NOINDEX_NOFOLLOW</option>
+				value="3">JCOMMON_NOINDEX_NOFOLLOW</option>
 			<option
-				value="4">NO_ROBOTS_TAG</option>
+				value="4">JCOMMON_NO_ROBOTS_TAG</option>
 		</field>
 
 	</fields>

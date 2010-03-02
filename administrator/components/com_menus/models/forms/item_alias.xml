@@ -2,7 +2,7 @@
 	<!-- $Id$ -->
 <form>
 	<fields
-		label="Menus_Required_Fields_Label"
+		label="MENUS_REQUIRED_FIELDS_LABEL"
 		description="Menus_Required_Fields_Desc"
 		group="request">
 

@@ -8,5 +8,5 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>This component manages RSS/RDF newsfeeds</description>
+	<description>COM_NEWSFEEDS_XML_DESCRIPTION</description>
 </install>

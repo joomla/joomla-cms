@@ -53,15 +53,15 @@
 			<option
 				value="">USE_GLOBAL</option>
 			<option
-				value="0">index, follow</option>
+				value="0">JCOMMON_INDEX_FOLLOW</option>
 			<option
-				value="1">noindex, follow</option>
+				value="1">JCOMMON_NOINDEX_FOLLOW</option>
 			<option
-				value="2">index, nofollow</option>
+				value="2">JCOMMON_INDEX_NOFOLLOW</option>
 			<option
-				value="3">noindex, nofollow</option>
+				value="3">JCOMMON_NOINDEX_NOFOLLOW</option>
 			<option
-				value="4">Don't display robots tag</option>
+				value="4">JCOMMON_NO_ROBOTS_TAG</option>
 		</field>
 
 	</fields>

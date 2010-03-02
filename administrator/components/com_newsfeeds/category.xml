@@ -4,13 +4,13 @@
 	<fields
 		group="params"
 		array="true"
-		label="Categories_Options">
+		label="COM_NEWSFEEDS_FEED_CATEGORY_OPTIONS">
 
 		<field
 			name="target"
 			type="componentlayout"
 			label="JFIELD_ALT_LAYOUT_LABEL"
-			description="JField_Alt_Component_Layout_Desc"
+			description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 			extension=""
 			view="categories"
 			/>
@@ -31,37 +31,37 @@
 		<field
 			name="page_title"
 			type="text"
-			label="JField_Alt_Page_title_Label"
-			description="JField_Alt_Page_title_Desc"
+			label="JFIELD_ALT_PAGE_TITLE_LABEL"
+			description="JFIELD_ALT_PAGE_TITLE_DESC"
 			size="30"
 			default=""/>
 
 		<field
 			name="author"
 			type="text"
-			label="JField_Metadata_Author_Label"
-			description="JField_Metadata_Author_Desc"
+			label="JFIELD_METADATA_AUTHOR_LABEL"
+			description="JFIELD_METADATA_AUTHOR_DESC"
 			size="30"
 			default=""/>
 
 		<field
 			name="robots"
 			type="list"
-			label="JField_Metadata_Robots_Label"
-			description="JField_Metadata_Robots_Desc"
+			label="JFIELD_METADATA_ROBOTS_LABEL"
+			description="JFIELD_METADATA_ROBOTS_DESC"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
-				value="0">index, follow</option>
+				value="0">JCOMMON_INDEX_FOLLOW</option>
 			<option
-				value="1">noindex, follow</option>
+				value="1">JCOMMON_NOINDEX_FOLLOW</option>
 			<option
-				value="2">index, nofollow</option>
+				value="2">JCOMMON_INDEX_NOFOLLOW</option>
 			<option
-				value="3">noindex, nofollow</option>
+				value="3">JCOMMON_NOINDEX_NOFOLLOW</option>
 			<option
-				value="4">Don't display robots tag</option>
+				value="4">JCOMMON_NO_ROBOTS_TAG</option>
 		</field>
 
 	</fields>

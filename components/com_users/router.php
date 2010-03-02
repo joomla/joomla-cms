@@ -207,7 +207,7 @@ function UsersParseRoute($segments)
 		}
 	}
 	else {
-		JError::raiseError(404, JText::_('Resource not found.'));
+		JError::raiseError(404, JText::_('JCOMMON_RESOURCE_NOT_FOUND'));
 	}
 
 	return $vars;

@@ -27,12 +27,12 @@ class NewsfeedsHelper
 	public static function addSubmenu($vName)
 	{
 		JSubMenuHelper::addEntry(
-			JText::_('Newsfeeds_Submenu_Newsfeeds'),
+			JText::_('COM_NEWSFEEDS_SUBMENU_NEWSFEEDS'),
 			'index.php?option=com_newsfeeds&view=newsfeeds',
 			$vName == 'newsfeeds'
 		);
 		JSubMenuHelper::addEntry(
-			JText::_('Newsfeeds_Submenu_Categories'),
+			JText::_('COM_NEWSFEEDS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_newsfeeds',
 			$vName == 'categories'
 		);

@@ -64,19 +64,19 @@ class NewsfeedsViewNewsfeed extends JView
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= NewsfeedsHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 
-		JToolBarHelper::title(JText::_('Newsfeeds_Manager_Newsfeed'));
+		JToolBarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED'));
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && $canDo->get('core.edit'))
 		{
 
-			JToolBarHelper::apply('newsfeed.apply', 'JToolbar_Apply');
-			JToolBarHelper::save('newsfeed.save', 'JToolbar_Save');
-			JToolBarHelper::addNew('newsfeed.save2new', 'JToolbar_Save_and_new');
+			JToolBarHelper::apply('newsfeed.apply', 'JTOOLBAR_APPLY');
+			JToolBarHelper::save('newsfeed.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::addNew('newsfeed.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 			// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('newsfeed.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_Save_as_Copy', false);
+			JToolBarHelper::custom('newsfeed.save2copy', 'copy.png', 'copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 
 
@@ -84,7 +84,7 @@ class NewsfeedsViewNewsfeed extends JView
 			JToolBarHelper::cancel('newsfeed.cancel','JTOOLBAR_CANCEL');
 		}
 		else {
-			JToolBarHelper::cancel('newsfeed.cancel', 'JToolbar_Close');
+			JToolBarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		JToolBarHelper::divider();

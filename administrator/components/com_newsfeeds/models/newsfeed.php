@@ -303,7 +303,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 			else
@@ -347,7 +347,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 		}
@@ -397,7 +397,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 
 		if (!$allow)
 		{
-			$this->setError(JText::_('JError_Core_Edit_State_not_permitted'));
+			$this->setError(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 			return false;
 		}
 
@@ -426,7 +426,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 		$conditions	= array();
 
 		if (empty($pks)) {
-			return JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			return JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 
 		// update ordering values
@@ -446,7 +446,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+				JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 			}
 			else if ($table->ordering != $order[$i])
 			{

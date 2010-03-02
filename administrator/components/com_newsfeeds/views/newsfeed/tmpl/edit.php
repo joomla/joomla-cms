@@ -35,7 +35,7 @@ JHtml::_('behavior.keepalive');
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds'); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
 <div class="width-60 fltlft">
 	<fieldset class="adminform">
-		<legend><?php echo empty($this->item->id) ? JText::_('Newsfeeds_New_Newsfeed') : JText::sprintf('Newsfeeds_Edit_Newsfeed', $this->item->id); ?></legend>
+		<legend><?php echo empty($this->item->id) ? JText::_('COM_NEWSFEEDS_NEW_NEWSFEED') : JText::sprintf('COM_NEWSFEEDS_EDIT_NEWSFEED', $this->item->id); ?></legend>
 
 			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
@@ -67,7 +67,7 @@ JHtml::_('behavior.keepalive');
 <div class="width-40 fltrt">
 		<?php echo JHtml::_('sliders.start','newsfeed-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-		<?php echo JHtml::_('sliders.panel',JText::_('Newsfeeds_Options'), 'newsfeeds-options'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('COM_NEWSFEEDS_FIELD_OPTIONS'), 'newsfeeds-options'); ?>
 
 	<fieldset class="panelform">
 

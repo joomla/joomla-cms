@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout
-		title="com_newsfeeds_newsfeed_view_default_title">
+		title="COM_NEWSFEEDS_NEWSFEED_VIEW_DEFAULT_TITLE">
 		<message>
-			<![CDATA[com_newsfeeds_newsfeed_view_default_desc]]>
+			<![CDATA[COM_NEWSFEEDS_NEWSFEED_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 
 	<fields
 		group="request"
 		array="true"
-		label="Menus_Layout_Request_Variables_Label"
-		description="Menus_Layout_Request_Variables_Desc"
+		label="MENUS_LAYOUT_REQUEST_VARIABLES_LABEL"
+		description="MENUS_LAYOUT_REQUEST_VARIABLES_DESC"
 		addfieldpath="/administrator/components/com_newsfeeds/models/fields">
 		<field
 			name="id"
 			type="newsfeed"
 			default="0"
 			required="true"
-			label="Feed"
-			description="A feed" />
+			label="COM_NEWSFEEDS_FIELD_SELECT_FEED_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SELECT_FEED_DESC" />
 	</fields>
 
 	<fields
 		group="params"
-		label="Newsfeeds_Attribs_Newsfeed_Settings_Label"
-		description="Newsfeeds_Attribs_Newsfeed_Settings_Desc">
+		label="COM_NEWSFEEDS_FIELD_FEED_OPTIONS_LABEL"
+		description="COM_NEWSFEEDS_FIELD_FEED_OPTIONS_DESC">
 
 		<field
 			id="show_feed_image"
 			name="show_feed_image"
 			type="list"
 			default=""
-			label="Newsfeeds_Show_Feed_Image_Label"
-			description="Newsfeeds_Show_Feed_Image_Desc">
+			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
@@ -47,8 +47,8 @@
 			name="show_feed_description"
 			type="list"
 			default=""
-			label="Newsfeeds_Show_Feed_Description_Label"
-			description="Newsfeeds_Show_Feed_Description_Desc">
+			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
@@ -62,8 +62,8 @@
 			name="show_item_description"
 			type="list"
 			default=""
-			label="Newsfeeds_Show_Item_Description_Label"
-			description="Newsfeeds_Show_Item_Description_Desc">
+			label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
@@ -78,8 +78,8 @@
 			type="text"
 			size="6"
 			default="0"
-			label="Newsfeeds_Word_Count_Label"
-			description="Newsfeeds_Word_Count_Desc" />
+			label="COM_NEWSFEEDS_FIELD_WORD_COUNT_LABEL"
+			description="COM_NEWSFEEDS_FIELD_WORD_COUNT_DESC" />
 	</fields>
 
 </metadata>
