@@ -194,13 +194,16 @@ class ContactModelCategories extends JModelList
 		return $query;
 	}
 	
-	
+	/**
+	 * redefine the function an add some properties to make the styling more easy
+	 *
+	 * @return mixed An array of data items on success, false on failure.
+	 */
 	public function getItems()
 	{
 		$items = parent::getItems();
 		if (!empty($items))
 		{
-			//$level = $items[0]->level;		
 			$itemcount = count($items);
 			for ($i=0;$i<$itemcount;$i++)
 			{

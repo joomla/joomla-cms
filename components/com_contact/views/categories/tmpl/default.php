@@ -16,7 +16,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
 
-<div class="jcategories-list<?php echo $pageClass;?>">
+<div class="categories-list<?php echo $pageClass;?>">
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
 <h2>
@@ -71,7 +71,4 @@ $pageClass = $this->params->get('pageclass_sfx');
 ?>
 </ul>
 <?php endif; ?>
-
-
 </div>
-

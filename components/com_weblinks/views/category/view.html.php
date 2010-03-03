@@ -128,7 +128,8 @@ class WeblinksViewCategory extends JView
 		else {
 			$this->document->setTitle(JText::_('COM_WEBLINKS_WEB_LINKS'));
 		}
-
+	
+			
 		// Add alternate feed link
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{

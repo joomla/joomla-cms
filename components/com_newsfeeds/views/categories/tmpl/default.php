@@ -12,9 +12,8 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
+// If the page class is defined, wrap the whole output in a div.
 $pageClass = $this->params->get('pageclass_sfx');
-$curLevel = 0;
-$difLevel = 0;
 ?>
 
 <div class="categories-list<?php echo $pageClass;?>">
@@ -29,26 +28,17 @@ $difLevel = 0;
 </h2>
 <?php endif; ?>
 
-<?php if (!empty($this->items)) : ?>
+<?php if (!empty($this->items)) :
+	$level = $this->items[0]->level;
+	$itemcount=count($this->items);
+?>	
+<ul>
 
-<?php foreach ($this->items as &$item) :
-	$difLevel = $item->level - $curLevel;
-	if ($difLevel < 0) :
-		for ($i = 0, $n = -($difLevel); $i < $n; $i++) :
-			echo "</ul>";
-		endfor;
-		$curLevel = $item->level;
-	elseif ($difLevel > 0) :
-		for ($i = 0, $n = $difLevel; $i < $n; $i++) : ?>
-			<ul>
-		<?php endfor;
-		$curLevel = $item->level;
-	endif;
-	?>
-
-	<li>
-		<span class="item-title">
-		<a href="<?php echo NewsfeedsRoute::category($item->id);?>">
+	<?php for ($i=0;$i<$itemcount;$i++) :
+		$item = &$this->items[$i];
+	?>	
+	<li<?php echo $item->sclass != '' ? ' class="'.$item->sclass.'"' : ''?>>
+		<span class="item-title"><a href="<?php echo NewsfeedsRoute::category($item->id);?>">
 			<?php echo $this->escape($item->title); ?></a>
 		</span>
 		<?php if ($item->description) : ?>
@@ -56,11 +46,29 @@ $difLevel = 0;
 				<?php echo $item->description; ?>
 			</div>
 		<?php endif; ?>
-	</li>
 
-	<?php endforeach; ?>
+<?php
+		// The next item is deeper.
+		if ($item->deeper) 
+		{
+			echo "\n<ul>";
+		}
+		// The next item is shallower.
+		elseif ($item->shallower)
+		{
+			echo "\n</li>";
+			echo str_repeat("\n</ul></li>", $item->level_diff);
+		}
+		// The next item is on the same level.
+		else {
+			echo "\n</li>";
+		}
+	endfor;
+
+	if ($item->level > $level) :
+		echo str_repeat("\n</ul></li>", $item->level-$level );
+	endif;
+?>
 </ul>
 <?php endif; ?>
-
 </div>
-
