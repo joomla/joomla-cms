@@ -60,46 +60,46 @@ class JDate extends DateTime
 	 * @since	1.6
 	 */
 	protected static $offsets = array(
-		-12 => 'Etc/GMT-12',
-		-11 => 'Pacific/Midway',
-		-10 => 'Pacific/Honolulu',
-		-9.5 => 'Pacific/Marquesas',
-		-9 => 'US/Alaska',
-		-8 => 'US/Pacific',
-		-7 => 'US/Mountain',
-		-6 => 'US/Central',
-		-5 => 'US/Eastern',
-		-4.5 => 'America/Caracas',
-		-4 => 'America/Barbados',
-		-3.5 => 'Canada/Newfoundland',
-		-3 => 'America/Buenos_Aires',
-		-2 => 'Atlantic/South_Georgia',
-		-1 => 'Atlantic/Azores',
-		0 => 'Europe/London',
-		1 => 'Europe/Amsterdam',
-		2 => 'Europe/Istanbul',
-		3 => 'Asia/Riyadh',
-		3.5 => 'Asia/Tehran',
-		4 => 'Asia/Muscat',
-		4.5 => 'Asia/Kabul',
-		5 => 'Asia/Karachi',
-		5.5 => 'Asia/Calcutta',
-		5.75 => 'Asia/Katmandu',
-		6 => 'Asia/Dhaka',
-		6.30 => 'Indian/Cocos',
-		7 => 'Asia/Bangkok',
-		8 => 'Australia/Perth',
-		8.75 => 'Australia/West',
-		9 => 'Asia/Tokyo',
-		9.5 => 'Australia/Adelaide',
-		10 => 'Australia/Brisbane',
-		10.5 => 'Australia/Lord_Howe',
-		11 => 'Pacific/Kosrae',
-		11.30 => 'Pacific/Norfolk',
-		12 => 'Pacific/Auckland',
-		12.75 => 'Pacific/Chatham',
-		13 => 'Pacific/Tongatapu',
-		14 => 'Pacific/Kiritimati'
+		'-12' => 'Etc/GMT-12',
+		'-11' => 'Pacific/Midway',
+		'-10' => 'Pacific/Honolulu',
+		'-9.5' => 'Pacific/Marquesas',
+		'-9' => 'US/Alaska',
+		'-8' => 'US/Pacific',
+		'-7' => 'US/Mountain',
+		'-6' => 'US/Central',
+		'-5' => 'US/Eastern',
+		'-4.5' => 'America/Caracas',
+		'-4' => 'America/Barbados',
+		'-3.5' => 'Canada/Newfoundland',
+		'-3' => 'America/Buenos_Aires',
+		'-2' => 'Atlantic/South_Georgia',
+		'-1' => 'Atlantic/Azores',
+		'0' => 'Europe/London',
+		'1' => 'Europe/Amsterdam',
+		'2' => 'Europe/Istanbul',
+		'3' => 'Asia/Riyadh',
+		'3.5' => 'Asia/Tehran',
+		'4' => 'Asia/Muscat',
+		'4.5' => 'Asia/Kabul',
+		'5' => 'Asia/Karachi',
+		'5.5' => 'Asia/Calcutta',
+		'5.75' => 'Asia/Katmandu',
+		'6' => 'Asia/Dhaka',
+		'6.30' => 'Indian/Cocos',
+		'7' => 'Asia/Bangkok',
+		'8' => 'Australia/Perth',
+		'8.75' => 'Australia/West',
+		'9' => 'Asia/Tokyo',
+		'9.5' => 'Australia/Adelaide',
+		'10' => 'Australia/Brisbane',
+		'10.5' => 'Australia/Lord_Howe',
+		'11' => 'Pacific/Kosrae',
+		'11.30' => 'Pacific/Norfolk',
+		'12' => 'Pacific/Auckland',
+		'12.75' => 'Pacific/Chatham',
+		'13' => 'Pacific/Tongatapu',
+		'14' => 'Pacific/Kiritimati'
 	);
 
 	/**
@@ -137,7 +137,7 @@ class JDate extends DateTime
 			}
 			// Translate from offset.
 			elseif (is_numeric($tz)) {
-				$tz = new DateTimeZone(self::$offsets[$tz]);
+				$tz = new DateTimeZone(self::$offsets[(string) $tz]);
 			}
 			elseif (is_string($tz)) {
 				$tz = new DateTimeZone($tz);
@@ -305,9 +305,9 @@ class JDate extends DateTime
 	public function setOffset($offset)
 	{
 		// Only set the timezone if the offset exists.
-		if (isset(self::$offsets[$offset]))
+		if (isset(self::$offsets[(string) $offset]))
 		{
-			$this->_tz = new DateTimeZone(self::$offsets[$offset]);
+			$this->_tz = new DateTimeZone(self::$offsets[(string) $offset]);
 			$this->setTimezone($this->_tz);
 			return true;
 		}
