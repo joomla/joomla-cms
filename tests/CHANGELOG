@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Mar-2010 Mark Dexter
+# Fix doInstall.php to reflect SeleniumJoomlaTestCase changes
+
 01-Mar-2010 Mark Dexter
 ^ Refactored SeleniumJoomlaTestCase methods and fixed test cases for new methods (from Matt Thomas)
 

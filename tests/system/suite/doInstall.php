@@ -51,9 +51,11 @@ class DoInstall extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
 	$this->assertTrue(true);
 	echo "Login to back end\n";
+	$this->gotoAdmin();
 	$this->doAdminLogin();
 	echo "Check for site menu\n";
 	$this->assertEquals("Site", $this->getText("link=Site"));
+	$this->doAdminLogout();
 	
   }
 }
