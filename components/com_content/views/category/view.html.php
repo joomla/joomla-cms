@@ -172,7 +172,29 @@ class ContentViewCategory extends JView
 			$title	= htmlspecialchars_decode($app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);
+		if ($this->item->metadesc) {
+			$this->document->setDescription($this->item->metadesc);
+		}
 
+		if ($this->item->metakey) {
+			$this->document->setMetadata('keywords', $this->item->metakey);
+		}
+
+		if ($app->getCfg('MetaTitle') == '1') {
+			$this->document->setMetaData('title', $this->item->title);
+		}
+
+		if ($app->getCfg('MetaAuthor') == '1') {
+			$this->document->setMetaData('author', $this->item->author);
+		}
+		
+		$mdata = $this->item->metadata->toArray();
+		foreach ($mdata as $k => $v)
+		{
+			if ($v) {
+				$this->document->setMetadata($k, $v);
+			}
+		}
 		// Add feed links
 		if ($this->params->get('show_feed_link', 1))
 		{

@@ -16,7 +16,7 @@
 			name="id"
 			type="category"
 			extension="com_weblinks"
-			default="0"
+			default=""
 			label="COM_WEBLINKS_FIELD_CATEGORY_LABEL"
 			required="true"
 			description="COM_WEBLINKS_FIELD_CATEGORYCHOOSE_DESC" />
@@ -46,5 +46,45 @@
 			default=""
 			label="JFIELD_CATEGORY_IMAGE_LABEL"
 			description="JFIELD_CATEGORY_IMAGE_DESC" />
+	</fields>
+	<fields
+		group="metadata"
+		array="true">
+
+		<field
+			name="robots"
+			type="list"
+			label="JField_Metadata_Robots_Label"
+			description="JField_Metadata_Robots_Desc"
+			default="">
+			<option
+				value="">USE_GLOBAL</option>
+			<option
+				value="0">index, follow</option>
+			<option
+				value="1">noindex, follow</option>
+			<option
+				value="2">index, nofollow</option>
+			<option
+				value="3">noindex, nofollow</option>
+			<option
+				value="4">Don't display robots tag</option>
+		</field>
+		<field
+			name="author"
+			type="text"
+			label="JField_Metadata_Author_Label"
+			description="JField_Metadata_Author_Desc"
+			size="20" />
+		<field
+			name="rights"
+			type="textarea"
+			default=""
+			label="JFIELD_META_RIGHTS_LABEL"
+			description="JFIELD_META_RIGHTS_DESC"
+			required=""
+			filter="string"
+			cols="30"
+			rows="2" />
 	</fields>
 </metadata>

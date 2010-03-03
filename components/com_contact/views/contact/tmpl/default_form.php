@@ -42,25 +42,25 @@ defined('_JEXEC') or die;
 		<div class="contact_email">
 			<div>
 				<label for="contact_name">
-					<?php echo JText::_('Com_contact_contact_Email_name');?>
+					<?php echo JText::_('contact_contact_Email_name');?>
 				</label>
 				<input type="text" name="name" id="contact_name" size="30" class="inputbox" value="" />
 			</div>
 			<div>
 				<label id="contact_emailmsg" for="contact_email">
-					<?php echo JText::_('Com_contact_contact_Email_address');?>*
+					<?php echo JText::_('Contact_contact_Email_address');?>*
 				</label>
 				<input type="text" id="contact_email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />
 			</div>
 			<div>
 				<label for="contact_subject">
-					<?php echo JText::_('Com_contact_contact_Message_subject');?>:
+					<?php echo JText::_('Contact_contact_Message_subject');?>:
 				</label>
 				<input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />
 			</div>
 			<div>
 				<label id="contact_textmsg" for="contact_text">
-					<?php echo JText::_('Com_contact_contact_Enter_message');?>:
+					<?php echo JText::_('Contact_contact_Enter_message');?>:
 				</label>
 				<textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox required"></textarea>
 			</div>
@@ -69,7 +69,7 @@ defined('_JEXEC') or die;
 			<div>
 				<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
 				<label for="contact_email_copy">
-					<?php echo JText::_('Com_contact_contact_EMAIL_A_COPY'); ?>
+					<?php echo JText::_('Contact_contact_EMAIL_A_COPY'); ?>
 				</label>
 			</div>
 			<?php endif; ?>

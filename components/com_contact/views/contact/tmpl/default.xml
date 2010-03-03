@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout
-		title="com_contact_contact_view_default_title">
+		title="contact_view_default_title">
 		<message>
-			<![CDATA[com_contact_contact_view_default_desc]]>
+			<![CDATA[contact_view_default_desc]]>
 		</message>
 	</layout>
 	<fields
@@ -17,8 +17,8 @@
 			name="id"
 			type="modal_contacts"
 			default=""
-			label="COM_CONTACT_SELECT_CONTACT_LABEL"
-			description="COM_CONTACT_SELECT_CONTACT_DESC"
+			label="CONTACT_SELECT_CONTACT_LABEL"
+			description="CONTACT_SELECT_CONTACT_DESC"
 			required="true"
 			/>
 	</fields>
@@ -31,8 +31,8 @@
 			name="show_category_crumb"
 			type="list"
 			default=""
-			label="Com_Contact_Contact_Breadcrumbs_Label"
-			description="Com_Contact_Contact_Breadcrumbs_Desc">
+			label="Contact_Contact_Breadcrumbs_Label"
+			description="Contact_Contact_Breadcrumbs_Desc">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
@@ -80,24 +80,24 @@
 			name="show_contact_category"
 			type="list"
 			default=""
-			label="Com_Contact_Contact_Contact_Show_Category_Label"
-			description="Com_Contact_Contact_Contact_Show_Category_Desc">
+			label="Contact_Show_Category_Label"
+			description="Contact_Show_Category_Desc">
 			<option 
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="hide">JHide</option>
 			<option
-				value="show_no_link">COM_CONTACT_SHOW_CATEGORY_NO_LINK</option>
+				value="show_no_link">CONTACT_SHOW_CATEGORY_NO_LINK</option>
 			<option
-				value="show_with_link">COM_CONTACT_SHOW_CATEGORY_WITH_LINK</option>
+				value="show_with_link">CONTACT_SHOW_CATEGORY_WITH_LINK</option>
 		</field>
 		
 		<field
 			name="show_contact_list"
 			type="list"
 			default=""
-			label="Com_Contact_Contact_Contact_Show_List_Label"
-			description="Com_Contact_Contact_Contact_Show_List_Desc">
+			label="Contact_Contact_Contact_Show_List_Label"
+			description="Contact_Contact_Contact_Show_List_Desc">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option

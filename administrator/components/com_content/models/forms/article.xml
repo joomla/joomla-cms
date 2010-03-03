@@ -238,6 +238,7 @@
 			rows="3"
 			cols="30"
 			default="" />
+			
 
 		<field
 			name="language"
@@ -582,6 +583,16 @@
 			label="JField_Metadata_Author_Label"
 			description="JField_Metadata_Author_Desc"
 			size="20" />
-
+		<field
+			name="rights"
+			type="textarea"
+			default=""
+			label="JFIELD_META_RIGHTS_LABEL"
+			description="JFIELD_META_RIGHTS_DESC"
+			required=""
+			filter="string"
+			cols="30"
+			rows="2" />
 	</fields>
+
 </form>

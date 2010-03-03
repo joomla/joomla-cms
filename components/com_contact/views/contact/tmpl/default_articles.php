@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <?php if ($this->params->get('show_articles')) : ?>
 <div class="jcontact-articles">
 	<h4>
-		<?php echo JText::_('Com_Contact_Contact_Articles_Heading'); ?>
+		<?php echo JText::_('Contact_Contact_Articles_Heading'); ?>
 	</h4>
 	<ol>
 		<?php foreach ($this->contact->articles as $article) :	?>

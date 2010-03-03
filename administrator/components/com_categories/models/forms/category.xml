@@ -202,5 +202,54 @@
 			section="category"
 			default=""/>
 	</fields>
+	<fields
+		group="metadata"
+		array="true">
 
+		<field
+			name="page_title"
+			type="text"
+			label="JField_Alt_Page_title_Label"
+			description="JField_Alt_Page_title_Desc"
+			size="30"
+			default=""/>
+
+		<field
+			name="author"
+			type="text"
+			label="JField_Metadata_Author_Label"
+			description="JField_Metadata_Author_Desc"
+			size="30"
+			default=""/>
+
+		<field
+			name="robots"
+			type="list"
+			label="JField_Metadata_Robots_Label"
+			description="JField_Metadata_Robots_Desc"
+			default="">
+			<option
+				value="">USE_GLOBAL</option>
+			<option
+				value="0">index, follow</option>
+			<option
+				value="1">noindex, follow</option>
+			<option
+				value="2">index, nofollow</option>
+			<option
+				value="3">noindex, nofollow</option>
+			<option
+				value="4">Don't display robots tag</option>
+		</field>
+		<field
+			name="rights"
+			type="textarea"
+			default=""
+			label="JFIELD_META_RIGHTS_LABEL"
+			description="JFIELD_META_RIGHTS_DESC"
+			required=""
+			filter="string"
+			cols="30"
+			rows="2" />
+	</fields>
 </form>

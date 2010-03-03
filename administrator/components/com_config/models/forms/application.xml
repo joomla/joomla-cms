@@ -350,7 +350,15 @@
 			filter="string"
 			cols="60"
 			rows="3" />
-
+		<field
+			name="MetaRights"
+			type="textarea"
+			default=""
+			label="JFIELD_META_RIGHTS_LABEL"
+			description="JFIELD_META_RIGHTS_DESC"
+			filter="string"
+			cols="60"
+			rows="2" />
 		<field
 			name="MetaTitle"
 			type="radio"

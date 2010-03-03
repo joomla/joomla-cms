@@ -34,20 +34,6 @@ class ContactController extends JController
 		$vFormat	= $document->getType();
 		$lName		= JRequest::getWord('layout', 'default');
 
-		// interceptors to support legacy urls
-		switch ($this->getTask())
-		{
-			//index.php?option=com_contact&task=category&id=0&Itemid=4
-			case 'category':
-				$viewName	= 'category';
-				$layout		= 'default';
-				break;
-			case 'view':
-				$viewName	= 'contact';
-				$layout		= 'default';
-				break;
-		}
-
 			// Get and render the view.
 		if ($view = &$this->getView($vName, $vFormat))
 		{

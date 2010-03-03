@@ -52,7 +52,7 @@ class ContactViewCategories extends JView
 		// Compute the contact slug and prepare description (runs content plugins).
 		foreach ($items as $i => &$item)
 		{
-			$item->slug			= $item->id.':'.$item->alias;
+			$item->slug			= $item->route ? ($item->id.':'.$item->route) : $item->id;
 			$item->description	= JHtml::_('content.prepare', $item->description);
 		}
 

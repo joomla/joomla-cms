@@ -69,9 +69,10 @@ JHtml::_('behavior.formvalidation');
 
 	<div class="width-40 fltrt">
 	<?php
+		echo JHTML::_('sliders.start');
 		if(in_array('params', $this->form->getGroups()))
 		{
-			echo JHTML::_('sliders.start');
+		
 			$groups = $this->form->getGroups('params');
 			$fieldsets = $this->form->getFieldsets();
 			array_unshift($groups, 'params');
@@ -88,22 +89,24 @@ JHtml::_('behavior.formvalidation');
 						echo $field->input;
 					}
 				}
-				echo '</fieldset>';
+				echo '</fieldset>'; 
 			}
-			echo JHTML::_('sliders.end');
 		} ?>
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('CATEGORIES_FIELDSET_METADATA'); ?></legend>
-			<?php echo $this->loadTemplate('metadata'); ?>
-		</fieldset>
+		<?php echo JHtml::_('sliders.panel',JText::_('CATEGORIES_FIELDSET_RULES'), 'meta-rules'); ?>
 		<fieldset>
-			<legend><?php echo JText::_('CATEGORIES_FIELDSET_RULES');?></legend>
+
 				<?php echo $this->form->getLabel('rules'); ?>
 				<?php echo $this->form->getInput('rules'); ?>
 		</fieldset>
-	</div>
+		<?php echo JHtml::_('sliders.panel',JText::_('CATEGORIES_FIELDSET_METADATA'), 'meta-options'); ?>
+		<fieldset class="panelform">
 
+			<?php echo $this->loadTemplate('metadata'); ?>
+		</fieldset>
+		
+			<?php echo JHtml::_('sliders.end'); ?>
+
+</div>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-<div class="clr"></div>

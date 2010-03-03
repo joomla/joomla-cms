@@ -850,6 +850,6 @@
 			label="Contact_Email_Redirect_LABEL"
 			description="Contact_Email_Redirect_DESC" />
 
-</fields>
+	</fields>
 
 </form>

@@ -123,6 +123,15 @@ class ContactViewCategory extends JView
 		}
 		$document->setTitle($pparams->get('page_title'));
 
+		if ($this->item->metadesc) {
+			$this->document->setDescription($this->item->metadesc);
+		}
+
+		if ($this->item->metakey) {
+			$this->document->setMetadata('keywords', $this->item->metakey);
+		}
+	
+		
 		// Prepare category description
 		$category->description = JHtml::_('content.prepare', $category->description);
 
