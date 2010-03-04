@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Mar-2010 Christophe Demko
+# Correcting bugs in JFieldCheckbox
+
 04-March-2010 Jean-Marie Simonet
 $^ Refactored com_templates ini/keys 
 $^ Refactored tpl_milkyway ini/keys
