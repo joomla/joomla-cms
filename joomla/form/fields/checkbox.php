@@ -36,10 +36,11 @@ class JFormFieldCheckbox extends JFormField
 		$value =((string)$this->_element->attributes()->value !== null) ? (string)$this->_element->attributes()->value : '';
 		$readonly =((string)$this->_element->attributes()->readonly == 'true') ? ' disabled="disabled"' : '';
 		$checked = (!empty($value) && $value == $this->value) ? ' checked="checked"' : '';
+		$attributes = '';
 		if ($v = (string)$this->_element->attributes()->onclick) {
 			$attributes .= ' onclick="'.$this->_replacePrefix($v).'"';
 		}
 
-		return '<input type="checkbox" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.$value.'"'.$checked.$readonly.' />';
+		return '<input type="checkbox" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.$value.'"'.$checked.$readonly.$attributes.' />';
 	}
 }
