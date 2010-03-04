@@ -38,6 +38,9 @@ class JInstallerComponent extends JAdapterInstance
 	{
 		$this->manifest = &$this->parent->getManifest();
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
+		$check = substr($name, 0, 4);
+		if ($check="com_") {
+		$name = substr($name, 4); }
 		$extension = "com_$name";
 		$lang =& JFactory::getLanguage();
 		$source = $path;
@@ -92,8 +95,10 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name = JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd');
-
+		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
+		$check=substr($name, 0, 4);
+		if ($check="com_") {
+		$name = substr($name, 4); }
 		$this->set('name', $name);
 		$this->set('element', strtolower('com_'.$name));
 
@@ -460,7 +465,10 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name = JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd');
+		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
+		$check=substr($name, 0, 4);
+		if ($check="com_") {
+		$name = substr($name, 4); }
 		$element = strtolower('com_'.$name);
 		$this->set('name', $name);
 		$this->set('element', $element);
@@ -869,7 +877,10 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// Set the extensions name
-		$name = JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd');
+		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
+		$check=substr($name, 0, 4);
+		if ($check="com_") {
+		$name = substr($name, 4); }
 		$this->set('name', $name);
 
 		/**
@@ -1319,7 +1330,10 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name = JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd');
+		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
+		$check=substr($name, 0, 4);
+		if ($check="com_") {
+		$name = substr($name, 4); }
 		$element = strtolower('com_'.$name);
 		$this->set('name', $name);
 		$this->set('element', $element);
