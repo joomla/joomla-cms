@@ -24,7 +24,7 @@ JHtml::_('behavior.keepalive');
 			submitform(task);
 		}
 		else {
-			alert('<?php echo $this->escape(JText::_('JValidation_Form_failed'));?>');
+			alert('<?php echo $this->escape(JText::_('JVALIDATION_FORM_FAILED'));?>');
 		}
 	}
 // -->
@@ -32,7 +32,7 @@ JHtml::_('behavior.keepalive');
 
 <form action="<?php JRoute::_('index.php?option=com_templates'); ?>" method="post" name="adminForm" id="source-form" class="form-validate">
 	<fieldset class="adminform">
-		<legend><?php echo JText::sprintf('Templates_Template_Filename', $this->source->filename, $this->template->element); ?></legend>
+		<legend><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></legend>
 
 		<?php if ($this->ftp) : ?>
 		<?php $this->loadTemplate('ftp'); ?>

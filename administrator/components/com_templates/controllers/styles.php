@@ -41,7 +41,7 @@ class TemplatesControllerStyles extends JController
 	public function duplicate()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$pks = JRequest::getVar('cid', array(), 'post', 'array');
@@ -49,11 +49,11 @@ class TemplatesControllerStyles extends JController
 		try
 		{
 			if (empty($pks)) {
-				throw new Exception(JText::_('JError_No_items_selected'));
+				throw new Exception(JText::_('JERROR_NO_ITEMS_SELECTED'));
 			}
 			$model = $this->getModel();
 			$model->duplicate($pks);
-			$this->setMessage(JText::sprintf('Templates_Success_N_Duplicated', count($pks)));
+			$this->setMessage(JText::('COM_TEMPLATES_SUCCESS_DUPLICATED'));
 		}
 		catch (Exception $e)
 		{
@@ -69,7 +69,7 @@ class TemplatesControllerStyles extends JController
 	public function delete()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$pks = JRequest::getVar('cid', array(), 'post', 'array');
@@ -77,11 +77,11 @@ class TemplatesControllerStyles extends JController
 		try
 		{
 			if (empty($pks)) {
-				throw new Exception(JText::_('JError_No_items_selected'));
+				throw new Exception(JText::_('JERROR_NO_ITEMS_SELECTED'));
 			}
 			$model = $this->getModel();
 			$model->delete($pks);
-			$this->setMessage(JText::sprintf('JController_N_Items_deleted', count($pks)));
+			$this->setMessage(JText::sprintf('JCONTROLLER_N_ITEMS_DELETED', count($pks)));
 		}
 		catch (Exception $e)
 		{
@@ -97,7 +97,7 @@ class TemplatesControllerStyles extends JController
 	public function sethome()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$pks = JRequest::getVar('cid', array(), 'post', 'array');
@@ -105,14 +105,14 @@ class TemplatesControllerStyles extends JController
 		try
 		{
 			if (empty($pks)) {
-				throw new Exception(JText::_('JError_No_items_selected'));
+				throw new Exception(JText::_('JERROR_NO_ITEMS_SELECTED'));
 			}
 
 			// Pop off the first element.
 			$id = array_shift($pks);
 			$model = $this->getModel();
 			$model->setHome($id);
-			$this->setMessage(JText::_('Templates_Success_Home_set'));
+			$this->setMessage(JText::_('COM_TEMPLATES_SUCCESS_HOME_SET'));
 		}
 		catch (Exception $e)
 		{

@@ -67,7 +67,7 @@ class TemplatesViewSource extends JView
 		$user		= JFactory::getUser();
 		$canDo		= TemplatesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('Templates_Manager_Edit_file'));
+		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_EDIT_FILE'));
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))

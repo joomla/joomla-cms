@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-March-2010 Jean-Marie Simonet
+$^ Refactored com_templates ini/keys 
+
 03-March-2010 Mark Dexter
 ^ Add properties to help with nested set output on front end (Robert Deutz)
 ^ Add rights field to metadata (Elin Waring)

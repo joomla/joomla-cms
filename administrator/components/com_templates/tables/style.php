@@ -83,7 +83,7 @@ class TemplatesTableStyle extends JTable
 	{
 		if (empty($this->title))
 		{
-			$this->setError('Templates_Error_Style_requires_title');
+			$this->setError('COM_TEMPLATES_ERROR_STYLE_REQUIRES_TITLE');
 			return false;
 		}
 

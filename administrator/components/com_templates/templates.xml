@@ -8,5 +8,5 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>Template Manager</description>
+	<description>COM_TEMPLATES_XML_DESCRIPTION</description>
 </install>

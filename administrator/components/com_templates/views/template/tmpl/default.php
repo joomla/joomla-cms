@@ -18,7 +18,7 @@ JHtml::_('behavior.modal');
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="width-50 fltlft">
 		<fieldset class="adminform" id="template-manager">
-			<legend><?php echo JText::_('Templates_Template_Master_files');?></legend>
+			<legend><?php echo JText::_('COM_TEMPLATES_TEMPLATE_MASTER_FILES');?></legend>
 
 			<?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
 
@@ -27,20 +27,20 @@ JHtml::_('behavior.modal');
 				<li>
 					<?php $id = $this->files['main']['index']->id; ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-						<?php echo JText::_('Templates_Template_Edit_main');?></a>
+						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_MAIN');?></a>
 				</li>
 				<?php if ($this->files['main']['error']->exists) : ?>
 				<li>
 					<?php $id = $this->files['main']['error']->id; ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-						<?php echo JText::_('Templates_Template_Edit_error');?></a>
+						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_ERROR');?></a>
 				</li>
 				<?php endif; ?>
 				<?php if ($this->files['main']['print']->exists) : ?>
 				<li>
 					<?php $id = $this->files['main']['print']->id; ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-						<?php echo JText::_('Templates_Template_Edit_printview');?></a>
+						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_PRINTVIEW');?></a>
 				</li>
 				<?php endif; ?>
 			<ul>
@@ -52,14 +52,14 @@ JHtml::_('behavior.modal');
 	<div class="width-50 fltrt">
 
 		<fieldset class="adminform" id="template-manager-css">
-			<legend><?php echo JText::_('Templates_Template_CSS');?></legend>
+			<legend><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CSS');?></legend>
 
 			<?php if (!empty($this->files['css'])) : ?>
 			<ul>
 				<?php foreach ($this->files['css'] as $file) : ?>
 				<li>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$file->id);?>">
-						<?php echo JText::sprintf('Templates_Template_Edit_css', $file->name);?></a>
+						<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_EDIT_CSS', $file->name);?></a>
 				</li>
 				<?php endforeach; ?>
 			<ul>
@@ -67,7 +67,7 @@ JHtml::_('behavior.modal');
 
 			<!--<div>
 				<a href="#" class="modal">
-					<?php echo JText::sprintf('Templates_Template_Add_css');?></a>
+					<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_ADD_CSS');?></a>
 			</div>-->
 
 		</fieldset>
@@ -77,4 +77,3 @@ JHtml::_('behavior.modal');
 
 	<input type="hidden" name="task" value="" />
 </form>
-

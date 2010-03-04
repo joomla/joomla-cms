@@ -28,7 +28,7 @@ class TemplatesViewPrevuuw extends JView
 
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(JText::_('Template Manager'), 'thememanager');
+		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER'), 'thememanager');
 		JToolBarHelper::custom('edit', 'back.png', 'back_f2.png', 'Back', false, false);
 
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'templates.php';
@@ -43,7 +43,7 @@ class TemplatesViewPrevuuw extends JView
 
 		if (!$template)
 		{
-			return JError::raiseWarning(500, JText::_('Template not specified'));
+			return JError::raiseWarning(500, JText::_('COM_TEMPLATES_TEMPLATE_NOT_SPECIFIED'));
 		}
 
 		// Set FTP credentials, if given

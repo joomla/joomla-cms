@@ -92,7 +92,7 @@ class TemplatesModelTemplate extends JModel
 					$this->setError($error);
 				}
 				else {
-					$this->setError(JText::_('Templates_Error_Extension_record_not_found'));
+					$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
 				}
 				$this->_template = false;
 			}
@@ -144,7 +144,7 @@ class TemplatesModelTemplate extends JModel
 			}
 			else
 			{
-				$this->setError(JText::_('Templates_Error_Template_folder_not_found'));
+				$this->setError(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'));
 			}
 		}
 

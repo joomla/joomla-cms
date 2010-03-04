@@ -104,7 +104,7 @@ class TemplatesModelSource extends JModelForm
 				$item->source		= JFile::read($filePath);
 			}
 			else {
-				$this->setError(JText::_('Templates_Error_Source_file_not_found'));
+				$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
 			}
 		}
 
@@ -139,7 +139,7 @@ class TemplatesModelSource extends JModelForm
 				$this->setError($error);
 			}
 			else {
-				$this->setError(JText::_('Templates_Error_Extension_record_not_found'));
+				$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
 			}
 			$this->_template = false;
 		}
@@ -180,7 +180,7 @@ class TemplatesModelSource extends JModelForm
 		// Try to make the template file writeable.
 		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0755'))
 		{
-			$this->setError(JText::_('Template_Error_Source_file_not_writable'));
+			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'));
 			return false;
 		}
 
@@ -189,12 +189,12 @@ class TemplatesModelSource extends JModelForm
 		// Try to make the template file unwriteable.
 		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0555'))
 		{
-			$this->setError(JText::_('Template_Error_Source_file_not_unwritable'));
+			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'));
 			return false;
 		}
 		else if (!$return)
 		{
-			$this->setError(JText::sprintf('Template_Error_Failed_to_save_filename.', $fileName));
+			$this->setError(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName));
 			return false;
 		}
 

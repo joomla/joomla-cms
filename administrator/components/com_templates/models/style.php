@@ -263,7 +263,7 @@ class TemplatesModelStyle extends JModelForm
 				// Access checks.
 				if (!$user->authorise('core.delete', 'com_templates'))
 				{
-					throw new Exception(JText::_('JError_Core_Delete_not_permitted'));
+					throw new Exception(JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
 
 				if (!$table->delete($pk))
@@ -297,7 +297,7 @@ class TemplatesModelStyle extends JModelForm
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_templates'))
 		{
-			throw new Exception(JText::_('JError_Core_Create_not_permitted'));
+			throw new Exception(JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
 		}
 
 		$table = $this->getTable();
@@ -354,7 +354,7 @@ class TemplatesModelStyle extends JModelForm
 		// Access checks.
 		if (!$user->authorise('core.edit.state', 'com_templates'))
 		{
-			throw new Exception(JText::_('JError_Core_Edit_State_not_permitted'));
+			throw new Exception(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 		}
 
 		// Lookup the client_id.
@@ -371,7 +371,7 @@ class TemplatesModelStyle extends JModelForm
 		}
 		else if (!is_numeric($clientId))
 		{
-			throw new Exception(JText::_('Template_Error_Style_not_found'));
+			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
 
 		// Reset the home fields for the client_id.

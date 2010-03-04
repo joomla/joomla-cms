@@ -15,10 +15,10 @@ defined('_JEXEC') or die;
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 <div class="width-100">
 	<h3 class="title fltlft">
-		<?php echo JText::_('Site Preview'); ?>
+		<?php echo JText::_('COM_TEMPLATES_SITE_PREVIEW'); ?>
 	</h3>
 	<h3 class="fltrt">
-		<?php echo JHTML::_('link',$this->url.'index.php?tp='.$this->tp.'&amp;template='.$this->id, JText::_('Open in new window'), array('target' => '_blank')); ?>
+		<?php echo JHTML::_('link',$this->url.'index.php?tp='.$this->tp.'&amp;template='.$this->id, JText::_('JBROWSERTARGET_NEW'), array('target' => '_blank')); ?>
 	</h3>
 	<div class="clr"></div>
 	<div class="width-100 temprev">

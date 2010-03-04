@@ -2,41 +2,41 @@
 <config>
 	<fields
 		group="permissions"
-		label="JConfig_Permissions_Label"
-		description="JConfig_Permissions_Desc"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
 		hidden="true">
 
 		<field
 			name="rules"
 			type="rules"
-			label="JConfig_Permissions_Label"
+			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"
 			component="com_templates"
 			section="component">
 			<action
 				name="core.admin"
-				title="JAction_Admin"
-				description="JAction_Manage_Component_Desc" />
+				title="JACTION_ADMIN"
+				description="JACTION_MANAGE_COMPONENT_DESC" />
 			<action
 				name="core.manage"
-				title="JAction_Manage"
-				description="JAction_Manage_Component_Desc" />
+				title="JACTION_MANAGE"
+				description="JACTION_MANAGE_COMPONENT_DESC" />
 			<action
 				name="core.create"
-				title="JAction_Create"
-				description="JAction_Create_Component_Desc" />
+				title="JACTION_CREATE"
+				description="JACTION_CREATE_COMPONENT_DESC" />
 			<action
 				name="core.delete"
-				title="JAction_Delete"
-				description="JAction_Delete_Component_Desc" />
+				title="JACTION_DELETE"
+				description="JACTION_DELETE_COMPONENT_DESC" />
 			<action
 				name="core.edit"
-				title="JAction_Edit"
-				description="JAction_Edit_Component_Desc" />
+				title="JACTION_EDIT"
+				description="JACTION_EDIT_COMPONENT_DESC" />
 			<action
 				name="core.edit.state"
-				title="JAction_Edit_State"
-				description="JAction_Edit_State_Component_Desc" />
+				title="JACTION_EDIT_STATE"
+				description="JACTION_EDIT_STATE_COMPONENT_DESC" />
 		</field>
 	</fields>
 </config>

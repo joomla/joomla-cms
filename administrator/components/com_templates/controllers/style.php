@@ -27,7 +27,7 @@ class TemplatesControllerStyle extends JControllerForm
 	public function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$iData	= JRequest::getVar('jform', array(), 'post', 'array');

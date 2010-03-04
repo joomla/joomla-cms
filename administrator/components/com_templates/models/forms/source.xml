@@ -15,8 +15,8 @@
 			type="editor"
 			editor="codemirror|none"
 			buttons="no"
-			label="Templates_Field_Source_Label"
-			description="Templates_Field_Source_Desc"
+			label="COM_TEMPLATES_FIELD_SOURCE_LABEL"
+			description="COM_TEMPLATES_FIELD_SOURCE_DESC"
 			rows="20"
 			cols="80"
 			filter="raw" />

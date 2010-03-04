@@ -31,11 +31,11 @@ class JHtmlTemplates
 		if (file_exists($thumb))
 		{
 			$thumb	= 'templates/'.$template.'/template_thumbnail.png';
-			$html	= JHTML::_('image',$thumb,JText::_('Templates_Preview'));
+			$html	= JHTML::_('image',$thumb,JText::_('COM_TEMPLATES_PREVIEW'));
 			if (file_exists($preview))
 			{
 				$preview	= $baseUrl.'/templates/'.$template.'/template_preview.png';
-				$html		= '<a href="'.$preview.'" class="modal" title="'.JText::_('Templates_Click_to_enlarge').'">'.$html.'</a>';
+				$html		= '<a href="'.$preview.'" class="modal" title="'.JText::_('COM_TEMPLATES_CLICK_TO_ENLARGE').'">'.$html.'</a>';
 			}
 		}
 

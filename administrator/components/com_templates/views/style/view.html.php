@@ -66,8 +66,8 @@ class TemplatesViewStyle extends JView
 		$canDo		= TemplatesHelper::getActions();
 
 		JToolBarHelper::title(
-			$isNew ? JText::_('Templates_Manager_Add_Style')
-			: JText::_('Templates_Manager_Edit_Style')
+			$isNew ? JText::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
+			: JText::_('COM_TEMPLATES_MANAGER_EDIT_STYLE')
 		);
 
 		// If not checked out, can save the item.
@@ -75,19 +75,19 @@ class TemplatesViewStyle extends JView
 		{
 			JToolBarHelper::apply('style.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('style.save','JTOOLBAR_SAVE');
-			JToolBarHelper::addNew('style.save2new', 'JToolbar_Save_and_new');
+			JToolBarHelper::addNew('style.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('style.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_Copy', false);
+			JToolBarHelper::custom('style.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('style.cancel','JTOOLBAR_CANCEL');
 		}
 		else {
-			JToolBarHelper::cancel('style.cancel', 'JToolbar_Close');
+			JToolBarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.style.edit','JTOOLBAR_HELP');

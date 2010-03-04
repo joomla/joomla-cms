@@ -54,9 +54,9 @@ class TemplatesViewTemplate extends JView
 		$user		= JFactory::getUser();
 		$canDo		= TemplatesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('Templates_Manager_View_Template'), 'thememanager');
+		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
 
-		JToolBarHelper::cancel('template.cancel', 'JToolbar_Close');
+		JToolBarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.template.view','JTOOLBAR_HELP');
 	}
