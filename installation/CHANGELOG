@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 04-Mar-2010 Christophe Demko
+^ Loading of language in JPlugin
 # Correcting bugs in JFieldCheckbox
 
 04-March-2010 Jean-Marie Simonet
