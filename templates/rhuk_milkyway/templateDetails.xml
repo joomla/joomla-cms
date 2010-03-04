@@ -38,39 +38,39 @@
 			name="colorVariation"
 			type="list"
 			default="white"
-			label="Milky_Color_Variation_Label"
-			description="Milky_Color_Variation_Desc">
+			label="TPL_RHUK_MILKYWAY_FIELD_COLOR_VARIATION_LABEL"
+			description="TPL_RHUK_MILKYWAY_FIELD_COLOR_VARIATION_DESC">
 			<option
-				value="blue">Milky_Blue</option>
+				value="blue">TPL_RHUK_MILKYWAY_FIELD_VALUE_BLUE</option>
 			<option
-				value="red">Milky_Red</option>
+				value="red">TPL_RHUK_MILKYWAY_FIELD_VALUE_RED</option>
 			<option
-				value="green">Milky_Green</option>
+				value="green">TPL_RHUK_MILKYWAY_FIELD_VALUE_GREEN</option>
 			<option
-				value="orange">Milky_Orange</option>
+				value="orange">TPL_RHUK_MILKYWAY_FIELD_VALUE_ORANGE</option>
 			<option
-				value="black">Milky_Black</option>
+				value="black">TPL_RHUK_MILKYWAY_FIELD_VALUE_BLACK</option>
 			<option
-				value="white">Milky_White</option>
+				value="white">TPL_RHUK_MILKYWAY_FIELD_VALUE_WHITE</option>
 		</field>
 		<field
 			name="backgroundVariation"
 			type="list"
 			default="blue"
-			label="Milky_Background_Variation_Label"
-			description="Milky_Background_Variation_Desc">
+			label="TPL_RHUK_MILKYWAY_FIELD_BACKGROUND_VARIATION_LABEL"
+			description="TPL_RHUK_MILKYWAY_FIELD_BACKGROUND_VARIATION_DESC">
 			<option
-				value="blue">Milky_Blue</option>
+				value="blue">TPL_RHUK_MILKYWAY_FIELD_VALUE_BLUE</option>
 			<option
-				value="red">Milky_Red</option>
+				value="red">TPL_RHUK_MILKYWAY_FIELD_VALUE_RED</option>
 			<option
-				value="green">Milky_Green</option>
+				value="green">TPL_RHUK_MILKYWAY_FIELD_VALUE_GREEN</option>
 			<option
-				value="orange">Milky_Orange</option>
+				value="orange">TPL_RHUK_MILKYWAY_FIELD_VALUE_ORANGE</option>
 			<option
-				value="black">Milky_Black</option>
+				value="black">TPL_RHUK_MILKYWAY_FIELD_VALUE_BLACK</option>
 			<option
-				value="white">Milky_White</option>
+				value="white">TPL_RHUK_MILKYWAY_FIELD_VALUE_WHITE</option>
 		</field>
 	</fields>
 	<fields group="advanced">
@@ -78,16 +78,16 @@
 			name="widthStyle"
 			type="list"
 			default="fmax"
-			label="Milky_Template_Width_Label"
-			description="Milky_Template_Width_Desc">
+			label="TPL_RHUK_MILKYWAY_FIELD_TEMPLATE_WIDTH_LABEL"
+			description="TPL_RHUK_MILKYWAY_FIELD_TEMPLATE_WIDTH_DESC">
 			<option
-				value="fmax">Milky_Fluid_with_maximum</option>
+				value="fmax">TPL_RHUK_MILKYWAY_FIELD_VALUE_FLUID_WITH_MAXIMUM</option>
 			<option
-				value="medium">Milky_Medium</option>
+				value="medium">TPL_RHUK_MILKYWAY_FIELD_VALUE_MEDIUM</option>
 			<option
-				value="small">Milky_Small</option>
+				value="small">TPL_RHUK_MILKYWAY_FIELD_VALUE_SMALL</option>
 			<option
-				value="fluid">Milky_Fluid</option>
+				value="fluid">TPL_RHUK_MILKYWAY_FIELD_VALUE_FLUID</option>
 		</field>
 	</fields>
 </install>
