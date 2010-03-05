@@ -57,13 +57,13 @@ class RedirectControllerLinks extends JController
 	public function delete()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 		else {
 			// Get the model.
@@ -74,7 +74,7 @@ class RedirectControllerLinks extends JController
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {
-				$this->setMessage(JText::sprintf('JController_N_Items_deleted', count($ids)));
+				$this->setMessage(JText::sprintf('JCONTROLLER_N_ITEMS_DELETED', count($ids)));
 			}
 		}
 
@@ -87,7 +87,7 @@ class RedirectControllerLinks extends JController
 	public function publish()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
@@ -96,7 +96,7 @@ class RedirectControllerLinks extends JController
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 		else
 		{
@@ -110,16 +110,16 @@ class RedirectControllerLinks extends JController
 			else
 			{
 				if ($value == 1) {
-					$text = 'JSuccess_N_Items_published';
+					$text = 'JSUCCESS_N_ITEMS_PUBLISHED';
 				}
 				else if ($value == 0) {
-					$text = 'JSuccess_N_Items_unpublished';
+					$text = 'JSUCCESS_N_ITEMS_UNPUBLISHED';
 				}
 				else if ($value == -1) {
-					$text = 'JSuccess_N_Items_archived';
+					$text = 'JSUCCESS_N_ITEMS_ARCHIVED';
 				}
 				else {
-					$text = 'JSuccess_N_Items_trashed';
+					$text = 'JSUCCESS_N_ITEMS_TRASHED';
 				}
 				$this->setMessage(JText::sprintf($text, count($ids)));
 			}
@@ -134,7 +134,7 @@ class RedirectControllerLinks extends JController
 	public function activate()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$ids		= JRequest::getVar('cid', array(), '', 'array');
@@ -142,7 +142,7 @@ class RedirectControllerLinks extends JController
 		$comment	= JRequest::getString('comment');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 		else {
 			// Get the model.
@@ -153,7 +153,8 @@ class RedirectControllerLinks extends JController
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {
-				$this->setMessage(JText::sprintf('Redir_N_Items_updated', count($ids)));
+				count($ids) == 1 ?
+				$this->setMessage(JText::_('COM_REDIR_LINK_UPDATED')) : $this->setMessage(JText::sprintf('COM_REDIR_N_LINKS_UPDATED', count($ids)));
 			}
 		}
 

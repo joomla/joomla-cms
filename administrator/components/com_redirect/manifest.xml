@@ -12,7 +12,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<description>Redirect Manager</description>
+	<description>COM_REDIR_XML_DESCRIPTION</description>
 
 	<administration>
 		<menu

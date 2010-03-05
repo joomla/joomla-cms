@@ -28,10 +28,10 @@ class JHtmlRedirect
 	{
 		// Array of image, task, title, action
 		$states	= array(
-			1	=> array('tick.png',		'links.unpublish',	'JState_Enabled',	'JState_Disable_Item'),
-			0	=> array('publish_x.png',	'links.publish',		'JState_Disabled',	'JState_Enabled_Item'),
-			2	=> array('disabled.png',	'links.unpublish',	'JState_Archived',	'JState_Disable_Item'),
-			-2	=> array('trash.png',		'links.publish',		'JState_Trashed',	'JState_Enabled_Item'),
+			1	=> array('tick.png',		'links.unpublish',	'JSTATE_ENABLED',	'JSTATE_DISABLE_ITEM'),
+			0	=> array('publish_x.png',	'links.publish',		'JSTATE_DISABLED',	'JSTATE_ENABLE_ITEM'),
+			2	=> array('disabled.png',	'links.unpublish',	'JSTATE_ARCHIVED',	'JSTATE_UNARCHIVE_ITEM'),
+			-2	=> array('trash.png',		'links.publish',		'JSTATE_TRASHED',	'JSTATE_ENABLE_ITEM'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$html	= JHTML::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true);

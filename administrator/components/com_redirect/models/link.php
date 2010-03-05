@@ -232,7 +232,7 @@ class RedirectModelLink extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 			else
@@ -271,7 +271,7 @@ class RedirectModelLink extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 		}
@@ -304,13 +304,13 @@ class RedirectModelLink extends JModelForm
 		JArrayHelper::toInteger($pks);
 
 		// Populate default comment if necessary.
-		$comment = (!empty($comment)) ? $comment : JText::sprintf('Redir_Redirected_On', JHTML::_('date',time()));
+		$comment = (!empty($comment)) ? $comment : JText::sprintf('COM_REDIR_REDIRECTED_ON', JHTML::_('date',time()));
 
 		// Access checks.
 		if (!$user->authorise('core.edit', 'com_redirect'))
 		{
 			$pks = array();
-			$this->setError(JText::_('JError_Core_Edit_not_permitted'));
+			$this->setError(JText::_('JERROR_CORE_EDIT_NOT_PERMITTED'));
 			return false;
 		}
 

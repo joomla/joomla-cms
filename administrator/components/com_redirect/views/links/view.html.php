@@ -56,7 +56,7 @@ class RedirectViewLinks extends JView
 		$state	= $this->get('State');
 		$canDo	= RedirectHelper::getActions();
 
-		JToolBarHelper::title(JText::_('Redir_Manager_Links'), 'redirect');
+		JToolBarHelper::title(JText::_('COM_REDIR_MANAGER_LINKS'), 'redirect');
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('link.add','JTOOLBAR_NEW');
 		}
@@ -65,8 +65,8 @@ class RedirectViewLinks extends JView
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('links.publish', 'publish.png', 'publish_f2.png', 'JToolbar_Enable', true);
-			JToolBarHelper::custom('links.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JToolbar_Disable', true);
+			JToolBarHelper::custom('links.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_ENABLE', true);
+			JToolBarHelper::custom('links.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_DISABLE', true);
 			JToolBarHelper::divider();
 			if ($state->get('filter.published') != -1) {
 				JToolBarHelper::archiveList('links.archive','JTOOLBAR_ARCHIVE');
