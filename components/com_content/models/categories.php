@@ -141,8 +141,9 @@ class ContentModelCategories extends JModelList
 
 		// Retrieve a sub tree or lineage.
 		if ($parentId = $this->getState('filter.parent_id')) {
-			if ($levels = $this->getState('filter.get_children')) {
-				// Optionally get all the child categories for given parent.
+			if ($this->getState('filter.get_children')) {
+				// Optionally get all the child categories for given parent down to maximum levels
+				$levels = $this->getState('filter.max_category_levels', '1');
 				$query->leftJoin('#__categories AS p ON p.id = '.(int) $parentId);
 				$query->where('a.lft > p.lft AND a.rgt < p.rgt');
 				if ((int) $levels > 0) {

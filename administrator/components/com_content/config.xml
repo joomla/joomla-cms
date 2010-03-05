@@ -242,18 +242,6 @@
 		hidden="true">
 
 		<field
-			name="show_subcategory_content"
-			type="list"
-			default="0"
-			label="JGLOBAL_Show_Subcategory_Content_Label"
-			description="JGLOBAL_Show_Subcategory_Content_Desc">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-		<field
 			name="num_leading_articles"
 			type="text"
 			default="1"
@@ -344,16 +332,6 @@
 				<option value="100">J100</option>
 				<option value="0">JALL</option>
 		</field>
-
-	 	<field
-			name="list_type"
-			type="radio"
-			default="single"
-			label="JGLOBAL_List_Type_Label"
-			description="JGLOBAL_List_Type_Desc">
-				<option value="single">JGLOBAL_Single_Level</option>
-	 			<option value="multiple">JGLOBAL_Multi_Level</option>
-	 	</field>
 
 		<field
 			name="show_headings"
@@ -463,15 +441,32 @@
 	 			<option value="1">Blog</option>
 	 	</field>
 
-	 	<field
-			name="all_subcategories"
-			type="radio"
-			default="all"
-			label="JGLOBAL_All_Subcategories_Label"
-			description="JGLOBAL_All_Subcategories_Desc">
-	 			<option value="all">All_Levels</option>
-	 			<option value="next_level">Next_Level_Only</option>
-	 	</field>
+		<field
+			name="show_subcategory_content"
+			type="list"
+			default="0"
+			label="JGLOBAL_Show_Subcategory_Content_Label"
+			description="JGLOBAL_Show_Subcategory_Content_Desc">
+			<option
+				value="0">JNo</option>
+			<option
+				value="all_list">JGLOBAL_ALL_LIST</option>
+			<option
+				value="all_articles">JGLOBAL_ALL_ARTICLE</option>
+		</field>
+		
+		<field
+			name="max_levels"
+			type="list"
+			default="3"
+			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC">
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>
+		</field>
 
 	 	<field
 			name="empty_categories"
@@ -506,7 +501,7 @@
 			<option
 				value="ralpha">JGLOBAL_Title_Reverse_Alphabetical</option>
 			<option
-				value="order">JGLOBAL_Category_Manager_Ordering</option>
+				value="order">JGLOBAL_Category_Manager_Order</option>
 		</field>
 
 		<field

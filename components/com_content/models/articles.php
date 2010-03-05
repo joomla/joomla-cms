@@ -109,7 +109,7 @@ class ContentModelArticles extends JModelList
 			'a.id, a.title, a.alias, a.title_alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
 			// use created if modified is 0
 			'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified,' . 
-			'a.modified_by,' .
+			'a.modified_by, uam.name as modified_by_name,' .
 			// use created if publish_up is 0
 			'CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END as publish_up,' .
 			'a.publish_down, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,'. 
@@ -120,10 +120,11 @@ class ContentModelArticles extends JModelList
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias');
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
-		// Join over the users for the author.
+		// Join over the users for the author and modified_by names.
 		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author_name");
 
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
+		$query->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
@@ -182,12 +183,31 @@ class ContentModelArticles extends JModelList
 			$query->where('a.id ' . $type . ' (' . $articleId . ')');
 		}
 
-		// Filter by a single or group of categories.
+		// Filter by a single or group of categories
 		$categoryId = $this->getState('filter.category_id');
 		if (is_numeric($categoryId))
 		{
 			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';
-			$query->where('a.catid ' . $type . (int) $categoryId);
+			
+			// Add subcategory check
+			$includeSubcategories = $this->getState('filter.subcategories',false);
+			$categoryEquals = 'a.catid ' . $type . (int) $categoryId;
+			if ($includeSubcategories) {
+				$levels = (int) $this->getState('filter.max_category_levels', '1');
+				// Create a subquery for the subcategory list
+				$subQuery = $db->getQuery(true);
+				$subQuery->select('sub.id');
+				$subQuery->from('#__categories as sub');
+				$subQuery->join('INNER', '#__categories as this ON sub.lft > this.lft AND sub.rgt < this.rgt');
+				$subQuery->where('this.id = ' . (int) $categoryId);
+				$subQuery->where('sub.level <= this.level + ' . $levels);
+				
+				// Add the subquery to the main query
+				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . $subQuery->__toString() . '))');
+			}
+			else {
+				$query->where($categoryEquals);
+			}
 		}
 		else if (is_array($categoryId))
 		{

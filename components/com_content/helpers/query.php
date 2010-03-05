@@ -25,15 +25,15 @@ class ContentHelperQuery
 		switch ($orderby)
 		{
 			case 'alpha' :
-				$orderby = 'c.title, ';
+				$orderby = 'c.path, ';
 				break;
 
 			case 'ralpha' :
-				$orderby = 'c.title DESC, ';
+				$orderby = 'c.path DESC, ';
 				break;
 
 			case 'order' :
-				$orderby = 'c.ordering, ';
+				$orderby = 'c.lft, ';
 				break;
 
 			default :

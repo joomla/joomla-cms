@@ -55,24 +55,11 @@
 		</field>
 
 		<field
-			name="show_subcategory_content"
-			type="list"
-			default=""
-			label="JGLOBAL_Show_Subcategory_Content_Label"
-			description="JGLOBAL_Show_Subcategory_Content_Desc">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-
-		<field
 			name="spacer1"
 			type="spacer"
 			hr="true"
 			/>
+			
 		<field
 			name="num_leading_articles"
 			type="text"
@@ -112,6 +99,50 @@
 		description="">
 
 		<field
+			name="show_subcategory_content"
+			type="list"
+			default=""
+			label="JGLOBAL_Show_Subcategory_Content_Label"
+			description="JGLOBAL_Show_Subcategory_Content_Desc">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+			<option
+				value="0">JNo</option>
+			<option
+				value="all_list">JGLOBAL_ALL_LIST</option>
+			<option
+				value="all_articles">JGLOBAL_ALL_ARTICLE</option>
+		</field>
+
+		<field
+			name="max_levels"
+			type="list"
+			default=""
+			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC">
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>
+		</field>
+
+	 	<field
+			name="empty_categories"
+			type="list"
+			default=""
+			label="JGLOBAL_Empty_Categories_Label"
+			description="JGLOBAL_Empty_Categories_Desc">
+			<option
+				value="">JCOMMON_USE_GLOBAL</option>
+	 		<option 
+	 			value="0">JCommon_Hide</option>
+	 		<option 
+	 			value="1">JCommon_Show</option>
+	 	</field>
+
+		<field
 			name="orderby_pri"
 			type="list"
 			default=""
@@ -126,7 +157,7 @@
 			<option
 				value="ralpha">JGLOBAL_Title_Reverse_Alphabetical</option>
 			<option
-				value="order">JGLOBAL_Ordering</option>
+				value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
 		</field>
 
 		<field

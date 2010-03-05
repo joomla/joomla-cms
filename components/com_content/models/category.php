@@ -51,7 +51,7 @@ class ContentModelCategory extends JModelItem
 	 */
 	protected function _populateState()
 	{
-		$app = &JFactory::getApplication('site');
+		$app =& JFactory::getApplication('site');
 
 		// Load state from the request.
 		$pk = JRequest::getInt('id');
@@ -60,9 +60,10 @@ class ContentModelCategory extends JModelItem
 		// TODO: Add pagination for children , siblings??
 
 		// Load the parameters. Merge Global and Menu Item params
-		$params	= $app->getParams();
+		$params = $app->getParams();
 		$menuParams = new JParameter();
-			if (JSite::getMenu()->getActive()) {
+		if (JSite::getMenu()->getActive())
+		{
 			$menuParams = new JParameter(JSite::getMenu()->getActive()->params);
 		}
 		$mergedParams = clone $menuParams;
@@ -70,14 +71,16 @@ class ContentModelCategory extends JModelItem
 		$this->setState('params', $mergedParams);
 
 		// limit to published
-		$this->setState('filter.published',	1);
+		$this->setState('filter.published', 1);
 
 		// process show_noauth parameter
-		if (!$mergedParams->get('show_noauth')){
-			$this->setState('filter.access',	true);
+		if (!$mergedParams->get('show_noauth'))
+		{
+			$this->setState('filter.access', true);
 		}
-		else {
-			$this->setState('filter.access',	false);
+		else
+		{
+			$this->setState('filter.access', false);
 		}
 
 		// Optional filter text
@@ -85,20 +88,35 @@ class ContentModelCategory extends JModelItem
 
 		// filter.order
 		$itemid = JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
-		$this->setState('list.ordering', $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string'));
-		$this->setState('list.direction',$app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd'));
+		$this->setState('list.ordering', $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '',
+			'string'));
+		$this->setState('list.direction', $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir',
+			'filter_order_Dir', '', 'cmd'));
 
 		$this->setState('list.start', JRequest::getVar('limitstart', 0, '', 'int'));
-		
+
 		// set limit for query. If list, use parameter. If blog, add blog parameters for limit.
-		if (JRequest::getString('layout') == 'blog') {
+		if (JRequest::getString('layout') == 'blog')
+		{
 			$limit = $mergedParams->get('num_leading_articles') + $mergedParams->get('num_intro_articles') + $mergedParams->get('num_links');
+			$this->setState('list.links', $mergedParams->get('num_links'));	
 		}
-		else {
+		else
+		{
 			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $mergedParams->get('display_num'));
 		}
 		$this->setState('list.limit', $limit);
-}
+		
+		// set the depth of the category query based on parameter
+		$showSubcategories = $mergedParams->get('show_subcategory_content', '0'); 
+		if ($showSubcategories) {
+			$this->setState('filter.max_category_levels', $mergedParams->get('max_levels', '1'));
+		}
+		if ($showSubcategories == 'all_articles') {
+			$this->setState('filter.subcategories', true);
+		}
+		
+	}
 
 	/**
 	 * Method to get a store id based on model configuration state.
@@ -129,48 +147,56 @@ class ContentModelCategory extends JModelItem
 		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
-		if ($this->_item === null) {
+		if ($this->_item === null)
+		{
 			$this->_item = array();
 		}
 
-		if (!isset($this->_item[$pk])) {
-			try {
-				$db		= $this->getDbo();
-				$query	= $db->getQuery(true);
+		if (!isset($this->_item[$pk]))
+		{
+			try
+			{
+				$db = $this->getDbo();
+				$query = $db->getQuery(true);
 
 				$query->select($this->getState('item.select', 'a.*, a.params as category_params'));
 				$query->from('#__categories AS a');
 
-				$query->where('a.extension = '.$db->quote('com_content'));
-				$query->where('a.id = '.(int) $pk);
+				$query->where('a.extension = ' . $db->quote('com_content'));
+				$query->where('a.id = ' . (int) $pk);
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
-				if (is_numeric($published)) {
-					$query->where('a.published = '.(int) $published);
+				if (is_numeric($published))
+				{
+					$query->where('a.published = ' . (int) $published);
 				}
 
 				// Filter by access level.
-				if ($access = $this->getState('filter.access')) {
-					$user	= &JFactory::getUser();
-					$groups	= implode(',', $user->authorisedLevels());
-					$query->where('a.access IN ('.$groups.')');
+				if ($access = $this->getState('filter.access'))
+				{
+					$user =& JFactory::getUser();
+					$groups = implode(',', $user->authorisedLevels());
+					$query->where('a.access IN (' . $groups . ')');
 				}
 
 				$db->setQuery($query);
 
 				$data = $db->loadObject();
 
-				if ($error = $db->getErrorMsg()) {
+				if ($error = $db->getErrorMsg())
+				{
 					throw new Exception($error);
 				}
 
-				if (empty($data)) {
+				if (empty($data))
+				{
 					throw new Exception(JText::_('Content_Error_Category_not_found'));
 				}
 
 				// Check for published state if filter set.
-				if (is_numeric($published) && $data->published != $published) {
+				if (is_numeric($published) && $data->published != $published)
+				{
 					throw new Exception(JText::_('Content_Error_Category_not_found'));
 				}
 
@@ -188,14 +214,17 @@ class ContentModelCategory extends JModelItem
 				$data->category_params = $cat_params;
 
 				// Compute access permissions.
-				if ($access) {
+				if ($access)
+				{
 					// If the access filter has been set, we already know this user can view.
 					// TODO
 					$data->params->set('access-view', true);
-				} else {
+				}
+				else
+				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user	= &JFactory::getUser();
-					$groups	= $user->authorisedLevels();
+					$user =& JFactory::getUser();
+					$groups = $user->authorisedLevels();
 
 					$data->params->set('access-view', in_array($data->access, $groups));
 				}
@@ -203,7 +232,9 @@ class ContentModelCategory extends JModelItem
 
 				$this->_item[$pk] = $data;
 
-			} catch (Exception $e) {
+			}
+			catch (Exception $e)
+			{
 				$this->setError($e->getMessage());
 				$this->_item[$pk] = false;
 			}
@@ -219,22 +250,28 @@ class ContentModelCategory extends JModelItem
 	 */
 	function &getArticles()
 	{
-		if ($this->_articles === null && $category = &$this->getItem()) {
-			$model = &JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
-			$model->setState('params',				JFactory::getApplication()->getParams());
-			$model->setState('filter.category_id',	$category->id);
-			$model->setState('filter.published',	$this->getState('filter.published'));
-			$model->setState('filter.access',		$this->getState('filter.access'));
-			$model->setState('list.ordering',		$this->_buildContentOrderBy());
-			$model->setState('list.start',			$this->getState('list.start'));
-			$model->setState('list.limit',			$this->getState('list.limit'));
-			$model->setState('list.direction',		$this->getState('list.direction'));
-			$model->setState('list.filter',			$this->getState('list.filter'));
+		if ($this->_articles === null && $category =& $this->getItem())
+		{
+			$model =& JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+			$model->setState('params', JFactory::getApplication()->getParams());
+			$model->setState('filter.category_id', $category->id);
+			$model->setState('filter.published', $this->getState('filter.published'));
+			$model->setState('filter.access', $this->getState('filter.access'));
+			$model->setState('list.ordering', $this->_buildContentOrderBy());
+			$model->setState('list.start', $this->getState('list.start'));
+			$model->setState('list.limit', $this->getState('list.limit'));
+			$model->setState('list.direction', $this->getState('list.direction'));
+			$model->setState('list.filter', $this->getState('list.filter'));
+			// filter.subcategories indicates whether to include articles from subcategories in the list or blog
+			$model->setState('filter.subcategories', $this->getState('filter.subcategories'));
+			$model->setState('filter.max_category_levels', $this->setState('filter.max_category_levels'));
+			$model->setState('list.links', $this->getState('list.links'));
 
-			$this->_articles  = $model->getItems();
+			$this->_articles = $model->getItems();
 			$this->_pagination = $model->getPagination();
 
-			if ($this->_articles === false) {
+			if ($this->_articles === false)
+			{
 				$this->setError($model->getError());
 			}
 		}
@@ -259,17 +296,19 @@ class ContentModelCategory extends JModelItem
 	 */
 	function &getSiblings()
 	{
-		if ($this->_siblings === null && $category = &$this->getItem()) {
-			$model = &JModel::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
-			$model->setState('params',				JFactory::getApplication()->getParams());
-			$model->setState('filter.parent_id',	$category->parent_id);
-			$model->setState('filter.published',	$this->getState('filter.published'));
-			$model->setState('filter.access',		$this->getState('filter.access'));
+		if ($this->_siblings === null && $category =& $this->getItem())
+		{
+			$model =& JModel::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
+			$model->setState('params', JFactory::getApplication()->getParams());
+			$model->setState('filter.parent_id', $category->parent_id);
+			$model->setState('filter.published', $this->getState('filter.published'));
+			$model->setState('filter.access', $this->getState('filter.access'));
 			// TODO: Set limits
 
-			$this->_siblings  = $model->getItems();
+			$this->_siblings = $model->getItems();
 
-			if ($this->_siblings === false) {
+			if ($this->_siblings === false)
+			{
 				$this->setError($model->getError());
 			}
 		}
@@ -289,18 +328,44 @@ class ContentModelCategory extends JModelItem
 		// Initialise variables.
 		$categoryId = (!empty($categoryId)) ? $categoryId : $this->getState('category.id');
 
-		if ($this->_children === null) {
-			$model = &JModel::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
-			$model->setState('params',				JFactory::getApplication()->getParams());
-			$model->setState('filter.parent_id',	$categoryId);
-			$model->setState('filter.get_children',	true);
-			$model->setState('filter.published',	$this->getState('filter.published'));
-			$model->setState('filter.access',		$this->getState('filter.access'));
+		if ($this->_children === null)
+		{
+			$model =& JModel::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
+			$model->setState('params', JFactory::getApplication()->getParams());
+			$model->setState('filter.parent_id', $categoryId);
+			$model->setState('filter.get_children', true);
+			$model->setState('filter.max_category_levels', $this->getState('filter.max_category_levels'));
+			$model->setState('filter.published', $this->getState('filter.published'));
+			$model->setState('filter.access', $this->getState('filter.access'));
+			
+			// Set category order based on parameters
+			$categoryOrder = $this->_state->params->get('orderby_pri', 'order');
+			switch ($categoryOrder)
+			{
+			case ('alpha'):
+				$stateOrder = 'a.path';
+				$stateDirection = 'ASC';
+				break;
+				
+			case ('ralpha'):
+				$stateOrder = 'a.path';
+				$stateDirection = 'DESC';
+				break;
+				
+			case ('order') :
+			default :
+				$stateOrder = 'a.lft';
+				$stateDirection = 'ASC';
+			}
+			$model->setState('list.ordering', $stateOrder);
+			$model->setState('list.direction', $stateDirection);
+
 			// TODO: Set limits
 
-			$this->_children  = $model->getItems();
+			$this->_children = $model->getItems();
 
-			if ($this->_children === false) {
+			if ($this->_children === false)
+			{
 				$this->setError($model->getError());
 			}
 		}
@@ -309,7 +374,7 @@ class ContentModelCategory extends JModelItem
 	}
 
 	/**
-	 * Get the child categories.
+	 * Get the parent categories.
 	 *
 	 * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
@@ -320,19 +385,21 @@ class ContentModelCategory extends JModelItem
 		// Initialise variables.
 		$categoryId = (!empty($categoryId)) ? $categoryId : $this->getState('category.id');
 
-		if ($this->_parents === null) {
-			$model = &JModel::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
-			$model->setState('params',				JFactory::getApplication()->getParams());
-			$model->setState('list.select',			'a.id, a.title, a.level, a.path AS route');
-			$model->setState('filter.parent_id',	$categoryId);
-			$model->setState('filter.get_parents',	true);
-			$model->setState('filter.published',	$this->getState('filter.published'));
-			$model->setState('filter.access',		$this->getState('filter.access'));
+		if ($this->_parents === null)
+		{
+			$model =& JModel::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
+			$model->setState('params', JFactory::getApplication()->getParams());
+			$model->setState('list.select', 'a.id, a.title, a.level, a.path AS route');
+			$model->setState('filter.parent_id', $categoryId);
+			$model->setState('filter.get_parents', true);
+			$model->setState('filter.published', $this->getState('filter.published'));
+			$model->setState('filter.access', $this->getState('filter.access'));
 			// TODO: Set limits
 
-			$this->_parents  = $model->getItems();
+			$this->_parents = $model->getItems();
 
-			if ($this->_parents === false) {
+			if ($this->_parents === false)
+			{
 				$this->setError($model->getError());
 			}
 		}
@@ -340,29 +407,30 @@ class ContentModelCategory extends JModelItem
 		return $this->_parents;
 	}
 
-		/**
+	/**
 	 * Build the orderby for the query
 	 *
 	 * @return	string	$orderby portion of query
 	 */
 	protected function _buildContentOrderBy()
 	{
-		$app = &JFactory::getApplication('site');
+		$app =& JFactory::getApplication('site');
 		$params = $this->_state->params;
 		$itemid = JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
-		$filter_order  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
+		$filter_order = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 		$filter_order_Dir = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
 		$orderby = ' ';
 
-		if ($filter_order && $filter_order_Dir) {
-			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
+		if ($filter_order && $filter_order_Dir)
+		{
+			$orderby .= $filter_order . ' ' . $filter_order_Dir . ', ';
 		}
 
-		$articleOrderby	= $params->get('orderby_sec', 'rdate');
+		$articleOrderby = $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
-		$categoryOrderby	= $params->def('orderby_pri', '');
-		$secondary		= ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate).', ';
-		$primary		= ContentHelperQuery::orderbyPrimary($categoryOrderby);
+		$categoryOrderby = $params->def('orderby_pri', '');
+		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
+		$primary = ContentHelperQuery::orderbyPrimary($categoryOrderby);
 
 		$orderby .= $primary . ' ' . $secondary . ' a.created DESC ';
 		return $orderby;
