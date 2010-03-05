@@ -39,6 +39,7 @@ $ -> Language fix or change
 05-Mar-2010 Jean-Marie Simonet
 $ Loading plugin lang in plugin Manager when ini in plugin language folder
 $# Refactored com_redirect inis/keys + some
+$ Refactored com_login ini/keys + some
 
 04-Mar-2010 Christophe Demko
 ^ Loading of language in JPlugin

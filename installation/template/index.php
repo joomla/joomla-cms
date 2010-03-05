@@ -46,8 +46,9 @@ defined('_JEXEC') or die;
 				<div id="footer3"></div>
 			</div>
 		</div>
-		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla</a>
-			<?php echo JText::_('ISFREESOFTWARE') ?>
+		<div id="copyright">
+			<?php $joomla= '<a href="http://www.joomla.org">Joomla!</a>';
+			echo JText::sprintf('JCOMMON_ISFREESOFTWARE', $joomla) ?>
 		</div>
 	</body>
 </html>
