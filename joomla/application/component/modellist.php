@@ -88,7 +88,8 @@ class JModelList extends JModel
 
 		// Create the pagination object.
 		jimport('joomla.html.pagination');
-		$page = new JPagination($this->getTotal(), (int) $this->getState('list.start'), (int) $this->getState('list.limit'));
+		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
+		$page = new JPagination($this->getTotal(), (int) $this->getState('list.start'), $limit);
 
 		// Add the object to the internal cache.
 		$this->_cache[$store] = $page;
