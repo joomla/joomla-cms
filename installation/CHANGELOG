@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-March-2010 Jean-Marie Simonet
+$ Loading plugin lang in plugin Manager when ini in plugin language folder
+
 04-Mar-2010 Christophe Demko
 ^ Loading of language in JPlugin
 # Correcting bugs in JFieldCheckbox
