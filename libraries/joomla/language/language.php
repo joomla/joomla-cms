@@ -15,6 +15,10 @@ defined('JPATH_BASE') or die;
  */
 define('_QQ_', '"');
 
+
+// import some libariries
+jimport('joomla.filesystem.stream');
+
 /**
  * Languages/translation handler class
  *
@@ -410,9 +414,6 @@ class JLanguage extends JObject
 			$contents = file_get_contents($filename);
 			$contents = str_replace(array('"_QQ_"','_QQ_"','"_QQ_'),array('\"','"\"','\""'),$contents);
 			$strings = @parse_ini_string($contents);
-			if (!empty($php_errormsg)) {
-				JError::raiseWarning(500, "Error parsing ".basename($filename).": $php_errormsg");
-			}
 		} else {
 			$strings = @parse_ini_file($filename);
 			if ($version == "5.3.0") {
@@ -420,9 +421,24 @@ class JLanguage extends JObject
 					$strings[$key]=str_replace('_QQ_','"',$string);
 				}
 			}
-			if (!empty($php_errormsg)) {
-				JError::raiseWarning(500, $php_errormsg);
+		}
+		if (!empty($php_errormsg)) {
+			$errors = array();
+			$lineNumber = 0;
+			$stream = new JStream();
+			$stream->open($filename);
+			while(!$stream->eof())
+			{
+				$line = $stream->gets();
+				$lineNumber++;
+				if (!preg_match('/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-]*=(("[^"]*")|(_QQ_)|\s)*))\s*(;.*)?$/',$line))
+				{
+					$errors[] = $lineNumber;
+				}
 			}
+			$stream->close();
+			JError::raiseWarning(500, JText::sprintf('JERROR_PARSING_LANGUAGE_FILE',substr($filename,strlen(JPATH_ROOT)) , implode(', ',$errors)));
+			//JError::raiseWarning(500, "Error parsing ".basename($filename).": $php_errormsg");
 		}
 		ini_restore('track_errors');
 		return $strings;
