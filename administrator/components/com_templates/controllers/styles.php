@@ -53,7 +53,7 @@ class TemplatesControllerStyles extends JController
 			}
 			$model = $this->getModel();
 			$model->duplicate($pks);
-			$this->setMessage(JText::('COM_TEMPLATES_SUCCESS_DUPLICATED'));
+			$this->setMessage(JText::_('COM_TEMPLATES_SUCCESS_DUPLICATED'));
 		}
 		catch (Exception $e)
 		{
