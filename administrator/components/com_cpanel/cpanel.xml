@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="1.0.0">
+<!-- $Id$ -->
+<extension type="component" version="1.6.0" method="upgrade">
 	<name>com_cpanel</name>
 	<author>Joomla! Project</author>
-	<creationDate>2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<creationDate>April 2006</creationDate>
+	<copyright>(C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>The Control Panel is the Home Page of the Joomla! Administrator Back-end</description>
-</install>
+	<description>COM_CPANEL_XML_DESCRIPTION</description>
+	<administration>
+		<files folder="admin">
+			<filename>controller.php</filename>
+			<filename>cpanel.php</filename>
+			<filename>index.html</filename>
+			<folder>views</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_cpanel.ini
+			</language>
+		</languages>
+	</administration>
+</extension>
+

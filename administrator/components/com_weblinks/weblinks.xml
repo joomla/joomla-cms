@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="1.6.0" method="upgrade">
-	<name>com_weblinks</name>
+	<name>weblinks</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
 	<copyright>(C) 2005 - 2010 Open Source Matters. All rights reserved.
@@ -10,8 +10,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>COM_WEBLINKS_XML_DESCRIPTION
-	</description>
+	<description>COM_WEBLINKS_XML_DESCRIPTION</description>
 
 	<files folder="site">
 		<filename>index.html</filename>
@@ -29,6 +28,18 @@
 		</language>
 	</languages>
 	<administration>
+		<menu img="class:weblinks">Weblinks</menu>
+		<submenu>
+			<!--
+				Note that all & must be escaped to &amp; for the file to be valid
+				XML and be parsed by the installer
+			-->
+			<menu link="index.php?option=com_weblinks" view="links" img="class:weblinks"
+				alt="Weblinks/Links">Links</menu>
+			<menu link="index.php?option=com_categories&amp;extension=com_weblinks"
+				view="categories" img="class:weblinks-cat" alt="Weblinks/Categories">Categories
+			</menu>
+		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>category.xml</filename>
@@ -36,7 +47,6 @@
 			<filename>controller.php</filename>
 			<filename>index.html</filename>
 			<filename>weblinks.php</filename>
-			<filename>weblinks.xml</filename>
 			<folder>controllers</folder>
 			<folder>helpers</folder>
 			<folder>models</folder>

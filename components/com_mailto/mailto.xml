@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.5.0" type="component">
+	<!-- $Id$ -->
+<extension type="component" version="1.6.0" method="upgrade">
 	<name>com_mailto</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<copyright>(C) 2005 - 2010 Open Source Matters. All rights reserved.	</copyright>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>A generic mail to friend component</description>
-	<files>
+	<description>COM_MAILTO_XML_DESCRIPTION</description>
+	<files folder="site">
+		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<filename>mailto.php</filename>
+		<folder>views</folder>
 	</files>
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB.com_mailto.ini
+		</language>
+	</languages>
+	<administration>
+		<files folder="admin">
+			<filename>index.html</filename>
+		</files>
+	</administration>
 	<params>
 		<param name="view" type="filelist" directory="/components/com_mailto/views" hide_none="1" hide_default="0" filter="." default="0" label="View Style" description="The view style for display" />
 	</params>
-</install>
+</extension>

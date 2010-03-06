@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
-<extension
-	type="component"
-	version="1.6">
+<extension type="component" version="1.6.0" method="upgrade">
 	<name>com_admin</name>
 	<author>Joomla! Project</author>
-	<copyright>(C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<creationDate>April 2006</creationDate>
+	<copyright>(C) 2005 - 2010 Open Source Matters. All rights reserved.
+	</copyright>
+	<license>GNU General Public License version 2 or later; see
+		LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>Admin Component</description>
-	<administrator />
+	<description>COM_ADMIN_XML_DESCRIPTION
+	</description>
+	<media />
+	<administration>
+		<files folder="admin">
+			<filename>admin.php</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_admin.ini
+			</language>
+		</languages>
+	</administration>
 </extension>

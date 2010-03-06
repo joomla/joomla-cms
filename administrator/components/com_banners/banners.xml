@@ -1,13 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
-<install type="component" version="1.5.0">
-  <name>com_banners</name>
-  <author>Joomla! Project</author>
-  <creationDate>April 2006</creationDate>
-  <copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
-  <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-  <authorEmail>admin@joomla.org</authorEmail>
-  <authorUrl>www.joomla.org</authorUrl>
-  <version>1.6.0</version>
-  <description>This component manages banners and banner clients</description>
-</install>
+	<!-- $Id$ -->
+<extension type="component" version="1.6.0" method="upgrade">
+	<name>com_banners</name>
+	<author>Joomla! Project</author>
+	<creationDate>April 2006</creationDate>
+	<copyright>(C) 2005 - 2010 Open Source Matters. All rights reserved.
+	</copyright>
+	<license>GNU General Public License version 2 or later; see
+		LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.6.0</version>
+	<description>COM_BANNERS_XML_DESCRIPTION
+	</description>
+
+	<files folder="site">
+		<filename>banners.php</filename>
+		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<filename>router.php</filename>
+		<folder>helpers</folder>
+		<folder>models</folder>
+	</files>
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB.com_banners.ini
+		</language>
+	</languages>
+	<administration>
+		<menu>Banners</menu>
+		<submenu>
+			<!--
+				Note that all & must be escaped to &amp; for the file to be valid
+				XML and be parsed by the installer
+			-->
+			<menu link="index.php?option=com_banners" view="banners" img="class:banners"
+				alt="Banners/Banners">Banners</menu>
+			<menu link="index.php?option=com_banners&amp;view=clients" view="clients"
+				img="class:banners-clients" alt="Banners/Clients">Clients</menu>
+			<menu link="index.php?option=com_banners&amp;view=tracks" view="tracks"
+				img="class:banners-tracks" alt="Banners/Tracks">Tracks</menu>
+			<menu link="index.php?option=com_categories&amp;extension=com_banners"
+				view="categories" img="class:banners-cat" alt="Banners/Categories">Categories
+			</menu>
+		</submenu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>banners.php</filename>
+			<filename>category.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_banners.ini
+			</language>
+			<language tag="en-GB">language/en-GB.com_banners.menu.ini
+			</language>
+		</languages>
+	</administration>
+</extension>
+
