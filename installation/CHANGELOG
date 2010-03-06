@@ -27,11 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Mar-2010 Mark Dexter
+# Fix problem where JSite was changing JComponentHelper::getParams results 
+
 06-Mar-2010 Christophe Demko
 ^ Enhancing the error display messages of language file parsing
 
 06-Mar-2010 Hannes Papenberg
-# Added complete manifest files to each core component - Thanks Edgars Piruška
+# Added complete manifest files to each core component - Thanks Edgars Piruï¿½ka
 
 05-Mar-2010 Mark Dexter
 ^ Added modified_by_name to articles model

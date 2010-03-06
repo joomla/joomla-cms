@@ -259,7 +259,8 @@ final class JSite extends JApplication
 			if (!$option) {
 				$option = JRequest::getCmd('option');
 			}
-			$params[$hash] = &JComponentHelper::getParams($option);
+			// Get new instance of component global parameters 
+			$params[$hash] = clone JComponentHelper::getParams($option);
 
 			// Get menu parameters
 			$menus	= &JSite::getMenu();
