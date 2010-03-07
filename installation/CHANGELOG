@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Mar-2010 Mark Dexter
+^ Implement parameters for com_content frontpage menu item
+
 07-Mar-2010 Christophe Demko
 - Reverting patch 15232 and 15221 which are buggy in php 5.2.4
 
