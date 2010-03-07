@@ -431,7 +431,7 @@ class JLanguage extends JObject
 			{
 				$line = $stream->gets();
 				$lineNumber++;
-				if (!preg_match('/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-]*=(("[^"]*")|(_QQ_)|\s)*))\s*(;.*)?$/',$line))
+				if (!preg_match('/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/',$line))
 				{
 					$errors[] = $lineNumber;
 				}
