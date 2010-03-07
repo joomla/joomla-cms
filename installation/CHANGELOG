@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Mar-2010 Christophe Demko
+^ Correcting minor problems in Enhancing the error display messages of language file parsing
+
 06-Mar-2010 Mark Dexter
 # Fix problem where JSite was changing JComponentHelper::getParams results 
 
