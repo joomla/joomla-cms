@@ -28,7 +28,7 @@ class CpanelViewCpanel extends JView
 	public function display($tpl = null)
 	{
 		// Set toolbar items for the page
-		JToolBarHelper::title(JText::_('Control Panel'), 'cpanel.png');
+		JToolBarHelper::title(JText::_('COM_CPANEL'), 'cpanel.png');
 		JToolBarHelper::help('screen.cpanel');
 
 		/*
@@ -40,7 +40,7 @@ class CpanelViewCpanel extends JView
 		// Display the cpanel modules
 		$modules	= &JModuleHelper::getModules('cpanel');
 
-		$this->assignRef('modules',			$modules);
+		$this->assignRef('modules', $modules);
 
 		parent::display($tpl);
 	}

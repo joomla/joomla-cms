@@ -32,6 +32,7 @@ $ -> Language fix or change
 
 06-Mar-2010 Jean-Marie Simonet
 $+ Normalised banners language field + sql + sample data
+$ Finalized com_cpanel keys/inis
 
 06-Mar-2010 Mark Dexter
 # Fix problem where JSite was changing JComponentHelper::getParams results 
