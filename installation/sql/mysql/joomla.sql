@@ -87,11 +87,13 @@ CREATE TABLE `#__banners` (
   `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `reset` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `language` char(7) NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
   INDEX `idx_state` (`state`),
   INDEX `idx_own_prefix` (`own_prefix`),
   INDEX `idx_metakey_prefix` (`metakey_prefix`),
-  INDEX `idx_banner_catid`(`catid`)
+  INDEX `idx_banner_catid`(`catid`),
+  INDEX `idx_language` (`language`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------

@@ -69,6 +69,17 @@
 			type="bannerclient"
 			label="Banners_Client_Label"
 			description="Banners_Client_Desc"/>
+			
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JField_Language_Label"
+			description="JField_Language_Desc"
+			class="inputbox"
+			default="">
+			<option value="">JOption_Default_Language</option>
+		</field>
+		
 
 		<field
 			id="description"
@@ -225,16 +236,6 @@
 	<fields
 		group="metadata"
 		label="Banners_Metadata_Options">
-
-		<field
-			name="language"
-			type="contentlanguage"
-			label="JField_Language_Label"
-			description="JField_Language_Desc"
-			class="inputbox"
-			default="">
-			<option value="">JOption_Default_Language</option>
-		</field>
 
 		<field
 			id="metakey"
