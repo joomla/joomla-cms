@@ -102,7 +102,7 @@ class ContentHelperQuery
 				break;
 
 			case 'front' :
-				$orderby = 'f.ordering';
+				$orderby = 'fp.ordering';
 				break;
 
 			default :

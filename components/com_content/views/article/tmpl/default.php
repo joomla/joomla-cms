@@ -76,7 +76,7 @@ $params = $this->state->get('params');
 
 <?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))) : ?>
  <dl class="article-info">
- <dt class="article-info-term"><?php  echo JText::_('JContent_Article_Infos'); ?></dt>
+ <dt class="article-info-term"><?php  echo JText::_('CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
 <?php if ($params->get('show_category')) : ?>
 		<dd class="category-name">

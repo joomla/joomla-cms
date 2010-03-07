@@ -555,7 +555,7 @@
 			type="radio"
 			label="JGLOBAL_Allow_Ratings_Label"
 			description="JGLOBAL_Allow_Ratings_Desc"
-			default="">
+			default="0">
 			<option
 				value="0">JNo</option>
 			<option
@@ -567,7 +567,7 @@
 			type="radio"
 			label="JGLOBAL_Allow_Comments_Label"
 			description="JGLOBAL_Allow_Comments_Desc"
-			default="">
+			default="0">
 			<option
 				value="0">JNo</option>
 			<option
