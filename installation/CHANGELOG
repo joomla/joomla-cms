@@ -27,18 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Mar-2010 Christophe Demko
+- Reverting patch 15232 and 15221 which are buggy in php 5.2.4
+
 06-Mar-2010 Jean-Marie Simonet
 $+ Normalised banners language field + sql + sample data
 
-07-Mar-2010 Christophe Demko
-^ Correcting minor problems in Enhancing the error display messages of language file parsing
-
->>>>>>> .r15233
 06-Mar-2010 Mark Dexter
 # Fix problem where JSite was changing JComponentHelper::getParams results 
-
-06-Mar-2010 Christophe Demko
-^ Enhancing the error display messages of language file parsing
 
 06-Mar-2010 Hannes Papenberg
 # Added complete manifest files to each core component - Thanks Edgars Piru�ka
