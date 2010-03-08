@@ -94,7 +94,7 @@ class ConfigModelApplication extends JModelForm
 			}
 			else
 			{
-				$this->setError('Config_Error_Root_asset_not_found');
+				$this->setError('COM_CONFIG_ERROR_ROOT_ASSET_NOT_FOUND');
 				return false;
 			}
 			unset($data['rules']);
@@ -172,18 +172,18 @@ class ConfigModelApplication extends JModelForm
 
 		// Attempt to make the file writeable if using FTP.
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644')) {
-			JError::raiseNotice('SOME_ERROR_CODE', JText::_('Config_File_Could_Not_Make_Writable'));
+			JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
 		}
 
 		// Attempt to write the configuration file as a PHP class named JConfig.
 		if (!JFile::write($file, $config->toString('PHP', 'config', array('class' => 'JConfig', 'closingtag' => false)))) {
-			$this->setError(JText::_('Config_File_Write_Failed'));
+			$this->setError(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 			return false;
 		}
 
 		// Attempt to make the file unwriteable if using FTP.
 		if ($data['ftp_enable'] == 0 && !$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444')) {
-			JError::raiseNotice('SOME_ERROR_CODE', JText::_('Config_File_Could_Not_Make_Unwritable'));
+			JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
 		}
 
 		return true;

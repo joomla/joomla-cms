@@ -66,11 +66,11 @@ class ConfigViewApplication extends JView
 	 */
 	protected function _setToolbar()
 	{
-		JToolBarHelper::title(JText::_('GLOBAL_CONFIGURATION'), 'config.png');
-		JToolBarHelper::apply('application.apply', 'JToolbar_Apply');
-		JToolBarHelper::save('application.save', 'JToolbar_Save');
+		JToolBarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'config.png');
+		JToolBarHelper::apply('application.apply', 'JTOOLBAR_APPLY');
+		JToolBarHelper::save('application.save', 'JTOOLBAR_SAVE');
 		JToolBarHelper::divider();
-		JToolBarHelper::cancel('application.cancel', 'JToolbar_Cancel');
+		JToolBarHelper::cancel('application.cancel', 'JTOOLBAR_CANCEL');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.config');
 	}

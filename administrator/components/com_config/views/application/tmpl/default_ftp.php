@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 ?>
 <div class="width-100">
 <fieldset class="adminform">
-	<legend><?php echo JText::_('FTP_SETTINGS'); ?></legend>
+	<legend><?php echo JText::_('COM_CONFIG_FTP_SETTINGS'); ?></legend>
 			<?php
 			foreach ($this->form->getFields('ftp') as $field):
 			?>

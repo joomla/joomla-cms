@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <div class="width-100">
 
 <fieldset class="adminform">
-	<legend><?php echo JText::_('Cookie Settings'); ?></legend>
+	<legend><?php echo JText::_('COM_CONFIG_COOKIE_SETTINGS'); ?></legend>
 
 			<?php
 			foreach ($this->form->getFields('cookie') as $field):

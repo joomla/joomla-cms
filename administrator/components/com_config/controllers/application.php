@@ -39,7 +39,7 @@ class ConfigControllerApplication extends JController
 	public function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('Invalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorize('core.admin'))
@@ -95,13 +95,13 @@ class ConfigControllerApplication extends JController
 			$app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$message = JText::sprintf('JError_Save_Failed', $model->getError());
+			$message = JText::sprintf('JERROR_SAVE_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_config&view=application', $message, 'error');
 			return false;
 		}
 
 		// Set the success message.
-		$message = JText::_('Config_Save_Success');
+		$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
 
 		// Set the redirect based on the task.
 		switch ($this->_task)
@@ -151,11 +151,11 @@ class ConfigControllerApplication extends JController
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		if (($data = file_get_contents('http://help.joomla.org/helpsites-15.xml')) === false) {
-			$this->setRedirect('index.php?option=com_config', JText::_('HELPREFRESH_ERROR_FETCH'), 'error');
+			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 'error');
 		} else if (!JFile::write(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $data)) {
-			$this->setRedirect('index.php?option=com_config', JText::_('HELPREFRESH_ERROR_STORE'), 'error');
+			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 'error');
 		} else {
-			$this->setRedirect('index.php?option=com_config', JText::_('HELPREFRESH_SUCCESS'));
+			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_HELPREFRESH_SUCCESS'));
 		}
 	}
 }
