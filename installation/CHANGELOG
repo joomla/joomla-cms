@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 08-Mar-2010 Christophe Demko
+^ Translating name of editors in the JFieldEditors class
 ^ Enhancing language error message display
 
 08-Mar-2010 Jean-Marie Simonet

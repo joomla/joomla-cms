@@ -43,6 +43,14 @@ class JFormFieldEditors extends JFormFieldList
 		$db->setQuery($query);
 
 		$options = $db->loadObjectList();
+		$lang = JFactory::getLanguage();
+		foreach ($options as $i=>$option) {
+				$lang->load('plg_editors_'.$option->value, JPATH_ADMINISTRATOR, null, false, false)
+			||	$lang->load('plg_editors_'.$option->value, JPATH_PLUGINS .'/editors/'.$option->value, null, false, false)
+			||	$lang->load('plg_editors_'.$option->value, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+			||	$lang->load('plg_editors_'.$option->value, JPATH_PLUGINS .DS.$this->_type.DS.$this->_name, $lang->getDefault(), false, false);
+			$options[$i]->text = JText::_($option->text);
+		}
 
 		// @todo: Check for an error msg.
 
