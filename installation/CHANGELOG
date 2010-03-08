@@ -32,6 +32,7 @@ $ -> Language fix or change
 
 08-Mar-2010 Jean-Marie Simonet
 ^ Refactored com_config ini/keys
+$ Typos in some strings
 
 07-Mar-2010 Mark Dexter
 ^ Implement parameters for com_content frontpage menu item
