@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 08-Mar-2010 Christophe Demko
+^ Translating cache and session handler names in the JFieldCacheHandler and JFieldSessionHandler
 ^ Translating name of editors in the JFieldEditors class
 ^ Enhancing language error message display
 

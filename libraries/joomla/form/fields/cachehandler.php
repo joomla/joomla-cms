@@ -34,9 +34,13 @@ class JFormFieldCacheHandler extends JFormFieldList
 	protected function _getOptions()
 	{
 		jimport('joomla.cache.cache');
+		$cacheOptions = JCache::getStores();
+		foreach ($cacheOptions as $i=>$option) {
+			$cacheOptions[$i]=new JObject(array('value'=>$option,'text'=>JText::_('JLIB_VALUE_CACHE_'.$option)));
+		}
 		$options	= array_merge(
 						parent::_getOptions(),
-						JCache::getStores()
+						$cacheOptions
 					);
 
 		return $options;

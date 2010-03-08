@@ -35,18 +35,16 @@ class JFormFieldSessionHandler extends JFormFieldList
 	{
 		// Get the session handlers.
 		jimport('joomla.session.session');
-		$stores		= JSession::getStores();
-		$options	= array();
+		$sessionOptions		= JSession::getStores();
 
-		// Convert to name => name array.
-		foreach ($stores as $store) {
-			$options[$store] = $store;
+		foreach ($sessionOptions as $i=>$option) {
+			$sessionOptions[$i]=new JObject(array('value'=>$option,'text'=>JText::_('JLIB_VALUE_SESSION_'.$option)));
 		}
 
 		// Merge the options together.
 		$options	= array_merge(
 						parent::_getOptions(),
-						$options
+						$sessionOptions
 					);
 
 		return $options;
