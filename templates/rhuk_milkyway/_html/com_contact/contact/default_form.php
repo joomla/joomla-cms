@@ -44,7 +44,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<input type="text" id="contact_email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />
 			<br />
 			<label for="contact_subject">
-				&nbsp;<?php echo JText::_( 'Message subject' );?>:
+				&nbsp;<?php echo JText::_( 'COM_CONTACT_MESSAGE_SUBJECT' );?>:
 			</label>
 			<br />
 			<input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />

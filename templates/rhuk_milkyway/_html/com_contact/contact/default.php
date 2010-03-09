@@ -66,7 +66,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 <?php if ( $this->contact->params->get( 'allow_vcard' ) ) : ?>
 <tr>
 	<td colspan="2">
-	<?php echo JText::_( 'Download information as a' );?>
+	<?php echo JText::_( 'DOWNLOAD_INFORMATION_AS' );?>
 		<a href="<?php echo JURI::base(); ?>index.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $this->contact->id; ?>&amp;format=raw&amp;tmpl=component">
 			<?php echo JText::_( 'VCard' );?></a>
 	</td>

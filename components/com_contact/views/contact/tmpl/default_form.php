@@ -48,7 +48,7 @@ defined('_JEXEC') or die;
 			</div>
 			<div>
 				<label id="contact_emailmsg" for="contact_email">
-					<?php echo JText::_('Contact_contact_Email_address');?>*
+					<?php echo JText::_('COM_CONTACT_CONTACT_EMAIL_ADDRESS');?>*
 				</label>
 				<input type="text" id="contact_email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />
 			</div>

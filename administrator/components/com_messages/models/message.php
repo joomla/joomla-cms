@@ -202,8 +202,8 @@ class MessagesModelMessage extends JModelForm
 			$siteURL	= JURI::base();
 			$sitename	= JFactory::getApplication()->getCfg('sitename');
 
-			$subject	= sprintf (JText::_('A new private message has arrived'), $sitename);
-			$msg		= sprintf (JText::_('Please login to read your message'), $siteURL);
+			$subject	= sprintf (JText::_('A_NEW_PRIVATE_MESSAGE_HAS_ARRIVED'), $sitename);
+			$msg		= sprintf (JText::_('PLEASE_LOGIN_TO_READ_YOUR_MESSAGE'), $siteURL);
 
 			JUtility::sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
 		}

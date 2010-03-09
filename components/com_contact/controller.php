@@ -158,9 +158,9 @@ class ContactController extends JController
 			// check whether email copy function activated
 			if ($emailCopy && $emailcopyCheck)
 			{
-				$copyText		= JText::sprintf('Copy of:', $contact->name, $SiteName);
+				$copyText		= JText::sprintf('COPY_OF', $contact->name, $SiteName);
 				$copyText		.= "\r\n\r\n".$body;
-				$copySubject	= JText::_('Copy of:')." ".$subject;
+				$copySubject	= JText::_('COPY_OF')." ".$subject;
 
 				$mail = JFactory::getMailer();
 
@@ -350,7 +350,7 @@ class ContactController extends JController
 		// test to ensure that only one email address is entered
 		$check = explode('@', $email);
 		if (strpos($email, ';') || strpos($email, ',') || strpos($email, ' ') || count($check) > 2) {
-			$this->setError(JText::_('You cannot enter more than one email address', true));
+			$this->setError(JText::_('YOU_CANNOT_ENTER_MORE_THAN_ONE_EMAIL_ADDRESS', true));
 			return false;
 		}
 

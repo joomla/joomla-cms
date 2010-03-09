@@ -167,8 +167,8 @@
 			name="show_suburb"
 			type="list"
 			default=""
-			label="Contact_Params_Town/Suburb_Label"
-			description="Contact_Params_Town/Suburb_Desc">
+			label="CONTACT_PARAMS_TOWN-SUBURB_LABEL"
+			description="CONTACT_PARAMS_TOWN-SUBURB_DESC">
 			<option
 				value="">Jcommon_Use_Global</option>
 			<option
@@ -181,8 +181,8 @@
 			name="show_state"
 			type="list"
 			default=""
-			label="Contact_Params_State/County_Label"
-			description="Contact_Params_State/County_Desc">
+			label="CONTACT_PARAMS_STATE-COUNTY_LABEL"
+			description="CONTACT_PARAMS_STATE-COUNTY_DESC">
 			<option
 				value="">Jcommon_Use_Global</option>
 			<option
@@ -195,8 +195,8 @@
 			name="show_postcode"
 			type="list"
 			default=""
-			label="Contact_Params_Post/Zip_Code_Label"
-			description="Contact_Params_Post/Zip_Code_Desc">
+			label="CONTACT_PARAMS_POST-ZIP_CODE_LABEL"
+			description="CONTACT_PARAMS_POST-ZIP_CODE_DESC">
 			<option
 				value="">Jcommon_Use_Global</option>
 			<option
