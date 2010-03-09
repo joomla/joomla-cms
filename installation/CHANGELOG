@@ -32,6 +32,7 @@ $ Typo in string
 $ Corrected a bunch of strings. Whitespaces, slashes and periods in Keys. Wrong or absent doublequotes in values.
 
 09-Mar-2010 Christophe Demko
+# Correcting a bug in parse_ini_file for php >= 5.3.1
 # Correcting JHtml::script and JHtml::style and JHtml::image for allowing selection in plugins
 
 08-Mar-2010 Christophe Demko
