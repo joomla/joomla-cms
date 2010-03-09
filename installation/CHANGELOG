@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Mar-2010 Christophe Demko
+# Correcting JHtml::script and JHtml::style and JHtml::image for allowing selection in plugins
+
 08-Mar-2010 Christophe Demko
 ^ Translating cache and session handler names in the JFieldCacheHandler and JFieldSessionHandler
 ^ Translating name of editors in the JFieldEditors class
