@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Mar-2010 Jean-Marie Simonet
+$ Typo in string
+
 09-Mar-2010 Christophe Demko
 # Correcting JHtml::script and JHtml::style and JHtml::image for allowing selection in plugins
 
