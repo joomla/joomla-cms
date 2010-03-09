@@ -195,7 +195,7 @@ class JMenu extends JObject
 					return $item;
 				}
 
-				$items[] = &$item;
+				$items[] = $item;
 			}
 		}
 

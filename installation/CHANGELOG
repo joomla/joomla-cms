@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Mar-2010 Hannes Papenberg
+# Rewrite of mod_menu in frontend. Added the classes and IDs to the menu items and reading data from JMenu and not from database.
+
 09-Mar-2010 Jean-Marie Simonet
 $ Typo in string
 $ Corrected a bunch of strings. Whitespaces, slashes and periods in Keys. Wrong or absent doublequotes in values.

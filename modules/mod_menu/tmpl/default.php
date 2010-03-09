@@ -15,20 +15,24 @@ defined('_JEXEC') or die;
 
 <ul class="menu<?php echo $params->get('moduleclass_sfx'); ?>"><?php
 foreach ($list as $i => &$item) :
-
-	// The next item is deeper.
-	if ($item->deeper) {
-		echo '<li>';
+	
+	$id = '';
+	if($item->id == $active->id)
+	{
+		$id = ' id="current"';
 	}
-	// The next item is shallower.
-	elseif ($item->shallower) {
-		echo '<li>';
-
+	$class = null;
+	if(in_array($item->id, $path))
+	{
+		if ($item->params->get('class')) {
+			$class = $item->params->get('class').' active ';
+		} else {
+			$class = 'active ';
+		}
 	}
-	// The next item is on the same level.
-	else {
-		echo '<li>';
-	}
+	$class = ' class="'.$class.'item'.$item->id.'"';
+	
+	echo '<li'.$id.$class.'>';
 
 	// Render the menu item.
 	switch ($item->type) :
