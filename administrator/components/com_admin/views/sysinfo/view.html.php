@@ -52,7 +52,7 @@ class AdminViewSysinfo extends JView
 		$php_info = & $this->get('PhpInfo');
 		$directory = & $this->get('directory');
 		// Has to be removed (present in the config)
-		$editor = & $this->get('editor');
+		//$editor = & $this->get('editor');
 
 		// Assign values to the view
 		$this->assignRef('php_settings', $php_settings);
@@ -61,7 +61,7 @@ class AdminViewSysinfo extends JView
 		$this->assignRef('php_info', $php_info);
 		$this->assignRef('directory', $directory);
 		// Has to be removed (present in the config)
-		$this->assignRef('editor', $editor);
+		//$this->assignRef('editor', $editor);
 
 		// Setup the toobar
 		$this->_setToolbar();
@@ -91,7 +91,7 @@ class AdminViewSysinfo extends JView
 	 */
 	protected function _setToolbar()
 	{
-		JToolBarHelper::title(JText::_('ADMIN_SYSTEM_INFORMATION'), 'systeminfo.png');
+		JToolBarHelper::title(JText::_('COM_ADMIN_SYSTEM_INFORMATION'), 'systeminfo.png');
 		JToolBarHelper::help('screen.system.info');
 	}
 }

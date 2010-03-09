@@ -15,32 +15,32 @@ jimport('joomla.language.help');
 <form action="<?php echo JRoute::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm">
 <div class="width-40 fltlft">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('Admin_Search'); ?></legend>
+		<legend><?php echo JText::_('COM_ADMIN_SEARCH'); ?></legend>
 		<input class="textarea" type="hidden" name="option" value="com_admin" />
 		<input type="text" name="helpsearch" size="40"  value="<?php echo $this->help_search;?>" class="inputbox" />
-		<input type="submit" value="<?php echo JText::_('Admin_Go'); ?>" class="button" />
-		<input type="button" value="<?php echo JText::_('Admin_Clear_Results'); ?>" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
+		<input type="submit" value="<?php echo JText::_('COM_ADMIN_GO'); ?>" class="button" />
+		<input type="button" value="<?php echo JText::_('COM_ADMIN_CLEAR_RESULTS'); ?>" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
 	</fieldset>
 </div>
 <div class="width-50 fltrt helplinks">
 	<ul class="helpmenu">
 		<?php if ($this->help_url):?>
-			<li><?php echo JHTML::_('link',JHelp::createUrl('joomla.glossary'), JText::_('Admin_Glossary'), array('target' => 'helpFrame')) ?></li>
-			<li><?php echo JHTML::_('link',JHelp::createUrl('joomla.credits'), JText::_('Admin_Credits'), array('target' => 'helpFrame')) ?></li>
-			<li><?php echo JHTML::_('link',JHelp::createUrl('joomla.support'), JText::_('Admin_Support'), array('target' => 'helpFrame')) ?></li>
+			<li><?php echo JHTML::_('link',JHelp::createUrl('joomla.glossary'), JText::_('COM_ADMIN_GLOSSARY'), array('target' => 'helpFrame')) ?></li>
+			<li><?php echo JHTML::_('link',JHelp::createUrl('joomla.credits'), JText::_('COM_ADMIN_CREDITS'), array('target' => 'helpFrame')) ?></li>
+			<li><?php echo JHTML::_('link',JHelp::createUrl('joomla.support'), JText::_('COM_ADMIN_SUPPORT'), array('target' => 'helpFrame')) ?></li>
 		<?php else:?>
-			<li><?php echo JHTML::_('link',JURI::base() .'help/'.$this->lang_tag.'/joomla.glossary.html', JText::_('Admin_Glossary'), array('target' => 'helpFrame')) ?></li>
-			<li><?php echo JHTML::_('link',JURI::base() .'help/'.$this->lang_tag.'/joomla.credits.html', JText::_('Admin_Credits'), array('target' => 'helpFrame')) ?></li>
-			<li><?php echo JHTML::_('link',JURI::base() .'help/'.$this->lang_tag.'/joomla.support.html', JText::_('Admin_Support'), array('target' => 'helpFrame')) ?></li>
+			<li><?php echo JHTML::_('link',JURI::base() .'help/'.$this->lang_tag.'/joomla.glossary.html', JText::_('COM_ADMIN_GLOSSARY'), array('target' => 'helpFrame')) ?></li>
+			<li><?php echo JHTML::_('link',JURI::base() .'help/'.$this->lang_tag.'/joomla.credits.html', JText::_('COM_ADMIN_CREDITS'), array('target' => 'helpFrame')) ?></li>
+			<li><?php echo JHTML::_('link',JURI::base() .'help/'.$this->lang_tag.'/joomla.support.html', JText::_('COM_ADMIN_SUPPORT'), array('target' => 'helpFrame')) ?></li>
 		<?php endif;?>
-		<li><?php echo JHTML::_('link','http://www.gnu.org/licenses/gpl-2.0.html', JText::_('Admin_License'), array('target' => 'helpFrame')) ?></li>
-		<li><?php echo JHTML::_('link',$this->latest_version_check, JText::_('Admin_Latest_Version_Check'), array('target' => 'helpFrame')) ?></li>
+		<li><?php echo JHTML::_('link','http://www.gnu.org/licenses/gpl-2.0.html', JText::_('COM_ADMIN_LICENSE'), array('target' => 'helpFrame')) ?></li>
+		<li><?php echo JHTML::_('link',$this->latest_version_check, JText::_('COM_ADMIN_LATEST_VERSION_CHECK'), array('target' => 'helpFrame')) ?></li>
 	</ul>
 </div>
 <div class="clr"> </div>
 	<div id="treecellhelp" class="width-20 fltleft">
-		<fieldset class="adminform whitebg" title="<?php echo JText::_('Admin_Alphabetical_Index'); ?>">
-			<legend><?php echo JText::_('Admin_Alphabetical_Index'); ?></legend>
+		<fieldset class="adminform whitebg" title="<?php echo JText::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?>">
+			<legend><?php echo JText::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?></legend>
 
 			<div class="helpIndex">
 				<ul class="subext">
@@ -59,9 +59,9 @@ jimport('joomla.language.help');
 	</div>
 
 	<div id="datacellhelp" class="width-80 fltrt">
-		<fieldset title="<?php echo JText::_('Admin_View'); ?>">
+		<fieldset title="<?php echo JText::_('COM_ADMIN_VIEW'); ?>">
 			<legend>
-				<?php echo JText::_('Admin_View'); ?>
+				<?php echo JText::_('COM_ADMIN_VIEW'); ?>
 			</legend>
 			<?php if ($this->help_url && $this->page != 'joomla.whatsnew.html'):?>
 				<iframe name="helpFrame" src="<?php echo $this->full_help_url .preg_replace('#\.xml$|\.html$#', '', $this->page);?>" class="helpFrame" frameborder="0"></iframe>

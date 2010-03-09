@@ -18,23 +18,23 @@ defined('_JEXEC') or die;
 				<ul id="submenu" class="information">
 					<li>
 						<a href="#" onclick="return false;" id="site" class="active">
-							<?php echo JText::_('Admin_System_Info'); ?></a>
+							<?php echo JText::_('COM_ADMIN_SYSTEM_INFO'); ?></a>
 					</li>
 					<li>
 						<a href="#" onclick="return false;" id="phpsettings">
-							<?php echo JText::_('Admin_PHP_Settings'); ?></a>
+							<?php echo JText::_('COM_ADMIN_PHP_SETTINGS'); ?></a>
 					</li>
 					<li>
 						<a href="#" onclick="return false;" id="config">
-							<?php echo JText::_('Admin_Configuration_File'); ?></a>
+							<?php echo JText::_('COM_ADMIN_CONFIGURATION_FILE'); ?></a>
 					</li>
 					<li>
 						<a href="#" onclick="return false;" id="directory">
-							<?php echo JText::_('Admin_Directory_Permissions'); ?></a>
+							<?php echo JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></a>
 					</li>
 					<li>
 						<a href="#" onclick="return false;" id="phpinfo">
-							<?php echo JText::_('Admin_PHP_Information'); ?></a>
+							<?php echo JText::_('COM_ADMIN_PHP_INFORMATION'); ?></a>
 					</li>
 				</ul>
 				<div class="clr"></div>

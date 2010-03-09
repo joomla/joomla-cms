@@ -33,6 +33,7 @@ $ -> Language fix or change
 09-Mar-2010 Jean-Marie Simonet
 $ Typo in string
 $ Corrected a bunch of strings. Whitespaces, slashes and periods in Keys. Wrong or absent doublequotes in values.
+$ Standardized com_admin ini/keys
 
 09-Mar-2010 Christophe Demko
 # Correcting a bug in parse_ini_file for php >= 5.3.1

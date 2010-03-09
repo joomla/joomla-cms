@@ -11,15 +11,15 @@
 defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform">
-	<legend><?php echo JText::_('Admin_System_Information'); ?></legend>
+	<legend><?php echo JText::_('COM_ADMIN_SYSTEM_INFORMATION'); ?></legend>
 	<table class="adminlist">
 		<thead>
 			<tr>
 				<th width="250">
-					<?php echo JText::_('Admin_Setting'); ?>
+					<?php echo JText::_('COM_ADMIN_SETTING'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('Admin_Value'); ?>
+					<?php echo JText::_('COM_ADMIN_VALUE'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 		<tbody>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('Admin_PHP_Built_On'); ?>:</strong>
+					<strong><?php echo JText::_('COM_ADMIN_PHP_BUILT_ON'); ?>:</strong>
 				</td>
 				<td>
 					<?php echo $this->info['php'];?>
@@ -40,7 +40,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('Admin_Database_Version'); ?>:</strong>
+					<strong><?php echo JText::_('COM_ADMIN_DATABASE_VERSION'); ?>:</strong>
 				</td>
 				<td>
 					<?php echo $this->info['dbversion'];?>
@@ -48,7 +48,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('Admin_Database_Collation'); ?>:</strong>
+					<strong><?php echo JText::_('COM_ADMIN_DATABASE_COLLATION'); ?>:</strong>
 				</td>
 				<td>
 					<?php echo $this->info['dbcollation'];?>
@@ -56,7 +56,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('Admin_PHP_Version'); ?>:</strong>
+					<strong><?php echo JText::_('COM_ADMIN_PHP_VERSION'); ?>:</strong>
 				</td>
 				<td>
 					<?php echo $this->info['phpversion'];?>
@@ -64,7 +64,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('Admin_Web_Server'); ?>:</strong>
+					<strong><?php echo JText::_('COM_ADMIN_WEB_SERVER'); ?>:</strong>
 				</td>
 				<td>
 					<?php echo JHtml::_('system.server',$this->info['server']); ?>
@@ -72,7 +72,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('Admin_WebServer_to_PHP_Interface'); ?>:</strong>
+					<strong><?php echo JText::_('COM_ADMIN_WEBSERVER_TO_PHP_INTERFACE'); ?>:</strong>
 				</td>
 				<td>
 					<?php echo $this->info['sapi_name'];?>
@@ -80,7 +80,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('Admin_Joomla_Version'); ?>:</strong>
+					<strong><?php echo JText::_('COM_ADMIN_JOOMLA_VERSION'); ?>:</strong>
 				</td>
 				<td>
 					<?php echo $this->info['version'];?>
@@ -88,7 +88,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('Admin_User_Agent'); ?>:</strong>
+					<strong><?php echo JText::_('COM_ADMIN_USER_AGENT'); ?>:</strong>
 				</td>
 				<td>
 					<?php echo $this->info['useragent'];?>

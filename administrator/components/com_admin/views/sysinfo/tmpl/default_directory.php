@@ -11,15 +11,15 @@
 defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform">
-	<legend><?php echo JText::_('Admin_Directory_Permissions'); ?></legend>
+	<legend><?php echo JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></legend>
 		<table class="adminlist">
 			<thead>
 				<tr>
 					<th width="650">
-						<?php echo JText::_('Admin_Directory'); ?>
+						<?php echo JText::_('COM_ADMIN_DIRECTORY'); ?>
 					</th>
 					<th>
-						<?php echo JText::_('Admin_Status'); ?>
+						<?php echo JText::_('COM_ADMIN_STATUS'); ?>
 					</th>
 				</tr>
 			</thead>
