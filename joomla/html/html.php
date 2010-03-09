@@ -240,7 +240,18 @@ abstract class JHtml
 				$url = JURI::base(true).'/templates/'. $cur_template .'/images/'. $url;
 			} else {
 				list($extension, $url) = explode('/', $url, 2);
-				$url = JURI::root(true).'/media/'.$extension.'/images/'.$url;
+				if (strpos($url, '/')) {
+					// Try to deal with plugins group
+					list($element, $url) = explode('/', $url, 2);
+					if (file_exists(JPATH_ROOT .'/media/'.$extension.'/'.$element.'/images/'.$url)) {
+						$url = JURI::root(true).'/media/'.$extension.'/'.$element.'/images/'.$url;
+					} else {
+						$url = JURI::root(true).'/media/'.$extension.'/images/'.$element.'/'.$url;
+					}
+				}
+				else {
+					$url = JURI::root(true).'/media/'.$extension.'/images/'.$url;
+				}
 			}
 			if($path_only)
 			{
@@ -276,7 +287,18 @@ abstract class JHtml
 				$file = JURI::base(true).'/templates/'. $cur_template .'/css/'. $file;
 			} else {
 				list($extension, $file) = explode('/', $file, 2);
-				$file = JURI::root(true).'/media/'.$extension.'/css/'.$file;
+				if (strpos($file, '/')) {
+					// Try to deal with plugins group
+					list($element, $file) = explode('/', $file, 2);
+					if (file_exists(JPATH_ROOT .'/media/'.$extension.'/'.$element.'/css/'.$file)) {
+						$file = JURI::root(true).'/media/'.$extension.'/'.$element.'/css/'.$file;
+					} else {
+						$file = JURI::root(true).'/media/'.$extension.'/css/'.$element.'/'.$file;
+					}
+				}
+				else {
+					$file = JURI::root(true).'/media/'.$extension.'/css/'.$file;
+				}
 			}
 			if($path_only)
 			{
@@ -316,7 +338,18 @@ abstract class JHtml
 				$file = JURI::base(true).'/templates/'. $cur_template .'/js/'. $file;
 			} else {
 				list($extension, $file) = explode('/', $file, 2);
-				$file = JURI::root(true).'/media/'.$extension.'/js/'.$file;
+				if (strpos($file, '/')) {
+					// Try to deal with plugins group
+					list($element, $file) = explode('/', $file, 2);
+					if (file_exists(JPATH_ROOT .'/media/'. $extension.'/'.$element.'/js/'.$file)) {
+						$file = JURI::root(true).'/media/'.$extension.'/'.$element.'/js/'.$file;
+					} else {
+						$file = JURI::root(true).'/media/'.$extension.'/js/'.$element.'/'.$file;
+					}
+				}
+				else {
+					$file = JURI::root(true).'/media/'.$extension.'/js/'.$file;
+				}
 			}
 			if($path_only)
 			{
