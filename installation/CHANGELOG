@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Mar-2010 Christophe Demko
+# Correction of a bug in JLanguage for php > 5.3.1
+
 09-Mar-2010 Hannes Papenberg
 # Rewrite of mod_menu in frontend. Added the classes and IDs to the menu items and reading data from JMenu and not from database.
 
