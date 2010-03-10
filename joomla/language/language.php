@@ -412,7 +412,7 @@ class JLanguage extends JObject
 		$version = phpversion();
 		if($version >= "5.3.1") {
 			$contents = file_get_contents($filename);
-			$contents = str_replace(array('"_QQ_"','_QQ_"','"_QQ_'),array('\"','"\"','\""'),$contents);
+			$contents = str_replace('_QQ_','"\""',$contents);
 			$strings = @parse_ini_string($contents);
 		} else {
 			$strings = @parse_ini_file($filename);
