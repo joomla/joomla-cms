@@ -229,7 +229,7 @@
 			description="JField_Metadata_Robots_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">index, follow</option>
 			<option

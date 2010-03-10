@@ -51,7 +51,7 @@
 			description="JFIELD_METADATA_ROBOTS_DESC"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JCOMMON_INDEX_FOLLOW</option>
 			<option

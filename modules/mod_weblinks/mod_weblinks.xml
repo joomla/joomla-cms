@@ -116,7 +116,7 @@
 			label="MOD_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 			description="MOD_WEBLINKS_FIELD_COUNTCLICKS_DESC">
 				<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNO</option>
 			<option
@@ -143,7 +143,7 @@
 			label="MODULES_FIELD_CACHING_LABEL"
 			description="MODULES_FIELD_CACHING_DESC">
 			<option
-				value="1">USE_GLOBAL</option>
+				value="1">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">MODULES_FIELD_VALUE_NOCACHING</option>
 		</field>

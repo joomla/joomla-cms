@@ -297,7 +297,7 @@
 			label="JGLOBAL_Show_Title_Label"
 			description="JGLOBAL_Show_Title_Desc">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JHide</option>
 			<option
@@ -311,7 +311,7 @@
 			description="JGLOBAL_Linked_Titles_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
 			<option
@@ -324,7 +324,7 @@
 			description="JGLOBAL_Show_Intro_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -338,7 +338,7 @@
 			description="JGLOBAL_Show_Category_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -352,7 +352,7 @@
 			description="JGLOBAL_Link_Category_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
 			<option
@@ -366,7 +366,7 @@
 			description="JGLOBAL_Show_Parent_Category_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JCommon_Hide</option>
 			<option
@@ -380,7 +380,7 @@
 			description="JGLOBAL_Link_Parent_Category_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
 			<option
@@ -394,7 +394,7 @@
 			description="JGLOBAL_Show_Author_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -408,7 +408,7 @@
 			description="JGLOBAL_Show_Create_Date_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -422,7 +422,7 @@
 			description="JGLOBAL_Show_Modify_Date_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -450,7 +450,7 @@
 			description="JGLOBAL_Show_Readmore_Desc"
 			default="" >
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -464,7 +464,7 @@
 			description="JGLOBAL_Show_Print_Icon_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -478,7 +478,7 @@
 			description="JGLOBAL_Show_Email_Icon_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -492,7 +492,7 @@
 			description="JGLOBAL_Show_Hits_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JCommon_Hide</option>
 			<option
@@ -530,7 +530,7 @@
 			description="JGLOBAL_Allow_Ratings_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -544,7 +544,7 @@
 			description="JGLOBAL_Allow_Comments_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">Hide</option>
 			<option
@@ -565,7 +565,7 @@
 			description="JField_Metadata_Robots_Desc"
 			default="">
 			<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JCOMMON_INDEX_FOLLOW</option>
 			<option

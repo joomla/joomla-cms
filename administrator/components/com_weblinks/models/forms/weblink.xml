@@ -200,7 +200,7 @@
 			label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 			description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC">
 				<option
-				value="">USE_GLOBAL</option>
+				value="">JCOMMON_USE_GLOBAL</option>
 			<option
 				value="0">JNo</option>
 			<option

@@ -30,6 +30,7 @@ $ -> Language fix or change
 10-Mar-2010 Jean-Marie Simonet
 $ Refactored com_banners inis/keys customizing item(s)
 $ Refactored mod_menu (site) ini/keys
+$ Mass change key USE_GLOBAL to JCOMMON_USE_GLOBAL
 
 10-Mar-2010 Christophe Demko
 # Correction of a bug in JLanguage for php > 5.3.1
