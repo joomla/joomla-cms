@@ -12,7 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>DESCMENU</description>
+	<description>MOD_MENU_XML_DESCRIPTION</description>
 	<files>
 		<filename
 			module="mod_menu">mod_menu.php</filename>
@@ -26,23 +26,23 @@
 			name="menutype"
 			type="menu"
 			default=""
-			label="Menu Name"
-			description="The name of the menu default is mainmenu" />
+			label="MOD_MENU_FIELD_MENUTYPE_LABEL"
+			description="MOD_MENU_FIELD_MENUTYPE_DESC" />
 		<field
 			name="startLevel"
 			type="text"
 			default="0"
 			size="5"
-			label="Start Level"
-			description="fieldSTARTLEVEL" />
+			label="MOD_MENU_FIELD_STARTLEVEL_LABEL"
+			description="MOD_MENU_FIELD_STARTLEVEL_DESC" />
 
 		<field
 			name="endLevel"
 			type="text"
 			default="0"
 			size="5"
-			label="End Level"
-			description="fieldSTOPLEVEL" />
+			label="MOD_MENU_FIELD_ENDLEVEL_LABEL"
+			description="MOD_MENU_FIELD_ENDLEVEL_DESC" />
 
 		<field
 			name="spacer1"
@@ -54,12 +54,12 @@
 			name="showAllChildren"
 			type="radio"
 			default="0"
-			label="Always show submenu items"
-			description="fieldSHOWSUBMENUITEMS">
+			label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
+			description="MOD_MENU_FIELD_ALLCHILDREN_DESC">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 	</fields>
 
@@ -69,29 +69,29 @@
 			name="tag_id"
 			type="text"
 			default=""
-			label="Menu Tag ID"
-			description="fieldMENUTAGID" />
+			label="MOD_MENU_FIELD_TAG_ID_LABEL"
+			description="MOD_MENU_FIELD_TAG_ID_DESC" />
 
 		<field
 			name="class_sfx"
 			type="text"
 			default=""
-			label="Menu Class Suffix"
-			description="fieldMENUCLASSSUFFIX" />
+			label="MOD_MENU_FIELD_CLASS_LABEL"
+			description="MOD_MENU_FIELD_CLASS_DESC" />
 
 		<field
 			name="maxdepth"
 			type="text"
 			default="10"
-			label="Maximum Menu Depth"
-			description="fieldMENUMAXDEPTH" />
+			label="MOD_MENU_FIELD_MAXDEPTH_LABEL"
+			description="MOD_MENU_FIELD_MAXDEPTH_DESC" />
 
 		<field
 			name="window_open"
 			type="text"
 			default=""
-			label="Target Position"
-			description="fieldTARGETPOSITION" />
+			label="MOD_MENU_FIELD_TARGET_LABEL"
+			description="MOD_MENU_FIELD_TARGET_DESC" />
 
 		<field
 			name="spacer2"
