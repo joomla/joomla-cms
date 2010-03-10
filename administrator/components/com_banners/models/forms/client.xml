@@ -19,8 +19,8 @@
 			class="inputbox"
 			default=""
 			size="40"
-			label="Banners_Name_Label"
-			description="Banners_Name_Desc"
+			label="COM_BANNERS_FIELD_CLIENT_NAME_LABEL"
+			description="COM_BANNERS_FIELD_CLIENT_NAME_DESC"
 			required="true"/>
 
 		<field
@@ -30,8 +30,8 @@
 			class="inputbox"
 			default=""
 			size="40"
-			label="Banners_Contact_Label"
-			description="Banners_Contact_Desc"
+			label="COM_BANNERS_FIELD_CONTACT_LABEL"
+			description="COM_BANNERS_FIELD_CONTACT_DESC"
 			required="true"/>
 
 		<field
@@ -41,8 +41,8 @@
 			class="inputbox validate-email"
 			default=""
 			size="40"
-			label="Banners_Email_Label"
-			description="Banners_Email_Desc"
+			label="COM_BANNERS_FIELD_EMAIL_LABEL"
+			description="COM_BANNERS_FIELD_EMAIL_DESC"
 			validate="email"
 			required="true"/>
 
@@ -50,51 +50,51 @@
 			id="state"
 			name="state"
 			type="list"
-			label="Banners_State_Label"
-			description="Banners_State_Desc"
+			label="COM_BANNERS_FIELD_CLIENT_STATE_LABEL"
+			description="COM_BANNERS_FIELD_CLIENT_STATE_DESC"
 			class="inputbox"
 			size="1"
 			default="1">
 			<option
-				value="1">JOption_Published</option>
+				value="1">JOPTION_PUBLISHED</option>
 			<option
-				value="0">JOption_Unpublished</option>
+				value="0">JOPTION_UNPUBLISHED</option>
 			<option
-				value="-1">JOption_Archived</option>
+				value="-1">JOPTION_ARCHIVED</option>
 			<option
-				value="-2">JOption_Trash</option>
+				value="-2">JOPTION_TRASH</option>
 		</field>
 
 		<field
 			id="purchase_type"
 			name="purchase_type"
 			type="list"
-			label="Banners_PurchaseType_Label"
-			description="Banners_PurchaseType_Desc"
+			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
+			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0"
 			class="inputbox">
 			<option
-				value="-1">Banners_UseComponentDefault</option>
+				value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
 			<option
-				value="1">Banners_1</option>
+				value="1">COM_BANNERS_FIELD_VALUE_1</option>
 			<option
-				value="2">Banners_2</option>
+				value="2">COM_BANNERS_FIELD_VALUE_2</option>
 			<option
-				value="3">Banners_3</option>
+				value="3">COM_BANNERS_FIELD_VALUE_3</option>
 			<option
-				value="4">Banners_4</option>
+				value="4">COM_BANNERS_FIELD_VALUE_4</option>
 			<option
-				value="5">Banners_5</option>
+				value="5">COM_BANNERS_FIELD_VALUE_5</option>
 		</field>
 
 		<field
 			name="track_impressions"
 			type="list"
 			default="0"
-			label="Banners_TrackImpression_Label"
-			description="Banners_TrackImpression_Desc">
+			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
+			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC">
 			<option
-				value="-1">Banners_UseComponentDefault</option>
+				value="-1">COM_BANNERS_FIELD_VALUE_USECOMPONENTDEFAULT</option>
 			<option
 				value="0">JNO</option>
 			<option
@@ -105,10 +105,10 @@
 			name="track_clicks"
 			type="list"
 			default="0"
-			label="Banners_TrackClick_Label"
-			description="Banners_TrackClick_Desc">
+			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
+			description="COM_BANNERS_FIELD_TRACKCLICK_DESC">
 			<option
-				value="-1">Banners_UseComponentDefault</option>
+				value="-1">COM_BANNERS_FIELD_VALUE_USECOMPONENTDEFAULT</option>
 			<option
 				value="0">JNO</option>
 			<option
@@ -119,7 +119,7 @@
 
 	<fields
 		group="metadata"
-		label="Banners_Metadata_Options">
+		label="COM_BANNERS_GROUP_LABEL_METADATA_OPTIONS">
 
 		<field
 			id="metakey"
@@ -129,29 +129,29 @@
 			default=""
 			rows="3"
 			cols="30"
-			label="JField_Meta_Keywords_Label"
-			description="Banners_MetaKeywords_Desc"/>
+			label="JFIELD_META_KEYWORDS_LABEL"
+			description="COM_BANNERS_FIELD_CLIENT_METAKEYWORDS_DESC"/>
 
 		<field
 			id="own_prefix"
 			name="own_prefix"
 			type="radio"
-			label="Banners_ClientOwnPrefix_Label"
-			description="Banners_ClientOwnPrefix_Desc"
+			label="COM_BANNERS_FIELD_CLIENTOWNPREFIX_LABEL"
+			description="COM_BANNERS_FIELD_CLIENTOWNPREFIX_DESC"
 			default="0"
 			class="inputbox">
 			<option
-				value="0">Jno</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 
 		<field
 			name="metakey_prefix"
 			type="text"
 			default=""
-			label="Banners_MetaKeywordPrefix_Label"
-			description="Banners_MetaKeywordPrefix_Desc" />
+			label="COM_BANNERS_FIELD_CLIENT_METAKEYWORDPREFIX_LABEL"
+			description="COM_BANNERS_FIELD_CLIENT_METAKEYWORDPREFIX_DESC" />
 
 	</fields>
 
@@ -167,8 +167,8 @@
 			default=""
 			rows="10"
 			cols="40"
-			label="Banners_ExtraInfo_Label"
-			description="Banners_ExtraInfo_Desc"/>
+			label="COM_BANNERS_FIELD_EXTRAINFO_LABEL"
+			description="COM_BANNERS_FIELD_EXTRAINFO_DESC"/>
 
 	</fields>
 </form>

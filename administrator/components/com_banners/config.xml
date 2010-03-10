@@ -6,28 +6,28 @@
 			id="purchase_type"
 			name="purchase_type"
 			type="list"
-			label="Banners_PurchaseType_Label"
-			description="Banners_PurchaseType_Desc"
+			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
+			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0"
 			class="inputbox">
 			<option
-				value="1">Banners_1</option>
+				value="1">COM_BANNERS_FIELD_VALUE_1</option>
 			<option
-				value="2">Banners_2</option>
+				value="2">COM_BANNERS_FIELD_VALUE_2</option>
 			<option
-				value="3">Banners_3</option>
+				value="3">COM_BANNERS_FIELD_VALUE_3</option>
 			<option
-				value="4">Banners_4</option>
+				value="4">COM_BANNERS_FIELD_VALUE_4</option>
 			<option
-				value="5">Banners_5</option>
+				value="5">COM_BANNERS_FIELD_VALUE_5</option>
 		</field>
 
 		<field
 			name="track_impressions"
 			type="radio"
 			default="0"
-			label="Banners_TrackImpression_Label"
-			description="Banners_TrackImpression_Desc">
+			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
+			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC">
 			<option
 				value="0">JNO</option>
 			<option
@@ -38,8 +38,8 @@
 			name="track_clicks"
 			type="radio"
 			default="0"
-			label="Banners_TrackClick_Label"
-			description="Banners_TrackClick_Desc">
+			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
+			description="COM_BANNERS_FIELD_TRACKCLICK_DESC">
 			<option
 				value="0">JNO</option>
 			<option
@@ -50,21 +50,21 @@
 			name="metakey_prefix"
 			type="text"
 			default=""
-			label="Banners_MetaKeywordPrefix_Label"
-			description="Banners_MetaKeywordPrefix_Desc" />
+			label="COM_BANNERS_FIELD_METAKEYWORDPREFIX_LABEL"
+			description="COM_BANNERS_FIELD_METAKEYWORDPREFIX_DESC" />
 
 	</fields>
 
 	<fields
 		group="permissions"
-		label="JConfig_Permissions_Label"
-		description="JConfig_Permissions_Desc"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
 		hidden="true">
 
 		<field
 			name="rules"
 			type="rules"
-			label="JConfig_Permissions_Label"
+			label="JCONFIG_PERMISSIONS_LABEL"
 			class="inputbox"
 			filter="rules"
 			component="com_banners"

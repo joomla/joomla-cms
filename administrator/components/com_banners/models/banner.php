@@ -258,7 +258,7 @@ class BannersModelBanner extends JModelForm
 
 			if (!$allow)
 			{
-				$this->setError(JText::_('JError_Core_Edit_State_not_permitted'));
+				$this->setError(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				return false;
 			}
 

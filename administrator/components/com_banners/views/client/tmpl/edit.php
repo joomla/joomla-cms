@@ -31,7 +31,7 @@ JHtml::_('behavior.formvalidation');
 
 <div class="width-50 fltlft">
 	<fieldset class="adminform">
-		<legend><?php echo empty($this->item->id) ? JText::_('Banners_New_Client') : JText::sprintf('Banners_Edit_Client', $this->item->id); ?></legend>
+		<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT') : JText::sprintf('COM_BANNERS_EDIT_CLIENT', $this->item->id); ?></legend>
 
 		<?php foreach($this->form->getFields() as $field): ?>
 			<?php if (!$field->hidden): ?>
@@ -46,7 +46,7 @@ JHtml::_('behavior.formvalidation');
 <div class="width-50 fltrt">
 	<?php echo JHtml::_('sliders.start','banner-client-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-	<?php echo JHtml::_('sliders.panel',JText::_('Banners_Metadata'), 'publishing-details'); ?>
+	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_GROUP_LABEL_METADATA_OPTIONS'), 'publishing-details'); ?>
 		<fieldset class="adminform">
 			<?php foreach($this->form->getFields('metadata') as $field): ?>
 				<?php if (!$field->hidden): ?>
@@ -56,7 +56,7 @@ JHtml::_('behavior.formvalidation');
 			<?php endforeach; ?>
 		</fieldset>
 
-	<?php echo JHtml::_('sliders.panel',JText::_('Banners_Extra'), 'extra'); ?>
+	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_EXTRA'), 'extra'); ?>
 		<fieldset class="adminform">
 			<?php foreach($this->form->getFields('extra') as $field): ?>
 				<?php if (!$field->hidden): ?>

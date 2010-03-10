@@ -59,14 +59,14 @@ class BannersControllerBanners extends JController
 	public function delete()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('COM_BANNERS_NO_BANNERS_SELECTED'));
 		}
 		else {
 			// Get the model.
@@ -77,7 +77,7 @@ class BannersControllerBanners extends JController
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {
-				$this->setMessage(JText::sprintf('JController_N_Items_deleted', count($ids)));
+				$this->setMessage(JText::sprintf((count($ids) == 1) ? 'COM_BANNERS_BANNER_DELETED' : 'COM_BANNERS_N_BANNERS_DELETED', count($ids)));
 			}
 		}
 
@@ -90,7 +90,7 @@ class BannersControllerBanners extends JController
 	public function publish()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -100,7 +100,7 @@ class BannersControllerBanners extends JController
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('COM_BANNERS_NO_BANNERS_SELECTED'));
 		}
 		else
 		{
@@ -114,18 +114,22 @@ class BannersControllerBanners extends JController
 			else
 			{
 				if ($value == 1) {
-					$text = 'JSuccess_N_Items_published';
+					$text = 'COM_BANNERS_BANNER_PUBLISHED';
+					$ntext = 'COM_BANNERS_N_BANNERS_PUBLISHED';			
 				}
 				else if ($value == 0) {
-					$text = 'JSuccess_N_Items_unpublished';
+					$text = 'COM_BANNERS_BANNER_UNPUBLISHED';
+					$ntext = 'COM_BANNERS_N_BANNERS_UNPUBLISHED';					
 				}
 				else if ($value == -1) {
-					$text = 'JSuccess_N_Items_archived';
+					$text = 'COM_BANNERS_BANNER_ARCHIVED';
+					$ntext = 'COM_BANNERS_N_BANNERS_ARCHIVED';
 				}
 				else {
-					$text = 'JSuccess_N_Items_trashed';
+					$text = 'COM_BANNERS_BANNER_TRASHED';
+					$ntext = 'COM_BANNERS_N_BANNERS_TRASHED';
 				}
-				$this->setMessage(JText::sprintf($text, count($ids)));
+			$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
 			}
 		}
 
@@ -135,7 +139,7 @@ class BannersControllerBanners extends JController
 	public function sticky_publish()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -145,7 +149,7 @@ class BannersControllerBanners extends JController
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('COM_BANNERS_NO_BANNERS_SELECTED'));
 		}
 		else
 		{
@@ -159,12 +163,14 @@ class BannersControllerBanners extends JController
 			else
 			{
 				if ($value == 1) {
-					$text = 'Banners_N_Items_stuck';
+					$text = 'COM_BANNERS_BANNER_STUCK';
+					$ntext = 'COM_BANNERS_N_BANNERS_STUCK';
 				}
 				else {
-					$text = 'Banners_N_Items_unstuck';
+					$text = 'COM_BANNERS_BANNER_UNSTUCK';
+					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
 				}
-				$this->setMessage(JText::sprintf($text, count($ids)));
+				$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
 			}
 		}
 
@@ -177,7 +183,7 @@ class BannersControllerBanners extends JController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -199,7 +205,7 @@ class BannersControllerBanners extends JController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks	= JRequest::getVar('cid',	null,	'post',	'array');
@@ -215,7 +221,7 @@ class BannersControllerBanners extends JController
 		// Save the ordering
 		$model->saveorder($pks, $order);
 
-		$this->setMessage(JText::_('JSuccess_Ordering_saved'));
+		$this->setMessage(JText::_('JSUCCESS_ORDERING_SAVED'));
 		$this->setRedirect('index.php?option=com_banners&view=banners');
 	}
 }

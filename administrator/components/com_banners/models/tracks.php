@@ -204,7 +204,7 @@ class BannersModelTracks extends JModelList
 		}
 		else
 		{
-			JError::raiseWarning(403, JText::_('JError_Core_Delete_not_permitted'));
+			JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 		}
 
 		return true;
@@ -263,7 +263,7 @@ class BannersModelTracks extends JModelList
 			if ($type > 0)
 			{
 				$basename = str_replace('__TYPE__',$type,$basename);
-				$typeName = JText::_('Banners_Type'.$type);
+				$typeName = JText::_('COM_BANNERS_TYPE'.$type);
 				$basename = str_replace('__TYPENAME__',$typeName,$basename);
 			}
 			else
@@ -317,7 +317,7 @@ class BannersModelTracks extends JModelList
 		}
 		else
 		{
-			$name = JText::_('Banners_NoCategoryName');
+			$name = JText::_('COM_BANNERS_NOCATEGORYNAME');
 		}
 		return $name;
 	}
@@ -342,7 +342,7 @@ class BannersModelTracks extends JModelList
 				return false;
 			}
 		} else {
-			$name = JText::_('Banners_NoClientName');
+			$name = JText::_('COM_BANNERS_NOCLIENTNAME');
 		}
 		return $name;
 	}
@@ -374,19 +374,19 @@ class BannersModelTracks extends JModelList
 		if (!isset($this->_content)) {
 			$this->_content = '';
 			$this->_content.=
-			'"'.str_replace('"','""',JText::_('Banners_Heading_Name')).'","'.
-				str_replace('"','""',JText::_('Banners_Heading_Client')).'","'.
-				str_replace('"','""',JText::_('JGrid_Heading_Category')).'","'.
-				str_replace('"','""',JText::_('Banners_Heading_Type')).'","'.
-				str_replace('"','""',JText::_('Banners_Heading_Count')).'","'.
-				str_replace('"','""',JText::_('Banners_Heading_Date')).'"'."\n";
+			'"'.str_replace('"','""',JText::_('COM_BANNERS_HEADING_NAME')).'","'.
+				str_replace('"','""',JText::_('COM_BANNERS_HEADING_CLIENT')).'","'.
+				str_replace('"','""',JText::_('JGRID_HEADING_CATEGORY')).'","'.
+				str_replace('"','""',JText::_('COM_BANNERS_HEADING_TYPE')).'","'.
+				str_replace('"','""',JText::_('COM_BANNERS_HEADING_COUNT')).'","'.
+				str_replace('"','""',JText::_('COM_BANNERS_HEADING_DATE')).'"'."\n";
 
 			foreach($this->getItems() as $item) {
 				$this->_content.=
 				'"'.str_replace('"','""',$item->name).'","'.
 					str_replace('"','""',$item->client_name).'","'.
 					str_replace('"','""',$item->category_title).'","'.
-					str_replace('"','""',($item->track_type==1 ? JText::_('Banners_Impression'): JText::_('Banners_Click'))).'","'.
+					str_replace('"','""',($item->track_type==1 ? JText::_('COM_BANNERS_IMPRESSION'): JText::_('COM_BANNERS_CLICK'))).'","'.
 					str_replace('"','""',$item->count).'","'.
 					str_replace('"','""',$item->track_date).'"'."\n";
 			}
@@ -406,15 +406,15 @@ class BannersModelTracks extends JModelList
 				if (!empty($delete)) {
 					if (!JFile::delete($delete)) {
 						// JFile::delete throws an error
-						$this->setError(JText::_('BANNERS_ZIP_DELETE_FAILURE'));
+						$this->setError(JText::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
 						return false;
 					}
 				}
 				if (!$packager = & JArchive::getAdapter('zip')) {
-					$this->setError(JText::_('BANNERS_ZIP_ADAPTER_FAILURE'));
+					$this->setError(JText::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
 					return false;
 				} else if (!$packager->create($ziproot, $files)) {
-					$this->setError(JText::_('BANNERS_ZIP_CREATE_FAILURE'));
+					$this->setError(JText::_('COM_BANNERS_ERR_ZIP_CREATE_FAILURE'));
 					return false;
 				}
 				$this->_content = file_get_contents($ziproot);
@@ -423,4 +423,3 @@ class BannersModelTracks extends JModelList
 		return $this->_content;
 	}
 }
-

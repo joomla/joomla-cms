@@ -255,7 +255,7 @@ class BannersModelBanners extends JModelList
 				} else {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Delete_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
 			} else {
 				$this->setError($table->getError());
@@ -293,7 +293,7 @@ class BannersModelBanners extends JModelList
 				if (!$allow) {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 		}
@@ -333,7 +333,7 @@ class BannersModelBanners extends JModelList
 				if (!$allow) {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 		}
@@ -362,7 +362,7 @@ class BannersModelBanners extends JModelList
 		$conditions	= array();
 
 		if (empty($pks)) {
-			return JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			return JError::raiseWarning(500, JText::_('COM_BANNERS_NO_BANNERS_SELECTED'));
 		}
 
 		// update ordering values
@@ -380,7 +380,7 @@ class BannersModelBanners extends JModelList
 				if (!$allow) {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				} else if ($table->ordering != $order[$i]) {
 					$table->ordering = $order[$i];
 					if (!$table->store()) {

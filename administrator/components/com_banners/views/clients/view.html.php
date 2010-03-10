@@ -58,7 +58,7 @@ class BannersViewClients extends JView
 		$state	= $this->get('State');
 		$canDo	= BannersHelper::getActions();
 
-		JToolBarHelper::title(JText::_('Banners_Manager_Clients'), 'generic.png');
+		JToolBarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'generic.png');
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('client.add','JTOOLBAR_NEW');
 		}
