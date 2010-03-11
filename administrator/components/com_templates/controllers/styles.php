@@ -49,7 +49,7 @@ class TemplatesControllerStyles extends JController
 		try
 		{
 			if (empty($pks)) {
-				throw new Exception(JText::_('JERROR_NO_ITEMS_SELECTED'));
+				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 			$model = $this->getModel();
 			$model->duplicate($pks);
@@ -77,11 +77,11 @@ class TemplatesControllerStyles extends JController
 		try
 		{
 			if (empty($pks)) {
-				throw new Exception(JText::_('JERROR_NO_ITEMS_SELECTED'));
+				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 			$model = $this->getModel();
 			$model->delete($pks);
-			$this->setMessage(JText::sprintf('JCONTROLLER_N_ITEMS_DELETED', count($pks)));
+			$this->setMessage(JText::sprintf((count($pks) == 1) ? 'COM_TEMPLATES_TEMPLATE_DELETED' : 'COM_TEMPLATES_N_TEMPLATES_DELETED', count($pks)));
 		}
 		catch (Exception $e)
 		{
@@ -105,7 +105,7 @@ class TemplatesControllerStyles extends JController
 		try
 		{
 			if (empty($pks)) {
-				throw new Exception(JText::_('JERROR_NO_ITEMS_SELECTED'));
+				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
 			// Pop off the first element.

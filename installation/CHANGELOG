@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Mar-2010 Jean-Marie Simonet
+$^ Customized ini/keys item(s) com_newfeeds, com_templates, com_weblinks
+
+
 10-Mar-2010 Jean-Marie Simonet
 $ Refactored com_banners inis/keys customizing item(s)
 $ Refactored mod_menu (site) ini/keys

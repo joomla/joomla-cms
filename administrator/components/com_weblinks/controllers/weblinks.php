@@ -65,7 +65,7 @@ class WeblinksControllerWeblinks extends JController
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			JError::raiseWarning(500, JText::_('COM_WEBLINKS_NO_WEBLINK_SELECTED'));
 		}
 		else {
 			// Get the model.
@@ -76,7 +76,7 @@ class WeblinksControllerWeblinks extends JController
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {
-				$this->setMessage(JText::sprintf('JCONTROLLER_N_ITEMS_DELETED', count($ids)));
+				$this->setMessage(JText::sprintf((count($ids) == 1) ? 'COM_WEBLINKS_WEBLINK_DELETED' : 'COM_WEBLINKS_N_WEBLINKS_DELETED', count($ids)));
 			}
 		}
 
@@ -99,7 +99,7 @@ class WeblinksControllerWeblinks extends JController
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			JError::raiseWarning(500, JText::_('COM_WEBLINKS_NO_WEBLINK_SELECTED'));
 		}
 		else
 		{
@@ -113,18 +113,22 @@ class WeblinksControllerWeblinks extends JController
 			else
 			{
 				if ($value == 1) {
-					$text = 'JSUCCESS_N_ITEMS_PUBLISHED';
+					$text = 'COM_WEBLINKS_WEBLINK_PUBLISHED';
+					$ntext = 'COM_WEBLINKS_N_WEBLINKS_PUBLISHED';			
 				}
 				else if ($value == 0) {
-					$text = 'JSUCCESS_N_ITEMS_UNPUBLISHED';
+					$text = 'COM_WEBLINKS_WEBLINK_UNPUBLISHED';
+					$ntext = 'COM_WEBLINKS_N_WEBLINKS_UNPUBLISHED';					
 				}
 				else if ($value == -1) {
-					$text = 'JSUCCESS_N_ITEMS_ARCHIVED';
+					$text = 'COM_WEBLINKS_WEBLINK_ARCHIVED';
+					$ntext = 'COM_WEBLINKS_N_WEBLINKS_ARCHIVED';
 				}
 				else {
-					$text = 'JSUCCESS_N_ITEMS_TRASHED';
+					$text = 'COM_WEBLINKS_WEBLINK_TRASHED';
+					$ntext = 'COM_WEBLINKS_N_WEBLINKS_TRASHED';
 				}
-				$this->setMessage(JText::sprintf($text, count($ids)));
+			$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
 			}
 		}
 

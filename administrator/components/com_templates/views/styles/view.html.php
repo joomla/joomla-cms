@@ -67,7 +67,7 @@ class TemplatesViewStyles extends JView
 			JToolBarHelper::addNew('styles.duplicate', 'JTOOLBAR_DUPLICATE');
 		}
 		if ($canDo->get('core.delete') && $isSite) {
-			JToolBarHelper::deleteList('', 'styles.delete','JTOOLBAR_TRASH');
+			JToolBarHelper::deleteList('', 'styles.delete','JTOOLBAR_DELETE');
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
