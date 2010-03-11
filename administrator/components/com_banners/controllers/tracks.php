@@ -67,8 +67,7 @@ class BannersControllerTracks extends JController
 			JError::raiseWarning(500, $model->getError());
 		}
 		else {
-			$this->setMessage(JText::sprintf(($count == 1) ? 'COM_BANNERS_TRACK_DELETED' : 'COM_BANNERS_N_TRACKS_DELETED', $count);
-			
+			$this->setMessage(JText::sprintf(($count == 1) ? 'COM_BANNERS_TRACK_DELETED' : 'COM_BANNERS_N_TRACKS_DELETED', $count));
 		}
 
 		$this->setRedirect('index.php?option=com_banners&view=tracks');
