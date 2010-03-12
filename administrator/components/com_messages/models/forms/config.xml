@@ -5,29 +5,25 @@
 		<field
 			name="lock"
 			type="radio"
-			label="Messages_Field_Lock_Label"
-			description="Messages_Field_Lock_Desc"
+			label="COM_MESSAGES_FIELD_LOCK_LABEL"
+			description="COM_MESSAGES_FIELD_LOCK_DESC"
 			default="0">
 			<option
-				value="1">
-				JYes</option>
+				value="1">JYES</option>
 			<option
-				value="0">
-				JNo</option>
+				value="0">JNO</option>
 		</field>
 
 		<field
 			name="mail_on_new"
 			type="radio"
-			label="Messages_Field_Mail_on_New_Label"
-			description="Messages_Field_Mail_on_New_Desc"
+			label="COM_MESSAGES_FIELD_MAIL_ON_NEW_LABEL"
+			description="COM_MESSAGES_FIELD_MAIL_ON_NEW_DESC"
 			default="1">
 			<option
-				value="1">
-				JYes</option>
+				value="1">JYES</option>
 			<option
-				value="0">
-				JNo</option>
+				value="0">JNO</option>
 		</field>
 
 		<field
@@ -36,7 +32,7 @@
 			class="inputbox"
 			size="6"
 			default="7"
-			label="Messages_Field_Auto_Purge_Label"
-			description="Messages_Field_Auto_Purge_Desc" />
+			label="COM_MESSAGES_FIELD_AUTO_PURGE_LABEL"
+			description="COM_MESSAGES_FIELD_AUTO_PURGE_DESC" />
 	</fields>
 </form>

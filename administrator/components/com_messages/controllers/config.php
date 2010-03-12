@@ -23,7 +23,7 @@ class MessagesControllerConfig extends JController
 	public function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app		= JFactory::getApplication();
@@ -61,13 +61,13 @@ class MessagesControllerConfig extends JController
 		if (!$model->save($data))
 		{
 			// Redirect back to the main list.
-			$this->setMessage(JText::sprintf('JError_Save_failed', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('COM_MESSAGES_ERR_SEND_FAILED', $model->getError()), 'notice');
 			$this->setRedirect(JRoute::_('index.php?option=com_messages&view=messages', false));
 			return false;
 		}
 
 		// Redirect to the list screen.
-		$this->setMessage(JText::_('Messages_Config_Saved'));
+		$this->setMessage(JText::_('COM_MESSAGES_CONFIG_SAVED'));
 		$this->setRedirect(JRoute::_('index.php?option=com_messages&view=messages', false));
 
 		return true;

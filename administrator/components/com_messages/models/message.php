@@ -98,7 +98,7 @@ class MessagesModelMessage extends JModelForm
 				}
 
 				$value->set('user_id_to', $message->user_id_from);
-				$re = JText::_('Messages_Re');
+				$re = JText::_('COM_MESSAGES_RE');
 				if (stripos($message->subject, $re) !== 0) {
 					$value->set('subject', $re.$message->subject);
 				}
@@ -133,7 +133,7 @@ class MessagesModelMessage extends JModelForm
 		}
 
 		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_newsfeeds.edit.newsfeed.data', array());
+		$data = $app->getUserState('com_messages.edit.message.data', array());
 
 		// Bind the form data if present.
 		if (!empty($data)) {
@@ -184,7 +184,7 @@ class MessagesModelMessage extends JModelForm
 		}
 
 		if ($config->get('locked')) {
-			$this->setError(JText::_('MESSAGE_FAILED'));
+			$this->setError(JText::_('COM_MESSAGES_ERR_SEND_FAILED'));
 			return false;
 		}
 
@@ -202,8 +202,8 @@ class MessagesModelMessage extends JModelForm
 			$siteURL	= JURI::base();
 			$sitename	= JFactory::getApplication()->getCfg('sitename');
 
-			$subject	= sprintf (JText::_('A_NEW_PRIVATE_MESSAGE_HAS_ARRIVED'), $sitename);
-			$msg		= sprintf (JText::_('PLEASE_LOGIN_TO_READ_YOUR_MESSAGE'), $siteURL);
+			$subject	= sprintf (JText::_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
+			$msg		= sprintf (JText::_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 
 			JUtility::sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
 		}
@@ -268,7 +268,7 @@ class MessagesModelMessage extends JModelForm
 				if (!$allow) {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 		}

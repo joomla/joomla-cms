@@ -26,16 +26,16 @@ JHtml::_('behavior.keepalive');
 	}
 // -->
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" class="form-validate">
 	<fieldset>
 		<div class="fltrt">
 			<button type="button" onclick="Joomla.submitform('config.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 1400);">
-				<?php echo JText::_('Save');?></button>
+				<?php echo JText::_('JSAVE');?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();">
-				<?php echo JText::_('Cancel');?></button>
+				<?php echo JText::_('JCANCEL');?></button>
 		</div>
 		<div class="configuration" >
-			<?php echo JText::_('Messages_My_Settings') ?>
+			<?php echo JText::_('COM_MESSAGES_MY_SETTINGS') ?>
 		</div>
 	</fieldset>
 

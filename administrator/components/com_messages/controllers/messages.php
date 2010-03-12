@@ -55,14 +55,14 @@ class MessagesControllerMessages extends JController
 	public function delete()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('COM_MESSAGES_NO_MESSAGES_SELECTED'));
 		} else {
 			// Get the model.
 			$model = $this->getModel();
@@ -71,7 +71,7 @@ class MessagesControllerMessages extends JController
 			if (!$model->delete($ids)) {
 				JError::raiseWarning(500, $model->getError());
 			} else {
-				$this->setMessage(JText::sprintf('JController_N_Items_deleted', count($ids)));
+				$this->setMessage(JText::sprintf((count($ids) == 1) ? 'COM_MESSAGES_MESSAGE_DELETED' : 'COM_MESSAGES_N_MESSAGES_DELETED', count($ids)));
 			}
 		}
 
@@ -84,7 +84,7 @@ class MessagesControllerMessages extends JController
 	public function publish()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -94,7 +94,7 @@ class MessagesControllerMessages extends JController
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('COM_MESSAGES_NO_MESSAGES_SELECTED'));
 		} else {
 			// Get the model.
 			$model = $this->getModel();
@@ -104,13 +104,18 @@ class MessagesControllerMessages extends JController
 				JError::raiseWarning(500, $model->getError());
 			} else {
 				if ($value == 1) {
-					$text = 'JSuccess_N_Items_published';
-				} else if ($value == 0) {
-					$text = 'JSuccess_N_Items_unpublished';
-				} else {
-					$text = 'JSuccess_N_Items_trashed';
+					$text = 'COM_MESSAGES_MESSAGE_PUBLISHED';
+					$ntext = 'COM_MESSAGES_N_MESSAGES_PUBLISHED';
 				}
-				$this->setMessage(JText::sprintf($text, count($ids)));
+				else if ($value == 0) {
+					$text = 'COM_MESSAGES_MESSAGE_UNPUBLISHED';
+					$ntext = 'COM_MESSAGES_N_MESSAGES_UNPUBLISHED';
+				}
+				else {
+					$text = 'COM_MESSAGES_MESSAGE_TRASHED';
+					$ntext = 'COM_MESSAGES_N_MESSAGES_TRASHED';
+				}
+				$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
 			}
 		}
 

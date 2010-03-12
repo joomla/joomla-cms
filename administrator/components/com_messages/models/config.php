@@ -129,7 +129,7 @@ class MessagesModelConfig extends JModelForm
 			}
 			return true;
 		} else {
-			$this->setError('Messages_Invalid_user');
+			$this->setError('COM_MESSAGES_ERR_INVALID_USER');
 			return false;
 		}
 	}

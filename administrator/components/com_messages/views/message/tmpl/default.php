@@ -13,16 +13,16 @@ defined('_JEXEC') or die;
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm">
 	<div class="width-60 fltlft">
 
-		<?php echo JText::_('Messages_Field_User_id_from_Label'); ?>
+		<?php echo JText::_('COM_MESSAGES_FIELD_USER_ID_FROM_LABEL'); ?>
 		<?php echo $this->item->get('from_user_name');?>
 
-		<?php echo JText::_('Messages_Field_Date_time_Label'); ?>
+		<?php echo JText::_('COM_MESSAGES_FIELD_DATE_TIME_LABEL'); ?>
 		<?php echo JHTML::_('date',$this->item->date_time);?>
 
-		<?php echo JText::_('Messages_Field_Subject_Label'); ?>
+		<?php echo JText::_('COM_MESSAGES_FIELD_SUBJECT_LABEL'); ?>
 		<?php echo $this->item->subject;?>
 
-		<?php echo JText::_('Messages_Field_Message_Label'); ?>
+		<?php echo JText::_('COM_MESSAGES_FIELD_MESSAGE_LABEL'); ?>
 		<pre><?php echo $this->escape($this->item->message);?></pre>
 	</div>
 

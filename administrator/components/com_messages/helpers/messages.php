@@ -47,9 +47,9 @@ class MessagesHelper extends JController
 	{
 		// Build the filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option',	'1',	JText::_('Messages_Option_Read'));
-		$options[]	= JHtml::_('select.option',	'0',	JText::_('Messages_Option_UnRead'));
-		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JOption_Trash'));
+		$options[]	= JHtml::_('select.option',	'1',	JText::_('COM_MESSAGES_OPTION_READ'));
+		$options[]	= JHtml::_('select.option',	'0',	JText::_('COM_MESSAGES_OPTION_UNREAD'));
+		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JOPTION_TRASH'));
 		return $options;
 	}
 
