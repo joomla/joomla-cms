@@ -244,7 +244,7 @@ class CategoriesControllerCategory extends JController
 			return false;
 		}
 
-		$this->setMessage(JText::_('JController_Save_success'));
+		$this->setMessage(JText::_('JCONTROLLER_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)

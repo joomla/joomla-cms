@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Mar-2010 Jean-Marie Simonet
 $^# Refactored com_messages ini/keys, customized item(s)
+$ Customizing JCONTROLLER_SAVE_SUCCESS
 
 11-Mar-2010 Jean-Marie Simonet
 $^ Customized ini/keys item(s) com_newfeeds, com_templates, com_weblinks
