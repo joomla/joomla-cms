@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Mar-2010 Hannes Papenberg
+# Fixed mod_menu (Frontend) parameters
+
 12-Mar-2010 Jean-Marie Simonet
 $^# Refactored com_messages ini/keys, customized item(s)
 $ Customizing JCONTROLLER_SAVE_SUCCESS

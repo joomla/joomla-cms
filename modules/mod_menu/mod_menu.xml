@@ -80,13 +80,6 @@
 			description="MOD_MENU_FIELD_CLASS_DESC" />
 
 		<field
-			name="maxdepth"
-			type="text"
-			default="10"
-			label="MOD_MENU_FIELD_MAXDEPTH_LABEL"
-			description="MOD_MENU_FIELD_MAXDEPTH_DESC" />
-
-		<field
 			name="window_open"
 			type="text"
 			default=""

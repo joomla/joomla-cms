@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 // Note. It is important to remove spaces between elements.
 ?>
 
-<ul class="menu<?php echo $params->get('moduleclass_sfx'); ?>"><?php
+<ul class="menu<?php echo $params->get('tag_id'); ?>"><?php
 foreach ($list as $i => &$item) :
 	
 	$id = '';
@@ -21,14 +21,13 @@ foreach ($list as $i => &$item) :
 	{
 		$id = ' id="current"';
 	}
-	$class = null;
+	$class = '';
 	if(in_array($item->id, $path))
 	{
-		if ($item->params->get('class')) {
-			$class = $item->params->get('class').' active ';
-		} else {
-			$class = 'active ';
+		if ($item->params->get('class_sfx')) {
+			$class = $item->params->get('class_sfx').' ';
 		}
+		$class .= 'active ';
 	}
 	$class = ' class="'.$class.'item'.$item->id.'"';
 	
