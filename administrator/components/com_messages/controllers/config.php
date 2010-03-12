@@ -61,7 +61,7 @@ class MessagesControllerConfig extends JController
 		if (!$model->save($data))
 		{
 			// Redirect back to the main list.
-			$this->setMessage(JText::sprintf('COM_MESSAGES_ERR_SEND_FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'notice');
 			$this->setRedirect(JRoute::_('index.php?option=com_messages&view=messages', false));
 			return false;
 		}
