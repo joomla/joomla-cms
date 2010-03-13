@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 
 		// do field validation
 		if (form.mailto.value == "" || form.from.value == "") {
-			alert('<?php echo JText::_('EMAIL_ERR_NOINFO'); ?>');
+			alert('<?php echo JText::_('COM_MAILTO_EMAIL_ERR_NOINFO'); ?>');
 			return false;
 		}
 		form.submit();
@@ -33,43 +33,43 @@ $data	= $this->get('data');
 <div style="padding: 10px;">
 	<div style="text-align:right">
 		<a href="javascript: void window.close()">
-			<?php echo JText::_('CLOSE_WINDOW'); ?> <?php echo JHTML::_('image','mailto/close-x.png', NULL, NULL, true); ?></a>
+			<?php echo JText::_('COM_MAILTO_CLOSE_WINDOW'); ?> <?php echo JHTML::_('image','mailto/close-x.png', NULL, NULL, true); ?></a>
 	</div>
 
 	<h2>
-		<?php echo JText::_('EMAIL_THIS_LINK_TO_A_FRIEND'); ?>
+		<?php echo JText::_('COM_MAILTO_EMAIL_TO_A_FRIEND'); ?>
 	</h2>
 
 	<p>
-		<?php echo JText::_('EMAIL_TO'); ?>:
+		<?php echo JText::_('COM_MAILTO_EMAIL_TO'); ?>:
 		<br />
 		<input type="text" name="mailto" class="inputbox" size="25" value="<?php echo $data->mailto ?>"/>
 	</p>
 
 	<p>
-		<?php echo JText::_('SENDER'); ?>:
+		<?php echo JText::_('COM_MAILTO_SENDER'); ?>:
 		<br />
 		<input type="text" name="sender" class="inputbox" value="<?php echo $data->sender ?>" size="25" />
 	</p>
 
 	<p>
-		<?php echo JText::_('YOUR_EMAIL'); ?>:
+		<?php echo JText::_('COM_MAILTO_YOUR_EMAIL'); ?>:
 		<br />
 		<input type="text" name="from" class="inputbox" value="<?php echo $data->from ?>" size="25" />
 	</p>
 
 	<p>
-		<?php echo JText::_('SUBJECT'); ?>:
+		<?php echo JText::_('COM_MAILTO_SUBJECT'); ?>:
 		<br />
 		<input type="text" name="subject" class="inputbox" value="<?php echo $data->subject ?>" size="25" />
 	</p>
 
 	<p>
 		<button class="button" onclick="return submitbutton('send');">
-			<?php echo JText::_('SEND'); ?>
+			<?php echo JText::_('COM_MAILTO_SEND'); ?>
 		</button>
 		<button class="button" onclick="window.close();return false;">
-			<?php echo JText::_('CANCEL'); ?>
+			<?php echo JText::_('COM_MAILTO_CANCEL'); ?>
 		</button>
 	</p>
 </div>

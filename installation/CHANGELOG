@@ -32,6 +32,7 @@ $^ Refactored com_modules ini/keys, customized item(s)
 $ Standardized mod_toolbar ini/keys
 $ Refactored com_plugins ini/keys, customized some item(s)
 $ Deleting unused com_banners.ini in front-end
+$ Refactored com_mailto ini/keys
 
 13-Mar-2010 Hannes Papenberg
 # Fixed mod_menu (Frontend) parameters

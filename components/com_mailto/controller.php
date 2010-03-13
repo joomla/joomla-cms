@@ -42,7 +42,7 @@ class MailtoController extends JController
 	function send()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= &JFactory::getApplication();
 		$session = &JFactory::getSession();
@@ -50,7 +50,7 @@ class MailtoController extends JController
 
 		$timeout = $session->get('com_mailto.formtime', 0);
 		if ($timeout == 0 || time() - $timeout < 20) {
-			JError::raiseNotice(500, JText:: _ ('EMAIL_NOT_SENT'));
+			JError::raiseNotice(500, JText:: _ ('COM_MAILTO_EMAIL_NOT_SENT'));
 			return $this->mailto();
 		}
 
@@ -65,7 +65,7 @@ class MailtoController extends JController
 		// Verify that this is a local link
 		if (!JURI::isInternal($link)) {
 			//Non-local url...
-			JError::raiseNotice(500, JText:: _ ('EMAIL_NOT_SENT'));
+			JError::raiseNotice(500, JText:: _ ('COM_MAILTO_EMAIL_NOT_SENT'));
 			return $this->mailto();
 		}
 
@@ -108,21 +108,21 @@ class MailtoController extends JController
 		$email				= JRequest::getString('mailto', '', 'post');
 		$sender				= JRequest::getString('sender', '', 'post');
 		$from				= JRequest::getString('from', '', 'post');
-		$subject_default	= JText::sprintf('ITEM_SENT_BY', $sender);
+		$subject_default	= JText::sprintf('COM_MAILTO_SENT_BY', $sender);
 		$subject			= JRequest::getString('subject', $subject_default, 'post');
 
 		// Check for a valid to address
 		$error	= false;
 		if (! $email  || ! JMailHelper::isEmailAddress($email))
 		{
-			$error	= JText::sprintf('EMAIL_INVALID', $email);
+			$error	= JText::sprintf('COM_MAILTO_EMAIL_INVALID', $email);
 			JError::raiseWarning(0, $error);
 		}
 
 		// Check for a valid from address
 		if (! $from || ! JMailHelper::isEmailAddress($from))
 		{
-			$error	= JText::sprintf('EMAIL_INVALID', $from);
+			$error	= JText::sprintf('COM_MAILTO_EMAIL_INVALID', $from);
 			JError::raiseWarning(0, $error);
 		}
 
@@ -132,7 +132,7 @@ class MailtoController extends JController
 		}
 
 		// Build the message to send
-		$msg	= JText :: _('EMAIL_MSG');
+		$msg	= JText :: _('COM_MAILTO_EMAIL_MSG');
 		$body	= sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data
@@ -143,7 +143,7 @@ class MailtoController extends JController
 		// Send the email
 		if (JUtility::sendMail($from, $sender, $email, $subject, $body) !== true)
 		{
-			JError::raiseNotice(500, JText:: _ ('EMAIL_NOT_SENT'));
+			JError::raiseNotice(500, JText:: _ ('COM_MAILTO_EMAIL_NOT_SENT'));
 			return $this->mailto();
 		}
 

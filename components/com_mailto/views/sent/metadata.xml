@@ -7,5 +7,5 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<description>Generic mail link to friend form</description>
+	<description>COM_MAILTO_XML_DESCRIPTION</description>
 </mosparam>
