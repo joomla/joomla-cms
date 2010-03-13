@@ -57,7 +57,7 @@ class ModulesControllerModules extends JController
 	public function duplicate()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$pks = JRequest::getVar('cid', array(), 'post', 'array');
@@ -65,11 +65,11 @@ class ModulesControllerModules extends JController
 		try
 		{
 			if (empty($pks)) {
-				throw new Exception(JText::_('JError_No_items_selected'));
+				throw new Exception(JText::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
 			}
 			$model = $this->getModel();
 			$model->duplicate($pks);
-			$this->setMessage(JText::sprintf('Modules_Success_N_Duplicated', count($pks)));
+			$this->setMessage(JText::sprintf((count($pks) == 1) ? 'COM_MODULES_MODULE_DUPLICATED' : 'COM_MODULES_N_MODULES_DUPLICATED', count($pks)));
 		}
 		catch (Exception $e)
 		{
@@ -85,7 +85,7 @@ class ModulesControllerModules extends JController
 	public function delete()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$pks = JRequest::getVar('cid', array(), 'post', 'array');
@@ -93,11 +93,11 @@ class ModulesControllerModules extends JController
 		try
 		{
 			if (empty($pks)) {
-				throw new Exception(JText::_('JError_No_items_selected'));
+				throw new Exception(JText::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
 			}
 			$model = $this->getModel();
 			$model->delete($pks);
-			$this->setMessage(JText::sprintf('JController_N_Items_deleted', count($pks)));
+			$this->setMessage(JText::sprintf((count($pks) == 1) ? 'COM_MODULES_MODULE_DELETED' : 'COM_MODULES_N_MODULES_DELETED', count($pks)));
 		}
 		catch (Exception $e)
 		{
@@ -113,7 +113,7 @@ class ModulesControllerModules extends JController
 	public function publish()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -123,7 +123,7 @@ class ModulesControllerModules extends JController
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
 		}
 		else
 		{
@@ -137,18 +137,22 @@ class ModulesControllerModules extends JController
 			else
 			{
 				if ($value == 1) {
-					$text = 'JSuccess_N_Items_published';
+					$text = 'COM_MODULES_MODULE_PUBLISHED';
+					$ntext = 'COM_MODULES_N_MODULES_PUBLISHED';
 				}
 				else if ($value == 0) {
-					$text = 'JSuccess_N_Items_unpublished';
+					$text = 'COM_MODULES_MODULE_UNPUBLISHED';
+					$ntext = 'COM_MODULES_N_MODULES_UNPUBLISHED';
 				}
 				else if ($value == -1) {
-					$text = 'JSuccess_N_Items_archived';
+					$text = 'COM_MODULES_MODULE_ARCHIVED';
+					$ntext = 'COM_MODULES_N_MODULES_ARCHIVED';
 				}
 				else {
-					$text = 'JSuccess_N_Items_trashed';
+					$text = 'COM_MODULES_MODULE_TRASHED';
+					$ntext = 'COM_MODULES_N_MODULES_TRASHED';
 				}
-				$this->setMessage(JText::sprintf($text, count($ids)));
+				$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
 			}
 		}
 
@@ -161,7 +165,7 @@ class ModulesControllerModules extends JController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -183,7 +187,7 @@ class ModulesControllerModules extends JController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks	= JRequest::getVar('cid',	null,	'post',	'array');
@@ -199,7 +203,7 @@ class ModulesControllerModules extends JController
 		// Save the ordering
 		$model->saveorder($pks, $order);
 
-		$this->setMessage(JText::_('JSuccess_Ordering_saved'));
+		$this->setMessage(JText::_('JSUCCESS_ORDERING_SAVED'));
 		$this->setRedirect('index.php?option=com_modules&view=modules');
 	}
 }

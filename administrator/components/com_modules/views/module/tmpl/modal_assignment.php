@@ -15,8 +15,8 @@ require_once JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php';
 $menuTypes = MenusHelper::getMenuLinks();
 ?>
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('Modules_Menu_Assignment'); ?></legend>
-				<label id="jform_menus-lbl" class="hasTip" for="jform_menus"><?php echo JText::_('Modules_Module_Assign'); ?></label>
+			<legend><?php echo JText::_('COM_MODULES_MENU_ASSIGNMENT'); ?></legend>
+				<label id="jform_menus-lbl" class="hasTip" for="jform_menus"><?php echo JText::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
 				<select id="jform_menus-lbl" name="jform[assignment]">
 					<?php echo JHtml::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true);?>
 				</select>
@@ -24,7 +24,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 				<div class="clr"></div>
 
 				<button type="button" class="button2" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
-					<?php echo JText::_('JCheckInvert'); ?>
+					<?php echo JText::_('JCHECKINVERT'); ?>
 				</button>
 
 				<div id="menu-assignment" style="height: 300px; overflow: auto;">

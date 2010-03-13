@@ -32,7 +32,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			submitform(task);
 		}
 		else {
-			alert('<?php echo $this->escape(JText::_('JValidation_Form_failed'));?>');
+			alert('<?php echo $this->escape(JText::_('JVALIDATION_FORM_FAILED'));?>');
 		}
 	}
 // -->
@@ -42,9 +42,9 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 
 		<div class="fltrt">
 			<button type="button" onclick="Joomla.submitform('module.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 1400);">
-				<?php echo JText::_('Save');?></button>
+				<?php echo JText::_('JSAVE');?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();">
-				<?php echo JText::_('Cancel');?></button>
+				<?php echo JText::_('JCANCEL');?></button>
 		</div>
 
 				<script type="text/javascript">
@@ -85,7 +85,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<?php if ($this->item->id) : ?>
-			<legend><?php echo JText::sprintf('JRecord_Number', $this->item->id); ?></legend>
+			<legend><?php echo JText::sprintf('JRECORD_NUMBER', $this->item->id); ?></legend>
 			<?php endif; ?>
 
 			<?php echo $this->form->getLabel('title'); ?>
@@ -120,12 +120,12 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = (string) $this->item->xml->description) : ?>
 					<label>
-						<?php echo JText::_('Modules_Module_Description'); ?>
+						<?php echo JText::_('COM_MODULES_MODULE_DESCRIPTION'); ?>
 					</label>
 					<?php echo $this->escape($text); ?>
 				<?php endif; ?>
 			<?php else : ?>
-				<?php echo JText::_('Modules_XML_data_not_available'); ?>
+				<?php echo JText::_('COM_MODULES_ERR_XML'); ?>
 			<?php endif; ?>
 		</fieldset>
 	</div>
@@ -149,7 +149,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 	<div class="clr"></div>
 	<?php if ($hasContent) : ?>
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('MODULES_CUSTOM_OUTPUT'); ?></legend>
+			<legend><?php echo JText::_('COM_MODULES_CUSTOM_OUTPUT'); ?></legend>
 
 			<?php echo $this->form->getLabel('content'); ?>
 			<?php echo $this->form->getInput('content'); ?>

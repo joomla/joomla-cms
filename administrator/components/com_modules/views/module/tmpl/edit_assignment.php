@@ -15,8 +15,8 @@ require_once JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php';
 $menuTypes = MenusHelper::getMenuLinks();
 ?>
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('Modules_Menu_Assignment'); ?></legend>
-				<label id="jform_menus-lbl" class="hasTip" for="jform_menus"><?php echo JText::_('Modules_Module_Assign'); ?>:</label>
+			<legend><?php echo JText::_('COM_MODULES_MENU_ASSIGNMENT'); ?></legend>
+				<label id="jform_menus-lbl" class="hasTip" for="jform_menus"><?php echo JText::_('COM_MODULES_MODULE_ASSIGN'); ?>:</label>
 
 				<fieldset id="jform_menus" class="radio">
 					<select name="jform[assignment]">
@@ -25,11 +25,11 @@ $menuTypes = MenusHelper::getMenuLinks();
 
 				</fieldset>
 
-				<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('MENU_SELECTION'); ?>:</label>
+				<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('COM_MODULES_MENU_SELECTION'); ?>:</label>
 
 				<div class="clr"></div>
 
-				<img src="" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });" alt="<?php echo JText::_('JCheckInvert'); ?>" title="<?php echo JText::_('JCheckInvert'); ?>">
+				<img src="" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });" alt="<?php echo JText::_('JCHECKINVERT'); ?>" title="<?php echo JText::_('JCHECKINVERT'); ?>">
 
 				<div id="menu-assignment" style="height: 300px; overflow: auto;">
 

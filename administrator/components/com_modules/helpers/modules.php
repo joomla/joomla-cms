@@ -57,9 +57,9 @@ class ModulesHelper
 	{
 		// Build the filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option',	'1',	JText::_('JOption_Enabled'));
-		$options[]	= JHtml::_('select.option',	'0',	JText::_('JOption_Disabled'));
-		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JOption_Trash'));
+		$options[]	= JHtml::_('select.option',	'1',	JText::_('JOPTION_ENABLED'));
+		$options[]	= JHtml::_('select.option',	'0',	JText::_('JOPTION_DISABLED'));
+		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JOPTION_TRASH'));
 		return $options;
 	}
 
@@ -138,12 +138,12 @@ class ModulesHelper
 	public static function getAssignmentOptions($clientId)
 	{
 		$options = array();
-		$options[] = JHtml::_('select.option', '0', 'Modules_Option_Menu_All');
-		$options[] = JHtml::_('select.option', '-', 'Modules_Option_Menu_None');
+		$options[] = JHtml::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
+		$options[] = JHtml::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
 
 		if ($clientId == 0) {
-			$options[] = JHtml::_('select.option', '1', 'Modules_Option_Menu_Include');
-			$options[] = JHtml::_('select.option', '-1', 'Modules_Option_Menu_Exclude');
+			$options[] = JHtml::_('select.option', '1', 'COM_MODULES_OPTION_MENU_INCLUDE');
+			$options[] = JHtml::_('select.option', '-1', 'COM_MODULES_OPTION_MENU_EXCLUDE');
 		}
 
 		return $options;

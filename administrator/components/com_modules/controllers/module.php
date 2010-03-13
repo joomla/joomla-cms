@@ -38,7 +38,7 @@ class ModulesControllerModule extends JControllerForm
 		if (empty($extensionId))
 		{
 			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', false));
-			return JError::raiseWarning(500, 'Modules_Error_invalid_extension');
+			return JError::raiseWarning(500, 'COM_MODULES_ERROR_INVALID_EXTENSION');
 		}
 
 		$app->setUserState('com_modules.add.module.extension_id', $extensionId);
@@ -63,7 +63,7 @@ class ModulesControllerModule extends JControllerForm
 	public function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app	= JFactory::getApplication();

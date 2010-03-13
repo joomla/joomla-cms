@@ -155,7 +155,7 @@ class ModulesModelModule extends JModelForm
 						if ($error = $db->getErrorMsg()) {
 							$this->setError($error);
 						} else {
-							$this->setError('Modules_Error_Cannot_find_extension');
+							$this->setError('COM_MODULES_ERROR_CANNOT_FIND_MODULE');
 						}
 						return false;
 					}
@@ -164,7 +164,7 @@ class ModulesModelModule extends JModelForm
 					$table->module		= $extension->element;
 					$table->client_id	= $extension->client_id;
 				} else {
-					$this->setError('Modules_Error_Cannot_get_item');
+					$this->setError('COM_MODULES_ERROR_CANNOT_GET_MODULE');
 					return false;
 				}
 			}
@@ -467,7 +467,7 @@ class ModulesModelModule extends JModelForm
 				// Access checks.
 				if (!$user->authorise('core.delete', 'com_modules'))
 				{
-					throw new Exception(JText::_('JError_Core_Delete_not_permitted'));
+					throw new Exception(JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
 
 				if (!$table->delete($pk))
@@ -519,7 +519,7 @@ class ModulesModelModule extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 		}
@@ -550,7 +550,7 @@ class ModulesModelModule extends JModelForm
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_modules'))
 		{
-			throw new Exception(JText::_('JError_Core_Create_not_permitted'));
+			throw new Exception(JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
 		}
 
 		$table = $this->getTable();
@@ -624,7 +624,7 @@ class ModulesModelModule extends JModelForm
 		// Access checks.
 		$allow = $user->authorise('core.edit', 'com_modules');
 		if (!$allow) {
-			$this->setError(JText::_('JError_Core_Edit_not_permitted'));
+			$this->setError(JText::_('JERROR_CORE_EDIT_NOT_PERMITTED'));
 			return false;
 		}
 
@@ -660,7 +660,7 @@ class ModulesModelModule extends JModelForm
 		$conditions	= array();
 
 		if (empty($pks)) {
-			return JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			return JError::raiseWarning(500, JText::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
 		}
 
 		// update ordering values
@@ -673,7 +673,7 @@ class ModulesModelModule extends JModelForm
 			if (!$allow) {
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+				JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 			} else if ($table->ordering != $order[$i]) {
 				$table->ordering = $order[$i];
 				if (!$table->store()) {

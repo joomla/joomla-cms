@@ -16,8 +16,8 @@
 			default=""
 			size="35"
 			maxlength="100"
-			label="MODULES_FIELD_TITLE_LABEL"
-			description="MODULES_FIELD_TITLE_DESC"
+			label="COM_MODULES_FIELD_TITLE_LABEL"
+			description="COM_MODULES_FIELD_TITLE_DESC"
 			required="true" />
 
 		<field
@@ -27,8 +27,8 @@
 			default=""
 			size="35"
 			maxlength="100"
-			label="MODULES_FIELD_NOTE_LABEL"
-			description="MODULES_FIELD_NOTE_DESC" />
+			label="COM_MODULES_FIELD_NOTE_LABEL"
+			description="COM_MODULES_FIELD_NOTE_DESC" />
 
 		<field
 			name="module"
@@ -37,45 +37,45 @@
 			readonly="readonly"
 			default=""
 			size="20"
-			label="MODULES_FIELD_MODULE_LABEL"
-			description="MODULES_FIELD_MODULE_DESC" />
+			label="COM_MODULES_FIELD_MODULE_LABEL"
+			description="COM_MODULES_FIELD_MODULE_DESC" />
 
 		<field
 			name="showtitle"
 			type="list"
-			label="MODULES_FIELD_SHOWTITLE_LABEL"
-			description="MODULES_FIELD_SHOWTITLE_DESC"
+			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
+			description="COM_MODULES_FIELD_TITLE_DESC"
 			class="inputbox"
 			size="1"
 			default="1">
 			<option
-				value="1">JYES</option>
+				value="1">JSHOW</option>
 			<option
-				value="0">JNO</option>
+				value="0">JHIDE</option>
 		</field>
 
 		<field
 			name="published"
 			type="list"
-			label="MODULES_FIELD_PUBLISHED_LABEL"
-			description="MODULES_FIELD_PUBLISHED_DESC"
+			label="COM_MODULES_FIELD_PUBLISHED_LABEL"
+			description="COM_MODULES_FIELD_PUBLISHED_DESC"
 			class="inputbox"
 			size="1"
 			default="1">
 			<option
 				value="1">
-				MODULES_FIELD_VALUE_PUBLISHED</option>
+				COM_MODULES_FIELD_VALUE_PUBLISHED</option>
 			<option
 				value="0">
-				MODULES_FIELD_VALUE_UNPUBLISHED</option>
+				COM_MODULES_FIELD_VALUE_UNPUBLISHED</option>
 		</field>
 
 		<field
 			id="publish_up"
 			name="publish_up"
 			type="calendar"
-			label="MODULES_FIELD_PUBLISH_UP_LABEL"
-			description="MODULES_FIELD_PUBLISH_UP_DESC"
+			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
+			description="COM_MODULES_FIELD_PUBLISH_UP_DESC"
 			class="inputbox"
 			size="16"
 			format="%Y-%m-%d %H:%M:%S"
@@ -85,8 +85,8 @@
 			id="publish_down"
 			name="publish_down"
 			type="calendar"
-			label="MODULES_FIELD_PUBLISH_DOWN_LABEL"
-			description="MODULES_FIELD_PUBLISH_DOWN_DESC"
+			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
+			description="COM_MODULES_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox"
 			size="16"
 			format="%Y-%m-%d %H:%M:%S"
@@ -95,8 +95,8 @@
 		<field
 			name="client_id"
 			type="list"
-			label="MODULES_FIELD_CLIENT_ID_LABEL"
-			description="MODULES_FIELD_CLIENT_ID_DESC"
+			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
+			description="COM_MODULES_FIELD_CLIENT_ID_DESC"
 			class="inputbox"
 			size="1"
 			default="0"
@@ -114,8 +114,8 @@
 			type="moduleposition"
 			maxlength="50"
 			default="left"
-			label="MODULES_FIELD_POSITION_LABEL"
-			description="MODULES_FIELD_POSITION_DESC"
+			label="COM_MODULES_FIELD_POSITION_LABEL"
+			description="COM_MODULES_FIELD_POSITION_DESC"
 			class="inputbox">
 		</field>
 
