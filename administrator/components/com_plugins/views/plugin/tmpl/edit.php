@@ -29,7 +29,7 @@ JHtml::_('behavior.formvalidation');
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<?php if ($this->item->extension_id) : ?>
-			<legend><?php echo JText::sprintf('JRecord_Number', $this->item->extension_id); ?></legend>
+			<legend><?php echo JText::sprintf('JRECORD_NUMBER', $this->item->extension_id); ?></legend>
 			<?php endif; ?>
 
 			<?php echo $this->form->getLabel('name'); ?>
@@ -56,7 +56,7 @@ JHtml::_('behavior.formvalidation');
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = (string) $this->item->xml->description) : ?>
 					<label>
-						<?php echo JText::_('COM_PLUGINS_XML_DESCRIPTION'); ?>
+						<?php echo JText::_('COM_PLUGINS_DESCRIPTION'); ?>
 					</label>
 					<?php echo JText::_($text); ?>
 				<?php endif; ?>

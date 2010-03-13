@@ -30,6 +30,7 @@ $ -> Language fix or change
 13-Mar-2010 Jean-Marie Simonet
 $^ Refactored com_modules ini/keys, customized item(s)
 $ Standardized mod_toolbar ini/keys
+$ Refactored com_plugins ini/keys, customized some item(s)
 
 13-Mar-2010 Hannes Papenberg
 # Fixed mod_menu (Frontend) parameters

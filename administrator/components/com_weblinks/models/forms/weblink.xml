@@ -104,30 +104,6 @@
 		</field>
 
 		<field
-			id="checked_out"
-			name="checked_out"
-			type="Text"
-			class="inputbox"
-			default=""
-			size="6"
-			label="Weblinks_Checkedout_Label"
-			description="Weblinks_Checkedout_Desc"
-			readonly="true"
-			filter="unset"/>
-
-		<field
-			id="checked_out_time"
-			name="checked_out_time"
-			type="Text"
-			class="inputbox"
-			default=""
-			size="6"
-			label="Weblinks_Checkedout_Time_Label"
-			description="Weblinks_Checkedout_Time_Desc"
-			readonly="true"
-			filter="unset"/>
-
-		<field
 			id="ordering"
 			name="ordering"
 			type="Ordering"

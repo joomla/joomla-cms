@@ -56,7 +56,7 @@ class PluginsControllerPlugins extends JController
 	public function publish()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -66,7 +66,7 @@ class PluginsControllerPlugins extends JController
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('COM_PLUGINS_NO_PLUGINS_SELECTED'));
 		}
 		else
 		{
@@ -80,12 +80,14 @@ class PluginsControllerPlugins extends JController
 			else
 			{
 				if ($value == 1) {
-					$text = 'JSuccess_N_Items_published';
+					$text = 'COM_PLUGINS_PLUGIN_ENABLED';
+					$ntext = 'COM_PLUGINS_N_PLUGINS_ENABLED';
 				}
-				else {
-					$text = 'JSuccess_N_Items_unpublished';
+				else if ($value == 0) {
+					$text = 'COM_PLUGINS_PLUGIN_DISABLED';
+					$ntext = 'COM_PLUGINS_N_PLUGINS_DISABLED';
 				}
-				$this->setMessage(JText::sprintf($text, count($ids)));
+				$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
 			}
 		}
 
@@ -98,7 +100,7 @@ class PluginsControllerPlugins extends JController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -120,7 +122,7 @@ class PluginsControllerPlugins extends JController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks	= JRequest::getVar('cid',	null,	'post',	'array');
@@ -136,7 +138,7 @@ class PluginsControllerPlugins extends JController
 		// Save the ordering
 		$model->saveorder($pks, $order);
 
-		$this->setMessage(JText::_('JSuccess_Ordering_saved'));
+		$this->setMessage(JText::_('JSUCCESS_ORDERING_SAVED'));
 		$this->setRedirect('index.php?option=com_plugins&view=plugins');
 	}
 }
