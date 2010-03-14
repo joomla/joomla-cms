@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Mar-2010 Jean-Marie Simonet
+$ Adding string in com_plugins.ini
+
 13-Mar-2010 Jean-Marie Simonet
 $^ Refactored com_modules ini/keys, customized item(s)
 $ Standardized mod_toolbar ini/keys
