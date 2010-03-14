@@ -40,13 +40,13 @@ class MenusControllerMenus extends JController
 	public function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (!is_array($cid) || count($cid) < 1) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('COM_MENUS_NO_MENUS_SELECTED'));
 		} else {
 			// Get the model.
 			$model = $this->getModel();
@@ -71,7 +71,7 @@ class MenusControllerMenus extends JController
 	 */
 	public function rebuild()
 	{
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 

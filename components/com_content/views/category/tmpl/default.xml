@@ -10,8 +10,8 @@
 	<fields
 		group="request"
 		array="true"
-		label="Menus_Layout_Request_Variables_Label"
-		description="Menus_Layout_Request_Variables_Desc">
+		label="JCOMMON_REQUIRED_SETTINGS"
+		description="JCOMMON_REQUIRED_SETTINGS_DESC">
 		<field
 			name="id"
 			type="category"

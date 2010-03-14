@@ -106,7 +106,7 @@ class MenusControllerMenu extends JController
 	public function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app	= &JFactory::getApplication();
@@ -117,7 +117,7 @@ class MenusControllerMenu extends JController
 
 		// Check the menutype
 		if($data['menutype'] == '_adminmenu'){
-			JError::raiseNotice(0, JText::_('MENUS_MENU_TYPE_NOT_ALLOWED'));
+			JError::raiseNotice(0, JText::_('COM_MENUS_MENU_TYPE_NOT_ALLOWED'));
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
 			return false;
@@ -166,12 +166,12 @@ class MenusControllerMenu extends JController
 			$app->setUserState('com_menus.edit.menu.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JError_Save_failed', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'notice');
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
 			return false;
 		}
 
-		$this->setMessage(JText::_('JController_Save_success'));
+		$this->setMessage(JText::_('COM_MENUS_MENU_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)

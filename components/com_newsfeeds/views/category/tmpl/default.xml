@@ -10,8 +10,8 @@
 	<fields
 		group="request"
 		array="true"
-		label="MENUS_LAYOUT_REQUEST_VARIABLES_LABEL"
-		description="MENUS_LAYOUT_REQUEST_VARIABLES_DESC"
+		label="JCOMMON_REQUIRED_SETTINGS"
+		description="JCOMMON_REQUIRED_SETTINGS_DESC"
 		addfieldpath="/administrator/components/com_newsfeeds/models/fields">
 
 		<field

@@ -9,7 +9,7 @@
 
 	<fields
 		group="request"
-		label="MENUS_LAYOUT_REQUEST_VARIABLES_LABEL"
+		label="JCOMMON_REQUIRED_SETTINGS"
 		description="">
 
 		<field

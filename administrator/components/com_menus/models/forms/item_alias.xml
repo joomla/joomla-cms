@@ -2,47 +2,47 @@
 	<!-- $Id$ -->
 <form>
 	<fields
-		label="MENUS_REQUIRED_FIELDS_LABEL"
-		description="Menus_Required_Fields_Desc"
+		label="COM_MENUS_REQUIRED_FIELDS_LABEL"
+		description="COM_MENUS_REQUIRED_FIELDS_DESC"
 		group="request">
 
 		<field
 			id="aliasoptions"
 			name="aliasoptions"
 			type="menuitem"
-			label="JMenu_Alias_Menu_Label"
-			description="JMenu_Alias_Menu_Desc"
+			label="JFIELD_ALIAS_LABEL"
+			description="COM_MENUS_ITEM_FIELD_ALIAS_DESC"
 			required="true"
 		/>
 
 	</fields>
 
 	<fields
-		label="Menus_Linktype_Options_Label"
+		label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 		description="">
 
 		<field
 			id="menu-anchor_title"
 			name="menu-anchor_title"
 			type="text"
-			label="Menus_Item_Anchor_Title_Label"
-			description="Menus_item_Anchor_Title_Desc"
+			label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
+			description="COM_MENUS_FIELD_ITEM_ANCHOR_TITLE_DESC"
 			default=""/>
 
 		<field
 			id="menu-anchor_css"
 			name="menu-anchor_css"
 			type="text"
-			label="Menus_Item_Anchor_CSS_Label"
-			description="Menus_item_Anchor_CSS_Desc"
+			label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+			description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC"
 			default=""/>
 
 		<field
 			id="menu_image"
 			name="menu_image"
 			type="text"
-			label="Menus_Item_Menu_Image_Label"
-			description="Menus_Item_Menu_Image_Desc"
+			label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
+			description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC"
 			default=""/>
 
 	</fields>

@@ -26,13 +26,13 @@ $return	= base64_encode($uri);
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
 				<th rowspan="2">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_TITLE', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="30%" colspan="3">
-					<?php echo JText::_('Menus_Heading_Number_menu_items'); ?>
+					<?php echo JText::_('COM_MENUS_HEADING_NUMBER_MENU_ITEMS'); ?>
 				</th>
 				<th width="20%" rowspan="2">
-					<?php echo JText::_('Menus_Heading_Linked_modules'); ?>
+					<?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?>
 				</th>
 				<th width="1%" class="nowrap" rowspan="2">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -40,13 +40,13 @@ $return	= base64_encode($uri);
 			</tr>
 			<tr>
 				<th width="10%">
-					<?php echo JText::_('Menus_Heading_Published_Items'); ?>
+					<?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?>
 				</th>
 				<th width="10%">
-					<?php echo JText::_('Menus_Heading_UnPublished_Items'); ?>
+					<?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?>
 				</th>
 				<th width="10%">
-					<?php echo JText::_('Menus_Heading_Trashed_Items'); ?>
+					<?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -66,7 +66,7 @@ $return	= base64_encode($uri);
 				<td>
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype) ?> ">
 						<?php echo $this->escape($item->title); ?></a>
-					<p class="smallsub">(<span><?php echo JText::_('MENUS_MENU_MENUTYPE_LABEL') ?>:</span>
+					<p class="smallsub">(<span><?php echo JText::_('COM_MENUS_MENU_MENUTYPE_LABEL') ?>:</span>
 						<?php echo '<a href="'. JRoute::_('index.php?option=com_menus&task=menu.edit&cid[]='.$item->id).' title='.$this->escape($item->description).'">'.
 						$this->escape($item->menutype).'</a>'; ?>)</p>
 				</td>

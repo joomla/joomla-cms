@@ -52,21 +52,21 @@ class MenusViewMenu extends JView
 	protected function _setToolBar()
 	{
 		$isNew	= ($this->item->id == 0);
-		JToolBarHelper::title(JText::_($isNew ? 'Menus_View_New_Menu_Title' : 'Menus_View_Edit_Menu_Title'));
+		JToolBarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'));
 
 		JToolBarHelper::apply('menu.apply','JTOOLBAR_APPLY');
 		JToolBarHelper::save('menu.save','JTOOLBAR_SAVE');
-		JToolBarHelper::addNew('menu.save2new', 'JToolbar_Save_and_new');
+		JToolBarHelper::addNew('menu.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 
 		// If an existing item, can save to a copy.
 		if (!$isNew) {
-			JToolBarHelper::custom('menu.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_copy', false);
+			JToolBarHelper::custom('menu.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 		if ($isNew) {
-			JToolBarHelper::cancel('menu.cancel', 'JToolbar_Cancel');
+			JToolBarHelper::cancel('menu.cancel', 'JTOOLBAR_CANCEL');
 		}
 		else {
-			JToolBarHelper::cancel('menu.cancel', 'JToolbar_Close');
+			JToolBarHelper::cancel('menu.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.menus.menu','JTOOLBAR_HELP');

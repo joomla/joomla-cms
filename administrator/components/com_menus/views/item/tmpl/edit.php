@@ -33,7 +33,7 @@ JHTML::_('behavior.modal');
 
 <div class="width-60 fltlft">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('MENUS_ITEM_DETAILS');?></legend>
+		<legend><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></legend>
 
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
@@ -90,7 +90,7 @@ JHTML::_('behavior.modal');
 		<div class="clr"></div>
 
 		<?php if (!empty($this->modules)) : ?>
-			<?php echo JHtml::_('sliders.panel',JText::_('COM_MENU_ITEM_MODULE_ASSIGNMENT'), 'module-options'); ?>
+			<?php echo JHtml::_('sliders.panel',JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'), 'module-options'); ?>
 			<fieldset>
 				<?php echo $this->loadTemplate('modules'); ?>
 			</fieldset>

@@ -443,7 +443,7 @@ class MenusModelItem extends JModelForm
 
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
-				$this->setError(JText::_('JError_Checkin_user_mismatch'));
+				$this->setError(JText::_('JERROR_CHECKIN_USER_MISMATCH'));
 				return false;
 			}
 
@@ -762,7 +762,7 @@ class MenusModelItem extends JModelForm
 		}
 
 		if (empty($pks)) {
-			$this->setError(JText::_('JError_No_items_selected'));
+			$this->setError(JText::_('COM_MENUS_NO_MENUITEMS_SELECTED'));
 			return false;
 		}
 
@@ -787,7 +787,7 @@ class MenusModelItem extends JModelForm
 		}
 
 		if (!$done) {
-			$this->setError('Menus_Error_Insufficient_batch_information');
+			$this->setError('COM_MENUS_ERROR_INSUFFICIENT_BATCH_INFORMATION');
 			return false;
 		}
 
@@ -846,7 +846,7 @@ class MenusModelItem extends JModelForm
 					return false;
 				} else {
 					// Non-fatal error
-					$this->setError(JText::_('Menus_Batch_Move_parent_not_found'));
+					$this->setError(JText::_('COM_MENUS_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -865,7 +865,7 @@ class MenusModelItem extends JModelForm
 					return false;
 				} else {
 					// Not fatal error
-					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $pk));
+					$this->setError(JText::sprintf('COM_MENUS_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -948,7 +948,7 @@ class MenusModelItem extends JModelForm
 					return false;
 				} else {
 					// Non-fatal error
-					$this->setError(JText::_('Menus_Batch_Move_parent_not_found'));
+					$this->setError(JText::_('COM_MENUS_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -992,7 +992,7 @@ class MenusModelItem extends JModelForm
 					return false;
 				} else {
 					// Not fatal error
-					$this->setError(JText::sprintf('Menus_Batch_Move_row_not_found', $pk));
+					$this->setError(JText::sprintf('COM_MENUS_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
