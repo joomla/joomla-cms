@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Mar-2010 Ron Severdia
++ First draft of Atomic template with additions from Christian Montoya
+
 14-Mar-2010 Jean-Marie Simonet
 $ Adding string in com_plugins.ini
 $^ Refactored com_menus inis/keys, customized item(s), + some
@@ -48,7 +51,6 @@ $ Customizing JCONTROLLER_SAVE_SUCCESS
 
 11-Mar-2010 Jean-Marie Simonet
 $^ Customized ini/keys item(s) com_newfeeds, com_templates, com_weblinks
-
 
 10-Mar-2010 Jean-Marie Simonet
 $ Refactored com_banners inis/keys customizing item(s)
