@@ -28,21 +28,22 @@ class Group0001Test extends SeleniumJoomlaTestCase
     try {
         $this->assertTrue($this->isTextPresent("Item successfully saved."));
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
-        array_push($this->verificationErrors, $e->toString());
+        array_push($this->verificationErrors, $e->getTraceAsString());
     }  	
     echo "Delete Article Administrator group.\n";	
     $this->type("filter_search", "Test Group".$saltGroup);
     $this->click("//button[@type='submit']");
     $this->waitForPageToLoad("30000");
     $this->click("toggle");
-    $this->click("link=Delete");
+    $this->click("//li[@id='toolbar-delete']/a/span");
     $this->waitForPageToLoad("30000");
     try {
     	$this->assertTrue($this->isTextPresent("1 item(s) successfully deleted."));
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
-    	array_push($this->verificationErrors, $e->toString());
+    	array_push($this->verificationErrors, $e->getTraceAsString());
     }
-	$this->doAdminLogout();	        	 
+	$this->doAdminLogout();
+	$this->countErrors();  	 
   }
 }
 ?>

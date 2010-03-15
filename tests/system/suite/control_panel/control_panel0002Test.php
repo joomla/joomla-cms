@@ -27,11 +27,11 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->click("link=Global Configuration");
 		$this->waitForPageToLoad("30000");
 		$this->click("site");
-		$this->assertTrue($this->isTextPresent("Site Settings"));
+		$this->assertTrue($this->isTextPresent("Site settings"));
 		$this->click("system");
-		$this->assertTrue($this->isTextPresent("System Settings"));
+		$this->assertTrue($this->isTextPresent("System settings"));
 		$this->click("server");
-		$this->assertTrue($this->isTextPresent("Server Settings"));
+		$this->assertTrue($this->isTextPresent("Server settings"));
 		$this->click("//li[@id='toolbar-cancel']/a/span");
 		$this->waitForPageToLoad("30000");
 		echo "Navigate to Global Check-in.\n";
@@ -205,7 +205,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Banners manager: Tracks"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-popup-Popup']/a/span"));
-		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-Banners_Delete_Msg']/a/span"));
+		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-COM_BANNERS_DELETE_MSG']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-help']/a/span"));
 
 		echo "Navigate to Banner Categories.\n";

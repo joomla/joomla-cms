@@ -94,11 +94,14 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		$this->click("link=The Joomla! Project");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("The Joomla! Project"));
+		print("Go to Using Joomla!" . "\n");
+		$this->click("link=Using Joomla!");
+		$this->waitForPageToLoad("30000");
 		print("Go to Extensions" . "\n");
 		$this->click("link=Extensions");
 		$this->waitForPageToLoad("30000");
 		print("Go to Components" . "\n");
-		$this->click("//div[@id='maincolumn']/table/tbody/tr/td[3]/div/ul/li[1]/a");
+		$this->click("link=Components");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("link=Contact Component"));
 		$this->assertTrue($this->isElementPresent("link=Content Component"));
