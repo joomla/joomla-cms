@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 15-Mar-2010 Jean-Marie Simonet
 # [19953] Corrected bug in gmail.php
+$ Normalized "Category Options" string
 
 14-Mar-2010 Ron Severdia
 + First draft of Atomic template with additions from Christian Montoya

@@ -4,7 +4,7 @@
 	<fields
 		group="params"
 		array="true"
-		label="Categories_Options">
+		label="COM_CATEGORIES_CATEGORY_OPTIONS">
 
 		<field
 			name="target"
