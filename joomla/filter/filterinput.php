@@ -461,7 +461,7 @@ class JFilterInput extends JObject
 			// If the tag is allowed lets keep it
 			if ((!$attrFound && $this->attrMethod) || ($attrFound && !$this->attrMethod)) {
 				// Does the attribute have a value?
-				if ($attrSubSet[1] !== NULL) {
+				if (empty($attrSubSet[1]) === false) {
 					$newSet[] = $attrSubSet[0].'="'.$attrSubSet[1].'"';
 				} else if ($attrSubSet[1] === "0") {
 					/*
