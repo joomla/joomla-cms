@@ -10,7 +10,7 @@
 			name="target"
 			type="componentlayout"
 			label="JFIELD_ALT_LAYOUT_LABEL"
-			description="JField_Alt_Component_Layout_Desc"
+			description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 			extension=""
 			view="categories"
 			/>
@@ -31,24 +31,24 @@
 		<field
 			name="page_title"
 			type="text"
-			label="JField_Alt_Page_title_Label"
-			description="JField_Alt_Page_title_Desc"
+			label="JFIELD_ALT_PAGE_TITLE_LABEL"
+			description="JFIELD_ALT_PAGE_TITLE_DESC"
 			size="30"
 			default=""/>
 
 		<field
 			name="author"
 			type="text"
-			label="JField_Metadata_Author_Label"
-			description="JField_Metadata_Author_Desc"
+			label="JFIELD_METADATA_AUTHOR_LABEL"
+			description="JFIELD_METADATA_AUTHOR_DESC"
 			size="30"
 			default=""/>
 
 		<field
 			name="robots"
 			type="list"
-			label="JField_Metadata_Robots_Label"
-			description="JField_Metadata_Robots_Desc"
+			label="JFIELD_METADATA_ROBOTS_LABEL"
+			description="JFIELD_METADATA_ROBOTS_DESC"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>

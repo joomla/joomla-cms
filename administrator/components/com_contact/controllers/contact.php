@@ -100,7 +100,7 @@ class ContactControllerContact extends JController
 				if (!$model->checkout($id))
 				{
 					// Check-out failed, go back to the list and display a notice.
-					$message = JText::sprintf('JError_Checkout_failed', $model->getError());
+					$message = JText::sprintf('JERROR_CHECKOUT_FAILED', $model->getError());
 					$this->setRedirect('index.php?option=com_contact&view=contact&contact_id='.$id, $message, 'error');
 					return false;
 				}
@@ -122,7 +122,7 @@ class ContactControllerContact extends JController
 	 */
 	function cancel()
 	{
-		JRequest::checkToken() or jExit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jExit(JText::_('JINVALID_TOKEN'));
 		// Initialise variables.
 		$app = &JFactory::getApplication();
 
@@ -137,7 +137,7 @@ class ContactControllerContact extends JController
 		{
 			// Attempt to check-in the current contact
 			// Check-in failed, go back to the  item and display a notice.
-			$message = JText::sprintf('JError_Checkin_failed', $model->getError());
+			$message = JText::sprintf('JERROR_CHECKIN_FAILED', $model->getError());
 			return false;
 		}
 
@@ -159,7 +159,7 @@ class ContactControllerContact extends JController
 	function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app	= &JFactory::getApplication();
@@ -179,7 +179,7 @@ class ContactControllerContact extends JController
 			if (!$model->checkin())
 			{
 				// Check-in failed, go back to the item and display a notice.
-				$message = JText::sprintf('JError_Checkin_saved', $model->getError());
+				$message = JText::sprintf('JERROR_CHECKIN_SAVED', $model->getError());
 				return false;
 			}
 
@@ -228,7 +228,7 @@ class ContactControllerContact extends JController
 			$app->setUserState('com_contact.edit.contact.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JError_Save_failed', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'notice');
 			return false;
 		}
 
@@ -236,7 +236,7 @@ class ContactControllerContact extends JController
 		if (!$model->checkin())
 		{
 			// Check-in failed, go back to the row and display a notice.
-			$message = JText::sprintf('JError_Checkin_saved', $model->getError());
+			$message = JText::sprintf('JERROR_CHECKIN_SAVED', $model->getError());
 			return false;
 		}
 
@@ -279,13 +279,13 @@ class ContactControllerContact extends JController
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (!is_array($cid) || count($cid) < 1) {
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			JError::raiseWarning(500, JText::_('COM_CONTACT_NO_CONTACT_SELECTED'));
 		}
 		else {
 			// Get the model.
@@ -312,7 +312,7 @@ class ContactControllerContact extends JController
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
@@ -321,7 +321,7 @@ class ContactControllerContact extends JController
 		$value	= JArrayHelper::getValue($data, $task, 0, 'int');
 
 		if (!is_array($cid) || count($cid) < 1) {
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			JError::raiseWarning(500, JText::_('COM_CONTACT_NO_CONTACT_SELECTED'));
 		}
 		else {
 			// Get the model.
@@ -345,7 +345,7 @@ class ContactControllerContact extends JController
 	function ordering()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or die('JINVALID_TOKEN');
 
 		$cid	= JRequest::getVar('cid', null, 'post', 'array');
 		$inc	= $this->getTask() == 'orderup' ? -1 : +1;

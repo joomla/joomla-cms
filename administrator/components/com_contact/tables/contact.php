@@ -121,7 +121,7 @@ class ContactTableContact extends JTable
 		$this->default_con = intval($this->default_con);
 
 		if (JFilterInput::checkAttribute(array ('href', $this->webpage))) {
-			$this->setError(JText::_('CONTACT_WARNING_PROVIDE_VALID_URL'));
+			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
 			return false;
 		}
 
@@ -137,7 +137,7 @@ class ContactTableContact extends JTable
 
 		/** check for valid name */
 		if (trim($this->name) == '') {
-			$this->setError(JText::_('CONTACT_WARNING_NAME'));
+			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
 			return false;
 		}
 				/** check for existing name */
@@ -146,7 +146,7 @@ class ContactTableContact extends JTable
 
 		$xid = intval($this->_db->loadResult());
 		if ($xid && $xid != intval($this->id)) {
-			$this->setError(JText::sprintf('Contact_Warning_Same_Name', JText::_('Contact')));
+			$this->setError(JText::sprintf('CONTACT_WARNING_SAME_NAME', $this->id));
 			return false;
 		}
 
@@ -159,7 +159,7 @@ class ContactTableContact extends JTable
 		}
 		/** check for valid category */
 		if (trim($this->catid) == '') {
-			$this->setError(JText::_('CONTACT_WARNING_CATEGORY'));
+			$this->setError(JText::_('COM_CONTACT_WARNING_CATEGORY'));
 			return false;
 		}
 		return true;

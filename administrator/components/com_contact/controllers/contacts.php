@@ -53,13 +53,13 @@ class ContactControllerContacts extends JController
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JWARNING_DELETE_MUST_SELECT'));
+			JError::raiseWarning(500, JText::_('COM_CONTACT_NO_CONTACT_SELECTED'));
 		}
 		else {
 			// Get the model.
@@ -67,6 +67,9 @@ class ContactControllerContacts extends JController
 			// Remove the items.
 			if (!$model->delete($ids)) {
 				JError::raiseWarning(500, $model->getError());
+			}
+			else {
+				$this->setMessage(JText::sprintf((count($ids) == 1) ? 'COM_CONTACT_CONTACT_DELETED' : 'COM_CONTACT_N_CONTACTS_DELETED', count($ids)));
 			}
 		}
 
@@ -83,7 +86,7 @@ class ContactControllerContacts extends JController
 	{
 
 		// Check for request forgeries
-		JRequest::checkToken() or die(JText('JInvalid_Token'));
+		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
@@ -91,16 +94,36 @@ class ContactControllerContacts extends JController
 		$task	= $this->getTask();
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JWarning_Select_Item_Publish'));
+			JError::raiseWarning(500, JText::_('COM_CONTACT_NO_CONTACT_SELECTED'));
 		}
 		else
 		{
 			// Get the model.
 			$model	= $this->getModel(Contact);
 
-			// Publish the items.
+			// Change the state of the records.
 			if (!$model->publish($ids, $value)) {
 				JError::raiseWarning(500, $model->getError());
+			}
+			else
+			{
+				if ($value == 1) {
+					$text = 'COM_CONTACT_CONTACT_PUBLISHED';
+					$ntext = 'COM_CONTACT_N_CONTACTS_PUBLISHED';
+				}
+				else if ($value == 0) {
+					$text = 'COM_CONTACT_CONTACT_UNPUBLISHED';
+					$ntext = 'COM_CONTACT_N_CONTACTS_UNPUBLISHED';
+				}
+				else if ($value == -1) {
+					$text = 'COM_CONTACT_CONTACT_ARCHIVED';
+					$ntext = 'COM_CONTACT_N_CONTACTS_ARCHIVED';
+				}
+				else {
+					$text = 'COM_CONTACT_CONTACT_TRASHED';
+					$ntext = 'COM_CONTACT_N_CONTACTS_TRASHED';
+				}
+				$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
 			}
 		}
 				$this->setRedirect('index.php?option=com_contact&view=contacts');
@@ -108,7 +131,7 @@ class ContactControllerContacts extends JController
 		function featured()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die('Invalid Token');
+		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
@@ -117,7 +140,7 @@ class ContactControllerContacts extends JController
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('Select an item to publish'));
+			JError::raiseWarning(500, JText::_('COM_CONTACT_NO_CONTACT_SELECTED'));
 		}
 		else
 		{

@@ -30,7 +30,7 @@ JHtml::_('behavior.formvalidation');
 <form action="<?php JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
 <div class="width-50 fltlft">
 		<fieldset class="adminform">
-			<legend><?php echo empty($this->item->id) ? JText::_('Contact_New_Contact') : JText::sprintf('Contact_Edit_Contact', $this->item->id); ?></legend>
+			<legend><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT') : JText::sprintf('COM_CONTACT_EDIT_CONTACT', $this->item->id); ?></legend>
 
 					<?php echo $this->form->getLabel('name'); ?>
 					<?php echo $this->form->getInput('name'); ?>
@@ -77,9 +77,9 @@ JHtml::_('behavior.formvalidation');
 
 <div class="width-50 fltrt">
 	<?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
-		<?php echo JHtml::_('sliders.panel',JText::_('Contact_Details'), 'basic-options'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
 			<fieldset class="panelform">
-			<p><?php echo empty($this->item->id) ? JText::_('Contact_Contact_Details') : JText::sprintf('Contact_Edit_Details', $this->item->id); ?></p>
+			<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS') : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id); ?></p>
 						<?php echo $this->form->getLabel('con_position'); ?>
 						<?php echo $this->form->getInput('con_position'); ?>
 
@@ -111,9 +111,9 @@ JHtml::_('behavior.formvalidation');
 						<?php echo $this->form->getInput('webpage'); ?>
 			</fieldset>
 
-		<?php echo JHtml::_('sliders.panel', JText::_('Contact_Fieldset_Options'), 'display-options'); ?>
+		<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_FIELDSET_OPTIONS'), 'display-options'); ?>
 			<fieldset class="panelform">
-				<p><?php echo empty($this->item->id) ? JText::_('Contact_Display_Details') : JText::sprintf('Contact_Display_Details', $this->item->id); ?></p>
+				<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_CONTACT_DISPLAY_DETAILS') : JText::sprintf('COM_CONTACT_CONTACT_DISPLAY_DETAILS', $this->item->id); ?></p>
 					<?php foreach($this->form->getFields('params') as $field): ?>
 						<?php if ($field->hidden): ?>
 							<?php echo $field->input; ?>
@@ -124,9 +124,9 @@ JHtml::_('behavior.formvalidation');
 					<?php endforeach; ?>
 			</fieldset>
 
-		<?php echo JHtml::_('sliders.panel',JText::_('Contact_Fieldset_Contact_Form'), 'email-options'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_FIELDSET_CONTACT_FORM'), 'email-options'); ?>
 				<fieldset class="panelform">
-				<p><?php echo JText::_('Contact_Email_Form_Details'); ?></p>
+				<p><?php echo JText::_('COM_CONTACT_EMAIL_FORM_DETAILS'); ?></p>
 					<?php foreach($this->form->getFields('email_form') as $field): ?>
 						<?php if ($field->hidden): ?>
 							<?php echo $field->input; ?>
@@ -137,7 +137,7 @@ JHtml::_('behavior.formvalidation');
 					<?php endforeach; ?>
 				</fieldset>
 				
-		<?php echo JHtml::_('sliders.panel',JText::_('Contact_Fieldset_Metadata'), 'meta-options'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_FIELDSET_METADATA'), 'meta-options'); ?>
 				<fieldset class="panelform">
 		
 					<?php echo $this->form->getLabel('metadesc'); ?>

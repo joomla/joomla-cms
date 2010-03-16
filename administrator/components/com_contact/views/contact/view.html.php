@@ -67,22 +67,22 @@ class ContactViewContact extends JView
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		JRequest::setVar('hidemainmenu', 1);
 
-		JToolBarHelper::title(JText::_('Contact_Manager_Contact'));
-		JToolBarHelper::apply('contact.apply','JToolbar_Apply');
-		JToolBarHelper::save('contact.save','JToolbar_Save');
-		JToolBarHelper::addNew('contact.save2new', 'JToolbar_Save_and_new');
+		JToolBarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'));
+		JToolBarHelper::apply('contact.apply','JTOOLBAR_APPLY');
+		JToolBarHelper::save('contact.save','JTOOLBAR_SAVE');
+		JToolBarHelper::addNew('contact.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 				// If an existing item, can save to a copy.
 		if (!$isNew) {
-			JToolBarHelper::custom('contact.save2copy','save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_copy',false );
+			JToolBarHelper::custom('contact.save2copy','save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY',false );
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('contact.cancel','JToolbar_Cancel');
+			JToolBarHelper::cancel('contact.cancel','JTOOLBAR_CANCEL');
 		}
 		else {
-			JToolBarHelper::cancel('contact.cancel', 'JToolbar_Close');
+			JToolBarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.contact.edit'.'JToolbar_Help');
+		JToolBarHelper::help('screen.contact.edit'.'JTOOLBAR_HELP');
 	}
 }

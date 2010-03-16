@@ -319,7 +319,7 @@ class ContactModelContact extends JModelForm
 			}
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
-				$this->setError(JText::_('JError_Checkin_user_mismatch'));
+				$this->setError(JText::_('JERROR_CHECKIN_USER_MISMATCH'));
 				return false;
 			}
 
@@ -381,7 +381,7 @@ class ContactModelContact extends JModelForm
 		}
 
 		if (empty($pks)) {
-			$this->setError(JText::_('JError_No_items_selected'));
+			$this->setError(JText::_('COM_CONTACT_NO_CONTACT_SELECTED'));
 			return false;
 		}
 
@@ -410,7 +410,7 @@ class ContactModelContact extends JModelForm
 
 		if (!$done)
 		{
-			$this->setError('Menus_Error_Insufficient_batch_information');
+			$this->setError('COM_MENUS_ERROR_INSUFFICIENT_BATCH_INFORMATION');
 			return false;
 		}
 

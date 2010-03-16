@@ -59,19 +59,19 @@ class ContactViewContacts extends JView
 	protected function _setToolbar()
 	{
 		$state = $this->get('state');
-		JToolBarHelper::title(JText::_('Contact_Manager_Contacts'), 'generic.png');
-		JToolBarHelper::addNew('contact.edit', 'JToolbar_New');
-		JToolBarHelper::editList('contact.edit','JToolbar_Edit');
+		JToolBarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'generic.png');
+		JToolBarHelper::addNew('contact.edit', 'JTOOLBAR_NEW');
+		JToolBarHelper::editList('contact.edit','JTOOLBAR_EDIT');
 		JToolBarHelper::divider();
 		JToolBarHelper::publish('contacts.publish','JTOOLBAR_PUBLISH');
 		JToolBarHelper::unpublish('contacts.unpublish','JTOOLBAR_UNPUBLISH');
 		JToolBarHelper::divider();
-		JToolBarHelper::archiveList('contacts.archive','JToolbar_Archive');
+		JToolBarHelper::archiveList('contacts.archive','JTOOLBAR_ARCHIVE');
 		if ($state->get('filter.published') == -2) {
-			JToolBarHelper::deleteList('', 'contacts.delete','JTOOLBAR_TRASH');
+			JToolBarHelper::deleteList('', 'contacts.delete','JTOOLBAR_EMPTY_TRASH');
 		}
 		else {
-			JToolBarHelper::trash('contacts.trash','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::trash('contacts.trash','JTOOLBAR_TRASH');
 		}
 		JToolBarHelper::divider();
 
@@ -80,5 +80,3 @@ class ContactViewContacts extends JView
 		JToolBarHelper::help('screen.contact','JTOOLBAR_HELP');
 	}
 }
-
-
