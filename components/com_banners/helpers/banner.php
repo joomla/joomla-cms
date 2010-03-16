@@ -21,7 +21,7 @@ abstract class BannerHelper
 	 */
 	public static function isImage($url)
 	{
-		$result = preg_match('#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#i', $url);
+		$result = preg_match('#\.(?:bmp|gif|jpe?g|png)$#i', $url);
 		return $result;
 	}
 
