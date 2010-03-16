@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Mar-2010 Hannes Papenberg
+# Fixing bug in mod_menu in frontend
+# Fixing JFilterOutput to pass unittests - Thanks Iszak Bryan!
+# Fixing JFilterInput to pass unittests - Thanks Iszak Bryan!
+# Optimizing regular expressions - Thanks Iszak Bryan!
+
 16-Mar-2010 Mark Dexter
 ^ Update sample data to fix up module display (Elin Waring)
 # Remove section logic from mod_related_items

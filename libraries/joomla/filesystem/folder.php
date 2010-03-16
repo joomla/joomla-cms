@@ -586,8 +586,8 @@ class JFolder
 	 */
 	function makeSafe($path)
 	{
-		$ds = (DS == '\\') ? '\\' . DS : DS;
-		$regex = array('#[^A-Za-z0-9:\_\-' . $ds . ' ]#');
+		//$ds = (DS == '\\') ? '\\' . DS : DS;
+		$regex = array('#[^A-Za-z0-9:_\\\/-]#');
 		return preg_replace($regex, '', $path);
 	}
 

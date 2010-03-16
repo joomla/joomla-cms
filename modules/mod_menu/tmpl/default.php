@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 foreach ($list as $i => &$item) :
 	
 	$id = '';
-	if($item->id == $active->id)
+	if($item->id == $active_id)
 	{
 		$id = ' id="current"';
 	}

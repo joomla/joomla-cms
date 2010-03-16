@@ -294,7 +294,7 @@ class JApplication extends JObject
 	public function redirect($url, $msg='', $msgType='message', $moved = false)
 	{
 		// Check for relative internal links.
-		if (preg_match('#^index[2]?.php#', $url)) {
+		if (preg_match('#^index2?\.php#', $url)) {
 			$url = JURI::base() . $url;
 		}
 
