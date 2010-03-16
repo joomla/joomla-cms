@@ -9,8 +9,8 @@
 			id="menu-anchor_title"
 			name="menu-anchor_title"
 			type="text"
-			label=COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL
-			description=COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC
+			label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
+			description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC"
 			default=""/>
 
 		<field
