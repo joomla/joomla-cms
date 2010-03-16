@@ -32,6 +32,7 @@ $ -> Language fix or change
 # Fixing JFilterOutput to pass unittests - Thanks Iszak Bryan!
 # Fixing JFilterInput to pass unittests - Thanks Iszak Bryan!
 # Optimizing regular expressions - Thanks Iszak Bryan!
+# (Hopefully) Fixed bug in JLanguage that broke unittests and some broken language files
 
 16-Mar-2010 Mark Dexter
 ^ Update sample data to fix up module display (Elin Waring)
