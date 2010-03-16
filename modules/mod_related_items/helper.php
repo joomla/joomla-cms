@@ -89,9 +89,9 @@ class modRelatedItemsHelper
 					{
 						foreach ($temp as $row)
 						{
-							if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && (in_array($row->cat_access, $groups) || $row->cat_access == '') && (in_array($row->sec_access, $groups) || $row->sec_access == ''))
+							if (($row->cat_state == 1 )    )
 							{
-								$row->route = JRoute::_(ContentRoute::article($row->slug, $row->catslug, $row->sectionid));
+								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
 								$related[] = $row;
 							}
 						}
