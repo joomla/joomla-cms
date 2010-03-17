@@ -39,6 +39,7 @@ $ Fixing errors in installation/language/en-GB/en-GB.ini
 # Fixed media manager popup - Thanks Artyom Bisyarin
 # Partially fixed bug in ordering in featured articles
 # Fixed bugs in mod_related_items
+# Prevented parenting a menu item to its own child - Thanks Jonnathan S. Lima
 
 16-Mar-2010 Mark Dexter
 ^ Update sample data to fix up module display (Elin Waring)
