@@ -25,7 +25,7 @@ echo $params->get('image_path', 'images');?>/';
 			<button type="button" id="upbutton" title="<?php echo JText::_('DIRECTORY_UP') ?>"><?php echo JText::_('Up') ?></button>
 		</div>
 		<div class="fltrt">
-			<button type="button" onclick="ImageManager.onok();window.parent.document.getElementById('sbox-window').close();"><?php echo JText::_('Insert') ?></button>
+			<button type="button" onclick="ImageManager.onok(); window.parent.SqueezeBox.close();"><?php echo JText::_('Insert') ?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('Cancel') ?></button>
 		</div>
 	</fieldset>

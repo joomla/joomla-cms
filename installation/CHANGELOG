@@ -36,6 +36,7 @@ $ Fixing errors in installation/language/en-GB/en-GB.ini
 # Fixing JFilterInput to pass unittests - Thanks Iszak Bryan!
 # Optimizing regular expressions - Thanks Iszak Bryan!
 # (Hopefully) Fixed bug in JLanguage that broke unittests and some broken language files
+# Fixed media manager popup - Thanks Artyom Bisyarin
 
 16-Mar-2010 Mark Dexter
 ^ Update sample data to fix up module display (Elin Waring)
