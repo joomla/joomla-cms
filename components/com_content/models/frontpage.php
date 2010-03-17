@@ -43,8 +43,13 @@ class ContentModelFrontpage extends ContentModelArticles
 		$this->setState('list.limit', $limit);
 		$this->setState('list.links', $params->get('num_links'));
 		$this->setState('filter.frontpage', true);
+		
+		// check for category selection
+		if (is_array($featuredCategories = $params->get('featured_categories'))) {
+			$this->setState('filter.frontpage.categories', $featuredCategories);
+		}
 	}
-
+		
 	/**
 	 * Method to get a store id based on model configuration state.
 	 *
@@ -87,6 +92,11 @@ class ContentModelFrontpage extends ContentModelArticles
 		if ($this->getState('filter.frontpage'))
 		{
 			$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
+		}
+		
+		// Filter by categories
+		if (is_array($featuredCategories = $this->getState('filter.frontpage.categories'))) {
+			$query->where('a.catid IN (' . implode(',',$featuredCategories) . ')');
 		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));

@@ -49,6 +49,15 @@
 		label="Menus_Layout_Advanced_Options_Label"
 		description="">
 		<field
+			name="featured_categories"
+			type="category"
+			extension="com_content"
+			required="false"
+			multiple="true"
+			size="5"
+			label="COM_CONTENT_FEATURED_CATEGORIES_LABEL"
+			description="COM_CONTENT_FEATURED_CATEGORIES_DESC" />
+		<field
 			name="orderby_pri"
 			type="list"
 			default=""

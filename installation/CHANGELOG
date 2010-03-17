@@ -30,6 +30,9 @@ $ -> Language fix or change
 17-Mar-2010 Mark Dexter
 ^ Fix up display of mod_articles_category and mod_articles_news (Angie Radtke)
 ^ Add heading level param to mod_articles_category and mod_articles_news (Angie Radtke)
+^ Add category selection to frontpage menu item
+- Remove Featured Articles Single Category menu item
+# Fix category links in frontpage
 
 17-Mar-2010 Christophe Demko
 $ Fixing errors in installation/language/en-GB/en-GB.ini
