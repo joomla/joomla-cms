@@ -82,8 +82,8 @@ class JFilterOutput
 		//remove any '-' from the string they will be used as concatonater
 		$str = str_replace('-', ' ', $string);
 
-		//$lang = &JFactory::getLanguage();
-		//$str = $lang->transliterate($str);
+		$lang = &JFactory::getLanguage();
+		$str = $lang->transliterate($str);
 
 		// convert certain symbols to letter representation
 		$str = str_replace(array('&', '"', '<', '>'), array('a', 'q', 'l', 'g'), $str);
