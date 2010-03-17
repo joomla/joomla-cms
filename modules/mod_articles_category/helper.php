@@ -182,12 +182,12 @@ abstract class modArticlesCategoryHelper
 
 			if ($item->catid) {
 				$item->displayCategoryLink = JRoute::_(ContentRoute::category($item->catid));
-				$item->displayCategoryTitle = $show_category ? '('.'<a href="'.$item->displayCategoryLink.'">'.$item->category_title.'</a>'.')' : '';
+				$item->displayCategoryTitle = $show_category ? '<a href="'.$item->displayCategoryLink.'">'.$item->category_title.'</a>' : '';
 			} else {
-				$item->displayCategoryTitle = $show_category ? '('.$item->category_title.')' : '';
+				$item->displayCategoryTitle = $show_category ? $item->category_title : '';
 			}
 
-			$item->displayHits = $show_hits ? '('.$item->hits.')' : '';
+			$item->displayHits = $show_hits ? $item->hits : '';
 			$item->displayAuthorName = $show_author ? $item->author_name : '';
 			$item->displayIntrotext = $show_introtext ? JHtml::_('string.truncate', strip_tags(JHtml::_('content.prepare', $item->introtext), '<p><a>'), $introtext_limit) : '';
 

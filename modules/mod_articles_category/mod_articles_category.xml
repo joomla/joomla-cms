@@ -319,7 +319,26 @@
     </fields>
     <fields
         group="display" label="MOD_ARTICLES_CATEGORY_FIELD_GROUP_DISPLAY_LABEL">
-        <field
+		<field
+			name="item_heading"
+			type="list"
+			default="4"
+			label="MOD_ARTICLES_CATEGORY_TITLE_HEADING"
+			description="MOD_ARTICLES_CATEGORY_TITLE_HEADING_DESCRIPTION">
+			<option
+				value="1">MOD_ARTICLES_CATEGORY_H1</option>
+			<option
+				value="2">MOD_ARTICLES_CATEGORY_H2</option>
+			<option
+				value="3">MOD_ARTICLES_CATEGORY_H3</option>
+			<option
+				value="4">MOD_ARTICLES_CATEGORY_H4</option>
+			<option
+				value="5">MOD_ARTICLES_CATEGORY_H5</option>
+			<option
+				value="6">MOD_ARTICLES_CATEGORY_H6</option>
+		</field>
+		<field
             name="show_date"
             type="radio"
             default="0"

@@ -1,4 +1,6 @@
 <?php
+
+
 /**
  * @version		$Id$
  * @package		Joomla.Site
@@ -14,17 +16,37 @@ defined('_JEXEC') or die;
 <?php if ($grouped) : ?>
 	<?php foreach ($list as $group_name => $group) : ?>
 	<li>
-		<?php echo $group_name; ?>
+		<h<?php echo $params->get('item_heading'); ?>><?php echo $group_name; ?></h<?php echo $params->get('item_heading'); ?>>
 		<ul>
 			<?php foreach ($group as $item) : ?>
-			<li>
-				<a class="<?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
-					<?php echo $item->title; ?> <?php echo $item->displayHits; ?></a>
-				<?php echo $item->displayAuthorName; ?>
-				<?php echo $item->displayCategoryTitle; ?>
+				<li><?php if ($item->params->get('show_title')) :?>
+					<h<?php echo $params->get('item_heading')+1; ?>>
+					<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
+					<?php echo $item->title; ?>
+						<?php if ($item->displayHits) :?>
+							<span class="mod-articles-category-hits">
+            				(<?php echo $item->displayHits; ?>)</span>
+                 		<?php endif; ?></a>
+                 	</h<?php echo $params->get('item_heading')+1; ?>>
+            	<?php endif; ?>
+
+				<?php if ($item->params->get('show_author')) :?>
+            		<span class="mod-articles-category-writtenby">
+					<?php echo $item->displayAuthorName; ?>
+					</span>
+				<?php endif;?>
+
+				<?php if ($item->displayCategoryTitle) :?>
+					<span class="mod-articles-category-category">
+					(<?php echo $item->displayCategoryTitle; ?>)
+					</span>
+				<?php endif; ?>
+				<?php if ($item->displayDate) : ?>
+					<span class="mod-articles-category-date"><?php echo $item->displayDate; ?></span>
+				<?php endif; ?>
 				<?php echo $item->displayIntrotext; ?>
-				<?php echo $item->displayDate; ?>
-			</li>
+
+				</li>
 			<?php endforeach; ?>
 		</ul>
 	</li>
@@ -32,12 +54,35 @@ defined('_JEXEC') or die;
 <?php else : ?>
 	<?php foreach ($list as $item) : ?>
 	<li>
-		<a class="<?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
-			<?php echo $item->title; ?> <?php echo $item->displayHits; ?></a>
-		<?php echo $item->displayAuthorName; ?>
-		<?php echo $item->displayCategoryTitle; ?>
-		<?php echo $item->displayIntrotext; ?>
-		<?php echo $item->displayDate; ?>
+
+	   <?php if ($item->params->get('show_title')) :?>
+	   		<h<?php echo $params->get('item_heading'); ?>>
+			<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
+			<?php echo $item->title; ?>
+			<?php if ($item->displayHits) :?>
+				<span class="mod-articles-category-hits">
+            	(<?php echo $item->displayHits; ?>)  </span>
+            <?php endif; ?></a>
+            </h<?php echo $params->get('item_heading'); ?>>
+       	<?php endif; ?>
+
+       	<?php if ($item->params->get('show_author')) :?>
+       		<span class="mod-articles-category-writtenby">
+			<?php echo $item->displayAuthorName; ?>
+			</span>
+		<?php endif;?>
+		<?php if ($item->displayCategoryTitle) :?>
+			<span class="mod-articles-category-category">
+			(<?php echo $item->displayCategoryTitle; ?>)
+			</span>
+		<?php endif; ?>
+        <?php if ($item->displayDate) : ?>
+			<span class="mod-articles-category-date"><?php echo $item->displayDate; ?></span>
+		<?php endif; ?>
+		<?php if ($item->params->get('show_intro')) :?>
+			<?php echo $item->displayIntrotext; ?>
+		<?php endif; ?>
+
 	</li>
 	<?php endforeach; ?>
 <?php endif; ?>
