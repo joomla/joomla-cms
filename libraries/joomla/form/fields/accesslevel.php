@@ -35,15 +35,15 @@ class JFormFieldAccessLevel extends JFormField
 	{
 		$attribs	= '';
 
-		if ($v = $this->_element->attributes('size')) {
+		if ($v = $this->_element->attributes()->size) {
 			$attribs	.= ' size="'.$v.'"';
 		}
-		if ($v = $this->_element->attributes('class')) {
+		if ($v = $this->_element->attributes()->class) {
 			$attribs	.= ' class="'.$v.'"';
 		} else {
 			$attribs	.= ' class="inputbox"';
 		}
-		if ($m = $this->_element->attributes('multiple'))
+		if ($m = $this->_element->attributes()->multiple)
 		{
 			$attribs	.= ' multiple="multiple"';
 		}
