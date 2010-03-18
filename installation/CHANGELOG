@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Mar-2010 Jean-Marie Simonet
+# Reverting part of 15400. Solution to broken ini files is to correct ini files, not kill the msg. Error hard coded for now. WIP for translation.
+
 17-Mar-2010 Mark Dexter
 ^ Fix up display of mod_articles_category and mod_articles_news (Angie Radtke)
 ^ Add heading level param to mod_articles_category and mod_articles_news (Angie Radtke)
