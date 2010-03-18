@@ -422,7 +422,7 @@ class JLanguage extends JObject
 				}
 			}
 		}
-		if (!empty($php_errormsg)) {
+	if (!empty($php_errormsg) || JFactory::getApplication()->getCfg('debug')) {
 			$errors = array();
 			$lineNumber = 0;
 			$stream = new JStream();
@@ -438,7 +438,7 @@ class JLanguage extends JObject
 			}
 			$stream->close();
 			if (count($errors)) {
-				//JError::raiseWarning(500, sprintf('The language file %1$s was not read correctly: error in lines %2$s',substr($filename,strlen(JPATH_ROOT)) , implode(', ',$errors)));
+				JError::raiseWarning(500, sprintf('The language file %1$s was not read correctly: error in lines %2$s',substr($filename,strlen(JPATH_ROOT)) , implode(', ',$errors)));
 			}
 		}
 		ini_restore('track_errors');
