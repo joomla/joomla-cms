@@ -422,7 +422,7 @@ class JLanguage extends JObject
 				}
 			}
 		}
-	if (!empty($php_errormsg) || JFactory::getApplication()->getCfg('debug')) {
+	if (!empty($php_errormsg)) {
 			$errors = array();
 			$lineNumber = 0;
 			$stream = new JStream();
