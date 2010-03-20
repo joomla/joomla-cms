@@ -30,6 +30,7 @@ $ -> Language fix or change
 20-Mar-2010 Hannes Papenberg
 # Fixed looping error in JLanguage. Not just the language files were wrong, but this code also. Please don't add this again.
 # Fixed error in JUser to properly load the user data. See unittest.
+# Fixed JSimpleXMLElement::getElementbyPath to ignore upper- and lowercase
 
 18-Mar-2010 Jean-Marie Simonet
 # Reverting part of 15400. Solution to broken ini files is to correct ini files, not kill the msg. Error hard coded for now. WIP for translation.

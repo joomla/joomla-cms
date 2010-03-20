@@ -571,7 +571,7 @@ class JSimpleXMLElement extends JObject
 			$found = false;
 			foreach ($tmp->_children as $child)
 			{
-				if ($child->_name == $node)
+				if (strtoupper($child->_name) == strtoupper($node))
 				{
 					$tmp = &$child;
 					$found = true;
