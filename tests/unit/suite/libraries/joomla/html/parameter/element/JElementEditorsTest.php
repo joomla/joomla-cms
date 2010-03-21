@@ -1,7 +1,8 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'parameter' . DS . 'element' . DS . 'editors.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element/editors.php';
 
 /**
  * Test class for JElementEditors.
