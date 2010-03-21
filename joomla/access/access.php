@@ -180,8 +180,8 @@ class JAccess
 		$db	= JFactory::getDbo();
 
 		$test = $recursive ? '>=' : '=';
+
 		// First find the users contained in the group
-		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$query->select('DISTINCT(user_id)');
 		$query->from('#__usergroups as ug1');
