@@ -33,7 +33,7 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 				3	=> 0
 			)
 		);
-
+      
 		$string = json_encode($array);
 
 		// Test input as string.
@@ -49,6 +49,7 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 			(string) $rules,
 			$this->equalTo($string)
 		);
+        
 	}
 
 	public function testMergeRule()
@@ -239,6 +240,7 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 
 		$rules		= new JRules($array1);
 		$allowed	= $rules->getAllowed(-42);
+               
 
 		$this->assertThat(
 			$result,

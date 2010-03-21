@@ -8,6 +8,10 @@
 
 /**
  * @package		JoomlaFramework
+                
+//Complusoft JoomlaTeam - Support: JoomlaTeam@Complusoft.es
+                
+                             
  */
 class JRuleTest extends PHPUnit_Framework_TestCase
 {
@@ -23,9 +27,13 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 			2	=> 1,
 			3	=> 0
 		);
+               
+
+               
 
 		// Get the string representation.
-		$string		= json_encode($array);
+		$string		  = json_encode($array);
+                
 
 		// Test constructor with array.
 		$rule1	= new JRule($array);
@@ -37,12 +45,23 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Test constructor with string.
-		$rule2	= new JRule($string);
+		
 
 		// Check that import equals export.
-		$this->assertEquals(
+                
+                //**// Check that import equals not export.
+
+                 $array_A = array(
+			-44	=> 1,
+			2	=> 1,
+			3	=> 0
+		);
+                
+                $string_A          = json_encode($array_A);
+                $rule_A	= new JRule($string_A);
+		$this->assertNotEquals(
 			$string,
-			(string) $rule1
+			(string) $rule_A
 		);
 	}
 
@@ -89,6 +108,25 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 			json_encode($array),
 			(string) $rule
 		);
+               
+                // Check that import equals export.
+               
+                
+                //**Test testMergeIdentities with object
+
+                $rule_A = new JRule($array);
+                $rule->mergeIdentities($rule_A);
+                $this->assertEquals(
+			json_encode($array),
+			(string) $rule
+		);
+                
+                $this->assertEquals(
+			(string) $rule_A,
+			(string) $rule
+		);
+                
+                
 
 		// Merge a new set, flipping some bits.
 		$array = array(
@@ -125,6 +163,8 @@ class JRuleTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse(
 			$rule->allow(-42)
 		);
+
+                $this->assertEquals(Null,$rule->allow(Null));
 
 		// This one should be allowed.
 		$this->assertTrue(
