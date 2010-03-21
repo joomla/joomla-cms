@@ -14,13 +14,15 @@ class JElementCalendarTest extends PHPUnit_Framework_TestCase
 	 */
 	protected $object;
 
+	protected $mockValues;
+
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp()
 	{
-		$this->object = new JElementCalendar;
+		$this->mockValues = array();
 	}
 
 	/**
@@ -36,10 +38,32 @@ class JElementCalendarTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFetchElement()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$mock = $this->getMock('MyMockClass', array('calendar', 'behavior_calendar', 'attributes'));
+		$mock->expects($this->once())
+			->method('behavior_calendar')
+			->with();
+
+		$mock->expects($this->once())
+			->method('calendar')
+			->with('value', 'Calendar[test_calendar]', 'Calendartest_calendar', '%m-%d-%Y', array('class' => 'test_calendar_class'));
+
+		JHtml::register('calendar', array($mock, 'calendar'));
+		JHtml::register('behavior.calendar', array($mock, 'behavior_calendar'));
+
+		$mock->expects($this->any())
+			->method('attributes')
+			->will($this->returnCallback(array($this, 'mockCallback')));
+
+		$this->mockValues['format'] = '%m-%d-%Y';
+		$this->mockValues['class'] = 'test_calendar_class';
+
+		JElementCalendar::fetchElement('test_calendar','value', $mock, 'Calendar');
+
+	}
+
+	public function mockCallback()
+	{
+		$args = func_get_args();
+		return $this->mockValues[$args[0]];
 	}
 }
-?>
