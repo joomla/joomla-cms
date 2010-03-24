@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Mar-2010 Ian MacLennan
+ # Fixed bug in JError
+
 22-Mar-2010 Sam Moffatt
  + Added wincache driver for IIS, thanks to Ruslan from Microsoft
 
