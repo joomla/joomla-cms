@@ -80,7 +80,7 @@ w
 			return false;
 		}
 		if ($unset) {
-			$error = array_shift(JError::$stack[0]);
+			$error = array_shift(JError::$stack);
 		}
 		else {
 			$error = &JError::$stack[0];
@@ -110,7 +110,7 @@ w
 	 * @since	1.6
 	 */
 	public static function addToStack(JException &$e) {
-		JError::$stack[0][] = &$e;
+		JError::$stack[] = &$e;
 	}
 
 	/**
