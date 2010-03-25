@@ -1,14 +1,18 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
+jimport('joomla.cache.cache');
 jimport('joomla.html.html');
-require_once dirname(__FILE__).DS.'list.php';
+jimport('joomla.form.formfield');
+JLoader::register('JFormFieldList', dirname(__FILE__).'/list.php');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -20,28 +24,31 @@ require_once dirname(__FILE__).DS.'list.php';
 class JFormFieldCacheHandler extends JFormFieldList
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	public $type = 'CacheHandler';
 
 	/**
-	 * Method to get a list of options for a list input.
+	 * Method to get the field options.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	array	The field option objects.
+	 * @since	1.6
 	 */
-	protected function _getOptions()
+	protected function getOptions()
 	{
-		jimport('joomla.cache.cache');
-		$cacheOptions = JCache::getStores();
-		foreach ($cacheOptions as $i=>$option) {
-			$cacheOptions[$i]=new JObject(array('value'=>$option,'text'=>JText::_('JLIB_VALUE_CACHE_'.$option)));
+		// Initialize variables.
+		$options = array();
+
+		// Get the options from JCache.
+		foreach (JCache::getStores() as $i => $option) {
+			$options[] = JHtml::_('select.option', $option, JText::_('JLIB_VALUE_CACHE_'.$option), 'value', 'text');
 		}
-		$options	= array_merge(
-						parent::_getOptions(),
-						$cacheOptions
-					);
+
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
 	}

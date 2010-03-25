@@ -1,17 +1,17 @@
 <?php
-
 /**
- * @version		$Id: category.php 13825 2009-12-23 01:03:06Z eddieajau $
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('JPATH_BASE') or die;
 
-// Import html library
 jimport('joomla.html.html');
-
-// Import joomla field list class
-require_once dirname(__FILE__) . DS . 'list.php';
+jimport('joomla.form.formfield');
+JLoader::register('JFormFieldList', dirname(__FILE__).'/list.php');
 
 /**
  * Supports an SQL select list of menu
@@ -22,48 +22,53 @@ require_once dirname(__FILE__) . DS . 'list.php';
  */
 class JFormFieldSQL extends JFormFieldList
 {
-
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	public $type = 'SQL';
 
 	/**
-	 * Method to get a list of options for a list input.
+	 * Method to get the field options.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	array	The field option objects.
+	 * @since	1.6
 	 */
-	protected function _getOptions()
+	protected function getOptions()
 	{
-		$db = JFactory::getDbo();
-		$db->setQuery((string)$this->_element->attributes()->query);
-		$key = ((string)$this->_element->attributes()->key_field) ? (string)$this->_element->attributes()->key_field : 'value';
-		$value = ((string)$this->_element->attributes()->value_field) ? (string)$this->_element->attributes()->value_field : $this->name;
+		// Initialize variables.
+		$options = array();
+
+		// Initialize some field attributes.
+		$key	= $this->element['key_field'] ? (string) $this->element['key_field'] : 'value';
+		$value	= $this->element['value_field'] ? (string) $this->element['value_field'] : (string) $this->element['name'];
+		$query	= (string) $this->element['query'];
+
+		// Get the database object.
+		$db = JFactory::getDBO();
+
+		// Set the query and get the result list.
+		$db->setQuery($query);
 		$items = $db->loadObjectlist();
 
 		// Check for an error.
-		if ($db->getErrorNum())
-		{
+		if ($db->getErrorNum()) {
 			JError::raiseWarning(500, $db->getErrorMsg());
-			return false;
+			return $options;
 		}
 
-		// Prepare return value
-		$options = array();
-		if (!empty($items))
-		{
-
-			// Iterate over items
-			foreach($items as $item)
-			{
+		// Build the field options.
+		if (!empty($items)) {
+			foreach($items as $item) {
 				$options[] = JHtml::_('select.option', $item->$key, $item->$value);
 			}
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::_getOptions(), $options);
+		$options = array_merge(parent::getOptions(), $options);
+
 		return $options;
 	}
 }

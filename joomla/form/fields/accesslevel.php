@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -9,6 +11,7 @@ defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
+JLoader::register('JFormFieldList', dirname(__FILE__).'/list.php');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -17,48 +20,39 @@ jimport('joomla.form.formfield');
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldAccessLevel extends JFormField
+class JFormFieldAccessLevel extends JFormFieldList
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	public $type = 'AccessLevel';
 
 	/**
-	 * Method to get a list of options for a list input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		$attribs	= '';
+		// Initialize variables.
+		$attr = '';
 
-		if ($v = $this->_element->attributes()->size) {
-			$attribs	.= ' size="'.$v.'"';
-		}
-		if ($v = $this->_element->attributes()->class) {
-			$attribs	.= ' class="'.$v.'"';
-		} else {
-			$attribs	.= ' class="inputbox"';
-		}
-		if ($m = $this->_element->attributes()->multiple)
-		{
-			$attribs	.= ' multiple="multiple"';
-		}
-		if((string)$this->_element->attributes()->readonly == 'true')
-		{
-			$attribs	.= ' disabled="disabled"';
-		}
+		// Initialize some field attributes.
+		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+		$attr .= $this->multiple ? ' multiple="multiple"' : '';
 
-		$options = array();
+		// Initialize JavaScript field attributes.
+		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
-		// Iterate through the children and build an array of options.
-		foreach ($this->_element->children() as $option) {
-			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_(trim($option->data())),'value','text',(string)$option->attributes()->disabled=='true');
-		}
+		// Get the field options.
+		$options = $this->getOptions();
 
-		return JHtml::_('access.level', $this->inputName, $this->value, $attribs, $options, $this->inputId);
+		return JHtml::_('access.level', $this->name, $this->value, $attr, $options, $this->id);
 	}
 }

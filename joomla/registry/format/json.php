@@ -21,15 +21,13 @@ class JRegistryFormatJSON extends JRegistryFormat
 {
 	/**
 	 * Converts an object into a JSON formatted string.
-	 *	-	Unfortunately, there is no way to have ini values nested further than two
-	 *		levels deep.  Therefore we will only go through the first two levels of
-	 *		the object.
 	 *
 	 * @param	object	Data source object.
 	 * @param	array	Options used by the formatter.
 	 * @return	string	JSON formatted string.
+	 * @since	1.6
 	 */
-	public function objectToString($object, $params)
+	public function objectToString($object, $options = array())
 	{
 		return json_encode($object);
 	}

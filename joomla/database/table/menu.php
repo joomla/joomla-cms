@@ -29,7 +29,7 @@ class JTableMenu extends JTableNested
 		parent::__construct('#__menu', 'id', $db);
 
 		// Set the default access level.
-		$this->access = (int) JFactory::getConfig()->getValue('access');
+		$this->access = (int) JFactory::getConfig()->get('access');
 	}
 
 	/**

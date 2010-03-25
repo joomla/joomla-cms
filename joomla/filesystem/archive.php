@@ -59,7 +59,7 @@ class JArchive
 				if ($adapter)
 				{
 					$config = &JFactory::getConfig();
-					$tmpfname = $config->getValue('config.tmp_path').DS.uniqid('gzip');
+					$tmpfname = $config->get('tmp_path').DS.uniqid('gzip');
 					$gzresult = $adapter->extract($archivename, $tmpfname);
 					if (JError::isError($gzresult))
 					{
@@ -91,7 +91,7 @@ class JArchive
 				if ($adapter)
 				{
 					$config = &JFactory::getConfig();
-					$tmpfname = $config->getValue('config.tmp_path').DS.uniqid('bzip2');
+					$tmpfname = $config->get('tmp_path').DS.uniqid('bzip2');
 					$bzresult = $adapter->extract($archivename, $tmpfname);
 					if (JError::isError($bzresult))
 					{

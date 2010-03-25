@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -19,25 +21,33 @@ jimport('joomla.form.formfield');
 class JFormFieldText extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	protected $type = 'Text';
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	string		The field input.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		$size =((string)$this->_element->attributes()->size) ? ' size="'.$this->_element->attributes()->size.'"' : '';
-		$class =((string)$this->_element->attributes()->class) ? ' class="'.$this->_element->attributes()->class.'"' : ' class="text_area"';
-		$readonly =((string)$this->_element->attributes()->readonly == 'true') ? ' readonly="readonly"' : '';
-		$onchange =((string)$this->_element->attributes()->onchange) ? ' onchange="'.$this->_replacePrefix((string)$this->_element->attributes()->onchange).'"' : '';
-		$maxLength =((string)$this->_element->attributes()->maxlength) ? ' maxlength="'.$this->_element->attributes()->maxlength.'"' : '';
+		// Initialize some field attributes.
+		$size		= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+		$maxLength	= $this->element['maxlength'] ? ' maxlength="'.(int) $this->element['maxlength'].'"' : '';
+		$class		= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
+		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 
-		return '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"'.$class.$size.$readonly.$onchange.$maxLength.' />';
+		// Initialize JavaScript field attributes.
+		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+
+		return '<input type="text" name="'.$this->name.'" id="'.$this->id.'"' .
+				' value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"' .
+				$class.$size.$disabled.$readonly.$onchange.$maxLength.'/>';
 	}
 }

@@ -21,22 +21,25 @@ jimport('joomla.form.formrule');
 class JFormRuleRules extends JFormRule
 {
 	/**
-	 * Method to test if two values are equal. To use this rule, the form
-	 * XML needs a validate attribute of equals and a field attribute
-	 * that is equal to the field to test against.
+	 * Method to test the value.
 	 *
-	 * @param	object		$field		A reference to the form field.
-	 * @param	mixed		$values		The values to test for validiaty.
-	 * @return	mixed		JException on invalid rule, true if the value is valid, false otherwise.
+	 * @param	object	$element	The JXMLElement object representing the <field /> tag for the
+	 * 								form field object.
+	 * @param	mixed	$value		The form field value to validate.
+	 * @param	string	$group		The field name group control value. This acts as as an array
+	 * 								container for the field. For example if the field has name="foo"
+	 * 								and the group value is set to "bar" then the full field name
+	 * 								would end up being "bar[foo]".
+	 * @param	object	$input		An optional JRegistry object with the entire data set to validate
+	 * 								against the entire form.
+	 * @param	object	$form		The form object for which the field is being tested.
+	 *
+	 * @return	boolean	True if the value is valid, false otherwise.
 	 * @since	1.6
+	 * @throws	JException on invalid rule.
 	 */
-	public function test(&$field, &$values)
+	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
-		$name = (string)$field->attributes()->name;
-
-		// TODO: probably should check to see if the action is even available for this field.
-//		$values[$name];
-
 		return true;
 	}
 }

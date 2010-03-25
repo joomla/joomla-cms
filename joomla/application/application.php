@@ -169,14 +169,14 @@ class JApplication extends JObject
 
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language'])) {
-			$config->setValue('config.language', $options['language']);
+			$config->set('language', $options['language']);
 		}
 
 		// Set user specific editor.
 		$user	= &JFactory::getUser();
 		$editor	= $user->getParam('editor', $this->getCfg('editor'));
 		$editor	= JPluginHelper::isEnabled('editors', $editor) ? $editor : $this->getCfg('editor');
-		$config->setValue('config.editor', $editor);
+		$config->set('editor', $editor);
 
 		// Trigger the onAfterInitialise event.
 		JPluginHelper::importPlugin('system');
@@ -399,7 +399,7 @@ class JApplication extends JObject
 	public function getCfg($varname, $default=null)
 	{
 		$config = &JFactory::getConfig();
-		return $config->getValue('config.' . $varname, $default);
+		return $config->get('' . $varname, $default);
 	}
 
 	/**
@@ -438,7 +438,7 @@ class JApplication extends JObject
 		$session	= &JFactory::getSession();
 		$registry	= $session->get('registry');
 		if (!is_null($registry)) {
-			return $registry->getValue($key);
+			return $registry->get($key);
 		}
 		return null;
 	}
@@ -455,7 +455,7 @@ class JApplication extends JObject
 		$session	= &JFactory::getSession();
 		$registry	= &$session->get('registry');
 		if (!is_null($registry)) {
-			return $registry->setValue($key, $value);
+			return $registry->set($key, $value);
 		}
 		return null;
 	}
@@ -652,12 +652,6 @@ class JApplication extends JObject
 	 */
 	public function getTemplate($params = false)
 	{
-		if($params)
-		{
-			$template = new stdClass();
-			$template->template = 'system';
-			$template->params = new JParameter();
-		}
 		return 'system';
 	}
 
@@ -754,7 +748,7 @@ class JApplication extends JObject
 	public static function getHash($seed)
 	{
 		$conf = &JFactory::getConfig();
-		return md5($conf->getValue('config.secret') .  $seed );
+		return md5($conf->get('secret') .  $seed );
 	}
 
 	/**

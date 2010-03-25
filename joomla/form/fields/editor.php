@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -20,33 +22,37 @@ jimport('joomla.form.formfield');
 class JFormFieldEditor extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	public $type = 'Editor';
 
 	/**
-	 * A refenence to the editor object.
+	 * The JEditor object.
 	 *
-	 * @var	object.
+	 * @var		object
+	 * @since	1.6
 	 */
-	protected $_editor = null;
+	protected $editor;
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	string		The field input.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		$rows		= (string)$this->_element->attributes()->rows;
-		$cols		= (string)$this->_element->attributes()->cols;
-		$height		= ((string)$this->_element->attributes()->height) ? (string)$this->_element->attributes()->height : '250';
-		$width		= ((string)$this->_element->attributes()->width) ? (string)$this->_element->attributes->width : '100%';
-		$class		= ((string)$this->_element->attributes()->class ? 'class="'.$this->_element->attributes()->class.'"' : 'class="text_area"');
-		$buttons	= (string)$this->_element->attributes()->buttons;
+		// Initialize some field attributes.
+		$rows		= (int) $this->element['rows'];
+		$cols		= (int) $this->element['cols'];
+		$height		= ((string) $this->element['height']) ? (string) $this->element['height'] : '250';
+		$width		= ((string) $this->element['width']) ? (string) $this->element['width'] : '100%';
 
+		// Build the buttons array.
+		$buttons = (string) $this->element['buttons'];
 		if ($buttons == 'true' || $buttons == 'yes' || $buttons == 1) {
 			$buttons = true;
 		} else if ($buttons == 'false' || $buttons == 'no' || $buttons == 0) {
@@ -55,52 +61,71 @@ class JFormFieldEditor extends JFormField
 			$buttons = explode(',', $buttons);
 		}
 
-		$editor = $this->_getEditor();
+		// Get an editor object.
+		$editor = $this->getEditor();
 
-		return $editor->display($this->inputName, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows, $buttons, $this->inputId);
+		return $editor->display($this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows, $buttons, $this->id);
 	}
 
 	/**
-	 * Get the editor object.
+	 * Method to get a JEditor object based on the form field.
 	 *
-	 * @return	object
+	 * @return	object	The JEditor object.
+	 * @since	1.6
 	 */
-	protected function &_getEditor()
+	protected function & getEditor()
 	{
-		if (empty($this->_editor)) {
-			// editor attribute can be in the form of:
-			// editor="desired|alternative"
-			if ($editorName = trim((string)$this->_element->attributes()->editor)) {
-				$parts	= explode('|', $editorName);
-				$db		= &JFactory::getDbo();
-				$query	= 'SELECT element' .
-						' FROM #__extensions' .
-						' WHERE element	= '.$db->Quote($parts[0]) .
-						'  AND folder = '.$db->Quote('editors') .
-						'  AND enabled = 1';
-				$db->setQuery($query);
-				if ($db->loadResult()) {
-					$editorName	= trim($parts[0]);
-				} else if (isset($parts[1])) {
-					$editorName	= trim($parts[1]);
-				} else {
-					$editorName	= '';
-				}
+		// Only create the editor if it is not already created.
+		if (empty($this->editor)) {
 
-				$this->_element->attributes()->editor = $editorName;
+			// Initialize variables.
+			$editor = null;
+
+			// Get the editor type attribute. Can be in the form of: editor="desired|alternative".
+			$type = trim((string) $this->element['editor']);
+			if ($type) {
+				// Get the list of editor types.
+				$types = explode('|', $type);
+
+				// Get the database object.
+				$db = JFactory::getDBO();
+
+				// Iterate over teh types looking for an existing editor.
+				foreach ($types as $element) {
+					// Build the query.
+					$query	= $db->getQuery(true);
+					$query->select('element');
+					$query->from('#__extensions');
+					$query->where('element = '.$db->quote($element));
+					$query->where('folder = '.$db->quote('editors'));
+					$query->where('enabled = 1');
+
+					// Check of the editor exists.
+					$db->setQuery($query, 0, 1);
+					$editor = $db->loadResult();
+
+					// If an editor was found stop looking.
+					if ($editor) {
+						break;
+					}
+				}
 			}
-			$this->_editor = JFactory::getEditor($editorName ? $editorName : null);
+
+			// Create the JEditor intance based on the given editor.
+			$this->editor = JFactory::getEditor($editor ? $editor : null);
 		}
-		return $this->_editor;
+
+		return $this->editor;
 	}
 
 	/**
-	 * Get the internal reference to the editor.
+	 * Method to get the JEditor output for an onSave event.
 	 *
-	 * @return	string
+	 * @return	string	The JEditor object output.
+	 * @since	1.6
 	 */
 	public function save()
 	{
-		return $this->_editor->save($this->inputId);
+		return $this->getEditor()->save($this->id);
 	}
 }

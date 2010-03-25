@@ -138,7 +138,8 @@ abstract class JModuleHelper
 		$app->scope = $module->module;
 
 		// Get module parameters
-		$params = new JParameter($module->params);
+		$params = new JRegistry;
+		$params->loadJSON($module->params);
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
@@ -272,7 +273,7 @@ abstract class JModuleHelper
 		}
 		$query->order('position, ordering');
 		$db->setQuery($query);
-		
+
 /*		$where	= isset($Itemid) ? ' AND (mm.menuid = '. (int) $Itemid .' OR mm.menuid <= 0)' : '';
 		$db->setQuery(
 			'SELECT id, title, module, position, content, showtitle, params, mm.menuid'

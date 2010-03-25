@@ -173,6 +173,7 @@ abstract class JModel extends JObject
 	 * configuration flag to ignore the request is set.
 	 *
 	 * @return	void
+	 * @since	1.6
 	 */
 	protected function _populateState()
 	{

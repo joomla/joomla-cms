@@ -1,11 +1,14 @@
 <?php
-
 /**
- * @version		$Id: list.php 13967 2010-01-03 22:22:59Z eddieajau $
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('JPATH_BASE') or die;
+
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
@@ -18,95 +21,142 @@ jimport('joomla.form.formfield');
  */
 class JFormFieldGroupedList extends JFormField
 {
-
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	protected $type = 'GroupedList';
 
 	/**
-	 * Method to get a list of groups for a list input.
+	 * Method to get the field option groups.
 	 *
-	 * @return	array		An array of array JHtml options.
+	 * @return	array	The field option objects as a nested array in groups.
+	 * @since	1.6
 	 */
-	protected function _getGroups()
+	protected function getGroups()
 	{
+		// Initialize variables.
 		$groups = array();
-
-		// Init label
 		$label = 0;
 
-		// Iterate through the children and build an array of groups.
-		foreach($this->_element->children() as $element)
-		{
+		foreach ($this->element->children() as $element) {
+
 			switch ($element->getName())
 			{
+				// The element is an <option />
 				case 'option':
-					if (!isset($groups[$label])) $groups[$label] = array();
-					$groups[$label][] = JHtml::_('select.option', (string)$element->attributes()->value, JText::_(trim((string)$element)),'value','text',(string)$element->attributes()->disabled=='true');
+
+					// Initialize the group if necessary.
+					if (!isset($groups[$label])) {
+						$groups[$label] = array();
+					}
+
+					// Create a new option object based on the <option /> element.
+					$tmp = JHtml::_('select.option',
+						($element['value']) ? (string) $element['value'] : trim((string) $element),
+						trim((string) $element), 'value', 'text',
+						((string) $element['disabled']=='true'));
+
+					// Set some option attributes.
+					$tmp->class = (string) $element['class'];
+
+					// Set some JavaScript option attributes.
+					$tmp->onclick = (string) $element['onclick'];
+
+					// Add the option.
+					$groups[$label][] = $tmp;
 					break;
+
+				// The element is a <group />
 				case 'group':
-					$groupLabel = (string)$element->attributes()->label;
-					if ($groupLabel) $label = $groupLabel;
-					if (!isset($groups[$label])) $groups[$label] = array();
+
+					// Get the group label.
+					if ($groupLabel = (string) $element['label']) {
+						$label = $groupLabel;
+					}
+
+					// Initialize the group if necessary.
+					if (!isset($groups[$label])) {
+						$groups[$label] = array();
+					}
 
 					// Iterate through the children and build an array of options.
-					foreach($element->children() as $option)
+					foreach ($element->children() as $option)
 					{
-						$groups[$label][] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_(trim((string)$option)), 'value', 'text', (string)$option->attributes('disabled')=='true');
+						// Only add <option /> elements.
+						if ($option->getName() != 'option') {
+							continue;
+						}
+
+						// Create a new option object based on the <option /> element.
+						$tmp = JHtml::_('select.option',
+							($element['value']) ? (string) $element['value'] : JText::_(trim((string) $element)),
+							JText::_(trim((string) $element)), 'value', 'text',
+							((string) $element['disabled']=='true'));
+
+						// Set some option attributes.
+						$tmp->class = (string) $element['class'];
+
+						// Set some JavaScript option attributes.
+						$tmp->onclick = (string) $element['onclick'];
+
+						// Add the option.
+						$groups[$label][] = $tmp;
 					}
-					if ($groupLabel) $label = count($groups);
+
+					if ($groupLabel) {
+						$label = count($groups);
+					}
 					break;
+
+				// Unknown element type.
 				default:
 					JError::raiseError(500, JText::sprintf('JFramework_Form_Fields_GroupedList_Error_Element_Name', $element->getName()));
+					break;
 			}
 		}
+
+		reset($groups);
+
 		return $groups;
 	}
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	string		The field input.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		$disabled = (string)$this->_element->attributes()->readonly == 'true' ? true : false;
-		$attributes = '';
-		if ($v = (string)$this->_element->attributes()->size)
-		{
-			$attributes.= ' size="' . $v . '"';
+		// Initialize variables.
+		$html = array();
+		$attr = '';
+
+		// Initialize some field attributes.
+		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+		$attr .= $this->multiple ? ' multiple="multiple"' : '';
+
+		// Initialize JavaScript field attributes.
+		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+
+		// Get the field groups.
+		$groups = (array) $this->getGroups();
+
+		// Create a read-only list (no name) with a hidden input to store the value.
+		if ((string) $this->element['readonly'] == 'true') {
+			$html[] = JHtml::_('select.groupedlist', $groups, null, array('list.attr' => $attr, 'id' => $this->id, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false, 'option.text.toHtml' => false));
+			$html[] = '<input type="hidden" name="'.$this->name.'" value="'.$this->value.'"/>';
 		}
-		if ($v = (string)$this->_element->attributes()->class)
-		{
-			$attributes.= ' class="' . $v . '"';
-		}
-		else
-		{
-			$attributes.= ' class="inputbox"';
-		}
-		if ((string)$this->_element->attributes()->multiple)
-		{
-			$attributes.= ' multiple="multiple"';
-		}
-		if ($v = (string)$this->_element->attributes()->onchange)
-		{
-			$attributes.= ' onchange="' . $this->_replacePrefix($v) . '"';
-		}
-		if ($disabled)
-		{
-			$attributes.= ' disabled="disabled"';
+		// Create a regular list.
+		else {
+			$html[] = JHtml::_('select.groupedlist', $groups, $this->name, array('list.attr' => $attr, 'id' => $this->id, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false, 'option.text.toHtml' => false));
 		}
 
-		// Get the groups
-		$groups = (array)$this->_getGroups();
-
-		// Get the html
-		$return = JHtml::_('select.groupedlist', $groups, $this->inputName, array('list.attr' => $attributes, 'id' => $this->inputId, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false, 'option.text.toHtml' => false));
-
-		// Return the html
-		return $return;
+		return implode($html);
 	}
 }

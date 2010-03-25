@@ -30,7 +30,7 @@ class JTableModule extends JTable
 	{
 		parent::__construct('#__modules', 'id', $db);
 
-		$this->access = (int) JFactory::getConfig()->getValue('access');
+		$this->access = (int) JFactory::getConfig()->get('access');
 	}
 
 	/**

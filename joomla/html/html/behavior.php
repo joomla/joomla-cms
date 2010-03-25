@@ -45,7 +45,7 @@ abstract class JHtmlBehavior
 		if ($debug === null)
 		{
 			$config = &JFactory::getConfig();
-			$debug = $config->getValue('config.debug');
+			$debug = $config->get('debug');
 		}
 
 		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
@@ -387,7 +387,7 @@ abstract class JHtmlBehavior
 		JHtmlBehavior::mootools();
 
 		$config	= &JFactory::getConfig();
-		$lifetime	= ($config->getValue('lifetime') * 60000);
+		$lifetime	= ($config->get('lifetime') * 60000);
 		$refreshTime =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
 

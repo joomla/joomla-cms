@@ -21,42 +21,54 @@ jimport('joomla.form.formrule');
 class JFormRuleUsername extends JFormRule
 {
 	/**
-	 * Method to test if a username is unique.
+	 * Method to test the username for uniqueness.
 	 *
-	 * @param	object		$field		A reference to the form field.
-	 * @param	mixed		$values		The values to test for validiaty.
-	 * @return	mixed		JException on invalid rule, true if the value is valid, false otherwise.
+	 * @param	object	$element	The JXMLElement object representing the <field /> tag for the
+	 * 								form field object.
+	 * @param	mixed	$value		The form field value to validate.
+	 * @param	string	$group		The field name group control value. This acts as as an array
+	 * 								container for the field. For example if the field has name="foo"
+	 * 								and the group value is set to "bar" then the full field name
+	 * 								would end up being "bar[foo]".
+	 * @param	object	$input		An optional JRegistry object with the entire data set to validate
+	 * 								against the entire form.
+	 * @param	object	$form		The form object for which the field is being tested.
+	 *
+	 * @return	boolean	True if the value is valid, false otherwise.
+	 * @since	1.6
+	 * @throws	JException on invalid rule.
 	 */
-	public function test(&$field, &$values)
+	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
-		$return = false;
-		$name	= (string)$field->attributes()->name;
-		$key	= (string)$field->attributes()->field;
-		$value	= isset($values[$key]) ? $values[$key] : 0;
+		// Get the database object and a new query object.
+		$db		= JFactory::getDBO();
+		$query	= $db->getQuery(true);
 
-		// Check the rule.
-		if (!$key) {
-			return new JException('Invalid Form Rule :: '.get_class($this));
+		// Build the query.
+		$query->select('COUNT(*)');
+		$query->from('#__users');
+		$query->where('username = '.$db->quote($value));
+
+		// Get the extra field check attribute.
+		$extraField = (string) $element['field'];
+		if ($extraField) {
+			$extraFieldValue = ($form instanceof JForm) ? $form->getValue($extraField) : '';
+			$query->where($db->nameQuote($extraField).' = '.$db->quote($extraFieldValue));
 		}
 
-		// Check if the username is unique.
-		$db = &JFactory::getDbo();
-		$db->setQuery(
-			'SELECT count(*) FROM `#__users`' .
-			' WHERE `username` = '.$db->Quote($values[$name]) .
-			' AND '.$db->nameQuote($key).' != '.$db->Quote($value)
-		);
-		$duplicate = (bool)$db->loadResult();
+		// Set and query the database.
+		$db->setQuery($query);
+		$duplicate = (bool) $db->loadResult();
 
 		// Check for a database error.
 		if ($db->getErrorNum()) {
-			return new JException('Database Error :: '.$db->getErrorMsg());
+			JError::raiseWarning(500, $db->getErrorMsg());
 		}
 
-		if (!$duplicate) {
-			$return = true;
+		if ($duplicate) {
+			return false;
 		}
 
-		return $return;
+		return true;
 	}
 }

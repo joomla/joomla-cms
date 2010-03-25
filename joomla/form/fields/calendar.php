@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -8,7 +10,7 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
-require_once dirname(__FILE__).'/text.php';
+jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -17,44 +19,66 @@ require_once dirname(__FILE__).'/text.php';
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldCalendar extends JFormFieldText
+class JFormFieldCalendar extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	public $type = 'Calendar';
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	string		The field input.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		$format = ((string)$this->_element->attributes()->format) ? (string)$this->_element->attributes()->format : '%Y-%m-%d';
-		$filter = (string)$this->_element->attributes()->filter;
-		$time = (string)$this->_element->attributes()->time;
-		$onchange = (string)$this->_element->attributes()->onchange ? ' onchange="'.$this->_replacePrefix((string)$this->_element->attributes()->onchange).'"' : '';
+		// Initialize some field attributes.
+		$format = $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
 
-		if ($this->value == 'now') {
+		// Build the attributes array.
+		$attributes = array();
+		if ($this->element['size']) {
+			$attributes['size'] = (int) $this->element['size'];
+		}
+		if ($this->element['maxlength']) {
+			$attributes['maxlength'] = (int) $this->element['maxlength'];
+		}
+		if ($this->element['class']) {
+			$attributes['class'] = (string) $this->element['class'];
+		}
+		if ((string) $this->element['readonly'] == 'true') {
+			$attributes['readonly'] = 'readonly';
+		}
+		if ((string) $this->element['disabled'] == 'true') {
+			$attributes['disabled'] = 'disabled';
+		}
+		if ($this->element['onchange']) {
+			$attributes['onchange'] = (string) $this->element['onchange'];
+		}
+
+		// Handle the special case for "now".
+		if (strtoupper($this->value) == 'NOW') {
 			$this->value = strftime($format);
 		}
-		$readonly = (string)$this->_element->attributes()->readonly == 'true';
 
 		// Get some system objects.
 		$config = JFactory::getConfig();
 		$user	= JFactory::getUser();
 
-		switch (strtoupper($filter))
+		// If a known filter is given use it.
+		switch (strtoupper((string) $this->element['filter']))
 		{
 			case 'SERVER_UTC':
 				// Convert a date to UTC based on the server timezone.
 				if (intval($this->value)) {
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
-					$date->setOffset($config->getValue('config.offset'));
+					$date->setOffset($config->get('offset'));
 
 					// Transform the date string.
 					$this->value = $date->toMySQL(true);
@@ -66,7 +90,7 @@ class JFormFieldCalendar extends JFormFieldText
 				if (intval($this->value)) {
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
-					$date->setOffset($user->getParam('timezone', $config->getValue('config.offset')));
+					$date->setOffset($user->getParam('timezone', $config->get('offset')));
 
 					// Transform the date string.
 					$this->value = $date->toMySQL(true);
@@ -74,6 +98,6 @@ class JFormFieldCalendar extends JFormFieldText
 				break;
 		}
 
-		return JHTML::_('calendar',$this->value, $this->inputName, $this->inputId, $format, $readonly ? array($onchange,'readonly'=>'readonly'):$onchange);
+		return JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes);
 	}
 }

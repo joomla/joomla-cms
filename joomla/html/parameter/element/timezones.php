@@ -32,7 +32,7 @@ class JElementTimezones extends JElement
 	{
 		if (!strlen($value)) {
 			$conf = &JFactory::getConfig();
-			$value = $conf->getValue('config.offset');
+			$value = $conf->get('offset');
 		}
 
 		// LOCALE SETTINGS

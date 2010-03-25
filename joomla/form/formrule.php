@@ -9,9 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
-// Detect if we have full UTF-8 and unicode support.
+// Detect if we have full UTF-8 and unicode PCRE support.
 if (!defined('JCOMPAT_UNICODE_PROPERTIES')) {
-	define('JCOMPAT_UNICODE_PROPERTIES', (bool)@preg_match('/\pL/u', 'a'));
+	define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
 }
 
 /**
@@ -24,47 +24,59 @@ if (!defined('JCOMPAT_UNICODE_PROPERTIES')) {
 class JFormRule
 {
 	/**
-	 * The regular expression.
+	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
-	protected $_regex;
+	protected $regex;
 
 	/**
-	 * The regular expression modifiers.
+	 * The regular expression modifiers to use when testing a form field value.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
-	protected $_modifiers;
+	protected $modifiers;
 
 	/**
 	 * Method to test the value.
 	 *
-	 * @param	object		$field		A reference to the form field.
-	 * @param	mixed		$values		The values to test for validiaty.
-	 * @return	boolean		True if the value is valid, false otherwise.
+	 * @param	object	$element	The JXMLElement object representing the <field /> tag for the
+	 * 								form field object.
+	 * @param	mixed	$value		The form field value to validate.
+	 * @param	string	$group		The field name group control value. This acts as as an array
+	 * 								container for the field. For example if the field has name="foo"
+	 * 								and the group value is set to "bar" then the full field name
+	 * 								would end up being "bar[foo]".
+	 * @param	object	$input		An optional JRegistry object with the entire data set to validate
+	 * 								against the entire form.
+	 * @param	object	$form		The form object for which the field is being tested.
+	 *
+	 * @return	boolean	True if the value is valid, false otherwise.
+	 * @since	1.6
 	 * @throws	JException on invalid rule.
 	 */
-	public function test(&$field, &$values)
+	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
-		$return = false;
-		$name	= (string)$field->attributes()->name;
+		// Initialize variables.
+		$name = (string) $element['name'];
 
 		// Check for a valid regex.
-		if (empty($this->_regex)) {
+		if (empty($this->regex)) {
 			throw new JException('Invalid Form Rule :: '.get_class($this));
 		}
 
 		// Add unicode property support if available.
 		if (JCOMPAT_UNICODE_PROPERTIES) {
-			$this->_modifiers = strpos($this->_modifiers, 'u') ? $this->_modifiers : $this->_modifiers.'u';
+			$this->modifiers = (strpos($this->modifiers, 'u') !== false) ? $this->modifiers : $this->modifiers.'u';
 		}
 
 		// Test the value against the regular expression.
-		if (preg_match('#'.$this->_regex.'#'.$this->_modifiers, $values[$name])) {
-			$return = true;
+		if (preg_match(chr(1).$this->regex.chr(1).$this->modifiers, $value)) {
+			return true;
 		}
 
-		return $return;
+		return false;
 	}
 }

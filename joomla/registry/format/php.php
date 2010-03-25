@@ -27,7 +27,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * @param	array	Parameters used by the formatter
 	 * @return	string	Config class formatted string
 	 */
-	public function objectToString($object, $params)
+	public function objectToString($object, $params = array())
 	{
 		// Build the object variables string
 		$vars = '';

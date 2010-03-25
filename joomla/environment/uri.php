@@ -185,7 +185,7 @@ class JURI extends JObject
 		if (!isset($base))
 		{
 			$config = &JFactory::getConfig();
-			$live_site = $config->getValue('config.live_site');
+			$live_site = $config->get('live_site');
 			if (trim($live_site) != '')
 			{
 				$uri = &JURI::getInstance($live_site);

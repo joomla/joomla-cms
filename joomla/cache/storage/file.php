@@ -31,7 +31,7 @@ class JCacheStorageFile extends JCacheStorage
 
 		$config			= &JFactory::getConfig();
 		$this->_root	= $options['cachebase'];
-		$this->_hash	= $config->getValue('config.secret');
+		$this->_hash	= $config->get('secret');
 	}
 
 	/**
@@ -199,7 +199,7 @@ class JCacheStorageFile extends JCacheStorage
 	function test()
 	{
 		$config	= &JFactory::getConfig();
-		$root	= $config->getValue('config.cache_path', JPATH_ROOT.DS.'cache');
+		$root	= $config->get('cache_path', JPATH_ROOT.DS.'cache');
 		return is_writable($root);
 	}
 

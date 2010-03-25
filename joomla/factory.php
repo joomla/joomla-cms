@@ -109,7 +109,7 @@ abstract class JFactory
 		{
 			//get the debug configuration setting
 			$conf = &JFactory::getConfig();
-			$debug = $conf->getValue('config.debug_lang');
+			$debug = $conf->get('debug_lang');
 
 			JFactory::$language = JFactory::_createLanguage();
 			JFactory::$language->setDebug($debug);
@@ -181,21 +181,21 @@ abstract class JFactory
 		$conf = &JFactory::getConfig();
 
 		if (!isset($storage)) {
-			$storage = $conf->getValue('config.cache_handler', 'file');
+			$storage = $conf->get('cache_handler', 'file');
 		}
 
 		$options = array(
 			'defaultgroup'	=> $group,
-			'cachebase'		=> $conf->getValue('config.cache_path'),
-			'lifetime'		=> $conf->getValue('config.cachetime') * 60,	// minutes to seconds
-			'language'		=> $conf->getValue('config.language'),
+			'cachebase'		=> $conf->get('cache_path'),
+			'lifetime'		=> $conf->get('cachetime') * 60,	// minutes to seconds
+			'language'		=> $conf->get('language'),
 			'storage'		=> $storage
 		);
 
 		jimport('joomla.cache.cache');
 
 		$cache = &JCache::getInstance($handler, $options);
-		$cache->setCaching($conf->getValue('config.caching'));
+		$cache->setCaching($conf->get('caching'));
 		return $cache;
 	}
 
@@ -228,12 +228,12 @@ abstract class JFactory
 	 */
 	public static function getDbo()
 	{
-	
+
 		if (!is_object(self::$database))
 		{
 			//get the debug configuration setting
 			$conf = &self::getConfig();
-			$debug = $conf->getValue('config.debug');
+			$debug = $conf->get('debug');
 
 			self::$database = self::_createDbo();
 			self::$database->debug($debug);
@@ -298,14 +298,12 @@ abstract class JFactory
 	{
 		$doc = null;
 
-		switch (strtolower($type))
-		{
+		switch (strtolower($type)) {
 			case 'rss' :
 			case 'atom' :
-				{
-					$cache_time = isset($options['cache_time']) ? $options['cache_time'] : 0;
-					$doc = JFactory::getFeedParser($options['rssUrl'], $cache_time);
-				}	break;
+				$cache_time = isset($options['cache_time']) ? $options['cache_time'] : 0;
+				$doc = JFactory::getFeedParser($options['rssUrl'], $cache_time);
+				break;
 
 			case 'simple':
 				// JError::raiseWarning('SOME_ERROR_CODE', 'JSimpleXML is deprecated. Use JFactory::getXML instead');
@@ -318,7 +316,6 @@ abstract class JFactory
 				$doc = null;
 				break;
 
-				throw new JException('DommitDocument is deprecated.  Use DomDocument instead');
 			default :
 				$doc = null;
 		}
@@ -343,29 +340,23 @@ abstract class JFactory
 		// Disable libxml errors and allow to fetch error information as needed
 		libxml_use_internal_errors(true);
 
-		if($isFile)
-		{
+		if ($isFile) {
 			// Try to load the xml file
 			$xml = simplexml_load_file($data, 'JXMLElement');
-		}
-		else
-		{
+		} else {
 			// Try to load the xml string
 			$xml = simplexml_load_string($data, 'JXMLElement');
 		}
 
-		if( ! $xml)
-		{
+		if (empty($xml)) {
 			// There was an error
 			JError::raiseWarning(100, JText::_('Failed loading XML file'));
 
-			if($isFile)
-			{
+			if ($isFile) {
 				JError::raiseWarning(100, $data);
 			}
 
-			foreach(libxml_get_errors() as $error)
-			{
+			foreach (libxml_get_errors() as $error) {
 				JError::raiseWarning(100, 'XML: '.$error->message);
 			}
 		}
@@ -384,10 +375,9 @@ abstract class JFactory
 		jimport('joomla.html.editor');
 
 		//get the editor configuration setting
-		if (is_null($editor))
-		{
+		if (is_null($editor)) {
 			$conf = &JFactory::getConfig();
-			$editor = $conf->getValue('config.editor');
+			$editor = $conf->get('editor');
 		}
 
 		return JEditor::getInstance($editor);
@@ -499,10 +489,10 @@ abstract class JFactory
 
 		//get the editor configuration setting
 		$conf = &JFactory::getConfig();
-		$handler =  $conf->getValue('config.session_handler', 'none');
+		$handler =  $conf->get('session_handler', 'none');
 
 		// config time is in minutes
-		$options['expire'] = ($conf->getValue('config.lifetime')) ? $conf->getValue('config.lifetime') * 60 : 900;
+		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
 		$session = JSession::getInstance($handler, $options);
 		if ($session->getState() == 'expired') {
@@ -525,13 +515,13 @@ abstract class JFactory
 
 		$conf = &JFactory::getConfig();
 
-		$host		= $conf->getValue('config.host');
-		$user		= $conf->getValue('config.user');
-		$password	= $conf->getValue('config.password');
-		$database	= $conf->getValue('config.db');
-		$prefix	= $conf->getValue('config.dbprefix');
-		$driver	= $conf->getValue('config.dbtype');
-		$debug		= $conf->getValue('config.debug');
+		$host		= $conf->get('host');
+		$user		= $conf->get('user');
+		$password	= $conf->get('password');
+		$database	= $conf->get('db');
+		$prefix	= $conf->get('dbprefix');
+		$driver	= $conf->get('dbtype');
+		$debug		= $conf->get('debug');
 
 		$options	= array ('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
@@ -562,16 +552,16 @@ abstract class JFactory
 
 		$conf	= &JFactory::getConfig();
 
-		$sendmail	= $conf->getValue('config.sendmail');
-		$smtpauth	= $conf->getValue('config.smtpauth');
-		$smtpuser	= $conf->getValue('config.smtpuser');
-		$smtppass	= $conf->getValue('config.smtppass');
-		$smtphost	= $conf->getValue('config.smtphost');
-		$smtpsecure	= $conf->getValue('config.smtpsecure');
-		$smtpport	= $conf->getValue('config.smtpport');
-		$mailfrom	= $conf->getValue('config.mailfrom');
-		$fromname	= $conf->getValue('config.fromname');
-		$mailer		= $conf->getValue('config.mailer');
+		$sendmail	= $conf->get('sendmail');
+		$smtpauth	= $conf->get('smtpauth');
+		$smtpuser	= $conf->get('smtpuser');
+		$smtppass	= $conf->get('smtppass');
+		$smtphost	= $conf->get('smtphost');
+		$smtpsecure	= $conf->get('smtpsecure');
+		$smtpport	= $conf->get('smtpport');
+		$mailfrom	= $conf->get('mailfrom');
+		$fromname	= $conf->get('fromname');
+		$mailer		= $conf->get('mailer');
 
 		// Create a JMail object
 		$mail		= &JMail::getInstance();
@@ -580,8 +570,7 @@ abstract class JFactory
 		$mail->setSender(array ($mailfrom, $fromname));
 
 		// Default mailer is to use PHP's mail function
-		switch ($mailer)
-		{
+		switch ($mailer) {
 			case 'smtp' :
 				$mail->useSMTP($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
 				break;
@@ -607,9 +596,9 @@ abstract class JFactory
 		jimport('joomla.language.language');
 
 		$conf	= &JFactory::getConfig();
-		$locale	= $conf->getValue('config.language');
+		$locale	= $conf->get('language');
 		$lang	= &JLanguage::getInstance($locale);
-		$lang->setDebug($conf->getValue('config.debug_lang'));
+		$lang->setDebug($conf->get('debug_lang'));
 
 		return $lang;
 	}
@@ -648,7 +637,8 @@ abstract class JFactory
 	 * @param string UA User agent to use
 	 * @param boolean User agent masking (prefix Mozilla)
 	 */
-	function getStream($use_prefix=true, $use_network=true,$ua=null, $uamask=false) {
+	function getStream($use_prefix=true, $use_network=true,$ua=null, $uamask=false)
+	{
 		jimport('joomla.filesystem.stream');
 		// Setup the context; Joomla! UA and overwrite
 		$context = Array();
@@ -656,7 +646,8 @@ abstract class JFactory
 		// set the UA for HTTP and overwrite for FTP
 		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
 		$context['ftp']['overwrite'] = true;
-		if($use_prefix) {
+
+		if ($use_prefix) {
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$SCPOptions = JClientHelper::getCredentials('scp');
@@ -664,7 +655,7 @@ abstract class JFactory
 				$prefix = 'ftp://'. $FTPOptions['user'] .':'. $FTPOptions['pass'] .'@'. $FTPOptions['host'];
 				$prefix .= $FTPOptions['port'] ? ':'. $FTPOptions['port'] : '';
 				$prefix .= $FTPOptions['root'];
-			} else if($SCPOptions['enabled'] == 1 && $use_network) {
+			} else if ($SCPOptions['enabled'] == 1 && $use_network) {
 				$prefix = 'ssh2.sftp://'. $SCPOptions['user'] .':'. $SCPOptions['pass'] .'@'. $SCPOptions['host'];
 				$prefix .= $SCPOptions['port'] ? ':'. $SCPOptions['port'] : '';
 				$prefix .= $SCPOptions['root'];

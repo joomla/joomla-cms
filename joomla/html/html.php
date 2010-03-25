@@ -368,7 +368,7 @@ abstract class JHtml
 	{
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null) {
-			$debug = JFactory::getConfig()->getValue('config.debug');
+			$debug = JFactory::getConfig()->get('debug');
 		}
 
 		// TODO NOTE: Here we are checking for Konqueror - If they fix their issue with compressed, we will need to update this
@@ -422,7 +422,7 @@ abstract class JHtml
 			$date = JFactory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the user configuration.
-			$date->setOffset($user->getParam('timezone', $config->getValue('config.offset')));
+			$date->setOffset($user->getParam('timezone', $config->get('offset')));
 		}
 		// UTC date converted to server time zone.
 		elseif ($tz === false)
@@ -431,7 +431,7 @@ abstract class JHtml
 			$date = JFactory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setOffset($config->getValue('config.offset'));
+			$date->setOffset($config->get('offset'));
 		}
 		// No date conversion.
 		elseif ($tz === null)

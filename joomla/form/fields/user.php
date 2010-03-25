@@ -1,11 +1,13 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 jimport('joomla.form.formfield');
 
@@ -19,69 +21,77 @@ jimport('joomla.form.formfield');
 class JFormFieldUser extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	public $type = 'User';
 
 	/**
-	 * Method to get a list of options for a list input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		// Initialise variables.
-		$onchange	= (string)$this->_element->attributes()->onchange ? $this->_replacePrefix((string)$this->_element->attributes()->onchange) : '';
-		$readonly = (string)$this->_element->attributes()->readonly == 'true';
+		// Initialize variables.
+		$html = array();
+		$link = 'index.php?option=com_users&amp;view=users&layout=modal&amp;tmpl=component&amp;field='.$this->id;
 
-		$document	= JFactory::getDocument();
+		// Initialize some field attributes.
+		$attr = $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
 
-		// Load the modal behavior.
-		JHtml::_('behavior.modal', 'a.modal_'.$this->inputId);
+		// Initialize JavaScript field attributes.
+		$onchange = (string) $this->element['onchange'];
 
-		// Add the JavaScript select function to the document head.
-		$document->addScriptDeclaration(
-		"function jSelectUser_".$this->inputId."(id, title, el) {
-			var old_id = document.getElementById('".$this->inputId."_id').value;
-			if (old_id != id)
-			{
-				document.getElementById('".$this->inputId."_id').value = id;
-				document.getElementById('".$this->inputId."_name').value = title;
-				".$onchange."
-			}
-			SqueezeBox.close();
-		}"
-		);
+		// Load the modal behavior script.
+		JHtml::_('behavior.modal', 'a.modal_'.$this->id);
 
-		// Setup variables for display.
-		$html	= array();
-		$link = 'index.php?option=com_users&amp;view=users&layout=modal&amp;tmpl=component&amp;field='.$this->inputId;
+		// Build the script.
+		$script = array();
+		$script[] = '	function jSelectUser_'.$this->id.'(id, title, el) {';
+		$script[] = '		var old_id = document.getElementById('.$this->id.'_id).value;';
+		$script[] = '		if (old_id != id) {';
+		$script[] = '			document.getElementById('.$this->id.'_id).value = id;';
+		$script[] = '			document.getElementById('.$this->id.'_name).value = title;';
+		$script[] = '			'.$onchange;
+		$script[] = '		}';
+		$script[] = '		SqueezeBox.close();';
+		$script[] = '	}';
+
+		// Add the script to the document head.
+		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 		// Load the current username if available.
-		$table = &JTable::getInstance('user');
+		$table = JTable::getInstance('user');
 		if ($this->value) {
 			$table->load($this->value);
 		} else {
 			$table->username = JText::_('JForm_Select_User');
 		}
-		$title = htmlspecialchars($table->username, ENT_QUOTES, 'UTF-8');
 
 		// The current user display field.
 		$html[] = '<div class="fltlft">';
-		$html[] = '  <input type="text" id="'.$this->inputId.'_name" value="'.$title.'" disabled="disabled" />';
+		$html[] = '	<input type="text" name="'.$this->name.'" id="'.$this->id.'"' .
+					' value="'.htmlspecialchars($table->username, ENT_COMPAT, 'UTF-8').'"' .
+					' disabled="disabled"'.$attr.' />';
 		$html[] = '</div>';
 
 		// The user select button.
 		$html[] = '<div class="button2-left">';
 		$html[] = '  <div class="blank">';
-		$html[] = '	<a class="modal_'.$this->inputId.'" title="'.JText::_('JForm_Change_User').'"  href="'.($readonly?'':$link).'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('JForm_Change_User_button').'</a>';
+		$html[] = '		<a class="modal_'.$this->id.'" title="'.JText::_('JForm_Change_User').'"' .
+							' href="'.($this->element['readonly'] ? '' : $link).'"' .
+							' rel="{handler: \'iframe\', size: {x: 650, y: 375}}">';
+		$html[] = '			'.JText::_('JForm_Change_User_button').'</a>';
 		$html[] = '  </div>';
 		$html[] = '</div>';
 
 		// The active user id field.
-		$html[] = '<input type="hidden" id="'.$this->inputId.'_id" name="'.$this->inputName.'" value="'.(int)$this->value.'" />';
+		$html[] = '<input type="hidden" id="'.$this->id.'_id" name="'.$this->name.'" value="'.(int) $this->value.'" />';
 
 		return implode("\n", $html);
 	}

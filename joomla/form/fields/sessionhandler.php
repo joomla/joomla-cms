@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -8,7 +10,9 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
-require_once dirname(__FILE__).DS.'list.php';
+jimport('joomla.session.session');
+jimport('joomla.form.formfield');
+JLoader::register('JFormFieldList', dirname(__FILE__).'/list.php');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -20,32 +24,31 @@ require_once dirname(__FILE__).DS.'list.php';
 class JFormFieldSessionHandler extends JFormFieldList
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
-	public $type = 'SessionHandler';
+	protected $type = 'SessionHandler';
 
 	/**
-	 * Method to get a list of options for a list input.
+	 * Method to get the field options.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	array	The field option objects.
+	 * @since	1.6
 	 */
-	protected function _getOptions()
+	protected function getOptions()
 	{
-		// Get the session handlers.
-		jimport('joomla.session.session');
-		$sessionOptions		= JSession::getStores();
+		// Initialize variables.
+		$options = array();
 
-		foreach ($sessionOptions as $i=>$option) {
-			$sessionOptions[$i]=new JObject(array('value'=>$option,'text'=>JText::_('JLIB_VALUE_SESSION_'.$option)));
+		// Get the options from JSession.
+		foreach (JSession::getStores() as $i => $option) {
+			$options[] = JHtml::_('select.option', $option, JText::_('JLIB_VALUE_SESSION_'.$option), 'value', 'text');
 		}
 
-		// Merge the options together.
-		$options	= array_merge(
-						parent::_getOptions(),
-						$sessionOptions
-					);
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
 	}

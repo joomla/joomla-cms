@@ -19,7 +19,7 @@ jimport('joomla.form.formfield');
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldRadio extends JFormField
+class JFormFieldCheckboxes extends JFormField
 {
 	/**
 	 * The form field type.
@@ -27,7 +27,15 @@ class JFormFieldRadio extends JFormField
 	 * @var		string
 	 * @since	1.6
 	 */
-	protected $type = 'Radio';
+	protected $type = 'Checkboxes';
+
+	/**
+	 * Flag to tell the field to always be in multiple values mode.
+	 *
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected $forceMultiple = true;
 
 	/**
 	 * Method to get the field input markup.
@@ -41,7 +49,7 @@ class JFormFieldRadio extends JFormField
 		$html = array();
 
 		// Initialize some field attributes.
-		$class = $this->element['class'] ? ' class="radio '.(string) $this->element['class'].'"' : ' class="radio"';
+		$class = $this->element['class'] ? ' class="checkboxes '.(string) $this->element['class'].'"' : ' class="checkboxes"';
 
 		// Start the radio field output.
 		$html[] = '<fieldset id="'.$this->id.'"'.$class.'>';
@@ -60,7 +68,7 @@ class JFormFieldRadio extends JFormField
 			// Initialize some JavaScript option attributes.
 			$onclick	= !empty($option->onclick) ? ' onclick="'.$option->onclick.'"' : '';
 
-			$html[] = '<input type="radio" id="'.$this->id.$i.'" name="'.$this->name.'"' .
+			$html[] = '<input type="checkbox" id="'.$this->id.$i.'" name="'.$this->name.'"' .
 					' value="'.htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8').'"'
 					.$checked.$class.$onclick.$disabled.'/>';
 

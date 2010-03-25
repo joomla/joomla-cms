@@ -294,8 +294,9 @@ class JEditor extends JObservable
 			$plugin = new $className($this, (array)$plugin);
 			$plugin->loadLanguage();
 		}
-		
-		$params = new JParameter($plugin->params);
+
+		$params = new JRegistry;
+		$params->loadJSON($plugin->params);
 		$params->loadArray($config);
 		$plugin->params = $params;
 

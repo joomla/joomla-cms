@@ -21,16 +21,18 @@ jimport('joomla.form.formrule');
 class JFormRuleBoolean extends JFormRule
 {
 	/**
-	 * The regular expression.
+	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
-	protected $_regex = '^0|1|true|false$';
+	protected $regex = '^0|1|true|false$';
 
 	/**
-	 * The regular expression modifiers.
+	 * The regular expression modifiers to use when testing a form field value.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
-	protected $_modifiers = 'i';
+	protected $modifiers = 'i';
 }

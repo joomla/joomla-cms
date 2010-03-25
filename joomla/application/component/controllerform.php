@@ -70,8 +70,7 @@ class JControllerForm extends JController
 		}
 
 		// Guess the list view as the plural of the item view.
-		if (empty($this->_view_list))
-		{
+		if (empty($this->_view_list)) {
 			// @TODO Probably worth moving to an inflector class based on http://kuwamoto.org/2007/12/17/improved-pluralizing-in-php-actionscript-and-ror/
 
 			// Simple pluralisation based on public domain snippet by Paul Osman
@@ -86,8 +85,7 @@ class JControllerForm extends JController
 			);
 
 			// check for matches using regular expressions
-			foreach ($plural as $pattern)
-			{
+			foreach ($plural as $pattern) {
 				if (preg_match($pattern[0], $this->_view_item)) {
 					$this->_view_list = preg_replace( $pattern[0], $pattern[1], $this->_view_item);
 					break;
@@ -163,8 +161,7 @@ class JControllerForm extends JController
 		}
 
 		// Access check.
-		if (!$this->_allowAdd())
-		{
+		if (!$this->_allowAdd()) {
 			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_items, false));
 			return JError::raiseWarning(403, 'JError_Core_Create_not_permitted.');
 		}
@@ -228,10 +225,8 @@ class JControllerForm extends JController
 		}
 
 		// If record ids do not match, checkin previous record.
-		if ($checkin && ($previousId > 0) && ($recordId != $previousId))
-		{
-			if (!$model->checkin($previousId))
-			{
+		if ($checkin && ($previousId > 0) && ($recordId != $previousId)) {
+			if (!$model->checkin($previousId)) {
 				// Check-in failed, go back to the record and display a notice.
 				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
 				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
@@ -240,15 +235,12 @@ class JControllerForm extends JController
 		}
 
 		// Attempt to check-out the new record for editing and redirect.
-		if ($checkin && !$model->checkout($recordId))
-		{
+		if ($checkin && !$model->checkout($recordId)) {
 			// Check-out failed, go back to the list and display a notice.
 			$message = JText::sprintf('JError_Checkout_failed', $model->getError());
 			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append.'&id='.$recordId, $message, 'error');
 			return false;
-		}
-		else
-		{
+		} else {
 			// Check-out succeeded, push the new record id into the session.
 			$app->setUserState($context.'.id',	$recordId);
 			$app->setUserState($context.'.data', null);
@@ -286,10 +278,8 @@ class JControllerForm extends JController
 		$recordId = (int) $app->getUserState($context.'.id');
 
 		// Attempt to check-in the current record.
-		if ($checkin && $recordId)
-		{
-			if(!$model->checkin($recordId))
-			{
+		if ($checkin && $recordId) {
+			if(!$model->checkin($recordId)) {
 				// Check-in failed, go back to the record and display a notice.
 				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
 				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
@@ -320,8 +310,7 @@ class JControllerForm extends JController
 
 		if ($recordId) {
 			return $this->_allowEdit($data, $key);
-		}
-		else {
+		} else {
 			return $this->_allowAdd($data);
 		}
 	}
@@ -360,11 +349,9 @@ class JControllerForm extends JController
 		$data[$key] = $recordId;
 
 		// The save2copy task needs to be handled slightly differently.
-		if ($task == 'save2copy')
-		{
+		if ($task == 'save2copy') {
 			// Check-in the original row.
-			if ($checkin  && !$model->checkin($data[$key]))
-			{
+			if ($checkin  && !$model->checkin($data[$key])) {
 				// Check-in failed, go back to the item and display a notice.
 				$message = JText::sprintf('JError_Checkin_saved', $model->getError());
 				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
@@ -383,27 +370,23 @@ class JControllerForm extends JController
 		}
 
 		// Validate the posted data.
-		$form	= &$model->getForm();
-		if (!$form)
-		{
+		$form = $model->getForm();
+		if (!$form) {
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
-		$data	= $model->validate($form, $data);
+		$data = $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($data === false)
-		{
+		if ($data === false) {
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
 				if (JError::isError($errors[$i])) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
-				}
-				else {
+				} else {
 					$app->enqueueMessage($errors[$i], 'notice');
 				}
 			}
@@ -417,8 +400,7 @@ class JControllerForm extends JController
 		}
 
 		// Attempt to save the data.
-		if (!$model->save($data))
-		{
+		if (!$model->save($data)) {
 			// Save the data in the session.
 			$app->setUserState($context.'.data', $data);
 
@@ -429,8 +411,7 @@ class JControllerForm extends JController
 		}
 
 		// Save succeeded, check-in the record.
-		if ($checkin && !$model->checkin($data[$key]))
-		{
+		if ($checkin && !$model->checkin($data[$key])) {
 			// Check-in failed, go back to the record and display a notice.
 			$message = JText::sprintf('JError_Checkin_saved', $model->getError());
 			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
@@ -440,8 +421,7 @@ class JControllerForm extends JController
 		$this->setMessage(JText::_('JCONTROLLER_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
-		switch ($task)
-		{
+		switch ($task) {
 			case 'apply':
 				// Set the record data in the session.
 				$app->setUserState($context.'.id',		$model->getState($this->_context.'.id'));

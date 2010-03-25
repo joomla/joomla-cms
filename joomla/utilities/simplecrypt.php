@@ -42,7 +42,7 @@ class JSimpleCrypt extends JObject
 			$this->_key = (string) $key;
 		} else {
 			$conf = &JFactory::getConfig();
-			$this->_key = md5($conf->getValue('config.secret'));
+			$this->_key = md5($conf->get('secret'));
 		}
 	}
 

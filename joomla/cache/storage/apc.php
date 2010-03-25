@@ -30,7 +30,7 @@ class JCacheStorageApc extends JCacheStorage
 		parent::__construct($options);
 
 		$config			= &JFactory::getConfig();
-		$this->_hash	= $config->getValue('config.secret');
+		$this->_hash	= $config->get('secret');
 	}
 
 	/**

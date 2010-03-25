@@ -241,10 +241,10 @@ class JLanguage extends JObject
 		if ($this->_transliterator !== null) {
 			return call_user_func($this->_transliterator, $string);
 		}
-		
+
 		$string = JLanguageTransliterate::utf8_latin_to_ascii($string);
 		$string = JString::strtolower($string);
-		
+
 		return $string;
 	}
 
@@ -413,9 +413,9 @@ class JLanguage extends JObject
 		if($version >= "5.3.1") {
 			$contents = file_get_contents($filename);
 			$contents = str_replace('_QQ_','"\""',$contents);
-			$strings = @parse_ini_string($contents);
+			$strings = (array) @parse_ini_string($contents);
 		} else {
-			$strings = @parse_ini_file($filename);
+			$strings = (array) @parse_ini_file($filename);
 			if ($version == "5.3.0") {
 				foreach($strings as $key => $string) {
 					$strings[$key]=str_replace('_QQ_','"',$string);

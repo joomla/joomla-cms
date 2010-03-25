@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.utilities.simplexml');
-
 /**
  * Abstract Form Field class for the Joomla Framework.
  *
@@ -18,228 +16,414 @@ jimport('joomla.utilities.simplexml');
  * @subpackage	Form
  * @since		1.6
  */
-abstract class JFormField extends JObject
+abstract class JFormField
 {
 	/**
-	 * The field type.
+	 * The description text for the form field.  Usually used in tooltips.
 	 *
 	 * @var		string
+	 * @since	1.6
+	 */
+	protected $description;
+
+	/**
+	 * The JXMLElement object of the <field /> XML element that describes the form field.
+	 *
+	 * @var		object
+	 * @since	1.6
+	 */
+	protected $element;
+
+	/**
+	 * The JForm object of the form attached to the form field.
+	 *
+	 * @var		object
+	 * @since	1.6
+	 */
+	protected $form;
+
+	/**
+	 * The form control prefix for field names from the JForm object attached to the form field.
+	 *
+	 * @var		string
+	 * @since	1.6
+	 */
+	protected $formControl;
+
+	/**
+	 * The hidden state for the form field.
+	 *
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected $hidden;
+
+	/**
+	 * The document id for the form field.
+	 *
+	 * @var		string
+	 * @since	1.6
+	 */
+	protected $id;
+
+	/**
+	 * The input for the form field.
+	 *
+	 * @var		string
+	 * @since	1.6
+	 */
+	protected $input;
+
+	/**
+	 * The label for the form field.
+	 *
+	 * @var		string
+	 * @since	1.6
+	 */
+	protected $label;
+
+	/**
+	 * The multiple state for the form field.  If true then multiple values are allowed for the
+	 * field.  Most often used for list field types.
+	 *
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected $multiple = false;
+
+	/**
+	 * The name of the form field.
+	 *
+	 * @var		string
+	 * @since	1.6
+	 */
+	protected $name;
+
+	/**
+	 * The required state for the form field.  If true then there must be a value for the field to
+	 * be considered valid.
+	 *
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected $required = false;
+
+	/**
+	 * The form field type.
+	 *
+	 * @var		string
+	 * @since	1.6
 	 */
 	protected $type;
 
 	/**
-	 * A reference to the form object that the field belongs to.
+	 * The validation method for the form field.  This value will determine which method is used
+	 * to validate the value for a field.
 	 *
-	 * @var		object
+	 * @var		string
+	 * @since	1.6
 	 */
-	protected $_form;
+	protected $validate;
 
 	/**
-	 * Method to instantiate the form field.
+	 * The value of the form field.
 	 *
-	 * @param	object		$form		A reference to the form that the field belongs to.
+	 * @var		mixed
+	 * @since	1.6
+	 */
+	protected $value;
+
+	/**
+	 * Method to instantiate the form field object.
+	 *
+	 * @param	object	$form	The form to attach to the form field object.
+	 *
 	 * @return	void
+	 * @since	1.6
 	 */
 	public function __construct($form = null)
 	{
-		$this->_form = $form;
+		// If there is a form passed into the constructor set the form and form control properties.
+		if ($form instanceof JForm) {
+			$this->form = $form;
+			$this->formControl = $form->getFormControl();
+		}
 	}
 
 	/**
-	 * Method to get the form field type.
+	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @return	string		The field type.
+	 * @param	string	$name	The property name for which to the the value.
+	 *
+	 * @return	mixed	The property value or null.
+	 * @since	1.6
 	 */
-	public function getType()
+	public function __get($name)
 	{
-		return $this->type;
-	}
+		switch ($name) {
+			case 'class':
+			case 'description':
+			case 'formControl':
+			case 'hidden':
+			case 'id':
+			case 'multiple':
+			case 'name':
+			case 'required':
+			case 'type':
+			case 'validate':
+			case 'value':
+				return $this->$name;
+				break;
 
-	public function render(&$xml, $value, $formName, $groupName, $prefix)
-	{
-		// Set the xml element object.
-		$this->_element		= $xml;
-
-		// Set the id, name, and value.
-		$this->id			= (string)$xml->attributes()->id;
-		$this->name			= (string)$xml->attributes()->name;
-		$this->value		= $value;
-
-		// Set the label and description text.
-		$this->labelText	= (string)$xml->attributes()->label ? (string)$xml->attributes()->label : $this->name;
-		$this->descText		= (string)$xml->attributes()->description;
-
-		// Set the required and validate options.
-		$this->required		= ((string)$xml->attributes()->required == 'true' || (string)$xml->attributes()->required == 'required');
-		$this->validate		= (string)$xml->attributes()->validate;
-
-		// Add the required class if the field is required.
-		if ($this->required)
-		{
-			if($xml->attributes()->class)
-			{
-				if (strpos((string)$xml->attributes()->class, 'required') === false) {
-					$xml->attributes()->class = $xml->attributes()->class.' required';
+			case 'input':
+				// If the input hasn't yet been generated, generate it.
+				if (empty($this->input)) {
+					$this->input = $this->getInput();
 				}
-			}
-			else
-			{
-				$xml->addAttribute('class', 'required');
-			}
+
+				return $this->input;
+				break;
+
+			case 'label':
+				// If the label hasn't yet been generated, generate it.
+				if (empty($this->label)) {
+					$this->label = $this->getLabel();
+				}
+
+				return $this->label;
+				break;
 		}
 
-		// Set the field decorator.
-		$this->decorator	= (string)$xml->attributes()->decorator;
+		return null;
+    }
 
-		// Set the visibility.
-		$this->hidden		= ((string)$xml->attributes()->type == 'hidden' || (string)$xml->attributes()->hidden);
-
-		// Set the multiple values option.
-		$this->multiple		= ((string)$xml->attributes()->multiple == 'true' || (string)$xml->attributes()->multiple == 'multiple');
-
-		// Set the form and group names.
-		$this->formName		= $formName;
-		$this->groupName	= $groupName;
-
-		// Set the prefix
-		$this->prefix		= $prefix;
-
-		// Set the input name and id.
-		$this->inputName	= $this->_getInputName($this->name, $formName, $groupName, $this->multiple);
-		$this->inputId		= $this->_getInputId($this->id, $this->name, $formName, $groupName);
-
-		// Set the actual label and input.
-		$this->label		= $this->_getLabel();
-		$this->input		= $this->_getInput();
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param	object	$form	The JForm object to attach to the form field.
+	 *
+	 * @return	object	The form field object so that the method can be used in a chain.
+	 * @since	1.6
+	 */
+	public function setForm(JForm $form)
+	{
+		$this->form = $form;
+		$this->formControl = $form->getFormControl();
 
 		return $this;
 	}
 
 	/**
-	 * Method to get the field label.
+	 * Method to attach a JForm object to the field.
 	 *
-	 * @return	string		The field label.
+	 * @param	object	$element	The JXMLElement object representing the <field /> tag for the
+	 * 								form field object.
+	 * @param	mixed	$value		The form field default value for display.
+	 * @param	string	$group		The field name group control value. This acts as as an array
+	 * 								container for the field. For example if the field has name="foo"
+	 * 								and the group value is set to "bar" then the full field name
+	 * 								would end up being "bar[foo]".
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
 	 */
-	protected function _getLabel()
+	public function setup(& $element, $value, $group = null)
 	{
-		// Set the class for the label.
-		$class = !empty($this->descText) ? 'hasTip' : '';
-		$class = $this->required == true ? $class.' required' : $class;
-
-		// If a description is specified, use it to build a tooltip.
-		if (!empty($this->descText)) {
-			$label = '<label id="'.$this->inputId.'-lbl" for="'.$this->inputId.'" class="'.$class.'" title="'.htmlspecialchars(trim(JText::_($this->labelText), ':').'::'.JText::_($this->descText), ENT_COMPAT, 'UTF-8').'">';
-		} else {
-			$label = '<label id="'.$this->inputId.'-lbl" for="'.$this->inputId.'" class="'.$class.'">';
+		// Make sure there is a valid JFormField XML element.
+		if (!($element instanceof JXMLElement) || (string) $element->getName() != 'field') {
+			return false;
 		}
 
-		$label .= JText::_($this->labelText);
-		$label .= '</label>';
+		// Reset the input and label values.
+		$this->input = null;
+		$this->label = null;
 
-		return $label;
+		// Set the xml element object.
+		$this->element = $element;
+
+		// Get some important attributes from the form field element.
+		$class		= (string) $element['class'];
+		$id			= (string) $element['id'];
+		$multiple	= (string) $element['multiple'];
+		$name		= (string) $element['name'];
+		$required	= (string) $element['required'];
+
+		// Set the required and validation options.
+		$this->required	= ($required == 'true' || $required == 'required');
+		$this->validate	= (string) $element['validate'];
+
+		// Add the required class if the field is required.
+		if ($this->required) {
+			if ($class) {
+				if (strpos($class, 'required') === false) {
+					$this->element['class'] = $class.' required';
+				}
+			} else {
+				$this->element->addAttribute('class', 'required');
+			}
+		}
+
+		// Set the multiple values option.
+		$this->multiple = ($multiple == 'true' || $multiple == 'multiple');
+
+		// Allow for field classes to force the multiple values option.
+		if (isset($this->forceMultiple)) {
+			$this->multiple = (bool) $this->forceMultiple;
+		}
+
+		// Set the field description text.
+		$this->description	= (string) $element['description'];
+
+		// Set the visibility.
+		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
+
+		// Set the field name and id.
+		$this->name	= $this->getName($name, $group);
+		$this->id	= $this->getId($id, $name, $group);
+
+		// Set the field default value.
+		$this->value = $value;
+
+		return true;
 	}
+
 	/**
-	 * This function replaces the string identifier prefix with the
-	 * string held is the <var>formName</var> class variable.
+	 * Method to get the id used for the field input tag.
 	 *
-	 * @param	string	The javascript code
-	 * @return	string	The replaced javascript code
+	 * @param	string	$fieldId	The field element id.
+	 * @param	string	$fieldName	The field element name.
+	 * @param	string	$group		The optional name of the group that the field element is a
+	 * 								member of.
+	 *
+	 * @return	string	The id to be used for the field input tag.
+	 * @since	1.6
 	 */
-	protected function _replacePrefix($javascript)
+	protected function getId($fieldId, $fieldName, $group = null)
 	{
-		$formName = $this->formName;
+		// Initialize variables.
+		$id = '';
 
-		// No form, just use the field name.
-		if ($formName === false)
-		{
-			return str_replace($this->prefix, '', $javascript);
+		// If there is a form control set for the attached form add it first.
+		if ($this->formControl) {
+			$id .= $this->formControl;
 		}
-		// Use the form name
-		else
-		{
-			return str_replace($this->prefix, preg_replace('#\W#', '_',$formName).'_', $javascript);
-		}
-	}
 
-	/**
-	 * Method to get the field input.
-	 *
-	 * @return	string		The field input.
-	 */
-	abstract protected function _getInput();
+		// If the field is in a group add the group control to the field id.
+		if ($group) {
+			// If we already have an id segment add the group control as another level.
+			if ($id) {
+				$id .= '_'.str_replace('.', '_', $group);
+			}
+			else {
+				$id .= str_replace('.', '_', $group);
+			}
+		}
 
-	/**
-	 * Method to get the name of the input field.
-	 *
-	 * @param	string		$fieldName		The field name.
-	 * @param	string		$formName		The form name.
-	 * @param	string		$groupName		The group name.
-	 * @param	boolean		$multiple		Whether the input should support multiple values.
-	 * @return	string		The input field id.
-	 */
-	protected function _getInputName($fieldName, $formName = false, $groupName = false, $multiple = false)
-	{
-		// No form or group, just use the field name.
-		if ($formName === false && $groupName === false) {
-			$return = $fieldName;
+		// If we already have an id segment add the field id/name as another level.
+		if ($id) {
+			$id .= '_'.($fieldId ? $fieldId : $fieldName);
 		}
-		// No group, use the form and field name.
-		elseif ($formName !== false && $groupName === false) {
-			$return = $formName.'['.$fieldName.']';
-		}
-		// No form, use the group and field name.
-		elseif ($formName === false && $groupName !== false) {
-			$return = $groupName.'['.$fieldName.']';
-		}
-		// Use the form, group, and field name.
 		else {
-			$return = $formName.'['.$groupName.']['.$fieldName.']';
-		}
-
-		// Check if the field should support multiple values.
-		if ($multiple) {
-			$return .= '[]';
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Method to get the id of the input field.
-	 *
-	 * @param	string		$fieldId		The field id.
-	 * @param	string		$fieldName		The field name.
-	 * @param	string		$formName		The form name.
-	 * @param	string		$groupName		The group name.
-	 * @return	string		The input field id.
-	 */
-	protected function _getInputId($fieldId, $fieldName, $formName = false, $groupName = false)
-	{
-		// Use the field name if no id is set.
-		if (empty($fieldId)) {
-			$fieldId = $fieldName;
-		}
-
-		// No form or group, just use the field name.
-		if ($formName === false && $groupName === false) {
-			$return = $fieldId;
-		}
-		// No group, use the form and field name.
-		elseif ($formName !== false && $groupName === false) {
-			$return = $formName.'_'.$fieldId;
-		}
-		// No form, use the group and field name.
-		elseif ($formName === false && $groupName !== false) {
-			$return = $groupName.'_'.$fieldId;
-		}
-		// Use the form, group, and field name.
-		else {
-			$return = $formName.'_'.$groupName.'_'.$fieldId;
+			$id .= ($fieldId ? $fieldId : $fieldName);
 		}
 
 		// Clean up any invalid characters.
-		$return = preg_replace('#\W#', '_', $return);
+		$id = preg_replace('#\W#', '_', $id);
 
-		return $return;
+		return $id;
+	}
+
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return	string	The field input markup.
+	 * @since	1.6
+	 */
+	abstract protected function getInput();
+
+	/**
+	 * Method to get the field label markup.
+	 *
+	 * @return	string	The field label markup.
+	 * @since	1.6
+	 */
+	protected function getLabel()
+	{
+		// Initialize variables.
+		$label = '';
+
+		// Get the label text from the XML element, defaulting to the element name.
+		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
+
+		// Build the class for the label.
+		$class = !empty($this->description) ? 'hasTip' : '';
+		$class = $this->required == true ? $class.' required' : $class;
+
+		// Add the opening label tag and main attributes attributes.
+		$label .= '<label id="'.$this->id.'-lbl" for="'.$this->id.'" class="'.$class.'"';
+
+		// If a description is specified, use it to build a tooltip.
+		if (!empty($this->description)) {
+			$label .= ' title="'.htmlspecialchars(trim(JText::_($text), ':').'::' .
+						JText::_($this->description), ENT_COMPAT, 'UTF-8').'"';
+		}
+
+		// Add the label text and closing tag.
+		$label .= '>'.JText::_($text).'</label>';
+
+		return $label;
+	}
+
+	/**
+	 * Method to get the name used for the field input tag.
+	 *
+	 * @param	string	$fieldName	The field element name.
+	 * @param	string	$group		The optional name of the group that the field element is a
+	 * 								member of.
+	 *
+	 * @return	string	The name to be used for the field input tag.
+	 * @since	1.6
+	 */
+	protected function getName($fieldName, $group = null)
+	{
+		// Initialize variables.
+		$name = '';
+
+		// If there is a form control set for the attached form add it first.
+		if ($this->formControl) {
+			$name .= $this->formControl;
+		}
+
+		// If the field is in a group add the group control to the field name.
+		if ($group) {
+			// If we already have a name segment add the group control as another level.
+			$groups = explode('.', $group);
+			if ($name) {
+				foreach ($groups as $group) {
+					$name .= '['.$group.']';
+				}
+			}
+			else {
+				$name .= array_shift($groups);
+				foreach ($groups as $group) {
+					$name .= '['.$group.']';
+				}
+			}
+		}
+
+		// If we already have a name segment add the field name as another level.
+		if ($name) {
+			$name .= '['.$fieldName.']';
+		}
+		else {
+			$name .= $fieldName;
+		}
+
+		// If the field should support multiple values add the final array segment.
+		if ($this->multiple) {
+			$name .= '[]';
+		}
+
+		return $name;
 	}
 }
