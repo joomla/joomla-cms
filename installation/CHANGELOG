@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Mar-2010 Jean-Marie Simonet
+$ Deleting unused ini files
+
 24-Mar-2010 Ian MacLennan
  # Fixed bug in JError
 
