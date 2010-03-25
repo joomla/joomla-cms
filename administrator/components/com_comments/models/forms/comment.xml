@@ -1,99 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
+<!-- $Id$ -->
 <form>
-	<fields>
-		<field
-			name="id"
-			type="hidden"
+	<fieldset>
+		<field name="id" type="hidden"
 			default="0"
+			readonly="true"
 			required="true"
-			readonly="true" />
+		/>
 
-		<field
-			name="name"
-			type="text"
-			label="Comments_Field_Name_Label"
+		<field name="name" type="text"
 			description="Comments_Field_Name_Desc"
-			class="inputbox"
+			label="Comments_Field_Name_Label"
+			required="true"
 			size="30"
-			required="true" />
+		/>
 
-		<field
-			name="url"
-			type="text"
-			label="Comments_Field_URL_Label"
+		<field name="url" type="text"
 			description="Comments_Field_URL_Desc"
-			class="inputbox"
+			label="Comments_Field_URL_Label"
 			size="30"
-			filter="uri" />
+			filter="uri"
+		/>
 
-		<field
-			name="email"
-			type="text"
-			label="Comments_Field_Email_Label"
+		<field name="email" type="text"
 			description="Comments_Field_Email_Desc"
-			class="inputbox"
+			label="Comments_Field_Email_Label"
+			readonly="true"
 			size="30"
-			readonly="true" />
+		/>
 
-		<field
-			name="subject"
-			type="text"
-			label="Comments_Field_Subject_Label"
+		<field name="subject" type="text"
 			description="Comments_Field_Subject_Desc"
-			class="inputbox"
+			label="Comments_Field_Subject_Label"
+			required="true"
 			size="30"
-			required="true" />
+		/>
 
-		<field
-			name="body"
-			type="textarea"
-			label="Comments_Field_Body_Label"
-			description="Comments_Field_Body_Desc"
-			class="inputbox"
-			rows="10"
+		<field name="body" type="textarea"
 			cols="80"
-			required="true" />
+			description="Comments_Field_Body_Desc"
+			label="Comments_Field_Body_Label"
+			required="true"
+			rows="10"
+		/>
 
-		<field
-			name="created_date"
-			type="text"
-			label="Comments_Field_Created_Date_Label"
-			description="Comments_Field_Created_Date_Desc"
+		<field name="created_date" type="text"
 			class="readonly"
+			description="Comments_Field_Created_Date_Desc"
+			label="Comments_Field_Created_Date_Label"
+			readonly="true"
 			size="16"
-			readonly="true" />
+		/>
 
-		<field
-			name="published"
-			type="list"
-			label="JField_Published_Label"
+		<field name="published" type="list"
+			default="0"
 			description="JField_Published_Desc"
-			class="inputbox"
+			label="JField_Published_Label"
 			size="1"
-			default="0">
-			<option
-				value="0">
-				COMMENTS_DEFER</option>
-			<option
-				value="1">
-				COMMENTS_PUBLISHED</option>
-			<option
-				value="-1">
-				COMMENTS_SPAM</option>
-			<option
-				value="-2">
-				JOption_Trashed</option>
+		>
+			<option value="0">COMMENTS_DEFER</option>
+			<option value="1">COMMENTS_PUBLISHED</option>
+			<option value="-1">COMMENTS_SPAM</option>
+			<option value="-2">JOption_Trashed</option>
 		</field>
 
-
-		<field
-			name="address"
-			type="text"
-			label="Comments_Field_Address_Label"
+		<field name="address" type="text"
 			description="Comments_Field_Address_Desc"
-			class="inputbox"
+			label="Comments_Field_Address_Label"
+			readonly="true"
 			size="30"
-			readonly="true" />
-	</fields>
+		/>
+	</fieldset>
 </form>

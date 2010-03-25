@@ -13,19 +13,19 @@ defined('_JEXEC') or die;
 jimport('joomla.html.pane');
 $pane = &JPane::getInstance('sliders');
 
-	$fieldSets = $this->paramsform->getFieldsets();
+	$fieldSets = $this->form->getFieldsets('params');
 	foreach ($fieldSets as $name => $fieldSet) :
-		if (isset($fieldSet['hidden']) && $fieldSet['hidden'] == true || $name == 'request') :
+		if ($fieldSet->name == 'request') :
 			continue;
 		endif;
-		$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
+		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_'.$name.'_FIELDSET_LABEL';
 		echo $pane->startPanel(JText::_($label), 'publishing-details');
-			if (isset($fieldSet['description'])) :
-				echo '<p class="tip">'.JText::_($fieldSet['description']).'</p>';
+			if (!empty($fieldSet->description)) :
+				echo '<p class="tip">'.JText::_($fieldSet->description).'</p>';
 			endif;
 			?>
 		<fieldset class="panelform">
-			<?php foreach ($this->paramsform->getFields($name) as $field) : ?>
+			<?php foreach ($this->form->getFieldset($fieldSet->name) as $field) : ?>
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
 			<?php endforeach; ?>

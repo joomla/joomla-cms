@@ -43,18 +43,16 @@ class UsersModelRegistration extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @access	public
 	 * @return	mixed		JForm object on success, false on failure.
 	 * @since	1.0
 	 */
-	function getForm()
+	public function getForm()
 	{
 		// Get the form.
-		$form = parent::getForm('registration', 'com_users.registration', array('array' => 'jform', 'event' => 'onPrepareForm'));
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
+		try {
+			$form = parent::getForm('com_users.registration', 'registration', array('control' => 'jform'));
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -188,9 +186,9 @@ class UsersModelRegistration extends JModelForm
 
 		// Compile the notification mail values.
 		$data = $user->getProperties();
-		$data['fromname'] = $config->getValue('fromname');
-		$data['mailfrom'] = $config->getValue('mailfrom');
-		$data['sitename'] = $config->getValue('sitename');
+		$data['fromname'] = $config->get('fromname');
+		$data['mailfrom'] = $config->get('mailfrom');
+		$data['sitename'] = $config->get('sitename');
 
 		// Handle account activation/confirmation e-mails.
 		if ($params->get('useractivation'))
@@ -269,9 +267,9 @@ class UsersModelRegistration extends JModelForm
 
 		// Compile the notification mail values.
 		$data = $user->getProperties();
-		$data['fromname'] = $config->getValue('fromname');
-		$data['mailfrom'] = $config->getValue('mailfrom');
-		$data['sitename'] = $config->getValue('sitename');
+		$data['fromname'] = $config->get('fromname');
+		$data['mailfrom'] = $config->get('mailfrom');
+		$data['sitename'] = $config->get('sitename');
 
 		// Load the message template and bind the data.
 		jimport('joomla.utilities.simpletemplate');

@@ -48,8 +48,8 @@ class plgSystemRemember extends JPlugin
 				$options['silent'] = true;
 				if (!$app->login(@unserialize($str), $options)) {
 					$config =& JFactory::getConfig();
-					$cookie_domain = $config->getValue('config.cookie_domain', '');
-					$cookie_path = $config->getValue('config.cookie_path', '/');
+					$cookie_domain = $config->get('cookie_domain', '');
+					$cookie_path = $config->get('cookie_path', '/');
 					// Clear the remember me cookie
 					setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
 				}

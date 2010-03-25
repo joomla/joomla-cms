@@ -1,255 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
 <form>
+	<field
+		name="id"
+		type="hidden"
+		default="0"
+		required="true"
+		readonly="true"/>
 
-	<fields
-		group="params"
-		array="true"
-	/>
+	<field
+		name="asset_id"
+		type="hidden"
+		filter="unset"/>
 
-	<fields
-		group="metadata"
-		array="true"
-	/>
+	<field
+		name="parent_id"
+		type="categoryparent"
+		label="CATEGORIES_PARENT_LABEL"
+		description="CATEGORIES_PARENT_DESC"
+		class="inputbox"/>
 
-	<fields>
-		<field
-			name="id"
-			type="hidden"
-			default="0"
-			required="true"
-			readonly="true"/>
+	<field
+		name="lft"
+		type="hidden"
+		filter="unset"/>
 
-		<field
-			name="asset_id"
-			type="hidden"
-			filter="unset"/>
+	<field
+		name="rgt"
+		type="hidden"
+		filter="unset"/>
 
-		<field
-			name="parent_id"
-			type="categoryparent"
-			label="CATEGORIES_PARENT_LABEL"
-			description="CATEGORIES_PARENT_DESC"
-			class="inputbox"/>
+	<field
+		name="level"
+		type="hidden"
+		filter="unset"/>
 
-		<field
-			name="lft"
-			type="hidden"
-			filter="unset"/>
+	<field
+		name="path"
+		type="text"
+		label="CATEGORIES_PATH_LABEL"
+		description="CATEGORIES_PATH_DESC"
+		class="readonly"
+		size="40"
+		readonly="true"/>
 
-		<field
-			name="rgt"
-			type="hidden"
-			filter="unset"/>
+	<field
+		name="extension"
+		type="text"
+		label="CATEGORIES_EXTENSION_LABEL"
+		description="CATEGORIES_EXTENSION_DESC"
+		class="readonly"
+		size="40"
+		readonly="true"/>
 
-		<field
-			name="level"
-			type="hidden"
-			filter="unset"/>
+	<field
+		name="title"
+		type="text"
+		label="JFIELD_TITLE_LABEL"
+		description="JFIELD_TITLE_DESC"
+		class="inputbox"
+		size="40"
+		required="true"/>
 
-		<field
-			name="path"
-			type="text"
-			label="CATEGORIES_PATH_LABEL"
-			description="CATEGORIES_PATH_DESC"
-			class="readonly"
-			size="40"
-			readonly="true"/>
+	<field
+		name="alias"
+		type="text"
+		label="JFIELD_ALIAS_LABEL"
+		description="JFIELD_ALIAS_DESC"
+		class="inputbox"
+		size="40"/>
 
-		<field
-			name="extension"
-			type="text"
-			label="CATEGORIES_EXTENSION_LABEL"
-			description="CATEGORIES_EXTENSION_DESC"
-			class="readonly"
-			size="40"
-			readonly="true"/>
+	<field
+		name="note"
+		type="text"
+		label="JFIELD_NOTE_LABEL"
+		description="JFIELD_NOTE_DESC"
+		class="inputbox"
+		size="40"/>
 
-		<field
-			name="title"
-			type="text"
-			label="JFIELD_TITLE_LABEL"
-			description="JFIELD_TITLE_DESC"
-			class="inputbox"
-			size="40"
-			required="true"/>
+	<field
+		name="description"
+		type="editor"
+		label="CATEGORIES_DESCRIPTION_LABEL"
+		description="CATEGORIES_DESCRIPTION_DESC"
+		class="inputbox"
+		buttons="readmore,pagebreak"/>
 
-		<field
-			name="alias"
-			type="text"
-			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
-			class="inputbox"
-			size="40"/>
+	<field
+		name="published"
+		type="list"
+		class="inputbox"
+		default="1"
+		size="1"
+		label="JFIELD_PUBLISHED_LABEL"
+		description="JFIELD_PUBLISHED_DESC">
+		<option
+			value="1">
+			JOPTION_PUBLISHED</option>
+		<option
+			value="0">
+			JOPTION_UNPUBLISHED</option>
+		<option
+			value="-1">
+			JOPTION_ARCHIVED</option>
+		<option
+			value="-2">
+			JOPTION_TRASHED</option>
+	</field>
 
-		<field
-			name="note"
-			type="text"
-			label="JFIELD_NOTE_LABEL"
-			description="JFIELD_NOTE_DESC"
-			class="inputbox"
-			size="40"/>
+	<field
+		name="checked_out"
+		type="hidden"
+		filter="unset"/>
 
-		<field
-			name="description"
-			type="editor"
-			label="CATEGORIES_DESCRIPTION_LABEL"
-			description="CATEGORIES_DESCRIPTION_DESC"
-			class="inputbox"
-			buttons="readmore,pagebreak"/>
+	<field
+		name="checked_out_time"
+		type="hidden"
+		filter="unset"/>
 
-		<field
-			name="published"
-			type="list"
-			class="inputbox"
-			default="1"
-			size="1"
-			label="JFIELD_PUBLISHED_LABEL"
-			description="JFIELD_PUBLISHED_DESC">
-			<option
-				value="1">
-				JOPTION_PUBLISHED</option>
-			<option
-				value="0">
-				JOPTION_UNPUBLISHED</option>
-			<option
-				value="-1">
-				JOPTION_ARCHIVED</option>
-			<option
-				value="-2">
-				JOPTION_TRASHED</option>
-		</field>
+	<field
+		name="access"
+		type="accesslevel"
+		label="JFIELD_ACCESS_LABEL"
+		description="JFIELD_ACCESS_DESC"
+		class="inputbox"/>
 
-		<field
-			name="checked_out"
-			type="hidden"
-			filter="unset"/>
+	<field
+		name="metadesc"
+		type="textarea"
+		label="JFIELD_META_DESCRIPTION_LABEL"
+		description="JFIELD_META_DESCRIPTION_DESC"
+		default=""
+		rows="3"
+		cols="40"/>
 
-		<field
-			name="checked_out_time"
-			type="hidden"
-			filter="unset"/>
+	<field
+		name="metakey"
+		type="textarea"
+		label="JFIELD_META_KEYWORDS_LABEL"
+		description="JFIELD_META_KEYWORDS_DESC"
+		default=""
+		rows="3"
+		cols="40"/>
 
-		<field
-			name="access"
-			type="accesslevel"
-			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
-			class="inputbox"/>
+	<field
+		name="created_user_id"
+		type="hidden"
+		filter="unset"/>
 
-		<field
-			name="metadesc"
-			type="textarea"
-			label="JFIELD_META_DESCRIPTION_LABEL"
-			description="JFIELD_META_DESCRIPTION_DESC"
-			default=""
-			rows="3"
-			cols="40"/>
+	<field
+		name="created_time"
+		type="hidden"
+		filter="unset"/>
 
-		<field
-			name="metakey"
-			type="textarea"
-			label="JFIELD_META_KEYWORDS_LABEL"
-			description="JFIELD_META_KEYWORDS_DESC"
-			default=""
-			rows="3"
-			cols="40"/>
+	<field
+		name="modified_user_id"
+		type="hidden"
+		filter="unset"/>
 
-		<field
-			name="created_user_id"
-			type="hidden"
-			filter="unset"/>
+	<field
+		name="modified_time"
+		type="hidden"
+		filter="unset"/>
 
-		<field
-			name="created_time"
-			type="hidden"
-			filter="unset"/>
+	<field
+		name="hits"
+		type="hidden"
+		filter="unset"/>
 
-		<field
-			name="modified_user_id"
-			type="hidden"
-			filter="unset"/>
+	<field
+		name="language"
+		type="contentlanguage"
+		label="JFIELD_LANGUAGE_LABEL"
+		description="JFIELD_CATEGORY_LANGUAGE_DESC"
+		class="inputbox"
+		default="">
+		<option value="">JOPTION_DEFAULT_LANGUAGE</option>
+	</field>
 
-		<field
-			name="modified_time"
-			type="hidden"
-			filter="unset"/>
+	<field
+		id="rules"
+		name="rules"
+		type="rules"
+		label="JFIELD_RULES_LABEL"
+		description="JFIELD_RULES_DESC"
+		filter="rules"
+		class="inputbox"
+		component="com_content"
+		section="category"
+		default=""/>
 
-		<field
-			name="hits"
-			type="hidden"
-			filter="unset"/>
-
-		<field
-			name="language"
-			type="contentlanguage"
-			label="JFIELD_LANGUAGE_LABEL"
-			description="JFIELD_CATEGORY_LANGUAGE_DESC"
-			class="inputbox"
-			default="">
-			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
-		</field>
-
-		<field
-			id="rules"
-			name="rules"
-			type="rules"
-			label="JFIELD_RULES_LABEL"
-			description="JFIELD_RULES_DESC"
-			filter="rules"
-			class="inputbox"
-			component="com_content"
-			section="category"
-			default=""/>
+	<fields name="params">
+		<fieldset
+			name="basic">
+	
+			<field
+				name="target"
+				type="componentlayout"
+				label="JFIELD_ALT_LAYOUT_LABEL"
+				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+				view="categories"
+				/>
+				
+			<field
+				name="image"
+				type="imagelist"
+				directory="/images"
+				hide_default="1"
+				label="JFIELD_CATEGORY_IMAGE_LABEL"
+				description="JFIELD_CATEGORY_IMAGE_DESC" />
+		</fieldset>
 	</fields>
-	<fields
-		group="metadata"
-		array="true">
 
+	<fields name="metadata">
 		<field
 			name="page_title"
 			type="text"
-			label="JField_Alt_Page_title_Label"
-			description="JField_Alt_Page_title_Desc"
+			label="JFIELD_ALT_PAGE_TITLE_LABEL"
+			description="JFIELD_ALT_PAGE_TITLE_DESC"
 			size="30"
 			default=""/>
 
 		<field
 			name="author"
 			type="text"
-			label="JField_Metadata_Author_Label"
-			description="JField_Metadata_Author_Desc"
+			label="JFIELD_METADATA_AUTHOR_LABEL"
+			description="JFIELD_METADATA_AUTHOR_DESC"
 			size="30"
 			default=""/>
 
 		<field
 			name="robots"
 			type="list"
-			label="JField_Metadata_Robots_Label"
-			description="JField_Metadata_Robots_Desc"
+			label="JFIELD_METADATA_ROBOTS_LABEL"
+			description="JFIELD_METADATA_ROBOTS_DESC"
 			default="">
 			<option
 				value="">JCOMMON_USE_GLOBAL</option>
 			<option
-				value="0">index, follow</option>
+				value="0">JCOMMON_INDEX_FOLLOW</option>
 			<option
-				value="1">noindex, follow</option>
+				value="1">JCOMMON_NOINDEX_FOLLOW</option>
 			<option
-				value="2">index, nofollow</option>
+				value="2">JCOMMON_INDEX_NOFOLLOW</option>
 			<option
-				value="3">noindex, nofollow</option>
+				value="3">JCOMMON_NOINDEX_NOFOLLOW</option>
 			<option
-				value="4">Don't display robots tag</option>
+				value="4">JCOMMON_NO_ROBOTS_TAG</option>
 		</field>
-		<field
-			name="rights"
-			type="textarea"
-			default=""
-			label="JFIELD_META_RIGHTS_LABEL"
-			description="JFIELD_META_RIGHTS_DESC"
-			required=""
-			filter="string"
-			cols="30"
-			rows="2" />
 	</fields>
 </form>

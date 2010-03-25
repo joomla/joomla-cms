@@ -47,12 +47,12 @@ class JClientHelper
 			{
 				case 'ftp':
 					$options = array(
-						'enabled'	=> $config->getValue('config.ftp_enable'),
-						'host'		=> $config->getValue('config.ftp_host'),
-						'port'		=> $config->getValue('config.ftp_port'),
-						'user'		=> $config->getValue('config.ftp_user'),
-						'pass'		=> $config->getValue('config.ftp_pass'),
-						'root'		=> $config->getValue('config.ftp_root')
+						'enabled'	=> $config->get('ftp_enable'),
+						'host'		=> $config->get('ftp_host'),
+						'port'		=> $config->get('ftp_port'),
+						'user'		=> $config->get('ftp_user'),
+						'pass'		=> $config->get('ftp_pass'),
+						'root'		=> $config->get('ftp_root')
 					);
 					break;
 
@@ -109,9 +109,9 @@ class JClientHelper
 			case 'ftp':
 				$config = &JFactory::getConfig();
 				$options = array(
-					'enabled'	=> $config->getValue('config.ftp_enable'),
-					'host'		=> $config->getValue('config.ftp_host'),
-					'port'		=> $config->getValue('config.ftp_port'),
+					'enabled'	=> $config->get('ftp_enable'),
+					'host'		=> $config->get('ftp_host'),
+					'port'		=> $config->get('ftp_port'),
 				);
 
 				if ($options['enabled'])
@@ -166,9 +166,9 @@ class JClientHelper
 			case 'ftp':
 				$config = &JFactory::getConfig();
 				$options = array(
-					'enabled'	=> $config->getValue('config.ftp_enable'),
-					'user'		=> $config->getValue('config.ftp_user'),
-					'pass'		=> $config->getValue('config.ftp_pass')
+					'enabled'	=> $config->get('ftp_enable'),
+					'user'		=> $config->get('ftp_user'),
+					'pass'		=> $config->get('ftp_pass')
 				);
 				break;
 

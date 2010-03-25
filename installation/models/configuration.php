@@ -47,81 +47,81 @@ class JInstallationModelConfiguration extends JModel
 		$registry = new JRegistry();
 
 		/* Site Settings */
-		$registry->setValue('offline', 0);
-		$registry->setValue('offline_message', JText::_('STDOFFLINEMSG'));
-		$registry->setValue('sitename', $options->site_name);
-		$registry->setValue('editor', 'tinymce');
-		$registry->setValue('list_limit', 20);
-		$registry->setValue('access', 1);
+		$registry->set('offline', 0);
+		$registry->set('offline_message', JText::_('STDOFFLINEMSG'));
+		$registry->set('sitename', $options->site_name);
+		$registry->set('editor', 'tinymce');
+		$registry->set('list_limit', 20);
+		$registry->set('access', 1);
 
 		/* Debug Settings */
-		$registry->setValue('debug', 0);
-		$registry->setValue('debug_lang', 0);
-		$registry->setValue('debug_modules', 1);
+		$registry->set('debug', 0);
+		$registry->set('debug_lang', 0);
+		$registry->set('debug_modules', 1);
 
 		/* Database Settings */
-		$registry->setValue('dbtype', $options->db_type);
-		$registry->setValue('host', $options->db_host);
-		$registry->setValue('user', $options->db_user);
-		$registry->setValue('password', $options->db_pass);
-		$registry->setValue('db', $options->db_name);
-		$registry->setValue('dbprefix', $options->db_prefix);
+		$registry->set('dbtype', $options->db_type);
+		$registry->set('host', $options->db_host);
+		$registry->set('user', $options->db_user);
+		$registry->set('password', $options->db_pass);
+		$registry->set('db', $options->db_name);
+		$registry->set('dbprefix', $options->db_prefix);
 
 		/* Server Settings */
-		$registry->setValue('live_site', '');
-		$registry->setValue('secret', JUserHelper::genRandomPassword(16));
-		$registry->setValue('gzip', 0);
-		$registry->setValue('error_reporting', -1);
-		$registry->setValue('helpurl', 'http://help.joomla.org');
-		$registry->setValue('xmlrpc_server', 0);
-		$registry->setValue('ftp_host', $options->ftp_host);
-		$registry->setValue('ftp_port', $options->ftp_port);
-		$registry->setValue('ftp_user', $options->ftp_save ? $options->ftp_user : '');
-		$registry->setValue('ftp_pass', $options->ftp_save ? $options->ftp_pass : '');
-		$registry->setValue('ftp_root', $options->ftp_save ? $options->ftp_root : '');
-		$registry->setValue('ftp_enable', $options->ftp_enable);
+		$registry->set('live_site', '');
+		$registry->set('secret', JUserHelper::genRandomPassword(16));
+		$registry->set('gzip', 0);
+		$registry->set('error_reporting', -1);
+		$registry->set('helpurl', 'http://help.joomla.org');
+		$registry->set('xmlrpc_server', 0);
+		$registry->set('ftp_host', $options->ftp_host);
+		$registry->set('ftp_port', $options->ftp_port);
+		$registry->set('ftp_user', $options->ftp_save ? $options->ftp_user : '');
+		$registry->set('ftp_pass', $options->ftp_save ? $options->ftp_pass : '');
+		$registry->set('ftp_root', $options->ftp_save ? $options->ftp_root : '');
+		$registry->set('ftp_enable', $options->ftp_enable);
 
 		/* Locale Settings */
-		$registry->setValue('offset', 0);
-		$registry->setValue('offset_user', 0);
+		$registry->set('offset', 0);
+		$registry->set('offset_user', 0);
 
 		/* Mail Settings */
-		$registry->setValue('mailer', 'mail');
-		$registry->setValue('mailfrom', $options->admin_email);
-		$registry->setValue('fromname', $options->site_name);
-		$registry->setValue('sendmail', '/usr/sbin/sendmail');
-		$registry->setValue('smtpauth', 0);
-		$registry->setValue('smtpuser', '');
-		$registry->setValue('smtppass', '');
-		$registry->setValue('smtphost', 'localhost');
-		$registry->setValue('smtpsecure', 'none');
-		$registry->setValue('smtpport', '25');
+		$registry->set('mailer', 'mail');
+		$registry->set('mailfrom', $options->admin_email);
+		$registry->set('fromname', $options->site_name);
+		$registry->set('sendmail', '/usr/sbin/sendmail');
+		$registry->set('smtpauth', 0);
+		$registry->set('smtpuser', '');
+		$registry->set('smtppass', '');
+		$registry->set('smtphost', 'localhost');
+		$registry->set('smtpsecure', 'none');
+		$registry->set('smtpport', '25');
 
 		/* Cache Settings */
-		$registry->setValue('caching', 0);
-		$registry->setValue('cachetime', 15);
-		$registry->setValue('cache_handler', 'file');
+		$registry->set('caching', 0);
+		$registry->set('cachetime', 15);
+		$registry->set('cache_handler', 'file');
 
 		/* Meta Settings */
-		$registry->setValue('MetaDesc', JText::_('STDMETADESC'));
-		$registry->setValue('MetaKeys', JText::_('STDMETAKEYS'));
-		$registry->setValue('MetaTitle', 1);
-		$registry->setValue('MetaAuthor', 1);
+		$registry->set('MetaDesc', JText::_('STDMETADESC'));
+		$registry->set('MetaKeys', JText::_('STDMETAKEYS'));
+		$registry->set('MetaTitle', 1);
+		$registry->set('MetaAuthor', 1);
 
 		/* SEO Settings */
-		$registry->setValue('sef', 1);
-		$registry->setValue('sef_rewrite', 0);
-		$registry->setValue('sef_suffix', 1);
-		$registry->setValue('unicodeslugs', 0);
+		$registry->set('sef', 1);
+		$registry->set('sef_rewrite', 0);
+		$registry->set('sef_suffix', 1);
+		$registry->set('unicodeslugs', 0);
 
 		/* Feed Settings */
-		$registry->setValue('feed_limit', 10);
-		$registry->setValue('log_path', JPATH_ROOT.DS.'logs');
-		$registry->setValue('tmp_path', JPATH_ROOT.DS.'tmp');
+		$registry->set('feed_limit', 10);
+		$registry->set('log_path', JPATH_ROOT.DS.'logs');
+		$registry->set('tmp_path', JPATH_ROOT.DS.'tmp');
 
 		/* Session Setting */
-		$registry->setValue('lifetime', 15);
-		$registry->setValue('session_handler', 'database');
+		$registry->set('lifetime', 15);
+		$registry->set('session_handler', 'database');
 
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', null, array('class'=>'JConfig'));

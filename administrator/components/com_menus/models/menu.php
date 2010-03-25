@@ -99,11 +99,10 @@ class MenusModelMenu extends JModelForm
 		$app = &JFactory::getApplication();
 
 		// Get the form.
-		$form = parent::getForm('menu', 'com_menus.menu', array('array' => 'jform', 'event' => 'onPrepareForm'));
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
+		try {
+			$form = parent::getForm('com_menus.menu', 'menu', array('control' => 'jform'));
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -209,11 +208,8 @@ class MenusModelMenu extends JModelForm
 		$result = array();
 
 		foreach ($modules as &$module) {
-			if ($module->params[0] == '{') {
-				$params = JArrayHelper::toObject(json_decode($module->params, true), 'JObject');
-			} else {
-				$params = new JParameter($module->params);
-			}
+			$params = new JRegistry;
+			$params->loadJSON($module->params);
 
 			$menuType = $params->get('menutype');
 			if (!isset($result[$menuType])) {

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fields
-		group="permissions"
+	<fieldset
+		name="permissions"
 		label="JConfig_Permissions_Label"
 		description="JConfig_Permissions_Desc"
-		hidden="true">
+		>
 
 		<field
 			name="rules"
@@ -22,5 +22,5 @@
 				title="JAction_Manage"
 				description="JAction_Manage_Component_Desc" />
 		</field>
-	</fields>
+	</fieldset>
 </config>

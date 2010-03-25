@@ -1,90 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout
-		title="com_weblinks_category_view_default_title">
+	<layout title="com_weblinks_category_view_default_title">
 		<message>
 			<![CDATA[com_weblinks_category_view_default_desc]]>
 		</message>
 	</layout>
 
-	<fields
-		group="request"
-		array="true"
-		label="JCOMMON_REQUIRED_SETTINGS"
-		description="JCOMMON_REQUIRED_SETTINGS_DESC">
-		<field
-			name="id"
-			type="category"
-			extension="com_weblinks"
-			default=""
-			label="COM_WEBLINKS_FIELD_CATEGORY_LABEL"
-			required="true"
-			description="COM_WEBLINKS_FIELD_CATEGORYCHOOSE_DESC" />
+	<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request">
+
+			<field name="id" type="category"
+				description="COM_WEBLINKS_FIELD_CATEGORYCHOOSE_DESC"
+				extension="com_weblinks"
+				label="COM_WEBLINKS_FIELD_CATEGORY_LABEL"
+				required="true"
+			/>
+		</fieldset>
 	</fields>
 
-	<fields
-		group="basic"
-		label="MENUS_LAYOUT_BASIC_OPTIONS_LABEL"
-		description="">
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
 
-		<field
-			name="show_feed_link"
-			type="radio"
-			default="1"
-			label="COM_MENUS_FIELD_FEEDLINK_LABEL"
-			description="COM_MENUS_FIELD_FEEDLINK_DESC">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-		<field
-			name="image"
-			type="imagelist"
-			directory="/images"
-			hide_default="1"
-			default=""
-			label="JFIELD_CATEGORY_IMAGE_LABEL"
-			description="JFIELD_CATEGORY_IMAGE_DESC" />
+		<!-- Basic options. -->
+		<fieldset name="basic">
+
+			<field name="show_feed_link" type="radio"
+				default="1"
+				description="COM_MENUS_FIELD_FEEDLINK_DESC"
+				label="COM_MENUS_FIELD_FEEDLINK_LABEL"
+			>
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
+			</field>
+
+			<field name="image" type="imagelist"
+				description="JFIELD_CATEGORY_IMAGE_DESC"
+				directory="/images"
+				hide_default="1"
+				label="JFIELD_CATEGORY_IMAGE_LABEL"
+			/>
+		</fieldset>
 	</fields>
-	<fields
-		group="metadata"
-		array="true">
 
-		<field
-			name="robots"
-			type="list"
-			label="JField_Metadata_Robots_Label"
-			description="JField_Metadata_Robots_Desc"
-			default="">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">index, follow</option>
-			<option
-				value="1">noindex, follow</option>
-			<option
-				value="2">index, nofollow</option>
-			<option
-				value="3">noindex, nofollow</option>
-			<option
-				value="4">Don't display robots tag</option>
-		</field>
-		<field
-			name="author"
-			type="text"
-			label="JField_Metadata_Author_Label"
-			description="JField_Metadata_Author_Desc"
-			size="20" />
-		<field
-			name="rights"
-			type="textarea"
-			default=""
-			label="JFIELD_META_RIGHTS_LABEL"
-			description="JFIELD_META_RIGHTS_DESC"
-			required=""
-			filter="string"
-			cols="30"
-			rows="2" />
+	<!-- Add fields to the metadata object for the layout. -->
+	<fields name="metadata">
+		<fieldset name="metadata"
+		>
+
+			<field name="robots" type="list"
+				description="JField_Metadata_Robots_Desc"
+				label="JField_Metadata_Robots_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">index, follow</option>
+				<option value="1">noindex, follow</option>
+				<option value="2">index, nofollow</option>
+				<option value="3">noindex, nofollow</option>
+				<option value="4">Don't display robots tag</option>
+			</field>
+
+			<field name="author" type="text"
+				description="JField_Metadata_Author_Desc"
+				label="JField_Metadata_Author_Label"
+				size="20"
+			/>
+
+			<field name="rights" type="textarea"
+				cols="30"
+				description="JFIELD_META_RIGHTS_DESC"
+				filter="string"
+				label="JFIELD_META_RIGHTS_LABEL"
+				rows="2"
+			/>
+		</fieldset>
 	</fields>
 </metadata>

@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_CONFIG_CACHE_SETTINGS'); ?></legend>
 			<?php
-			foreach ($this->form->getFields('cache') as $field):
+			foreach ($this->form->getFieldset('cache') as $field):
 			?>
 					<?php echo $field->label; ?>
 					<?php echo $field->input; ?>

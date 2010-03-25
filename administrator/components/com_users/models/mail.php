@@ -27,14 +27,13 @@ class UsersModelMail extends JModelForm
 	public function getForm()
 	{
 		// Initialise variables.
-		$app	= JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Get the form.
-		$form = parent::getForm('mail', 'com_users.mail', array('array' => 'jform', 'event' => 'onPrepareForm'));
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
+		try {
+			$form = parent::getForm('com_users.mail', 'mail', array('control' => 'jform'));
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 

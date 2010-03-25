@@ -3,31 +3,116 @@
  * Inspector classes for the forms library.
  */
 require_once JPATH_BASE.'/libraries/joomla/form/form.php';
+require_once JPATH_BASE.'/libraries/joomla/form/formfield.php';
 
+/**
+ * @package		Joomla.UnitTest
+ * @subpackage	Form
+ */
 class JFormInspector extends JForm
 {
-	public function &getName()
+	public static function addNode(SimpleXMLElement $source, SimpleXMLElement $new)
 	{
-		return $this->_name;
+		return parent::addNode($source, $new);
 	}
 
-	public function &getFieldsets()
+	public static function mergeNode(SimpleXMLElement $source, SimpleXMLElement $new)
 	{
-		return $this->_fieldsets;
+		return parent::mergeNode($source, $new);
 	}
 
-	public function &getGroups()
+	public static function mergeNodes(SimpleXMLElement $source, SimpleXMLElement $new)
 	{
-		return $this->_groups;
+		return parent::mergeNodes($source, $new);
 	}
 
-	public function &getData()
+	public function filterField($element, $value)
 	{
-		return $this->_data;
+		return parent::filterField($element, $value);
 	}
 
-	public function &getOptions()
+	public function findField($name, $group = null)
 	{
-		return $this->_options;
+		return parent::findField($name, $group);
+	}
+
+	public function findGroup($group)
+	{
+		return parent::findGroup($group);
+	}
+
+	public function findFieldsByGroup($group = null, $nested = false)
+	{
+		return parent::findFieldsByGroup($group, $nested);
+	}
+
+	public function findFieldsByFieldset($name)
+	{
+		return parent::findFieldsByFieldset($name);
+	}
+
+	public function getData()
+	{
+		return $this->data;
+	}
+
+	/**
+	 * @return	array	Return the protected options array.
+	 */
+	public function getOptions()
+	{
+		return $this->options;
+	}
+
+	public function getXML()
+	{
+		return $this->xml;
+	}
+
+	public function loadField($element, $group = null, $value = null)
+	{
+		return parent::loadField($element, $group, $value);
+	}
+
+	public function loadFieldType($type, $new = true)
+	{
+		return parent::loadFieldType($type, $new);
+	}
+
+	public function & loadRuleType($type, $new = true)
+	{
+		return parent::loadRuleType($type, $new);
+	}
+
+	public function validateField($element, $group = null, $value = null, $input = null)
+	{
+		return parent::validateField($element, $group, $value, $input);
+	}
+}
+
+/**
+ * @package		Joomla.UnitTest
+ * @subpackage	Form
+ */
+class JFormFieldInspector extends JFormField
+{
+	public function getInput()
+	{
+		return null;
+	}
+
+	public function getForm()
+	{
+		return $this->form;
+	}
+
+	public function getId($fieldId, $fieldName, $group = null)
+	{
+		return parent::getId($fieldId, $fieldName, $group);
+	}
+
+	public function getLabel()
+	{
+		return parent::getLabel();
 	}
 }

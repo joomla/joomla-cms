@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -20,73 +22,83 @@ jimport('joomla.form.formfield');
 class JFormFieldList extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	protected $type = 'List';
 
 	/**
-	 * Method to get a list of options for a list input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getOptions()
+	protected function getInput()
 	{
-		$options = array();
+		// Initialize variables.
+		$html = array();
+		$attr = '';
 
-		// Iterate through the children and build an array of options.
-		foreach ($this->_element->children() as $option) {
-			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_(trim((string)$option)),'value','text',(string)$option->attributes()->disabled=='true');
+		// Initialize some field attributes.
+		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+		$attr .= $this->multiple ? ' multiple="multiple"' : '';
+
+		// Initialize JavaScript field attributes.
+		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+
+		// Get the field options.
+		$options = (array) $this->getOptions();
+
+		// Create a read-only list (no name) with a hidden input to store the value.
+		if ((string) $this->element['readonly'] == 'true') {
+			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
+			$html[] = '<input type="hidden" name="'.$this->name.'" value="'.$this->value.'"/>';
+		}
+		// Create a regular list.
+		else {
+			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}
 
-		return $options;
+		return implode($html);
 	}
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field options.
 	 *
-	 * @return	string		The field input.
+	 * @return	array	The field option objects.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getOptions()
 	{
-		$disabled	= (string)$this->_element->attributes()->disabled == 'true' ? true : false;
-		$readonly	= (string)$this->_element->attributes()->readonly == 'true' ? true : false;
-		$attributes	= '';
+		// Initialize variables.
+		$options = array();
 
-		if ($v = (string)$this->_element->attributes()->size) {
-			$attributes	.= ' size="'.$v.'"';
-		}
-		if ($v = (string)$this->_element->attributes()->class) {
-			$attributes	.= ' class="'.$v.'"';
-		} else {
-			$attributes	.= ' class="inputbox"';
-		}
-		if ((string)$this->_element->attributes()->multiple) {
-			$attributes	.= ' multiple="multiple"';
-		}
-		if ($v = (string)$this->_element->attributes()->onchange) {
-			$attributes	.= ' onchange="'.$this->_replacePrefix($v).'"';
-		}
+		foreach ($this->element->children() as $option) {
 
-		if ($disabled || $readonly) {
-			$attributes .= ' disabled="disabled"';
-		}
-		$options	= (array)$this->_getOptions();
-		$return		= null;
+			// Only add <option /> elements.
+			if ($option->getName() != 'option') {
+				continue;
+			}
 
-		if ($disabled) {
-			// Create a disabled list.
-			$return .= JHtml::_('select.genericlist', $options, $this->inputName, $attributes, 'value', 'text', $this->value, $this->inputId);
-		} else if ($readonly) {
-			// Create a read-only disabled list with a hidden input to store the value.
-			$return .= JHtml::_('select.genericlist', $options, '', $attributes, 'value', 'text', $this->value, $this->inputId);
-			$return	.= '<input type="hidden" name="'.$this->inputName.'" value="'.$this->value.'" />';
-		} else {
-			// Create a regular list.
-			$return = JHtml::_('select.genericlist', $options, $this->inputName, $attributes, 'value', 'text', $this->value, $this->inputId);
+			// Create a new option object based on the <option /> element.
+			$tmp = JHtml::_('select.option', (string) $option['value'], JText::_(trim((string) $option)), 'value', 'text', ((string) $option['disabled']=='true'));
+
+			// Set some option attributes.
+			$tmp->class = (string) $option['class'];
+
+			// Set some JavaScript option attributes.
+			$tmp->onclick = (string) $option['onclick'];
+
+			// Add the option object to the result set.
+			$options[] = $tmp;
 		}
 
-		return $return;
+		reset($options);
+
+		return $options;
 	}
 }

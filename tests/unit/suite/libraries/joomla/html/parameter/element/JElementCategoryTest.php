@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'parameter' . DS . 'element' . DS . 'category.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element/category.php';
 
 /**
  * Test class for JElementCategory.
@@ -42,4 +42,3 @@ class JElementCategoryTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

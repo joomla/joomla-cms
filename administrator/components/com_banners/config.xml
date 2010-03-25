@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id$ -->
 <config>
-	<fields>
+	<fieldset name="component">
 		<field
 			id="purchase_type"
 			name="purchase_type"
@@ -53,13 +53,13 @@
 			label="COM_BANNERS_FIELD_METAKEYWORDPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_METAKEYWORDPREFIX_DESC" />
 
-	</fields>
+	</fieldset>
 
-	<fields
-		group="permissions"
+	<fieldset
+		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
-		hidden="true">
+		>
 
 		<field
 			name="rules"
@@ -69,5 +69,5 @@
 			filter="rules"
 			component="com_banners"
 			section="component" />
-	</fields>
+	</fieldset>
 </config>

@@ -43,26 +43,6 @@ class PluginsModelPlugin extends JModelForm
 	}
 
 	/**
-	 * Prepare and sanitise the table prior to saving.
-	 */
-	protected function _prepareTable(&$table)
-	{
-	}
-
-	/**
-	 * Returns a reference to the a Table object, always creating it.
-	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
-	*/
-	public function getTable($type = 'Extension', $prefix = 'JTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
-	}
-
-	/**
 	 * Method to override check-out a row for editing.
 	 *
 	 * @param	int		The ID of the primary key.
@@ -92,6 +72,51 @@ class PluginsModelPlugin extends JModelForm
 	}
 
 	/**
+	 * Method to get the record form.
+	 *
+	 * @param	array		An optional array of source data.
+	 *
+	 * @return	mixed		JForm object on success, false on failure.
+	 */
+	public function getForm($data = null)
+	{
+		// Initialise variables.
+		$app = JFactory::getApplication();
+
+		// The folder and element vars are passed when saving the form.
+		if (empty($data)) {
+			$item		= $this->getItem();
+			$folder		= $item->folder;
+			$element	= $item->element;
+		} else {
+			$folder		= JArrayHelper::getValue($data, 'folder');
+			$element	= JArrayHelper::getValue($data, 'element');
+		}
+
+		// These variables are used to add data from the plugin XML files.
+		$this->setState('item.folder',	$folder);
+		$this->setState('item.element',	$element);
+
+		// Get the form.
+		try {
+			$form = parent::getForm('com_plugins.plugin', 'plugin', array('control' => 'jform'));
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
+
+		// Check the session for previously entered form data.
+		$data = $app->getUserState('com_plugins.edit.plugin.data', array());
+
+		// Bind the form data if present.
+		if (!empty($data)) {
+			$form->bind($data);
+		}
+
+		return $form;
+	}
+
+	/**
 	 * Method to get a single record.
 	 *
 	 * @param	integer	The id of the primary key.
@@ -103,8 +128,7 @@ class PluginsModelPlugin extends JModelForm
 		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('plugin.id');
 
-		if (!isset($this->_cache[$pk]))
-		{
+		if (!isset($this->_cache[$pk])) {
 			$false	= false;
 
 			// Get a row instance.
@@ -114,8 +138,7 @@ class PluginsModelPlugin extends JModelForm
 			$return = $table->load($pk);
 
 			// Check for a table object error.
-			if ($return === false && $table->getError())
-			{
+			if ($return === false && $table->getError()) {
 				$this->setError($table->getError());
 				return $false;
 			}
@@ -143,71 +166,50 @@ class PluginsModelPlugin extends JModelForm
 	}
 
 	/**
-	 * Method to get the record form.
+	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @return	mixed	JForm object on success, false on failure.
-	 */
-	public function getForm()
+	 * @param	type	The table type to instantiate
+	 * @param	string	A prefix for the table class name. Optional.
+	 * @param	array	Configuration array for model. Optional.
+	 * @return	JTable	A database object
+	*/
+	public function getTable($type = 'Extension', $prefix = 'JTable', $config = array())
 	{
-		// Initialise variables.
-		$app	= JFactory::getApplication();
-
-		// Get the form.
-		$form = parent::getForm('plugin', 'com_plugins.plugin', array('array' => 'jform', 'event' => 'onPrepareForm'));
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
-			return false;
-		}
-
-		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_plugins.edit.plugin.data', array());
-
-		// Bind the form data if present.
-		if (!empty($data)) {
-			$form->bind($data);
-		}
-
-		return $form;
+		return JTable::getInstance($type, $prefix, $config);
 	}
 
 	/**
-	 * Method to get a form object for the template params.
-	 *
-	 * @param	string		An optional plugin folder.
-	 * @param	string		An options plugin element.
-	 *
-	 * @return	mixed		A JForm object on success, false on failure.
+	 * Prepare and sanitise the table prior to saving.
 	 */
-	public function getParamsForm($folder = null, $element = null)
+	protected function prepareTable(&$table)
+	{
+	}
+
+	/**
+	 * @param	object	A form object.
+	 *
+	 * @return	mixed	True if successful.
+	 * @throws	Exception if there is an error in the form event.
+	 * @since	1.6
+	 */
+	protected function preprocessForm($form)
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 
 		// Initialise variables.
-		$lang			= JFactory::getLanguage();
-		$form			= null;
-		$formName		= 'com_plugins.plugin.params';
-		$formOptions	= array('array' => 'jformparams', 'event' => 'onPrepareForm');
-
-		if (empty($folder) && empty($element))
-		{
-			$item		= $this->getItem();
-			$folder		= $item->folder;
-			$element	= $item->element;
-		}
-		$client			= JApplicationHelper::getClientInfo(0);
+		$folder		= $this->getState('item.folder');
+		$element	= $this->getState('item.element');
+		$lang		= JFactory::getLanguage();
+		$client		= JApplicationHelper::getClientInfo(0);
 
 		// Try 1.6 format: /plugins/folder/element/element.xml
 		$formFile = JPath::clean($client->path.'/plugins/'.$folder.'/'.$element.'/'.$element.'.xml');
-		if (!file_exists($formFile))
-		{
+		if (!file_exists($formFile)) {
 			// Try 1.5 format: /plugins/folder/element/element.xml
 			$formFile = JPath::clean($client->path.'/plugins/'.$folder.'/'.$element.'.xml');
-			if (!file_exists($formFile))
-			{
-				$this->setError(JText::sprintf('JError_File_not_found', $element.'.xml'));
+			if (!file_exists($formFile)) {
+				throw new Exception(JText::sprintf('JError_File_not_found', $element.'.xml'));
 				return false;
 			}
 		}
@@ -217,70 +219,16 @@ class PluginsModelPlugin extends JModelForm
 		||	$lang->load('plg_'.$folder.'_'.$element, $client->path.'/plugins/'.$folder.'/'.$element, null, false, false)
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 		||	$lang->load('plg_'.$folder.'_'.$element, $client->path.'/plugins/'.$folder.'/'.$element, $lang->getDefault(), false, false);
-		//$lang->load('plg_'.$folder.'_'.$element, JPATH_SITE);
 
-		// If an XML file was found in the component, load it first.
-		// We need to qualify the full path to avoid collisions with component file names.
-		$form = parent::getForm($formFile, $formName, $formOptions, true);
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
-			return false;
+		if (file_exists($formFile)) {
+			// Get the plugin form.
+			if (!$form->loadFile($formFile, false, '//config')) {
+				throw new Exception(JText::_('JModelForm_Error_loadFile_failed'));
+			}
 		}
 
-		return $form;
-	}
-
-	/**
-	 * Method to save the form data.
-	 *
-	 * @param	array	The form data.
-	 * @return	boolean	True on success.
-	 */
-	public function save($data)
-	{
-		// Initialise variables.
-		$table		= $this->getTable();
-		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('plugin.id');
-		$isNew		= true;
-
-		// Include the content plugins for the onSave events.
-		JPluginHelper::importPlugin('content');
-
-		// Load the row if saving an existing record.
-		if ($pk > 0)
-		{
-			$table->load($pk);
-			$isNew = false;
-		}
-
-		// Bind the data.
-		if (!$table->bind($data))
-		{
-			$this->setError(JText::sprintf('JERROR_TABLE_BIND_FAILED', $table->getError()));
-			return false;
-		}
-
-		// Prepare the row for saving
-		$this->_prepareTable($table);
-
-		// Check the data.
-		if (!$table->check())
-		{
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Store the data.
-		if (!$table->store()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		$this->setState('plugin.id', $table->extension_id);
-
-		return true;
+		// Trigger the default form events.
+		parent::preprocessForm($form);
 	}
 
 	/**
@@ -298,8 +246,7 @@ class PluginsModelPlugin extends JModelForm
 		$table	= $this->getTable();
 		$pks	= (array) $pks;
 
-		if (!$user->authorise('core.edit.state', 'com_plugins'))
-		{
+		if (!$user->authorise('core.edit.state', 'com_plugins')) {
 			$pks = array();
 			$this->setError(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 			return false;
@@ -331,27 +278,21 @@ class PluginsModelPlugin extends JModelForm
 
 		// Access checks.
 		$allow = $user->authorise('core.edit.state', 'com_plugins');
-		if (!$allow)
-		{
+		if (!$allow) {
 			$this->setError(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 			return false;
 		}
 
-		foreach ($pks as $i => $pk)
-		{
+		foreach ($pks as $i => $pk) {
 			$table->reset();
-			if ($table->load($pk) && $this->checkout($pk))
-			{
+			if ($table->load($pk) && $this->checkout($pk)) {
 				$table->ordering += $delta;
-				if (!$table->store())
-				{
+				if (!$table->store()) {
 					$this->setError($table->getError());
 					unset($pks[$i]);
 					$result = false;
 				}
-			}
-			else
-			{
+			} else {
 				$this->setError($table->getError());
 				unset($pks[$i]);
 				$result = false;
@@ -359,6 +300,54 @@ class PluginsModelPlugin extends JModelForm
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param	array	The form data.
+	 * @return	boolean	True on success.
+	 */
+	public function save($data)
+	{
+		// Initialise variables.
+		$table		= $this->getTable();
+		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('plugin.id');
+		$isNew		= true;
+
+		// Include the content plugins for the onSave events.
+		JPluginHelper::importPlugin('content');
+
+		// Load the row if saving an existing record.
+		if ($pk > 0) {
+			$table->load($pk);
+			$isNew = false;
+		}
+
+		// Bind the data.
+		if (!$table->bind($data)) {
+			$this->setError(JText::sprintf('JERROR_TABLE_BIND_FAILED', $table->getError()));
+			return false;
+		}
+
+		// Prepare the row for saving
+		$this->prepareTable($table);
+
+		// Check the data.
+		if (!$table->check()) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Store the data.
+		if (!$table->store()) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		$this->setState('plugin.id', $table->extension_id);
+
+		return true;
 	}
 
 	/**
@@ -378,23 +367,19 @@ class PluginsModelPlugin extends JModelForm
 			return JError::raiseWarning(500, JText::_('COM_PLUGINS_NO_PLUGINS_SELECTED'));
 		}
 
-		if (!$user->authorise('core.edit.state', 'com_plugins'))
-		{
+		if (!$user->authorise('core.edit.state', 'com_plugins')) {
 			$pks = array();
 			$this->setError(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 			return false;
 		}
 
 		// update ordering values
-		foreach ($pks as $i => $pk)
-		{
+		foreach ($pks as $i => $pk) {
 			$table->load((int) $pk);
 
-			if ($table->ordering != $order[$i])
-			{
+			if ($table->ordering != $order[$i]) {
 				$table->ordering = $order[$i];
-				if (!$table->store())
-				{
+				if (!$table->store()) {
 					$this->setError($table->getError());
 					return false;
 				}

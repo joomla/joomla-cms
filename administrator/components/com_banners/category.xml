@@ -1,69 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id: category.xml 14137 2010-01-12 19:32:01Z chdemko $ -->
+	<!-- This is a demo. Delete for beta -->
 <form>
 	<fields
-		group="params"
-		array="true"
-		label="COM_CATEGORIES_CATEGORY_OPTIONS">
-
-		<field
-			name="target"
-			type="componentlayout"
-			label="JFIELD_ALT_LAYOUT_LABEL"
-			description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-			extension=""
-			view="categories"
-			/>
-		<field
-			name="image"
-			type="imagelist"
-			directory="/images"
-			hide_default="1"
-			default=""
-			label="JFIELD_CATEGORY_IMAGE_LABEL"
-			description="JFIELD_CATEGORY_IMAGE_DESC" />
+		name="params">
+		<fieldset
+			name="basic">
+		
+			<field
+				name="foobar"
+				type="text"
+				label="Delete Me"
+				description="This is an example of a category form override. Delete before Beta"
+				/>
+			</fieldset>
 	</fields>
-
-	<fields
-		group="metadata"
-		array="true">
-
-		<field
-			name="page_title"
-			type="text"
-			label="JFIELD_ALT_PAGE_TITLE_LABEL"
-			description="JFIELD_ALT_PAGE_TITLE_DESC"
-			size="30"
-			default=""/>
-
-		<field
-			name="author"
-			type="text"
-			label="JFIELD_METADATA_AUTHOR_LABEL"
-			description="JFIELD_METADATA_AUTHOR_DESC"
-			size="30"
-			default=""/>
-
-		<field
-			name="robots"
-			type="list"
-			label="JFIELD_METADATA_ROBOTS_LABEL"
-			description="JFIELD_METADATA_ROBOTS_DESC"
-			default="">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">JCOMMON_INDEX_FOLLOW</option>
-			<option
-				value="1">JCOMMON_NOINDEX_FOLLOW</option>
-			<option
-				value="2">JCOMMON_INDEX_NOFOLLOW</option>
-			<option
-				value="3">JCOMMON_NOINDEX_NOFOLLOW</option>
-			<option
-				value="4">JCOMMON_NO_ROBOTS_TAG</option>
-		</field>
-
-	</fields>
-
 </form>

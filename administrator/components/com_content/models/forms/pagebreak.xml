@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<fields>
-		<field
-			id="title"
-			name="title"
-			type="text"
+<form>
+	<fieldset>
+		<field name="title" type="text"
 			class="inputbox"
+			description="CONTENT_PAGEBREAK_TITLE_DESC"			
 			label="CONTENT_PAGEBREAK_TITLE_LABEL"
-			desscription="CONTENT_PAGEBREAK_TITLE_DESC"			
 			size="20"
-			default="0"
-			 />
-		<field
-			id="alt"
-			name="alt"
-			type="text"
+		 />
+
+		<field name="alt" type="text"
 			class="inputbox"
-			label="CONTENT_PAGEBREAK_ALIAS_LABEL"
 			description="CONTENT_PAGEBREAK_ALIAS_DESC"			
+			label="CONTENT_PAGEBREAK_ALIAS_LABEL"
 			size="20"
-			default="0"
-			 />			
-			
-			
-	</fields>		
+		 />			
+	</fieldset>		
+</form>

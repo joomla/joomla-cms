@@ -33,7 +33,7 @@
 		<position>debug</position>
 		<position>syndicate</position>
 	</positions>
-	<fields>
+	<fieldset>
 		<field
 			name="colorVariation"
 			type="list"
@@ -72,8 +72,8 @@
 			<option
 				value="white">Milky_White</option>
 		</field>
-	</fields>
-	<fields group="advanced">
+	</fieldset>
+	<fieldset group="advanced">
 		<field
 			name="widthStyle"
 			type="list"
@@ -89,5 +89,5 @@
 			<option
 				value="fluid">Milky_Fluid</option>
 		</field>
-	</fields>
+	</fieldset>
 </install>

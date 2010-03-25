@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -19,21 +21,30 @@ jimport('joomla.form.formfield');
 class JFormFieldHidden extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	protected $type = 'Hidden';
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	string		The field input.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		$class	= (string)$this->_element->attributes()->class ? 'class="'.$this->_element->attributes()->class.'"' : '';
+		// Initialize some field attributes.
+		$class		= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 
-		return '<input type="hidden" name="'.$this->inputName.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'" '.$class.' />';
+		// Initialize JavaScript field attributes.
+		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+
+		return '<input type="hidden" name="'.$this->name.'" id="'.$this->id.'"' .
+				' value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"' .
+				$class.$disabled.$onchange.'/>';
 	}
 }

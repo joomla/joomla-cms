@@ -52,7 +52,8 @@ class UsersViewLogin extends JView
 		// Set the page title if it has not been set already.
 		if (is_object($menu) && isset($menu->query['view']) && $menu->query['view'] == 'login')
 		{
-			$mparams = new JParameter($menu->params);
+			$mparams = new JRegistry;
+			$mparams->loadJSON($menu->params);
 
 			// If a page title has not been set, set one.
 			if (!$mparams->get('page_title')) {

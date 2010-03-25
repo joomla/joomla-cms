@@ -15,9 +15,6 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
 
-jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders');
-
 $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
 ?>
 <script type="text/javascript">
@@ -57,7 +54,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 
 			<?php echo $this->form->getLabel('showtitle'); ?>
 			<?php echo $this->form->getInput('showtitle'); ?>
-			
+
 			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
 			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
@@ -66,7 +63,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php echo $this->form->getLabel('publish_down'); ?>
 			<?php echo $this->form->getInput('publish_down'); ?>
 			<?php endif; ?>
-			
+
 			<?php echo $this->form->getLabel('position'); ?>
 			<?php echo $this->form->getInput('position'); ?>
 
@@ -85,7 +82,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<br class="clr" />
 			<!-- Module metadata -->
 			<?php if ($this->item->xml) : ?>
-				<?php if ($text = (string) $this->item->xml->description) : ?>
+				<?php if ($text = trim($this->item->xml->description)) : ?>
 					<label>
 						<?php echo JText::_('COM_MODULES_MODULE_DESCRIPTION'); ?>
 					</label>
@@ -98,13 +95,13 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 	</div>
 
 	<div class="width-40 fltrt">
-	<?php echo $pane->startPane('options-pane'); ?>
+	<?php echo JHtml::_('sliders.start','plugin-sliders-'.$this->item->id); ?>
 
 		<?php echo $this->loadTemplate('options'); ?>
 
 		<div class="clr"></div>
 
-		<?php echo $pane->endPane(); ?>
+	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 
 	<div class="width-60 fltlft">

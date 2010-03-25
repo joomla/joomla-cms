@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install
-	version="1.6"
-	type="plugin"
-	group="content">
+<install version="1.6" type="plugin" group="content">
 	<name>plg_content_geshi</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
@@ -12,7 +9,11 @@
 	<version>1.6</version>
 	<description>PLG_CONTENT_GESHI_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			plugin="geshi">geshi.php</filename>
+		<filename plugin="geshi">geshi.php</filename>
 	</files>
+
+	<config>
+		<fields name="params">
+		</fields>
+	</config>
 </install>

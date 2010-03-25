@@ -1,31 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
 <form>
-	<fields>
+	<fieldset name="details">
 
-		<field
-			id="compressed"
-			name="compressed"
-			type="radio"
-			label="COM_BANNERS_FIELD_COMPRESSED_LABEL"
-			description="COM_BANNERS_FIELD_COMPRESSED_DESC"
-			class="inputbox"
-			default="0">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+		<field name="compressed" type="radio"
+			label="COM_BANNERS_FIELD_COMPRESSED_LABEL" description="COM_BANNERS_FIELD_COMPRESSED_DESC"
+			class="inputbox" default="0"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
-		<field
-			id="basename"
-			name="basename"
-			type="text"
-			class="inputbox"
-			default=""
-			size="40"
-			label="COM_BANNERS_FIELD_BASENAME_LABEL"
-			description="COM_BANNERS_FIELD_BASENAME_DESC"/>
+		<field name="basename" type="text"
+			class="inputbox" default="" size="40"
+			label="COM_BANNERS_FIELD_BASENAME_LABEL" description="COM_BANNERS_FIELD_BASENAME_DESC" />
 
-	</fields>
+	</fieldset>
 </form>

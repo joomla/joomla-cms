@@ -39,53 +39,57 @@
 		<position>footer</position>
 		<position>debug</position>
 	</positions>
-	<fields>
-		<field
-			name="useRoundedCorners"
-			type="list"
-			default="1"
-			label="TPL_BLUESTORK_FIELD_ROUNDED_LABEL"
-			description="TPL_BLUESTORK_FIELD_ROUNDED_DESC">
-			<option
-				value="0">JDISABLED</option>
-			<option
-				value="1">JENABLED</option>
-		</field>
-		<field
-			name="showSiteName"
-			type="list"
-			default="0"
-			label="TPL_BLUESTORK_FIELD_SITENAME_LABEL"
-			description="TPL_BLUESTORK_FIELD_SITENAME_DESC">
-			<option
-				value="0">JDISABLED</option>
-			<option
-				value="1">JENABLED</option>
-		</field>
-
-		<field
-			name="textBig"
-			type="list"
-			default="0"
-			label="TPL_BLUESTORK_FIELD_TEXTBIG_LABEL"
-			description="TPL_BLUESTORK_FIELD_TEXTBIG_DESC">
-			<option
-				value="0">JDISABLED</option>
-			<option
-				value="1">JENABLED</option>
-		</field>
-
-		<field
-			name="highContrast"
-			type="list"
-			default="0"
-			label="TPL_BLUESTORK_FIELD_CONTRAST_LABEL"
-			description="TPL_BLUESTORK_FIELD_CONTRAST_DESC">
-			<option
-				value="0">JDISABLED</option>
-			<option
-				value="1">JENABLED</option>
-		</field>
-
-	</fields>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="useRoundedCorners"
+					type="list"
+					default="1"
+					label="TPL_BLUESTORK_FIELD_ROUNDED_LABEL"
+					description="TPL_BLUESTORK_FIELD_ROUNDED_DESC">
+					<option
+						value="0">JDISABLED</option>
+					<option
+						value="1">JENABLED</option>
+				</field>
+				<field
+					name="showSiteName"
+					type="list"
+					default="0"
+					label="TPL_BLUESTORK_FIELD_SITENAME_LABEL"
+					description="TPL_BLUESTORK_FIELD_SITENAME_DESC">
+					<option
+						value="0">JDISABLED</option>
+					<option
+						value="1">JENABLED</option>
+				</field>
+		
+				<field
+					name="textBig"
+					type="list"
+					default="0"
+					label="TPL_BLUESTORK_FIELD_TEXTBIG_LABEL"
+					description="TPL_BLUESTORK_FIELD_TEXTBIG_DESC">
+					<option
+						value="0">JDISABLED</option>
+					<option
+						value="1">JENABLED</option>
+				</field>
+		
+				<field
+					name="highContrast"
+					type="list"
+					default="0"
+					label="TPL_BLUESTORK_FIELD_CONTRAST_LABEL"
+					description="TPL_BLUESTORK_FIELD_CONTRAST_DESC">
+					<option
+						value="0">JDISABLED</option>
+					<option
+						value="1">JENABLED</option>
+				</field>
+		
+			</fieldset>
+		</fields>
+	</config>
 </install>

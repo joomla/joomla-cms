@@ -123,14 +123,13 @@ class BannersModelClient extends JModelForm
 	public function getForm()
 	{
 		// Initialise variables.
-		$app	= JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Get the form.
-		$form = parent::getForm('client', 'com_banners.client', array('array' => 'jform', 'event' => 'onPrepareForm'));
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
+		try {
+			$form = parent::getForm('com_banners.client', 'client', array('control' => 'jform'));
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 

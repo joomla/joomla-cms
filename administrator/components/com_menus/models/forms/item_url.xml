@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
+	<!--
+		$Id$
+	-->
 <form>
-	<fields
-		label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
-		description="">
+	<fields name="params">
+		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
+			description=""
+		>
 
-		<field
-			id="menu-anchor_title"
-			name="menu-anchor_title"
-			type="text"
-			label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC"
-			default=""/>
+			<field name="menu-anchor_title"
+				type="text" label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC"
+				default="" />
 
-		<field
-			id="menu-anchor_css"
-			name="menu-anchor_css"
-			type="text"
-			label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
-			description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC"
-			default=""/>
+			<field name="menu-anchor_css"
+				type="text" label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC"
+				default="" />
 
-		<field
-			id="menu_image"
-			name="menu_image"
-			type="text"
-			label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC"
-			default=""/>
+			<field name="menu_image" type="text"
+				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC"
+				default="" />
 
+		</fieldset>
 	</fields>
-
 </form>

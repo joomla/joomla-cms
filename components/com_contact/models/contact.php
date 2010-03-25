@@ -37,7 +37,8 @@ class ContactModelContact extends JModel
 
 		$menu = JSite::getMenu()->getActive();
 		if (is_object($menu)) {
-			$menuParams = new JParameter($menu->params);
+			$menuParams = new JRegistry;
+			$menuParams->loadJSON($menu->params);
 			$this->setState('menu_params', $menuParams);
 		}
 

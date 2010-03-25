@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'parameter' . DS . 'element' . DS . 'password.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element/password.php';
 
 /**
  * Test class for JElementPassword.
@@ -42,4 +42,3 @@ class JElementPasswordTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

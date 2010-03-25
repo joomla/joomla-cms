@@ -93,7 +93,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		static $params = null;
 		if (is_null($params)) {
 			$config = &JFactory::getConfig();
-			$params = $config->getValue('config.memcache_settings');
+			$params = $config->get('memcache_settings');
 			if (!is_array($params)) {
 				$params = unserialize(stripslashes($params));
 			}
@@ -101,7 +101,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			if (!$params) {
 				$params = array();
 			}
-			$params['hash'] = $config->getValue('config.secret');
+			$params['hash'] = $config->get('secret');
 		}
 		return $params;
 	}

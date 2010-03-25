@@ -152,7 +152,8 @@ class ContentViewArticle extends JView
 			{
 				if ($menu->query['view'] == 'article' && $menu->query['id'] == $this->item->id)
 				{
-					$menuParams = new JParameter($menu->params);
+					$menuParams = new JRegistry;
+					$menuParams->loadJSON($menu->params);
 					$title = $menuParams->get('page_title');
 				}
 			}

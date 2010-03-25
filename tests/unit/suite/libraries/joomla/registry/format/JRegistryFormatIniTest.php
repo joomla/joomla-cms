@@ -24,7 +24,7 @@ class JRegistryFormatINITest extends PHPUnit_Framework_TestCase
 		$string = $class->objectToString($object, $options);
 		$this->assertThat(
 			trim($string),
-			$this->equalTo('foo=bar')
+			$this->equalTo('foo="bar"')
 		);
 	}
 

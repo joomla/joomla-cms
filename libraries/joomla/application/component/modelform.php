@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
+jimport('joomla.form.form');
 
 /**
  * Prototype form model.
@@ -26,45 +27,6 @@ class JModelForm extends JModel
 	protected $_forms = array();
 
 	/**
-	 * Method to check-out a row for editing.
-	 *
-	 * @param	int		$pk	The numeric id of the primary key.
-	 *
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function checkout($pk = null)
-	{
-		// Only attempt to check the row in if it exists.
-		if ($pk)
-		{
-			$user = JFactory::getUser();
-
-			// Get an instance of the row to checkout.
-			$table = $this->getTable();
-			if (!$table->load($pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-
-			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
-			{
-				$this->setError(JText::_('JError_Checkout_user_mismatch'));
-				return false;
-			}
-
-			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $pk))
-			{
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
 	 * Method to checkin a row.
 	 *
 	 * @param	integer	$pk The numeric id of the primary key.
@@ -74,8 +36,7 @@ class JModelForm extends JModel
 	public function checkin($pk = null)
 	{
 		// Only attempt to check the row in if it exists.
-		if ($pk)
-		{
+		if ($pk) {
 			$user = JFactory::getUser();
 
 			// Get an instance of the row to checkin.
@@ -86,15 +47,49 @@ class JModelForm extends JModel
 			}
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
-			{
+			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
 				$this->setError(JText::_('JError_Checkin_user_mismatch'));
 				return false;
 			}
 
 			// Attempt to check the row in.
-			if (!$table->checkin($pk))
-			{
+			if (!$table->checkin($pk)) {
+				$this->setError($table->getError());
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to check-out a row for editing.
+	 *
+	 * @param	int		$pk	The numeric id of the primary key.
+	 *
+	 * @return	boolean	False on failure or error, true otherwise.
+	 */
+	public function checkout($pk = null)
+	{
+		// Only attempt to check the row in if it exists.
+		if ($pk) {
+			$user = JFactory::getUser();
+
+			// Get an instance of the row to checkout.
+			$table = $this->getTable();
+			if (!$table->load($pk)) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Check if this is the user having previously checked out the row.
+			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
+				$this->setError(JText::_('JError_Checkout_user_mismatch'));
+				return false;
+			}
+
+			// Attempt to check the row out.
+			if (!$table->checkout($user->get('id'), $pk)) {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -106,21 +101,20 @@ class JModelForm extends JModel
 	/**
 	 * Method to get a form object.
 	 *
-	 * @param	string		$xml		The form data. Can be XML string if file flag is set to false.
-	 * @param	array		$options	Optional array of parameters.
+	 * @param	string		$name		The name of the form.
+	 * @param	string		$data		The form data. Can be XML string if file flag is set to false.
+	 * @param	array		$options	Optional array of options for the form creation.
 	 * @param	boolean		$clear		Optional argument to force load a new form.
+	 * @param	string		$xpath		An optional xpath to search for the fields.
 	 * @return	mixed		JForm object on success, False on error.
 	 */
-	function getForm($xml, $name = 'form', $options = array(), $clear = false)
+	function getForm($name, $data = null, $options = array(), $clear = false, $xpath = false)
 	{
 		// Handle the optional arguments.
-		$options['array']	= array_key_exists('array',	$options) ? $options['array'] : false;
-		$options['file']	= array_key_exists('file',	$options) ? $options['file']  : true;
-		$options['event']	= array_key_exists('event',	$options) ? $options['event'] : null;
-		$options['group']	= array_key_exists('group',	$options) ? $options['group'] : null;
+		$options['control']	= JArrayHelper::getValue($options, 'control', false);
 
 		// Create a signature hash.
-		$hash = md5($xml.serialize($options));
+		$hash = md5($data.serialize($options));
 
 		// Check if we can use a previously loaded form.
 		if (isset($this->_forms[$hash]) && !$clear) {
@@ -128,52 +122,51 @@ class JModelForm extends JModel
 		}
 
 		// Get the form.
-		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_COMPONENT.DS.'models'.DS.'forms');
+		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
-		$form = &JForm::getInstance($xml, $name, $options['file'], $options);
 
-		// Check for an error.
-		if (JError::isError($form))
-		{
-			$this->setError($form->getMessage());
+		try {
+			$form = JForm::getInstance($name, $data, $options, false, $xpath);
+
+			// Allow for additional modification of the form, and events to be triggered.
+			$this->preprocessForm($form);
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
 			$false = false;
-			return $form;
-		}
-
-		// Look for an event to fire.
-		if ($options['event'] !== null)
-		{
-			// Get the dispatcher.
-			$dispatcher	= &JDispatcher::getInstance();
-
-			// Load an optional plugin group.
-			if ($options['group'] !== null) {
-				JPluginHelper::importPlugin($options['group']);
-			}
-
-			// Trigger the form preparation event.
-			$results = $dispatcher->trigger($options['event'], array($form->getName(), $form));
-
-			// Check for errors encountered while preparing the form.
-			if (count($results) && in_array(false, $results, true))
-			{
-				// Get the last error.
-				$error = $dispatcher->getError();
-
-				// Convert to a JException if necessary.
-				if (!JError::isError($error)) {
-					$error = new JException($error, 500);
-				}
-
-				return $error;
-			}
 		}
 
 		// Store the form for later.
 		$this->_forms[$hash] = $form;
 
 		return $form;
+	}
+
+	/**
+	 * Method to allow derived classes to preprocess the form.
+	 *
+	 * @param	object	A form object.
+	 *
+	 * @throws	Exception if there is an error in the form event.
+	 * @since	1.6
+	 */
+	protected function preprocessForm($form)
+	{
+		// Get the dispatcher.
+		$dispatcher	= JDispatcher::getInstance();
+
+		// Trigger the form preparation event.
+		$results = $dispatcher->trigger('onPrepareForm', array($form->getName(), $form));
+
+		// Check for errors encountered while preparing the form.
+		if (count($results) && in_array(false, $results, true)) {
+			// Get the last error.
+			$error = $dispatcher->getError();
+
+			// Convert to a JException if necessary.
+			if (!JError::isError($error)) {
+				throw new Exception($error);
+			}
+		}
 	}
 
 	/**
@@ -197,8 +190,7 @@ class JModelForm extends JModel
 		}
 
 		// Check the validation results.
-		if ($return === false)
-		{
+		if ($return === false) {
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message) {
 				$this->setError($message);

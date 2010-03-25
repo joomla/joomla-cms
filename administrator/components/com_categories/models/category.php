@@ -101,8 +101,7 @@ class CategoriesModelCategory extends JModelForm
 		}
 
 		// Prime required properties.
-		if (empty($table->id))
-		{
+		if (empty($table->id)) {
 			$table->parent_id	= $this->getState('category.parent_id');
 			$table->extension	= $this->getState('category.extension');
 		}
@@ -132,92 +131,19 @@ class CategoriesModelCategory extends JModelForm
 	public function getForm()
 	{
 		// Initialise variables.
-		$app		= &JFactory::getApplication();
-		$lang		= &JFactory::getLanguage();
+		$app		= JFactory::getApplication();
 		$extension	= $this->getState('category.extension');
-		$component	= $this->getState('category.component');
-		$section	= $this->getState('category.section');
+
+		// Get the form.
+		try {
+			$form = parent::getForm('com_categories.category'.$extension, 'category', array('control' => 'jform'));
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
 
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_categories.edit.category.data', array());
-
-		// Get the form.
-		jimport('joomla.form.form');
-		JForm::addFormPath(JPATH_ADMINISTRATOR.'/components/com_categories/models/forms');
-		JForm::addFieldPath(JPATH_ADMINISTRATOR.'/components/com_categories/models/fields');
-		$form = &JForm::getInstance('category', "com_categories.category.$extension", true, array('array'=>'jform'));
-		// Check for an error.
-		if (JError::isError($form))
-		{
-			$this->setError($form->getMessage());
-			return false;
-		}
-
-		// Get the component form if it exists
-		jimport('joomla.filesystem.path');
-		$name = 'category' . ($section ? ('.'.$section):'');
-		$path = JPath::clean(JPATH_ADMINISTRATOR."/components/$component/$name.xml");
-		if (file_exists($path))
-		{
-			$lang->load($component, JPATH_BASE, null, false, false);
-			$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false);
-			$form->load($path, true, false);
-
-			// Check for an error.
-			if (JError::isError($form)) {
-				$this->setError($form->getMessage());
-				return false;
-			}
-		}
-
-		// Try to find the component helper.
-		$eName	= str_replace('com_', '', $component);
-		$path	= JPath::clean(JPATH_ADMINISTRATOR."/components/$component/helpers/category.php");
-		if (file_exists($path))
-		{
-			require_once $path;
-			$cName	= ucfirst($eName).ucfirst($section).'HelperCategory';
-			if (class_exists($cName) && is_callable(array($cName, 'onPrepareForm')))
-			{
-				$lang->load($component, JPATH_BASE, null, false, false);
-				$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false);
-				call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
-
-				// Check for an error.
-				if (JError::isError($form)) {
-					$this->setError($form->getMessage());
-					return false;
-				}
-			}
-		}
-
-		// Get the dispatcher.
-		$dispatcher	= &JDispatcher::getInstance();
-
-		// Load the plugin group.
-		JPluginHelper::importPlugin('content');
-
-		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onPrepareForm', array($form->getName(), $form));
-
-		// Check for errors encountered while preparing the form.
-		if (count($results) && in_array(false, $results, true))
-		{
-			// Get the last error.
-			$error = $dispatcher->getError();
-
-			// Convert to a JException if necessary.
-			if (!JError::isError($error)) {
-				$error = new JException($error, 500);
-			}
-			
-			$this->setError($error);
-			return false;
-		}
-
-		// Set the access control rules field component value.
-		$form->setFieldAttribute('rules', 'component', $component);
-		$form->setFieldAttribute('rules', 'section', $name);
 
 		// Bind the form data if present.
 		if (!empty($data)) {
@@ -298,6 +224,65 @@ class CategoriesModelCategory extends JModelForm
 	}
 
 	/**
+	 * @param	object	A form object.
+	 *
+	 * @throws	Exception if there is an error loading the form.
+	 * @since	1.6
+	 */
+	protected function preprocessForm($form)
+	{
+		jimport('joomla.filesystem.path');
+
+		// Initialise variables.
+		$lang		= JFactory::getLanguage();
+		$extension	= $this->getState('category.extension');
+		$component	= $this->getState('category.component');
+		$section	= $this->getState('category.section');
+
+		// Get the component form if it exists
+		jimport('joomla.filesystem.path');
+		$name = 'category'.($section ? ('.'.$section):'');
+		$path = JPath::clean(JPATH_ADMINISTRATOR."/components/$component/$name.xml");
+
+		if (file_exists($path)) {
+			$lang->load($component, JPATH_BASE, null, false, false);
+			$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false);
+
+			if (!$form->loadFile($path, false)) {
+				throw new Exception(JText::_('JModelForm_Error_loadFile_failed'));
+			}
+		}
+
+		// Try to find the component helper.
+		$eName	= str_replace('com_', '', $component);
+		$path	= JPath::clean(JPATH_ADMINISTRATOR."/components/$component/helpers/category.php");
+
+		if (file_exists($path)) {
+			require_once $path;
+			$cName	= ucfirst($eName).ucfirst($section).'HelperCategory';
+
+			if (class_exists($cName) && is_callable(array($cName, 'onPrepareForm'))) {
+				$lang->load($component, JPATH_BASE, null, false, false);
+				$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false);
+				call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
+
+				// Check for an error.
+				if (JError::isError($form)) {
+					$this->setError($form->getMessage());
+					return false;
+				}
+			}
+		}
+
+		// Set the access control rules field component value.
+		$form->setFieldAttribute('rules', 'component', $component);
+		$form->setFieldAttribute('rules', 'section', $name);
+
+		// Trigger the default form events.
+		parent::preprocessForm($form);
+	}
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param	array	The form data.
@@ -330,8 +315,7 @@ class CategoriesModelCategory extends JModelForm
 		}
 
 		// Bind the rules.
-		if (isset($data['rules']))
-		{
+		if (isset($data['rules'])) {
 			$rules = new JRules($data['rules']);
 			$table->setRules($rules);
 		}
@@ -381,7 +365,7 @@ class CategoriesModelCategory extends JModelForm
 			{
 				$this->setError($table->getError());
 				return false;
-			}			
+			}
 		}
 
 		return true;

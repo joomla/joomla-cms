@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout
-		title="com_user_reset_default_title">
+	<layout title="com_user_reset_default_title">
 		<message>
 			<![CDATA[com_user_reset_view_default_desc]]>
 		</message>
 	</layout>
 
-	<fields
-		group="basic"
-		label="Menus_Layout_Basic_Options_Label"
-		description="">
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
 
+		<!-- Basic options. -->
+		<fieldset name="basic" label="Menus_Layout_Basic_Options_Label" description="">
+		</fieldset>
 	</fields>
 </metadata>

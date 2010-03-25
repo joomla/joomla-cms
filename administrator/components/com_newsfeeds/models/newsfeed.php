@@ -132,22 +132,18 @@ class NewsfeedsModelNewsfeed extends JModelForm
 		$app	= JFactory::getApplication();
 
 		// Get the form.
-		$form = parent::getForm('newsfeed', 'com_newsfeeds.newsfeed', array('array' => 'jform', 'event' => 'onPrepareForm'));
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
+		try {
+			$form = parent::getForm('com_newsfeeds.newsfeed', 'newsfeed', array('control' => 'jform'));
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 
 		// Determine correct permissions to check.
-		if ($this->getState('newsfeed.id'))
-		{
+		if ($this->getState('newsfeed.id')) {
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
-		}
-		else
-		{
+		} else {
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}

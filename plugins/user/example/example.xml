@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install
-	version="1.6"
-	type="plugin"
-	group="user">
+<install version="1.6" type="plugin" group="user">
 	<name>plg_user_example</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
@@ -13,7 +10,6 @@
 	<version>1.0</version>
 	<description>An example user synchronisation plugin</description>
 	<files>
-		<filename
-			plugin="example">example.php</filename>
+		<filename plugin="example">example.php</filename>
 	</files>
 </install>

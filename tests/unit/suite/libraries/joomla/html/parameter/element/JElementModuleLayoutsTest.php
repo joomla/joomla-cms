@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'parameter' . DS . 'element' . DS . 'modulelayouts.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element/modulelayouts.php';
 
 /**
  * Test class for JElementModuleLayouts.
@@ -39,4 +39,3 @@ class JElementModuleLayoutsTest extends PHPUnit_Framework_TestCase
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
-?>

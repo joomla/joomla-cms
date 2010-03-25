@@ -60,7 +60,7 @@ class CommentsViewComments extends JView
 			// Get the site router.
 			$config	= &JFactory::getConfig();
 			$router = JRouter::getInstance('site');
-			$router->setMode($config->getValue('sef', 1));
+			$router->setMode($config->get('sef', 1));
 		}
 
 		// Build the route.

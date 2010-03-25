@@ -102,13 +102,13 @@ abstract class JTable extends JObject
 			jimport('joomla.access.rules');
 			$this->_trackAssets = true;
 			// TODO: Do we need the following line anymore?
-			//$this->access = (int) JFactory::getConfig()->getValue('access');
+			//$this->access = (int) JFactory::getConfig()->get('access');
 		}
 
 		// If the acess property exists, set the default.
 		if (property_exists($this, 'access'))
 		{
-			$this->access = (int) JFactory::getConfig()->getValue('access');
+			$this->access = (int) JFactory::getConfig()->get('access');
 		}
 	}
 

@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -8,7 +10,9 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
-require_once dirname(__FILE__).DS.'list.php';
+jimport('joomla.language.helper');
+jimport('joomla.form.formfield');
+JLoader::register('JFormFieldList', dirname(__FILE__).'/list.php');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -20,25 +24,29 @@ require_once dirname(__FILE__).DS.'list.php';
 class JFormFieldLanguage extends JFormFieldList
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	protected $type = 'Language';
 
 	/**
-	 * Method to get a list of options for a list input.
+	 * Method to get the field options.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	array	The field option objects.
+	 * @since	1.6
 	 */
-	protected function _getOptions()
+	protected function getOptions()
 	{
-		jimport('joomla.language.helper');
-		$client		= (string)$this->_element->attributes()->client;
-		$options	= array_merge(
-						parent::_getOptions(),
-						JLanguageHelper::createLanguageList($this->value, constant('JPATH_'.strtoupper($client)), true)
-					);
+		// Initialize some field attributes.
+		$client	= (string) $this->element['client'];
+
+		// Merge any additional options in the XML definition.
+		$options = array_merge(
+			parent::getOptions(),
+			JLanguageHelper::createLanguageList($this->value, constant('JPATH_'.strtoupper($client)), true)
+		);
 
 		return $options;
 	}

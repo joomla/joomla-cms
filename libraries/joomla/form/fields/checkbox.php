@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -20,27 +22,31 @@ jimport('joomla.form.formfield');
 class JFormFieldCheckbox extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	public $type = 'Checkbox';
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	string		The field input.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		$value =((string)$this->_element->attributes()->value !== null) ? (string)$this->_element->attributes()->value : '';
-		$readonly =((string)$this->_element->attributes()->readonly == 'true') ? ' disabled="disabled"' : '';
-		$checked = (!empty($value) && $value == $this->value) ? ' checked="checked"' : '';
-		$attributes = '';
-		if ($v = (string)$this->_element->attributes()->onclick) {
-			$attributes .= ' onclick="'.$this->_replacePrefix($v).'"';
-		}
+		// Initialize some field attributes.
+		$class		= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$checked	= ((string) $this->element['value'] == $this->value) ? ' checked="checked"' : '';
 
-		return '<input type="checkbox" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.$value.'"'.$checked.$readonly.$attributes.' />';
+		// Initialize JavaScript field attributes.
+		$onclick	= $this->element['onclick'] ? ' onclick="'.(string) $this->element['onclick'].'"' : '';
+
+		return '<input type="checkbox" name="'.$this->name.'" id="'.$this->id.'"' .
+				' value="'.htmlspecialchars((string) $this->element['value'], ENT_COMPAT, 'UTF-8').'"' .
+				$class.$checked.$disabled.$onclick.'/>';
 	}
 }

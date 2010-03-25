@@ -15,10 +15,12 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&task=reset.complete'); ?>" method="post" class="form-validate">
 
-<?php foreach ($this->form->getGroups() as $group): ?>
+<?php
+	foreach ($this->form->getFieldsets() as $fieldset):
+	?>
 	<fieldset>
 		<dl>
-		<?php foreach ($this->form->getFields($group, $group) as $name => $field): ?>
+		<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field): ?>
 			<dt><?php echo $field->label; ?></dt>
 			<dd><?php echo $field->input; ?></dd>
 		<?php endforeach; ?>

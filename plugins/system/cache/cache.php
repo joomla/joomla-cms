@@ -42,7 +42,7 @@ class plgSystemCache extends JPlugin
 			'lifetime'		=> $this->params->get('cachetime', 15) * 60,
 			'browsercache'	=> $this->params->get('browsercache', false),
 			'caching'		=> false,
-			'language'		=> $config->getValue('config.language', 'en-GB')
+			'language'		=> $config->get('language', 'en-GB')
 		);
 
 		jimport('joomla.cache.cache');

@@ -1,83 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
+	<!-- $Id$ -->
 <form>
-	<fields>
-		<field
-			id="id"
-			name="id"
-			type="hidden"
-			class="inputbox"
-			label="WEBLINK_ID_LABEL"
-			size="10"
+	<fieldset>
+		<field name="id" type="hidden"
 			default="0"
+			label="WEBLINK_ID_LABEL"
+			readonly="true"
 			required="true"
-			readonly="true" />
+			size="10"
+		/>
 
-		<field
-			id="title"
-			name="title"
-			type="text"
-			label="COM_WEBLINKS_FIELD_TITLE_LABEL"
+		<field name="title" type="text"
 			description="COM_WEBLINKS_FIELD_TITLE_DESC"
-			class="inputbox"
+			label="COM_WEBLINKS_FIELD_TITLE_LABEL"
+			required="true"
 			size="30"
-			required="true" />
+		/>
 
-		<field
-			id="alias"
-			name="alias"
-			type="text"
-			label="JFIELD_ALIAS_LABEL"
+		<field name="alias" type="text"
 			description="JFIELD_ALIAS_DESC"
-			class="inputbox"
+			filter="unset"
+			label="JFIELD_ALIAS_LABEL"
 			size="45"
-			default=""
-			filter="unset" />
+		/>
 
-		<field
-			id="description"
-			name="description"
-			type="editor"
-			label="COM_WEBLINKS_FIELD_DESCRIPTION_LABEL"
+		<field name="description" type="editor"
 			description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC"
-			class="inputbox"
-			filter="safehtml" />
+			filter="safehtml"
+			label="COM_WEBLINKS_FIELD_DESCRIPTION_LABEL"
+		/>
 
-		<field
-			id="state"
-			name="state"
-			type="list"
-			label="JFIELD_PUBLISHED_LABEL"
+		<field name="state" type="list"
+			default="1"
 			description="JFIELD_PUBLISHED_DESC"
-			class="inputbox"
+			label="JFIELD_PUBLISHED_LABEL"
 			size="1"
-			default="1">
-			<option
-				value="1">
-				JOPTION_PUBLISHED</option>
-			<option
-				value="0">
-				JOPTION_UNPUBLISHED</option>
+		>
+			<option value="1">JOPTION_PUBLISHED</option>
+			<option value="0">JOPTION_UNPUBLISHED</option>
 		</field>
 
-		<field
-			id="catid"
-			name="catid"
-			type="category"
+		<field name="catid" type="category"
+			description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
 			extension="com_weblinks"
 			label="COM_WEBLINKS_FIELD_CATEGORY_LABEL"
-			description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
-			class="inputbox"
-			required="true" />
+			required="true"
+		/>
 
-		<field
-			id="url"
-			name="url"
-			type="text"
-			label="COM_WEBLINKS_FIELD_URL_LABEL"
+		<field name="url" type="text"
 			description="COM_WEBLINKS_FIELD_URL_DESC"
-			class="inputbox"
+			label="COM_WEBLINKS_FIELD_URL_LABEL"
+			required="true"
 			size="45"
-			required="true" />
-	</fields>
+		/>
+	</fieldset>
 </form>

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install
-	version="1.6"
-	type="plugin"
-	group="editors">
+<install version="1.6" type="plugin" group="editors">
 	<name>plg_editors_codemirror</name>
 	<version>1.0</version>
 	<creationDate>May 2009</creationDate>
@@ -13,31 +10,32 @@
 	<license></license>
 	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			plugin="codemirror">codemirror.php</filename>
+		<filename plugin="codemirror">codemirror.php</filename>
 	</files>
-	<fields>
-		<field
-			name="linenumbers"
-			type="radio"
-			default="0"
-			label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
-			description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC">
-			<option
-				value="0">JOFF</option>
-			<option
-				value="1">JON</option>
-		</field>
-		<field
-			name="tabmode"
-			type="radio"
-			default="indent"
-			label="PLG_CODEMIRROR_FIELD_TABMODE_LABEL"
-			description="PLG_CODEMIRROR_FIELD_TABMODE_DESC">
-			<option
-				value="indent">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_INDENT</option>
-			<option
-				value="shift">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_SHIFT</option>
-		</field>
-	</fields>
+
+	<config>
+		<fields name="params">
+
+			<fieldset name="basic">
+				<field name="linenumbers" type="radio"
+					default="0"
+					description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
+					label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
+				>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+
+				<field name="tabmode" type="radio"
+					default="indent"
+					description="PLG_CODEMIRROR_FIELD_TABMODE_DESC"
+					label="PLG_CODEMIRROR_FIELD_TABMODE_LABEL"
+				>
+					<option value="indent">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_INDENT</option>
+					<option value="shift">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_SHIFT</option>
+				</field>
+			</fieldset>
+
+		</fields>
+	</config>
 </install>

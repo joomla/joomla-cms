@@ -22,9 +22,9 @@ jimport('joomla.event.event');
 abstract class JPlugin extends JEvent
 {
 	/**
-	 * A JParameter object holding the parameters for the plugin
+	 * A JRegistry object holding the parameters for the plugin
 	 *
-	 * @var		A JParameter object
+	 * @var		A JRegistry object
 	 * @access	public
 	 * @since	1.5
 	 */
@@ -60,10 +60,11 @@ abstract class JPlugin extends JEvent
 		// Get the parameters.
 		if (isset($config['params']))
 		{
-			if ($config['params'] instanceof JParameter) {
+			if ($config['params'] instanceof JRegistry) {
 				$this->params = $config['params'];
 			} else {
-				$this->params = new JParameter($config['params']);
+				$this->params = new JRegistry;
+				$this->params->loadJSON($config['params']);
 			}
 		}
 

@@ -20,10 +20,10 @@ class JRegistryFormatXMLTest extends PHPUnit_Framework_TestCase
 		$object->foo = 'bar';
 
 		// Test basic object to string.
-		$string = $class->objectToString($object, $options);
+		$string = trim($class->objectToString($object, $options));
 		$this->assertThat(
 			$string,
-			$this->equalTo("<?xml version=\"1.0\" ?>\n<config>\n	<entry name=\"foo\">bar</entry>\n</config>")
+			$this->equalTo("<?xml version=\"1.0\"?>\n<registry><node name=\"foo\" type=\"string\">bar</node></registry>")
 		);
 	}
 

@@ -54,16 +54,12 @@ class plgSearchCategories extends JPlugin
 		require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
 		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys(plgSearchCategoryAreas()))) {
+			if (!array_intersect($areas, array_keys($this->onSearchAreas()))) {
 				return array();
 			}
 		}
 
-		// load plugin params info
-		$plugin = &JPluginHelper::getPlugin('search', 'categories');
-		$pluginParams = new JParameter($plugin->params);
-
-		$limit = $pluginParams->def('search_limit', 50);
+		$limit = $this->params->def('search_limit', 50);
 
 		$text = trim($text);
 		if ($text == '') {

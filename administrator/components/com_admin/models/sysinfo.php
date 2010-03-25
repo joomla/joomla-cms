@@ -193,8 +193,8 @@ class AdminModelSysInfo extends JModel
 			$this->directory['cache']						= array('writable' => is_writable(JPATH_SITE.DS.'cache'), 'message' => 'COM_ADMIN_CACHE_DIRECTORY');
 			$this->directory['administrator'.DS.'cache']	= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'cache'), 'message' => 'COM_ADMIN_CACHE_DIRECTORY');
 
-			$this->directory[$registry->getValue('config.log_path', JPATH_ROOT.DS.'log') ] = array('writable' => is_writable($registry->getValue('config.log_path', JPATH_ROOT.DS.'log')), 'message' => 'COM_ADMIN_LOG_DIRECTORY');
-			$this->directory[$registry->getValue('config.tmp_path', JPATH_ROOT.DS.'log') ] = array('writable' => is_writable($registry->getValue('config.tmp_path', JPATH_ROOT.DS.'tmp')), 'message' => 'COM_ADMIN_TEMP_DIRECTORY');
+			$this->directory[$registry->get('log_path', JPATH_ROOT.DS.'log') ] = array('writable' => is_writable($registry->get('log_path', JPATH_ROOT.DS.'log')), 'message' => 'COM_ADMIN_LOG_DIRECTORY');
+			$this->directory[$registry->get('tmp_path', JPATH_ROOT.DS.'log') ] = array('writable' => is_writable($registry->get('tmp_path', JPATH_ROOT.DS.'tmp')), 'message' => 'COM_ADMIN_TEMP_DIRECTORY');
 		}
 		return $this->directory;
 	}
@@ -210,7 +210,7 @@ class AdminModelSysInfo extends JModel
 		if (is_null($this->editor))
 		{
 			$config = &JFactory::getConfig();
-			$this->editor = $config->getValue('config.editor');
+			$this->editor = $config->get('editor');
 		}
 		return $this->editor;
 	}

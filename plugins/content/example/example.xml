@@ -12,33 +12,42 @@
 
 	<files>
 		<filename plugin="example">example.php</filename>
-		<folder>language</folder> // if you want to install the language files in the plugin folder. Create a "language" folder at the root of the pack i.e language/en-GB/en-GB.plg_content_example.ini
+		<folder>language</folder>
+		<!--
+			if you want to install the language files in the plugin folder.
+			Create a "language" folder at the root of the pack i.e
+			language/en-GB/en-GB.plg_content_example.ini
+		-->
 	</files>
-	<languages> // these files will be installed in the administrator/language folder.
+	<languages>
+		<!--
+			these files will be installed in the administrator/language folder.
+		-->
 		<language tag="en-GB">en-GB.plg_content_example.ini</language>
 	</languages>
 
-	<fields>
-		<field
-			name="field1"
-			type="text"
-			label="PLG_CONTENT_EXAMPLE_FIELD_LABEL_FIELD1"
-			description="PLG_CONTENT_EXAMPLE_FIELD_DESC_FIELD1" />
-	</fields>
-	<fields
-		group="advanced">
-		<field
-			name="field2"
-			type="text"
-			label="PLG_CONTENT_EXAMPLE_FIELD_LABEL_FIELD2"
-			description="PLG_CONTENT_EXAMPLE_FIELD_DESC_FIELD2" />
-	</fields>
-	<fields
-		group="example">
-		<field
-			name="field3"
-			type="text"
-			label="PLG_CONTENT_EXAMPLE_FIELD_LABEL_FIELD3"
-			description="PLG_CONTENT_EXAMPLE_FIELD_DESC_FIELD3" />
-	</fields>
+	<config>
+		<fields name="params">
+
+			<field name="field1" type="text"
+				description="Example field 1"
+				label="Example field 1"
+			/>
+
+			<fieldset name="advanced">
+				<field name="field2" type="text"
+					description="Example field 2"
+					label="Example field 2"
+				/>
+			</fieldset>
+
+			<fieldset name="example">
+				<field name="field3" type="text"
+					description="Example field 3"
+					label="Example field 3"
+				/>
+			</fieldset>
+
+		</fields>
+	</config>
 </install>

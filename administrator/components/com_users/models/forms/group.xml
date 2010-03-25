@@ -1,50 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id$ -->
 <form>
-	<fields>
-		<field
-			name="id"
-			type="hidden"
+	<fieldset>
+		<field name="id" type="hidden"
 			default="0"
 			required="true"
 			readonly="true"
 		/>
 
-		<field
-			name="title"
-			type="text"
+		<field name="title" type="text"
 			class="inputbox"
 			default=""
-			size="40"
-			label="Users_Group_Title"
 			description="Users_Group_Title_Desc"
+			label="Users_Group_Title"
+			size="40"
 		/>
 
-		<field
-			name="parent_id"
-			type="usergroup"
+		<field name="parent_id" type="usergroup"
 			class="inputbox"
 			default=""
-			label="Users_Group_Parent"
 			description="Users_Group_Parent_Desc"
+			label="Users_Group_Parent"
 			required="true"
 		/>
 
-		<field
-			name="actions"
-			type="hidden"
+		<field name="actions" type="hidden"
 			multiple="true"
 		/>
 
-		<field
-			name="lft"
-			type="hidden"
+		<field name="lft" type="hidden"
 			filter="unset"
 		/>
-		<field
-			name="rgt"
-			type="hidden"
+		<field name="rgt" type="hidden"
 			filter="unset"
 		/>
-	</fields>
+	</fieldset>
 </form>

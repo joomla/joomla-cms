@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -19,33 +21,38 @@ jimport('joomla.form.formfield');
 class JFormFieldSpacer extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	protected $type = 'Spacer';
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	string		The field input.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
 		return ' ';
 	}
 
 	/**
-	 * Method to get the field label
+	 * Method to get the field label markup.
 	 *
-	 * @return	string		The field label
+	 * @return	string	The field label markup.
+	 * @since	1.6
 	 */
-	protected function _getLabel()
+	protected function getLabel()
 	{
-		if((string)$this->_element->attributes()->hr=='true') {
-			$this->labelText = "JFIELD_SPACER_LABEL";
+		if ((string) $this->element['hr'] == 'true') {
+			return '<hr />';
 		}
-		return parent::_getLabel();
+		else {
+			return parent::getLabel();
+		}
 	}
 
 }

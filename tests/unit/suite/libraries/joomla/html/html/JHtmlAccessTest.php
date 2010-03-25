@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'html' . DS . 'access.php';
+require_once JPATH_BASE.'/libraries/joomla/html/html/access.php';
 
 /**
  * Test class for JHtmlAccess.
@@ -97,4 +97,3 @@ class JHtmlAccessTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

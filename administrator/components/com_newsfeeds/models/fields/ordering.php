@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
+jimport('joomla.form.formfield');
 
 /**
  * Supports an HTML select list of categories
@@ -21,45 +22,53 @@ jimport('joomla.html.html');
 class JFormFieldOrdering extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
-	public $type = 'Ordering';
+	protected $type = 'Ordering';
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	string		The field input.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		$size		= $this->_element->attributes('size');
-		$class		= $this->_element->attributes('class') ? 'class="'.$this->_element->attributes('class').'"' : 'class="inputbox"';
-		$disabled	= $this->_element->attributes('disabled') == 'true' ? true : false;
-		$readonly	= $this->_element->attributes('readonly') == 'true' ? true : false;
-		$attributes	= $class;
-		$attributes = ($disabled || $readonly) ? $attributes.' disabled="disabled"' : $attributes;
-		$return		= null;
-		$newsfeedId	= (int) $this->_form->getValue('id');
-		$categoryId	= (int) $this->_form->getValue('catid');
-		$query		= 'SELECT ordering AS value, name AS text'
-					. ' FROM #__newsfeeds'
-					. ' WHERE catid = ' . $categoryId
-					. ' ORDER BY ordering';
+		// Initialize variables.
+		$html = array();
+		$attr = '';
 
-		// Handle a read only list.
-		if ($readonly) {
-			// Create a disabled list with a hidden input to store the value.
-			$return .= JHTML::_('list.ordering', '', $query, $attributes, $this->value, $this->inputId, $newsfeedId ? 0 : 1);
-			$return	.= '<input type="hidden" name="'.$this->inputName.'" value="'.$this->value.'" />';
+		// Initialize some field attributes.
+		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+
+		// Initialize JavaScript field attributes.
+		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+
+		// Get some field values from the form.
+		$newsfeedId	= (int) $this->form->getValue('id');
+		$categoryId	= (int) $this->form->getValue('catid');
+
+		// Build the query for the ordering list.
+		$query = 'SELECT ordering AS value, name AS text' .
+				' FROM #__newsfeeds' .
+				' WHERE catid = ' . (int) $categoryId .
+				' ORDER BY ordering';
+
+		// Create a read-only list (no name) with a hidden input to store the value.
+		if ((string) $this->element['readonly'] == 'true') {
+			$html[] = JHtml::_('list.ordering', '', $query, trim($attr), $this->value, $newsfeedId ? 0 : 1);
+			$html[] = '<input type="hidden" name="'.$this->name.'" value="'.$this->value.'"/>';
 		}
-		// Handle a regular list.
+		// Create a regular list.
 		else {
-			// Create a regular list.
-			$return = JHTML::_('list.ordering', $this->inputName, $query, $attributes, $this->value);
+			$html[] = JHtml::_('list.ordering', $this->name, $query, trim($attr), $this->value, $newsfeedId ? 0 : 1);
 		}
 
-		return $return;
+		return implode($html);
 	}
 }

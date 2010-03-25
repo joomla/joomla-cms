@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id: item_alias.xml 12477 2009-07-06 04:31:45Z eddieajau $ -->
 <form>
-	<fields
+	<fieldset
 		label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 		description="">
 
@@ -21,7 +21,7 @@
 			description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC"
 			default=""/>
 
-	</fields>
+	</fieldset>
 
 </form>
 

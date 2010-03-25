@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	version="1.6"
-	type="plugin"
-	group="authentication">
+<extension version="1.6" type="plugin" group="authentication">
 	<name>plg_authentication_gmail</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2006</creationDate>
@@ -13,50 +10,45 @@
 	<version>1.6</version>
 	<description>PLG_GMAIL_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			plugin="gmail">gmail.php</filename>
+		<filename plugin="gmail">gmail.php</filename>
 	</files>
-	<fields>
-		<field
-			name="applysuffix"
-			type="list"
-			default="0"
-			label="PLG_GMAIL_FIELD_APPLYSUFFIX_LABEL"
-			description="PLG_GMAIL_FIELD_APPLYSUFFIX_DESC">
-			<option
-				value="0">PLG_GMAIL_FIELD_VALUE_NOAPPLYSUFFIX</option>
-			<option
-				value="1">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXMISSING</option>
-			<option
-				value="2">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXALWAYS</option>
-		</field>
 
-		<field
-			name="suffix"
-			type="text"
-			size="20"
-			default=""
-			label="PLG_GMAIL_FIELD_SUFFIX_LABEL"
-			description="PLG_GMAIL_FIELD_SUFFIX_DESC" />
+	<config>
+		<fields name="params">
 
-		<field
-			name="verifypeer"
-			type="radio"
-			default="1"
-			label="PLG_GMAIL_FIELD_VERIFYPEER_LABEL"
-			description="PLG_GMAIL_FIELD_VERIFYPEER_DESC">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
+			<fieldset name="basic">
+				<field name="applysuffix" type="list"
+					default="0"
+					description="PLG_GMAIL_FIELD_APPLYSUFFIX_DESC"
+					label="PLG_GMAIL_FIELD_APPLYSUFFIX_LABEL"
+				>
+					<option value="0">PLG_GMAIL_FIELD_VALUE_NOAPPLYSUFFIX</option>
+					<option value="1">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXMISSING</option>
+					<option value="2">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXALWAYS</option>
+				</field>
 
-		<field
-			name="user_blacklist"
-			type="text"
-			size="20"
-			default=""
-			label="PLG_GMAIL_FIELD_USER_BLACKLIST_LABEL"
-			description="PLG_GMAIL_FIELD_USER_BLACKLIST_DESC" />
-	</fields>
+				<field name="suffix" type="text"
+					description="PLG_GMAIL_FIELD_SUFFIX_DESC"
+					label="PLG_GMAIL_FIELD_SUFFIX_LABEL"
+					size="20"
+				/>
+
+				<field name="verifypeer" type="radio"
+					default="1"
+					description="PLG_GMAIL_FIELD_VERIFYPEER_DESC"
+					label="PLG_GMAIL_FIELD_VERIFYPEER_LABEL"
+				>
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+
+				<field name="user_blacklist" type="text"
+					description="PLG_GMAIL_FIELD_USER_BLACKLIST_DESC"
+					label="PLG_GMAIL_FIELD_USER_BLACKLIST_LABEL"
+					size="20"
+				/>
+			</fieldset>
+
+		</fields>
+	</config>
 </extension>

@@ -35,8 +35,7 @@ class ModulesControllerModule extends JControllerForm
 
 		// Look for the Extension ID.
 		$extensionId = JRequest::getInt('eid');
-		if (empty($extensionId))
-		{
+		if (empty($extensionId)) {
 			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_item.'&layout=edit', false));
 			return JError::raiseWarning(500, 'COM_MODULES_ERROR_INVALID_EXTENSION');
 		}
@@ -58,35 +57,12 @@ class ModulesControllerModule extends JControllerForm
 	}
 
 	/**
-	 * Override parent save method to deal with raw data.
+	 * Override parent cancel method to reset the add module state.
 	 */
 	public function save()
 	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$app	= JFactory::getApplication();
-		$iData	= JRequest::getVar('jform', array(), 'post', 'array');
-		$pData	= JRequest::getVar('jformparams', array(), 'post', 'array');
-		$model	= $this->getModel();
-
-		// Get the template parameter form.
-		$paramsForm	= $model->getParamsForm($iData['module'], $iData['client_id']);
-		if (!$paramsForm)
-		{
-			JError::raiseError(500, $model->getError());
-			return false;
-		}
-
-		// Validate and inject back into the main form data.
-		$pData	= $model->validate($paramsForm, $pData);
-		$iData['params'] = $pData;
-
-		JRequest::setVar('jform', $iData, 'post');
-
-		if ($result = parent::save())
-		{
+		if ($result = parent::save()) {
+			$app = JFactory::getApplication();
 			$app->setUserState('com_modules.add.module.extension_id', null);
 		}
 		return $result;

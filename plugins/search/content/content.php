@@ -53,19 +53,15 @@ class plgSearchContent extends JPlugin
 
 		$searchText = $text;
 		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys(plgSearchContentAreas()))) {
+			if (!array_intersect($areas, array_keys($this->onSearchAreas()))) {
 				return array();
 			}
 		}
 
-		// load plugin params info
-		$plugin			= &JPluginHelper::getPlugin('search', 'content');
-		$pluginParams	= new JParameter($plugin->params);
-
-		$sContent		= $pluginParams->get('search_content',		1);
-		$sUncategorised = $pluginParams->get('search_uncategorised',	1);
-		$sArchived		= $pluginParams->get('search_archived',		1);
-		$limit			= $pluginParams->def('search_limit',		50);
+		$sContent		= $this->params->get('search_content',		1);
+		$sUncategorised = $this->params->get('search_uncategorised',	1);
+		$sArchived		= $this->params->get('search_archived',		1);
+		$limit			= $this->params->def('search_limit',		50);
 
 		$nullDate		= $db->getNullDate();
 		$date = &JFactory::getDate();

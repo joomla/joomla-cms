@@ -58,7 +58,7 @@ class JSessionStorageMemcache extends JSessionStorage
 		parent::__construct($options);
 
 		$config = &JFactory::getConfig();
-		$params = $config->getValue('config.memcache_settings');
+		$params = $config->get('memcache_settings');
 		if (!is_array($params))
 		{
 			$params = unserialize(stripslashes($params));

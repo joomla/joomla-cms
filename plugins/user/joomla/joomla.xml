@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install
-	version="1.6"
-	type="plugin"
-	group="user">
+<install version="1.6" type="plugin" group="user">
 	<name>plg_user_joomla</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
@@ -13,20 +10,23 @@
 	<version>1.5</version>
 	<description>PLG_USER_JOOMLA_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			plugin="joomla">joomla.php</filename>
+		<filename plugin="joomla">joomla.php</filename>
 	</files>
-	<fields>
-		<field
-			name="autoregister"
-			type="radio"
-			default="1"
-			label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
-			description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-	</fields>
+
+	<config>
+		<fields name="params">
+
+			<fieldset name="basic" label="JPLUGIN_BASIC_FIELDSET_LABEL">
+				<field name="autoregister" type="radio"
+					default="1"
+					description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC"
+					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
+				>
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+			</fieldset>
+
+		</fields>
+	</config>
 </install>

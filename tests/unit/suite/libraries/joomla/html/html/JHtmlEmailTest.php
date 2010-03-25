@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'html' . DS . 'email.php';
+require_once JPATH_BASE.'/libraries/joomla/html/html/email.php';
 
 /**
  * Test class for JHtmlEmail.
@@ -42,4 +42,3 @@ class JHtmlEmailTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'html' . DS . 'jgrid.php';
+require_once JPATH_BASE.'/libraries/joomla/html/html/jgrid.php';
 
 /**
  * Test class for JHtmlJGrid.
@@ -64,4 +64,3 @@ class JHtmlJGridTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

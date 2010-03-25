@@ -9,1003 +9,1474 @@
 
 defined('JPATH_BASE') or die;
 
+jimport('joomla.filesystem.path');
 jimport('joomla.form.formfield');
+jimport('joomla.registry.registry');
 
 /**
  * Form Class for the Joomla Framework.
  *
- * This class implements a robust API for constructing, populating,
- * filtering, and validating forms. It uses XML definitions to
- * construct form fields and a variety of field and rule classes
- * to render and validate the form.
+ * This class implements a robust API for constructing, populating, filtering, and validating forms.
+ * It uses XML definitions to construct form fields and a variety of field and rule classes to
+ * render and validate the form.
  *
  * @package		Joomla.Framework
- * @subpackage	Forms
+ * @subpackage	Form
  * @since		1.6
  */
-class JForm extends JObject
+class JForm
 {
 	/**
-	 * The form name.
+	 * The JRegistry data store for form fields during display.
+	 *
+	 * @var		object
+	 * @since	1.6
+	 */
+	protected $data;
+
+	/**
+	 * The form object errors array.
+	 *
+	 * @var		array
+	 * @since	1.6
+	 */
+	protected $errors = array();
+
+	/**
+	 * The name of the form instance.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
-	protected $_name;
+	protected $name;
 
 	/**
-	 * An array of options for form groups.
+	 * The form object options for use in rendering and validation.
 	 *
 	 * @var		array
+	 * @since	1.6
 	 */
-	protected $_fieldsets	= array();
+	protected $options = array();
 
 	/**
-	 * Form groups containing field objects.
+	 * The form XML definition.
+	 *
+	 * @var		object
+	 * @since	1.6
+	 */
+	protected $xml;
+
+	/**
+	 * Static array of JFormField objects for re-use.
 	 *
 	 * @var		array
+	 * @since	1.6
 	 */
-	protected $_groups		= array();
+	protected static $fields = array();
 
 	/**
-	 * Form data containing field values.
+	 * Static array of JForm objects for re-use.
 	 *
 	 * @var		array
+	 * @since	1.6
 	 */
-	protected $_data		= array();
+	protected static $forms = array();
 
 	/**
-	 * Form options.
+	 * Search arrays of paths for loading JForm, JFormField, and JFormRule class files.
 	 *
 	 * @var		array
+	 * @since	1.6
 	 */
-	protected $_options		= array();
+	protected static $paths = array('fields' => array(), 'forms' => array(), 'rules' => array());
 
 	/**
-	 * Method to get an instance of a form.
+	 * Static array of JFormRule objects for re-use.
 	 *
-	 * @param	string		$name		The name of the form.
-	 * @param	string		$data		The name of an XML file or an XML string.
-	 * @param	string		$file		Flag to toggle whether the $data is a file path or a string.
-	 * @param	array		$options	An array of options to pass to the form.
-	 * @return	object		A JForm instance.
+	 * @var		array
+	 * @since	1.6
 	 */
-	public static function getInstance($data, $name = 'form', $file = true, $options = array())
+	protected static $rules = array();
+
+	/**
+	 * Method to instantiate the form object.
+	 *
+	 * @param	string	$name		The name of the form.
+	 * @param	array	$options	An array of form options.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	public function __construct($name, array $options = array())
 	{
-		static $instances;
+		// Set the name for the form.
+		$this->name = $name;
 
-		if ($instances == null) {
-			$instances = array();
-		}
+		// Initialize the JRegistry data.
+		$this->data = new JRegistry();
 
-		// Only load the form once.
-		if (!isset($instances[$name])) {
-			// Instantiate the form.
-			$instances[$name] = new JForm($options);
-
-			// Set the form name.
-			$instances[$name]->setName($name);
-
-			// Load the data.
-			if ($file) {
-				$instances[$name]->load($data, true, true);
-			} else {
-				$instances[$name]->load($data, false, true);
-			}
-
-		}
-
-		return $instances[$name];
+		// Set the options if specified.
+		$this->options['control']  = isset($options['control']) ? $options['control'] : false;
 	}
 
 	/**
-	 * Method to construct the object on instantiation.
+	 * Method to bind data to the form.
 	 *
-	 * @param	array		$options	An array of form options.
-	 * @return	void
+	 * @param	mixed	$data	An array or object of data to bind to the form.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
 	 */
-	public function __construct($options = array())
+	public function bind($data)
 	{
-		// Set the options if specified.
-		$this->_options['array'] = array_key_exists('array', $options) ? $options['array'] : false;
-		$this->_options['prefix'] = array_key_exists('prefix', $options) ? $options['prefix'] : '%__';
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			return false;
+		}
+
+		// The data must be an object or array.
+		if (!is_object($data) && !is_array($data)) {
+			return false;
+		}
+
+		// Convert the input to an array.
+		if (is_object($data)) {
+			if ($data instanceof JRegistry) {
+				// Handle a JRegistry.
+				$data = $data->toArray();
+			} else if ($data instanceof JObject) {
+				// Handle a JObject.
+				$data = $data->getProperties();
+			} else {
+				// Handle other types of objects.
+				$data = (array) $data;
+			}
+		}
+
+		// Process the input data.
+		foreach ($data as $k => $v) {
+
+			if (is_scalar($v) || (is_array($v) && !JArrayHelper::isAssociative($v))) {
+				// If the value is a scalar or unassociative array just process it.
+				if ($this->findField($k)) {
+					// If the field exists set the value.
+					$this->data->set($k, $v);
+				}
+			} else {
+				// If the value is not a scalar hand it off to the recursive bind level method.
+				$this->bindLevel($k, $v);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to bind data to the form for the group level.
+	 *
+	 * @param	string	$group	The dot-separated form group path on which to bind the data.
+	 * @param	mixed	$data	An array or object of data to bind to the form for the group level.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	protected function bindLevel($group, $data)
+	{
+		// Ensure the input data is an array.
+		settype($data, 'array');
+
+		// Process the input data.
+		foreach ($data as $k => $v) {
+			// If the value is a scalar or unassociative array just process it.
+			if (is_scalar($v) || (is_array($v) && !JArrayHelper::isAssociative($v))) {
+				if ($this->findField($k, $group)) {
+					// If the field exists set the value.
+					$this->data->set($group.'.'.$k, $v);
+				}
+			} else {
+				// If the value is not a scalar hand it off to the recursive bind level method.
+				$this->bindLevel($group.'.'.$k, $v);
+			}
+		}
+	}
+
+	/**
+	 * Method to filter the form data.
+	 *
+	 * @param	array	$data	An array of field values to filter.
+	 * @param	string	$group	The dot-separated form group path on which to filter the fields.
+	 *
+	 * @return	mixed	boolean	True on sucess.
+	 * @since	1.6
+	 */
+	public function filter($data, $group = null)
+	{
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			return false;
+		}
+
+		// Initialize variables.
+		$input	= new JRegistry($data);
+		$output	= new JRegistry();
+
+		// Get the fields for which to filter the data.
+		$fields = $this->findFieldsByGroup($group);
+		if (!$fields) {
+			// PANIC!
+			return false;
+		}
+
+		// Filter the fields.
+		foreach ($fields as $field) {
+
+			// Initialize variables.
+			$name = (string) $field['name'];
+
+			// Get the field groups for the element.
+			$attrs	= $field->xpath('ancestor::fields[@name]/@name');
+			$groups	= array_map('strval', $attrs ? $attrs : array());
+			$group	= implode('.', $groups);
+
+			// Get the field value from the data input.
+			if ($group) {
+
+				// Filter the value if it exists.
+				if ($input->exists($group.'.'.$name)) {
+					$output->set($group.'.'.$name, $this->filterField($field, $input->get($group.'.'.$name, (string) $field['default'])));
+				}
+			} else {
+				// Filter the value if it exists.
+				if ($input->exists($name)) {
+					$output->set($name, $this->filterField($field, $input->get($name, (string) $field['default'])));
+				}
+			}
+		}
+
+		return $output->toArray();
+	}
+
+	/**
+	 * Return all errors, if any.
+	 *
+	 * @return	array	Array of error messages or JException objects.
+	 * @since	1.6
+	 */
+	public function getErrors()
+	{
+		return $this->errors;
+	}
+
+	/**
+	 * Method to get a form field represented as a JFormField object.
+	 *
+	 * @param	string	$name	The name of the form field.
+	 * @param	string	$group	The optional dot-separated form group path on which to find the field.
+	 * @param	mixed	$value	The optional value to use as the default for the field.
+	 *
+	 * @return	mixed	The JFormField object for the field or boolean false on error.
+	 * @since	1.6
+	 */
+	public function getField($name, $group = null, $value = null)
+	{
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			return false;
+		}
+
+		// Attempt to find the field by name and group.
+		$element = $this->findField($name, $group);
+
+		// If the field element was not found return false.
+		if (!$element) {
+			return false;
+		}
+
+		return $this->loadField($element, $group, $value);
+	}
+
+	/**
+	 * Method to get an attribute value from a field XML element.  If the attribute doesn't exist or
+	 * is null then the optional default value will be used.
+	 *
+	 * @param	string	$name		The name of the form field for which to get the attribute value.
+	 * @param	string	$attribute	The name of the attribute for which to get a value.
+	 * @param	mixed	$default	The optional default value to use if no attribute value exists.
+	 * @param	string	$group		The optional dot-separated form group path on which to find the field.
+	 *
+	 * @return	mixed	The attribute value for the field.
+	 * @since	1.6
+	 */
+	public function getFieldAttribute($name, $attribute, $default = null, $group = null)
+	{
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			// TODO: throw exception.
+			return $default;
+		}
+
+		// Find the form field element from the definition.
+		$element = $this->findField($name, $group);
+
+		// If the element exists and the attribute exists for the field return the attribute value.
+		if (($element instanceof JXMLElement) && ((string) $element[$attribute])) {
+			return (string) $element[$attribute];
+		}
+		// Otherwise return the given default value.
+		else {
+			return $default;
+		}
+	}
+
+	/**
+	 * Method to get an array of JFormField objects in a given fieldset by name.  If no name is
+	 * given then all fields are returned.
+	 *
+	 * @param	string	$set	The optional name of the fieldset.
+	 *
+	 * @return	array	The array of JFormField objects in the fieldset.
+	 * @since	1.6
+	 */
+	public function getFieldset($set = null)
+	{
+		// Initialize variables.
+		$fields = array();
+
+		// Get all of the field elements in the fieldset.
+		if ($set) {
+			$elements = $this->findFieldsByFieldset($set);
+		}
+		// Get all fields.
+		else {
+			$elements = $this->findFieldsByGroup();
+		}
+
+		// If no field elements were found return empty.
+		if (empty($elements)) {
+			return $fields;
+		}
+
+		// Build the result array from the found field elements.
+		foreach ($elements as $element) {
+
+			// Get the field groups for the element.
+			$attrs	= $element->xpath('ancestor::fields[@name]/@name');
+			$groups	= array_map('strval', $attrs ? $attrs : array());
+			$group	= implode('.', $groups);
+
+			// If the field is successfully loaded add it to the result array.
+			if ($field = $this->loadField($element, $group)) {
+				$fields[$field->id] = $field;
+			}
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Method to get an array of fieldset objects optionally filtered over a given field group.
+	 *
+	 * @param	string	$group	The dot-separated form group path on which to filter the fieldsets.
+	 *
+	 * @return	array	The array of fieldset objects.
+	 * @since	1.6
+	 */
+	public function getFieldsets($group = null)
+	{
+		// Initialize variables.
+		$fieldsets = array();
+		$sets = array();
+
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			return $fieldsets;
+		}
+
+		if ($group) {
+
+			// Get the fields elements for a given group.
+			$elements = & $this->findGroup($group);
+			foreach ($elements as & $element) {
+
+				// Get an array of <fieldset /> elements and fieldset attributes within the fields element.
+				if ($tmp = $element->xpath('descendant::fieldset[@name] | descendant::field[@fieldset]/@fieldset')) {
+					$sets = array_merge($sets, (array) $tmp);
+				}
+			}
+		}
+		else {
+			// Get an array of <fieldset /> elements and fieldset attributes.
+			$sets = $this->xml->xpath('//fieldset[@name] | //field[@fieldset]/@fieldset');
+		}
+
+		// If no fieldsets are found return empty.
+		if (empty($sets)) {
+			return $fieldsets;
+		}
+
+		// Process each found fieldset.
+		foreach ($sets as $set) {
+
+			// Are we dealing with a fieldset element?
+			if ((string) $set['name']) {
+
+				// Only create it if it doesn't already exist.
+				if (empty($fieldsets[(string) $set['name']])) {
+
+					// Build the fieldset object.
+					$fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
+					foreach ($set->attributes() as $name => $value) {
+						$fieldset->$name = (string) $value;
+					}
+
+					// Add the fieldset object to the list.
+					$fieldsets[$fieldset->name] = $fieldset;
+				}
+			}
+			// Must be dealing with a fieldset attribute.
+			else {
+
+				// Only create it if it doesn't already exist.
+				if (empty($fieldsets[(string) $set])) {
+
+					// Attempt to get the fieldset element for data (throughout the entire form document).
+					$tmp = $this->xml->xpath('//fieldset[@name="'.(string) $set.'"]');
+
+					// If no element was found, build a very simple fieldset object.
+					if (empty($tmp)) {
+						$fieldset = (object) array('name' => (string) $set, 'label' => '', 'description' => '');
+					}
+					// Build the fieldset object from the element.
+					else {
+						$fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
+						foreach ($tmp[0]->attributes() as $name => $value) {
+							$fieldset->$name = (string) $value;
+						}
+					}
+
+					// Add the fieldset object to the list.
+					$fieldsets[$fieldset->name] = $fieldset;
+				}
+			}
+		}
+
+		return $fieldsets;
+	}
+
+	/**
+	 * Method to get the form control. This string serves as a container for all form fields. For
+	 * example, if there is a field named 'foo' and a field named 'bar' and the form control is
+	 * empty the fields will be rendered like: <input name="foo" /> and <input name="bar" />.  If
+	 * the form control is set to 'joomla' however, the fields would be rendered like:
+	 * <input name="joomla[foo]" /> and <input name="joomla[bar]" />.
+	 *
+	 * @return	string	The form control string.
+	 * @since	1.6
+	 */
+	public function getFormControl()
+	{
+		return (string) $this->options['control'];
+	}
+
+	/**
+	 * Method to get an array of JFormField objects in a given field group by name.
+	 *
+	 * @param	string	$group	The dot-separated form group path for which to get the form fields.
+	 * @param	boolean	$nested	True to also include fields in nested groups that are inside of the
+	 * 							group for which to find fields.
+	 *
+	 * @return	array	The array of JFormField objects in the field group.
+	 * @since	1.6
+	 */
+	public function getGroup($group, $nested = false)
+	{
+		// Initialize variables.
+		$fields = array();
+
+		// Get all of the field elements in the field group.
+		$elements = $this->findFieldsByGroup($group, $nested);
+
+		// If no field elements were found return empty.
+		if (empty($elements)) {
+			return $fields;
+		}
+
+		// Build the result array from the found field elements.
+		foreach ($elements as $element) {
+			// If the field is successfully loaded add it to the result array.
+			if ($field = $this->loadField($element, $group)) {
+				$fields[$field->id] = $field;
+			}
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Method to get a form field markup for the field input.
+	 *
+	 * @param	string	$name	The name of the form field.
+	 * @param	string	$group	The optional dot-separated form group path on which to find the field.
+	 * @param	mixed	$value	The optional value to use as the default for the field.
+	 *
+	 * @return	string	The form field markup.
+	 * @since	1.6
+	 */
+	public function getInput($name, $group = null, $value = null)
+	{
+		// Attempt to get the form field.
+		if ($field = $this->getField($name, $group, $value)) {
+			return $field->input;
+		}
+
+		return '';
+	}
+
+	/**
+	 * Method to get a form field markup for the field input.
+	 *
+	 * @param	string	$name	The name of the form field.
+	 * @param	string	$group	The optional dot-separated form group path on which to find the field.
+	 *
+	 * @return	string	The form field markup.
+	 * @since	1.6
+	 */
+	public function getLabel($name, $group = null)
+	{
+		// Attempt to get the form field.
+		if ($field = $this->getField($name, $group)) {
+			return $field->label;
+		}
+
+		return '';
 	}
 
 	/**
 	 * Method to get the form name.
 	 *
-	 * @return	string		The name of the form.
+	 * @return	string	The name of the form.
+	 * @since	1.6
 	 */
 	public function getName()
 	{
-		return $this->_name;
-	}
-
-	/**
-	 * Method to set the form name.
-	 *
-	 * @param	string		$name	The new name of the form.
-	 * @return	void
-	 */
-	public function setName($name)
-	{
-		$this->_name = $name;
-	}
-
-	/**
-	 * Method to recursively bind values to form fields.
-	 *
-	 * @param	mixed		$data	An array or object of form values.
-	 * @param	string		$group	The group to bind the fields to.
-	 * @return	boolean		True on success, false otherwise.
-	 */
-	public function bind($data, $limit = null)
-	{
-		// The data must be an object or array.
-		if (!is_object($data) && !is_array($data)) {
-			return false;
-		}
-
-		// Convert objects to arrays.
-		if (is_object($data)) {
-			// Handle a JRegistry/JParameter object.
-			if ($data instanceof JRegistry) {
-				$data = $data->toArray();
-			}
-			// Handle a JObject.
-			elseif ($data instanceof JObject) {
-				$data = $data->getProperties();
-			}
-			// Handle other types of objects.
-			else {
-				$data = (array)$data;
-			}
-		}
-
-		// Iterate through the groups.
-		foreach ($this->_groups as $group => $fields) {
-			$array = $this->_fieldsets[$group]['array'];
-			if ($array === true) {
-				if(isset($this->_fieldsets[$group]['parent'])) {
-					$groupControl = $this->_fieldsets[$group]['parent'];
-				} else {
-					$groupControl = $group;
-				}
-			} else {
-				$groupControl = $array;
-			}
-			// Bind if no group is specified or if the group matches the current group.
-			if ($limit === null || ($limit !== null && $group === $limit)) {
-				// Iterate through the values.
-				foreach ($data as $k => $v) {
-					// If the field name matches the name of the group and the value is not scalar, recurse.
-					if ($k == $groupControl && !is_scalar($v) && !is_resource($v)) {
-						if(isset($this->_fieldsets[$group]['children']))
-						{
-							$childgroups = $this->_fieldsets[$group]['children'];
-							array_unshift($childgroups, $group);
-							foreach($childgroups as $cgroup)
-							{
-								$this->bind($v, $cgroup);
-							}
-						} else {
-							$this->bind($v, $group);
-						}
-					} else {
-						// Bind the value to the field if it exists.
-						if (isset($this->_groups[$group][$k]) && is_object($this->_groups[$group][$k])) {
-							$this->_data[$group][$k] = $v;
-						}
-						if (isset($this->_fieldsets[$group]['parent']) && isset($this->_groups[$this->_fieldsets[$group]['parent']][$k]) && is_object($this->_groups[$this->_fieldsets[$group]['parent']][$k])) {
-							$this->_data[$group][$k] = $v;
-						}
-					}
-				}
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to load the form description from a file or string.
-	 *
-	 * If $data is a file name, $file must be set to true. The reset option
-	 * works on a group basis. If the XML file or string references groups
-	 * that have already been created they will be replaced with the fields
-	 * in the new file unless the $reset parameter has been set to false.
-	 *
-	 * @param	string		$data		The name of an XML file or an XML string.
-	 * @param	string		$file		Flag to toggle whether the $data is a file path or a string.
-	 * @param	string		$reset		Flag to toggle whether the form description should be reset.
-	 * @return	boolean		True on success, false otherwise.
-	 */
-	public function load($data, $file = true, $reset = true)
-	{
-		$return = false;
-
-		// Make sure we have data.
-		if (!empty($data)) {
-			// If the data is a file, load the XML from the file.
-			if ($file) {
-				// If we were not given the absolute path of a form file, attempt to find one.
-				if (!is_file($data)) {
-					jimport('joomla.filesystem.path');
-					$data = JPath::find(self::addFormPath(), strtolower($data).'.xml');
-					if (!$data) {
-						return false;
-					}
-				}
-
-				// Attempt to load the XML file.
-				$xml = JFactory::getXML($data);
-			}
-			// Load the data as a string.
-			else {
-				$xml = JFactory::getXML($data, false);
-			}
-			// Make sure the XML was loaded.
-			if ($xml) {
-				// Check if any groups exist.
-				if (isset($xml->fields)) {
-					// Load the form groups.
-					foreach ($xml->fields as $group) {
-						$this->loadFieldsXML($group, $reset);
-						$return = true;
-					}
-				}
-
-				// Check if a name is set.
-				if ((string)$xml->attributes()->name && $reset) {
-					$this->setName((string)$xml->attributes()->name);
-				}
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Method to load form descriptions from a complete folder.
-	 *
-	 * This function loads all files that have the via $name defined prefix
-	 * in the folders defined by addIncludePath()
-	 *
-	 * @param	string		$name		The prefix-name of the XML files
-	 * @return	boolean		True on success, false otherwise.
-	 * @since	1.6
-	 */
-	public function loadFolder($name)
-	{
-		$return = false;
-
-		jimport('joomla.filesystem.folder');
-		$files = array();
-		foreach($this->addFormPath() as $path)
-		{
-			$temp_files = JFolder::files($path, $name, false, true);
-			if(is_array($temp_files)) $files = array_merge($temp_files, $files);
-		}
-		if (count($files)) {
-			foreach($files as $file) {
-				$result = $this->load($file, true, true);
-			}
-		} else {
-			$result = true;
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Method to recursively filter data for form fields.
-	 *
-	 * @param	array		$data		The data to filter.
-	 * @param	string		$limit		An optional group to limit the filtering to.
-	 * @return	array		An array of filtered data.
-	 */
-	public function filter($data, $limit = null)
-	{
-		// Initialise variables.
-		$return = array();
-
-		// The data must be an object or array.
-		if (!is_object($data) && !is_array($data)) {
-			return false;
-		}
-
-		// Get some system objects.
-		$config	= JFactory::getConfig();
-		$user	= JFactory::getUser();
-
-		// Convert objects to arrays.
-		if (is_object($data)) {
-			// Handle a JRegistry/JParameter object.
-			if ($data instanceof JRegistry) {
-				$data = $data->toArray();
-			}
-			// Handle a JObject.
-			elseif ($data instanceof JObject) {
-				$data = $data->getProperties();
-			}
-			// Handle other types of objects.
-			else {
-				$data = (array)$data;
-			}
-		}
-
-		// Static input filters for specific settings.
-		static $noHtmlFilter;
-		static $safeHtmlFilter;
-
-		// Get the safe HTML filter if not set.
-		if (is_null($safeHtmlFilter)) {
-			$safeHtmlFilter = &JFilterInput::getInstance(null, null, 1, 1);
-		}
-
-		// Get the no HTML filter if not set.
-		if (is_null($noHtmlFilter)) {
-			$noHtmlFilter = &JFilterInput::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
-		}
-
-		foreach($this->_fieldsets as $group => $fieldset)
-		{
-			if(isset($fieldset['parent']))
-			{
-				$this->_groups[$fieldset['parent']] = array_merge($this->_groups[$fieldset['parent']], $this->_groups[$group]);
-			}
-		}
-
-		// Iterate through the groups.
-		foreach ($this->_groups as $group => $fields) {
-			$array = $this->_fieldsets[$group]['array'];
-			if ($array === true) {
-				if(isset($this->_fieldsets[$group]['parent'])) {
-					$groupControl = $this->_fieldsets[$group]['parent'];
-				} else {
-					$groupControl = $group;
-				}
-			} else {
-				$groupControl = $array;
-			}
-			// Filter if no group is specified or if the group matches the current group.
-			if ($limit === null || ($limit !== null && $group === $limit)) {
-				// If the group name matches the name of a group in the data and the value is not scalar, recurse.
-				if (isset($data[$groupControl]) && !is_scalar($data[$groupControl]) && !is_resource($data[$groupControl]))
-				{
-					if (isset($return[$groupControl])) {
-						$return[$groupControl] = array_merge($return[$groupControl], $this->filter($data[$groupControl], $group));
-					} else {
-						$return[$groupControl] = $this->filter($data[$groupControl], $group);
-					}
-				} else {
-					// Filter the fields.
-					foreach ($fields as $name => $field)
-					{
-						// Get the field information.
-						$filter	= (string)$field->attributes()->filter;
-
-						// Check for a value to filter.
-						if (isset($data[$name])) {
-							// Handle the different filter options.
-							switch (strtoupper($filter)) {
-								case 'RULES':
-									$return[$name] = array();
-									foreach ((array) $data[$name] as $action => $ids) {
-										// Build the rules array.
-										$return[$name][$action] = array();
-										foreach ($ids as $id => $p) {
-											if ($p !== '') {
-												$return[$name][$action][$id] = ($p == '1' || $p == 'true') ? true : false;
-											}
-										}
-									}
-									break;
-
-								case 'UNSET':
-									// Do nothing.
-									break;
-
-								case 'RAW':
-									// No Filter.
-									$return[$name] = $data[$name];
-									break;
-
-								case 'SAFEHTML':
-									// Filter safe HTML.
-									$return[$name] = $safeHtmlFilter->clean($data[$name], 'string');
-									break;
-
-								case 'SERVER_UTC':
-									// Convert a date to UTC based on the server timezone offset.
-									if (intval($data[$name])) {
-										$offset	= $config->getValue('config.offset');
-
-										$date	= JFactory::getDate($data[$name], $offset);
-										$return[$name] = $date->toMySQL();
-									} else {
-										$db = &JFactory::getDbo();
-										$return[$name]= $db->getNullDate();
-									}
-									break;
-
-								case 'USER_UTC':
-									// Convert a date to UTC based on the user timezone offset.
-									if (intval($data[$name])) {
-										$offset	= $user->getParam('timezone', $config->getValue('config.offset'));
-
-										$date = JFactory::getDate($data[$name], $offset);
-										$return[$name] = $date->toMySQL();
-									}
-									break;
-
-								default:
-									// Check for a callback filter.
-									if (strpos($filter, '::') !== false && is_callable(explode('::', $filter))) {
-										// Filter using the callback method.
-										$return[$name] = call_user_func(explode('::', $filter), $data[$name]);
-									} else if (function_exists($filter)) {
-										// Filter using the callback function.
-										$return[$name] = call_user_func($filter, $data[$name]);
-									} else {
-										// Filter using JFilterInput. All HTML code is filtered by default.
-										$return[$name] = $noHtmlFilter->clean($data[$name], $filter);
-									}
-									break;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Method to validate form data.
-	 *
-	 * Validation warnings will be pushed into JForm::_errors and should be
-	 * retrieved with JForm::getErrors() when validate returns boolean false.
-	 *
-	 * @param	array		$data		An array of field values to validate.
-	 * @param	string		$limit		An option group to limit the validation to.
-	 * @return	mixed		Boolean on success, JException on error.
-	 */
-	public function validate($data, $limit = null)
-	{
-		$return = true;
-		$data	= (array)$data;
-
-		// Check if the group exists.
-		if ($limit !== null && !isset($this->_groups[$limit])) {
-			// The group that was supposed to be filtered does not exist.
-			return new JException(JText::sprintf('LIBRARIES FORM VALIDATOR GROUP NOT FOUND', $limit), 0, E_ERROR);
-		}
-
-		// Get a validator object.
-		jimport('joomla.form.formvalidator');
-		$validator = new JFormValidator();
-
-		// Iterate through the groups.
-		foreach ($this->_groups as $group => $fields) {
-			// Filter if no group is specified or if the group matches the current group.
-			if ($limit === null || ($limit !== null && $group === $limit)) {
-				// If the group name matches the name of a group in the data and the value is not scalar, pass the group.
-				if (isset($data[$group]) && !is_scalar($data[$group]) && !is_resource($data[$group])) {
-					$results = $validator->validate($this->_groups[$group], $data[$group]);
-				} else {
-					// Run the validator over the group.
-					$results = $validator->validate($this->_groups[$group], $data);
-				}
-
-				// Check for a error.
-				if (JError::isError($results)) {
-					return new JException($results->getMessage(), 0, E_ERROR);
-				}
-
-				// Check the validation results.
-				if (count($results)) {
-					// Get the validation messages.
-					foreach ($results as $result) {
-						if (JError::isError($result) && $result->get('level') === E_WARNING) {
-							$this->setError($result);
-							$return = false;
-						}
-					}
-				}
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Method to add a field to a group.
-	 *
-	 * @param	object		$field		The field object to add.
-	 * @param	string		$group		The group to add the field to.
-	 * @return	void
-	 */
-	public function addField(&$field, $group = '_default')
-	{
-		// Add the field to the group.
-		$this->_groups[$group][(string)$field->attributes()->name] = &$field;
-	}
-
-	/**
-	 * Method to add an array of fields to a group.
-	 *
-	 * @param	array		$fields	An array of field objects to add.
-	 * @param	string		$group	The group to add the fields to.
-	 * @return	void
-	 */
-	public function addFields(&$fields, $group = '_default')
-	{
-		// Add the fields to the group.
-		foreach ($fields as $field) {
-			$this->_groups[$group][(string)$field->attributes()->name] = $field;
-		}
-	}
-
-	/**
-	 * Method to get a form field.
-	 *
-	 * @param	string		$name			The name of the form field.
-	 * @param	string		$group			The group the field is in.
-	 * @param	mixed		$formControl	The optional form control. Set to false to disable.
-	 * @param	mixed		$groupControl	The optional group control. Set to false to disable.
-	 * @param	mixed		$value			The optional value to render as the default for the field.
-	 * @return	object		Rendered Form Field object
-	 */
-	public function getField($name, $group = '_default', $formControl = '_default', $groupControl = '_default', $value = null)
-	{
-		// Get the XML node.
-		$node = isset($this->_groups[$group][$name]) ? $this->_groups[$group][$name] : null;
-
-		// If there is no XML node for the given field name, return false.
-		if (empty($node)) {
-			return false;
-		}
-
-		// Load the field type.
-		$type	= $node->attributes()->type;
-		$field	= & $this->loadFieldType($type);
-
-		// If the field could not be loaded, get a text field.
-		if ($field === false) {
-			$field = & $this->loadFieldType('text');
-		}
-
-		// Get the value for the form field.
-		if ($value === null) {
-			$value = (array_key_exists($name, $this->_data[$group]) && ($this->_data[$group][$name] !== null)) ? $this->_data[$group][$name] : (string)$node->attributes()->default;
-		}
-
-		// Check the form control.
-		if ($formControl == '_default') {
-			$formControl = $this->_options['array'];
-		}
-
-
-		// Check the group control.
-		if ($groupControl == '_default'&& isset($this->_fieldsets[$group])) {
-			$array = $this->_fieldsets[$group]['array'];
-			if ($array === true) {
-				if(isset($this->_fieldsets[$group]['parent'])) {
-					$groupControl = $this->_fieldsets[$group]['parent'];
-				} else {
-					$groupControl = $group;
-				}
-			} else {
-				$groupControl = $array;
-			}
-		}
-
-		// Set the prefix
-		$prefix = $this->_options['prefix'];
-
-		// Render the field.
-		return $field->render($node, $value, $formControl, $groupControl, $prefix);
-	}
-
-	/**
-	 * Method to get a field attribute value.
-	 *
-	 * @param	string		$field			The name of the field.
-	 * @param	string		$attribute		The name of the attribute.
-	 * @param	mixed		$default		The default value of the attribute.
-	 * @param	string		$group			The optional group of the field.
-	 * @return	mixed		The value of the attribute if set, otherwise the default value.
-	 */
-	public function getFieldAttribute($field, $attribute, $default, $group = '_default')
-	{
-		$return = null;
-
-		// Get the field attribute if it exists.
-		if (isset($this->_groups[$group][$field])) {
-			$return = (string)$this->_groups[$group][$field]->attributes()->$attribute;
-		}
-
-		return $return !== null ? $return : $default;
-	}
-
-	/**
-	 * Method to replace a field in a group.
-	 *
-	 * @param	object		$field		The field object to replace.
-	 * @param	string		$group		The group to replace the field in.
-	 * @return	boolean		True on success, false when field does not exist.
-	 */
-	public function setField(&$field, $group = '_default')
-	{
-		$return = false;
-
-		// Add the fields to the group if it exists.
-		if (isset($this->_groups[$group][$field->attributes()->name])) {
-			$this->_groups[$group][(string)$field->attributes()->name] = $field;
-			$return = true;
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Method to remove a field from a group.
-	 *
-	 * @param	string		$field		The field to remove.
-	 * @param	string		$group		The group to remove.
-	 * @return	void
-	 */
-	public function removeField($field, $group = '_default')
-	{
-		unset($this->_groups[$group][$field]);
-	}
-
-	/**
-	 * Method to set a field attribute value.
-	 *
-	 * @param	string		$field			The name of the field.
-	 * @param	string		$attribute		The name of the attribute.
-	 * @param	mixed		$value			The value to set the attribute to.
-	 * @param	string		$group			The optional group of the field.
-	 * @return	boolean		True on success, false when field does not exist.
-	 */
-	public function setFieldAttribute($field, $attribute, $value, $group = '_default')
-	{
-		$return = false;
-
-		// Set the field attribute if it exists.
-		if (isset($this->_groups[$group][$field])) {
-			if(isset($this->_groups[$group][$field]->attributes()->$attribute)) {
-				$this->_groups[$group][$field]->attributes()->$attribute = $value;
-			} else {
-				$this->_groups[$group][$field]->addAttribute($attribute,$value);
-			}
-			$return = true;
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Method to get the fields in a group.
-	 *
-	 * @param	string		$group			The form field group.
-	 * @param	mixed		$formControl	The optional form control. Set to false to disable.
-	 * @param	mixed		$groupControl	The optional group control. Set to false to disable.
-	 * @return	array		Associative array of rendered Form Field object by field name
-	 */
-	public function getFields($group = '_default', $formControl = '_default', $groupControl = '_default')
-	{
-		$results = array();
-
-		// Check the form control.
-		if ($formControl == '_default') {
-			$formControl = $this->_options['array'];
-		}
-
-
-		// Check the group control.
-		if ($groupControl == '_default'&& isset($this->_fieldsets[$group])) {
-			$array = $this->_fieldsets[$group]['array'];
-			if ($array === true) {
-				if(isset($this->_fieldsets[$group]['parent'])) {
-					$groupControl = $this->_fieldsets[$group]['parent'];
-				} else {
-					$groupControl = $group;
-				}
-			} else {
-				$groupControl = $array;
-			}
-		}
-
-		// Set the prefix
-		$prefix = $this->_options['prefix'];
-
-		// Check if the group exists.
-		if (isset($this->_groups[$group])) {
-			// Get the fields in the group.
-			foreach ($this->_groups[$group] as $name => $node) {
-				// Get the field info.
-				$type	= (string)$node->attributes()->type;
-				$value	= (isset($this->_data[$group]) && array_key_exists($name, $this->_data[$group]) && ($this->_data[$group][$name] !== null)) ? $this->_data[$group][$name] : $node->attributes()->default;
-
-				// Load the field.
-				$field = &$this->loadFieldType($type);
-
-				// If the field could not be loaded, get a text field.
-				if ($field === false) {
-					$field = &$this->loadFieldType('text');
-				}
-
-				// Render the field.
-				$results[$name] = $field->render($node, $value, $formControl, $groupControl, $prefix);
-			}
-		}
-
-		return $results;
-	}
-
-	/**
-	 * Method to assign an array of fields to a group.
-	 *
-	 * @param	array		$fields		An array of field objects to assign.
-	 * @param	string		$group		The group to assign the fields to.
-	 * @return	void
-	 */
-	public function setFields(&$fields, $group = '_default')
-	{
-		// Reset the fields group,
-		$this->_groups[$group] = array();
-
-		// Add the fields to the group.
-		foreach ($fields as $field) {
-			$this->_groups[$group][(string)$field->attributes()->name] = $field;
-		}
-	}
-
-	public function getFieldsets()
-	{
-		return $this->_fieldsets;
-	}
-
-	/**
-	 * Method to get a list of groups.
-	 *
-	 * @return	array	An array of groups.
-	 */
-	public function getGroups($parent = null)
-	{
-		if($parent != null)
-		{
-			return isset($this->_fieldsets[$parent]['children']) ? $this->_fieldsets[$parent]['children'] : array();
-		}
-		return array_keys($this->_groups);
-	}
-
-	/**
-	 * Method to remove a group.
-	 *
-	 * @param	string		$group		The group to remove.
-	 * @return	void
-	 */
-	public function removeGroup($group)
-	{
-		unset($this->_groups[$group]);
-	}
-
-	/**
-	 * Method to get the input control for a field.
-	 *
-	 * @param	string		$name			The field name.
-	 * @param	string		$group			The group the field is in.
-	 * @param	mixed		$formControl	The optional form control. Set to false to disable.
-	 * @param	mixed		$groupControl	The optional group control. Set to false to disable.
-	 * @param	mixed		$value			The optional value to render as the default for the field.
-	 * @return	string		The form field input control.
-	 */
-	public function getInput($name, $group = '_default', $formControl = '_default', $groupControl = '_default', $value = null)
-	{
-		// Render the field input.
-		$field = $this->getField($name, $group, $formControl, $groupControl, $value);
-		$input = $field->input;
-		return $input;
-	}
-
-	/**
-	 * Method to get the label for a field.
-	 *
-	 * @param	string		$name			The field name.
-	 * @param	string		$group			The group the field is in.
-	 * @param	mixed		$formControl	The optional form control. Set to false to disable.
-	 * @param	mixed		$groupControl	The optional group control. Set to false to disable.
-	 * @param	mixed		$value			The optional value to render as the default for the field.
-	 * @return	string		The form field label.
-	 */
-	public function getLabel($name, $group = '_default', $formControl = '_default', $groupControl = '_default', $value = null)
-	{
-		// Render the field label.
-		$field = $this->getField($name, $group, $formControl, $groupControl, $value);
-		$label = $field->label;
-		return $label;
+		return $this->name;
 	}
 
 	/**
 	 * Method to get the value of a field.
 	 *
-	 * @param	string		$field		The field to set.
-	 * @param	mixed		$default	The default value of the field if empty.
-	 * @param	string		$group		The group the field is in.
-	 * @return	boolean		The value of the field or the default value if empty.
+	 * @param	string	$name		The name of the field for which to get the value.
+	 * @param	string	$group		The optional dot-separated form group path on which to get the value.
+	 * @param	mixed	$default	The optional default value of the field value is empty.
+	 *
+	 * @return	mixed	The value of the field or the default value if empty.
+	 * @since	1.6
 	 */
-	public function getValue($field, $default = null, $group = '_default')
+	public function getValue($name, $group = null, $default = null)
 	{
-		$return = null;
-
-		// Get the field value if it exists.
-		if (isset($this->_groups[$group][$field]) && is_object($this->_groups[$group][$field])) {
-			$return = array_key_exists($field, $this->_data[$group]) ? $this->_data[$group][$field] : $default;
+		// If a group is set use it.
+		if ($group) {
+			$return = $this->data->get($group.'.'.$name, $default);
+		}
+		else {
+			$return = $this->data->get($name, $default);
 		}
 
 		return $return;
 	}
 
 	/**
-	 * Method to set the value of a field.
+	 * Method to load the form description from an XML string or object.
 	 *
-	 * @param	string		$field		The field to set.
-	 * @param	mixed		$value		The value to set the field to.
-	 * @param	string		$group		The group the field is in.
-	 * @return	boolean		True if field exists, false otherwise.
+	 * The replace option works per field.  If a field being loaded already exists in the current
+	 * form definition then the behavior or load will vary depending upon the replace flag.  If it
+	 * is set to true, then the existing field will be replaced in it's exact location by the new
+	 * field being loaded.  If it is false, then the new field being loaded will be ignored and the
+	 * method will move on to the next field to load.
+	 *
+	 * @param	string	$data		The name of an XML string or object.
+	 * @param	string	$replace	Flag to toggle whether form fields should be replaced if a field
+	 *								already exists with the same group/name.
+	 * @param	string	$xpath		An optional xpath to search for the fields.
+	 *
+	 * @return	boolean	True on success, false otherwise.
+	 * @since	1.6
 	 */
-	public function setValue($field, $value, $group = '_default')
+	public function load($data, $replace = true, $xpath = false)
 	{
-		// Set the field if it exists.
-		if (isset($this->_groups[$group][$field]) && is_object($this->_groups[$group][$field])) {
-			$this->_data[$group][$field] = $value;
+		// If the data to load isn't already an XML element or string return false.
+		if ((!$data instanceof JXMLElement) && (!is_string($data))) {
+			return false;
+		}
+
+		// Attempt to load the XML if a string.
+		if (is_string($data)) {
+			$data = JFactory::getXML($data, false);
+
+			// Make sure the XML loaded correctly.
+			if (!$data) {
+				return false;
+			}
+		}
+
+		// If we have no XML definition at this point let's make sure we get one.
+		if (empty($this->xml)) {
+			// If no XPath query is set to search for fields, and we have a <form />, set it and return.
+			if (!$xpath && ($data->getName() == 'form')) {
+				$this->xml = $data;
+
+				// Synchronize any paths found in the load.
+				$this->syncPaths();
+				return true;
+			}
+
+			// Create a root element for the form.
+			else {
+				$this->xml = new JXMLElement('<form></form>');
+			}
+		}
+
+		// Get the XML elements to load.
+		$elements = array();
+		if ($xpath) {
+			$elements = $data->xpath($xpath);
+		}
+		elseif ($data->getName() == 'form') {
+			$elements = $data->children();
+		}
+
+		// If there is nothing to load return true.
+		if (empty($elements)) {
 			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Loads form fields from an XML fields element optionally reseting fields before loading new ones.
-	 *
-	 * @param	object		$xml		The XML fields object.
-	 * @param	boolean		$reset		Flag to toggle whether the form groups should be reset.
-	 * @return	boolean		True on success, false otherwise.
-	 */
-	public function loadFieldsXML(&$xml, $reset = true, $parent = null)
-	{
-		// Check for an XML object.
-		if (!is_object($xml)) {
-			return false;
 		}
 
-		// Get the group name.
-		$group = ((string)$xml->attributes()->group) ? (string)$xml->attributes()->group : '_default';
+		// Load the found form elements.
+		foreach ($elements as $element) {
 
-		// Initialise the data group.
-		if ($reset) {
-			$this->_data[$group] = array();
-		} else {
-			if (!isset($this->_data[$group])) {
-				$this->_data[$group] = array();
-			}
-		}
+			// Get an array of fields with the correct name.
+			$fields = $element->xpath('descendant-or-self::field');
+			foreach ($fields as $field) {
 
-		if(!isset($this->_fieldsets[$group]))
-		{
-			// Get the fieldset attributes.
-			$this->_fieldsets[$group] = array();
-		}
+				// Get the group names as strings for anscestor fields elements.
+				$attrs	= $field->xpath('ancestor::fields[@name]/@name');
+				$groups	= array_map('strval', $attrs ? $attrs : array());
 
-		if($parent && $value = (string) $xml->attributes()->group) {
-			$this->_fieldsets[$parent]['children'][] = $value;
-			$this->_fieldsets[$group]['parent'] = $parent;
-		}
+				// Check to see if the field exists in the current form.
+				if ($current = & $this->findField((string) $field['name'], implode('.', $groups))) {
 
-		// Get the fieldset label.
-		if ($value = (string)$xml->attributes()->label) {
-			$this->_fieldsets[$group]['label'] = $value;
-		}
+					// If set to replace found fields remove it from the current definition.
+					if ($replace) {
+						$dom = dom_import_simplexml($current);
+						$dom->parentNode->removeChild($dom);
+					}
 
-		// Get the fieldset description.
-		if ($value = (string)$xml->attributes()->description) {
-			$this->_fieldsets[$group]['description'] = $value;
-		}
-
-		// Get an optional hidden setting (at the discretion of the renderer to honour).
-		if ($value = (string)$xml->attributes()->hidden) {
-			$this->_fieldsets[$group]['hidden'] = ($value == 'true' || $value == 1) ? true : false;
-		}
-
-		// Get the fieldset array option.
-		$array = (string)$xml->attributes()->array;
-		if ($array=='true') {
-			$this->_fieldsets[$group]['array'] = true;
-		} elseif($array=='false' || empty($array)) {
-			$this->_fieldsets[$group]['array'] = false;
-		} else {
-			$this->_fieldsets[$group]['array'] = $array;
-		}
-
-		// Check if there is a field path to handle.
-		if ((string)$xml->attributes()->addfieldpath) {
-			jimport('joomla.filesystem.folder');
-			jimport('joomla.filesystem.path');
-			$path = JPath::clean(JPATH_ROOT.DS.$xml->attributes()->addfieldpath);
-
-			// Add the field path to the list if it exists.
-			if (JFolder::exists($path)) {
-				self::addFieldPath($path);
-			}
-		}
-
-		if ($reset) {
-			// Reset the field group.
-			$this->_groups[$group] = array();
-
-			if($xml->fields)
-			{
-				$this->loadFieldsXML($xml->fields, $reset, $group);
+					// Else remove it from the incoming definition so it isn't replaced.'
+					else {
+						unset($field);
+					}
+				}
 			}
 
-			// Add the fields to the group.
-			foreach ($xml->field as $field) {
-				$this->_groups[$group][(string)$field->attributes()->name] = $field;
-			}
-		} else {
-			if($xml->fields)
-			{
-				$this->loadFieldsXML($xml->fields, $reset, $group);
-			}
-
-			// Add to the field group.
-			foreach ($xml->field as $field) {
-				$this->_groups[$group][(string)$field->attributes()->name] = $field;
-			}
+			// Merge the new field data into the existing XML document.
+			self::addNode($this->xml, $element);
 		}
 
+		// Synchronize any paths found in the load.
+		$this->syncPaths();
 
 		return true;
 	}
 
 	/**
-	 * Method to load a form field object.
+	 * Method to load the form description from an XML file.
 	 *
-	 * @param	string		$type		The field type.
-	 * @param	boolean		$new		Flag to toggle whether we should get a new instance of the object.
-	 * @return	mixed		Field object on success, false otherwise.
+	 * The reset option works on a group basis. If the XML file references
+	 * groups that have already been created they will be replaced with the
+	 * fields in the new XML file unless the $reset parameter has been set
+	 * to false.
+	 *
+	 * @param	string	$file		The filesystem path of an XML file.
+	 * @param	string	$replace	Flag to toggle whether form fields should be replaced if a field
+	 *								already exists with the same group/name.
+	 * @param	string	$xpath		An optional xpath to search for the fields.
+	 *
+	 * @return	boolean	True on success, false otherwise.
+	 * @since	1.6
 	 */
-	public function loadFieldType($type, $new = true)
+	public function loadFile($file, $reset = true, $xpath = false)
 	{
+		// Check to see if the path is an absolute path.
+		if (!is_file($file)) {
+
+			// Not an absolute path so let's attempt to find one using JPath.
+			$file = JPath::find(self::addFormPath(), strtolower($file).'.xml');
+
+			// If unable to find the file return false.
+			if (!$file) {
+				return false;
+			}
+		}
+		// Attempt to load the XML file.
+		$xml = JFactory::getXML($file, true);
+
+		return $this->load($xml, $reset, $xpath);
+	}
+
+	/**
+	 * Method to remove a field from the form definition.
+	 *
+	 * @param	string	$name		The name of the form field for which remove.
+	 * @param	string	$group		The optional dot-separated form group path on which to find the field.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function removeField($name, $group = null)
+	{
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			// TODO: throw exception.
+			return false;
+		}
+
+		// Find the form field element from the definition.
+		$element = $this->findField($name, $group);
+
+		// If the element exists remove it from the form definition.
+		if ($element instanceof JXMLElement) {
+			$dom = dom_import_simplexml($element);
+			$dom->parentNode->removeChild($dom);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to remove a group from the form definition.
+	 *
+	 * @param	string	$group	The dot-separated form group path for the group to remove.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function removeGroup($group)
+	{
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			// TODO: throw exception.
+			return false;
+		}
+
+		// Get the fields elements for a given group.
+		$elements = & $this->findGroup($group);
+		foreach ($elements as & $element) {
+			$dom = dom_import_simplexml($element);
+			$dom->parentNode->removeChild($dom);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to reset the form data store and optionally the form XML definition.
+	 *
+	 * @param	boolean	$xml	True to also reset the XML form definition.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function reset($xml = false)
+	{
+		unset($this->data);
+		$this->data = new JRegistry();
+
+		if ($xml) {
+			unset($this->xml);
+			$this->xml = new JXMLElement('<form></form>');
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to set a field XML element to the form definition.  If the replace flag is set then
+	 * the field will be set whether it already exists or not.  If it isn't set, then the field
+	 * will not be replaced if it already exists.
+	 *
+	 * @param	object	$element	The XML element object representation of the form field.
+	 * @param	string	$group		The optional dot-separated form group path on which to set the field.
+	 * @param	boolean	$replace	True to replace an existing field if one already exists.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function setField(& $element, $group = null, $replace = true)
+	{
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			// TODO: throw exception.
+			return false;
+		}
+
+		// Make sure the element to set is valid.
+		if (!$element instanceof JXMLElement) {
+			// TODO: throw exception.
+			return false;
+		}
+
+		// Find the form field element from the definition.
+		$old = & $this->findField((string) $element['name'], $group);
+
+		// If an existing field is found and replace flag is false do nothing and return true.
+		if (!$replace && !empty($old)) {
+			return true;
+		}
+
+		// If an existing field is found and replace flag is true remove the old field.
+		if ($replace && !empty($old) && ($old instanceof JXMLElement)) {
+			$dom = dom_import_simplexml($old);
+			$dom->parentNode->removeChild($dom);
+		}
+
+
+		// If no existing field is found find a group element and add the field as a child of it.
+		if ($group) {
+
+			// Get the fields elements for a given group.
+			$fields = & $this->findGroup($group);
+
+			// If an appropriate fields element was found for the group, add the element.
+			if (isset($fields[0]) && ($fields[0] instanceof JXMLElement)) {
+				self::addNode($fields[0], $element);
+			}
+		}
+		else {
+			// Set the new field to the form.
+			self::addNode($this->xml, $element);
+		}
+
+		// Synchronize any paths found in the load.
+		$this->syncPaths();
+
+		return true;
+	}
+
+	/**
+	 * Method to set an attribute value for a field XML element.
+	 *
+	 * @param	string	$name		The name of the form field for which to set the attribute value.
+	 * @param	string	$attribute	The name of the attribute for which to set a value.
+	 * @param	mixed	$value		The value to set for the attribute.
+	 * @param	string	$group		The optional dot-separated form group path on which to find the field.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function setFieldAttribute($name, $attribute, $value, $group = null)
+	{
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			// TODO: throw exception.
+			return false;
+		}
+
+		// Find the form field element from the definition.
+		$element = & $this->findField($name, $group);
+
+		// If the element doesn't exist return false.
+		if (!$element instanceof JXMLElement) {
+			return false;
+		}
+		// Otherwise set the attribute and return true.
+		else {
+			$element[$attribute] = $value;
+
+			// Synchronize any paths found in the load.
+			$this->syncPaths();
+
+			return true;
+		}
+	}
+
+	/**
+	 * Method to set some field XML elements to the form definition.  If the replace flag is set then
+	 * the fields will be set whether they already exists or not.  If it isn't set, then the fields
+	 * will not be replaced if they already exist.
+	 *
+	 * @param	object	$elements	The array of XML element object representations of the form fields.
+	 * @param	string	$group		The optional dot-separated form group path on which to set the fields.
+	 * @param	boolean	$replace	True to replace existing fields if they already exist.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function setFields(& $elements, $group = null, $replace = true)
+	{
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			// TODO: throw exception.
+			return false;
+		}
+
+		// Make sure the elements to set are valid.
+		foreach ($elements as $element) {
+			if (!$element instanceof JXMLElement) {
+				// TODO: throw exception.
+				return false;
+			}
+		}
+
+		// Set the fields.
+		$return = true;
+		foreach ($elements as $element) {
+			if (!$this->setField($element, $group, $replace)) {
+				$return = false;
+			}
+		}
+
+		// Synchronize any paths found in the load.
+		$this->syncPaths();
+
+		return $return;
+	}
+
+	/**
+	 * Method to set the value of a field. If the field does not exist in the form then the method
+	 * will return false.
+	 *
+	 * @param	string	$name	The name of the field for which to set the value.
+	 * @param	string	$group	The optional dot-separated form group path on which to find the field.
+	 * @param	mixed	$value	The value to set for the field.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function setValue($name, $group = null, $value = null)
+	{
+		// If the field does not exist return false.
+		if (!$this->findField($name, $group)) {
+			return false;
+		}
+
+		// If a group is set use it.
+		if ($group) {
+			$this->data->set($group.'.'.$name, $value);
+		}
+		else {
+			$this->data->set($name, $value);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to validate form data.
+	 *
+	 * Validation warnings will be pushed into JForm::errors and should be
+	 * retrieved with JForm::getErrors() when validate returns boolean false.
+	 *
+	 * @param	array	$data	An array of field values to validate.
+	 * @param	string	$group	The optional dot-separated form group path on which to filter the
+	 * 							fields to be validated.
+	 *
+	 * @return	mixed	boolean	True on sucess.
+	 * @since	1.6
+	 */
+	public function validate($data, $group = null)
+	{
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			return false;
+		}
+
+		// Initialise variables.
+		$return	= true;
+
+		// Create an input registry object from the data to validate.
+		$input = new JRegistry($data);
+
+		// Get the fields for which to validate the data.
+		$fields = $this->findFieldsByGroup($group);
+		if (!$fields) {
+			// PANIC!
+			return false;
+		}
+
+		// Validate the fields.
+		foreach ($fields as $field) {
+
+			// Initialize variables.
+			$value	= null;
+			$name	= (string) $field['name'];
+
+			// Get the group names as strings for anscestor fields elements.
+			$attrs	= $field->xpath('ancestor::fields[@name]/@name');
+			$groups	= array_map('strval', $attrs ? $attrs : array());
+			$group	= implode('.', $groups);
+
+			// Get the value from the input data.
+			if ($group) {
+				$value = $input->get($group.'.'.$name);
+			}
+			else {
+				$value = $input->get($name);
+			}
+
+			// Validate the field.
+			$valid = $this->validateField($field, $group, $value, $input);
+
+			// Check for an error.
+			if (JError::isError($valid)) {
+				switch ($valid->get('level'))
+				{
+					case E_ERROR:
+						JError::raiseWarning(0, $valid->getMessage());
+						return false;
+						break;
+					default:
+						array_push($this->errors, $valid);
+						$return = false;
+						break;
+				}
+			}
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Method to apply an input filter to a value based on field data.
+	 *
+	 * @param	string	$element	The XML element object representation of the form field.
+	 * @param	mixed	$value		The value to filter for the field.
+	 *
+	 * @return	mixed	The filtered value.
+	 * @since	1.6
+	 */
+	protected function filterField($element, $value)
+	{
+		// Make sure there is a valid JXMLElement.
+		if (!$element instanceof JXMLElement) {
+			return false;
+		}
+
+		// Get the field filter type.
+		$filter = (string) $element['filter'];
+
+		// Process the input value based on the filter.
+		$return = null;
+
+		switch (strtoupper($filter)) {
+			// Access Control Rules.
+			case 'RULES':
+				$return = array();
+				foreach ((array) $value as $action => $ids) {
+					// Build the rules array.
+					$return[$action] = array();
+					foreach ($ids as $id => $p) {
+						if ($p !== '') {
+							$return[$action][$id] = ($p == '1' || $p == 'true') ? true : false;
+						}
+					}
+				}
+				break;
+
+			// Do nothing, thus leaving the return value as null.
+			case 'UNSET':
+				break;
+
+			// No Filter.
+			case 'RAW':
+				$return = $value;
+				break;
+
+			// Filter the input as an array of integers.
+			case 'INT_ARRAY':
+				// Make sure the input is an array.
+				if (is_object($value)) {
+					$value = get_object_vars($value);
+				}
+				$value = is_array($value) ? $value : array($value);
+
+				JArrayHelper::toInteger($value);
+				$return = $value;
+				break;
+
+			// Filter safe HTML.
+			case 'SAFEHTML':
+				$return = JFilterInput::getInstance(null, null, 1, 1)->clean($value, 'string');
+				break;
+
+			// Convert a date to UTC based on the server timezone offset.
+			case 'SERVER_UTC':
+				if (intval($value)) {
+					// Get the server timezone setting.
+					$offset	= JFactory::getConfig()->get('offset');
+
+					// Return a MySQL formatted datetime string in UTC.
+					$return = JFactory::getDate($value, $offset)->toMySQL();
+				}
+				break;
+
+			// Convert a date to UTC based on the user timezone offset.
+			case 'USER_UTC':
+				if (intval($value)) {
+					// Get the user timezone setting defaulting to the server timezone setting.
+					$offset	= $user->getParam('timezone', JFactory::getConfig()->get('offset'));
+
+					// Return a MySQL formatted datetime string in UTC.
+					$return = JFactory::getDate($value, $offset)->toMySQL();
+				}
+				break;
+
+			default:
+				// Check for a callback filter.
+				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter))) {
+					$return = call_user_func(explode('::', $filter), $value);
+				}
+				// Filter using a callback function if specified.
+				else if (function_exists($filter)) {
+					$return = call_user_func($filter, $value);
+				}
+				// Filter using JFilterInput. All HTML code is filtered by default.
+				else {
+					$return = JFilterInput::getInstance()->clean($value, $filter);
+				}
+				break;
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Method to get a form field represented as an XML element object.
+	 *
+	 * @param	string	$name	The name of the form field.
+	 * @param	string	$group	The optional dot-separated form group path on which to find the field.
+	 *
+	 * @return	mixed	The XML element object for the field or boolean false on error.
+	 * @since	1.6
+	 */
+	protected function & findField($name, $group = null)
+	{
+		// Initialize variables.
+		$false		= false;
+		$element	= false;
+		$fields		= array();
+
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			return $false;
+		}
+
+		// Let's get the appropriate field element based on the method arguments.
+		if ($group) {
+
+			// Get the fields elements for a given group.
+			$elements = & $this->findGroup($group);
+
+			// Get all of the field elements with the correct name for the fields elements.
+			foreach ($elements as $element) {
+				// If there are matching field elements add them to the fields array.
+				if ($tmp = $element->xpath('descendant::field[@name="'.$name.'"]')) {
+					$fields = array_merge($fields, $tmp);
+				}
+			}
+
+			// Make sure something was found.
+			if (!$fields) {
+				return $false;
+			}
+
+			// Use the first correct match in the given group.
+			$groupNames = explode('.', $group);
+			foreach ($fields as & $field) {
+
+				// Get the group names as strings for anscestor fields elements.
+				$attrs = $field->xpath('ancestor::fields[@name]/@name');
+				$names	= array_map('strval', $attrs ? $attrs : array());
+
+				// If the field is in the exact group use it and break out of the loop.
+				if ($names == (array) $groupNames) {
+					$element = & $field;
+					break;
+				}
+			}
+		}
+		else {
+			// Get an array of fields with the correct name.
+			$fields = $this->xml->xpath('//field[@name="'.$name.'"]');
+
+			// Make sure something was found.
+			if (!$fields) {
+				return $false;
+			}
+
+			// Search through the fields for the right one.
+			foreach ($fields as & $field) {
+				// If we find an anscestor fields element with a group name then it isn't what we want.
+				if ($field->xpath('ancestor::fields[@name]')) {
+					continue;
+				}
+				// Found it!
+				else {
+					$element = & $field;
+					break;
+				}
+			}
+		}
+
+		return $element;
+	}
+
+	/**
+	 * Method to get an array of <field /> elements from the form XML document which are
+	 * in a specified fieldset by name.
+	 *
+	 * @param	string	$name	The name of the fieldset.
+	 *
+	 * @return	mixed	Boolean false on error or array of JXMLElement objects.
+	 * @since	1.6
+	 */
+	protected function & findFieldsByFieldset($name)
+	{
+		// Initialize variables.
+		$false = false;
+
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			return $false;
+		}
+
+		/*
+		 * Get an array of <field /> elements that are underneath a <fieldset /> element
+		 * with the appropriate name attribute, and also any <field /> elements with
+		 * the appropriate fieldset attribute.
+		 */
+		$fields = $this->xml->xpath('//fieldset[@name="'.$name.'"]//field | //field[@fieldset="'.$name.'"]');
+
+		return $fields;
+	}
+
+	/**
+	 * Method to get an array of <field /> elements from the form XML document which are
+	 * in a control group by name.
+	 *
+	 * @param	mixed	$group	The optional dot-separated form group path on which to find the fields.
+	 * 							Null will return all fields. False will return fields not in a group.
+	 * @param	boolean	$nested	True to also include fields in nested groups that are inside of the
+	 * 							group for which to find fields.
+	 *
+	 * @return	mixed	Boolean false on error or array of JXMLElement objects.
+	 * @since	1.6
+	 */
+	protected function & findFieldsByGroup($group = null, $nested = false)
+	{
+		// Initialize variables.
+		$false = false;
+		$fields = array();
+
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			return $false;
+		}
+
+		// Get only fields in a specific group?
+		if ($group) {
+
+			// Get the fields elements for a given group.
+			$elements = & $this->findGroup($group);
+
+			// Get all of the field elements for the fields elements.
+			foreach ($elements as $element) {
+
+				// If there are field elements add them to the return result.
+				if ($tmp = $element->xpath('descendant::field')) {
+
+					// If we also want fields in nested groups then just merge the arrays.
+					if ($nested) {
+						$fields = array_merge($fields, $tmp);
+					}
+					// If we want to exclude nested groups then we need to check each field.
+					else {
+						$groupNames = explode('.', $group);
+						foreach ($tmp as $field) {
+							// Get the names of the groups that the field is in.
+							$attrs = $field->xpath('ancestor::fields[@name]/@name');
+							$names = array_map('strval', $attrs ? $attrs : array());
+
+							// If the field is in the specific group then add it to the return list.
+							if ($names == (array) $groupNames) {
+								$fields = array_merge($fields, array($field));
+							}
+						}
+					}
+				}
+			}
+		} else if ($group === false) {
+			// Get only field elements not in a group.
+			$fields = $this->xml->xpath('descendant::fields[not(@name)]/field | descendant::fields[not(@name)]/fieldset/field ');
+		} else {
+			// Get an array of all the <field /> elements.
+			$fields = $this->xml->xpath('//field');
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Method to get a form field group represented as an XML element object.
+	 *
+	 * @param	string	$group	The dot-separated form group path on which to find the group.
+	 *
+	 * @return	mixed	An array of XML element objects for the group or boolean false on error.
+	 * @since	1.6
+	 */
+	protected function & findGroup($group)
+	{
+		// Initialize variables.
+		$false = false;
+		$groups = array();
+		$tmp = array();
+
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			return $false;
+		}
+
+		// Make sure there is actually a group to find.
+		$group = explode('.', $group);
+		if (!empty($group)) {
+
+			// Get any fields elements with the correct group name.
+			$elements = $this->xml->xpath('//fields[@name="'.(string) $group[0].'"]');
+
+			// Check to make sure that there are no parent groups for each element.
+			foreach ($elements as $element) {
+				if (!$element->xpath('ancestor::fields[@name]')) {
+					$tmp[] = $element;
+				}
+			}
+
+			// Iterate through the nested groups to find any matching form field groups.
+			for ($i = 1, $n = count($group); $i < $n; $i++) {
+
+				// Initialize some loop variables.
+				$validNames = array_slice($group, 0, $i+1);
+				$current = $tmp;
+				$tmp = array();
+
+				// Check to make sure that there are no parent groups for each element.
+				foreach ($current as $element) {
+
+					// Get any fields elements with the correct group name.
+					$children = $element->xpath('descendant::fields[@name="'.(string) $group[$i].'"]');
+
+					// For the found fields elements validate that they are in the correct groups.
+					foreach ($children as $fields) {
+
+						// Get the group names as strings for anscestor fields elements.
+						$attrs = $fields->xpath('ancestor-or-self::fields[@name]/@name');
+						$names = array_map('strval', $attrs ? $attrs : array());
+
+						// If the group names for the fields element match the valid names at this
+						// level add the fields element.
+						if ($validNames == $names) {
+							$tmp[] = $fields;
+						}
+					}
+				}
+			}
+
+			// Only include valid XML objects.
+			foreach ($tmp as $element) {
+				if ($element instanceof JXMLElement) {
+					$groups[] = $element;
+				}
+			}
+		}
+
+		return $groups;
+	}
+
+	/**
+	 * Method to load, setup and return a JFormField object based on field data.
+	 *
+	 * @param	string	$element	The XML element object representation of the form field.
+	 * @param	string	$group		The optional dot-separated form group path on which to find the field.
+	 * @param	mixed	$value		The optional value to use as the default for the field.
+	 *
+	 * @return	mixed	The JFormField object for the field or boolean false on error.
+	 * @since	1.6
+	 */
+	protected function loadField($element, $group = null, $value = null)
+	{
+		// Make sure there is a valid JXMLElement.
+		if (!$element instanceof JXMLElement) {
+			return false;
+		}
+
+		// Get the field type.
+		$type = $element['type'] ? (string) $element['type'] : 'text';
+
+		// Load the JFormField object for the field.
+		$field = $this->loadFieldType($type);
+
+		// If the object could not be loaded, get a text field object.
+		if ($field === false) {
+			$field = $this->loadFieldType('text');
+		}
+
+		// Get the value for the form field if not set. Default to the 'default' attribute for the field.
+		if ($value === null) {
+			$value = $this->getValue((string) $element['name'], $group, (string) $element['default']);
+		}
+
+		// Setup the JFormField object.
+		$field->setForm($this);
+
+		if ($field->setup($element, $value, $group)) {
+			return $field;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Method to load a form field object given a type.
+	 *
+	 * @param	string	$type	The field type.
+	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.
+	 *
+	 * @return	mixed	JFormField object on success, false otherwise.
+	 * @since	1.6
+	 */
+	protected function & loadFieldType($type, $new = true)
+	{
+		// Initialize variables.
+		$false	= false;
 		$key	= md5($type);
 		$class	= 'JFormField'.ucfirst($type);
 
-		// Return the field object if it already exists and we don't need a new one.
-		if (isset($this->_fieldTypes[$key]) && $new === false) {
-			return $this->_fieldTypes[$key];
+		// Return the JFormField object if it already exists and we don't need a new one.
+		if (isset(self::$fields[$key]) && $new === false) {
+			return self::$fields[$key];
 		}
 
-		if (!class_exists('JFormField')) {
-			jimport('joomla.form.formfield');
-		}
-
-		if (!class_exists('JFormFieldList')) {
-			require_once dirname(__FILE__).'/fields/list.php';
-		}
-
+		// Attempt to import the JFormField class file if it isn't already imported.
 		if (!class_exists($class)) {
+
+			// Get the field search path array.
 			$paths = self::addFieldPath();
 
 			// If the type is complex, add the base type to the paths.
 			if ($pos = strpos($type, '_')) {
+
 				// Add the complex type prefix to the paths.
 				for ($i = 0, $n = count($paths); $i < $n; $i++) {
 					// Derive the new path.
-					$path = $paths[$i].DS.strtolower(substr($type, 0, $pos));
+					$path = $paths[$i].'/'.strtolower(substr($type, 0, $pos));
 
 					// If the path does not exist, add it.
 					if (!in_array($path, $paths)) {
@@ -1018,78 +1489,418 @@ class JForm extends JObject
 			}
 
 			// Try to find the field file.
-			jimport('joomla.filesystem.path');
 			if ($file = JPath::find($paths, strtolower($type).'.php')) {
 				require_once $file;
 			} else {
-				return false;
+				return $false;
 			}
 
 			// Check once and for all if the class exists.
 			if (!class_exists($class)) {
-				return false;
+				return $false;
 			}
 		}
 
 		// Instantiate a new field object.
-		$this->_fieldTypes[$key] = new $class($this);
+		self::$fields[$key] = new $class();
 
-		return $this->_fieldTypes[$key];
+		return self::$fields[$key];
 	}
 
 	/**
-	 * Method to add a path to the list of form include paths.
+	 * Method to load a form rule object given a type.
 	 *
-	 * @param	mixed		$new		A path or array of paths to add.
-	 * @return	array		The list of paths that have been added.
-	 * @static
+	 * @param	string	$type	The rule type.
+	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.
+	 *
+	 * @return	mixed	JFormRule object on success, false otherwise.
+	 * @since	1.6
 	 */
-	public static function addFormPath($new = null)
+	protected function & loadRuleType($type, $new = true)
 	{
-		static $paths;
+		// Initialize variables.
+		$false	= false;
+		$key	= md5($type);
+		$class	= 'JFormRule'.ucfirst($type);
 
-		if (!isset($paths)) {
-			$paths = array(dirname(__FILE__).DS.'forms');
+
+		// Return the JFormRule object if it already exists and we don't need a new one.
+		if (isset(self::$rules[$key]) && $new === false) {
+			return self::$rules[$key];
 		}
 
-		// Force path to an array.
-		settype($new, 'array');
+		// Attempt to import the JFormRule class file if it isn't already imported.
+		if (!class_exists($class)) {
 
-		// Add the new paths to the list if not already there.
-		foreach ($new as $path) {
-			if (!in_array($path, $paths)) {
-				array_unshift($paths, trim($path));
+			// Get the field search path array.
+			$paths = self::addRulePath();
+
+			// If the type is complex, add the base type to the paths.
+			if ($pos = strpos($type, '_')) {
+
+				// Add the complex type prefix to the paths.
+				for ($i = 0, $n = count($paths); $i < $n; $i++) {
+					// Derive the new path.
+					$path = $paths[$i].'/'.strtolower(substr($type, 0, $pos));
+
+					// If the path does not exist, add it.
+					if (!in_array($path, $paths)) {
+						array_unshift($paths, $path);
+					}
+				}
+
+				// Break off the end of the complex type.
+				$type = substr($type, $pos+1);
+			}
+
+			// Try to find the field file.
+			if ($file = JPath::find($paths, strtolower($type).'.php')) {
+				require_once $file;
+			} else {
+				return $false;
+			}
+
+			// Check once and for all if the class exists.
+			if (!class_exists($class)) {
+				return $false;
 			}
 		}
 
-		return $paths;
+		// Instantiate a new field object.
+		self::$rules[$key] = new $class();
+
+		return self::$rules[$key];
+	}
+
+	/**
+	 * Method to synchronize any field, form or rule paths contained in the XML document.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	protected function syncPaths()
+	{
+		// Make sure there is a valid JForm XML document.
+		if (!$this->xml instanceof JXMLElement) {
+			return false;
+		}
+
+		// Get any addfieldpath attributes from the form definition.
+		$paths = $this->xml->xpath('//*[@addfieldpath]/@addfieldpath');
+		$paths = array_map('strval', $paths ? $paths : array());
+
+		// Add the field paths.
+		foreach ($paths as $path) {
+			$path = JPATH_ROOT.'/'.ltrim($path, '/\\');
+			JForm::addFieldPath($path);
+		}
+
+		// Get any addformpath attributes from the form definition.
+		$paths = $this->xml->xpath('//*[@addformpath]/@addformpath');
+		$paths = array_map('strval', $paths ? $paths : array());
+
+		// Add the form paths.
+		foreach ($paths as $path) {
+			$path = JPATH_ROOT.'/'.ltrim($path, '/\\');
+			JForm::addFormPath($path);
+		}
+
+		// Get any addrulepath attributes from the form definition.
+		$paths = $this->xml->xpath('//*[@addrulepath]/@addrulepath');
+		$paths = array_map('strval', $paths ? $paths : array());
+
+		// Add the rule paths.
+		foreach ($paths as $path) {
+			$path = JPATH_ROOT.'/'.ltrim($path, '/\\');
+			JForm::addRulePath($path);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to validate a JFormField object based on field data.
+	 *
+	 * @param	string	$element	The XML element object representation of the form field.
+	 * @param	string	$group		The optional dot-separated form group path on which to find the field.
+	 * @param	mixed	$value		The optional value to use as the default for the field.
+	 * @param	object	$input		An optional JRegistry object with the entire data set to validate
+	 * 								against the entire form.
+	 *
+	 * @return	mixed	Boolean true if field value is valid, JException on failure.
+	 * @since	1.6
+	 */
+	protected function validateField($element, $group = null, $value = null, $input = null)
+	{
+		// Make sure there is a valid JXMLElement.
+		if (!$element instanceof JXMLElement) {
+			return new JException(JText::_('LIB_FORM_VALIDATE_FIELD_ERROR'), -1, E_ERROR);
+		}
+
+		// Initialize variables.
+		$valid = true;
+
+		// Check if the field is required.
+		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		if ($required) {
+
+			// If the field is required and the value is empty return an error message.
+			if (($value === '') || ($value === null)) {
+
+				// Does the field have a defined error message?
+				$message = (string) $element['message'];
+				if ($message) {
+					return new JException(JText::_($message), 2, E_WARNING);
+				} else {
+					return new JException(JText::sprintf('LIB_FORM_VALIDATE_FIELD_REQUIRED', JText::_((string) $element['name'])), 2, E_WARNING);
+				}
+			}
+		}
+
+		// Get the field validation rule.
+		if ($type = (string) $element['validate']) {
+			// Load the JFormRule object for the field.
+			$rule = $this->loadRuleType($type);
+
+			// If the object could not be loaded return an error message.
+			if ($rule === false) {
+				return new JException(JText::sprintf('LIB_FORM_VALIDATE_FIELD_RULE_MISSING', $rule), -2, E_ERROR);
+			}
+
+			// Run the field validation rule test.
+			$valid = $rule->test($element, $value, $group, $input, $this);
+
+			// Check for an error in the validation test.
+			if (JError::isError($valid)) {
+				return $valid;
+			}
+		}
+
+		// Check if the field is valid.
+		if ($valid === false) {
+
+			// Does the field have a defined error message?
+			$message = (string) $element['message'];
+			if ($message) {
+				return new JException(JText::_($message), 1, E_WARNING);
+			} else {
+				return new JException(JText::sprintf('LIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['name'])), 1, E_WARNING);
+			}
+		}
+
+		return true;
 	}
 
 	/**
 	 * Method to add a path to the list of field include paths.
 	 *
-	 * @param	mixed		$new		A path or array of paths to add.
-	 * @return	array		The list of paths that have been added.
-	 * @static
+	 * @param	mixed	$new	A path or array of paths to add.
+	 *
+	 * @return	array	The list of paths that have been added.
+	 * @since	1.6
 	 */
 	public static function addFieldPath($new = null)
 	{
-		static $paths;
-
-		if (!isset($paths)) {
-			$paths = array(dirname(__FILE__).DS.'fields');
+		// Add the default form search path if not set.
+		if (empty(self::$paths['fields'])) {
+			self::$paths['fields'][] = dirname(__FILE__).'/fields';
 		}
 
-		// Force path to an array.
+		// Force the new path(s) to an array.
 		settype($new, 'array');
 
-		// Add the new paths to the list if not already there.
+		// Add the new paths to the stack if not already there.
 		foreach ($new as $path) {
-			if (!in_array($path, $paths)) {
-				array_unshift($paths, trim($path));
+			if (!in_array($path, self::$paths['fields'])) {
+				array_unshift(self::$paths['fields'], trim($path));
 			}
 		}
 
-		return $paths;
+		return self::$paths['fields'];
+	}
+
+	/**
+	 * Method to add a path to the list of form include paths.
+	 *
+	 * @param	mixed	$new	A path or array of paths to add.
+	 *
+	 * @return	array	The list of paths that have been added.
+	 * @since	1.6
+	 */
+	public static function addFormPath($new = null)
+	{
+		// Add the default form search path if not set.
+		if (empty(self::$paths['forms'])) {
+			self::$paths['forms'][] = dirname(__FILE__).'/forms';
+		}
+
+		// Force the new path(s) to an array.
+		settype($new, 'array');
+
+		// Add the new paths to the stack if not already there.
+		foreach ($new as $path) {
+			if (!in_array($path, self::$paths['forms'])) {
+				array_unshift(self::$paths['forms'], trim($path));
+			}
+		}
+
+		return self::$paths['forms'];
+	}
+
+	/**
+	 * Method to add a path to the list of rule include paths.
+	 *
+	 * @param	mixed	$new	A path or array of paths to add.
+	 *
+	 * @return	array	The list of paths that have been added.
+	 * @since	1.6
+	 */
+	public static function addRulePath($new = null)
+	{
+		// Add the default form search path if not set.
+		if (empty(self::$paths['rules'])) {
+			self::$paths['rules'][] = dirname(__FILE__).'/rules';
+		}
+
+		// Force the new path(s) to an array.
+		settype($new, 'array');
+
+		// Add the new paths to the stack if not already there.
+		foreach ($new as $path) {
+			if (!in_array($path, self::$paths['rules'])) {
+				array_unshift(self::$paths['rules'], trim($path));
+			}
+		}
+
+		return self::$paths['rules'];
+	}
+
+	/**
+	 * Method to get an instance of a form.
+	 *
+	 * @param	string	$name		The name of the form.
+	 * @param	string	$data		The name of an XML file or string to load as the form definition.
+	 * @param	array	$options	An array of form options.
+	 * @param	string	$replace	Flag to toggle whether form fields should be replaced if a field
+	 *								already exists with the same group/name.
+	 * @param	string	$xpath		An optional xpath to search for the fields.
+	 *
+	 * @return	object	JForm instance.
+	 * @throws	Exception if an error occurs.
+	 * @since	1.6
+	 */
+	public static function getInstance($name, $data = null, $options = array(), $replace = true, $xpath = false)
+	{
+		// Only instantiate the form if it does not already exist.
+		if (!isset(self::$forms[$name])) {
+
+			$data = trim($data);
+
+			if (empty($data)) {
+				throw new Exception('JFORM_ERROR_NO_DATA');
+			}
+
+			// Instantiate the form.
+			self::$forms[$name] = new JForm($name, $options);
+
+			// Load the data.
+			if (substr(trim($data), 0, 1) == '<') {
+				if (self::$forms[$name]->load($data, $replace, $xpath) == false) {
+					throw new Excpetion('JFORM_ERROR_XML_FILE_DID_NOT_LOAD');
+					return false;
+				}
+			} else {
+				if (self::$forms[$name]->loadFile($data, $replace, $xpath) == false) {
+					throw new Exception('JFORM_ERROR_XML_FILE_DID_NOT_LOAD');
+					return false;
+				}
+			}
+		}
+
+		return self::$forms[$name];
+	}
+
+	/**
+	 * Adds a new child SimpleXMLElement node to the source.
+	 *
+	 * @param	SimpleXMLElement	The source element on which to append.
+	 * @param	SimpleXMLElement	The new element to append.
+	 */
+	protected static function addNode(SimpleXMLElement $source, SimpleXMLElement $new)
+	{
+		// Add the new child node.
+		$node = $source->addChild($new->getName(), trim($new));
+
+		// Add the attributes of the child node.
+		foreach ($new->attributes() as $name => $value) {
+			$node->addAttribute($name, $value);
+		}
+
+		// Add any children of the new node.
+		foreach ($new->children() as $child) {
+			self::addNode($node, $child);
+		}
+	}
+
+	protected static function mergeNode(SimpleXMLElement $source, SimpleXMLElement $new)
+	{
+		// Update the attributes of the child node.
+		foreach ($new->attributes() as $name => $value) {
+			if (isset($source[$name])) {
+				$source[$name] = (string) $value;
+			} else {
+				$source->addAttribute($name, $value);
+			}
+		}
+
+		// What to do with child elements?
+	}
+
+	/**
+	 * Merges new elements into a source <fields> element.
+	 *
+	 * @param	SimpleXMLElement	The source element.
+	 * @param	SimpleXMLElement	The new element to merge.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	protected static function mergeNodes(SimpleXMLElement $source, SimpleXMLElement $new)
+	{
+		// The assumption is that the inputs are at the same relative level.
+		// So we just have to scan the children and deal with them.
+
+		// Update the attributes of the child node.
+		foreach ($new->attributes() as $name => $value) {
+			if (isset($source[$name])) {
+				$source[$name] = (string) $value;
+			} else {
+				$source->addAttribute($name, $value);
+			}
+		}
+
+		foreach ($new->children() as $child) {
+			$type = $child->getName();
+			$name = $child['name'];
+
+			// Does this node exist?
+			$fields = $source->xpath($type.'[@name="'.$name.'"]');
+
+			if (empty($fields)) {
+				// This node does not exist, so add it.
+				self::addNode($source, $child);
+			} else {
+				// This node does exist.
+				switch ($type) {
+					case 'field':
+						self::mergeNode($fields[0], $child);
+						break;
+
+					default:
+						self::mergeNodes($fields[0], $child);
+						break;
+				}
+			}
+		}
 	}
 }

@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -19,23 +21,32 @@ jimport('joomla.form.formfield');
 class JFormFieldFile extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	public $type = 'File';
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	string		The field input.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		$size		= (string)$this->_element->attributes()->size ? ' size="'.$this->_element->attributes()->size.'"' : '';
-		$class		= (string)$this->_element->attributes()->class ? ' class="'.$this->_element->attributes()->class.'"' : ' class="text_area"';
-		$onchange	= (string)$this->_element->attributes()->onchange ? ' onchange="'.$this->_replacePrefix((string)$this->_element->attributes()->onchange).'"' : '';
+		// Initialize some field attributes.
+		$accept		= $this->element['accept'] ? ' accept="'.(string) $this->element['accept'].'"' : '';
+		$size		= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+		$class		= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 
-		return '<input type="file" name="'.$this->inputName.'" id="'.$this->inputId.'" value=""'.$class.$size.$onchange.' />';
+		// Initialize JavaScript field attributes.
+		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+
+		return '<input type="file" name="'.$this->name.'" id="'.$this->id.'"' .
+				' value=""' .
+				$accept.$disabled.$class.$size.$onchange.' />';
 	}
 }

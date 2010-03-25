@@ -1,37 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id$ -->
 <form>
-	<fields>
-		<field
-			name="id"
-			type="hidden"
+	<fieldset>
+		<field name="id" type="hidden"
 			default="0"
-			required="true"
 			readonly="true"
+			required="true"
 		/>
 
-		<field
-			name="title"
-			type="text"
-			default=""
-			size="50"
+		<field name="title" type="text"
 			class="inputbox"
-			label="Users_Level_Title"
+			default=""
 			description="Users_Level_Title_Desc"
+			label="Users_Level_Title"
+			size="50"
 		/>
 
-		<field
-			name="ordering"
-			type="text"
+		<field name="ordering" type="text"
 			default="0"
-			label="JField_Ordering_Label"
 			description="JField_Ordering_Desc"
+			label="JField_Ordering_Label"
 		/>
 
-		<field
-			name="rules"
-			type="hidden"
-			filter="json_encode"
+		<field name="rules" type="hidden"
+			filter="int_array"
 		/>
-	</fields>
+	</fieldset>
 </form>

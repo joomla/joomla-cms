@@ -1,39 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout
-		title="com_search_search_view_default_title">
+	<layout title="com_search_search_view_default_title">
 		<message>
 			<![CDATA[com_search_search_view_default_desc]]>
 		</message>
 	</layout>
 
-	<fields
-		group="basic"
-		label="Menus_Layout_Basic_Options_Label"
-		description="">
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
 
-		<field
-			name="search_areas"
-			type="radio"
-			default="1"
-			label="Use Search Areas"
-			description="Show the search areas checkboxes">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
+		<!-- Basic options. -->
+		<fieldset name="basic" label="MENUS_LAYOUT_BASIC_OPTIONS_LABEL" description="">
 
-		<field
-			name="show_date"
-			type="radio"
-			default="1"
-			label="Show Created Date"
-			description="TIPIFSETTOSHOWDATETIMECREATED">
-			<option
-				value="0">Hide</option>
-			<option
-				value="1">Show</option>
-		</field>
+			<field name="search_areas" type="radio"
+				default="1"
+				description="Show the search areas checkboxes"
+				label="Use Search Areas"
+			>
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
+			</field>
+
+			<field name="show_date" type="radio"
+				default="1"
+				description="TIPIFSETTOSHOWDATETIMECREATED"
+				label="Show Created Date"
+			>
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</field>
+		</fieldset>
 	</fields>
 </metadata>

@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.controller' );
+jimport( 'joomla.application.component.controllerform' );
 
 /**
  * The Menu Item Controller
@@ -16,7 +16,7 @@ jimport( 'joomla.application.component.controller' );
  * @subpackage	com_menus
  * @since		1.6
  */
-class MenusControllerItem extends JController
+class MenusControllerItem extends JControllerForm
 {
 	/**
 	 * Constructor.
@@ -75,7 +75,7 @@ class MenusControllerItem extends JController
 	public function edit()
 	{
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$pks	= JRequest::getVar('cid', array(), '', 'array');
 
 		// Get the id of the group to edit.
@@ -85,18 +85,14 @@ class MenusControllerItem extends JController
 		$model	= &$this->getModel('Item');
 
 		// Check that this is not a new item.
-		if ($id > 0)
-		{
+		if ($id > 0) {
 			$item = $model->getItem($id);
 
 			// If not already checked out, do so.
-			if ($item->checked_out == 0)
-			{
-				if (!$model->checkout($id))
-				{
+			if ($item->checked_out == 0) {
+				if (!$model->checkout($id)) {
 					// Check-out failed, go back to the list and display a notice.
-					$message = JText::sprintf('JERROR_CHECKOUT_FAILED', $model->getError());
-					//$this->setRedirect('index.php?option=com_menus&view=item&item_id='.$id, $message, 'error');
+					$this->setMessage(JText::sprintf('JERROR_CHECKOUT_FAILED', $model->getError()), 'warning');
 					return false;
 				}
 			}
@@ -128,12 +124,9 @@ class MenusControllerItem extends JController
 
 		$app	= &JFactory::getApplication();
 		// Get the previous menu item id (if any) and the current menu item id.
-		$previousId	= (int) $app->getUserState('com_content.edit.item.id');
+		$previousId	= (int) $app->getUserState('com_menus.edit.item.id');
 
 		$model	= &$this->getModel('Item');
-
-
-
 
 		// If rows ids do not match, checkin previous row.
 		if (!$model->checkin($previousId)) {
@@ -144,7 +137,7 @@ class MenusControllerItem extends JController
 
 		}
 
-				// Clear the row edit information from the session.
+		// Clear the row edit information from the session.
 		$app->setUserState('com_menus.edit.item.id',	null);
 		$app->setUserState('com_menus.edit.item.data',	null);
 		$app->setUserState('com_menus.edit.item.type',	null);
@@ -153,6 +146,7 @@ class MenusControllerItem extends JController
 	// Redirect to the list screen.
 		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
 	}
+
 	/**
 	 * Method to save a menu item.
 	 *
@@ -164,89 +158,67 @@ class MenusControllerItem extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('Item');
+		$app	= JFactory::getApplication();
+		$model	= $this->getModel('Item');
 		$task	= $this->getTask();
 
 		// Get the posted values from the request.
-		$iData	= JRequest::getVar('jform', array(), 'post', 'array');
-		$pData	= JRequest::getVar('jformparams', array(), 'post', 'array');
-		$map	= JRequest::getVar('menuid', array(), 'post', 'array');
+		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Populate the row id from the session.
-		$iData['id'] = (int) $app->getUserState('com_menus.edit.item.id');
+		$data['id'] = (int) $app->getUserState('com_menus.edit.item.id');
 
 		// The save2copy task needs to be handled slightly differently.
-		if ($task == 'save2copy')
-		{
+		if ($task == 'save2copy') {
 			// Check-in the original row.
-			if (!$model->checkin())
-			{
+			if (!$model->checkin()) {
 				// Check-in failed, go back to the item and display a notice.
-				$message = JText::sprintf('JERROR_CHECKIN_SAVED', $model->getError());
-			//	$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
+				$this->setMessage(JText::sprintf('JERROR_CHECKIN_SAVED', $model->getError()), 'warning');
 				return false;
 			}
 
 			// Reset the ID and then treat the request as for Apply.
-			$iData['id']	= 0;
-			$task			= 'apply';
+			$data['id']	= 0;
+			$task		= 'apply';
 		}
 
 		// Validate the posted data.
 		// This post is made up of two forms, one for the item and one for params.
-		$itemForm	= &$model->getForm();
-		if (!$itemForm) {
+		$form = $model->getForm($data);
+		if (!$form) {
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
-		$iData	= $model->validate($itemForm, $iData);
-
-		$paramsForm	= &$model->getParamsForm($iData['type'], $iData['link']);
-		if (!$paramsForm) {
-			JError::raiseError(500, $model->getError());
-			return false;
-		}
-		$pData	= $model->validate($paramsForm, $pData);
+		$data = $model->validate($form, $data);
 
 		// Check for the special 'request' entry.
-		if ($iData['type'] == 'component' && isset($pData['request']) && is_array($pData['request']) && !empty($pData['request']))
-		{
+		if ($data['type'] == 'component' && isset($data['request']) && is_array($data['request']) && !empty($data['request'])) {
 			// Parse the submitted link arguments.
 			$args = array();
-			parse_str(parse_url($iData['link'], PHP_URL_QUERY), $args);
+			parse_str(parse_url($data['link'], PHP_URL_QUERY), $args);
 
 			// Merge in the user supplied request arguments.
-			$args = array_merge($args, $pData['request']);
-			$iData['link'] = 'index.php?'.http_build_query($args,'','&');
-			unset($pData['request']);
+			$args = array_merge($args, $data['request']);
+			$data['link'] = 'index.php?'.http_build_query($args,'','&');
+			unset($data['request']);
 		}
 
-		// Params are validated so add them to the item data.
-		$iData['params'] = $pData;
-
-		// Push the menu id map back into the array
-		$iData['map'] = &$map;
-
 		// Check for validation errors.
-		if ($iData === false)
-		{
+		if ($data === false) {
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
 				if (JError::isError($errors[$i])) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
-				}
-				else {
+				} else {
 					$app->enqueueMessage($errors[$i], 'notice');
 				}
 			}
 
 			// Save the data in the session.
-			$app->setUserState('com_menus.edit.item.data', $iData);
+			$app->setUserState('com_menus.edit.item.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
@@ -254,31 +226,26 @@ class MenusControllerItem extends JController
 		}
 
 		// Attempt to save the data.
-		if (!$model->save($iData))
-		{
+		if (!$model->save($data)) {
 			// Save the data in the session.
-			$app->setUserState('com_menus.edit.item.data', $iData);
+			$app->setUserState('com_menus.edit.item.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'notice');
-		//	$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
+			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
 			return false;
 		}
 
 		// Save succeeded, check-in the row.
-		if (!$model->checkin())
-		{
+		if (!$model->checkin()) {
 			// Check-in failed, go back to the row and display a notice.
-			$message = JText::sprintf('JERROR_CHECKIN_SAVED', $model->getError());
-		//	$this->setRedirect('index.php?option=com_menus&view=item&layout=edit', $message, 'error');
+			$this->setMessage(JText::sprintf('JERROR_CHECKIN_SAVED', $model->getError()), 'warning');
 			return false;
 		}
 
 		$this->setMessage(JText::_('COM_MENUS_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
-		switch ($task)
-		{
+		switch ($task) {
 			case 'apply':
 				// Set the row data in the session.
 				$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
@@ -326,16 +293,20 @@ class MenusControllerItem extends JController
 		if ($title != 'alias' && $title != 'separator' && $title != 'url') {
 			$title = 'component';
 		}
+
 		$app->setUserState('com_menus.edit.item.type',	$title);
-		if ($title=='component'){
+
+		if ($title=='component') {
 			if (isset($type->request)) {
 				if (isset($type->request->layout)) {
-				$app->setUserState('com_menus.edit.item.link', 'index.php?option='.  $type->request->option.'&view='.
-					$type->request->view.'&layout='.$type->request->layout);
-				}
-				else {
-			$app->setUserState('com_menus.edit.item.link', 'index.php?option='.  $type->request->option.'&view='.
-					$type->request->view);
+					$app->setUserState(
+						'com_menus.edit.item.link',
+						'index.php?option='.$type->request->option.'&view='.$type->request->view.'&layout='.$type->request->layout
+					);
+				} else {
+					$app->setUserState(
+						'com_menus.edit.item.link',
+						'index.php?option='.$type->request->option.'&view='.$type->request->view);
 				}
 				//	$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
 				//	$app->setUserState('com_menus.edit.item.data',	null);
@@ -343,14 +314,14 @@ class MenusControllerItem extends JController
 				//	$app->setUserState('com_menus.edit.item.link',	null);
 			}
 		}
-		//If the type is alias you just need the item id from the menu item referenced.
-		else if ($title=='alias'){
-				$app->setUserState('com_menus.edit.item.link', 'index.php?Itemid=');
+		// If the type is alias you just need the item id from the menu item referenced.
+		else if ($title=='alias') {
+			$app->setUserState('com_menus.edit.item.link', 'index.php?Itemid=');
 
-				//	$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
-				//	$app->setUserState('com_menus.edit.item.data',	null);
-				//$app->setUserState('com_menus.edit.item.type',	$type->type);
-				//	$app->setUserState('com_menus.edit.item.link',	null);
+			//	$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
+			//	$app->setUserState('com_menus.edit.item.data',	null);
+			//$app->setUserState('com_menus.edit.item.type',	$type->type);
+			//	$app->setUserState('com_menus.edit.item.link',	null);
 		}
 		//else if ($title=='url'){
 			//	$app->setUserState('com_menus.edit.item.link', null );

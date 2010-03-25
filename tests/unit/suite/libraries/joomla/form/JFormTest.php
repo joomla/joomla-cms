@@ -11,44 +11,18 @@
 /**
  * Test class for JForm.
  *
- * @package	Joomla.UnitTest
- * @subpackage Utilities
- *
+ * @package		Joomla.UnitTest
+ * @subpackage	Form
  */
-class JFormTest extends PHPUnit_Framework_TestCase
+class JFormTest extends JoomlaTestCase
 {
-	/**
-	 * Saves the Factory pointers
-	 *
-	 * @return void
-	 */
-	protected function saveFactoryState()
+	private function _showXml($form)
 	{
-		$this->factoryState['application'] = JFactory::$application;
-		$this->factoryState['config'] = JFactory::$config;
-		$this->factoryState['session'] = JFactory::$session;
-		$this->factoryState['language'] = JFactory::$language;
-		$this->factoryState['document'] = JFactory::$document;
-		$this->factoryState['acl'] = JFactory::$acl;
-		$this->factoryState['database'] = JFactory::$database;
-		$this->factoryState['mailer'] = JFactory::$mailer;
-	}
-
-	/**
-	 * Saves the Factory pointers
-	 *
-	 * @return void
-	 */
-	protected function restoreFactoryState()
-	{
-		JFactory::$application = $this->factoryState['application'];
-		JFactory::$config = $this->factoryState['config'];
-		JFactory::$session = $this->factoryState['session'];
-		JFactory::$language = $this->factoryState['language'];
-		JFactory::$document = $this->factoryState['document'];
-		JFactory::$acl = $this->factoryState['acl'];
-		JFactory::$database = $this->factoryState['database'];
-		JFactory::$mailer = $this->factoryState['mailer'];
+		$dom = new DOMDocument('1.0');
+		$dom->preserveWhiteSpace = false;
+		$dom->formatOutput = true;
+		$dom->loadXML($form->getXml()->asXML());
+		echo $dom->saveXML();
 	}
 
 	/**
@@ -60,7 +34,9 @@ class JFormTest extends PHPUnit_Framework_TestCase
 	{
 		$this->saveFactoryState();
 		jimport('joomla.form.form');
+		jimport('joomla.utilities.xmlelement');
 		include_once 'inspectors.php';
+		include_once 'JFormDataHelper.php';
 	}
 
 	/**
@@ -74,9 +50,39 @@ class JFormTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Testing the static methods.
+	 * Tests the JForm::addFieldPath method.
 	 *
-	 * @return void
+	 * This method is used to add additional lookup paths for field helpers.
+	 */
+	public function testAddFieldPath()
+	{
+		// Check the default behaviour.
+		$paths = JForm::addFieldPath();
+
+		// The default path is the class file folder/forms
+		$valid = JPATH_LIBRARIES.DS.'joomla'.DS.'form/fields';
+
+		$this->assertThat(
+			in_array($valid, $paths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The libraries fields path should be included by default.'
+		);
+
+		// Test adding a custom folder.
+		JForm::addFieldPath(dirname(__FILE__));
+		$paths = JForm::addFieldPath();
+
+		$this->assertThat(
+			in_array(dirname(__FILE__), $paths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' An added path should be in the returned array.'
+		);
+	}
+
+	/**
+	 * Tests the JForm::addFormPath method.
+	 *
+	 * This method is used to add additional lookup paths for form XML files.
 	 */
 	public function testAddFormPath()
 	{
@@ -84,38 +90,135 @@ class JFormTest extends PHPUnit_Framework_TestCase
 		$paths = JForm::addFormPath();
 
 		// The default path is the class file folder/forms
-		$valid = array(
-			JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'forms'
-		);
+		$valid = JPATH_LIBRARIES.DS.'joomla'.DS.'form/forms';
 
 		$this->assertThat(
-			$paths,
-			$this->equalTo($valid)
+			in_array($valid, $paths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The libraries forms path should be included by default.'
 		);
 
 		// Test adding a custom folder.
 		JForm::addFormPath(dirname(__FILE__));
 		$paths = JForm::addFormPath();
 
-		// The valid will be added to the start of the stack.
-		array_unshift($valid, dirname(__FILE__));
-
 		$this->assertThat(
-			$paths,
-			$this->equalTo($valid)
+			in_array(dirname(__FILE__), $paths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' An added path should be in the returned array.'
 		);
 	}
 
 	/**
-	 * Testing getInstance
+	 * Tests the JForm::addRulePath method.
 	 *
-	 * @return void
-	 *
-	 * @TODO implement getInstance tests
+	 * This method is used to add additional lookup paths for form XML files.
 	 */
-	public function testGetInstance()
+	public function testAddRulePath()
 	{
-		//$form = JFormInspector::getInstance
+		// Check the default behaviour.
+		$paths = JForm::addRulePath();
+
+		// The default path is the class file folder/rules
+		$valid = JPATH_LIBRARIES.DS.'joomla'.DS.'form/rules';
+
+		$this->assertThat(
+			in_array($valid, $paths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The libraries rule path should be included by default.'
+		);
+
+		// Test adding a custom folder.
+		JForm::addRulePath(dirname(__FILE__));
+		$paths = JForm::addRulePath();
+
+		$this->assertThat(
+			in_array(dirname(__FILE__), $paths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' An added path should be in the returned array.'
+		);
+	}
+
+	/**
+	 * Test the JForm::addNode method.
+	 */
+	public function testAddNode()
+	{
+		// The source data.
+		$xml1 = simplexml_load_string('<form><fields /></form>', 'JXMLElement');
+
+		// The new data for adding the field.
+		$xml2 = simplexml_load_string('<form><field name="foo" /></form>', 'JXMLElement');
+
+		if ($xml1 === false || $xml2 === false) {
+			$this->fail('Error in text XML data');
+		}
+
+		JFormInspector::addNode($xml1->fields, $xml2->field);
+
+		$fields = $xml1->xpath('fields/field[@name="foo"]');
+		$this->assertThat(
+			count($fields),
+			$this->equalTo(1),
+			'Line:'.__LINE__.' The field should be added, ungrouped.'
+		);
+	}
+
+	/**
+	 * Tests the JForm::bind method.
+	 *
+	 * This method is used to load data into the JForm object.
+	 */
+	public function testBind()
+	{
+		$form = new JFormInspector('form1');
+
+		$xml = JFormDataHelper::$bindDocument;
+		// Check the test data loads ok.
+		$this->assertThat(
+			$form->load($xml),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$data = array(
+			'title'		=> 'Joomla Framework',
+			'author'	=> 'Should not bind',
+			'params'	=> array(
+				'show_title'	=> 1,
+				'show_abstract'	=> 0,
+				'show_author'	=> 1,
+				'categories'	=> array(
+					1,
+					2
+				)
+			)
+		);
+
+		$this->assertThat(
+			$form->bind($data),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The data should bind successfully.'
+		);
+
+		$data = $form->getData();
+		$this->assertThat(
+			$data->get('title'),
+			$this->equalTo('Joomla Framework'),
+			'Line:'.__LINE__.' The data should bind to form field elements.'
+		);
+
+		$this->assertThat(
+			$data->get('author'),
+			$this->isNull(),
+			'Line:'.__LINE__.' The data should not bind to unknown form field elements.'
+		);
+
+		$this->assertThat(
+			is_array($data->get('params.categories')),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The categories param should be an array.'
+		);
 	}
 
 	/**
@@ -125,79 +228,168 @@ class JFormTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		// Check the empty contructor for basic errors.
-		$form = new JFormInspector;
+		$form = new JFormInspector('form1');
 
 		$this->assertThat(
 			($form instanceof JForm),
-			$this->isTrue()
+			$this->isTrue(),
+			'Line:'.__LINE__.' The JForm constuctor should return a JForm object.'
 		);
 
-		// Test that the default options sets array to false.
+		// Check the integrity of the options.
+
 		$options = $form->getOptions();
-		$valid = array('array' => false, 'prefix' => '%__');
-
 		$this->assertThat(
-			$options,
-			$this->equalTo($valid)
+			isset($options['control']),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The JForm object should contain an options array with a control setting.'
 		);
 
-		// Check that the constructor will process an a change in the array option.
-		$input = array(
-			'array' => true,
-		);
-		$form = new JFormInspector($input);
 		$options = $form->getOptions();
-
 		$this->assertThat(
-			$options,
-			$this->equalTo($input)
+			$options['control'],
+			$this->isFalse(),
+			'Line:'.__LINE__.' The control setting should be false by default.'
+		);
+
+		$form = new JFormInspector('form1', array('control' => 'jform'));
+
+		$options = $form->getOptions();
+		$this->assertThat(
+			$options['control'],
+			$this->equalTo('jform'),
+			'Line:'.__LINE__.' The control setting should be what is passed in the constructor.'
 		);
 	}
 
 	/**
-	 * Testing addField
-	 *
-	 * @return void
-	 *
-	 * @TODO implement addField tests
-	 */
-	public function testAddField()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Testing addFields
-	 *
-	 * @return void
-	 *
-	 * @TODO implement addFields tests
-	 */
-	public function testAddFields()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Testing bind
-	 *
-	 * @return void
-	 *
-	 * @TODO implement bind tests
-	 */
-	public function testBind()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Testing filter
+	 * Test for JForm::filter method.
 	 *
 	 * @return void
 	 */
 	public function testFilter()
 	{
+		$form = new JFormInspector('form1');
+
+		// Check the test data loads ok.
+		$this->assertThat(
+			$form->load(JFormDataHelper::$filterDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$data = array(
+			'word'		=> 'Joomla! Framework',
+			'author'	=> 'Should not bind',
+			'params'	=> array(
+				'show_title'	=> 1,
+				'show_author'	=> false,
+			),
+			'default'	=> ''
+		);
+
+		$filtered = $form->filter($data);
+
+		$this->assertThat(
+			is_array($filtered),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The filtered result should be an array.'
+		);
+
+		// Test that filtering is occuring (not that all filters work - done in testFilterField).
+
+		$this->assertThat(
+			$filtered['word'],
+			$this->equalTo('JoomlaFramework'),
+			'Line:'.__LINE__.' The variable should be filtered by the "word" filter.'
+		);
+
+		$this->assertThat(
+			isset($filtered['author']),
+			$this->isFalse(),
+			'Line:'.__LINE__.' A variable in the data not present in the form should not exist.'
+		);
+
+		$this->assertThat(
+			$filtered['params']['show_title'],
+			$this->equalTo(1),
+			'Line:'.__LINE__.' The nested variable should be present.'
+		);
+
+		$this->assertThat(
+			$filtered['params']['show_author'],
+			$this->equalTo(0),
+			'Line:'.__LINE__.' The nested variable should be present.'
+		);
+	}
+
+	/**
+	 * Test for JForm::filterField method.
+	 */
+	public function testFilterField()
+	{
+		$form = new JFormInspector('form1');
+
+		// Check the test data loads ok.
+		$this->assertThat(
+			$form->load(JFormDataHelper::$filterDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$input = '<script>alert();</script> <p>Some text.</p>';
+
+		$this->assertThat(
+			$form->filterField($form->findField('function'), $input),
+			$this->equalTo('function'),
+			'Line:'.__LINE__.' The function filter should be correctly applied.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('int'), 'A1B2C3'),
+			$this->equalTo(1),
+			'Line:'.__LINE__.' The "int" filter should be correctly applied.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('method'), $input),
+			$this->equalTo('method'),
+			'Line:'.__LINE__.' The class method filter should be correctly applied.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('raw'), $input),
+			$this->equalTo($input),
+			'Line:'.__LINE__.' "The safehtml" filter should be correctly applied.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('safehtml'), $input),
+			$this->equalTo('alert(); <p>Some text.</p>'),
+			'Line:'.__LINE__.' "The safehtml" filter should be correctly applied.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('unset'), $input),
+			$this->equalTo(null),
+			'Line:'.__LINE__.' The value should be unset.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('word'), $input),
+			$this->equalTo('scriptalertscriptpSometextp'),
+			'Line:'.__LINE__.' The "word" filter should be correctly applied.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('default'), $input),
+			$this->equalTo('alert(); Some text.'),
+			'Line:'.__LINE__.' The default strict filter should be correctly applied.'
+		);
+
+		$this->markTestIncomplete('Need to deal with SERVER_UTC and USER_UTC filters');
+
+	/*
 		include_once JPATH_BASE . '/libraries/joomla/user/user.php';
 
 		$user = new JUser;
@@ -219,40 +411,8 @@ class JFormTest extends PHPUnit_Framework_TestCase
 
 		$text = '<script>alert();</script> <p>Some text</p>';
 		$data = array(
-			'f_text' => $text,
-			'f_safe_text' => $text,
-			'f_raw_text' => $text,
 			'f_svr_date' => '2009-01-01 00:00:00',
 			'f_usr_date' => '2009-01-01 00:00:00',
-			'f_unset' => 1
-		);
-
-		$result = $form->filter($data);
-
-		// Check that the unset filter worked.
-		$this->assertThat(
-			isset($result['f_text']),
-			$this->isTrue()
-		);
-
-		$this->assertThat(
-			isset($result['f_safe_text']),
-			$this->isTrue()
-		);
-
-		$this->assertThat(
-			isset($result['f_raw_text']),
-			$this->isTrue()
-		);
-
-		$this->assertThat(
-			isset($result['f_svr_date']),
-			$this->isTrue()
-		);
-
-		$this->assertThat(
-			isset($result['f_unset']),
-			$this->isFalse()
 		);
 
 		// Check the date filters.
@@ -261,367 +421,1609 @@ class JFormTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('2008-12-31 14:00:00')
 		);
 
-		/*
-		$this->assertThat(
-			$result['f_usr_date'],
-			$this->equalTo('2009-01-01 05:00:00')
-		);
-		*/
-
-		// Check that text filtering worked.
-		$this->assertThat(
-			$result['f_raw_text'],
-			$this->equalTo($text)
-		);
-
-		$this->assertThat(
-			$result['f_text'],
-			$this->equalTo('alert(); Some text')
-		);
-
-		$this->assertThat(
-			$result['f_safe_text'],
-			$this->equalTo('alert(); <p>Some text</p>')
-		);
-
-		$this->markTestIncomplete();
+		//$this->assertThat(
+		//	$result['f_usr_date'],
+		//	$this->equalTo('2009-01-01 05:00:00')
+		//);
+	*/
 	}
 
 	/**
-	 * Testing getField
-	 *
-	 * @return void
-	 *
-	 * @TODO implement getField tests
+	 * Test the JForm::findField method.
+	 */
+	public function testFindField()
+	{
+		// Prepare the form.
+		$form = new JFormInspector('form1');
+
+		$xml = JFormDataHelper::$findFieldDocument;
+
+		// Check the test data loads ok.
+		$this->assertThat(
+			$form->load($xml),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		// Error handling.
+
+		$this->assertThat(
+			$form->findField('bogus'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' An ungrouped field that does not exist should return false.'
+		);
+
+		$this->assertThat(
+			$form->findField('title', 'bogus'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' An field in a group that does not exist should return false.'
+		);
+
+		// Test various find combinations.
+
+		$field = $form->findField('title', null);
+		$this->assertThat(
+			(string) $field['place'],
+			$this->equalTo('root'),
+			'Line:'.__LINE__.' A known ungrouped field should load successfully.'
+		);
+
+		$field = $form->findField('title', 'params');
+		$this->assertThat(
+			(string) $field['place'],
+			$this->equalTo('child'),
+			'Line:'.__LINE__.' A known grouped field should load successfully.'
+		);
+
+		$field = $form->findField('alias');
+		$this->assertThat(
+			(string) $field['name'],
+			$this->equalTo('alias'),
+			'Line:'.__LINE__.' A known field in a fieldset should load successfully.'
+		);
+
+		$field = $form->findField('show_title', 'params');
+		$this->assertThat(
+			(string) $field['default'],
+			$this->equalTo('1'),
+			'Line:'.__LINE__.' A known field in a group fieldset should load successfully.'
+		);
+	}
+
+	/**
+	 * Tests the JForm::findFieldsByFieldset method.
+	 */
+	public function testFindFieldsByFieldset()
+	{
+		// Prepare the form.
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$findFieldsByFieldsetDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		// Error handling.
+
+		$this->assertThat(
+			$form->findFieldsByFieldset('bogus'),
+			$this->equalTo(array()),
+			'Line:'.__LINE__.' An unknown fieldset should return an empty array.'
+		);
+
+		// Test regular usage.
+
+		$this->assertThat(
+			count($form->findFieldsByFieldset('params-basic')),
+			$this->equalTo(3),
+			'Line:'.__LINE__.' The params-basic fieldset has 3 fields.'
+		);
+
+		$this->assertThat(
+			count($form->findFieldsByFieldset('params-advanced')),
+			$this->equalTo(2),
+			'Line:'.__LINE__.' The params-advanced fieldset has 2 fields.'
+		);
+	}
+
+	/**
+	 * Test the JForm::findFieldsByGroup method.
+	 */
+	public function testFindFieldsByGroup()
+	{
+		// Prepare the form.
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$findFieldsByGroupDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		// Error handling.
+
+		$this->assertThat(
+			$form->findFieldsByGroup('bogus'),
+			$this->equalTo(array()),
+			'Line:'.__LINE__.' A group that does not exist should return an empty array.'
+		);
+
+		// Test all fields.
+
+		$this->assertThat(
+			count($form->findFieldsByGroup()),
+			$this->equalTo(11),
+			'Line:'.__LINE__.' There are 9 field elements in total.'
+		);
+
+		// Test ungrouped fields.
+
+		$this->assertThat(
+			count($form->findFieldsByGroup(false)),
+			$this->equalTo(4),
+			'Line:'.__LINE__.' There are 4 ungrouped field elements.'
+		);
+
+		// Test grouped fields.
+
+		$this->assertThat(
+			count($form->findFieldsByGroup('details')),
+			$this->equalTo(2),
+			'Line:'.__LINE__.' The details group has 2 field elements.'
+		);
+
+		$this->assertThat(
+			count($form->findFieldsByGroup('params')),
+			$this->equalTo(3),
+			'Line:'.__LINE__.' The params group has 3 field elements, including one nested in a fieldset.'
+		);
+
+		// Test nested fields.
+
+		$this->assertThat(
+			count($form->findFieldsByGroup('level1', true)),
+			$this->equalTo(2),
+			'Line:'.__LINE__.' There should be 2 nested fields.'
+		);
+	}
+
+	/**
+	 * Test the JForm::findGroup method.
+	 */
+	public function testFindGroup()
+	{
+		// Prepare the form.
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$findGroupDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$this->assertThat(
+			$form->findGroup('bogus'),
+			$this->equalTo(array()),
+			'Line:'.__LINE__.' A group that does not exist should return an empty array.'
+		);
+
+		$this->assertThat(
+			count($form->findGroup('params')),
+			$this->equalTo(1),
+			'Line:'.__LINE__.' The group should have one element.'
+		);
+
+		$this->assertThat(
+			$form->findGroup('bogus.data'),
+			$this->equalTo(array()),
+			'Line:'.__LINE__.' A group path that does not exist should return an empty array.'
+		);
+
+		// Check that an existant field returns something.
+		$this->assertThat(
+			count($form->findGroup('params.cache')),
+			$this->equalTo(1),
+			'Line:'.__LINE__.' The group should have one element.'
+		);
+	}
+
+	/**
+	 * Test for JForm::getErrors method.
+	 */
+	public function testGetErrors()
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$validateDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$fail = array(
+			'boolean' => 'comply',
+			'required' => '',
+		);
+
+		$this->assertThat(
+			$form->validate($fail),
+			$this->isFalse(),
+			'Line:'.__LINE__.' Validating this data should fail.'
+		);
+
+		$errors = $form->getErrors($fail);
+		$this->assertThat(
+			count($errors),
+			$this->equalTo(3),
+			'Line:'.__LINE__.' This data should invoke 3 errors.'
+		);
+
+		$this->assertThat(
+			$errors[0] instanceof JException,
+			$this->isTrue(),
+			'Line:'.__LINE__.' The errors should be exception objects.'
+		);
+	}
+
+	/**
+	 * Test the JForm::getField method.
 	 */
 	public function testGetField()
 	{
-		$this->markTestIncomplete();
+		// Prepare the form.
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$getFieldDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		// Check for errors.
+
+		$this->assertThat(
+			$form->getField('bogus'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' A field that does not exist should return false.'
+		);
+
+		$this->assertThat(
+			$form->getField('show_title'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' A field that does exists in a group, without declaring the group, should return false.'
+		);
+
+		$this->assertThat(
+			$form->getField('show_title', 'bogus'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' A field in a group that does not exist should return false.'
+		);
+
+		// Checking value defaults.
+
+		$this->assertThat(
+			$form->getField('title')->value,
+			$this->equalTo(''),
+			'Line:'.__LINE__.' Prior to binding data, the defaults in the field should be used.'
+		);
+
+		$this->assertThat(
+			$form->getField('show_title', 'params')->value,
+			$this->equalTo(1),
+			'Line:'.__LINE__.' Prior to binding data, the defaults in the field should be used.'
+		);
+
+		// Check values after binding.
+
+		$data = array(
+			'title' => 'The title',
+			'show_title' => 3,
+			'params' => array(
+				'show_title' => 2,
+			)
+		);
+
+		$this->assertThat(
+			$form->bind($data),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The input data should bind successfully.'
+		);
+
+		$this->assertThat(
+			$form->getField('title')->value,
+			$this->equalTo('The title'),
+			'Line:'.__LINE__.' Check the field value bound correctly.'
+		);
+
+		$this->assertThat(
+			$form->getField('show_title', 'params')->value,
+			$this->equalTo(2),
+			'Line:'.__LINE__.' Check the field value bound correctly.'
+		);
+
+		// Check binding with an object.
+
+		$data = new stdClass;
+		$data->title = 'The new title';
+		$data->show_title = 5;
+		$data->params = new stdClass;
+		$data->params->show_title = 4;
+
+		$this->assertThat(
+			$form->bind($data),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The input data should bind successfully.'
+		);
+
+		$this->assertThat(
+			$form->getField('title')->value,
+			$this->equalTo('The new title'),
+			'Line:'.__LINE__.' Check the field value bound correctly.'
+		);
+
+		$this->assertThat(
+			$form->getField('show_title', 'params')->value,
+			$this->equalTo(4),
+			'Line:'.__LINE__.' Check the field value bound correctly.'
+		);
 	}
 
 	/**
-	 * Testing getFieldAttributes
-	 *
-	 * @return void
-	 *
-	 * @TODO implement getFieldAttributes tests
+	 * Test for JForm::getFieldAttribute method.
 	 */
-	public function testGetFieldAttributes()
+	public function testGetFieldAttribute()
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$getFieldDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		// Test error handling.
+
+		$this->assertThat(
+			$form->getFieldAttribute('bogus', 'unknown', 'Help'),
+			$this->equalTo('Help'),
+			'Line:'.__LINE__.' The default value of the unknown field should be returned.'
+		);
+
+		$this->assertThat(
+			$form->getFieldAttribute('title', 'unknown', 'Use this'),
+			$this->equalTo('Use this'),
+			'Line:'.__LINE__.' The default value of the unknown attribute should be returned.'
+		);
+
+		// Test general usage.
+
+		$this->assertThat(
+			$form->getFieldAttribute('title', 'description'),
+			$this->equalTo('The title.'),
+			'Line:'.__LINE__.' The value of the attribute should be returned.'
+		);
+
+		$this->assertThat(
+			$form->getFieldAttribute('title', 'description', 'Use this'),
+			$this->equalTo('The title.'),
+			'Line:'.__LINE__.' The value of the attribute should be returned.'
+		);
+	}
+
+	/**
+	 * Test the JForm::getFormControl method.
+	 */
+	public function testGetFormControl()
+	{
+		$form = new JForm('form8ion');
+
+		$this->assertThat(
+			$form->getFormControl(),
+			$this->equalTo(''),
+			'Line:'.__LINE__.' A form control that has not been specified should return nothing.'
+		);
+
+		$form = new JForm('form8ion', array('control' => 'jform'));
+
+		$this->assertThat(
+			$form->getFormControl(),
+			$this->equalTo('jform'),
+			'Line:'.__LINE__.' The form control should agree with the options passed in the constructor.'
+		);
+	}
+
+	/**
+	 * Test for JForm::getInstance.
+	 */
+	public function testGetInstance()
 	{
 		$this->markTestIncomplete();
 	}
 
 	/**
-	 * Testing getFields
-	 *
-	 * @return void
-	 *
-	 * @TODO implement getFields tests
+	 * Test for JForm::getGroup method.
 	 */
-	public function testGetFields()
+	public function testGetGroup()
 	{
-		$this->markTestIncomplete();
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$findFieldsByGroupDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		// Test error handling.
+
+		$this->assertThat(
+			$form->getGroup('bogus'),
+			$this->equalTo(array()),
+			'Line:'.__LINE__.' A group that does not exist should return an empty array.'
+		);
+
+		// Test general usage.
+
+		$this->assertThat(
+			count($form->getGroup('params')),
+			$this->equalTo(3),
+			'Line:'.__LINE__.' The params group should have 3 field elements.'
+		);
+
+		$this->assertThat(
+			count($form->getGroup('level1', true)),
+			$this->equalTo(2),
+			'Line:'.__LINE__.' The level1 group should have 2 nested field elements.'
+		);
+
+		$this->assertThat(
+			count($form->getGroup('level1.level2')),
+			$this->equalTo(1),
+			'Line:'.__LINE__.' The level2 group should have 1 field element.'
+		);
 	}
 
 	/**
-	 * Testing getFieldSets
-	 *
-	 * @return void
-	 *
-	 * @TODO implement getFieldSets tests
-	 */
-	public function testGetFieldsets()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Testing getGroups
-	 *
-	 * @return void
-	 *
-	 * @TODO implement getGroups tests
-	 */
-	public function testGetGroups()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Testing getInput
-	 *
-	 * @return void
-	 *
-	 * @TODO implement getInput tests
+	 * Test for JForm::getInput method.
 	 */
 	public function testGetInput()
 	{
-		$this->markTestIncomplete();
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadFieldDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$this->assertThat(
+			$form->getInput('title', null, 'The Title'),
+			$this->equalTo('<input type="text" name="title" id="title_id" value="The Title" class="inputbox required"/>'),
+			'Line:'.__LINE__.' The method should return a simple input text field.'
+		);
+
+		$this->assertThat(
+			$form->getInput('show_title', 'params', '0'),
+			$this->equalTo(
+				'<fieldset id="params_show_title" class="radio">' .
+					'<input type="radio" id="params_show_title0" name="params[show_title]" value="1"/>' .
+					'<label for="params_show_title0">'.JText::_('JYes').'</label>' .
+					'<input type="radio" id="params_show_title1" name="params[show_title]" value="0" checked="checked"/>' .
+					'<label for="params_show_title1">'.JText::_('JNo').'</label>' .
+				'</fieldset>'
+			),
+			'Line:'.__LINE__.' The method should return a radio list.'
+		);
+
+		$form = new JFormInspector('form1', array('control' => 'jform'));
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadFieldDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$this->assertThat(
+			$form->getInput('colours', 'params', 'blue'),
+			$this->equalTo(
+				'<select id="jform_params_colours" name="jform[params][colours][]" multiple="multiple">' .
+				"\n".'	<option value="red">Red</option>' .
+				"\n".'	<option value="blue" selected="selected">Blue</option>' .
+				"\n".'	<option value="green">Green</option>' .
+				"\n".'	<option value="yellow">Yellow</option>' .
+				"\n".'</select>'.
+				"\n"
+			),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
 	}
 
 	/**
-	 * Testing getLabel
-	 *
-	 * @return void
-	 *
-	 * @TODO implement getLabel tests
+	 * Test for JForm::getLabel method.
 	 */
 	public function testGetLabel()
 	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Testing getNameSetName
-	 *
-	 * @return void
-	 *
-	 * @TODO implement getNameSetName tests
-	 */
-	public function testGetNameSetName()
-	{
-		$form = new JForm;
-		$input = 'j-form';
-
-		// Check input = output.
-		$form->setName($input);
-		$name = $form->getName();
+		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$name,
-			$this->equalTo($input)
+			$form->load(JFormDataHelper::$loadFieldDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$this->assertThat(
+			$form->getLabel('title'),
+			$this->equalTo('<label id="title_id-lbl" for="title_id" class="hasTip required" title="Title::The title.">Title</label>'),
+			'Line:'.__LINE__.' The method should return a simple label field.'
 		);
 	}
 
 	/**
-	 * Testing getValue
-	 *
-	 * @return void
-	 *
-	 * @TODO implement getValue tests
+	 * Test the JForm::getName method.
+	 */
+	public function testGetName()
+	{
+		$form = new JForm('form1');
+
+		$this->assertThat(
+			$form->getName(),
+			$this->equalTo('form1'),
+			'Line:'.__LINE__.' The form name should agree with the argument passed in the constructor.'
+		);
+	}
+
+	/**
+	 * Test for JForm::getValue method.
 	 */
 	public function testGetValue()
 	{
-		$this->markTestIncomplete();
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadFieldDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$data = array(
+			'title'		=> 'Avatar',
+		);
+
+		$this->assertThat(
+			$form->bind($data),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The data should bind successfully.'
+		);
+
+		$this->assertThat(
+			$form->getValue('title'),
+			$this->equalTo('Avatar'),
+			'Line:'.__LINE__.' The bind value should be returned.'
+		);
 	}
 
 	/**
-	 * Testing load
+	 * Test for JForm::getFieldset method.
+	 */
+	public function testGetFieldset()
+	{
+		// Prepare the form.
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$getFieldsetDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$this->assertThat(
+			$form->getFieldset('bogus'),
+			$this->equalTo(array()),
+			'Line:'.__LINE__.' A fieldset that does not exist should return an empty array.'
+		);
+
+		$this->assertThat(
+			count($form->getFieldset('params-basic')),
+			$this->equalTo(4),
+			'Line:'.__LINE__.' There are 3 field elements in a fieldset and 1 field element marked with the fieldset attribute.'
+		);
+	}
+
+	/**
+	 * Test for JForm::getFieldsets method.
+	 */
+	public function testGetFieldsets()
+	{
+		// Prepare the form.
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$getFieldsetsDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$sets = $form->getFieldsets();
+		$this->assertThat(
+			count($sets),
+			$this->equalTo(3),
+			'Line:'.__LINE__.' The source data has 3 fieldsets in total.'
+		);
+
+		$this->assertThat(
+			$sets['params-advanced']->name,
+			$this->equalTo('params-advanced'),
+			'Line:'.__LINE__.' Ensure the fieldset name is correct.'
+		);
+
+		$this->assertThat(
+			$sets['params-advanced']->label,
+			$this->equalTo('Advanced Options'),
+			'Line:'.__LINE__.' Ensure the fieldset label is correct.'
+		);
+
+		$this->assertThat(
+			$sets['params-advanced']->description,
+			$this->equalTo('The advanced options'),
+			'Line:'.__LINE__.' Ensure the fieldset description is correct.'
+		);
+
+		// Test loading by group.
+
+		$this->assertThat(
+			$form->getFieldsets('bogus'),
+			$this->equalTo(array()),
+			'Line:'.__LINE__.' A fieldset that in a group that does not exist should return an empty array.'
+		);
+
+		$sets = $form->getFieldsets('details');
+		$this->assertThat(
+			count($sets),
+			$this->equalTo(1),
+			'Line:'.__LINE__.' The details group has one field marked with a fieldset'
+		);
+
+		$this->assertThat(
+			$sets['params-legacy']->name,
+			$this->equalTo('params-legacy'),
+			'Line:'.__LINE__.' Ensure the fieldset name is correct.'
+		);
+
+	}
+
+	/**
+	 * Test the JForm::load method.
 	 *
-	 * @return void
-	 *
-	 * @TODO implement load tests
+	 * This method can load an XML data object, or parse an XML string.
 	 */
 	public function testLoad()
 	{
-		$form = new JFormInspector;
+		$form = new JFormInspector('form1');
 
-		// Check empty data returns false.
-		$result = $form->load('');
 		$this->assertThat(
-			$result,
-			$this->isFalse()
+			$form->load(JFormDataHelper::$loadDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		// Check poorly formed xml returns false.
-		$result = $form->load('<fields><field /></fields>');
 		$this->assertThat(
-			$result,
-			$this->isFalse()
+			($form->getXML() instanceof JXMLElement),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The internal XML should be a JXMLElement object.'
 		);
 
-		$result = $form->load('<form><fields /></form>');
+		// Test replace false.
+
 		$this->assertThat(
-			$result,
-			$this->isFalse()
+			$form->load(JFormDataHelper::$loadMergeDocument, false),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		// Check loading of good string data.
-		$result = $form->load('<form><fields><field name="field_name" /></fields></form>', false);
 		$this->assertThat(
-			$result,
-			$this->isTrue()
+			count($form->getXML()->xpath('/form/fields/field')),
+			$this->equalTo(4),
+			'Line:'.__LINE__.' There are 2 new ungrouped field and one existing field should merge, resulting in 4 total.'
 		);
 
-		// Check non-existent file fails.
-		$result = $form->load('not_found');
+		// Test replace true (default).
+
+		$form = new JFormInspector('form1');
+
 		$this->assertThat(
-			$result,
-			$this->isFalse()
+			$form->load(JFormDataHelper::$loadDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		// Check loading of good file.
-		JForm::addFormPath(dirname(__FILE__));
-		$result = $form->load('example');
 		$this->assertThat(
-			$result,
-			$this->isTrue()
+			$form->load(JFormDataHelper::$loadMergeDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+		//$this->_showXml($form);die;
+
+		$this->assertThat(
+			count($form->findFieldsByGroup(false)),
+			$this->equalTo(6),
+			'Line:'.__LINE__.' There are 2 original ungrouped fields, 1 replaced and 4 new, resulting in 6 total.'
 		);
 
-		// Reassemble the XML from the form object and compare with the original.
-		$groups = $form->getGroups();
-		$xml = '<form><fields>';
-		foreach ($groups['_default'] as $elem)
-		{
-			$xml .= $elem->asXML();
-		}
-		$xml .= '</fields></form>';
-
-		$original = new JSimpleXML;
-		$original->loadFile(dirname(__FILE__).'/example.xml');
-
-		$new = new JSimpleXML;
-		$new->loadString($xml);
+		$this->assertThat(
+			count($form->getXML()->xpath('//fields[@name]')),
+			$this->equalTo(2),
+			'Line:'.__LINE__.' The XML has 2 fields tags with a name attribute.'
+		);
 
 		$this->assertThat(
-			$new->document->toString(),
-			$this->equalTo($original->document->toString())
+			count($form->getXML()->xpath('//fields[@name="params"]/field')),
+			$this->equalTo(2),
+			'Line:'.__LINE__.' The params fields have been merged ending with 2 elements.'
+		);
+
+		$this->assertThat(
+			count($form->getXML()->xpath('/form/fields/fields[@name="params"]/field[@name="show_abstract"]')),
+			$this->equalTo(1),
+			'Line:'.__LINE__.' The show_title in the params group has been replaced by show_abstract.'
 		);
 	}
 
 	/**
-	 * Testing loadFieldsXML
+	 * Test the JForm::load method for cases of unexpected or bad input.
 	 *
-	 * @return void
-	 *
-	 * @TODO implement loadFieldsXML tests
+	 * This method can load an XML data object, or parse an XML string.
 	 */
-	public function testLoadFieldsXML()
+	public function testLoad_BadInput()
 	{
-		$this->markTestIncomplete();
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(123),
+			$this->isFalse(),
+			'Line:'.__LINE__.' A non-string should return false.'
+		);
+
+		$this->assertThat(
+			$form->load('junk'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' An invalid string should return false.'
+		);
+
+		$this->assertThat(
+			$form->getXml(),
+			$this->isNull(),
+			'Line:'.__LINE__.' The internal XML should be false as returned from simplexml_load_string.'
+		);
+
+		$this->assertThat(
+			$form->load('<notform><test /></notform>'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Invalid root node name from string should still load.'
+		);
+
+		$this->assertThat(
+			$form->getXml()->getName(),
+			$this->equalTo('form'),
+			'Line:'.__LINE__.' The internal XML should still be named "form".'
+		);
+
+		// Test for irregular object input.
+
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFactory::getXml('<notform><test /></notform>', false)),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Invalid root node name from XML object should still load.'
+		);
+
+		$this->assertThat(
+			$form->getXml()->getName(),
+			$this->equalTo('form'),
+			'Line:'.__LINE__.' The internal XML should still be named "form".'
+		);
 	}
 
 	/**
-	 * Testing loadFieldType
+	 * Test the JForm::load method for XPath data.
 	 *
-	 * @return void
-	 *
-	 * @TODO implement loadFieldType tests
+	 * This method can load an XML data object, or parse an XML string.
+	 */
+	public function testLoad_XPath()
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadXPathDocument, true, '/extension/fields'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$this->assertThat(
+			$form->getXml()->getName(),
+			$this->equalTo('form'),
+			'Line:'.__LINE__.' The internal XML should still be named "form".'
+		);
+		//$this->_showXml($form);die;
+		$this->assertThat(
+			count($form->getXml()->fields->fields),
+			$this->equalTo(2),
+			'Line:'.__LINE__.' The test data has 2 fields.'
+		);
+	}
+
+	/**
+	 * Test for JForm::loadField method.
+	 */
+	public function testLoadField()
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadFieldDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		// Error handling.
+
+		$this->assertThat(
+			$form->loadField('bogus'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' An unknown field should return false.'
+		);
+
+		// Test correct usage.
+
+		$field = $form->getField('title');
+		$field = $form->loadField($field);
+	}
+
+	/**
+	 * Test the JForm::getField method.
 	 */
 	public function testLoadFieldType()
 	{
-		$this->markTestIncomplete();
+		$this->assertThat(
+			JFormInspector::loadFieldType('bogus'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' loadFieldType should return false if class not found.'
+		);
+
+		$this->assertThat(
+			(JFormInspector::loadFieldType('list') instanceof JFormFieldList),
+			$this->isTrue(),
+			'Line:'.__LINE__.' loadFieldType should return the correct class.'
+		);
+
+		// Add custom path.
+		JForm::addFieldPath(dirname(__FILE__).'/_testfields');
+
+		$this->assertThat(
+			(JFormInspector::loadFieldType('test') instanceof JFormFieldTest),
+			$this->isTrue(),
+			'Line:'.__LINE__.' loadFieldType should return the correct custom class.'
+		);
 	}
 
 	/**
-	 * Testing loadFolder
+	 * Test the JForm::loadFile method.
 	 *
-	 * @return void
-	 *
-	 * @TODO implement loadFolder tests
+	 * This method loads a file and passes the string to the JForm::load method.
 	 */
-	public function testLoadFolder()
+	public function testLoadFile()
 	{
-		$this->markTestIncomplete();
+		$form = new JFormInspector('form1');
+
+		// Test for files that don't exist.
+
+		$this->assertThat(
+			$form->loadFile('/tmp/example.xml'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' A file path that does not exist should return false.'
+		);
+
+		$this->assertThat(
+			$form->loadFile('notfound'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' A file name that does not exist should return false.'
+		);
+
+		// Testing loading a file by full path.
+
+		$this->assertThat(
+			$form->loadFile(dirname(__FILE__).'/example.xml'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML file by full path should load successfully.'
+		);
+
+		$this->assertThat(
+			($form->getXML() instanceof JXMLElement),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should parse successfully.'
+		);
+
+		// Testing loading a file by file name.
+
+		$form = new JFormInspector('form1');
+		JForm::addFormPath(dirname(__FILE__));
+
+		$this->assertThat(
+			$form->loadFile('example'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML file by name should load successfully.'
+		);
+
+		$this->assertThat(
+			($form->getXML() instanceof JXMLElement),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should parse successfully.'
+		);
 	}
 
 	/**
-	 * Testing removeField
-	 *
-	 * @return void
-	 *
-	 * @TODO implement removeField tests
+	 * Test for JForm::loadRuleType method.
+	 */
+	public function testLoadRuleType()
+	{
+		$form = new JFormInspector('form1');
+
+		// Test error handling.
+
+		$this->assertThat(
+			$form->loadRuleType('bogus'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' Loading an unknown rule should return false.'
+		);
+
+		// Test loading a custom rule.
+
+		JForm::addRulePath(dirname(__FILE__).'/_testrules');
+
+		$this->assertThat(
+			($form->loadRuleType('custom') instanceof JFormRule),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Loading a known rule should return a rule object.'
+		);
+
+		// Test all the stock rules load.
+
+		$this->assertThat(
+			($form->loadRuleType('boolean') instanceof JFormRule),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Loading the boolean rule should return a rule object.'
+		);
+
+		$this->assertThat(
+			($form->loadRuleType('email') instanceof JFormRule),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Loading the email rule should return a rule object.'
+		);
+
+		$this->assertThat(
+			($form->loadRuleType('equals') instanceof JFormRule),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Loading the equals rule should return a rule object.'
+		);
+
+		$this->assertThat(
+			($form->loadRuleType('rules') instanceof JFormRule),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Loading the [access control] rules rule should return a rule object.'
+		);
+
+		$this->assertThat(
+			($form->loadRuleType('username') instanceof JFormRule),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Loading the username rule should return a rule object.'
+		);
+	}
+
+	/**
+	 * Test the JForm::mergeNode method.
+	 */
+	public function testMergeNode()
+	{
+		// The source data.
+		$xml1 = simplexml_load_string('<form><field name="foo" /></form>', 'JXMLElement');
+
+		// The new data for adding the field.
+		$xml2 = simplexml_load_string('<form><field name="bar" type="text" /></form>', 'JXMLElement');
+
+		if ($xml1 === false || $xml2 === false) {
+			$this->fail('Line:'.__LINE__.' Error in text XML data');
+		}
+
+		JFormInspector::mergeNode($xml1->field, $xml2->field);
+
+		$fields = $xml1->xpath('field[@name="foo"] | field[@type="text"]');
+		$this->assertThat(
+			count($fields),
+			$this->equalTo(1),
+			'Line:'.__LINE__.' Existing attribute "name" should merge, new attribute "type" added.'
+		);
+	}
+
+	/**
+	 * Test the JForm::mergeNode method.
+	 */
+	public function testMergeNodes()
+	{
+		// The source data.
+		$xml1 = simplexml_load_string('<form><fields><field name="foo" /></fields></form>', 'JXMLElement');
+
+		// The new data for adding the field.
+		$xml2 = simplexml_load_string('<form><fields><field name="foo" type="text" /><field name="soap" /></fields></form>', 'JXMLElement');
+
+		if ($xml1 === false || $xml2 === false) {
+			$this->fail('Line:'.__LINE__.' Error in text XML data');
+		}
+
+		JFormInspector::mergeNodes($xml1->fields, $xml2->fields);
+
+		$this->assertThat(
+			count($xml1->xpath('fields/field')),
+			$this->equalTo(2),
+			'Line:'.__LINE__.' The merge should have two field tags, one existing, one new.'
+		);
+
+		$this->assertThat(
+			count($xml1->xpath('fields/field[@name="foo"] | fields/field[@type="text"]')),
+			$this->equalTo(1),
+			'Line:'.__LINE__.' A field of the same name should merge.'
+		);
+
+		$this->assertThat(
+			count($xml1->xpath('fields/field[@name="soap"]')),
+			$this->equalTo(1),
+			'Line:'.__LINE__.' A new field should be added.'
+		);
+	}
+
+	/**
+	 * Test for JForm::removeField method.
 	 */
 	public function testRemoveField()
 	{
-		$this->markTestIncomplete();
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$this->assertThat(
+			$form->removeField('title'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The removeField method should return true.'
+		);
+
+		$this->assertThat(
+			$form->findField('title'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' The field should be removed.'
+		);
+
+		$this->assertThat(
+			$form->removeField('show_title', 'params'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The removeField method should return true.'
+		);
+
+		$this->assertThat(
+			$form->findField('show_title', 'params'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' The field should be removed.'
+		);
 	}
 
 	/**
-	 * Testing removeGroup
-	 *
-	 * @return void
-	 *
-	 * @TODO implement removeGroup tests
+	 * Test for JForm::removeGroup method.
 	 */
 	public function testRemoveGroup()
 	{
-		$this->markTestIncomplete();
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$this->assertThat(
+			$form->removeGroup('params'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The removeGroup method should return true.'
+		);
+
+		$this->assertThat(
+			$form->findGroup('params'),
+			$this->equalTo(array()),
+			'Line:'.__LINE__.' The group should be removed, returning an empty array.'
+		);
 	}
 
 	/**
-	 * Testing setField
-	 *
-	 * @return void
-	 *
-	 * @TODO implement setField tests
+	 * Test for JForm::setField method.
+	 */
+	public function testReset()
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$data = array(
+			'title'		=> 'Joomla Framework',
+			'params'	=> array(
+				'show_title'	=> 2
+			)
+		);
+
+		$this->assertThat(
+			$form->bind($data),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The data should bind successfully.'
+		);
+
+		$this->assertThat(
+			$form->getValue('title'),
+			$this->equalTo('Joomla Framework'),
+			'Line:'.__LINE__.' Confirm the field value is set.'
+		);
+
+		$this->assertThat(
+			$form->getValue('show_title', 'params'),
+			$this->equalTo(2),
+			'Line:'.__LINE__.' Confirm the field value is set.'
+		);
+
+		// Test reset on the data only.
+
+		$this->assertThat(
+			$form->reset(),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The reset method should return true.'
+		);
+
+		$this->assertThat(
+			$form->getField('title'),
+			$this->logicalNot($this->isFalse()),
+			'Line:'.__LINE__.' The field should still exist.'
+		);
+
+		$this->assertThat(
+			$form->getValue('title'),
+			$this->equalTo(null),
+			'Line:'.__LINE__.' The field value should be reset.'
+		);
+
+		$this->assertThat(
+			$form->getValue('show_title', 'params'),
+			$this->equalTo(null),
+			'Line:'.__LINE__.' The field value should be reset.'
+		);
+
+		// Test reset of data and the internal XML.
+
+		$this->assertThat(
+			$form->reset(true),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The reset method should return true.'
+		);
+
+		$this->assertThat(
+			$form->getField('title'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' The known field should be removed.'
+		);
+
+		$this->assertThat(
+			$form->findGroup('params'),
+			$this->equalTo(array()),
+			'Line:'.__LINE__.' The known group should be removed, returning an empty array.'
+		);
+	}
+
+	/**
+	 * Test for JForm::setField method.
 	 */
 	public function testSetField()
 	{
-		$this->markTestIncomplete();
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$xml1 = simplexml_load_string('<form><field name="title" required="true" /></form>', 'JXMLElement');
+
+		if ($xml1 === false) {
+			$this->fail('Error in text XML data');
+		}
+
+		// Test without replace.
+
+		$this->assertThat(
+			$form->setField($xml1->field[0], null, false),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setField method should return true.'
+		);
+
+		$this->assertThat(
+			$form->getFieldAttribute('title', 'required', 'default'),
+			$this->equalTo('default'),
+			'Line:'.__LINE__.' The label should contain just the field name.'
+		);
+
+		// Test with replace.
+
+		$this->assertThat(
+			$form->setField($xml1->field[0], null, true),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setField method should return true.'
+		);
+
+		$this->assertThat(
+			$form->getFieldAttribute('title', 'required', 'default'),
+			$this->equalTo('true'),
+			'Line:'.__LINE__.' The label should contain just the new label.'
+		);
 	}
 
 	/**
-	 * Testing setFieldAttribute
-	 *
-	 * @return void
-	 *
-	 * @TODO implement setFieldAttribute tests
+	 * Test for JForm::setFieldAttribute method.
 	 */
 	public function testSetFieldAttribute()
 	{
-		$this->markTestIncomplete();
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$this->assertThat(
+			$form->setFieldAttribute('title', 'label', 'The Title'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The method should return true.'
+		);
+
+		$this->assertThat(
+			$form->getFieldAttribute('title', 'label'),
+			$this->equalTo('The Title'),
+			'Line:'.__LINE__.' The new value should be set.'
+		);
+
+		$this->assertThat(
+			$form->setFieldAttribute('show_title', 'label', 'Show Title', 'params'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The method should return true.'
+		);
+
+		$this->assertThat(
+			$form->getFieldAttribute('show_title', 'label', 'default', 'params'),
+			$this->equalTo('Show Title'),
+			'Line:'.__LINE__.' The new value of the grouped field should be set.'
+		);
 	}
 
 	/**
-	 * Testing setFields
-	 *
-	 * @return void
+	 * Test for JForm::setFields method.
 	 */
 	public function testSetFields()
 	{
-		jimport('joomla.utilities.xmlelement');
+		$form = new JFormInspector('form1');
 
-		// Prepare a sample XML document.
-		$xml = simplexml_load_string('<form><fields><field name="field_name" /><field name="field_name2" /></fields></form>', 'JXMLElement');
-		$form = new JFormInspector;
-		
-		$fields = $xml->fields->field;
-
-		// Check the default group.
-		$form->setFields($fields);
-
-		// Use the inspector class to get the internal data.
-		$groups = $form->getGroups();
-
-		// Check the _default group has been added.
-		$this->assertTrue(
-			isset($groups['_default'])
-		);
-
-		// Check the field name has been added to the array.
-		$this->assertTrue(
-			isset($groups['_default']['field_name'])
-		);
-
-		// Check the field data.
 		$this->assertThat(
-			$groups['_default']['field_name'],
-			$this->equalTo($fields[0])
+			$form->load(JFormDataHelper::$loadDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$xml1 = simplexml_load_string('<form><field name="title" required="true" /><field name="ordering" /></form>', 'JXMLElement');
+
+		if ($xml1 === false) {
+			$this->fail('Error in text XML data');
+		}
+
+		// Test without replace.
+
+		$this->assertThat(
+			$form->setFields($xml1->field, null, false),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setFields method should return true.'
+		);
+
+		$this->assertThat(
+			$form->getFieldAttribute('title', 'required', 'default'),
+			$this->equalTo('default'),
+			'Line:'.__LINE__.' The label should contain just the field name.'
+		);
+
+		$this->assertThat(
+			$form->getField('ordering'),
+			$this->logicalNot($this->isFalse()),
+			'Line:'.__LINE__.' The label should contain just the field name.'
 		);
 	}
 
 	/**
-	 * Testing setValue
-	 *
-	 * @return void
-	 *
-	 * @TODO implement setValue tests
+	 * Test for JForm::setValue method.
 	 */
 	public function testSetValue()
 	{
-		$this->markTestIncomplete();
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		// Test error handling.
+
+		$this->assertThat(
+			$form->setValue('bogus', null, 'Unknown'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' An unknown field cannot have its value set.'
+		);
+
+		// Test regular usage.
+
+		$this->assertThat(
+			$form->setValue('title', null, 'The Title'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Should return true for a known field.'
+		);
+
+		$this->assertThat(
+			$form->getValue('title', null, 'default'),
+			$this->equalTo('The Title'),
+			'Line:'.__LINE__.' The new value should return.'
+		);
+
+		$this->assertThat(
+			$form->setValue('show_title', 'params', '3'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Should return true for a known field.'
+		);
+
+		$this->assertThat(
+			$form->getValue('show_title', 'params', 'default'),
+			$this->equalTo('3'),
+			'Line:'.__LINE__.' The new value should return.'
+		);
 	}
 
 	/**
-	 * Testing validate
-	 *
-	 * @return void
-	 *
-	 * @TODO implement validate tests
+	 * Test for JForm::syncPaths method.
+	 */
+	public function testSyncPaths()
+	{
+		$form = new JFormInspector('testSyncPaths');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$syncPathsDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$fieldPaths	= JForm::addFieldPath();
+		$formPaths	= JForm::addFormPath();
+		$rulePaths	= JForm::addRulePath();
+
+		$this->assertThat(
+			in_array(JPATH_ROOT.'/field1', $fieldPaths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The field path from the XML file should be present.'
+		);
+
+		$this->assertThat(
+			in_array(JPATH_ROOT.'/field2', $fieldPaths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The field path from the XML file should be present.'
+		);
+
+		$this->assertThat(
+			in_array(JPATH_ROOT.'/field3', $fieldPaths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The field path from the XML file should be present.'
+		);
+
+		$this->assertThat(
+			in_array(JPATH_ROOT.'/form1', $formPaths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The form path from the XML file should be present.'
+		);
+
+		$this->assertThat(
+			in_array(JPATH_ROOT.'/form2', $formPaths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The form path from the XML file should be present.'
+		);
+
+		$this->assertThat(
+			in_array(JPATH_ROOT.'/form3', $formPaths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The form path from the XML file should be present.'
+		);
+
+		$this->assertThat(
+			in_array(JPATH_ROOT.'/rule1', $rulePaths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The rule path from the XML file should be present.'
+		);
+
+		$this->assertThat(
+			in_array(JPATH_ROOT.'/rule2', $rulePaths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The rule path from the XML file should be present.'
+		);
+
+		$this->assertThat(
+			in_array(JPATH_ROOT.'/rule3', $rulePaths),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The rule path from the XML file should be present.'
+		);
+
+	}
+	/**
+	 * Test for JForm::validate method.
 	 */
 	public function testValidate()
 	{
-		$this->markTestIncomplete();
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$validateDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$pass = array(
+			'boolean' => 'false',
+			'optional' => 'Optional',
+			'required' => 'Supplied',
+			'group' => array(
+				'level1' => 'open'
+			)
+		);
+
+		$fail = array(
+			'boolean' => 'comply',
+			'required' => '',
+		);
+
+		// Test error conditions.
+
+		$this->assertThat(
+			$form->validate($pass, 'bogus'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' Validating an unknown group should return false.'
+		);
+
+		$this->assertThat(
+			$form->validate($fail),
+			$this->isFalse(),
+			'Line:'.__LINE__.' Any validation failures should return false.'
+		);
+
+		// Test expected behaviour.
+
+		$this->assertThat(
+			$form->validate($pass),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Validation on this data should pass.'
+		);
+
+		$this->assertThat(
+			$form->validate($pass, 'group'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' Validating an unknown group should return false.'
+		);
+	}
+
+	/**
+	 * Test for JForm::validateField method.
+	 */
+	public function testValidateField()
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$validateFieldDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$xml = $form->getXML();
+
+		// Test error handling.
+
+		$result = $form->validateField('wrong');
+		$this->assertThat(
+			$result instanceof Exception,
+			$this->isTrue(),
+			'Line:'.__LINE__.' Passing a non-JXmlElement should return an exception.'
+		);
+
+		$this->assertThat(
+			$result->getCode(),
+			$this->equalTo(-1),
+			'Line:'.__LINE__.' The correct exception should be returned.'
+		);
+
+		$field = array_pop($xml->xpath('fields/field[@name="missingrule"]'));
+		$result = $form->validateField($field, null, 'value');
+		$this->assertThat(
+			$result instanceof Exception,
+			$this->isTrue(),
+			'Line:'.__LINE__.' Having a missing validation rule should return an exception.'
+		);
+
+		$this->assertThat(
+			$result->getCode(),
+			$this->equalTo(-2),
+			'Line:'.__LINE__.' The correct exception should be returned.'
+		);
+
+		$field = array_pop($xml->xpath('fields/field[@name="boolean"]'));
+		$result = $form->validateField($field);
+		$this->assertThat(
+			$result instanceof Exception,
+			$this->isTrue(),
+			'Line:'.__LINE__.' A failed validation should return an exception.'
+		);
+
+		$this->assertThat(
+			$result->getCode(),
+			$this->equalTo(1),
+			'Line:'.__LINE__.' The correct exception should be returned.'
+		);
+
+		$field = array_pop($xml->xpath('fields/field[@name="required"]'));
+		$result = $form->validateField($field);
+		$this->assertThat(
+			$result instanceof Exception,
+			$this->isTrue(),
+			'Line:'.__LINE__.' A required field missing a value should return an exception.'
+		);
+
+		$this->assertThat(
+			$result->getCode(),
+			$this->equalTo(2),
+			'Line:'.__LINE__.' The correct exception should be returned.'
+		);
+
+		// Test general usage.
+
+		$field = array_pop($xml->xpath('fields/field[@name="boolean"]'));
+		$this->assertThat(
+			$form->validateField($field, null, 'true'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' A field with a passing validate attribute set should return true.'
+		);
+
+		$field = array_pop($xml->xpath('fields/field[@name="optional"]'));
+		$this->assertThat(
+			$form->validateField($field),
+			$this->isTrue(),
+			'Line:'.__LINE__.' A field without required set should return true.'
+		);
+
+		$field = array_pop($xml->xpath('fields/field[@name="required"]'));
+		$this->assertThat(
+			$form->validateField($field, null, 'value'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' A required field with a value should return true.'
+		);
 	}
 }

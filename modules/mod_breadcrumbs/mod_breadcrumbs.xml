@@ -25,63 +25,67 @@
 		<language
 			tag="en-GB">en-GB.mod_breadcrumbs.ini</language>
 	</languages>
-	<fields>
-		<field
-			name="showHome"
-			type="radio"
-			default="1"
-			label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
-			description="MOD_BREADCRUMBS_FIELD_SHOWHOME_DESC">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-		<field
-			name="homeText"
-			type="text"
-			default="Home"
-			label="MOD_BREADCRUMBS_FIELD_HOMETEXT_LABEL"
-			description="MOD_BREADCRUMBS_FIELD_HOMETEXT_DESC" />
-		<field
-			name="showLast"
-			type="radio"
-			default="1"
-			label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
-			description="MOD_BREADCRUMBS_FIELD_SHOWLAST_DESC">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-		<field
-			name="separator"
-			type="text"
-			default=""
-			label="MOD_BREADCRUMBS_FIELD_SEPARATOR_LABEL"
-			description="MOD_BREADCRUMBS_FIELD_SEPARATOR_DESC" />
-	</fields>
-	<fields
-		group="advanced">
-		<field
-			name="layout"
-			type="modulelayout"
-			label="JFIELD_ALT_LAYOUT_LABEL"
-			description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-		<field
-			name="moduleclass_sfx"
-			type="text"
-			default=""
-			label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-			description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-		<field
-			name="cache"
-			type="list"
-			default="0"
-			label="COM_MODULES_FIELD_CACHING_LABEL"
-			description="COM_MODULES_FIELD_CACHING_DESC">
-			<option
-				value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-		</field>
-	</fields>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="showHome"
+					type="radio"
+					default="1"
+					label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
+					description="MOD_BREADCRUMBS_FIELD_SHOWHOME_DESC">
+					<option
+						value="0">JNo</option>
+					<option
+						value="1">JYes</option>
+				</field>
+				<field
+					name="homeText"
+					type="text"
+					default="Home"
+					label="MOD_BREADCRUMBS_FIELD_HOMETEXT_LABEL"
+					description="MOD_BREADCRUMBS_FIELD_HOMETEXT_DESC" />
+				<field
+					name="showLast"
+					type="radio"
+					default="1"
+					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
+					description="MOD_BREADCRUMBS_FIELD_SHOWLAST_DESC">
+					<option
+						value="0">JNo</option>
+					<option
+						value="1">JYes</option>
+				</field>
+				<field
+					name="separator"
+					type="text"
+					default=""
+					label="MOD_BREADCRUMBS_FIELD_SEPARATOR_LABEL"
+					description="MOD_BREADCRUMBS_FIELD_SEPARATOR_DESC" />
+			</fieldset>
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field
+					name="moduleclass_sfx"
+					type="text"
+					default=""
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field
+					name="cache"
+					type="list"
+					default="0"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

@@ -79,7 +79,8 @@ class ContentViewCategories extends JView
 		// we need to get it from the menu item itself
 		if ($menu = $menus->getActive())
 		{
-			$menuParams = new JParameter($menu->params);
+			$menuParams = new JRegistry;
+			$menuParams->loadJSON($menu->params);
 			$title = $menuParams->get('page_title');
 		}
 		if (empty($title)) {

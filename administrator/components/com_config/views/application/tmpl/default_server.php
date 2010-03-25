@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 	<legend><?php echo JText::_('COM_CONFIG_SERVER_SETTINGS'); ?></legend>
 
 			<?php
-			foreach ($this->form->getFields('server') as $field):
+			foreach ($this->form->getFieldset('server') as $field):
 			?>
 					<?php echo $field->label; ?>
 

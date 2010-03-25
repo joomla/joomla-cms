@@ -12,10 +12,9 @@ defined('_JEXEC') or die;
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post">
 
-	<?php foreach ($this->form->getGroups() as $group): ?>
 	<fieldset>
 		<dl>
-		<?php foreach ($this->form->getFields($group, $group) as $name => $field): ?>
+		<?php foreach ($this->form->getFieldset('credentials') as $field): ?>
 			<?php if (!$field->hidden): ?>
 				<dt><?php echo $field->label; ?></dt>
 				<dd><?php echo $field->input; ?></dd>
@@ -23,7 +22,6 @@ defined('_JEXEC') or die;
 		<?php endforeach; ?>
 		</dl>
 	</fieldset>
-	<?php endforeach; ?>
 
 	<button type="submit">Submit</button>
 

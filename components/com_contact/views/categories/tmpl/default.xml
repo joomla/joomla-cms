@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout
-		title="com_contact_categories_view_default_title">
+	<layout title="com_contact_categories_view_default_title">
 		<message>
 			<![CDATA[COM_CONTACT_CATEGORIES_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 
-	<fields
-		group="request"
-		label="Menus_Layout_Basic_Options_Label"
-		description="">
+	<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request"
+		>
 
-		<field
-			name="Category"
-			type="category"
-			label="COM_CONTACT_FIELD_CATEGORIES_LABEL"
-			description="COM_CONTACT_FIELD_CATEGORIES_DESC"
-			required="true"
-			extension="com_contact"
-			default="" />
+			<field name="category" type="category"
+				description="COM_CONTACT_FIELD_CATEGORIES_DESC"
+				extension="com_contact"
+				label="COM_CONTACT_FIELD_CATEGORIES_LABEL"
+				required="true"
+			/>
+		</fieldset>
 	</fields>
 </metadata>

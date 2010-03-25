@@ -28,58 +28,56 @@ JHtml::_('behavior.formvalidation');
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
-<div class="width-50 fltlft">
+	<div class="width-50 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT') : JText::sprintf('COM_CONTACT_EDIT_CONTACT', $this->item->id); ?></legend>
 
-					<?php echo $this->form->getLabel('name'); ?>
-					<?php echo $this->form->getInput('name'); ?>
+				<?php echo $this->form->getLabel('name'); ?>
+				<?php echo $this->form->getInput('name'); ?>
 
-					<?php echo $this->form->getLabel('alias'); ?>
-					<?php echo $this->form->getInput('alias'); ?>
+				<?php echo $this->form->getLabel('alias'); ?>
+				<?php echo $this->form->getInput('alias'); ?>
 
-					<?php echo $this->form->getLabel('user_id'); ?>
-					<?php echo $this->form->getInput('user_id'); ?>
+				<?php echo $this->form->getLabel('user_id'); ?>
+				<?php echo $this->form->getInput('user_id'); ?>
 
-					<?php echo $this->form->getLabel('access'); ?>
-					<?php echo $this->form->getInput('access'); ?>
+				<?php echo $this->form->getLabel('access'); ?>
+				<?php echo $this->form->getInput('access'); ?>
 
-					<?php echo $this->form->getLabel('published'); ?>
-					<?php echo $this->form->getInput('published'); ?>
+				<?php echo $this->form->getLabel('published'); ?>
+				<?php echo $this->form->getInput('published'); ?>
 
-					<?php echo $this->form->getLabel('catid'); ?>
-					<?php echo $this->form->getInput('catid'); ?>
+				<?php echo $this->form->getLabel('catid'); ?>
+				<?php echo $this->form->getInput('catid'); ?>
 
-					<?php echo $this->form->getLabel('ordering'); ?>
-					<?php echo $this->form->getInput('ordering'); ?>
+				<?php echo $this->form->getLabel('ordering'); ?>
+				<?php echo $this->form->getInput('ordering'); ?>
 
-					<?php echo $this->form->getLabel('sortname1'); ?>
-					<?php echo $this->form->getInput('sortname1'); ?>
+				<?php echo $this->form->getLabel('sortname1'); ?>
+				<?php echo $this->form->getInput('sortname1'); ?>
 
-					<?php echo $this->form->getLabel('sortname2'); ?>
-					<?php echo $this->form->getInput('sortname2'); ?>
+				<?php echo $this->form->getLabel('sortname2'); ?>
+				<?php echo $this->form->getInput('sortname2'); ?>
 
-					<?php echo $this->form->getLabel('sortname3'); ?>
-					<?php echo $this->form->getInput('sortname3'); ?>
+				<?php echo $this->form->getLabel('sortname3'); ?>
+				<?php echo $this->form->getInput('sortname3'); ?>
 
-					<?php echo $this->form->getLabel('language'); ?>
-					<?php echo $this->form->getInput('language'); ?>
+				<?php echo $this->form->getLabel('language'); ?>
+				<?php echo $this->form->getInput('language'); ?>
 
-					<div class="clr"> </div>
-					<?php echo $this->form->getLabel('misc'); ?>
-					<div class="clr"> </div>
-					<?php echo $this->form->getInput('misc'); ?>
-
-		</fieldset>
-
-</div>
+				<div class="clr"> </div>
+				<?php echo $this->form->getLabel('misc'); ?>
+				<div class="clr"> </div>
+				<?php echo $this->form->getInput('misc'); ?>
+			</fieldset>
+		</div>
 
 
-<div class="width-50 fltrt">
-	<?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
-		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
-			<fieldset class="panelform">
-			<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS') : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id); ?></p>
+		<div class="width-50 fltrt">
+			<?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
+				<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
+					<fieldset class="panelform">
+					<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS') : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id); ?></p>
 						<?php echo $this->form->getLabel('con_position'); ?>
 						<?php echo $this->form->getInput('con_position'); ?>
 
@@ -114,7 +112,7 @@ JHtml::_('behavior.formvalidation');
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_FIELDSET_OPTIONS'), 'display-options'); ?>
 			<fieldset class="panelform">
 				<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_CONTACT_DISPLAY_DETAILS') : JText::sprintf('COM_CONTACT_CONTACT_DISPLAY_DETAILS', $this->item->id); ?></p>
-					<?php foreach($this->form->getFields('params') as $field): ?>
+					<?php foreach($this->form->getGroup('params') as $field): ?>
 						<?php if ($field->hidden): ?>
 							<?php echo $field->input; ?>
 						<?php else: ?>
@@ -127,7 +125,7 @@ JHtml::_('behavior.formvalidation');
 		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_FIELDSET_CONTACT_FORM'), 'email-options'); ?>
 				<fieldset class="panelform">
 				<p><?php echo JText::_('COM_CONTACT_EMAIL_FORM_DETAILS'); ?></p>
-					<?php foreach($this->form->getFields('email_form') as $field): ?>
+					<?php foreach($this->form->getGroup('email_form') as $field): ?>
 						<?php if ($field->hidden): ?>
 							<?php echo $field->input; ?>
 						<?php else: ?>
@@ -136,21 +134,21 @@ JHtml::_('behavior.formvalidation');
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</fieldset>
-				
+
 		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_FIELDSET_METADATA'), 'meta-options'); ?>
 				<fieldset class="panelform">
-		
+
 					<?php echo $this->form->getLabel('metadesc'); ?>
 					<?php echo $this->form->getInput('metadesc'); ?>
-		
+
 					<?php echo $this->form->getLabel('metakey'); ?>
 					<?php echo $this->form->getInput('metakey'); ?>
-		
-					<?php foreach($this->form->getFields('metadata') as $field): ?>
+
+					<?php foreach($this->form->getGroup('metadata') as $field): ?>
 						<?php echo $field->label; ?>
 						<?php echo $field->input; ?>
 					<?php endforeach; ?>
-		
+
 					<?php echo $this->form->getLabel('xreference'); ?>
 					<?php echo $this->form->getInput('xreference'); ?>
 				</fieldset>

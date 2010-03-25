@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		
+ * @version
  * @package		Joomla.Site
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -31,21 +31,20 @@ class UsersModelRemind extends JModelForm
 		// Load the parameters.
 		$this->setState('params', $params);
 	}
-		/**
+
+	/**
 	 * Method to get the username remind request form.
 	 *
-	 * @access	public
 	 * @return	object	JForm object on success, JException on failure.
 	 * @since	1.0
 	 */
 	function &getForm()
 	{
 		// Get the form.
-		$form = parent::getForm('remind', 'com_users.remind', array('array' => 'jform', 'event' => 'onPrepareForm'));
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
+		try {
+			$form = parent::getForm('com_users.remind', 'remind', array('control' => 'jform'));
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -117,13 +116,13 @@ class UsersModelRemind extends JModelForm
 		$itemid = UsersHelperRoute::getLoginRoute();
 		$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
 		$link	= 'index.php?option=com_users&view=login'.$itemid;
-		$mode	= $config->getValue('force_ssl', 0) == 2 ? 1 : -1;
+		$mode	= $config->get('force_ssl', 0) == 2 ? 1 : -1;
 
 		// Put together the e-mail template data.
 		$data = JArrayHelper::fromObject($user);
-		$data['fromname']	= $config->getValue('fromname');
-		$data['mailfrom']	= $config->getValue('mailfrom');
-		$data['sitename']	= $config->getValue('sitename');
+		$data['fromname']	= $config->get('fromname');
+		$data['mailfrom']	= $config->get('mailfrom');
+		$data['sitename']	= $config->get('sitename');
 		$data['link_text']	= JRoute::_($link, false, $mode);
 		$data['link_html']	= JRoute::_($link, true, $mode);
 
@@ -153,6 +152,6 @@ class UsersModelRemind extends JModelForm
 
 		return true;
 	}
-	
-	
+
+
 }

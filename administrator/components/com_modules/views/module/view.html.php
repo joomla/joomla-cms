@@ -34,7 +34,6 @@ class ModulesViewModule extends JView
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
 		$itemForm	= $this->get('Form');
-		$paramsForm	= $this->get('ParamsForm');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -44,16 +43,10 @@ class ModulesViewModule extends JView
 
 		// Bind the record to the form.
 		$itemForm->bind($item);
-		$paramsForm->bind($item->params);
-
-		// Add the module and client_id to the params form.
-		$paramsForm->set('module', $item->module);
-		$paramsForm->set('client_id', $item->client_id);
 
 		$this->assignRef('state',		$state);
 		$this->assignRef('item',		$item);
 		$this->assignRef('form',		$itemForm);
-		$this->assignRef('paramsform',	$paramsForm);
 
 		$this->_setToolbar();
 		parent::display($tpl);

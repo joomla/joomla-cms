@@ -1,98 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
+	<!-- $Id$ -->
 <form>
-	<fields label="Users_Profile_Default_Label">
-		<field
-			name="id"
-			type="hidden"
+	<fieldset name="core" 
+		label="Users_Profile_Default_Label">
+
+		<field name="id" type="hidden"
 			filter="integer"
 		/>
-		<field
-			name="name"
-			type="text"
-			id="name"
-			label="Users_Profile_Name_Label"
+
+		<field name="name" type="text"
 			description="Users_Profile_Name_Desc"
+			filter="string"
+			label="Users_Profile_Name_Label"
 			message="Users_Profile_Name_Message"
-			class="inputbox"
-			size="30"
-			default=""
 			required="true"
-			filter="string"
+			size="30"
 		/>
-		<field
-			name="username"
-			type="text"
-			id="username"
-			label="Users_Profile_Username_Label"
+
+		<field name="username" type="text"
+			class="validate-username"
 			description="Users_Profile_Username_Desc"
-			message="Users_Profile_Username_Message"
-			class="inputbox validate-username"
-			size="30"
-			default=""
-			required="true"
+			field="id"
 			filter="username"
+			label="Users_Profile_Username_Label"
+			message="Users_Profile_Username_Message"
+			required="true"
+			size="30"
 			validate="username"
-			field="id"
 		/>
-		<field
-			name="password1"
-			type="password"
-			id="password1"
-			label="Users_Profile_Password1_Label"
+
+		<field name="password1" type="password"
+			autocomplete="off"
+			class="validate-password"
 			description="Users_Profile_Password1_Desc"
-			message="Users_Profile_Password1_Message"
-			class="inputbox validate-password"
-			size="30"
-			autocomplete="off"
-			default=""
-			filter="raw"
-			validate="equals"
 			field="password2"
-		/>
-		<field
-			name="password2"
-			type="password"
-			id="password2"
-			label="Users_Profile_Password2_Label"
-			description="Users_Profile_Password2_Desc"
-			message="Users_Profile_Password2_Message"
-			class="inputbox validate-password"
-			size="30"
-			autocomplete="off"
-			default=""
 			filter="raw"
-		/>
-		<field
-			name="email1"
-			type="text"
-			id="email1"
-			label="Users_Profile_Email1_Label"
-			description="Users_Profile_Email1_Desc"
-			message="Users_Profile_Email1_Message"
-			class="inputbox validate-email"
+			label="Users_Profile_Password1_Label"
+			message="Users_Profile_Password1_Message"
 			size="30"
-			default=""
-			required="true"
-			filter="string"
-			validate="email"
-			field="id"
-			unique="true"
-		/>
-		<field
-			name="email2"
-			type="text"
-			id="email2"
-			label="Users_Profile_Email2_Label"
-			description="Users_Profile_Email2_Desc"
-			message="Users_Profile_Email2_Message"
-			class="inputbox validate-email"
-			size="30"
-			default=""
-			required="true"
-			filter="string"
 			validate="equals"
-			field="email1"
 		/>
-	</fields>
+
+		<field name="password2" type="password"
+			autocomplete="off"
+			class="validate-password"
+			description="Users_Profile_Password2_Desc"
+			filter="raw"
+			label="Users_Profile_Password2_Label"
+			message="Users_Profile_Password2_Message"
+			size="30"
+		/>
+
+		<field name="email1" type="text"
+			class="validate-email"
+			description="Users_Profile_Email1_Desc"
+			field="id"
+			filter="string"
+			label="Users_Profile_Email1_Label"
+			message="Users_Profile_Email1_Message"
+			required="true"
+			size="30"
+			unique="true"
+			validate="email"
+		/>
+
+		<field name="email2" type="text"
+			class="validate-email"
+			description="Users_Profile_Email2_Desc"
+			field="email1"
+			filter="string"
+			label="Users_Profile_Email2_Label"
+			message="Users_Profile_Email2_Message"
+			required="true"
+			size="30"
+			validate="equals"
+		/>
+	</fieldset>
 </form>

@@ -206,16 +206,16 @@ class JMenu extends JObject
 	 * Gets the parameter object for a certain menu item
 	 *
 	 * @param	int		The item id
-	 * @return	object	A JParameter object
+	 * @return	object	A JRegistry object
 	 */
 	public function getParams($id)
 	{
-		$ini = '';
+		$result = new JRegistry;
 		if ($menu = &$this->getItem($id)) {
-			$ini = $menu->params;
+			$result->loadJSON($menu->params);
 		}
 
-		return new JParameter($ini);
+		return $result;
 	}
 
 	/**

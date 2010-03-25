@@ -1,170 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
 <form>
-	<fields>
-		<field
-			name="id"
-			type="hidden"
+	<fieldset>
+		<field name="id" type="hidden"
 			default="0"
+			readonly="true"
 			required="true"
-			readonly="true" />
+		/>
 
-		<field
-			name="title"
-			type="text"
-			class="inputbox"
-			default=""
-			size="35"
-			maxlength="100"
+		<field name="title" type="text"
+			description="COM_MODULES_FIELD_TITLE_DESC"
 			label="COM_MODULES_FIELD_TITLE_LABEL"
-			description="COM_MODULES_FIELD_TITLE_DESC"
-			required="true" />
-
-		<field
-			name="note"
-			type="text"
-			class="inputbox"
-			default=""
-			size="35"
 			maxlength="100"
+			required="true"
+			size="35"
+		/>
+
+		<field name="note" type="text"
+			description="COM_MODULES_FIELD_NOTE_DESC"
 			label="COM_MODULES_FIELD_NOTE_LABEL"
-			description="COM_MODULES_FIELD_NOTE_DESC" />
+			maxlength="100"
+			size="35"
+		/>
 
-		<field
-			name="module"
-			type="text"
-			class="readonly"
-			readonly="readonly"
-			default=""
-			size="20"
+		<field name="module" type="text"
+			description="COM_MODULES_FIELD_MODULE_DESC"
 			label="COM_MODULES_FIELD_MODULE_LABEL"
-			description="COM_MODULES_FIELD_MODULE_DESC" />
+			readonly="readonly"
+			size="20"
+		/>
 
-		<field
-			name="showtitle"
-			type="list"
-			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
+		<field name="showtitle" type="list"
+			default="1"
 			description="COM_MODULES_FIELD_TITLE_DESC"
-			class="inputbox"
+			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
 			size="1"
-			default="1">
-			<option
-				value="1">JSHOW</option>
-			<option
-				value="0">JHIDE</option>
+		>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
-		<field
-			name="published"
-			type="list"
-			label="COM_MODULES_FIELD_PUBLISHED_LABEL"
+		<field name="published" type="list"
+			default="1"
 			description="COM_MODULES_FIELD_PUBLISHED_DESC"
-			class="inputbox"
+			label="COM_MODULES_FIELD_PUBLISHED_LABEL"
 			size="1"
-			default="1">
-			<option
-				value="1">
-				COM_MODULES_FIELD_VALUE_PUBLISHED</option>
-			<option
-				value="0">
-				COM_MODULES_FIELD_VALUE_UNPUBLISHED</option>
+		>
+			<option value="1">COM_MODULES_FIELD_VALUE_PUBLISHED</option>
+			<option value="0">COM_MODULES_FIELD_VALUE_UNPUBLISHED</option>
 		</field>
 
-		<field
-			id="publish_up"
-			name="publish_up"
-			type="calendar"
-			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
+		<field name="publish_up" type="calendar"
 			description="COM_MODULES_FIELD_PUBLISH_UP_DESC"
-			class="inputbox"
-			size="16"
+			filter="user_utc"
 			format="%Y-%m-%d %H:%M:%S"
-			filter="server_utc" />
+			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
+			size="16"
+		/>
 
-		<field
-			id="publish_down"
-			name="publish_down"
-			type="calendar"
-			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
+		<field name="publish_down" type="calendar"
 			description="COM_MODULES_FIELD_PUBLISH_DOWN_DESC"
-			class="inputbox"
-			size="16"
+			filter="user_utc"
 			format="%Y-%m-%d %H:%M:%S"
-			filter="server_utc" />
+			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
+			size="16"
+		/>
 
-		<field
-			name="client_id"
-			type="list"
-			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
-			description="COM_MODULES_FIELD_CLIENT_ID_DESC"
-			class="inputbox"
-			size="1"
+		<field name="client_id" type="list"
 			default="0"
-			readonly="true">
-			<option
-				value="0">
-				COM_MODULES_OPTION_SITE</option>
-			<option
-				value="1">
-				COM_MODULES_OPTION_ADMINISTRATOR</option>
-		</field>
-
-		<field
-			name="position"
-			type="moduleposition"
-			maxlength="50"
-			default="left"
-			label="COM_MODULES_FIELD_POSITION_LABEL"
-			description="COM_MODULES_FIELD_POSITION_DESC"
-			class="inputbox">
-		</field>
-
-		<field
-			name="access"
-			type="accesslevel"
-			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
-			class="inputbox"
+			description="COM_MODULES_FIELD_CLIENT_ID_DESC"
+			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
+			readonly="true"
 			size="1"
-			default="" />
+		>
+			<option value="0">COM_MODULES_OPTION_SITE</option>
+			<option value="1">COM_MODULES_OPTION_ADMINISTRATOR</option>
+		</field>
 
-		<field
-			name="ordering"
-			type="moduleorder"
-			class="inputbox"
-			default=""
+		<field name="position" type="moduleposition"
+			default="left"
+			description="COM_MODULES_FIELD_POSITION_DESC"
+			label="COM_MODULES_FIELD_POSITION_LABEL"
+			maxlength="50"
+		/>
+
+		<field name="access" type="accesslevel"
+			description="JFIELD_ACCESS_DESC"
+			label="JFIELD_ACCESS_LABEL"
+			size="1"
+		/>
+
+		<field name="ordering" type="moduleorder"
+			description="JFIELD_ORDERING_DESC"
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC" />
+		/>
 
-		<field
-			name="content"
-			type="editor"
-			class="inputbox"
-			label="MODULES_FIELD_CONTENT_LABEL"
-			description="MODULES_FIELD_CONTENT_DESC"
+		<field name="content" type="editor"
+			buttons="true"
+			description="COM_MODULES_FIELD_CONTENT_DESC"
 			filter="safehtml"
-			buttons="true" />
+			label="COM_MODULES_FIELD_CONTENT_LABEL"
+		/>
 
-		<field
-			name="language"
-			type="contentlanguage"
-			label="JFIELD_LANGUAGE_LABEL"
+		<field name="language" type="contentlanguage"
 			description="JFIELD_MODULE_LANGUAGE_DESC"
-			class="inputbox"
-			default="">
+			label="JFIELD_LANGUAGE_LABEL"
+		>
 			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
 		</field>
 
-		<field
-			name="params"
-			type="hidden" />
+		<field name="params" type="hidden" />
 
-		<field
-			name="assignment"
-			type="hidden" />
+		<field name="assignment" type="hidden" />
 
-		<field
-			name="assigned"
-			type="hidden" />
-	</fields>
+		<field name="assigned" type="hidden" />
+	</fieldset>
 </form>

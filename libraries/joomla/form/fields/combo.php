@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -9,6 +11,7 @@ defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
+JLoader::register('JFormFieldList', dirname(__FILE__).'/list.php');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -17,59 +20,54 @@ jimport('joomla.form.formfield');
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldCombo extends JFormField
+class JFormFieldCombo extends JFormFieldList
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	public $type = 'Combo';
 
 	/**
-	 * Method to get a list of options for a combo input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	array		An array of JHtml options.
-	 */
-	protected function _getOptions()
-	{
-		$options = array();
-
-		// Iterate through the children and build an array of options.
-		foreach ($this->_element->children() as $option) {
-			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_((string)$option),'value','text',(string)$option->attributes()->disabled=='true');
-		}
-
-		return $options;
-	}
-
-	/**
-	 * Method to get the field input.
-	 *
-	 * @return	string		The field input.
+	 * @return	string	The field input markup.
 	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		$size		= (string)$this->_element->attributes()->size ? ' size="'.$this->_element->attributes()->size.'"' : '';
-		$readonly	= (string)$this->_element->attributes()->readonly == 'true' ? ' readonly="readonly"' : '';
-		$onchange	= (string)$this->_element->attributes()->onchange ? ' onchange="'.$this->_replacePrefix((string)$this->_element->attributes()->onchange).'"' : '';
-		$class		= (string)$this->_element->attributes()->class ? ' class="'.$this->_element->attributes()->class.'"' : ' class="combobox"';
-		$options	= $this->_getOptions();
-		$return		= null;
+		// Initialize variables.
+		$html = array();
+		$attr = '';
 
+		// Initialize some field attributes.
+		$attr .= $this->element['class'] ? ' class="combobox '.(string) $this->element['class'].'"' : ' class="combobox"';
+		$attr .= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
+		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+
+		// Initialize JavaScript field attributes.
+		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+
+		// Get the field options.
+		$options = $this->getOptions();
+
+		// Load the combobox behavior.
 		JHtml::_('behavior.combobox');
 
 		// Build the input for the combo box.
-		$return	.= '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"'.$class.$size.$readonly.$onchange.' />';
+		$html[] = '<input type="text" name="'.$this->name.'" id="'.$this->id.'"' .
+				' value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"'.$attr.'/>';
 
 		// Build the list for the combo box.
-		$return	.= '<ul id="combobox-'.$this->inputId.'" style="display:none;">';
+		$html[] = '<ul id="combobox-'.$this->id.'" style="display:none;">';
 		foreach ($options as $option) {
-			$return	.= '<li>'.$option->text.'</li>';
+			$html[] = '<li>'.$option->text.'</li>';
 		}
-		$return	.= '</ul>';
+		$html[] = '</ul>';
 
-		return $return;
+		return implode($html);
 	}
 }

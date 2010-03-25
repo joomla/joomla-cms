@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'html' . DS . 'menu.php';
+require_once JPATH_BASE.'/libraries/joomla/html/html/menu.php';
 
 /**
  * Test class for JHtmlMenu.
@@ -97,4 +97,3 @@ class JHtmlMenuTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

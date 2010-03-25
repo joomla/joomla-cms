@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_CONGIG_LOCALE_SETTINGS'); ?></legend>
 			<?php
-			foreach ($this->form->getFields('locale') as $field):
+			foreach ($this->form->getFieldset('locale') as $field):
 			?>
 
 					<?php echo $field->label; ?>

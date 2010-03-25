@@ -584,7 +584,7 @@ w
 		$data = $document->render(false, array (
 			'template' => $template,
 			'directory' => JPATH_THEMES,
-			'debug' => $config->getValue('config.debug')
+			'debug' => $config->get('debug')
 		));
 
 		JResponse::setBody($data);

@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
+	<!-- $Id$ -->
 <form>
-	<fields>
-		<field name="username" type="text" id="username" size="30" default="" required="true"
-			class="inputbox required"
-			label="Users_Form_Username_Label"
+	<fieldset name="default">
+	
+		<field name="username" type="text"
+			class="required"
 			description="Users_Resend_Username_Desc"
+			label="Users_Form_Username_Label"
+			required="true"
+			size="30"
 		/>
-		<field name="email" type="text" id="email" size="30" default="" required="true" validate="email"
-			class="inputbox required validate-email"
-			label="Users_Form_Email_Label"
+
+		<field name="email" type="text"
+			class="required validate-email"
 			description="Users_Resend_Email_Desc"
+			label="Users_Form_Email_Label"
+			required="true"
+			size="30"
+			validate="email"
 		/>
-	</fields>
+	</fieldset>
 </form>

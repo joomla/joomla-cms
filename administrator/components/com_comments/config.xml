@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fields
-		group="blocking"
+	<fieldset
+		name="blocking"
 		label="Comments_Config_Blocking_Label"
 		description="Comments_Config_Blocking_Label"
-		hidden="true">
+		>
 		<field
 			name="blockusers"
 			type="textarea"
@@ -29,13 +29,13 @@
 			rows="4"
 			label="COMMENTS_BLOCKING_HOSTS"
 			description="COMMENTS_BLOCKING_HOSTS_DESC" />
-	</fields>
+	</fieldset>
 
-	<fields
-		group="bookmarking"
+	<fieldset
+		name="bookmarking"
 		label="Comments_Config_Bookmarking_Label"
 		description="Comments_Config_Bookmarking_Label"
-		hidden="true">
+		>
 		<field
 			name="sharing_style"
 			type="list"
@@ -761,13 +761,13 @@
 			<option
 				value="1">Yes</option>
 		</field>
-	</fields>
+	</fieldset>
 
-	<fields
-		group="comments"
+	<fieldset
+		name="comments"
 		label="Comments_Config_Comments_Label"
 		description="Comments_Config_Comments_Label"
-		hidden="true">
+		>
 		<field
 			name="enable_comments"
 			type="radio"
@@ -1062,13 +1062,13 @@
 			<option
 				value="2">Anyone</option>
 		</field>
-	</fields>
+	</fieldset>
 
-	<fields
-		group="spam"
+	<fieldset
+		name="spam"
 		label="Comments_Config_Spam_Label"
 		description="Comments_Config_Spam_Label"
-		hidden="true">
+		>
 		<field
 			name="minlength"
 			type="text"
@@ -1179,13 +1179,13 @@
 			default="1"
 			label="COMMENTS_COMMENT_FLOOD_TIME_WORLD"
 			description="COMMENTS_COMMENT_FLOOD_TIME_WORLD_DESC" />
-	</fields>
+	</fieldset>
 
-	<fields
-		group="permissions"
+	<fieldset
+		name="permissions"
 		label="JConfig_Permissions_Label"
 		description="JConfig_Permissions_Desc"
-		hidden="true">
+		>
 
 		<field
 			name="rules"
@@ -1194,5 +1194,5 @@
 			filter="rules"
 			component="com_comments"
 			section="component" />
-	</fields>
+	</fieldset>
 </config>

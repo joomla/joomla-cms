@@ -56,7 +56,7 @@ JHtml::_('behavior.keepalive');
 			<?php echo $this->form->getInput('link'); ?>
 
 			<?php echo $this->form->getLabel('ordering'); ?>
-			<?php echo $this->form->getInput('ordering'); ?>
+			<div id="jform_ordering" class="fltlft"><?php echo $this->form->getInput('ordering'); ?></div>
 
 			<?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?>
@@ -80,7 +80,7 @@ JHtml::_('behavior.keepalive');
 			<?php echo $this->form->getLabel('rtl'); ?>
 			<?php echo $this->form->getInput('rtl'); ?>
 
-		<?php foreach($this->form->getFields('params') as $field): ?>
+		<?php foreach($this->form->getFieldset('params') as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>

@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'parameter' . DS . 'element' . DS . 'spacer.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element/spacer.php';
 
 /**
  * Test class for JElementSpacer.
@@ -53,4 +53,3 @@ class JElementSpacerTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

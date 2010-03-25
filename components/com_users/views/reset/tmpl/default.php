@@ -19,11 +19,11 @@ JHtml::_('behavior.formvalidation');
 
 	<?php
 	// Iterate through the form fieldsets and display each one.
-	foreach ($this->form->getFieldsets() as $group => $fieldset):
+	foreach ($this->form->getFieldsets() as $fieldset):
 	?>
 	<fieldset>
 		<dl>
-		<?php foreach ($this->form->getFields($group, $group) as $name => $field): ?>
+		<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field): ?>
 			<dt><?php echo $field->label; ?></dt>
 			<dd><?php echo $field->input; ?></dd>
 		<?php endforeach; ?>

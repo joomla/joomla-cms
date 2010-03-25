@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -8,7 +10,8 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
-require_once dirname(__FILE__).DS.'list.php';
+jimport('joomla.form.formfield');
+JLoader::register('JFormFieldList', dirname(__FILE__).'/list.php');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -20,30 +23,48 @@ require_once dirname(__FILE__).DS.'list.php';
 class JFormFieldInteger extends JFormFieldList
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	protected $type = 'Integer';
 
 	/**
-	 * Method to get a list of options for a list input.
+	 * Method to get the field options.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	array	The field option objects.
+	 * @since	1.6
 	 */
-	protected function _getOptions()
+	protected function getOptions()
 	{
-		$first		= (int)$this->_element->attributes()->first;
-		$last		= (int)$this->_element->attributes()->last;
-		$step		= (int)max(1, $this->_element->attributes()->step);
-		$options	= array();
+		// Initialize variables.
+		$options = array();
 
+		// Initialize some field attributes.
+		$first	= (int) $this->element['first'];
+		$last	= (int) $this->element['last'];
+		$step	= (int) $this->element['step'];
+
+		// Sanity checks.
+		if ($step == 0) {
+			// Step of 0 will create an endless loop.
+			return $options;
+		} else if ($first < $last && $step < 0) {
+			// A negative step will never reach the last number.
+			return $options;
+		} else if ($first > $last && $step > 0) {
+			// A position step will never reach the last number.
+			return $options;
+		}
+
+		// Build the options array.
 		for ($i = $first; $i <= $last; $i += $step) {
 			$options[] = JHtml::_('select.option', $i);
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::_getOptions(), $options);
+		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
 	}

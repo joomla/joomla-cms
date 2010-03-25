@@ -152,7 +152,8 @@ class ContactController extends JController
 			 * If we are supposed to copy the admin, do so.
 			 */
 			// parameter check
-			$params = new JParameter($contact->params);
+			$params = new JRegistry;
+			$params->loadJSON($contact->params);
 			$emailcopyCheck = $params->get('show_email_copy', 0);
 
 			// check whether email copy function activated
@@ -210,7 +211,8 @@ class ContactController extends JController
 		$user = &JFactory::getUser();
 
 		// Get the contact detail parameters
-		$params = new JParameter($contact->params);
+		$params = new JRegistry;
+		$params->loadJSON($contact->params);
 
 		// Show the Vcard if contact parameter indicates (prevents direct access)
 		$groups = $user->authorisedLevels();
@@ -301,7 +303,8 @@ class ContactController extends JController
 		$session = &JFactory::getSession();
 
 		// Get params and component configurations
-		$params		= new JParameter($contact->params);
+		$params = new JRegistry;
+		$params->loadJSON($contact->params);
 		$pparams	= &$app->getParams('com_contact');
 
 		// check for session cookie

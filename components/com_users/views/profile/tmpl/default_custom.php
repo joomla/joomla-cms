@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 	</legend>
 	<dl>
 	<?php
-	foreach($this->form->getFields('profile') as $field):
+	foreach($this->form->getFieldset('profile') as $field):
 		if (!$field->hidden) :
 	?>
 		<dt><?php echo $field->label; ?></dt>

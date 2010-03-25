@@ -29,6 +29,11 @@ if (!defined('JPATH_BASE'))
 	define('JPATH_BASE', dirname(dirname(dirname(__FILE__))));
 }
 
+if (!defined('JPATH_TESTS'))
+{
+	define('JPATH_TESTS', dirname(__FILE__));
+}
+
 // Fix magic quotes.
 @set_magic_quotes_runtime(0);
 
@@ -39,11 +44,21 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
 
-// Include relative constants, JLoader and the jimport and jexit functions.
+// Include the base test cases.
+require_once JPATH_TESTS.'/JoomlaTestCase.php';
+require_once JPATH_TESTS.'/JoomlaDatabaseTestCase.php';
 
-require_once JPATH_BASE.DS.'includes'.DS.'defines.php';
-require_once JPATH_LIBRARIES.DS.'joomla'.DS.'import.php';
-require_once JPATH_BASE . '/libraries/joomla/session/session.php';
+// Include relative constants, JLoader and the jimport and jexit functions.
+require_once JPATH_BASE.'/includes/defines.php';
+require_once JPATH_LIBRARIES.'/joomla/import.php';
+
+// Include the Joomla session library.
+require_once JPATH_BASE.'/libraries/joomla/session/session.php';
 
 // Exclude all of the tests from code coverage reports
 PHPUnit_Util_Filter::addDirectoryToFilter(JPATH_BASE . '/tests');
+
+// Set error handling.
+JError::setErrorHandling(E_NOTICE, 'ignore');
+JError::setErrorHandling(E_WARNING, 'ignore');
+JError::setErrorHandling(E_ERROR, 'ignore');

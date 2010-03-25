@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
 <form>
-	<fields>
+	<fieldset>
 		<field
 			name="user_id_to"
 			type="user"
@@ -26,5 +26,5 @@
 			description="COM_MESSAGES_FIELD_SUBJECT_DESC"
 			required="true">
 		</field>
-	</fields>
+	</fieldset>
 </form>

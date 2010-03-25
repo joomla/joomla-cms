@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'html' . DS . 'content.php';
+require_once JPATH_BASE.'/libraries/joomla/html/html/content.php';
 
 /**
  * Test class for JHtmlContent.
@@ -42,4 +42,3 @@ class JHtmlContentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		
+ * @version
  * @package		Joomla.Site
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -43,19 +43,25 @@ class UsersModelLogin extends JModelForm
 	 */
 	function &getLoginForm()
 	{
-		// Set the form loading options.
-		$options = array(
-			'array' => false,
-			'event' => 'onPrepareUsersLoginForm',
-			'group' => 'users'
-		);
-
 		// Get the form.
-		$form = $this->getForm('login', 'com_users.login', $options);
+		try {
+			$form = $this->getForm('com_users.login', 'login');
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
 
-		// Check for an error.
-		if (JError::isError($form)) {
-			return $form;
+		// Get the dispatcher and load the users plugins.
+		$dispatcher	= &JDispatcher::getInstance();
+		JPluginHelper::importPlugin('user');
+
+		// Trigger the form preparation event.
+		$results = $dispatcher->trigger('onPrepareUsersLoginForm', array($this->getState('member.id'), &$form));
+
+		// Check for errors encountered while preparing the form.
+		if (count($results) && in_array(false, $results, true)) {
+			$this->setError($dispatcher->getError());
+			return false;
 		}
 
 		// Check the session for previously entered login form data.

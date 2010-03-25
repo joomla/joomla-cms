@@ -47,5 +47,4 @@ class JPaginationTestHelper extends PHPUnit_Framework_TestCase
 
 		);
 	}
-
 }

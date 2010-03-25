@@ -1,155 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fields>
-		<field
-			name="show_comp_description"
-			type="radio"
+	<fieldset name="component"
+		label="JCONFIG_COMPONENT_LABEL"
+		description="JCONFIG_COMPONENT_DESC"
+	>
+
+		<field name="show_comp_description" type="radio"
 			default="1"
+			description="COM_WEBLINKS_FIELD_CONFIG_DESCRIPTION_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_DESCRIPTION_LABEL"
-			description="COM_WEBLINKS_FIELD_CONFIG_DESCRIPTION_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="comp_description"
-			type="textarea"
-			default=""
-			rows="3"
+		<field name="comp_description" type="textarea"
 			cols="50"
+			description="COM_WEBLINKS_FIELD_CONFIG_INTRO_DESC" 
 			label="COM_WEBLINKS_FIELD_CONFIG_INTRO_LABEL"
-			description="COM_WEBLINKS_FIELD_CONFIG_INTRO_DESC" />
+			rows="3"
+		/>
 
-		<field
-			name="spacer1"
-			type="spacer"
+		<field name="spacer1" type="spacer"
 			hr="true"
-			/>
-		<field
-			name="show_link_hits"
-			type="radio"
+		/>
+		
+		<field name="show_link_hits" type="radio"
 			default="1"
+			description="COM_WEBLINKS_FIELD_CONFIG_HITS_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_HITS_LABEL"
-			description="COM_WEBLINKS_FIELD_CONFIG_HITS_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_link_description"
-			type="radio"
+		<field name="show_link_description" type="radio"
 			default="1"
+			description="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_LABEL"
-			description="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_other_cats"
-			type="radio"
+		<field name="show_other_cats" type="radio"
 			default="1"
+			description="COM_WEBLINKS_FIELD_CONFIG_OTHERCATS_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_OTHERCATS_LABEL"
-			description="COM_WEBLINKS_FIELD_CONFIG_OTHERCATS_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_headings"
-			type="radio"
+		<field name="show_headings" type="radio"
 			default="1"
+			description="COM_WEBLINKS_FIELD_CONFIG_SHOWHEADINGS_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_SHOWHEADINGS_LABEL"
-			description="COM_WEBLINKS_FIELD_CONFIG_SHOWHEADINGS_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_numbers"
-			type="radio"
+		<field name="show_numbers" type="radio"
 			default="1"
+			description="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_LABEL"
-			description="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_report"
-			type="radio"
+		<field name="show_report" type="radio"
 			default="1"
+			description="COM_WEBLINKS_FIELD_CONFIG_SHOWREPORT_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_SHOWREPORT_LABEL"
-			description="COM_WEBLINKS_FIELD_CONFIG_SHOWREPORT_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 		
-		<field
-			name="count_clicks"
-			type="radio"
+		<field name="count_clicks" type="radio"
 			default="1"
+			description="COM_WEBLINKS_FIELD_CONFIG_COUNTCLICKS_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_COUNTCLICKS_LABEL"
-			description="COM_WEBLINKS_FIELD_CONFIG_COUNTCLICKS_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
-		<field
-			name="spacer2"
-			type="spacer"
+		<field name="spacer2" type="spacer"
 			hr="true"
-			/>
-		<field
-			name="target"
-			type="list"
+		/>
+
+		<field name="target" type="list"
 			default="0"
+			description="COM_WEBLINKS_FIELD_TARGET_DESC"
 			label="COM_WEBLINKS_FIELD_TARGET_LABEL"
-			description="COM_WEBLINKS_FIELD_TARGET_DESC">
-			<option
-				value="0">PARENT_WINDOW_WITH_BROWSER_NAVIGATION</option>
-			<option
-				value="1">NEW_WINDOW_WITH_BROWSER_NAVIGATION</option>
-			<option
-				value="2">NEW_WINDOW_WITHOUT_BROWSER_NAVIGATION</option>
+		>
+			<option value="0">PARENT_WINDOW_WITH_BROWSER_NAVIGATION</option>
+			<option value="1">NEW_WINDOW_WITH_BROWSER_NAVIGATION</option>
+			<option value="2">NEW_WINDOW_WITHOUT_BROWSER_NAVIGATION</option>
 		</field>
-		<field
-			name="link_icons"
-			type="imagelist"
-			directory="/images"
+
+		<field name="link_icons" type="imagelist"
 			default=""
+			description="COM_WEBLINKS_FIELD_CONFIG_ICON_DESC" 
+			directory="/images"
 			label="COM_WEBLINKS_FIELD_CONFIG_ICON_LABEL"
-			description="COM_WEBLINKS_FIELD_CONFIG_ICON_DESC" />
-	</fields>
+		/>
+	</fieldset>
 
-	<fields
-		group="permissions"
-		label="JCONFIG_PERMISSIONS_LABEL"
+	<fieldset name="permissions"
 		description="JCONFIG_PERMISSIONS_DESC"
-		hidden="true">
+		label="JCONFIG_PERMISSIONS_LABEL"
+	>
 
-		<field
-			name="rules"
-			type="rules"
-			label="JCONFIG_PERMISSIONS_LABEL"
-			filter="rules"
+		<field name="rules" type="rules"
 			component="com_weblinks"
+			filter="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
 			section="component" />
-	</fields>
+	</fieldset>
 </config>

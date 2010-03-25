@@ -19,35 +19,4 @@ jimport('joomla.application.component.controllerform');
  */
 class PluginsControllerPlugin extends JControllerForm
 {
-	/**
-	 * Override parent save method to deal with special plugin parameters.
-	 *
-	 * @return	void
-	 */
-	public function save()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$iData	= JRequest::getVar('jform', array(), 'post', 'array');
-		$pData	= JRequest::getVar('jformparams', array(), 'post', 'array');
-		$model	= $this->getModel();
-
-		// Get the template parameter form.
-		$paramsForm	= $model->getParamsForm($iData['folder'], $iData['element']);
-		if (!$paramsForm)
-		{
-			JError::raiseError(500, $model->getError());
-			return false;
-		}
-
-		// Validate and inject back into the main form data.
-		$pData	= $model->validate($paramsForm, $pData);
-		$iData['params'] = $pData;
-
-		JRequest::setVar('jform', $iData, 'post');
-
-		return parent::save();
-	}
 }

@@ -21,72 +21,78 @@ jimport('joomla.form.formrule');
 class JFormRuleEmail extends JFormRule
 {
 	/**
-	 * The regular expression.
+	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var		string
-	 */
-	protected $_regex = '[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}';
-
-	/**
-	 * Method to test if an e-mail address is unique.
-	 *
-	 * @param	object		$field		A reference to the form field.
-	 * @param	mixed		$values		The values to test for validiaty.
-	 * @return	mixed		JException on invalid rule, true if the value is valid, false otherwise.
 	 * @since	1.6
 	 */
-	public function test(&$field, &$values)
+	protected $regex = '[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}';
+
+	/**
+	 * Method to test the email address and optionally check for uniqueness.
+	 *
+	 * @param	object	$element	The JXMLElement object representing the <field /> tag for the
+	 * 								form field object.
+	 * @param	mixed	$value		The form field value to validate.
+	 * @param	string	$group		The field name group control value. This acts as as an array
+	 * 								container for the field. For example if the field has name="foo"
+	 * 								and the group value is set to "bar" then the full field name
+	 * 								would end up being "bar[foo]".
+	 * @param	object	$input		An optional JRegistry object with the entire data set to validate
+	 * 								against the entire form.
+	 * @param	object	$form		The form object for which the field is being tested.
+	 *
+	 * @return	boolean	True if the value is valid, false otherwise.
+	 * @since	1.6
+	 * @throws	JException on invalid rule.
+	 */
+	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
-		$return = false;
-		$name	= (string)$field->attributes()->name;
-		$check	= ((string)$field->attributes()->unique == 'true' || (string)$field->attributes()->unique == 'unique');
-
 		// If the field is empty and not required, the field is valid.
-		if ((string)$field->attributes()->required != 'true') {
-			// Get the data for the field.
-			$value = array_key_exists($name, $values) ? $values[$name] : null;
+		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		if ($required && empty($value)) {
+			return true;
+		}
 
-			// If the data is empty, return valid.
-			if ($value == null) {
-				return true;
-			}
+		// Test the value against the regular expression.
+		if (!parent::test($element, $value, $group, $input, $form)) {
+			return false;
 		}
 
 		// Check if we should test for uniqueness.
-		if ($check) {
-			$key	= (string)$field->attributes()->field;
-			$value	= isset($values[$key]) ? $values[$key] : 0;
+		$unique = ((string) $element['unique'] == 'true' || (string) $element['unique'] == 'unique');
+		if ($unique) {
 
-			// Check the rule.
-			if (!$key) {
-				return new JException('Invalid Form Rule :: '.get_class($this));
+			// Get the database object and a new query object.
+			$db		= JFactory::getDBO();
+			$query	= $db->getQuery(true);
+
+			// Build the query.
+			$query->select('COUNT(*)');
+			$query->from('#__users');
+			$query->where('email = '.$db->quote($value));
+
+			// Get the extra field check attribute.
+			$extraField = (string) $element['field'];
+			if ($extraField) {
+				$extraFieldValue = ($form instanceof JForm) ? $form->getValue($extraField) : '';
+				$query->where($db->nameQuote($extraField).' = '.$db->quote($extraFieldValue));
 			}
 
-			// Check if the username is unique.
-			$db = &JFactory::getDbo();
-			$db->setQuery(
-				'SELECT count(*) FROM `#__users`' .
-				' WHERE `email` = '.$db->Quote($values[$name]) .
-				' AND '.$db->nameQuote($key).' != '.$db->Quote($value)
-			);
-			$duplicate = (bool)$db->loadResult();
+			// Set and query the database.
+			$db->setQuery($query);
+			$duplicate = (bool) $db->loadResult();
 
 			// Check for a database error.
 			if ($db->getErrorNum()) {
-				return new JException('Database Error :: '.$db->getErrorMsg());
+				JError::raiseWarning(500, $db->getErrorMsg());
 			}
 
-			// Test the value against the regular expression.
-			if (parent::test($field, $values) && !$duplicate) {
-				$return = true;
-			}
-		} else {
-			// Test the value against the regular expression.
-			if (parent::test($field, $values)) {
-				$return = true;
+			if ($duplicate) {
+				return false;
 			}
 		}
 
-		return $return;
+		return true;
 	}
 }

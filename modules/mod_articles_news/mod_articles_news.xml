@@ -25,125 +25,139 @@
 		<language
 			tag="en-GB">en-GB.mod_articles_news.ini</language>
 	</languages>
-	<fields>
-		<field
-			name="catid"
-			type="category"
-			extension="com_content"
-			default="0"
-			label="MOD_ARTICLES_NEWS_FIELD_CATEGORY_LABEL"
-			description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC" />
-
-		<field
-			name="image"
-			type="radio"
-			default="0"
-			label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
-			description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC">
-			<option
-				value="1">JYES</option>
-			<option
-				value="0">JNO</option>
-		</field>
-		<field
-			name="item_title"
-			type="list"
-			default="0"
-			label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"
-			description="MOD_ARTICLES_NEWS_FIELD_TITLE_DESC">
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
-		<field
-			name="link_titles"
-			type="list"
-			default=""
-			label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
-			description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
-		</field>
-		<field
-			name="item_heading"
-			type="list"
-			default="h4"
-			label="MOD_ARTICLES_NEWS_TITLE_HEADING"
-			description="MOD_ARTICLES_NEWS_TITLE_HEADING_DESCRIPTION">
-			<option
-				value="h1">MOD_ARTICLES_NEWS_H1</option>
-			<option
-				value="h2">MOD_ARTICLES_NEWS_H2</option>
-				<option
-				value="h3">MOD_ARTICLES_NEWS_H3</option>
-				<option
-				value="h4">MOD_ARTICLES_NEWS_H4</option>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="catid"
+					type="category"
+					extension="com_content"
+					default="0"
+					label="MOD_ARTICLES_NEWS_FIELD_CATEGORY_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC" />
+		
+				<field
+					name="image"
+					type="radio"
+					default="0"
+					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC">
 					<option
-				value="h5">MOD_ARTICLES_NEWS_H5</option>
-		</field>
-		<field
-			name="showLastSeparator"
-			type="radio"
-			default="1"
-			label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
-			description="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
-		</field>
-		<field
-			name="readmore"
-			type="radio"
-			default="0"
-			label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
-			description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC">
-			<option
-				value="0">Hide</option>
-			<option
-				value="1">Show</option>
-		</field>
-		<field
-			name="count"
-			type="text"
-			default=""
-			label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
-			description="MOD_ARTICLES_NEWS_FIELD_ITEMS_DESC" />
-	</fields>
-	<fields
-		group="advanced">
-		<field
-			name="layout"
-			type="modulelayout"
-			label="JFIELD_ALT_LAYOUT_LABEL"
-			description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-		<field
-			name="moduleclass_sfx"
-			type="text"
-			default=""
-			label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-			description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-		<field
-			name="cache"
-			type="list"
-			default="1"
-			label="COM_MODULES_FIELD_CACHING_LABEL"
-			description="COM_MODULES_FIELD_CACHING_DESC">
-			<option
-				value="1">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-		</field>
-		<field
-			name="cache_time"
-			type="text"
-			default="900"
-			label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-			description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
-	</fields>
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+				
+				<field
+					name="item_title"
+					type="list"
+					default="0"
+					label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_TITLE_DESC">
+					<option
+						value="0">JNo</option>
+					<option
+						value="1">JYes</option>
+				</field>
+				
+				<field
+					name="link_titles"
+					type="list"
+					default=""
+					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC">
+					<option
+						value="">JCOMMON_USE_GLOBAL</option>
+					<option
+						value="0">JNO</option>
+					<option
+						value="1">JYES</option>
+				</field>
+				
+				<field
+					name="item_heading"
+					type="list"
+					default="h4"
+					label="MOD_ARTICLES_NEWS_TITLE_HEADING"
+					description="MOD_ARTICLES_NEWS_TITLE_HEADING_DESCRIPTION">
+					<option
+						value="h1">MOD_ARTICLES_NEWS_H1</option>
+					<option
+						value="h2">MOD_ARTICLES_NEWS_H2</option>
+						<option
+						value="h3">MOD_ARTICLES_NEWS_H3</option>
+						<option
+						value="h4">MOD_ARTICLES_NEWS_H4</option>
+							<option
+						value="h5">MOD_ARTICLES_NEWS_H5</option>
+				</field>
+				
+				<field
+					name="showLastSeparator"
+					type="radio"
+					default="1"
+					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_DESC">
+					<option
+						value="0">JNO</option>
+					<option
+						value="1">JYES</option>
+				</field>
+				
+				<field
+					name="readmore"
+					type="radio"
+					default="0"
+					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC">
+					<option
+						value="0">Hide</option>
+					<option
+						value="1">Show</option>
+				</field>
+				
+				<field
+					name="count"
+					type="text"
+					default=""
+					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_ITEMS_DESC" />
+			</fieldset>
+			
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					
+				<field
+					name="moduleclass_sfx"
+					type="text"
+					default=""
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					
+				<field
+					name="cache"
+					type="list"
+					default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="1">JCOMMON_USE_GLOBAL</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+				
+				<field
+					name="cache_time"
+					type="text"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+			</fieldset>
+		</fields>
+	</config>
 </extension>

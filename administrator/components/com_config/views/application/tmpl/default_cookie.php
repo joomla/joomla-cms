@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 	<legend><?php echo JText::_('COM_CONFIG_COOKIE_SETTINGS'); ?></legend>
 
 			<?php
-			foreach ($this->form->getFields('cookie') as $field):
+			foreach ($this->form->getFieldset('cookie') as $field):
 			?>
 					<?php echo $field->label; ?>
 

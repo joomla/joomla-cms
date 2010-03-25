@@ -1,60 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
 <form>
-	<fields>
+	<fieldset>
 
-		<field
-			name="recurse"
-			type="checkbox"
-			value="1"
+		<field name="recurse" type="checkbox"
+			description="Users_Mail_Recurse_Desc"
 			label="Users_Mail_Recurse"
-			description="Users_Mail_Recurse_Desc" />
-
-		<field
-			name="mode"
-			type="checkbox"
 			value="1"
+		/>
+
+		<field name="mode" type="checkbox"
+			description="Users_Mail_Send_In_HTML_Mode_Desc"
 			label="Users_Mail_Send_In_HTML_Mode"
-			description="Users_Mail_Send_In_HTML_Mode_Desc" />
+			value="1"
+		/>
 
-		<field
-			name="group"
-			type="usergroup"
-			size="10"
+		<field name="group" type="usergroup"
 			default="0"
+			description="Users_Mail_Group_Desc"
 			label="Users_Mail_Group"
-			description="Users_Mail_Group_Desc">
-
-			<option
-				value="0">Users_Mail_All_Users_Groups</option>
+			size="10"
+		>
+			<option value="0">Users_Mail_All_Users_Groups</option>
 		</field>
 
-		<field
-			name="bcc"
-			type="checkbox"
-			value="1"
+		<field name="bcc" type="checkbox"
 			default="1"
+			description="Users_Mail_Send_as_Blind_Carbon_Copy"
 			label="Users_Mail_Recipients_as_BCC"
-			description="Users_Mail_Send_as_Blind_Carbon_Copy" />
+			value="1"
+		/>
 
-		<field
-			name="subject"
-			type="text"
-			size="30"
-			maxlength="150"
+		<field name="subject" type="text"
 			class="inputbox"
+			description="Users_Mail_Subject_Desc"
 			label="Users_Mail_Subject"
-			description="Users_Mail_Subject_Desc" />
+			maxlength="150"
+			size="30"
+		/>
 
-		<field
-			name="message"
-			type="textarea"
-			rows="20"
-			cols="70"
+		<field name="message" type="textarea"
 			class="inputbox"
+			cols="70"
+			description="Users_Mail_Message_Desc"
 			label="Users_Mail_Message"
-			description="Users_Mail_Message_Desc" />
-
-	</fields>
-
+			rows="20"
+		/>
+	</fieldset>
 </form>

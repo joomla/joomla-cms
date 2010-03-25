@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 
-<fields
-		group="newsfeed"
+<fieldset
+		name="newsfeed"
 		label="COM_NEWSFEEDS_FIELD_CONFIG_NEWSFEED_SETTINGS_LABEL"
 		description="COM_NEWSFEEDS_FIELD_CONFIG_NEWSFEED_SETTINGS_DESC">
 
@@ -56,10 +56,10 @@
 			default="0"
 			label="COM_NEWSFEEDS_FIELD_WORD_COUNT_LABEL"
 			description="COM_NEWSFEEDS_FIELD_WORD_COUNT_DESC" />
-	</fields>
+	</fieldset>
 	
-	<fields
-		group="category"
+	<fieldset
+		name="category"
 		label="COM_NEWSFEEDS_FIELD_CONFIG_CATEGORY_SETTINGS_LABEL"
 		description="COM_NEWSFEEDS_FIELD_CONFIG_CATEGORY_SETTINGS_DESC">
 
@@ -207,13 +207,13 @@
 				value="1">JCOMMON_SHOW</option>
 		</field>
 
-	</fields>
+	</fieldset>
 
-	<fields
-		group="permissions"
+	<fieldset
+		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
-		hidden="true">
+		>
 
 		<field
 			name="rules"
@@ -222,5 +222,5 @@
 			filter="rules"
 			component="com_newsfeeds"
 			section="component" />
-	</fields>
+	</fieldset>
 </config>

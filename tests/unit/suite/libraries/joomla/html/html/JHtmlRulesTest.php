@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'html' . DS . 'rules.php';
+require_once JPATH_BASE.'/libraries/joomla/html/html/rules.php';
 
 /**
  * Test class for JHtmlRules.
@@ -42,4 +42,3 @@ class JHtmlRulesTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

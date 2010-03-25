@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 jimport('joomla.form.formfield');
 
@@ -19,20 +19,27 @@ jimport('joomla.form.formfield');
 class JFormFieldImpTotal extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	protected $type = 'ImpTotal';
 
-	protected function _getInput()
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return	string	The field input markup.
+	 * @since	1.6
+	 */
+	protected function getInput()
 	{
 		$class		= ' class="validate-numeric text_area"';
-		$onchange	= ' onchange="document.id(\''.$this->inputId.'_unlimited\').checked=document.id(\''.$this->inputId.'\').value==\'\';"';
-		$onclick	= ' onclick="if (document.id(\''.$this->inputId.'_unlimited\').checked) document.id(\''.$this->inputId.'\').value=\'\';"';
+		$onchange	= ' onchange="document.id(\''.$this->id.'_unlimited\').checked=document.id(\''.$this->id.'\').value==\'\';"';
+		$onclick	= ' onclick="if (document.id(\''.$this->id.'_unlimited\').checked) document.id(\''.$this->id.'\').value=\'\';"';
 		$value		= empty($this->value) ? '' : $this->value;
 		$checked	= empty($this->value) ? ' checked="checked"' : '';
 
-		return '<input type="text" name="'.$this->inputName.'" id="'.$this->inputId.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$class.$onchange.' /><input id="'.$this->inputId.'_unlimited" type="checkbox"'.$checked.$onclick.' /><input style="border:0;" type="text" value="'.JText::_('COM_BANNERS_UNLIMITED').'" readonly="readonly"/>';
+		return '<input type="text" name="'.$this->name.'" id="'.$this->id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$class.$onchange.' /><input id="'.$this->id.'_unlimited" type="checkbox"'.$checked.$onclick.' /><input style="border:0;" type="text" value="'.JText::_('COM_BANNERS_UNLIMITED').'" readonly="readonly"/>';
 	}
 }

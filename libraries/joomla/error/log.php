@@ -72,7 +72,7 @@ class JLog extends JObject
 		if (!$path)
 		{
 			$config = &JFactory::getConfig();
-			$path = $config->getValue('config.log_path');
+			$path = $config->get('log_path');
 		}
 
 		jimport('joomla.filesystem.path');

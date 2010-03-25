@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fields
-		group="articles"
+	<fieldset
+		name="articles"
 		label="Content_Config_Article_Settings_Label"
 		description="Content_Config_Article_Settings_Desc">
 
@@ -233,13 +233,13 @@
 				value="1">JCommon_Show</option>
 		</field>
 
-	</fields>
+	</fieldset>
 
-	<fields
-		group="blog_default_parameters"
+	<fieldset
+		name="blog_default_parameters"
 		label="Content_Config_Blog_Settings_Label"
 		description="Content_Config_Blog_Settings_Desc"
-		hidden="true">
+		>
 
 		<field
 			name="num_leading_articles"
@@ -308,13 +308,13 @@
 				<option value="1">JCommon_Show</option>
 		</field>
 
-		</fields>
+		</fieldset>
 
-	<fields
-		group="list_default_parameters"
+	<fieldset
+		name="list_default_parameters"
 		label="Content_Config_List_Settings_Label"
 		description="Content_Config_List_Settings_Desc"
-		hidden="true">
+		>
 
 		<field
 			name="display_num"
@@ -403,13 +403,13 @@
 				<option value="1">JCommon_Show</option>
 		</field>
 
-	</fields>
+	</fieldset>
 
-	<fields
-		group="categories"
+	<fieldset
+		name="categories"
 		label="Content_Config_Category_Settings_Label"
 		description="Content_Config_Category_Settings_Desc"
-		hidden="true">
+		>
 
 	 	<field
 	 		name="show_description"
@@ -542,13 +542,13 @@
 				value="1">JYes</option>
 		</field>
 
-	</fields>
+	</fieldset>
 
-	<fields
-		group="integration"
+	<fieldset
+		name="integration"
 		label="Content_Config_Integration_Settings_Label"
 		description="Content_Config_Integration_Settings_Desc"
-		hidden="true">
+		>
 
 		<field
 			name="article-allow_ratings"
@@ -596,13 +596,13 @@
 				value="1">JCommon_Full_text</option>
 		</field>
 
-	</fields>
+	</fieldset>
 
-	<fields
-		group="filters"
+	<fieldset
+		name="filters"
 		label="Content_Config_Text_Filters_Label"
 		description="Content_Config_Text_Filters_Desc"
-		hidden="true">
+		>
 
 		<field
 			name="filter_groups"
@@ -642,13 +642,13 @@
 			label="JGLOBAL_Filter_Attributes_Label"
 			description="JGLOBAL_Filter_Attributes_Desc"
 			default="" />
-	</fields>
+	</fieldset>
 
-	<fields
-		group="permissions"
+	<fieldset
+		name="permissions"
 		label="JConfig_Permissions_Label"
 		description="JConfig_Permissions_Desc"
-		hidden="true">
+		>
 
 		<field
 			name="rules"
@@ -658,5 +658,5 @@
 			filter="rules"
 			component="com_content"
 			section="component" />
-	</fields>
+	</fieldset>
 </config>

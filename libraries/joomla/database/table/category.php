@@ -26,7 +26,7 @@ class JTableCategory extends JTableNested
 	{
 		parent::__construct('#__categories', 'id', $db);
 
-		$this->access	= (int) JFactory::getConfig()->getValue('access');
+		$this->access	= (int) JFactory::getConfig()->get('access');
 	}
 
 	/**

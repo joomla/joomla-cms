@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_CONFIG_SYSTEM_SETTINGS'); ?></legend>
 			<?php
-			foreach ($this->form->getFields('system') as $field):
+			foreach ($this->form->getFieldset('system') as $field):
 			?>
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>

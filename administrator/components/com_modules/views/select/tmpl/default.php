@@ -25,10 +25,8 @@ JHtml::_('behavior.tooltip');
 		$name	= $this->escape(JText::_($item->name));
 		$desc	= $this->escape(JText::_('COM_MODULES_NODESCRIPTION'));
 
-		if (isset($item->xml))
-		{
-			if ($text = (string) $item->xml->description)
-			{
+		if (isset($item->xml)) {
+			if ($text = trim($item->xml->description)) {
 				$desc = $this->escape(JText::_($text));
 			}
 		}

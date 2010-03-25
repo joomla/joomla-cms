@@ -1,8 +1,8 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'base/observable.php';
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'editor.php';
+require_once JPATH_BASE.'/libraries/joomla/base/observable.php';
+require_once JPATH_BASE.'/libraries/joomla/html/editor.php';
 
 /**
  * Test class for JEditor.
@@ -109,4 +109,3 @@ class JEditorTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

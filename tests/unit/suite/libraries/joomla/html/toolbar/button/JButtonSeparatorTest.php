@@ -2,7 +2,7 @@
 require_once 'PHPUnit/Framework.php';
 
 require_once JPATH_BASE.'/libraries/joomla/html/toolbar/button.php';
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'toolbar' . DS . 'button' . DS . 'separator.php';
+require_once JPATH_BASE.'/libraries/joomla/html/toolbar/button/separator.php';
 
 /**
  * Test class for JButtonSeparator.
@@ -54,4 +54,3 @@ class JButtonSeparatorTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

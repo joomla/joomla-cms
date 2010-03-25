@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'parameter' . DS . 'element' . DS . 'languages.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element/languages.php';
 
 /**
  * Test class for JElementLanguages.
@@ -42,4 +42,3 @@ class JElementLanguagesTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
 <form>
-	<fields>
+	<fieldset>
 		<field
 			name="id"
 			type="hidden"
@@ -57,5 +57,5 @@
 		<field
 			name="params"
 			type="hidden" />
-	</fields>
+	</fieldset>
 </form>

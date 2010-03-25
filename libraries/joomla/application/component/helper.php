@@ -41,7 +41,7 @@ class JComponentHelper
 			} else {
 				$result				= new stdClass;
 				$result->enabled	= $strict ? false : true;
-				$result->params		= new JParameter;
+				$result->params		= new JRegistry;
 			}
 		} else {
 			$result = &self::$_components[$option];
@@ -173,7 +173,8 @@ class JComponentHelper
 
 		// Convert the params to an object.
 		if (is_string(self::$_components[$option]->params)) {
-			$temp = new JParameter(self::$_components[$option]->params);
+			$temp = new JRegistry;
+			$temp->loadJSON(self::$_components[$option]->params);
 			self::$_components[$option]->params = $temp;
 		}
 

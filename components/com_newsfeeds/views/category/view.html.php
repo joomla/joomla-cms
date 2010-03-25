@@ -109,7 +109,8 @@ class NewsfeedsViewCategory extends JView
 		// we need to get it from the menu item itself
 		if ($menu = $menus->getActive())
 		{
-			$menuParams = new JParameter($menu->params);
+			$menuParams = new JRegistry;
+			$menuParams->loadJSON($menu->params);
 			if ($title = $menuParams->get('jpage_title')) {
 				$this->document->setTitle($title);
 			}

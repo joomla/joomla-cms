@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
-<install
-	version="1.6"
-	type="plugin"
-	group="content">
+<install version="1.6" type="plugin" group="content">
 	<name>plg_content_emailcloak</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
@@ -14,20 +11,23 @@
 	<version>1.6</version>
 	<description>PLG_CONTENT_EMAILCLOAK_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			plugin="emailcloak">emailcloak.php</filename>
+		<filename plugin="emailcloak">emailcloak.php</filename>
 	</files>
-	<fields>
-		<field
-			name="mode"
-			type="list"
-			default="1"
-			label="PLG_CONTENT_EMAILCLOAK_MODE_LABEL"
-			description="PLG_CONTENT_EMAILCLOAK_MODE_DESC">
-			<option
-				value="0">PLG_CONTENT_EMAILCLOAK_NONLINKABLE</option>
-			<option
-				value="1">PLG_CONTENT_EMAILCLOAK_LINKABLE</option>
-		</field>
-	</fields>
+
+	<config>
+		<fields name="params">
+
+			<fieldset name="basic">
+				<field name="mode" type="list"
+					default="1"
+					description="PLG_CONTENT_EMAILCLOAK_MODE_DESC"
+					label="PLG_CONTENT_EMAILCLOAK_MODE_LABEL"
+				>
+					<option value="0">PLG_CONTENT_EMAILCLOAK_NONLINKABLE</option>
+					<option value="1">PLG_CONTENT_EMAILCLOAK_LINKABLE</option>
+				</field>
+			</fieldset>
+
+		</fields>
+	</config>
 </install>

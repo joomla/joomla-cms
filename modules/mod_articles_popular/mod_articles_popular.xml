@@ -25,61 +25,65 @@
 		<language
 			tag="en-GB">en-GB.mostread.ini</language>
 	</languages>
-	<fields>
-		<field
-			name="show_front"
-			type="radio"
-			default="1"
-			label="MOD_POPULAR_FIELD_FEATURED_LABEL"
-			description="MOD_POPULAR_FIELD_FEATURED_DESC">
-			<option
-				value="1">JSHOW</option>
-			<option
-				value="0">JHIDE</option>
-		</field>
-		<field
-			name="count"
-			type="text"
-			default="5"
-			label="MOD_POPULAR_FIELD_COUNT_LABEL"
-			description="MOD_POPULAR_FIELD_COUNT_DESC" />
-		<field
-			name="catid"
-			type="category"
-			extension="com_content"
-			default=""
-			label="MOD_POPULAR_FIELD_CATEGORY_LABEL"
-			description="MOD_POPULAR_FIELD_CATEGORY_DESC" />
-	</fields>
-	<fields
-		group="advanced">
-		<field
-			name="layout"
-			type="modulelayout"
-			label="JFIELD_ALT_LAYOUT_LABEL"
-			description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-		<field
-			name="moduleclass_sfx"
-			type="text"
-			default=""
-			label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-			description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-		<field
-			name="cache"
-			type="list"
-			default="1"
-			label="COM_MODULES_FIELD_CACHING_LABEL"
-			description="COM_MODULES_FIELD_CACHING_DESC">
-			<option
-				value="1">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-		</field>
-		<field
-			name="cache_time"
-			type="text"
-			default="900"
-			label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-			description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
-	</fields>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="show_front"
+					type="radio"
+					default="1"
+					label="MOD_POPULAR_FIELD_FEATURED_LABEL"
+					description="MOD_POPULAR_FIELD_FEATURED_DESC">
+					<option
+						value="1">JSHOW</option>
+					<option
+						value="0">JHIDE</option>
+				</field>
+				<field
+					name="count"
+					type="text"
+					default="5"
+					label="MOD_POPULAR_FIELD_COUNT_LABEL"
+					description="MOD_POPULAR_FIELD_COUNT_DESC" />
+				<field
+					name="catid"
+					type="category"
+					extension="com_content"
+					default=""
+					label="MOD_POPULAR_FIELD_CATEGORY_LABEL"
+					description="MOD_POPULAR_FIELD_CATEGORY_DESC" />
+			</fieldset>
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field
+					name="moduleclass_sfx"
+					type="text"
+					default=""
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field
+					name="cache"
+					type="list"
+					default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="1">JCOMMON_USE_GLOBAL</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+				<field
+					name="cache_time"
+					type="text"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+			</fieldset>
+		</fields>
+	</config>
 </extension>

@@ -1,334 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
+	<!--
+		$Id$
+	-->
 <form>
-	<fields>
-		<field
-			id="id"
-			name="id"
-			type="hidden"
-			default="0"
-			required="true"
+	<fieldset>
+		<field name="id" type="hidden" default="0" required="true"
 			readonly="true" />
 
-		<field
-			id="name"
-			name="name"
-			type="text"
-			label="JFIELD_TITLE_LABEL"
-			description="JFIELD_TITLE_DESC"
-			class="inputbox"
-			size="30"
+		<field name="name" type="text" label="JFIELD_TITLE_LABEL"
+			description="JFIELD_TITLE_DESC" class="inputbox" size="30"
 			required="true" />
 
-		<field
-			id="alias"
-			name="alias"
-			type="text"
-			label="JFIELD_ALIAS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_ALIAS_DESC"
-			class="inputbox"
-			size="45"
-			default="" />
+		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
+			description="COM_NEWSFEEDS_FIELD_ALIAS_DESC" class="inputbox"
+			size="45" />
 
-		<field
-			id="published"
-			name="published"
-			type="list"
-			label="JFIELD_PUBLISHED_LABEL"
-			description="JFIELD_PUBLISHED_DESC"
-			class="inputbox"
-			size="1"
-			default="1">
-			<option
-				value="1">
+		<field name="published" type="list"
+			label="JFIELD_PUBLISHED_LABEL" description="JFIELD_PUBLISHED_DESC"
+			class="inputbox" size="1" default="1"
+		>
+			<option value="1">
 				JOPTION_PUBLISHED</option>
-			<option
-				value="0">
+			<option value="0">
 				JOPTION_UNPUBLISHED</option>
-			<option
-				value="-1">
+			<option value="-1">
 				JOPTION_ARCHIVED</option>
-			<option
-				value="-2">
+			<option value="-2">
 				JOPTION_TRASHED</option>
 		</field>
 
-		<field
-			id="catid"
-			name="catid"
-			type="category"
-			extension="com_newsfeeds"
-			label="COM_NEWSFEEDS_FIELD_CATEGORY_LABEL"
-			description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
-			class="inputbox"
-			required="true">
-			<option
-				value="0">JOPTION_NO_CATEGORY</option>
+		<field name="catid" type="category" extension="com_newsfeeds"
+			label="COM_NEWSFEEDS_FIELD_CATEGORY_LABEL" description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
+			class="inputbox" required="true"
+		>
+			<option value="0">JOPTION_NO_CATEGORY</option>
 		</field>
 
-		<field
-			id="link"
-			name="link"
-			type="Text"
-			class="inputbox"
-			default=""
-			size="60"
-			label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
-			description="COM_NEWSFEEDS_FIELD_LINK_DESC"
-			required="true" />
+		<field name="link" type="Text" class="inputbox"
+			size="60" label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
+			description="COM_NEWSFEEDS_FIELD_LINK_DESC" required="true" />
 
-		<field
-			id="numarticles"
-			name="numarticles"
-			type="Text"
-			class="inputbox"
-			default="5"
-			size="2"
-			label="COM_NEWSFEEDS_FIELD_NUMFEEDS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_NUMFEEDS_DESC"
-			required="true" />
+		<field name="numarticles" type="Text" class="inputbox"
+			default="5" size="2" label="COM_NEWSFEEDS_FIELD_NUMFEEDS_LABEL"
+			description="COM_NEWSFEEDS_FIELD_NUMFEEDS_DESC" required="true" />
 
-		<field
-			id="cache_time"
-			name="cache_time"
-			type="Text"
-			class="inputbox"
-			default="3600"
-			size="4"
-			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+		<field name="cache_time" type="Text" class="inputbox"
+			default="3600" size="4" label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			description="COM_NEWSFEEDS_FIELD_CACHETIME_DESC"
 			required="true" />
 
-		<field
-			id="ordering"
-			name="ordering"
-			type="Ordering"
-			class="inputbox"
-			default=""
-			label="COM_NEWSFEEDS_FIELD_ORDERING_LABEL"
-			description="COM_NEWSFEEDS_FIELD_ORDERING_DESC" />
+		<field name="ordering" type="ordering" class="inputbox"
+			label="COM_NEWSFEEDS_FIELD_ORDERING_LABEL" description="COM_NEWSFEEDS_FIELD_ORDERING_DESC" />
 
-		<field
-			id="rtl"
-			name="rtl"
-			type="list"
-			class="inputbox"
-			default="1"
-			label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
-			description="COM_NEWSFEEDS_FIELD_RTL_DESC">
-			<option
-				value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE</option>
-			<option
-				value="1">COM_NEWSFEEDS_FIELD_VALUE_LTR</option>
-			<option
-				value="1">COM_NEWSFEEDS_FIELD_VALUE_RTL</option>
+		<field name="rtl" type="list" class="inputbox"
+			default="1" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
+			description="COM_NEWSFEEDS_FIELD_RTL_DESC"
+		>
+			<option value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE
+			</option>
+			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_LTR
+			</option>
+			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_RTL
+			</option>
 		</field>
 
 
-		<field
-			id="checked_out"
-			name="checked_out"
-			type="Text"
-			class="inputbox"
-			default=""
-			size="6"
-			label="NEWSFEEDS_CHECKEDOUT_LABEL"
-			description="NEWSFEEDS_CHECKEDOUT_DESC"
-			readonly="true"
+		<field name="checked_out" type="Text" class="inputbox"
+			size="6" label="NEWSFEEDS_CHECKEDOUT_LABEL" description="NEWSFEEDS_CHECKEDOUT_DESC"
+			readonly="true" filter="unset" />
+
+		<field name="checked_out_time" type="Text" class="inputbox"
+			size="6" label="NEWSFEEDS_CHECKEDOUT_TIME_LABEL"
+			description="NEWSFEEDS_CHECKEDOUT_TIME_DESC" readonly="true"
 			filter="unset" />
 
-		<field
-			id="checked_out_time"
-			name="checked_out_time"
-			type="Text"
-			class="inputbox"
-			default=""
-			size="6"
-			label="NEWSFEEDS_CHECKEDOUT_TIME_LABEL"
-			description="NEWSFEEDS_CHECKEDOUT_TIME_DESC"
-			readonly="true"
-			filter="unset" />
+		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
 
-		<field
-			name="access"
-			type="accesslevel"
-			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
-			class="inputbox"
-			size="1"
-			default="" />
-
-		<field
-			name="language"
-			type="contentlanguage"
-			label="JFIELD_LANGUAGE_LABEL"
-			description="JFIELD_NEWSFEED_LANGUAGE_DESC"
-			class="inputbox"
-			default="">
+		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
+			description="JFIELD_NEWSFEED_LANGUAGE_DESC" class="inputbox"
+		>
 			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
 		</field>
 
-	</fields>
+	</fieldset>
 
-	<fields
-		group="params"
-		array="true"
-		label="COM_NEWSFEEDS_FIELD_OPTIONS">
+	<fieldset name="params" label="COM_NEWSFEEDS_FIELD_OPTIONS">
 
-<field
-			id="show_headings"
-			name="show_headings"
-			type="list"
-			default=""
+		<field name="show_headings" type="list"
 			label="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_DESC">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">JCOMMON_HIDE</option>
-			<option
-				value="1">JCOMMON_SHOW</option>
+			description="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_DESC"
+		>
+			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="0">JCOMMON_HIDE</option>
+			<option value="1">JCOMMON_SHOW</option>
 		</field>
 
-		<field
-			id="show_name"
-			name="show_name"
-			type="list"
-			default=""
+		<field name="show_name" type="list"
 			label="COM_NEWSFEEDS_FIELD_NAME_COLUMN_LABEL"
-			description="COM_NEWSFEEDS_FIELD_NAME_COLUMN_DESC">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">JCOMMON_HIDE</option>
-			<option
-				value="1">JCOMMON_SHOW</option>
+			description="COM_NEWSFEEDS_FIELD_NAME_COLUMN_DESC"
+		>
+			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="0">JCOMMON_HIDE</option>
+			<option value="1">JCOMMON_SHOW</option>
 		</field>
 
-		<field
-			id="show_articles"
-			name="show_articles"
-			type="list"
-			default=""
+		<field name="show_articles" type="list"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
-			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">JCOMMON_HIDE</option>
-			<option
-				value="1">JCOMMON_SHOW</option>
+			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC"
+		>
+			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="0">JCOMMON_HIDE</option>
+			<option value="1">JCOMMON_SHOW</option>
 		</field>
 
-		<field
-			id="show_link"
-			name="show_link"
-			type="list"
-			default=""
-			label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">JCOMMON_HIDE</option>
-			<option
-				value="1">JCOMMON_SHOW</option>
+		<field name="show_link" type="list"
+			label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL" description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC"
+		>
+			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="0">JCOMMON_HIDE</option>
+			<option value="1">JCOMMON_SHOW</option>
 		</field>
 
-		<field
-		name="spacer1" 
-		type="spacer"
-		hr="true"
-		/>
+		<field name="spacer1" type="spacer" hr="true" />
 
-		<field
-			id="show_cat_description"
-			name="show_cat_description"
-			type="list"
-			default=""
+		<field name="show_cat_description" type="list"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_DESC">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">JCOMMON_HIDE</option>
-			<option
-				value="1">JCOMMON_SHOW</option>
+			description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_DESC"
+		>
+			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="0">JCOMMON_HIDE</option>
+			<option value="1">JCOMMON_SHOW</option>
 		</field>
 
-		<field
-			id="show_cat_items"
-			name="show_cat_items"
-			type="list"
-			default=""
+		<field name="show_cat_items" type="list"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">JCOMMON_HIDE</option>
-			<option
-				value="1">JCOMMON_SHOW</option>
+			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
+		>
+			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="0">JCOMMON_HIDE</option>
+			<option value="1">JCOMMON_SHOW</option>
 		</field>
 
-		<field
-		name="spacer2" 
-		type="spacer"
-		hr="true"
-		/>
+		<field name="spacer2" type="spacer" hr="true" />
 
-		<field
-			id="show_feed_image"
-			name="show_feed_image"
-			type="list"
-			default=""
+		<field name="show_feed_image" type="list"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">JCOMMON_HIDE</option>
-			<option
-				value="1">JCOMMON_SHOW</option>
+			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
+		>
+			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="0">JCOMMON_HIDE</option>
+			<option value="1">JCOMMON_SHOW</option>
 		</field>
 
-		<field
-			id="show_feed_description"
-			name="show_feed_description"
-			type="list"
-			default=""
+		<field name="show_feed_description" type="list"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">JCOMMON_HIDE</option>
-			<option
-				value="1">JCOMMON_SHOW</option>
+			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
+		>
+			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="0">JCOMMON_HIDE</option>
+			<option value="1">JCOMMON_SHOW</option>
 		</field>
 
-		<field
-			id="show_item_description"
-			name="show_item_description"
-			type="list"
-			default=""
+		<field name="show_item_description" type="list"
 			label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC">
-			<option
-				value="">JCOMMON_USE_GLOBAL</option>
-			<option
-				value="0">JCOMMON_HIDE</option>
-			<option
-				value="1">JCOMMON_SHOW</option>
+			description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
+		>
+			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="0">JCOMMON_HIDE</option>
+			<option value="1">JCOMMON_SHOW</option>
 		</field>
 
-		<field
-			id="feed_word_count"
-			name="feed_word_count"
-			type="text"
-			size="6"
-			default="0"
-			label="COM_NEWSFEEDS_FIELD_WORD_COUNT_LABEL"
+		<field name="feed_word_count" type="text" size="6"
+			default="0" label="COM_NEWSFEEDS_FIELD_WORD_COUNT_LABEL"
 			description="COM_NEWSFEEDS_FIELD_WORD_COUNT_DESC" />
-	</fields>
+	</fieldset>
 </form>

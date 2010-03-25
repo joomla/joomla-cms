@@ -1,17 +1,20 @@
 <?php
-
 /**
- * @version		$Id: category.php 13825 2009-12-23 01:03:06Z eddieajau $
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('JPATH_BASE') or die;
 
-// Import html library
 jimport('joomla.html.html');
+jimport('joomla.form.formfield');
+JLoader::register('JFormFieldGroupedList', dirname(__FILE__).'/groupedlist.php');
 
-// Import joomla field list class
-require_once dirname(__FILE__) . DS . 'groupedlist.php';
+// Import the com_menus helper.
+require_once realpath(JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php');
 
 /**
  * Supports an HTML select list of menu item
@@ -22,70 +25,62 @@ require_once dirname(__FILE__) . DS . 'groupedlist.php';
  */
 class JFormFieldMenuItem extends JFormFieldGroupedList
 {
-
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	public $type = 'MenuItem';
 
 	/**
-	 * Method to get a list of options for a list input.
+	 * Method to get the field option groups.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	array	The field option objects as a nested array in groups.
+	 * @since	1.6
 	 */
-	protected function _getGroups()
+	protected function getGroups()
 	{
-
-		// Get the attributes
-		$menuType = (string)$this->_element->attributes()->menu_type;
-		$published = (string)$this->_element->attributes()->published ? explode(',', (string)$this->_element->attributes()->published) : array();
-		$disable = (string)$this->_element->attributes()->disable ? explode(',', (string)$this->_element->attributes()->disable) : array();
-
-		// Get the com_menus helper
-		require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-
-		// Get the items
-		$items = MenusHelper::getMenuLinks($menuType, 0, 0, $published);
-
-		// Prepare return value
+		// Initialize variables.
 		$groups = array();
 
-		// If a menu type was set
-		if ($menuType)
-		{
+		// Initialize some field attributes.
+		$menuType = (string) $this->element['menu_type'];
+		$published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array();
+		$disable = $this->element['disable'] ? explode(',', (string) $this->element['disable']) : array();
+
+		// Get the menu items.
+		$items = MenusHelper::getMenuLinks($menuType, 0, 0, $published);
+
+		// Build group for a specific menu type.
+		if ($menuType) {
+			// Initialize the group.
 			$groups[$menuType] = array();
 
-			// Loop over links
-			foreach($items as $link)
-			{
-
-				// Generate an option disabling it if it's the case
+			// Build the options array.
+			foreach($items as $link) {
 				$groups[$menuType][] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text', in_array($link->type, $disable));
 			}
 		}
 
-		// else all menu types have to be displayed
-		else
-		{
-
-			// Loop over types
+		// Build groups for all menu types.
+		else {
+			// Build the groups arrays.
 			foreach($items as $menu)
 			{
+				// Initialize the group.
 				$groups[$menu->menutype] = array();
 
-				// Loop over links
-				foreach($menu->links as $link)
-				{
-
-					// Generate an option disabling it if it's the case
+				// Build the options array.
+				foreach($menu->links as $link) {
 					$groups[$menu->menutype][] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text', in_array($link->type, $disable));
 				}
 			}
 		}
-		// Merge any additional options in the XML definition.
-		$groups = array_merge(parent::_getGroups(), $groups);
+
+		// Merge any additional groups in the XML definition.
+		$groups = array_merge(parent::getGroups(), $groups);
+
 		return $groups;
 	}
 }

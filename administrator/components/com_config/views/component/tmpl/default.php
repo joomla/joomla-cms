@@ -33,15 +33,15 @@ JHtml::_('behavior.formvalidation');
 	echo JHtml::_('tabs.start','config-tabs-'.$this->component->option.'_configuration', array('useCookie'=>1));
 		$fieldSets = $this->form->getFieldsets();
 		foreach ($fieldSets as $name => $fieldSet) :
-			$label = isset($fieldSet['label']) ? $fieldSet['label'] : 'Config_'.$name;
+			$label = empty($fieldSet->label) ? 'COM_CONFIG_'.$name.'_FIELDSET_LABEL' : $fieldSet->label;
 			echo JHtml::_('tabs.panel',JText::_($label), 'publishing-details');
-			if (isset($fieldSet['description'])) :
-				echo '<p class="tab-description">'.JText::_($fieldSet['description']).'</p>';
+			if (isset($fieldSet->description)) :
+				echo '<p class="tab-description">'.JText::_($fieldSet->description).'</p>';
 			endif;
 	?>
 
 			<?php
-			foreach ($this->form->getFields($name) as $field):
+			foreach ($this->form->getFieldset($name) as $field):
 			?>
 					<?php echo $field->label; ?>
 					<?php echo $field->input; ?>

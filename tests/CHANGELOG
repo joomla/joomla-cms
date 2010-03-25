@@ -61,6 +61,10 @@ $ -> Language fix or change
 10-Feb-2010 Hannes Papenberg
 # Fixed sampledata in JFilterInputTests
 
+08-Feb-2010 Andrew Eddie
+ ! Completed tests for JRegistry.
+ + Added to tests for JParameter.
+
 08-Feb-2010 Hannes Papenberg
 # Fixed JSimpleXML tests
 

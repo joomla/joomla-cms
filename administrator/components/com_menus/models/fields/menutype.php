@@ -8,6 +8,8 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
+jimport('joomla.form.formfield');
+JLoader::register('JFormFieldList', JPATH_LIBRARIES.'/joomla/form/fields/list.php');
 
 /**
  * Form Field class for the Joomla Framework.
@@ -19,11 +21,12 @@ jimport('joomla.html.html');
 class JFormFieldMenuType extends JFormFieldList
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
-	public $type = 'MenuType';
+	protected $type = 'MenuType';
 
 	/**
 	 * A reverse lookup of the base link URL to Title
@@ -33,18 +36,19 @@ class JFormFieldMenuType extends JFormFieldList
 	protected $_rlu = array();
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	string		The field input.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
 		// Initialise variables.
 		$html = array();
 		$types = $this->_getTypeList();
 
-		$size	= ($v = $this->_element->attributes('size')) ? ' size="'.$v.'"' : '';
-		$class	= ($v = $this->_element->attributes('class')) ? 'class="'.$v.'"' : 'class="text_area"';
+		$size	= ($v = $this->element['size']) ? ' size="'.$v.'"' : '';
+		$class	= ($v = $this->element['class']) ? 'class="'.$v.'"' : 'class="text_area"';
 
 		switch ($this->value)
 		{
@@ -61,7 +65,7 @@ class JFormFieldMenuType extends JFormFieldList
 				break;
 
 			default:
-				$link	= $this->_form->getValue('link');
+				$link	= $this->form->getValue('link');
 				// Clean the link back to the option, view and layout
 				$value	= JText::_(JArrayHelper::getValue($this->_rlu, MenusHelper::getLinkKey($link)));
 				break;
@@ -85,7 +89,7 @@ class JFormFieldMenuType extends JFormFieldList
 
 		$html[] = '<input type="text" readonly="readonly" disabled="disabled" value="'.$value.'"'.$size.$class.'>';
 		$html[] = '<input type="button" class="modal" value="'.JText::_('COM_MENUS_CHANGE_LINKTYPE').'" rel="{handler:\'clone\', target:\'menu-types\'}">';
-		$html[] = '<input type="hidden" name="'.$this->inputName.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'">';
+		$html[] = '<input type="hidden" name="'.$this->name.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'">';
 
 		$html[] = '<div id="menu-types">';
 		$html[] = $types;

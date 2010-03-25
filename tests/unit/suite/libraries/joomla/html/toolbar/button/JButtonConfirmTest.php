@@ -2,7 +2,7 @@
 require_once 'PHPUnit/Framework.php';
 
 require_once JPATH_BASE.'/libraries/joomla/html/toolbar/button.php';
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'toolbar' . DS . 'button' . DS . 'confirm.php';
+require_once JPATH_BASE.'/libraries/joomla/html/toolbar/button/confirm.php';
 
 /**
  * Test class for JButtonConfirm.
@@ -54,4 +54,3 @@ class JButtonConfirmTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

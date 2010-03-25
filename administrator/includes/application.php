@@ -60,14 +60,14 @@ class JAdministrator extends JApplication
 			{
 				$params = JComponentHelper::getParams('com_languages');
 				$client	= &JApplicationHelper::getClientInfo($this->getClientId());
-				$options['language'] = $params->get($client->name, $config->getValue('config.language','en-GB'));
+				$options['language'] = $params->get($client->name, $config->get('language','en-GB'));
 			}
 		}
 
 		// One last check to make sure we have something
 		if (! JLanguage::exists($options['language']))
 		{
-			$lang = $config->getValue('config.language','en-GB');
+			$lang = $config->get('language','en-GB');
 			if (JLanguage::exists($lang)) {
 				$options['language'] = $lang;
 			}
@@ -234,13 +234,12 @@ class JAdministrator extends JApplication
 			$template = $db->loadObject();
 
 			$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');
+			$template->params = new JRegistry;
 
-			if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php'))
-			{
+			if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php')) {
 				$template->template = 'bluestork';
-				$template->params = new JParameter();
 			} else {
-				$template->params = new JParameter($template->params);
+				$template->params->loadJSON($template->params);
 			}
 		}
 		if ($params) {

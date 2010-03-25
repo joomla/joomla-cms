@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_CONFIG_FTP_SETTINGS'); ?></legend>
 			<?php
-			foreach ($this->form->getFields('ftp') as $field):
+			foreach ($this->form->getFieldset('ftp') as $field):
 			?>
 
 					<?php echo $field->label; ?>

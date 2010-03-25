@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 	<legend><?php echo JText::_('COM_CONFIG_DEBUG_SETTINGS'); ?></legend>
 
 			<?php
-			foreach ($this->form->getFields('debug') as $field):
+			foreach ($this->form->getFieldset('debug') as $field):
 			?>
 					<?php echo $field->label; ?>
 

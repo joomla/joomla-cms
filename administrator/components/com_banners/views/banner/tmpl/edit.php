@@ -69,7 +69,7 @@ JHtml::_('behavior.formvalidation');
 	<fieldset class="adminform">
 		<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_BANNER') : JText::sprintf('COM_BANNERS_EDIT_BANNER', $this->item->id); ?></legend>
 
-		<?php foreach($this->form->getFields() as $field): ?>
+		<?php foreach($this->form->getFieldset('details') as $field): ?>
 			<?php if (!$field->hidden): ?>
 				<?php echo $field->label; ?>
 			<?php endif; ?>
@@ -77,7 +77,7 @@ JHtml::_('behavior.formvalidation');
 		<?php endforeach; ?>
 
 		<div id="image">
-			<?php foreach($this->form->getFields('image') as $field): ?>
+			<?php foreach($this->form->getFieldset('image') as $field): ?>
 				<?php if (!$field->hidden): ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>
@@ -85,7 +85,7 @@ JHtml::_('behavior.formvalidation');
 			<?php endforeach; ?>
 		</div>
 		<div id="flash">
-			<?php foreach($this->form->getFields('flash') as $field): ?>
+			<?php foreach($this->form->getFieldset('flash') as $field): ?>
 				<?php if (!$field->hidden): ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>
@@ -93,7 +93,7 @@ JHtml::_('behavior.formvalidation');
 			<?php endforeach; ?>
 		</div>
 		<div id="alt">
-			<?php foreach($this->form->getFields('alt') as $field): ?>
+			<?php foreach($this->form->getFieldset('alt') as $field): ?>
 				<?php if (!$field->hidden): ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>
@@ -101,7 +101,7 @@ JHtml::_('behavior.formvalidation');
 			<?php endforeach; ?>
 		</div>
 		<div id="custom">
-			<?php foreach($this->form->getFields('custom') as $field): ?>
+			<?php foreach($this->form->getFieldset('custom') as $field): ?>
 				<?php if (!$field->hidden): ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>
@@ -115,7 +115,7 @@ JHtml::_('behavior.formvalidation');
 
 	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS'), 'publishing-details'); ?>
 		<fieldset class="adminform">
-			<?php foreach($this->form->getFields('publish') as $field): ?>
+			<?php foreach($this->form->getFieldset('publish') as $field): ?>
 				<?php if (!$field->hidden): ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>
@@ -125,7 +125,7 @@ JHtml::_('behavior.formvalidation');
 
 	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_GROUP_LABEL_METADATA_OPTIONS'), 'metadata'); ?>
 		<fieldset class="adminform">
-			<?php foreach($this->form->getFields('metadata') as $field): ?>
+			<?php foreach($this->form->getFieldset('metadata') as $field): ?>
 				<?php if (!$field->hidden): ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>

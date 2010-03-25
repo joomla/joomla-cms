@@ -18,64 +18,68 @@
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
-	<fields>
-		<field
-			name="count"
-			type="text"
-			default="5"
-			label="MOD_POPULAR_FIELD_COUNT_LABEL"
-			description="MOD_POPULAR_FIELD_COUNT_DESC" />
-		<field
-			id="catid"
-			name="catid"
-			type="category"
-			default=""
-			extension="com_content"
-			label="MOD_POPULAR_FIELD_CATEGORY_LABEL"
-			description="MOD_POPULAR_FIELD_CATEGORY_DESC"
-			class="inputbox">
-			<option
-				value="">JOPTION_ANY_CATEGORY</option>
-			<option
-				value="0">JOPTION_NO_CATEGORY</option>
-		</field>
-		<field
-			name="user_id"
-			type="list"
-			default="0"
-			label="MOD_POPULAR_FIELD_AUTHORS_LABEL"
-			description="MOD_POPULAR_FIELD_AUTHORS_DESC">
-			<option
-				value="0">MOD_POPULAR_FIELD_VALUE_ANYONE</option>
-			<option
-				value="by_me">MOD_POPULAR_FIELD_VALUE_ADDED_OR_MODIFIED_BY_ME</option>
-			<option
-				value="not_me">MOD_POPULAR_FIELD_VALUE_NOT_ADDED_OR_MODIFIED_BY_ME</option>
-		</field>
-	</fields>
-	<fields
-		group="advanced">
-		<field
-			name="layout"
-			type="modulelayout"
-			label="JFIELD_ALT_LAYOUT_LABEL"
-			description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-
-		<field
-			name="moduleclass_sfx"
-			type="text"
-			default=""
-			label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-			description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-
-		<field
-			name="cache"
-			type="list"
-			default="0"
-			label="COM_MODULES_FIELD_CACHING_LABEL"
-			description="COM_MODULES_FIELD_CACHING_DESC">
-			<option
-				value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-		</field>
-	</fields>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="count"
+					type="text"
+					default="5"
+					label="MOD_POPULAR_FIELD_COUNT_LABEL"
+					description="MOD_POPULAR_FIELD_COUNT_DESC" />
+				<field
+					id="catid"
+					name="catid"
+					type="category"
+					default=""
+					extension="com_content"
+					label="MOD_POPULAR_FIELD_CATEGORY_LABEL"
+					description="MOD_POPULAR_FIELD_CATEGORY_DESC"
+					class="inputbox">
+					<option
+						value="">JOPTION_ANY_CATEGORY</option>
+					<option
+						value="0">JOPTION_NO_CATEGORY</option>
+				</field>
+				<field
+					name="user_id"
+					type="list"
+					default="0"
+					label="MOD_POPULAR_FIELD_AUTHORS_LABEL"
+					description="MOD_POPULAR_FIELD_AUTHORS_DESC">
+					<option
+						value="0">MOD_POPULAR_FIELD_VALUE_ANYONE</option>
+					<option
+						value="by_me">MOD_POPULAR_FIELD_VALUE_ADDED_OR_MODIFIED_BY_ME</option>
+					<option
+						value="not_me">MOD_POPULAR_FIELD_VALUE_NOT_ADDED_OR_MODIFIED_BY_ME</option>
+				</field>
+			</fieldset>
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+		
+				<field
+					name="moduleclass_sfx"
+					type="text"
+					default=""
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+		
+				<field
+					name="cache"
+					type="list"
+					default="0"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </install>

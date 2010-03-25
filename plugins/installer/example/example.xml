@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	version="1.6"
-	type="plugin"
-	group="installer">
+<extension version="1.6" type="plugin" group="installer">
 	<name>plg_installer_example</name>
 	<author>Joomla! Project</author>
 	<creationDate>September 2008</creationDate>
@@ -13,7 +10,6 @@
 	<version>1.0</version>
 	<description>PLG_INSTALLER_EXAMPLE_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			plugin="example">example.php</filename>
+		<filename plugin="example">example.php</filename>
 	</files>
 </extension>

@@ -19,39 +19,41 @@ jimport('joomla.form.formfield');
 class JFormFieldModal_Article extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
-	public $type = 'Modal_Article';
+	protected $type = 'Modal_Article';
 
 	/**
-	 * Method to get a list of options for a list input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		// Initialise variables.
-		$document	= JFactory::getDocument();
-		$db			= JFactory::getDBO();
-
-		// Load the modal behavior.
+		// Load the modal behavior script.
 		JHtml::_('behavior.modal', 'a.modal');
 
-		// Add the JavaScript select function to the document head.
-		$document->addScriptDeclaration(
-		"function jSelectArticle_".$this->inputId."(id, title, catid, object) {
-			document.id('".$this->inputId."_id').value = id;
-			document.id('".$this->inputId."_name').value = title;
-			SqueezeBox.close();
-		}"
-		);
+		// Build the script.
+		$script = array();
+		$script[] = '	function jSelectArticle_'.$this->id.'(id, title, catid, object) {';
+		$script[] = '		document.id("'.$this->id.'_id").value = id;';
+		$script[] = '		document.id("'.$this->id.'_name").value = title;';
+		$script[] = '		SqueezeBox.close();';
+		$script[] = '	}';
+
+		// Add the script to the document head.
+		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+
 
 		// Setup variables for display.
 		$html	= array();
-		$link	= 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_'.$this->inputId;
+		$link	= 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_'.$this->id;
 
+		$db	= JFactory::getDBO();
 		$db->setQuery(
 			'SELECT title' .
 			' FROM #__content' .
@@ -70,7 +72,7 @@ class JFormFieldModal_Article extends JFormField
 
 		// The current user display field.
 		$html[] = '<div class="fltlft">';
-		$html[] = '  <input type="text" id="'.$this->inputId.'_name" value="'.$title.'" disabled="disabled" />';
+		$html[] = '  <input type="text" id="'.$this->id.'_name" value="'.$title.'" disabled="disabled" />';
 		$html[] = '</div>';
 
 		// The user select button.
@@ -81,7 +83,7 @@ class JFormFieldModal_Article extends JFormField
 		$html[] = '</div>';
 
 		// The active user id field.
-		$html[] = '<input type="hidden" id="'.$this->inputId.'_id" name="'.$this->inputName.'" value="'.(int)$this->value.'" />';
+		$html[] = '<input type="hidden" id="'.$this->id.'_id" name="'.$this->name.'" value="'.(int)$this->value.'" />';
 
 		return implode("\n", $html);
 	}

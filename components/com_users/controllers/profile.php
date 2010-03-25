@@ -77,19 +77,16 @@ class UsersControllerProfile extends UsersController
 		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('Profile', 'UsersModel');
 		$user	= &JFactory::getUser();
-		$userId	= (int)$user->get('id');
+		$userId	= (int) $user->get('id');
 
 		// Get the member data.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 
-		// Check if the user is trying to edit another users profile.
-		if ($userId != $data['id']) {
-			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
-			return false;
-		}
+		// Force the ID to this user.
+		$data['id'] = $userId;
 
 		// Validate the posted data.
-		$form	= &$model->getForm();
+		$form = $model->getForm();
 		if (!$form) {
 			JError::raiseError(500, $model->getError());
 			return false;
@@ -99,14 +96,12 @@ class UsersControllerProfile extends UsersController
 		$data = $model->validate($form,$data);
 
 		// Check for errors.
-		if ($data === false)
-		{
+		if ($data === false) {
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
 				if (JError::isError($errors[$i])) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
 				} else {
@@ -127,8 +122,7 @@ class UsersControllerProfile extends UsersController
 		$return	= $model->save($data);
 
 		// Check for errors.
-		if ($return === false)
-		{
+		if ($return === false) {
 			// Save the data in the session.
 			$app->setUserState('com_users.edit.profile.data', $data);
 
@@ -140,8 +134,7 @@ class UsersControllerProfile extends UsersController
 		}
 
 		// Redirect the user and adjust session state based on the chosen task.
-		switch ($this->_task)
-		{
+		switch ($this->_task) {
 			case 'apply':
 				// Check out the profile.
 				$app->setUserState('com_users.edit.profile.id', $return);

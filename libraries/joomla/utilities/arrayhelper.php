@@ -58,11 +58,9 @@ class JArrayHelper
 	static function toObject(&$array, $class = 'stdClass')
 	{
 		$obj = null;
-		if (is_array($array))
-		{
+		if (is_array($array)) {
 			$obj = new $class();
-			foreach ($array as $k => $v)
-			{
+			foreach ($array as $k => $v) {
 				if (is_array($v)) {
 					$obj->$k = JArrayHelper::toObject($v, $class);
 				} else {
@@ -77,19 +75,15 @@ class JArrayHelper
 	{
 		$output = array();
 
-		if (is_array($array))
-		{
-			foreach ($array as $key => $item)
-			{
-				if (is_array ($item))
-				{
+		if (is_array($array)) {
+			foreach ($array as $key => $item) {
+				if (is_array ($item)) {
 					if ($keepOuterKey) {
 						$output[] = $key;
 					}
 					// This is value is an array, go and do it again!
 					$output[] = JArrayHelper::toString($item, $inner_glue, $outer_glue, $keepOuterKey);
-				}
-				else {
+				} else {
 					$output[] = $key.$inner_glue.'"'.$item.'"';
 				}
 			}
@@ -111,27 +105,19 @@ class JArrayHelper
 	static function fromObject($p_obj, $recurse = true, $regex = null)
 	{
 		$result = null;
-		if (is_object($p_obj))
-		{
+		if (is_object($p_obj)) {
 			$result = array();
-			foreach (get_object_vars($p_obj) as $k => $v)
-			{
-				if ($regex)
-				{
-					if (!preg_match($regex, $k))
-					{
+			foreach (get_object_vars($p_obj) as $k => $v) {
+				if ($regex) {
+					if (!preg_match($regex, $k)) {
 						continue;
 					}
 				}
-				if (is_object($v))
-				{
-					if ($recurse)
-					{
+				if (is_object($v)) {
+					if ($recurse) {
 						$result[$k] = JArrayHelper::fromObject($v, $recurse, $regex);
 					}
-				}
-				else
-				{
+				} else {
 					$result[$k] = $v;
 				}
 			}
@@ -152,11 +138,9 @@ class JArrayHelper
 	{
 		$result = array ();
 
-		if (is_array($array))
-		{
+		if (is_array($array)) {
 			$n = count($array);
-			for ($i = 0; $i < $n; $i++)
-			{
+			for ($i = 0; $i < $n; $i++) {
 				$item = & $array[$i];
 				if (is_array($item) && isset ($item[$index])) {
 					$result[] = $item[$index];
@@ -195,8 +179,7 @@ class JArrayHelper
 		}
 
 		// Handle the type constraint
-		switch (strtoupper($type))
-		{
+		switch (strtoupper($type)) {
 			case 'INT' :
 			case 'INTEGER' :
 				// Only use the first integer value
@@ -236,6 +219,26 @@ class JArrayHelper
 				break;
 		}
 		return $result;
+	}
+
+	/**
+	 * Method to determine if an array is an associative array.
+	 *
+	 * @param	array		An array to test.
+	 * @return	boolean		True if the array is an associative array.
+	 * @since	1.6
+	 */
+	static public function isAssociative($array)
+	{
+		if (is_array($array)) {
+			foreach (array_keys($array) as $k => $v) {
+				if ($k !== $v) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**

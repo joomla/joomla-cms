@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'parameter' . DS . 'element' . DS . 'hidden.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element/hidden.php';
 
 /**
  * Test class for JElementHidden.
@@ -53,4 +53,3 @@ class JElementHiddenTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

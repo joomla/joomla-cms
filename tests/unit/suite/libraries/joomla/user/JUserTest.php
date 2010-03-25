@@ -57,7 +57,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 
 		JUser::getTable('user', 'JTable');
 		$this->object = new JUser(42);
-		$params = new JParameter;
+		$params = new JRegistry;
 		$this->object->setParameters($params);
 	}
 

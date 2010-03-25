@@ -124,18 +124,18 @@ JHtml::_('behavior.formvalidation');
 							<table class="content2">
 								<tr>
 									<td class="item">
-										<?php echo $this->form->getLabel('admin_user'); ?>
-									</td>
-									<td align="center">
-										<?php echo $this->form->getInput('admin_user'); ?>
-									</td>
-								</tr>
-								<tr>
-									<td class="item">
 										<?php echo $this->form->getLabel('admin_email'); ?>
 									</td>
 									<td align="center">
 										<?php echo $this->form->getInput('admin_email'); ?>
+									</td>
+								</tr>
+								<tr>
+									<td class="item">
+										<?php echo $this->form->getLabel('admin_user'); ?>
+									</td>
+									<td align="center">
+										<?php echo $this->form->getInput('admin_user'); ?>
 									</td>
 								</tr>
 								<tr>

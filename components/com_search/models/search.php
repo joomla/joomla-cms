@@ -63,7 +63,7 @@ class SearchModelSearch extends JModel
 		$config = JFactory::getConfig();
 
 		// Get the pagination request variables
-		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
+		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $config->get('list_limit'), 'int'));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
 		// Set the search parameters

@@ -78,7 +78,8 @@ class NewsfeedsModelCategory extends JModelList
 			$item = &$items[$i];
 			if (!isset($this->_params)) {
 			//	$item->_params	= $item->params;
-			//	$item->params	= new JParameter($item->_params);
+			//	$item->params	= new JRegistry;
+			//	$item->params->loadJSON($item->_params);
 			}
 		}
 

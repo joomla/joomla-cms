@@ -117,19 +117,21 @@ class ContactModelContact extends JModelForm
 	public function getForm()
 	{
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		JImport('joomla.form.form');
 		JForm::addFieldPath('JPATH_ADMINISTRATOR/components/com_users/models/fields');
+
 		// Get the form.
-		$form = parent::getForm('contact', 'com_contact.contact', array('array' => 'jform', 'event' => 'onPrepareForm'));
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
+		try {
+			$form = parent::getForm('com_contact.contact', 'contact', array('control' => 'jform'));
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_contact.edit.contact.data', array());
+
 		// Bind the form data if present.
 		if (!empty($data)) {
 			$form->bind($data);

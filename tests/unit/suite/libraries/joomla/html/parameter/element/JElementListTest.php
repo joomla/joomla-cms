@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'parameter' . DS . 'element' . DS . 'list.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element/list.php';
 
 /**
  * Test class for JElementList.
@@ -42,4 +42,3 @@ class JElementListTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

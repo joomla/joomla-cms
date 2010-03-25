@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
 <form>
-	<fields>
+	<fieldset>
 		<field
 			name="id"
 			type="hidden"
@@ -55,6 +55,7 @@
 			default=""
 			required="true"
 			size="1" />
+
 		<field
 			name="type"
 			type="menutype"
@@ -147,16 +148,6 @@
 		</field>
 
 		<field
-			name="params"
-			type="textarea"
-			label="JCOMMON_PARAMS_LABEL"
-			description="COM_MENUS_ITEM_FIELD_PARAMS_DESC"
-			default=""
-			rows="3"
-			cols="60"
-			class="inputbox"/>
-
-		<field
 			name="home"
 			type="radio"
 			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
@@ -199,5 +190,8 @@
 			name="rgt"
 			type="hidden"
 			filter="unset"/>
+	</fieldset>
+	
+	<fields name="params">
 	</fields>
 </form>

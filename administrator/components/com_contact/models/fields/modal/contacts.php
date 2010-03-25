@@ -19,39 +19,52 @@ jimport('joomla.form.formfield');
 class JFormFieldModal_Contacts extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
-	public $type = 'Modal_Contacts';
+	protected $type = 'Modal_Contacts';
 
 	/**
-	 * Method to get a list of options for a list input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	array		An array of JHtml options.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		$db			=& JFactory::getDBO();
-		$doc		=& JFactory::getDocument();
 		// Load the javascript and css
 		JHtml::_('behavior.framework');
 		JHTML::_('script','system/modal.js', false, true);
 		JHTML::_('stylesheet','system/modal.css', array(), true);
 
-		// Attach modal behavior to document
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration("
-		window.addEvent('domready', function() {
-			var div = new Element('div').setStyle('display', 'none').injectBefore(document.id('menu-types'));
-			document.id('menu-types').injectInside(div);
-			SqueezeBox.initialize();
-			SqueezeBox.assign($$('input.modal'), {
-				parse: 'rel'
-			});
-		});");
+		// Build the script.
+		$script = array();
+		$script[] = '	function jSelectChart_'.$this->id.'(id, name, object) {';
+		$script[] = '		document.id("'.$this->id.'_id").value = id;';
+		$script[] = '		document.id("'.$this->id.'_name").value = name;';
+		$script[] = '		SqueezeBox.close();';
+		$script[] = '	}';
+
+		// Add the script to the document head.
+		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+
+		// Build the script.
+		$script = array();
+		$script[] = '	window.addEvent("domready", function() {';
+		$script[] = '		var div = new Element("div").setStyle("display", "none").injectBefore(document.id("menu-types"));';
+		$script[] = '		document.id("menu-types").injectInside(div);';
+		$script[] = '		SqueezeBox.initialize();';
+		$script[] = '		SqueezeBox.assign($$("input.modal"), {parse:"rel"});';
+		$script[] = '	});';
+
+		// Add the script to the document head.
+		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+
 
 		// Get the title of the linked chart
+		$db = & JFactory::getDBO();
 		$db->setQuery(
 			'SELECT name' .
 			' FROM #__contact_details' .
@@ -67,20 +80,12 @@ class JFormFieldModal_Contacts extends JFormField
 			$title = JText::_('COM_CONTACT_SELECT_A_CONTACT');
 		}
 
-		$doc->addScriptDeclaration(
-		"function jSelectChart_".$this->inputId."(id, name, object) {
-			document.id('".$this->inputId."_id').value = id;
-			document.id('".$this->inputId."_name').value = name;
-			SqueezeBox.close();
-		}"
-		);
-
-		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;function=jSelectChart_'.$this->inputId;
+		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;function=jSelectChart_'.$this->id;
 
 		JHTML::_('behavior.modal', 'a.modal');
-		$html = "\n".'<div class="fltlft"><input type="text" id="'.$this->inputId.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
+		$html = "\n".'<div class="fltlft"><input type="text" id="'.$this->id.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
 		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('COM_CONTACT_CHANGE_CONTACT_BUTTON').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'.JText::_('COM_CONTACT_CHANGE_CONTACT_BUTTON').'</a></div></div>'."\n";
-		$html .= "\n".'<input type="hidden" id="'.$this->inputId.'_id" name="'.$this->inputName.'" value="'.(int) $this->value.'" />';
+		$html .= "\n".'<input type="hidden" id="'.$this->id.'_id" name="'.$this->name.'" value="'.(int) $this->value.'" />';
 
 		return $html;
 	}

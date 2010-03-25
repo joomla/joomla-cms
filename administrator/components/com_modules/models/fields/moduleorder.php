@@ -5,11 +5,9 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
-defined('_JEXEC') or die;
-
 defined('JPATH_BASE') or die;
 
+jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
 /**
@@ -22,34 +20,43 @@ jimport('joomla.form.formfield');
 class JFormFieldModuleOrder extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
-	public $type = 'ModuleOrder';
+	protected $type = 'ModuleOrder';
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	string		The field input.
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		$html		= '';
-		$attribs	= ($v = $this->_element->attributes('size')) ? ' size="'.$v.'"' : '';
-		$attribs	.= ($v = $this->_element->attributes('class')) ? ' class="'.$v.'"' : 'class="inputbox"';
-		$attribs	.= $this->_element->attributes('readonly') == 'true' ? ' readonly="readonly"' : '';
+		// Initialize variables.
+		$html = array();
+		$attr = '';
 
-		$html .= '<script language="javascript" type="text/javascript">';
-		$html .= '<!-- ';
+		// Initialize some field attributes.
+		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
 
-		$ordering = $this->_form->getValue('ordering');
-		$position = $this->_form->getValue('position');
-		$clientId = $this->_form->getValue('client_id');
+		// Initialize JavaScript field attributes.
+		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
-		$html	.= "\nvar originalOrder = '".$ordering."'";
-		$html	.= "\nvar originalPos = '".$position."'";
-		$html	.= "\nvar orders = new Array();";
+		$html[] = '<script language="javascript" type="text/javascript">';
+		$html[] = '<!-- ';
+
+		$ordering = $this->form->getValue('ordering');
+		$position = $this->form->getValue('position');
+		$clientId = $this->form->getValue('client_id');
+
+		$html[] = 'var originalOrder = "'.$ordering.'";';
+		$html[] = 'var originalPos = "'.$position.'";';
+		$html[] = 'var orders = new Array();';
 
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
@@ -74,13 +81,13 @@ class JFormFieldModuleOrder extends JFormField
 			$ord = $orders2[$orders[$i]->position];
 			$title = JText::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, addslashes($orders[$i]->title));
 
-			$html .= "\norders[".$i."] =  new Array('".$orders[$i]->position."','".$ord."','".$title."')";
+			$html[] = 'orders['.$i.'] =  new Array("'.$orders[$i]->position.'","'.$ord.'","'.$title.'");';
 		}
 
-		$html .= "\n".'writeDynaList(\'name="'.$this->inputName.'" id="'.$this->inputId.'"'.$attribs.'\', orders, originalPos, originalPos, originalOrder);';
-		$html .= ' //-->';
-		$html .= '</script>';
+		$html[] = 'writeDynaList(\'name="'.$this->name.'" id="'.$this->id.'"'.$attr.'\', orders, originalPos, originalPos, originalOrder);';
+		$html[] = ' //-->';
+		$html[] = '</script>';
 
-		return $html;
+		return implode("\n", $html);
 	}
 }

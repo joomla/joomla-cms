@@ -49,38 +49,18 @@ class ModulesModelModule extends JModelForm
 	}
 
 	/**
-	 * Prepare and sanitise the table prior to saving.
-	 */
-	protected function _prepareTable(&$table)
-	{
-		jimport('joomla.filter.output');
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
-
-		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
-
-		if (empty($table->id)) {
-			// Set the values
-			//$table->created	= $date->toMySQL();
-		} else {
-			// Set the values
-			//$table->modified	= $date->toMySQL();
-			//$table->modified_by	= $user->get('id');
-		}
-	}
-
-
-	/**
-	 * Returns a reference to the a Table object, always creating it.
+	 * Method to checkin a row.
 	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
-	*/
-	public function getTable($type = 'Module', $prefix = 'JTable', $config = array())
+	 * @param	integer	The ID of the primary key.
+	 *
+	 * @return	boolean
+	 */
+	public function checkin($pk = null)
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		// Initialise variables.
+		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('module.id');
+
+		return parent::checkin($pk);
 	}
 
 	/**
@@ -98,18 +78,172 @@ class ModulesModelModule extends JModelForm
 	}
 
 	/**
-	 * Method to checkin a row.
+	 * Method to delete rows.
 	 *
-	 * @param	integer	The ID of the primary key.
+	 * @param	array	An array of item ids.
 	 *
-	 * @return	boolean
+	 * @return	boolean	Returns true on success, false on failure.
 	 */
-	public function checkin($pk = null)
+	public function delete(&$pks)
 	{
 		// Initialise variables.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('module.id');
+		$pks	= (array) $pks;
+		$user	= JFactory::getUser();
+		$table	= $this->getTable();
 
-		return parent::checkin($pk);
+		// Iterate the items to delete each one.
+		foreach ($pks as $i => $pk) {
+			if ($table->load($pk)) {
+
+				// Access checks.
+				if (!$user->authorise('core.delete', 'com_modules')) {
+					throw new Exception(JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+				}
+
+				if (!$table->delete($pk)) {
+					throw new Exception($table->getError());
+				} else {
+					// Delete the menu assignments
+					$db		= $this->getDbo();
+					$query	= $db->getQuery(true);
+					$query->delete();
+					$query->from('#__modules_menu');
+					$query->where('moduleid='.(int)$pk);
+					$db->setQuery((string)$query);
+					$db->query();
+				}
+			} else {
+				throw new Exception($table->getError());
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to duplicate modules.
+	 *
+	 * @param	array	An array of primary key IDs.
+	 *
+	 * @return	boolean	True if successful.
+	 * @throws	Exception
+	 */
+	public function duplicate(&$pks)
+	{
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$db		= $this->getDbo();
+
+		// Access checks.
+		if (!$user->authorise('core.create', 'com_modules')) {
+			throw new Exception(JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
+		}
+
+		$table = $this->getTable();
+
+		foreach ($pks as $pk) {
+			if ($table->load($pk, true)) {
+				// Reset the id to create a new record.
+				$table->id = 0;
+
+				// Alter the title.
+				$m = null;
+				if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
+					$table->title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $table->title);
+				} else {
+					$table->title .= ' (2)';
+				}
+
+				if (!$table->check() || !$table->store()) {
+					throw new Exception($table->getError());
+				}
+
+				// $query = 'SELECT menuid'
+				//	. ' FROM #__modules_menu'
+				//	. ' WHERE moduleid = '.(int) $pk
+				//	;
+
+				$query	= $db->getQuery(true);
+				$query->select('menuid');
+				$query->from('#__modules_menu');
+				$query->where('moduleid='.(int)$pk);
+
+				$this->_db->setQuery((string)$query);
+				$rows = $this->_db->loadResultArray();
+
+				foreach ($rows as $menuid) {
+					$tuples[] = '('.(int) $table->id.','.(int) $menuid.')';
+				}
+			} else {
+				throw new Exception($table->getError());
+			}
+		}
+
+		if (!empty($tuples)) {
+			// Module-Menu Mapping: Do it in one query
+			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES '.implode(',', $tuples);
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
+				return JError::raiseWarning(500, $row->getError());
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to get the client object
+	 *
+	 * @since 1.6
+	 */
+	function &getClient()
+	{
+		return $this->_client;
+	}
+
+	/**
+	 * Method to get the record form.
+	 *
+	 * @param	array		An optional array of source data.
+	 *
+	 * @return	mixed		JForm object on success, false on failure.
+	 */
+	public function getForm($data = null)
+	{
+		// Initialise variables.
+		$app = JFactory::getApplication();
+
+		// The folder and element vars are passed when saving the form.
+		if (empty($data)) {
+			$item		= $this->getItem();
+			$clientId	= $item->client_id;
+			$module		= $item->module;
+		} else {
+			$clientId	= JArrayHelper::getValue($data, 'client_id');
+			$module		= JArrayHelper::getValue($data, 'module');
+		}
+
+		// These variables are used to add data from the plugin XML files.
+		$this->setState('item.client_id',	$clientId);
+		$this->setState('item.module',		$module);
+
+		// Get the form.
+		try {
+			$form = parent::getForm('com_modules.module', 'module', array('control' => 'jform'));
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
+
+		// Check the session for previously entered form data.
+		$data = $app->getUserState('com_modules.edit.module.data', array());
+
+		// Bind the form data if present.
+		if (!empty($data)) {
+			$form->bind($data);
+		}
+
+		return $form;
 	}
 
 	/**
@@ -219,73 +353,56 @@ class ModulesModelModule extends JModelForm
 	}
 
 	/**
-	 * Method to get the client object
+	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @since 1.6
-	 */
-	function &getClient()
+	 * @param	type	The table type to instantiate
+	 * @param	string	A prefix for the table class name. Optional.
+	 * @param	array	Configuration array for model. Optional.
+	 * @return	JTable	A database object
+	*/
+	public function getTable($type = 'Module', $prefix = 'JTable', $config = array())
 	{
-		return $this->_client;
+		return JTable::getInstance($type, $prefix, $config);
 	}
 
 	/**
-	 * Method to get the record form.
-	 *
-	 * @return	mixed	JForm object on success, false on failure.
+	 * Prepare and sanitise the table prior to saving.
 	 */
-	public function getForm()
+	protected function prepareTable(&$table)
 	{
-		// Initialise variables.
-		$app	= JFactory::getApplication();
+		jimport('joomla.filter.output');
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
 
-		// Get the form.
-		$form = parent::getForm('module', 'com_modules.module', array('array' => 'jform', 'event' => 'onPrepareForm'));
+		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
 
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
-			return false;
+		if (empty($table->id)) {
+			// Set the values
+			//$table->created	= $date->toMySQL();
+		} else {
+			// Set the values
+			//$table->modified	= $date->toMySQL();
+			//$table->modified_by	= $user->get('id');
 		}
-
-		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_modules.edit.module.data', array());
-
-		// Bind the form data if present.
-		if (!empty($data)) {
-			$form->bind($data);
-		}
-
-		return $form;
 	}
 
 	/**
-	 * Method to get a form object for the module params.
+	 * @param	object	A form object.
 	 *
-	 * @param	string		An optional module folder.
-	 * @param	int			An client id.
-	 *
-	 * @return	mixed		A JForm object on success, false on failure.
+	 * @throws	Exception if there is an error loading the form.
+	 * @since	1.6
 	 */
-	public function getParamsForm($module = null, $clientId = null)
+	protected function preprocessForm($form)
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 
 		// Initialise variables.
-		$lang			= JFactory::getLanguage();
-		$form			= null;
-		$formName		= 'com_modules.module.params';
-		$formOptions	= array('array' => 'jformparams', 'event' => 'onPrepareForm');
-
-		if (empty($module) && is_null($clientId))
-		{
-			$item		= $this->getItem();
-			$clientId	= $item->client_id;
-			$module		= $item->module;
-		}
-
-		$client			= JApplicationHelper::getClientInfo($clientId);
-		$formFile		= JPath::clean($client->path.'/modules/'.$module.'/'.$module.'.xml');
+		$clientId	= $this->getState('item.client_id');
+		$module		= $this->getState('item.module');
+		$lang		= JFactory::getLanguage();
+		$client		= JApplicationHelper::getClientInfo($clientId);
+		$formFile	= JPath::clean($client->path.'/modules/'.$module.'/'.$module.'.xml');
 
 		// Load the core and/or local language file(s).
 			$lang->load($module, $client->path, null, false, false)
@@ -293,20 +410,93 @@ class ModulesModelModule extends JModelForm
 		||	$lang->load($module, $client->path, $lang->getDefault(), false, false)
 		||	$lang->load($module, $client->path.'/modules/'.$module, $lang->getDefault(), false, false);
 
-		if (file_exists($formFile))
-		{
-			// If an XML file was found in the component, load it first.
-			// We need to qualify the full path to avoid collisions with component file names.
-			$form = parent::getForm($formFile, $formName, $formOptions, true);
-
-			// Check for an error.
-			if (JError::isError($form)) {
-				$this->setError($form->getMessage());
-				return false;
+		if (file_exists($formFile)) {
+			// Get the module form.
+			if (!$form->loadFile($formFile, false, '//config')) {
+				throw new Exception(JText::_('JModelForm_Error_loadFile_failed'));
 			}
 		}
 
-		return $form;
+		// Trigger the default form events.
+		parent::preprocessForm($form);
+	}
+
+	/**
+	 * Method to publish records.
+	 *
+	 * @param	array	The ids of the items to publish.
+	 * @param	int		The value of the published state
+	 *
+	 * @return	boolean	True on success.
+	 */
+	function publish(&$pks, $value = 1)
+	{
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$table	= $this->getTable();
+		$pks	= (array) $pks;
+
+		// Access checks.
+		foreach ($pks as $i => $pk) {
+			if ($table->load($pk)) {
+				$allow = $user->authorise('core.edit.state', 'com_modules');
+
+				if (!$allow) {
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
+				}
+			}
+		}
+
+		// Attempt to change the state of the records.
+		if (!$table->publish($pks, $value, $user->get('id'))) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to adjust the ordering of a row.
+	 *
+	 * @param	int		The ID of the primary key to move.
+	 * @param	integer	Increment, usually +1 or -1
+	 * @return	boolean	False on failure or error, true otherwise.
+	 */
+	public function reorder($pks, $delta = 0)
+	{
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$table	= $this->getTable();
+		$pks	= (array) $pks;
+		$result	= true;
+
+		// Access checks.
+		$allow = $user->authorise('core.edit', 'com_modules');
+		if (!$allow) {
+			$this->setError(JText::_('JERROR_CORE_EDIT_NOT_PERMITTED'));
+			return false;
+		}
+
+		foreach ($pks as $i => $pk) {
+			$table->reset();
+			if ($table->load($pk) && $this->checkout($pk)) {
+				$table->ordering += $delta;
+				if (!$table->store()) {
+					$this->setError($table->getError());
+					unset($pks[$i]);
+					$result = false;
+				}
+			} else {
+				$this->setError($table->getError());
+				unset($pks[$i]);
+				$result = false;
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -327,25 +517,22 @@ class ModulesModelModule extends JModelForm
 		JPluginHelper::importPlugin('content');
 
 		// Load the row if saving an existing record.
-		if ($pk > 0)
-		{
+		if ($pk > 0) {
 			$table->load($pk);
 			$isNew = false;
 		}
 
 		// Bind the data.
-		if (!$table->bind($data))
-		{
+		if (!$table->bind($data)) {
 			$this->setError(JText::sprintf('JERROR_TABLE_BIND_FAILED', $table->getError()));
 			return false;
 		}
 
 		// Prepare the row for saving
-		$this->_prepareTable($table);
+		$this->prepareTable($table);
 
 		// Check the data.
-		if (!$table->check())
-		{
+		if (!$table->check()) {
 			$this->setError($table->getError());
 			return false;
 		}
@@ -395,8 +582,7 @@ class ModulesModelModule extends JModelForm
 
 			// Check needed to stop a module being assigned to `All`
 			// and other menu items resulting in a module being displayed twice.
-			if ($assignment === 0)
-			{
+			if ($assignment === 0) {
 				// assign new module to `all` menu item associations
 				// $this->_db->setQuery(
 				//	'INSERT INTO #__modules_menu'.
@@ -443,208 +629,6 @@ class ModulesModelModule extends JModelForm
 		$this->setState('module.id', $table->id);
 
 		return true;
-	}
-
-	/**
-	 * Method to delete rows.
-	 *
-	 * @param	array	An array of item ids.
-	 *
-	 * @return	boolean	Returns true on success, false on failure.
-	 */
-	public function delete(&$pks)
-	{
-		// Initialise variables.
-		$pks	= (array) $pks;
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
-
-		// Iterate the items to delete each one.
-		foreach ($pks as $i => $pk)
-		{
-			if ($table->load($pk))
-			{
-				// Access checks.
-				if (!$user->authorise('core.delete', 'com_modules'))
-				{
-					throw new Exception(JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
-				}
-
-				if (!$table->delete($pk))
-				{
-					throw new Exception($table->getError());
-				} else {
-					// Delete the menu assignments
-					$db		= $this->getDbo();
-					$query	= $db->getQuery(true);
-					$query->delete();
-					$query->from('#__modules_menu');
-					$query->where('moduleid='.(int)$pk);
-					$db->setQuery((string)$query);
-					$db->query();
-				}
-			}
-			else
-			{
-				throw new Exception($table->getError());
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to publish records.
-	 *
-	 * @param	array	The ids of the items to publish.
-	 * @param	int		The value of the published state
-	 *
-	 * @return	boolean	True on success.
-	 */
-	function publish(&$pks, $value = 1)
-	{
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
-		$pks	= (array) $pks;
-
-		// Access checks.
-		foreach ($pks as $i => $pk)
-		{
-			if ($table->load($pk))
-			{
-				$allow = $user->authorise('core.edit.state', 'com_modules');
-
-				if (!$allow)
-				{
-					// Prune items that you can't change.
-					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
-				}
-			}
-		}
-
-		// Attempt to change the state of the records.
-		if (!$table->publish($pks, $value, $user->get('id'))) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to duplicate modules.
-	 *
-	 * @param	array	An array of primary key IDs.
-	 *
-	 * @return	boolean	True if successful.
-	 * @throws	Exception
-	 */
-	public function duplicate(&$pks)
-	{
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$db		= $this->getDbo();
-
-		// Access checks.
-		if (!$user->authorise('core.create', 'com_modules'))
-		{
-			throw new Exception(JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
-		}
-
-		$table = $this->getTable();
-
-		foreach ($pks as $pk)
-		{
-			if ($table->load($pk, true)) {
-				// Reset the id to create a new record.
-				$table->id = 0;
-
-				// Alter the title.
-				$m = null;
-				if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
-					$table->title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $table->title);
-				} else {
-					$table->title .= ' (2)';
-				}
-
-				if (!$table->check() || !$table->store()) {
-					throw new Exception($table->getError());
-				}
-
-				// $query = 'SELECT menuid'
-				//	. ' FROM #__modules_menu'
-				//	. ' WHERE moduleid = '.(int) $pk
-				//	;
-
-				$query	= $db->getQuery(true);
-				$query->select('menuid');
-				$query->from('#__modules_menu');
-				$query->where('moduleid='.(int)$pk);
-
-				$this->_db->setQuery((string)$query);
-				$rows = $this->_db->loadResultArray();
-
-				foreach ($rows as $menuid) {
-					$tuples[] = '('.(int) $table->id.','.(int) $menuid.')';
-				}
-			} else {
-				throw new Exception($table->getError());
-			}
-		}
-
-		if (!empty($tuples)) {
-			// Module-Menu Mapping: Do it in one query
-			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES '.implode(',', $tuples);
-			$this->_db->setQuery($query);
-			if (!$this->_db->query()) {
-				return JError::raiseWarning(500, $row->getError());
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to adjust the ordering of a row.
-	 *
-	 * @param	int		The ID of the primary key to move.
-	 * @param	integer	Increment, usually +1 or -1
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function reorder($pks, $delta = 0)
-	{
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
-		$pks	= (array) $pks;
-		$result	= true;
-
-		// Access checks.
-		$allow = $user->authorise('core.edit', 'com_modules');
-		if (!$allow) {
-			$this->setError(JText::_('JERROR_CORE_EDIT_NOT_PERMITTED'));
-			return false;
-		}
-
-		foreach ($pks as $i => $pk) {
-			$table->reset();
-			if ($table->load($pk) && $this->checkout($pk)) {
-				$table->ordering += $delta;
-				if (!$table->store()) {
-					$this->setError($table->getError());
-					unset($pks[$i]);
-					$result = false;
-				}
-			} else {
-				$this->setError($table->getError());
-				unset($pks[$i]);
-				$result = false;
-			}
-		}
-
-		return $result;
 	}
 
 	/**

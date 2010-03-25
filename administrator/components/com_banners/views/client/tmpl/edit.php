@@ -33,7 +33,7 @@ JHtml::_('behavior.formvalidation');
 	<fieldset class="adminform">
 		<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT') : JText::sprintf('COM_BANNERS_EDIT_CLIENT', $this->item->id); ?></legend>
 
-		<?php foreach($this->form->getFields() as $field): ?>
+		<?php foreach($this->form->getFieldset('details') as $field): ?>
 			<?php if (!$field->hidden): ?>
 				<?php echo $field->label; ?>
 			<?php endif; ?>
@@ -48,7 +48,7 @@ JHtml::_('behavior.formvalidation');
 
 	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_GROUP_LABEL_METADATA_OPTIONS'), 'publishing-details'); ?>
 		<fieldset class="adminform">
-			<?php foreach($this->form->getFields('metadata') as $field): ?>
+			<?php foreach($this->form->getFieldset('metadata') as $field): ?>
 				<?php if (!$field->hidden): ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>
@@ -58,7 +58,7 @@ JHtml::_('behavior.formvalidation');
 
 	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_EXTRA'), 'extra'); ?>
 		<fieldset class="adminform">
-			<?php foreach($this->form->getFields('extra') as $field): ?>
+			<?php foreach($this->form->getFieldset('extra') as $field): ?>
 				<?php if (!$field->hidden): ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>

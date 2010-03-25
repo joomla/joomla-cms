@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'parameter' . DS . 'element' . DS . 'timezones.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element/timezones.php';
 
 /**
  * Test class for JElementTimezones.
@@ -42,4 +42,3 @@ class JElementTimezonesTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>

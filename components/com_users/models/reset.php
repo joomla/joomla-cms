@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		
+ * @version
  * @package		Joomla.Site
  * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -29,7 +29,7 @@ class UsersModelReset extends JModelForm
 
 		// Load the parameters.
 		$this->setState('params', $params);
-	}	
+	}
 		/**
 	 * Method to get the password reset request form.
 	 *
@@ -40,11 +40,10 @@ class UsersModelReset extends JModelForm
 	function &getForm()
 	{
 		// Get the form.
-		$form = parent::getForm('reset_request', 'com_users.reset_request', array('array' => 'jform', 'event' => 'onPrepareForm'));
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
+		try {
+			$form = parent::getForm('com_users.reset_request', 'reset_request', array('control' => 'jform'));
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -165,14 +164,14 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Assemble the password reset confirmation link.
-		$mode = $config->getValue('force_ssl', 0) == 2 ? 1 : -1;
+		$mode = $config->get('force_ssl', 0) == 2 ? 1 : -1;
 		$link = 'index.php?option=com_users&task=reset.confirm&username='.$user->username.'&token='.$token.'&'.JUtility::getToken(true).'=1';
 
 		// Put together the e-mail template data.
 		$data = $user->getProperties();
-		$data['fromname']	= $config->getValue('fromname');
-		$data['mailfrom']	= $config->getValue('mailfrom');
-		$data['sitename']	= $config->getValue('sitename');
+		$data['fromname']	= $config->get('fromname');
+		$data['mailfrom']	= $config->get('mailfrom');
+		$data['sitename']	= $config->get('sitename');
 		$data['link_text']	= JRoute::_($link, false, $mode);
 		$data['link_html']	= JRoute::_($link, true, $mode);
 		$data['token']		= $token;

@@ -83,7 +83,8 @@ class WeblinksViewForm extends JView
 		{
 			if (isset($menu->query['view']) && $menu->query['view'] == 'form')
 			{
-				$menuParams = new JParameter($menu->params);
+				$menuParams = new JRegistry;
+				$menuParams->loadJSON($menu->params);
 				$title = $menuParams->get('page_title');
 			}
 		}

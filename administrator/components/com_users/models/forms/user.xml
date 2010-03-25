@@ -1,133 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
 <form>
-	<fields>
-		<field
-			name="id"
-			type="hidden"
-			default="0"
-			readonly="true"
-		/>
+	<field name="id" type="hidden"
+		default="0"
+		readonly="true"
+	/>
 
-		<field
-			name="name"
-			type="text"
-			id="name"
-			size="30"
-			default=""
-			required="true"
-			class="inputbox required"
-			label="Users_User_Name_Label"
-			description="Users_User_Name_Desc" />
+	<field name="name" type="text"
+		class="inputbox"
+		description="Users_User_Name_Desc"
+		label="Users_User_Name_Label"
+		required="true"
+		size="30"
+	/>
 
-		<field
-			name="username"
-			type="text"
-			id="username"
-			size="30"
-			default=""
-			required="true"
-			class="inputbox required"
-			label="Users_User_UserName_Label"
-			description="Users_User_UserName_Desc" />
+	<field name="username" type="text"
+		class="inputbox"
+		description="Users_User_UserName_Desc"
+		label="Users_User_UserName_Label"
+		required="true"
+		size="30"
+	/>
 
-		<field
-			name="password"
-			type="password"
-			id="password"
-			size="30"
-			default=""
-			filter="raw"
-			class="inputbox"
-			label="Users_User_Password_Label"
-			description="Users_User_Password_Desc"
-			autocomplete="off" />
+	<field name="password" type="password"
+		autocomplete="off"
+		class="inputbox"
+		description="Users_User_Password_Desc"
+		filter="raw"
+		label="Users_User_Password_Label"
+		size="30"
+	/>
 
-		<field
-			name="password2"
-			type="password"
-			id="password2"
-			size="30"
-			default=""
-			filter="raw"
-			class="inputbox"
-			label="Users_User_Password2_Label"
-			description="Users_User_Password2_Desc"
-			autocomplete="off" />
+	<field name="password2" type="password"
+		autocomplete="off"
+		class="inputbox"
+		description="Users_User_Password2_Desc"
+		filter="raw"
+		label="Users_User_Password2_Label"
+		size="30"
+	/>
 
-		<field
-			name="email"
-			type="text"
-			id="email"
-			size="30"
-			default=""
-			required="true"
-			validate="email"
-			class="inputbox required validate-email"
-			label="Users_User_Email_Label"
-			description="Users_User_Email_Desc" />
+	<field name="email" type="text"
+		class="inputbox validate-email"
+		description="Users_User_Email_Desc"
+		label="Users_User_Email_Label"
+		required="true"
+		size="30"
+		validate="email"
+	/>
 
-		<field
-			name="groups"
-			type="hidden"
-		/>
-	</fields>
+	<field name="groups" type="hidden" />
 
-	<fields
-		group="params"
-		array="true"
-		label="User_Profile">
+	<fields name="params">
 
-		<field
-			name="admin_language"
-			type="language"
-			client="administrator"
-			default=""
-			label="Users_Option_Backend_Language_Label"
-			description="Users_Option_Backend_Language_Desc">
-			<option
-				value="">JOption_Use_Default</option>
-		</field>
+		<!--  Basic user account settings. -->
+		<fieldset name="settings" label="COM_USER_SETTINGS_FIELDSET_LABEL">
 
-		<field
-			name="language"
-			type="language"
-			client="site"
-			default=""
-			label="Users_Option_Frontend_Language_Label"
-			description="Users_Option_Frontend_Language_Desc">
-			<option
-				value="">JOption_Use_Default</option>
-		</field>
-
-		<field
-			name="editor"
-			type="editors"
-			default=""
-			label="Users_Option_Editor_Label"
-			description="Users_Option_Editor_Desc">
-			<option
-				value="">JOption_Use_Default</option>
-		</field>
-
-		<field
-			name="helpsite"
-			type="helpsite"
-			default=""
-			label="Users_Option_Helpsite_Label"
-			description="Users_Option_Helpsite_Desc">
-			<option
-				value="">JOption_Use_Default</option>
-		</field>
-
-		<field
-			name="timezone"
-			type="timezone"
-			default=""
-			label="Users_Option_Timezone_Label"
-			description="Users_Option_Timezone_Desc">
-			<option
-				value="">JOption_Use_Default</option>
-		</field>
+			<field name="admin_language" type="language"
+				client="administrator"
+				description="Users_Option_Backend_Language_Desc"
+				label="Users_Option_Backend_Language_Label"
+			>
+				<option value="">JOption_Use_Default</option>
+			</field>
+	
+			<field name="language" type="language"
+				client="site"
+				description="Users_Option_Frontend_Language_Desc"
+				label="Users_Option_Frontend_Language_Label"
+			>
+				<option value="">JOption_Use_Default</option>
+			</field>
+	
+			<field name="editor" type="editors"
+				description="Users_Option_Editor_Desc"
+				label="Users_Option_Editor_Label"
+			>
+				<option value="">JOption_Use_Default</option>
+			</field>
+	
+			<field name="helpsite" type="helpsite"
+				label="Users_Option_Helpsite_Label"
+				description="Users_Option_Helpsite_Desc"
+			>
+				<option value="">JOption_Use_Default</option>
+			</field>
+	
+			<field name="timezone" type="timezone"
+				label="Users_Option_Timezone_Label"
+				description="Users_Option_Timezone_Desc"
+			>
+				<option value="">JOption_Use_Default</option>
+			</field>
+		</fieldset>
 	</fields>
 </form>

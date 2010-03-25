@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -8,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
+jimport('joomla.access.access');
 jimport('joomla.form.formfield');
 
 /**
@@ -20,37 +23,38 @@ jimport('joomla.form.formfield');
 class JFormFieldRules extends JFormField
 {
 	/**
-	 * The field type.
+	 * The form field type.
 	 *
 	 * @var		string
+	 * @since	1.6
 	 */
 	public $type = 'Rules';
 
 	/**
-	 * Method to get the field input.
+	 * Method to get the field input markup.
 	 *
-	 * @return	string		The field input.
+	 * TODO: Add access check.
+	 *
+	 * @return	string	The field input markup.
+	 * @since	1.6
 	 */
-	protected function _getInput()
+	protected function getInput()
 	{
-		// TODO: Add access check.
-
-		// Get relevant attributes from the field definition.
-		$section = (string)$this->_element->attributes()->section ? (string)$this->_element->attributes()->section : '';
-		$component = (string)$this->_element->attributes()->component ? (string)$this->_element->attributes()->component : '';
-		$assetField = (string)$this->_element->attributes()->asset_field ? (string)$this->_element->attributes()->asset_field : 'asset_id';
+		// Initialize some field attributes.
+		$section	= $this->element['section'] ? (string) $this->element['section'] : '';
+		$component	= $this->element['component'] ? (string) $this->element['component'] : '';
+		$assetField	= $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 
 		// Get the actions for the asset.
-		$access = JFactory::getACL();
 		$actions = JAccess::getActions($component, $section);
 
 		// Iterate over the children and add to the actions.
-		foreach ($this->_element->children() as $e) {
-			if ($e->getName() == 'action') {
+		foreach ($this->element->children() as $el) {
+			if ($el->getName() == 'action') {
 				$actions[] = (object) array(
-					'name' => (string)$e->attributes()->name,
-					'title' => (string)$e->attributes()->title,
-					'description' => (string)$e->attributes()->description
+					'name'			=> (string) $el['name'],
+					'title'			=> (string) $el['title'],
+					'description'	=> (string) $el['description']
 				);
 			}
 		}
@@ -65,11 +69,11 @@ class JFormFieldRules extends JFormField
 				JError::raiseNotice(500, $error);
 			}
 		} else {
-			$assetId = $this->_form->getValue($assetField);
+			$assetId = $this->form->getValue($assetField);
 		}
 
 		if (!empty($component) && $section != 'component') {
-			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->inputName, $this->inputId);
+			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
 		}
 
 		$rules = JAccess::getAssetRules($assetId);
@@ -109,8 +113,8 @@ class JFormFieldRules extends JFormField
 				// TODO: Fix this inline style stuff...
 				//$html[] = '			<fieldset class="access_rule">';
 
-				$html[] = '				<select name="'.$this->inputName.'['.$action->name.']['.$group->value.']" id="'.$this->inputId.'_'.$action->name.'_'.$group->value.'">';
-				$html[] = '					<option value=""'.($rules->allow($action->name, $group->value) === null ? ' selected="selected"' : '').'>'.JText::_($assetId == 1 ? 'JInherit_Unset' : 'JInherit').'</option>';
+				$html[] = '				<select name="'.$this->name.'['.$action->name.']['.$group->value.']" id="'.$this->id.'_'.$action->name.'_'.$group->value.'">';
+				$html[] = '					<option value=""'.($rules->allow($action->name, $group->value) === null ? ' selected="selected"' : '').'>'.JText::_('JInherit_Unset').'</option>';
 				$html[] = '					<option value="0"'.($rules->allow($action->name, $group->value) === false ? ' selected="selected"' : '').'>'.JText::_('JDeny').'</option>';
 				$html[] = '					<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('JAllow').'</option>';
 				$html[] = '				</select>';

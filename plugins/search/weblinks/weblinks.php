@@ -51,16 +51,12 @@ class plgSearchWeblinks extends JPlugin
 		require_once JPATH_SITE.'/components/com_weblinks/router.php';
 
 		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys(plgSearchWeblinksAreas()))) {
+			if (!array_intersect($areas, array_keys($this->onSearchAreas()))) {
 				return array();
 			}
 		}
 
-		// load plugin params info
-		$plugin = &JPluginHelper::getPlugin('search', 'weblinks');
-		$pluginParams = new JParameter($plugin->params);
-
-		$limit = $pluginParams->def('search_limit', 50);
+		$limit = $this->params->def('search_limit', 50);
 
 		$text = trim($text);
 		if ($text == '') {

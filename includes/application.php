@@ -61,14 +61,14 @@ final class JSite extends JApplication
 			{
 				$params =  JComponentHelper::getParams('com_languages');
 				$client	= &JApplicationHelper::getClientInfo($this->getClientId());
-				$options['language'] = $params->get($client->name, $config->getValue('config.language','en-GB'));
+				$options['language'] = $params->get($client->name, $config->get('language','en-GB'));
 			}
 		}
 
 		// One last check to make sure we have something
 		if (!JLanguage::exists($options['language']))
 		{
-			$lang = $config->getValue('config.language','en-GB');
+			$lang = $config->get('language','en-GB');
 			if (JLanguage::exists($lang)) {
 				$options['language'] = $lang;
 			}
@@ -270,9 +270,10 @@ final class JSite extends JApplication
 			$description = $this->getCfg('MetaDesc');
 			$rights=$this->getCfg('MetaRights');
 			// Lets cascade the parameters if we have menu item parameters
-			if (is_object($menu))
-			{
-				$params[$hash]->merge(new JParameter($menu->params));
+			if (is_object($menu)) {
+				$temp = new JRegistry;
+				$temp->loadJSON($menu->params);
+				$params[$hash]->merge($temp);
 				$title = $menu->title;
 			}
 
@@ -351,7 +352,9 @@ final class JSite extends JApplication
 			$template->template = 'rhuk_milkyway';
 		}
 
-		$template->params = new JParameter($template->params);
+		$registry = new JRegistry;
+		$registry->loadJSON($template->params);
+		$template->params = $registry;
 
 		// Cache the result
 		$this->template = $template;
@@ -370,7 +373,7 @@ final class JSite extends JApplication
 	{
 		if (is_dir(JPATH_THEMES.DS.$template)) {
 			$this->template = new stdClass();
-			$this->template->params = new JParameter();
+			$this->template->params = new JRegistry;
 			$this->template->template = $template;
 		}
 	}
@@ -410,7 +413,7 @@ final class JSite extends JApplication
 	static public function &getRouter()
 	{
 		$config = &JFactory::getConfig();
-		$options['mode'] = $config->getValue('config.sef');
+		$options['mode'] = $config->get('sef');
 		$router = &parent::getRouter('site', $options);
 		return $router;
 	}
