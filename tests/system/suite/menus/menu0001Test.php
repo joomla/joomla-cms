@@ -99,7 +99,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 
 		$this->type("jform_title", "Functional Test Menu");
 		$this->select("jform_published", "label=Published");
-		$this->select("jformparams_menutype", "label=function-test-menu");
+		$this->select("jform_params_menutype", "label=function-test-menu");
 		echo "Save menu\n";
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
