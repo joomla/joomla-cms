@@ -60,9 +60,14 @@ class ContentRoute
 			'category' => (int) $catid
 		);
 
-		//Create the link
-		$link = 'index.php?option=com_content&view=category&id='.$catid;
-
+		//Create the link. Check for content default layout (list or blog)
+		if (JFactory::getApplication()->getParams()->get('drill_down_layout', '0')) {
+			$link = 'index.php?option=com_content&view=category&layout=blog&id=' . $catid;
+		}
+		else {
+			$link = 'index.php?option=com_content&view=category&id='.$catid;
+		}
+		
 		if ($itemId = self::_findItemId($needles)) {
 			// TODO: The following should work automatically??
 			//if (isset($item->query['layout'])) {

@@ -26,22 +26,22 @@ class ContentViewArticle extends JView
 	function display($tpl = null)
 	{
 		// Initialise variables.
-		$app		= &JFactory::getApplication();
-		$user		= &JFactory::getUser();
-		$dispatcher	= &JDispatcher::getInstance();
+		$app =& JFactory::getApplication();
+		$user =& JFactory::getUser();
+		$dispatcher =& JDispatcher::getInstance();
 
 		// Get view related request variables.
-		$print	= JRequest::getBool('print');
+		$print = JRequest::getBool('print');
 
 		// Get model data.
-		$state	= $this->get('State');
-		$item	= $this->get('Item');
+		$state = $this->get('State');
+		$item = $this->get('Item');
 
 		// Check for errors.
 		// @TODO Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
 		if (count($errors = $this->get('Errors')))
 		{
-			foreach ($errors as &$error)
+			foreach ($errors as & $error)
 			{
 				if ($error instanceof Exception)
 				{
@@ -65,31 +65,31 @@ class ContentViewArticle extends JView
 		}
 
 		// Add router helpers.
-		$item->slug		= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
-		$item->catslug	= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
-
+		$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+		$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+		$item->parent_slug = $item->category_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+		
 		// TODO: Change based on shownoauth
-		$item->readmore_link	= JRoute::_(ContentRoute::article($item->slug, $item->catslug));
+		$item->readmore_link = JRoute::_(ContentRoute::article($item->slug, $item->catslug));
 
 		// Create a shortcut to the paramemters.
-		$params	= &$state->params;
-		$offset	= $state->get('page.offset');
+		$params =& $state->params;
+		$offset = $state->get('page.offset');
 
-		// If a guest user, they may be able to log in to view the full article
-		// TODO: Does this satisfy the show not auth setting?
-		if (!$item->params->get('access-view'))
+		// Check the access to the article
+		$levels = $user->authorisedLevels();
+		if ((!in_array($item->access, $levels)) OR ((is_array($item->category_access)) AND (!in_array($item->category_access, $levels))))
 		{
-			if ($user->get('guest'))
+			// If a guest user, they may be able to log in to view the full article
+			if (($params->get('show_noauth')) AND ($user->get('guest')))
 			{
 				// Redirect to login
-				$uri		= JFactory::getURI();
-				$app->redirect(
-					'index.php?option=com_users&view=login&return='.base64_encode($uri),
-					JText::_('Content_Error_Login_to_view_article')
-				);
+				$uri = JFactory::getURI();
+				$app->redirect('index.php?option=com_users&view=login&return=' . base64_encode($uri), JText::_('Content_Error_Login_to_view_article'));
 				return;
 			}
-			else {
+			else
+			{
 				JError::raiseWarning(403, JText::_('Content_Error_Not_auth'));
 				return;
 			}
@@ -101,7 +101,7 @@ class ContentViewArticle extends JView
 		JPluginHelper::importPlugin('content');
 		//$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
 
-		$item->text = JHtml::_('content.prepare', $item->introtext.$item->fulltext);
+		$item->text = JHtml::_('content.prepare', $item->introtext . $item->fulltext);
 
 		$item->event = new stdClass();
 		$results = $dispatcher->trigger('onAfterDisplayTitle', array(&$item, &$params, $offset));
@@ -113,20 +113,21 @@ class ContentViewArticle extends JView
 		$results = $dispatcher->trigger('onAfterDisplayContent', array(&$item, &$params, $offset));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
-		$this->assignRef('state',	$state);
-		$this->assignRef('item',	$item);
-		$this->assignRef('user',	$user);
-		$this->assign('print',		$print);
+		$this->assignRef('state', $state);
+		$this->assignRef('item', $item);
+		$this->assignRef('user', $user);
+		$this->assign('print', $print);
 
 		// Override the layout.
-		if ($layout = $params->get('layout')) {
+		if ($layout = $params->get('layout'))
+		{
 			$this->setLayout($layout);
 		}
 
 		// Increment the hit counter of the article.
 		if (!$params->get('intro_only') && $offset == 0)
 		{
-			$model = &$this->getModel();
+			$model =& $this->getModel();
 			$model->hit();
 		}
 
@@ -139,10 +140,10 @@ class ContentViewArticle extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= &JFactory::getApplication();
-		$pathway	= &$app->getPathway();
-		$menus		= &JSite::getMenu();
-		$title		= null;
+		$app =& JFactory::getApplication();
+		$pathway =& $app->getPathway();
+		$menus =& JSite::getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -158,31 +159,37 @@ class ContentViewArticle extends JView
 				}
 			}
 		}
-		if (empty($title)) {
-			$title	= $this->item->title;
+		if (empty($title))
+		{
+			$title = $this->item->title;
 		}
 		$this->document->setTitle($title);
 
-		if ($this->item->metadesc) {
+		if ($this->item->metadesc)
+		{
 			$this->document->setDescription($this->item->metadesc);
 		}
 
-		if ($this->item->metakey) {
+		if ($this->item->metakey)
+		{
 			$this->document->setMetadata('keywords', $this->item->metakey);
 		}
 
-		if ($app->getCfg('MetaTitle') == '1') {
+		if ($app->getCfg('MetaTitle') == '1')
+		{
 			$this->document->setMetaData('title', $this->item->title);
 		}
 
-		if ($app->getCfg('MetaAuthor') == '1') {
+		if ($app->getCfg('MetaAuthor') == '1')
+		{
 			$this->document->setMetaData('author', $this->item->author);
 		}
 
 		$mdata = $this->item->metadata->toArray();
 		foreach ($mdata as $k => $v)
 		{
-			if ($v) {
+			if ($v)
+			{
 				$this->document->setMetadata($k, $v);
 			}
 		}
@@ -190,8 +197,8 @@ class ContentViewArticle extends JView
 		// If there is a pagebreak heading or title, add it to the page title
 		if (!empty($this->item->page_title))
 		{
-			$article->title = $article->title .' - '. $article->page_title;
-			$this->document->setTitle($article->page_title.' - '.JText::sprintf('Page %s', $this->state->get('page.offset') + 1));
+			$article->title = $article->title . ' - ' . $article->page_title;
+			$this->document->setTitle($article->page_title . ' - ' . JText::sprintf('Page %s', $this->state->get('page.offset') + 1));
 		}
 
 		//
@@ -201,13 +208,14 @@ class ContentViewArticle extends JView
 		{
 			switch ($menu->query['view'])
 			{
-				case 'category':
-					$pathway->addItem($this->item->title, '');
-					break;
+			case 'category':
+				$pathway->addItem($this->item->title, '');
+				break;
 			}
 		}
 
-		if ($this->print) {
+		if ($this->print)
+		{
 			$this->document->setMetaData('robots', 'noindex, nofollow');
 		}
 	}

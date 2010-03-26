@@ -35,6 +35,8 @@ $ -> Language fix or change
 # Delete unneccesary variable in mod_menu/helper.php. #19997 Thanks Jason Pettett.
 # Fix misc. bugs in modules (Elin Waring)
 # Fix acl in joomla.sql table (Elin Waring)
+^ Implement parameters in Single Article Menu Item
+^ Implement global category blog vs. list param in content
 
 25-Mar-2010 Jean-Marie Simonet
 $ Deleting unused ini files

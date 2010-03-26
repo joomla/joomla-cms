@@ -35,7 +35,7 @@ class ContentModelArticle extends JModelItem
 	 */
 	protected function _populateState()
 	{
-		$app = &JFactory::getApplication('site');
+		$app =& JFactory::getApplication('site');
 
 		// Load state from the request.
 		$pk = JRequest::getInt('id');
@@ -45,13 +45,12 @@ class ContentModelArticle extends JModelItem
 		$this->setState('list.offset', $offset);
 
 		// Load the parameters.
-		$params	= $app->getParams();
+		$params = $app->getParams();
 		$this->setState('params', $params);
 
 		// TODO: Tune these values based on other permissions.
-		$this->setState('filter.published',	1);
-		$this->setState('filter.archived',	-1);
-		$this->setState('filter.access',		true);
+		$this->setState('filter.published', 1);
+		$this->setState('filter.archived', -1);
 	}
 
 	/**
@@ -71,9 +70,10 @@ class ContentModelArticle extends JModelItem
 		}
 
 		if (!isset($this->_item[$pk])) {
-			try {
-				$db		= $this->getDbo();
-				$query	= $db->getQuery(true);
+			try
+			{
+				$db = $this->getDbo();
+				$query = $db->getQuery(true);
 
 				$query->select($this->getState('item.select', 'a.*'));
 				$query->from('#__content AS a');
@@ -86,23 +86,17 @@ class ContentModelArticle extends JModelItem
 				$query->select('u.name AS author');
 				$query->join('LEFT', '#__users AS u on u.id = a.created_by');
 
-				$query->where('a.id = '.(int) $pk);
+				// Join over the categories to get parent category titles
+				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
+				$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
+
+				$query->where('a.id = ' . (int) $pk);
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
 				if (is_numeric($published)) {
-					$query->where('(a.state = '.(int) $published.' OR a.state ='.(int) $archived.')');
-				}
-
-
-				// Filter by access level.
-				if ($access = $this->getState('filter.access'))
-				{
-					$user	= &JFactory::getUser();
-					$groups	= implode(',', $user->authorisedLevels());
-					$query->where('a.access IN ('.$groups.')');
-					$query->where('(c.access IS NULL OR c.access IN ('.$groups.'))');
+					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
 				}
 
 				$db->setQuery($query);
@@ -118,8 +112,7 @@ class ContentModelArticle extends JModelItem
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published))||(is_numeric($archived))) &&
-					(($data->state != $published ) && ( $data->state != $archived )))
+				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->state != $published) && ($data->state != $archived))) 
 				{
 					throw new Exception(JText::_('Content_Error_Article_not_found'), 404);
 				}
@@ -138,10 +131,11 @@ class ContentModelArticle extends JModelItem
 				if ($access) {
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
-				} else {
+				}
+				else {
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user	= &JFactory::getUser();
-					$groups	= $user->authorisedLevels();
+					$user =& JFactory::getUser();
+					$groups = $user->authorisedLevels();
 
 					if ($data->catid == 0 || $data->category_access === null) {
 						$data->params->set('access-view', in_array($data->access, $groups));
@@ -152,7 +146,9 @@ class ContentModelArticle extends JModelItem
 				}
 
 				$this->_item[$pk] = $data;
-			} catch (Exception $e) {
+			}
+			catch (Exception $e)
+			{
 				$this->setError($e);
 				$this->_item[$pk] = false;
 			}
@@ -172,7 +168,7 @@ class ContentModelArticle extends JModelItem
 	{
 		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
-		$db	= $this->getDbo();
+		$db = $this->getDbo();
 
 		$db->setQuery(
 			'UPDATE #__content' .
