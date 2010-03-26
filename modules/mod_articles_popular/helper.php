@@ -10,8 +10,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
-JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'models');
+require_once JPATH_SITE.'/components/com_content/helpers/route.php';
+JModel::addIncludePath(JPATH_SITE.'/components/com_content/models');
 
 abstract class modArticlesPopularHelper
 {
@@ -42,6 +42,17 @@ abstract class modArticlesPopularHelper
 		// Ordering
 		$model->setState('list.ordering', 'a.hits');
 		$model->setState('list.direction', 'DESC');
+
+		// Set ordering
+		$order_map = array(
+			'm_dsc' => 'a.hits DESC',
+		);
+
+		$ordering = JArrayHelper::getValue($order_map, $params->get('ordering'), 'a.created');
+		$dir = 'DESC';
+
+		$model->setState('list.ordering', $ordering);
+		$model->setState('list.direction', $dir);
 
 		$items = $model->getItems();
 
