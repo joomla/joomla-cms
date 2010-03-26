@@ -8,6 +8,7 @@
 			<field
 				name="address1"
 				type="text"
+				id="address1"
 				description="PLG_USER_PROFILE_FIELD_ADDRESS1_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
@@ -18,6 +19,7 @@
 			<field
 				name="address2"
 				type="text"
+				id="address2"
 				description="PLG_USER_PROFILE_FIELD_ADDRESS2_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
@@ -28,6 +30,7 @@
 			<field
 				name="city"
 				type="text"
+				id="city"
 				description="PLG_USER_PROFILE_FIELD_CITY_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
@@ -38,6 +41,7 @@
 			<field
 				name="region"
 				type="text"
+				id="region"
 				description="PLG_USER_PROFILE_FIELD_REGION_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
@@ -48,6 +52,7 @@
 			<field
 				name="country"
 				type="text"
+				id="country"
 				description="PLG_USER_PROFILE_FIELD_COUNTRY_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
@@ -58,6 +63,7 @@
 			<field
 				name="postal_code"
 				type="text"
+				id="postal_code"
 				description="PLG_USER_PROFILE_FIELD_POSTAL_CODE_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
@@ -68,6 +74,7 @@
 			<field
 				name="phone"
 				type="text"
+				id="phone"
 				description="PLG_USER_PROFILE_FIELD_PHONE_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
@@ -78,6 +85,7 @@
 			<field
 				name="website"
 				type="text"
+				id="website"
 				description="PLG_USER_PROFILE_FIELD_WEB_SITE_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
