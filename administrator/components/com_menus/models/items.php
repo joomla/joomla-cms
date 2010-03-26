@@ -85,7 +85,7 @@ class MenusModelItems extends JModelList
 	/**
 	 * Builds an SQL query to load the list data.
 	 *
-	 * @return	JQuery	A query object.
+	 * @return	JDatabaseQuery	A query object.
 	 */
 	protected function _getListQuery()
 	{

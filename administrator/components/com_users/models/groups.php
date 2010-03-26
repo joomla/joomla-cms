@@ -67,7 +67,7 @@ class UsersModelGroups extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JQuery
+	 * @return	JDatabaseQuery
 	 */
 	protected function _getListQuery()
 	{
