@@ -29,7 +29,6 @@ class modMenuHelper
 		$active = ($menu->getActive()) ? $menu->getActive() : $menu->getDefault();
 
 		$path		= $active->tree;
-		$rlu		= array();
 		$start		= (int) $params->get('startLevel');
 		$end		= (int) $params->get('endLevel');
 		$showAll	= $params->get('showAllChildren');
@@ -39,7 +38,6 @@ class modMenuHelper
 		$lastitem	= 0;
 		foreach($items as $i => $item)
 		{
-			$rlu[$item->id]		= $i;
 			if(($start && $start > $item->level) 
 			|| ($end && $item->level > $end) 
 			|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))

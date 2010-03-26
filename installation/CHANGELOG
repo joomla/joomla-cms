@@ -27,6 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Mar-2010 Mark Dexter
+^ Update doc blocks from JQuery to JDatabaseQuery, thanks Jason Pettett. #19898
+# Fix confusing string (#19888)
+# Delete empty folder
+# Fix strings generating errors and a missing string for com_users
+# Delete unneccesary variable in mod_menu/helper.php. #19997 Thanks Jason Pettett.
+
 25-Mar-2010 Jean-Marie Simonet
 $ Deleting unused ini files
 
