@@ -129,9 +129,9 @@ class JModelList extends JModel
 	}
 
 	/**
-	 * Method to get a JQuery object for retrieving the data set from a database.
+	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return	object	A JQuery object to retrieve the data set.
+	 * @return	object	A JDatabaseQuery object to retrieve the data set.
 	 */
 	protected function _getListQuery()
 	{

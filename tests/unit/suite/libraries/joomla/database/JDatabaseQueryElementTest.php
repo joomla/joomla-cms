@@ -25,7 +25,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 	 * @access protected
 	 */
 	protected function setUp() {
-		//$this->object = new JQueryElement;
+		//$this->object = new JDatabaseQueryElement;
 	}
 
 	/**

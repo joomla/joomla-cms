@@ -70,7 +70,7 @@ class ContentModelFrontpage extends ContentModelArticles
 	}
 
 	/**
-	 * @return	JQuery
+	 * @return	JDatabaseQuery
 	 */
 	function _getListQuery()
 	{
