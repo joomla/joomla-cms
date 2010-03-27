@@ -79,6 +79,14 @@ class JLanguage extends JObject
 	protected $_paths = array();
 
 	/**
+	 * List of language files that are in error state
+	 *
+	 * @var		array of string
+	 * @since	1.6
+	 */
+	protected $_errorfiles = array();
+
+	/**
 	 * Translations
 	 *
 	 * @var		array
@@ -121,7 +129,7 @@ class JLanguage extends JObject
 	/**
 	 * Constructor activating the default information of the language
 	 */
-	public function __construct($lang = null)
+	public function __construct($lang = null, $debug = false)
 	{
 		$this->_strings = array ();
 
@@ -130,6 +138,7 @@ class JLanguage extends JObject
 		}
 
 		$this->setLanguage($lang);
+		$this->setDebug($debug);
 
 		$filename = JPATH_BASE.DS.'language'.DS.'overrides'.DS.$lang.'.override.ini';
 		if (file_exists($filename) && $contents = $this->_parse($filename)) {
@@ -170,12 +179,13 @@ class JLanguage extends JObject
 	 * Returns a language object
 	 *
 	 * @param	string $lang  The language to use.
+	 * @param	boolean	$debug	The debug mode
 	 * @return	JLanguage  The Language object.
 	 * @since	1.5
 	 */
-	public static function getInstance($lang)
+	public static function getInstance($lang, $debug=false)
 	{
-		return new JLanguage($lang);
+		return new JLanguage($lang, $debug);
 	}
 
 	/**
@@ -408,7 +418,6 @@ class JLanguage extends JObject
 	 */
 	protected function _parse($filename)
 	{
-		ini_set('track_errors', '1');
 		$version = phpversion();
 		if($version >= "5.3.1") {
 			$contents = file_get_contents($filename);
@@ -422,7 +431,8 @@ class JLanguage extends JObject
 				}
 			}
 		}
-	if (!empty($php_errormsg)) {
+		if ($this->_debug) {
+			$this->_debug = false;
 			$errors = array();
 			$lineNumber = 0;
 			$stream = new JStream();
@@ -438,10 +448,15 @@ class JLanguage extends JObject
 			}
 			$stream->close();
 			if (count($errors)) {
-				JError::raiseWarning(500, sprintf('The language file %1$s was not read correctly: error in lines %2$s',substr($filename,strlen(JPATH_ROOT)) , implode(', ',$errors)));
+				if (basename($filename)!=$this->_lang.'.ini') {
+					$this->_errorfiles[$filename] = $filename.JText::sprintf('JERROR_PARSING_LANGUAGE_FILE',implode(', ',$errors));
+				}
+				else {
+					$this->_errorfiles[$filename] = $filename . '&nbsp;: error(s) in line(s) ' . implode(', ',$errors);
+				}
 			}
+			$this->_debug = true;
 		}
-		ini_restore('track_errors');
 		return $strings;
 	}
 
@@ -528,6 +543,17 @@ class JLanguage extends JObject
 		} else {
 			return $this->_paths;
 		}
+	}
+
+	/**
+	 * Get a list of language files that are in error state
+	 *
+	 * @return	array
+	 * @since	1.6
+	 */
+	public function getErrorFiles()
+	{
+		return $this->_errorfiles;
 	}
 
 	/**

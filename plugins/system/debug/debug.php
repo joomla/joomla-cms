@@ -107,6 +107,20 @@ class plgSystemDebug extends JPlugin
 		}
 
 		$lang = &JFactory::getLanguage();
+		if ($this->params->get('language_errorfiles', 1)) {
+			echo '<h4>'.JText::_('PLG_DEBUG_LANGUAGE_FILES_IN_ERROR').'</h4>';
+			$errorfiles = $lang->getErrorFiles();
+			if (count($errorfiles)) {
+				echo '<ul>';
+				foreach ($errorfiles as $file => $error) {
+					echo "<li>$error</li>";
+				}
+				echo '</ul>';
+			} else {
+				echo '<pre>'.JText::_('JNONE').'</pre>';
+			}
+		}
+		
 		if ($this->params->get('language_files', 1)) {
 			echo '<h4>'.JText::_('PLG_DEBUG_LANGUAGE_FILES_LOADED').'</h4>';
 			echo '<ul>';
@@ -183,7 +197,7 @@ class plgSystemDebug extends JPlugin
 					echo implode("\n", $keys);
 				}
 			} else {
-				echo JText::_('JNone');
+				echo JText::_('JNONE');
 			}
 			echo '</pre>';
 		}
