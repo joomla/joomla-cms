@@ -45,7 +45,7 @@ class DoInstall extends SeleniumJoomlaTestCase
     $this->type("jform_admin_password2", $cfg->password);
     echo "Install sample data and pause\n";
     $this->click("instDefault");
-    sleep(5);
+    sleep(8);
     echo "Finish installation\n";
     $this->click("link=Next");
     $this->waitForPageToLoad("30000");

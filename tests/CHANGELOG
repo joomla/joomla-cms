@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Mar-2010 Mark Dexter
+# Fix bug in doInstall.php 
+
 26-Mar-2010 Mark Dexter
 # Change menu0001Test.php to reflect new id in Module Edit
 
