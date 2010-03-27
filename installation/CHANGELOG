@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Mar-2010 Mark Dexter
+^ Sample data fixes (Elin Waring)
+^ User profile fixes (Elin Waring)
+^ Fix default style for loadposition (Elin Waring)
+
 27-Mar-2010 Christophe Demko and Jean-Marie Simonet
 #$^ Enabling parsing language files errors in debug lang mode only (new param in plugin) + corrected one string in main ini
 

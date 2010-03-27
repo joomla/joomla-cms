@@ -92,6 +92,25 @@
 				message="PLG_USER_PROFILE_FIELD_WEB_SITE_MESSAGE"
 				size="30"
 			/>
+			<field
+				name="favoritebook"
+				type="text"
+				description="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_DESC"
+				filter="string"
+				label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
+				message="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_MESSAGE"
+				size="30"
+			/>			
+			<field
+				name="aboutme"
+				type="textarea"
+				description="PLG_USER_PROFILE_FIELD_ABOUT_ME_DESC"
+				label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
+				message="PLG_USER_PROFILE_FIELD_ABOUT_ME_MESSAGE"
+				cols="30"
+				rows="5"
+				filter="safehtml"
+			/>			
 		</fieldset>
 	</fields>
 </form>
