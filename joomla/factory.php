@@ -107,12 +107,7 @@ abstract class JFactory
 	{
 		if (!is_object(JFactory::$language))
 		{
-			//get the debug configuration setting
-			$conf = &JFactory::getConfig();
-			$debug = $conf->get('debug_lang');
-
 			JFactory::$language = JFactory::_createLanguage();
-			JFactory::$language->setDebug($debug);
 		}
 
 		return JFactory::$language;
@@ -597,8 +592,8 @@ abstract class JFactory
 
 		$conf	= &JFactory::getConfig();
 		$locale	= $conf->get('language');
-		$lang	= &JLanguage::getInstance($locale);
-		$lang->setDebug($conf->get('debug_lang'));
+		$debug	= $conf->get('debug_lang');
+		$lang	= &JLanguage::getInstance($locale, $debug);
 
 		return $lang;
 	}
