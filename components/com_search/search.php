@@ -10,11 +10,10 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// Require the com_content helper library
-require_once JPATH_COMPONENT.DS.'controller.php';
+jimport('joomla.application.component.controller');
 
 // Create the controller
-$controller = new SearchController();
+$controller = JController::getInstance('Search');
 
 // Perform the Request task
 $controller->execute(JRequest::getCmd('task'));

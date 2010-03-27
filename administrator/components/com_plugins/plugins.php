@@ -18,10 +18,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_plugins')) {
 // Include dependancies
 jimport('joomla.application.component.controller');
 
-// TODO: Refactor to support latest MVC pattern.
-
-require_once JPATH_COMPONENT.DS.'controller.php';
-
 // Create the controller
 $controller	= JController::getInstance('Plugins');
 $controller->execute(JRequest::getCmd('task'));

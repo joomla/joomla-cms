@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Mar-2010 Hannes Papenberg
+# Fixed com_mailto, com_search, com_users, com_weblinks in frontend and com_plugins in backend to properly use JController::getInstance() and not hard-include a controller
+# Fixed URL routing in categories view
+
 17-Mar-2010 Mark Dexter
 ^ Sample data fixes (Elin Waring)
 ^ User profile fixes (Elin Waring)

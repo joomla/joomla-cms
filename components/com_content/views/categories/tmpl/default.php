@@ -38,7 +38,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		$item = &$this->items[$i];
 	?>	
 	<li<?php echo $item->sclass != '' ? ' class="'.$item->sclass.'"' : ''?>>
-		<span class="item-title"><a href="<?php echo ContentRoute::category('index.php?option=com_content&view=category&id='.$this->escape($item->slug));?>">
+		<span class="item-title"><a href="<?php echo JRoute::_(ContentRoute::category($item->slug));?>">
 			<?php echo $this->escape($item->title); ?></a>
 		</span>
 		<?php if ($item->description) : ?>
