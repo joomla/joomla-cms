@@ -599,6 +599,12 @@ class JDatabaseMySQL extends JDatabase
 			}
 			$tmp[] = $this->nameQuote($k) . '=' . $val;
 		}
+
+		// Nothing to update.
+		if (empty($tmp)) {
+			return true;
+		}
+
 		$this->setQuery(sprintf($fmtsql, implode(",", $tmp) , $where));
 		return $this->query();
 	}
