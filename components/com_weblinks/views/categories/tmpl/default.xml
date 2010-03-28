@@ -8,7 +8,7 @@
 
 	<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
-		<fieldset name="request" label="MENUS_LAYOUT_BASIC_OPTIONS_LABEL" description="">
+		<fieldset name="request" label="COM_MENUS_BASIC_FIELDSET_LABEL" description="">
 
 			<field name="category" type="category"
 				description="COM_WEBLINKS_FIELD_CATEGORYCHOOSE_DESC"
