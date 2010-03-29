@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 29-Mar-2010 Jean-Marie Simonet
 $ Refactored com_search back-end front end ini/keys +some
+$ Added a string for com_module to customize "item"
 
 28-Mar-2010 Jean-Marie Simonet
 $ Correcting some language strings
