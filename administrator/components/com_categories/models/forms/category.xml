@@ -236,17 +236,17 @@
 			description="JFIELD_METADATA_ROBOTS_DESC"
 			default="">
 			<option
-				value="">JCOMMON_USE_GLOBAL</option>
+				value="">JGLOBAL_USE_GLOBAL</option>
 			<option
-				value="0">JCOMMON_INDEX_FOLLOW</option>
+				value="0">JGLOBAL_INDEX_FOLLOW</option>
 			<option
-				value="1">JCOMMON_NOINDEX_FOLLOW</option>
+				value="1">JGLOBAL_NOINDEX_FOLLOW</option>
 			<option
-				value="2">JCOMMON_INDEX_NOFOLLOW</option>
+				value="2">JGLOBAL_INDEX_NOFOLLOW</option>
 			<option
-				value="3">JCOMMON_NOINDEX_NOFOLLOW</option>
+				value="3">JGLOBAL_NOINDEX_NOFOLLOW</option>
 			<option
-				value="4">JCOMMON_NO_ROBOTS_TAG</option>
+				value="4">JGLOBAL_NO_ROBOTS_TAG</option>
 		</field>
 	</fields>
 </form>

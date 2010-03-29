@@ -30,6 +30,7 @@ $ -> Language fix or change
 29-Mar-2010 Jean-Marie Simonet
 $ Refactored com_search back-end front end ini/keys +some
 $ Added a string for com_module to customize "item"
+$ Mass changed key prefix JCOMMON to JGLOBAL.
 
 28-Mar-2010 Jean-Marie Simonet
 $ Correcting some language strings
@@ -137,7 +138,7 @@ $^ Customized ini/keys item(s) com_newfeeds, com_templates, com_weblinks
 10-Mar-2010 Jean-Marie Simonet
 $ Refactored com_banners inis/keys customizing item(s)
 $ Refactored mod_menu (site) ini/keys
-$ Mass change key USE_GLOBAL to JCOMMON_USE_GLOBAL
+$ Mass change key USE_GLOBAL to JGLOBAL_USE_GLOBAL
 
 10-Mar-2010 Christophe Demko
 # Correction of a bug in JLanguage for php > 5.3.1

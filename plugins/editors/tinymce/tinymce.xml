@@ -220,8 +220,8 @@
 					description="PLG_TINY_FIELD_FONTS_DESC"
 					label="PLG_TINY_FIELD_FONTS_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="paste" type="radio"
@@ -229,8 +229,8 @@
 					description="PLG_TINY_FIELD_PASTE_DESC"
 					label="PLG_TINY_FIELD_PASTE_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="searchreplace" type="radio"
@@ -238,8 +238,8 @@
 					description="PLG_TINY_FIELD_SEARCH-REPLACE_DESC"
 					label="PLG_TINY_FIELD_SEARCH-REPLACE_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="insertdate" type="radio"
@@ -247,8 +247,8 @@
 					description="PLG_TINY_FIELD_DATE_DESC"
 					label="PLG_TINY_FIELD_DATE_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="format_date" type="text"
@@ -262,8 +262,8 @@
 					description="PLG_TINY_FIELD_TIME_DESC"
 					label="PLG_TINY_FIELD_TIME_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="format_time" type="text"
@@ -277,8 +277,8 @@
 					description="PLG_TINY_FIELD_COLORS_DESC"
 					label="PLG_TINY_FIELD_COLORS_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="table" type="radio"
@@ -286,8 +286,8 @@
 					description="PLG_TINY_FIELD_TABLE_DESC"
 					label="PLG_TINY_FIELD_TABLE_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="smilies" type="radio"
@@ -295,8 +295,8 @@
 					description="PLG_TINY_FIELD_SMILIES_DESC"
 					label="PLG_TINY_FIELD_SMILIES_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="media" type="radio"
@@ -304,8 +304,8 @@
 					description="PLG_TINY_FIELD_MEDIA_DESC"
 					label="PLG_TINY_FIELD_MEDIA_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="hr" type="radio"
@@ -313,8 +313,8 @@
 					description="PLG_TINY_FIELD_HR_DESC"
 					label="PLG_TINY_FIELD_HR_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="directionality" type="radio"
@@ -322,8 +322,8 @@
 					description="PLG_TINY_FIELD_RTL_DESC"
 					label="PLG_TINY_FIELD_RTL_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="fullscreen" type="radio"
@@ -331,8 +331,8 @@
 					description="PLG_TINY_FIELD_FULLSCREEN_DESC"
 					label="PLG_TINY_FIELD_FULLSCREEN_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="style" type="radio"
@@ -340,8 +340,8 @@
 					description="PLG_TINY_FIELD_STYLE_DESC"
 					label="PLG_TINY_FIELD_STYLE_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="layer" type="radio"
@@ -349,8 +349,8 @@
 					description="PLG_TINY_FIELD_LAYER_DESC"
 					label="PLG_TINY_FIELD_LAYER_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="xhtmlxtras" type="radio"
@@ -358,8 +358,8 @@
 					description="PLG_TINY_FIELD_XHTMLXTRAS_DESC"
 					label="PLG_TINY_FIELD_XHTMLXTRAS_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="visualchars" type="radio"
@@ -367,8 +367,8 @@
 					description="PLG_TINY_FIELD_VISUALCHARS_DESC"
 					label="PLG_TINY_FIELD_VISUALCHARS_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="nonbreaking" type="radio"
@@ -376,8 +376,8 @@
 					description="PLG_TINY_FIELD_NONBREAKING_DESC"
 					label="PLG_TINY_FIELD_NONBREAKING_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="template" type="radio"
@@ -385,8 +385,8 @@
 					description="PLG_TINY_FIELD_TEMPLATE_DESC"
 					label="PLG_TINY_FIELD_TEMPLATE_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="blockquote" type="radio"

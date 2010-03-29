@@ -130,7 +130,7 @@
 			<field name="show_title" type="list"
 				label="JGLOBAL_Show_Title_Label" description="JGLOBAL_Show_Title_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHide</option>
 				<option value="1">JShow</option>
 			</field>
@@ -138,14 +138,14 @@
 			<field name="link_titles" type="list"
 				label="JGLOBAL_Linked_Titles_Label" description="JGLOBAL_Linked_Titles_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>
 			<field name="show_intro" type="list"
 				label="JGLOBAL_Show_Intro_Label" description="JGLOBAL_Show_Intro_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</field>
@@ -153,7 +153,7 @@
 			<field name="show_category" type="list"
 				label="JGLOBAL_Show_Category_Label" description="JGLOBAL_Show_Category_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</field>
@@ -161,7 +161,7 @@
 			<field name="link_category" type="list"
 				label="JGLOBAL_Link_Category_Label" description="JGLOBAL_Link_Category_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>
@@ -169,15 +169,15 @@
 			<field name="show_parent_category" type="list"
 				label="JGLOBAL_Show_Parent_Category_Label" description="JGLOBAL_Show_Parent_Category_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="0">JCommon_Hide</option>
-				<option value="1">JCommon_Show</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="link_parent_category" type="list"
 				label="JGLOBAL_Link_Parent_Category_Label" description="JGLOBAL_Link_Parent_Category_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>
@@ -185,7 +185,7 @@
 			<field name="show_author" type="list"
 				label="JGLOBAL_Show_Author_Label" description="JGLOBAL_Show_Author_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</field>
@@ -193,7 +193,7 @@
 			<field name="show_create_date" type="list"
 				label="JGLOBAL_Show_Create_Date_Label" description="JGLOBAL_Show_Create_Date_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</field>
@@ -201,7 +201,7 @@
 			<field name="show_modify_date" type="list"
 				label="JGLOBAL_Show_Modify_Date_Label" description="JGLOBAL_Show_Modify_Date_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</field>
@@ -209,7 +209,7 @@
 			<field name="show_publish_date" type="list"
 				label="JGLOBAL_Show_Publish_Date_Label" description="JGLOBAL_Show_Publish_Date_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</field>
@@ -217,7 +217,7 @@
 			<field name="show_readmore" type="list"
 				label="JGLOBAL_Show_Readmore_Label" description="JGLOBAL_Show_Readmore_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</field>
@@ -225,7 +225,7 @@
 			<field name="show_print_icon" type="list"
 				label="JGLOBAL_Show_Print_Icon_Label" description="JGLOBAL_Show_Print_Icon_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</field>
@@ -233,7 +233,7 @@
 			<field name="show_email_icon" type="list"
 				label="JGLOBAL_Show_Email_Icon_Label" description="JGLOBAL_Show_Email_Icon_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</field>
@@ -241,9 +241,9 @@
 			<field name="show_hits" type="list"
 				label="JGLOBAL_Show_Hits_Label" description="JGLOBAL_Show_Hits_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="0">JCommon_Hide</option>
-				<option value="1">JCommon_Show</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="page_title" type="text"
@@ -259,7 +259,7 @@
 			<field name="article-allow_ratings" type="list"
 				label="JGLOBAL_Allow_Ratings_Label" description="JGLOBAL_Allow_Ratings_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</field>
@@ -267,7 +267,7 @@
 			<field name="article-allow_comments" type="list"
 				label="JGLOBAL_Allow_Comments_Label" description="JGLOBAL_Allow_Comments_Desc"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</field>
@@ -280,12 +280,12 @@
 		<field name="robots" type="list"
 			label="JField_Metadata_Robots_Label" description="JField_Metadata_Robots_Desc"
 		>
-			<option value="">JCOMMON_USE_GLOBAL</option>
-			<option value="0">JCOMMON_INDEX_FOLLOW</option>
-			<option value="1">JCOMMON_NOINDEX_FOLLOW</option>
-			<option value="2">JCOMMON_INDEX_NOFOLLOW</option>
-			<option value="3">JCOMMON_NOINDEX_NOFOLLOW</option>
-			<option value="4">JCOMMON_NO_ROBOTS_TAG</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JGLOBAL_INDEX_FOLLOW</option>
+			<option value="1">JGLOBAL_NOINDEX_FOLLOW</option>
+			<option value="2">JGLOBAL_INDEX_NOFOLLOW</option>
+			<option value="3">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			<option value="4">JGLOBAL_NO_ROBOTS_TAG</option>
 		</field>
 
 		<field name="author" type="text"

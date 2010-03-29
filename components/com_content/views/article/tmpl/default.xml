@@ -32,7 +32,7 @@
 				type="list"
 				description="JGLOBAL_Allow_Ratings_Desc"
 				label="JGLOBAL_Allow_Ratings_Label">
-					<option value="">JCOMMON_USE_GLOBAL</option>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">JNo</option>
 					<option value="1">JYes</option>
 			</field>
@@ -41,7 +41,7 @@
 				name="article-allow_comments" type="list"
 				description="JGLOBAL_Allow_Comments_Desc"
 				label="JGLOBAL_Allow_Comments_Label">
-					<option value="">JCOMMON_USE_GLOBAL</option>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">JNo</option>
 					<option value="1">JYes</option>
 			</field>
@@ -57,7 +57,7 @@
 			default=""
 			label="JGLOBAL_Show_Unauth_Links_Label"
 			description="JGLOBAL_Show_Unauth_Links_Desc">
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 		</field>
@@ -68,9 +68,9 @@
 			default=""
 			label="JGLOBAL_Show_Title_Label"
 			description="JGLOBAL_Show_Title_Desc">
-			<option value="">JCOMMON_USE_GLOBAL</option>
-			<option value="0">JCOMMON_HIDE</option>
-			<option value="1">JCOMMON_SHOW</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -79,7 +79,7 @@
 			default=""
 			label="JGLOBAL_Linked_Titles_Label"
 			description="JGLOBAL_Linked_Titles_Desc">
-			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JNo</option>
 			<option value="1">JYes</option>
 		</field>
@@ -90,7 +90,7 @@
 			label="JGLOBAL_Show_Category_Label"
 			description="JGLOBAL_Show_Category_Desc"
 			default="">
-			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">Hide</option>
 			<option	value="1">Show</option>
 		</field>
@@ -101,7 +101,7 @@
 			label="JGLOBAL_Link_Category_Label"
 			description="JGLOBAL_Link_Category_Desc"
 			default="">
-			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JNo</option>
 			<option	value="1">JYes</option>
 		</field>
@@ -112,7 +112,7 @@
 			label="JGLOBAL_Show_Parent_Category_Label"
 			description="JGLOBAL_Show_Parent_Category_Desc"
 			default="">
-			<option	value="">JCOMMON_USE_GLOBAL</option>
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">Hide</option>
 			<option	value="1">Show</option>
 		</field>
@@ -123,7 +123,7 @@
 			label="JGLOBAL_Link_Parent_Category_Label"
 			description="JGLOBAL_Link_Parent_Category_Desc"
 			default="">
-			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JNo</option>
 			<option	value="1">JYes</option>
 		</field>
@@ -134,7 +134,7 @@
 			label="JGLOBAL_Show_Author_Label"
 			description="JGLOBAL_Show_Author_Desc"
 			default="">
-			<option	value="">JCOMMON_USE_GLOBAL</option>
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">Hide</option>
 			<option	value="1">Show</option>
 		</field>
@@ -145,7 +145,7 @@
 			label="JGLOBAL_Link_Author_Label"
 			description="JGLOBAL_Link_Author_Desc"
 			default="">
-			<option	value="">JCOMMON_USE_GLOBAL</option>
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JNo</option>
 			<option	value="1">JYes</option>
 		</field>
@@ -156,7 +156,7 @@
 			label="JGLOBAL_Show_Create_Date_Label"
 			description="JGLOBAL_Show_Create_Date_Desc"
 			default="">
-			<option	value="">JCOMMON_USE_GLOBAL</option>
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">Hide</option>
 			<option	value="1">Show</option>
 		</field>
@@ -167,7 +167,7 @@
 			label="JGLOBAL_Show_Modify_Date_Label"
 			description="JGLOBAL_Show_Modify_Date_Desc"
 			default="">
-			<option	value="">JCOMMON_USE_GLOBAL</option>
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">Hide</option>
 			<option	value="1">Show</option>
 		</field>
@@ -178,7 +178,7 @@
 			label="JGLOBAL_Show_Publish_Date_Label"
 			description="JGLOBAL_Show_Publish_Date_Desc"
 			default="">
-			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">Hide</option>
 			<option	value="1">Show</option>
 		</field>
@@ -189,7 +189,7 @@
 			label="JGLOBAL_Show_Navigation_Label"
 			description="JGLOBAL_Show_Navigation_Desc"
 			default="">
-			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">Hide</option>
 			<option	value="1">Show</option>
 		</field>
@@ -200,7 +200,7 @@
 			label="JGLOBAL_Show_Icons_Label"
 			description="JGLOBAL_Show_Icons_Desc"
 			default="">
-			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">Hide</option>
 			<option	value="1">Show</option>
 		</field>
@@ -211,7 +211,7 @@
 			label="JGLOBAL_Show_Print_Icon_Label"
 			description="JGLOBAL_Show_Print_Icon_Desc"
 			default="">
-			<option value="">JCOMMON_USE_GLOBAL</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">Hide</option>
 			<option	value="1">Show</option>
 		</field>
@@ -222,7 +222,7 @@
 			label="JGLOBAL_Show_Email_Icon_Label"
 			description="JGLOBAL_Show_Email_Icon_Desc"
 			default="">
-			<option	value="">JCOMMON_USE_GLOBAL</option>
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">Hide</option>
 			<option	value="1">Show</option>
 		</field>
@@ -233,7 +233,7 @@
 			label="JGLOBAL_Show_Hits_Label"
 			description="JGLOBAL_Show_Hits_Desc"
 			default="">
-			<option	value="">JCOMMON_USE_GLOBAL</option>
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">Hide</option>
 			<option	value="1">Show</option>
 		</field>
@@ -251,7 +251,7 @@
 				description="JField_Metadata_Robots_Desc"
 				label="JField_Metadata_Robots_Label"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">index, follow</option>
 				<option value="1">noindex, follow</option>
 				<option value="2">index, nofollow</option>

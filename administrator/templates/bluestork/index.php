@@ -107,7 +107,7 @@ $app = JFactory::getApplication();
 			</div>
 		</div>
 		<noscript>
-			<?php echo  JText::_('JCOMMON_WARNJAVASCRIPT') ?>
+			<?php echo  JText::_('JGLOBAL_WARNJAVASCRIPT') ?>
 		</noscript>
 		<div class="clr"></div>
 	</div>

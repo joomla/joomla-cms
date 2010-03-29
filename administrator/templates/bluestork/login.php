@@ -80,7 +80,7 @@ $app = &JFactory::getApplication();
 				</div>
 			</div>
 			<noscript>
-				<?php echo JText::_('JCOMMON_WARNJAVASCRIPT') ?>
+				<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT') ?>
 			</noscript>
 			<div class="clr"></div>
 		</div>
@@ -90,7 +90,7 @@ $app = &JFactory::getApplication();
 <div id="footer">
 	<p class="copyright">
 		<?php $joomla= '<a href="http://www.joomla.org">Joomla!</a>';
-		echo JText::sprintf('JCOMMON_ISFREESOFTWARE', $joomla) ?>
+		echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
 	</p>
 </div>
 </body>

@@ -91,35 +91,35 @@
 			label="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_DESC"
 		>
-			<option value="">JCOMMON_USE_GLOBAL</option>
-			<option value="0">JCOMMON_HIDE</option>
-			<option value="1">JCOMMON_SHOW</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_name" type="list"
 			label="COM_NEWSFEEDS_FIELD_NAME_COLUMN_LABEL"
 			description="COM_NEWSFEEDS_FIELD_NAME_COLUMN_DESC"
 		>
-			<option value="">JCOMMON_USE_GLOBAL</option>
-			<option value="0">JCOMMON_HIDE</option>
-			<option value="1">JCOMMON_SHOW</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_articles" type="list"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
 			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC"
 		>
-			<option value="">JCOMMON_USE_GLOBAL</option>
-			<option value="0">JCOMMON_HIDE</option>
-			<option value="1">JCOMMON_SHOW</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_link" type="list"
 			label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL" description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC"
 		>
-			<option value="">JCOMMON_USE_GLOBAL</option>
-			<option value="0">JCOMMON_HIDE</option>
-			<option value="1">JCOMMON_SHOW</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="spacer1" type="spacer" hr="true" />
@@ -128,18 +128,18 @@
 			label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_DESC"
 		>
-			<option value="">JCOMMON_USE_GLOBAL</option>
-			<option value="0">JCOMMON_HIDE</option>
-			<option value="1">JCOMMON_SHOW</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_cat_items" type="list"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
 		>
-			<option value="">JCOMMON_USE_GLOBAL</option>
-			<option value="0">JCOMMON_HIDE</option>
-			<option value="1">JCOMMON_SHOW</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="spacer2" type="spacer" hr="true" />
@@ -148,27 +148,27 @@
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
 		>
-			<option value="">JCOMMON_USE_GLOBAL</option>
-			<option value="0">JCOMMON_HIDE</option>
-			<option value="1">JCOMMON_SHOW</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_feed_description" type="list"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
 		>
-			<option value="">JCOMMON_USE_GLOBAL</option>
-			<option value="0">JCOMMON_HIDE</option>
-			<option value="1">JCOMMON_SHOW</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_item_description" type="list"
 			label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 		>
-			<option value="">JCOMMON_USE_GLOBAL</option>
-			<option value="0">JCOMMON_HIDE</option>
-			<option value="1">JCOMMON_SHOW</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="feed_word_count" type="text" size="6"

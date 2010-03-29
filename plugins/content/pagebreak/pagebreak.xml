@@ -31,8 +31,8 @@
 					description="PLG_CONTENT_PAGEBREAK_TOC_DESC"
 					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field name="showall" type="radio"
@@ -40,8 +40,8 @@
 					description="PLG_CONTENT_PAGEBREAK_SHOW_ALL_DESC"
 					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"
 				>
-					<option value="0">JCOMMON_HIDE</option>
-					<option value="1">JCOMMON_SHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 

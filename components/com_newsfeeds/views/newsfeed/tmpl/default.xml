@@ -32,27 +32,27 @@
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="0">JCOMMON_HIDE</option>
-				<option value="1">JCOMMON_SHOW</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_feed_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="0">JCOMMON_HIDE</option>
-				<option value="1">JCOMMON_SHOW</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_item_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="0">JCOMMON_HIDE</option>
-				<option value="1">JCOMMON_SHOW</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="feed_word_count" type="text"

@@ -67,7 +67,7 @@
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC">
 					<option
-						value="">JCOMMON_USE_GLOBAL</option>
+						value="">JGLOBAL_USE_GLOBAL</option>
 					<option
 						value="0">JNO</option>
 					<option
@@ -146,7 +146,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option
-						value="1">JCOMMON_USE_GLOBAL</option>
+						value="1">JGLOBAL_USE_GLOBAL</option>
 					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>

@@ -52,7 +52,7 @@
 				description="JField_Metadata_Robots_Desc"
 				label="JField_Metadata_Robots_Label"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">index, follow</option>
 				<option value="1">noindex, follow</option>
 				<option value="2">index, nofollow</option>

@@ -58,8 +58,8 @@
 				description="COM_CONTACT_FIELD_IMAGE_ALIGN_DESC"
 				label="COM_CONTACT_FIELD_IMAGE_ALIGN_LABEL"
 			>
-				<option value="left">JCOMMON_LEFT</option>
-				<option value="right">JCOMMON_RIGHT</option>
+				<option value="left">JGLOBAL_LEFT</option>
+				<option value="right">JGLOBAL_RIGHT</option>
 			</field>
 
 			<field name="spacer1" type="spacer"

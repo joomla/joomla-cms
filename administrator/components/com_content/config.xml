@@ -12,9 +12,9 @@
 			label="JGLOBAL_Show_Title_Label"
 			description="JGLOBAL_Show_Title_Desc">
 			<option
-				value="0">JCOMMON_HIDE</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCOMMON_SHOW</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -36,9 +36,9 @@
 			label="JGLOBAL_Show_Intro_Label"
 			description="JGLOBAL_Show_Intro_Desc">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -48,9 +48,9 @@
 			description="JGLOBAL_Show_Category_Desc"
 			default="1">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -72,9 +72,9 @@
 			description="JGLOBAL_Show_Parent_Category_Desc"
 			default="1">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -103,9 +103,9 @@
 			description="JGLOBAL_Show_Author_Desc"
 			default="1">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -127,9 +127,9 @@
 			description="JGLOBAL_Show_Create_Date_Desc"
 			default="1">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -139,9 +139,9 @@
 			description="JGLOBAL_Show_Modify_Date_Desc"
 			default="1">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -151,9 +151,9 @@
 			description="JGLOBAL_Show_Publish_Date_Desc"
 			default="1">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -163,9 +163,9 @@
 			description="JGLOBAL_Show_Navigation_Desc"
 			default="1">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -175,9 +175,9 @@
 			description="JGLOBAL_Show_Readmore_Desc"
 			default="1">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -192,9 +192,9 @@
 			description="JGLOBAL_Show_Icons_Desc"
 			default="1">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -204,9 +204,9 @@
 			description="JGLOBAL_Show_Print_Icon_Desc"
 			default="1">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -216,9 +216,9 @@
 			description="JGLOBAL_Show_Email_Icon_Desc"
 			default="1">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -228,9 +228,9 @@
 			description="JGLOBAL_Show_Hits_Desc"
 			default="1">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 	</fieldset>
@@ -293,9 +293,9 @@
 			default="2"
 			label="JGLOBAL_Pagination_Label"
 			description="JGLOBAL_Pagination_Desc">
-				<option value="0">JCommon_Hide</option>
-				<option value="1">JCommon_Show</option>
-				<option value="2">JCommon_Auto</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				<option value="2">JGLOBAL_AUTO</option>
 		</field>
 
 		<field
@@ -304,8 +304,8 @@
 			default="1"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			description="JGLOBAL_PAGINATION_RESULTS_DESC">
-				<option value="0">JCommon_Hide</option>
-				<option value="1">JCommon_Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 		</field>
 
 		</fieldset>
@@ -340,9 +340,9 @@
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
 			description="JGLOBAL_SHOW_HEADINGS_DESC">
 			<option
-				value="0">JCommon_Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JCommon_Show</option>
+				value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -351,7 +351,7 @@
 			default="hide"
 			label="JGLOBAL_SHOW_DATE_LABEL"
 			description="JGLOBAL_SHOW_DATE_DESC">
-				<option value="hide">JCommon_Hide</option>
+				<option value="hide">JHIDE</option>
 				<option value="created">Created</option>
 				<option value="modified">Modified</option>
 				<option value="published">Published</option>
@@ -370,7 +370,7 @@
 			default="hide"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			description="JGLOBAL_FILTER_FIELD_DESC">
-				<option value="hide">JCommon_Hide</option>
+				<option value="hide">JHIDE</option>
 				<option value="title">Title</option>
 				<option value="author">Author</option>
 				<option value="hits">Hits</option>
@@ -381,8 +381,8 @@
 			type="radio" default="1"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			description="JGLOBAL_DISPLAY_SELECT_DESC">
-				<option value="0">JCommon_Hide</option>
-				<option value="1">JCommon_Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -390,8 +390,8 @@
 			type="radio" default="1"
 			label="JGLOBAL_LIST_HITS_LABEL"
 			description="JGLOBAL_LIST_HITS_DESC">
-				<option value="0">JCommon_Hide</option>
-				<option value="1">JCommon_Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -399,8 +399,8 @@
 			type="radio" default="1"
 			label="JGLOBAL_LIST_AUTHOR_LABEL"
 			description="JGLOBAL_LIST_AUTHOR_DESC">
-				<option value="0">JCommon_Hide</option>
-				<option value="1">JCommon_Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 		</field>
 
 	</fieldset>
@@ -417,8 +417,8 @@
 	 		default="0"
 	 		label="JGLOBAL_Show_Category_Description_Label"
 	 		description="JGLOBAL_Show_Category_Description_Desc">
-	 			<option value="0">JCommon_Hide</option>
-	 			<option value="1">JCommon_Show</option>
+	 			<option value="0">JHIDE</option>
+	 			<option value="1">JSHOW</option>
 	 	</field>
 
 		<field
@@ -427,8 +427,8 @@
 			default="0"
 			label="JGLOBAL_Show_Category_Image_Label"
 			description="JGLOBAL_Show_Category_Image_Desc">
-	 			<option value="0">JCommon_Hide</option>
-	 			<option value="1">JCommon_Show</option>
+	 			<option value="0">JHIDE</option>
+	 			<option value="1">JSHOW</option>
 	 	</field>
 
 	 	<field
@@ -474,8 +474,8 @@
 			default="1"
 			label="JGLOBAL_Empty_Categories_Label"
 			description="JGLOBAL_Empty_Categories_Desc">
-	 			<option value="0">JCommon_Hide</option>
-	 			<option value="1">JCommon_Show</option>
+	 			<option value="0">JHIDE</option>
+	 			<option value="1">JSHOW</option>
 	 	</field>
 
 	 	<field
@@ -484,8 +484,8 @@
 			default="0"
 			label="JGLOBAL_Article_Count_Label"
 			description="JGLOBAL_Article_Count_Desc">
-	 			<option value="0">JCommon_Hide</option>
-	 			<option value="1">JCommon_Show</option>
+	 			<option value="0">JHIDE</option>
+	 			<option value="1">JSHOW</option>
 	 	</field>
 
 		<field
@@ -580,8 +580,8 @@
 			default="1"
 			label="JGLOBAL_Show_Feed_Link_Label"
 			description="JGLOBAL_Show_Feed_Link_Desc">
-				<option value="0">JCommon_Hide</option>
-				<option value="1">JCommon_Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -591,9 +591,9 @@
 			description="JGLOBAL_Feed_Summary_Desc"
 			default="0">
 			<option
-				value="0">JCommon_Intro_text</option>
+				value="0">JGLOBAL_INTRO_TEXT</option>
 			<option
-				value="1">JCommon_Full_text</option>
+				value="1">JGLOBAL_FULL_TEXT</option>
 		</field>
 
 	</fieldset>

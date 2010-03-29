@@ -260,152 +260,152 @@
 			description="Contact_Params_Name_Desc"
 			label="Contact_Params_Name_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_position" type="list"
 			description="Contact_Params_Name_Desc"
 			label="Contact_Params_Contact_Position_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_email" type="list"
 			description="Contact_Params_Name_Desc"
 			label="CONTACT_PARAMS_CONTACT_POSITION_E_MAIL_LABEL"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_street_address" type="list"
 			description="Contact_Params_Name_Desc"
 			label="Contact_Params_Street_Address_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_suburb" type="list"
 			description="Contact_Params_Name_Desc"
 			label="CONTACT_PARAMS_TOWN_SUBURB_LABEL"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_state" type="list"
 			description="Contact_Params_Name_Desc"
 			label="CONTACT_PARAMS_STATE_COUNTY_LABEL"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_postcode" type="list"
 			description="Contact_Params_Name_Desc"
 			label="CONTACT_PARAMS_POST_ZIP_CODE_LABEL"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_country" type="list"
 			description="Contact_Params_Name_Desc"
 			label="Contact_Params_Country_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_telephone" type="list"
 			description="Contact_Params_Name_Desc"
 			label="Contact_Params_Telephone_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_mobile" type="list"
 			description="Contact_Params_Name_Desc"
 			label="Contact_Params_Mobile_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_fax" type="list"
 			description="Contact_Params_Name_Desc"
 			label="Contact_Params_Fax_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_webpage" type="list"
 			description="Contact_Params_Name_Desc"
 			label="Contact_Params_Webpage_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_misc" type="list"
 			description="Contact_Params_Name_Desc"
 			label="CONTACT_PARAMS_MISC_INFO_LABEL"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_image" type="list"
 			description="Contact_Params_Name_Desc"
 			label="Contact_Params_Image_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="allow_vcard" type="list"
 			description="Contact_Params_vCard_Label"
 			label="Contact_Params_vCard_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_articles" type="list"
 			description="Contact_Show_Articles_Desc"
 			label="Contact_Show_Articles_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field  name="show_profile" type="list"
 			label="Contact_Profile_Show_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_links" type="list"
@@ -413,9 +413,9 @@
 			description="Contact_Show_Links_Desc"
 			label="Contact_Show_Links_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="linka_name" type="text"
@@ -488,9 +488,9 @@
 			description="Contact_Email_Show_Form_Desc"
 			label="Contact_Email_Show_Form_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="email_description" type="text"
@@ -503,9 +503,9 @@
 			description="Contact_Email_Email_Copy_Desc"
 			label="Contact_Email_Email_Copy_Label"
 		>
-			<option value="">Jcommon_Use_Global</option>
-			<option value="0">Jcommon_Hide</option>
-			<option value="1">Jcommon_Show</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="banned_email" type="textarea"
@@ -533,7 +533,7 @@
 			description="Contact_Config_SESSION_CHECK_DESC"
 			label="Contact_Config_SESSION_CHECK_LABEL"
 		>
-			<option value="">Jcommon_Use_Global</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JNo</option>
 			<option value="1">JYes</option>
 		</field>
@@ -542,7 +542,7 @@
 			description="Contact_Config_Custom_Reply_Desc"
 			label="Contact_Config_Custom_Reply"
 		>
-			<option value="">Jcommon_Use_Global</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JNo</option>
 			<option value="1">JYes</option>
 		</field>
