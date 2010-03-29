@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_search_search_view_default_title">
+	<layout title="COM_SEARCH_SEARCH_VIEW_DEFAULT_TITLE">
 		<message>
-			<![CDATA[com_search_search_view_default_desc]]>
+			<![CDATA[COM_SEARCH_SEARCH_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 
@@ -14,20 +14,20 @@
 
 			<field name="search_areas" type="radio"
 				default="1"
-				description="Show the search areas checkboxes"
-				label="Use Search Areas"
+				description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
+				label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
 			>
-				<option value="0">JNo</option>
-				<option value="1">JYes</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field name="show_date" type="radio"
 				default="1"
-				description="TIPIFSETTOSHOWDATETIMECREATED"
-				label="Show Created Date"
+				description="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_DESC"
+				label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
 			>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 		</fieldset>
 	</fields>

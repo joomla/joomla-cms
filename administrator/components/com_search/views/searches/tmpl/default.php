@@ -17,25 +17,25 @@ JHtml::_('behavior.tooltip');
 <form action="<?php echo JRoute::_('index.php?option=com_search&view=searches'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSearch_Filter_Label'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('Search_Search_in_phrase'); ?>" />
-			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
+			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('COM_SEARCH_SEARCH_IN_PHRASE'); ?>" />
+			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
 			<?php if ($this->enabled) : ?>
-			<span class="enabled"><?php echo JText::_('Search_Logging_Enabled'); ?></span>
+			<span class="enabled"><?php echo JText::_('COM_SEARCH_LOGGING_ENABLED'); ?></span>
 			<?php else : ?>
-			<span class="disabled"><?php echo JText::_('Search_Logging_Disabled'); ?></span>
+			<span class="disabled"><?php echo JText::_('COM_SEARCH_LOGGING_DISABLED'); ?></span>
 			<?php endif; ?>
 
 			<span class="adminlist-searchstatus">
 			<?php if ($this->state->get('filter.results')) : ?>
 				<a href="<?php echo JRoute::_('index.php?option=com_search&filter_results=0');?>">
-					<?php echo JText::_('Search_Hide_Search_Results'); ?></a>
+					<?php echo JText::_('COM_SEARCH_HIDE_SEARCH_RESULTS'); ?></a>
 			<?php else : ?>
 				<a href="<?php echo JRoute::_('index.php?option=com_search&filter_results=1');?>">
-					<?php echo JText::_('Search_Show_Search_Results'); ?></a>
+					<?php echo JText::_('COM_SEARCH_SHOW_SEARCH_RESULTS'); ?></a>
 			<?php endif; ?>
 			</span>
 		</div>
@@ -49,13 +49,13 @@ JHtml::_('behavior.tooltip');
 					<?php echo JText::_('JGRID_HEADING_ROW_NUMBER'); ?>
 				</th>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort', 'Search_Heading_Phrase', 'a.search_term', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_SEARCH_HEADING_PHRASE', 'a.search_term', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="15%">
-					<?php echo JHtml::_('grid.sort', 'Search_Heading_Hits', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_SEARCH_HEADING_HITS', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="15%">
-					<?php echo JText::_('Search_Heading_Results'); ?>
+					<?php echo JText::_('COM_SEARCH_HEADING_RESULTS'); ?>
 				</th>
 				<th width="30%">
 					&nbsp;
@@ -85,7 +85,7 @@ JHtml::_('behavior.tooltip');
 					<?php if ($this->state->get('filter.results')) : ?>
 						<?php echo (int) $item->returns; ?>
 					<?php else: ?>
-						<?php echo JText::_('Search_No_results'); ?>
+						<?php echo JText::_('COM_SEARCH_NO_RESULTS'); ?>
 					<?php endif; ?>
 					</td>
 					<td>

@@ -51,10 +51,10 @@ class SearchViewSearch extends JView
 			$menu_params = new JRegistry;
 			$menu_params->loadJSON($menu->params);
 			if (!$menu_params->get('page_title')) {
-				$params->set('page_title',	JText::_('Search'));
+				$params->set('page_title',	JText::_('COM_SEARCH_SEARCH'));
 			}
 		} else {
-			$params->set('page_title',	JText::_('Search'));
+			$params->set('page_title',	JText::_('COM_SEARCH_SEARCH'));
 		}
 
 		$document	= &JFactory::getDocument();
@@ -65,19 +65,19 @@ class SearchViewSearch extends JView
 
 		// built select lists
 		$orders = array();
-		$orders[] = JHtml::_('select.option',  'newest', JText::_('Newest first'));
-		$orders[] = JHtml::_('select.option',  'oldest', JText::_('Oldest first'));
-		$orders[] = JHtml::_('select.option',  'popular', JText::_('Most popular'));
-		$orders[] = JHtml::_('select.option',  'alpha', JText::_('Alphabetical'));
-		$orders[] = JHtml::_('select.option',  'category', JText::_('Section/Category'));
+		$orders[] = JHtml::_('select.option',  'newest', JText::_('COM_SEARCH_NEWEST_FIRST'));
+		$orders[] = JHtml::_('select.option',  'oldest', JText::_('COM_SEARCH_OLDEST_FIRST'));
+		$orders[] = JHtml::_('select.option',  'popular', JText::_('COM_SEARCH_MOST_POPULAR'));
+		$orders[] = JHtml::_('select.option',  'alpha', JText::_('COM_SEARCH_ALPHABETICAL'));
+		$orders[] = JHtml::_('select.option',  'category', JText::_('COM_SEARCH_CATEGORY'));
 
 		$lists = array();
 		$lists['ordering'] = JHtml::_('select.genericlist', $orders, 'ordering', 'class="inputbox"', 'value', 'text', $state->get('ordering'));
 
 		$searchphrases		= array();
-		$searchphrases[]	= JHtml::_('select.option',  'all', JText::_('All words'));
-		$searchphrases[]	= JHtml::_('select.option',  'any', JText::_('Any words'));
-		$searchphrases[]	= JHtml::_('select.option',  'exact', JText::_('Exact phrase'));
+		$searchphrases[]	= JHtml::_('select.option',  'all', JText::_('COM_SEARCH_ALL_WORDS'));
+		$searchphrases[]	= JHtml::_('select.option',  'any', JText::_('COM_SEARCH_ANY_WORDS'));
+		$searchphrases[]	= JHtml::_('select.option',  'exact', JText::_('COM_SEARCH_EXACT_PHRASE'));
 		$lists['searchphrase' ]= JHtml::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
 
 		// log the search
@@ -86,16 +86,16 @@ class SearchViewSearch extends JView
 		//limit searchword
 
 		if (SearchHelper::limitSearchWord($searchword)) {
-			$error = JText::_('SEARCH_MESSAGE');
+			$error = JText::_('COM_SEARCH_ERROR_SEARCH_MESSAGE');
 		}
 
 		//sanatise searchword
 		if (SearchHelper::santiseSearchWord($searchword, $state->get('match'))) {
-			$error = JText::_('IGNOREKEYWORD');
+			$error = JText::_('COM_SEARCH_ERROR_IGNOREKEYWORD');
 		}
 
 		if (!$searchword && count(JRequest::get('post'))) {
-			//$error = JText::_('Enter a search keyword');
+			//$error = JText::_('COM_SEARCH_ERROR_ENTERKEYWORD');
 		}
 
 		// put the filtered results back into the model
@@ -152,7 +152,7 @@ class SearchViewSearch extends JView
 			}
 		}
 
-		$this->result	= JText::sprintf('TOTALRESULTSFOUND', $total);
+		$this->result	= JText::sprintf('COM_SEARCH_TOTALRESULTSFOUND', $total);
 
 		$this->assignRef('pagination',  $pagination);
 		$this->assignRef('results',		$results);

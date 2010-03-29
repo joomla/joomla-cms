@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Mar-2010 Jean-Marie Simonet
+$ Refactored com_search back-end front end ini/keys +some
+
 28-Mar-2010 Jean-Marie Simonet
 $ Correcting some language strings
 

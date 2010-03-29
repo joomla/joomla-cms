@@ -20,9 +20,9 @@ JHtml::_('behavior.formvalidation');
 	<fieldset>
 		<div class="fltrt">
 			<button type="button" onclick="Joomla.submitform('component.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 1400);">
-				<?php echo JText::_('Save');?></button>
+				<?php echo JText::_('JSAVE');?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();">
-				<?php echo JText::_('Cancel');?></button>
+				<?php echo JText::_('JCANCEL');?></button>
 		</div>
 		<div class="configuration" >
 			<?php echo JText::_($this->component->option.'_configuration') ?>
