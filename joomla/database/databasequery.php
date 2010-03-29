@@ -189,10 +189,10 @@ class JDatabaseQuery
 	/**
 	 * @param	mixed	A string or an array of field names
 	 */
-	public function delete()
+	public function delete($tables = null)
 	{
 		$this->_type = 'delete';
-		$this->_delete = new JDatabaseQueryElement('DELETE', array(), '');
+		$this->_delete = new JDatabaseQueryElement('DELETE', $tables);
 		return $this;
 	}
 
@@ -394,6 +394,12 @@ class JDatabaseQuery
 			case 'delete':
 				$query .= (string) $this->_delete;
 				$query .= (string) $this->_from;
+				if ($this->_join) {
+					// special case for joins
+					foreach ($this->_join as $join) {
+						$query .= (string) $join;
+					}
+				}
 				if ($this->_where) {
 					$query .= (string) $this->_where;
 				}
