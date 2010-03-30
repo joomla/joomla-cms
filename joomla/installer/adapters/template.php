@@ -32,20 +32,20 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function loadLanguage($path)
 	{
+		$source = $this->parent->getPath('source');
+		if (!$source) {
+			$this->parent->setPath('source', ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/'.$this->parent->extension->element);
+		}
 		$this->manifest = &$this->parent->getManifest();
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		$client = (string)$this->manifest->attributes()->client;
 		$extension = "tpl_$name";
 		$lang =& JFactory::getLanguage();
-		$source = $path;
-			$lang->load($extension . '.manage', $source, null, false, false)
-		||	$lang->load($extension, $source, null, false, false)
-		||	$lang->load($extension . '.manage', constant('JPATH_'.strtoupper($client)), null, false, false)
-		||	$lang->load($extension, constant('JPATH_'.strtoupper($client)), null, false, false)
-		||	$lang->load($extension . '.manage', $source, $lang->getDefault(), false, false)
-		||	$lang->load($extension, $source, $lang->getDefault(), false, false)
-		||	$lang->load($extension . '.manage', constant('JPATH_'.strtoupper($client)), $lang->getDefault(), false, false)
-		||	$lang->load($extension, constant('JPATH_'.strtoupper($client)), $lang->getDefault(), false, false);
+		$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/'.$name;
+			$lang->load($extension . '.sys', $source, null, false, false)
+		||	$lang->load($extension . '.sys', constant('JPATH_'.strtoupper($client)), null, false, false)
+		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+		||	$lang->load($extension . '.sys', constant('JPATH_'.strtoupper($client)), $lang->getDefault(), false, false);
 	}
 	/**
 	 * Custom install method
@@ -335,12 +335,14 @@ class JInstallerTemplate extends JAdapterInstance
 				continue;
 				// ignore special system template
 			}
+			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE."/templates/$template/templateDetails.xml");
 			$extension = &JTable::getInstance('extension');
 			$extension->set('type', 'template');
 			$extension->set('client_id', $site_info->id);
 			$extension->set('element', $template);
 			$extension->set('name', $template);
 			$extension->set('state', -1);
+			$extension->set('manifest_cache', serialize($manifest_details));
 			$results[] = $extension;
 		}
 		foreach ($admin_list as $template)
@@ -349,12 +351,14 @@ class JInstallerTemplate extends JAdapterInstance
 				continue;
 				// ignore special system template
 			}
+			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR."/templates/$template/templateDetails.xml");
 			$extension = &JTable::getInstance('extension');
 			$extension->set('type', 'template');
 			$extension->set('client_id', $admin_info->id);
 			$extension->set('element', $template);
 			$extension->set('name', $template);
 			$extension->set('state', -1);
+			$extension->set('manifest_cache', serialize($manifest_details));
 			$results[] = $extension;
 		}
 		return $results;
@@ -370,6 +374,13 @@ class JInstallerTemplate extends JAdapterInstance
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$manifestPath = $client->path.DS.'templates'.DS.$this->parent->extension->element.DS.'templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$description = (string)$this->parent->manifest->description;
+		if ($description) {
+			$this->parent->set('message', JText::_($description));
+		}
+		else {
+			$this->parent->set('message', '');
+		}
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = serialize($manifest_details);

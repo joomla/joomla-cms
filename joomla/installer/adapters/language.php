@@ -38,6 +38,10 @@ class JInstallerLanguage extends JAdapterInstance
 	 */
 	public function install()
 	{
+		$source = $this->parent->getPath('source');
+		if (!$source) {
+			$this->parent->setPath('source', ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/'.$this->parent->extension->element);
+		}
 		$this->manifest = $this->parent->getManifest();
 		$root = &$this->manifest->document;
 
@@ -448,12 +452,14 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			if (file_exists(JPATH_SITE.DS.'language'.DS.$language.DS.$language.'.xml'))
 			{
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE.DS.'language'.DS.$language.DS.$language.'.xml');
 				$extension = &JTable::getInstance('extension');
 				$extension->set('type', 'language');
 				$extension->set('client_id', 0);
 				$extension->set('element', $language);
 				$extension->set('name', $language);
 				$extension->set('state', -1);
+				$extension->set('manifest_cache', serialize($manifest_details));
 				$results[] = $extension;
 			}
 		}
@@ -461,12 +467,14 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			if (file_exists(JPATH_ADMINISTRATOR.DS.'language'.DS.$language.DS.$language.'.xml'))
 			{
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR.DS.'language'.DS.$language.DS.$language.'.xml');
 				$extension = &JTable::getInstance('extension');
 				$extension->set('type', 'language');
 				$extension->set('client_id', 1);
 				$extension->set('element', $language);
 				$extension->set('name', $language);
 				$extension->set('state', -1);
+				$extension->set('manifest_cache', serialize($manifest_details));
 				$results[] = $extension;
 			}
 		}

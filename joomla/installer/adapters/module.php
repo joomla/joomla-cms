@@ -38,6 +38,10 @@ class JInstallerModule extends JAdapterInstance
 	 */
 	public function loadLanguage($path)
 	{
+		$source = $this->parent->getPath('source');
+		if (!$source) {
+			$this->parent->setPath('source', ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/'.$this->parent->extension->element);
+		}
 		$this->manifest = &$this->parent->getManifest();
 		if ($this->manifest->files)
 		{
@@ -57,21 +61,17 @@ class JInstallerModule extends JAdapterInstance
 			if ($extension)
 			{
 				$lang =& JFactory::getLanguage();
-				$source = $path;
+				$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/'.$extension ;
 				$folder = (string)$element->attributes()->folder;
 				if ($folder && file_exists("$path/$folder"))
 				{
 					$source = "$path/$folder";
 				}
 				$client = (string)$this->manifest->attributes()->client;
-					$lang->load($extension . '.manage', $source, null, false, false)
-				||	$lang->load($extension, $source, null, false, false)
-				||	$lang->load($extension . '.manage', constant('JPATH_' . strtoupper($client)), null, false, false)
-				||	$lang->load($extension, constant('JPATH_' . strtoupper($client)), null, false, false)
-				||	$lang->load($extension . '.manage', $source, $lang->getDefault(), false, false)
-				||	$lang->load($extension, $source, $lang->getDefault(), false, false)
-				||	$lang->load($extension . '.manage', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false)
-				||	$lang->load($extension, constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
+					$lang->load($extension . '.sys', $source, null, false, false)
+				||	$lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, false)
+				||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+				||	$lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
 			}
 		}
 	}
@@ -426,22 +426,26 @@ class JInstallerModule extends JAdapterInstance
 		$admin_info = JApplicationHelper::getClientInfo('administrator', true);
 		foreach ($site_list as $module)
 		{
+			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE."/modules/$module/$module.xml");
 			$extension = &JTable::getInstance('extension');
 			$extension->set('type',  'module');
 			$extension->set('client_id', $site_info->id);
 			$extension->set('element', $module);
 			$extension->set('name', $module);
 			$extension->set('state', -1);
+			$extension->set('manifest_cache', serialize($manifest_details));
 			$results[] = clone $extension;
 		}
 		foreach ($admin_list as $module)
 		{
+			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR."/modules/$module/$module.xml");
 			$extension = &JTable::getInstance('extension');
 			$extension->set('type', 'module');
 			$extension->set('client_id', $admin_info->id);
 			$extension->set('element', $module);
 			$extension->set('name', $module);
 			$extension->set('state', -1);
+			$extension->set('manifest_cache', serialize($manifest_details));
 			$results[] = clone $extension;
 		}
 		return $results;
@@ -462,6 +466,13 @@ class JInstallerModule extends JAdapterInstance
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$manifestPath = $client->path . DS . 'modules'. DS . $this->parent->extension->element . DS . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$description = (string)$this->parent->manifest->description;
+		if ($description) {
+			$this->parent->set('message', JText::_($description));
+		}
+		else {
+			$this->parent->set('message', '');
+		}
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
 		// TODO: Re-evaluate this; should we run installation triggers? postflight perhaps?
@@ -546,6 +557,9 @@ class JInstallerModule extends JAdapterInstance
 
 		// Get the package manifest objecct
 		$this->manifest = $this->parent->getManifest();
+
+		// Attempt to load the language file; might have uninstall strings
+		$this->loadLanguage(($row->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/'.$element);
 
 		// If there is an manifest class file, lets load it
 		$this->scriptElement = $this->manifest->scriptfile;
