@@ -20,13 +20,13 @@ echo $params->get('image_path', 'images');?>/';
 	</div>
 	<fieldset>
 		<div class="fltlft">
-			<label for="folder"><?php echo JText::_('Directory') ?></label>
+			<label for="folder"><?php echo JText::_('COM_MEDIA_DIRECTORY') ?></label>
 			<?php echo $this->folderList; ?>
-			<button type="button" id="upbutton" title="<?php echo JText::_('DIRECTORY_UP') ?>"><?php echo JText::_('Up') ?></button>
+			<button type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP') ?>"><?php echo JText::_('COM_MEDIA_UP') ?></button>
 		</div>
 		<div class="fltrt">
-			<button type="button" onclick="ImageManager.onok(); window.parent.SqueezeBox.close();"><?php echo JText::_('Insert') ?></button>
-			<button type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('Cancel') ?></button>
+			<button type="button" onclick="ImageManager.onok(); window.parent.SqueezeBox.close();"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
+			<button type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('JCANCEL') ?></button>
 		</div>
 	</fieldset>
 	<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>"></iframe>
@@ -34,25 +34,25 @@ echo $params->get('image_path', 'images');?>/';
 	<fieldset>
 		<table class="properties">
 			<tr>
-				<td><label for="f_url"><?php echo JText::_('IMAGE_URL') ?></label></td>
+				<td><label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL') ?></label></td>
 				<td><input type="text" id="f_url" value="" /></td>
-				<td><label for="f_align"><?php echo JText::_('Align') ?></label></td>
+				<td><label for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label></td>
 				<td>
 					<select size="1" id="f_align" title="Positioning of this image">
-						<option value="" selected="selected"><?php echo JText::_('NOT_SET') ?></option>
-						<option value="left"><?php echo JText::_('Left') ?></option>
-						<option value="right"><?php echo JText::_('Right') ?></option>
+						<option value="" selected="selected"><?php echo JText::_('COM_MEDIA_NOT_SET') ?></option>
+						<option value="left"><?php echo JText::_('JGLOBAL_LEFT') ?></option>
+						<option value="right"><?php echo JText::_('JGLOBAL_RIGHT') ?></option>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<td><label for="f_alt"><?php echo JText::_('IMAGE_DESCRIPTION') ?></label></td>
+				<td><label for="f_alt"><?php echo JText::_('COM_MEDIA_IMAGE_DESCRIPTION') ?></label></td>
 				<td><input type="text" id="f_alt" value="" /></td>
 			</tr>
 			<tr>
-				<td><label for="f_title"><?php echo JText::_('Title') ?></label></td>
+				<td><label for="f_title"><?php echo JText::_('COM_MEDIA_TITLE') ?></label></td>
 				<td><input type="text" id="f_title" value="" /></td>
-				<td><label for="f_caption"><?php echo JText::_('Caption') ?></label></td>
+				<td><label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label></td>
 				<td><input type="checkbox" id="f_caption" /></td>
 			</tr>
 		</table>
@@ -63,10 +63,10 @@ echo $params->get('image_path', 'images');?>/';
 </form>
 <form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;pop_up=1&amp;<?php echo JUtility::getToken();?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
 	<fieldset>
-		<legend><?php echo JText::_('Upload'); ?></legend>
+		<legend><?php echo JText::_('COM_MEDIA_UPLOAD'); ?></legend>
 		<fieldset class="actions">
 			<input type="file" id="file-upload" name="Filedata" />
-			<input type="submit" id="file-upload-submit" value="<?php echo JText::_('Start Upload'); ?>"/>
+			<input type="submit" id="file-upload-submit" value="<?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>"/>
 			<span id="upload-clear"></span>
 		</fieldset>
 		<ul class="upload-queue" id="upload-queue">

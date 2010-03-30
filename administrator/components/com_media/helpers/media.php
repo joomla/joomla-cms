@@ -45,13 +45,13 @@ class MediaHelper
 		$params = &JComponentHelper::getParams('com_media');
 
 		if (empty($file['name'])) {
-			$err = 'Please input a file for upload';
+			$err = 'COM_MEDIA_ERROR_UPLOAD_INPUT';
 			return false;
 		}
 
 		jimport('joomla.filesystem.file');
 		if ($file['name'] !== JFile::makesafe($file['name'])) {
-			$err = 'WARNFILENAME';
+			$err = 'COM_MEDIA_ERROR_WARNFILENAME';
 			return false;
 		}
 
@@ -61,14 +61,14 @@ class MediaHelper
 		$ignored = explode(',', $params->get('ignore_extensions'));
 		if (!in_array($format, $allowable) && !in_array($format,$ignored))
 		{
-			$err = 'WARNFILETYPE';
+			$err = 'COM_MEDIA_ERROR_WARNFILETYPE';
 			return false;
 		}
 
 		$maxSize = (int) $params->get('upload_maxsize', 0);
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
-			$err = 'WARNFILETOOLARGE';
+			$err = 'COM_MEDIA_ERROR_WARNFILETOOLARGE';
 			return false;
 		}
 
@@ -78,7 +78,7 @@ class MediaHelper
 			$images = explode(',', $params->get('image_extensions'));
 			if (in_array($format, $images)) { // if its an image run it through getimagesize
 				if (($imginfo = getimagesize($file['tmp_name'])) === FALSE) {
-					$err = 'WARNINVALIDIMG';
+					$err = 'COM_MEDIA_ERROR_WARNINVALID_IMG';
 					return false;
 				}
 			} else if (!in_array($format, $ignored)) {
@@ -90,7 +90,7 @@ class MediaHelper
 					$finfo = finfo_open(FILEINFO_MIME);
 					$type = finfo_file($finfo, $file['tmp_name']);
 					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime)) {
-						$err = 'WARNINVALIDMIME';
+						$err = 'COM_MEDIA_ERROR_WARNINVALID_MIME';
 						return false;
 					}
 					finfo_close($finfo);
@@ -98,11 +98,11 @@ class MediaHelper
 					// we have mime magic
 					$type = mime_content_type($file['tmp_name']);
 					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime)) {
-						$err = 'WARNINVALIDMIME';
+						$err = 'COM_MEDIA_ERROR_WARNINVALID_MIME';
 						return false;
 					}
 				} else if (!$user->authorize('core.manage')) {
-					$err = 'WARNNOTADMIN';
+					$err = 'COM_MEDIA_ERROR_WARNNOTADMIN';
 					return false;
 				}
 			}
@@ -113,7 +113,7 @@ class MediaHelper
 		foreach($html_tags as $tag) {
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
 			if (stristr($xss_check, '<'.$tag.' ') || stristr($xss_check, '<'.$tag.'>')) {
-				$err = 'WARNIEXSS';
+				$err = 'COM_MEDIA_ERROR_WARNIEXSS';
 				return false;
 			}
 		}

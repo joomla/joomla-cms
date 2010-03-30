@@ -51,7 +51,7 @@ if (strpos($cmd, '.') != false)
 	if (file_exists($controllerPath)) {
 		require_once $controllerPath;
 	} else {
-		JError::raiseError(500, 'Invalid Controller');
+		JError::raiseError(500, JText::_('JERROR_INVALID_CONTROLLER'));
 	}
 } else {
 	// Base controller, just set the task :)
@@ -64,7 +64,7 @@ $controllerClass = 'MediaController'.ucfirst($controllerName);
 if (class_exists($controllerClass)) {
 	$controller = new $controllerClass();
 } else {
-	JError::raiseError(500, 'Invalid Controller Class');
+	JError::raiseError(500, JText::_('JERROR_INVALID_CONTROLLER_CLASS'));
 }
 
 // Perform the Request task

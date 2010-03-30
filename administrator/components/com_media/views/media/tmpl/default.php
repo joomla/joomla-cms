@@ -22,13 +22,13 @@ defined('_JEXEC') or die;
 		<td>
 			<?php if ($this->require_ftp): ?>
 				<form action="index.php?option=com_media&amp;task=ftpValidate" name="ftpForm" id="ftpForm" method="post">
-					<fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>">
-						<legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
-						<?php echo JText::_('DESCFTP'); ?>
-						<label for="username"><?php echo JText::_('Username'); ?>:</label>
+					<fieldset title="<?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?>">
+						<legend><?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?></legend>
+						<?php echo JText::_('COM_MEDIA_DESCFTP'); ?>
+						<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?>:</label>
 						<input type="text" id="username" name="username" class="inputbox" size="70" value="" />
 
-						<label for="password"><?php echo JText::_('Password'); ?>:</label>
+						<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?>:</label>
 						<input type="password" id="password" name="password" class="inputbox" size="70" value="" />
 					</fieldset>
 				</form>
@@ -45,12 +45,12 @@ defined('_JEXEC') or die;
 					<div class="view">
 						<iframe src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
 					</div>
-					<legend><?php echo JText::_('Files'); ?></legend>
+					<legend><?php echo JText::_('COM_MEDIA_FILES'); ?></legend>
 					<div class="path">
 						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />/
 						<input class="inputbox" type="text" id="foldername" name="foldername"  />
 						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
-						<button type="submit"><?php echo JText::_('CREATE_FOLDER'); ?></button>
+						<button type="submit"><?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
 					</div>
 
 				</fieldset>
@@ -60,25 +60,25 @@ defined('_JEXEC') or die;
 			<!-- File Upload Form -->
 			<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JUtility::getToken();?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
 				<fieldset id="uploadform">
-					<legend><?php echo JText::_('UPLOAD_FILE'); ?> (<?php echo JText::_('MAXIMUM_SIZE'); ?>:&nbsp;<?php echo ($this->config->get('upload_maxsize') / 1000000); ?>MB)</legend>
+					<legend><?php echo JText::_('COM_MEDIA_UPLOAD_FILES'); ?> (<?php echo JText::_('COM_MEDIA_MAXIMUM_SIZE'); ?>:&nbsp;<?php echo ($this->config->get('upload_maxsize') / 1000000); ?>MB)</legend>
 					<fieldset id="upload-noflash" class="actions">
-						<label for="upload-file" class="hidelabeltxt"><?php echo JText::_('UPLOAD_FILE'); ?></label>
+						<label for="upload-file" class="hidelabeltxt"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
 						<input type="file" id="upload-file" name="Filedata" />
-						<label for="upload-submit" class="hidelabeltxt"><?php echo JText::_('START_UPLOAD'); ?></label>
-						<input type="submit" id="upload-submit" value="<?php echo JText::_('START_UPLOAD'); ?>"/>
+						<label for="upload-submit" class="hidelabeltxt"><?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></label>
+						<input type="submit" id="upload-submit" value="<?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>"/>
 					</fieldset>
 					<div id="upload-flash" class="hide">
 						<ul>
-							<li><a href="#" id="upload-browse"><?php echo JText::_('BROWSE_FILES'); ?></a></li>
-							<li><a href="#" id="upload-clear">Clear List</a></li>
-							<li><a href="#" id="upload-start">Start Upload</a></li>
+							<li><a href="#" id="upload-browse"><?php echo JText::_('COM_MEDIA_BROWSE_FILES'); ?></a></li>
+							<li><a href="#" id="upload-clear"><?php echo JText::_('COM_MEDIA_CLEAR_LIST'); ?></a></li>
+							<li><a href="#" id="upload-start"><?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></a></li>
 						</ul>
 						<div class="clr"> </div>
 						<p class="overall-title"></p>
-						<?php echo JHTML::_('image','media/bar.gif', JText::_('OVERALL_PROGRESS'), array('class' => 'progress overall-progress'), true); ?>
+						<?php echo JHTML::_('image','media/bar.gif', JText::_('COM_MEDIA_OVERALL_PROGRESS'), array('class' => 'progress overall-progress'), true); ?>
 						<div class="clr"> </div>
 						<p class="current-title"></p>
-						<?php echo JHTML::_('image','media/bar.gif', JText::_('CURRENT_PROGRESS'), array('class' => 'progress current-progress'), true); ?>
+						<?php echo JHTML::_('image','media/bar.gif', JText::_('COM_MEDIA_CURRENT_PROGRESS'), array('class' => 'progress current-progress'), true); ?>
 						<p class="current-text"></p>
 					</div>
 					<ul class="upload-queue" id="upload-queue">

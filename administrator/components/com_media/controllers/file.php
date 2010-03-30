@@ -30,7 +30,7 @@ class MediaControllerFile extends MediaController
 	{
 
 		// Check for request forgeries
-		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= &JFactory::getApplication();
 		$file	= JRequest::getVar('Filedata', '', 'files', 'array');
@@ -75,7 +75,7 @@ class MediaControllerFile extends MediaController
 					header('HTTP/1.0 409 Conflict');
 					jexit('Error. File already exists');
 				} else {
-					JError::raiseNotice(100, JText::_('Error. File already exists'));
+					JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
 					// REDIRECT
 					if ($return) {
 						$app->redirect(base64_decode($return).'&folder='.$folder);
@@ -92,7 +92,7 @@ class MediaControllerFile extends MediaController
 					header('HTTP/1.0 400 Bad Request');
 					jexit('Error Unable to upload file');
 				} else {
-					JError::raiseWarning(100, JText::_('ERROR_UNABLE_TO_UPLOAD_FILE'));
+					JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'));
 					// REDIRECT
 					if ($return) {
 						$app->redirect(base64_decode($return).'&folder='.$folder);
@@ -106,7 +106,7 @@ class MediaControllerFile extends MediaController
 					$log->addEntry(array('comment' => $folder));
 					jexit('Upload complete');
 				} else {
-					$app->enqueueMessage(JText::_('UPLOAD_COMPLETE'));
+					$app->enqueueMessage(JText::_('COM_MEDIA_UPLOAD_COMPLETE'));
 					// REDIRECT
 					if ($return) {
 						$app->redirect(base64_decode($return).'&folder='.$folder);
@@ -127,7 +127,7 @@ class MediaControllerFile extends MediaController
 	 */
 	function delete()
 	{
-		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -146,8 +146,9 @@ class MediaControllerFile extends MediaController
 		if (count($paths)) {
 			foreach ($paths as $path)
 			{
-				if ($path !== JFile::makeSafe($path)) {
-					JError::raiseWarning(100, JText::_('Unable to delete:').htmlspecialchars($path, ENT_COMPAT, 'UTF-8').' '.JText::_('WARNFILENAME'));
+			if ($path !== JFile::makeSafe($path)) {
+					$filename = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
+					JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', $filename));
 					continue;
 				}
 
@@ -165,7 +166,8 @@ class MediaControllerFile extends MediaController
 					if ($canDelete) {
 						$ret |= !JFolder::delete($fullPath);
 					} else {
-						JError::raiseWarning(100, JText::_('Unable to delete:').$fullPath.' '.JText::_('Not Empty!'));
+						//This makes no sense...
+						JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_DELETE').$fullPath.' '.JText::_('COM_MEDIA_ERROR_WARNNOTEMPTY'));
 					}
 				}
 			}

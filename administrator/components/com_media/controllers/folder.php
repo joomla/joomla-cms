@@ -29,7 +29,7 @@ class MediaControllerFolder extends MediaController
 	 */
 	function delete()
 	{
-		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -49,7 +49,8 @@ class MediaControllerFolder extends MediaController
 			foreach ($paths as $path)
 			{
 				if ($path !== JFile::makeSafe($path)) {
-					JError::raiseWarning(100, JText::_('Unable to delete:').htmlspecialchars($path, ENT_COMPAT, 'UTF-8').' '.JText::_('WARNDIRNAME'));
+					$dirname = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
+					JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_WARNDIRNAME', $dirname));
 					continue;
 				}
 
@@ -67,7 +68,7 @@ class MediaControllerFolder extends MediaController
 					if ($canDelete) {
 						$ret |= !JFolder::delete($fullPath);
 					} else {
-						JError::raiseWarning(100, JText::_('Unable to delete:').$fullPath.' '.JText::_('Not Empty!'));
+						JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY',$fullPath));
 					}
 				}
 			}
@@ -89,7 +90,7 @@ class MediaControllerFolder extends MediaController
 	function create()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');

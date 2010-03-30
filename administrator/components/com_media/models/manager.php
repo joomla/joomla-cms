@@ -59,7 +59,7 @@ class MediaModelManager extends JModel
 		$lang->load(JRequest::getCmd('option'), JPATH_ADMINISTRATOR);
 
 		$document = &JFactory::getDocument();
-		$document->setTitle(JText::_('INSERT_IMAGE'));
+		$document->setTitle(JText::_('COM_MEDIA_INSERT_IMAGE'));
 
 		// Build the array of select options for the folder list
 		$options[] = JHtml::_('select.option', "","/");
@@ -118,7 +118,7 @@ class MediaModelManager extends JModel
 				}
 			}
 		}
-		$tree['data'] = (object) array('name' => JText::_('Media'), 'relative' => '', 'absolute' => $base);
+		$tree['data'] = (object) array('name' => JText::_('COM_MEDIA_MEDIA'), 'relative' => '', 'absolute' => $base);
 		return $tree;
 	}
 }

@@ -26,6 +26,6 @@ defined('_JEXEC') or die;
 </div>
 <?php } else { ?>
 	<div id="media-noimages">
-		<p><?php echo JText::_('No_Images_Found'); ?></p>
+		<p><?php echo JText::_('COM_MEDIA_NO_IMAGES_FOUND'); ?></p>
 	</div>
 <?php } ?>

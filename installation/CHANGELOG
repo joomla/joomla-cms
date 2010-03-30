@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Mar-2010 Jean-Marie Simonet
+$ Refactored com_media back-end ini/keys
+
 30-Mar-2010 Christophe Demko
 ^ Merging the admintranslate branch back to the trunk
 
