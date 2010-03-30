@@ -59,7 +59,7 @@
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_banners.ini
 			</language>
-			<language tag="en-GB">language/en-GB.com_banners.menu.ini
+			<language tag="en-GB">language/en-GB.com_banners.sys.ini
 			</language>
 		</languages>
 	</administration>

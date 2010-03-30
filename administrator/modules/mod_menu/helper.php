@@ -89,7 +89,7 @@ abstract class ModMenuHelper
 					}
 
 					if (!empty($component->element)) {
-						$langs[$component->element.'.menu'] = true;
+						$langs[$component->element.'.sys'] = true;
 					}
 				}
 			} else {
@@ -109,9 +109,9 @@ abstract class ModMenuHelper
 			// Load the core file then
 			// Load extension-local file.
 				$lang->load($langName, JPATH_BASE, null, false, false)
-			||	$lang->load($langName, JPATH_ADMINISTRATOR.'/components/'.str_replace('.menu', '', $langName), null, false, false)
+			||	$lang->load($langName, JPATH_ADMINISTRATOR.'/components/'.str_replace('.sys', '', $langName), null, false, false)
 			||	$lang->load($langName, JPATH_BASE, $lang->getDefault(), false, false)
-			||	$lang->load($langName, JPATH_ADMINISTRATOR.'/components/'.str_replace('.menu', '', $langName), $lang->getDefault(), false, false);
+			||	$lang->load($langName, JPATH_ADMINISTRATOR.'/components/'.str_replace('.sys', '', $langName), $lang->getDefault(), false, false);
 		}
 
 		return $result;

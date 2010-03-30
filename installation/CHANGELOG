@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Mar-2010 Christophe Demko
+^ Merging the admintranslate branch back to the trunk
+
 29-Mar-2010 Jean-Marie Simonet
 $ Refactored com_search back-end front end ini/keys +some
 $ Added a string for com_module to customize "item"

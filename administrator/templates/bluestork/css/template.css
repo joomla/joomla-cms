@@ -864,6 +864,10 @@ fieldset#template-manager-css ul {
 	margin-left: 30px;
 }
 
+fieldset#filter-bar label {
+	clear: none;
+}
+
 fieldset label {
 	float: left;
 	clear: left;
@@ -890,7 +894,7 @@ form label {
 }
 
 fieldset input,fieldset textarea,
-fieldset select,fieldset img {
+fieldset select,fieldset img, fieldset button {
 	float: left;
 	width: auto;
 	margin: 5px 5px 10px 0px;

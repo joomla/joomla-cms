@@ -19,69 +19,57 @@ include_once dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php';
  */
 class InstallerViewManage extends InstallerViewDefault
 {
+	protected $items;
+	protected $pagination;
+	protected $form;
+	protected $state;
 	function display($tpl=null)
 	{
+
+		// Get data from the model
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
+		$form		= $this->get('Form');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) 
+		{
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
+
+		// Assign the data
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
+		$this->assignRef('pagination',	$pagination);
+		$this->assignRef('form',		$form);
+
+		// Display the view
+		parent::display($tpl);
+	}
+	/**
+	 * Setup the Toolbar
+	 *
+	 * @since	1.6
+	 */
+	protected function _setToolbar()
+	{
+		$canDo	= InstallerHelper::getActions();
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::custom('manage.refresh', 'refresh', 'refresh','JTOOLBAR_REFRESH_CACHE',false,false);
-		JToolBarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
-		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.installer2','JTOOLBAR_HELP');
-
-		$dbo =& JFactory::getDBO();
-
-		// Get data from the model
-		$state		= &$this->get('State');
-		$items		= &$this->get('Items');
-		$pagination	= &$this->get('Pagination');
-
-		$this->assignRef('items',		$items);
-		$this->assignRef('pagination',	$pagination);
-
-		$item = new stdClass();
-		$lists = Array(); //$this->lists;
-		$lists['filter'] = JRequest::getVar('filter');
-
-		$dbo->setQuery('SELECT DISTINCT type FROM #__extensions');
-		$type_list = $dbo->loadObjectList();
-		$item->type = 'All'; // will get translated below
-		array_unshift($type_list, $item);
-		$lists['type'] = JHTML::_('select.genericlist', $type_list, 'extensiontype', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'type', 'type', JRequest::getVar('extensiontype'), false, true);
-
-		$select[] = JHTML::_('select.option', '-1', JText::_('All'));
-		$select[] = JHTML::_('select.option', '0', JText::_('Site'));
-		$select[] = JHTML::_('select.option', '1', JText::_('Admininistrator'));
-		$lists['clientid'] = JHTML::_('select.genericlist',  $select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
-		$dbo->setQuery('SELECT DISTINCT CASE `folder` WHEN "" THEN "N/A" ELSE `folder` END AS folder from #__extensions');
-		$folder_list = $dbo->loadObjectList();
-		$item->folder = 'All'; // will get translated below
-		array_unshift($folder_list, $item);
-		$lists['folder'] = JHTML::_('select.genericlist', $folder_list, 'folder', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'folder','folder', JRequest::getVar('folder','All'), false, true);
-		//$lists['state'] = ''; // published or otherwise?
-		$lists['hideprotected'] = JRequest::getBool('hideprotected', 1);
-		$this->assignRef('lists', $lists);
-
-		parent::display($tpl);
-	}
-
-	function loadItem($index=0)
-	{
-		$item =& $this->items[$index];
-		$item->index	= $index;
-		$item->img		= $item->enabled ? 'tick.png' : 'publish_x.png';
-		$item->task		= $item->enabled ? 'disable' : 'enable';
-		$item->alt		= $item->enabled ? JText::_('Enabled') : JText::_('Disabled');
-		$item->action	= $item->enabled ? JText::_('disable') : JText::_('enable');
-
-		if ($item->protected) {
-			$item->cbd		= 'disabled';
-			$item->style	= 'style="color:#999999;"';
-		} else {
-			$item->cbd		= null;
-			$item->style	= null;
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::custom('manage.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::custom('manage.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+			JToolBarHelper::divider();
 		}
-		$item->author_info = @$item->authorEmail .'<br />'. @$item->authorUrl;
-		$this->assignRef('item', $item);
+		JToolBarHelper::custom('manage.refresh', 'refresh', 'refresh','JTOOLBAR_REFRESH_CACHE',true);
+		JToolBarHelper::divider();
+		if ($canDo->get('core.delete')) {
+			JToolBarHelper::deleteList('', 'manage.remove','JTOOLBAR_UNINSTALL');
+			JToolBarHelper::divider();
+		}
+		parent::_setToolbar();
 	}
 }

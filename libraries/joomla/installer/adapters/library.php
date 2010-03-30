@@ -29,18 +29,18 @@ class JInstallerLibrary extends JAdapterInstance
 	 */
 	public function loadLanguage($path)
 	{
+		$source = $this->parent->getPath('source');
+		if (!$source) {
+			$this->parent->setPath('source', JPATH_LIBRARIES . '/'.$this->parent->extension->element);
+		}
 		$this->manifest = &$this->parent->getManifest();
-		$extension = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
+		$extension = 'lib_' . strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		$lang =& JFactory::getLanguage();
 		$source = $path;
-			$lang->load($extension . '.manage', $source, null, false, false)
-		||	$lang->load($extension, $source, null, false, false)
-		||	$lang->load($extension . '.manage', JPATH_SITE, null, false, false)
-		||	$lang->load($extension , JPATH_SITE, null, false, false)
-		||	$lang->load($extension . '.manage', $source, $lang->getDefault(), false, false)
-		||	$lang->load($extension, $source, $lang->getDefault(), false, false)
-		||	$lang->load($extension . '.manage', JPATH_SITE, $lang->getDefault(), false, false)
-		||	$lang->load($extension , JPATH_SITE, $lang->getDefault(), false, false);
+			$lang->load($extension . '.sys', $source, null, false, false)
+		||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
+		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+		||	$lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
 	}
 	/**
 	 * Custom install method
@@ -329,6 +329,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$file_list = JFolder::files(JPATH_MANIFESTS.DS.'libraries','\.xml$');
 		foreach ($file_list as $file)
 		{
+			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_MANIFESTS.'/libraries/'.$file);
 			$file = JFile::stripExt($file);
 			$extension = &JTable::getInstance('extension');
 			$extension->set('type', 'library');
@@ -336,6 +337,7 @@ class JInstallerLibrary extends JAdapterInstance
 			$extension->set('element', $file);
 			$extension->set('name', $file);
 			$extension->set('state', -1);
+			$extension->set('manifest_cache', serialize($manifest_details));
 			$results[] = $extension;
 		}
 		return $results;

@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
 //-->
 </script>
 
-<form enctype="multipart/form-data" action="index.php" method="post" name="adminForm">
+<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm">
 
 	<?php if ($this->ftp) : ?>
 		<?php echo $this->loadTemplate('ftp'); ?>
@@ -68,6 +68,5 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="type" value="" />
 	<input type="hidden" name="installtype" value="upload" />
 	<input type="hidden" name="task" value="install.install" />
-	<input type="hidden" name="option" value="com_installer" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -10,10 +10,10 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>">
-	<legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
+<fieldset title="<?php echo JText::_('INSTALLER_MSG_DESCFTPTITLE'); ?>">
+	<legend><?php echo JText::_('INSTALLER_MSG_DESCFTPTITLE'); ?></legend>
 
-	<?php echo JText::_('DESCFTP'); ?>
+	<?php echo JText::_('INSTALLER_MSG_DESCFTP'); ?>
 
 	<?php if (JError::isError($this->ftp)): ?>
 		<p><?php echo JText::_($this->ftp->message); ?></p>
@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 		<tbody>
 			<tr>
 				<td width="120">
-					<label for="username"><?php echo JText::_('Username'); ?>:</label>
+					<label for="username"><?php echo JText::_('INSTALLER_LABEL_USERNAME'); ?>:</label>
 				</td>
 				<td>
 					<input type="text" id="username" name="username" class="input_box" size="70" value="" />
@@ -31,7 +31,7 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td width="120">
-					<label for="password"><?php echo JText::_('Password'); ?>:</label>
+					<label for="password"><?php echo JText::_('INSTALLER_LABEL_PASSWORD'); ?>:</label>
 				</td>
 				<td>
 					<input type="password" id="password" name="password" class="input_box" size="70" value="" />

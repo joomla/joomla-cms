@@ -40,7 +40,7 @@
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_search.ini
 			</language>
-			<language tag="en-GB">language/en-GB.com_search.menu.ini
+			<language tag="en-GB">language/en-GB.com_search.sys.ini
 			</language>
 		</languages>
 	</administration>

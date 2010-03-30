@@ -23,26 +23,50 @@
 		<filename>en-GB.com_wrapper.ini</filename>
 		<filename>en-GB.ignore.php</filename>
 		<filename>en-GB.ini</filename>
-		<filename>en-GB.mod_archive.ini</filename>
+		<filename>en-GB.mod_articles_archive.ini</filename>
+		<filename>en-GB.mod_articles_archive.sys.ini</filename>
+		<filename>en-GB.mod_articles_category.ini</filename>
+		<filename>en-GB.mod_articles_category.sys.ini</filename>
+		<filename>en-GB.mod_articles_latest.ini</filename>
+		<filename>en-GB.mod_articles_latest.sys.ini</filename>
+		<filename>en-GB.mod_articles_news.ini</filename>
+		<filename>en-GB.mod_articles_news.sys.ini</filename>
+		<filename>en-GB.mod_articles_popular.ini</filename>
+		<filename>en-GB.mod_articles_popular.sys.ini</filename>
 		<filename>en-GB.mod_banners.ini</filename>
+		<filename>en-GB.mod_banners.sys.ini</filename>
 		<filename>en-GB.mod_breadcrumbs.ini</filename>
+		<filename>en-GB.mod_breadcrumbs.sys.ini</filename>
 		<filename>en-GB.mod_custom.ini</filename>
+		<filename>en-GB.mod_custom.sys.ini</filename>
 		<filename>en-GB.mod_feed.ini</filename>
+		<filename>en-GB.mod_feed.sys.ini</filename>
 		<filename>en-GB.mod_footer.ini</filename>
-		<filename>en-GB.mod_latestnews.ini</filename>
+		<filename>en-GB.mod_footer.sys.ini</filename>
 		<filename>en-GB.mod_login.ini</filename>
-		<filename>en-GB.mod_mainmenu.ini</filename>
-		<filename>en-GB.mod_mostread.ini</filename>
-		<filename>en-GB.mod_newsflash.ini</filename>
-		<filename>en-GB.mod_online.ini</filename>
+		<filename>en-GB.mod_login.sys.ini</filename>
+		<filename>en-GB.mod_menu.ini</filename>
+		<filename>en-GB.mod_menu.sys.ini</filename>
 		<filename>en-GB.mod_random_image.ini</filename>
+		<filename>en-GB.mod_random_image.sys.ini</filename>
 		<filename>en-GB.mod_related_items.ini</filename>
+		<filename>en-GB.mod_related_items.sys.ini</filename>
 		<filename>en-GB.mod_search.ini</filename>
+		<filename>en-GB.mod_search.sys.ini</filename>
 		<filename>en-GB.mod_stats.ini</filename>
+		<filename>en-GB.mod_stats.sys.ini</filename>
 		<filename>en-GB.mod_syndicate.ini</filename>
+		<filename>en-GB.mod_syndicate.sys.ini</filename>
+		<filename>en-GB.mod_users_latest.ini</filename>
+		<filename>en-GB.mod_users_latest.sys.ini</filename>
+		<filename>en-GB.mod_weblinks.ini</filename>
+		<filename>en-GB.mod_weblinks.sys.ini</filename>
 		<filename>en-GB.mod_whosonline.ini</filename>
+		<filename>en-GB.mod_whosonline.sys.ini</filename>
 		<filename>en-GB.mod_wrapper.ini</filename>
+		<filename>en-GB.mod_wrapper.sys.ini</filename>
 		<filename>en-GB.tpl_rhuk_milkyway.ini</filename>
+		<filename>en-GB.tpl_rhuk_milkyway.sys.ini</filename>
 	</files>
 	<metadata>
 		<name>English (United Kingdom)</name>

@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 // Import library dependencies
-require_once dirname(__FILE__).DS.'extension.php';
+jimport('joomla.application.component.modellist');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -19,8 +19,20 @@ jimport('joomla.filesystem.folder');
  * @subpackage	com_installer
  * @since		1.5
  */
-class InstallerModelWarnings extends InstallerModel
+class InstallerModelWarnings extends JModelList
 {
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * @since	1.6
+	 */
+	protected function _populateState()
+	{
+	}
 	/**
 	 * Extension Type
 	 * @var	string
@@ -61,7 +73,7 @@ class InstallerModelWarnings extends InstallerModel
 	/**
 	 * Load the data
 	 */
-	function _loadItems()
+	function getItems()
 	{
 		static $messages;
 		if ($messages) {
@@ -70,29 +82,29 @@ class InstallerModelWarnings extends InstallerModel
 		$messages = Array();
 		$upload_dir = ini_get('upload_tmp_dir');
 		if (!$upload_dir) {
-			$messages[] = Array('message'=>JText::_('PHPUPLOADNOTSET'), 'description'=>JText::_('PHPUPLOADNOTSETDESC'));
+			$messages[] = Array('message'=>JText::_('INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'), 'description'=>JText::_('INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSETDESC'));
 		} else {
 			if (!is_writeable($upload_dir)) {
-				$messages[] = Array('message'=>JText::_('PHPUPLOADNOTWRITEABLE'), 'description'=>JText::_('PHPUPLOADNOTWRITEABLEDESC'));
+				$messages[] = Array('message'=>JText::_('INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLE'), 'description'=>JText::_('INSTALLER_MSG_WARNINGS_PHPUPLOADNOTWRITEABLEDESC'));
 			}
 		}
 
 		$config =& JFactory::getConfig();
 		$tmp_path = $config->get('tmp_path');
 		if (!$tmp_path) {
-			$messages[] = Array('message'=>JText::_('JOOMLATMPNOTSET'), 'description'=>JText::_('JOOMLATMPNOTSETDESC'));
+			$messages[] = Array('message'=>JText::_('INSTALLER_MSG_WARNINGS_JOOMLATMPNOTSET'), 'description'=>JText::_('INSTALLER_MSG_WARNINGS_JOOMLATMPNOTSETDESC'));
 		} else {
 			if (!is_writeable($tmp_path)) {
-				$messages[] = Array('message'=>JText::_('JOOMLATMPNOTWRITEABLE'), 'description'=>JText::_('JOOMLATMPNOTWRITEABLEDESC'));
+				$messages[] = Array('message'=>JText::_('INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLE'), 'description'=>JText::_('INSTALLER_MSG_WARNINGS_JOOMLATMPNOTWRITEABLEDESC'));
 			}
 		}
 
 		$bytes = $this->return_bytes(ini_get('memory_limit'));
 		if ($bytes < (8 * 1024 * 1024)) {
-			$messages[] = Array('message'=>JText::_('LOWMEMORYWARN'), 'description'=>JText::_('LOWMEMORYDESC'));
+			$messages[] = Array('message'=>JText::_('INSTALLER_MSG_WARNINGS_LOWMEMORYWARN'), 'description'=>JText::_('INSTALLER_MSG_WARNINGS_LOWMEMORYDESC'));
 		} else if ($bytes < (16 * 1024 * 1024)) {
-			$messages[] = Array('message'=>JText::_('MEDMEMORYWARN'), 'description'=>JText::_('MEDMEMORYDESC'));
+			$messages[] = Array('message'=>JText::_('INSTALLER_MSG_WARNINGS_MEDMEMORYWARN'), 'description'=>JText::_('INSTALLER_MSG_WARNINGS_MEDMEMORYDESC'));
 		}
-		$this->_items = $messages;
+		return $messages;
 	}
 }

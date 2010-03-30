@@ -34,8 +34,12 @@ class JInstallerPlugin extends JAdapterInstance
 	 * @param	string	$path the path where to find language files
 	 * @since	1.6
 	 */
-	public function loadLanguage($path)
+	public function loadLanguage($path=null)
 	{
+		$source = $this->parent->getPath('source');
+		if (!$source) {
+			$this->parent->setPath('source', JPATH_PLUGINS . '/'.$this->parent->extension->folder.'/'.$this->parent->extension->element);
+		}
 		$this->manifest = &$this->parent->getManifest();
 		$element = $this->manifest->files;
 		if ($element)
@@ -57,20 +61,16 @@ class JInstallerPlugin extends JAdapterInstance
 			{
 				$extension = "plg_${group}_${name}";
 				$lang =& JFactory::getLanguage();
-				$source = $path;
+				$source = $path ? $path : JPATH_PLUGINS . "/$group/$name";
 				$folder = (string)$element->attributes()->folder;
 				if ($folder && file_exists("$path/$folder"))
 				{
 					$source = "$path/$folder";
 				}
-					$lang->load($extension . '.manage', $source, null, false, false)
-				||	$lang->load($extension, $source, null, false, false)
-				||	$lang->load($extension . '.manage', JPATH_ADMINISTRATOR, null, false, false)
-				||	$lang->load($extension, JPATH_ADMINISTRATOR, null, false, false)
-				||	$lang->load($extension . '.manage', $source, $lang->getDefault(), false, false)
-				||	$lang->load($extension, $source, $lang->getDefault(), false, false)
-				||	$lang->load($extension . '.manage', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				||	$lang->load($extension, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+					$lang->load($extension . '.sys', $source, null, false, false)
+				||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
+				||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+				||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
 			}
 		}
 	}
@@ -481,6 +481,9 @@ class JInstallerPlugin extends JAdapterInstance
 			return false;
 		}
 
+		// Attempt to load the language file; might have uninstall strings
+		$this->loadLanguage(JPATH_PLUGINS .'/'.$row->folder.'/'.$row->element);
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Installer Trigger Loading
@@ -556,8 +559,8 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// If the folder is empty, let's delete it
 		$files = JFolder::files($this->parent->getPath('extension_root'));
+		
 		JFolder::delete($this->parent->getPath('extension_root'));
-
 
 		if ($msg) {
 			$this->parent->set('extension_message',$msg);
@@ -583,6 +586,7 @@ class JInstallerPlugin extends JAdapterInstance
 			$file_list = JFolder::files(JPATH_SITE.DS.'plugins'.DS.$folder,'\.xml$');
 			foreach ($file_list as $file)
 			{
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE.'/plugins/'.$folder.'/'.$file);
 				$file = JFile::stripExt($file);
 				if ($file == 'example') continue; // ignore example plugins
 				$extension = &JTable::getInstance('extension');
@@ -592,6 +596,7 @@ class JInstallerPlugin extends JAdapterInstance
 				$extension->set('folder', $folder);
 				$extension->set('name', $file);
 				$extension->set('state', -1);
+				$extension->set('manifest_cache', serialize($manifest_details));
 				$results[] = $extension;
 			}
 			$folder_list = JFolder::folders(JPATH_SITE.DS.'plugins'.DS.$folder);
@@ -600,6 +605,7 @@ class JInstallerPlugin extends JAdapterInstance
 				$file_list = JFolder::files(JPATH_SITE.DS.'plugins'.DS.$folder.DS.$plugin_folder,'\.xml$');
 				foreach ($file_list as $file)
 				{
+					$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE.'/plugins/'.$folder.'/'.$plugin_folder.'/'.$file);
 					$file = JFile::stripExt($file);
 					if ($file == 'example') continue; // ignore example plugins
 					$extension = &JTable::getInstance('extension');
@@ -609,6 +615,7 @@ class JInstallerPlugin extends JAdapterInstance
 					$extension->set('folder', $folder);
 					$extension->set('name', $file);
 					$extension->set('state', -1);
+					$extension->set('manifest_cache', serialize($manifest_details));
 					$results[] = $extension;
 				}
 			}
@@ -637,8 +644,15 @@ class JInstallerPlugin extends JAdapterInstance
 			$manifestPath = $client->path . DS . 'plugins'. DS . $this->parent->extension->folder . DS . $this->parent->extension->element . '.xml';
 		}
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$description = (string)$this->parent->manifest->description;
+		if ($description) {
+			$this->parent->set('message', JText::_($description));
+		}
+		else {
+			$this->parent->set('message', '');
+		}
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JApplicationHelper::parseXMLInstallFile($manifestPath);
 		$this->parent->extension->manifest_cache = serialize($manifest_details);
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
@@ -660,7 +674,7 @@ class JInstallerPlugin extends JAdapterInstance
 		// Similar to modules and templates, rather easy
 		// If its not in the extensions table we just add it
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . DS . 'plugins'. DS . $this->parent->extension->folder . DS . $this->parent->extension->element . '.xml';
+		$manifestPath = $client->path . '/plugins/'. $this->parent->extension->folder . '/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));

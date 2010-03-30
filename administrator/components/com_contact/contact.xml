@@ -57,7 +57,7 @@
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_contact.ini
 			</language>
-			<language tag="en-GB">language/en-GB.com_contact.menu.ini
+			<language tag="en-GB">language/en-GB.com_contact.sys.ini
 			</language>
 		</languages>
 	</administration>

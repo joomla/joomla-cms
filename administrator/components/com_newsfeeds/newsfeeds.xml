@@ -55,7 +55,7 @@
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_newsfeeds.ini
 			</language>
-			<language tag="en-GB">language/en-GB.com_newsfeeds.menu.ini
+			<language tag="en-GB">language/en-GB.com_newsfeeds.sys.ini
 			</language>
 		</languages>
 	</administration>

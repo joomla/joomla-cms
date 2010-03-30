@@ -27,15 +27,6 @@ class InstallerViewDefault extends JView
 
 	function display($tpl=null)
 	{
-		/*
-		 * Set toolbar items for the page
-		 */
-		JToolBarHelper::title(JText::_('EXTENSION_MANAGER'), 'install.png');
-
-		// Document
-		$document = & JFactory::getDocument();
-		$document->setTitle(JText::_('EXTENSION_MANAGER').' : '.JText::_($this->getName()));
-
 		// Get data from the model
 		$state		= &$this->get('State');
 
@@ -52,15 +43,27 @@ class InstallerViewDefault extends JView
 		$this->assignRef('state',		$state);
 
 		JHtml::_('behavior.tooltip');
+		$this->_setToolbar();
 		parent::display($tpl);
 	}
-
 	/**
-	 * Should be overloaded by extending view
-	 *
-	 * @param	int $index
+	 * Display the toolbar
 	 */
-	function loadItem($index=0)
+	protected function _setToolbar()
 	{
+		$canDo	= InstallerHelper::getActions();
+		/*
+		 * Set toolbar items for the page
+		 */
+		JToolBarHelper::title(JText::_('INSTALLER_HEADER_' . $this->getName()), 'install.png');
+
+		if ($canDo->get('core.admin')) {
+			JToolBarHelper::preferences('com_installer');
+			JToolBarHelper::divider();
+		}
+		JToolBarHelper::help('screen.installer','JTOOLBAR_HELP');
+		// Document
+		$document = & JFactory::getDocument();
+		$document->setTitle(JText::_('INSTALLER_TITLE_' . $this->getName()));
 	}
 }

@@ -51,6 +51,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 
 			<?php echo $this->form->getLabel('module'); ?>
 			<?php echo $this->form->getInput('module'); ?>
+			<input type="text" size="35" value="<?php if ($this->item->xml) echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module;else echo JText::_(MODULES_ERR_XML);?>" class="readonly" readonly="readonly" />
 
 			<?php echo $this->form->getLabel('showtitle'); ?>
 			<?php echo $this->form->getInput('showtitle'); ?>

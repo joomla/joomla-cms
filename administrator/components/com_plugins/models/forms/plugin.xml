@@ -11,12 +11,9 @@
 
 		<field
 			name="name"
-			type="text"
+			type="hidden"
 			label="COM_PLUGINS_FIELD_NAME_LABEL"
-			description="COM_PLUGINS_FIELD_NAME_DESC"
-			class="inputbox"
-			size="30"
-			required="true" />
+			description="COM_PLUGINS_FIELD_NAME_DESC" />
 
 		<field
 			name="enabled"

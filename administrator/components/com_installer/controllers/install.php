@@ -27,7 +27,6 @@ class InstallerControllerInstall extends JController {
 			$cache->clean();
 			// TODO: Reset the users acl here as well to kill off any missing bits
 		}
-		$model->saveState(); // Save the state because this is where our messages are stored
-		$this->setRedirect('index.php?option=com_installer&view=install');
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=install',false));
 	}
 }

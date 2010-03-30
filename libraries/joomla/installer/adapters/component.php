@@ -34,16 +34,20 @@ class JInstallerComponent extends JAdapterInstance
 	 * @param	string	$path the path where to find language files
 	 * @since	1.6
 	 */
-	public function loadLanguage($path)
+	public function loadLanguage($path=null)
 	{
+		$source = $this->parent->getPath('source');
+		if (!$source) {
+			$this->parent->setPath('source', ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/components/'.$this->parent->extension->element);
+		}
 		$this->manifest = &$this->parent->getManifest();
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
-		$check = substr($name, 0, 4);
-		if ($check="com_") {
-		$name = substr($name, 4); }
+		if (substr($name, 0, 4)=="com_") {
+			$name = substr($name, 4);
+		}
 		$extension = "com_$name";
 		$lang =& JFactory::getLanguage();
-		$source = $path;
+		$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/components/'.$extension;
 		if($this->manifest->administration->files)
 		{
 			$element = $this->manifest->administration->files;
@@ -64,14 +68,11 @@ class JInstallerComponent extends JAdapterInstance
 				$source = "$path/$folder";
 			}
 		}
-			$lang->load($extension . '.manage', $source, null, false, false)
-		||	$lang->load($extension, $source, null, false, false)
-		||	$lang->load($extension . '.manage', JPATH_ADMINISTRATOR, null, false, false)
-		||	$lang->load($extension, JPATH_ADMINISTRATOR, null, false, false)
-		||	$lang->load($extension . '.manage', $source, $lang->getDefault(), false, false)
-		||	$lang->load($extension, $source, $lang->getDefault(), false, false)
-		||	$lang->load($extension . '.manage', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-		||	$lang->load($extension, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+			$lang->load($extension . '.sys', $source, null, false, false)
+		||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
+		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+		||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+		var_dump($extension);
 	}
 	/**
 	 * Custom install method for components
@@ -96,9 +97,10 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Set the extensions name
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
-		$check=substr($name, 0, 4);
-		if ($check="com_") {
-		$name = substr($name, 4); }
+		if (substr($name, 0, 4)=="com_") {
+			$name = substr($name, 4);
+		}
+
 		$this->set('name', $name);
 		$this->set('element', strtolower('com_'.$name));
 
@@ -467,7 +469,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Set the extensions name
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		$check=substr($name, 0, 4);
-		if ($check="com_") {
+		if ($check=="com_") {
 		$name = substr($name, 4); }
 		$element = strtolower('com_'.$name);
 		$this->set('name', $name);
@@ -842,13 +844,6 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS.'components'.DS.$row->element));
 		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator')); // copy this as its used as a common base
 
-		// Attempt to load the admin language file; might have uninstall strings
-		$lang = &JFactory::getLanguage();
-		// 1.6
-		$lang->load($row->element, $this->parent->getPath('extension_administrator'));
-		// 1.5 or Core
-		$lang->load($row->element);
-
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Manifest Document Setup Section
@@ -876,12 +871,16 @@ class JInstallerComponent extends JAdapterInstance
 			return false;
 		}
 
+
 		// Set the extensions name
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		$check=substr($name, 0, 4);
-		if ($check="com_") {
+		if ($check=="com_") {
 		$name = substr($name, 4); }
 		$this->set('name', $name);
+
+		// Attempt to load the admin language file; might have uninstall strings
+		$this->loadLanguage(JPATH_ADMINISTRATOR . '/components/com_'.$name);
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -1267,24 +1266,29 @@ class JInstallerComponent extends JAdapterInstance
 
 		foreach ($site_components as $component) {
 			if (file_exists(JPATH_SITE.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml')) {
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml');
+				$file = JFile::stripExt($file);
 				$extension = &JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 0);
 				$extension->set('element', $component);
 				$extension->set('name', $component);
 				$extension->set('state', -1);
+				$extension->set('manifest_cache', serialize($manifest_details));
 				$results[] = $extension;
 			}
 		}
 
 		foreach ($admin_components as $component) {
 			if (file_exists(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml')) {
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml');
 				$extension = &JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 1);
 				$extension->set('element', $component);
 				$extension->set('name', $component);
 				$extension->set('state', -1);
+				$extension->set('manifest_cache', serialize($manifest_details));
 				$results[] = $extension;
 			}
 		}
@@ -1331,9 +1335,9 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Set the extensions name
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
-		$check=substr($name, 0, 4);
-		if ($check="com_") {
-		$name = substr($name, 4); }
+		if (substr($name, 0, 4)=="com_") {
+			$name = substr($name, 4);
+		}
 		$element = strtolower('com_'.$name);
 		$this->set('name', $name);
 		$this->set('element', $element);

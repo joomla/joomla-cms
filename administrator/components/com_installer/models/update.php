@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 // Import library dependencies
-require_once dirname(__FILE__).DS.'extension.php';
+jimport('joomla.application.component.modellist');
 jimport('joomla.installer.installer');
 jimport('joomla.updater.updater');
 jimport('joomla.updater.update');
@@ -21,52 +21,37 @@ jimport('joomla.updater.update');
  * @subpackage	com_installer
  * @since		1.5
  */
-class InstallerModelUpdate extends InstallerModel
+class InstallerModelUpdate extends JModelList
 {
-	/**
-	 * Extension Type
-	 * @var	string
-	 */
-	var $_type = 'update';
-
-	var $_message = '';
+	protected $_context = 'com_installer.update';
 
 	/**
-	 * Current update list
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
 	 */
-	protected function _loadItems()
-	{
-		jimport('joomla.filesystem.folder');
+	protected function _populateState() {
+		$app = JFactory::getApplication('administrator');
+		$this->setState('message',$app->getUserState('com_installer.message'));
+		$this->setState('extension_message',$app->getUserState('com_installer.extension_message'));
+		$app->setUserState('com_installer.message','');
+		$app->setUserState('com_installer.extension_message','');
+		parent::_populateState('name', 'asc');
+	}
 
-		/* Get a database connector */
-		$db =& JFactory::getDBO();
-
-		$query = 'SELECT *' .
-				' FROM #__updates' .
-		//' WHERE extension_id != 0' . // we only want actual updates
-				' ORDER BY type, client_id, folder, name';
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
-
-		$apps =& JApplicationHelper::getClientInfo();
-
-		$numRows = count($rows);
-		for($i=0;$i < $numRows; $i++)
-		{
-			$row =& $rows[$i];
-			$row->jname = JString::strtolower(str_replace(" ", "_", $row->name));
-			if (isset($apps[$row->client_id])) {
-				$row->client = ucfirst($apps[$row->client_id]->name);
-			} else {
-				$row->client = $row->client_id;
-			}
-		}
-		$this->setState('pagination.total', $numRows);
-		if ($this->_state->get('pagination.limit') > 0) {
-			$this->_items = array_slice($rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit'));
-		} else {
-			$this->_items = $rows;
-		}
+	/**
+	 * Method to get the database query
+	 *
+	 * @return JDatabaseQuery the database query
+	 */
+	protected function _getListQuery() {
+		$query = new JDatabaseQuery;
+		$query->select('*');
+		$query->from('#__updates');
+		$query->order($this->getState('list.ordering').' '.$this->getState('list.direction'));
+		return $query;
 	}
 
 	/**
@@ -185,8 +170,8 @@ class InstallerModelUpdate extends InstallerModel
 		// TODO: Reconfigure this code when you have more battery life left
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
-		$this->setState('message', $installer->message);
-		$this->setState('extension.message', $installer->get('extension.message'));
+		$app->setUserState('com_installer.message', $installer->message);
+		$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
 
 		// Cleanup the install files
 		if (!is_file($package['packagefile']))

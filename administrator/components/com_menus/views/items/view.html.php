@@ -30,6 +30,7 @@ class MenusViewItems extends JView
 	 */
 	public function display($tpl = null)
 	{
+		$lang 		= &JFactory::getLanguage();
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
 		$pagination	= $this->get('Pagination');
@@ -43,13 +44,73 @@ class MenusViewItems extends JView
 		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-
+		
 		// Preprocess the list of items to find ordering divisions.
 		foreach ($items as $i => &$item)
 		{
 			// TODO: Complete the ordering stuff with nested sets
 			$item->order_up = true;
 			$item->order_dn = true;
+			
+			// item type text
+			switch ($item->type) {
+				case 'url':
+					$value = JText::_('COM_MENUS_TYPE_EXTERNAL_URL');
+					break;
+	
+				case 'alias':
+					$value = JText::_('COM_MENUS_TYPE_ALIAS');
+					break;
+	
+				case 'separator':
+					$value = JText::_('COM_MENUS_TYPE_SEPARATOR');
+					break;
+					
+				case 'component':
+				default:
+					// load language
+						$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR, null, false, false)
+					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR.'/components/'.$item->componentname, null, false, false)
+					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR.'/components/'.$item->componentname, $lang->getDefault(), false, false);
+					
+					$value = JText::_($item->componentname);
+					
+					parse_str($item->link, $vars);
+					if (isset($vars['view'])) {
+						// Attempt to load the view xml file.
+						$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/metadata.xml';
+						if (is_file($file) && $xml = simplexml_load_file($file)) {
+							// Look for the first view node off of the root node.
+							if ($view = $xml->xpath('view[1]')) {
+								if (!empty($view[0]['title'])) {									
+									$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
+									
+									// Attempt to load the layout xml file.
+									$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
+									if (is_file($file) && $xml = simplexml_load_file($file)) {
+										// Look for the first view node off of the root node.
+										if ($layout = $xml->xpath('layout[1]')) {
+											if (!empty($layout[0]['title'])) {
+												$value .= ' » ' . JText::_(trim((string) $layout[0]['title']));
+											}
+										}
+										if (!empty($layout[0]->message[0])) {
+											$items[$i]->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
+										}
+									}
+								}
+							}
+							unset($xml);
+						}
+						else {
+							// Special case for absent views
+							$value .= ' » ' . JText::_($item->componentname.'_'.$vars['view'].'_VIEW_DEFAULT_TITLE');
+						}
+					}
+					break;	
+			}
+			$items[$i]->item_type = $value;
 		}
 
 		// Levels filter.

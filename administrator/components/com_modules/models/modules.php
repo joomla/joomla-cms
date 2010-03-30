@@ -58,7 +58,7 @@ class ModulesModelModules extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::_populateState('a.position', 'asc');
+		parent::_populateState('position', 'asc');
 	}
 
 	/**
@@ -83,6 +83,33 @@ class ModulesModelModules extends JModelList
 		$id	.= ':'.$this->getState('filter.client_id');
 
 		return parent::_getStoreId($id);
+	}
+	/**
+	 * Returns an object list
+	 *
+	 * @param	string The query
+	 * @param	int Offset
+	 * @param	int The number of records
+	 * @return	array
+	 */
+	protected function _getList($query, $limitstart=0, $limit=0)
+	{
+		$this->_db->setQuery($query);
+		$result = $this->_db->loadObjectList();
+		$client = $this->getState('filter.client_id') ? 'administrator' : 'site';
+		$lang = JFactory::getLanguage();
+		foreach($result as $i=>$item) {
+			$extension = $item->module;
+			$source = constant('JPATH_' . strtoupper($client)) . "/modules/$extension";
+				$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), null, false, false)
+			||	$lang->load("$extension.sys", $source, null, false, false)
+			||	$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false)
+			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
+			$result[$i]->name = JText::_($item->name);
+		}
+		JArrayHelper::sortObjects($result,$this->getState('list.ordering', 'ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1);
+
+		return array_slice($result, $limitstart, $limit ? $limit : null);
 	}
 
 	/**
@@ -117,6 +144,11 @@ class ModulesModelModules extends JModelList
 		// Join over the module menus
 		$query->select('MIN(mm.menuid) AS pages');
 		$query->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = a.id');
+		$query->group('a.id');
+
+		// Join over the extensions
+		$query->select('e.name AS name');
+		$query->join('LEFT', '#__extensions AS e ON e.element = a.module');
 		$query->group('a.id');
 
 		// Filter by access level.
@@ -166,7 +198,7 @@ class ModulesModelModules extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+//		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

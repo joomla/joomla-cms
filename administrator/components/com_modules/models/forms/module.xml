@@ -23,7 +23,7 @@
 			size="35"
 		/>
 
-		<field name="module" type="text"
+		<field name="module" type="hidden"
 			description="COM_MODULES_FIELD_MODULE_DESC"
 			label="COM_MODULES_FIELD_MODULE_LABEL"
 			readonly="readonly"

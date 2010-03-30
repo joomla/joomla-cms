@@ -56,7 +56,7 @@
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_weblinks.ini
 			</language>
-			<language tag="en-GB">language/en-GB.com_weblinks.menu.ini
+			<language tag="en-GB">language/en-GB.com_weblinks.sys.ini
 			</language>
 		</languages>
 	</administration>

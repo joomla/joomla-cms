@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<form>
+	<fields name="search">
+		<fieldset
+			name="search"
+		>
+			<field
+				id="expr"
+				name="expr"
+				type="search"
+				label="JSearch_Filter_Label"
+				description="JSearch_Filter"
+			/>
+			<field
+				id="hideprotected"
+				name="hideprotected"
+				type="checkbox"
+				value="1"
+				label="INSTALLER_LABEL_MANAGE_HIDEPROTECTED"
+				description="INSTALLER_LABEL_MANAGE_HIDEPROTECTED_DESC"
+				onclick="this.form.submit();"
+			/>
+		</fieldset>
+	</fields>
+	<fields name="select">
+		<fieldset
+			name="select"
+		>
+			<field
+				id="type"
+				name="type"
+				type="type"
+				hidden="true"
+				onchange="this.form.submit();"
+			>
+				<option value="">INSTALLER_OPTION_MANAGE_TYPE_SELECT</option>
+			</field>
+			<field
+				id="group"
+				name="group"
+				type="group"
+				hidden="true"
+				onchange="this.form.submit();"
+			>
+				<option value="">INSTALLER_OPTION_MANAGE_FOLDER_SELECT</option>
+				<option value="*">INSTALLER_OPTION_MANAGE_FOLDER_NONAPPLICABLE</option>
+			</field>
+			<field
+				id="client"
+				name="client"
+				type="client"
+				hidden="true"
+				onchange="this.form.submit();"
+			>
+				<option value="">INSTALLER_OPTION_MANAGE_CLIENT_SELECT</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>
+

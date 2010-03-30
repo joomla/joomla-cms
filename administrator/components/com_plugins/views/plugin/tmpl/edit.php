@@ -34,6 +34,7 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
+			<input type="text" value="<?php echo JText::_($this->item->name);?>" class="readonly" readonly="readonly" size="35" />
 
 			<?php echo $this->form->getLabel('enabled'); ?>
 			<?php echo $this->form->getInput('enabled'); ?>

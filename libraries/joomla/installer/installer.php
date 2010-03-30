@@ -394,6 +394,12 @@ class JInstaller extends JAdapter
 			{
 				if (method_exists($this->_adapters[$this->extension->type], 'discover_install'))
 				{
+					// Add the languages from the package itself
+					if (method_exists($this->_adapters[$this->extension->type], 'loadLanguage'))
+					{
+						$this->_adapters[$this->extension->type]->loadLanguage();
+					}
+
 					// Fire the onBeforeExtensionInstall event.
 					JPluginHelper::importPlugin('installer');
 					$dispatcher =& JDispatcher::getInstance();

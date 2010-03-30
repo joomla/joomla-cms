@@ -16,7 +16,7 @@ class InstallerControllerDiscover extends JController {
 	{
 		$model	= &$this->getModel('discover');
 		$model->discover();
-		$this->setRedirect('index.php?option=com_installer&view=discover');
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=discover',false));
 	}
 
 	/**
@@ -26,8 +26,7 @@ class InstallerControllerDiscover extends JController {
 	{
 		$model	= &$this->getModel('discover');
 		$model->discover_install();
-		$model->saveState(); // Save the state because this is where our messages are stored
-		$this->setRedirect('index.php?option=com_installer&view=discover');
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=discover',false));
 	}
 
 	/**
@@ -37,6 +36,6 @@ class InstallerControllerDiscover extends JController {
 	{
 		$model = &$this->getModel('discover');
 		$model->purge();
-		$this->setRedirect('index.php?option=com_installer&view=discover', $model->_message);
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=discover',false), $model->_message);
 	}
 }
