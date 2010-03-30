@@ -761,6 +761,7 @@ class MenusModelItem extends JModelForm
 			}
 
 			// Confirm a view is defined.
+			$formFile = false;
 			if (isset($args['view'])) {
 				$view = $args['view'];
 

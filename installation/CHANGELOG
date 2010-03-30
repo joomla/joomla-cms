@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Mar-2010 Mark Dexter
+# Fix PHP undefined var notice in New Menu Item 
 
 30-Mar-2010 Sam Moffat
  + Added wincache session handler for IIS, thanks to Ruslan from Microsoft
