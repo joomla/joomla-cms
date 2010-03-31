@@ -10,7 +10,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+require_once dirname(__FILE__) . DS . 'articles.php';
 
 /**
  * Content Component Archive Model
@@ -19,22 +19,84 @@ jimport('joomla.application.component.model');
  * @subpackage	com_content
  * @since		1.5
  */
-class ContentModelArchive extends JModel
+class ContentModelArchive extends ContentModelArticles
 {
 	/**
-	 * Article list array
+	 * Model context string.
 	 *
-	 * @var array
+	 * @var		string
 	 */
-	protected $_data = array();
+	public $_context = 'com_content.archive';
 
 	/**
-	 * Article total
+	 * Method to auto-populate the model state.
 	 *
-	 * @var integer
+	 * @since	1.6
 	 */
-	protected $_total = 0;
+	protected function _populateState()
+	{
+		parent::_populateState();
 
+		// Add archive properties
+		$params = $this->_state->params;
+		
+		// Filter on archived articles
+		$this->setState('filter.published', -1);
+		
+		// Filter on month, year
+		$this->setState('filter.month', JRequest::getInt('month'));
+		$this->setState('filter.year', JRequest::getInt('year'));
+		
+		// Optional filter text
+		$this->setState('list.filter', JRequest::getString('filter-search'));
+		
+		// Get list limit
+		$app =& JFactory::getApplication();
+		$itemid = JRequest::getInt('Itemid', 0);
+		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'));
+		$this->setState('list.limit', $limit);
+	}	
+	
+	/**
+	 * @return	JDatabaseQuery
+	 */
+	function _getListQuery()
+	{
+		// Set the archive ordering
+		$params = $this->_state->params;
+		$articleOrderby = $params->get('orderby_sec', 'rdate');
+		$articleOrderDate = $params->get('order_date');
+		
+		// No category ordering
+		$categoryOrderby = '';
+		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
+		$primary = ContentHelperQuery::orderbyPrimary($categoryOrderby);
+
+		$orderby = $primary . ' ' . $secondary . ' a.created DESC ';
+		$this->setState('list.ordering', $orderby);
+		$this->setState('list.direction', '');
+		// Create a new query object.
+		$query = parent::_getListQuery();
+		
+		// Add routing for archive
+		$query->select(' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug');
+		$query->select(' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as catslug');
+		
+		// Filter on month, year
+		// First, get the date field
+		$queryDate = ContentHelperQuery::getQueryDate($articleOrderDate);
+		
+		if ($month = $this->getState('filter.month')) {
+			$query->where('MONTH('. $queryDate . ') = ' . $month);
+		}
+		
+		if ($year = $this->getState('filter.year')) {
+			$query->where('YEAR('. $queryDate . ') = ' . $year);
+		}
+		
+		return $query;
+	}
+	
 	/**
 	 * Method to get the archived article list
 	 *
@@ -62,26 +124,8 @@ class ContentModelArchive extends JModel
 		return $this->_data;
 	}
 
-	/**
-	 * Method to get the total number of content items for the frontpage
-	 *
-	 * @access public
-	 * @return integer
-	 */
-	public function getTotal()
-	{
-		// Lets load the content if it doesn't already exist
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery(true);
-			$this->_db->setQuery($query);
-			$this->_total = $this->_db->loadResult();
-		}
-		return $this->_total;
-	}
-
 	// JModel override to add alternating value for $odd
-	protected function &_getList($query, $limitstart=0, $limit=0)
+	protected function _getList($query, $limitstart=0, $limit=0)
 	{
 		$result = &parent::_getList($query, $limitstart, $limit);
 
@@ -94,113 +138,4 @@ class ContentModelArchive extends JModel
 		return $result;
 	}
 
-	protected function _buildQuery($countOnly = false)
-	{
-		$app = JFactory::getApplication();
-		// Get the page/component configuration
-		$params = &$app->getParams();
-
-		// If voting is turned on, get voting data as well for the content items
-		$voting	= ContentHelperQuery::buildVotingQuery($params);
-
-		// Get the WHERE and ORDER BY clauses for the query
-		$where		= $this->_buildContentWhere();
-		$orderby	= $this->_buildContentOrderBy();
-
-		if (!$countOnly) {
-			$query = 'SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,'.
-				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access, cc.title AS category,' .
-				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
-				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-				' CHAR_LENGTH(a.`fulltext`) AS readmore, u.name AS author, u.usertype'.$voting['select'];
-		} else {
-			$query = 'SELECT count(*) ';
-		}
-		$query .=
-			' FROM #__content AS a' .
-			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
-			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
-			$voting['join'].
-			$where.
-			$orderby;
-
-		return $query;
-	}
-
-	protected function _buildContentOrderBy()
-	{
-		$filter_order		= JRequest::getCmd('filter_order');
-		$filter_order_Dir	= JRequest::getWord('filter_order_Dir');
-
-		$orderby = ' ORDER BY ';
-		if ($filter_order && $filter_order_Dir) {
-			$orderby .= $filter_order.' '.$filter_order_Dir.', ';
-		}
-
-		// Get the page/component configuration
-		$params = $this->getState('parameters.menu');
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
-		}
-
-		// Special ordering for archive articles
-		$orderby_sec	= $params->def('orderby', 'rdate');
-		$primary		= ContentHelperQuery::orderbySecondary($orderby_sec);
-		$orderby		.= $primary;
-
-		return $orderby;
-	}
-
-	protected function _buildContentWhere()
-	{
-		$app = JFactory::getApplication();
-
-		// Initialise some variables
-		$user	= &JFactory::getUser();
-		$db		= &JFactory::getDbo();
-		$groups	= implode(',', $user->authorisedLevels());
-
-		$where = ' WHERE a.access IN ('.$groups.')';
-		$where .= ' AND cc.access IN ('.$groups.')';
-		$where .= ' AND cc.published = 1';
-
-		$where .= ' AND a.state = -1';
-		$year	= JRequest::getInt('year');
-		if ($year) {
-			$where .= ' AND YEAR(a.created) = \''.$year.'\'';
-		}
-		$month	= JRequest::getInt('month');
-		if ($month) {
-			$where .= ' AND MONTH(a.created) = \''.$month.'\'';
-		}
-
-		/*
-		 * If we have a filter... lets tack the AND clause
-		 * for the filter onto the WHERE clause of the archive query.
-		 */
-		$filter = JRequest::getString('filter', '', 'post');
-		if ($filter) {
-			// clean filter variable
-			$filter = JString::strtolower($filter);
-			$filter	= $db->Quote('%'.$db->getEscaped($filter, true).'%', false);
-
-			// Get the page/component configuration
-			$params = &$app->getParams();
-			switch ($params->get('filter_type', 'title'))
-			{
-				case 'title' :
-					$where .= ' AND LOWER(a.title) LIKE '.$filter;
-					break;
-
-				case 'author' :
-					$where .= ' AND ((LOWER(u.name) LIKE '.$filter.') OR (LOWER(a.created_by_alias) LIKE '.$filter.'))';
-					break;
-
-				case 'hits' :
-					$where .= ' AND a.hits LIKE '.$filter;
-					break;
-			}
-		}
-		return $where;
-	}
 }

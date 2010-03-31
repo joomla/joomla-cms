@@ -19,62 +19,31 @@ jimport('joomla.application.component.view');
  */
 class ContentViewArchive extends JView
 {
+	protected $state = null;
+	protected $item = null;
+	protected $items = null;
+	protected $pagination = null;
+	
 	function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-		$option = JRequest::getCmd('option');
-
-		if (empty($layout))
-		{
-			// degrade to default
-			$layout = 'list';
-		}
-
-		// Initialise some variables
+		$app =& JFactory::getApplication();
 		$user		= &JFactory::getUser();
+		
+		$state = $this->get('State');
+		$items = $this->get('Items');
+		$pagination = $this->get('Pagination');
+		
 		$pathway	= &$app->getPathway();
 		$document	= &JFactory::getDocument();
 
 		// Get the page/component configuration
-		$params = &$app->getParams('com_content');
-
-		// Request variables
-		$task		= JRequest::getCmd('task');
-		$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		$month		= JRequest::getInt('month');
-		$year		= JRequest::getInt('year');
-		$filter		= JRequest::getString('filter');
-
-		// Get some data from the model
-		$state = & $this->get('state');
-		$items = & $this->get('data' );
-		$total = & $this->get('total');
-
-		// Add item to pathway
-		$pathway->addItem(JText::_('Archive'), '');
-
-		$params->def('filter',			1);
-		$params->def('filter_type',		'title');
-
-		jimport('joomla.html.pagination');
-		$pagination = new JPagination($total, $limitstart, $limit);
-
-		$menus	= &JSite::getMenu();
-		$menu	= $menus->getActive();
-
-		// because the application sets a default page title, we need to get it
-		// right from the menu item itself
-		if (is_object($menu)) {
-			$menu_params = new JRegistry;
-			$menu_params->loadJSON($menu->params);
-			if (!$menu_params->get('page_title')) {
-				$params->set('page_title',	JText::_('Archives'));
-			}
-		} else {
-			$params->set('page_title',	JText::_('Archives'));
+		$params =& $state->params;
+		
+		foreach ($items as $item) 
+		{
+			$item->catslug = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 		}
-		$document->setTitle($params->get('page_title'));
 
 		$form = new stdClass();
 		// Month Field
@@ -99,28 +68,25 @@ class ContentViewArchive extends JView
 			'month',
 			array(
 				'list.attr' => 'size="1" class="inputbox"',
-				'list.select' => $month,
+				'list.select' => $state->get('filter.month'),
 				'option.key' => null
 			)
 		);
 		// Year Field
 		$years = array();
 		$years[] = JHtml::_('select.option', null, JText::_('Year'));
-		for ($i = 2000; $i <= 2010; $i++) {
+		for ($i = 2000; $i <= 2020; $i++) {
 			$years[] = JHtml::_('select.option', $i, $i);
 		}
 		$form->yearField = JHtml::_(
 			'select.genericlist',
 			$years,
 			'year',
-			array('list.attr' => 'size="1" class="inputbox"', 'list.select' => $year)
+			array('list.attr' => 'size="1" class="inputbox"', 'list.select' => $state->get('filter.year'))
 		);
 		$form->limitField = $pagination->getLimitBox();
 
-		$this->assign('filter', $filter);
-		$this->assign('year', $year);
-		$this->assign('month', $month);
-
+		$this->assign('filter', $state->get('list.filter'));
 		$this->assignRef('form', $form);
 		$this->assignRef('items', $items);
 		$this->assignRef('params', $params);

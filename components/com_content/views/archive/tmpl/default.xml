@@ -13,21 +13,175 @@
 		<fieldset name="basic"
 		>
 
-			<field name="orderby" type="list"
-				description="fieldORDERBY"
-				label="ORDER_BY"
+			<field name="orderby_sec" type="list"
+				description="JGLOBAL_Article_Order_Desc"
+				label="JGLOBAL_Article_Order_Label"
 			>
-				<option value="">Default</option>
-				<option value="date">Oldest first</option>
-				<option value="rdate">Most recent first</option>
-				<option value="alpha">Title Alphabetical</option>
-				<option value="ralpha">Title Reverse-Alphabetical</option>
-				<option value="author">Author Alphabetical</option>
-				<option value="rauthor">Author Reverse-Alphabetical</option>
-				<option value="hits">Most Hits</option>
-				<option value="rhits">Least Hits</option>
-				<option value="order">Ordering</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="date">JGLOBAL_Oldest_first</option>
+				<option value="rdate">JGLOBAL_Most_recent_first</option>
+				<option value="alpha">JGLOBAL_Title_Alphabetical</option>
+				<option value="ralpha">JGLOBAL_Title_Reverse_Alphabetical</option>
+				<option value="author">JGLOBAL_Author_Alphabetical</option>
+				<option value="rauthor">JGLOBAL_Author_Reverse_Alphabetical</option>
+				<option value="hits">JGLOBAL_Most_Hits</option>
+				<option value="rhits">JGLOBAL_Least_Hits</option>
+				<option value="order">JGLOBAL_Article_Manager_Order</option>
+			</field>
+
+			<field name="order_date" type="list"
+				description="JGLOBAL_Ordering_Date_Desc"
+				label="JGLOBAL_Ordering_Date_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="created">JGLOBAL_Created</option>
+				<option value="modified">JGLOBAL_Modified</option>
+				<option value="published">JGLOBAL_Published</option>
+			</field>
+
+			<field name="display_num" type="list"
+				description="JGLOBAL_Number_Items_List_Desc"
+				label="JGLOBAL_Number_Items_List_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="5">J5</option>
+				<option value="10">J10</option>
+				<option value="15">J15</option>
+				<option value="20">J20</option>
+				<option value="25">J25</option>
+				<option value="30">J30</option>
+				<option value="50">J50</option>
+				<option value="100">J100</option>
+				<option value="0">JALL</option>
+			</field>
+
+			<field name="filter_field" type="list"
+				description="JGLOBAL_Filter_Field_Desc"
+				label="JGLOBAL_Filter_Field_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="hide">Hide</option>
+				<option value="title">Title</option>
+				<option value="author">Author</option>
+				<option value="hits">Hits</option>
+			</field>
+
+		</fieldset>
+
+		<!-- Articles options. -->
+		<fieldset name="articles"
+			label="Content_Attribs_Article_Settings_Label"
+		>
+
+			<field name="show_category" type="list"
+				description="JGLOBAL_Show_Category_Desc"
+				label="JGLOBAL_Show_Category_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</field>
+
+			<field name="link_category" type="list"
+				description="JGLOBAL_Link_Category_Desc"
+				label="JGLOBAL_Link_Category_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
+			</field>
+
+			<field name="show_title" type="list"
+				description="JGLOBAL_Show_Title_Desc"
+				label="JGLOBAL_Show_Title_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</field>
+
+			<field name="link_titles" type="list"
+				description="JGLOBAL_Linked_Titles_Desc"
+				label="JGLOBAL_Linked_Titles_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
+			</field>
+
+			<field name="show_intro" type="list"
+				description="JGLOBAL_Show_Intro_Desc"
+				label="JGLOBAL_Show_Intro_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</field>
+
+			<field name="show_author" type="list"
+				description="JGLOBAL_Show_Author_Desc"
+				label="JGLOBAL_Show_Author_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</field>
+
+			<field name="show_create_date" type="list"
+				description="JGLOBAL_Show_Create_Date_Desc"
+				label="JGLOBAL_Show_Create_Date_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</field>
+
+			<field name="show_modify_date" type="list"
+				description="JGLOBAL_Show_Modify_Date_Desc"
+				label="JGLOBAL_Show_Modify_Date_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</field>
+
+			<field name="show_publish_date" type="list"
+				description="JGLOBAL_Show_Publish_Date_Desc"
+				label="JGLOBAL_Show_Publish_Date_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</field>
+
+
+			<field name="show_item_navigation" type="list"
+				description="JGLOBAL_Show_Navigation_Desc"
+				label="JGLOBAL_Show_Navigation_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</field>
+
+			<field name="show_readmore" type="list"
+				description="JGLOBAL_Show_Readmore_Desc"
+				label="JGLOBAL_Show_Readmore_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_hits" type="list"
+				description="JGLOBAL_Show_Hits_Desc"
+				label="JGLOBAL_Show_Hits_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
 			</field>
 		</fieldset>
+
 	</fields>
 </metadata>
