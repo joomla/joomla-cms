@@ -176,7 +176,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		echo "Navigate to Control Panel.\n";
 		$this->gotoAdmin();
 		echo "Navigate to Banner Manager.\n";
-		$this->click("link=Banner");
+		$this->click("link=Banners");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Banners manager: Banners"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-new']/a/span"));
@@ -257,7 +257,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-popup-Popup']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-help']/a/span"));
 		echo "Navigate to News Feed Categories.\n";
-		$this->click("//ul[@id='menu-news-feeds']/li[2]/a");
+		$this->click("//ul[@id='menu-newsfeeds']/li[2]/a");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Category Manager"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-new']/a/span"));
@@ -270,7 +270,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-refresh']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-help']/a/span"));
 		echo "Navigate to Redirect.\n";
-		$this->click("link=Redirect");
+		$this->click("link=Redirect Manager");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Redirect Manager: Links"));
 
@@ -299,7 +299,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-popup-Popup']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-help']/a/span"));
 		echo "Navigate to Web Links Categories.\n";
-		$this->click("//ul[@id='menu-web-links']/li[2]/a");
+		$this->click("//ul[@id='menu-weblinks']/li[2]/a");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Category Manager"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-new']/a/span"));

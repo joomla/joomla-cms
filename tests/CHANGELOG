@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Mar-2010 Mark Dexter
+# Minor fixes to control panel tests for changed wording on menus
+
 27-Mar-2010 Mark Dexter
 # Fix bug in doInstall.php 
 
