@@ -78,12 +78,12 @@ class InstallerModelUpdate extends JModelList
 		$db->setQuery('TRUNCATE TABLE #__updates');
 		if ($db->Query())
 		{
-			$this->_message = JText::_('PURGED_UPDATES');
+			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
 			return true;
 		}
 		else
 		{
-			$this->_message = JText::_('FAILED_TO_PURGE_UPDATES');
+			$this->_message = JText::_('COM_INSTALLER_FAILED_TO_PURGE_UPDATES');
 			return false;
 		}
 	}
@@ -123,7 +123,7 @@ class InstallerModelUpdate extends JModelList
 			$url = $update->downloadurl->_data;
 		} else
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Invalid extension update'));
+			JError::raiseWarning('', JText::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'));
 			return false;
 		}
 
@@ -133,7 +133,7 @@ class InstallerModelUpdate extends JModelList
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Package download failed').': '. $url);
+			JError::raiseWarning('', JText::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url));
 			return false;
 		}
 
@@ -151,13 +151,13 @@ class InstallerModelUpdate extends JModelList
 		if (!$installer->install($package['dir']))
 		{
 			// There was an error installing the package
-			$msg = JText::sprintf('INSTALLEXT', JText::_($package['type']), JText::_('Error'));
+			$msg = JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', $package['type']);
 			$result = false;
 		}
 		else
 		{
 			// Package installed sucessfully
-			$msg = JText::sprintf('INSTALLEXT', JText::_($package['type']), JText::_('Success'));
+			$msg = JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', $package['type']);
 			$result = true;
 		}
 

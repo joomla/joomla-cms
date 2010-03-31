@@ -14,12 +14,12 @@ defined('_JEXEC') or die;
 	<td><?php echo $this->pagination->getRowOffset($this->item->index); ?></td>
 	<td>
 		<input type="checkbox" id="cb<?php echo $this->item->index;?>" name="uid[]" value="<?php echo $this->item->update_id; ?>" onclick="isChecked(this.checked);" />
-		<span class="editlinktip hasTip" title="<?php echo JText::_('Description');?>::<?php echo $this->item->description ? $this->item->description : JText::_('NODESC'); ?>">
+		<span class="editlinktip hasTip" title="<?php echo JText::_('INSTALLER_TIP_UPDATE_DESCRIPTION');?>::<?php echo $this->item->description ? $this->item->description : JText::_('INSTALLER_MSG_UPDATE_NODESC'); ?>">
 		<?php echo $this->item->name; ?>
 		</span>
 	</td>
 	<td class="center">
-		<?php echo $this->item->extension_id ? JText::_('Update') : JText::_('NEW_INSTALL') ?>
+		<?php echo $this->item->extension_id ? JText::_('INSTALLER_MSG_UPDATE_UPDATE') : JText::_('INSTALLER_MSG_UPDATE_NEW') ?>
 	</td>
 	<td>
 		<?php echo JText::_($this->item->type) ?>

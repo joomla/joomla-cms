@@ -117,11 +117,11 @@ class InstallerModel extends JModel
 
 		if (count($failed)) {
 			// There was an error in uninstalling the package
-			$msg = JText::sprintf('UNINSTALLEXT', JText::_($this->_type), JText::_('Error'));
+			$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', JText::_($this->_type));
 			$result = false;
 		} else {
 			// Package uninstalled sucessfully
-			$msg = JText::sprintf('UNINSTALLEXT', JText::_($this->_type), JText::_('Success'));
+			$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', JText::_($this->_type));
 			$result = true;
 		}
 
@@ -139,7 +139,7 @@ class InstallerModel extends JModel
 	 */
 	protected function _loadItems()
 	{
-		return JError::raiseError(500, JText::_('Method Not Implemented'));
+		return JError::raiseError(500, JText::_('COM_INSTALLER_ERROR_METHOD'));
 	}
 
 	/**

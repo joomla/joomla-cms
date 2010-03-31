@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Mar-2010 Jean-Marie Simonet
+$ Refactored com_installer ini/keys
+
 30-Mar-2010 Mark Dexter
 # Fix PHP undefined var notice in New Menu Item 
 

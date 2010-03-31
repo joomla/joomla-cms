@@ -34,7 +34,7 @@ $lang->load($this->item->name, JPATH_SITE);
 	<td class="center"><?php echo @$this->item->folder != '' ? $this->item->folder : 'N/A'; ?></td>
 	<td class="center"><?php echo @$this->item->client != '' ? $this->item->client : 'N/A'; ?></td>
 	<td>
-		<span class="editlinktip hasTip" title="<?php echo JText::_('AUTHOR_INFORMATION');?>::<?php echo $this->item->author_info; ?>">
+		<span class="editlinktip hasTip" title="<?php echo JText::_('COM_INSTALLER_AUTHOR_INFORMATION');?>::<?php echo $this->item->author_info; ?>">
 			<?php echo @$this->item->author != '' ? $this->item->author : '&nbsp;'; ?>
 		</span>
 	</td>

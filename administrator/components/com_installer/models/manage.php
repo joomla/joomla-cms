@@ -89,7 +89,7 @@ class InstallerModelManage extends JModelList {
 			}
 		} else {
 			$result = false;
-			JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+			JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 		}
 		return $result;
 	}
@@ -172,13 +172,13 @@ class InstallerModelManage extends JModelList {
 			if (count($failed)) {
 
 				// There was an error in uninstalling the package
-				$msg = JText::sprintf('INSTALLER_MSG_UNINSTALLEXT', JText::_('INSTALLER_' . $row->type), JText::_('INSTALLER_ERROR'));
+				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $row->type);
 				$result = false;
 			}
 			else {
 
 				// Package uninstalled sucessfully
-				$msg = JText::sprintf('INSTALLER_MSG_UNINSTALLEXT', JText::_('INSTALLER_' . $row->type), JText::_('INSTALLER_SUCCESS'));
+				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $row->type);
 				$result = true;
 			}
 			$app = & JFactory::getApplication();
@@ -190,7 +190,7 @@ class InstallerModelManage extends JModelList {
 			return $result;
 		} else {
 			$result = false;
-			JError::raiseWarning(403, JText::_('JError_Core_Delete_not_permitted'));
+			JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 		}
 	}
 
@@ -270,7 +270,7 @@ class InstallerModelManage extends JModelList {
 			$row->name = JText::_($row->name);
 			$row->description = JText::_(@$row->description);
 			$row->author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
-			$row->client = $row->client_id ? JText::_('INSTALLER_ADMINISTRATOR') : JText::_('INSTALLER_SITE');
+			$row->client = $row->client_id ? JText::_('COM_INSTALLER_TYPE_ADMINISTRATOR') : JText::_('COM_INSTALLER_TYPE_SITE');
 			if ($search && !preg_match("/$search/i", $row->name)) {
 				unset($result[$i]);
 				continue;

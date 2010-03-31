@@ -55,7 +55,7 @@ class InstallerViewDefault extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title(JText::_('INSTALLER_HEADER_' . $this->getName()), 'install.png');
+		JToolBarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'install.png');
 
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_installer');
@@ -64,6 +64,6 @@ class InstallerViewDefault extends JView
 		JToolBarHelper::help('screen.installer','JTOOLBAR_HELP');
 		// Document
 		$document = & JFactory::getDocument();
-		$document->setTitle(JText::_('INSTALLER_TITLE_' . $this->getName()));
+		$document->setTitle(JText::_('COM_INSTALLER_TITLE_' . $this->getName()));
 	}
 }

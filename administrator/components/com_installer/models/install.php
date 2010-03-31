@@ -93,14 +93,14 @@ class InstallerModelInstall extends JModel
 				break;
 
 			default:
-				$app->setUserState('com_installer.message', 'JNo_Install_Type_Found');
+				$app->setUserState('com_installer.message', JText::_('COM_INSTALLER_NO_INSTALL_TYPE_FOUND'));
 				return false;
 				break;
 		}
 
 		// Was the package unpacked?
 		if (!$package) {
-			$app->setUserState('com_installer.message', 'UNABLE_TO_FIND_INSTALL_PACKAGE');
+			$app->setUserState('com_installer.message', JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'));
 			return false;
 		}
 
@@ -113,11 +113,11 @@ class InstallerModelInstall extends JModel
 		// Install the package
 		if (!$installer->install($package['dir'])) {
 			// There was an error installing the package
-			$msg = JText::sprintf('INSTALLER_MSG_INSTALL_INSTALLEXT', JText::_('INSTALLER_' . $package['type']), JText::_('INSTALLER_ERROR'));
+			$msg = JText::sprintf('COM_INSTALLER_INSTALL_ERROR', $package['type']);
 			$result = false;
 		} else {
 			// Package installed sucessfully
-			$msg = JText::sprintf('INSTALLER_MSG_INSTALL_INSTALLEXT', JText::_('INSTALLER_' . $package['type']), JText::_('INSTALLER_SUCCESS'));
+			$msg = JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', $package['type']);
 			$result = true;
 		}
 
@@ -151,26 +151,26 @@ class InstallerModelInstall extends JModel
 
 		// Make sure that file uploads are enabled in php
 		if (!(bool) ini_get('file_uploads')) {
-			JError::raiseWarning('INSTALLER_SOME_ERROR_CODE', JText::_('INSTALLER_MSG_INSTALL_WARNINSTALLFILE'));
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'));
 			return false;
 		}
 
 		// Make sure that zlib is loaded so that the package can be unpacked
 		if (!extension_loaded('zlib')) {
-			JError::raiseWarning('INSTALLER_SOME_ERROR_CODE', JText::_('INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'));
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'));
 			return false;
 		}
 
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile)) {
-			JError::raiseWarning('INSTALLER_SOME_ERROR_CODE', JText::_('JNo_file_selected'));
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'));
 			return false;
 		}
 
 		// Check if there was a problem uploading the file.
 		if ($userfile['error'] || $userfile['size'] < 1)
 		{
-			JError::raiseWarning('INSTALLER_SOME_ERROR_CODE', JText::_('INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'));
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'));
 			return false;
 		}
 
@@ -204,7 +204,7 @@ class InstallerModelInstall extends JModel
 
 		// Did you give us a valid directory?
 		if (!is_dir($p_dir)) {
-			JError::raiseWarning('INSTALLER_SOME_ERROR_CODE', JText::_('INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'));
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_PACKAGE_DIRECTORY'));
 			return false;
 		}
 
@@ -213,7 +213,7 @@ class InstallerModelInstall extends JModel
 
 		// Did you give us a valid package?
 		if (!$type) {
-			JError::raiseWarning('INSTALLER_SOME_ERROR_CODE', JText::_('INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'));
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'));
 			return false;
 		}
 
@@ -242,7 +242,7 @@ class InstallerModelInstall extends JModel
 
 		// Did you give us a URL?
 		if (!$url) {
-			JError::raiseWarning('INSTALLER_SOME_ERROR_CODE', JText::_('INSTALLER_MSG_INSTALL_PLEASE_ENTER_A_URL'));
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'));
 			return false;
 		}
 
@@ -251,7 +251,7 @@ class InstallerModelInstall extends JModel
 
 		// Was the package downloaded?
 		if (!$p_file) {
-			JError::raiseWarning('INSTALLER_SOME_ERROR_CODE', JText::_('INSTALLER_MSG_INSTALL_INVALID_URL'));
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'));
 			return false;
 		}
 

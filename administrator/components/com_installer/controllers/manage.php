@@ -28,7 +28,7 @@ class InstallerControllerManage extends JController {
 	public function publish()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -38,7 +38,7 @@ class InstallerControllerManage extends JController {
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'));
 		}
 		else
 		{
@@ -52,12 +52,14 @@ class InstallerControllerManage extends JController {
 			else
 			{
 				if ($value == 1) {
-					$text = 'JSuccess_N_Items_published';
+					$text = 'COM_INSTALLER_EXTENSION_PUBLISHED';
+					$ntext = 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
 				}
-				else {
-					$text = 'JSuccess_N_Items_unpublished';
+				else if ($value == 0) {
+					$text = 'COM_INSTALLER_EXTENSION_UNPUBLISHED';
+					$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
 				}
-				$this->setMessage(JText::sprintf($text, count($ids)));
+				$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
 			}
 		}
 
@@ -73,7 +75,7 @@ class InstallerControllerManage extends JController {
 	public function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model	= &$this->getModel('manage');
 		$eid = JRequest::getVar('cid', array(), '', 'array');
@@ -90,7 +92,7 @@ class InstallerControllerManage extends JController {
 	function refresh()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model	= &$this->getModel('manage');
 		$uid = JRequest::getVar('cid', array(), '', 'array');

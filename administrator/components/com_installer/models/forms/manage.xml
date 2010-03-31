@@ -9,16 +9,16 @@
 				id="expr"
 				name="expr"
 				type="search"
-				label="JSearch_Filter_Label"
-				description="JSearch_Filter"
+				label="JSEARCH_FILTER_LABEL"
+				description="JSEARCH_FILTER"
 			/>
 			<field
 				id="hideprotected"
 				name="hideprotected"
 				type="checkbox"
 				value="1"
-				label="INSTALLER_LABEL_MANAGE_HIDEPROTECTED"
-				description="INSTALLER_LABEL_MANAGE_HIDEPROTECTED_DESC"
+				label="COM_INSTALLER_LABEL_HIDEPROTECTED_LABEL"
+				description="COM_INSTALLER_LABEL_HIDEPROTECTED_DESC"
 				onclick="this.form.submit();"
 			/>
 		</fieldset>
@@ -34,7 +34,7 @@
 				hidden="true"
 				onchange="this.form.submit();"
 			>
-				<option value="">INSTALLER_OPTION_MANAGE_TYPE_SELECT</option>
+				<option value="">COM_INSTALLER_VALUE_TYPE_SELECT</option>
 			</field>
 			<field
 				id="group"
@@ -43,8 +43,8 @@
 				hidden="true"
 				onchange="this.form.submit();"
 			>
-				<option value="">INSTALLER_OPTION_MANAGE_FOLDER_SELECT</option>
-				<option value="*">INSTALLER_OPTION_MANAGE_FOLDER_NONAPPLICABLE</option>
+				<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
+				<option value="*">COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE</option>
 			</field>
 			<field
 				id="client"
@@ -53,9 +53,8 @@
 				hidden="true"
 				onchange="this.form.submit();"
 			>
-				<option value="">INSTALLER_OPTION_MANAGE_CLIENT_SELECT</option>
+				<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
 			</field>
 		</fieldset>
 	</fields>
 </form>
-

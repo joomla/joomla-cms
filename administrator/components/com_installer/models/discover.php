@@ -112,7 +112,7 @@ class InstallerModelDiscover extends JModelList
 			$row->name = JText::_($row->name);
 			$row->description = JText::_($row->description);
 			$row->author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
-			$row->client = $row->client_id ? JText::_('INSTALLER_ADMINISTRATOR') : JText::_('INSTALLER_SITE');
+			$row->client = $row->client_id ? JText::_('COM_INSTALLER_ADMINISTRATOR') : JText::_('COM_INSTALLER_SITE');
 		}
 		JArrayHelper::sortObjects($result, $this->getState('list.ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1);
 		$total = count($result);
@@ -193,16 +193,16 @@ class InstallerModelDiscover extends JModelList
 				$result = $installer->discover_install($id);
 				if (!$result) {
 					$failed = true;
-					$app->enqueueMessage(JText::_('INSTALLER_MSG_DISCOVER_INSTALLFAILED').': '. $id);
+					$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLFAILED').': '. $id);
 				}
 			}
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
 			$app->setUserState('com_installer.message', $installer->message);
 			$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
-			if (!$failed) $app->enqueueMessage(JText::_('INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'));
+			if (!$failed) $app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'));
 		} else {
-			$app->enqueueMessage(JText::_('INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));
 		}
 	}
 
@@ -217,10 +217,10 @@ class InstallerModelDiscover extends JModelList
 		$query->where('state = -1');
 		$db->setQuery((string)$query);
 		if ($db->Query()) {
-			$this->_message = JText::_('INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
+			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
 			return true;
 		} else {
-			$this->_message = JText::_('INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
+			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 			return false;
 		}
 	}
