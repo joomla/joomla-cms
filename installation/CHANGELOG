@@ -32,6 +32,7 @@ $ -> Language fix or change
 # Minor language file fixes
 # Bug fixes in content layout files (Angie Radtke)
 ^ Add CSS classes to pagination (Angie Radtke)
+# Misc. module layout fixes (Angie Radtke)
 
 31-Mar-2010 Jean-Marie Simonet
 $ Refactored com_installer ini/keys

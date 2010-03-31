@@ -15,7 +15,7 @@ $guest = JText::sprintf(($count['guest'] == 1) ? 'MOD_WHOSONLINE_GUEST' : 'MOD_W
 $member = JText::sprintf(($count['user'] == 1) ? 'MOD_WHOSONLINE_MEMBER' : 'MOD_WHOSONLINE_MEMBERS', $count['user']);
 
 if ($showmode == 0 || $showmode == 2) :
-	echo JText::sprintf('MOD_WHOSONLINE_WE_HAVE', $guest, $member);
+	echo '<p>'. JText::sprintf('MOD_WHOSONLINE_WE_HAVE', $guest, $member).'</p>';
 endif;
 
 if (($showmode > 0) && count($names)) : ?>
