@@ -380,6 +380,11 @@ class ContentModelArticles extends JModelList
 			 *  TODO: investigate if it is better to sync the namespace usage in JRegistry and JParameter, if we let it unsync the we need to know what namespace are the Objects are using before we merge
 			 */
 			$articleParams->loadJSON($item->attribs);
+			
+			// Unpack readmore and layout params
+			$item->alternative_readmore = $articleParams->get('alternative_readmore');
+			$item->layout = $articleParams->get('layout');
+			
 			$item->params = clone $this->getState('params');
 
 			// For blogs, article params override menu item params only if menu param = 'use_article'

@@ -68,7 +68,7 @@ class ContentViewArticle extends JView
 		$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 		$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 		$item->parent_slug = $item->category_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
-		
+
 		// TODO: Change based on shownoauth
 		$item->readmore_link = JRoute::_(ContentRoute::article($item->slug, $item->catslug));
 
@@ -159,6 +159,17 @@ class ContentViewArticle extends JView
 				}
 			}
 		}
+
+	// Unify the introtext and fulltext fields and separated the fields by the {readmore} tag
+		if ($this->item->params->get('show_intro') == 1) 
+		{
+			$this->item->text = $this->item->introtext." ".$this->item->fulltext;
+		} 
+		else 
+		{
+			$this->item->text = $this->item->fulltext;
+		}
+
 		if (empty($title))
 		{
 			$title = $this->item->title;

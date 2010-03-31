@@ -98,7 +98,7 @@ $n = count($this->articles);
 						$menu		= JSite::getMenu();
 						$active		= $menu->getActive();
 						$itemId		= $active->id;
-						$link = JRoute::_('index.php?option=com_users&view=login&&Itemid='.$itemId);
+						$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
 						$returnURL = JRoute::_(ContentRoute::article($article->slug));
 						$fullURL = new JURI($link);
 						$fullURL->setVar('return', base64_encode($returnURL));
@@ -112,16 +112,18 @@ $n = count($this->articles);
 	</tbody>
 	</table>
 
-	<?php if ($this->params->get('show_pagination')) : ?>
+<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
 	<div class="pagination">
-	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-						<p class="counter">
-								<?php echo $this->pagination->getPagesCounter(); ?>
-						</p>
-	<?php endif; ?>
-			<?php echo $this->pagination->getPagesLinks(); ?>
-		</div>
-	<?php endif; ?>
+
+
+		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
+         	<p class="counter">
+                <?php echo $this->pagination->getPagesCounter(); ?>
+        	</p>
+        <?php  endif; ?>
+				<?php echo $this->pagination->getPagesLinks(); ?>
+	</div>
+<?php endif; ?>
 
 	<!-- @TODO add hidden inputs -->
 	<input type="hidden" name="filter_order" value="" />

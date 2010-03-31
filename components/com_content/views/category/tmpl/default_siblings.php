@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 <?php if (empty($this->siblings)) : ?>
 	no siblings
 <?php else : ?>
-	<h5>Siblings</h5>
+	<h3>Siblings</h3>
 	<ul>
 		<?php foreach ($this->siblings as &$item) : ?>
 		<li>

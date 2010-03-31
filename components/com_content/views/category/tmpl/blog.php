@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'/helpers');
 $cparams =& JComponentHelper::getParams('com_media');
 
 // If the page class is defined, add to class as suffix.
@@ -44,8 +44,15 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php if ($this->children): ?>
 	<ul class="subcategories">
 		<?php foreach($this->children as $child) : ?>
-				<li><a href="<?php /*TODO  Needs a class */  echo ContentRoute::category($child->id); ?>">
-					<?php echo $child->title; ?></a> <?php /* echo @TODO numitems not loaded $child->numitems; */?></li>
+				<li><a class="subcategories-link" href="<?php /*TODO  Needs a class */  echo ContentRoute::category($child->id); ?>">
+					<?php echo $child->title; ?></a>
+					<?php if ($this->params->get('show_description', 1))
+						  {  echo '<div class="category-desc">';
+							 echo $child->description;
+							 echo '</div>';
+						  }
+				?>
+					<?php /* echo @TODO numitems not loaded $child->numitems; */?></li>
 		<?php endforeach; ?>
 	</ul>
 <?php endif;?>
@@ -87,7 +94,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		?>
 	</div>
 	<?php $counter++; ?>
-	<?php if (($rowcount == $this->columns) or ($counter == $introcount)): ?>
+	<?php if (($rowcount == $this->columns) or ($counter ==$introcount)): ?>
 				<span class="row-separator"></span>
 				</div>
 
@@ -98,13 +105,13 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif; ?>
 
 <?php if (!empty($this->link_items)) : ?>
-	<div class="items-more">
+
 	<?php echo $this->loadTemplate('links'); ?>
-	</div>
+
 <?php endif; ?>
 
 
-<?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
+<?php if (($this->params->def('show_pagination', 1) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
 		<div class="pagination">
 						<?php  if ($this->params->def('show_pagination_results', 1)) : ?>
 						<p class="counter">

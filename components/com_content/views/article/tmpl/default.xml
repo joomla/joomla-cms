@@ -84,6 +84,15 @@
 			<option value="1">JYes</option>
 		</field>
 
+		<field name="show_intro" type="list"
+			description="JGLOBAL_Show_Intro_Desc"
+			label="JGLOBAL_Show_Intro_Label"
+			>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</field>
+
 		<field
 			name="show_category"
 			type="list"

@@ -128,7 +128,7 @@ class ContentModelArticle extends JModelItem
 				$data->metadata = $registry;
 
 				// Compute access permissions.
-				if ($access) {
+				if ($access = $this->getState('filter.access')) {
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}

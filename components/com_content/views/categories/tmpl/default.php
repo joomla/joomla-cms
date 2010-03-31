@@ -19,24 +19,24 @@ $pageClass = $this->params->get('pageclass_sfx');
 <div class="categories-list<?php echo $pageClass;?>">
 
 <?php if ($this->params->get('show_page_title', 1)) : ?>
-<h2>
+<h1>
 	<?php if ($this->escape($this->params->get('page_heading'))) :?>
 		<?php echo $this->escape($this->params->get('page_heading')); ?>
 	<?php else : ?>
 		<?php echo $this->escape($this->params->get('page_title')); ?>
 	<?php endif; ?>
-</h2>
+</h1>
 <?php endif; ?>
 
 <?php if (!empty($this->items)) :
 	$level = $this->items[0]->level;
 	$itemcount=count($this->items);
-?>	
+?>
 <ul>
 
 	<?php for ($i=0;$i<$itemcount;$i++) :
 		$item = &$this->items[$i];
-	?>	
+	?>
 	<li<?php echo $item->sclass != '' ? ' class="'.$item->sclass.'"' : ''?>>
 		<span class="item-title"><a href="<?php echo JRoute::_(ContentRoute::category($item->slug));?>">
 			<?php echo $this->escape($item->title); ?></a>
@@ -49,7 +49,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 
 <?php
 		// The next item is deeper.
-		if ($item->deeper) 
+		if ($item->deeper)
 		{
 			echo "\n<ul>";
 		}

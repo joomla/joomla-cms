@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 <?php if (empty($this->children)) : ?>
 	<!-- no children  -->
 <?php else : ?>
-	<h5>Sub Categories</h5>
+	<h3>Sub Categories</h3>
 <?php
 	// Initialise the starting level
 	// starting level is the parent level coming in
