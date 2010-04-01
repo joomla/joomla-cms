@@ -482,6 +482,7 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 
 		// Attempt to load the language file; might have uninstall strings
+		$this->parent->setPath('source', JPATH_PLUGINS .'/'.$row->folder.'/'.$row->element);
 		$this->loadLanguage(JPATH_PLUGINS .'/'.$row->folder.'/'.$row->element);
 
 		/**
