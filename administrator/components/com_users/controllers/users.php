@@ -64,6 +64,9 @@ class UsersControllerUsers extends JController
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
 		}
+		elseif (in_array($user->id, $ids)) {
+			JError::raiseWarning(500, JText::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
+		}
 		else {
 			// Get the model.
 			$model = $this->getModel();
