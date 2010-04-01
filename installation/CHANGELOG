@@ -27,12 +27,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-1 April-2010 Christophe Demko
+01-Apr-2010 Mark Dexter
+# Fix bug processing content plugin in single-article
+
+01-Apr-2010 Christophe Demko
 # Fix bug #19744 of the tracker
 # Fix bug #20072 of the tracker
 # Correctly loading the language file on plugin uninstalling
 
-1-April-2010 Jean-Marie Simonet
+01-Apr-2010 Jean-Marie Simonet
 ^$ Creating JSITE and JADMINISTRATOR keys in main ini file. Globally consolidated all keys with same value to these new keys.
 - Removed xmlrpc library + some 
 
