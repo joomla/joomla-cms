@@ -270,7 +270,7 @@ class InstallerModelManage extends JModelList {
 			$row->name = JText::_($row->name);
 			$row->description = JText::_(@$row->description);
 			$row->author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
-			$row->client = $row->client_id ? JText::_('COM_INSTALLER_TYPE_ADMINISTRATOR') : JText::_('COM_INSTALLER_TYPE_SITE');
+			$row->client = $row->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
 			if ($search && !preg_match("/$search/i", $row->name)) {
 				unset($result[$i]);
 				continue;

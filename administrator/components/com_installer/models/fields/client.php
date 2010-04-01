@@ -36,8 +36,8 @@ class JFormFieldClient extends JFormField
 		foreach ($this->element->children() as $option) {
 			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_(trim($option->data())));
 		}
-		$options[] = JHtml::_('select.option', '0', JText::sprintf('COM_INSTALLER_OPTION_SITE'));
-		$options[] = JHtml::_('select.option', '1', JText::sprintf('COM_INSTALLER_OPTION_ADMINISTRATOR'));
+		$options[] = JHtml::_('select.option', '0', JText::sprintf('JSITE'));
+		$options[] = JHtml::_('select.option', '1', JText::sprintf('JADMINISTRATOR'));
 		$return = JHtml::_('select.genericlist', $options, $this->name, $onchange, 'value', 'text', $this->value, $this->id);
 		return $return;
 	}

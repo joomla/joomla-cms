@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 //
 // Site SubMenu
 //
-$menu->addChild(new JMenuNode(JText::_('MOD_MENU_SITE'), null, 'disabled'));
+$menu->addChild(new JMenuNode(JText::_('JSITE'), null, 'disabled'));
 
 //
 // Users Submenu

@@ -76,7 +76,7 @@ $user = & JFactory::getUser();
 						<?php echo $item->name;?></a>
 				</td>
 				<td class="center">
-					<?php echo $item->client_id == 0 ? JText::_('COM_TEMPLATES_OPTION_SITE') : JText::_('COM_TEMPLATES_OPTION_ADMINISTRATOR'); ?>
+					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->xmldata->get('version')); ?>

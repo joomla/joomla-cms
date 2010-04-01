@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 // Site SubMenu
 //
 $menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_SITE'), '#'), true
+	new JMenuNode(JText::_('JSITE'), '#'), true
 );
 $menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_CONTROL_PANEL'), 'index.php', 'class:cpanel')

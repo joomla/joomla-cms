@@ -50,8 +50,8 @@ class CacheViewCache extends JView
 	{
 		$user = JFactory::getUser();
 		$condition = ($this->client->name == 'site');
-		JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0', $condition);
-		JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1', !$condition);
+		JSubMenuHelper::addEntry(JText::_('JSITE'), 'index.php?option=com_cache&client=0', $condition);
+		JSubMenuHelper::addEntry(JText::_('JADMINISTRATOR'), 'index.php?option=com_cache&client=1', !$condition);
 
 		JToolBarHelper::title(JText::_('COM_CACHE_MANAGER').' - '.JText::_('COM_CACHE_CLEAR_CACHE_ADMIN'), 'clear.png');
 		JToolBarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_TRASH', true);

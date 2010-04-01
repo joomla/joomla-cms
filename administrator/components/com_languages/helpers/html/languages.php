@@ -49,8 +49,8 @@ abstract class JHtmlLanguages {
 	public static function clients()
 	{
 		return array(
-			JHtml::_('select.option', 0, JText::_('COM_LANGS_OPTION_CLIENT_SITE')),
-			JHtml::_('select.option', 1, JText::_('COM_LANGS_OPTION_CLIENT_ADMINISTRATOR'))
+			JHtml::_('select.option', 0, JText::_('JSITE')),
+			JHtml::_('select.option', 1, JText::_('JADMINISTRATOR'))
 		);
 	}
 
@@ -64,11 +64,11 @@ abstract class JHtmlLanguages {
 	{
 		// Build the active state filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', 'JOption_Published');
-		$options[]	= JHtml::_('select.option', '0', 'JOption_Unpublished');
+		$options[]	= JHtml::_('select.option', '1', 'JOPTION_PUBLISHED');
+		$options[]	= JHtml::_('select.option', '0', 'JOPTION_UNPUBLISHED');
 		$options[]	= JHtml::_('select.option', '-1', 'COM_LANGS_FIELD_VALUE_DISABLED');
-		$options[]	= JHtml::_('select.option', '-2', 'JOption_Trash');
-		$options[]	= JHtml::_('select.option', '*', 'JOption_All');
+		$options[]	= JHtml::_('select.option', '-2', 'JOPTION_TRASH');
+		$options[]	= JHtml::_('select.option', '*', 'JOPTION_ALL');
 
 		return $options;
 	}

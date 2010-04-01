@@ -112,7 +112,7 @@ class InstallerModelDiscover extends JModelList
 			$row->name = JText::_($row->name);
 			$row->description = JText::_($row->description);
 			$row->author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
-			$row->client = $row->client_id ? JText::_('COM_INSTALLER_ADMINISTRATOR') : JText::_('COM_INSTALLER_SITE');
+			$row->client = $row->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
 		}
 		JArrayHelper::sortObjects($result, $this->getState('list.ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1);
 		$total = count($result);

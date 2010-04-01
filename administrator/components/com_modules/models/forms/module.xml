@@ -73,8 +73,8 @@
 			readonly="true"
 			size="1"
 		>
-			<option value="0">COM_MODULES_OPTION_SITE</option>
-			<option value="1">COM_MODULES_OPTION_ADMINISTRATOR</option>
+			<option value="0">JSITE</option>
+			<option value="1">JADMINISTRATOR</option>
 		</field>
 
 		<field name="position" type="moduleposition"

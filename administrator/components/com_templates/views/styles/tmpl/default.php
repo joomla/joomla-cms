@@ -96,7 +96,7 @@ $user = JFactory::getUser();
 					</label>
 				</td>
 				<td class="center">
-					<?php echo $item->client_id == 0 ? JText::_('COM_TEMPLATES_OPTION_SITE') : JText::_('COM_TEMPLATES_OPTION_ADMINISTRATOR'); ?>
+					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 				</td>
 				<td class="center">
 					<?php if ($item->home == 1) : ?>
