@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+1-April-2010 Louis Landry
+^ [#19982] JTable Improvements thanks to Jonnathan S. Lima!
+
 1 April-2010 Christophe Demko
 # Fix bug #19744 of the tracker
 # Fix bug #20072 of the tracker
