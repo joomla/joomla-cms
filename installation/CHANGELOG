@@ -32,6 +32,7 @@ $ -> Language fix or change
 
 1-April-2010 Jean-Marie Simonet
 ^$ Creating JSITE and JADMINISTRATOR keys in main ini file. Globally consolidated all keys with same value to these new keys.
+- Removed xmlrpc library + some 
 
 31-Mar-2010 Mark Dexter
 ^ Implement parameters in Archived Articles menu item
