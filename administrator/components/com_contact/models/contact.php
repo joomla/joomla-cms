@@ -172,7 +172,7 @@ class ContactModelContact extends JModelForm
 		$data['email_form'] = array();
 
 		if (!$table->bind($data)) {
-			$this->setError(JText::sprintf('JERROR_TABLE_BIND_FAILED', $table->getError()));
+			$this->setError($table->getError());
 			return false;
 		}
 

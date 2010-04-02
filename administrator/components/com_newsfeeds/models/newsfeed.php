@@ -185,7 +185,7 @@ class NewsfeedsModelNewsfeed extends JModelForm
 
 		// Bind the data.
 		if (!$table->bind($data)) {
-			$this->setError(JText::sprintf('JERROR_TABLE_BIND_FAILED', $table->getError()));
+			$this->setError($table->getError());
 			return false;
 		}
 
