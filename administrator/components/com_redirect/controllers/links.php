@@ -63,7 +63,7 @@ class RedirectControllerLinks extends JController
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_LINK_SELECTED'));
 		}
 		else {
 			// Get the model.
@@ -74,7 +74,7 @@ class RedirectControllerLinks extends JController
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {
-				$this->setMessage(JText::sprintf('JCONTROLLER_N_ITEMS_DELETED', count($ids)));
+				$this->setMessage(JText::sprintf((count($ids) == 1) ? 'COM_REDIRECT_LINK_DELETED' : 'COM_REDIRECT_N_LINKS_DELETED', count($ids)));
 			}
 		}
 
@@ -96,7 +96,7 @@ class RedirectControllerLinks extends JController
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_LINK_SELECTED'));
 		}
 		else
 		{
@@ -110,18 +110,22 @@ class RedirectControllerLinks extends JController
 			else
 			{
 				if ($value == 1) {
-					$text = 'JSUCCESS_N_ITEMS_PUBLISHED';
+					$text = 'COM_REDIRECT_LINK_PUBLISHED';
+					$ntext = 'COM_REDIRECT_N_LINKS_PUBLISHED';
 				}
 				else if ($value == 0) {
-					$text = 'JSUCCESS_N_ITEMS_UNPUBLISHED';
+					$text = 'COM_REDIRECT_LINK_UNPUBLISHED';
+					$ntext = 'COM_REDIRECT_N_LINKS_UNPUBLISHED';
 				}
 				else if ($value == -1) {
-					$text = 'JSUCCESS_N_ITEMS_ARCHIVED';
+					$text = 'COM_REDIRECT_LINK_ARCHIVED';
+					$ntext = 'COM_REDIRECT_N_LINKS_ARCHIVED';
 				}
 				else {
-					$text = 'JSUCCESS_N_ITEMS_TRASHED';
+					$text = 'COM_REDIRECT_LINK_TRASHED';
+					$ntext = 'COM_REDIRECT_N_LINKS_TRASHED';
 				}
-				$this->setMessage(JText::sprintf($text, count($ids)));
+				$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
 			}
 		}
 
@@ -142,7 +146,7 @@ class RedirectControllerLinks extends JController
 		$comment	= JRequest::getString('comment');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_LINK_SELECTED'));
 		}
 		else {
 			// Get the model.
@@ -154,7 +158,7 @@ class RedirectControllerLinks extends JController
 			}
 			else {
 				count($ids) == 1 ?
-				$this->setMessage(JText::_('COM_REDIR_LINK_UPDATED')) : $this->setMessage(JText::sprintf('COM_REDIR_N_LINKS_UPDATED', count($ids)));
+				$this->setMessage(JText::_('COM_REDIRECT_LINK_UPDATED')) : $this->setMessage(JText::sprintf('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
 			}
 		}
 

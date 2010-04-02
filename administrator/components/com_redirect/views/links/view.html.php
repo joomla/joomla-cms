@@ -56,7 +56,7 @@ class RedirectViewLinks extends JView
 		$state	= $this->get('State');
 		$canDo	= RedirectHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_REDIR_MANAGER_LINKS'), 'redirect');
+		JToolBarHelper::title(JText::_('COM_REDIRECT_MANAGER_LINKS'), 'redirect');
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('link.add','JTOOLBAR_NEW');
 		}

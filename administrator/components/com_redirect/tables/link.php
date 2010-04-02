@@ -72,21 +72,21 @@ class RedirectTableLink extends JTable
 		// Check for valid name.
 		if (empty($this->old_url))
 		{
-			$this->setError(JText::_('COM_REDIR_ERROR_SOURCE_URL_REQUIRED'));
+			$this->setError(JText::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
 			return false;
 		}
 
 		// Check for valid name.
 		if (empty($this->new_url))
 		{
-			$this->setError(JText::_('COM_REDIR_ERROR_DESTINATION_URL_REQUIRED'));
+			$this->setError(JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 			return false;
 		}
 
 		// Check for duplicates
 		if ($this->old_url == $this->new_url)
 		{
-			$this->setError(JText::_('COM_REDIR_ERROR_DUPLICATE_URLS'));
+			$this->setError(JText::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'));
 			return false;
 		}
 		return true;

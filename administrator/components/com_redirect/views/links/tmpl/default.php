@@ -21,7 +21,7 @@ $user	= JFactory::getUser();
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('COM_REDIR_SEARCH_LINKS'); ?>" />
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('COM_REDIRECT_SEARCH_LINKS'); ?>" />
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
@@ -41,16 +41,16 @@ $user	= JFactory::getUser();
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort', 'COM_REDIR_HEADING_OLD_URL', 'a.old_url', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_OLD_URL', 'a.old_url', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="30%">
-					<?php echo JHtml::_('grid.sort', 'COM_REDIR_HEADING_NEW_URL', 'a.new_url', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_NEW_URL', 'a.new_url', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="30%">
-					<?php echo JHtml::_('grid.sort', 'COM_REDIR_HEADING_REFERRER', 'a.referer', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_REFERRER', 'a.referer', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%">
-					<?php echo JHtml::_('grid.sort', 'COM_REDIR_HEADING_CREATED_DATE', 'a.created_date', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_CREATED_DATE', 'a.created_date', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_PUBLISHED', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -66,9 +66,9 @@ $user	= JFactory::getUser();
 					<?php echo $this->pagination->getListFooter(); ?>
 					<p class="footer-tip">
 						<?php if ($this->enabled) : ?>
-							<span class="enabled"><?php echo JText::_('COM_REDIR_PLUGIN_ENABLED'); ?></span>
+							<span class="enabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?></span>
 						<?php else : ?>
-							<span class="disabled"><?php echo JText::_('COM_REDIR_PLUGIN_DISABLED'); ?></span>
+							<span class="disabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?></span>
 						<?php endif; ?>
 					</p>
 				</td>
