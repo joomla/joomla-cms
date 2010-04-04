@@ -33,6 +33,16 @@ class JCacheStorageXCache extends JCacheStorage
 	}
 
 	/**
+	 * Garbage collect expired cache data
+	 *
+	 * @return	boolean  True on success, false otherwise.
+	 */
+	public function gc()
+	{
+		return true;
+	}
+
+	/**
 	 * Get cached data by id and group
 	 *
 	 * @param	string	The cache data id
@@ -99,7 +109,7 @@ class JCacheStorageXCache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	public static function clean($group, $mode)
+	public function clean($group, $mode)
 	{
 		return true;
 	}

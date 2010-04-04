@@ -29,6 +29,16 @@ class JCacheStorageWincache extends JCacheStorage
 	}
 
 	/**
+	 * Garbage collect expired cache data
+	 *
+	 * @return	boolean  True on success, false otherwise.
+	 */
+	public function gc()
+	{
+		return true;
+	}
+
+	/**
 	 * Get cached data from WINCACHE by id and group
 	 *
 	 * @param	string	The cache data id
