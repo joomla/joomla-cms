@@ -24,10 +24,10 @@ abstract class JHtmlJGrid
 	{
 		// Array of image, task, title, action
 		$states	= array(
-			1	=> array('tick.png',		$taskPrefix.'unpublish',	'JState_Published',		'JState_UnPublish_Item'),
-			0	=> array('publish_x.png',	$taskPrefix.'publish',		'JState_UnPublished',	'JState_Publish_Item'),
-			-1	=> array('disabled.png',	$taskPrefix.'unpublish',	'JState_Archived',		'JState_UnPublish_Item'),
-			-2	=> array('trash.png',		$taskPrefix.'publish',		'JState_Trashed',		'JState_Publish_Item'),
+			1	=> array('tick.png',		$taskPrefix.'unpublish',	'JPUBLISHED',		'JState_UnPublish_Item'),
+			0	=> array('publish_x.png',	$taskPrefix.'publish',		'JUNPUBLISHED',	'JState_Publish_Item'),
+			-1	=> array('disabled.png',	$taskPrefix.'unpublish',	'JARCHIVED',		'JState_UnPublish_Item'),
+			-2	=> array('trash.png',		$taskPrefix.'publish',		'JTRASHED',		'JState_Publish_Item'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$html	= JHTML::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true);
@@ -49,10 +49,10 @@ abstract class JHtmlJGrid
 	{
 		// Build the active state filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', 'JOption_Published');
-		$options[]	= JHtml::_('select.option', '0', 'JOption_Unpublished');
-		$options[]	= JHtml::_('select.option', '-2', 'JOption_Trash');
-		$options[]	= JHtml::_('select.option', '*', 'JOption_All');
+		$options[]	= JHtml::_('select.option', '1', 'JPUBLISHED');
+		$options[]	= JHtml::_('select.option', '0', 'JUNPUBLISHED');
+		$options[]	= JHtml::_('select.option', '-2', 'JTRASH');
+		$options[]	= JHtml::_('select.option', '*', 'JALL');
 
 		return $options;
 	}

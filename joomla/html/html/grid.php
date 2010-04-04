@@ -162,7 +162,7 @@ abstract class JHtmlGrid
 		}
 		$img	= $value ? $img1 : $img0;
 		$task	= $value ? 'unpublish' : 'publish';
-		$alt	= $value ? JText::_('Published') : JText::_('Unpublished');
+		$alt	= $value ? JText::_('JPUBLISHED') : JText::_('JUNPUBLISHED');
 		$action = $value ? JText::_('UNPUBLISH_ITEM') : JText::_('PUBLISH_ITEM');
 
 		$href = '

@@ -224,7 +224,7 @@ abstract class JHtmlMenu
 			$mitems[] = JHtml::_('select.option',  '<OPTGROUP>', JText::_('COM_MENUS_OPTION_MENU'));
 
 			if ($all) {
-				$mitems[] = JHtml::_('select.option',  0, JText::_('JOPTION_ALL'));
+				$mitems[] = JHtml::_('select.option',  0, JText::_('JALL'));
 			}
 			if ($unassigned) {
 				$mitems[] = JHtml::_('select.option',  -1, JText::_('JOPTION_UNASSIGNED'));

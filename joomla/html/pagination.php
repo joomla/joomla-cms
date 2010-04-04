@@ -383,7 +383,7 @@ class JPagination extends JObject
 		}
 		$limits[] = JHtml::_('select.option', '50');
 		$limits[] = JHtml::_('select.option', '100');
-		$limits[] = JHtml::_('select.option', '0', JText::_('JOPTION_ALL'));
+		$limits[] = JHtml::_('select.option', '0', JText::_('JALL'));
 
 		$selected = $this->_viewall ? 0 : $this->limit;
 
