@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 03-Apr-2010 Jean-Marie Simonet
 $^+ Consolidating some keys with same value to a unique key in main inis. WIP
+#$ Missing string + bug [20098]. Thank you Klas.
 
 02-Apr-2010 Louis Landry
 ^ [#19982] JTable Improvements thanks to Jonnathan S. Lima!
