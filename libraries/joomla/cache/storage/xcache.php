@@ -22,28 +22,26 @@ class JCacheStorageXCache extends JCacheStorage
 	/**
 	* Constructor
 	*
-	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
-		$config			= &JFactory::getConfig();
+		$config			= JFactory::getConfig();
 		$this->_hash	= $config->get('secret');
 	}
 
 	/**
 	 * Get cached data by id and group
 	 *
-	 * @access	public
-	 * @param	string	$id			The cache data id
-	 * @param	string	$group		The cache data group
-	 * @param	boolean	$checkTime	True to verify cache time expiration threshold
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
+	 * @param	boolean	True to verify cache time expiration threshold
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
@@ -58,14 +56,13 @@ class JCacheStorageXCache extends JCacheStorage
 	/**
 	 * Store the data by id and group
 	 *
-	 * @access	public
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @param	string	$data	The data to store in cache
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
+	 * @param	string	The data to store in cache
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function store($id, $group, $data)
+	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		return xcache_set($cache_id, $data, $this->_lifetime);
@@ -97,13 +94,12 @@ class JCacheStorageXCache extends JCacheStorage
 	 * group mode		: cleans all cache in the group
 	 * notgroup mode	: cleans all cache not in the group
 	 *
-	 * @access	public
-	 * @param	string	$group	The cache data group
-	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
+	 * @param	string	The cache data group
+	 * @param	string	The mode for cleaning cache [group|notgroup]
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function clean($group, $mode)
+	public static function clean($group, $mode)
 	{
 		return true;
 	}
@@ -111,11 +107,9 @@ class JCacheStorageXCache extends JCacheStorage
 	/**
 	 * Test to see if the cache storage is available.
 	 *
-	 * @static
-	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test()
+	public static function test()
 	{
 		return (extension_loaded('xcache'));
 	}
@@ -123,13 +117,12 @@ class JCacheStorageXCache extends JCacheStorage
 	/**
 	 * Get a cache_id string from an id/group pair
 	 *
-	 * @access	private
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
 	 * @return	string	The cache_id string
 	 * @since	1.5
 	 */
-	function _getCacheId($id, $group)
+	protected function _getCacheId($id, $group)
 	{
 		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
 		return 'cache_'.$group.'-'.$name;

@@ -11,7 +11,7 @@
 defined('JPATH_BASE') or die;
 
 /**
- * Joomla! Cache view type object
+ * Joomla Cache view type object
  *
  * @package		Joomla.Framework
  * @subpackage	Cache
@@ -22,7 +22,6 @@ class JCacheView extends JCache
 	/**
 	 * Get the cached view data
 	 *
-	 * @access	public
 	 * @param	object	$view	The view object to cache output for
 	 * @param	string	$method	The method name of the view method to cache output for
 	 * @param	string	$group	The cache data group
@@ -30,7 +29,7 @@ class JCacheView extends JCache
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	function get(&$view, $method, $id=false)
+	public function get(&$view, $method, $id=false)
 	{
 		// Initialise variables.
 		$app = &JFactory::getApplication();
@@ -50,16 +49,14 @@ class JCacheView extends JCache
 			$document->setHeadData((isset($data['head'])) ? $data['head'] : array());
 
 			// If the pathway buffer is set in the cache data, get it.
-			if (isset($data['pathway']) && is_array($data['pathway']))
-			{
+			if (isset($data['pathway']) && is_array($data['pathway'])) {
 				// Push the pathway data into the pathway object.
 				$pathway = &$app->getPathWay();
 				$pathway->setPathway($data['pathway']);
 			}
 
 			// If a module buffer is set in the cache data, get it.
-			if (isset($data['module']) && is_array($data['module']))
-			{
+			if (isset($data['module']) && is_array($data['module'])) {
 				// Iterate through the module positions and push them into the document buffer.
 				foreach ($data['module'] as $name => $contents) {
 					$document->setBuffer($contents, 'module', $name);
@@ -74,8 +71,7 @@ class JCacheView extends JCache
 		/*
 		 * No hit so we have to execute the view
 		 */
-		if (method_exists($view, $method))
-		{
+		if (method_exists($view, $method)) {
 			$document = &JFactory::getDocument();
 
 			// Get the modules buffer before component execution.
@@ -131,13 +127,12 @@ class JCacheView extends JCache
 	/**
 	 * Generate a view cache id
 	 *
-	 * @access	private
-	 * @param	object	$view	The view object to cache output for
-	 * @param	string	$method	The method name to cache for the view object
+	 * @param	object	The view object to cache output for
+	 * @param	string	The method name to cache for the view object
 	 * @return	string	MD5 Hash : view cache id
 	 * @since	1.5
 	 */
-	function _makeId(&$view, $method)
+	protected function _makeId(&$view, $method)
 	{
 		return md5(serialize(array(JRequest::getURI(), get_class($view), $method)));
 	}

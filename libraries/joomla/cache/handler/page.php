@@ -11,7 +11,7 @@
 defined('JPATH_BASE') or die;
 
 /**
- * Joomla! Cache page type object
+ * Joomla Cache page type object
  *
  * @package		Joomla.Framework
  * @subpackage	Cache
@@ -38,13 +38,12 @@ class JCachePage extends JCache
 	/**
 	 * Get the cached page data
 	 *
-	 * @access	public
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	function get($id=false, $group='page')
+	public function get($id=false, $group='page')
 	{
 		// Initialise variables.
 		$data = false;
@@ -82,11 +81,10 @@ class JCachePage extends JCache
 	/**
 	 * Stop the cache buffer and store the cached data
 	 *
-	 * @access	public
 	 * @return	boolean	True if cache stored
 	 * @since	1.5
 	 */
-	function store()
+	public function store()
 	{
 		// Get page data from JResponse body
 		$data = JResponse::getBody();
@@ -108,11 +106,10 @@ class JCachePage extends JCache
 	 * Generate a page cache id
 	 * @todo	Discuss whether this should be coupled to a data hash or a request hash ... perhaps hashed with a serialized request
 	 *
-	 * @access	private
 	 * @return	string	MD5 Hash : page cache id
 	 * @since	1.5
 	 */
-	function _makeId()
+	protected function _makeId()
 	{
 		return md5(JRequest::getURI());
 	}
@@ -120,13 +117,12 @@ class JCachePage extends JCache
 	/**
 	 * There is no change in page data so send a not modified header and die gracefully
 	 *
-	 * @access	private
 	 * @return	void
 	 * @since	1.5
 	 */
-	function _noChange()
+	protected function _noChange()
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Send not modified header and exit gracefully
 		header('HTTP/1.x 304 Not Modified', true);
@@ -136,11 +132,10 @@ class JCachePage extends JCache
 	/**
 	 * Set the ETag header in the response
 	 *
-	 * @access	private
 	 * @return	void
 	 * @since	1.5
 	 */
-	function _setEtag($etag)
+	protected function _setEtag($etag)
 	{
 		JResponse::setHeader('ETag', $etag, true);
 	}

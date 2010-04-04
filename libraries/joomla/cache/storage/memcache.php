@@ -23,27 +23,26 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * Resource for the current memcached connection.
 	 * @var resource
 	 */
-	var $_db;
+	protected $_db;
 
 	/**
 	 * Use compression?
 	 * @var int
 	 */
-	var $_compress = null;
+	protected $_compress = null;
 
 	/**
 	 * Use persistent connections
 	 * @var boolean
 	 */
-	var $_persistent = false;
+	protected $_persistent = false;
 
 	/**
 	 * Constructor
 	 *
-	 * @access protected
 	 * @param array $options optional parameters
 	 */
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		if (!$this->test()) {
 			return JError::raiseError(404, "THE_MEMCACHE_EXTENSION_IS_NOT_AVAILABLE");
@@ -61,11 +60,10 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * return memcache connection object
 	 *
-	 * @static
-	 * @access private
 	 * @return object memcache connection object
 	 */
-	function getConnection() {
+	protected static function getConnection()
+	{
 		static $db = null;
 		if (is_null($db)) {
 			$params = &JCacheStorageMemcache::getConfig();
@@ -85,11 +83,10 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * Return memcache related configuration
 	 *
-	 * @static
-	 * @access private
 	 * @return array options
 	 */
-	function getConfig() {
+	protected static function getConfig()
+	{
 		static $params = null;
 		if (is_null($params)) {
 			$config = &JFactory::getConfig();
@@ -109,14 +106,13 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * Get cached data from memcache by id and group
 	 *
-	 * @access	public
-	 * @param	string	$id			The cache data id
-	 * @param	string	$group		The cache data group
-	 * @param	boolean	$checkTime	True to verify cache time expiration threshold
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
+	 * @param	boolean	True to verify cache time expiration threshold
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		return $this->_db->get($cache_id);
@@ -125,14 +121,13 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * Store the data to memcache by id and group
 	 *
-	 * @access	public
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @param	string	$data	The data to store in cache
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
+	 * @param	string	The data to store in cache
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function store($id, $group, $data)
+	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		return $this->_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
@@ -141,13 +136,12 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @access	public
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function remove($id, $group)
+	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		return $this->_db->delete($cache_id);
@@ -159,13 +153,12 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * group mode		: cleans all cache in the group
 	 * notgroup mode	: cleans all cache not in the group
 	 *
-	 * @access	public
-	 * @param	string	$group	The cache data group
-	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
+	 * @param	string	The cache data group
+	 * @param	string	The mode for cleaning cache [group|notgroup]
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function clean($group, $mode)
+	public function clean($group, $mode)
 	{
 		return true;
 	}
@@ -173,10 +166,9 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * Garbage collect expired cache data
 	 *
-	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc()
+	public function gc()
 	{
 		return true;
 	}
@@ -184,11 +176,9 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * Test to see if the cache storage is available.
 	 *
-	 * @static
-	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test()
+	public static function test()
 	{
 		return (extension_loaded('memcache') && class_exists('Memcache'));
 	}
@@ -196,13 +186,12 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * Get a cache_id string from an id/group pair
 	 *
-	 * @access	private
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
 	 * @return	string	The cache_id string
 	 * @since	1.5
 	 */
-	function _getCacheId($id, $group)
+	protected function _getCacheId($id, $group)
 	{
 		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
 		return 'cache_'.$group.'-'.$name;

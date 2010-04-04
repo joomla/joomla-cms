@@ -11,7 +11,7 @@
 defined('JPATH_BASE') or die;
 
 /**
- * Joomla! Cache callback type object
+ * Joomla Cache callback type object
  *
  * @package		Joomla.Framework
  * @subpackage	Cache
@@ -30,11 +30,10 @@ class JCacheCallback extends JCache
 	 *	- Function name as a string eg. 'foo' for function foo()
 	 *	- Static method name as a string eg. 'MyClass::myMethod' for method myMethod() of class MyClass
 	 *
-	 * @access	public
 	 * @return	mixed	Result of the callback
 	 * @since	1.5
 	 */
-	function call()
+	public function call()
 	{
 		// Get callback and arguments
 		$args		= func_get_args();
@@ -46,13 +45,12 @@ class JCacheCallback extends JCache
 	/**
 	 * Executes a cacheable callback if not found in cache else returns cached output and result
 	 *
-	 * @access	public
 	 * @param	mixed	Callback or string shorthand for a callback
 	 * @param	array	Callback arguments
 	 * @return	mixed	Result of the callback
 	 * @since	1.5
 	 */
-	function get($callback, $args, $id=false)
+	public function get($callback, $args, $id=false)
 	{
 		// Normalize callback
 		if (is_array($callback)) {
@@ -110,13 +108,12 @@ class JCacheCallback extends JCache
 	/**
 	 * Generate a callback cache id
 	 *
-	 * @access	private
 	 * @param	callback	$callback	Callback to cache
 	 * @param	array		$args	Arguments to the callback method to cache
 	 * @return	string	MD5 Hash : function cache id
 	 * @since	1.5
 	 */
-	function _makeId($callback, $args)
+	protected function _makeId($callback, $args)
 	{
 		if (is_array($callback) && is_object($callback[0])) {
 			$vars = get_object_vars($callback[0]);
