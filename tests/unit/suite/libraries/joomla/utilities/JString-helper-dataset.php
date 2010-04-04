@@ -24,7 +24,8 @@ class JStringTest_DataSet {
 		array(' объектов на карте с',	'на карте', 0,  10),
 		array('на карте с',	'на карте', 0,  0),
 		array('на карте с',	'на каррте', 0,  false),
-		array('на карте с',	'на карте', 2,  false)
+		array('на карте с',	'на карте', 2,  false),
+		array('missing',	'sing', false,  3)		
 	);
 
 	static public $strrposTests = array(
@@ -58,10 +59,11 @@ class JStringTest_DataSet {
 	);
 	
 	static public $str_ireplaceTests = array(
-		array('Pig', 'cow', 'the pig jumped', 'the cow jumped'),
-		array('Pig', 'cow', 'the pig jumped over the cow', 'the cow jumped over the cow'),
-		array(array('PIG', 'JUMPED'), array('cow', 'hopped'), 'the pig jumped over the pig', 'the cow hopped over the cow'),
-		array('шил', 'биш', 'Би шил идэй чадна', 'Би биш идэй чадна')
+		array('Pig', 'cow', 'the pig jumped', false, 'the cow jumped'),
+		array('Pig', 'cow', 'the pig jumped', true, 'the cow jumped'),
+		array('Pig', 'cow', 'the pig jumped over the cow', true,  'the cow jumped over the cow'),
+		array(array('PIG', 'JUMPED'), array('cow', 'hopped'), true,  'the pig jumped over the pig', 'the cow hopped over the cow'),
+		array('шил', 'биш', 'Би шил идэй чадна', true,  'Би биш идэй чадна')
 	);
 	
 	static public $str_splitTests = array(
@@ -79,8 +81,8 @@ class JStringTest_DataSet {
 	);
 	
 	static public $strcspnTests = array (
-		array('subject <a> string <a>', '<>', null, null, 8),
-		array('Би шил {123} идэй {456} чадна', '}{', null, null, 7),
+		array('subject <a> string <a>', '<>', false, false, 8),
+		array('Би шил {123} идэй {456} чадна', '}{', null, false, 7),
 		array('Би шил {123} идэй {456} чадна', '}{', 13, 10, 5)
 	);
 	
@@ -96,16 +98,18 @@ class JStringTest_DataSet {
 	);
 	
 	static public $strspnTests = array (
-		array('321 Main Street', '0123456789', null, null, 3),
-		array('A321 Main Street', '0123456789', null, null, 0),
+		array('321 Main Street', '0123456789', false, false, 3),
+		array('A321 Main Street', '0123456789', 0, false, 0),
+		array('A321 Main Street', '0123456789', 1, 10, 3),
+		array('A321 Main Street', '0123456789', 1, false, 0),
 		array('Би шил идэй чадна', 'Би', null, null, 2),
 		array('чадна Би шил идэй чадна', 'Би', null, null, 0)
 	);
 
 	static public $substr_replaceTests = array (
-		array('321 Main Street', 'Broadway Avenue', 4, null, '321 Broadway Avenue'),
+		array('321 Main Street', 'Broadway Avenue', 4, false, '321 Broadway Avenue'),
 		array('321 Main Street', 'Broadway', 4, 4, '321 Broadway Street'),
-		array('чадна Би шил идэй чадна', '我能吞', 6, null, 'чадна 我能吞'),
+		array('чадна Би шил идэй чадна', '我能吞', 6, false, 'чадна 我能吞'),
 		array('чадна Би шил идэй чадна', '我能吞', 6, 2, 'чадна 我能吞 шил идэй чадна')
 	);
 
@@ -155,7 +159,9 @@ class JStringTest_DataSet {
 	);
 	
 	static public $validTests = array (
-		array('george Мога Ψυχοφθόρα ฉันกินกระจกได้ 我能吞下玻璃而不伤身体', true),
-		array("\xFF ABC", false)
+		array('george Мога Ž Ψυχοφθόρα ฉันกินกระจกได้ 我能吞下玻璃而不伤身体 ', true),
+		array("\xFF ABC", false),
+		array("0xfffd ABC", true),
+		array('', true)
 	);
 }

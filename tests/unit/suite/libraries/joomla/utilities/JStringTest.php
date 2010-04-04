@@ -188,9 +188,9 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 * @covers JString::str_ireplace
 	 * @dataProvider str_ireplaceData
 	 */
-	public function testStr_ireplace($search, $replace, $subject, $expect)
+	public function testStr_ireplace($search, $replace, $subject, $count, $expect)
 	{
-		$actual = JString::str_ireplace($search, $replace, $subject);
+		$actual = JString::str_ireplace($search, $replace, $subject, $count);
 		$this->assertEquals($expect, $actual);		
 	}
 
