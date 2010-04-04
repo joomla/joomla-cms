@@ -60,8 +60,8 @@ class PluginsHelper
 	{
 		// Build the active state filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', 'JOPTION_ENABLED');
-		$options[]	= JHtml::_('select.option', '0', 'JOPTION_DISABLED');
+		$options[]	= JHtml::_('select.option', '1', 'JENABLED');
+		$options[]	= JHtml::_('select.option', '0', 'JDISABLED');
 
 		return $options;
 	}

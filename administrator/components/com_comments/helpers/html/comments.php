@@ -29,7 +29,7 @@ class JHtmlComments
 		$options	= array();
 		$options[]	= JHTML::_('select.option', '', JText::_('COMMENTS_ALL'));
 		$options[]	= JHTML::_('select.option', '0', JText::_('COMMENTS_PENDING'));
-		$options[]	= JHTML::_('select.option', '1', JText::_('COMMENTS_PUBLISHED'));
+		$options[]	= JHTML::_('select.option', '1', JText::_('JPUBLISHED'));
 		$options[]	= JHTML::_('select.option', '2', JText::_('COMMENTS_SPAM'));
 
 		return JHtml::_('select.options', $options, 'value', 'text', $selected, false);

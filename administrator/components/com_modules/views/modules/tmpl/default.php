@@ -72,7 +72,7 @@ $user = JFactory::getUser();
 					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_MODULE', 'name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_PUBLISHED', 'published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JPUBLISHED', 'published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="10%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'ordering', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>

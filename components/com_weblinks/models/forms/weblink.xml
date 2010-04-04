@@ -36,8 +36,8 @@
 			label="JFIELD_PUBLISHED_LABEL"
 			size="1"
 		>
-			<option value="1">JOPTION_PUBLISHED</option>
-			<option value="0">JOPTION_UNPUBLISHED</option>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
 		</field>
 
 		<field name="catid" type="category"

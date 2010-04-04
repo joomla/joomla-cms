@@ -354,7 +354,7 @@
 				<option value="hide">JHIDE</option>
 				<option value="created">Created</option>
 				<option value="modified">Modified</option>
-				<option value="published">Published</option>
+				<option value="published">JPUBLISHED</option>
 		</field>
 
 		<field name="date_format"

@@ -27,7 +27,7 @@ $pane = JPane::getInstance('sliders');
 				</li>
 				<?php endif; ?>
 				<li class="publish" style="float:left;">
-					<input id="moderate_publish" type="radio" name="moderate[<?php echo $this->item->id; ?>]" value="1"<?php echo ($this->item->published == 1) ? 'checked="checked"' : null; ?> /><label for="moderate_publish"><?php echo JText::_('COMMENTS_PUBLISHED'); ?></label>
+					<input id="moderate_publish" type="radio" name="moderate[<?php echo $this->item->id; ?>]" value="1"<?php echo ($this->item->published == 1) ? 'checked="checked"' : null; ?> /><label for="moderate_publish"><?php echo JText::_('JPUBLISHED'); ?></label>
 				</li>
 
 				<li class="spam" style="float:left;">

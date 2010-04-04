@@ -77,7 +77,7 @@ function submitbutton(pressbutton)
 <tr>
 	<td valign="top">
 		<label for="jformpublished">
-			<?php echo JText::_('JOPTION_PUBLISHED'); ?>:
+			<?php echo JText::_('JPUBLISHED'); ?>:
 		</label>
 	</td>
 	<td>

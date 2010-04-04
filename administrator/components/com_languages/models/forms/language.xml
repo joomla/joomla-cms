@@ -53,13 +53,13 @@
 			class="inputbox"
 			default="1"
 			description="COM_LANGS_FIELD_PUBLISHED_DESC"
-			label="COM_LANGS_FIELD_PUBLISHED_LABEL"
+			label="JPUBLISHED"
 			size="1"
 		>
-			<option value="1">JOPTION_PUBLISHED</option>
-			<option value="0">JOPTION_UNPUBLISHED</option>
-			<option value="-1">COM_LANGS_FIELD_VALUE_DISABLED</option>
-			<option value="-2">JOPTION_TRASH</option>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="-1">JDISABLED</option>
+			<option value="-2">JTRASH</option>
 		</field>
 	</fieldset>
 </form>

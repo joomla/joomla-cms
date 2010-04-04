@@ -67,10 +67,10 @@ abstract class JHtmlContact
 			<?php echo JText::_('NOT_PUBLISHED'); ?> |
 			</td>
 			<td>
-			<?php echo JHTML::_('image','admin/disabled.png', JText::_('Archived'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
+			<?php echo JHTML::_('image','admin/disabled.png', JText::_('JARCHIVED'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?>
 			</td>
 			<td>
-			<?php echo JText::_('Archived'); ?>
+			<?php echo JText::_('JARCHIVED'); ?>
 			</td>
 		</tr>
 		<tr>

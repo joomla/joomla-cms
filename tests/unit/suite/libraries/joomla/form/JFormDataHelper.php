@@ -382,9 +382,9 @@ class JFormDataHelper
 			name="published"
 			type="list">
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 		</field>
 
 		<field

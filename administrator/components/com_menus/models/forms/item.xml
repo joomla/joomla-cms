@@ -78,14 +78,14 @@
 			filter="integer">
 			<option
 				value="1">
-				JOPTION_PUBLISHED</option>
+				JPUBLISHED</option>
 			<option
 				value="0">
-				JOPTION_UNPUBLISHED</option>
+				JUNPUBLISHED</option>
 
 			<option
 				value="-2">
-				JOPTION_TRASHED</option>
+				JTRASHED</option>
 		</field>
 
 		<field

@@ -52,8 +52,8 @@ abstract class JHtmlContent
 				<li><?php echo JText::_('PUBLISHED_BUT_HAS'); ?> <u><?php echo JText::_('Expired'); ?></u></li>
 				<li><?php echo JHTML::_('image','admin/publish_x.png', JText::_('Finished'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
 				<li><?php echo JText::_('NOT_PUBLISHED'); ?></li>
-				<li><?php echo JHTML::_('image','admin/disabled.png', JText::_('Archived'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
-				<li><?php echo JText::_('Archived'); ?></li>
+				<li><?php echo JHTML::_('image','admin/disabled.png', JText::_('JARCHIVED'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
+				<li><?php echo JText::_('JARCHIVED'); ?></li>
 			</ul>
 			<p class="center"><?php echo JText::_('CLICK_ON_ICON_TO_TOGGLE_STATE'); ?></p>
 		</div>

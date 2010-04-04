@@ -26,13 +26,13 @@
 			filter="intval" size="1" default="1"
 		>
 			<option value="1">
-				JOption_Published</option>
+				JPUBLISHED</option>
 			<option value="0">
-				JOption_UnPublished</option>
+				JUNPUBLISHED</option>
 			<option value="-1">
-				JOption_Archived</option>
+				JARCHIVED</option>
 			<option value="-2">
-				JOption_Trashed</option>
+				JTRASHED</option>
 		</field>
 
 		<field name="catid" type="category" extension="com_content"

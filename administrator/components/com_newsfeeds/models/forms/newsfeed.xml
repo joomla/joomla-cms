@@ -20,13 +20,13 @@
 			class="inputbox" size="1" default="1"
 		>
 			<option value="1">
-				JOPTION_PUBLISHED</option>
+				JPUBLISHED</option>
 			<option value="0">
-				JOPTION_UNPUBLISHED</option>
+				JUNPUBLISHED</option>
 			<option value="-1">
-				JOPTION_ARCHIVED</option>
+				JARCHIVED</option>
 			<option value="-2">
-				JOPTION_TRASHED</option>
+				JTRASHED</option>
 		</field>
 
 		<field name="catid" type="category" extension="com_newsfeeds"

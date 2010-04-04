@@ -25,10 +25,10 @@
 			default="1">
 			<option
 				value="1">
-				JOPTION_ENABLED</option>
+				JENABLED</option>
 			<option
 				value="0">
-				JOPTION_DISABLED</option>
+				JDISABLED</option>
 		</field>
 
 		<field

@@ -37,7 +37,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="register-require_address2" type="radio"
@@ -47,7 +47,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="register-require_city" type="radio"
@@ -57,7 +57,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="register-require_region" type="radio"
@@ -67,7 +67,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="register-require_country" type="radio"
@@ -77,7 +77,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="register-require_postal_code" type="radio"
@@ -87,7 +87,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="register-require_phone" type="radio"
@@ -97,7 +97,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="register-require_website" type="radio"
@@ -107,7 +107,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 				<field 	name="register-require_favoritebook"
 					type="radio"
@@ -116,7 +116,7 @@
 					description="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_DESC">
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>		
 				
 				<field
@@ -127,7 +127,7 @@
 					description="PLG_USER_PROFILE_FIELD_ABOUT_ME_DESC">
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>
-					<option	value="0">JOPTION_DISABLED</option>
+					<option	value="0">JDISABLED</option>
 				</field>
 				
 				<field name="profile-require-user" type="spacer"
@@ -141,7 +141,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="profile-require_address2" type="radio"
@@ -151,7 +151,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="profile-require_city" type="radio"
@@ -161,7 +161,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="profile-require_region" type="radio"
@@ -171,7 +171,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="profile-require_country" type="radio"
@@ -181,7 +181,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="profile-require_postal_code" type="radio"
@@ -191,7 +191,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="profile-require_phone" type="radio"
@@ -201,7 +201,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 
 				<field name="profile-require_website" type="radio"
@@ -211,7 +211,7 @@
 				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>
 				<field 	name="profile-require_favoritebook"
 					type="radio"
@@ -220,7 +220,7 @@
 					description="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_DESC">
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
-					<option value="0">JOPTION_DISABLED</option>
+					<option value="0">JDISABLED</option>
 				</field>		
 				
 				<field
@@ -231,7 +231,7 @@
 					description="PLG_USER_PROFILE_FIELD_ABOUT_ME_DESC">
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>
-					<option	value="0">JOPTION_DISABLED</option>
+					<option	value="0">JDISABLED</option>
 				</field>
 			</fieldset>
 

@@ -64,11 +64,11 @@ abstract class JHtmlLanguages {
 	{
 		// Build the active state filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', 'JOPTION_PUBLISHED');
-		$options[]	= JHtml::_('select.option', '0', 'JOPTION_UNPUBLISHED');
-		$options[]	= JHtml::_('select.option', '-1', 'COM_LANGS_FIELD_VALUE_DISABLED');
-		$options[]	= JHtml::_('select.option', '-2', 'JOPTION_TRASH');
-		$options[]	= JHtml::_('select.option', '*', 'JOPTION_ALL');
+		$options[]	= JHtml::_('select.option', '1', 'JPUBLISHED');
+		$options[]	= JHtml::_('select.option', '0', 'JUNPUBLISHED');
+		$options[]	= JHtml::_('select.option', '-1', 'JDISABLED');
+		$options[]	= JHtml::_('select.option', '-2', 'JTRASH');
+		$options[]	= JHtml::_('select.option', '*', 'JALL');
 
 		return $options;
 	}

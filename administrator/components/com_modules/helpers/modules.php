@@ -57,9 +57,9 @@ class ModulesHelper
 	{
 		// Build the filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option',	'1',	JText::_('JOPTION_ENABLED'));
-		$options[]	= JHtml::_('select.option',	'0',	JText::_('JOPTION_DISABLED'));
-		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JOPTION_TRASH'));
+		$options[]	= JHtml::_('select.option',	'1',	JText::_('JENABLED'));
+		$options[]	= JHtml::_('select.option',	'0',	JText::_('JDISABLED'));
+		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASH'));
 		return $options;
 	}
 

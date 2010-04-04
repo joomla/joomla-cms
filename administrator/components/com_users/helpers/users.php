@@ -71,8 +71,8 @@ class UsersHelper
 	{
 		// Build the filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option', '0', JText::_('Users_Enabled'));
-		$options[]	= JHtml::_('select.option', '1', JText::_('Users_Disabled'));
+		$options[]	= JHtml::_('select.option', '0', JText::_('JENABLED'));
+		$options[]	= JHtml::_('select.option', '1', JText::_('JDISABLED'));
 
 		return $options;
 	}

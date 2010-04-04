@@ -195,7 +195,7 @@ class plgSearchContent extends JPlugin
 		// search archived content
 		if ($sArchived && $limit > 0)
 		{
-			$searchArchived = JText::_('Archived');
+			$searchArchived = JText::_('JARCHIVED');
 
 			$query->clear();
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, '

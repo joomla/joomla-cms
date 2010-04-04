@@ -49,16 +49,16 @@
 			default="1">
 			<option
 				value="1">
-				JOPTION_ENABLED</option>
+				JENABLED</option>
 			<option
 				value="0">
-				JOPTION_DISABLED</option>
+				JDISABLED</option>
 			<option
 				value="2">
-				JOPTION_ARCHIVED</option>
+				JARCHIVED</option>
 			<option
 				value="-2">
-				JOPTION_TRASHED</option>
+				JTRASHED</option>
 		</field>
 
 		<field

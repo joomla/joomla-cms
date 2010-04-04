@@ -33,10 +33,10 @@
 			label="JField_Published_Label"
 			size="1"
 		>
-			<option value="1">JOption_Published</option>
-			<option value="0">JOption_UnPublished</option>
-			<option value="-1">JOption_Archived</option>
-			<option value="-2">JOption_Trashed</option>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="-1">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
 			<option value="-3">JOption_Reported</option>
 		</field>
 

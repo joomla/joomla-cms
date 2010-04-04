@@ -168,7 +168,7 @@ class JFile
 				}
 			} else {
 				$filename	= basename($file);
-				JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_DELETE_FAILED', $filename));
+				JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', $filename));
 				return false;
 			}
 		}

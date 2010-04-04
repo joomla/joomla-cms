@@ -36,7 +36,7 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="created">JGLOBAL_Created</option>
 				<option value="modified">JGLOBAL_Modified</option>
-				<option value="published">JGLOBAL_Published</option>
+				<option value="published">JPUBLISHED</option>
 			</field>
 
 			<field name="display_num" type="list"

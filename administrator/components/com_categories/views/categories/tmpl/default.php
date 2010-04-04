@@ -51,7 +51,7 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_TITLE', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_PUBLISHED', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JPUBLISHED', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%" class="nowrap">
 					<?php echo JText::_('JGRID_HEADING_ORDERING'); ?>

@@ -82,9 +82,9 @@ class JHTMLIcon
 		$text = JHTML::_('image','system/'.$icon, JText::_('Edit'), NULL, true);
 
 		if ($article->state == 0) {
-			$overlib = JText::_('Unpublished');
+			$overlib = JText::_('JUNPUBLISHED');
 		} else {
-			$overlib = JText::_('Published');
+			$overlib = JText::_('JPUBLISHED');
 		}
 		$date = JHTML::_('date',$article->created);
 		$author = $article->created_by_alias ? $article->created_by_alias : $article->created_by;

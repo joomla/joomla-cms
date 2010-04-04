@@ -59,9 +59,9 @@
 			size="1"
 		>
 			<option value="0">COMMENTS_DEFER</option>
-			<option value="1">COMMENTS_PUBLISHED</option>
+			<option value="1">JPUBLISHED</option>
 			<option value="-1">COMMENTS_SPAM</option>
-			<option value="-2">JOption_Trashed</option>
+			<option value="-2">JTRASHED</option>
 		</field>
 
 		<field name="address" type="text"
