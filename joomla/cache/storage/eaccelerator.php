@@ -7,7 +7,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('JPATH_BASE') or die;
 
 /**
@@ -20,12 +20,11 @@ defined('JPATH_BASE') or die;
 class JCacheStorageEaccelerator extends JCacheStorage
 {
 	/**
-	* Constructor
-	*
-	* @access protected
-	* @param array $options optional parameters
-	*/
-	function __construct($options = array())
+	 * Constructor.
+	 *
+	 * @param	array	Optional parameters (application|language|locking|lifetime|now).
+	 */
+	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -36,20 +35,19 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	/**
 	 * Get cached data by id and group
 	 *
-	 * @access	public
-	 * @param	string	$id			The cache data id
-	 * @param	string	$group		The cache data group
-	 * @param	boolean	$checkTime	True to verify cache time expiration threshold
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
+	 * @param	boolean	True to verify cache time expiration threshold
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$this->_setExpire($cache_id);
 		$cache_content = eaccelerator_get($cache_id);
-		if ($cache_content === null)
-		{
+
+		if ($cache_content === null) {
 			return false;
 		}
 		return $cache_content;
@@ -58,14 +56,13 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	/**
 	 * Store the data to by id and group
 	 *
-	 * @access	public
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @param	string	$data	The data to store in cache
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
+	 * @param	string	The data to store in cache
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function store($id, $group, $data)
+	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		eaccelerator_put($cache_id.'_expire', time());
@@ -75,13 +72,12 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @access	public
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function remove($id, $group)
+	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		eaccelerator_rm($cache_id.'_expire');
@@ -94,13 +90,12 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 * group mode		: cleans all cache in the group
 	 * notgroup mode	: cleans all cache not in the group
 	 *
-	 * @access	public
-	 * @param	string	$group	The cache data group
-	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
+	 * @param	string	The cache data group
+	 * @param	string	The mode for cleaning cache [group|notgroup]
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function clean($group, $mode)
+	public function clean($group, $mode)
 	{
 		return true;
 	}
@@ -108,10 +103,9 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	/**
 	 * Garbage collect expired cache data
 	 *
-	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc()
+	public function gc()
 	{
 		return eaccelerator_gc();
 	}
@@ -119,11 +113,9 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	/**
 	 * Test to see if the cache storage is available.
 	 *
-	 * @static
-	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test()
+	public static function test()
 	{
 		return (extension_loaded('eaccelerator') && function_exists('eaccelerator_get'));
 	}
@@ -131,12 +123,10 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	/**
 	 * Set expire time on each call since memcache sets it on cache creation.
 	 *
-	 * @access private
-	 *
-	 * @param string  $key		Cache key to expire.
-	 * @param integer $lifetime  Lifetime of the data in seconds.
+	 * @param	string	Cache key to expire.
+	 * @param	integer	Lifetime of the data in seconds.
 	 */
-	function _setExpire($key)
+	protected function _setExpire($key)
 	{
 		$lifetime	= $this->_lifetime;
 		$expire		= eaccelerator_get($key.'_expire');
@@ -153,13 +143,12 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	/**
 	 * Get a cache_id string from an id/group pair
 	 *
-	 * @access	private
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
 	 * @return	string	The cache_id string
 	 * @since	1.5
 	 */
-	function _getCacheId($id, $group)
+	protected function _getCacheId($id, $group)
 	{
 		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
 		return 'cache_'.$group.'-'.$name;

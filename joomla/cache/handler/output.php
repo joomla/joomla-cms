@@ -11,7 +11,7 @@
 defined('JPATH_BASE') or die;
 
 /**
- * Joomla! Cache output type object
+ * Joomla Cache output type object
  *
  * @package		Joomla.Framework
  * @subpackage	Cache
@@ -22,13 +22,12 @@ class JCacheOutput extends JCache
 	/**
 	 * Start the cache
 	 *
-	 * @access	public
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	function start($id, $group=null)
+	public function start($id, $group=null)
 	{
 		// If we have data in cache use that...
 		$data = $this->get($id, $group);
@@ -49,11 +48,10 @@ class JCacheOutput extends JCache
 	/**
 	 * Stop the cache buffer and store the cached data
 	 *
-	 * @access	public
 	 * @return	boolean	True if cache stored
 	 * @since	1.5
 	 */
-	function end()
+	public function end()
 	{
 		// Get data from output buffer and echo it
 		$data = ob_get_contents();
