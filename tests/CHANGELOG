@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Apr-2010 Mark Dexter
+^ Finish JString unit tests
+
 31-Mar-2010 Mark Dexter
 # Minor fixes to control panel tests for changed wording on menus
 

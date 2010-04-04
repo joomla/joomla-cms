@@ -55,8 +55,70 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	static public function strlenData() {
 		return JStringTest_DataSet::$strlenTests;
 	}
+	
+	static public function str_ireplaceData() {
+		return JStringTest_DataSet::$str_ireplaceTests;
+	}
+	
+	static public function str_splitData() {
+		return JStringTest_DataSet::$str_splitTests;
+	}
+	
+	static public function strcasecmpData() {
+		return JStringTest_DataSet::$strcasecmpTests;
+	}
 
+	static public function strcspnData() {
+		return JStringTest_DataSet::$strcspnTests;
+	}
+	
+	static public function stristrData() {
+		return JStringTest_DataSet::$stristrTests;
+	}
+	
+	static public function strrevData() {
+		return JStringTest_DataSet::$strrevTests;
+	}	
+	
+	static public function strspnData() {
+		return JStringTest_DataSet::$strspnTests;
+	}	
+
+	static public function substr_replaceData() {
+		return JStringTest_DataSet::$substr_replaceTests;
+	}	
+
+	static public function ltrimData() {
+		return JStringTest_DataSet::$ltrimTests;
+	}	
+	
+	static public function rtrimData() {
+		return JStringTest_DataSet::$rtrimTests;
+	}	
+	
+	static public function trimData() {
+		return JStringTest_DataSet::$trimTests;
+	}	
+	
+	static public function ucfirstData() {
+		return JStringTest_DataSet::$ucfirstTests;
+	}	
+		
+	static public function ucwordsData() {
+		return JStringTest_DataSet::$ucwordsTests;
+	}	
+	
+	static public function transcodeData() {
+		return JStringTest_DataSet::$transcodeTests;
+	}	
+	
+	static public function validData() {
+		return JStringTest_DataSet::$validTests;
+	}	
+	
 	/**
+	 * @group String
+	 * @covers JString::strpos
 	 * @dataProvider strposData
 	 */
 	public function testStrpos($haystack, $needle, $offset = 0, $expect)
@@ -66,6 +128,8 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @group String
+	 * @covers JString::strrpos
 	 * @dataProvider strrposData
 	 */
 	public function testStrrpos($haystack, $needle, $offset = 0, $expect)
@@ -76,6 +140,8 @@ class JStringTest extends PHPUnit_Framework_TestCase
 
 
 	/**
+	 * @group String
+	 * @covers JString::substr
 	 * @dataProvider substrData
 	 */
 	public function testSubstr($string, $start, $length = false, $expect)
@@ -85,6 +151,8 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @group String
+	 * @covers JString::strtolower
 	 * @dataProvider strtolowerData
 	 */
 	public function testStrtolower($string, $expect)
@@ -94,6 +162,8 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @group String
+	 * @covers JString::strtoupper
 	 * @dataProvider strtoupperData
 	 */
 	public function testStrtoupper($string, $expect)
@@ -103,6 +173,8 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @group String
+	 * @covers JString::strlen
 	 * @dataProvider strlenData
 	 */
 	public function testStrlen($string, $expect)
@@ -112,190 +184,194 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testStr_ireplace().
+	 * @group String
+	 * @covers JString::str_ireplace
+	 * @dataProvider str_ireplaceData
 	 */
-	public function testStr_ireplace()
+	public function testStr_ireplace($search, $replace, $subject, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::str_ireplace($search, $replace, $subject);
+		$this->assertEquals($expect, $actual);		
 	}
 
 	/**
-	 * @todo Implement testStr_split().
+	 * @group String
+	 * @covers JString::str_split
+	 * @dataProvider str_splitData
 	 */
-	public function testStr_split()
+	public function testStr_split($string, $split_length, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::str_split($string, $split_length);
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testStrcasecmp().
+	 * @group String
+	 * @covers JString::strcasecmp
+	 * @dataProvider strcasecmpData
 	 */
-	public function testStrcasecmp()
+	public function testStrcasecmp($string1, $string2, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::strcasecmp ($string1, $string2);
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testStrcspn().
+	 * @group String
+	 * @covers JString::strcspn
+	 * @dataProvider strcspnData
 	 */
-	public function testStrcspn()
+	public function testStrcspn($haystack, $needles, $start, $len, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::strcspn ($haystack, $needles, $start, $len);
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testStristr().
+	 * @group String
+	 * @covers JString::stristr
+	 * @dataProvider stristrData
 	 */
-	public function testStristr()
+	public function testStristr($haystack, $needle, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::stristr ($haystack, $needle);
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testStrrev().
+	 * @group String
+	 * @covers JString::strrev
+	 * @dataProvider strrevData
 	 */
-	public function testStrrev()
+	public function testStrrev($string, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::strrev ($string);
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testStrspn().
+	 * @group String
+	 * @covers JString::strspn
+	 * @dataProvider strspnData
 	 */
-	public function testStrspn()
+	public function testStrspn($subject, $mask, $start, $length, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::strspn ($subject, $mask, $start, $length);
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testSubstr_replace().
+	 * @group String
+	 * @covers JString::substr_replace
+	 * @dataProvider substr_replaceData
 	 */
-	public function testSubstr_replace()
+	public function testSubstr_replace($string, $replacement, $start, $length, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::substr_replace ($string, $replacement, $start, $length);
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testLtrim().
+	 * @group String
+	 * @covers JString::ltrim
+	 * @dataProvider ltrimData
 	 */
-	public function testLtrim()
+	public function testLtrim($string, $charlist, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		if ($charlist === null) {
+			$actual = JString::ltrim ($string);
+		}
+		else {
+			$actual = JString::ltrim ($string, $charlist);
+		}
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testRtrim().
+	 * @group String
+	 * @covers JString::rtrim
+	 * @dataProvider rtrimData
 	 */
-	public function testRtrim()
+	public function testRtrim($string, $charlist, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		if ($charlist === null) {
+			$actual = JString::rtrim ($string);
+		}
+		else {
+			$actual = JString::rtrim ($string, $charlist);
+		}
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testTrim().
+	 * @group String
+	 * @covers JString::trim
+	 * @dataProvider trimData
 	 */
-	public function testTrim()
+	public function testTrim($string, $charlist, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		if ($charlist === null) {
+			$actual = JString::trim ($string);
+		}
+		else {
+			$actual = JString::trim ($string, $charlist);
+		}
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testUcfirst().
+	 * @group String
+	 * @covers JString::ucfirst
+	 * @dataProvider ucfirstData
 	 */
-	public function testUcfirst()
+	public function testUcfirst($string, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::ucfirst ($string);
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testUcwords().
+	 * @group String
+	 * @covers JString::ucwords
+	 * @dataProvider ucwordsData
 	 */
-	public function testUcwords()
+	public function testUcwords($string, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::ucwords ($string);
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testUcwords_callback().
+	 * @group String
+	 * @covers JString::transcode
+	 * @dataProvider transcodeData
 	 */
-	public function testUcwords_callback()
+	public function testTranscode($source, $from_encoding, $to_encoding, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::transcode ($source, $from_encoding, $to_encoding);
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testTranscode().
+	 * @group String
+	 * @covers JString::valid
+	 * @dataProvider validData
 	 */
-	public function testTranscode()
+	public function testValid($string, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::valid ($string);
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**
-	 * @todo Implement testValid().
+	 * @group String
+	 * @covers JString::compliant
+	 * @dataProvider validData
 	 */
-	public function testValid()
+	public function testCompliant($string, $expect)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo Implement testCompliant().
-	 */
-	public function testCompliant()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
+		$actual = JString::compliant ($string);
+		$this->assertEquals($expect, $actual);
 	}
 }
 ?>
