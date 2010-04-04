@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Apr-2010 Andrew Eddie
+ # Fix bug in JCache constructor.
+
 03-Apr-2010 Jean-Marie Simonet
 $^+ Consolidating some keys with same value to a unique key in main inis. WIP
 #$ Missing string + bug [20098]. Thank you Klas.

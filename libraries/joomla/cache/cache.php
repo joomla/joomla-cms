@@ -7,54 +7,69 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('JPATH_BASE') or die;
 
 //Register the session storage class with the loader
-JLoader::register('JCacheStorage', dirname(__FILE__).DS.'storage.php');
+JLoader::register('JCacheStorage', dirname(__FILE__).'/storage.php');
 
 /**
- * Joomla! Cache base object
+ * Joomla Cache base object.
  *
- * @abstract
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
  */
-class JCache extends JObject
+abstract class JCache extends JObject
 {
 	/**
 	 * Storage Handler
-	 * @access	private
 	 * @var		object
 	 */
-	var $_handler;
+	protected $_handler;
 
 	/**
 	 * Cache Options
-	 * @access	private
 	 * @var		array
 	 */
-	var $_options;
+	protected $_options;
 
 	/**
 	 * Constructor
 	 *
-	 * @access	protected
-	 * @param	array	$options	options
+	 * @param	array	An array of options (cachebase|caching|defaultgroup|language|storage).
 	 */
-	function __construct($options)
+	public function __construct($options)
 	{
+		// Initialise default options.
 		$this->_options = array(
-			'language'=>'en-GB',
-			'cachebase'=>JPATH_ROOT.DS.'cache',
-			'defaultgroup'=>'default',
-			'caching'=>true,
-			'storage'=>'file');
+			'cachebase'		=> JPATH_ROOT.'/cache',
+			'caching'		=> true,
+			'defaultgroup'	=> 'default',
+			'language'		=> 'en-GB',
+			'storage'		=> 'file'
+		);
 
 		// Overwrite default options with given options
-		$this->_options = array_merge($this->_options,$options);
-		//@todo:or with the ampersand here? Like "...& $options);" for speed if array_merge or this construct would make a deep copy otherwise
+		if (isset($options['cachebase'])) {
+			$this->_options['cachebase'] = $options['cachebase'];
+		}
+
+		if (isset($options['caching'])) {
+			$this->_options['caching'] =  $options['caching'];
+		}
+
+		if (isset($options['defaultgroup'])) {
+			$this->_options['defaultgroup'] = $options['defaultgroup'];
+		}
+
+		if (isset($options['language'])) {
+			$this->_options['language'] = $options['language'];
+		}
+
+		if (isset($options['storage'])) {
+			$this->_options['storage'] = $options['storage'];
+		}
 
 		// Fix to detect if template positions are enabled...
 		if (JRequest::getCMD('tpl',0)) {
@@ -65,20 +80,18 @@ class JCache extends JObject
 	/**
 	 * Returns a reference to a cache adapter object, always creating it
 	 *
-	 * @static
-	 * @param	string	$type	The cache object type to instantiate
+	 * @param	string	The cache object type to instantiate
 	 * @return	object	A JCache object
 	 * @since	1.5
 	 */
-	function getInstance($type = 'output', $options = array())
+	public static function getInstance($type = 'output', $options = array())
 	{
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
 		$class = 'JCache'.ucfirst($type);
 
-		if (!class_exists($class))
-		{
-			$path = dirname(__FILE__).DS.'handler'.DS.$type.'.php';
+		if (!class_exists($class)) {
+			$path = dirname(__FILE__).'/handler/'.$type.'.php';
 
 			if (file_exists($path)) {
 				require_once $path;
@@ -93,17 +106,15 @@ class JCache extends JObject
 	/**
 	 * Get the storage handlers
 	 *
-	 * @access public
-	 * @return array An array of available storage handlers
+	 * @return	array	An array of available storage handlers
 	 */
-	function getStores()
+	public function getStores()
 	{
 		jimport('joomla.filesystem.folder');
 		$handlers = JFolder::files(dirname(__FILE__).DS.'storage', '.php$');
 
 		$names = array();
-		foreach($handlers as $handler)
-		{
+		foreach($handlers as $handler) {
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			$class = 'JCacheStorage'.$name;
 
@@ -122,12 +133,11 @@ class JCache extends JObject
 	/**
 	 * Set caching enabled state
 	 *
-	 * @access	public
-	 * @param	boolean	$enabled	True to enable caching
+	 * @param	boolean	True to enable caching
 	 * @return	void
 	 * @since	1.5
 	 */
-	function setCaching($enabled)
+	public function setCaching($enabled)
 	{
 		$this->_options['caching'] = $enabled;
 	}
@@ -135,12 +145,11 @@ class JCache extends JObject
 	/**
 	 * Set cache lifetime
 	 *
-	 * @access	public
-	 * @param	int	$lt	Cache lifetime
+	 * @param	int		Cache lifetime
 	 * @return	void
 	 * @since	1.5
 	 */
-	function setLifeTime($lt)
+	public function setLifeTime($lt)
 	{
 		$this->_options['lifetime'] = $lt;
 	}
@@ -148,14 +157,12 @@ class JCache extends JObject
 	/**
 	 * Get cached data by id and group
 	 *
-	 * @abstract
-	 * @access	public
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	function get($id, $group=null)
+	public function get($id, $group=null)
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
@@ -171,14 +178,13 @@ class JCache extends JObject
 	/**
 	 * Store the cached data by id and group
 	 *
-	 * @access	public
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @param	mixed	$data	The data to store
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
+	 * @param	mixed	The data to store
 	 * @return	boolean	True if cache stored
 	 * @since	1.5
 	 */
-	function store($data, $id, $group=null)
+	public function store($data, $id, $group=null)
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
@@ -194,14 +200,12 @@ class JCache extends JObject
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @abstract
-	 * @access	public
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
+	 * @param	string	The cache data id
+	 * @param	string	The cache data group
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function remove($id, $group=null)
+	public function remove($id, $group=null)
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
@@ -220,13 +224,12 @@ class JCache extends JObject
 	 * group mode		: cleans all cache in the group
 	 * notgroup mode	: cleans all cache not in the group
 	 *
-	 * @access	public
-	 * @param	string	$group	The cache data group
-	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
+	 * @param	string	The cache data group
+	 * @param	string	The mode for cleaning cache [group|notgroup]
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function clean($group=null, $mode='group')
+	public function clean($group=null, $mode='group')
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
@@ -242,11 +245,10 @@ class JCache extends JObject
 	/**
 	 * Garbage collect expired cache data
 	 *
-	 * @access public
-	 * @return boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 * @since	1.5
 	 */
-	function gc()
+	public function gc()
 	{
 		// Get the storage handler
 		$handler = &$this->_getStorage();
@@ -259,11 +261,10 @@ class JCache extends JObject
 	/**
 	 * Get the cache storage handler
 	 *
-	 * @access protected
-	 * @return object A JCacheStorage object
+	 * @return	object	A JCacheStorage object
 	 * @since	1.5
 	 */
-	function _getStorage()
+	protected function _getStorage()
 	{
 		if (is_a($this->_handler, 'JCacheStorage')) {
 			return $this->_handler;
