@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 				<th class="nowrap"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
 				<th class="nowrap"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_INSTALLTYPE', 'extension_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
 				<th ><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
-				<th width="10%" class="center"><?php echo JText::_('COM_INSTALLER_HEADING_VERSION'); ?></th>
+				<th width="10%" class="center"><?php echo JText::_('JVERSION'); ?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_CLIENT', 'client_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
 				<th width="25%"><?php echo JText::_('COM_INSTALLER_HEADING_DETAILSURL'); ?></th>

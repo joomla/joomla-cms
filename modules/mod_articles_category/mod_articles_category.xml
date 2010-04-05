@@ -253,7 +253,7 @@
 					</option>
 					<option value="month_year">MOD_ARTICLES_CATEGORY_OPTION_MONTHYEAR_VALUE
 					</option>
-					<option value="author_name">MOD_ARTICLES_CATEGORY_OPTION_AUTHOR_VALUE
+					<option value="author_name">JAUTHOR
 					</option>
 					<option value="category_title">MOD_ARTICLES_CATEGORY_OPTION_CATEGORY_VALUE
 					</option>
@@ -292,7 +292,7 @@
 				</field>
 
 				<field name="show_date" type="radio" default="0"
-					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWDATE_LABEL"
+					label="JDATE"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWDATE_DESC"
 				>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_SHOW_VALUE
@@ -339,7 +339,7 @@
 				</field>
 
 				<field name="show_author" type="radio" default="0"
-					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWAUTHOR_LABEL"
+					label="JAUTHOR"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWAUTHOR_DESC"
 				>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_SHOW_VALUE

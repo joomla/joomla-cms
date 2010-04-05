@@ -407,7 +407,7 @@
 			size="20" />
 
 		<field name="author" type="text"
-			label="JFIELD_METADATA_AUTHOR_LABEL" description="JFIELD_METADATA_AUTHOR_DESC"
+			label="JAUTHOR" description="JFIELD_METADATA_AUTHOR_DESC"
 			size="20" />
 
 		<field name="rights" type="text"

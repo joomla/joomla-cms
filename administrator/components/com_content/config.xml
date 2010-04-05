@@ -372,7 +372,7 @@
 			description="JGLOBAL_FILTER_FIELD_DESC">
 				<option value="hide">JHIDE</option>
 				<option value="title">Title</option>
-				<option value="author">Author</option>
+				<option value="author">JAUTHOR</option>
 				<option value="hits">Hits</option>
 		</field>
 

@@ -18,7 +18,7 @@
 		<field
 			name="enabled"
 			type="list"
-			label="COM_PLUGINS_FIELD_ENABLED_LABEL"
+			label="JENABLED"
 			description="COM_PLUGINS_FIELD_ENABLED_DESC"
 			class="inputbox"
 			size="1"

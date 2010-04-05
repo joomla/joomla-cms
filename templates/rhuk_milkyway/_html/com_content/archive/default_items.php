@@ -49,7 +49,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_author')) : ?>
 			<span class="author">
-				<?php echo JText::_('Author').': '; echo $this->escape($item->created_by_alias) ? $this->escape($item->created_by_alias) : $this->escape($item->author); ?>
+				<?php echo JText::_('JAUTHOR').': '; echo $this->escape($item->created_by_alias) ? $this->escape($item->created_by_alias) : $this->escape($item->author); ?>
 			</span>
 		<?php endif; ?>
 		</h5>

@@ -62,7 +62,7 @@
 
 			<field name="author" type="text"
 				description="JField_Metadata_Author_Desc"
-				label="JField_Metadata_Author_Label"
+				label="JAUTHOR"
 				size="20"
 			/>
 

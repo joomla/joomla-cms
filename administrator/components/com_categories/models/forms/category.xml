@@ -224,7 +224,7 @@
 		<field
 			name="author"
 			type="text"
-			label="JFIELD_METADATA_AUTHOR_LABEL"
+			label="JAUTHOR"
 			description="JFIELD_METADATA_AUTHOR_DESC"
 			size="30"
 			default=""/>

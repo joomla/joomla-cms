@@ -50,7 +50,7 @@ $user	= JFactory::getUser();
 					<?php echo JHtml::_('grid.sort', 'COM_MESSAGES_HEADING_FROM', 'a.user_id_from', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="20%" nowrap="nowrap">
-					<?php echo JHtml::_('grid.sort', 'COM_MESSAGES_HEADING_DATE', 'a.date_time', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JDATE', 'a.date_time', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>

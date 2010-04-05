@@ -57,7 +57,7 @@ $n = count($this->articles);
 		<?php endif; ?>
 		<?php if ($this->params->get('list_author')) : ?>
 			<th class="list-author" id="tableOrdering3">
-				<?php echo JHTML::_('grid.sort', 'Content_Author', 'author_name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<?php echo JHTML::_('grid.sort', 'JAUTHOR', 'author_name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('list_hits')) : ?>

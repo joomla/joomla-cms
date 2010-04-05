@@ -29,12 +29,12 @@ defined('_JEXEC') or die;
 				<th width="20"><input type="checkbox" name="toggle" value="" onclick="checkAll(this)" /></th>
 				<th class="nowrap"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
 				<th ><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
-				<th width="10%" class="center"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_ENABLED', 'enabled', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
-				<th width="10%" class="center"><?php echo JText::_('COM_INSTALLER_HEADING_VERSION'); ?></th>
-				<th width="10%"><?php echo JText::_('COM_INSTALLER_HEADING_DATE'); ?></th>
+				<th width="10%" class="center"><?php echo JHTML::_('grid.sort', 'JENABLED', 'enabled', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
+				<th width="10%" class="center"><?php echo JText::_('JVERSION'); ?></th>
+				<th width="10%"><?php echo JText::_('JDATE'); ?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_CLIENT', 'client_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
-				<th width="15%"><?php echo JText::_('COM_INSTALLER_HEADING_AUTHOR'); ?></th>
+				<th width="15%"><?php echo JText::_('JAUTHOR'); ?></th>
 				<th width="10"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
 			</tr>
 		</thead>

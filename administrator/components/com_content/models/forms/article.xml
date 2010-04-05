@@ -289,7 +289,7 @@
 		</field>
 
 		<field name="author" type="text"
-			label="JField_Metadata_Author_Label" description="JField_Metadata_Author_Desc"
+			label="JAUTHOR" description="JField_Metadata_Author_Desc"
 			size="20" />
 
 		<field name="rights" type="textarea" label="JFIELD_META_RIGHTS_LABEL"

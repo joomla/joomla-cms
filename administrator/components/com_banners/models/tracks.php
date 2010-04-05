@@ -379,7 +379,7 @@ class BannersModelTracks extends JModelList
 				str_replace('"','""',JText::_('JGRID_HEADING_CATEGORY')).'","'.
 				str_replace('"','""',JText::_('COM_BANNERS_HEADING_TYPE')).'","'.
 				str_replace('"','""',JText::_('COM_BANNERS_HEADING_COUNT')).'","'.
-				str_replace('"','""',JText::_('COM_BANNERS_HEADING_DATE')).'"'."\n";
+				str_replace('"','""',JText::_('JDATE')).'"'."\n";
 
 			foreach($this->getItems() as $item) {
 				$this->_content.=
