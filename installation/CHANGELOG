@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 06-Apr-2010 Jean-Marie Simonet
 $ Adding missing value to key.
+#$ Fixing some com_categories strings + bug (thanks Dennis)
 
 05-Apr-2010 Jean-Marie Simonet
 $^+ Consolidating some keys with same value to a unique key in main inis. WIP

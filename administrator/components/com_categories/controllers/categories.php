@@ -57,13 +57,13 @@ class CategoriesControllerCategories extends JController
 	public function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$pks	= JRequest::getVar('cid', array(), 'post', 'array');
 		$n		= count($pks);
 		if (empty($pks)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('COM_CATEGORIES_NO_CATEGORY_SELECTED'));
 		}
 		else
 		{
@@ -71,7 +71,7 @@ class CategoriesControllerCategories extends JController
 			$model = $this->getModel('category');
 			// Remove the items.
 			if ($model->delete($pks)) {
-				$this->setMessage(JText::sprintf('JSuccess_N_items_deleted', $n));
+				$this->setMessage(JText::sprintf((count($pks) == 1) ? 'COM_CATEGORIES_CATEGORY_DELETED' : 'COM_CATEGORIES_N_CATEGORIES_DELETED', count($pks)));
 			}
 			else {
 				$this->setMessage($model->getError());
@@ -89,7 +89,7 @@ class CategoriesControllerCategories extends JController
 	public function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$pks	= JRequest::getVar('cid', array(), '', 'array');
@@ -98,7 +98,7 @@ class CategoriesControllerCategories extends JController
 		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($pks)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('COM_CATEGORIES_NO_CATEGORY_SELECTED'));
 		}
 		else
 		{
@@ -107,7 +107,19 @@ class CategoriesControllerCategories extends JController
 
 			// Publish the items.
 			if ($model->publish($pks, $value)) {
-				$this->setMessage($value ? JText::_('JSuccess_N_items_published') : JText::_('JSuccess_N_items_unpublished'));
+				if ($value == 1) {
+					$text = 'COM_CATEGORIES_CATEGORY_PUBLISHED';
+					$ntext = 'COM_CATEGORIES_N_CATEGORIES_PUBLISHED';
+				}
+				else if ($value == 0) {
+					$text = 'COM_CATEGORIES_CATEGORY_UNPUBLISHED';
+					$ntext = 'COM_CATEGORIES_N_CATEGORIES_UNPUBLISHED';
+				}
+				else {
+					$text = 'COM_CATEGORIES_CATEGORY_TRASHED';
+					$ntext = 'COM_CATEGORIES_N_CATEGORIES_TRASHED';
+				}
+				$this->setMessage(JText::sprintf((count($pks) == 1) ? $text : $ntext, count($pks)));
 			}
 			else {
 				$this->setMessage($model->getError());
@@ -124,7 +136,7 @@ class CategoriesControllerCategories extends JController
 	 */
 	public function ordering()
 	{
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$pks	= JRequest::getVar('cid', null, 'post', 'array');
@@ -154,7 +166,7 @@ class CategoriesControllerCategories extends JController
 	 */
 	public function rebuild()
 	{
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$this->setRedirect('index.php?option=com_categories&view=categories');
 
@@ -164,12 +176,12 @@ class CategoriesControllerCategories extends JController
 		if ($model->rebuild())
 		{
 			// Reorder succeeded.
-			$this->setMessage(JText::_('Categories_Rebuild_success'));
+			$this->setMessage(JText::_('CATEGORIES_REBUILD_SUCCESS'));
 			return true;
 		}
 		else {
 			// Rebuild failed.
-			$this->setMessage(JText::sprintf('Categories_Rebuild_failed'));
+			$this->setMessage(JText::sprintf('CATEGORIES_REBUILD_FAILED'));
 			return false;
 		}
 	}
