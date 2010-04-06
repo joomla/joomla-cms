@@ -117,7 +117,7 @@ class RedirectControllerLinks extends JController
 					$text = 'COM_REDIRECT_LINK_UNPUBLISHED';
 					$ntext = 'COM_REDIRECT_N_LINKS_UNPUBLISHED';
 				}
-				else if ($value == -1) {
+				else if ($value == 2) {
 					$text = 'COM_REDIRECT_LINK_ARCHIVED';
 					$ntext = 'COM_REDIRECT_N_LINKS_ARCHIVED';
 				}
