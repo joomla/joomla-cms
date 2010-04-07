@@ -748,8 +748,9 @@ class JController extends JObject
 				if (!empty($parts['format'])) {
 					if ($parts['format'] == 'html') {
 						$parts['format'] = '';
+					} else {
+						$parts['format'] = '.'.$parts['format'];
 					}
-					$parts['format'] = '.'.$parts['format'];
 				} else {
 					$parts['format'] = '';
 				}
