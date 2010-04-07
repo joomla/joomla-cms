@@ -688,15 +688,15 @@ div.current fieldset.radio label {
 	margin: 3px 0 0 5px;
 }
 
-div.current input.text_area,
-div.current textarea.text_area,
-div.current select.inputbox {
+div.current input,
+div.current textarea,
+div.current select {
 	clear: none;
 	float: left;
 	margin: 3px 0 0 2px;
 }
 
-div.current select.inputbox {
+div.current select {
 	margin-bottom: 15px;
 }
 
@@ -913,7 +913,7 @@ label#jform_fulltext-lbl {
 }
 
 fieldset.adminform select,
-select#jform_catid.inputbox {
+select#jform_catid {
 	margin-right: 20px;
 }
 
@@ -940,9 +940,9 @@ label.required:after {
 	vertical-align: middle;
 }
 
-input#jform_title.inputbox,
-input#jform_leveltitle.inputbox,
-input#jform_grouptitle.inputbox
+input#jform_title,
+input#jform_leveltitle,
+input#jform_grouptitle
 	{
 	font-size: 1.364em;
 }
@@ -1180,7 +1180,7 @@ fieldset.filter .right {
 	float: right;
 }
 
-fieldset.filter .right select.inputbox {
+fieldset.filter .right select {
 	margin-left: 10px;
 }
 
@@ -1203,7 +1203,8 @@ label.filter-hide-lbl {
 	clear: none;
 }
 
-div.filter-select .inputbox {
+div.filter-select input,
+div.filter-select select {
 	margin-left: 5px;
 	margin-right: 5px;
 }
@@ -1467,7 +1468,7 @@ table.adminlist tr td.btns a {
 	margin: 0 10px;
 }
 
-.pagination div.limit select#limit.inputbox {
+.pagination div.limit select#limit {
 	width: 50px;
 }
 
@@ -1965,7 +1966,7 @@ p#login-error-message {
 	float: left;
 }
 
-select#lang.inputbox {
+select#lang {
 	width: 106px;
 }
 
@@ -3075,7 +3076,7 @@ table.aclmodify-table caption {
 	display: none;
 }
 
-table.aclmodify-table select.inputbox {
+table.aclmodify-table select {
 	margin-bottom: 3px;
 }
 
