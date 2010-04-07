@@ -29,9 +29,6 @@ class MediaViewImages extends JView
 
 		JHTML::_('script','media/popup-imagemanager.js', array(), true);
 		JHTML::_('stylesheet','media/popup-imagemanager.css', array(), true);
-		if ($config->get('enable_flash', 0)) {
-			JHtml::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ ImageManager.refreshFrame(); }'));
-		}
 
 		/*
 		 * Display form for FTP credentials?

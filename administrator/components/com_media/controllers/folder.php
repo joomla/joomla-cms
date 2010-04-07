@@ -104,7 +104,7 @@ class MediaControllerFolder extends MediaController
 		JRequest::setVar('folder', $parent);
 
 		if (($folderCheck !== null) && ($folder !== $folderCheck)) {
-			$app->redirect('index.php?option=com_media&folder='.$parent, JText::_('WARNDIRNAME'));
+			$app->redirect('index.php?option=com_media&folder='.$parent, JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
 		}
 
 		if (strlen($folder) > 0) {
