@@ -217,10 +217,54 @@ abstract class JHtmlBehavior
 		JHTML::_('script','system/progressbar.js', false, true);
 		JHTML::_('script','system/uploader.js', false, true);
 
+		$document = &JFactory::getDocument();
+		
 		static $uploaders;
 
 		if (!isset($uploaders)) {
 			$uploaders = array();
+
+			// load language
+			$lang =& JFactory::getLanguage();
+			$lang->load('com_media', JPATH_ADMINISTRATOR);
+			
+			$js = "
+				(function() {
+					var phrases = {
+						'uploadCompleted': '".JText::_('COM_MEDIA_UPLOADER_UPLOAD_COMPLETED', true)."',
+						'progressOverall': '".JText::_('COM_MEDIA_UPLOADER_OVERALL_PROGRESS_TOTAL', true)."',
+						'currentTitle': '".JText::_('COM_MEDIA_UPLOADER_FILE_PROGRESS', true)."',
+						'currentFile': '".JText::_('COM_MEDIA_UPLOADER_UPLOADING', true)."',
+						'currentProgress': '".JText::_('COM_MEDIA_UPLOADER_CURRENT_PROGRESS', true)."',
+						'fileName': '".JText::_('COM_MEDIA_UPLOADER_FILENAME', true)."',
+						'remove': '".JText::_('COM_MEDIA_UPLOADER_REMOVE', true)."',
+						'removeTitle': '".JText::_('COM_MEDIA_UPLOADER_REMOVE_TITLE', true)."',
+						'fileError': '".JText::_('COM_MEDIA_UPLOADER_FILE_ERROR', true)."',
+						'validationErrors': {
+							'duplicate': '".JText::_('COM_MEDIA_UPLOADER_ERROR_DUPLICATE', true)."',
+							'sizeLimitMin': '".JText::_('COM_MEDIA_UPLOADER_ERROR_SIZE_LIMIT_MIN', true)."',
+							'sizeLimitMax': '".JText::_('COM_MEDIA_UPLOADER_ERROR_SIZE_LIMIT_MAX', true)."',
+							'fileListMax': '".JText::_('COM_MEDIA_UPLOADER_ERROR_FILELIST_MAX', true)."',
+							'fileListSizeMax': '".JText::_('COM_MEDIA_UPLOADER_ERROR_FILELIST_SIZE_MAX', true)."'
+						},
+						'errors': {
+							'httpStatus': '".JText::_('COM_MEDIA_UPLOADER_ERROR_HTTP_STATUS', true)."',
+							'securityError': '".JText::_('COM_MEDIA_UPLOADER_ERROR_SECURITY', true)."',
+							'ioError': '".JText::_('COM_MEDIA_UPLOADER_ERROR_IO', true)."'
+						}
+					};
+					if (MooTools.lang) {
+						MooTools.lang.set('".$lang->getTag()."', 'FancyUpload', phrases);
+						MooTools.lang.setLanguage('".$lang->getTag()."');
+					} else {
+						MooTools.lang = {
+							get: function(from, key) {
+								return phrases[key];
+							}
+						};
+					}
+				})();";
+			$document->addScriptDeclaration($js);
 		}
 
 		if (isset($uploaders[$id]) && ($uploaders[$id])) {
@@ -248,15 +292,17 @@ abstract class JHtmlBehavior
 		$opt['fileListMax']			= (isset($params['fileListMax']) && ($params['fileListMax'])) ? (int)$params['fileListMax'] : $opt['fileListMax'];
 		$opt['fileListSizeMax']		= (isset($params['fileListSizeMax']) && ($params['fileListSizeMax'])) ? (int)$params['fileListSizeMax'] : null;
 		// types is the old parameter name.  Remove in 1.7
-		$opt['typeFilter']			= (isset($params['types'])) ?'\\'.$params['types'] : '\\{\'All Files (*.*)\': \'*.*\'}';
-		$opt['typeFilter']			= (isset($params['typeFilter'])) ?'\\'.$params['typeFilter'] : $opt['typeFilter'];
+		$opt['typeFilter']			= (isset($params['types'])) ? '\\'.$params['types'] : '\\{\'All Files (*.*)\': \'*.*\'}';
+		$opt['typeFilter']			= (isset($params['typeFilter'])) ? '\\'.$params['typeFilter'] : $opt['typeFilter'];
 
 
 		// Optional functions
-		$opt['createReplacement'] = (isset($params['createReplacement'])) ? '\\'.$params['createReplacement'] : null;
-		$opt['onFileComplete'] = (isset($params['onFileComplete'])) ? '\\'.$params['onFileComplete'] : null;
-		$opt['onComplete'] = (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
-		$opt['onFileSuccess'] = (isset($params['onFileSuccess'])) ? '\\'.$params['onFileSuccess'] : null;
+		$opt['createReplacement'] 	= (isset($params['createReplacement'])) ? '\\'.$params['createReplacement'] : null;
+		$opt['onFileComplete'] 		= (isset($params['onFileComplete'])) ? '\\'.$params['onFileComplete'] : null;
+		$opt['onBeforeStart'] 		= (isset($params['onBeforeStart'])) ? '\\'.$params['onBeforeStart'] : null;
+		$opt['onStart'] 			= (isset($params['onStart'])) ? '\\'.$params['onStart'] : null;
+		$opt['onComplete'] 			= (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
+		$opt['onFileSuccess'] 		= (isset($params['onFileSuccess'])) ? '\\'.$params['onFileSuccess'] : null;
 
 		if(!isset($params['startButton'])) $params['startButton'] = 'upload-start';
 		if(!isset($params['clearButton'])) $params['clearButton'] = 'upload-clear';
@@ -299,7 +345,6 @@ abstract class JHtmlBehavior
 		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
-		$document = &JFactory::getDocument();
 		$uploaderInit =
 				'window.addEvent(\'domready\', function(){
 				var Uploader = new FancyUpload2($(\''.$id.'\'), $(\''.$upload_queue.'\'), '.$options.' );
