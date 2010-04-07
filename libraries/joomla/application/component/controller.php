@@ -139,7 +139,7 @@ class JController extends JObject
 
 		// Get the environment configuration.
 		$basePath	= array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
-		$protocol	= JRequest::getWord('protocol');
+		$format		= JRequest::getWord('format');
 		$command	= JRequest::getCmd('task', 'display');
 
 		// Check for a controller.task command.
@@ -148,7 +148,7 @@ class JController extends JObject
 			list($type, $task) = explode('.', $command);
 
 			// Define the controller filename and path.
-			$file	= self::_createFileName('controller', array('name' => $type, 'protocol' => $protocol));
+			$file	= self::_createFileName('controller', array('name' => $type, 'format' => $format));
 			$path	= $basePath.DS.'controllers'.DS.$file;
 
 			// Reset the task without the contoller context.
@@ -159,7 +159,7 @@ class JController extends JObject
 			$task	= $command;
 
 			// Define the controller filename and path.
-			$file	= self::_createFileName('controller', array('name' => 'controller', 'protocol' => $protocol));
+			$file	= self::_createFileName('controller', array('name' => 'controller', 'format' => $format));
 			$path	= $basePath.DS.$file;
 		}
 
@@ -745,11 +745,11 @@ class JController extends JObject
 		switch ($type)
 		{
 			case 'controller':
-				if (!empty($parts['protocol'])) {
-					$parts['protocol'] = '.'.$parts['protocol'];
+				if (!empty($parts['format'])) {
+					$parts['format'] = '.'.$parts['format'];
 				}
 
-				$filename = strtolower($parts['name']).$parts['protocol'].'.php';
+				$filename = strtolower($parts['name']).$parts['format'].'.php';
 				break;
 
 			case 'view':

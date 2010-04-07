@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Apr-2010 Louis Landry
+^ Change the new protocol request var for various controller types to format ... for consistency.
+
 06-Apr-2010 Jean-Marie Simonet
 $ Adding missing value to key.
 #$ Fixing some com_categories strings + bug (thanks Dennis)
