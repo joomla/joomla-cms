@@ -35,16 +35,20 @@ jimport('joomla.user.helper');
 		<dd>
 			<?php echo JHTML::_('date',$this->data->registerDate); ?>
 		</dd>
-				<dt>
+		<dt>
 			<?php echo JText::_('Users_Profile_Last_Visited_Date_Label'); ?>
 		</dt>
-		<dd>
+		
 		<?php if ($this->data->lastvisitDate != '0000-00-00 00:00:00'){?>
-			<?php echo JHTML::_('date',$this->data->lastvisitDate); ?>
+			<dd>
+				<?php echo JHTML::_('date',$this->data->lastvisitDate); ?>
+			</dd>
 		<?php }
-		else {
-			echo JText::_('Users_Profile_Never_Visited');
-		} ?>
-		</dd>
+		else {?>
+			<dd>
+				<?php echo JText::_('Users_Profile_Never_Visited'); ?>
+			</dd>
+		<?php } ?>
+
 	</dl>
 </fieldset>
