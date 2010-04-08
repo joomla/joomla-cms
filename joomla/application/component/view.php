@@ -410,13 +410,11 @@ class JView extends JObject
 		{
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r)) {
-				JError::raiseError (500, "JView::getName() : Cannot get or parse class name.");
+				JError::raiseError (500, JText::_('JERROR_APPLICATION_VIEW_GET_NAME');
 			}
 			if (strpos($r[3], "view"))
 			{
-				JError::raiseWarning('SOME_ERROR_CODE',"JView::getName() : Your classname contains the substring 'view'. ".
-											"This causes problems when extracting the classname from the name of your objects view. " .
-											"Avoid Object names with the substring 'view'.");
+				JError::raiseWarning('SOME_ERROR_CODE',JText::_('JERROR_APPLICATION_VIEW_GET_NAME_SUBSTRING'));
 			}
 			$name = strtolower($r[3]);
 		}
@@ -571,7 +569,7 @@ class JView extends JObject
 			return $this->_output;
 		}
 		else {
-			return JError::raiseError(500, 'Layout "' . $file . '" not found');
+			return JError::raiseError(500, JText::sprintf('JERROR_APPLICATION_LAYOUTFILE_NOT_FOUND', $file));
 		}
 	}
 
