@@ -665,7 +665,8 @@ class JApplication extends JObject
 	static public function getRouter($name = null, array $options = array())
 	{
 		if (!isset($name)) {
-			$name = $this->_name;
+			$app = JFactory::getApplication();
+			$name = $app->getName();
 		}
 
 		jimport('joomla.application.router');
