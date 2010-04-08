@@ -172,7 +172,7 @@ class JController extends JObject
 			if (file_exists($path)) {
 				require_once $path;
 			} else {
-				throw new JException(JText::sprintf('INVALID CONTROLLER', $type), 1056, E_ERROR, $type, true);
+				throw new JException(JText::sprintf('JERROR_APPLICATION_INVALID_CONTROLLER', $type), 1056, E_ERROR, $type, true);
 			}
 		}
 
@@ -180,7 +180,7 @@ class JController extends JObject
 		if (class_exists($class)) {
 			$instance = new $class($config);
 		} else {
-			throw new JException(JText::sprintf('INVALID CONTROLLER CLASS', $class), 1057, E_ERROR, $class, true);
+			throw new JException(JText::sprintf('JERROR_APPLICATION_INVALID_CONTROLLER_CLASS', $class), 1057, E_ERROR, $class, true);
 		}
 
 		return $instance;
@@ -283,7 +283,7 @@ class JController extends JObject
 		} elseif (isset($this->_taskMap['__default'])) {
 			$doTask = $this->_taskMap['__default'];
 		} else {
-			return JError::raiseError(404, JText::_('Task ['.$task.'] not found'));
+			return JError::raiseError(404, JText::sprintf('JERROR_APPLICATION_TASK_NOT_FOUND', $task));
 		}
 
 		// Record the actual task being fired
@@ -294,7 +294,7 @@ class JController extends JObject
 			$retval = $this->$doTask();
 			return $retval;
 		} else {
-			return JError::raiseError(403, JText::_('ACCESS_FORBIDDEN'));
+			return JError::raiseError(403, JText::_('JERROR_APPLICATION_ACCESS_FORBIDDEN'));
 		}
 
 	}
@@ -472,7 +472,7 @@ class JController extends JObject
 		if (empty($name)) {
 			$r = null;
 			if (!preg_match('/(.*)Controller/i', get_class($this), $r)) {
-				JError::raiseError(500, "JController::getName() : Cannot get or parse class name.");
+				JError::raiseError(500, "JERROR_APPLICATION_CONTROLLER_GET_NAME");
 			}
 			$name = strtolower($r[1]);
 		}
@@ -510,9 +510,7 @@ class JController extends JObject
 				$views[$name] = & $view;
 			} else {
 				$result = JError::raiseError(
-					500, JText::_('View not found [name, type, prefix]:')
-						. ' ' . $name . ',' . $type . ',' . $prefix
-				);
+					500, JText::_('JERROR_APPLICATION_VIEW_NOT_FOUND', $name, $type, $prefix));
 				return $result;
 			}
 		}
@@ -672,8 +670,7 @@ class JController extends JObject
 
 				if (!class_exists($viewClass)) {
 					$result = JError::raiseError(
-						500, JText::_('View class not found [class, file]:')
-						. ' ' . $viewClass . ', ' . $path);
+						500, JText::sprintf('JERROR_APPLICATION_VIEW_CLASS_NOT_FOUND', $viewClass, $path));
 					return null;
 				}
 			} else {

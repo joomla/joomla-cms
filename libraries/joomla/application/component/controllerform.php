@@ -59,7 +59,7 @@ class JControllerForm extends JController
 		if (empty($this->_context)) {
 			$r = null;
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r)) {
-				JError::raiseError(500, 'JController_Error_Cannot_parse_name');
+				JError::raiseError(500, 'JERROR_APPLICATION_CONTROLLER_GET_NAME');
 			}
 			$this->_context = strtolower($r[2]);
 		}
@@ -163,7 +163,7 @@ class JControllerForm extends JController
 		// Access check.
 		if (!$this->_allowAdd()) {
 			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_items, false));
-			return JError::raiseWarning(403, 'JError_Core_Create_not_permitted.');
+			return JError::raiseWarning(403, 'JERROR_APPLICATION_CREATE_RECORD_NOT_PERMITTED');
 		}
 
 		// Clear the record edit information from the session.
@@ -221,14 +221,14 @@ class JControllerForm extends JController
 		$key		= $table->getKeyName();
 		if (!$this->_allowEdit(array($key => $recordId), $key)) {
 			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_items, false));
-			return JError::raiseWarning(403, 'JERROR_CORE_EDIT_NOT_PERMITTED');
+			return JError::raiseWarning(403, 'JERROR_APPLICATION_EDIT_NOT_PERMITTED');
 		}
 
 		// If record ids do not match, checkin previous record.
 		if ($checkin && ($previousId > 0) && ($recordId != $previousId)) {
 			if (!$model->checkin($previousId)) {
 				// Check-in failed, go back to the record and display a notice.
-				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
+				$message = JText::sprintf('JERROR_APPLICATION_CHECKIN_FAILED', $model->getError());
 				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
 				return false;
 			}
@@ -237,7 +237,7 @@ class JControllerForm extends JController
 		// Attempt to check-out the new record for editing and redirect.
 		if ($checkin && !$model->checkout($recordId)) {
 			// Check-out failed, go back to the list and display a notice.
-			$message = JText::sprintf('JError_Checkout_failed', $model->getError());
+			$message = JText::sprintf('JERROR_APPLICATION_CHECKOUT_FAILED', $model->getError());
 			$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append.'&id='.$recordId, $message, 'error');
 			return false;
 		} else {
@@ -254,7 +254,7 @@ class JControllerForm extends JController
 	 */
 	public function cancel()
 	{
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app		= JFactory::getApplication();
@@ -281,7 +281,7 @@ class JControllerForm extends JController
 		if ($checkin && $recordId) {
 			if(!$model->checkin($recordId)) {
 				// Check-in failed, go back to the record and display a notice.
-				$message = JText::sprintf('JError_Checkin_failed', $model->getError());
+				$message = JText::sprintf('JERROR_APPLICATION_CHECKIN_FAILED', $model->getError());
 				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
 				return false;
 			}
@@ -321,7 +321,7 @@ class JControllerForm extends JController
 	public function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app		= JFactory::getApplication();
@@ -353,7 +353,7 @@ class JControllerForm extends JController
 			// Check-in the original row.
 			if ($checkin  && !$model->checkin($data[$key])) {
 				// Check-in failed, go back to the item and display a notice.
-				$message = JText::sprintf('JError_Checkin_saved', $model->getError());
+				$message = JText::sprintf('JERROR_APPLICATION_CHECKIN_FAILED', $model->getError());
 				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
 				return false;
 			}
@@ -366,7 +366,7 @@ class JControllerForm extends JController
 		// Access check.
 		if (!$this->_allowSave($data)) {
 			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_items, false));
-			return JError::raiseWarning(403, 'JError_Save_not_permitted');
+			return JError::raiseWarning(403, 'JERROR_APPLICATION_SAVE_NOT_PERMITTED');
 		}
 
 		// Validate the posted data.
@@ -405,7 +405,7 @@ class JControllerForm extends JController
 			$app->setUserState($context.'.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JError_Save_failed', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('JERROR_APPLICATION_SAVE_FAILED', $model->getError()), 'notice');
 			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, false));
 			return false;
 		}

@@ -48,7 +48,7 @@ class JModelForm extends JModel
 
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
-				$this->setError(JText::_('JError_Checkin_user_mismatch'));
+				$this->setError(JText::_('JERROR_APPLICATION_CHECKIN_USER_MISMATCH'));
 				return false;
 			}
 
@@ -84,7 +84,7 @@ class JModelForm extends JModel
 
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
-				$this->setError(JText::_('JError_Checkout_user_mismatch'));
+				$this->setError(JText::_('JERROR_APPLICATION_CHECKOUT_USER_MISMATCH'));
 				return false;
 			}
 
