@@ -82,9 +82,9 @@ class JInstallationController extends JController
 			list($type, $task) = explode('.', $cmd);
 
 			// Define the controller name and path
-			$format	= JRequest::getWord('format');
+			$protocol	= JRequest::getWord('protocol');
 			$type		= strtolower($type);
-			$file		= (!empty($format)) ? $type.'.'.$format.'.php' : $type.'.php';
+			$file		= (!empty($protocol)) ? $type.'.'.$protocol.'.php' : $type.'.php';
 			$path		= JPATH_COMPONENT.DS.'controllers'.DS.$file;
 
 			// If the controller file path exists, include it ... else die with a 500 error.

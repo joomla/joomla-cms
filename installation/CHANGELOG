@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Apr-2010 Mark Dexter
+# Revert rev 15911 in file installation/controller.php (prevents sample data install)
+
 08-Apr-2010 Jean-Marie Simonet
 $ Refactoring ini/keys in libraries J/application/component/
 $ Refactoring ini/keys in libraries J/application/module
