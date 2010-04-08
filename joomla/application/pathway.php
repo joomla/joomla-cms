@@ -77,7 +77,7 @@ class JPathway extends JObject
 			}
 			else
 			{
-				$error = JError::raiseError(500, 'Unable to load pathway: '.$client);
+				$error = JError::raiseError(500, JText::sprintf('JERROR_APPLICATION_PATHWAY_LOAD', $client));
 				return $error;
 			}
 

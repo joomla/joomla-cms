@@ -145,7 +145,7 @@ class JApplication extends JObject
 			}
 			else
 			{
-				$error = JError::raiseError(500, 'Unable to load application: '.$client);
+				$error = JError::raiseError(500, JText::sprintf('JERROR_APPLICATION_APPLICATION_LOAD', $client));
 				return $error;
 			}
 
@@ -221,7 +221,7 @@ class JApplication extends JObject
 	{
 		$document = &JFactory::getDocument();
 
-		$document->setTitle($this->getCfg('sitename'). ' - ' .JText::_('Administration'));
+		$document->setTitle($this->getCfg('sitename'). ' - ' .JText::_('JADMINISTRATION'));
 		$document->setDescription($this->getCfg('MetaDesc'));
 
 		$contents = JComponentHelper::renderComponent($component);
@@ -419,7 +419,7 @@ class JApplication extends JObject
 		{
 			$r = null;
 			if (!preg_match('/J(.*)/i', get_class($this), $r)) {
-				JError::raiseError(500, "JApplication::getName() : Can\'t get or parse class name.");
+				JError::raiseError(500, JText::_('JERROR_APPLICATION_APPLICATION_GET_NAME'));
 			}
 			$name = strtolower($r[1]);
 		}
@@ -590,7 +590,7 @@ class JApplication extends JObject
 		}
 
 		// Return the error.
-		return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_AUTHENTICATE'));
+		return JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_LOGIN_AUTHENTICATE'));
 	}
 
 	/**
