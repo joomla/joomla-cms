@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Apr-2010 Mark Dexter
+^ Change doInstall.php to detect failure to install sample data
+
 05-Apr-2010 Mark Dexter
 + Add phpunit.php files to system and unit folders to enable test debugging
 
