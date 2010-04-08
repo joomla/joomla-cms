@@ -29,6 +29,9 @@ $ -> Language fix or change
 
 08-Apr-2010 Mark Dexter
 # Revert rev 15911 in file installation/controller.php (prevents sample data install)
+# Fix bug in user profile layout, custom layout (Elin Waring)
+^ Add new positions to Milky Way Template (Elin Waring)
+^ Sample data changes (Elin Waring)
 
 08-Apr-2010 Jean-Marie Simonet
 $ Refactoring ini/keys in libraries J/application/component/
