@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 08-Apr-2010 Jean-Marie Simonet
 $ Refactoring ini/keys in libraries J/application/component/
+$ Refactoring ini/keys in libraries J/application/module
 
 08-Apr-2010 Hannes Papenberg
 # Fixing static/non-static issue in JApplication::getRouter()

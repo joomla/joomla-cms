@@ -89,7 +89,7 @@ class JRouter extends JObject
 				$classname = 'JRouter'.ucfirst($client);
 				$instance = new $classname($options);
 			} else {
-				$error = JError::raiseError(500, 'Unable to load router: '.$client);
+				$error = JError::raiseError(500, JText::sprintf('JERROR_APPLICATION_ROUTER_LOAD', $client));
 				return $error;
 			}
 
