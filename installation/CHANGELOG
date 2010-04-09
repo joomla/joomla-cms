@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Apr-2010 Hannes Papenberg
+# Fixed editing viewlevels
+# Fixed user-editing
+# Fixed user massmail
+
 08-Apr-2010 Mark Dexter
 # Revert rev 15911 in file installation/controller.php (prevents sample data install)
 # Fix bug in user profile layout, custom layout (Elin Waring)

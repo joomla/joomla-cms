@@ -35,21 +35,10 @@ $fieldsets = $this->form->getFieldsets();
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('Users_User_Account_Details'); ?></legend>
-			<?php echo $this->form->getLabel('name'); ?>
-			<?php echo $this->form->getInput('name'); ?>
-
-			<?php echo $this->form->getLabel('username'); ?>
-			<?php echo $this->form->getInput('username'); ?>
-
-			<?php echo $this->form->getLabel('password'); ?>
-			<?php echo $this->form->getInput('password'); ?>
-
-			<?php echo $this->form->getLabel('password2'); ?>
-			<?php echo $this->form->getInput('password2'); ?>
-
-			<?php echo $this->form->getLabel('email'); ?>
-			<?php echo $this->form->getInput('email'); ?>
-
+			<?php foreach($this->form->getFieldset('user_details') as $field) :?>
+				<?php echo $field->label; ?>
+				<?php echo $field->input; ?>
+			<?php endforeach; ?>
 		</fieldset>
 
 	</div>
@@ -58,6 +47,9 @@ $fieldsets = $this->form->getFieldsets();
 		<?php
 		echo JHTML::_('sliders.start');
 		foreach ($fieldsets as $fieldset) :
+			if ($fieldset->name == 'user_details') :
+				continue;
+			endif;
 			echo JHTML::_('sliders.panel', JText::_($fieldset->label), $fieldset->name);
 		?>
 		<fieldset class="panelform">

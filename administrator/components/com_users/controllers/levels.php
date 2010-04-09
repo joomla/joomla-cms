@@ -43,41 +43,10 @@ class UsersControllerLevels extends JController
 	/**
 	 * Proxy for getModel.
 	 */
-	public function &getModel($name = 'Levels', $prefix = 'UserModel')
+	public function &getModel($name = 'Levels', $prefix = 'UsersModel')
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
-	}
-
-	/**
-	 * Method to remove a record.
-	 */
-	public function delete()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
-		}
-		else {
-			// Get the model.
-			$model = $this->getModel();
-
-			// Remove the items.
-			if (!$model->delete($ids)) {
-				JError::raiseWarning(500, $model->getError());
-			}
-			else {
-				$this->setMessage(JText::sprintf('JController_N_Items_deleted', count($ids)));
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_users&view=levels');
 	}
 
 	/**
@@ -94,7 +63,10 @@ class UsersControllerLevels extends JController
 		$inc	= ($this->getTask() == 'orderup') ? -1 : +1;
 
 		$model = $this->getModel();
-		$model->reorder($ids, $inc);
+		foreach($ids as $id)
+		{
+			$model->reorder($id, $inc);
+		}
 		// TODO: Add error checks.
 
 		$this->setRedirect('index.php?option=com_users&view=levels');

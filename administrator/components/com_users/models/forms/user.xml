@@ -6,6 +6,7 @@
 		readonly="true"
 	/>
 
+	<fieldset name="user_details">
 	<field name="name" type="text"
 		class="inputbox"
 		description="Users_User_Name_Desc"
@@ -48,7 +49,47 @@
 		size="30"
 		validate="email"
 	/>
-
+	
+	<field
+			name="block"
+			type="radio"
+			default="0"
+			label="USERS_USER_BLOCK_LABEL"
+			description="USERS_USER_BLOCK_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+	</field>
+	<field
+			name="sendEmail"
+			type="radio"
+			default="0"
+			label="USERS_USER_SENDEMAIL_LABEL"
+			description="USERS_USER_SENDEMAIL_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+	</field>
+	<field
+			name="registerDate"
+			type="calendar"
+			label="USERS_USER_REGISTERDATE_LABEL"
+			description="USERS_USER_REGISTERDATE_DESC"
+			readonly="true"
+			>
+	</field>
+	<field
+			name="lastvisitDate"
+			type="calendar"
+			label="USERS_USER_REGISTERDATE_LABEL"
+			description="USERS_USER_REGISTERDATE_DESC"
+			readonly="true"
+			>
+	</field>
+	
+	</fieldset>
 	<field name="groups" type="hidden" />
 
 	<fields name="params">

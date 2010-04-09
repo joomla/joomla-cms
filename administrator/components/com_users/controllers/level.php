@@ -19,4 +19,34 @@ jimport('joomla.application.component.controllerform');
  */
 class UsersControllerLevel extends JControllerForm
 {
+	/**
+	 * Method to remove a record.
+	 */
+	public function delete()
+	{
+		// Check for request forgeries.
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$ids	= JRequest::getVar('cid', array(), '', 'array');
+
+		if (empty($ids)) {
+			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+		}
+		else {
+			// Get the model.
+			$model = $this->getModel();
+
+			// Remove the items.
+			if (!$model->delete($ids)) {
+				JError::raiseWarning(500, $model->getError());
+			}
+			else {
+				$this->setMessage(JText::sprintf('JController_N_Items_deleted', count($ids)));
+			}
+		}
+
+		$this->setRedirect('index.php?option=com_users&view=levels');
+	}
 }

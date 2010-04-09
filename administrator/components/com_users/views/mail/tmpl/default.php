@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 		// do field validation
 		if (form.jform_subject.value == ""){
 			alert("<?php echo JText::_('Users_Mail_Please_fill_in_the_subject', true); ?>");
-		} else if (getSelectedValue('adminForm','jform_group') < 0){
+		} else if (getSelectedValue('adminForm','jform[group]') < 0){
 			alert("<?php echo JText::_('Users_Mail_Please_select_a_group', true); ?>");
 		} else if (form.jform_message.value == ""){
 			alert("<?php echo JText::_('Users_Mail_Please_fill_in_the_message', true); ?>");
