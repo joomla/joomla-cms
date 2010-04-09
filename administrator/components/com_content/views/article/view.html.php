@@ -26,6 +26,18 @@ class ContentViewArticle extends JView
 	public function display($tpl = null)
 	{
 		$app	= JFactory::getApplication();
+		
+		if($this->_layout == 'pagebreak')
+		{
+			$eName	= JRequest::getVar('e_name');
+			$eName	= preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', $eName );
+			$document =& JFactory::getDocument();
+			$document->setTitle(JText::_('PGB ARTICLE PAGEBRK'));
+			$this->assignRef('eName', $eName);
+			parent::display($tpl);
+			return;
+		}
+		
 		$state	= $this->get('State');
 		$item	= $this->get('Item');
 		$form	= $this->get('Form');

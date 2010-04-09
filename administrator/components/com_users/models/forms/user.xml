@@ -74,7 +74,8 @@
 	</field>
 	<field
 			name="registerDate"
-			type="calendar"
+			type="text"
+			class="readonly"
 			label="USERS_USER_REGISTERDATE_LABEL"
 			description="USERS_USER_REGISTERDATE_DESC"
 			readonly="true"
@@ -82,7 +83,8 @@
 	</field>
 	<field
 			name="lastvisitDate"
-			type="calendar"
+			type="text"
+			class="readonly"
 			label="USERS_USER_REGISTERDATE_LABEL"
 			description="USERS_USER_REGISTERDATE_DESC"
 			readonly="true"

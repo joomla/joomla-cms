@@ -122,7 +122,7 @@ class ContentModelArticle extends JModelForm
 		$registry->loadJSON($table->metadata);
 		$value->metadata = $registry->toArray();
 
-		$value->articletext = $value->introtext . "<hr id=\"system-readmore\" />" . $value->fulltext;
+		$value->articletext = trim($value->fulltext) ? $value->introtext . "<hr id=\"system-readmore\" />" . $value->fulltext : $value->introtext;
 
 		return $value;
 	}

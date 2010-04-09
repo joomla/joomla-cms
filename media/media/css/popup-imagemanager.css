@@ -7,7 +7,7 @@
 html, body {
 	background-color: #F0F0F0;
 	color: ButtonText;
-	font: 11px Tahoma, Verdana, sans-serif;
+	font: 11px Tahoma, Verdana, sans-serif !important;
 	margin: 0px !important; padding: 0px !important;
 }
 

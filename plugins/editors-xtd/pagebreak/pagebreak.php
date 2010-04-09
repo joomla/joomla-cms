@@ -31,7 +31,7 @@ class plgButtonPagebreak extends JPlugin
 		$doc = & JFactory::getDocument();
 		$template = $app->getTemplate();
 
-		$link = 'index.php?option=com_content&amp;task=ins_pagebreak&amp;tmpl=component&amp;e_name='.$name;
+		$link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name='.$name;
 
 		JHtml::_('behavior.modal');
 

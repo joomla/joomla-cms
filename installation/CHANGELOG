@@ -31,6 +31,10 @@ $ -> Language fix or change
 # Fixed editing viewlevels
 # Fixed user-editing
 # Fixed user massmail
+# Fixed styling in image manager
+# Fixed adding readmore only when necessary
+# Fixed pagebreak
+# Fixed user edit screen to use the correct fieldtype
 
 08-Apr-2010 Mark Dexter
 # Revert rev 15911 in file installation/controller.php (prevents sample data install)
