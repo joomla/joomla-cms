@@ -410,11 +410,11 @@ class JView extends JObject
 		{
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r)) {
-				JError::raiseError (500, JText::_('JERROR_APPLICATION_VIEW_GET_NAME'));
+				JError::raiseError (500, JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'));
 			}
 			if (strpos($r[3], "view"))
 			{
-				JError::raiseWarning('SOME_ERROR_CODE',JText::_('JERROR_APPLICATION_VIEW_GET_NAME_SUBSTRING'));
+				JError::raiseWarning('SOME_ERROR_CODE',JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'));
 			}
 			$name = strtolower($r[3]);
 		}
@@ -569,7 +569,7 @@ class JView extends JObject
 			return $this->_output;
 		}
 		else {
-			return JError::raiseError(500, JText::sprintf('JERROR_APPLICATION_LAYOUTFILE_NOT_FOUND', $file));
+			return JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file));
 		}
 	}
 

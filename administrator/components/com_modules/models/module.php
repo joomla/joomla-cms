@@ -476,7 +476,7 @@ class ModulesModelModule extends JModelForm
 		// Access checks.
 		$allow = $user->authorise('core.edit', 'com_modules');
 		if (!$allow) {
-			$this->setError(JText::_('JERROR_APPLICATION_EDIT_NOT_PERMITTED'));
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 			return false;
 		}
 

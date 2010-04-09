@@ -122,7 +122,7 @@ abstract class JModel extends JObject
 
 				if (!class_exists($modelClass))
 				{
-					JError::raiseWarning(0, JText::sprintf('JERROR_APPLICATION_MODELCLASS_NOT_FOUND', $modelClass ));
+					JError::raiseWarning(0, JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass ));
 					return false;
 				}
 			}
@@ -216,7 +216,7 @@ abstract class JModel extends JObject
 		{
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r)) {
-				JError::raiseError (500, 'JERROR_APPLICATION_MODEL_GET_NAME');
+				JError::raiseError (500, 'JLIB_APPLICATION_ERROR_MODEL_GET_NAME');
 			}
 			$name = strtolower($r[1]);
 		}
@@ -242,7 +242,7 @@ abstract class JModel extends JObject
 			return $table;
 		}
 
-		JError::raiseError(0, JText::sprintf('JERROR_APPLICATION_TABLE_NAME_NOT_SUPPORTED', $name));
+		JError::raiseError(0, JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name));
 
 		return null;
 	}
