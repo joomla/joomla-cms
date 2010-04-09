@@ -96,7 +96,7 @@ abstract class JCache extends JObject
 			if (file_exists($path)) {
 				require_once $path;
 			} else {
-				JError::raiseError(500, JText::sprintf('JERROR_CACHE_CACHE_HANDLER_LOAD', $type));
+				JError::raiseError(500, JText::sprintf('JLIB_CACHE_ERROR_CACHE_HANDLER_LOAD', $type));
 			}
 		}
 

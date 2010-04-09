@@ -145,7 +145,7 @@ class JApplication extends JObject
 			}
 			else
 			{
-				$error = JError::raiseError(500, JText::sprintf('JERROR_APPLICATION_APPLICATION_LOAD', $client));
+				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $client));
 				return $error;
 			}
 
@@ -419,7 +419,7 @@ class JApplication extends JObject
 		{
 			$r = null;
 			if (!preg_match('/J(.*)/i', get_class($this), $r)) {
-				JError::raiseError(500, JText::_('JERROR_APPLICATION_APPLICATION_GET_NAME'));
+				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_APPLICATION_GET_NAME'));
 			}
 			$name = strtolower($r[1]);
 		}
