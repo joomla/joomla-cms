@@ -457,7 +457,7 @@ class JLDAP extends JObject
 				$addr = substr($addr, 0, strlen($addr) - 1);
 			}
 		} else {
-			$addr .= "address not available.";
+			$addr .= JText::_('JERROR_CLIENT_LDAP_ADDRESS_NOT_AVAILABLE');
 		}
 		return Array('protocol'=>$addrtypes[$addrtype], 'address'=>$addr);
 	}

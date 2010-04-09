@@ -66,7 +66,7 @@ abstract class JCacheStorage extends JObject
 			if (file_exists($path)) {
 				require_once $path;
 			} else {
-				return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
+				return JError::raiseWarning(500, JText::sprintf('JERROR_CACHE_CACHE_STORAGE_LOAD', $handler));
 			}
 		}
 
