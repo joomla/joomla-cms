@@ -8,7 +8,7 @@
  * @author Anthony Ferrara
  */
 
-class testCallbackHandler {
+class testCallbackController {
 
 	public function instanceCallback($arg1, $arg2) {
 		echo $arg1;
@@ -22,7 +22,7 @@ class testCallbackHandler {
 
 }
 
-function testCallbackHandlerFunc($arg1, $arg2) {
+function testCallbackControllerFunc($arg1, $arg2) {
 	echo $arg1;
 	return $arg2;
 }

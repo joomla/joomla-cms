@@ -12,7 +12,7 @@
 /**
  * Interface to JCache methods.  Used for testing of cache storage.
  */
-class JCacheRaw extends JCache
+class JCacheControllerRaw extends JCache
 {
 
 }

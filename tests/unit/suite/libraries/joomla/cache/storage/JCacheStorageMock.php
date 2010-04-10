@@ -98,7 +98,7 @@ class JCacheStorageMock extends JCacheStorage
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test()
+	public static function test()
 	{
 		return true;
 	}
