@@ -78,8 +78,8 @@ class JControllerAdmin extends JController
 			JArrayHelper::toInteger($cid);
 
 			// Remove the items.
-			if ($model->delete($pks)) {
-				$this->setMessage(JText::sprintf((count($pks) == 1) ? $this->_msgprefix.'_ITEM_DELETED' : $this->_msgprefix.'_N_ITEMS_DELETED', count($pks)));
+			if ($model->delete($cid)) {
+				$this->setMessage(JText::sprintf((count($cid) == 1) ? $this->_msgprefix.'_ITEM_DELETED' : $this->_msgprefix.'_N_ITEMS_DELETED', count($pks)));
 			}
 			else {
 				$this->setMessage($model->getError());
