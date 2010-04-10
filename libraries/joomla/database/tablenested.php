@@ -231,16 +231,33 @@ class JTableNested extends JTable
 	 * @since	1.6
 	 * @link	http://docs.joomla.org/JTableNested/move
 	 */
-	public function move($referenceId, $position = 'after', $pk = null)
+	public function move($delta, $where)
 	{
 		if ($this->_debug) {
 			echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
 		}
-
+		
 		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
+		$query = $this->_db->getQuery(true);
+		$query->select($k);
+		$query->from($this->_tbl);
+		$query->where('parent_id = '.$this->parent_id);
+		if($delta > 0)
+		{
+			$query->where('rgt > '.$this->rgt);
+			$query->order('rgt ASC');
+			$position = 'after';
+		} else {
+			$query->where('lft < '.$this->lft);
+			$query->order('lft DESC');
+			$position = 'before';
+		}
+		$this->_db->setQuery($query);
+		$referenceId = $this->_db->loadResult();
+		
 		// Get the node by id.
 		if (!$node = $this->_getNode($pk)) {
 			// Error message set in getNode method.

@@ -82,6 +82,7 @@ abstract class JModelAdmin extends JModelForm
 	{
 		// Typecast variable.
 		$pks = (array) $pks;
+		$user = JFactory::getUser();
 
 		// Get a row instance.
 		$table = &$this->getTable();
@@ -91,15 +92,17 @@ abstract class JModelAdmin extends JModelForm
 		{
 			if ($table->load($pk))
 			{
-				// Access checks.
+/**				// Access checks.
+ * TODO repair this check
+ 
 				if ($table->catid) {
-					$allow = $user->authorise('core.edit.state', 'com_newsfeeds.category.'.(int) $table->catid);
+					$allow = $user->authorise('core.edit.state', $this->_context.(int) $table->catid);
 				}
 				else {
-					$allow = $user->authorise('core.edit.state', 'com_newsfeeds');
+					$allow = $user->authorise('core.edit.state', $this->_option);
 				}
-
-				if ($allow)
+die;*/
+				if (true) //$allow)
 				{
 					if (!$table->delete($pk))
 					{

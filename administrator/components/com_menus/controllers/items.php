@@ -46,4 +46,31 @@ class MenusControllerItems extends JControllerAdmin
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
 	}
+	
+	/**
+	 * Rebuild the nested set tree.
+	 *
+	 * @return	bool	False on failure or error, true on success.
+	 */
+	public function rebuild()
+	{
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$this->setRedirect('index.php?option=com_menus&view=items');
+
+		// Initialise variables.
+		$model = &$this->getModel();
+
+		if ($model->rebuild())
+		{
+			// Reorder succeeded.
+			$this->setMessage(JText::_('MENUS_REBUILD_SUCCESS'));
+			return true;
+		}
+		else {
+			// Rebuild failed.
+			$this->setMessage(JText::sprintf('MENUS_REBUILD_FAILED'));
+			return false;
+		}
+	}
 }

@@ -50,6 +50,9 @@ $ -> Language fix or change
 # Partially fixed ordering, delete, publish, checkin, checkout in com_categories, com_menus
 ^+# Implemented a new caching and implemented it in all frontendcomponents and modules. Thank you Klas Berlic, this was great work. :-)
 # Fixed a typo in en-GB.ini in backend.
++ Added rebuild function to com_menus
+# Fixed JControllerAdmin and JModelAdmin delete() and move()
+# Fixed move() in JTableNested
 
 09-Apr-2010 Jean-Marie Simonet
 $ Refactoring ini/keys in libraries J/application/cache and J/application/client

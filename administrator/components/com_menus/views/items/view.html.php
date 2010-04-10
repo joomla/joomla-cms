@@ -146,6 +146,8 @@ class MenusViewItems extends JView
 			JToolBarHelper::trash('items.trash','JTOOLBAR_TRASH');
 		}
 		JToolBarHelper::divider();
+		JToolBarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
+		JToolBarHelper::divider();
 
 
 		JToolBarHelper::help('screen.menus.items','JTOOLBAR_HELP');
