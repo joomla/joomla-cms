@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @version		$Id$
  * @package		Joomla.Site
@@ -11,45 +12,44 @@
 defined('_JEXEC') or die;
 ?>
 <?php
-		$lang = &JFactory::getLanguage();
-		$myrtl =$this->newsfeed->rtl;
-		$direction = " ";
 
-		if ($lang->isRTL() && $myrtl==0){
-			$direction= " redirect-rtl";
-		} else if ($lang->isRTL() && $myrtl==1){
-			$direction= " redirect-ltr";
-		} else if ($lang->isRTL() && $myrtl==2){
-			$direction= " redirect-rtl";
-		} else if ($myrtl==0) {
-			$direction= " redirect-ltr";
-		} else if ($myrtl==1) {
-			$direction= " redirect-ltr";
-		} else if ($myrtl==2) {
-			$direction= " redirect-rtl";
-		}
+$lang = & JFactory :: getLanguage();
+$myrtl = $this->newsfeed->rtl;
+$direction = " ";
+
+if ($lang->isRTL() && $myrtl == 0) {
+	$direction = " redirect-rtl";
+} else
+	if ($lang->isRTL() && $myrtl == 1) {
+		$direction = " redirect-ltr";
+	} else
+		if ($lang->isRTL() && $myrtl == 2) {
+			$direction = " redirect-rtl";
+		} else
+			if ($myrtl == 0) {
+				$direction = " redirect-ltr";
+			} else
+				if ($myrtl == 1) {
+					$direction = " redirect-ltr";
+				} else
+					if ($myrtl == 2) {
+						$direction = " redirect-rtl";
+					}
 ?>
-
 <div class="newsfeed<?php echo $this->params->get('pageclass_sfx')?><?php echo $direction; ?>">
-
-<?php if ($this->params->get('show_page_title', 1)) : ?>
-	<h2 class="<?php echo $direction; ?>">
-		<?php if ($this->escape($this->params->get('page_heading'))) :?>
-			<?php echo $this->escape($this->params->get('page_heading')); ?>
-		<?php else : ?>
-			<?php echo $this->escape($this->params->get('page_title')); ?>
-		<?php endif; ?>
-	</h2>
+<?php if ($this->params->get('show_page_heading', 1)) : ?>
+<h1 class="<?php echo $direction; ?>">
+	<?php echo $this->escape($this->params->get('page_heading')); ?>
+</h1>
 <?php endif; ?>
-
-	<h3 class="<?php echo $direction; ?>">
+	<h2 class="<?php echo $direction; ?>">
 		<a href="<?php echo $this->newsfeed->channel['link']; ?>" target="_blank">
 			<?php echo str_replace('&apos;', "'", $this->newsfeed->channel['title']); ?></a>
-	</h3>
+	</h2>
 
 <!-- Show Description -->
 <?php if ($this->params->get('show_feed_description')) : ?>
-	<div>
+	<div class="feed-description">
 		<?php echo str_replace('&apos;', "'", $this->newsfeed->channel['description']); ?>
 	</div>
 <?php endif; ?>
@@ -70,10 +70,16 @@ defined('_JEXEC') or die;
 					<?php echo $item->get_title(); ?></a>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_item_description') && $item->get_description()) : ?>
-				<div>
-				<?php $text = $this->limitText($item->get_description(), $this->params->get('feed_word_count'));
+				<div class="feed-item-description">
+				<?php $text = $item->get_description();
+				if($this->params->get('show_feed_image', 0) == 0)
+				{
+					$text = JFilterOutput::stripImages($text);
+				}
+				$text = JHTML::_('string.truncate', $text, $this->params->get('feed_character_count'));
 					echo str_replace('&apos;', "'", $text);
 				?>
+
 				</div>
 			<?php endif; ?>
 			</li>

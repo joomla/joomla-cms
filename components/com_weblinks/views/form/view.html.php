@@ -63,7 +63,9 @@ class WeblinksViewForm extends JView
 		$this->assignRef('item',	$item);
 		$this->assignRef('form',	$form);
 		$this->assignRef('user',	$user);
+		
 		$this->_prepareDocument();
+		
 		parent::display($tpl);
 	}
 
@@ -72,30 +74,20 @@ class WeblinksViewForm extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= &JFactory::getApplication();
-		$pathway	= &$app->getPathway();
-		$menus		= &JSite::getMenu();
-		$title		= null;
+		$app	= &JFactory::getApplication();
+		$menus	= &JSite::getMenu();
+		$title	= null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		if ($menu = $menus->getActive())
+		$menu = $menus->getActive();
+		if($menu)
 		{
-			if (isset($menu->query['view']) && $menu->query['view'] == 'form')
-			{
-				$menuParams = new JRegistry;
-				$menuParams->loadJSON($menu->params);
-				$title = $menuParams->get('page_title');
-			}
+			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+		} else {
+			$this->params->def('page_heading', JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK')); 
 		}
-
-		if (empty($title)) {
-			$title	= JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK');
-		}
+		$title = $this->params->def('page_title', JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK'));
 		$this->document->setTitle($title);
-		$this->params->set('page_title', $title);
-
-		$pathway =& $app->getPathWay();
-		$pathway->addItem($title, '');
 	}
 }

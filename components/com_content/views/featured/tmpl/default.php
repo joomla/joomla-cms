@@ -1,7 +1,7 @@
 
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default.php 15906 2010-04-07 02:30:46Z hackwar $
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -17,15 +17,10 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 // It will be a separate class if the user starts it with a space
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
-
-<div class="blog-featured<?php echo $pageClass;?>">
-<?php if ($this->params->get('show_page_title', 1)) : ?>
+<div class="article-blog-featured<?php echo $pageClass;?>">
+<?php if ($this->params->get('show_page_heading', 1)) : ?>
 <h1>
-	<?php if ($this->escape($this->params->get('page_heading'))) :?>
-		<?php echo $this->escape($this->params->get('page_heading')); ?>
-	<?php else : ?>
-		<?php echo $this->escape($this->params->get('page_title')); ?>
-	<?php endif; ?>
+	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
 <?php $leadingcount=0 ; ?>
@@ -76,9 +71,9 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif; ?>
 
 <?php if (!empty($this->link_items)) : ?>
-
+	<div class="items-more">
 	<?php echo $this->loadTemplate('links'); ?>
-
+	</div>
 <?php endif; ?>
 
 <?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>

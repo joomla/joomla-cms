@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @version		$Id$
  * @package		Joomla.Site
@@ -13,86 +14,106 @@ defined('_JEXEC') or die;
  */
 ?>
 <?php if (($this->params->get('address_check') > 0) &&  ($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>
-<div class="jcontact-address">
 
 <?php if ($this->params->get('address_check') > 0) : ?>
 	<span class="<?php echo $this->params->get('marker_class'); ?>" >
 		<?php echo $this->params->get('marker_address'); ?>
 	</span>
+	<div class="jcontact-address">
+	<address>
 <?php endif; ?>
 <?php if ($this->contact->address && $this->params->get('show_street_address')) : ?>
-	<div class="jcontact-street">
+	<span class="jcontact-street">
 		<?php echo nl2br($this->contact->address); ?>
-	</div>
+	</span>
 <?php endif; ?>
 <?php if ($this->contact->suburb && $this->params->get('show_suburb')) : ?>
-	<div class="jcontact-suburb">
+	<span class="jcontact-suburb">
 		<?php echo $this->contact->suburb; ?>
-	</div>
+	</span>
 <?php endif; ?>
 <?php if ($this->contact->state && $this->params->get('show_state')) : ?>
-	<div class="jcontact-state">
+	<span class="jcontact-state">
 		<?php echo $this->contact->state; ?>
-	</div>
+	</span>
 		<?php endif; ?>
 <?php if ($this->contact->postcode && $this->params->get('show_postcode')) : ?>
-	<div class="jcontact-postcode">
+	<span class="jcontact-postcode">
 		<?php echo $this->contact->postcode; ?>
-	</div>
+	</span>
 <?php endif; ?>
 <?php if ($this->contact->country && $this->params->get('show_country')) : ?>
-	<div class="jcontact-country">
+	<span class="jcontact-country">
 		<?php echo $this->contact->country; ?>
-	</div>
+	</span>
 <?php endif; ?>
+
+
+<?php endif; ?>
+<?php if ($this->params->get('address_check') > 0) : ?>
+</address>
 </div>
-
 <?php endif; ?>
 
-<div class="jcontact-contactinfo">
 
+<?php if($this->params->get('show_email') || $this->params->get('show_telephone')||$this->params->get('show_fax')||$this->params->get('show_mobile')|| $this->params->get('show_webpage') ) : ?>
+<div class="jcontact-contactinfo">
+<?php endif; ?>
 <?php if ($this->contact->email_to && $this->params->get('show_email')) : ?>
+<p>
 	<span class="<?php echo $this->params->get('marker_class'); ?>" >
 		<?php echo $this->params->get('marker_email'); ?>
 	</span>
 	<span class="jcontact-emailto">
 		<?php echo $this->contact->email_to; ?>
 	</span>
+</p>
 <?php endif; ?>
 
 <?php if ($this->contact->telephone && $this->params->get('show_telephone')) : ?>
+<p>
 	<span class="<?php echo $this->params->get('marker_class'); ?>" >
 		<?php echo $this->params->get('marker_telephone'); ?>
 	</span>
 	<span class="jcontact-telephone">
 		<?php echo nl2br($this->contact->telephone); ?>
 	</span>
+	</p>
 <?php endif; ?>
 <?php if ($this->contact->fax && $this->params->get('show_fax')) : ?>
+<p>
 	<span class="<?php echo $this->params->get('marker_class'); ?>" >
 		<?php echo $this->params->get('marker_fax'); ?>
 	</span>
 	<span class="jcontact-fax">
 		<?php echo nl2br($this->contact->fax); ?>
 	</span>
+	</p>
 <?php endif; ?>
 <?php if ($this->contact->mobile && $this->params->get('show_mobile')) :?>
+<p>
 	<span class="<?php echo $this->params->get('marker_class'); ?>" >
 	<?php echo $this->params->get('marker_mobile'); ?>
 	</span>
 	<span class="jcontact-mobile">
 		<?php echo nl2br($this->contact->mobile); ?>
 	</span>
+	</p>
 <?php endif; ?>
 <?php if ($this->contact->webpage && $this->params->get('show_webpage')) : ?>
+<p>
 	<span class="<?php echo $this->params->get('marker_class'); ?>" >
 	</span>
 	<span class="jcontact-webpage">
 		<a href="<?php echo $this->contact->webpage; ?>" target="_blank">
 			<?php echo $this->contact->webpage; ?></a>
 	</span>
+	</p>
 <?php endif; ?>
+<?php if($this->params->get('show_email') || $this->params->get('show_telephone')||$this->params->get('show_fax')||$this->params->get('show_mobile')|| $this->params->get('show_webpage') ) : ?>
 </div>
+
+<?php endif; ?>
 
 
 

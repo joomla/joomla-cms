@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default_item.php 15845 2010-04-05 12:35:44Z hackwar $
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -20,7 +20,7 @@ $params = &$this->item->params;
 <?php if ($params->get('show_title')) : ?>
 	<h2>
 		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-			<a href="<?php echo JRoute::_(ContentRoute::article($this->item->slug, $this->item->catslug)); ?>">
+			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>">
 			<?php echo $this->escape($this->item->title); ?></a>
 		<?php else : ?>
 			<?php echo $this->escape($this->item->title); ?>
@@ -57,7 +57,7 @@ $params = &$this->item->params;
 
 <?php // to do not that elegant would be nice to group the params ?>
 
-<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date')) or ($params->get('show_parent_category')) or ($params->get('show_hits'))) : ?>
+<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))) : ?>
  <dl class="article-info">
  <dt class="article-info-term"><?php  echo JText::_('CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
@@ -65,8 +65,8 @@ $params = &$this->item->params;
 		<dd class="parent-category-name">
 			<?php $title = $this->escape($this->item->parent_title);
 				$title = ($title) ? $title : JText::_('Uncategorised');
-				$url = '<a href="' . JRoute::_(ContentRoute::category($this->item->parent_slug)) . '">' . $title . '</a>'; ?>
-			<?php if ($params->get('link_parent_category') && $this->item->parent_slug) : ?>
+				$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>'; ?>
+			<?php if ($params->get('link_parent_category') AND $this->item->parent_slug) : ?>
 				<?php echo JText::sprintf('CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('CONTENT_PARENT', $title); ?>
@@ -77,8 +77,8 @@ $params = &$this->item->params;
 		<dd class="category-name">
 			<?php 	$title = $this->escape($this->item->category_title);
 					$title = ($title) ? $title : JText::_('Uncategorised');
-					$url = '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'.$title.'</a>';?>
-			<?php if ($params->get('link_category') && $this->item->catslug) : ?>
+					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
+			<?php if ($params->get('link_category') AND $this->item->catslug) : ?>
 				<?php echo JText::sprintf('CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('CONTENT_CATEGORY', $title); ?>
@@ -112,30 +112,30 @@ $params = &$this->item->params;
 		<?php echo JText::sprintf('CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 		</dd>
 <?php endif; ?>
-	<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date')) or ($params->get('show_parent_category')) or ($params->get('show_hits'))) : ?>
+	<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))) : ?>
  </dl>
 <?php endif; ?>
 
 <?php echo $this->item->introtext; ?>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :
-	if ($params->get('access-view')) :
-		$link = JRoute::_(ContentRoute::article($this->item->slug, $this->item->catslug));
+	if (!$params->get('access-view')) :
+		$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
 	else :
 		$menu = JSite::getMenu();
 		$active = $menu->getActive();
 		$itemId = $active->id;
-		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
-		$returnURL = JRoute::_(ContentRoute::article($this->item->slug));
+		$link1 = JRoute::_('index.php?option=com_users&view=login&&Itemid=' . $itemId);
+		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
 		$link = new JURI($link1);
 		$link->setVar('return', base64_encode($returnURL));
 	endif;
 ?>
 		<p class="readmore">
 				<a href="<?php echo $link; ?>">
-						<?php if (!$params->get('access-view')) :
+						<?php if ($params->get('access-view')) :
 								echo JText::_('REGISTER_TO_READ_MORE');
-						elseif ($readmore = $this->item->alternative_readmore) :
+						elseif ($readmore = $params->get('alternative_readmore')) :
 								echo $readmore;
 						else :
 								echo JText::sprintf('READ_MORE', $this->escape($this->item->title));

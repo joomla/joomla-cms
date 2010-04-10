@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-require_once(JPATH_SITE.'/components/com_content/router.php');
+require_once(JPATH_SITE.'/components/com_content/helpers/route.php');
 
 /**
  * Categories Search plugin
@@ -51,8 +51,6 @@ class plgSearchCategories extends JPlugin
 		$groups	= implode(',', $user->authorisedLevels());
 		$searchText = $text;
 
-		require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
-
 		if (is_array($areas)) {
 			if (!array_intersect($areas, array_keys($this->onSearchAreas()))) {
 				return array();
@@ -85,7 +83,7 @@ class plgSearchCategories extends JPlugin
 		$query->select('a.title, a.description AS text, "" AS created, "2" AS browsernav, a.id AS catid, '
 					.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
 		$query->from('#__categories AS a');
-		$query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .') AND a.published = 1 '
+		$query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .') AND a.published = 1 AND a.extension = \'com_content\''
 					.'AND a.access IN ('. $groups .')' );
 		$query->group('a.id');
 		$query->order($order);
@@ -95,7 +93,7 @@ class plgSearchCategories extends JPlugin
 
 		$count = count($rows);
 		for ($i = 0; $i < $count; $i++) {
-			$rows[$i]->href = ContentRoute::category($rows[$i]->slug);
+			$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);
 			$rows[$i]->section	= JText::_('PLG_SEARCH_CATEGORIES_CATEGORY');
 		}
 

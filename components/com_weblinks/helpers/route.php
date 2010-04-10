@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
@@ -12,53 +12,40 @@ defined('_JEXEC') or die;
 
 // Component Helper
 jimport('joomla.application.component.helper');
-jimport('joomla.application.categorytree');
+jimport('joomla.application.categories');
 
 /**
  * Weblinks Component Route Helper
  *
  * @static
- * @package		Joomla.Site
+ * @package		Joomla
  * @subpackage	Weblinks
  * @since 1.5
  */
 abstract class WeblinksHelperRoute
-{
+{ 
+	protected static $lookup;
 	/**
-	 * @param	int	The route of the weblink item
+	 * @param	int	The route of the weblink
 	 */
 	public static function getWeblinkRoute($id, $catid)
 	{
-		if ($catid)
-		{
-			jimport('joomla.application.categories');
-			$categoryTree = JCategories::getInstance('com_weblinks');
-			$category = $categoryTree->get($catid);
-			$catids = array();
-			$catids[] = $category->id;
-			while($category->getParent() instanceof JCategoryNode)
-			{
-				$category = $category->getParent();
-				$catids[] = $category->id;
-			}
-			$catids = array_reverse($catids);
-		} else {
-			$catids = array();
-		}
 		$needles = array(
-			'weblink'  => (int) $id,
-			'category' => $catids
+			'weblink'  => array((int) $id)
 		);
-
 		//Create the link
 		$link = 'index.php?option=com_weblinks&view=weblink&id='. $id;
-
-		if (is_array($catids)) {
-			$link .= '&catid='.array_pop($catids);
+		if ($catid > 1)
+		{
+			$categories = JCategories::getInstance('Weblinks');
+			$category = $categories->get($catid);
+			$needles['category'] = array_reverse($category->getPath());
+			$needles['categories'] = $needles['category'];
+			$link .= '&catid='.$catid;
 		}
 
 		if ($item = WeblinksHelperRoute::_findItem($needles)) {
-			$link .= '&Itemid='.$item->id;
+			$link .= '&Itemid='.$item;
 		};
 
 		return $link;
@@ -66,29 +53,18 @@ abstract class WeblinksHelperRoute
 
 	public static function getCategoryRoute($catid)
 	{
-		jimport('joomla.application.categories');
-		$categoryTree = JCategories::getInstance('com_weblinks');
-		$category = $categoryTree->get($catid);
-		$catids = array();
-		$catids[] = $category->id;
-		while($category->getParent() instanceof JCategoryNode)
-		{
-			$category = $category->getParent();
-			$catids[] = $category->id;
-		}
-		$catids = array_reverse($catids);
+		$categories = JCategories::getInstance('Weblinks');
+		$category = $categories->get((int)$catid);
+		$catids = array_reverse($category->getPath());
 		$needles = array(
-			'category' => $catids
+			'category' => $catids,
+			'categories' => $catids
 		);
-		$category = $categoryTree->get($catid);
 		//Create the link
-		$link = 'index.php?option=com_weblinks&view=category&id='.$category->slug;
+		$link = 'index.php?option=com_weblinks&view=category&id='.(int)$catid;
 
 		if ($item = WeblinksHelperRoute::_findItem($needles)) {
-			if (isset($item->query['layout'])) {
-				$link .= '&layout='.$item->query['layout'];
-			}
-			$link .= '&Itemid='.$item->id;
+			$link .= '&Itemid='.$item;
 		};
 
 		return $link;
@@ -96,43 +72,42 @@ abstract class WeblinksHelperRoute
 
 	protected static function _findItem($needles)
 	{
-		$component = &JComponentHelper::getComponent('com_weblinks');
-		$app = JFactory::getApplication();
-		$menus	= & $app->getMenu();
-		$items	= $menus->getItems('component_id', $component->id);
-
-		$match = null;
-		foreach($needles as $needle => $id)
+		// Prepare the reverse lookup array.
+		if (self::$lookup === null)
 		{
-			if (is_array($id))
-			{
-				foreach($id as $tempid)
-				{
-					foreach($items as $item)
-					{
-						if ((@$item->query['view'] == $needle) && (@$item->query['id'] == $tempid)) {
-							$match = $item;
-							break;
-						}
-					}
+			self::$lookup = array();
 
-				}
-			} else {
-				foreach($items as $item)
+			$component	= &JComponentHelper::getComponent('com_weblinks');
+			$menus		= &JApplication::getMenu('site');
+			$items		= $menus->getItems('component_id', $component->id);
+			foreach ($items as $item)
+			{
+				if (isset($item->query) && isset($item->query['view']))
 				{
-					if ((@$item->query['view'] == $needle) && (@$item->query['id'] == $id)) {
-						$match = $item;
-						break;
+					$view = $item->query['view'];
+					if (!isset(self::$lookup[$view])) {
+						self::$lookup[$view] = array();
+					}
+					if (isset($item->query['id'])) {
+						self::$lookup[$view][$item->query['id']] = $item->id;
 					}
 				}
 			}
-
-			if (isset($match)) {
-				break;
+		}
+		foreach ($needles as $view => $ids)
+		{
+			if (isset(self::$lookup[$view]))
+			{
+				//return array_shift(array_intersect_key(self::$lookup[$view], $ids));
+				foreach($ids as $id)
+				{
+					if (isset(self::$lookup[$view][(int)$id])) {
+						return self::$lookup[$view][(int)$id];
+					}
+				}
 			}
 		}
 
-		return $match;
+		return null;
 	}
 }
-?>

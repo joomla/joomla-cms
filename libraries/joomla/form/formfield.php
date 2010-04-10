@@ -100,6 +100,14 @@ abstract class JFormField
 	protected $name;
 
 	/**
+	 * The name of the field.
+	 *
+	 * @var		string
+	 * @since	1.6
+	 */
+	protected $fieldname;
+	
+	/**
 	 * The required state for the form field.  If true then there must be a value for the field to
 	 * be considered valid.
 	 *
@@ -172,6 +180,7 @@ abstract class JFormField
 			case 'type':
 			case 'validate':
 			case 'value':
+			case 'fieldname':
 				return $this->$name;
 				break;
 
@@ -278,8 +287,9 @@ abstract class JFormField
 		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
 
 		// Set the field name and id.
-		$this->name	= $this->getName($name, $group);
-		$this->id	= $this->getId($id, $name, $group);
+		$this->fieldname 	= $name;
+		$this->name			= $this->getName($name, $group);
+		$this->id			= $this->getId($id, $name, $group);
 
 		// Set the field default value.
 		$this->value = $value;

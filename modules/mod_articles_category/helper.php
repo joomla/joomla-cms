@@ -165,7 +165,7 @@ abstract class modArticlesCategoryHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = JRoute::_(ContentRoute::article($item->slug, $item->catslug));
+				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 			}
 			else {
 				$item->link = JRoute::_('index.php?option=com_user&view=login');
@@ -181,7 +181,7 @@ abstract class modArticlesCategoryHelper
 			}
 
 			if ($item->catid) {
-				$item->displayCategoryLink = JRoute::_(ContentRoute::category($item->catid));
+				$item->displayCategoryLink = JRoute::_(ContentHelperRoute::getCategoryRoute($item->catid));
 				$item->displayCategoryTitle = $show_category ? '<a href="'.$item->displayCategoryLink.'">'.$item->category_title.'</a>' : '';
 			} else {
 				$item->displayCategoryTitle = $show_category ? $item->category_title : '';

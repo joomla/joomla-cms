@@ -9,41 +9,38 @@
 
 // no direct access
 defined('_JEXEC') or die;
+$class = ' class="first"';
+if (count($this->children[$this->category->id]) > 0) : 
 ?>
-<?php if (empty($this->children)) : ?>
-
-<?php else : ?>
-	<h5>Sub Categories</h5>
-<?php
-	// Initialise the starting level
-	// starting level is the parent level coming in
-	$curLevel = $this->item->level;
-	$difLevel = 0;
-
-	// Loop through each of the children
-	foreach ($this->children as &$item) :
-	// Create an <ul> for every level going deeper
-	// and an </ul> for every level jumping back up
-	// set current level to the new level
-		$difLevel = $item->level - $curLevel;
-		if ($difLevel < 0) :
-			for ($i = 0, $n = -($difLevel); $i < $n; $i++) :
-				echo "</ul>";
-			endfor;
-			$curLevel = $item->level;
-		elseif ($difLevel > 0) :
-			for ($i = 0, $n = $difLevel; $i < $n; $i++) : ?>
-				<ul>
-			<?php endfor;
-			$curLevel = $item->level;
-		endif;
-		?>
-
-		<li>
-			<a href="<?php echo JRoute::_(NewsfeedRoute::category($item->slug)); ?>">
-				<?php echo $this->escape($item->title); ?></a>
+<ul>
+<?php foreach($this->children[$this->category->id] as $id => $child) : ?>
+	<?php
+	if($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) :
+	if(!isset($this->children[$this->category->id][$id + 1]))
+	{
+		$class = ' class="last"';
+	}
+	?>
+	<li<?php echo $class; ?>>
+		<?php $class = ''; ?>
+			<span class="jitem-title"><a href="<?php echo JRoute::_(NewsfeedsHelperRoute::getCategoryRoute($child->id));?>">
+				<?php echo $this->escape($child->title); ?></a>
+			</span>
+			<?php if ($child->description) : ?>
+				<div class="category-desc">
+					<?php echo JHtml::_('content.prepare', $child->description); ?>
+				</div>
+			<?php endif; ?>
+			<?php if(count($child->getChildren()) > 0 && $this->params->get('show_children',0) == 1) :
+				$this->children[$child->id] = $child->getChildren();
+				$this->category = $child;
+				$this->maxLevel--;
+				echo $this->loadTemplate('children');
+				$this->category = $child->getParent();
+				$this->maxLevel++;
+			endif; ?>
 		</li>
-		<?php endforeach; ?>
-
+	<?php endif; ?>
+	<?php endforeach; ?>
 	</ul>
-<?php endif; ?>
+<?php endif;

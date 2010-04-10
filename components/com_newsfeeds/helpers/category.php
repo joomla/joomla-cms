@@ -28,6 +28,7 @@ class NewsfeedsCategories extends JCategories
 	{
 		$options['table'] = '#__newsfeeds';
 		$options['extension'] = 'com_newsfeeds';
+		$options['statefield'] = 'published';
 		parent::__construct($options);
 	}
 }

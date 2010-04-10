@@ -5,7 +5,6 @@
  * @subpackage	Newsfeeds
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- *
  */
 
 // Check to ensure this file is included in Joomla!
@@ -25,7 +24,7 @@ class NewsfeedsViewCategory extends JView
 	protected $state;
 	protected $items;
 	protected $category;
-	protected $categories;
+	protected $children;
 	protected $pagination;
 
 	function display($tpl = null)
@@ -37,23 +36,26 @@ class NewsfeedsViewCategory extends JView
 		$state		= &$this->get('State');
 		$items		= &$this->get('Items');
 		$category	= &$this->get('Category');
-		$categories	= &$this->get('Categories');
+		$children	= &$this->get('Children');
+		$parent 	= &$this->get('Parent');
 		$pagination	= &$this->get('Pagination');
-
+		
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		// Validate the category.
-
-		// Make sure the category was found.
-
-		if (empty($category)) {
+		if($category == false)
+		{
 			return JError::raiseWarning(404, JText::_('COM_NEWSFEEDS_ERRORS_CATEGORY_NOT_FOUND'));
 		}
 
+		if($parent == false)
+		{
+			//TODO Raise error for missing parent category here
+		}
+		
 		// Check whether category access level allows access.
 		$user	= &JFactory::getUser();
 		$groups	= $user->authorisedLevels();
@@ -62,33 +64,26 @@ class NewsfeedsViewCategory extends JView
 		}
 
 		// Prepare the data.
-
-		// Compute the active category slug.
-		$category->slug = $category->alias ? ($category->id.':'.$category->alias) : $category->id;
-
-		// Prepare category description (runs content plugins)
-		// TODO: only use if the description is displayed
-		$category->description = JHtml::_('content.prepare', $category->description);
-
 		// Compute the newsfeed slug.
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
 			$item		= &$items[$i];
 			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
+			$temp		= new JRegistry();
+			$temp->loadJSON($item->params);
+			$item->params = clone($params);
+			$item->params->merge($temp);
 		}
 
-		// Compute the categories (list) slug.
-		for ($i = 0, $n = count($categories); $i < $n; $i++)
-		{
-			$item		= &$categories[$i];
-			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
-		}
+		$children = array($category->id => $children);
 
+		$this->assignRef('maxLevel',	$params->get('maxLevel', -1));
 		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);
 		$this->assignRef('category',	$category);
-		$this->assignRef('categories',	$categories);
+		$this->assignRef('children',	$children);
 		$this->assignRef('params',		$params);
+		$this->assignRef('parent',		$parent);
 		$this->assignRef('pagination',	$pagination);
 
 		$this->_prepareDocument();
@@ -104,28 +99,41 @@ class NewsfeedsViewCategory extends JView
 		$app		= &JFactory::getApplication();
 		$menus		= &JSite::getMenu();
 		$pathway	= &$app->getPathway();
+		$title 		= null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		if ($menu = $menus->getActive())
+		$menu = $menus->getActive();
+		if($menu)
 		{
-			$menuParams = new JRegistry;
-			$menuParams->loadJSON($menu->params);
-			if ($title = $menuParams->get('jpage_title')) {
-				$this->document->setTitle($title);
+			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+		} else {
+			$this->params->def('page_heading', JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE')); 
+		}
+		$id = (int) @$menu->query['id'];
+		if($menu && $menu->query['view'] != 'newsfeed' && $id != $this->category->id)
+		{
+			$this->params->set('page_subheading', $this->category->title);
+			$path = array($this->category->title => '');
+			$category = $this->category->getParent();
+			while($id != $category->id && $category->id > 1)
+			{
+				$path[$category->title] = NewsfeedsHelperRoute::getCategoryRoute($category->id);
+				$category = $category->getParent();
 			}
-			else {
-				$this->document->setTitle(JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
-			}
-
-			// Set breadcrumbs.
-			if ($menu->query['view'] != 'category') {
-				$pathway->addItem($this->category->title, '');
+			$path = array_reverse($path);
+			foreach($path as $title => $link)
+			{
+				$pathway->addItem($title, $link);
 			}
 		}
-		else {
-			$this->document->setTitle(JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
+		
+		$title = $this->params->get('page_title', '');
+		if (empty($title))
+		{
+			$title = htmlspecialchars_decode($app->getCfg('sitename'));
 		}
+		$this->document->setTitle($title);
 
 		// Add alternate feed link
 		if ($this->params->get('show_feed_link', 1) == 1)

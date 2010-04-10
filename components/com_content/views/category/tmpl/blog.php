@@ -10,52 +10,40 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'/helpers');
-$cparams =& JComponentHelper::getParams('com_media');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
-// If the page class is defined, add to class as suffix.
-// It will be a separate class if the user starts it with a space
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
-
-<div class="blog<?php echo $pageClass;?>">
-
-<?php if ($this->params->get('show_page_title', 1)) : ?>
+<div class="article-category-blog<?php echo $pageClass;?>">
+<?php if ($this->params->def('show_page_heading', 1)) : ?>
 <h1>
-	<?php if ($this->escape($this->params->get('page_heading'))) :?>
-		<?php echo $this->escape($this->params->get('page_heading')); ?>
-	<?php else : ?>
-		<?php echo $this->escape($this->params->get('page_title')); ?>
-	<?php endif; ?>
+	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
 
-<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) :?>
-<div class="category-desc">
-		<?php if ($this->params->get('show_description_image') && $this->item->category_params->get('image')) : ?>
-				<img src="<?php echo $this->baseurl . '/' . $cparams->get('image_path') . '/'. $this->item->category_params->get('image');?>" alt="" />
-		<?php endif; ?>
-		<?php if ($this->params->get('show_description') && $this->item->description) : ?>
-				<?php echo $this->item->description; ?>
-		<?php endif; ?>
-</div>
+<?php if($this->params->get('show_category_title', 1) && $this->params->get('page_subheading')) : ?>
+<h2>
+	<?php echo $this->escape($this->params->get('page_subheading')); ?>
+</h2>
+<?php endif; ?>
+<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
+	<div class="category-desc">
+	<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
+		<img src="images/<?php echo $this->category->getParams()->get('image'); ?>"/>
+	<?php endif; ?>
+	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
+		<?php echo JHtml::_('content.prepare', $this->category->description); ?>
+	<?php endif; ?>
+	<div class="clr"></div>
+	</div>
 <?php endif; ?>
 
-<?php if ($this->children): ?>
-	<ul class="subcategories">
-		<?php foreach($this->children as $child) : ?>
-				<li><a class="subcategories-link" href="<?php /*TODO  Needs a class */  echo ContentRoute::category($child->id); ?>">
-					<?php echo $child->title; ?></a>
-					<?php if ($this->params->get('show_description', 1))
-						  {  echo '<div class="category-desc">';
-							 echo $child->description;
-							 echo '</div>';
-						  }
-				?>
-					<?php /* echo @TODO numitems not loaded $child->numitems; */?></li>
-		<?php endforeach; ?>
-	</ul>
-<?php endif;?>
+	<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0) : ?>
+		<div class="cat-children">
+			<?php echo $this->loadTemplate('children'); ?>
+		</div>
+	<?php endif; ?>
+
 <?php $leadingcount=0 ; ?>
 <?php if (!empty($this->lead_items)) : ?>
 <div class="items-leading">

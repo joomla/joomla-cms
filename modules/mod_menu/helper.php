@@ -59,6 +59,7 @@ class modMenuHelper
 			$item->active		= false;
 			$item->params		= new JObject(json_decode($item->params));
 			$lastitem			= $i;
+			$item->flink = $item->link;
 			switch ($item->type)
 			{
 				case 'separator':
@@ -68,25 +69,25 @@ class modMenuHelper
 				case 'url':
 					if ((strpos($item->link, 'index.php?') === 0) && (strpos($item->link, 'Itemid=') === false)) {
 						// If this is an internal Joomla link, ensure the Itemid is set.
-						$item->link = $tmp->link.'&amp;Itemid='.$item->id;
+						$item->flink = $tmp->link.'&Itemid='.$item->id;
 					}
 					break;
 
 				case 'alias':
 					// If this is an alias use the item id stored in the parameters to make the link.
-					$item->link = 'index.php?Itemid='.$item->params->get('aliasoptions');
+					$item->flink = 'index.php?Itemid='.$item->params->get('aliasoptions');
 					break;
 
 				default:
 					$router = JSite::getRouter();
 					if ($router->getMode() == JROUTER_MODE_SEF) {
-						$item->link = 'index.php?Itemid='.$item->id;
+						$item->flink = 'index.php?Itemid='.$item->id;
 					} else {
-						$item->link .= '&Itemid='.$item->id;
+						$item->flink .= '&Itemid='.$item->id;
 					}
 					break;
 			}
-			$item->link = JRoute::_($item->link);
+			$item->flink = JRoute::_($item->flink);
 			
 		}
 

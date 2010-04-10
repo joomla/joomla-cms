@@ -24,7 +24,7 @@ class ContactViewCategory extends JView
 		$app		= &JFactory::getApplication();
 		$db			= &JFactory::getDbo();
 		$document	= &JFactory::getDocument();
-		$document->link = JRoute::_('index.php?option=com_contact&view=category&catid='.JRequest::getVar('catid',null, '', 'int'));
+		$document->link = JRoute::_(ContactHelperRoute::getCategoryRoute(JRequest::getVar('id',null, '', 'int')));
 
 		$siteEmail = $app->getCfg('mailfrom');
 		$fromName = $app->getCfg('fromname');
@@ -63,7 +63,7 @@ class ContactViewCategory extends JView
 			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
 			// url link to article
-			$link = JRoute::_('index.php?option=com_contact&view=contact&id='. $row->slug .'&catid='.$row->catslug);
+			$link = JRoute::_(ContactHelperRoute::getContactRoute($row->slug,$row->catslug));
 
 			// strip html from feed item description text
 			$description = $row->description;

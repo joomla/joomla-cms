@@ -6,121 +6,9 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
  defined('_JEXEC') or die;
-/**
- * Content Component Route Helper
- *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since 1.6
- */
 
-class ContentRoute
-{
-	/**
-	 * @var	array	A cache of the menu items pertaining to com_content
-	 */
-	protected static $lookup = null;
-
-	/**
-	 * @param	int $id			The id of the article.
-	 * @param	int	$categoryId	An optional category id.
-	 *
-	 * @return	string	The routed link.
-	 */
-	public static function article($id, $categoryId = null)
-	{
-		$needles = array(
-			'article'	=> (int) $id,
-			'category' => (int) $categoryId
-		);
-
-		//Create the link
-		$link = 'index.php?option=com_content&view=article&id='. $id;
-
-		if ($categoryId) {
-			$link .= '&catid='.$categoryId;
-		}
-
-		if ($itemId = self::_findItemId($needles)) {
-			$link .= '&Itemid='.$itemId;
-		};
-
-		return $link;
-	}
-
-	/**
-	 * @param	int $id			The id of the article.
-	 * @param	int	$categoryId	An optional category id.
-	 *
-	 * @return	string	The routed link.
-	 */
-	public static function category($catid, $parentId = null)
-	{
-		$needles = array(
-			'category' => (int) $catid
-		);
-
-		//Create the link. Check for content default layout (list or blog)
-		if (JFactory::getApplication()->getParams()->get('drill_down_layout', '0')) {
-			$link = 'index.php?option=com_content&view=category&layout=blog&id=' . $catid;
-		}
-		else {
-			$link = 'index.php?option=com_content&view=category&id='.$catid;
-		}
-		
-		if ($itemId = self::_findItemId($needles)) {
-			// TODO: The following should work automatically??
-			//if (isset($item->query['layout'])) {
-			//	$link .= '&layout='.$item->query['layout'];
-			//}
-			$link .= '&Itemid='.$itemId;
-		};
-
-		return $link;
-	}
-
-	protected static function _findItemId($needles)
-	{
-		// Prepare the reverse lookup array.
-		if (self::$lookup === null)
-		{
-			self::$lookup = array();
-
-			$component	= &JComponentHelper::getComponent('com_content');
-			$menus		= &JApplication::getMenu('site', array());
-			$items		= $menus->getItems('component_id', $component->id);
-
-			foreach ($items as &$item)
-			{
-				if (isset($item->query) && isset($item->query['view']))
-				{
-					$view = $item->query['view'];
-					if (!isset(self::$lookup[$view])) {
-						self::$lookup[$view] = array();
-					}
-					if (isset($item->query['id'])) {
-						self::$lookup[$view][$item->query['id']] = $item->id;
-					}
-				}
-			}
-		}
-
-		$match = null;
-
-		foreach ($needles as $view => $id)
-		{
-			if (isset(self::$lookup[$view]))
-			{
-				if (isset(self::$lookup[$view][$id])) {
-					return self::$lookup[$view][$id];
-				}
-			}
-		}
-
-		return null;
-	}
-}
-
+jimport('joomla.application.categories');
+ 
 /**
  * Build the route for the com_content component
  *
@@ -134,11 +22,13 @@ function ContentBuildRoute(&$query)
 
 	// get a menu item based on Itemid or currently active
 	$menu = &JSite::getMenu();
+	$params = JComponentHelper::getParams('com_content');
+	$advanced = $params->get('sef_advanced_link', 0);
+	
 
 	if (empty($query['Itemid'])) {
 		$menuItem = &$menu->getActive();
-	}
-	else {
+	} else {
 		$menuItem = &$menu->getItem($query['Itemid']);
 	}
 	$mView	= (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
@@ -155,47 +45,62 @@ function ContentBuildRoute(&$query)
 	};
 
 	// are we dealing with an article that is attached to a menu item?
-	if (($mView == 'article') and (isset($query['id'])) and ($mId == intval($query['id']))) {
+	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == intval($query['id']))) {
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
+		return $segments;
 	}
 
-	if (isset($view) and $view == 'category') {
-		if ($mId != intval($query['id']) || $mView != $view) {
-			$segments[] = $query['id'];
-		}
-		unset($query['id']);
-	}
-
-	if (isset($query['catid'])) {
-		// if we are routing an article or category where the category id matches the menu catid, don't include the category segment
-		if ((isset($view) && ($view == 'article') and ($mView != 'category') and ($mView != 'article') and ($mCatid != intval($query['catid'])))) {
-			$segments[] = $query['catid'];
-		}
-		unset($query['catid']);
-	};
-
-	if (isset($query['id']))
+	if(isset($view) && $view == 'article' && isset($query['catid']))
 	{
-		if (empty($query['Itemid'])) {
-			$segments[] = $query['id'];
-		}
-		else
-		{
-			if (isset($menuItem->query['id']))
+		$catid = $query['catid'];
+	} elseif(isset($view) && $view != 'article' && isset($query['id'])) {
+		$catid = $query['id'];
+	} else {
+		$catid = false;
+	}
+	if (isset($view) and ($view == 'category' or $view == 'article') and $catid) {
+		if ($mId != intval($query['id']) || $mView != $view) {
+			$menuCatid = $mId;
+			$categories = JCategories::getInstance('Content');
+			$category = $categories->get($catid);
+			if(!$category)
 			{
-				if ($query['id'] != $mId) {
-					$segments[] = $query['id'];
-				}
+				die('The category is not published or does not exist');
+				//TODO Throw error that the category either not exists or is unpublished	
 			}
-			else {
-				$segments[] = $query['id'];
+			$path = array_reverse($category->getPath());
+			
+			$array = array();
+			foreach($path as $id)
+			{
+				if((int) $id == (int)$menuCatid)
+				{
+					break;
+				}
+				if($advanced)
+				{
+					list($tmp, $id) = explode(':', $id, 2);
+				}
+				$array[] = $id;
+			}
+			$segments = array_merge($segments, array_reverse($array));
+			if($view == 'article')
+			{
+				if($advanced)
+				{
+					list($tmp, $id) = explode(':', $query['id'], 2);
+				} else {
+					$id = $query['id'];
+				}
+				$segments[] = $id;
 			}
 		}
 		unset($query['id']);
-	};
-
+		unset($query['catid']);
+	}
+			
 	if (isset($query['year']))
 	{
 		if (!empty($query['Itemid'])) {
@@ -246,6 +151,8 @@ function ContentParseRoute($segments)
 	//Get the active menu item.
 	$menu = &JSite::getMenu();
 	$item = &$menu->getActive();
+	$params = JComponentHelper::getParams('com_content');
+	$advanced = $params->get('sef_advanced_link', 0);
 
 	// Count route segments
 	$count = count($segments);
@@ -262,42 +169,54 @@ function ContentParseRoute($segments)
 	switch ($item->query['view'])
 	{
 		case 'categories':
-			// From the categories view, we can only jump to a category.
-
-			if ($count > 1)
-			{
-				if (intval($segments[0]) && intval($segments[$count-1]))
-				{
-					// 123-path/to/category/456-article
-					$vars['id']		= $segments[$count-1];
-					$vars['view']	= 'article';
-				}
-				else
-				{
-					// 123-path/to/category
-					$vars['id']		= $segments[0];
-					$vars['view']	= 'category';
-				}
-			}
-			else
-			{
-				// 123-category
-				$vars['id']		= $segments[0];
-				$vars['view']	= 'category';
-			}
-			break;
-
 		case 'category':
-			$vars['id']		= $segments[$count-1];
-			$vars['view']	= 'article';
+		case 'featured':
+			// From the categories view, we can only jump to a category.
+			$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
+			$category = JCategories::getInstance('Content')->get($id);
+			if(!$category)
+			{
+				die('The category is not published or does not exist');
+				//TODO Throw error that the category either not exists or is unpublished	
+			}
+			$categories = $category->getChildren();
+			$vars['catid'] = $id;
+			$vars['id'] = $id;		
+			$found = 0;
+			foreach($segments as $segment)
+			{
+				$segment = $advanced ? str_replace(':', '-',$segment) : $segment;
+				foreach($categories as $category)
+				{
+					if ($category->slug == $segment || $category->alias == $segment)
+					{
+						$vars['id'] = $category->id;
+						$vars['catid'] = $category->id;
+						$vars['view'] = 'category';
+						$categories = $category->getChildren();
+						$found = 1;
+						break;
+					}
+				}
+				if ($found == 0)
+				{
+					if($advanced)
+					{
+						$db = JFactory::getDBO();
+						$query = 'SELECT id FROM #__content WHERE catid = '.$vars['catid'].' AND alias = '.$db->Quote($segment);
+						$db->setQuery($query);
+						$cid = $db->loadResult();
+					} else {
+						$cid = $segment;
+					}
+					$vars['id'] = $cid;
+					$vars['view'] = 'article';
+				}
+				$found = 0;
+			}
 			break;
 
-		case 'frontpage':
-			$vars['id']		= $segments[$count-1];
-			$vars['view']	= 'article';
-			break;
-
-		case 'article':
+		case 'featured':
 			$vars['id']		= $segments[$count-1];
 			$vars['view']	= 'article';
 			break;

@@ -10,14 +10,21 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+jimport('joomla.application.component.modelitem');
 
 /**
  * @package		Joomla.Site
  * @subpackage	Contact
  */
-class ContactModelContact extends JModel
+class ContactModelContact extends JModelItem
 {
+	/**
+	 * Model context string.
+	 *
+	 * @var		string
+	 */
+	protected $_context = 'com_contact.contact';
+	
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -25,36 +32,113 @@ class ContactModelContact extends JModel
 	 */
 	protected function _populateState()
 	{
-		$app = &JFactory::getApplication('site');
+		$app =& JFactory::getApplication('site');
 
-		// Load state from the request
+		// Load state from the request.
 		$pk = JRequest::getInt('id');
-		$this->setState('contact.id',$pk);
+		$this->setState('contact.id', $pk);
 
 		// Load the parameters.
-		$globalParams	= $app->getParams('com_contact');
-		$this->setState('global_params', $globalParams);
+		$params = $app->getParams();
+		$this->setState('params', $params);
 
-		$menu = JSite::getMenu()->getActive();
-		if (is_object($menu)) {
-			$menuParams = new JRegistry;
-			$menuParams->loadJSON($menu->params);
-			$this->setState('menu_params', $menuParams);
-		}
-
-		// merge the global and menu item params (menu item take priority)
-		$mergedParams = clone $globalParams;
-		$mergedParams->merge($menuParams);
-		$this->setState('params', $mergedParams);
-
+		// TODO: Tune these values based on other permissions.
+		$this->setState('filter.published', 1);
 	}
 
 	/**
-	 * Builds the query to select contact items
+	 * Gets a list of contacts
 	 * @param array
-	 * @return string
-	 * @access protected
+	 * @return mixed Object or null
 	 */
+	public function &getItem($pk = null)
+	{
+		// Initialise variables.
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
+
+		if ($this->_item === null) {
+			$this->_item = array();
+		}
+
+		if (!isset($this->_item[$pk])) {
+			try
+			{
+				$db = $this->getDbo();
+				$query = $db->getQuery(true);
+
+				$query->select($this->getState('item.select', 'a.*'));
+				$query->from('#__contact_details AS a');
+
+				// Join on category table.
+				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access');
+				$query->join('LEFT', '#__categories AS c on c.id = a.catid');
+
+				
+				// Join over the categories to get parent category titles
+				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
+				$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
+
+				$query->where('a.id = ' . (int) $pk);
+
+				// Filter by published state.
+				$published = $this->getState('filter.published');
+				$archived = $this->getState('filter.archived');
+				if (is_numeric($published)) {
+					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
+				}
+
+				$db->setQuery($query);
+
+				$data = $db->loadObject();
+
+				if ($error = $db->getErrorMsg()) {
+					throw new Exception($error);
+				}
+
+				if (empty($data)) {
+					throw new Exception(JText::_('Contact_Error_Contact_not_found'), 404);
+				}
+
+
+				// Convert parameter fields to objects.
+				$registry = new JRegistry;
+				$registry->loadJSON($data->params);
+				$data->params = clone $this->getState('params');
+				$data->params->merge($registry);
+
+				// Compute access permissions.
+				if ($access = $this->getState('filter.access')) {
+					// If the access filter has been set, we already know this user can view.
+					$data->params->set('access-view', true);
+				}
+				else {
+					// If no access filter is set, the layout takes some responsibility for display of limited information.
+					$user =& JFactory::getUser();
+					$groups = $user->authorisedLevels();
+
+					if ($data->catid == 0 || $data->category_access === null) {
+						$data->params->set('access-view', in_array($data->access, $groups));
+					}
+					else {
+						$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+					}
+				}
+
+				$this->_item[$pk] = $data;
+			}
+			catch (Exception $e)
+			{
+				$this->setError($e);
+				$this->_item[$pk] = false;
+			}
+		}
+
+		return $this->_item[$pk];
+	}
+}
+
+/**
+ * 
 	function _getContactQuery($pk = null)
 	{
 		// TODO: Cache on the fingerprint of the arguments
@@ -79,15 +163,8 @@ class ContactModelContact extends JModel
 			$query->where('a.access IN ('.implode(',', $user->authorisedLevels()).')');
 		}
 		return $query;
-	}
-
-	/**
-	 * Gets a list of contacts
-	 * @param array
-	 * @return mixed Object or null
-	 */
-	function getContact($pk = null)
-	{
+	}		
+		
 		$db		= $this->getDbo();
 		$query	= $this->_getContactQuery($pk);
 		try {
@@ -139,5 +216,5 @@ class ContactModelContact extends JModel
 		}
 
 		return $result;
-	}
-}
+
+ */

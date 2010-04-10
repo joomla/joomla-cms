@@ -20,7 +20,7 @@ $params =& $this->params;
 
 		<h2>
 		<?php if ($params->get('link_titles')): ?>
-			<a href="<?php echo JRoute::_(ContentRoute::article($item->slug)); ?>">
+			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug)); ?>">
 				<?php echo $this->escape($item->title); ?></a>
 		<?php else: ?>
 				<?php echo $this->escape($item->title); ?>
@@ -37,7 +37,7 @@ $params =& $this->params;
         <dd class="category-name">
             <?php $title = $this->escape($item->category_title);
             		$title = ($title) ? $title : JText::_('Uncategorised');
-                    $url = '<a href="' . JRoute::_(ContentRoute::category($item->catslug)) . '">' . $title . '</a>'; ?>
+                    $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)) . '">' . $title . '</a>'; ?>
             <?php if ($params->get('link_category') && $item->catslug) : ?>
                 <?php echo JText::sprintf('CONTENT_CATEGORY', $url); ?>
                 <?php else : ?>
@@ -78,17 +78,17 @@ $params =& $this->params;
 
 <?php  if($params->get('show_intro')) :?>
 		<div class="intro">
-			<?php echo substr($item->introtext, 0, 255); echo JText::_('  ...') ?>
+			<?php echo JHTML::_('string.truncate', $item->introtext, 255); ?>
 		</div>
 <?php if ($params->get('show_readmore') && $item->readmore) :
 	if ($item->params->get('access-view')) :
-		$link = JRoute::_(ContentRoute::article($item->slug, $item->catslug));
+		$link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 	else :
 		$menu = JSite::getMenu();
 		$active = $menu->getActive();
 		$itemId = $active->id;
 		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
-		$returnURL = JRoute::_(ContentRoute::article($item->slug));
+		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug));
 		$link = new JURI($link1);
 		$link->setVar('return', base64_encode($returnURL));
 	endif;

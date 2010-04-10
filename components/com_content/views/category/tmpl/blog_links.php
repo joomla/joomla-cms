@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
 
 ?>
 	<li>
-		<a href="<?php echo JRoute::_(ContentRoute::article($item->slug, $item->catslug)); ?>">
+		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid)); ?>">
 			<?php echo $item->title; ?></a>
 	</li>
 <?php endforeach; ?>

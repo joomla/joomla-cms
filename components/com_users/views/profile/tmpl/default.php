@@ -9,22 +9,19 @@
 
 defined('_JEXEC') or die;
 ?>
-
-<?php if ($this->params->get('show_page_title', 1)): ?>
-	<h2>
-		<?php if ($this->escape($this->params->get('page_heading'))) :?>
-			<?php echo $this->escape($this->params->get('page_heading')); ?>
-		<?php else : ?>
-			<?php echo $this->escape($this->params->get('page_title')); ?>
-		<?php endif; ?>
-	</h2>
+<div class="profile<?php echo $this->params->get('pageclass_sfx')?>">
+<?php if ($this->params->get('show_page_heading')) : ?>
+<h1>
+	<?php echo $this->escape($this->params->get('page_heading')); ?>
+</h1>
 <?php endif; ?>
 
 <?php echo $this->loadTemplate('core'); ?>
 
 <?php echo $this->loadTemplate('custom'); ?>
 
-<?php if (JFactory::getUser()->id == $this->data->id) {?>
+<?php if (JFactory::getUser()->id == $this->data->id) : ?>
 <a href="<?php echo JRoute::_('index.php?option=com_users&task=profile.edit&member_id='.(int) $this->data->id);?>">
 	<?php echo JText::_('Users_Edit_Profile'); ?></a>
-<?php  }	?>
+<?php endif; ?>
+</div>

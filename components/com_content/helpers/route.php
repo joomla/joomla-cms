@@ -10,9 +10,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// Component Helper
 jimport('joomla.application.component.helper');
-jimport('joomla.application.categorytree');
+jimport('joomla.application.categories');
 
 /**
  * Content Component Route Helper
@@ -23,42 +22,34 @@ jimport('joomla.application.categorytree');
  * @since 1.5
  */
 abstract class ContentHelperRoute
-{
+{ 
+	protected static $lookup;
 	/**
 	 * @param	int	The route of the content item
 	 */
-	public static function getArticleRoute($id, $catid)
+	public static function getArticleRoute($id, $catid = 0)
 	{
-		if ($catid)
-		{
-			jimport('joomla.application.categories');
-			$categoryTree = JCategories::getInstance('com_content');
-			$category = $categoryTree->get($catid);
-			$catids = array();
-			$catids[] = $category->id;
-			while($category->getParent() instanceof JCategoryNode)
-			{
-				$category = $category->getParent();
-				$catids[] = $category->id;
-			}
-			$catids = array_reverse($catids);
-		} else {
-			$catids = array();
-		}
 		$needles = array(
-			'article'  => (int) $id,
-			'category' => $catids
+			'article'  => array((int) $id)
 		);
-
 		//Create the link
 		$link = 'index.php?option=com_content&view=article&id='. $id;
-
-		if (is_array($catids)) {
-			$link .= '&catid='.array_pop($catids);
+		if ($catid > 1)
+		{
+			$categories = JCategories::getInstance('Content');
+			$category = $categories->get((int)$catid);
+			if(!$category)
+			{
+				die('The category is not published or does not exist');
+				//TODO Throw error that the category either not exists or is unpublished	
+			}
+			$needles['category'] = array_reverse($category->getPath());
+			$needles['categories'] = $needles['category'];
+			$link .= '&catid='.$catid;
 		}
 
 		if ($item = ContentHelperRoute::_findItem($needles)) {
-			$link .= '&Itemid='.$item->id;
+			$link .= '&Itemid='.$item;
 		};
 
 		return $link;
@@ -66,29 +57,33 @@ abstract class ContentHelperRoute
 
 	public static function getCategoryRoute($catid)
 	{
-		jimport('joomla.application.categories');
-		$categoryTree = JCategories::getInstance('com_content');
-		$category = $categoryTree->get($catid);
-		$catids = array();
-		$catids[] = $category->id;
-		while($category->getParent() instanceof JCategoryNode)
+		if((int) $catid < 1)
 		{
-			$category = $category->getParent();
-			$catids[] = $category->id;
+			return;
 		}
-		$catids = array_reverse($catids);
+		if($catid instanceof JCategoryNode)
+		{
+			$catids = array_reverse($catid->getPath());
+			$id = $catid->id;
+		} else {
+			$categories = JCategories::getInstance('Content');
+			$category = $categories->get((int)$catid);
+			if(!$category)
+			{
+				die('The category is not published or does not exist');
+				//TODO Throw error that the category either not exists or is unpublished	
+			}
+			$catids = array_reverse($category->getPath());
+			$id = (int)$catid;
+		}
 		$needles = array(
 			'category' => $catids
 		);
-		$category = $categoryTree->get($catid);
 		//Create the link
-		$link = 'index.php?option=com_content&view=category&id='.$category->slug;
+		$link = 'index.php?option=com_content&view=category&id='.$id;
 
 		if ($item = ContentHelperRoute::_findItem($needles)) {
-			if (isset($item->query['layout'])) {
-				$link .= '&layout='.$item->query['layout'];
-			}
-			$link .= '&Itemid='.$item->id;
+			$link .= '&Itemid='.$item;
 		};
 
 		return $link;
@@ -96,44 +91,41 @@ abstract class ContentHelperRoute
 
 	protected static function _findItem($needles)
 	{
-		$component = &JComponentHelper::getComponent('com_content');
-		$app = JFactory::getApplication();
-		$menus	= & $app->getMenu();
-		$items	= $menus->getItems('component_id', $component->id);
-
-		$match = null;
-
-		foreach($needles as $needle => $id)
+		// Prepare the reverse lookup array.
+		if (self::$lookup === null)
 		{
-			if (is_array($id))
-			{
-				foreach($id as $tempid)
-				{
-					foreach($items as $item)
-					{
-						if ((@$item->query['view'] == $needle) && (@$item->query['id'] == $tempid)) {
-							$match = $item;
-							break;
-						}
-					}
+			self::$lookup = array();
 
-				}
-			} else {
-				foreach($items as $item)
+			$component	= &JComponentHelper::getComponent('com_content');
+			$menus		= &JApplication::getMenu('site');
+			$items		= $menus->getItems('component_id', $component->id);
+			foreach ($items as $item)
+			{
+				if (isset($item->query) && isset($item->query['view']))
 				{
-					if ((@$item->query['view'] == $needle) && (@$item->query['id'] == $id)) {
-						$match = $item;
-						break;
+					$view = $item->query['view'];
+					if (!isset(self::$lookup[$view])) {
+						self::$lookup[$view] = array();
+					}
+					if (isset($item->query['id'])) {
+						self::$lookup[$view][$item->query['id']] = $item->id;
 					}
 				}
 			}
-
-			if (isset($match)) {
-				break;
+		}
+		foreach ($needles as $view => $ids)
+		{
+			if (isset(self::$lookup[$view]))
+			{
+				foreach($ids as $id)
+				{
+					if (isset(self::$lookup[$view][(int)$id])) {
+						return self::$lookup[$view][(int)$id];
+					}
+				}
 			}
 		}
 
-		return $match;
+		return null;
 	}
 }
-?>

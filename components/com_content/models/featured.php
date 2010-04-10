@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: featured.php 15932 2010-04-08 01:53:33Z hackwar $
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -19,7 +19,7 @@ require_once dirname(__FILE__) . DS . 'articles.php';
  * @subpackage	com_content
  * @since 1.5
  */
-class ContentModelFrontpage extends ContentModelArticles
+class ContentModelFeatured extends ContentModelArticles
 {
 	/**
 	 * Model context string.
@@ -39,9 +39,15 @@ class ContentModelFrontpage extends ContentModelArticles
 
 		// Add blog properties
 		$params = $this->_state->params;
+
+		// List state information
+		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$this->setState('list.start', $limitstart);
+		
 		$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 		$this->setState('list.limit', $limit);
 		$this->setState('list.links', $params->get('num_links'));
+		
 		$this->setState('filter.frontpage', true);
 		
 		// check for category selection
@@ -49,7 +55,25 @@ class ContentModelFrontpage extends ContentModelArticles
 			$this->setState('filter.frontpage.categories', $featuredCategories);
 		}
 	}
-		
+
+	/**
+	 * Method to get a list of articles.
+	 *
+	 * @return	mixed	An array of objects on success, false on failure.
+	 */
+	public function getItems()
+	{
+		$params = $this->_state->params;
+		$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
+		if ($limit > 0)
+		{
+			$this->setState('list.limit', $limit);
+			return parent::getItems();
+		}
+		return array();
+		 
+	}
+	
 	/**
 	 * Method to get a store id based on model configuration state.
 	 *

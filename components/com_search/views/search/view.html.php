@@ -60,9 +60,6 @@ class SearchViewSearch extends JView
 		$document	= &JFactory::getDocument();
 		$document->setTitle($params->get('page_title'));
 
-		// Get the parameters of the active menu item
-		$params	= &$app->getParams();
-
 		// built select lists
 		$orders = array();
 		$orders[] = JHtml::_('select.option',  'newest', JText::_('COM_SEARCH_NEWEST_FIRST'));

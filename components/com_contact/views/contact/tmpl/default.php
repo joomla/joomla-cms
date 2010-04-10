@@ -11,37 +11,32 @@ defined('_JEXEC') or die;
 
 $cparams = JComponentHelper::getParams ('com_media');
 ?>
-
-<div class="jcontact<?php echo $this->params->get('pageclass_sfx')?>">
-	<?php if ($this->params->get('show_page_title', 1) && $this->params->get('page_title') != $this->contact->name) : ?>
+<div class="contact<?php echo $this->params->get('pageclass_sfx')?>">
+<?php if ($this->params->get('show_page_heading', 1)) : ?>
+<h1>
+	<?php echo $this->escape($this->params->get('page_heading')); ?>
+</h1>
+<?php endif; ?>
+	<?php if ($this->contact->name && $this->params->get('show_name')) : ?>
 		<h2>
-			<?php if ($this->escape($this->params->get('page_heading'))) :?>
-				<?php echo $this->escape($this->params->get('page_heading')); ?>
-			<?php else : ?>
-				<?php echo $this->escape($this->params->get('page_title')); ?>
-			<?php endif; ?>
+			<span class="contact-name"><?php echo $this->contact->name; ?></span>
 		</h2>
 	<?php endif; ?>
-	<?php if ($this->contact->name && $this->params->get('show_name')) : ?>
+	<?php if ($this->params->get('show_contact_category') == 'show_no_link') : ?>
 		<h3>
-			<span class="jcontact-name"><?php echo $this->contact->name; ?></span>
+			<span class="contact-category"><?php echo $this->contact->category_name; ?></span>
 		</h3>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_contact_category') == 'show_no_link') : ?>
-		<h4>
-			<span class="jcontact-category"><?php echo $this->contact->category_name; ?></span>
-		</h4>
-	<?php endif; ?>
 	<?php if ($this->params->get('show_contact_category') == 'show_with_link') : ?>
-		<?php $contactLink = ContactRoute::category('index.php?option=com_contact&view=category&catid='.$this->escape($this->contact->catslug));?>
-		<h4>
-			<span class="jcontact-category"><a href="<?php echo $contactLink; ?>">
-				<?php echo $this->escape($this->contact->category_name); ?></a>
+		<?php $contactLink = ContactHelperRoute::getCategoryRoute($this->contact->catid);?>
+		<h3>
+			<span class="contact-category"><a href="<?php echo $contactLink; ?>">
+				<?php echo $this->escape($this->contact->category_title); ?></a>
 			</span>
-		</h4>
+		</h3>
 	<?php endif; ?>
 	<?php if ($this->contact->image && $this->params->get('show_image')) : ?>
-		<span class="jcontact-image">
+		<span class="contact-image">
 			<?php echo JHTML::_('image','images/'.$this->contact->image, JText::_('Contact'), array('align' => 'middle')); ?>
 		</span>
 	<?php endif; ?>
@@ -56,7 +51,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php endif; ?>
 
 	<?php if ($this->contact->con_position && $this->params->get('show_position')) : ?>
-		<span class="jcontact-position"><?php echo $this->contact->con_position; ?></span>
+		<p class="contact-position"><?php echo $this->contact->con_position; ?></p>
 	<?php endif; ?>
 
 	<?php echo $this->loadTemplate('address'); ?>
@@ -71,6 +66,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 		<?php echo JHtml::_('sliders.panel', JText::_('CONTACT_EMAIL_FORM'), 'display-form'); ?>
 			<?php echo $this->loadTemplate('form');  ?>
 	<?php endif; ?>
+
 	<?php if ($this->params->get('show_links')) : ?>
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
@@ -84,11 +80,11 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php endif; ?>
 	<?php if ($this->contact->misc && $this->params->get('show_misc')) : ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('Contact_Other_Information'), 'display-misc'); ?>
-				<div class="jcontact-miscinfo">
+				<div class="contact-miscinfo">
 					<span class="<?php echo $this->params->get('marker_class'); ?>">
 						<?php echo $this->params->get('marker_misc'); ?>
 					</span>
-					<span class="jcontact-misc">
+					<span class="contact-misc">
 						<?php echo $this->contact->misc; ?>
 					</span>
 				</div>

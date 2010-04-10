@@ -6,7 +6,6 @@
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 ?>
 
@@ -21,12 +20,7 @@ defined('_JEXEC') or die;
 	?>
 		<dt><?php echo $field->label; ?></dt>
 		<dd>
-			<?php if ($field->value ){ ?>
-				<?php echo  $field->value ;
-			}
-			elseif (!$field->value){ 
-				echo JText::_('Users_Profile_Value_Not_Found'); 
-			}?>
+			<?php echo !empty($this->profile[$field->fieldname]) ? $this->profile[$field->fieldname] : JText::_('Users_Profile_Value_Not_Found'); ?>
 		</dd>
 	<?php
 		endif;

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: default_links.php 15673 2010-03-29 03:21:04Z hackwar $
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -8,17 +8,15 @@
  */
 
 // no direct access
-defined('_JEXEC') or die;?>
-
-<div class="items-more">
+defined('_JEXEC') or die;
+?>
 <h3><?php echo JText::_('MORE_ARTICLES'); ?></h3>
 
-<ol class="jlinks">
+<ol>
 <?php foreach ($this->link_items as &$item) : ?>
 	<li>
-		<a href="<?php echo JRoute::_(ContentRoute::article($item->slug, $item->catslug)); ?>">
+		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug)); ?>">
 			<?php echo $item->title; ?></a>
 	</li>
 <?php endforeach; ?>
 </ol>
-</div>

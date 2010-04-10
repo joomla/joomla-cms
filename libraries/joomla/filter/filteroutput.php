@@ -179,4 +179,12 @@ class JFilterOutput
 		$text = htmlspecialchars($text, ENT_COMPAT, 'UTF-8');
 		return $text;
 	}
+	
+	/**
+	 * Strip img-tags from string
+	 */
+	function stripImages($string)
+	{
+		return  preg_replace('#(<[/]?img.*>)#U', '', $string);
+	}
 }

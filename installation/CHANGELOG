@@ -27,6 +27,24 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Apr-2010 Hannes Papenberg
+^ Created JCategories to handle all presentation-logic for categories
+# Rewrite of com_content
+# Rewrite of com_contact
+# Rewrite of com_newsfeeds
+# Rewrite of com_weblinks
+^ Changing all core files to use semantic output
++ Added mod_articles_categories
+^ Changed com_content frontpage view to featured view
+^ Changed the routing of all core components
+# Fixed search plugins to use the new routing system
+# Fixed mod_menu
+# Fixed bug in JFormField
+# Fixed categories FormField
+# Fixed componentlayout FormField
++ Added stripImages function to JFilterOutput
+^ Changed JHTMLString::truncate to close all open HTML tags of a truncated string
+
 09-Apr-2010 Jean-Marie Simonet
 $ Refactoring ini/keys in libraries J/application/cache and J/application/client
 

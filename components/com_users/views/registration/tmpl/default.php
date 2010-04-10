@@ -13,6 +13,12 @@ JHtml::_('behavior.mootools');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
+<div class="registration<?php echo $this->params->get('pageclass_sfx')?>">
+<?php if ($this->params->get('show_page_heading')) : ?>
+<h1>
+	<?php echo $this->escape($this->params->get('page_heading')); ?>
+</h1>
+<?php endif; ?>
 
 <form id="member-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=registration.register'); ?>" method="post" class="form-validate">
 	<?php
@@ -64,3 +70,4 @@ JHtml::_('behavior.formvalidation');
 	<input type="hidden" name="task" value="registration.register" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+</div>

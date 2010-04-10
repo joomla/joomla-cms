@@ -19,4 +19,7 @@ $active	= $menu->getActive();
 $active_id = isset($active) ? $active->id : $menu->getDefault()->id;
 $path	= isset($active) ? $active->tree : array();
 $showAll	= $params->get('showAllChildren');
-require JModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));
+if(count($list))
+{
+	require JModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));
+}

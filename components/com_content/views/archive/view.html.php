@@ -29,9 +29,9 @@ class ContentViewArchive extends JView
 		$app =& JFactory::getApplication();
 		$user		= &JFactory::getUser();
 		
-		$state = $this->get('State');
-		$items = $this->get('Items');
-		$pagination = $this->get('Pagination');
+		$state 		= $this->get('State');
+		$items 		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
 		
 		$pathway	= &$app->getPathway();
 		$document	= &JFactory::getDocument();
@@ -43,6 +43,11 @@ class ContentViewArchive extends JView
 		{
 			$item->catslug = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			$article_params = new JRegistry;
+			$article_params->loadJSON($item->attribs);
+			$temp = clone($params);
+			$temp->merge($article_params);
+			$item->params = $temp;
 		}
 
 		$form = new stdClass();
@@ -93,7 +98,37 @@ class ContentViewArchive extends JView
 		$this->assignRef('user', $user);
 		$this->assignRef('pagination', $pagination);
 
+		$this->_prepareDocument();		
+		
 		parent::display($tpl);
+	}
+	
+	/**
+	 * Prepares the document
+	 */
+	protected function _prepareDocument()
+	{
+		$app		= &JFactory::getApplication();
+		$menus		= &JSite::getMenu();
+		$pathway	= &$app->getPathway();
+		$title 		= null;
+
+		// Because the application sets a default page title,
+		// we need to get it from the menu item itself
+		$menu = $menus->getActive();
+		if($menu)
+		{
+			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+		} else {
+			$this->params->def('page_heading', JText::_('COM_CONTENT_DEFAULT_PAGE_TITLE'));
+		}
+		
+		$title = $this->params->get('page_title', '');
+		if (empty($title))
+		{
+			$title = htmlspecialchars_decode($app->getCfg('sitename'));
+		}
+		$this->document->setTitle($title);		
 	}
 }
 ?>

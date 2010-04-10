@@ -33,7 +33,6 @@ class UsersViewReset extends JView
 		$form	= &$this->get('Form');
 		$data	= &$this->get('Data');
 		$state	= $this->get('State');
-		$params	= $state->get('params');
 
 		// Check for errors.
 		if (count($errors = &$this->get('Errors'))) {
@@ -46,11 +45,42 @@ class UsersViewReset extends JView
 			$form->bind($data);
 		}
 
+		$params = &$state->params;
+		
 		// Push the data into the view.
 		$this->assignRef('form',	$form);
 		$this->assignRef('data',	$data);
 		$this->assignRef('params',	$params);
+		
+		$this->_prepareDocument();
 
 		parent::display($tpl);
+	}
+	
+	/**
+	 * Prepares the document
+	 */
+	protected function _prepareDocument()
+	{
+		$app		= &JFactory::getApplication();
+		$menus		= &JSite::getMenu();
+		$title 		= null;
+
+		// Because the application sets a default page title,
+		// we need to get it from the menu item itself
+		$menu = $menus->getActive();
+		if($menu)
+		{
+			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+		} else {
+			$this->params->def('page_heading', JText::_('Users_Reset')); 
+		}
+		
+		$title = $this->params->get('page_title', $this->params->get('page_heading'));
+		if (empty($title))
+		{
+			$title = htmlspecialchars_decode($app->getCfg('sitename'));
+		}
+		$this->document->setTitle($title);
 	}
 }

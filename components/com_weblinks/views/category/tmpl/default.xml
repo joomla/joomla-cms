@@ -11,68 +11,159 @@
 		<fieldset name="request">
 
 			<field name="id" type="category"
-				description="COM_WEBLINKS_FIELD_CATEGORYCHOOSE_DESC"
+				default="0"
+				description="COM_WEBLINKS_FIELD_SELECT_CATEGORY_DESC"
 				extension="com_weblinks"
-				label="COM_WEBLINKS_FIELD_CATEGORY_LABEL"
+				label="COM_WEBLINKS_FIELD_SELECT_CATEGORY_LABEL"
 				required="true"
 			/>
 		</fieldset>
 	</fields>
 
 	<!-- Add fields to the parameters object for the layout. -->
-	<fields name="params">
-
-		<!-- Basic options. -->
-		<fieldset name="basic">
-
-			<field name="show_feed_link" type="radio"
-				default="1"
-				description="COM_MENUS_FIELD_FEEDLINK_DESC"
-				label="COM_MENUS_FIELD_FEEDLINK_LABEL"
+<fields name="params">
+<fieldset name="basic">
+			<field name="maxLevel" type="list"
+				description="COM_CONTENT_FIELD_MAXLEVEL_DESC"
+				label="COM_CONTENT_FIELD_MAXLEVEL_LABEL"
 			>
+				<option value="-1">JALL</option>
+				<option value="0">JNONE</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</field>
+
+			<field name="show_empty_categories" type="radio"
+				label="Show empty Categories"
+				description="Show/Hide empty(no items) categories"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			<field name="show_description" type="list"
+				description="JGLOBAL_Show_Category_Description_Desc"
+				label="JGLOBAL_Show_Category_Description_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_description_image" type="list"
+				description="JGLOBAL_Show_Category_Image_Desc"
+				label="JGLOBAL_Show_Category_Image_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			<field name="show_cat_num_articles" type="radio"
+				label="Num Category Items"
+				description="PARAMCATITEMS"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+</fieldset>
+<fieldset name="advanced">
+			<field name="display_num" type="list"
+				description="JGLOBAL_Number_Items_List_Desc"
+				label="JGLOBAL_Number_Items_List_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="5">J5</option>
+				<option value="10">J10</option>
+				<option value="15">J15</option>
+				<option value="20">J20</option>
+				<option value="25">J25</option>
+				<option value="30">J30</option>
+				<option value="50">J50</option>
+				<option value="100">J100</option>
+				<option value="0">JALL</option>
+			</field>
+			<field name="show_headings" type="list"
+				description="JGLOBAL_Show_Headings_Desc"
+				label="JGLOBAL_Show_Headings_Label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="orderby_pri" type="list"
+				description="JGLOBAL_Category_Order_Desc"
+				label="JGLOBAL_Category_Order_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="none">JGLOBAL_No_Order</option>
+				<option value="alpha">JGLOBAL_Title_Alphabetical</option>
+				<option value="ralpha">JGLOBAL_Title_Reverse_Alphabetical</option>
+				<option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+			</field>
+
+			<field name="show_pagination" type="list"
+				description="JGLOBAL_Pagination_Desc"
+				label="JGLOBAL_Pagination_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JCommon_Hide</option>
+				<option value="1">JCommon_Show</option>
+				<option value="2">JCommon_Auto</option>
+			</field>
+
+			<field name="show_noauth" type="list"
+				description="JGLOBAL_Show_Unauth_Links_Desc"
+				label="JGLOBAL_Show_Unauth_Links_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
+			</field>
+</fieldset>
+
+		<fieldset name="integration"
+		>
+
+			<field name="article-allow_ratings" type="list"
+				description="JGLOBAL_Allow_Ratings_Desc"
+				label="JGLOBAL_Allow_Ratings_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>
 
-			<field name="image" type="imagelist"
-				description="JFIELD_CATEGORY_IMAGE_DESC"
-				directory="/images"
-				hide_default="1"
-				label="JFIELD_CATEGORY_IMAGE_LABEL"
-			/>
-		</fieldset>
-	</fields>
-
-	<!-- Add fields to the metadata object for the layout. -->
-	<fields name="metadata">
-		<fieldset name="metadata"
-		>
-
-			<field name="robots" type="list"
-				description="JField_Metadata_Robots_Desc"
-				label="JField_Metadata_Robots_Label"
+			<field name="article-allow_comments" type="list"
+				description="JGLOBAL_Allow_Comments_Desc"
+				label="JGLOBAL_Allow_Comments_Label"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">index, follow</option>
-				<option value="1">noindex, follow</option>
-				<option value="2">index, nofollow</option>
-				<option value="3">noindex, nofollow</option>
-				<option value="4">Don't display robots tag</option>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
 			</field>
 
-			<field name="author" type="text"
-				description="JField_Metadata_Author_Desc"
-				label="JAUTHOR"
-				size="20"
-			/>
+			<field name="show_feed_link" type="list"
+				description="JGLOBAL_Show_Feed_Link_Desc"
+				label="JGLOBAL_Show_Feed_Link_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JCommon_Hide</option>
+				<option value="1">JCommon_Show</option>
+			</field>
 
-			<field name="rights" type="textarea"
-				cols="30"
-				description="JFIELD_META_RIGHTS_DESC"
-				filter="string"
-				label="JFIELD_META_RIGHTS_LABEL"
-				rows="2"
-			/>
+			<field name="feed_summary" type="list"
+				description="JGLOBAL_Feed_Summary_Desc"
+				label="JGLOBAL_Feed_Summary_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JCOMMON_INTRO_TEXT</option>
+				<option value="1">JCOMMON_FULL_TEXT</option>
+			</field>
 		</fieldset>
-	</fields>
+</fields>
 </metadata>

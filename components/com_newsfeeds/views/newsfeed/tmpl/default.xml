@@ -55,10 +55,10 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="feed_word_count" type="text"
+			<field name="feed_character_count" type="text"
 				default="0"
-				description="COM_NEWSFEEDS_FIELD_WORD_COUNT_DESC"
-				label="COM_NEWSFEEDS_FIELD_WORD_COUNT_LABEL"
+				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
+				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				size="6"
 			/>
 		</fieldset>

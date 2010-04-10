@@ -10,32 +10,30 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// TODO: Optimise some of the fixed params in the loops
+JHtml::core();
+
+$n = count($this->items);
 ?>
-<script  type="text/javascript">
-	function tableOrdering(order, dir, task) {
-	var form = document.adminForm;
 
-	form.filter_order.value		= order;
-	form.filter_order_Dir.value	= dir;
-	document.adminForm.submit(task);
-}
-</script>
+<?php if (empty($this->items)) : ?>
+	<p> <?php echo JText::_('COM_WEBLINKS_NO_ARTICLES'); ?></p>
+<?php else : ?>
 
+<form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()->toString()); ?>" method="post" name="adminForm">
+	<fieldset class="filters">
+	<legend class="element-invisible"><?php echo JText::_('JContent_Filter_Label'); ?></legend>
+	<?php if ($this->params->get('show_pagination_limit')) : ?>
+		<div class="display-limit">
+			<?php echo JText::_('COM_WEBLINKS_DISPLAY_NUM'); ?>&nbsp;
+			<?php echo $this->pagination->getLimitBox(); ?>
+		</div>
+	<?php endif; ?>
+	</fieldset>
 
+	<table class="category">
+		<?php if ($this->params->get('show_headings')==1) : ?>
 
- <form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()); ?>" method="post" name="adminForm">
-	 <div class="filter">
-		<?php echo JText::_('COM_WEBLINKS_DISPLAY_NUM'); ?>
-		<?php echo $this->pagination->getLimitBox(); ?>
-	 </div>
-	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
- </form>
-<table class="weblinks">
-<?php if ($this->params->def('show_headings', 1)) : ?>
-	<thead>
-		<tr>
+		<thead><tr>
 			<th class="num">
 				<?php echo JText::_('COM_WEBLINKS_NUM'); ?>
 			</th>
@@ -50,78 +48,77 @@ defined('_JEXEC') or die;
 		</tr>
 	</thead>
 	<?php endif; ?>
-			<tbody>
-				<?php foreach ($this->items as $i => $item) : ?>
-				<tr class="<?php echo $i % 2 ? 'odd' : 'even';?>">
-						<td class="num">
-								<?php echo $this->pagination->getRowOffset($i); ?>
-						</td>
-						<td class="title">
-						<p>
-								<?php if ($this->params->get('link_icons') <> -1) : ?>
-										<?php echo JHTML::_('image','system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), NULL, true);?>
-								<?php endif; ?>
-
-								<?php
-										// Compute the correct link
-
-										$menuclass = 'category'.$this->params->get('pageclass_sfx');
-										$link = $item->link;
-										switch ($item->params->get('target', $this->params->get('target')))
-										{
-												case 1:
-														// open in a new window
-														echo '<a href="'. $link .'" target="_blank" class="'. $menuclass .'" rel="nofollow">'.
-																$this->escape($item->title) .'</a>';
-														break;
-
-												case 2:
-														// open in a popup window
-														echo "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">".
-																$this->escape($item->title) ."</a>\n";
-														break;
-												case 3:
-														// TODO: open in a modal window
-														JHtml::_('behavior.modal', 'a.modal'); ?>
-
-														<a class="modal" title="<?php  echo $this->escape($item->title) ?> " href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x: 500, y: 506}}\"></a>
-														<?php echo		$this->escape($item->title). ' </a>' ;
-																 break;
-
-												default:
-														// open in parent window
-																echo '<a href="'.  $link . '" class="'. $menuclass .'" rel="nofollow">'.
-																		$this->escape($item->title) . ' </a>';
-														break;
-										}
-								?>
-								</p>
-
-
-								<?php if (($this->params->get('show_link_description')) AND ($item->description !='')): ?>
-									<p>
-									<?php echo nl2br($item->description); ?>
-									</p>
-								<?php endif; ?>
-
-						</td>
-						<?php if ($this->params->get('show_link_hits')) : ?>
-						<td class="hits">
-								<?php echo $item->hits; ?>
-						</td>
-						<?php endif; ?>
-					</tr>
-					<?php endforeach; ?>
-				</tbody>
-				</table>
-				<?php if($this->pagination->get('pages.total')>1): ?>
-							<div class="pagination">
-
-											<p><?php echo $this->pagination->getPagesCounter(); ?></p>
-											<?php echo $this->pagination->getPagesLinks(); ?>
-
-							</div>
+	<tbody>
+	<?php foreach ($this->items as $i => $item) : ?>
+		<tr class="<?php echo $i % 2 ? 'odd' : 'even';?>">
+			<td class="num">
+				<?php echo $this->pagination->getRowOffset($i); ?>
+			</td>
+			<td class="title">
+			<p>
+				<?php if ($this->params->get('link_icons') <> -1) : ?>
+					<?php echo JHTML::_('image','system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), NULL, true);?>
 				<?php endif; ?>
+				<?php
+					// Compute the correct link
+					$menuclass = 'category'.$this->params->get('pageclass_sfx');
+					$link = $item->link;
+					switch ($item->params->get('target', $this->params->get('target')))
+					{
+						case 1:
+							// open in a new window
+							echo '<a href="'. $link .'" target="_blank" class="'. $menuclass .'" rel="nofollow">'.
+								$this->escape($item->title) .'</a>';
+							break;
 
+						case 2:
+							// open in a popup window
+							echo "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">".
+								$this->escape($item->title) ."</a>\n";
+							break;
+						case 3:
+							// TODO: open in a modal window
+							JHtml::_('behavior.modal', 'a.modal'); ?>
+							<a class="modal" title="<?php  echo $this->escape($item->title) ?> " href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x: 500, y: 506}}\"></a>
+							<?php echo $this->escape($item->title). ' </a>' ;
+							break;
 
+						default:
+							// open in parent window
+							echo '<a href="'.  $link . '" class="'. $menuclass .'" rel="nofollow">'.
+								$this->escape($item->title) . ' </a>';
+							break;
+					}
+				?>
+			</p>
+	
+			<?php if (($this->params->get('show_link_description')) AND ($item->description !='')): ?>
+				<p>
+				<?php echo nl2br($item->description); ?>
+				</p>
+			<?php endif; ?>
+		</td>
+		<?php if ($this->params->get('show_link_hits')) : ?>
+		<td class="hits">
+			<?php echo $item->hits; ?>
+		</td>
+		<?php endif; ?>
+	</tr>
+	<?php endforeach; ?>
+</tbody>
+</table>
+	<?php if ($this->params->get('show_pagination')) : ?>
+	 <div class="pagination">
+	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
+						<p class="counter">
+							<?php echo $this->pagination->getPagesCounter(); ?>
+						</p>
+   <?php endif; ?>
+			<?php echo $this->pagination->getPagesLinks(); ?>
+		</div>
+	<?php endif; ?>
 
+		<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
+</form>
+<?php endif; ?>

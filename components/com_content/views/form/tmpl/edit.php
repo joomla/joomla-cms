@@ -27,15 +27,10 @@ function submitbutton(task) {
 	}
 }
 </script>
-
 <div class="edit item-page<?php echo $this->escape($params->get('pageclass_sfx')); ?>">
-<?php if ($params->get('show_page_title', 1)) : ?>
+<?php if ($params->get('show_page_heading', 1)) : ?>
 <h1>
-	<?php if ($this->escape($params->get('page_heading'))) :?>
-		<?php echo $this->escape($params->get('page_heading')); ?>
-	<?php else : ?>
-		<?php echo $this->escape($params->get('page_title')); ?>
-	<?php endif; ?>
+	<?php echo $this->escape($params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
 

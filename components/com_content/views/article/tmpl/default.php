@@ -15,19 +15,12 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 // Create shortcut to parameters.
 $params = $this->item->params;
 ?>
-
-
 <div class="item-page<?php echo $params->get('pageclass_sfx')?>">
-	<?php if ($params->get('show_page_title')) : ?>
+<?php if ($this->params->get('show_page_heading', 1)) : ?>
 <h1>
-	<?php if ($this->escape($params->get('page_heading'))) :?>
-		<?php echo $this->escape($params->get('page_heading')); ?>
-	<?php else : ?>
-		<?php echo $this->escape($params->get('page_title')); ?>
-	<?php endif; ?>
+	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
-
 <?php if ($params->get('show_title')|| $params->get('access-edit')) : ?>
 		<h2>
 				<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
@@ -73,19 +66,19 @@ $params = $this->item->params;
 
 	<?php echo $this->item->event->beforeDisplayContent; ?>
 
-<?php $useDefList = (($params->get('show_author')) OR ($params->get('show_category')) OR ($params->get('show_parent_category')) 
-	OR ($params->get('show_create_date')) OR ($params->get('show_modify_date')) OR ($params->get('show_publish_date')) 
+<?php $useDefList = (($params->get('show_author')) OR ($params->get('show_category')) OR ($params->get('show_parent_category'))
+	OR ($params->get('show_create_date')) OR ($params->get('show_modify_date')) OR ($params->get('show_publish_date'))
 	OR ($params->get('show_hits'))); ?>
 
 <?php if ($useDefList) : ?>
  <dl class="article-info">
  <dt class="article-info-term"><?php  echo JText::_('CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
-<?php if ($params->get('show_parent_category')) : ?>
+<?php if ($params->get('show_parent_category') && $this->item->parent_slug != '1:root') : ?>
 		<dd class="parent-category-name">
 			<?php $title = $this->escape($this->item->parent_title);
 				$title = ($title) ? $title : JText::_('Uncategorised');
-				$url = '<a href="' . JRoute::_(ContentRoute::category($this->item->parent_slug)) . '">' . $title . '</a>'; ?>
+					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
 			<?php if ($params->get('link_parent_category') AND $this->item->parent_slug) : ?>
 				<?php echo JText::sprintf('CONTENT_PARENT', $url); ?>
 				<?php else : ?>
@@ -97,7 +90,7 @@ $params = $this->item->params;
 		<dd class="category-name">
 			<?php 	$title = $this->escape($this->item->category_title);
 					$title = ($title) ? $title : JText::_('Uncategorised');
-					$url = '<a href="'.JRoute::_(ContentRoute::category($this->item->catslug)).'">'.$title.'</a>';?>
+					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
 			<?php if ($params->get('link_category') AND $this->item->catslug) : ?>
 				<?php echo JText::sprintf('CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>

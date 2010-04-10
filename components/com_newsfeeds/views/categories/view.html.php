@@ -22,7 +22,6 @@ class NewsfeedsViewCategories extends JView
 	protected $state = null;
 	protected $item = null;
 	protected $items = null;
-	protected $pagination = null;
 
 	/**
 	 * Display the view
@@ -31,35 +30,36 @@ class NewsfeedsViewCategories extends JView
 	 */
 	function display($tpl = null)
 	{
-		// Initialise variables.
-		$user		= &JFactory::getUser();
-		$app		= &JFactory::getApplication();
-
+		// Initialise variables
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
-		$pagination	= $this->get('Pagination');
-
+		$parent		= $this->get('Parent');
+		
+		
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
 
-		$params = &$state->params;
-
-		// PREPARE THE DATA
-
-		// Compute the newsfeed slug and prepare description (runs content plugins).
-		foreach ($items as $i => &$item)
+		if($items === false)
 		{
-			$item->slug			= $item->route ? ($item->id.':'.$item->route) : $item->id;
-			$item->description	= JHtml::_('content.prepare', $item->description);
+			//TODO Raise error for missing category here
 		}
 
+		if($parent == false)
+		{
+			//TODO Raise error for missing parent category here
+		}
+
+		$params = &$state->params;
+		
+		$items = array($parent->id => $items);
+		
+		$this->assignRef('maxLevel',	$params->get('maxLevel', -1));
 		$this->assignRef('params',		$params);
+		$this->assignRef('parent',		$parent);
 		$this->assignRef('items',		$items);
-		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('user',		$user);
 
 		$this->_prepareDocument();
 
@@ -77,27 +77,17 @@ class NewsfeedsViewCategories extends JView
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		if ($menu = $menus->getActive())
+		$menu = $menus->getActive();
+		if($menu)
 		{
-			$menuParams = new JRegistry;
-			$menuParams->loadJSON($menu->params);
-			$title = $menuParams->get('page_title');
+			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+		} else {
+			$this->params->def('page_heading', JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
 		}
+		$title = $this->params->get('page_title');
 		if (empty($title)) {
 			$title	= htmlspecialchars_decode($app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);
-
-		// Add feed links
-		if ($this->params->get('show_feed_link', 1))
-		{
-			$link = '&format=feed&limitstart=';
-
-			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
-
-			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
-		}
 	}
 }

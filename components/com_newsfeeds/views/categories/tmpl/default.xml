@@ -10,62 +10,49 @@
 	<fields name="request">
 		<fieldset name="request"
 		>
-
-			<field name="category" type="category"
+			<field name="id" type="category"
 				description="CHOOSE_CATEGORY_DESC"
 				extension="com_newsfeeds"
 				label="CHOOSE_CATEGORY_LABEL"
+				show_root="true"
 				required="true"
 			/>
 		</fieldset>
 	</fields>
 
 	<!-- Add fields to the parameters object for the layout. -->
-	<fields name="params">
+<fields name="params">
+<fieldset name="basic">
+			<field name="categories_description" type="textarea"
+				description="COM_CONTENT_FIELD_CATEGORIES_DESC_DESC"
+				label="COM_CONTENT_FIELD_CATEGORIES_DESC_LABEL"
+				cols="25"
+				rows="5"
+			/>
+			<field name="maxLevel" type="list"
+				description="COM_CONTENT_FIELD_MAXLEVEL_DESC"
+				label="COM_CONTENT_FIELD_MAXLEVEL_LABEL"
+			>
+				<option value="-1">JALL</option>
+				<option value="0">JNONE</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</field>
 
-		<!-- Basic options. -->
-		<fieldset name="basic"
-		>
-
-			<field name="show_headings" type="list"
-				description="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_DESC"
-				label="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_LABEL"
+			<field name="show_empty_categories" type="radio"
+				label="Show empty Categories"
+				description="Show/Hide empty(no items) categories"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
-			<field name="show_name" type="list"
-				description="COM_NEWSFEEDS_FIELD_NAME_COLUMN_DESC"
-				label="COM_NEWSFEEDS_FIELD_NAME_COLUMN_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="show_articles" type="list"
-				description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC"
-				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="show_link" type="list"
-				description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC"
-				label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
 			<field name="show_description" type="list"
-				description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_DESC"
-				label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_LABEL"
+				description="JGLOBAL_Show_Category_Description_Desc"
+				label="JGLOBAL_Show_Category_Description_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -73,17 +60,26 @@
 			</field>
 
 			<field name="show_description_image" type="list"
-				description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_IMAGE_DESC"
-				label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_IMAGE_LABEL"
+				description="JGLOBAL_Show_Category_Image_Desc"
+				label="JGLOBAL_Show_Category_Image_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
+			<field name="show_cat_num_articles" type="radio"
+				label="Num Category Items"
+				description="PARAMCATITEMS"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+</fieldset>
+<fieldset name="advanced">
 			<field name="display_num" type="list"
-				description="COM_NEWSFEEDS_FIELD_NUMFEEDS_DESC"
-				label="COM_NEWSFEEDS_FIELD_NUMFEEDS_LABEL"
+				description="JGLOBAL_Number_Items_List_Desc"
+				label="JGLOBAL_Number_Items_List_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="5">J5</option>
@@ -96,40 +92,74 @@
 				<option value="100">J100</option>
 				<option value="0">JALL</option>
 			</field>
-
-			<field name="show_pagination_limit" type="list"
-				description="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_DESC"
-				label="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_LABEL"
+			<field name="show_headings" type="list"
+				description="JGLOBAL_Show_Headings_Desc"
+				label="JGLOBAL_Show_Headings_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="orderby_pri" type="list"
+				description="JGLOBAL_Category_Order_Desc"
+				label="JGLOBAL_Category_Order_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="none">JGLOBAL_No_Order</option>
+				<option value="alpha">JGLOBAL_Title_Alphabetical</option>
+				<option value="ralpha">JGLOBAL_Title_Reverse_Alphabetical</option>
+				<option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+			</field>
+
+			<field name="orderby_sec" type="list"
+				description="JGLOBAL_Article_Order_Desc"
+				label="JGLOBAL_Article_Order_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="front">COM_CONTENT_FEATURED_ORDER</option>
+				<option value="rdate">JGLOBAL_Most_recent_first</option>
+				<option value="date">JGLOBAL_Oldest_first</option>
+				<option value="alpha">JGLOBAL_Title_Alphabetical</option>
+				<option value="ralpha">JGLOBAL_Title_Reverse_Alphabetical</option>
+				<option value="author">JGLOBAL_Author_Alphabetical</option>
+				<option value="rauthor">JGLOBAL_Author_Reverse_Alphabetical</option>
+				<option value="hits">JGLOBAL_Most_Hits</option>
+				<option value="rhits">JGLOBAL_Least_Hits</option>
+				<option value="order">JGLOBAL_Ordering</option>
+			</field>
+
+			<field name="order_date" type="list"
+				description="JGLOBAL_Ordering_Date_Desc"
+				label="JGLOBAL_Ordering_Date_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="created">JGLOBAL_Created</option>
+				<option value="modified">JGLOBAL_Modified</option>
+				<option value="published">JGLOBAL_Published</option>
 			</field>
 
 			<field name="show_pagination" type="list"
-				description="COM_NEWSFEEDS_FIELD_PAGINATION_DESC"
-				label="COM_NEWSFEEDS_FIELD_PAGINATION_LABEL"
+				description="JGLOBAL_Pagination_Desc"
+				label="JGLOBAL_Pagination_Label"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JCommon_Hide</option>
+				<option value="1">JCommon_Show</option>
+				<option value="2">JCommon_Auto</option>
 			</field>
 
-			<field name="show_pagination_results" type="list"
-				description="COM_NEWSFEEDS_FIELD_PAGINATION_RESULTS_DESC"
-				label="COM_NEWSFEEDS_FIELD_PAGINATION_RESULTS_LABEL"
+			<field name="show_noauth" type="list"
+				description="JGLOBAL_Show_Unauth_Links_Desc"
+				label="JGLOBAL_Show_Unauth_Links_Label"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
 			</field>
-		</fieldset>
+</fieldset>
 
-		<!-- Feed options. -->
-		<fieldset name="feed"
-			description="COM_NEWSFEEDS_FIELD_FEED_OPTIONS_DESC"
-			label="COM_NEWSFEEDS_FIELD_FEED_OPTIONS_LABEL"
-		>
+<fieldset name="newsfeed">
 
 			<field name="show_feed_image" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
@@ -139,7 +169,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-	
+
 			<field name="show_feed_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
@@ -148,7 +178,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-	
+
 			<field name="show_item_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
@@ -157,13 +187,52 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-	
-			<field name="feed_word_count" type="text"
+
+			<field name="feed_character_count" type="text"
 				default="0"
-				description="COM_NEWSFEEDS_FIELD_WORD_COUNT_DESC"
-				label="COM_NEWSFEEDS_FIELD_WORD_COUNT_LABEL"
+				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
+				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				size="6"
 			/>
+</fieldset>
+		<fieldset name="integration"
+		>
+
+			<field name="article-allow_ratings" type="list"
+				description="JGLOBAL_Allow_Ratings_Desc"
+				label="JGLOBAL_Allow_Ratings_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
+			</field>
+
+			<field name="article-allow_comments" type="list"
+				description="JGLOBAL_Allow_Comments_Desc"
+				label="JGLOBAL_Allow_Comments_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
+			</field>
+
+			<field name="show_feed_link" type="list"
+				description="JGLOBAL_Show_Feed_Link_Desc"
+				label="JGLOBAL_Show_Feed_Link_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JCommon_Hide</option>
+				<option value="1">JCommon_Show</option>
+			</field>
+
+			<field name="feed_summary" type="list"
+				description="JGLOBAL_Feed_Summary_Desc"
+				label="JGLOBAL_Feed_Summary_Label"
+			>
+				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="0">JCOMMON_INTRO_TEXT</option>
+				<option value="1">JCOMMON_FULL_TEXT</option>
+			</field>
 		</fieldset>
-	</fields>
+</fields>
 </metadata>

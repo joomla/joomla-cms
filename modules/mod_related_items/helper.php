@@ -91,7 +91,7 @@ class modRelatedItemsHelper
 						{
 							if ($row->cat_state == 1)
 							{
-								$row->route = JRoute::_(ContentRoute::article($row->slug, $row->catslug));
+								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
 								$related[] = $row;
 							}
 						}

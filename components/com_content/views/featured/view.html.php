@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: view.html.php 15908 2010-04-07 03:16:54Z hackwar $
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -17,7 +17,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_content
  * @since		1.5
  */
-class ContentViewFrontpage extends JView
+class ContentViewFeatured extends JView
 {
 	protected $state = null;
 	protected $item = null;
@@ -40,9 +40,9 @@ class ContentViewFrontpage extends JView
 		$user =& JFactory::getUser();
 		$app =& JFactory::getApplication();
 
-		$state = $this->get('State');
-		$items = $this->get('Items');
-		$pagination = $this->get('Pagination');
+		$state 		= $this->get('State');
+		$items 		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -65,7 +65,11 @@ class ContentViewFrontpage extends JView
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 			$item->catslug = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
-			
+			$article_params = new JRegistry;
+			$article_params->loadJSON($item->attribs);
+			$temp = clone($params);
+			$temp->merge($article_params);
+			$item->params = $temp;
 			// No link for ROOT category
 			if ($item->parent_alias == 'root') {
 				$item->parent_slug = null;
@@ -140,20 +144,21 @@ class ContentViewFrontpage extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app =& JFactory::getApplication();
-		$menus =& JSite::getMenu();
-		$title = null;
+		$app		= &JFactory::getApplication();
+		$menus		= &JSite::getMenu();
+		$title 		= null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		if ($menu = $menus->getActive())
+		$menu = $menus->getActive();
+		if($menu)
 		{
-			$menuParams = new JObject(json_decode($menu->params, true));
-			if ($pageTitle = $menuParams->get('page_title'))
-			{
-				$title = $pageTitle;
-			}
+			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+		} else {
+			$this->params->def('page_heading', JText::_('COM_CONTENT_DEFAULT_PAGE_TITLE')); 
 		}
+		
+		$title = $this->params->get('page_title', '');
 		if (empty($title))
 		{
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
@@ -164,10 +169,8 @@ class ContentViewFrontpage extends JView
 		if ($this->params->get('show_feed_link', 1))
 		{
 			$link = '&format=feed&limitstart=';
-
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}

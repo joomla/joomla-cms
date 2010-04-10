@@ -53,10 +53,11 @@ class ContentModelArticles extends JModelList
 		$this->setState('list.direction', $orderDirn);
 
 		$params = $app->getParams();
-		$menuParams = new JParameter();
+		$menuParams = new JRegistry();
 		if (JSite::getMenu()->getActive())
 		{
-			$menuParams = new JParameter(JSite::getMenu()->getActive()->params);
+			$menuParams = new JRegistry();
+			$menuParams->loadJSON(JSite::getMenu()->getActive()->params);
 		}
 		$mergedParams = clone $menuParams;
 		$mergedParams->merge($params);
@@ -374,7 +375,7 @@ class ContentModelArticles extends JModelList
 		// Convert the parameter fields into objects.
 		foreach ($items as & $item)
 		{
-			$articleParams = new JParameter;
+			$articleParams = new JRegistry;
 			/*
 			 *  TODO: investigate if it is better to sync the namespace usage in JRegistry and JParameter, if we let it unsync the we need to know what namespace are the Objects are using before we merge
 			 */
@@ -414,7 +415,7 @@ class ContentModelArticles extends JModelList
 				// merge the selected article params
 				if (count($articleArray > 0))
 				{
-					$articleParams = new JParameter;
+					$articleParams = new JRegistry;
 					$articleParams->loadArray($articleArray);
 					$item->params->merge($articleParams);
 				}
