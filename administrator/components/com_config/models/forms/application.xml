@@ -3,7 +3,7 @@
 <form>
 	<fieldset
 		name="cache"
-		label="Com_config_cache_settings_label">
+		label="COM_CONFIG_CACHE_SETTINGS_LABEL">
 		<field
 			name="caching"
 			type="radio"
@@ -39,13 +39,13 @@
 	</fieldset>
 	<fieldset
 		name="memcache"
-		label="Com_Config_Memcache_Settings_Label">
+		label="COM_CONFIG_MEMCACHE_SETTINGS_LABEL">
 		<field
 			name="memcache_persist"
 			type="radio"
 			default="1"
-			label="COM_CONFIG_MEMCACHE_PERSISTENT_LABEL"
-			description="COM_CONFIG_MEMCACHE_PERSISTENT_DESC"
+			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
 			filter="integer">
 			<option
 				value="1">JYES</option>
@@ -57,8 +57,8 @@
 			name="memcache_compress"
 			type="radio"
 			default="0"
-			label="COM_CONFIG_MEMCACHE_COMPRESSION_LABEL"
-			description="COM_CONFIG_MEMCACHE_COMPRESSION_DESC"
+			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
 			filter="integer">
 			<option
 				value="1">JYES</option>
@@ -70,8 +70,8 @@
 			name="memcache_server_host"
 			type="text"
 			default="localhost"
-			label="COM_CONFIG_MEMCACHE_HOST_LABEL"
-			description="COM_CONFIG_MEMCACHE_HOST_DESC"
+			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
 			filter="string"
 			size="25" />
 			
@@ -87,7 +87,7 @@
 
 	<fieldset
 		name="database"
-		label="Config_database_settings_label">
+		label="CONFIG_DATABASE_SETTINGS_LABEL">
 		<field
 			name="dbtype"
 			type="list"
@@ -137,7 +137,7 @@
 
 	<fieldset
 		name="debug"
-		label="Config_debug_settings_label">
+		label="CONFIG_DEBUG_SETTINGS_LABEL">
 		<field
 			name="debug"
 			type="radio"
@@ -183,7 +183,7 @@
 
 	<fieldset
 		name="ftp"
-		label="Config_ftp_settings_label">
+		label="CONFIG_FTP_SETTINGS_LABEL">
 		<field
 			name="ftp_enable"
 			type="radio"
@@ -241,7 +241,7 @@
 
 	<fieldset
 		name="locale"
-		label="Config_locale_settings_label">
+		label="CONFIG_LOCALE_SETTINGS_LABEL">
 		<field
 			name="offset"
 			type="timezone"
@@ -252,7 +252,7 @@
 
 	<fieldset
 		name="mail"
-		label="Config_mail_settings_label">
+		label="CONFIG_MAIL_SETTINGS_LABEL">
 		<field
 			name="mailer"
 			type="list"
@@ -421,7 +421,7 @@
 
 	<fieldset
 		name="seo"
-		label="Config_seo_settings_label">
+		label="CONFIG_SEO_SETTINGS_LABEL">
 		<field
 			name="sef"
 			type="radio"
@@ -481,7 +481,7 @@
 
 	<fieldset
 		name="server"
-		label="Config_server_settings_label">
+		label="CONFIG_SERVER_SETTINGS_LABEL">
 		<field
 			name="tmp_path"
 			type="text"
@@ -542,7 +542,7 @@
 
 	<fieldset
 		name="session"
-		label="Config_session_settings_label">
+		label="CONFIG_SESSION_SETTINGS_LABEL">
 		<field
 			name="lifetime"
 			type="text"
@@ -703,7 +703,7 @@
 
 	<fieldset
 		name="system"
-		label="Config_system_settings_label">
+		label="CONFIG_SYSTEM_SETTINGS_LABEL">
 		<field
 			name="secret"
 			type="text"
@@ -746,7 +746,7 @@
 
 	<fieldset
 		name="cookie"
-		label="Config_cookie_settings_label">
+		label="CONFIG_COOKIE_SETTINGS_LABEL">
 		<field
 			name="cookie_domain"
 			type="text"
@@ -768,7 +768,7 @@
 
 	<fieldset
 		name="permissions"
-		label="Config_permission_settings_label">
+		label="CONFIG_PERMISSION_SETTINGS_LABEL">
 
 		<field
 			name="rules"

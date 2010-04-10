@@ -30,6 +30,7 @@ $ -> Language fix or change
 11-Apr-2010 Jean-Marie Simonet
 # Fixed a typo in en-GB.ini in backend.
 #$ Refactoring ini/keys in libraries J/database
+$ Correcting —again— non standards keys
 
 10-Apr-2010 Hannes Papenberg
 ^ Created JCategories to handle all presentation-logic for categories
