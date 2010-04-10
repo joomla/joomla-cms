@@ -59,14 +59,14 @@ class JDatabaseMySQL extends JDatabase
 		// Perform a number of fatality checks, then return gracefully
 		if (!function_exists('mysql_connect')) {
 			$this->_errorNum = 1;
-			$this->_errorMsg = 'The MySQL adapter "mysql" is not available.';
+			$this->_errorMsg = JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQL');
 			return;
 		}
 
 		// Connect to the server
 		if (!($this->_connection = @mysql_connect($host, $user, $password, true))) {
 			$this->_errorNum = 2;
-			$this->_errorMsg = 'Could not connect to MySQL';
+			$this->_errorMsg = JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL');
 			return;
 		}
 
@@ -131,7 +131,7 @@ class JDatabaseMySQL extends JDatabase
 
 		if (!mysql_select_db($database, $this->_connection)) {
 			$this->_errorNum = 3;
-			$this->_errorMsg = 'Could not connect to database';
+			$this->_errorMsg = JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT');
 			return false;
 		}
 

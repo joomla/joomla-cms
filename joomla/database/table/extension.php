@@ -41,7 +41,7 @@ class JTableExtension extends JTable
 	{
 		// check for valid name
 		if (trim($this->name) == '' || trim($this->element) == '') {
-			$this->setError(JText::sprintf('MUST_CONTAIN_A_TITLE', JText::_('Extension')));
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 			return false;
 		}
 		return true;
@@ -116,7 +116,7 @@ class JTableExtension extends JTable
 			}
 			// Nothing to set publishing state on, return false.
 			else {
-				$this->setError(JText::_('JERROR_NO_ROWS_SELECTED'));
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				return false;
 			}
 		}

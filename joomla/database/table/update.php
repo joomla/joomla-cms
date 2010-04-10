@@ -41,7 +41,7 @@ class JTableUpdate extends JTable
 	{
 		// check for valid name
 		if (trim( $this->name ) == '' || trim( $this->element ) == '') {
-			$this->setError(JText::sprintf( 'MUST_CONTAIN_A_TITLE', JText::_( 'Extension') ));
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 			return false;
 		}
 		return true;

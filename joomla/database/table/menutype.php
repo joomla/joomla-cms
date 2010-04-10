@@ -34,7 +34,7 @@ class JTableMenuType extends JTable
 	{
 		$this->menutype = JApplication::stringURLSafe($this->menutype);
 		if (empty($this->menutype)) {
-			$this->setError(JText::_('Menu_Error_Menutype_empty'));
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENUTYPE_EMPTY'));
 			return false;
 		}
 
@@ -55,7 +55,7 @@ class JTableMenuType extends JTable
 
 		if ($db->loadResult())
 		{
-			$this->setError(JText::sprintf('Menu_Error_Menutype_exists', $this->menutype));
+			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype));
 			return false;
 		}
 

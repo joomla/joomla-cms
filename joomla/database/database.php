@@ -199,7 +199,7 @@ abstract class JDatabase extends JObject
 				require_once $path;
 			} else {
 				JError::setErrorHandling(E_ERROR, 'die'); //force error type to die
-				return JError::raiseError(500, JTEXT::_('UNABLE_TO_LOAD_DATABASE_DRIVER:') .$driver);
+				return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $driver));
 			}
 
 			$adapter	= 'JDatabase'.$driver;
@@ -207,7 +207,7 @@ abstract class JDatabase extends JObject
 
 			if ($error = $instance->getErrorMsg()) {
 				JError::setErrorHandling(E_ERROR, 'ignore'); //force error type to die
-				return JError::raiseError(500, JTEXT::_('UNABLE_TO_CONNECT_TO_THE_DATABASE') .$error);
+				return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $error));
 			}
 
 			$instances[$signature] = & $instance;
@@ -750,11 +750,10 @@ abstract class JDatabase extends JObject
 	public function stderr($showSQL = false)
 	{
 		if ($this->_errorNum != 0) {
-			return "DB function failed with error number $this->_errorNum"
-			."<br /><font color=\"red\">$this->_errorMsg</font>"
+			return JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $this->_errorNum, $this->_errorMsg)
 			.($showSQL ? "<br />SQL = <pre>$this->_sql</pre>" : '');
 		} else {
-			return "DB function reports no errors";
+			return JText::_('JLIB_DATABASE_FUNCTION_NOERROR');
 		}
 	}
 

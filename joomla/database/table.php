@@ -1181,7 +1181,7 @@ abstract class JTable extends JObject
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new JException(JText::_('JERROR_NO_ROWS_SELECTED'));
+				$e = new JException(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				$this->setError($e);
 				return false;
 			}
