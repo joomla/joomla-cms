@@ -8,14 +8,16 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controlleradmin');
 
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_languages
  */
-class LanguagesControllerLanguages extends JController
+class LanguagesControllerLanguages extends JControllerAdmin
 {
+	protected $_context = 'com_languages';
+	
 	/**
 	 * Constructor
 	 */
@@ -27,13 +29,8 @@ class LanguagesControllerLanguages extends JController
 		$this->registerTask('disable',		'publish');
 		$this->registerTask('trash',		'publish');
 		$this->registerTask('unfeatured',	'featured');
-	}
-
-	/**
-	 * Display the view
-	 */
-	function display()
-	{
+		$this->setURL('index.php?option=com_languages&view=languages');
+		$this->_option = 'com_languages';
 	}
 
 	/**
@@ -43,65 +40,5 @@ class LanguagesControllerLanguages extends JController
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
-	}
-
-	/**
-	 * Removes an item
-	 */
-	function delete()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		// Get items to remove from the request.
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('COM_LANGS_ERR_DELETE'));
-		}
-		else {
-			// Get the model.
-			$model = $this->getModel();
-
-			// Remove the items.
-			if (!$model->delete($ids)) {
-				JError::raiseWarning(500, $model->getError());
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_languages&view=languages');
-	}
-
-	/**
-	 * Method to publish a list of records.
-	 *
-	 * @return	void
-	 */
-	function publish()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		// Get items to publish from the request.
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-		$values	= array('publish' => 1, 'unpublish' => 0, 'disable' => -1, 'trash' => -2);
-		$task	= $this->getTask();
-		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
-
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('COM_LANGS_ERR_PUBLISH'));
-		}
-		else
-		{
-			// Get the model.
-			$model	= $this->getModel();
-
-			// Publish the items.
-			if (!$model->setPublished($ids, $value)) {
-				JError::raiseWarning(500, $model->getError());
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_languages&view=languages');
 	}
 }

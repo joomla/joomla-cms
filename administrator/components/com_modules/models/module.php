@@ -10,7 +10,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+jimport('joomla.application.component.modeladmin');
 
 /**
  * Module model.
@@ -19,13 +19,29 @@ jimport('joomla.application.component.modelform');
  * @subpackage	com_modules
  * @since		1.6
  */
-class ModulesModelModule extends JModelForm
+class ModulesModelModule extends JModelAdmin
 {
 	/**
 	 * Item cache.
 	 */
 	private $_cache = array();
 
+	protected $_context = 'com_modules';
+
+	/**
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 * @see		JController
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		$this->_item = 'module';
+		$this->_option = 'com_modules';
+	}
+	
 	/**
 	 * Method to auto-populate the model state.
 	 */
@@ -46,35 +62,6 @@ class ModulesModelModule extends JModelForm
 		// Load the parameters.
 		$params	= JComponentHelper::getParams('com_modules');
 		$this->setState('params', $params);
-	}
-
-	/**
-	 * Method to checkin a row.
-	 *
-	 * @param	integer	The ID of the primary key.
-	 *
-	 * @return	boolean
-	 */
-	public function checkin($pk = null)
-	{
-		// Initialise variables.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('module.id');
-
-		return parent::checkin($pk);
-	}
-
-	/**
-	 * Method to override check-out a row for editing.
-	 *
-	 * @param	int		The ID of the primary key.
-	 * @return	boolean
-	 */
-	public function checkout($pk = null)
-	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('module.id');
-
-		return parent::checkout($pk);
 	}
 
 	/**
@@ -422,84 +409,6 @@ class ModulesModelModule extends JModelForm
 	}
 
 	/**
-	 * Method to publish records.
-	 *
-	 * @param	array	The ids of the items to publish.
-	 * @param	int		The value of the published state
-	 *
-	 * @return	boolean	True on success.
-	 */
-	function publish(&$pks, $value = 1)
-	{
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
-		$pks	= (array) $pks;
-
-		// Access checks.
-		foreach ($pks as $i => $pk) {
-			if ($table->load($pk)) {
-				$allow = $user->authorise('core.edit.state', 'com_modules');
-
-				if (!$allow) {
-					// Prune items that you can't change.
-					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
-				}
-			}
-		}
-
-		// Attempt to change the state of the records.
-		if (!$table->publish($pks, $value, $user->get('id'))) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to adjust the ordering of a row.
-	 *
-	 * @param	int		The ID of the primary key to move.
-	 * @param	integer	Increment, usually +1 or -1
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function reorder($pks, $delta = 0)
-	{
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
-		$pks	= (array) $pks;
-		$result	= true;
-
-		// Access checks.
-		$allow = $user->authorise('core.edit', 'com_modules');
-		if (!$allow) {
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
-			return false;
-		}
-
-		foreach ($pks as $i => $pk) {
-			$table->reset();
-			if ($table->load($pk) && $this->checkout($pk)) {
-				$table->ordering += $delta;
-				if (!$table->store()) {
-					$this->setError($table->getError());
-					unset($pks[$i]);
-					$result = false;
-				}
-			} else {
-				$this->setError($table->getError());
-				unset($pks[$i]);
-				$result = false;
-			}
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Method to save the form data.
 	 *
 	 * @param	array	The form data.
@@ -630,66 +539,12 @@ class ModulesModelModule extends JModelForm
 
 		return true;
 	}
-
-	/**
-	 * Saves the manually set order of records.
-	 *
-	 * @param	array	An array of primary key ids.
-	 * @param	int		+/-1
-	 */
-	function saveorder($pks, $order)
+	
+	function _orderConditions($table = null)
 	{
-		// Initialise variables.
-		$table		= $this->getTable();
-		$conditions	= array();
-
-		if (empty($pks)) {
-			return JError::raiseWarning(500, JText::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
-		}
-
-		// update ordering values
-		foreach ($pks as $i => $pk) {
-			$table->load((int) $pk);
-
-			// Access checks.
-			$allow = $user->authorise('core.edit.state', 'com_modules');
-
-			if (!$allow) {
-				// Prune items that you can't change.
-				unset($pks[$i]);
-				JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
-			} else if ($table->ordering != $order[$i]) {
-				$table->ordering = $order[$i];
-				if (!$table->store()) {
-					$this->setError($table->getError());
-					return false;
-				}
-				// remember to reorder within position and client_id
-				$condition[] = 'client_id = '.(int) $table->client_id;
-				$condition[] = 'position = '.(int) $table->position;
-				$found = false;
-				foreach ($conditions as $cond) {
-					if ($cond[1] == $condition) {
-						$found = true;
-						break;
-					}
-				}
-				if (!$found) {
-					$conditions[] = array ($table->id, $condition);
-				}
-			}
-		}
-
-		// Execute reorder for each category.
-		foreach ($conditions as $cond) {
-			$table->load($cond[0]);
-			$table->reorder($cond[1]);
-		}
-
-		// Clear the component's cache
-		$cache = JFactory::getCache('com_modules');
-		$cache->clean();
-
-		return true;
+		$condition = array();
+		$condition[] = 'client_id = '.(int) $table->client_id;
+		$condition[] = 'position = '. $this->_db->Quote($table->position);
+		return $condition;
 	}
 }

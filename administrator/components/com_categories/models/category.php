@@ -8,7 +8,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+jimport('joomla.application.component.modeladmin');
 
 /**
  * Categories Component Category Model
@@ -17,7 +17,7 @@ jimport('joomla.application.component.modelform');
  * @subpackage	com_categories
  * @since 1.5
  */
-class CategoriesModelCategory extends JModelForm
+class CategoriesModelCategory extends JModelAdmin
 {
 	/**
 	 * Model context string.
@@ -26,6 +26,20 @@ class CategoriesModelCategory extends JModelForm
 	 */
 	protected $_context		= 'com_categories.item';
 
+	/**
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 * @see		JController
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		$this->_item = 'category';
+		$this->_option = 'com_categories';
+	}
+	
 	/**
 	 * Returns a Table object, always creating it
 	 *
@@ -154,76 +168,6 @@ class CategoriesModelCategory extends JModelForm
 	}
 
 	/**
-	 * Method to checkin a row.
-	 *
-	 * @param	integer	$pk The numeric id of a row
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function checkin($pk = null)
-	{
-		// Initialise variables.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('category.id');
-
-		// Only attempt to check the row in if it exists.
-		if ($pk)
-		{
-			$user	= &JFactory::getUser();
-
-			// Get an instance of the row to checkin.
-			$table = &$this->getTable();
-			if (!$table->load($pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-
-			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
-				$this->setError(JText::_('JError_Checkin_user_mismatch'));
-				return false;
-			}
-
-			// Attempt to check the row in.
-			if (!$table->checkin($pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to check-out a row for editing.
-	 *
-	 * @param	int		$pk	The numeric id of the row to check-out.
-	 *
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function checkout($pk = null)
-	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
-
-		// Only attempt to check the row in if it exists.
-		if ($pk)
-		{
-			// Get a row instance.
-			$table = &$this->getTable();
-
-			// Get the current user object.
-			$user = &JFactory::getUser();
-
-			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
 	 * @param	object	A form object.
 	 *
 	 * @throws	Exception if there is an error loading the form.
@@ -341,103 +285,6 @@ class CategoriesModelCategory extends JModelForm
 		}
 
 		$this->setState('category.id', $table->id);
-
-		return true;
-	}
-
-	/**
-	 * Method to delete rows.
-	 *
-	 * @param	array	An array of item ids.
-	 *
-	 * @return	boolean	Returns true on success, false on failure.
-	 */
-	public function delete($pks)
-	{
-		$pks = (array) $pks;
-
-		// Get a row instance.
-		$table = &$this->getTable();
-
-		// Iterate the items to delete each one.
-		foreach ($pks as $pk)
-		{
-			// Delete the category (but keep the children)
-			if (!$table->delete((int) $pk, false))
-			{
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to publish categories.
-	 *
-	 * @param	array	The ids of the items to publish.
-	 * @param	int		The value of the published state
-	 *
-	 * @return	boolean	True on success.
-	 */
-	function publish($pks, $value = 1)
-	{
-		$pks = (array) $pks;
-
-		// Get the current user object.
-		$user = &JFactory::getUser();
-
-		// Get an instance of the table row.
-		$table = &$this->getTable();
-
-		// Attempt to publish the items.
-		if (!$table->publish($pks, $value, $user->get('id')))
-		{
-			$this->setError($table->getError());
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to adjust the ordering of a row.
-	 *
-	 * @param	int		The numeric id of the row to move.
-	 * @param	integer	Increment, usually +1 or -1
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function ordering($pk, $direction = 0)
-	{
-		// Sanitize the id and adjustment.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('category.id');
-
-		// If the ordering direction is 0 then we aren't moving anything.
-		if ($direction == 0) {
-			return true;
-		}
-
-		// Get a row instance.
-		$table = &$this->getTable();
-
-		// Move the row down in the ordering.
-		if ($direction > 0)
-		{
-			if (!$table->orderDown($pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		// Move the row up in the ordering.
-		else
-		{
-			if (!$table->orderUp($pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
 
 		return true;
 	}
@@ -565,5 +412,11 @@ class CategoriesModelCategory extends JModelForm
 	 */
 	protected function _batchCopy($value, $pks)
 	{
+	}
+	
+	function _orderConditions($table = null)
+	{
+		$condition = array();
+		return $condition;
 	}
 }

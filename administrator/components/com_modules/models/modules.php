@@ -107,7 +107,6 @@ class ModulesModelModules extends JModelList
 			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
 			$result[$i]->name = JText::_($item->name);
 		}
-		JArrayHelper::sortObjects($result,$this->getState('list.ordering', 'ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1);
 
 		return array_slice($result, $limitstart, $limit ? $limit : null);
 	}
@@ -197,8 +196,13 @@ class ModulesModelModules extends JModelList
 			}
 		}
 
-		// Add the list ordering clause.
-//		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		if($this->getState('list.ordering', 'ordering') == 'ordering')
+		{
+			$query->order('position, '.$db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		} else {
+			// Add the list ordering clause.
+			$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).', ordering '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

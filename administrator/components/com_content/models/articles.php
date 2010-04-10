@@ -154,8 +154,13 @@ class ContentModelArticles extends JModelList
 			}
 		}
 
-		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.title')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		if($this->getState('list.ordering', 'a.ordering') == 'a.ordering')
+		{
+			$query->order('category_title, '.$db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		} else {
+			// Add the list ordering clause.
+			$query->order($db->getEscaped($this->getState('list.ordering', 'a.title')).', a.ordering '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

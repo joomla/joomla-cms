@@ -8,7 +8,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+jimport('joomla.application.component.modeladmin');
 
 /**
  * Client model.
@@ -17,8 +17,24 @@ jimport('joomla.application.component.modelform');
  * @subpackage	com_banners
  * @since		1.5
  */
-class BannersModelClient extends JModelForm
+class BannersModelClient extends JModelAdmin
 {
+	protected $_context = 'com_banners.client';
+
+	/**
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 * @see		JController
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		$this->_item = 'client';
+		$this->_option = 'com_banners';
+	}
+	
 	/**
 	 * Method to auto-populate the model state.
 	 */
@@ -48,35 +64,6 @@ class BannersModelClient extends JModelForm
 	public function getTable($type = 'Client', $prefix = 'BannersTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
-	}
-
-	/**
-	 * Method to override check-out a row for editing.
-	 *
-	 * @param	int		The ID of the primary key.
-	 * @return	boolean
-	 */
-	public function checkout($pk = null)
-	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('client.id');
-
-		return parent::checkout($pk);
-	}
-
-	/**
-	 * Method to checkin a row.
-	 *
-	 * @param	integer	The ID of the primary key.
-	 *
-	 * @return	boolean
-	 */
-	public function checkin($pk = null)
-	{
-		// Initialise variables.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('client.id');
-
-		return parent::checkin($pk);
 	}
 
 	/**
@@ -218,5 +205,11 @@ class BannersModelClient extends JModelForm
 		$user = JFactory::getUser();
 
 		$table->name		= htmlspecialchars_decode($table->name, ENT_QUOTES);
+	}
+	
+	function _orderConditions($table = null)
+	{
+		$condition = array();
+		return $condition;
 	}
 }

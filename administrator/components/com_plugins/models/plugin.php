@@ -8,7 +8,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+jimport('joomla.application.component.modeladmin');
 
 /**
  * Plugin model.
@@ -17,13 +17,29 @@ jimport('joomla.application.component.modelform');
  * @subpackage	com_plugins
  * @since		1.6
  */
-class PluginsModelPlugin extends JModelForm
+class PluginsModelPlugin extends JModelAdmin
 {
 	/**
 	 * Item cache.
 	 */
 	private $_cache = array();
+	
+	protected $_context = 'com_plugins';
 
+	/**
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 * @see		JController
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		$this->_item = 'plugin';
+		$this->_option = 'com_plugins';
+	}
+	
 	/**
 	 * Method to auto-populate the model state.
 	 */
@@ -40,35 +56,6 @@ class PluginsModelPlugin extends JModelForm
 		// Load the parameters.
 		$params	= JComponentHelper::getParams('com_plugins');
 		$this->setState('params', $params);
-	}
-
-	/**
-	 * Method to override check-out a row for editing.
-	 *
-	 * @param	int		The ID of the primary key.
-	 * @return	boolean
-	 */
-	public function checkout($pk = null)
-	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('plugin.id');
-
-		return parent::checkout($pk);
-	}
-
-	/**
-	 * Method to checkin a row.
-	 *
-	 * @param	integer	The ID of the primary key.
-	 *
-	 * @return	boolean
-	 */
-	public function checkin($pk = null)
-	{
-		// Initialise variables.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('plugin.id');
-
-		return parent::checkin($pk);
 	}
 
 	/**
@@ -232,77 +219,6 @@ class PluginsModelPlugin extends JModelForm
 	}
 
 	/**
-	 * Method to publish records.
-	 *
-	 * @param	array	The ids of the items to publish.
-	 * @param	int		The value of the published state
-	 *
-	 * @return	boolean	True on success.
-	 */
-	function publish(&$pks, $value = 1)
-	{
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
-		$pks	= (array) $pks;
-
-		if (!$user->authorise('core.edit.state', 'com_plugins')) {
-			$pks = array();
-			$this->setError(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
-			return false;
-		}
-
-		// Attempt to change the state of the records.
-		if (!$table->publish($pks, $value, $user->get('id'))) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to adjust the ordering of a row.
-	 *
-	 * @param	int		The ID of the primary key to move.
-	 * @param	integer	Increment, usually +1 or -1
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function reorder($pks, $delta = 0)
-	{
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
-		$pks	= (array) $pks;
-		$result	= true;
-
-		// Access checks.
-		$allow = $user->authorise('core.edit.state', 'com_plugins');
-		if (!$allow) {
-			$this->setError(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
-			return false;
-		}
-
-		foreach ($pks as $i => $pk) {
-			$table->reset();
-			if ($table->load($pk) && $this->checkout($pk)) {
-				$table->ordering += $delta;
-				if (!$table->store()) {
-					$this->setError($table->getError());
-					unset($pks[$i]);
-					$result = false;
-				}
-			} else {
-				$this->setError($table->getError());
-				unset($pks[$i]);
-				$result = false;
-			}
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Method to save the form data.
 	 *
 	 * @param	array	The form data.
@@ -349,43 +265,12 @@ class PluginsModelPlugin extends JModelForm
 
 		return true;
 	}
-
-	/**
-	 * Saves the manually set order of records.
-	 *
-	 * @param	array	An array of primary key ids.
-	 * @param	int		+/-1
-	 */
-	function saveorder($pks, $order)
+	
+	function _orderConditions($table = null)
 	{
-		// Initialise variables.
-		$user		= JFactory::getUser();
-		$table		= $this->getTable();
-		$conditions	= array();
-
-		if (empty($pks)) {
-			return JError::raiseWarning(500, JText::_('COM_PLUGINS_NO_PLUGINS_SELECTED'));
-		}
-
-		if (!$user->authorise('core.edit.state', 'com_plugins')) {
-			$pks = array();
-			$this->setError(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
-			return false;
-		}
-
-		// update ordering values
-		foreach ($pks as $i => $pk) {
-			$table->load((int) $pk);
-
-			if ($table->ordering != $order[$i]) {
-				$table->ordering = $order[$i];
-				if (!$table->store()) {
-					$this->setError($table->getError());
-					return false;
-				}
-			}
-		}
-
-		return true;
+		$condition = array();
+		$condition[] = 'type = '. $this->_db->Quote($table->type);
+		$condition[] = 'folder = '. $this->_db->Quote($table->folder);
+		return $condition;
 	}
 }

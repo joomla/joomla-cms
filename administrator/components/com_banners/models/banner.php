@@ -8,7 +8,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+jimport('joomla.application.component.modeladmin');
 
 /**
  * Banner model.
@@ -17,8 +17,24 @@ jimport('joomla.application.component.modelform');
  * @subpackage	com_banners
  * @since		1.5
  */
-class BannersModelBanner extends JModelForm
+class BannersModelBanner extends JModelAdmin
 {
+	protected $_context = 'com_banners.banner';
+
+	/**
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 * @see		JController
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		$this->_item = 'banner';
+		$this->_option = 'com_banners';
+	}
+	
 	/**
 	 * Method to auto-populate the model state.
 	 */
@@ -48,35 +64,6 @@ class BannersModelBanner extends JModelForm
 	public function getTable($type = 'Banner', $prefix = 'BannersTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
-	}
-
-	/**
-	 * Method to override check-out a row for editing.
-	 *
-	 * @param	int		The ID of the primary key.
-	 * @return	boolean
-	 */
-	public function checkout($pk = null)
-	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('banner.id');
-
-		return parent::checkout($pk);
-	}
-
-	/**
-	 * Method to checkin a row.
-	 *
-	 * @param	integer	The ID of the primary key.
-	 *
-	 * @return	boolean
-	 */
-	public function checkin($pk = null)
-	{
-		// Initialise variables.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('banner.id');
-
-		return parent::checkin($pk);
 	}
 
 	/**
@@ -211,62 +198,12 @@ class BannersModelBanner extends JModelForm
 
 		return true;
 	}
-
-	/**
-	 * Method to adjust the ordering of a row.
-	 *
-	 * @param	int		The ID of the primary key to move.
-	 * @param	integer	Increment, usually +1 or -1
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function reorder($pk, $direction = 0)
+	
+	function _orderConditions($table = null)
 	{
-		// Get the user
-		$user = JFactory::getUser();
-
-		// Sanitize the id and adjustment.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('banner.id');
-
-		// Get an instance of the record's table.
-		$table = $this->getTable();
-
-		// Attempt to check-out and move the row.
-		if (!$this->checkout($pk)) {
-			return false;
-		}
-
-		// Load the row.
-		if (!$table->load($pk)) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// State is not archived or trashed, attempt to move the banner
-		if ($table->state>=0)
-		{
-			// Access checks.
-			if ($table->catid) {
-				$allow = $user->authorise('core.edit.state', 'com_banners.category.'.(int) $table->catid);
-			}
-			else {
-				$allow = $user->authorise('core.edit.state', 'com_banners');
-			}
-
-			if (!$allow)
-			{
-				$this->setError(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
-				return false;
-			}
-
-			// Move the row.
-			$table->move($direction,"catid='".$table->catid."' AND state>=0");
-		}
-
-		// Check-in the row.
-		if (!$this->checkin($pk)) {
-			return false;
-		}
-
-		return true;
+		$condition = array();
+		$condition[] = 'catid = '. (int) $table->catid;
+		$condition[] = 'state >= 0';
+		return $condition;
 	}
 }

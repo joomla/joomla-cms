@@ -8,7 +8,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+jimport('joomla.application.component.modeladmin');
 
 /**
  * Item Model for Contacts.
@@ -17,7 +17,7 @@ jimport('joomla.application.component.modelform');
  * @subpackage	com_contact
  * @version		1.6
  */
-class ContactModelContact extends JModelForm
+class ContactModelContact extends JModelAdmin
 {
 	/**
 	 * Model context string.
@@ -26,6 +26,20 @@ class ContactModelContact extends JModelForm
 	 */
 	protected $_context		= 'com_contact.item';
 
+	/**
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 * @see		JController
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		$this->_item = 'item';
+		$this->_option = 'com_contact';
+	}
+	
 	/**
 	 * Returns a Table object, always creating it
 	 *
@@ -200,169 +214,7 @@ class ContactModelContact extends JModelForm
 		$dispatcher->trigger('onAfterContactSave', array(&$table, $isNew));
 		return true;
 	}
-		/**
-	 * Method to delete rows.
-	 *
-	 * @param	array	An array of item ids.
-	 *
-	 * @return	boolean	Returns true on success, false on failure.
-	 */
-	public function delete($pks)
-	{
-		$dispatcher = & JDispatcher::getInstance();
-		// Include the content plugins for the onSave events.
-		JPluginHelper::importPlugin('content');
-
-		// Sanitize the ids.
-		$pks = (array) $pks;
-		JArrayHelper::toInteger($pks);
-
-		// Get a row instance.
-		$table = &$this->getTable();
-
-		// Iterate the items to delete each one.
-		foreach ($pks as $itemId)
-		{
-			$table->load($itemId); // get contact for onBeforeContacttDelete event
-			$result = $dispatcher->trigger('onBeforeContacttDelete', array($table));
-			if (in_array(false, $result, true))
-			{
-				JError::raiseError(500, $row->getError());
-				return false;
-			}
-
-			// delete row
-			if (!$table->delete($itemId))
-			{
-				$this->setError($table->getError());
-				return false;
-			}
-
-			$dispatcher->trigger('onAfterContactDelete', array($itemId));
-		}
-
-
-		return true;
-	}
-	/**
-	 * Method to publish
-	 *
-	 * @param	array	The ids of the items to publish.
-	 * @param	int		The value of the published state
-	 *
-	 * @return	boolean	True on success.
-	 */
-	public function publish($pks, $value = 1)
-	{
-		// Sanitize the ids.
-		$pks = (array) $pks;
-		JArrayHelper::toInteger($pks);
-
-		// Get the current user object.
-		$user = &JFactory::getUser();
-
-		// Get a category row instance.
-		$table = &$this->getTable();
-
-		// Attempt to publish the items.
-		if (!$table->publish($pks, $value, $user->get('id'))) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		return true;
-	}
-	/**
-	 * Method to adjust the ordering of a row.
-	 *
-	 * @param	int		The numeric id of the row to move.
-	 * @param	integer	Increment, usually +1 or -1
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function ordering($pk, $direction = 0)
-	{
-		// Sanitize the id and adjustment.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
-
-		// Get a row instance.
-		$table = &$this->getTable();
-
-		// Attempt to adjust the row ordering.
-		if (!$table->ordering((int) $direction, $pk)) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		return true;
-	}
-	/**
-
-	 * Method to checkin a row.
-	 *
-	 * @param	integer	$id		The numeric id of a row
-	 * @return	boolean	True on success/false on failure
-	 * @since	1.6
-	 */
-
-	public function checkin($pk = null)
-	{
-		// Initialise variables.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
-		// Only attempt to check the row in if it exists.
-		if ($pk)
-		{
-			$user	= &JFactory::getUser();
-
-			// Get an instance of the row to checkin.
-			$table = &$this->getTable();
-			if (!$table->load($pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
-				$this->setError(JText::_('JERROR_CHECKIN_USER_MISMATCH'));
-				return false;
-			}
-
-			// Attempt to check the row in.
-			if (!$table->checkin($contactId)) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-		return true;
-	}
-	/**
-	 * Method to check-out a row for editing.
-	 *
-	 * @param	int		$pk	The numeric id of the row to check-out.
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function checkout($pk = null)
-	{
-		// Initialise variables.
-		$pk		= (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
-
-		// Only attempt to check the row in if it exists.
-		if ($pk)
-		{
-			// Get a row instance.
-			$table = &$this->getTable();
-
-			// Get the current user object.
-			$user = &JFactory::getUser();
-
-			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
+	
 	/**
 	 * Method to perform batch operations on a category or a set of contacts.
 	 *
@@ -444,6 +296,11 @@ class ContactModelContact extends JModelForm
 
 		return true;
 	}
-
-
+	
+	function _orderConditions($table = null)
+	{
+		$condition = array();
+		$condition[] = 'catid = '.(int) $table->catid;
+		return $condition;
+	}
 }

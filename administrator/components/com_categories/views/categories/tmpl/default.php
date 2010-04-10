@@ -54,13 +54,14 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 					<?php echo JHtml::_('grid.sort', 'JPUBLISHED', 'a.published', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="5%" class="nowrap">
-					<?php echo JText::_('JGRID_HEADING_ORDERING'); ?>
+					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Ordering', 'a.lft', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.order',  $this->items); ?>
 				</th>
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="1%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.lft', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>
@@ -75,6 +76,7 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 			<?php
 			foreach ($this->items as $i => $item) :
 				$ordering = ($this->state->get('list.ordering') == 'a.lft');
+				$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">
@@ -97,9 +99,11 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 					<td class="center">
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.');?>
 					</td>
-					<td>
-						<span><?php echo $this->pagination->orderUpIcon($i, $item->order_up, 'categories.orderup', 'JGRID_MOVE_UP', $ordering); ?></span>
-						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, $item->order_dn, 'categories.orderdown', 'JGRID_MOVE_DOWN', $ordering); ?></span>
+					<td class="order">
+						<span><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'categories.orderup', 'JGRID_MOVE_UP', $ordering); ?></span>
+						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'categories.orderdown', 'JGRID_MOVE_DOWN', $ordering); ?></span>
+						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" <?php echo $disabled ?> class="text-area-order" />
 					</td>
 					<td class="center">
 						<?php echo $this->escape($item->access_level); ?>

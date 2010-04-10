@@ -8,7 +8,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controlleradmin');
 
 /**
  * Plugins list controller class.
@@ -17,8 +17,9 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_plugins
  * @since		1.6
  */
-class PluginsControllerPlugins extends JController
+class PluginsControllerPlugins extends JControllerAdmin
 {
+	protected $_context = 'com_plugins';
 	/**
 	 * Constructor.
 	 *
@@ -32,13 +33,7 @@ class PluginsControllerPlugins extends JController
 		$this->registerTask('unpublish',	'publish');
 		$this->registerTask('orderup',		'reorder');
 		$this->registerTask('orderdown',	'reorder');
-	}
-
-	/**
-	 * Display is not supported by this class.
-	 */
-	public function display()
-	{
+		$this->setURL('index.php?option=com_plugins&view=plugins');
 	}
 
 	/**
@@ -48,97 +43,5 @@ class PluginsControllerPlugins extends JController
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
-	}
-
-	/**
-	 * Method to change the state of a list of records.
-	 */
-	public function publish()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-		$values	= array('publish' => 1, 'unpublish' => 0);
-		$task	= $this->getTask();
-		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
-
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('COM_PLUGINS_NO_PLUGINS_SELECTED'));
-		}
-		else
-		{
-			// Get the model.
-			$model	= $this->getModel();
-
-			// Change the state of the records.
-			if (!$model->publish($ids, $value)) {
-				JError::raiseWarning(500, $model->getError());
-			}
-			else
-			{
-				if ($value == 1) {
-					$text = 'COM_PLUGINS_PLUGIN_ENABLED';
-					$ntext = 'COM_PLUGINS_N_PLUGINS_ENABLED';
-				}
-				else if ($value == 0) {
-					$text = 'COM_PLUGINS_PLUGIN_DISABLED';
-					$ntext = 'COM_PLUGINS_N_PLUGINS_DISABLED';
-				}
-				$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_plugins&view=plugins');
-	}
-
-	/**
-	 * Changes the order of one or more records.
-	 */
-	public function reorder()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', null, 'post', 'array');
-		$inc	= ($this->getTask() == 'orderup') ? -1 : +1;
-
-		$model = $this->getModel();
-		$model->reorder($ids, $inc);
-		// TODO: Add error checks.
-
-		$this->setRedirect('index.php?option=com_plugins&view=plugins');
-	}
-
-	/**
-	 * Method to save the submitted ordering values for records.
-	 *
-	 * @return	void
-	 */
-	public function saveorder()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Get the input
-		$pks	= JRequest::getVar('cid',	null,	'post',	'array');
-		$order	= JRequest::getVar('order',	null,	'post',	'array');
-
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-
-		// Get the model
-		$model = &$this->getModel();
-
-		// Save the ordering
-		$model->saveorder($pks, $order);
-
-		$this->setMessage(JText::_('JSUCCESS_ORDERING_SAVED'));
-		$this->setRedirect('index.php?option=com_plugins&view=plugins');
 	}
 }

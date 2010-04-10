@@ -8,7 +8,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controlleradmin');
 
 /**
  * Modules list controller class.
@@ -17,8 +17,10 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_modules
  * @since		1.6
  */
-class ModulesControllerModules extends JController
+class ModulesControllerModules extends JControllerAdmin
 {
+	protected $_context = 'com_modules';
+	
 	/**
 	 * Constructor.
 	 *
@@ -33,13 +35,7 @@ class ModulesControllerModules extends JController
 		$this->registerTask('trash',		'publish');
 		$this->registerTask('orderup',		'reorder');
 		$this->registerTask('orderdown',	'reorder');
-	}
-
-	/**
-	 * Display is not supported by this class.
-	 */
-	public function display()
-	{
+		$this->setURL('index.php?option=com_modules&view=modules');
 	}
 
 	/**
@@ -76,134 +72,6 @@ class ModulesControllerModules extends JController
 			JError::raiseWarning(500, $e->getMessage());
 		}
 
-		$this->setRedirect('index.php?option=com_modules&view=modules');
-	}
-
-	/**
-	 * Method to delete a list of selected records.
-	 */
-	public function delete()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$pks = JRequest::getVar('cid', array(), 'post', 'array');
-
-		try
-		{
-			if (empty($pks)) {
-				throw new Exception(JText::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
-			}
-			$model = $this->getModel();
-			$model->delete($pks);
-			$this->setMessage(JText::sprintf((count($pks) == 1) ? 'COM_MODULES_MODULE_DELETED' : 'COM_MODULES_N_MODULES_DELETED', count($pks)));
-		}
-		catch (Exception $e)
-		{
-			JError::raiseWarning(500, $e->getMessage());
-		}
-
-		$this->setRedirect('index.php?option=com_modules&view=modules');
-	}
-
-	/**
-	 * Method to change the state of a list of records.
-	 */
-	public function publish()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-		$values	= array('publish' => 1, 'unpublish' => 0, 'trash' => -2);
-		$task	= $this->getTask();
-		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
-
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
-		}
-		else
-		{
-			// Get the model.
-			$model	= $this->getModel();
-
-			// Change the state of the records.
-			if (!$model->publish($ids, $value)) {
-				JError::raiseWarning(500, $model->getError());
-			}
-			else
-			{
-				if ($value == 1) {
-					$text = 'COM_MODULES_MODULE_PUBLISHED';
-					$ntext = 'COM_MODULES_N_MODULES_PUBLISHED';
-				}
-				else if ($value == 0) {
-					$text = 'COM_MODULES_MODULE_UNPUBLISHED';
-					$ntext = 'COM_MODULES_N_MODULES_UNPUBLISHED';
-				}
-				else if ($value == -1) {
-					$text = 'COM_MODULES_MODULE_ARCHIVED';
-					$ntext = 'COM_MODULES_N_MODULES_ARCHIVED';
-				}
-				else {
-					$text = 'COM_MODULES_MODULE_TRASHED';
-					$ntext = 'COM_MODULES_N_MODULES_TRASHED';
-				}
-				$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_modules&view=modules');
-	}
-
-	/**
-	 * Changes the order of one or more records.
-	 */
-	public function reorder()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', null, 'post', 'array');
-		$inc	= ($this->getTask() == 'orderup') ? -1 : +1;
-
-		$model = $this->getModel();
-		$model->reorder($ids, $inc);
-		// TODO: Add error checks.
-
-		$this->setRedirect('index.php?option=com_modules&view=modules');
-	}
-
-	/**
-	 * Method to save the submitted ordering values for records.
-	 *
-	 * @return	void
-	 */
-	public function saveorder()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Get the input
-		$pks	= JRequest::getVar('cid',	null,	'post',	'array');
-		$order	= JRequest::getVar('order',	null,	'post',	'array');
-
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-
-		// Get the model
-		$model = &$this->getModel();
-
-		// Save the ordering
-		$model->saveorder($pks, $order);
-
-		$this->setMessage(JText::_('JSUCCESS_ORDERING_SAVED'));
 		$this->setRedirect('index.php?option=com_modules&view=modules');
 	}
 }

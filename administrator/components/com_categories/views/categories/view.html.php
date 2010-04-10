@@ -41,9 +41,7 @@ class CategoriesViewCategories extends JView
 		// Preprocess the list of items to find ordering divisions.
 		foreach ($items as $i => &$item)
 		{
-			// TODO: Complete the ordering stuff with nested sets
-			$item->order_up = true;
-			$item->order_dn = true;
+			$this->ordering[$item->parent_id][] = $item->id;
 		}
 
 		$this->assignRef('state',		$state);
