@@ -24,23 +24,14 @@ defined('_JEXEC') or die;
 			?>
 		<?php if ($this->data['cache_handler'] == 'memcache' || $this->data['session_handler'] == 'memcache') : ?>
 
-				<?php echo JText::_('COM_CONFIG_MEMCACHE_PERSISTENT'); ?>
-
-				<?php echo $lists['memcache_persist']; ?>
-
-				<?php echo JText::_('COM_CONFIG_MEMCACHE_COMPRESSION'); ?>
-
-				<?php echo $lists['memcache_compress']; ?>
-
-
-				<?php echo JText::_('COM_CONFIG_MEMCACHE_SERVER'); ?>
-
-				<?php echo JText::_('COM_CONFIG_HOST'); ?>:
-				<input class="text_area" type="text" name="memcache_settings[servers][0][host]" size="25" value="<?php echo @$this->data->memcache_settings['servers'][0]['host']; ?>" />
-
-				<?php echo JText::_('COM_CONFIG_PORT'); ?>:
-				<input class="text_area" type="text" name="memcache_settings[servers][0][port]" size="6" value="<?php echo @$this->data->memcache_settings['servers'][0]['port']; ?>" />
-
+					<?php
+			foreach ($this->form->getFieldset('memcache') as $mfield):
+			?>
+					<?php echo $mfield->label; ?>
+					<?php echo $mfield->input; ?>
+			<?php
+			endforeach;
+			?>
 		<?php endif; ?>
 
 </fieldset>

@@ -26,27 +26,24 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-		$document = &JFactory::getDocument();
+		$cachable = true;
 
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'categories');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getWord('layout', 'default');
+		JRequest::setVar('view', $vName);
 
-		// Get and render the view.
-		if ($view = &$this->getView($vName, $vFormat))
-		{
-			// Get the model for the view.
-			$model	= &$this->getModel($vName);
-
-			// Push the model into the view (as default).
-			$view->setModel($model, true);
-			$view->setLayout($lName);
-
-			// Push document object into the view.
-			$view->assignRef('document', $document);
-
-			$view->display();
+		$user = &JFactory::getUser();
+		
+		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' && 
+			(($vName = 'category' && JRequest::getVar('layout') != 'blog') || $vName = 'archive' ))) {
+			$cachable = false;
 		}
+
+		$safeurlparams = array('catid'=>'INT','id'=>'INT','cid'=>'ARRAY','year'=>'INT','month'=>'INT','limit'=>'INT','limitstart'=>'INT',
+			'showall'=>'INT','return'=>'BASE64','filter'=>'STRING','filter_order'=>'CMD','filter_order_Dir'=>'CMD','filter-search'=>'STRING','print'=>'BOOLEAN');
+			
+			parent::display($cachable,$safeurlparams);		
+
 	}
+
 }

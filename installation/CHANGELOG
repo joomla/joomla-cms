@@ -48,6 +48,8 @@ $ -> Language fix or change
 + Introdcued JModelAdmin
 # Fixed ordering, delete, publish, checkin, checkout in com_banners, com_contact, com_content, com_languages, com_newsfeeds, com_messages, com_modules, com_plugins, com_weblinks
 # Partially fixed ordering, delete, publish, checkin, checkout in com_categories, com_menus
+^+# Implemented a new caching and implemented it in all frontendcomponents and modules. Thank you Klas Berlic, this was great work. :-)
+# Fixed a typo in en-GB.ini in backend.
 
 09-Apr-2010 Jean-Marie Simonet
 $ Refactoring ini/keys in libraries J/application/cache and J/application/client

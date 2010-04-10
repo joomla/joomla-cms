@@ -72,11 +72,27 @@
 				<field
 					name="cache"
 					type="list"
-					default="0"
+					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option
+						value="1">JGLOBAL_USE_GLOBAL</option>
+					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+				<field
+					name="cache_time"
+					type="text"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+				<field
+					name="cachemode"
+					type="hidden"
+					label=""
+					default="static">
+					<option
+						value="static"></option>
 				</field>
 			</fieldset>
 		</fields>

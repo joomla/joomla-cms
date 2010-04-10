@@ -13,7 +13,14 @@ defined('_JEXEC') or die;
 // Include the syndicate functions only once
 require_once dirname(__FILE__).DS.'helper.php';
 
-$list = modRelatedItemsHelper::getList($params);
+$cacheparams = new stdClass;
+$cacheparams->cachemode = 'safeuri';
+$cacheparams->class = 'modRelatedItemsHelper';	
+$cacheparams->method = 'getList';
+$cacheparams->methodparams = $params;
+$cacheparams->modeparams = array('id'=>'int','Itemid'=>'int');
+
+$list = JModuleHelper::ModuleCache ($module, $params, $cacheparams);
 
 if (!count($list)) {
 	return;

@@ -7,7 +7,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
+// No direct access
 defined('JPATH_BASE') or die;
 
 /**
@@ -19,35 +19,39 @@ defined('JPATH_BASE') or die;
  */
 class JCacheStorageFile extends JCacheStorage
 {
+	
+	private $_root;
+	
 	/**
-	 * Constructor
-	 *
-	 * @param	array	Optional parameters
-	 */
+	* Constructor
+	*
+	* @param array $options optional parameters
+	*/
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
-
-		$config			= &JFactory::getConfig();
 		$this->_root	= $options['cachebase'];
-		$this->_hash	= $config->get('secret');
+
 	}
 
 	/**
 	 * Get cached data from a file by id and group
 	 *
-	 * @param	string	The cache data id
-	 * @param	string	The cache data group
-	 * @param	boolean	True to verify cache time expiration threshold
+	 * @param	string	$id			The cache data id
+	 * @param	string	$group		The cache data group
+	 * @param	boolean	$checkTime	True to verify cache time expiration threshold
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	public function get($id, $group, $checkTime)
-	{
+	public function get($id, $group, $checkTime=true)
+	{	
+		// @Todo: make reads use joomla.filesystem.file
 		$data = false;
 
 		$path = $this->_getFilePath($id, $group);
-		$this->_setExpire($id, $group);
+		
+		if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true)) {
+		
 		if (file_exists($path)) {
 			$data = file_get_contents($path);
 			if ($data) {
@@ -57,22 +61,57 @@ class JCacheStorageFile extends JCacheStorage
 		}
 
 		return $data;
+		
+		} else {
+			return false;
+		}
 	}
+	
+	
+	 /**
+	 * Get all cached data
+	 *
+	 * @return	array data
+	 * @since	1.6
+	 */
+	
+	public function getAll()
+	{	
+		parent::getAll();
+		
+		$path=$this->_root;
+		jimport('joomla.filesystem.folder');
+		$folders = JFolder::folders($path);
+		$data = array();
 
+		foreach ($folders as $folder) {
+			$files = array();
+			$files = JFolder::files($path.DS.$folder);
+			$item = new JCacheStorageHelper();
+
+			foreach ($files as $file) {
+				$item->updateSize(filesize($path.DS.$folder.DS.$file)/1024,$folder);
+			}
+			$data[$folder] = $item;
+		}
+
+		return $data;
+	}
+	
 	/**
 	 * Store the data to a file by id and group
 	 *
-	 * @param	string	The cache data id
-	 * @param	string	The cache data group
-	 * @param	string	The data to store in cache
+	 * @param	string	$id		The cache data id
+	 * @param	string	$group	The cache data group
+	 * @param	string	$data	The data to store in cache
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
 	public function store($id, $group, $data)
-	{
+	{   
+		// @Todo: make writes use joomla.filesystem.file ...will have to fix that too for locking
 		$written	= false;
 		$path		= $this->_getFilePath($id, $group);
-		$expirePath	= $path . '_expire';
 		$die		= '<?php die("Access Denied"); ?>'."\n";
 
 		// Prepend a die string
@@ -94,7 +133,6 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		// Data integrity check
 		if ($written && ($data == file_get_contents($path))) {
-			@file_put_contents($expirePath, ($this->_now + $this->_lifetime));
 			return true;
 		} else {
 			return false;
@@ -104,15 +142,15 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Remove a cached data file by id and group
 	 *
-	 * @param	string	The cache data id
-	 * @param	string	The cache data group
+	 * @param	string	$id		The cache data id
+	 * @param	string	$group	The cache data group
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
 	public function remove($id, $group)
-	{
+	{	
+		jimport('joomla.filesystem.file');
 		$path = $this->_getFilePath($id, $group);
-		@unlink($path.'_expire');
 		if (!@unlink($path)) {
 			return false;
 		}
@@ -125,8 +163,8 @@ class JCacheStorageFile extends JCacheStorage
 	 * group mode		: cleans all cache in the group
 	 * notgroup mode	: cleans all cache not in the group
 	 *
-	 * @param	string	The cache data group
-	 * @param	string	The mode for cleaning cache [group|notgroup]
+	 * @param	string	$group	The cache data group
+	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
@@ -141,16 +179,17 @@ class JCacheStorageFile extends JCacheStorage
 			$mode = 'notgroup';
 		}
 
-		switch ($mode) {
+		switch ($mode)
+		{
 			case 'notgroup':
 				$folders = JFolder::folders($this->_root);
-				for ($i = 0, $n = count($folders); $i < $n; $i++) {
+				for ($i=0,$n=count($folders);$i<$n;$i++)
+				{
 					if ($folders[$i] != $folder) {
 						$return |= JFolder::delete($this->_root.DS.$folders[$i]);
 					}
 				}
 				break;
-
 			case 'group':
 			default:
 				if (is_dir($this->_root.DS.$folder)) {
@@ -169,14 +208,14 @@ class JCacheStorageFile extends JCacheStorage
 	public function gc()
 	{
 		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
 		$result = true;
 		// files older than lifeTime get deleted from cache
-		$files = JFolder::files($this->_root, '_expire', true, true);
+		$files = JFolder::files($this->_root, '', true, true);
 		foreach($files As $file) {
-			$time = @file_get_contents($file);
-			if ($time < $this->_now) {
+			$time = @filemtime($path);
+			if (($time + $this->_lifetime) < $this->_now || empty($time)) {
 				$result |= JFile::delete($file);
-				$result |= JFile::delete(str_replace('_expire', '', $file));
 			}
 		}
 		return $result;
@@ -185,50 +224,49 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Test to see if the cache storage is available.
 	 *
-	 * @return	boolean	True on success, false otherwise.
+	 * @return boolean  True on success, false otherwise.
 	 */
 	public static function test()
 	{
-		$config	= JFactory::getConfig();
-		$root	= $config->get('cache_path', JPATH_ROOT.DS.'cache');
-		return is_writable($root);
+		$conf	= &JFactory::getConfig();
+		return is_writable($conf->get('cache_path',JPATH_ROOT.DS.'cache'));
 	}
 
 	/**
 	 * Check to make sure cache is still valid, if not, delete it.
 	 *
-	 * @param	string	Cache key to expire.
-	 * @param	string	The cache data group.
+	 * @param string  $id		Cache key to expire.
+	 * @param string  $group	The cache data group.
 	 */
-	protected function _setExpire($id, $group)
-	{
+	function _checkExpire($id, $group)
+	{	
+		jimport('joomla.filesystem.file');
 		$path = $this->_getFilePath($id, $group);
 
-		// set prune period
-		if (file_exists($path.'_expire')) {
-			$time = @file_get_contents($path.'_expire');
-			if ($time < $this->_now || empty($time)) {
-				$this->remove($id, $group);
+		// check prune period
+		if (file_exists($path)) {
+			$time = @filemtime($path);
+			if (($time + $this->_lifetime) < $this->_now || empty($time)) {
+				JFile::delete($path);
+				return false;
 			}
-		} elseif (file_exists($path)) {
-			//This means that for some reason there's no expire file, remove it
-			$this->remove($id, $group);
-		}
+			return true;
+		} 
+		return false;
 	}
 
 	/**
 	 * Get a cache file path from an id/group pair
 	 *
-	 * @param	string	The cache data id
-	 * @param	string	The cache data group
+	 * @param	string	$id		The cache data id
+	 * @param	string	$group	The cache data group
 	 * @return	string	The cache file path
 	 * @since	1.5
 	 */
-	protected function _getFilePath($id, $group)
-	{
-		$folder	= $group;
-		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language).'.php';
-		$dir	= $this->_root.DS.$folder;
+	private function _getFilePath($id, $group)
+	{	
+		$name	= $this->_getCacheId($id, $group);
+		$dir	= $this->_root.DS.$group;
 
 		// If the folder doesn't exist try to create it
 		if (!is_dir($dir)) {

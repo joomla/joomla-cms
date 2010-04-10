@@ -16,16 +16,6 @@ require_once dirname(__FILE__).DS.'helper.php';
 $rssurl	= $params->get('rssurl', '');
 $rssrtl	= $params->get('rssrtl', 0);
 
-//check if cache diretory is writable as cache files will be created for the feed
-$cacheDir = JPATH_BASE.DS.'cache';
-if (!is_writable($cacheDir))
-{
-	echo '<div>';
-	echo JText::_('MOD_FEED_ERR_CACHE');
-	echo '</div>';
-	return;
-}
-
 //check if feed URL has been set
 if (empty ($rssurl))
 {

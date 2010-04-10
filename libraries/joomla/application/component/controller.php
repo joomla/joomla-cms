@@ -331,10 +331,11 @@ class JController extends JObject
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @param	string	$cachable	If true, the view output will be cached
+	 * @param	boolean	$cachable	If true, the view output will be cached
+	 * @param	array	$urlparams	An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 * @since	1.5
 	 */
-	public function display($cachable = false)
+	public function display($cachable=false,$urlparams=false)
 	{
 		$document = &JFactory::getDocument();
 
@@ -353,11 +354,31 @@ class JController extends JObject
 		// Set the layout
 		$view->setLayout($viewLayout);
 
+		$view->assignRef('document', $document);
+
 		// Display the view
 		if ($cachable && $viewType != 'feed') {
-			global $option;
+			$option = JRequest::getCmd('option');
 			$cache = &JFactory::getCache($option, 'view');
+				
+			if (is_array($urlparams)) {
+				$app = & JFactory::getApplication();
+				
+				$registeredurlparams = $app->get('registeredurlparams');
+
+				if (empty($registeredurlparams)) {
+					$registeredurlparams = new stdClass();
+				}
+				
+				foreach ($urlparams AS $key => $value) {
+				// add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
+				$registeredurlparams->$key = $value;
+				$app->set('registeredurlparams', $registeredurlparams);
+				}
+			}
+				
 			$cache->get($view, 'display');
+				
 		} else {
 			$view->display();
 		}
@@ -682,13 +703,13 @@ class JController extends JObject
 	}
 
 	/**
-	* Sets an entire array of search paths for resources.
-	*
-	* @access	protected
-	* @param	string	The type of path to set, typically 'view' or 'model'.
-	* @param	string|array	The new set of search paths. If null or false,
-	* resets to the current directory only.
-	*/
+	 * Sets an entire array of search paths for resources.
+	 *
+	 * @access	protected
+	 * @param	string	The type of path to set, typically 'view' or 'model'.
+	 * @param	string|array	The new set of search paths. If null or false,
+	 * resets to the current directory only.
+	 */
 	function _setPath($type, $path)
 	{
 		// clear out the prior search dirs
@@ -699,13 +720,13 @@ class JController extends JObject
 	}
 
 	/**
-	* Adds to the search path for templates and resources.
-	*
-	* @access	protected
-	* @param	string The path type (e.g. 'model', 'view'.
-	* @param	string|array The directory or stream to search.
-	* @return	void
-	*/
+	 * Adds to the search path for templates and resources.
+	 *
+	 * @access	protected
+	 * @param	string The path type (e.g. 'model', 'view'.
+	 * @param	string|array The directory or stream to search.
+	 * @return	void
+	 */
 	function _addPath($type, $path)
 	{
 		// just force path to array

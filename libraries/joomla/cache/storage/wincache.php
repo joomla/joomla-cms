@@ -3,7 +3,6 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Cache
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +11,12 @@ defined('JPATH_BASE') or die;
 
 /**
  * WINCACHE cache storage handler
+ *
+ * @package		Joomla.Framework
+ * @subpackage	Cache
+ * @since		1.6
  */
+
 class JCacheStorageWincache extends JCacheStorage
 {
 	/**
@@ -23,83 +27,139 @@ class JCacheStorageWincache extends JCacheStorage
 	public function __construct( $options = array() )
 	{
 		parent::__construct($options);
-
-		$config		= & JFactory::getConfig();
-		$this->_hash	= $config->getValue('config.secret');
-	}
-
-	/**
-	 * Garbage collect expired cache data
-	 *
-	 * @return	boolean  True on success, false otherwise.
-	 */
-	public function gc()
-	{
-		return true;
 	}
 
 	/**
 	 * Get cached data from WINCACHE by id and group
 	 *
-	 * @param	string	The cache data id
-	 * @param	string	The cache data group
-	 * @param	boolean	True to verify cache time expiration threshold
-	 * @return	mixed	Boolean false on failure or a cached data string
-	 * @since	1.5
+	 * @param    string    $id        The cache data id
+	 * @param    string    $group        The cache data group
+	 * @param    boolean    $checkTime    True to verify cache time expiration threshold
+	 * @return    mixed    Boolean false on failure or a cached data string
+	 * @since    1.6
 	 */
 	public function get($id, $group, $checkTime)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		$this->_setExpire($cache_id);
-		return wincache_ucache_get($cache_id);
+		$cache_content = wincache_ucache_get($cache_id);
+		return $cache_content;
 	}
+
+	/**
+	 * Get all cached data
+	 *
+	 * @return	array data
+	 * @since	1.6
+	 */
+	public function getAll()
+	{	
+		parent::getAll();
+		$allinfo = wincache_ucache_info();
+		$keys = $allinfo['cache_entries'];
+		$secret = $this->_hash;
+		$data = array();
+
+		foreach ($keys as $key) {
+			$name=$key['key_name'];
+			$namearr=explode('-',$name);
+			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
+				$group = $namearr[2];
+				if (!isset($data[$group])) {
+					$item = new JCacheStorageHelper();
+				} else {
+					$item = $data[$group];
+				}
+				if (isset($key['value_size'])) {
+					$item->updateSize($key['value_size']/1024,$group);} 
+				else {
+					$item->updateSize(1,$group); } // dummy, WINCACHE version is too low
+				$data[$group] = $item;
+			}
+		}
+
+			
+		return $data;
+	}
+
+
+
 
 	/**
 	 * Store the data to WINCACHE by id and group
 	 *
-	 * @param	string	The cache data id
-	 * @param	string	The cache data group
-	 * @param	string	The data to store in cache
-	 * @return	boolean	True on success, false otherwise
-	 * @since	1.5
+	 * @param    string    $id    The cache data id
+	 * @param    string    $group    The cache data group
+	 * @param    string    $data    The data to store in cache
+	 * @return    boolean    True on success, false otherwise
+	 * @since    1.6
 	 */
 	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		wincache_ucache_set($cache_id.'_expire', time());
 		return wincache_ucache_set($cache_id, $data, $this->_lifetime);
 	}
 
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @param	string	The cache data id
-	 * @param	string	The cache data group
-	 * @return	boolean	True on success, false otherwise
-	 * @since	1.5
+	 * @param    string    $id        The cache data id
+	 * @param    string    $group    The cache data group
+	 * @return    boolean    True on success, false otherwise
+	 * @since    1.6
 	 */
 	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		wincache_ucache_delete($cache_id.'_expire');
 		return wincache_ucache_delete($cache_id);
 	}
 
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * group mode		: cleans all cache in the group
-	 * notgroup mode	: cleans all cache not in the group
+	 * group mode        : cleans all cache in the group
+	 * notgroup mode    : cleans all cache not in the group
 	 *
-	 * @param	string	The cache data group
-	 * @param	string	The mode for cleaning cache [group|notgroup]
-	 * @return	boolean	True on success, false otherwise
-	 * @since	1.5
+	 * @param    string    $group    The cache data group
+	 * @param    string    $mode    The mode for cleaning cache [group|notgroup]
+	 * @return    boolean    True on success, false otherwise
+	 * @since    1.6
 	 */
 	public function clean($group, $mode)
 	{
+		$allinfo = wincache_ucache_info();
+
+		$keys = $allinfo['cache_entries'];
+
+		$secret = $this->_hash;
+
+		foreach ($keys as $key) {
+
+			if (strpos($key['key_name'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group')
+			wincache_ucache_delete ($key['key_name']);
+		}
 		return true;
 	}
+
+	/**
+	 * Force garbage collect expired cache data as items are removed only on get/add/delete/info etc
+	 *
+	 * @return boolean  True on success, false otherwise.
+	 * * @since	1.6
+	 */
+	public function gc()
+	{
+		$lifetime    = $this->_lifetime;
+		$allinfo = wincache_ucache_info();
+		$keys = $allinfo['cache_entries'];
+		$secret = $this->_hash;
+
+		foreach ($keys as $key) {
+			if (strpos($key['key_name'], $secret.'-cache-')) {
+				wincache_ucache_get($cache_id);
+			}
+		}
+	}
+
 
 	/**
 	 * Test to see if the cache storage is available.
@@ -108,40 +168,10 @@ class JCacheStorageWincache extends JCacheStorage
 	 */
 	public static function test()
 	{
-		return (extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), "1"));
+		$test = extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), "1");
+		return $test;
 	}
 
-	/**
-	 * Set expire time on each call since memcache sets it on cache creation.
-	 *
-	 * @param string  Cache key to expire.
-	 * @param integer Lifetime of the data in seconds.
-	 */
-	protected function _setExpire($key)
-	{
-		$lifetime	= $this->_lifetime;
-		$expire		= wincache_ucache_get($key.'_expire');
 
-		// set prune period
-		if ($expire + $lifetime < time()) {
-			wincache_ucache_delete($key);
-			wincache_ucache_delete($key.'_expire');
-		} else {
-			wincache_ucache_set($key.'_expire',  time());
-		}
-	}
 
-	/**
-	 * Get a cache_id string from an id/group pair
-	 *
-	 * @param	string	The cache data id
-	 * @param	string	The cache data group
-	 * @return	string	The cache_id string
-	 * @since	1.5
-	 */
-	protected function _getCacheId($id, $group)
-	{
-		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
-		return 'cache_'.$group.'-'.$name;
-	}
 }

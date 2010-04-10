@@ -40,15 +40,16 @@ class JFormFieldCacheHandler extends JFormFieldList
 	protected function getOptions()
 	{
 		// Initialize variables.
+		$stores=JCache::getStores();
 		$options = array();
 
-		// Get the options from JCache.
-		foreach (JCache::getStores() as $i => $option) {
-			$options[] = JHtml::_('select.option', $option, JText::_('JLIB_VALUE_CACHE_'.$option), 'value', 'text');
+		// Convert to name => name array.
+		foreach ($stores as $store) {
+			$options[$store] = $store;
+			//$options[] = JHtml::_('select.option', $store, $store, 'value', 'text');
 		}
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
+		$options = array_merge(parent::getOptions(),$options);
 
 		return $options;
 	}

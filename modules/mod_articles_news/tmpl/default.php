@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: default.php 14276 2010-01-18 14:20:28Z louis $
+ * @version		$Id: default.php 15191 2010-03-05 06:59:51Z klascommit $
  * @package		Joomla.Site
  * @subpackage	mod_articles_news
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.

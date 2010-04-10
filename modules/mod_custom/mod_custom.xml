@@ -66,6 +66,14 @@
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+				<field
+					name="cachemode"
+					type="hidden"
+					label=""
+					default="static">
+					<option
+						value="static"></option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

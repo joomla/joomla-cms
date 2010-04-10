@@ -103,7 +103,11 @@ class ModulesModelModule extends JModelAdmin
 				throw new Exception($table->getError());
 			}
 		}
-
+		
+		// Clear the component's cache
+		$cache = JFactory::getCache('com_modules');
+		$cache->clean();
+		$cache->clean('mod_menu');
 		return true;
 	}
 
@@ -174,7 +178,11 @@ class ModulesModelModule extends JModelAdmin
 				return JError::raiseWarning(500, $row->getError());
 			}
 		}
-
+		
+		// Clear the component's cache
+		$cache = JFactory::getCache('com_modules');
+		$cache->clean();
+		$cache->clean('mod_menu');
 		return true;
 	}
 
@@ -531,6 +539,7 @@ class ModulesModelModule extends JModelAdmin
 		// Clean the cache.
 		$cache = JFactory::getCache('com_modules');
 		$cache->clean();
+		$cache->clean('mod_menu');
 
 		// Trigger the onAfterContentSave event.
 		$dispatcher->trigger('onAfterContentSave', array(&$table, $isNew));

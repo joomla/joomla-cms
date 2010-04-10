@@ -288,6 +288,11 @@ class MenusModelItem extends JModelAdmin
 			$this->setError($table->getError());
 			return false;
 		}
+		
+		// Clear the component's cache
+		$cache = JFactory::getCache('com_modules');
+		$cache->clean();
+		$cache->clean('mod_menu');
 
 		return true;
 	}
@@ -390,6 +395,11 @@ class MenusModelItem extends JModelAdmin
 				return false;
 			}
 		}
+		
+		// Clear the component's cache
+		$cache = JFactory::getCache('com_modules');
+		$cache->clean();
+		$cache->clean('mod_menu');
 
 		return true;
 	}
@@ -816,6 +826,11 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		$this->setState('item.id', $table->id);
+		
+		// Clear the component's cache
+		$cache = JFactory::getCache('com_modules');
+		$cache->clean();
+		$cache->clean('mod_menu');
 
 		return true;
 	}

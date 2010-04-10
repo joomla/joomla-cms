@@ -24,7 +24,7 @@ class CacheModelCache extends JModel
 	 *
 	 * @var Array
 	 */
-	protected $_data = null;
+	protected $_data = array();
 
 	/**
 	 * Group total
@@ -71,33 +71,7 @@ class CacheModelCache extends JModel
 		$this->setState('list.limit', $limit);
 	}
 
-	/**
-	 * Parse $path for cache file groups
-	 *
-	 * @return	array
-	 */
-	protected function _parse($path = null)
-	{
-		$path = ($path !== null ? $path : $this->getState('path'));
-
-		jimport('joomla.filesystem.folder');
-		$folders = JFolder::folders($path);
-		$data = array();
-
-		foreach ($folders as $folder) {
-			$files = array();
-			$files = JFolder::files($path.DS.$folder);
-			$item = new CacheItem($folder);
-
-			foreach ($files as $file) {
-				$item->updateSize(filesize($path.DS.$folder.DS.$file)/1024);
-			}
-			$data[$folder] = $item;
-		}
-
-		return $data;
-	}
-
+	
 	/**
 	 * Method to get cache data
 	 *
@@ -106,9 +80,13 @@ class CacheModelCache extends JModel
 	public function getData()
 	{
 		if (empty($this->_data)) {
-			$this->_data = $this->_parse();
+		    $conf =& JFactory::getConfig();
+            $storage = $conf->get('cache_handler', 'file');
+			$cache = &JFactory::getCache('', 'callback', $storage);
+			$data = $cache->getAll();
+			if ($data != false) {$this->_data = $data;} else {$this->_data = array();}
 		}
-
+		
 		return $this->_data;
 	}
 
@@ -158,8 +136,9 @@ class CacheModelCache extends JModel
 	 * @param String $group
 	 */
 	public function clean($group = '')
-	{
-		$cache = &JFactory::getCache('', 'callback', 'file');
+	{   $conf =& JFactory::getConfig();
+        $storage = $conf->get('cache_handler', 'file');
+		$cache = &JFactory::getCache('', 'callback', $storage);
 		$cache->clean($group);
 	}
 
@@ -177,27 +156,3 @@ class CacheModelCache extends JModel
 	}
 }
 
- /**
-  * This Class is used by CacheData to store group cache data.
-  *
-  * @package	Joomla.Administrator
-  * @subpackage	Cache
-  * @since		1.5
- */
-class CacheItem
-{
-	public $group = '';
-	public $size = 0;
-	public $count = 0;
-
-	public function __construct($group)
-	{
-		$this->group = $group;
-	}
-
-	public function updateSize($size)
-	{
-		$this->size = number_format($this->size + $size, 2);
-		$this->count++;
-	}
-}

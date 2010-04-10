@@ -44,7 +44,9 @@ class BannersModelBanner extends JModel
 		}
 
 		// track clicks
-		$item = &$this->getItem();
+				
+		$item =  $this->getItem();
+		
 		$trackClicks = $item->track_clicks;
 
 		if ($trackClicks < 0 && $item->cid) {
@@ -102,8 +104,15 @@ class BannersModelBanner extends JModel
 	function &getItem()
 	{
 		if (!isset($this->_item))
-		{
+		{	
+			$cache = JFactory::getCache('com_banners','');		
+			
+			
 			$id = $this->getState('banner.id');
+			
+			$this->_item =  $cache->get($id, 'com_banners');
+			
+			if ($this->_item === false) {
 			// redirect to banner url
 			$db		= $this->getDbo();
 			$query	= $db->getQuery(true);
@@ -124,6 +133,8 @@ class BannersModelBanner extends JModel
 			}
 
 			$this->_item = $db->loadObject();
+			$cache->store($this->_item,$id, '_system');
+			}
 		}
 		return $this->_item;
 	}

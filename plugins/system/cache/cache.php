@@ -37,12 +37,9 @@ class plgSystemCache extends JPlugin
 		//Set the language in the class
 		$config = &JFactory::getConfig();
 		$options = array(
-			'cachebase'	=> JPATH_BASE.DS.'cache',
 			'defaultgroup'	=> 'page',
-			'lifetime'		=> $this->params->get('cachetime', 15) * 60,
 			'browsercache'	=> $this->params->get('browsercache', false),
 			'caching'		=> false,
-			'language'		=> $config->get('language', 'en-GB')
 		);
 
 		jimport('joomla.cache.cache');
@@ -71,13 +68,6 @@ class plgSystemCache extends JPlugin
 
 		if ($data !== false)
 		{
-			// the following code searches for a token in the cached page and replaces it with the
-			// proper token.
-			$token	= JUtility::getToken();
-			$search = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
-			$replacement = '<input type="hidden" name="'.$token.'" value="1" />';
-			$data = preg_replace($search, $replacement, $data);
-
 			JResponse::setBody($data);
 
 			echo JResponse::toString($app->getCfg('gzip'));

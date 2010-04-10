@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: mod_articles_category.php 15946 2010-04-08 16:20:11Z klascommit $
  * @package		Joomla.Site
  * @subpackage	mod_articles_category
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -13,7 +13,48 @@ defined('_JEXEC') or die;
 // Include the helper functions only once
 require_once dirname(__FILE__).DS.'helper.php';
 
-$list = modArticlesCategoryHelper::getList($params);
+		// Prep for Normal or Dynamic Modes
+		$mode = $params->get('mode', 'normal');
+		$idbase = null;
+		switch($mode)
+		{
+			case 'dynamic':
+				$option = JRequest::getCmd('option');
+				$view = JRequest::getCmd('view');
+				if ($option === 'com_content') {
+					switch($view)
+					{
+						case 'category':
+							$idbase = JRequest::getInt('id');
+							break;
+						case 'article':
+							if ($params->get('show_on_article_page', 1)) {
+								$idbase = JRequest::getInt('catid');
+							} 
+							break;
+					}
+				} 
+				break;
+			case 'normal':
+			default:
+				$idbase = $params->get('catid');
+				break;
+		}
+
+
+
+$cacheid = md5(serialize(array ($idbase,$module->module)));
+
+$cacheparams = new stdClass;
+$cacheparams->cachemode = 'id';
+$cacheparams->class = 'modArticlesCategoryHelper';	
+$cacheparams->method = 'getList';
+$cacheparams->methodparams = $params;
+$cacheparams->modeparams = $cacheid;
+
+$list = JModuleHelper::ModuleCache ($module, $params, $cacheparams);
+
+
 if (!empty($list)) {
 	$grouped = false;
 	$article_grouping = $params->get('article_grouping', 'none');
