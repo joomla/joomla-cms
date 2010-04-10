@@ -373,7 +373,7 @@ class JFTP extends JObject
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			if (($ret = @ftp_pwd($this->_conn)) === false) {
-				JError::raiseWarning('35', JText::_('JLIB_CLIENT_ERROR_JFTP_PWD_BAD_RESPONSE_NATIVE');
+				JError::raiseWarning('35', JText::_('JLIB_CLIENT_ERROR_JFTP_PWD_BAD_RESPONSE_NATIVE'));
 				return false;
 			}
 			return $ret;
