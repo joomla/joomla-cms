@@ -71,6 +71,10 @@ class JFormFieldCategory extends JFormFieldList
 					}
 				}
 			}
+			if(isset($this->element['show_root']))
+			{
+				array_unshift($options, JHtml::_('select.option', '0', JText::_('JGLOBAL_ROOT')));
+			}
 		}
 		else {
 			JError::raiseWarning(500, JText::_('JFramework_Form_Fields_Category_Error_extension_empty'));

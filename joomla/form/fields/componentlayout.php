@@ -79,14 +79,14 @@ class JFormFieldComponentLayout extends JFormFieldList
 		if ($template && $extn && $view) {
 
 			// Build the search paths for layouts.
-			$path1 = JPath::clean(JPATH_BASE.'/components/'.$extn.'/views/'.$view.'/tmpl');
-			$path2 = JPath::clean(JPATH_BASE.'/templates/'.$template.'/html/'.$extn.'/'.$view);
+			$path1 = JPath::clean(JPATH_SITE.'/components/'.$extn.'/views/'.$view.'/tmpl');
+			$path2 = JPath::clean(JPATH_SITE.'/templates/'.$template.'/html/'.$extn.'/'.$view);
 
 			// Add the default option.
 			$options[]	= JHTML::_('select.option', '', JText::_('JOption_Use_Menu_Request_Setting'));
 
 			// Add the layout options from the first path.
-			if (is_dir($path1) && ($files = JFolder::files($path1, '^[^_]*\.php$'))) {
+			if (is_dir($path1) && ($files = JFolder::files($path1, '^[^_]*\.xml$'))) {
 				foreach ($files as $file) {
 					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
 				}
