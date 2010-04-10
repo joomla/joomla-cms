@@ -164,7 +164,7 @@ class JTableContent extends JTable
 		}
 
 		if (empty($this->introtext) && empty($this->fulltext)) {
-			$this->setError(JText::_('Article must have some text'));
+			$this->setError(JText::_('JGLOBAL_ARTICLE_MUST_HAVE_TEXT'));
 			return false;
 		}
 
@@ -252,7 +252,7 @@ class JTableContent extends JTable
 			}
 			// Nothing to set publishing state on, return false.
 			else {
-				$this->setError(JText::_('JERROR_NO_ROWS_SELECTED'));
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				return false;
 			}
 		}

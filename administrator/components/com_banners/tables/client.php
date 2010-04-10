@@ -67,7 +67,7 @@ class BannersTableClient extends JTable
 			}
 			// Nothing to set publishing state on, return false.
 			else {
-				$this->setError(JText::_('JERROR_NO_ROWS_SELECTED'));
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				return false;
 			}
 		}

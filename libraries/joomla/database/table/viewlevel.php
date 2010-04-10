@@ -60,7 +60,7 @@ class JTableViewlevel extends JTable
 	{
 		// Validate the title.
 		if ((trim($this->title)) == '') {
-			$this->setError(JText::_('Viewlevel must have a title'));
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
 			return false;
 		}
 
