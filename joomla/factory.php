@@ -174,19 +174,14 @@ abstract class JFactory
 		$handler = ($handler == 'function') ? 'callback' : $handler;
 
 		$conf = &JFactory::getConfig();
-
-		if (!isset($storage)) {
-			$storage = $conf->get('cache_handler', 'file');
+		
+		
+		$options = array('defaultgroup'	=> $group );
+		
+		if (isset($storage)) {
+			$options[] = array('storage' => $storage);
 		}
-
-		$options = array(
-			'defaultgroup'	=> $group,
-			'cachebase'		=> $conf->get('cache_path'),
-			'lifetime'		=> $conf->get('cachetime') * 60,	// minutes to seconds
-			'language'		=> $conf->get('language'),
-			'storage'		=> $storage
-		);
-
+		
 		jimport('joomla.cache.cache');
 
 		$cache = &JCache::getInstance($handler, $options);
@@ -265,12 +260,22 @@ abstract class JFactory
 	public static function getFeedParser($url, $cache_time = 0)
 	{
 		jimport('simplepie.simplepie');
-		if (!is_writable(JPATH_CACHE)) {
-			$cache_time = 0;
-		}
-		$simplepie = new SimplePie($url, JPATH_CACHE, $cache_time);
+		
+		$cache = self::getCache('feed_parser','callback');
+
+		if ($cache_time > 0) $cache->setLifeTime($cache_time);
+					
+					
+		$simplepie = new SimplePie(null, null, 0);
+		
+		$simplepie->enable_cache(false);
+		$simplepie->set_feed_url($url);
 		$simplepie->force_feed(true);
-		if ($simplepie->init()) {
+		
+		$contents =  $cache->get(array($simplepie, 'init'), null, false, false);
+		
+
+		if ($contents) {
 			return $simplepie;
 		} else {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JERROR_LOADING_FEED_DATA'));

@@ -498,7 +498,7 @@ class JRequest
 	 * @param	boolean	True if the array is to be added to the GLOBALS.
 	 * @since	1.5
 	 */
-	protected static function _cleanArray(&$array, $globalise=false)
+	static function _cleanArray(&$array, $globalise=false)
 	{
 		static $banned = array('_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals');
 
@@ -530,7 +530,7 @@ class JRequest
 	 * other than the 1 bit is set, a strict filter is applied.
 	 * @param string The variable type {@see JFilterInput::clean()}.
 	 */
-	protected static function _cleanVar($var, $mask = 0, $type=null)
+	static function _cleanVar($var, $mask = 0, $type=null)
 	{
 		// Static input filters for specific settings
 		static $noHtmlFilter	= null;
