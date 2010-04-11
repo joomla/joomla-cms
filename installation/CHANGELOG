@@ -40,6 +40,7 @@ $ Correcting —again— non standards keys
 # Fixing bug in controlleradmin.php
 $ Corrected —again- keys changed by #15980
 $ Corrected com_banners clients keys
+$ Corrected more ini strings
 
 10-Apr-2010 Hannes Papenberg
 ^ Created JCategories to handle all presentation-logic for categories
