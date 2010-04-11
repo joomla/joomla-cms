@@ -15,11 +15,10 @@ require_once 'SeleniumJoomlaTestCase.php';
 class ControlPanel0004 extends SeleniumJoomlaTestCase
 {
 
-
 	function testCreateRemoveCategory()
 	{
 		$this->setUp();
-		$this->gotoAdmin();		
+		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->click("link=Control Panel");
 		$this->waitForPageToLoad("30000");
@@ -33,6 +32,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		print("Create new Category and save." . "\n");
 		$this->type("jform_title", "Functional Test Category");
 		$this->select("jform_parent_id", "label=ROOT");
+		$this->select("jform_published", "label=Published");
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
 		print("Check that Category is there." . "\n");
@@ -78,6 +78,17 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		print("Check that new category is not shown." . "\n");
 		$this->assertFalse($this->isTextPresent("Functional Test Category"));
+		print("Check that reordering still works." . "\n");
+		print("Move Modules category up one." . "\n");
+		$this->click("//button[@type='button']");
+		$this->waitForPageToLoad("30000");
+		$this->click("//div[@id='element-box']/div[2]/form/table/tbody/tr[5]/td[4]/span[1]/a/img");
+		$this->waitForPageToLoad("30000");
+		$this->assertTrue($this->isTextPresent("JSuccess_Item_reordered"));
+		print("Move Modules category down one." . "\n");
+		$this->click("//div[@id='element-box']/div[2]/form/table/tbody/tr[4]/td[4]/span[2]/a/img");
+		$this->waitForPageToLoad("30000");
+		$this->assertTrue($this->isTextPresent("JSuccess_Item_reordered"));
 		$this->doAdminLogout();
 		print("Finished control_panel0004Test.php." . "\n");
 
