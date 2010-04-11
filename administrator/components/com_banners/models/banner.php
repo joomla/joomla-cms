@@ -199,6 +199,47 @@ class BannersModelBanner extends JModelAdmin
 		return true;
 	}
 	
+	/**
+	 * Method to stick records.
+	 *
+	 * @param	array	The ids of the items to publish.
+	 * @param	int		The value of the published state
+	 *
+	 * @return	boolean	True on success.
+	 */
+	function stick(&$pks, $value = 1)
+	{
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$table	= $this->getTable();
+		$pks	= (array) $pks;
+
+		// Access checks.
+		foreach ($pks as $i => $pk) {
+			if ($table->load($pk)) {
+				if ($table->catid) {
+					$allow = $user->authorise('core.edit.state', 'com_banners.category.'.(int) $table->catid);
+				} else {
+					$allow = $user->authorise('core.edit.state', 'com_banners');
+				}
+
+				if (!$allow) {
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
+				}
+			}
+		}
+
+		// Attempt to change the state of the records.
+		if (!$table->stick($pks, $value, $user->get('id'))) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		return true;
+	}
+	
 	function _orderConditions($table = null)
 	{
 		$condition = array();

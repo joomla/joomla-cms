@@ -29,6 +29,9 @@ $ -> Language fix or change
 
 11-Apr-2010 Hannes Papenberg
 # Fixing admin template parameters - Thanks Jonnathan S. Lima
+# Moved stick() function from BannersModelBanners to BannersModelBanner
+# Removed obsolete functions from BannersModelBanners
+# Improved routing code of ContentHelperRoute
 
 11-Apr-2010 Jean-Marie Simonet
 # Fixed a typo in en-GB.ini in backend.

@@ -38,14 +38,12 @@ abstract class ContentHelperRoute
 		{
 			$categories = JCategories::getInstance('Content');
 			$category = $categories->get((int)$catid);
-			if(!$category)
+			if($category)
 			{
-				die('The category is not published or does not exist');
-				//TODO Throw error that the category either not exists or is unpublished	
+				$needles['category'] = array_reverse($category->getPath());
+				$needles['categories'] = $needles['category'];
+				$link .= '&catid='.$catid;
 			}
-			$needles['category'] = array_reverse($category->getPath());
-			$needles['categories'] = $needles['category'];
-			$link .= '&catid='.$catid;
 		}
 
 		if ($item = ContentHelperRoute::_findItem($needles)) {
@@ -61,26 +59,28 @@ abstract class ContentHelperRoute
 		{
 			return;
 		}
+		
 		if($catid instanceof JCategoryNode)
 		{
 			$catids = array_reverse($catid->getPath());
 			$id = $catid->id;
+			//Create the link
+			$link = 'index.php?option=com_content&view=category&id='.$id;
 		} else {
+			$id = (int)$catid;
+			//Create the link
+			$link = 'index.php?option=com_content&view=category&id='.$id;
 			$categories = JCategories::getInstance('Content');
 			$category = $categories->get((int)$catid);
 			if(!$category)
 			{
-				die('The category is not published or does not exist');
-				//TODO Throw error that the category either not exists or is unpublished	
+				return $link;	
 			}
 			$catids = array_reverse($category->getPath());
-			$id = (int)$catid;
 		}
 		$needles = array(
 			'category' => $catids
 		);
-		//Create the link
-		$link = 'index.php?option=com_content&view=category&id='.$id;
 
 		if ($item = ContentHelperRoute::_findItem($needles)) {
 			$link .= '&Itemid='.$item;
