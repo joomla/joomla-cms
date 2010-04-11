@@ -79,7 +79,7 @@ class JControllerAdmin extends JController
 
 			// Remove the items.
 			if ($model->delete($cid)) {
-				$this->setMessage(JText::sprintf((count($cid) == 1) ? $this->_msgprefix.'_ITEM_DELETED' : $this->_msgprefix.'_N_ITEMS_DELETED', count($pks)));
+				$this->setMessage(JText::sprintf((count($cid) == 1) ? $this->_msgprefix.'_ITEM_DELETED' : $this->_msgprefix.'_N_ITEMS_DELETED', count($cid)));
 			}
 			else {
 				$this->setMessage($model->getError());
@@ -135,7 +135,7 @@ class JControllerAdmin extends JController
 					$text = $this->_msgprefix.'_ITEM_TRASHED';
 					$ntext = $this->_msgprefix.'_N_ITEMS_TRASHED';
 				}
-				$this->setMessage(JText::sprintf((count($cid) == 1) ? $text : $ntext, count($ids)));
+				$this->setMessage(JText::sprintf((count($cid) == 1) ? $text : $ntext, count($cid)));
 			}
 		}
 
