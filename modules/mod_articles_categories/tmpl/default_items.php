@@ -19,7 +19,7 @@ foreach ($list as $item) : ?>
 		{
 			echo JHTML::_('content.prepare',$item->description, $item->getParams());
 		}
-		if($params->get('show_children', 0) && (($params->get('maxlevel', 0) == 0) || ($params->get('maxlevel') >= ($item->level - $startlevel))) && count($item->getChildren()))
+		if($params->get('show_children', 0) && (($params->get('maxlevel', 0) == 0) || ($params->get('maxlevel') >= ($item->level - $startLevel))) && count($item->getChildren()))
 		{
 			echo '<ul>';
 			$temp = $list;

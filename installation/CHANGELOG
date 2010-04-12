@@ -31,6 +31,7 @@ $ -> Language fix or change
 $ Standardized some obsolete KEYS
 $ Consolidated/Standardized/created some keys/inis
 +$ Adding missing .sys.ini file
+# Fixing Articles Categories module. +$ Adding its language files + Adding it in sql
 
 11-Apr-2010 Hannes Papenberg
 # Fixing admin template parameters - Thanks Jonnathan S. Lima
