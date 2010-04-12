@@ -12,9 +12,9 @@
 			addfieldpath="/administrator/components/com_content/models/fields">
 
 			<field name="id" type="modal_article"
-				label="Select_Article_label"
+				label="COM_CONTENT_FIELD_SELECT_ARTICLE_LABEL"
 				required="true"
-				description="Select_article_desc"
+				description="COM_CONTENT_FIELD_SELECT_ARTICLE_DESC"
 			/>
 		</fieldset>
 	</fields>
@@ -25,49 +25,49 @@
 		<!-- Integration options. -->
 		<fieldset
 			name="integration" 
-			label="Menus_Layout_Integration_Options_Label">
+			label="MENUS_LAYOUT_INTEGRATION_OPTIONS_LABEL">
 
 			<field 
 				name="article-allow_ratings" 
 				type="list"
-				description="JGLOBAL_Allow_Ratings_Desc"
-				label="JGLOBAL_Allow_Ratings_Label">
+				description="JGLOBAL_ALLOW_RATINGS_DESC"
+				label="JGLOBAL_ALLOW_RATINGS_LABEL">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">JNo</option>
-					<option value="1">JYes</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 			</field>
 
 			<field 
 				name="article-allow_comments" type="list"
-				description="JGLOBAL_Allow_Comments_Desc"
-				label="JGLOBAL_Allow_Comments_Label">
+				description="JGLOBAL_ALLOW_COMMENTS_DESC"
+				label="JGLOBAL_ALLOW_COMMENTS_LABEL">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">JNo</option>
-					<option value="1">JYes</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 			</field>
 		</fieldset>
 
 		<!-- Basic options. -->
 		<fieldset name="basic"
-			label="Content_Attribs_Article_Settings_Label">
+			label="CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL">
 	
 		<field
 			name="show_noauth"
 			type="list"
 			default=""
-			label="JGLOBAL_Show_Unauth_Links_Label"
-			description="JGLOBAL_Show_Unauth_Links_Desc">
+			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
+			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JNo</option>
-				<option value="1">JYes</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 		</field>
 
 		<field
 			name="show_title"
 			type="list"
 			default=""
-			label="JGLOBAL_Show_Title_Label"
-			description="JGLOBAL_Show_Title_Desc">
+			label="JGLOBAL_SHOW_TITLE_LABEL"
+			description="JGLOBAL_SHOW_TITLE_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -77,174 +77,174 @@
 			name="link_titles"
 			type="list"
 			default=""
-			label="JGLOBAL_Linked_Titles_Label"
-			description="JGLOBAL_Linked_Titles_Desc">
+			label="JGLOBAL_LINKED_TITLES_LABEL"
+			description="JGLOBAL_LINKED_TITLES_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JNo</option>
-			<option value="1">JYes</option>
+			<option	value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field name="show_intro" type="list"
-			description="JGLOBAL_Show_Intro_Desc"
-			label="JGLOBAL_Show_Intro_Label"
+			description="JGLOBAL_SHOW_INTRO_DESC"
+			label="JGLOBAL_SHOW_INTRO_LABEL"
 			>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_category"
 			type="list"
-			label="JGLOBAL_Show_Category_Label"
-			description="JGLOBAL_Show_Category_Desc"
+			label="JGLOBAL_SHOW_CATEGORY_LABEL"
+			description="JGLOBAL_SHOW_CATEGORY_DESC"
 			default="">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">Hide</option>
-			<option	value="1">Show</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="link_category"
 			type="list"
-			label="JGLOBAL_Link_Category_Label"
-			description="JGLOBAL_Link_Category_Desc"
+			label="JGLOBAL_LINK_CATEGORY_LABEL"
+			description="JGLOBAL_LINK_CATEGORY_DESC"
 			default="">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JNo</option>
-			<option	value="1">JYes</option>
+			<option	value="0">JNO</option>
+			<option	value="1">JYES</option>
 		</field>
 
 		<field
 			name="show_parent_category"
 			type="list"
-			label="JGLOBAL_Show_Parent_Category_Label"
-			description="JGLOBAL_Show_Parent_Category_Desc"
+			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
+			description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
 			default="">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">Hide</option>
-			<option	value="1">Show</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="link_parent_category"
 			type="list"
-			label="JGLOBAL_Link_Parent_Category_Label"
-			description="JGLOBAL_Link_Parent_Category_Desc"
+			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
+			description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
 			default="">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JNo</option>
-			<option	value="1">JYes</option>
+			<option	value="0">JNO</option>
+			<option	value="1">JYES</option>
 		</field>
 
 		<field
 			name="show_author"
 			type="list"
-			label="JGLOBAL_Show_Author_Label"
-			description="JGLOBAL_Show_Author_Desc"
+			label="JGLOBAL_SHOW_AUTHOR_LABEL"
+			description="JGLOBAL_SHOW_AUTHOR_DESC"
 			default="">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">Hide</option>
-			<option	value="1">Show</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="link_author"
 			type="list"
-			label="JGLOBAL_Link_Author_Label"
-			description="JGLOBAL_Link_Author_Desc"
+			label="JGLOBAL_LINK_AUTHOR_LABEL"
+			description="JGLOBAL_LINK_AUTHOR_DESC"
 			default="">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JNo</option>
-			<option	value="1">JYes</option>
+			<option	value="0">JNO</option>
+			<option	value="1">JYES</option>
 		</field>
 
 		<field
 			name="show_create_date"
 			type="list"
-			label="JGLOBAL_Show_Create_Date_Label"
-			description="JGLOBAL_Show_Create_Date_Desc"
+			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
+			description="JGLOBAL_SHOW_CREATE_DATE_DESC"
 			default="">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">Hide</option>
-			<option	value="1">Show</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_modify_date"
 			type="list"
-			label="JGLOBAL_Show_Modify_Date_Label"
-			description="JGLOBAL_Show_Modify_Date_Desc"
+			label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
+			description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
 			default="">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">Hide</option>
-			<option	value="1">Show</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_publish_date"
 			type="list"
-			label="JGLOBAL_Show_Publish_Date_Label"
-			description="JGLOBAL_Show_Publish_Date_Desc"
+			label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
+			description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
 			default="">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">Hide</option>
-			<option	value="1">Show</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_item_navigation"
 			type="list"
-			label="JGLOBAL_Show_Navigation_Label"
-			description="JGLOBAL_Show_Navigation_Desc"
+			label="JGLOBAL_SHOW_NAVIGATION_LABEL"
+			description="JGLOBAL_SHOW_NAVIGATION_DESC"
 			default="">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">Hide</option>
-			<option	value="1">Show</option>
+			<option value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_icons"
 			type="list"
-			label="JGLOBAL_Show_Icons_Label"
-			description="JGLOBAL_Show_Icons_Desc"
+			label="JGLOBAL_SHOW_ICONS_LABEL"
+			description="JGLOBAL_SHOW_ICONS_DESC"
 			default="">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">Hide</option>
-			<option	value="1">Show</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_print_icon"
 			type="list"
-			label="JGLOBAL_Show_Print_Icon_Label"
-			description="JGLOBAL_Show_Print_Icon_Desc"
+			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
+			description="JGLOBAL_SHOW_PRINT_ICON_DESC"
 			default="">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">Hide</option>
-			<option	value="1">Show</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_email_icon"
 			type="list"
-			label="JGLOBAL_Show_Email_Icon_Label"
-			description="JGLOBAL_Show_Email_Icon_Desc"
+			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
+			description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
 			default="">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">Hide</option>
-			<option	value="1">Show</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
 		</field>
 
 		<field
 			name="show_hits"
 			type="list"
-			label="JGLOBAL_Show_Hits_Label"
-			description="JGLOBAL_Show_Hits_Desc"
+			label="JGLOBAL_SHOW_HITS_LABEL"
+			description="JGLOBAL_SHOW_HITS_DESC"
 			default="">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">Hide</option>
-			<option	value="1">Show</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
 		</field>
 
 		</fieldset>
@@ -257,15 +257,15 @@
 		<fieldset name="metadata">
 
 			<field name="robots" type="list"
-				description="JField_Metadata_Robots_Desc"
-				label="JField_Metadata_Robots_Label"
+				description="JFIELD_METADATA_ROBOTS_DESC"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">index, follow</option>
-				<option value="1">noindex, follow</option>
-				<option value="2">index, nofollow</option>
-				<option value="3">noindex, nofollow</option>
-				<option value="4">Don't display robots tag</option>
+				<option value="0">JGLOBAL_INDEX_FOLLOW</option>
+				<option value="1">JGLOBAL_NOINDEX_FOLLOW</option>
+				<option value="2">JGLOBAL_INDEX_NOFOLLOW</option>
+				<option value="3">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="4">JGLOBAL_NO_ROBOTS_TAG</option>
 			</field>
 
 			<field name="rights" type="textarea"
