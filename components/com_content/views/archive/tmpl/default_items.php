@@ -36,7 +36,7 @@ $params =& $this->params;
 <?php if ($params->get('show_category')) : ?>
         <dd class="category-name">
             <?php $title = $this->escape($item->category_title);
-            		$title = ($title) ? $title : JText::_('Uncategorised');
+            		$title = ($title) ? $title : JText::_('JGLOBAL_UNCATEGORISED');
                     $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)) . '">' . $title . '</a>'; ?>
             <?php if ($params->get('link_category') && $item->catslug) : ?>
                 <?php echo JText::sprintf('CONTENT_CATEGORY', $url); ?>

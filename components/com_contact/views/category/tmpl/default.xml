@@ -32,11 +32,11 @@
 			>
 				<option value="-1">JALL</option>
 				<option value="0">JNONE</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>
 			</field>
 
 			<field name="show_empty_categories" type="radio"
@@ -106,7 +106,7 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="hide">JHIDE</option>
 				<option value="title">Title</option>
-				<option value="author">Author</option>
+				<option value="author">JAUTHOR</option>
 				<option value="hits">Hits</option>
 			</field>
 
@@ -114,17 +114,17 @@
 				description="JGLOBAL_Pagination_Desc"
 				label="JGLOBAL_Pagination_Label"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="0">JCommon_Hide</option>
-				<option value="1">JCommon_Show</option>
-				<option value="2">JCommon_Auto</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				<option value="2">JGLOBAL_AUTO</option>
 			</field>
 
 			<field name="show_noauth" type="list"
 				description="JGLOBAL_Show_Unauth_Links_Desc"
 				label="JGLOBAL_Show_Unauth_Links_Label"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>
@@ -390,36 +390,36 @@
 				description="JGLOBAL_Allow_Ratings_Desc"
 				label="JGLOBAL_Allow_Ratings_Label"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="0">JNo</option>
-				<option value="1">JYes</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field name="article-allow_comments" type="list"
 				description="JGLOBAL_Allow_Comments_Desc"
 				label="JGLOBAL_Allow_Comments_Label"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="0">JNo</option>
-				<option value="1">JYes</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field name="show_feed_link" type="list"
 				description="JGLOBAL_Show_Feed_Link_Desc"
 				label="JGLOBAL_Show_Feed_Link_Label"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="0">JCommon_Hide</option>
-				<option value="1">JCommon_Show</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="feed_summary" type="list"
 				description="JGLOBAL_Feed_Summary_Desc"
 				label="JGLOBAL_Feed_Summary_Label"
 			>
-				<option value="">JCOMMON_USE_GLOBAL</option>
-				<option value="0">JCOMMON_INTRO_TEXT</option>
-				<option value="1">JCOMMON_FULL_TEXT</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JGLOBAL_INTRO_TEXT</option>
+				<option value="1">JGLOBAL_FULL_TEXT</option>
 			</field>
 		</fieldset>
 </fields>
