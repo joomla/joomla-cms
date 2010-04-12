@@ -42,7 +42,7 @@ $n = count($this->items);
 			</th>
 			<?php if ($this->params->get('show_link_hits')) : ?>
 			<th class="hits">
-					<?php echo JHtml::_('grid.sort',  'Hits', 'hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGLOBAL_HITS', 'hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 			<?php endif; ?>
 		</tr>

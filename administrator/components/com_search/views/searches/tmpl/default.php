@@ -52,7 +52,7 @@ JHtml::_('behavior.tooltip');
 					<?php echo JHtml::_('grid.sort', 'COM_SEARCH_HEADING_PHRASE', 'a.search_term', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="15%">
-					<?php echo JHtml::_('grid.sort', 'COM_SEARCH_HEADING_HITS', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="15%">
 					<?php echo JText::_('COM_SEARCH_HEADING_RESULTS'); ?>

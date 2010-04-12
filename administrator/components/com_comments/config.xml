@@ -987,15 +987,15 @@
 			label="COMMENTS_PAGINATION_ENABLED"
 			description="COMMENTS_PAGINATION_ENABLED_DESC">
 			<option
-				value="0">All</option>
+				value="0">JALL</option>
 			<option
-				value="5">5</option>
+				value="5">J5</option>
 			<option
-				value="10">10</option>
+				value="10">J10</option>
 			<option
-				value="20">20</option>
+				value="20">J20</option>
 			<option
-				value="50">50</option>
+				value="50">J50</option>
 		</field>
 
 		<field

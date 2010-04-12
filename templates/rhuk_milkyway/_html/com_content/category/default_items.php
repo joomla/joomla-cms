@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_hits')) : ?>
 	<td align="center" class="sectiontableheader<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>" width="5%" nowrap="nowrap">
-		<?php echo JHTML::_('grid.sort',  'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+		<?php echo JHTML::_('grid.sort',  'JGLOBAL_HITS', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
 </tr>

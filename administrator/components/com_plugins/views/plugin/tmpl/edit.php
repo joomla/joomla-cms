@@ -29,7 +29,7 @@ JHtml::_('behavior.formvalidation');
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<?php if ($this->item->extension_id) : ?>
-			<legend><?php echo JText::sprintf('JRECORD_NUMBER', $this->item->extension_id); ?></legend>
+			<legend><?php echo JText::sprintf('JGLOBAL_RECORD_NUMBER', $this->item->extension_id); ?></legend>
 			<?php endif; ?>
 
 			<?php echo $this->form->getLabel('name'); ?>

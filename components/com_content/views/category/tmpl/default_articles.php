@@ -62,7 +62,7 @@ $n = count($this->items);
 		<?php endif; ?>
 		<?php if ($this->params->get('list_hits')) : ?>
 			<th class="list-hits" id="tableOrdering4">
-				<?php echo JHTML::_('grid.sort', 'Content_Hits', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<?php echo JHTML::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 		<?php endif; ?>
 	</tr></thead>

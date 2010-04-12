@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 				<strong><?php echo JText::_('MOD_POPULAR_CREATED'); ?></strong>
 			</th>
 			<th>
-				<strong><?php echo JText::_('MOD_POPULAR_HITS');?>
+				<strong><?php echo JText::_('JGLOBAL_HITS');?>
 				</strong>
 			</th>
 		</tr>

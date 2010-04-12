@@ -40,7 +40,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<?php if ($this->item->id) : ?>
-			<legend><?php echo JText::sprintf('JRECORD_NUMBER', $this->item->id); ?></legend>
+			<legend><?php echo JText::sprintf('JGLOBAL_RECORD_NUMBER', $this->item->id); ?></legend>
 			<?php endif; ?>
 
 			<?php echo $this->form->getLabel('title'); ?>

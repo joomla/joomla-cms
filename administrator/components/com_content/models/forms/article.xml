@@ -92,7 +92,7 @@
 		<field name="access" type="accesslevel" label="JField_Access_Label"
 			description="JField_Access_Desc" class="inputbox" size="1" />
 
-		<field name="hits" type="text" label="Content_Hits_Label"
+		<field name="hits" type="text" label="JGLOBAL_HITS"
 			description="Content_Hits_Desc" class="readonly" size="6"
 			readonly="true" filter="unset" />
 
