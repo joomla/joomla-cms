@@ -234,10 +234,6 @@ class JTableNested extends JTable
 	 */
 	public function move($delta, $where)
 	{
-		if ($this->_debug) {
-			echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
-		}
-		
 		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
@@ -246,6 +242,7 @@ class JTableNested extends JTable
 		$query->select($k);
 		$query->from($this->_tbl);
 		$query->where('parent_id = '.$this->parent_id);
+		$position = 'after';
 		if($delta > 0)
 		{
 			$query->where('rgt > '.$this->rgt);
@@ -256,272 +253,14 @@ class JTableNested extends JTable
 			$query->order('lft DESC');
 			$position = 'before';
 		}
+				
 		$this->_db->setQuery($query);
 		$referenceId = $this->_db->loadResult();
 		
-		// Get the node by id.
-		if (!$node = $this->_getNode($pk)) {
-			// Error message set in getNode method.
-			return false;
-		}
-
-		// Get the ids of child nodes.
-		$query = $this->_db->getQuery(true);
-		$query->select($k);
-		$query->from($this->_tbl);
-		$query->where('lft BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt);
-		$this->_db->setQuery($query);
-		$children = $this->_db->loadResultArray();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-			return false;
-		}
-		if ($this->_debug) {
-			$this->_logtable(false);
-		}
-
-		// Cannot move the node to be a child of itself.
-		if (in_array($referenceId, $children))
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_INVALID_NODE_RECURSION', get_class($this)));
-			$this->setError($e);
-			return false;
-		}
-
-		// Lock the table for writing.
-		if (!$this->_lock()) return false;
-
-		// We are moving the tree relative to a reference node.
-		if ($referenceId)
-		{
-			// Get the reference node by primary key.
-			if (!$reference = $this->_getNode($referenceId))
-			{
-				// Error message set in getNode method.
-				$this->_unlock();
-				return false;
-			}
-
-			// If moving "down" the tree, adjust $reference lft, rgt for $node width
-			if ($node->rgt < $reference->rgt)
-			{
-				$reference->lft -= $node->width;
-				$reference->rgt -= $node->width;
-			}
-
-			// Get the reposition data for shifting the tree and re-inserting the node.
-			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, $position))
-			{
-				// Error message set in getNode method.
-				$this->_unlock();
-				return false;
-			}
-		}
-
-		// We are moving the tree to be a new root node.
-		else
-		{
-			// Get the last root node as the reference node.
-			$query = $this->_db->getQuery(true);
-			$query->select($this->_tbl_key.', parent_id, level, lft, rgt');
-			$query->from($this->_tbl);
-			$query->where('parent_id = 0');
-			$query->order('lft DESC');
-			$this->_db->setQuery($query, 0, 1);
-			$reference = $this->_db->loadObject();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum())
-			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				$this->setError($e);
-				$this->_unlock();
-				return false;
-			}
-			if ($this->_debug) {
-				$this->_logtable(false);
-			}
-
-			// Get the reposition data for re-inserting the node after the found root.
-			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, 'after'))
-			{
-				// Error message set in getNode method.
-				$this->_unlock();
-				return false;
-			}
-		}
-
-		/*
-		 * Move the sub-tree out of the nested sets by negating its left and right values.
-		 */
-		$query = $this->_db->getQuery(true);
-		$query->update($this->_tbl);
-		$query->set('lft = lft * (-1), rgt = rgt * (-1)');
-		$query->where('lft BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt);
-		$this->_db->setQuery($query);
-
-		// Check for a database error.
-		if (!$this->_db->query())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-			$this->_unlock();
-			return false;
-		}
-		if ($this->_debug) {
-			$this->_logtable();
-		}
-
-		/*
-		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
-		 */
-		// Compress the left values.
-		$query = $this->_db->getQuery(true);
-		$query->update($this->_tbl);
-		$query->set('lft = lft - '.(int) $node->width);
-		$query->where('lft > '.(int) $node->rgt);
-		$this->_db->setQuery($query);
-
-		// Check for a database error.
-		if (!$this->_db->query())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-			$this->_unlock();
-			return false;
-		}
-		if ($this->_debug) {
-			$this->_logtable();
-		}
-
-		// Compress the right values.
-		$query = $this->_db->getQuery(true);
-		$query->update($this->_tbl);
-		$query->set('rgt = rgt - '.(int) $node->width);
-		$query->where('rgt > '.(int) $node->rgt);
-		$this->_db->setQuery($query);
-
-		// Check for a database error.
-		if (!$this->_db->query())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-			$this->_unlock();
-			return false;
-		}
-		if ($this->_debug) {
-			$this->_logtable();
-		}
-
-		/*
-		 * Create space in the nested sets at the new location for the moved sub-tree.
-		 */
-		// Shift left values.
-		$query = $this->_db->getQuery(true);
-		$query->update($this->_tbl);
-		$query->set('lft = lft + '.(int) $node->width);
-		$query->where($repositionData->left_where);
-		$this->_db->setQuery($query);
-
-		// Check for a database error.
-		if (!$this->_db->query())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-			$this->_unlock();
-			return false;
-		}
-		if ($this->_debug) {
-			$this->_logtable();
-		}
-
-		// Shift right values.
-		$query = $this->_db->getQuery(true);
-		$query->update($this->_tbl);
-		$query->set('rgt = rgt + '.(int) $node->width);
-		$query->where($repositionData->right_where);
-		$this->_db->setQuery($query);
-
-		// Check for a database error.
-		if (!$this->_db->query())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-			$this->_unlock();
-			return false;
-		}
-		if ($this->_debug) {
-			$this->_logtable();
-		}
-
-		/*
-		 * Calculate the offset between where the node used to be in the tree and
-		 * where it needs to be in the tree for left ids (also works for right ids).
-		 */
-		$offset = $repositionData->new_lft - $node->lft;
-		$levelOffset = $repositionData->new_level - $node->level;
-
-		// Move the nodes back into position in the tree using the calculated offsets.
-		$query = $this->_db->getQuery(true);
-		$query->update($this->_tbl);
-		$query->set('rgt = '.(int) $offset.' - rgt');
-		$query->set('lft = '.(int) $offset.' - lft');
-		$query->set('level = level + '.(int) $levelOffset);
-		$query->where('lft < 0');
-		$this->_db->setQuery($query);
-
-		// Check for a database error.
-		if (!$this->_db->query())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-			$this->_unlock();
-			return false;
-		}
-		if ($this->_debug) {
-			$this->_logtable();
-		}
-
-		// Set the correct parent id for the moved node if required.
-		if ($node->parent_id != $repositionData->new_parent_id)
-		{
-			$query = $this->_db->getQuery(true);
-			$query->update($this->_tbl);
-			$query->set('parent_id = '.(int) $repositionData->new_parent_id);
-			$query->where($this->_tbl_key.' = '.(int) $node->$k);
-			$this->_db->setQuery($query);
-
-			// Check for a database error.
-			if (!$this->_db->query())
-			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				$this->setError($e);
-				$this->_unlock();
-				return false;
-			}
-			if ($this->_debug) {
-				$this->_logtable();
-			}
-		}
-
-		// Unlock the table for writing.
-		$this->_unlock();
-
-		// Set the object values.
-		$this->parent_id = $repositionData->new_parent_id;
-		$this->level = $repositionData->new_level;
-		$this->lft = $repositionData->new_lft;
-		$this->rgt = $repositionData->new_rgt;
-
-		return true;
+		return $this->moveByReference($referenceId, $position, $pk);
 	}
 	
 	/**
-	 * TODO: This method is nearly identical to move() method and should be refactored accordingly
 	 * Method to move a node and its children to a new location in the tree.
 	 *
 	 * @param	integer	The primary key of the node to reference new location by.
