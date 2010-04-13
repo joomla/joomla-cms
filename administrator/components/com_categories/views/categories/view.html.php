@@ -84,7 +84,7 @@ class CategoriesViewCategories extends JView
 		if ($state->get('filter.published') != 2) {
 			JToolBarHelper::archiveList('categories.archive','JTOOLBAR_ARCHIVE');
 		}
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+		if ($state->get('filter.published') == -2 && JFactory::getUser()->authorise('core.delete', 'com_content')) {
 			JToolBarHelper::deleteList('', 'categories.delete','JTOOLBAR_EMPTY_TRASH');
 		}
 		else {
