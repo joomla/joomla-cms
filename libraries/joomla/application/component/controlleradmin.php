@@ -101,7 +101,7 @@ class JControllerAdmin extends JController
 
 		// Get items to publish from the request.
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
-		$data	= array('publish' => 1, 'unpublish' => 0, 'archive'=>-1, 'trash' => -2, 'report'=>-3);
+		$data	= array('publish' => 1, 'unpublish' => 0, 'archive'=> 2, 'trash' => -2, 'report'=>-3);
 		$task 	= $this->getTask();
 		$value	= JArrayHelper::getValue($data, $task, 0, 'int');
 
@@ -127,7 +127,7 @@ class JControllerAdmin extends JController
 					$text = $this->_msgprefix.'_ITEM_UNPUBLISHED';
 					$ntext = $this->_msgprefix.'_N_ITEMS_UNPUBLISHED';
 				}
-				else if ($value == -1) {
+				else if ($value == 2) {
 					$text = $this->_msgprefix.'_ITEM_ARCHIVED';
 					$ntext = $this->_msgprefix.'_N_ITEMS_ARCHIVED';
 				}

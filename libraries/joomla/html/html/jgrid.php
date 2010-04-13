@@ -26,7 +26,7 @@ abstract class JHtmlJGrid
 		$states	= array(
 			1	=> array('tick.png',		$taskPrefix.'unpublish',	'JPUBLISHED',		'JState_UnPublish_Item'),
 			0	=> array('publish_x.png',	$taskPrefix.'publish',		'JUNPUBLISHED',	'JState_Publish_Item'),
-			-1	=> array('disabled.png',	$taskPrefix.'unpublish',	'JARCHIVED',		'JState_UnPublish_Item'),
+			2	=> array('disabled.png',	$taskPrefix.'unpublish',	'JARCHIVED',		'JState_UnPublish_Item'),
 			-2	=> array('trash.png',		$taskPrefix.'publish',		'JTRASHED',		'JState_Publish_Item'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
@@ -51,6 +51,7 @@ abstract class JHtmlJGrid
 		$options	= array();
 		$options[]	= JHtml::_('select.option', '1', 'JPUBLISHED');
 		$options[]	= JHtml::_('select.option', '0', 'JUNPUBLISHED');
+		$options[]	= JHtml::_('select.option', '2', 'JARCHIVED');
 		$options[]	= JHtml::_('select.option', '-2', 'JTRASH');
 		$options[]	= JHtml::_('select.option', '*', 'JALL');
 

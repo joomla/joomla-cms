@@ -33,6 +33,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		// Register proxy tasks.
 		$this->registerTask('unpublish',	'publish');
 		$this->registerTask('trash',		'publish');
+		$this->registerTask('archive',		'publish');
 		$this->registerTask('orderup',		'reorder');
 		$this->registerTask('orderdown',	'reorder');
 		$this->setURL('index.php?option=com_categories&view=categories');

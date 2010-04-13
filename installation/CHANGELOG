@@ -26,6 +26,8 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+13-Apr-2010 Jean-Marie Simonet
+# Fixed some Archive, Trash, Empty trash bugs + Strings.
 
 13-Apr-2010 Christophe Demko
 # Consolidating the consistency of menu items

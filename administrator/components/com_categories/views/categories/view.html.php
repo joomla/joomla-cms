@@ -80,18 +80,18 @@ class CategoriesViewCategories extends JView
 		JToolBarHelper::divider();
 		JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
 		JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
-		if ($state->get('filter.published') != -1) {
-			JToolBarHelper::divider();
+		JToolBarHelper::divider();
+		if ($state->get('filter.published') != 2) {
 			JToolBarHelper::archiveList('categories.archive','JTOOLBAR_ARCHIVE');
 		}
-		if ($state->get('filter.published') == -2) {
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'categories.delete','JTOOLBAR_EMPTY_TRASH');
 		}
 		else {
 			JToolBarHelper::trash('categories.trash','JTOOLBAR_TRASH');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
+		JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.categories','JTOOLBAR_HELP');
 

@@ -70,7 +70,7 @@ class BannersViewClients extends JView
 			JToolBarHelper::custom('clients.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
 			JToolBarHelper::custom('clients.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::divider();
-			if ($state->get('filter.published') != -1) {
+			if ($state->get('filter.published') != 2) {
 				JToolBarHelper::archiveList('clients.archive','JTOOLBAR_ARCHIVE');
 			}
 		}

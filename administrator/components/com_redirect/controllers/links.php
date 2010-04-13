@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Invalid Request.');
 
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controlleradmin');
 
 /**
  * Redirect link list controller class.
@@ -18,8 +18,10 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_redirect
  * @since		1.6
  */
-class RedirectControllerLinks extends JController
+class RedirectControllerLinks extends JControllerAdmin
 {
+	protected $_context = 'com_redirect.links';
+	
 	/**
 	 * Constructor.
 	 *
@@ -33,6 +35,7 @@ class RedirectControllerLinks extends JController
 		$this->registerTask('unpublish',	'publish');
 		$this->registerTask('archive',		'publish');
 		$this->registerTask('trash',		'publish');
+		$this->setURL('index.php?option=com_redirect&view=links');
 	}
 
 	/**
@@ -82,58 +85,7 @@ class RedirectControllerLinks extends JController
 	}
 
 	/**
-	 * Method to change the state of a list of records.
-	 */
-	public function publish()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-		$values	= array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2);
-		$task	= $this->getTask();
-		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
-
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_LINK_SELECTED'));
-		}
-		else
-		{
-			// Get the model.
-			$model	= $this->getModel();
-
-			// Change the state of the records.
-			if (!$model->publish($ids, $value)) {
-				JError::raiseWarning(500, $model->getError());
-			}
-			else
-			{
-				if ($value == 1) {
-					$text = 'COM_REDIRECT_LINK_PUBLISHED';
-					$ntext = 'COM_REDIRECT_N_LINKS_PUBLISHED';
-				}
-				else if ($value == 0) {
-					$text = 'COM_REDIRECT_LINK_UNPUBLISHED';
-					$ntext = 'COM_REDIRECT_N_LINKS_UNPUBLISHED';
-				}
-				else if ($value == 2) {
-					$text = 'COM_REDIRECT_LINK_ARCHIVED';
-					$ntext = 'COM_REDIRECT_N_LINKS_ARCHIVED';
-				}
-				else {
-					$text = 'COM_REDIRECT_LINK_TRASHED';
-					$ntext = 'COM_REDIRECT_N_LINKS_TRASHED';
-				}
-				$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_redirect&view=links');
-	}
-
-	/**
-	 * Method to remove a record.
+	 * Method to update a record.
 	 */
 	public function activate()
 	{
