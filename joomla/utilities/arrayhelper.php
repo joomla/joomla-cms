@@ -245,17 +245,17 @@ class JArrayHelper
 	 * Utility function to sort an array of objects on a given field
 	 *
 	 * @static
-	 * @param	array	$arr		An array of objects
-	 * @param	string	$k			The key to sort on
-	 * @param	int		$direction	Direction to sort in [1 = Ascending] [-1 = Descending]
-	 * @return	array	The sorted array of objects
+	 * @param	array			$arr		An array of objects
+	 * @param	string|array	$k			The key or a array of key to sort on 
+	 * @param	int|array		$direction	Direction or an array of direction to sort in [1 = Ascending] [-1 = Descending]
+	 * @return	array						The sorted array of objects
 	 * @since	1.5
 	 */
 	function sortObjects(&$a, $k, $direction=1)
 	{
 		$GLOBALS['JAH_so'] = array(
-			'key'		=> $k,
-			'direction'	=> $direction
+			'key'		=> (array)$k,
+			'direction'	=> (array)$direction
 		);
 		usort($a, array('JArrayHelper', '_sortObjects'));
 		unset($GLOBALS['JAH_so']);
@@ -276,11 +276,16 @@ class JArrayHelper
 	function _sortObjects(&$a, &$b)
 	{
 		$params = $GLOBALS['JAH_so'];
-		if ($a->$params['key'] > $b->$params['key']) {
-			return $params['direction'];
-		}
-		if ($a->$params['key'] < $b->$params['key']) {
-			return -1 * $params['direction'];
+		for($i=0,$count=count($params['key']);$i<$count;$i++) {
+			if (array_key_exists($i,$params['direction'])) {
+				$direction = $params['direction'][$i];
+			}
+			if ($a->$params['key'][$i] > $b->$params['key'][$i]) {
+				return $direction;
+			}
+			if ($a->$params['key'][$i] < $b->$params['key'][$i]) {
+				return -1 * $direction;
+			}
 		}
 		return 0;
 	}
