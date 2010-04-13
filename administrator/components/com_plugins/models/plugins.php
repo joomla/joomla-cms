@@ -99,7 +99,13 @@ class PluginsModelPlugins extends JModelList
 			||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false);
 			$result[$i]->name = JText::_($item->name);
 		}
-		//JArrayHelper::sortObjects($result,$this->getState('list.ordering', 'ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1);
+
+		if($this->getState('list.ordering', 'ordering') == 'ordering') {
+			JArrayHelper::sortObjects($result,array('folder','ordering'), array(1, $this->getState('list.direction') == 'desc' ? -1 : 1));
+		}
+		else {
+			JArrayHelper::sortObjects($result,$this->getState('list.ordering', 'ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1);
+		}
 
 		return array_slice($result, $limitstart, $limit ? $limit : null);
 	}
@@ -163,13 +169,6 @@ class PluginsModelPlugins extends JModelList
 			}
 		}
 
-		if($this->getState('list.ordering', 'ordering') == 'ordering')
-		{
-			$query->order('a.folder, '.$db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
-		} else {
-			// Add the list ordering clause.
-			$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).', ordering '.$db->getEscaped($this->getState('list.direction', 'ASC')));
-		}
 		
 		return $query;
 	}

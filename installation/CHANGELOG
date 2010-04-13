@@ -26,11 +26,14 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
 13-Apr-2010 Jean-Marie Simonet
 # Fixed some Archive, Trash, Empty trash bugs + Strings.
 $ Updated xx-XX test language to current en-GB strings.
 
 13-Apr-2010 Christophe Demko
+# Re-enabling sorting in plugins and modules view (bug in commit #15980)
++ Enabling the ability to sort an array of objects using multiple keys
 # Consolidating the consistency of menu items
 
 12-Apr-2010 Jean-Marie Simonet

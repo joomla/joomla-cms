@@ -108,6 +108,13 @@ class ModulesModelModules extends JModelList
 			$result[$i]->name = JText::_($item->name);
 		}
 
+		if($this->getState('list.ordering', 'ordering') == 'ordering') {
+			JArrayHelper::sortObjects($result,array('position','ordering'), array(1, $this->getState('list.direction') == 'desc' ? -1 : 1));
+		}
+		else {
+			JArrayHelper::sortObjects($result,$this->getState('list.ordering', 'ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1);
+		}
+
 		return array_slice($result, $limitstart, $limit ? $limit : null);
 	}
 
@@ -194,14 +201,6 @@ class ModulesModelModules extends JModelList
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('('.'a.title LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
-		}
-
-		if($this->getState('list.ordering', 'ordering') == 'ordering')
-		{
-			$query->order('position, '.$db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
-		} else {
-			// Add the list ordering clause.
-			$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).', ordering '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));
