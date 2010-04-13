@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 13-Apr-2010 Jean-Marie Simonet
 # Fixed some Archive, Trash, Empty trash bugs + Strings.
+$ Updated xx-XX test language to current en-GB strings.
 
 13-Apr-2010 Christophe Demko
 # Consolidating the consistency of menu items
