@@ -31,10 +31,10 @@ $menuTypes = MenusHelper::getMenuLinks();
 
 				<img src="" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });" alt="<?php echo JText::_('JCHECKINVERT'); ?>" title="<?php echo JText::_('JCHECKINVERT'); ?>">
 
-				<div id="menu-assignment" style="height: 300px; overflow: auto;">
+				<div id="menu-assignment">
 
 				<?php foreach ($menuTypes as &$type) : ?>
-					<div class="menu-links">
+					<ul class="menu-links">
 						<h3><?php echo $type->title ? $type->title : $type->menutype; ?></h3>
 						<?php
 						foreach ($type->links as $link) :
@@ -44,15 +44,14 @@ $menuTypes = MenusHelper::getMenuLinks();
 								$checked = in_array($link->value, $this->item->assigned) ? ' checked="checked"' : '';
 							endif;
 						?>
-						<div class="menu-link">
+						<li class="menu-link">
 							<input type="checkbox" class="chk-menulink" name="jform[assigned][]" value="<?php echo (int) $link->value;?>" id="link<?php echo (int) $link->value;?>"<?php echo $checked;?>/>
 							<label for="link<?php echo (int) $link->value;?>">
 								<?php echo $link->text; ?>
 							</label>
-						</div>
-						<div class="clr"></div>
+						</li>
 						<?php endforeach; ?>
-					</div>
+					</ul>
 				<?php endforeach; ?>
 				</div>
 

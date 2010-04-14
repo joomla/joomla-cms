@@ -760,73 +760,25 @@ div.cpanel-right {
 }
 
 /* -- FORM STYLES ----------------------------- */
-div.width-20 {
-	width: 20%;
-}
 
-div.width-30 {
-	width: 30%;
-}
+div.width-20 {width: 20%;}
+div.width-30 {width: 30%;}
+div.width-35 {width: 35%;}
+div.width-40 {width: 40%;}
+div.width-45 {width: 45%;}
+div.width-50 {width: 50%;}
+div.width-55 {width: 55%;}
+div.width-60 {width: 60%;}
+div.width-65 {width: 65%;}
+div.width-70 {width: 70%;}
+div.width-80 {width: 80%;}
+div.width-100 {width: 100%;}
 
-div.width-35 {
-	width: 35%;
-}
-
-div.width-40 {
-	width: 40%;
-}
-
-div.width-45 {
-	width: 45%;
-}
-
-div.width-50 {
-	width: 50%;
-}
-
-div.width-55 {
-	width: 55%;
-}
-
-div.width-60 {
-	width: 60%;
-}
-
-div.width-65 {
-	width: 65%;
-}
-
-div.width-70 {
-	width: 70%;
-}
-
-div.width-80 {
-	width: 80%;
-}
-
-div.width-100 {
-	width: 100%;
-}
-
-.clrlft {
-	clear: left;
-}
-
-.clrrt {
-	clear: right;
-}
-
-.fltlft {
-	float: left;
-}
-
-.fltrt {
-	float: right;
-}
-
-.fltnone {
-	float: none;
-}
+.clrlft {clear: left;}
+.clrrt {clear: right;}
+.fltlft {float: left;}
+.fltrt {float: right;}
+.fltnone {float: none;}
 
 div.width-20 fieldset,
 div.width-30 fieldset,
@@ -844,6 +796,43 @@ div.width-100 fieldset	{
 	padding: 17px;
 }
 
+
+fieldset.adminform {
+	margin: 10px;
+}
+fieldset label {
+	float: left;
+	clear: left;
+	margin: 5px 5px 2px 0;
+}
+fieldset ul {
+	margin: 0;
+	padding: 0;
+}
+form label {
+	font-size: 1.091em;
+}
+fieldset input,
+fieldset textarea,
+fieldset select,
+fieldset img, 
+fieldset button {
+	float: left;
+	width: auto;
+	margin: 5px 5px 10px 0px;
+}
+
+fieldset ul.checklist input {
+	clear:left;
+	margin-right: 10px;
+}
+fieldset ul.checklist label,
+fieldset ul.menu-links label	 {
+	clear:none;
+}
+
+
+/* 
 fieldset#user-groups,
 fieldset.adminform,
 fieldset.adminform-legacy {
@@ -868,16 +857,6 @@ fieldset#filter-bar label {
 	clear: none;
 }
 
-fieldset label {
-	float: left;
-	clear: left;
-	margin: 5px 5px 2px 0;
-}
-
-fieldset ul {
-	margin: 0;
-	padding: 0;
-}
 
 fieldset ul.checklist {
 	margin-left: 27px;
@@ -889,16 +868,6 @@ fieldset ul.checklist label {
 	height: 22px;
 }
 
-form label {
-	font-size: 1.091em;
-}
-
-fieldset input,fieldset textarea,
-fieldset select,fieldset img, fieldset button {
-	float: left;
-	width: auto;
-	margin: 5px 5px 10px 0px;
-}
 
 input#jform_title {
 	margin-bottom: 10px;
@@ -916,6 +885,9 @@ fieldset.adminform select,
 select#jform_catid {
 	margin-right: 20px;
 }
+*/
+
+
 
 /* Hide the extension name on create category page */
 label#jform_extension-lbl,
@@ -969,67 +941,95 @@ fieldset.batch {
 	background: #fff;
 	padding: 10px;
 }
-
 fieldset.batch label {
 	margin: 5px;
 	min-width: 40px;
 }
-
 fieldset.batch button {
 	margin: 3px;
 }
-
 fieldset#batch-choose-action {
 	clear: left;
 	border: 0 none;
 }
-
 fieldset.batch label {
 	float: left;
 	clear: none;
 }
-
 fieldset label#batch-choose-action-lbl {
 	clear: left;
 	margin-top: 15px;
 }
-
 select#batch-menu-id {
 	margin-right: 30px;
 }
-
 label#batch-access-lbl {
 	margin-right: 10px;
 }
 
+
+/* 
 label#jform_description-lbl {
 	padding: 10px 0;
 }
+*/
 
-/* Custom tweaks for long parameter UI */
-label#paramsusermode-lbl,
-label#paramsphishing-resistant-lbl,
-label#paramsmulti-factor-lbl,
-label#paramsmulti-factor-physical-lbl,
-paramslang_mode-lbl
-	{
-	min-width: 200px;
+/* New login field label widths */
+fieldset.adminform.long label {
+	min-width: 180px;
 }
 
-fieldset.adminform label,
-fieldset.panelform label,
-fieldset.panelform div.paramrow label
-	{
+fieldset.adminform.long input {
+	
+
+}
+	
+div#menu-assignment {
+	height: 300px; 
+	overflow: auto;
+	clear:left;
+}
+div#menu-assignment input,
+div#menu-assignment h3 {
+	clear:left;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+div#menu-assignment h3 {
+	padding-top: 15px;
+	border-bottom: 1px solid #CCCCCC;
+	width: 90%;
+}
+
+/* Field label widths- short label */
+fieldset.adminform label {
 	clear: left;
 	min-width: 135px;
 }
 
+fieldset.panelform label,
+fieldset.panelform div.paramrow label {
+	clear: left;
+	min-width: 145px;
+}
+
+/* Field label widths- medium label */
 label#userparamsallowUserRegistration-lbl,
 label#userparamsnew_usertype-lbl,
 label#userparamsuseractivation-lbl,
-label#userparamsfrontend_userparams-lbl
-	{
+label#userparamsfrontend_userparams-lbl,
+label#jform_MetaDesc-lbl {
 	min-width: 180px;
+}
+
+
+/* Field label widths- long label */
+label#paramsusermode-lbl,
+label#paramsphishing-resistant-lbl,
+label#paramsmulti-factor-lbl,
+label#paramsmulti-factor-physical-lbl,
+paramslang_mode-lbl {
+	min-width: 200px;
 }
 
 div.jform_mod_title,div.jform_na {
@@ -1061,7 +1061,7 @@ div.editor-border {
 }
 
 fieldset ul li {
-	margin-left: -30px;
+	/* margin-left: -30px; */
 }
 
 fieldset p {
@@ -1099,8 +1099,7 @@ li#jform_access_label
 
 fieldset.adminform fieldset.radio,
 fieldset.panelform fieldset.radio,
-fieldset.adminform-legacy fieldset.radio
-	{
+fieldset.adminform-legacy fieldset.radio {
 	border: 0;
 	float: left;
 	padding: 0;
@@ -1109,8 +1108,7 @@ fieldset.adminform-legacy fieldset.radio
 }
 
 fieldset.adminform fieldset.radio label,
-fieldset.panelform fieldset.radio label
-	{
+fieldset.panelform fieldset.radio label {
 	min-width: 40px;
 	float: left;
 	clear: none;
@@ -1133,8 +1131,9 @@ fieldset.panelform-legacy label.radiobtn_on	{
 	clear: none !important;
 }
 
-#jform_plugdesc-lbl,#jform_description-lbl {
-	font-weight: bold;
+#jform_plugdesc-lbl,
+#jform_description-lbl {
+	/* font-weight: bold; */
 	clear: both;
 	margin-top: 15px;
 }

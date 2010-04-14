@@ -70,10 +70,10 @@ JHtml::_('behavior.formvalidation');
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
-			<div class="paramrow">
+			
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
-			</div>
+			
 			<?php endif; ?>
 		<?php endforeach; ?>
 

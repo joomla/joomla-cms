@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+13-Apr-2010 Ron Severdia
+# Fixed many UI issues introduced by JForm and other updates
+$ Corrected and synchronized language terms
+
 13-Arp-2010 Mark Dexter
 # Fixed category edit so that change parent category works again
 # Fixed category manager so that Empty Trash toolbar button shows
