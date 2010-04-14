@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Apr-2010 Chrisotphe Demko
+# Changed en_GB to en-GB in sample_data.sql
 
 13-Apr-2010 Ron Severdia
 # Fixed many UI issues introduced by JForm and other updates
