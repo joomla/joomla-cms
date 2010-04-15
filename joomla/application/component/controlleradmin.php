@@ -25,38 +25,67 @@ jimport('joomla.application.component.controller');
  */
 class JControllerAdmin extends JController
 {
-	protected $_url = null;
-	
-	protected $_msgprefix = null;
-	
-	protected $_context = null;
-	
+	/**
+	 * @var		string	The URL option for the component.
+	 * @since	1.6
+	 */
+	protected $_option;
+
+	/**
+	 * @var		string	The URL view list variable.
+	 * @since	1.6
+	 */
+	protected $_view_list;
+
+	/**
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
+	 */
+	protected $_msgprefix;
+
 	/**
 	 * Constructor.
 	 *
 	 * @param	array An optional associative array of configuration settings.
 	 * @see		JController
+	 * @since	1.6
 	 */
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
-		$this->_msgprefix = strtoupper(str_replace('.', '_', $this->_context));
+		// Define standard task mappings.
+		$this->registerTask('unpublish',	'publish');	// value = 0
+		$this->registerTask('archive',		'publish');	// value = 2
+		$this->registerTask('trash',		'publish');	// value = -2
+		$this->registerTask('report',		'publish');	// value = -3
+		$this->registerTask('orderup',		'reorder');
+		$this->registerTask('orderdown',	'reorder');
+
+		// Guess the option as com_NameOfController.
+		if (empty($this->_option)) {
+			$this->_option = 'com_'.strtolower($this->getName());
+		}
+
+		// Guess the JText message prefix. Defaults to the option.
+		if (empty($this->_msgprefix)) {
+			$this->_msgprefix = strtoupper($this->_option);
+		}
+
+		// Guess the list view as the suffix, eg: OptionControllerSuffix.
+		if (empty($this->_view_list)) {
+			$r = null;
+			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r)) {
+				JError::raiseError(500, 'JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME');
+			}
+			$this->_view_list = strtolower($r[2]);
+		}
 	}
-	
+
 	/**
-	 * Set the return URL for controller tasks
-	 *  
-	 * @param $url string URL to return to
-	 * @return void
-	 */
-	function setURL($url)
-	{
-		$this->_url = $url;
-	}
-	
-	/**
-	 * Removes an item
+	 * Removes an item.
+	 *
+	 * @since	1.6
 	 */
 	function delete()
 	{
@@ -68,8 +97,7 @@ class JControllerAdmin extends JController
 
 		if (!is_array($cid) || count($cid) < 1) {
 			JError::raiseWarning(500, JText::_($this->_msgprefix.'_NO_ITEM_SELECTED'));
-		}
-		else {
+		} else {
 			// Get the model.
 			$model = $this->getModel();
 
@@ -80,19 +108,27 @@ class JControllerAdmin extends JController
 			// Remove the items.
 			if ($model->delete($cid)) {
 				$this->setMessage(JText::sprintf((count($cid) == 1) ? $this->_msgprefix.'_ITEM_DELETED' : $this->_msgprefix.'_N_ITEMS_DELETED', count($cid)));
-			}
-			else {
+			} else {
 				$this->setMessage($model->getError());
 			}
 		}
 
-		$this->setRedirect($this->_url);
+		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false));
 	}
-	
+
+	/**
+	 * Display is not supported by this controller.
+	 *
+	 * @since	1.6
+	 */
+	public function display()
+	{
+	}
+
 	/**
 	 * Method to publish a list of taxa
 	 *
-	 * @since	1.0
+	 * @since	1.6
 	 */
 	function publish()
 	{
@@ -105,10 +141,9 @@ class JControllerAdmin extends JController
 		$task 	= $this->getTask();
 		$value	= JArrayHelper::getValue($data, $task, 0, 'int');
 
-		if (!is_array($cid) || count($cid) < 1) {
+		if (empty($cid)) {
 			JError::raiseWarning(500, JText::_($this->_msgprefix.'_NO_ITEM_SELECTED'));
-		}
-		else {
+		} else {
 			// Get the model.
 			$model	= $this->getModel();
 
@@ -120,30 +155,25 @@ class JControllerAdmin extends JController
 				JError::raiseWarning(500, $model->getError());
 			} else {
 				if ($value == 1) {
-					$text = $this->_msgprefix.'_ITEM_PUBLISHED';
 					$ntext = $this->_msgprefix.'_N_ITEMS_PUBLISHED';
-				}
-				else if ($value == 0) {
-					$text = $this->_msgprefix.'_ITEM_UNPUBLISHED';
+				} else if ($value == 0) {
 					$ntext = $this->_msgprefix.'_N_ITEMS_UNPUBLISHED';
-				}
-				else if ($value == 2) {
-					$text = $this->_msgprefix.'_ITEM_ARCHIVED';
+				} else if ($value == 2) {
 					$ntext = $this->_msgprefix.'_N_ITEMS_ARCHIVED';
-				}
-				else {
-					$text = $this->_msgprefix.'_ITEM_TRASHED';
+				} else {
 					$ntext = $this->_msgprefix.'_N_ITEMS_TRASHED';
 				}
-				$this->setMessage(JText::sprintf((count($cid) == 1) ? $text : $ntext, count($cid)));
+				$this->setMessage(JText::__($ntext, count($cid)));
 			}
 		}
 
-		$this->setRedirect($this->_url);
+		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false));
 	}
-	
+
 	/**
 	 * Changes the order of one or more records.
+	 *
+	 * @since	1.6
 	 */
 	public function reorder()
 	{
@@ -160,21 +190,20 @@ class JControllerAdmin extends JController
 		if ($return === false) {
 			// Reorder failed.
 			$message = JText::sprintf('JError_Reorder_failed', $model->getError());
-			$this->setRedirect($this->_url, $message, 'error');
+			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false), $message, 'error');
 			return false;
-		}
-		else {
+		} else {
 			// Reorder succeeded.
 			$message = JText::_('JSuccess_Item_reordered');
-			$this->setRedirect($this->_url, $message);
+			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false), $message);
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Method to save the submitted ordering values for records.
 	 *
-	 * @return	void
+	 * @since	1.6
 	 */
 	public function saveorder()
 	{
@@ -190,12 +219,12 @@ class JControllerAdmin extends JController
 		JArrayHelper::toInteger($order);
 
 		// Get the model
-		$model = &$this->getModel();
+		$model = $this->getModel();
 
 		// Save the ordering
 		$model->saveorder($pks, $order);
 
 		$this->setMessage(JText::_('JSUCCESS_ORDERING_SAVED'));
-		$this->setRedirect($this->_url);
+		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false));
 	}
 }
