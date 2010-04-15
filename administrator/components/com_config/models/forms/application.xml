@@ -79,8 +79,8 @@
 			name="memcache_server_port"
 			type="text"
 			default="11211"
-			label="COM_CONFIG_MEMCACHE_PORT_LABEL"
-			description="COM_CONFIG_MEMCACHE_PORT_DESC"
+			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
 			filter="integer"
 			size="5" />
 	</fieldset>
