@@ -26,9 +26,9 @@ class plgUserJoomla extends JPlugin
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param	array		holds the user data
-	 * @param	boolean		true if user was succesfully stored in the database
-	 * @param	string		message
+	 * @param	array		Holds the user data
+	 * @param	boolean		True if user was succesfully stored in the database
+	 * @param	string		Message
 	 */
 	public function onAfterDeleteUser($user, $succes, $msg)
 	{
@@ -36,7 +36,7 @@ class plgUserJoomla extends JPlugin
 			return false;
 		}
 
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$db->setQuery(
 			'DELETE FROM `#__session`' .
 			' WHERE `userid` = '.(int) $user['id']
@@ -59,9 +59,9 @@ class plgUserJoomla extends JPlugin
 	{
 		jimport('joomla.user.helper');
 
-		$instance = &$this->_getUser($user, $options);
+		$instance = $this->_getUser($user, $options);
 
-		// if _getUser returned an error, then pass it back.
+		// If _getUser returned an error, then pass it back.
 		if (JError::isError($instance)) {
 			return $instance;
 		}
@@ -71,23 +71,22 @@ class plgUserJoomla extends JPlugin
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
 		}
 
-		//Authorise the user based on the group information
+		// Authorise the user based on the group information
 		if (!isset($options['group'])) {
 			$options['group'] = 'USERS';
 		}
 
-		jimport('joomla.access.access');
-
-		$result	= JAccess::check($instance->id, $options['action']);
+		// Chek the user can login.
+		$result	= $instance->authorise($options['action']);
 		if (!$result) {
 			return JError::raiseWarning(401, JText::_('JError_Login_denied'));
 		}
 
-		//Mark the user as logged in
+		// Mark the user as logged in
 		$instance->set('guest', 0);
 
 		// Register the needed session variables
-		$session = &JFactory::getSession();
+		$session = JFactory::getSession();
 		$session->set('user', $instance);
 
 		// Update the user related fields for the Joomla sessions table.
@@ -118,18 +117,17 @@ class plgUserJoomla extends JPlugin
 	 */
 	function onLogoutUser($user, $options = array())
 	{
-		$my = &JFactory::getUser();
-		//Make sure we're a valid user first
+		$my = JFactory::getUser();
+		// Make sure we're a valid user first
 		if ($user['id'] == 0 && !$my->get('tmp_user')) return true;
 
-		//Check to see if we're deleting the current session
-		if ($my->get('id') == $user['id'])
-		{
+		// Check to see if we're deleting the current session
+		if ($my->get('id') == $user['id']) {
 			// Hit the user last visit field
 			$my->setLastVisit();
 
 			// Destroy the php session for this user
-			$session = &JFactory::getSession();
+			$session = JFactory::getSession();
 			$session->destroy();
 		} else {
 			// Force logout all users with that userid
@@ -165,11 +163,11 @@ class plgUserJoomla extends JPlugin
 
 		//TODO : move this out of the plugin
 		jimport('joomla.application.component.helper');
-		$config	= &JComponentHelper::getParams('com_users');
+		$config	= JComponentHelper::getParams('com_users');
 		// Default to Registered.
 		$usertype = $config->get('new_usertype', 2);
 
-		$acl = &JFactory::getACL();
+		$acl = JFactory::getACL();
 
 		$instance->set('id'			, 0);
 		$instance->set('name'			, $user['fullname']);
@@ -181,8 +179,7 @@ class plgUserJoomla extends JPlugin
 		//If autoregister is set let's register the user
 		$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);
 
-		if ($autoregister)
-		{
+		if ($autoregister) {
 			if (!$instance->save()) {
 				return JError::raiseWarning('SOME_ERROR_CODE', $instance->getError());
 			}

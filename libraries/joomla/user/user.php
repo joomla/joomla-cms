@@ -267,7 +267,7 @@ class JUser extends JObject
 			$rootUser	= $config->get('root_user');
 
 			// The root_user variable can be a numeric user ID or a username.
-			if (is_numeric($rootUser) && $rootUser == $this->id) {
+			if (is_numeric($rootUser) && $this->id > 0 && $rootUser == $this->id) {
 				self::$isRoot = true;
 			} else if ($rootUser == $this->username) {
 				self::$isRoot = true;
