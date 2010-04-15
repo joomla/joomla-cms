@@ -176,17 +176,17 @@ class JArchiveZip extends JObject
 		$this->_metadata = null;
 
 		if (!extension_loaded('zlib')) {
-			$this->set('error.message', 'Zlib Not Supported');
+			$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_NOT_SUPPORTED'));
 			return false;
 		}
 
 		if (!$this->_data = JFile::read($archive)) {
-			$this->set('error.message', 'Unable to read archive');
+			$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_READ'));
 			return false;
 		}
 
 		if (!$this->_getZipInfo($this->_data)) {
-			$this->set('error.message', 'Get ZIP Information failed');
+			$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_INFO_FAILED'));
 			return false;
 		}
 
@@ -197,11 +197,11 @@ class JArchiveZip extends JObject
 				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name']);
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path))) {
-					$this->set('error.message', 'Unable to create destination');
+					$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_CREATE_DESTINATION'));
 					return false;
 				}
 				if (JFile::write($path, $buffer, true) === false) {
-					$this->set('error.message', 'Unable to write entry');
+					$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_WRITE_ENTRY'));
 					return false;
 				}
 			}
@@ -241,14 +241,14 @@ class JArchiveZip extends JObject
 							zip_entry_close($file);
 						}
 					} else {
-						$this->set('error.message', 'Unable to read entry');
+						$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_READ_ENTRY'));
 						return false;
 					}
 				}
 				@zip_close($zip);
 			}
 		} else {
-			$this->set('error.message', 'Unable to open archive');
+			$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_OPEN_ARCHIVE'));
 			return false;
 		}
 		return true;
@@ -297,7 +297,7 @@ class JArchiveZip extends JObject
 		$dataLength = strlen($data);
 		do {
 			if ($dataLength < $fhStart +31) {
-				$this->set('error.message', 'Invalid ZIP data');
+				$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_INVALID_ZIP_DATA'));
 				return false;
 			}
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength', substr($data, $fhStart +10, 20));

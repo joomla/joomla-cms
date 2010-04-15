@@ -277,7 +277,7 @@ class JDocument extends JObject
 				if (file_exists($path)) {
 					require_once $path;
 				} else {
-					JError::raiseError(500,JText::_('Unable to load document class'));
+					JError::raiseError(500,JText::_('JLIB_DOCUMENT_ERROR_UNABLE_LOAD_DOC_CLASS'));
 				}
 			}
 

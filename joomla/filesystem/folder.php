@@ -48,15 +48,15 @@ class JFolder
 		$dest = rtrim($dest, DS);
 
 		if (!JFolder::exists($src)) {
-			return JError::raiseError(-1, JText::_('Cannot find source folder'));
+			return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FIND_SOURCE_FOLDER'));
 		}
 		if (JFolder::exists($dest) && !$force) {
-			return JError::raiseError(-1, JText::_('Folder already exists'));
+			return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_EXISTS'));
 		}
 
 		// Make sure the destination exists
 		if (! JFolder::create($dest)) {
-			return JError::raiseError(-1, JText::_('Unable to create target folder'));
+			return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_CREATE'));
 		}
 
 		// if we're using ftp and don't have streams enabled
@@ -70,7 +70,7 @@ class JFolder
 			);
 
 			if (!($dh = @opendir($src))) {
-				return JError::raiseError(-1, JText::_('Unable to open source folder'));
+				return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_OPEN'));
 			}
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false) {
@@ -90,14 +90,14 @@ class JFolder
 						// Translate path for the FTP account
 						$dfid = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
 						if (! $ftp->store($sfid, $dfid)) {
-							return JError::raiseError(-1, JText::_('COPY_FAILED'));
+							return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'));
 						}
 						break;
 				}
 			}
 		} else {
 			if (!($dh = @opendir($src))) {
-				return JError::raiseError(-1, JText::_('Unable to open source folder'));
+				return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_OPEN'));
 			}
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false) {
@@ -117,11 +117,11 @@ class JFolder
 						if($use_streams) {
 							$stream =& JFactory::getStream();
 							if(!$stream->copy($sfid, $dfid)) {
-								return JError::raiseError(-1, JText::_('COPY_FAILED').': '. $stream->getError());
+								return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED').': '. $stream->getError());
 							}
 						} else {
 						if (!@copy($sfid, $dfid)) {
-							return JError::raiseError(-1, JText::_('COPY_FAILED'));
+							return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'));
 						}
 						}
 						break;
@@ -157,7 +157,7 @@ class JFolder
 			if (($nested > 20) || ($parent == $path)) {
 				JError::raiseWarning(
 					'SOME_ERROR_CODE',
-					'JFolder::create: ' . JText::_('Infinite loop detected')
+					'JFolder::create: ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_LOOP')
 				);
 				$nested--;
 				return false;
@@ -220,7 +220,7 @@ class JFolder
 					// Return false for JFolder::create because the path to be created is not in open_basedir
 					JError::raiseWarning(
 						'SOME_ERROR_CODE',
-						'JFolder::create: ' . JText::_('Path not in open_basedir paths')
+						'JFolder::create: ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH')
 					);
 					return false;
 				}
@@ -234,7 +234,7 @@ class JFolder
 				@umask($origmask);
 				JError::raiseWarning(
 					'SOME_ERROR_CODE',
-					'JFolder::create: ' . JText::_('COULD_NOT_CREATE_DIRECTORY'),
+					'JFolder::create: ' . JText::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY'),
 					'Path: ' . $path
 				);
 				return false;
@@ -258,7 +258,7 @@ class JFolder
 		// Sanity check
 		if (!$path) {
 			// Bad programmer! Bad Bad programmer!
-			JError::raiseWarning(500, 'JFolder::delete: ' . JText::_('ATTEMPT_TO_DELETE_BASE_DIRECTORY'));
+			JError::raiseWarning(500, 'JFolder::delete: ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'));
 			return false;
 		}
 
@@ -271,7 +271,7 @@ class JFolder
 
 		// Is this really a folder?
 		if (!is_dir($path)) {
-			JError::raiseWarning(21, 'JFolder::delete: ' . JText::_('PATH_IS_NOT_A_FOLDER'), 'Path: ' . $path);
+			JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path));
 			return false;
 		}
 
@@ -320,11 +320,7 @@ class JFolder
 			// FTP connector throws an error
 			$ret = $ftp->delete($path);
 		} else {
-			JError::raiseWarning(
-				'SOME_ERROR_CODE',
-				'JFolder::delete: ' . JText::_('COULD_NOT_DELETE_FOLDER'),
-				'Path: ' . $path
-			);
+			JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path));
 			$ret = false;
 		}
 		return $ret;
@@ -351,16 +347,15 @@ class JFolder
 		}
 
 		if (!JFolder::exists($src)) {
-			return JText::_('Cannot find source folder');
+			return JText::_('JLIB_FILESYSTEM_ERROR_FIND_SOURCE_FOLDER');
 		}
 		if (JFolder::exists($dest)) {
-			return JText::_('Folder already exists');
+			return JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_EXISTS');
 		}
 		if($use_streams) {
 			$stream =& JFactory::getStream();
 			if(!$stream->move($src, $dest)) {
-				return JText::_('Rename failed').': '. $stream->getError();
-				//return JError::raiseError(-1, JText::_('Rename failed').': '. $stream->getError()));
+				return JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_RENAME', $stream->getError());
 			}
 			$ret = true;
 		} else {
@@ -426,7 +421,7 @@ class JFolder
 
 		// Is the path a folder?
 		if (!is_dir($path)) {
-			JError::raiseWarning(21, 'JFolder::files: ' . JText::_('PATH_IS_NOT_A_FOLDER'), 'Path: ' . $path);
+			JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FILES', $path));
 			return false;
 		}
 
@@ -494,7 +489,7 @@ class JFolder
 
 		// Is the path a folder?
 		if (!is_dir($path)) {
-			JError::raiseWarning(21, 'JFolder::folder: ' . JText::_('PATH_IS_NOT_A_FOLDER'), 'Path: ' . $path);
+			JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FOLDER', $path));
 			return false;
 		}
 

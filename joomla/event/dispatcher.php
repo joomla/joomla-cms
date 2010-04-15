@@ -69,7 +69,7 @@ class JDispatcher extends JObservable
 		}
 		else
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', 'JDispatcher::register: Event handler not recognized.', 'Handler: '.$handler);
+			JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_EVENT_ERROR_DISPATCHER', $handler));
 		}
 	}
 
