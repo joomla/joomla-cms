@@ -1,8 +1,8 @@
 <?php
 /**
  * @version		$Id: templates.php matrikular
- * @package		Joomla.Administrator
- * @subpackage	Menus
+ * @package		Joomla.Framework
+ * @subpackage	Parameter
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
 **/
@@ -12,7 +12,7 @@ defined( '_JEXEC' ) or die( 'Access denied' );
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	Menus
+ * @subpackage		Parameter
  * @since		1.6
 **/
 class JElementTemplateStyle extends JElement {
