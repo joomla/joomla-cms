@@ -267,9 +267,9 @@ class JUser extends JObject
 			$rootUser	= $config->get('root_user');
 
 			// The root_user variable can be a numeric user ID or a username.
-			if (is_numeric($rootUser) && $this->id > 0 && $rootUser == $this->id) {
+			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser) {
 				self::$isRoot = true;
-			} else if ($rootUser == $this->username) {
+			} else if ($this->username && $this->username == $rootUser) {
 				self::$isRoot = true;
 			} else {
 				// Get all groups against which the user is mapped.
