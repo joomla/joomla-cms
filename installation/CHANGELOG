@@ -32,6 +32,7 @@ $ -> Language fix or change
 ^$ Changed some keys in com_plugins to fit new pluralisation JText
 # Fixed [20092], ( Thanks Ole)
 # Fixed com_banners cache (Thanks Dennis)
+$ Added missing strings
 
 15-Apr-2010 Andrew Eddie
  ^ Decoupled the core.admin check from JAccess and moved to JUser::authorise.

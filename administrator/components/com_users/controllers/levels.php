@@ -55,7 +55,7 @@ class UsersControllerLevels extends JController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -80,7 +80,7 @@ class UsersControllerLevels extends JController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks	= JRequest::getVar('cid',	null,	'post',	'array');
@@ -96,7 +96,7 @@ class UsersControllerLevels extends JController
 		// Save the ordering
 		$model->saveorder($pks, $order);
 
-		$this->setMessage(JText::_('JSuccess_Ordering_saved'));
+		$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
 		$this->setRedirect('index.php?option=com_users&view=levels');
 	}
 }

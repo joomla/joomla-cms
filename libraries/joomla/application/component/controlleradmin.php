@@ -189,12 +189,12 @@ class JControllerAdmin extends JController
 		$return = $model->reorder($ids, $inc);
 		if ($return === false) {
 			// Reorder failed.
-			$message = JText::sprintf('JError_Reorder_failed', $model->getError());
+			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false), $message, 'error');
 			return false;
 		} else {
 			// Reorder succeeded.
-			$message = JText::_('JSuccess_Item_reordered');
+			$message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
 			$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false), $message);
 			return true;
 		}
@@ -224,7 +224,7 @@ class JControllerAdmin extends JController
 		// Save the ordering
 		$model->saveorder($pks, $order);
 
-		$this->setMessage(JText::_('JSUCCESS_ORDERING_SAVED'));
+		$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
 		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false));
 	}
 }
