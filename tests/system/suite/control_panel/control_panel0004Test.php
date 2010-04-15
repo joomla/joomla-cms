@@ -84,11 +84,11 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("//div[@id='element-box']/div[2]/form/table/tbody/tr[5]/td[4]/span[1]/a/img");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("JSuccess_Item_reordered"));
+		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
 		print("Move Modules category down one." . "\n");
 		$this->click("//div[@id='element-box']/div[2]/form/table/tbody/tr[4]/td[4]/span[2]/a/img");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("JSuccess_Item_reordered"));
+		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
 		$this->doAdminLogout();
 		print("Finished control_panel0004Test.php." . "\n");
 

@@ -164,10 +164,11 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("item(s) successfully deleted."));
+			$this->assertTrue($this->isTextPresent("COM_USERS_N_USERS_DELETED"));
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
+			echo "** ERROR in deleteTestUsers, SeleniumJoomlaTestCase, line 167 **\n";
 			array_push($this->verificationErrors, $e->toString());
 		}
 	}

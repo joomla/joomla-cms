@@ -27,15 +27,20 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Apr-2010 Mark Dexter
+ # Fix bug in JCategories causing failed system test
+ # Fix minor language issue for consistency
+ # Misc. fixes to system tests
+
 15-Apr-2010 Ian MacLennan
  # Minor docblock fix
 
 15-Apr-2010 Jean-Marie Simonet
-#$ Refactoring ini/keys in libraries documents, error, event, filesystem
-^$ Changed some keys in com_plugins to fit new pluralisation JText
-# Fixed [20092], ( Thanks Ole)
-# Fixed com_banners cache (Thanks Dennis)
-$ Added missing strings
+ #$ Refactoring ini/keys in libraries documents, error, event, filesystem
+ ^$ Changed some keys in com_plugins to fit new pluralisation JText
+ # Fixed [20092], ( Thanks Ole)
+ # Fixed com_banners cache (Thanks Dennis)
+ $ Added missing strings
 
 15-Apr-2010 Andrew Eddie
  ^ Decoupled the core.admin check from JAccess and moved to JUser::authorise.

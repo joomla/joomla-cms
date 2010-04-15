@@ -25,11 +25,11 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		print("Move Modules category up one" . "\n");
 		$this->click("//a[@title='Move Up' and @onclick=\"return listItemTask('cb4','categories.orderup')\"]");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("JSuccess_Item_reordered"));
+		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
 		print("Move Modules category down one" . "\n");
 		$this->click("//a[@title='Move Down' and @onclick=\"return listItemTask('cb3','categories.orderdown')\"]");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("JSuccess_Item_reordered"));
+		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
 		$this->doAdminLogout();
 		print("Finish testModuleOrder" . "\n");
 	}
