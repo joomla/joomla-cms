@@ -18,8 +18,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->cfg = $cfg; // save current configuration
 		$this->setBrowser($cfg->browser);
 		$this->setBrowserUrl($cfg->host . $cfg->path);
-		if (isset($cfg->selhost))
-		{
+		if (isset($cfg->selhost)) {
 			$this->setHost($cfg->selhost);
 		}
 		echo ".\n" . 'Starting ' . get_class($this) . ".\n";
@@ -29,8 +28,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	{
 		echo "Logging in to back end.\n";
 		$cfg = new SeleniumConfig();
-		if (!$this->isElementPresent("mod-login-username"))
-		{
+		if (!$this->isElementPresent("mod-login-username")) {
 			$this->gotoAdmin();
 			$this->click("link=Log out");
 			$this->waitForPageToLoad("30000");
@@ -66,9 +64,19 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	function doFrontEndLogin()
 	{
+		$cfg = new SeleniumConfig();
+		// check to see if we are already logged in
+		if ($this->getValue("Submit") == "Log out")
+		{
+			echo "Logging out before loggin in. \n";
+			$this->click("Submit");
+			$this->waitForPageToLoad("30000");
+			$this->click("link=Home");
+			$this->waitForPageToLoad("30000");
+		}
 		echo "Logging in to front end.\n";
-		$this->type("modlgn_username", "admin");
-		$this->type("modlgn_passwd", "password");
+		$this->type("modlgn_username", $cfg->username);
+		$this->type("modlgn_passwd", $cfg->password);
 		$this->click("Submit");
 		$this->waitForPageToLoad("30000");
 	}
@@ -101,8 +109,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->type("jform_email", $email);
 
 		// Set group
-		switch ($group)
-		{
+		switch ($group) {
 		case 'Manager':
 			$this->click("1group_6");
 			break;
@@ -181,8 +188,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->click("link=New");
 		$this->waitForPageToLoad("30000");
 		$this->type("jform_title", $groupName);
-		switch ($groupParent)
-		{
+		switch ($groupParent) {
 		case 'Public':
 			$this->select("jformparent_id", "value=1");
 			break;
@@ -268,8 +274,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 */
 	function clickGo()
 	{
-		if ($this->isElementPresent("filter-go"))
-		{
+		if ($this->isElementPresent("filter-go")) {
 			$this->click("filter-go");
 		}
 	}

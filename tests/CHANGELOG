@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Apr-2010 Mark Dexter
+# Fix up some changed language strings
+# Fix doFrontendLogin to use config 
++ Add test for edit icons in front page and article layouts
+
 12-Apr-2010 Mark Dexter
 ^ Change control_panel0004 test to test category reorder after category move
 
