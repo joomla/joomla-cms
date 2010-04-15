@@ -20,24 +20,6 @@ jimport('joomla.application.component.controlleradmin');
 class NewsfeedsControllerNewsfeeds extends JControllerAdmin
 {
 	protected $_context = 'com_newsfeeds';
-	
-	/**
-	 * Constructor.
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('archive',		'publish');
-		$this->registerTask('trash',		'publish');
-		$this->registerTask('orderup',		'reorder');
-		$this->registerTask('orderdown',	'reorder');
-		$this->setURL('index.php?option=com_newsfeeds&view=newsfeeds');
-	}
 
 	/**
 	 * Proxy for getModel.

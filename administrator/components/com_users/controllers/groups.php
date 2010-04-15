@@ -57,9 +57,8 @@ class UsersControllerGroups extends JController
 			// Remove the items.
 			if (!$model->delete($ids)) {
 				JError::raiseWarning(500, $model->getError());
-			}
-			else {
-				$this->setMessage(JText::sprintf('JController_N_Items_deleted', count($ids)));
+			} else {
+				$this->setMessage(JText::__('COM_USERS_N_GROUPS_DELETED', count($ids)));
 			}
 		}
 

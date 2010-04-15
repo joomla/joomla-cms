@@ -19,25 +19,9 @@ jimport('joomla.application.component.controlleradmin');
  */
 class PluginsControllerPlugins extends JControllerAdmin
 {
-	protected $_context = 'com_plugins';
-	/**
-	 * Constructor.
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('orderup',		'reorder');
-		$this->registerTask('orderdown',	'reorder');
-		$this->setURL('index.php?option=com_plugins&view=plugins');
-	}
-
 	/**
 	 * Proxy for getModel.
+	 * @since	1.6
 	 */
 	public function &getModel($name = 'Plugin', $prefix = 'PluginsModel')
 	{

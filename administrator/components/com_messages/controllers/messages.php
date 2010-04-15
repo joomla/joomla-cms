@@ -19,25 +19,9 @@ jimport('joomla.application.component.controlleradmin');
  */
 class MessagesControllerMessages extends JControllerAdmin
 {
-	protected $_context = 'com_messages';
-	
-	/**
-	 * Constructor.
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('trash',		'publish');
-		$this->setURL('index.php?option=com_messages&view=messages');
-	}
-
 	/**
 	 * Proxy for getModel.
+	 * @since	1.6
 	 */
 	public function &getModel($name = 'Message', $prefix = 'MessagesModel')
 	{

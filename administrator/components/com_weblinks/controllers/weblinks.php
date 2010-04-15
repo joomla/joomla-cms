@@ -19,28 +19,9 @@ jimport('joomla.application.component.controlleradmin');
  */
 class WeblinksControllerWeblinks extends JControllerAdmin
 {
-	protected $_context = 'com_weblinks';
-	
-	/**
-	 * Constructor.
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('archive',		'publish');
-		$this->registerTask('trash',		'publish');
-		$this->registerTask('orderup',		'reorder');
-		$this->registerTask('orderdown',	'reorder');
-		$this->setURL('index.php?option=com_weblinks&view=weblinks');
-	}
-
 	/**
 	 * Proxy for getModel.
+	 * @since	1.6
 	 */
 	public function &getModel($name = 'Weblink', $prefix = 'WeblinksModel')
 	{

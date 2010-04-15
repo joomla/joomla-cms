@@ -36,6 +36,7 @@ $ -> Language fix or change
  - Deprecated JController _acoSection and _acoSectionValue properties, authorize and setAccessControl methods.
  + Add second argument to JController::setMessage to set the message type.
  + Added JText::__ to support pluralisation.
+ ^ Refactor JControllerAdmin; update pluralisation in backend components.
 
 14-Apr-2010 Chrisotphe Demko
 # Changed en_GB to en-GB in sample_data.sql

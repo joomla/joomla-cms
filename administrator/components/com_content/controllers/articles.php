@@ -15,41 +15,27 @@ jimport('joomla.application.component.controlleradmin');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_content
+ * @since	1.6
  */
 class ContentControllerArticles extends JControllerAdmin
 {
-	protected $_context = 'com_content';
-	
 	/**
 	 * Constructor.
 	 *
 	 * @param	array An optional associative array of configuration settings.
 	 * @see		JController
+	 * @since	1.6
 	 */
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('archive',		'publish');
-		$this->registerTask('trash',		'publish');
-		$this->registerTask('orderup',		'reorder');
-		$this->registerTask('orderdown',	'reorder');
 		$this->registerTask('unfeatured',	'featured');
-		$this->setURL('index.php?option=com_content&view=articles');
-	}
-
-	/**
-	 * Proxy for getModel.
-	 */
-	public function &getModel($name = 'Article', $prefix = 'ContentModel')
-	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
-		return $model;
 	}
 
 	/**
 	 * Remove a record.
+	 * @since	1.6
 	 */
 	public function delete()
 	{
@@ -83,7 +69,7 @@ class ContentControllerArticles extends JControllerAdmin
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {
-				$this->setMessage(JText::sprintf('JController_N_Items_deleted', count($ids)));
+				$this->setMessage(JText::__('COM_CONTENT_N_ITEMS_DELETED', count($ids)));
 			}
 		}
 
@@ -92,6 +78,7 @@ class ContentControllerArticles extends JControllerAdmin
 
 	/**
 	 * Method to toggle the featured setting of a list of articles.
+	 * @since	1.6
 	 */
 	function featured()
 	{
@@ -118,9 +105,7 @@ class ContentControllerArticles extends JControllerAdmin
 
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
-		}
-		else
-		{
+		} else {
 			// Get the model.
 			$model = $this->getModel();
 
@@ -131,5 +116,15 @@ class ContentControllerArticles extends JControllerAdmin
 		}
 
 		$this->setRedirect('index.php?option=com_content&view=articles');
+	}
+
+	/**
+	 * Proxy for getModel.
+	 * @since	1.6
+	 */
+	public function &getModel($name = 'Article', $prefix = 'ContentModel')
+	{
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 }

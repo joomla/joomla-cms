@@ -18,39 +18,21 @@ jimport( 'joomla.application.component.controlleradmin' );
  */
 class MenusControllerItems extends JControllerAdmin
 {
-	protected $_context = 'com_menus';
-	
-	/**
-	 * Constructor.
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		// Register proxy tasks.
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('trash',		'publish');
-		$this->registerTask('orderup',		'reorder');
-		$this->registerTask('orderdown',	'reorder');
-		$this->setURL('index.php?option=com_menus&view=items');
-	}
-
 	/**
 	 * Proxy for getModel
+	 * @since	1.6
 	 */
 	function &getModel($name = 'Item', $prefix = 'MenusModel')
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
 	}
-	
+
 	/**
 	 * Rebuild the nested set tree.
 	 *
 	 * @return	bool	False on failure or error, true on success.
+	 * @since	1.6
 	 */
 	public function rebuild()
 	{
@@ -61,13 +43,11 @@ class MenusControllerItems extends JControllerAdmin
 		// Initialise variables.
 		$model = &$this->getModel();
 
-		if ($model->rebuild())
-		{
+		if ($model->rebuild()) {
 			// Reorder succeeded.
 			$this->setMessage(JText::_('COM_MENUS_ITEMS_REBUILD_SUCCESS'));
 			return true;
-		}
-		else {
+		} else {
 			// Rebuild failed.
 			$this->setMessage(JText::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'));
 			return false;

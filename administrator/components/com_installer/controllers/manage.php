@@ -39,9 +39,7 @@ class InstallerControllerManage extends JController {
 
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'));
-		}
-		else
-		{
+		} else {
 			// Get the model.
 			$model	= $this->getModel('manage');
 
@@ -52,14 +50,11 @@ class InstallerControllerManage extends JController {
 			else
 			{
 				if ($value == 1) {
-					$text = 'COM_INSTALLER_EXTENSION_PUBLISHED';
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
-				}
-				else if ($value == 0) {
-					$text = 'COM_INSTALLER_EXTENSION_UNPUBLISHED';
+				} else if ($value == 0) {
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
 				}
-				$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
+				$this->setMessage(JText::__($ntext, count($ids)));
 			}
 		}
 

@@ -13,28 +13,13 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_languages
+ * @since	1.6
  */
 class LanguagesControllerLanguages extends JControllerAdmin
 {
-	protected $_context = 'com_languages';
-	
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		parent::__construct();
-
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('disable',		'publish');
-		$this->registerTask('trash',		'publish');
-		$this->registerTask('unfeatured',	'featured');
-		$this->setURL('index.php?option=com_languages&view=languages');
-		$this->_option = 'com_languages';
-	}
-
 	/**
 	 * Proxy for getModel
+	 * @since	1.6
 	 */
 	function &getModel($name = 'Languages', $prefix = 'LanguagesModel')
 	{

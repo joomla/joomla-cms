@@ -81,7 +81,7 @@ class TemplatesControllerStyles extends JController
 			}
 			$model = $this->getModel();
 			$model->delete($pks);
-			$this->setMessage(JText::sprintf((count($pks) == 1) ? 'COM_TEMPLATES_TEMPLATE_DELETED' : 'COM_TEMPLATES_N_TEMPLATES_DELETED', count($pks)));
+			$this->setMessage(JText::__('COM_TEMPLATES_N_TEMPLATES_DELETED', count($pks)));
 		}
 		catch (Exception $e)
 		{

@@ -19,28 +19,15 @@ jimport('joomla.application.component.controlleradmin');
  */
 class BannersControllerClients extends JControllerAdmin
 {
-	protected $_context = 'com_banners.clients';
-	
 	/**
-	 * Constructor.
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
 	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('archive',		'publish');
-		$this->registerTask('trash',		'publish');
-		$this->registerTask('orderup',		'reorder');
-		$this->registerTask('orderdown',	'reorder');
-		$this->setURL('index.php?option=com_banners&view=clients');
-	}
+	protected $_msgprefix = 'COM_BANNERS_CLIENTS';
 
 	/**
 	 * Proxy for getModel.
+	 * @since	1.6
 	 */
 	public function &getModel($name = 'Client', $prefix = 'BannersModel')
 	{

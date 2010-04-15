@@ -13,28 +13,13 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_content
+ * @since	1.6
  */
 class ContactControllerContacts extends JControllerAdmin
 {
-	protected $_context = 'com_contact';
-	
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		parent::__construct();
-		$this->registerTask('archive',		'publish');
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('trash',		'publish');
-		//$this->registerTask('report',		'publish');
-		$this->registerTask('orderup',		'reorder');
-		$this->registerTask('orderdown',	'reorder');
-		$this->setURL('index.php?option=com_contact&view=contacts');
-	}
-	
 	/**
 	 * Proxy for getModel
+	 * @since	1.6
 	 */
 	function &getModel($name = 'Contact', $prefix = 'ContactModel')
 	{

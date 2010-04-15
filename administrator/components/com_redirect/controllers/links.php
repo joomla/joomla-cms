@@ -20,72 +20,9 @@ jimport('joomla.application.component.controlleradmin');
  */
 class RedirectControllerLinks extends JControllerAdmin
 {
-	protected $_context = 'com_redirect.links';
-	
-	/**
-	 * Constructor.
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('archive',		'publish');
-		$this->registerTask('trash',		'publish');
-		$this->setURL('index.php?option=com_redirect&view=links');
-	}
-
-	/**
-	 * Display is not supported by this class.
-	 */
-	public function display()
-	{
-	}
-
-	/**
-	 * Proxy for getModel.
-	 */
-	public function &getModel($name = 'Link', $prefix = 'RedirectModel')
-	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
-		return $model;
-	}
-
-	/**
-	 * Method to remove a record.
-	 */
-	public function delete()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_LINK_SELECTED'));
-		}
-		else {
-			// Get the model.
-			$model = $this->getModel();
-
-			// Remove the items.
-			if (!$model->delete($ids)) {
-				JError::raiseWarning(500, $model->getError());
-			}
-			else {
-				$this->setMessage(JText::sprintf((count($ids) == 1) ? 'COM_REDIRECT_LINK_DELETED' : 'COM_REDIRECT_N_LINKS_DELETED', count($ids)));
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_redirect&view=links');
-	}
-
 	/**
 	 * Method to update a record.
+	 * @since	1.6
 	 */
 	public function activate()
 	{
@@ -99,21 +36,57 @@ class RedirectControllerLinks extends JControllerAdmin
 
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_LINK_SELECTED'));
-		}
-		else {
+		} else {
 			// Get the model.
 			$model = $this->getModel();
 
 			// Remove the items.
 			if (!$model->activate($ids, $newUrl, $comment)) {
 				JError::raiseWarning(500, $model->getError());
-			}
-			else {
-				count($ids) == 1 ?
-				$this->setMessage(JText::_('COM_REDIRECT_LINK_UPDATED')) : $this->setMessage(JText::sprintf('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
+			} else {
+				$this->setMessage(JText::__('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
 			}
 		}
 
 		$this->setRedirect('index.php?option=com_redirect&view=links');
+	}
+
+	/**
+	 * Method to remove a record.
+	 * @since	1.6
+	 */
+	public function delete()
+	{
+		// Check for request forgeries.
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Initialise variables.
+		$ids	= JRequest::getVar('cid', array(), '', 'array');
+
+		if (empty($ids)) {
+			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_LINK_SELECTED'));
+		} else {
+			// Get the model.
+			$model = $this->getModel();
+
+			// Remove the items.
+			if (!$model->delete($ids)) {
+				JError::raiseWarning(500, $model->getError());
+			} else {
+				$this->setMessage(JText::__('COM_REDIRECT_N_LINKS_DELETED', count($ids)));
+			}
+		}
+
+		$this->setRedirect('index.php?option=com_redirect&view=links');
+	}
+
+	/**
+	 * Proxy for getModel.
+	 * @since	1.6
+	 */
+	public function &getModel($name = 'Link', $prefix = 'RedirectModel')
+	{
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
 }

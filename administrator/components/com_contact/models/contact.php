@@ -39,7 +39,7 @@ class ContactModelContact extends JModelAdmin
 		$this->_item = 'item';
 		$this->_option = 'com_contact';
 	}
-	
+
 	/**
 	 * Returns a Table object, always creating it
 	 *
@@ -212,9 +212,11 @@ class ContactModelContact extends JModelAdmin
 		$cache->clean();
 
 		$dispatcher->trigger('onAfterContactSave', array(&$table, $isNew));
+
+		$this->setState('contact.id', $table->id);
 		return true;
 	}
-	
+
 	/**
 	 * Method to perform batch operations on a category or a set of contacts.
 	 *
@@ -296,7 +298,7 @@ class ContactModelContact extends JModelAdmin
 
 		return true;
 	}
-	
+
 	function _orderConditions($table = null)
 	{
 		$condition = array();

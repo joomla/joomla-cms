@@ -19,35 +19,39 @@ jimport('joomla.application.component.controlleradmin');
  */
 class BannersControllerBanners extends JControllerAdmin
 {
-	protected $_context = 'com_banners.banners';
+	/**
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
+	 */
+	protected $_msgprefix = 'COM_BANNERS_BANNERS';
+
 	/**
 	 * Constructor.
 	 *
 	 * @param	array An optional associative array of configuration settings.
 	 * @see		JController
+	 * @since	1.6
 	 */
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
-		$this->registerTask('unpublish',		'publish');
-		$this->registerTask('archive',			'publish');
-		$this->registerTask('trash',			'publish');
-		$this->registerTask('orderup',			'reorder');
-		$this->registerTask('orderdown',		'reorder');
 		$this->registerTask('sticky_unpublish',	'sticky_publish');
-		$this->setURL('index.php?option=com_banners&view=banners');
 	}
-	
+
 	/**
 	 * Proxy for getModel.
+	 * @since	1.6
 	 */
 	public function &getModel($name = 'Banner', $prefix = 'BannersModel')
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
 	}
-	
+
+	/**
+	 * @since	1.6
+	 */
 	public function sticky_publish()
 	{
 		// Check for request forgeries.
@@ -62,27 +66,20 @@ class BannersControllerBanners extends JControllerAdmin
 
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('COM_BANNERS_NO_BANNERS_SELECTED'));
-		}
-		else
-		{
+		} else {
 			// Get the model.
 			$model	= $this->getModel();
 
 			// Change the state of the records.
 			if (!$model->stick($ids, $value)) {
 				JError::raiseWarning(500, $model->getError());
-			}
-			else
-			{
+			} else {
 				if ($value == 1) {
-					$text = 'COM_BANNERS_BANNER_STUCK';
 					$ntext = 'COM_BANNERS_N_BANNERS_STUCK';
-				}
-				else {
-					$text = 'COM_BANNERS_BANNER_UNSTUCK';
+				} else {
 					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
 				}
-				$this->setMessage(JText::sprintf((count($ids) == 1) ? $text : $ntext, count($ids)));
+				$this->setMessage(JText::__($ntext, count($ids)));
 			}
 		}
 

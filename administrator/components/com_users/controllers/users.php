@@ -76,7 +76,7 @@ class UsersControllerUsers extends JController
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {
-				$this->setMessage(JText::sprintf('JController_N_Items_deleted', count($ids)));
+				$this->setMessage(JText::__('COM_USERS_N_USERS_DELETED', count($ids)));
 			}
 		}
 
@@ -108,16 +108,8 @@ class UsersControllerUsers extends JController
 			// Change the state of the records.
 			if (!$model->block($ids, $value)) {
 				JError::raiseWarning(500, $model->getError());
-			}
-			else
-			{
-				if ($value == 1) {
-					$text = 'Users_N_Users_Blocked';
-				}
-				else {
-					$text = 'Users_N_Users_UnBlocked';
-				}
-				$this->setMessage(JText::sprintf($text, count($ids)));
+			} else {
+				$this->setMessage(JText::__('COM_USERS_N_USERS_BLOCKED', count($ids)));
 			}
 		}
 
