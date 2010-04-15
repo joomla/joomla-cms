@@ -20,7 +20,6 @@ jimport('joomla.access.rules');
  */
 class JAccess
 {
-	protected static $isRoot = null;
 	protected static $viewLevels = array();
 	protected static $assetRules = array();
 
@@ -35,45 +34,27 @@ class JAccess
 	 */
 	public static function check($userId, $action, $asset = null)
 	{
-		if (self::$isRoot) {
-			return true;
+		// Sanitize inputs.
+		$userId = (int) $userId;
+
+		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
+		$asset  = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
+
+		// Default to the root asset node.
+		if (empty($asset)) {
+			$asset = 1;
 		}
-		else
-		{
-			// Sanitize inputs.
-			$userId = (int) $userId;
 
-			$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
-			$asset  = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
-
-			// Default to the root asset node.
-			if (empty($asset)) {
-				$asset = 1;
-			}
-
-			// Get the rules for the asset recursively to root if not already retrieved.
-			if (empty(self::$assetRules[$asset])) {
-				self::$assetRules[$asset] = self::getAssetRules($asset, true);
-			}
-
-			// Get all groups against which the user is mapped.
-			$identities = self::getGroupsByUser($userId);
-			array_unshift($identities, $userId * -1);
-
-			// Make sure we only check for core.admin once during the run.
-			if (self::$isRoot === null)
-			{
-				if (self::getAssetRules(1)->allow('core.admin', $identities)) {
-					self::$isRoot = true;
-					return true;
-				}
-				else {
-					self::$isRoot = false;
-				}
-			}
-
-			return self::$assetRules[$asset]->allow($action, $identities);
+		// Get the rules for the asset recursively to root if not already retrieved.
+		if (empty(self::$assetRules[$asset])) {
+			self::$assetRules[$asset] = self::getAssetRules($asset, true);
 		}
+
+		// Get all groups against which the user is mapped.
+		$identities = self::getGroupsByUser($userId);
+		array_unshift($identities, $userId * -1);
+
+		return self::$assetRules[$asset]->allow($action, $identities);
 	}
 
 	/**
@@ -241,8 +222,7 @@ class JAccess
 					break;
 				}
 				// Check to see if the group is mapped to the level.
-				elseif (($id >= 0) && in_array($id, $groups))
-				{
+				elseif (($id >= 0) && in_array($id, $groups)) {
 					$authorised[] = $level;
 					break;
 				}
