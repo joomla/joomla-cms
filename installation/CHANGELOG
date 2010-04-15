@@ -30,6 +30,8 @@ $ -> Language fix or change
 15-Apr-2010 Andrew Eddie
  ^ Decoupled the core.admin check from JAccess and moved to JUser::authorise.
  ^ Reinstated the lost root_user failsafe in the configuration file.
+ - Deprecated JController _acoSection and _acoSectionValue properties, authorize and setAccessControl methods.
+ + Add second argument to JController::setMessage to set the message type.
 
 14-Apr-2010 Chrisotphe Demko
 # Changed en_GB to en-GB in sample_data.sql
