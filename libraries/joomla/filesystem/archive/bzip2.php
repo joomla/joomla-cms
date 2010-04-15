@@ -62,7 +62,7 @@ class JArchiveBzip2 extends JObject
 		$this->_data = null;
 
 		if (!extension_loaded('bz2')) {
-			$this->set('error.message', 'BZip2 Not Supported');
+			$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_NOT_SUPPORTED'));
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
@@ -89,13 +89,13 @@ class JArchiveBzip2 extends JObject
 		$input =& JFactory::getStream();
 		$input->set('processingmethod','bz'); // use bzip
 		if(!$input->open($archive)) {
-			$this->set('error.message', 'Unable to read archive (bz2)');
+			$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_READ'));
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
 		$output =& JFactory::getStream();
 		if(!$output->open($destination, 'w')) {
-			$this->set('error.message', 'Unable to write archive (bz2)');
+			$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_WRITE'));
 			$input->close(); // close the previous file
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
@@ -105,7 +105,7 @@ class JArchiveBzip2 extends JObject
 			$this->_data = $input->read($input->get('chunksize', 8196));
 			if($this->_data) {
 				if(!$output->write($this->_data)) {
-					$this->set('error.message', 'Unable to write file (bz2)');
+					$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_WRITE_FILE'));
 					return JError::raiseWarning(100, $this->get('error.message'));
 				}
 			}

@@ -131,4 +131,4 @@ class JStreamString
 	}
 }
 
-stream_wrapper_register('string', 'JStreamString') or die('Failed to register string stream');
+stream_wrapper_register('string', 'JStreamString') or die(JText::_('JLIB_FILESYSTEM_STREAM_FAILED'));

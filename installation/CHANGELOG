@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Apr-2010 Jean-Marie Simonet
+#$ Refactoring ini/keys in libraries documents, error, event, filesystem
+
 15-Apr-2010 Andrew Eddie
  ^ Decoupled the core.admin check from JAccess and moved to JUser::authorise.
  ^ Reinstated the lost root_user failsafe in the configuration file.

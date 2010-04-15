@@ -76,14 +76,14 @@ class JFile
 
 		//Check src path
 		if (!is_readable($src)) {
-			JError::raiseWarning(21, 'JFile::copy: ' . JText::_('Cannot find or read file') . ": '$src'");
+			JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_FIND_COPY', $src));
 			return false;
 		}
 
 		if($use_streams) {
 			$stream =& JFactory::getStream();
 			if(!$stream->copy($src, $dest)) {
-				JError::raiseWarning(21, 'JFile::copy('. $src .', '. $dest .'): '. $stream->getError());
+				JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_STREAMS', $src, $dest, $stream->getError()));
 				return false;
 			}
 			return true;
@@ -112,7 +112,7 @@ class JFile
 			$ret = true;
 		} else {
 			if (!@ copy($src, $dest)) {
-				JError::raiseWarning(21, JText::_('COPY_FAILED'));
+				JError::raiseWarning(21, JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'));
 				return false;
 			}
 			$ret = true;
@@ -195,13 +195,13 @@ class JFile
 
 		//Check src path
 		if (!is_readable($src)) { // && !is_writable($src)) { // file may not be writable by php if via ftp!
-			return JText::_('CANNOT_FIND_SOURCE_FILE');
+			return JText::_('JLIB_FILESYSTEM_CANNOT_FIND_SOURCE_FILE');
 		}
 
 		if($use_streams) {
 			$stream =& JFactory::getStream();
 			if(!$stream->move($src, $dest)) {
-				JError::raiseWarning(21, 'JFile::move: '. $stream->getError());
+				JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_MOVE_STREAMS', $stream->getError()));
 				return false;
 			}
 			return true;
@@ -221,12 +221,12 @@ class JFile
 
 			// Use FTP rename to simulate move
 			if (!$ftp->rename($src, $dest)) {
-				JError::raiseWarning(21, JText::_('Rename failed'));
+				JError::raiseWarning(21, JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'));
 				return false;
 			}
 		} else {
 			if (!@ rename($src, $dest)) {
-				JError::raiseWarning(21, JText::_('Rename failed'));
+				JError::raiseWarning(21, JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'));
 				return false;
 			}
 		}
@@ -251,7 +251,7 @@ class JFile
 		$data = null;
 		if ($amount && $chunksize > $amount) { $chunksize = $amount; }
 		if (false === $fh = fopen($filename, 'rb', $incpath)) {
-			JError::raiseWarning(21, 'JFile::read: '.JText::_('Unable to open file') . ": '$filename'");
+			JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_READ_UNABLE_TO_OPEN_FILE', $filename));
 			return false;
 		}
 		clearstatcache();
@@ -299,7 +299,7 @@ class JFile
 			$stream =& JFactory::getStream();
 			$stream->set('chunksize', (1024 * 1024 * 1024)); // beef up the chunk size to a meg
 			if(!$stream->writeFile($file, $buffer)) {
-				JError::raiseWarning(21, 'JFile::write('. $file.'): '. $stream->getError());
+				JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_WRITE_STREAMS', $file, $stream->getError()));
 				return false;
 			}
 			return true;
@@ -348,7 +348,7 @@ class JFile
 		if($use_streams) {
 			$stream =& JFactory::getStream();
 			if(!$stream->upload($src, $dest)) {
-				JError::raiseWarning(21, 'JFile::upload: '. $stream->getError());
+				JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_UPLOAD', $stream->getError()));
 				return false;
 			}
 			return true;
@@ -371,17 +371,17 @@ class JFile
 				$ftp->chmod($dest, 0777);
 				$ret = true;
 			} else {
-				JError::raiseWarning(21, JText::_('WARNFS_ERR02'));
+				JError::raiseWarning(21, JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02'));
 			}
 		} else {
 			if (is_writeable($baseDir) && move_uploaded_file($src, $dest)) { // Short circuit to prevent file permission errors
 				if (JPath::setPermissions($dest)) {
 					$ret = true;
 				} else {
-					JError::raiseWarning(21, JText::_('WARNFS_ERR01'));
+					JError::raiseWarning(21, JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR01'));
 				}
 			} else {
-				JError::raiseWarning(21, JText::_('WARNFS_ERR02'));
+				JError::raiseWarning(21, JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02'));
 			}
 		}
 		return $ret;

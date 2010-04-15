@@ -116,7 +116,7 @@ class JArchive
 				}
 				break;
 			default:
-				JError::raiseWarning(10, JText::_('UNKNOWNARCHIVETYPE'));
+				JError::raiseWarning(10, JText::_('JLIB_FILESYSTEM_UNKNOWNARCHIVETYPE'));
 				return false;
 				break;
 		}
@@ -146,7 +146,7 @@ class JArchive
 				if (file_exists($path)) {
 					require_once $path;
 				} else {
-					JError::raiseError(500,JText::_('Unable to load archive'));
+					JError::raiseError(500,JText::_('JLIB_FILESYSTEM_UNABLE_TO_LOAD_ARCHIVE'));
 				}
 			}
 
