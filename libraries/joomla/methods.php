@@ -21,9 +21,9 @@ class JRoute
 	/**
 	 * Translates an internal Joomla URL to a humanly readible URL.
 	 *
-	 * @param	string	$url	Absolute or Relative URI to Joomla resource.
-	 * @param	boolean  $xhtml Replace & by &amp; for xml compilance.
-	 * @param	int		$ssl	Secure state for the resolved URI.
+	 * @param	string	Absolute or Relative URI to Joomla resource.
+	 * @param	boolean	Replace & by &amp; for xml compilance.
+	 * @param	int		Secure state for the resolved URI.
 	 *		1: Make URI secure using global secure site URI.
 	 *		0: Leave URI in the same secure state as it was passed to the function.
 	 *		-1: Make URI unsecure using the global unsecure site URI.
@@ -32,8 +32,8 @@ class JRoute
 	public static function _($url, $xhtml = true, $ssl = null)
 	{
 		// Get the router.
-		$app = &JFactory::getApplication();
-		$router = &$app->getRouter();
+		$app	= JFactory::getApplication();
+		$router	= $app->getRouter();
 
 		// Make sure that we have our router
 		if (!$router) {
@@ -45,7 +45,7 @@ class JRoute
 		}
 
 		// Build route.
-		$uri = &$router->build($url);
+		$uri = $router->build($url);
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 
 		// Replace spaces.
@@ -58,14 +58,12 @@ class JRoute
 		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
-		if ((int) $ssl)
-		{
+		if ((int) $ssl) {
 			$uri = &JURI::getInstance();
 
 			// Get additional parts.
 			static $prefix;
-			if (!$prefix)
-			{
+			if (!$prefix) {
 				$prefix = $uri->toString(array('host', 'port'));
 			}
 
@@ -102,15 +100,46 @@ class JText
 	/**
 	 * Translates a string into the current language.
 	 *
-	 * @param	string $string The string to translate.
-	 * @param	boolean	$jsSafe		Make the result javascript safe.
+	 * @param	string	The string to translate.
+	 * @param	boolean	Make the result javascript safe.
 	 * @since	1.5
 	 *
 	 */
 	public static function _($string, $jsSafe = false)
 	{
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		return $lang->_($string, $jsSafe);
+	}
+
+	/**
+	 * Like JText::sprintf but tries to pluralise the string.
+	 *
+	 * @param	mixed	Mixed number of arguments for the sprintf function.
+	 * @since	1.6
+	 */
+	public static function __()
+	{
+		$lang = JFactory::getLanguage();
+		$args = func_get_args();
+
+		if (count($args) > 1) {
+			// Try the key with the count.
+			$key = $args[0].'_'.(int) $args[1];
+			if (!$lang->hasKey($key)) {
+				// Not found so revert to the original.
+				$key = $args[0];
+			}
+
+			$args[0] = $lang->_($key);
+			return call_user_func_array('sprintf', $args);
+		} else if (count($args) > 0) {
+
+			// Default to the normal sprintf handling.
+			$args[0] = $lang->_($args[0]);
+			return call_user_func_array('sprintf', $args);
+		}
+
+		return '';
 	}
 
 	/**
@@ -122,10 +151,9 @@ class JText
 	 */
 	public static function sprintf($string)
 	{
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$args = func_get_args();
-		if (count($args) > 0)
-		{
+		if (count($args) > 0) {
 			$args[0] = $lang->_($args[0]);
 			return call_user_func_array('sprintf', $args);
 		}
@@ -141,10 +169,9 @@ class JText
 	 */
 	public static function printf($string)
 	{
-		$lang = &JFactory::getLanguage();
-		$args = func_get_args();
-		if (count($args) > 0)
-		{
+		$lang	= JFactory::getLanguage();
+		$args	= func_get_args();
+		if (count($args) > 0) {
 			$args[0] = $lang->_($args[0]);
 			return call_user_func_array('printf', $args);
 		}
@@ -154,8 +181,7 @@ class JText
 	/**
 	 * Translate a string into the current language and stores it in the JavaScript language store.
 	 *
-	 * @param	string		$string		The JText key.
-	 * @return	void
+	 * @param	string	The JText key.
 	 * @since	1.6
 	 */
 	public static function script($string = null)
