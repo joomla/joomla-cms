@@ -553,7 +553,9 @@ class JCategoryNode extends JObject
 	{
 		if(!($this->metadata instanceof JRegistry))
 		{
-			$this->metadata = new JRegistry($this->metadata);
+			$temp = new JRegistry();
+			$temp->loadJSON($this->metadata);
+			$this->metadata = $temp;
 		}
 		return $this->metadata;
 	}
