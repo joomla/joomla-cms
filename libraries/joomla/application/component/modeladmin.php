@@ -114,7 +114,7 @@ die;*/
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
+					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 			else
@@ -150,7 +150,7 @@ die;*/
 				if (!$allow) {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
+					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 		}
@@ -182,7 +182,7 @@ die;*/
 		// Access checks.
 		$allow = $user->authorise('core.edit', $this->_option);
 		if (!$allow) {
-			$this->setError(JText::_('JERROR_CORE_EDIT_NOT_PERMITTED'));
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_ITEM_NOT_PERMITTED'));
 			return false;
 		}
 
@@ -234,7 +234,7 @@ die;*/
 			if (!$allow) {
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
+				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
 			} else if ($table->ordering != $order[$i]) {
 				$table->ordering = $order[$i];
 				if (!$table->store()) {
