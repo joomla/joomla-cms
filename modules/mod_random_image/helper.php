@@ -14,13 +14,13 @@ class modRandomImageHelper
 {
 	function getRandomImage(&$params, $images)
 	{
-		$width		= $params->get('width');
+		$width	= $params->get('width');
 		$height	= $params->get('height');
 
-		$i				= count($images);
+		$i			= count($images);
 		$random		= mt_rand(0, $i - 1);
-		$image			= $images[$random];
-		$size			= getimagesize (JPATH_BASE.DS.$image->folder .DS. $image->name);
+		$image		= $images[$random];
+		$size		= getimagesize (JPATH_BASE.DS.$image->folder .DS. $image->name);
 
 
 		if ($width == '') {
@@ -76,10 +76,10 @@ class modRandomImageHelper
 			{
 				if (!is_dir($dir .DS. $img))
 				{
-					if (preg_match($type, $img)) {
+					if (preg_match('/'.$type.'/', $img)) {
 						$images[$i]->name	= $img;
 						$images[$i]->folder	= $folder;
-						++$i;
+						$i++;
 					}
 				}
 			}
@@ -102,10 +102,9 @@ class modRandomImageHelper
 		if (JString::strpos($folder, JPATH_SITE) === 0) {
 			$folder= str_replace(JPATH_BASE, '', $folder);
 		}
-		$folder = str_replace('\\',DS,$folder);
-		$folder = str_replace('/',DS,$folder);
+		$folder = str_replace('\\', DS, $folder);
+		$folder = str_replace('/', DS, $folder);
 
 		return $folder;
 	}
 }
-

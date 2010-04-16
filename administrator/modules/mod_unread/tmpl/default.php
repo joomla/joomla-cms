@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 $inboxClass = $unread ? 'unread-messages' : 'no-unread-messages';
 ?>
 <?php if (!empty($inboxLink)) : ?>
-	<span class="<?php echo $inboxClass;?>"><a href="<?php echo $inboxLink;?>"><?php echo JText::sprtinf('MOD_UNREAD_MESSAGES', $unread);?></a></span>
+	<span class="<?php echo $inboxClass;?>"><a href="<?php echo $inboxLink;?>"><?php echo JText::sprintf('MOD_UNREAD_MESSAGES', $unread);?></a></span>
 <?php else : ?>
 	<span class="<?php echo $inboxClass;?>"><?php echo JText::sprintf('MOD_UNREAD_MESSAGES', $unread);?></span>
 <?php endif; ?>
