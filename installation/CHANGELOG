@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Apr-2010 Mark Dexter
+# Fix JParameter merge bug with integer zero param value (plus unit test for same)
+
 16-Apr-2010 Jean-Marie Simonet
 # Fixing mod_random_image (Thanks Dennis)
 # Fix translation of "ROOT" in parent field for categories (Thanks Dennis)

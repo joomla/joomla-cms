@@ -442,6 +442,16 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('huh'),
 			'Line: '.__LINE__.'.'
 		);
+		
+		// test merge with zero value
+		$json1 = '{"param1": 1}';
+		$json2 = '{"param1": 2, "param2": 0}';
+		$a = new JRegistry($json1);
+		$b = new JRegistry($json2);
+		$a->merge($b);
+		// new param with zero value should show in merged registry
+		$this->assertEquals(0, $a->get('param2'));
+		$this->assertEquals(2, $a->get('param1'));
 	}
 
 	/**
@@ -543,4 +553,5 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			'Line: '.__LINE__.'.'
 		);
 	}
+
 }
