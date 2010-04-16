@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Apr-2010 Jean-Marie Simonet
+# Fixed [20169]. (Thanks Andrea]
+
 16-Apr-2010 Mark Dexter
 # Fix JParameter merge bug with integer zero param value (plus unit test for same)
 

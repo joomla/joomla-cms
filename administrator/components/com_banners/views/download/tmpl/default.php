@@ -34,7 +34,7 @@ JHtml::_('behavior.tooltip');
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_BANNERS_TRACKS_DOWNLOAD');?></legend>
 
-		<?php foreach($this->form->getFields() as $field): ?>
+		<?php foreach($this->form->getFieldset() as $field): ?>
 			<?php if (!$field->hidden): ?>
 				<?php echo $field->label; ?>
 			<?php endif; ?>
