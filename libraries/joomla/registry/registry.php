@@ -322,7 +322,7 @@ class JRegistry
 		if ($source instanceof JRegistry) {
 			// Load the variables into the registry's default namespace.
 			foreach ($source->toArray() as $k => $v) {
-				if ($v !== null) {
+				if ($v != null) {
 					$this->data->$k = $v;
 				}
 			}
