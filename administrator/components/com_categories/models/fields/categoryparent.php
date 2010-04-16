@@ -72,6 +72,10 @@ class JFormFieldCategoryParent extends JFormFieldList
 
 		// Pad the option text with spaces using depth level as a multiplier.
 		for ($i = 0, $n = count($options); $i < $n; $i++) {
+			// Translate ROOT
+			if ($options[$i]->level == 0) {
+				$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
+			}
 			$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
 		}
 
