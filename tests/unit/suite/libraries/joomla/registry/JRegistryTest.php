@@ -442,6 +442,20 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('huh'),
 			'Line: '.__LINE__.'.'
 		);
+		
+		// test merge with zero and blank value
+		$json1 = '{"param1":1, "param2":"value2"}';
+		$json2 = '{"param1":2, "param2":"", "param3":0, "param4":-1, "param5":1}';
+		$a = new JRegistry($json1);
+		$b = new JRegistry();
+		$b->loadJSON($json2);
+		$a->merge($b);
+		// new param with zero value should show in merged registry
+		$this->assertEquals(2, $a->get('param1'), '$b value should override $a value');
+		$this->assertEquals('value2', $a->get('param2'), '$a value should override blank $b value');
+		$this->assertEquals(0, $a->get('param3'), '$b value of 0 should override $a value');
+		$this->assertEquals(-1, $a->get('param4'), '$b value of -1 should override $a value');
+		$this->assertEquals(1, $a->get('param5'), '$b value of 1 should override $a value');
 	}
 
 	/**
