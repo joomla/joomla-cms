@@ -31,7 +31,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		print("Create new Category and save." . "\n");
 		$this->type("jform_title", "Functional Test Category");
-		$this->select("jform_parent_id", "label=ROOT");
+		$this->select("jform_parent_id", "label=- No parent -");
 		$this->select("jform_published", "label=Published");
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
