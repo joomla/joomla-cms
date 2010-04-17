@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Apr-2010 Mark Dexter
+# Change condition in JRegistry merge method to be consistent with get method 
+
 17-Apr-2010 Jean-Marie Simonet
 # Fixed [20169]. (Thanks Andrea]
 ^ Added Title for accessibility [20171]. (Thanks Andrea]
