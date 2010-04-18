@@ -60,7 +60,7 @@ abstract class JHtmlAccess
 		}
 		// If all levels is allowed, push it into the array.
 		elseif ($params) {
-			array_unshift($options, JHtml::_('select.option', '', JText::_('JOption_Access_Show_All_Levels')));
+			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_ACCESS_SHOW_ALL_LEVELS')));
 		}
 
 		return JHtml::_('select.genericlist', $options, $name,
@@ -105,7 +105,7 @@ abstract class JHtmlAccess
 
 		// If all usergroups is allowed, push it into the array.
 		if ($allowAll) {
-			array_unshift($options, JHtml::_('select.option', '', JText::_('JOption_Access_Show_All_Groups')));
+			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_ACCESS_SHOW_ALL_GROUPS')));
 		}
 
 		return JHtml::_('select.genericlist', $options, $name,
