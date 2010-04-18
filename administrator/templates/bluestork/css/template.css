@@ -804,6 +804,7 @@ fieldset label {
 	float: left;
 	clear: left;
 	margin: 5px 5px 2px 0;
+	
 }
 fieldset ul {
 	margin: 0;
@@ -819,7 +820,7 @@ fieldset img,
 fieldset button {
 	float: left;
 	width: auto;
-	margin: 5px 5px 10px 0px;
+	margin: 5px 5px 5px 0px;
 }
 
 fieldset ul.checklist input {
@@ -912,17 +913,20 @@ label.required:after {
 	vertical-align: middle;
 }
 
+input.readonly {
+	background-color: #ffffff;
+}
+
+
 input#jform_title,
 input#jform_leveltitle,
-input#jform_grouptitle
-	{
+input#jform_grouptitle {
 	font-size: 1.364em;
 }
 
 label#jform_title-lbl,
 label#jform_leveltitle-lbl,
-label#jform_grouptitle-lbl
-	{
+label#jform_grouptitle-lbl {
 	padding-top: 3px;
 }
 
@@ -2712,9 +2716,14 @@ a.icon-16-menu span img {
 #submenu a:hover,
 #submenu a.active,
 #submenu span.nolink.active {
-	color: #146295
+	color: #146295;
+	background: #ffffff;
 }
 
+
+
+	
+	
 /* -- COMPONENT STYLES ------------------------------ */
 div.message {
 	text-align: center;
@@ -3205,10 +3214,28 @@ ul.acllegend li.acl-resetbtn {
 table#acl-config {
 	width: 100%;
 	margin-top: 15px;
+	border-collapse:collapse;
 }
 
 table#acl-config th {
-	padding-bottom: 10px;
+	height: 25px;
+	background: #F4F4F4;
+	border-bottom: 1px solid silver;
+	vertical-align:middle;
+}
+
+table#acl-config thead th,
+table#acl-config td {
+	text-align:center;
+	vertical-align:middle;
+	height: 30px;
+}
+
+table#acl-config th.acl-groups {
+	padding-left: 8px;	
+}
+table#acl-config td select {
+	float:none;
 }
 
 .acl-action {
