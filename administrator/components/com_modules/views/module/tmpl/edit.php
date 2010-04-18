@@ -30,7 +30,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			submitform(task);
 		}
 		else {
-			alert('<?php echo $this->escape(JText::_('JVALIDATION_FORM_FAILED'));?>');
+			alert('<?php echo $this->escape(JText::_('COM_MODULES_ERROR_TITLE'));?>');
 		}
 	}
 // -->
