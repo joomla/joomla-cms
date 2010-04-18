@@ -1684,7 +1684,7 @@ class JForm
 			if ($message) {
 				return new JException(JText::_($message), 1, E_WARNING);
 			} else {
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['name'])), 1, E_WARNING));
+				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['name'])), 1, E_WARNING);
 			}
 		}
 
