@@ -207,7 +207,7 @@ CREATE TABLE `#__contact_details` (
   `imagepos` varchar(20) default NULL,
   `email_to` varchar(255) default NULL,
   `default_con` tinyint(1) unsigned NOT NULL default '0',
-  `published` tinyint(1) unsigned NOT NULL default '0',
+  `published` tinyint(1) NOT NULL default '0',
   `checked_out` integer unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `ordering` integer NOT NULL default '0',
@@ -221,8 +221,27 @@ CREATE TABLE `#__contact_details` (
   `sortname2` varchar(255) NOT NULL,
   `sortname3` varchar(255) NOT NULL,
   `language` varchar(10) NOT NULL,
+  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created_by` int(10) unsigned NOT NULL default '0',
+  `created_by_alias` varchar(255) NOT NULL default '',
+  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+  `modified_by` int(10) unsigned NOT NULL default '0',
+  `metakey` text NOT NULL,
+  `metadesc` text NOT NULL,
+  `metadata` text NOT NULL,
+  `featured` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Set if article is featured.',
+  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',  
   PRIMARY KEY  (`id`),
-  KEY `catid` (`catid`)
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`state`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_createdby` (`created_by`),
+  KEY `idx_featured_catid` (`featured`,`catid`),
+  KEY `idx_language` (`language`),
+  KEY `idx_xreference` (`xreference`)  
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
@@ -638,7 +657,7 @@ CREATE TABLE `#__modules` (
 
 
 INSERT INTO `#__modules` VALUES
-(1, 'Main Menu', '','', 1, 'position->7', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, 'menutype=mainmenu\nmoduleclass_sfx=_menu\n', 0, ''),
+(1, 'Main Menu', '','', 1, 'position-7', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, 'menutype=mainmenu\nmoduleclass_sfx=_menu\n', 0, ''),
 (2, 'Login', '','', 1, 'login', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '', 1, ''),
 (3, 'Popular Articles','','',3,'cpanel',0,'0000-00-00 00:00:00','0000-00-00 00:00:00', '0000-00-00 00:00:00', 1,'mod_popular',3,1,'{"count":"5","catid":"","user_id":"0","layout":"","moduleclass_sfx":"","cache":"0"}',1, ''),
 (4, 'Recently Added Articles','','',4,'cpanel',0,'0000-00-00 00:00:00','0000-00-00 00:00:00', '0000-00-00 00:00:00', 1,'mod_latest',3,1,'ordering=c_dsc\nuser_id=0\ncache=0\n\n',1, ''),
@@ -716,11 +735,27 @@ CREATE TABLE `#__newsfeeds` (
   `access` tinyint UNSIGNED NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL DEFAULT '',
   `params` text NOT NULL,
+  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created_by` int(10) unsigned NOT NULL default '0',
+  `created_by_alias` varchar(255) NOT NULL default '',
+  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+  `modified_by` int(10) unsigned NOT NULL default '0',
+  `metakey` text NOT NULL,
+  `metadesc` text NOT NULL,
+  `metadata` text NOT NULL,
+  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
+  
   PRIMARY KEY  (`id`),
-  KEY `published` (`published`),
   KEY `idx_access` (`access`),
-  KEY `catid` (`catid`),
-  INDEX `idx_language` (`language`)
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`published`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_createdby` (`created_by`),
+  KEY `idx_language` (`language`),
+  KEY `idx_xreference` (`xreference`)
+ 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
@@ -1048,11 +1083,29 @@ CREATE TABLE `#__weblinks` (
   `access` integer NOT NULL default '1',
   `params` text NOT NULL,
   `language` char(7) NOT NULL DEFAULT '',
-  PRIMARY KEY  (`id`),
-  KEY `catid` (`catid`,`state`,`archived`),
-  INDEX `idx_language` (`language`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created_by` int(10) unsigned NOT NULL default '0',
+  `created_by_alias` varchar(255) NOT NULL default '',
+  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+  `modified_by` int(10) unsigned NOT NULL default '0',
+  `metakey` text NOT NULL,
+  `metadesc` text NOT NULL,
+  `metadata` text NOT NULL,
+  `featured` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Set if link is featured.',
+  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
 
+  PRIMARY KEY  (`id`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`state`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_createdby` (`created_by`),
+  KEY `idx_featured_catid` (`featured`,`catid`),
+  KEY `idx_language` (`language`),
+  KEY `idx_xreference` (`xreference`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 # -------------------------------------------------------
 
 #

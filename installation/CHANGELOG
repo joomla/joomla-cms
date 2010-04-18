@@ -42,6 +42,7 @@ $ -> Language fix or change
 # Fix bug in user profile (Elin Waring)
 # Fix recursion problem with loadposition (Klas Berlic)
 # Fix bug in counting modules (Elin Waring)
++ Add fields to contact_details, newsfeeds, and weblinks tables in db (Elin Waring)
 
 18-Apr-2010 Jean-Marie Simonet
 $ Added JText__ for item deletion. Correcting, adding some keys/inis
