@@ -17,6 +17,9 @@ class plgContentLoadmodule extends JPlugin
 	/**
 	* Plugin that loads module positions within content
 	*/
+/**
+	* Plugin that loads module positions within content
+	*/
 	public function onPrepareContent(&$article, &$params, $page = 0)
 	{
 		// simple performance check to determine whether bot should process further

@@ -33,6 +33,10 @@ $ -> Language fix or change
 # UI work on module manager and menu manager forms (Elin Waring)
 # Restore missing image parameter in contact (Elin Waring)
 # Fix up labels in com_contact (Elin Waring)
+# Add images for sample site (Elin Waring)
+# Fix bug in user profile (Elin Waring)
+# Fix recursion problem with loadposition (Klas Berlic)
+# Fix bug in counting modules (Elin Waring)
 
 18-Apr-2010 Jean-Marie Simonet
 $ Added JText__ for item deletion. Correcting, adding some keys/inis
