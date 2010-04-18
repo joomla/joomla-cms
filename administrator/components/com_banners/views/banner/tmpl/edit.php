@@ -69,13 +69,23 @@ JHtml::_('behavior.formvalidation');
 	<fieldset class="adminform">
 		<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_BANNER') : JText::sprintf('COM_BANNERS_EDIT_BANNER', $this->item->id); ?></legend>
 
-		<?php foreach($this->form->getFieldset('details') as $field): ?>
-			<?php if (!$field->hidden): ?>
-				<?php echo $field->label; ?>
-			<?php endif; ?>
-			<?php echo $field->input; ?>
-		<?php endforeach; ?>
+				<?php echo $this->form->getLabel('name'); ?>
+				<?php echo $this->form->getInput('name'); ?>
 
+				<?php echo $this->form->getLabel('alias'); ?>
+				<?php echo $this->form->getInput('alias'); ?>
+
+				<?php echo $this->form->getLabel('access'); ?>
+				<?php echo $this->form->getInput('access'); ?>
+
+				<?php echo $this->form->getLabel('catid'); ?>
+				<?php echo $this->form->getInput('catid'); ?>
+
+
+				<div class="clr"> </div>
+		</fieldset>
+		<fieldset class="adminform">
+		<legend><?php echo JText::_('Banners_Banner_Details') ?></legend>
 		<div id="image">
 			<?php foreach($this->form->getFieldset('image') as $field): ?>
 				<?php if (!$field->hidden): ?>
@@ -84,6 +94,29 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $field->input; ?>
 			<?php endforeach; ?>
 		</div>
+
+				<?php echo $this->form->getLabel('state'); ?>
+				<?php echo $this->form->getInput('state'); ?>
+				
+				<?php echo $this->form->getLabel('cid'); ?>
+				<?php echo $this->form->getInput('cid'); ?>
+
+				<?php echo $this->form->getLabel('description'); ?>
+				<?php echo $this->form->getInput('description'); ?>
+
+				<?php echo $this->form->getLabel('clickurl'); ?>
+				<?php echo $this->form->getInput('clickurl'); ?>
+
+				<?php echo $this->form->getLabel('type'); ?>
+				<?php echo $this->form->getInput('type'); ?>
+
+				<?php echo $this->form->getLabel('language'); ?>
+				<?php echo $this->form->getInput('language'); ?>
+		
+				<?php echo $this->form->getLabel('id'); ?>
+				<?php echo $this->form->getInput('id'); ?>
+				<div class="clr"> </div>
+
 		<div id="flash">
 			<?php foreach($this->form->getFieldset('flash') as $field): ?>
 				<?php if (!$field->hidden): ?>
@@ -108,6 +141,7 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $field->input; ?>
 			<?php endforeach; ?>
 		</div>
+
 	</fieldset>
 </div>
 <div class="width-40 fltrt">

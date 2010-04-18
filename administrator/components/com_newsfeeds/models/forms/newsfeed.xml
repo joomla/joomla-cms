@@ -4,8 +4,10 @@
 	-->
 <form>
 	<fieldset>
-		<field name="id" type="hidden" default="0" required="true"
-			readonly="true" />
+		<field name="id" type="text" default="0" required="true"
+			readonly="true" class="readonly"
+			label="JGLOBAL_FIELD_ID_LABEL" 	description ="JGLOBAL_FIELD_ID_DESC"		
+			 />
 
 		<field name="name" type="text" label="JFIELD_TITLE_LABEL"
 			description="JFIELD_TITLE_DESC" class="inputbox" size="30"

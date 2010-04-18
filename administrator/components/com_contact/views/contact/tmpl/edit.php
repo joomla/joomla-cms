@@ -53,17 +53,11 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getLabel('ordering'); ?>
 				<?php echo $this->form->getInput('ordering'); ?>
 
-				<?php echo $this->form->getLabel('sortname1'); ?>
-				<?php echo $this->form->getInput('sortname1'); ?>
-
-				<?php echo $this->form->getLabel('sortname2'); ?>
-				<?php echo $this->form->getInput('sortname2'); ?>
-
-				<?php echo $this->form->getLabel('sortname3'); ?>
-				<?php echo $this->form->getInput('sortname3'); ?>
-
 				<?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?>
+
+				<?php echo $this->form->getLabel('id'); ?>
+				<?php echo $this->form->getInput('id'); ?>
 
 				<div class="clr"> </div>
 				<?php echo $this->form->getLabel('misc'); ?>
@@ -78,6 +72,10 @@ JHtml::_('behavior.formvalidation');
 				<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
 					<fieldset class="panelform">
 					<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS') : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id); ?></p>
+						<?php echo $this->form->getLabel('image'); ?>
+						<?php echo $this->form->getInput('image'); ?>
+
+
 						<?php echo $this->form->getLabel('con_position'); ?>
 						<?php echo $this->form->getInput('con_position'); ?>
 
@@ -107,6 +105,16 @@ JHtml::_('behavior.formvalidation');
 
 						<?php echo $this->form->getLabel('webpage'); ?>
 						<?php echo $this->form->getInput('webpage'); ?>
+						
+						<?php echo $this->form->getLabel('sortname1'); ?>
+						<?php echo $this->form->getInput('sortname1'); ?>
+
+						<?php echo $this->form->getLabel('sortname2'); ?>
+						<?php echo $this->form->getInput('sortname2'); ?>
+
+						<?php echo $this->form->getLabel('sortname3'); ?>
+						<?php echo $this->form->getInput('sortname3'); ?>
+						
 			</fieldset>
 
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_FIELDSET_OPTIONS'), 'display-options'); ?>

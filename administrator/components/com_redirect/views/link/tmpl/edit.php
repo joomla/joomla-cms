@@ -41,6 +41,10 @@ JHtml::_('behavior.keepalive');
 
 			<?php echo $this->form->getLabel('comment'); ?>
 			<?php echo $this->form->getInput('comment'); ?>
+
+			<?php echo $this->form->getLabel('id'); ?>
+			<?php echo $this->form->getInput('id'); ?>
+
 		</fieldset>
 	</div>
 

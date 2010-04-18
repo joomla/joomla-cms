@@ -4,9 +4,9 @@
 	-->
 <form>
 	<fieldset>
-		<field name="id" type="hidden" class="inputbox"
-			label="Content_Id_Label" size="10" default="0" required="true"
-			readonly="true" />
+		<field name="id"  type="text" class="readonly"
+			label="CONTENT_ID_LABEL" size="10" default="0" 
+			readonly="true"  />
 
 		<field name="asset_id" type="hidden" filter="unset" />
 

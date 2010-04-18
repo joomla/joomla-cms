@@ -33,17 +33,10 @@ JHTML::_('behavior.modal');
 
 <div class="width-60 fltlft">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></legend>
+		<legend><?php echo JText::_('COM_MENUS_ITEM_REQUIRED');?></legend>
 
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
-
-			<?php echo $this->form->getLabel('alias'); ?>
-			<?php echo $this->form->getInput('alias'); ?>
-
-			<?php echo $this->form->getLabel('note'); ?>
-			<?php echo $this->form->getInput('note'); ?>
-
 			<?php echo $this->form->getLabel('type'); ?>
 			<?php echo $this->form->getInput('type'); ?>
 
@@ -51,6 +44,18 @@ JHTML::_('behavior.modal');
 				<?php echo $this->form->getLabel('link'); ?>
 				<?php echo $this->form->getInput('link'); ?>
 			<?php } ?>
+
+	</fieldset>
+	<fieldset class="adminform">
+		<legend><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></legend>
+
+			<?php echo $this->form->getLabel('alias'); ?>
+			<?php echo $this->form->getInput('alias'); ?>
+
+			<?php echo $this->form->getLabel('note'); ?>
+			<?php echo $this->form->getInput('note'); ?>
+
+
 
 			<?php if ($this->item->type !=='url'){ ?>
 				<?php echo $this->form->getLabel('link'); ?>

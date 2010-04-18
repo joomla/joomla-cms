@@ -79,9 +79,10 @@ $user = JFactory::getUser();
 				$canChange	= $user->authorise('core.edit.state',	'com_templates');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<td width="5">
-					<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo (int) $item->id; ?>" onclick="isChecked(this.checked);" />
+				<td class="center">
+					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
+
 				<td>
 					<?php if ($canCreate || $canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id='.(int) $item->id); ?>">

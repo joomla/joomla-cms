@@ -40,6 +40,12 @@ JHtml::_('behavior.keepalive');
 			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
 
+			<?php echo $this->form->getLabel('link'); ?>
+			<?php echo $this->form->getInput('link'); ?>
+
+			<?php echo $this->form->getLabel('catid'); ?>
+			<?php echo $this->form->getInput('catid'); ?>
+
 			<?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?>
 
@@ -49,17 +55,14 @@ JHtml::_('behavior.keepalive');
 			<?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?>
 
-			<?php echo $this->form->getLabel('catid'); ?>
-			<?php echo $this->form->getInput('catid'); ?>
-
-			<?php echo $this->form->getLabel('link'); ?>
-			<?php echo $this->form->getInput('link'); ?>
-
 			<?php echo $this->form->getLabel('ordering'); ?>
 			<div id="jform_ordering" class="fltlft"><?php echo $this->form->getInput('ordering'); ?></div>
 
 			<?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?>
+
+			<?php echo $this->form->getLabel('id'); ?>
+			<?php echo $this->form->getInput('id'); ?>
 
 	</fieldset>
 </div>

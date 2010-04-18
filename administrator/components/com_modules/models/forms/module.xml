@@ -2,7 +2,9 @@
 	<!-- $Id$ -->
 <form>
 	<fieldset>
-		<field name="id" type="hidden"
+		<field name="id" type="text"
+			label="JGLOBAL_FIELD_ID_LABEL" 
+			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			readonly="true"
 			required="true"
@@ -32,7 +34,7 @@
 
 		<field name="showtitle" type="list"
 			default="1"
-			description="COM_MODULES_FIELD_TITLE_DESC"
+			description="COM_MODULES_FIELD_SHOWTITLE_DESC"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
 			size="1"
 		>
@@ -66,19 +68,17 @@
 			size="16"
 		/>
 
-		<field name="client_id" type="list"
-			default="0"
+		<field name="client_id" type="text"
 			description="COM_MODULES_FIELD_CLIENT_ID_DESC"
 			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
 			readonly="true"
 			size="1"
 		>
-			<option value="0">JSITE</option>
-			<option value="1">JADMINISTRATOR</option>
+
 		</field>
 
 		<field name="position" type="moduleposition"
-			default="left"
+			default="position-7"
 			description="COM_MODULES_FIELD_POSITION_DESC"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			maxlength="50"

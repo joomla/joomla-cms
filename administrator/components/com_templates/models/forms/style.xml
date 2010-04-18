@@ -4,6 +4,8 @@
 	<fieldset>
 		<field
 			name="id"
+			label="JGLOBAL_FIELD_ID_LABEL" 
+			description ="JGLOBAL_FIELD_ID_DESC"		
 			type="hidden"
 			default="0"
 			required="true"

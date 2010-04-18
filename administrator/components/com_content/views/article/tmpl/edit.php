@@ -96,6 +96,9 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getLabel('hits'); ?>
 			<?php echo $this->form->getInput('hits'); ?>
 
+			<?php echo $this->form->getLabel('id'); ?>
+			<?php echo $this->form->getInput('id'); ?>
+
 		</fieldset>
 
 		<?php
