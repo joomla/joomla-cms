@@ -67,7 +67,7 @@ class JButtonStandard extends JButton
 	protected function _getCommand($name, $task, $list)
 	{
 		$todo		= JString::strtolower(JText::_($name));
-		$message	= JText::sprintf('JLIB_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO', $todo);
+		$message	= JText::sprintf('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST_TO', $todo);
 		$message	= addslashes($message);
 
 		if ($list) {

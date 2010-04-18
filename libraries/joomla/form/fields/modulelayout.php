@@ -97,7 +97,7 @@ class JFormFieldModuleLayout extends JFormFieldList
 
 			// Add the layout options from the second path.
 			if (is_dir($path2) && ($files = JFolder::files($path2, '^[^_]*\.php$'))) {
-				$options[]	= JHTML::_('select.optgroup', JText::_('JOption_From_Default_Template'));
+				$options[]	= JHTML::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT_TEMPLATE'));
 				foreach ($files as $file) {
 					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
 				}

@@ -45,7 +45,7 @@ class JFormFieldMenu extends JFormFieldList
 		$options = array();
 
 		// TODO: would be better to put this basic option in the xml file.
-		$options[] = JHtml::_('select.option', '', JText::_('JOption_Select_Menu'));
+		$options[] = JHtml::_('select.option', '', JText::_('JOPTION_SELECT_MENU'));
 
 		// Build the menu options.
 		$menuTypes = MenusHelper::getMenuTypes();
