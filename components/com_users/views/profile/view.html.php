@@ -80,7 +80,7 @@ class UsersViewProfile extends JView
 		$menu = $menus->getActive();
 		if($menu)
 		{
-			$this->params->def('page_heading', $this->params->get('page_title', $data->name));
+			$this->params->def('page_heading', $this->params->get('page_title', $user->name));
 		} else {
 			$this->params->def('page_heading', JText::_('Users_Profile')); 
 		}
