@@ -63,6 +63,13 @@ class DoInstall extends SeleniumJoomlaTestCase
 	$this->doAdminLogin();
 	echo "Check for site menu\n";
 	$this->assertEquals("Site", $this->getText("link=Site"));
+	echo "Change error level to maximum\n";
+	$this->click("link=Global Configuration");
+    $this->waitForPageToLoad("30000");
+    $this->click("server");
+    $this->select("jform_error_reporting", "label=Maximum");
+    $this->click("//li[@id='toolbar-save']/a/span");
+    $this->waitForPageToLoad("30000");
 	$this->doAdminLogout();
 	
   }
