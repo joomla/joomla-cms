@@ -87,7 +87,7 @@ abstract class JHtmlGrid
 		if ($checkedOut) {
 			return '';
 		} else {
-			return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" title="'.JText::sprintf('JGrid_Checkbox_Row_N', ($rowNum + 1)).'" />';
+			return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" title="'.JText::sprintf('JGRID_CHECKBOX_ROW_N', ($rowNum + 1)).'" />';
 		}
 	}
 
@@ -163,7 +163,7 @@ abstract class JHtmlGrid
 		$img	= $value ? $img1 : $img0;
 		$task	= $value ? 'unpublish' : 'publish';
 		$alt	= $value ? JText::_('JPUBLISHED') : JText::_('JUNPUBLISHED');
-		$action = $value ? JText::_('UNPUBLISH_ITEM') : JText::_('PUBLISH_ITEM');
+		$action = $value ? JText::_('JLIB_HTML_UNPUBLISH_ITEM') : JText::_('JLIB_HTML_PUBLISH_ITEM');
 
 		$href = '
 		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">'.
@@ -181,7 +181,7 @@ abstract class JHtmlGrid
 		$trashed = null
 	) {
 		$state = array(
-			'' => '- ' . JText::_('SELECT_STATE') . ' -',
+			'' => '- ' . JText::_('JLIB_HTML_SELECT_STATE') . ' -',
 			'P' => JText::_($published),
 			'U' => JText::_($unpublished)
 		);
@@ -208,8 +208,8 @@ abstract class JHtmlGrid
 
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
-		$image = JHTML::_('image','admin/'.$image, JText::_('SAVE_ORDER'), NULL, true);
-		$href = '<a href="javascript:saveorder('.(count($rows)-1).', \''.$task.'\')" title="'.JText::_('SAVE_ORDER').'">'.$image.'</a>';
+		$image = JHTML::_('image','admin/'.$image, JText::_('JLIB_HTML_SAVE_ORDER'), NULL, true);
+		$href = '<a href="javascript:saveorder('.(count($rows)-1).', \''.$task.'\')" title="'.JText::_('JLIB_HTML_SAVE_ORDER').'">'.$image.'</a>';
 		return $href;
 	}
 
@@ -224,7 +224,7 @@ abstract class JHtmlGrid
 			$date	= JHTML::_('date',$row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
 			$time	= JHTML::_('date',$row->checked_out_time, '%H:%M');
 
-			$hover = '<span class="editlinktip hasTip" title="'. JText::_('CHECKED_OUT') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
+			$hover = '<span class="editlinktip hasTip" title="'. JText::_('JLIB_HTML_CHECKED_OUT') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
 		}
 		$checked = $hover .JHTML::_('image','admin/checked_out.png', NULL, NULL, true).'</span>';
 

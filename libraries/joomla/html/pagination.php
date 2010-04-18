@@ -407,7 +407,7 @@ class JPagination extends JObject
 	 * @return	string	Either the icon to move an item up or a space.
 	 * @since	1.0
 	 */
-	public function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'JGrid_Move_Up', $enabled = true)
+	public function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'JLIB_HTML_MOVE_UP', $enabled = true)
 	{
 		$alt = JText::_($alt);
 
@@ -438,7 +438,7 @@ class JPagination extends JObject
 	 * @return	string	Either the icon to move an item down or a space.
 	 * @since	1.0
 	 */
-	public function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'JGrid_Move_Down', $enabled = true)
+	public function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'JLIB_HTML_MOVE_DOWN', $enabled = true)
 	{
 		$alt = JText::_($alt);
 
