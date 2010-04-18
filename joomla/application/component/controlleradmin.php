@@ -107,7 +107,7 @@ class JControllerAdmin extends JController
 
 			// Remove the items.
 			if ($model->delete($cid)) {
-				$this->setMessage(JText::sprintf((count($cid) == 1) ? $this->_msgprefix.'_ITEM_DELETED' : $this->_msgprefix.'_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(JText::__($this->_msgprefix.'_N_ITEMS_DELETED', count($cid)));
 			} else {
 				$this->setMessage($model->getError());
 			}

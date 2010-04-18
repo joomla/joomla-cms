@@ -103,7 +103,7 @@ class JStream extends JObject
 		$filename = $this->_getFilename($filename, $mode, $use_prefix, $relative);
 		if(!$filename)
 		{
-			$this->setError(JText::_('No filename set'));
+			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILENAME'));
 			return false;
 		}
 
@@ -188,7 +188,7 @@ class JStream extends JObject
 	{
 		if(!$this->_fh)
 		{
-			$this->setError(JText::_('File not open'));
+			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILE_NOT_OPEN'));
 			return true;
 		}
 		$retval = false;
@@ -236,7 +236,7 @@ class JStream extends JObject
 	{
 		if(!$this->_fh)
 		{
-			$this->setError(JText::_('File not open'));
+			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILE_NOT_OPEN'));
 			return false;
 		}
 
@@ -274,7 +274,7 @@ class JStream extends JObject
 	{
 		if(!$this->filename)
 		{
-			$this->setError(JText::_('File not open'));
+			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILE_NOT_OPEN'));
 			return false;
 		}
 
@@ -323,7 +323,7 @@ class JStream extends JObject
 	{
 		if(!$this->_fh)
 		{
-			$this->setError(JText::_('File not open'));
+			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILE_NOT_OPEN'));
 			return false;
 		}
 
@@ -549,7 +549,7 @@ class JStream extends JObject
 			else if($res === 0)
 			{ // wrote nothing?
 				$remaining = 0;
-				$this->setError('Warning: No data written');
+				$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_NO_DATA_WRITTEN'));
 			} else
 			{ // wrote something
 				$remaining -= $res;
