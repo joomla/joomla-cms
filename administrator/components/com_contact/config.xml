@@ -126,12 +126,15 @@
 		</field>
 
 		<field name="show_image" type="radio" default="1"
-			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL" description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
+			label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL" description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-
+		<field name="image" type="imagelistr" directory="/images" 
+			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL" description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
+		>
+		</field>
 		<field name="allow_vcard" type="radio" default="0"
 			label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL" description="COM_CONTACT_FIELD_PARAMS_VCARD_DESC"
 		>
@@ -168,7 +171,7 @@
 			size="30" />
 
 		<field name="linkb_name" type="text"
-			label="COM_CONTACT_FIELD_LINKB_LABEL" description="COM_CONTACT_FIELD_LINK_NAME_DESC"
+			label="COM_CONTACT_FIELD_LINKB_NAME_LABEL" description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30" />
 
 		<field name="linkc_name" type="text"
@@ -197,7 +200,7 @@
 			</option>
 		</field>
 
-		<field name="icon_address" type="imagelist" link="images"
+		<field name="icon_address" type="imagelist" directory="/images"
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC" />
 

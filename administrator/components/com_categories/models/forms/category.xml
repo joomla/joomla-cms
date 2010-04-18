@@ -3,9 +3,12 @@
 <form>
 	<field
 		name="id"
-		type="hidden"
+		type="text"
 		default="0"
 		required="true"
+		label="JGLOBAL_FIELD_ID_LABEL" 
+		description ="JGLOBAL_FIELD_ID_DESC"
+		class="readonly"
 		readonly="true"/>
 
 	<field

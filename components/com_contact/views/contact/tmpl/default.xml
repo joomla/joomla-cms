@@ -241,7 +241,7 @@
 
 			<field name="linkb_name" type="text"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				label="COM_CONTACT_FIELD_LINKB_LABEL"
+				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
 				size="30"
 			/>
 

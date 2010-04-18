@@ -68,13 +68,7 @@ class ModulesViewModule extends JView
 		$item		= $this->get('Item');
 		$client		= $item->client_id;
 
-		JToolBarHelper::title(JText::_('COM_MODULES_MANAGER_MODULE'));
-
-		if ($this->item->module == 'mod_custom') {
-			JToolBarHelper::Preview('index.php?option=com_modules&tmpl=component&client='.$client.'&pollid='.$this->item->id);
-		}
-
-
+		JToolBarHelper::title( JText::_('COM_MODULES_MANAGER_MODULE').' '.JText::_($this->item->module));
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && $canDo->get('core.edit'))

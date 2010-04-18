@@ -30,6 +30,9 @@ $ -> Language fix or change
 18-Apr-2010 Mark Dexter
 # Fix parse error in libraries/joomla/form/form.php
 # Display of record number in edit forms (Elin Waring)
+# UI work on module manager and menu manager forms (Elin Waring)
+# Restore missing image parameter in contact (Elin Waring)
+# Fix up labels in com_contact (Elin Waring)
 
 18-Apr-2010 Jean-Marie Simonet
 $ Added JText__ for item deletion. Correcting, adding some keys/inis

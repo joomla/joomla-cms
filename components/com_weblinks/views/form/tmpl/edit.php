@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+
+// Create shortcut to parameters.
+$params = $this->state->get('params');
 ?>
 
 <script language="javascript" type="text/javascript">

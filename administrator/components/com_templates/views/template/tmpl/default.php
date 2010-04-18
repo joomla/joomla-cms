@@ -43,7 +43,7 @@ JHtml::_('behavior.modal');
 						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_PRINTVIEW');?></a>
 				</li>
 				<?php endif; ?>
-			<ul>
+			</ul>
 		</fieldset>
 
 		<div class="clr"></div>
@@ -62,7 +62,7 @@ JHtml::_('behavior.modal');
 						<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_EDIT_CSS', $file->name);?></a>
 				</li>
 				<?php endforeach; ?>
-			<ul>
+			</ul>
 			<?php endif; ?>
 
 			<!--<div>
