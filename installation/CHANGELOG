@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Apr-2010 Mark Dexter
+# Fix parse error in libraries/joomla/form/form.php
+
 18-Apr-2010 Jean-Marie Simonet
 $ Added JText__ for item deletion. Correcting, adding some keys/inis
 $ Refactoring ini/keys in libraries/J/form
