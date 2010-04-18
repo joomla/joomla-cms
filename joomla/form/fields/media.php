@@ -85,10 +85,10 @@ class JFormFieldMedia extends JFormField
 		// The button.
 		$html[] = '<div class="button2-left">';
 		$html[] = '	<div class="blank">';
-		$html[] = '		<a class="modal" title="'.JText::_('SELECT').'"' .
+		$html[] = '		<a class="modal" title="'.JText::_('JGLOBAL_SELECT').'"' .
 					' href="'.($this->element['readonly'] ? '' : (string) $this->element['link'].$this->id).'"' .
 					' rel="{handler: \'iframe\', size: {x: 650, y: 375}}">';
-		$html[] = '			'.JText::_('SELECT').'</a>';
+		$html[] = '			'.JText::_('JGLOBAL_SELECT').'</a>';
 		$html[] = '	</div>';
 		$html[] = '</div>';
 

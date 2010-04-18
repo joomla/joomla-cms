@@ -61,7 +61,7 @@ class JFormFieldMediamanager extends JFormField
 		// The image select button.
 		$html[] = '<div class="button2-left">';
 		$html[] = '  <div class="blank">';
-		$html[] = '    <a class="modal_'.$this->inputId.'" title="'.JText::_('JForm_Change_Image').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('JForm_Change_Image_button').'</a>';
+		$html[] = '    <a class="modal_'.$this->inputId.'" title="'.JText::_('JLIB_FORM_CHANGE_IMAGE').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('JLIB_FORM_CHANGE_IMAGE_BUTTON').'</a>';
 		$html[] = '  </div>';
 		$html[] = '</div>';
 
