@@ -43,7 +43,12 @@ class JFormFieldList extends JFormField
 
 		// Initialize some field attributes.
 		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
-		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+
+		// To avoid user's confusion, readonly="true" should imply disabled="true".
+		if ( (string) $this->element['readonly'] == 'true' || (string) $this->element['disabled'] == 'true') {
+			$attr .= ' disabled="disabled"';
+		}
+
 		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
 		$attr .= $this->multiple ? ' multiple="multiple"' : '';
 
