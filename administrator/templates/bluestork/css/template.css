@@ -832,6 +832,10 @@ fieldset ul.menu-links label	 {
 	clear:none;
 }
 
+fieldset#filter-bar label {
+	clear: none;
+}
+
 
 /* 
 fieldset#user-groups,
@@ -854,9 +858,6 @@ fieldset#template-manager-css ul {
 	margin-left: 30px;
 }
 
-fieldset#filter-bar label {
-	clear: none;
-}
 
 
 fieldset ul.checklist {
