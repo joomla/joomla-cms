@@ -273,12 +273,33 @@ UPDATE `jos_components` AS a
 -- ----------------------------------------------------------------
 -- jos_contact_details
 -- ----------------------------------------------------------------
- ALTER TABLE `#__contact_details`
+ ALTER TABLE `jos_contact_details`
   ADD COLUMN `sortname1` varchar(255) NOT NULL,
   ADD COLUMN `sortname2` varchar(255) NOT NULL,
   ADD COLUMN `sortname3` varchar(255) NOT NULL,
-  ADD COLUMN `language` varchar(10) NOT NULL;
-
+  ADD COLUMN `language` varchar(10) NOT NULL,
+  ADD COLUMN  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  ADD COLUMN   `created_by` int(10) unsigned NOT NULL DEFAULT '0',
+  ADD COLUMN   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  ADD COLUMN   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  ADD COLUMN   `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
+  ADD COLUMN   `metakey` text NOT NULL,
+  ADD COLUMN   `metadesc` text NOT NULL,
+  ADD COLUMN   `metadata` text NOT NULL,
+  ADD COLUMN   `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if article is featured.',
+  ADD COLUMN   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+  ADD COLUMN   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  ADD COLUMN   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  CHANGE `published` `published` tinyint(1) NOT NULL DEFAULT '0',
+  DROP INDEX `catid`,
+  ADD  KEY `idx_access` (`access`),
+  ADD  KEY `idx_checkout` (`checked_out`), 
+  ADD  KEY `idx_published` (`published`),
+  ADD  KEY `idx_catid` (`catid`),
+  ADD  KEY `idx_createdby` (`created_by`),
+  ADD  KEY `idx_featured_catid` (`featured`,`catid`),
+  ADD  KEY `idx_language` (`language`),
+  ADD  KEY `idx_xreference` (`xreference`);  
 -- ----------------------------------------------------------------
 -- jos_content
 -- ----------------------------------------------------------------
@@ -593,12 +614,31 @@ ALTER TABLE `jos_newsfeeds`
 
 ALTER TABLE `jos_newsfeeds`
  ADD `language` char(7) NOT NULL DEFAULT '';
-
-ALTER TABLE `jos_newsfeeds`
- ADD INDEX `idx_language` (`language`);
-
+ 
 ALTER TABLE `jos_newsfeeds`
 ADD `params` TEXT NOT NULL;
+
+ALTER TABLE `jos_newsfeeds`
+ ADD COLUMN   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ ADD COLUMN   `created_by` int(10) unsigned NOT NULL DEFAULT '0',
+ ADD COLUMN   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+ ADD COLUMN   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ ADD COLUMN   `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
+ ADD COLUMN   `metakey` text NOT NULL,
+ ADD COLUMN   `metadesc` text NOT NULL,
+ ADD COLUMN   `metadata` text NOT NULL,
+ ADD COLUMN   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+ ADD COLUMN   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ ADD COLUMN   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ DROP INDEX `catid`,
+ DROP INDEX `published`,
+ ADD KEY `idx_access` (`access`),
+ ADD KEY `idx_checkout` (`checked_out`),
+ ADD KEY `idx_state` (`published`),
+ ADD KEY `idx_catid` (`catid`),
+ ADD KEY `idx_createdby` (`created_by`),
+ ADD KEY `idx_language` (`language`),
+ ADD KEY `idx_xreference` (`xreference`);
 
 -- ----------------------------------------------------------------
 -- jos_plugins
@@ -818,6 +858,8 @@ CREATE TABLE  `#__update_categories` (
 -- ----------------------------------------------------------------
 -- jos_weblinks
 -- ----------------------------------------------------------------
+ALTER TABLE `jos_weblinks` 
+ CHANGE COLUMN `published` `state` tinyint (1) NOT NULL DEFAULT '0';
 
 ALTER TABLE `jos_weblinks`
  ADD COLUMN `access` INT UNSIGNED NOT NULL DEFAULT 1 AFTER `approved`;
@@ -826,9 +868,27 @@ ALTER TABLE `jos_weblinks`
  ADD `language` char(7) NOT NULL DEFAULT '';
 
 ALTER TABLE `jos_weblinks`
- ADD INDEX `idx_language` (`language`);
-
-
+ ADD COLUMN   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ ADD COLUMN   `created_by` int(10) unsigned NOT NULL DEFAULT '0',
+ ADD COLUMN   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+ ADD COLUMN   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ ADD COLUMN   `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
+ ADD COLUMN   `metakey` text NOT NULL,
+ ADD COLUMN   `metadesc` text NOT NULL,
+ ADD COLUMN   `metadata` text NOT NULL,
+ ADD COLUMN   `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if link is featured.',
+ ADD COLUMN   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+ ADD COLUMN   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ ADD COLUMN   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ DROP  KEY `catid`,
+ ADD   KEY `idx_access` (`access`),
+ ADD   KEY `idx_checkout` (`checked_out`),
+ ADD   KEY `idx_state` (`state`),
+ ADD   KEY `idx_catid` (`catid`),
+ ADD   KEY `idx_createdby` (`created_by`),
+ ADD   KEY `idx_featured_catid` (`featured`,`catid`),
+ ADD   KEY `idx_language` (`language`),
+ ADD   KEY `idx_xreference` (`xreference`);
 -- ----------------------------------------------------------------
 -- Reconfigure the admin module permissions
 -- ----------------------------------------------------------------

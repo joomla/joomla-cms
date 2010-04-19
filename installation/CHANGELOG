@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Apr-2010 Mark Dexter
+# Fix diff_15_to_16.sql for database changes
+# Fix index in contact_details table
+
 19-Apr-2010 Christophe Demko
 ^ Speeding up modules and plugins view
 
@@ -38,7 +42,6 @@ $ Toolbar change to Publish/Unpublish in com_modules
 18-Apr-2010 Ron Severdia
 # Clean up CSS for BlueStork
 # Clean up UI for Permissions Editor in Global Config.
-
 
 18-Apr-2010 Mark Dexter
 # Fix parse error in libraries/joomla/form/form.php
