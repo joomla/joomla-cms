@@ -44,7 +44,7 @@ abstract class JHtmlList
 
 		jimport('joomla.filesystem.folder');
 		$imageFiles	= JFolder::files(JPATH_SITE.DS.$directory);
-		$images		= array(JHtml::_('select.option', '', JText::_('JLIB_HTML_SELECT_IMAGE')));
+		$images		= array(JHtml::_('select.option', '', JText::_('JOPTION_SELECT_IMAGE')));
 		foreach ($imageFiles as $file) {
 			if (preg_match('#('.$extensions.')$#', $file)) {
 				$images[] = JHtml::_('select.option', $file);

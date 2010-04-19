@@ -44,7 +44,7 @@ class JElementEditors extends JElement
 		$db->setQuery($query);
 		$editors = $db->loadObjectList();
 
-		array_unshift($editors, JHtml::_('select.option',  '', '- '. JText::_('SELECT_EDITOR') .' -'));
+		array_unshift($editors, JHtml::_('select.option', '', JText::_('JOPTION_SELECT_EDITOR')));
 
 		return JHtml::_('select.genericlist', $editors, $control_name .'['. $name .']',
 			array(

@@ -101,7 +101,7 @@ abstract class JHtmlMenu
 
 			foreach ($menus as &$menu) {
 				self::$items[] = JHtml::_('select.optgroup',	$menu->text);
-				self::$items[] = JHtml::_('select.option', $menu->value.'.0', JText::_('COM_MENUS_ADD_TO_THIS_MENU'));
+				self::$items[] = JHtml::_('select.option', $menu->value.'.0', JText::_('JLIB_HTML_ADD_TO_THIS_MENU'));
 
 				if (isset($lookup[$menu->value])) {
 					foreach ($lookup[$menu->value] as &$item) {
@@ -221,7 +221,7 @@ abstract class JHtmlMenu
 
 		$mitems = array();
 		if ($all | $unassigned) {
-			$mitems[] = JHtml::_('select.option',  '<OPTGROUP>', JText::_('COM_MENUS_OPTION_MENU'));
+			$mitems[] = JHtml::_('select.option',  '<OPTGROUP>', JText::_('JOPTION_MENUS'));
 
 			if ($all) {
 				$mitems[] = JHtml::_('select.option',  0, JText::_('JALL'));
