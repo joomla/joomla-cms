@@ -117,7 +117,7 @@ class JText
 	 * @param	mixed	Mixed number of arguments for the sprintf function.
 	 * @since	1.6
 	 */
-	public static function __()
+	public static function plural()
 	{
 		$lang = JFactory::getLanguage();
 		$args = func_get_args();
