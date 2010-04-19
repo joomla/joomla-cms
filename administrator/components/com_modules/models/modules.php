@@ -100,16 +100,22 @@ class ModulesModelModules extends JModelList
 			$result = $this->_db->loadObjectList();
 			$this->_translate($result);
 			JArrayHelper::sortObjects($result,'name', $this->getState('list.direction') == 'desc' ? -1 : 1);
+			$total = count($result);
+			$this->_cache[$this->_getStoreId('getTotal')] = $total;
+			if ($total < $limitstart) {
+				$limitstart = 0;
+				$this->setState('list.start', 0);
+			}
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
 		else {
 			if ($ordering == 'ordering') {
 				$query->order('position ASC');
 			}
-			elseif ($ordering == 'position') {
+			$query->order($this->_db->nameQuote($ordering) . ' ' . $this->getState('list.direction'));
+			if ($ordering == 'position') {
 				$query->order('ordering ASC');
 			}
-			$query->order($this->_db->nameQuote($ordering) . ' ' . $this->getState('list.direction'));
 			$result = parent::_getList($query, $limitstart, $limit);
 			$this->_translate($result);
 			return $result;

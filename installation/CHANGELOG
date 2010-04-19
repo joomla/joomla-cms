@@ -32,6 +32,8 @@ $ -> Language fix or change
 # Fix index in contact_details table
 
 19-Apr-2010 Christophe Demko
+# Reenabling filters in plugins and manage view
+^ Speeding up manage and discover view in com_installer
 ^ Speeding up modules and plugins view
 
 19-Apr-2010 Jean-Marie Simonet

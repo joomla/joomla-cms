@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 // Import library dependencies
-jimport('joomla.application.component.modellist');
+require_once dirname(__FILE__) . '/extension.php';
 jimport('joomla.installer.installer');
 
 /**
@@ -19,7 +19,7 @@ jimport('joomla.installer.installer');
  * @subpackage	com_installer
  * @since		1.5
  */
-class InstallerModelDiscover extends JModelList
+class InstallerModelDiscover extends InstallerModel
 {
 	protected $_context = 'com_installer.discover';
 
@@ -40,94 +40,6 @@ class InstallerModelDiscover extends JModelList
 	}
 
 	/**
-	 * Returns an object list
-	 *
-	 * @param	string The query
-	 * @param	int Offset
-	 * @param	int The number of records
-	 * @return	array
-	 */
-	protected function _getList($query, $limitstart = 0, $limit = 0) {
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObjectList();
-		$lang = JFactory::getLanguage();
-		foreach($result as $i => $row) {
-			if (strlen($row->manifest_cache)) {
-				$data = unserialize($row->manifest_cache);
-				if ($data) {
-					foreach($data as $key => $value) {
-						if ($key == 'type') {
-							// ignore the type field
-							continue;
-						}
-						$row->$key = $value;
-					}
-				}
-			}
-			$path = $row->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
-			switch ($row->type) {
-				case 'component':
-					$extension = $row->element;
-					$source = JPATH_ADMINISTRATOR . '/components/' . $row->name;
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, false)
-					||	$lang->load("$extension.sys", $source, null, false, false)
-					||	$lang->load("$extension.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-					||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
-				break;
-				case 'library':
-					$extension = 'lib_' . $row->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, false)
-					||	$lang->load("$extension.sys", JPATH_SITE, $lang->getDefault(), false, false);
-				break;
-				case 'module':
-					$extension = $row->element;
-					$source = $path . '/modules/' . $row->name;
-						$lang->load("$extension.sys", $path, null, false, false)
-					||	$lang->load("$extension.sys", $source, null, false, false)
-					||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
-					||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
-				break;
-				case 'package':
-					$extension = 'pkg_' . $row->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, false)
-					||	$lang->load("$extension.sys", JPATH_SITE, $lang->getDefault(), false, false);
-				break;
-				case 'plugin':
-					$extension = 'plg_' . $row->folder . '_' . $row->element;
-					$source = JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element;
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, false)
-					||	$lang->load("$extension.sys", $source, null, false, false)
-					||	$lang->load("$extension.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-					||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
-				break;
-				case 'template':
-					$extension = 'tpl_' . $row->name;
-					$source = $path . '/templates/' . $row->name;
-						$lang->load("$extension.sys", $path, null, false, false)
-					||	$lang->load("$extension.sys", $source, null, false, false)
-					||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
-					||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
-				break;
-			}
-			$row->name = JText::_($row->name);
-			$row->description = JText::_($row->description);
-			$row->author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
-			$row->client = $row->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
-		}
-		JArrayHelper::sortObjects($result, $this->getState('list.ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1);
-		$total = count($result);
-		$store = $this->_getStoreId('getTotal');
-		$this->_cache[$store] = $total;
-		if ($total < $limitstart) {
-			$limitstart = 0;
-			$this->setState('list.start', 0);
-		}
-		if ($limit > 0) {
-			$result = array_slice($result, $limitstart, $limit);
-		}
-		return $result;
-	}
-	/**
 	 * Method to get the database query
 	 *
 	 * @return JDatabaseQuery the database query
@@ -137,14 +49,8 @@ class InstallerModelDiscover extends JModelList
 		$query->select('*');
 		$query->from('#__extensions');
 		$query->where('state=-1');
-		$query->order('protected');
-		$query->order('type');
-		$query->order('client_id');
-		$query->order('folder');
-		$query->order('name');
 		return $query;
 	}
-
 
 	/**
 	 * Discover extensions
