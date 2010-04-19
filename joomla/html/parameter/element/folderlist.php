@@ -7,14 +7,14 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('JPATH_BASE') or die;
 
 /**
  * Renders a filelist element
  *
  * @package		Joomla.Framework
- * @subpackage		Parameter
+ * @subpackage	Parameter
  * @since		1.5
  */
 
@@ -32,18 +32,16 @@ class JElementFolderlist extends JElement
 	{
 		jimport('joomla.filesystem.folder');
 
-		// path to images directory
+		// Initialise variables.
 		$path		= JPATH_ROOT.DS.$node->attributes('directory');
 		$filter		= $node->attributes('filter');
 		$exclude	= $node->attributes('exclude');
 		$folders	= JFolder::folders($path, $filter);
 
 		$options = array ();
-		foreach ($folders as $folder)
-		{
-			if ($exclude)
-			{
-				if (preg_match(chr(1) . $exclude . chr(1), $folder)) {
+		foreach ($folders as $folder) {
+			if ($exclude) {
+				if (preg_match(chr(1).$exclude.chr(1), $folder)) {
 					continue;
 				}
 			}
@@ -51,11 +49,11 @@ class JElementFolderlist extends JElement
 		}
 
 		if (!$node->attributes('hide_none')) {
-			array_unshift($options, JHtml::_('select.option', '-1', JText::_('JOPTION_DO_NOT_USE'));
+			array_unshift($options, JHtml::_('select.option', '-1', JText::_('JOPTION_DO_NOT_USE')));
 		}
 
 		if (!$node->attributes('hide_default')) {
-			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_USE_DEFAULT'));
+			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_USE_DEFAULT')));
 		}
 
 		return JHtml::_('select.genericlist', $options, $control_name .'['. $name .']',
