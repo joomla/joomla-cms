@@ -38,6 +38,7 @@ $ -> Language fix or change
 ^ Changing JText::__ to JText::plural
 $ Toolbar change to Publish/Unpublish in com_modules
 ^ Fixed readonly list [20179]. (Thanks Artyom)
+$ Refactoring ini/keys in libraries/J/html. Consolidated some strings.
 
 18-Apr-2010 Ron Severdia
 # Clean up CSS for BlueStork

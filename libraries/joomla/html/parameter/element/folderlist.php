@@ -51,11 +51,11 @@ class JElementFolderlist extends JElement
 		}
 
 		if (!$node->attributes('hide_none')) {
-			array_unshift($options, JHtml::_('select.option', '-1', '- '.JText::_('DO_NOT_USE').' -'));
+			array_unshift($options, JHtml::_('select.option', '-1', JText::_('JOPTION_DO_NOT_USE'));
 		}
 
 		if (!$node->attributes('hide_default')) {
-			array_unshift($options, JHtml::_('select.option', '', '- '.JText::_('USE_DEFAULT').' -'));
+			array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_USE_DEFAULT'));
 		}
 
 		return JHtml::_('select.genericlist', $options, $control_name .'['. $name .']',

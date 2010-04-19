@@ -36,7 +36,7 @@ class JElementMenu extends JElement
 		foreach ($menuTypes as $menutype) {
 			$options[] = JHtml::_('select.option', $menutype, $menutype);
 		}
-		array_unshift($options, JHtml::_('select.option', '', '- '.JText::_('Select Menu').' -'));
+		array_unshift($options, JHtml::_('select.option', '', JText::_('JOPTION_SELECT_MENU')));
 
 		return JHtml::_('select.genericlist',  $options, $control_name.'['.$name.']',
 			array(

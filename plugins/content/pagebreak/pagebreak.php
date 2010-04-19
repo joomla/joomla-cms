@@ -247,7 +247,7 @@ class plgContentPagebreak extends JPlugin
 
 			$link_prev = JRoute::_( '&limitstart='. ($page_prev));
 			// << Prev
-			$prev = '<a href="'. $link_prev .'">'. JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . JText::_('Prev') .'</a>';
+			$prev = '<a href="'. $link_prev .'">'. JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') .'</a>';
 		}
 		else {
 			$prev = JText::_('Prev');

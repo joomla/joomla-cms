@@ -38,7 +38,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 		<tr>
 			<td align="right" colspan="6">
 			<?php if ($this->params->get('show_limit')) :
-				echo JText::_('DISPLAY_NUM') .'&nbsp;';
+				echo JText::_('JLIB_HTML_DISPLAY_NUM') .'&nbsp;';
 				echo $this->pagination->getLimitBox();
 			endif; ?>
 			</td>

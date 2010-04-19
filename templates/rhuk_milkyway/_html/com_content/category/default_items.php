@@ -27,7 +27,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
 			<td align="right" width="40%" nowrap="nowrap">
 			<?php
-				echo '&nbsp;&nbsp;&nbsp;'.JText::_('DISPLAY_NUM').'&nbsp;';
+				echo '&nbsp;&nbsp;&nbsp;'.JText::_('JLIB_HTML_DISPLAY_NUM').'&nbsp;';
 				echo $this->pagination->getLimitBox();
 			?>
 			</td>

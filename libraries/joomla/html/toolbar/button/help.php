@@ -29,7 +29,7 @@ class JButtonHelp extends JButton
 
 	public function fetchButton($type='Help', $ref = '', $com = false)
 	{
-		$text	= JText::_('Help');
+		$text	= JText::_('JTOOLBAR_HELP');
 		$class	= $this->fetchIconClass('help');
 		$doTask	= $this->_getCommand($ref, $com);
 
@@ -71,7 +71,7 @@ class JButtonHelp extends JButton
 		jimport('joomla.language.help');
 		$url = JHelp::createURL($ref, $com);
 
-		$cmd = "popupWindow('$url', '".JText::_('Help', true)."', 640, 480, 1)";
+		$cmd = "popupWindow('$url', '".JText::_('JHELP', true)."', 640, 480, 1)";
 
 		return $cmd;
 	}

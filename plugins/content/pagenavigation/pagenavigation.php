@@ -157,7 +157,7 @@ class plgContentPagenavigation extends JPlugin
 					$html .= '
 					<th class="pagenav_prev">
 						<a href="'. $row->prev .'">'
-							. JText::_('JGLOBAL_LT') . $pnSpace . JText::_('Prev') . '</a>
+							. JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') . '</a>
 					</th>'
 					;
 				}

@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td align="right" colspan="4">
 	<?php
-		echo JText::_('DISPLAY_NUM') .'&nbsp;';
+		echo JText::_('JLIB_HTML_DISPLAY_NUM') .'&nbsp;';
 		echo $this->pagination->getLimitBox();
 	?>
 	</td>

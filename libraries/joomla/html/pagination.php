@@ -203,7 +203,7 @@ class JPagination extends JObject
 		// Initialise variables.
 		$html = null;
 		if ($this->get('pages.total') > 1) {
-			$html .= JText::sprintf('JPAGE_CURRENT_OF_TOTAL', $this->get('pages.current'), $this->get('pages.total'));
+			$html .= JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $this->get('pages.current'), $this->get('pages.total'));
 		}
 		return $html;
 	}
@@ -230,11 +230,11 @@ class JPagination extends JObject
 
 		// If there are results found.
 		if ($this->total > 0) {
-			$msg = JText::sprintf('RESULTS_OF', $fromResult, $toResult, $this->total);
+			$msg = JText::sprintf('JLIB_HTML_RESULTS_OF', $fromResult, $toResult, $this->total);
 			$html .= "\n".$msg;
 		}
 		else {
-			$html .= "\n".JText::_('No_records_found');
+			$html .= "\n".JText::_('JLIB_HTML_NO_RECORDS_FOUND');
 		}
 
 		return $html;
@@ -381,8 +381,8 @@ class JPagination extends JObject
 		for ($i = 5; $i <= 30; $i += 5) {
 			$limits[] = JHtml::_('select.option', "$i");
 		}
-		$limits[] = JHtml::_('select.option', '50');
-		$limits[] = JHtml::_('select.option', '100');
+		$limits[] = JHtml::_('select.option', '50', JText::_('J50'));
+		$limits[] = JHtml::_('select.option', '100', JText::_('J100'));
 		$limits[] = JHtml::_('select.option', '0', JText::_('JALL'));
 
 		$selected = $this->_viewall ? 0 : $this->limit;
@@ -461,7 +461,7 @@ class JPagination extends JObject
 	{
 		$html = "<div class=\"list-footer\">\n";
 
-		$html .= "\n<div class=\"limit\">".JText::_('DISPLAY_NUM').$list['limitfield']."</div>";
+		$html .= "\n<div class=\"limit\">".JText::_('JLIB_HTML_DISPLAY_NUM').$list['limitfield']."</div>";
 		$html .= $list['pageslinks'];
 		$html .= "\n<div class=\"counter\">".$list['pagescounter']."</div>";
 
@@ -536,15 +536,15 @@ class JPagination extends JObject
 			}
 		}
 
-		$data->all = new JPaginationObject(JText::_('VIEW_ALL'), $this->prefix);
+		$data->all = new JPaginationObject(JText::_('JLIB_HTML_VIEW_ALL'), $this->prefix);
 		if (!$this->_viewall) {
 			$data->all->base	= '0';
 			$data->all->link	= JRoute::_($params.'&'.$this->prefix.'limitstart=');
 		}
 
 		// Set the start and previous data objects.
-		$data->start	= new JPaginationObject(JText::_('Start'), $this->prefix);
-		$data->previous	= new JPaginationObject(JText::_('Prev'), $this->prefix);
+		$data->start	= new JPaginationObject(JText::_('JLIB_HTML_START'), $this->prefix);
+		$data->previous	= new JPaginationObject(JText::_('JPREV'), $this->prefix);
 
 		if ($this->get('pages.current') > 1)
 		{
@@ -559,8 +559,8 @@ class JPagination extends JObject
 		}
 
 		// Set the next and end data objects.
-		$data->next	= new JPaginationObject(JText::_('Next'), $this->prefix);
-		$data->end	= new JPaginationObject(JText::_('End'), $this->prefix);
+		$data->next	= new JPaginationObject(JText::_('JNEXT'), $this->prefix);
+		$data->end	= new JPaginationObject(JText::_('JLIB_HTML_END'), $this->prefix);
 
 		if ($this->get('pages.current') < $this->get('pages.total'))
 		{

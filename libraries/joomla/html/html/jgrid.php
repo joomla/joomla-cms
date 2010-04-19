@@ -72,8 +72,8 @@ abstract class JHtmlJGrid
 		$date	= JHTML::_('date',$time, '%A, %d %B %Y');
 		$time	= JHTML::_('date',$time, '%H:%M');
 
-		$hover = '<span class="editlinktip hasTip" title="'. JText::_('CHECKED_OUT') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
-		$checked = $hover .JHTML::_('image','admin/checked_out.png', JText::_('CHECKED_OUT'), NULL, true).'</span>';
+		$hover = '<span class="editlinktip hasTip" title="'. JText::_('JLIB_HTML_CHECKED_OUT') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
+		$checked = $hover .JHTML::_('image','admin/checked_out.png', JText::_('JLIB_HTML_CHECKED_OUTs'), NULL, true).'</span>';
 
 		return $checked;
 	}
