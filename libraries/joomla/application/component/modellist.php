@@ -57,7 +57,7 @@ class JModelList extends JModel
 
 		// Load the list items.
 		$query	= $this->_getListQuery();
-		$items	= $this->_getList((string) $query, $this->getState('list.start'), $this->getState('list.limit'));
+		$items	= $this->_getList($query, $this->getState('list.start'), $this->getState('list.limit'));
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum()) {

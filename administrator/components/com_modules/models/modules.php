@@ -94,28 +94,47 @@ class ModulesModelModules extends JModelList
 	 */
 	protected function _getList($query, $limitstart=0, $limit=0)
 	{
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObjectList();
-		$client = $this->getState('filter.client_id') ? 'administrator' : 'site';
+		$ordering = $this->getState('list.ordering', 'ordering');
+		if ($ordering == 'name') {
+			$this->_db->setQuery($query);
+			$result = $this->_db->loadObjectList();
+			$this->_translate($result);
+			JArrayHelper::sortObjects($result,'name', $this->getState('list.direction') == 'desc' ? -1 : 1);
+			return array_slice($result, $limitstart, $limit ? $limit : null);
+		}
+		else {
+			if ($ordering == 'ordering') {
+				$query->order('position ASC');
+			}
+			elseif ($ordering == 'position') {
+				$query->order('ordering ASC');
+			}
+			$query->order($this->_db->nameQuote($ordering) . ' ' . $this->getState('list.direction'));
+			$result = parent::_getList($query, $limitstart, $limit);
+			$this->_translate($result);
+			return $result;
+		}
+	}
+
+	/**
+	 * Translate a list of objects
+	 *
+	 * @param	array The array of objects
+	 * @return	array The array of translated objects
+	 */
+	private function _translate(&$items)
+	{
 		$lang = JFactory::getLanguage();
-		foreach($result as $i=>$item) {
+		$client = $this->getState('filter.client_id') ? 'administrator' : 'site';
+		foreach($items as &$item) {
 			$extension = $item->module;
 			$source = constant('JPATH_' . strtoupper($client)) . "/modules/$extension";
 				$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), null, false, false)
 			||	$lang->load("$extension.sys", $source, null, false, false)
 			||	$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false)
 			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
-			$result[$i]->name = JText::_($item->name);
+			$item->name = JText::_($item->name);
 		}
-
-		if($this->getState('list.ordering', 'ordering') == 'ordering') {
-			JArrayHelper::sortObjects($result,array('position','ordering'), array(1, $this->getState('list.direction') == 'desc' ? -1 : 1));
-		}
-		else {
-			JArrayHelper::sortObjects($result,$this->getState('list.ordering', 'ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1);
-		}
-
-		return array_slice($result, $limitstart, $limit ? $limit : null);
 	}
 
 	/**
