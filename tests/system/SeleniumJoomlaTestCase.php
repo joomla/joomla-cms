@@ -362,4 +362,17 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 	}
 
+	function checkNotices()
+	{
+		try
+		{
+			$this->assertFalse($this->isTextPresent("( ! ) Notice"), "**Warning: PHP Notice found on page!");
+		}
+		catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			echo "**Warning: PHP Notice found on page\n";
+			array_push($this->verificationErrors, $e->toString());
+		}
+	}
+
 }
