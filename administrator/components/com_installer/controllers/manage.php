@@ -54,7 +54,7 @@ class InstallerControllerManage extends JController {
 				} else if ($value == 0) {
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
 				}
-				$this->setMessage(JText::__($ntext, count($ids)));
+				$this->setMessage(JText::plural($ntext, count($ids)));
 			}
 		}
 

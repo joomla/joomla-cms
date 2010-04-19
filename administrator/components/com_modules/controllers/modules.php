@@ -37,7 +37,7 @@ class ModulesControllerModules extends JControllerAdmin
 			}
 			$model = $this->getModel();
 			$model->duplicate($pks);
-			$this->setMessage(JText::__('COM_MODULES_N_MODULES_DUPLICATED', count($pks)));
+			$this->setMessage(JText::plural('COM_MODULES_N_MODULES_DUPLICATED', count($pks)));
 		} catch (Exception $e) {
 			JError::raiseWarning(500, $e->getMessage());
 		}

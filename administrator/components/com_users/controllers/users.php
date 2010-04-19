@@ -76,7 +76,7 @@ class UsersControllerUsers extends JController
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {
-				$this->setMessage(JText::__('COM_USERS_N_USERS_DELETED', count($ids)));
+				$this->setMessage(JText::plural('COM_USERS_N_USERS_DELETED', count($ids)));
 			}
 		}
 
@@ -109,7 +109,7 @@ class UsersControllerUsers extends JController
 			if (!$model->block($ids, $value)) {
 				JError::raiseWarning(500, $model->getError());
 			} else {
-				$this->setMessage(JText::__('COM_USERS_N_USERS_BLOCKED', count($ids)));
+				$this->setMessage(JText::plural('COM_USERS_N_USERS_BLOCKED', count($ids)));
 			}
 		}
 

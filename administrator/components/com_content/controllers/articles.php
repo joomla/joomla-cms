@@ -69,7 +69,7 @@ class ContentControllerArticles extends JControllerAdmin
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {
-				$this->setMessage(JText::__('COM_CONTENT_N_ITEMS_DELETED', count($ids)));
+				$this->setMessage(JText::plural('COM_CONTENT_N_ITEMS_DELETED', count($ids)));
 			}
 		}
 

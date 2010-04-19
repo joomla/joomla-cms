@@ -79,7 +79,7 @@ class BannersControllerBanners extends JControllerAdmin
 				} else {
 					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
 				}
-				$this->setMessage(JText::__($ntext, count($ids)));
+				$this->setMessage(JText::plural($ntext, count($ids)));
 			}
 		}
 
