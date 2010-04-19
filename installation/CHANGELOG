@@ -30,6 +30,7 @@ $ -> Language fix or change
 19-Apr-2010 Jean-Marie Simonet
 ^ Changing JText::__ to JText::plural
 $ Toolbar change to Publish/Unpublish in com_modules
+^ Fixed readonly list [20179]. (Thanks Artyom)
 
 18-Apr-2010 Ron Severdia
 # Clean up CSS for BlueStork
