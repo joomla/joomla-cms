@@ -55,8 +55,10 @@ class SearchHelper
 
 		$lang = &JFactory::getLanguage();
 
-		$search_ignore	= array();
 		$tag			= $lang->getTag();
+		$search_ignore	= $lang->ignoreSearchWords();
+
+		// Deprecated in 1.6 use $lang->ignoreSearchWords instead
 		$ignoreFile		= $lang->getLanguagePath().DS.$tag.DS.$tag.'.ignore.php';
 		if (file_exists($ignoreFile)) {
 			include $ignoreFile;
