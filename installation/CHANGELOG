@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 20-Apr-2010 Mark Dexter
 # Fix PHP notice in mod_logged 
+^ Change name of component parameter from show_page_title to show_page_heading
 
 20-Apr-2010 Andrew Eddie
  ^ Rename JModel _populateState to populateState, _getStoreId to getStoreId, _getListQuery to getListQuery.

@@ -3,7 +3,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $canEdit	= ($this->user->authorize('core.edit', 'com_content.article.'.$this->article->id));
 ?>
-<?php if ($this->params->get('show_page_title', 1) && $this->params->get('page_title') != $this->article->title) : ?>
+<?php if ($this->params->get('show_page_heading', 1) && $this->params->get('page_title') != $this->article->title) : ?>
 	<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 		<?php echo $this->escape($this->params->get('page_title')); ?>
 	</div>

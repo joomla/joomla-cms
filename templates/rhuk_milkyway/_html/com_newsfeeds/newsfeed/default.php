@@ -29,7 +29,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		}
 ?>
 <div style="<?php echo $direction; ?><?php echo $align; ?>">
-<?php if ($this->params->get('show_page_title', 1)) : ?>
+<?php if ($this->params->get('show_page_heading', 1)) : ?>
 	<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>" style="<?php echo $direction; ?><?php echo $align; ?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
 <?php endif; ?>
 <table width="100%" class="contentpane<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">

@@ -14,15 +14,21 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
-<div class="article-category-list <?php echo $pageClass;?>">
+<div class="category-list <?php echo $pageClass;?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
-<?php if($this->params->get('show_category_title', 1) && $this->params->get('page_subheading')) : ?>
+<?php if($this->params->get('show_category_title', 1) OR $this->params->get('page_subheading')) : ?>
 <h2>
 	<?php echo $this->escape($this->params->get('page_subheading')); ?>
+	<?php if ($this->params->get('show_category_title'))
+	{
+
+		echo '<span class="subheading-category">'.$this->category->title.'</span>';
+	}
+	?>
 </h2>
 <?php endif; ?>
 <?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
@@ -37,8 +43,11 @@ $pageClass = $this->params->get('pageclass_sfx');
 	</div>
 <?php endif; ?>
 
-	<?php if (is_array($this->children) && count($this->children) > 0) : ?>
+	<?php if (is_array($this->children) && count($this->children) > 0 && $this->params->get('maxLevel') !=0)  : ?>
 		<div class="jcat-children">
+				<h3>
+<?php echo JTEXT::_('COM_CONTENT_CHILDREN'); ?>
+</h3>
 			<?php echo $this->loadTemplate('children'); ?>
 		</div>
 	<?php endif; ?>

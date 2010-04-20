@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <form action="<?php echo JRoute::_( 'index.php?option=com_user' ); ?>" method="post" id="josForm" name="josForm" class="form-validate">
 
-<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
+<?php if ( $this->params->def( 'show_page_heading', 1 ) ) : ?>
 <div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
 <?php endif; ?>
 
