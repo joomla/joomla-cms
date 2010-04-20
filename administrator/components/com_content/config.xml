@@ -345,6 +345,15 @@
 				value="1">JSHOW</option>
 		</field>
 
+         <field name="list_show_title" type="radio"
+				description="JGLOBAL_LIST_TITLE_DESC"
+				label="JGLOBAL_LIST_TITLE_LABEL"
+				default="0"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
 		<field
 			name="show_date"
 			type="list"
@@ -363,6 +372,24 @@
 			default=""
 			label="JGLOBAL_DATE_FORMAT_LABEL"
 			description="JGLOBAL_DATE_FORMAT_DESC" />
+
+		<field
+			name="list_hits"
+			type="radio" default="1"
+			label="JGLOBAL_LIST_HITS_LABEL"
+			description="JGLOBAL_LIST_HITS_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="list_author"
+			type="radio" default="1"
+			label="JGLOBAL_LIST_AUTHOR_LABEL"
+			description="JGLOBAL_LIST_AUTHOR_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
 
 		<field
 			name="filter_field"
@@ -385,24 +412,6 @@
 				<option value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="list_hits"
-			type="radio" default="1"
-			label="JGLOBAL_LIST_HITS_LABEL"
-			description="JGLOBAL_LIST_HITS_DESC">
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="list_author"
-			type="radio" default="1"
-			label="JGLOBAL_LIST_AUTHOR_LABEL"
-			description="JGLOBAL_LIST_AUTHOR_DESC">
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-		</field>
-
 	</fieldset>
 
 	<fieldset
@@ -410,6 +419,37 @@
 		label="Content_Config_Category_Settings_Label"
 		description="Content_Config_Category_Settings_Desc"
 		>
+
+		<field name="maxLevel" type="list"
+				description="JGLOBAL_MAXLEVEL_DESC"
+				label="JGLOBAL_MAXLEVEL_LABEL"
+				default="1"
+			>
+				<option value="0">JNONE</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>
+			</field>
+			
+	   	<field name="show_category_title" type="list"
+				label="JGLOBAL_SHOW_CATEGORY_TITLE"
+				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
+				default="0"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field name="show_empty_categories" type="radio"
+				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
+				default="0"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
 	 	<field
 	 		name="show_description"
@@ -431,6 +471,16 @@
 	 			<option value="1">JSHOW</option>
 	 	</field>
 
+	
+		<field name="show_cat_num_articles" type="radio"
+				label="JGLOBAL_NUMBER_CATEGORY_ITEMS_LABEL"
+				description="JGLOBAL_NUMBER_CATEGORY_ITEMS_DESC"
+				default="0"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
 	 	<field
 			name="drill_down_layout"
 			type="radio"
@@ -439,53 +489,6 @@
 			description="JGLOBAL_Drill_Down_Layout_Desc">
 	 			<option value="0">List</option>
 	 			<option value="1">Blog</option>
-	 	</field>
-
-		<field
-			name="show_subcategory_content"
-			type="list"
-			default="0"
-			label="JGLOBAL_Show_Subcategory_Content_Label"
-			description="JGLOBAL_Show_Subcategory_Content_Desc">
-			<option
-				value="0">JNo</option>
-			<option
-				value="all_list">JGLOBAL_ALL_LIST</option>
-			<option
-				value="all_articles">JGLOBAL_ALL_ARTICLE</option>
-		</field>
-		
-		<field
-			name="max_levels"
-			type="list"
-			default="3"
-			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC">
-				<option value="1">J1</option>
-				<option value="2">J2</option>
-				<option value="3">J3</option>
-				<option value="4">J4</option>
-				<option value="5">J5</option>
-		</field>
-
-	 	<field
-			name="empty_categories"
-			type="radio"
-			default="1"
-			label="JGLOBAL_Empty_Categories_Label"
-			description="JGLOBAL_Empty_Categories_Desc">
-	 			<option value="0">JHIDE</option>
-	 			<option value="1">JSHOW</option>
-	 	</field>
-
-	 	<field
-			name="article_count"
-			type="radio"
-			default="0"
-			label="JGLOBAL_Article_Count_Label"
-			description="JGLOBAL_Article_Count_Desc">
-	 			<option value="0">JHIDE</option>
-	 			<option value="1">JSHOW</option>
 	 	</field>
 
 		<field
