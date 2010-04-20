@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: default_links.php 15673 2010-03-29 03:21:04Z hackwar $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: helper.php 15664 2010-03-28 18:29:08Z klascommit $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_articles_latest
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.

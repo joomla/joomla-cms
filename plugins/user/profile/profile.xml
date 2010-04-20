@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id: profile.xml 11567 2009-02-02 23:13:14Z eddieajau $ -->
+	<!-- $Id$ -->
 <install version="1.6" type="plugin" group="user">
 	<name>plg_user_profile</name>
 	<author>Joomla! Project</author>

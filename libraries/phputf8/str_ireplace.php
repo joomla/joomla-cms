@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: str_ireplace.php,v 1.2 2007/08/12 01:20:46 harryf Exp $
+* @version $Id$
 * @package utf8
 * @subpackage strings
 */

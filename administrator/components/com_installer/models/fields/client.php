@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access');
 
 /**
- * @version		$Id: manage.php 14276 2010-01-18 14:20:28Z louis $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */

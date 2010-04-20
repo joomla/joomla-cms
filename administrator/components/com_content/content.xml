@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: content.xml 14848 2010-02-14 04:28:59Z infograf768 $ -->
+<!-- $Id$ -->
 <extension type="component" version="1.6.0" method="upgrade">
 	<name>com_content</name>
 	<author>Joomla! Project</author>

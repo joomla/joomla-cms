@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: str_pad.php,v 1.1 2006/09/03 09:25:13 harryf Exp $
+* @version $Id$
 * @package utf8
 * @subpackage strings
 */

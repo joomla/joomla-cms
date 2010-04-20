@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: route.php 15102 2010-02-27 14:50:19Z hackwar $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.

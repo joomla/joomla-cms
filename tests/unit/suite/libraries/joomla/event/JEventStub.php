@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: JEventTest.php 14844 2010-02-13 23:49:28Z ian $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */

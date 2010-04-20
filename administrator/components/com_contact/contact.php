@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: weblinks.php 11952 2009-06-01 03:21:19Z robs $
+ * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_weblinks
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.

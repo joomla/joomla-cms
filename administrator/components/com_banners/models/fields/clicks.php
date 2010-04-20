@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: media.php 12774 2009-09-18 04:47:09Z eddieajau $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: featured.php 15932 2010-04-08 01:53:33Z hackwar $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.

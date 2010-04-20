@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: controller.php 15936 2010-04-08 06:32:41Z infograf768 $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
