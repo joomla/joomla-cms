@@ -112,6 +112,18 @@ class JController extends JObject
 	protected $_taskMap	= null;
 
 	/**
+	 * Adds to the stack of model paths in LIFO order.
+	 *
+	 * @param	string|array The directory (string), or list of directories (array) to add.
+	 * @return	void
+	 */
+	public static function addModelPath($path)
+	{
+		jimport('joomla.application.component.model');
+		JModel::addIncludePath($path);
+	}
+
+	/**
 	 * Create the filename for a resource.
 	 *
 	 * @param	string	The resource type to create the filename for.
@@ -147,18 +159,6 @@ class JController extends JObject
 			break;
 		}
 		return $filename;
-	}
-
-	/**
-	 * Adds to the stack of model paths in LIFO order.
-	 *
-	 * @param	string|array The directory (string), or list of directories (array) to add.
-	 * @return	void
-	 */
-	public static function addModelPath($path)
-	{
-		jimport('joomla.application.component.model');
-		JModel::addIncludePath($path);
 	}
 
 	/**
