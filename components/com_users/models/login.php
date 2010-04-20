@@ -21,7 +21,7 @@ jimport('joomla.plugin.helper');
  */
 class UsersModelLogin extends JModelForm
 {
-	protected function _populateState()
+	protected function populateState()
 	{
 		// Get the application object.
 		$app	= &JFactory::getApplication();

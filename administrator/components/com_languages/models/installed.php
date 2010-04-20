@@ -76,7 +76,7 @@ class LanguagesModelInstalled extends JModelList
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
@@ -90,7 +90,7 @@ class LanguagesModelInstalled extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::_populateState('a.title', 'asc');
+		parent::populateState('a.title', 'asc');
 	}
 
 	/**
@@ -104,12 +104,12 @@ class LanguagesModelInstalled extends JModelList
 	 * @return	string		A store id.
 	 * @since	1.6
 	 */
-	protected function _getStoreId($id = '')
+	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('filter.client_id');
 
-		return parent::_getStoreId($id);
+		return parent::getStoreId($id);
 	}
 
 	/**

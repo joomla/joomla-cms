@@ -58,7 +58,7 @@ class ContactModelContact extends JModelAdmin
 	 *
 	 * @return	void
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		$app	= &JFactory::getApplication('administrator');
 		// Load the User state.

@@ -30,7 +30,7 @@ class ContactModelContact extends JModelItem
 	 *
 	 * @return	void
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		$app =& JFactory::getApplication('site');
 

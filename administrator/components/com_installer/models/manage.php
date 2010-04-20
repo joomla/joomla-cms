@@ -29,7 +29,7 @@ class InstallerModelManage extends InstallerModel {
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 */
-	protected function _populateState() {
+	protected function populateState() {
 		$app = JFactory::getApplication('administrator');
 		$this->setState('message',$app->getUserState('com_installer.message'));
 		$this->setState('extension_message',$app->getUserState('com_installer.extension_message'));
@@ -47,7 +47,7 @@ class InstallerModelManage extends InstallerModel {
 		$this->setState('filter.type', isset($data['select']['type']) ? $data['select']['type'] : '');
 		$this->setState('filter.group', isset($data['select']['group']) ? $data['select']['group'] : '');
 		$this->setState('filter.client', isset($data['select']['client']) ? $data['select']['client'] : '');
-		parent::_populateState('name', 'asc');
+		parent::populateState('name', 'asc');
 	}
 
 	/**
@@ -199,7 +199,7 @@ class InstallerModelManage extends InstallerModel {
 	 *
 	 * @return JDatabaseQuery the database query
 	 */
-	protected function _getListQuery() {
+	protected function getListQuery() {
 		$type = $this->getState('filter.type');
 		$client = $this->getState('filter.client');
 		$group = $this->getState('filter.group');

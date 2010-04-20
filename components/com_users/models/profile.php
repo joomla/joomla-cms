@@ -27,7 +27,7 @@ class UsersModelProfile extends JModelForm
 	 *
 	 * @since	1.6
 	 */
-	protected function _populateState($property = null, $default = null)
+	protected function populateState($property = null, $default = null)
 	{
 		// Get the application object.
 		$app	= &JFactory::getApplication();

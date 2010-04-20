@@ -31,7 +31,7 @@ class BannersModelTracks extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
@@ -57,14 +57,14 @@ class BannersModelTracks extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::_populateState('name', 'asc');
+		parent::populateState('name', 'asc');
 	}
 	/**
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return	JDatabaseQuery
 	 */
-	protected function _getListQuery()
+	protected function getListQuery()
 	{
 		// Get the application object
 		$app = &JFactory::getApplication();

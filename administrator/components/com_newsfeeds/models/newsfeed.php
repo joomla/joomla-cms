@@ -38,7 +38,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to auto-populate the model state.
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		$app = JFactory::getApplication('administrator');
 

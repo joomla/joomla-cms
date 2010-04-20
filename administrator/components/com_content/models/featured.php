@@ -30,7 +30,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 *
 	 * @return	string
 	 */
-	function _getListQuery($resolveFKs = true)
+	function getListQuery($resolveFKs = true)
 	{
 		// Create a new query object.
 		$db = $this->getDbo();

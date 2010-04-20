@@ -32,7 +32,7 @@ class UsersModelReport extends JModel
 	 *
 	 * @return	void
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		$type = JRequest::getWord('type');
 		$this->setState('report.type',	$type);

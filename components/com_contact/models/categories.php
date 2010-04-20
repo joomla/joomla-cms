@@ -42,7 +42,7 @@ class ContactModelCategories extends JModel
 	 *
 	 * @since	1.6
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		$app = &JFactory::getApplication();
 		$this->setState('filter.extension', $this->_extension);
@@ -69,7 +69,7 @@ class ContactModelCategories extends JModel
 	 *
 	 * @return	string		A store id.
 	 */
-	protected function _getStoreId($id = '')
+	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('filter.extension');
@@ -77,7 +77,7 @@ class ContactModelCategories extends JModel
 		$id	.= ':'.$this->getState('filter.access');
 		$id	.= ':'.$this->getState('filter.parentId');
 
-		return parent::_getStoreId($id);
+		return parent::getStoreId($id);
 	}
 
 	/**

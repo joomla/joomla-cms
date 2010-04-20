@@ -23,7 +23,7 @@ class BannersModelDownload extends JModelForm
 	/**
 	 * Method to auto-populate the model state.
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		jimport('joomla.utilities.utility');
 		$basename = JRequest::getString(JUtility::getHash($this->_context.'.basename'),'__SITE__','cookie');

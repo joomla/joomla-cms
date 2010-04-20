@@ -50,7 +50,7 @@ class CacheModelCache extends JModel
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		$app = &JFactory::getApplication();
 

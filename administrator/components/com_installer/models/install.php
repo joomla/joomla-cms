@@ -49,7 +49,7 @@ class InstallerModelInstall extends JModel
 	 *
 	 * @since	1.6
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		// Initialise variables.
 		$app = &JFactory::getApplication('administrator');
@@ -62,7 +62,7 @@ class InstallerModelInstall extends JModel
 		// Remember the 'Install from Directory' path.
 		$path = $app->getUserStateFromRequest($this->_context.'.install_directory', 'install_directory', $app->getCfg('config.tmp_path'));
 		$this->setState('install.directory', $path);
-		parent::_populateState();
+		parent::populateState();
 	}
 
 	/**

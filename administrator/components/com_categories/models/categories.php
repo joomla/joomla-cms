@@ -31,7 +31,7 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @since	1.6
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		$app = JFactory::getApplication();
 
@@ -55,7 +55,7 @@ class CategoriesModelCategories extends JModelList
 		$this->setState('filter.published', $published);
 
 		// List state information.
-		parent::_populateState('a.lft', 'asc');
+		parent::populateState('a.lft', 'asc');
 	}
 
 	/**
@@ -69,14 +69,14 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @return	string		A store id.
 	 */
-	protected function _getStoreId($id = '')
+	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.extension');
 		$id	.= ':'.$this->getState('filter.published');
 
-		return parent::_getStoreId($id);
+		return parent::getStoreId($id);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @return	string
 	 */
-	function _getListQuery($resolveFKs = true)
+	function getListQuery($resolveFKs = true)
 	{
 		// Create a new query object.
 		$db = $this->getDbo();

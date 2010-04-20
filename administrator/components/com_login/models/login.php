@@ -28,7 +28,7 @@ class LoginModelLogin extends JModel
 	 *
 	 * @return	void
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		$credentials = array();
 		$credentials['username'] = JRequest::getVar('username', '', 'method', 'username');

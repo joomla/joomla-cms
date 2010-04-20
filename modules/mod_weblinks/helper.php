@@ -56,7 +56,7 @@ class modWeblinksHelper
 		/*
 		 * This was in the previous code before we changed over to using the
 		 * weblinkscategory model but I don't see any models using checked_out filters
-		 * in their _getListQuery() methods so I believe we should not be adding this now
+		 * in their getListQuery() methods so I believe we should not be adding this now
 		 */
 
 		/*

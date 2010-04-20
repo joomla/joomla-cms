@@ -30,7 +30,7 @@ class MenusModelItems extends JModelList
 	 *
 	 * @return	void
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		$app = JFactory::getApplication('administrator');
 
@@ -57,7 +57,7 @@ class MenusModelItems extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::_populateState('a.lft', 'asc');
+		parent::populateState('a.lft', 'asc');
 	}
 
 	/**
@@ -70,7 +70,7 @@ class MenusModelItems extends JModelList
 	 * @param	string		$id	A prefix for the store id.
 	 * @return	string		A store id.
 	 */
-	protected function _getStoreId($id = '')
+	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('filter.access');
@@ -79,7 +79,7 @@ class MenusModelItems extends JModelList
 		$id	.= ':'.$this->getState('filter.parent_id');
 		$id	.= ':'.$this->getState('filter.menu_id');
 
-		return parent::_getStoreId($id);
+		return parent::getStoreId($id);
 	}
 
 	/**
@@ -87,7 +87,7 @@ class MenusModelItems extends JModelList
 	 *
 	 * @return	JDatabaseQuery	A query object.
 	 */
-	protected function _getListQuery()
+	protected function getListQuery()
 	{
 		// Create a new query object.
 		$db = $this->getDbo();

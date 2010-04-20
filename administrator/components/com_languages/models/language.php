@@ -37,7 +37,7 @@ class LanguagesModelLanguage extends JModelForm
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		$app		= &JFactory::getApplication('administrator');
 		$params		= &JComponentHelper::getParams('com_languages');

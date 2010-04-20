@@ -46,7 +46,7 @@ class InstallerModel extends JModelList
 			}
 			JArrayHelper::sortObjects($result, $this->getState('list.ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1);
 			$total = count($result);
-			$this->_cache[$this->_getStoreId('getTotal')] = $total;
+			$this->_cache[$this->getStoreId('getTotal')] = $total;
 			if ($total < $limitstart) {
 				$limitstart = 0;
 				$this->setState('list.start', 0);

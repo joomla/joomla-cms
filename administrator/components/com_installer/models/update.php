@@ -32,13 +32,13 @@ class InstallerModelUpdate extends JModelList
 	 * to be called on the first call to the getState() method unless the model
 	 * configuration flag to ignore the request is set.
 	 */
-	protected function _populateState() {
+	protected function populateState() {
 		$app = JFactory::getApplication('administrator');
 		$this->setState('message',$app->getUserState('com_installer.message'));
 		$this->setState('extension_message',$app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message','');
 		$app->setUserState('com_installer.extension_message','');
-		parent::_populateState('name', 'asc');
+		parent::populateState('name', 'asc');
 	}
 
 	/**
@@ -46,7 +46,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return JDatabaseQuery the database query
 	 */
-	protected function _getListQuery() {
+	protected function getListQuery() {
 		$query = new JDatabaseQuery;
 		$query->select('*');
 		$query->from('#__updates');

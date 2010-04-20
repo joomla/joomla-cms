@@ -38,7 +38,7 @@ class MessagesModelMessage extends JModelAdmin
 	/**
 	 * Method to auto-populate the model state.
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		$user = JFactory::getUser();
 		$this->setState('user.id', $user->get('id'));

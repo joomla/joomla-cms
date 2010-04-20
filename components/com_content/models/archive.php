@@ -33,9 +33,9 @@ class ContentModelArchive extends ContentModelArticles
 	 *
 	 * @since	1.6
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
-		parent::_populateState();
+		parent::populateState();
 
 		// Add archive properties
 		$params = $this->_state->params;
@@ -60,7 +60,7 @@ class ContentModelArchive extends ContentModelArticles
 	/**
 	 * @return	JDatabaseQuery
 	 */
-	function _getListQuery()
+	function getListQuery()
 	{
 		// Set the archive ordering
 		$params = $this->_state->params;
@@ -76,7 +76,7 @@ class ContentModelArchive extends ContentModelArticles
 		$this->setState('list.ordering', $orderby);
 		$this->setState('list.direction', '');
 		// Create a new query object.
-		$query = parent::_getListQuery();
+		$query = parent::getListQuery();
 		
 		// Add routing for archive
 		$query->select(' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug');

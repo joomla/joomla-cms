@@ -30,7 +30,7 @@ class InstallerModelWarnings extends JModelList
 	 *
 	 * @since	1.6
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 	}
 	/**

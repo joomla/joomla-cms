@@ -33,7 +33,7 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
@@ -56,7 +56,7 @@ class BannersModelBanners extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::_populateState('name', 'asc');
+		parent::populateState('name', 'asc');
 	}
 
 	/**
@@ -83,7 +83,7 @@ class BannersModelBanners extends JModelList
 	 *
 	 * @return	string		A store id.
 	 */
-	protected function _getStoreId($id = '')
+	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('filter.search');
@@ -91,7 +91,7 @@ class BannersModelBanners extends JModelList
 		$id	.= ':'.$this->getState('filter.state');
 		$id	.= ':'.$this->getState('filter.category_id');
 
-		return parent::_getStoreId($id);
+		return parent::getStoreId($id);
 	}
 
 	/**
@@ -99,7 +99,7 @@ class BannersModelBanners extends JModelList
 	 *
 	 * @return	JDatabaseQuery
 	 */
-	protected function _getListQuery()
+	protected function getListQuery()
 	{
 		// Get the application object
 		$app = &JFactory::getApplication();

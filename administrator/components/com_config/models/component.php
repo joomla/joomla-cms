@@ -23,7 +23,7 @@ class ConfigModelComponent extends JModelForm
 	 *
 	 * @since	1.6
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		// Set the component (option) we are dealing with.
 		$component = JRequest::getCmd('component');

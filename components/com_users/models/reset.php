@@ -21,7 +21,7 @@ jimport('joomla.event.dispatcher');
 
 class UsersModelReset extends JModelForm
 {
-	protected function _populateState()
+	protected function populateState()
 	{
 		// Get the application object.
 		$app	= &JFactory::getApplication();

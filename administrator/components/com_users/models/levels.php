@@ -28,7 +28,7 @@ class UsersModelLevels extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
@@ -42,7 +42,7 @@ class UsersModelLevels extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::_populateState('a.title', 'asc');
+		parent::populateState('a.title', 'asc');
 	}
 
 	/**
@@ -56,12 +56,12 @@ class UsersModelLevels extends JModelList
 	 *
 	 * @return	string		A store id.
 	 */
-	protected function _getStoreId($id = '')
+	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('filter.search');
 
-		return parent::_getStoreId($id);
+		return parent::getStoreId($id);
 	}
 
 	/**
@@ -69,7 +69,7 @@ class UsersModelLevels extends JModelList
 	 *
 	 * @return	JDatabaseQuery
 	 */
-	protected function _getListQuery()
+	protected function getListQuery()
 	{
 		// Create a new query object.
 		$db		= $this->getDbo();

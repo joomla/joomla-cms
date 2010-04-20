@@ -33,7 +33,7 @@ class ContentModelForm extends JModelForm
 	 *
 	 * @return	void
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		$app = &JFactory::getApplication();
 

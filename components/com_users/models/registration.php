@@ -27,7 +27,7 @@ class UsersModelRegistration extends JModelForm
 	 *
 	 * @since	1.6
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		// Get the application object.
 		$app	= &JFactory::getApplication();

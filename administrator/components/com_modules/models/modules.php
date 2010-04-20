@@ -29,7 +29,7 @@ class ModulesModelModules extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
@@ -58,7 +58,7 @@ class ModulesModelModules extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::_populateState('position', 'asc');
+		parent::populateState('position', 'asc');
 	}
 
 	/**
@@ -72,7 +72,7 @@ class ModulesModelModules extends JModelList
 	 *
 	 * @return	string	A store id.
 	 */
-	protected function _getStoreId($id = '')
+	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('filter.search');
@@ -82,7 +82,7 @@ class ModulesModelModules extends JModelList
 		$id	.= ':'.$this->getState('filter.module');
 		$id	.= ':'.$this->getState('filter.client_id');
 
-		return parent::_getStoreId($id);
+		return parent::getStoreId($id);
 	}
 	/**
 	 * Returns an object list
@@ -101,7 +101,7 @@ class ModulesModelModules extends JModelList
 			$this->_translate($result);
 			JArrayHelper::sortObjects($result,'name', $this->getState('list.direction') == 'desc' ? -1 : 1);
 			$total = count($result);
-			$this->_cache[$this->_getStoreId('getTotal')] = $total;
+			$this->_cache[$this->getStoreId('getTotal')] = $total;
 			if ($total < $limitstart) {
 				$limitstart = 0;
 				$this->setState('list.start', 0);
@@ -148,7 +148,7 @@ class ModulesModelModules extends JModelList
 	 *
 	 * @return	JDatabaseQuery
 	 */
-	protected function _getListQuery()
+	protected function getListQuery()
 	{
 		// Create a new query object.
 		$db		= $this->getDbo();

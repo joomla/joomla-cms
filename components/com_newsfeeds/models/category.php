@@ -88,7 +88,7 @@ class NewsfeedsModelCategory extends JModelList
 	 * @return	string	An SQL query
 	 * @since	1.6
 	 */
-	protected function _getListQuery()
+	protected function getListQuery()
 	{
 		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
@@ -131,7 +131,7 @@ class NewsfeedsModelCategory extends JModelList
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 		// Initialise variables.
 		$app	= &JFactory::getApplication();
