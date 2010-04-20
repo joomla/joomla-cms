@@ -32,6 +32,10 @@ $ -> Language fix or change
 ^ Change name of component parameter from show_page_title to show_page_heading
 # Fixed parameters in content views (Angie Radtke)
 # Make global content parameters consistent with layouts, fix language tags 
+# Fix parameter merge for content single category menu items
+# Fix param and language bugs in featured view
+# Fix parameter priority for single article view 
+# Fix issue where an existing featured article could not be saved (Elin Waring)
 
 20-Apr-2010 Andrew Eddie
  ^ Rename JModel _populateState to populateState, _getStoreId to getStoreId, _getListQuery to getListQuery.

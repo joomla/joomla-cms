@@ -39,7 +39,8 @@ class ContentViewArticle extends JView
 
 		// Check for errors.
 		// @TODO Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
@@ -52,13 +53,24 @@ class ContentViewArticle extends JView
 		// TODO: Change based on shownoauth
 		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 
-		// Create a shortcut to the paramemters.
+		// Merge article params. If this is single-article view, menu params override article params
+		// Otherwise, article params override menu item params
+		$currentLink = $app->getMenu()->getActive()->link;
 		$params =& $state->get('params');
 		$article_params = new JRegistry;
 		$article_params->loadJSON($item->attribs);
-		$temp = clone($params);
-		$temp->merge($article_params);
-		$item->params = $temp;
+		$temp = clone ($params);
+		if (strpos($currentLink, 'view=article'))
+		{
+			$article_params->merge($temp);
+			$item->params = $article_params;
+		}
+		else
+		{
+			$temp->merge($article_params);
+			$item->params = $temp;
+		}
+
 		$offset = $state->get('page.offset');
 
 		// Check the access to the article
@@ -85,11 +97,11 @@ class ContentViewArticle extends JView
 		//
 		JPluginHelper::importPlugin('content');
 		//$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
-		if ($item->params->get('show_intro', 1) == 1) 
+		if ($item->params->get('show_intro', 1) == 1)
 		{
-			$item->text = $item->introtext.' '.$item->fulltext;
-		} 
-		else 
+			$item->text = $item->introtext . ' ' . $item->fulltext;
+		}
+		else
 		{
 			$item->text = $item->fulltext;
 		}
@@ -134,40 +146,42 @@ class ContentViewArticle extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= &JFactory::getApplication();
-		$menus		= &JSite::getMenu();
-		$pathway	= &$app->getPathway();
-		$title 		= null;
+		$app =& JFactory::getApplication();
+		$menus =& JSite::getMenu();
+		$pathway =& $app->getPathway();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-		if($menu)
+		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		} else {
+		}
+		else
+		{
 			$this->params->def('page_heading', JText::_('COM_CONTENT_DEFAULT_PAGE_TITLE'));
 		}
-		
+
 		$title = $this->params->get('page_title', '');
 		if (empty($title))
 		{
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);
-		
-		if($menu && $menu->query['view'] != 'article')
+
+		if ($menu && $menu->query['view'] != 'article')
 		{
 			$id = (int) @$menu->query['id'];
-			$path = array($this->item->title => '');
+			$path = array($this->item->title  => '');
 			$category = JCategories::getInstance('Content')->get($this->item->catid);
-			while($id != $category->id && $category->id > 1)
+			while ($id != $category->id && $category->id > 1)
 			{
 				$path[$category->title] = ContentHelperRoute::getCategoryRoute($category->id);
 				$category = $category->getParent();
 			}
 			$path = array_reverse($path);
-			foreach($path as $title => $link)
+			foreach ($path as $title => $link)
 			{
 				$pathway->addItem($title, $link);
 			}

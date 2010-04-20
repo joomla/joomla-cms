@@ -70,8 +70,16 @@ class ContentModelCategory extends JModelItem
 		$pk = JRequest::getInt('id');
 		$this->setState('category.id', $pk);
 				
+		// Load the parameters. Merge Global and Menu Item params into new object
 		$params = $app->getParams();
-		$this->setState('params', $params);
+		$menuParams = new JRegistry;
+		if (JSite::getMenu()->getActive())
+		{
+			$menuParams->loadJSON(JSite::getMenu()->getActive()->params);
+		}
+		$mergedParams = clone $menuParams;
+		$mergedParams->merge($params);
+		$this->setState('params', $mergedParams);
 
 		// limit to published
 		$this->setState('filter.published', 1);

@@ -65,11 +65,6 @@ class ContentViewFeatured extends JView
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 			$item->catslug = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
-			$article_params = new JRegistry;
-			$article_params->loadJSON($item->attribs);
-			$temp = clone($params);
-			$temp->merge($article_params);
-			$item->params = $temp;
 			// No link for ROOT category
 			if ($item->parent_alias == 'root') {
 				$item->parent_slug = null;
