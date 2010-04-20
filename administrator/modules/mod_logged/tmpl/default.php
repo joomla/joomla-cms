@@ -39,7 +39,7 @@ defined('_JEXEC') or die;
 	<?php foreach ($users as $user) : ?>
 		<tr>
 			<td>
-				<?php if ($user->editLink) :?>
+				<?php if (isset($user->editLink)) :?>
 					<a href="<?php echo $user->editLink; ?>">
 						<?php echo $user->name;?></a>
 				<?php else :
