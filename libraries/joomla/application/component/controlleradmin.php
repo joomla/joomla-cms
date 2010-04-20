@@ -32,16 +32,16 @@ class JControllerAdmin extends JController
 	protected $_option;
 
 	/**
-	 * @var		string	The URL view list variable.
-	 * @since	1.6
-	 */
-	protected $_view_list;
-
-	/**
 	 * @var		string	The prefix to use with controller messages.
 	 * @since	1.6
 	 */
 	protected $_msgprefix;
+
+	/**
+	 * @var		string	The URL view list variable.
+	 * @since	1.6
+	 */
+	protected $_view_list;
 
 	/**
 	 * Constructor.

@@ -24,6 +24,14 @@ defined('JPATH_BASE') or die;
 abstract class JModel extends JObject
 {
 	/**
+	 * Indicates if the internal state has been set
+	 *
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected $__state_set	= null;
+
+	/**
 	 * Database Connector
 	 *
 	 * @var object
@@ -43,14 +51,6 @@ abstract class JModel extends JObject
 	 * @var string
 	 */
 	protected $_state;
-
-	/**
-	 * Indicates if the internal state has been set
-	 *
-	 * @var		boolean
-	 * @since	1.6
-	 */
-	protected $__state_set	= null;
 
 	/**
 	 * Add a directory where JModel should search for models. You may
@@ -185,10 +185,11 @@ abstract class JModel extends JObject
 	/**
 	 * Returns an object list
 	 *
-	 * @param	string The query
-	 * @param	int Offset
-	 * @param	int The number of records
+	 * @param	string	The query
+	 * @param	int		Offset
+	 * @param	int		The number of records
 	 * @return	array
+	 * @since	1.5
 	 */
 	protected function _getList($query, $limitstart=0, $limit=0)
 	{
@@ -203,6 +204,7 @@ abstract class JModel extends JObject
 	 *
 	 * @param	string The query
 	 * @return	int
+	 * @since	1.5
 	 */
 	protected function _getListCount($query)
 	{
