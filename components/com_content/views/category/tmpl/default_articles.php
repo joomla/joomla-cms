@@ -37,7 +37,7 @@ $n = count($this->items);
 			<?php echo JText::_('COM_CONTENT_DISPLAY_NUM'); ?>&nbsp;
 			<?php echo $this->pagination->getLimitBox(); ?>
 		</div>
-	<?php endif; ?>	
+	<?php endif; ?>
 	<?php if ($this->params->get('filter_field') != 'hide') :?>
 	</fieldset>
 	<?php endif; ?>
@@ -45,22 +45,24 @@ $n = count($this->items);
 <table class="category" border="1">
 	<?php if ($this->params->get('show_headings')) :?>
 	<thead><tr>
-		<?php if ($this->params->get('show_title')) : ?>
+
+	<?php //echo $this->params->get('list_show_title'); ?>
+		<?php if ($this->params->get('list_show_title',1)) : ?>
 		<th class="list-title" id="tableOrdering">
 			<?php  echo JHTML::_('grid.sort', 'Content_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')) ; ?>
 		</th>
 		<?php endif; ?>
-		<?php if ($this->params->get('show_date') != 'hide') : ?>
+		<?php if ($this->params->get('list_show_date',1)) : ?>
 			<th class="list-date" id="tableOrdering2">
 				<?php echo JHTML::_('grid.sort', 'Content_'.$this->params->get('show_date').'_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 		<?php endif; ?>
-		<?php if ($this->params->get('list_author')) : ?>
+		<?php if ($this->params->get('list_show_author',1)) : ?>
 			<th class="list-author" id="tableOrdering3">
 				<?php echo JHTML::_('grid.sort', 'JAUTHOR', 'author_name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
 		<?php endif; ?>
-		<?php if ($this->params->get('list_hits')) : ?>
+		<?php if ($this->params->get('list_show_hits',1)) : ?>
 			<th class="list-hits" id="tableOrdering4">
 				<?php echo JHTML::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 			</th>
@@ -68,25 +70,29 @@ $n = count($this->items);
 	</tr></thead>
 	<?php endif; ?>
 	<tbody>
+
 		<?php foreach ($this->items as $i => &$article) : ?>
 			<tr class="cat-list-row<?php echo $i % 2; ?>">
+
 				<?php if (in_array($article->access, $this->user->authorisedLevels())) : ?>
+				<?php if ($this->params->get('list_show_title',1)) : ?>
 				<td class="list-title">
 					<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
 					<?php echo $this->escape($article->title); ?></a>
 				</td>
-				<?php if ($this->params->get('show_date') != 'hide') : ?>
+				<?php endif; ?>
+				<?php if ($this->params->get('list_show_date',1)) : ?>
 					<td class="list-date">
 						<?php echo JHTML::_('date',$article->displayDate, $this->escape(
 						$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
 					</td>
 				<?php endif; ?>
-				<?php if ($this->params->get('list_author')) : ?>
+				<?php if ($this->params->get('list_show_author',1)) : ?>
 					<td class="list-author">
 						<?php echo $this->params->get('link_author', 0) ? JHTML::_('link',JRoute::_('index.php?option=com_users&view=profile&member_id='.$article->created_by),$article->author_name) : $article->author_name; ?>
 					</td>
 				<?php endif; ?>
-				<?php if ($this->params->get('list_hits')) : ?>
+				<?php if ($this->params->get('list_show_hits',1)) : ?>
 					<td class="list-hits">
 						<?php echo $article->hits; ?>
 					</td>
