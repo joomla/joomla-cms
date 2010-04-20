@@ -19,6 +19,26 @@
 	</files>
 	<config>
 		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="count"
+					type="text"
+					default="5"
+					label="MOD_LOGGED_FIELD_COUNT_LABEL"
+					description="MOD_LOGGED_FIELD_COUNT_DESC" />
+
+				<field
+					name="name"
+					type="list"
+					default="1"
+					label="MOD_LOGGED_NAME"
+					description="MOD_LOGGED_FIELD_NAME_DESC" >
+					<option 
+						value="1">MOD_LOGGED_NAME</option>
+					<option 
+						value="0">MOD_LOGGED_USERNAME</option>
+				</field>
+			</fieldset>
 			<fieldset name="advanced">
 				<field
 					name="layout"
