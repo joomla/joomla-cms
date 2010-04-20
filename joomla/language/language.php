@@ -443,7 +443,7 @@ class JLanguage extends JObject
 		$filename = "$path/$filename.ini";
 
 		$result = false;
-		if (isset($this->_paths[$extension][$filename]) && ! $reload) {
+		if (isset($this->paths[$extension][$filename]) && ! $reload) {
 			// Strings for this file have already been loaded
 			$result = true;
 		} else {
@@ -503,11 +503,11 @@ class JLanguage extends JObject
 		}
 
 		// Record the result of loading the extension's file.
-		if (! isset($this->_paths[$extension])) {
-			$this->_paths[$extension] = array();
+		if (! isset($this->paths[$extension])) {
+			$this->paths[$extension] = array();
 		}
 
-		$this->_paths[$extension][$filename] = $result;
+		$this->paths[$extension][$filename] = $result;
 
 		return $result;
 	}
@@ -637,13 +637,13 @@ class JLanguage extends JObject
 	public function getPaths($extension = null)
 	{
 		if (isset($extension)) {
-			if (isset($this->_paths[$extension])) {
-				return $this->_paths[$extension];
+			if (isset($this->paths[$extension])) {
+				return $this->paths[$extension];
 			}
 
 			return null;
 		} else {
-			return $this->_paths;
+			return $this->paths;
 		}
 	}
 
