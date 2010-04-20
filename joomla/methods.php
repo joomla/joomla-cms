@@ -123,16 +123,24 @@ class JText
 		$args = func_get_args();
 
 		if (count($args) > 1) {
-			// Try the key with the count.
-			$key = $args[0].'_'.(int) $args[1];
-			if (!$lang->hasKey($key)) {
+			// Try the key from the language plural potential suffixes
+			$found = false;
+			$suffixes = $lang->pluralSuffixes((int)$args[1]);
+			foreach ($suffixes as $suffix) {
+				$key = $args[0].'_'.$suffix;
+				if ($lang->hasKey($key)) {
+					$found = true;
+					break;
+				}
+			}
+			if (!$found) {
 				// Not found so revert to the original.
 				$key = $args[0];
 			}
-
 			$args[0] = $lang->_($key);
 			return call_user_func_array('sprintf', $args);
-		} else if (count($args) > 0) {
+		}
+		elseif (count($args) > 0) {
 
 			// Default to the normal sprintf handling.
 			$args[0] = $lang->_($args[0]);
