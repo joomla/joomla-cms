@@ -42,7 +42,7 @@ abstract class JModelItem extends JModel
 	 * @param	string		$context	A prefix for the store id.
 	 * @return	string		A store id.
 	 */
-	protected function _getStoreId($id = '')
+	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
 

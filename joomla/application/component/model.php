@@ -277,7 +277,7 @@ abstract class JModel extends JObject
 	{
 		if (!$this->__state_set) {
 			// Private method to auto-populate the model state.
-			$this->_populateState();
+			$this->populateState();
 
 			// Set the model state set flat to true.
 			$this->__state_set = true;
@@ -319,7 +319,7 @@ abstract class JModel extends JObject
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function _populateState()
+	protected function populateState()
 	{
 	}
 

@@ -27,7 +27,7 @@ class JModelList extends JModel
 
 	/**
 	 * Context string for the model type.  This is used to handle uniqueness
-	 * when dealing with the _getStoreId() method and caching data structures.
+	 * when dealing with the getStoreId() method and caching data structures.
 	 *
 	 * @var		string
 	 */
@@ -48,7 +48,7 @@ class JModelList extends JModel
 	public function getItems()
 	{
 		// Get a storage key.
-		$store = $this->_getStoreId();
+		$store = $this->getStoreId();
 
 		// Try to load the data from internal storage.
 		if (!empty($this->_cache[$store])) {
@@ -56,7 +56,7 @@ class JModelList extends JModel
 		}
 
 		// Load the list items.
-		$query	= $this->_getListQuery();
+		$query	= $this->getListQuery();
 		$items	= $this->_getList($query, $this->getState('list.start'), $this->getState('list.limit'));
 
 		// Check for a database error.
@@ -76,7 +76,7 @@ class JModelList extends JModel
 	 *
 	 * @return	object	A JDatabaseQuery object to retrieve the data set.
 	 */
-	protected function _getListQuery()
+	protected function getListQuery()
 	{
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
@@ -93,7 +93,7 @@ class JModelList extends JModel
 	public function getPagination()
 	{
 		// Get a storage key.
-		$store = $this->_getStoreId('getPagination');
+		$store = $this->getStoreId('getPagination');
 
 		// Try to load the data from internal storage.
 		if (!empty($this->_cache[$store])) {
@@ -121,7 +121,7 @@ class JModelList extends JModel
 	 * @param	string	An identifier string to generate the store id.
 	 * @return	string	A store id.
 	 */
-	protected function _getStoreId($id = '')
+	protected function getStoreId($id = '')
 	{
 		// Add the list state to the store id.
 		$id	.= ':'.$this->getState('list.start');
@@ -140,7 +140,7 @@ class JModelList extends JModel
 	public function getTotal()
 	{
 		// Get a storage key.
-		$store = $this->_getStoreId('getTotal');
+		$store = $this->getStoreId('getTotal');
 
 		// Try to load the data from internal storage.
 		if (!empty($this->_cache[$store])) {
@@ -148,7 +148,7 @@ class JModelList extends JModel
 		}
 
 		// Load the total.
-		$query = $this->_getListQuery();
+		$query = $this->getListQuery();
 		$total = (int) $this->_getListCount((string) $query);
 
 		// Check for a database error.
@@ -173,7 +173,7 @@ class JModelList extends JModel
 	 * @param	string	An optional ordering field.
 	 * @param	string	An optional direction (asc|desc).
 	 */
-	protected function _populateState($ordering = null, $direction)
+	protected function populateState($ordering = null, $direction)
 	{
 		// If the context is set, assume that stateful lists are used.
 		if ($this->_context) {
