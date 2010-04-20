@@ -19,13 +19,6 @@ jimport('joomla.application.component.model');
 class JModelList extends JModel
 {
 	/**
-	 * An array of totals for the lists.
-	 *
-	 * @var		array
-	 */
-	protected $_totals = array();
-
-	/**
 	 * Internal memory based cache array of data.
 	 *
 	 * @var		array
@@ -39,6 +32,13 @@ class JModelList extends JModel
 	 * @var		string
 	 */
 	protected $_context = null;
+
+	/**
+	 * An array of totals for the lists.
+	 *
+	 * @var		array
+	 */
+	protected $_totals = array();
 
 	/**
 	 * Method to get an array of data items.
@@ -72,6 +72,20 @@ class JModelList extends JModel
 	}
 
 	/**
+	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 *
+	 * @return	object	A JDatabaseQuery object to retrieve the data set.
+	 */
+	protected function _getListQuery()
+	{
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
+
+		return $query;
+	}
+
+
+	/**
 	 * Method to get a JPagination object for the data set.
 	 *
 	 * @return	object	A JPagination object for the data set.
@@ -95,6 +109,27 @@ class JModelList extends JModel
 		$this->_cache[$store] = $page;
 
 		return $this->_cache[$store];
+	}
+
+	/**
+	 * Method to get a store id based on the model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param	string	An identifier string to generate the store id.
+	 * @return	string	A store id.
+	 */
+	protected function _getStoreId($id = '')
+	{
+		// Add the list state to the store id.
+		$id	.= ':'.$this->getState('list.start');
+		$id	.= ':'.$this->getState('list.limit');
+		$id	.= ':'.$this->getState('list.ordering');
+		$id	.= ':'.$this->getState('list.direction');
+
+		return md5($this->_context.':'.$id);
 	}
 
 	/**
@@ -126,40 +161,6 @@ class JModelList extends JModel
 		$this->_cache[$store] = $total;
 
 		return $this->_cache[$store];
-	}
-
-	/**
-	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
-	 *
-	 * @return	object	A JDatabaseQuery object to retrieve the data set.
-	 */
-	protected function _getListQuery()
-	{
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
-
-		return $query;
-	}
-
-	/**
-	 * Method to get a store id based on the model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param	string	An identifier string to generate the store id.
-	 * @return	string	A store id.
-	 */
-	protected function _getStoreId($id = '')
-	{
-		// Add the list state to the store id.
-		$id	.= ':'.$this->getState('list.start');
-		$id	.= ':'.$this->getState('list.limit');
-		$id	.= ':'.$this->getState('list.ordering');
-		$id	.= ':'.$this->getState('list.direction');
-
-		return md5($this->_context.':'.$id);
 	}
 
 	/**

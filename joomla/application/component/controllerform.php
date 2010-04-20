@@ -100,46 +100,6 @@ class JControllerForm extends JController
 	}
 
 	/**
-	 * Method to get a model object, loading it if required.
-	 *
-	 * @param	string	The model name. Optional.
-	 * @param	string	The class prefix. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 *
-	 * @return	object	The model.
-	 */
-	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
-	{
-		if (empty($name)) {
-			$name = $this->_context;
-		}
-
-		return parent::getModel($name, $prefix, $config);
-	}
-
-	/**
-	 * This controller does not have a display method. Redirect back to the list view of the component.
-	 */
-	public function display()
-	{
-		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false));
-	}
-
-	/**
-	 * Method to check if you can add a new record.
-	 *
-	 * Extended classes can override this if necessary.
-	 *
-	 * @param	array	An array of input data.
-	 *
-	 * @return	boolean
-	 */
-	protected function _allowAdd($data = array())
-	{
-		return JFactory::getUser()->authorise('core.create', $this->_option);
-	}
-
-	/**
 	 * Method to add a new record.
 	 */
 	public function add()
@@ -180,6 +140,20 @@ class JControllerForm extends JController
 	 * Extended classes can override this if necessary.
 	 *
 	 * @param	array	An array of input data.
+	 *
+	 * @return	boolean
+	 */
+	protected function _allowAdd($data = array())
+	{
+		return JFactory::getUser()->authorise('core.create', $this->_option);
+	}
+
+	/**
+	 * Method to check if you can add a new record.
+	 *
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param	array	An array of input data.
 	 * @param	string	The name of the key for the primary key.
 	 *
 	 * @return	boolean
@@ -187,6 +161,80 @@ class JControllerForm extends JController
 	protected function _allowEdit($data = array(), $key = 'id')
 	{
 		return JFactory::getUser()->authorise('core.edit', $this->_option);
+	}
+
+	/**
+	 * Method to check if you can save a new or existing record.
+	 *
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param	array	An array of input data.
+	 * @param	string	The name of the key for the primary key.
+	 *
+	 * @return	boolean
+	 */
+	protected function _allowSave($data, $key = 'id')
+	{
+		// Initialise variables.
+		$recordId	= isset($data[$key]) ? $data[$key] : '0';
+
+		if ($recordId) {
+			return $this->_allowEdit($data, $key);
+		} else {
+			return $this->_allowAdd($data);
+		}
+	}
+
+	/**
+	 * Method to cancel an edit
+	 */
+	public function cancel()
+	{
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Initialise variables.
+		$app		= JFactory::getApplication();
+		$model		= &$this->getModel();
+		$table		= $model->getTable();
+		$checkin	= property_exists($table, 'checked_out');
+		$context	= "$this->_option.edit.$this->_context";
+		$tmpl		= JRequest::getString('tmpl');
+		$layout		= JRequest::getString('layout', 'edit');
+		$append		= '';
+
+		// Setup redirect info.
+		if ($tmpl) {
+			$append .= '&tmpl='.$tmpl;
+		}
+		if ($layout) {
+			$append .= '&layout='.$layout;
+		}
+
+		// Get the record id.
+		$recordId = (int) $app->getUserState($context.'.id');
+
+		// Attempt to check-in the current record.
+		if ($checkin && $recordId) {
+			if(!$model->checkin($recordId)) {
+				// Check-in failed, go back to the record and display a notice.
+				$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
+				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
+				return false;
+			}
+		}
+
+		// Clean the session data and redirect.
+		$app->setUserState($context.'.id',		null);
+		$app->setUserState($context.'.data',	null);
+		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false));
+	}
+
+	/**
+	 * This controller does not have a display method. Redirect back to the list view of the component.
+	 */
+	public function display()
+	{
+		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false));
 	}
 
 	/**
@@ -250,69 +298,21 @@ class JControllerForm extends JController
 	}
 
 	/**
-	 * Method to cancel an edit
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param	string	The model name. Optional.
+	 * @param	string	The class prefix. Optional.
+	 * @param	array	Configuration array for model. Optional.
+	 *
+	 * @return	object	The model.
 	 */
-	public function cancel()
+	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
 	{
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$app		= JFactory::getApplication();
-		$model		= &$this->getModel();
-		$table		= $model->getTable();
-		$checkin	= property_exists($table, 'checked_out');
-		$context	= "$this->_option.edit.$this->_context";
-		$tmpl		= JRequest::getString('tmpl');
-		$layout		= JRequest::getString('layout', 'edit');
-		$append		= '';
-
-		// Setup redirect info.
-		if ($tmpl) {
-			$append .= '&tmpl='.$tmpl;
-		}
-		if ($layout) {
-			$append .= '&layout='.$layout;
+		if (empty($name)) {
+			$name = $this->_context;
 		}
 
-		// Get the record id.
-		$recordId = (int) $app->getUserState($context.'.id');
-
-		// Attempt to check-in the current record.
-		if ($checkin && $recordId) {
-			if(!$model->checkin($recordId)) {
-				// Check-in failed, go back to the record and display a notice.
-				$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-				$this->setRedirect('index.php?option='.$this->_option.'&view='.$this->_view_item.$append, $message, 'error');
-				return false;
-			}
-		}
-
-		// Clean the session data and redirect.
-		$app->setUserState($context.'.id',		null);
-		$app->setUserState($context.'.data',	null);
-		$this->setRedirect(JRoute::_('index.php?option='.$this->_option.'&view='.$this->_view_list, false));
-	}
-
-	/**
-	 * Method to check if you can save a new or existing record.
-	 *
-	 * Extended classes can override this if necessary.
-	 *
-	 * @param	array	An array of input data.
-	 * @param	string	The name of the key for the primary key.
-	 *
-	 * @return	boolean
-	 */
-	protected function _allowSave($data, $key = 'id')
-	{
-		// Initialise variables.
-		$recordId	= isset($data[$key]) ? $data[$key] : '0';
-
-		if ($recordId) {
-			return $this->_allowEdit($data, $key);
-		} else {
-			return $this->_allowAdd($data);
-		}
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
