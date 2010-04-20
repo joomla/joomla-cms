@@ -41,7 +41,6 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		$this->doAdminLogin();
 		print("Go to front end" . "\n");
 		$this->gotoSite();
-		$this->waitForPageToLoad("30000");
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
 		print("Go to login" . "\n");

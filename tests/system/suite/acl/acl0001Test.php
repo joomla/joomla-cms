@@ -27,11 +27,11 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("Item successfully saved."));
+			$this->assertTrue($this->isTextPresent("Item successfully saved."), 'Save message not shown');
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
-			array_push($this->verificationErrors, $e->getTraceAsString());
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
 		echo "Add group Article Administrator" . $saltGroup . " to Special level\n";
 		$this->click("link=Access Levels");
@@ -44,11 +44,11 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("Item successfully saved."));
+			$this->assertTrue($this->isTextPresent("Item successfully saved."), 'Save message not shown');
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
-			array_push($this->verificationErrors, $e->getTraceAsString());
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
 		echo "Change Article Administrator" . $saltGroup . " article permissions.\n";
 		$this->click("link=Article Manager");
@@ -84,11 +84,11 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("Configuration successfully saved."));
+			$this->assertTrue($this->isTextPresent("Configuration successfully saved."), 'Save message not shown');
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
-			array_push($this->verificationErrors, $e->getTraceAsString());
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
 
 		$saltUser = mt_rand();
@@ -107,17 +107,16 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("Item successfully saved."));
+			$this->assertTrue($this->isTextPresent("Item successfully saved."), 'Save message not shown');
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
-			array_push($this->verificationErrors, $e->getTraceAsString());
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
 		$this->gotoAdmin();
 		$this->doAdminLogout();
-		sleep(1);
+		sleep(3);
 		echo("Log in to back end as  My Test User" . $saltUser . ".\n");
-		$this->waitForPageToLoad("30000");
 		$this->type("mod-login-username", "TestUser" . $saltUser);
 		$this->type("mod-login-password", "password");
 		$this->click("link=Log in");
@@ -147,11 +146,11 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("You are not authorised to view this resource."));
+			$this->assertTrue($this->isTextPresent("You are not authorised to view this resource."), 'Not authorised message not shown');
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
-			array_push($this->verificationErrors, $e->getTraceAsString());
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
 		$this->click("link=Control Panel");
 		$this->waitForPageToLoad("30000");
@@ -159,11 +158,11 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("Article Manager: Articles"));
+			$this->assertTrue($this->isTextPresent("Article Manager: Articles"), 'Article Manager not shown');
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
-			array_push($this->verificationErrors, $e->getTraceAsString());
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
 		$this->doAdminLogout();
 		$this->doAdminLogin();

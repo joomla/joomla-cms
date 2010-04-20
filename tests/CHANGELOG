@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Apr-2010 Mark Dexter
+^ Add __call method in SeleniumJoomlaTestCase to check for PHP notices
+^ Add getTraceFiles method in SeleniumJoomlaTestCase to clean up error reporting
+^ Modify tests to use getTraceFiles
+
 19-Apr-2010 Mark Dexter
 ^ Add checkNotices() method in SeleniumJoomlaTestCase
 ^ Implement checkNotices method in com_users tests
