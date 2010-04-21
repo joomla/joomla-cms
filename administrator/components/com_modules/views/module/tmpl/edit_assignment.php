@@ -29,7 +29,9 @@ $menuTypes = MenusHelper::getMenuLinks();
 
 				<div class="clr"></div>
 
-				<img src="" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });" alt="<?php echo JText::_('JCHECKINVERT'); ?>" title="<?php echo JText::_('JCHECKINVERT'); ?>">
+				<button type="button" class="button2" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
+					<?php echo JText::_('COM_MODULES_MENU_SELECTION_INVERT'); ?>
+				</button>
 
 				<div id="menu-assignment">
 

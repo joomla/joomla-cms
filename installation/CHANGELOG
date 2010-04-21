@@ -40,6 +40,7 @@ $ Refactoring ini/keys in libraries/J/Installer/language
 $ Refactoring ini/keys in libraries/J/Installer/library
 $ Refactoring ini/keys in libraries/J/Installer/module
 # Fixing logout -which also fixes mod_logged- (Thank you Dennis!)
+# Fixing Toggle menu item selection in com_modules
 
 
 20-Apr-2010 Mark Dexter
