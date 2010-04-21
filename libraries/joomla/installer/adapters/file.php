@@ -1,8 +1,6 @@
 <?php
 /**
- * @version		$Id:plugin.php 6961 2007-03-15 16:06:53Z tcp $
- * @package		JLibMan
- * @subpackage	Installer
+ * @version		$Id:file.php 6961 2010-03-15 16:06:53Z infograf768 $
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
@@ -83,7 +81,7 @@ class JInstallerFile extends JAdapterInstance
 		//Check if the extension by the same name is already installed
 		if ($this->extensionExistsInSystem($name)) {
 			// Package with same name already exists
-			$this->parent->abort(JText::_('Files').' '.JText::_($this->route).': '.JText::_('Another extension with name already exists.'));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_SAME_NAME', JText::_($this->route)));
 			return false;
 		}
 
@@ -106,7 +104,7 @@ class JInstallerFile extends JAdapterInstance
 
 				if (!$created = JFolder::create($folder))
 				{
-					JError::raiseWarning(1, JText::_('Files').' '.JText::_('Install').': '.JText::_('Failed to find source directory').': "'.$folder.'"');
+					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $folder));
 					// if installation fails, rollback
 					$this->parent->abort();
 					return false;
@@ -151,7 +149,7 @@ class JInstallerFile extends JAdapterInstance
 		if (!$row->store())
 		{
 			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Files').' '.JText::_('Install').': '.$db->stderr(true));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_ROLLBACK', $db->stderr(true)));
 			return false;
 		}
 
@@ -163,7 +161,7 @@ class JInstallerFile extends JAdapterInstance
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('File').' '.JText::_('Install').': '.JText::_('COULD_NOT_COPY_SETUP_FILE'));
+			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_COPY_SETUP'));
 			return false;
 		}
 		return true;
@@ -211,7 +209,7 @@ class JInstallerFile extends JAdapterInstance
 		// Initialise variables.
 		$row	= JTable::getInstance('extension');
 		if(!$row->load($id)) {
-			JError::raiseWarning(100, JText::_('File').' '.JText::_('Uninstall').': '.JText::_('Could not load extension entry'));
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_LOAD_ENTRY'));
 			return false;
 		}
 
@@ -228,7 +226,7 @@ class JInstallerFile extends JAdapterInstance
 
 			// If we cannot load the xml file return null
 			if( ! $xml) {
-				JError::raiseWarning(100, JText::_('File').' '.JText::_('Uninstall').': '.JText::_('Could not load manifest file'));
+				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_LOAD_MANIFEST'));
 				return false;
 			}
 
@@ -236,7 +234,7 @@ class JInstallerFile extends JAdapterInstance
 			 * Check for a valid XML root tag.
 			 */
 			if ($xml->getName() != 'extension') {
-				JError::raiseWarning(100, JText::_('File').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
+				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_MANIFEST'));
 				return false;
 			}
 
@@ -291,7 +289,7 @@ class JInstallerFile extends JAdapterInstance
 			JFile::delete($manifestFile);
 
 		} else {
-			JError::raiseWarning(100, 'File Uninstall: Manifest File invalid or not found');
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
 			// delete the row because its broken
 			$row->delete();
 			return false;
@@ -330,7 +328,7 @@ class JInstallerFile extends JAdapterInstance
 			$db->Query();
 		} catch(JException $e) {
 			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Files').' '.JText::_($this->route).': '.$db->stderr(true));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_($this->route), $db->stderr(true)));
 			return false;
 		}
 		$id = $db->loadResult();
@@ -393,7 +391,7 @@ class JInstallerFile extends JAdapterInstance
 
 			//Check if source folder exists
 			if (! JFolder::exists($sourceFolder)) {
-				JError::raiseWarning(1, JText::_('Files').' '.JText::_('Install').': '.JText::_('Failed to find source directory').': "'.$sourceFolder.'"');
+				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $sourceFolder));
 				// if installation fails, rollback
 				$this->parent->abort();
 				return false;
