@@ -46,11 +46,11 @@ class JCacheStorageXcache extends JCacheStorage
 		{
 			return false;
 		}
-		
+
 		return $cache_content;
 	}
-	
-	
+
+
 	 /**
 	 * Get all cached data
 	 *
@@ -60,23 +60,23 @@ class JCacheStorageXcache extends JCacheStorage
 	 * @since	1.6
 	 */
 	public function getAll()
-	{	
+	{
 		parent::getAll();
-		
+
 		$allinfo = xcache_list(XC_TYPE_VAR, 0);
 		$keys = $allinfo['cache_list'];
         $secret = $this->_hash;
-        
-        $data = array();		
+
+        $data = array();
 
 		foreach ($keys as $key) {
-		
+
 			$namearr=explode('-',$key['name']);
-			
+
 			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
-			
+
 			$group = $namearr[2];
-			
+
 			if (!isset($data[$group])) {
 			$item = new JCacheStorageHelper();
 			} else {
@@ -84,13 +84,13 @@ class JCacheStorageXcache extends JCacheStorage
 			}
 
 			$item->updateSize($key['size']/1024,$group);
-			
+
 			$data[$group] = $item;
-			
+
 			}
 		}
-	
-					
+
+
 		return $data;
 	}
 	/**
@@ -145,16 +145,16 @@ class JCacheStorageXcache extends JCacheStorage
 	{
 		$allinfo = xcache_list(XC_TYPE_VAR, 0);
 		$keys = $allinfo['cache_list'];
-		
+
         $secret = $this->_hash;
         foreach ($keys as $key) {
-		
+
         if (strpos($key['name'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group')
 					xcache_unset($key['name']);
         }
 		return true;
 	}
-	
+
 	/**
 	 * Garbage collect expired cache data
 	 *
@@ -164,7 +164,7 @@ class JCacheStorageXcache extends JCacheStorage
 	public function gc()
 	{
 		// dummy, xcache has builtin garbage collector, turn it on in php.ini by changing default xcache.gc_interval setting from 0 to 3600 (=1 hour)
-		
+
 		/**
 		$now = time();
 
@@ -184,7 +184,7 @@ class JCacheStorageXcache extends JCacheStorage
 			}
 
 		 */
-		
+
 		return true;
 	}
 

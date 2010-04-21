@@ -560,7 +560,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// If the folder is empty, let's delete it
 		$files = JFolder::files($this->parent->getPath('extension_root'));
-		
+
 		JFolder::delete($this->parent->getPath('extension_root'));
 
 		if ($msg) {

@@ -33,10 +33,10 @@ class JCacheStorageHelper
 	 * @since	1.6
 	 */
 	public function updateSize($size,$group)
-	{	
+	{
 		$this->group = $group;
 		$this->size = number_format($this->size + $size, 2);
 		$this->count++;
 	}
-	
+
 }

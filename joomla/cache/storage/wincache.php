@@ -52,7 +52,7 @@ class JCacheStorageWincache extends JCacheStorage
 	 * @since	1.6
 	 */
 	public function getAll()
-	{	
+	{
 		parent::getAll();
 		$allinfo = wincache_ucache_info();
 		$keys = $allinfo['cache_entries'];
@@ -70,14 +70,14 @@ class JCacheStorageWincache extends JCacheStorage
 					$item = $data[$group];
 				}
 				if (isset($key['value_size'])) {
-					$item->updateSize($key['value_size']/1024,$group);} 
+					$item->updateSize($key['value_size']/1024,$group);}
 				else {
 					$item->updateSize(1,$group); } // dummy, WINCACHE version is too low
 				$data[$group] = $item;
 			}
 		}
 
-			
+
 		return $data;
 	}
 

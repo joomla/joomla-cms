@@ -218,7 +218,7 @@ abstract class JHtmlBehavior
 		JHTML::_('script','system/uploader.js', false, true);
 
 		$document = &JFactory::getDocument();
-		
+
 		static $uploaders;
 
 		if (!isset($uploaders)) {
@@ -227,7 +227,7 @@ abstract class JHtmlBehavior
 			// load language
 			$lang =& JFactory::getLanguage();
 			$lang->load('com_media', JPATH_ADMINISTRATOR);
-			
+
 			$js = "
 				(function() {
 					var phrases = {

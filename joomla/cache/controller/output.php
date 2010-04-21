@@ -17,11 +17,11 @@ defined('JPATH_BASE') or die;
  * @since		1.5
  */
 class JCacheControllerOutput extends JCacheController
-{	
+{
 	private $_id;
 	private $_group;
 	private $_locktest = null;
-	
+
 	/**
 	* Constructor
 	*
@@ -31,7 +31,7 @@ class JCacheControllerOutput extends JCacheController
 	{
 		parent::__construct($options);
 	}
-	
+
 	/**
 	 * Start the cache
 	 *
@@ -44,18 +44,18 @@ class JCacheControllerOutput extends JCacheController
 	{
 		// If we have data in cache use that...
 		$data = $this->cache->get($id, $group);
-		
+
 		$this->_locktest = new stdClass;
 		$this->_locktest->locked = null;
 		$this->_locktest->locklooped = null;
-		
-		if ($data === false) 
+
+		if ($data === false)
 		{
 			$this->_locktest = $this->cache->lock($id,null);
 			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true) $data = $this->cache->get($id);
-		
+
 		}
-		
+
 		if ($data !== false) {
 			echo $data;
 			if ($this->_locktest->locked == true) $this->cache->unlock($id);

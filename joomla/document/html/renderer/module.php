@@ -66,26 +66,26 @@ class JDocumentRendererModule extends JDocumentRenderer
 		$mod_params->loadJSON($module->params);
 
 		$contents = '';
-		
-		
+
+
 		$cachemode = $mod_params->get('cachemode','oldstatic');  // default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
-	
+
 		if ($mod_params->get('cache', 0) == 1  && $conf->get('caching') && $cachemode != 'id' && $cachemode != 'safeuri')
-		{	
-		
+		{
+
 			// default to itemid creating mehod and workarounds on
 			$cacheparams = new stdClass;
-			$cacheparams->cachemode = $cachemode;  
-			$cacheparams->class = 'JModuleHelper';	
+			$cacheparams->cachemode = $cachemode;
+			$cacheparams->class = 'JModuleHelper';
 			$cacheparams->method = 'renderModule';
-			$cacheparams->methodparams = array($module, $params);	
-					
+			$cacheparams->methodparams = array($module, $params);
+
 			$contents = JModuleHelper::ModuleCache($module, $mod_params,$cacheparams);
-			
-		} 
-		else { 
+
+		}
+		else {
 			$contents = JModuleHelper::renderModule($module, $params);
-		} 
+		}
 
 		return $contents;
 	}

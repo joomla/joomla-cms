@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			$Id: latin_transliteration.php 
+ * @version			$Id: latin_transliteration.php
  * @package			Joomla.Framework
  * @subpackage		Language
  * @copyright		Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.

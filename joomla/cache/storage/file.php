@@ -19,9 +19,9 @@ defined('JPATH_BASE') or die;
  */
 class JCacheStorageFile extends JCacheStorage
 {
-	
+
 	private $_root;
-	
+
 	/**
 	* Constructor
 	*
@@ -44,14 +44,14 @@ class JCacheStorageFile extends JCacheStorage
 	 * @since	1.5
 	 */
 	public function get($id, $group, $checkTime=true)
-	{	
+	{
 		// @Todo: make reads use joomla.filesystem.file
 		$data = false;
 
 		$path = $this->_getFilePath($id, $group);
-		
+
 		if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true)) {
-		
+
 		if (file_exists($path)) {
 			$data = file_get_contents($path);
 			if ($data) {
@@ -61,24 +61,24 @@ class JCacheStorageFile extends JCacheStorage
 		}
 
 		return $data;
-		
+
 		} else {
 			return false;
 		}
 	}
-	
-	
+
+
 	 /**
 	 * Get all cached data
 	 *
 	 * @return	array data
 	 * @since	1.6
 	 */
-	
+
 	public function getAll()
-	{	
+	{
 		parent::getAll();
-		
+
 		$path=$this->_root;
 		jimport('joomla.filesystem.folder');
 		$folders = JFolder::folders($path);
@@ -97,7 +97,7 @@ class JCacheStorageFile extends JCacheStorage
 
 		return $data;
 	}
-	
+
 	/**
 	 * Store the data to a file by id and group
 	 *
@@ -108,7 +108,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @since	1.5
 	 */
 	public function store($id, $group, $data)
-	{   
+	{
 		// @Todo: make writes use joomla.filesystem.file ...will have to fix that too for locking
 		$written	= false;
 		$path		= $this->_getFilePath($id, $group);
@@ -148,7 +148,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @since	1.5
 	 */
 	public function remove($id, $group)
-	{	
+	{
 		jimport('joomla.filesystem.file');
 		$path = $this->_getFilePath($id, $group);
 		if (!@unlink($path)) {
@@ -239,7 +239,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param string  $group	The cache data group.
 	 */
 	function _checkExpire($id, $group)
-	{	
+	{
 		jimport('joomla.filesystem.file');
 		$path = $this->_getFilePath($id, $group);
 
@@ -251,7 +251,7 @@ class JCacheStorageFile extends JCacheStorage
 				return false;
 			}
 			return true;
-		} 
+		}
 		return false;
 	}
 
@@ -264,7 +264,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @since	1.5
 	 */
 	private function _getFilePath($id, $group)
-	{	
+	{
 		$name	= $this->_getCacheId($id, $group);
 		$dir	= $this->_root.DS.$group;
 

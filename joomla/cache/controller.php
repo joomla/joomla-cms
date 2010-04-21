@@ -21,21 +21,21 @@ defined('JPATH_BASE') or die;
  */
 class JCacheController
 
-{	
+{
 	protected $cache;
 	public $options;
-	
+
 	/**
 	 * Constructor
 	 *
 	 * @param	array	$options	options
 	*/
-	
+
 	public function __construct($options) {
-		
+
 		$this->cache = new JCache($options);
 		$this->options = $this->cache->_options;
-		
+
 		// Overwrite default options with given options
 		foreach ($options AS $option=>$value) {
 			if (isset($options[$option])) {
@@ -43,13 +43,13 @@ class JCacheController
 			}
 		}
 	}
-	
+
 	public function __call ($name, $arguments) {
 
 		$nazaj = call_user_func_array (array ($this->cache,$name),$arguments);
 		return $nazaj;
 	}
-	
+
 	/**
 	 * Returns a reference to a cache adapter object, always creating it
 	 *
@@ -58,15 +58,15 @@ class JCacheController
 	 * @since	1.6
 	 */
 	public static function getInstance($type = 'output', $options = array())
-	{	
+	{
 		JCacheController::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'controller');
-		
+
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
 		$class = 'JCacheController'.ucfirst($type);
 
 		if (!class_exists($class))
-		{	
+		{
 			// Search for the class file in the JCache include paths.
 			jimport('joomla.filesystem.path');
 			if ($path = JPath::find(JCacheController::addIncludePath(), strtolower($type).'.php')) {
@@ -78,7 +78,7 @@ class JCacheController
 
 		return new $class($options);
 	}
-	
+
 	/**
 	 * Set caching enabled state
 	 *
@@ -102,7 +102,7 @@ class JCacheController
 	{
 		$this->cache->setLifeTime($lt);
 	}
-	
+
 	/**
 	 * Add a directory where JCache should search for controllers. You may
 	 * either pass a string or an array of directories.
@@ -111,7 +111,7 @@ class JCacheController
 	 * @return	array	An array with directory elements
 	 * @since	1.6
 	 */
-	
+
 	public static function addIncludePath($path='')
 	{
 		static $paths;
@@ -125,7 +125,7 @@ class JCacheController
 		}
 		return $paths;
 	}
-	
+
 	/**
 	 * Store the cached data by id and group
 	 *
@@ -139,7 +139,7 @@ class JCacheController
 	{	$data = unserialize($this->cache->get($id, $group=null));
 		return $data;
 	}
-	
+
 	/**
 	 * Store the cached data by id and group
 	 *

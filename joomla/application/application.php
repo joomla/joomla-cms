@@ -621,7 +621,7 @@ class JApplication extends JObject
 
 		// Import the user plugin group.
 		JPluginHelper::importPlugin('user');
-		
+
 		// OK, the credentials are built. Lets fire the onLogout event.
 		$results = $this->triggerEvent('onLogoutUser', array($parameters, $options));
 

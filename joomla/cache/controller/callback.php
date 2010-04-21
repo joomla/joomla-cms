@@ -63,8 +63,8 @@ class JCacheControllerCallback extends JCacheController
 	 * @since	1.5
 	 */
 	public function get($callback, $args, $id=false, $wrkarounds=false)
-	{	
-		
+	{
+
 		// Normalize callback
 		if (is_array($callback)) {
 			// We have a standard php callback array -- do nothing
@@ -91,28 +91,28 @@ class JCacheControllerCallback extends JCacheController
 			// Generate an ID
 			$id = $this->_makeId($callback, $args);
 		}
-		
+
 		$data = false;
 		$data = $this->cache->get($id);
-		
+
 		$locktest = new stdClass;
 		$locktest->locked = null;
 		$locktest->locklooped = null;
-		
-		if ($data === false) 
+
+		if ($data === false)
 		{
 			$locktest = $this->cache->lock($id,null);
 			if ($locktest->locked == true && $locktest->locklooped == true) $data = $this->cache->get($id);
-		
+
 		}
-		
+
 		if ($data !== false) {
-			
+
 			$cached = unserialize($data);
 			$output = $wrkarounds==false ? $cached['output'] : JCache::getWorkarounds($cached['output']);
 			$result = $cached['result'];
 			if ($locktest->locked == true) $this->cache->unlock($id);
-			
+
 		} else {
 			if(!is_array($args))
 			{

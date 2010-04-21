@@ -253,13 +253,13 @@ class JTableNested extends JTable
 			$query->order('lft DESC');
 			$position = 'before';
 		}
-				
+
 		$this->_db->setQuery($query);
 		$referenceId = $this->_db->loadResult();
-		
+
 		return $this->moveByReference($referenceId, $position, $pk);
 	}
-	
+
 	/**
 	 * Method to move a node and its children to a new location in the tree.
 	 *
@@ -1647,5 +1647,5 @@ class JTableNested extends JTable
 		}
 		echo $buffer;
 	}
-	
+
 }

@@ -154,8 +154,8 @@ class JComponentHelper
 	 * @return	boolean
 	 */
 	protected static function _load($option)
-	{	
-		
+	{
+
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 		$query->select('extension_id AS "id", element AS "option", params, enabled');
@@ -163,11 +163,11 @@ class JComponentHelper
 		$query->where('`type` = "component"');
 		$query->where('`element` = "'.$option.'"');
 		$db->setQuery($query);
-		
-		$cache = JFactory::getCache('_system','callback');		
-				
+
+		$cache = JFactory::getCache('_system','callback');
+
 		self::$_components[$option] =  $cache->get(array($db, 'loadObject'), null, $option, false);
-		
+
 		if ($error = $db->getErrorMsg() || empty(self::$_components[$option])) {
 			// Fatal error.
 			JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error));

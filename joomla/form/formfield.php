@@ -106,7 +106,7 @@ abstract class JFormField
 	 * @since	1.6
 	 */
 	protected $fieldname;
-	
+
 	/**
 	 * The required state for the form field.  If true then there must be a value for the field to
 	 * be considered valid.
